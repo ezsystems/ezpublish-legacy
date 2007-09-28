@@ -33,11 +33,11 @@
 
 */
 
-define( "EZ_INPUT_CHUNK_TEXT", 1 );
-define( "EZ_INPUT_CHUNK_TAG", 2 );
-
 class eZTextInputParser
 {
+    const CHUNK_TEXT = 1;
+    const CHUNK_TAG = 2;
+
     /*!
 
     */
@@ -71,7 +71,7 @@ class eZTextInputParser
 
                     if ( strlen( trim( $textChunk ) ) != 0 )
                     {
-                        $returnArray[] = array( "Type" => EZ_INPUT_CHUNK_TEXT,
+                        $returnArray[] = array( "Type" => eZTextInputParser::CHUNK_TEXT,
                                                 "Text" => $textChunk,
                                                 "TagName" => "#text" );
 
@@ -89,7 +89,7 @@ class eZTextInputParser
                     print( "endtag" );
                 }
 
-                $returnArray[] = array( "Type" => EZ_INPUT_CHUNK_TAG,
+                $returnArray[] = array( "Type" => eZTextInputParser::CHUNK_TAG,
                                         "TagName" => $tagName,
                                         "Text" => $tagChunk,
                                         );
@@ -106,7 +106,7 @@ class eZTextInputParser
 
                 if ( strlen( trim( $textChunk ) ) != 0 )
                 {
-                    $returnArray[] = array( "Type" => EZ_INPUT_CHUNK_TEXT,
+                    $returnArray[] = array( "Type" => eZTextInputParser::CHUNK_TEXT,
                                             "Text" => $textChunk,
                                             "TagName" => "#text"  );
                 }

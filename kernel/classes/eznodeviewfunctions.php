@@ -34,8 +34,6 @@
 
 */
 
-define( 'eZNodeViewFunctions_FileGenerateTimeout', 3 );
-
 class eZNodeviewfunctions
 {
     // Deprecated function for generating the view cache
@@ -83,7 +81,7 @@ class eZNodeviewfunctions
                                           $viewParameters = array( 'offset' => 0, 'year' => false, 'month' => false, 'day' => false ),
                                           $collectionAttributes = false, $validation = false )
     {
-        include_once( 'kernel/classes/ezsection.php' );
+        //include_once( 'kernel/classes/ezsection.php' );
         eZSection::setGlobalID( $object->attribute( 'section_id' ) );
 
         $section = eZSection::fetch( $object->attribute( 'section_id' ) );
@@ -230,7 +228,7 @@ class eZNodeviewfunctions
         {
             $serializeString = serialize( $Result );
 
-            include_once( "lib/ezfile/classes/ezatomicfile.php" );
+            //include_once( "lib/ezfile/classes/ezatomicfile.php" );
             $cacheFile = new eZAtomicFile( $cachePath );
             $cacheFile->write( $serializeString );
             $cacheFile->close();
@@ -253,8 +251,8 @@ class eZNodeviewfunctions
 
     static function generateViewCacheFile( $user, $nodeID, $offset, $layout, $language, $viewMode, $viewParameters = false, $cachedViewPreferences = false )
     {
-        include_once( 'kernel/classes/ezuserdiscountrule.php' );
-        include_once( 'kernel/classes/ezpreferences.php' );
+        //include_once( 'kernel/classes/ezuserdiscountrule.php' );
+        //include_once( 'kernel/classes/ezpreferences.php' );
 
         $limitedAssignmentValueList = $user->limitValueList();
         $roleList = $user->roleIDList();
@@ -401,7 +399,7 @@ class eZNodeviewfunctions
                 $res->setKeys( $keyArray );
 
                 // set section id
-                include_once( 'kernel/classes/ezsection.php' );
+                //include_once( 'kernel/classes/ezsection.php' );
                 eZSection::setGlobalID( $Result['section_id'] );
 
                 return $Result;
@@ -415,7 +413,7 @@ class eZNodeviewfunctions
         // Cache is expired so return specialized cluster object
         if ( !isset( $expiryReason ) )
             $expiryReason = 'Content cache is expired';
-        include_once( 'kernel/classes/ezclusterfilefailure.php' );
+        //include_once( 'kernel/classes/ezclusterfilefailure.php' );
         return new eZClusterFileFailure( 1, $expiryReason );
     }
 
@@ -426,7 +424,7 @@ class eZNodeviewfunctions
 
         if ( !is_object( $node ) )
         {
-            return  array( 'content' => $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' ),
+            return  array( 'content' => $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' ),
                            'store'   => false );
         }
 
@@ -434,37 +432,37 @@ class eZNodeviewfunctions
 
         if ( !is_object( $object ) )
         {
-            return  array( 'content' => $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' ),
+            return  array( 'content' => $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' ),
                            'store'   => false );
         }
 
-        if ( !get_class( $object ) == 'ezcontentobject' )
+        if ( !$object instanceof eZContentObject )
         {
-            return  array( 'content' => $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' ),
+            return  array( 'content' => $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' ),
                            'store'   => false );
         }
         if ( $node === null )
         {
-            return  array( 'content' => $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' ),
+            return  array( 'content' => $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' ),
                            'store'   => false );
         }
 
         if ( $object === null )
         {
-            return  array( 'content' => $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' ),
+            return  array( 'content' => $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' ),
                            'store'   => false );
         }
 
         if ( $node->attribute( 'is_invisible' ) && !eZContentObjectTreeNode::showInvisibleNodes() )
         {
-            return array( 'content' => $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' ),
+            return array( 'content' => $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' ),
                           'store'   => false );
         }
 
 //    if ( !$object->attribute( 'can_read' ) )
         if ( !$object->canRead() )
         {
-            return array( 'content' => $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED,
+            return array( 'content' => $Module->handleError( eZError::KERNEL_ACCESS_DENIED,
                                                              'kernel',
                                                              array( 'AccessList' => $object->accessList( 'read' ) ) ),
                           'store'   => false );

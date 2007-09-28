@@ -37,8 +37,8 @@
 
 */
 
-include_once( 'lib/ezutils/classes/ezdebug.php' );
-include_once( 'lib/eztemplate/classes/eztemplate.php' );
+require_once( 'lib/ezutils/classes/ezdebug.php' );
+//include_once( 'lib/eztemplate/classes/eztemplate.php' );
 
 class eZTemplateOptimizer
 {
@@ -51,14 +51,14 @@ class eZTemplateOptimizer
         /* Check if the variable node has the correct format */
         if ( ( $var[1] == 'attributeAccess' ) and
              ( count( $data ) == 5 ) and
-             ( $data[0][0] == EZ_TEMPLATE_TYPE_VARIABLE ) and
+             ( $data[0][0] == eZTemplate::TYPE_VARIABLE ) and
              ( $data[0][1][2] == 'node' ) and
-             ( $data[1][0] == EZ_TEMPLATE_TYPE_ATTRIBUTE ) and
+             ( $data[1][0] == eZTemplate::TYPE_ATTRIBUTE ) and
              ( $data[1][1][0][1] == 'object' ) and
-             ( $data[2][0] == EZ_TEMPLATE_TYPE_ATTRIBUTE ) and
+             ( $data[2][0] == eZTemplate::TYPE_ATTRIBUTE ) and
              ( $data[2][1][0][1] == 'data_map' ) and
-             ( $data[3][0] == EZ_TEMPLATE_TYPE_ATTRIBUTE ) and
-             ( $data[4][0] == EZ_TEMPLATE_TYPE_ATTRIBUTE ) and
+             ( $data[3][0] == eZTemplate::TYPE_ATTRIBUTE ) and
+             ( $data[4][0] == eZTemplate::TYPE_ATTRIBUTE ) and
              ( $data[4][1][0][1] == 'view_template' ) and
              ( $node[9] == 'attributeAccess' ) and
              ( isset( $resourceData['class-info'] ) ) )
@@ -68,7 +68,7 @@ class eZTemplateOptimizer
                  isset( $node[2][$resourceData['class-info'][$attribute]] ) )
             {
                 $file = $node[2][$resourceData['class-info'][$attribute]];
-                $node[0] = EZ_TEMPLATE_NODE_OPTIMIZED_RESOURCE_ACQUISITION;
+                $node[0] = eZTemplate::NODE_OPTIMIZED_RESOURCE_ACQUISITION;
                 $node[10] = $resourceData['class-info'][$attribute];
                 $node[2] = array( $node[10] => $file );
 
@@ -116,39 +116,39 @@ class eZTemplateOptimizer
         $ret = 0;
         /* node.object.data_map optimization */
         if ( ( count( $data ) >= 3 ) and
-             ( $data[0][0] == EZ_TEMPLATE_TYPE_VARIABLE ) and
+             ( $data[0][0] == eZTemplate::TYPE_VARIABLE ) and
              ( $data[0][1][2] == 'node' ) and
-             ( $data[1][0] == EZ_TEMPLATE_TYPE_ATTRIBUTE ) and
+             ( $data[1][0] == eZTemplate::TYPE_ATTRIBUTE ) and
              ( $data[1][1][0][1] == 'object' ) and
-             ( $data[2][0] == EZ_TEMPLATE_TYPE_ATTRIBUTE ) and
+             ( $data[2][0] == eZTemplate::TYPE_ATTRIBUTE ) and
              ( $data[2][1][0][1] == 'data_map' ) )
         {
             /* Modify the next two nodes in the array too as we know for sure
              * what type it is. This fixes the dependency on
              * compiledFetchAttribute */
             if ( ( count( $data ) >= 5 ) and
-                 ( $data[3][0] == EZ_TEMPLATE_TYPE_ATTRIBUTE ) and
-                 ( $data[4][0] == EZ_TEMPLATE_TYPE_ATTRIBUTE ) )
+                 ( $data[3][0] == eZTemplate::TYPE_ATTRIBUTE ) and
+                 ( $data[4][0] == eZTemplate::TYPE_ATTRIBUTE ) )
             {
-                $data[3][0] = EZ_TEMPLATE_TYPE_OPTIMIZED_ARRAY_LOOKUP;
+                $data[3][0] = eZTemplate::TYPE_OPTIMIZED_ARRAY_LOOKUP;
                 if ( $data[4][1][0][1] == "content")
                 {
-                    $data[4][0] = EZ_TEMPLATE_TYPE_OPTIMIZED_CONTENT_CALL;
+                    $data[4][0] = eZTemplate::TYPE_OPTIMIZED_CONTENT_CALL;
                 }
                 else
                 {
-                    $data[4][0] = EZ_TEMPLATE_TYPE_OPTIMIZED_ATTRIBUTE_LOOKUP;
+                    $data[4][0] = eZTemplate::TYPE_OPTIMIZED_ATTRIBUTE_LOOKUP;
                 }
             }
 
             /* Create a new node representing the optimization */
-            array_unshift( $data, array( EZ_TEMPLATE_TYPE_OPTIMIZED_NODE, null, 2 ) );
+            array_unshift( $data, array( eZTemplate::TYPE_OPTIMIZED_NODE, null, 2 ) );
             $ret = 1;
         }
 
         /* node.object.data_map optimization through function */
         if ( isset( $data[0] ) and
-             $data[0][0] == EZ_TEMPLATE_NODE_INTERNAL_CODE_PIECE )
+             $data[0][0] == eZTemplate::NODE_INTERNAL_CODE_PIECE )
         {
             $functionRet = eZTemplateOptimizer::optimizeFunction( $useComments, $php, $tpl, $data[0], $resourceData );
             // Merge settings
@@ -174,14 +174,14 @@ class eZTemplateOptimizer
             /* Analyse per node type */
             switch ( $kiddie[0] )
             {
-                case EZ_TEMPLATE_NODE_INTERNAL_SPACING_INCREASE:
-                case EZ_TEMPLATE_NODE_INTERNAL_SPACING_DECREASE:
+                case eZTemplate::NODE_INTERNAL_OUTPUT_SPACING_INCREASE:
+                case eZTemplate::NODE_INTERNAL_SPACING_DECREASE:
                     /* Removing unnecessary whitespace changes */
                     unset( $tree[1][$key] );
                     break;
                 case 3: /* Variable */
                     if ( isset( $tree[1][$key + 1] ) and
-                         ( $tree[1][$key + 1][0] == EZ_TEMPLATE_NODE_INTERNAL_RESOURCE_ACQUISITION ) and
+                         ( $tree[1][$key + 1][0] == eZTemplate::NODE_INTERNAL_RESOURCE_ACQUISITION ) and
                          isset( $resourceData['class-info'] ) )
                     {
                         $ret = eZTemplateOptimizer::optimizeResourceAcquisition(
@@ -206,7 +206,7 @@ class eZTemplateOptimizer
         }
         if ( $addNodeInit )
         {
-            $initializer = array( EZ_TEMPLATE_NODE_OPTIMIZED_INIT, null, false );
+            $initializer = array( eZTemplate::NODE_OPTIMIZED_INIT, null, false );
             array_unshift( $tree[1], $initializer );
         }
     }

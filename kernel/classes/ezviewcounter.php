@@ -33,9 +33,9 @@
 
 */
 
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "kernel/classes/ezpersistentobject.php" );
-include_once( "kernel/classes/ezcontentclassgroup.php" );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezcontentclassgroup.php" );
 
 class eZViewCounter extends eZPersistentObject
 {
@@ -58,7 +58,7 @@ class eZViewCounter extends eZPersistentObject
                                                            'default' => 0,
                                                            'required' => true ) ),
                       "keys" => array( "node_id" ),
-                      'relations' => array( 'node_id' => array( 'class' => 'ezcontentobjecttreenode',
+                      'relations' => array( 'node_id' => array( 'class' => 'eZContentObjectTreeNode',
                                                                 'field' => 'node_id' ) ),
                       "class_name" => "eZViewCounter",
                       "sort" => array( "count" => "desc" ),

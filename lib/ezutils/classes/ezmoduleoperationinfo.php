@@ -37,16 +37,25 @@
 
 */
 
-include_once( 'lib/ezutils/classes/ezmodule.php' );
-include_once( 'lib/ezutils/classes/ezdebug.php' );
-include_once( 'lib/ezutils/classes/ezoperationmemento.php' );
-include_once( 'kernel/classes/eztrigger.php' );
+//include_once( 'lib/ezutils/classes/ezmodule.php' );
+require_once( 'lib/ezutils/classes/ezdebug.php' );
+//include_once( 'lib/ezutils/classes/ezoperationmemento.php' );
+//include_once( 'kernel/classes/eztrigger.php' );
 
 include_once( 'lib/ezutils/classes/ezmoduleoperationdefinition.php' );
 
 
 class eZModuleOperationInfo
 {
+    const ERROR_NO_CLASS = 5;
+    const ERROR_NO_CLASS_METHOD = 6;
+    const ERROR_CLASS_INSTANTIATE_FAILED = 7;
+    const ERROR_MISSING_PARAMETER = 8;
+
+    const STATUS_CONTINUE = 1;
+    const STATUS_CANCELLED = 2;
+    const STATUS_HALTED = 3;
+
     /*!
      Constructor
     */
@@ -227,7 +236,7 @@ class eZModuleOperationInfo
 
             if ( is_array( $resultArray ) and
                  isset( $resultArray['status'] ) and
-                 $resultArray['status'] == EZ_MODULE_OPERATION_HALTED )
+                 $resultArray['status'] == eZModuleOperationInfo::STATUS_HALTED )
             {
 //                 eZDebug::writeDebug( $this->Memento, 'ezmodule operation result halted' );
                 if ( $this->Memento !== null )
@@ -241,7 +250,7 @@ class eZModuleOperationInfo
 //                 eZDebug::writeDebug( $this->Memento, 'ezmodule operation result not halted' );
                 $this->Memento->remove();
             }
-//            if ( $resultArray['status'] == EZ_MODULE_OPERATION_CANCELED )
+//            if ( $resultArray['status'] == eZModuleOperationInfo::STATUS_CANCELLED )
 //            {
 //                return null;
 //            }
@@ -274,14 +283,14 @@ class eZModuleOperationInfo
         {
             switch ( $resultArray['internal_error'] )
             {
-                case EZ_MODULE_OPERATION_ERROR_NO_CLASS:
+                case eZModuleOperationInfo::ERROR_NO_CLASS:
                 {
                     $className = $resultArray['internal_error_class_name'];
                     eZDebug::writeError( "No class '$className' available for operation '$operationName' in module '$moduleName'",
                                          'eZModuleOperationInfo::execute' );
                     return null;
                 } break;
-                case EZ_MODULE_OPERATION_ERROR_NO_CLASS_METHOD:
+                case eZModuleOperationInfo::ERROR_NO_CLASS_METHOD:
                 {
                     $className = $resultArray['internal_error_class_name'];
                     $classMethodName = $resultArray['internal_error_class_method_name'];
@@ -289,14 +298,14 @@ class eZModuleOperationInfo
                                          'eZModuleOperationInfo::execute' );
                     return null;
                 } break;
-                case EZ_MODULE_OPERATION_ERROR_CLASS_INSTANTIATE_FAILED:
+                case eZModuleOperationInfo::ERROR_CLASS_INSTANTIATE_FAILED:
                 {
                     $className = $resultArray['internal_error_class_name'];
                     eZDebug::writeError( "Failed instantiating class '$className' which is needed for operation '$operationName' in module '$moduleName'",
                                          'eZModuleOperationInfo::execute' );
                     return null;
                 } break;
-                case EZ_MODULE_OPERATION_ERROR_MISSING_PARAMETER:
+                case eZModuleOperationInfo::ERROR_MISSING_PARAMETER:
                 {
                     $parameterName = $resultArray['internal_error_parameter_name'];
                     eZDebug::writeError( "Missing parameter '$parameterName' for operation '$operationName' in module '$moduleName'",
@@ -332,7 +341,7 @@ class eZModuleOperationInfo
                           $operationKeys, $operationParameterDefinitions, $operationParameters,
                           &$mementoData, &$bodyCallCount, $operationName, $currentLoopData = null )
     {
-        $bodyReturnValue = array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
+        $bodyReturnValue = array( 'status' => eZModuleOperationInfo::STATUS_CONTINUE );
         foreach ( $bodyStructure as $body )
         {
             if ( !isset( $body['type'] ) )
@@ -399,18 +408,18 @@ class eZModuleOperationInfo
                                                                                                                     'index' => $count  ) );
                             switch( $returnValue['status'] )
                             {
-                                case EZ_MODULE_OPERATION_CANCELED:
+                                case eZModuleOperationInfo::STATUS_CANCELLED:
                                 {
                                     $bodyReturnValue = $returnValue;
                                     ++$countCanceled;
                                 }break;
-                                case EZ_MODULE_OPERATION_CONTINUE:
+                                case eZModuleOperationInfo::STATUS_CONTINUE:
                                 {
                                     $bodyReturnValue = $returnValue;
 
                                     ++$countDone;
                                 }break;
-                                case EZ_MODULE_OPERATION_HALTED:
+                                case eZModuleOperationInfo::STATUS_HALTED:
                                 {
                                     $bodyReturnValue = $returnValue;
                                     ++$countHalted;
@@ -440,7 +449,7 @@ class eZModuleOperationInfo
                 {
                     if ( !$this->UseTriggers )
                     {
-                        $bodyReturnValue['status'] = EZ_MODULE_OPERATION_CONTINUE;
+                        $bodyReturnValue['status'] = eZModuleOperationInfo::STATUS_CONTINUE;
                         continue;
 
                     }
@@ -470,25 +479,25 @@ class eZModuleOperationInfo
 
                         switch( $status )
                         {
-                            case EZ_MODULE_OPERATION_CONTINUE:
+                            case eZModuleOperationInfo::STATUS_CONTINUE:
                             {
-                                $bodyReturnValue['status'] = EZ_MODULE_OPERATION_CONTINUE;
+                                $bodyReturnValue['status'] = eZModuleOperationInfo::STATUS_CONTINUE;
                             }break;
-                            case EZ_MODULE_OPERATION_CANCELED:
+                            case eZModuleOperationInfo::STATUS_CANCELLED:
                             {
-                                $bodyReturnValue['status'] = EZ_MODULE_OPERATION_CANCELED;
+                                $bodyReturnValue['status'] = eZModuleOperationInfo::STATUS_CANCELLED;
                                 return $bodyReturnValue;
                             }break;
-                            case EZ_MODULE_OPERATION_HALTED:
+                            case eZModuleOperationInfo::STATUS_HALTED:
                             {
 
-                                $bodyReturnValue['status'] = EZ_MODULE_OPERATION_HALTED;
+                                $bodyReturnValue['status'] = eZModuleOperationInfo::STATUS_HALTED;
                                 return $bodyReturnValue;
                             }
                         }
                     }else
                     {
-                        $bodyReturnValue['status'] = EZ_MODULE_OPERATION_CONTINUE;
+                        $bodyReturnValue['status'] = eZModuleOperationInfo::STATUS_CONTINUE;
                     }
                 } break;
                 case 'method':
@@ -510,18 +519,18 @@ class eZModuleOperationInfo
                             $result = $this->executeClassMethod( $includeFile, $className, $method,
                                                                  $tmpOperationParameterDefinitions, $operationParameters );
                             if ( $result && array_key_exists( 'status', $result ) )
-			    {
+                {
                                 switch( $result['status'] )
                                 {
-                                    case EZ_MODULE_OPERATION_CONTINUE:
+                                    case eZModuleOperationInfo::STATUS_CONTINUE:
                                     default:
                                     {
-                                        $result['status'] = EZ_MODULE_OPERATION_CONTINUE;
+                                        $result['status'] = eZModuleOperationInfo::STATUS_CONTINUE;
                                         $bodyReturnValue = $result;
                                     } break;
 
-                                    case EZ_MODULE_OPERATION_CANCELED:
-                                    case EZ_MODULE_OPERATION_HALTED:
+                                    case eZModuleOperationInfo::STATUS_CANCELLED:
+                                    case eZModuleOperationInfo::STATUS_HALTED:
                                     {
                                         return $result;
                                     } break;
@@ -551,15 +560,15 @@ class eZModuleOperationInfo
         $status = eZTrigger::runTrigger( $triggerName, $this->ModuleName, $operationName, $operationParameters, $triggerKeys );
 
 
-        if ( $status['Status'] == EZ_TRIGGER_WORKFLOW_DONE ||
-             $status['Status'] == EZ_TRIGGER_NO_CONNECTED_WORKFLOWS )
+        if ( $status['Status'] == eZTrigger::WORKFLOW_DONE ||
+             $status['Status'] == eZTrigger::NO_CONNECTED_WORKFLOWS )
         {
             ++$bodyCallCount['loop_run'][$triggerName];
-            return EZ_MODULE_OPERATION_CONTINUE;
+            return eZModuleOperationInfo::STATUS_CONTINUE;
         }
-        else if ( $status['Status'] == EZ_TRIGGER_STATUS_CRON_JOB ||
-                  $status['Status'] == EZ_TRIGGER_FETCH_TEMPLATE ||
-                  $status['Status'] == EZ_TRIGGER_REDIRECT )
+        else if ( $status['Status'] == eZTrigger::STATUS_CRON_JOB ||
+                  $status['Status'] == eZTrigger::FETCH_TEMPLATE ||
+                  $status['Status'] == eZTrigger::REDIRECT )
         {
             $bodyMemento = $this->storeBodyMemento( $triggerName, $triggerKeys,
                                                     $operationKeys, $operationParameterDefinitions, $operationParameters,
@@ -572,16 +581,16 @@ class eZModuleOperationInfo
             }
 
             $bodyReturnValue['result'] = $status['Result'];
-            if ( $status['Status'] == EZ_TRIGGER_REDIRECT )
+            if ( $status['Status'] == eZTrigger::REDIRECT )
             {
                 $bodyReturnValue['redirect_url'] = $status['Result'];
             }
-            return EZ_MODULE_OPERATION_HALTED;
+            return eZModuleOperationInfo::STATUS_HALTED;
         }
-        else if ( $status['Status'] == EZ_TRIGGER_WORKFLOW_CANCELED or
-                  $status['Status'] == EZ_TRIGGER_WORKFLOW_RESET )
+        else if ( $status['Status'] == eZTrigger::WORKFLOW_CANCELLED or
+                  $status['Status'] == eZTrigger::WORKFLOW_RESET )
         {
-             return EZ_MODULE_OPERATION_CANCELED;
+             return eZModuleOperationInfo::STATUS_CANCELLED;
              $bodyReturnValue['result'] = $status['Result'];
         }
     }
@@ -681,18 +690,18 @@ class eZModuleOperationInfo
         include_once( $includeFile );
         if ( !class_exists( $className ) )
         {
-            return array( 'internal_error' => EZ_MODULE_OPERATION_ERROR_NO_CLASS,
+            return array( 'internal_error' => eZModuleOperationInfo::ERROR_NO_CLASS,
                           'internal_error_class_name' => $className );
         }
         $classObject = $this->objectForClass( $className );
         if ( $classObject === null )
         {
-            return array( 'internal_error' => EZ_MODULE_OPERATION_ERROR_CLASS_INSTANTIATE_FAILED,
+            return array( 'internal_error' => eZModuleOperationInfo::ERROR_CLASS_INSTANTIATE_FAILED,
                           'internal_error_class_name' => $className );
         }
         if ( !method_exists( $classObject, $methodName ) )
         {
-            return array( 'internal_error' => EZ_MODULE_OPERATION_ERROR_NO_CLASS_METHOD,
+            return array( 'internal_error' => eZModuleOperationInfo::ERROR_NO_CLASS_METHOD,
                           'internal_error_class_name' => $className,
                           'internal_error_class_method_name' => $methodName );
         }
@@ -716,7 +725,7 @@ class eZModuleOperationInfo
                 if ( $operationParameterDefinition['required'] )
                 {
 
-                    return array( 'internal_error' => EZ_MODULE_OPERATION_ERROR_MISSING_PARAMETER,
+                    return array( 'internal_error' => eZModuleOperationInfo::ERROR_MISSING_PARAMETER,
                                   'internal_error_parameter_name' => $parameterName );
                 }
                 else if ( isset( $operationParameterDefinition['default'] ) )

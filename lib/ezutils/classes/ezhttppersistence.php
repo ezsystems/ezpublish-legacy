@@ -41,7 +41,7 @@
 
 */
 
-include_once( "lib/ezutils/classes/ezhttptool.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
 
 class eZHTTPPersistence
 {

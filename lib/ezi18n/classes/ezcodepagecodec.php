@@ -35,8 +35,8 @@
 
 */
 
-include_once( "lib/ezi18n/classes/eztextcodec.php" );
-include_once( "lib/ezi18n/classes/ezutf8codec.php" );
+//include_once( "lib/ezi18n/classes/eztextcodec.php" );
+//include_once( "lib/ezi18n/classes/ezutf8codec.php" );
 
 class eZCodePageCodec extends eZTextCodec
 {

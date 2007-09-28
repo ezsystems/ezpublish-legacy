@@ -35,22 +35,22 @@
 
 */
 
-include_once( 'kernel/classes/ezdatatype.php' );
-include_once( 'lib/ezutils/classes/ezintegervalidator.php' );
-include_once( 'kernel/common/i18n.php' );
-include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
-include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
-
-define( 'EZ_DATATYPEURL_URL', 'ezurl' );
+//include_once( 'kernel/classes/ezdatatype.php' );
+//include_once( 'lib/ezutils/classes/ezintegervalidator.php' );
+require_once( 'kernel/common/i18n.php' );
+//include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+//include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
 
 class eZURLType extends eZDataType
 {
+    const EZ_DATATYPEURL_URL = 'ezurl';
+
     /*!
      Initializes with a url id and a description.
     */
     function eZURLType()
     {
-        $this->eZDataType( EZ_DATATYPEURL_URL, ezi18n( 'kernel/classes/datatypes', 'URL', 'Datatype name' ),
+        $this->eZDataType( self::EZ_DATATYPEURL_URL, ezi18n( 'kernel/classes/datatypes', 'URL', 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
         $this->MaxLenValidator = new eZIntegerValidator();
     }
@@ -98,12 +98,12 @@ class eZURLType extends eZDataType
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'Input required.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    return eZInputValidator::STATE_INVALID;
                 }
             // Remove all url-object links to this attribute.
             eZURLObjectLink::removeURLlinkList( $contentObjectAttribute->attribute( "id" ), $contentObjectAttribute->attribute('version') );
         }
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
@@ -217,7 +217,7 @@ class eZURLType extends eZDataType
     */
     function validateClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
@@ -358,6 +358,6 @@ class eZURLType extends eZDataType
     }
 }
 
-eZDataType::register( EZ_DATATYPEURL_URL, 'ezurltype' );
+eZDataType::register( eZURLType::EZ_DATATYPEURL_URL, 'eZURLType' );
 
 ?>

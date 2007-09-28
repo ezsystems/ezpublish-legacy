@@ -52,7 +52,7 @@ class eZDbSchema
 
         if ( !isset( $params['instance'] ) )
         {
-            include_once( 'lib/ezdb/classes/ezdb.php' );
+            //include_once( 'lib/ezdb/classes/ezdb.php' );
             $db = eZDB::instance();
             $params['instance'] = $db;
         }
@@ -113,7 +113,7 @@ class eZDbSchema
             }
             else if ( preg_match( '#a:[0-9]+:{#', $buf ) )
             {
-                include_once( 'lib/ezfile/classes/ezfile.php' );
+                //include_once( 'lib/ezfile/classes/ezfile.php' );
                 return unserialize( eZFile::getContents( $filename ) );
             }
             else

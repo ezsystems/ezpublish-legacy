@@ -39,18 +39,19 @@
   \sa eZCodeMapper
 */
 
-/// The timestamp for when the format of the cache files were
-/// last changed. This must be updated when the format changes
-/// to invalidate existing cache files.
-/// 1101288452
-/// 30. Jan. 2007 - 1170165730
-/// 24. Apr. 2007 - 1177423380
-define( 'EZ_CHARTRANSFORM_CODEDATE', 1177423380 );
-include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
+//include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+//include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
 
 class eZCharTransform
 {
+    /// The timestamp for when the format of the cache files were
+    /// last changed. This must be updated when the format changes
+    /// to invalidate existing cache files.
+    /// 1101288452
+    /// 30. Jan. 2007 - 1170165730
+    /// 24. Apr. 2007 - 1177423380
+    const EZ_CHARTRANSFORM_CODEDATE = 1177423380;
+
     /*!
      Constructor
     */
@@ -77,7 +78,7 @@ class eZCharTransform
         if ( $useCache )
         {
             // CRC32 is used for speed, MD5 would be more unique but is slower
-            include_once( 'lib/ezutils/classes/ezsys.php' );
+            //include_once( 'lib/ezutils/classes/ezsys.php' );
             $key = eZSys::ezcrc32( 'Rule: ' . ( is_array( $rule ) ? implode( ',', $rule ) : $rule ) . '-' . $charset );
             $filepath = $this->cacheFilePath( 'rule-',
                                               '-' . $charsetName,
@@ -97,7 +98,7 @@ class eZCharTransform
         // Make sure we have a mapper
         if ( $this->Mapper === false )
         {
-            include_once( 'lib/ezi18n/classes/ezcodemapper.php' );
+            //include_once( 'lib/ezi18n/classes/ezcodemapper.php' );
             $this->Mapper = new eZCodeMapper();
         }
 
@@ -141,7 +142,7 @@ class eZCharTransform
         if ( $useCache )
         {
             // CRC32 is used for speed, MD5 would be more unique but is slower
-            include_once( 'lib/ezutils/classes/ezsys.php' );
+            //include_once( 'lib/ezutils/classes/ezsys.php' );
 
             $keyText = 'Group:' . $group;
             $key = eZSys::ezcrc32( $keyText . '-' . $charset );
@@ -165,7 +166,7 @@ class eZCharTransform
         // Make sure we have a mapper
         if ( $this->Mapper === false )
         {
-            include_once( 'lib/ezi18n/classes/ezcodemapper.php' );
+            //include_once( 'lib/ezi18n/classes/ezcodemapper.php' );
             $this->Mapper = new eZCodeMapper();
         }
 
@@ -225,7 +226,7 @@ class eZCharTransform
         if ( isset( $dir ) )
             return $dir;
 
-        include_once( 'lib/ezutils/classes/ezsys.php' );
+        //include_once( 'lib/ezutils/classes/ezsys.php' );
         $sys = eZSys::instance();
         $dir = $sys->cacheDirectory() . '/trans';
         return $dir;
@@ -297,7 +298,7 @@ class eZCharTransform
         $path = eZCharTransform::cachedTransformationPath();
         if ( !file_exists( $path ) )
         {
-            include_once( 'lib/ezfile/classes/ezdir.php' );
+            //include_once( 'lib/ezfile/classes/ezdir.php' );
             eZDir::mkdir( $path, false, true );
         }
         return $path . '/' . $prefix . sprintf( "%u", $key ) . $suffix . '.ctt.php'; // ctt=charset transform table
@@ -324,7 +325,7 @@ class eZCharTransform
             {
                 return false;
             }
-            if ( $time >= max( EZ_CHARTRANSFORM_CODEDATE, $timestamp ) )
+            if ( $time >= max( self::EZ_CHARTRANSFORM_CODEDATE, $timestamp ) )
             {
                 // Execute the PHP file causing $text will be transformed
                 include "$filepath";

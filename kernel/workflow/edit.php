@@ -26,12 +26,12 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/classes/ezworkflow.php" );
-include_once( "kernel/classes/ezworkflowgrouplink.php" );
-include_once( "kernel/classes/ezworkflowevent.php" );
-include_once( "kernel/classes/ezworkflowtype.php" );
-include_once( "lib/ezutils/classes/ezhttptool.php" );
-include_once( "lib/ezutils/classes/ezhttppersistence.php" );
+//include_once( "kernel/classes/ezworkflow.php" );
+//include_once( "kernel/classes/ezworkflowgrouplink.php" );
+//include_once( "kernel/classes/ezworkflowevent.php" );
+//include_once( "kernel/classes/ezworkflowtype.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
+//include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 
 $Module = $Params['Module'];
 
@@ -55,14 +55,14 @@ case "down":
             else
             {
                 eZDebug::writeError( "Missing parameter EventID for function: " . $params["Function"] );
-                $Module->setExitStatus( EZ_MODULE_STATUS_FAILED );
+                $Module->setExitStatus( eZModule::STATUS_FAILED );
                 return;
             }
         }
         else
         {
             eZDebug::writeError( "Missing parameter WorkfowID for function: " . $params["Function"] );
-            $Module->setExitStatus( EZ_MODULE_STATUS_FAILED );
+            $Module->setExitStatus( eZModule::STATUS_FAILED );
             return;
         }
     } break;
@@ -72,7 +72,7 @@ case "edit":
 default:
     {
         eZDebug::writeError( "Undefined function: " . $params["Function"] );
-        $Module->setExitStatus( EZ_MODULE_STATUS_FAILED );
+        $Module->setExitStatus( eZModule::STATUS_FAILED );
         return;
     }
 }
@@ -107,7 +107,7 @@ if ( is_numeric( $WorkflowID ) )
         else
         {
             eZDebug::writeError( "Cannot fetch workflow with WorkfowID = " . $WorkflowID );
-            $Module->setExitStatus( EZ_MODULE_STATUS_FAILED );
+            $Module->setExitStatus( eZModule::STATUS_FAILED );
             return;
         }
     }
@@ -115,7 +115,7 @@ if ( is_numeric( $WorkflowID ) )
 else
 {
     // if WorkflowID was not given then create new workflow
-    include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+    //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
     $user = eZUser::currentUser();
     $user_id = $user->attribute( "contentobject_id" );
     $workflow = eZWorkflow::create( $user_id );
@@ -166,7 +166,7 @@ $validation = array( 'processed' => false,
 
 if ( $http->hasPostVariable( "AddGroupButton" ) && $http->hasPostVariable( "Workflow_group") )
 {
-    include_once( "kernel/workflow/ezworkflowfunctions.php" );
+    //include_once( "kernel/workflow/ezworkflowfunctions.php" );
 
     $selectedGroup = $http->postVariable( "Workflow_group" );
     eZWorkflowFunctions::addGroup( $WorkflowID, $WorkflowVersion, $selectedGroup );
@@ -174,7 +174,7 @@ if ( $http->hasPostVariable( "AddGroupButton" ) && $http->hasPostVariable( "Work
 
 if ( $http->hasPostVariable( "DeleteGroupButton" ) && $http->hasPostVariable( "group_id_checked" ) )
 {
-    include_once( "kernel/workflow/ezworkflowfunctions.php" );
+    //include_once( "kernel/workflow/ezworkflowfunctions.php" );
 
     $selectedGroup = $http->postVariable( "group_id_checked" );
     if ( !eZWorkflowFunctions::removeGroup( $WorkflowID, $WorkflowVersion, $selectedGroup ) )
@@ -193,7 +193,7 @@ if ( $http->hasPostVariable( "DeleteButton" ) )
     $db = eZDB::instance();
     $db->begin();
 
-    if ( eZHttpPersistence::splitSelected( "WorkflowEvent", $event_list,
+    if ( eZHTTPPersistence::splitSelected( "WorkflowEvent", $event_list,
                                            $http, "id",
                                            $keepers, $rejects ) )
     {
@@ -210,7 +210,7 @@ if ( $http->hasPostVariable( "DeleteButton" ) )
 }
 
 // Validate input
-include_once( "lib/ezutils/classes/ezinputvalidator.php" );
+//include_once( "lib/ezutils/classes/ezinputvalidator.php" );
 $canStore = true;
 $requireFixup = false;
 foreach( $event_list as $event )
@@ -218,9 +218,9 @@ foreach( $event_list as $event )
     $eventType = $event->eventType();
     $status = $eventType->validateHTTPInput( $http, "WorkflowEvent", $event, $validation );
 
-    if ( $status == EZ_INPUT_VALIDATOR_STATE_INTERMEDIATE )
+    if ( $status == eZInputValidator::STATE_INTERMEDIATE )
         $requireFixup = true;
-    else if ( $status == EZ_INPUT_VALIDATOR_STATE_INVALID )
+    else if ( $status == eZInputValidator::STATE_INVALID )
         $canStore = false;
 }
 
@@ -236,9 +236,9 @@ if ( $requireFixup )
 
 $cur_type = 0;
 // Apply HTTP POST variables
-eZHttpPersistence::fetch( "WorkflowEvent", eZWorkflowEvent::definition(),
+eZHTTPPersistence::fetch( "WorkflowEvent", eZWorkflowEvent::definition(),
                           $event_list, $http, true );
-eZHttpPersistence::fetch( "Workflow", eZWorkflow::definition(),
+eZHTTPPersistence::fetch( "Workflow", eZWorkflow::definition(),
                           $workflow, $http, false );
 if ( $http->hasPostVariable( "WorkflowTypeString" ) )
     $cur_type = $http->postVariable( "WorkflowTypeString" );
@@ -249,7 +249,7 @@ $workflow->setVersion( 1, $event_list );
 // Set new modification date
 $date_time = time();
 $workflow->setAttribute( "modified", $date_time );
-include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 $user = eZUser::currentUser();
 $user_id = $user->attribute( "contentobject_id" );
 $workflow->setAttribute( "modifier_id", $user_id );
@@ -351,7 +351,7 @@ else if ( $canStore )
 $Module->setTitle( ezi18n( 'kernel/workflow', 'Edit workflow' ) . ' ' . $workflow->attribute( "name" ) );
 
 // Template handling
-include_once( "kernel/common/template.php" );
+require_once( "kernel/common/template.php" );
 $tpl = templateInit();
 
 $res = eZTemplateDesignResource::instance();

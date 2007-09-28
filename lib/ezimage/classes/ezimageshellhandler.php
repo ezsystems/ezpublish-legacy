@@ -38,14 +38,14 @@
 
 */
 
-include_once( 'lib/ezimage/classes/ezimagehandler.php' );
+//include_once( 'lib/ezimage/classes/ezimagehandler.php' );
 
 class eZImageShellHandler extends eZImageHandler
 {
     /*!
      Constructor
     */
-    function eZImageShellHandler( $handlerName, $isEnabled = true, $outputRewriteType = EZ_IMAGE_HANDLER_REPLACE_SUFFIX,
+    function eZImageShellHandler( $handlerName, $isEnabled = true, $outputRewriteType = self::EZ_IMAGE_HANDLER_REPLACE_SUFFIX,
                                   $supportedInputMIMETypes = false, $supportedOutputMIMETypes = false,
                                   $conversionRules = false, $filters = false, $mimeTagMap = false)
     {
@@ -151,7 +151,7 @@ class eZImageShellHandler extends eZImageHandler
             $iniFilename = 'image.ini';
 
         $handler = false;
-        include_once( 'lib/ezutils/classes/ezini.php' );
+        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance( $iniFilename );
         if ( !$ini )
         {
@@ -241,7 +241,7 @@ class eZImageShellHandler extends eZImageHandler
             {
                 $useTypeTag = $ini->variable( $iniGroup, 'UseTypeTag' );
             }
-            $outputRewriteType = EZ_IMAGE_HANDLER_REPLACE_SUFFIX;
+            $outputRewriteType = self::EZ_IMAGE_HANDLER_REPLACE_SUFFIX;
             $filters = false;
             if ( $ini->hasVariable( $iniGroup, 'Filters' ) )
             {

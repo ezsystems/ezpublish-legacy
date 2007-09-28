@@ -42,18 +42,17 @@
 
 */
 
-
-define( 'EZ_IMAGE_MODE_INDEXED', 1 );
-define( 'EZ_IMAGE_MODE_TRUECOLOR', 2 );
-
-define( 'EZ_IMAGE_TIMER_HUNDRETHS_OF_A_SECOND', 1 );
-
-define( 'EZ_IMAGE_TRANSPARENCY_OPAQUE', 1 );
-define( 'EZ_IMAGE_TRANSPARENCY_TRANSPARENT', 2 );
-define( 'EZ_IMAGE_TRANSPARENCY_TRANSLUCENT', 3 );
-
 class eZImageAnalyzer
 {
+    const EZ_IMAGE_MODE_INDEXED = 1;
+    const EZ_IMAGE_MODE_TRUECOLOR = 2;
+
+    const EZ_IMAGE_TIMER_HUNDRETHS_OF_A_SECOND = 1;
+
+    const EZ_IMAGE_TRANSPARENCY_OPAQUE = 1;
+    const EZ_IMAGE_TRANSPARENCY_TRANSPARENT = 2;
+    const EZ_IMAGE_TRANSPARENCY_TRANSLUCENT = 3;
+
     /*!
      Constructor
     */
@@ -96,7 +95,7 @@ class eZImageAnalyzer
         $analyzerData = eZImageAnalyzer::analyzerData();
         if ( !isset( $analyzerData['handlers'][$analyzerName] ) )
         {
-            include_once( 'lib/ezutils/classes/ezextension.php' );
+            //include_once( 'lib/ezutils/classes/ezextension.php' );
             if ( eZExtension::findExtensionType( array( 'ini-name' => 'image.ini',
                                                         'repository-group' => 'AnalyzerSettings',
                                                         'repository-variable' => 'RepositoryList',

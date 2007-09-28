@@ -30,9 +30,9 @@
 
 /*! \file linkcheck.php
 */
-include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
-include_once( "lib/ezutils/classes/ezini.php" );
-include_once( "lib/ezutils/classes/ezhttptool.php" );
+//include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+//include_once( "lib/ezutils/classes/ezini.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
 
 ini_set( 'user_agent', 'eZ publish Link Validator' );
 
@@ -101,7 +101,7 @@ foreach ( $linkList as $link )
     }
     else
     {
-        include_once( 'kernel/classes/ezurlaliasml.php' );
+        //include_once( 'kernel/classes/ezurlaliasml.php' );
         $translateResult = eZURLAliasML::translate( $url );
 
         if ( !$translateResult )

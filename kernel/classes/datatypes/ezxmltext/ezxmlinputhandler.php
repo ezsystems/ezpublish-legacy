@@ -38,7 +38,7 @@
 
 */
 
-include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+//include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
 
 class eZXMLInputHandler
 {
@@ -195,7 +195,7 @@ class eZXMLInputHandler
     */
     function validateInput( $http, $base, $contentObjectAttribute )
     {
-        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+        return eZInputValidator::STATE_INVALID;
     }
 
     /*!

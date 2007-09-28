@@ -37,8 +37,8 @@
 
 */
 
-include_once( 'kernel/classes/ezpersistentobject.php' );
-include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+//include_once( 'kernel/classes/ezpersistentobject.php' );
+//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 
 class eZCollaborationItemStatus extends eZPersistentObject
 {

@@ -30,9 +30,9 @@
 
 /*! \file ezstep_database_choice.php
 */
-include_once( 'kernel/setup/steps/ezstep_installer.php' );
-include_once( 'kernel/setup/ezsetupcommon.php' );
-include_once( "kernel/common/i18n.php" );
+//include_once( 'kernel/setup/steps/ezstep_installer.php' );
+//include_once( 'kernel/setup/ezsetupcommon.php' );
+require_once( "kernel/common/i18n.php" );
 
 /*!
   \class eZStepDatabaseChoice ezstep_database_choice.php
@@ -84,7 +84,7 @@ class eZStepDatabaseChoice extends eZStepInstaller
             }
         }
 
-        include_once( "kernel/setup/ezsetuptests.php" );
+        //include_once( "kernel/setup/ezsetuptests.php" );
         if ( eZSetupTestInstaller() == 'windows' )
         {
             $this->PersistenceList['database_info'] = $databaseMap['mysql'];

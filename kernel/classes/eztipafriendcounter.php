@@ -33,9 +33,9 @@
 
 */
 
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "kernel/classes/ezpersistentobject.php" );
-include_once( "kernel/classes/ezcontentclassgroup.php" );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezcontentclassgroup.php" );
 
 class eZTipafriendCounter extends eZPersistentObject
 {
@@ -59,7 +59,7 @@ class eZTipafriendCounter extends eZPersistentObject
                                                                'default' => 0,
                                                                'required' => true ) ),
                       'keys' => array( 'node_id', 'requested' ),
-                      'relations' => array( 'node_id' => array( 'class' => 'ezcontentobjecttreenode',
+                      'relations' => array( 'node_id' => array( 'class' => 'eZContentObjectTreeNode',
                                                                 'field' => 'node_id' ) ),
                       'class_name' => 'eZTipafriendCounter',
                       'sort' => array( 'count' => 'desc' ),

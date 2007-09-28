@@ -27,8 +27,8 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "eZ publish Session Updater\n\n" .
@@ -48,9 +48,9 @@ $script->initialize();
 
 $db = eZDB::instance();
 
-include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 
-include_once( 'lib/ezutils/classes/ezsession.php' );
+require_once( 'lib/ezutils/classes/ezsession.php' );
 
 $db = eZDB::instance();
 

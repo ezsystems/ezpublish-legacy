@@ -35,7 +35,7 @@
 
 */
 
-include_once( "lib/ezutils/classes/ezdebug.php" );
+require_once( "lib/ezutils/classes/ezdebug.php" );
 
 class eZProcess
 {

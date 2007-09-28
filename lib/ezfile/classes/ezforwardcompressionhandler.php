@@ -39,7 +39,7 @@
   eZGZIPShellCompressionHandler classes.
 */
 
-include_once( 'lib/ezfile/classes/ezcompressionhandler.php' );
+//include_once( 'lib/ezfile/classes/ezcompressionhandler.php' );
 
 class eZForwardCompressionHandler extends eZCompressionHandler
 {

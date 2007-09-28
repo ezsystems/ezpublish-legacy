@@ -41,7 +41,7 @@
 * script initializing                                         *
 ***************************************************************/
 
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "\n" .
@@ -62,8 +62,8 @@ $scriptOptions = $script->getOptions( "[ts-list:]",
                                      );
 $script->initialize();
 
-include_once( 'lib/ezi18n/classes/eztstranslator.php' );
-include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
+//include_once( 'lib/ezi18n/classes/eztstranslator.php' );
+//include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
 
 /**************************************************************
 * process options                                             *

@@ -39,9 +39,9 @@
   \sa eZDB
 */
 
-include_once( "lib/ezutils/classes/ezdebug.php" );
-include_once( "lib/ezutils/classes/ezini.php" );
-include_once( "lib/ezdb/classes/ezdbinterface.php" );
+require_once( "lib/ezutils/classes/ezdebug.php" );
+//include_once( "lib/ezutils/classes/ezini.php" );
+//include_once( "lib/ezdb/classes/ezdbinterface.php" );
 
 class eZMySQLDB extends eZDBInterface
 {
@@ -71,7 +71,7 @@ class eZMySQLDB extends eZDBInterface
             if ( function_exists( 'eZAppendWarningItem' ) )
             {
                 eZAppendWarningItem( array( 'error' => array( 'type' => 'ezdb',
-                                                              'number' => EZ_DB_ERROR_MISSING_EXTENSION ),
+                                                              'number' => eZDBInterface::ERROR_MISSING_EXTENSION ),
                                             'text' => 'MySQL extension was not found, the DB handler will not be initialized.' ) );
                 $this->IsConnected = false;
             }
@@ -173,7 +173,7 @@ class eZMySQLDB extends eZDBInterface
         if ( $charset !== null )
         {
             $originalCharset = $charset;
-            include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
+            //include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
             $charset = eZCharsetInfo::realCharsetCode( $charset );
             // Convert charset names into something MySQL will understand
             if ( isset( $this->CharsetMapping[ $charset ] ) )
@@ -216,7 +216,7 @@ class eZMySQLDB extends eZDBInterface
     */
     function bindingType( )
     {
-        return EZ_DB_BINDING_NO;
+        return eZDBInterface::BINDING_NO;
     }
 
     /*!
@@ -253,7 +253,7 @@ class eZMySQLDB extends eZDBInterface
         if ( version_compare( $versionInfo['string'], '4.1.1' ) < 0 )
             return true;
 
-        include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
+        //include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
 
         if ( is_array( $charset ) )
         {
@@ -294,7 +294,7 @@ class eZMySQLDB extends eZDBInterface
                 if ( preg_match( '#DEFAULT CHARACTER SET ([a-zA-Z0-9_-]+)#', $createText, $matches ) )
                 {
                     $currentCharset = $matches[1];
-                    include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
+                    //include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
                     $currentCharset = eZCharsetInfo::realCharsetCode( $currentCharset );
                     // Convert charset names into something MySQL will understand
 
@@ -613,7 +613,7 @@ class eZMySQLDB extends eZDBInterface
     */
     function supportedRelationTypeMask()
     {
-        return EZ_DB_RELATION_TABLE_BIT;
+        return eZDBInterface::RELATION_TABLE_BIT;
     }
 
     /*!
@@ -621,7 +621,7 @@ class eZMySQLDB extends eZDBInterface
     */
     function supportedRelationTypes()
     {
-        return array( EZ_DB_RELATION_TABLE );
+        return array( eZDBInterface::RELATION_TABLE );
     }
 
     /*!
@@ -629,7 +629,7 @@ class eZMySQLDB extends eZDBInterface
     */
     function relationCounts( $relationMask )
     {
-        if ( $relationMask & EZ_DB_RELATION_TABLE_BIT )
+        if ( $relationMask & eZDBInterface::RELATION_TABLE_BIT )
             return $this->relationCount();
         else
             return 0;
@@ -638,9 +638,9 @@ class eZMySQLDB extends eZDBInterface
     /*!
       \reimp
     */
-    function relationCount( $relationType = EZ_DB_RELATION_TABLE )
+    function relationCount( $relationType = eZDBInterface::RELATION_TABLE )
     {
-        if ( $relationType != EZ_DB_RELATION_TABLE )
+        if ( $relationType != eZDBInterface::RELATION_TABLE )
         {
             eZDebug::writeError( "Unsupported relation type '$relationType'", 'eZMySQLDB::relationCount' );
             return false;
@@ -660,9 +660,9 @@ class eZMySQLDB extends eZDBInterface
     /*!
       \reimp
     */
-    function relationList( $relationType = EZ_DB_RELATION_TABLE )
+    function relationList( $relationType = eZDBInterface::RELATION_TABLE )
     {
-        if ( $relationType != EZ_DB_RELATION_TABLE )
+        if ( $relationType != eZDBInterface::RELATION_TABLE )
         {
             eZDebug::writeError( "Unsupported relation type '$relationType'", 'eZMySQLDB::relationList' );
             return false;
@@ -702,7 +702,7 @@ class eZMySQLDB extends eZDBInterface
                 $tableName = $table[0];
                 if ( substr( $tableName, 0, 2 ) == 'ez' )
                 {
-                    $tables[$tableName] = EZ_DB_RELATION_TABLE;
+                    $tables[$tableName] = eZDBInterface::RELATION_TABLE;
                 }
             }
             mysql_free_result( $result );

@@ -73,7 +73,7 @@ class eZTemplateNodeTool
     */
     static function createVoidElement()
     {
-        return array( EZ_TEMPLATE_TYPE_VOID );
+        return array( eZTemplate::TYPE_VOID );
     }
 
     /*!
@@ -119,7 +119,7 @@ class eZTemplateNodeTool
     */
     static function createStringElement( $string, $variablePlacement = false )
     {
-        return array( EZ_TEMPLATE_TYPE_STRING,
+        return array( eZTemplate::TYPE_STRING,
                       $string, $variablePlacement );
     }
 
@@ -129,7 +129,7 @@ class eZTemplateNodeTool
     */
     static function createNumericElement( $number, $variablePlacement = false )
     {
-        return array( EZ_TEMPLATE_TYPE_NUMERIC,
+        return array( eZTemplate::TYPE_NUMERIC,
                       $number, $variablePlacement );
     }
 
@@ -139,7 +139,7 @@ class eZTemplateNodeTool
     */
     static function createIdentifierElement( $identifier, $variablePlacement = false )
     {
-        return array( EZ_TEMPLATE_TYPE_IDENTIFIER,
+        return array( eZTemplate::TYPE_IDENTIFIER,
                       $identifier, $variablePlacement );
     }
 
@@ -153,7 +153,7 @@ class eZTemplateNodeTool
     */
     static function createDynamicArrayElement( &$arrayKeys, &$arrayValues, $variablePlacement = false )
     {
-        return array( EZ_TEMPLATE_TYPE_DYNAMIC_ARRAY,
+        return array( eZTemplate::TYPE_DYNAMIC_ARRAY,
                       $arrayKeys, $arrayValues, $variablePlacement );
     }
 
@@ -163,7 +163,7 @@ class eZTemplateNodeTool
     */
     static function createArrayElement( $array, $variablePlacement = false )
     {
-        return array( EZ_TEMPLATE_TYPE_ARRAY,
+        return array( eZTemplate::TYPE_ARRAY,
                       $array, $variablePlacement );
     }
 
@@ -175,7 +175,7 @@ class eZTemplateNodeTool
     {
         if ( !is_bool( $boolean ) )
             $boolean = (bool)$boolean;
-        return array( EZ_TEMPLATE_TYPE_BOOLEAN,
+        return array( eZTemplate::TYPE_BOOLEAN,
                       $boolean, $variablePlacement );
     }
 
@@ -185,7 +185,7 @@ class eZTemplateNodeTool
     */
     static function createPHPVariableElement( $variableName, $variablePlacement = false )
     {
-        return array( EZ_TEMPLATE_TYPE_PHP_VARIABLE,
+        return array( eZTemplate::TYPE_PHP_VARIABLE,
                       $variableName, $variablePlacement );
     }
 
@@ -193,13 +193,13 @@ class eZTemplateNodeTool
      \static
      Creates an element which represents an variable lookup and returns it.
      \param $namespaceScope Type of variable lookup, can be one of:
-                            - \b EZ_TEMPLATE_NAMESPACE_SCOPE_GLOBAL, Look for variables at the very top of the namespace tree
-                            - \b EZ_TEMPLATE_NAMESPACE_SCOPE_LOCAL, Look for variables at the top of the current file being processed
-                            - \b EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, Look for variables from the current namespace
+                            - \b eZTemplate::NAMESPACE_SCOPE_GLOBAL, Look for variables at the very top of the namespace tree
+                            - \b eZTemplate::NAMESPACE_SCOPE_LOCAL, Look for variables at the top of the current file being processed
+                            - \b eZTemplate::NAMESPACE_SCOPE_RELATIVE, Look for variables from the current namespace
     */
-    static function createVariableElement( $variableName, $namespaceName, $namespaceScope = EZ_TEMPLATE_NAMESPACE_SCOPE_LOCAL, $variablePlacement = false )
+    static function createVariableElement( $variableName, $namespaceName, $namespaceScope = eZTemplate::NAMESPACE_SCOPE_LOCAL, $variablePlacement = false )
     {
-        return array( EZ_TEMPLATE_TYPE_VARIABLE,
+        return array( eZTemplate::TYPE_VARIABLE,
                       array( $namespaceName, $namespaceScope, $variableName ), $variablePlacement );
     }
 
@@ -214,7 +214,7 @@ class eZTemplateNodeTool
             $attributeValues = array( eZTemplateNodeTool::createNumericElement( $attributeValues, $variablePlacement ) );
         else if ( !is_array( $attributeValues ) )
             $attributeValues = array( eZTemplateNodeTool::createStringElement( $attributeValues, $variablePlacement ) );
-        return array( EZ_TEMPLATE_TYPE_ATTRIBUTE,
+        return array( eZTemplate::TYPE_ATTRIBUTE,
                       $attributeValues, $variablePlacement );
     }
 
@@ -226,7 +226,7 @@ class eZTemplateNodeTool
     */
     static function createOperatorElement( $name, $parameters = array(), $variablePlacement = false )
     {
-        return array( EZ_TEMPLATE_TYPE_ATTRIBUTE,
+        return array( eZTemplate::TYPE_ATTRIBUTE,
                       array_merge( array( $name ), $parameters ), $variablePlacement );
     }
 
@@ -285,9 +285,9 @@ class eZTemplateNodeTool
     */
     static function isConstantElement( $elements )
     {
-        $constantElements = array( EZ_TEMPLATE_TYPE_VOID,
-                                   EZ_TEMPLATE_TYPE_STRING, EZ_TEMPLATE_TYPE_IDENTIFIER,
-                                   EZ_TEMPLATE_TYPE_NUMERIC, EZ_TEMPLATE_TYPE_BOOLEAN, EZ_TEMPLATE_TYPE_ARRAY );
+        $constantElements = array( eZTemplate::TYPE_VOID,
+                                   eZTemplate::TYPE_STRING, eZTemplate::TYPE_IDENTIFIER,
+                                   eZTemplate::TYPE_NUMERIC, eZTemplate::TYPE_BOOLEAN, eZTemplate::TYPE_ARRAY );
 
         if ( count( $elements ) == 0 )
             return false;
@@ -304,9 +304,9 @@ class eZTemplateNodeTool
     */
     static function isStaticElement( $elements )
     {
-        $staticElements = array( EZ_TEMPLATE_TYPE_VOID,
-                                 EZ_TEMPLATE_TYPE_STRING, EZ_TEMPLATE_TYPE_IDENTIFIER,
-                                 EZ_TEMPLATE_TYPE_NUMERIC, EZ_TEMPLATE_TYPE_BOOLEAN, EZ_TEMPLATE_TYPE_ARRAY );
+        $staticElements = array( eZTemplate::TYPE_VOID,
+                                 eZTemplate::TYPE_STRING, eZTemplate::TYPE_IDENTIFIER,
+                                 eZTemplate::TYPE_NUMERIC, eZTemplate::TYPE_BOOLEAN, eZTemplate::TYPE_ARRAY );
 
         if ( count( $elements ) == 0 )
             return false;
@@ -323,7 +323,7 @@ class eZTemplateNodeTool
     */
     static function isInternalCodePiece( $elements )
     {
-        if ( isset( $elements[0][0]) && ( $elements[0][0] == EZ_TEMPLATE_TYPE_INTERNAL_CODE_PIECE ) )
+        if ( isset( $elements[0][0]) && ( $elements[0][0] == eZTemplate::TYPE_INTERNAL_CODE_PIECE ) )
             return true;
         return false;
     }
@@ -333,7 +333,7 @@ class eZTemplateNodeTool
     */
     static function isVariableElement( $elements )
     {
-        if ( isset( $elements[0][0] ) && ( $elements[0][0] == EZ_TEMPLATE_TYPE_VARIABLE ) )
+        if ( isset( $elements[0][0] ) && ( $elements[0][0] == eZTemplate::TYPE_VARIABLE ) )
             return true;
         return false;
     }
@@ -352,7 +352,7 @@ class eZTemplateNodeTool
         if ( count( $elements ) > 1 )
             return false;
 
-        if ( $elements[0][0] == EZ_TEMPLATE_TYPE_PHP_VARIABLE )
+        if ( $elements[0][0] == eZTemplate::TYPE_PHP_VARIABLE )
             return true;
         return false;
     }
@@ -369,7 +369,7 @@ class eZTemplateNodeTool
     */
     static function isNumericElement( $elements )
     {
-        $constantElements = array( EZ_TEMPLATE_TYPE_NUMERIC );
+        $constantElements = array( eZTemplate::TYPE_NUMERIC );
 
         if ( count( $elements ) == 0 )
             return false;
@@ -391,7 +391,7 @@ class eZTemplateNodeTool
     */
     static function isStringElement( $elements )
     {
-        $constantElements = array( EZ_TEMPLATE_TYPE_STRING, EZ_TEMPLATE_TYPE_IDENTIFIER );
+        $constantElements = array( eZTemplate::TYPE_STRING, eZTemplate::TYPE_IDENTIFIER );
 
         if ( count( $elements ) == 0 )
             return false;
@@ -412,7 +412,7 @@ class eZTemplateNodeTool
     */
     static function isIdentifierElement( $elements )
     {
-        $constantElements = array( EZ_TEMPLATE_TYPE_IDENTIFIER );
+        $constantElements = array( eZTemplate::TYPE_IDENTIFIER );
 
         if ( count( $elements ) == 0 )
             return false;
@@ -434,7 +434,7 @@ class eZTemplateNodeTool
     */
     static function isBooleanElement( $elements )
     {
-        $constantElements = array( EZ_TEMPLATE_TYPE_BOOLEAN );
+        $constantElements = array( eZTemplate::TYPE_BOOLEAN );
 
         if ( count( $elements ) == 0 )
             return false;
@@ -453,7 +453,7 @@ class eZTemplateNodeTool
         if ( count( $elements ) == 0 )
             return false;
 
-        if ( $elements[0][0] == EZ_TEMPLATE_TYPE_DYNAMIC_ARRAY )
+        if ( $elements[0][0] == eZTemplate::TYPE_DYNAMIC_ARRAY )
             return true;
         return false;
     }
@@ -468,7 +468,7 @@ class eZTemplateNodeTool
     */
     static function isArrayElement( $elements )
     {
-        $constantElements = array( EZ_TEMPLATE_TYPE_ARRAY );
+        $constantElements = array( eZTemplate::TYPE_ARRAY );
 
         if ( count( $elements ) == 0 )
             return false;
@@ -503,28 +503,28 @@ class eZTemplateNodeTool
             $node = $originalNode;
         else
         {
-            $node[0] = EZ_TEMPLATE_NODE_VARIABLE;
+            $node[0] = eZTemplate::NODE_VARIABLE;
             $node[1] = $variableAssignmentName;
             if ( is_array( $variableData ) )
                 $node[2] = $variableData;
             else if ( $assignFromVariable )
-                $node[2] = array( array( EZ_TEMPLATE_TYPE_PHP_VARIABLE,
+                $node[2] = array( array( eZTemplate::TYPE_PHP_VARIABLE,
                                          $variableData,
                                          false ) );
             else if ( is_bool( $variableData ) )
-                $node[2] = array( array( EZ_TEMPLATE_TYPE_BOOLEAN,
+                $node[2] = array( array( eZTemplate::TYPE_BOOLEAN,
                                          $variableData,
                                          false ) );
             else if ( is_string( $variableData ) )
-                $node[2] = array( array( EZ_TEMPLATE_TYPE_STRING,
+                $node[2] = array( array( eZTemplate::TYPE_STRING,
                                          $variableData,
                                          false ) );
             else if ( is_numeric( $variableData ) )
-                $node[2] = array( array( EZ_TEMPLATE_TYPE_NUMERIC,
+                $node[2] = array( array( eZTemplate::TYPE_NUMERIC,
                                          $variableData,
                                          false ) );
             else
-                $node[2] = array( array( EZ_TEMPLATE_TYPE_STRING,
+                $node[2] = array( array( eZTemplate::TYPE_STRING,
                                          $variableData,
                                          false ) );
             $node[3] = $variablePlacement;
@@ -538,7 +538,7 @@ class eZTemplateNodeTool
 
     static function createCodePieceElement( $codePiece, $values = false, $placement = false, $tmpValues = false, $knownTypes = true )
     {
-        $element = array( EZ_TEMPLATE_TYPE_INTERNAL_CODE_PIECE,
+        $element = array( eZTemplate::TYPE_INTERNAL_CODE_PIECE,
                           $codePiece,
                           $placement,
                           $values, $tmpValues, $knownTypes );
@@ -547,13 +547,13 @@ class eZTemplateNodeTool
 
     static function createTextNode( $text )
     {
-        $node = array( EZ_TEMPLATE_NODE_TEXT, false, $text, false );
+        $node = array( eZTemplate::NODE_TEXT, false, $text, false );
         return $node;
     }
 
     static function createWarningNode( $text, $label, $placement = false, $parameters = array() )
     {
-        $node = array( EZ_TEMPLATE_NODE_INTERNAL_WARNING,
+        $node = array( eZTemplate::NODE_INTERNAL_WARNING,
                        $text, $label,
                        $parameters, $placement );
         return $node;
@@ -561,7 +561,7 @@ class eZTemplateNodeTool
 
     static function createErrorNode( $text, $label, $placement = false, $parameters = array() )
     {
-        $node = array( EZ_TEMPLATE_NODE_INTERNAL_ERROR,
+        $node = array( eZTemplate::NODE_INTERNAL_ERROR,
                        $text, $label,
                        $parameters, $placement );
         return $node;
@@ -569,7 +569,7 @@ class eZTemplateNodeTool
 
     static function createCodePieceNode( $codePiece, $parameters = array() )
     {
-        $node = array( EZ_TEMPLATE_NODE_INTERNAL_CODE_PIECE,
+        $node = array( eZTemplate::NODE_INTERNAL_CODE_PIECE,
                        $codePiece,
                        $parameters );
         return $node;
@@ -577,7 +577,7 @@ class eZTemplateNodeTool
 
     static function createVariableUnsetNode( $variableName, $parameters = array() )
     {
-        $node = array( EZ_TEMPLATE_NODE_INTERNAL_VARIABLE_UNSET,
+        $node = array( eZTemplate::NODE_INTERNAL_VARIABLE_UNSET,
                        $variableName,
                        $parameters );
         return $node;
@@ -591,9 +591,9 @@ class eZTemplateNodeTool
      \param $parameters An array with optional parameters, can contain the followin:
             - spacing - The number of spaces to added for each line this expression creates.
     */
-    static function createWriteToOutputVariableNode( $variableName, $parameters = array(), $assignmentType = EZ_PHPCREATOR_VARIABLE_APPEND_TEXT )
+    static function createWriteToOutputVariableNode( $variableName, $parameters = array(), $assignmentType = eZPHPCreator::VARIABLE_APPEND_TEXT )
     {
-        $node = array( EZ_TEMPLATE_NODE_INTERNAL_OUTPUT_ASSIGN,
+        $node = array( eZTemplate::NODE_INTERNAL_OUTPUT_ASSIGN,
                        $variableName,
                        $parameters,
                        $assignmentType );
@@ -608,9 +608,9 @@ class eZTemplateNodeTool
      \param $parameters An array with optional parameters, can contain the followin:
             - spacing - The number of spaces to added for each line this expression creates.
     */
-    static function createAssignFromOutputVariableNode( $variableName, $parameters = array(), $assignmentType = EZ_PHPCREATOR_VARIABLE_ASSIGNMENT )
+    static function createAssignFromOutputVariableNode( $variableName, $parameters = array(), $assignmentType = eZPHPCreator::VARIABLE_ASSIGNMENT )
     {
-        $node = array( EZ_TEMPLATE_NODE_INTERNAL_OUTPUT_READ,
+        $node = array( eZTemplate::NODE_INTERNAL_OUTPUT_READ,
                        $variableName,
                        $parameters,
                        $assignmentType );
@@ -619,28 +619,28 @@ class eZTemplateNodeTool
 
     static function createOutputVariableIncreaseNode( $parameters = array() )
     {
-        $node = array( EZ_TEMPLATE_NODE_INTERNAL_OUTPUT_INCREASE,
+        $node = array( eZTemplate::NODE_INTERNAL_OUTPUT_INCREASE,
                        $parameters );
         return $node;
     }
 
     static function createOutputVariableDecreaseNode( $parameters = array() )
     {
-        $node = array( EZ_TEMPLATE_NODE_INTERNAL_OUTPUT_DECREASE,
+        $node = array( eZTemplate::NODE_INTERNAL_OUTPUT_DECREASE,
                        $parameters );
         return $node;
     }
 
     static function createSpacingIncreaseNode( $spacing = 4, $parameters = array() )
     {
-        $node = array( EZ_TEMPLATE_NODE_INTERNAL_SPACING_INCREASE,
+        $node = array( eZTemplate::NODE_INTERNAL_OUTPUT_SPACING_INCREASE,
                        $spacing, $parameters );
         return $node;
     }
 
     static function createSpacingDecreaseNode( $spacing = 4, $parameters = array() )
     {
-        $node = array( EZ_TEMPLATE_NODE_INTERNAL_SPACING_DECREASE,
+        $node = array( eZTemplate::NODE_INTERNAL_SPACING_DECREASE,
                        $spacing, $parameters );
         return $node;
     }
@@ -651,7 +651,7 @@ class eZTemplateNodeTool
             $variableData = array( eZTemplateNodeTool::createStringElement( $variableData ) );
         else if ( is_numeric( $variableData ) )
             $variableData = array( eZTemplateNodeTool::createNumericElement( $variableData ) );
-        $node = array( EZ_TEMPLATE_NODE_INTERNAL_NAMESPACE_CHANGE,
+        $node = array( eZTemplate::NODE_INTERNAL_NAMESPACE_CHANGE,
                        $variableData,
                        $parameters );
         return $node;
@@ -659,7 +659,7 @@ class eZTemplateNodeTool
 
     static function createNamespaceRestoreNode( $parameters = array() )
     {
-        $node = array( EZ_TEMPLATE_NODE_INTERNAL_NAMESPACE_RESTORE,
+        $node = array( eZTemplate::NODE_INTERNAL_NAMESPACE_RESTORE,
                        $parameters );
         return $node;
     }
@@ -668,7 +668,7 @@ class eZTemplateNodeTool
                                             $method, $extraParameters, $placement = false,
                                             $parameters = array(), $newRootNamespace = false, $resourceVariableName = false )
     {
-        $node = array( EZ_TEMPLATE_NODE_INTERNAL_RESOURCE_ACQUISITION,
+        $node = array( eZTemplate::NODE_INTERNAL_RESOURCE_ACQUISITION,
                        $resourceName, $templateName, $fileName,
                        $method, $extraParameters, $placement );
         if ( count( $parameters ) > 0 )

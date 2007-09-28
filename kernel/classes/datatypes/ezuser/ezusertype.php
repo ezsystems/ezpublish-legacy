@@ -35,18 +35,18 @@
 
 */
 
-include_once( "kernel/classes/ezdatatype.php" );
-include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-include_once( "kernel/classes/datatypes/ezuser/ezusersetting.php" );
-include_once( "lib/ezutils/classes/ezmail.php" );
-
-define( "EZ_DATATYPESTRING_USER", "ezuser" );
+//include_once( "kernel/classes/ezdatatype.php" );
+//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+//include_once( "kernel/classes/datatypes/ezuser/ezusersetting.php" );
+//include_once( "lib/ezutils/classes/ezmail.php" );
 
 class eZUserType extends eZDataType
 {
+    const EZ_DATATYPESTRING_USER = "ezuser";
+
     function eZUserType( )
     {
-        $this->eZDataType( EZ_DATATYPESTRING_USER, ezi18n( 'kernel/classes/datatypes', "User account", 'Datatype name' ),
+        $this->eZDataType( self::EZ_DATATYPESTRING_USER, ezi18n( 'kernel/classes/datatypes', "User account", 'Datatype name' ),
                            array( 'translation_allowed' => false,
                                   'serialize_supported' => true ) );
     }
@@ -88,7 +88,7 @@ class eZUserType extends eZDataType
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'The username must be specified.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    return eZInputValidator::STATE_INVALID;
                 }
             }
             else
@@ -101,7 +101,7 @@ class eZUserType extends eZDataType
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                              'The username already exists, please choose another one.' ) );
-                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                        return eZInputValidator::STATE_INVALID;
                     }
                 }
                 $isValidate = eZMail::validate( $email );
@@ -109,11 +109,11 @@ class eZUserType extends eZDataType
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'The email address is not valid.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    return eZInputValidator::STATE_INVALID;
                 }
 
                 $authenticationMatch = eZUser::authenticationMatch();
-                if ( $authenticationMatch & EZ_USER_AUTHENTICATE_EMAIL )
+                if ( $authenticationMatch & eZUser::AUTHENTICATE_EMAIL )
                 {
                     if ( eZUser::requireUniqueEmail() )
                     {
@@ -125,7 +125,7 @@ class eZUserType extends eZDataType
                             {
                                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                                      'A user with this email already exists.' ) );
-                                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                                return eZInputValidator::STATE_INVALID;
                             }
                         }
                     }
@@ -139,7 +139,7 @@ class eZUserType extends eZDataType
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                              'The passwords do not match.',
                                                                              'eZUserType' ) );
-                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                        return eZInputValidator::STATE_INVALID;
                     }
                     $minPasswordLength = $ini->hasVariable( 'UserSettings', 'MinPasswordLength' ) ? $ini->variable( 'UserSettings', 'MinPasswordLength' ) : 3;
 
@@ -147,18 +147,18 @@ class eZUserType extends eZDataType
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                              'The password must be at least %1 characters long.',null, array( $minPasswordLength ) ) );
-                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                        return eZInputValidator::STATE_INVALID;
                     }
                     if ( strtolower( $password ) == 'password' )
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                              'The password mustn\'t be "password".' ) );
-                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                        return eZInputValidator::STATE_INVALID;
                     }
                 }
             }
         }
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
@@ -453,6 +453,6 @@ class eZUserType extends eZDataType
     }
 }
 
-eZDataType::register( EZ_DATATYPESTRING_USER, "ezusertype" );
+eZDataType::register( eZUserType::EZ_DATATYPESTRING_USER, "eZUserType" );
 
 ?>

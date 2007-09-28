@@ -37,7 +37,7 @@
   \brief The class eZTopMenuOperator does
 
 */
-include_once( 'kernel/common/i18n.php' );
+require_once( 'kernel/common/i18n.php' );
 
 class eZTopMenuOperator
 {

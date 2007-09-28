@@ -39,7 +39,7 @@
 
 
 // script initializing
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
 global $cli;
 global $currencyList;
@@ -66,13 +66,13 @@ $scriptOptions = $script->getOptions( "",
 
 $script->initialize();
 
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'kernel/classes/ezcontentclass.php' );
-include_once( 'kernel/shop/classes/ezshopfunctions.php' );
-include_once( 'kernel/shop/classes/ezcurrencydata.php' );
-include_once( 'kernel/classes/datatypes/ezmultiprice/ezmultipricetype.php' );
-include_once( 'kernel/classes/datatypes/ezmultiprice/ezmultiprice.php' );
-include_once( 'kernel/shop/classes/ezmultipricedata.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezcontentclass.php' );
+//include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+//include_once( 'kernel/shop/classes/ezcurrencydata.php' );
+//include_once( 'kernel/classes/datatypes/ezmultiprice/ezmultipricetype.php' );
+//include_once( 'kernel/classes/datatypes/ezmultiprice/ezmultiprice.php' );
+//include_once( 'kernel/shop/classes/ezmultipricedata.php' );
 
 
 $convertedObjectsCount = 0;
@@ -107,7 +107,7 @@ foreach ( $classList as $class )
 
         // replace 'ezprice' class attribute with 'ezmultiprice'.
         $priceClassAttribute->setAttribute( 'data_type_string', 'ezmultiprice' );
-        $priceClassAttribute->setAttribute( EZ_DATATYPESTRING_DEFAULT_CURRENCY_CODE_FIELD, $defaultCurrencyCode );
+        $priceClassAttribute->setAttribute( eZMultiPriceType::EZ_DATATYPESTRING_DEFAULT_CURRENCY_CODE_FIELD, $defaultCurrencyCode );
         $priceClassAttribute->store();
 
         unset( $GLOBALS['eZContentClassAttributeCache'][$priceClassAttributeID] );
@@ -139,7 +139,7 @@ foreach ( $classList as $class )
                                                                 $version,
                                                                 $defaultCurrencyCode,
                                                                 $priceValue,
-                                                                EZ_MULTIPRICEDATA_VALUE_TYPE_CUSTOM );
+                                                                eZMultiPriceData::EZ_MULTIPRICEDATA_VALUE_TYPE_CUSTOM );
                         $multiprice->store();
 
                         $objectAttribute->setAttribute( 'data_type_string', 'ezmultiprice' );
@@ -173,7 +173,7 @@ if ( is_array( $currencyList ) )
 
 $db->commit();
 
-include_once( 'kernel/classes/ezcontentcachemanager.php' );
+//include_once( 'kernel/classes/ezcontentcachemanager.php' );
 eZContentCacheManager::clearAllContentCache();
 
 $cli->output( "Total converted objects: $convertedObjectsCount" );

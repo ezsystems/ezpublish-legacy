@@ -35,24 +35,24 @@
 
 */
 
-include_once( "kernel/classes/ezdatatype.php" );
-include_once( "kernel/classes/datatypes/ezmedia/ezmedia.php" );
-include_once( "lib/ezfile/classes/ezfile.php" );
-include_once( "lib/ezutils/classes/ezmimetype.php" );
-include_once( "lib/ezutils/classes/ezhttpfile.php" );
-include_once( "lib/ezfile/classes/ezdir.php" );
-
-define( "EZ_DATATYPESTRING_MEDIA", "ezmedia" );
-define( 'EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_FIELD', 'data_int1' );
-define( 'EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_VARIABLE', '_ezmedia_max_filesize_' );
-define( "EZ_DATATYPESTRING_TYPE_FIELD", "data_text1" );
-define( "EZ_DATATYPESTRING_TYPE_VARIABLE", "_ezmedia_type_" );
+//include_once( "kernel/classes/ezdatatype.php" );
+//include_once( "kernel/classes/datatypes/ezmedia/ezmedia.php" );
+//include_once( "lib/ezfile/classes/ezfile.php" );
+//include_once( "lib/ezutils/classes/ezmimetype.php" );
+//include_once( "lib/ezutils/classes/ezhttpfile.php" );
+//include_once( "lib/ezfile/classes/ezdir.php" );
 
 class eZMediaType extends eZDataType
 {
+    const EZ_DATATYPESTRING_MEDIA = "ezmedia";
+    const EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_FIELD = 'data_int1';
+    const EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_VARIABLE = '_ezmedia_max_filesize_';
+    const EZ_DATATYPESTRING_TYPE_FIELD = "data_text1";
+    const EZ_DATATYPESTRING_TYPE_VARIABLE = "_ezmedia_type_";
+
     function eZMediaType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_MEDIA, ezi18n( 'kernel/classes/datatypes', "Media", 'Datatype name' ),
+        $this->eZDataType( self::EZ_DATATYPESTRING_MEDIA, ezi18n( 'kernel/classes/datatypes', "Media", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -158,7 +158,7 @@ class eZMediaType extends eZDataType
     {
         $classAttribute = $contentObjectAttribute->contentClassAttribute();
         $httpFileName = $base . "_data_mediafilename_" . $contentObjectAttribute->attribute( "id" );
-        $maxSize = 1024 * 1024 * $classAttribute->attribute( EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_FIELD );
+        $maxSize = 1024 * 1024 * $classAttribute->attribute( self::EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_FIELD );
         $mustUpload = false;
 
         if ( $contentObjectAttribute->validateIsRequired() )
@@ -173,25 +173,25 @@ class eZMediaType extends eZDataType
         }
 
         $canFetchResult = eZHTTPFile::canFetch( $httpFileName, $maxSize );
-        if ( $mustUpload && $canFetchResult == EZ_UPLOADEDFILE_DOES_NOT_EXIST )
+        if ( $mustUpload && $canFetchResult == eZHTTPFile::UPLOADEDFILE_DOES_NOT_EXIST )
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                 'A valid media file is required.' ) );
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INVALID;
         }
-        if ( $canFetchResult == EZ_UPLOADEDFILE_EXCEEDS_PHP_LIMIT )
+        if ( $canFetchResult == eZHTTPFile::UPLOADEDFILE_EXCEEDS_PHP_LIMIT )
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                 'The size of the uploaded file exceeds the limit set by upload_max_filesize directive in php.ini. Please contact the site administrator.') );
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INVALID;
         }
-        if ( $canFetchResult == EZ_UPLOADEDFILE_EXCEEDS_MAX_SIZE )
+        if ( $canFetchResult == eZHTTPFile::UPLOADEDFILE_EXCEEDS_MAX_SIZE )
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                 'The size of the uploaded file exceeds site maximum: %1 bytes.' ), $maxSize );
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INVALID;
         }
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
@@ -205,7 +205,7 @@ class eZMediaType extends eZDataType
             if ( empty( $GLOBALS['eZMediaTypeWarningAdded'] ) )
             {
                 eZAppendWarningItem( array( 'error' => array( 'type' => 'kernel',
-                                                              'number' => EZ_ERROR_KERNEL_NOT_AVAILABLE ),
+                                                              'number' => eZError::KERNEL_NOT_AVAILABLE ),
                                             'text' => ezi18n( 'kernel/classes/datatypes',
                                                               'File uploading is not enabled. Please contact the site administrator to enable it.' ) ) );
                 $GLOBALS['eZMediaTypeWarningAdded'] = true;
@@ -564,7 +564,7 @@ class eZMediaType extends eZDataType
     */
     function validateClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
@@ -579,17 +579,17 @@ class eZMediaType extends eZDataType
     */
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $filesizeName = $base . EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_VARIABLE . $classAttribute->attribute( 'id' );
-        $typeName = $base . EZ_DATATYPESTRING_TYPE_VARIABLE . $classAttribute->attribute( 'id' );
+        $filesizeName = $base . self::EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_VARIABLE . $classAttribute->attribute( 'id' );
+        $typeName = $base . self::EZ_DATATYPESTRING_TYPE_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $filesizeName ) )
         {
             $filesizeValue = $http->postVariable( $filesizeName );
-            $classAttribute->setAttribute( EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_FIELD, $filesizeValue );
+            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_FIELD, $filesizeValue );
         }
         if ( $http->hasPostVariable( $typeName ) )
         {
             $typeValue = $http->postVariable( $typeName );
-            $classAttribute->setAttribute( EZ_DATATYPESTRING_TYPE_FIELD, $typeValue );
+            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_TYPE_FIELD, $typeValue );
         }
     }
 
@@ -673,8 +673,8 @@ class eZMediaType extends eZDataType
     */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $maxSize = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_FIELD );
-        $type = $classAttribute->attribute( EZ_DATATYPESTRING_TYPE_FIELD );
+        $maxSize = $classAttribute->attribute( self::EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_FIELD );
+        $type = $classAttribute->attribute( self::EZ_DATATYPESTRING_TYPE_FIELD );
 
         $dom = $attributeParametersNode->ownerDocument;
 
@@ -695,8 +695,8 @@ class eZMediaType extends eZDataType
         $maxSize = $sizeNode->textContent;
         $unitSize = $sizeNode->getAttribute( 'unit-size' );
         $type = $attributeParametersNode->getElementsByTagName( 'type' )->item( 0 )->textContent;
-        $classAttribute->setAttribute( EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_FIELD, $maxSize );
-        $classAttribute->setAttribute( EZ_DATATYPESTRING_TYPE_FIELD, $type );
+        $classAttribute->setAttribute( self::EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_FIELD, $maxSize );
+        $classAttribute->setAttribute( self::EZ_DATATYPESTRING_TYPE_FIELD, $type );
     }
 
     /*!
@@ -763,7 +763,7 @@ class eZMediaType extends eZDataType
 
         $sourcePath = $package->simpleFilePath( $mediaNode->getAttribute( 'filekey' ) );
 
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        //include_once( 'lib/ezfile/classes/ezdir.php' );
         $ini = eZINI::instance();
         $mimeType = $mediaNode->getAttribute( 'mime-type' );
         list( $mimeTypeCategory, $mimeTypeName ) = explode( '/', $mimeType );
@@ -785,7 +785,7 @@ class eZMediaType extends eZDataType
             $basename = substr( md5( mt_rand() ), 0, 8 ) . '.' . eZFile::suffix( $mediaNode->getAttribute( 'filename' ) );
         }
 
-        include_once( 'lib/ezfile/classes/ezfilehandler.php' );
+        //include_once( 'lib/ezfile/classes/ezfilehandler.php' );
         eZFileHandler::copy( $sourcePath, $destinationPath . $basename );
         eZDebug::writeNotice( 'Copied: ' . $sourcePath . ' to: ' . $destinationPath . $basename,
                               'eZMediaType::unserializeContentObjectAttribute()' );
@@ -814,6 +814,6 @@ class eZMediaType extends eZDataType
     }
 }
 
-eZDataType::register( EZ_DATATYPESTRING_MEDIA, "ezmediatype" );
+eZDataType::register( eZMediaType::EZ_DATATYPESTRING_MEDIA, "eZMediaType" );
 
 ?>

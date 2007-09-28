@@ -36,19 +36,20 @@
   \brief The class eZCollaborationEventType does
 
 */
-define( 'EZ_NOTIFICATIONTYPESTRING_COLLABORATION', 'ezcollaboration' );
 
-include_once( 'kernel/classes/notification/eznotificationeventtype.php' );
-include_once( 'kernel/classes/ezcollaborationitem.php' );
+//include_once( 'kernel/classes/notification/eznotificationeventtype.php' );
+//include_once( 'kernel/classes/ezcollaborationitem.php' );
 
 class eZCollaborationEventType extends eZNotificationEventType
 {
+    const EZ_NOTIFICATIONTYPESTRING_COLLABORATION = 'ezcollaboration';
+
     /*!
      Constructor
     */
     function eZCollaborationEventType()
     {
-        $this->eZNotificationEventType( EZ_NOTIFICATIONTYPESTRING_COLLABORATION );
+        $this->eZNotificationEventType( self::EZ_NOTIFICATIONTYPESTRING_COLLABORATION );
     }
 
     function initializeEvent( $event, $params )
@@ -90,6 +91,6 @@ class eZCollaborationEventType extends eZNotificationEventType
     }
 }
 
-eZNotificationEventType::register( EZ_NOTIFICATIONTYPESTRING_COLLABORATION, 'ezcollaborationeventtype' );
+eZNotificationEventType::register( eZCollaborationEventType::EZ_NOTIFICATIONTYPESTRING_COLLABORATION, 'eZCollaborationEventType' );
 
 ?>

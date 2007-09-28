@@ -36,14 +36,14 @@
   \brief The class eZNotificationEvent does
 
 */
-include_once( 'kernel/classes/notification/eznotificationeventtype.php' );
-include_once( 'kernel/classes/ezpersistentobject.php' );
-
-define( 'EZ_NOTIFICATIONEVENT_STATUS_CREATED', 0 );
-define( 'EZ_NOTIFICATIONEVENT_STATUS_HANDLED', 1 );
+//include_once( 'kernel/classes/notification/eznotificationeventtype.php' );
+//include_once( 'kernel/classes/ezpersistentobject.php' );
 
 class eZNotificationEvent extends eZPersistentObject
 {
+    const EZ_NOTIFICATIONEVENT_STATUS_CREATED = 0;
+    const EZ_NOTIFICATIONEVENT_STATUS_HANDLED = 1;
+
     /*!
      Constructor
     */
@@ -181,7 +181,7 @@ class eZNotificationEvent extends eZPersistentObject
     static function fetchUnhandledList()
     {
         return eZPersistentObject::fetchObjectList( eZNotificationEvent::definition(),
-                                                    null, array( 'status' => EZ_NOTIFICATIONEVENT_STATUS_CREATED ), null,null,
+                                                    null, array( 'status' => self::EZ_NOTIFICATIONEVENT_STATUS_CREATED ), null,null,
                                                     true );
     }
 

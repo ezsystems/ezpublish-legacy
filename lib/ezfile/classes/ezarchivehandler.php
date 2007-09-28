@@ -45,7 +45,7 @@ $handler = eZArchiveHandler::instance( 'tar', 'ezpublish.tar' );
 
 */
 
-include_once( 'lib/ezfile/classes/ezfilehandler.php' );
+//include_once( 'lib/ezfile/classes/ezfilehandler.php' );
 
 class eZArchiveHandler
 {
@@ -245,7 +245,7 @@ class eZArchiveHandler
     */
     static function instance( $identifier, $fileHandlerType = false, $arhiveFilename = false )
     {
-        include_once( 'lib/ezutils/classes/ezini.php' );
+        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance( 'file.ini' );
         $handlers = $ini->variable( 'ArchiveSettings', 'Handlers' );
         $instance = false;

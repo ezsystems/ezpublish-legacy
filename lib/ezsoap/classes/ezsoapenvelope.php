@@ -37,27 +37,26 @@
 
 */
 
-include_once( "lib/ezxml/classes/ezxml.php" );
+//include_once( "lib/ezxml/classes/ezxml.php" );
 
-include_once( "lib/ezsoap/classes/ezsoapheader.php" );
-include_once( "lib/ezsoap/classes/ezsoapbody.php" );
-
-define( "EZ_SOAP_ENV", "http://schemas.xmlsoap.org/soap/envelope/" );
-define( "EZ_SOAP_ENC", "http://schemas.xmlsoap.org/soap/encoding/" );
-define( "EZ_SOAP_SCHEMA_INSTANCE", "http://www.w3.org/2001/XMLSchema-instance" );
-define( "EZ_SOAP_SCHEMA_DATA", "http://www.w3.org/2001/XMLSchema" );
-
-define( "EZ_SOAP_ENV_PREFIX", "SOAP-ENV" );
-define( "EZ_SOAP_ENC_PREFIX", "SOAP-ENC" );
-define( "EZ_SOAP_XSI_PREFIX", "xsi" );
-define( "EZ_SOAP_XSD_PREFIX", "xsd" );
-
-define( "EZ_SOAP_INT", 1 );
-define( "EZ_SOAP_STRING", 2 );
-
+//include_once( "lib/ezsoap/classes/ezsoapheader.php" );
+//include_once( "lib/ezsoap/classes/ezsoapbody.php" );
 
 class eZSOAPEnvelope
 {
+    const EZ_SOAP_ENV = "http://schemas.xmlsoap.org/soap/envelope/";
+    const EZ_SOAP_ENC = "http://schemas.xmlsoap.org/soap/encoding/";
+    const EZ_SOAP_SCHEMA_INSTANCE = "http://www.w3.org/2001/XMLSchema-instance";
+    const EZ_SOAP_SCHEMA_DATA = "http://www.w3.org/2001/XMLSchema";
+
+    const EZ_SOAP_ENV_PREFIX = "SOAP-ENV";
+    const EZ_SOAP_ENC_PREFIX = "SOAP-ENC";
+    const EZ_SOAP_XSI_PREFIX = "xsi";
+    const EZ_SOAP_XSD_PREFIX = "xsd";
+
+    const EZ_SOAP_INT = 1;
+    const EZ_SOAP_STRING = 2;
+
     /*!
       Constructs a new SOAP envelope object.
     */

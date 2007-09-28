@@ -34,8 +34,8 @@
 
 set_time_limit ( 0 );
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "eZ publish crc32 polynomial update script.\n\n" .
@@ -68,8 +68,8 @@ $dbName = $options['db-database'] ? $options['db-database'] : false;
 $dbImpl = $options['db-driver'] ? $options['db-driver'] : false;
 $showSQL = $options['sql'] ? true : false;
 
-include_once( 'lib/ezdb/classes/ezdb.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'lib/ezdb/classes/ezdb.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
 $db = eZDB::instance();
 

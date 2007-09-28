@@ -27,9 +27,9 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "lib/ezutils/classes/ezhttptool.php" );
-include_once( "kernel/common/template.php" );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
+require_once( "kernel/common/template.php" );
 
 $module = $Params['Module'];
 $http   = eZHTTPTool::instance();
@@ -45,9 +45,9 @@ if ( $http->hasSessionVariable( 'AssignmentRemoveData' ) )
 
     $object = eZContentObject::fetch( $objectID );
     if ( !$object )
-        return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
     if ( !$object->checkAccess( 'edit' ) )
-        return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
     unset( $object );
 }
 else
@@ -61,7 +61,7 @@ if ( $module->isCurrentAction( 'ConfirmRemoval' ) )
 {
     $http->removeSessionVariable( 'AssignmentRemoveData' );
 
-    $assignments     = eZnodeAssignment::fetchListByID( $removeList );
+    $assignments     = eZNodeAssignment::fetchListByID( $removeList );
     $mainNodeChanged = false;
 
     $db = eZDB::instance();
@@ -106,7 +106,7 @@ foreach ( $assignmentsToRemove as $assignment )
     // if this differs from the total count it means we have items we cannot remove
     // We do this by fetching the limitation list for content/remove
     // and passing it to the subtre count function.
-    include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+    //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
     $currentUser = eZUser::currentUser();
     $accessResult = $currentUser->hasAccessTo( 'content', 'remove' );
     $canRemoveSubtree = true;

@@ -29,8 +29,8 @@
 
 set_time_limit( 0 );
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
 $endl = $cli->endlineString();
@@ -89,13 +89,13 @@ function changeSiteAccessSetting( &$siteaccess, $optionData )
 
 print( "Starting add email into table ezorder\n" );
 
-//eZDebug::setHandleType( EZ_HANDLE_FROM_PHP );
+//eZDebug::setHandleType( eZDebug::EZ_HANDLE_FROM_PHP );
 
-include_once( "lib/ezutils/classes/ezmodule.php" );
+//include_once( "lib/ezutils/classes/ezmodule.php" );
 // eZModule::setGlobalPathList( array( "kernel" ) );
-include_once( 'lib/ezutils/classes/ezexecution.php' );
-include_once( "lib/ezutils/classes/ezdebug.php" );
-include_once( 'kernel/classes/ezorder.php' );
+require_once( 'lib/ezutils/classes/ezexecution.php' );
+require_once( "lib/ezutils/classes/ezdebug.php" );
+//include_once( 'kernel/classes/ezorder.php' );
 
 $db = eZDB::instance();
 
@@ -124,7 +124,7 @@ $orderCount = count( $orderArray );
 
 print( $endl . $orderCount . " order email will be updated" . $endl );
 // Fetch the shop account handler
-include_once( 'kernel/classes/ezshopaccounthandler.php' );
+//include_once( 'kernel/classes/ezshopaccounthandler.php' );
 $accountHandler = eZShopAccountHandler::instance();
 
 $i = 0;

@@ -37,8 +37,8 @@
 
 */
 
-include_once( 'kernel/classes/ezpersistentobject.php' );
-include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( 'kernel/classes/ezpersistentobject.php' );
+//include_once( "lib/ezdb/classes/ezdb.php" );
 
 class eZCollaborationItemMessageLink extends eZPersistentObject
 {
@@ -127,7 +127,7 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
         }
         if ( $participantID === false )
         {
-            include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+            //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
             $user = eZUser::currentUser();
             $participantID = $user->attribute( 'contentobject_id' );
         }
@@ -208,7 +208,7 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
     {
         if ( isset( $this->CollaborationID ) and $this->CollaborationID )
         {
-            include_once( 'kernel/classes/ezcollaborationitem.php' );
+            //include_once( 'kernel/classes/ezcollaborationitem.php' );
             return eZCollaborationItem::fetch( $this->CollaborationID );
         }
 
@@ -224,7 +224,7 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
     {
         if ( isset( $this->MessageID ) and $this->MessageID )
         {
-            include_once( 'kernel/classes/ezcollaborationsimplemessage.php' );
+            //include_once( 'kernel/classes/ezcollaborationsimplemessage.php' );
             return eZCollaborationSimpleMessage::fetch( $this->MessageID );
         }
 

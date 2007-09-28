@@ -38,7 +38,7 @@
   The most common way of using it is.
   \code
   // include the file
-  include_once( "classes/ezinifile.php" );
+  //include_once( "classes/ezinifile.php" );
 
   $ini = eZINI::instance( "site.ini" );
 
@@ -67,18 +67,18 @@
 */
 
 include_once 'lib/ezutils/classes/ezdebug.php';
-include_once( 'lib/ezfile/classes/ezdir.php' );
+//include_once( 'lib/ezfile/classes/ezdir.php' );
 
 /*!
  Has the date of the current cache code implementation as a timestamp,
  if this changes(increases) the cache files will need to be recreated.
 */
-// define( "EZ_INI_CACHE_CODE_DATE", 1043407541 );
-define( "EZ_INI_CACHE_CODE_DATE", 1043407542 );
-define( "EZ_INI_DEBUG_INTERNALS", false );
 
 class eZINI
 {
+    const CACHE_CODE_DATE = 1043407542;
+    const DEBUG_INTERNALS = false;
+
     /*!
       Initialization of object;
     */
@@ -168,7 +168,7 @@ class eZINI
     static function isDebugEnabled()
     {
         if ( !isset( $GLOBALS['eZINIDebugInternalsEnabled'] ) )
-             $GLOBALS['eZINIDebugInternalsEnabled'] = EZ_INI_DEBUG_INTERNALS;
+             $GLOBALS['eZINIDebugInternalsEnabled'] = eZINI::DEBUG_INTERNALS;
         return $GLOBALS['eZINIDebugInternalsEnabled'];
     }
 
@@ -378,7 +378,7 @@ class eZINI
         }
         if ( $this->UseTextCodec )
         {
-            include_once( "lib/ezi18n/classes/eztextcodec.php" );
+            //include_once( "lib/ezi18n/classes/eztextcodec.php" );
             $md5_input .= '-' . eZTextCodec::internalCharset();
         }
         if ( $placement )
@@ -433,7 +433,7 @@ class eZINI
             include( $cachedFile );
             if ( !isset( $val ) or
                  !isset( $eZIniCacheCodeDate ) or
-                 $eZIniCacheCodeDate != EZ_INI_CACHE_CODE_DATE )
+                 $eZIniCacheCodeDate != eZINI::CACHE_CODE_DATE )
             {
                 if ( eZINI::isDebugEnabled() )
                     eZDebug::writeNotice( "Old structure in cache file used, recreating '$cachedFile' to new structure", "eZINI" );
@@ -467,7 +467,7 @@ class eZINI
             if ( $cacheSaved )
             {
                 // Write log message to storage.log
-                include_once( 'lib/ezfile/classes/ezlog.php' );
+                //include_once( 'lib/ezfile/classes/ezlog.php' );
                 eZLog::writeStorageLog( $fileName, $cachedDir );
             }
         }
@@ -483,7 +483,7 @@ class eZINI
     {
         if ( !file_exists( $cachedDir ) )
         {
-            include_once( 'lib/ezfile/classes/ezdir.php' );
+            //include_once( 'lib/ezfile/classes/ezdir.php' );
             if ( !eZDir::mkdir( $cachedDir, 0777, true ) )
             {
                 eZDebug::writeError( "Couldn't create cache directory $cachedDir, perhaps wrong permissions", "eZINI" );
@@ -498,7 +498,7 @@ class eZINI
             eZDebug::writeError( "Couldn't create cache file '$cachedFile', perhaps wrong permissions", "eZINI" );
             return false;
         }
-        fwrite( $fp, "<?php\n\$eZIniCacheCodeDate = " . EZ_INI_CACHE_CODE_DATE . ";\n" );
+        fwrite( $fp, "<?php\n\$eZIniCacheCodeDate = " . eZINI::CACHE_CODE_DATE . ";\n" );
 
         if ( $this->Codec )
             fwrite( $fp, "\$charset = \"".$this->Codec->RequestedOutputCharsetCode."\";\n" );
@@ -508,7 +508,7 @@ class eZINI
         fwrite( $fp, "\$val = " . preg_replace( "@\n[\s]+@", '', var_export( $data, true ) ) . ";" );
         fwrite( $fp, "\n?>" );
         fclose( $fp );
-        include_once( 'lib/ezfile/classes/ezfile.php' );
+        //include_once( 'lib/ezfile/classes/ezfile.php' );
         eZFile::rename( $tmpCacheFile, $cachedFile );
 
         if ( eZINI::isDebugEnabled() )
@@ -548,7 +548,7 @@ class eZINI
         if ( eZINI::isDebugEnabled() )
             eZDebug::writeNotice( "Parsing file '$file'", 'eZINI' );
 
-        include_once( "lib/ezfile/classes/ezfile.php" );
+        //include_once( "lib/ezfile/classes/ezfile.php" );
         $contents = eZFile::getContents( $file );
         if ( $contents === false )
         {
@@ -586,7 +586,7 @@ class eZINI
         unset( $this->Codec );
         if ( $this->UseTextCodec )
         {
-            include_once( "lib/ezi18n/classes/eztextcodec.php" );
+            //include_once( "lib/ezi18n/classes/eztextcodec.php" );
             $this->Codec = eZTextCodec::instance( $this->Charset, false, false );
 
             if ( $this->Codec )
@@ -711,7 +711,7 @@ class eZINI
     function save( $fileName = false, $suffix = false, $useOverride = false,
                    $onlyModified = false, $useRootDir = true, $resetArrays = false )
     {
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        //include_once( 'lib/ezfile/classes/ezdir.php' );
         $lineSeparator = eZSys::lineSeparator();
         $pathArray = array();
         $dirArray = array();
@@ -760,7 +760,7 @@ class eZINI
         if ( !file_exists( $dirPath ) )
             eZDir::mkdir( $dirPath, octdec( '777' ), true );
 
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        //include_once( 'lib/ezfile/classes/ezdir.php' );
         $filePath = eZDir::path( array_merge( $pathArray, array( $fileName ) ) );
         $originalFilePath = eZDir::path( array_merge( $pathArray, array( $originalFileName ) ) );
         $backupFilePath = eZDir::path( array_merge( $pathArray, array( $backupFileName ) ) );

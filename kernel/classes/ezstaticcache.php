@@ -49,8 +49,8 @@
 
 */
 
-include_once( 'lib/ezutils/classes/ezini.php' );
-include_once( 'kernel/classes/ezurlaliasml.php' );
+//include_once( 'lib/ezutils/classes/ezini.php' );
+//include_once( 'kernel/classes/ezurlaliasml.php' );
 
 class eZStaticCache
 {
@@ -423,7 +423,7 @@ class eZStaticCache
         {
             fwrite( $fp, $content . '<!-- Generated: '. date( 'Y-m-d H:i:s' ). " -->\n\n" );
             fclose( $fp );
-            include_once( 'lib/ezfile/classes/ezfile.php' );
+            //include_once( 'lib/ezfile/classes/ezfile.php' );
             eZFile::rename( $tmpFileName, $file );
         }
 
@@ -481,7 +481,7 @@ class eZStaticCache
 
         if ( $clearByCronjob )
         {
-            include_once( "lib/ezdb/classes/ezdb.php" );
+            //include_once( "lib/ezdb/classes/ezdb.php" );
             $db = eZDB::instance();
         }
 

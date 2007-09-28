@@ -37,15 +37,15 @@
 
 */
 
-include_once( 'lib/ezutils/classes/ezsys.php' );
-include_once( "lib/ezfile/classes/ezdir.php" );
-
-// The timestamp for the cache format, will expire
-// cache which differs from this.
-define( 'EZ_CONTENT_CACHE_CODE_DATE', 1064816011 );
+//include_once( 'lib/ezutils/classes/ezsys.php' );
+//include_once( "lib/ezfile/classes/ezdir.php" );
 
 class eZContentCache
 {
+    // The timestamp for the cache format, will expire
+    // cache which differs from this.
+    const EZ_CONTENT_CACHE_CODE_DATE = 1064816011;
+
     static function cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout, $cacheTTL = false,
                             $parameters = array() )
     {
@@ -94,7 +94,7 @@ class eZContentCache
         if ( $cacheFile->exists() )
         {
             $timestamp = $cacheFile->mtime();
-            include_once( 'kernel/classes/ezcontentobject.php' );
+            //include_once( 'kernel/classes/ezcontentobject.php' );
             if ( eZContentObject::isCacheExpired( $timestamp ) )
             {
                 eZDebugSetting::writeDebug( 'kernel-content-view-cache', 'cache expired #1' );
@@ -133,7 +133,7 @@ class eZContentCache
         if ( $cacheFile->exists() )
         {
             $timestamp = $cacheFile->mtime();
-            include_once( 'kernel/classes/ezcontentobject.php' );
+            //include_once( 'kernel/classes/ezcontentobject.php' );
             if ( eZContentObject::isCacheExpired( $timestamp ) )
             {
                 eZDebugSetting::writeDebug( 'kernel-content-view-cache', 'cache expired #2' );
@@ -178,7 +178,7 @@ class eZContentCache
 
         // Check for template language timestamp
         $cacheCodeDate = $cachedArray['cache_code_date'];
-        if ( $cacheCodeDate != EZ_CONTENT_CACHE_CODE_DATE )
+        if ( $cacheCodeDate != self::EZ_CONTENT_CACHE_CODE_DATE )
             return false;
 
         $viewMode = $cachedArray['content_info']['viewmode'];
@@ -202,7 +202,7 @@ class eZContentCache
         }
 
         // set section id
-        include_once( 'kernel/classes/ezsection.php' );
+        //include_once( 'kernel/classes/ezsection.php' );
         eZSection::setGlobalID( $cachedArray['section_id'] );
         return $result;
     }
@@ -258,14 +258,14 @@ class eZContentCache
 
         $serializeArray['cache_ttl'] = $cacheTTL;
 
-        $serializeArray['cache_code_date'] = EZ_CONTENT_CACHE_CODE_DATE;
+        $serializeArray['cache_code_date'] = self::EZ_CONTENT_CACHE_CODE_DATE;
         $serializeArray['content'] = $result['content'];
 
         $serializeString = serialize( $serializeArray );
 
         if ( !file_exists( $cacheDir ) )
         {
-            include_once( 'lib/ezfile/classes/ezdir.php' );
+            //include_once( 'lib/ezfile/classes/ezdir.php' );
             $ini = eZINI::instance();
             $perm = octdec( $ini->variable( 'FileSettings', 'StorageDirPermissions' ) );
             eZDir::mkdir( $cacheDir, $perm, true );

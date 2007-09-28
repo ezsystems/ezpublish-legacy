@@ -31,15 +31,15 @@
 /*! \file ezexchangeratesupdatehandler.php
 */
 
-define( 'EZ_EXCHANGE_RATES_HANDLER_OK', 0 );
-define( 'EZ_EXCHANGE_RATES_HANDLER_CANT_CREATE_HANDLER', 1 );
-define( 'EZ_EXCHANGE_RATES_HANDLER_REQUEST_RATES_FAILED', 2 );
-define( 'EZ_EXCHANGE_RATES_HANDLER_EMPTY_RATE_LIST', 3 );
-define( 'EZ_EXCHANGE_RATES_HANDLER_UNKNOWN_BASE_CURRENCY', 4 );
-define( 'EZ_EXCHANGE_RATES_HANDLER_INVALID_BASE_CROSS_RATE', 5 );
-
 class eZExchangeRatesUpdateHandler
 {
+    const EZ_EXCHANGE_RATES_HANDLER_OK = 0;
+    const EZ_EXCHANGE_RATES_HANDLER_CANT_CREATE_HANDLER = 1;
+    const EZ_EXCHANGE_RATES_HANDLER_REQUEST_RATES_FAILED = 2;
+    const EZ_EXCHANGE_RATES_HANDLER_EMPTY_RATE_LIST = 3;
+    const EZ_EXCHANGE_RATES_HANDLER_UNKNOWN_BASE_CURRENCY = 4;
+    const EZ_EXCHANGE_RATES_HANDLER_INVALID_BASE_CROSS_RATE = 5;
+
     function eZExchangeRatesUpdateHandler()
     {
         $this->RateList = false;
@@ -61,7 +61,7 @@ class eZExchangeRatesUpdateHandler
     */
     static function create( $handlerName = false )
     {
-        include_once( 'lib/ezutils/classes/ezini.php' );
+        //include_once( 'lib/ezutils/classes/ezini.php' );
 
         $shopINI = eZINI::instance( 'shop.ini' );
         if ( $handlerName === false)
@@ -137,7 +137,7 @@ class eZExchangeRatesUpdateHandler
 
     function requestRates()
     {
-        $error = array( 'code' => EZ_EXCHANGE_RATES_HANDLER_REQUEST_RATES_FAILED,
+        $error = array( 'code' => self::EZ_EXCHANGE_RATES_HANDLER_REQUEST_RATES_FAILED,
                         'description' => ezi18n( 'kernel/shop', "eZExchangeRatesUpdateHandler: you should reimplement 'requestRates' method" ) );
 
         return $error;

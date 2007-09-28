@@ -41,7 +41,7 @@
 NOTE: This is not done yet.
 */
 
-include_once( 'lib/ezfile/classes/ezcompressionhandler.php' );
+//include_once( 'lib/ezfile/classes/ezcompressionhandler.php' );
 
 class eZGZIPShellCompressionHandler extends eZCompressionHandler
 {

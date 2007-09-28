@@ -37,7 +37,7 @@
 
 */
 
-include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
 
 class eZNotificationCollectionItem extends eZPersistentObject
 {

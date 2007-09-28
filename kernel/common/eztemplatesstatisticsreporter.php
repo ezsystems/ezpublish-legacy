@@ -37,9 +37,9 @@
 
 */
 
-include_once( 'kernel/common/eztemplatedesignresource.php' );
-include_once( 'lib/eztemplate/classes/eztemplate.php' );
-include_once( 'lib/ezutils/classes/ezsys.php' );
+//include_once( 'kernel/common/eztemplatedesignresource.php' );
+//include_once( 'lib/eztemplate/classes/eztemplate.php' );
+//include_once( 'lib/ezutils/classes/ezsys.php' );
 
 class eZTemplatesStatisticsReporter
 {

@@ -44,9 +44,9 @@
         This was required to get the new multi-language features to work.
 */
 
-include_once( 'lib/ezdb/classes/ezdb.php' );
-include_once( 'lib/ezfile/classes/ezfilehandler.php' );
-include_once( "kernel/classes/datatypes/ezimage/ezimagefile.php" );
+//include_once( 'lib/ezdb/classes/ezdb.php' );
+//include_once( 'lib/ezfile/classes/ezfilehandler.php' );
+//include_once( "kernel/classes/datatypes/ezimage/ezimagefile.php" );
 
 class eZImageAliasHandler
 {
@@ -84,7 +84,7 @@ class eZImageAliasHandler
     */
     function attributes()
     {
-        include_once( 'kernel/common/image.php' );
+        require_once( 'kernel/common/image.php' );
         $imageManager = imageInit();
         $aliasList = $imageManager->aliasList();
         return array_merge( array( 'alternative_text',
@@ -104,7 +104,7 @@ class eZImageAliasHandler
                               'original_filename',
                               'is_valid' ) ) )
             return true;
-        include_once( 'kernel/common/image.php' );
+        require_once( 'kernel/common/image.php' );
         $imageManager = imageInit();
         if ( $imageManager->hasAlias( $attributeName ) )
             return true;
@@ -343,7 +343,7 @@ class eZImageAliasHandler
         $useVersion = false;
         if ( $isImageOwner === null )
             $isImageOwner = $this->isImageOwner();
-        if ( $contentVersion->attribute( 'status' ) == EZ_VERSION_STATUS_PUBLISHED or
+        if ( $contentVersion->attribute( 'status' ) == eZContentObjectVersion::STATUS_PUBLISHED or
              !$isImageOwner )
         {
             $contentObject = $contentVersion->attribute( 'contentobject' );
@@ -411,7 +411,7 @@ class eZImageAliasHandler
     */
     function imageAlias( $aliasName )
     {
-        include_once( 'kernel/common/image.php' );
+        require_once( 'kernel/common/image.php' );
         $imageManager = imageInit();
         if ( !$imageManager->hasAlias( $aliasName ) )
         {
@@ -657,7 +657,7 @@ class eZImageAliasHandler
                         $aliasEntry['filesize'] = $aliasFile->size();
                 }
 
-                include_once( 'kernel/common/image.php' );
+                require_once( 'kernel/common/image.php' );
                 $imageManager = imageInit();
                 if ( $imageManager->isImageAliasValid( $aliasEntry ) )
                 {
@@ -813,7 +813,7 @@ class eZImageAliasHandler
         {
             eZDir::mkdir( $dirpath, eZDir::directoryPermission(), true );
         }
-        include_once( 'lib/ezutils/classes/ezmimetype.php' );
+        //include_once( 'lib/ezutils/classes/ezmimetype.php' );
         $aliasList = $this->aliasList();
         $this->resetImageSerialNumber();
 
@@ -889,7 +889,7 @@ class eZImageAliasHandler
         $originalNode = $doc->createElement( "original" );
         $imageNode->appendChild( $originalNode );
 
-        include_once( 'kernel/common/image.php' );
+        require_once( 'kernel/common/image.php' );
         $imageManager = imageInit();
 
         $aliasName = 'original';
@@ -923,7 +923,7 @@ class eZImageAliasHandler
             $fetchedFilePath = $imageFile->fetchUnique();
 
             //(Cluster) Get mime data of real file, and fetch info by image analizer.
-            include_once( 'lib/ezutils/classes/ezmimetype.php' );
+            //include_once( 'lib/ezutils/classes/ezmimetype.php' );
             $mimeDataTemp = eZMimeType::findByFileContents( $fetchedFilePath );
             $imageManager->analyzeImage( $mimeDataTemp );
 
@@ -1048,7 +1048,7 @@ class eZImageAliasHandler
     function normalizeImageName( $imageName )
     {
         // Initialize transformation system
-        include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+        //include_once( 'lib/ezi18n/classes/ezchartransform.php' );
         $trans = eZCharTransform::instance();
 
         $imageName = eZURLAliasML::convertToAlias( $imageName );
@@ -1092,7 +1092,7 @@ class eZImageAliasHandler
     {
         $this->increaseImageSerialNumber();
 
-        include_once( 'lib/ezutils/classes/ezmimetype.php' );
+        //include_once( 'lib/ezutils/classes/ezmimetype.php' );
         $mimeData = eZMimeType::findByFileContents( $httpFile->attribute( 'filename' ) );
         if ( !$mimeData['is_valid'] )
         {
@@ -1139,7 +1139,7 @@ class eZImageAliasHandler
 
         if ( !$originalFilename )
             $originalFilename = basename( $filename );
-        include_once( 'lib/ezutils/classes/ezmimetype.php' );
+        //include_once( 'lib/ezutils/classes/ezmimetype.php' );
         $mimeData = eZMimeType::findByFileContents( $filename );
         if ( !$mimeData['is_valid'] and
              $originalFilename != $filename )
@@ -1178,7 +1178,7 @@ class eZImageAliasHandler
     */
     function initialize( $mimeData, $originalFilename, $imageAltText = false )
     {
-        include_once( 'kernel/common/image.php' );
+        require_once( 'kernel/common/image.php' );
         $imageManager = imageInit();
 
         $this->setOriginalAttributeDataValues( $this->ContentObjectAttributeData['id'],
@@ -1602,7 +1602,7 @@ class eZImageAliasHandler
         // VS-DBFILE
         // VS: I feel we don't need clustering support for the old image system.
 
-        include_once( "lib/ezdb/classes/ezdb.php" );
+        //include_once( "lib/ezdb/classes/ezdb.php" );
 
         $db = eZDB::instance();
 
@@ -1633,7 +1633,7 @@ class eZImageAliasHandler
         $height = false;
         $altText = false;
 
-        include_once( 'lib/ezutils/classes/ezmimetype.php' );
+        //include_once( 'lib/ezutils/classes/ezmimetype.php' );
         if ( count( $imageRow ) == 1 )
         {
             require_once( 'kernel/classes/ezclusterfilehandler.php' );
@@ -1713,7 +1713,7 @@ class eZImageAliasHandler
                 {
                     if ( !file_exists( $newDirPath ) )
                     {
-                        include_once( 'lib/ezfile/classes/ezdir.php' );
+                        //include_once( 'lib/ezfile/classes/ezdir.php' );
                         eZDir::mkdir( $newDirPath, eZDir::directoryPermission(), true );
                     }
                     eZFileHandler::copy( $filePath, $newFilePath );
@@ -1732,7 +1732,7 @@ class eZImageAliasHandler
                 }
             }
         }
-        include_once( 'kernel/common/image.php' );
+        require_once( 'kernel/common/image.php' );
         $imageManager = imageInit();
 
         $mimeData = eZMimeType::findByFileContents( $fileName );

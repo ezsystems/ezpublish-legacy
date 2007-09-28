@@ -35,7 +35,7 @@
 
   \code
 
-  include_once( "kernel/classes/datatypes/ezoption/ezoption.php" );
+  //include_once( "kernel/classes/datatypes/ezoption/ezoption.php" );
 
   $option = new eZOption( "Colour" );
   $option->addValue( "Red" );

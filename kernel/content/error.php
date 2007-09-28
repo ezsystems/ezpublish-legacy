@@ -25,7 +25,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/common/template.php" );
+require_once( "kernel/common/template.php" );
 
 $NodeID = $Params['NodeID'];
 $Module = $Params['Module'];

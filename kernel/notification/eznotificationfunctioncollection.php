@@ -48,7 +48,7 @@ class eZNotificationFunctionCollection
 
     function handlerList()
     {
-        include_once( 'kernel/classes/notification/eznotificationeventfilter.php' );
+        //include_once( 'kernel/classes/notification/eznotificationeventfilter.php' );
         $availableHandlers = eZNotificationEventFilter::availableHandlers();
         return array( 'result' => $availableHandlers );
     }
@@ -73,7 +73,7 @@ class eZNotificationFunctionCollection
 
     function subscribedNodesCount()
     {
-        include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreehandler.php' );
+        //include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreehandler.php' );
 
         $count = eZSubTreeHandler::rulesCount();
         return array( 'result' => $count );
@@ -81,7 +81,7 @@ class eZNotificationFunctionCollection
 
     function subscribedNodes( $offset = false, $limit = false )
     {
-        include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreehandler.php' );
+        //include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreehandler.php' );
 
         $nodes = eZSubTreeHandler::rules( false, $offset, $limit );
         return array( 'result' => $nodes );

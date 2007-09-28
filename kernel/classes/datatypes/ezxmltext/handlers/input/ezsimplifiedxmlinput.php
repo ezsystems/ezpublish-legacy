@@ -29,10 +29,10 @@
 
 //
 
-include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php' );
-include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( 'lib/ezutils/classes/ezini.php' );
+//include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php' );
+//include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( 'lib/ezutils/classes/ezini.php' );
 
 class eZSimplifiedXMLInput extends eZXMLInputHandler
 {
@@ -86,7 +86,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             $isInputValid = 'isInputValid_' . $contentObjectAttributeID;
             $GLOBALS[$isInputValid] = true;
 
-            include_once( 'kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmlinputparser.php' );
+            //include_once( 'kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmlinputparser.php' );
 
             $text = $data;
 
@@ -98,7 +98,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
             eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $text, 'eZSimplifiedXMLInput::validateInput text' );
 
-            $parser = new eZSimplifiedXMLInputParser( $contentObjectID, true, EZ_XMLINPUTPARSER_SHOW_ALL_ERRORS, true );
+            $parser = new eZSimplifiedXMLInputParser( $contentObjectID, true, eZXMLInputParser::EZ_XMLINPUTPARSER_SHOW_ALL_ERRORS, true );
             $document = $parser->process( $text );
 
             if ( !is_object( $document ) )
@@ -106,7 +106,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $GLOBALS[$isInputValid] = false;
                 $errorMessage = implode( ' ', $parser->getMessages() );
                 $contentObjectAttribute->setValidationError( $errorMessage );
-                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                return eZInputValidator::STATE_INVALID;
             }
 
             $classAttribute = $contentObjectAttribute->contentClassAttribute();
@@ -117,7 +117,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'Content required' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    return eZInputValidator::STATE_INVALID;
                 }
             }
             $contentObjectAttribute->setValidationLog( $parser->getMessages() );
@@ -132,13 +132,13 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             }
 
             $contentObject = $contentObjectAttribute->attribute( 'object' );
-            $contentObject->appendInputRelationList( $parser->getRelatedObjectIDArray(), EZ_CONTENT_OBJECT_RELATION_EMBED );
-            $contentObject->appendInputRelationList( $parser->getLinkedObjectIDArray(), EZ_CONTENT_OBJECT_RELATION_LINK );
+            $contentObject->appendInputRelationList( $parser->getRelatedObjectIDArray(), eZContentObject::RELATION_EMBED );
+            $contentObject->appendInputRelationList( $parser->getLinkedObjectIDArray(), eZContentObject::RELATION_LINK );
 
             $contentObjectAttribute->setAttribute( 'data_text', $xmlString );
-            return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            return eZInputValidator::STATE_ACCEPTED;
         }
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
@@ -162,7 +162,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             $dom = new DOMDocument();
             $success = $dom->loadXML( $this->XMLData );
 
-            include_once( 'kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmleditoutput.php' );
+            //include_once( 'kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmleditoutput.php' );
 
             $editOutput = new eZSimplifiedXMLEditOutput();
             $dom->formatOutput = true;

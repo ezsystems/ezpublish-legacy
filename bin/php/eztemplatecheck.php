@@ -27,8 +27,8 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "eZ publish Template Syntax Checker\n" .
@@ -53,7 +53,7 @@ if ( count( $options['arguments'] ) > 0 )
 {
     $ini = eZINI::instance();
 
-    include_once( 'kernel/common/template.php' );
+    require_once( 'kernel/common/template.php' );
     $tpl = templateInit();
 
     $fileList = array();
@@ -113,7 +113,7 @@ else
 
     $designList = array_merge( array( $standardDesign ), $additionalSiteDesignList, array( $siteDesign ) );
 
-    include_once( 'kernel/common/template.php' );
+    require_once( 'kernel/common/template.php' );
     $tpl = templateInit();
 
     $script->setIterationData( '.', '~' );

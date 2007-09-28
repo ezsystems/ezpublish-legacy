@@ -44,7 +44,7 @@
   byte4le, BASE64, 7bit, 8bit and UTF7-IMAP.
 */
 
-include_once( "lib/ezi18n/classes/ezcharsetinfo.php" );
+//include_once( "lib/ezi18n/classes/ezcharsetinfo.php" );
 
 class eZMBStringMapper
 {

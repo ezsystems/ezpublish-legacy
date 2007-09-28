@@ -37,8 +37,8 @@
 
 */
 
-include_once( "kernel/classes/ezpersistentobject.php" );
-include_once( "kernel/classes/ezdiscountrule.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezdiscountrule.php" );
 
 class eZUserDiscountRule extends eZPersistentObject
 {
@@ -72,9 +72,9 @@ class eZUserDiscountRule extends eZPersistentObject
                                                                       'multiplicity' => '1..*' ) ),
                       "keys" => array( "id" ),
                       "increment_key" => "id",
-                      "relations" => array( "discountrule_id" => array( "class" => "ezdiscountrule",
+                      "relations" => array( "discountrule_id" => array( "class" => "eZDiscountRule",
                                                                          "field" => "id" ),
-                                            "contentobject_id" => array( "class" => "ezcontentobject",
+                                            "contentobject_id" => array( "class" => "eZContentObject",
                                                                          "field" => "id" ) ),
                       "class_name" => "eZUserDiscountRule",
                       "name" => "ezuser_discountrule" );
@@ -82,7 +82,7 @@ class eZUserDiscountRule extends eZPersistentObject
 
     function store( $fieldFilters = null )
     {
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'user-discountrules-cache', time() );
         $handler->store();
@@ -112,7 +112,7 @@ class eZUserDiscountRule extends eZPersistentObject
     {
         $http = eZHTTPTool::instance();
 
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler = eZExpiryHandler::instance();
         $expiredTimeStamp = 0;
         if ( $handler->hasTimestamp( 'user-discountrules-cache' ) )

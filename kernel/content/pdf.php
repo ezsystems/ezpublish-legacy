@@ -26,14 +26,14 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/ezcontentclass.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'kernel/classes/eztrigger.php' );
-include_once( 'kernel/common/eztemplatedesignresource.php' );
-include_once( 'kernel/classes/ezcontentcache.php' );
-include_once( 'kernel/common/template.php' );
-include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'kernel/classes/ezcontentclass.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/eztrigger.php' );
+//include_once( 'kernel/common/eztemplatedesignresource.php' );
+//include_once( 'kernel/classes/ezcontentcache.php' );
+require_once( 'kernel/common/template.php' );
+//include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
 
 $NodeID = $Params['NodeID'];
 $Module = $Params['Module'];
@@ -112,7 +112,7 @@ $viewParameters = array_merge( $viewParameters, $UserParameters );
 if ( $viewCacheEnabled && ( $useTriggers == false ) )
 {
     // Note: this code is duplicate, see about 100 lines down
-    include_once( 'kernel/classes/ezcontentcache.php' );
+    //include_once( 'kernel/classes/ezcontentcache.php' );
     $cacheInfo = eZContentObject::cacheInfo( $Params );
     $language = $cacheInfo['language'];
     $roleList = $cacheInfo['role_list'];
@@ -128,7 +128,7 @@ if ( $viewCacheEnabled && ( $useTriggers == false ) )
     }
 }
 
-include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+//include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
 $user = eZUser::currentUser();
 
 eZDebugSetting::addTimingPoint( 'kernel-content-pdf', 'Operation start' );
@@ -143,7 +143,7 @@ eZDebugSetting::writeDebug( 'kernel-content-pdf', $NodeID, 'Fetching node' );
 
 switch( $operationResult['status'] )
 {
-    case EZ_MODULE_OPERATION_CONTINUE:
+    case eZModuleOperationInfo::STATUS_CONTINUE:
     {
         if ( ( $operationResult != null ) &&
              ( !isset( $operationResult['result'] ) ) &&
@@ -152,7 +152,7 @@ switch( $operationResult['status'] )
             if ( $viewCacheEnabled )
             {
                 // Note: this code is duplicate, see about 100 lines up
-                include_once( 'kernel/classes/ezcontentcache.php' );
+                //include_once( 'kernel/classes/ezcontentcache.php' );
                 $cacheInfo = eZContentObject::cacheInfo( $Params );
                 $language = $cacheInfo['language'];
                 $roleList = $cacheInfo['role_list'];
@@ -173,28 +173,28 @@ switch( $operationResult['status'] )
             }
             else
             {
-                return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+                return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
             }
 
             if ( !strtolower( get_class( $object ) ) == 'ezcontentobject' )
-                return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+                return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
             $node = $operationResult[ 'node' ];
 
             if ( $node === null )
-                return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+                return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
             if ( $object === null )
-                return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+                return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
             if ( !$object->attribute( 'can_read' ) )
-                return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+                return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
             if ( !$node->attribute( 'can_pdf' ) )
-                return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+                return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
             if ( $node->attribute( 'is_invisible' ) && !eZContentObjectTreeNode::showInvisibleNodes() )
-                return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+                return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
 
             $cachePathInfo = eZContentCache::cachePathInfo( $designSetting, $NodeID, 'pdf', $language, $Offset, $roleList, $discountList, $layout, false,
@@ -211,7 +211,7 @@ switch( $operationResult['status'] )
             contentPDFPassthrough( $cachePathInfo['path'] );
         }
     }break;
-    case EZ_MODULE_OPERATION_HALTED:
+    case eZModuleOperationInfo::STATUS_HALTED:
     {
         if (  isset( $operationResult['redirect_url'] ) )
         {
@@ -234,7 +234,7 @@ switch( $operationResult['status'] )
             $Result['content'] = $resultContent;
         }
     }break;
-    case EZ_MODULE_OPERATION_CANCELED:
+    case eZModuleOperationInfo::STATUS_CANCELLED:
     {
         $Result = array();
         $Result['content'] = 'Content PDF view cancelled<br/>';
@@ -273,7 +273,7 @@ function contentPDFPassthrough( $cacheFile )
     @fpassthru( $fp );
     fclose( $fp );
 
-    include_once( 'lib/ezutils/classes/ezexecution.php' );
+    require_once( 'lib/ezutils/classes/ezexecution.php' );
     eZExecution::cleanExit();
 }
 

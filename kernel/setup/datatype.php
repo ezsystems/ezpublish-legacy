@@ -28,9 +28,9 @@
 
 $module = $Params['Module'];
 
-include_once( "kernel/common/template.php" );
-include_once( "kernel/common/eztemplatedesignresource.php" );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/common/eztemplatedesignresource.php" );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
 $ini = eZINI::instance();
 $tpl = templateInit();
@@ -226,7 +226,7 @@ function datatypeDownload( $tpl, &$persistentData, $stepData )
     $contentLength = strlen( $content );
     $mimeType = 'application/octet-stream';
 
-    include_once( 'lib/version.php' );
+    //include_once( 'lib/version.php' );
     $version = eZPublishSDK::version();
 
     header( "Pragma: " );

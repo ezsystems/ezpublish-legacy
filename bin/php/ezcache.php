@@ -27,8 +27,8 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "eZ publish Cache Handler\n" .
@@ -84,7 +84,7 @@ if ( $options['purge'] )
 }
 $noAction = true;
 
-include_once( 'kernel/classes/ezcache.php' );
+//include_once( 'kernel/classes/ezcache.php' );
 
 $cacheList = eZCache::fetchList();
 

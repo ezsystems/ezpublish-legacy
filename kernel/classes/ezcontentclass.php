@@ -36,20 +36,20 @@
   \sa eZContentObject
 */
 
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "kernel/classes/ezpersistentobject.php" );
-include_once( "kernel/classes/ezcontentobject.php" );
-include_once( "kernel/classes/ezcontentclassattribute.php" );
-include_once( "kernel/classes/ezcontentclassclassgroup.php" );
-include_once( "kernel/classes/ezcontentclassnamelist.php" );
-include_once( "kernel/common/i18n.php" );
-
-define( "EZ_CLASS_VERSION_STATUS_DEFINED", 0 );
-define( "EZ_CLASS_VERSION_STATUS_TEMPORARY", 1 );
-define( "EZ_CLASS_VERSION_STATUS_MODIFED", 2 );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezcontentobject.php" );
+//include_once( "kernel/classes/ezcontentclassattribute.php" );
+//include_once( "kernel/classes/ezcontentclassclassgroup.php" );
+//include_once( "kernel/classes/ezcontentclassnamelist.php" );
+require_once( "kernel/common/i18n.php" );
 
 class eZContentClass extends eZPersistentObject
 {
+    const VERSION_STATUS_DEFINED = 0;
+    const VERSION_STATUS_TEMPORARY = 1;
+    const VERSION_STATUS_MODIFIED = 2;
+
     function eZContentClass( $row )
     {
         if ( is_array( $row ) )
@@ -256,7 +256,7 @@ class eZContentClass extends eZPersistentObject
         return $contentClass;
     }
 
-    function instantiateIn( $lang, $userID = false, $sectionID = 0, $versionNumber = false, $versionStatus = EZ_VERSION_STATUS_INTERNAL_DRAFT )
+    function instantiateIn( $lang, $userID = false, $sectionID = 0, $versionNumber = false, $versionStatus = eZContentObjectVersion::STATUS_INTERNAL_DRAFT )
     {
         return eZContentClass::instantiate( $userID, $sectionID, $versionNumber, $lang, $versionStatus );
     }
@@ -270,7 +270,7 @@ class eZContentClass extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function instantiate( $userID = false, $sectionID = 0, $versionNumber = false, $languageCode = false, $versionStatus = EZ_VERSION_STATUS_INTERNAL_DRAFT )
+    function instantiate( $userID = false, $sectionID = 0, $versionNumber = false, $languageCode = false, $versionStatus = eZContentObjectVersion::STATUS_INTERNAL_DRAFT )
     {
         $attributes = $this->fetchAttributes();
 
@@ -325,7 +325,7 @@ class eZContentClass extends eZPersistentObject
 
         if ( $user->isAnonymous() )
         {
-            include_once( 'kernel/classes/ezpreferences.php' );
+            //include_once( 'kernel/classes/ezpreferences.php' );
             $createdObjectIDList = eZPreferences::value( 'ObjectCreationIDList' );
             if ( !$createdObjectIDList )
             {
@@ -352,7 +352,7 @@ class eZContentClass extends eZPersistentObject
         {
             $http = eZHTTPTool::instance();
 
-            include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+            //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
             $handler = eZExpiryHandler::instance();
             $expiredTimeStamp = 0;
             if ( $handler->hasTimestamp( 'user-class-cache' ) )
@@ -426,7 +426,7 @@ class eZContentClass extends eZPersistentObject
         if ( $enableCaching )
         {
             $http = eZHTTPTool::instance();
-            include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+            //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
             $handler = eZExpiryHandler::instance();
             $expiredTimeStamp = 0;
             if ( $handler->hasTimestamp( 'user-class-cache' ) )
@@ -555,9 +555,9 @@ class eZContentClass extends eZPersistentObject
             $fields = $asObject ? "cc.*, $classNameFilter[nameField]" : "cc.id, $classNameFilter[nameField]";
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
                                      "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from]\n" .
-                                     "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . " $filterSQL\n" .
+                                     "WHERE cc.version = " . eZContentClass::VERSION_STATUS_DEFINED . " $filterSQL\n" .
                                      "ORDER BY $classNameFilter[nameField] ASC" );
-            $classList = eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
+            $classList = eZPersistentObject::handleRows( $rows, 'eZContentClass', $asObject );
         }
         else
         {
@@ -576,9 +576,9 @@ class eZContentClass extends eZPersistentObject
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
                                      "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from]\n" .
                                      "WHERE cc.id IN ( $classString  ) AND\n" .
-                                     "      cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . " $filterSQL\n" .
+                                     "      cc.version = " . eZContentClass::VERSION_STATUS_DEFINED . " $filterSQL\n" .
                                      "ORDER BY $classNameFilter[nameField] ASC" );
-            $classList = eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
+            $classList = eZPersistentObject::handleRows( $rows, 'eZContentClass', $asObject );
         }
 
         if ( $asObject )
@@ -627,7 +627,7 @@ class eZContentClass extends eZPersistentObject
     {
         if ( isset( $this->CreatorID ) and $this->CreatorID )
         {
-            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+            //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
             return eZUser::fetch( $this->CreatorID );
         }
         return null;
@@ -642,7 +642,7 @@ class eZContentClass extends eZPersistentObject
     {
         if ( isset( $this->ModifierID ) and $this->ModifierID )
         {
-            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+            //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
             return eZUser::fetch( $this->ModifierID );
         }
         return null;
@@ -694,7 +694,7 @@ class eZContentClass extends eZPersistentObject
     */
     function fetchMatchGroupIDList()
     {
-        include_once( 'lib/ezutils/classes/ezini.php' );
+        //include_once( 'lib/ezutils/classes/ezini.php' );
         $contentINI = eZINI::instance( 'content.ini' );
         if( $contentINI->variable( 'ContentOverrideSettings', 'EnableClassGroupOverride' ) == 'true' )
         {
@@ -735,10 +735,10 @@ class eZContentClass extends eZPersistentObject
         $fields = $asObject ? "cc.*" : "cc.id, $classNameFilter[nameField]";
         $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
                                  "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from]\n" .
-                                 "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL AND $classNameFilter[where]\n" .
+                                 "WHERE cc.version = " . eZContentClass::VERSION_STATUS_DEFINED . "$filterSQL AND $classNameFilter[where]\n" .
                                  "ORDER BY $classNameFilter[nameField] ASC" );
 
-        $classList = eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
+        $classList = eZPersistentObject::handleRows( $rows, 'eZContentClass', $asObject );
         return $classList;
     }
 
@@ -771,7 +771,7 @@ class eZContentClass extends eZPersistentObject
     */
     static function removeTemporary()
     {
-        $version = EZ_CLASS_VERSION_STATUS_TEMPORARY;
+        $version = eZContentClass::VERSION_STATUS_TEMPORARY;
         $temporaryClasses = eZContentClass::fetchList( $version, true );
         $db = eZDB::instance();
         $db->begin();
@@ -792,7 +792,7 @@ class eZContentClass extends eZPersistentObject
     {
         $remoteID = eZPersistentObject::attribute( 'remote_id', true );
         if ( !$remoteID &&
-             $this->Version == EZ_CLASS_VERSION_STATUS_DEFINED )
+             $this->Version == eZContentClass::VERSION_STATUS_DEFINED )
         {
             $this->setAttribute( 'remote_id', md5( (string)mt_rand() . (string)time() ) );
             $this->sync( array( 'remote_id' ) );
@@ -806,10 +806,10 @@ class eZContentClass extends eZPersistentObject
      \note If you want to remove a class with all data associated with it (objects/classMembers)
            you should use eZContentClassOperations::remove()
     */
-    function remove( $removeAttributes = false, $version = EZ_CLASS_VERSION_STATUS_DEFINED )
+    function remove( $removeAttributes = false, $version = eZContentClass::VERSION_STATUS_DEFINED )
     {
         // If we are not allowed to remove just return false
-        if ( $this->Version != EZ_CLASS_VERSION_STATUS_TEMPORARY && !$this->isRemovable() )
+        if ( $this->Version != eZContentClass::VERSION_STATUS_TEMPORARY && !$this->isRemovable() )
             return false;
 
         if ( is_array( $removeAttributes ) or $removeAttributes )
@@ -968,7 +968,7 @@ You will need to change the class of the node by using the swap functionality.' 
            }
         }
 
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'user-class-cache', time() );
         $handler->store();
@@ -1015,7 +1015,7 @@ You will need to change the class of the node by using the swap functionality.' 
         $this->setName( $name );
         $this->setAttribute( 'identifier', $identifier );
         $this->setAttribute( 'created', time() );
-        include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+        //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
         $user = eZUser::currentUser();
         $userID = $user->attribute( "contentobject_id" );
         $this->setAttribute( 'creator_id', $userID );
@@ -1031,11 +1031,11 @@ You will need to change the class of the node by using the swap functionality.' 
         $db = eZDB::instance();
         $db->begin();
 
-        $this->removeAttributes( false, EZ_CLASS_VERSION_STATUS_DEFINED );
-        $this->removeAttributes( false, EZ_CLASS_VERSION_STATUS_TEMPORARY );
+        $this->removeAttributes( false, eZContentClass::VERSION_STATUS_DEFINED );
+        $this->removeAttributes( false, eZContentClass::VERSION_STATUS_TEMPORARY );
         $this->remove( false );
-        $this->setVersion( EZ_CLASS_VERSION_STATUS_DEFINED, $attributes );
-        include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+        $this->setVersion( eZContentClass::VERSION_STATUS_DEFINED, $attributes );
+        // include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
         $user = eZUser::currentUser();
         $user_id = $user->attribute( "contentobject_id" );
         $this->setAttribute( "modifier_id", $user_id );
@@ -1058,21 +1058,21 @@ You will need to change the class of the node by using the swap functionality.' 
         }
 
         // Recreate class member entries
-        eZContentClassClassGroup::removeClassMembers( $this->ID, EZ_CLASS_VERSION_STATUS_DEFINED );
-        $classgroups = eZContentClassClassGroup::fetchGroupList( $this->ID, EZ_CLASS_VERSION_STATUS_TEMPORARY );
+        eZContentClassClassGroup::removeClassMembers( $this->ID, eZContentClass::VERSION_STATUS_DEFINED );
+        $classgroups = eZContentClassClassGroup::fetchGroupList( $this->ID, eZContentClass::VERSION_STATUS_TEMPORARY );
         foreach( $classgroups as $classgroup )
         {
-            $classgroup->setAttribute( 'contentclass_version', EZ_CLASS_VERSION_STATUS_DEFINED );
+            $classgroup->setAttribute( 'contentclass_version', eZContentClass::VERSION_STATUS_DEFINED );
             $classgroup->store();
         }
-        eZContentClassClassGroup::removeClassMembers( $this->ID, EZ_CLASS_VERSION_STATUS_TEMPORARY );
+        eZContentClassClassGroup::removeClassMembers( $this->ID, eZContentClass::VERSION_STATUS_TEMPORARY );
 
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'user-class-cache', time() );
         $handler->store();
 
-        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearAllContentCache();
 
         $this->setAttribute( 'serialized_name_list', $this->NameList->serializeNames() );
@@ -1106,7 +1106,7 @@ You will need to change the class of the node by using the swap functionality.' 
         $this->setAttribute( "version", $version );
     }
 
-    static function exists( $id, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $userID = false, $useIdentifier = false )
+    static function exists( $id, $version = eZContentClass::VERSION_STATUS_DEFINED, $userID = false, $useIdentifier = false )
     {
         $conds = array( "version" => $version );
         if ( $useIdentifier )
@@ -1116,7 +1116,7 @@ You will need to change the class of the node by using the swap functionality.' 
         if ( $userID !== false and is_numeric( $userID ) )
             $conds["creator_id"] = $userID;
         $version_sort = "desc";
-        if ( $version == EZ_CLASS_VERSION_STATUS_DEFINED )
+        if ( $version == eZContentClass::VERSION_STATUS_DEFINED )
             $conds['version'] = $version;
         $rows = eZPersistentObject::fetchObjectList( eZContentClass::definition(),
                                                       null,
@@ -1130,13 +1130,13 @@ You will need to change the class of the node by using the swap functionality.' 
         return false;
     }
 
-    static function fetch( $id, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
+    static function fetch( $id, $asObject = true, $version = eZContentClass::VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
     {
         global $eZContentClassObjectCache;
 
         // If the object given by its id is not cached or should be returned as array
         // then we fetch it from the DB (objects are always cached as arrays).
-        if ( !isset( $eZContentClassObjectCache[$id] ) or $asObject === false or $version != EZ_CLASS_VERSION_STATUS_DEFINED )
+        if ( !isset( $eZContentClassObjectCache[$id] ) or $asObject === false or $version != eZContentClass::VERSION_STATUS_DEFINED )
         {
             $conds = array( "id" => $id,
                         "version" => $version );
@@ -1145,7 +1145,7 @@ You will need to change the class of the node by using the swap functionality.' 
                 $conds["creator_id"] = $user_id;
 
             $version_sort = "desc";
-            if ( $version == EZ_CLASS_VERSION_STATUS_DEFINED )
+            if ( $version == eZContentClass::VERSION_STATUS_DEFINED )
                 $version_sort = "asc";
             $rows = eZPersistentObject::fetchObjectList( eZContentClass::definition(),
                                                       null,
@@ -1167,7 +1167,7 @@ You will need to change the class of the node by using the swap functionality.' 
             if ( $asObject )
             {
                 $contentClass = new eZContentClass( $row );
-                if ( $version == EZ_CLASS_VERSION_STATUS_DEFINED )
+                if ( $version == eZContentClass::VERSION_STATUS_DEFINED )
                 {
                     $eZContentClassObjectCache[$id] = $contentClass;
                 }
@@ -1184,14 +1184,14 @@ You will need to change the class of the node by using the swap functionality.' 
         return $contentClass;
     }
 
-    static function fetchByRemoteID( $remoteID, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
+    static function fetchByRemoteID( $remoteID, $asObject = true, $version = eZContentClass::VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
     {
         $conds = array( "remote_id" => $remoteID,
                         "version" => $version );
         if ( $user_id !== false and is_numeric( $user_id ) )
             $conds["creator_id"] = $user_id;
         $version_sort = "desc";
-        if ( $version == EZ_CLASS_VERSION_STATUS_DEFINED )
+        if ( $version == eZContentClass::VERSION_STATUS_DEFINED )
             $version_sort = "asc";
         $rows = eZPersistentObject::fetchObjectList( eZContentClass::definition(),
                                                       null,
@@ -1217,14 +1217,14 @@ You will need to change the class of the node by using the swap functionality.' 
         return $row;
     }
 
-    static function fetchByIdentifier( $identifier, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
+    static function fetchByIdentifier( $identifier, $asObject = true, $version = eZContentClass::VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
     {
         $conds = array( "identifier" => $identifier,
                         "version" => $version );
         if ( $user_id !== false and is_numeric( $user_id ) )
             $conds["creator_id"] = $user_id;
         $version_sort = "desc";
-        if ( $version == EZ_CLASS_VERSION_STATUS_DEFINED )
+        if ( $version == eZContentClass::VERSION_STATUS_DEFINED )
             $version_sort = "asc";
         $rows = eZPersistentObject::fetchObjectList( eZContentClass::definition(),
                                                       null,
@@ -1252,7 +1252,7 @@ You will need to change the class of the node by using the swap functionality.' 
     /*!
      \static
     */
-    static function fetchList( $version = EZ_CLASS_VERSION_STATUS_DEFINED, $asObject = true, $user_id = false,
+    static function fetchList( $version = eZContentClass::VERSION_STATUS_DEFINED, $asObject = true, $user_id = false,
                          $sorts = null, $fields = null, $classFilter = false, $limit = null )
     {
         $conds = array();
@@ -1334,7 +1334,7 @@ You will need to change the class of the node by using the swap functionality.' 
         return $this->DataMap[$this->Version];
     }
 
-    function fetchAttributes( $id = false, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED )
+    function fetchAttributes( $id = false, $asObject = true, $version = eZContentClass::VERSION_STATUS_DEFINED )
     {
         if ( $id === false )
         {
@@ -1366,7 +1366,7 @@ You will need to change the class of the node by using the swap functionality.' 
         return null;
     }
 
-    function fetchSearchableAttributes( $id = false, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED )
+    function fetchSearchableAttributes( $id = false, $asObject = true, $version = eZContentClass::VERSION_STATUS_DEFINED )
     {
         if ( $id === false )
         {
@@ -1394,13 +1394,13 @@ You will need to change the class of the node by using the swap functionality.' 
 
         if ( $this->VersionCount == 1 )
         {
-            if ( $this->Version == EZ_CLASS_VERSION_STATUS_TEMPORARY )
+            if ( $this->Version == eZContentClass::VERSION_STATUS_TEMPORARY )
             {
-                return EZ_CLASS_VERSION_STATUS_TEMPORARY;
+                return eZContentClass::VERSION_STATUS_TEMPORARY;
             }
-            return EZ_CLASS_VERSION_STATUS_DEFINED;
+            return eZContentClass::VERSION_STATUS_DEFINED;
         }
-        return EZ_CLASS_VERSION_STATUS_MODIFED;
+        return eZContentClass::VERSION_STATUS_MODIFIED;
     }
 
     /*!
@@ -1532,7 +1532,7 @@ You will need to change the class of the node by using the swap functionality.' 
         $db = eZDB::instance();
 
         $countRow = $db->arrayQuery( 'SELECT count(*) AS count FROM ezcontentobject '.
-                                     'WHERE contentclass_id='.$this->ID ." and status = " . EZ_CONTENT_OBJECT_STATUS_PUBLISHED );
+                                     'WHERE contentclass_id='.$this->ID ." and status = " . eZContentObject::STATUS_PUBLISHED );
 
         return $countRow[0]['count'];
     }

@@ -37,24 +37,24 @@
 
 */
 
-define( 'EZ_COLLABORATION_NOTIFICATION_HANDLER_ID', 'ezcollaboration' );
-define( 'EZ_COLLABORATION_NOTIFICATION_HANDLER_TRANSPORT', 'ezmail' );
-
-include_once( 'kernel/classes/notification/eznotificationeventhandler.php' );
-include_once( 'kernel/classes/ezcollaborationitemhandler.php' );
-include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-include_once( 'kernel/classes/notification/eznotificationcollection.php' );
-include_once( 'kernel/classes/notification/eznotificationschedule.php' );
-include_once( 'kernel/classes/notification/handler/ezcollaborationnotification/ezcollaborationnotificationrule.php' );
+//include_once( 'kernel/classes/notification/eznotificationeventhandler.php' );
+//include_once( 'kernel/classes/ezcollaborationitemhandler.php' );
+//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+//include_once( 'kernel/classes/notification/eznotificationcollection.php' );
+//include_once( 'kernel/classes/notification/eznotificationschedule.php' );
+//include_once( 'kernel/classes/notification/handler/ezcollaborationnotification/ezcollaborationnotificationrule.php' );
 
 class eZCollaborationNotificationHandler extends eZNotificationEventHandler
 {
+    const EZ_COLLABORATION_NOTIFICATION_HANDLER_ID = 'ezcollaboration';
+    const EZ_COLLABORATION_NOTIFICATION_HANDLER_TRANSPORT = 'ezmail';
+
     /*!
      Constructor
     */
     function eZCollaborationNotificationHandler()
     {
-        $this->eZNotificationEventHandler( EZ_COLLABORATION_NOTIFICATION_HANDLER_ID, "Collaboration Handler" );
+        $this->eZNotificationEventHandler( self::EZ_COLLABORATION_NOTIFICATION_HANDLER_ID, "Collaboration Handler" );
     }
 
     function attributes()
@@ -111,7 +111,7 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
         {
             $parameters = array();
             $status = $this->handleCollaborationEvent( $event, $parameters );
-            if ( $status == EZ_NOTIFICATIONEVENTHANDLER_EVENT_HANDLED )
+            if ( $status == eZNotificationEventHandler::EZ_NOTIFICATIONEVENTHANDLER_EVENT_HANDLED )
                 $this->sendMessage( $event, $parameters );
             else
                 return false;
@@ -123,16 +123,16 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
     {
         $collaborationItem = $event->attribute( 'content' );
         if ( !$collaborationItem )
-            return EZ_NOTIFICATIONEVENTHANDLER_EVENT_SKIPPED;
+            return eZNotificationEventHandler::EZ_NOTIFICATIONEVENTHANDLER_EVENT_SKIPPED;
         $collaborationHandler = $collaborationItem->attribute( 'handler' );
         return $collaborationHandler->handleCollaborationEvent( $event, $collaborationItem, $parameters );
     }
 
     function sendMessage( $event, $parameters )
     {
-        $collections = eZNotificationCollection::fetchListForHandler( EZ_COLLABORATION_NOTIFICATION_HANDLER_ID,
+        $collections = eZNotificationCollection::fetchListForHandler( self::EZ_COLLABORATION_NOTIFICATION_HANDLER_ID,
                                                                       $event->attribute( 'id' ),
-                                                                      EZ_COLLABORATION_NOTIFICATION_HANDLER_TRANSPORT );
+                                                                      self::EZ_COLLABORATION_NOTIFICATION_HANDLER_TRANSPORT );
         foreach ( $collections as $collection )
         {
             $items = $collection->attribute( 'items_to_send' );
@@ -172,8 +172,8 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
         {
             $oldSelection = $this->collaborationSelections();
             $selection = array();
-            if ( $http->hasPostVariable( 'CollaborationHandlerSelection_' . EZ_COLLABORATION_NOTIFICATION_HANDLER_ID  ) )
-                $selection = $http->postVariable( 'CollaborationHandlerSelection_' . EZ_COLLABORATION_NOTIFICATION_HANDLER_ID );
+            if ( $http->hasPostVariable( 'CollaborationHandlerSelection_' . self::EZ_COLLABORATION_NOTIFICATION_HANDLER_ID  ) )
+                $selection = $http->postVariable( 'CollaborationHandlerSelection_' . self::EZ_COLLABORATION_NOTIFICATION_HANDLER_ID );
             $createRules = array_diff( $selection, $oldSelection );
             $removeRules = array_diff( $oldSelection, $selection );
             if ( count( $removeRules ) > 0 )

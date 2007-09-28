@@ -53,9 +53,9 @@ function fputcsv4( $fh, $arr )
         return $num;
 }
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "eZ publish CSV export script\n\n" .

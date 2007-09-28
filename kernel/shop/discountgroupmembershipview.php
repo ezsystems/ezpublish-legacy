@@ -28,14 +28,14 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/common/template.php" );
-include_once( "kernel/classes/ezcontentobject.php" );
-include_once( "kernel/classes/ezdiscountrule.php" );
-include_once( "kernel/classes/ezuserdiscountrule.php" );
-include_once( "kernel/classes/ezdiscountsubrule.php" );
-include_once( "kernel/classes/ezdiscountsubrulevalue.php" );
-include_once( "kernel/classes/ezcontentbrowse.php" );
-include_once( "lib/ezutils/classes/ezhttppersistence.php" );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/classes/ezcontentobject.php" );
+//include_once( "kernel/classes/ezdiscountrule.php" );
+//include_once( "kernel/classes/ezuserdiscountrule.php" );
+//include_once( "kernel/classes/ezdiscountsubrule.php" );
+//include_once( "kernel/classes/ezdiscountsubrulevalue.php" );
+//include_once( "kernel/classes/ezcontentbrowse.php" );
+//include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 
 $module = $Params['Module'];
 $discountGroupID = null;
@@ -45,7 +45,7 @@ if ( isset( $Params["DiscountGroupID"] ) )
 $discountGroup = eZDiscountRule::fetch( $discountGroupID );
 if( is_null( $discountGroup ) )
 {
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
 
@@ -69,7 +69,7 @@ if ( $http->hasPostVariable( "RemoveRuleButton" ) )
     $db->commit();
 
     // we changed prices => remove content cache
-    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearAllContentCache();
 
     $module->redirectTo( $module->functionURI( "discountgroupview" ) . "/" . $discountGroupID );
@@ -106,7 +106,7 @@ if ( $module->isCurrentAction( 'AddCustomer' ) )
     $db->commit();
 
     // because we changed users, we have to remove content cache
-    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearAllContentCache();
 }
 if ( $http->hasPostVariable( "RemoveCustomerButton" ) )
@@ -124,7 +124,7 @@ if ( $http->hasPostVariable( "RemoveCustomerButton" ) )
         $db->commit();
     }
 
-    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearAllContentCache();
 }
 

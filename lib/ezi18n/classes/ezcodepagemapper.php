@@ -37,13 +37,13 @@
 
 */
 
-include_once( "lib/ezutils/classes/ezdebug.php" );
-include_once( "lib/ezi18n/classes/ezcodepage.php" );
-
-define( "EZ_CODEPAGE_MAPPER_CACHE_CODE_DATE", 1026316422 );
+require_once( "lib/ezutils/classes/ezdebug.php" );
+//include_once( "lib/ezi18n/classes/ezcodepage.php" );
 
 class eZCodePageMapper
 {
+    const EZ_CODEPAGE_MAPPER_CACHE_CODE_DATE = 1026316422;
+
     /*!
      Constructor
     */
@@ -187,10 +187,10 @@ class eZCodePageMapper
                 unset( $eZCodePageMapperCacheCodeDate );
                 $in_out_map =& $this->InputOutputMap;
                 $out_in_map =& $this->OutputInputMap;
-                eZDebug::writeDebug( 'loading cache from: ' . $cache, 'eZCodePageMapper::load' );*/
+                eZDebug::writeDebug( 'loading cache from: ' . $cache, 'eZCodePageMapper::load' );
                 include( $cache );
                 if ( isset( $eZCodePageMapperCacheCodeDate ) or
-                     $eZCodePageMapperCacheCodeDate == EZ_CODEPAGE_MAPPER_CACHE_CODE_DATE )
+                     $eZCodePageMapperCacheCodeDate == self::EZ_CODEPAGE_MAPPER_CACHE_CODE_DATE )
                 {
                     $this->Valid = true;
                     return;

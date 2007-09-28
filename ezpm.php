@@ -28,10 +28,10 @@
 
 //
 
-include_once( "lib/ezutils/classes/ezextension.php" );
-include_once( "lib/ezutils/classes/ezmodule.php" );
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( "lib/ezutils/classes/ezextension.php" );
+//include_once( "lib/ezutils/classes/ezmodule.php" );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'debug-message' => '',
@@ -40,7 +40,7 @@ $script = eZScript::instance( array( 'debug-message' => '',
                                       'use-extensions' => true ) );
 
 $script->startup();
-include_once( 'kernel/common/i18n.php' );
+require_once( 'kernel/common/i18n.php' );
 
 $endl = $cli->endlineString();
 $webOutput = $cli->isWebOutput();
@@ -450,15 +450,15 @@ for ( $i = 1; $i < count( $argv ); ++$i )
                             $useIncludeFiles = true;
                         }
                         if ( $level == 'error' )
-                            $level = EZ_LEVEL_ERROR;
+                            $level = eZDebug::EZ_LEVEL_ERROR;
                         else if ( $level == 'warning' )
-                            $level = EZ_LEVEL_WARNING;
+                            $level = eZDebug::EZ_LEVEL_WARNING;
                         else if ( $level == 'debug' )
-                            $level = EZ_LEVEL_DEBUG;
+                            $level = eZDebug::EZ_LEVEL_DEBUG;
                         else if ( $level == 'notice' )
-                            $level = EZ_LEVEL_NOTICE;
+                            $level = eZDebug::EZ_LEVEL_NOTICE;
                         else if ( $level == 'timing' )
-                            $level = EZ_LEVEL_TIMING;
+                            $level = eZDebug::EZ_LEVEL_TIMING;
                         $allowedDebugLevels[] = $level;
                     }
                 }
@@ -743,7 +743,7 @@ if ( $dbUser !== false or $dbHost !== false or $dbSocket !== false or
     if ( count( $rows ) > 0 )
     {
         $version = $rows[0]['value'];
-        include_once( 'lib/version.php' );
+        //include_once( 'lib/version.php' );
         if ( version_compare( $version, eZPublishSDK::version() ) != 0 )
         {
             $cli->error( "Version '$version' in database '$dbName' is different from the running version " . eZPublishSDK::version() );
@@ -756,7 +756,7 @@ $script->setUser( $userLogin, $userPassword );
 
 $script->initialize();
 
-include_once( 'kernel/classes/ezpackage.php' );
+//include_once( 'kernel/classes/ezpackage.php' );
 
 $alreadyCreated = false;
 
@@ -970,7 +970,7 @@ foreach ( $commandList as $commandItem )
         {
             $package =& eZPackage::import( $archiveName, $commandItem['name'], true, $repositoryID );
 
-            if ( $package == EZ_PACKAGE_STATUS_ALREADY_EXISTS )
+            if ( $package == eZPackage::STATUS_ALREADY_EXISTS )
             {
                 $cli->notice( "Package " . $cli->stylize( 'emphasize', $archiveName ) . " is already imported " );
                 $package = false;
@@ -1024,7 +1024,7 @@ foreach ( $commandList as $commandItem )
                 }
                 else
                 {
-                    include_once( 'lib/ezutils/classes/ezsys.php' );
+                    //include_once( 'lib/ezutils/classes/ezsys.php' );
                     $package->exportToArchive( $exportDirectory . eZSys::fileSeparator() . $package->exportName() );
                     if ( !$isQuiet )
                         $cli->notice( "Package " . $cli->stylize( 'symbol', $package->attribute( 'name' ) ) . " exported to directory " . $cli->stylize( 'dir', $exportDirectory ) );
@@ -1063,7 +1063,7 @@ foreach ( $commandList as $commandItem )
         $package->setAttribute( 'install_type', $commandItem['installtype'] );
         if ( $userObject )
             $package->appendMaintainer( $userObject->attribute( 'name' ), $user->attribute( 'email' ), 'lead' );
-        include_once( 'kernel/classes/ezpackagecreationhandler.php' );
+        //include_once( 'kernel/classes/ezpackagecreationhandler.php' );
         eZPackageCreationHandler::appendLicence( $package );
         if ( $userObject )
             $package->appendChange( $userObject->attribute( 'name' ), $user->attribute( 'email' ), 'Creation of package' );

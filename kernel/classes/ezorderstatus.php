@@ -63,21 +63,21 @@
 
 */
 
-include_once( "kernel/classes/ezpersistentobject.php" );
-
-// Define for statuses that doesn't really exist (DB error)
-define( 'EZ_ORDER_STATUS_UNDEFINED', 0 );
-
-// Some predefined statuses, they will also appear in the database.
-define( 'EZ_ORDER_STATUS_PENDING', 1 );
-define( 'EZ_ORDER_STATUS_PROCESSING', 2 );
-define( 'EZ_ORDER_STATUS_DELIVERED', 3 );
-
-// All custom order statuses have this value or higher
-define( 'EZ_ORDER_STATUS_CUSTOM', 1000 );
+//include_once( "kernel/classes/ezpersistentobject.php" );
 
 class eZOrderStatus extends eZPersistentObject
 {
+    // Define for statuses that doesn't really exist (DB error)
+    const UNDEFINED = 0;
+
+    // Some predefined statuses, they will also appear in the database.
+    const PENDING = 1;
+    const PROCESSING = 2;
+    const DELIVERED = 3;
+
+    // All custom order statuses have this value or higher
+    const CUSTOM = 1000;
+
     /*!
     */
     function eZOrderStatus( $row )
@@ -118,7 +118,7 @@ class eZOrderStatus extends eZPersistentObject
     */
     function isInternal()
     {
-        return $this->StatusID < EZ_ORDER_STATUS_CUSTOM;
+        return $this->StatusID < eZOrderStatus::CUSTOM;
     }
 
     /*!
@@ -323,7 +323,7 @@ class eZOrderStatus extends eZPersistentObject
         {
             $row = array(
                 'id' => null,
-                'status_id' => EZ_ORDER_STATUS_UNDEFINED,
+                'status_id' => eZOrderStatus::UNDEFINED,
                 'is_active' => true,
                 'name' => ezi18n( 'kernel/shop', 'Undefined' ) );
             $GLOBALS['eZOrderStatusUndefined'] = new eZOrderStatus( $row );
@@ -355,9 +355,9 @@ class eZOrderStatus extends eZPersistentObject
 
             // If the max ID is below the custom one we set as the first
             // custom ID, if not we increase it by one.
-            if ( $statusID < EZ_ORDER_STATUS_CUSTOM )
+            if ( $statusID < eZOrderStatus::CUSTOM )
             {
-                $statusID = EZ_ORDER_STATUS_CUSTOM;
+                $statusID = eZOrderStatus::CUSTOM;
             }
             else
             {

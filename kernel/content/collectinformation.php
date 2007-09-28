@@ -26,12 +26,12 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/classes/ezinformationcollection.php' );
-include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( 'lib/ezutils/classes/ezmail.php' );
-include_once( 'lib/ezutils/classes/ezmailtransport.php' );
-include_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezinformationcollection.php' );
+//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( 'lib/ezutils/classes/ezmail.php' );
+//include_once( 'lib/ezutils/classes/ezmailtransport.php' );
+require_once( 'kernel/common/template.php' );
 
 $Module = $Params['Module'];
 $http = eZHTTPTool::instance();
@@ -46,9 +46,9 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
 
     $object = eZContentObject::fetch( $ObjectID );
     if ( !$object )
-        return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
     if ( !$object->attribute( 'can_read' ) )
-        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
     $version = $object->currentVersion();
     $contentObjectAttributes = $version->contentObjectAttributes();
 
@@ -174,9 +174,9 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
         {
             $inputParameters = null;
             $status = $contentObjectAttribute->validateInformation( $http, $attributeDataBaseName, $inputParameters );
-            if ( $status == EZ_INPUT_VALIDATOR_STATE_INTERMEDIATE )
+            if ( $status == eZInputValidator::STATE_INTERMEDIATE )
                 $requireFixup = true;
-            else if ( $status == EZ_INPUT_VALIDATOR_STATE_INVALID )
+            else if ( $status == eZInputValidator::STATE_INVALID )
             {
                 $canCollect = false;
                 $description = $contentObjectAttribute->attribute( 'validation_error' );
@@ -192,7 +192,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
                                                       'description' => $description );
                 }
             }
-            else if ( $status == EZ_INPUT_VALIDATOR_STATE_ACCEPTED )
+            else if ( $status == eZInputValidator::STATE_ACCEPTED )
             {
             }
         }
@@ -365,7 +365,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
                                     'CollectionAttributes' => $collectionAttributes ) );
     }
 
-    return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+    return eZModule::HOOK_STATUS_CANCEL_RUN;
 }
 
 ?>

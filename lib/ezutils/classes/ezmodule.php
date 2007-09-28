@@ -35,20 +35,20 @@
 
 */
 
-include_once( "lib/ezutils/classes/ezdebug.php" );
-
-define( "EZ_MODULE_STATUS_IDLE", 0 );
-define( "EZ_MODULE_STATUS_OK", 1 );
-define( "EZ_MODULE_STATUS_FAILED", 2 );
-define( "EZ_MODULE_STATUS_REDIRECT", 3 );
-define( "EZ_MODULE_STATUS_RERUN", 4 );
-
-define( "EZ_MODULE_HOOK_STATUS_OK", 0 );
-define( "EZ_MODULE_HOOK_STATUS_CANCEL_RUN", 1 );
-define( "EZ_MODULE_HOOK_STATUS_FAILED", 2 );
+require_once( "lib/ezutils/classes/ezdebug.php" );
 
 class eZModule
 {
+    const STATUS_IDLE = 0;
+    const STATUS_OK = 1;
+    const STATUS_FAILED = 2;
+    const STATUS_REDIRECT = 3;
+    const STATUS_RERUN = 4;
+
+    const HOOK_STATUS_OK = 0;
+    const HOOK_STATUS_CANCEL_RUN = 1;
+    const HOOK_STATUS_FAILED = 2;
+
     function eZModule( $path, $file, $moduleName )
     {
         $this->initialize( $path, $file, $moduleName );
@@ -114,7 +114,7 @@ class eZModule
             $this->UIComponentMatch = 'module';
         }
         $this->HookList = array();
-        $this->ExitStatus = EZ_MODULE_STATUS_IDLE;
+        $this->ExitStatus = eZModule::STATUS_IDLE;
         $this->ErrorCode = 0;
         $this->ViewActions = array();
         $this->OriginalParameters = null;
@@ -259,7 +259,7 @@ class eZModule
 
     /*!
      Sets the current error code.
-     \note You need to set the exit status to EZ_MODULE_STATUS_FAILED for the error code to be used.
+     \note You need to set the exit status to eZModule::STATUS_FAILED for the error code to be used.
      \sa setExitStatus, errorCode
     */
     function setErrorCode( $errorCode )
@@ -312,10 +312,10 @@ class eZModule
 
         $result = $module->run( $errorModule['view'], array( $errorType, $errorCode, $parameters, $userParameters ) );
         // The error module may want to redirect to another URL, see error.ini
-        if ( $this->exitStatus() != EZ_MODULE_STATUS_REDIRECT and
-             $this->exitStatus() != EZ_MODULE_STATUS_RERUN )
+        if ( $this->exitStatus() != eZModule::STATUS_REDIRECT and
+             $this->exitStatus() != eZModule::STATUS_RERUN )
         {
-            $this->setExitStatus( EZ_MODULE_STATUS_FAILED );
+            $this->setExitStatus( eZModule::STATUS_FAILED );
             $this->setErrorCode( $errorCode );
         }
         return $result;
@@ -544,7 +544,7 @@ class eZModule
              strlen( $uri ) == 0 )
             $uri = '/';
         $this->RedirectURI = $uri;
-        $this->setExitStatus( EZ_MODULE_STATUS_REDIRECT );
+        $this->setExitStatus( eZModule::STATUS_REDIRECT );
     }
 
     /*!
@@ -675,7 +675,7 @@ class eZModule
             $view = eZModule::currentView();
         if ( isset( $this->ViewActions[$view] ) )
             return $this->ViewActions[$view];
-        include_once( "lib/ezutils/classes/ezhttptool.php" );
+        //include_once( "lib/ezutils/classes/ezhttptool.php" );
         $http = eZHTTPTool::instance();
         if ( isset( $this->Functions[$view]['default_action'] ) )
         {
@@ -753,7 +753,7 @@ class eZModule
         if ( isset( $this->ViewActionParameters[$view][$parameterName] ) )
             return $this->ViewActionParameters[$view][$parameterName];
         $currentAction = $this->currentAction( $view );
-        include_once( "lib/ezutils/classes/ezhttptool.php" );
+        //include_once( "lib/ezutils/classes/ezhttptool.php" );
         $http = eZHTTPTool::instance();
         if ( isset( $this->Functions[$view]['post_action_parameters'][$currentAction] ) )
         {
@@ -795,7 +795,7 @@ class eZModule
         if ( isset( $this->ViewActionParameters[$view][$parameterName] ) )
             return true;
         $currentAction = $this->currentAction( $view );
-        include_once( "lib/ezutils/classes/ezhttptool.php" );
+        //include_once( "lib/ezutils/classes/ezhttptool.php" );
         $http = eZHTTPTool::instance();
         if ( isset( $this->Functions[$view]['post_action_parameters'][$currentAction] ) )
         {
@@ -953,16 +953,16 @@ class eZModule
 
                 switch( $retVal )
                 {
-                    case EZ_MODULE_HOOK_STATUS_OK:
+                    case eZModule::HOOK_STATUS_OK:
                     {
                     } break;
 
-                    case EZ_MODULE_HOOK_STATUS_FAILED:
+                    case eZModule::HOOK_STATUS_FAILED:
                     {
                         eZDebug::writeWarning( 'Hook execution failed in hook: ' . $hookName, 'eZModule::runHooks' );
                     } break;
 
-                    case EZ_MODULE_HOOK_STATUS_CANCEL_RUN:
+                    case eZModule::HOOK_STATUS_CANCEL_RUN:
                     {
                         return $retVal;
                     } break;
@@ -1054,7 +1054,7 @@ class eZModule
         {
             eZDebug::writeError( "Undefined view: " . $this->Module["name"] . "::$functionName ",
                                  "eZModule" );
-            $this->setExitStatus( EZ_MODULE_STATUS_FAILED );
+            $this->setExitStatus( eZModule::STATUS_FAILED );
             $Return = null;
             return $Return;
         }
@@ -1180,8 +1180,8 @@ class eZModule
         $params["FunctionName"] = $functionName;
         $params["Parameters"] = $parameters;
         $params_as_var = isset( $this->Module["variable_params"] ) ? $this->Module["variable_params"] : false;
-        include_once( "lib/ezutils/classes/ezprocess.php" );
-        $this->ExitStatus = EZ_MODULE_STATUS_OK;
+        //include_once( "lib/ezutils/classes/ezprocess.php" );
+        $this->ExitStatus = eZModule::STATUS_OK;
 //        eZDebug::writeNotice( $params, 'module parameters1' );
 
 
@@ -1283,8 +1283,8 @@ class eZModule
     */
     static function activeModuleRepositories( $useExtensions = true )
     {
-        include_once( 'lib/ezutils/classes/ezini.php' );
-        include_once( 'lib/ezutils/classes/ezextension.php' );
+        //include_once( 'lib/ezutils/classes/ezini.php' );
+        //include_once( 'lib/ezutils/classes/ezextension.php' );
         $moduleINI = eZINI::instance( 'module.ini' );
         $moduleRepositories = $moduleINI->variable( 'ModuleSettings', 'ModuleRepositories' );
 

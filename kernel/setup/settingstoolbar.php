@@ -29,9 +29,9 @@
 $http = eZHTTPTool::instance();
 $module = $Params['Module'];
 
-include_once( 'lib/ezutils/classes/ezini.php' );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( 'kernel/classes/ezpreferences.php' );
+//include_once( 'lib/ezutils/classes/ezini.php' );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( 'kernel/classes/ezpreferences.php' );
 
 $allSettingsList = $module->actionParameter( 'AllSettingsList' );
 

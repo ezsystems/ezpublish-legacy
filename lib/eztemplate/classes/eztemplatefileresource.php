@@ -36,9 +36,9 @@
  The name of the resource is "file:".
 */
 
-include_once( "lib/ezi18n/classes/eztextcodec.php" );
-include_once( "lib/eztemplate/classes/eztemplatetreecache.php" );
-include_once( "lib/eztemplate/classes/eztemplatecompiler.php" );
+//include_once( "lib/ezi18n/classes/eztextcodec.php" );
+//include_once( "lib/eztemplate/classes/eztemplatetreecache.php" );
+//include_once( "lib/eztemplate/classes/eztemplatecompiler.php" );
 
 class eZTemplateFileResource
 {
@@ -84,7 +84,7 @@ class eZTemplateFileResource
         $newNodes = array();
         $newNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( $resourceData['resource'],
                                                                          $file, $file,
-                                                                         EZ_RESOURCE_FETCH, false,
+                                                                         eZTemplate::RESOURCE_FETCH, false,
                                                                          $node[4],
                                                                          array(),
                                                                          $namespaceValue );
@@ -217,7 +217,7 @@ class eZTemplateFileResource
         if ( !$tpl->isCachingAllowed() )
             $canCache = false;
         $keyData = 'file:' . $path;
-        if ( $method == EZ_RESOURCE_FETCH )
+        if ( $method == eZTemplate::RESOURCE_FETCH )
         {
             if ( $canCache )
             {
@@ -301,7 +301,7 @@ class eZTemplateFileResource
                 $result = true;
             }
         }
-        else if ( $method == EZ_RESOURCE_QUERY )
+        else if ( $method == eZTemplate::RESOURCE_QUERY )
             $result = true;
         return $result;
     }

@@ -28,8 +28,8 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/setup/steps/ezstep_installer.php');
-include_once( "kernel/common/i18n.php" );
+//include_once( 'kernel/setup/steps/ezstep_installer.php');
+require_once( "kernel/common/i18n.php" );
 
 /*!
   \class eZStepSitePackages ezstep_site_packages.php
@@ -130,7 +130,7 @@ class eZStepSitePackages extends eZStepInstaller
             $requiredPackages[] = strtolower( $requiredPackage );
         }
 
-        include_once( 'kernel/classes/ezpackage.php' );
+        //include_once( 'kernel/classes/ezpackage.php' );
         $packageArray = eZPackage::fetchPackages( array( 'repository_id' => 'addons' ) );
 
         $requiredPackageInfoArray = array();

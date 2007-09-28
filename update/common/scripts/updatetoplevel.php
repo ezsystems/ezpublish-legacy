@@ -54,8 +54,8 @@ function upgradeMenuINI( $menuGroup, $newNodeID )
 
     }
 }
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "eZ publish Top Level Nodes Creator\n\n" .
@@ -76,7 +76,7 @@ $db = eZDB::instance();
 
 $contentINI = eZINI::instance( 'content.ini' );
 
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
 $checkNodes = array( array( 'Content', 'RootNode',       '',       'Standard section', 'ezcontentnavigationpart', false ),
                      array( 'Users',   'UserRootNode',   'users',  'Users',            'ezusernavigationpart',    true  ),
@@ -94,7 +94,7 @@ $class = eZContentClass::fetchByIdentifier( $contentClassIdentifier );
 if ( !is_object( $class ) )
     $script->shutdown( 1, "Failed to load content class for identifier '$contentClassIdentifier'" );
 
-include_once( 'kernel/classes/ezsection.php' );
+//include_once( 'kernel/classes/ezsection.php' );
 $sections = eZSection::fetchList();
 
 $storeContentINI = false;
@@ -214,7 +214,7 @@ foreach ( $checkNodes as $checkNode )
                                                                 'is_main' => 1 ) );
             $nodeAssignment->store();
 
-            include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+            //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
             $operationResult = eZOperationHandler::execute( 'content', 'publish',
                                                             array( 'object_id' => $contentObject->attribute( 'id' ),
                                                                    'version' => $contentObject->attribute( 'current_version' ) ) );

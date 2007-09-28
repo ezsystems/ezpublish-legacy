@@ -62,11 +62,11 @@ ALTER TABLE eznode_assignment ADD COLUMN op_code int NOT NULL DEFAULT 0;
 
 // TODO: check if the sql update script was already run...
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
-include_once( 'kernel/classes/ezcontentlanguage.php' );
-include_once( 'kernel/classes/ezcontentobjectversion.php' );
-include_once( 'lib/ezutils/classes/ezextension.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'kernel/classes/ezcontentlanguage.php' );
+//include_once( 'kernel/classes/ezcontentobjectversion.php' );
+//include_once( 'lib/ezutils/classes/ezextension.php' );
 
 function minBit( $value )
 {

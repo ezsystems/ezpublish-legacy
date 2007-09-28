@@ -155,7 +155,7 @@ class eZTemplateStringOperator
 
                                                                   if ( $hasMBString )
                                                                   {
-                                                                      $encoding = ezTextCodec::internalCharset();
+                                                                      $encoding = eZTextCodec::internalCharset();
                                                                       $firstLetter = mb_strtoupper( mb_substr( $staticValues[0], 0, 1, $encoding ), $encoding );
                                                                       $remainingText = mb_substr( $staticValues[0], 1, mb_strlen( $staticValues[0], $encoding ), $encoding );
                                                                       $result = $firstLetter . $remainingText;
@@ -174,7 +174,7 @@ class eZTemplateStringOperator
 
                                                                   if ( $hasMBString )
                                                                   {
-                                                                      $encoding = ezTextCodec::internalCharset();
+                                                                      $encoding = eZTextCodec::internalCharset();
                                                                       $words = explode( " ", $staticValues[0] );
                                                                       $newString = array();
                                                                       foreach ( $words as $word )
@@ -601,7 +601,7 @@ class eZTemplateStringOperator
 
                 if ( $hasMBString )
                 {
-                    $encoding = ezTextCodec::internalCharset();
+                    $encoding = eZTextCodec::internalCharset();
                     $firstLetter = mb_strtoupper( mb_substr( $operatorValue, 0, 1, $encoding ), $encoding );
                     $remainingText = mb_substr( $operatorValue, 1, mb_strlen( $operatorValue, $encoding ), $encoding );
                     $operatorValue = $firstLetter . $remainingText;
@@ -639,7 +639,7 @@ class eZTemplateStringOperator
 
                 if ( $hasMBString )
                 {
-                    $encoding = ezTextCodec::internalCharset();
+                    $encoding = eZTextCodec::internalCharset();
                     $words = explode( " ", $operatorValue );
                     $newString = array();
                     foreach ( $words as $word )

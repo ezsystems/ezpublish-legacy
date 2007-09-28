@@ -39,15 +39,15 @@
 
 */
 
-define( 'EZ_CURRENCY_CONVERTER_ROUNDING_TYPE_NONE', 1 );
-define( 'EZ_CURRENCY_CONVERTER_ROUNDING_TYPE_ROUND', 2 );
-define( 'EZ_CURRENCY_CONVERTER_ROUNDING_TYPE_CEIL', 3 );
-define( 'EZ_CURRENCY_CONVERTER_ROUNDING_TYPE_FLOOR', 4 );
-
-include_once( 'kernel/shop/classes/ezcurrencydata.php' );
+//include_once( 'kernel/shop/classes/ezcurrencydata.php' );
 
 class eZCurrencyConverter
 {
+    const EZ_CURRENCY_CONVERTER_ROUNDING_TYPE_NONE = 1;
+    const EZ_CURRENCY_CONVERTER_ROUNDING_TYPE_ROUND = 2;
+    const EZ_CURRENCY_CONVERTER_ROUNDING_TYPE_CEIL = 3;
+    const EZ_CURRENCY_CONVERTER_ROUNDING_TYPE_FLOOR = 4;
+
     function eZCurrencyConverter()
     {
         $this->setMathHandler( null );
@@ -111,7 +111,7 @@ class eZCurrencyConverter
     */
     function convertFromLocaleCurrency( $toCurrency, $value, $applyRounding = true )
     {
-        include_once( 'lib/ezlocale/classes/ezlocale.php' );
+        //include_once( 'lib/ezlocale/classes/ezlocale.php' );
         $locale = eZLocale::instance();
         $fromCurrency = $locale->currencyShortName();
         $retValue = $this->convert( $fromCurrency, $toCurrency, $value, $applyRounding );
@@ -149,8 +149,8 @@ class eZCurrencyConverter
     {
         if ( $this->MathHandler === null )
         {
-            include_once( 'lib/ezutils/classes/ezini.php' );
-            include_once( 'lib/ezmath/classes/mathhandlers/ezphpmath.php' );
+            //include_once( 'lib/ezutils/classes/ezini.php' );
+            //include_once( 'lib/ezmath/classes/mathhandlers/ezphpmath.php' );
 
             $ini = eZINI::instance( 'shop.ini' );
 
@@ -184,12 +184,12 @@ class eZCurrencyConverter
     {
         if ( $this->RoundingType === null )
         {
-            include_once( 'lib/ezutils/classes/ezini.php' );
+            //include_once( 'lib/ezutils/classes/ezini.php' );
             $ini = eZINI::instance( 'shop.ini' );
 
             $roundingType = 'EZ_CURRENCY_CONVERTER_ROUNDING_TYPE_' . strtoupper( $ini->variable( 'MathSettings', 'RoundingType' ) );
-            if ( !defined( $roundingType ) )
-                $roundingType = EZ_CURRENCY_CONVERTER_ROUNDING_TYPE_NONE;
+            if ( !defined( "self::{$roundingType}" ) )
+                $roundingType = self::EZ_CURRENCY_CONVERTER_ROUNDING_TYPE_NONE;
 
             $this->setRoundingType( $roundingType );
         }
@@ -206,7 +206,7 @@ class eZCurrencyConverter
     {
         if ( $this->RoundingPrecision === null )
         {
-            include_once( 'lib/ezutils/classes/ezini.php' );
+            //include_once( 'lib/ezutils/classes/ezini.php' );
             $ini = eZINI::instance( 'shop.ini' );
             $this->setRoundingPrecision( $ini->variable( 'MathSettings', 'RoundingPrecision' ) );
         }
@@ -223,7 +223,7 @@ class eZCurrencyConverter
     {
         if ( $this->RoundingTarget === null )
         {
-            include_once( 'lib/ezutils/classes/ezini.php' );
+            //include_once( 'lib/ezutils/classes/ezini.php' );
             $ini = eZINI::instance( 'shop.ini' );
             $this->setRoundingTarget( $ini->variable( 'MathSettings', 'RoundingTarget' ) );
         }

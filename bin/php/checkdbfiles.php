@@ -27,8 +27,8 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "eZ publish DB file verifier\n\n" .
@@ -329,15 +329,15 @@ if ( !$options['no-verify-branches'] )
     $exportPath .= "/dbupdate-check/";
     if ( file_exists( $exportPath ) )
     {
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        //include_once( 'lib/ezfile/classes/ezdir.php' );
         eZDir::recursiveDelete( $exportPath );
     }
-    include_once( 'lib/ezfile/classes/ezdir.php' );
+    //include_once( 'lib/ezfile/classes/ezdir.php' );
     eZDir::mkdir( $exportPath, octdec( "777" ), true );
 }
 
 // Figure out the current branch, we do not want to export it
-include_once( 'lib/version.php' );
+//include_once( 'lib/version.php' );
 $currentBranch = EZ_SDK_VERSION_MAJOR . '.' . EZ_SDK_VERSION_MINOR;
 
 foreach ( $dbTypes as $dbType )
@@ -455,7 +455,7 @@ if ( !$options['no-verify-branches'] )
     // Cleanup any exports
     if ( file_exists( $exportPath ) )
     {
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        //include_once( 'lib/ezfile/classes/ezdir.php' );
         eZDir::recursiveDelete( $exportPath );
     }
 }

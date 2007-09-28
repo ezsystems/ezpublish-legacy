@@ -6,11 +6,11 @@
 ** Last Modified..: 21 December 2001
 ***************************************/
 
-    define('SMTP_STATUS_NOT_CONNECTED', 1, TRUE);
-    define('SMTP_STATUS_CONNECTED', 2, TRUE);
-
     class smtp
     {
+        const STATUS_NOT_CONNECTED = 1;
+        const STATUS_CONNECTED = 2;
+        const CRLF = "\r\n";
 
         public $authenticated;
         public $connection;
@@ -48,12 +48,9 @@
 
         function smtp( $params = array() )
         {
-            if( !defined( 'CRLF' ) )
-                define( 'CRLF', "\r\n", TRUE );
-
             $this->authenticated = FALSE;
             $this->timeout       = 5;
-            $this->status        = SMTP_STATUS_NOT_CONNECTED;
+            $this->status        = smtp::STATUS_NOT_CONNECTED;
             $this->host          = 'localhost';
             $this->port          = 25;
             $this->helo          = 'localhost';
@@ -84,7 +81,7 @@
                 $obj = new smtp( $params );
                 if( $obj->connect() )
                 {
-                    $obj->status = SMTP_STATUS_CONNECTED;
+                    $obj->status = smtp::STATUS_CONNECTED;
                 }
                 return $obj;
             }
@@ -161,8 +158,8 @@
                     return FALSE;
 
                 // Transparency
-                $headers = str_replace( CRLF.'.', CRLF.'..', trim( implode( CRLF, $this->headers ) ) );
-                $body    = str_replace( CRLF.'.', CRLF.'..', $this->body );
+                $headers = str_replace( smtp::CRLF.'.', smtp::CRLF.'..', trim( implode( smtp::CRLF, $this->headers ) ) );
+                $body    = str_replace( smtp::CRLF.'.', smtp::CRLF.'..', $this->body );
                 $body    = $body[0] == '.' ? '.'.$body : $body;
 
                 $this->send_data( $headers );
@@ -220,7 +217,7 @@
             if ( $this->send_cmd( 'QUIT', '221' ) )
             {
                 /* unset the connection flag and return TRUE */
-                $this->status = SMTP_STATUS_NOT_CONNECTED;
+                $this->status = smtp::STATUS_NOT_CONNECTED;
                 return TRUE;
             }
             /* in other case return FALSE */
@@ -298,7 +295,7 @@
 
         function is_connected()
         {
-            return ( is_resource( $this->connection ) AND ( $this->status === SMTP_STATUS_CONNECTED ) );
+            return ( is_resource( $this->connection ) AND ( $this->status === smtp::STATUS_CONNECTED ) );
         }
 
         /***************************************
@@ -309,7 +306,7 @@
         {
             if ( is_resource( $this->connection ) )
             {
-                return fwrite( $this->connection, $data.CRLF, strlen( $data ) + 2 );
+                return fwrite( $this->connection, $data.smtp::CRLF, strlen( $data ) + 2 );
             }
             else
                 return FALSE;
@@ -327,7 +324,7 @@
 
             if ( is_resource( $this->connection ) )
             {
-                while ( ( strpos( $return, CRLF ) === FALSE OR substr( $line, 3, 1 ) !== ' ' ) AND $loops < 100 )
+                while ( ( strpos( $return, smtp::CRLF ) === FALSE OR substr( $line, 3, 1 ) !== ' ' ) AND $loops < 100 )
                 {
                     $line    = fgets( $this->connection, 512 );
                     $return .= $line;

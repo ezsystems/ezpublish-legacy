@@ -37,7 +37,7 @@
 
 */
 
-include_once( 'kernel/classes/ezpackagehandler.php' );
+//include_once( 'kernel/classes/ezpackagehandler.php' );
 
 class eZFilePackageHandler extends eZPackageHandler
 {

@@ -32,14 +32,14 @@
 */
 
 
-include_once( "kernel/classes/ezrole.php" );
-include_once( "lib/ezutils/classes/ezhttptool.php" );
-include_once( "lib/ezutils/classes/ezmodule.php" );
-include_once( "kernel/common/template.php" );
-include_once( "kernel/classes/ezpolicylimitation.php" );
-include_once( "kernel/classes/ezpolicylimitationvalue.php" );
-include_once( "kernel/classes/ezpolicy.php" );
-include_once( "kernel/classes/ezcontentbrowse.php" );
+//include_once( "kernel/classes/ezrole.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
+//include_once( "lib/ezutils/classes/ezmodule.php" );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/classes/ezpolicylimitation.php" );
+//include_once( "kernel/classes/ezpolicylimitationvalue.php" );
+//include_once( "kernel/classes/ezpolicy.php" );
+//include_once( "kernel/classes/ezcontentbrowse.php" );
 
 $Module = $Params['Module'];
 $policyID = $Params["PolicyID"];
@@ -47,7 +47,7 @@ $policyID = $Params["PolicyID"];
 $policy = eZPolicy::fetch( $policyID );
 if( is_null( $policy ) )
 {
-        return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
 $currentModule = $policy->attribute( 'module_name' );
@@ -114,7 +114,7 @@ if ( $http->hasPostVariable( "DeleteNodeButton" ) )
     }
 
     /* Clean up policy cache */
-    include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+    //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
     eZUser::cleanupCache();
 }
 
@@ -136,7 +136,7 @@ if ( $http->hasPostVariable( "DeleteSubtreeButton" ) )
     }
 
     /* Clean up policy cache */
-    include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+    //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
     eZUser::cleanupCache();
 }
 
@@ -248,7 +248,7 @@ if ( $http->hasPostVariable( "UpdatePolicy" ) )
     $db->commit();
 
     /* Clean up policy cache */
-    include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+    //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
     eZUser::cleanupCache();
 
     $Module->redirectTo( $Module->functionURI( "edit" ) . "/" . $roleID . '/');

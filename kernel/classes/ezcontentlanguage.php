@@ -28,13 +28,13 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/classes/ezpersistentobject.php' );
-include_once( 'lib/ezlocale/classes/ezlocale.php' );
-
-define( 'CONTENT_LANGUAGES_MAX_COUNT', 30 );
+//include_once( 'kernel/classes/ezpersistentobject.php' );
+//include_once( 'lib/ezlocale/classes/ezlocale.php' );
 
 class eZContentLanguage extends eZPersistentObject
 {
+    const MAX_COUNT = 30;
+
     /**
      * Constructor.
      *
@@ -80,7 +80,7 @@ class eZContentLanguage extends eZPersistentObject
      * \param name Optional. Name of the language. If not specified, the international language name for the $locale locale
      *             will be used.
      * \return eZContentLanguage object of the added language (or the existing one if specified language has been already used)
-     *         or false in case of any error (invalid locale code or already reached CONTENT_LANGUAGES_MAX_COUNT languages).
+     *         or false in case of any error (invalid locale code or already reached eZContentLanguage::MAX_COUNT languages).
      * \static
      */
     static function addLanguage( $locale, $name = null )
@@ -107,7 +107,7 @@ class eZContentLanguage extends eZPersistentObject
             return $existingLanguage;
         }
 
-        if ( count( $languages ) >= CONTENT_LANGUAGES_MAX_COUNT )
+        if ( count( $languages ) >= eZContentLanguage::MAX_COUNT )
         {
             eZDebug::writeError( 'Too many languages, cannot add more!', 'eZContentLanguage::addLanguage' );
             return false;
@@ -140,7 +140,7 @@ class eZContentLanguage extends eZPersistentObject
         eZContentLanguage::fetchList( true );
 
         // clear the cache
-        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearAllContentCache();
 
         return $newLanguage;
@@ -180,7 +180,7 @@ class eZContentLanguage extends eZPersistentObject
 
         eZPersistentObject::remove();
 
-        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearAllContentCache();
 
         eZContentLanguage::fetchList( true );
@@ -434,7 +434,7 @@ class eZContentLanguage extends eZPersistentObject
      */
     function localeObject()
     {
-        include_once( 'lib/ezlocale/classes/ezlocale.php' );
+        //include_once( 'lib/ezlocale/classes/ezlocale.php' );
 
         $locale = eZLocale::instance( $this->Locale );
         return $locale;

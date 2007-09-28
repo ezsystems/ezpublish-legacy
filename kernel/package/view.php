@@ -26,8 +26,8 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/common/template.php" );
-include_once( "kernel/classes/ezpackage.php" );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/classes/ezpackage.php" );
 
 $module = $Params['Module'];
 $viewMode = $Params['ViewMode'];
@@ -38,10 +38,10 @@ if ( isset( $Params['RepositoryID'] ) and $Params['RepositoryID'] )
 
 $package = eZPackage::fetch( $packageName, false, $repositoryID );
 if ( !is_object( $package ) )
-    return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
 if ( !$package->attribute( 'can_read' ) )
-    return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
 
 if ( $module->isCurrentAction( 'Export' ) )

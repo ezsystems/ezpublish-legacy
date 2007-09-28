@@ -27,13 +27,14 @@
 //
 
 
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/ezcontentclass.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'kernel/classes/ezcontentclass.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
-include_once( 'kernel/common/template.php' );
+require_once( 'kernel/common/template.php' );
+require_once( 'access.php' );
 
 $Offset = $Params['Offset'];
 $viewParameters = array( 'offset' => $Offset );
@@ -47,15 +48,15 @@ $ini = eZINI::instance();
 
 $contentObject = eZContentObject::fetch( $ObjectID );
 if ( $contentObject === null )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
 $versionObject = $contentObject->version( $EditVersion );
 if ( !$versionObject )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
 if ( !$versionObject->attribute( 'can_read' ) )
 {
-    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 }
 
 if ( !$LanguageCode )
@@ -179,7 +180,7 @@ $navigationPartIdentifier = false;
 if ( $sectionID !== false )
 {
     $designKeys[] = array( 'section', $sectionID ); // Section ID
-    include_once( 'kernel/classes/ezsection.php' );
+    //include_once( 'kernel/classes/ezsection.php' );
     eZSection::setGlobalID( $sectionID );
 
     $section = eZSection::fetch( $sectionID );
@@ -235,7 +236,7 @@ if ( $Params['SiteAccess'] )
 }
 else
 {
-    include_once( 'kernel/content/versionviewframe.php' );
+    //include_once( 'kernel/content/versionviewframe.php' );
     return;
 }
 
@@ -292,7 +293,7 @@ if ( $assignment )
 
 $res->setKeys( $designKeys );
 
-include_once( 'kernel/classes/eznodeviewfunctions.php' );
+//include_once( 'kernel/classes/eznodeviewfunctions.php' );
 
 unset( $contentObject );
 $contentObject = $node->attribute( 'object' ); // do not remove &

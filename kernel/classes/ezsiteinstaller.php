@@ -40,22 +40,22 @@
 
 */
 
-include_once( 'kernel/classes/ezcontentobjectattribute.php' );
-include_once( 'kernel/classes/ezcontentclassattribute.php' );
-include_once( 'kernel/classes/ezrole.php' );
-
-define( 'EZSITE_INSTALLER_ERR_OK', 0 );
-define( 'EZSITE_INSTALLER_ERR_ABORT', 1 );
-define( 'EZSITE_INSTALLER_ERR_CONTINUE', 2);
+//include_once( 'kernel/classes/ezcontentobjectattribute.php' );
+//include_once( 'kernel/classes/ezcontentclassattribute.php' );
+//include_once( 'kernel/classes/ezrole.php' );
 
 class eZSiteInstaller
 {
+    const ERR_OK = 0;
+    const ERR_ABORT = 1;
+    const ERR_CONTINUE = 2;
+
     function eZSiteInstaller( $parameters = false )
     {
         $this->initSettings( $parameters );
         $this->initSteps();
 
-        $this->LastErrorCode = EZSITE_INSTALLER_ERR_OK;
+        $this->LastErrorCode = eZSiteInstaller::ERR_OK;
     }
 
     function &instance( $params )
@@ -89,8 +89,8 @@ class eZSiteInstaller
         // you code goes here
         ...
 
-        // optionally you can set $LastErrorCode to 'EZSITE_INSTALLER_ERR_ABORT' if you want to break installation if some step is failed.
-        // $this->setLastErrorCode( EZSITE_INSTALLER_ERR_ABORT );
+        // optionally you can set $LastErrorCode to 'eZSiteInstaller::ERR_ABORT' if you want to break installation if some step is failed.
+        // $this->setLastErrorCode( eZSiteInstaller::ERR_ABORT );
      }
 
      Example:
@@ -177,13 +177,13 @@ class eZSiteInstaller
         {
             $this->execFunction( $step );
 
-            if( $this->lastErrorCode() !== EZSITE_INSTALLER_ERR_OK )
+            if( $this->lastErrorCode() !== eZSiteInstaller::ERR_OK )
             {
                 $res = $this->handleError();
                 if( $res === false )
                     $res = $this->defaultErrorHandler();
 
-                if( $res === EZSITE_INSTALLER_ERR_ABORT )
+                if( $res === eZSiteInstaller::ERR_ABORT )
                 {
                     $this->reportError( "Aborting execution on step number $stepNum: '". $step['_function'] ."'", 'eZSiteInstaller::postInstall' );
                     break;
@@ -261,7 +261,7 @@ class eZSiteInstaller
         $caption - error message caption;
         $errCode - error code to set;
     */
-    function reportError( $text, $caption, $errCode = EZSITE_INSTALLER_ERR_ABORT )
+    function reportError( $text, $caption, $errCode = eZSiteInstaller::ERR_ABORT )
     {
         eZDebug::writeError( $text, $caption );
 
@@ -334,7 +334,7 @@ class eZSiteInstaller
     */
     function classByIdentifier( $params )
     {
-        include_once( 'kernel/classes/ezcontentclass.php' );
+        //include_once( 'kernel/classes/ezcontentclass.php' );
 
         $classIdentifier = $params['identifier'];
 
@@ -363,7 +363,7 @@ class eZSiteInstaller
     */
     function removeClassAttribute( $params )
     {
-        include_once( 'kernel/classes/ezcontentclassattribute.php' );
+        //include_once( 'kernel/classes/ezcontentclassattribute.php' );
 
         $contentClassID = $params['class_id'];
         $classAttributeIdentifier = $params['attribute_identifier'];
@@ -426,7 +426,7 @@ class eZSiteInstaller
     */
     function addClassAttributes( $params )
     {
-        include_once( 'kernel/classes/ezcontentclassattribute.php' );
+        //include_once( 'kernel/classes/ezcontentclassattribute.php' );
 
         $classInfo = $params['class'];
         $attributesInfo = $params['attributes'];
@@ -502,7 +502,7 @@ class eZSiteInstaller
             $attributes = $class->fetchAttributes();
             $attributes[] = $newAttribute;
 
-            $newAttribute->setAttribute( 'version', EZ_CLASS_VERSION_STATUS_DEFINED );
+            $newAttribute->setAttribute( 'version', eZContentClass::VERSION_STATUS_DEFINED );
             $newAttribute->setAttribute( 'placement', count( $attributes ) );
 
             $class->adjustAttributePlacements( $attributes );
@@ -610,7 +610,7 @@ class eZSiteInstaller
     */
     function createContentObject( $params )
     {
-        include_once( 'kernel/classes/ezcontentfunctions.php' );
+        //include_once( 'kernel/classes/ezcontentfunctions.php' );
 
         $objectID = false;
 
@@ -643,7 +643,7 @@ class eZSiteInstaller
     */
     function renameContentObject( $params )
     {
-        include_once( 'kernel/classes/ezcontentobject.php' );
+        //include_once( 'kernel/classes/ezcontentobject.php' );
         $contentObjectID = $params['contentobject_id'];
         $newName = $params['name'];
         $object = eZContentObject::fetch( $contentObjectID );
@@ -787,7 +787,7 @@ class eZSiteInstaller
             {
                 $this->reportError( "Warning: could not acquire attribute with identifier '$attrIdentifier'.",
                                     'eZSiteInstaller::updateContentObjectAttributes',
-                                    EZSITE_INSTALLER_ERR_CONTINUE );
+                                    eZSiteInstaller::ERR_CONTINUE );
                 continue;
             }
 
@@ -850,7 +850,7 @@ class eZSiteInstaller
                     {
                         $this->reportError( "Number of columns in 'ezmatrix' should be greater then zero",
                                             'eZSiteInstaller::updateContentObjectAttributes',
-                                            EZSITE_INSTALLER_ERR_CONTINUE );
+                                            eZSiteInstaller::ERR_CONTINUE );
                     }
 
                 } break;
@@ -927,7 +927,7 @@ class eZSiteInstaller
     */
     function nodePathStringByURL( $params )
     {
-        include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+        //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
         $pathString = '';
 
@@ -948,7 +948,7 @@ class eZSiteInstaller
     */
     function nodeByUrl( $params )
     {
-        include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+        //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
         $path_identification_string = $params['location'];
 
@@ -1073,7 +1073,7 @@ class eZSiteInstaller
         }
 
         // clear cache.
-        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
 
         $selectedObject = $selectedNode->object();
@@ -1182,7 +1182,7 @@ class eZSiteInstaller
     */
     function assignUserToRole( $params )
     {
-        include_once( 'kernel/classes/ezrole.php' );
+        //include_once( 'kernel/classes/ezrole.php' );
 
         $location = $params['location'];
         $roleName = $params['role_name'];
@@ -1209,7 +1209,7 @@ class eZSiteInstaller
     */
     function addPoliciesForRole( $params )
     {
-        include_once( 'kernel/classes/ezrole.php' );
+        //include_once( 'kernel/classes/ezrole.php' );
 
         $roleName = $params['role_name'];
         $policiesDefinition = $params['policies'];
@@ -1258,7 +1258,7 @@ class eZSiteInstaller
     */
     function removePoliciesForRole( $params )
     {
-        include_once( 'kernel/classes/ezrole.php' );
+        //include_once( 'kernel/classes/ezrole.php' );
 
         $roleName = $params['role_name'];
         $policiesDefinition = $params['policies'];
@@ -1298,7 +1298,7 @@ class eZSiteInstaller
     */
     function sectionIDbyName( $params )
     {
-        include_once( 'kernel/classes/ezsection.php' );
+        //include_once( 'kernel/classes/ezsection.php' );
 
         $sectionID = false;
         $sectionName = $params['section_name'];
@@ -1325,7 +1325,7 @@ class eZSiteInstaller
     */
     function createContentSection( $params )
     {
-        include_once( 'kernel/classes/ezsection.php' );
+        //include_once( 'kernel/classes/ezsection.php' );
 
         $section = false;
 
@@ -1374,9 +1374,9 @@ class eZSiteInstaller
     */
     function setRSSExport( $params )
     {
-        include_once( 'kernel/classes/ezrssexport.php' );
-        include_once( 'kernel/classes/ezrssexportitem.php' );
-        include_once( 'kernel/common/i18n.php' );
+        //include_once( 'kernel/classes/ezrssexport.php' );
+        //include_once( 'kernel/classes/ezrssexportitem.php' );
+        require_once( 'kernel/common/i18n.php' );
 
         // Create default rssExport object to use
         $rssExport = eZRSSExport::create( $params['creator'] );

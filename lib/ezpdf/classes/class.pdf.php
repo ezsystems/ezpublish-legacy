@@ -35,7 +35,7 @@
   \brief Cpdf provides
 */
 
-include_once( 'lib/ezutils/classes/ezmath.php' );
+//include_once( 'lib/ezutils/classes/ezmath.php' );
 require_once( 'lib/compat.php' );
 
 class Cpdf
@@ -2606,7 +2606,7 @@ class Cpdf
 
         echo $tmp;
 
-        include_once( 'lib/ezutils/classes/ezexecution.php' );
+        require_once( 'lib/ezutils/classes/ezexecution.php' );
         eZExecution::cleanExit();
     }
 

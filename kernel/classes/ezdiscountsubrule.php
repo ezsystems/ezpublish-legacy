@@ -37,7 +37,7 @@
 
 */
 
-include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
 
 class eZDiscountSubRule extends eZPersistentObject
 {
@@ -89,7 +89,7 @@ class eZDiscountSubRule extends eZPersistentObject
         {
             case 'discount_percent':
             {
-                include_once( 'lib/ezlocale/classes/ezlocale.php' );
+                //include_once( 'lib/ezlocale/classes/ezlocale.php' );
                 $locale = eZLocale::instance();
 
                 $val = $locale->internalNumber( $val );

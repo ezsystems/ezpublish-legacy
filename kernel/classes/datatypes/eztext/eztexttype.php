@@ -35,17 +35,17 @@
 
 */
 
-include_once( "kernel/classes/ezdatatype.php" );
-
-define( "EZ_DATATYPESTRING_TEXT", "eztext" );
-define( 'EZ_DATATYPESTRING_TEXT_COLS_FIELD', 'data_int1' );
-define( 'EZ_DATATYPESTRING_TEXT_COLS_VARIABLE', '_eztext_cols_' );
+//include_once( "kernel/classes/ezdatatype.php" );
 
 class eZTextType extends eZDataType
 {
+    const EZ_DATATYPESTRING_TEXT = "eztext";
+    const EZ_DATATYPESTRING_TEXT_COLS_FIELD = 'data_int1';
+    const EZ_DATATYPESTRING_TEXT_COLS_VARIABLE = '_eztext_cols_';
+
     function eZTextType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_TEXT, ezi18n( 'kernel/classes/datatypes', "Text block", 'Datatype name' ),
+        $this->eZDataType( self::EZ_DATATYPESTRING_TEXT, ezi18n( 'kernel/classes/datatypes', "Text block", 'Datatype name' ),
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( 'data_text' => 'text' ) ) );
     }
@@ -55,8 +55,8 @@ class eZTextType extends eZDataType
     */
     function initializeClassAttribute( $classAttribute )
     {
-        if ( $classAttribute->attribute( EZ_DATATYPESTRING_TEXT_COLS_FIELD ) == null )
-            $classAttribute->setAttribute( EZ_DATATYPESTRING_TEXT_COLS_FIELD, 10 );
+        if ( $classAttribute->attribute( self::EZ_DATATYPESTRING_TEXT_COLS_FIELD ) == null )
+            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_TEXT_COLS_FIELD, 10 );
         $classAttribute->store();
     }
 
@@ -96,11 +96,11 @@ class eZTextType extends eZDataType
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'Input required.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    return eZInputValidator::STATE_INVALID;
                 }
             }
         }
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
@@ -118,13 +118,13 @@ class eZTextType extends eZDataType
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'Input required.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    return eZInputValidator::STATE_INVALID;
                 }
             }
-            return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            return eZInputValidator::STATE_ACCEPTED;
         }
         else
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INVALID;
     }
 
     /*!
@@ -196,11 +196,11 @@ class eZTextType extends eZDataType
 
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $column = $base .EZ_DATATYPESTRING_TEXT_COLS_VARIABLE . $classAttribute->attribute( 'id' );
+        $column = $base . self::EZ_DATATYPESTRING_TEXT_COLS_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $column ) )
         {
             $columnValue = $http->postVariable( $column );
-            $classAttribute->setAttribute( EZ_DATATYPESTRING_TEXT_COLS_FIELD,  $columnValue );
+            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_TEXT_COLS_FIELD,  $columnValue );
             return true;
         }
         return false;
@@ -262,7 +262,7 @@ class eZTextType extends eZDataType
     */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $textColumns = $classAttribute->attribute( EZ_DATATYPESTRING_TEXT_COLS_FIELD );
+        $textColumns = $classAttribute->attribute( self::EZ_DATATYPESTRING_TEXT_COLS_FIELD );
         $textColumnCountNode = $attributeParametersNode->ownerDocument->createElement( 'text-column-count', $textColumns );
         $attributeParametersNode->appendChild( $textColumnCountNode );
     }
@@ -273,7 +273,7 @@ class eZTextType extends eZDataType
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $textColumns = $attributeParametersNode->getElementsByTagName( 'text-column-count' )->item( 0 )->textContent;
-        $classAttribute->setAttribute( EZ_DATATYPESTRING_TEXT_COLS_FIELD, $textColumns );
+        $classAttribute->setAttribute( self::EZ_DATATYPESTRING_TEXT_COLS_FIELD, $textColumns );
     }
 
     /*!
@@ -281,7 +281,7 @@ class eZTextType extends eZDataType
     */
     function diff( $old, $new, $options = false )
     {
-        include_once( 'lib/ezdiff/classes/ezdiff.php' );
+        //include_once( 'lib/ezdiff/classes/ezdiff.php' );
         $diff = new eZDiff();
         $diff->setDiffEngineType( $diff->engineType( 'text' ) );
         $diff->initDiffEngine();
@@ -291,6 +291,6 @@ class eZTextType extends eZDataType
 
 }
 
-eZDataType::register( EZ_DATATYPESTRING_TEXT, "eztexttype" );
+eZDataType::register( eZTextType::EZ_DATATYPESTRING_TEXT, "eZTextType" );
 
 ?>

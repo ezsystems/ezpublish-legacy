@@ -38,8 +38,8 @@
   RSSExportItem is used to create RSS feeds from published content. See kernel/rss for more files.
 */
 
-include_once( 'kernel/classes/ezpersistentobject.php' );
-include_once( 'kernel/classes/ezrssexport.php' );
+//include_once( 'kernel/classes/ezpersistentobject.php' );
+//include_once( 'kernel/classes/ezrssexport.php' );
 
 class eZRSSExportItem extends eZPersistentObject
 {
@@ -110,7 +110,7 @@ class eZRSSExportItem extends eZPersistentObject
     /*!
      \static
      Creates a new RSS Export Item
-     \param EZRSSExport objcted id. (The RSSExport this item belongs to)
+     \param eZRSSExport objcted id. (The RSSExport this item belongs to)
 
      \return the URL alias object
     */
@@ -132,7 +132,7 @@ class eZRSSExportItem extends eZPersistentObject
     {
         if ( isset( $this->ClassID ) and $this->ClassID )
         {
-            include_once( 'kernel/classes/ezcontentclass.php' );
+            //include_once( 'kernel/classes/ezcontentclass.php' );
             $contentClass = eZContentClass::fetch( $this->ClassID );
             if ( $contentClass )
                 $attributes =& $contentClass->fetchAttributes();
@@ -149,7 +149,7 @@ class eZRSSExportItem extends eZPersistentObject
         $retValue = null;
         if ( isset( $this->SourceNodeID ) and $this->SourceNodeID )
         {
-            include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+            //include_once( "kernel/classes/ezcontentobjecttreenode.php" );
             $objectNode = eZContentObjectTreeNode::fetch( $this->SourceNodeID );
             if ( isset( $objectNode ) )
             {
@@ -179,7 +179,7 @@ class eZRSSExportItem extends eZPersistentObject
     {
         if ( isset( $this->SourceNodeID ) and $this->SourceNodeID )
         {
-            include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+            //include_once( "kernel/classes/ezcontentobjecttreenode.php" );
             $sourceNode = eZContentObjectTreeNode::fetch( $this->SourceNodeID );
         }
         else
@@ -193,7 +193,7 @@ class eZRSSExportItem extends eZPersistentObject
 
      \param RSS Export ID
     */
-    static function fetch( $id, $asObject = true, $status = EZ_RSSEXPORT_STATUS_VALID )
+    static function fetch( $id, $asObject = true, $status = eZRSSExport::STATUS_VALID )
     {
         return eZPersistentObject::fetchObject( eZRSSExportItem::definition(),
                                                 null,
@@ -210,7 +210,7 @@ class eZRSSExportItem extends eZPersistentObject
 
      \return array containing RSSExport Items
     */
-    function fetchFilteredList( $cond, $asObject = true, $status = EZ_RSSEXPORT_STATUS_VALID )
+    function fetchFilteredList( $cond, $asObject = true, $status = eZRSSExport::STATUS_VALID )
     {
         return eZPersistentObject::fetchObjectList( eZRSSExportItem::definition(),
                                                     null, $cond, array( 'id' => 'asc',
@@ -282,7 +282,7 @@ class eZRSSExportItem extends eZPersistentObject
                                  'SortBy' => array( 'published', false )
                                 );
 
-            include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+            //include_once( "kernel/classes/ezcontentobjecttreenode.php" );
             $nodeList = eZContentObjectTreeNode::subTreeMultiPaths( $nodesParams, $listParams );
         }
         else

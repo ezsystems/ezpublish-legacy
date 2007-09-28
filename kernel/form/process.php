@@ -26,10 +26,10 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/common/template.php" );
-include_once( "lib/ezutils/classes/ezhttptool.php" );
-include_once( "lib/ezutils/classes/ezmail.php" );
-include_once( 'lib/ezutils/classes/ezmailtransport.php' );
+require_once( "kernel/common/template.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
+//include_once( "lib/ezutils/classes/ezmail.php" );
+//include_once( 'lib/ezutils/classes/ezmailtransport.php' );
 
 $Module = $Params['Module'];
 
@@ -37,7 +37,7 @@ $ini = eZINI::instance();
 $isEnabled = $ini->variable( 'FormProcessSettings', 'Module' ) == 'enabled';
 if ( !$isEnabled )
 {
-    return $Module->handleError( EZ_ERROR_KERNEL_MODULE_DISABLED, 'kernel',
+    return $Module->handleError( eZError::KERNEL_MODULE_DISABLED, 'kernel',
                                  array( 'check' => array( 'view_checked' => false,
                                                           'module' => 'form' ) ) );
 }

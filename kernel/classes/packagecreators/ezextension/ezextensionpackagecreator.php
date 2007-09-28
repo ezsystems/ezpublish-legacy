@@ -38,8 +38,8 @@
 
 */
 
-include_once( 'kernel/classes/ezpackagecreationhandler.php' );
-include_once( 'lib/ezfile/classes/ezdir.php' );
+//include_once( 'kernel/classes/ezpackagecreationhandler.php' );
+//include_once( 'lib/ezfile/classes/ezdir.php' );
 
 class eZExtensionPackageCreator extends eZPackageCreationHandler
 {

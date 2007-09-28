@@ -101,7 +101,7 @@ $img1 = $img->convert( "image1.png", "cache/", // Scale PNG image and place in c
 
 */
 
-include_once( 'lib/ezutils/classes/ezini.php' );
+//include_once( 'lib/ezutils/classes/ezini.php' );
 
 class eZImageManager
 {
@@ -261,7 +261,7 @@ class eZImageManager
             $keyData[] = $filterData;
         }
 
-        include_once( 'lib/ezutils/classes/ezsys.php' );
+        //include_once( 'lib/ezutils/classes/ezsys.php' );
         $key = eZSys::ezcrc32( implode( "\n", $keyData ) );
 
         return $key;
@@ -298,7 +298,7 @@ class eZImageManager
     */
     function isImageTimestampValid( $timestamp )
     {
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $expiryHandler = eZExpiryHandler::instance();
         if ( $expiryHandler->hasTimestamp( 'image-manager-alias' ) )
         {
@@ -335,7 +335,7 @@ class eZImageManager
         $aliasName = 'original';
         if ( !in_array( $aliasName, $aliasNames ) )
         {
-            include_once( 'lib/ezutils/classes/ezini.php' );
+            //include_once( 'lib/ezutils/classes/ezini.php' );
             $ini = eZINI::instance( 'image.ini' );
             if ( $ini->hasGroup( $aliasName ) )
             {
@@ -727,7 +727,7 @@ class eZImageManager
         }
         else
         {
-            include_once( 'lib/ezutils/classes/ezextension.php' );
+            //include_once( 'lib/ezutils/classes/ezextension.php' );
             if ( eZExtension::findExtensionType( array( 'ini-name' => $iniFile,
                                                         'repository-group' => 'ImageConverterSettings',
                                                         'repository-variable' => 'RepositoryList',
@@ -789,7 +789,7 @@ class eZImageManager
     */
     function createAliasFromINI( $iniGroup )
     {
-        include_once( 'lib/ezutils/classes/ezini.php' );
+        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance( 'image.ini' );
         if ( !$ini->hasGroup( $iniGroup ) )
         {
@@ -895,7 +895,7 @@ class eZImageManager
             if ( $aliasFile->exists() )
             {
                 $aliasFile->fetch();
-                include_once( 'lib/ezutils/classes/ezmimetype.php' );
+                //include_once( 'lib/ezutils/classes/ezmimetype.php' );
                 $sourceMimeData = eZMimeType::findByFileContents( $aliasFilePath );
                 $destinationMimeData = $sourceMimeData;
                 if ( isset( $parameters['basename'] ) )
@@ -1015,7 +1015,7 @@ class eZImageManager
         $sourceFile = eZClusterFileHandler::instance( $sourceMimeData['url'] );
         $sourceFile->fetch();
 
-        include_once( 'lib/ezutils/classes/ezmimetype.php' );
+        //include_once( 'lib/ezutils/classes/ezmimetype.php' );
         if ( is_string( $sourceMimeData ) )
             $sourceMimeData = eZMimeType::findByFileContents( $sourceMimeData );
         $this->analyzeImage( $sourceMimeData );
@@ -1187,7 +1187,7 @@ class eZImageManager
                 {
                     if ( $currentMimeData['url'] != $nextMimeData['url'] )
                     {
-                        include_once( 'lib/ezfile/classes/ezfilehandler.php' );
+                        //include_once( 'lib/ezfile/classes/ezfilehandler.php' );
                         if ( eZFileHandler::copy( $currentMimeData['url'], $nextMimeData['url'] ) )
                         {
                             if ( $useTempImage )
@@ -1232,7 +1232,7 @@ class eZImageManager
             }
             if ( $sourceMimeData['url'] != $destinationMimeData['url'] )
             {
-                include_once( 'lib/ezfile/classes/ezfilehandler.php' );
+                //include_once( 'lib/ezfile/classes/ezfilehandler.php' );
                 if ( $useCopy )
                 {
                     eZFileHandler::copy( $sourceMimeData['url'], $destinationMimeData['url'] );

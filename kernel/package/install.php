@@ -26,10 +26,10 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezpackage.php' );
-include_once( 'kernel/classes/ezpackageinstallationhandler.php' );
-include_once( "lib/ezdb/classes/ezdb.php" );
+require_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezpackage.php' );
+//include_once( 'kernel/classes/ezpackageinstallationhandler.php' );
+//include_once( "lib/ezdb/classes/ezdb.php" );
 
 $http = eZHTTPTool::instance();
 
@@ -57,11 +57,11 @@ else
 }
 
 if ( !eZPackage::canUsePolicyFunction( 'install' ) )
-    return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
 $package = eZPackage::fetch( $packageName );
 if ( !$package )
-    return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
 $installItemArray = $package->installItemsList( false, eZSys::osType() );
 

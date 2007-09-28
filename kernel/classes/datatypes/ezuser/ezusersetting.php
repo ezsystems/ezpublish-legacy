@@ -33,7 +33,7 @@
 
 */
 
-include_once( 'kernel/classes/ezpersistentobject.php' );
+//include_once( 'kernel/classes/ezpersistentobject.php' );
 
 class eZUserSetting extends eZPersistentObject
 {

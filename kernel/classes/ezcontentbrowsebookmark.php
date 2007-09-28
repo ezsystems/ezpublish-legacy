@@ -54,7 +54,7 @@ eZContentBrowseBookmark::fetchListForUser( $userID )
 
 */
 
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
 class eZContentBrowseBookmark extends eZPersistentObject
 {

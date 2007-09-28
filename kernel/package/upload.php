@@ -26,9 +26,9 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/common/template.php" );
-include_once( "kernel/classes/ezpackage.php" );
-include_once( "lib/ezutils/classes/ezhttpfile.php" );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/classes/ezpackage.php" );
+//include_once( "lib/ezutils/classes/ezhttpfile.php" );
 
 $module = $Params['Module'];
 
@@ -69,7 +69,7 @@ if ( $module->isCurrentAction( 'UploadPackage' ) )
                     return $module->redirectToView( 'install', array( $package->attribute( 'name' ) ) );
                 }
             }
-            else if ( $package == EZ_PACKAGE_STATUS_ALREADY_EXISTS )
+            else if ( $package == eZPackage::STATUS_ALREADY_EXISTS )
             {
                 $errorList[] = array( 'description' => ezi18n( 'kernel/package', 'Package %packagename already exists, cannot import the package', false, array( '%packagename' => $packageName ) ) );
             }

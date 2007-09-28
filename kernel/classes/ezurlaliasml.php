@@ -77,17 +77,17 @@
 
 */
 
-include_once( "kernel/classes/ezpersistentobject.php" );
-include_once( "kernel/classes/ezcontentlanguage.php" );
-include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-
-// Return values from storePath()
-define( "EZ_URLALIAS_LINK_ID_NOT_FOUND", 1 );
-define( "EZ_URLALIAS_LINK_ID_WRONG_ACTION", 2 );
-define( "EZ_URLALIAS_LINK_ALREADY_TAKEN", 3 );
+//include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezcontentlanguage.php" );
+//include_once( 'lib/ezi18n/classes/ezchartransform.php' );
 
 class eZURLAliasML extends eZPersistentObject
 {
+    // Return values from storePath()
+    const LINK_ID_NOT_FOUND = 1;
+    const LINK_ID_WRONG_ACTION = 2;
+    const LINK_ALREADY_TAKEN = 3;
+
     /*!
      Optionally computed path string for this element, used for caching purposes.
      */
@@ -338,7 +338,7 @@ class eZURLAliasML extends eZPersistentObject
      */
     function getChildren()
     {
-        return eZUrlAliasML::fetchByParentID( $this->ID, true, true, false );
+        return eZURLAliasML::fetchByParentID( $this->ID, true, true, false );
     }
 
     /*!
@@ -599,13 +599,13 @@ class eZURLAliasML extends eZPersistentObject
                 {
                     if ( $reportErrors )
                         eZDebug::writeError( "The link ID $linkID does not exist, cannot create the link", 'eZURLAliasML::storePath' );
-                    return array( 'status' => EZ_URLALIAS_LINK_ID_NOT_FOUND );
+                    return array( 'status' => eZURLAliasML::LINK_ID_NOT_FOUND );
                 }
                 if ( $rows[0]['action'] != $action )
                 {
                     if ( $reportErrors )
                         eZDebug::writeError( "The link ID $linkID uses a different action ({$rows[0]['action']}) than the requested action ({$action}) for the link, cannot create the link", 'eZURLAliasML::storePath' );
-                    return array( 'status' => EZ_URLALIAS_LINK_ID_WRONG_ACTION );
+                    return array( 'status' => eZURLAliasML::LINK_ID_WRONG_ACTION );
                 }
                 // If the element which is pointed to is a link, then grab the link id from that instead
                 if ( $rows[0]['link'] != $rows[0]['id'] )
@@ -634,7 +634,7 @@ class eZURLAliasML extends eZPersistentObject
                     eZDebug::writeError( "The link name '{$originalTopElement}' for parent ID {$parentID} is already taken, cannot create link", 'eZURLAliasML::storePath' );
                 }
                 $createdPath[] = $originalTopElement;
-                return array( 'status' => EZ_URLALIAS_LINK_ALREADY_TAKEN,
+                return array( 'status' => eZURLAliasML::LINK_ALREADY_TAKEN,
                               'path' => join( '/', $createdPath ) );
             }
             $sql = "SELECT * FROM ezurlalias_ml WHERE parent = {$parentID} AND text_md5 = " . $db->md5( "'" . $db->escapeString( eZURLAliasML::strtolower( $topElement ) ) . "'" );
@@ -1242,7 +1242,7 @@ class eZURLAliasML extends eZPersistentObject
                 }
 
                 if ( !$breakInternalURI )
-                    $internalURIString = eZUrlAliasML::cleanURL( eZUrlAliasML::cleanURL( $prefix ) . '/' . $uriString );
+                    $internalURIString = eZURLAliasML::cleanURL( eZURLAliasML::cleanURL( $prefix ) . '/' . $uriString );
             }
         }
 
@@ -1862,7 +1862,7 @@ class eZURLAliasML extends eZPersistentObject
     */
     static public function convertToAlias( $urlElement, $defaultValue = false )
     {
-        include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+        //include_once( 'lib/ezi18n/classes/ezchartransform.php' );
         $trans = eZCharTransform::instance();
 
         $ini = eZINI::instance();
@@ -1903,7 +1903,7 @@ class eZURLAliasML extends eZPersistentObject
     */
     static public function convertToAliasCompat( $urlElement, $defaultValue = false )
     {
-        include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+        //include_once( 'lib/ezi18n/classes/ezchartransform.php' );
         $trans = eZCharTransform::instance();
 
         $urlElement = $trans->transformByGroup( $urlElement, "urlalias_compat" );

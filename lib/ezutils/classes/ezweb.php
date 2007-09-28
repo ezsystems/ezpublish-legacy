@@ -35,8 +35,6 @@
 
 */
 
-define( "EZ_WEB_DEBUG_INTERNALS", false );
-
 class eZWeb
 {
     /*!

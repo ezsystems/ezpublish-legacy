@@ -53,12 +53,12 @@
 \endcode
 */
 
-define( 'EZ_TEMPLATE_SET_SCOPE_RELATIVE', 1 );
-define( 'EZ_TEMPLATE_SET_SCOPE_ROOT', 2 );
-define( 'EZ_TEMPLATE_SET_SCOPE_GLOBAL', 3 );
-
 class eZTemplateSetFunction
 {
+    const SCOPE_RELATIVE = 1;
+    const SCOPE_ROOT = 2;
+    const SCOPE_GLOBAL = 3;
+
     /*!
      Initializes the function with the function names $setName and $letName.
     */
@@ -174,18 +174,18 @@ class eZTemplateSetFunction
             case $this->DefaultName:
             case $this->LetName:
             {
-                $scope = EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE;
+                $scope = eZTemplate::NAMESPACE_SCOPE_RELATIVE;
                 if ( isset( $parameters['-scope'] ) )
                 {
                     if ( !eZTemplateNodeTool::isStaticElement( $parameters['-scope'] ) )
                         return false;
                     $scopeText = eZTemplateNodeTool::elementStaticValue( $parameters['-scope'] );
                     if ( $scopeText == 'relative' )
-                        $scope = EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE;
+                        $scope = eZTemplate::NAMESPACE_SCOPE_RELATIVE;
                     else if ( $scopeText == 'root' )
-                        $scope = EZ_TEMPLATE_NAMESPACE_SCOPE_LOCAL;
+                        $scope = eZTemplate::NAMESPACE_SCOPE_LOCAL;
                     else if ( $scopeText == 'global' )
-                        $scope = EZ_TEMPLATE_NAMESPACE_SCOPE_GLOBAL;
+                        $scope = eZTemplate::NAMESPACE_SCOPE_GLOBAL;
                 }
 
                 $parameters = eZTemplateNodeTool::extractFunctionNodeParameters( $node );
@@ -251,7 +251,7 @@ class eZTemplateSetFunction
                     foreach( $variableList as $parameterName )
                     {
                         $unsetVarNodes[] = eZTemplateNodeTool::createVariableUnsetNode( array( $namespaceValue,
-                                                                                               EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE,
+                                                                                               eZTemplate::NAMESPACE_SCOPE_RELATIVE,
                                                                                                $parameterName ),
                                                                                         array( 'remember_set' => $functionName == $this->DefaultName ) );
                     }
@@ -354,16 +354,16 @@ class eZTemplateSetFunction
         $children = $functionChildren;
         $parameters = $functionParameters;
 
-        $scope = EZ_TEMPLATE_SET_SCOPE_RELATIVE;
+        $scope = eZTemplateSetFunction::SCOPE_RELATIVE;
         if ( isset( $parameters['-scope'] ) )
         {
             $scopeText = $tpl->elementValue( $parameters['-scope'], $rootNamespace, $currentNamespace, $functionPlacement );
             if ( $scopeText == 'relative' )
-                $scope = EZ_TEMPLATE_SET_SCOPE_RELATIVE;
+                $scope = eZTemplateSetFunction::SCOPE_RELATIVE;
             else if ( $scopeText == 'root' )
-                $scope = EZ_TEMPLATE_SET_SCOPE_ROOT;
+                $scope = eZTemplateSetFunction::SCOPE_ROOT;
             else if ( $scopeText == 'global' )
-                $scope = EZ_TEMPLATE_SET_SCOPE_GLOBAL;
+                $scope = eZTemplateSetFunction::SCOPE_GLOBAL;
             else
                 $tpl->warning( $functionName, "Scope value '$scopeText' is not valid, use either 'relative', 'root' or 'global'" );
         }
@@ -373,19 +373,19 @@ class eZTemplateSetFunction
             $name = $tpl->elementValue( $parameters['-name'], $rootNamespace, $currentNamespace, $functionPlacement );
         if ( $name === null )
         {
-            if ( $scope == EZ_TEMPLATE_SET_SCOPE_RELATIVE )
+            if ( $scope == eZTemplateSetFunction::SCOPE_RELATIVE )
                 $name = $currentNamespace;
-            else if ( $scope == EZ_TEMPLATE_SET_SCOPE_ROOT )
+            else if ( $scope == eZTemplateSetFunction::SCOPE_ROOT )
                 $name = $rootNamespace;
             else
                 $name = '';
         }
         else
         {
-            if ( $scope == EZ_TEMPLATE_SET_SCOPE_RELATIVE and
+            if ( $scope == eZTemplateSetFunction::SCOPE_RELATIVE and
                  $currentNamespace != '' )
                 $name = "$currentNamespace:$name";
-            else if ( $scope == EZ_TEMPLATE_SET_SCOPE_ROOT and
+            else if ( $scope == eZTemplateSetFunction::SCOPE_ROOT and
                       $rootNamespace != '' )
                 $name = "$rootNamespace:$name";
         }

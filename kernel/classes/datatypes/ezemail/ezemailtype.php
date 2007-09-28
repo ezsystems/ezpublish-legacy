@@ -34,15 +34,15 @@
 
 */
 
-include_once( "kernel/classes/ezdatatype.php" );
-
-define( "EZ_DATATYPESTRING_EMAIL", "ezemail" );
+//include_once( "kernel/classes/ezdatatype.php" );
 
 class eZEmailType extends eZDataType
 {
+    const EZ_DATATYPESTRING_EMAIL = "ezemail";
+
     function eZEmailType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_EMAIL, ezi18n( 'kernel/classes/datatypes', "Email", 'Datatype name' ),
+        $this->eZDataType( self::EZ_DATATYPESTRING_EMAIL, ezi18n( 'kernel/classes/datatypes', "Email", 'Datatype name' ),
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( 'data_text' => 'email' ) ) );
     }
@@ -64,14 +64,14 @@ class eZEmailType extends eZDataType
     */
     function validateEMailHTTPInput( $email, $contentObjectAttribute )
     {
-        include_once( "lib/ezutils/classes/ezmail.php" );
+        //include_once( "lib/ezutils/classes/ezmail.php" );
         if ( !eZMail::validate( $email ) )
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                  'The email address is not valid.' ) );
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INVALID;
         }
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
@@ -95,7 +95,7 @@ class eZEmailType extends eZDataType
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'The email address is empty.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    return eZInputValidator::STATE_INVALID;
                 }
             }
             else
@@ -104,7 +104,7 @@ class eZEmailType extends eZDataType
                 return $this->validateEMailHTTPInput( $trimedEmail, $contentObjectAttribute );
             }
         }
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
@@ -140,10 +140,10 @@ class eZEmailType extends eZDataType
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'The email address is empty.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    return eZInputValidator::STATE_INVALID;
                 }
                 else
-                    return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                    return eZInputValidator::STATE_ACCEPTED;
             }
             else
             {
@@ -152,7 +152,7 @@ class eZEmailType extends eZDataType
             }
         }
         else
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INVALID;
     }
 
     /*!
@@ -249,6 +249,6 @@ class eZEmailType extends eZDataType
     }
 }
 
-eZDataType::register( EZ_DATATYPESTRING_EMAIL, "ezemailtype" );
+eZDataType::register( eZEmailType::EZ_DATATYPESTRING_EMAIL, "eZEmailType" );
 
 ?>

@@ -35,23 +35,25 @@
 
 */
 
-include_once( "kernel/classes/ezdatatype.php" );
-include_once( "kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php" );
-include_once( "kernel/classes/ezbinaryfilehandler.php" );
-include_once( "lib/ezfile/classes/ezfile.php" );
-include_once( "lib/ezutils/classes/ezsys.php" );
-include_once( "lib/ezutils/classes/ezmimetype.php" );
-include_once( "lib/ezutils/classes/ezhttpfile.php" );
-
-define( 'EZ_DATATYPESTRING_MAX_BINARY_FILESIZE_FIELD', 'data_int1' );
-define( 'EZ_DATATYPESTRING_MAX_BINARY_FILESIZE_VARIABLE', '_ezbinaryfile_max_filesize_' );
-define( "EZ_DATATYPESTRING_BINARYFILE", "ezbinaryfile" );
+//include_once( "kernel/classes/ezdatatype.php" );
+//include_once( "kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php" );
+//include_once( "kernel/classes/ezbinaryfilehandler.php" );
+//include_once( "lib/ezfile/classes/ezfile.php" );
+//include_once( "lib/ezutils/classes/ezsys.php" );
+//include_once( "lib/ezutils/classes/ezmimetype.php" );
+//include_once( "lib/ezutils/classes/ezhttpfile.php" );
 
 class eZBinaryFileType extends eZDataType
 {
+    const EZ_DATATYPESTRING_MAX_BINARY_FILESIZE_FIELD = 'data_int1';
+
+    const EZ_DATATYPESTRING_MAX_BINARY_FILESIZE_VARIABLE = '_ezbinaryfile_max_filesize_';
+
+    const EZ_DATATYPESTRING_BINARYFILE = "ezbinaryfile";
+
     function eZBinaryFileType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_BINARYFILE, ezi18n( 'kernel/classes/datatypes', "File", 'Datatype name' ),
+        $this->eZDataType( self::EZ_DATATYPESTRING_BINARYFILE, ezi18n( 'kernel/classes/datatypes', "File", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -202,7 +204,7 @@ class eZBinaryFileType extends eZDataType
                  !$isFileWarningAdded )
             {
                 eZAppendWarningItem( array( 'error' => array( 'type' => 'kernel',
-                                                              'number' => EZ_ERROR_KERNEL_NOT_AVAILABLE ),
+                                                              'number' => eZError::KERNEL_NOT_AVAILABLE ),
                                             'text' => ezi18n( 'kernel/classes/datatypes',
                                                               'File uploading is not enabled. Please contact the site administrator to enable it.' ) ) );
                 $GLOBALS['eZBinaryFileTypeWarningAdded'] = true;
@@ -220,7 +222,7 @@ class eZBinaryFileType extends eZDataType
         $classAttribute = $contentObjectAttribute->contentClassAttribute();
         $mustUpload = false;
         $httpFileName = $base . "_data_binaryfilename_" . $contentObjectAttribute->attribute( "id" );
-        $maxSize = 1024 * 1024 * $classAttribute->attribute( EZ_DATATYPESTRING_MAX_BINARY_FILESIZE_FIELD );
+        $maxSize = 1024 * 1024 * $classAttribute->attribute( self::EZ_DATATYPESTRING_MAX_BINARY_FILESIZE_FIELD );
 
         if ( $contentObjectAttribute->validateIsRequired() )
         {
@@ -234,25 +236,25 @@ class eZBinaryFileType extends eZDataType
         }
 
         $canFetchResult = eZHTTPFile::canFetch( $httpFileName, $maxSize );
-        if ( $mustUpload && $canFetchResult == EZ_UPLOADEDFILE_DOES_NOT_EXIST )
+        if ( $mustUpload && $canFetchResult == eZHTTPFile::UPLOADEDFILE_DOES_NOT_EXIST )
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                  'A valid file is required.' ) );
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INVALID;
         }
-        if ( $canFetchResult == EZ_UPLOADEDFILE_EXCEEDS_PHP_LIMIT )
+        if ( $canFetchResult == eZHTTPFile::UPLOADEDFILE_EXCEEDS_PHP_LIMIT )
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                 'The size of the uploaded file exceeds the limit set by the upload_max_filesize directive in php.ini.' ) );
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INVALID;
         }
-        if ( $canFetchResult == EZ_UPLOADEDFILE_EXCEEDS_MAX_SIZE )
+        if ( $canFetchResult == eZHTTPFile::UPLOADEDFILE_EXCEEDS_MAX_SIZE )
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                  'The size of the uploaded file exceeds the maximum upload size: %1 bytes.' ), $maxSize );
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INVALID;
         }
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
@@ -513,11 +515,11 @@ class eZBinaryFileType extends eZDataType
 
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $filesizeName = $base . EZ_DATATYPESTRING_MAX_BINARY_FILESIZE_VARIABLE . $classAttribute->attribute( 'id' );
+        $filesizeName = $base . self::EZ_DATATYPESTRING_MAX_BINARY_FILESIZE_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $filesizeName ) )
         {
             $filesizeValue = $http->postVariable( $filesizeName );
-            $classAttribute->setAttribute( EZ_DATATYPESTRING_MAX_BINARY_FILESIZE_FIELD, $filesizeValue );
+            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_MAX_BINARY_FILESIZE_FIELD, $filesizeValue );
         }
     }
     /*!
@@ -581,7 +583,7 @@ class eZBinaryFileType extends eZDataType
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $dom = $attributeParametersNode->ownerDocument;
-        $maxSize = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_BINARY_FILESIZE_FIELD );
+        $maxSize = $classAttribute->attribute( self::EZ_DATATYPESTRING_MAX_BINARY_FILESIZE_FIELD );
         $maxSizeNode = $dom->createElement( 'max-size', $maxSize );
         $maxSizeNode->setAttribute( 'unit-size', 'mega' );
         $attributeParametersNode->appendChild( $maxSizeNode );
@@ -595,7 +597,7 @@ class eZBinaryFileType extends eZDataType
         $sizeNode = $attributeParametersNode->getElementsByTagName( 'max-size' )->item( 0 );
         $maxSize = $sizeNode->textContent;
         $unitSize = $sizeNode->getAttribute( 'unit-size' );
-        $classAttribute->setAttribute( EZ_DATATYPESTRING_MAX_BINARY_FILESIZE_FIELD, $maxSize );
+        $classAttribute->setAttribute( self::EZ_DATATYPESTRING_MAX_BINARY_FILESIZE_FIELD, $maxSize );
     }
 
     /*!
@@ -685,7 +687,7 @@ class eZBinaryFileType extends eZDataType
             return false;
         }
 
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        //include_once( 'lib/ezfile/classes/ezdir.php' );
         $ini = eZINI::instance();
         $mimeType = $fileNode->getAttribute( 'mime-type' );
         list( $mimeTypeCategory, $mimeTypeName ) = explode( '/', $mimeType );
@@ -707,7 +709,7 @@ class eZBinaryFileType extends eZDataType
             $basename = substr( md5( mt_rand() ), 0, 8 ) . '.' . eZFile::suffix( $fileNode->getAttribute( 'filename' ) );
         }
 
-        include_once( 'lib/ezfile/classes/ezfilehandler.php' );
+        //include_once( 'lib/ezfile/classes/ezfilehandler.php' );
         eZFileHandler::copy( $sourcePath, $destinationPath . $basename );
         eZDebug::writeNotice( 'Copied: ' . $sourcePath . ' to: ' . $destinationPath . $basename,
                               'eZBinaryFileType::unserializeContentObjectAttribute()' );
@@ -728,6 +730,6 @@ class eZBinaryFileType extends eZDataType
 
 }
 
-eZDataType::register( EZ_DATATYPESTRING_BINARYFILE, "ezbinaryfiletype" );
+eZDataType::register( eZBinaryFileType::EZ_DATATYPESTRING_BINARYFILE, "eZBinaryFileType" );
 
 ?>

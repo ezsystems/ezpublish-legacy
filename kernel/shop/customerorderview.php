@@ -34,9 +34,9 @@
 $CustomerID = $Params['CustomerID'];
 $Email = $Params['Email'];
 $module = $Params['Module'];
-include_once( "kernel/common/template.php" );
+require_once( "kernel/common/template.php" );
 
-include_once( "kernel/classes/ezorder.php" );
+//include_once( "kernel/classes/ezorder.php" );
 
 $http = eZHTTPTool::instance();
 

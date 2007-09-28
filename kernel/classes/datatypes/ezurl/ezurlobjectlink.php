@@ -38,7 +38,7 @@
 
 */
 
-include_once( 'kernel/classes/ezpersistentobject.php' );
+//include_once( 'kernel/classes/ezpersistentobject.php' );
 
 class eZURLObjectLink extends eZPersistentObject
 {
@@ -223,7 +223,7 @@ class eZURLObjectLink extends eZPersistentObject
     */
     static function clearCacheForObjectLink( $urlID )
     {
-        include_once( "kernel/classes/ezcontentcachemanager.php" );
+        //include_once( "kernel/classes/ezcontentcachemanager.php" );
         $urlObjectLinkList = eZPersistentObject::fetchObjectList( eZURLObjectLink::definition(),
                                                                     null,
                                                                     array( 'url_id' => $urlID ),

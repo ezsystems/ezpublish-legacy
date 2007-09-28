@@ -35,22 +35,22 @@
 
 */
 
-include_once( "kernel/classes/ezdatatype.php" );
-include_once( "kernel/classes/datatypes/ezprice/ezprice.php" );
-
-define( "EZ_DATATYPESTRING_PRICE", "ezprice" );
-define( 'EZ_DATATYPESTRING_INCLUDE_VAT_FIELD', 'data_int1' );
-define( 'EZ_DATATYPESTRING_INCLUDE_VAT_VARIABLE', '_ezprice_include_vat_' );
-define( 'EZ_DATATYPESTRING_VAT_ID_FIELD', 'data_float1' );
-define( 'EZ_DATATYPESTRING_VAT_ID_VARIABLE', '_ezprice_vat_id_' );
-define( "EZ_PRICE_INCLUDED_VAT", 1 );
-define( "EZ_PRICE_EXCLUDED_VAT", 2 );
+//include_once( "kernel/classes/ezdatatype.php" );
+//include_once( "kernel/classes/datatypes/ezprice/ezprice.php" );
 
 class eZPriceType extends eZDataType
 {
+    const EZ_DATATYPESTRING_PRICE = "ezprice";
+    const EZ_DATATYPESTRING_INCLUDE_VAT_FIELD = 'data_int1';
+    const EZ_DATATYPESTRING_INCLUDE_VAT_VARIABLE = '_ezprice_include_vat_';
+    const EZ_DATATYPESTRING_VAT_ID_FIELD = 'data_float1';
+    const EZ_DATATYPESTRING_VAT_ID_VARIABLE = '_ezprice_vat_id_';
+    const EZ_PRICE_INCLUDED_VAT = 1;
+    const EZ_PRICE_EXCLUDED_VAT = 2;
+
     function eZPriceType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_PRICE, ezi18n( 'kernel/classes/datatypes', "Price", 'Datatype name' ),
+        $this->eZDataType( self::EZ_DATATYPESTRING_PRICE, ezi18n( 'kernel/classes/datatypes', "Price", 'Datatype name' ),
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( 'data_float' => 'price' ) ) );
     }
@@ -68,7 +68,7 @@ class eZPriceType extends eZDataType
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                  'Dynamic VAT cannot be included.' ) );
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INVALID;
         }
 
         // Check price.
@@ -76,24 +76,24 @@ class eZPriceType extends eZDataType
         {
             $data = $http->postVariable( $base . "_data_price_" . $contentObjectAttribute->attribute( "id" ) );
 
-            include_once( 'lib/ezlocale/classes/ezlocale.php' );
+            //include_once( 'lib/ezlocale/classes/ezlocale.php' );
             $locale = eZLocale::instance();
             $data = $locale->internalCurrency( $data );
             $classAttribute = $contentObjectAttribute->contentClassAttribute();
             if( !$contentObjectAttribute->validateIsRequired() && ( $data == "" ) )
             {
-                return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                return eZInputValidator::STATE_ACCEPTED;
             }
             if ( preg_match( "#^[0-9]+(.){0,1}[0-9]{0,2}$#", $data ) )
-                return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                return eZInputValidator::STATE_ACCEPTED;
 
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                  'Invalid price.' ) );
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INVALID;
         }
         else
         {
-            return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            return eZInputValidator::STATE_ACCEPTED;
         }
     }
 
@@ -125,23 +125,23 @@ class eZPriceType extends eZDataType
     */
     function initializeClassAttribute( $classAttribute )
     {
-        if ( $classAttribute->attribute( EZ_DATATYPESTRING_INCLUDE_VAT_FIELD ) == 0 )
-            $classAttribute->setAttribute( EZ_DATATYPESTRING_INCLUDE_VAT_FIELD, EZ_PRICE_INCLUDED_VAT );
+        if ( $classAttribute->attribute( self::EZ_DATATYPESTRING_INCLUDE_VAT_FIELD ) == 0 )
+            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_INCLUDE_VAT_FIELD, self::EZ_PRICE_INCLUDED_VAT );
         $classAttribute->store();
     }
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $isVatIncludedVariable = $base . EZ_DATATYPESTRING_INCLUDE_VAT_VARIABLE . $classAttribute->attribute( 'id' );
+        $isVatIncludedVariable = $base . self::EZ_DATATYPESTRING_INCLUDE_VAT_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $isVatIncludedVariable ) )
         {
             $isVatIncluded = $http->postVariable( $isVatIncludedVariable );
-            $classAttribute->setAttribute( EZ_DATATYPESTRING_INCLUDE_VAT_FIELD, $isVatIncluded );
+            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_INCLUDE_VAT_FIELD, $isVatIncluded );
         }
-        $vatIDVariable = $base . EZ_DATATYPESTRING_VAT_ID_VARIABLE . $classAttribute->attribute( 'id' );
+        $vatIDVariable = $base . self::EZ_DATATYPESTRING_VAT_ID_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $vatIDVariable  ) )
         {
             $vatID = $http->postVariable( $vatIDVariable  );
-            $classAttribute->setAttribute( EZ_DATATYPESTRING_VAT_ID_FIELD, $vatID );
+            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_VAT_ID_FIELD, $vatID );
         }
         return true;
     }
@@ -155,7 +155,7 @@ class eZPriceType extends eZDataType
         $vatType = $http->postVariable( $base . '_ezprice_vat_id_' . $contentObjectAttribute->attribute( 'id' ) );
         $vatExInc = $http->postVariable( $base . '_ezprice_inc_ex_vat_' . $contentObjectAttribute->attribute( 'id' ) );
 
-        include_once( 'lib/ezlocale/classes/ezlocale.php' );
+        //include_once( 'lib/ezlocale/classes/ezlocale.php' );
         $locale = eZLocale::instance();
         $data = $locale->internalCurrency( $data );
 
@@ -305,16 +305,16 @@ class eZPriceType extends eZDataType
         $vatNode = $attributeParametersNode->getElementsByTagName( 'vat-included' )->item( 0 );
         $vatIncluded = strtolower( $vatNode->getAttribute( 'is-set' ) ) == 'true';
         if ( $vatIncluded )
-            $vatIncluded = EZ_PRICE_INCLUDED_VAT;
+            $vatIncluded = self::EZ_PRICE_INCLUDED_VAT;
         else
-            $vatIncluded = EZ_PRICE_EXCLUDED_VAT;
+            $vatIncluded = self::EZ_PRICE_EXCLUDED_VAT;
 
-        $classAttribute->setAttribute( EZ_DATATYPESTRING_INCLUDE_VAT_FIELD, $vatIncluded );
+        $classAttribute->setAttribute( self::EZ_DATATYPESTRING_INCLUDE_VAT_FIELD, $vatIncluded );
         $vatTypeNode = $attributeParametersNode->getElementsByTagName( 'vat-type' )->item( 0 );
         $vatName = $vatTypeNode->getAttribute( 'name' );
         $vatPercentage = $vatTypeNode->getAttribute( 'percentage' );
         $vatID = false;
-        $vatTypes = eZVATType::fetchList();
+        $vatTypes = eZVatType::fetchList();
         foreach ( $vatTypes as $vatType )
         {
             if ( $vatType->attribute( 'name' ) == $vatName and
@@ -326,16 +326,16 @@ class eZPriceType extends eZDataType
         }
         if ( !$vatID )
         {
-            $vatType = eZVATType::create();
+            $vatType = eZVatType::create();
             $vatType->setAttribute( 'name', $vatName );
             $vatType->setAttribute( 'percentage', $vatPercentage );
             $vatType->store();
             $vatID = $vatType->attribute( 'id' );
         }
-        $classAttribute->setAttribute( EZ_DATATYPESTRING_VAT_ID_FIELD, $vatID );
+        $classAttribute->setAttribute( self::EZ_DATATYPESTRING_VAT_ID_FIELD, $vatID );
     }
 }
 
-eZDataType::register( EZ_DATATYPESTRING_PRICE, "ezpricetype" );
+eZDataType::register( eZPriceType::EZ_DATATYPESTRING_PRICE, "eZPriceType" );
 
 ?>

@@ -111,7 +111,7 @@ class eZTemplateMenuFunction
                             continue;
                         $parameterData =& $parameters[$parameterName];
                         $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameterData, false, array(),
-                                                                              array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $parameterName ) );
+                                                                              array( $namespaceValue, eZTemplate::NAMESPACE_SCOPE_RELATIVE, $parameterName ) );
                         $variableList[] = $parameterName;
                     }
 
@@ -119,7 +119,7 @@ class eZTemplateMenuFunction
 
                     foreach ( $variableList as $variableName )
                     {
-                        $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $variableName ) );
+                        $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( array( $namespaceValue, eZTemplate::NAMESPACE_SCOPE_RELATIVE, $variableName ) );
                     }
                 }
                 else

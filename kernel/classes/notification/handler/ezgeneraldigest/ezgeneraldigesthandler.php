@@ -36,19 +36,20 @@
   \brief The class eZGeneralDigestHandler does
 
 */
-include_once( 'kernel/classes/notification/eznotificationeventhandler.php' );
-include_once( 'kernel/classes/notification/eznotificationcollection.php' );
-define( 'EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID', 'ezgeneraldigest' );
-include_once( 'kernel/classes/notification/handler/ezgeneraldigest/ezgeneraldigestusersettings.php' );
+//include_once( 'kernel/classes/notification/eznotificationeventhandler.php' );
+//include_once( 'kernel/classes/notification/eznotificationcollection.php' );
+//include_once( 'kernel/classes/notification/handler/ezgeneraldigest/ezgeneraldigestusersettings.php' );
 
 class eZGeneralDigestHandler extends eZNotificationEventHandler
 {
+    const EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID = 'ezgeneraldigest';
+
     /*!
      Constructor
     */
     function eZGeneralDigestHandler()
     {
-        $this->eZNotificationEventHandler( EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID, "General Digest Handler" );
+        $this->eZNotificationEventHandler( self::EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID, "General Digest Handler" );
 
     }
 
@@ -136,7 +137,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
 
             $addressArray = $this->fetchUsersForDigest( $timestamp );
 
-            include_once( 'kernel/common/template.php' );
+            require_once( 'kernel/common/template.php' );
             $tpl = templateInit();
 
             foreach ( $addressArray as $address )
@@ -238,21 +239,21 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
         $address = $user->attribute( 'email' );
         $settings = eZGeneralDigestUserSettings::fetchForUser( $address );
 
-        if ( $http->hasPostVariable( 'ReceiveDigest_' . EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID ) &&
-             $http->hasPostVariable( 'ReceiveDigest_' . EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID ) == '1' )
+        if ( $http->hasPostVariable( 'ReceiveDigest_' . self::EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID ) &&
+             $http->hasPostVariable( 'ReceiveDigest_' . self::EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID ) == '1' )
         {
             $settings->setAttribute( 'receive_digest', 1 );
-            $digestType = $http->postVariable( 'DigestType_' . EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID );
+            $digestType = $http->postVariable( 'DigestType_' . self::EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID );
             $settings->setAttribute( 'digest_type', $digestType );
             if ( $digestType == 1 )
             {
-                $settings->setAttribute( 'day', $http->postVariable( 'Weekday_' . EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID ) );
+                $settings->setAttribute( 'day', $http->postVariable( 'Weekday_' . self::EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID ) );
             }
             else if ( $digestType == 2 )
             {
-                $settings->setAttribute( 'day', $http->postVariable( 'Monthday_' . EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID ) );
+                $settings->setAttribute( 'day', $http->postVariable( 'Monthday_' . self::EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID ) );
             }
-            $settings->setAttribute( 'time', $http->postVariable( 'Time_' . EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID ) );
+            $settings->setAttribute( 'time', $http->postVariable( 'Time_' . self::EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID ) );
             $settings->store();
         }
         else

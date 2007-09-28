@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/common/template.php" );
+require_once( "kernel/common/template.php" );
 
 $tpl = templateInit();
 
@@ -46,7 +46,7 @@ $ini = eZINI::instance();
 if ( $userObjectRequired )
 {
     // include user class
-    include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+    //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 
     $currentUser = eZUser::currentUser();
     $tpl->setVariable( "current_user", $currentUser );
@@ -92,7 +92,7 @@ eZDebug::writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "er
                     $httpErrorString = "$httpErrorCode $httpErrorName";
                     header( eZSys::serverVariable( 'SERVER_PROTOCOL' ) . " $httpErrorString" );
                     header( "Status: $httpErrorString" );
-                    if ( $errorNumber == EZ_ERROR_KERNEL_MOVED )
+                    if ( $errorNumber == eZError::KERNEL_MOVED )
                     {
                         $location = eZSys::indexDir() . "/" . $extraErrorParameters['new_location'];
                         // Set moved permanently headers.
@@ -120,7 +120,7 @@ eZDebug::writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "er
         $Result = array();
         $Result['content'] = false;
         $Result['rerun_uri'] = $errorRerunURL;
-        $module->setExitStatus( EZ_MODULE_STATUS_RERUN );
+        $module->setExitStatus( eZModule::STATUS_RERUN );
         return $Result;
     }
     else if ( $errorHandlerType == 'embed' )

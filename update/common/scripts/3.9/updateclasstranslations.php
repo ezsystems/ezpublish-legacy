@@ -34,8 +34,8 @@ set_time_limit( 0 );
 
 define( "QUERY_LIMIT", 30 );
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
 $endl = $cli->endlineString();
@@ -83,10 +83,10 @@ function changeSiteAccessSetting( &$siteaccess, $optionData )
     }
 }
 
-include_once( 'kernel/classes/ezcontentclassattribute.php' );
-include_once( 'kernel/classes/ezcontentclass.php' );
-include_once( 'kernel/classes/ezcontentlanguage.php' );
-include_once( 'lib/ezdb/classes/ezdb.php' );
+//include_once( 'kernel/classes/ezcontentclassattribute.php' );
+//include_once( 'kernel/classes/ezcontentclass.php' );
+//include_once( 'kernel/classes/ezcontentlanguage.php' );
+//include_once( 'lib/ezdb/classes/ezdb.php' );
 
 $db = eZDB::instance();
 $db->setIsSQLOutputEnabled( $showSQL );
@@ -105,7 +105,7 @@ $db->begin();
 
 for ( $offset = 0; ; $offset += QUERY_LIMIT )
 {
-    $classList = eZContentClass::fetchList( $version = EZ_CLASS_VERSION_STATUS_DEFINED,
+    $classList = eZContentClass::fetchList( $version = eZContentClass::VERSION_STATUS_DEFINED,
                                             $asObject = true,
                                             $user_id = false,
                                             $sorts = null,

@@ -26,10 +26,10 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezpackage.php' );
-include_once( 'kernel/classes/ezpackagecreationhandler.php' );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
+require_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezpackage.php' );
+//include_once( 'kernel/classes/ezpackagecreationhandler.php' );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
 $module = $Params['Module'];
 

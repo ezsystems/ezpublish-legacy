@@ -59,15 +59,15 @@ class eZDefaultConfirmOrderHandler
             $order = $params['order'];
             $email = $params['email'];
 
-            include_once( "kernel/common/template.php" );
+            require_once( "kernel/common/template.php" );
             $tpl = templateInit();
             $tpl->setVariable( 'order', $order );
             $templateResult = $tpl->fetch( 'design:shop/orderemail.tpl' );
 
             $subject = $tpl->variable( 'subject' );
 
-            include_once( 'lib/ezutils/classes/ezmail.php' );
-            include_once( 'lib/ezutils/classes/ezmailtransport.php' );
+            //include_once( 'lib/ezutils/classes/ezmail.php' );
+            //include_once( 'lib/ezutils/classes/ezmailtransport.php' );
             $mail = new eZMail();
 
             $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );

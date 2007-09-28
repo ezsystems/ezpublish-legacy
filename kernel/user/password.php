@@ -26,9 +26,9 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-include_once( "lib/ezutils/classes/ezhttptool.php" );
-include_once( 'lib/ezutils/classes/ezini.php' );
+//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
+//include_once( 'lib/ezutils/classes/ezini.php' );
 
 $ini = eZINI::instance();
 $currentUser = eZUser::currentUser();
@@ -66,11 +66,11 @@ else
 
 $user = eZUser::fetch( $UserID );
 if ( !$user )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 $currentUser = eZUser::currentUser();
 if ( $currentUser->attribute( 'contentobject_id' ) != $user->attribute( 'contentobject_id' ) or
      !$currentUser->isLoggedIn() )
-    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
 if ( $http->hasPostVariable( "OKButton" ) )
 {
@@ -133,14 +133,14 @@ if ( $http->hasPostVariable( "CancelButton" ) )
     {
         return $Module->redirectTo( $http->postVariable( "RedirectOnCancel" ) );
     }
-    include_once( 'kernel/classes/ezredirectmanager.php' );
+    //include_once( 'kernel/classes/ezredirectmanager.php' );
     eZRedirectManager::redirectTo( $Module, $redirectionURI );
     return;
 }
 
 $Module->setTitle( "Edit user information" );
 // Template handling
-include_once( "kernel/common/template.php" );
+require_once( "kernel/common/template.php" );
 $tpl = templateInit();
 $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "http", $http );

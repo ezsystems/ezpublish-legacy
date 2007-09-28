@@ -39,9 +39,9 @@
   \deprecated
 */
 
-include_once( "kernel/classes/ezpersistentobject.php" );
-include_once( "kernel/classes/ezcontentclassattribute.php" );
-include_once( "kernel/common/image.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezcontentclassattribute.php" );
+require_once( "kernel/common/image.php" );
 
 class eZImageVariation extends eZPersistentObject
 {
@@ -93,7 +93,7 @@ class eZImageVariation extends eZPersistentObject
                                                             'required' => true ) ),
                       "keys" => array( "contentobject_attribute_id, version, requestedwidth, requestedheight" ),
                       "function_attributes" => array( 'full_path' => 'fullPath' ),
-                      "relations" => array( "contentobject_attribute_id" => array( "class" => "ezcontentobjectattribute",
+                      "relations" => array( "contentobject_attribute_id" => array( "class" => "eZContentObjectAttribute",
                                                                          "field" => "id" ) ),
                       "class_name" => "eZImageVariation",
                       "name" => "ezimagevariation" );
@@ -197,8 +197,8 @@ class eZImageVariation extends eZPersistentObject
                 $imagevariation->removeVariation( $contentobjectAttributeID, $version );
         }
 
-        include_once( "lib/ezutils/classes/ezini.php" );
-        include_once( "lib/ezfile/classes/ezdir.php" );
+        //include_once( "lib/ezutils/classes/ezini.php" );
+        //include_once( "lib/ezfile/classes/ezdir.php" );
 
         $ini = eZINI::instance();
         $sys = eZSys::instance();

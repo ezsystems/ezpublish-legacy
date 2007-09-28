@@ -35,21 +35,21 @@
 
 */
 
-include_once( 'kernel/classes/ezdatatype.php' );
-include_once( 'kernel/common/i18n.php' );
+//include_once( 'kernel/classes/ezdatatype.php' );
+require_once( 'kernel/common/i18n.php' );
 
-include_once( 'kernel/classes/datatypes/ezkeyword/ezkeyword.php' );
-
-define( 'EZ_DATATYPESTRING_KEYWORD', 'ezkeyword' );
+//include_once( 'kernel/classes/datatypes/ezkeyword/ezkeyword.php' );
 
 class eZKeywordType extends eZDataType
 {
+    const EZ_DATATYPESTRING_KEYWORD = 'ezkeyword';
+
     /*!
      Initializes with a keyword id and a description.
     */
     function eZKeywordType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_KEYWORD, ezi18n( 'kernel/classes/datatypes', 'Keywords', 'Datatype name' ),
+        $this->eZDataType( self::EZ_DATATYPESTRING_KEYWORD, ezi18n( 'kernel/classes/datatypes', 'Keywords', 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -94,11 +94,11 @@ class eZKeywordType extends eZDataType
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'Input required.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    return eZInputValidator::STATE_INVALID;
                 }
             }
         }
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
@@ -144,7 +144,7 @@ class eZKeywordType extends eZDataType
     */
     function validateClassAttributeHTTPInput( $http, $base, $attribute )
     {
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
@@ -333,6 +333,6 @@ class eZKeywordType extends eZDataType
     }
 }
 
-eZDataType::register( EZ_DATATYPESTRING_KEYWORD, 'ezkeywordtype' );
+eZDataType::register( eZKeywordType::EZ_DATATYPESTRING_KEYWORD, 'eZKeywordType' );
 
 ?>

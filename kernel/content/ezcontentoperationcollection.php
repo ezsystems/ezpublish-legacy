@@ -65,21 +65,21 @@ class eZContentOperationCollection
         }
 
         if ( $node === null )
-//            return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+//            return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
             return false;
 
 
         $object = $node->attribute( 'object' );
 
         if ( $object === null )
-//            return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+//            return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
         {
             return false;
         }
 /*
         if ( !$object->attribute( 'can_read' ) )
         {
-//            return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+//            return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
             return false;
         }
 */
@@ -126,7 +126,7 @@ class eZContentOperationCollection
 
     function publishObjectExtensionHandler( $contentObjectID, $contentObjectVersion )
     {
-        include_once( 'kernel/classes/ezcontentobjectedithandler.php' );
+        //include_once( 'kernel/classes/ezcontentobjectedithandler.php' );
         eZContentObjectEditHandler::executePublish( $contentObjectID, $contentObjectVersion );
     }
 
@@ -146,17 +146,17 @@ class eZContentOperationCollection
             case 1:
             {
                 $statusName = 'pending';
-                $version->setAttribute( 'status', EZ_VERSION_STATUS_PENDING );
+                $version->setAttribute( 'status', eZContentObjectVersion::STATUS_PENDING );
             } break;
             case 2:
             {
                 $statusName = 'archived';
-                $version->setAttribute( 'status', EZ_VERSION_STATUS_ARCHIVED );
+                $version->setAttribute( 'status', eZContentObjectVersion::STATUS_ARCHIVED );
             } break;
             case 3:
             {
                 $statusName = 'published';
-                $version->setAttribute( 'status', EZ_VERSION_STATUS_PUBLISHED );
+                $version->setAttribute( 'status', eZContentObjectVersion::STATUS_PUBLISHED );
             } break;
             default:
                 $statusName = 'none';
@@ -173,8 +173,8 @@ class eZContentOperationCollection
         $db->begin();
 
         $object->publishContentObjectRelations( $versionNum );
-        $object->setAttribute( 'status', EZ_CONTENT_OBJECT_STATUS_PUBLISHED );
-        $version->setAttribute( 'status', EZ_VERSION_STATUS_PUBLISHED );
+        $object->setAttribute( 'status', eZContentObject::STATUS_PUBLISHED );
+        $version->setAttribute( 'status', eZContentObjectVersion::STATUS_PUBLISHED );
         $object->setAttribute( 'current_version', $versionNum );
 
         $objectIsAlwaysAvailable = $object->isAlwaysAvailable();
@@ -218,12 +218,12 @@ class eZContentOperationCollection
 
         /* Check if current class is the user class, and if so, clean up the
          * user-policy cache */
-        include_once( "lib/ezutils/classes/ezini.php" );
+        //include_once( "lib/ezutils/classes/ezini.php" );
         $ini = eZINI::instance();
         $userClassID = $ini->variable( "UserSettings", "UserClassID" );
         if ( $object->attribute( 'contentclass_id' ) == $userClassID )
         {
-            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+            //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
             eZUser::cleanupCache();
         }
     }
@@ -249,7 +249,7 @@ class eZContentOperationCollection
     */
     function generateObjectViewCache( $objectID )
     {
-        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::generateObjectViewCache( $objectID );
     }
 
@@ -264,7 +264,7 @@ class eZContentOperationCollection
     */
     function clearObjectViewCache( $objectID, $versionNum = true, $additionalNodeList = false )
     {
-        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearContentCacheIfNeeded( $objectID, $versionNum, $additionalNodeList );
     }
 
@@ -299,7 +299,7 @@ class eZContentOperationCollection
         }
         $updateSectionID = false;
         // now we check the op_code to see what to do
-        if ( ( $opCode & 1 ) == EZ_NODE_ASSIGNMENT_OP_CODE_NOP )
+        if ( ( $opCode & 1 ) == eZNodeAssignment::OP_CODE_NOP )
         {
             // There is nothing to do so just return
             $db->commit();
@@ -313,12 +313,12 @@ class eZContentOperationCollection
 
         $updateFields = false;
 
-        if ( $opCode == EZ_NODE_ASSIGNMENT_OP_CODE_MOVE ||
-             $opCode == EZ_NODE_ASSIGNMENT_OP_CODE_CREATE )
+        if ( $opCode == eZNodeAssignment::OP_CODE_MOVE ||
+             $opCode == eZNodeAssignment::OP_CODE_CREATE )
         {
 //            if ( $fromNodeID == 0 || $fromNodeID == -1)
-            if ( $opCode == EZ_NODE_ASSIGNMENT_OP_CODE_CREATE ||
-                 $opCode == EZ_NODE_ASSIGNMENT_OP_CODE_SET )
+            if ( $opCode == eZNodeAssignment::OP_CODE_CREATE ||
+                 $opCode == eZNodeAssignment::OP_CODE_SET )
             {
                 // If the node already exists it means we have a conflict (for 'CREATE').
                 // We resolve this by leaving node-assignment data be.
@@ -326,7 +326,7 @@ class eZContentOperationCollection
                 {
                     $parentNode = eZContentObjectTreeNode::fetch( $nodeID );
 
-                    include_once( 'kernel/classes/ezcontentbrowserecent.php' );
+                    //include_once( 'kernel/classes/ezcontentbrowserecent.php' );
                     $user = eZUser::currentUser();
                     eZContentBrowseRecent::createNew( $user->id(), $parentNode->attribute( 'node_id' ), $parentNode->attribute( 'name' ) );
                     $updateFields = true;
@@ -338,12 +338,12 @@ class eZContentOperationCollection
                         $updateSectionID = true;
                     }
                 }
-                elseif ( $opCode == EZ_NODE_ASSIGNMENT_OP_CODE_SET )
+                elseif ( $opCode == eZNodeAssignment::OP_CODE_SET )
                 {
                     $updateFields = true;
                 }
             }
-            elseif ( $opCode == EZ_NODE_ASSIGNMENT_OP_CODE_MOVE )
+            elseif ( $opCode == eZNodeAssignment::OP_CODE_MOVE )
             {
                 if ( $fromNodeID == 0 || $fromNodeID == -1 )
                 {
@@ -354,7 +354,7 @@ class eZContentOperationCollection
                     // clear cache for old placement.
                     $additionalNodeIDList = array( $fromNodeID );
 
-                    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+                    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
                     eZContentCacheManager::clearContentCacheIfNeeded( $objectID, $versionNum, $additionalNodeIDList );
 
                     $originalNode = eZContentObjectTreeNode::fetchNode( $originalObjectID, $fromNodeID );
@@ -368,7 +368,7 @@ class eZContentOperationCollection
                 }
             }
         }
-        elseif ( $opCode == EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE )
+        elseif ( $opCode == eZNodeAssignment::OP_CODE_REMOVE )
         {
             $db->commit();
             return;
@@ -392,7 +392,7 @@ class eZContentOperationCollection
             $existingNodeID = $existingNode->attribute( 'node_id' );
             if ( $existingNodeID != $mainNodeID )
             {
-                include_once( 'kernel/classes/ezcontentbrowserecent.php' );
+                //include_once( 'kernel/classes/ezcontentbrowserecent.php' );
                 eZContentBrowseRecent::updateNodeID( $existingNodeID, $mainNodeID );
             }
             $existingNode->setAttribute( 'main_node_id', $mainNodeID );
@@ -442,7 +442,7 @@ class eZContentOperationCollection
                 $newParentObject = $newMainAssignment->getParentObject();
                 if ( !$newParentObject )
                 {
-                    return array( 'status' => EZ_MODULE_OPERATION_CANCELED );
+                    return array( 'status' => eZModuleOperationInfo::STATUS_CANCELLED );
                 }
                 $parentNodeSectionID = $newParentObject->attribute( 'section_id' );
                 $object->setAttribute( 'section_id', $parentNodeSectionID );
@@ -516,11 +516,11 @@ class eZContentOperationCollection
         foreach ( $curentVersionNodeAssignments as $nodeAssignment )
         {
             $nodeAssignmentOpcode = $nodeAssignment->attribute( 'op_code' );
-            if ( $nodeAssignmentOpcode == EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE ||
-                 $nodeAssignmentOpcode == EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE_NOP )
+            if ( $nodeAssignmentOpcode == eZNodeAssignment::OP_CODE_REMOVE ||
+                 $nodeAssignmentOpcode == eZNodeAssignment::OP_CODE_REMOVE_NOP )
             {
                 $removeAssignmentsList[] = $nodeAssignment->attribute( 'id' );
-                if ( $nodeAssignmentOpcode == EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE )
+                if ( $nodeAssignmentOpcode == eZNodeAssignment::OP_CODE_REMOVE )
                 {
                     $removeParentNodeList[] = $nodeAssignment->attribute( 'parent_node' );
                 }
@@ -553,7 +553,7 @@ class eZContentOperationCollection
         $nodeAssignments = $version->attribute( 'node_assignments' );
         foreach ( $nodeAssignments as $nodeAssignment )
         {
-            if ( ( $nodeAssignment->attribute( 'op_code' ) & 1 ) == EZ_NODE_ASSIGNMENT_OP_CODE_EXECUTE )
+            if ( ( $nodeAssignment->attribute( 'op_code' ) & 1 ) == eZNodeAssignment::OP_CODE_EXECUTE )
             {
                 $nodeAssignment->setAttribute( 'op_code', ( $nodeAssignment->attribute( 'op_code' ) & ~1 ) );
                 $nodeAssignment->store();
@@ -569,21 +569,21 @@ class eZContentOperationCollection
     {
         eZDebug::createAccumulatorGroup( 'search_total', 'Search Total' );
 
-        include_once( "lib/ezutils/classes/ezini.php" );
+        //include_once( "lib/ezutils/classes/ezini.php" );
 
         $ini = eZINI::instance( 'site.ini' );
         $delayedIndexing = ( $ini->variable( 'SearchSettings', 'DelayedIndexing' ) == 'enabled' );
 
         if ( $delayedIndexing )
         {
-            include_once( "lib/ezdb/classes/ezdb.php" );
+            //include_once( "lib/ezdb/classes/ezdb.php" );
 
             $db = eZDB::instance();
             $db->query( 'INSERT INTO ezpending_actions( action, param ) VALUES ( \'index_object\', '. (int)$objectID. ' )' );
         }
         else
         {
-            include_once( "kernel/classes/ezsearch.php" );
+            //include_once( "kernel/classes/ezsearch.php" );
             $object = eZContentObject::fetch( $objectID );
             // Register the object in the search engine.
             eZDebug::accumulatorStart( 'remove_object', 'search_total', 'remove object' );
@@ -601,7 +601,7 @@ class eZContentOperationCollection
      */
     function createNotificationEvent( $objectID, $versionNum )
     {
-        include_once( 'kernel/classes/notification/eznotificationevent.php' );
+        //include_once( 'kernel/classes/notification/eznotificationevent.php' );
         $event = eZNotificationEvent::create( 'ezpublish', array( 'object' => $objectID,
                                                                    'version' => $versionNum ) );
         $event->store();

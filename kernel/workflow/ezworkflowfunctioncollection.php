@@ -37,7 +37,7 @@
 
 */
 
-//include_once( 'kernel/error/errors.php' );
+////include_once( 'kernel/error/errors.php' );
 
 class eZWorkflowFunctionCollection
 {
@@ -51,35 +51,37 @@ class eZWorkflowFunctionCollection
 
     function fetchWorkflowStatuses()
     {
-        include_once( 'kernel/classes/ezworkflow.php' );
+        //include_once( 'kernel/classes/ezworkflow.php' );
         if ( empty( $GLOBALS['eZWorkflowStatusNames'] ) )
         {
-            $statusNames = array( EZ_WORKFLOW_STATUS_NONE => ezi18n( 'kernel/classes', 'No state yet' ),
-                                  EZ_WORKFLOW_STATUS_BUSY => ezi18n( 'kernel/classes', 'Workflow running' ),
-                                  EZ_WORKFLOW_STATUS_DONE => ezi18n( 'kernel/classes', 'Workflow done' ),
-                                  EZ_WORKFLOW_STATUS_FAILED => ezi18n( 'kernel/classes', 'Workflow failed an event' ),
-                                  EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON => ezi18n( 'kernel/classes', 'Workflow event deferred to cron job' ),
-                                  EZ_WORKFLOW_STATUS_CANCELLED => ezi18n( 'kernel/classes', 'Workflow was canceled' ),
-                                  EZ_WORKFLOW_STATUS_FETCH_TEMPLATE => ezi18n( 'kernel/classes', 'Workflow fetches template' ),
-                                  EZ_WORKFLOW_STATUS_REDIRECT => ezi18n( 'kernel/classes', 'Workflow redirects user view' ),
-                                  EZ_WORKFLOW_STATUS_RESET => ezi18n( 'kernel/classes', 'Workflow was reset for reuse' ) );
+            $GLOBALS['eZWorkflowStatusNames'] =
+                array( eZWorkflow::STATUS_NONE => ezi18n( 'kernel/classes', 'No state yet' ),
+                       eZWorkflow::STATUS_BUSY => ezi18n( 'kernel/classes', 'Workflow running' ),
+                       eZWorkflow::STATUS_DONE => ezi18n( 'kernel/classes', 'Workflow done' ),
+                       eZWorkflow::STATUS_FAILED => ezi18n( 'kernel/classes', 'Workflow failed an event' ),
+                       eZWorkflow::STATUS_DEFERRED_TO_CRON => ezi18n( 'kernel/classes', 'Workflow event deferred to cron job' ),
+                       eZWorkflow::STATUS_CANCELLED => ezi18n( 'kernel/classes', 'Workflow was canceled' ),
+                       eZWorkflow::STATUS_FETCH_TEMPLATE => ezi18n( 'kernel/classes', 'Workflow fetches template' ),
+                       eZWorkflow::STATUS_REDIRECT => ezi18n( 'kernel/classes', 'Workflow redirects user view' ),
+                       eZWorkflow::STATUS_RESET => ezi18n( 'kernel/classes', 'Workflow was reset for reuse' ) );
         }
         return array( 'result' => $GLOBALS['eZWorkflowStatusNames'] );
     }
 
     function fetchWorkflowTypeStatuses()
     {
-        include_once( 'kernel/classes/ezworkflowtype.php' );
+        //include_once( 'kernel/classes/ezworkflowtype.php' );
         if ( empty( $GLOBALS['eZWorkflowTypeStatusNames'] ) )
         {
-            $statusNames = array( EZ_WORKFLOW_TYPE_STATUS_NONE => ezi18n( 'kernel/classes', 'No state yet' ),
-                                  EZ_WORKFLOW_TYPE_STATUS_ACCEPTED => ezi18n( 'kernel/classes', 'Accepted event' ),
-                                  EZ_WORKFLOW_TYPE_STATUS_REJECTED => ezi18n( 'kernel/classes', 'Rejected event' ),
-                                  EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON => ezi18n( 'kernel/classes', 'Event deferred to cron job' ),
-                                  EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON_REPEAT => ezi18n( 'kernel/classes', 'Event deferred to cron job, event will be rerun' ),
-                                  EZ_WORKFLOW_TYPE_STATUS_RUN_SUB_EVENT => ezi18n( 'kernel/classes', 'Event runs a sub event' ),
-                                  EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_CANCELLED => ezi18n( 'kernel/classes', 'Canceled whole workflow' ),
-                                  EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_RESET => ezi18n( 'kernel/classes', 'Workflow was reset for reuse' ) );
+            $GLOBALS['eZWorkflowTypeStatusNames'] =
+                array( eZWorkflowType::STATUS_NONE => ezi18n( 'kernel/classes', 'No state yet' ),
+                       eZWorkflowType::STATUS_ACCEPTED => ezi18n( 'kernel/classes', 'Accepted event' ),
+                       eZWorkflowType::STATUS_REJECTED => ezi18n( 'kernel/classes', 'Rejected event' ),
+                       eZWorkflowType::STATUS_DEFERRED_TO_CRON => ezi18n( 'kernel/classes', 'Event deferred to cron job' ),
+                       eZWorkflowType::STATUS_DEFERRED_TO_CRON_REPEAT => ezi18n( 'kernel/classes', 'Event deferred to cron job, event will be rerun' ),
+                       eZWorkflowType::STATUS_RUN_SUB_EVENT => ezi18n( 'kernel/classes', 'Event runs a sub event' ),
+                       eZWorkflowType::STATUS_WORKFLOW_CANCELLED => ezi18n( 'kernel/classes', 'Canceled whole workflow' ),
+                       eZWorkflowType::STATUS_WORKFLOW_RESET => ezi18n( 'kernel/classes', 'Workflow was reset for reuse' ) );
         }
         return array( 'result' => $GLOBALS['eZWorkflowTypeStatusNames'] );
     }

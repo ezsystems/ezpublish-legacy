@@ -43,7 +43,7 @@
   - height - The height
 */
 
-include_once( 'lib/ezimage/classes/ezimagehandler.php' );
+//include_once( 'lib/ezimage/classes/ezimagehandler.php' );
 
 class eZImageGDHandler extends eZImageHandler
 {
@@ -51,7 +51,7 @@ class eZImageGDHandler extends eZImageHandler
      Constructor
     */
     function eZImageGDHandler( $handlerName, $isGloballyEnabled,
-                               $outputRewriteType = EZ_IMAGE_HANDLER_REPLACE_SUFFIX,
+                               $outputRewriteType = self::EZ_IMAGE_HANDLER_REPLACE_SUFFIX,
                                $conversionRules = false )
     {
         $supportedInputMIMETypes = array();
@@ -734,7 +734,7 @@ class eZImageGDHandler extends eZImageHandler
             $iniFilename = 'image.ini';
 
         $handler = false;
-        include_once( 'lib/ezutils/classes/ezini.php' );
+        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance( $iniFilename );
         if ( !$ini )
         {
@@ -764,7 +764,7 @@ class eZImageGDHandler extends eZImageHandler
                 }
             }
             $isEnabled = $ini->variable( $iniGroup, 'IsEnabled' ) == 'true';
-            $outputRewriteType = EZ_IMAGE_HANDLER_REPLACE_SUFFIX;
+            $outputRewriteType = self::EZ_IMAGE_HANDLER_REPLACE_SUFFIX;
             $handler = new eZImageGDHandler( $name, $isEnabled,
                                              $outputRewriteType,
                                              $conversionRules );

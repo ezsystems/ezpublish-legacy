@@ -46,8 +46,8 @@ if( !file_exists( 'update/common/scripts' ) || !is_dir( 'update/common/scripts' 
     exit;
 }
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
 
@@ -134,8 +134,8 @@ else
     }
 }
 
-include_once( 'kernel/classes/ezcontentobjectattribute.php' );
-include_once( 'lib/ezxml/classes/ezxml.php' );
+//include_once( 'kernel/classes/ezcontentobjectattribute.php' );
+//include_once( 'lib/ezxml/classes/ezxml.php' );
 
 $links = array();
 $added_links_count = 0;

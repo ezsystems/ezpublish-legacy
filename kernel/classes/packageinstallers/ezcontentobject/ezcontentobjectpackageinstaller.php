@@ -37,7 +37,7 @@
   \brief A package creator for content objects
 */
 
-include_once( 'kernel/classes/ezpackageinstallationhandler.php' );
+//include_once( 'kernel/classes/ezpackageinstallationhandler.php' );
 
 class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
 {
@@ -87,7 +87,7 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
     */
     function initializeSiteAccess( $package, $http, $step, &$persistentData, $tpl )
     {
-        include_once( 'lib/ezutils/classes/ezini.php' );
+        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
         $availableSiteAccessArray = $ini->variable( 'SiteAccessSettings', 'RelatedSiteAccessList' );
 
@@ -162,7 +162,7 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
         {
             if ( $http->hasPostVariable( 'BrowseNode_' . $topNodeArrayKey ) )
             {
-                include_once( 'kernel/classes/ezcontentbrowse.php' );
+                //include_once( 'kernel/classes/ezcontentbrowse.php' );
                 eZContentBrowse::browse( array( 'action_name' => 'SelectObjectRelationNode',
                                                 'description_template' => 'design:package/installers/ezcontentobject/browse_topnode.tpl',
                                                 'from_page' => '/package/install',

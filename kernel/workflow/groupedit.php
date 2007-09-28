@@ -26,10 +26,10 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/classes/ezworkflowgroup.php" );
-include_once( "kernel/classes/ezworkflowgrouplink.php" );
-include_once( "lib/ezutils/classes/ezhttptool.php" );
-include_once( "lib/ezutils/classes/ezhttppersistence.php" );
+//include_once( "kernel/classes/ezworkflowgroup.php" );
+//include_once( "kernel/classes/ezworkflowgrouplink.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
+//include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 
 $Module = $Params['Module'];
 if ( isset( $Params["WorkflowGroupID"] ) )
@@ -37,7 +37,7 @@ if ( isset( $Params["WorkflowGroupID"] ) )
 else
     $WorkflowGroupID = false;
 
-// include_once( "lib/ezutils/classes/ezexecutionstack.php" );
+// //include_once( "lib/ezutils/classes/ezexecutionstack.php" );
 // $execStack = eZExecutionStack::instance();
 // $execStack->addEntry( $Module->functionURI( "groupedit" ) . "/" . $WorkflowGroupID,
 //                       $Module->attribute( "name" ), "groupedit" );
@@ -48,7 +48,7 @@ if ( is_numeric( $WorkflowGroupID ) )
 }
 else
 {
-    include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+    //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
     $user = eZUser::currentUser();
     $user_id = $user->attribute( "contentobject_id" );
     $workflowGroup = eZWorkflowGroup::create( $user_id );
@@ -67,16 +67,16 @@ if ( $http->hasPostVariable( "DiscardButton" ) )
 }
 
 // Validate input
-include_once( "lib/ezutils/classes/ezinputvalidator.php" );
+//include_once( "lib/ezutils/classes/ezinputvalidator.php" );
 $requireFixup = false;
 // Apply HTTP POST variables
-eZHttpPersistence::fetch( "WorkflowGroup", eZWorkflowGroup::definition(),
+eZHTTPPersistence::fetch( "WorkflowGroup", eZWorkflowGroup::definition(),
                           $workflowGroup, $http, false );
 
 // Set new modification date
 $date_time = time();
 $workflowGroup->setAttribute( "modified", $date_time );
-include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 $user = eZUser::currentUser();
 $user_id = $user->attribute( "contentobject_id" );
 $workflowGroup->setAttribute( "modifier_id", $user_id );
@@ -90,10 +90,10 @@ if ( $http->hasPostVariable( "StoreButton" ) )
     }
     $workflowGroup->setAttribute( "name", $name );
     // Set new modification date
-    include_once( "lib/ezlocale/classes/ezdatetime.php" );
+    //include_once( "lib/ezlocale/classes/ezdatetime.php" );
     $date_time = time();
     $workflowGroup->setAttribute( "modified", $date_time );
-    include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+    //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
     $user = eZUser::currentUser();
     $user_id = $user->attribute( "contentobject_id" );
     $workflowGroup->setAttribute( "modifier_id", $user_id );
@@ -106,7 +106,7 @@ $Module->setTitle( ezi18n( 'kernel/workflow', 'Edit workflow group' ) . ' ' .
                    $workflowGroup->attribute( "name" ) );
 
 // Template handling
-include_once( "kernel/common/template.php" );
+require_once( "kernel/common/template.php" );
 $tpl = templateInit();
 
 $res = eZTemplateDesignResource::instance();

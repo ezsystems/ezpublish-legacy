@@ -44,16 +44,16 @@ if ( $http->hasVariable( 'filterString' ) )
         $doFiltration = true;
 }
 
-include_once( "kernel/common/template.php" );
-include_once( "kernel/common/eztemplatedesignresource.php" );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/common/eztemplatedesignresource.php" );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
 $ini = eZINI::instance();
 $tpl = templateInit();
 
 $siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
 
-$overrideArray = eZTemplatedesignresource::overrideArray( $siteAccess );
+$overrideArray = eZTemplateDesignResource::overrideArray( $siteAccess );
 
 $mostUsedOverrideArray = array();
 $filteredOverrideArray = array();

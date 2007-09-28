@@ -34,7 +34,7 @@
 
 */
 
-include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
 
 class eZSection extends eZPersistentObject
 {
@@ -155,7 +155,7 @@ class eZSection extends eZPersistentObject
         $sectionID = false;
         if ( $sessionRequired )
         {
-            include_once( 'lib/ezutils/classes/ezhttptool.php' );
+            //include_once( 'lib/ezutils/classes/ezhttptool.php' );
             $http = eZHTTPTool::instance();
             $sectionArray = array();
             if ( $http->hasSessionVariable( 'eZGlobalSection' ) )
@@ -182,7 +182,7 @@ class eZSection extends eZPersistentObject
     */
     static function setGlobalID( $sectionID )
     {
-        include_once( 'lib/ezutils/classes/ezhttptool.php' );
+        //include_once( 'lib/ezutils/classes/ezhttptool.php' );
         $http = eZHTTPTool::instance();
         $sectionArray = array();
         if ( $http->hasSessionVariable( 'eZGlobalSection' ) )
@@ -199,7 +199,7 @@ class eZSection extends eZPersistentObject
     */
     static function globalID()
     {
-        include_once( 'lib/ezutils/classes/ezhttptool.php' );
+        //include_once( 'lib/ezutils/classes/ezhttptool.php' );
         $http = eZHTTPTool::instance();
         if ( $http->hasSessionVariable( 'eZGlobalSection' ) )
         {

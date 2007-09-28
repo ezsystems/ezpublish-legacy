@@ -31,8 +31,8 @@
 // file  bin/php/ezsubtreecopy.php
 
 // script initializing
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "\n" .
@@ -63,8 +63,8 @@ $allVersions = $scriptOptions[ 'all-versions' ];
 $keepCreator = $scriptOptions[ 'keep-creator' ];
 $keepTime    = $scriptOptions[ 'keep-time' ];
 
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 
 function copyPublishContentObject( $sourceObject,
                                    $sourceSubtreeNodeIDList,
@@ -174,7 +174,7 @@ function copyPublishContentObject( $sourceObject,
     }
 
     // publish the newly created object
-    include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+    //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
     $result = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $newObject->attribute( 'id' ),
                                                                         'version'   => $curVersion ) );
     // JB start

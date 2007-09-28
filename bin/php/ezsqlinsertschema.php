@@ -27,8 +27,8 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "eZ publish SQL Schema insert\n\n" .
@@ -197,7 +197,7 @@ function eZTriedDatabaseString( $database, $host, $user, $password, $socket )
 
 // Connect to database
 
-include_once( 'lib/ezdb/classes/ezdb.php' );
+//include_once( 'lib/ezdb/classes/ezdb.php' );
 $parameters = array( 'server' => $host,
                      'user' => $user,
                      'password' => $password,
@@ -236,7 +236,7 @@ if ( !$db or !$db->isConnected() )
 
 // Load in schema/data files
 
-include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
+//include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
 $schemaArray = eZDBSchema::read( $filename, true );
 if ( $includeData and !$options['schema-file'] )
 {
@@ -251,7 +251,7 @@ if ( $options['schema-file'] )
         $cli->error( "Schema file " . $options['schema-file'] . " does not exist" );
         $script->shutdown( 1 );
     }
-    $schema = eZDBSchema::read( $options['schema-file'], false );
+    $schema = eZDbSchema::read( $options['schema-file'], false );
     $schemaArray['schema'] = $schema;
 }
 
@@ -276,7 +276,7 @@ $schemaArray['type'] = $type;
 
 if ( $options['clean-existing'] )
 {
-    include_once( 'lib/ezdb/classes/ezdbtool.php' );
+    //include_once( 'lib/ezdb/classes/ezdbtool.php' );
     $status = eZDBTool::cleanup( $db );
     if ( !$status )
     {

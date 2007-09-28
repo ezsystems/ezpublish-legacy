@@ -31,9 +31,9 @@
 /*! \file customlist.php
 */
 
-include_once( "kernel/common/template.php" );
+require_once( "kernel/common/template.php" );
 
-include_once( "kernel/classes/ezorder.php" );
+//include_once( "kernel/classes/ezorder.php" );
 
 $module = $Params["module"];
 

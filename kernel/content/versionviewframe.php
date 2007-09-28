@@ -31,7 +31,7 @@
 
 /* Module action checks */
 if ( $Module->isCurrentAction( 'Edit' ) and
-     $versionObject->attribute( 'status' ) == EZ_VERSION_STATUS_DRAFT and
+     $versionObject->attribute( 'status' ) == eZContentObjectVersion::STATUS_DRAFT and
      $contentObject->attribute( 'can_edit' ) and
      $isCreator )
 {
@@ -42,21 +42,21 @@ if ( $Module->isCurrentAction( 'Edit' ) and
 // Instead we redirect to the edit page without a version, this will create
 // a new version for us and start the edit operation
 if ( $Module->isCurrentAction( 'Edit' ) and
-     $contentObject->attribute( 'status' ) == EZ_CONTENT_OBJECT_STATUS_ARCHIVED and
+     $contentObject->attribute( 'status' ) == eZContentObject::STATUS_ARCHIVED and
      $contentObject->attribute( 'can_edit' ) )
 {
     return $Module->redirectToView( 'edit', array( $ObjectID, false, $LanguageCode, $FromLanguage ) );
 }
 
 if ( $Module->isCurrentAction( 'Publish' ) and
-     $versionObject->attribute( 'status' ) == EZ_VERSION_STATUS_DRAFT and
+     $versionObject->attribute( 'status' ) == eZContentObjectVersion::STATUS_DRAFT and
      $contentObject->attribute( 'can_edit' ) and
      $isCreator )
 {
     $conflictingVersions = $versionObject->hasConflicts( $LanguageCode );
     if ( $conflictingVersions )
     {
-        include_once( 'kernel/common/template.php' );
+        require_once( 'kernel/common/template.php' );
         $tpl = templateInit();
 
         $res = eZTemplateDesignResource::instance();
@@ -77,7 +77,7 @@ if ( $Module->isCurrentAction( 'Publish' ) and
         return $Result;
     }
 
-    include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+    //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $ObjectID,
                                                                                  'version' => $EditVersion ) );
     $object = eZContentObject::fetch( $ObjectID );

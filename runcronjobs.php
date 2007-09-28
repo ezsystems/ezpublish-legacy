@@ -37,12 +37,12 @@
 // Define maximum script execution time to 12 hours
 define( 'eZRunCronjobs_MaxScriptExecutionTime', 12*3600 );
 
-include_once( "lib/ezutils/classes/ezextension.php" );
-include_once( "lib/ezutils/classes/ezmodule.php" );
-include_once( 'lib/ezutils/classes/ezmutex.php' );
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
-include_once( 'kernel/classes/ezcontentlanguage.php' );
+//include_once( "lib/ezutils/classes/ezextension.php" );
+//include_once( "lib/ezutils/classes/ezmodule.php" );
+//include_once( 'lib/ezutils/classes/ezmutex.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'kernel/classes/ezcontentlanguage.php' );
 
 eZContentLanguage::setCronjobMode();
 
@@ -225,15 +225,15 @@ for ( $i = 1; $i < count( $argv ); ++$i )
                             $useIncludeFiles = true;
                         }
                         if ( $level == 'error' )
-                            $level = EZ_LEVEL_ERROR;
+                            $level = eZDebug::EZ_LEVEL_ERROR;
                         else if ( $level == 'warning' )
-                            $level = EZ_LEVEL_WARNING;
+                            $level = eZDebug::EZ_LEVEL_WARNING;
                         else if ( $level == 'debug' )
-                            $level = EZ_LEVEL_DEBUG;
+                            $level = eZDebug::EZ_LEVEL_DEBUG;
                         else if ( $level == 'notice' )
-                            $level = EZ_LEVEL_NOTICE;
+                            $level = eZDebug::EZ_LEVEL_NOTICE;
                         else if ( $level == 'timing' )
-                            $level = EZ_LEVEL_TIMING;
+                            $level = eZDebug::EZ_LEVEL_TIMING;
                         $allowedDebugLevels[] = $level;
                     }
                 }
@@ -286,7 +286,7 @@ $ini = eZINI::instance( 'cronjob.ini' );
 $scriptDirectories = $ini->variable( 'CronjobSettings', 'ScriptDirectories' );
 
 /* Include extension directories */
-include_once( 'lib/ezutils/classes/ezextension.php' );
+//include_once( 'lib/ezutils/classes/ezextension.php' );
 $extensionDirectories = $ini->variable( 'CronjobSettings', 'ExtensionDirectories' );
 $scriptDirectories = array_merge( $scriptDirectories, eZExtension::expandedPathList( $extensionDirectories, 'cronjobs' ) );
 

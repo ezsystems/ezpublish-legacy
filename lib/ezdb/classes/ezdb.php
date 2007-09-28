@@ -64,7 +64,7 @@
 
   \code
   // include the library
-  include_once( 'lib/ezdb/classes/ezdb.php' );
+  //include_once( 'lib/ezdb/classes/ezdb.php' );
 
   // Get the current database instance
   // will create a new database object and connect to the database backend
@@ -104,7 +104,7 @@
   \sa eZLocale eZINI
 */
 
-include_once( 'lib/ezutils/classes/ezdebug.php' );
+require_once( 'lib/ezutils/classes/ezdebug.php' );
 
 class eZDB
 {
@@ -169,7 +169,7 @@ class eZDB
 
         if ( $fetchInstance )
         {
-            include_once( 'lib/ezutils/classes/ezini.php' );
+            //include_once( 'lib/ezutils/classes/ezini.php' );
             $ini = eZINI::instance();
             if ( $databaseImplementation === false and $useDefaults )
                 $databaseImplementation = $ini->variable( 'DatabaseSettings', 'DatabaseImplementation' );
@@ -287,7 +287,7 @@ class eZDB
                 $databaseParameters['show_errors'] = $b['show_errors'];
 
             // Search for the db interface implementations in active extensions directories.
-            include_once( 'lib/ezutils/classes/ezextension.php' );
+            //include_once( 'lib/ezutils/classes/ezextension.php' );
             $baseDirectory         = eZExtension::baseDirectory();
             $extensionDirectories  = eZExtension::activeExtensions();
             $extensionDirectories  = array_unique( $extensionDirectories );
@@ -320,7 +320,7 @@ class eZDB
             }
             if ( $impl === null )
             {
-                include_once( 'lib/ezdb/classes/eznulldb.php' );
+                //include_once( 'lib/ezdb/classes/eznulldb.php' );
                 $impl = new eZNullDB( $databaseParameters );
                 $impl->ErrorMessage = "No database handler was found for '$databaseImplementation'";
                 $impl->ErrorNumber = -1;
@@ -344,7 +344,7 @@ class eZDB
     static function checkTransactionCounter()
     {
         $result = true;
-        include_once( 'lib/ezutils/classes/ezini.php' );
+        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
         $checkValidity = ( $ini->variable( "SiteAccessSettings", "CheckValidity" ) == "true" );
         if ( $checkValidity )
@@ -362,7 +362,7 @@ class eZDB
             {
                 eZDebug::writeError( $stack, 'Transaction stack' );
             }
-            include_once( 'lib/ezutils/classes/ezini.php' );
+            //include_once( 'lib/ezutils/classes/ezini.php' );
             $ini = eZINI::instance();
             // In debug mode the transaction will be invalidated causing the top-level commit
             // to issue an error.

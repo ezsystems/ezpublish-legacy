@@ -35,11 +35,11 @@
 
 */
 
-include_once( "lib/ezutils/classes/ezdebug.php" );
-include_once( "lib/ezxml/classes/ezxml.php" );
-include_once( "lib/ezsoap/classes/ezsoapparameter.php" );
-include_once( 'lib/ezsoap/classes/ezsoapcodec.php' );
-include_once( "lib/ezsoap/classes/ezsoapenvelope.php" );
+require_once( "lib/ezutils/classes/ezdebug.php" );
+//include_once( "lib/ezxml/classes/ezxml.php" );
+//include_once( "lib/ezsoap/classes/ezsoapparameter.php" );
+//include_once( 'lib/ezsoap/classes/ezsoapcodec.php' );
+//include_once( "lib/ezsoap/classes/ezsoapenvelope.php" );
 
 class eZSOAPRequest extends eZSOAPEnvelope
 {
@@ -110,14 +110,14 @@ class eZSOAPRequest extends eZSOAPEnvelope
         $doc = new DOMDocument( "1.0" );
         $doc->name = 'eZSOAP message';
 
-        $root = $doc->createElementNS( EZ_SOAP_ENV, EZ_SOAP_ENV_PREFIX . ':Envelope' );
+        $root = $doc->createElementNS( eZSOAPEnvelope::EZ_SOAP_ENV, eZSOAPEnvelope::EZ_SOAP_ENV_PREFIX . ':Envelope' );
 
-        $root->setAttribute( 'xmlns:' . EZ_SOAP_XSI_PREFIX, EZ_SOAP_SCHEMA_INSTANCE );
-        $root->setAttribute( 'xmlns:' . EZ_SOAP_XSD_PREFIX, EZ_SOAP_SCHEMA_DATA );
-        $root->setAttribute( 'xmlns:' . EZ_SOAP_ENC_PREFIX, EZ_SOAP_ENC );
+        $root->setAttribute( 'xmlns:' . eZSOAPEnvelope::EZ_SOAP_XSI_PREFIX, eZSOAPEnvelope::EZ_SOAP_SCHEMA_INSTANCE );
+        $root->setAttribute( 'xmlns:' . eZSOAPEnvelope::EZ_SOAP_XSD_PREFIX, eZSOAPEnvelope::EZ_SOAP_SCHEMA_DATA );
+        $root->setAttribute( 'xmlns:' . eZSOAPEnvelope::EZ_SOAP_ENC_PREFIX, eZSOAPEnvelope::EZ_SOAP_ENC );
 
         // add the body
-        $body = $doc->createElement( EZ_SOAP_ENV_PREFIX . ':Body' );
+        $body = $doc->createElement( eZSOAPEnvelope::EZ_SOAP_ENV_PREFIX . ':Body' );
         $body->setAttribute( 'xmlns:req', $this->Namespace );
 
         foreach( $this->BodyAttributes as $name => $value )

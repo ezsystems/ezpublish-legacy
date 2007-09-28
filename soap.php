@@ -39,10 +39,10 @@ ob_start();
 
 ini_set( "display_errors" , "0" );
 
-include_once( "lib/ezutils/classes/ezdebug.php" );
-include_once( "lib/ezutils/classes/ezini.php" );
-include_once( 'lib/ezutils/classes/ezsys.php' );
-include_once( 'lib/ezutils/classes/ezexecution.php' );
+require_once( "lib/ezutils/classes/ezdebug.php" );
+//include_once( "lib/ezutils/classes/ezini.php" );
+//include_once( 'lib/ezutils/classes/ezsys.php' );
+require_once( 'lib/ezutils/classes/ezexecution.php' );
 
 /*!
  Reads settings from site.ini and passes them to eZDebug.
@@ -64,17 +64,17 @@ eZSys::initIni( $ini );
 
 
 // include ezsession override implementation
-include_once( "lib/ezutils/classes/ezsession.php" );
+require_once( "lib/ezutils/classes/ezsession.php" );
 
 // Check for extension
-include_once( 'lib/ezutils/classes/ezextension.php' );
-include_once( 'kernel/common/ezincludefunctions.php' );
+//include_once( 'lib/ezutils/classes/ezextension.php' );
+require_once( 'kernel/common/ezincludefunctions.php' );
 eZExtension::activateExtensions( 'default' );
 // Extension check end
 
 
 // Activate correct siteaccess
-include_once( "access.php" );
+require_once( "access.php" );
 $access = array( 'name' => $ini->variable( 'SiteSettings', 'DefaultAccess' ),
                  'type' => EZ_ACCESS_TYPE_DEFAULT );
 $access = changeAccess( $access );
@@ -93,18 +93,18 @@ function eZUpdateTextCodecSettings()
     list( $i18nSettings['internal-charset'], $i18nSettings['http-charset'], $i18nSettings['mbstring-extension'] ) =
         $ini->variableMulti( 'CharacterSettings', array( 'Charset', 'HTTPCharset', 'MBStringExtension' ), array( false, false, 'enabled' ) );
 
-    include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+    //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
     eZTextCodec::updateSettings( $i18nSettings );
 }
 
 // Initialize text codec settings
 eZUpdateTextCodecSettings();
 
-include_once( 'lib/ezdb/classes/ezdb.php' );
+//include_once( 'lib/ezdb/classes/ezdb.php' );
 $db = eZDB::instance();
 
 // Initialize module loading
-include_once( "lib/ezutils/classes/ezmodule.php" );
+//include_once( "lib/ezutils/classes/ezmodule.php" );
 $moduleRepositories = eZModule::activeModuleRepositories();
 eZModule::setGlobalPathList( $moduleRepositories );
 
@@ -116,13 +116,13 @@ if ( $enableSOAP == 'true' )
 {
     eZSys::init( 'soap.php' );
 
-    include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+    //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 
     // Login if we have username and password.
     if ( isset( $_SERVER['PHP_AUTH_USER'] ) and isset( $_SERVER['PHP_AUTH_PW'] ) )
         eZUser::loginUser( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] );
 
-    include_once( 'lib/ezsoap/classes/ezsoapserver.php' );
+    //include_once( 'lib/ezsoap/classes/ezsoapserver.php' );
 
     $server = new eZSOAPServer();
 

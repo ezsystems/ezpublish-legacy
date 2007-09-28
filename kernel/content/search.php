@@ -26,12 +26,12 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "lib/ezutils/classes/ezhttptool.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
 
-include_once( "kernel/common/template.php" );
+require_once( "kernel/common/template.php" );
 
-include_once( "kernel/classes/ezsearch.php" );
-include_once( "kernel/classes/ezsearchlog.php" );
+//include_once( "kernel/classes/ezsearch.php" );
+//include_once( "kernel/classes/ezsearchlog.php" );
 
 /*!
  Get search limit
@@ -138,7 +138,7 @@ if ( $useSearchCode )
 
 if ( $searchSectionID != -1 )
 {
-    include_once( 'kernel/common/eztemplatedesignresource.php' );
+    //include_once( 'kernel/common/eztemplatedesignresource.php' );
     $res = eZTemplateDesignResource::instance();
     $res->setKeys( array( array( 'section', $searchSectionID ) ) );
 }
@@ -165,7 +165,7 @@ if ( $http->hasVariable( 'Mode' ) && $http->variable( 'Mode' ) == 'browse' )
                                                               'SearchTimestamp' => $searchTimestamp,
                                                               "SearchLimit" => $pageLimit,
                                                               "SearchOffset" => $Offset ) );
-    $sys = eZSYS::instance();
+    $sys = eZSys::instance();
     $searchResult['RequestedURI'] = "content/search";
 //    $searchResult['RequestedURISuffix'] = $sys->serverVariable( "QUERY_STRING" );
 

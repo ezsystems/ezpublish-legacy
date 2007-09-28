@@ -38,7 +38,7 @@
   Contains data from two versions of an content object.
 */
 
-include_once( 'lib/ezdiff/classes/ezdiffcontent.php' );
+//include_once( 'lib/ezdiff/classes/ezdiffcontent.php' );
 
 class eZDiffContainerObject extends eZDiffContent
 {

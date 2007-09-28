@@ -37,8 +37,8 @@
 
 */
 
-include_once( "lib/eztemplate/classes/eztemplatefileresource.php" );
-include_once( "lib/ezutils/classes/ezini.php" );
+//include_once( "lib/eztemplate/classes/eztemplatefileresource.php" );
+//include_once( "lib/ezutils/classes/ezini.php" );
 
 class eZTemplateDesignResource extends eZTemplateFileResource
 {
@@ -151,7 +151,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                     $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code );
                     $newNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( '',
                                                                                      $matchFile, $matchFile,
-                                                                                     EZ_RESOURCE_FETCH, false,
+                                                                                     eZTemplate::RESOURCE_FETCH, false,
                                                                                      $node[4], array( 'spacing' => $spacing ),
                                                                                      $namespaceValue );
                     if ( $matchConditionCount > 0 or $matchCount > 0 )
@@ -172,7 +172,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             {
                 $newNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( '',
                                                                                  $file, $file,
-                                                                                 EZ_RESOURCE_FETCH, false,
+                                                                                 eZTemplate::RESOURCE_FETCH, false,
                                                                                  $node[4], array( 'spacing' => $spacing ),
                                                                                  $namespaceValue );
             }
@@ -252,7 +252,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         $ini = eZINI::instance();
         $additionalSiteDesignList = $ini->variable( "DesignSettings", "AdditionalSiteDesignList" );
 
-        include_once( 'lib/ezutils/classes/ezextension.php' );
+        //include_once( 'lib/ezutils/classes/ezextension.php' );
         $extensionDirectory = eZExtension::baseDirectory();
 
         $designINI = eZINI::instance( 'design.ini' );
@@ -486,7 +486,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $matchFileArray = $this->overrideArray( $this->OverrideSiteAccess );
 
             // Generate PHP compiled cache file.
-            include_once( 'lib/ezutils/classes/ezphpcreator.php' );
+            //include_once( 'lib/ezutils/classes/ezphpcreator.php' );
             $phpCache = new eZPHPCreator( "$cacheDir/override", "override_$overrideKey.php" );
 
             $phpCode = "\$GLOBALS['eZOverrideTemplateCacheMap'] = array (\n";
@@ -685,7 +685,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         $keys = array_merge( $keys, $additionalSiteDesignList );
 
         // Add extension paths
-        include_once( 'lib/ezutils/classes/ezextension.php' );
+        //include_once( 'lib/ezutils/classes/ezextension.php' );
         $extensionDirectory = eZExtension::baseDirectory();
 
         $designINI = eZINI::instance( 'design.ini' );
@@ -710,7 +710,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     {
         $ini = eZINI::instance();
 
-        include_once( 'lib/ezutils/classes/ezextension.php' );
+        //include_once( 'lib/ezutils/classes/ezextension.php' );
         $extensionDirectory = eZExtension::baseDirectory();
         $designINI = eZINI::instance( 'design.ini' );
         $extensions = $designINI->variable( 'ExtensionSettings', 'DesignExtensions' );
@@ -807,7 +807,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         $additionalSiteDesignList = array_reverse( $additionalSiteDesignList );
 
         // Generate match cache for all templates
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        //include_once( 'lib/ezfile/classes/ezdir.php' );
 
         // Build arrays of available files, start with base design and end with most prefered design
         $matchFilesArray = array();
@@ -828,7 +828,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         $resourceArray[] = "$designStartPath/$siteBase/templates";
 
         // Add extension paths
-        include_once( 'lib/ezutils/classes/ezextension.php' );
+        //include_once( 'lib/ezutils/classes/ezextension.php' );
         $extensionDirectory = eZExtension::baseDirectory();
 
         $designINI = eZINI::instance( 'design.ini' );

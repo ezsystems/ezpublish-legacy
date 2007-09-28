@@ -33,7 +33,7 @@
 
 /*!
   \class eZKerneloperator ezkerneloperator.php
-  \brief The class eZKerneloperator does handles eZ publish preferences
+  \brief The class eZKernelOperator does handles eZ publish preferences
 
 */
 class eZKernelOperator
@@ -99,7 +99,7 @@ class eZKernelOperator
             $nameText = '%1%';
             $values[] = $parameters[0];
         }
-        return array( eZTemplateNodeTool::createCodePieceElement( "include_once( 'kernel/classes/ezpreferences.php' );\n" .
+        return array( eZTemplateNodeTool::createCodePieceElement( "//include_once( 'kernel/classes/ezpreferences.php' );\n" .
                                                                   "%output% = eZPreferences::value( $nameText );\n",
                                                                   $values ) );
     }
@@ -110,7 +110,7 @@ class eZKernelOperator
         {
             case 'ezpreference':
             {
-                include_once( 'kernel/classes/ezpreferences.php' );
+                //include_once( 'kernel/classes/ezpreferences.php' );
                 $name = $namedParameters['name'];
                 $value = eZPreferences::value( $name );
                 $operatorValue = $value;

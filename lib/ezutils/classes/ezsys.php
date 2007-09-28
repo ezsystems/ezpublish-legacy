@@ -53,12 +53,10 @@ print( eZSys::wwwDir() );
 \endcode
 */
 
-define( "EZ_SYS_DEBUG_INTERNALS", false );
-
-define( 'EZSSLZONE_DEFAULT_SSL_PORT', 443 );
-
 class eZSys
 {
+    const DEBUG_INTERNALS = false;
+
     /*!
      Initializes the object with settings taken from the current script run.
     */
@@ -432,9 +430,9 @@ class eZSys
     */
     static function varDirectory()
     {
-        include_once( 'lib/ezutils/classes/ezini.php' );
+        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        //include_once( 'lib/ezfile/classes/ezdir.php' );
         return eZDir::path( array( $ini->variable( 'FileSettings', 'VarDir' ) ) );
     }
 
@@ -445,8 +443,8 @@ class eZSys
     */
     static function storageDirectory()
     {
-        include_once( 'lib/ezutils/classes/ezini.php' );
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        //include_once( 'lib/ezutils/classes/ezini.php' );
+        //include_once( 'lib/ezfile/classes/ezdir.php' );
         $ini = eZINI::instance();
         $varDir = eZSys::varDirectory();
         $storageDir = $ini->variable( 'FileSettings', 'StorageDir' );
@@ -460,11 +458,11 @@ class eZSys
     */
     static function cacheDirectory()
     {
-        include_once( 'lib/ezutils/classes/ezini.php' );
+        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
         $cacheDir = $ini->variable( 'FileSettings', 'CacheDir' );
 
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        //include_once( 'lib/ezfile/classes/ezdir.php' );
         if ( $cacheDir[0] == "/" )
         {
             return eZDir::path( array( $cacheDir ) );
@@ -562,7 +560,7 @@ class eZSys
         {
             $accessPath = implode( '/', $instance->AccessPath );
 
-            include_once( 'access.php' );
+            require_once( 'access.php' );
             if ( isset( $GLOBALS['eZCurrentAccess'] ) &&
                  isset( $GLOBALS['eZCurrentAccess']['type'] ) &&
                  $GLOBALS['eZCurrentAccess']['type'] == EZ_ACCESS_TYPE_URI &&
@@ -606,7 +604,7 @@ class eZSys
         $ini = eZINI::instance();
         $sslPort = $ini->variable( 'SiteSettings', 'SSLPort' );
         if ( !$sslPort )
-            $sslPort = EZSSLZONE_DEFAULT_SSL_PORT;
+            $sslPort = eZSSLZone::DEFAULT_SSL_PORT;
         // $nowSSl is true if current access mode is HTTPS.
         $nowSSL = ( eZSys::serverPort() == $sslPort );
 
@@ -648,7 +646,7 @@ class eZSys
                 $ini = eZINI::instance();
                 $sslPort = $ini->variable( 'SiteSettings', 'SSLPort' );
 
-                $sslPortString = ( $sslPort == EZSSLZONE_DEFAULT_SSL_PORT ) ? '' : ":$sslPort";
+                $sslPortString = ( $sslPort == eZSSLZone::DEFAULT_SSL_PORT ) ? '' : ":$sslPort";
                 $url = "https://" . $host  . $sslPortString;
             }
             else
@@ -834,7 +832,7 @@ class eZSys
     static function isDebugEnabled()
     {
         if ( !isset( $GLOBALS['eZSysDebugInternalsEnabled'] ) )
-             $GLOBALS['eZSysDebugInternalsEnabled'] = EZ_SYS_DEBUG_INTERNALS;
+             $GLOBALS['eZSysDebugInternalsEnabled'] = eZSys::DEBUG_INTERNALS;
         return $GLOBALS['eZSysDebugInternalsEnabled'];
     }
 
@@ -1059,7 +1057,7 @@ class eZSys
     */
     static function ezcrc32( $string )
     {
-        include_once( 'lib/ezutils/classes/ezini.php' );
+        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
 
         if ( $ini->variable( 'SiteSettings', '64bitCompatibilityMode' ) === 'enabled' )

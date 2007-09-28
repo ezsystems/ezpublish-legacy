@@ -44,7 +44,7 @@
 
 */
 
-include_once( "lib/eztemplate/classes/eztemplate.php" );
+//include_once( "lib/eztemplate/classes/eztemplate.php" );
 
 class eZTemplateArrayOperator
 {

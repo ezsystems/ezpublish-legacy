@@ -49,20 +49,21 @@
 
 */
 
-include_once( "kernel/classes/ezdatatype.php" );
-include_once( "kernel/classes/datatypes/ezmultioption/ezmultioption.php" );
-include_once( 'lib/ezutils/classes/ezstringutils.php' );
-define( "EZ_MULTIOPTION_DEFAULT_NAME_VARIABLE", "_ezmultioption_default_name_" );
-define( "EZ_DATATYPESTRING_MULTIOPTION", "ezmultioption" );
+//include_once( "kernel/classes/ezdatatype.php" );
+//include_once( "kernel/classes/datatypes/ezmultioption/ezmultioption.php" );
+//include_once( 'lib/ezutils/classes/ezstringutils.php' );
 
 class eZMultiOptionType extends eZDataType
 {
+    const EZ_MULTIOPTION_DEFAULT_NAME_VARIABLE = "_ezmultioption_default_name_";
+    const EZ_DATATYPESTRING_MULTIOPTION = "ezmultioption";
+
     /*!
      Constructor to initialize the datatype.
     */
     function eZMultiOptionType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_MULTIOPTION, ezi18n( 'kernel/classes/datatypes', "Multi-option", 'Datatype name' ),
+        $this->eZDataType( self::EZ_DATATYPESTRING_MULTIOPTION, ezi18n( 'kernel/classes/datatypes', "Multi-option", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -102,7 +103,7 @@ class eZMultiOptionType extends eZDataType
                         {
                             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                                  'The option value must be provided.' ) );
-                            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                            return eZInputValidator::STATE_INVALID;
                         }
                         else
                             ++$count;
@@ -114,7 +115,7 @@ class eZMultiOptionType extends eZDataType
                         {
                             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                                  'The additional price for the multioption value is not valid.' ) );
-                            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                            return eZInputValidator::STATE_INVALID;
                         }
                     }
 
@@ -128,7 +129,7 @@ class eZMultiOptionType extends eZDataType
             {
                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                      'At least one option is required.' ) );
-                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                return eZInputValidator::STATE_INVALID;
             }
 
             $optionSetName = $http->hasPostVariable( $base . "_data_optionset_name_" . $contentObjectAttribute->attribute( "id" ) )
@@ -138,12 +139,12 @@ class eZMultiOptionType extends eZDataType
             {
                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                      'Option set name is required.' ) );
-                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                return eZInputValidator::STATE_INVALID;
             }
         }
 
 
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
@@ -375,7 +376,7 @@ class eZMultiOptionType extends eZDataType
     */
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $defaultValueName = $base . EZ_MULTIOPTION_DEFAULT_NAME_VARIABLE . $classAttribute->attribute( 'id' );
+        $defaultValueName = $base . self::EZ_MULTIOPTION_DEFAULT_NAME_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $defaultValueName ) )
         {
             $defaultValueValue = $http->postVariable( $defaultValueName );
@@ -502,6 +503,6 @@ class eZMultiOptionType extends eZDataType
     }
 }
 
-eZDataType::register( EZ_DATATYPESTRING_MULTIOPTION, "ezmultioptiontype" );
+eZDataType::register( eZMultiOptionType::EZ_DATATYPESTRING_MULTIOPTION, "eZMultiOptionType" );
 
 ?>

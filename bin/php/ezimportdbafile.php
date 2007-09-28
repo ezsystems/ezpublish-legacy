@@ -26,9 +26,9 @@
 /*! \file ezimportdbafile.php
 */
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
-include_once( 'kernel/classes/ezdatatype.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'kernel/classes/ezdatatype.php' );
 
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "eZ publish datatype sql update\n\n" .

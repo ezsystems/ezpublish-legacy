@@ -26,10 +26,10 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/common/template.php" );
-include_once( "kernel/classes/ezorder.php" );
-include_once( "kernel/classes/ezorderstatus.php" );
-include_once( "lib/ezutils/classes/ezhttppersistence.php" );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/classes/ezorder.php" );
+//include_once( "kernel/classes/ezorderstatus.php" );
+//include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 
 $module = $Params['Module'];
 $http = eZHTTPTool::instance();
@@ -38,7 +38,7 @@ $user = eZUser::currentUser();
 $order = eZOrder::fetch( $OrderID );
 if ( !$order )
 {
-    return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
 if ( $http->hasPostVariable( "OrderID" ) && $http->hasPostVariable( "StatusID" ) && $http->hasPostVariable( "SetOrderStatusButton" ) )
@@ -66,10 +66,10 @@ if ( $http->hasPostVariable( "OrderID" ) && $http->hasPostVariable( "StatusID" )
     }
     else
     {
-        return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
     }
 }
 
-return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
 ?>

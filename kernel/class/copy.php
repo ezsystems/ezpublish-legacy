@@ -26,9 +26,9 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/classes/ezcontentclass.php" );
-include_once( "kernel/classes/ezcontentclassattribute.php" );
-include_once( "kernel/classes/ezcontentclassclassgroup.php" );
+//include_once( "kernel/classes/ezcontentclass.php" );
+//include_once( "kernel/classes/ezcontentclassattribute.php" );
+//include_once( "kernel/classes/ezcontentclassclassgroup.php" );
 
 $Module = $Params['Module'];
 $ClassID = null;
@@ -36,7 +36,7 @@ if ( isset( $Params["ClassID"] ) )
     $ClassID = $Params["ClassID"];
 $class = eZContentClass::fetch( $ClassID, true, 0 );
 if ( !$class )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE );
 
 $classCopy = clone $class;
 $classCopy->initializeCopy( $class );

@@ -37,9 +37,9 @@
   \brief Defines a limitation for a policy in the permission system
 
 */
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "kernel/classes/ezpolicylimitationvalue.php" );
-include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( "kernel/classes/ezpolicylimitationvalue.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
 
 class eZPolicyLimitation extends eZPersistentObject
 {
@@ -92,7 +92,7 @@ class eZPolicyLimitation extends eZPersistentObject
     */
     function policy()
     {
-        include_once( 'kernel/classes/ezpolicy.php' );
+        //include_once( 'kernel/classes/ezpolicy.php' );
         return eZPolicy::fetch( $this->attribute( 'policy_id' ) );
     }
 
@@ -275,7 +275,7 @@ class eZPolicyLimitation extends eZPersistentObject
         }
         else if ( $limitation['name'] == "Node" )
         {
-            include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+            //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
             foreach ( $valueList as $value )
             {
                 $node = eZContentObjectTreeNode::fetch( $value, false, false );
@@ -289,7 +289,7 @@ class eZPolicyLimitation extends eZPersistentObject
         }
         else if ( $limitation['name'] == "Subtree" )
         {
-            include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+            //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
             foreach ( $valueList as $value )
             {
                 $subtreeObject = eZContentObjectTreeNode::fetchByPath( $value, false );

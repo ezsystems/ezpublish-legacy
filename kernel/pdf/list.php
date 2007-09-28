@@ -30,8 +30,8 @@
 
 $Module = $Params['Module'];
 
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezpdfexport.php' );
+require_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezpdfexport.php' );
 
 // Create new PDF Export
 if ( $Module->isCurrentAction( 'NewExport' ) )
@@ -45,7 +45,7 @@ else if ( $Module->isCurrentAction( 'RemoveExport' ) )
     foreach ( $deleteArray as $deleteID )
     {
         // remove draft if it exists:
-        $pdfExport = eZPDFExport::fetch( $deleteID, true, EZ_PDFEXPORT_VERSION_DRAFT );
+        $pdfExport = eZPDFExport::fetch( $deleteID, true, eZPDFExport::VERSION_DRAFT );
         if ( $pdfExport )
         {
             $pdfExport->remove();

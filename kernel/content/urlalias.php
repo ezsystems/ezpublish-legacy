@@ -28,10 +28,10 @@
 
 /*! \file urltranslator.php
 */
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'kernel/classes/ezurlaliasml.php' );
-include_once( 'kernel/classes/ezpathelement.php' );
+require_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezurlaliasml.php' );
+//include_once( 'kernel/classes/ezpathelement.php' );
 
 $Module = $Params['Module'];
 $http = eZHTTPTool::instance();
@@ -40,7 +40,7 @@ $NodeID = $Params['NodeID'];
 $Offset = $Params['Offset'];
 $viewParameters = array( 'offset' => $Offset );
 
-include_once( 'kernel/classes/ezsslzone.php' );
+//include_once( 'kernel/classes/ezsslzone.php' );
 eZSSLZone::checkNodeID( 'content', 'urlalias', $NodeID );
 
 $tpl = templateInit();
@@ -49,7 +49,7 @@ $limit = 20;
 $node = eZContentObjectTreeNode::fetch( $NodeID );
 if ( !$node )
 {
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
 $infoCode = 'no-errors'; // This will be modified if info/warning is given to user.
@@ -58,7 +58,7 @@ $aliasText = false;
 
 if ( $Module->isCurrentAction( 'RemoveAllAliases' ) )
 {
-    include_once( 'kernel/classes/ezurlaliasquery.php' );
+    //include_once( 'kernel/classes/ezurlaliasquery.php' );
     $filter = new eZURLAliasQuery();
     $filter->actions = array( 'eznode:' . $node->attribute( 'node_id' ) );
     $filter->type = 'alias';
@@ -120,7 +120,7 @@ else if ( $Module->isCurrentAction( 'NewAlias' ) )
     {
         $parentID = 0;
         $linkID   = 0;
-        include_once( 'kernel/classes/ezurlaliasquery.php' );
+        //include_once( 'kernel/classes/ezurlaliasquery.php' );
         $filter = new eZURLAliasQuery();
         $filter->actions = array( 'eznode:' . $node->attribute( 'node_id' ) );
         $filter->type = 'name';
@@ -145,7 +145,7 @@ else if ( $Module->isCurrentAction( 'NewAlias' ) )
         $result = eZURLAliasML::storePath( $aliasText, 'eznode:' . $node->attribute( 'node_id' ),
                                            $language, $linkID, $alwaysMask, $parentID,
                                            true, false, false );
-        if ( $result['status'] === EZ_URLALIAS_LINK_ALREADY_TAKEN )
+        if ( $result['status'] === eZURLAliasML::LINK_ALREADY_TAKEN )
         {
             $lastElements = eZURLAliasML::fetchByPath( $result['path'] );
             if ( count ( $lastElements ) > 0 )
@@ -181,7 +181,7 @@ else if ( $Module->isCurrentAction( 'NewAlias' ) )
 }
 
 // Fetch generated names of node
-include_once( 'kernel/classes/ezurlaliasquery.php' );
+//include_once( 'kernel/classes/ezurlaliasquery.php' );
 $filter = new eZURLAliasQuery();
 $filter->actions = array( 'eznode:' . $node->attribute( 'node_id' ) );
 $filter->type = 'name';

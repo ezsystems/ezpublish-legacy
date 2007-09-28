@@ -29,10 +29,10 @@
 $http = eZHTTPTool::instance();
 $module = $Params['Module'];
 
-include_once( "kernel/classes/ezbasket.php" );
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezorder.php' );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( "kernel/classes/ezbasket.php" );
+require_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezorder.php' );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
 $tpl = templateInit();
 $tpl->setVariable( "module_name", 'shop' );
@@ -43,7 +43,7 @@ $order = eZOrder::fetch( $orderID );
 if ( !is_object( $order ) )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
-include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+//include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
 
 if ( strtolower( get_class( $order ) ) == 'ezorder' )
 {
@@ -53,7 +53,7 @@ if ( strtolower( get_class( $order ) ) == 'ezorder' )
         $ini = eZINI::instance();
         if ( $ini->variable( 'ShopSettings', 'ClearBasketOnCheckout' ) == 'enabled' )
         {
-            include_once( "kernel/classes/ezbasket.php" );
+            //include_once( "kernel/classes/ezbasket.php" );
             $basket = eZBasket::currentBasket();
             $basket->remove();
         }
@@ -78,7 +78,7 @@ $operationResult = eZOperationHandler::execute( 'shop', 'confirmorder', array( '
 
 switch( $operationResult['status'] )
 {
-    case EZ_MODULE_OPERATION_CONTINUE:
+    case eZModuleOperationInfo::STATUS_CONTINUE:
     {
         if ( $operationResult != null &&
              !isset( $operationResult['result'] ) &&
@@ -93,7 +93,7 @@ switch( $operationResult['status'] )
                                             'text' => ezi18n( 'kernel/shop', 'Confirm order' ) ) );
         }
     }break;
-    case EZ_MODULE_OPERATION_HALTED:
+    case eZModuleOperationInfo::STATUS_HALTED:
     {
         if (  isset( $operationResult['redirect_url'] ) )
         {
@@ -122,7 +122,7 @@ switch( $operationResult['status'] )
             $Result['content'] = $resultContent;
         }
     }break;
-    case EZ_MODULE_OPERATION_CANCELED:
+    case eZModuleOperationInfo::STATUS_CANCELLED:
     {
         $Result = array();
         if ( isset( $operationResult['result']['content'] ) )

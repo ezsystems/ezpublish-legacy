@@ -29,10 +29,10 @@
 /*! \file eztemplateautoload.php
 */
 
-include_once( 'lib/ezpdf/classes/class.ezpdftable.php' );
-include_once( 'lib/ezpdf/classes/class.pdf.php' );
+//include_once( 'lib/ezpdf/classes/class.ezpdftable.php' );
+//include_once( 'lib/ezpdf/classes/class.pdf.php' );
 
-//include_once( 'lib/ezutils/classes/eztexttool.php' );
+////include_once( 'lib/ezutils/classes/eztexttool.php' );
 
 /*!
   \defgroup eZPDF PDF generator library
@@ -285,7 +285,7 @@ class eZPDF
 
             case 'close':
             {
-                include_once( 'lib/ezfile/classes/ezdir.php' );
+                //include_once( 'lib/ezfile/classes/ezdir.php' );
                 $filename = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
                 eZDir::mkdir( eZDir::dirpath( $filename ), false, true );
@@ -328,7 +328,7 @@ class eZPDF
                 }
 
                 $text = str_replace( array( ' ', "\n", "\t" ), '', $text );
-                include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+                //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
                 $httpCharset = eZTextCodec::internalCharset();
                 $outputCharset = $config->hasVariable( 'PDFGeneral', 'OutputCharset' )
                                  ? $config->variable( 'PDFGeneral', 'OutputCharset' )
@@ -630,7 +630,7 @@ class eZPDF
             */
             case 'set_margin':
             {
-                include_once( 'lib/ezutils/classes/ezmath.php' );
+                //include_once( 'lib/ezutils/classes/ezmath.php' );
                 $operatorValue = '<C:callSetMargin';
                 $options = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
@@ -730,7 +730,7 @@ class eZPDF
 
             case 'filled_circle':
             {
-                include_once( 'lib/ezutils/classes/ezmath.php' );
+                //include_once( 'lib/ezutils/classes/ezmath.php' );
                 $operatorValue = '';
                 $options = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
@@ -777,7 +777,7 @@ class eZPDF
 
             case 'rectangle':
             {
-                include_once( 'lib/ezutils/classes/ezmath.php' );
+                //include_once( 'lib/ezutils/classes/ezmath.php' );
                 $operatorValue = '';
                 $options = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
@@ -830,7 +830,7 @@ class eZPDF
                                                     'cmykBottom', array( <c>, <m>, <y>, <k> ) ) ) */
             case 'filled_rectangle':
             {
-                include_once( 'lib/ezutils/classes/ezmath.php' );
+                //include_once( 'lib/ezutils/classes/ezmath.php' );
                 $operatorValue = '';
                 $options = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 

@@ -29,10 +29,10 @@
 /*! \file editcurrency.php
 */
 
-include_once( 'kernel/shop/classes/ezcurrencydata.php' );
-include_once( 'lib/ezutils/classes/ezini.php' );
-include_once( 'kernel/shop/classes/ezshopfunctions.php' );
-include_once( 'kernel/classes/ezcontentcachemanager.php' );
+//include_once( 'kernel/shop/classes/ezcurrencydata.php' );
+//include_once( 'lib/ezutils/classes/ezini.php' );
+//include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+//include_once( 'kernel/classes/ezcontentcachemanager.php' );
 
 $module = $Params['Module'];
 
@@ -74,7 +74,7 @@ else if ( $module->isCurrentAction( 'StoreChanges' ) )
         $currencyParams = $module->actionParameter( 'CurrencyData' );
 
     $errCode = eZShopFunctions::changeCurrency( $originalCurrencyCode, $currencyParams['code'] );
-    if ( $errCode === EZ_CURRENCYDATA_ERROR_OK )
+    if ( $errCode === eZCurrencyData::EZ_CURRENCYDATA_ERROR_OK )
     {
         $currency = eZCurrencyData::fetch( $currencyParams['code'] );
         if ( is_object( $currency ) )
@@ -115,7 +115,7 @@ if ( strlen( $originalCurrencyCode ) > 0 )
     {
         // first time in 'edit' mode? => initialize template variables
         // with existing data.
-        include_once( 'kernel/shop/classes/ezcurrencydata.php' );
+        //include_once( 'kernel/shop/classes/ezcurrencydata.php' );
 
         $currency = eZCurrencyData::fetch( $originalCurrencyCode );
         if ( is_object( $currency ) )
@@ -139,7 +139,7 @@ else
     $pathText = ezi18n( 'kernel/shop', 'Create new currency' );
 }
 
-include_once( 'kernel/common/template.php' );
+require_once( 'kernel/common/template.php' );
 $tpl = templateInit();
 
 $tpl->setVariable( 'error', $error );

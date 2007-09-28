@@ -38,8 +38,8 @@
 
 */
 
-include_once( 'lib/ezimage/classes/ezimagelayer.php' );
-include_once( 'lib/ezimage/classes/ezimagefont.php' );
+//include_once( 'lib/ezimage/classes/ezimagelayer.php' );
+//include_once( 'lib/ezimage/classes/ezimagefont.php' );
 
 class eZImageTextLayer extends eZImageLayer
 {

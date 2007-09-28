@@ -28,6 +28,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'lib/ezfile/classes/ezdir.php' );
+//include_once( 'lib/ezfile/classes/ezdir.php' );
 
 ?>

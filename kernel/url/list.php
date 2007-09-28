@@ -26,8 +26,8 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
-include_once( 'kernel/classes/ezpreferences.php' );
+//include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+//include_once( 'kernel/classes/ezpreferences.php' );
 
 $Module = $Params['Module'];
 $ViewMode = $Params['ViewMode'];
@@ -104,7 +104,7 @@ $listCount = eZURL::fetchListCount( $countParameters );
 
 $viewParameters = array( 'offset' => $offset, 'limit'  => $limit );
 
-include_once( 'kernel/common/template.php' );
+require_once( 'kernel/common/template.php' );
 $tpl = templateInit();
 
 $tpl->setVariable( 'view_parameters', $viewParameters );

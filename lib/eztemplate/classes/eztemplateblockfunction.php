@@ -66,13 +66,12 @@
 \endcode
 */
 
-define( 'EZ_TEMPLATE_BLOCK_SCOPE_RELATIVE', 1 );
-define( 'EZ_TEMPLATE_BLOCK_SCOPE_ROOT', 2 );
-define( 'EZ_TEMPLATE_BLOCK_SCOPE_GLOBAL', 3 );
-
-
 class eZTemplateBlockFunction
 {
+    const SCOPE_RELATIVE = 1;
+    const SCOPE_ROOT = 2;
+    const SCOPE_GLOBAL = 3;
+
     /*!
      Initializes the object with names.
     */
@@ -121,18 +120,18 @@ class eZTemplateBlockFunction
             if ( !isset( $parameters['variable'] ) )
                 return false;
 
-            $scope = EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE;
+            $scope = eZTemplate::NAMESPACE_SCOPE_RELATIVE;
             if ( isset( $parameters['scope'] ) )
             {
                 if ( !eZTemplateNodeTool::isStaticElement( $parameters['scope'] ) )
                     return false;
                 $scopeText = eZTemplateNodeTool::elementStaticValue( $parameters['scope'] );
                 if ( $scopeText == 'relative' )
-                    $scope = EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE;
+                    $scope = eZTemplate::NAMESPACE_SCOPE_RELATIVE;
                 else if ( $scopeText == 'root' )
-                    $scope = EZ_TEMPLATE_NAMESPACE_SCOPE_LOCAL;
+                    $scope = eZTemplate::NAMESPACE_SCOPE_LOCAL;
                 else if ( $scopeText == 'global' )
-                    $scope = EZ_TEMPLATE_NAMESPACE_SCOPE_GLOBAL;
+                    $scope = eZTemplate::NAMESPACE_SCOPE_GLOBAL;
             }
 
             $name = '';
@@ -213,16 +212,16 @@ class eZTemplateBlockFunction
                 $children = $functionChildren;
                 $parameters = $functionParameters;
 
-                $scope = EZ_TEMPLATE_BLOCK_SCOPE_RELATIVE;
+                $scope = eZTemplateBlockFunction::SCOPE_RELATIVE;
                 if ( isset( $parameters["scope"] ) )
                 {
                     $scopeText = $tpl->elementValue( $parameters["scope"], $rootNamespace, $currentNamespace, $functionPlacement );
                     if ( $scopeText == 'relative' )
-                        $scope = EZ_TEMPLATE_BLOCK_SCOPE_RELATIVE;
+                        $scope = eZTemplateBlockFunction::SCOPE_RELATIVE;
                     else if ( $scopeText == 'root' )
-                        $scope = EZ_TEMPLATE_BLOCK_SCOPE_ROOT;
+                        $scope = eZTemplateBlockFunction::SCOPE_ROOT;
                     else if ( $scopeText == 'global' )
-                        $scope = EZ_TEMPLATE_BLOCK_SCOPE_GLOBAL;
+                        $scope = eZTemplateBlockFunction::SCOPE_GLOBAL;
                     else
                         $tpl->warning( $functionName, "Scope value '$scopeText' is not valid, use either 'relative', 'root' or 'global'", $functionPlacement );
                 }
@@ -232,19 +231,19 @@ class eZTemplateBlockFunction
                     $name = $tpl->elementValue( $parameters["name"], $rootNamespace, $currentNamespace, $functionPlacement );
                 if ( $name === null )
                 {
-                    if ( $scope == EZ_TEMPLATE_BLOCK_SCOPE_RELATIVE )
+                    if ( $scope == eZTemplateBlockFunction::SCOPE_RELATIVE )
                         $name = $currentNamespace;
-                    else if ( $scope == EZ_TEMPLATE_BLOCK_SCOPE_ROOT )
+                    else if ( $scope == eZTemplateBlockFunction::SCOPE_ROOT )
                         $name = $rootNamespace;
                     else
                         $name = '';
                 }
                 else
                 {
-                    if ( $scope == EZ_TEMPLATE_BLOCK_SCOPE_RELATIVE and
+                    if ( $scope == eZTemplateBlockFunction::SCOPE_RELATIVE and
                          $currentNamespace != '' )
                         $name = "$currentNamespace:$name";
-                    else if ( $scope == EZ_TEMPLATE_BLOCK_SCOPE_ROOT and
+                    else if ( $scope == eZTemplateBlockFunction::SCOPE_ROOT and
                               $rootNamespace != '' )
                         $name = "$rootNamespace:$name";
                 }

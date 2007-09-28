@@ -36,15 +36,15 @@
   \brief The class eZDir does
 
 */
-include_once( "lib/ezutils/classes/ezini.php" );
-include_once( "lib/ezutils/classes/ezsys.php" );
-
-define( 'EZ_DIR_SEPARATOR_LOCAL', 1 );
-define( 'EZ_DIR_SEPARATOR_UNIX', 2 );
-define( 'EZ_DIR_SEPARATOR_DOS', 3 );
+//include_once( "lib/ezutils/classes/ezini.php" );
+//include_once( "lib/ezutils/classes/ezsys.php" );
 
 class eZDir
 {
+    const EZ_DIR_SEPARATOR_LOCAL = 1;
+    const EZ_DIR_SEPARATOR_UNIX = 2;
+    const EZ_DIR_SEPARATOR_DOS = 3;
+
     /*!
      \return a multi-level path from a specific key. For example:
      \code
@@ -60,7 +60,7 @@ class eZDir
     static function createMultiLevelPath( $key, $maxDepth = -1 )
     {
         $parts = preg_split("//", (string) $key, $maxDepth, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
-        $sep = eZDir::separator( EZ_DIR_SEPARATOR_LOCAL );
+        $sep = eZDir::separator( self::EZ_DIR_SEPARATOR_LOCAL );
         return $sep . join($sep, $parts);
     }
 
@@ -102,7 +102,7 @@ class eZDir
         {
             $perm = eZDir::directoryPermission();
         }
-        $dir = eZDir::cleanPath( $dir, EZ_DIR_SEPARATOR_UNIX );
+        $dir = eZDir::cleanPath( $dir, self::EZ_DIR_SEPARATOR_UNIX );
         if ( !$parents )
             return eZDir::doMkdir( $dir, $perm );
         else
@@ -140,7 +140,7 @@ class eZDir
     */
     static function cleanupEmptyDirectories( $dir )
     {
-        $dir = eZDir::cleanPath( $dir, EZ_DIR_SEPARATOR_UNIX );
+        $dir = eZDir::cleanPath( $dir, self::EZ_DIR_SEPARATOR_UNIX );
         $dirElements = explode( '/', $dir );
         if ( count( $dirElements ) == 0 )
             return true;
@@ -174,7 +174,7 @@ class eZDir
     */
     static function dirpath( $filepath )
     {
-        $filepath = eZDir::cleanPath( $filepath, EZ_DIR_SEPARATOR_UNIX );
+        $filepath = eZDir::cleanPath( $filepath, self::EZ_DIR_SEPARATOR_UNIX );
         $dirPosition = strrpos( $filepath, '/' );
         if ( $dirPosition !== false )
             return substr( $filepath, 0, $dirPosition );
@@ -198,7 +198,7 @@ class eZDir
     */
     static function doMkdir( $dir, $perm )
     {
-        include_once( "lib/ezutils/classes/ezdebugsetting.php" );
+        //include_once( "lib/ezutils/classes/ezdebugsetting.php" );
 
         $oldumask = umask( 0 );
         if ( ! @mkdir( $dir, $perm ) )
@@ -217,19 +217,19 @@ class eZDir
      \return the separator used between directories and files according to \a $type.
 
      Type can be one of the following:
-     - EZ_DIR_SEPARATOR_LOCAL - Returns whatever is applicable for the current machine.
-     - EZ_DIR_SEPARATOR_UNIX  - Returns a /
-     - EZ_DIR_SEPARATOR_DOS   - Returns a \
+     - self::EZ_DIR_SEPARATOR_LOCAL - Returns whatever is applicable for the current machine.
+     - self::EZ_DIR_SEPARATOR_UNIX  - Returns a /
+     - self::EZ_DIR_SEPARATOR_DOS   - Returns a \
     */
     static function separator( $type )
     {
         switch ( $type )
         {
-            case EZ_DIR_SEPARATOR_LOCAL:
+            case self::EZ_DIR_SEPARATOR_LOCAL:
                 return eZSys::fileSeparator();
-            case EZ_DIR_SEPARATOR_UNIX:
+            case self::EZ_DIR_SEPARATOR_UNIX:
                 return '/';
-            case EZ_DIR_SEPARATOR_DOS:
+            case self::EZ_DIR_SEPARATOR_DOS:
                 return "\\";
         }
         return null;
@@ -240,7 +240,7 @@ class eZDir
      Converts any directory separators found in \a $path, in both unix and dos style, into
      the separator type specified by \a $toType and returns it.
     */
-    static function convertSeparators( $path, $toType = EZ_DIR_SEPARATOR_UNIX )
+    static function convertSeparators( $path, $toType = self::EZ_DIR_SEPARATOR_UNIX )
     {
         $separator = eZDir::separator( $toType );
         return str_replace( array( '/', '\\' ), $separator, $path );
@@ -254,7 +254,7 @@ class eZDir
      \note Will also convert separators
      \sa convertSeparators.
     */
-    static function cleanPath( $path, $toType = EZ_DIR_SEPARATOR_UNIX )
+    static function cleanPath( $path, $toType = self::EZ_DIR_SEPARATOR_UNIX )
     {
         $path = eZDir::convertSeparators( $path, $toType );
         $separator = eZDir::separator( $toType );
@@ -286,7 +286,7 @@ class eZDir
      If \a $includeEndSeparator is true then it will make sure that the path ends with a
      separator if false it make sure there are no end separator.
     */
-    static function path( $names, $includeEndSeparator = false, $type = EZ_DIR_SEPARATOR_UNIX )
+    static function path( $names, $includeEndSeparator = false, $type = self::EZ_DIR_SEPARATOR_UNIX )
     {
         $separator = eZDir::separator( $type );
         $path = implode( $separator, $names );
@@ -600,7 +600,7 @@ class eZDir
         }
         $items = eZDir::findSubitems( $sourceDirectory, 'df', false, $includeHidden, $excludeItems );
         $totalItems = $items;
-        include_once( 'lib/ezfile/classes/ezfilehandler.php' );
+        //include_once( 'lib/ezfile/classes/ezfilehandler.php' );
         while ( count( $items ) > 0 )
         {
             $currentItems = $items;

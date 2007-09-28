@@ -44,7 +44,7 @@
   http://www.isbn-international.org
 */
 
-include_once( 'kernel/classes/ezpersistentobject.php' );
+//include_once( 'kernel/classes/ezpersistentobject.php' );
 
 class eZISBNRegistrantRange extends eZPersistentObject
 {
@@ -178,8 +178,8 @@ class eZISBNRegistrantRange extends eZPersistentObject
     static function extractRegistrant( $isbnNr, $group, $groupRange, &$registrantLength )
     {
         $registrant = false;
-        if ( get_class( $group ) == 'ezisbngroup' and
-             get_class( $groupRange ) == 'ezisbngrouprange' )
+        if ( $group instanceof eZISBNGroup and
+             $groupRange instanceof eZISBNGroupRange )
         {
             $groupLength = $groupRange->attribute( 'group_length' );
             $groupID = $group->attribute( 'id' );

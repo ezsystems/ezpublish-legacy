@@ -29,9 +29,9 @@
 $http = eZHTTPTool::instance();
 $module = $Params['Module'];
 
-include_once( 'kernel/classes/ezcache.php' );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( 'kernel/classes/ezpreferences.php' );
+//include_once( 'kernel/classes/ezcache.php' );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( 'kernel/classes/ezpreferences.php' );
 
 $cacheType = $module->actionParameter( 'CacheType' );
 
@@ -66,7 +66,7 @@ elseif ( $cacheType == 'Ini' )
 }
 elseif ( $cacheType == 'Static' )
 {
-    include_once( 'kernel/classes/ezstaticcache.php' );
+    //include_once( 'kernel/classes/ezstaticcache.php' );
 
     $staticCache = new eZStaticCache();
     $staticCache->generateCache( true, true );

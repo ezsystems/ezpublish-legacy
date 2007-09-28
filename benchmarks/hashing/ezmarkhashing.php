@@ -61,7 +61,7 @@ class eZMarkHashing extends eZBenchmarkCase
 
     function markCRC32( &$tr )
     {
-        include_once( 'lib/ezutils/classes/ezsys.php' );
+        //include_once( 'lib/ezutils/classes/ezsys.php' );
         eZSys::ezcrc32( $this->Text );
     }
 

@@ -26,18 +26,18 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/classes/ezcontentobject.php" );
-include_once( "kernel/classes/ezcontentobjectattribute.php" );
-include_once( "kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php" );
-include_once( "kernel/classes/ezbinaryfilehandler.php" );
-include_once( "kernel/classes/datatypes/ezmedia/ezmedia.php" );
+//include_once( "kernel/classes/ezcontentobject.php" );
+//include_once( "kernel/classes/ezcontentobjectattribute.php" );
+//include_once( "kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php" );
+//include_once( "kernel/classes/ezbinaryfilehandler.php" );
+//include_once( "kernel/classes/datatypes/ezmedia/ezmedia.php" );
 
 $contentObjectID = $Params['ContentObjectID'];
 $contentObjectAttributeID = $Params['ContentObjectAttributeID'];
 $contentObject = eZContentObject::fetch( $contentObjectID );
 if ( !is_object( $contentObject ) )
 {
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 $currentVersion = $contentObject->attribute( 'current_version' );
 
@@ -49,12 +49,12 @@ else
 $contentObjectAttribute = eZContentObjectAttribute::fetch( $contentObjectAttributeID, $version, true );
 if ( !is_object( $contentObjectAttribute ) )
 {
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 $contentObjectIDAttr = $contentObjectAttribute->attribute( 'contentobject_id' );
 if ( $contentObjectID != $contentObjectIDAttr or !$contentObject->attribute( 'can_read' ) )
 {
-    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 }
 
 // Get locations.
@@ -84,7 +84,7 @@ foreach ( $nodeAssignments as $nodeAssignment )
     }
 }
 if ( !$canAccess )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
 // If $version is not current version (published)
 // we should check permission versionRead for the $version.
@@ -92,16 +92,16 @@ if ( $version != $currentVersion )
 {
     $versionObj = eZContentObjectVersion::fetchVersion( $version, $contentObjectID );
     if ( is_object( $versionObj ) and !$versionObj->canVersionRead() )
-        return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
 $fileHandler = eZBinaryFileHandler::instance();
-$result = $fileHandler->handleDownload( $contentObject, $contentObjectAttribute, EZ_BINARY_FILE_TYPE_FILE );
+$result = $fileHandler->handleDownload( $contentObject, $contentObjectAttribute, eZBinaryFileHandler::EZ_BINARY_FILE_TYPE_FILE );
 
-if ( $result == EZ_BINARY_FILE_RESULT_UNAVAILABLE )
+if ( $result == eZBinaryFileHandler::EZ_BINARY_FILE_RESULT_UNAVAILABLE )
 {
     eZDebug::writeError( "The specified file could not be found." );
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
 ?>

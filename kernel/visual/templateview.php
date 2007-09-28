@@ -30,9 +30,9 @@ $http = eZHTTPTool::instance();
 $module = $Params['Module'];
 $parameters = $Params["Parameters"];
 
-include_once( "kernel/common/template.php" );
-include_once( "kernel/common/eztemplatedesignresource.php" );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/common/eztemplatedesignresource.php" );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
 $ini = eZINI::instance();
 $tpl = templateInit();
@@ -70,7 +70,7 @@ if ( $module->isCurrentAction( 'NewOverride' ) )
     }
 
     $module->redirectTo( '/visual/templatecreate'. $template );
-    return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+    return eZModule::HOOK_STATUS_CANCEL_RUN;
 }
 
 if ( $module->isCurrentAction( 'UpdateOverride' ) )
@@ -147,7 +147,7 @@ if ( $module->isCurrentAction( 'RemoveOverride' ) )
         }
 
         // Expire content view cache
-        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearAllContentCache();
 
         // Clear override cache

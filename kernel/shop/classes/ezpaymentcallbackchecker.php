@@ -37,9 +37,9 @@
   payment gateways.
 */
 
-include_once( 'kernel/classes/workflowtypes/event/ezpaymentgateway/ezpaymentlogger.php' );
-include_once( 'kernel/shop/classes/ezpaymentobject.php' );
-include_once( 'kernel/classes/ezorder.php' );
+//include_once( 'kernel/classes/workflowtypes/event/ezpaymentgateway/ezpaymentlogger.php' );
+//include_once( 'kernel/shop/classes/ezpaymentobject.php' );
+//include_once( 'kernel/classes/ezorder.php' );
 
 
 class eZPaymentCallbackChecker
@@ -281,7 +281,7 @@ class eZPaymentCallbackChecker
         //if no preferred currency is set match against the current local
         if ( !$orderCurrency )
         {
-            include_once( 'lib/ezlocale/classes/ezlocale.php' );
+            //include_once( 'lib/ezlocale/classes/ezlocale.php' );
             $locale         =  eZLocale::instance();
             $orderCurrency  =  $locale->currencyShortName();
         }

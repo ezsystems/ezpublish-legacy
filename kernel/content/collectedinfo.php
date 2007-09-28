@@ -26,23 +26,23 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/classes/ezinformationcollection.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezinformationcollection.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+require_once( 'kernel/common/template.php' );
 
 $module = $Params['Module'];
 
 $nodeID = $Params['NodeID'];
 if ( !$nodeID )
-    return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 $node = eZContentObjectTreeNode::fetch( $nodeID );
 if ( !$node )
-    return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 $object = $node->attribute( 'object' );
 if ( !$object )
-    return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 if ( !$object->attribute( 'can_read' ) )
-    return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
 $http = eZHTTPTool::instance();
 

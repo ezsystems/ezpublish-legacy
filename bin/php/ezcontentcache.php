@@ -27,8 +27,8 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "eZ publish Content Cache Handler\n" .
@@ -56,8 +56,8 @@ $sys = eZSys::instance();
 
 $script->initialize();
 
-include_once( 'kernel/classes/ezcontentcachemanager.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezcontentcachemanager.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
 // Max nodes to fetch at a time
 $limit = 50;

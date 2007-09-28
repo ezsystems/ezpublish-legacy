@@ -27,8 +27,8 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "eZ publish static cache generator\n" .
@@ -48,10 +48,10 @@ $force = $options['force'];
 
 $script->initialize();
 
-include_once( 'lib/ezutils/classes/ezdebug.php' );
-include_once( 'lib/ezfile/classes/ezdir.php' );
-include_once( 'lib/ezutils/classes/ezini.php' );
-include_once( 'kernel/classes/ezstaticcache.php' );
+require_once( 'lib/ezutils/classes/ezdebug.php' );
+//include_once( 'lib/ezfile/classes/ezdir.php' );
+//include_once( 'lib/ezutils/classes/ezini.php' );
+//include_once( 'kernel/classes/ezstaticcache.php' );
 
 $staticCache = new eZStaticCache();
 $staticCache->generateCache( $force, false, $cli, false );

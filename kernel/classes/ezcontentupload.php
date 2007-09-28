@@ -68,14 +68,15 @@ $upload->handleLocalFile( $result, 'a_yellow_flower.jpg', 'auto' );
 \endcode
 */
 
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( 'lib/ezutils/classes/ezini.php' );
-include_once( 'kernel/classes/ezcontentobject.php' );
-
-define( "EZ_CONTENTUPLOAD_STATUS_PERMISSION_DENIED", 1 );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( 'lib/ezutils/classes/ezini.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
 
 class eZContentUpload
 {
+
+    const STATUS_PERMISSION_DENIED = 1;
+
     /*!
      Initializes the object with the session data if they are found.
      If \a $params is supplied it used instead.
@@ -246,7 +247,7 @@ class eZContentUpload
                                                 array( '%filename' => $filePath ) ) );
             return false;
         }
-        include_once( 'lib/ezutils/classes/ezmimetype.php' );
+        //include_once( 'lib/ezutils/classes/ezmimetype.php' );
         $mimeData = eZMimeType::findByFileContents( $filePath );
         $mime = $mimeData['name'];
 
@@ -320,7 +321,7 @@ class eZContentUpload
             }
             elseif ( $locationOK === null )
             {
-                $result['status'] = EZ_CONTENTUPLOAD_STATUS_PERMISSION_DENIED;
+                $result['status'] = eZContentUpload::STATUS_PERMISSION_DENIED;
                 $result['errors'][] =
                     array( 'description' => ezi18n( 'kernel/content/upload',
                                                     'Permission denied' ) );
@@ -381,7 +382,7 @@ class eZContentUpload
         {
             if ( $existingNode->canEdit( ) != '1' )
             {
-                $result['status'] = EZ_CONTENTUPLOAD_STATUS_PERMISSION_DENIED;
+                $result['status'] = eZContentUpload::STATUS_PERMISSION_DENIED;
                 $result['errors'][] =
                     array( 'description' => ezi18n( 'kernel/content/upload',
                                                     'Permission denied' ) );
@@ -549,7 +550,7 @@ class eZContentUpload
             }
             elseif ( $locationOK === null )
             {
-                $result['status'] = EZ_CONTENTUPLOAD_STATUS_PERMISSION_DENIED;
+                $result['status'] = eZContentUpload::STATUS_PERMISSION_DENIED;
                 $result['errors'][] =
                     array( 'description' => ezi18n( 'kernel/content/upload',
                                                     'Permission denied' ) );
@@ -628,7 +629,7 @@ class eZContentUpload
         {
             if ( $existingNode->canEdit( ) != '1' )
             {
-                $result['status'] = EZ_CONTENTUPLOAD_STATUS_PERMISSION_DENIED;
+                $result['status'] = eZContentUpload::STATUS_PERMISSION_DENIED;
                 $result['errors'][] =
                     array( 'description' => ezi18n( 'kernel/content/upload',
                                                     'Permission denied' ) );
@@ -721,7 +722,7 @@ class eZContentUpload
         $object->setName( $class->contentObjectName( $object ) );
         $object->store();
 
-        include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+        //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
         $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
                                                                                      'version' => $publishVersion ) );
 
@@ -740,7 +741,7 @@ class eZContentUpload
 
         switch ( $operationResult['status'] )
         {
-            case EZ_MODULE_OPERATION_HALTED:
+            case eZModuleOperationInfo::STATUS_HALTED:
             {
                 if ( isset( $operationResult['redirect_url'] ) )
                 {
@@ -756,14 +757,14 @@ class eZContentUpload
                 }
             } break;
 
-            case EZ_MODULE_OPERATION_CANCELED:
+            case eZModuleOperationInfo::STATUS_CANCELLED:
             {
                 $result['result'] = ezi18n( 'kernel/content/upload',
                                             'Publish process was cancelled.' );
                 return true;
             } break;
 
-            case EZ_MODULE_OPERATION_CONTINUE:
+            case eZModuleOperationInfo::STATUS_CONTINUE:
             {
             }
         }
@@ -820,7 +821,7 @@ class eZContentUpload
     */
     function fetchHTTPFile( $httpFileIdentifier, &$errors, &$file, &$mimeData )
     {
-        include_once( 'lib/ezutils/classes/ezhttpfile.php' );
+        //include_once( 'lib/ezutils/classes/ezhttpfile.php' );
         if ( !eZHTTPFile::canFetch( $httpFileIdentifier ) )
         {
             $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
@@ -836,7 +837,7 @@ class eZContentUpload
             return false;
         }
 
-        include_once( 'lib/ezutils/classes/ezmimetype.php' );
+        //include_once( 'lib/ezutils/classes/ezmimetype.php' );
         $mimeData = eZMimeType::findByFileContents( $file->attribute( "original_filename" ) );
 
         return false;
@@ -1200,7 +1201,7 @@ class eZContentUpload
             $node = eZContentObjectTreeNode::fetch( $nodeName, false, false );
             if ( is_array( $node ) )
             {
-                $result['status'] = EZ_CONTENTUPLOAD_STATUS_PERMISSION_DENIED;
+                $result['status'] = eZContentUpload::STATUS_PERMISSION_DENIED;
                 $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
                                                             'Permission denied' ) );
 
@@ -1322,7 +1323,7 @@ class eZContentUpload
 
         if ( $handlerName !== false )
         {
-            include_once( 'lib/ezutils/classes/ezextension.php' );
+            //include_once( 'lib/ezutils/classes/ezextension.php' );
             $baseDirectory = eZExtension::baseDirectory();
             $extensionDirectories = eZExtension::activeExtensions();
 
@@ -1336,7 +1337,7 @@ class eZContentUpload
                 include_once( $handlerPath );
                 $handlerClass = $handlerName;
                 $handler = new $handlerClass();
-                if ( !is_subclass_of( $handler, 'ezcontentuploadhandler' ) )
+                if ( !$handler instanceof eZContentUploadHandler )
                 {
                     eZDebug::writeError( "Content upload handler '$handlerName' is not inherited from eZContentUploadHandler. All upload handlers must do this.", 'eZContentUpload::findHandler' );
                     return false;

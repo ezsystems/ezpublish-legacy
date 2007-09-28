@@ -33,15 +33,15 @@
 
 */
 
-include_once( "lib/ezutils/classes/ezdebug.php" );
-include_once( "lib/ezi18n/classes/ezutf8codec.php" );
-include_once( "lib/ezi18n/classes/ezcharsetinfo.php" );
-
-define( "EZ_CODEPAGE_CACHE_CODE_DATE", 1028204478 );
+require_once( "lib/ezutils/classes/ezdebug.php" );
+//include_once( "lib/ezi18n/classes/ezutf8codec.php" );
+//include_once( "lib/ezi18n/classes/ezcharsetinfo.php" );
 
 class eZCodePage
 {
-   /*!
+    const EZ_CODEPAGE_CACHE_CODE_DATE = 1028204478;
+
+    /*!
      Initializes the codepage with the charset code $charset_code, and then loads it.
     */
     function eZCodePage( $charset_code, $use_cache = true )
@@ -369,7 +369,7 @@ class eZCodePage
 
     function cacheFileName( $charset_code )
     {
-        $permissionArray = eZCodepage::permissionSetting();
+        $permissionArray = eZCodePage::permissionSetting();
         $charset_code = eZCharsetInfo::realCharsetCode( $charset_code );
         $cache_dir = $permissionArray['var_directory'] . "/codepages/";
         $cache_filename = md5( $charset_code );
@@ -467,7 +467,7 @@ class eZCodePage
 
         $str = "<?" . "php
 $str
-\$eZCodePageCacheCodeDate = " . EZ_CODEPAGE_CACHE_CODE_DATE . ";
+\$eZCodePageCacheCodeDate = " . self::EZ_CODEPAGE_CACHE_CODE_DATE . ";
 \$min_char = " . $this->MinCharValue . ";
 \$max_char = " . $this->MaxCharValue . ";
 ?" . ">";
@@ -479,9 +479,9 @@ $str
             // Store the old umask and set a new one.
             $oldPermissionSetting = umask( 0 );
 
-            include_once( 'lib/ezfile/classes/ezdir.php' );
+            //include_once( 'lib/ezfile/classes/ezdir.php' );
             if ( ! eZDir::mkdir( $cache_dir, $permissionArray['dir_permission'], true ) )
-                eZDebug::writeError( "Couldn't create cache directory $cache_dir, perhaps wrong permissions", "eZCodepage" );
+                eZDebug::writeError( "Couldn't create cache directory $cache_dir, perhaps wrong permissions", "eZCodePage" );
 
             // Restore the old umask.
             umask( $oldPermissionSetting );
@@ -490,7 +490,7 @@ $str
         $fd = @fopen( $filename, "w+" );
         if ( ! $fd )
         {
-            eZDebug::writeError( "Couldn't write cache file $filename, perhaps wrong permissions or leading directories not created", "eZCodepage" );
+            eZDebug::writeError( "Couldn't write cache file $filename, perhaps wrong permissions or leading directories not created", "eZCodePage" );
         }
         else
         {
@@ -516,7 +516,7 @@ $str
     */
     function cacheFilepath()
     {
-        $permissionArray = eZCodepage::permissionSetting();
+        $permissionArray = eZCodePage::permissionSetting();
         $cache_dir = $permissionArray['var_directory'] . "/codepages/";
         $cache_filename = md5( $this->CharsetCode );
         $cache = $cache_dir . $cache_filename . ".php";
@@ -539,7 +539,7 @@ $str
         $file = "share/codepages/" . $this->CharsetCode;
 //         eZDebug::writeDebug( "ezcodepage::load was called for $file..." );
 
-        $permissionArray = eZCodepage::permissionSetting();
+        $permissionArray = eZCodePage::permissionSetting();
         $cache_dir = $permissionArray['var_directory'] . "/codepages/";
         $cache_filename = md5( $this->CharsetCode );
         $cache = $cache_dir . $cache_filename . ".php";
@@ -575,7 +575,7 @@ $str
                 $this->ReadExtraMap = $read_extra;
 
                 if ( isset( $eZCodePageCacheCodeDate ) and
-                     $eZCodePageCacheCodeDate == EZ_CODEPAGE_CACHE_CODE_DATE )
+                     $eZCodePageCacheCodeDate == self::EZ_CODEPAGE_CACHE_CODE_DATE )
                 {
                     $this->Valid = true;
                     return;
@@ -771,7 +771,7 @@ $str
 
         if ( $permissionArray !== false )
         {
-            eZCodepage::flushCacheObject();
+            eZCodePage::flushCacheObject();
         }
     }
 
@@ -787,7 +787,7 @@ $str
         }
 
         // Grab the permission setting for codepage cache files.
-        $permissionArray = eZCodepage::permissionSetting();
+        $permissionArray = eZCodePage::permissionSetting();
 
         // If we were unable to extract the permission setting:
         if ( $permissionArray === false )
@@ -847,7 +847,7 @@ $str
 if ( isset( $GLOBALS['EZCODEPAGEPERMISSIONS'] ) and
      $GLOBALS['EZCODEPAGEPERMISSIONS'] !== false )
 {
-    eZCodepage::flushCacheObject();
+    eZCodePage::flushCacheObject();
 }
 
 ?>

@@ -35,9 +35,9 @@ if( !file_exists( 'update/common/scripts/3.9' ) || !is_dir( 'update/common/scrip
     exit;
 }
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
-include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
 
 $cli = eZCLI::instance();
 
@@ -95,14 +95,14 @@ if ( !$db->isConnected() )
     $script->shutdown( 1 );
 }
 
-include_once( 'kernel/classes/datatypes/ezxmltext/ezxmltexttype.php' );
+//include_once( 'kernel/classes/datatypes/ezxmltext/ezxmltexttype.php' );
 
 function AddObjectRelation( $fromObjectID, $fromObjectVersion, $toObjectID, $relationType )
 {
     $db = eZDB::instance();
-    $relationBaseType = EZ_CONTENT_OBJECT_RELATION_COMMON |
-                        EZ_CONTENT_OBJECT_RELATION_EMBED |
-                        EZ_CONTENT_OBJECT_RELATION_LINK;
+    $relationBaseType = eZContentObject::RELATION_COMMON |
+                        eZContentObject::RELATION_EMBED |
+                        eZContentObject::RELATION_LINK;
     $query = "SELECT count(*) AS count
               FROM   ezcontentobject_link
               WHERE  from_contentobject_id=$fromObjectID AND
@@ -138,7 +138,7 @@ function AddNewRelations( $objectID, $version, $relatedObjectIDArray, $cli )
         foreach ( $relatedObjectIDSubArray as $relatedObjectID )
         {
             AddObjectRelation( $objectID, $version, $relatedObjectID, $relationType );
-            $cli->notice( implode( '', array( 'Added ', ( ( EZ_CONTENT_OBJECT_RELATION_EMBED === $relationType ) ? 'embed' : 'link' ) , ' relation. ',
+            $cli->notice( implode( '', array( 'Added ', ( ( eZContentObject::RELATION_EMBED === $relationType ) ? 'embed' : 'link' ) , ' relation. ',
                                    'Object ID ', $objectID,
                                    '( ver. ', $version,
                                    ' ) => ID ', $relatedObjectID ) ) );
@@ -211,8 +211,8 @@ for ( $offset = 0; ; $offset += QUERY_LIMIT )
             }
 
             $version = ( int ) $xmlField['version'];
-            $relatedObjectIDArray[EZ_CONTENT_OBJECT_RELATION_EMBED] = array();
-            $relatedObjectIDArray[EZ_CONTENT_OBJECT_RELATION_LINK] = array();
+            $relatedObjectIDArray[eZContentObject::RELATION_EMBED] = array();
+            $relatedObjectIDArray[eZContentObject::RELATION_LINK] = array();
 
             if ( $objectID == null || $objectID != $xmlField['contentobject_id'] )
             {
@@ -234,8 +234,8 @@ for ( $offset = 0; ; $offset += QUERY_LIMIT )
 
         if ( $doc )
         {
-            getRelatedObjectsID( $doc, 'embed', $relatedObjectIDArray[EZ_CONTENT_OBJECT_RELATION_EMBED] );
-            getRelatedObjectsID( $doc, 'link', $relatedObjectIDArray[EZ_CONTENT_OBJECT_RELATION_LINK] );
+            getRelatedObjectsID( $doc, 'embed', $relatedObjectIDArray[eZContentObject::RELATION_EMBED] );
+            getRelatedObjectsID( $doc, 'link', $relatedObjectIDArray[eZContentObject::RELATION_LINK] );
         }
     }
 }

@@ -35,17 +35,17 @@ if ( isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) )
     exit();
 }
 
-include_once( 'lib/ezutils/classes/ezexecution.php' );
-include_once( 'lib/ezutils/classes/ezsys.php' );
-include_once( 'lib/ezutils/classes/ezdebug.php' );
-include_once( 'lib/ezutils/classes/ezini.php' );
-include_once( 'lib/ezutils/classes/ezuri.php' );
-include_once( 'lib/ezutils/classes/ezsession.php' );
-include_once( 'lib/ezutils/classes/ezextension.php' );
-include_once( 'kernel/common/ezincludefunctions.php' );
-include_once( 'lib/ezutils/classes/ezmodule.php' );
-include_once( 'lib/ezdb/classes/ezdb.php' );
-include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+//require_once( 'lib/ezutils/classes/ezexecution.php' );
+////include_once( 'lib/ezutils/classes/ezsys.php' );
+//require_once( 'lib/ezutils/classes/ezdebug.php' );
+////include_once( 'lib/ezutils/classes/ezini.php' );
+////include_once( 'lib/ezutils/classes/ezuri.php' );
+require_once( 'lib/ezutils/classes/ezsession.php' );
+////include_once( 'lib/ezutils/classes/ezextension.php' );
+require_once( 'kernel/common/ezincludefunctions.php' );
+////include_once( 'lib/ezutils/classes/ezmodule.php' );
+////include_once( 'lib/ezdb/classes/ezdb.php' );
+////include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 
 function ezupdatedebugsettings()
 {
@@ -68,7 +68,7 @@ ob_start();
 error_reporting ( E_ALL );
 
 eZExecution::addFatalErrorHandler( 'eZFatalError' );
-eZDebug::setHandleType( EZ_HANDLE_FROM_PHP );
+eZDebug::setHandleType( eZDebug::EZ_HANDLE_FROM_PHP );
 
 // Trick to get eZSys working with a script other than index.php (while index.php still used in generated URLs):
 $_SERVER['SCRIPT_FILENAME'] = str_replace( '/index_treemenu.php', '/index.php', $_SERVER['SCRIPT_FILENAME'] );
@@ -91,9 +91,9 @@ $uri = eZURI::instance( eZSys::requestURI() );
 
 $GLOBALS['eZRequestedURI'] = $uri;
 
-include_once( 'pre_check.php' );
+require_once 'pre_check.php';
 
-include_once( 'access.php' );
+require_once 'access.php';
 
 $access = accessType( $uri,
                       eZSys::hostname(),

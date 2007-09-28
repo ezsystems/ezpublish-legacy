@@ -31,10 +31,10 @@
 // file  bin/php/ezsubtreeremove.php
 
 // script initializing
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
-include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
+//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+//include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "\n" .

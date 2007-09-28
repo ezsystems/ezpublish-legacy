@@ -55,8 +55,8 @@ class MyClass extends eZPersistentObject
 
 */
 
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "lib/ezutils/classes/ezdebug.php" );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+require_once( "lib/ezutils/classes/ezdebug.php" );
 
 class eZPersistentObject
 {
@@ -344,7 +344,7 @@ class eZPersistentObject
                 eZDebug::writeDebug( $value, "truncation of $field_name to max_length=". $field_def['max_length'] );
             }
             $bindDataTypes = array( 'text' );
-            if ( $db->bindingType() != EZ_DB_BINDING_NO &&
+            if ( $db->bindingType() != eZDBInterface::BINDING_NO &&
                  strlen( $value ) > 2000 &&
                  is_array( $field_def ) &&
                  in_array( $field_def['datatype'], $bindDataTypes  )
@@ -1084,7 +1084,7 @@ static function definition()
             }
 
             $bindDataTypes = array( 'text' );
-            if ( $db->bindingType() != EZ_DB_BINDING_NO &&
+            if ( $db->bindingType() != eZDBInterface::BINDING_NO &&
                  strlen( $value ) > 2000 &&
                  is_array( $fieldDef ) &&
                  in_array( $fieldDef['datatype'], $bindDataTypes  )

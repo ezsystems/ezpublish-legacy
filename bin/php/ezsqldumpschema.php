@@ -27,8 +27,8 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "eZ publish SQL Schema dump\n\n" .
@@ -188,8 +188,8 @@ function eZTriedDatabaseString( $database, $host, $user, $password, $socket )
 
 if ( file_exists( $database ) and is_file( $database ) )
 {
-    include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
-    $schemaArray = eZDBSchema::read( $database, true );
+    //include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
+    $schemaArray = eZDbSchema::read( $database, true );
 
     if ( $includeData and !isset( $schemaArray['data'] ) )
     {
@@ -210,7 +210,7 @@ if ( file_exists( $database ) and is_file( $database ) )
             $cli->error( "Schema file " . $options['schema-file'] . " does not exist" );
             $script->shutdown( 1 );
         }
-        $schema = eZDBSchema::read( $options['schema-file'], false );
+        $schema = eZDbSchema::read( $options['schema-file'], false );
         $schemaArray['schema'] = $schema;
     }
 
@@ -240,7 +240,7 @@ else
         $script->shutdown( 1 );
     }
 
-    include_once( 'lib/ezdb/classes/ezdb.php' );
+    //include_once( 'lib/ezdb/classes/ezdb.php' );
     $parameters = array( 'use_defaults' => false,
                          'server' => $host,
                          'user' => $user,
@@ -278,7 +278,7 @@ else
         $script->shutdown( 1 );
     }
 
-    include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
+    //include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
     $dbSchema = eZDBSchema::instance( $db );
 }
 

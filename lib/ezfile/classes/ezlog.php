@@ -36,11 +36,13 @@
 */
 
 
-include_once( "lib/ezutils/classes/ezsys.php" );
-define( "EZ_MAX_LOGROTATE_FILES", 3 );
-define( "EZ_MAX_LOGFILE_SIZE", 200*1024 );
+//include_once( "lib/ezutils/classes/ezsys.php" );
+
 class eZLog
 {
+    const EZ_MAX_LOGROTATE_FILES = 3;
+    const EZ_MAX_LOGFILE_SIZE = 204800; // 200*1024
+
     /*!
       Creates a new log object.
     */
@@ -59,7 +61,7 @@ class eZLog
         $fileName = $dir . '/' . $logName;
         if ( !file_exists( $dir ) )
         {
-            include_once( 'lib/ezfile/classes/ezdir.php' );
+            //include_once( 'lib/ezfile/classes/ezdir.php' );
             eZDir::mkdir( $dir, 0775, true );
         }
         $oldumask = @umask( 0 );
@@ -98,7 +100,7 @@ class eZLog
         $fileName = $varDir . '/' . $logDir . '/' . $logName;
         if ( !file_exists( $varDir . '/' . $logDir ) )
         {
-            include_once( 'lib/ezfile/classes/ezdir.php' );
+            //include_once( 'lib/ezfile/classes/ezdir.php' );
             eZDir::mkdir( $varDir . '/' . $logDir, 0775, true );
         }
         $oldumask = @umask( 0 );
@@ -143,7 +145,7 @@ class eZLog
         $maxLogSize =& $GLOBALS['eZMaxLogSize'];
         if ( isset( $maxLogSize ) )
             return $maxLogSize;
-        return EZ_MAX_LOGFILE_SIZE;
+        return self::EZ_MAX_LOGFILE_SIZE;
     }
 
     /*!
@@ -164,7 +166,7 @@ class eZLog
         $maxLogrotateFiles =& $GLOBALS['eZMaxLogrotateFiles'];
         if ( isset( $maxLogrotateFiles ) )
             return $maxLogrotateFiles;
-        return EZ_MAX_LOGROTATE_FILES;
+        return self::EZ_MAX_LOGROTATE_FILES;
     }
 
     /*!
@@ -176,7 +178,7 @@ class eZLog
     */
     static function rotateLog( $fileName )
     {
-        include_once( 'lib/ezfile/classes/ezfile.php' );
+        //include_once( 'lib/ezfile/classes/ezfile.php' );
         $maxLogrotateFiles = eZLog::maxLogrotateFiles();
         for ( $i = $maxLogrotateFiles; $i > 0; --$i )
         {

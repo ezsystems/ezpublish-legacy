@@ -35,7 +35,7 @@
 
 */
 
-include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+//include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 
 class eZKeyword
 {

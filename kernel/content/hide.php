@@ -31,10 +31,10 @@ $NodeID = $Params['NodeID'];
 
 $curNode = eZContentObjectTreeNode::fetch( $NodeID );
 if ( !$curNode )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
 if ( !$curNode->attribute( 'can_hide' ) )
-    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
 if ( $curNode->attribute( 'is_hidden' ) )
     eZContentObjectTreeNode::unhideSubTree( $curNode );
@@ -42,7 +42,7 @@ else
     eZContentObjectTreeNode::hideSubTree( $curNode );
 
 
-include_once( 'kernel/classes/ezredirectmanager.php' );
+//include_once( 'kernel/classes/ezredirectmanager.php' );
 $hasRedirect = eZRedirectManager::redirectTo( $Module, false );
 if ( !$hasRedirect )
 {

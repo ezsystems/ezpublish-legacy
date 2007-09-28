@@ -30,11 +30,11 @@
 
 /*! \file bookmark.php
 */
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'kernel/classes/ezcontentbrowse.php' );
-include_once( 'kernel/classes/ezcontentbrowsebookmark.php' );
-include_once( "lib/ezdb/classes/ezdb.php" );
+require_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezcontentbrowse.php' );
+//include_once( 'kernel/classes/ezcontentbrowsebookmark.php' );
+//include_once( "lib/ezdb/classes/ezdb.php" );
 
 $Module = $Params['Module'];
 $http = eZHTTPTool::instance();

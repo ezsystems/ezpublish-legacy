@@ -40,13 +40,14 @@
 
 */
 
-include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+//include_once( "lib/ezdb/classes/ezdb.php" );
 
-define( 'EZ_PREFERENCES_SESSION_NAME', 'eZPreferences' );
 
 class eZPreferences
 {
+    const SESSION_NAME = "eZPreferences";
+
     /*!
      \static
      Sets a preference value for a given user. If
@@ -194,8 +195,8 @@ class eZPreferences
         {
             // For the anonymous user we just return all values
             $http = eZHTTPTool::instance();
-            if ( $http->hasSessionVariable( EZ_PREFERENCES_SESSION_NAME ) )
-                return $http->sessionVariable( EZ_PREFERENCES_SESSION_NAME );
+            if ( $http->hasSessionVariable( eZPreferences::SESSION_NAME ) )
+                return $http->sessionVariable( eZPreferences::SESSION_NAME );
             return array();
         }
     }
@@ -207,7 +208,7 @@ class eZPreferences
     static function sessionCleanup()
     {
         $http = eZHTTPTool::instance();
-        $http->removeSessionVariable( EZ_PREFERENCES_SESSION_NAME );
+        $http->removeSessionVariable( eZPreferences::SESSION_NAME );
     }
 
     /*!
@@ -218,10 +219,10 @@ class eZPreferences
     {
         $http = eZHTTPTool::instance();
         $preferencesInSession = array();
-        if ( $http->hasSessionVariable( EZ_PREFERENCES_SESSION_NAME ) )
-             $preferencesInSession = $http->sessionVariable( EZ_PREFERENCES_SESSION_NAME );
+        if ( $http->hasSessionVariable( eZPreferences::SESSION_NAME ) )
+             $preferencesInSession = $http->sessionVariable( eZPreferences::SESSION_NAME );
         $preferencesInSession[$name] = $value;
-        $http->setSessionVariable( EZ_PREFERENCES_SESSION_NAME, $preferencesInSession );
+        $http->setSessionVariable( eZPreferences::SESSION_NAME, $preferencesInSession );
     }
 
     /*!
@@ -231,9 +232,9 @@ class eZPreferences
     static function isStoredInSession( $name )
     {
         $http = eZHTTPTool::instance();
-        if ( !$http->hasSessionVariable( EZ_PREFERENCES_SESSION_NAME ) )
+        if ( !$http->hasSessionVariable( eZPreferences::SESSION_NAME ) )
             return false;
-        $preferencesInSession = $http->sessionVariable( EZ_PREFERENCES_SESSION_NAME );
+        $preferencesInSession = $http->sessionVariable( eZPreferences::SESSION_NAME );
         return array_key_exists( $name, $preferencesInSession );
     }
 
@@ -244,9 +245,9 @@ class eZPreferences
     static function storedSessionValue( $name )
     {
         $http = eZHTTPTool::instance();
-        if ( !$http->hasSessionVariable( EZ_PREFERENCES_SESSION_NAME ) )
+        if ( !$http->hasSessionVariable( eZPreferences::SESSION_NAME ) )
             return null;
-        $preferencesInSession = $http->sessionVariable( EZ_PREFERENCES_SESSION_NAME );
+        $preferencesInSession = $http->sessionVariable( eZPreferences::SESSION_NAME );
         if ( !array_key_exists( $name, $preferencesInSession ) )
             return null;
         return $preferencesInSession[$name];

@@ -37,7 +37,7 @@
 
 */
 
-include_once( 'lib/eztemplate/classes/eztemplatecachefunction.php' );
+//include_once( 'lib/eztemplate/classes/eztemplatecachefunction.php' );
 
 class eZSubtreeCache
 {
@@ -62,7 +62,7 @@ class eZSubtreeCache
         }
         else
         {
-            include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+            //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
             $nodeList = eZContentObjectTreeNode::fetch( $nodeIDList );
             if ( $nodeList )
             {
@@ -119,7 +119,7 @@ class eZSubtreeCache
     {
         if ( file_exists( $cacheDir ) )
         {
-            include_once( 'lib/ezutils/classes/ezini.php' );
+            //include_once( 'lib/ezutils/classes/ezini.php' );
             $ini = eZINI::instance();
             if ( $ini->variable( 'TemplateSettings', 'DelayedCacheBlockCleanup' ) === 'enabled' )
             {
@@ -148,7 +148,7 @@ class eZSubtreeCache
 
         if ( $dir )
         {
-            include_once( 'lib/ezfile/classes/ezfile.php' );
+            //include_once( 'lib/ezfile/classes/ezfile.php' );
             $expiryCacheDir = eZTemplateCacheFunction::expiryTemplateBlockCacheDir();
 
             $uniqid = md5( uniqid( 'ezpsubtreecache'. getmypid(), true ) );
@@ -185,7 +185,7 @@ class eZSubtreeCache
     {
         require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $fileHandler = eZClusterFileHandler::instance();
-        if ( get_class( $fileHandler ) == 'ezfsfilehandler' )
+        if ( $fileHandler instanceof eZFSFileHandler )
         {
             // We will only delete files if the FS file handler is used,
             // if the DB file handler is in use the system will

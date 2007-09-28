@@ -35,8 +35,8 @@ if( !file_exists( 'update/common/scripts' ) || !is_dir( 'update/common/scripts' 
     exit;
 }
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
 
@@ -112,9 +112,9 @@ if ( !$db->isConnected() )
     $script->shutdown( 1 );
 }
 
-include_once( 'kernel/classes/datatypes/ezxmltext/ezxmltexttype.php' );
+//include_once( 'kernel/classes/datatypes/ezxmltext/ezxmltexttype.php' );
 
-include_once( 'lib/version.php' );
+//include_once( 'lib/version.php' );
 
 $eZPublishVersion = eZPublishSDK::majorVersion() + eZPublishSDK::minorVersion() * 0.1;
 $siteaccess = $GLOBALS['eZCurrentAccess']['name'];
@@ -130,7 +130,7 @@ if ( !$skipClasses || !$skipCustom )
         $iniPath = "settings/siteaccess/$siteaccess";
     $contentIniDirect = eZINI::instance( 'content.ini.append', $iniPath, null, null, null, true, true );
 
-    include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlschema.php' );
+    //include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlschema.php' );
     $XMLSchema = eZXMLSchema::instance();
 }
 
@@ -269,7 +269,7 @@ function convertObjects( $doc, $element, &$isTextModified )
                     $link->setAttribute( 'url_id', $urlID );
                 elseif ( $urlHref )
                 {
-                    include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+                    //include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
                     $urlHref = str_replace("&amp;", "&", $urlHref );
                     $urlID = eZURL::registerURL( $urlHref );
                     $link->setAttribute( 'url_id', $urlID );

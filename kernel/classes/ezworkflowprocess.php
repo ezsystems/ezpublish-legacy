@@ -34,9 +34,9 @@
 
 */
 
-include_once( 'lib/ezdb/classes/ezdb.php' );
-include_once( 'kernel/classes/ezpersistentobject.php' );
-include_once( 'kernel/classes/ezworkflowevent.php' );
+//include_once( 'lib/ezdb/classes/ezdb.php' );
+//include_once( 'kernel/classes/ezpersistentobject.php' );
+//include_once( 'kernel/classes/ezworkflowevent.php' );
 
 class eZWorkflowProcess extends eZPersistentObject
 {
@@ -219,13 +219,13 @@ class eZWorkflowProcess extends eZPersistentObject
 
         switch( $currentEventStatus )
         {
-            case EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON:
-            case EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON_REPEAT:
-            case EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE:
-            case EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE_REPEAT:
-            case EZ_WORKFLOW_TYPE_STATUS_REDIRECT:
-            case EZ_WORKFLOW_TYPE_STATUS_REDIRECT_REPEAT:
-            case EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_RESET:
+            case eZWorkflowType::STATUS_DEFERRED_TO_CRON:
+            case eZWorkflowType::STATUS_DEFERRED_TO_CRON_REPEAT:
+            case eZWorkflowType::STATUS_FETCH_TEMPLATE:
+            case eZWorkflowType::STATUS_FETCH_TEMPLATE_REPEAT:
+            case eZWorkflowType::STATUS_REDIRECT:
+            case eZWorkflowType::STATUS_REDIRECT_REPEAT:
+            case eZWorkflowType::STATUS_WORKFLOW_RESET:
             {
                 if ( $workflowEvent !== null )
                 {
@@ -244,9 +244,9 @@ class eZWorkflowProcess extends eZPersistentObject
                                              "description" => $workflowEvent->attribute( "description" ),
                                              "type_name" => $eventType->attribute( "name" ),
                                              "type_group" => $eventType->attribute( "group_name" ) );
-                        if ( $currentEventStatus == EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON ||
-                             $currentEventStatus == EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE   ||
-                             $currentEventStatus == EZ_WORKFLOW_TYPE_STATUS_REDIRECT )
+                        if ( $currentEventStatus == eZWorkflowType::STATUS_DEFERRED_TO_CRON ||
+                             $currentEventStatus == eZWorkflowType::STATUS_FETCH_TEMPLATE   ||
+                             $currentEventStatus == eZWorkflowType::STATUS_REDIRECT )
                         {
                             $runCurrentEvent = false;
                         }
@@ -267,9 +267,9 @@ class eZWorkflowProcess extends eZPersistentObject
                     {
                         eZDebugSetting::writeDebug( 'workflow-process', "Date ok, running events" );
                         eZDebugSetting::writeDebug( 'workflow-process', $currentEventStatus, 'WORKFLOW_TYPE_STATUS' );
-                        if ( $currentEventStatus == EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON ||
-                             $currentEventStatus == EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE   ||
-                             $currentEventStatus == EZ_WORKFLOW_TYPE_STATUS_REDIRECT )
+                        if ( $currentEventStatus == eZWorkflowType::STATUS_DEFERRED_TO_CRON ||
+                             $currentEventStatus == eZWorkflowType::STATUS_FETCH_TEMPLATE   ||
+                             $currentEventStatus == eZWorkflowType::STATUS_REDIRECT )
                         {
                             $runCurrentEvent = false;
                         }
@@ -313,7 +313,7 @@ class eZWorkflowProcess extends eZPersistentObject
             {
                 $eventType =& $workflowEvent->eventType();
 
-                if ( is_subclass_of( $eventType, "ezworkflowtype" ) )
+                if ( $eventType instanceof eZWorkflowType )
                 {
                     $currentEventStatus = $eventType->execute( $this, $workflowEvent );
                     $this->setAttribute( "event_status", $currentEventStatus );
@@ -340,63 +340,63 @@ class eZWorkflowProcess extends eZPersistentObject
                     eZDebugSetting::writeDebug( 'workflow-process', $currentEventStatus, "currentEventStatus" );
                     switch( $currentEventStatus )
                     {
-                        case EZ_WORKFLOW_TYPE_STATUS_ACCEPTED:
+                        case eZWorkflowType::STATUS_ACCEPTED:
                         {
                             $done = false;
-                            $workflowStatus = EZ_WORKFLOW_STATUS_DONE;
+                            $workflowStatus = eZWorkflow::STATUS_DONE;
                         }break;
-                        case EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_DONE:
+                        case eZWorkflowType::STATUS_WORKFLOW_DONE:
                         {
                             $done = true;
-                            $workflowStatus = EZ_WORKFLOW_STATUS_DONE;
+                            $workflowStatus = eZWorkflow::STATUS_DONE;
                         } break;
-                        case EZ_WORKFLOW_TYPE_STATUS_REJECTED:
+                        case eZWorkflowType::STATUS_REJECTED:
                         {
                             $done = true;
-                            $workflowStatus = EZ_WORKFLOW_STATUS_FAILED;
+                            $workflowStatus = eZWorkflow::STATUS_FAILED;
                         } break;
-                        case EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON:
-                        case EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON_REPEAT:
+                        case eZWorkflowType::STATUS_DEFERRED_TO_CRON:
+                        case eZWorkflowType::STATUS_DEFERRED_TO_CRON_REPEAT:
                         {
                             if ( $eventType->hasAttribute( "activation_date" ) )
                             {
                                 $date = $eventType->attribute( "activation_date" );
                                 $this->setAttribute( "activation_date", $date );
                             }
-                            $workflowStatus = EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON;
+                            $workflowStatus = eZWorkflow::STATUS_DEFERRED_TO_CRON;
                             $done = true;
                         } break;
-                        case EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE:
-                        case EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE_REPEAT:
+                        case eZWorkflowType::STATUS_FETCH_TEMPLATE:
+                        case eZWorkflowType::STATUS_FETCH_TEMPLATE_REPEAT:
                         {
-                            $workflowStatus = EZ_WORKFLOW_STATUS_FETCH_TEMPLATE;
+                            $workflowStatus = eZWorkflow::STATUS_FETCH_TEMPLATE;
                             $done = true;
                         } break;
-                        case EZ_WORKFLOW_TYPE_STATUS_REDIRECT:
-                        case EZ_WORKFLOW_TYPE_STATUS_REDIRECT_REPEAT:
+                        case eZWorkflowType::STATUS_REDIRECT:
+                        case eZWorkflowType::STATUS_REDIRECT_REPEAT:
                         {
-                            $workflowStatus = EZ_WORKFLOW_STATUS_REDIRECT;
+                            $workflowStatus = eZWorkflow::STATUS_REDIRECT;
                             $done = true;
                         } break;
-                        case EZ_WORKFLOW_TYPE_STATUS_RUN_SUB_EVENT:
+                        case eZWorkflowType::STATUS_RUN_SUB_EVENT:
                         {
                             eZDebug::writeWarning( "Run sub event not supported yet", "eZWorkflowProcess::run" );
                         } break;
-                        case EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_CANCELLED:
+                        case eZWorkflowType::STATUS_WORKFLOW_CANCELLED:
                         {
                             $done = true;
                             $this->advance();
-                            $workflowStatus = EZ_WORKFLOW_STATUS_CANCELLED;
+                            $workflowStatus = eZWorkflow::STATUS_CANCELLED;
                         } break;
-                        case EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_RESET:
+                        case eZWorkflowType::STATUS_WORKFLOW_RESET:
                         {
                             $done = true;
                             $this->reset();
-                            $workflowStatus = EZ_WORKFLOW_STATUS_RESET;
+                            $workflowStatus = eZWorkflow::STATUS_RESET;
                         } break;
-                        case EZ_WORKFLOW_TYPE_STATUS_NONE:
+                        case eZWorkflowType::STATUS_NONE:
                         {
-                            eZDebug::writeWarning( "Workflow executing status is EZ_WORKFLOW_TYPE_STATUS_NONE", "eZWorkflowProcess::run" );
+                            eZDebug::writeWarning( "Workflow executing status is eZWorkflowType::STATUS_NONE", "eZWorkflowProcess::run" );
                         } break;
                         default:
                         {
@@ -439,7 +439,7 @@ class eZWorkflowProcess extends eZPersistentObject
                     $done = true;
                     unset( $workflowEvent );
                     eZDebugSetting::writeDebug( 'workflow-process', $event_pos , "workflow done");
-                    $workflowStatus = EZ_WORKFLOW_STATUS_DONE;
+                    $workflowStatus = eZWorkflow::STATUS_DONE;
                     $this->advance();
                 }
             }
@@ -519,7 +519,7 @@ class eZWorkflowProcess extends eZPersistentObject
                                                     null, $conds, null, null,
                                                     $asObject );
     }
-    function fetchForStatus( $status = EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON,  $asObject = true )
+    function fetchForStatus( $status = eZWorkflow::STATUS_DEFERRED_TO_CRON,  $asObject = true )
     {
         $conds = array( 'status' => $status );
 
@@ -566,7 +566,7 @@ class eZWorkflowProcess extends eZPersistentObject
     {
         if ( isset( $this->UserID ) and $this->UserID )
         {
-            include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+            //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
             return eZUser::instance( $this->UserID );
         }
         return null;
@@ -576,7 +576,7 @@ class eZWorkflowProcess extends eZPersistentObject
     {
         if ( isset( $this->ContentID ) and $this->ContentID )
         {
-            include_once( 'kernel/classes/ezcontentobject.php' );
+            //include_once( 'kernel/classes/ezcontentobject.php' );
             return eZContentObject::fetch( $this->ContentID );
         }
         return null;
@@ -586,7 +586,7 @@ class eZWorkflowProcess extends eZPersistentObject
     {
         if ( isset( $this->NodeID ) and $this->NodeID )
         {
-            include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+            //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
             return eZContentObjectTreeNode::fetch( $this->NodeID );
         }
         return null;
@@ -596,7 +596,7 @@ class eZWorkflowProcess extends eZPersistentObject
     {
         if ( isset( $this->WorkflowID ) and $this->WorkflowID )
         {
-            include_once( 'kernel/classes/ezworkflow.php' );
+            //include_once( 'kernel/classes/ezworkflow.php' );
             return eZWorkflow::fetch( $this->WorkflowID );
         }
         return null;
@@ -606,7 +606,7 @@ class eZWorkflowProcess extends eZPersistentObject
     {
         if ( isset( $this->EventID ) and $this->EventID )
         {
-            include_once( 'kernel/classes/ezworkflowevent.php' );
+            //include_once( 'kernel/classes/ezworkflowevent.php' );
             return eZWorkflowEvent::fetch( $this->EventID );
         }
         return null;
@@ -616,7 +616,7 @@ class eZWorkflowProcess extends eZPersistentObject
     {
         if ( isset( $this->LastEventID ) and $this->LastEventID )
         {
-            include_once( 'kernel/classes/ezworkflowevent.php' );
+            //include_once( 'kernel/classes/ezworkflowevent.php' );
             return eZWorkflowEvent::fetch( $this->LastEventID );
         }
         return null;

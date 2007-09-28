@@ -37,17 +37,16 @@
 
 */
 
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/ezpackagehandler.php' );
-
-define( "EZ_PACKAGE_EXTENSION_ERROR_EXISTS", 1 );
-
-define( "EZ_PACKAGE_EXTENSION_REPLACE", 1 );
-define( "EZ_PACKAGE_EXTENSION_SKIP", 2 );
-
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'kernel/classes/ezpackagehandler.php' );
 
 class eZExtensionPackageHandler extends eZPackageHandler
 {
+    const EZ_PACKAGE_EXTENSION_ERROR_EXISTS = 1;
+
+    const EZ_PACKAGE_EXTENSION_REPLACE = 1;
+    const EZ_PACKAGE_EXTENSION_SKIP = 2;
+
     /*!
      Constructor
     */
@@ -144,31 +143,31 @@ class eZExtensionPackageHandler extends eZPackageHandler
         {
             $description = ezi18n( 'kernel/package', "Extension '%extensionname' already exists.",
                                    false, array( '%extensionname' => $extensionName ) );
-            $choosenAction = $this->errorChoosenAction( EZ_PACKAGE_EXTENSION_ERROR_EXISTS,
+            $choosenAction = $this->errorChoosenAction( self::EZ_PACKAGE_EXTENSION_ERROR_EXISTS,
                                                         $installParameters, $description );
             switch( $choosenAction )
             {
-            case EZ_PACKAGE_EXTENSION_SKIP:
+            case self::EZ_PACKAGE_EXTENSION_SKIP:
                 return true;
 
-            case EZ_PACKAGE_NON_INTERACTIVE:
-            case EZ_PACKAGE_EXTENSION_REPLACE:
+            case eZPackage::NON_INTERACTIVE:
+            case self::EZ_PACKAGE_EXTENSION_REPLACE:
                 eZDir::recursiveDelete( $extensionDir );
                 break;
 
             default:
-                $installParameters['error'] = array( 'error_code' => EZ_PACKAGE_EXTENSION_ERROR_EXISTS,
+                $installParameters['error'] = array( 'error_code' => self::EZ_PACKAGE_EXTENSION_ERROR_EXISTS,
                                                      'element_id' => $extensionName,
                                                      'description' => $description,
-                                                     'actions' => array( EZ_PACKAGE_EXTENSION_REPLACE => ezi18n( 'kernel/package', "Replace extension" ),
-                                                                         EZ_PACKAGE_EXTENSION_SKIP => ezi18n( 'kernel/package', 'Skip' ) ) );
+                                                     'actions' => array( self::EZ_PACKAGE_EXTENSION_REPLACE => ezi18n( 'kernel/package', "Replace extension" ),
+                                                                         self::EZ_PACKAGE_EXTENSION_SKIP => ezi18n( 'kernel/package', 'Skip' ) ) );
                 return false;
             }
         }
 
         eZDir::mkdir( $extensionDir, eZDir::directoryPermission(), true );
 
-        include_once( 'lib/ezfile/classes/ezfilehandler.php' );
+        //include_once( 'lib/ezfile/classes/ezfilehandler.php' );
 
         $files = $content->getElementsByTagName( 'file' );
         foreach ( $files as $file )
@@ -213,8 +212,8 @@ class eZExtensionPackageHandler extends eZPackageHandler
     */
     function add( $packageType, $package, $cli, $parameters )
     {
-        include_once( 'lib/ezutils/classes/ezini.php' );
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        //include_once( 'lib/ezutils/classes/ezini.php' );
+        //include_once( 'lib/ezfile/classes/ezdir.php' );
 
         // code taken from eZExtensionPackageCreator
         $siteINI = eZINI::instance();
@@ -275,8 +274,8 @@ class eZExtensionPackageHandler extends eZPackageHandler
         $arguments = array_unique( $arguments );
         $extensionsToAdd = array();
 
-        include_once( 'lib/ezutils/classes/ezini.php' );
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        //include_once( 'lib/ezutils/classes/ezini.php' );
+        //include_once( 'lib/ezfile/classes/ezdir.php' );
         $siteINI = eZINI::instance();
         $extensionDir = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' );
         $extensionList = eZDir::findSubItems( $extensionDir );

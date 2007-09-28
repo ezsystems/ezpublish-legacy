@@ -26,10 +26,10 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/classes/ezcontentobject.php" );
-include_once( "lib/ezutils/classes/ezhttptool.php" );
-include_once( "kernel/common/template.php" );
-include_once( 'kernel/classes/ezpreferences.php' );
+//include_once( "kernel/classes/ezcontentobject.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
+require_once( "kernel/common/template.php" );
+//include_once( 'kernel/classes/ezpreferences.php' );
 
 $http = eZHTTPTool::instance();
 
@@ -85,7 +85,7 @@ $deleteIDArray = array();
 
 $contentObjectTreeNode = eZContentObjectTreeNode::fetch( $NodeID );
 if ( !$contentObjectTreeNode )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
 $path_strings = '( ';
 $path_strings2 = '( ';

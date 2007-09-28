@@ -38,7 +38,7 @@
 
 */
 
-include_once( "lib/ezxml/classes/ezelementtype.php" );
+//include_once( "lib/ezxml/classes/ezelementtype.php" );
 
 class eZComplexType extends eZElementType
 {

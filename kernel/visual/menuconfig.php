@@ -31,10 +31,10 @@
 $http = eZHTTPTool::instance();
 $module = $Params['Module'];
 
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( 'lib/ezfile/classes/ezdir.php' );
-include_once( "kernel/common/template.php" );
-include_once( "kernel/classes/ezsiteaccess.php" );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( 'lib/ezfile/classes/ezdir.php' );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/classes/ezsiteaccess.php" );
 
 $ini = eZINI::instance();
 $tpl = templateInit();
@@ -115,7 +115,7 @@ if ( $module->isCurrentAction( 'Store' ) )
     eZDir::unlinkWildcard( $compiledTemplateDir . "/", "*pagelayout*.*" );
 
     // Expire template block cache
-    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearTemplateBlockCacheIfNeeded( false );
 }
 

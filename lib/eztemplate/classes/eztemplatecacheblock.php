@@ -51,7 +51,7 @@ class eZTemplateCacheBlock
      Example of usage:
      \code
      list($handler, $data) = eZTemplateCacheBlock::retrieve( array( 'my_cool_key', $id, ), $nodeID, 60 ); // lives 60 seconds
-     if ( get_class( $data ) != 'ezclusterfilefailure' )
+     if ( !$data instanceof eZClusterFileFailure )
      {
          echo $data;
      }
@@ -81,7 +81,7 @@ class eZTemplateCacheBlock
     static function handle( $cachePath, $nodeID, $ttl, $useGlobalExpiry = true )
     {
         $globalExpiryTime = -1;
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         if ( $useGlobalExpiry )
         {
             $globalExpiryTime = eZExpiryHandler::getTimestamp( 'template-block-cache', -1 );
@@ -94,7 +94,7 @@ class eZTemplateCacheBlock
         // Perform an extra check if the DB handler is in use,
         // get the modified_subnode value from the specified node ($nodeID)
         // and use it as an extra expiry value.
-        if ( get_class( $cacheHandler ) == 'ezdbfilehandler' )
+        if ( $cacheHandler instanceof eZDBFileHandler )
         {
             $subtreeExpiry = eZTemplateCacheBlock::getSubtreeModification( $nodeID );
         }
@@ -119,7 +119,7 @@ class eZTemplateCacheBlock
             return -1;
         $nodeID = (int)$nodeID;
         $sql = "SELECT modified_subnode FROM ezcontentobject_tree WHERE node_id=$nodeID";
-        include_once( 'lib/ezdb/classes/ezdb.php' );
+        //include_once( 'lib/ezdb/classes/ezdb.php' );
         $db = eZDB::instance();
         $rows = $db->arrayQuery( $sql );
         if ( count( $rows ) > 0 )
@@ -163,7 +163,7 @@ class eZTemplateCacheBlock
      */
     static function cachePath( $keyString, $nodeID )
     {
-        include_once( 'lib/ezutils/classes/ezsys.php' );
+        //include_once( 'lib/ezutils/classes/ezsys.php' );
         $filename = eZSys::ezcrc32( $keyString ) . ".cache";
 
         $phpDir = eZTemplateCacheBlock::templateBlockCacheDir();
@@ -229,7 +229,7 @@ class eZTemplateCacheBlock
                 }
                 else
                 {
-                    include_once( 'lib/ezdb/classes/ezdb.php' );
+                    //include_once( 'lib/ezdb/classes/ezdb.php' );
                     $db = eZDB::instance();
                     // 'subtree_expiry' is url_alias
                     $nodePathStringSQL = "SELECT node_id FROM ezcontentobject_tree WHERE path_identification_string='" . $db->escapeString( $subtree ) . "'";

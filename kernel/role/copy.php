@@ -29,7 +29,7 @@
 /*! \file copy.php
 */
 
-include_once( 'kernel/classes/ezrole.php' );
+//include_once( 'kernel/classes/ezrole.php' );
 
 $Module = $Params['Module'];
 $roleID = $Params['RoleID'];
@@ -42,7 +42,7 @@ if ( $role )
 }
 else
 {
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
 ?>

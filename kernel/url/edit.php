@@ -28,9 +28,9 @@
 
 /*! \file view.php
 */
-include_once( "lib/ezutils/classes/ezhttptool.php" );
-include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
-include_once( "kernel/classes/datatypes/ezurl/ezurlobjectlink.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
+//include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+//include_once( "kernel/classes/datatypes/ezurl/ezurlobjectlink.php" );
 
 $Module = $Params['Module'];
 $urlID = null;
@@ -42,12 +42,12 @@ if ( is_numeric( $urlID ) )
     $url = eZURL::fetch( $urlID );
     if ( !$url )
     {
-        return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
     }
 }
 else
 {
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
 $http = eZHTTPTool::instance();
@@ -73,7 +73,7 @@ if ( $Module->isCurrentAction( 'Store' ) )
 $Module->setTitle( "Edit link " . $url->attribute( "id" ) );
 
 // Template handling
-include_once( "kernel/common/template.php" );
+require_once( "kernel/common/template.php" );
 $tpl = templateInit();
 
 $tpl->setVariable( "Module", $Module );

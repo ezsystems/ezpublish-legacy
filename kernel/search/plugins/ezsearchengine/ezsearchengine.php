@@ -33,11 +33,11 @@
 
 */
 
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "kernel/classes/ezcontentobject.php" );
-include_once( "lib/ezlocale/classes/ezdatetime.php" );
-include_once( "kernel/classes/ezcontentobject.php" );
-include_once( 'kernel/classes/ezcontentlanguage.php' );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( "kernel/classes/ezcontentobject.php" );
+//include_once( "lib/ezlocale/classes/ezdatetime.php" );
+//include_once( "kernel/classes/ezcontentobject.php" );
+//include_once( 'kernel/classes/ezcontentlanguage.php' );
 
 class eZSearchEngine
 {
@@ -68,7 +68,7 @@ class eZSearchEngine
         if ( !$currentVersion )
         {
             $errCurrentVersion = $contentObject->attribute( 'current_version');
-            include_once( "lib/ezutils/classes/ezdebug.php" );
+            require_once( "lib/ezutils/classes/ezdebug.php" );
             eZDebug::writeError( "Failed to fetch \"current version\" ({$errCurrentVersion})" .
                                  " of content object (ID: {$contentObjectID})", 'eZSearchEngine' );
             return;
@@ -173,7 +173,7 @@ class eZSearchEngine
         $db = eZDB::instance();
 
         // Initialize transformation system
-        include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+        //include_once( 'lib/ezi18n/classes/ezchartransform.php' );
         $trans = eZCharTransform::instance();
 
         $wordCount = count( $indexArrayOnlyWords );
@@ -293,7 +293,7 @@ class eZSearchEngine
         */
 
         // Initialize transformation system
-        include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+        //include_once( 'lib/ezi18n/classes/ezchartransform.php' );
         $trans = eZCharTransform::instance();
 
         $prevWordID = 0;
@@ -850,7 +850,7 @@ class eZSearchEngine
             // Loop every word and insert result in temporary table
 
             // Determine whether we should search invisible nodes.
-            include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+            //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
             $showInvisibleNodesCond = eZContentObjectTreeNode::createShowInvisibleSQLString( !$ignoreVisibility );
 
             foreach ( $searchPartsArray as $searchPart )
@@ -1207,7 +1207,7 @@ class eZSearchEngine
                         } break;
                         case 'class_name':
                         {
-                            include_once( 'kernel/classes/ezcontentobjectname.php' );
+                            //include_once( 'kernel/classes/ezcontentobjectname.php' );
                             $classNameFilter = eZContentClassName::sqlFilter();
                             $sortingFields .= $classNameFilter['nameField'];
                             $attributeFromSQL .= ", $classNameFilter[from]";
@@ -1366,7 +1366,7 @@ class eZSearchEngine
     */
     function normalizeText( $text, $isMetaData = false )
     {
-        include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+        //include_once( 'lib/ezi18n/classes/ezchartransform.php' );
         $trans = eZCharTransform::instance();
         $text = $trans->transformByGroup( $text, 'search' );
 

@@ -32,11 +32,11 @@
 
 */
 
-include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
-include_once( 'lib/ezdb/classes/ezdb.php' );
-include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
+//include_once( 'lib/ezdb/classes/ezdb.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
 
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
 $fileNameDba = 'db_data.dba';
 $fileNameSql = 'cleandata.sql';

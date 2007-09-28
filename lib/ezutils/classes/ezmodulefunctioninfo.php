@@ -37,16 +37,16 @@
 
 */
 
-include_once( 'lib/ezutils/classes/ezmodule.php' );
-include_once( 'lib/ezutils/classes/ezdebug.php' );
-
-define( 'EZ_MODULE_FUNCTION_ERROR_NO_CLASS', 5 );
-define( 'EZ_MODULE_FUNCTION_ERROR_NO_CLASS_METHOD', 6 );
-define( 'EZ_MODULE_FUNCTION_ERROR_CLASS_INSTANTIATE_FAILED', 7 );
-define( 'EZ_MODULE_FUNCTION_ERROR_MISSING_PARAMETER', 8 );
+//include_once( 'lib/ezutils/classes/ezmodule.php' );
+require_once( 'lib/ezutils/classes/ezdebug.php' );
 
 class eZModuleFunctionInfo
 {
+    const ERROR_NO_CLASS = 5;
+    const ERROR_NO_CLASS_METHOD = 6;
+    const ERROR_CLASS_INSTANTIATE_FAILED = 7;
+    const ERROR_MISSING_PARAMETER = 8;
+
     /*!
      Constructor
     */
@@ -166,7 +166,7 @@ class eZModuleFunctionInfo
 
             if ( $extension )
             {
-                include_once( 'lib/ezutils/classes/ezextension.php' );
+                //include_once( 'lib/ezutils/classes/ezextension.php' );
                 $extensionDir = eZExtension::baseDirectory();
                 $callMethod['include_file'] = $extensionDir . '/' . $extension . '/modules/' . $callMethod['include_file'];
             }
@@ -239,14 +239,14 @@ class eZModuleFunctionInfo
         {
             switch ( $resultArray['internal_error'] )
             {
-                case EZ_MODULE_FUNCTION_ERROR_NO_CLASS:
+                case eZModuleFunctionInfo::ERROR_NO_CLASS:
                 {
                     $className = $resultArray['internal_error_class_name'];
                     eZDebug::writeError( "No class '$className' available for function '$functionName' in module '$moduleName'",
                                          'eZModuleFunctionInfo::execute' );
                     return null;
                 } break;
-                case EZ_MODULE_FUNCTION_ERROR_NO_CLASS_METHOD:
+                case eZModuleFunctionInfo::ERROR_NO_CLASS_METHOD:
                 {
                     $className = $resultArray['internal_error_class_name'];
                     $classMethodName = $resultArray['internal_error_class_method_name'];
@@ -254,14 +254,14 @@ class eZModuleFunctionInfo
                                          'eZModuleFunctionInfo::execute' );
                     return null;
                 } break;
-                case EZ_MODULE_FUNCTION_ERROR_CLASS_INSTANTIATE_FAILED:
+                case eZModuleFunctionInfo::ERROR_CLASS_INSTANTIATE_FAILED:
                 {
                     $className = $resultArray['internal_error_class_name'];
                     eZDebug::writeError( "Failed instantiating class '$className' which is needed for function '$functionName' in module '$moduleName'",
                                          'eZModuleFunctionInfo::execute' );
                     return null;
                 } break;
-                case EZ_MODULE_FUNCTION_ERROR_MISSING_PARAMETER:
+                case eZModuleFunctionInfo::ERROR_MISSING_PARAMETER:
                 {
                     $parameterName = $resultArray['internal_error_parameter_name'];
                     eZDebug::writeError( "Missing parameter '$parameterName' for function '$functionName' in module '$moduleName'",
@@ -311,25 +311,25 @@ class eZModuleFunctionInfo
     {
         if ( $extension )
         {
-            include_once( 'lib/ezutils/classes/ezextension.php' );
+            //include_once( 'lib/ezutils/classes/ezextension.php' );
             $extensionDir = eZExtension::baseDirectory();
             $includeFile = $extensionDir . '/' . $extension . '/modules/' . $includeFile;
         }
         include_once( $includeFile );
         if ( !class_exists( $className ) )
         {
-            return array( 'internal_error' => EZ_MODULE_FUNCTION_ERROR_NO_CLASS,
+            return array( 'internal_error' => eZModuleFunctionInfo::ERROR_NO_CLASS,
                           'internal_error_class_name' => $className );
         }
         $classObject = $this->objectForClass( $className );
         if ( $classObject === null )
         {
-            return array( 'internal_error' => EZ_MODULE_FUNCTION_ERROR_CLASS_INSTANTIATE_FAILED,
+            return array( 'internal_error' => eZModuleFunctionInfo::ERROR_CLASS_INSTANTIATE_FAILED,
                           'internal_error_class_name' => $className );
         }
         if ( !method_exists( $classObject, $methodName ) )
         {
-            return array( 'internal_error' => EZ_MODULE_FUNCTION_ERROR_NO_CLASS_METHOD,
+            return array( 'internal_error' => eZModuleFunctionInfo::ERROR_NO_CLASS_METHOD,
                           'internal_error_class_name' => $className,
                           'internal_error_class_method_name' => $methodName );
         }
@@ -346,7 +346,7 @@ class eZModuleFunctionInfo
             {
                 if ( $functionParameterDefinition['required'] )
                 {
-                    return array( 'internal_error' => EZ_MODULE_FUNCTION_ERROR_MISSING_PARAMETER,
+                    return array( 'internal_error' => eZModuleFunctionInfo::ERROR_MISSING_PARAMETER,
                                   'internal_error_parameter_name' => $parameterName );
                 }
                 else if ( isset( $functionParameterDefinition['default'] ) )

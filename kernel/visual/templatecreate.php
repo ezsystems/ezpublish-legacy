@@ -33,10 +33,10 @@ $parameters = $Params["Parameters"];
 $overrideKeys = array( 'nodeID' => $Params['NodeID'],
                        'classID' => $Params['ClassID'] );
 
-include_once( "kernel/common/template.php" );
-include_once( "kernel/common/eztemplatedesignresource.php" );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( "kernel/classes/ezcontentclass.php" );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/common/eztemplatedesignresource.php" );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( "kernel/classes/ezcontentclass.php" );
 
 $ini = eZINI::instance();
 $tpl = templateInit();
@@ -164,7 +164,7 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
             umask( $oldumask );
 
             // Expire content view cache
-            include_once( 'kernel/classes/ezcontentcachemanager.php' );
+            //include_once( 'kernel/classes/ezcontentcachemanager.php' );
             eZContentCacheManager::clearAllContentCache();
 
             // Clear override cache
@@ -186,7 +186,7 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
     if ( $error == false )
     {
         $module->redirectTo( '/visual/templateview'. $template );
-        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+        return eZModule::HOOK_STATUS_CANCEL_RUN;
     }
 }
 else if( $module->isCurrentAction( 'CancelOverride' ) )

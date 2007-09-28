@@ -116,7 +116,7 @@
   Example of how to crete an option, adding multioptions and options
   and finally retrieving the xml structure.
   \code
-   include_once( "kernel/classes/datatypes/ezoption/ezmultioption.php" );
+   //include_once( "kernel/classes/datatypes/ezoption/ezmultioption.php" );
    $option = new eZOption( "Car" );
    $newID = $option->addMultiOption("Model",$priority,false);
       $option->addOption( $newID, "", "Model - A", "100", false );

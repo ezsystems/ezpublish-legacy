@@ -29,8 +29,8 @@
 /*! \file hide.php
 */
 
-include_once( "kernel/classes/ezcontentobjecttreenode.php" );
-include_once( "lib/ezutils/classes/ezini.php" );
+//include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+//include_once( "lib/ezutils/classes/ezini.php" );
 
 $ini = eZINI::instance( 'content.ini' );
 $rootNodeIDList = $ini->variable( 'HideSettings','RootNodeList' );

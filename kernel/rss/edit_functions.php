@@ -26,10 +26,10 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/classes/ezrssexport.php' );
-include_once( 'kernel/classes/ezrssexportitem.php' );
-include_once( 'kernel/classes/ezrssimport.php' );
-include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
+//include_once( 'kernel/classes/ezrssexport.php' );
+//include_once( 'kernel/classes/ezrssexportitem.php' );
+//include_once( 'kernel/classes/ezrssimport.php' );
+//include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
 
 class eZRSSEditFunction
 {
@@ -77,7 +77,7 @@ class eZRSSEditFunction
         /* Create the new RSS feed */
         for ( $itemCount = 0; $itemCount < $http->postVariable( 'Item_Count' ); $itemCount++ )
         {
-            $rssExportItem = eZRSSExportItem::fetch( $http->postVariable( 'Item_ID_'.$itemCount ), true, EZ_RSSEXPORT_STATUS_DRAFT );
+            $rssExportItem = eZRSSExportItem::fetch( $http->postVariable( 'Item_ID_'.$itemCount ), true, eZRSSExport::STATUS_DRAFT );
             if( $rssExportItem == null )
             {
                 continue;
@@ -139,7 +139,7 @@ class eZRSSEditFunction
                 $rssExportItem->store();
             }
         }
-        $rssExport = eZRSSExport::fetch( $http->postVariable( 'RSSExport_ID' ), true, EZ_RSSEXPORT_STATUS_DRAFT );
+        $rssExport = eZRSSExport::fetch( $http->postVariable( 'RSSExport_ID' ), true, eZRSSExport::STATUS_DRAFT );
         $rssExport->setAttribute( 'title', $http->postVariable( 'title' ) );
         $rssExport->setAttribute( 'url', $http->postVariable( 'url' ) );
         // $rssExport->setAttribute( 'site_access', $http->postVariable( 'SiteAccess' ) );

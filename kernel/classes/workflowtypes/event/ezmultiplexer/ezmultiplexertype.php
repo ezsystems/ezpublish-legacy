@@ -42,19 +42,20 @@
                                  data_int2  - language_list
                                  data_int3  - content object version option
 */
-define( "EZ_WORKFLOW_TYPE_MULTIPLEXER_ID", "ezmultiplexer" );
-define( 'EZ_MULTIPLEXER_VERSION_OPTION_FIRST_ONLY', 1 );
-define( 'EZ_MULTIPLEXER_VERSION_OPTION_EXCEPT_FIRST', 2 );
-define( 'EZ_MULTIPLEXER_VERSION_OPTION_ALL', EZ_MULTIPLEXER_VERSION_OPTION_FIRST_ONLY | EZ_MULTIPLEXER_VERSION_OPTION_EXCEPT_FIRST );
 
 class eZMultiplexerType extends eZWorkflowEventType
 {
+    const WORKFLOW_TYPE_STRING = "ezmultiplexer";
+    const VERSION_OPTION_FIRST_ONLY = 1;
+    const VERSION_OPTION_EXCEPT_FIRST = 2;
+    const VERSION_OPTION_ALL = 3;
+
     /*!
      Constructor
     */
     function eZMultiplexerType()
     {
-        $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_MULTIPLEXER_ID, ezi18n( 'kernel/workflow/event', 'Multiplexer' ) );
+        $this->eZWorkflowEventType( eZMultiplexerType::WORKFLOW_TYPE_STRING, ezi18n( 'kernel/workflow/event', 'Multiplexer' ) );
     }
 
     function attributeDecoder( $event, $attr )
@@ -90,7 +91,7 @@ class eZMultiplexerType extends eZWorkflowEventType
                 $attributeValue = $event->attribute( 'data_int2' );
                 if ( $attributeValue != 0 )
                 {
-                    include_once( 'kernel/classes/ezcontentlanguage.php' );
+                    //include_once( 'kernel/classes/ezcontentlanguage.php' );
                     $languages = eZContentLanguage::languagesByMask( $attributeValue );
                     foreach ( $languages as $language )
                     {
@@ -101,7 +102,7 @@ class eZMultiplexerType extends eZWorkflowEventType
 
             case 'version_option':
             {
-                $returnValue = EZ_MULTIPLEXER_VERSION_OPTION_ALL & $event->attribute( 'data_int3' );
+                $returnValue = eZMultiplexerType::VERSION_OPTION_ALL & $event->attribute( 'data_int3' );
             }break;
 
             default:
@@ -141,7 +142,7 @@ class eZMultiplexerType extends eZWorkflowEventType
         {
             case 'sections':
             {
-                include_once( 'kernel/classes/ezsection.php' );
+                //include_once( 'kernel/classes/ezsection.php' );
                 $sections = eZSection::fetchList( false );
                 foreach ( $sections as $key => $section )
                 {
@@ -154,7 +155,7 @@ class eZMultiplexerType extends eZWorkflowEventType
 
             case 'languages':
             {
-                include_once( 'kernel/classes/ezcontentlanguage.php' );
+                //include_once( 'kernel/classes/ezcontentlanguage.php' );
                 return eZContentLanguage::fetchList();
             }break;
 
@@ -173,7 +174,7 @@ class eZMultiplexerType extends eZWorkflowEventType
 
             case 'contentclass_list':
             {
-                $classes = eZContentClass::fetchList( EZ_CLASS_VERSION_STATUS_DEFINED, true, false, array( 'name' => 'asc' ) );
+                $classes = eZContentClass::fetchList( eZContentClass::VERSION_STATUS_DEFINED, true, false, array( 'name' => 'asc' ) );
                 $classList = array();
                 for ( $i = 0; $i < count( $classes ); $i++ )
                 {
@@ -225,10 +226,10 @@ class eZMultiplexerType extends eZWorkflowEventType
                     if ( is_object( $version ) )
                     {
                         $version_option = $event->attribute( 'version_option' );
-                        if ( ( $version_option == EZ_MULTIPLEXER_VERSION_OPTION_FIRST_ONLY and $processParameters['version'] > 1 ) or
-                             ( $version_option == EZ_MULTIPLEXER_VERSION_OPTION_EXCEPT_FIRST and $processParameters['version'] == 1 ) )
+                        if ( ( $version_option == eZMultiplexerType::VERSION_OPTION_FIRST_ONLY and $processParameters['version'] > 1 ) or
+                             ( $version_option == eZMultiplexerType::VERSION_OPTION_EXCEPT_FIRST and $processParameters['version'] == 1 ) )
                         {
-                            return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
+                            return eZWorkflowType::STATUS_ACCEPTED;
                         }
 
                         // If the language ID is part of the mask the result is non-zero.
@@ -321,37 +322,37 @@ class eZMultiplexerType extends eZWorkflowEventType
                 $childStatus = $childProcess->run( $workflow, $workflowEvent, $eventLog );
                 $childProcess->store();
 
-                if ( $childStatus ==  EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON )
+                if ( $childStatus ==  eZWorkflow::STATUS_DEFERRED_TO_CRON )
                 {
                     $this->setActivationDate( $childProcess->attribute( 'activation_date' ) );
-                    $childProcess->setAttribute( "status", EZ_WORKFLOW_STATUS_WAITING_PARENT );
+                    $childProcess->setAttribute( "status", eZWorkflow::STATUS_WAITING_PARENT );
                     $childProcess->store();
-                    return EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON_REPEAT;
+                    return eZWorkflowType::STATUS_DEFERRED_TO_CRON_REPEAT;
                 }
-                else if ( $childStatus ==  EZ_WORKFLOW_STATUS_FETCH_TEMPLATE )
+                else if ( $childStatus ==  eZWorkflow::STATUS_FETCH_TEMPLATE )
                 {
                     $process->Template =& $childProcess->Template;
-                    return EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE_REPEAT;
+                    return eZWorkflowType::STATUS_FETCH_TEMPLATE_REPEAT;
                 }
-                else if ( $childStatus ==  EZ_WORKFLOW_STATUS_REDIRECT )
+                else if ( $childStatus ==  eZWorkflow::STATUS_REDIRECT )
                 {
                     $process->RedirectUrl =& $childProcess->RedirectUrl;
-                    return EZ_WORKFLOW_TYPE_STATUS_REDIRECT_REPEAT;
+                    return eZWorkflowType::STATUS_REDIRECT_REPEAT;
                 }
-                else if ( $childStatus ==  EZ_WORKFLOW_STATUS_DONE  )
+                else if ( $childStatus ==  eZWorkflow::STATUS_DONE  )
                 {
                     $childProcess->removeThis();
-                    return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
+                    return eZWorkflowType::STATUS_ACCEPTED;
                 }
-                else if ( $childStatus == EZ_WORKFLOW_STATUS_CANCELLED || $childStatus == EZ_WORKFLOW_STATUS_FAILED )
+                else if ( $childStatus == eZWorkflow::STATUS_CANCELLED || $childStatus == eZWorkflow::STATUS_FAILED )
                 {
                     $childProcess->removeThis();
-                    return EZ_WORKFLOW_TYPE_STATUS_REJECTED;
+                    return eZWorkflowType::STATUS_REJECTED;
                 }
                 return $childProcess->attribute( 'event_status' );
             }
         }
-        return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
+        return eZWorkflowType::STATUS_ACCEPTED;
     }
 
     function initializeEvent( $event )
@@ -432,12 +433,12 @@ class eZMultiplexerType extends eZWorkflowEventType
                     $versionOption = $versionOption | $vv;
                 }
             }
-            $versionOption = $versionOption & EZ_MULTIPLEXER_VERSION_OPTION_ALL;
+            $versionOption = $versionOption & eZMultiplexerType::VERSION_OPTION_ALL;
             $event->setAttribute( 'data_int3', $versionOption );
         }
     }
 }
 
-eZWorkflowEventType::registerEventType( EZ_WORKFLOW_TYPE_MULTIPLEXER_ID, 'ezmultiplexertype' );
+eZWorkflowEventType::registerEventType( eZMultiplexerType::WORKFLOW_TYPE_STRING, 'eZMultiplexerType' );
 
 ?>

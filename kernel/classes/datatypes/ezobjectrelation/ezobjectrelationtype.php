@@ -35,20 +35,20 @@
 
 */
 
-include_once( "kernel/classes/ezdatatype.php" );
-include_once( "lib/ezutils/classes/ezintegervalidator.php" );
-include_once( "lib/ezi18n/classes/eztranslatormanager.php" );
-
-define( "EZ_DATATYPESTRING_OBJECT_RELATION", "ezobjectrelation" );
+//include_once( "kernel/classes/ezdatatype.php" );
+//include_once( "lib/ezutils/classes/ezintegervalidator.php" );
+//include_once( "lib/ezi18n/classes/eztranslatormanager.php" );
 
 class eZObjectRelationType extends eZDataType
 {
+    const EZ_DATATYPESTRING_OBJECT_RELATION = "ezobjectrelation";
+
     /*!
      Initializes with a string id and a description.
     */
     function eZObjectRelationType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_OBJECT_RELATION, ezi18n( 'kernel/classes/datatypes', "Object relation", 'Datatype name' ),
+        $this->eZDataType( self::EZ_DATATYPESTRING_OBJECT_RELATION, ezi18n( 'kernel/classes/datatypes', "Object relation", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -81,10 +81,10 @@ class eZObjectRelationType extends eZDataType
             {
                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                      'Missing objectrelation input.' ) );
-                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                return eZInputValidator::STATE_INVALID;
             }
         }
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
@@ -105,7 +105,7 @@ class eZObjectRelationType extends eZDataType
         $fuzzyMatchVariableName = $base . "_data_object_relation_fuzzy_match_" . $contentObjectAttribute->attribute( "id" );
         if ( $http->hasPostVariable( $fuzzyMatchVariableName ) )
         {
-            include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+            //include_once( 'lib/ezi18n/classes/ezchartransform.php' );
             $trans = eZCharTransform::instance();
 
             $fuzzyMatchText = trim( $http->postVariable( $fuzzyMatchVariableName ) );
@@ -187,14 +187,14 @@ class eZObjectRelationType extends eZDataType
 
         if ( ( $countTsl == 1 ) )
         {
-             eZContentObject::fetch( $contentObjectID )->removeContentObjectRelation( false, $contentObjectVersion, $contentClassAttributeID, EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE );
+             eZContentObject::fetch( $contentObjectID )->removeContentObjectRelation( false, $contentObjectVersion, $contentClassAttributeID, eZContentObject::RELATION_ATTRIBUTE );
         }
 
         $objectID = $contentObjectAttribute->attribute( "data_int" );
 
         if ( $objectID )
         {
-            eZContentObject::fetch( $contentObjectID )->addContentObjectRelation( $objectID, $contentObjectVersion, $contentClassAttributeID, EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE );
+            eZContentObject::fetch( $contentObjectID )->addContentObjectRelation( $objectID, $contentObjectVersion, $contentClassAttributeID, eZContentObject::RELATION_ATTRIBUTE );
         }
     }
 
@@ -204,14 +204,14 @@ class eZObjectRelationType extends eZDataType
     function validateClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $selectionTypeName = 'ContentClass_ezobjectrelation_selection_type_' . $classAttribute->attribute( 'id' );
-        $state = EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        $state = eZInputValidator::STATE_ACCEPTED;
         if ( $http->hasPostVariable( $selectionTypeName ) )
         {
             $selectionType = $http->postVariable( $selectionTypeName );
             if ( $selectionType < 0 and
                  $selectionType > 2 )
             {
-                $state = EZ_INPUT_VALIDATOR_STATE_INVALID;
+                $state = eZInputValidator::STATE_INVALID;
             }
         }
         return $state;
@@ -294,7 +294,7 @@ class eZObjectRelationType extends eZDataType
             $contentClassAttributeID = $contentObjectAttribute->ContentClassAttributeID;
             $contentObjectID = $contentObjectAttribute->ContentObjectID;
             $contentObjectVersion = $contentObjectAttribute->Version;
-            eZContentObject::fetch( $contentObjectID )->removeContentObjectRelation( $objectID, $contentObjectVersion, $contentClassAttributeID, EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE );
+            eZContentObject::fetch( $contentObjectID )->removeContentObjectRelation( $objectID, $contentObjectVersion, $contentClassAttributeID, eZContentObject::RELATION_ATTRIBUTE );
         }
     }
 
@@ -331,7 +331,7 @@ class eZObjectRelationType extends eZDataType
                 $redirectionURI = $parameters['current-redirection-uri'];
                 $ini = eZINI::instance( 'content.ini' );
 
-                include_once( 'kernel/classes/ezcontentbrowse.php' );
+                //include_once( 'kernel/classes/ezcontentbrowse.php' );
                 $browseType = 'AddRelatedObjectToDataType';
                 $browseTypeINIVariable = $ini->variable( 'ObjectRelationDataTypeSettings', 'ClassAttributeStartNode' );
                 foreach( $browseTypeINIVariable as $value )
@@ -431,7 +431,7 @@ class eZObjectRelationType extends eZDataType
             case 'browse_for_selection_node':
             {
                 $module = $classAttribute->currentModule();
-                include_once( 'kernel/classes/ezcontentbrowse.php' );
+                //include_once( 'kernel/classes/ezcontentbrowse.php' );
                 $customActionName = 'CustomActionButton[' . $classAttribute->attribute( 'id' ) . '_browsed_for_selection_node]';
                 eZContentBrowse::browse( array( 'action_name' => 'SelectObjectRelationNode',
                                                 'content' => array( 'contentclass_id' => $classAttribute->attribute( 'contentclass_id' ),
@@ -446,7 +446,7 @@ class eZObjectRelationType extends eZDataType
             } break;
             case 'browsed_for_selection_node':
             {
-                include_once( 'kernel/classes/ezcontentbrowse.php' );
+                //include_once( 'kernel/classes/ezcontentbrowse.php' );
                 $nodeSelection = eZContentBrowse::result( 'SelectObjectRelationNode' );
                 if ( count( $nodeSelection ) > 0 )
                 {
@@ -672,6 +672,6 @@ class eZObjectRelationType extends eZDataType
     /// \privatesection
 }
 
-eZDataType::register( EZ_DATATYPESTRING_OBJECT_RELATION, "ezobjectrelationtype" );
+eZDataType::register( eZObjectRelationType::EZ_DATATYPESTRING_OBJECT_RELATION, "eZObjectRelationType" );
 
 ?>

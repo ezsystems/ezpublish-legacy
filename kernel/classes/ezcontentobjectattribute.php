@@ -36,12 +36,12 @@
   \sa eZContentObject eZContentClass eZContentClassAttribute
 */
 
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "kernel/classes/ezpersistentobject.php" );
-include_once( "kernel/classes/ezcontentobject.php" );
-include_once( "kernel/classes/ezcontentclassattribute.php" );
-include_once( 'kernel/classes/ezdatatype.php' );
-include_once( 'kernel/classes/ezcontentlanguage.php' );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezcontentobject.php" );
+//include_once( "kernel/classes/ezcontentclassattribute.php" );
+//include_once( 'kernel/classes/ezdatatype.php' );
+//include_once( 'kernel/classes/ezcontentlanguage.php' );
 
 class eZContentObjectAttribute extends eZPersistentObject
 {
@@ -256,8 +256,8 @@ class eZContentObjectAttribute extends eZPersistentObject
 
     static function create( $contentclassAttributeID, $contentobjectID, $version = 1, $languageCode = false )
     {
-        include_once( 'kernel/classes/ezcontentlanguage.php' );
-        include_once( 'lib/ezlocale/classes/ezlocale.php' );
+        //include_once( 'kernel/classes/ezcontentlanguage.php' );
+        //include_once( 'lib/ezlocale/classes/ezlocale.php' );
 
         if ( $languageCode == false )
         {

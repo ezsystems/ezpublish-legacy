@@ -26,9 +26,9 @@
 //
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
-include_once( "lib/ezutils/classes/ezini.php" );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
+//include_once( "lib/ezutils/classes/ezini.php" );
 
 $cli = eZCLI::instance();
 $endl = $cli->endlineString();

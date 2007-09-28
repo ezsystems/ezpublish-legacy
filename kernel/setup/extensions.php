@@ -31,9 +31,9 @@
 $http = eZHTTPTool::instance();
 $module = $Params['Module'];
 
-include_once( "kernel/common/template.php" );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( 'lib/ezfile/classes/ezdir.php' );
+//include_once( "kernel/common/template.php" );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( 'lib/ezfile/classes/ezdir.php' );
 
 $tpl = templateInit();
 
@@ -54,7 +54,7 @@ if ( $module->isCurrentAction( 'ActivateExtensions' ) )
     $writeSiteINI = eZINI::instance( 'site.ini.append', 'settings/override', null, null, false, true );
     $writeSiteINI->setVariable( "ExtensionSettings", "ActiveExtensions", $selectedExtensionArray );
     $writeSiteINI->save( 'site.ini.append', '.php', false, false );
-    include_once( 'kernel/classes/ezcache.php' );
+    //include_once( 'kernel/classes/ezcache.php' );
     eZCache::clearByTag( 'ini' );
 }
 // open site.ini for reading

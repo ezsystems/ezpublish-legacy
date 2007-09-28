@@ -33,22 +33,21 @@
 
 /*!
   \class eZSimpleShippingType ezsimpleshippingtype.php
-  \brief The class eZSimpleshippingType handles adding shipping cost to an order
+  \brief The class eZSimpleShippingType handles adding shipping cost to an order
 
 */
-include_once( 'kernel/classes/ezorder.php' );
-
-
-define( 'EZ_WORKFLOW_TYPE_SIMPLESHIPPING_ID', 'ezsimpleshipping' );
+//include_once( 'kernel/classes/ezorder.php' );
 
 class eZSimpleShippingType extends eZWorkflowEventType
 {
+    const WORKFLOW_TYPE_STRING = 'ezsimpleshipping';
+
     /*!
      Constructor
     */
     function eZSimpleShippingType()
     {
-        $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_SIMPLESHIPPING_ID, ezi18n( 'kernel/workflow/event', "Simple shipping" ) );
+        $this->eZWorkflowEventType( eZSimpleShippingType::WORKFLOW_TYPE_STRING, ezi18n( 'kernel/workflow/event', "Simple shipping" ) );
         $this->setTriggerTypes( array( 'shop' => array( 'confirmorder' => array ( 'before' ) ) ) );
     }
 
@@ -81,7 +80,7 @@ class eZSimpleShippingType extends eZWorkflowEventType
                 $productCollection = $order->attribute( 'productcollection' );
                 $orderCurrency = $productCollection->attribute( 'currency_code' );
 
-                include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+                //include_once( 'kernel/shop/classes/ezshopfunctions.php' );
                 $cost = eZShopFunctions::convertAdditionalPrice( $orderCurrency, $cost );
 
                 $orderItem = new eZOrderItem( array( 'order_id' => $orderID,
@@ -92,10 +91,10 @@ class eZSimpleShippingType extends eZWorkflowEventType
                 $orderItem->store();
             }
         }
-        return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
+        return eZWorkflowType::STATUS_ACCEPTED;
     }
 }
 
-eZWorkflowEventType::registerEventType( EZ_WORKFLOW_TYPE_SIMPLESHIPPING_ID, "ezsimpleshippingtype" );
+eZWorkflowEventType::registerEventType( eZSimpleShippingType::WORKFLOW_TYPE_STRING, "eZSimpleShippingType" );
 
 ?>

@@ -48,7 +48,7 @@
 /*!
  includes
 */
-include_once( 'bin/php/ezwebincommon.php' );
+//include_once( 'bin/php/ezwebincommon.php' );
 
 /*!
  update content classes

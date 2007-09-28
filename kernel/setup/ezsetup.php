@@ -30,16 +30,17 @@
 
 $GLOBALS['eZSiteBasics']['no-cache-adviced'] = false;
 
-include_once( "lib/eztemplate/classes/eztemplate.php" );
-include_once( "lib/eztemplate/classes/eztemplatesectionfunction.php" );
-include_once( "lib/eztemplate/classes/eztemplateincludefunction.php" );
+//include_once( "lib/eztemplate/classes/eztemplate.php" );
+//include_once( "lib/eztemplate/classes/eztemplatesectionfunction.php" );
+//include_once( "lib/eztemplate/classes/eztemplateincludefunction.php" );
 
-include_once( "lib/ezutils/classes/ezhttptool.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
 
 
 // Include common functions
 include_once( "kernel/setup/ezsetupcommon.php" );
-include_once( 'kernel/setup/steps/ezstep_data.php' );
+include_once( "kernel/setup/ezsetuptests.php" );
+//include_once( 'kernel/setup/steps/ezstep_data.php' );
 include_once( 'kernel/setup/ezsetup_summary.php' );
 
 // Initialize template
@@ -47,9 +48,9 @@ $tpl = eZTemplate::instance();
 //$tpl->registerFunction( "section", new eZTemplateSectionFunction( "section" ) );
 //$tpl->registerFunction( "include", new eZTemplateIncludeFunction() );
 
-include_once( 'kernel/common/eztemplatedesignresource.php' );
-include_once( 'lib/ezutils/classes/ezini.php' );
-include_once( "lib/ezutils/classes/ezdebug.php" );
+//include_once( 'kernel/common/eztemplatedesignresource.php' );
+//include_once( 'lib/ezutils/classes/ezini.php' );
+require_once( "lib/ezutils/classes/ezdebug.php" );
 $ini = eZINI::instance();
 if ( $ini->variable( 'TemplateSettings', 'Debug' ) == 'enabled' )
     eZTemplate::setIsDebugEnabled( true );
@@ -177,7 +178,7 @@ while( !$done && $step != null )
         $script = eZSys::indexFile() . "/setup/$partName";
     $tpl->setVariable( 'script', $script );
 
-    include_once( 'lib/version.php' );
+    //include_once( 'lib/version.php' );
     $tpl->setVariable( "version", array( "text" => eZPublishSDK::version(),
                                          "major" => eZPublishSDK::majorVersion(),
                                          "minor" => eZPublishSDK::minorVersion(),

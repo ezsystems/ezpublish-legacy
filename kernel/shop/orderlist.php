@@ -26,10 +26,10 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezorder.php' );
-include_once( 'kernel/classes/ezorderstatus.php' );
-include_once( 'kernel/classes/ezpreferences.php' );
+require_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezorder.php' );
+//include_once( 'kernel/classes/ezorderstatus.php' );
+//include_once( 'kernel/classes/ezpreferences.php' );
 
 $module = $Params['Module'];
 
@@ -59,7 +59,7 @@ if ( !isset( $sortOrder ) || ( ( $sortOrder != 'asc' ) && ( $sortOrder!= 'desc' 
     $sortOrder = 'asc';
 }
 
-$http = eZHttpTool::instance();
+$http = eZHTTPTool::instance();
 
 // The RemoveButton is not present in the orderlist, but is here for backwards
 // compatibility. Simply replace the ArchiveButton for the RemoveButton will

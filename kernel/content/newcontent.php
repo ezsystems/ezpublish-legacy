@@ -27,7 +27,7 @@
 //
 
 
-include_once( 'kernel/common/template.php' );
+require_once( 'kernel/common/template.php' );
 
 $tpl = templateInit();
 $user = eZUser::currentUser();

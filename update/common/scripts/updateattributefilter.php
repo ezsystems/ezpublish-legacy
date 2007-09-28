@@ -32,8 +32,8 @@
 
 set_time_limit( 0 );
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
 $endl = $cli->endlineString();
@@ -78,14 +78,14 @@ function changeSiteAccessSetting( &$siteaccess, $optionData )
     }
 }
 
-include_once( 'kernel/classes/ezcontentclassattribute.php' );
-include_once( 'kernel/classes/ezcontentobjectattribute.php' );
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/ezbinaryfilehandler.php' );
-include_once( 'kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php' );
+//include_once( 'kernel/classes/ezcontentclassattribute.php' );
+//include_once( 'kernel/classes/ezcontentobjectattribute.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'kernel/classes/ezbinaryfilehandler.php' );
+//include_once( 'kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php' );
 
-include_once( 'lib/ezdb/classes/ezdb.php' );
-include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+//include_once( 'lib/ezdb/classes/ezdb.php' );
+//include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
 
 $db = eZDB::instance();
 $db->setIsSQLOutputEnabled( $showSQL );

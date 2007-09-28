@@ -34,20 +34,21 @@
   \brief Handles file downloading by passing an URL directly to the file.
 
 */
-include_once( "kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php" );
-include_once( "kernel/classes/ezbinaryfilehandler.php" );
-define( "EZ_FILE_DIRECT_ID", 'ezfiledirect' );
+//include_once( "kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php" );
+//include_once( "kernel/classes/ezbinaryfilehandler.php" );
 
 class eZFileDirectHandler extends eZBinaryFileHandler
 {
+    const EZ_FILE_DIRECT_ID = 'ezfiledirect';
+
     function eZFileDirectHandler()
     {
-        $this->eZBinaryFileHandler( EZ_FILE_DIRECT_ID, "direct download", EZ_BINARY_FILE_HANDLE_DOWNLOAD );
+        $this->eZBinaryFileHandler( self::EZ_FILE_DIRECT_ID, "direct download", eZBinaryFileHandler::EZ_BINARY_FILE_HANDLE_DOWNLOAD );
     }
 
     function handleFileDownload( $contentObject, $contentObjectAttribute, $type, $fileInfo )
     {
-        return EZ_BINARY_FILE_RESULT_OK;
+        return eZBinaryFileHandler::EZ_BINARY_FILE_RESULT_OK;
     }
 
     /*!

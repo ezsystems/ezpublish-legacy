@@ -38,36 +38,32 @@
   \sa eZDB
 */
 
-include_once( "lib/ezutils/classes/ezdebug.php" );
-include_once( "lib/ezutils/classes/ezini.php" );
-
-define( 'EZ_DB_BINDING_NO', 0 );
-define( 'EZ_DB_BINDING_NAME', 1 );
-define( 'EZ_DB_BINDING_ORDERED', 2 );
-
-define( 'EZ_DB_RELATION_TABLE', 0 );
-define( 'EZ_DB_RELATION_SEQUENCE', 1 );
-define( 'EZ_DB_RELATION_TRIGGER', 2 );
-define( 'EZ_DB_RELATION_VIEW', 3 );
-define( 'EZ_DB_RELATION_INDEX', 4 );
-
-define( 'EZ_DB_RELATION_TABLE_BIT', (1 << EZ_DB_RELATION_TABLE) );
-define( 'EZ_DB_RELATION_SEQUENCE_BIT', (1 << EZ_DB_RELATION_SEQUENCE) );
-define( 'EZ_DB_RELATION_TRIGGER_BIT', (1 << EZ_DB_RELATION_TRIGGER) );
-define( 'EZ_DB_RELATION_VIEW_BIT', (1 << EZ_DB_RELATION_VIEW) );
-define( 'EZ_DB_RELATION_INDEX_BIT', (1 << EZ_DB_RELATION_INDEX) );
-
-define( 'EZ_DB_RELATION_NONE', 0 );
-define( 'EZ_DB_RELATION_MASK', ( EZ_DB_RELATION_TABLE_BIT |
-                                 EZ_DB_RELATION_SEQUENCE_BIT |
-                                 EZ_DB_RELATION_TRIGGER_BIT |
-                                 EZ_DB_RELATION_VIEW_BIT |
-                                 EZ_DB_RELATION_INDEX_BIT ) );
-
-define( 'EZ_DB_ERROR_MISSING_EXTENSION', 1 );
+require_once( "lib/ezutils/classes/ezdebug.php" );
+//include_once( "lib/ezutils/classes/ezini.php" );
 
 class eZDBInterface
 {
+    const BINDING_NO = 0;
+    const BINDING_NAME = 1;
+    const BINDING_ORDERED = 2;
+
+    const RELATION_TABLE = 0;
+    const RELATION_SEQUENCE = 1;
+    const RELATION_TRIGGER = 2;
+    const RELATION_VIEW = 3;
+    const RELATION_INDEX = 4;
+
+    const RELATION_TABLE_BIT = 1;
+    const RELATION_SEQUENCE_BIT = 2;
+    const RELATION_TRIGGER_BIT = 4;
+    const RELATION_VIEW_BIT = 8;
+    const RELATION_INDEX_BIT = 16;
+
+    const RELATION_NONE = 0;
+    const RELATION_MASK = 31;
+
+    const ERROR_MISSING_EXTENSION = 1;
+
     /*!
       Create a new eZDBInterface object and connects to the database backend.
     */
@@ -125,7 +121,7 @@ class eZDBInterface
         else
 */
         {
-            include_once( "lib/ezi18n/classes/eztextcodec.php" );
+            //include_once( "lib/ezi18n/classes/eztextcodec.php" );
             $tmpOutputTextCodec = eZTextCodec::instance( $charset, false, false );
             $tmpInputTextCodec = eZTextCodec::instance( false, $charset, false );
             unset( $this->OutputTextCodec );
@@ -299,7 +295,7 @@ class eZDBInterface
     {
         $type = $this->databaseName();
 
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        //include_once( 'lib/ezfile/classes/ezdir.php' );
         if ( $usePathType )
             $sqlFileName = eZDir::path( array( $path, $type, $sqlFile ) );
         else
@@ -456,7 +452,7 @@ class eZDBInterface
     */
     function supportedRelationTypeMask()
     {
-        return EZ_DB_RELATION_NONE;
+        return eZDBInterface::RELATION_NONE;
     }
 
     /*!
@@ -937,16 +933,16 @@ class eZDBInterface
             $this->RecordError = $oldRecordError;
 
             // Stop execution immediately while allowing other systems (session etc.) to cleanup
-            include_once( 'lib/ezutils/classes/ezexecution.php' );
+            require_once( 'lib/ezutils/classes/ezexecution.php' );
             eZExecution::cleanup();
             eZExecution::setCleanExit();
 
             // Give some feedback, and also possibly show the debug output
-            eZDebug::setHandleType( EZ_HANDLE_NONE );
+            eZDebug::setHandleType( eZDebug::EZ_HANDLE_NONE );
 
             $ini = eZINI::instance();
             $adminEmail = $ini->variable( 'MailSettings', 'AdminEmail' );
-            include_once( 'lib/ezutils/classes/ezsys.php' );
+            //include_once( 'lib/ezutils/classes/ezsys.php' );
             $site = eZSys::serverVariable( 'HTTP_HOST' );
             $uri = eZSys::serverVariable( 'REQUEST_URI' );
 
@@ -1026,7 +1022,7 @@ class eZDBInterface
       \pure
       \return the number of relation objects in the database for the relation type \a $relationType.
     */
-    function relationCount( $relationType = EZ_DB_RELATION_TABLE )
+    function relationCount( $relationType = eZDBInterface::RELATION_TABLE )
     {
     }
 
@@ -1042,7 +1038,7 @@ class eZDBInterface
       \pure
       \return the relation names in the database as an array for the relation type \a $relationType.
     */
-    function relationList( $relationType = EZ_DB_RELATION_TABLE )
+    function relationList( $relationType = eZDBInterface::RELATION_TABLE )
     {
     }
 
@@ -1063,11 +1059,11 @@ class eZDBInterface
     */
     function relationName( $relationType )
     {
-        $names = array( EZ_DB_RELATION_TABLE => 'TABLE',
-                        EZ_DB_RELATION_SEQUENCE => 'SEQUENCE',
-                        EZ_DB_RELATION_TRIGGER => 'TRIGGER',
-                        EZ_DB_RELATION_VIEW => 'VIEW',
-                        EZ_DB_RELATION_INDEX => 'INDEX' );
+        $names = array( eZDBInterface::RELATION_TABLE => 'TABLE',
+                        eZDBInterface::RELATION_SEQUENCE => 'SEQUENCE',
+                        eZDBInterface::RELATION_TRIGGER => 'TRIGGER',
+                        eZDBInterface::RELATION_VIEW => 'VIEW',
+                        eZDBInterface::RELATION_INDEX => 'INDEX' );
         if ( !isset( $names[$relationType] ) )
             return false;
         return $names[$relationType];

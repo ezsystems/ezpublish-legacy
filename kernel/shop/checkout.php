@@ -28,10 +28,10 @@
 
 /*! \file checkout.php
 */
-include_once( 'kernel/classes/ezorder.php' );
-include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+//include_once( 'kernel/classes/ezorder.php' );
+//include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
 
-include_once( 'kernel/shop/classes/ezpaymentobject.php' );
+//include_once( 'kernel/shop/classes/ezpaymentobject.php' );
 
 $http = eZHTTPTool::instance();
 $module = $Params['Module'];
@@ -68,13 +68,13 @@ if ( strtolower( get_class( $order ) ) == 'ezorder' )
             $order->setAttribute( 'email', $email );
             $order->store();
 
-            include_once( "lib/ezutils/classes/ezhttptool.php" );
+            //include_once( "lib/ezutils/classes/ezhttptool.php" );
             $http->setSessionVariable( "UserOrderID", $order->attribute( 'id' ) );
 
             $operationResult = eZOperationHandler::execute( 'shop', 'checkout', array( 'order_id' => $order->attribute( 'id' ) ) );
             switch( $operationResult['status'] )
             {
-                case EZ_MODULE_OPERATION_HALTED:
+                case eZModuleOperationInfo::STATUS_HALTED:
                 {
                     if (  isset( $operationResult['redirect_url'] ) )
                     {
@@ -102,10 +102,10 @@ if ( strtolower( get_class( $order ) ) == 'ezorder' )
                         return;
                     }
                 }break;
-                case EZ_MODULE_OPERATION_CANCELED:
+                case eZModuleOperationInfo::STATUS_CANCELLED:
                 {
                     $Result = array();
-                    include_once( "kernel/common/template.php" );
+                    require_once( "kernel/common/template.php" );
                     $tpl = templateInit();
                     $Result['content'] = $tpl->fetch( "design:shop/cancelcheckout.tpl" ) ;
                     $Result['path'] = array( array( 'url' => false,
@@ -139,7 +139,7 @@ if ( strtolower( get_class( $order ) ) == 'ezorder' )
                 if ( $attempt < 4)
                 {
                     $Result = array();
-                    include_once( "kernel/common/template.php" );
+                    require_once( "kernel/common/template.php" );
                     $tpl = templateInit();
                     $tpl->setVariable( 'attempt', $attempt );
                     $tpl->setVariable( 'orderID', $orderID );
@@ -154,7 +154,7 @@ if ( strtolower( get_class( $order ) ) == 'ezorder' )
                     $http->removeSessionVariable( "CheckoutAttempt" );
 
                     $Result = array();
-                    include_once( "kernel/common/template.php" );
+                    require_once( "kernel/common/template.php" );
                     $tpl = templateInit();
                     $tpl->setVariable ("ErrorCode", "NO_CALLBACK");
                     $tpl->setVariable ("OrderID", $orderID);

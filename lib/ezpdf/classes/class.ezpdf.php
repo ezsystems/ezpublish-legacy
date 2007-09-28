@@ -30,7 +30,7 @@
 /*! \file class.ezpdf.php
 */
 
-include_once( 'lib/ezpdf/classes/class.pdf.php' );
+//include_once( 'lib/ezpdf/classes/class.pdf.php' );
 
 /*!
   \class Cezpdf class.ezpdf.php

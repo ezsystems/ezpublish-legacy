@@ -55,10 +55,10 @@ The available attributes are:
   - price
 */
 
-include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'kernel/classes/ezvattype.php' );
-include_once( 'kernel/classes/ezdiscount.php' );
+//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezvattype.php' );
+//include_once( 'kernel/classes/ezdiscount.php' );
 
 
 class eZSimplePrice
@@ -401,12 +401,12 @@ class eZSimplePrice
     {
         $vatNode = $attributeParametersNode->getElementsByTagName( 'vat-included' )->item( 0 );
         $vatIncluded = strtolower( $vatNode->getAttribute( 'is-set' ) ) == 'true';
-        $classAttribute->setAttribute( EZ_DATATYPESTRING_INCLUDE_VAT_FIELD, $vatIncluded );
+        $classAttribute->setAttribute( eZPriceType::EZ_DATATYPESTRING_INCLUDE_VAT_FIELD, $vatIncluded );
         $vatTypeNode = $attributeParametersNode->getElementsByTagName( 'vat-type' )->item( 0 );
         $vatName = $vatTypeNode->getAttribute( 'name' );
         $vatPercentage = $vatTypeNode->getAttribute( 'percentage' );
         $vatID = false;
-        $vatTypes = eZVATType::fetchList();
+        $vatTypes = eZVatType::fetchList();
         foreach ( $vatTypes as $vatType )
         {
             if ( $vatType->attribute( 'name' ) == $vatName and
@@ -418,13 +418,13 @@ class eZSimplePrice
         }
         if ( !$vatID )
         {
-            $vatType = eZVATType::create();
+            $vatType = eZVatType::create();
             $vatType->setAttribute( 'name', $vatName );
             $vatType->setAttribute( 'percentage', $vatPercentage );
             $vatType->store();
             $vatID = $vatType->attribute( 'id' );
         }
-        $classAttribute->setAttribute( EZ_DATATYPESTRING_VAT_ID_FIELD, $vatID );
+        $classAttribute->setAttribute( eZPriceType::EZ_DATATYPESTRING_VAT_ID_FIELD, $vatID );
     }
 
     /// \privatesection

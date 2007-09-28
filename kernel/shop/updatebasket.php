@@ -26,10 +26,10 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/classes/ezbasket.php' );
-include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+//include_once( 'kernel/classes/ezbasket.php' );
+//include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
 
-$http = eZHttpTool::instance();
+$http = eZHTTPTool::instance();
 $basket = eZBasket::currentBasket();
 $module = $Params['Module'];
 
@@ -41,7 +41,7 @@ $operationResult = eZOperationHandler::execute( 'shop', 'updatebasket', array( '
 
 switch( $operationResult['status'] )
 {
-    case EZ_MODULE_OPERATION_HALTED:
+    case eZModuleOperationInfo::STATUS_HALTED:
     {
         if ( isset( $operationResult['redirect_url'] ) )
         {

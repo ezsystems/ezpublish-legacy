@@ -141,7 +141,7 @@ class eZShopFunctions
 
     static function productClassList()
     {
-        include_once( 'kernel/classes/ezcontentclass.php' );
+        //include_once( 'kernel/classes/ezcontentclass.php' );
         $productClassList = array();
         $classList = eZContentClass::fetchList();
         foreach ( $classList as $class )
@@ -187,10 +187,10 @@ class eZShopFunctions
     */
     static function preferredCurrencyCode()
     {
-        include_once( 'kernel/classes/ezpreferences.php' );
+        //include_once( 'kernel/classes/ezpreferences.php' );
         if( !$currencyCode = eZPreferences::value( 'user_preferred_currency' ) )
         {
-            include_once( 'lib/ezutils/classes/ezini.php' );
+            //include_once( 'lib/ezutils/classes/ezini.php' );
             $ini = eZINI::instance( 'shop.ini' );
             $currencyCode = $ini->variable( 'CurrencySettings', 'PreferredCurrency' );
         }
@@ -202,12 +202,12 @@ class eZShopFunctions
     */
     static function setPreferredCurrencyCode( $currencyCode )
     {
-        include_once( 'kernel/shop/errors.php' );
+        //include_once( 'kernel/shop/errors.php' );
 
         $error = eZShopFunctions::isPreferredCurrencyValid( $currencyCode );
-        if ( $error === EZ_ERROR_SHOP_OK )
+        if ( $error === eZError::SHOP_OK )
         {
-            include_once( 'kernel/classes/ezpreferences.php' );
+            //include_once( 'kernel/classes/ezpreferences.php' );
             eZPreferences::setValue( 'user_preferred_currency', $currencyCode );
         }
 
@@ -231,7 +231,7 @@ class eZShopFunctions
     */
     static function getPreferredUserCountry()
     {
-        include_once( 'kernel/classes/ezpreferences.php' );
+        //include_once( 'kernel/classes/ezpreferences.php' );
         return eZPreferences::value( 'user_preferred_country' );
     }
 
@@ -241,11 +241,11 @@ class eZShopFunctions
     */
     static function setPreferredUserCountry( $country )
     {
-        include_once( 'kernel/classes/ezpreferences.php' );
+        //include_once( 'kernel/classes/ezpreferences.php' );
         eZPreferences::setValue( 'user_preferred_country', $country );
 
-        include_once( 'kernel/shop/errors.php' );
-        return EZ_ERROR_SHOP_OK;
+        //include_once( 'kernel/shop/errors.php' );
+        return eZError::SHOP_OK;
     }
 
     /*!
@@ -253,25 +253,25 @@ class eZShopFunctions
     */
     static function isPreferredCurrencyValid( $currencyCode = false )
     {
-        include_once( 'kernel/shop/errors.php' );
+        //include_once( 'kernel/shop/errors.php' );
 
-        $error = EZ_ERROR_SHOP_OK;
+        $error = eZError::SHOP_OK;
         if ( $currencyCode === false )
             $currencyCode = eZShopFunctions::preferredCurrencyCode();
 
-        include_once( 'kernel/shop/classes/ezcurrencydata.php' );
+        //include_once( 'kernel/shop/classes/ezcurrencydata.php' );
         $currency = eZCurrencyData::fetch( $currencyCode );
         if ( $currency )
         {
             if ( !$currency->isActive() )
             {
-                $error = EZ_ERROR_SHOP_PREFERRED_CURRENCY_INACTIVE;
+                $error = eZError::SHOP_PREFERRED_CURRENCY_INACTIVE;
                 eZDebug::writeWarning( "Currency '$currencyCode' is inactive.", 'eZShopFunctions::isPreferredCurrencyValid' );
             }
         }
         else
         {
-            $error = EZ_ERROR_SHOP_PREFERRED_CURRENCY_DOESNOT_EXIST;
+            $error = eZError::SHOP_PREFERRED_CURRENCY_DOESNOT_EXIST;
             eZDebug::writeWarning( "Currency '$currencyCode' doesn't exist", 'eZShopFunctions::isPreferredCurrencyValid' );
         }
 
@@ -283,8 +283,8 @@ class eZShopFunctions
     */
     static function createCurrency( $currencyParams )
     {
-        include_once( 'kernel/shop/classes/ezcurrencydata.php' );
-        include_once( 'kernel/shop/classes/ezmultipricedata.php' );
+        //include_once( 'kernel/shop/classes/ezcurrencydata.php' );
+        //include_once( 'kernel/shop/classes/ezmultipricedata.php' );
 
         $currency = eZCurrencyData::create( $currencyParams['code'],
                                             $currencyParams['symbol'],
@@ -306,8 +306,8 @@ class eZShopFunctions
 
     static function removeCurrency( $currencyCodeList )
     {
-        include_once( 'kernel/shop/classes/ezcurrencydata.php' );
-        include_once( 'kernel/shop/classes/ezmultipricedata.php' );
+        //include_once( 'kernel/shop/classes/ezcurrencydata.php' );
+        //include_once( 'kernel/shop/classes/ezmultipricedata.php' );
 
         $db = eZDB::instance();
         $db->begin();
@@ -320,15 +320,15 @@ class eZShopFunctions
 
     static function changeCurrency( $oldCurrencyCode, $newCurrencyCode )
     {
-        $errCode = EZ_CURRENCYDATA_ERROR_OK;
+        $errCode = eZCurrencyData::EZ_CURRENCYDATA_ERROR_OK;
 
         if ( strcmp( $oldCurrencyCode, $newCurrencyCode ) !== 0 )
         {
-            include_once( 'kernel/shop/classes/ezcurrencydata.php' );
-            include_once( 'kernel/shop/classes/ezmultipricedata.php' );
+            //include_once( 'kernel/shop/classes/ezcurrencydata.php' );
+            //include_once( 'kernel/shop/classes/ezmultipricedata.php' );
 
             $errCode = eZCurrencyData::canCreate( $newCurrencyCode );
-            if ( $errCode === EZ_CURRENCYDATA_ERROR_OK )
+            if ( $errCode === eZCurrencyData::EZ_CURRENCYDATA_ERROR_OK )
             {
                 $currency = eZCurrencyData::fetch( $oldCurrencyCode );
                 if ( is_object( $currency ) )
@@ -345,7 +345,7 @@ class eZShopFunctions
                 }
                 else
                 {
-                    $errCode = EZ_CURRENCYDATA_ERROR_UNKNOWN;
+                    $errCode = eZCurrencyData::EZ_CURRENCYDATA_ERROR_UNKNOWN;
                 }
             }
         }
@@ -355,7 +355,7 @@ class eZShopFunctions
 
     static function updateAutoprices()
     {
-        include_once( 'kernel/shop/classes/ezmultipricedata.php' );
+        //include_once( 'kernel/shop/classes/ezmultipricedata.php' );
         return eZMultiPriceData::updateAutoprices();
     }
 
@@ -364,9 +364,9 @@ class eZShopFunctions
         if ( $toCurrency == false )
             return $value;
 
-        include_once( 'kernel/shop/classes/ezcurrencyconverter.php' );
+        //include_once( 'kernel/shop/classes/ezcurrencyconverter.php' );
         $converter = eZCurrencyConverter::instance();
-        $converter->setRoundingType( EZ_CURRENCY_CONVERTER_ROUNDING_TYPE_ROUND );
+        $converter->setRoundingType( eZCurrencyConverter::EZ_CURRENCY_CONVERTER_ROUNDING_TYPE_ROUND );
         $converter->setRoundingPrecision( 2 );
         $converter->setRoundingTarget( false );
 
@@ -375,17 +375,17 @@ class eZShopFunctions
 
     static function updateAutoRates()
     {
-        include_once( 'kernel/shop/errors.php' );
-        include_once( 'kernel/shop/classes/exchangeratehandlers/ezexchangeratesupdatehandler.php' );
+        //include_once( 'kernel/shop/errors.php' );
+        //include_once( 'kernel/shop/classes/exchangeratehandlers/ezexchangeratesupdatehandler.php' );
 
-        $error = array( 'code' => EZ_EXCHANGE_RATES_HANDLER_OK,
+        $error = array( 'code' => eZExchangeRatesUpdateHandler::EZ_EXCHANGE_RATES_HANDLER_OK,
                         'description' => '' );
 
         $handler = eZExchangeRatesUpdateHandler::create();
         if ( $handler )
         {
             $error = $handler->requestRates();
-            if ( $error['code'] === EZ_EXCHANGE_RATES_HANDLER_OK )
+            if ( $error['code'] === eZExchangeRatesUpdateHandler::EZ_EXCHANGE_RATES_HANDLER_OK )
             {
                 $rateList = $handler->rateList();
                 if ( is_array( $rateList ) && count( $rateList ) > 0 )
@@ -413,7 +413,7 @@ class eZShopFunctions
                                 $rateList[$handlerBaseCurrency] = '1.0000';
                             }
 
-                            include_once( 'kernel/shop/classes/ezcurrencydata.php' );
+                            //include_once( 'kernel/shop/classes/ezcurrencydata.php' );
                             $currencyList = eZCurrencyData::fetchList();
                             if ( is_array( $currencyList ) && count( $currencyList ) > 0 )
                             {
@@ -439,36 +439,36 @@ class eZShopFunctions
                                 }
                             }
 
-                            $error['code'] = EZ_EXCHANGE_RATES_HANDLER_OK;
+                            $error['code'] = eZExchangeRatesUpdateHandler::EZ_EXCHANGE_RATES_HANDLER_OK;
                             $error['description'] = ezi18n( 'kernel/shop', "'Auto' rates were updated successfully." );
                         }
                         else
                         {
-                            $error['code'] = EZ_EXCHANGE_RATES_HANDLER_INVALID_BASE_CROSS_RATE;
+                            $error['code'] = eZExchangeRatesUpdateHandler::EZ_EXCHANGE_RATES_HANDLER_INVALID_BASE_CROSS_RATE;
                             $error['description'] = ezi18n( 'kernel/shop', "Unable to calculate cross-rate for currency-pair '%1'/'%2'", null, array( $handlerBaseCurrency, $shopBaseCurrency ) );
                         }
                     }
                     else
                     {
-                        $error['code'] = EZ_EXCHANGE_RATES_HANDLER_UNKNOWN_BASE_CURRENCY;
+                        $error['code'] = eZExchangeRatesUpdateHandler::EZ_EXCHANGE_RATES_HANDLER_UNKNOWN_BASE_CURRENCY;
                         $error['description'] = ezi18n( 'kernel/shop', 'Unable to determine currency for retrieved rates.' );
                     }
                 }
                 else
                 {
-                    $error['code'] = EZ_EXCHANGE_RATES_HANDLER_EMPTY_RATE_LIST;
+                    $error['code'] = eZExchangeRatesUpdateHandler::EZ_EXCHANGE_RATES_HANDLER_EMPTY_RATE_LIST;
                     $error['description'] = ezi18n( 'kernel/shop', 'Retrieved empty list of rates.' );
                 }
             }
         }
         else
         {
-            $error['code'] = EZ_EXCHANGE_RATES_HANDLER_CANT_CREATE_HANDLER;
+            $error['code'] = eZExchangeRatesUpdateHandler::EZ_EXCHANGE_RATES_HANDLER_CANT_CREATE_HANDLER;
             $error['description'] = ezi18n( 'kernel/shop', 'Unable to create handler to update auto rates.' );
 
         }
 
-        if ( $error['code'] !== EZ_EXCHANGE_RATES_HANDLER_OK )
+        if ( $error['code'] !== eZExchangeRatesUpdateHandler::EZ_EXCHANGE_RATES_HANDLER_OK )
         {
             eZDebug::writeError( $error['description'],
                                  'eZShopFunctions::updateAutoRates' );

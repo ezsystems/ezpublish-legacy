@@ -37,7 +37,7 @@
 
 */
 
-include_once( 'kernel/error/errors.php' );
+//include_once( 'kernel/error/errors.php' );
 
 class eZURLFunctionCollection
 {
@@ -50,7 +50,7 @@ class eZURLFunctionCollection
 
     function fetchList( $isValid, $offset, $limit, $onlyPublished )
     {
-        include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+        //include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
         $parameters = array( 'is_valid' => $isValid,
                              'offset' => $offset,
                              'limit' => $limit,
@@ -58,7 +58,7 @@ class eZURLFunctionCollection
         $list = eZURL::fetchList( $parameters );
         if ( $list === null )
             $result = array( 'error' => array( 'error_type' => 'kernel',
-                                               'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+                                               'error_code' => eZError::KERNEL_NOT_FOUND ) );
         else
             $result = array( 'result' => $list );
         return $result;
@@ -66,13 +66,13 @@ class eZURLFunctionCollection
 
     function fetchListCount( $isValid, $onlyPublished )
     {
-        include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+        //include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
         $parameters = array( 'is_valid' => $isValid,
                              'only_published' => $onlyPublished );
         $listCount = eZURL::fetchListCount( $parameters );
         if ( $listCount === null )
             $result = array( 'error' => array( 'error_type' => 'kernel',
-                                               'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+                                               'error_code' => eZError::KERNEL_NOT_FOUND ) );
         else
             $result = array( 'result' => $listCount );
         return $result;

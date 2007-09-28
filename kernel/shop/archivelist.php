@@ -26,10 +26,10 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezorder.php' );
-include_once( 'kernel/classes/ezorderstatus.php' );
-include_once( 'kernel/classes/ezpreferences.php' );
+require_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezorder.php' );
+//include_once( 'kernel/classes/ezorderstatus.php' );
+//include_once( 'kernel/classes/ezpreferences.php' );
 
 $module = $Params['Module'];
 
@@ -75,8 +75,8 @@ if ( $http->hasPostVariable( 'UnarchiveButton' ) )
     }
 }
 
-$archiveArray = eZOrder::active( true, $offset, $limit, $sortField, $sortOrder, SHOW_ARCHIVED_ORDERS );
-$archiveCount = eZOrder::activeCount( SHOW_ARCHIVED_ORDERS );
+$archiveArray = eZOrder::active( true, $offset, $limit, $sortField, $sortOrder, eZOrder::SHOW_ARCHIVED );
+$archiveCount = eZOrder::activeCount( eZOrder::SHOW_ARCHIVED );
 
 $tpl->setVariable( 'archive_list', $archiveArray );
 $tpl->setVariable( 'archive_list_count', $archiveCount );

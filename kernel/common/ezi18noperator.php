@@ -39,8 +39,8 @@ function make_seed() {
     return (float) $sec + ((float) $usec * 100000);
 }
 
-include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
-include_once( 'lib/ezi18n/classes/eztstranslator.php' );
+//include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
+//include_once( 'lib/ezi18n/classes/eztstranslator.php' );
 
 class eZi18nOperator
 {
@@ -122,7 +122,7 @@ class eZi18nOperator
             }
         }
 
-        include_once( 'kernel/common/i18n.php' );
+        require_once( 'kernel/common/i18n.php' );
         $value = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
 
         $numParameters = count ( $parameters );
@@ -177,7 +177,7 @@ class eZi18nOperator
     */
     function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$value, $namedParameters )
     {
-        include_once( 'kernel/common/i18n.php' );
+        require_once( 'kernel/common/i18n.php' );
         switch ( $operatorName )
         {
             case $this->Name:

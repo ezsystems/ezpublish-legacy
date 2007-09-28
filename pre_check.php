@@ -24,7 +24,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "lib/ezutils/classes/ezhttptool.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
 
 /*!
  Checks if the installation is valid and returns a module redirect if required.
@@ -55,7 +55,7 @@ function eZCheckValidity( &$siteBasics, &$uri )
                          'type' => EZ_ACCESS_TYPE_URI );
         $access = changeAccess( $access );
 
-        include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
+        //include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
         eZTranslatorManager::enableDynamicTranslations();
     }
     return $check;
@@ -84,13 +84,13 @@ function eZCheckUser( &$siteBasics, &$uri )
         return null;
     }
 
-    if( !include_once( 'kernel/classes/datatypes/ezuser/ezuserloginhandler.php' ) )
-        return null;
+    // if( !include_once( 'kernel/classes/datatypes/ezuser/ezuserloginhandler.php' ) )
+    //     return null;
 
     $http = eZHTTPTool::instance();
     $ini = eZINI::instance();
     $requireUserLogin = ( $ini->variable( "SiteAccessSettings", "RequireUserLogin" ) == "true" );
-    $forceLogin = $http->hasSessionVariable( EZ_LOGIN_HANDLER_FORCE_LOGIN );
+    $forceLogin = $http->hasSessionVariable( eZUserLoginHandler::EZ_LOGIN_HANDLER_FORCE_LOGIN );
     if ( !$requireUserLogin &&
          !$forceLogin )
     {

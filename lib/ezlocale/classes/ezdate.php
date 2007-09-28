@@ -56,8 +56,8 @@
 
 Example:
 \code
-include_once( 'lib/ezlocale/classes/ezlocale.php' );
-include_once( 'lib/ezlocale/classes/ezdate.php' );
+//include_once( 'lib/ezlocale/classes/ezlocale.php' );
+//include_once( 'lib/ezlocale/classes/ezdate.php' );
 
 $us_locale = eZLocale::instance( 'us' );
 
@@ -76,7 +76,7 @@ print( $date1->isEqualTo( $date3 ) ? 'true' : 'false' ); // Prints 'true'
   \sa eZTime, eZDateTime, eZLocale
 */
 
-include_once( 'lib/ezlocale/classes/ezlocale.php' );
+//include_once( 'lib/ezlocale/classes/ezlocale.php' );
 
 class eZDate
 {

@@ -29,10 +29,10 @@
 $http = eZHTTPTool::instance();
 $module = $Params['Module'];
 
-include_once( "kernel/common/template.php" );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( "kernel/classes/ezbasket.php" );
-include_once( "lib/ezutils/classes/ezmail.php" );
+require_once( "kernel/common/template.php" );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( "kernel/classes/ezbasket.php" );
+//include_once( "lib/ezutils/classes/ezmail.php" );
 
 $tpl = templateInit();
 

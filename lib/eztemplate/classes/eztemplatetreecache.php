@@ -37,12 +37,12 @@
 
 */
 
-include_once( 'lib/ezutils/classes/ezdebug.php' );
-
-define( 'EZ_TEMPLATE_TREE_CACHE_CODE_DATE', 1044440833 );
+require_once( 'lib/ezutils/classes/ezdebug.php' );
 
 class eZTemplateTreeCache
 {
+    const CODE_DATE = 1044440833;
+
     /*!
      \static
      \return the cache table which has cache keys and cache data.
@@ -62,7 +62,7 @@ class eZTemplateTreeCache
     */
     static function internalKey( $key )
     {
-        include_once( 'lib/ezutils/classes/ezini.php' );
+        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
         $debug = $ini->variable( 'TemplateSettings', 'Debug' ) == 'enabled';
         if ( $debug )
@@ -111,7 +111,7 @@ class eZTemplateTreeCache
         {
             $templateCache[$key] = array();
         }
-        include_once( 'lib/ezutils/classes/ezini.php' );
+        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
         $debug = $ini->variable( 'TemplateSettings', 'Debug' ) == 'enabled';
         $templateCache[$key]['root'] =& $root;
@@ -141,7 +141,7 @@ class eZTemplateTreeCache
             }
         }
 
-        include_once( 'lib/ezutils/classes/ezini.php' );
+        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
         $cacheEnabled = $ini->variable( 'TemplateSettings', 'NodeTreeCaching' ) == 'enabled';
         return $cacheEnabled;
@@ -156,8 +156,8 @@ class eZTemplateTreeCache
         $cacheDirectory =& $GLOBALS['eZTemplateTreeCacheDirectory'];
         if ( !isset( $cacheDirectory ) )
         {
-            include_once( 'lib/ezfile/classes/ezdir.php' );
-            include_once( 'lib/ezutils/classes/ezsys.php' );
+            //include_once( 'lib/ezfile/classes/ezdir.php' );
+            //include_once( 'lib/ezutils/classes/ezsys.php' );
             $cacheDirectory = eZDir::path( array( eZSys::cacheDirectory(), 'template/tree' ) );
         }
         return $cacheDirectory;
@@ -199,7 +199,7 @@ class eZTemplateTreeCache
         }
         $cacheFileName = eZTemplateTreeCache::treeCacheFilename( $key, $templateFilepath );
 
-        include_once( 'lib/ezutils/classes/ezphpcreator.php' );
+        //include_once( 'lib/ezutils/classes/ezphpcreator.php' );
 
         $php = new eZPHPCreator( eZTemplateTreeCache::cacheDirectory(), $cacheFileName );
         return $php->canRestore( $timestamp );
@@ -224,13 +224,13 @@ class eZTemplateTreeCache
         }
         $cacheFileName = eZTemplateTreeCache::treeCacheFilename( $key, $templateFilepath );
 
-        include_once( 'lib/ezutils/classes/ezphpcreator.php' );
+        //include_once( 'lib/ezutils/classes/ezphpcreator.php' );
 
         $php = new eZPHPCreator( eZTemplateTreeCache::cacheDirectory(), $cacheFileName );
         $variables = $php->restore( array( 'info' => 'TemplateInfo',
                                            'root' => 'TemplateRoot',
                                            'cache-date' => 'eZTemplateTreeCacheCodeDate' ) );
-        if ( $variables['cache-date'] != EZ_TEMPLATE_TREE_CACHE_CODE_DATE )
+        if ( $variables['cache-date'] != eZTemplateTreeCache::CODE_DATE )
             return false;
         $cache =& $templateCache[$key];
         $cache['root'] =& $variables['root'];
@@ -258,10 +258,10 @@ class eZTemplateTreeCache
 
         $cache =& $templateCache[$key];
 
-        include_once( 'lib/ezutils/classes/ezphpcreator.php' );
+        //include_once( 'lib/ezutils/classes/ezphpcreator.php' );
 
         $php = new eZPHPCreator( eZTemplateTreeCache::cacheDirectory(), $cacheFileName );
-        $php->addVariable( 'eZTemplateTreeCacheCodeDate', EZ_TEMPLATE_TREE_CACHE_CODE_DATE );
+        $php->addVariable( 'eZTemplateTreeCacheCodeDate', eZTemplateTreeCache::CODE_DATE );
         $php->addSpace();
         $php->addVariable( 'TemplateInfo', $cache['info'] );
         $php->addSpace();

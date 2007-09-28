@@ -26,9 +26,9 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-include_once( "lib/ezutils/classes/ezhttptool.php" );
-include_once( "kernel/classes/datatypes/ezuser/ezusersetting.php" );
+//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
+//include_once( "kernel/classes/datatypes/ezuser/ezusersetting.php" );
 
 $Module = $Params['Module'];
 if ( isset( $Params["UserID"] ) )
@@ -38,10 +38,10 @@ $http = eZHTTPTool::instance();
 
 $user = eZUser::fetch( $UserID );
 if ( !$user )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 $userObject = $user->attribute( 'contentobject' );
 if ( !$userObject )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 $userSetting = eZUserSetting::fetch( $UserID );
 
 if ( $http->hasPostVariable( "UpdateSettingButton" ) )
@@ -60,7 +60,7 @@ if ( $http->hasPostVariable( "UpdateSettingButton" ) )
 
     if ( $userSetting->attribute( 'is_enabled' ) != $isEnabled )
     {
-        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearContentCacheIfNeeded( $UserID );
         eZContentCacheManager::generateObjectViewCache( $UserID );
     }
@@ -92,7 +92,7 @@ $maxFailedLoginAttempts = eZUser::maxNumberOfFailedLogin();
 
 $Module->setTitle( "Edit user settings" );
 // Template handling
-include_once( "kernel/common/template.php" );
+require_once( "kernel/common/template.php" );
 $tpl = templateInit();
 $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "http", $http );

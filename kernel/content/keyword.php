@@ -30,7 +30,7 @@
 
 /*! \file keyword.php
 */
-include_once( 'kernel/common/template.php' );
+require_once( 'kernel/common/template.php' );
 
 $Module = $Params['Module'];
 $Alphabet = rawurldecode( $Params['Alphabet'] );

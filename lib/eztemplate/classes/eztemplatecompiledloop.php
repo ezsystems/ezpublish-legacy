@@ -156,7 +156,7 @@ class eZTemplateCompiledLoop
         {
             foreach ( $transformedChildren as $child )
             {
-                if ( $child[0] == EZ_TEMPLATE_NODE_FUNCTION ) // check child type
+                if ( $child[0] == eZTemplate::NODE_FUNCTION ) // check child type
                 {
                     $childFunctionName = $child[2];
                     if ( $childFunctionName == 'delimiter' )
@@ -191,7 +191,7 @@ class eZTemplateCompiledLoop
             $delimiterNodes = eZTemplateNodeTool::extractNodes( $children,
                                                     array( 'match' => array( 'type' => 'equal',
                                                                              'matches' => array( array( 'match-keys' => array( 0 ),
-                                                                                                       'match-with' => EZ_TEMPLATE_NODE_FUNCTION ),
+                                                                                                       'match-with' => eZTemplate::NODE_FUNCTION ),
                                                                                                  array( 'match-keys' => array( 2 ),
                                                                                                         'match-with' => 'delimiter' ) ) ) ) );
             $delimiterNode = false;

@@ -30,10 +30,10 @@
 
 /*! \file ezstep_language_options.php
 */
-include_once( 'kernel/setup/steps/ezstep_installer.php' );
-include_once( 'kernel/setup/ezsetupcommon.php' );
-include_once( 'kernel/common/i18n.php' );
-include_once( 'kernel/classes/ezpackage.php' );
+//include_once( 'kernel/setup/steps/ezstep_installer.php' );
+//include_once( 'kernel/setup/ezsetupcommon.php' );
+require_once( 'kernel/common/i18n.php' );
+//include_once( 'kernel/classes/ezpackage.php' );
 
 /*!
   \class eZStepPackageLanguageOptions ezstep_package_language_options.php

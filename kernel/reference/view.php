@@ -37,12 +37,12 @@ switch ( $referenceType )
 {
     case 'ez':
     {
-        include_once( 'kernel/reference/ezreference.php' );
+        //include_once( 'kernel/reference/ezreference.php' );
         $referenceResult = eZReferenceDocument( $module, '/reference/view/ez', $referenceType, array_slice( $Params['Parameters'], 1 ) );
     } break;
     default:
     {
-        return $module->handleError( EZ_ERROR_KERNEL_NOT_FOUND, 'kernel' );
+        return $module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
     } break;
 }
 

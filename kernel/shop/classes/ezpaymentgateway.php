@@ -36,7 +36,7 @@
   \brief Abstract class for all payment gateways.
 */
 
-include_once( 'kernel/classes/workflowtypes/event/ezpaymentgateway/ezpaymentlogger.php' );
+//include_once( 'kernel/classes/workflowtypes/event/ezpaymentgateway/ezpaymentlogger.php' );
 
 class eZPaymentGateway
 {
@@ -51,7 +51,7 @@ class eZPaymentGateway
     function execute( $process, $event )
     {
         $this->logger->writeTimedString( 'You must override this function.', 'execute' );
-        return EZ_WORKFLOW_TYPE_STATUS_REJECTED;
+        return eZWorkflowType::STATUS_REJECTED;
     }
 
     function needCleanup()

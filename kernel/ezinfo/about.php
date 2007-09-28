@@ -29,8 +29,8 @@
 define( 'EZ_ABOUT_CONTRIBUTORS_DIR', 'var/storage/contributors' );
 define( 'EZ_ABOUT_THIRDPARTY_SOFTWARE_FILE', 'var/storage/third_party_software.php' );
 
-include_once( 'kernel/common/template.php' );
-include_once( 'lib/version.php' );
+require_once( 'kernel/common/template.php' );
+//include_once( 'lib/version.php' );
 
 /*!
   Returns list of contributors;
@@ -38,7 +38,7 @@ include_once( 'lib/version.php' );
 */
 function getContributors( $pathToDir )
 {
-    include_once( 'lib/ezfile/classes/ezdir.php' );
+    //include_once( 'lib/ezfile/classes/ezdir.php' );
     $contribFiles = eZDir::recursiveFind( $pathToDir, "php" );
     $contributors = array();
     if ( count( $contribFiles ) )
@@ -85,8 +85,8 @@ function getThirdPartySoftware( $pathToFile )
 */
 function getExtensionsInfo()
 {
-    include_once( 'lib/ezutils/classes/ezini.php' );
-    include_once( 'lib/ezutils/classes/ezextension.php' );
+    //include_once( 'lib/ezutils/classes/ezini.php' );
+    //include_once( 'lib/ezutils/classes/ezextension.php' );
 
     $siteINI = eZINI::instance();
     $extensionDir = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' );

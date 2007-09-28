@@ -26,11 +26,11 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/datatypes/ezuser/ezusersetting.php' );
-include_once( 'kernel/classes/datatypes/ezuser/ezuseraccountkey.php' );
+////include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'kernel/classes/datatypes/ezuser/ezusersetting.php' );
+//include_once( 'kernel/classes/datatypes/ezuser/ezuseraccountkey.php' );
 
 $Module = $Params['Module'];
 //$http = eZHTTPTool::instance();
@@ -56,7 +56,7 @@ if ( $accountKey )
     $user = eZUser::fetch( $userID );
 
     if ( $user === null )
-        return $Module->handleError( EZ_ERROR_KERNEL_NOT_FOUND, 'kernel' );
+        return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 
     $user->loginCurrent();
 
@@ -75,7 +75,7 @@ elseif( $mainNodeID )
 }
 
 // Template handling
-include_once( 'kernel/common/template.php' );
+require_once( 'kernel/common/template.php' );
 $tpl = templateInit();
 
 $tpl->setVariable( 'module', $Module );

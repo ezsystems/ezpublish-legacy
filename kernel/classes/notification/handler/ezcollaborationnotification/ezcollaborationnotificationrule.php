@@ -36,7 +36,7 @@
   \brief The class eZCollaborationNotificationRule does
 
 */
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
 class eZCollaborationNotificationRule extends eZPersistentObject
 {

@@ -35,12 +35,7 @@
 
 */
 
-/*!
- \deprecated Cluster file handler is now taking care of this.
- */
-define( 'eZTemplateCacheFunction_FileGenerateTimeout', 5 );
-
-include_once( 'lib/eztemplate/classes/eztemplatecacheblock.php' );
+//include_once( 'lib/eztemplate/classes/eztemplatecacheblock.php' );
 
 class eZTemplateCacheFunction
 {
@@ -148,7 +143,7 @@ class eZTemplateCacheFunction
             $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $keysData, false, array(), 'cacheKeys' );
             $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $subtreeExpiryData, false, array(), 'subtreeExpiry' );
 
-            $code = ( "include_once( 'lib/eztemplate/classes/eztemplatecacheblock.php' );\n" .
+            $code = ( "//include_once( 'lib/eztemplate/classes/eztemplatecacheblock.php' );\n" .
                       "\$cacheKeys = array( \$cacheKeys, $placementKeyStringText, $accessNameText );\n" );
             $cachePathText = "\$cachePath";
         }
@@ -156,7 +151,7 @@ class eZTemplateCacheFunction
         {
             $nodeID = eZTemplateCacheBlock::decodeNodeID( $subtreeValue );
             $cachePath = eZTemplateCacheBlock::cachePath( eZTemplateCacheBlock::keyString( array( $placementKeyString, $accessName ) ), $nodeID );
-            $code = ( "include_once( 'lib/eztemplate/classes/eztemplatecacheblock.php' );\n" );
+            $code = ( "//include_once( 'lib/eztemplate/classes/eztemplatecacheblock.php' );\n" );
             $cachePathText = eZPHPCreator::variableText( $cachePath, 0, 0, false );
         }
 
@@ -308,7 +303,7 @@ class eZTemplateCacheFunction
         }
 
         $globalExpiryTime = -1;
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         if ( $ignoreContentExpiry == false )
         {
             $globalExpiryTime = eZExpiryHandler::getTimestamp( 'template-block-cache', -1 );
@@ -388,7 +383,7 @@ class eZTemplateCacheFunction
     */
     static function expiryTemplateBlockCacheDir()
     {
-        include_once( 'lib/ezutils/classes/ezsys.php' );
+        //include_once( 'lib/ezutils/classes/ezsys.php' );
         $expiryCacheDir = eZSys::cacheDirectory() . '/' . 'template-block-expiry';
         return $expiryCacheDir;
     }

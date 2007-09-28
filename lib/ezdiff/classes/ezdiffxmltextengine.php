@@ -38,7 +38,7 @@
   \brief This class creates a diff for xml text.
 */
 
-include_once( 'lib/ezdiff/classes/ezdiffengine.php' );
+//include_once( 'lib/ezdiff/classes/ezdiffengine.php' );
 
 class eZDiffXMLTextEngine extends eZDiffEngine
 {
@@ -52,10 +52,10 @@ class eZDiffXMLTextEngine extends eZDiffEngine
     */
     function createDifferenceObject( $fromData, $toData )
     {
-        include_once( 'lib/ezdiff/classes/ezxmltextdiff.php' );
-        include_once( 'lib/ezdiff/classes/ezdifftextengine.php' );
-        include_once( 'lib/ezutils/classes/ezini.php' );
-        include_once( 'kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmleditoutput.php' );
+        //include_once( 'lib/ezdiff/classes/ezxmltextdiff.php' );
+        //include_once( 'lib/ezdiff/classes/ezdifftextengine.php' );
+        //include_once( 'lib/ezutils/classes/ezini.php' );
+        //include_once( 'kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmleditoutput.php' );
 
         $changes = new eZXMLTextDiff();
         $contentINI = eZINI::instance( 'content.ini' );

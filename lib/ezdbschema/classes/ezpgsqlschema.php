@@ -33,71 +33,61 @@
 
 */
 
-define( 'SHOW_TABLES_QUERY', <<<END
-SELECT n.nspname as "Schema",
-       c.relname as "Name",
-       CASE c.relkind
-            WHEN 'r' THEN 'table'
-            WHEN 'v' THEN 'view'
-            WHEN 'i' THEN 'index'
-            WHEN 'S' THEN 'sequence'
-            WHEN 's' THEN 'special'
-       END as "Type",
-       u.usename as "Owner"
-FROM pg_catalog.pg_class c
-     LEFT JOIN pg_catalog.pg_user u ON u.usesysid = c.relowner
-     LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
-WHERE c.relkind IN ('r','')
-      AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
-      AND pg_catalog.pg_table_is_visible(c.oid)
-ORDER BY 1,2
-END
-);
-
-define( 'FETCH_TABLE_OID_QUERY', <<<END
-SELECT c.oid,
-       n.nspname,
-       c.relname
-FROM pg_catalog.pg_class c
-     LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
-WHERE pg_catalog.pg_table_is_visible(c.oid)
-      AND c.relname ~ '^<<tablename>>$'
-ORDER BY 2, 3;
-END
-);
-
-define( 'FETCH_TABLE_DEF_QUERY', <<<END
-SELECT a.attname,
-       pg_catalog.format_type(a.atttypid, a.atttypmod),
-       (SELECT substring(d.adsrc for 128) FROM pg_catalog.pg_attrdef d
-        WHERE d.adrelid = a.attrelid AND d.adnum = a.attnum AND a.atthasdef) as default,
-       a.attnotnull, a.attnum
-FROM pg_catalog.pg_attribute a
-WHERE a.attrelid = '<<oid>>' AND a.attnum > 0 AND NOT a.attisdropped
-ORDER BY a.attnum
-END
-);
-
-define( 'FETCH_INDEX_DEF_QUERY', <<<END
-SELECT c.relname, i.*
-FROM pg_catalog.pg_index i, pg_catalog.pg_class c
-WHERE indrelid = '<<oid>>'
-      AND i.indexrelid = c.oid
-END
-);
-
-define( 'FETCH_INDEX_COL_NAMES_QUERY', <<<END
-SELECT a.attnum, a.attname
-FROM pg_catalog.pg_attribute a
-WHERE a.attrelid = '<<indexrelid>>' AND a.attnum IN (<<attids>>) AND NOT a.attisdropped
-ORDER BY a.attnum
-END
-);
-
-include_once( 'lib/ezdbschema/classes/ezdbschemainterface.php' );
+//include_once( 'lib/ezdbschema/classes/ezdbschemainterface.php' );
 
 class eZPgsqlSchema extends eZDBSchemaInterface
 {
+    const SHOW_TABLES_QUERY = '
+        SELECT n.nspname as "Schema",
+               c.relname as "Name",
+               CASE c.relkind
+                    WHEN \'r\' THEN \'table\'
+                    WHEN \'v\' THEN \'view\'
+                    WHEN \'i\' THEN \'index\'
+                    WHEN \'S\' THEN \'sequence\'
+                    WHEN \'s\' THEN \'special\'
+               END as "Type",
+               u.usename as "Owner"
+        FROM pg_catalog.pg_class c
+             LEFT JOIN pg_catalog.pg_user u ON u.usesysid = c.relowner
+             LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+        WHERE c.relkind IN (\'r\',\'\')
+              AND n.nspname NOT IN (\'pg_catalog\', \'pg_toast\')
+              AND pg_catalog.pg_table_is_visible(c.oid)
+        ORDER BY 1, 2';
+
+    const FETCH_TABLE_OID_QUERY = '
+        SELECT c.oid,
+               n.nspname,
+               c.relname
+        FROM pg_catalog.pg_class c
+             LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+        WHERE pg_catalog.pg_table_is_visible(c.oid)
+              AND c.relname ~ \'^<<tablename>>$\'
+        ORDER BY 2, 3';
+
+    const FETCH_TABLE_DEF_QUERY = '
+        SELECT a.attname,
+               pg_catalog.format_type(a.atttypid, a.atttypmod),
+               (SELECT substring(d.adsrc for 128) FROM pg_catalog.pg_attrdef d
+                WHERE d.adrelid = a.attrelid AND d.adnum = a.attnum AND a.atthasdef) as default,
+               a.attnotnull, a.attnum
+        FROM pg_catalog.pg_attribute a
+        WHERE a.attrelid = \'<<oid>>\' AND a.attnum > 0 AND NOT a.attisdropped
+        ORDER BY a.attnum';
+
+    const FETCH_INDEX_DEF_QUERY = '
+        SELECT c.relname, i.*
+        FROM pg_catalog.pg_index i, pg_catalog.pg_class c
+        WHERE indrelid = \'<<oid>>\'
+              AND i.indexrelid = c.oid';
+
+    const FETCH_INDEX_COL_NAMES_QUERY = '
+        SELECT a.attnum, a.attname
+        FROM pg_catalog.pg_attribute a
+        WHERE a.attrelid = \'<<indexrelid>>\' AND a.attnum IN (<<attids>>) AND NOT a.attisdropped
+        ORDER BY a.attnum';
+
     /*!
      \reimp
      Constructor
@@ -121,7 +111,7 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 
         if ( $this->Schema === false )
         {
-            $resultArray = $this->DBInstance->arrayQuery( SHOW_TABLES_QUERY );
+            $resultArray = $this->DBInstance->arrayQuery( eZPgsqlSchema::SHOW_TABLES_QUERY );
 
             foreach( $resultArray as $row )
             {
@@ -156,11 +146,11 @@ class eZPgsqlSchema extends eZDBSchemaInterface
     {
         $fields = array();
 
-        $resultArray = $this->DBInstance->arrayQuery( str_replace( '<<tablename>>', $table, FETCH_TABLE_OID_QUERY ) );
+        $resultArray = $this->DBInstance->arrayQuery( str_replace( '<<tablename>>', $table, eZPgsqlSchema::FETCH_TABLE_OID_QUERY ) );
         $row = $resultArray[0];
         $oid = $row['oid'];
 
-        $resultArray = $this->DBInstance->arrayQuery( str_replace( '<<oid>>', $oid, FETCH_TABLE_DEF_QUERY ) );
+        $resultArray = $this->DBInstance->arrayQuery( str_replace( '<<oid>>', $oid, eZPgsqlSchema::FETCH_TABLE_DEF_QUERY ) );
         foreach( $resultArray as $row )
         {
             $field = array();
@@ -270,11 +260,11 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 
         $indexes = array();
 
-        $resultArray = $this->DBInstance->arrayQuery( str_replace( '<<tablename>>', $table, FETCH_TABLE_OID_QUERY ) );
+        $resultArray = $this->DBInstance->arrayQuery( str_replace( '<<tablename>>', $table, eZPgsqlSchema::FETCH_TABLE_OID_QUERY ) );
         $row = $resultArray[0];
         $oid = $row['oid'];
 
-        $resultArray = $this->DBInstance->arrayQuery( str_replace( '<<oid>>', $oid, FETCH_INDEX_DEF_QUERY ) );
+        $resultArray = $this->DBInstance->arrayQuery( str_replace( '<<oid>>', $oid, eZPgsqlSchema::FETCH_INDEX_DEF_QUERY ) );
 
         foreach( $resultArray as $row )
         {
@@ -314,7 +304,7 @@ class eZPgsqlSchema extends eZDBSchemaInterface
             /* getting fieldnames requires yet another query and it doesn't return it 'in order' either.
              * grumbl, stupid pgsql :) */
             $att_ids = join( ', ',  $column_id_array );
-            $query = str_replace( '<<indexrelid>>', $row['indrelid'], FETCH_INDEX_COL_NAMES_QUERY );
+            $query = str_replace( '<<indexrelid>>', $row['indrelid'], eZPgsqlSchema::FETCH_INDEX_COL_NAMES_QUERY );
             $query = str_replace( '<<attids>>', $att_ids, $query );
 
             $fieldsArray = $this->DBInstance->arrayQuery( $query );

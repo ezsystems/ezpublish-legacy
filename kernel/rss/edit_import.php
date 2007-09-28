@@ -30,9 +30,9 @@
 
 $Module = $Params['Module'];
 
-include_once( 'kernel/rss/edit_functions.php' );
-include_once( "kernel/common/template.php" );
-include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
+//include_once( 'kernel/rss/edit_functions.php' );
+require_once( "kernel/common/template.php" );
+//include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
 
 $http = eZHTTPTool::instance();
 
@@ -55,19 +55,19 @@ if ( !is_numeric( $rssImportID ) )
 }
 
 // Fetch RSS Import object //
-$rssImport = eZRSSImport::fetch( $rssImportID, true, EZ_RSSIMPORT_STATUS_DRAFT );
+$rssImport = eZRSSImport::fetch( $rssImportID, true, eZRSSImport::STATUS_DRAFT );
 if ( !$rssImport )
 {
-    $rssImport = eZRSSImport::fetch( $rssImportID, true, EZ_RSSIMPORT_STATUS_VALID );
+    $rssImport = eZRSSImport::fetch( $rssImportID, true, eZRSSImport::STATUS_VALID );
     if ( $rssImport )
     {
-        $rssImport->setAttribute( 'status', EZ_RSSIMPORT_STATUS_DRAFT );
+        $rssImport->setAttribute( 'status', eZRSSImport::STATUS_DRAFT );
         $rssImport->store();
     }
 }
 if ( !$rssImport )
 {
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'rss' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'rss' );
 }
 else
 {
@@ -109,7 +109,7 @@ else if ( $Module->isCurrentAction( 'Cancel' ) )
 else if ( $Module->isCurrentAction( 'BrowseDestination' ) )
 {
     storeRSSImport( $rssImport, $http );
-    include_once( 'kernel/classes/ezcontentbrowse.php' );
+    //include_once( 'kernel/classes/ezcontentbrowse.php' );
     return eZContentBrowse::browse( array( 'action_name' => 'RSSObjectBrowse',
                                            'description_template' => 'design:rss/browse_destination.tpl',
                                            'from_page' => '/rss/edit_import/'.$rssImportID.'/destination' ),
@@ -118,7 +118,7 @@ else if ( $Module->isCurrentAction( 'BrowseDestination' ) )
 else if ( $Module->isCurrentAction( 'BrowseUser' ) )
 {
     storeRSSImport( $rssImport, $http );
-    include_once( 'kernel/classes/ezcontentbrowse.php' );
+    //include_once( 'kernel/classes/ezcontentbrowse.php' );
     return eZContentBrowse::browse( array( 'action_name' => 'RSSUserBrowse',
                                            'description_template' => 'design:rss/browse_user.tpl',
                                            'from_page' => '/rss/edit_import/'.$rssImportID.'/user' ),
@@ -132,7 +132,7 @@ if ( isset( $Params['BrowseType'] ) )
     {
         case 'destination': // Returning from destination browse
         {
-            include_once( 'kernel/classes/ezcontentbrowse.php' );
+            //include_once( 'kernel/classes/ezcontentbrowse.php' );
             $nodeIDArray = $http->hasPostVariable( 'SelectedNodeIDArray' ) ? $http->postVariable( 'SelectedNodeIDArray' ) : null;
             if ( isset( $nodeIDArray ) && !$http->hasPostVariable( 'BrowseCancelButton' ) )
             {
@@ -143,7 +143,7 @@ if ( isset( $Params['BrowseType'] ) )
 
         case 'user': //Returning from user browse
         {
-            include_once( 'kernel/classes/ezcontentbrowse.php' );
+            //include_once( 'kernel/classes/ezcontentbrowse.php' );
             $nodeIDArray = $http->postVariable( 'SelectedObjectIDArray' );
             if ( isset( $nodeIDArray ) && !$http->hasPostVariable( 'BrowseCancelButton' ) )
             {
@@ -213,10 +213,10 @@ function storeRSSImport( $rssImport, $http, $publish = false )
     {
         $db = eZDB::instance();
         $db->begin();
-        $rssImport->setAttribute( 'status', EZ_RSSIMPORT_STATUS_VALID );
+        $rssImport->setAttribute( 'status', eZRSSImport::STATUS_VALID );
         $rssImport->store();
         // remove draft
-        $rssImport->setAttribute( 'status', EZ_RSSIMPORT_STATUS_DRAFT );
+        $rssImport->setAttribute( 'status', eZRSSImport::STATUS_DRAFT );
         $rssImport->remove();
         $db->commit();
     }
@@ -228,7 +228,7 @@ function storeRSSImport( $rssImport, $http, $publish = false )
 
 function checkTimeout( $rssImport )
 {
-    include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+    //include_once( 'lib/ezlocale/classes/ezdatetime.php' );
     $user = eZUser::currentUser();
     $contentIni = eZINI::instance( 'content.ini' );
     $timeOut = $contentIni->variable( 'RSSImportSettings', 'DraftTimeout' );

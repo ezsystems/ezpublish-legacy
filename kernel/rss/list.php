@@ -30,10 +30,10 @@
 
 $Module = $Params['Module'];
 
-include_once( "kernel/common/template.php" );
-include_once( 'kernel/classes/ezrssexport.php' );
-include_once( 'kernel/classes/ezrssimport.php' );
-include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
+require_once( "kernel/common/template.php" );
+//include_once( 'kernel/classes/ezrssexport.php' );
+//include_once( 'kernel/classes/ezrssimport.php' );
+//include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
 
 $http = eZHTTPTool::instance();
 
@@ -46,12 +46,12 @@ else if ( $http->hasPostVariable( 'RemoveExportButton' ) )
     $deleteArray = $http->postVariable( 'DeleteIDArray' );
     foreach ( $deleteArray as $deleteID )
     {
-        $rssExport = eZRSSExport::fetch( $deleteID, true, EZ_RSSEXPORT_STATUS_DRAFT );
+        $rssExport = eZRSSExport::fetch( $deleteID, true, eZRSSExport::STATUS_DRAFT );
         if ( $rssExport )
         {
             $rssExport->remove();
         }
-        $rssExport = eZRSSExport::fetch( $deleteID, true, EZ_RSSEXPORT_STATUS_VALID );
+        $rssExport = eZRSSExport::fetch( $deleteID, true, eZRSSExport::STATUS_VALID );
         if ( $rssExport )
         {
             $rssExport->remove();
@@ -67,12 +67,12 @@ else if ( $http->hasPostVariable( 'RemoveImportButton' ) )
     $deleteArray = $http->postVariable( 'DeleteIDArrayImport' );
     foreach ( $deleteArray as $deleteID )
     {
-        $rssImport = eZRSSImport::fetch( $deleteID, true, EZ_RSSIMPORT_STATUS_DRAFT );
+        $rssImport = eZRSSImport::fetch( $deleteID, true, eZRSSImport::STATUS_DRAFT );
         if ( $rssImport )
         {
             $rssImport->remove();
         }
-        $rssImport = eZRSSImport::fetch( $deleteID, true, EZ_RSSIMPORT_STATUS_VALID );
+        $rssImport = eZRSSImport::fetch( $deleteID, true, eZRSSImport::STATUS_VALID );
         if ( $rssImport )
         {
             $rssImport->remove();

@@ -26,8 +26,8 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( "lib/ezdb/classes/ezdb.php" );
 
 $Module = $Params['Module'];
 $NodeID = $Params['NodeID'];
@@ -48,10 +48,10 @@ if ( $NodeID === null ) // NodeID is returned after browsing
 $srcNode = eZContentObjectTreeNode::fetch( $NodeID );
 
 if ( $srcNode === null )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
 if ( !$srcNode->attribute( 'can_read' ) )
-    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
 if ( $Module->isCurrentAction( 'Cancel' ) )
 {
@@ -252,7 +252,7 @@ function copyPublishContentObject( $sourceObject,
     }
 
     // publish the newly created object
-    include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+    //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
     $result = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $newObject->attribute( 'id' ),
                                                                         'version'   => $curVersion ) );
     // Refetch the object data since it might change in the database.
@@ -801,7 +801,7 @@ function browse( $Module, $srcNode )
     if ( $Module->hasActionParameter( 'ViewMode' ) )
         $viewMode = $module->actionParameter( 'ViewMode' );
 
-    include_once( 'kernel/classes/ezcontentbrowse.php' );
+    //include_once( 'kernel/classes/ezcontentbrowse.php' );
     eZContentBrowse::browse(
          array( 'action_name'          => 'CopySubtree',
                 'description_template' => 'design:content/browse_copy_subtree.tpl',
@@ -828,10 +828,10 @@ either all version or the current one.
 */
 function chooseOptionsToCopy( $Module, &$Result, $srcNode, $chooseVersions, $chooseCreator, $chooseTime )
 {
-        include_once( 'kernel/classes/ezcontentbrowse.php' );
+        //include_once( 'kernel/classes/ezcontentbrowse.php' );
         $selectedNodeIDArray = eZContentBrowse::result( $Module->currentAction() );
 
-        include_once( 'kernel/common/template.php' );
+        require_once( 'kernel/common/template.php' );
         $tpl = templateInit();
 
         $tpl->setVariable( 'node', $srcNode );
@@ -849,7 +849,7 @@ function chooseOptionsToCopy( $Module, &$Result, $srcNode, $chooseVersions, $cho
 
 function showNotificationAfterCopying( $http, $Module, &$Result, &$Notifications, $srcNode )
 {
-    include_once( 'kernel/common/template.php' );
+    require_once( 'kernel/common/template.php' );
     $tpl = templateInit();
 
     if ( $http->hasSessionVariable( "LastAccessesURI" ) )
@@ -967,7 +967,7 @@ else if ( $Module->isCurrentAction( 'CopySubtree' ) )
     else
     {
         // actually do copying of the pre-configured object version(s)
-        include_once( 'kernel/classes/ezcontentbrowse.php' );
+        //include_once( 'kernel/classes/ezcontentbrowse.php' );
         $selectedNodeIDArray = eZContentBrowse::result( $Module->currentAction() );
         $newParentNodeID = $selectedNodeIDArray[0];
         copySubtree( $NodeID, $newParentNodeID, $notifications, $allVersions, $keepCreator, $keepTime );

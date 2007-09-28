@@ -46,7 +46,7 @@
   Example:
 
 \code
-include_once( 'lib/ezlocale/classes/ezlocale.php' );
+//include_once( 'lib/ezlocale/classes/ezlocale.php' );
 
 // Fetch the default values supplied by site.ini
 $locale = eZLocale::instance();
@@ -127,12 +127,12 @@ The following characters are recognized in the format string:
 \sa eZLanguage
 */
 
-include_once( 'lib/ezutils/classes/ezini.php' );
-
-define( "EZ_LOCALE_DEBUG_INTERNALS", false );
+//include_once( 'lib/ezutils/classes/ezini.php' );
 
 class eZLocale
 {
+    const EZ_LOCALE_DEBUG_INTERNALS = false;
+
     /*!
      Initializes the locale with the locale string \a $localeString.
      All locale data is read from locale/$localeString.ini
@@ -1581,7 +1581,7 @@ class eZLocale
     static function isDebugEnabled()
     {
         if ( !isset( $GLOBALS['eZLocaleDebugInternalsEnabled'] ) )
-             $GLOBALS['eZLocaleDebugInternalsEnabled'] = EZ_LOCALE_DEBUG_INTERNALS;
+             $GLOBALS['eZLocaleDebugInternalsEnabled'] = self::EZ_LOCALE_DEBUG_INTERNALS;
         return $GLOBALS['eZLocaleDebugInternalsEnabled'];
     }
 

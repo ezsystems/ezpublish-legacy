@@ -34,20 +34,20 @@
 
 */
 
-include_once( "kernel/classes/ezdatatype.php" );
-
-define( "EZ_DATATYPESTRING_ISBN", "ezisbn" );
-define( 'EZ_DATATYPESTRING_ISBN_CLASS_IS_ISBN13', 'data_int1' );
-define( 'EZ_DATATYPESTRING_ISBN_CONTENT_VALUE', 'data_text' );
-define( 'EZ_DATATYPESTRING_ISBN_13_DBA_DATA', 'kernel/classes/datatypes/ezisbn/share/db_data.dba' );
+//include_once( "kernel/classes/ezdatatype.php" );
 
 class eZISBNType extends eZDataType
 {
+    const EZ_DATATYPESTRING_ISBN = "ezisbn";
+    const EZ_DATATYPESTRING_ISBN_CLASS_IS_ISBN13 = 'data_int1';
+    const EZ_DATATYPESTRING_ISBN_CONTENT_VALUE = 'data_text';
+    const EZ_DATATYPESTRING_ISBN_13_DBA_DATA = 'kernel/classes/datatypes/ezisbn/share/db_data.dba';
+
     function eZISBNType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_ISBN, ezi18n( 'kernel/classes/datatypes', "ISBN", 'Datatype name' ),
+        $this->eZDataType( self::EZ_DATATYPESTRING_ISBN, ezi18n( 'kernel/classes/datatypes', "ISBN", 'Datatype name' ),
                            array( 'serialize_supported' => true,
-                                  'object_serialize_map' => array( EZ_DATATYPESTRING_ISBN_CONTENT_VALUE => 'isbn' ) ) );
+                                  'object_serialize_map' => array( self::EZ_DATATYPESTRING_ISBN_CONTENT_VALUE => 'isbn' ) ) );
     }
 
     /*!
@@ -60,7 +60,7 @@ class eZISBNType extends eZDataType
         $classContent = $classAttribute->content();
         if ( isset( $classContent['ISBN13'] ) and $classContent['ISBN13'] )
         {
-            include_once( 'kernel/classes/datatypes/ezisbn/ezisbn13.php' );
+            //include_once( 'kernel/classes/datatypes/ezisbn/ezisbn13.php' );
             $number13 = $http->hasPostVariable( $base . "_isbn_13_" . $contentObjectAttribute->attribute( "id" ) )
                         ? $http->postVariable( $base . "_isbn_13_" . $contentObjectAttribute->attribute( "id" ) )
                         : false;
@@ -70,11 +70,11 @@ class eZISBNType extends eZDataType
                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                      'Input required.' ) );
 
-                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                return eZInputValidator::STATE_INVALID;
             }
             else if ( !$contentObjectAttribute->validateIsRequired() and ( !$number13 or $number13 == '' ) )
             {
-                return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                return eZInputValidator::STATE_ACCEPTED;
             }
 
             // Should also accept ISBN10 values, which should be automatically converted to ISBN13 later.
@@ -84,13 +84,13 @@ class eZISBNType extends eZDataType
                 $status = $this->validateISBNChecksum( $isbn10TestNumber );
                 if ( $status === true )
                 {
-                    return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                    return eZInputValidator::STATE_ACCEPTED;
                 }
                 else
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'The ISBN number should be ISBN13, but seems to be ISBN10.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    return eZInputValidator::STATE_INVALID;
                 }
             }
 
@@ -99,16 +99,16 @@ class eZISBNType extends eZDataType
 
             if ( $valid )
             {
-                return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                return eZInputValidator::STATE_ACCEPTED;
             }
             else
             {
                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                      'The ISBN number is not correct. ' ) . $error );
-                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                return eZInputValidator::STATE_INVALID;
             }
 
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INVALID;
         }
 
         $field1 = $http->postVariable( $base . "_isbn_field1_" . $contentObjectAttribute->attribute( "id" ) );
@@ -120,7 +120,7 @@ class eZISBNType extends eZDataType
         $isbn = strtoupper( $isbn );
         if ( !$contentObjectAttribute->validateIsRequired() and $isbn == "---" )
         {
-            return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            return eZInputValidator::STATE_ACCEPTED;
         }
 
         if ( preg_match( "#^[0-9]{1,2}\-[0-9]+\-[0-9]+\-[0-9X]{1}$#", $isbn ) )
@@ -137,22 +137,22 @@ class eZISBNType extends eZDataType
 
             if ( $valid )
             {
-                return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                return eZInputValidator::STATE_ACCEPTED;
             }
             else
             {
                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                      'The ISBN number is not correct. Please check the input for mistakes.' ) );
-                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                return eZInputValidator::STATE_INVALID;
             }
         }
         else
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                  'The ISBN number is not correct. Please check the input for mistakes.' ) );
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INVALID;
         }
-        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+        return eZInputValidator::STATE_INVALID;
     }
 
 
@@ -254,7 +254,7 @@ class eZISBNType extends eZDataType
             $isbn10TestNumber = preg_replace( "/[\s|\-]/", "", trim( $number13 ) );
             if ( strlen( $isbn10TestNumber ) == 10 )
             {
-                if ( $contentObjectAttribute->IsValid == EZ_INPUT_VALIDATOR_STATE_ACCEPTED )
+                if ( $contentObjectAttribute->IsValid == eZInputValidator::STATE_ACCEPTED )
                 {
                     // Convert the isbn-10 number to isbn-13.
                     $number13 = $this->convertISBN10toISBN13( $isbn10TestNumber );
@@ -262,7 +262,7 @@ class eZISBNType extends eZDataType
                 else
                 {
                     // Add the value so the added value will be shown back to the user with an error message.
-                    $contentObjectAttribute->setAttribute( EZ_DATATYPESTRING_ISBN_CONTENT_VALUE, $number13 );
+                    $contentObjectAttribute->setAttribute( self::EZ_DATATYPESTRING_ISBN_CONTENT_VALUE, $number13 );
                     return true;
                 }
             }
@@ -270,7 +270,7 @@ class eZISBNType extends eZDataType
             // Extract the different parts and set the hyphens correctly.
             $isbn13 = new eZISBN13();
             $isbn13Value = $isbn13->formatedISBNValue( $number13, $error );
-            $contentObjectAttribute->setAttribute( EZ_DATATYPESTRING_ISBN_CONTENT_VALUE, $isbn13Value );
+            $contentObjectAttribute->setAttribute( self::EZ_DATATYPESTRING_ISBN_CONTENT_VALUE, $isbn13Value );
             return true;
         }
 
@@ -284,7 +284,7 @@ class eZISBNType extends eZDataType
 
         $isbn = $field1 . '-' . $field2 . '-' . $field3 . '-' . $field4;
         $isbn = strtoupper( $isbn );
-        $contentObjectAttribute->setAttribute( EZ_DATATYPESTRING_ISBN_CONTENT_VALUE, $isbn );
+        $contentObjectAttribute->setAttribute( self::EZ_DATATYPESTRING_ISBN_CONTENT_VALUE, $isbn );
         return true;
     }
 
@@ -340,7 +340,7 @@ class eZISBNType extends eZDataType
         if ( is_array( $content ) )
         {
             $ISBN_13 = $content['ISBN13'];
-            $classAttribute->setAttribute( EZ_DATATYPESTRING_ISBN_CLASS_IS_ISBN13, $ISBN_13 );
+            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_ISBN_CLASS_IS_ISBN13, $ISBN_13 );
         }
         return false;
     }
@@ -350,7 +350,7 @@ class eZISBNType extends eZDataType
     */
     function objectAttributeContent( $contentObjectAttribute )
     {
-        $data = $contentObjectAttribute->attribute( EZ_DATATYPESTRING_ISBN_CONTENT_VALUE );
+        $data = $contentObjectAttribute->attribute( self::EZ_DATATYPESTRING_ISBN_CONTENT_VALUE );
         $classAttribute = $contentObjectAttribute->contentClassAttribute();
         $classContent = $classAttribute->content();
         if ( isset( $classContent['ISBN13'] ) and $classContent['ISBN13'] )
@@ -382,9 +382,9 @@ class eZISBNType extends eZDataType
     */
     function classAttributeContent( $classAttribute )
     {
-        include_once( 'kernel/classes/datatypes/ezisbn/ezisbn13.php' );
+        //include_once( 'kernel/classes/datatypes/ezisbn/ezisbn13.php' );
 
-        $ISBN_13 = $classAttribute->attribute( EZ_DATATYPESTRING_ISBN_CLASS_IS_ISBN13 );
+        $ISBN_13 = $classAttribute->attribute( self::EZ_DATATYPESTRING_ISBN_CLASS_IS_ISBN13 );
         $isbn13Info = new eZISBN13();
         $content = array( 'ISBN13' => $ISBN_13,
                           'ranges' => $isbn13Info );
@@ -406,7 +406,7 @@ class eZISBNType extends eZDataType
     */
     function metaData( $contentObjectAttribute )
     {
-        return $contentObjectAttribute->attribute( EZ_DATATYPESTRING_ISBN_CONTENT_VALUE );
+        return $contentObjectAttribute->attribute( self::EZ_DATATYPESTRING_ISBN_CONTENT_VALUE );
     }
 
     /*!
@@ -415,12 +415,12 @@ class eZISBNType extends eZDataType
     */
     function toString( $contentObjectAttribute )
     {
-        return $contentObjectAttribute->attribute( EZ_DATATYPESTRING_ISBN_CONTENT_VALUE );
+        return $contentObjectAttribute->attribute( self::EZ_DATATYPESTRING_ISBN_CONTENT_VALUE );
     }
 
     function fromString( $contentObjectAttribute, $string )
     {
-        return $contentObjectAttribute->setAttribute( EZ_DATATYPESTRING_ISBN_CONTENT_VALUE, $string );
+        return $contentObjectAttribute->setAttribute( self::EZ_DATATYPESTRING_ISBN_CONTENT_VALUE, $string );
     }
 
     /*!
@@ -428,7 +428,7 @@ class eZISBNType extends eZDataType
     */
     function title( $data_instance, $name = null )
     {
-        return $data_instance->attribute( EZ_DATATYPESTRING_ISBN_CONTENT_VALUE );
+        return $data_instance->attribute( self::EZ_DATATYPESTRING_ISBN_CONTENT_VALUE );
     }
 
     /*!
@@ -437,9 +437,9 @@ class eZISBNType extends eZDataType
     */
     function initializeClassAttribute( $classAttribute )
     {
-        if ( $classAttribute->attribute( EZ_DATATYPESTRING_ISBN_CLASS_IS_ISBN13 ) === null )
+        if ( $classAttribute->attribute( self::EZ_DATATYPESTRING_ISBN_CLASS_IS_ISBN13 ) === null )
         {
-            $classAttribute->setAttribute( EZ_DATATYPESTRING_ISBN_CLASS_IS_ISBN13, 1 );
+            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_ISBN_CLASS_IS_ISBN13, 1 );
         }
     }
 
@@ -448,7 +448,7 @@ class eZISBNType extends eZDataType
     */
     function hasObjectAttributeContent( $contentObjectAttribute )
     {
-        return trim( $contentObjectAttribute->attribute( EZ_DATATYPESTRING_ISBN_CONTENT_VALUE ) ) != '';
+        return trim( $contentObjectAttribute->attribute( self::EZ_DATATYPESTRING_ISBN_CONTENT_VALUE ) ) != '';
     }
 
     /*!
@@ -457,9 +457,9 @@ class eZISBNType extends eZDataType
     */
     function cleanDBDataBeforeImport()
     {
-        include_once( 'kernel/classes/datatypes/ezisbn/ezisbngroup.php' );
-        include_once( 'kernel/classes/datatypes/ezisbn/ezisbngrouprange.php' );
-        include_once( 'kernel/classes/datatypes/ezisbn/ezisbnregistrantrange.php' );
+        //include_once( 'kernel/classes/datatypes/ezisbn/ezisbngroup.php' );
+        //include_once( 'kernel/classes/datatypes/ezisbn/ezisbngrouprange.php' );
+        //include_once( 'kernel/classes/datatypes/ezisbn/ezisbnregistrantrange.php' );
         eZISBNGroup::cleanAll();
         eZISBNGroupRange::cleanAll();
         eZISBNRegistrantRange::cleanAll();
@@ -467,6 +467,6 @@ class eZISBNType extends eZDataType
     }
 }
 
-eZDataType::register( EZ_DATATYPESTRING_ISBN, "ezisbntype" );
+eZDataType::register( eZISBNType::EZ_DATATYPESTRING_ISBN, "eZISBNType" );
 
 ?>

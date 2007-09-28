@@ -27,13 +27,13 @@
 //
 
 
-include_once( 'kernel/classes/ezworkflow.php' );
-include_once( 'kernel/classes/ezworkflowgroup.php' );
-include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
+//include_once( 'kernel/classes/ezworkflow.php' );
+//include_once( 'kernel/classes/ezworkflowgroup.php' );
+//include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
 
 $Module = $Params['Module'];
 
-// include_once( 'lib/ezutils/classes/ezexecutionstack.php' );
+// //include_once( 'lib/ezutils/classes/ezexecutionstack.php' );
 // $execStack = eZExecutionStack::instance();
 // $execStack->clear();
 // $execStack->addEntry( $Module->functionURI( 'list' ),
@@ -62,7 +62,7 @@ foreach( $workflows as $workflow )
 
 $Module->setTitle( 'Workflow list' );
 
-include_once( 'kernel/common/template.php' );
+require_once( 'kernel/common/template.php' );
 $tpl = templateInit();
 
 $tpl->setVariable( 'workflow_list', $workflowList );

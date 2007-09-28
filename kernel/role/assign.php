@@ -27,8 +27,8 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/classes/ezrole.php' );
-include_once( 'kernel/classes/ezcontentbrowse.php' );
+//include_once( 'kernel/classes/ezrole.php' );
+//include_once( 'kernel/classes/ezcontentbrowse.php' );
 
 $http = eZHTTPTool::instance();
 
@@ -83,12 +83,12 @@ else if ( $http->hasPostVariable( 'BrowseActionName' ) and
     $db->commit();
     if ( count( $selectedObjectIDArray ) > 0 )
     {
-        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearAllContentCache();
     }
 
     /* Clean up policy cache */
-    include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+    //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
     eZUser::cleanupCache();
 
     $Module->redirectTo( '/role/view/' . $roleID );
@@ -108,8 +108,8 @@ else if ( is_string( $limitIdent ) && !isset( $limitValue ) )
 
         case 'section':
         {
-            include_once( 'kernel/common/template.php' );
-            include_once( 'kernel/classes/ezsection.php' );
+            require_once( 'kernel/common/template.php' );
+            //include_once( 'kernel/classes/ezsection.php' );
             $sectionArray = eZSection::fetchList( );
             $tpl = templateInit();
             $tpl->setVariable( 'section_array', $sectionArray );

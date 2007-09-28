@@ -31,7 +31,7 @@
 /*! \file ezecbhandler.php
 */
 
-include_once( 'kernel/shop/classes/exchangeratehandlers/ezexchangeratesupdatehandler.php' );
+//include_once( 'kernel/shop/classes/exchangeratehandlers/ezexchangeratesupdatehandler.php' );
 
 class eZECBHandler extends eZExchangeRatesUpdateHandler
 {
@@ -84,7 +84,7 @@ class eZECBHandler extends eZExchangeRatesUpdateHandler
 
     function requestRates()
     {
-        $error = array( 'code' => EZ_EXCHANGE_RATES_HANDLER_OK,
+        $error = array( 'code' => self::EZ_EXCHANGE_RATES_HANDLER_OK,
                         'description' => ezi18n( 'kernel/shop', "'Autorates' were retrieved successfully" ) );
 
         $serverName = $this->serverName();
@@ -93,7 +93,7 @@ class eZECBHandler extends eZExchangeRatesUpdateHandler
 
         $ratesList = array();
 
-        include_once( 'lib/ezutils/classes/ezhttptool.php' );
+        //include_once( 'lib/ezutils/classes/ezhttptool.php' );
         $buf = eZHTTPTool::sendHTTPRequest( "{$serverName}/{$ratesURI}", $serverPort,  false, 'eZ publish', false );
         if ( $buf )
         {
@@ -125,19 +125,19 @@ class eZECBHandler extends eZExchangeRatesUpdateHandler
                 }
                 else
                 {
-                    $error['code'] = EZ_EXCHANGE_RATES_HANDLER_REQUEST_RATES_FAILED;
+                    $error['code'] = self::EZ_EXCHANGE_RATES_HANDLER_REQUEST_RATES_FAILED;
                     $error['description'] = ezi18n( 'kernel/shop', "Unknown body format in HTTP response. Expected 'text/xml'" );
                 }
             }
             else
             {
-                $error['code'] = EZ_EXCHANGE_RATES_HANDLER_REQUEST_RATES_FAILED;
+                $error['code'] = self::EZ_EXCHANGE_RATES_HANDLER_REQUEST_RATES_FAILED;
                 $error['description'] = ezi18n( 'kernel/shop', "Invalid HTTP response" );
             }
         }
         else
         {
-            $error['code'] = EZ_EXCHANGE_RATES_HANDLER_REQUEST_RATES_FAILED;
+            $error['code'] = self::EZ_EXCHANGE_RATES_HANDLER_REQUEST_RATES_FAILED;
             $error['description'] = ezi18n( 'kernel/shop', "Unable to send http request: %1:%2/%3", null, array( $serverName, $serverPort, $ratesURI ) );
         }
 

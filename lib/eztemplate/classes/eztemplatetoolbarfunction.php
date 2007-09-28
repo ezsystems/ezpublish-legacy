@@ -163,7 +163,7 @@ class eZTemplateToolbarFunction
                                                                            "    \$restoreIncludeArray[] = array( '', '$parameterName', 'unset' );\n" );
 
                     $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameterData, false, array(),
-                                                                          array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $parameterName ) );
+                                                                          array( $namespaceValue, eZTemplate::NAMESPACE_SCOPE_RELATIVE, $parameterName ) );
                     $variableList[] = $parameterName;
                 }
 
@@ -180,32 +180,32 @@ class eZTemplateToolbarFunction
                 {
                     $itemValue = $actionParameters[$key];
                     $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $itemValue, false, array(),
-                                                                          array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $key ) );
+                                                                          array( $namespaceValue, eZTemplate::NAMESPACE_SCOPE_RELATIVE, $key ) );
                     $variableList[] = $key;
                 }
 
                 // Add parameter tool_id and offset
                 $toolIDValue =  "Tool_" . $toolbarPosition . "_" . $tool . "_" . $placement;
                 $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $toolIDValue, false, array(),
-                                                                      array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, "tool_id" ) );
+                                                                      array( $namespaceValue, eZTemplate::NAMESPACE_SCOPE_RELATIVE, "tool_id" ) );
                 $variableList[] = "tool_id";
 
                 $toolOffset = $placement;
                 $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $toolOffset, false, array(),
-                                                                      array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, "offset" ) );
+                                                                      array( $namespaceValue, eZTemplate::NAMESPACE_SCOPE_RELATIVE, "offset" ) );
                 $variableList[] = "offset";
 
                 // Add parameter first, last and placement
                 $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $firstValue, false, array(),
-                                                                      array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, "first" ) );
+                                                                      array( $namespaceValue, eZTemplate::NAMESPACE_SCOPE_RELATIVE, "first" ) );
                 $variableList[] = "first";
 
                 $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $lastValue, false, array(),
-                                                                      array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, "last" ) );
+                                                                      array( $namespaceValue, eZTemplate::NAMESPACE_SCOPE_RELATIVE, "last" ) );
                 $variableList[] = "last";
 
                 $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $placementValue, false, array(),
-                                                                      array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, "placement" ) );
+                                                                      array( $namespaceValue, eZTemplate::NAMESPACE_SCOPE_RELATIVE, "placement" ) );
                 $variableList[] = "placement";
 
                 $newNodes = array_merge( $newNodes, $includeNodes );

@@ -835,7 +835,7 @@ class eZMatrix
         $xmlCharset = $ini->variable( 'RegionalSettings', 'ContentXMLCharset' );
         if ( $xmlCharset == 'enabled' )
         {
-            include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+            //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
             $charset = eZTextCodec::internalCharset();
         }
         else if ( $xmlCharset == 'disabled' )
@@ -844,7 +844,7 @@ class eZMatrix
             $charset = $xmlCharset;
         if ( $charset !== true )
         {
-            include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
+            //include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
             $charset = eZCharsetInfo::realCharsetCode( $charset );
         }
         $domString = $domDocument->saveXML();

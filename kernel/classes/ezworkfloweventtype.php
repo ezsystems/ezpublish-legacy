@@ -1,6 +1,8 @@
 <?php
 //
-// Created on: <05-Mar-2004 10:52:45 >
+// Definition of eZWorkflowEventType class
+//
+// Created on: <16-Apr-2002 11:08:14 amos>
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ publish
@@ -26,13 +28,27 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-define( 'EZ_MODULE_OPERATION_ERROR_NO_CLASS', 5 );
-define( 'EZ_MODULE_OPERATION_ERROR_NO_CLASS_METHOD', 6 );
-define( 'EZ_MODULE_OPERATION_ERROR_CLASS_INSTANTIATE_FAILED', 7 );
-define( 'EZ_MODULE_OPERATION_ERROR_MISSING_PARAMETER', 8 );
+//!! eZKernel
+//! The class eZWorkflowEventType does
+/*!
 
-define( 'EZ_MODULE_OPERATION_CONTINUE', 1 );
-define( 'EZ_MODULE_OPERATION_CANCELED', 2 );
-define( 'EZ_MODULE_OPERATION_HALTED', 3 );
+*/
+
+//include_once( "kernel/classes/ezworkflow.php" );
+require_once( "kernel/common/i18n.php" );
+require_once( "lib/ezutils/classes/ezdebug.php" );
+
+class eZWorkflowEventType extends eZWorkflowType
+{
+    function eZWorkflowEventType( $typeString, $name )
+    {
+        $this->eZWorkflowType( "event", $typeString, ezi18n( 'kernel/workflow/event', "Event" ), $name );
+    }
+
+    static function registerEventType( $typeString, $class_name )
+    {
+        eZWorkflowType::registerType( "event", $typeString, $class_name );
+    }
+}
 
 ?>

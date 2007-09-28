@@ -99,29 +99,28 @@ This is a <emphasize>block</emphasize> of text.
 
 */
 
-include_once( "kernel/classes/ezdatatype.php" );
-include_once( "kernel/common/template.php" );
-include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
-include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
-include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
-include_once( "lib/ezutils/classes/ezini.php" );
-
-
-define( "EZ_DATATYPESTRING_XML_TEXT", "ezxmltext" );
-define( 'EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD', 'data_int1' );
-define( 'EZ_DATATYPESTRING_XML_TEXT_COLS_VARIABLE', '_ezxmltext_cols_' );
-
-// The timestamp of the format for eZ publish 3.0.
-define( 'EZ_XMLTEXT_VERSION_30_TIMESTAMP', 1045487555 );
-// Contains the timestamp of the current xml format, if the stored
-// timestamp is less than this it needs to be upgraded until it is correct.
-define( 'EZ_XMLTEXT_VERSION_TIMESTAMP', EZ_XMLTEXT_VERSION_30_TIMESTAMP );
+//include_once( "kernel/classes/ezdatatype.php" );
+require_once( "kernel/common/template.php" );
+//include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
+//include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+//include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
+//include_once( "lib/ezutils/classes/ezini.php" );
 
 class eZXMLTextType extends eZDataType
 {
+    const EZ_DATATYPESTRING_XML_TEXT = "ezxmltext";
+    const EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD = 'data_int1';
+    const EZ_DATATYPESTRING_XML_TEXT_COLS_VARIABLE = '_ezxmltext_cols_';
+
+    // The timestamp of the format for eZ publish 3.0.
+    const EZ_XMLTEXT_VERSION_30_TIMESTAMP = 1045487555;
+    // Contains the timestamp of the current xml format, if the stored
+    // timestamp is less than this it needs to be upgraded until it is correct.
+    const EZ_XMLTEXT_VERSION_TIMESTAMP = 1045487555; // AS 21-09-2007: should be the same as EZ_XMLTEXT_VERSION_30_TIMESTAMP
+
     function eZXMLTextType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_XML_TEXT, ezi18n( 'kernel/classes/datatypes', "XML block", 'Datatype name' ),
+        $this->eZDataType( self::EZ_DATATYPESTRING_XML_TEXT, ezi18n( 'kernel/classes/datatypes', "XML block", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -130,8 +129,8 @@ class eZXMLTextType extends eZDataType
     */
     function initializeClassAttribute( $classAttribute )
     {
-        if ( $classAttribute->attribute( EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD ) == null )
-            $classAttribute->setAttribute( EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD, 10 );
+        if ( $classAttribute->attribute( self::EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD ) == null )
+            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD, 10 );
         $classAttribute->store();
     }
 
@@ -147,7 +146,7 @@ class eZXMLTextType extends eZDataType
         }
         else
         {
-            include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlinputparser.php' );
+            //include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlinputparser.php' );
             $parser = new eZXMLInputParser();
             $doc = $parser->createRootNode();
             $xmlText = eZXMLTextType::domString( $doc );
@@ -172,11 +171,11 @@ class eZXMLTextType extends eZDataType
 
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $column = $base . EZ_DATATYPESTRING_XML_TEXT_COLS_VARIABLE . $classAttribute->attribute( 'id' );
+        $column = $base . self::EZ_DATATYPESTRING_XML_TEXT_COLS_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $column ) )
         {
             $columnValue = $http->postVariable( $column );
-            $classAttribute->setAttribute( EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD,  $columnValue );
+            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD,  $columnValue );
             return true;
         }
         return false;
@@ -208,7 +207,7 @@ class eZXMLTextType extends eZDataType
     */
     function storeObjectAttribute( $attribute )
     {
-        $attribute->setAttribute( 'data_int', EZ_XMLTEXT_VERSION_TIMESTAMP );
+        $attribute->setAttribute( 'data_int', self::EZ_XMLTEXT_VERSION_TIMESTAMP );
     }
 
     /*!
@@ -288,13 +287,13 @@ class eZXMLTextType extends eZDataType
     {
         $text = $contentObjectAttribute->attribute( 'data_text' );
         $timestamp = $contentObjectAttribute->attribute( 'data_int' );
-        if ( $timestamp < EZ_XMLTEXT_VERSION_30_TIMESTAMP )
+        if ( $timestamp < self::EZ_XMLTEXT_VERSION_30_TIMESTAMP )
         {
-            include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+            //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
             $charset = 'UTF-8';
             $codec = eZTextCodec::instance( false, $charset );
             $text = $codec->convertString( $text );
-            $timestamp = EZ_XMLTEXT_VERSION_30_TIMESTAMP;
+            $timestamp = self::EZ_XMLTEXT_VERSION_30_TIMESTAMP;
         }
         return $text;
     }
@@ -315,7 +314,7 @@ class eZXMLTextType extends eZDataType
     */
     function objectAttributeContent( $contentObjectAttribute )
     {
-        include_once( 'kernel/classes/datatypes/ezxmltext/ezxmltext.php' );
+        //include_once( 'kernel/classes/datatypes/ezxmltext/ezxmltext.php' );
         $xmlText = new eZXMLText( eZXMLTextType::rawXMLText( $contentObjectAttribute ), $contentObjectAttribute );
         return $xmlText;
     }
@@ -428,7 +427,7 @@ class eZXMLTextType extends eZDataType
     */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $textColumns = $classAttribute->attribute( EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD );
+        $textColumns = $classAttribute->attribute( self::EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD );
         $textColumnCountNode = $attributeParametersNode->ownerDocument->createElement( 'text-column-count', $textColumns );
         $attributeParametersNode->appendChild( $textColumnCountNode );
     }
@@ -439,7 +438,7 @@ class eZXMLTextType extends eZDataType
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $textColumns = $attributeParametersNode->getElementsByTagName( 'text-column-count' )->item( 0 )->textContent;
-        $classAttribute->setAttribute( EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD, $textColumns );
+        $classAttribute->setAttribute( self::EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD, $textColumns );
     }
 
     /*!
@@ -471,8 +470,8 @@ class eZXMLTextType extends eZDataType
              * - remove "id" attribute.
              */
 
-            include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
-            include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+            //include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
+            //include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
 
             $links = $doc->getElementsByTagName( 'link' );
             $embeds = $doc->getElementsByTagName( 'embed' );
@@ -554,8 +553,8 @@ class eZXMLTextType extends eZDataType
          * After that, remove "href" attribute, add new "id" attribute.
          * This new 'id' will always refer to the existing url object.
          */
-        include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
-        include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+        //include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
+        //include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
 
         $linkNodes = $attributeNode->getElementsByTagName( 'link' );
 
@@ -653,7 +652,7 @@ class eZXMLTextType extends eZDataType
                 // add as related object
                 if ( $contentObject )
                 {
-                    $relationType = $node->localName == 'link' ? EZ_CONTENT_OBJECT_RELATION_LINK : EZ_CONTENT_OBJECT_RELATION_EMBED;
+                    $relationType = $node->localName == 'link' ? eZContentObject::RELATION_LINK : eZContentObject::RELATION_EMBED;
                     $contentObject->addContentObjectRelation( $objectID, $objectAttribute->attribute( 'version' ), 0, $relationType );
                 }
             }
@@ -677,7 +676,7 @@ class eZXMLTextType extends eZDataType
                     $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
                     if ( $node )
                     {
-                        $relationType = $node->nodeName == 'link' ? EZ_CONTENT_OBJECT_RELATION_LINK : EZ_CONTENT_OBJECT_RELATION_EMBED;
+                        $relationType = $node->nodeName == 'link' ? eZContentObject::RELATION_LINK : eZContentObject::RELATION_EMBED;
                         $contentObject->addContentObjectRelation( $node['contentobject_id'], $objectAttribute->attribute( 'version' ), 0, $relationType );
                     }
                 }
@@ -698,7 +697,7 @@ class eZXMLTextType extends eZDataType
 
         /* First we remove the link between the keyword and the object
          * attribute to be removed */
-        include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
+        //include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
         if ( $version == null )
         {
             eZPersistentObject::removeObject( eZURLObjectLink::definition(),
@@ -744,7 +743,7 @@ class eZXMLTextType extends eZDataType
     */
     function diff( $old, $new, $options = false )
     {
-        include_once( 'lib/ezdiff/classes/ezdiff.php' );
+        //include_once( 'lib/ezdiff/classes/ezdiff.php' );
         $diff = new eZDiff();
         $diff->setDiffEngineType( $diff->engineType( 'xml' ) );
         $diff->initDiffEngine();
@@ -754,6 +753,6 @@ class eZXMLTextType extends eZDataType
 
 }
 
-eZDataType::register( EZ_DATATYPESTRING_XML_TEXT, "ezXMLTextType" );
+eZDataType::register( eZXMLTextType::EZ_DATATYPESTRING_XML_TEXT, "eZXMLTextType" );
 
 ?>

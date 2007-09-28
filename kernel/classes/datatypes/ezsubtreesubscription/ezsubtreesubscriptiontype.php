@@ -37,18 +37,18 @@
   \brief The class eZSubtreeSubscriptionType does
 
 */
-include_once( "kernel/classes/ezdatatype.php" );
-
-define( "EZ_DATATYPESTRING_SUBTREESUBSCRIPTION", "ezsubtreesubscription" );
+//include_once( "kernel/classes/ezdatatype.php" );
 
 class eZSubtreeSubscriptionType extends eZDataType
 {
+    const EZ_DATATYPESTRING_SUBTREESUBSCRIPTION = "ezsubtreesubscription";
+
     /*!
      Constructor
     */
     function eZSubtreeSubscriptionType()
     {
-        $this->eZDataType(  EZ_DATATYPESTRING_SUBTREESUBSCRIPTION, ezi18n( 'kernel/classes/datatypes', "Subtree subscription", 'Datatype name' ),
+        $this->eZDataType(  self::EZ_DATATYPESTRING_SUBTREESUBSCRIPTION, ezi18n( 'kernel/classes/datatypes', "Subtree subscription", 'Datatype name' ),
                             array( 'serialize_supported' => true,
                                    'object_serialize_map' => array( 'data_int' => 'value' ) ) );
     }
@@ -59,7 +59,7 @@ class eZSubtreeSubscriptionType extends eZDataType
     */
     function onPublish( $attribute, $contentObject, $publishedNodes )
     {
-        include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreenotificationrule.php' );
+        //include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreenotificationrule.php' );
         $user = eZUser::currentUser();
         $address = $user->attribute( 'email' );
         $userID = $user->attribute( 'contentobject_id' );
@@ -170,6 +170,6 @@ class eZSubtreeSubscriptionType extends eZDataType
     }
 }
 
-eZDataType::register( EZ_DATATYPESTRING_SUBTREESUBSCRIPTION, "ezsubtreesubscriptiontype" );
+eZDataType::register( eZSubtreeSubscriptionType::EZ_DATATYPESTRING_SUBTREESUBSCRIPTION, "eZSubtreeSubscriptionType" );
 
 ?>

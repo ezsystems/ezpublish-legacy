@@ -38,10 +38,10 @@ error_reporting ( E_ALL );
 // Turn off session stuff, isn't needed for WebDAV operations.
 $GLOBALS['eZSiteBasics']['session-required'] = false;
 
-include_once( "lib/ezutils/classes/ezdebug.php" );
-include_once( "lib/ezutils/classes/ezsys.php" );
-include_once( "lib/ezutils/classes/ezini.php" );
-include_once( "kernel/classes/webdav/ezwebdavcontentserver.php" );
+require_once( "lib/ezutils/classes/ezdebug.php" );
+//include_once( "lib/ezutils/classes/ezsys.php" );
+//include_once( "lib/ezutils/classes/ezini.php" );
+//include_once( "kernel/classes/webdav/ezwebdavcontentserver.php" );
 
 /*! Reads settings from site.ini and passes them to eZDebug.
  */
@@ -65,7 +65,7 @@ function eZUpdateTextCodecSettings()
     list( $i18nSettings['internal-charset'], $i18nSettings['http-charset'], $i18nSettings['mbstring-extension'] ) =
         $ini->variableMulti( 'CharacterSettings', array( 'Charset', 'HTTPCharset', 'MBStringExtension' ), array( false, false, 'enabled' ) );
 
-    include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+    //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
     eZTextCodec::updateSettings( $i18nSettings );
 }
 
@@ -73,8 +73,8 @@ function eZUpdateTextCodecSettings()
 eZUpdateTextCodecSettings();
 
 // Check for extension
-include_once( 'lib/ezutils/classes/ezextension.php' );
-include_once( 'kernel/common/ezincludefunctions.php' );
+//include_once( 'lib/ezutils/classes/ezextension.php' );
+require_once( 'kernel/common/ezincludefunctions.php' );
 eZExtension::activateExtensions( 'default' );
 // Extension check end
 
@@ -101,10 +101,10 @@ function eZDBCleanup()
 
 function eZFatalError()
 {
-    eZDebug::setHandleType( EZ_HANDLE_NONE );
+    eZDebug::setHandleType( eZDebug::EZ_HANDLE_NONE );
     if ( !class_exists( 'eZWebDAVServer' ) )
     {
-        include_once( "lib/ezwebdav/classes/ezwebdavserver.php" );
+        //include_once( "lib/ezwebdav/classes/ezwebdavserver.php" );
     }
     eZWebDAVServer::appendLogEntry( "****************************************" );
     eZWebDAVServer::appendLogEntry( "Fatal error: eZ publish did not finish its request" );
@@ -117,10 +117,10 @@ function eZFatalError()
 // Check and proceed only if WebDAV functionality is enabled:
 if ( $enable === 'true' )
 {
-    include_once( 'lib/ezutils/classes/ezexecution.php' );
+    require_once( 'lib/ezutils/classes/ezexecution.php' );
     eZExecution::addCleanupHandler( 'eZDBCleanup' );
     eZExecution::addFatalErrorHandler( 'eZFatalError' );
-    eZDebug::setHandleType( EZ_HANDLE_TO_PHP );
+    eZDebug::setHandleType( eZDebug::EZ_HANDLE_TO_PHP );
 
     if ( !isset( $_SERVER['REQUEST_URI'] ) or
          !isset( $_SERVER['REQUEST_METHOD'] ) )
@@ -129,11 +129,11 @@ if ( $enable === 'true' )
         // e.g. if run from the shell
         eZExecution::cleanExit();
     }
-    include_once( "lib/ezutils/classes/ezmodule.php" );
-    include_once( 'lib/ezutils/classes/ezexecution.php' );
-    include_once( "lib/ezutils/classes/ezsession.php" );
-    include_once( "access.php" );
-    include_once( "kernel/common/i18n.php" );
+    //include_once( "lib/ezutils/classes/ezmodule.php" );
+    require_once( 'lib/ezutils/classes/ezexecution.php' );
+    require_once( "lib/ezutils/classes/ezsession.php" );
+    require_once( "access.php" );
+    require_once( "kernel/common/i18n.php" );
 
     eZModule::setGlobalPathList( array( "kernel" ) );
     eZWebDAVServer::appendLogEntry( "========================================" );
@@ -181,7 +181,7 @@ if ( $enable === 'true' )
             $user = false;
             if ( isset( $loginUsername ) && isset( $loginPassword ) )
             {
-                include_once( 'kernel/classes/datatypes/ezuser/ezuserloginhandler.php' );
+                //include_once( 'kernel/classes/datatypes/ezuser/ezuserloginhandler.php' );
 
                 if ( $ini->hasVariable( 'UserSettings', 'LoginHandler' ) )
                 {
@@ -206,7 +206,7 @@ if ( $enable === 'true' )
             if ( strtolower( get_class( $user ) ) != 'ezuser' )
             {
                 header( 'HTTP/1.0 401 Unauthorized' );
-                header( 'WWW-Authenticate: Basic realm="' . WEBDAV_AUTH_REALM . '"' );
+                header( 'WWW-Authenticate: Basic realm="' . eZWebDAVContentServer::WEBDAV_AUTH_REALM . '"' );
 
                // Read XML body and discard it
                file_get_contents( "php://input" );

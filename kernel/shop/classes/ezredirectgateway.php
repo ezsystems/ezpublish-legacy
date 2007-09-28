@@ -40,13 +40,13 @@
   throught callbacks(postbacks).
 */
 
-define( "EZ_REDIRECT_GATEWAY_OBJECT_NOT_CREATED", 1 );
-define( "EZ_REDIRECT_GATEWAY_OBJECT_CREATED"    , 2 );
-
-include_once( 'kernel/shop/classes/ezpaymentgateway.php' );
+//include_once( 'kernel/shop/classes/ezpaymentgateway.php' );
 
 class eZRedirectGateway extends eZPaymentGateway
 {
+    const EZ_REDIRECT_GATEWAY_OBJECT_NOT_CREATED = 1;
+    const EZ_REDIRECT_GATEWAY_OBJECT_CREATED = 2;
+
     /*!
     Constructor.
     */
@@ -69,10 +69,10 @@ class eZRedirectGateway extends eZPaymentGateway
 
         switch ( $process->attribute( 'event_state' ) )
         {
-            case EZ_REDIRECT_GATEWAY_OBJECT_CREATED:
+            case self::EZ_REDIRECT_GATEWAY_OBJECT_CREATED:
             {
                 //__DEBUG__
-                $this->logger->writeTimedString("case EZ_REDIRECT_GATEWAY_OBJECT_CREATED");
+                $this->logger->writeTimedString("case eZRedirectGateway::EZ_REDIRECT_GATEWAY_OBJECT_CREATED");
                 //___end____
 
                 $thePayment = eZPaymentObject::fetchByProcessID( $processID );
@@ -81,7 +81,7 @@ class eZRedirectGateway extends eZPaymentGateway
                     //__DEBUG__
                     $this->logger->writeTimedString("Payment accepted.");
                     //___end____
-                    return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
+                    return eZWorkflowType::STATUS_ACCEPTED;
                 }
                 //__DEBUG__
                 else
@@ -90,12 +90,12 @@ class eZRedirectGateway extends eZPaymentGateway
                 }
                 //___end____
 
-                return EZ_WORKFLOW_TYPE_STATUS_REJECTED;
+                return eZWorkflowType::STATUS_REJECTED;
             }break;
 
-            case EZ_REDIRECT_GATEWAY_OBJECT_NOT_CREATED:
+            case self::EZ_REDIRECT_GATEWAY_OBJECT_NOT_CREATED:
                 //__DEBUG__
-                $this->logger->writeTimedString("case EZ_REDIRECT_GATEWAY_OBJECT_NOT_CREATED");
+                $this->logger->writeTimedString("case eZRedirectGateway::EZ_REDIRECT_GATEWAY_OBJECT_NOT_CREATED");
                 //___end____
 
             default:
@@ -106,7 +106,7 @@ class eZRedirectGateway extends eZPaymentGateway
                 if( is_object( $paymentObject ) )
                 {
                     $paymentObject->store();
-                    $process->setAttribute( 'event_state', EZ_REDIRECT_GATEWAY_OBJECT_CREATED );
+                    $process->setAttribute( 'event_state', self::EZ_REDIRECT_GATEWAY_OBJECT_CREATED );
 
                     $process->RedirectUrl = $this->createRedirectionUrl( $process );
                 }
@@ -115,15 +115,15 @@ class eZRedirectGateway extends eZPaymentGateway
                     //__DEBUG__
                     $this->logger->writeTimedString("Unable to create 'eZPaymentObject'. Payment rejected.");
                     //___end____
-                    return EZ_WORKFLOW_TYPE_STATUS_REJECTED;
+                    return eZWorkflowType::STATUS_REJECTED;
                 }
             }break;
         };
 
         //__DEBUG__
-        $this->logger->writeTimedString("return EZ_WORKFLOW_TYPE_STATUS_REDIRECT_REPEAT");
+        $this->logger->writeTimedString("return eZWorkflowType::STATUS_REDIRECT_REPEAT");
         //___end____
-        return EZ_WORKFLOW_TYPE_STATUS_REDIRECT_REPEAT;
+        return eZWorkflowType::STATUS_REDIRECT_REPEAT;
     }
 
     function needCleanup()

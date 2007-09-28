@@ -219,127 +219,117 @@ Denne koster {1.4|l10n(currency)}<br>
 \endcode
 */
 
-include_once( "lib/ezutils/classes/ezdebug.php" );
+require_once( "lib/ezutils/classes/ezdebug.php" );
 
-include_once( "lib/eztemplate/classes/eztemplatefileresource.php" );
+//include_once( "lib/eztemplate/classes/eztemplatefileresource.php" );
 
-include_once( "lib/eztemplate/classes/eztemplateroot.php" );
-include_once( "lib/eztemplate/classes/eztemplatetextelement.php" );
-include_once( "lib/eztemplate/classes/eztemplatevariableelement.php" );
-include_once( "lib/eztemplate/classes/eztemplateoperatorelement.php" );
-include_once( "lib/eztemplate/classes/eztemplatefunctionelement.php" );
-
-define( "EZ_RESOURCE_FETCH", 1 );
-define( "EZ_RESOURCE_QUERY", 2 );
-
-define( "EZ_ELEMENT_TEXT", 1 );
-define( "EZ_ELEMENT_SINGLE_TAG", 2 );
-define( "EZ_ELEMENT_NORMAL_TAG", 3 );
-define( "EZ_ELEMENT_END_TAG", 4 );
-define( "EZ_ELEMENT_VARIABLE", 5 );
-define( "EZ_ELEMENT_COMMENT", 6 );
-
-define( "EZ_TEMPLATE_NODE_ROOT", 1 );
-define( "EZ_TEMPLATE_NODE_TEXT", 2 );
-define( "EZ_TEMPLATE_NODE_VARIABLE", 3 );
-define( "EZ_TEMPLATE_NODE_FUNCTION", 4 );
-define( "EZ_TEMPLATE_NODE_OPERATOR", 5 );
-
-
-define( "EZ_TEMPLATE_NODE_INTERNAL", 100 );
-define( "EZ_TEMPLATE_NODE_INTERNAL_CODE_PIECE", 101 );
-
-define( "EZ_TEMPLATE_NODE_INTERNAL_VARIABLE_SET", 105 );
-define( "EZ_TEMPLATE_NODE_INTERNAL_VARIABLE_UNSET", 102 );
-
-define( "EZ_TEMPLATE_NODE_INTERNAL_NAMESPACE_CHANGE", 103 );
-define( "EZ_TEMPLATE_NODE_INTERNAL_NAMESPACE_RESTORE", 104 );
-
-define( "EZ_TEMPLATE_NODE_INTERNAL_WARNING", 120 );
-define( "EZ_TEMPLATE_NODE_INTERNAL_ERROR", 121 );
-
-define( "EZ_TEMPLATE_NODE_INTERNAL_RESOURCE_ACQUISITION", 140 );
-define( "EZ_TEMPLATE_NODE_OPTIMIZED_RESOURCE_ACQUISITION", 141 );
-
-define( "EZ_TEMPLATE_NODE_INTERNAL_OUTPUT_ASSIGN", 150 );
-define( "EZ_TEMPLATE_NODE_INTERNAL_OUTPUT_READ", 151 );
-define( "EZ_TEMPLATE_NODE_INTERNAL_OUTPUT_INCREASE", 152 );
-define( "EZ_TEMPLATE_NODE_INTERNAL_OUTPUT_DECREASE", 153 );
-
-define( "EZ_TEMPLATE_NODE_INTERNAL_SPACING_INCREASE", 160 );
-define( "EZ_TEMPLATE_NODE_INTERNAL_SPACING_DECREASE", 161 );
-
-define( "EZ_TEMPLATE_NODE_OPTIMIZED_INIT", 201 );
-
-
-define( "EZ_TEMPLATE_NODE_USER_CUSTOM", 1000 );
-
-
-define( "EZ_TEMPLATE_TYPE_VOID", 0 );
-define( "EZ_TEMPLATE_TYPE_STRING", 1 );
-define( "EZ_TEMPLATE_TYPE_NUMERIC", 2 );
-define( "EZ_TEMPLATE_TYPE_IDENTIFIER", 3 );
-define( "EZ_TEMPLATE_TYPE_VARIABLE", 4 );
-define( "EZ_TEMPLATE_TYPE_ATTRIBUTE", 5 );
-define( "EZ_TEMPLATE_TYPE_OPERATOR", 6 );
-define( "EZ_TEMPLATE_TYPE_BOOLEAN", 7 );
-define( "EZ_TEMPLATE_TYPE_ARRAY", 8 );
-define( "EZ_TEMPLATE_TYPE_DYNAMIC_ARRAY", 9 );
-
-define( "EZ_TEMPLATE_TYPE_INTERNAL", 100 );
-define( "EZ_TEMPLATE_TYPE_INTERNAL_CODE_PIECE", 101 );
-define( "EZ_TEMPLATE_TYPE_PHP_VARIABLE", 102 );
-
-define( "EZ_TEMPLATE_TYPE_OPTIMIZED_NODE", 201 );
-define( "EZ_TEMPLATE_TYPE_OPTIMIZED_ARRAY_LOOKUP", 202 );
-define( "EZ_TEMPLATE_TYPE_OPTIMIZED_CONTENT_CALL", 203 );
-define( "EZ_TEMPLATE_TYPE_OPTIMIZED_ATTRIBUTE_LOOKUP", 204 );
-
-define( "EZ_TEMPLATE_TYPE_INTERNAL_STOP", 999 );
-
-
-define( "EZ_TEMPLATE_TYPE_STRING_BIT", (1 << (EZ_TEMPLATE_TYPE_STRING - 1)) );
-define( "EZ_TEMPLATE_TYPE_NUMERIC_BIT", (1 << (EZ_TEMPLATE_TYPE_NUMERIC - 1)) );
-define( "EZ_TEMPLATE_TYPE_IDENTIFIER_BIT", (1 << (EZ_TEMPLATE_TYPE_IDENTIFIER - 1)) );
-define( "EZ_TEMPLATE_TYPE_VARIABLE_BIT", (1 << (EZ_TEMPLATE_TYPE_VARIABLE - 1)) );
-define( "EZ_TEMPLATE_TYPE_ATTRIBUTE_BIT", (1 << (EZ_TEMPLATE_TYPE_ATTRIBUTE - 1)) );
-define( "EZ_TEMPLATE_TYPE_OPERATOR_BIT", (1 << (EZ_TEMPLATE_TYPE_OPERATOR - 1)) );
-
-define( "EZ_TEMPLATE_TYPE_NONE", 0 );
-
-define( "EZ_TEMPLATE_TYPE_ALL", (EZ_TEMPLATE_TYPE_STRING_BIT |
-                                 EZ_TEMPLATE_TYPE_NUMERIC_BIT |
-                                 EZ_TEMPLATE_TYPE_IDENTIFIER_BIT |
-                                 EZ_TEMPLATE_TYPE_VARIABLE_BIT |
-                                 EZ_TEMPLATE_TYPE_ATTRIBUTE_BIT |
-                                 EZ_TEMPLATE_TYPE_OPERATOR_BIT ) );
-
-define( "EZ_TEMPLATE_TYPE_BASIC", (EZ_TEMPLATE_TYPE_STRING_BIT |
-                                   EZ_TEMPLATE_TYPE_NUMERIC_BIT |
-                                   EZ_TEMPLATE_TYPE_IDENTIFIER_BIT |
-                                   EZ_TEMPLATE_TYPE_VARIABLE_BIT |
-                                   EZ_TEMPLATE_TYPE_OPERATOR_BIT ) );
-
-define( "EZ_TEMPLATE_TYPE_MODIFIER_MASK", (EZ_TEMPLATE_TYPE_ATTRIBUTE_BIT |
-                                           EZ_TEMPLATE_TYPE_OPERATOR_BIT) );
-
-define( "EZ_TEMPLATE_NAMESPACE_SCOPE_GLOBAL", 1 );
-define( "EZ_TEMPLATE_NAMESPACE_SCOPE_LOCAL", 2 );
-define( "EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE", 3 );
-
-define( "EZ_TEMPLATE_DEBUG_INTERNALS", false );
-
-define( 'EZ_ERROR_TEMPLATE_FILE_ERRORS', 1 );
+//include_once( "lib/eztemplate/classes/eztemplateroot.php" );
+//include_once( "lib/eztemplate/classes/eztemplatetextelement.php" );
+//include_once( "lib/eztemplate/classes/eztemplatevariableelement.php" );
+//include_once( "lib/eztemplate/classes/eztemplateoperatorelement.php" );
+//include_once( "lib/eztemplate/classes/eztemplatefunctionelement.php" );
 
 class eZTemplate
 {
+    const RESOURCE_FETCH = 1;
+    const RESOURCE_QUERY = 2;
+
+    const ELEMENT_TEXT = 1;
+    const ELEMENT_SINGLE_TAG = 2;
+    const ELEMENT_NORMAL_TAG = 3;
+    const ELEMENT_END_TAG = 4;
+    const ELEMENT_VARIABLE = 5;
+    const ELEMENT_COMMENT = 6;
+
+    const NODE_ROOT = 1;
+    const NODE_TEXT = 2;
+    const NODE_VARIABLE = 3;
+    const NODE_FUNCTION = 4;
+    const NODE_OPERATOR = 5;
+
+
+    const NODE_INTERNAL = 100;
+    const NODE_INTERNAL_CODE_PIECE = 101;
+
+    const NODE_INTERNAL_VARIABLE_SET = 105;
+    const NODE_INTERNAL_VARIABLE_UNSET = 102;
+
+    const NODE_INTERNAL_NAMESPACE_CHANGE = 103;
+    const NODE_INTERNAL_NAMESPACE_RESTORE = 104;
+
+    const NODE_INTERNAL_WARNING = 120;
+    const NODE_INTERNAL_ERROR = 121;
+
+    const NODE_INTERNAL_RESOURCE_ACQUISITION = 140;
+    const NODE_OPTIMIZED_RESOURCE_ACQUISITION = 141;
+
+    const NODE_INTERNAL_OUTPUT_ASSIGN = 150;
+    const NODE_INTERNAL_OUTPUT_READ = 151;
+    const NODE_INTERNAL_OUTPUT_INCREASE = 152;
+    const NODE_INTERNAL_OUTPUT_DECREASE = 153;
+
+    const NODE_INTERNAL_OUTPUT_SPACING_INCREASE = 160;
+    const NODE_INTERNAL_SPACING_DECREASE = 161;
+
+    const NODE_OPTIMIZED_INIT = 201;
+
+
+    const NODE_USER_CUSTOM = 1000;
+
+
+    const TYPE_VOID = 0;
+    const TYPE_STRING = 1;
+    const TYPE_NUMERIC = 2;
+    const TYPE_IDENTIFIER = 3;
+    const TYPE_VARIABLE = 4;
+    const TYPE_ATTRIBUTE = 5;
+    const TYPE_OPERATOR = 6;
+    const TYPE_BOOLEAN = 7;
+    const TYPE_ARRAY = 8;
+    const TYPE_DYNAMIC_ARRAY = 9;
+
+    const TYPE_INTERNAL = 100;
+    const TYPE_INTERNAL_CODE_PIECE = 101;
+    const TYPE_PHP_VARIABLE = 102;
+
+    const TYPE_OPTIMIZED_NODE = 201;
+    const TYPE_OPTIMIZED_ARRAY_LOOKUP = 202;
+    const TYPE_OPTIMIZED_CONTENT_CALL = 203;
+    const TYPE_OPTIMIZED_ATTRIBUTE_LOOKUP = 204;
+
+    const TYPE_INTERNAL_STOP = 999;
+
+
+    const TYPE_STRING_BIT = 1;
+    const TYPE_NUMERIC_BIT = 2;
+    const TYPE_IDENTIFIER_BIT = 4;
+    const TYPE_VARIABLE_BIT = 8;
+    const TYPE_ATTRIBUTE_BIT = 16;
+    const TYPE_OPERATOR_BIT = 32;
+
+    const TYPE_NONE = 0;
+
+    const TYPE_ALL = 63;
+
+    const TYPE_BASIC = 47;
+
+    const TYPE_MODIFIER_MASK = 48;
+
+    const NAMESPACE_SCOPE_GLOBAL = 1;
+    const NAMESPACE_SCOPE_LOCAL = 2;
+    const NAMESPACE_SCOPE_RELATIVE = 3;
+
+    const DEBUG_INTERNALS = false;
+
+    const FILE_ERRORS = 1;
+
     /*!
      Intializes the template with left and right delimiters being { and },
      and a file resource. The literal tag "literal" is also registered.
     */
     function eZTemplate()
     {
-        $this->Tree = array( EZ_TEMPLATE_NODE_ROOT, false );
+        $this->Tree = array( eZTemplate::NODE_ROOT, false );
         $this->LDelim = "{";
         $this->RDelim = "}";
 
@@ -371,7 +361,7 @@ class eZTemplate
         $ini = eZINI::instance( 'template.ini' );
         if ( $ini->hasVariable( 'ControlSettings', 'MaxLevel' ) )
              $this->MaxLevel = $ini->variable( 'ControlSettings', 'MaxLevel' );
-        include_once('kernel/common/i18n.php');
+        require_once('kernel/common/i18n.php');
         $this->MaxLevelWarning = ezi18n( 'lib/template',
                                          'The maximum nesting level of 40 has been reached. The execution is stopped to avoid infinite recursion.' );
         eZDebug::createAccumulatorGroup( 'template_total', 'Template Total' );
@@ -625,7 +615,7 @@ class eZTemplate
     {
         $rslt = null;
         $nodeType = $node[0];
-        if ( $nodeType == EZ_TEMPLATE_NODE_ROOT )
+        if ( $nodeType == eZTemplate::NODE_ROOT )
         {
             $children = $node[1];
             if ( $children )
@@ -639,11 +629,11 @@ class eZTemplate
                 }
             }
         }
-        else if ( $nodeType == EZ_TEMPLATE_NODE_TEXT )
+        else if ( $nodeType == eZTemplate::NODE_TEXT )
         {
             $textElements[] = $node[2];
         }
-        else if ( $nodeType == EZ_TEMPLATE_NODE_VARIABLE )
+        else if ( $nodeType == eZTemplate::NODE_VARIABLE )
         {
             $variableData = $node[2];
             $variablePlacement = $node[3];
@@ -652,7 +642,7 @@ class eZTemplate
                 eZDebug::writeError( "Textelements is no longer array: '$textElements'",
                                      'eztemplate::processNode::variable' );
         }
-        else if ( $nodeType == EZ_TEMPLATE_NODE_FUNCTION )
+        else if ( $nodeType == eZTemplate::NODE_FUNCTION )
         {
             $functionChildren = $node[1];
             $functionName = $node[2];
@@ -730,7 +720,7 @@ class eZTemplate
 
     function parse( $sourceText, &$rootElement, $rootNamespace, &$resourceData )
     {
-        include_once( 'lib/eztemplate/classes/eztemplatemultipassparser.php' );
+        //include_once( 'lib/eztemplate/classes/eztemplatemultipassparser.php' );
         $parser = eZTemplateMultiPassParser::instance();
         $parser->parse( $this, $sourceText, $rootElement, $rootNamespace, $resourceData );
     }
@@ -746,7 +736,7 @@ class eZTemplate
         $resourceData['key-data'] = null;
         $resourceData['locales'] = null;
 
-        if ( !$resourceObject->handleResource( $this, $resourceData, EZ_RESOURCE_FETCH, $extraParameters ) )
+        if ( !$resourceObject->handleResource( $this, $resourceData, eZTemplate::RESOURCE_FETCH, $extraParameters ) )
         {
             $resourceData = null;
             if ( $displayErrors )
@@ -812,7 +802,7 @@ class eZTemplate
             if ( !$resourceData['compiled-template'] and
                  $resourceData['root-node'] === null )
             {
-                $resourceData['root-node'] = array( EZ_TEMPLATE_NODE_ROOT, false );
+                $resourceData['root-node'] = array( eZTemplate::NODE_ROOT, false );
                 $templateText = $resourceData["text"];
                 $keyData = $resourceData['key-data'];
                 $this->setIncludeText( $uri, $templateText );
@@ -929,13 +919,13 @@ class eZTemplate
         $isCachingAllowed = $this->IsCachingAllowed;
         $this->IsCachingAllowed = false;
 
-        $resourceHandler->handleResource( $this, $resourceData, EZ_RESOURCE_FETCH, $extraParameters );
+        $resourceHandler->handleResource( $this, $resourceData, eZTemplate::RESOURCE_FETCH, $extraParameters );
 
         // Restore previous caching flag
         $this->IsCachingAllowed = $isCachingAllowed;
 
         $root =& $resourceData['root-node'];
-        $root = array( EZ_TEMPLATE_NODE_ROOT, false );
+        $root = array( eZTemplate::NODE_ROOT, false );
         $templateText = $resourceData["text"];
         $rootNamespace = '';
         $this->parse( $templateText, $root, $rootNamespace, $resourceData );
@@ -971,7 +961,7 @@ class eZTemplate
         $resourceData['key-data'] = "file:" . $file;
         $key = md5( $resourceData['key-data'] );
         $extraParameters = array();
-        $resourceHandler->handleResource( $this, $resourceData, EZ_RESOURCE_FETCH, $extraParameters );
+        $resourceHandler->handleResource( $this, $resourceData, eZTemplate::RESOURCE_FETCH, $extraParameters );
 
         $isCompiled = false;
         if ( isset( $resourceData['compiled-template'] ) )
@@ -980,7 +970,7 @@ class eZTemplate
         if ( !$isCompiled )
         {
             $root =& $resourceData['root-node'];
-            $root = array( EZ_TEMPLATE_NODE_ROOT, false );
+            $root = array( eZTemplate::NODE_ROOT, false );
             $templateText = $resourceData["text"];
             $rootNamespace = '';
             $this->parse( $templateText, $root, $rootNamespace, $resourceData );
@@ -1134,7 +1124,7 @@ class eZTemplate
             $dataType = $dataElement[0];
             switch ( $dataType )
             {
-                case EZ_TEMPLATE_TYPE_VOID:
+                case eZTemplate::TYPE_VOID:
                 {
                     if ( !$checkExistance )
                         $this->warning( 'elementValue',
@@ -1144,25 +1134,25 @@ class eZTemplate
                         return null;
                     }
                 } break;
-                case EZ_TEMPLATE_TYPE_STRING:
-                case EZ_TEMPLATE_TYPE_NUMERIC:
-                case EZ_TEMPLATE_TYPE_IDENTIFIER:
-                case EZ_TEMPLATE_TYPE_BOOLEAN:
-                case EZ_TEMPLATE_TYPE_ARRAY:
+                case eZTemplate::TYPE_STRING:
+                case eZTemplate::TYPE_NUMERIC:
+                case eZTemplate::TYPE_IDENTIFIER:
+                case eZTemplate::TYPE_BOOLEAN:
+                case eZTemplate::TYPE_ARRAY:
                 {
                     $value = $dataElement[1];
                 } break;
-                case EZ_TEMPLATE_TYPE_VARIABLE:
+                case eZTemplate::TYPE_VARIABLE:
                 {
                     $variableData = $dataElement[1];
                     $variableNamespace = $variableData[0];
                     $variableNamespaceScope = $variableData[1];
                     $variableName = $variableData[2];
-                    if ( $variableNamespaceScope == EZ_TEMPLATE_NAMESPACE_SCOPE_GLOBAL )
+                    if ( $variableNamespaceScope == eZTemplate::NAMESPACE_SCOPE_GLOBAL )
                         $namespace = $variableNamespace;
-                    else if ( $variableNamespaceScope == EZ_TEMPLATE_NAMESPACE_SCOPE_LOCAL )
+                    else if ( $variableNamespaceScope == eZTemplate::NAMESPACE_SCOPE_LOCAL )
                         $namespace = $this->mergeNamespace( $rootNamespace, $variableNamespace );
-                    else if ( $variableNamespaceScope == EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE )
+                    else if ( $variableNamespaceScope == eZTemplate::NAMESPACE_SCOPE_RELATIVE )
                         $namespace = $this->mergeNamespace( $currentNamespace, $variableNamespace );
                     else
                         $namespace = false;
@@ -1179,7 +1169,7 @@ class eZTemplate
                         }
                     }
                 } break;
-                case EZ_TEMPLATE_TYPE_ATTRIBUTE:
+                case eZTemplate::TYPE_ATTRIBUTE:
                 {
                     $attributeData = $dataElement[1];
                     $attributeValue = $this->elementValue( $attributeData, $rootNamespace, $currentNamespace, false, $checkExistance );
@@ -1274,7 +1264,7 @@ class eZTemplate
                         return null;
                     }
                 } break;
-                case EZ_TEMPLATE_TYPE_OPERATOR:
+                case eZTemplate::TYPE_OPERATOR:
                 {
                     $operatorParameters = $dataElement[1];
                     $operatorName = $operatorParameters[0];
@@ -1352,7 +1342,7 @@ class eZTemplate
         {
             if ( !isset( $operatorParameters[$i] ) or
                  !isset( $operatorParameters[$i][0] ) or
-                 $operatorParameters[$i][0] == EZ_TEMPLATE_TYPE_VOID )
+                 $operatorParameters[$i][0] == eZTemplate::TYPE_VOID )
             {
                 if ( $parameterType["required"] )
                 {
@@ -1719,7 +1709,7 @@ class eZTemplate
                         $templateURI =& $templateData['uri'];
                         $templateVariableName =& $templateData['template_variable_name'];
                         $templateText = '';
-                        include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
+                        //include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
                         $this->setVariableRef( $templateVariableName, $item, $name );
                         eZTemplateIncludeFunction::handleInclude( $textElements, $templateURI, $this, $nspace, $name );
                         $hasTemplateData = true;
@@ -1748,7 +1738,7 @@ class eZTemplate
         if ( eZTemplate::isXHTMLCodeIncluded() )
             $preText .= "<p class=\"small\">$path</p><br/>\n";
         $postText = "\n<!-- STOP: including template: $path ($uri) -->\n";
-        include_once( 'lib/eztemplate/classes/eztemplatenodetool.php' );
+        //include_once( 'lib/eztemplate/classes/eztemplatenodetool.php' );
         $root[1] = array_merge( array( eZTemplateNodeTool::createTextNode( $preText ) ), $root[1] );
         $root[1][] = eZTemplateNodeTool::createTextNode( $postText );
     }
@@ -2163,7 +2153,7 @@ class eZTemplate
                 if ( function_exists( 'eZAppendWarningItem' ) )
                 {
                     eZAppendWarningItem( array( 'error' => array( 'type' => 'template',
-                                                                  'number' => EZ_ERROR_TEMPLATE_FILE_ERRORS ),
+                                                                  'number' => eZTemplate::FILE_ERRORS ),
                                                 'text' => ezi18n( 'lib/eztemplate', 'Some template errors occurred, see debug for more information.' ) ) );
                     $hasAppendWarning = true;
                 }
@@ -2363,7 +2353,7 @@ class eZTemplate
     */
     function ini()
     {
-        include_once( "lib/ezutils/classes/ezini.php" );
+        //include_once( "lib/ezutils/classes/ezini.php" );
         return eZINI::instance( "template.ini" );
     }
 
@@ -2406,7 +2396,7 @@ class eZTemplate
     static function isDebugEnabled()
     {
         if ( !isset( $GLOBALS['eZTemplateDebugInternalsEnabled'] ) )
-             $GLOBALS['eZTemplateDebugInternalsEnabled'] = EZ_TEMPLATE_DEBUG_INTERNALS;
+             $GLOBALS['eZTemplateDebugInternalsEnabled'] = eZTemplate::DEBUG_INTERNALS;
         return $GLOBALS['eZTemplateDebugInternalsEnabled'];
     }
 

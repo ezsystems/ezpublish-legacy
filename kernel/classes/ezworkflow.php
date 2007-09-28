@@ -34,24 +34,24 @@
 
 */
 
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "kernel/classes/ezpersistentobject.php" );
-include_once( "kernel/classes/ezworkflowevent.php" );
-include_once( 'kernel/classes/ezworkflowgrouplink.php' );
-
-define( "EZ_WORKFLOW_STATUS_NONE", 0 );
-define( "EZ_WORKFLOW_STATUS_BUSY", 1 );
-define( "EZ_WORKFLOW_STATUS_DONE", 2 );
-define( "EZ_WORKFLOW_STATUS_FAILED", 3 );
-define( "EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON", 4 );
-define( "EZ_WORKFLOW_STATUS_CANCELLED", 5 );
-define( "EZ_WORKFLOW_STATUS_FETCH_TEMPLATE", 6 );
-define( "EZ_WORKFLOW_STATUS_REDIRECT", 7 );
-define( "EZ_WORKFLOW_STATUS_RESET", 8 );
-define( "EZ_WORKFLOW_STATUS_WAITING_PARENT", 9 );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezworkflowevent.php" );
+//include_once( 'kernel/classes/ezworkflowgrouplink.php' );
 
 class eZWorkflow extends eZPersistentObject
 {
+    const STATUS_NONE = 0;
+    const STATUS_BUSY = 1;
+    const STATUS_DONE = 2;
+    const STATUS_FAILED = 3;
+    const STATUS_DEFERRED_TO_CRON = 4;
+    const STATUS_CANCELLED = 5;
+    const STATUS_FETCH_TEMPLATE = 6;
+    const STATUS_REDIRECT = 7;
+    const STATUS_RESET = 8;
+    const STATUS_WAITING_PARENT = 9;
+
     function eZWorkflow( $row )
     {
         $this->eZPersistentObject( $row );
@@ -118,7 +118,7 @@ class eZWorkflow extends eZPersistentObject
 
     function statusName( $status )
     {
-        include_once( 'kernel/workflow/ezworkflowfunctioncollection.php' );
+        //include_once( 'kernel/workflow/ezworkflowfunctioncollection.php' );
         $statusNames = eZWorkflowFunctionCollection::fetchWorkflowStatuses();
         if ( isset( $statusNames[$status] ) )
             return $statusNames[$status];
@@ -454,7 +454,7 @@ class eZWorkflow extends eZPersistentObject
     {
         if ( isset( $this->CreatorID ) and $this->CreatorID )
         {
-            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+            //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
             return eZUser::fetch( $this->CreatorID );
         }
 
@@ -465,7 +465,7 @@ class eZWorkflow extends eZPersistentObject
     {
         if ( isset( $this->ModifierID ) and $this->ModifierID )
         {
-            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+            //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
             return eZUser::fetch( $this->ModifierID );
         }
 
@@ -502,7 +502,7 @@ class eZWorkflow extends eZPersistentObject
 
     function workflowType()
     {
-        include_once( "kernel/classes/ezworkflowtype.php" );
+        //include_once( "kernel/classes/ezworkflowtype.php" );
         return eZWorkflowType::createType( $this->WorkflowTypeString );
     }
 

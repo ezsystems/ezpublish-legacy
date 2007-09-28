@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/classes/ezwishlist.php" );
+//include_once( "kernel/classes/ezwishlist.php" );
 
 $http = eZHTTPTool::instance();
 $module = $Params['Module'];
@@ -34,7 +34,7 @@ $offset = $Params['Offset'];
 
 $user = eZUser::currentUser();
 if ( !$user->isLoggedIn() )
-    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
 if ( $http->hasPostVariable( "ActionAddToWishList" ) )
 {
@@ -242,7 +242,7 @@ if ( $http->hasPostVariable( "StoreChangesButton" ) )
         return;
     }
 }
-include_once( "kernel/common/template.php" );
+require_once( "kernel/common/template.php" );
 
 $tpl = templateInit();
 

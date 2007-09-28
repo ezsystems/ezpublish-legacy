@@ -38,13 +38,13 @@
 require_once( 'kernel/classes/ezdatatype.php' );
 require_once( 'kernel/classes/ezproductcategory.php' );
 
-define( "EZ_DATATYPESTRING_PRODUCTCATEGORY", "ezproductcategory" );
-
 class eZProductCategoryType extends eZDataType
 {
+    const EZ_DATATYPESTRING_PRODUCTCATEGORY = "ezproductcategory";
+
     function eZProductCategoryType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_PRODUCTCATEGORY, ezi18n( 'kernel/classes/datatypes', "Product category", 'Datatype name' ),
+        $this->eZDataType( self::EZ_DATATYPESTRING_PRODUCTCATEGORY, ezi18n( 'kernel/classes/datatypes', "Product category", 'Datatype name' ),
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( 'data_int' => 'value' ) ) );
     }
@@ -72,19 +72,19 @@ class eZProductCategoryType extends eZDataType
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( !$contentObjectAttribute->validateIsRequired() )
-            return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            return eZInputValidator::STATE_ACCEPTED;
 
         if ( $http->hasPostVariable( $base . "_category_id_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
             $data = $http->postVariable( $base . "_category_id_" . $contentObjectAttribute->attribute( "id" ) );
 
             if ( is_numeric( $data ) )
-                return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                return eZInputValidator::STATE_ACCEPTED;
         }
 
         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                              'Input required.' ) );
-        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+        return eZInputValidator::STATE_INVALID;
     }
 
     /*!
@@ -242,6 +242,6 @@ class eZProductCategoryType extends eZDataType
     }
 }
 
-eZDataType::register( EZ_DATATYPESTRING_PRODUCTCATEGORY, "ezproductcategorytype" );
+eZDataType::register( eZProductCategoryType::EZ_DATATYPESTRING_PRODUCTCATEGORY, "eZProductCategoryType" );
 
 ?>

@@ -87,7 +87,7 @@ function eZSetupRunTests( $testList, $client, &$givenPersistentList )
     $persistenceResults = array();
     $testResult = EZ_SETUP_TEST_SUCCESS;
     $successCount = 0;
-    include_once( 'lib/ezutils/classes/ezhttptool.php' );
+    //include_once( 'lib/ezutils/classes/ezhttptool.php' );
     $http = eZHTTPTool::instance();
     foreach ( $testList as $testItem )
     {
@@ -446,7 +446,7 @@ function eZSetupTestExtension( $type )
 
 function eZSetupTestDirectoryPermissions( $type )
 {
-    include_once( 'lib/ezfile/classes/ezdir.php' );
+    //include_once( 'lib/ezfile/classes/ezdir.php' );
 
     $dirList = eZSetupConfigVariableArray( $type, 'CheckList' );
 
@@ -523,7 +523,7 @@ function eZSetupTestDirectoryPermissions( $type )
 function eZSetupTestFilePermissions( $type )
 {
     $fileList = eZSetupConfigVariableArray( $type, 'CheckList' );
-    include_once( 'lib/ezfile/classes/ezdir.php' );
+    //include_once( 'lib/ezfile/classes/ezdir.php' );
 
     $ini = eZINI::instance();
     $dirPermission = $ini->variable( 'FileSettings', 'StorageDirPermissions' );
@@ -609,9 +609,9 @@ function eZSetupPrvPosixExtension()
 */
 function eZSetupCheckExecutable( $type )
 {
-    include_once( 'lib/ezutils/classes/ezsys.php' );
-    include_once( 'lib/ezfile/classes/ezdir.php' );
-    include_once( 'lib/ezutils/classes/ezhttptool.php' );
+    //include_once( 'lib/ezutils/classes/ezsys.php' );
+    //include_once( 'lib/ezfile/classes/ezdir.php' );
+    //include_once( 'lib/ezutils/classes/ezhttptool.php' );
     $http = eZHTTPTool::instance();
 
     $filesystemType = eZSys::filesystemType();
@@ -776,7 +776,7 @@ function eZSetupCheckGDVersion( $type )
 */
 function eZSetupMBStringExtension( $type )
 {
-    include_once( "lib/ezi18n/classes/ezmbstringmapper.php" );
+    //include_once( "lib/ezi18n/classes/ezmbstringmapper.php" );
     $result = eZMBStringMapper::hasMBStringExtension();
     $charsetList = eZMBStringMapper::charsetList();
     return array( 'result' => $result,
@@ -958,7 +958,7 @@ function eZSetupPrvtExtractExtraPaths( &$givenPersistentList )
  */
 function eZSetupPrvtAreDirAndFilesWritable( $dir )
 {
-    include_once( 'lib/ezfile/classes/ezfile.php' );
+    //include_once( 'lib/ezfile/classes/ezfile.php' );
     if ( !eZDir::isWriteable( $dir ) )
         return FALSE;
 

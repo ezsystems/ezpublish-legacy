@@ -69,9 +69,9 @@ $script->shutdown(); // Finish execution
 
 */
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'lib/ezdb/classes/ezdb.php' );
-include_once( 'access.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'lib/ezdb/classes/ezdb.php' );
+require_once( 'access.php' );
 
 class eZScript
 {
@@ -135,7 +135,7 @@ class eZScript
     */
     function validateVersion()
     {
-        include_once( 'lib/version.php' );
+        //include_once( 'lib/version.php' );
         $versionValidated = false;
         $ezversion = eZPublishSDK::version();
         if ( $this->MinVersion !== false )
@@ -175,7 +175,7 @@ class eZScript
     {
         error_reporting( E_ALL );
 
-        eZDebug::setHandleType( EZ_HANDLE_TO_PHP );
+        eZDebug::setHandleType( eZDebug::EZ_HANDLE_TO_PHP );
 
         if ( php_sapi_name() != 'cli' )
         {
@@ -187,7 +187,7 @@ class eZScript
         // Make sure compatability functions are available.
         require_once( 'lib/compat.php' );
 
-        include_once( "lib/ezutils/classes/ezini.php" );
+        //include_once( "lib/ezutils/classes/ezini.php" );
         $ini = eZINI::instance();
         $phpLocale = trim( $ini->variable( 'RegionalSettings', 'SystemLocale' ) );
         if ( $phpLocale != '' )
@@ -207,7 +207,7 @@ class eZScript
     {
         if( ob_get_length() != 0 )
             ob_end_clean();
-        include_once( "lib/ezutils/classes/ezdebugsetting.php" );
+        //include_once( "lib/ezutils/classes/ezdebugsetting.php" );
 
         $debugINI = eZINI::instance( 'debug.ini' );
         eZDebugSetting::setDebugINI( $debugINI );
@@ -219,33 +219,33 @@ class eZScript
         $this->updateDebugSettings( $this->UseDebugOutput );
 
         // Set the different permissions/settings.
-        include_once( 'lib/ezi18n/classes/ezcodepage.php' );
+        //include_once( 'lib/ezi18n/classes/ezcodepage.php' );
         $ini = eZINI::instance();
         $iniFilePermission = $ini->variable( 'FileSettings', 'StorageFilePermissions' );
         $iniDirPermission = $ini->variable( 'FileSettings', 'StorageDirPermissions' );
         $iniVarDirectory = eZSys::cacheDirectory() ;
 
-        eZCodepage::setPermissionSetting( array( 'file_permission' => octdec( $iniFilePermission ),
+        eZCodePage::setPermissionSetting( array( 'file_permission' => octdec( $iniFilePermission ),
                                                  'dir_permission'  => octdec( $iniDirPermission ),
                                                  'var_directory'   => $iniVarDirectory ) );
 
-        include_once( 'lib/ezutils/classes/ezexecution.php' );
+        require_once( 'lib/ezutils/classes/ezexecution.php' );
 
         eZExecution::addCleanupHandler( 'eZDBCleanup' );
         eZExecution::addFatalErrorHandler( 'eZFatalError' );
 
-        eZDebug::setHandleType( EZ_HANDLE_FROM_PHP );
+        eZDebug::setHandleType( eZDebug::EZ_HANDLE_FROM_PHP );
 
         if ( $this->UseExtensions )
         {
             // Check for extension
-            include_once( 'lib/ezutils/classes/ezextension.php' );
-            include_once( 'kernel/common/ezincludefunctions.php' );
+            //include_once( 'lib/ezutils/classes/ezextension.php' );
+            require_once( 'kernel/common/ezincludefunctions.php' );
             eZExtension::activateExtensions( 'default' );
             // Extension check end
         }
 
-        include_once( "access.php" );
+        require_once( "access.php" );
         $siteaccess = $this->SiteAccess;
         if ( $siteaccess )
         {
@@ -275,8 +275,8 @@ class eZScript
         if ( $this->UseSession )
         {
             // include ezsession override implementation
-            include_once( "lib/ezutils/classes/ezsession.php" );
-            include_once( 'lib/ezdb/classes/ezdb.php' );
+            require_once( "lib/ezutils/classes/ezsession.php" );
+            //include_once( 'lib/ezdb/classes/ezdb.php' );
             $db = eZDB::instance();
             if ( $db->isConnected() )
             {
@@ -294,7 +294,7 @@ class eZScript
         {
             $userLogin = $this->User['login'];
             $userPassword = $this->User['password'];
-            include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+            //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 
             if ( $userLogin and $userPassword )
             {
@@ -304,7 +304,7 @@ class eZScript
                     $cli = eZCLI::instance();
                     if ( $this->isLoud() )
                         $cli->warning( 'Failed to login with user ' . $userLogin );
-                    include_once( 'lib/ezutils/classes/ezexecution.php' );
+                    require_once( 'lib/ezutils/classes/ezexecution.php' );
                     eZExecution::cleanup();
                     eZExecution::setCleanExit();
                 }
@@ -314,7 +314,7 @@ class eZScript
         // Initialize module handling
         if ( $this->UseModules )
         {
-            include_once( 'lib/ezutils/classes/ezmodule.php' );
+            //include_once( 'lib/ezutils/classes/ezmodule.php' );
             $moduleRepositories = eZModule::activeModuleRepositories( $this->UseExtensions );
             eZModule::setGlobalPathList( $moduleRepositories );
         }
@@ -356,7 +356,7 @@ class eZScript
             if ( $this->UseSession and
                  $db->isConnected() )
             {
-                include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+                //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
                 eZUser::logoutCurrent();
                 eZSessionRemove();
             }
@@ -374,7 +374,7 @@ class eZScript
                                                  $this->UseDebugTimingPoints, $this->UseIncludeFiles ) );
         }
 
-        include_once( 'lib/ezutils/classes/ezexecution.php' );
+        require_once( 'lib/ezutils/classes/ezexecution.php' );
         eZExecution::cleanup();
         eZExecution::setCleanExit();
         $this->IsInitialized = false;
@@ -975,15 +975,15 @@ class eZScript
                         $useIncludeFiles = true;
                     }
                     if ( $level == 'error' )
-                        $level = EZ_LEVEL_ERROR;
+                        $level = eZDebug::EZ_LEVEL_ERROR;
                     else if ( $level == 'warning' )
-                        $level = EZ_LEVEL_WARNING;
+                        $level = eZDebug::EZ_LEVEL_WARNING;
                     else if ( $level == 'debug' )
-                        $level = EZ_LEVEL_DEBUG;
+                        $level = eZDebug::EZ_LEVEL_DEBUG;
                     else if ( $level == 'notice' )
-                        $level = EZ_LEVEL_NOTICE;
+                        $level = eZDebug::EZ_LEVEL_NOTICE;
                     else if ( $level == 'timing' )
-                        $level = EZ_LEVEL_TIMING;
+                        $level = eZDebug::EZ_LEVEL_TIMING;
                     $allowedDebugLevels[] = $level;
                 }
                 $this->setUseDebugOutput( true );
@@ -1051,10 +1051,10 @@ class eZScript
             $debugSettings['debug-styles'] = $cli->terminalStyles();
         }
         $logList = $ini->variable( 'DebugSettings', 'AlwaysLog' );
-        $logMap = array( 'notice' => EZ_LEVEL_NOTICE,
-                         'warning' => EZ_LEVEL_WARNING,
-                         'error' => EZ_LEVEL_ERROR,
-                         'debug' => EZ_LEVEL_DEBUG );
+        $logMap = array( 'notice' => eZDebug::EZ_LEVEL_NOTICE,
+                         'warning' => eZDebug::EZ_LEVEL_WARNING,
+                         'error' => eZDebug::EZ_LEVEL_ERROR,
+                         'debug' => eZDebug::EZ_LEVEL_DEBUG );
         $debugSettings['always-log'] = array();
         foreach ( $logMap as $name => $level )
         {
@@ -1074,7 +1074,7 @@ class eZScript
         $i18nSettings['internal-charset'] = $ini->variable( 'CharacterSettings', 'Charset' );
         $i18nSettings['http-charset'] = $ini->variable( 'CharacterSettings', 'HTTPCharset' );
         $i18nSettings['mbstring-extension'] = $ini->variable( 'CharacterSettings', 'MBStringExtension' ) == 'enabled';
-        include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+        //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
         eZTextCodec::updateSettings( $i18nSettings );
     }
 
@@ -1117,7 +1117,7 @@ function eZFatalError()
     $useDebugAccumulators = true;
     $useDebugTimingpoints = true;
 
-    eZDebug::setHandleType( EZ_HANDLE_NONE );
+    eZDebug::setHandleType( eZDebug::EZ_HANDLE_NONE );
     if ( !$webOutput )
         fputs( STDERR, $endl );
     fputs( STDERR, $bold . "Fatal error" . $unbold . ": eZ publish did not finish its request$endl" );

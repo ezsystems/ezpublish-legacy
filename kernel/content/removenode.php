@@ -29,13 +29,13 @@
 /*! \file removenode.php
 */
 
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/common/i18n.php' );
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/ezcontentobjectversion.php' );
-include_once( 'kernel/classes/ezcontentobjectattribute.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
+require_once( 'kernel/common/template.php' );
+require_once( 'kernel/common/i18n.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'kernel/classes/ezcontentobjectversion.php' );
+//include_once( 'kernel/classes/ezcontentobjectattribute.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
 $http = eZHTTPTool::instance();
 
@@ -50,10 +50,10 @@ if ( !isset( $EditVersion ) )
 
 $object = eZContentObject::fetch( $ObjectID );
 if ( $object === null )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
 if ( !$object->attribute( 'can_remove' ) )
-    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
 $version = $object->version( $EditVersion );
 $node = eZContentObjectTreeNode::fetchNode( $ObjectID, $NodeID );

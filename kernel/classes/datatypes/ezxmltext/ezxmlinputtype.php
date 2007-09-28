@@ -75,7 +75,7 @@ class eZXMLInputType
         {
             if ( file_exists( "kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php" ) )
             {
-                include_once( "kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php" );
+                //include_once( "kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php" );
                 $impl = new eZXMLInputHandler();
             }
         }
@@ -92,7 +92,7 @@ class eZXMLInputType
             {
                 if ( file_exists( "kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php" ) )
                 {
-                    include_once( "kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php" );
+                    //include_once( "kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php" );
                     $impl = new eZXMLInputHandler();
                 }
             }

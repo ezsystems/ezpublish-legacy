@@ -26,14 +26,14 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-include_once( 'kernel/classes/ezcontentbrowse.php' );
+//include_once( 'kernel/classes/ezcontentbrowse.php' );
 
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
-include_once( 'kernel/common/template.php' );
+require_once( 'kernel/common/template.php' );
 
 $tpl = templateInit();
 $http = eZHTTPTool::instance();
@@ -68,17 +68,17 @@ else
 
     $node = eZContentObjectTreeNode::fetch( $NodeID );
     if ( !$node )
-        return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
     $object = $node->attribute( 'object' );
     if ( !$object )
-        return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
     if ( !$object->attribute( 'can_read' ) || !$node->attribute( 'can_read' ) )
     {
         if ( !$node->attribute( 'children_count' ) )
         {
-            return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+            return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
         }
     }
     $parents = $node->attribute( 'path' );
@@ -156,7 +156,7 @@ $Result = array();
 $Result['navigation_part'] = 'ezcontentnavigationpart';
 if ( !isset( $nodeList ) )
 {
-    include_once( 'kernel/classes/ezsection.php' );
+    //include_once( 'kernel/classes/ezsection.php' );
     $section = eZSection::fetch( $object->attribute( 'section_id' ) );
     if ( $section )
     {

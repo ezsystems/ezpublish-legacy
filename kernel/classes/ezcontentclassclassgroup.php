@@ -33,9 +33,9 @@
 
 */
 
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "kernel/classes/ezpersistentobject.php" );
-include_once( "kernel/classes/ezcontentclassgroup.php" );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezcontentclassgroup.php" );
 
 class eZContentClassClassGroup extends eZPersistentObject
 {
@@ -156,7 +156,7 @@ class eZContentClassClassGroup extends eZPersistentObject
 
     static function fetchClassList( $contentclass_version, $group_id, $asObject = true, $orderByArray = array( 'name' ) )
     {
-        include_once( 'kernel/classes/ezcontentclassclassgroup.php' );
+        //include_once( 'kernel/classes/ezcontentclassclassgroup.php' );
         $classIDList = eZContentClassClassGroup::fetchClassListByGroups( 0, array( 1,3 ) );
         $versionCond = '';
         $orderByClause = '';

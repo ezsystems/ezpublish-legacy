@@ -25,7 +25,7 @@
 //
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
-include_once( "lib/ezutils/classes/ezhttptool.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
 
 $LayoutStyle = $Params['LayoutStyle'];
 $Module = $Params['Module'];
@@ -50,7 +50,7 @@ if ( $layoutINI->hasGroup( $LayoutStyle ) )
     if ( $layoutINI->hasVariable( $LayoutStyle, 'ContentType' ) )
         header( 'Content-Type: ' . $layoutINI->variable( $LayoutStyle, 'ContentType' ) . '; charset=' . $i18nINI->variable( 'CharacterSettings', 'Charset' ) );
 
-    include_once( 'kernel/common/eztemplatedesignresource.php' );
+    //include_once( 'kernel/common/eztemplatedesignresource.php' );
     $res = eZTemplateDesignResource::instance();
     $res->setKeys( array( array( 'layout', $LayoutStyle ) ) );
 
@@ -59,7 +59,7 @@ if ( $layoutINI->hasGroup( $LayoutStyle ) )
     }
     else
     {
-        include_once( 'lib/ezutils/classes/ezsys.php' );
+        //include_once( 'lib/ezutils/classes/ezsys.php' );
         eZSys::addAccessPath( array( 'layout', 'set', $LayoutStyle ) );
     }
 
@@ -76,7 +76,7 @@ if ( $layoutINI->hasGroup( $LayoutStyle ) )
         }
     }
 
-    $Module->setExitStatus( EZ_MODULE_STATUS_RERUN );
+    $Module->setExitStatus( eZModule::STATUS_RERUN );
 }
 else
 {

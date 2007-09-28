@@ -37,7 +37,7 @@
 
 */
 
-include_once( 'lib/ezutils/classes/ezini.php' );
+//include_once( 'lib/ezutils/classes/ezini.php' );
 
 class eZExtension
 {
@@ -331,7 +331,7 @@ class eZExtension
     */
     static function extensionInfo( $extension )
     {
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        //include_once( 'lib/ezfile/classes/ezdir.php' );
         $infoFileName = eZDir::path( array( eZExtension::baseDirectory(), $extension, 'ezinfo.php' ) );
         if ( file_exists( $infoFileName ) )
         {
@@ -361,7 +361,7 @@ function extension_path( $extension, $withWWWDir = false, $withHost = false, $wi
             $path .= $withProtocol;
         else
         {
-            include_once( 'lib/ezutils/classes/ezsys.php' );
+            //include_once( 'lib/ezutils/classes/ezsys.php' );
             $path .= eZSys::serverProtocol();
         }
         $path .= ':';
@@ -393,7 +393,7 @@ function extension_path( $extension, $withWWWDir = false, $withHost = false, $wi
 */
 function nameFromPath( $path )
 {
-    include_once( 'lib/ezfile/classes/ezdir.php' );
+    //include_once( 'lib/ezfile/classes/ezdir.php' );
     $path = eZDir::cleanPath( $path );
     $base = eZExtension::baseDirectory() . '/';
     $base = preg_quote( $base, '/' );

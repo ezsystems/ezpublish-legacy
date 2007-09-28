@@ -31,8 +31,8 @@
 /*!
 */
 
-include_once( 'kernel/classes/datatypes/ezxmltext/ezxmloutputhandler.php' );
-//include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
+//include_once( 'kernel/classes/datatypes/ezxmltext/ezxmloutputhandler.php' );
+////include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
 
 class eZXHTMLXMLOutput extends eZXMLOutputHandler
 {
@@ -320,7 +320,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             eZDebug::writeWarning( "Can't fetch object #$objectID", "XML output handler: embed" );
             return $ret;
         }
-        if ( $object->attribute( 'status' ) != EZ_CONTENT_OBJECT_STATUS_PUBLISHED )
+        if ( $object->attribute( 'status' ) != eZContentObject::STATUS_PUBLISHED )
         {
             eZDebug::writeWarning( "Object #$objectID is not published", "XML output handler: embed" );
             return $ret;

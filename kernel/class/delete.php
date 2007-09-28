@@ -27,9 +27,9 @@
 //
 
 
-include_once( "kernel/classes/ezcontentclass.php" );
-include_once( "lib/ezutils/classes/ezhttppersistence.php" );
-include_once( "kernel/classes/ezcontentclassclassgroup.php" );
+//include_once( "kernel/classes/ezcontentclass.php" );
+//include_once( "lib/ezutils/classes/ezhttppersistence.php" );
+//include_once( "kernel/classes/ezcontentclassclassgroup.php" );
 
 $Module = $Params['Module'];
 $ClassID = null;
@@ -60,7 +60,7 @@ if ( $http->hasPostVariable( "CancelButton" ) )
     $Module->redirectTo( '/class/classlist/' . $GroupID );
 }
 $Module->setTitle( "Deletion of class " .$ClassID );
-include_once( "kernel/common/template.php" );
+require_once( "kernel/common/template.php" );
 $tpl = templateInit();
 
 

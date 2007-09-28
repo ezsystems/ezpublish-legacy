@@ -36,28 +36,28 @@
   \brief The class eZNodeAssignment does
 
 */
-include_once( "lib/ezutils/classes/ezdebug.php" );
-include_once( "kernel/classes/ezpersistentobject.php" );
-
-// Bit 0 is used to mark if the action is to be performed or not
-// A value of 0 means ignore and 1 means execute
-define( "EZ_NODE_ASSIGNMENT_OP_CODE_NOP",         0 );
-define( "EZ_NODE_ASSIGNMENT_OP_CODE_EXECUTE",     1 );
-// Create the node at specified location
-define( "EZ_NODE_ASSIGNMENT_OP_CODE_CREATE_NOP",  2 );
-define( "EZ_NODE_ASSIGNMENT_OP_CODE_CREATE",      3 );
-// Move the node to new location
-define( "EZ_NODE_ASSIGNMENT_OP_CODE_MOVE_NOP",    4 );
-define( "EZ_NODE_ASSIGNMENT_OP_CODE_MOVE",        5 );
-// Remove existing node
-define( "EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE_NOP",  6 );
-define( "EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE",      7 );
-// Set (update/create) values for node
-define( "EZ_NODE_ASSIGNMENT_OP_CODE_SET_NOP",     8 );
-define( "EZ_NODE_ASSIGNMENT_OP_CODE_SET",         9 );
+require_once( "lib/ezutils/classes/ezdebug.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
 
 class eZNodeAssignment extends eZPersistentObject
 {
+    // Bit 0 is used to mark if the action is to be performed or not
+    // A value of 0 means ignore and 1 means execute
+    const OP_CODE_NOP =          0;
+    const OP_CODE_EXECUTE =      1;
+    // Create the node at specified location
+    const OP_CODE_CREATE_NOP =   2;
+    const OP_CODE_CREATE =       3;
+    // Move the node to new location
+    const OP_CODE_MOVE_NOP =     4;
+    const OP_CODE_MOVE =         5;
+    // Remove existing node
+    const OP_CODE_REMOVE_NOP =   6;
+    const OP_CODE_REMOVE =       7;
+    // Set (update/create) values for node
+    const OP_CODE_SET_NOP =      8;
+    const OP_CODE_SET =          9;
+
     /*!
      Constructor
     */
@@ -121,7 +121,7 @@ class eZNodeAssignment extends eZPersistentObject
                                                                       'required' => false ),
                                          'op_code' => array( 'name' => 'OpCode',
                                                              'datatype' => 'int',
-                                                             'default' => 0, // EZ_NODE_ASSIGNMENT_OP_CODE_NOP
+                                                             'default' => 0, // eZNodeAssignment::OP_CODE_NOP
                                                              'required' => true ) ),
                       'keys' => array( 'id' ),
                       "function_attributes" => array( "parent_node_obj"      => "getParentNode",
@@ -168,7 +168,7 @@ class eZNodeAssignment extends eZPersistentObject
      */
     function isNopOperation()
     {
-        return ( $this->OpCode & 1 ) == EZ_NODE_ASSIGNMENT_OP_CODE_NOP;
+        return ( $this->OpCode & 1 ) == eZNodeAssignment::OP_CODE_NOP;
     }
 
     /*!
@@ -177,7 +177,7 @@ class eZNodeAssignment extends eZPersistentObject
      */
     function isCreateOperation()
     {
-        return $this->OpCode == EZ_NODE_ASSIGNMENT_OP_CODE_CREATE;
+        return $this->OpCode == eZNodeAssignment::OP_CODE_CREATE;
     }
 
     /*!
@@ -186,7 +186,7 @@ class eZNodeAssignment extends eZPersistentObject
      */
     function isMoveOperation()
     {
-        return $this->OpCode == EZ_NODE_ASSIGNMENT_OP_CODE_MOVE;
+        return $this->OpCode == eZNodeAssignment::OP_CODE_MOVE;
     }
 
     /*!
@@ -195,7 +195,7 @@ class eZNodeAssignment extends eZPersistentObject
      */
     function isRemoveOperation()
     {
-        return $this->OpCode == EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE;
+        return $this->OpCode == eZNodeAssignment::OP_CODE_REMOVE;
     }
 
     /*!
@@ -204,7 +204,7 @@ class eZNodeAssignment extends eZPersistentObject
      */
     function isSetOperation()
     {
-        return $this->OpCode == EZ_NODE_ASSIGNMENT_OP_CODE_SET;
+        return $this->OpCode == eZNodeAssignment::OP_CODE_SET;
     }
 
     static function create( $parameters = array() )
@@ -250,7 +250,7 @@ class eZNodeAssignment extends eZPersistentObject
         if ( !isset( $parameters['op_code'] ) )
         {
             // The default value for new node-assigments is to create nodes from them.
-            $parameters['op_code'] = EZ_NODE_ASSIGNMENT_OP_CODE_CREATE;
+            $parameters['op_code'] = eZNodeAssignment::OP_CODE_CREATE;
         }
 
         return new eZNodeAssignment( $parameters );
@@ -284,7 +284,7 @@ class eZNodeAssignment extends eZPersistentObject
                                                                $cond,
                                                                true );
         }
-        $nodeAssignment->setAttribute( "op_code", EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE );
+        $nodeAssignment->setAttribute( "op_code", eZNodeAssignment::OP_CODE_REMOVE );
         $nodeAssignment->store();
     }
 
@@ -307,7 +307,7 @@ class eZNodeAssignment extends eZPersistentObject
             {
                 return false;
             }
-            $sql = "UPDATE eznode_assignment SET op_code = " . EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE . ", is_main = 0 WHERE id IN ( ";
+            $sql = "UPDATE eznode_assignment SET op_code = " . eZNodeAssignment::OP_CODE_REMOVE . ", is_main = 0 WHERE id IN ( ";
             $i = 0;
             foreach ( $assignmentID as $id )
             {
@@ -320,7 +320,7 @@ class eZNodeAssignment extends eZPersistentObject
         }
         else
         {
-            $sql = "UPDATE eznode_assignment SET op_code = " . EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE . ", is_main = 0 WHERE id=" . (int)$assignmentID;
+            $sql = "UPDATE eznode_assignment SET op_code = " . eZNodeAssignment::OP_CODE_REMOVE . ", is_main = 0 WHERE id=" . (int)$assignmentID;
         }
         $db->query( $sql );
         return true;
@@ -501,7 +501,7 @@ class eZNodeAssignment extends eZPersistentObject
         $newMainAssignment = null;
         foreach ( $assignments as $key => $assignment )
         {
-            if ( $assignment->attribute( 'op_code' ) != EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE )
+            if ( $assignment->attribute( 'op_code' ) != eZNodeAssignment::OP_CODE_REMOVE )
             {
                 if ( $newMainAssignment === null )
                 {

@@ -29,7 +29,7 @@
 /*! \file preferredcurrency.php
 */
 
-include_once( 'kernel/common/template.php' );
+require_once( 'kernel/common/template.php' );
 $tpl = templateInit();
 
 $Result = array();

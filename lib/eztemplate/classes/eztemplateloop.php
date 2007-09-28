@@ -191,7 +191,7 @@ class eZTemplateLoop
         {
             $child = $this->FunctionChildren[$childKey];
 
-            if ( $child[0] == EZ_TEMPLATE_NODE_FUNCTION ) // check child type
+            if ( $child[0] == eZTemplate::NODE_FUNCTION ) // check child type
             {
                 $childFunctionName = $child[2];
 
@@ -293,7 +293,7 @@ class eZTemplateLoop
 
         list( $varNsName, $varNsType, $varName ) = $this->FunctionParameters[$paramName][0][1];
 
-        if ( $varNsType != EZ_TEMPLATE_NAMESPACE_SCOPE_LOCAL || $varNsName )
+        if ( $varNsType != eZTemplate::NAMESPACE_SCOPE_LOCAL || $varNsName )
         {
             $this->Tpl->error( $this->FunctionName,
                                'Loop variables can be defined in root namespace only (e.g. $foo, but not $#foo or $:foo.)' );

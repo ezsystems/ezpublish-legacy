@@ -28,9 +28,9 @@
 
 $OrderID = $Params['OrderID'];
 $module = $Params['Module'];
-include_once( "kernel/common/template.php" );
+require_once( "kernel/common/template.php" );
 
-include_once( "kernel/classes/ezorder.php" );
+//include_once( "kernel/classes/ezorder.php" );
 
 $ini = eZINI::instance();
 $http = eZHTTPTool::instance();
@@ -39,7 +39,7 @@ $access = false;
 $order = eZOrder::fetch( $OrderID );
 if ( !$order )
 {
-    return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
 $accessToAdministrate = $user->hasAccessTo( 'shop', 'administrate' );
@@ -79,7 +79,7 @@ elseif ( $accessToBuyWord != 'no' )
 }
 if ( !$access )
 {
-     return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+     return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 }
 $tpl = templateInit();
 

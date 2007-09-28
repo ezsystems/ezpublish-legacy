@@ -39,20 +39,19 @@
 
 */
 
-define( "EZ_BINARY_FILE_HANDLE_UPLOAD", 0x1 );
-define( "EZ_BINARY_FILE_HANDLE_DOWNLOAD", 0x2 );
-
-define( "EZ_BINARY_FILE_HANDLE_ALL", EZ_BINARY_FILE_HANDLE_UPLOAD |
-                                     EZ_BINARY_FILE_HANDLE_DOWNLOAD );
-
-define( "EZ_BINARY_FILE_TYPE_FILE", 'file' );
-define( "EZ_BINARY_FILE_TYPE_MEDIA", 'media' );
-
-define( "EZ_BINARY_FILE_RESULT_OK", 1 );
-define( "EZ_BINARY_FILE_RESULT_UNAVAILABLE", 2 );
-
 class eZBinaryFileHandler
 {
+    const EZ_BINARY_FILE_HANDLE_UPLOAD = 0x1;
+    const EZ_BINARY_FILE_HANDLE_DOWNLOAD = 0x2;
+
+    const EZ_BINARY_FILE_HANDLE_ALL = 0x3; // EZ_BINARY_FILE_HANDLE_UPLOAD | EZ_BINARY_FILE_HANDLE_DOWNLOAD
+
+    const EZ_BINARY_FILE_TYPE_FILE = 'file';
+    const EZ_BINARY_FILE_TYPE_MEDIA = 'media';
+
+    const EZ_BINARY_FILE_RESULT_OK = 1;
+    const EZ_BINARY_FILE_RESULT_UNAVAILABLE = 2;
+
     function eZBinaryFileHandler( $identifier, $name, $handleType )
     {
         $this->Info = array();
@@ -124,15 +123,15 @@ class eZBinaryFileHandler
 
         $origDir = eZSys::storageDirectory() . '/original';
 
-        $class = strtolower( get_class( $binary ) );
+        $class = get_class( $binary );
         $fileName = false;
         $originalFilename = false;
-        if ( in_array( $class, array( 'ezbinaryfile', 'ezmedia' ) ) )
+        if ( in_array( $class, array( 'eZBinaryFile', 'eZMedia' ) ) )
         {
             $fileName = $origDir . "/" . $binary->attribute( 'mime_type_category' ) . '/'.  $binary->attribute( "filename" );
             $originalFilename = $binary->attribute( 'original_filename' );
         }
-        else if ( $class == 'ezimagealiashandler' )
+        else if ( $class == 'eZImageAliasHandler' )
         {
             $alias = $binary->attribute( 'original' );
             if ( $alias )
@@ -184,10 +183,10 @@ class eZBinaryFileHandler
         $version = $contentObject->attribute( 'current_version' );
         $fileObject = eZBinaryFile::fetch( $contentObjectAttributeID, $version );
         if ( $fileObject )
-            return EZ_BINARY_FILE_TYPE_FILE;
+            return self::EZ_BINARY_FILE_TYPE_FILE;
         $fileObject = eZMedia::fetch( $contentObjectAttributeID, $version );
         if ( $fileObject )
-            return EZ_BINARY_FILE_TYPE_MEDIA;
+            return self::EZ_BINARY_FILE_TYPE_MEDIA;
         return false;
     }
 
@@ -204,11 +203,11 @@ class eZBinaryFileHandler
         $name = '';
         switch ( $downloadType )
         {
-            case EZ_BINARY_FILE_TYPE_FILE:
+            case self::EZ_BINARY_FILE_TYPE_FILE:
             {
                 $name = $downloadObject->attribute( 'original_filename' );
             } break;
-            case EZ_BINARY_FILE_TYPE_MEDIA:
+            case self::EZ_BINARY_FILE_TYPE_MEDIA:
             {
                 $name = $downloadObject->attribute( 'original_filename' );
             } break;
@@ -223,8 +222,8 @@ class eZBinaryFileHandler
 
     function handleDownload( $contentObject, $contentObjectAttribute, $type )
     {
-        include_once( 'lib/ezutils/classes/ezmimetype.php' );
-        include_once( 'kernel/classes/datatypes/ezimage/ezimagealiashandler.php' );
+        //include_once( 'lib/ezutils/classes/ezmimetype.php' );
+        //include_once( 'kernel/classes/datatypes/ezimage/ezimagealiashandler.php' );
         $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
         $version = $contentObject->attribute( 'current_version' );
 
@@ -232,14 +231,14 @@ class eZBinaryFileHandler
 
         if ( !$contentObjectAttribute->hasStoredFileInformation( $contentObject, $version,
                                                                  $contentObjectAttribute->attribute( 'language_code' ) ) )
-            return EZ_BINARY_FILE_RESULT_UNAVAILABLE;
+            return self::EZ_BINARY_FILE_RESULT_UNAVAILABLE;
 
         $fileInfo = $contentObjectAttribute->storedFileInformation( $contentObject, $version,
                                                                     $contentObjectAttribute->attribute( 'language_code' ) );
         if ( !$fileInfo )
-            return EZ_BINARY_FILE_RESULT_UNAVAILABLE;
+            return self::EZ_BINARY_FILE_RESULT_UNAVAILABLE;
         if ( !$fileInfo['mime_type'] )
-            return EZ_BINARY_FILE_RESULT_UNAVAILABLE;
+            return self::EZ_BINARY_FILE_RESULT_UNAVAILABLE;
 
         $contentObjectAttribute->handleDownload( $contentObject, $version,
                                                  $contentObjectAttribute->attribute( 'language_code' ) );

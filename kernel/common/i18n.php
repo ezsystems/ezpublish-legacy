@@ -26,14 +26,14 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'lib/ezutils/classes/ezini.php' );
+//include_once( 'lib/ezutils/classes/ezini.php' );
 
 /*!
  \return the current language used.
 */
 function ezcurrentLanguage()
 {
-    include_once( 'lib/ezlocale/classes/ezlocale.php' );
+    //include_once( 'lib/ezlocale/classes/ezlocale.php' );
     $locale = eZLocale::instance();
     return $locale->translationCode();
 }
@@ -79,7 +79,7 @@ if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
     $iniI18N = eZINI::instance( "i18n.ini" );
     $fallbacks = $iniI18N->variable( 'TranslationSettings', 'FallbackLanguages' );
 
-    include_once( 'lib/ezutils/classes/ezextension.php' );
+    //include_once( 'lib/ezutils/classes/ezextension.php' );
     $extensionBase = eZExtension::baseDirectory();
     $translationExtensions = $ini->variable( 'RegionalSettings', 'TranslationExtensions' );
 
@@ -120,11 +120,11 @@ if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
     }
 }
 
-include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
+//include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
 
 if ( $useTextTranslation || eZTranslatorManager::dynamicTranslationsEnabled() )
 {
-    include_once( 'lib/ezi18n/classes/eztstranslator.php' );
+    //include_once( 'lib/ezi18n/classes/eztstranslator.php' );
 
     function ezi18n( $context, $source, $comment = null, $arguments = null )
     {
@@ -160,7 +160,7 @@ if ( $useTextTranslation || eZTranslatorManager::dynamicTranslationsEnabled() )
         $developmentMode = $ini->variable( 'RegionalSettings', 'DevelopmentMode' ) != 'disabled';
         if ( $developmentMode )
         {
-            include_once( 'lib/ezi18n/classes/ezborktranslator.php' );
+            //include_once( 'lib/ezi18n/classes/ezborktranslator.php' );
             eZBorkTranslator::initialize();
         }
 

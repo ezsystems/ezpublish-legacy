@@ -32,8 +32,8 @@
 */
 
 /*!
-  \class eZObjectforwarder ezobjectforwarder.php
-  \brief The class eZObjectforwarder does
+  \class eZObjectForwarder ezobjectforwarder.php
+  \brief The class eZObjectForwarder does
 
 */
 
@@ -134,7 +134,7 @@ class eZObjectForwarder
         $variableList = array();
 
         $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $inputData, false, array(),
-                                                              array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $outputName ) );
+                                                              array( $namespaceValue, eZTemplate::NAMESPACE_SCOPE_RELATIVE, $outputName ) );
         $variableList[] = $outputName;
 
         foreach ( array_keys( $parameters ) as $parameterName )
@@ -145,7 +145,7 @@ class eZObjectForwarder
                 continue;
             $parameterData = $parameters[$parameterName];
             $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameterData, false, array(),
-                                                                  array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $parameterName ) );
+                                                                  array( $namespaceValue, eZTemplate::NAMESPACE_SCOPE_RELATIVE, $parameterName ) );
             $variableList[] = $parameterName;
         }
 
@@ -172,7 +172,7 @@ class eZObjectForwarder
             {
                 $rootAttributes = $templateRoot['attributes'];
                 $attributeAccessData = array();
-                $attributeAccessData[] = eZTemplateNodeTool::createVariableElement( $outputName, $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE );
+                $attributeAccessData[] = eZTemplateNodeTool::createVariableElement( $outputName, $namespaceValue, eZTemplate::NAMESPACE_SCOPE_RELATIVE );
                 foreach ( $rootAttributes as $rootAttributeName )
                 {
                     $attributeAccessData[] = eZTemplateNodeTool::createAttributeLookupElement( $rootAttributeName );
@@ -209,7 +209,7 @@ class eZObjectForwarder
 
         foreach ( $variableList as $variableName )
         {
-            $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $variableName ) );
+            $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( array( $namespaceValue, eZTemplate::NAMESPACE_SCOPE_RELATIVE, $variableName ) );
         }
 
         return $newNodes;
@@ -257,7 +257,7 @@ class eZObjectForwarder
             foreach ( $attributeKeys as $designKey => $attributeKeyArray )
             {
                 $attributeAccessData = array();
-                $attributeAccessData[] = eZTemplateNodeTool::createVariableElement( $outputName, $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE );
+                $attributeAccessData[] = eZTemplateNodeTool::createVariableElement( $outputName, $namespaceValue, eZTemplate::NAMESPACE_SCOPE_RELATIVE );
                 foreach ( $attributeKeyArray as $attributeKey )
                 {
                     $attributeAccessData[] = eZTemplateNodeTool::createAttributeLookupElement( $attributeKey );
@@ -380,7 +380,7 @@ class eZObjectForwarder
                                 return false;
                             $tmpAcquisitionNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( '',
                                                                                                      $matchFile, $matchFile,
-                                                                                                     EZ_RESOURCE_FETCH, false,
+                                                                                                     eZTemplate::RESOURCE_FETCH, false,
                                                                                                      $node[4], array( 'spacing' => $customSpacing + 4 ),
                                                                                                      $rule['namespace'] );
                             if ( $matchConditionCount > 0 or $matchCount > 0 )
@@ -414,7 +414,7 @@ class eZObjectForwarder
                                 return false;
                             $tmpAcquisitionNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( '',
                                                                                                         $matchFile, $matchFile,
-                                                                                                        EZ_RESOURCE_FETCH, false,
+                                                                                                        eZTemplate::RESOURCE_FETCH, false,
                                                                                                         $node[4], array( 'spacing' => $defaultMatchSpacing + 4 ),
                                                                                                         $rule['namespace'] );
                             $hasAcquisitionNodes = true;
@@ -436,7 +436,7 @@ class eZObjectForwarder
                         return false;
                     $newNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( '',
                                                                                      $matchLookupArray, false,
-                                                                                     EZ_RESOURCE_FETCH, false,
+                                                                                     eZTemplate::RESOURCE_FETCH, false,
                                                                                      $node[4], array( 'spacing' => $spacing ),
                                                                                      $rule['namespace'], 'attributeAccess' );
                     if ( $hasAcquisitionNodes )
@@ -542,7 +542,7 @@ class eZObjectForwarder
                         return false;
                     $newNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( '',
                                                                                      $matchFile, $matchFile,
-                                                                                     EZ_RESOURCE_FETCH, false,
+                                                                                     eZTemplate::RESOURCE_FETCH, false,
                                                                                      $node[4], array( 'spacing' => $spacing ),
                                                                                      $rule['namespace'] );
                     if ( $matchConditionCount > 0 or $matchCount > 0 )
@@ -567,7 +567,7 @@ class eZObjectForwarder
                     return false;
                 $newNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( '',
                                                                                  $file, $file,
-                                                                                 EZ_RESOURCE_FETCH, false,
+                                                                                 eZTemplate::RESOURCE_FETCH, false,
                                                                                  $node[4], array( 'spacing' => $mainSpacing ),
                                                                                  $rule['namespace'] );
             }

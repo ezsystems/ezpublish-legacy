@@ -37,10 +37,10 @@ $module = $Params['Module'];
 $currentSiteAccess = ( $Params['SiteAccess'] ) ? $Params['SiteAccess'] : false;
 $toolbarPosition = ( $Params['Position'] ) ? $Params['Position'] : false;
 
-include_once( "kernel/common/template.php" );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( 'kernel/classes/ezcontentbrowse.php' );
-include_once( "kernel/classes/ezsiteaccess.php" );
+require_once( "kernel/common/template.php" );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( 'kernel/classes/ezcontentbrowse.php' );
+//include_once( "kernel/classes/ezsiteaccess.php" );
 
 $http = eZHTTPTool::instance();
 
@@ -48,7 +48,7 @@ $siteini = eZINI::instance();
 if ( !$currentSiteAccess or
      !$toolbarPosition or
      !in_array( $currentSiteAccess, $siteini->variable( 'SiteAccessSettings', 'RelatedSiteAccessList' ) ) )
-    return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
 $iniPath = eZSiteAccess::findPathToSiteAccess( $currentSiteAccess );
 $ini = eZINI::instance( "toolbar.ini", 'settings', null, false, null, false );
@@ -418,11 +418,11 @@ function removeRelatedCache( $siteAccess )
     }
     $compiledTemplateDir = $cacheDir . "/template/compiled";
     eZDir::unlinkWildcard( $compiledTemplateDir . "/", "*pagelayout*.*" );
-    include_once( 'kernel/classes/ezcache.php' );
+    //include_once( 'kernel/classes/ezcache.php' );
     eZCache::clearByTag( 'template-block' );
 
     // Expire content view cache
-    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearAllContentCache();
 }
 

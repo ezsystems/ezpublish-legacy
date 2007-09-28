@@ -49,7 +49,7 @@
   \sa eZLocale
 */
 
-include_once( "lib/ezlocale/classes/ezlocale.php" );
+//include_once( "lib/ezlocale/classes/ezlocale.php" );
 
 class eZCurrency
 {

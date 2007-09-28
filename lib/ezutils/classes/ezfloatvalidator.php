@@ -36,7 +36,7 @@
 
 */
 
-include_once( "lib/ezutils/classes/ezregexpvalidator.php" );
+//include_once( "lib/ezutils/classes/ezregexpvalidator.php" );
 
 class eZFloatValidator extends eZRegExpValidator
 {
@@ -66,11 +66,11 @@ class eZFloatValidator extends eZRegExpValidator
     function validate( $text )
     {
         $state = eZRegExpValidator::validate( $text );
-        if ( $state == EZ_INPUT_VALIDATOR_STATE_ACCEPTED )
+        if ( $state == eZInputValidator::STATE_ACCEPTED )
         {
             if ( ( $this->MinValue !== false and $text < $this->MinValue ) or
                  ( $this->MaxValue !== false and $text > $this->MaxValue ) )
-                $state = EZ_INPUT_VALIDATOR_STATE_INTERMEDIATE;
+                $state = eZInputValidator::STATE_INTERMEDIATE;
         }
         return $state;
     }

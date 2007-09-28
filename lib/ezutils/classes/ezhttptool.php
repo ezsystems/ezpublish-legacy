@@ -40,9 +40,9 @@
 
 */
 
-include_once( "lib/ezutils/classes/ezdebug.php" );
-include_once( "lib/ezutils/classes/ezsession.php" );
-include_once( "lib/ezutils/classes/ezsys.php" );
+require_once( "lib/ezutils/classes/ezdebug.php" );
+require_once( "lib/ezutils/classes/ezsession.php" );
+//include_once( "lib/ezutils/classes/ezsys.php" );
 
 class eZHTTPTool
 {
@@ -359,7 +359,7 @@ class eZHTTPTool
             header( 'Content-Location: ' . $uri );
 
             fpassthru( $fp );
-            include_once( 'lib/ezutils/classes/ezexecution.php' );
+            require_once( 'lib/ezutils/classes/ezexecution.php' );
             eZExecution::cleanExit();
         }
         else

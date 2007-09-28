@@ -37,25 +37,25 @@
 
 */
 
-define( "EZ_COLLABORATION_PARTICIPANT_TYPE_USER", 1 );
-define( "EZ_COLLABORATION_PARTICIPANT_TYPE_USERGROUP", 2 );
-
-// Everything from 1024 and above is considered custom and is specific per collaboration handler.
-define( "EZ_COLLABORATION_PARTICIPANT_TYPE_CUSTOM", 1024 );
-
-define( "EZ_COLLABORATION_PARTICIPANT_ROLE_STANDARD", 1 );
-define( "EZ_COLLABORATION_PARTICIPANT_ROLE_OBSERVER", 2 );
-define( "EZ_COLLABORATION_PARTICIPANT_ROLE_OWNER", 3 );
-define( "EZ_COLLABORATION_PARTICIPANT_ROLE_APPROVER", 4 );
-define( "EZ_COLLABORATION_PARTICIPANT_ROLE_AUTHOR", 5 );
-
-// Everything from 1024 and above is considered custom and is specific per collaboration handler.
-define( "EZ_COLLABORATION_PARTICIPANT_ROLE_CUSTOM", 1024 );
-
-include_once( 'kernel/classes/ezpersistentobject.php' );
+//include_once( 'kernel/classes/ezpersistentobject.php' );
 
 class eZCollaborationItemParticipantLink extends eZPersistentObject
 {
+    const EZ_COLLABORATION_PARTICIPANT_TYPE_USER = 1;
+    const EZ_COLLABORATION_PARTICIPANT_TYPE_USERGROUP = 2;
+
+    // Everything from 1024 and above is considered custom and is specific per collaboration handler.
+    const EZ_COLLABORATION_PARTICIPANT_TYPE_CUSTOM = 1024;
+
+    const EZ_COLLABORATION_PARTICIPANT_ROLE_STANDARD = 1;
+    const EZ_COLLABORATION_PARTICIPANT_ROLE_OBSERVER = 2;
+    const EZ_COLLABORATION_PARTICIPANT_ROLE_OWNER = 3;
+    const EZ_COLLABORATION_PARTICIPANT_ROLE_APPROVER = 4;
+    const EZ_COLLABORATION_PARTICIPANT_ROLE_AUTHOR = 5;
+
+    // Everything from 1024 and above is considered custom and is specific per collaboration handler.
+    const EZ_COLLABORATION_PARTICIPANT_ROLE_CUSTOM = 1024;
+
     /*!
      Constructor
     */
@@ -112,7 +112,7 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
     }
 
     static function create( $collaborationID, $participantID,
-                      $participantRole = EZ_COLLABORATION_PARTICIPANT_ROLE_STANDARD, $participantType = EZ_COLLABORATION_PARTICIPANT_TYPE_USER )
+                      $participantRole = self::EZ_COLLABORATION_PARTICIPANT_ROLE_STANDARD, $participantType = self::EZ_COLLABORATION_PARTICIPANT_TYPE_USER )
     {
         $dateTime = time();
         $row = array(   'collaboration_id' => $collaborationID,
@@ -131,14 +131,14 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
     {
         if ( $userID === false )
         {
-            include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+            //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
             $userID = eZUser::currentUserID();
         }
         if ( $timestamp === false )
         {
             $timestamp = time();
         }
-        include_once( 'lib/ezdb/classes/ezdb.php' );
+        //include_once( 'lib/ezdb/classes/ezdb.php' );
         $db = eZDB::instance();
         $userID = (int) $userID;
         $timestamp = (int) $timestamp;
@@ -251,8 +251,8 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
     {
         if ( !isset( $GLOBALS['eZCollaborationParticipantTypeMap'] ) )
         {
-            $GLOBALS['eZCollaborationParticipantTypeMap'] = array( EZ_COLLABORATION_PARTICIPANT_TYPE_USER => 'user',
-                                                                   EZ_COLLABORATION_PARTICIPANT_TYPE_USERGROUP => 'usergroup' );
+            $GLOBALS['eZCollaborationParticipantTypeMap'] = array( self::EZ_COLLABORATION_PARTICIPANT_TYPE_USER => 'user',
+                                                                   self::EZ_COLLABORATION_PARTICIPANT_TYPE_USERGROUP => 'usergroup' );
         }
         if ( isset( $GLOBALS['eZCollaborationParticipantTypeMap'][$participantType] ) )
         {
@@ -266,11 +266,11 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
         if ( empty( $GLOBALS['eZCollaborationParticipantRoleMap'] ) )
         {
             $GLOBALS['eZCollaborationParticipantRoleMap'] =
-                array( EZ_COLLABORATION_PARTICIPANT_ROLE_STANDARD => 'standard',
-                       EZ_COLLABORATION_PARTICIPANT_ROLE_OBSERVER => 'observer',
-                       EZ_COLLABORATION_PARTICIPANT_ROLE_OWNER => 'owner',
-                       EZ_COLLABORATION_PARTICIPANT_ROLE_APPROVER => 'approver',
-                       EZ_COLLABORATION_PARTICIPANT_ROLE_AUTHOR => 'author' );
+                array( self::EZ_COLLABORATION_PARTICIPANT_ROLE_STANDARD => 'standard',
+                       self::EZ_COLLABORATION_PARTICIPANT_ROLE_OBSERVER => 'observer',
+                       self::EZ_COLLABORATION_PARTICIPANT_ROLE_OWNER => 'owner',
+                       self::EZ_COLLABORATION_PARTICIPANT_ROLE_APPROVER => 'approver',
+                       self::EZ_COLLABORATION_PARTICIPANT_ROLE_AUTHOR => 'author' );
         }
         $roleMap = $GLOBALS['eZCollaborationParticipantRoleMap'];
         if ( isset( $roleMap[$participantRole] ) )
@@ -283,17 +283,17 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
 
     static function roleName( $collaborationID, $roleID )
     {
-        if ( $roleID < EZ_COLLABORATION_PARTICIPANT_TYPE_CUSTOM )
+        if ( $roleID < self::EZ_COLLABORATION_PARTICIPANT_TYPE_CUSTOM )
         {
             if ( empty( $GLOBALS['eZCollaborationParticipantRoleNameMap'] ) )
             {
-                include_once( 'kernel/common/i18n.php' );
+                require_once( 'kernel/common/i18n.php' );
                 $GLOBALS['eZCollaborationParticipantRoleNameMap'] =
-                    array( EZ_COLLABORATION_PARTICIPANT_ROLE_STANDARD => ezi18n( 'kernel/classes', 'Standard' ),
-                           EZ_COLLABORATION_PARTICIPANT_ROLE_OBSERVER => ezi18n( 'kernel/classes', 'Observer' ),
-                           EZ_COLLABORATION_PARTICIPANT_ROLE_OWNER => ezi18n( 'kernel/classes', 'Owner' ),
-                           EZ_COLLABORATION_PARTICIPANT_ROLE_APPROVER => ezi18n( 'kernel/classes', 'Approver' ),
-                           EZ_COLLABORATION_PARTICIPANT_ROLE_AUTHOR => ezi18n( 'kernel/classes', 'Author' ) );
+                    array( self::EZ_COLLABORATION_PARTICIPANT_ROLE_STANDARD => ezi18n( 'kernel/classes', 'Standard' ),
+                           self::EZ_COLLABORATION_PARTICIPANT_ROLE_OBSERVER => ezi18n( 'kernel/classes', 'Observer' ),
+                           self::EZ_COLLABORATION_PARTICIPANT_ROLE_OWNER => ezi18n( 'kernel/classes', 'Owner' ),
+                           self::EZ_COLLABORATION_PARTICIPANT_ROLE_APPROVER => ezi18n( 'kernel/classes', 'Approver' ),
+                           self::EZ_COLLABORATION_PARTICIPANT_ROLE_AUTHOR => ezi18n( 'kernel/classes', 'Author' ) );
             }
             $roleNameMap = $GLOBALS['eZCollaborationParticipantRoleNameMap'];
             if ( isset( $roleNameMap[$roleID] ) )
@@ -309,20 +309,20 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
 
     function collaborationItem()
     {
-        include_once( 'kernel/classes/ezcollaborationitem.php' );
+        //include_once( 'kernel/classes/ezcollaborationitem.php' );
         return eZCollaborationItem::fetch( $this->CollaborationID );
     }
 
     function participant()
     {
-        if ( $this->ParticipantType == EZ_COLLABORATION_PARTICIPANT_TYPE_USER )
+        if ( $this->ParticipantType == self::EZ_COLLABORATION_PARTICIPANT_TYPE_USER )
         {
-            include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+            //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
             return eZUser::fetch( $this->ParticipantID );
         }
-        else if ( $this->ParticipantType == EZ_COLLABORATION_PARTICIPANT_TYPE_USERGROUP )
+        else if ( $this->ParticipantType == self::EZ_COLLABORATION_PARTICIPANT_TYPE_USERGROUP )
         {
-            include_once( 'kernel/classes/ezcontentobject.php' );
+            //include_once( 'kernel/classes/ezcontentobject.php' );
             return eZContentObject::fetch( $this->ParticipantID );
         }
         return null;
@@ -330,7 +330,7 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
 
     function participantTypeString()
     {
-        if ( $this->ParticipantType < EZ_COLLABORATION_PARTICIPANT_TYPE_CUSTOM )
+        if ( $this->ParticipantType < self::EZ_COLLABORATION_PARTICIPANT_TYPE_CUSTOM )
         {
             return  eZCollaborationItemParticipantLink::typeString( $this->ParticipantType );
         }
@@ -341,7 +341,7 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
 
     function participantRoleString()
     {
-        if ( $this->ParticipantRole < EZ_COLLABORATION_PARTICIPANT_ROLE_CUSTOM )
+        if ( $this->ParticipantRole < self::EZ_COLLABORATION_PARTICIPANT_ROLE_CUSTOM )
         {
             return  eZCollaborationItemParticipantLink::roleString( $this->ParticipantRole );
         }
@@ -352,12 +352,12 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
 
     function isBuiltinType()
     {
-        return $this->ParticipantType < EZ_COLLABORATION_PARTICIPANT_TYPE_CUSTOM;
+        return $this->ParticipantType < self::EZ_COLLABORATION_PARTICIPANT_TYPE_CUSTOM;
     }
 
     function isBuiltinRole()
     {
-        return $this->ParticipantRole < EZ_COLLABORATION_PARTICIPANT_ROLE_CUSTOM;
+        return $this->ParticipantRole < self::EZ_COLLABORATION_PARTICIPANT_ROLE_CUSTOM;
     }
 
     /// \privatesection

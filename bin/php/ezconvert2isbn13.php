@@ -53,17 +53,17 @@
 
 set_time_limit( 0 );
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'lib/ezdb/classes/ezdb.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'lib/ezdb/classes/ezdb.php' );
 
-include_once( 'kernel/classes/ezscript.php' );
-include_once( 'kernel/classes/ezcontentclass.php' );
-include_once( 'kernel/classes/ezcontentclassattribute.php' );
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/ezcontentobjectattribute.php' );
+//include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'kernel/classes/ezcontentclass.php' );
+//include_once( 'kernel/classes/ezcontentclassattribute.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'kernel/classes/ezcontentobjectattribute.php' );
 
-include_once( 'kernel/classes/datatypes/ezisbn/ezisbntype.php' );
-include_once( 'kernel/classes/datatypes/ezisbn/ezisbn13.php' );
+//include_once( 'kernel/classes/datatypes/ezisbn/ezisbntype.php' );
+//include_once( 'kernel/classes/datatypes/ezisbn/ezisbn13.php' );
 
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "eZ publish ISBN10 to ISBN13 converter\n\n" .
@@ -208,7 +208,7 @@ class eZISBN10To13Converter
         if ( is_numeric( $classID ) )
         {
             $class = eZContentClass::fetch( $classID );
-            if ( get_class( $class ) == 'ezcontentclass' )
+            if ( $class instanceof eZContentClass )
             {
                 $classFilter = array( 'data_type_string' => 'ezisbn' );
                 $classAttributes = $class->fetchAttributes();
@@ -266,7 +266,7 @@ class eZISBN10To13Converter
         if ( is_numeric( $attributeID ) )
         {
             $classAttribute = eZContentClassAttribute::fetch( $attributeID );
-            if ( get_class( $classAttribute ) == 'ezcontentclassattribute' )
+            if ( $classAttribute instanceof eZContentClassAttribute )
             {
                 if ( $classAttribute->attribute( 'data_type_string' ) == 'ezisbn' )
                 {

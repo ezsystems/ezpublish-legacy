@@ -37,24 +37,24 @@
   \brief The class eZPackageType does
 
 */
-include_once( 'kernel/classes/ezdatatype.php' );
-include_once( 'kernel/classes/ezpackage.php' );
-include_once( 'kernel/common/i18n.php' );
-
-define( 'EZ_DATATYPESTRING_EZ_PACKAGE', 'ezpackage' );
-define( 'EZ_DATATYPESTRING_PACKAGE_TYPE_FIELD', 'data_text1' );
-define( 'EZ_DATATYPESTRING_PACKAGE_TYPE_VARIABLE', '_ezpackage_type_' );
-define( 'EZ_DATATYPESTRING_PACKAGE_VIEW_MODE_FIELD', 'data_int1' );
-define( 'EZ_DATATYPESTRING_PACKAGE_VIEW_MODE_VARIABLE', '_ezpackage_view_mode_' );
+//include_once( 'kernel/classes/ezdatatype.php' );
+//include_once( 'kernel/classes/ezpackage.php' );
+require_once( 'kernel/common/i18n.php' );
 
 class eZPackageType extends eZDataType
 {
+    const EZ_DATATYPESTRING_EZ_PACKAGE = 'ezpackage';
+    const EZ_DATATYPESTRING_PACKAGE_TYPE_FIELD = 'data_text1';
+    const EZ_DATATYPESTRING_PACKAGE_TYPE_VARIABLE = '_ezpackage_type_';
+    const EZ_DATATYPESTRING_PACKAGE_VIEW_MODE_FIELD = 'data_int1';
+    const EZ_DATATYPESTRING_PACKAGE_VIEW_MODE_VARIABLE = '_ezpackage_view_mode_';
+
     /*!
      Constructor
     */
     function eZPackageType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_EZ_PACKAGE, ezi18n( 'kernel/classes/datatypes', 'Package', 'Datatype name' ),
+        $this->eZDataType( self::EZ_DATATYPESTRING_EZ_PACKAGE, ezi18n( 'kernel/classes/datatypes', 'Package', 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -70,7 +70,7 @@ class eZPackageType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
@@ -84,7 +84,7 @@ class eZPackageType extends eZDataType
 
             // Save in ini files if the package type is sitestyle.
             $classAttribute = $contentObjectAttribute->attribute( 'contentclass_attribute' );
-            if ( $classAttribute->attribute( EZ_DATATYPESTRING_PACKAGE_TYPE_FIELD ) == 'sitestyle' )
+            if ( $classAttribute->attribute( self::EZ_DATATYPESTRING_PACKAGE_TYPE_FIELD ) == 'sitestyle' )
             {
                 $package = eZPackage::fetch( $data );
                 if ( $package )
@@ -163,7 +163,7 @@ class eZPackageType extends eZDataType
         eZDir::unlinkWildcard( $compiledTemplateDir . "/", "*pagelayout*.*" );
 
         // Expire template block cache
-        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearTemplateBlockCacheIfNeeded( false );
     }
 
@@ -172,17 +172,17 @@ class eZPackageType extends eZDataType
     */
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $packageTypeName = $base . EZ_DATATYPESTRING_PACKAGE_TYPE_VARIABLE . $classAttribute->attribute( 'id' );
+        $packageTypeName = $base . self::EZ_DATATYPESTRING_PACKAGE_TYPE_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $packageTypeName ) )
         {
             $packageTypeValue = $http->postVariable( $packageTypeName );
-            $classAttribute->setAttribute( EZ_DATATYPESTRING_PACKAGE_TYPE_FIELD, $packageTypeValue );
+            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_PACKAGE_TYPE_FIELD, $packageTypeValue );
         }
-        $packageViewModeName = $base . EZ_DATATYPESTRING_PACKAGE_VIEW_MODE_VARIABLE . $classAttribute->attribute( 'id' );
+        $packageViewModeName = $base . self::EZ_DATATYPESTRING_PACKAGE_VIEW_MODE_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $packageViewModeName ) )
         {
             $packageViewModeValue = $http->postVariable( $packageViewModeName );
-            $classAttribute->setAttribute( EZ_DATATYPESTRING_PACKAGE_VIEW_MODE_FIELD, $packageViewModeValue );
+            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_PACKAGE_VIEW_MODE_FIELD, $packageViewModeValue );
         }
         return true;
     }
@@ -247,7 +247,7 @@ class eZPackageType extends eZDataType
     */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $type = $classAttribute->attribute( EZ_DATATYPESTRING_PACKAGE_TYPE_FIELD );
+        $type = $classAttribute->attribute( self::EZ_DATATYPESTRING_PACKAGE_TYPE_FIELD );
         $typeNode = $attributeParametersNode->ownerDocument->createElement( 'type', $type );
         $attributeParametersNode->appendChild( $typeNode );
     }
@@ -258,7 +258,7 @@ class eZPackageType extends eZDataType
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $type = $attributeParametersNode->getElementsByTagName( 'type' )->item( 0 )->textContent;
-        $classAttribute->setAttribute( EZ_DATATYPESTRING_PACKAGE_TYPE_FIELD, $type );
+        $classAttribute->setAttribute( self::EZ_DATATYPESTRING_PACKAGE_TYPE_FIELD, $type );
     }
 
     /*!
@@ -270,6 +270,6 @@ class eZPackageType extends eZDataType
     }
 }
 
-eZDataType::register( EZ_DATATYPESTRING_EZ_PACKAGE, 'ezpackagetype' );
+eZDataType::register( eZPackageType::EZ_DATATYPESTRING_EZ_PACKAGE, 'eZPackageType' );
 
 ?>

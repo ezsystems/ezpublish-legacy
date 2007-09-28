@@ -27,13 +27,13 @@
 //
 
 
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/ezcontentclass.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'kernel/classes/ezcontentclass.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
-include_once( 'kernel/common/template.php' );
+require_once( 'kernel/common/template.php' );
 
 $objectID = $Params['ObjectID'];
 $module = $Params['Module'];
@@ -43,7 +43,7 @@ if ( !is_object( $object ) )
 {
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 }
-if ( $object->attribute( 'status' ) != EZ_CONTENT_OBJECT_STATUS_ARCHIVED )
+if ( $object->attribute( 'status' ) != eZContentObject::STATUS_ARCHIVED )
 {
     eZDebug::writeError( "Object with ID " . (int)$objectID . " is not archived, cannot restore." );
     return $module->redirectToView( 'trash' );
@@ -67,8 +67,8 @@ foreach ( $assignments as $assignment )
     $opCode = $assignment->attribute( 'op_code' );
     $opCode &= ~1;
     // We only include assignments which create or nops.
-    if ( $opCode == EZ_NODE_ASSIGNMENT_OP_CODE_CREATE_NOP ||
-         $opCode == EZ_NODE_ASSIGNMENT_OP_CODE_NOP )
+    if ( $opCode == eZNodeAssignment::OP_CODE_CREATE_NOP ||
+         $opCode == eZNodeAssignment::OP_CODE_NOP )
     {
         $node = $assignment->attribute( 'parent_node_obj' );
         if ( !$node )
@@ -111,7 +111,7 @@ if ( $module->isCurrentAction( 'Confirm' ) )
     }
     elseif ( $type == 2 )
     {
-        include_once( 'kernel/classes/ezcontentbrowse.php' );
+        //include_once( 'kernel/classes/ezcontentbrowse.php' );
         $languageCode = $object->attribute( 'initial_language_code' );
         eZContentBrowse::browse( array( 'action_name' => 'AddNodeAssignment',
                                         'description_template' => 'design:content/browse_placement.tpl',
@@ -140,7 +140,7 @@ if ( $module->isCurrentAction( 'AddLocation' ) )
     // if not get the browse data.
     if ( !isset( $selectedNodeIDArray ) )
     {
-        include_once( 'kernel/classes/ezcontentbrowse.php' );
+        //include_once( 'kernel/classes/ezcontentbrowse.php' );
         $selectedNodeIDArray = eZContentBrowse::result( 'AddNodeAssignment' );
         if ( !$selectedNodeIDArray )
         {
@@ -182,7 +182,7 @@ if ( $module->isCurrentAction( 'AddLocation' ) )
     // Check if we have failures
     if ( count( $failedLocationList ) > 0 )
     {
-        return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
     }
 
     // Remove all existing assignments, only our new ones should be present.
@@ -197,21 +197,21 @@ if ( $module->isCurrentAction( 'AddLocation' ) )
         $version->assignToNode( $newLocation['parent_node_id'], $newLocation['is_main'] );
     }
 
-    $object->setAttribute( 'status', EZ_CONTENT_OBJECT_STATUS_DRAFT );
+    $object->setAttribute( 'status', eZContentObject::STATUS_DRAFT );
     $object->store();
-    $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
+    $version->setAttribute( 'status', eZContentObjectVersion::STATUS_DRAFT );
     $version->store();
 
     $user = eZUser::currentUser();
-    include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+    //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $objectID,
                                                                                  'version' => $version->attribute( 'version' ) ) );
-    if ( ( array_key_exists( 'status', $operationResult ) && $operationResult['status'] != EZ_MODULE_OPERATION_CONTINUE ) )
+    if ( ( array_key_exists( 'status', $operationResult ) && $operationResult['status'] != eZModuleOperationInfo::STATUS_CONTINUE ) )
     {
         switch( $operationResult['status'] )
         {
-            case EZ_MODULE_OPERATION_HALTED:
-            case EZ_MODULE_OPERATION_CANCELED:
+            case eZModuleOperationInfo::STATUS_HALTED:
+            case eZModuleOperationInfo::STATUS_CANCELLED:
             {
                 $module->redirectToView( 'trash' );
             }
@@ -221,7 +221,7 @@ if ( $module->isCurrentAction( 'AddLocation' ) )
     $object = eZContentObject::fetch( $objectID );
     $mainNodeID = $object->attribute( 'main_node_id' );
 
-    include_once( 'kernel/classes/ezcontentobjecttrashnode.php' );
+    //include_once( 'kernel/classes/ezcontentobjecttrashnode.php' );
     eZContentObjectTrashNode::purgeForObject( $objectID  );
 
     if ( $locationAdded )

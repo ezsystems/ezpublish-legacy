@@ -37,17 +37,17 @@
   RSSExport is used to create RSS feeds from published content. See kernel/rss for more files.
 */
 
-include_once( 'kernel/classes/ezpersistentobject.php' );
-include_once( 'kernel/classes/ezrssexportitem.php' );
-
-define( "EZ_PDFEXPORT_VERSION_VALID", 0 );
-define( "EZ_PDFEXPORT_VERSION_DRAFT", 1 );
-
-define( "EZ_PDFEXPORT_CREATE_ONCE",  1 );
-define( "EZ_PDFEXPORT_CREATE_ONFLY", 2 );
+//include_once( 'kernel/classes/ezpersistentobject.php' );
+//include_once( 'kernel/classes/ezrssexportitem.php' );
 
 class eZPDFExport extends eZPersistentObject
 {
+    const VERSION_VALID = 0;
+    const VERSION_DRAFT = 1;
+
+    const CREATE_ONCE = 1;
+    const CREATE_ONFLY = 2;
+
     /*!
      Initializes a new RSSExport.
     */
@@ -128,7 +128,7 @@ class eZPDFExport extends eZPersistentObject
                                                                    'required' => true ),
                                          'status' => array( 'name' => 'Status',
                                                             'datatype' => 'integer',
-                                                            'default' => EZ_PDFEXPORT_CREATE_ONCE,
+                                                            'default' => eZPDFExport::CREATE_ONCE,
                                                             'required' => true ),
                                          'version' => array( 'name' => 'Version',
                                                              'datatype' => 'integer',
@@ -180,12 +180,12 @@ class eZPDFExport extends eZPersistentObject
     */
     function store( $publish = false )
     {
-        include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+        //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 
         if ( $publish )
         {
             $originalVersion = $this->attribute( 'version' );
-            $this->setAttribute( 'version', EZ_PDFEXPORT_VERSION_VALID );
+            $this->setAttribute( 'version', eZPDFExport::VERSION_VALID );
         }
         $user = eZUser::currentUser();
         $this->setAttribute( 'modified', time() );
@@ -196,7 +196,7 @@ class eZPDFExport extends eZPersistentObject
         eZPersistentObject::store();
         if ( $publish )
         {
-            $this->setAttribute( 'version', EZ_PDFEXPORT_VERSION_DRAFT );
+            $this->setAttribute( 'version', eZPDFExport::VERSION_DRAFT );
             $this->remove();
             $this->setAttribute( 'version', $originalVersion );
         }
@@ -209,7 +209,7 @@ class eZPDFExport extends eZPersistentObject
 
      \param RSS Export ID
     */
-    static function fetch( $id, $asObject = true, $version = EZ_PDFEXPORT_VERSION_VALID )
+    static function fetch( $id, $asObject = true, $version = eZPDFExport::VERSION_VALID )
     {
         return eZPersistentObject::fetchObject( eZPDFExport::definition(),
                                                 null,
@@ -224,8 +224,8 @@ class eZPDFExport extends eZPersistentObject
     */
     function remove( $conditions = null, $extraConditions = null )
     {
-        if ( $this->attribute( 'version' ) == EZ_PDFEXPORT_VERSION_VALID &&
-             $this->attribute( 'status' ) != EZ_PDFEXPORT_CREATE_ONFLY )
+        if ( $this->attribute( 'version' ) == eZPDFExport::VERSION_VALID &&
+             $this->attribute( 'status' ) != eZPDFExport::CREATE_ONFLY )
         {
             $sys = eZSys::instance();
             $storage_dir = $sys->storageDirectory();
@@ -247,7 +247,7 @@ class eZPDFExport extends eZPersistentObject
     {
         return eZPersistentObject::fetchObjectList( eZPDFExport::definition(),
                                                     null,
-                                                    array( 'version' => EZ_PDFEXPORT_VERSION_VALID ),
+                                                    array( 'version' => eZPDFExport::VERSION_VALID ),
                                                     null,
                                                     null,
                                                     $asObject );
@@ -257,7 +257,7 @@ class eZPDFExport extends eZPersistentObject
     {
         if ( isset( $this->ModifierID ) and $this->ModifierID )
         {
-            include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+            //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
             return eZUser::fetch( $this->ModifierID );
         }
 
@@ -268,7 +268,7 @@ class eZPDFExport extends eZPersistentObject
     {
         if ( isset( $this->SourceNodeID ) and $this->SourceNodeID )
         {
-            include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+            //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
             return eZContentObjectTreeNode::fetch( $this->SourceNodeID );
         }
 
@@ -289,8 +289,8 @@ class eZPDFExport extends eZPersistentObject
 
     function countGeneratingOnceExports( $filename = '' )
     {
-        $conditions = array( 'version' => EZ_PDFEXPORT_VERSION_VALID,
-                             'status' =>  EZ_PDFEXPORT_CREATE_ONCE,
+        $conditions = array( 'version' => eZPDFExport::VERSION_VALID,
+                             'status' =>  eZPDFExport::CREATE_ONCE,
                              'pdf_filename' => $filename );
 
         if ( $filename === '' && isset( $this ) )

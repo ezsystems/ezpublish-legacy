@@ -37,7 +37,7 @@
 
 */
 
-include_once( 'lib/ezutils/classes/ezmodulefunctioninfo.php' );
+//include_once( 'lib/ezutils/classes/ezmodulefunctioninfo.php' );
 
 class eZFunctionHandler
 {

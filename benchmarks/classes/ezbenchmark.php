@@ -37,8 +37,8 @@
 
 */
 
-include_once( 'lib/ezutils/classes/ezdebug.php' );
-include_once( 'benchmarks/classes/ezbenchmarkunit.php' );
+require_once( 'lib/ezutils/classes/ezdebug.php' );
+//include_once( 'benchmarks/classes/ezbenchmarkunit.php' );
 
 class eZBenchmark extends eZBenchmarkUnit
 {

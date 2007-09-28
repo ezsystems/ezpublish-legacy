@@ -36,7 +36,7 @@
   \brief The class eZNotificationCollection does
 
 */
-include_once( 'kernel/classes/notification/eznotificationcollectionitem.php' );
+//include_once( 'kernel/classes/notification/eznotificationcollectionitem.php' );
 
 class eZNotificationCollection extends eZPersistentObject
 {

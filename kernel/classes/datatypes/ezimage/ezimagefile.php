@@ -35,8 +35,8 @@
 
 */
 
-include_once( 'lib/ezdb/classes/ezdb.php' );
-include_once( 'kernel/classes/ezpersistentobject.php' );
+//include_once( 'lib/ezdb/classes/ezdb.php' );
+//include_once( 'kernel/classes/ezpersistentobject.php' );
 
 class eZImageFile extends eZPersistentObject
 {

@@ -38,7 +38,7 @@
 
 
 
-include_once( 'kernel/shop/classes/ezsimpleprice.php' );
+//include_once( 'kernel/shop/classes/ezsimpleprice.php' );
 
 class eZPrice extends eZSimplePrice
 {
@@ -49,8 +49,8 @@ class eZPrice extends eZSimplePrice
     {
         eZSimplePrice::eZSimplePrice( $classAttribute, $contentObjectAttribute, $storedPrice );
 
-        $isVatIncluded = ( $classAttribute->attribute( EZ_DATATYPESTRING_INCLUDE_VAT_FIELD ) == 1 );
-        $VATID = $classAttribute->attribute( EZ_DATATYPESTRING_VAT_ID_FIELD );
+        $isVatIncluded = ( $classAttribute->attribute( eZPriceType::EZ_DATATYPESTRING_INCLUDE_VAT_FIELD ) == 1 );
+        $VATID = $classAttribute->attribute( eZPriceType::EZ_DATATYPESTRING_VAT_ID_FIELD );
         $this->setVatIncluded( $isVatIncluded );
         $this->setVatType( $VATID );
     }

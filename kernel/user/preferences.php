@@ -32,7 +32,7 @@ $function = $Params['Function'];
 $key = $Params['Key'];
 $value = $Params['Value'];
 
-include_once( 'kernel/classes/ezpreferences.php' );
+//include_once( 'kernel/classes/ezpreferences.php' );
 
 eZPreferences::setValue( $key, $value );
 
@@ -58,8 +58,8 @@ if ( $url )
 }
 else
 {
-    include_once( 'kernel/classes/ezredirectmanager.php' );
-    include_once( 'lib/ezutils/classes/ezuri.php' );
+    //include_once( 'kernel/classes/ezredirectmanager.php' );
+    //include_once( 'lib/ezutils/classes/ezuri.php' );
 
     $preferredRedirectionURI = isset( $_SERVER['HTTP_REFERER'] ) ? eZURI::decodeURL( $_SERVER['HTTP_REFERER'] ) : false;
 

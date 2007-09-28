@@ -38,15 +38,15 @@
   RSSExport is used to create RSS feeds from published content. See kernel/rss for more files.
 */
 
-include_once( 'kernel/classes/ezpersistentobject.php' );
-include_once( 'kernel/classes/ezrssexportitem.php' );
-include_once( "lib/ezdb/classes/ezdb.php" );
-
-define( "EZ_RSSEXPORT_STATUS_VALID", 1 );
-define( "EZ_RSSEXPORT_STATUS_DRAFT", 0 );
+//include_once( 'kernel/classes/ezpersistentobject.php' );
+//include_once( 'kernel/classes/ezrssexportitem.php' );
+//include_once( "lib/ezdb/classes/ezdb.php" );
 
 class eZRSSExport extends eZPersistentObject
 {
+    const STATUS_VALID = 1;
+    const STATUS_DRAFT = 0;
+
     /*!
      Initializes a new RSSExport.
     */
@@ -177,7 +177,7 @@ class eZRSSExport extends eZPersistentObject
     */
     function store( $storeAsValid = false )
     {
-        include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+        //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
         $dateTime = time();
         $user = eZUser::currentUser();
         if (  $this->ID == null )
@@ -191,7 +191,7 @@ class eZRSSExport extends eZPersistentObject
         if ( $storeAsValid )
         {
             $oldStatus = $this->attribute( 'status' );
-            $this->setAttribute( 'status', EZ_RSSEXPORT_STATUS_VALID );
+            $this->setAttribute( 'status', eZRSSExport::STATUS_VALID );
         }
         $this->setAttribute( 'modified', $dateTime );
         $this->setAttribute( 'modifier_id', $user->attribute( "contentobject_id" ) );
@@ -228,7 +228,7 @@ class eZRSSExport extends eZPersistentObject
 
      \param RSS Export ID
     */
-    static function fetch( $id, $asObject = true, $status = EZ_RSSEXPORT_STATUS_VALID )
+    static function fetch( $id, $asObject = true, $status = eZRSSExport::STATUS_VALID )
     {
         return eZPersistentObject::fetchObject( eZRSSExport::definition(),
                                                 null,
@@ -273,7 +273,7 @@ class eZRSSExport extends eZPersistentObject
     {
         if ( isset( $this->ImageID ) and $this->ImageID )
         {
-            include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+            //include_once( "kernel/classes/ezcontentobjecttreenode.php" );
             return eZContentObjectTreeNode::fetch( $this->ImageID );
         }
         return null;
@@ -283,7 +283,7 @@ class eZRSSExport extends eZPersistentObject
     {
         if ( isset( $this->ImageID ) and $this->ImageID )
         {
-            include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+            //include_once( "kernel/classes/ezcontentobjecttreenode.php" );
             $objectNode = eZContentObjectTreeNode::fetch( $this->ImageID );
             if ( isset( $objectNode ) )
             {
@@ -307,7 +307,7 @@ class eZRSSExport extends eZPersistentObject
     {
         if ( isset( $this->ModifierID ) and $this->ModifierID )
         {
-            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+            //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
             return eZUser::fetch( $this->ModifierID );
         }
         return null;
@@ -343,7 +343,7 @@ class eZRSSExport extends eZPersistentObject
 
       \return RSSExportItem list. null if no RSS Export items found
     */
-    function fetchItems( $id = false, $status = EZ_RSSEXPORT_STATUS_VALID )
+    function fetchItems( $id = false, $status = eZRSSExport::STATUS_VALID )
     {
         if ( $id === false )
         {

@@ -37,19 +37,21 @@
   Country is stored as text string.
 */
 
-include_once( 'kernel/classes/ezdatatype.php' );
-include_once( 'lib/ezutils/classes/ezintegervalidator.php' );
-include_once( 'kernel/common/i18n.php' );
-
-define( 'EZ_DATATYPESTRING_COUNTRY', 'ezcountry' );
-define( 'EZ_DATATYPESTRING_COUNTRY_DEFAULT_LIST_FIELD', 'data_text5' );
-define( 'EZ_DATATYPESTRING_COUNTRY_MULTIPLE_CHOICE_FIELD', 'data_int1' );
+//include_once( 'kernel/classes/ezdatatype.php' );
+//include_once( 'lib/ezutils/classes/ezintegervalidator.php' );
+require_once( 'kernel/common/i18n.php' );
 
 class eZCountryType extends eZDataType
 {
+    const EZ_DATATYPESTRING_COUNTRY = 'ezcountry';
+
+    const EZ_DATATYPESTRING_COUNTRY_DEFAULT_LIST_FIELD = 'data_text5';
+
+    const EZ_DATATYPESTRING_COUNTRY_MULTIPLE_CHOICE_FIELD = 'data_int1';
+
     function eZCountryType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_COUNTRY, ezi18n( 'kernel/classes/datatypes', 'Country', 'Datatype name' ),
+        $this->eZDataType( self::EZ_DATATYPESTRING_COUNTRY, ezi18n( 'kernel/classes/datatypes', 'Country', 'Datatype name' ),
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( 'data_text' => 'country' ) ) );
     }
@@ -75,7 +77,7 @@ class eZCountryType extends eZDataType
     */
     function fetchTranslatedNames( &$countries )
     {
-        include_once( "lib/ezlocale/classes/ezlocale.php" );
+        //include_once( "lib/ezlocale/classes/ezlocale.php" );
         $locale = eZLocale::instance();
         $translatedCountryNames = $locale->translatedCountryNames();
         foreach ( array_keys( $countries ) as $countryKey )
@@ -171,8 +173,8 @@ class eZCountryType extends eZDataType
             $defaultCountryList = $content['default_countries'];
             $defaultCountry = implode( ',', array_keys( $defaultCountryList ) );
 
-            $classAttribute->setAttribute( EZ_DATATYPESTRING_COUNTRY_DEFAULT_LIST_FIELD, $defaultCountry );
-            $classAttribute->setAttribute( EZ_DATATYPESTRING_COUNTRY_MULTIPLE_CHOICE_FIELD, $multipleChoice );
+            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_COUNTRY_DEFAULT_LIST_FIELD, $defaultCountry );
+            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_COUNTRY_MULTIPLE_CHOICE_FIELD, $multipleChoice );
         }
         return false;
     }
@@ -200,19 +202,19 @@ class eZCountryType extends eZDataType
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( !$contentObjectAttribute->validateIsRequired() )
-            return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            return eZInputValidator::STATE_ACCEPTED;
 
         if ( $http->hasPostVariable( $base . '_country_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
             $data = $http->postVariable( $base . '_country_' . $contentObjectAttribute->attribute( 'id' ) );
 
             if ( count( $data ) > 0 and $data[0] != '' )
-                return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                return eZInputValidator::STATE_ACCEPTED;
         }
 
         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                              'Input required.' ) );
-        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+        return eZInputValidator::STATE_INVALID;
     }
 
     /*!
@@ -221,19 +223,19 @@ class eZCountryType extends eZDataType
     function validateCollectionAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( !$contentObjectAttribute->validateIsRequired() )
-            return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            return eZInputValidator::STATE_ACCEPTED;
 
         if ( $http->hasPostVariable( $base . '_country_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
             $data = $http->postVariable( $base . '_country_' . $contentObjectAttribute->attribute( 'id' ) );
 
             if ( count( $data ) > 0 and $data[0] != '' )
-                return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                return eZInputValidator::STATE_ACCEPTED;
         }
 
         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                              'Input required.' ) );
-        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+        return eZInputValidator::STATE_INVALID;
     }
 
     /*!
@@ -360,8 +362,8 @@ class eZCountryType extends eZDataType
     */
     function classAttributeContent( $classAttribute )
     {
-        $defaultCountry = $classAttribute->attribute( EZ_DATATYPESTRING_COUNTRY_DEFAULT_LIST_FIELD );
-        $multipleChoice = $classAttribute->attribute( EZ_DATATYPESTRING_COUNTRY_MULTIPLE_CHOICE_FIELD );
+        $defaultCountry = $classAttribute->attribute( self::EZ_DATATYPESTRING_COUNTRY_DEFAULT_LIST_FIELD );
+        $multipleChoice = $classAttribute->attribute( self::EZ_DATATYPESTRING_COUNTRY_MULTIPLE_CHOICE_FIELD );
         $defaultCountryList = explode( ',', $defaultCountry );
         $resultList = array();
         foreach ( $defaultCountryList as $alpha2 )
@@ -461,7 +463,7 @@ class eZCountryType extends eZDataType
     */
     function sortKey( $contentObjectAttribute )
     {
-        include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+        //include_once( 'lib/ezi18n/classes/ezchartransform.php' );
         $trans = eZCharTransform::instance();
         $content = $contentObjectAttribute->content();
         if ( is_array( $content['value'] ) )
@@ -498,6 +500,6 @@ class eZCountryType extends eZDataType
     }
 }
 
-eZDataType::register( EZ_DATATYPESTRING_COUNTRY, 'ezcountrytype' );
+eZDataType::register( eZCountryType::EZ_DATATYPESTRING_COUNTRY, 'ezcountrytype' );
 
 ?>

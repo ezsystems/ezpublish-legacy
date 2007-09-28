@@ -29,8 +29,8 @@
 $Module = $Params['Module'];
 $ObjectID = $Params['ObjectID'];
 
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( "lib/ezdb/classes/ezdb.php" );
 
 $http = eZHTTPTool::instance();
 
@@ -51,10 +51,10 @@ if ( $ObjectID === null )
 $object = eZContentObject::fetch( $ObjectID );
 
 if ( $object === null )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
 if ( !$object->attribute( 'can_read' ) )
-    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
 if ( $Module->isCurrentAction( 'Cancel' ) )
 {
@@ -84,7 +84,7 @@ function copyObject( $Module, $object, $allVersions, $newParentNodeID )
         eZDebug::writeError( "Cannot copy object $objectID to node $newParentNodeID, " .
                                "the current user does not have create permission for class ID $classID",
                              'content/copy' );
-        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
     }
 
     $db = eZDB::instance();
@@ -116,7 +116,7 @@ function copyObject( $Module, $object, $allVersions, $newParentNodeID )
     $nodeAssignment->store();
 
     // publish the newly created object
-    include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+    //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
     eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $newObject->attribute( 'id' ),
                                                               'version'   => $curVersion ) );
     // Update "is_invisible" attribute for the newly created node.
@@ -158,7 +158,7 @@ function browse( $Module, $object )
         $viewMode = $module->actionParameter( 'ViewMode' );
 
 
-    include_once( 'kernel/classes/ezcontentbrowse.php' );
+    //include_once( 'kernel/classes/ezcontentbrowse.php' );
     $sourceParentNodeID = $node->attribute( 'parent_node_id' );
     eZContentBrowse::browse( array( 'action_name' => 'CopyNode',
                                     'description_template' => 'design:content/browse_copy_node.tpl',
@@ -186,9 +186,9 @@ either all version or the current one.
 */
 function chooseObjectVersionsToCopy( $Module, &$Result, $object )
 {
-        include_once( 'kernel/classes/ezcontentbrowse.php' );
+        //include_once( 'kernel/classes/ezcontentbrowse.php' );
         $selectedNodeIDArray = eZContentBrowse::result( $Module->currentAction() );
-        include_once( 'kernel/common/template.php' );
+        require_once( 'kernel/common/template.php' );
         $tpl = templateInit();
         $tpl->setVariable( 'object', $object );
         $tpl->setVariable( 'selected_node_id', $selectedNodeIDArray[0] );
@@ -240,7 +240,7 @@ else if ( $Module->isCurrentAction( 'CopyNode' ) )
     else
     {
         // actually do copying of the pre-configured object version(s)
-        include_once( 'kernel/classes/ezcontentbrowse.php' );
+        //include_once( 'kernel/classes/ezcontentbrowse.php' );
         $selectedNodeIDArray = eZContentBrowse::result( $Module->currentAction() );
         $newParentNodeID = $selectedNodeIDArray[0];
         return copyObject( $Module, $object, $allVersions, $newParentNodeID );

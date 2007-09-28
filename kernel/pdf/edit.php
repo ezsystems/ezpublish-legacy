@@ -28,22 +28,20 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-define( 'EZ_PDFEXPORT_GENERATE_STRING', 'generate' );
-
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'kernel/classes/ezpdfexport.php' );
-include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
+require_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezpdfexport.php' );
+//include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
 
 $Module = $Params['Module'];
 $http = eZHTTPTool::instance();
 
-if ( isset( $Params['PDFGenerate'] ) && $Params['PDFGenerate'] == EZ_PDFEXPORT_GENERATE_STRING )
+if ( isset( $Params['PDFGenerate'] ) && $Params['PDFGenerate'] == 'generate' )
 {
     $pdfExport = eZPDFExport::fetch( $Params['PDFExportID'] );
-    if ( $pdfExport && $pdfExport->attribute( 'status' ) == EZ_PDFEXPORT_CREATE_ONFLY ) // only generate OnTheFly if status set correctly
+    if ( $pdfExport && $pdfExport->attribute( 'status' ) == eZPDFExport::CREATE_ONFLY ) // only generate OnTheFly if status set correctly
     {
-        include_once( 'lib/ezutils/classes/ezexecution.php' );
+        require_once( 'lib/ezutils/classes/ezexecution.php' );
         generatePDF( $pdfExport );
         eZExecution::cleanExit();
     }
@@ -52,11 +50,11 @@ if ( isset( $Params['PDFGenerate'] ) && $Params['PDFGenerate'] == EZ_PDFEXPORT_G
 
 if ( isset( $Params['PDFExportID'] ) )
 {
-    $pdfExport = eZPDFExport::fetch( $Params['PDFExportID'], true, EZ_PDFEXPORT_VERSION_DRAFT );
+    $pdfExport = eZPDFExport::fetch( $Params['PDFExportID'], true, eZPDFExport::VERSION_DRAFT );
 
     if ( $pdfExport )
     {
-        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+        //include_once( 'lib/ezlocale/classes/ezdatetime.php' );
 
         $user = eZUser::currentUser();
         $contentIni = eZINI::instance( 'content.ini' );
@@ -84,16 +82,16 @@ if ( isset( $Params['PDFExportID'] ) )
         $pdfExport = eZPDFExport::fetch( $Params['PDFExportID'] );
         if( !$pdfExport ) // user requested a non existent export
         {
-            return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+            return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
         }
-        $pdfExport->setAttribute( 'version', EZ_PDFEXPORT_VERSION_DRAFT );
+        $pdfExport->setAttribute( 'version', eZPDFExport::VERSION_DRAFT );
         $pdfExport->store();
     }
 }
 else
 {
-    include_once( 'kernel/classes/ezpdfexport.php' );
-    include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+    //include_once( 'kernel/classes/ezpdfexport.php' );
+    //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
     $user = eZUser::currentUser();
 
     $pdfExport = eZPDFExport::create( $user->attribute( 'contentobject_id' ) );
@@ -122,13 +120,13 @@ if ( $Module->isCurrentAction( 'BrowseSource' ) || // Store PDF export objects
         $pdfExport->setAttribute( 'export_classes', implode( ':', $Module->actionParameter( 'ClassList' ) ) );
     $pdfExport->setAttribute( 'pdf_filename', basename( $Module->actionParameter( 'DestinationFile' ) ) );
     $pdfExport->setAttribute( 'status', ( basename( $Module->actionParameter( 'DestinationType' ) ) != 'download' ) ?
-                              EZ_PDFEXPORT_CREATE_ONCE : EZ_PDFEXPORT_CREATE_ONFLY );
+                              eZPDFExport::CREATE_ONCE : eZPDFExport::CREATE_ONFLY );
 
     if ( $Module->isCurrentAction( 'Export' ) )
     {
         $pdfExport->setAttribute( 'source_node_id', $Module->actionParameter( 'SourceNode' ) );
 
-        if ( $pdfExport->attribute( 'status' ) == EZ_PDFEXPORT_CREATE_ONCE
+        if ( $pdfExport->attribute( 'status' ) == eZPDFExport::CREATE_ONCE
              && $pdfExport->countGeneratingOnceExports() > 0 )
         {
             $validation[ 'placement' ][] = array( 'text' => ezi18n( 'kernel/pdf', 'An export with such filename already exists.' ) );
@@ -147,7 +145,7 @@ $setWarning = false; // used to set missing options during export
 
 if ( $Module->isCurrentAction( 'BrowseSource' ) )
 {
-    include_once( 'kernel/classes/ezcontentbrowse.php' );
+    //include_once( 'kernel/classes/ezcontentbrowse.php' );
     eZContentBrowse::browse( array( 'action_name' => 'ExportSourceBrowse',
                                     'description_template' => 'design:content/browse_export.tpl',
                                     'from_page' => '/pdf/edit/'. $pdfExport->attribute( 'id' ) ),
@@ -157,7 +155,7 @@ else if ( $Module->isCurrentAction( 'Export' ) && $inputValidated )
 {
     // remove the old file ( user may changed the filename )
     $originalPdfExport = eZPDFExport::fetch( $Params['PDFExportID'] );
-    if ( $originalPdfExport && $originalPdfExport->attribute( 'status' ) == EZ_PDFEXPORT_CREATE_ONCE )
+    if ( $originalPdfExport && $originalPdfExport->attribute( 'status' ) == eZPDFExport::CREATE_ONCE )
     {
         $filename = $originalPdfExport->attribute( 'filepath' );
         if ( file_exists( $filename ) )
@@ -166,7 +164,7 @@ else if ( $Module->isCurrentAction( 'Export' ) && $inputValidated )
         }
     }
 
-    if ( $pdfExport->attribute( 'status' ) == EZ_PDFEXPORT_CREATE_ONCE )
+    if ( $pdfExport->attribute( 'status' ) == eZPDFExport::CREATE_ONCE )
     {
         generatePDF( $pdfExport, $pdfExport->attribute( 'filepath' ) );
         $pdfExport->store( true );

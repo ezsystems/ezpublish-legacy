@@ -27,8 +27,8 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
 
@@ -67,8 +67,8 @@ if ( is_object( $anonymousUser ) )
     $anonymousUsers[] = $anonymousUserID;
 }
 
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'kernel/classes/ezrole.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezrole.php' );
 
 $topUserNodes = eZContentObjectTreeNode::subTreeByNodeID( array( 'Depth' => 1 ), $userRootNodeID );
 
@@ -120,7 +120,7 @@ else
         }
         // clear role cache
         eZRole::expireCache();
-        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearAllContentCache();
         // clear policy cache
         eZUser::cleanupCache();

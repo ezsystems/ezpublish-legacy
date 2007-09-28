@@ -26,9 +26,9 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/common/template.php" );
-include_once( "lib/ezutils/classes/ezhttppersistence.php" );
-include_once( "kernel/classes/ezproductcategory.php" );
+require_once( "kernel/common/template.php" );
+//include_once( "lib/ezutils/classes/ezhttppersistence.php" );
+//include_once( "kernel/classes/ezproductcategory.php" );
 
 /*!
   Apply changes made to categories' names.

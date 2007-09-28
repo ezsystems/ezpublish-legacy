@@ -33,9 +33,9 @@
 
 set_time_limit( 0 );
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
-include_once( 'kernel/classes/ezrssimport.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'kernel/classes/ezrssimport.php' );
 
 $cli = eZCLI::instance();
 $endl = $cli->endlineString();
@@ -93,10 +93,10 @@ function changeSiteAccessSetting( &$siteaccess, $optionData )
 
 print( "Starting object re-indexing\n" );
 
-include_once( 'lib/ezutils/classes/ezexecution.php' );
-include_once( "lib/ezutils/classes/ezdebug.php" );
+require_once( 'lib/ezutils/classes/ezexecution.php' );
+require_once( "lib/ezutils/classes/ezdebug.php" );
 
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
 $db = eZDB::instance();
 

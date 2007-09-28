@@ -38,7 +38,7 @@ $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezurloperator.php
                                     'operator_names' => array( 'ezurl', 'ezroot', 'ezdesign', 'ezimage', 'exturl',
                                                                'ezsys', 'ezhttp', 'ezhttp_hasvariable', 'ezini', 'ezini_hasvariable' ) );
 $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezi18noperator.php',
-                                    'class' => 'eZI18NOperator',
+                                    'class' => 'eZI18nOperator',
                                     'operator_names' => array( 'i18n', 'x18n' ) );
 
 $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezalphabetoperator.php',
@@ -127,7 +127,7 @@ if ( !function_exists( 'eZPHPOperatorInit' ) )
 {
     function eZPHPOperatorInit()
         {
-            include_once( 'lib/eztemplate/classes/eztemplatephpoperator.php' );
+            //include_once( 'lib/eztemplate/classes/eztemplatephpoperator.php' );
             $ini = eZINI::instance( 'template.ini' );
             $operatorList = $ini->variable( 'PHP', 'PHPOperatorList' );
             return new eZTemplatePHPOperator( $operatorList );
@@ -148,7 +148,7 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
 {
     function eZObjectForwardInit()
         {
-            include_once( 'kernel/common/ezobjectforwarder.php' );
+            //include_once( 'kernel/common/ezobjectforwarder.php' );
             $forward_rules = array(
                 'attribute_edit_gui' => array( 'template_root' => 'content/datatype/edit',
                                                'input_name' => 'attribute',

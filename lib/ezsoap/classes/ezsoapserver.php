@@ -35,7 +35,7 @@
 
   Sample code for a SOAP server with one function, addNumbers.
   \code
-include_once( "lib/ezsoap/classes/ezsoapserver.php" );
+//include_once( "lib/ezsoap/classes/ezsoapserver.php" );
 
 $server = new eZSOAPServer( );
 $server->registerFunction( "addNumbers", array( "valueA" => "integer", "valueB" => "integer" ) );
@@ -67,9 +67,9 @@ class Collection
 
 */
 
-include_once( "lib/ezsoap/classes/ezsoaprequest.php" );
-include_once( "lib/ezsoap/classes/ezsoapfault.php" );
-include_once( "lib/ezsoap/classes/ezsoapresponse.php" );
+//include_once( "lib/ezsoap/classes/ezsoaprequest.php" );
+//include_once( "lib/ezsoap/classes/ezsoapfault.php" );
+//include_once( "lib/ezsoap/classes/ezsoapresponse.php" );
 
 class eZSOAPServer
 {

@@ -26,18 +26,18 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/classes/ezcontentclass.php' );
-include_once( 'kernel/classes/ezcontentclassattribute.php' );
+//include_once( 'kernel/classes/ezcontentclass.php' );
+//include_once( 'kernel/classes/ezcontentclassattribute.php' );
 
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/ezcontentobjectversion.php' );
-include_once( 'kernel/classes/ezcontentobjectattribute.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'kernel/classes/ezcontentobjectversion.php' );
+//include_once( 'kernel/classes/ezcontentobjectattribute.php' );
 
-include_once( 'kernel/common/template.php' );
-include_once( "lib/ezutils/classes/ezini.php" );
-include_once( "lib/ezdb/classes/ezdb.php" );
+require_once( 'kernel/common/template.php' );
+//include_once( "lib/ezutils/classes/ezini.php" );
+//include_once( "lib/ezdb/classes/ezdb.php" );
 
-include_once( 'lib/ezdiff/classes/ezdiff.php' );
+//include_once( 'lib/ezdiff/classes/ezdiff.php' );
 
 $tpl = templateInit();
 $http = eZHTTPTool::instance();
@@ -70,10 +70,10 @@ $canEdit = false;
 $canRemove = false;
 
 if ( $object === null )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
 if ( !$object->attribute( 'can_read' ) )
-    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
 if ( $object->attribute( 'can_edit' ) )
     $canEdit = true;
@@ -111,7 +111,7 @@ $diff = array();
 if ( $http->hasPostVariable('DiffButton') && $http->hasPostVariable( 'FromVersion' ) && $http->hasPostVariable( 'ToVersion' ) )
 {
     if ( !$object->attribute( 'can_diff' ) )
-        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
     $lang = false;
     if ( $http->hasPostVariable( 'Language' ) )
@@ -187,7 +187,7 @@ if ( $http->hasSessionVariable( 'ExcessVersionHistoryLimit' ) )
 if ( $http->hasPostVariable( 'RemoveButton' )  )
 {
     if ( !$canEdit )
-        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
     if ( $http->hasPostVariable( 'DeleteIDArray' ) )
     {
         $db = eZDB::instance();
@@ -216,7 +216,7 @@ $user = eZUser::currentUser();
 if ( $Module->isCurrentAction( 'Edit' )  )
 {
     if ( !$canEdit )
-        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
     $versionID = false;
 
@@ -233,7 +233,7 @@ if ( $Module->isCurrentAction( 'Edit' )  )
         $versionID = false;
 
     if ( $versionID !== false and
-         !in_array( $version->attribute( 'status' ), array( EZ_VERSION_STATUS_DRAFT, EZ_VERSION_STATUS_INTERNAL_DRAFT ) ) )
+         !in_array( $version->attribute( 'status' ), array( eZContentObjectVersion::STATUS_DRAFT, eZContentObjectVersion::STATUS_INTERNAL_DRAFT ) ) )
     {
         $editWarning = 1;
         $EditVersion = $versionID;
@@ -254,7 +254,7 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
 {
     if ( !$canEdit )
     {
-        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
     }
 
     if ( is_array( $Module->actionParameter( 'VersionKeyArray' ) ) )
@@ -273,11 +273,11 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
 
     // if we cannot fetch version with given versionID or if fetched version is
     // an internal-draft then just skip copying and redirect back to the history view
-    if ( !$versionID or $version->attribute( 'status' ) == EZ_VERSION_STATUS_INTERNAL_DRAFT )
+    if ( !$versionID or $version->attribute( 'status' ) == eZContentObjectVersion::STATUS_INTERNAL_DRAFT )
     {
         $currentVersion = $object->attribute( 'current_version' );
         $Module->redirectToView( 'history', array( $ObjectID, $currentVersion ) );
-        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+        return eZModule::HOOK_STATUS_CANCEL_RUN;
     }
 
     $languages = $Module->actionParameter( 'LanguageArray' );
@@ -292,7 +292,7 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
 
     if ( !$object->checkAccess( 'edit', false, false, false, $language ) )
     {
-        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
     }
 
     $contentINI = eZINI::instance( 'content.ini' );
@@ -356,7 +356,7 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
             $http->setSessionVariable( 'ExcessVersionHistoryLimit', true );
             $currentVersion = $object->attribute( 'current_version' );
             $Module->redirectToView( 'history', array( $ObjectID, $currentVersion ) );
-            return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+            return eZModule::HOOK_STATUS_CANCEL_RUN;
         }
     }
 }
@@ -368,7 +368,7 @@ $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object I
                       array( 'section_id', $object->attribute( 'section_id' ) ) // Section ID
                       ) ); // Section ID, 0 so far
 
-include_once( 'kernel/classes/ezsection.php' );
+//include_once( 'kernel/classes/ezsection.php' );
 eZSection::setGlobalID( $object->attribute( 'section_id' ) );
 $versionArray =( isset( $versionArray ) and is_array( $versionArray ) ) ? array_unique( $versionArray ) : array();
 $LastAccessesVersionURI = $http->hasSessionVariable( 'LastAccessesVersionURI' ) ? $http->sessionVariable( 'LastAccessesVersionURI' ) : null;
@@ -380,7 +380,7 @@ if ( $LastAccessesVersionURI and is_array( $versionArray ) and !in_array( $explo
 $newerDraftVersionList = eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
                                                               null,
                                                               array( 'contentobject_id' => $object->attribute( 'id' ),
-                                                                     'status' => EZ_VERSION_STATUS_DRAFT,
+                                                                     'status' => eZContentObjectVersion::STATUS_DRAFT,
                                                                      'version' => array( '>', $object->attribute( 'current_version' ) ) ),
                                                               array( 'modified' => 'asc',
                                                                      'initial_language_id' => 'desc' ),

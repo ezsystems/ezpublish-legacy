@@ -34,8 +34,8 @@
 
 set_time_limit ( 0 );
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "eZ publish nice url updater.\n\n" .
@@ -88,8 +88,8 @@ function changeSiteAccessSetting( $siteAccess )
     }
 }
 
-include_once( 'lib/ezdb/classes/ezdb.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'lib/ezdb/classes/ezdb.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
 $db = eZDb::instance();
 
@@ -113,7 +113,7 @@ if ( $dbHost or $dbName or $dbUser or $dbImpl )
 
 $db->setIsSQLOutputEnabled( $showSQL );
 
-include_once( 'kernel/classes/ezcontentlanguage.php' );
+//include_once( 'kernel/classes/ezcontentlanguage.php' );
 eZContentLanguage::setCronjobMode( true );
 
 $fetchLimit = 200;
@@ -493,7 +493,7 @@ if ( $urlCount > 0 )
     }
 
     $cli->output( "Removing old wildcard caches" );
-    include_once( 'kernel/classes/ezcache.php' );
+    //include_once( 'kernel/classes/ezcache.php' );
     eZCache::clearByID( 'urlalias' );
 
     $cli->output( "Importing completed" );

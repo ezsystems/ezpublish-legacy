@@ -206,7 +206,7 @@ class eZDefaultVATHandler
                                  "for country '" . $country . "'" .
                                  " and category '" . $productCategory->attribute( 'name' ). "'." );
 
-            return new eZVATType( array( "id" => 0,
+            return new eZVatType( array( "id" => 0,
                                          "name" => ezi18n( 'kernel/shop', 'None' ),
                                          "percentage" => 0.0 ) );
         }

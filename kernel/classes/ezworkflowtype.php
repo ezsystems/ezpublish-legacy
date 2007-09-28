@@ -34,26 +34,26 @@
 
 */
 
-include_once( "kernel/classes/ezworkflow.php" );
-include_once( "kernel/common/i18n.php" );
-include_once( "lib/ezutils/classes/ezdebug.php" );
-
-define( "EZ_WORKFLOW_TYPE_STATUS_NONE", 0 );
-define( "EZ_WORKFLOW_TYPE_STATUS_ACCEPTED", 1 );
-define( "EZ_WORKFLOW_TYPE_STATUS_REJECTED", 2 );
-define( "EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON", 3 );
-define( "EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON_REPEAT", 4 );
-define( "EZ_WORKFLOW_TYPE_STATUS_RUN_SUB_EVENT", 5 );
-define( "EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_CANCELLED", 6 );
-define( "EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE", 7 );
-define( "EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE_REPEAT", 8 );
-define( "EZ_WORKFLOW_TYPE_STATUS_REDIRECT", 10 );
-define( "EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_DONE", 9 );
-define( "EZ_WORKFLOW_TYPE_STATUS_REDIRECT_REPEAT", 11 );
-define( "EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_RESET", 12 );
+//include_once( "kernel/classes/ezworkflow.php" );
+require_once( "kernel/common/i18n.php" );
+require_once( "lib/ezutils/classes/ezdebug.php" );
 
 class eZWorkflowType
 {
+    const STATUS_NONE = 0;
+    const STATUS_ACCEPTED = 1;
+    const STATUS_REJECTED = 2;
+    const STATUS_DEFERRED_TO_CRON = 3;
+    const STATUS_DEFERRED_TO_CRON_REPEAT = 4;
+    const STATUS_RUN_SUB_EVENT = 5;
+    const STATUS_WORKFLOW_CANCELLED = 6;
+    const STATUS_FETCH_TEMPLATE = 7;
+    const STATUS_FETCH_TEMPLATE_REPEAT = 8;
+    const STATUS_REDIRECT = 10;
+    const STATUS_WORKFLOW_DONE = 9;
+    const STATUS_REDIRECT_REPEAT = 11;
+    const STATUS_WORKFLOW_RESET = 12;
+
     function eZWorkflowType( $group, $type,
                              $groupName, $name )
     {
@@ -76,7 +76,7 @@ class eZWorkflowType
 
     static function statusName( $status )
     {
-        include_once( 'kernel/workflow/ezworkflowfunctioncollection.php' );
+        //include_once( 'kernel/workflow/ezworkflowfunctioncollection.php' );
         $statusNames = eZWorkflowFunctionCollection::fetchWorkflowTypeStatuses();
         if ( isset( $statusNames[$status] ) )
             return $statusNames[$status];
@@ -201,7 +201,7 @@ class eZWorkflowType
         $group = $typeElements[0];
         $type = $typeElements[1];
 
-        include_once( 'lib/ezutils/classes/ezextension.php' );
+        //include_once( 'lib/ezutils/classes/ezextension.php' );
         $baseDirectory = eZExtension::baseDirectory();
         $wfINI = eZINI::instance( 'workflow.ini' );
         $repositoryDirectories = $wfINI->variable( 'EventSettings', 'RepositoryDirectories' );
@@ -291,7 +291,7 @@ class eZWorkflowType
 
     function execute( $process, $event )
     {
-        return EZ_WORKFLOW_TYPE_STATUS_NONE;
+        return eZWorkflowType::STATUS_NONE;
     }
 
     function initializeEvent( $event )
@@ -300,7 +300,7 @@ class eZWorkflowType
 
     function validateHTTPInput( $http, $base, $event, &$validation )
     {
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     function fixupHTTPInput( $http, $base, $event )
@@ -395,32 +395,6 @@ class eZWorkflowType
     public $ActivationDate;
     public $Information;
     public $TriggerTypes = array( '*' => true );
-}
-
-class eZWorkflowEventType extends eZWorkflowType
-{
-    function eZWorkflowEventType( $typeString, $name )
-    {
-        $this->eZWorkflowType( "event", $typeString, ezi18n( 'kernel/workflow/event', "Event" ), $name );
-    }
-
-    static function registerEventType( $typeString, $class_name )
-    {
-        eZWorkflowType::registerType( "event", $typeString, $class_name );
-    }
-}
-
-class eZWorkflowGroupType extends eZWorkflowType
-{
-    function eZWorkflowGroupType( $typeString, $name )
-    {
-        $this->eZWorkflowType( "group", $typeString, ezi18n( 'kernel/workflow/group', "Group" ), $name );
-    }
-
-    static function registerGroupType( $typeString, $class_name )
-    {
-        eZWorkflowType::registerType( "group", $typeString, $class_name );
-    }
 }
 
 ?>

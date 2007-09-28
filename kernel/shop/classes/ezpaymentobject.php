@@ -41,12 +41,11 @@
 
 */
 
-define( "EZ_REDIRECT_PAYMENT_STATUS_NOT_APPROVED"   , 0 );
-define( "EZ_REDIRECT_PAYMENT_STATUS_APPROVED"       , 1 );
-
-
 class eZPaymentObject extends eZPersistentObject
 {
+    const EZ_REDIRECT_PAYMENT_STATUS_NOT_APPROVED = 0;
+    const EZ_REDIRECT_PAYMENT_STATUS_APPROVED = 1;
+
     /*!
     Constructor.
     */
@@ -71,13 +70,13 @@ class eZPaymentObject extends eZPersistentObject
     */
     function approve()
     {
-        $this->setAttribute( 'status', EZ_REDIRECT_PAYMENT_STATUS_APPROVED );
+        $this->setAttribute( 'status', self::EZ_REDIRECT_PAYMENT_STATUS_APPROVED );
         $this->store();
     }
 
     function approved()
     {
-        return ( $this->attribute( 'status' ) == EZ_REDIRECT_PAYMENT_STATUS_APPROVED );
+        return ( $this->attribute( 'status' ) == self::EZ_REDIRECT_PAYMENT_STATUS_APPROVED );
     }
 
     static function definition()
@@ -153,9 +152,9 @@ class eZPaymentObject extends eZPersistentObject
     */
     function continueWorkflow( $workflowProcessID )
     {
-        include_once( 'kernel/classes/ezworkflowprocess.php' );
-        include_once( 'lib/ezutils/classes/ezoperationmemento.php' );
-        include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+        //include_once( 'kernel/classes/ezworkflowprocess.php' );
+        //include_once( 'lib/ezutils/classes/ezoperationmemento.php' );
+        //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
 
         $operationResult =  null;
         $theProcess      = eZWorkflowProcess::fetch( $workflowProcessID );

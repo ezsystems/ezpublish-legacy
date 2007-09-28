@@ -51,7 +51,7 @@
   \note It uses eZSys to figure out the OS type.
 */
 
-include_once( 'lib/ezutils/classes/ezsys.php' );
+//include_once( 'lib/ezutils/classes/ezsys.php' );
 
 class eZSysInfo
 {

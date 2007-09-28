@@ -37,22 +37,21 @@
   \brief The class eZRangeOptionType does
 
 */
-include_once( "kernel/classes/ezdatatype.php" );
-include_once( "kernel/classes/datatypes/ezrangeoption/ezrangeoption.php" );
-
-define( "EZ_RANGEOPTION_DEFAULT_NAME_VARIABLE", "_ezrangeoption_default_name_" );
-
-
-define( "EZ_DATATYPESTRING_RANGEOPTION", "ezrangeoption" );
+//include_once( "kernel/classes/ezdatatype.php" );
+//include_once( "kernel/classes/datatypes/ezrangeoption/ezrangeoption.php" );
 
 class eZRangeOptionType extends eZDataType
 {
+    const EZ_RANGEOPTION_DEFAULT_NAME_VARIABLE = "_ezrangeoption_default_name_";
+
+    const EZ_DATATYPESTRING_RANGEOPTION = "ezrangeoption";
+
     /*!
      Constructor
     */
     function eZRangeOptionType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_RANGEOPTION, ezi18n( 'kernel/classes/datatypes', "Range option", 'Datatype name' ),
+        $this->eZDataType( self::EZ_DATATYPESTRING_RANGEOPTION, ezi18n( 'kernel/classes/datatypes', "Range option", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -79,15 +78,15 @@ class eZRangeOptionType extends eZDataType
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                      'Missing range option input.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    return eZInputValidator::STATE_INVALID;
                 }
                 else
-                    return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                    return eZInputValidator::STATE_ACCEPTED;
             }
         }
         else
         {
-            return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            return eZInputValidator::STATE_ACCEPTED;
         }
 
 
@@ -234,7 +233,7 @@ class eZRangeOptionType extends eZDataType
     */
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $defaultValueName = $base . EZ_RANGEOPTION_DEFAULT_NAME_VARIABLE . $classAttribute->attribute( 'id' );
+        $defaultValueName = $base . self::EZ_RANGEOPTION_DEFAULT_NAME_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $defaultValueName ) )
         {
             $defaultValueValue = $http->postVariable( $defaultValueName );
@@ -294,6 +293,6 @@ class eZRangeOptionType extends eZDataType
     }
 }
 
-eZDataType::register( EZ_DATATYPESTRING_RANGEOPTION, "ezrangeoptiontype" );
+eZDataType::register( eZRangeOptionType::EZ_DATATYPESTRING_RANGEOPTION, "eZRangeOptionType" );
 
 ?>

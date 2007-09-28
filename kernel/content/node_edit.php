@@ -26,20 +26,20 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/classes/ezcontentclass.php' );
-include_once( 'kernel/classes/ezcontentclassattribute.php' );
+//include_once( 'kernel/classes/ezcontentclass.php' );
+//include_once( 'kernel/classes/ezcontentclassattribute.php' );
 
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/ezcontentobjectversion.php' );
-include_once( 'kernel/classes/ezcontentobjectattribute.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'kernel/classes/ezcontentobjectversion.php' );
+//include_once( 'kernel/classes/ezcontentobjectattribute.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
-include_once( 'kernel/common/template.php' );
+require_once( 'kernel/common/template.php' );
 
-include_once( 'kernel/classes/ezpreferences.php' );
+//include_once( 'kernel/classes/ezpreferences.php' );
 
 
 function checkNodeAssignments( $module, $class, $object, $version, $contentObjectAttributes, $editVersion, $editLanguage, $FromLanguage, &$validation )
@@ -47,7 +47,7 @@ function checkNodeAssignments( $module, $class, $object, $version, $contentObjec
     $http = eZHTTPTool::instance();
 
     // If the object has been previously published we do not allow node assignment operations
-    if ( $object->attribute( 'status' ) != EZ_CONTENT_OBJECT_STATUS_DRAFT )
+    if ( $object->attribute( 'status' ) != eZContentObject::STATUS_DRAFT )
     {
         if ( !$module->isCurrentAction( 'AddPrimaryNodeAssignment' ) )
         {
@@ -139,7 +139,7 @@ function checkNodeMovements( $module, $class, $object, $version, $contentObjectA
     $http = eZHTTPTool::instance();
 
     // If the object has been previously published we do not allow node assignment operations
-    if ( $object->attribute( 'status' ) != EZ_CONTENT_OBJECT_STATUS_DRAFT )
+    if ( $object->attribute( 'status' ) != eZContentObject::STATUS_DRAFT )
     {
         return;
     }
@@ -236,7 +236,7 @@ function checkNodeMovements( $module, $class, $object, $version, $contentObjectA
                             $oldAssignment->setAttribute( 'from_node_id', $fromNodeID );
 //                            $version->assignToNode( $nodeID, 0, $fromNodeID, $oldAssignment->attribute( 'sort_field' ), $oldAssignment->attribute( 'sort_order' ) );
                         }
-                        $oldAssignment->setAttribute( 'op_code', EZ_NODE_ASSIGNMENT_OP_CODE_MOVE );
+                        $oldAssignment->setAttribute( 'op_code', eZNodeAssignment::OP_CODE_MOVE );
                         $oldAssignment->store();
                         //$version->removeAssignment( $oldAssignmentParentID );
                         $db->commit();
@@ -252,7 +252,7 @@ function storeNodeAssignments( $module, $class, $object, $version, $contentObjec
     $http = eZHTTPTool::instance();
 
     // If the object has been previously published we do not allow node assignment operations
-    if ( $object->attribute( 'status' ) != EZ_CONTENT_OBJECT_STATUS_DRAFT )
+    if ( $object->attribute( 'status' ) != eZContentObject::STATUS_DRAFT )
     {
         return;
     }
@@ -396,7 +396,7 @@ function storeNodeAssignments( $module, $class, $object, $version, $contentObjec
 function checkNodeActions( $module, $class, $object, $version, $contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage )
 {
     // If the object has been previously published we do not allow node assignment operations
-    if ( $object->attribute( 'status' ) != EZ_CONTENT_OBJECT_STATUS_DRAFT )
+    if ( $object->attribute( 'status' ) != eZContentObject::STATUS_DRAFT )
     {
         if ( !$module->isCurrentAction( 'BrowseForPrimaryNodes' ) )
         {
@@ -469,7 +469,7 @@ function checkNodeActions( $module, $class, $object, $version, $contentObjectAtt
                                             'from_page' => "/content/edit/$objectID/$editVersion/$editLanguage/$fromLanguage" ),
                                      $module );
 
-            return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+            return eZModule::HOOK_STATUS_CANCEL_RUN;
         }
     }
 
@@ -516,7 +516,7 @@ function checkNodeActions( $module, $class, $object, $version, $contentObjectAtt
                     if ( $childrenCount != 0 )
                     {
                         $module->redirectToView( 'removenode', array( $objectID, $editVersion, $editLanguage, $nodeID ) );
-                        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+                        return eZModule::HOOK_STATUS_CANCEL_RUN;
                     }
                     else
                     {
@@ -539,7 +539,7 @@ function checkNodeActions( $module, $class, $object, $version, $contentObjectAtt
                     if ( $childrenCount != 0 )
                     {
                         $module->redirectToView( 'removenode', array( $objectID, $editVersion, $editLanguage, $nodeID ) );
-                        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+                        return eZModule::HOOK_STATUS_CANCEL_RUN;
                     }
                 }
                 $db = eZDB::instance();
@@ -596,7 +596,7 @@ function checkNodeActions( $module, $class, $object, $version, $contentObjectAtt
                                                   'edit_language' => $editLanguage,
                                                   'from_language' => $fromLanguage ) );
                 $module->redirectToView( 'removeassignment' );
-                return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+                return eZModule::HOOK_STATUS_CANCEL_RUN;
 
             }
             else
@@ -679,7 +679,7 @@ function checkNodeActions( $module, $class, $object, $version, $contentObjectAtt
                                                 'from_page' => "/content/edit/$objectID/$editVersion/$editLanguage" ),
                                          $module );
 
-                return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+                return eZModule::HOOK_STATUS_CANCEL_RUN;
             }
         }
     }
@@ -706,7 +706,7 @@ function handleNodeTemplate( $module, $class, $object, $version, $contentObjectA
                        'sort_order' => $node->attribute( 'sort_order' ),
                        'is_main' => ( $node->attribute( 'main_node_id' ) == $node->attribute( 'node_id' ) ? 1 : 0 ),
                        'parent_remote_id' => $node->attribute( 'remote_id' ),
-                       'op_code' => EZ_NODE_ASSIGNMENT_OP_CODE_NOP );
+                       'op_code' => eZNodeAssignment::OP_CODE_NOP );
         $assignment = eZNodeAssignment::create( $data );
         $assignedNodeArray[$i] = $assignment;
         $parentNodeIDMap[$node->attribute( 'parent_node_id' )] = $i;
@@ -715,14 +715,14 @@ function handleNodeTemplate( $module, $class, $object, $version, $contentObjectA
     foreach ( $versionedAssignedNodeArray as $nodeAssignment )
     {
         $opCode = $nodeAssignment->attribute( 'op_code' );
-        if ( ( $opCode & 1 ) == EZ_NODE_ASSIGNMENT_OP_CODE_NOP ) // If the execute bit is not set it will be ignored.
+        if ( ( $opCode & 1 ) == eZNodeAssignment::OP_CODE_NOP ) // If the execute bit is not set it will be ignored.
         {
             continue;
         }
         // Only add assignments whose parent is not present in the published nodes.
         if ( isset( $parentNodeIDMap[$nodeAssignment->attribute( 'parent_node' )] ) )
         {
-            if ( $opCode == EZ_NODE_ASSIGNMENT_OP_CODE_CREATE ) // CREATE entries are just skipped
+            if ( $opCode == eZNodeAssignment::OP_CODE_CREATE ) // CREATE entries are just skipped
             {
                 continue;
             }
@@ -734,8 +734,8 @@ function handleNodeTemplate( $module, $class, $object, $version, $contentObjectA
             $assignedNodeArray[$index]->setAttribute( 'op_code', $nodeAssignment->attribute( 'op_code' ) );
             continue;
         }
-        if ( $opCode == EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE ||
-             $opCode == EZ_NODE_ASSIGNMENT_OP_CODE_MOVE )
+        if ( $opCode == eZNodeAssignment::OP_CODE_REMOVE ||
+             $opCode == eZNodeAssignment::OP_CODE_MOVE )
         {
             // The node-assignment has a remove/move operation but the node does not exist.
             // We will not show it in this case.

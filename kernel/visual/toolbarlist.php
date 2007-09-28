@@ -31,8 +31,8 @@
 /*! \file toolbarlist.php
 */
 
-include_once( "kernel/common/template.php" );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
+require_once( "kernel/common/template.php" );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
 $http = eZHTTPTool::instance();
 

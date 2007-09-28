@@ -38,26 +38,26 @@
 
 */
 
-include_once( 'kernel/classes/ezdatatype.php' );
-include_once( 'kernel/classes/datatypes/ezmatrix/ezmatrix.php' );
-include_once( 'kernel/classes/datatypes/ezmatrix/ezmatrixdefinition.php' );
-include_once( 'lib/ezutils/classes/ezstringutils.php' );
-
-define( 'EZ_MATRIX_DEFAULT_NAME_VARIABLE', '_ezmatrix_default_name_' );
-
-define( 'EZ_MATRIX_NUMCOLUMNS_VARIABLE', '_ezmatrix_default_num_columns_' );
-define( 'EZ_MATRIX_NUMROWS_VARIABLE', '_ezmatrix_default_num_rows_' );
-define( 'EZ_MATRIX_CELL_VARIABLE', '_ezmatrix_cell_' );
-define( 'EZ_DATATYPESTRING_MATRIX', 'ezmatrix' );
+//include_once( 'kernel/classes/ezdatatype.php' );
+//include_once( 'kernel/classes/datatypes/ezmatrix/ezmatrix.php' );
+//include_once( 'kernel/classes/datatypes/ezmatrix/ezmatrixdefinition.php' );
+//include_once( 'lib/ezutils/classes/ezstringutils.php' );
 
 class eZMatrixType extends eZDataType
 {
+    const EZ_MATRIX_DEFAULT_NAME_VARIABLE = '_ezmatrix_default_name_';
+
+    const EZ_MATRIX_NUMCOLUMNS_VARIABLE = '_ezmatrix_default_num_columns_';
+    const EZ_MATRIX_NUMROWS_VARIABLE = '_ezmatrix_default_num_rows_';
+    const EZ_MATRIX_CELL_VARIABLE = '_ezmatrix_cell_';
+    const EZ_DATATYPESTRING_MATRIX = 'ezmatrix';
+
     /*!
      Constructor
     */
     function eZMatrixType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_MATRIX, ezi18n( 'kernel/classes/datatypes', 'Matrix', 'Datatype name' ),
+        $this->eZDataType( self::EZ_DATATYPESTRING_MATRIX, ezi18n( 'kernel/classes/datatypes', 'Matrix', 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -81,9 +81,9 @@ class eZMatrixType extends eZDataType
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                  'Missing matrix input.' ) );
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INVALID;
         }
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
@@ -156,7 +156,7 @@ class eZMatrixType extends eZDataType
     */
     function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
-        $cellsVarName = $base . EZ_MATRIX_CELL_VARIABLE . $contentObjectAttribute->attribute( 'id' );
+        $cellsVarName = $base . self::EZ_MATRIX_CELL_VARIABLE . $contentObjectAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $cellsVarName ) )
         {
             $cells = array();
@@ -279,10 +279,10 @@ class eZMatrixType extends eZDataType
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         // 'default name' is never used => just a stub
-        // $defaultValueName = $base . EZ_MATRIX_DEFAULT_NAME_VARIABLE . $classAttribute->attribute( 'id' );
+        // $defaultValueName = $base . self::EZ_MATRIX_DEFAULT_NAME_VARIABLE . $classAttribute->attribute( 'id' );
         $defaultValueName = '';
-        $defaultNumColumnsName = $base . EZ_MATRIX_NUMCOLUMNS_VARIABLE . $classAttribute->attribute( 'id' );
-        $defaultNumRowsName = $base . EZ_MATRIX_NUMROWS_VARIABLE . $classAttribute->attribute( 'id' );
+        $defaultNumColumnsName = $base . self::EZ_MATRIX_NUMCOLUMNS_VARIABLE . $classAttribute->attribute( 'id' );
+        $defaultNumRowsName = $base . self::EZ_MATRIX_NUMROWS_VARIABLE . $classAttribute->attribute( 'id' );
         $dataFetched = false;
         // 'default name' is never used => just a stub
         /*
@@ -340,7 +340,7 @@ class eZMatrixType extends eZDataType
                     {
                         $columnID = $name;
                         // Initialize transformation system
-                        include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+                        //include_once( 'lib/ezi18n/classes/ezchartransform.php' );
                         $trans = eZCharTransform::instance();
                         $columnID = $trans->transformByGroup( $columnID, 'identifier' );
                     }
@@ -547,6 +547,6 @@ class eZMatrixType extends eZDataType
     }
 }
 
-eZDataType::register( EZ_DATATYPESTRING_MATRIX, 'ezmatrixtype' );
+eZDataType::register( eZMatrixType::EZ_DATATYPESTRING_MATRIX, 'ezmatrixtype' );
 
 ?>

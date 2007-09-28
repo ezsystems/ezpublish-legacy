@@ -35,15 +35,15 @@
 
 */
 
-include_once( "kernel/classes/ezdatatype.php" );
-
-define( "EZ_DATATYPESTRING_BOOLEAN", "ezboolean" );
+//include_once( "kernel/classes/ezdatatype.php" );
 
 class eZBooleanType extends eZDataType
 {
+    const EZ_DATATYPESTRING_BOOLEAN = "ezboolean";
+
     function eZBooleanType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_BOOLEAN, ezi18n( 'kernel/classes/datatypes', "Checkbox", 'Datatype name' ),
+        $this->eZDataType( self::EZ_DATATYPESTRING_BOOLEAN, ezi18n( 'kernel/classes/datatypes', "Checkbox", 'Datatype name' ),
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( 'data_int' => 'value' ) ) );
     }
@@ -87,16 +87,16 @@ class eZBooleanType extends eZDataType
             {
                 $data = $http->postVariable( $base . "_data_boolean_" . $contentObjectAttribute->attribute( "id" ) );
                 if ( isset( $data ) )
-                    return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                    return eZInputValidator::STATE_ACCEPTED;
             }
             else
             {
                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                      'Input required.' ) );
-                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                return eZInputValidator::STATE_INVALID;
             }
         }
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
@@ -109,13 +109,13 @@ class eZBooleanType extends eZDataType
             {
                 $data = $http->postVariable( $base . "_data_boolean_" . $contentObjectAttribute->attribute( "id" ) );
                 if ( isset( $data ) )
-                    return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                    return eZInputValidator::STATE_ACCEPTED;
             }
             else
             {
                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                      'Input required.' ) );
-                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                return eZInputValidator::STATE_INVALID;
             }
         }
     }
@@ -276,6 +276,6 @@ class eZBooleanType extends eZDataType
     }
 }
 
-eZDataType::register( EZ_DATATYPESTRING_BOOLEAN, "ezbooleantype" );
+eZDataType::register( eZBooleanType::EZ_DATATYPESTRING_BOOLEAN, "eZBooleanType" );
 
 ?>

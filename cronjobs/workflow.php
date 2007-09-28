@@ -35,21 +35,21 @@ $runInBrowser = true;
 if ( isset( $webOutput ) )
     $runInBrowser = $webOutput;
 
-include_once( "lib/ezutils/classes/ezdebug.php" );
-include_once( "lib/ezutils/classes/ezini.php" );
+require_once( "lib/ezutils/classes/ezdebug.php" );
+//include_once( "lib/ezutils/classes/ezini.php" );
 
-include_once( "kernel/classes/ezworkflowprocess.php" );
-include_once( "kernel/classes/ezcontentobject.php" );
-include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-include_once( "lib/ezutils/classes/ezoperationmemento.php" );
-include_once( "lib/ezutils/classes/ezoperationhandler.php" );
-include_once( "lib/ezutils/classes/ezsession.php" );
+//include_once( "kernel/classes/ezworkflowprocess.php" );
+//include_once( "kernel/classes/ezcontentobject.php" );
+//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+//include_once( "lib/ezutils/classes/ezoperationmemento.php" );
+//include_once( "lib/ezutils/classes/ezoperationhandler.php" );
+require_once( "lib/ezutils/classes/ezsession.php" );
 
-include_once( "lib/ezutils/classes/ezdebug.php" );
-include_once( "lib/ezutils/classes/ezini.php" );
-include_once( "lib/ezutils/classes/ezdebugsetting.php" );
+require_once( "lib/ezutils/classes/ezdebug.php" );
+//include_once( "lib/ezutils/classes/ezini.php" );
+//include_once( "lib/ezutils/classes/ezdebugsetting.php" );
 
-$workflowProcessList = eZWorkflowProcess::fetchForStatus( EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON );
+$workflowProcessList = eZWorkflowProcess::fetchForStatus( eZWorkflow::STATUS_DEFERRED_TO_CRON );
 //var_dump( $workflowProcessList  );
 //$user = eZUser::instance( 14 );
 
@@ -73,16 +73,16 @@ foreach( $workflowProcessList as $process )
         $statusMap[$status] = 0;
     ++$statusMap[$status];
 
-    if ( $process->attribute( 'status' ) != EZ_WORKFLOW_STATUS_DONE )
+    if ( $process->attribute( 'status' ) != eZWorkflow::STATUS_DONE )
     {
-        if ( $process->attribute( 'status' ) == EZ_WORKFLOW_STATUS_CANCELLED )
+        if ( $process->attribute( 'status' ) == eZWorkflow::STATUS_CANCELLED )
         {
             ++$removedProcessCount;
             $process->removeThis();
             continue;
         }
         $process->store();
-        if ( $process->attribute( 'status' ) == EZ_WORKFLOW_STATUS_RESET )
+        if ( $process->attribute( 'status' ) == eZWorkflow::STATUS_RESET )
         {
             $bodyMemento = eZOperationMemento::fetchMain( $process->attribute( 'memento_key' ) );
             $mementoList = eZOperationMemento::fetchList( $process->attribute( 'memento_key' ) );

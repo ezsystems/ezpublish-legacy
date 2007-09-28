@@ -39,16 +39,16 @@
   Allows user to choose necessary gateway type 'on the fly'.
 */
 
-include_once( 'kernel/classes/ezworkflowtype.php' );
+//include_once( 'kernel/classes/ezworkflowtype.php' );
 
-define( 'EZ_WORKFLOW_TYPE_PAYMENTGATEWAY_ID', 'ezpaymentgateway' );
-define( 'EZ_PAYMENT_GATEWAY_GATEWAY_NOT_SELECTED', 0 );
-define( 'EZ_PAYMENT_GATEWAY_GATEWAY_SELECTED', 1 );
-
-include_once( 'kernel/classes/workflowtypes/event/ezpaymentgateway/ezpaymentlogger.php' );
+//include_once( 'kernel/classes/workflowtypes/event/ezpaymentgateway/ezpaymentlogger.php' );
 
 class eZPaymentGatewayType extends eZWorkflowEventType
 {
+    const WORKFLOW_TYPE_STRING = 'ezpaymentgateway';
+    const GATEWAY_NOT_SELECTED = 0;
+    const GATEWAY_SELECTED = 1;
+
     /*!
     Constructor.
     */
@@ -57,7 +57,7 @@ class eZPaymentGatewayType extends eZWorkflowEventType
     {
         $this->logger   = eZPaymentLogger::CreateForAdd( "var/log/eZPaymentGatewayType.log" );
 
-        $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_PAYMENTGATEWAY_ID, ezi18n( 'kernel/workflow/event', "Payment Gateway" ) );
+        $this->eZWorkflowEventType( eZPaymentGatewayType::WORKFLOW_TYPE_STRING, ezi18n( 'kernel/workflow/event', "Payment Gateway" ) );
         $this->loadAndRegisterGateways();
     }
 
@@ -72,18 +72,18 @@ class eZPaymentGatewayType extends eZWorkflowEventType
     {
         $this->logger->writeTimedString( 'execute' );
 
-        if( $process->attribute( 'event_state' ) == EZ_PAYMENT_GATEWAY_GATEWAY_NOT_SELECTED )
+        if( $process->attribute( 'event_state' ) == eZPaymentGatewayType::GATEWAY_NOT_SELECTED )
         {
-            $this->logger->writeTimedString( 'execute: EZ_PAYMENT_GATEWAY_GATEWAY_NOT_SELECTED' );
+            $this->logger->writeTimedString( 'execute: eZPaymentGatewayType::GATEWAY_NOT_SELECTED' );
 
-            $process->setAttribute( 'event_state', EZ_PAYMENT_GATEWAY_GATEWAY_SELECTED );
+            $process->setAttribute( 'event_state', eZPaymentGatewayType::GATEWAY_SELECTED );
             if ( !$this->selectGateway( $event ) )
             {
                 $process->Template = array();
                 $process->Template['templateName'] = 'design:workflow/selectgateway.tpl';
                 $process->Template['templateVars'] = array ( 'event' => $event );
 
-                return EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE_REPEAT;
+                return eZWorkflowType::STATUS_FETCH_TEMPLATE_REPEAT;
             }
         }
 
@@ -94,7 +94,7 @@ class eZPaymentGatewayType extends eZWorkflowEventType
         }
 
         $this->logger->writeTimedString( 'execute: something wrong' );
-        return EZ_WORKFLOW_TYPE_STATUS_REJECTED;
+        return eZWorkflowType::STATUS_REJECTED;
     }
 
     /*!
@@ -406,5 +406,5 @@ class eZPaymentGatewayType extends eZWorkflowEventType
     public $logger;
 }
 
-eZWorkflowEventType::registerEventType( EZ_WORKFLOW_TYPE_PAYMENTGATEWAY_ID, 'ezpaymentgatewaytype' );
+eZWorkflowEventType::registerEventType( eZPaymentGatewayType::WORKFLOW_TYPE_STRING, 'ezpaymentgatewaytype' );
 ?>

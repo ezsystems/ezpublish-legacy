@@ -37,15 +37,15 @@
 
 */
 
-define( 'EZ_COLLABORATION_STATUS_ACTIVE', 1 );
-define( 'EZ_COLLABORATION_STATUS_INACTIVE', 2 );
-define( 'EZ_COLLABORATION_STATUS_ARCHIVE', 3 );
-
-include_once( 'kernel/classes/ezpersistentobject.php' );
-include_once( 'kernel/classes/ezcollaborationitemstatus.php' );
+//include_once( 'kernel/classes/ezpersistentobject.php' );
+//include_once( 'kernel/classes/ezcollaborationitemstatus.php' );
 
 class eZCollaborationItem extends eZPersistentObject
 {
+    const EZ_COLLABORATION_STATUS_ACTIVE = 1;
+    const EZ_COLLABORATION_STATUS_INACTIVE = 2;
+    const EZ_COLLABORATION_STATUS_ARCHIVE = 3;
+
     /*!
      Constructor
     */
@@ -136,7 +136,7 @@ class eZCollaborationItem extends eZPersistentObject
                       'name' => 'ezcollab_item' );
     }
 
-    static function create( $typeIdentifier, $creatorID, $status = EZ_COLLABORATION_STATUS_ACTIVE )
+    static function create( $typeIdentifier, $creatorID, $status = self::EZ_COLLABORATION_STATUS_ACTIVE )
     {
         $date_time = time();
         $row = array(
@@ -160,7 +160,7 @@ class eZCollaborationItem extends eZPersistentObject
         $type = $info['type-identifier'];
         if ( $subType )
             $type .= '_' . $subType;
-        include_once( 'kernel/classes/notification/eznotificationevent.php' );
+        //include_once( 'kernel/classes/notification/eznotificationevent.php' );
         $event = eZNotificationEvent::create( 'ezcollaboration', array( 'collaboration_id' => $this->attribute( 'id' ),
                                                                          'collaboration_identifier' => $type ) );
         $event->store();
@@ -182,7 +182,7 @@ class eZCollaborationItem extends eZPersistentObject
     {
         if ( isset( $this->CreatorID ) and $this->CreatorID )
         {
-            include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+            //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
             return eZUser::fetch( $this->CreatorID );
         }
         return null;
@@ -192,7 +192,7 @@ class eZCollaborationItem extends eZPersistentObject
     {
         if ( isset( $this->CreatorID ) and $this->CreatorID )
         {
-            include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+            //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
             return ( eZUser::currentUserID() == $this->CreatorID );
         }
         return false;
@@ -200,21 +200,21 @@ class eZCollaborationItem extends eZPersistentObject
 
     function participantList()
     {
-        include_once( 'kernel/classes/ezcollaborationitemparticipantlink.php' );
+        //include_once( 'kernel/classes/ezcollaborationitemparticipantlink.php' );
         return eZCollaborationItemParticipantLink::fetchParticipantList( array('item_id' => $this->ID ) );
     }
 
     function userStatus()
     {
-        include_once( 'kernel/classes/ezcollaborationitemstatus.php' );
-        include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+        //include_once( 'kernel/classes/ezcollaborationitemstatus.php' );
+        //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
         $userID = eZUser::currentUserID();
         return eZCollaborationItemStatus::fetch( $this->ID, $userID );
     }
 
     function handler()
     {
-        include_once( 'kernel/classes/ezcollaborationitemhandler.php' );
+        //include_once( 'kernel/classes/ezcollaborationitemhandler.php' );
         return eZCollaborationItemHandler::instantiate( $this->attribute( 'type_identifier' ) );
     }
 
@@ -338,8 +338,8 @@ class eZCollaborationItem extends eZPersistentObject
 
 //         $statusText = '';
 //         if ( $statusTypes === false )
-//             $statusTypes = array( EZ_COLLABORATION_STATUS_ACTIVE,
-//                                   EZ_COLLABORATION_STATUS_INACTIVE );
+//             $statusTypes = array( self::EZ_COLLABORATION_STATUS_ACTIVE,
+//                                   self::EZ_COLLABORATION_STATUS_INACTIVE );
 //         $statusText = implode( ', ', $statusTypes );
 
 //         $sql = "SELECT count( ezcollab_item.id ) as count
@@ -472,8 +472,8 @@ class eZCollaborationItem extends eZPersistentObject
 
         $statusText = '';
         if ( $statusTypes === false )
-            $statusTypes = array( EZ_COLLABORATION_STATUS_ACTIVE,
-                                  EZ_COLLABORATION_STATUS_INACTIVE );
+            $statusTypes = array( self::EZ_COLLABORATION_STATUS_ACTIVE,
+                                  self::EZ_COLLABORATION_STATUS_INACTIVE );
         $statusText = implode( ', ', $statusTypes );
 
         if ( $asCount )

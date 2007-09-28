@@ -50,12 +50,12 @@
 
 */
 
-include_once( "lib/ezi18n/classes/eztranslatorhandler.php" );
-
-define( 'EZ_TM_DYNAMIC_TRANSLATIONS_ENABLED', 'eZTMDynamicTranslationsEnabled' );
+//include_once( "lib/ezi18n/classes/eztranslatorhandler.php" );
 
 class eZTranslatorManager
 {
+    const EZ_TM_DYNAMIC_TRANSLATIONS_ENABLED = 'eZTMDynamicTranslationsEnabled';
+
     /*!
     */
     function eZTranslatorManager()
@@ -207,7 +207,7 @@ class eZTranslatorManager
     */
     static function resetTranslations()
     {
-        include_once( 'lib/ezi18n/classes/eztstranslator.php' );
+        //include_once( 'lib/ezi18n/classes/eztstranslator.php' );
         eZTranslatorManager::resetGlobals();
         eZTSTranslator::resetGlobals();
         eZLocale::resetGlobals();
@@ -219,7 +219,7 @@ class eZTranslatorManager
     */
     static function dynamicTranslationsEnabled()
     {
-        return isset( $GLOBALS[EZ_TM_DYNAMIC_TRANSLATIONS_ENABLED] );
+        return isset( $GLOBALS[self::EZ_TM_DYNAMIC_TRANSLATIONS_ENABLED] );
     }
 
     /*!
@@ -229,11 +229,11 @@ class eZTranslatorManager
     {
         if ( $enable )
         {
-            $GLOBALS[EZ_TM_DYNAMIC_TRANSLATIONS_ENABLED] = true;
+            $GLOBALS[self::EZ_TM_DYNAMIC_TRANSLATIONS_ENABLED] = true;
         }
         else
         {
-            unset( $GLOBALS[EZ_TM_DYNAMIC_TRANSLATIONS_ENABLED] );
+            unset( $GLOBALS[self::EZ_TM_DYNAMIC_TRANSLATIONS_ENABLED] );
         }
     }
 

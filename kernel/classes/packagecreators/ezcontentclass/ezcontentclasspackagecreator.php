@@ -38,7 +38,7 @@
 
 */
 
-include_once( 'kernel/classes/ezpackagecreationhandler.php' );
+//include_once( 'kernel/classes/ezpackagecreationhandler.php' );
 
 class eZContentClassPackageCreator extends eZPackageCreationHandler
 {

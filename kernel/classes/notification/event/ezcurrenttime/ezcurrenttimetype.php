@@ -36,19 +36,19 @@
   \brief The class eZCurrentTimeType does
 
 */
-include_once( 'kernel/classes/notification/eznotificationeventtype.php' );
-include_once( "lib/ezlocale/classes/ezdate.php" );
-
-define( 'EZ_NOTIFICATIONTYPESTRING_CURRENTTIME', 'ezcurrenttime' );
+//include_once( 'kernel/classes/notification/eznotificationeventtype.php' );
+//include_once( "lib/ezlocale/classes/ezdate.php" );
 
 class eZCurrentTimeType extends eZNotificationEventType
 {
+    const EZ_NOTIFICATIONTYPESTRING_CURRENTTIME = 'ezcurrenttime';
+
     /*!
      Constructor
     */
     function eZCurrentTimeType()
     {
-        $this->eZNotificationEventType( EZ_NOTIFICATIONTYPESTRING_CURRENTTIME );
+        $this->eZNotificationEventType( self::EZ_NOTIFICATIONTYPESTRING_CURRENTTIME );
     }
 
     function initializeEvent( $event, $params )
@@ -76,7 +76,7 @@ class eZCurrentTimeType extends eZNotificationEventType
 
 }
 
-eZNotificationEventType::register( EZ_NOTIFICATIONTYPESTRING_CURRENTTIME, 'ezcurrenttimetype' );
+eZNotificationEventType::register( eZCurrentTimeType::EZ_NOTIFICATIONTYPESTRING_CURRENTTIME, 'eZCurrentTimeType' );
 
 
 ?>

@@ -49,21 +49,22 @@
 
 */
 
-include_once( "kernel/classes/ezdatatype.php" );
-include_once( "kernel/classes/datatypes/ezmultioption2/ezmultioption2.php" );
-include_once( 'lib/ezutils/classes/ezstringutils.php' );
-define( "EZ_MULTIOPTION2_DEFAULT_NAME_VARIABLE", "_ezmultioption2_default_name_" );
-define( "EZ_MULTIOPTION2_MAX_CHILD_LEVEL", 50 );
-define( "EZ_DATATYPESTRING_MULTIOPTION2", "ezmultioption2" );
+//include_once( "kernel/classes/ezdatatype.php" );
+//include_once( "kernel/classes/datatypes/ezmultioption2/ezmultioption2.php" );
+//include_once( 'lib/ezutils/classes/ezstringutils.php' );
 
 class eZMultiOption2Type extends eZDataType
 {
+    const EZ_MULTIOPTION2_DEFAULT_NAME_VARIABLE = "_ezmultioption2_default_name_";
+    const EZ_MULTIOPTION2_MAX_CHILD_LEVEL = 50;
+    const EZ_DATATYPESTRING_MULTIOPTION2 = "ezmultioption2";
+
     /*!
      Constructor to initialize the datatype.
     */
     function eZMultiOption2Type()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_MULTIOPTION2, ezi18n( 'kernel/classes/datatypes', "Multi-option2", 'Datatype name' ),
+        $this->eZDataType( self::EZ_DATATYPESTRING_MULTIOPTION2, ezi18n( 'kernel/classes/datatypes', "Multi-option2", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -73,7 +74,7 @@ class eZMultiOption2Type extends eZDataType
     */
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
@@ -268,7 +269,7 @@ class eZMultiOption2Type extends eZDataType
                     $optionGroup->addOption( $newID, $optionCountArray[$i], $optionValueArray[$i], $optionAdditionalPriceArray[$i], $isSelectable, $objectID );
                 }
             }
-            if ( $depth > EZ_MULTIOPTION2_MAX_CHILD_LEVEL)
+            if ( $depth > self::EZ_MULTIOPTION2_MAX_CHILD_LEVEL)
                 die('max recursion level has been reached');
             $this->fetchHTTPInputForGroup( $optionGroup, $http, $base, $contentObjectAttribute, $depth+1 );
 
@@ -453,7 +454,7 @@ class eZMultiOption2Type extends eZDataType
             $redirectionURI = $parameters['current-redirection-uri'];
             $ini = eZINI::instance( 'content.ini' );
 
-            include_once( 'kernel/classes/ezcontentbrowse.php' );
+            //include_once( 'kernel/classes/ezcontentbrowse.php' );
 
             $browseType = 'AddRelatedObjectToDataType';
             $browseTypeINIVariable = $ini->variable( 'ObjectRelationDataTypeSettings', 'ClassAttributeStartNode' );
@@ -625,9 +626,9 @@ class eZMultiOption2Type extends eZDataType
         if ( count( $validationErrors ) > 0 )
         {
             $errors = $validationErrors;
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INVALID;
         }
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
@@ -702,6 +703,6 @@ class eZMultiOption2Type extends eZDataType
 
 }
 
-eZDataType::register( EZ_DATATYPESTRING_MULTIOPTION2, "ezmultioption2type" );
+eZDataType::register( eZMultiOption2Type::EZ_DATATYPESTRING_MULTIOPTION2, "eZMultiOption2Type" );
 
 ?>

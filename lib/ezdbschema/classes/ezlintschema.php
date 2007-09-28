@@ -57,7 +57,7 @@
 
 */
 
-include_once( 'lib/ezdbschema/classes/ezdbschemainterface.php' );
+//include_once( 'lib/ezdbschema/classes/ezdbschemainterface.php' );
 
 class eZLintSchema extends eZDBSchemaInterface
 {

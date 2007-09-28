@@ -32,8 +32,8 @@
 /*! \file updateiscontainer.php
 */
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
 
 $cli = eZCLI::instance();

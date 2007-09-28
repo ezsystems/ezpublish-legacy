@@ -30,22 +30,8 @@
 
 /*! \file ezstep_site_details.php
 */
-include_once( 'kernel/setup/steps/ezstep_installer.php');
-include_once( "kernel/common/i18n.php" );
-
-if ( !defined( 'EZ_SETUP_DB_ERROR_NOT_EMPTY' ) )
-    define( 'EZ_SETUP_DB_ERROR_NOT_EMPTY', 4 );
-if ( !defined( 'EZ_SETUP_DB_ERROR_ALREADY_CHOSEN' ) )
-    define( 'EZ_SETUP_DB_ERROR_ALREADY_CHOSEN', 10 );
-if ( !defined( 'EZ_SETUP_SITE_ACCESS_ILLEGAL' ) )
-    define( 'EZ_SETUP_SITE_ACCESS_ILLEGAL', 11 );
-
-if ( !defined( 'EZ_SETUP_SITE_ACCESS_DEFAULT_REGEXP' ) )
-    define( 'EZ_SETUP_SITE_ACCESS_DEFAULT_REGEXP', '/^([a-zA-Z0-9_]*)$/' );
-if ( !defined( 'EZ_SETUP_SITE_ACCESS_HOSTNAME_REGEXP' ) )
-    define( 'EZ_SETUP_SITE_ACCESS_HOSTNAME_REGEXP', '/^([a-zA-Z0-9.\-:]*)$/' );
-if ( !defined( 'EZ_SETUP_SITE_ACCESS_PORT_REGEXP' ) )
-    define( 'EZ_SETUP_SITE_ACCESS_PORT_REGEXP', '/^([0-9]*)$/' );
+//include_once( 'kernel/setup/steps/ezstep_installer.php');
+require_once( "kernel/common/i18n.php" );
 
 /*!
   \class eZStepSiteDetails ezstep_site_details.php
@@ -55,6 +41,12 @@ if ( !defined( 'EZ_SETUP_SITE_ACCESS_PORT_REGEXP' ) )
 
 class eZStepSiteDetails extends eZStepInstaller
 {
+    const EZ_SETUP_SITE_ACCESS_ILLEGAL = 11;
+
+    const EZ_SETUP_SITE_ACCESS_DEFAULT_REGEXP = '/^([a-zA-Z0-9_]*)$/';
+    const EZ_SETUP_SITE_ACCESS_HOSTNAME_REGEXP = '/^([a-zA-Z0-9.\-:]*)$/';
+    const EZ_SETUP_SITE_ACCESS_PORT_REGEXP = '/^([0-9]*)$/';
+
     /*!
      Constructor
     */
@@ -69,7 +61,7 @@ class eZStepSiteDetails extends eZStepInstaller
     */
     function processPostData()
     {
-        include_once( 'lib/ezdb/classes/ezdbtool.php' );
+        //include_once( 'lib/ezdb/classes/ezdbtool.php' );
         $databaseMap = eZSetupDatabaseMap();
 
         $databaseInfo = $this->PersistenceList['database_info'];
@@ -99,20 +91,20 @@ class eZStepSiteDetails extends eZStepInstaller
         $error = false;
         $userPath = $this->Http->postVariable( 'eZSetup_site_templates_value' );
 
-        $regexp = EZ_SETUP_SITE_ACCESS_DEFAULT_REGEXP;
+        $regexp = self::EZ_SETUP_SITE_ACCESS_DEFAULT_REGEXP;
         if ( $siteType['access_type'] == 'port' )
         {
-            $regexp = EZ_SETUP_SITE_ACCESS_PORT_REGEXP;
+            $regexp = self::EZ_SETUP_SITE_ACCESS_PORT_REGEXP;
         }
         elseif ( $siteType['access_type'] == 'hostname' )
         {
-            $regexp =  EZ_SETUP_SITE_ACCESS_HOSTNAME_REGEXP;
+            $regexp = self::EZ_SETUP_SITE_ACCESS_HOSTNAME_REGEXP;
         }
         $validateUserPath = preg_match( $regexp, $userPath );
 
         if ( isset( $siteAccessValues[$userPath] ) or !$validateUserPath ) // check for equal site access values
         {
-            $this->Error[0] = EZ_SETUP_SITE_ACCESS_ILLEGAL;
+            $this->Error[0] = self::EZ_SETUP_SITE_ACCESS_ILLEGAL;
             /* Check for valid host name */
             $userPath = ( ( $siteType['access_type'] == 'hostname' ) and ( strpos( $userPath, '_' ) !== false ) ) ? strtr( $userPath, '_', '-' ) : $userPath;
             $error = true;
@@ -122,7 +114,7 @@ class eZStepSiteDetails extends eZStepInstaller
         $siteType['access_type_value'] = $userPath;
         if ( $siteType['access_type_value'] == '' )
         {
-            $this->Error[0] = EZ_SETUP_SITE_ACCESS_ILLEGAL;
+            $this->Error[0] = self::EZ_SETUP_SITE_ACCESS_ILLEGAL;
             return false;
         }
 
@@ -132,7 +124,7 @@ class eZStepSiteDetails extends eZStepInstaller
 
         if ( isset( $siteAccessValues[$adminPath] ) or !$validateAdminPath ) // check for equal site access values
         {
-            $this->Error[0] = EZ_SETUP_SITE_ACCESS_ILLEGAL;
+            $this->Error[0] = self::EZ_SETUP_SITE_ACCESS_ILLEGAL;
             /* Check for valid host name */
             $adminPath = ( ( $siteType['access_type'] == 'hostname' ) and ( strpos( $adminPath, '_' ) !== false ) ) ? strtr( $adminPath, '_', '-' ) : $adminPath;
             $error = true;
@@ -142,7 +134,7 @@ class eZStepSiteDetails extends eZStepInstaller
         $siteType['admin_access_type_value'] = $adminPath;
         if ( $siteType['admin_access_type_value'] == '' )
         {
-            $this->Error[0] = EZ_SETUP_SITE_ACCESS_ILLEGAL;
+            $this->Error[0] = self::EZ_SETUP_SITE_ACCESS_ILLEGAL;
             return false;
         }
 
@@ -152,7 +144,7 @@ class eZStepSiteDetails extends eZStepInstaller
 
         if ( isset( $chosenDatabases[$siteType['database']] ) )
         {
-            $this->Error[0] = EZ_SETUP_DB_ERROR_ALREADY_CHOSEN;
+            $this->Error[0] = eZStepInstaller::EZ_SETUP_DB_ERROR_ALREADY_CHOSEN;
             $error = true;
         }
 
@@ -193,13 +185,13 @@ class eZStepSiteDetails extends eZStepInstaller
             if ( count( $db->eZTableList() ) != 0 )
             {
                 if ( $this->Http->hasPostVariable( 'eZSetup_site_templates_existing_database' ) &&
-                     $this->Http->postVariable( 'eZSetup_site_templates_existing_database' ) != EZ_SETUP_DB_DATA_CHOOSE )
+                     $this->Http->postVariable( 'eZSetup_site_templates_existing_database' ) != eZStepInstaller::EZ_SETUP_DB_DATA_CHOOSE )
                 {
                     $siteType['existing_database'] = $this->Http->postVariable( 'eZSetup_site_templates_existing_database' );
                 }
                 else
                 {
-                    $this->Error[0] = EZ_SETUP_DB_ERROR_NOT_EMPTY ;
+                    $this->Error[0] = eZStepInstaller::EZ_SETUP_DB_ERROR_NOT_EMPTY ;
                 }
             }
         }
@@ -286,7 +278,7 @@ class eZStepSiteDetails extends eZStepInstaller
             };
 
             $siteType['database'] = $data['Database'];
-            $action = EZ_SETUP_DB_DATA_APPEND;
+            $action = eZStepInstaller::EZ_SETUP_DB_DATA_APPEND;
             $map = array( 'ignore' => 1,
                           'remove' => 2,
                           'skip' => 3 );
@@ -318,7 +310,7 @@ class eZStepSiteDetails extends eZStepInstaller
             return $this->kickstartContinueNextStep();
         }
 
-        include_once( 'lib/ezdb/classes/ezdbtool.php' );
+        //include_once( 'lib/ezdb/classes/ezdbtool.php' );
 
         // Get available databases
         $databaseMap = eZSetupDatabaseMap();
@@ -411,7 +403,7 @@ class eZStepSiteDetails extends eZStepInstaller
         }
         if ( !isset( $siteType['existing_database'] ) )
         {
-            $siteType['existing_database'] = EZ_SETUP_DB_DATA_APPEND;
+            $siteType['existing_database'] = eZStepInstaller::EZ_SETUP_DB_DATA_APPEND;
         }
 
         $this->Tpl->setVariable( 'db_not_empty', 0 );
@@ -436,19 +428,19 @@ class eZStepSiteDetails extends eZStepInstaller
             {
                 switch ( $error )
                 {
-                    case EZ_SETUP_DB_ERROR_NOT_EMPTY:
+                    case eZStepInstaller::EZ_SETUP_DB_ERROR_NOT_EMPTY:
                     {
                         $this->Tpl->setVariable( 'db_not_empty', 1 );
                         $siteType['db_not_empty'] = 1;
                     } break;
 
-                    case EZ_SETUP_DB_ERROR_ALREADY_CHOSEN:
+                    case eZStepInstaller::EZ_SETUP_DB_ERROR_ALREADY_CHOSEN:
                     {
                         $this->Tpl->setVariable( 'db_already_chosen', 1 );
                         $siteType['db_already_chosen'] = 1;
                     } break;
 
-                    case EZ_SETUP_SITE_ACCESS_ILLEGAL:
+                    case self::EZ_SETUP_SITE_ACCESS_ILLEGAL:
                     {
                         $this->Tpl->setVariable( 'site_access_illegal', 1 );
                         $siteType['site_access_illegal'] = 1;
@@ -457,7 +449,7 @@ class eZStepSiteDetails extends eZStepInstaller
             }
             else if ( $type == 'db' )
             {
-                if ( $error == EZ_SETUP_DB_ERROR_CHARSET_DIFFERS )
+                if ( $error == eZStepInstaller::EZ_SETUP_DB_ERROR_CHARSET_DIFFERS )
                     $this->Tpl->setVariable( 'db_charset_differs', 1 );
                 $siteType['errors'][] = $this->databaseErrorInfo( array( 'error_code' => $error,
                                                                          'database_info' => $this->PersistenceList['database_info'],

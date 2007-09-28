@@ -35,27 +35,27 @@
 
 */
 
-include_once( "kernel/classes/ezdatatype.php" );
-include_once( "lib/ezutils/classes/ezfloatvalidator.php" );
-
-define( "EZ_DATATYPESTRING_FLOAT", "ezfloat" );
-define( "EZ_DATATYPESTRING_MIN_FLOAT_FIELD", "data_float1" );
-define( "EZ_DATATYPESTRING_MIN_FLOAT_VARIABLE", "_ezfloat_min_float_value_" );
-define( "EZ_DATATYPESTRING_MAX_FLOAT_FIELD", "data_float2" );
-define( "EZ_DATATYPESTRING_MAX_FLOAT_VARIABLE", "_ezfloat_max_float_value_" );
-define( "EZ_DATATYPESTRING_DEFAULT_FLOAT_FIELD", "data_float3" );
-define( "EZ_DATATYPESTRING_DEFAULT_FLOAT_VARIABLE", "_ezfloat_default_value_" );
-define( "EZ_DATATYPESTRING_FLOAT_INPUT_STATE_FIELD", "data_float4" );
-define( "EZ_FLOAT_NO_MIN_MAX_VALUE", 0 );
-define( "EZ_FLOAT_HAS_MIN_VALUE", 1 );
-define( "EZ_FLOAT_HAS_MAX_VALUE", 2 );
-define( "EZ_FLOAT_HAS_MIN_MAX_VALUE", 3 );
+//include_once( "kernel/classes/ezdatatype.php" );
+//include_once( "lib/ezutils/classes/ezfloatvalidator.php" );
 
 class eZFloatType extends eZDataType
 {
+    const EZ_DATATYPESTRING_FLOAT = "ezfloat";
+    const EZ_DATATYPESTRING_MIN_FLOAT_FIELD = "data_float1";
+    const EZ_DATATYPESTRING_MIN_FLOAT_VARIABLE = "_ezfloat_min_float_value_";
+    const EZ_DATATYPESTRING_MAX_FLOAT_FIELD = "data_float2";
+    const EZ_DATATYPESTRING_MAX_FLOAT_VARIABLE = "_ezfloat_max_float_value_";
+    const EZ_DATATYPESTRING_DEFAULT_FLOAT_FIELD = "data_float3";
+    const EZ_DATATYPESTRING_DEFAULT_FLOAT_VARIABLE = "_ezfloat_default_value_";
+    const EZ_DATATYPESTRING_FLOAT_INPUT_STATE_FIELD = "data_float4";
+    const EZ_FLOAT_NO_MIN_MAX_VALUE = 0;
+    const EZ_FLOAT_HAS_MIN_VALUE = 1;
+    const EZ_FLOAT_HAS_MAX_VALUE = 2;
+    const EZ_FLOAT_HAS_MIN_MAX_VALUE = 3;
+
     function eZFloatType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_FLOAT, ezi18n( 'kernel/classes/datatypes', "Float", 'Datatype name' ),
+        $this->eZDataType( self::EZ_DATATYPESTRING_FLOAT, ezi18n( 'kernel/classes/datatypes', "Float", 'Datatype name' ),
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( 'data_float' => 'value' ) ) );
         $this->FloatValidator = new eZFloatValidator();
@@ -95,7 +95,7 @@ class eZFloatType extends eZDataType
             $data = $http->postVariable( $base . "_data_float_" . $contentObjectAttribute->attribute( "id" ) );
             $contentObjectAttribute->setHTTPValue( $data );
 
-            include_once( 'lib/ezlocale/classes/ezlocale.php' );
+            //include_once( 'lib/ezlocale/classes/ezlocale.php' );
             $locale = eZLocale::instance();
             $data = $locale->internalNumber( $data );
 
@@ -116,58 +116,58 @@ class eZFloatType extends eZDataType
             $data = $http->postVariable( $base . "_data_float_" . $contentObjectAttribute->attribute( "id" ) );
             $data = str_replace(" ", "", $data );
             $classAttribute = $contentObjectAttribute->contentClassAttribute();
-            $min = $classAttribute->attribute( EZ_DATATYPESTRING_MIN_FLOAT_FIELD );
-            $max = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_FLOAT_FIELD );
-            $input_state = $classAttribute->attribute( EZ_DATATYPESTRING_FLOAT_INPUT_STATE_FIELD );
+            $min = $classAttribute->attribute( self::EZ_DATATYPESTRING_MIN_FLOAT_FIELD );
+            $max = $classAttribute->attribute( self::EZ_DATATYPESTRING_MAX_FLOAT_FIELD );
+            $input_state = $classAttribute->attribute( self::EZ_DATATYPESTRING_FLOAT_INPUT_STATE_FIELD );
 
             if ( !$contentObjectAttribute->validateIsRequired() &&  ( $data == "" ) )
             {
-                return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                return eZInputValidator::STATE_ACCEPTED;
             }
 
-            include_once( 'lib/ezlocale/classes/ezlocale.php' );
+            //include_once( 'lib/ezlocale/classes/ezlocale.php' );
             $locale = eZLocale::instance();
             $data = $locale->internalNumber( $data );
 
             switch( $input_state )
             {
-                case EZ_FLOAT_NO_MIN_MAX_VALUE:
+                case self::EZ_FLOAT_NO_MIN_MAX_VALUE:
                 {
                     $state = $this->FloatValidator->validate( $data );
                     if( $state===1 )
-                        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                        return eZInputValidator::STATE_ACCEPTED;
                     else
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                              'The given input is not a floating point number.' ) );
                 } break;
-                case EZ_FLOAT_HAS_MIN_VALUE:
+                case self::EZ_FLOAT_HAS_MIN_VALUE:
                 {
                     $this->FloatValidator->setRange( $min, false );
                     $state = $this->FloatValidator->validate( $data );
                     if( $state===1 )
-                        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                        return eZInputValidator::STATE_ACCEPTED;
                     else
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                              'The input must be greater than %1' ),
                                                                      $min );
                 } break;
-                case EZ_FLOAT_HAS_MAX_VALUE:
+                case self::EZ_FLOAT_HAS_MAX_VALUE:
                 {
                     $this->FloatValidator->setRange( false, $max );
                     $state = $this->FloatValidator->validate( $data );
                     if( $state===1 )
-                        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                        return eZInputValidator::STATE_ACCEPTED;
                     else
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                              'The input must be less than %1' ),
                                                                      $max );
                 } break;
-                case EZ_FLOAT_HAS_MIN_MAX_VALUE:
+                case self::EZ_FLOAT_HAS_MIN_MAX_VALUE:
                 {
                     $this->FloatValidator->setRange( $min, $max );
                     $state = $this->FloatValidator->validate( $data );
                     if( $state===1 )
-                        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                        return eZInputValidator::STATE_ACCEPTED;
                     else
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                              'The input is not in defined range %1 - %2' ),
@@ -175,7 +175,7 @@ class eZFloatType extends eZDataType
                 } break;
             }
         }
-        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+        return eZInputValidator::STATE_INVALID;
     }
 
     function fixupObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
@@ -188,15 +188,15 @@ class eZFloatType extends eZDataType
 
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $minValueName = $base . EZ_DATATYPESTRING_MIN_FLOAT_VARIABLE . $classAttribute->attribute( "id" );
-        $maxValueName = $base . EZ_DATATYPESTRING_MAX_FLOAT_VARIABLE . $classAttribute->attribute( "id" );
-        $defaultValueName =  $base . EZ_DATATYPESTRING_DEFAULT_FLOAT_VARIABLE . $classAttribute->attribute( "id" );
+        $minValueName = $base . self::EZ_DATATYPESTRING_MIN_FLOAT_VARIABLE . $classAttribute->attribute( "id" );
+        $maxValueName = $base . self::EZ_DATATYPESTRING_MAX_FLOAT_VARIABLE . $classAttribute->attribute( "id" );
+        $defaultValueName =  $base . self::EZ_DATATYPESTRING_DEFAULT_FLOAT_VARIABLE . $classAttribute->attribute( "id" );
 
         if ( $http->hasPostVariable( $minValueName ) and
              $http->hasPostVariable( $maxValueName ) and
              $http->hasPostVariable( $defaultValueName ) )
         {
-            include_once( 'lib/ezlocale/classes/ezlocale.php' );
+            //include_once( 'lib/ezlocale/classes/ezlocale.php' );
             $locale = eZLocale::instance();
 
             $minValueValue = $http->postVariable( $minValueName );
@@ -209,28 +209,28 @@ class eZFloatType extends eZDataType
             $defaultValueValue = str_replace(" ", "", $defaultValueValue );
             $defaultValueValue = $locale->internalNumber( $defaultValueValue );
 
-            $classAttribute->setAttribute( EZ_DATATYPESTRING_MIN_FLOAT_FIELD, $minValueValue );
-            $classAttribute->setAttribute( EZ_DATATYPESTRING_MAX_FLOAT_FIELD, $maxValueValue );
-            $classAttribute->setAttribute( EZ_DATATYPESTRING_DEFAULT_FLOAT_FIELD, $defaultValueValue );
+            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_MIN_FLOAT_FIELD, $minValueValue );
+            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_MAX_FLOAT_FIELD, $maxValueValue );
+            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_DEFAULT_FLOAT_FIELD, $defaultValueValue );
 
             if ( ( $minValueValue == "" ) && ( $maxValueValue == "") ){
-                $input_state =  EZ_FLOAT_NO_MIN_MAX_VALUE;
-                $classAttribute->setAttribute( EZ_DATATYPESTRING_FLOAT_INPUT_STATE_FIELD, $input_state );
+                $input_state = self::EZ_FLOAT_NO_MIN_MAX_VALUE;
+                $classAttribute->setAttribute( self::EZ_DATATYPESTRING_FLOAT_INPUT_STATE_FIELD, $input_state );
             }
             else if ( ( $minValueValue == "" ) && ( $maxValueValue !== "") )
             {
-                $input_state = EZ_FLOAT_HAS_MAX_VALUE;
-                $classAttribute->setAttribute( EZ_DATATYPESTRING_FLOAT_INPUT_STATE_FIELD, $input_state );
+                $input_state = self::EZ_FLOAT_HAS_MAX_VALUE;
+                $classAttribute->setAttribute( self::EZ_DATATYPESTRING_FLOAT_INPUT_STATE_FIELD, $input_state );
             }
             else if ( ( $minValueValue !== "" ) && ( $maxValueValue == "") )
             {
-                $input_state = EZ_FLOAT_HAS_MIN_VALUE;
-                $classAttribute->setAttribute( EZ_DATATYPESTRING_FLOAT_INPUT_STATE_FIELD, $input_state );
+                $input_state = self::EZ_FLOAT_HAS_MIN_VALUE;
+                $classAttribute->setAttribute( self::EZ_DATATYPESTRING_FLOAT_INPUT_STATE_FIELD, $input_state );
             }
             else
             {
-                $input_state = EZ_FLOAT_HAS_MIN_MAX_VALUE;
-                $classAttribute->setAttribute( EZ_DATATYPESTRING_FLOAT_INPUT_STATE_FIELD, $input_state );
+                $input_state = self::EZ_FLOAT_HAS_MIN_MAX_VALUE;
+                $classAttribute->setAttribute( self::EZ_DATATYPESTRING_FLOAT_INPUT_STATE_FIELD, $input_state );
             }
             return true;
         }
@@ -239,15 +239,15 @@ class eZFloatType extends eZDataType
 
     function validateClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $minValueName = $base . EZ_DATATYPESTRING_MIN_FLOAT_VARIABLE . $classAttribute->attribute( "id" );
-        $maxValueName = $base . EZ_DATATYPESTRING_MAX_FLOAT_VARIABLE . $classAttribute->attribute( "id" );
-        $defaultValueName =  $base . EZ_DATATYPESTRING_DEFAULT_FLOAT_VARIABLE . $classAttribute->attribute( "id" );
+        $minValueName = $base . self::EZ_DATATYPESTRING_MIN_FLOAT_VARIABLE . $classAttribute->attribute( "id" );
+        $maxValueName = $base . self::EZ_DATATYPESTRING_MAX_FLOAT_VARIABLE . $classAttribute->attribute( "id" );
+        $defaultValueName =  $base . self::EZ_DATATYPESTRING_DEFAULT_FLOAT_VARIABLE . $classAttribute->attribute( "id" );
 
         if ( $http->hasPostVariable( $minValueName ) and
              $http->hasPostVariable( $maxValueName ) and
              $http->hasPostVariable( $defaultValueName ) )
         {
-            include_once( 'lib/ezlocale/classes/ezlocale.php' );
+            //include_once( 'lib/ezlocale/classes/ezlocale.php' );
             $locale = eZLocale::instance();
 
             $minValueValue = $http->postVariable( $minValueName );
@@ -261,7 +261,7 @@ class eZFloatType extends eZDataType
             $defaultValueValue = $locale->internalNumber( $defaultValueValue );
 
             if ( ( $minValueValue == "" ) && ( $maxValueValue == "") ){
-                return  EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                return  eZInputValidator::STATE_ACCEPTED;
             }
             else if ( ( $minValueValue == "" ) && ( $maxValueValue !== "") )
             {
@@ -277,14 +277,14 @@ class eZFloatType extends eZDataType
             {
                 $min_state = $this->FloatValidator->validate( $minValueValue );
                 $max_state = $this->FloatValidator->validate( $maxValueValue );
-                if ( ( $min_state == EZ_INPUT_VALIDATOR_STATE_ACCEPTED ) and
-                     ( $max_state == EZ_INPUT_VALIDATOR_STATE_ACCEPTED ) )
+                if ( ( $min_state == eZInputValidator::STATE_ACCEPTED ) and
+                     ( $max_state == eZInputValidator::STATE_ACCEPTED ) )
                 {
                     if ($minValueValue <= $maxValueValue)
-                        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                        return eZInputValidator::STATE_ACCEPTED;
                     else
                     {
-                        $state = EZ_INPUT_VALIDATOR_STATE_INTERMEDIATE;
+                        $state = eZInputValidator::STATE_INTERMEDIATE;
                         eZDebug::writeNotice( "Integer minimum value great than maximum value." );
                         return $state;
                     }
@@ -292,21 +292,21 @@ class eZFloatType extends eZDataType
             }
 
             if ($defaultValueValue == ""){
-                $default_state =  EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                $default_state =  eZInputValidator::STATE_ACCEPTED;
             }
             else
                 $default_state = $this->FloatValidator->validate( $defaultValueValue );
         }
-        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+        return eZInputValidator::STATE_INVALID;
     }
 
     function fixupClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $minValueName = $base . EZ_DATATYPESTRING_MIN_FLOAT_VARIABLE . $classAttribute->attribute( "id" );
-        $maxValueName = $base . EZ_DATATYPESTRING_MAX_FLOAT_VARIABLE . $classAttribute->attribute( "id" );
+        $minValueName = $base . self::EZ_DATATYPESTRING_MIN_FLOAT_VARIABLE . $classAttribute->attribute( "id" );
+        $maxValueName = $base . self::EZ_DATATYPESTRING_MAX_FLOAT_VARIABLE . $classAttribute->attribute( "id" );
         if ( $http->hasPostVariable( $minValueName ) and $http->hasPostVariable( $maxValueName ) )
         {
-            include_once( 'lib/ezlocale/classes/ezlocale.php' );
+            //include_once( 'lib/ezlocale/classes/ezlocale.php' );
             $locale = eZLocale::instance();
 
             $minValueValue = $http->postVariable( $minValueName );
@@ -374,20 +374,20 @@ class eZFloatType extends eZDataType
     */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $defaultValue = $classAttribute->attribute( EZ_DATATYPESTRING_DEFAULT_FLOAT_FIELD );
-        $minValue = $classAttribute->attribute( EZ_DATATYPESTRING_MIN_FLOAT_FIELD );
-        $maxValue = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_FLOAT_FIELD );
-        $minMaxState = $classAttribute->attribute( EZ_DATATYPESTRING_FLOAT_INPUT_STATE_FIELD );
+        $defaultValue = $classAttribute->attribute( self::EZ_DATATYPESTRING_DEFAULT_FLOAT_FIELD );
+        $minValue = $classAttribute->attribute( self::EZ_DATATYPESTRING_MIN_FLOAT_FIELD );
+        $maxValue = $classAttribute->attribute( self::EZ_DATATYPESTRING_MAX_FLOAT_FIELD );
+        $minMaxState = $classAttribute->attribute( self::EZ_DATATYPESTRING_FLOAT_INPUT_STATE_FIELD );
 
         $dom = $attributeParametersNode->ownerDocument;
         $defaultValueNode = $dom->createElement( 'default-value', $defaultValue );
         $attributeParametersNode->appendChild( $defaultValueNode );
-        if ( $minMaxState == EZ_FLOAT_HAS_MIN_VALUE or $minMaxState == EZ_FLOAT_HAS_MIN_MAX_VALUE )
+        if ( $minMaxState == self::EZ_FLOAT_HAS_MIN_VALUE or $minMaxState == self::EZ_FLOAT_HAS_MIN_MAX_VALUE )
         {
             $minValueNode = $dom->createElement( 'min-value', $minValue );
             $attributeParametersNode->appendChild( $minValueNode );
         }
-        if ( $minMaxState == EZ_FLOAT_HAS_MAX_VALUE or $minMaxState == EZ_FLOAT_HAS_MIN_MAX_VALUE )
+        if ( $minMaxState == self::EZ_FLOAT_HAS_MAX_VALUE or $minMaxState == self::EZ_FLOAT_HAS_MIN_MAX_VALUE )
         {
             $maxValueNode = $dom->createElement( 'max-value', $maxValue );
             $attributeParametersNode->appendChild( $maxValueNode );
@@ -404,18 +404,18 @@ class eZFloatType extends eZDataType
         $maxValue = $attributeParametersNode->getElementsByTagName( 'max-value' )->item( 0 )->textContent;
 
         if ( strlen( $minValue ) > 0 and strlen( $maxValue ) > 0 )
-            $minMaxState = EZ_FLOAT_HAS_MIN_MAX_VALUE;
+            $minMaxState = self::EZ_FLOAT_HAS_MIN_MAX_VALUE;
         else if ( strlen( $minValue ) > 0 )
-            $minMaxState = EZ_FLOAT_HAS_MIN_VALUE;
+            $minMaxState = self::EZ_FLOAT_HAS_MIN_VALUE;
         else if ( strlen( $maxValue ) > 0 )
-            $minMaxState = EZ_FLOAT_HAS_MAX_VALUE;
+            $minMaxState = self::EZ_FLOAT_HAS_MAX_VALUE;
         else
-            $minMaxState = EZ_FLOAT_NO_MIN_MAX_VALUE;
+            $minMaxState = self::EZ_FLOAT_NO_MIN_MAX_VALUE;
 
-        $classAttribute->setAttribute( EZ_DATATYPESTRING_DEFAULT_FLOAT_FIELD, $defaultValue );
-        $classAttribute->setAttribute( EZ_DATATYPESTRING_MIN_FLOAT_FIELD, $minValue );
-        $classAttribute->setAttribute( EZ_DATATYPESTRING_MAX_FLOAT_FIELD, $maxValue );
-        $classAttribute->setAttribute( EZ_DATATYPESTRING_FLOAT_INPUT_STATE_FIELD, $minMaxState );
+        $classAttribute->setAttribute( self::EZ_DATATYPESTRING_DEFAULT_FLOAT_FIELD, $defaultValue );
+        $classAttribute->setAttribute( self::EZ_DATATYPESTRING_MIN_FLOAT_FIELD, $minValue );
+        $classAttribute->setAttribute( self::EZ_DATATYPESTRING_MAX_FLOAT_FIELD, $maxValue );
+        $classAttribute->setAttribute( self::EZ_DATATYPESTRING_FLOAT_INPUT_STATE_FIELD, $minMaxState );
     }
 
     /// \privatesection
@@ -423,6 +423,6 @@ class eZFloatType extends eZDataType
     public $FloatValidator;
 }
 
-eZDataType::register( EZ_DATATYPESTRING_FLOAT, "ezfloattype" );
+eZDataType::register( eZFloatType::EZ_DATATYPESTRING_FLOAT, "eZFloatType" );
 
 ?>

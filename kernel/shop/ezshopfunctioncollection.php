@@ -48,7 +48,7 @@ class eZShopFunctionCollection
 
     function fetchBasket( )
     {
-        include_once( 'kernel/classes/ezbasket.php' );
+        //include_once( 'kernel/classes/ezbasket.php' );
         $http = eZHTTPTool::instance();
         $sessionID = $http->sessionID();
 
@@ -77,7 +77,7 @@ class eZShopFunctionCollection
         if ( $currentBasket === null )
         {
             $result = array( 'error' => array( 'error_type' => 'kernel',
-                                               'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+                                               'error_code' => eZError::KERNEL_NOT_FOUND ) );
         }
         else
         {
@@ -89,7 +89,7 @@ class eZShopFunctionCollection
 
     function fetchBestSellList( $topParentNodeID, $limit, $offset, $start_time, $end_time, $duration, $ascending, $extended )
     {
-        include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+        //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
         $node = eZContentObjectTreeNode::fetch( $topParentNodeID , false, false);
         if ( !is_array( $node ) )
@@ -146,7 +146,7 @@ class eZShopFunctionCollection
         $db = eZDB::instance();
         $topList = $db->arrayQuery( $query, array( 'limit' => $limit, 'offset' => $offset ) );
 
-        include_once( 'kernel/classes/ezcontentobject.php' );
+        //include_once( 'kernel/classes/ezcontentobject.php' );
 
         if ( $extended )
         {
@@ -155,7 +155,7 @@ class eZShopFunctionCollection
                 $contentObject = eZContentObject::fetch( $topList[ $key ][ 'contentobject_id' ] );
                 if ( $contentObject === null )
                     return array( 'error' => array( 'error_type' => 'kernel',
-                                                    'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+                                                    'error_code' => eZError::KERNEL_NOT_FOUND ) );
                 $topList[$key]['object'] = $contentObject;
             }
             return array( 'result' => $topList );
@@ -169,7 +169,7 @@ class eZShopFunctionCollection
                 $contentObject = eZContentObject::fetch( $objectID );
                 if ( $contentObject === null )
                     return array( 'error' => array( 'error_type' => 'kernel',
-                                                    'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+                                                    'error_code' => eZError::KERNEL_NOT_FOUND ) );
                 $contentObjectList[] = $contentObject;
             }
             return array( 'result' => $contentObjectList );
@@ -178,8 +178,8 @@ class eZShopFunctionCollection
 
     function fetchRelatedPurchaseList( $contentObjectID, $limit )
     {
-        include_once( 'kernel/classes/ezcontentobject.php' );
-        include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+        //include_once( 'kernel/classes/ezcontentobject.php' );
+        //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
         $contentObjectID = (int)$contentObjectID;
         $db = eZDB::instance();
@@ -207,7 +207,7 @@ class eZShopFunctionCollection
             $contentObject = eZContentObject::fetch( $objectID );
             if ( $contentObject === null )
                 return array( 'error' => array( 'error_type' => 'kernel',
-                                                'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+                                                'error_code' => eZError::KERNEL_NOT_FOUND ) );
             $contentObjectList[] = $contentObject;
         }
         return array( 'result' => $contentObjectList );
@@ -215,7 +215,7 @@ class eZShopFunctionCollection
 
     function fetchWishList( $production_id, $offset = false, $limit = false )
     {
-        include_once( 'kernel/classes/ezwishlist.php' );
+        //include_once( 'kernel/classes/ezwishlist.php' );
 
         $wishList = new eZWishList();
         $wishListItems = $wishList->items( true, $production_id, $offset, $limit );
@@ -224,7 +224,7 @@ class eZShopFunctionCollection
 
     function fetchWishListCount( $production_id )
     {
-        include_once( 'kernel/classes/ezwishlist.php' );
+        //include_once( 'kernel/classes/ezwishlist.php' );
 
         $wishList = new eZWishList();
         $count = $wishList->itemCount( $production_id );
@@ -236,7 +236,7 @@ class eZShopFunctionCollection
     */
     function fetchOrderStatusHistoryCount( $orderID )
     {
-        include_once( 'kernel/classes/ezorderstatushistory.php' );
+        //include_once( 'kernel/classes/ezorderstatushistory.php' );
 
         $count = eZOrderStatusHistory::fetchCount( $orderID );
         return array( 'result' => $count );
@@ -247,7 +247,7 @@ class eZShopFunctionCollection
     */
     function fetchOrderStatusHistory( $orderID )
     {
-        include_once( 'kernel/classes/ezorderstatushistory.php' );
+        //include_once( 'kernel/classes/ezorderstatushistory.php' );
 
         $list = eZOrderStatusHistory::fetchListByOrder( $orderID );
         return array( 'result' => $list );
@@ -258,7 +258,7 @@ class eZShopFunctionCollection
     */
     function fetchCurrencyList( $status = false )
     {
-        include_once( 'kernel/shop/classes/ezcurrencydata.php' );
+        //include_once( 'kernel/shop/classes/ezcurrencydata.php' );
 
         $conditions = null;
         $status = eZCurrencyData::statusStringToNumeric( $status );
@@ -279,7 +279,7 @@ class eZShopFunctionCollection
     */
     function fetchCurrency( $code )
     {
-        include_once( 'kernel/shop/classes/ezcurrencydata.php' );
+        //include_once( 'kernel/shop/classes/ezcurrencydata.php' );
 
         $currency = eZCurrencyData::fetch( $code );
         if ( is_object( $currency ) )
@@ -292,7 +292,7 @@ class eZShopFunctionCollection
 
     function fetchPreferredCurrencyCode()
     {
-        include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+        //include_once( 'kernel/shop/classes/ezshopfunctions.php' );
 
         $currency = eZShopFunctions::preferredCurrencyCode();
         $result = array( 'result' => $currency );
@@ -302,7 +302,7 @@ class eZShopFunctionCollection
 
     function fetchUserCountry()
     {
-        include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+        //include_once( 'kernel/shop/classes/ezshopfunctions.php' );
 
         // Get country saved in user preferences.
         $country = eZShopFunctions::getPreferredUserCountry();

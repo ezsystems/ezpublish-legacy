@@ -26,8 +26,8 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/classes/ezinformationcollection.php' );
-include_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezinformationcollection.php' );
+require_once( 'kernel/common/template.php' );
 
 $http = eZHTTPTool::instance();
 $Module = $Params['Module'];
@@ -43,14 +43,14 @@ if( is_numeric( $collectionID ) )
 
 if( !$collection )
 {
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
 $object = eZContentObject::fetch( $collection->attribute( 'contentobject_id' ) );
 
 if( !$object )
 {
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
 $objectID   = $collection->attribute( 'contentobject_id' );

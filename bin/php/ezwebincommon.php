@@ -53,9 +53,9 @@ global $script;
 /*!
  includes
 */
-include_once( 'kernel/classes/ezscript.php' );
-include_once( 'kernel/common/i18n.php' );
-include_once( 'kernel/classes/ezpackage.php' );
+//include_once( 'kernel/classes/ezscript.php' );
+require_once( 'kernel/common/i18n.php' );
+//include_once( 'kernel/classes/ezpackage.php' );
 
 
 /**************************************************************
@@ -277,7 +277,7 @@ function downloadPackages( $packageList, $packageURL, $packageDir, $packageRepos
     {
         // TODO: using 'eZStepSiteTypes' is hack.
         //       need to exclude 'downloadFile' from that class.
-        include_once( 'kernel/setup/steps/ezstep_site_types.php' );
+        //include_once( 'kernel/setup/steps/ezstep_site_types.php' );
 
         $tpl = false;
         $http = false;
@@ -410,7 +410,7 @@ function siteAccessMap( $siteAccessNameArray )
 
 function checkSiteaccess( $siteAccess, $bailOutOnError = false )
 {
-    include_once( 'lib/ezutils/classes/ezextension.php' );
+    //include_once( 'lib/ezutils/classes/ezextension.php' );
     $extensionBaseDir = eZExtension::baseDirectory();
     $extensionNameArray = eZExtension::activeExtensions();
     $siteAccessPath = '/settings/siteaccess/';

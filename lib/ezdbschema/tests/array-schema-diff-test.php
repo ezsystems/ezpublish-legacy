@@ -38,6 +38,6 @@ $schema2 = $dbschema2->readArray( '/tmp/schema2.php' );
 $differences = eZDbSchemaChecker::diff( $schema1, $schema2 ); /* empty 2nd param force new script */
 
 var_dump($differences);
-ezDbSchema::writeUpgradeFile( $differences, 'schema-diff.php' );
+eZDbSchema::writeUpgradeFile( $differences, 'schema-diff.php' );
 
 ?>

@@ -287,7 +287,7 @@ class eZPackageInstallationHandler
         if ( !isset( $handlers ) )
             $handlers = array();
         $handler = false;
-        include_once( 'lib/ezutils/classes/ezextension.php' );
+        //include_once( 'lib/ezutils/classes/ezextension.php' );
         if ( eZExtension::findExtensionType( array( 'ini-name' => 'package.ini',
                                                     'repository-group' => 'PackageSettings',
                                                     'repository-variable' => 'RepositoryDirectories',

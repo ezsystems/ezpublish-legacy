@@ -38,10 +38,10 @@
 */
 
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( "lib/ezlocale/classes/ezdatetime.php" );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( "lib/ezlocale/classes/ezdatetime.php" );
 
 
 $cli = eZCLI::instance();
@@ -136,7 +136,7 @@ while ( $objectData = fgetcsv( $fp, $csvLineLength , ';', '"' ) )
 
     $version = $contentObject->version( 1 );
     $version->setAttribute( 'modified', eZDateTime::currentTimeStamp() );
-    $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
+    $version->setAttribute( 'status', eZContentObjectVersion::STATUS_DRAFT );
     $version->store();
 
 
@@ -165,7 +165,7 @@ while ( $objectData = fgetcsv( $fp, $csvLineLength , ';', '"' ) )
         $attribute->store();
     }
 
-    include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+    //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID,
                                                                                  'version' => 1 ) );
 }

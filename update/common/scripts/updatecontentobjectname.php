@@ -29,10 +29,10 @@
 
 set_time_limit( 0 );
 
-include_once( "lib/ezutils/classes/ezextension.php" );
-include_once( "lib/ezutils/classes/ezmodule.php" );
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( "lib/ezutils/classes/ezextension.php" );
+//include_once( "lib/ezutils/classes/ezmodule.php" );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'debug-message' => '',
@@ -243,15 +243,15 @@ for ( $i = 1; $i < count( $argv ); ++$i )
                             $useIncludeFiles = true;
                         }
                         if ( $level == 'error' )
-                            $level = EZ_LEVEL_ERROR;
+                            $level = eZDebug::EZ_LEVEL_ERROR;
                         else if ( $level == 'warning' )
-                            $level = EZ_LEVEL_WARNING;
+                            $level = eZDebug::EZ_LEVEL_WARNING;
                         else if ( $level == 'debug' )
-                            $level = EZ_LEVEL_DEBUG;
+                            $level = eZDebug::EZ_LEVEL_DEBUG;
                         else if ( $level == 'notice' )
-                            $level = EZ_LEVEL_NOTICE;
+                            $level = eZDebug::EZ_LEVEL_NOTICE;
                         else if ( $level == 'timing' )
-                            $level = EZ_LEVEL_TIMING;
+                            $level = eZDebug::EZ_LEVEL_TIMING;
                         $allowedDebugLevels[] = $level;
                     }
                 }
@@ -281,14 +281,14 @@ $script->initialize();
 
 print( "Starting object re-indexing\n" );
 
-//eZDebug::setHandleType( EZ_HANDLE_FROM_PHP );
+//eZDebug::setHandleType( eZDebug::EZ_HANDLE_FROM_PHP );
 
-include_once( "lib/ezutils/classes/ezmodule.php" );
+//include_once( "lib/ezutils/classes/ezmodule.php" );
 // eZModule::setGlobalPathList( array( "kernel" ) );
-include_once( 'lib/ezutils/classes/ezexecution.php' );
-include_once( "lib/ezutils/classes/ezdebug.php" );
+require_once( 'lib/ezutils/classes/ezexecution.php' );
+require_once( "lib/ezutils/classes/ezdebug.php" );
 
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
 $db = eZDB::instance();
 

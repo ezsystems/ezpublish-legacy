@@ -159,7 +159,7 @@ class eZXMLSchema
 
     function eZXMLSchema()
     {
-        include_once( 'lib/ezutils/classes/ezini.php' );
+        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance( 'content.ini' );
 
         // Get inline custom tags list
@@ -171,7 +171,7 @@ class eZXMLSchema
         if ( !is_array( $this->Schema['custom']['tagList'] ) )
             $this->Schema['custom']['tagList'] = array();
 
-        include_once( 'lib/version.php' );
+        //include_once( 'lib/version.php' );
         $eZPublishVersion = eZPublishSDK::majorVersion() + eZPublishSDK::minorVersion() * 0.1;
 
         // Get all tags available classes list

@@ -68,7 +68,7 @@ class eZConfirmOrderHandler
             return new $class();
         }
 
-        include_once( 'kernel/classes/confirmorderhandlers/ezdefaultconfirmorderhandler.php' );
+        //include_once( 'kernel/classes/confirmorderhandlers/ezdefaultconfirmorderhandler.php' );
         return new eZDefaultConfirmOrderHandler();
     }
 

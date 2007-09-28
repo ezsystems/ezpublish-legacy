@@ -31,8 +31,8 @@
 /*! \file ezstep_email_settings.php
 */
 
-include_once( 'kernel/setup/steps/ezstep_installer.php');
-include_once( 'kernel/common/i18n.php' );
+//include_once( 'kernel/setup/steps/ezstep_installer.php');
+require_once( 'kernel/common/i18n.php' );
 
 /*!
   \class eZStepEmailSettings ezstep_email_settings.php

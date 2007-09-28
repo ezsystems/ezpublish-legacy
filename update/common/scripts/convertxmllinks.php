@@ -43,8 +43,8 @@ if( !file_exists( 'update/common/scripts' ) || !is_dir( 'update/common/scripts' 
     exit;
 }
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
 

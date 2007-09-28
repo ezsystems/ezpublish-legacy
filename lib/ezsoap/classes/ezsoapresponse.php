@@ -38,9 +38,9 @@
 
 */
 
-include_once( "lib/ezutils/classes/ezdebug.php" );
-include_once( 'lib/ezsoap/classes/ezsoapcodec.php' );
-include_once( "lib/ezsoap/classes/ezsoapenvelope.php" );
+require_once( "lib/ezutils/classes/ezdebug.php" );
+//include_once( 'lib/ezsoap/classes/ezsoapcodec.php' );
+//include_once( "lib/ezsoap/classes/ezsoapenvelope.php" );
 
 class eZSOAPResponse extends eZSOAPEnvelope
 {
@@ -69,7 +69,7 @@ class eZSOAPResponse extends eZSOAPEnvelope
         if ( !empty( $dom ) )
         {
             // check for fault
-            $response = $dom->getElementsByTagNameNS( EZ_SOAP_ENV, 'Fault' );
+            $response = $dom->getElementsByTagNameNS( eZSOAPEnvelope::EZ_SOAP_ENV, 'Fault' );
 
             if ( count( $response ) == 1 )
             {
@@ -136,7 +136,7 @@ class eZSOAPResponse extends eZSOAPEnvelope
         $returnValue = false;
 
         $attributeValue = '';
-        $attribute = $node->getAttributeNodeNS( EZ_SOAP_SCHEMA_INSTANCE, 'type' );
+        $attribute = $node->getAttributeNodeNS( eZSOAPEnvelope::EZ_SOAP_SCHEMA_INSTANCE, 'type' );
         if ( !$attribute )
         {
             $attribute = $node->getAttributeNodeNS( 'http://www.w3.org/1999/XMLSchema-instance', 'type' );
@@ -154,8 +154,8 @@ class eZSOAPResponse extends eZSOAPEnvelope
         $typeNamespacePrefix = $this->DOMDocument->namespaceByAlias( $attrParts[0] );
 
         check that this is a namespace type definition
-                if ( ( $typeNamespacePrefix == EZ_SOAP_SCHEMA_DATA ) ||
-                     ( $typeNamespacePrefix == EZ_SOAP_ENC )
+                if ( ( $typeNamespacePrefix == eZSOAPEnvelope::EZ_SOAP_SCHEMA_DATA ) ||
+                     ( $typeNamespacePrefix == eZSOAPEnvelope::EZ_SOAP_ENC )
                      )
 TODO: add encoding checks with schema validation.
 */
@@ -186,7 +186,7 @@ TODO: add encoding checks with schema validation.
             case "Array" :
             {
                 // Get array type
-                $attayType = $node->getAttributeNodeNS( EZ_SOAP_ENC, 'arrayType' )->value;
+                $attayType = $node->getAttributeNodeNS( eZSOAPEnvelope::EZ_SOAP_ENC, 'arrayType' )->value;
                 $arrayTypeParts = explode( ":", $arrayType );
 
                 preg_match( "#(.*)\[(.*)\]#",  $arrayTypeParts[1], $matches );
@@ -216,7 +216,7 @@ TODO: add encoding checks with schema validation.
                 foreach ( $node->children() as $childNode )
                 {
                     // check data type for child
-                    $attr = $childNode->getAttributeNodeNS( EZ_SOAP_SCHEMA_INSTANCE, 'type' )->value;
+                    $attr = $childNode->getAttributeNodeNS( eZSOAPEnvelope::EZ_SOAP_SCHEMA_INSTANCE, 'type' )->value;
 
                     $dataType = false;
                     $attrParts = explode( ":", $attr );
@@ -240,20 +240,20 @@ TODO: add encoding checks with schema validation.
         $doc = new DOMDocument();
         $doc->name = "eZSOAP message";
 
-        $root = $doc->createElementNS( EZ_SOAP_ENV, EZ_SOAP_ENV_PREFIX . ':Envelope' );
+        $root = $doc->createElementNS( eZSOAPEnvelope::EZ_SOAP_ENV, eZSOAPEnvelope::EZ_SOAP_ENV_PREFIX . ':Envelope' );
 
-        $root->setAttribute( 'xmlns:' . EZ_SOAP_XSI_PREFIX, EZ_SOAP_SCHEMA_INSTANCE );
-        $root->setAttribute( 'xmlns:' . EZ_SOAP_XSD_PREFIX, EZ_SOAP_SCHEMA_DATA );
-        $root->setAttribute( 'xmlns:' . EZ_SOAP_ENC_PREFIX, EZ_SOAP_ENC );
+        $root->setAttribute( 'xmlns:' . eZSOAPEnvelope::EZ_SOAP_XSI_PREFIX, eZSOAPEnvelope::EZ_SOAP_SCHEMA_INSTANCE );
+        $root->setAttribute( 'xmlns:' . eZSOAPEnvelope::EZ_SOAP_XSD_PREFIX, eZSOAPEnvelope::EZ_SOAP_SCHEMA_DATA );
+        $root->setAttribute( 'xmlns:' . eZSOAPEnvelope::EZ_SOAP_ENC_PREFIX, eZSOAPEnvelope::EZ_SOAP_ENC );
 
         // add the body
-        $body = $doc->createElement(  EZ_SOAP_ENV_PREFIX . ':Body' );
+        $body = $doc->createElement(  eZSOAPEnvelope::EZ_SOAP_ENV_PREFIX . ':Body' );
         $root->appendChild( $body );
 
         // Check if it's a fault
         if ( $this->Value instanceof eZSOAPFault )
         {
-            $fault = $doc->createElement( EZ_SOAP_ENV_PREFIX . ':Fault' );
+            $fault = $doc->createElement( eZSOAPEnvelope::EZ_SOAP_ENV_PREFIX . ':Fault' );
 
             $faultCodeNode = $doc->createElement( "faultcode", $this->Value->faultCode() );
             $fault->appendChild( $faultCodeNode );

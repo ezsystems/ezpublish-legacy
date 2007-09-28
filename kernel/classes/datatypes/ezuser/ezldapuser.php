@@ -37,9 +37,9 @@
   \brief The class eZLDAPUser does
 
 */
-include_once( "kernel/classes/datatypes/ezuser/ezusersetting.php" );
-include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-include_once( 'lib/ezutils/classes/ezini.php' );
+//include_once( "kernel/classes/datatypes/ezuser/ezusersetting.php" );
+//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+//include_once( 'lib/ezutils/classes/ezini.php' );
 
 class eZLDAPUser extends eZUser
 {
@@ -67,15 +67,15 @@ class eZLDAPUser extends eZUser
         $passwordEscaped = $db->escapeString( $password );
 
         $loginArray = array();
-        if ( $authenticationMatch & EZ_USER_AUTHENTICATE_LOGIN )
+        if ( $authenticationMatch & eZUser::AUTHENTICATE_LOGIN )
             $loginArray[] = "login='$loginEscaped'";
-        if ( $authenticationMatch & EZ_USER_AUTHENTICATE_EMAIL )
+        if ( $authenticationMatch & eZUser::AUTHENTICATE_EMAIL )
             $loginArray[] = "email='$loginEscaped'";
         if ( count( $loginArray ) == 0 )
             $loginArray[] = "login='$loginEscaped'";
         $loginText = implode( ' OR ', $loginArray );
 
-        $contentObjectStatus = EZ_CONTENT_OBJECT_STATUS_PUBLISHED;
+        $contentObjectStatus = eZContentObject::STATUS_PUBLISHED;
 
         $ini = eZINI::instance();
         $LDAPIni = eZINI::instance( 'ldap.ini' );
@@ -112,7 +112,7 @@ class eZLDAPUser extends eZUser
                                                     $hash );
 
                 // If hash type is MySql
-                if ( $hashType == EZ_USER_PASSWORD_HASH_MYSQL and $databaseImplementation == "ezmysql" )
+                if ( $hashType == eZUser::PASSWORD_HASH_MYSQL and $databaseImplementation == "ezmysql" )
                 {
                     $queryMysqlUser = "SELECT contentobject_id, password_hash, password_hash_type, email, login
                                        FROM ezuser, ezcontentobject
@@ -660,7 +660,7 @@ class eZLDAPUser extends eZUser
 
             $version = $contentObject->version( 1 );
             $version->setAttribute( 'modified', time() );
-            $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
+            $version->setAttribute( 'status', eZContentObjectVersion::STATUS_DRAFT );
             $version->store();
 
             $user = eZLDAPUser::create( $userID );
@@ -737,7 +737,7 @@ class eZLDAPUser extends eZUser
             //$adminUser = eZUser::fetchByName( 'admin' );
             //eZUser::setCurrentlyLoggedInUser( $adminUser, $adminUser->attribute( 'contentobject_id' ) );
 
-            include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+            //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
             $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID,
                                                                                          'version' => 1 ) );
         }
@@ -802,7 +802,7 @@ class eZLDAPUser extends eZUser
                         }
                         else
                         {
-                            include_once( 'kernel/classes/ezcontentobjecttreenodeoperations.php' );
+                            //include_once( 'kernel/classes/ezcontentobjecttreenodeoperations.php' );
                             if ( !eZContentObjectTreeNodeOperations::move( $mainNodeID, $defaultUserPlacement ) )
                             {
                                 eZDebug::writeError( "Failed to move node $mainNodeID as child of parent node $defaultUserPlacement",
@@ -884,7 +884,7 @@ class eZLDAPUser extends eZUser
 
         $version = $contentObject->version( 1 );
         $version->setAttribute( 'modified', time() );
-        $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
+        $version->setAttribute( 'status', eZContentObjectVersion::STATUS_DRAFT );
         $version->store();
 
         $contentObjectAttributes = $version->contentObjectAttributes();
@@ -921,7 +921,7 @@ class eZLDAPUser extends eZUser
             $descContentAttribute->store();
         }
 
-        include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+        //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
         $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID,
                                                                                      'version' => 1 ) );
         $newNodes = eZContentObjectTreeNode::fetchByContentObjectID( $contentObjectID, true, 1 );

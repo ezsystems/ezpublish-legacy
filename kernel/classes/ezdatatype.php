@@ -28,7 +28,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \defgroup eZDatatype Content datatypes */
+/*! \defgroup eZDataType Content datatypes */
 
 /*!
   \class eZDataType ezdatatype.php
@@ -62,8 +62,8 @@
   system and should have a prefix, for instance we in eZ systems use ez as our prefix.
 */
 
-include_once( "kernel/classes/ezpersistentobject.php" );
-include_once( "lib/ezutils/classes/ezinputvalidator.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "lib/ezutils/classes/ezinputvalidator.php" );
 
 class eZDataType
 {
@@ -689,7 +689,7 @@ class eZDataType
     */
     function validateClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
@@ -699,7 +699,7 @@ class eZDataType
     */
     function fixupClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
@@ -742,7 +742,7 @@ class eZDataType
     */
     function validateObjectAttributeHTTPInput( $http, $base, $objectAttribute )
     {
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
@@ -769,7 +769,7 @@ class eZDataType
     */
     function validateCollectionAttributeHTTPInput( $http, $base, $objectAttribute )
     {
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
@@ -935,7 +935,7 @@ class eZDataType
     */
     function validateAddToBasket( $objectAttribute, $data, &$errors )
     {
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
@@ -1196,7 +1196,7 @@ class eZDataType
             return false;
         }
 
-        include_once( 'lib/ezutils/classes/ezextension.php' );
+        //include_once( 'lib/ezutils/classes/ezextension.php' );
         $baseDirectory = eZExtension::baseDirectory();
         $contentINI = eZINI::instance( 'content.ini' );
 
@@ -1284,7 +1284,7 @@ class eZDataType
     */
     function diff( $old, $new, $options = false )
     {
-        include_once( 'lib/ezdiff/classes/ezdiff.php' );
+        //include_once( 'lib/ezdiff/classes/ezdiff.php' );
         $diff = new eZDiff();
         $diff->setDiffEngineType( $diff->engineType( 'container' ) );
         $diff->initDiffEngine();
@@ -1359,7 +1359,7 @@ class eZDataType
         $result = true;
         if ( $fileExist === true )
         {
-            include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
+            //include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
             $dataArray = eZDBSchema::read( $dbaFilePath, true );
             if ( is_array( $dataArray ) and count( $dataArray ) > 0 )
             {

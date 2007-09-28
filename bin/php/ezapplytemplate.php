@@ -27,8 +27,8 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "eZ publish Code Template Generator\n\n" .
@@ -55,7 +55,7 @@ if ( !$options['all'] and count( $options['arguments'] ) < 1 )
     $script->shutdown( 1 );
 }
 
-include_once( 'kernel/classes/ezcodetemplate.php' );
+//include_once( 'kernel/classes/ezcodetemplate.php' );
 
 $hasErrors = false;
 $hasModified = false;
@@ -74,16 +74,16 @@ else
 foreach ( $files as $file )
 {
     $status = $tpl->apply( $file, $options['check-only'] );
-    if ( $status == EZ_CODE_TEMPLATE_STATUS_OK )
+    if ( $status == eZCodeTemplate::EZ_CODE_TEMPLATE_STATUS_OK )
     {
         $cli->output( "Updated " . $cli->stylize( 'file', $file ) );
         $hasModified = true;
     }
-    else if ( $status == EZ_CODE_TEMPLATE_STATUS_NO_CHANGE )
+    else if ( $status == eZCodeTemplate::EZ_CODE_TEMPLATE_STATUS_NO_CHANGE )
     {
         $cli->output( "No change in " . $cli->stylize( 'file', $file ) );
     }
-    else if ( $status == EZ_CODE_TEMPLATE_STATUS_FAILED )
+    else if ( $status == eZCodeTemplate::EZ_CODE_TEMPLATE_STATUS_FAILED )
     {
         $cli->output( "Template errors for " . $cli->stylize( 'file', $file ) );
         $hasErrors = true;

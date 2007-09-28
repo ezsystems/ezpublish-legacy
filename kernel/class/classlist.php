@@ -27,9 +27,9 @@
 //
 
 
-include_once( "kernel/classes/ezcontentclass.php" );
-include_once( "lib/ezutils/classes/ezhttppersistence.php" );
-include_once( "kernel/classes/ezcontentclassclassgroup.php" );
+//include_once( "kernel/classes/ezcontentclass.php" );
+//include_once( "lib/ezutils/classes/ezhttppersistence.php" );
+//include_once( "kernel/classes/ezcontentclassclassgroup.php" );
 
 $Module = $Params['Module'];
 $GroupID = false;
@@ -74,10 +74,10 @@ if ( !isset( $TemplateData ) or !is_array( $TemplateData ) )
 }
 
 $Module->setTitle( ezi18n( 'kernel/class', 'Class list of group' ) . ' ' . $GroupID );
-include_once( "kernel/common/template.php" );
+require_once( "kernel/common/template.php" );
 $tpl = templateInit();
 
-include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 $user = eZUser::currentUser();
 foreach( $TemplateData as $tpldata )
 {
@@ -87,7 +87,7 @@ foreach( $TemplateData as $tpldata )
 
     if( !$groupInfo )
     {
-       return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+       return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
     }
 
     $list = eZContentClassClassGroup::fetchClassList( 0, $GroupID, $asObject = true );

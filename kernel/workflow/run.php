@@ -37,7 +37,7 @@ if ( !isset( $Params["WorkflowProcessID"] ) )
 
 $WorkflowProcessID = $Params["WorkflowProcessID"];
 
-include_once( "kernel/classes/ezworkflowprocess.php" );
+//include_once( "kernel/classes/ezworkflowprocess.php" );
 
 $process = eZWorkflowProcess::fetch( $WorkflowProcessID );
 if ( $process === null )
@@ -46,19 +46,19 @@ if ( $process === null )
     return;
 }
 
-include_once( "lib/ezutils/classes/ezhttptool.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
 $http = eZHTTPTool::instance();
 
-// include_once( "lib/ezutils/classes/ezexecutionstack.php" );
+// //include_once( "lib/ezutils/classes/ezexecutionstack.php" );
 // $execStack = eZExecutionStack::instance();
 // $execStack->addEntry( $Module->functionURI( "run" ) . "/" . $WorkflowProcessID,
 //                       $Module->attribute( "name" ), "run" );
 
 // Template handling
-include_once( "kernel/common/template.php" );
+require_once( "kernel/common/template.php" );
 $tpl = templateInit();
 
-include_once( "kernel/classes/ezworkflow.php" );
+//include_once( "kernel/classes/ezworkflow.php" );
 $workflow = eZWorkflow::fetch( $process->attribute( "workflow_id" ) );
 
 $workflowEvent = null;
@@ -67,11 +67,11 @@ if ( $process->attribute( "event_id" ) != 0 )
 
 $process->run( $workflow, $workflowEvent, $eventLog );
 // Store changes to process
-if ( $process->attribute( 'status' ) != EZ_WORKFLOW_STATUS_DONE )
+if ( $process->attribute( 'status' ) != eZWorkflow::STATUS_DONE )
 {
     $process->store();
 }
-if ( $process->attribute( 'status' ) == EZ_WORKFLOW_STATUS_DONE )
+if ( $process->attribute( 'status' ) == eZWorkflow::STATUS_DONE )
 {
 //    list ( $module, $function, $parameters ) = $process->getModuleInfo();
 }

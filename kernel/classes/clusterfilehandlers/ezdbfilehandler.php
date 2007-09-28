@@ -36,19 +36,20 @@
 require_once( 'lib/ezutils/classes/ezdebugsetting.php' );
 require_once( 'lib/ezutils/classes/ezdebug.php' );
 
-/*!
- Controls whether file data from database is cached on the local filesystem.
- \note This is primarily available for debugging purposes.
- */
-define( 'EZCLUSTER_LOCAL_CACHE', 1 );
-/*!
- Controls the maximum number of metdata entries to keep in memory for this request.
- If the limit is reached the least used entries are removed.
- */
-define( 'EZCLUSTER_INFOCACHE_MAX', 200 );
-
 class eZDBFileHandler
 {
+    /*!
+     Controls whether file data from database is cached on the local filesystem.
+     \note This is primarily available for debugging purposes.
+     */
+    const EZCLUSTER_LOCAL_CACHE = 1;
+
+    /*!
+     Controls the maximum number of metdata entries to keep in memory for this request.
+     If the limit is reached the least used entries are removed.
+     */
+    const EZCLUSTER_INFOCACHE_MAX = 200;
+
     /**
      * Constructor.
      *
@@ -128,7 +129,7 @@ class eZDBFileHandler
 
         // Clean up old entries if the maximum count is reached
         if ( isset( $GLOBALS['eZClusterInfo'] ) &&
-             count( $GLOBALS['eZClusterInfo'] ) >= EZCLUSTER_INFOCACHE_MAX )
+             count( $GLOBALS['eZClusterInfo'] ) >= self::EZCLUSTER_INFOCACHE_MAX )
         {
             usort( $GLOBALS['eZClusterInfo'],
                    create_function( '$a, $b',
@@ -203,7 +204,7 @@ class eZDBFileHandler
         $this->backend->_storeContents( $filePath, $contents, $scope, $datatype );
         if ( $storeLocally )
         {
-            include_once( 'lib/ezfile/classes/ezfile.php' );
+            //include_once( 'lib/ezfile/classes/ezfile.php' );
             eZFile::create( basename( $filePath ), dirname( $filePath ), $contents, true );
         }
     }
@@ -269,7 +270,7 @@ class eZDBFileHandler
      */
     function processCache( $retrieveCallback, $generateCallback = null, $ttl = null, $expiry = null, $extraData = null )
     {
-        include_once( 'kernel/classes/ezclusterfilefailure.php' );
+        //include_once( 'kernel/classes/ezclusterfilefailure.php' );
         $forceDB = false;
         $fname = $this->filePath;
         $args = array( $fname );
@@ -302,7 +303,7 @@ class eZDBFileHandler
                     eZDebugSetting::writeDebug( 'kernel-clustering', "Local file (mtime=$mtime) is older than timestamp ($expiry) and ttl($ttl), check with DB" );
                     $forceDB = true;
                 }
-                if ( !EZCLUSTER_LOCAL_CACHE )
+                if ( !self::EZCLUSTER_LOCAL_CACHE )
                     $forceDB = true;
 
                 $hasSharedLock = false;
@@ -356,7 +357,7 @@ class eZDBFileHandler
                 if ( !eZDBFileHandler::isExpired( $fname, $this->metaData['mtime'], $expiry, $curtime, $ttl ) )
                 {
                     eZDebugSetting::writeDebug( 'kernel-clustering', "Callback from DB file $fname" );
-                    if ( EZCLUSTER_LOCAL_CACHE )
+                    if ( self::EZCLUSTER_LOCAL_CACHE )
                     {
                         $this->fetch();
 
@@ -569,11 +570,11 @@ class eZDBFileHandler
             return $result;
         }
 
-        if ( EZCLUSTER_LOCAL_CACHE )
+        if ( self::EZCLUSTER_LOCAL_CACHE )
         {
             // Store content also locally
             eZDebugSetting::writeDebug( 'kernel-clustering', "Writing new file content to local file $fname" );
-            include_once( 'lib/ezfile/classes/ezfile.php' );
+            //include_once( 'lib/ezfile/classes/ezfile.php' );
             eZFile::create( basename( $fname ), dirname( $fname ), $binaryData, true );
             $mtime = @filemtime( $fname );
         }
@@ -872,7 +873,7 @@ class eZDBFileHandler
         }
         else if ( is_dir( $file ) )
         {
-            include_once( 'lib/ezfile/classes/ezdir.php' );
+            //include_once( 'lib/ezfile/classes/ezdir.php' );
             eZDir::recursiveDelete( $file );
         }
     }

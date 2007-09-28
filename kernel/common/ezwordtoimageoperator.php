@@ -32,8 +32,8 @@
 */
 
 /*!
-  \class eZWordtoimageoperator ezwordtoimageoperator.php
-  \brief The class eZWordtoimageoperator does
+  \class eZWordToImageOperator ezwordtoimageoperator.php
+  \brief The class eZWordToImageOperator does
 
 */
 class eZWordToImageOperator
@@ -63,7 +63,7 @@ class eZWordToImageOperator
         {
             case "wordtoimage":
             {
-                include_once( "lib/ezutils/classes/ezini.php" );
+                //include_once( "lib/ezutils/classes/ezini.php" );
                 $ini = eZINI::instance("wordtoimage.ini");
                 $iconRoot = $ini->variable( 'WordToImageSettings', 'IconRoot' );
 

@@ -38,9 +38,9 @@
 
 */
 
-include_once( "lib/ezi18n/classes/eztranslatorhandler.php" );
-include_once( "lib/ezi18n/classes/eztextcodec.php" );
-include_once( "lib/ezi18n/classes/eztranslationcache.php" );
+//include_once( "lib/ezi18n/classes/eztranslatorhandler.php" );
+//include_once( "lib/ezi18n/classes/eztextcodec.php" );
+//include_once( "lib/ezi18n/classes/eztranslationcache.php" );
 
 class eZTSTranslator extends eZTranslatorHandler
 {
@@ -119,7 +119,7 @@ class eZTSTranslator extends eZTranslatorHandler
     */
     function loadTranslationFile( $locale, $filename, $requestedContext )
     {
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        //include_once( 'lib/ezfile/classes/ezdir.php' );
 
         // First try for current charset
         $charset = eZTextCodec::internalCharset();
@@ -577,7 +577,7 @@ class eZTSTranslator extends eZTranslatorHandler
     */
     static function fetchList( $localeList = array() )
     {
-        include_once( 'lib/ezutils/classes/ezini.php' );
+        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
 
         $dir = $ini->variable( 'RegionalSettings', 'TranslationRepository' );
@@ -586,7 +586,7 @@ class eZTSTranslator extends eZTranslatorHandler
         $translationList = array();
         $locale = '';
 
-        include_once( 'lib/ezfile/classes/ezfile.php' );
+        //include_once( 'lib/ezfile/classes/ezfile.php' );
 
         if ( count( $localeList ) == 0 )
         {

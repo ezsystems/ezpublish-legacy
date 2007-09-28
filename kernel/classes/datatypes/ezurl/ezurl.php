@@ -39,7 +39,7 @@
 
 */
 
-include_once( 'kernel/classes/ezpersistentobject.php' );
+//include_once( 'kernel/classes/ezpersistentobject.php' );
 
 class eZURL extends eZPersistentObject
 {
@@ -284,9 +284,9 @@ class eZURL extends eZPersistentObject
                 $isValid = (int) $isValid;
                 $conditionQuery = " AND ezurl.is_valid=$isValid ";
             }
-            include_once( "lib/ezdb/classes/ezdb.php" );
+            //include_once( "lib/ezdb/classes/ezdb.php" );
             $db = eZDB::instance();
-            include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
+            //include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
             $cObjAttrVersionColumn = eZPersistentObject::getShortAttributeName( $db, eZURLObjectLink::definition(), 'contentobject_attribute_version' );
 
             if ( $asCount )

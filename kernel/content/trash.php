@@ -31,9 +31,9 @@
 /*! \file trash.php
 */
 
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( "lib/ezdb/classes/ezdb.php" );
+require_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( "lib/ezdb/classes/ezdb.php" );
 
 $Module = $Params['Module'];
 $Offset = $Params['Offset'];
@@ -83,7 +83,7 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
         }
         else
         {
-            return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+            return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
         }
     }
 }
@@ -94,7 +94,7 @@ else if ( $http->hasPostVariable( 'EmptyButton' )  )
     {
         $objectList = eZPersistentObject::fetchObjectList( eZContentObject::definition(),
                                                            null,
-                                                           array( 'status' => EZ_CONTENT_OBJECT_STATUS_ARCHIVED ),
+                                                           array( 'status' => eZContentObject::STATUS_ARCHIVED ),
                                                            null,
                                                            null,
                                                            true );
@@ -109,7 +109,7 @@ else if ( $http->hasPostVariable( 'EmptyButton' )  )
     }
     else
     {
-        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
     }
 }
 

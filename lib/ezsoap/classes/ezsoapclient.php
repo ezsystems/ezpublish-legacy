@@ -41,8 +41,8 @@
   \code
 
 // include client classes
-include_once( "lib/ezsoap/classes/ezsoapclient.php" );
-include_once( "lib/ezsoap/classes/ezsoaprequest.php" );
+//include_once( "lib/ezsoap/classes/ezsoapclient.php" );
+//include_once( "lib/ezsoap/classes/ezsoaprequest.php" );
 
 // create a new client
 $client = new eZSOAPClient( "nextgen.bf.dvh1.ez.no", "/sdk/ezsoap/view/server" );
@@ -72,8 +72,8 @@ else
 
 */
 
-include_once( "lib/ezsoap/classes/ezsoapresponse.php" );
-include_once( "lib/ezutils/classes/ezdebug.php" );
+//include_once( "lib/ezsoap/classes/ezsoapresponse.php" );
+require_once( "lib/ezutils/classes/ezdebug.php" );
 
 class eZSOAPClient
 {

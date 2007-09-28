@@ -28,13 +28,13 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-define( "EZ_AUDIT_DEFAULT_LOGDIR", 'var/log/audit' );
-
-include_once( 'lib/ezutils/classes/ezini.php' );
-include_once( "lib/ezfile/classes/ezlog.php" );
+//include_once( 'lib/ezutils/classes/ezini.php' );
+//include_once( "lib/ezfile/classes/ezlog.php" );
 
 class eZAudit
 {
+    const EZ_AUDIT_DEFAULT_LOGDIR = 'var/log/audit';
+
     /*!
       Creates a new audit object.
     */
@@ -54,7 +54,7 @@ class eZAudit
         $auditNames = $ini->hasVariable( 'AuditSettings', 'AuditFileNames' )
                       ? $ini->variable( 'AuditSettings', 'AuditFileNames' )
                       : array();
-        $logDir = $ini->hasVariable( 'AuditSettings', 'LogDir' ) ? $ini->variable( 'AuditSettings', 'LogDir' ): EZ_AUDIT_DEFAULT_LOGDIR;
+        $logDir = $ini->hasVariable( 'AuditSettings', 'LogDir' ) ? $ini->variable( 'AuditSettings', 'LogDir' ): self::EZ_AUDIT_DEFAULT_LOGDIR;
 
         $resultArray = array();
         foreach ( array_keys( $auditNames ) as $auditNameKey )
@@ -86,7 +86,7 @@ class eZAudit
         if ( !$ip )
             $ip = eZSys::serverVariable( 'HOSTNAME', true );
 
-        include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+        //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
         $user = eZUser::currentUser();
         $userID = $user->attribute( 'contentobject_id' );
         $userLogin = $user->attribute( 'login' );

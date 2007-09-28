@@ -31,10 +31,10 @@
 /*! \file translations.php
 */
 
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezcontentlanguage.php' );
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'lib/ezdb/classes/ezdb.php' );
+require_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezcontentlanguage.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'lib/ezdb/classes/ezdb.php' );
 
 $tpl = templateInit();
 $http = eZHTTPTool::instance();
@@ -76,7 +76,7 @@ if ( $Module->isCurrentAction( 'StoreNew' ) /* || $http->hasPostVariable( 'Store
         eZDebug::writeDebug( $translationLocale, 'translationLocale' );
     }
 
-    include_once( 'lib/ezlocale/classes/ezlocale.php' );
+    //include_once( 'lib/ezlocale/classes/ezlocale.php' );
     // Make sure the locale string is valid, if not we try to extract a valid part of it
     if ( !preg_match( "/^" . eZLocale::localeRegexp( false, false ) . "$/", $translationLocale ) )
     {
@@ -139,7 +139,7 @@ if ( $Params['TranslationID'] )
 
     if( !$translation )
     {
-        return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
     }
 
     $tpl->setVariable( 'translation',  $translation );

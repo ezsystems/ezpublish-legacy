@@ -36,10 +36,10 @@
   \deprecated
 */
 
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "kernel/classes/ezpersistentobject.php" );
-include_once( "kernel/classes/ezcontentclassattribute.php" );
-include_once( "kernel/classes/datatypes/ezimage/ezimagevariation.php");
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezcontentclassattribute.php" );
+//include_once( "kernel/classes/datatypes/ezimage/ezimagevariation.php");
 
 class eZImage extends eZPersistentObject
 {
@@ -78,7 +78,7 @@ class eZImage extends eZPersistentObject
                                                                       'default' => '',
                                                                       'required' => true ) ),
                       "keys" => array( "contentobject_attribute_id", "version" ),
-                      "relations" => array( "contentobject_attribute_id" => array( "class" => "ezcontentobjectattribute",
+                      "relations" => array( "contentobject_attribute_id" => array( "class" => "eZContentObjectAttribute",
                                                                                    "field" => "id" ) ),
                       "class_name" => "eZImage",
                       "name" => "ezimage" );

@@ -29,10 +29,10 @@
 $http = eZHTTPTool::instance();
 $module = $Params['Module'];
 
-include_once( 'kernel/common/template.php' );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( 'kernel/classes/ezbasket.php' );
-include_once( 'lib/ezutils/classes/ezmail.php' );
+require_once( 'kernel/common/template.php' );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( 'kernel/classes/ezbasket.php' );
+//include_once( 'lib/ezutils/classes/ezmail.php' );
 
 $tpl = templateInit();
 
@@ -158,7 +158,7 @@ if ( $module->isCurrentAction( 'Store' ) )
 
         $order->store();
         $db->commit();
-        include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+        //include_once( 'kernel/shop/classes/ezshopfunctions.php' );
         eZShopFunctions::setPreferredUserCountry( $country );
         $http->setSessionVariable( 'MyTemporaryOrderID', $order->attribute( 'id' ) );
 

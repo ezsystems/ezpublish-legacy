@@ -41,7 +41,7 @@
   in an plain text.
 */
 
-include_once( 'lib/ezdiff/classes/ezdiffcontent.php' );
+//include_once( 'lib/ezdiff/classes/ezdiffcontent.php' );
 
 class eZTextDiff extends eZDiffContent
 {

@@ -354,7 +354,7 @@ class eZURLAliasQuery
                 }
             }
         }
-        include_once( 'kernel/classes/ezpathelement.php' );
+        //include_once( 'kernel/classes/ezpathelement.php' );
         $objectList = eZPersistentObject::handleRows( $list, 'eZPathElement', true );
         return $objectList;
     }

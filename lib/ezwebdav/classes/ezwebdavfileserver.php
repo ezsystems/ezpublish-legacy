@@ -42,8 +42,8 @@
   \endcode
 */
 
-include_once( "lib/ezwebdav/classes/ezwebdavserver.php" );
-include_once( "lib/ezutils/classes/ezmimetype.php" );
+//include_once( "lib/ezwebdav/classes/ezwebdavserver.php" );
+//include_once( "lib/ezutils/classes/ezmimetype.php" );
 
 // Get and return the files/dir-names that reside at a given path.
 function getDirEntries( $targetPath )
@@ -259,11 +259,11 @@ class eZWebDAVFileServer extends eZWebDAVServer
         // Check if the target file/dir really exists:
         if ( file_exists( $realPath ) )
         {
-            return EZ_WEBDAV_OK_CREATED;
+            return eZWebDAVServer::OK_CREATED;
         }
         else
         {
-            return EZ_WEBDAV_FAILED_NOT_FOUND;
+            return eZWebDAVServer::FAILED_NOT_FOUND;
         }
     }
 
@@ -280,19 +280,19 @@ class eZWebDAVFileServer extends eZWebDAVServer
         append_to_log( "PUT: tempfile is $tempFile" );
 
         // Attempt to move the file from temp to desired location.
-        include_once( 'lib/ezfile/classes/ezfile.php' );
+        //include_once( 'lib/ezfile/classes/ezfile.php' );
         eZFile::rename( $tempFile, $realPath );
 
         // Check status & return corresponding code:
         if ( $status )
         {
             append_to_log( "move of tempfile was OK" );
-            return EZ_WEBDAV_OK_CREATED;
+            return eZWebDAVServer::OK_CREATED;
         }
         else
         {
             append_to_log( "move of tempfile FAILED" );
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return eZWebDAVServer::FAILED_FORBIDDEN;
         }
     }
 
@@ -335,18 +335,18 @@ class eZWebDAVFileServer extends eZWebDAVServer
             if ( $status )
             {
                 // OK:
-                return EZ_WEBDAV_OK_CREATED;
+                return eZWebDAVServer::OK_CREATED;
             }
             else
             {
                 // No deal.
-                return EZ_WEBDAV_FAILED_FORBIDDEN;
+                return eZWebDAVServer::FAILED_FORBIDDEN;
             }
         }
         // Else: a dir/file with that name already exists:
         else
         {
-            return EZ_WEBDAV_FAILED_EXISTS;
+            return eZWebDAVServer::FAILED_EXISTS;
         }
     }
 
@@ -383,17 +383,17 @@ class eZWebDAVFileServer extends eZWebDAVServer
             if ( $status )
             {
                 append_to_log( "delete was OK" );
-                return EZ_WEBDAV_OK;
+                return eZWebDAVServer::OK;
             }
             else
             {
                 append_to_log( "delete FAILED" );
-                return EZ_WEBDAV_FAILED_FORBIDDEN;
+                return eZWebDAVServer::FAILED_FORBIDDEN;
             }
         }
         else
         {
-            return EZ_WEBDAV_FAILED_NOT_FOUND;
+            return eZWebDAVServer::FAILED_NOT_FOUND;
         }
     }
 
@@ -410,18 +410,18 @@ class eZWebDAVFileServer extends eZWebDAVServer
         $realDestination = $_SERVER["DOCUMENT_ROOT"] . $destination;
 
         append_to_log( "RealSource: $realSource   RealDestination: $realDestination" );
-        include_once( 'lib/ezfile/classes/ezfile.php' );
+        //include_once( 'lib/ezfile/classes/ezfile.php' );
         $status = eZFile::rename( $realSource, $realDestination );
 
         if ( $status )
         {
             append_to_log( "move was OK" );
-            return EZ_WEBDAV_OK_CREATED;
+            return eZWebDAVServer::OK_CREATED;
         }
         else
         {
             append_to_log( "move FAILED" );
-            return EZ_WEBDAV_FAILED_CONFLICT;
+            return eZWebDAVServer::FAILED_CONFLICT;
         }
     }
 
@@ -444,12 +444,12 @@ class eZWebDAVFileServer extends eZWebDAVServer
         if ( $status )
         {
             append_to_log( "copy was OK" );
-            return EZ_WEBDAV_OK_CREATED;
+            return eZWebDAVServer::OK_CREATED;
         }
         else
         {
             append_to_log( "copy FAILED" );
-            return EZ_WEBDAV_FAILED_CONFLICT;
+            return eZWebDAVServer::FAILED_CONFLICT;
         }
     }
 

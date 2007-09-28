@@ -1,4 +1,4 @@
-<?php
+gf<?php
 // Created on: <17-Apr-2007 11:07:06 bjorn>
 //
 // SOFTWARE NAME: eZ publish
@@ -35,18 +35,18 @@
   and Registration elements. The Publication element will get the space left available.
 */
 
-include_once( 'kernel/classes/datatypes/ezisbn/ezisbngroup.php' );
-include_once( 'kernel/classes/datatypes/ezisbn/ezisbngrouprange.php' );
-include_once( 'kernel/classes/datatypes/ezisbn/ezisbnregistrantrange.php' );
-
-define( 'EZ_DATATYPESTRING_ISBN_13_PREFIX_LENGTH', 3 );
-define( 'EZ_DATATYPESTRING_ISBN_13_CHECK_LENGTH', 1 );
-define( 'EZ_DATATYPESTRING_ISBN_13_LENGTH', 13 );
-define( 'EZ_DATATYPESTRING_ISBN_13_978', 978 );
-define( 'EZ_DATATYPESTRING_ISBN_13_979', 979 );
+//include_once( 'kernel/classes/datatypes/ezisbn/ezisbngroup.php' );
+//include_once( 'kernel/classes/datatypes/ezisbn/ezisbngrouprange.php' );
+//include_once( 'kernel/classes/datatypes/ezisbn/ezisbnregistrantrange.php' );
 
 class eZISBN13
 {
+    const EZ_DATATYPESTRING_ISBN_13_PREFIX_LENGTH = 3;
+    const EZ_DATATYPESTRING_ISBN_13_CHECK_LENGTH = 1;
+    const EZ_DATATYPESTRING_ISBN_13_LENGTH = 13;
+    const EZ_DATATYPESTRING_ISBN_13_978 = 978;
+    const EZ_DATATYPESTRING_ISBN_13_979 = 979;
+
     /*!
      Constructor
      \param $isbnNr is the isbn-13 number. example is: 978-0-11-000222-4
@@ -166,7 +166,7 @@ class eZISBN13
 
             if ( $status === false )
             {
-                $formatedISBN13 = substr( $isbnNr, 0, EZ_DATATYPESTRING_ISBN_13_PREFIX_LENGTH );
+                $formatedISBN13 = substr( $isbnNr, 0, self::EZ_DATATYPESTRING_ISBN_13_PREFIX_LENGTH );
                 if ( strlen( $this->RegistrationGroup ) > 0 )
                 {
                     $formatedISBN13 .= $separator . $this->RegistrationGroup;
@@ -177,22 +177,22 @@ class eZISBN13
                     }
                     else
                     {
-                        $offset = strlen( $this->RegistrationGroup ) + EZ_DATATYPESTRING_ISBN_13_PREFIX_LENGTH;
-                        $length = strlen( $isbnNr ) - $offset - EZ_DATATYPESTRING_ISBN_13_CHECK_LENGTH;
+                        $offset = strlen( $this->RegistrationGroup ) + self::EZ_DATATYPESTRING_ISBN_13_PREFIX_LENGTH;
+                        $length = strlen( $isbnNr ) - $offset - self::EZ_DATATYPESTRING_ISBN_13_CHECK_LENGTH;
                         $originalValue = substr( $isbnNr, $offset, $length );
                         $formatedISBN13 .= $originalValue;
                     }
                 }
                 else
                 {
-                    $offset = EZ_DATATYPESTRING_ISBN_13_PREFIX_LENGTH;
-                    $length = strlen( $isbnNr ) - $offset - EZ_DATATYPESTRING_ISBN_13_CHECK_LENGTH;
+                    $offset = self::EZ_DATATYPESTRING_ISBN_13_PREFIX_LENGTH;
+                    $length = strlen( $isbnNr ) - $offset - self::EZ_DATATYPESTRING_ISBN_13_CHECK_LENGTH;
                     $originalValue = substr( $isbnNr, $offset, $length );
                     $formatedISBN13 .= $originalValue;
                 }
 
                 $length = strlen( $isbnNr );
-                $formatedISBN13 .= substr( $isbnNr, $length - EZ_DATATYPESTRING_ISBN_13_CHECK_LENGTH, $length );
+                $formatedISBN13 .= substr( $isbnNr, $length - self::EZ_DATATYPESTRING_ISBN_13_CHECK_LENGTH, $length );
                 return $formatedISBN13;
             }
         }
@@ -222,7 +222,7 @@ class eZISBN13
             $formatedISBN13 .= $this->CheckDigit;
         }
 
-        if ( strlen( $this->Prefix . $this->RegistrationGroup . $this->RegistrantElement . $this->PublicationElement . $this->CheckDigit ) == EZ_DATATYPESTRING_ISBN_13_LENGTH )
+        if ( strlen( $this->Prefix . $this->RegistrationGroup . $this->RegistrantElement . $this->PublicationElement . $this->CheckDigit ) == self::EZ_DATATYPESTRING_ISBN_13_LENGTH )
         {
             $formatedISBN13 = $this->Prefix . $separator .
                  $this->RegistrationGroup . $separator .
@@ -248,14 +248,14 @@ class eZISBN13
     {
         $ini = eZINI::instance( 'content.ini' );
         $ean = preg_replace( "/[\s|\-]+/", "", $isbnNr );
-        if ( is_numeric( $ean ) and strlen( $ean ) == EZ_DATATYPESTRING_ISBN_13_LENGTH )
+        if ( is_numeric( $ean ) and strlen( $ean ) == self::EZ_DATATYPESTRING_ISBN_13_LENGTH )
         {
-            $prefix = substr( $ean, 0, EZ_DATATYPESTRING_ISBN_13_PREFIX_LENGTH );
+            $prefix = substr( $ean, 0, self::EZ_DATATYPESTRING_ISBN_13_PREFIX_LENGTH );
             $this->Prefix = $prefix;
 
-            $checkDigit = substr( $ean, 12, EZ_DATATYPESTRING_ISBN_13_CHECK_LENGTH );
+            $checkDigit = substr( $ean, 12, self::EZ_DATATYPESTRING_ISBN_13_CHECK_LENGTH );
             $this->CheckDigit = $checkDigit;
-            if ( $prefix == EZ_DATATYPESTRING_ISBN_13_978 )
+            if ( $prefix == self::EZ_DATATYPESTRING_ISBN_13_978 )
             {
                 $registrantValue = false;
                 $groupValue = false;
@@ -271,17 +271,17 @@ class eZISBN13
 
                 if ( $groupLength )
                 {
-                    $groupValue = substr( $ean, EZ_DATATYPESTRING_ISBN_13_PREFIX_LENGTH, $groupLength );
+                    $groupValue = substr( $ean, self::EZ_DATATYPESTRING_ISBN_13_PREFIX_LENGTH, $groupLength );
                     $this->RegistrationGroup = $groupValue;
 
                     $group = eZISBNGroup::fetchByGroup( $groupValue );
-                    if ( get_class( $group ) == 'ezisbngroup' )
+                    if ( $group instanceof eZISBNGroup )
                     {
                         $registrant = eZISBNRegistrantRange::extractRegistrant( $ean, $group, $groupRange, $registrantLength );
-                        if ( get_class( $registrant ) == 'ezisbnregistrantrange' and
+                        if ( $registrant instanceof eZISBNRegistrantRange and
                              $registrantLength > 0 )
                         {
-                            $registrantOffset = EZ_DATATYPESTRING_ISBN_13_PREFIX_LENGTH + $groupLength;
+                            $registrantOffset = self::EZ_DATATYPESTRING_ISBN_13_PREFIX_LENGTH + $groupLength;
                             $registrantValue = substr( $ean, $registrantOffset, $registrantLength );
 
                             $this->RegistrantElement = $registrantValue;
@@ -369,8 +369,8 @@ class eZISBN13
         if ( !$isbnNr )
             return false;
         $isbnNr = preg_replace( "/[\s|\-]+/", "", $isbnNr );
-        if ( substr( $isbnNr, 0, EZ_DATATYPESTRING_ISBN_13_PREFIX_LENGTH ) != '978' and
-             substr( $isbnNr, 0, EZ_DATATYPESTRING_ISBN_13_PREFIX_LENGTH ) != '979' )
+        if ( substr( $isbnNr, 0, self::EZ_DATATYPESTRING_ISBN_13_PREFIX_LENGTH ) != '978' and
+             substr( $isbnNr, 0, self::EZ_DATATYPESTRING_ISBN_13_PREFIX_LENGTH ) != '979' )
         {
             $error = ezi18n( 'kernel/classes/datatypes',
                              '13 digit ISBN must start with 978 or 979' );
@@ -379,7 +379,7 @@ class eZISBN13
 
         $checksum13 = 0;
         $weight13 = 1;
-        if ( strlen( $isbnNr ) != EZ_DATATYPESTRING_ISBN_13_LENGTH )
+        if ( strlen( $isbnNr ) != self::EZ_DATATYPESTRING_ISBN_13_LENGTH )
         {
             $error = ezi18n( 'kernel/classes/datatypes', 'ISBN length is invalid' );
             return false;
@@ -387,7 +387,7 @@ class eZISBN13
 
         //compute checksum
         $val = 0;
-        for ( $i = 0; $i < EZ_DATATYPESTRING_ISBN_13_LENGTH; $i++ )
+        for ( $i = 0; $i < self::EZ_DATATYPESTRING_ISBN_13_LENGTH; $i++ )
         {
             $val = $isbnNr{$i};
             if ( !is_numeric( $isbnNr{$i} ) )

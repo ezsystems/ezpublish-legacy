@@ -31,8 +31,8 @@
 /*! \file pendinglist.php
 */
 
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezcontentobjectversion.php' );
+require_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezcontentobjectversion.php' );
 
 $Module = $Params['Module'];
 $http = eZHTTPTool::instance();

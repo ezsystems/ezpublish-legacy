@@ -38,8 +38,8 @@
 
 set_time_limit( 0 );
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
 $fixErrors = true;
 $fixAllAttributes = true;
@@ -90,14 +90,14 @@ function changeSiteAccessSetting( &$siteaccess, $optionData )
     }
 }
 
-include_once( 'kernel/classes/ezcontentclassattribute.php' );
-include_once( 'kernel/classes/ezcontentobjectattribute.php' );
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/ezbinaryfilehandler.php' );
-include_once( 'kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php' );
+//include_once( 'kernel/classes/ezcontentclassattribute.php' );
+//include_once( 'kernel/classes/ezcontentobjectattribute.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'kernel/classes/ezbinaryfilehandler.php' );
+//include_once( 'kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php' );
 
-include_once( 'lib/ezdb/classes/ezdb.php' );
-include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+//include_once( 'lib/ezdb/classes/ezdb.php' );
+//include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
 
 $db = eZDB::instance();
 $db->setIsSQLOutputEnabled( $showSQL );
@@ -272,16 +272,16 @@ if ( $fixAttribute )
                 if ( $doc )
                 {
                     if ( findAndReplaceLinks( $doc, $doc->documentElement ) ||
-                         $objectAttribute->attribute( 'data_int' ) < EZ_XMLTEXT_VERSION_TIMESTAMP ||
+                         $objectAttribute->attribute( 'data_int' ) < eZXMLTextType::EZ_XMLTEXT_VERSION_TIMESTAMP ||
                          $fixAllAttributes )
                     {
                         if ( $showDebug )
                             print( "Links found and replaced\n" );
                         $docString = eZXMLTextType::domString( $doc );
                         $objectAttribute->setAttribute( 'data_text', $docString );
-                        $objectAttribute->setAttribute( 'data_int', EZ_XMLTEXT_VERSION_TIMESTAMP );
+                        $objectAttribute->setAttribute( 'data_int', eZXMLTextType::EZ_XMLTEXT_VERSION_TIMESTAMP );
                         if ( findAndReplaceLinks( $doc, $doc->documentElement ) ||
-                             $objectAttribute->attribute( 'data_int' ) < EZ_XMLTEXT_VERSION_TIMESTAMP )
+                             $objectAttribute->attribute( 'data_int' ) < eZXMLTextType::EZ_XMLTEXT_VERSION_TIMESTAMP )
                         {
                             ++$wrongLinkCount;
                             print( '*' );
@@ -302,7 +302,7 @@ if ( $fixAttribute )
                         $doc->importNode( $doc->createElement( 'section' ) );
                         $docString = eZXMLTextType::domString( $doc );
                         $objectAttribute->setAttribute( 'data_text', $docString );
-                        $objectAttribute->setAttribute( 'data_int', EZ_XMLTEXT_VERSION_TIMESTAMP );
+                        $objectAttribute->setAttribute( 'data_int', eZXMLTextType::EZ_XMLTEXT_VERSION_TIMESTAMP );
                         ++$wrongLinkCount;
                         print( '0' );
                     }
@@ -313,7 +313,7 @@ if ( $fixAttribute )
                         $doc->importNode( $doc->createElement( 'section' ) );
                         $docString = eZXMLTextType::domString( $doc );
                         $objectAttribute->setAttribute( 'data_text', $docString );
-                        $objectAttribute->setAttribute( 'data_int', EZ_XMLTEXT_VERSION_TIMESTAMP );
+                        $objectAttribute->setAttribute( 'data_int', eZXMLTextType::EZ_XMLTEXT_VERSION_TIMESTAMP );
                         ++$wrongLinkCount;
                         $badXMLArray[] = array( 'id' => $objectAttribute->attribute( 'id' ),
                                                 'version' => $objectAttribute->attribute( 'version' ) );

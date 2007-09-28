@@ -74,7 +74,7 @@ asdfasdf
 */
 
 
-include_once( 'lib/eztemplate/classes/eztemplatesectioniterator.php' );
+//include_once( 'lib/eztemplate/classes/eztemplatesectioniterator.php' );
 
 class eZTemplateSectionFunction
 {
@@ -299,23 +299,23 @@ class eZTemplateSectionFunction
         $mainNodes = eZTemplateNodeTool::extractNodes( $children,
                                                        array( 'match' => array( 'type' => 'before',
                                                                                 'matches' => array( array( 'match-keys' => array( 0 ),
-                                                                                                           'match-with' => EZ_TEMPLATE_NODE_FUNCTION ),
+                                                                                                           'match-with' => eZTemplate::NODE_FUNCTION ),
                                                                                                     array( 'match-keys' => array( 2 ),
                                                                                                            'match-with' => 'section-else' ) ),
                                                                                 'filter' => array( array( array( 'match-keys' => array( 0 ),
-                                                                                                                 'match-with' => EZ_TEMPLATE_NODE_FUNCTION ),
+                                                                                                                 'match-with' => eZTemplate::NODE_FUNCTION ),
                                                                                                           array( 'match-keys' => array( 2 ),
                                                                                                                  'match-with' => array( 'delimiter', 'section-exclude', 'section-include' ) ) ) ) ) ) );
         $delimiterNodes = eZTemplateNodeTool::extractNodes( $children,
                                                             array( 'match' => array( 'type' => 'equal',
                                                                                      'matches' => array( array( 'match-keys' => array( 0 ),
-                                                                                                               'match-with' => EZ_TEMPLATE_NODE_FUNCTION ),
+                                                                                                               'match-with' => eZTemplate::NODE_FUNCTION ),
                                                                                                          array( 'match-keys' => array( 2 ),
                                                                                                                 'match-with' => 'delimiter' ) ) ) ) );
         $filterNodes = eZTemplateNodeTool::extractNodes( $children,
                                                          array( 'match' => array( 'type' => 'equal',
                                                                                   'matches' => array( array( 'match-keys' => array( 0 ),
-                                                                                                             'match-with' => EZ_TEMPLATE_NODE_FUNCTION ),
+                                                                                                             'match-with' => eZTemplate::NODE_FUNCTION ),
                                                                                                       array( 'match-keys' => array( 2 ),
                                                                                                              'match-with' => array( 'section-exclude', 'section-include' ) ) ) ) ) );
 
@@ -352,7 +352,7 @@ class eZTemplateSectionFunction
             $variableValuePopText = '';
             if ( $varName )
             {
-                $code .= ( "include_once( 'lib/eztemplate/classes/eztemplatesectioniterator.php' );\n" .
+                $code .= ( "//include_once( 'lib/eztemplate/classes/eztemplatesectioniterator.php' );\n" .
                            "\$variableValue = new eZTemplateSectionIterator();\n" .
                            "\$lastVariableValue = false;\n" );
                 $variableValuePushText = "&\$variableValue, ";
@@ -485,19 +485,19 @@ class eZTemplateSectionFunction
                 $code .= "    \$variableValue->setIteratorValues( \$item, \$loopKey, \$currentIndex - 1, \$currentIndex, false, \$last );";
                 $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code );
                 $newNodes[] = eZTemplateNodeTool::createVariableNode( false, 'variableValue', eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
-                                                                      array( 'spacing' => 4 ), array( '', EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $varName ), false, true, true );
+                                                                      array( 'spacing' => 4 ), array( '', eZTemplate::NAMESPACE_SCOPE_RELATIVE, $varName ), false, true, true );
             }
             else
             {
                 $newNodes[] = eZTemplateNodeTool::createVariableNode( false, 'loopKey', eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
-                                                                      array( 'spacing' => 4 ), array( '', EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, 'key' ), false, true, true );
+                                                                      array( 'spacing' => 4 ), array( '', eZTemplate::NAMESPACE_SCOPE_RELATIVE, 'key' ), false, true, true );
                 $newNodes[] = eZTemplateNodeTool::createVariableNode( false, 'item', eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
-                                                                      array( 'spacing' => 4 ), array( '', EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, 'item' ), false, true, true );
+                                                                      array( 'spacing' => 4 ), array( '', eZTemplate::NAMESPACE_SCOPE_RELATIVE, 'item' ), false, true, true );
                 $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$currentIndexInc = \$currentIndex - 1;\n" );
                 $newNodes[] = eZTemplateNodeTool::createVariableNode( false, 'currentIndexInc', eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
-                                                                      array( 'spacing' => 4 ), array( '', EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, 'index' ), false, true, true );
+                                                                      array( 'spacing' => 4 ), array( '', eZTemplate::NAMESPACE_SCOPE_RELATIVE, 'index' ), false, true, true );
                 $newNodes[] = eZTemplateNodeTool::createVariableNode( false, 'currentIndex', eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
-                                                                      array( 'spacing' => 4 ), array( '', EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, 'number' ), false, true, true );
+                                                                      array( 'spacing' => 4 ), array( '', eZTemplate::NAMESPACE_SCOPE_RELATIVE, 'number' ), false, true, true );
             }
 
             $mainSpacing = 0;
@@ -575,7 +575,7 @@ class eZTemplateSectionFunction
                                                                            "    unset( \$sequenceValue );\n" .
                                                                            "}", array( 'spacing' => $mainSpacing + 4 ) );
                     $newNodes[] = eZTemplateNodeTool::createVariableNode( false, 'variableValue', eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
-                                                                          array( 'spacing' => 4 ), array( '', EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $varName ), false, true, true );
+                                                                          array( 'spacing' => 4 ), array( '', eZTemplate::NAMESPACE_SCOPE_RELATIVE, $varName ), false, true, true );
                 }
                 else
                 {
@@ -583,7 +583,7 @@ class eZTemplateSectionFunction
                                                                            "{\n" .
                                                                            "    \$sequenceValue = array_shift( \$sequence );\n", array( 'spacing' => $mainSpacing + 4 ) );
                     $newNodes[] = eZTemplateNodeTool::createVariableNode( false, 'sequenceValue', eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
-                                                                          array( 'spacing' => $mainSpacing + 4 ), array( '', EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, 'sequence' ), false, true, true );
+                                                                          array( 'spacing' => $mainSpacing + 4 ), array( '', eZTemplate::NAMESPACE_SCOPE_RELATIVE, 'sequence' ), false, true, true );
                     $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "    \$sequence[] = \$sequenceValue;\n" .
                                                                            "    unset( \$sequenceValue );\n" .
                                                                            "}", array( 'spacing' => $mainSpacing + 4 ) );
@@ -685,7 +685,7 @@ class eZTemplateSectionFunction
             $elseNodes = eZTemplateNodeTool::extractNodes( $children,
                                                            array( 'match' => array( 'type' => 'after',
                                                                                     'matches' => array( array( 'match-keys' => array( 0 ),
-                                                                                                               'match-with' => EZ_TEMPLATE_NODE_FUNCTION ),
+                                                                                                               'match-with' => eZTemplate::NODE_FUNCTION ),
                                                                                                         array( 'match-keys' => array( 2 ),
                                                                                                                'match-with' => 'section-else' ) )
                                                                                     ) ) );
@@ -829,7 +829,7 @@ class eZTemplateSectionFunction
             {
                 $child =& $children[$childKey];
                 $childType = $child[0];
-                if ( $childType == EZ_TEMPLATE_NODE_FUNCTION )
+                if ( $childType == eZTemplate::NODE_FUNCTION )
                 {
                     switch ( $child[2] )
                     {

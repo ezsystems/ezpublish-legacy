@@ -31,9 +31,9 @@
 */
 
 
-include_once( "kernel/common/template.php" );
-include_once( "kernel/classes/ezorder.php" );
-include_once( 'lib/ezlocale/classes/ezdate.php' );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/classes/ezorder.php" );
+//include_once( 'lib/ezlocale/classes/ezdate.php' );
 
 $module = $Params['Module'];
 $year = $Params['Year'];

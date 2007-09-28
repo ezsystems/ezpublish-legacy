@@ -26,20 +26,20 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "lib/ezutils/classes/ezhttptool.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
 $http = eZHTTPTool::instance();
 $Module = $Params['Module'];
 
-include_once( "kernel/classes/eztrigger.php" );
+//include_once( "kernel/classes/eztrigger.php" );
 
 //////////////////////
 //$userID = eZUser::currentUserID();
 $conds = array();
 //$conds['user_id'] =  $userID;
-$conds['status'] = array( array( EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON,
-                                 EZ_WORKFLOW_STATUS_FETCH_TEMPLATE,
-                                 EZ_WORKFLOW_STATUS_REDIRECT,
-                                 EZ_WORKFLOW_STATUS_WAITING_PARENT ) );
+$conds['status'] = array( array( eZWorkflow::STATUS_DEFERRED_TO_CRON,
+                                 eZWorkflow::STATUS_FETCH_TEMPLATE,
+                                 eZWorkflow::STATUS_REDIRECT,
+                                 eZWorkflow::STATUS_WAITING_PARENT ) );
 $db = eZDB::instance();
 if ( $db->databaseName() == 'oracle' )
     $conds['LENGTH(memento_key)'] = array( '!=', 0 );
@@ -50,7 +50,7 @@ $plist = eZWorkflowProcess::fetchList( $conds );
 
 $totalProcessCount = 0;
 $outList2 = array();
-include_once( 'lib/ezutils/classes/ezoperationmemento.php' );
+//include_once( 'lib/ezutils/classes/ezoperationmemento.php' );
 foreach ( $plist as $p )
 {
     $mementoMain = eZOperationMemento::fetchMain( $p->attribute( 'memento_key' ) );
@@ -80,7 +80,7 @@ foreach ( $plist as $p )
 }
 
 // Template handling
-include_once( "kernel/common/template.php" );
+require_once( "kernel/common/template.php" );
 $tpl = templateInit();
 
 $tpl->setVariable( "module", $Module );

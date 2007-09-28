@@ -36,7 +36,7 @@
 
 */
 
-include_once( 'lib/ezutils/classes/ezinputvalidator.php' );
+//include_once( 'lib/ezutils/classes/ezinputvalidator.php' );
 
 class eZDateTimeValidator extends eZInputValidator
 {
@@ -55,9 +55,9 @@ class eZDateTimeValidator extends eZInputValidator
              $year < 1970 or
              $datetime === false )
         {
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INVALID;
         }
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     static function validateTime( $hour, $minute )
@@ -67,9 +67,9 @@ class eZDateTimeValidator extends eZInputValidator
             $hour >= 0 && $minute >= 0 &&
             $hour < 24 && $minute < 60 )
         {
-            return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            return eZInputValidator::STATE_ACCEPTED;
         }
-        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+        return eZInputValidator::STATE_INVALID;
     }
 
     static function validateDateTime( $day, $month, $year, $hour, $minute )
@@ -79,11 +79,11 @@ class eZDateTimeValidator extends eZInputValidator
         if ( !$check or
              $year < 1970 or
              $datetime === false or
-             eZDateTimeValidator::validateTime( $hour, $minute ) == EZ_INPUT_VALIDATOR_STATE_INVALID )
+             eZDateTimeValidator::validateTime( $hour, $minute ) == eZInputValidator::STATE_INVALID )
         {
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INVALID;
         }
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /// \privatesection

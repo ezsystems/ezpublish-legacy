@@ -30,8 +30,8 @@
 */
 
 
-include_once( 'lib/ezutils/classes/ezini.php' );
-include_once( 'kernel/classes/ezcontentobjectversion.php' );
+//include_once( 'lib/ezutils/classes/ezini.php' );
+//include_once( 'kernel/classes/ezcontentobjectversion.php' );
 
 if ( !$isQuiet )
     $cli->output( "Cleaning up user's drafts..." );
@@ -72,7 +72,7 @@ if ( is_array( $durationSetting ) )
 if ( $isDurationSet )
 {
     $expiryTime = time() - $duration;
-    $processedCount = eZContentObjectVersion::removeVersions( EZ_VERSION_STATUS_DRAFT, $draftsCleanUpLimit, $expiryTime );
+    $processedCount = eZContentObjectVersion::removeVersions( eZContentObjectVersion::STATUS_DRAFT, $draftsCleanUpLimit, $expiryTime );
 
     if ( !$isQuiet )
         $cli->output( "Cleaned up " . $processedCount . " drafts" );

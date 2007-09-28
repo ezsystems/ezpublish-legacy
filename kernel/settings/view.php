@@ -25,9 +25,9 @@
 //
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
-include_once( "lib/ezutils/classes/ezhttptool.php" );
-include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-include_once( "kernel/common/template.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
+//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+require_once( "kernel/common/template.php" );
 
 $tpl = templateInit();
 $http = eZHTTPTool::instance();

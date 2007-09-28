@@ -28,9 +28,9 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/common/template.php" );
-include_once( "kernel/classes/ezvattype.php" );
-include_once( "lib/ezutils/classes/ezhttppersistence.php" );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/classes/ezvattype.php" );
+//include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 
 $module = $Params['Module'];
 $http = eZHTTPTool::instance();
@@ -129,7 +129,7 @@ function findDependencies( $vatTypeIDList, &$deps, &$haveDeps, &$canRemove )
         $vatName = $vatType->attribute( 'name' );
 
         // Find dependent VAT rules.
-        $nRules = eZVatrule::fetchCountByVatType( $vatID );
+        $nRules = eZVatRule::fetchCountByVatType( $vatID );
 
         // Find dependent products.
         $nProducts = eZVatType::fetchDependentProductsCount( $vatID );

@@ -15,7 +15,7 @@ define( 'STORAGE_PASS',        'secret'          );
 define( 'STORAGE_DB',          'cluster'         );
 define( 'STORAGE_CHUNK_SIZE',  65535             );
 
-include_once( 'index_image.php' );
+//include_once( 'index_image.php' );
 ?>
 -------------------------------------------
 */

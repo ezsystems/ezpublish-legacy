@@ -27,10 +27,10 @@
 //
 
 
-include_once( "kernel/classes/ezcontentclass.php" );
-include_once( "kernel/classes/ezcontentclassgroup.php" );
-include_once( "kernel/classes/ezcontentclassclassgroup.php" );
-include_once( "lib/ezutils/classes/ezhttppersistence.php" );
+//include_once( "kernel/classes/ezcontentclass.php" );
+//include_once( "kernel/classes/ezcontentclassgroup.php" );
+//include_once( "kernel/classes/ezcontentclassclassgroup.php" );
+//include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 
 $Module = $Params['Module'];
 
@@ -83,10 +83,10 @@ if ( !isset( $TemplateData ) or !is_array( $TemplateData ) )
 }
 
 $Module->setTitle( ezi18n( 'kernel/class', 'Class group list' ) );
-include_once( "kernel/common/template.php" );
+require_once( "kernel/common/template.php" );
 $tpl = templateInit();
 
-include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 $user = eZUser::currentUser();
 foreach( $TemplateData as $tpldata )
 {

@@ -30,9 +30,9 @@
 
 /*! \file ezstep_system_check.php
 */
-include_once( "kernel/setup/ezsetuptests.php" );
-include_once( 'kernel/setup/steps/ezstep_installer.php' );
-include_once( "kernel/common/i18n.php" );
+//include_once( "kernel/setup/ezsetuptests.php" );
+//include_once( 'kernel/setup/steps/ezstep_installer.php' );
+require_once( "kernel/common/i18n.php" );
 
 /*!
   \class eZStepSystemCheck ezstep_system_check.php

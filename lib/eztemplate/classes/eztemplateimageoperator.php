@@ -40,12 +40,12 @@
   If fontDir() is an empty string the font will be looked for in the system.
 */
 
-include_once( "lib/eztemplate/classes/eztemplate.php" );
-include_once( "lib/ezimage/classes/ezimageobject.php" );
-include_once( "lib/ezimage/classes/ezimagelayer.php" );
-include_once( "lib/ezimage/classes/ezimagetextlayer.php" );
-include_once( 'lib/ezimage/classes/ezimagefont.php' );
-include_once( "lib/ezutils/classes/ezini.php" );
+//include_once( "lib/eztemplate/classes/eztemplate.php" );
+//include_once( "lib/ezimage/classes/ezimageobject.php" );
+//include_once( "lib/ezimage/classes/ezimagelayer.php" );
+//include_once( "lib/ezimage/classes/ezimagetextlayer.php" );
+//include_once( 'lib/ezimage/classes/ezimagefont.php' );
+//include_once( "lib/ezutils/classes/ezini.php" );
 
 class eZTemplateImageOperator
 {
@@ -60,7 +60,7 @@ class eZTemplateImageOperator
                                   $imageName,
                                   $imagefileName );
 
-        include_once( "lib/ezutils/classes/ezsys.php" );
+        //include_once( "lib/ezutils/classes/ezsys.php" );
         $ini = eZINI::instance( 'texttoimage.ini' );
         $fontDirs = $ini->variable( "PathSettings", "FontDir" );
         $this->FontDir = array();
@@ -720,10 +720,10 @@ class eZTemplateImageOperator
                      isset( $imageParameterSource['x'] ) or
                      isset( $imageParameterSource['y'] ) )
                 {
-                    $xAlignment = EZ_IMAGE_ALIGN_AXIS_NONE;
-                    $yAlignment = EZ_IMAGE_ALIGN_AXIS_NONE;
-                    $xPlacement = EZ_IMAGE_PLACE_CONSTANT;
-                    $yPlacement = EZ_IMAGE_PLACE_CONSTANT;
+                    $xAlignment = eZImageObject::EZ_IMAGE_ALIGN_AXIS_NONE;
+                    $yAlignment = eZImageObject::EZ_IMAGE_ALIGN_AXIS_NONE;
+                    $xPlacement = eZImageObject::EZ_IMAGE_PLACE_CONSTANT;
+                    $yPlacement = eZImageObject::EZ_IMAGE_PLACE_CONSTANT;
                     $xPos = 0;
                     $yPos = 0;
                     if ( isset( $imageParameterSource['halign'] ) )
@@ -733,15 +733,15 @@ class eZTemplateImageOperator
                         {
                             case 'left':
                             {
-                                $xAlignment = EZ_IMAGE_ALIGN_AXIS_START;
+                                $xAlignment = eZImageObject::EZ_IMAGE_ALIGN_AXIS_START;
                             } break;
                             case 'right':
                             {
-                                $xAlignment = EZ_IMAGE_ALIGN_AXIS_STOP;
+                                $xAlignment = eZImageObject::EZ_IMAGE_ALIGN_AXIS_STOP;
                             } break;
                             case 'center':
                             {
-                                $xAlignment = EZ_IMAGE_ALIGN_AXIS_CENTER;
+                                $xAlignment = eZImageObject::EZ_IMAGE_ALIGN_AXIS_CENTER;
                             } break;
                         }
                     }
@@ -752,37 +752,37 @@ class eZTemplateImageOperator
                         {
                             case 'top':
                             {
-                                $yAlignment = EZ_IMAGE_ALIGN_AXIS_START;
+                                $yAlignment = eZImageObject::EZ_IMAGE_ALIGN_AXIS_START;
                             } break;
                             case 'bottom':
                             {
-                                $yAlignment = EZ_IMAGE_ALIGN_AXIS_STOP;
+                                $yAlignment = eZImageObject::EZ_IMAGE_ALIGN_AXIS_STOP;
                             } break;
                             case 'center':
                             {
-                                $yAlignment = EZ_IMAGE_ALIGN_AXIS_CENTER;
+                                $yAlignment = eZImageObject::EZ_IMAGE_ALIGN_AXIS_CENTER;
                             } break;
                         }
                     }
                     if ( isset( $imageParameterSource['x'] ) )
                     {
                         $xPos = $imageParameterSource['x'];
-                        $xPlacement = EZ_IMAGE_PLACE_CONSTANT;
+                        $xPlacement = eZImageObject::EZ_IMAGE_PLACE_CONSTANT;
                     }
                     if ( isset( $imageParameterSource['xrel'] ) )
                     {
                         $xPos = $imageParameterSource['xrel'];
-                        $xPlacement = EZ_IMAGE_PLACE_RELATIVE;
+                        $xPlacement = eZImageObject::EZ_IMAGE_PLACE_RELATIVE;
                     }
                     if ( isset( $imageParameterSource['y'] ) )
                     {
                         $yPos = $imageParameterSource['y'];
-                        $yPlacement = EZ_IMAGE_PLACE_CONSTANT;
+                        $yPlacement = eZImageObject::EZ_IMAGE_PLACE_CONSTANT;
                     }
                     if ( isset( $imageParameterSource['yrel'] ) )
                     {
                         $yPos = $imageParameterSource['yrel'];
-                        $yPlacement = EZ_IMAGE_PLACE_RELATIVE;
+                        $yPlacement = eZImageObject::EZ_IMAGE_PLACE_RELATIVE;
                     }
                     $x = array( 'alignment' => $xAlignment,
                                 'placement' => $xPlacement,
@@ -807,10 +807,10 @@ class eZTemplateImageOperator
                     $alternativeText .= $layerText;
                 }
                 $md5Input .= $imageLayer->attribute( 'imagepath' );
-                $xAlignment = EZ_IMAGE_ALIGN_AXIS_NONE;
-                $yAlignment = EZ_IMAGE_ALIGN_AXIS_NONE;
-                $xPlacement = EZ_IMAGE_PLACE_CONSTANT;
-                $yPlacement = EZ_IMAGE_PLACE_CONSTANT;
+                $xAlignment = eZImageObject::EZ_IMAGE_ALIGN_AXIS_NONE;
+                $yAlignment = eZImageObject::EZ_IMAGE_ALIGN_AXIS_NONE;
+                $xPlacement = eZImageObject::EZ_IMAGE_PLACE_CONSTANT;
+                $yPlacement = eZImageObject::EZ_IMAGE_PLACE_CONSTANT;
                 $xPos = 0;
                 $yPos = 0;
                 if ( isset( $imageParameters['x']['alignment'] ) )

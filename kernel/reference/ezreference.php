@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/common/template.php' );
+require_once( 'kernel/common/template.php' );
 
 /*!
  Reads the doxygen generated HTML file and replaces hrefs and CSS classes
@@ -34,7 +34,7 @@ include_once( 'kernel/common/template.php' );
 */
 function referenceReadFile( $file, $htmlRoot, $base )
 {
-    include_once( "lib/ezutils/classes/ezsys.php" );
+    //include_once( "lib/ezutils/classes/ezsys.php" );
 
     // Settings for NVH setup
     $pathPrepend = eZSys::wwwDir();

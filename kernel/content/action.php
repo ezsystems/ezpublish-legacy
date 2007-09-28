@@ -26,15 +26,15 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'kernel/classes/ezcontentbrowse.php' );
-include_once( 'kernel/classes/ezcontentbrowsebookmark.php' );
-include_once( 'kernel/classes/ezcontentclass.php' );
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "lib/ezutils/classes/ezhttptool.php" );
-include_once( "lib/ezutils/classes/ezini.php" );
-include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezcontentbrowse.php' );
+//include_once( 'kernel/classes/ezcontentbrowsebookmark.php' );
+//include_once( 'kernel/classes/ezcontentclass.php' );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
+//include_once( "lib/ezutils/classes/ezini.php" );
+//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 
 $http = eZHTTPTool::instance();
 $module = $Params['Module'];
@@ -103,24 +103,24 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
 
     if ( $http->hasPostVariable( 'ContentLanguageCode' ) )
     {
-        include_once( 'kernel/classes/ezcontentlanguage.php' );
+        //include_once( 'kernel/classes/ezcontentlanguage.php' );
         $languageCode = $http->postVariable( 'ContentLanguageCode' );
         $languageID = eZContentLanguage::idByLocale( $languageCode );
         if ( $languageID === false )
         {
             eZDebug::writeError( "The language code [$languageCode] specified in ContentLanguageCode does not exist in the system." );
-            return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+            return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
         }
     }
     else
     {
-        include_once( 'kernel/classes/ezcontentlanguage.php' );
+        //include_once( 'kernel/classes/ezcontentlanguage.php' );
         $allLanguages = eZContentLanguage::prioritizedLanguages();
         // Only show language selection if there are more than 1 languages.
         if ( count( $allLanguages ) > 1 &&
              $hasClassInformation )
         {
-            include_once( 'kernel/common/template.php' );
+            require_once( 'kernel/common/template.php' );
             $tpl = templateInit();
 
             $tpl->setVariable( 'node_id', $http->postVariable( 'NodeID' ) );
@@ -164,7 +164,7 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
                 {
                     $db = eZDB::instance();
                     $db->begin();
-                    $contentObject = $class->instantiateIn( $languageCode, $userID, $sectionID, false, EZ_VERSION_STATUS_INTERNAL_DRAFT );
+                    $contentObject = $class->instantiateIn( $languageCode, $userID, $sectionID, false, eZContentObjectVersion::STATUS_INTERNAL_DRAFT );
                     $nodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $contentObject->attribute( 'id' ),
                                                                        'contentobject_version' => $contentObject->attribute( 'current_version' ),
                                                                        'parent_node' => $node->attribute( 'node_id' ),
@@ -187,19 +187,19 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
                 }
                 else
                 {
-                    return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+                    return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
                 }
             }
             else
             {
                 // If ACCESS DENIED save current post variables for using after login
                 $http->setSessionVariable( '$_POST_BeforeLogin', $http->attribute( 'post' ) );
-                return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+                return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
             }
         }
         else
         {
-            return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+            return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
         }
     }
     else if ( $hasClassInformation )
@@ -236,7 +236,7 @@ else if ( $http->hasPostVariable( 'SetSorting' ) &&
     $db->commit();
 
     // invalidate node view cache
-    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearContentCache( $contentObjectID );
 
     return $module->redirectToView( 'view', array( 'full', $nodeID, $languageCode ) );
@@ -256,14 +256,14 @@ else if ( $module->isCurrentAction( 'MoveNode' ) )
     $nodeID = $module->actionParameter( 'NodeID' );
     $node = eZContentObjectTreeNode::fetch( $nodeID );
     if ( !$node )
-        return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel', array() );
+        return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel', array() );
 
     if ( !$node->canMoveFrom() )
-        return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array() );
+        return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel', array() );
 
     $object = $node->object();
     if ( !$object )
-        return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel', array() );
+        return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel', array() );
     $objectID = $object->attribute( 'id' );
     $class = $object->contentClass();
     $classID = $class->attribute( 'id' );
@@ -300,7 +300,7 @@ else if ( $module->isCurrentAction( 'MoveNode' ) )
         return $module->redirectToView( 'view', array( 'full', $node->attribute( 'node_id' ) ) );
     }
 
-    include_once( 'kernel/classes/ezcontentobjecttreenodeoperations.php' );
+    //include_once( 'kernel/classes/ezcontentobjecttreenodeoperations.php' );
     if( !eZContentObjectTreeNodeOperations::move( $nodeID, $selectedNodeID ) )
     {
         eZDebug::writeError( "Failed to move node $nodeID as child of parent node $selectedNodeID",
@@ -327,14 +327,14 @@ else if ( $module->isCurrentAction( 'MoveNodeRequest' ) )
     $nodeID = $module->actionParameter( 'NodeID' );
     $node = eZContentObjectTreeNode::fetch( $nodeID );
     if ( !$node )
-        return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel', array() );
+        return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel', array() );
 
     if ( !$node->canMoveFrom() )
-        return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array() );
+        return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel', array() );
 
     $object = $node->object();
     if ( !$object )
-        return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel', array() );
+        return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel', array() );
     $objectID = $object->attribute( 'id' );
     $class = $object->contentClass();
 
@@ -392,19 +392,19 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
     $node = eZContentObjectTreeNode::fetch( $nodeID );
 
     if ( !$node )
-        return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel', array() );
+        return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel', array() );
 
     if ( !$node->canSwap() )
     {
         eZDebug::writeError( "Cannot swap node $nodeID (no edit permission)" );
-        return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array() );
+        return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel', array() );
     }
 
     $nodeParentNodeID = $node->attribute( 'parent_node_id' );
 
     $object = $node->object();
     if ( !$object )
-        return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel', array() );
+        return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel', array() );
     $objectID = $object->attribute( 'id' );
     $objectVersion = $object->attribute( 'current_version' );
     $class = $object->contentClass();
@@ -435,7 +435,7 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
     }
 
     // clear cache.
-    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
 
     $selectedObject = $selectedNode->object();
@@ -458,17 +458,17 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
     $selectedObjectClassID = $selectedObject->attribute( 'contentclass_id' );
 
     if ( !$nodeParent || !$selectedNodeParent )
-        return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel', array() );
+        return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel', array() );
 
     if ( !$nodeParent->canMoveTo( $selectedObjectClassID ) )
     {
         eZDebug::writeError( "Cannot move an object of class $selectedObjectClassID to node $nodeParentNodeID (no create permission)" );
-        return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array() );
+        return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel', array() );
     }
     if ( !$selectedNodeParent->canMoveTo( $objectClassID ) )
     {
         eZDebug::writeError( "Cannot move an object of class $objectClassID to node $selectedNodeParentNodeID (no create permission)" );
-        return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array() );
+        return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel', array() );
     }
 
     // exchange contentobject ids and versions.
@@ -545,17 +545,17 @@ else if ( $module->isCurrentAction( 'SwapNodeRequest' ) )
     $nodeID = $module->actionParameter( 'NodeID' );
     $node = eZContentObjectTreeNode::fetch( $nodeID );
     if ( !$node )
-        return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel', array() );
+        return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel', array() );
 
     if ( !$node->canSwap() )
     {
         eZDebug::writeError( "Cannot swap node $nodeID (no edit permission)" );
-        return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array() );
+        return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel', array() );
     }
 
     $object = $node->object();
     if ( !$object )
-        return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel', array() );
+        return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel', array() );
     $objectID = $object->attribute( 'id' );
     $class = $object->contentClass();
 
@@ -613,7 +613,7 @@ else if ( $module->isCurrentAction( 'UpdateMainAssignment' ) )
         $object = eZContentObject::fetch( $objectID );
         if ( !$object )
         {
-            return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+            return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
         }
 
         $existingMainNodeID = false;
@@ -626,24 +626,24 @@ else if ( $module->isCurrentAction( 'UpdateMainAssignment' ) )
             if ( $existingMainNode and
                  !$existingMainNode->checkAccess( 'edit' ) )
             {
-                return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array() );
+                return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel', array() );
             }
 
             $newMainNode = eZContentObjectTreeNode::fetch( $mainAssignmentID );
             if ( !$newMainNode )
             {
-                return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+                return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
             }
 
             if ( !$newMainNode->checkAccess( 'edit' ) )
             {
-                return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+                return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
             }
 
             eZContentObjectTreeNode::updateMainNodeID( $mainAssignmentID, $objectID, false,
                                                        $newMainNode->attribute( 'parent_node_id' ) );
 
-            include_once( 'kernel/classes/ezcontentcachemanager.php' );
+            //include_once( 'kernel/classes/ezcontentcachemanager.php' );
             eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
         }
     }
@@ -677,20 +677,20 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
     $object = eZContentObject::fetch( $objectID );
     if ( !$object )
     {
-        return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
     }
 
     $user = eZUser::currentUser();
     if ( !$object->checkAccess( 'edit' ) &&
          !$user->attribute( 'has_manage_locations' ) )
     {
-        return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
     }
 
     $existingNode = eZContentObjectTreeNode::fetch( $nodeID );
     if ( !$existingNode )
     {
-        return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
     }
 
     $class = $object->contentClass();
@@ -770,7 +770,7 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
         }
         $db->commit();
 
-        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
     }
     else if ( $module->isCurrentAction( 'SelectAssignmentLocation' ) )
@@ -828,7 +828,7 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
 
             return;
         }
-        return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
     }
 
     return $module->redirectToView( 'view', array( $viewMode, $nodeID, $languageCode ) );
@@ -855,20 +855,20 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
     $object = eZContentObject::fetch( $objectID );
     if ( !$object )
     {
-        return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
     }
 
     $user = eZUser::currentUser();
     if ( !$object->checkAccess( 'edit' ) &&
          !$user->hasManageLocations() )
     {
-        return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
     }
 
     if ( $module->hasActionParameter( 'AssignmentIDSelection' ) )
     {
         eZDebug::writeError( "Use of POST variable 'AssignmentIDSelection' is deprecated, use the node ID and put it in 'LocationIDSelection' instead" );
-        return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
     }
 
     if ( !$module->hasActionParameter( 'LocationIDSelection' ) )
@@ -953,7 +953,7 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
         $db->commit();
     }
 
-    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearObjectViewCacheIfNeeded( $objectID );
     // clear user policy cache if this was a user object
     if ( $object->attribute( 'contentclass_id' ) == $userClassID )
@@ -1056,7 +1056,7 @@ else if ( $http->hasPostVariable( 'RemoveButton' ) )
             $http->setSessionVariable( 'ContentNodeID', $contentNodeID );
             $http->setSessionVariable( 'ContentObjectID', $contentObjectID );
             $http->setSessionVariable( 'DeleteIDArray', $deleteIDArray );
-            include_once( 'kernel/classes/ezsection.php' );
+            //include_once( 'kernel/classes/ezsection.php' );
             $object = eZContentObject::fetch( $contentObjectID );
             eZSection::setGlobalID( $object->attribute( 'section_id' ) );
             $section = eZSection::fetch( $object->attribute( 'section_id' ) );
@@ -1089,7 +1089,7 @@ else if ( $http->hasPostVariable( 'RemoveButton' ) )
 }
 else if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
 {
-    include_once( 'kernel/classes/ezcontentcache.php' );
+    //include_once( 'kernel/classes/ezcontentcache.php' );
     if ( $http->hasPostVariable( 'ViewMode' ) )
     {
         $viewMode = $http->postVariable( 'ViewMode' );
@@ -1136,7 +1136,7 @@ else if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
     if ( $http->hasPostVariable( 'ContentObjectID' ) )
     {
         $objectID = $http->postVariable( 'ContentObjectID' );
-        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearContentCache( $objectID );
     }
 
@@ -1201,7 +1201,7 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
     {
         $user = eZUser::currentUser();
         if ( !$user->isLoggedIn() )
-            return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+            return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
         $shopModule = eZModule::exists( "shop" );
         $result = $shopModule->run( "wishlist", array() );
@@ -1245,7 +1245,7 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
             $http->setSessionVariable( 'ContentObjectID', $contentObjectID );
             $http->setSessionVariable( 'DeleteIDArray', array( $contentNodeID ) );
             $object = eZContentObject::fetchByNodeID( $contentNodeID);
-            include_once( 'kernel/classes/ezsection.php' );
+            //include_once( 'kernel/classes/ezsection.php' );
             eZSection::setGlobalID( $object->attribute( 'section_id' ) );
             $section = eZSection::fetch( $object->attribute( 'section_id' ) );
             if ( $section )
@@ -1274,7 +1274,7 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
     }
     else
     {
-        include_once( 'lib/ezutils/classes/ezextension.php' );
+        //include_once( 'lib/ezutils/classes/ezextension.php' );
         $baseDirectory = eZExtension::baseDirectory();
         $contentINI = eZINI::instance( 'content.ini' );
         $extensionDirectories = $contentINI->variable( 'ActionSettings', 'ExtensionDirectories' );
@@ -1352,17 +1352,17 @@ else if ( $module->isCurrentAction( 'ClearViewCache' ) or
     $object = eZContentObject::fetch( $objectID );
     if ( !$object )
     {
-        return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
     }
 
     $user = eZUser::currentUser();
     $result = $user->hasAccessTo( 'setup', 'managecache' );
     if ( $result['accessWord'] != 'yes' )
     {
-        return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
     }
 
-    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
     if ( $module->isCurrentAction( 'ClearViewCache' ) )
     {
         eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
@@ -1372,7 +1372,7 @@ else if ( $module->isCurrentAction( 'ClearViewCache' ) or
         $node = eZContentObjectTreeNode::fetch( $nodeID );
         if ( !$node )
         {
-            return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+            return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
         }
         $limit = 50;
         $offset = 0;
@@ -1417,7 +1417,7 @@ else if ( $module->isCurrentAction( 'UploadFile' ) )
     {
         eZDebug::writeError( "Missing UploadActionName parameter for action " . $module->currentAction(),
                              'content/action' );
-        include_once( 'kernel/classes/ezredirectmanager.php' );
+        //include_once( 'kernel/classes/ezredirectmanager.php' );
         eZRedirectManager::redirectTo( $module, 'content/view/full/2', true );
         return;
     }
@@ -1426,7 +1426,7 @@ else if ( $module->isCurrentAction( 'UploadFile' ) )
     $result = $user->hasAccessTo( 'content', 'create' );
     if ( $result['accessWord'] != 'yes' )
     {
-        return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
     }
 
     $uploadActionName = $module->actionParameter( 'UploadActionName' );
@@ -1446,13 +1446,13 @@ else if ( $module->isCurrentAction( 'UploadFile' ) )
             {
                 eZDebug::writeError( "Cannot upload file as child of parent node $parentNodeID, the parent does not exist",
                                      'content/action:' . $module->currentAction() );
-                return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+                return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
             }
             if ( !$parentNode->canCreate() )
             {
                 eZDebug::writeError( "Cannot upload file as child of parent node $parentNodeID, no permissions" . $module->currentAction(),
                                      'content/action:' . $module->currentAction() );
-                return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+                return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
             }
         }
         $parameters['parent_nodes'] = $parentNodes;
@@ -1463,12 +1463,12 @@ else if ( $module->isCurrentAction( 'UploadFile' ) )
     {
         if ( $module->actionParameter( 'UploadRedirectBack' ) == 1 )
         {
-            include_once( 'kernel/classes/ezredirectmanager.php' );
+            //include_once( 'kernel/classes/ezredirectmanager.php' );
             $parameters['result_uri'] = eZRedirectManager::redirectURI( $module, 'content/view/full/2', true );
         }
         else if ( $module->actionParameter( 'UploadRedirectBack' ) == 2 )
         {
-            include_once( 'kernel/classes/ezredirectmanager.php' );
+            //include_once( 'kernel/classes/ezredirectmanager.php' );
             $parameters['result_uri'] = eZRedirectManager::redirectURI( $module, 'content/view/full/2', false );
         }
     }
@@ -1479,7 +1479,7 @@ else if ( $module->isCurrentAction( 'UploadFile' ) )
         $parameters['result_uri'] = $module->actionParameter( 'UploadRedirectURI' );
     }
 
-    include_once( 'kernel/classes/ezcontentupload.php' );
+    //include_once( 'kernel/classes/ezcontentupload.php' );
     eZContentUpload::upload( $parameters, $module );
     return;
 }
@@ -1499,7 +1499,7 @@ else if ( $module->isCurrentAction( 'UploadFile' ) )
 }*/
 else if ( !isset( $result ) )
 {
-    return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
 

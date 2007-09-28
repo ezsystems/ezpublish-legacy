@@ -44,31 +44,34 @@
 
 */
 
-include_once( 'kernel/classes/ezcollaborationitemhandler.php' );
-include_once( 'kernel/classes/ezcollaborationitem.php' );
-include_once( 'kernel/classes/ezcollaborationitemmessagelink.php' );
-include_once( 'kernel/classes/ezcollaborationitemparticipantlink.php' );
-include_once( 'kernel/classes/ezcollaborationitemgrouplink.php' );
-include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-include_once( 'kernel/classes/ezcollaborationprofile.php' );
-include_once( 'kernel/classes/ezcollaborationsimplemessage.php' );
-include_once( 'kernel/classes/ezcontentobjectversion.php' );
-include_once( 'kernel/common/i18n.php' );
-
-/// Approval message type
-define( "EZ_COLLABORATION_MESSAGE_TYPE_APPROVE", 1 );
-
-/// Default status, no approval decision has been made
-define( "EZ_COLLABORATION_APPROVE_STATUS_WAITING", 0 );
-/// The contentobject was approved and will be published.
-define( "EZ_COLLABORATION_APPROVE_STATUS_ACCEPTED", 1 );
-/// The contentobject was denied and will be archived.
-define( "EZ_COLLABORATION_APPROVE_STATUS_DENIED", 2 );
-/// The contentobject was deferred and will be a draft again for reediting.
-define( "EZ_COLLABORATION_APPROVE_STATUS_DEFERRED", 3 );
+//include_once( 'kernel/classes/ezcollaborationitemhandler.php' );
+//include_once( 'kernel/classes/ezcollaborationitem.php' );
+//include_once( 'kernel/classes/ezcollaborationitemmessagelink.php' );
+//include_once( 'kernel/classes/ezcollaborationitemparticipantlink.php' );
+//include_once( 'kernel/classes/ezcollaborationitemgrouplink.php' );
+//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+//include_once( 'kernel/classes/ezcollaborationprofile.php' );
+//include_once( 'kernel/classes/ezcollaborationsimplemessage.php' );
+//include_once( 'kernel/classes/ezcontentobjectversion.php' );
+require_once( 'kernel/common/i18n.php' );
 
 class eZApproveCollaborationHandler extends eZCollaborationItemHandler
 {
+    /// Approval message type
+    const EZ_COLLABORATION_MESSAGE_TYPE_APPROVE = 1;
+
+    /// Default status, no approval decision has been made
+    const EZ_COLLABORATION_APPROVE_STATUS_WAITING = 0;
+
+    /// The contentobject was approved and will be published.
+    const EZ_COLLABORATION_APPROVE_STATUS_ACCEPTED = 1;
+
+    /// The contentobject was denied and will be archived.
+    const EZ_COLLABORATION_APPROVE_STATUS_DENIED = 2;
+
+    /// The contentobject was deferred and will be a draft again for reediting.
+    const EZ_COLLABORATION_APPROVE_STATUS_DEFERRED = 3;
+
     /*!
      Initializes the handler
     */
@@ -78,7 +81,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
                                            ezi18n( 'kernel/classes', 'Approval' ),
                                            array( 'use-messages' => true,
                                                   'notification-types' => true,
-                                                  'notification-collection-handling' => EZ_COLLABORATION_NOTIFICATION_COLLECTION_PER_PARTICIPATION_ROLE ) );
+                                                  'notification-collection-handling' => eZCollaborationItemHandler::EZ_COLLABORATION_NOTIFICATION_COLLECTION_PER_PARTICIPATION_ROLE ) );
     }
 
     /*!
@@ -101,11 +104,11 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
 
     function notificationParticipantTemplate( $participantRole )
     {
-        if ( $participantRole == EZ_COLLABORATION_PARTICIPANT_ROLE_APPROVER )
+        if ( $participantRole == eZCollaborationItemParticipantLink::EZ_COLLABORATION_PARTICIPANT_ROLE_APPROVER )
         {
             return 'approve.tpl';
         }
-        else if ( $participantRole == EZ_COLLABORATION_PARTICIPANT_ROLE_AUTHOR )
+        else if ( $participantRole == eZCollaborationItemParticipantLink::EZ_COLLABORATION_PARTICIPANT_ROLE_AUTHOR )
         {
             return 'author.tpl';
         }
@@ -178,8 +181,8 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
         $collaborationItem = eZCollaborationItem::fetch( $approvalID );
         if ( $collaborationItem !== null )
         {
-            $collaborationItem->setAttribute( 'data_int3', EZ_COLLABORATION_APPROVE_STATUS_WAITING );
-            $collaborationItem->setAttribute( 'status', EZ_COLLABORATION_STATUS_ACTIVE );
+            $collaborationItem->setAttribute( 'data_int3', self::EZ_COLLABORATION_APPROVE_STATUS_WAITING );
+            $collaborationItem->setAttribute( 'status', eZCollaborationItem::EZ_COLLABORATION_STATUS_ACTIVE );
             $timestamp = time();
             $collaborationItem->setAttribute( 'modified', $timestamp );
             $collaborationItem->store();
@@ -209,16 +212,16 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
         $collaborationID = $collaborationItem->attribute( 'id' );
 
         $participantList = array( array( 'id' => array( $authorID ),
-                                         'role' => EZ_COLLABORATION_PARTICIPANT_ROLE_AUTHOR ),
+                                         'role' => eZCollaborationItemParticipantLink::EZ_COLLABORATION_PARTICIPANT_ROLE_AUTHOR ),
                                   array( 'id' => $approverIDArray,
-                                         'role' => EZ_COLLABORATION_PARTICIPANT_ROLE_APPROVER ) );
+                                         'role' => eZCollaborationItemParticipantLink::EZ_COLLABORATION_PARTICIPANT_ROLE_APPROVER ) );
         foreach ( $participantList as $participantItem )
         {
             foreach( $participantItem['id'] as $participantID )
             {
                 $participantRole = $participantItem['role'];
                 $link = eZCollaborationItemParticipantLink::create( $collaborationID, $participantID,
-                                                                    $participantRole, EZ_COLLABORATION_PARTICIPANT_TYPE_USER );
+                                                                    $participantRole, eZCollaborationItemParticipantLink::EZ_COLLABORATION_PARTICIPANT_TYPE_USER );
                 $link->store();
 
                 $profile = eZCollaborationProfile::instance( $participantID );
@@ -259,7 +262,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
             foreach( $participantList as $participant )
             {
                 if ( $participant->ParticipantID == $userID &&
-                     $participant->ParticipantRole == EZ_COLLABORATION_PARTICIPANT_ROLE_APPROVER )
+                     $participant->ParticipantRole == eZCollaborationItemParticipantLink::EZ_COLLABORATION_PARTICIPANT_ROLE_APPROVER )
                 {
                     $approveAllowed = true;
                     break;
@@ -271,18 +274,18 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
             }
 
             $contentObjectVersion = $this->contentObjectVersion( $collaborationItem );
-            $status = EZ_COLLABORATION_APPROVE_STATUS_DENIED;
+            $status = self::EZ_COLLABORATION_APPROVE_STATUS_DENIED;
             if ( $this->isCustomAction( 'Accept' ) )
-                $status = EZ_COLLABORATION_APPROVE_STATUS_ACCEPTED;
+                $status = self::EZ_COLLABORATION_APPROVE_STATUS_ACCEPTED;
 //             else if ( $this->isCustomAction( 'Defer' ) )
-//                 $status = EZ_COLLABORATION_APPROVE_STATUS_DEFERRED;
+//                 $status = self::EZ_COLLABORATION_APPROVE_STATUS_DEFERRED;
 //             else if ( $this->isCustomAction( 'Deny' ) )
-//                 $status = EZ_COLLABORATION_APPROVE_STATUS_DENIED;
+//                 $status = self::EZ_COLLABORATION_APPROVE_STATUS_DENIED;
             else if ( $this->isCustomAction( 'Defer' ) or
                       $this->isCustomAction( 'Deny' ) )
-                $status = EZ_COLLABORATION_APPROVE_STATUS_DENIED;
+                $status = self::EZ_COLLABORATION_APPROVE_STATUS_DENIED;
             $collaborationItem->setAttribute( 'data_int3', $status );
-            $collaborationItem->setAttribute( 'status', EZ_COLLABORATION_STATUS_INACTIVE );
+            $collaborationItem->setAttribute( 'status', eZCollaborationItem::EZ_COLLABORATION_STATUS_INACTIVE );
             $timestamp = time();
             $collaborationItem->setAttribute( 'modified', $timestamp );
             $collaborationItem->setIsActive( false );
@@ -297,7 +300,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
             {
                 $message = eZCollaborationSimpleMessage::create( 'ezapprove_comment', $messageText );
                 $message->store();
-                eZCollaborationItemMessageLink::addMessage( $collaborationItem, $message, EZ_COLLABORATION_MESSAGE_TYPE_APPROVE );
+                eZCollaborationItemMessageLink::addMessage( $collaborationItem, $message, self::EZ_COLLABORATION_MESSAGE_TYPE_APPROVE );
             }
         }
         $collaborationItem->sync();

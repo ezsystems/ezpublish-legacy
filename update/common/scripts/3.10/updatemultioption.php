@@ -28,8 +28,8 @@
 
 /*! \file updatemultioption.php
 */
-include_once( 'kernel/classes/ezpersistentobject.php' );
-include_once( 'kernel/classes/ezcontentobjectattribute.php' );
+//include_once( 'kernel/classes/ezpersistentobject.php' );
+//include_once( 'kernel/classes/ezcontentobjectattribute.php' );
 define( "QUERY_LIMIT", 100 );
 
 
@@ -77,8 +77,8 @@ if( !file_exists( 'update/common/scripts' ) || !is_dir( 'update/common/scripts' 
     exit;
 }
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
 

@@ -36,17 +36,18 @@
   \brief The class eZWaitUntilDateType does
 
 */
-include_once( 'kernel/classes/workflowtypes/event/ezwaituntildate/ezwaituntildate.php' );
-define( "EZ_WORKFLOW_TYPE_WAIT_UNTIL_DATE_ID", "ezwaituntildate" );
+//include_once( 'kernel/classes/workflowtypes/event/ezwaituntildate/ezwaituntildate.php' );
 
 class eZWaitUntilDateType  extends eZWorkflowEventType
 {
+    const WORKFLOW_TYPE_STRING = "ezwaituntildate";
+
     /*!
      Constructor
     */
     function eZWaitUntilDateType()
     {
-        $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_WAIT_UNTIL_DATE_ID, ezi18n( 'kernel/workflow/event', "Wait until date" ) );
+        $this->eZWorkflowEventType( eZWaitUntilDateType::WORKFLOW_TYPE_STRING, ezi18n( 'kernel/workflow/event', "Wait until date" ) );
         $this->setTriggerTypes( array( 'content' => array( 'publish' => array( 'before',
                                                                                'after' ) ) ) );
     }
@@ -59,7 +60,7 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
         if ( !$object )
         {
             eZDebugSetting::writeError( 'kernel-workflow-waituntildate','The object with ID '.$parameters['object_id'].' does not exist.', 'eZApproveType::execute() object is unavailable' );
-            return EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_CANCELLED;
+            return eZWorkflowType::STATUS_WORKFLOW_CANCELLED;
         }
 
         $version = $object->version( $parameters['version'] );
@@ -85,7 +86,7 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
                     {
                         $this->setInformation( "Event delayed until " . $dateTime->toString( true ) );
                         $this->setActivationDate( $dateTime->timeStamp() );
-                        return EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON_REPEAT;
+                        return eZWorkflowType::STATUS_DEFERRED_TO_CRON_REPEAT;
                     }
                     else if ( $dateTime->isValid() and $modifyPublishDate )
                     {
@@ -94,19 +95,19 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
                     }
                     else
                     {
-                        return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
-//                        return EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_DONE;
+                        return eZWorkflowType::STATUS_ACCEPTED;
+//                        return eZWorkflowType::STATUS_WORKFLOW_DONE;
                     }
                 }
                 else
                 {
-                    return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
-//                   return EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_DONE;
+                    return eZWorkflowType::STATUS_ACCEPTED;
+//                   return eZWorkflowType::STATUS_WORKFLOW_DONE;
                 }
             }
         }
-        return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
-//        return EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_DONE;
+        return eZWorkflowType::STATUS_ACCEPTED;
+//        return eZWorkflowType::STATUS_WORKFLOW_DONE;
     }
 
     function attributes()
@@ -128,7 +129,7 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
         {
             case 'contentclass_list' :
             {
-                return eZContentClass::fetchList( EZ_CLASS_VERSION_STATUS_DEFINED, true );
+                return eZContentClass::fetchList( eZContentClass::VERSION_STATUS_DEFINED, true );
             }break;
             case 'contentclassattribute_list' :
             {
@@ -238,7 +239,7 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
 
 }
 
-eZWorkflowEventType::registerEventType( EZ_WORKFLOW_TYPE_WAIT_UNTIL_DATE_ID, "ezwaituntildatetype" );
+eZWorkflowEventType::registerEventType( eZWaitUntilDateType::WORKFLOW_TYPE_STRING, "eZWaitUntilDateType" );
 
 
 ?>

@@ -26,9 +26,9 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once('lib/ezutils/classes/ezdebug.php');
-include_once('lib/ezutils/classes/ezhttptool.php');
-include_once('lib/ezdb/classes/ezdb.php');
+require_once('lib/ezutils/classes/ezdebug.php');
+//include_once('lib/ezutils/classes/ezhttptool.php');
+//include_once('lib/ezdb/classes/ezdb.php');
 
 function sectionEditPostFetch( $module, $class, $object, $version, $contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage, &$validation )
 {
@@ -49,7 +49,7 @@ function sectionEditActionCheck( $module, $class, $object, $version, $contentObj
             $selectedSection = eZSection::fetch( $selectedSectionID );
             if ( is_object( $selectedSection ) )
             {
-                include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+                //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
                 $currentUser = eZUser::currentUser();
                 if ( $currentUser->canAssignSectionToObject( $selectedSectionID, $object ) )
                 {
@@ -62,7 +62,7 @@ function sectionEditActionCheck( $module, $class, $object, $version, $contentObj
                         {
                             eZContentObjectTreeNode::assignSectionToSubTree( $node->attribute( 'node_id' ), $selectedSectionID );
                         }
-                        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+                        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
                     }
                     else
                     {

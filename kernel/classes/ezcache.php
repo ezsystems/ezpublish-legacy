@@ -40,9 +40,9 @@
 
 */
 
-include_once( 'lib/ezfile/classes/ezfilehandler.php' );
-include_once( 'lib/ezfile/classes/ezdir.php' );
-include_once( 'kernel/common/i18n.php' );
+//include_once( 'lib/ezfile/classes/ezfilehandler.php' );
+//include_once( 'lib/ezfile/classes/ezdir.php' );
+require_once( 'kernel/common/i18n.php' );
 
 class eZCache
 {
@@ -346,7 +346,7 @@ class eZCache
         if ( isset( $cacheItem['expiry-key'] ) )
         {
             $key = $cacheItem['expiry-key'];
-            include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+            //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
             $expiryHandler = eZExpiryHandler::instance();
             $keyValue = $expiryHandler->getTimestamp( $key );
             if ( $keyValue !== false )
@@ -419,7 +419,7 @@ class eZCache
     */
     static function clearImageAlias( $cacheItem )
     {
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $expiryHandler = eZExpiryHandler::instance();
         $expiryHandler->setTimestamp( 'image-manager-alias', time() );
         $expiryHandler->store();
@@ -435,7 +435,7 @@ class eZCache
     */
     static function clearContentTreeMenu( $cacheItem )
     {
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $expiryHandler = eZExpiryHandler::instance();
         $expiryHandler->setTimestamp( 'content-tree-menu', time() );
         $expiryHandler->store();
@@ -448,7 +448,7 @@ class eZCache
     */
     static function clearTemplateBlockCache( $cacheItem )
     {
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $expiryHandler = eZExpiryHandler::instance();
         $expiryHandler->setTimestamp( 'global-template-block-cache', time() );
         $expiryHandler->store();
@@ -510,7 +510,7 @@ class eZCache
     */
     static function clearUserInfoCache( $cacheItem )
     {
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'user-access-cache', time() );
         $handler->store();
@@ -523,7 +523,7 @@ class eZCache
     */
     static function clearContentCache( $cacheItem )
     {
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'content-view-cache', time() );
         $handler->store();

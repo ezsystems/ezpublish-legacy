@@ -27,8 +27,8 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "eZ publish Template Compiler\n" .
@@ -81,7 +81,7 @@ if ( $options['no-full-url'] )
 
 $script->initialize();
 
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
 $http = eZHTTPTool::instance();
 $http->UseFullUrl = $useFullURL;
 
@@ -90,8 +90,8 @@ if ( count( $options['arguments'] ) > 0 )
 {
     $ini = eZINI::instance();
 
-    include_once( 'kernel/common/template.php' );
-    include_once( 'lib/eztemplate/classes/eztemplatecompiler.php' );
+    require_once( 'kernel/common/template.php' );
+    //include_once( 'lib/eztemplate/classes/eztemplatecompiler.php' );
     $tpl = templateInit();
 
     $fileList = $options['arguments'];
@@ -138,8 +138,8 @@ else
 
     $designList = array_merge( array( $standardDesign ), $additionalSiteDesignList, array( $siteDesign ) );
 
-    include_once( 'kernel/common/template.php' );
-    include_once( 'lib/eztemplate/classes/eztemplatecompiler.php' );
+    require_once( 'kernel/common/template.php' );
+    //include_once( 'lib/eztemplate/classes/eztemplatecompiler.php' );
     $tpl = templateInit();
 
     $script->setIterationData( '.', '~' );

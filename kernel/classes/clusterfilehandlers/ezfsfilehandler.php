@@ -121,7 +121,7 @@ class eZFSFileHandler
     {
         if ( $this->Mutex !== null )
             return $this->Mutex;
-        include_once( "lib/ezutils/classes/ezmutex.php" );
+        //include_once( "lib/ezutils/classes/ezmutex.php" );
         $mutex = new eZMutex( $this->filePath );
         return $mutex;
     }
@@ -213,13 +213,13 @@ class eZFSFileHandler
 
         if ( !( $fh = fopen( $filePath, 'w' ) ) )
         {
-            eZDebug::writeError( "Cannot open file '$filePath'", 'ezfsfilehandler::fileStoreContents()' );
+            eZDebug::writeError( "Cannot open file '$filePath'", 'eZFSFileHandler::fileStoreContents()' );
             return false;
         }
 
         if ( fwrite( $fh, $contents ) === false )
         {
-            eZDebug::writeError( "Cannot write to '$filePath'", 'ezfsfilehandler::fileStoreContents()' );
+            eZDebug::writeError( "Cannot write to '$filePath'", 'eZFSFileHandler::fileStoreContents()' );
             return false;
         }
 
@@ -244,7 +244,7 @@ class eZFSFileHandler
 
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
 
-        include_once( 'lib/ezfile/classes/ezfile.php' );
+        //include_once( 'lib/ezfile/classes/ezfile.php' );
         eZFile::create( basename( $filePath ), dirname( $filePath ), $contents, true );
 
         eZDebug::accumulatorStop( 'dbfile' );
@@ -333,7 +333,7 @@ class eZFSFileHandler
      */
     function processCache( $retrieveCallback, $generateCallback = null, $ttl = null, $expiry = null, $extraData = null )
     {
-        include_once( 'kernel/classes/ezclusterfilefailure.php' );
+        //include_once( 'kernel/classes/ezclusterfilefailure.php' );
         $forceDB = false;
         $fname = $this->filePath;
         $args = array( $fname );
@@ -640,7 +640,7 @@ class eZFSFileHandler
                 unlink( $file );
 
                 // Write log message to storage.log
-                include_once( 'lib/ezfile/classes/ezlog.php' );
+                //include_once( 'lib/ezfile/classes/ezlog.php' );
                 eZLog::writeStorageLog( $file );
             }
         }
@@ -712,7 +712,7 @@ class eZFSFileHandler
         {
             if ( is_file( $path ) )
             {
-                include_once( 'lib/ezfile/classes/ezfilehandler.php' );
+                //include_once( 'lib/ezfile/classes/ezfilehandler.php' );
                 $handler = eZFileHandler::instance( false );
                 $handler->unlink( $path );
                 if ( file_exists( $path ) )
@@ -720,7 +720,7 @@ class eZFSFileHandler
             }
             else
             {
-                include_once( 'lib/ezfile/classes/ezdir.php' );
+                //include_once( 'lib/ezfile/classes/ezdir.php' );
                 eZDir::recursiveDelete( $path );
             }
         }
@@ -745,7 +745,7 @@ class eZFSFileHandler
 
         if ( is_file( $path ) )
         {
-            include_once( 'lib/ezfile/classes/ezfilehandler.php' );
+            //include_once( 'lib/ezfile/classes/ezfilehandler.php' );
             $handler = eZFileHandler::instance( false );
             $handler->unlink( $path );
             if ( file_exists( $path ) )
@@ -753,7 +753,7 @@ class eZFSFileHandler
         }
         elseif ( is_dir( $path ) )
         {
-            include_once( 'lib/ezfile/classes/ezdir.php' );
+            //include_once( 'lib/ezfile/classes/ezdir.php' );
             eZDir::recursiveDelete( $path );
         }
 
@@ -873,7 +873,7 @@ class eZFSFileHandler
 
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
 
-        include_once( 'lib/ezutils/classes/ezmimetype.php' );
+        //include_once( 'lib/ezutils/classes/ezmimetype.php' );
         $mimeData = eZMimeType::findByFileContents( $path );
 //        $mimeType = $mimeData['name'];
         $mimeType = 'application/octec-stream';

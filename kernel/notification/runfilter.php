@@ -28,8 +28,8 @@
 
 /*! \file runfilter.php
 */
-include_once( "lib/ezutils/classes/ezhttptool.php" );
-include_once( 'kernel/common/template.php' );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
+require_once( 'kernel/common/template.php' );
 
 $http = eZHTTPTool::instance();
 $Module = $Params['Module'];
@@ -41,14 +41,14 @@ $tpl->setVariable( 'time_event_created', false );
 
 if ( $http->hasPostVariable( 'RunFilterButton' ) )
 {
-    include_once( 'kernel/classes/notification/eznotificationeventfilter.php' );
+    //include_once( 'kernel/classes/notification/eznotificationeventfilter.php' );
     eZNotificationEventFilter::process();
     $tpl->setVariable( 'filter_proccessed', true );
 
 }
 else if ( $http->hasPostVariable( 'SpawnTimeEventButton' ) )
 {
-    include_once( 'kernel/classes/notification/eznotificationevent.php' );
+    //include_once( 'kernel/classes/notification/eznotificationevent.php' );
     $event = eZNotificationEvent::create( 'ezcurrenttime', array() );
     $event->store();
     $tpl->setVariable( 'time_event_created', true );

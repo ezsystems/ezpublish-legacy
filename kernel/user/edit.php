@@ -26,12 +26,12 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-include_once( "lib/ezutils/classes/ezhttptool.php" );
-include_once( "kernel/classes/ezcontentclass.php" );
-include_once( "kernel/classes/ezcontentclassattribute.php" );
-include_once( "kernel/classes/ezcontentobject.php" );
-include_once( "kernel/classes/ezcontentobjectattribute.php" );
+//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
+//include_once( "kernel/classes/ezcontentclass.php" );
+//include_once( "kernel/classes/ezcontentclassattribute.php" );
+//include_once( "kernel/classes/ezcontentobject.php" );
+//include_once( "kernel/classes/ezcontentobjectattribute.php" );
 
 
 $currentUser = eZUser::currentUser();
@@ -70,14 +70,14 @@ if ( $Module->isCurrentAction( "Edit" ) )
 
 $userAccount = eZUser::fetch( $UserID );
 if ( !$userAccount )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 $userObject = $userAccount->attribute( 'contentobject' );
 if ( !$userObject )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 if ( !$userObject->canEdit( ) )
-    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
-include_once( "kernel/common/template.php" );
+require_once( "kernel/common/template.php" );
 $tpl = templateInit();
 $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "http", $http );

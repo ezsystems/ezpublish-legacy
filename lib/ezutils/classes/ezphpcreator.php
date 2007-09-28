@@ -72,30 +72,30 @@ $php->close();
 
 */
 
-define( 'EZ_PHPCREATOR_VARIABLE', 1 );
-define( 'EZ_PHPCREATOR_SPACE', 2 );
-define( 'EZ_PHPCREATOR_TEXT', 3 );
-define( 'EZ_PHPCREATOR_METHOD_CALL', 4 );
-define( 'EZ_PHPCREATOR_CODE_PIECE', 5 );
-define( 'EZ_PHPCREATOR_EOL_COMMENT', 6 );
-define( 'EZ_PHPCREATOR_INCLUDE', 7 );
-define( 'EZ_PHPCREATOR_VARIABLE_UNSET', 8 );
-define( 'EZ_PHPCREATOR_DEFINE', 9 );
-define( 'EZ_PHPCREATOR_VARIABLE_UNSET_LIST', 10 );
-define( 'EZ_PHPCREATOR_RAW_VARIABLE', 11 );
-
-define( 'EZ_PHPCREATOR_VARIABLE_ASSIGNMENT', 1 );
-define( 'EZ_PHPCREATOR_VARIABLE_APPEND_TEXT', 2 );
-define( 'EZ_PHPCREATOR_VARIABLE_APPEND_ELEMENT', 3 );
-
-define( 'EZ_PHPCREATOR_INCLUDE_ONCE', 1 );
-define( 'EZ_PHPCREATOR_INCLUDE_ALWAYS', 2 );
-
-define( 'EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VALUE', 1 );
-define( 'EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VARIABLE', 2 );
-
 class eZPHPCreator
 {
+    const VARIABLE = 1;
+    const SPACE = 2;
+    const TEXT = 3;
+    const METHOD_CALL = 4;
+    const CODE_PIECE = 5;
+    const EOL_COMMENT = 6;
+    const INCLUDE_STATEMENT = 7;
+    const VARIABLE_UNSET = 8;
+    const DEFINE = 9;
+    const VARIABLE_UNSET_LIST = 10;
+    const RAW_VARIABLE = 11;
+
+    const VARIABLE_ASSIGNMENT = 1;
+    const VARIABLE_APPEND_TEXT = 2;
+    const VARIABLE_APPEND_ELEMENT = 3;
+
+    const INCLUDE_ONCE_STATEMENT = 1;
+    const INCLUDE_ALWAYS_STATEMENT = 2;
+
+    const METHOD_CALL_PARAMETER_VALUE = 1;
+    const METHOD_CALL_PARAMETER_VARIABLE = 2;
+
     /*!
      Initializes the creator with the directory path \a $dir and filename \a $file.
     */
@@ -155,7 +155,7 @@ define( 'MY_CONSTANT', 5 );
     */
     function addDefine( $name, $value, $caseSensitive = true, $parameters = array() )
     {
-        $element = array( EZ_PHPCREATOR_DEFINE,
+        $element = array( eZPHPCreator::DEFINE,
                           $name,
                           $value,
                           $caseSensitive,
@@ -176,7 +176,7 @@ $php->addVariable( 'TransLationRoot', $cache['root'] );
     */
     function addRawVariable( $name, $value )
     {
-        $element = array( EZ_PHPCREATOR_RAW_VARIABLE, $name, $value );
+        $element = array( eZPHPCreator::RAW_VARIABLE, $name, $value );
         $this->Elements[] = $element;
     }
 
@@ -186,8 +186,8 @@ $php->addVariable( 'TransLationRoot', $cache['root'] );
      Example:
      \code
 $php->addVariable( 'offset', 5  );
-$php->addVariable( 'text', 'some more text', EZ_PHPCREATOR_VARIABLE_APPEND_TEXT );
-$php->addVariable( 'array', 42, EZ_PHPCREATOR_VARIABLE_APPEND_ELEMENT );
+$php->addVariable( 'text', 'some more text', eZPHPCreator::VARIABLE_APPEND_TEXT );
+$php->addVariable( 'array', 42, eZPHPCreator::VARIABLE_APPEND_ELEMENT );
      \endcode
 
      Would result in the PHP code.
@@ -199,19 +199,19 @@ $array[] = 42;
      \endcode
 
      \param $assignmentType Controls the way the value is assigned, choose one of the following:
-            - \b EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, assign using \c = (default)
-            - \b EZ_PHPCREATOR_VARIABLE_APPEND_TEXT, append using text concat operator \c .
-            - \b EZ_PHPCREATOR_VARIABLE_APPEND_ELEMENT, append element to array using append operator \c []
+            - \b eZPHPCreator::VARIABLE_ASSIGNMENT, assign using \c = (default)
+            - \b eZPHPCreator::VARIABLE_APPEND_TEXT, append using text concat operator \c .
+            - \b eZPHPCreator::VARIABLE_APPEND_ELEMENT, append element to array using append operator \c []
      \param $parameters Optional parameters, can be any of the following:
             - \a spacing, The number of spaces to place before each code line, default is \c 0.
             - \a full-tree, Whether to displays array values as one large expression (\c true) or
                             split it up into multiple variables (\c false)
 
     */
-    function addVariable( $name, $value, $assignmentType = EZ_PHPCREATOR_VARIABLE_ASSIGNMENT,
+    function addVariable( $name, $value, $assignmentType = eZPHPCreator::VARIABLE_ASSIGNMENT,
                           $parameters = array() )
     {
-        $element = array( EZ_PHPCREATOR_VARIABLE,
+        $element = array( eZPHPCreator::VARIABLE,
                           $name,
                           $value,
                           $assignmentType,
@@ -241,7 +241,7 @@ unset( $offset );
     function addVariableUnset( $name,
                                $parameters = array() )
     {
-        $element = array( EZ_PHPCREATOR_VARIABLE_UNSET,
+        $element = array( eZPHPCreator::VARIABLE_UNSET,
                           $name,
                           $parameters );
         $this->Elements[] = $element;
@@ -269,7 +269,7 @@ unset( $var1, $var2 );
     function addVariableUnsetList( $list,
                                $parameters = array() )
     {
-        $element = array( EZ_PHPCREATOR_VARIABLE_UNSET_LIST,
+        $element = array( eZPHPCreator::VARIABLE_UNSET_LIST,
                           $list,
                           $parameters );
         $this->Elements[] = $element;
@@ -287,7 +287,7 @@ $php->addSpace( 1 );
     */
     function addSpace( $lines = 1 )
     {
-        $element = array( EZ_PHPCREATOR_SPACE,
+        $element = array( eZPHPCreator::SPACE,
                           $lines );
         $this->Elements[] = $element;
     }
@@ -304,7 +304,7 @@ $php->addText( 'Print me!' );
     */
     function addText( $text )
     {
-        $element = array( EZ_PHPCREATOR_TEXT,
+        $element = array( eZPHPCreator::TEXT,
                           $text );
         $this->Elements[] = $element;
     }
@@ -314,8 +314,8 @@ $php->addText( 'Print me!' );
      \a $methodParameters should be an array with parameter entries where each entry contains:
      - \a 0, The parameter value
      - \a 1 (\em optional), The type of parameter, is one of:
-       - \b EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VALUE, Use value directly (default if this entry is missing)
-       - \b EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VARIABLE, Use value as the name of the variable.
+       - \b eZPHPCreator::METHOD_CALL_PARAMETER_VALUE, Use value directly (default if this entry is missing)
+       - \b eZPHPCreator::METHOD_CALL_PARAMETER_VARIABLE, Use value as the name of the variable.
 
      Optionally the \a $returnValue parameter can be used to decide what should be done
      with the return value of the method call. It can either be \c false which means
@@ -342,7 +342,7 @@ $php->addMethodCall( 'node', 'name' );
     */
     function addMethodCall( $objectName, $methodName, $methodParameters, $returnValue = false, $parameters = array() )
     {
-        $element = array( EZ_PHPCREATOR_METHOD_CALL,
+        $element = array( eZPHPCreator::METHOD_CALL,
                           $objectName,
                           $methodName,
                           $methodParameters,
@@ -377,7 +377,7 @@ if ( $value > 2 )
     */
     function addCodePiece( $code, $parameters = array() )
     {
-        $element = array( EZ_PHPCREATOR_CODE_PIECE,
+        $element = array( eZPHPCreator::CODE_PIECE,
                           $code,
                           $parameters );
         $this->Elements[] = $element;
@@ -407,7 +407,7 @@ $php->addComment( "This file is auto generated\nDo not edit!" );
     */
     function addComment( $comment, $eol = true, $whitespaceHandling = true, $parameters = array() )
     {
-        $element = array( EZ_PHPCREATOR_EOL_COMMENT,
+        $element = array( eZPHPCreator::EOL_COMMENT,
                           $comment,
                           array_merge( $parameters,
                                        array( 'eol' => $eol,
@@ -419,8 +419,8 @@ $php->addComment( "This file is auto generated\nDo not edit!" );
      Adds an include statement to the code, the file to include is \a $file.
 
      \param $type What type of include statement to use, can be one of the following:
-                  - \b EZ_PHPCREATOR_INCLUDE_ONCE, use \em include_once()
-                  - \b EZ_PHPCREATOR_INCLUDE_ALWAYS, use \em include()
+                  - \b eZPHPCreator::INCLUDE_ONCE_STATEMENT, use \em include_once()
+                  - \b eZPHPCreator::INCLUDE_ALWAYS_STATEMENT, use \em include()
      \param $parameters Optional parameters, can be any of the following:
             - \a spacing, The number of spaces to place before each code line, default is \c 0.
 
@@ -432,13 +432,13 @@ $php->addInclude( 'lib/ezutils/classes/ezphpcreator.php' );
      Would result in the PHP code.
 
      \code
-include_once( 'lib/ezutils/classes/ezphpcreator.php' );
+//include_once( 'lib/ezutils/classes/ezphpcreator.php' );
      \endcode
 
     */
-    function addInclude( $file, $type = EZ_PHPCREATOR_INCLUDE_ONCE, $parameters = array() )
+    function addInclude( $file, $type = eZPHPCreator::INCLUDE_ONCE_STATEMENT, $parameters = array() )
     {
-        $element = array( EZ_PHPCREATOR_INCLUDE,
+        $element = array( eZPHPCreator::INCLUDE_STATEMENT,
                           $file,
                           $type,
                           $parameters );
@@ -452,23 +452,23 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
      Creates a variable statement with an assignment type and returns it.
      \param $variableName The name of the variable
      \param $assignmentType What kind of assignment to use, is one of the following;
-                            - \b EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, assign using \c =
-                            - \b EZ_PHPCREATOR_VARIABLE_APPEND_TEXT, append to text using \c .
-                            - \b EZ_PHPCREATOR_VARIABLE_APPEND_ELEMENT, append to array using \c []
+                            - \b eZPHPCreator::VARIABLE_ASSIGNMENT, assign using \c =
+                            - \b eZPHPCreator::VARIABLE_APPEND_TEXT, append to text using \c .
+                            - \b eZPHPCreator::VARIABLE_APPEND_ELEMENT, append to array using \c []
      \param $variableParameters Optional parameters for the statement
     */
     static function variableNameText( $variableName, $assignmentType, $variableParameters = array() )
     {
         $text = '$' . $variableName;
-        if ( $assignmentType == EZ_PHPCREATOR_VARIABLE_ASSIGNMENT )
+        if ( $assignmentType == eZPHPCreator::VARIABLE_ASSIGNMENT )
         {
             $text .= ' = ';
         }
-        else if ( $assignmentType == EZ_PHPCREATOR_VARIABLE_APPEND_TEXT )
+        else if ( $assignmentType == eZPHPCreator::VARIABLE_APPEND_TEXT )
         {
             $text .= ' .= ';
         }
-        else if ( $assignmentType == EZ_PHPCREATOR_VARIABLE_APPEND_ELEMENT )
+        else if ( $assignmentType == eZPHPCreator::VARIABLE_APPEND_ELEMENT )
         {
             $text .= '[] = ';
         }
@@ -779,7 +779,7 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
         {
             if ( !file_exists( $this->PHPDir ) )
             {
-                include_once( 'lib/ezfile/classes/ezdir.php' );
+                //include_once( 'lib/ezfile/classes/ezdir.php' );
                 $ini = eZINI::instance();
                 $perm = octdec( $ini->variable( 'FileSettings', 'StorageDirPermissions' ) );
                 eZDir::mkdir( $this->PHPDir, $perm, true );
@@ -825,7 +825,7 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
 
             if ( $this->isAtomic )
             {
-                include_once( 'lib/ezfile/classes/ezfile.php' );
+                //include_once( 'lib/ezfile/classes/ezfile.php' );
                 eZFile::rename( $this->tmpFilename, $this->requestedFilename );
             }
             $this->FileResource = false;
@@ -983,7 +983,7 @@ print( $values['MyValue'] );
             $this->close();
 
             // Write log message to storage.log
-            include_once( 'lib/ezfile/classes/ezlog.php' );
+            //include_once( 'lib/ezfile/classes/ezlog.php' );
             eZLog::writeStorageLog( $this->PHPFile, $this->PHPDir . '/' );
             return true;
         }
@@ -1072,47 +1072,47 @@ print( $values['MyValue'] );
         $count = count( $this->Elements );
         foreach( $this->Elements as $element )
         {
-            if ( $element[0] == EZ_PHPCREATOR_DEFINE )
+            if ( $element[0] == eZPHPCreator::DEFINE )
             {
                 $this->writeDefine( $element );
             }
-            else if ( $element[0] == EZ_PHPCREATOR_RAW_VARIABLE )
+            else if ( $element[0] == eZPHPCreator::RAW_VARIABLE )
             {
                 $this->writeRawVariable( $element[1], $element[2] );
             }
-            else if ( $element[0] == EZ_PHPCREATOR_VARIABLE )
+            else if ( $element[0] == eZPHPCreator::VARIABLE )
             {
                 $this->writeVariable( $element[1], $element[2], $element[3], $element[4] );
             }
-            else if ( $element[0] == EZ_PHPCREATOR_VARIABLE_UNSET )
+            else if ( $element[0] == eZPHPCreator::VARIABLE_UNSET )
             {
                 $this->writeVariableUnset( $element );
             }
-            else if ( $element[0] == EZ_PHPCREATOR_VARIABLE_UNSET_LIST )
+            else if ( $element[0] == eZPHPCreator::VARIABLE_UNSET_LIST )
             {
                 $this->writeVariableUnsetList( $element );
             }
-            else if ( $element[0] == EZ_PHPCREATOR_SPACE )
+            else if ( $element[0] == eZPHPCreator::SPACE )
             {
                 $this->writeSpace( $element );
             }
-            else if ( $element[0] == EZ_PHPCREATOR_TEXT )
+            else if ( $element[0] == eZPHPCreator::TEXT )
             {
                 $this->writeText( $element );
             }
-            else if ( $element[0] == EZ_PHPCREATOR_METHOD_CALL )
+            else if ( $element[0] == eZPHPCreator::METHOD_CALL )
             {
                 $this->writeMethodCall( $element );
             }
-            else if ( $element[0] == EZ_PHPCREATOR_CODE_PIECE )
+            else if ( $element[0] == eZPHPCreator::CODE_PIECE )
             {
                 $this->writeCodePiece( $element );
             }
-            else if ( $element[0] == EZ_PHPCREATOR_EOL_COMMENT )
+            else if ( $element[0] == eZPHPCreator::EOL_COMMENT )
             {
                 $this->writeComment( $element );
             }
-            else if ( $element[0] == EZ_PHPCREATOR_INCLUDE )
+            else if ( $element[0] == eZPHPCreator::INCLUDE_STATEMENT )
             {
                 $this->writeInclude( $element );
             }
@@ -1153,9 +1153,9 @@ print( $values['MyValue'] );
         $includeFile = $element[1];
         $includeType = $element[2];
         $parameters = $element[3];
-        if ( $includeType == EZ_PHPCREATOR_INCLUDE_ONCE )
+        if ( $includeType == eZPHPCreator::INCLUDE_ONCE_STATEMENT )
             $includeName = 'include_once';
-        else if ( $includeType == EZ_PHPCREATOR_INCLUDE_ALWAYS )
+        else if ( $includeType == eZPHPCreator::INCLUDE_ALWAYS_STATEMENT )
             $includeName = 'include';
         $includeFileText = $this->thisVariableText( $includeFile, 0 );
         $text = "$includeName( $includeFileText );\n";
@@ -1250,7 +1250,7 @@ print( $values['MyValue'] );
         if ( is_array( $returnValue ) )
         {
             $variableName = $returnValue[0];
-            $assignmentType = EZ_PHPCREATOR_VARIABLE_ASSIGNMENT;
+            $assignmentType = eZPHPCreator::VARIABLE_ASSIGNMENT;
             if ( isset( $variableValue[1] ) )
                 $assignmentType = $variableValue[1];
             $text = $this->variableNameText( $variableName, $assignmentType );
@@ -1262,13 +1262,13 @@ print( $values['MyValue'] );
         {
             if ( $i > 0 )
                 $text .= ",\n" . str_repeat( ' ', $column );
-            $parameterType = EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VALUE;
+            $parameterType = eZPHPCreator::METHOD_CALL_PARAMETER_VALUE;
             $parameterValue = $parameterData[0];
             if ( isset( $parameterData[1] ) )
                 $parameterType = $parameterData[1];
-            if ( $parameterType == EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VALUE )
+            if ( $parameterType == eZPHPCreator::METHOD_CALL_PARAMETER_VALUE )
                  $text .= ' ' . $this->thisVariableText( $parameterValue, $column + 1 );
-            else if ( $parameterType == EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VARIABLE )
+            else if ( $parameterType == eZPHPCreator::METHOD_CALL_PARAMETER_VARIABLE )
                 $text .= ' $' . $parameterValue;
             ++$i;
         }
@@ -1327,7 +1327,7 @@ print( $values['MyValue'] );
     /*!
      \private
     */
-    function writeVariable( $variableName, $variableValue, $assignmentType = EZ_PHPCREATOR_VARIABLE_ASSIGNMENT,
+    function writeVariable( $variableName, $variableValue, $assignmentType = eZPHPCreator::VARIABLE_ASSIGNMENT,
                             $variableParameters = array() )
     {
         $variableParameters = array_merge( array( 'full-tree' => false,

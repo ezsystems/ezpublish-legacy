@@ -28,9 +28,9 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/common/template.php" );
-include_once( "kernel/classes/ezdiscountrule.php" );
-include_once( "lib/ezutils/classes/ezhttppersistence.php" );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/classes/ezdiscountrule.php" );
+//include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 
 $module = $Params['Module'];
 $discountGroupID = null;

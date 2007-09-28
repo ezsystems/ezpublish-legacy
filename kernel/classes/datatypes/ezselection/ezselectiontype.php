@@ -37,30 +37,30 @@
 
 */
 
-include_once( "kernel/classes/ezdatatype.php" );
-include_once( 'lib/ezutils/classes/ezstringutils.php' );
-
-define( "EZ_DATATYPESTRING_EZ_SELECTION", "ezselection" );
+//include_once( "kernel/classes/ezdatatype.php" );
+//include_once( 'lib/ezutils/classes/ezstringutils.php' );
 
 class eZSelectionType extends eZDataType
 {
+    const EZ_DATATYPESTRING_EZ_SELECTION = "ezselection";
+
     /*!
       Constructor
     */
     function eZSelectionType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_EZ_SELECTION, ezi18n( 'kernel/classes/datatypes', "Selection", 'Datatype name' ),
+        $this->eZDataType( self::EZ_DATATYPESTRING_EZ_SELECTION, ezi18n( 'kernel/classes/datatypes', "Selection", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
     /*!
      Validates all variables given on content class level
-     \return EZ_INPUT_VALIDATOR_STATE_ACCEPTED or EZ_INPUT_VALIDATOR_STATE_INVALID if
+     \return eZInputValidator::STATE_ACCEPTED or eZInputValidator::STATE_INVALID if
              the values are accepted or not
     */
     function validateClassAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
@@ -161,7 +161,7 @@ class eZSelectionType extends eZDataType
     }
     /*!
      Validates input on content object level
-     \return EZ_INPUT_VALIDATOR_STATE_ACCEPTED or EZ_INPUT_VALIDATOR_STATE_INVALID if
+     \return eZInputValidator::STATE_ACCEPTED or eZInputValidator::STATE_INVALID if
              the values are accepted or not
     */
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
@@ -176,11 +176,11 @@ class eZSelectionType extends eZDataType
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'Input required.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    return eZInputValidator::STATE_INVALID;
                 }
             }
         }
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
@@ -204,7 +204,7 @@ class eZSelectionType extends eZDataType
     */
     function validateCollectionAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
    /*!
@@ -475,5 +475,5 @@ class eZSelectionType extends eZDataType
         $objectAttribute->setAttribute( 'data_text', $idString );
     }
 
-eZDataType::register( EZ_DATATYPESTRING_EZ_SELECTION, "ezselectiontype" );
+eZDataType::register( eZSelectionType::EZ_DATATYPESTRING_EZ_SELECTION, "eZSelectionType" );
 ?>

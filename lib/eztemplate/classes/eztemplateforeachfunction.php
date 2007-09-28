@@ -62,15 +62,16 @@
 \endcode
 */
 
-define ( 'EZ_TEMPLATE_FOREACH_FUNCTION_NAME', 'foreach' );
 class eZTemplateForeachFunction
 {
+    const FUNCTION_NAME = 'foreach';
+
     /*!
      * Returns an array of the function names, required for eZTemplate::registerFunctions().
      */
     function &functionList()
     {
-        $functionList = array( EZ_TEMPLATE_FOREACH_FUNCTION_NAME );
+        $functionList = array( eZTemplateForeachFunction::FUNCTION_NAME );
         return $functionList;
     }
 
@@ -93,7 +94,7 @@ class eZTemplateForeachFunction
      */
     function functionTemplateHints()
     {
-        return array( EZ_TEMPLATE_FOREACH_FUNCTION_NAME => array( 'parameters' => true,
+        return array( eZTemplateForeachFunction::FUNCTION_NAME => array( 'parameters' => true,
                                                                   'static' => false,
                                                                   'transform-parameters' => true,
                                                                   'tree-transformation' => true ) );
@@ -120,7 +121,7 @@ class eZTemplateForeachFunction
         $uniqid              =  md5( $nodePlacement[2] ) . "_" . $tpl->ForeachCounter;
 
         require_once( 'lib/eztemplate/classes/eztemplatecompiledloop.php' );
-        $loop = new eZTemplateCompiledLoop( EZ_TEMPLATE_FOREACH_FUNCTION_NAME,
+        $loop = new eZTemplateCompiledLoop( eZTemplateForeachFunction::FUNCTION_NAME,
                                             $newNodes, $parameters, $nodePlacement, $uniqid,
                                             $node, $tpl, $privateData );
 
@@ -268,7 +269,7 @@ class eZTemplateForeachFunction
         //eZDebug::writeDebug( $functionParameters, '$functionParameters' );
 
         require_once( 'lib/eztemplate/classes/eztemplateloop.php' );
-        $loop = new eZTemplateLoop( EZ_TEMPLATE_FOREACH_FUNCTION_NAME,
+        $loop = new eZTemplateLoop( eZTemplateForeachFunction::FUNCTION_NAME,
                                     $functionParameters, $functionChildren, $functionPlacement,
                                     $tpl, $textElements, $rootNamespace, $currentNamespace );
 
@@ -278,14 +279,14 @@ class eZTemplateForeachFunction
         $loop->parseParamValue( 'array', $array );
         if ( !is_array( $array ) )
         {
-            $tpl->error( EZ_TEMPLATE_FOREACH_FUNCTION_NAME, "Missing/malformed array to iterate through." );
+            $tpl->error( eZTemplateForeachFunction::FUNCTION_NAME, "Missing/malformed array to iterate through." );
             return;
         }
 
         $loop->parseParamVarName( 'item_var', $itemVarName );
         if ( !$itemVarName )
         {
-            $tpl->error( EZ_TEMPLATE_FOREACH_FUNCTION_NAME, "Missing/malformed item variable name." );
+            $tpl->error( eZTemplateForeachFunction::FUNCTION_NAME, "Missing/malformed item variable name." );
             return;
         }
 
@@ -321,7 +322,7 @@ class eZTemplateForeachFunction
         {
             if ( $nItems || $offset < 0 )
             {
-                $tpl->warning( EZ_TEMPLATE_FOREACH_FUNCTION_NAME, "Invalid 'offset' parameter specified." );
+                $tpl->warning( eZTemplateForeachFunction::FUNCTION_NAME, "Invalid 'offset' parameter specified." );
             }
             $offset = ( $offset < 0 ) ? 0 : $nItems;
         }
@@ -332,7 +333,7 @@ class eZTemplateForeachFunction
         elseif ( $max < 0 || $offset+$max > $nItems )
         {
             if ( $max <0 )
-                $tpl->warning( EZ_TEMPLATE_FOREACH_FUNCTION_NAME, "Invalid 'max' parameter specified." );
+                $tpl->warning( eZTemplateForeachFunction::FUNCTION_NAME, "Invalid 'max' parameter specified." );
             $max = $nItems - $offset;
         }
 

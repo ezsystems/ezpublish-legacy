@@ -34,22 +34,26 @@
 
 */
 
-include_once( "kernel/classes/ezdatatype.php" );
-include_once( "lib/ezlocale/classes/ezdatetime.php" );
-
-define( 'EZ_DATATYPESTRING_DATETIME', 'ezdatetime' );
-define( 'EZ_DATATYPESTRING_DATETIME_DEFAULT', 'data_int1' );
-define( 'EZ_DATATYPESTRING_DATETIME_ADJUSTMENT_FIELD', 'data_text5' );
-define( 'EZ_DATATYPESTRING_DATETIME_DEFAULT_EMTPY', 0 );
-define( 'EZ_DATATYPESTRING_DATETIME_DEFAULT_CURRENT_DATE', 1 );
-define( 'EZ_DATATYPESTRING_DATETIME_DEFAULT_ADJUSTMENT', 2 );
-
+//include_once( "kernel/classes/ezdatatype.php" );
+//include_once( "lib/ezlocale/classes/ezdatetime.php" );
 
 class eZDateTimeType extends eZDataType
 {
+    const EZ_DATATYPESTRING_DATETIME = 'ezdatetime';
+
+    const EZ_DATATYPESTRING_DATETIME_DEFAULT = 'data_int1';
+
+    const EZ_DATATYPESTRING_DATETIME_ADJUSTMENT_FIELD = 'data_text5';
+
+    const EZ_DATATYPESTRING_DATETIME_DEFAULT_EMTPY = 0;
+
+    const EZ_DATATYPESTRING_DATETIME_DEFAULT_CURRENT_DATE = 1;
+
+    const EZ_DATATYPESTRING_DATETIME_DEFAULT_ADJUSTMENT = 2;
+
     function eZDateTimeType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_DATETIME, ezi18n( 'kernel/classes/datatypes', "Date and time", 'Datatype name' ),
+        $this->eZDataType( self::EZ_DATATYPESTRING_DATETIME, ezi18n( 'kernel/classes/datatypes', "Date and time", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -58,22 +62,22 @@ class eZDateTimeType extends eZDataType
     */
     function validateDateTimeHTTPInput( $day, $month, $year, $hour, $minute, $contentObjectAttribute )
     {
-        include_once( 'lib/ezutils/classes/ezdatetimevalidator.php' );
+        //include_once( 'lib/ezutils/classes/ezdatetimevalidator.php' );
 
         $state = eZDateTimeValidator::validateDate( $day, $month, $year );
-        if ( $state == EZ_INPUT_VALIDATOR_STATE_INVALID )
+        if ( $state == eZInputValidator::STATE_INVALID )
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                  'Date is not valid.' ) );
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INVALID;
         }
 
         $state = eZDateTimeValidator::validateTime( $hour, $minute );
-        if ( $state == EZ_INPUT_VALIDATOR_STATE_INVALID )
+        if ( $state == eZInputValidator::STATE_INVALID )
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                  'Time is not valid.' ) );
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INVALID;
         }
         return $state;
     }
@@ -113,10 +117,10 @@ class eZDateTimeType extends eZDataType
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'Missing datetime input.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    return eZInputValidator::STATE_INVALID;
                 }
                 else
-                    return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                    return eZInputValidator::STATE_ACCEPTED;
             }
             else
             {
@@ -124,7 +128,7 @@ class eZDateTimeType extends eZDataType
             }
         }
         else
-            return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
@@ -196,10 +200,10 @@ class eZDateTimeType extends eZDataType
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'Missing datetime input.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    return eZInputValidator::STATE_INVALID;
                 }
                 else
-                    return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                    return eZInputValidator::STATE_ACCEPTED;
             }
             else
             {
@@ -207,7 +211,7 @@ class eZDateTimeType extends eZDataType
             }
         }
         else
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INVALID;
     }
 
    /*!
@@ -300,8 +304,8 @@ class eZDateTimeType extends eZDataType
     */
     function initializeClassAttribute( $classAttribute )
     {
-        if ( $classAttribute->attribute( EZ_DATATYPESTRING_DATETIME_DEFAULT ) == null )
-            $classAttribute->setAttribute( EZ_DATATYPESTRING_DATETIME_DEFAULT, 0 );
+        if ( $classAttribute->attribute( self::EZ_DATATYPESTRING_DATETIME_DEFAULT ) == null )
+            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_DATETIME_DEFAULT, 0 );
         $classAttribute->store();
     }
 
@@ -372,12 +376,12 @@ class eZDateTimeType extends eZDataType
         else
         {
             $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
-            $defaultType = $contentClassAttribute->attribute( EZ_DATATYPESTRING_DATETIME_DEFAULT );
-            if ( $defaultType == EZ_DATATYPESTRING_DATETIME_DEFAULT_CURRENT_DATE )
+            $defaultType = $contentClassAttribute->attribute( self::EZ_DATATYPESTRING_DATETIME_DEFAULT );
+            if ( $defaultType == self::EZ_DATATYPESTRING_DATETIME_DEFAULT_CURRENT_DATE )
             {
                 $contentObjectAttribute->setAttribute( "data_int", time() );
             }
-            else if ( $defaultType == EZ_DATATYPESTRING_DATETIME_DEFAULT_ADJUSTMENT )
+            else if ( $defaultType == self::EZ_DATATYPESTRING_DATETIME_DEFAULT_ADJUSTMENT )
             {
                 $adjustments = eZDateTimeType::classAttributeContent( $contentClassAttribute );
                 $value = new eZDateTime();
@@ -395,8 +399,8 @@ class eZDateTimeType extends eZDataType
         if ( $http->hasPostVariable( $default ) )
         {
             $defaultValue = $http->postVariable( $default );
-            $classAttribute->setAttribute( EZ_DATATYPESTRING_DATETIME_DEFAULT,  $defaultValue );
-            if ( $defaultValue == EZ_DATATYPESTRING_DATETIME_DEFAULT_ADJUSTMENT )
+            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_DATETIME_DEFAULT,  $defaultValue );
+            if ( $defaultValue == self::EZ_DATATYPESTRING_DATETIME_DEFAULT_ADJUSTMENT )
             {
                 $doc = new DOMDocument();
                 $root = $doc->createElement( 'adjustment' );
@@ -411,7 +415,7 @@ class eZDateTimeType extends eZDataType
                 }
                 $doc->appendChild( $root );
                 $docText = $doc->saveXML();
-                $classAttribute->setAttribute( EZ_DATATYPESTRING_DATETIME_ADJUSTMENT_FIELD , $docText );
+                $classAttribute->setAttribute( self::EZ_DATATYPESTRING_DATETIME_ADJUSTMENT_FIELD , $docText );
             }
         }
         return true;
@@ -463,21 +467,21 @@ class eZDateTimeType extends eZDataType
     */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $defaultValue = $classAttribute->attribute( EZ_DATATYPESTRING_DATETIME_DEFAULT );
+        $defaultValue = $classAttribute->attribute( self::EZ_DATATYPESTRING_DATETIME_DEFAULT );
         $defaultValueNode = $attributeParametersNode->ownerDocument->createElement( 'default-value' );
 
         switch ( $defaultValue )
         {
-            case EZ_DATATYPESTRING_DATETIME_DEFAULT_CURRENT_DATE:
+            case self::EZ_DATATYPESTRING_DATETIME_DEFAULT_CURRENT_DATE:
             {
                 $defaultValueNode->setAttribute( 'type', 'current-date' );
             } break;
-            case EZ_DATATYPESTRING_DATETIME_DEFAULT_ADJUSTMENT:
+            case self::EZ_DATATYPESTRING_DATETIME_DEFAULT_ADJUSTMENT:
             {
                 $defaultValueNode->setAttribute( 'type', 'adjustment' );
 
                 $adjustDOMValue = new DOMDocument();
-                $adjustValue = $classAttribute->attribute( EZ_DATATYPESTRING_DATETIME_ADJUSTMENT_FIELD );
+                $adjustValue = $classAttribute->attribute( self::EZ_DATATYPESTRING_DATETIME_ADJUSTMENT_FIELD );
                 $success = $adjustDOMValue->loadXML( $adjustValue );
 
                 if ( $success )
@@ -491,7 +495,7 @@ class eZDateTimeType extends eZDataType
                     }
                 }
             } break;
-            case EZ_DATATYPESTRING_DATETIME_DEFAULT_EMTPY:
+            case self::EZ_DATATYPESTRING_DATETIME_DEFAULT_EMTPY:
             {
                 $defaultValueNode->setAttribute( 'type', 'empty' );
             } break;
@@ -521,7 +525,7 @@ class eZDateTimeType extends eZDataType
         {
             case 'current-date':
             {
-                $classAttribute->setAttribute( EZ_DATATYPESTRING_DATETIME_DEFAULT, EZ_DATATYPESTRING_DATETIME_DEFAULT_CURRENT_DATE );
+                $classAttribute->setAttribute( self::EZ_DATATYPESTRING_DATETIME_DEFAULT, self::EZ_DATATYPESTRING_DATETIME_DEFAULT_CURRENT_DATE );
             } break;
             case 'adjustment':
             {
@@ -535,18 +539,18 @@ class eZDateTimeType extends eZDataType
                     $adjustmentValue = $adjustmentDOMValue->saveXML();
                 }
 
-                $classAttribute->setAttribute( EZ_DATATYPESTRING_DATETIME_DEFAULT, EZ_DATATYPESTRING_DATETIME_DEFAULT_ADJUSTMENT );
-                $classAttribute->setAttribute( EZ_DATATYPESTRING_DATETIME_ADJUSTMENT_FIELD, $adjustmentValue );
+                $classAttribute->setAttribute( self::EZ_DATATYPESTRING_DATETIME_DEFAULT, self::EZ_DATATYPESTRING_DATETIME_DEFAULT_ADJUSTMENT );
+                $classAttribute->setAttribute( self::EZ_DATATYPESTRING_DATETIME_ADJUSTMENT_FIELD, $adjustmentValue );
             } break;
             case 'empty':
             {
-                $classAttribute->setAttribute( EZ_DATATYPESTRING_DATETIME_DEFAULT, EZ_DATATYPESTRING_DATETIME_DEFAULT_EMTPY );
+                $classAttribute->setAttribute( self::EZ_DATATYPESTRING_DATETIME_DEFAULT, self::EZ_DATATYPESTRING_DATETIME_DEFAULT_EMTPY );
             } break;
             default:
             {
                 eZDebug::writeError( 'Type of DateTime default value is not set. Empty type used as default.',
                                     'eZDateTimeType::unserializeContentClassAttribute()' );
-                $classAttribute->setAttribute( EZ_DATATYPESTRING_DATETIME_DEFAULT, EZ_DATATYPESTRING_DATETIME_DEFAULT_EMTPY );
+                $classAttribute->setAttribute( self::EZ_DATATYPESTRING_DATETIME_DEFAULT, self::EZ_DATATYPESTRING_DATETIME_DEFAULT_EMTPY );
             } break;
         }
     }
@@ -562,7 +566,7 @@ class eZDateTimeType extends eZDataType
 
         if ( $stamp )
         {
-            include_once( 'lib/ezlocale/classes/ezdateutils.php' );
+            //include_once( 'lib/ezlocale/classes/ezdateutils.php' );
             $dateTimeNode = $node->ownerDocument->createElement( 'date_time', eZDateUtils::rfc1123Date( $stamp ) );
             $node->appendChild( $dateTimeNode );
         }
@@ -578,13 +582,13 @@ class eZDateTimeType extends eZDataType
         $dateTimeNode = $attributeNode->getElementsByTagName( 'date_time' )->item( 0 );
         if ( is_object( $dateTimeNode ) )
         {
-            include_once( 'lib/ezlocale/classes/ezdateutils.php' );
+            //include_once( 'lib/ezlocale/classes/ezdateutils.php' );
             $timestamp = eZDateUtils::textToDate( $dateTimeNode->textContent );
             $objectAttribute->setAttribute( 'data_int', $timestamp );
         }
     }
 }
 
-eZDataType::register( EZ_DATATYPESTRING_DATETIME, "ezdatetimetype" );
+eZDataType::register( eZDateTimeType::EZ_DATATYPESTRING_DATETIME, "eZDateTimeType" );
 
 ?>

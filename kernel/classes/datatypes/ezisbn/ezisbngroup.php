@@ -38,7 +38,7 @@
   http://www.isbn-international.org
 */
 
-include_once( 'kernel/classes/ezpersistentobject.php' );
+//include_once( 'kernel/classes/ezpersistentobject.php' );
 
 class eZISBNGroup extends eZPersistentObject
 {

@@ -35,9 +35,9 @@
 
 */
 
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "kernel/classes/ezpersistentobject.php" );
-include_once( 'kernel/classes/ezcontentclassattributenamelist.php' );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( 'kernel/classes/ezcontentclassattributenamelist.php' );
 
 class eZContentClassAttribute extends eZPersistentObject
 {
@@ -207,7 +207,7 @@ class eZContentClassAttribute extends eZPersistentObject
 
         $row = array(
             'id' => null,
-            'version' => EZ_CLASS_VERSION_STATUS_TEMPORARY,
+            'version' => eZContentClass::VERSION_STATUS_TEMPORARY,
             'contentclass_id' => $class_id,
             'identifier' => '',
             'serialized_name_list' => $nameList->serializeNames(),
@@ -339,7 +339,7 @@ class eZContentClassAttribute extends eZPersistentObject
         }
     }
 
-    static function fetch( $id, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $field_filters = null )
+    static function fetch( $id, $asObject = true, $version = eZContentClass::VERSION_STATUS_DEFINED, $field_filters = null )
     {
         $object = null;
         if ( $field_filters === null and $asObject and
@@ -409,7 +409,7 @@ class eZContentClassAttribute extends eZPersistentObject
         return $objects;
     }
 
-    static function fetchListByClassID( $classID, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $asObject = true )
+    static function fetchListByClassID( $classID, $version = eZContentClass::VERSION_STATUS_DEFINED, $asObject = true )
     {
         $objects = null;
         if ( $asObject )
@@ -486,7 +486,7 @@ class eZContentClassAttribute extends eZPersistentObject
 
     function dataType()
     {
-        include_once( 'kernel/classes/ezdatatype.php' );
+        //include_once( 'kernel/classes/ezdatatype.php' );
         return eZDataType::create( $this->DataTypeString );
     }
 
@@ -554,8 +554,8 @@ class eZContentClassAttribute extends eZPersistentObject
 
     static function cachedInfo()
     {
-        include_once( 'lib/ezutils/classes/ezphpcreator.php' );
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        //include_once( 'lib/ezutils/classes/ezphpcreator.php' );
+        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
 
         $info = array();
         $db = eZDB::instance();
@@ -590,7 +590,7 @@ class eZContentClassAttribute extends eZPersistentObject
                 $sortKeyTypeArray[$attribute['data_type_string']] = 0;
             }
 
-            include_once( 'kernel/classes/ezdatatype.php' );
+            //include_once( 'kernel/classes/ezdatatype.php' );
 
             // Fetch datatype for every unique datatype
             foreach ( array_keys( $sortKeyTypeArray ) as $key )

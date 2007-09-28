@@ -41,8 +41,8 @@
   \sa eZProductCollection eZBasket eZOrder
 */
 
-include_once( "kernel/classes/ezpersistentobject.php" );
-include_once( "kernel/classes/ezvattype.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezvattype.php" );
 
 class eZOrderItem extends eZPersistentObject
 {

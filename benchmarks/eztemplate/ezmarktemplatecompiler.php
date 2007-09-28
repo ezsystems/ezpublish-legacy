@@ -51,7 +51,7 @@ class eZMarkTemplateCompiler extends eZBenchmarkCase
 
     function prime( &$tr )
     {
-        include_once( 'kernel/common/template.php' );
+        require_once( 'kernel/common/template.php' );
         $tpl = templateInit();
         $tpl->setIsCachingAllowed( true );
         eZTemplateCompiler::setSettings( array( 'compile' => true,

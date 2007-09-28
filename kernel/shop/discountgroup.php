@@ -28,9 +28,9 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/common/template.php" );
-include_once( "kernel/classes/ezdiscountrule.php" );
-include_once( "lib/ezutils/classes/ezhttppersistence.php" );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/classes/ezdiscountrule.php" );
+//include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 
 $module = $Params['Module'];
 
@@ -64,7 +64,7 @@ if ( $http->hasPostVariable( "RemoveDiscountGroupButton" ) )
     $db->commit();
 
     // we changed prices of products (no discount now) => remove content caches
-    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearAllContentCache();
 
     $module->redirectTo( $module->functionURI( "discountgroup" ) . "/" );

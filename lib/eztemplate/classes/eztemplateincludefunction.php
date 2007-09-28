@@ -130,7 +130,7 @@ class eZTemplateIncludeFunction
                                                                    "    \$restoreIncludeArray[] = array( ( isset( $namespaceName ) ? $namespaceName : '' ), '$parameterName', 'unset' );\n" );
 
             $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameterData, false, array(),
-                                                                  array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $parameterName ) );
+                                                                  array( $namespaceValue, eZTemplate::NAMESPACE_SCOPE_RELATIVE, $parameterName ) );
             $variableList[] = $parameterName;
         }
 

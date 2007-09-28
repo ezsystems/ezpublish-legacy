@@ -30,9 +30,9 @@
 
 /*! \file list.php
 */
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezcontentobjectversion.php' );
-include_once( "lib/ezdb/classes/ezdb.php" );
+require_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezcontentobjectversion.php' );
+//include_once( "lib/ezdb/classes/ezdb.php" );
 
 $Module = $Params['Module'];
 $http = eZHTTPTool::instance();
@@ -42,7 +42,7 @@ $viewParameters = array( 'offset' => $Offset );
 
 $user = eZUser::currentUser();
 if ( !$user->isLoggedIn() )
-    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
 $userID = $user->id();
 

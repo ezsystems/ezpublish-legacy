@@ -36,16 +36,17 @@
   \brief The class eZPublishType does
 
 */
-define( 'EZ_NOTIFICATIONTYPESTRING_PUBLISH', 'ezpublish' );
 
 class eZPublishType extends eZNotificationEventType
 {
+    const EZ_NOTIFICATIONTYPESTRING_PUBLISH = 'ezpublish';
+
     /*!
      Constructor
     */
     function eZPublishType()
     {
-        $this->eZNotificationEventType( EZ_NOTIFICATIONTYPESTRING_PUBLISH );
+        $this->eZNotificationEventType( self::EZ_NOTIFICATIONTYPESTRING_PUBLISH );
     }
 
     function initializeEvent( $event, $params )
@@ -61,6 +62,6 @@ class eZPublishType extends eZNotificationEventType
     }
 }
 
-eZNotificationEventType::register( EZ_NOTIFICATIONTYPESTRING_PUBLISH, 'ezpublishtype' );
+eZNotificationEventType::register( eZPublishType::EZ_NOTIFICATIONTYPESTRING_PUBLISH, 'eZPublishType' );
 
 ?>

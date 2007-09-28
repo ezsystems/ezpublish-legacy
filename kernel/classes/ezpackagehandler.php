@@ -236,7 +236,7 @@ class eZPackageHandler
             {
                 eZDebug::writeNotice( $description, 'Package installation conflict' );
             }
-            return EZ_PACKAGE_NON_INTERACTIVE;
+            return eZPackage::NON_INTERACTIVE;
         }
 
         if ( !$handlerType )

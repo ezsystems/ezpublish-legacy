@@ -32,7 +32,7 @@
   \ingroup eZKernel
 */
 
-include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
 
 class eZProductCategory extends eZPersistentObject
 {
