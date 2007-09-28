@@ -79,8 +79,8 @@ class eZWebDAVServer
     // General status OK return codes:
     const OK = 10;
     const OK_SILENT = 11;
-    const OK_CREATED = 12 );
-    const OK_OVERWRITE = 13 );
+    const OK_CREATED = 12;
+    const OK_OVERWRITE = 13;
 
     // General status FAILED return codes:
     const FAILED_FORBIDDEN = 30;
