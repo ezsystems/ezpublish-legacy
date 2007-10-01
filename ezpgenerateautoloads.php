@@ -99,6 +99,17 @@ $dryRun = $dryrunOption->value;
 $reverse = $reverseOption->value;
 //}
 
+// Check the targetDir
+if( file_exists( $targetDir ) && !is_dir( $targetDir ) )
+{
+    throw new Exception("Specified target: $targetDir is not a directory.");
+}
+elseif ( !file_exists( $targetDir ) )
+{
+    mkdir( $targetDir );
+}
+
+
 $basePath = getcwd();
 $runMode = runMode( $kernelFilesOption->value, $extensionFilesOption->value );
 $phpFiles = fetchFiles( $basePath, $runMode );
