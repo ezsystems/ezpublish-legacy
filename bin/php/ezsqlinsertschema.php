@@ -269,7 +269,6 @@ if ( $schemaArray === false )
 {
     eZDebug::writeError( "Error reading schema from file $filename" );
     $script->shutdown( 1 );
-    exit( 1 );
 }
 $schemaArray['type'] = $type;
 
@@ -297,7 +296,6 @@ if ( $dbSchema === false )
 {
     $cli->error( "Error instantiating the appropriate schema handler" );
     $script->shutdown( 1 );
-    exit( 1 );
 }
 
 // Insert schema/data by running SQL statements to database
