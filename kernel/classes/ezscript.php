@@ -90,7 +90,7 @@ class eZScript
                                         'use-extensions' => false,
                                         'use-modules' => false,
                                         'user' => false,
-                                        'description' => 'eZ publish script',
+                                        'description' => 'eZ Publish script',
                                         'site-access' => false,
                                         'min_version' => false,
                                         'max_version' => false ),
@@ -131,7 +131,7 @@ class eZScript
     }
 
     /*!
-     Checks if the script is run on correct eZ publish version.
+     Checks if the script is run on correct eZ Publish version.
     */
     function validateVersion()
     {
@@ -1120,20 +1120,20 @@ function eZFatalError()
     eZDebug::setHandleType( eZDebug::EZ_HANDLE_NONE );
     if ( !$webOutput )
         fputs( STDERR, $endl );
-    fputs( STDERR, $bold . "Fatal error" . $unbold . ": eZ publish did not finish its request$endl" );
-    fputs( STDERR, $par . "The execution of eZ publish was abruptly ended, the debug output is present below." . $unpar . $endl );
+    fputs( STDERR, $bold . "Fatal error" . $unbold . ": eZ Publish did not finish its request$endl" );
+    fputs( STDERR, $par . "The execution of eZ Publish was abruptly ended, the debug output is present below." . $unpar . $endl );
     fputs( STDERR, eZDebug::printReport( false, $webOutput, true ) );
 }
 
 /*!
-  Dummy function, required by some scripts in eZ publish.
+  Dummy function, required by some scripts in eZ Publish.
 */
 function eZUpdateDebugSettings( $useDebug = null )
 {
 }
 
 /*!
-  Dummy function, required by some scripts in eZ publish.
+  Dummy function, required by some scripts in eZ Publish.
 */
 function eZUpdateTextCodecSettings()
 {

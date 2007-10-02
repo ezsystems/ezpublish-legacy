@@ -30,7 +30,7 @@
 
 /*!
   \class eZUser ezuser.php
-  \brief eZUser handles eZ publish user accounts
+  \brief eZUser handles eZ Publish user accounts
   \ingroup eZDatatype
 
 */

@@ -30,7 +30,7 @@
 
 /*!
   \class eZSection ezsection.php
-  \brief eZSection handles grouping of content in eZ publish
+  \brief eZSection handles grouping of content in eZ Publish
 
 */
 

@@ -129,10 +129,10 @@ function strReplaceByArray( $searches = array(), $subjects = array() )
 
 $ezinfo = eZPublishSDK::version( true );
 
-$whatIsEzPublish = 'eZ publish 3 is a professional PHP application framework with advanced
+$whatIsEzPublish = 'eZ Publish 3 is a professional PHP application framework with advanced
 CMS (content management system) functionality. As a CMS its most notable
 featureis its revolutionary, fully customizable and extendable content
-model. Thisis also what makes eZ publish suitable as a platform for
+model. Thisis also what makes eZ Publish suitable as a platform for
 general PHP  development,allowing you to rapidly create professional
 web-based applications.
 

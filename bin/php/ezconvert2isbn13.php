@@ -1,10 +1,11 @@
 <?php
+//
 // Created on: <24-Apr-2007 09:53:50 bjorn>
 //
+// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ publish
-// SOFTWARE RELEASE: n.n.n
-// BUILD VERSION: nnnnn
-// COPYRIGHT NOTICE: Copyright (C) 1999-2006 eZ systems AS
+// SOFTWARE RELEASE: 3.10.x
+// COPYRIGHT NOTICE: Copyright (C) 1999-2007 eZ systems AS
 // SOFTWARE LICENSE: GNU General Public License v2.0
 // NOTICE: >
 //   This program is free software; you can redistribute it and/or
@@ -21,6 +22,8 @@
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
 //
+//
+// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
 /*!
@@ -66,11 +69,11 @@ set_time_limit( 0 );
 //include_once( 'kernel/classes/datatypes/ezisbn/ezisbn13.php' );
 
 $cli = eZCLI::instance();
-$script = eZScript::instance( array( 'description' => ( "eZ publish ISBN10 to ISBN13 converter\n\n" .
-                                                         "Converts a ISBN10 number to ISBN 13\n" ),
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+$script = eZScript::instance( array( 'description' => ( "eZ Publish ISBN10 to ISBN13 converter\n\n" .
+                                                        "Converts a ISBN10 number to ISBN13\n" ),
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 
@@ -80,7 +83,7 @@ $options = $script->getOptions( "[class-id:][attribute-id:][all-classes][f|force
                                        'attribute-id' => 'The attribute id for the ISBN attribute which should be converted.',
                                        'all-classes' => 'Will convert all isbn attributes in all content classes.',
                                        'f' => 'Short alias for force',
-                                       'force' => 'Will convert all attributes even if the class is set to isbn10.' ) );
+                                       'force' => 'Will convert all attributes even if the class is set to ISBN10.' ) );
 $script->initialize();
 
 $classID = $options['class-id'];

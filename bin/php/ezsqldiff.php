@@ -31,14 +31,14 @@
 //include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
-$script = eZScript::instance( array( 'description' => ( "eZ publish SQL diff\n\n" .
-                                                         "Displays differences between two database schemas,\n" .
-                                                         "and sets exit code based whether there is a difference or not\n" .
-                                                         "\n" .
-                                                         "ezsqldiff.php --type mysql --user=root stable32 stable33" ),
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+$script = eZScript::instance( array( 'description' => ( "eZ Publish SQL diff\n\n" .
+                                                        "Displays differences between two database schemas,\n" .
+                                                        "and sets exit code based whether there is a difference or not\n" .
+                                                        "\n" .
+                                                        "ezsqldiff.php --type mysql --user=root stable32 stable33" ),
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 

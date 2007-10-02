@@ -112,7 +112,7 @@ class eZXMLTextType extends eZDataType
     const EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD = 'data_int1';
     const EZ_DATATYPESTRING_XML_TEXT_COLS_VARIABLE = '_ezxmltext_cols_';
 
-    // The timestamp of the format for eZ publish 3.0.
+    // The timestamp of the format for eZ Publish 3.0.
     const EZ_XMLTEXT_VERSION_30_TIMESTAMP = 1045487555;
     // Contains the timestamp of the current xml format, if the stored
     // timestamp is less than this it needs to be upgraded until it is correct.

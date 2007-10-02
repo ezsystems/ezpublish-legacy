@@ -50,7 +50,7 @@ function help()
     $argv = $_SERVER['argv'];
     $cli = eZCLI::instance();
     $cli->output( "Usage: " . $argv[0] . " [OPTION]... COMMAND [COMMAND OPTION]... [-- COMMAND [COMMAND OPTION]...]...\n" .
-                  "eZ publish package manager.\n" .
+                  "eZ Publish package manager.\n" .
                   "\n" .
                   "Type " . $argv[0] . " help for command overview\n" .
                   "\n" .
@@ -91,7 +91,7 @@ function helpCreate()
 function helpExport()
 {
     $cli = eZCLI::instance();
-    $cli->output( "export: Export a part of the eZ publish installation into a package.\n" .
+    $cli->output( "export: Export a part of the eZ Publish installation into a package.\n" .
                   "usage: export TYPE [PARAMETERS]... [TYPE [PARAMETERS]...]...\n" .
                   "\n" .
                   "Options:\n" .
@@ -102,7 +102,7 @@ function helpExport()
 function helpInstall()
 {
     $cli = eZCLI::instance();
-    $cli->output( "import: Install an eZ publish package.\n" .
+    $cli->output( "import: Install an eZ Publish package.\n" .
                   "usage: install PACKAGE\n" .
                   "\n" .
                   "PACKAGE can be specified with just the name of the of package or\n" .
@@ -114,7 +114,7 @@ function helpInstall()
 function helpImport()
 {
     $cli = eZCLI::instance();
-    $cli->output( "import: Import an eZ publish package.\n" .
+    $cli->output( "import: Import an eZ Publish package.\n" .
                   "usage: import PACKAGE [ARCHIVENAME]\n" .
                   "\n" .
                   "PACKAGE can be specified with just the name of the of package or\n" .
@@ -144,7 +144,7 @@ function helpInfo()
 function helpAdd()
 {
     $cli = eZCLI::instance();
-    $cli->output( "add: Adds an eZ publish item to the package.\n" .
+    $cli->output( "add: Adds an eZ Publish item to the package.\n" .
                   "usage: add PACKAGE ITEM [ITEMPARAMETERS]...\n" .
                   "\n" .
                   "Items:\n" .
@@ -178,7 +178,7 @@ function helpSet()
 function helpDelete()
 {
     $cli = eZCLI::instance();
-    $cli->output( "delete (del, remove, rm): Removes an eZ publish item from the package.\n" .
+    $cli->output( "delete (del, remove, rm): Removes an eZ Publish item from the package.\n" .
                   "usage: delete PACKAGE ITEM [ITEMPARAMETERS]...\n" .
                   "\n" .
                   "Note: Will open up a new release if no open releases exists yet.\n"
@@ -814,7 +814,7 @@ foreach ( $commandList as $commandItem )
                 $cli->output( "Version     : " . $package->attribute( 'version-number' ) . str_repeat( ' ', 30 - strlen( $package->attribute( 'version-number' ) ) ) . "Source  : " . $package->attribute( 'source' ) );
                 $cli->output( "Release     : " . $package->attribute( 'release-number' ) . str_repeat( ' ', 30 - strlen( $package->attribute( 'release-number' ) ) ) . "Licence : " . $package->attribute( 'licence' ) );
                 $cli->output( "Summary     : " . $package->attribute( 'summary' ) . str_repeat( ' ', 30 - strlen( $package->attribute( 'summary' ) ) ) . "State   : " . $package->attribute( 'state' ) );
-                $cli->output( "eZ publish  : " . $package->attribute( 'ezpublish-named-version' ) .
+                $cli->output( "eZ Publish  : " . $package->attribute( 'ezpublish-named-version' ) .
                               " (" . $package->attribute( 'ezpublish-version' ) . ")" );
                 $cli->output( "Description : " . $package->attribute( 'description' ) );
             }

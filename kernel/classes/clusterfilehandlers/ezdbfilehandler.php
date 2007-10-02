@@ -932,7 +932,7 @@ class eZDBFileHandler
         header( "Last-Modified: $mdate GMT" );
         header( "Expires: ". gmdate('D, d M Y H:i:s', time() + 6000) . ' GMT');
         header( "Connection: close" );
-        header( "X-Powered-By: eZ publish" );
+        header( "X-Powered-By: eZ Publish" );
         header( "Accept-Ranges: bytes" );
 
         $this->backend->_passThrough( $path );

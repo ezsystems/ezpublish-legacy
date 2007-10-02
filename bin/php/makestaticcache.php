@@ -31,12 +31,12 @@
 //include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
-$script = eZScript::instance( array( 'description' => ( "eZ publish static cache generator\n" .
-                                                         "\n" .
-                                                         "./bin/makestaticcache.php --siteaccess user" ),
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+$script = eZScript::instance( array( 'description' => ( "eZ Publish static cache generator\n" .
+                                                        "\n" .
+                                                        "./bin/makestaticcache.php --siteaccess user" ),
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 

@@ -31,14 +31,14 @@
 //include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
-$script = eZScript::instance( array( 'description' => ( "eZ publish Template Syntax Checker\n" .
-                                                         "\n" .
-                                                         "./bin/php/eztemplatecheck.php -sadmin\n" .
-                                                         "or\n" .
-                                                         "./bin/php/eztemplatecheck.php design/" ),
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+$script = eZScript::instance( array( 'description' => ( "eZ Publish Template Syntax Checker\n" .
+                                                        "\n" .
+                                                        "./bin/php/eztemplatecheck.php -sadmin\n" .
+                                                        "or\n" .
+                                                        "./bin/php/eztemplatecheck.php design/" ),
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 

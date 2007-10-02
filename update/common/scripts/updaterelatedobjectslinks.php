@@ -28,13 +28,13 @@
 //
 
 /*! \file convertxmllinks.php
-  Database converter for eZ publish 3.6.
+  Database converter for eZ Publish 3.6.
   Don't forget to update database structute before running this script.
 
   Updates 'ezcontentobject_link' table by adding related objects links made with
   attributes of 'ezobjectrelation' and 'ezobjectrelationlist' types.
 
-  You should run this script before using a database created with eZ publish
+  You should run this script before using a database created with eZ Publish
   version 3.5.* or lower.
 */
 
@@ -51,14 +51,14 @@ if( !file_exists( 'update/common/scripts' ) || !is_dir( 'update/common/scripts' 
 
 $cli = eZCLI::instance();
 
-$script = eZScript::instance( array( 'description' => ( "\nDatabase converter for eZ publish 3.6.\n" .
-                                                         "Updates 'ezcontentobject_link' table by adding related objects links made with\n" .
-                                                         "attributes of 'ezobjectrelation' and 'ezobjectrelationlist' types.\n\n" .
-                                                         "Run this script before using a database created with eZ publish version 3.5.* or lower.\n" .
-                                                         "Don't forget to update database's structure before running this script." ),
-                                      'use-session' => false,
-                                      'use-modules' => false,
-                                      'use-extensions' => false ) );
+$script = eZScript::instance( array( 'description' => ( "\nDatabase converter for eZ Publish 3.6.\n" .
+                                                        "Updates 'ezcontentobject_link' table by adding related objects links made with\n" .
+                                                        "attributes of 'ezobjectrelation' and 'ezobjectrelationlist' types.\n\n" .
+                                                        "Run this script before using a database created with eZ Publish version 3.5.* or lower.\n" .
+                                                        "Don't forget to update database's structure before running this script." ),
+                                     'use-session' => false,
+                                     'use-modules' => false,
+                                     'use-extensions' => false ) );
 
 $script->startup();
 

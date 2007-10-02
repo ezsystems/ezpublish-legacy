@@ -33,7 +33,7 @@
 
 /*!
   \class eZRSSExportItem ezrssexportitem.php
-  \brief Handles RSS Export Item in eZ publish
+  \brief Handles RSS Export Item in eZ Publish
 
   RSSExportItem is used to create RSS feeds from published content. See kernel/rss for more files.
 */

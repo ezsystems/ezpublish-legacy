@@ -37,20 +37,20 @@
 
 
 $cli = eZCLI::instance();
-$script = eZScript::instance( array( 'description' => ( "eZ publish eZTimeType update script\n\n" .
-                                                         "This script will transform all eZTimeType attributes value\n" .
-                                                         "from GMT to the server local time.\n Please backup your database" .
-                                                         "before to restore your old values if results will something else" .
-                                                         "you expect.".
-                                                         "\n" .
-                                                         "Note: The script must be run for each siteaccess" .
-                                                         "\n" .
-                                                         "updateeztimetype.php -sSITEACCESS" ),
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => true,
-                                      'min_version' => '3.4.7',
-                                      'max_version' => '3.5.3' ) );
+$script = eZScript::instance( array( 'description' => ( "eZ Publish eZTimeType update script\n\n" .
+                                                        "This script will transform all eZTimeType attributes value\n" .
+                                                        "from GMT to the server local time.\n Please backup your database" .
+                                                        "before to restore your old values if results will something else" .
+                                                        "you expect.".
+                                                        "\n" .
+                                                        "Note: The script must be run for each siteaccess" .
+                                                        "\n" .
+                                                        "updateeztimetype.php -sSITEACCESS" ),
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => true,
+                                     'min_version' => '3.4.7',
+                                     'max_version' => '3.5.3' ) );
 
 $script->startup();
 
@@ -60,7 +60,7 @@ $script->initialize();
 
 if ( !$script->validateVersion() )
 {
-    $cli->output( "Unsuitable eZ publish version: " );
+    $cli->output( "Unsuitable eZ Publish version: " );
     $cli->output( eZPublishSDK::version() );
     $script->shutdown( 1 );
 }

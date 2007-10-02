@@ -871,8 +871,8 @@ function eZSetupTestOpenBasedir( $type )
          $openBasedir != '.' )
     {
         $returnData['warnings'] = array( array( 'name' => 'open_basedir',
-                                                'text' => array( 'open_basedir is in use and can give problems running eZ publish due to bugs in some PHP versions.',
-                                                                 'It\'s recommended that it is turned off if you experience problems running eZ publish.' ) ) );
+                                                'text' => array( 'open_basedir is in use and can give problems running eZ Publish due to bugs in some PHP versions.',
+                                                                 'It\'s recommended that it is turned off if you experience problems running eZ Publish.' ) ) );
     }
     return $returnData;
 }

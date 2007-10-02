@@ -77,7 +77,7 @@ class eZMail
                                     'transfer-encoding' => '8bit',
                                     'disposition' => 'inline',
                                     'boundary' => false );
-        $this->UserAgent = "eZ publish, Version $version";
+        $this->UserAgent = "eZ Publish, Version $version";
 
         $ini = eZINI::instance();
 

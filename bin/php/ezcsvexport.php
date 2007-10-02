@@ -58,16 +58,16 @@ function fputcsv4( $fh, $arr )
 //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
 $cli = eZCLI::instance();
-$script = eZScript::instance( array( 'description' => ( "eZ publish CSV export script\n\n" .
-                                                         "\n" .
-                                                         "\n" .
-                                                         "\n" .
-                                                         "\n" .
-                                                         "" ),
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => true,
-                                      'user' => true ) );
+$script = eZScript::instance( array( 'description' => ( "eZ Publish CSV export script\n\n" .
+                                                        "\n" .
+                                                        "\n" .
+                                                        "\n" .
+                                                        "\n" .
+                                                        "" ),
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => true,
+                                     'user' => true ) );
 
 $script->startup();
 

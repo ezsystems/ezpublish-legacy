@@ -27,9 +27,9 @@
 if ( version_compare( phpversion(), '5.2' ) < 0 )
 {
     print( "<h1>Unsupported PHP version " . phpversion() . "</h1>" );
-    print( "<p>eZ publish 3.x does not run with PHP 4.</p>".
+    print( "<p>eZ Publish 3.x does not run with PHP 4.</p>".
            "<p>For more information about supported software please visit ".
-           "<a href=\"http://ez.no/download/ez_publish\" >eZ publish download page</a></p>" );
+           "<a href=\"http://ez.no/download/ez_publish\" >eZ Publish download page</a></p>" );
     exit;
 }
 
@@ -224,8 +224,8 @@ function eZDBCleanup()
 function eZFatalError()
 {
     //eZDebug::setHandleType( eZDebug::EZ_HANDLE_NONE );
-    print( "<b>Fatal error</b>: eZ publish did not finish its request<br/>" );
-    print( "<p>The execution of eZ publish was abruptly ended, the debug output is present below.</p>" );
+    print( "<b>Fatal error</b>: eZ Publish did not finish its request<br/>" );
+    print( "<p>The execution of eZ Publish was abruptly ended, the debug output is present below.</p>" );
     $templateResult = null;
     eZDisplayResult( $templateResult );
 }
@@ -469,7 +469,7 @@ $headerList = array( 'Expires' => 'Mon, 26 Jul 1997 05:00:00 GMT',
                      'Last-Modified' => gmdate( 'D, d M Y H:i:s' ) . ' GMT',
                      'Cache-Control' => 'no-cache, must-revalidate',
                      'Pragma' => 'no-cache',
-                     'X-Powered-By' => 'eZ publish',
+                     'X-Powered-By' => 'eZ Publish',
                      'Content-Type' => 'text/html; charset=' . $httpCharset,
                      'Served-by' => $_SERVER["SERVER_NAME"],
                      'Content-language' => $languageCode );

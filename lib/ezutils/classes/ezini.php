@@ -925,7 +925,7 @@ class eZINI
     value in the array is the override directory, the second is a boolean which
     defines if the directory is relative to the rootDir() or not. If the second value
     is false the override dir is relative, true means that the override dir is relative
-    to the eZ publish root directory.
+    to the eZ Publish root directory.
     The third value of the array will contain the identifier of the override, if it exists.
     Identifiers are useful if you want to overwrite the current override setting.
     */

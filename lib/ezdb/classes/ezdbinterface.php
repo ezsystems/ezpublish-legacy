@@ -956,7 +956,7 @@ class eZDBInterface
                        'border: 4px solid #000000;' .
                        'background-color: #f8f8f4;' .
                        'border-color: #f95038;" >' );
-                print( "<b>Fatal error</b>: A database transaction in eZ publish failed.<br/>" );
+                print( "<b>Fatal error</b>: A database transaction in eZ Publish failed.<br/>" );
                 print( "<p>" );
                 print( "The current execution was stopped to prevent further problems.<br/>\n" .
                        "You should contact the <a href=\"mailto:$adminEmail?subject=Transaction failed on $site and URI $uri with ID $transID\">System Administrator</a> of this site with the information on this page.<br/>\n" .
@@ -973,7 +973,7 @@ class eZDBInterface
             }
             else
             {
-                fputs( STDERR,"Fatal error: A database transaction in eZ publish failed.\n" );
+                fputs( STDERR,"Fatal error: A database transaction in eZ Publish failed.\n" );
                 fputs( STDERR, "\n" );
                 fputs( STDERR, "The current execution was stopped to prevent further problems.\n" .
                        "You should contact the System Administrator ($adminEmail) of this site with the information on this page.\n" .
@@ -1081,7 +1081,7 @@ class eZDBInterface
      \endcode
 
      \note This function is currently used by the eZDBTool class to remove relation elements
-           of a specific kind (Most likely eZ publish related elements).
+           of a specific kind (Most likely eZ Publish related elements).
     */
     function relationMatchRegexp( $relationType )
     {

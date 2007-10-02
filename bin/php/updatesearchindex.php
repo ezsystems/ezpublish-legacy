@@ -35,13 +35,13 @@ set_time_limit( 0 );
 $cli = eZCLI::instance();
 $endl = $cli->endlineString();
 
-$script = eZScript::instance( array( 'description' => ( "eZ publish search index updater.\n\n" .
-                                                         "Goes trough all objects and reindexes the meta data to the search engine" .
-                                                         "\n" .
-                                                         "updatesearchindex.php"),
-                                      'use-session' => true,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+$script = eZScript::instance( array( 'description' => ( "eZ Publish search index updater.\n\n" .
+                                                        "Goes trough all objects and reindexes the meta data to the search engine" .
+                                                        "\n" .
+                                                        "updatesearchindex.php"),
+                                     'use-session' => true,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 

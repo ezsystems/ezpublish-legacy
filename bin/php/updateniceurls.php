@@ -38,13 +38,13 @@ set_time_limit ( 0 );
 //include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
-$script = eZScript::instance( array( 'description' => ( "eZ publish nice url updater.\n\n" .
-                                                         "Will go trough and remake all nice urls" .
-                                                         "\n" .
-                                                         "updateniceurls.php" ),
-                                      'use-session' => true,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+$script = eZScript::instance( array( 'description' => ( "eZ Publish nice url updater.\n\n" .
+                                                        "Will go trough and remake all nice urls" .
+                                                        "\n" .
+                                                        "updateniceurls.php" ),
+                                     'use-session' => true,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 

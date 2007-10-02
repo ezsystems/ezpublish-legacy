@@ -45,15 +45,15 @@
 
 
 $cli = eZCLI::instance();
-$script = eZScript::instance( array( 'description' => ( "eZ publish CSV import script\n\n" .
-                                                         "\n" .
-                                                         "\n" .
-                                                         "\n" .
-                                                         "\n" .
-                                                         "" ),
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+$script = eZScript::instance( array( 'description' => ( "eZ Publish CSV import script\n\n" .
+                                                        "\n" .
+                                                        "\n" .
+                                                        "\n" .
+                                                        "\n" .
+                                                        "" ),
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 

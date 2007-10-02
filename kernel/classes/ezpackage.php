@@ -35,7 +35,7 @@
   \group package The package manager system
   \ingroup package
   \class eZPackage ezpackagehandler.php
-  \brief Maintains eZ publish packages
+  \brief Maintains eZ Publish packages
 
 */
 
@@ -1567,7 +1567,7 @@ class eZPackage
      \return an array with repositories which can contain packages.
 
      Each repository entry is an array with the following keys.
-     - path The path to the repository relative from the eZ publish installation
+     - path The path to the repository relative from the eZ Publish installation
      - id   Unique identifier for this repository
      - name Human readable string identifying this repository, the name is translatable
      - type What kind of repository, currently supports local or global.

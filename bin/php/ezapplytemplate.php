@@ -31,15 +31,15 @@
 //include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
-$script = eZScript::instance( array( 'description' => ( "eZ publish Code Template Generator\n\n" .
-                                                         "This will apply any template blocks it finds in files\n" .
-                                                         "and writes back the new file\n" .
-                                                         "\n" .
-                                                         "The return code is set to 0 if no changes occured, 1 if a file is changed\n" .
-                                                         "or 2 if an error occurs" ),
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+$script = eZScript::instance( array( 'description' => ( "eZ Publish Code Template Generator\n\n" .
+                                                        "This will apply any template blocks it finds in files\n" .
+                                                        "and writes back the new file\n" .
+                                                        "\n" .
+                                                        "The return code is set to 0 if no changes occured, 1 if a file is changed\n" .
+                                                        "or 2 if an error occurs" ),
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 

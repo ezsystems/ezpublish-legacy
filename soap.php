@@ -30,7 +30,7 @@
 */
 
 /*!
-  \brief The SOAP file will handle all eZ publish soap requests.
+  \brief The SOAP file will handle all eZ Publish soap requests.
 
   SOAP functions are
 */

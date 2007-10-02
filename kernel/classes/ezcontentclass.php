@@ -31,7 +31,7 @@
 /*!
   \class eZContentClass ezcontentclass.php
   \ingroup eZKernel
-  \brief Handles eZ publish content classes
+  \brief Handles eZ Publish content classes
 
   \sa eZContentObject
 */

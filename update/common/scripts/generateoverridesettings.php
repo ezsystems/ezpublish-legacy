@@ -33,12 +33,12 @@
 $cli = eZCLI::instance();
 $endl = $cli->endlineString();
 
-$script = eZScript::instance( array( 'description' => ( "eZ publish overridesettings generate.".
-                                                         "\n" .
-                                                         "generateoverridesettings.php" ),
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+$script = eZScript::instance( array( 'description' => ( "eZ Publish overridesettings generate.".
+                                                        "\n" .
+                                                        "generateoverridesettings.php" ),
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 

@@ -58,13 +58,13 @@ function upgradeMenuINI( $menuGroup, $newNodeID )
 //include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
-$script = eZScript::instance( array( 'description' => ( "eZ publish Top Level Nodes Creator\n\n" .
-                                                         "This script will create the top level nodes that are missing,\n" .
-                                                         "\n" .
-                                                         "updatetoplevel.php" ),
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+$script = eZScript::instance( array( 'description' => ( "eZ Publish Top Level Nodes Creator\n\n" .
+                                                        "This script will create the top level nodes that are missing,\n" .
+                                                        "\n" .
+                                                        "updatetoplevel.php" ),
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 

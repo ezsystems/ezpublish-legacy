@@ -136,7 +136,7 @@ class eZExecution
 
 /*!
  Exit handler which called after the script is done, if it detects
- that eZ publish did not exit cleanly it will issue an error message
+ that eZ Publish did not exit cleanly it will issue an error message
  and display the debug.
 */
 function eZExecutionUncleanShutdownHandler()

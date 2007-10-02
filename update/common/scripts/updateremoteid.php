@@ -31,13 +31,13 @@
 //include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
-$script = eZScript::instance( array( 'description' => ( "eZ publish Remote ID Generator\n\n" .
-                                                         "This script will go over all objects, classes and nodes and make sure they have a remote id,\n" .
-                                                         "\n" .
-                                                         "updateremoteid.php" ),
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+$script = eZScript::instance( array( 'description' => ( "eZ Publish Remote ID Generator\n\n" .
+                                                        "This script will go over all objects, classes and nodes and make sure they have a remote id,\n" .
+                                                        "\n" .
+                                                        "updateremoteid.php" ),
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 

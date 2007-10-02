@@ -34,7 +34,7 @@
 //include_once( "lib/ezutils/classes/ezini.php" );
 //include_once( "lib/ezutils/classes/ezhttptool.php" );
 
-ini_set( 'user_agent', 'eZ publish Link Validator' );
+ini_set( 'user_agent', 'eZ Publish Link Validator' );
 
 if ( !$isQuiet )
     $cli->output( "Checking link ..." );

@@ -45,11 +45,11 @@ $file = "";
 
 
 $cli = eZCLI::instance();
-$script = eZScript::instance( array( 'description' => "eZ publish Isbn-13 update\n\n" .
-                                                       "Update the database with new updated isbn data to the database.",
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+$script = eZScript::instance( array( 'description' => "eZ publish ISBN-13 update\n\n" .
+                                                      "Update the database with new updated isbn data to the database.",
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 

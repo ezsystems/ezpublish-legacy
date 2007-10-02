@@ -38,12 +38,12 @@ set_time_limit( 0 );
 $cli = eZCLI::instance();
 $endl = $cli->endlineString();
 
-$script = eZScript::instance( array( 'description' => ( "eZ publish attribute filter update.".
-                                                         "\n" .
-                                                         "updateattributefileter.php" ),
-                                      'use-session' => true,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+$script = eZScript::instance( array( 'description' => ( "eZ Publish attribute filter update.".
+                                                        "\n" .
+                                                        "updateattributefileter.php" ),
+                                     'use-session' => true,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 

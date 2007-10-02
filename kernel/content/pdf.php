@@ -260,7 +260,7 @@ function contentPDFPassthrough( $cacheFile )
 
     ob_clean();
 
-    header( 'X-Powered-By: eZ publish' );
+    header( 'X-Powered-By: eZ Publish' );
 
     header( 'Content-Length: '. $file->size() );
     header( 'Content-Type: application/pdf' );

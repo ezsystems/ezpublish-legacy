@@ -132,7 +132,7 @@ class eZStepSiteTypes extends eZStepInstaller
                 //include_once( 'lib/ezutils/classes/ezhttptool.php' );
                 //include_once( 'lib/ezfile/classes/ezfile.php' );
 
-                $buf = eZHTTPTool::sendHTTPRequest( $url, 80, false, 'eZ publish', false );
+                $buf = eZHTTPTool::sendHTTPRequest( $url, 80, false, 'eZ Publish', false );
 
                 $header = false;
                 $body = false;

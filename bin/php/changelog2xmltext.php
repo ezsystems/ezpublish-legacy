@@ -31,12 +31,12 @@
 //include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
-$script = eZScript::instance( array( 'description' => ( "eZ publish Changelog converter\n\n" .
-                                                         "Converts a Changelog into XML text format usable in eZ publish\n" .
-                                                         "The result is printed to the standard output" ),
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+$script = eZScript::instance( array( 'description' => ( "eZ Publish Changelog converter\n\n" .
+                                                        "Converts a Changelog into XML text format usable in eZ Publish\n" .
+                                                        "The result is printed to the standard output" ),
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 

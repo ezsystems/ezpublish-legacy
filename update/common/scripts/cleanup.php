@@ -35,16 +35,16 @@ set_time_limit( 0 );
 $cli = eZCLI::instance();
 $endl = $cli->endlineString();
 
-$script = eZScript::instance( array( 'description' => ( "eZ publish database cleanup.\n\n" .
-                                                         "Will cleanup various data from the currently used database in eZ publish\n" .
-                                                         "\n" .
-                                                         "Possible values for NAME is:\n" .
-                                                         "session, expired_session, preferences, browse, tipafriend, shop, forgotpassword, workflow,\n" .
-                                                         "collaboration, collectedinformation, notification, searchstats or all (for all items)\n" .
-                                                         "cleanup.php -s admin session"),
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+$script = eZScript::instance( array( 'description' => ( "eZ Publish database cleanup.\n\n" .
+                                                        "Will cleanup various data from the currently used database in eZ Publish\n" .
+                                                        "\n" .
+                                                        "Possible values for NAME is:\n" .
+                                                        "session, expired_session, preferences, browse, tipafriend, shop, forgotpassword, workflow,\n" .
+                                                        "collaboration, collectedinformation, notification, searchstats or all (for all items)\n" .
+                                                        "cleanup.php -s admin session"),
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 

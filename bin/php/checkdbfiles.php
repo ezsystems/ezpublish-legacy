@@ -31,23 +31,23 @@
 //include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
-$script = eZScript::instance( array( 'description' => ( "eZ publish DB file verifier\n\n" .
-                                                         "Checks the database update files and gives a report on them.\n" .
-                                                         "It will show which files are missing and which should not be present.\n" .
-                                                         "\n" .
-                                                         "For each file with problems it will output a status and the filepath\n" .
-                                                         "The status will be one of these:\n" .
-                                                         " '?' file is not defined in upgrade path\n" .
-                                                         " '!' file defined in upgrade path but missing on filesystem\n" .
-                                                         " 'A' file is present in working copy but not in the original stable branch\n" .
-                                                         " 'C' file data conflicts with the original stable branch\n" .
-                                                         "\n" .
-                                                         "Example output:\n" .
-                                                         "  checkdbfiles.php\n" .
-                                                         "  ? update/database/mysql/3.5/dbupdate-3.5.0-to-3.5.1.sql" ),
-                                      'use-session' => false,
-                                      'use-modules' => false,
-                                      'use-extensions' => true ) );
+$script = eZScript::instance( array( 'description' => ( "eZ Publish DB file verifier\n\n" .
+                                                        "Checks the database update files and gives a report on them.\n" .
+                                                        "It will show which files are missing and which should not be present.\n" .
+                                                        "\n" .
+                                                        "For each file with problems it will output a status and the filepath\n" .
+                                                        "The status will be one of these:\n" .
+                                                        " '?' file is not defined in upgrade path\n" .
+                                                        " '!' file defined in upgrade path but missing on filesystem\n" .
+                                                        " 'A' file is present in working copy but not in the original stable branch\n" .
+                                                        " 'C' file data conflicts with the original stable branch\n" .
+                                                        "\n" .
+                                                        "Example output:\n" .
+                                                        "  checkdbfiles.php\n" .
+                                                        "  ? update/database/mysql/3.5/dbupdate-3.5.0-to-3.5.1.sql" ),
+                                     'use-session' => false,
+                                     'use-modules' => false,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 
@@ -77,7 +77,7 @@ $lowestExportVersion = '3.3';
 *** NOTE: The following arrays do not follow the
 ***       coding standard, the reason for this is
 ***       to make it easy to merge any changes between
-***       the various eZ publish branches.
+***       the various eZ Publish branches.
 *********************************************************/
 
 $versions = array();

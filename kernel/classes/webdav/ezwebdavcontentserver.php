@@ -31,7 +31,7 @@
 /*!
   \class eZWebDAVContentServer ezwebdavcontentserver.php
   \ingroup eZWebDAV
-  \brief Provides access to eZ publish kernel using WebDAV
+  \brief Provides access to eZ Publish kernel using WebDAV
 
 */
 
@@ -961,7 +961,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
     */
     function headers()
     {
-        header( "WebDAV-Powered-By: eZ publish" );
+        header( "WebDAV-Powered-By: eZ Publish" );
     }
 
     /*!
@@ -1412,7 +1412,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
         $object = $node->attribute( 'object' );
 
         // By default, everything is displayed as a folder:
-        // Trim the name of the node, it is in some cases whitespace in eZ publish
+        // Trim the name of the node, it is in some cases whitespace in eZ Publish
         $entry["name"] = trim( $node->attribute( 'name' ) );
         $entry["size"] = 0;
         $entry["mimetype"] = 'httpd/unix-directory';

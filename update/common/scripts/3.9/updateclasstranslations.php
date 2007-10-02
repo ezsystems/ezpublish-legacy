@@ -40,13 +40,13 @@ define( "QUERY_LIMIT", 30 );
 $cli = eZCLI::instance();
 $endl = $cli->endlineString();
 
-$script = eZScript::instance( array( 'description' => ( "eZ publish update of class/classattribute names translations.\n\n".
-                                                         "Will go over class/classattributes and reinitialize their names for missing translations" .
-                                                         "\n" .
-                                                         "updateclasstranslations.php" ),
-                                      'use-session' => true,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+$script = eZScript::instance( array( 'description' => ( "eZ Publish update of class/classattribute names translations.\n\n".
+                                                        "Will go over class/classattributes and reinitialize their names for missing translations" .
+                                                        "\n" .
+                                                        "updateclasstranslations.php" ),
+                                     'use-session' => true,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 

@@ -31,13 +31,13 @@
 //include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
-$script = eZScript::instance( array( 'description' => ( "eZ publish Translation Checker\n\n" .
-                                                         "Will display some statistics on a given translation" .
-                                                         "\n" .
-                                                         "ezchecktranslation.php ita-IT" ),
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+$script = eZScript::instance( array( 'description' => ( "eZ Publish Translation Checker\n\n" .
+                                                        "Will display some statistics on a given translation" .
+                                                        "\n" .
+                                                        "ezchecktranslation.php ita-IT" ),
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 

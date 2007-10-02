@@ -38,14 +38,14 @@ set_time_limit ( 0 );
 //include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
-$script = eZScript::instance( array( 'description' => ( "eZ publish crc32 polynomial update script.\n\n" .
-                                                         "Will go trough and update crc32 polynomial form signed int\n".
-                                                         "to unsigned int.\n" .
-                                                         "\n" .
-                                                         "updatecrc32.php" ),
-                                      'use-session' => false,
-                                      'use-modules' => false,
-                                      'use-extensions' => true ) );
+$script = eZScript::instance( array( 'description' => ( "eZ Publish crc32 polynomial update script.\n\n" .
+                                                        "Will go trough and update crc32 polynomial form signed int\n".
+                                                        "to unsigned int.\n" .
+                                                        "\n" .
+                                                        "updatecrc32.php" ),
+                                     'use-session' => false,
+                                     'use-modules' => false,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 

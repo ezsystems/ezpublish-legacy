@@ -38,13 +38,13 @@ set_time_limit( 0 );
 $cli = eZCLI::instance();
 $endl = $cli->endlineString();
 
-$script = eZScript::instance( array( 'description' => ( "eZ publish update of translations.\n\n".
-                                                         "Will go over objects and reinitialize attributes for missing translations" .
-                                                         "\n" .
-                                                         "updatetranslations.php" ),
-                                      'use-session' => true,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+$script = eZScript::instance( array( 'description' => ( "eZ Publish update of translations.\n\n".
+                                                        "Will go over objects and reinitialize attributes for missing translations" .
+                                                        "\n" .
+                                                        "updatetranslations.php" ),
+                                     'use-session' => true,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 

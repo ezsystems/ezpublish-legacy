@@ -82,12 +82,12 @@ if( !file_exists( 'update/common/scripts' ) || !is_dir( 'update/common/scripts' 
 
 $cli = eZCLI::instance();
 
-$script = eZScript::instance( array( 'description' => ( "\nDatabase converter for eZ publish 3.6.\n" .
-                                                         "Updates <link> tags in 'ezxmltext' type attributes.\n" .
-                                                         "Run this script before using database created with eZ publish version 3.5.* or lower." ),
-                                      'use-session' => false,
-                                      'use-modules' => false,
-                                      'use-extensions' => false ) );
+$script = eZScript::instance( array( 'description' => ( "\nDatabase converter for eZ Publish 3.6.\n" .
+                                                        "Updates <link> tags in 'ezxmltext' type attributes.\n" .
+                                                        "Run this script before using database created with eZ Publish version 3.5.* or lower." ),
+                                     'use-session' => false,
+                                     'use-modules' => false,
+                                     'use-extensions' => false ) );
 
 $script->startup();
 

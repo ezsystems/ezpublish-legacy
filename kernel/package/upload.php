@@ -75,7 +75,7 @@ if ( $module->isCurrentAction( 'UploadPackage' ) )
             }
             else
             {
-                eZDebug::writeError( "Uploaded file is not an eZ publish package" );
+                eZDebug::writeError( "Uploaded file is not an eZ Publish package" );
             }
         }
         else

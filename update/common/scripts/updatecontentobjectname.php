@@ -50,7 +50,7 @@ function help()
     $argv = $_SERVER['argv'];
     $cli = eZCLI::instance();
     $cli->output( "Usage: " . $argv[0] . " [OPTION]...\n" .
-                  "eZ publish content object name update.\n" .
+                  "eZ Publish content object name update.\n" .
                   "Goes trough all objects and updates all content object names\n" .
                   "\n" .
                   "General options:\n" .

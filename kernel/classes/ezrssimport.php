@@ -33,7 +33,7 @@
 
 /*!
   \class eZRSSImport ezrssimport.php
-  \brief Handles RSS Import in eZ publish
+  \brief Handles RSS Import in eZ Publish
 
   RSSImport is used to create RSS feeds from published content. See kernel/rss for more files.
 */

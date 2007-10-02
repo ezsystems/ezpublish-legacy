@@ -1,4 +1,4 @@
-#!/usr/bin/env php
+#!/usr/bin/env php
 <?php
 //
 // Created on: <19-Jul-2004 10:51:17 amos>
@@ -31,16 +31,16 @@
 //include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
-$script = eZScript::instance( array( 'description' => ( "eZ publish Content Cache Handler\n" .
-                                                         "Allows for easy clearing of Content Caches\n" .
-                                                         "\n" .
-                                                         "Clearing node for content and users tree\n" .
-                                                         "./bin/ezcontentcache.php --clear-node=/,5\n" .
-                                                         "Clearing subtree for content tree\n" .
-                                                         "./bin/ezcontentcache.php --clear-subtree=/" ),
-                                      'use-session' => false,
-                                      'use-modules' => false,
-                                      'use-extensions' => true ) );
+$script = eZScript::instance( array( 'description' => ( "eZ Publish Content Cache Handler\n" .
+                                                        "Allows for easy clearing of Content Caches\n" .
+                                                        "\n" .
+                                                        "Clearing node for content and users tree\n" .
+                                                        "./bin/ezcontentcache.php --clear-node=/,5\n" .
+                                                        "Clearing subtree for content tree\n" .
+                                                        "./bin/ezcontentcache.php --clear-subtree=/" ),
+                                     'use-session' => false,
+                                     'use-modules' => false,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 

@@ -35,15 +35,15 @@ set_time_limit( 0 );
 $cli = eZCLI::instance();
 $endl = $cli->endlineString();
 
-$script = eZScript::instance( array( 'description' => ( "eZ publish database flattening.\n\n" .
-                                                         "Will remove data that is not considered currently in use to minimize the amount of database data it consumes\n" .
-                                                         "\n" .
-                                                         "Possible values for NAME is:\n" .
-                                                         "contentobject, contentclass, workflow, role or all (for all items)\n" .
-                                                         "flatten.php -s admin contentobject"),
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+$script = eZScript::instance( array( 'description' => ( "eZ Publish database flattening.\n\n" .
+                                                        "Will remove data that is not considered currently in use to minimize the amount of database data it consumes\n" .
+                                                        "\n" .
+                                                        "Possible values for NAME is:\n" .
+                                                        "contentobject, contentclass, workflow, role or all (for all items)\n" .
+                                                        "flatten.php -s admin contentobject"),
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 

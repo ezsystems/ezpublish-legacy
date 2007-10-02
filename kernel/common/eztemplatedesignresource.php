@@ -609,7 +609,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             {
                 if ( $useOverrideCache )
                 {
-                    eZDebug::writeError( "Could not write template override cache file, check permissions in $cacheDir/override/.\nRunning eZ publish without this cache will have a performance impact.", "eZTemplateDesignResource::createOverrideCache" );
+                    eZDebug::writeError( "Could not write template override cache file, check permissions in $cacheDir/override/.\nRunning eZ Publish without this cache will have a performance impact.", "eZTemplateDesignResource::createOverrideCache" );
                 }
                 $eZTemplateOverrideCacheNoPermission = 'nocache';
                 $overrideCacheFile = false;
