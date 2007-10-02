@@ -62,11 +62,17 @@ class eZContentClassPackageHandler extends eZPackageHandler
     /*!
      \reimp
      Returns an explanation for the content class install item.
+     Use $requestedInfo to request portion of info.
     */
-    function explainInstallItem( $package, $installItem )
+    function explainInstallItem( $package, $installItem, $requestedInfo = array( 'name', 'identifier', 'description', 'language_info' ) )
     {
         if ( $installItem['filename'] )
         {
+            $explainClassName = in_array( 'name', $requestedInfo );
+            $explainClassIdentitier = in_array( 'identifier', $requestedInfo );;
+            $explainDescription = in_array( 'description', $requestedInfo );;
+            $explainLanguageInfo = in_array( 'language_info', $requestedInfo );;
+
             $filename = $installItem['filename'];
             $subdirectory = $installItem['sub-directory'];
             if ( $subdirectory )
@@ -82,32 +88,38 @@ class eZContentClassPackageHandler extends eZPackageHandler
                 $languageInfo = array();
 
                 $content = $dom->documentElement;
-                $classIdentifier = $content->getElementsByTagName( 'identifier' )->item( 0 )->textContent;
+                $classIdentifier = $explainClassIdentitier ? $content->getElementsByTagName( 'identifier' )->item( 0 )->textContent : '';
 
-                // BC ( <= 3.8 )
-                $classNameNode = $content->getElementsByTagName( 'name' )->item( 0 );
+                $className = '';
+                if ( $explainClassName )
+                {
+                    // BC ( <= 3.8 )
+                    $classNameNode = $content->getElementsByTagName( 'name' )->item( 0 );
 
-                if( $classNameNode )
-                {
-                    $className = $classNameNode->textContent;
-                }
-                else
-                {
-                    // get info about translations.
-                    $serializedNameListNode = $content->getElementsByTagName( 'serialized-name-list' )->item( 0 );
-                    if( $serializedNameListNode )
+                    if( $classNameNode )
                     {
-                        $serializedNameList = $serializedNameListNode->textContent;
-                        $nameList = new eZContentClassNameList( $serializedNameList );
-                        $languageInfo = $nameList->languageLocaleList();
-                        $className = $nameList->name();
+                        $className = $classNameNode->textContent;
+                    }
+                    else
+                    {
+                        // get info about translations.
+                        $serializedNameListNode = $content->getElementsByTagName( 'serialized-name-list' )->item( 0 );
+                        if( $serializedNameListNode )
+                        {
+                            $serializedNameList = $serializedNameListNode->textContent;
+                            $nameList = new eZContentClassNameList( $serializedNameList );
+                            $languageInfo = $explainLanguageInfo ? $nameList->languageLocaleList() : array();
+                            $className = $nameList->name();
+                        }
                     }
                 }
 
-                return array( 'description' => ezi18n( 'kernel/package', 'Content class %classname (%classidentifier)', false,
-                                                       array( '%classname' => $className,
-                                                              '%classidentifier' => $classIdentifier ) ),
-                              'language_info' => $languageInfo );
+                $description = $explainDescription ? ezi18n( 'kernel/package', "Content class '%classname' (%classidentifier)", false,
+                                                             array( '%classname' => $className,
+                                                                    '%classidentifier' => $classIdentifier ) ) : '';
+                $explainInfo = array( 'description' => $description,
+                                      'language_info' => $languageInfo );
+                return $explainInfo;
             }
         }
     }
