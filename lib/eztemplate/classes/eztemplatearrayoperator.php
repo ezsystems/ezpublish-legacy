@@ -1338,7 +1338,7 @@ class eZTemplateArrayOperator
             }
             else
             {
-                $code = '%output = array_slice( ' . eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[0] ), 0, 0, false ) . ', ' . $code . ' );';
+                $code = '%output% = array_slice( ' . eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[0] ), 0, 0, false ) . ', ' . $code . ' );';
             }
         }
         else
