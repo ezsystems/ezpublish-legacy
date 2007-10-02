@@ -3,8 +3,6 @@ Changes from 3.8.9 to 3.8.10
 *Kernel:
 
 *Bugfixes:
-- Fixed bug #11292: Clean up of a contentclass is not done when you remove a language.
-  (Merged from trunk(3.10.0rc1) rev. 19792)
 - Fixed bug #11338: RSS Crashes if selected class doesn't have the selected field values to export.
   (Merged from trunk (3.10.0rc1) rev. 19802)
 - Fixed bug #11330: updateniceurls.php is missing in eZ Publish 3.10.0beta1 package.

@@ -66,7 +66,6 @@ class eZContentLanguage extends eZPersistentObject
                       'keys' => array( 'id' ),
                       'function_attributes' => array( 'translation' => 'translation',
                                                       'locale_object' => 'localeObject',
-                                                      'class_count' => 'classCount',
                                                       'object_count' => 'objectCount' ),
                       'sort' => array( 'name' => 'asc' ),
                       'class_name' => 'eZContentLanguage',
@@ -173,7 +172,7 @@ class eZContentLanguage extends eZPersistentObject
      */
     function remove()
     {
-        if ( ($this->objectCount() > 0) or ($this->classCount() > 0) )
+        if ( ($this->objectCount() > 0) )
         {
             return false;
         }
@@ -702,30 +701,6 @@ class eZContentLanguage extends eZPersistentObject
 
         return $count;
     }
-
-    /**
-     * \return The count of classes containing the translation in this language.
-     */
-    function &classCount()
-    {
-        $db =& eZDB::instance();
-
-        $languageID = $this->ID;
-        if ( $db->databaseName() == 'oracle' )
-        {
-            $whereSQL = "bitand( language_mask, $languageID ) > 0";
-        }
-        else
-        {
-            $whereSQL = "language_mask & $languageID > 0";
-        }
-
-        $count = $db->arrayQuery( "SELECT COUNT(*) AS count FROM ezcontentclass WHERE $whereSQL" );
-        $count = $count[0]['count'];
-
-        return $count;
-    }
-
 
     /**
      * \return The count of objects having this language as the initial/main one.

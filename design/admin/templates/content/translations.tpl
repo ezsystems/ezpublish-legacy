@@ -17,12 +17,10 @@
 	<th>{'Country'|i18n( 'design/admin/content/translations' )}</th>
 	<th>{'Locale'|i18n( 'design/admin/content/translations' )}</th>
 	<th class="tight">{'Translations'|i18n( 'design/admin/content/translations' )}</th>
-	<th class="tight">{'Classes translations'|i18n( 'design/admin/content/translations' )}</th>
 </tr>
 
 {section var=Translations loop=$available_translations sequence=array( bglight, bgdark )}
 {def $object_count=$Translations.item.object_count}
-{def $class_count=$Translations.item.class_count}
 <tr class="{$Translations.sequence}">
     {* Remove. *}
 	<td>
@@ -53,11 +51,8 @@
     {* Object count *}
 	<td class="number" align="right">{$object_count}</td>
 
-    {* Class count *}
-	<td class="number" align="right">{$class_count}</td>
 </tr>
 {undef $object_count}
-{undef $class_count}
 {/section}
 </table>
 
