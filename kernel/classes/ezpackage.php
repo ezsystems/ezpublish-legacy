@@ -2947,6 +2947,8 @@ class eZPackage
         $classHandler  = eZPackage::packageHandler( 'ezcontentclass' );
         $objectHandler = eZPackage::packageHandler( 'ezcontentobject' );
 
+        $explainClassInfo = array( 'language_info' );
+
         $packageItems = $this->installItemsList();
         foreach( $packageItems as $item )
         {
@@ -2954,7 +2956,7 @@ class eZPackage
 
             if( $item['type'] == 'ezcontentclass' )
             {
-                $classInfo = $classHandler->explainInstallItem( $this, $item );
+                $classInfo = $classHandler->explainInstallItem( $this, $item, $explainClassInfo );
                 $itemLanguageInfo = isset( $classInfo['language_info'] ) ? $classInfo['language_info'] : array();
             }
             else if( $item['type'] == 'ezcontentobject' )
