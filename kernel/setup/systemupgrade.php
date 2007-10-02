@@ -45,7 +45,7 @@ if ( $Module->isCurrentAction( 'MD5Check' ) )
     {
         $tpl->setVariable( 'md5_result', 'failed' );
         $tpl->setVariable( 'failure_reason',
-                           ezi18n( 'kernel/setup', 'File %1 does not exist.'.
+                           ezi18n( 'kernel/setup', 'File %1 does not exist. '.
                                     'You should copy it from the recent eZ Publish distribution.',
                                     null, array( MD5_SUM_LIST_FILE ) ) );
     }
