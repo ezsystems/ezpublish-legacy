@@ -31,3 +31,4 @@ Changes from 3.10.0rc1 to 3.10.0
 - Fixed bug #011286: Paypal - checkAmount failed - floating point number comparrison is unsafe.
 - Fixed bug #11402: PHP Warning displayed when creating new workflow of 
   payment gateway type and no payment gateway exist.
+- Fixed bug #009237: Upgrade script for 3.8 deletes published objects in cases of db inconsistency.
