@@ -802,6 +802,7 @@ class eZContentFunctionCollection
         }
 
         //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+        $showInvisibleNodesCond = eZContentObjectTreeNode::createShowInvisibleSQLString( true, false );
         $limitation = false;
         $limitationList = eZContentObjectTreeNode::getLimitationList( $limitation );
         $sqlPermissionChecking = eZContentObjectTreeNode::createPermissionCheckingSQL( $limitationList );
@@ -821,6 +822,7 @@ class eZContentFunctionCollection
                       FROM ezkeyword, ezkeyword_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass, ezcontentobject_attribute
                            $sqlPermissionChecking[from]
                       WHERE ezkeyword.keyword LIKE '$alphabet%'
+                      $showInvisibleNodesCond
                       $sqlPermissionChecking[where]
                       AND ezkeyword.class_id IN $classIDString
                       $sqlOwnerString
@@ -841,6 +843,7 @@ class eZContentFunctionCollection
                       FROM ezkeyword, ezkeyword_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass, ezcontentobject_attribute
                            $sqlPermissionChecking[from]
                       WHERE ezkeyword.keyword LIKE '$alphabet%'
+                      $showInvisibleNodesCond
                       $sqlPermissionChecking[where]
                       $sqlOwnerString
                       $parentNodeIDString
@@ -875,67 +878,13 @@ class eZContentFunctionCollection
             $classIDArray = $classid;
         }
 
-        $limitationList = array();
-        $sqlPermissionChecking = array( 'from' => '',
-                                        'where' => '' );
-        $currentUser = eZUser::currentUser();
-        $accessResult = $currentUser->hasAccessTo( 'content', 'read' );
 
-        if ( $accessResult['accessWord'] == 'limited' && $accessResult['policies'] )
-        {
-            // make an array of references to policies
-            foreach ( $accessResult['policies'] as $limitation )
-            {
-                $limitationList[] = $limitation;
-            }
+        //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+        $showInvisibleNodesCond = eZContentObjectTreeNode::createShowInvisibleSQLString( true, false );
+        $limitation = false;
+        $limitationList = eZContentObjectTreeNode::getLimitationList( $limitation );
+        $sqlPermissionChecking = eZContentObjectTreeNode::createPermissionCheckingSQL( $limitationList );
 
-            $sqlParts = array();
-
-            foreach( $limitationList as $limitationArray )
-            {
-                $sqlPartPart = array();
-                $hasNodeLimitation = false;
-
-                foreach ( array_keys( $limitationArray ) as $key )
-                {
-                    switch ( $key )
-                    {
-                    case 'Class':
-                        $sqlPartPart[] = 'ezcontentobject.contentclass_id in (' . implode( ',', $limitationArray['Class'] ) . ')';
-                        break;
-                    case 'Section':
-                        $sqlPartPart[] = 'ezcontentobject.section_id in (' . implode( ',', $limitationArray['Section'] ) . ')';
-                        break;
-                    case 'Owner':
-                        eZDebug::writeWarning( $limitationArray, 'System is not configured to check Assigned in objects' );
-                        break;
-                    case 'Group':
-                        eZDebug::writeWarning( $limitationArray, "System is not configured to check 'Group' limitation" );
-                        break;
-                    case 'Node':
-                        $sqlPartPart[] = 'ezcontentobject_tree.node_id in (' . implode( ',', $limitationArray['Node'] ) . ')';
-                        $hasNodeLimitation = true;
-                        break;
-                    case 'Subtree':
-                        $pathArray = $limitationArray['Subtree'];
-                        $sqlPartPartPart = array();
-                        foreach ( $pathArray as $limitationPathString )
-                        {
-                            $sqlPartPartPart[] = "ezcontentobject_tree.path_string like '$limitationPathString%'";
-                        }
-                        $sqlPartPart[] = implode( ' OR ', $sqlPartPartPart );
-                        break;
-                    }
-                }
-
-                if ( $hasNodeLimitation )
-                    $sqlParts[] = implode( ' OR ', $sqlPartPart );
-                else
-                    $sqlParts[] = implode( ' AND ', $sqlPartPart );
-            }
-
-            $sqlPermissionChecking['where'] = ' AND ((' . implode( ') or (', $sqlParts ) . ')) ';
-        }
 
         $db_params = array();
         $db_params["offset"] = $offset;
@@ -1010,6 +959,7 @@ class eZContentFunctionCollection
                       WHERE
                       $sortingInfo[attributeWhereSQL]
                       ezkeyword.keyword LIKE '$alphabet%'
+                      $showInvisibleNodesCond
                       $sqlPermissionChecking[where]
                       AND ezkeyword.class_id IN $classIDString
                       $sqlOwnerString
@@ -1031,6 +981,7 @@ class eZContentFunctionCollection
                       WHERE
                       $sortingInfo[attributeWhereSQL]
                       ezkeyword.keyword LIKE '$alphabet%'
+                      $showInvisibleNodesCond
                       $sqlPermissionChecking[where]
                       $sqlOwnerString
                       $parentNodeIDString
