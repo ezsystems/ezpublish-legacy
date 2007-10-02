@@ -38,6 +38,12 @@ if ( !$nodeID )
 $node = eZContentObjectTreeNode::fetch( $nodeID );
 if ( !$node )
     return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+
+if ( $node->attribute( 'is_invisible' ) && !eZContentObjectTreeNode::showInvisibleNodes() )
+{
+    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+}
+
 $object =& $node->attribute( 'object' );
 if ( !$object )
     return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
