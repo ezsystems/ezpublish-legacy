@@ -99,8 +99,6 @@ Changes from 3.8.9 to 3.8.10
   (Merged from trunk (3.10.0) rev.20054)
 - Fixed bug #11492: Error in the template compile code using extract and extract_left
   (Merged from trunk (3.10.0) rev.20060)
-- Fixed bug #11510: [SearchSettings]->ExtensionDirectories setting missing from site.ini
-  (Merged from trunk (3.10.0) rev.10071)
 - Fixed bug #11525: small bug in ezstaticcache
   (Merged from trunk (3.10.0) rev. 20078)
 - Fixed bug #011504: webdav support in cluster mode.
