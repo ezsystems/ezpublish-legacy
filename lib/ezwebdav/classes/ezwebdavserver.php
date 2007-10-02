@@ -175,10 +175,10 @@ class eZWebDAVServer
                 // $this->appendLogEntry( $xmlBody, 'xmlbody' );
                 $dom = new DOMDocument();
                 $dom->preserveWhiteSpace = false;
-                $dom->loadXML( $xmlBody );
+                $ok = $dom->loadXML( $xmlBody );
 
                 $requestedProperties = array();
-                if ( $dom )
+                if ( $ok )
                 {
                     $propfindNode = $dom->documentElement;
                     $propNode = $propfindNode->getElementsByTagName( 'prop' )->item( 0 );
