@@ -103,7 +103,7 @@ class eZRSSEditFunction
             {
                 $validated = false;
                 $validationErrors[] = ezi18n( 'kernel/rss/edit_export',
-                                              'Selected class does not exists' );
+                                              'Selected class does not exist' );
             }
             else
             {

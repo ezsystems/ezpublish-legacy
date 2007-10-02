@@ -337,7 +337,7 @@ class eZStepSiteTypes extends eZStepInstaller
         else
         {
             $this->ErrorMsg = ezi18n( 'design/standard/setup/init',
-                                  'Uploaded file is not an eZ publish package' );
+                                  'Uploaded file is not an eZ Publish package' );
         }
     }
 
@@ -357,7 +357,7 @@ class eZStepSiteTypes extends eZStepInstaller
         if ( !$this->Http->hasPostVariable( 'eZSetup_site_type' ) )
         {
             $this->ErrorMsg = ezi18n( 'design/standard/setup/init',
-                                      'No site package choosen.' );
+                                      'No site package chosen.' );
             return false;
         }
 
@@ -598,7 +598,7 @@ class eZStepSiteTypes extends eZStepInstaller
         if ( $idxFileName === false )
         {
             $this->ErrorMsg = ezi18n( 'design/standard/setup/init',
-                                      'Retreiving remote site packages list failed. ' .
+                                      'Retrieving remote site packages list failed. ' .
                                       'You may upload packages manually.' );
 
             eZDebug::writeNotice( "Cannot download remote packages index file from '$this->XMLIndexURL'." );

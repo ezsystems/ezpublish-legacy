@@ -542,7 +542,7 @@ class eZStepInstaller
             case self::EZ_SETUP_DB_ERROR_NO_DATABASES:
             {
                 $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
-                                                    'The selected selected user has not got access to any databases. Change user or create a database for the user.' ),
+                                                    'The selected user has not got access to any databases. Change user or create a database for the user.' ),
                                   'url' => false,
                                   'number' => self::EZ_SETUP_DB_ERROR_NO_DATABASES );
                 break;
@@ -551,7 +551,7 @@ class eZStepInstaller
             case self::EZ_SETUP_DB_ERROR_NO_DIGEST_PROC:
             {
                 $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
-                                                    "The 'digest' procedure is not available in your database, you cannot run eZ publish without this. Visit the FAQ for more information." ),
+                                                    "The 'digest' procedure is not available in your database, you cannot run eZ Publish without this. Visit the FAQ for more information." ),
                                   'url' => array( 'href' => 'http://ez.no/ez_publish/documentation/faq/database/what_is_the_reason_i_get_error_function_digest_character_varying_does_not_exist_on_postgresql',
                                                   'text' => 'PostgreSQL digest FAQ' ),
                                   'number' => self::EZ_SETUP_DB_ERROR_NO_DATABASES );
@@ -567,7 +567,7 @@ See the requirements page for more information.",
                                                     array( '%version' => $errorInfo['database_info']['version'],
                                                            '%req_version' => $errorInfo['database_info']['required_version'] ) ),
                                   'url' => array( 'href' => 'http://ez.no/ez_publish/documentation/general_information/what_is_ez_publish/ez_publish_requirements',
-                                                  'text' => 'eZ publish requirements' ),
+                                                  'text' => 'eZ Publish requirements' ),
                                   'number' => self::EZ_SETUP_DB_ERROR_NO_DATABASES );
                 break;
             }

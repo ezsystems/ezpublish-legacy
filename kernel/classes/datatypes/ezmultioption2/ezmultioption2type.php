@@ -586,7 +586,7 @@ class eZMultiOption2Type extends eZDataType
             if ( $failedOption['is_selectable'] != 1 )
             {
                 $objectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                              "You can not choose option value \"%1\" from \"%2\" because it is unselectable " ),
+                                                              "You cannot choose option value \"%1\" from \"%2\" because it is unselectable " ),
                                                       $failedOption['value'],
                                                       $failedMultiOption['name'] );
                 $validationErrors[] = $objectAttribute->attribute( 'validation_error' );
@@ -611,7 +611,7 @@ class eZMultiOption2Type extends eZDataType
                         $wrongParentOption =  $optiongroup->findOption( $wrongParentMultiOption, $wrongParentOptionID );
 
                         $objectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                      "You can not choose option value \"%1\" from \"%2\"  \n if you selected option \"%3\" from \"%4\" " ),
+                                                                      "You cannot choose option value \"%1\" from \"%2\"  \n if you selected option \"%3\" from \"%4\" " ),
                                                               $failedOption['value'],
                                                               $failedMultiOption['name'],
                                                               $wrongParentOption['value'],

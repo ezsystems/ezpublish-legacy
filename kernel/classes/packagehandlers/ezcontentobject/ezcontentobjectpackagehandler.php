@@ -942,7 +942,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                                                                                           "Object '%objectname' has %childrencount sub-item(s) that will be removed.",
                                                                                           false, array( '%objectname' => $name,
                                                                                                         '%childrencount' => $childrenCount ) ),
-                                                                 'actions' => array( eZContentObject::PACKAGE_DELETE => ezi18n( 'kernel/package', "Remove object and it's sub-item(s)" ),
+                                                                 'actions' => array( eZContentObject::PACKAGE_DELETE => ezi18n( 'kernel/package', "Remove object and its sub-item(s)" ),
                                                                                      eZContentObject::PACKAGE_KEEP => ezi18n( 'kernel/package', 'Keep object' ) ) );
                             return false;
                         }
