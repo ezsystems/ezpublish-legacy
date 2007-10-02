@@ -97,7 +97,7 @@ if ( $options['clear-node'] )
         $cli->output( "Clearing cache for $nodeName ($nodeSubtree)" );
         eZContentCacheManager::clearContentCache( $objectID );
     }
-    return $script->shutdown();
+    $script->shutdown( 0 );
 }
 else if ( $options['clear-subtree'] )
 {
@@ -166,7 +166,7 @@ else if ( $options['clear-subtree'] )
             }
         }
     }
-    return $script->shutdown();
+    $script->shutdown( 0 );
 }
 $cli->output( "You will need to specify what to clear, either with --clear-node or --clear-subtree" );
 

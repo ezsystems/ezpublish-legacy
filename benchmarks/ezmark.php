@@ -239,7 +239,7 @@ for ( $i = 1; $i < count( $argv ); ++$i )
 if ( count( $markList ) == 0 )
 {
     help();
-    exit( 1 );
+    $script->shutdown( 1 );
 }
 
 $script->setUseDebugOutput( $debugOutput );
@@ -327,8 +327,6 @@ $exitStatus = 0;
 //     $exitStatus = 1;
 // }
 
-$script->shutdown();
-
-exit( $exitStatus );
+$script->shutdown( $exitStatus );
 
 ?>

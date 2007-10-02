@@ -116,7 +116,7 @@ else
     if ( count( $cleanItems ) == 0 )
     {
         help();
-        exit;
+        $script->shutdown( 0 );
     }
     foreach ( $cleanItems as $name )
     {
