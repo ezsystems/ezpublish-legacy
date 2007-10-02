@@ -1217,6 +1217,7 @@ class eZXMLInputParser
         {
             $this->IsInputValid = false;
             if ( $message )
+            {
                 $this->Messages[] = $message;
             }
         }
