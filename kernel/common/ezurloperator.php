@@ -519,19 +519,42 @@ CODEPIECE;
                  '}' . "\n";
         }
 
-        $quote = '"';
         if ( count( $parameters ) > $paramCount )
         {
-            $val = eZTemplateNodeTool::elementStaticValue( $parameters[$paramCount] );
-            ++$paramCount;
-            if ( $val == 'single' )
-                $quote = "'";
-            else if ( $val == 'no' )
-                $quote = false;
-        }
+            if ( eZTemplateNodeTool::isStaticElement( $parameters[$paramCount] ) )
+            {
+                $quote = '"';
+                $val = eZTemplateNodeTool::elementStaticValue( $parameters[$paramCount] );
+                ++$paramCount;
 
-        if ( $quote !== false )
+                if ( $val == 'single' )
+                    $quote = "'";
+                else if ( $val == 'no' )
+                    $quote = false;
+                if ( $quote !== false )
+                {
+                    $values[] = array( eZTemplateNodeTool::createStringElement( $quote ) );
+                    $code .= '%1% = %' . count( $values ) . '% . %1% . %' . count( $values ) . '%;' . "\n";
+                }
+            }
+            else
+            {
+                $values[] = $parameters[$paramCount];
+                $code .= 'switch (%' . count( $values ) . '%)'          . "\n" .
+                         '{'                                            . "\n" .
+                         '    case \'single\':'                         . "\n" .
+                         '         %1% = \'\\\'\' . %1% . \'\\\'\' ;'   . "\n" .
+                         '         break;'                              . "\n" .
+                         '    case \'no\':'                             . "\n" .
+                         '         break;'                              . "\n" .
+                         '     default:'                                . "\n" .
+                         '         %1% = \'"\' . %1% . \'"\' ;'         . "\n" .
+                         '}'  . "\n";
+            }
+        }
+        else
         {
+            $quote = '"';
             $values[] = array( eZTemplateNodeTool::createStringElement( $quote ) );
             $code .= '%1% = %' . count( $values ) . '% . %1% . %' . count( $values ) . '%;' . "\n";
         }
