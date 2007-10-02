@@ -15,36 +15,36 @@ Changes from 3.10.0rc1 to 3.10.0
 *Translations:
 
 *Bugfixes:
-- Fixed bug #011399: fetch operator creates invalid sql with negative offset
+- Fixed bug #11399: fetch operator creates invalid sql with negative offset.
   (Merged from stable/3.9 (3.9.4) rev.19877)
-- Fixed bug #011224: removeSubtrees: hardcoded user class identifier
-- Fixed bug #011238: ezinfo/copyright out of date
-- Fixed bug #011336: typo in eZContentObject API documentation
+- Fixed bug #11224: removeSubtrees: hardcoded user class identifier.
+- Fixed bug #11238: ezinfo/copyright out of date.
+- Fixed bug #11336: typo in eZContentObject API documentation.
 - Fixed bug #8019: Translations in extension ignored if language does not exist in main share/translations.
-- Fixed bug #011313: eZContentClassAttribute constructor does not check if $row['serialized_name_list'] is set
-- Fixed bug #011319: Collaboration summary view of standard design has wrong page navigation
-- Fixed bug #011239: error when viewing a product item
-- Fixed bug #011457: dba files in datatypes does not support extensions.
-- Fixed bug #011253: Log in a user with method loginCurrent doesn't update global user cache.
-- Fixed bug #011454: PaymentCallbackChecker can't handle multiple currencies per siteaccess.
-- Fixed bug #011286: Paypal - checkAmount failed - floating point number comparrison is unsafe.
+- Fixed bug #11313: eZContentClassAttribute constructor does not check if $row['serialized_name_list'] is set.
+- Fixed bug #11319: Collaboration summary view of standard design has wrong page navigation.
+- Fixed bug #11239: error when viewing a product item.
+- Fixed bug #11457: dba files in datatypes does not support extensions.
+- Fixed bug #11253: Log in a user with method loginCurrent doesn't update global user cache.
+- Fixed bug #11454: PaymentCallbackChecker can't handle multiple currencies per siteaccess.
+- Fixed bug #11286: Paypal - checkAmount failed - floating point number comparrison is unsafe.
 - Fixed bug #11402: PHP Warning displayed when creating new workflow of 
   payment gateway type and no payment gateway exist.
 - Fixed bug #9237: Upgrade script for 3.8 deletes published objects in cases of db inconsistency.
 - Fixed bug #11050: Upload related content in OnlineEditor doesn't work.
 - Fixed bug #11440: index_treemenu.php missing in distro.
 - Fixed bug #11287: German Translation, email send if new user registrate.
-- Fixed bug #11469: Selecting Eng, Ger and Nor languages during setup wizard ends in corrupted installation
+- Fixed bug #11469: Selecting Eng, Ger and Nor languages during setup wizard ends in corrupted installation.
 - Fixed bug #10989: Unused drop-down list in the "Object relations" datatype edit interface.
-- Fixed bug #10792: node_id on objectrelations are not updated on trash / restore
+- Fixed bug #10792: node_id on objectrelations are not updated on trash / restore.
 - Fixed bug #11363: php warning in ezuser.php.
 - Fixed bug #11257: call to exit( 1 ) after $script->shutdown( 1 ).
 - Fixed bug #11391: reference notices in infocollector/collectionlist/<ID> view.
 - Fixed bug #11333: $classID not defined in customObjectAttributeHTTPAction().
   (Merged from stable/3.9 (3.9.4) rev. 19984)
 - Fixed bug #11433: Min password length for changing password is fix.
-- Fixed bug #10729: Inconsistency - Translation Button Lost from Admin Content Structure
-- Fixed bug #11480: A bug in updateniceurls.php prevents upgrading 
+- Fixed bug #10729: Inconsistency - Translation Button Lost from Admin Content Structure.
+- Fixed bug #11480: A bug in updateniceurls.php prevents upgrading
   from 3.9.3 to 3.10.0rc1 successfully.
 - Fixed bug #11332: group policy causes sql errors.
 - Fixed bug #11358: /content/action module override post variables when merging with session LastPostVars.
