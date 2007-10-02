@@ -55,7 +55,7 @@ class eZLDAPUser extends eZUser
      Logs in the user if applied username and password is
      valid. The userID is returned if succesful, false if not.
     */
-    function loginUser( $login, $password, $authenticationMatch = false )
+    static function loginUser( $login, $password, $authenticationMatch = false )
     {
         $http = eZHTTPTool::instance();
         $db = eZDB::instance();
@@ -484,7 +484,7 @@ class eZLDAPUser extends eZUser
                         eZUser::setCurrentlyLoggedInUser( $adminUser, $adminUserContentObjectID );
 
                         $stack = array();
-                        goAndPublishGroups( $requiredParams, $userData['dn'], $groupsTree, $stack, $groupSearchingDepth, true );
+                        self::goAndPublishGroups( $requiredParams, $userData['dn'], $groupsTree, $stack, $groupSearchingDepth, true );
                     }
                     if ( isset( $userRecord['new_parents'] ) and
                          count( $userRecord['new_parents'] ) > 0 )
@@ -601,7 +601,7 @@ class eZLDAPUser extends eZUser
         Static method, for internal usage only.
         Publishes new or update existing user
     */
-    function publishUpdateUser( $parentNodeIDs, $defaultUserPlacement, $userAttributes, $isUtf8Encoding = false )
+    static function publishUpdateUser( $parentNodeIDs, $defaultUserPlacement, $userAttributes, $isUtf8Encoding = false )
     {
         $thisFunctionErrorLabel = 'eZLDAPUser.php, function publishUpdateUser()';
 
@@ -826,7 +826,7 @@ class eZLDAPUser extends eZUser
         Note: used user group class (see 'UserGroupClassID' ini setting, in 'UserSettings' section)
               must have name attribute with indentifier equal 'name'
     */
-    function publishNewUserGroup( $parentNodeIDs, $newGroupAttributes, $isUtf8Encoding = false )
+    static function publishNewUserGroup( $parentNodeIDs, $newGroupAttributes, $isUtf8Encoding = false )
     {
         $thisFunctionErrorLabel = 'eZLDAPUser.php, function publishNewUserGroup()';
         $newNodeIDs = array();
@@ -937,7 +937,7 @@ class eZLDAPUser extends eZUser
         Static method, for internal usage only.
         Recursive, publishes groups by prepared tree of groups returned by getUserGroupsTree() method
     */
-    function goAndPublishGroups( &$requiredParams,
+    static function goAndPublishGroups( &$requiredParams,
                                  $curDN,
                                  &$groupsTree,
                                  &$stack,
@@ -996,11 +996,11 @@ class eZLDAPUser extends eZUser
                 {
                     continue;
                 }
-                $ret = goAndPublishGroups( $requiredParams,
-                                           $parent['data']['dn'],
-                                           $groupsTree,
-                                           $stack,
-                                           $depth - 1 );
+                $ret = self::goAndPublishGroups( $requiredParams,
+                                                 $parent['data']['dn'],
+                                                 $groupsTree,
+                                                 $stack,
+                                                 $depth - 1 );
                 if ( isset( $groupsTree[ '_recursion_detected_' ] ) and $groupsTree[ '_recursion_detected_' ] )
                 {
                     return false;
@@ -1094,7 +1094,7 @@ class eZLDAPUser extends eZUser
         Static method, for internal usage only
         Recursive method, which parses tree of groups from ldap server
     */
-    function getUserGroupsTree( &$requiredParams,
+    static function getUserGroupsTree( &$requiredParams,
                                 $filter,
                                 $curDN,
                                 &$groupsTree,
