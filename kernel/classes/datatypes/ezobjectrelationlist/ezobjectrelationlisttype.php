@@ -790,6 +790,7 @@ class eZObjectRelationListType extends eZDataType
     {
         return array( 'identifier' => 'identifier',
                       'priority' => 'priority',
+                      'in-trash' => 'in_trash',
                       'contentobject-id' => 'contentobject_id',
                       'contentobject-version' => 'contentobject_version',
                       'node-id' => 'node_id',
@@ -1188,6 +1189,7 @@ class eZObjectRelationListType extends eZDataType
         $object->sync();
         $relationItem = array( 'identifier' => false,
                                'priority' => $priority,
+                               'in_trash' => false,
                                'contentobject_id' => $object->attribute( 'id' ),
                                'contentobject_version' => $object->attribute( 'current_version' ),
                                'contentobject_remote_id' => $object->attribute( 'remote_id' ),
@@ -1207,6 +1209,7 @@ class eZObjectRelationListType extends eZDataType
         $sectionID = $object->attribute( 'section_id' );
         $relationItem = array( 'identifier' => false,
                                'priority' => $priority,
+                               'in_trash' => false,
                                'contentobject_id' => $object->attribute( 'id' ),
                                'contentobject_version' => $object->attribute( 'current_version' ),
                                'contentobject_remote_id' => $object->attribute( 'remote_id' ),
@@ -1258,7 +1261,9 @@ class eZObjectRelationListType extends eZDataType
         {
             if ( $content['relation_list'][$key]['contentobject_id'] == $objectID )
             {
-                unset($content['relation_list'][$key]);
+                $content['relation_list'][$key]['in_trash'] = true;
+                $content['relation_list'][$key]['node_id'] = null;
+                $content['relation_list'][$key]['parent_node_id']= null;
             }
         }
         eZObjectRelationListType::storeObjectAttributeContent( $contentObjectAttribute, $content );
@@ -1269,7 +1274,15 @@ class eZObjectRelationListType extends eZDataType
     function fixRelationsRestore ( $objectID, $contentObjectAttribute )
     {
         $content =& $contentObjectAttribute->content();
-        $content['relation_list'][] = $this->appendObject( $objectID, 0, $contentObjectAttribute);
+
+        foreach ( array_keys( $content['relation_list'] ) as $key )
+        {
+            if ( $content['relation_list'][$key]['contentobject_id'] == $objectID )
+            {
+                $priority = $content['relation_list'][$key]['priority'];
+                $content['relation_list'][$key] = $this->appendObject( $objectID, $priority, $contentObjectAttribute);
+            }
+        }
         eZObjectRelationListType::storeObjectAttributeContent( $contentObjectAttribute, $content );
         $contentObjectAttribute->setContent( $content );
         $contentObjectAttribute->storeData();
@@ -1290,7 +1303,8 @@ class eZObjectRelationListType extends eZDataType
             $relatedObject =& $content['relation_list'][$key];
             if ( $relatedObject['contentobject_id'] == $objectID )
             {
-                $content['relation_list'][$key] = $this->appendObject($objectID, 0, $contentObjectAttribute );
+                $priority = $content['relation_list'][$key]['priority'];
+                $content['relation_list'][$key] = $this->appendObject($objectID, $priority, $contentObjectAttribute );
             }
         }
 
