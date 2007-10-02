@@ -153,8 +153,8 @@ if ( $http->hasPostVariable( "StoreChangesButton" ) )
 
 if ( $http->hasPostVariable( "ContinueShoppingButton" ) )
 {
-    $itemCountList = $http->postVariable( "ProductItemCountList" );
-    $itemIDList = $http->postVariable( "ProductItemIDList" );
+    $itemCountList = $http->hasPostVariable( "ProductItemCountList" ) ? $http->postVariable( "ProductItemCountList" ) : false;
+    $itemIDList = $http->hasPostVariable( "ProductItemIDList" ) ? $http->postVariable( "ProductItemIDList" ) : false;
     if ( is_array( $itemCountList ) && is_array( $itemIDList ) && count( $itemCountList ) == count( $itemIDList ) && is_object( $basket ) )
     {
         $productCollectionID = $basket->attribute( 'productcollection_id' );
