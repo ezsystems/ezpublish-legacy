@@ -355,10 +355,14 @@ class eZSimplePrice
 
         return $exVATPrice;
     }
-
+    /*!
+     Return the currency for the datatype.
+    */
     function currency()
     {
-        return '';
+        $locale = eZLocale::instance();
+        $currencyCode = $locale->currencyShortName();
+        return $currencyCode;
     }
 
     /*!
