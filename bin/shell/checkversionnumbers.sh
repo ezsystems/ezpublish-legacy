@@ -6,12 +6,12 @@
 # The last version which changelogs and db updates are related to
 # For the first development release this should be empty, in
 # wich case $LAST_STABLE is used.
-PREVIOUS_VERSION="3.10.0rc1"
+PREVIOUS_VERSION="3.9.0"
 # The last version of the newest stable branch
 LAST_STABLE="3.9.0"
 # Set this to true if the LAST_STABLE has been modified from the last release
 # This will be set to true automatically if the release is a final release
-LAST_STABLE_CHANGED="false"
+LAST_STABLE_CHANGED="true"
 
 MAJOR=3
 MINOR=10
@@ -26,9 +26,9 @@ BRANCH_VERSION=$MAJOR"."$MINOR
 PACKAGE_VERSION="3.5.2"
 PACKAGE_DEVELOPMENT="false"
 # Is automatically set to 'true' when $STATE contains some text, do not modify
-DEVELOPMENT="true"
+DEVELOPMENT="false"
 # Whether the previous release is a development release or not.
-DEVELOPMENT_PREVIOUS="true"
+DEVELOPMENT_PREVIOUS="false"
 # Is only true when the release is a final release (ie. the first of the stable ones)
 # Will be automatically set to true when $RELEASE is 0 and $DEVELOPMENT is false
 FINAL="true"
@@ -610,11 +610,7 @@ fi
 if [ "$DEVELOPMENT" == "true" ]; then
     file="doc/changelogs/$BRANCH_VERSION/unstable/CHANGELOG-$prev-to-$VERSION"
 else
-    if [ "$FINAL" == "true" ]; then
-	file="doc/changelogs/$BRANCH_VERSION/unstable/CHANGELOG-$prev-to-$VERSION"
-    else
-	file="doc/changelogs/$BRANCH_VERSION/CHANGELOG-$prev-to-$VERSION"
-    fi
+    file="doc/changelogs/$BRANCH_VERSION/CHANGELOG-$prev-to-$VERSION"
 fi
 if [ ! -f $file ]; then
     echo "`$SETCOLOR_FAILURE`Missing changelog file`$SETCOLOR_NORMAL`"
@@ -708,13 +704,9 @@ for driver in $DRIVERS; do
     fi
 
     if [ "$DEVELOPMENT" == "true" ]; then
-	file="update/database/$driver/$BRANCH_VERSION/unstable/dbupdate-$prev-to-$VERSION.sql"
+        file="update/database/$driver/$BRANCH_VERSION/unstable/dbupdate-$prev-to-$VERSION.sql"
     else
-	if [ "$FINAL" == "true" ]; then
-	    file="update/database/$driver/$BRANCH_VERSION/unstable/dbupdate-$prev-to-$VERSION.sql"
-	else
-	    file="update/database/$driver/$BRANCH_VERSION/dbupdate-$prev-to-$VERSION.sql"
-	fi
+        file="update/database/$driver/$BRANCH_VERSION/dbupdate-$prev-to-$VERSION.sql"
     fi
     if [ ! -f $file ]; then
 	echo "`$SETCOLOR_FAILURE`Missing database update file`$SETCOLOR_NORMAL`"
