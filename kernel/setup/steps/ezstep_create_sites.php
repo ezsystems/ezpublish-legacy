@@ -854,9 +854,10 @@ language_locale='eng-GB'";
 
                 if ( is_object( $package ) )
                 {
-                    $languageMap = isset ( $this->PersistenceList['package_info']['language_map'] ) ?
-                        $this->PersistenceList['package_info']['language_map'] :
-                        false;
+                    // by default(if 'language_map' is not set) create all necessary languages
+                    $languageMap = ( isset( $this->PersistenceList['package_info'] ) && isset( $this->PersistenceList['package_info']['language_map'] ) )
+                                        ? $this->PersistenceList['package_info']['language_map']
+                                        : true;
 
                     $requiredPackages[] = $package;
                     if ( $package->attribute( 'install_type' ) == 'install' )
