@@ -36,11 +36,13 @@ Changes from 3.10.0rc1 to 3.10.0
 - Fixed bug #11287: German Translation, email send if new user registrate.
 - Fixed bug #11469: Selecting Eng, Ger and Nor languages during setup wizard ends in corrupted installation
 - Fixed bug #10989: Unused drop-down list in the "Object relations" datatype edit interface.
-- Fixed bug #010792: node_id on objectrelations are not updated on trash / restore
+- Fixed bug #10792: node_id on objectrelations are not updated on trash / restore
 - Fixed bug #11363: php warning in ezuser.php.
 - Fixed bug #11257: call to exit( 1 ) after $script->shutdown( 1 ).
 - Fixed bug #11391: reference notices in infocollector/collectionlist/<ID> view.
 - Fixed bug #11333: $classID not defined in customObjectAttributeHTTPAction().
   (Merged from stable/3.9 (3.9.4) rev. 19984)
-- Fixed bug #011433: Min password length for changing password is fix.
-- Fixed bug #010729: Inconsistency - Translation Button Lost from Admin Content Structure
+- Fixed bug #11433: Min password length for changing password is fix.
+- Fixed bug #10729: Inconsistency - Translation Button Lost from Admin Content Structure
+- Fixed bug #11480: A bug in updateniceurls.php prevents upgrading 
+  from 3.9.3 to 3.10.0rc1 successfully.
