@@ -128,7 +128,7 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             if ( $flag == 'help' )
             {
                 help();
-                $script->shutdown();
+                $script->shutdown( 0 );
             }
             else if ( $flag == 'siteaccess' )
             {
@@ -202,7 +202,7 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             if ( $flag == 'h' )
             {
                 help();
-                $script->shutdown();
+                $script->shutdown( 0 );
             }
             else if ( $flag == 'q' )
             {
