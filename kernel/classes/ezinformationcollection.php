@@ -615,12 +615,8 @@ class eZInformationCollection extends eZPersistentObject
 
     function creator()
     {
-       $creatorID = $this->attribute( 'creator_id' );
-       if ( $creatorID == 0 )
-       {
-           return false;
-       }
-       return eZUser::fetch( $creatorID );
+       $creator = eZUser::fetch( $this->attribute( 'creator_id' ) );
+       return $creator;
     }
 
     function informationCollectionAttributes( $asObject = true )
