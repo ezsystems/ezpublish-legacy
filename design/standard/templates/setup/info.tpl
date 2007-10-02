@@ -2,7 +2,7 @@
 <h1>{'System information'|i18n('design/standard/setup')}</h1>
 
 <div class="objectheader">
-    <h2>eZ publish</h2>
+    <h2>eZ Publish</h2>
 </div>
 <div class="object">
     <table width="500">
