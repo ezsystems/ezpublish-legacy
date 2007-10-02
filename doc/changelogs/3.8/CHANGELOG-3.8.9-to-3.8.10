@@ -105,3 +105,5 @@ Changes from 3.8.9 to 3.8.10
   (Merged from trunk (3.10.0) rev.10071)
 - Fixed bug #11525: small bug in ezstaticcache
   (Merged from trunk (3.10.0) rev. 20078)
+- Fixed bug #011504: webdav support in cluster mode.
+  (Merged from stable/3.9 (3.9.4) rev.20118)

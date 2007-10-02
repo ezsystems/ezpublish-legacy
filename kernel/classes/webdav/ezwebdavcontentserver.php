@@ -84,6 +84,24 @@ class eZWebDAVContentServer extends eZWebDAVServer
 
     /*!
       \reimp
+      Fetch the file from eZCluster if needed before send.
+    */
+    function outputSendDataToClient( $output, $headers_only = false )
+    {
+    	if ( $output["file"] )
+    	{
+    		$realPath = $output["file"];
+	        require_once( 'kernel/classes/ezclusterfilehandler.php' );
+	        $file = eZClusterFileHandler::instance( $realPath );
+	        $file->fetch();
+    	}
+    	$result = eZWebDAVServer::outputSendDataToClient($output,$headers_only);
+    	$file->deleteLocal();
+    	return $result;
+    }
+
+    /*!
+      \reimp
       Restricts the allowed methods to only the subset that this server supports.
     */
     function options( $target )
@@ -1453,9 +1471,10 @@ class eZWebDAVContentServer extends eZWebDAVServer
                 $entry['mimetype'] = $info['mime_type'];
 
             // Fill in information from the actual file if they are missing.
-            if ( !$entry['size'] and file_exists( $filePath ) )
+	        $file = eZClusterFileHandler::instance( $filePath );
+            if ( !$entry['size'] and $file->exists() )
             {
-                $entry["size"] = filesize( $filePath );
+                $entry["size"] = $file->size();
             }
             if ( !$entry['mimetype']  )
             {
@@ -1468,15 +1487,19 @@ class eZWebDAVContentServer extends eZWebDAVServer
             else
             {
                 $mimeInfo = eZMimeType::findByName( $entry['mimetype'] );
+                $this->appendLogEntry( print_r($mimeInfo, true), 'CS:fetchNodeInfo mimeinfo by url' );
+
                 $suffix = $mimeInfo['suffix'];
                 if ( strlen( $suffix ) > 0 )
                     $entry["name"] .= '.' . $suffix;
+                $this->appendLogEntry( print_r($entry,true), 'CS:fetchNodeInfo  entry by url' );
+
             }
 
-            if ( file_exists( $filePath ) )
+            if ( $file->exists() )
             {
-                $entry["ctime"] = filectime( $filePath );
-                $entry["mtime"] = filemtime( $filePath );
+                $entry["ctime"] = $file->mtime();
+                $entry["mtime"] = $file->mtime();
             }
         }
         else
