@@ -486,3 +486,4 @@ Changes from 3.9.0 to 3.10.0
 - Fixed bug #11361: Hidden blogposts available through tag.
 - Fixed bug #11530: Inconsistent use of ISBN (and relatives like ISBN-10 and ISBN-13).
 - Fixed bug #011371: read title of hidden blogpost.
+- Fixed bug #10546: [patch included] ezroot() and ezurl() mishandle first parameter, with TemplateCompile enabled.
