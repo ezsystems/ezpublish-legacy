@@ -3867,8 +3867,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $ini = eZINI::instance( 'content.ini' );
         $contentRootID = $ini->variable( 'NodeSettings', 'RootNode' );
         $obj           = $this->object();
-        $alwaysMask    = ($obj->attribute( 'language_mask' ) & 1);
-        $languages     = $obj->languages();
+        $alwaysMask    = ( $obj->attribute( 'language_mask' ) & 1 );
+        $languages     = $obj->allLanguages();
         $nameList      = array();
 
         $initialLanguageID      = $obj->attribute( 'initial_language_id' );

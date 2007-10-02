@@ -150,45 +150,19 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
 
         if ( is_object( $node ) )
         {
-            $parentContentObject = $node->attribute( 'object' );
-            if ( $parentContentObject->checkAccess( 'create', $contentClassID,  $parentContentObject->attribute( 'contentclass_id' ), false, $languageCode ) == '1' )
+            $contentObject = eZContentObject::createWithNodeAssignment( $node,
+                                                                        $contentClassID,
+                                                                        $languageCode,
+                                                                        ( $http->hasPostVariable( 'AssignmentRemoteID' ) ?
+                                                                              $http->postVariable( 'AssignmentRemoteID' ) : false ) );
+            if ( $contentObject )
             {
-                $user = eZUser::currentUser();
-                $userID = $user->attribute( 'contentobject_id' );
-                // Set section of the newly created object to the section's value of it's parent object
-                $sectionID = $parentContentObject->attribute( 'section_id' );
-
-                if ( !is_object( $class ) )
-                    $class = eZContentClass::fetch( $contentClassID );
-                if ( is_object( $class ) )
+                if ( $http->hasPostVariable( 'RedirectURIAfterPublish' ) )
                 {
-                    $db = eZDB::instance();
-                    $db->begin();
-                    $contentObject = $class->instantiateIn( $languageCode, $userID, $sectionID, false, eZContentObjectVersion::STATUS_INTERNAL_DRAFT );
-                    $nodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $contentObject->attribute( 'id' ),
-                                                                       'contentobject_version' => $contentObject->attribute( 'current_version' ),
-                                                                       'parent_node' => $node->attribute( 'node_id' ),
-                                                                       'is_main' => 1,
-                                                                       'sort_field' => $class->attribute( 'sort_field' ),
-                                                                       'sort_order' => $class->attribute( 'sort_order' ) ) );
-                    if ( $http->hasPostVariable( 'AssignmentRemoteID' ) )
-                    {
-                        $nodeAssignment->setAttribute( 'remote_id', $http->postVariable( 'AssignmentRemoteID' ) );
-                    }
-                    $nodeAssignment->store();
-                    $db->commit();
-
-                    if ( $http->hasPostVariable( 'RedirectURIAfterPublish' ) )
-                    {
-                        $http->setSessionVariable( 'RedirectURIAfterPublish', $http->postVariable( 'RedirectURIAfterPublish' ) );
-                    }
-                    $module->redirectTo( $module->functionURI( 'edit' ) . '/' . $contentObject->attribute( 'id' ) . '/' . $contentObject->attribute( 'current_version' ) );
-                    return;
+                    $http->setSessionVariable( 'RedirectURIAfterPublish', $http->postVariable( 'RedirectURIAfterPublish' ) );
                 }
-                else
-                {
-                    return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
-                }
+                $module->redirectTo( $module->functionURI( 'edit' ) . '/' . $contentObject->attribute( 'id' ) . '/' . $contentObject->attribute( 'current_version' ) );
+                return;
             }
             else
             {

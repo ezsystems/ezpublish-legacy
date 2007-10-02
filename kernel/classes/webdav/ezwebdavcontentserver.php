@@ -1374,7 +1374,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
         if ( $depth == 1 )
         {
             // Get all the children of the target node.
-            $subTree =& $node->subTree( array ( 'Depth' => 1 ) );
+            $subTree = $node->subTree( array ( 'Depth' => 1 ) );
 
             // Build the entries array by going through all the
             // nodes in the subtree and getting their attributes:
@@ -1519,63 +1519,39 @@ class eZWebDAVContentServer extends eZWebDAVServer
     /*!
       Creates a new folder under the given target node.
     */
-    function createFolder( $node, $target )
+    function createFolder( $parentNode, $target )
     {
-        // Attempt to get the current user ID.
-        $userID = $this->User->id();
-
-        // Set the parent node ID.
-        $parentNodeID = $node->attribute( 'node_id' );
-
         // Grab settings from the ini file:
         $webdavINI = eZINI::instance( eZWebDAVContentServer::WEBDAV_INI_FILE );
         $folderClassID = $webdavINI->variable( 'FolderSettings', 'FolderClass' );
+        $languageCode = eZContentObject::defaultLanguage();
 
-        // Fetch the folder class.
-        $class = eZContentClass::fetch( $folderClassID );
+        $contentObject = eZContentObject::createWithNodeAssignment( $parentNode, $folderClassID, $languageCode );
+        if ( $contentObject )
+        {
+            $db = eZDB::instance();
+            $db->begin();
+            $version = $contentObject->version( 1 );
+            $version->setAttribute( 'status', eZContentObjectVersion::STATUS_DRAFT );
+            $version->store();
 
-        $contentObject = $node->attribute( 'object' );
-        $contentClassID = $contentObject->attribute( 'contentclass_id' );
+            $contentObjectID = $contentObject->attribute( 'id' );
+            $contentObjectAttributes = $version->contentObjectAttributes();
 
-        // Check if the user has access to create a folder here
-        if ( $node->checkAccess( 'create', $folderClassID, $contentClassID ) != '1' )
+            $contentObjectAttributes[0]->setAttribute( 'data_text', basename( $target ) );
+            $contentObjectAttributes[0]->store();
+            $db->commit();
+
+            //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+            $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID,
+                                                                                         'version' => 1 ) );
+            return eZWebDAVServer::OK_CREATED;
+        }
+        else
         {
             $this->appendLogEntry( "Not allowed", 'CS:createFolder' );
             return eZWebDAVServer::FAILED_FORBIDDEN;
         }
-
-        // Create object by user id
-        $contentObject = $class->instantiate( $userID );
-
-        //
-        $nodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $contentObject->attribute( 'id' ),
-                                                           'contentobject_version' => $contentObject->attribute( 'current_version' ),
-                                                           'parent_node' => $parentNodeID,
-                                                           'sort_field' => 2,
-                                                           'sort_order' => 0,
-                                                           'is_main' => 1 ) );
-        //
-        $nodeAssignment->store();
-
-        //
-        $version =& $contentObject->version( 1 );
-        $version->setAttribute( 'status', eZContentObjectVersion::STATUS_DRAFT );
-        $version->store();
-
-        //
-        $contentObjectID = $contentObject->attribute( 'id' );
-        $contentObjectAttributes =& $version->contentObjectAttributes();
-
-        //
-        $contentObjectAttributes[0]->setAttribute( 'data_text', basename( $target ) );
-        $contentObjectAttributes[0]->store();
-
-        //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
-        $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID, 'version' => 1 ) );
-
-        return eZWebDAVServer::OK_CREATED;
-        return eZWebDAVServer::FAILED_FORBIDDEN;
-        return eZWebDAVServer::FAILED_EXISTS;
     }
 
     /*!

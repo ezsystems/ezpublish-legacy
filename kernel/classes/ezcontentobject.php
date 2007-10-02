@@ -218,6 +218,7 @@ class eZContentObject extends eZPersistentObject
                                                       'language_codes' => 'availableLanguages',
                                                       'language_js_array' => 'availableLanguagesJsArray',
                                                       'languages' => 'languages',
+                                                      'all_languages' => 'allLanguages',
                                                       'can_edit_languages' => 'canEditLanguages',
                                                       'can_create_languages' => 'canCreateLanguages',
                                                       'always_available' => 'isAlwaysAvailable',
@@ -3247,20 +3248,21 @@ class eZContentObject extends eZPersistentObject
     /*!
      Creates a new node assignment that will place the object as child of node \a $nodeID.
      \return The eZNodeAssignment object it created
-     \param $nodeID The node ID of the parent node
+     \param $parentNodeID The node ID of the parent node
      \param $isMain \c true if the created node is the main node of the object
      \param $remoteID A string denoting the unique remote ID of the assignment or \c false for no remote id.
      \note The return assignment will already be stored in the database
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function createNodeAssignment( $nodeID, $isMain, $remoteID = false )
+    function createNodeAssignment( $parentNodeID, $isMain, $remoteID = false, $sortField = 2 /* published */, $sortOrder = 0 /* desc */ )
     {
-        $data = array( 'contentobject_id' => $this->attribute( 'id' ),
-                       'contentobject_version' => $this->attribute( 'current_version' ),
-                       'parent_node' => $nodeID,
-                       'is_main' => $isMain ? 1 : 0 );
-        $nodeAssignment = eZNodeAssignment::create( $data );
+        $nodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $this->attribute( 'id' ),
+                                                           'contentobject_version' => $this->attribute( 'current_version' ),
+                                                           'parent_node' => $parentNodeID,
+                                                           'is_main' => ( $isMain ? 1 : 0 ),
+                                                           'sort_field' => $sortField,
+                                                           'sort_order' => $sortOrder ) );
         if ( $remoteID !== false )
         {
             $nodeAssignment->setAttribute( 'remote_id', $remoteID );
@@ -3268,6 +3270,38 @@ class eZContentObject extends eZPersistentObject
         $nodeAssignment->store();
         return $nodeAssignment;
     }
+
+    /*
+     * Creates object with nodeAssignment from given parent Node, class ID and language code.
+     */
+    function createWithNodeAssignment( $parentNode, $contentClassID, $languageCode, $remoteID = false )
+    {
+        $class = eZContentClass::fetch( $contentClassID );
+        $parentObject = $parentNode->attribute( 'object' );
+
+        // Check if the user has access to create a folder here
+        if ( $class instanceof eZContentClass and
+             $parentObject->checkAccess( 'create', $contentClassID, false, false, $languageCode ) == '1' )
+        {
+            // Set section of the newly created object to the section's value of it's parent object
+            $sectionID = $parentObject->attribute( 'section_id' );
+
+            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+            $userID = eZUser::currentUserID();
+
+            $db = eZDB::instance();
+            $db->begin();
+            $contentObject = $class->instantiateIn( $languageCode, $userID, $sectionID, false, EZ_VERSION_STATUS_INTERNAL_DRAFT );
+            $nodeAssignment = $contentObject->createNodeAssignment( $parentNode->attribute( 'node_id' ),
+                                                                    true, $remoteID,
+                                                                    $class->attribute( 'sort_field' ),
+                                                                    $class->attribute( 'sort_order' ) );
+            $db->commit();
+            return $contentObject;
+        }
+        return null;
+    }
+
 
     /*!
      Returns the node assignments for the current object.
@@ -4564,31 +4598,31 @@ class eZContentObject extends eZPersistentObject
             array();
     }
 
+    function allLanguages()
+    {
+        $languages = isset( $this->LanguageMask ) ? eZContentLanguage::languagesByMask( $this->LanguageMask ) : array();
+        return $languages;
+    }
+
     static function defaultLanguage()
     {
         if ( ! isset( $GLOBALS['eZContentObjectDefaultLanguage'] ) )
         {
             $defaultLanguage = false;
-            $ini = eZINI::instance();
-
-            if ( $ini->hasVariable( 'RegionalSettings', 'ContentObjectLocale' ) )
+            $language = eZContentLanguage::topPriorityLanguage();
+            if ( $language )
             {
-                $defaultLanguage = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
-
-                if ( !eZContentLanguage::fetchByLocale( $defaultLanguage ) )
-                {
-                    eZContentLanguage::addLanguage( $defaultLanguage );
-                }
+                $defaultLanguage = $language->attribute( 'locale' );
             }
             else
             {
-                $language = eZContentLanguage::topPriorityLanguage();
-                if ( $language )
+                $ini = eZINI::instance();
+                if ( $ini->hasVariable( 'RegionalSettings', 'ContentObjectLocale' ) )
                 {
-                    $defaultLanguage = $language->attribute( 'locale' );
+                    $defaultLanguage = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
+                    eZContentLanguage::fetchByLocale( $defaultLanguage, true );
                 }
             }
-
             $GLOBALS['eZContentObjectDefaultLanguage'] = $defaultLanguage;
         }
 

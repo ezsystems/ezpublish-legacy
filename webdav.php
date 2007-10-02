@@ -120,7 +120,7 @@ if ( $enable === 'true' )
     require_once( 'lib/ezutils/classes/ezexecution.php' );
     eZExecution::addCleanupHandler( 'eZDBCleanup' );
     eZExecution::addFatalErrorHandler( 'eZFatalError' );
-    eZDebug::setHandleType( eZDebug::EZ_HANDLE_TO_PHP );
+    eZDebug::setHandleType( eZDebug::EZ_HANDLE_FROM_PHP );
 
     if ( !isset( $_SERVER['REQUEST_URI'] ) or
          !isset( $_SERVER['REQUEST_METHOD'] ) )
