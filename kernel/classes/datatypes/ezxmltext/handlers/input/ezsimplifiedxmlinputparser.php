@@ -425,7 +425,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 if ( $this->StrictHeaders &&
                      $level - $sectionLevel > 1 )
                 {
-                    $this->handleError( eZXMLInputParser::EZ_XMLINPUTPARSER_ERROR_SCHEMA, "Incorrect headers nesting" );
+                    $this->handleError( eZXMLInputParser::EZ_XMLINPUTPARSER_ERROR_SCHEMA, ezi18n( 'kernel/classes/datatypes/ezxmltext', "Incorrect headers nesting" ) );
                 }
 
                 $newParent = $parent;
