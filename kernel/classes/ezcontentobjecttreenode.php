@@ -4192,7 +4192,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
             {
                 $isUserClass = false;
 
-                $attributes = eZContentClass::fetchAttributes( $class->attribute( 'id' ) );
+                $attributes =  eZContentClassAttribute::fetchFilteredList( 
+                    array( "contentclass_id" => $class->attribute( 'id' ),
+                           "version" => eZContentClass::VERSION_STATUS_DEFINED ), true );
+
                 foreach ( $attributes as $attribute )
                 {
                     if ( $attribute->attribute( 'data_type_string' ) == 'ezuser' )
