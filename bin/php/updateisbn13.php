@@ -44,7 +44,7 @@ $file = ''; // url to get file "http://www.isbn-international.org/converter/rang
 
 $cli =& eZCLI::instance();
 $script =& eZScript::instance( array( 'description' => "eZ Publish ISBN-13 update\n\n" .
-                                                       "Update the database with new updated isbn data to the database.",
+                                                       "Update the database with new updated ISBN data to the database.",
                                       'use-session' => false,
                                       'use-modules' => true,
                                       'use-extensions' => true ) );

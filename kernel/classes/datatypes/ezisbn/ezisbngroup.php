@@ -52,7 +52,7 @@ class eZISBNGroup extends eZPersistentObject
 
     /*!
      \static
-     returns a definition of the isbn group.
+     returns a definition of the ISBN group.
     */
     function definition()
     {
@@ -77,7 +77,7 @@ class eZISBNGroup extends eZPersistentObject
 
     /*!
      \static
-     Create a new area for a ISBN.
+     Create a new area for an ISBN number.
      \param $groupNumber is the unique identifier for the area. Could be from 1 to 5 digits.
      \param $description a small description of the registration group area.
      \return a new eZISBNGroup object containing group number and a description.
@@ -106,7 +106,7 @@ class eZISBNGroup extends eZPersistentObject
      \static
      \param $count The count of the result.
      \param $asObject Whether if the result should be sent back as objects or an array.
-     \return the group range list for isbn groups.
+     \return the group range list for ISBN groups.
     */
     function fetchList( &$count, $asObject = true )
     {
@@ -122,7 +122,7 @@ class eZISBNGroup extends eZPersistentObject
      \static
      \param $groupNumber is the unique number of the Registration group area.
      \param $asObject Whether if the result should be sent back as objects or an array.
-     \return the group range list for isbn groups.
+     \return the group range list for ISBN groups.
     */
     function fetchByGroup( $groupNumber, $asObject = true )
     {
