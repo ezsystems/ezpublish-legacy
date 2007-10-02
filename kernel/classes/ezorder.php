@@ -293,6 +293,7 @@ class eZOrder extends eZPersistentObject
     }
 
     /*!
+     \static
      \return the number of active orders
     */
     function &orderStatistics( $year = false, $month = false )
@@ -357,6 +358,11 @@ class eZOrder extends eZPersistentObject
             }
 
             $currencyCode = $productItem['currency_code'];
+            if ( $currencyCode == '' )
+            {
+                $currencyCode = eZOrder::fetchLocaleCurrencyCode();
+            }
+
             if ( !isset( $productInfo[$currencyCode] ) )
             {
                 $productInfo[$currencyCode] = array( 'sum_count' => 0,
@@ -538,6 +544,11 @@ class eZOrder extends eZPersistentObject
             }
 
             $currencyCode = $productItem['currency_code'];
+            if ( $currencyCode == '' )
+            {
+                $currencyCode = eZOrder::fetchLocaleCurrencyCode();
+            }
+
             if ( !isset( $productInfo[$currencyCode] ) )
             {
                 $productInfo[$currencyCode] = array( 'sum_count' => 0,
@@ -655,6 +666,11 @@ class eZOrder extends eZPersistentObject
         {
             $itemCount++;
             $currencyCode = $productItem['currency_code'];
+            if ( $currencyCode == '' )
+            {
+                $currencyCode = eZOrder::fetchLocaleCurrencyCode();
+            }
+
             $userID = $productItem['user_id'];
             $orderID = $productItem['order_id'];
             $order = eZOrder::fetch( $orderID );
@@ -1428,6 +1444,48 @@ class eZOrder extends eZPersistentObject
         $db->query( "DELETE FROM ezorder_status_history" );
         $db->query( "DELETE FROM ezorder" );
         $db->commit();
+    }
+
+    /*!
+     \return the used currency code for the order. Will return the locale currency if
+             only a emty string is found from the order.
+     \param $collection may contain:
+            - A string with the currency code.
+            - An object of the class eZProductCollection.
+            - false, to fetch the current productCollection from the order.
+    */
+    function currencyCode( $collection = false )
+    {
+        if ( is_string( $collection ) and $collection != '' )
+        {
+            $currencyCode = $collection;
+        }
+        else
+        {
+            if ( get_class( $collection ) != 'ezproductcollection' )
+            {
+                $collection = eZProductCollection::fetch( $this->attribute( 'productcollection_id' ) );
+            }
+            $currencyCode =& $collection->attribute( 'currency_code' );
+        }
+
+         // Backwards compability for orders done with the price datatype.
+        if ( $currencyCode == '' )
+        {
+            $currencyCode = eZOrder::fetchLocaleCurrencyCode();
+        }
+        return $currencyCode;
+    }
+
+    /*!
+      \static
+      \returns the local currency code, used by the price datatype.
+    */
+    function fetchLocaleCurrencyCode()
+    {
+        $locale =& eZLocale::instance();
+        $currencyCode = $locale->currencyShortName();
+        return $currencyCode;
     }
 
     /// \privatesection
