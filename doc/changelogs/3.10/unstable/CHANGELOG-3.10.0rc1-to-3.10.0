@@ -52,3 +52,4 @@ Changes from 3.10.0rc1 to 3.10.0
 - Fixed bug #11090: eztimetype uses constants defined for ezdatetype
 - Fixed bug #11092: eZUser::fromString uses undefined variables
 - Fixed bug #11071: Wrong usage of chmod in eZPackage
+- Fixed bug #10893: No translation caches generated when ts-list option is omitted
