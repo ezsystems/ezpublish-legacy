@@ -941,7 +941,6 @@ class eZScript
             $cli->setUseStyles( $useColors );
             if ( $options['debug'] )
             {
-                $debugOptiom = $options['debug'];
                 $levels = array();
                 foreach ( $options['debug'] as $debugOption )
                 {
