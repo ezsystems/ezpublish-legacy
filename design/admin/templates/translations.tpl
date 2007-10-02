@@ -1,6 +1,8 @@
 {def $translations=$node.object.languages
-     $translations_count=$translations|count}
-{if gt( $translations_count, 1)}
+     $translations_count=$translations|count
+     $available_languages=fetch( content, prioritized_languages )}
+
+{if gt($available_languages,1)}
 
 <form name="translationsform" method="post" action={'content/translation'|ezurl}>
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
