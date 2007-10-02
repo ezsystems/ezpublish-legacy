@@ -51,10 +51,11 @@ class eZLog
     }
 
     /*!
+     \static
      \public
      Writes a message $message to a given file name $name and directory $dir for logging
     */
-    function write( $message, $logName = 'common.log', $dir = '' )
+    static function write( $message, $logName = 'common.log', $dir = '' )
     {
         $ini = eZINI::instance();
         $dir = $ini->variable( 'FileSettings', 'VarDir' ). '/' .$ini->variable( 'FileSettings', 'LogDir' );
