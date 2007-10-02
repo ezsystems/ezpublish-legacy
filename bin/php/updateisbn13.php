@@ -43,8 +43,8 @@ $fileAdded = false;
 $file = ''; // url to get file "http://www.isbn-international.org/converter/ranges.js";
 
 $cli = eZCLI::instance();
-$script = eZScript::instance( array( 'description' => "eZ publish ISBN-13 update\n\n" .
-                                                      "Update the database with new updated isbn data to the database.",
+$script = eZScript::instance( array( 'description' => "eZ Publish ISBN-13 update\n\n" .
+                                                      "Update the database with new updated ISBN data to the database.",
                                      'use-session' => false,
                                      'use-modules' => true,
                                      'use-extensions' => true ) );

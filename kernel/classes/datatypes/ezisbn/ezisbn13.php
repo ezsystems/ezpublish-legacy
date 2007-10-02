@@ -49,7 +49,7 @@ class eZISBN13
 
     /*!
      Constructor
-     \param $isbnNr is the isbn-13 number. example is: 978-0-11-000222-4
+     \param $isbnNr is the ISBN-13 number. example is: 978-0-11-000222-4
      \param $separator is the hyphen used in the ISBN number to make the
                        ISBN number more visible.
     */
@@ -151,7 +151,7 @@ class eZISBN13
 
      The different parts of the ISBN-13 number will be stored in separate class variables.
 
-     \param $isbnNr is the isbn-13 number. Should be 13 digits long and may contain space or hyphen as separator.
+     \param $isbnNr is the ISBN-13 number. Should be 13 digits long and may contain space or hyphen as separator.
      \param $error is used to send back an error message that will be shown to the user if the ISBN number was
                    not extracted correctly.
      \param $separator is the separator used to make the ISBN number visible. Could be either a space or hyphen.
@@ -238,7 +238,7 @@ class eZISBN13
       parts when the value is found. The class variables should be set as default false
       in the constructor.
 
-      \param $isbnNr is the isbn-13 number. Should be 13 digits long and may contain space or hyphen as separator.
+      \param $isbnNr is the ISBN-13 number. Should be 13 digits long and may contain space or hyphen as separator.
       \param $error is used to send back an error message that will be shown to the user if the ISBN number was
                     not extracted correctly.
 

@@ -77,7 +77,7 @@ class eZISBNType extends eZDataType
                 return eZInputValidator::STATE_ACCEPTED;
             }
 
-            // Should also accept ISBN10 values, which should be automatically converted to ISBN13 later.
+            // Should also accept ISBN-10 values, which should be automatically converted to ISBN-13 later.
             $isbn10TestNumber = preg_replace( "/[\s|\-]/", "", trim( $number13 ) );
             if ( strlen( $isbn10TestNumber ) == 10 )
             {
@@ -205,9 +205,9 @@ class eZISBNType extends eZDataType
     }
 
     /*!
-      Calculate the ISBN13 checkdigit and return a valid ISBN13 number
-      based on a ISBN10 number as input.
-      \return a valid ISBN13 number.
+      Calculate the ISBN-13 checkdigit and return a valid ISBN-13 number
+      based on an ISBN-10 number as input.
+      \return a valid ISBN-13 number.
     */
     function convertISBN10toISBN13( $isbnNr )
     {
@@ -250,13 +250,13 @@ class eZISBNType extends eZDataType
                 return true;
             }
 
-            // Test if we have a ISBN10 number. This should be automatically converted to ISBN13 if found.
+            // Test if we have an ISBN-10 number. This should be automatically converted to ISBN-13 if found.
             $isbn10TestNumber = preg_replace( "/[\s|\-]/", "", trim( $number13 ) );
             if ( strlen( $isbn10TestNumber ) == 10 )
             {
                 if ( $contentObjectAttribute->IsValid == eZInputValidator::STATE_ACCEPTED )
                 {
-                    // Convert the isbn-10 number to isbn-13.
+                    // Convert the ISBN-10 number to ISBN-13.
                     $number13 = $this->convertISBN10toISBN13( $isbn10TestNumber );
                 }
                 else
@@ -444,7 +444,7 @@ class eZISBNType extends eZDataType
     }
 
     /*!
-      Check if a ISBN value exist in the datatype.
+      Check if an ISBN value exist in the datatype.
     */
     function hasObjectAttributeContent( $contentObjectAttribute )
     {

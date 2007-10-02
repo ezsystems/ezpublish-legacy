@@ -91,7 +91,7 @@ class eZISBNGroupRange extends eZPersistentObject
 
     /*!
      \static
-     Create a new group range for a ISBN.
+     Create a new group range for an ISBN number.
      \param $fromNumber Group is starting from test number, which is based on
                         the 5 numbers after the Prefix number.
      \param $toNumber   Group is ending on the To test number, which is based on
@@ -129,7 +129,7 @@ class eZISBNGroupRange extends eZPersistentObject
     /*!
      \param $count Will contain the count of objects returned and is sent
                    back in the reference variable.
-     \return the group range list for isbn groups.
+     \return the group range list for ISBN groups.
     */
     static function fetchList( $asObject = true )
     {

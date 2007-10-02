@@ -35,7 +35,7 @@
   This means that the length of the registrant can differ from
   range to range.
 
-  The registrant element is the third element in the isbn-13 number, after
+  The registrant element is the third element in the ISBN-13 number, after
   the Prefix and Registration group number.
 
   Example: 978-0-11-000222-4 where 11 is the registrant number.
@@ -110,7 +110,7 @@ class eZISBNRegistrantRange extends eZPersistentObject
                             in the registrant range. Is a string to support 0 in front. Example: 699
      \param $length         How many characters $registrantFrom and $registrantTo should have.
 
-     Create a new registrant range for a ISBN group / area.
+     Create a new registrant range for an ISBN group / area.
 
      \return A new eZISBNRegistrantRange object.
     */
@@ -148,7 +148,7 @@ class eZISBNRegistrantRange extends eZPersistentObject
      \param $count    Will contain the count of objects returned and is sent
                       back in the reference variable.
      \param $asObject If the result should be returned as object or an array.
-     \return the registrant list for a isbn registration group id.
+     \return the registrant list for an ISBN registration group id.
     */
     static function fetchListByGroupID( $groupID, $asObject = true )
     {
@@ -169,7 +169,7 @@ class eZISBNRegistrantRange extends eZPersistentObject
      \param $group is an object of eZISBNGroup, which needs to be known before this function is called.
                    Contains information about the group itself.
      \param $groupRange is an object of eZISBNGroupRange, which needs to be known before this function is called.
-                        Contains information about the valid ranges for the isbn group.
+                        Contains information about the valid ranges for the ISBN group.
      \param $registrantLength is the length of the Registrant in the range that was found.
                               Is sent back in the reference variable.
 

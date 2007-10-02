@@ -21,7 +21,7 @@ Changes to the ISBN datatype on the object level
 
 Autoconverting from ISBN-10 to ISBN-13
 --------------------------------------
-If user enters a ISBN number in ISBN-10 format AND "ISBN-13 format" is enabled
+If user enters an ISBN number in ISBN-10 format AND "ISBN-13 format" is enabled
 for the attribute, the system should automaticly convert it to ISBN-13
 
 Entring ISBN-13 values with or without hyphens '-'
@@ -33,7 +33,7 @@ without any warnings.
 
 Placement of hyphens
 --------------------
-A ISBN-13 number typically looks like:
+An ISBN-13 number typically looks like:
 978-824-73-0904-6
 
 The hyphens separates the different fields:

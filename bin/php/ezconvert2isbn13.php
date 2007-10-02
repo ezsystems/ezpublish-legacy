@@ -29,14 +29,14 @@
 /*!
   \file ezconvert2isbn13.php
   \class eZISBN10To13Converter ezconvert2isbn13.php
-  \brief Converts isbn-10 numbers to isbn-13.
+  \brief Converts ISBN-10 numbers to ISBN-13.
 
   The script should be runned by command line with example:
 
   php bin/php/ezconvert2isbn13.php --all-classes
 
   Depending on the parameter, the script will search through contentobjects and convert
-  ezisbn values in content attributes from isbn10 to isbn13. The script will also set the hyphen on the correct
+  ezisbn values in content attributes from ISBN-10 to ISBN-13. The script will also set the hyphen on the correct
   place as well. You should set the class attribute to ISBN-13 in the contentclass before running
   this script or add the flag --force as a parameter when you're running the script.
 
@@ -45,13 +45,13 @@
 
   Example:
   --class-id=2 Will Go through all ezisbn attributes in the class with id 2 and convert everyone which is a
-               isbn-10 value.
-  --attribute-id=12 will check if this is a isbn datatype and convert all isbn-13 values in the
+               ISBN-10 value.
+  --attribute-id=12 will check if this is an ISBN datatype and convert all ISBN-13 values in the
                     attribute with id 12.
-  --all-classes Does not have any argument, and converts all contentobject attributes that is set to isbn-13.
+  --all-classes Does not have any argument, and converts all contentobject attributes that is set to ISBN-13.
 
-  --force or -f will work in addition to all the options above and set the class attribute to isbn-13, even if it was
-                isbn10 before.
+  --force or -f will work in addition to all the options above and set the class attribute to ISBN-13, even if it was
+                ISBN-10 before.
 */
 
 set_time_limit( 0 );
@@ -69,8 +69,8 @@ set_time_limit( 0 );
 //include_once( 'kernel/classes/datatypes/ezisbn/ezisbn13.php' );
 
 $cli = eZCLI::instance();
-$script = eZScript::instance( array( 'description' => ( "eZ Publish ISBN10 to ISBN13 converter\n\n" .
-                                                        "Converts a ISBN10 number to ISBN13\n" ),
+$script = eZScript::instance( array( 'description' => ( "eZ Publish ISBN-10 to ISBN-13 converter\n\n" .
+                                                        "Converts an ISBN-10 number to ISBN-13\n" ),
                                      'use-session' => false,
                                      'use-modules' => true,
                                      'use-extensions' => true ) );
@@ -81,9 +81,9 @@ $options = $script->getOptions( "[class-id:][attribute-id:][all-classes][f|force
                                 "",
                                 array( 'class-id' => 'The class id for the ISBN attribute.',
                                        'attribute-id' => 'The attribute id for the ISBN attribute which should be converted.',
-                                       'all-classes' => 'Will convert all isbn attributes in all content classes.',
-                                       'f' => 'Short alias for force',
-                                       'force' => 'Will convert all attributes even if the class is set to ISBN10.' ) );
+                                       'all-classes' => 'Will convert all ISBN attributes in all content classes.',
+                                       'f' => 'Short alias for force.',
+                                       'force' => 'Will convert all attributes even if the class is set to ISBN.' ) );
 $script->initialize();
 
 $classID = $options['class-id'];
@@ -123,7 +123,7 @@ if ( $found == true )
     }
     else
     {
-        $cli->output( 'Did not find any isbn attributes.' );
+        $cli->output( 'Did not find any ISBN attributes.' );
     }
 }
 else
@@ -159,7 +159,7 @@ class eZISBN10To13Converter
 
 
     /*!
-      Add all classes. Will fetch all class attributes from the database that has the ezisbn
+      Add all classes. Will fetch all class attributes from the database that has the ISBN
       datatype and register it in a class variable AttributeArray for later processing.
 
       \return true if successfull and false if not.
@@ -190,7 +190,7 @@ class eZISBN10To13Converter
                 {
                     $this->Cli->output( $this->Cli->stylize( 'warning', 'Warning:' ) . ' The Class id ' .
                                         $this->Cli->stylize( 'strong', $classAttribute->attribute( 'contentclass_id' ) ) . ' attribute id ' .
-                                        $this->Cli->stylize( 'strong', $classAttributeID ) . ' is not set to ISBN13. Use --force to set the ISBN13 flag' );
+                                        $this->Cli->stylize( 'strong', $classAttributeID ) . ' is not set to ISBN-13. Use --force to set the ISBN-13 flag' );
                 }
 
             }
@@ -230,7 +230,7 @@ class eZISBN10To13Converter
                             else
                             {
                                 $this->Cli->output( $this->Cli->stylize( 'warning', 'Warning:' ) . ' The attribute id ' .
-                                                    $this->Cli->stylize( 'strong', $attribute->attribute( 'id' ) ) . ' is not set to ISBN13. Use --force to set the ISBN13 flag' );
+                                                    $this->Cli->stylize( 'strong', $attribute->attribute( 'id' ) ) . ' is not set to ISBN-13. Use --force to set the ISBN-13 flag' );
                             }
                         }
                     }
@@ -238,7 +238,7 @@ class eZISBN10To13Converter
 
                 if ( $attributeFound === false )
                 {
-                    $this->Cli->output( $this->Cli->stylize( 'warning', 'Warning:' ) . ' Did not find any ezisbn attributes in contentclass: ' .
+                    $this->Cli->output( $this->Cli->stylize( 'warning', 'Warning:' ) . ' Did not find any ISBN attributes in contentclass: ' .
                                         $this->Cli->stylize( 'strong', $classID ) . '.' );
                 }
             }
@@ -280,13 +280,13 @@ class eZISBN10To13Converter
                     else
                     {
                         $this->Cli->output( $this->Cli->stylize( 'warning', 'Warning:' ) . ' The attribute id ' .
-                                            $this->Cli->stylize( 'strong', $attributeID ) . ' is not set to ISBN13. Use --force to set the ISBN13 flag' );
+                                            $this->Cli->stylize( 'strong', $attributeID ) . ' is not set to ISBN-13. Use --force to set the ISBN-13 flag' );
                     }
                 }
                 else
                 {
                     $this->Cli->output( $this->Cli->stylize( 'warning', 'Warning:' ) . ' The attribute id ' .
-                                        $this->Cli->stylize( 'strong', $attributeID ) . ' is not an isbn datatype but of type ' .
+                                        $this->Cli->stylize( 'strong', $attributeID ) . ' is not an ISBN datatype but of type ' .
                                         $this->Cli->stylize( 'strong', $classAttribute->attribute( 'data_type_string' ) ) . '.' );
                 }
             }
@@ -336,7 +336,7 @@ class eZISBN10To13Converter
 
     /*!
       Update content in a ezisbn datatype for one specific class attribute id.
-      \param $classAttributeID is the class attribute id for for the isbn datatype.
+      \param $classAttributeID is the class attribute id for for the ISBN datatype.
      */
     function updateContentFromClassAttribute( $classAttributeID )
     {
@@ -404,12 +404,12 @@ class eZISBN10To13Converter
             $this->updateContentISBNNumber( $contentObjectAttribute, $emtyValue );
             return true;
         }
-        // Validate the isbn number.
+        // Validate the ISBN number.
         $digits = preg_replace( "/\-/", "", $isbnValue );
 
         if ( trim( $digits ) !=  "" )
         {
-            // If the length of the number is 10, it is a ISBN-10 number and need
+            // If the length of the number is 10, it is an ISBN-10 number and need
             // to be converted to ISBN-13.
             if ( strlen( $digits ) == 10 )
             {
@@ -446,8 +446,8 @@ class eZISBN10To13Converter
 
     /*!
      Does the update of the class attribute directly to the database, which will only alter
-     the attribute for if the isbn datatype is ISBN-13.
-     \param $classAttributeID is the Class attribute id for the isbn datatype.
+     the attribute for if the ISBN datatype is ISBN-13.
+     \param $classAttributeID is the Class attribute id for the ISBN datatype.
     */
     function updateClassAttributeToISBN13( $classAttributeID )
     {
@@ -458,7 +458,7 @@ class eZISBN10To13Converter
 
     /*!
      Does the update of the content object attribute directly to the database, which will only alter
-     the attribute for if the isbn datatype is ISBN-13.
+     the attribute for if the ISBN datatype is ISBN-13.
      \param $contentObjectAttribute Is an object of eZContentObjectAttribute.
      \param $formatedISBN13Value contains the formated version of the ISBN-13 number with hyphen as delimiter.
     */
