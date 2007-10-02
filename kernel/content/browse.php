@@ -62,8 +62,8 @@ if ( $node->attribute( 'is_invisible' ) && !eZContentObjectTreeNode::showInvisib
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 }
 
-$object =& $node->attribute( 'object' );
-if ( !$object )
+$contentObject =& $node->attribute( 'object' );
+if ( !$contentObject )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
 if ( !$contentObject->attribute( 'can_read' ) || !$node->attribute( 'can_read' ) )
