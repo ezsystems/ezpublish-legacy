@@ -9,6 +9,11 @@
  *
  */
 
+if ( file_exists( "config.php" ) )
+{
+    require "config.php";
+}
+
 // require 'Base/src/base.php';
 if ( !@include( 'ezc/Base/base.php' ) )
 {
