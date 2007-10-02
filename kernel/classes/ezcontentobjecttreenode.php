@@ -1505,7 +1505,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $sqlPermissionCheckingFrom = '';
         $sqlPermissionCheckingWhere = '';
-        $tempTables = array();
+        $sqlPermissionTempTables = array();
+        $groupPermTempTable = false;
 
         if ( is_array( $limitationList ) && count( $limitationList ) > 0 )
         {
@@ -1516,6 +1517,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $sqlPartPartPart = array();
                 $sqlPlacementPart = array();
 
+                $count = 1;
                 foreach ( array_keys( $limitationArray ) as $ident )
                 {
                     switch( $ident )
@@ -1540,23 +1542,23 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                         case 'Group':
                         {
-                            $user   = eZUser::currentUser();
-                            $userContentObject = $user->attribute( 'contentobject' );
+                            if ( !$groupPermTempTable )
+                            {
+                                $user = eZUser::currentUser();
+                                $userContentObject = $user->attribute( 'contentobject' );
+                                $parentList = $userContentObject->attribute( 'parent_nodes' );
 
-                            $parentList = $userContentObject->attribute( 'parent_nodes' );
+                                $groupPermTempTable = $db->generateUniqueTempTableName( 'ezgroup_perm_tmp_%' );
+                                $sqlPermissionTempTables[] = $groupPermTempTable;
 
-                            $groupPermTempTable = $db->generateUniqueTempTableName( 'ezgroup_perm_tmp_%_0' );
-                            $tempTables[] = $groupPermTempTable;
+                                $db->createTempTable( "CREATE TEMPORARY TABLE $groupPermTempTable ( user_id int )" );
+                                $db->query( "INSERT INTO $groupPermTempTable
+                                                    SELECT DISTINCT contentobject_id AS user_id
+                                                    FROM     ezcontentobject_tree
+                                                    WHERE    parent_node_id IN ("  . implode( ', ', $parentList ) . ')' );
 
-                            if ( $sqlPermissionCheckingFrom == '' )
                                 $sqlPermissionCheckingFrom = ', ' . $groupPermTempTable;
-
-                            $db->createTempTable( "CREATE TEMPORARY TABLE $groupPermTempTable ( user_id int )" );
-                            $db->query( "INSERT INTO $groupPermTempTable
-                                                SELECT DISTINCT contentobject_id AS user_id
-                                                FROM     ezcontentobject_tree
-                                                WHERE    parent_node_id IN ("  . implode( ', ', $parentList ) . ')' );
-
+                            }
                             $sqlPartPart[] = "ezcontentobject.owner_id = $groupPermTempTable.user_id";
                         } break;
 
@@ -1585,6 +1587,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $sqlPartPart[] = implode( ' OR ', $sqlPartUserSubtree );
                         }
                     }
+
+                    $count++;
                 }
                 if ( $sqlPlacementPart )
                 {
@@ -1601,7 +1605,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $sqlPermissionChecking = array( 'from' => $sqlPermissionCheckingFrom,
                                         'where' => $sqlPermissionCheckingWhere,
-                                        'temp_tables' => $tempTables );
+                                        'temp_tables' => $sqlPermissionTempTables );
 
         return $sqlPermissionChecking;
     }
@@ -2682,6 +2686,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $sqlPermissionCheckingFrom = '';
         $sqlPermissionCheckingWhere = '';
         $sqlPermissionTempTables = array();
+        $groupPermTempTable = false;
 
         if ( $limitationList !== false && count( $limitationList ) > 0 )
         {
@@ -2716,23 +2721,23 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                         case 'Group':
                         {
-                            $user   = eZUser::currentUser();
-                            $userContentObject = $user->attribute( 'contentobject' );
+                            if ( !$groupPermTempTable )
+                            {
+                                $user = eZUser::currentUser();
+                                $userContentObject = $user->attribute( 'contentobject' );
+                                $parentList = $userContentObject->attribute( 'parent_nodes' );
 
-                            $parentList = $userContentObject->attribute( 'parent_nodes' );
+                                $groupPermTempTable = $db->generateUniqueTempTableName( 'ezgroup_perm_tmp_%' );
+                                $sqlPermissionTempTables[] = $groupPermTempTable;
 
-                            $groupPermTempTable = $db->generateUniqueTempTableName( 'ezgroup_perm_tmp_%_0' );
-                            $sqlPermissionTempTables[] = $groupPermTempTable;
+                                $db->createTempTable( "CREATE TEMPORARY TABLE $groupPermTempTable ( user_id int )" );
+                                $db->query( "INSERT INTO $groupPermTempTable
+                                                    SELECT DISTINCT contentobject_id AS user_id
+                                                    FROM     ezcontentobject_tree
+                                                    WHERE    parent_node_id IN ("  . implode( ', ', $parentList ) . ')' );
 
-                            if ( $sqlPermissionCheckingFrom == '' )
                                 $sqlPermissionCheckingFrom = ', ' . $groupPermTempTable;
-
-                            $db->createTempTable( "CREATE TEMPORARY TABLE $groupPermTempTable ( user_id int )" );
-                            $db->query( "INSERT INTO $groupPermTempTable
-                                                SELECT DISTINCT contentobject_id AS user_id
-                                                FROM     ezcontentobject_tree
-                                                WHERE    parent_node_id IN ("  . implode( ', ', $parentList ) . ')' );
-
+                            }
                             $sqlPartPart[] = "ezcontentobject.owner_id = $groupPermTempTable.user_id";
                         } break;
 
@@ -4192,7 +4197,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             {
                 $isUserClass = false;
 
-                $attributes =  eZContentClassAttribute::fetchFilteredList( 
+                $attributes = eZContentClassAttribute::fetchFilteredList(
                     array( "contentclass_id" => $class->attribute( 'id' ),
                            "version" => eZContentClass::VERSION_STATUS_DEFINED ), true );
 

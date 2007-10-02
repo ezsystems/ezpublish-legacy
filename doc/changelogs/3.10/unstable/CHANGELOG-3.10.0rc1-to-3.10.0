@@ -46,3 +46,4 @@ Changes from 3.10.0rc1 to 3.10.0
 - Fixed bug #10729: Inconsistency - Translation Button Lost from Admin Content Structure
 - Fixed bug #11480: A bug in updateniceurls.php prevents upgrading 
   from 3.9.3 to 3.10.0rc1 successfully.
+- Fixed bug #11332: group policy causes sql errors.

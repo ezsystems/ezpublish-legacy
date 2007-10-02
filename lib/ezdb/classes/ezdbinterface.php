@@ -1224,10 +1224,20 @@ class eZDBInterface
      If the pattern contains a (%) character then the character
      is replaced with a part providing uniqueness (e.g. random number).
     */
-    function generateUniqueTempTableName( $pattern )
+    function generateUniqueTempTableName( $pattern, $randomizeIndex = false )
     {
+        $tableList = array_keys( $this->eZTableList() );
+        if ( $randomizeIndex === false )
+        {
+            $randomizeIndex = rand( 10, 1000 );
+        }
+        do
+        {
+            $uniqueTempTableName = str_replace( '%', $randomizeIndex, $pattern );
+            $randomizeIndex++;
+        } while ( in_array( $uniqueTempTableName, $tableList ) );
 
-        return str_replace( '%', '', $pattern );
+        return $uniqueTempTableName;
     }
 
     /*!
