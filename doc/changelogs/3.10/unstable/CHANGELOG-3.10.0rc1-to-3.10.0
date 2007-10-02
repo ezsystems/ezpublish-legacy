@@ -34,3 +34,4 @@ Changes from 3.10.0rc1 to 3.10.0
 - Fixed bug #9237: Upgrade script for 3.8 deletes published objects in cases of db inconsistency.
 - Fixed bug #11050: Upload related content in OnlineEditor doesn't work.
 - Fixed bug #11440: index_treemenu.php missing in distro.
+- Fixed bug #011287: German Translation, email send if new user registrate.
