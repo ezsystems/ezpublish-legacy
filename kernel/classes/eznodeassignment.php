@@ -37,7 +37,7 @@
 
 */
 include_once( "lib/ezutils/classes/ezdebug.php" );
-include_once( "kernel/classes/ezpersistentobject.php" );
+include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 
 // Bit 0 is used to mark if the action is to be performed or not
 // A value of 0 means ignore and 1 means execute
