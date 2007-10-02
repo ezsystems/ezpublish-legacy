@@ -108,7 +108,7 @@ $siteAccessExists = false;
 if ( !$options['siteaccess'] )
 {
     $cli->error( "Siteaccess was not given. Exiting..." );
-    exit( -1 );
+    $script->shutdown( -1 );
 }
 
 $siteAccessExists = file_exists( 'settings/siteaccess/' . $options['siteaccess'] );
@@ -129,7 +129,7 @@ if ( !$siteAccessExists )
 if ( !$siteAccessExists )
 {
     $cli->error( "Siteaccess '" . $options['siteaccess'] . "' does not exist. Exiting..." );
-    exit( -1 );
+    $script->shutdown( -1 );
 }
 
 $script->setUseSiteAccess( $options['siteaccess'] );
@@ -219,7 +219,7 @@ foreach ( $rows as $row )
         if ( !$language )
         {
             $cli->error( "Cannot add language $languageCode! Too many languages used on the site?" );
-            exit( -1 );
+            $script->shutdown( -1 );
         }
         $languageID = $language->attribute( 'id' );
         $cli->notice( "  language: $languageCode (id $languageID)" );
