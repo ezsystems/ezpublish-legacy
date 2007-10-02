@@ -182,6 +182,8 @@ BEGIN_LICENSE_BLOCK="## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##"
 END_LICENSE_BLOCK="## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##"
 SOFTWARE_NAME="SOFTWARE NAME: eZ publish"
 
+COPYRIGHT="// COPYRIGHT NOTICE: Copyright (C) 1999-2007 eZ systems AS"
+
 # Do the work.
 parse_cl_parameters $*
 
@@ -282,13 +284,20 @@ for FILE in $FILES; do
          /SOFTWARE NAME: eZ publish/ {can_change_license = 1;
                                       can_change_release = 1;
                                       can_change_revision = 1;
+                                      can_change_copyright = 1;
                                       print;
                                       next
                                      } \
          /SOFTWARE NAME: eZ Online Editor/ {can_change_license = 1;
+                                            can_change_copyright = 1;
                                             print;
                                             next
                                            } \
+         /SOFTWARE NAME: eZ Paypal Payment Gateway/ {can_change_license = 1;
+                                                     can_change_copyright = 1;
+                                                     print;
+                                                     next
+                                                     } \
          /SOFTWARE RELEASE:/ {if ( can_change_release )
                                   {
                                     print \"$RELEASE\";
@@ -305,6 +314,12 @@ for FILE in $FILES; do
          /SOFTWARE LICENSE:/ {if ( can_change_license )
                                   {
                                     print \"$LICENSE\";
+                                    next
+                                  }
+                             } \
+         /COPYRIGHT NOTICE:/ {if ( can_change_copyright )
+                                  {
+                                    print \"$COPYRIGHT\";
                                     next
                                   }
                              } \
@@ -463,3 +478,7 @@ if [ -e "$THIRDSOFT_FILE" ]; then
 
 fi
 IFS=$OLDIFS
+
+# update lincense file
+echo "Coping license file '$LICENSE_FILE'"
+cp "$LICENSE_FILE" "$DEST_DIR/"
