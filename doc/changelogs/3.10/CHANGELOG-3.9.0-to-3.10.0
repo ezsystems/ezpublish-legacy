@@ -320,7 +320,6 @@ Changes from 3.9.0 to 3.10.0
 - Fixed bug #10775: Fatal error when viewing object with related objects at second location after it was
   removed from its first(original) location.
 - Fixed bug #8482: Session function is buggy.
-- Fixed bug #10366: FileSettings.LogDir missused.
 - Fixed bug #10516: Missing chi-TW flag in trunk.
 - Fixed bug #10694: Letter-turner in ezdebug.php.
 - Fixed bug #10709: typpo in ger translation.
