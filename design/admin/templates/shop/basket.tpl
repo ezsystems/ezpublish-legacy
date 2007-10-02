@@ -155,7 +155,7 @@
         <input class="button-disabled" type="submit" name="StoreChangesButton" value="{'Apply changes'|i18n( 'design/admin/shop/basket' )}" disabled="disabled" title="{'You can not store any changes because the basket is empty.'|i18n( 'design/admin/shop/basket' )}" />
     </div>
     <div class="button-right">
-        <input class="button" type="submit" name="ContinueShoppingButton" value="{'Continue shopping'|i18n( 'design/admin/shop/basket' )}" title="{'Leave the basket and continue shopping.'|i18n( 'design/admin/shop/basket' )}" />
+        <input class="button-disabled" type="submit" name="ContinueShoppingButton" value="{'Continue shopping'|i18n( 'design/admin/shop/basket' )}" disabled="disabled" title="{'Leave the basket and continue shopping.'|i18n( 'design/admin/shop/basket' )}" />
         <input class="button-disabled" type="submit" name="CheckoutButton" value="{'Checkout'|i18n( 'design/admin/shop/basket' )}" disabled="disabled" title="{'You can not check out because the basket is empty.'|i18n( 'design/admin/shop/basket' )}" />
     </div>
     {/section}
