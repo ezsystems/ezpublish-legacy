@@ -105,3 +105,5 @@ Changes from 3.8.9 to 3.8.10
   (Merged from stable/3.9 (3.9.4) rev.20118)
 - Fixed bug #011361: Hidden blogposts available through tag.
   (Manualy merged from trunk (3.10.0) rev. 20141)
+- Fixed bug #011371: read title of hidden blogpost.
+  (Merged from trunk (3.10.0) rev. 20169)
