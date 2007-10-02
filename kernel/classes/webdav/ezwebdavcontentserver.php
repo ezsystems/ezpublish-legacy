@@ -96,7 +96,8 @@ class eZWebDAVContentServer extends eZWebDAVServer
 	        $file->fetch();
     	}
     	$result = eZWebDAVServer::outputSendDataToClient($output,$headers_only);
-    	$file->deleteLocal();
+        if ( $output["file"] && is_object( $file ) )
+            $file->deleteLocal();
     	return $result;
     }
 
