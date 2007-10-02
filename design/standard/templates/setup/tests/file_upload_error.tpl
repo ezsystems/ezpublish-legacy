@@ -5,7 +5,7 @@
 
 {section show=$upload_results.php_upload_is_enabled|not}
 <p>
- {"File uploading is not enabled which means that it's impossible for eZ publish to handle file uploading. All other parts of eZ publish will still work fine but it's recommended to enable file uploads."|i18n("design/standard/setup/tests")}
+ {"File uploading is not enabled which means that it's impossible for eZ Publish to handle file uploading. All other parts of eZ Publish will still work fine but it's recommended to enable file uploads."|i18n("design/standard/setup/tests")}
 </p>
 <h3>{"Configuration"|i18n("design/standard/setup/tests")}</h3>
 <p>
@@ -17,7 +17,7 @@
 {section show=$upload_results.upload_dir_exists|not}
 {* START: directory existance *}
 <p>
- {"The PHP upload directory %upload_dir does not exists or is not accessible, without this you will not be able to upload files or images to eZ publish."|i18n( 'design/standard/setup/tests',, hash( '%upload_dir', concat( '<i>', $upload_results.php_upload_dir, '</i>' ) ) )}
+ {"The PHP upload directory %upload_dir does not exists or is not accessible, without this you will not be able to upload files or images to eZ Publish."|i18n( 'design/standard/setup/tests',, hash( '%upload_dir', concat( '<i>', $upload_results.php_upload_dir, '</i>' ) ) )}
 </p>
 <p>
  {"Create the directory %upload_dir on your system. If you do not have the possibility to create this yourself ask the administrator to create it for you."|i18n( 'design/standard/setup/tests',, hash( '%upload_dir', concat( '<i>', $upload_results.php_upload_dir, '</i>' ) ) )}
@@ -45,7 +45,7 @@ This is a security problem and should be changed to another global temporary dir
 {section show=or( $upload_results.upload_dir_writeable|not, $upload_results.upload_dir_create_file|not )}
 {* START: directory permission *}
 <p>
- {"The PHP upload directory %upload_dir is not writeable. This means that it will be impossible to upload files or images to eZ publish."|i18n( 'design/standard/setup/tests',, hash( '%upload_dir', concat( '<i>', $upload_results.php_upload_dir, '</i>' ) ) )}
+ {"The PHP upload directory %upload_dir is not writeable. This means that it will be impossible to upload files or images to eZ Publish."|i18n( 'design/standard/setup/tests',, hash( '%upload_dir', concat( '<i>', $upload_results.php_upload_dir, '</i>' ) ) )}
 </p>
 <p>
  {"You must change the permission on the directory %upload_dir. If you do not have the possibility to create this yourself ask the administrator to do this for you."|i18n( 'design/standard/setup/tests',, hash( '%upload_dir', concat( '<i>', $upload_results.php_upload_dir, '</i>' ) ) )}
@@ -73,7 +73,7 @@ chmod ug+rwx {section var=dir loop=$upload_results.php_upload_split_dirs}{$dir}{
 <pre class="example">chmod a+rwx {section var=dir loop=$upload_results.php_upload_split_dirs}{$dir}{delimiter}{' '}{/delimiter}{/section}</pre>
 {section-else}
 <p>
-{"eZ publish could not detect the user and group of the webserver.
+{"eZ Publish could not detect the user and group of the web server.
 If you know the user and group of the web server it is recommended to change the ownership of the upload directory to match this user and group.
 To do this you need to change the %chown commands under Alternative shell commands."|i18n( 'design/standard/setup/tests',, hash( '%chown', '<tt class="note">chown</tt>' ) )}
 </p>
@@ -82,7 +82,7 @@ To do this you need to change the %chown commands under Alternative shell comman
 <pre class="example">chmod a+rwx {section var=dir loop=$upload_results.php_upload_split_dirs}{$dir}{delimiter}{' '}{/delimiter}{/section}</pre>
 
 <h3>{'Alternative shell commands'|i18n( 'design/standard/setup/tests' )}</h3>
-<p>{"If you know the user and group of the webserver you can try this command. Replace apache:apache with the user and group."|i18n( 'design/standard/setup/tests' )}</p>
+<p>{"If you know the user and group of the web server you can try this command. Replace apache:apache with the user and group."|i18n( 'design/standard/setup/tests' )}</p>
 <pre class="example">chmod ug+rwx {section var=dir loop=$upload_results.php_upload_split_dirs}{$dir}{delimiter}{' '}{/delimiter}{/section}
 
 chown apache:apache {section var=dir loop=$upload_results.php_upload_split_dirs}{$dir}{delimiter}{' '}{/delimiter}{/section}</pre>

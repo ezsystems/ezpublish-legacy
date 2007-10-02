@@ -31,7 +31,7 @@ chown -R {$file_results.user_info.user_name}:{$file_results.user_info.group_name
 <pre class="example">cd {$file_results.current_path}
 chmod -R a+rwx {$dir_list}</pre>
 {else}
-<p>{"eZ publish could not detect the user and group of the webserver.
+<p>{"eZ Publish could not detect the user and group of the web server.
 If you know the user and group of the web server it is recommended to change the ownership of the files to match this user and group.
 To do this you need to change the %chown commands under Alternative shell commands."|i18n( 'design/standard/setup/tests',, hash( '%chown', '<tt class="note">chown</tt>' ) )}</p>
 
@@ -55,7 +55,7 @@ chown -R nouser:nouser {$dir_list}</pre>
 {if and( is_set( $res_elements_by_err.2 ), count( $res_elements_by_err.2 ) )}
 <h3>{'Missed some directories'|i18n( 'design/standard/setup/tests' )}</h3>
 {set-block variable=dir_list scope=root}{foreach $res_elements_by_err.2 as $res}{delimiter} {/delimiter}<i>{$res.file}</i>{/foreach}{/set-block}
-<p>{'eZ publish cannot create some important directories, without this the setup cannot finish and parts of eZ publish will fail.'|i18n( 'design/standard/setup/tests' )}<br/>
+<p>{'eZ Publish cannot create some important directories, without this the setup cannot finish and parts of eZ Publish will fail.'|i18n( 'design/standard/setup/tests' )}<br/>
 {'The nonexistent directories are: %dir_list'|i18n( 'design/standard/setup/tests',,hash( '%dir_list', $dir_list ) )}</p>
 
 {set-block variable=dir_list scope=root}{foreach $res_elements_by_err.2 as $res}{delimiter} \<br />{/delimiter}{$res.file}{/foreach}{/set-block}

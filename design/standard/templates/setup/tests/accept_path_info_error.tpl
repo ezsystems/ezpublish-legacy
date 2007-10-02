@@ -2,7 +2,7 @@
 <h3>{$result_number}. {"AcceptPathInfo disabled or running in CGI mode"|i18n("design/standard/setup/tests")}</h3>
 <p>
   {"You need to enable AcceptPathInfo in your Apache config file, if you're using apache 2.x."|i18n("design/standard/setup/tests")}
-  {"If you're running apache 1.3, eZ publish will not run in CGI mode."|i18n("design/standard/setup/tests")}
+  {"If you're running apache 1.3, eZ Publish will not run in CGI mode."|i18n("design/standard/setup/tests")}
 </p>
 <p>
   Check the Apache <a
