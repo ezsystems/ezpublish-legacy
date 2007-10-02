@@ -29,7 +29,7 @@
 
 //include_once( 'lib/ezutils/classes/ezcli.php' );
 //include_once( 'kernel/classes/ezscript.php' );
-include( 'autoload.php' );
+require 'autoload.php';
 
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "eZ publish SQL Schema insert\n\n" .
@@ -238,7 +238,7 @@ if ( !$db or !$db->isConnected() )
 // Load in schema/data files
 
 //include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
-$schemaArray = eZDBSchema::read( $filename, true );
+$schemaArray = eZDbSchema::read( $filename, true );
 if ( $includeData and !$options['schema-file'] )
 {
     $cli->error( "Cannot insert data without a schema file, please specify with --schema-file" );
@@ -290,7 +290,7 @@ if ( $options['clean-existing'] )
 // Prepare schema handler
 
 $schemaArray['instance'] =& $db;
-$dbSchema = eZDBSchema::instance( $schemaArray );
+$dbSchema = eZDbSchema::instance( $schemaArray );
 
 if ( $dbSchema === false )
 {
