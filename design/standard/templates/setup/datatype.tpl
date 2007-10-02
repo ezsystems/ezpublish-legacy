@@ -3,7 +3,7 @@
 
 <h1>{'Datatype wizard'|i18n('design/standard/setup')}</h1>
 <p>
-    Welcome to the wizard for creating a new datatypes.<br/>
+    Welcome to the wizard for creating a new datatype.<br/>
     Everything you store in your content objects are called<br />
     attributes. These attributes are defined as a data types. <br />
     To be able to customize the storing and validation<br />

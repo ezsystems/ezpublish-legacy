@@ -12,7 +12,7 @@
 
 <div class="context-attributes">
 <p>
-{'Welcome to the wizard for creating a new datatypes. Everything stored in a content object is called attributes. Attributes are defined as data types. To customize storing and validation of attributes, you can create your own data types.'|i18n( 'design/admin/setup/rad/datatype' )}
+{'Welcome to the wizard for creating a new datatype. Everything stored in a content object are called attributes. Attributes are defined as data types. To customize storing and validation of attributes, you can create your own data types.'|i18n( 'design/admin/setup/rad/datatype' )}
 </p>
 </div>
 
