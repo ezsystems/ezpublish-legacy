@@ -94,7 +94,7 @@
     {section show=$assignment_count|gt( 1 ) }
     <input type="radio" {section show=$assignment_node.is_main}checked="checked"{/section} name="MainAssignmentCheck" value="{$assignment_node.node_id}" title="{'Use these radio buttons to select the desired main location.'|i18n( 'design/admin/node/view/full' )}" />
     {section-else}
-    <input type="radio" {section show=$assignment_node.is_main}checked="checked"{/section} name="MainAssignmentCheck" value="{$assignment_node.node_id}" disabled="disabled" title="{'The item being displayed has only one location. It is not necessary to set the main location.'|i18n( 'design/admin/node/view/full' )}" />
+    <input type="radio" {section show=$assignment_node.is_main}checked="checked"{/section} name="MainAssignmentCheck" value="{$assignment_node.node_id}" disabled="disabled" title="{'The item being displayed has only one location.'|i18n( 'design/admin/node/view/full' )}" />
     {/section}
 
     {section-else}
@@ -112,7 +112,7 @@
 {* DESIGN: Content END *}</div></div></div>
 
 {* Required to get the main node selection to work,
-   unchecked radiobuttons will not be sent by browser. *}
+   unchecked radio buttons will not be sent by browser. *}
 <input type="hidden" name="HasMainAssignment" value="1" />
 
 <div class="controlbar">

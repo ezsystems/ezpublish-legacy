@@ -9,7 +9,7 @@
 <p>
     {"Please choose the customers you want to add to discount group %groupname.
 
-    Select your customers and click the %buttonname button.
+    Select your customers then click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on object names to change the browse listing."
     |i18n('design/standard/shop/view',,

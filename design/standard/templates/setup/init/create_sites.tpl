@@ -25,7 +25,7 @@
     </ul>
 
     <p>
-        {'If you think you have fixed the errors you can try and click the "Retry" button.'|i18n( 'design/standard/setup/init' )}
+        {'If you think you have fixed the errors you can try then click the "Retry" button.'|i18n( 'design/standard/setup/init' )}
     </p>
 
     <div class="buttonblock" align="right">

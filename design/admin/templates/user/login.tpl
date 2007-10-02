@@ -32,7 +32,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{'Log in to the administration interface of eZ Publish'|i18n( 'design/admin/user/login' )}</h1>
+<h1 class="context-title">{'Log in to the Administration Interface of eZ Publish'|i18n( 'design/admin/user/login' )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -43,7 +43,7 @@
 <div class="context-attributes">
 
 <div class="block">
-    <p>{'Please enter a valid username/password combination and click "Log in".'|i18n( 'design/admin/user/login' )}</p>
+    <p>{'Please enter a valid username/password combination then click "Log in".'|i18n( 'design/admin/user/login' )}</p>
     <p>{'Use the "Register" button to create a new account.'|i18n( 'design/admin/user/login' )}</p>
     {if and( is_set( $User:max_num_of_failed_login ), ne( $User:max_num_of_failed_login, false() ) )}
         {'The user will not be allowed to login after <b>%max_number_failed</b> failed login attempts.'|i18n( 'design/admin/user/login',, hash( '%max_number_failed', $User:max_num_of_failed_login ) )}

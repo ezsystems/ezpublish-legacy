@@ -11,7 +11,7 @@
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
 <div class="block">
-<p>{'Select the item that you want to be the default selection and click "OK".'|i18n( 'design/admin/class/datatype/browse_objectrelation_placement' )}</p>
+<p>{'Select the item that you want to be the default selection then click "OK".'|i18n( 'design/admin/class/datatype/browse_objectrelation_placement' )}</p>
 <p>{'Navigate using the available tabs (above), the tree menu (left) and the content list (middle).'|i18n( 'design/admin/class/datatype/browse_objectrelation_placement' )}</p>
 </div>
 

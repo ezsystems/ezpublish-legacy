@@ -10,7 +10,7 @@
 <p>
     {"Please choose where you want to start the section assignment for section %sectionname.
 
-    Select the placements and click the %buttonname button.
+    Select the placements then click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing."
     |i18n('design/standard/section',,

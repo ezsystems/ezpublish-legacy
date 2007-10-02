@@ -50,7 +50,7 @@
     {* Class. *}
     <div class="block">
     <label>{"Class"|i18n( 'design/admin/rss/edit_import' )}:</label>
-    <select name="Class_ID" title="{'Use this drop down to select the type of object the import should create. Click the "Set" button to load the attribute types for the remaining fields.'|i18n('design/admin/rss/edit_import')|wash}">
+    <select name="Class_ID" title="{'Use this drop-down to select the type of object the import should create. Click the "Set" button to load the attribute types for the remaining fields.'|i18n('design/admin/rss/edit_import')|wash}">
     {section name=ContentClass loop=$rss_class_array }
     <option
       {section name=Class show=eq($:item.id,$rss_import.class_id)}
@@ -59,7 +59,7 @@
     </option>
     {/section}
     </select>
-    <input class="button" type="submit" name="Update_Class" value="{'Set'|i18n( 'design/admin/rss/edit_import' )}" title="{'Click this button to load the correct values into the drop-down fields below. Use the drop-down menu on the left to select the class type.'|i18n('design/admin/rss/edit_import')}" />
+    <input class="button" type="submit" name="Update_Class" value="{'Set'|i18n( 'design/admin/rss/edit_import' )}" title="{'Click this button to load the correct values into the drop-down fields below. Use the drop-down menu on the left to select the class.'|i18n('design/admin/rss/edit_import')}" />
     </div>
 
     {if $rss_import.class_id|gt(0)}

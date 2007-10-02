@@ -32,7 +32,7 @@
     <h1>{"Browse"|i18n("design/standard/content/browse")} - {$main_node.name|wash}</h1>
     </div>
 
-    <p>{'To select objects, choose the appropriate radiobutton or checkbox(es), and click the "Select" button.'|i18n("design/standard/content/browse")}</p>
+    <p>{'To select objects, choose the appropriate radio button or checkbox(es), then click the "Select" button.'|i18n("design/standard/content/browse")}</p>
     <p>{'To select an object that is a child of one of the displayed objects, click the object name for a list of the children of the object.'|i18n("design/standard/content/browse")}</p>
 {/section}
 

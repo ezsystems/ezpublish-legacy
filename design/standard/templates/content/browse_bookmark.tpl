@@ -9,7 +9,7 @@
 <p>
     {"Please choose the items you want to add to your bookmark list.
 
-    Select your items and click the %buttonname button.
+    Select your items then click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on item names to change the browse listing."
     |i18n('design/standard/content/view',,

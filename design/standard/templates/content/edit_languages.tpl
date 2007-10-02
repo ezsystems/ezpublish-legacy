@@ -95,7 +95,7 @@
             <fieldset>
             {set $can_edit=true()}
             <legend>{'Existing languages'|i18n('design/standard/content/edit_languages')}</legend>
-            <p>{'However you can select one of the following languages for editing..'|i18n('design/standard/content/edit_languages')}:</p>
+            <p>{'However you can select one of the following languages for editing'|i18n('design/standard/content/edit_languages')}:</p>
         
             {$existing_languages_output}
             </fieldset>

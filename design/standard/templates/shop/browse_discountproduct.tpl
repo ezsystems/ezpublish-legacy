@@ -9,7 +9,7 @@
 <p>
     {"Please choose the products you want to add to discount rule %discountname in discount group %groupname.
 
-    Select your products and click the %buttonname button.
+    Select your products then click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on product names to change the browse listing."
     |i18n('design/standard/shop/view',,

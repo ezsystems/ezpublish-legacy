@@ -77,14 +77,14 @@
     {section show=$webserver_info}
         <table width="100%">
         <tr>
-            <td><p><b>{'Name'|i18n('design/standard/setup','Webserver name')}</b></p></td><td><p>{$webserver_info.name}</p></td>
+            <td><p><b>{'Name'|i18n('design/standard/setup','Web server name')}</b></p></td><td><p>{$webserver_info.name}</p></td>
         </tr>
         <tr>
-            <td><p><b>{'Version'|i18n('design/standard/setup','Webserver version')}</b></p></td><td><p>{$webserver_info.version}</p></td>
+            <td><p><b>{'Version'|i18n('design/standard/setup','Web server version')}</b></p></td><td><p>{$webserver_info.version}</p></td>
         </tr>
         {section show=$webserver_info.modules}
             <tr>
-                <td><p><b>{'Modules'|i18n('design/standard/setup','Webserver modules')}</b></p></td>
+                <td><p><b>{'Modules'|i18n('design/standard/setup','Web server modules')}</b></p></td>
                 <td>
                     <p>
                         {section loop=$webserver_info.modules}{$:item}{delimiter}, {/delimiter}{/section}
@@ -93,12 +93,12 @@
             </tr>
         {section-else}
             <tr>
-                <td colspan="2"><p>{'Webserver modules could not be detected'|i18n('design/standard/setup','Webserver modules')}</p></td>
+                <td colspan="2"><p>{'Web server modules could not be detected'|i18n('design/standard/setup','Web server modules')}</p></td>
             </tr>
         {/section}
         </table>
     {section-else}
-        <p>{'No known information on the webserver'|i18n( 'design/standard/setup' )}</p>
+        <p>{'No known information on the web server'|i18n( 'design/standard/setup' )}</p>
     {/section}
 </div>
 

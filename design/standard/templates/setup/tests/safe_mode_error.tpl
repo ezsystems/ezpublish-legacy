@@ -41,6 +41,6 @@ chown nouser.nouser -R *</pre>
 <p>If you only have access to the site using ftp you will have to consult your ftp client and server to see if it is possible to run the chown command.</p>
 <blockquote class="note">
 <p>
- <b>Note:</b> The <tt>nouser.nouser</tt> must be changed to your webserver username and groupname.
+ <b>Note:</b> The <tt>nouser.nouser</tt> must be changed to your web server username and groupname.
 </p>
 </blockquote>

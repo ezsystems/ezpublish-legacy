@@ -6,7 +6,7 @@
     <li>{$Result:item.name} ({$Result:item.id})</li>
 {/section}
 </ul>
-{"Removing these sections can corrupt permissions, site designs, and other things in the system. Do not do this unless you know exactly what are you doing."|i18n("design/standard/section")}
+{"Removing these sections can corrupt permissions, site designs, and other things in the system. Do not do this unless you know exactly what you are doing."|i18n("design/standard/section")}
 </div>
 
 <form action={concat($module.functions.list.uri)|ezurl} method="post" name="SectionRemove">

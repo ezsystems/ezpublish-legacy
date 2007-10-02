@@ -17,7 +17,7 @@ Site info:
 
 
 {section show=$webserver}
-Webserver info:
+Web server info:
 Version - {$webserver.version}
 {/section}
 
