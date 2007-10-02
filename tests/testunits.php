@@ -187,8 +187,6 @@ if ( !$success )
     $exitStatus = 1;
 }
 
-$script->shutdown();
-
-exit( $exitStatus );
+$script->shutdown( $exitStatus );
 
 ?>

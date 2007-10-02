@@ -74,7 +74,7 @@ if ( $options['expiry'] )
     if ( $purgeExpiry == -1 || $purgeExpiry === false )
     {
         $cli->error( "Invalid date supplied to --expiry, '$expiryText'" );
-        return $script->shutdown( 1 );
+        $script->shutdown( 1 );
     }
 }
 $purge = false;
@@ -124,7 +124,7 @@ if ( $options['list-tags'] )
         $cli->output( "The following tags are defined: (use --verbose for more details)" );
         $cli->output( $cli->stylize( 'emphasize', implode( ', ', $tagList ) ) );
     }
-    return $script->shutdown();
+    $script->shutdown( 0 );
 }
 
 if ( $options['list-ids'] )
@@ -154,7 +154,7 @@ if ( $options['list-ids'] )
         $cli->output( "The following ids are defined: (use --verbose for more details)" );
         $cli->output( $cli->stylize( 'emphasize', implode( ', ', $idList ) ) );
     }
-    return $script->shutdown();
+    $script->shutdown( 0 );
 }
 
 function clearItems( $cacheEntries, &$cli, $name )
@@ -215,7 +215,7 @@ if ( $options['clear-all'] )
         purgeItems( $cacheList, $cli, false );
     else
         clearItems( $cacheList, $cli, false );
-    return $script->shutdown();
+    $script->shutdown( 0 );
 }
 
 if ( $options['clear-tag'] )
@@ -267,7 +267,7 @@ if ( $idName )
     }
     else
     {
-        return $script->shutdown( "Internal error" );
+        $script->shutdown( 1, "Internal error" );
     }
 }
 
