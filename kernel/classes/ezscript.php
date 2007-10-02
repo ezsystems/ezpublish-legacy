@@ -926,7 +926,6 @@ class eZScript
             if ( !$this->IsInitialized )
                 $this->initialize();
             $this->shutdown( 1 );
-            exit;
         }
         if ( $useStandardOptions )
         {
@@ -1000,8 +999,7 @@ class eZScript
                 if ( !$this->IsInitialized )
                     $this->initialize();
                 $this->showHelp();
-                $this->shutdown();
-                exit;
+                $this->shutdown( 0 );
             }
             if ( isset( $options['siteaccess'] ) and $options['siteaccess'] )
                 $this->setUseSiteAccess( $options['siteaccess'] );

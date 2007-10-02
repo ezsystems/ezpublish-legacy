@@ -271,8 +271,7 @@ $script->initialize();
 if ( !$script->isInitialized() )
 {
     $cli->error( 'Error initializing script: ' . $script->initializationError() . '.' );
-    $script->shutdown();
-    exit();
+    $script->shutdown( 0 );
 }
 
 if ( $cronPart )
@@ -298,8 +297,7 @@ $scripts = $ini->variable( $scriptGroup, 'Scripts' );
 if ( !is_array( $scripts ) or count( $scripts ) == 0 and !$isQuiet )
 {
     $cli->notice( 'Notice: No scripts found for execution.' );
-    $script->shutdown();
-    exit();
+    $script->shutdown( 0 );
 }
 
 $index = 0;

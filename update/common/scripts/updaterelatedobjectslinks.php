@@ -120,7 +120,7 @@ if ( $dbHost or $dbName or $dbUser or $dbImpl )
     if ( !$db )
     {
         $cli->notice( "Can't initialize database connection.\n" );
-        $script->shutdown();
+        $script->shutdown( 1 );
     }
     eZDB::setInstance( $db );
 }
@@ -130,7 +130,7 @@ else
     if ( !$db )
     {
         $cli->notice( "Can't initialize database connection.\n" );
-        $script->shutdown();
+        $script->shutdown( 1 );
     }
 }
 

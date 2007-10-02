@@ -91,7 +91,7 @@ if ( $options['list-tags'] )
         $cli->output( "The following tags are defined: (use --verbose for more details)" );
         $cli->output( $cli->stylize( 'emphasize', implode( ', ', $tagList ) ) );
     }
-    return $script->shutdown();
+    $script->shutdown( 0 );
 }
 
 if ( $options['list-ids'] )
@@ -120,7 +120,7 @@ if ( $options['list-ids'] )
         $cli->output( "The following ids are defined: (use --verbose for more details)" );
         $cli->output( $cli->stylize( 'emphasize', implode( ', ', $idList ) ) );
     }
-    return $script->shutdown();
+    $script->shutdown( 0 );
 }
 
 if ( $options['clear-all'] )
@@ -136,7 +136,7 @@ if ( $options['clear-all'] )
         ++$i;
     }
     $cli->output();
-    return $script->shutdown();
+    $script->shutdown( 0 );
 }
 
 if ( $options['clear-tag'] )
