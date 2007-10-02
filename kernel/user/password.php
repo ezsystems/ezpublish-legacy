@@ -93,9 +93,11 @@ if ( $http->hasPostVariable( "OKButton" ) )
     $site = $user->site();
     if ( $user->authenticateHash( $login, $oldPassword, $site, $type, $hash ) )
     {
-        if (  $newPassword ==  $confirmPassword )
+        if (  $newPassword == $confirmPassword )
         {
-            if ( strlen( $newPassword ) < 3 )
+            $minPasswordLength = $ini->hasVariable( 'UserSettings', 'MinPasswordLength' ) ? $ini->variable( 'UserSettings', 'MinPasswordLength' ) : 3;
+
+            if ( strlen( $newPassword ) < $minPasswordLength )
             {
                 $newPasswordTooShort = 1;
             }
