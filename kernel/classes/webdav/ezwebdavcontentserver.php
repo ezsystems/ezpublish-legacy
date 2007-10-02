@@ -84,6 +84,24 @@ class eZWebDAVContentServer extends eZWebDAVServer
 
     /*!
       \reimp
+      Fetch the file from eZCluster if needed before send.
+    */
+    function outputSendDataToClient( $output, $headers_only = false )
+    {
+    	if ( $output["file"] )
+    	{
+    		$realPath = $output["file"];
+	        require_once( 'kernel/classes/ezclusterfilehandler.php' );
+	        $file = eZClusterFileHandler::instance( $realPath );
+	        $file->fetch();
+    	}
+    	$result = eZWebDAVServer::outputSendDataToClient($output,$headers_only);
+    	$file->deleteLocal();
+    	return $result;
+    }
+
+    /*!
+      \reimp
       Restricts the allowed methods to only the subset that this server supports.
     */
     function options( $target )
@@ -1427,6 +1445,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
         include_once( 'kernel/classes/ezcontentupload.php' );
         $upload = new eZContentUpload();
         $info = $upload->objectFileInfo( $object );
+        $suffix = '';
         $class =& $object->contentClass();
         $isObjectFolder = $this->isObjectFolder( $object, $class );
 
@@ -1445,9 +1464,10 @@ class eZWebDAVContentServer extends eZWebDAVServer
                 $entry['mimetype'] = $info['mime_type'];
 
             // Fill in information from the actual file if they are missing.
-            if ( !$entry['size'] and file_exists( $filePath ) )
+	        $file = eZClusterFileHandler::instance( $filePath );
+            if ( !$entry['size'] and $file->exists() )
             {
-                $entry["size"] = filesize( $filePath );
+                $entry["size"] = $file->size();
             }
             if ( !$entry['mimetype']  )
             {
@@ -1465,10 +1485,10 @@ class eZWebDAVContentServer extends eZWebDAVServer
                     $entry["name"] .= '.' . $suffix;
             }
 
-            if ( file_exists( $filePath ) )
+            if ( $file->exists() )
             {
-                $entry["ctime"] = filectime( $filePath );
-                $entry["mtime"] = filemtime( $filePath );
+                $entry["ctime"] = $file->mtime();
+                $entry["mtime"] = $file->mtime();
             }
         }
         else
@@ -1487,8 +1507,11 @@ class eZWebDAVContentServer extends eZWebDAVServer
 
         // Set the href attribute (note that it doesn't just equal the name).
         if ( !isset( $entry['href'] ) )
-            $entry["href"] = $scriptURL . $node->urlAlias();
-
+        {
+            if ( strlen( $suffix ) > 0 )
+                    $suffix = '.' . $suffix;
+            $entry["href"] = $scriptURL . $node->urlAlias() . $suffix;
+        }
         // Return array of attributes/properties (name, size, mime, times, etc.).
         return $entry;
     }
