@@ -103,3 +103,5 @@ Changes from 3.8.9 to 3.8.10
   (Merged from trunk (3.10.0) rev.20060)
 - Fixed bug #11510: [SearchSettings]->ExtensionDirectories setting missing from site.ini
   (Merged from trunk (3.10.0) rev.10071)
+- Fixed bug #11525: small bug in ezstaticcache
+  (Merged from trunk (3.10.0) rev. 20078)

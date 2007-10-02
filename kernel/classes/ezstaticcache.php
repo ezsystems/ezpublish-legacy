@@ -294,7 +294,7 @@ class eZStaticCache
         foreach ( $dirs as $dir )
         {
             $cacheFiles = array();
-            if ( !is_dir( $dir ) )
+            if ( !is_dir( $staticStorageDir . $dir ) )
             {
                 eZDir::mkdir( $staticStorageDir . $dir, 0777, true );
             }
