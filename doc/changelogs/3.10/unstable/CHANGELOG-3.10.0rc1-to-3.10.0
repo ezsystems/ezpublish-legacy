@@ -62,4 +62,5 @@ Changes from 3.10.0rc1 to 3.10.0
 - Fixed bug #011492: Error in the template compile code using extract and extract_left
 - Fixed bug #11510: [SearchSettings]->ExtensionDirectories setting missing from site.ini
 - Fixed bug #11312: Anchor in ezxml headers.
-- Fixed bug #11525: small bug in ezstaticcache
+- Fixed bug #11525: small bug in ezstaticcache.
+- Fixed bug #011504: webdav support in cluster mode.
