@@ -403,7 +403,10 @@ class eZDBFileHandlerMysqlBackend
         }
 
         // create temporary file
-        $tmpFilePath = substr_replace( $filePath, getmypid().'tmp', strrpos( $filePath, '.' ), 0  );
+        if ( strrpos( $filePath, '.' ) > 0 )
+            $tmpFilePath = substr_replace( $filePath, getmypid().'tmp', strrpos( $filePath, '.' ), 0  );
+        else
+            $tmpFilePath = $filePath . '.' . getmypid().'tmp';
 //        $tmpFilePath = $filePath.getmypid().'tmp';
         $this->__mkdir_p( dirname( $tmpFilePath ) );
         if ( !( $fp = fopen( $tmpFilePath, 'wb' ) ) )
