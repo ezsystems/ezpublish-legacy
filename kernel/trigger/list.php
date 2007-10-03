@@ -47,9 +47,6 @@ $http = eZHTTPTool::instance();
 
 $Module = $Params['Module'];
 
-$moduleName = $Params['ModuleName1'];
-$functionName = $Params['FunctionName1'];
-
 $wfINI = eZINI::instance( 'workflow.ini' );
 $operations = $wfINI->variableArray( 'OperationSettings', 'AvailableOperations' );
 $operations = array_unique( array_merge( $operations, $wfINI->variable( 'OperationSettings', 'AvailableOperationList' ) ) );
@@ -152,15 +149,8 @@ if ( $http->hasPostVariable( 'StoreButton' )  )
 
 }
 
-
-if ( $moduleName == '' )
-{
-    $moduleName='*';
-}
-if ( $functionName == '' )
-{
-    $functionName='*';
-}
+$moduleName='*';
+$functionName='*';
 
 if ( $http->hasPostVariable( 'RemoveButton' )  )
 {
