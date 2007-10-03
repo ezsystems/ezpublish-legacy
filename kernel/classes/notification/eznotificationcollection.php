@@ -131,7 +131,7 @@ class eZNotificationCollection extends eZPersistentObject
                                                     null, null, true );
     }
 
-    function fetchForHandler( $handler, $eventID, $transport )
+    static function fetchForHandler( $handler, $eventID, $transport )
     {
         return eZPersistentObject::fetchObject( eZNotificationCollection::definition(), null,
                                                 array( 'event_id' => $eventID,
