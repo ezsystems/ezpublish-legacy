@@ -453,7 +453,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     $newParent->appendChild( $elementToMove );
                     $elementToMove = $next;
 
-                    if ( $elementToMove->nodeName == 'header' )
+                    if ( $elementToMove && $elementToMove->nodeName == 'header' )
                     {
                         // in the case of non-strict headers
                         $headerLevel = $elementToMove->getAttribute( 'level' );
