@@ -846,28 +846,31 @@ language_locale='eng-GB'";
                                 ? $this->PersistenceList['package_info']['language_map']
                                 : true;
 
-            //
-            // Create necessary languages and set them as "prioritized languages" to avoid
-            // drawbacks in fetch functions, like eZContentObjectTreeNode::fetch().
-            //
-            $prioritizedLanguageObjects = eZContentLanguage::prioritizedLanguages(); // returned objects
-            foreach ( $languageMap as $fromLanguage => $toLanguage )
+            if ( is_array( $languageMap ) && count( $languageMap ) > 0 )
             {
-                if ( $toLanguage != 'skip' )
+                //
+                // Create necessary languages and set them as "prioritized languages" to avoid
+                // drawbacks in fetch functions, like eZContentObjectTreeNode::fetch().
+                //
+                $prioritizedLanguageObjects = eZContentLanguage::prioritizedLanguages(); // returned objects
+                foreach ( $languageMap as $fromLanguage => $toLanguage )
                 {
-                    $prioritizedLanguageObjects[] = eZContentLanguage::fetchByLocale( $toLanguage, true );
+                    if ( $toLanguage != 'skip' )
+                    {
+                        $prioritizedLanguageObjects[] = eZContentLanguage::fetchByLocale( $toLanguage, true );
+                    }
                 }
-            }
-            $prioritizedLanguageLocales = array();
-            foreach ( $prioritizedLanguageObjects as $language )
-            {
-                $locale = $language->attribute( 'locale' );
-                if ( !in_array( $locale, $prioritizedLanguageLocales ) )
+                $prioritizedLanguageLocales = array();
+                foreach ( $prioritizedLanguageObjects as $language )
                 {
-                    $prioritizedLanguageLocales[] = $locale;
+                    $locale = $language->attribute( 'locale' );
+                    if ( !in_array( $locale, $prioritizedLanguageLocales ) )
+                    {
+                        $prioritizedLanguageLocales[] = $locale;
+                    }
                 }
+                eZContentLanguage::setPrioritizedLanguages( $prioritizedLanguageLocales );
             }
-            eZContentLanguage::setPrioritizedLanguages( $prioritizedLanguageLocales );
 
 
             foreach ( $requires as $require )
@@ -1377,6 +1380,25 @@ language_locale='eng-GB'";
         // Call user function for additional setup tasks.
         if ( function_exists( 'eZSitePostInstall' ) )
             eZSitePostInstall( $parameters );
+
+
+        // get all siteaccesses. do it via 'RelatedSiteAccessesList' settings.
+        $adminSiteINI =& eZINI::instance( 'site.ini' . '.append.php', "settings/siteaccess/$adminSiteaccessName" );
+        $relatedSiteAccessList = $adminSiteINI->variable( 'SiteAccessSettings', 'RelatedSiteAccessList' );
+
+        // Adding override for 'tiny_image' view for 'multi-option2' datatype
+        foreach ( $relatedSiteAccessList as $siteAccess )
+        {
+            $tmpOverrideINI =& eZINI::instance( 'override.ini' . '.append.php', "settings/siteaccess/$siteAccess", null, null, null, true, true );
+
+            $tmpOverrideINI->setVariable( 'tiny_image', 'Source'    , 'content/view/tiny.tpl' );
+            $tmpOverrideINI->setVariable( 'tiny_image', 'MatchFile' , 'tiny_image.tpl' );
+            $tmpOverrideINI->setVariable( 'tiny_image', 'Subdir'    , 'templates');
+            $tmpOverrideINI->setVariable( 'tiny_image', 'Match'     , array( 'class_identifier' => 'image' ) );
+
+            $tmpOverrideINI->save();
+        }
+
 
         $accessMap = $parameters['access_map'];
 

@@ -102,9 +102,11 @@ class eZPackageHandler
      The explanation is an array with the following items.
      - description - Textual description of what will be installed
 
+     Use $requestedInfo to request portion of info.
+
      \note This must be implemented for package handlers.
     */
-    function explainInstallItem( &$package, $installItem )
+    function explainInstallItem( &$package, $installItem, $requestedInfo = array() )
     {
     }
 
