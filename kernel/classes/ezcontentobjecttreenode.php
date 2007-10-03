@@ -201,7 +201,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \param $sortOrder Which way to sort, \c true means ascending while \c false is descending.
      \note The attribute \c remote_id will get an automatic and unique value.
     */
-    function create( $parentNodeID = null, $contentObjectID = null, $contentObjectVersion = 0,
+    static function create( $parentNodeID = null, $contentObjectID = null, $contentObjectVersion = 0,
                       $sortField = 0, $sortOrder = true )
     {
         $row = array( 'node_id' => null,

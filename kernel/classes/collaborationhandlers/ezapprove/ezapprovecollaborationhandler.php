@@ -119,7 +119,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
     /*!
      \return the content object version object for the collaboration item \a $collaborationItem
     */
-    function contentObjectVersion( &$collaborationItem )
+    static function contentObjectVersion( $collaborationItem )
     {
         $contentObjectID = $collaborationItem->contentAttribute( 'content_object_id' );
         $contentObjectVersion = $collaborationItem->contentAttribute( 'content_object_version' );

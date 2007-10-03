@@ -116,7 +116,7 @@ class eZWorkflow extends eZPersistentObject
                       "name" => "ezworkflow" );
     }
 
-    function statusName( $status )
+    static function statusName( $status )
     {
         //include_once( 'kernel/workflow/ezworkflowfunctioncollection.php' );
         $statusNames = eZWorkflowFunctionCollection::fetchWorkflowStatuses();

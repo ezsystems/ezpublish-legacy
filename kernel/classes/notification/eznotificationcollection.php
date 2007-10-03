@@ -88,7 +88,7 @@ class eZNotificationCollection extends eZPersistentObject
     }
 
 
-    function create( $eventID, $handler, $transport )
+    static function create( $eventID, $handler, $transport )
     {
         return new eZNotificationCollection( array( 'event_id' => $eventID,
                                                     'handler' => $handler,
@@ -139,7 +139,7 @@ class eZNotificationCollection extends eZPersistentObject
                                                        'transport' => $transport ) );
     }
 
-    function fetchListForHandler( $handler, $eventID, $transport )
+    static function fetchListForHandler( $handler, $eventID, $transport )
     {
         return eZPersistentObject::fetchObjectList( eZNotificationCollection::definition(), null,
                                                     array( 'event_id' => $eventID,
@@ -151,7 +151,7 @@ class eZNotificationCollection extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function removeEmpty()
+    static function removeEmpty()
     {
         $db = eZDB::instance();
         if ( $db->databaseName() == 'oracle' ) // fix for compatibility with Oracle versions prior to 9
@@ -179,7 +179,7 @@ class eZNotificationCollection extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function cleanup()
+    static function cleanup()
     {
         $db = eZDB::instance();
         $db->begin();
