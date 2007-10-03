@@ -33,6 +33,8 @@
 //include_once( 'kernel/classes/ezscript.php' );
 //include_once( 'kernel/classes/ezdatatype.php' );
 
+require 'autoload.php';
+
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "eZ Publish datatype sql update\n\n" .
                                                         "Script can be runned as:\n" .

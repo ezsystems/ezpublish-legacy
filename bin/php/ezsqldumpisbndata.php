@@ -41,6 +41,8 @@
 
 //include_once( 'kernel/classes/ezscript.php' );
 
+require 'autoload.php';
+
 $fileNameDba = 'db_data.dba';
 $fileNameSql = 'cleandata.sql';
 $stdOutSQL = null;

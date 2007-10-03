@@ -42,7 +42,8 @@
 /*!
  includes
 */
-//include_once( 'bin/php/ezwebincommon.php' );
+require 'autoload.php';
+include_once( 'bin/php/ezwebincommon.php' );
 
 /*!
  update content classes

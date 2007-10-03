@@ -57,6 +57,8 @@ function fputcsv4( $fh, $arr )
 //include_once( 'kernel/classes/ezscript.php' );
 //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
+require 'autoload.php';
+
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "eZ Publish CSV export script\n\n" .
                                                         "\n" .

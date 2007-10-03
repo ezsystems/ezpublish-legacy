@@ -38,6 +38,8 @@
 //include_once( 'kernel/classes/datatypes/ezisbn/ezisbngroup.php' );
 //include_once( 'kernel/classes/datatypes/ezisbn/ezisbngrouprange.php' );
 //include_once( 'kernel/classes/datatypes/ezisbn/ezisbnregistrantrange.php' );
+require 'autoload.php';
+
 
 $fileAdded = false;
 $file = ''; // url to get file "http://www.isbn-international.org/converter/ranges.js";

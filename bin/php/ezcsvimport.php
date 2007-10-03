@@ -43,6 +43,7 @@
 //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 //include_once( "lib/ezlocale/classes/ezdatetime.php" );
 
+require 'autoload.php';
 
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "eZ Publish CSV import script\n\n" .

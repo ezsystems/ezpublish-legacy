@@ -36,6 +36,8 @@
 //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 //include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 
+require 'autoload.php';
+
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "\n" .
                                                          "This script will make a remove of a content object subtrees.\n" ),

@@ -30,6 +30,8 @@
 //include_once( 'lib/ezutils/classes/ezcli.php' );
 //include_once( 'kernel/classes/ezscript.php' );
 
+require 'autoload.php';
+
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "eZ Publish Changelog converter\n\n" .
                                                         "Converts a Changelog into XML text format usable in eZ Publish\n" .

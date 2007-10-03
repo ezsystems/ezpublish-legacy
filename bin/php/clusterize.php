@@ -38,11 +38,13 @@ NOTE:
 
 error_reporting( E_ALL | E_NOTICE );
 
-require_once( 'lib/ezdb/classes/ezdb.php' );
-require_once( 'lib/ezutils/classes/ezcli.php' );
-require_once( 'lib/ezutils/classes/ezsys.php' );
-require_once( 'kernel/classes/ezscript.php' );
-require_once( 'kernel/classes/ezclusterfilehandler.php' );
+// require_once( 'lib/ezdb/classes/ezdb.php' );
+// require_once( 'lib/ezutils/classes/ezcli.php' );
+// require_once( 'lib/ezutils/classes/ezsys.php' );
+// require_once( 'kernel/classes/ezscript.php' );
+// require_once( 'kernel/classes/ezclusterfilehandler.php' );
+
+require 'autoload.php';
 
 // This code is taken from eZBinaryFile::storedFileInfo()
 function filePathForBinaryFile($fileName, $mimeType )

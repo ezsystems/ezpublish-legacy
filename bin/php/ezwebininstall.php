@@ -43,9 +43,10 @@
 /*!
  includes
 */
-//include_once( 'bin/php/ezwebincommon.php' );
+include_once( 'bin/php/ezwebincommon.php' );
 //include_once( 'kernel/classes/ezcontentlanguage.php' );
 
+require 'autoload.php';
 
 // script initializing
 $cli = eZCLI::instance();

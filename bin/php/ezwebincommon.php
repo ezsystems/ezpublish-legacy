@@ -47,6 +47,8 @@ global $script;
 /*!
  includes
 */
+require 'autoload.php';
+
 //include_once( 'kernel/classes/ezscript.php' );
 require_once( 'kernel/common/i18n.php' );
 //include_once( 'kernel/classes/ezpackage.php' );

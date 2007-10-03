@@ -31,6 +31,7 @@ set_time_limit( 0 );
 
 //include_once( 'lib/ezutils/classes/ezcli.php' );
 //include_once( 'kernel/classes/ezscript.php' );
+require 'autoload.php';
 
 $cli = eZCLI::instance();
 $endl = $cli->endlineString();

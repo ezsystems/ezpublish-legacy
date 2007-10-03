@@ -41,6 +41,8 @@
 // script initializing
 //include_once( 'kernel/classes/ezscript.php' );
 
+require 'autoload.php';
+
 global $cli;
 global $currencyList;
 

@@ -37,6 +37,8 @@
 
 //include_once( 'kernel/classes/ezscript.php' );
 
+require 'autoload.php';
+
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "\n" .
                                                         "This script will generate caches for translations.\n" .
