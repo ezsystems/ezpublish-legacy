@@ -116,7 +116,7 @@ class eZWorkflowEvent extends eZPersistentObject
                       "name" => "ezworkflow_event" );
     }
 
-    function create( $workflow_id, $type_string )
+    static function create( $workflow_id, $type_string )
     {
         $row = array(
             "id" => null,
@@ -131,7 +131,7 @@ class eZWorkflowEvent extends eZPersistentObject
         return new eZWorkflowEvent( $row );
     }
 
-    function fetch( $id, $asObject = true, $version = 0, $field_filters = null )
+    static function fetch( $id, $asObject = true, $version = 0, $field_filters = null )
     {
         return eZPersistentObject::fetchObject( eZWorkflowEvent::definition(),
                                                 $field_filters,
@@ -140,14 +140,14 @@ class eZWorkflowEvent extends eZPersistentObject
                                                 $asObject );
     }
 
-    function fetchList( $asObject = true )
+    static function fetchList( $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZWorkflowEvent::definition(),
                                                     null, null, null, null,
                                                     $asObject );
     }
 
-    function fetchFilteredList( $cond, $asObject = true )
+    static function fetchFilteredList( $cond, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZWorkflowEvent::definition(),
                                                     null, $cond, null, null,
@@ -204,7 +204,7 @@ class eZWorkflowEvent extends eZPersistentObject
 
     function eventType()
     {
-        if ( ! isset ( $this->EventType ) )
+        if ( ! isset( $this->EventType ) )
         {
             $this->EventType = eZWorkflowType::createType( $this->TypeString );
         }

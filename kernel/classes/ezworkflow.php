@@ -342,7 +342,7 @@ class eZWorkflow extends eZPersistentObject
     */
     function isAllowed( $moduleName, $functionName, $connectType )
     {
-        $eventArray =& $this->fetchEvents();
+        $eventArray = $this->fetchEvents();
 
         foreach ( array_keys( $eventArray ) as $key )
         {
