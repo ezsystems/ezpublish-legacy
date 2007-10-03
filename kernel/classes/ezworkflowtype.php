@@ -85,7 +85,7 @@ class eZWorkflowType
 
     static function createType( $typeString )
     {
-        $types = $GLOBALS["eZWorkflowTypes"];
+        $types =& $GLOBALS["eZWorkflowTypes"];
         if ( !isset( $types[$typeString] ) )
         {
             $result = eZWorkflowType::loadAndRegisterType( $typeString );
