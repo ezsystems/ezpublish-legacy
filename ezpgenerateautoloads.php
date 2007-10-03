@@ -115,6 +115,12 @@ elseif ( !file_exists( $targetDir ) )
 
 
 $basePath = getcwd();
+// make sure ezcFile::findRecursive and the exclusion filters we pass to it
+// work correctly on systems with another file seperator than the forward slash
+if ( DIRECTORY_SEPARATOR != '/' )
+{
+    $basePath = strtr( $basePath, DIRECTORY_SEPARATOR, '/' );
+}
 $runMode = runMode( $kernelFilesOption->value, $extensionFilesOption->value );
 $phpFiles = fetchFiles( $basePath, $runMode );
 
@@ -157,7 +163,7 @@ if ( !$dryRun )
 function fetchFiles( $path, $mask )
 {
     $retFiles = array();
-    
+
     switch( checkMode( $mask) )
     {
         case EZP_GENAUTOLOADS_EXTENSION:
@@ -165,13 +171,13 @@ function fetchFiles( $path, $mask )
             $retFiles = array( "extension" => buildFileList( "$path/extension" ) );
             break;
         }
-        
+
         case EZP_GENAUTOLOADS_KERNEL:
         {
             $retFiles = array( "kernel" => buildFileList( $path, array( "@^{$path}/extension/@" ) ) );
             break;
         }
-        
+
         case EZP_GENAUTOLOADS_BOTH:
         {
             $retFiles = array( "extension"  => buildFileList( "$path/extension" ),
@@ -179,7 +185,7 @@ function fetchFiles( $path, $mask )
             break;
         }
     }
-    
+
     //Make all the paths relative to $path
     foreach ( $retFiles as &$fileBundle )
     {
@@ -202,7 +208,7 @@ function buildFileList( $path, $extraFilter = null )
             $exclusionFilter[] = $filter;
         }
     }
-    
+
     if (!empty( $path ) )
     {
         return ezcFile::findRecursive( $path, array( '@\.php$@' ), $exclusionFilter );
@@ -345,7 +351,7 @@ function checkMaxClassLength( $depData )
     {
         $max[$key] = 0;
     }
-    
+
     foreach( $depData as $location => $locationBundle )
     {
         foreach ( $locationBundle as $data )
@@ -362,12 +368,12 @@ function checkMaxClassLength( $depData )
 function sortDependencyData( $depDataArray )
 {
     $return = array();
-    
+
     foreach ($depDataArray as $location => $locData )
     {
         $nodes = array();
         $graph = new Structures_Graph();
-    
+
         foreach ( $locData as $className => $depData )
         {
             /* Create all nodes and add them to the graph */
@@ -556,7 +562,7 @@ function nameTable( $lookup )
 {
     $names = array( "extension" => "ezp_extension.php",
                     "kernel"    => "ezp_kernel.php" );
-    
+
     if ( array_key_exists( $lookup, $names ) )
     {
         return $names[$lookup];
