@@ -1217,29 +1217,39 @@ class eZObjectRelationListType extends eZDataType
     }
 
 
-    function fixRelatedObjectItem ( &$contentObjectAttribute, $objectID, $mode = false )
+    function fixRelatedObjectItem ( &$contentObjectAttribute, $objectID, $mode )
     {
         switch ( $mode )
         {
             case 'move':
+            {
                 eZObjectRelationListType::fixRelationsMove( $objectID, $contentObjectAttribute );
-                break;
+            } break;
 
             case 'trash':
+            {
                 eZObjectRelationListType::fixRelationsTrash( $objectID, $contentObjectAttribute );
-                break;
+            } break;
 
             case 'restore':
+            {
                 eZObjectRelationListType::fixRelationsRestore( $objectID, $contentObjectAttribute );
-                break;
+            } break;
 
             case 'remove':
+            {
                 eZObjectRelationListType::fixRelationsRemove( $objectID, $contentObjectAttribute );
-                break;
+            } break;
 
             case 'swap':
+            {
                 eZObjectRelationListType::fixRelationsSwap( $objectID, $contentObjectAttribute );
-                break;
+            } break;
+
+            default:
+            {
+                eZDebug::writeWarning( $mode, 'Unknown mode eZObjectRelationListType::fixRelatedObjectItem()' );
+            } break;
         }
     }
 
