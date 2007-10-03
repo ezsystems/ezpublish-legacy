@@ -103,7 +103,7 @@ else
         $handler =& eZPackage::packageHandler( $uninstallItem['type'] );
         if ( $handler )
         {
-            $uninstallElement = $handler->explainInstallItem( $package, $uninstallItem, true );
+            $uninstallElement = $handler->explainInstallItem( $package, $uninstallItem );
 
             if ( $uninstallElement )
             {
