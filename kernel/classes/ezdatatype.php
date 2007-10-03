@@ -1252,7 +1252,7 @@ class eZDataType
     Fixes objects with given ID in the relations list according to what is done with object
      \note Default implementation does nothing.
     */
-    function fixRelatedObjectItem( &$contentObjectAttribute, $objectID, $mode )
+    function fixRelatedObjectItem( $contentObjectAttribute, $objectID, $mode )
     {
     }
     /**
