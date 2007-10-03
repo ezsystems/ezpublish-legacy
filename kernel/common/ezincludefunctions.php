@@ -59,6 +59,7 @@ function datatype_class( $datatype, $className )
 }
 
 //Loose functions originally from ezextension.php
+
 function extension_path( $extension, $withWWWDir = false, $withHost = false, $withProtocol = false )
 {
     $base = eZExtension::baseDirectory();
@@ -94,6 +95,7 @@ function extension_path( $extension, $withWWWDir = false, $withHost = false, $wi
 
 /*!
  \static
+ \deprecated
  eZExtension::nameFromPath( __FILE__ ) executed in any file of an extension
  can help you to find the path to additional resources
  \return Name of the extension a path belongs to.
@@ -114,6 +116,7 @@ function nameFromPath( $path )
 
 /*!
  \static
+ \deprecated
  \return true if this path is related to some extension.
  \param $path Path to check.
  \note The root of an extension is considered to be in this path too.

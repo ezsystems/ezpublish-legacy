@@ -349,6 +349,41 @@ class eZExtension
 
         return null;
     }
+    
+    /*!
+     \static
+     eZExtension::nameFromPath( __FILE__ ) executed in any file of an extension
+     can help you to find the path to additional resources
+     \return Name of the extension a path belongs to.
+     \param $path Path to check.
+    */
+    function nameFromPath( $path )
+    {
+        //include_once( 'lib/ezfile/classes/ezdir.php' );
+        $path = eZDir::cleanPath( $path );
+        $base = eZExtension::baseDirectory() . '/';
+        $base = preg_quote( $base, '/' );
+        $pattern = '/'.$base.'([^\/]+)/';
+        if ( preg_match( $pattern, $path, $matches ) )
+            return $matches[1];
+        else
+            false;
+    }
+
+    /*!
+     \static
+     \return true if this path is related to some extension.
+     \param $path Path to check.
+     \note The root of an extension is considered to be in this path too.
+    */
+    function isExtension( $path )
+    {
+        if ( eZExtension::nameFromPath( $path ) )
+            return true;
+        else
+            return false;
+    }
+    
 }
 
 ?>
