@@ -231,7 +231,7 @@ if ( file_exists( $database ) and is_file( $database ) )
         $script->shutdown( 1 );
     }
     $schemaArray['type'] = $type;
-    $dbSchema = eZDBSchema::instance( $schemaArray );
+    $dbSchema = eZDbSchema::instance( $schemaArray );
 }
 else
 {
@@ -280,7 +280,7 @@ else
     }
 
     //include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
-    $dbSchema = eZDBSchema::instance( $db );
+    $dbSchema = eZDbSchema::instance( $db );
 }
 
 if ( $dbSchema === false )
