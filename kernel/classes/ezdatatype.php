@@ -1360,13 +1360,13 @@ class eZDataType
         if ( $fileExist === true )
         {
             //include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
-            $dataArray = eZDBSchema::read( $dbaFilePath, true );
+            $dataArray = eZDbSchema::read( $dbaFilePath, true );
             if ( is_array( $dataArray ) and count( $dataArray ) > 0 )
             {
                 $db = eZDB::instance();
                 $dataArray['type'] = strtolower( $db->databaseName() );
                 $dataArray['instance'] =& $db;
-                $dbSchema = eZDBSchema::instance( $dataArray );
+                $dbSchema = eZDbSchema::instance( $dataArray );
 
                 $result = false;
                 if ( $dbSchema )

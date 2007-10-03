@@ -71,8 +71,8 @@ if ( $Module->isCurrentAction( 'DBCheck' ) )
     //include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
 
     $db = eZDB::instance();
-    $dbSchema = eZDBSchema::instance();
-    $differences = eZDbSchemaChecker::diff( $dbSchema->schema(), eZDBSchema::read( 'share/db_schema.dba' ) );
+    $dbSchema = eZDbSchema::instance();
+    $differences = eZDbSchemaChecker::diff( $dbSchema->schema(), eZDbSchema::read( 'share/db_schema.dba' ) );
     $sqlDiff = $dbSchema->generateUpgradeFile( $differences );
 
     if ( strlen( $sqlDiff ) == 0 )

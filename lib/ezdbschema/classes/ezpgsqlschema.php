@@ -28,7 +28,7 @@
 
 /*!
   \class eZPgsqlSchema ezpgsqlschema.php
-  \ingroup eZDBSchema
+  \ingroup eZDbSchema
   \brief Handles schemas for PostgreSQL
 
 */

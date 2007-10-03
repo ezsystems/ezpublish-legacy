@@ -30,7 +30,7 @@
 
 /*!
   \class eZLintSchema ezlintschema.php
-  \ingroup eZDBSchema
+  \ingroup eZDbSchema
   \brief Provides lint checking of database schemas
 
   Checks a given schema by going trough all tables, fields and indexes

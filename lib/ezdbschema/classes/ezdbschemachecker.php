@@ -27,8 +27,8 @@
 //
 
 /*!
-  \class eZDBSchemaChecker ezdbschemachecker.php
-  \ingroup eZDBSchema
+  \class eZDbSchemaChecker ezdbschemachecker.php
+  \ingroup eZDbSchema
   \brief Checks differences between schemas
 
 */

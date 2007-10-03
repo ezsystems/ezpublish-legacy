@@ -27,8 +27,8 @@
 //
 
 /*!
-  \class eZDBSchema ezdbschema.php
-  \ingroup eZDBSchema
+  \class eZDbSchema ezdbschema.php
+  \ingroup eZDbSchema
   \brief A factory for schema handlers
 
 */
@@ -40,7 +40,7 @@ class eZDbSchema
      Create new instance of eZDBSchemaInterface. placed here for simplicity.
 
      \param eZDB instance (optional), if none provided, eZDB::instance() will be used.
-     \return new Instance of eZDBSchema, false if failed
+     \return new Instance of eZDbSchema, false if failed
     */
     static function instance( $params = false )
     {
@@ -75,7 +75,7 @@ class eZDbSchema
         /* Check if we have a handler */
         if ( !isset( $schemaPaths[$dbname] ) or !isset( $schemaHandlerClasses[$dbname] ) )
         {
-            eZDebug::writeError( "No schema handler for database type: $dbname", 'eZDBSchema::instance()' );
+            eZDebug::writeError( "No schema handler for database type: $dbname", 'eZDbSchema::instance()' );
             return false;
         }
 

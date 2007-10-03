@@ -128,8 +128,8 @@ function loadDatabaseSchema( $type, $host, $user, $password, $socket, $db, $cli 
     if ( file_exists( $db ) and is_file( $db ) )
     {
         //include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
-        $dbSchema = eZDBSchema::instance( array( 'type' => $type,
-                                                 'schema' => eZDBSchema::read( $db ) ) );
+        $dbSchema = eZDbSchema::instance( array( 'type' => $type,
+                                                 'schema' => eZDbSchema::read( $db ) ) );
         return $dbSchema;
     }
     else
@@ -186,7 +186,7 @@ function loadDatabaseSchema( $type, $host, $user, $password, $socket, $db, $cli 
             return $dbSchema;
         }
 
-        return eZDBSchema::instance( $dbInstance );
+        return eZDbSchema::instance( $dbInstance );
     }
 }
 

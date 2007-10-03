@@ -77,7 +77,7 @@ $options = $script->getOptions( "[stdout-sql][stdout-dba][filename-sql:][filenam
                                                          "kernel/classes/datatypes/ezisbn/share/" ) );
 $script->initialize();
 $db = eZDB::instance();
-$dbSchema = eZDBSchema::instance( $db );
+$dbSchema = eZDbSchema::instance( $db );
 
 if ( isset( $options['filename-sql'] ) )
 {

@@ -28,7 +28,7 @@
 
 /*!
   \class eZMysqlSchema ezmysqlschema.php
-  \ingroup eZDBSchema
+  \ingroup eZDbSchema
   \brief Handles schemas for MySQL
 
 */

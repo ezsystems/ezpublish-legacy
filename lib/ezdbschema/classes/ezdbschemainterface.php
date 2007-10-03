@@ -30,11 +30,11 @@
  Database schema abstraction layer.
 */
 
-/*! \defgroup eZDBSchema Database schema abstraction layer */
+/*! \defgroup eZDbSchema Database schema abstraction layer */
 
 /*!
   \class eZDBSchemaInterface ezdbschemainterface.php
-  \ingroup eZDBSchema
+  \ingroup eZDbSchema
   \brief This class provide interface for DB schema library
 
   Schema structure an array with Table structures, each key is the name of the
