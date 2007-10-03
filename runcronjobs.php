@@ -36,6 +36,7 @@
 
 // Define maximum script execution time to 12 hours
 define( 'eZRunCronjobs_MaxScriptExecutionTime', 12*3600 );
+require 'autoload.php';
 
 //include_once( "lib/ezutils/classes/ezextension.php" );
 //include_once( "lib/ezutils/classes/ezmodule.php" );
