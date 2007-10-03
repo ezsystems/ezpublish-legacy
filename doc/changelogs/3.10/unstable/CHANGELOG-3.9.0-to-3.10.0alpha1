@@ -37,7 +37,7 @@ Changes from 3.9.0 to 3.10.0alpha1
   updatetypedrelation.php.
   (Merged from stable/3.9 (3.9.1) rev.18252)
 
-* Translations:
+*Translations:
 - Implemented enhancement #010569: Add language selection to setup wizard.
 
 *Bugfixes:

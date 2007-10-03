@@ -69,3 +69,6 @@ Changes from 3.10.0rc1 to 3.10.0
 - Fixed bug #011371: read title of hidden blogpost.
 - Fixed bug #10546: [patch included] ezroot() and ezurl() mishandle first parameter, with TemplateCompile enabled.
 - Fixed bug #11303: Webdav does not use SiteLanguageList properly.
+- Fixed bug #11538: php warning in ezwebdav.
+- Fixed bug #11543: Declaration of eZObjectRelationListType::fixRelatedObjectItem() should be compatible with that
+  of eZDataType::fixRelatedObjectItem().
