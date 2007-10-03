@@ -50,7 +50,7 @@ class eZSOAPCodec
       \static
       Encodes a PHP variable into a SOAP datatype.
     */
-    function encodeValue( $name, $value )
+    static function encodeValue( $name, $value )
     {
         switch ( gettype( $value ) )
         {
