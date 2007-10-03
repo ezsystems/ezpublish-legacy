@@ -13,12 +13,12 @@ LAST_STABLE="3.9.0"
 # This will be set to true automatically if the release is a final release
 LAST_STABLE_CHANGED="true"
 
-MAJOR=3
-MINOR=10
+MAJOR=4
+MINOR=0
 RELEASE=0
 # Starts at 1 for the first release in a branch and increases with one
-REAL_RELEASE=4
-STATE=""
+REAL_RELEASE=1
+STATE="alpha1"
 VERSION=$MAJOR"."$MINOR"."$RELEASE""$STATE
 VERSION_ONLY=$MAJOR"."$MINOR
 BRANCH_VERSION=$MAJOR"."$MINOR
@@ -26,12 +26,12 @@ BRANCH_VERSION=$MAJOR"."$MINOR
 PACKAGE_VERSION="3.5.2"
 PACKAGE_DEVELOPMENT="false"
 # Is automatically set to 'true' when $STATE contains some text, do not modify
-DEVELOPMENT="false"
+DEVELOPMENT="true"
 # Whether the previous release is a development release or not.
 DEVELOPMENT_PREVIOUS="false"
 # Is only true when the release is a final release (ie. the first of the stable ones)
 # Will be automatically set to true when $RELEASE is 0 and $DEVELOPMENT is false
-FINAL="true"
+FINAL="false"
 # If non-empty the script will check for changelog and db update from $LAST_STABLE
 # NOTE: Don't use this anymore
 FIRST_STABLE=""
@@ -318,12 +318,12 @@ check_dbfiles_update_prev "$FIX"
 
 function package_check_version
 {
-    if ! grep "define( 'EZ_PACKAGE_VERSION', '$PACKAGE_VERSION' );" kernel/classes/ezpackage.php &>/dev/null; then
+    if ! grep "const VERSION = '$PACKAGE_VERSION';" kernel/classes/ezpackage.php &>/dev/null; then
 	if [ -z "$1" ]; then
 	    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
-	    echo "Wrong version number in `$SETCOLOR_EXE`kernel/classes/ezpackage.php`$SETCOLOR_NORMAL` for variable EZ_PACKAGE_VERSION"
+	    echo "Wrong version number in `$SETCOLOR_EXE`kernel/classes/ezpackage.php`$SETCOLOR_NORMAL` for constant VERSION"
 	    echo "Should be:"
-	    echo "define( 'EZ_PACKAGE_VERSION', '`$SETCOLOR_EMPHASIZE`$PACKAGE_VERSION`$SETCOLOR_NORMAL`' );"
+	    echo "const VERSION = '`$SETCOLOR_EMPHASIZE`$PACKAGE_VERSION`$SETCOLOR_NORMAL`';"
 	    echo
 	fi
 	MAIN_ERROR="1"
@@ -336,12 +336,12 @@ function package_check_version
 
 function package_check_version_development
 {
-    if ! grep "define( 'EZ_PACKAGE_DEVELOPMENT', $PACKAGE_DEVELOPMENT );" kernel/classes/ezpackage.php &>/dev/null; then
+    if ! grep "const DEVELOPMENT = $PACKAGE_DEVELOPMENT;" kernel/classes/ezpackage.php &>/dev/null; then
 	if [ -z "$1" ]; then
 	    echo "`$SETCOLOR_FAILURE`Setting mismatch`$SETCOLOR_NORMAL`"
-	    echo "Wrong setting in `$SETCOLOR_EXE`kernel/classes/ezpackage.php`$SETCOLOR_NORMAL` for variable EZ_PACKAGE_DEVELOPMENT"
+	    echo "Wrong setting in `$SETCOLOR_EXE`kernel/classes/ezpackage.php`$SETCOLOR_NORMAL` for constant DEVELOPMENT"
 	    echo "Should be:"
-	    echo "define( 'EZ_PACKAGE_DEVELOPMENT', `$SETCOLOR_EMPHASIZE`$PACKAGE_DEVELOPMENT`$SETCOLOR_NORMAL` );"
+	    echo "const DEVELOPMENT = `$SETCOLOR_EMPHASIZE`$PACKAGE_DEVELOPMENT`$SETCOLOR_NORMAL`;"
 	    echo
 	fi
 	MAIN_ERROR="1"
@@ -354,13 +354,13 @@ function package_check_version_development
 
 package_check_version "$FIX"
 if [ $? -ne 0 ]; then
-    sed -i "s/^define( 'EZ_PACKAGE_VERSION', '[^']*' *)/define( 'EZ_PACKAGE_VERSION', '$PACKAGE_VERSION' )/" kernel/classes/ezpackage.php
+    sed -i "s/^const VERSION = '[^']*'/const VERSION = '$PACKAGE_VERSION'/" kernel/classes/ezpackage.php
     package_check_version ""
 fi
 
 package_check_version_development "$FIX"
 if [ $? -ne 0 ]; then
-    sed -i "s/^define( 'EZ_PACKAGE_DEVELOPMENT',[^)]*)/define( 'EZ_PACKAGE_DEVELOPMENT', $PACKAGE_DEVELOPMENT )/" kernel/classes/ezpackage.php
+    sed -i "s/^const DEVELOPMENT = [^)]/const DEVELOPMENT = $PACKAGE_DEVELOPMENT/" kernel/classes/ezpackage.php
     package_check_version_development ""
 fi
 
@@ -368,12 +368,12 @@ fi
 
 function lib_check_version_major
 {
-    if ! grep "define( \"EZ_SDK_VERSION_MAJOR\", $MAJOR );" lib/version.php &>/dev/null; then
+    if ! grep "const VERSION_MAJOR = $MAJOR;" lib/version.php &>/dev/null; then
 	if [ -z "$1" ]; then
 	    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
-	    echo "Wrong version number in `$SETCOLOR_EXE`lib/version.php`$SETCOLOR_NORMAL` for variable EZ_SDK_VERSION_MAJOR"
+	    echo "Wrong version number in `$SETCOLOR_EXE`lib/version.php`$SETCOLOR_NORMAL` for constant VERSION_MAJOR"
 	    echo "Should be:"
-	    echo "define( \"EZ_SDK_VERSION_MAJOR\", `$SETCOLOR_EMPHASIZE`$MAJOR`$SETCOLOR_NORMAL` );"
+	    echo "const VERSION_MAJOR = `$SETCOLOR_EMPHASIZE`$MAJOR`$SETCOLOR_NORMAL`;"
 	    echo
 	fi
 	MAIN_ERROR="1"
@@ -386,12 +386,12 @@ function lib_check_version_major
 
 function lib_check_version_minor
 {
-    if ! grep "define( \"EZ_SDK_VERSION_MINOR\", $MINOR );" lib/version.php &>/dev/null; then
+    if ! grep "const VERSION_MINOR = $MINOR;" lib/version.php &>/dev/null; then
 	if [ -z "$1" ]; then
 	    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
-	    echo "Wrong version number in `$SETCOLOR_EXE`lib/version.php`$SETCOLOR_NORMAL` for variable EZ_SDK_VERSION_MINOR"
+	    echo "Wrong version number in `$SETCOLOR_EXE`lib/version.php`$SETCOLOR_NORMAL` for constant VERSION_MINOR"
 	    echo "Should be:"
-	    echo "define( \"EZ_SDK_VERSION_MINOR\", `$SETCOLOR_EMPHASIZE`$MINOR`$SETCOLOR_NORMAL` );"
+	    echo "const VERSION_MINOR = `$SETCOLOR_EMPHASIZE`$MINOR`$SETCOLOR_NORMAL`;"
 	    echo
 	fi
 	MAIN_ERROR="1"
@@ -404,12 +404,12 @@ function lib_check_version_minor
 
 function lib_check_version_release
 {
-    if ! grep "define( \"EZ_SDK_VERSION_RELEASE\", $RELEASE );" lib/version.php &>/dev/null; then
+    if ! grep "const VERSION_RELEASE = $RELEASE;" lib/version.php &>/dev/null; then
 	if [ -z "$1" ]; then
 	    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
-	    echo "Wrong version number in `$SETCOLOR_EXE`lib/version.php`$SETCOLOR_NORMAL` for variable EZ_SDK_VERSION_RELEASE"
+	    echo "Wrong version number in `$SETCOLOR_EXE`lib/version.php`$SETCOLOR_NORMAL` for constant VERSION_RELEASE"
 	    echo "Should be:"
-	    echo "define( \"EZ_SDK_VERSION_RELEASE\", `$SETCOLOR_EMPHASIZE`$RELEASE`$SETCOLOR_NORMAL` );"
+	    echo "const VERSION_RELEASE = `$SETCOLOR_EMPHASIZE`$RELEASE`$SETCOLOR_NORMAL`;"
 	    echo
 	fi
 	MAIN_ERROR="1"
@@ -422,12 +422,12 @@ function lib_check_version_release
 
 function lib_check_version_state
 {
-    if ! grep "define( \"EZ_SDK_VERSION_STATE\", '$STATE' );" lib/version.php &>/dev/null; then
+    if ! grep "const VERSION_STATE = '$STATE';" lib/version.php &>/dev/null; then
 	if [ -z "$1" ]; then
 	    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
-	    echo "Wrong version number in `$SETCOLOR_EXE`lib/version.php`$SETCOLOR_NORMAL` for variable EZ_SDK_VERSION_STATE"
+	    echo "Wrong version number in `$SETCOLOR_EXE`lib/version.php`$SETCOLOR_NORMAL` for constant VERSION_STATE"
 	    echo "Should be:"
-	    echo "define( \"EZ_SDK_VERSION_STATE\", '`$SETCOLOR_EMPHASIZE`$STATE`$SETCOLOR_NORMAL`' );"
+	    echo "const VERSION_STATE = '`$SETCOLOR_EMPHASIZE`$STATE`$SETCOLOR_NORMAL`';"
 	    echo
 	fi
 	MAIN_ERROR="1"
@@ -440,12 +440,12 @@ function lib_check_version_state
 
 function lib_check_version_development
 {
-    if ! grep "define( \"EZ_SDK_VERSION_DEVELOPMENT\", $DEVELOPMENT );" lib/version.php &>/dev/null; then
+    if ! grep "const VERSION_DEVELOPMENT = $DEVELOPMENT;" lib/version.php &>/dev/null; then
 	if [ -z "$1" ]; then
 	    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
-	    echo "Wrong version number in `$SETCOLOR_EXE`lib/version.php`$SETCOLOR_NORMAL` for variable EZ_SDK_VERSION_DEVELOPMENT"
+	    echo "Wrong version number in `$SETCOLOR_EXE`lib/version.php`$SETCOLOR_NORMAL` for constant VERSION_DEVELOPMENT"
 	    echo "Should be:"
-	    echo "define( \"EZ_SDK_VERSION_DEVELOPMENT\", `$SETCOLOR_EMPHASIZE`$DEVELOPMENT`$SETCOLOR_NORMAL` );"
+	    echo "const VERSION_DEVELOPMENT = `$SETCOLOR_EMPHASIZE`$DEVELOPMENT`$SETCOLOR_NORMAL`;"
 	    echo
 	fi
 	MAIN_ERROR="1"
@@ -458,31 +458,31 @@ function lib_check_version_development
 
 lib_check_version_major "$FIX"
 if [ $? -ne 0 ]; then
-    sed -i "s/^define( \"EZ_SDK_VERSION_MAJOR\", *[0-9][0-9]* *)/define( \"EZ_SDK_VERSION_MAJOR\", '$MAJOR' )/" lib/version.php
+    sed -i "s/^const VERSION_MAJOR = *[0-9][0-9]*/const VERSION_MAJOR = '$MAJOR'/" lib/version.php
     lib_check_version_major ""
 fi
 
 lib_check_version_minor "$FIX"
 if [ $? -ne 0 ]; then
-    sed -i "s/^define( \"EZ_SDK_VERSION_MINOR\", *[0-9][0-9]* *)/define( \"EZ_SDK_VERSION_MINOR\", '$MINOR' )/" lib/version.php
+    sed -i "s/^const VERSION_MINOR = *[0-9][0-9]*/const VERSION_MINOR = '$MINOR'/" lib/version.php
     lib_check_version_minor ""
 fi
 
 lib_check_version_release "$FIX"
 if [ $? -ne 0 ]; then
-    sed -i "s/^define( \"EZ_SDK_VERSION_RELEASE\", *[0-9][0-9]* *)/define( \"EZ_SDK_VERSION_RELEASE\", '$RELEASE' )/" lib/version.php
+    sed -i "s/^const VERSION_RELEASE = *[0-9][0-9]*/const VERSION_RELEASE = '$RELEASE'/" lib/version.php
     lib_check_version_release ""
 fi
 
 lib_check_version_state "$FIX"
 if [ $? -ne 0 ]; then
-    sed -i "s/^define( \"EZ_SDK_VERSION_STATE\", *'[^']*' *)/define( \"EZ_SDK_VERSION_STATE\", '$STATE' )/" lib/version.php
+    sed -i "s/^const VERSION_STATE = *'[^']*'/const VERSION_STATE = '$STATE'/" lib/version.php
     lib_check_version_state ""
 fi
 
 lib_check_version_development "$FIX"
 if [ $? -ne 0 ]; then
-    sed -i "s/^define( \"EZ_SDK_VERSION_DEVELOPMENT\", *[a-zA-Z][a-zA-Z]* *)/define( \"EZ_SDK_VERSION_DEVELOPMENT\", $DEVELOPMENT )/" lib/version.php
+    sed -i "s/^const VERSION_DEVELOPMENT = *[a-zA-Z][a-zA-Z]*/const VERSION_DEVELOPMENT = $DEVELOPMENT/" lib/version.php
     lib_check_version_development ""
 fi
 
