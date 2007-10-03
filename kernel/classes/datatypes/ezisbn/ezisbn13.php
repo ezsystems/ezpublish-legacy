@@ -1,4 +1,4 @@
-gf<?php
+<?php
 // Created on: <17-Apr-2007 11:07:06 bjorn>
 //
 // SOFTWARE NAME: eZ publish
