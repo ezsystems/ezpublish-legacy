@@ -115,12 +115,6 @@ elseif ( !file_exists( $targetDir ) )
 
 
 $basePath = getcwd();
-// make sure ezcFile::findRecursive and the exclusion filters we pass to it
-// work correctly on systems with another file seperator than the forward slash
-if ( DIRECTORY_SEPARATOR != '/' )
-{
-    $basePath = strtr( $basePath, DIRECTORY_SEPARATOR, '/' );
-}
 $runMode = runMode( $kernelFilesOption->value, $extensionFilesOption->value );
 $phpFiles = fetchFiles( $basePath, $runMode );
 
@@ -162,26 +156,30 @@ if ( !$dryRun )
 
 function fetchFiles( $path, $mask )
 {
+    // make sure ezcFile::findRecursive and the exclusion filters we pass to it
+    // work correctly on systems with another file seperator than the forward slash
+    $sanitisedBasePath = DIRECTORY_SEPARATOR == '/' ? $path : strtr( $path, DIRECTORY_SEPARATOR, '/' );
+
     $retFiles = array();
 
     switch( checkMode( $mask) )
     {
         case EZP_GENAUTOLOADS_EXTENSION:
         {
-            $retFiles = array( "extension" => buildFileList( "$path/extension" ) );
+            $retFiles = array( "extension" => buildFileList( "$sanitisedBasePath/extension" ) );
             break;
         }
 
         case EZP_GENAUTOLOADS_KERNEL:
         {
-            $retFiles = array( "kernel" => buildFileList( $path, array( "@^{$path}/extension/@" ) ) );
+            $retFiles = array( "kernel" => buildFileList( $sanitisedBasePath, array( "@^{$sanitisedBasePath}/extension/@" ) ) );
             break;
         }
 
         case EZP_GENAUTOLOADS_BOTH:
         {
-            $retFiles = array( "extension"  => buildFileList( "$path/extension" ),
-                               "kernel"     => buildFileList( $path, array( "@^{$path}/extension/@" ) ) );
+            $retFiles = array( "extension"  => buildFileList( "$sanitisedBasePath/extension" ),
+                               "kernel"     => buildFileList( $sanitisedBasePath, array( "@^{$sanitisedBasePath}/extension/@" ) ) );
             break;
         }
     }
@@ -191,6 +189,12 @@ function fetchFiles( $path, $mask )
     {
         foreach ( $fileBundle as $key => &$file )
         {
+            // ezcFile::calculateRelativePath only works correctly with paths where DIRECTORY_SEPARATOR is used
+            // so we need to correct the results of ezcFile::findRecursive again
+            if ( DIRECTORY_SEPARATOR != '/' )
+            {
+                $file = strtr( $file, '/', DIRECTORY_SEPARATOR );
+            }
             $fileBundle[$key] = ezcFile::calculateRelativePath( $file, $path );
         }
     }
