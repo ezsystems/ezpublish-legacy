@@ -844,6 +844,35 @@ language_locale='eng-GB'";
             // This makes sure all new/changed objects get this as creator
             $user->loginCurrent();
 
+            // by default(if 'language_map' is not set) create all necessary languages
+            $languageMap = ( isset( $this->PersistenceList['package_info'] ) && isset( $this->PersistenceList['package_info']['language_map'] ) )
+                                ? $this->PersistenceList['package_info']['language_map']
+                                : true;
+
+            //
+            // Create necessary languages and set them as "prioritized languages" to avoid
+            // drawbacks in fetch functions, like eZContentObjectTreeNode::fetch().
+            //
+            $prioritizedLanguageObjects = eZContentLanguage::prioritizedLanguages(); // returned objects
+            foreach ( $languageMap as $fromLanguage => $toLanguage )
+            {
+                if ( $toLanguage != 'skip' )
+                {
+                    $prioritizedLanguageObjects[] = eZContentLanguage::fetchByLocale( $toLanguage, true );
+                }
+            }
+            $prioritizedLanguageLocales = array();
+            foreach ( $prioritizedLanguageObjects as $language )
+            {
+                $locale = $language->attribute( 'locale' );
+                if ( !in_array( $locale, $prioritizedLanguageLocales ) )
+                {
+                    $prioritizedLanguageLocales[] = $locale;
+                }
+            }
+            eZContentLanguage::setPrioritizedLanguages( $prioritizedLanguageLocales );
+
+
             foreach ( $requires as $require )
             {
                 if ( $require['type'] != 'ezpackage' )
@@ -854,11 +883,6 @@ language_locale='eng-GB'";
 
                 if ( is_object( $package ) )
                 {
-                    // by default(if 'language_map' is not set) create all necessary languages
-                    $languageMap = ( isset( $this->PersistenceList['package_info'] ) && isset( $this->PersistenceList['package_info']['language_map'] ) )
-                                        ? $this->PersistenceList['package_info']['language_map']
-                                        : true;
-
                     $requiredPackages[] = $package;
                     if ( $package->attribute( 'install_type' ) == 'install' )
                     {
