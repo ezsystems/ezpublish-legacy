@@ -1401,7 +1401,7 @@ showDebug();
 
         if ( $as_html )
         {
-            echo "<table style='border: 1px dashed black;' bgcolor=\"#fefefe\" summary='Layout table for eZ Publish debug output'>";
+            echo "<div id=\"debug\"><table style='border: 1px dashed black;' bgcolor=\"#fefefe\" summary='Layout table for eZ Publish debug output'>";
             echo "<tr><th><h1>eZ debug</h1></th></tr>";
 
             echo "<tr><td>";
@@ -1776,7 +1776,7 @@ td.timingpoint2
 
         if ( $as_html )
         {
-            echo "</td></tr></table>";
+            echo "</td></tr></table></div>";
         }
 
         if ( $returnReport )
