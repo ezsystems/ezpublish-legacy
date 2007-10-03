@@ -69,9 +69,9 @@ class eZContentClassPackageHandler extends eZPackageHandler
         if ( $installItem['filename'] )
         {
             $explainClassName = in_array( 'name', $requestedInfo );
-            $explainClassIdentitier = in_array( 'identifier', $requestedInfo );;
-            $explainDescription = in_array( 'description', $requestedInfo );;
-            $explainLanguageInfo = in_array( 'language_info', $requestedInfo );;
+            $explainClassIdentitier = in_array( 'identifier', $requestedInfo );
+            $explainDescription = in_array( 'description', $requestedInfo );
+            $explainLanguageInfo = in_array( 'language_info', $requestedInfo );
 
             $filename = $installItem['filename'];
             $subdirectory = $installItem['sub-directory'];

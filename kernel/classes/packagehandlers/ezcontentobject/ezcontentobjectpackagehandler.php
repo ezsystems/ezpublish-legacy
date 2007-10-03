@@ -113,7 +113,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
 
     */
-    function explainInstallItem( $package, $installItem )
+    function explainInstallItem( $package, $installItem, $requestedInfo = array() )
     {
         $this->Package = $package;
 
