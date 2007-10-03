@@ -154,7 +154,7 @@ class eZCollaborationItemHandler
 
 //         $collaborationIdentifier = $event->attribute( 'collaboration_identifier' );
         $collaborationIdentifier = $event->attribute( 'data_text1' );
-        $ruleList =& eZCollaborationNotificationRule::fetchItemTypeList( $collaborationIdentifier, $userIDList, false );
+        $ruleList = eZCollaborationNotificationRule::fetchItemTypeList( $collaborationIdentifier, $userIDList, false );
         $userIDList = array();
         foreach ( $ruleList as $rule )
         {

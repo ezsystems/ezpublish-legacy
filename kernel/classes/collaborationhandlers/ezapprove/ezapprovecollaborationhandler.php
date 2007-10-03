@@ -162,7 +162,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
      \static
      \return the status of the approval collaboration item \a $approvalID.
     */
-    function checkApproval( $approvalID )
+    static function checkApproval( $approvalID )
     {
         $collaborationItem = eZCollaborationItem::fetch( $approvalID );
         if ( $collaborationItem !== null )
@@ -176,7 +176,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
      \static
      \return makes sure the approval item is activated for all participants \a $approvalID.
     */
-    function activateApproval( $approvalID )
+    static function activateApproval( $approvalID )
     {
         $collaborationItem = eZCollaborationItem::fetch( $approvalID );
         if ( $collaborationItem !== null )
@@ -202,7 +202,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
      The item will be added to the author \a $authorID and the approver array \a $approverIDArray.
      \return the collaboration item.
     */
-    function createApproval( $contentObjectID, $contentObjectVersion, $authorID, $approverIDArray )
+    static function createApproval( $contentObjectID, $contentObjectVersion, $authorID, $approverIDArray )
     {
         $collaborationItem = eZCollaborationItem::create( 'ezapprove', $authorID );
         $collaborationItem->setAttribute( 'data_int1', $contentObjectID );
