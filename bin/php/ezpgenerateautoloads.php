@@ -43,7 +43,7 @@ $params->registerOption( $helpOption );
 
 $targetOption = new ezcConsoleOption( 't', 'target', ezcConsoleInput::TYPE_STRING );
 $targetOption->mandatory = false;
-$targetOption->default = "autoloads";
+$targetOption->default = "autoload";
 $targetOption->shorthelp = "The directory to where the generated autoload file should be written.";
 $params->registerOption( $targetOption );
 
@@ -206,7 +206,7 @@ function fetchFiles( $path, $mask )
 
 function buildFileList( $path, $extraFilter = null )
 {
-    $exclusionFilter = array( "@^{$path}/(var|settings|benchmarks|autoloads|port_info|templates|tmp)/@" );
+    $exclusionFilter = array( "@^{$path}/(var|settings|benchmarks|autoload|port_info|templates|tmp)/@" );
     if ( !empty( $extraFilter ) and is_array( $extraFilter ) )
     {
         foreach( $extraFilter as $filter )

@@ -28,8 +28,8 @@ function __autoload( $className )
     static $ezpClasses = null;
     if ( is_null( $ezpClasses ) )
     {
-        $ezpKernelClasses = require 'autoloads/ezp_kernel.php';
-        $ezpExtensionClasses = require 'autoloads/ezp_extension.php';
+        $ezpKernelClasses = require 'autoload/ezp_kernel.php';
+        $ezpExtensionClasses = require 'autoload/ezp_extension.php';
         $ezpClasses = array_merge( $ezpKernelClasses, $ezpExtensionClasses );
     }
 
