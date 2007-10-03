@@ -849,28 +849,31 @@ language_locale='eng-GB'";
                                 ? $this->PersistenceList['package_info']['language_map']
                                 : true;
 
-            //
-            // Create necessary languages and set them as "prioritized languages" to avoid
-            // drawbacks in fetch functions, like eZContentObjectTreeNode::fetch().
-            //
-            $prioritizedLanguageObjects = eZContentLanguage::prioritizedLanguages(); // returned objects
-            foreach ( $languageMap as $fromLanguage => $toLanguage )
+            if ( is_array( $languageMap ) && count( $languageMap ) > 0 )
             {
-                if ( $toLanguage != 'skip' )
+                //
+                // Create necessary languages and set them as "prioritized languages" to avoid
+                // drawbacks in fetch functions, like eZContentObjectTreeNode::fetch().
+                //
+                $prioritizedLanguageObjects = eZContentLanguage::prioritizedLanguages(); // returned objects
+                foreach ( $languageMap as $fromLanguage => $toLanguage )
                 {
-                    $prioritizedLanguageObjects[] = eZContentLanguage::fetchByLocale( $toLanguage, true );
+                    if ( $toLanguage != 'skip' )
+                    {
+                        $prioritizedLanguageObjects[] = eZContentLanguage::fetchByLocale( $toLanguage, true );
+                    }
                 }
-            }
-            $prioritizedLanguageLocales = array();
-            foreach ( $prioritizedLanguageObjects as $language )
-            {
-                $locale = $language->attribute( 'locale' );
-                if ( !in_array( $locale, $prioritizedLanguageLocales ) )
+                $prioritizedLanguageLocales = array();
+                foreach ( $prioritizedLanguageObjects as $language )
                 {
-                    $prioritizedLanguageLocales[] = $locale;
+                    $locale = $language->attribute( 'locale' );
+                    if ( !in_array( $locale, $prioritizedLanguageLocales ) )
+                    {
+                        $prioritizedLanguageLocales[] = $locale;
+                    }
                 }
+                eZContentLanguage::setPrioritizedLanguages( $prioritizedLanguageLocales );
             }
-            eZContentLanguage::setPrioritizedLanguages( $prioritizedLanguageLocales );
 
 
             foreach ( $requires as $require )
