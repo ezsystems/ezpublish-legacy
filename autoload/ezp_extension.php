@@ -21,7 +21,6 @@ return array(
       'eZOOImport'                => 'extension/ezodf/modules/ezodf/ezooimport.php',
       'eZOpenofficeUploadHandler' => 'extension/ezodf/uploadhandlers/ezopenofficeuploadhandler.php',
       'eZTagCloud'                => 'extension/ezwebin/autoloads/eztagcloud.php',
-      'eZXMLSchema'               => 'extension/ezdhtml/ezxmltext/common/ezxmlschema.php',
       'ezdhtmlInfo'               => 'extension/ezdhtml/ezinfo.php',
       'ezodfInfo'                 => 'extension/ezodf/ezinfo.php',
       'ezwebinInfo'               => 'extension/ezwebin/ezinfo.php',
