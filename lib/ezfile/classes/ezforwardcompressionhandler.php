@@ -186,9 +186,9 @@ class eZForwardCompressionHandler extends eZCompressionHandler
      Duplicates the forward compression handler by calling duplicate() on the handler
      which gets the forwarded requests and then creates a new eZForwardCompressionHandler.
     */
-    function &duplicate()
+    function duplicate()
     {
-        $forwardCopy =& $this->ForwardHandler->duplicate();
+        $forwardCopy = $this->ForwardHandler->duplicate();
         $copy = new eZForwardCompressionHandler( $forwardCopy, $this->name(), $this->identifier() );
         return $copy;
     }
