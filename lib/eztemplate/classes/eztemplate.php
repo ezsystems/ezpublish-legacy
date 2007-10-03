@@ -1364,13 +1364,15 @@ class eZTemplate
             ++$i;
         }
 
-        if ( is_array( $this->Operators[$operatorName] ) )
+        if ( isset( $this->Operators[$operatorName] ) )
         {
-            $this->loadAndRegisterOperators( $this->Operators[$operatorName] );
-        }
-        $op = $this->Operators[$operatorName];
-        if ( isset( $op ) )
-        {
+            if ( is_array( $this->Operators[$operatorName] ) )
+            {
+                $this->loadAndRegisterOperators( $this->Operators[$operatorName] );
+            }
+
+            $op = $this->Operators[$operatorName];
+
             if ( is_object( $op ) and method_exists( $op, 'modify' ) )
             {
                 $value = $valueData['value'];
@@ -1438,11 +1440,16 @@ class eZTemplate
     function operatorParameterList( $name )
     {
         $param_list = array();
-        if ( isset( $this->Operators[$name] ) and
-             is_array( $this->Operators[$name] ) )
+        if ( !isset( $this->Operators[$name] ) )
+        {
+            return $param_list;
+        }
+
+        if ( is_array( $this->Operators[$name] ) )
         {
             $this->loadAndRegisterOperators( $this->Operators[$name] );
         }
+
         $op = $this->Operators[$name];
         if ( isset( $op ) and
              method_exists( $op, "namedparameterlist" ) )
