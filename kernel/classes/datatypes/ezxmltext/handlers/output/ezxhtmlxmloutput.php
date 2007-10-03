@@ -240,9 +240,9 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         elseif ( $element->getAttribute( 'object_id' ) != null )
         {
             $objectID = $element->getAttribute( 'object_id' );
-            $object = $this->ObjectArray["$objectID"];
-            if ( $object )
+            if ( isset( $this->ObjectArray["$objectID"] ) )
             {
+                $object = $this->ObjectArray["$objectID"];
                 $node = $object->attribute( 'main_node' );
                 if ( $node )
                 {
