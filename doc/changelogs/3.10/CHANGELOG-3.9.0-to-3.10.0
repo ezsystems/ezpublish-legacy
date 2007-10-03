@@ -43,7 +43,7 @@ Changes from 3.9.0 to 3.10.0
 *Cronjobs:
 - Implemented enhancement #10856: Patch for delayed StaticCache Regeneration ( including cronjob).
 
-* Translations:
+*Translations:
 - Implemented enhancement #010569: Add language selection to setup wizard.
 
 *Bugfixes:
@@ -488,3 +488,6 @@ Changes from 3.9.0 to 3.10.0
 - Fixed bug #011371: read title of hidden blogpost.
 - Fixed bug #10546: [patch included] ezroot() and ezurl() mishandle first parameter, with TemplateCompile enabled.
 - Fixed bug #11303: Webdav does not use SiteLanguageList properly.
+- Fixed bug #11538: php warning in ezwebdav.
+- Fixed bug #11543: Declaration of eZObjectRelationListType::fixRelatedObjectItem() should be compatible with that
+  of eZDataType::fixRelatedObjectItem().
