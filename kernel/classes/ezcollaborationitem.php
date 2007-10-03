@@ -529,7 +529,7 @@ class eZCollaborationItem extends eZPersistentObject
 
     function handleView( $viewMode )
     {
-        $handler =& $this->handler();
+        $handler = $this->handler();
         $handler->readItem( $this, $viewMode );
         return true;
     }

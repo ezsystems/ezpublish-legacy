@@ -147,7 +147,7 @@ class eZCollaborationItemStatus extends eZPersistentObject
                                                      'update_fields' => $fields,
                                                      'conditions' => array( 'collaboration_id' => $collaborationID,
                                                                             'user_id' => $userID ) ) );
-        $statusObject = $GLOBALS['eZCollaborationItemStatusCache'][$collaborationID][$userID];
+        $statusObject =& $GLOBALS['eZCollaborationItemStatusCache'][$collaborationID][$userID];
         if ( isset( $statusObject ) )
         {
             foreach ( $fields as $field => $value )
