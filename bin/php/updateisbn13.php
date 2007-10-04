@@ -60,8 +60,7 @@ $options = $script->getOptions( "[file:][db-host:][db-user:][db-password:][db-da
                                        'db-user' => "Database user.",
                                        'db-password' => "Database password.",
                                        'db-database' => "Database name.",
-                                       'db-driver' => "Database driver.",
-                                       'db' => "Name of database to use. " ) );
+                                       'db-driver' => "Database driver." ) );
 
 if ( isset( $options['file'] ) )
 {
