@@ -1,0 +1,4 @@
+Changes from 3.9.0 to 4.0.0alpha1
+
+*Bugs:
+- Fixed issue #11561: Errors on SOAP response library.

@@ -71,7 +71,7 @@ class eZSOAPResponse extends eZSOAPEnvelope
             // check for fault
             $response = $dom->getElementsByTagNameNS( eZSOAPEnvelope::EZ_SOAP_ENV, 'Fault' );
 
-            if ( count( $response ) == 1 )
+            if ( $response->length  == 1 )
             {
                 $this->IsFault = 1;
                 foreach( $dom->getElementsByTagName( "faultstring" ) as $faultNode )
@@ -91,7 +91,7 @@ class eZSOAPResponse extends eZSOAPEnvelope
             // get the response
             $response = $dom->getElementsByTagNameNS( $request->namespace(), $request->name() . "Response" );
 
-            $response = $response[0];
+            $response = $response->item(0);
 
             if ( !empty( $response ) )
             {
@@ -109,10 +109,10 @@ class eZSOAPResponse extends eZSOAPEnvelope
                 with the string "Response" appended.
                 */
 
-                $responseAccessors = $response->childNodes;
-                if ( count($responseAccessors) > 0 )
+                $responseAccessors = $response->getElementsByTagName( 'return' );
+                if ( $responseAccessors->length > 0 )
                 {
-                    $returnObject = $responseAccessors[0];
+                    $returnObject = $responseAccessors->item( 0 );
                     $this->Value  = $this->decodeDataTypes( $returnObject );
                 }
             }
