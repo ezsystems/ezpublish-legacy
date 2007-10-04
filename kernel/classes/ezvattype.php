@@ -286,7 +286,7 @@ class eZVatType extends eZPersistentObject
         $dependentRules = eZVatRule::fetchByVatType( $vatID );
         foreach ( $dependentRules as $rule )
         {
-            eZVatRule::remove( $rule->attribute( 'id' ) );
+            eZVatRule::removeVatRule( $rule->attribute( 'id' ) );
         }
 
         // replace VAT type in dependent products.

@@ -183,7 +183,7 @@ class eZVatRule extends eZPersistentObject
     /**
      * Remove given VAT charging rule.
      */
-    function remove( $id )
+    static function removeVatRule( $id )
     {
         $db = eZDB::instance();
 

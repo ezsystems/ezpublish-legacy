@@ -182,7 +182,7 @@ if ( $http->hasPostVariable( "RemoveRuleButton" ) )
     $db = eZDB::instance();
     $db->begin();
     foreach ( $ruleIDList as $ruleID )
-        eZVatRule::remove( $ruleID );
+        eZVatRule::removeVatRule( $ruleID );
     $db->commit();
 }
 
