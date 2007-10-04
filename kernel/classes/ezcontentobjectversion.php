@@ -1241,8 +1241,8 @@ class eZContentObjectVersion extends eZPersistentObject
     static function unserialize( $domNode, $contentObject, $ownerID, $sectionID, $activeVersion, $firstVersion, &$nodeList, &$options, $package, $handlerType = 'ezcontentobject' )
     {
 
-        $oldVersion = $domNode->getAttribute( 'version' );
-        $status = $domNode->getAttribute( 'status' );
+        $oldVersion = $domNode->getAttributeNS( 'http://ez.no/ezobject', 'version' );
+        $status = $domNode->getAttributeNS( 'http://ez.no/ezobject', 'status' );
         $languageNodeArray = $domNode->getElementsByTagName( 'object-translation' );
 
         $initialLanguage   = false;
@@ -1280,8 +1280,8 @@ class eZContentObjectVersion extends eZPersistentObject
         }
 
         //include_once( 'lib/ezlocale/classes/ezdateutils.php' );
-        $created = eZDateUtils::textToDate( $domNode->getAttribute( 'created' ) );
-        $modified = eZDateUtils::textToDate( $domNode->getAttribute( 'modified' ) );
+        $created = eZDateUtils::textToDate( $domNode->getAttributeNS( 'http://ez.no/ezobject', 'created' ) );
+        $modified = eZDateUtils::textToDate( $domNode->getAttributeNS( 'http://ez.no/ezobject', 'modified' ) );
         $contentObjectVersion->setAttribute( 'created', $created );
         $contentObjectVersion->setAttribute( 'modified', $modified );
 

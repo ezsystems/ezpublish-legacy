@@ -4739,16 +4739,16 @@ class eZContentObject extends eZPersistentObject
             return $retValue;
         }
 
-        $sectionID = $domNode->getAttribute( 'section_id' );
+        $sectionID = $domNode->getAttributeNS( 'http://ez.no/ezobject', 'section_id' );
         if ( $ownerID === false )
         {
-            $ownerID = $domNode->getAttribute( 'owner_id' );
+            $ownerID = $domNode->getAttributeNS( 'http://ez.no/ezobject', 'owner_id' );
         }
         $remoteID = $domNode->getAttribute( 'remote_id' );
         $name = $domNode->getAttribute( 'name' );
         $classRemoteID = $domNode->getAttribute( 'class_remote_id' );
-        $classIdentifier = $domNode->getAttribute( 'class_identifier' );
-        $alwaysAvailable = ( $domNode->getAttribute( 'always_available' ) == '1' );
+        $classIdentifier = $domNode->getAttributeNS( 'http://ez.no/ezobject', 'class_identifier' );
+        $alwaysAvailable = ( $domNode->getAttributeNS( 'http://ez.no/ezobject', 'always_available' ) == '1' );
 
         $contentClass = eZContentClass::fetchByRemoteID( $classRemoteID );
         if ( !$contentClass )
