@@ -201,13 +201,13 @@ class eZVatRule extends eZPersistentObject
     /**
      * \reimp
      */
-    function store()
+    function store( $fieldFilters = null )
     {
         $db = eZDB::instance();
         $db->begin();
 
         // Store the rule itself.
-        eZPersistentObject::store();
+        eZPersistentObject::store( $fieldFilters );
 
         // Store product categories associated with the rule,
         $this->removeProductCategories();
