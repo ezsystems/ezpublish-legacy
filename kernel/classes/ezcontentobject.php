@@ -3274,7 +3274,7 @@ class eZContentObject extends eZPersistentObject
     /*
      * Creates object with nodeAssignment from given parent Node, class ID and language code.
      */
-    function createWithNodeAssignment( $parentNode, $contentClassID, $languageCode, $remoteID = false )
+    static function createWithNodeAssignment( $parentNode, $contentClassID, $languageCode, $remoteID = false )
     {
         $class = eZContentClass::fetch( $contentClassID );
         $parentObject = $parentNode->attribute( 'object' );
