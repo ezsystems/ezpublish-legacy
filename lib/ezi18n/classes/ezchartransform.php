@@ -321,7 +321,7 @@ class eZCharTransform
         {
             $time = filemtime( $filepath );
             $ini = eZINI::instance( 'transform.ini' );
-            if ( $ini->CacheFile && $time < filemtime( $ini->CacheFile ) )
+            if ( $ini->CacheFile && file_exists( $ini->CacheFile ) && $time < filemtime( $ini->CacheFile ) )
             {
                 return false;
             }
