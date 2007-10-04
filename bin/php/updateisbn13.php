@@ -69,10 +69,11 @@ if ( isset( $options['file'] ) )
 }
 else
 {
-//    $cli->error( 'Error: you need to specify a Javascript file for the script with --file=ranges.js' );
-//    $script->shutdown( 1 );
+    $cli->error( 'Error: you need to specify a Javascript file for the script with --file=ranges.js' );
+    $script->shutdown( 1 );
 }
 
+$script->initialize();
 
 $db =& eZDB::instance();
 if( !$db->IsConnected )
@@ -118,8 +119,6 @@ if( !$db->IsConnected )
 }
 
 $cli->output( "Using database '" . $cli->terminalStyle( 'red' ) . $db->DB . $cli->terminalStyle( 'normal' ) . "'" );
-
-$script->initialize();
 
 $content = '';
 $dataPage = '';
