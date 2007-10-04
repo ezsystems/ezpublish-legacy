@@ -9,6 +9,9 @@
  *
  */
 
+// config.php can set the components path like: 
+// ini_set( 'include_path', ini_get( 'include_path' ). ':../ezcomponents/trunk' );
+
 if ( file_exists( "config.php" ) )
 {
     require "config.php";
