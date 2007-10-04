@@ -50,13 +50,13 @@ class eZSOAPCodec
       \static
       Encodes a PHP variable into a SOAP datatype.
     */
-    static function encodeValue( $name, $value )
+    static function encodeValue( $doc, $name, $value )
     {
         switch ( gettype( $value ) )
         {
             case "string" :
             {
-                $node = DOMDocument::createElement( $name, $value );
+                $node = $doc->createElement( $name, $value );
                 $node->setAttribute( eZSOAPEnvelope::EZ_SOAP_XSI_PREFIX . ':type',
                                      eZSOAPEnvelope::EZ_SOAP_XSD_PREFIX . ':string' );
                 return $node;
@@ -64,7 +64,7 @@ class eZSOAPCodec
 
             case "boolean" :
             {
-                $node = DOMDocument::createElement( $name, $value ? 'true' : 'false' );
+                $node = $doc->createElement( $name, $value ? 'true' : 'false' );
                 $node->setAttribute( eZSOAPEnvelope::EZ_SOAP_XSI_PREFIX . ':type',
                                      eZSOAPEnvelope::EZ_SOAP_XSD_PREFIX . ':boolean' );
                 return $node;
@@ -72,7 +72,7 @@ class eZSOAPCodec
 
             case "integer" :
             {
-                $node = DOMDocument::createElement( $name, $value );
+                $node = $doc->createElement( $name, $value );
                 $node->setAttribute( eZSOAPEnvelope::EZ_SOAP_XSI_PREFIX . ':type',
                                      eZSOAPEnvelope::EZ_SOAP_XSD_PREFIX . ':int' );
                 return $node;
@@ -80,7 +80,7 @@ class eZSOAPCodec
 
             case "double" :
             {
-                $node = DOMDocument::createElement( $name, $value );
+                $node = $doc->createElement( $name, $value );
                 $node->setAttribute( eZSOAPEnvelope::EZ_SOAP_XSI_PREFIX . ':type',
                                      eZSOAPEnvelope::EZ_SOAP_XSD_PREFIX . ':float' );
                 return $node;
@@ -105,20 +105,20 @@ class eZSOAPCodec
 
                 if ( $isStruct == true )
                 {
-                    $node = DOMDocument::createElement( $name );
+                    $node = $doc->createElement( $name );
                     $node->setAttribute( eZSOAPEnvelope::EZ_SOAP_XSI_PREFIX . ':type',
                                          eZSOAPEnvelope::EZ_SOAP_ENC_PREFIX . ':SOAPStruct' );
 
                     foreach( $value as $key => $val )
                     {
-                        $subNode = eZSOAPCodec::encodeValue( (string)$key, $val );
+                        $subNode = eZSOAPCodec::encodeValue( $doc, (string)$key, $val );
                         $node->appendChild( $subNode );
                     }
                     return $node;
                 }
                 else
                 {
-                    $node = DOMDocument::createElement( $name );
+                    $node = $doc->createElement( $name );
                     $node->setAttribute( eZSOAPEnvelope::EZ_SOAP_XSI_PREFIX . ':type',
                                          eZSOAPEnvelope::EZ_SOAP_ENC_PREFIX . ':Array' );
                     $node->setAttribute( eZSOAPEnvelope::EZ_SOAP_ENC_PREFIX . ':arrayType',
@@ -126,7 +126,7 @@ class eZSOAPCodec
 
                     foreach ( $value as $arrayItem )
                     {
-                        $subNode = eZSOAPCodec::encodeValue( "item", $arrayItem );
+                        $subNode = eZSOAPCodec::encodeValue( $doc, "item", $arrayItem );
                         $node->appendChild( $subNode );
                     }
 

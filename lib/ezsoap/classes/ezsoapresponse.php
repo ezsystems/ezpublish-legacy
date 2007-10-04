@@ -274,7 +274,7 @@ TODO: add encoding checks with schema validation.
             $return = $doc->createElement( "return" );
             $return->prefix = "resp";
 
-            $value = eZSOAPCodec::encodeValue( "return", $this->Value );
+            $value = eZSOAPCodec::encodeValue( $doc, "return", $this->Value );
 
             $body->appendChild( $response );
 
