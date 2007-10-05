@@ -186,7 +186,7 @@ TODO: add encoding checks with schema validation.
             case "Array" :
             {
                 // Get array type
-                $attayType = $node->getAttributeNodeNS( eZSOAPEnvelope::EZ_SOAP_ENC, 'arrayType' )->value;
+                $arrayType = $node->getAttributeNodeNS( eZSOAPEnvelope::EZ_SOAP_ENC, 'arrayType' )->value;
                 $arrayTypeParts = explode( ":", $arrayType );
 
                 preg_match( "#(.*)\[(.*)\]#",  $arrayTypeParts[1], $matches );
@@ -195,9 +195,12 @@ TODO: add encoding checks with schema validation.
                 $count = $matches[2];
 
                 $returnValue = array();
-                foreach( $node->children() as $child )
+                foreach( $node->childNodes as $child )
                 {
-                    $returnValue[] = eZSOAPResponse::decodeDataTypes( $child, $type );
+                    if ( $child instanceof DOMElement )
+                    {
+                        $returnValue[] = eZSOAPResponse::decodeDataTypes( $child, $type );
+                    }
                 }
             }break;
 
@@ -205,25 +208,31 @@ TODO: add encoding checks with schema validation.
             {
                 $returnValue = array();
 
-                foreach( $node->children() as $child )
+                foreach( $node->childNodes as $child )
                 {
-                    $returnValue[$child->name()] = eZSOAPResponse::decodeDataTypes( $child );
+                    if ( $child instanceof DOMElement )
+                    {
+                        $returnValue[$child->tagName] = eZSOAPResponse::decodeDataTypes( $child );
+                    }
                 }
             }break;
 
             default:
             {
-                foreach ( $node->children() as $childNode )
+                foreach ( $node->childNodes as $childNode )
                 {
-                    // check data type for child
-                    $attr = $childNode->getAttributeNodeNS( eZSOAPEnvelope::EZ_SOAP_SCHEMA_INSTANCE, 'type' )->value;
+                    if ( $child instanceof DOMElement )
+                    {
+                        // check data type for child
+                        $attr = $childNode->getAttributeNodeNS( eZSOAPEnvelope::EZ_SOAP_SCHEMA_INSTANCE, 'type' )->value;
 
-                    $dataType = false;
-                    $attrParts = explode( ":", $attr );
-                    $dataType = $attrParts[1];
+                        $dataType = false;
+                        $attrParts = explode( ":", $attr );
+                        $dataType = $attrParts[1];
 
 
-                    $returnValue[$childNode->name()] = eZSOAPResponse::decodeDataTypes( $childNode );
+                        $returnValue[$childNode->name()] = eZSOAPResponse::decodeDataTypes( $childNode );
+                    }
                 }
 
             } break;
