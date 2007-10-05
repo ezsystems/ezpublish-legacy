@@ -236,7 +236,7 @@ if ( $Params['SiteAccess'] )
 }
 else
 {
-    //include_once( 'kernel/content/versionviewframe.php' );
+    include( 'kernel/content/versionviewframe.php' );
     return;
 }
 
