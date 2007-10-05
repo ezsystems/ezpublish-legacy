@@ -1553,7 +1553,7 @@ class eZLocale
 
         $globalsKey = "eZLocaleInstance_$localeString";
 
-        if ( !isset( $GLOBALS[$globalsKey] ||
+        if ( !isset( $GLOBALS[$globalsKey] ) ||
              !( $GLOBALS[$globalsKey] instanceof eZLocale ) )
         {
             $GLOBALS[$globalsKey] = new eZLocale( $localeString );

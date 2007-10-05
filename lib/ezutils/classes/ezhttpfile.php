@@ -235,7 +235,7 @@ class eZHTTPFile
     static function canFetch( $http_name, $maxSize = false )
     {
         if ( !isset( $GLOBALS["eZHTTPFile-$http_name"] ) ||
-             !( $GLOBALS["eZHTTPFile-$http_name"] instanceof eZHTTPFile )
+             !( $GLOBALS["eZHTTPFile-$http_name"] instanceof eZHTTPFile ) )
         {
             if ( $maxSize === false )
             {

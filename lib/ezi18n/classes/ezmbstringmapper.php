@@ -191,7 +191,7 @@ class eZMBStringMapper
     {
         $globalsKey = "eZMBStringMapper-$input_charset_code-$output_charset_code";
 
-        if ( !isset( $GLOBALS[$globalsKey] ||
+        if ( !isset( $GLOBALS[$globalsKey] ) ||
              !( $GLOBALS[$globalsKey] instanceof eZMBStringMapper ) )
         {
             $GLOBALS[$globalsKey] = new eZMBStringMapper( $input_charset_code, $output_charset_code );

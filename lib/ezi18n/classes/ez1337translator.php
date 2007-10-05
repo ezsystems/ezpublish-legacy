@@ -122,7 +122,7 @@ class eZ1337Translator extends eZTranslatorHandler
     */
     static function initialize()
     {
-        if ( !isset( $GLOBALS['eZ1337Translator'] ||
+        if ( !isset( $GLOBALS['eZ1337Translator'] ) ||
              !( $GLOBALS['eZ1337Translator'] instanceof eZ1337Translator ) )
         {
             $GLOBALS['eZ1337Translator'] = new eZ1337Translator();

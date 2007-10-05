@@ -160,7 +160,7 @@ class eZBorkTranslator extends eZTranslatorHandler
     */
     static function initialize()
     {
-        if ( !isset( $GLOBALS['eZBorkTranslator'] ||
+        if ( !isset( $GLOBALS['eZBorkTranslator'] ) ||
              !( $GLOBALS['eZBorkTranslator'] instanceof eZBorkTranslator ) )
         {
             $GLOBALS['eZBorkTranslator'] = new eZBorkTranslator();
