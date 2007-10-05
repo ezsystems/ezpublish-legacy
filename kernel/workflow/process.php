@@ -72,7 +72,7 @@ if ( $http->hasPostVariable( "RunProcess" ) )
 {
 //     $Module->redirectTo( $Module->functionURI( "process" ) . "/" . $WorkflowProcessID );
 //     return;
-    if ( strtolower( get_class( $workflowEvent ) ) == "ezworkflowevent" )
+    if ( $workflowEvent instanceof eZWorkflowEvent )
     {
         $eventType = $workflowEvent->eventType();
         $lastEventStatus = $eventType->execute( $process, $workflowEvent );

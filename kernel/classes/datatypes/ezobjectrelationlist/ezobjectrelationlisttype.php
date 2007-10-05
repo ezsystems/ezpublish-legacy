@@ -1164,7 +1164,7 @@ class eZObjectRelationListType extends eZDataType
         {
             $subObjectVersion = eZContentObjectVersion::fetchVersion( $deletionItem['contentobject_version'],
                                                                       $deletionItem['contentobject_id'] );
-            if ( strtolower( get_class( $subObjectVersion ) ) == 'ezcontentobjectversion' )
+            if ( $subObjectVersion instanceof eZContentObjectVersion )
             {
                 $subObjectVersion->removeThis();
             }

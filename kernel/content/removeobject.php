@@ -44,7 +44,7 @@ $contentNodeID = $http->sessionVariable( 'ContentNodeID' );
 $requestedURI = '';
 $userRedirectURI = '';
 $requestedURI = $GLOBALS['eZRequestedURI'];
-if ( strtolower( get_class( $requestedURI ) ) == 'ezuri' )
+if ( $requestedURI instanceof eZURI )
 {
     $userRedirectURI = $requestedURI->uriString( true );
 }

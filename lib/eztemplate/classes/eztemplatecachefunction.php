@@ -175,7 +175,7 @@ class eZTemplateCacheFunction
             $code .= "list(\$cacheHandler_{$codePlacementHash}, \$contentData) =\n  eZTemplateCacheBlock::handle( $cachePathText, $nodeIDText, $ttlCode, " . ($ignoreContentExpiry ? "false" : "true") . " );\n";
         }
         $code .=
-            "if ( strtolower( get_class( \$contentData ) ) != 'ezclusterfilefailure' )\n" .
+            "if ( !( \$contentData instanceof eZClusterFileFailure ) )\n" .
             "{\n";
 
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code, array( 'spacing' => 0 ) );

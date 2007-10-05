@@ -84,7 +84,7 @@ class eZDebugSetting
 
         $ini = $eZDebugSettingINIObject;
 
-        if ( isset( $eZDebugSettingINIObject ) and  strtolower( get_class( $ini ) ) == 'ezini' )
+        if ( isset( $eZDebugSettingINIObject ) and $ini instanceof eZINI )
         {
             if ( $ini->variable( 'DebugSettings', 'ConditionDebug' ) != 'enabled' )
                 return false;

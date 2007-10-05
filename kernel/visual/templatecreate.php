@@ -232,7 +232,7 @@ function generateNodeViewTemplate( $http, $template, $fileName )
             $templateCode = "<h1>{\$node.name}</h1>\n\n";
 
             // Append attribute view
-            if ( strtolower( get_class( $class ) ) == "ezcontentclass" )
+            if ( $class instanceof eZContentClass )
             {
                 $attributes = $class->fetchAttributes();
                 foreach ( $attributes as $attribute )
@@ -267,7 +267,7 @@ function generateNodeViewTemplate( $http, $template, $fileName )
             $templateCode = "<h1>{\$node.name}</h1>\n\n";
 
             // Append attribute view
-            if ( strtolower( get_class( $class ) ) == "ezcontentclass" )
+            if ( $class instanceof eZContentClass )
             {
                 $attributes = $class->fetchAttributes();
                 foreach ( $attributes as $attribute )
@@ -328,7 +328,7 @@ function generateObjectViewTemplate( $http, $template, $fileName )
             $templateCode = "<h1>{\$object.name}</h1>\n\n";
 
             // Append attribute view
-            if ( strtolower( get_class( $class ) ) == "ezcontentclass" )
+            if ( $class instanceof eZContentClass )
             {
                 $attributes = $class->fetchAttributes();
                 foreach ( $attributes as $attribute )

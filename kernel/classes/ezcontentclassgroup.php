@@ -173,13 +173,15 @@ class eZContentClassGroup extends eZPersistentObject
     */
     function appendClass( $class, $version = false )
     {
-        if ( strtolower( get_class( $class ) ) == 'ezcontentclass' )
+        if ( $class instanceof eZContentClass )
         {
             $classID = $class->attribute( 'id' );
             $version = $class->attribute( 'version' );
         }
         else
+        {
             $classID = $class;
+        }
         $classGroupLink = eZContentClassClassGroup::create( $classID,
                                                             $version,
                                                             $this->attribute( 'id' ),

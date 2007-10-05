@@ -707,13 +707,13 @@ class eZCLI
     */
     static function instance()
     {
-        $implementation =& $GLOBALS['eZCLIInstance'];
-        if ( !isset( $implementation ) or
-             strtolower( get_class( $implementation ) ) != 'ezcli' )
+        if ( !isset( $GLOBALS['eZCLIInstance'] ) ||
+             !( $GLOBALS['eZCLIInstance'] instanceof eZCLI ) )
         {
-            $implementation = new eZCLI();
+            $GLOBALS['eZCLIInstance'] = new eZCLI();
         }
-        return $implementation;
+
+        return $GLOBALS['eZCLIInstance'];
     }
 
     /*!
@@ -721,11 +721,7 @@ class eZCLI
     */
     function hasInstance()
     {
-        $implementation =& $GLOBALS['eZCLIInstance'];
-        if ( isset( $implementation ) && strtolower( get_class( $implementation ) ) == 'ezcli' )
-            return true;
-
-        return false;
+        return isset( $GLOBALS['eZCLIInstance'] ) && $GLOBALS['eZCLIInstance'] instanceof eZCLI;
     }
 }
 

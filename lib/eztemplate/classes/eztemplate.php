@@ -1225,7 +1225,7 @@ class eZTemplate
                                         $objectAttributeList = array();
                                         if ( method_exists( $value, 'attributes' ) )
                                             $objectAttributeList = $value->attributes();
-                                        $objectClass= strtolower( get_class( $value ) );
+                                        $objectClass= get_class( $value );
                                         $errorMessage = "No such attribute for object($objectClass): $attributeValue";
                                         $chooseText = "Choose one of following: ";
                                         $errorMessage .= "\n$chooseText";
@@ -1240,7 +1240,7 @@ class eZTemplate
                             {
                                 if ( !$checkExistance )
                                     $this->error( "",
-                                                  "Cannot retrieve attribute of object(" . strtolower( get_class( $value ) ) .
+                                                  "Cannot retrieve attribute of object(" . get_class( $value ) .
                                                   "), no attribute functions available",
                                                   $placement );
                                 return null;
@@ -1724,7 +1724,7 @@ class eZTemplate
                 }
             }
             if ( !$hasTemplateData )
-                $textElements[] = 'Object(' . strtolower( get_class( $item ) ) . ')';
+                $textElements[] = 'Object(' . get_class( $item ) . ')';
         }
         else
             $textElements[] = "$item";

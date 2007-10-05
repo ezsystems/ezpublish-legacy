@@ -241,12 +241,15 @@ class eZCodePageMapper
     */
     static function instance( $input_charset_code, $output_charset_code, $use_cache = true )
     {
-        $cp =& $GLOBALS["eZCodePageMapper-$input_charset_code-$output_charset_code"];
-        if ( strtolower( get_class( $cp ) ) != "ezcodepagemapper" )
+        $globalsKey = "eZCodePageMapper-$input_charset_code-$output_charset_code";
+
+        if ( !isset( $GLOBALS[$globalsKey] ) ||
+             !( $GLOBALS[$globalsKey] instanceof eZCodePageMapper ) )
         {
-            $cp = new eZCodePageMapper( $input_charset_code, $output_charset_code, $use_cache );
+            $GLOBALS[$globalsKey] = new eZCodePageMapper( $input_charset_code, $output_charset_code, $use_cache );
         }
-        return $cp;
+
+        return $GLOBALS[$globalsKey];
     }
 
 }

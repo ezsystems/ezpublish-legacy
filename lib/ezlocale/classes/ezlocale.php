@@ -1444,7 +1444,7 @@ class eZLocale
     function &localeFile( $withVariation = false )
     {
         $type = $withVariation ? 'variation' : 'default';
-        if ( strtolower( get_class( $this->LocaleINI[$type] ) ) != 'ezini' )
+        if ( !( $this->LocaleINI[$type] instanceof eZINI ) )
         {
             $country = $this->countryCode();
             $countryVariation = $this->countryVariation();
@@ -1475,7 +1475,7 @@ class eZLocale
     function &countryFile( $withVariation = false )
     {
         $type = $withVariation ? 'variation' : 'default';
-        if ( strtolower( get_class( $this->CountryINI[$type] ) ) != 'ezini' )
+        if ( !( $this->CountryINI[$type] instanceof eZINI ) )
         {
             $country = $this->countryCode();
             $countryVariation = $this->countryVariation();
@@ -1503,7 +1503,7 @@ class eZLocale
     function &languageFile( $withVariation = false )
     {
         $type = $withVariation ? 'variation' : 'default';
-        if ( strtolower( get_class( $this->LanguageINI[$type] ) ) != 'ezini' )
+        if ( !( $this->LanguageINI[$type] instanceof eZINI ) )
         {
             $language = $this->languageCode();
             $countryVariation = $this->countryVariation();
@@ -1536,7 +1536,7 @@ class eZLocale
         if ( $localeString === false )
         {
             $localeStringDefault =& $GLOBALS["eZLocaleStringDefault"];
-            if (!isset( $localeStringDefault ) )
+            if ( !isset( $localeStringDefault ) )
             {
                 $ini = eZINI::instance();
                 $localeString = $ini->variable( 'RegionalSettings', 'Locale' );
@@ -1550,12 +1550,15 @@ class eZLocale
                 $localeString = $localeStringDefault;
             }
         }
-        $instance =& $GLOBALS["eZLocaleInstance_$localeString"];
-        if ( strtolower( get_class( $instance ) ) != 'ezlocale' )
+
+        $globalsKey = "eZLocaleInstance_$localeString";
+
+        if ( !isset( $GLOBALS[$globalsKey] ||
+             !( $GLOBALS[$globalsKey] instanceof eZLocale ) )
         {
-            $instance = new eZLocale( $localeString );
+            $GLOBALS[$globalsKey] = new eZLocale( $localeString );
         }
-        return $instance;
+        return $GLOBALS[$globalsKey];
     }
 
     /*!

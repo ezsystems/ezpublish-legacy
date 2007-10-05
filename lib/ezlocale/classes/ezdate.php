@@ -65,7 +65,7 @@ $date1 = new eZDate();
 $date2 = eZDate::create();
 $date2->setLocale( $us_locale );
 $date2->adjustDate( 1, 2, 3 );
-$date3 =& $date1->duplicate();
+$date3 = $date1->duplicate();
 
 print( $date1->toString() );
 print( $date2->toString( true ) );
@@ -142,15 +142,15 @@ class eZDate
     /*!
      Sets the locale to $locale which is used in text output.
     */
-    function setLocale( &$locale )
+    function setLocale( $locale )
     {
-        $this->Locale =& $locale;
+        $this->Locale = $locale;
     }
 
     /*!
      Returns a reference to the current locale.
     */
-    function &locale()
+    function locale()
     {
         return $this->Locale;
     }
@@ -253,11 +253,13 @@ class eZDate
      a timestamp value or as an eZDate object. If $equal is true it returns true if
      they are equal as well.
     */
-    function isGreaterThan( &$date, $equal = false )
+    function isGreaterThan( $date, $equal = false )
     {
         $d1 = $this->timeStamp();
-        if ( strtolower( get_class( $date ) ) == 'ezdate' )
+        if ( $date instanceof eZDate )
+        {
             $d2 = $date->timeStamp();
+        }
         else
         {
             $arr = getdate( $date );
@@ -274,11 +276,13 @@ class eZDate
      Returns true if this object is equal to $date. $date can be specified as
      a timestamp value or as an eZDate object.
     */
-    function isEqualTo( &$date )
+    function isEqualTo( $date )
     {
         $d1 = $this->timeStamp();
-        if ( strtolower( get_class( $date ) ) == 'ezdate' )
+        if ( $date instanceof eZDate )
+        {
             $d2 = $date->timeStamp();
+        }
         else
         {
             $arr = getdate( $date );
@@ -304,13 +308,13 @@ class eZDate
     }
 
     /*!
-     Creates an exact copy of this object and returns a reference to it.
+     \deprecated This function is deprecated in PHP5, use the PHP5 clone keyword instead
+     Creates an exact copy of this object and returns it.
     */
-    function &duplicate()
+    function duplicate()
     {
-        $d = new eZDate( $this->Date );
-        $d->setLocale( $this->Locale );
-        return $d;
+        $copy = clone $this;
+        return $copy;
     }
 
     /*!

@@ -75,7 +75,7 @@ class eZSimplePrice
         $this->setPrice( $price );
 
         $discountPercent = 0.0;
-        if ( strtolower( get_class( $contentObjectAttribute ) ) == 'ezcontentobjectattribute' )
+        if ( $contentObjectAttribute instanceof eZContentObjectAttribute )
         {
             $object = $contentObjectAttribute->object();
             $this->ContentObject = $object;

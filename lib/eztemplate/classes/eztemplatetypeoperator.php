@@ -46,7 +46,7 @@ $var|is_null or is_null( $var )
 is_set( $var )
 is_unset( $var )
 $var|get_type or get_type( $var )
-$var|get_class or strtolower( get_class( $var ) )
+$var|get_class or get_class( $var )
 
 
 */
@@ -383,7 +383,7 @@ class eZTemplateTypeOperator
                 else if ( is_bool( $operand ) )
                     $value = 'boolean[' . ( $operand ? 'true' : 'false' ) . ']';
                 else if ( is_object( $operand ) )
-                    $value = 'object[' . strtolower( get_class( $operand ) ) . ']';
+                    $value = 'object[' . get_class( $operand ) . ']';
                 else if ( is_array( $operand ) )
                     $value = 'array[' . count( $operand ) . ']';
                 else if ( is_string( $operand ) )

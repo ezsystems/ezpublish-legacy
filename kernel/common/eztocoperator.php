@@ -78,7 +78,7 @@ class eZTOCOperator
     function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
         $dom = $namedParameters['dom'];
-        if ( strtolower( get_class( $dom ) ) == 'ezcontentobjectattribute' )
+        if ( $dom instanceof eZContentObjectAttribute )
         {
             $this->ObjectAttributeId = $dom->attribute( 'id' );
             $content = $dom->attribute( 'content' );

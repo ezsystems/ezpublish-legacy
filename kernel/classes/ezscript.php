@@ -1013,13 +1013,12 @@ class eZScript
 
     static function instance( $settings = array() )
     {
-        $implementation =& $GLOBALS['eZScriptInstance'];
-        if ( !isset( $implementation ) or
-             strtolower( get_class( $implementation ) ) != 'ezscript' )
+        if ( !isset( $GLOBALS['eZScriptInstance'] ) or
+             !( $GLOBALS['eZScriptInstance'] instanceof eZScript ) )
         {
-            $implementation = new eZScript( $settings );
+            $GLOBALS['eZScriptInstance'] = new eZScript( $settings );
         }
-        return $implementation;
+        return $GLOBALS['eZScriptInstance'];
     }
 
     /*!

@@ -176,7 +176,7 @@ switch( $operationResult['status'] )
                 return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
             }
 
-            if ( !strtolower( get_class( $object ) ) == 'ezcontentobject' )
+            if ( !( $object instanceof eZContentObject ) )
                 return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
             $node = $operationResult[ 'node' ];

@@ -164,14 +164,11 @@ class eZDOMDocument
       If the parameter is not an eZDOMNode it will not be set.
       \sa setRoot()
     */
-    function appendChild( $node )
+    function appendChild( eZDomNode $node )
     {
-        if ( strtolower( get_class( $node ) ) == "ezdomnode" )
-        {
-            if ( $this->setParentNode !== false )
-                $this->updateParentNodeProperty( $node );
-            $this->Root = $node;
-        }
+        if ( $this->setParentNode !== false )
+            $this->updateParentNodeProperty( $node );
+        $this->Root = $node;
     }
 
     /*!
@@ -674,7 +671,7 @@ class eZDOMDocument
             $charsetText = " encoding=\"$charset\"";
         $text = "<?xml version=\"1.0\"$charsetText?>\n";
 
-        if ( strtolower( get_class( $this->Root ) ) == "ezdomnode" )
+        if ( $this->Root instanceof eZDOMNode )
         {
             if ( isset( $this->dtd ) )
             {

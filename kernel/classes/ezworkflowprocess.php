@@ -298,18 +298,18 @@ class eZWorkflowProcess extends eZPersistentObject
             {
                 //eZDebugSetting::writeDebug( 'workflow-process', $workflowEvent ,"workflowEvent  is  null" );
             }
-            if ( strtolower( get_class( $workflowEvent ) ) == "ezworkflowevent")
+            if ( $workflowEvent instanceof eZWorkflowEvent )
             {
-                eZDebugSetting::writeDebug( 'workflow-process', strtolower( get_class( $workflowEvent ) )  ,"workflowEvent class  is ezworkflowevent " );
+                eZDebugSetting::writeDebug( 'workflow-process', get_class( $workflowEvent ), "workflowEvent class is ezworkflowevent" );
             }
             else
             {
-                eZDebugSetting::writeDebug( 'workflow-process', strtolower( get_class( $workflowEvent ) )  ,"workflowEvent class  is not ezworkflowevent " );
+                eZDebugSetting::writeDebug( 'workflow-process', get_class( $workflowEvent ), "workflowEvent class is not ezworkflowevent" );
             }
             eZDebugSetting::writeDebug( 'workflow-process', $done , "in while" );
             if ( $runCurrentEvent and
                  $workflowEvent !== null and
-                 strtolower( get_class( $workflowEvent ) ) == "ezworkflowevent" )
+                 $workflowEvent instanceof eZWorkflowEvent )
             {
                 $eventType = $workflowEvent->eventType();
 

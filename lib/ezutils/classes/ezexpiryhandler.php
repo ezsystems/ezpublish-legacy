@@ -147,12 +147,22 @@ class eZExpiryHandler
     */
     static function instance()
     {
-        $expiryInstance =& $GLOBALS['eZExpiryHandlerInstance'];
-        if ( !isset( $expiryInstance ) )
+        if ( !isset( $GLOBALS['eZExpiryHandlerInstance'] ) ||
+             !( $GLOBALS['eZExpiryHandlerInstance'] instanceof eZExpiryHandler ) )
         {
-            $expiryInstance = new eZExpiryHandler();
+            $GLOBALS['eZExpiryHandlerInstance'] = new eZExpiryHandler();
         }
-        return $expiryInstance;
+
+        return $GLOBALS['eZExpiryHandlerInstance'];
+    }
+
+    /*!
+     \static
+     \return true if there's a unique instance of the expiry handler, false otherwise.
+    */
+    static function hasInstance()
+    {
+        return isset( $GLOBALS['eZExpiryHandlerInstance'] ) && $GLOBALS['eZExpiryHandlerInstance'] instanceof eZExpiryHandler;
     }
 
     /*!
@@ -173,9 +183,7 @@ class eZExpiryHandler
 */
 function eZExpiryHandlerShutdownHandler()
 {
-    $expiryInstance =& $GLOBALS['eZExpiryHandlerInstance'];
-    if ( isset( $expiryInstance ) and
-         strtolower( get_class( $expiryInstance ) ) == 'ezexpiryhandler' )
+    if ( eZExpiryHandler::hasInstance() )
     {
         $instance = eZExpiryHandler::instance();
         if ( $instance->isModified() )

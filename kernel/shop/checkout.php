@@ -39,7 +39,7 @@ $module = $Params['Module'];
 $orderID = $http->sessionVariable( 'MyTemporaryOrderID' );
 $order = eZOrder::fetch( $orderID );
 
-if ( strtolower( get_class( $order ) ) == 'ezorder' )
+if ( $order instanceof eZOrder )
 {
     if (  $order->attribute( 'is_temporary' ) )
     {

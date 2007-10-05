@@ -205,7 +205,7 @@ class eZContentCacheManager
                  $attributes[$key]->attribute( 'data_type_string' ) == 'ezkeyword' )  // Found one
             {
                 $keywordObject = $attributes[$key]->content();
-                if ( strtolower( get_class( $keywordObject ) ) == 'ezkeyword' )
+                if ( $keywordObject instanceof eZKeyword )
                 {
                     foreach ( $keywordObject->attribute( 'keywords' ) as $keyword )
                     {

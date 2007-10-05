@@ -160,7 +160,7 @@ class eZImageTextLayer extends eZImageLayer
                              $absoluteWidth = false, $absoluteHeight = false )
     {
         $Return = false;
-        if ( strtolower( get_class( $font ) ) != 'ezimagefont' )
+        if ( !( $font instanceof eZImageFont ) )
             return $Return;
         if ( !function_exists( 'ImageTTFBBox' ) )
         {

@@ -222,7 +222,7 @@ class eZUserType extends eZDataType
     function storeObjectAttribute( $contentObjectAttribute )
     {
         $user = $contentObjectAttribute->content();
-        if ( strtolower( get_class( $user ) ) != "ezuser" )
+        if ( !( $user instanceof eZUser ) )
         {
             // create a default user account
             $user = eZUser::create( $contentObjectAttribute->attribute( "contentobject_id" ) );
@@ -352,7 +352,7 @@ class eZUserType extends eZDataType
         $metaString = "";
         $user = $contentObjectAttribute->content();
 
-        if ( strtolower( get_class( $user ) ) == "ezuser" )
+        if ( $user instanceof eZUser )
         {
             // create a default user account
             $metaString .= $user->attribute( 'login' ) . " ";

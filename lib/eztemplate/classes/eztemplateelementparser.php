@@ -610,12 +610,13 @@ class eZTemplateElementParser
 
     static function instance()
     {
-        $instance =& $GLOBALS['eZTemplateElementParserInstance'];
-        if ( strtolower( get_class( $instance ) ) != 'eztemplateelementparser' )
+        if ( !isset( $GLOBALS['eZTemplateElementParserInstance'] ) ||
+             !( $GLOBALS['eZTemplateElementParserInstance'] instanceof eZTemplateElementParser ) )
         {
-            $instance = new eZTemplateElementParser();
+            $GLOBALS['eZTemplateElementParserInstance'] = new eZTemplateElementParser();
         }
-        return $instance;
+
+        return $GLOBALS['eZTemplateElementParserInstance'];
     }
 
 }

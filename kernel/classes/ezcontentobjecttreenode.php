@@ -5770,7 +5770,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     function hasContentObject()
     {
-        if ( isset( $this->ContentObject ) && strtolower( get_class( $this->ContentObject ) ) == "ezcontentobject" )
+        if ( isset( $this->ContentObject ) && $this->ContentObject instanceof eZContentObject )
             return true;
         else
             return false;

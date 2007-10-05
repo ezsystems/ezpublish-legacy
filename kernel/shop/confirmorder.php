@@ -45,7 +45,7 @@ if ( !is_object( $order ) )
 
 //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
 
-if ( strtolower( get_class( $order ) ) == 'ezorder' )
+if ( $order instanceof eZOrder )
 {
     if ( $http->hasPostVariable( "ConfirmOrderButton" ) )
     {

@@ -51,7 +51,7 @@ class eZSMTPTransport extends eZMailTransport
     /*!
      \reimp
     */
-    function sendMail( &$mail )
+    function sendMail( eZMail $mail )
     {
         $ini = eZINI::instance();
         $parameters = array();

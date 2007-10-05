@@ -1065,7 +1065,7 @@ class eZContentFunctionCollection
 
     function checkAccess( $access, $contentObject, $contentClassID, $parentContentClassID, $languageCode = false )
     {
-        if ( strtolower( get_class( $contentObject ) ) == 'ezcontentobjecttreenode' )
+        if ( $contentObject instanceof eZContentObjectTreeNode )
         {
             $contentObject = $contentObject->attribute( 'object' );
         }
@@ -1078,7 +1078,7 @@ class eZContentFunctionCollection
                                                 'error_code' => eZError::KERNEL_NOT_FOUND ) );
             $contentClassID = $class->attribute( 'id' );
         }
-        if ( $access and strtolower( get_class( $contentObject ) ) == 'ezcontentobject' )
+        if ( $access and $contentObject instanceof eZContentObject )
         {
             $result = $contentObject->checkAccess( $access, $contentClassID, $parentContentClassID, false, $languageCode );
             return array( 'result' => $result );

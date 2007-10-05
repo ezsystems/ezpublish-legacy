@@ -234,8 +234,8 @@ class eZHTTPFile
     */
     static function canFetch( $http_name, $maxSize = false )
     {
-        $file =& $GLOBALS["eZHTTPFile-$http_name"];
-        if ( strtolower( get_class( $file ) ) != "ezhttpfile" )
+        if ( !isset( $GLOBALS["eZHTTPFile-$http_name"] ) ||
+             !( $GLOBALS["eZHTTPFile-$http_name"] instanceof eZHTTPFile )
         {
             if ( $maxSize === false )
             {
@@ -285,10 +285,10 @@ class eZHTTPFile
     */
     static function fetch( $http_name )
     {
-        $file =& $GLOBALS["eZHTTPFile-$http_name"];
-        if ( strtolower( get_class( $file ) ) != "ezhttpfile" )
+        if ( !isset( $GLOBALS["eZHTTPFile-$http_name"] ) ||
+             !( $GLOBALS["eZHTTPFile-$http_name"] instanceof eZHTTPFile ) )
         {
-            $file = null;
+            $GLOBALS["eZHTTPFile-$http_name"] = null;
 
             if ( isset( $_FILES[$http_name] ) and
                  $_FILES[$http_name]["name"] != "" )
@@ -297,13 +297,15 @@ class eZHTTPFile
                 //include_once( 'lib/ezfile/classes/ezfile.php' );
                 $mimeType = eZMimeType::findByURL( $_FILES[$http_name]['name'] );
                 $_FILES[$http_name]['type'] = $mimeType['name'];
-                $file = new eZHTTPFile( $http_name, $_FILES[$http_name] );
+                $GLOBALS["eZHTTPFile-$http_name"] = new eZHTTPFile( $http_name, $_FILES[$http_name] );
             }
             else
+            {
                 eZDebug::writeError( "Unknown file for post variable: $http_name",
                                      "eZHTTPFile" );
+            }
         }
-        return $file;
+        return $GLOBALS["eZHTTPFile-$http_name"];
     }
 
     /*!

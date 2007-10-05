@@ -315,7 +315,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             }
         }
 
-        if ( !isset( $object ) || !$object || strtolower( get_class( $object ) ) != "ezcontentobject" )
+        if ( !isset( $object ) || !$object || !( $object instanceof eZContentObject ) )
         {
             eZDebug::writeWarning( "Can't fetch object #$objectID", "XML output handler: embed" );
             return $ret;

@@ -270,7 +270,7 @@ class eZBinaryFileType extends eZDataType
 
         $contentObjectAttribute->setContent( $binaryFile );
 
-        if ( strtolower( get_class( $binaryFile ) ) == "ezhttpfile" )
+        if ( $binaryFile instanceof eZHTTPFile )
         {
             $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
             $version = $contentObjectAttribute->attribute( "version" );
@@ -570,7 +570,7 @@ class eZBinaryFileType extends eZDataType
         $binaryFile = $contentObjectAttribute->content();
 
         $metaData = "";
-        if ( strtolower( get_class( $binaryFile ) ) == "ezbinaryfile" )
+        if ( $binaryFile instanceof eZBinaryFile )
         {
             $metaData = $binaryFile->metaData();
         }

@@ -197,13 +197,13 @@ if ( $enable === 'true' )
                     $loginHandler = $loginHandlers[$key];
                     $userClass = eZUserLoginHandler::instance( $loginHandler );
                     $user = $userClass->loginUser( $loginUsername, $loginPassword );
-                    if ( strtolower( get_class( $user ) ) == 'ezuser' )
+                    if ( $user instanceof eZUser )
                         break;
                 }
             }
 
             // Check if username & password contain someting, attempt to login.
-            if ( strtolower( get_class( $user ) ) != 'ezuser' )
+            if ( !( $user instanceof eZUser ) )
             {
                 header( 'HTTP/1.0 401 Unauthorized' );
                 header( 'WWW-Authenticate: Basic realm="' . eZWebDAVContentServer::WEBDAV_AUTH_REALM . '"' );

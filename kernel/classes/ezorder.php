@@ -1274,7 +1274,7 @@ class eZOrder extends eZPersistentObject
     */
     function setStatus( $status )
     {
-        if ( strtolower( get_class( $status ) ) == "ezorderstatus" )
+        if ( $status instanceof eZOrderStatus )
             $this->StatusID = $status->attribute( 'id' );
         else
             $this->StatusID = $status;

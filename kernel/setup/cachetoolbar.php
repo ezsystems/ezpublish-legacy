@@ -75,7 +75,7 @@ elseif ( $cacheType == 'Static' )
 elseif ( $cacheType == 'ContentNode' )
 {
     $contentModule = eZModule::exists( 'content' );
-    if ( strtolower( get_class( $contentModule ) ) == "ezmodule" )
+    if ( $contentModule instanceof eZModule )
     {
         $contentModule->setCurrentAction( 'ClearViewCache', 'action' );
 
@@ -88,7 +88,7 @@ elseif ( $cacheType == 'ContentNode' )
 elseif ( $cacheType == 'ContentSubtree' )
 {
     $contentModule = eZModule::exists( 'content' );
-    if ( strtolower( get_class( $contentModule ) ) == "ezmodule" )
+    if ( $contentModule instanceof eZModule )
     {
         $contentModule->setCurrentAction( 'ClearViewCacheSubtree', 'action' );
 

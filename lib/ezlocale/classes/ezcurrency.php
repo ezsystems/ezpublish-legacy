@@ -59,9 +59,11 @@ class eZCurrency
     */
     function eZCurrency( $value )
     {
-        if ( strtolower( get_class( $value ) ) == "ezcurrency" )
-            $value =& $value->value();
-        $this->Value =& $value;
+        if ( $value instanceof eZCurrency )
+        {
+            $value = $value->value();
+        }
+        $this->Value = $value;
         $this->Locale = eZLocale::instance();
     }
 
@@ -95,7 +97,7 @@ class eZCurrency
     /*!
      Returns a reference to the current locale.
     */
-    function &locale()
+    function locale()
     {
         return $this->Locale;
     }

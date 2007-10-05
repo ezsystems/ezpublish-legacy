@@ -135,7 +135,7 @@ class eZTemplateAttributeOperator
             {
                 $type = gettype( $item );
                 if ( is_object( $item ) )
-                    $type .= "[" . strtolower( get_class( $item ) ) . "]";
+                    $type .= "[" . get_class( $item ) . "]";
                 $itemValue = $item;
                 if ( is_bool( $item ) )
                     $itemValue = $item ? "true" : "false";
@@ -175,7 +175,7 @@ class eZTemplateAttributeOperator
                 $item = $value->attribute( $key );
                 $type = gettype( $item );
                 if ( is_object( $item ) )
-                    $type .= "[" . strtolower( get_class( $item ) ) . "]";
+                    $type .= "[" . get_class( $item ) . "]";
                 $itemValue = $item;
                 if ( is_bool( $item ) )
                     $itemValue = $item ? "true" : "false";

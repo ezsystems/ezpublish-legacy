@@ -131,7 +131,7 @@ eZDebug::writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "er
         $uri = new eZURI( $errorEmbedURL );
         $moduleName = $uri->element();
         $embedModule = eZModule::exists( $moduleName );
-        if ( strtolower( get_class( $module ) ) == "ezmodule" )
+        if ( $module instanceof eZModule )
         {
             $uri->increase();
             $viewName = false;
@@ -181,7 +181,7 @@ eZDebug::writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "er
 
 $userRedirectURI = '';
 $requestedURI = $GLOBALS['eZRequestedURI'];
-if ( strtolower( get_class( $requestedURI ) ) == 'ezuri' )
+if ( $requestedURI instanceof eZURI )
 {
     $userRedirectURI = $requestedURI->uriString( true );
 }

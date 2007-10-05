@@ -306,13 +306,13 @@ class eZTime
     }
 
     /*!
-     Creates an exact copy of this object and returns a reference to it.
+     \deprecated This function is deprecated in PHP5, use the PHP5 clone keyword instead
+     Creates an exact copy of this object and returns it.
     */
-    function &duplicate()
+    function duplicate()
     {
-        $t = new eZTime( $this->Time );
-        $t->setLocale( $this->Locale );
-        return $t;
+        $copy = clone $this;
+        return $copy;
     }
 
     /*!
@@ -323,7 +323,7 @@ class eZTime
     function isGreaterThan( &$time, $equal = false )
     {
         $t1 =& $this->Time;
-        if ( strtolower( get_class( $time ) ) == 'eztime' )
+        if ( $time instanceof eZTime )
             $t2 = $time->timeOfDay();
         else
             $t2 = ( $time % self::EZTIME_SECONDS_A_DAY );
@@ -342,7 +342,7 @@ class eZTime
     function isEqualTo( &$time )
     {
         $t1 =& $this->Time;
-        if ( strtolower( get_class( $time ) ) == 'eztime' )
+        if ( $time instanceof eZTime )
             $t2 = $time->timeOfDay();
         else
             $t2 = ( $time % self::EZTIME_SECONDS_A_DAY );

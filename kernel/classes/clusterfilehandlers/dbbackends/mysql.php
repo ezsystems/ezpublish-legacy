@@ -1145,7 +1145,7 @@ class eZDBFileHandlerMysqlBackend
                     $this->_query( 'ROLLBACK', $fname );
                 return false;
             }
-            elseif ( strtolower( get_class( $result ) ) == 'ezmysqlbackenderror' )
+            elseif ( $result instanceof eZMySQLBackendError )
             {
                 eZDebug::writeError( $result->errorValue, $result->errorText );
                 $this->transactionCount--;
@@ -1169,7 +1169,7 @@ class eZDBFileHandlerMysqlBackend
         {
             eZDebug::writeError( "SQL failed" );
         }
-        elseif ( strtolower( get_class( $res ) ) == 'ezmysqlbackenderror' )
+        elseif ( $res instanceof eZMySQLBackendError )
         {
             eZDebug::writeError( $res->errorValue, $res->errorText );
         }

@@ -311,7 +311,7 @@ class eZDataType
                              $objectAttribute, $httpFile, $mimeData,
                              &$result )
     {
-        eZDebug::writeWarning( "The datatype " . strtolower( get_class( $this ) ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support insertion of HTTP files",
+        eZDebug::writeWarning( "The datatype " . get_class( $this ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support insertion of HTTP files",
                                'eZDataType::insertHTTPFile' );
         return null;
     }
@@ -339,7 +339,7 @@ class eZDataType
                                 $objectAttribute, $filePath,
                                 &$result )
     {
-        eZDebug::writeWarning( "The datatype " . strtolower( get_class( $this ) ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support insertion of regular files",
+        eZDebug::writeWarning( "The datatype " . get_class( $this ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support insertion of regular files",
                                'eZDataType::insertRegularFile' );
         return null;
     }
@@ -367,7 +367,7 @@ class eZDataType
                                  $objectAttribute, $string,
                                  &$result )
     {
-        eZDebug::writeWarning( "The datatype " . strtolower( get_class( $this ) ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support insertion of simple strings",
+        eZDebug::writeWarning( "The datatype " . get_class( $this ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support insertion of simple strings",
                                'eZDataType::insertSimplestring' );
         return null;
     }
@@ -453,7 +453,7 @@ class eZDataType
     */
     function productOptionInformation( $objectAttribute, $optionID, $productItem )
     {
-        eZDebug::writeWarning( "The datatype " . strtolower( get_class( $this ) ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support product options",
+        eZDebug::writeWarning( "The datatype " . get_class( $this ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support product options",
                                'eZDataType::productOptionInformation' );
         return null;
     }

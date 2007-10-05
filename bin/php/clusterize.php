@@ -173,7 +173,7 @@ if ( $wait )
 }
 
 $dbFileHandler = eZClusterFileHandler::instance();
-if ( !is_object( $dbFileHandler ) || strtolower( get_class( $dbFileHandler ) ) != 'ezdbfilehandler' )
+if ( !is_object( $dbFileHandler ) || !( $dbFileHandler instanceof eZDBFileHandler ) )
 {
     $cli->error( "Clustering settings specified incorrectly or the chosen file handler is ezfs." );
     $script->shutdown( 1 );

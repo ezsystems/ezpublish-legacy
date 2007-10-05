@@ -286,7 +286,7 @@ $designKeys = array( array( 'object', $contentObject->attribute( 'id' ) ), // Ob
 if ( $assignment )
 {
     $designKeys[] = array( 'parent_node', $assignment->attribute( 'parent_node' ) );
-    if ( strtolower( get_class( $parentNodeObject ) ) == 'ezcontentobjecttreenode' )
+    if ( $parentNodeObject instanceof eZContentObjectTreeNode )
         $designKeys[] = array( 'depth', $parentNodeObject->attribute( 'depth' ) + 1 );
 }
 

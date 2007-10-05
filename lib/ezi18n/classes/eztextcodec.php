@@ -522,15 +522,18 @@ class eZTextCodec
             $check = null;
             return $check;
         }
-        $codec =& $GLOBALS["eZTextCodec-$realInputCharsetCode-$realOutputCharsetCode"];
-        if ( strtolower( get_class( $codec ) ) != "eztextcodec" )
+
+        $globalsKey = "eZTextCodec-$realInputCharsetCode-$realOutputCharsetCode";
+        if ( !isset( $GLOBALS[$globalsKey] ) ||
+             !( $GLOBALS[$globalsKey] instanceof eZTextCodec ) )
         {
-            $codec = new eZTextCodec( $inputCharsetCode, $outputCharsetCode,
-                                      $realInputCharsetCode, $realOutputCharsetCode,
-                                      $inputEncoding, $outputEncoding );
+            $GLOBALS[$globalsKey] = new eZTextCodec( $inputCharsetCode, $outputCharsetCode,
+                                                     $realInputCharsetCode, $realOutputCharsetCode,
+                                                     $inputEncoding, $outputEncoding );
         }
-        $check =& $codec;
-        return $codec;
+
+        $check = $GLOBALS[$globalsKey];
+        return $GLOBALS[$globalsKey];
     }
 
     /*!

@@ -296,7 +296,7 @@ class eZMediaType extends eZDataType
             $mediaFile = eZHTTPFile::fetch( $mediaFilePostVarName );
         else
             $mediaFile = null;
-        if ( strtolower( get_class( $mediaFile ) ) == "ezhttpfile" )
+        if ( $mediaFile instanceof eZHTTPFile )
         {
             $mimeData = eZMimeType::findByFileContents( $mediaFile->attribute( "original_filename" ) );
             $mime = $mimeData['name'];

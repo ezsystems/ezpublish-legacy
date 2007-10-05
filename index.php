@@ -671,7 +671,7 @@ while ( $moduleRunRequired )
                 if ( $requireUserLogin )
                 {
                     $module = eZModule::exists( 'user' );
-                    if ( strtolower( get_class( $module ) ) == "ezmodule" )
+                    if ( $module instanceof eZModule )
                     {
                         $moduleResult = $module->run( 'login', array(),
                                                        array( 'SiteAccessAllowed' => false,

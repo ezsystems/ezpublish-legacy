@@ -91,7 +91,7 @@ class eZSchema
                 // register types
                 $element =& $this->parseElement( $schemaNode );
 
-                if ( strtolower( get_class( $element ) ) == "ezschemaelement" )
+                if ( $element instanceof eZSchemaElement )
                 {
                     if ( $i == 0 )
                     {
@@ -120,7 +120,7 @@ class eZSchema
             $element->setName( $schemaNode->attributeValue( "name" ) );
 
             // set the next reference in the parent element
-            if ( strtolower( get_class( $parentElement ) ) == "ezelement" )
+            if ( $parentElement instanceof eZElement )
                 $parentElement->setNext( $element );
 
             $minOccurs = $schemaNode->attributeValue( "minOccurs" );
@@ -183,7 +183,7 @@ class eZSchema
                                     {
                                         $subElement =& $this->parseElement( $seqElement, $element );
 
-                                        if ( get_clasS( $subElement ) == "ezschemaelement" )
+                                        if ( $subElement instanceof eZSchemaElement )
                                             $element->Children[] = $subElement;
 
                                     }

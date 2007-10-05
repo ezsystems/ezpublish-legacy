@@ -123,23 +123,16 @@ class eZDB
     */
     static function hasInstance()
     {
-        $impl =& $GLOBALS['eZDBGlobalInstance'];
-        $class = strtolower( get_class( $impl ) );
-        $hasDB = false;
-        if ( preg_match( '/.*?db/', $class ) )
-        {
-            $hasDB = true;
-        }
-        return $hasDB;
+        return isset( $GLOBALS['eZDBGlobalInstance'] ) && $GLOBALS['eZDBGlobalInstance'] instanceof eZDBInterface;
     }
 
     /*!
      \static
      Sets the global database instance to \a $instance.
     */
-    static function setInstance( &$instance )
+    static function setInstance( $instance )
     {
-        $GLOBALS['eZDBGlobalInstance'] =& $instance;
+        $GLOBALS['eZDBGlobalInstance'] = $instance;
     }
 
     /*!
@@ -150,10 +143,9 @@ class eZDB
     static function instance( $databaseImplementation = false, $databaseParameters = false, $forceNewInstance = false )
     {
         $impl =& $GLOBALS['eZDBGlobalInstance'];
-        $class = strtolower( get_class( $impl ) );
 
         $fetchInstance = false;
-        if ( strstr( $class, 'db' ) === false )
+        if ( !( $impl instanceof eZDBInterface ) )
             $fetchInstance = true;
 
         if ( $forceNewInstance  )

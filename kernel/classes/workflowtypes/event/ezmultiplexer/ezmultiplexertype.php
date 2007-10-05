@@ -260,7 +260,7 @@ class eZMultiplexerType extends eZWorkflowEventType
         {
             $userID = $processParameters['user_id'];
             $user = eZUser::fetch( $userID );
-            if ( strtolower( get_class( $user ) ) != 'ezuser' )
+            if ( !( $user instanceof eZUser ) )
             {
                 $user = eZUser::currentUser();
                 $userID = $user->id();

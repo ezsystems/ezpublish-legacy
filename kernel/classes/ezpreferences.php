@@ -129,7 +129,7 @@ class eZPreferences
     */
     static function value( $name, $user = false )
     {
-        if ( strtolower( get_class( $user ) ) != 'ezuser' )
+        if ( !( $user instanceof eZUser ) )
             $user = eZUser::currentUser();
 
         $value = false;
@@ -170,7 +170,7 @@ class eZPreferences
     */
     static function values( $user = false )
     {
-        if ( strtolower( get_class( $user ) ) != 'ezuser' )
+        if ( !( $user instanceof eZUser ) )
             $user = eZUser::currentUser();
 
         if ( !$user->isAnonymous() )

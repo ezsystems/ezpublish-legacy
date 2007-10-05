@@ -504,7 +504,7 @@ class eZRSSExport extends eZPersistentObject
             unset( $itemTitle );
 
             $titleContent =  $title->attribute( 'content' );
-            if ( strtolower( get_class( $titleContent ) ) == 'ezxmltext' )
+            if ( $titleContent instanceof eZXMLText )
             {
                 $outputHandler = $titleContent->attribute( 'output' );
                 $itemTitleText = $outputHandler->attribute( 'output_text' );
@@ -520,7 +520,7 @@ class eZRSSExport extends eZPersistentObject
             unset( $itemDescription );
 
             $descriptionContent =  $description->attribute( 'content' );
-            if ( strtolower( get_class( $descriptionContent ) ) == 'ezxmltext' )
+            if ( $descriptionContent instanceof eZXMLText )
             {
                 $outputHandler =  $descriptionContent->attribute( 'output' );
                 $itemDescriptionText = $outputHandler->attribute( 'output_text' );
@@ -687,7 +687,7 @@ class eZRSSExport extends eZPersistentObject
             unset( $itemTitle );
 
             $titleContent =  $title->attribute( 'content' );
-            if ( strtolower( get_class( $titleContent ) ) == 'ezxmltext' )
+            if ( $titleContent instanceof eZXMLText )
             {
                 $outputHandler =  $titleContent->attribute( 'output' );
                 $itemTitleText = $outputHandler->attribute( 'output_text' );
@@ -703,7 +703,7 @@ class eZRSSExport extends eZPersistentObject
             unset( $itemDescription );
 
             $descriptionContent =  $description->attribute( 'content' );
-            if ( strtolower( get_class( $descriptionContent ) ) == 'ezxmltext' )
+            if ( $descriptionContent instanceof eZXMLText )
             {
                 $outputHandler =  $descriptionContent->attribute( 'output' );
                 $itemDescriptionText = $outputHandler->attribute( 'output_text' );

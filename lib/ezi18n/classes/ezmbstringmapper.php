@@ -189,12 +189,15 @@ class eZMBStringMapper
 
     static function instance( $input_charset_code, $output_charset_code )
     {
-        $mb =& $GLOBALS["eZMBStringMapper-$input_charset_code-$output_charset_code"];
-        if ( strtolower( get_class( $mb ) ) != "ezmbstringmapper" )
+        $globalsKey = "eZMBStringMapper-$input_charset_code-$output_charset_code";
+
+        if ( !isset( $GLOBALS[$globalsKey] ||
+             !( $GLOBALS[$globalsKey] instanceof eZMBStringMapper ) )
         {
-            $mb = new eZMBStringMapper( $input_charset_code, $output_charset_code );
+            $GLOBALS[$globalsKey] = new eZMBStringMapper( $input_charset_code, $output_charset_code );
         }
-        return $mb;
+
+        return $GLOBALS[$globalsKey];
     }
 }
 

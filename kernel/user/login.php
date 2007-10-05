@@ -119,7 +119,7 @@ if ( $Module->isCurrentAction( 'Login' ) and
             $loginHandler = $loginHandlers[$key];
             $userClass = eZUserLoginHandler::instance( $loginHandler );
             $user = $userClass->loginUser( $userLogin, $userPassword );
-            if ( strtolower( get_class( $user ) ) == 'ezuser' )
+            if ( $user instanceof eZUser )
             {
                 $uri = eZURI::instance( eZSys::requestURI() );
                 $access = accessType( $uri,
@@ -166,7 +166,7 @@ if ( $Module->isCurrentAction( 'Login' ) and
                 break;
             }
         }
-        if ( ( strtolower( get_class( $user ) ) != 'ezuser' ) and $hasAccessToSite )
+        if ( !( $user instanceof eZUser ) and $hasAccessToSite )
             $loginWarning = true;
     }
     else
@@ -279,7 +279,7 @@ if ( $Module->isCurrentAction( 'Login' ) and
     }
 
     $userID = 0;
-    if ( strtolower( get_class( $user ) ) == 'ezuser' )
+    if ( $user instanceof eZUser )
         $userID = $user->id();
     if ( $userID > 0 )
     {
@@ -311,7 +311,7 @@ else
 {
     // called from outside of a template (?)
     $requestedURI = $GLOBALS['eZRequestedURI'];
-    if ( strtolower( get_class( $requestedURI ) ) == 'ezuri' )
+    if ( $requestedURI instanceof eZURI )
     {
         $requestedModule = $requestedURI->element( 0, false );
         $requestedView = $requestedURI->element( 1, false );

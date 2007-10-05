@@ -1179,7 +1179,7 @@ static function definition()
             }
             else
             {
-                eZDebug::writeError( 'Could not find function : "' . strtolower( get_class( $this ) ) . '::' . $functionName . '()".',
+                eZDebug::writeError( 'Could not find function : "' . get_class( $this ) . '::' . $functionName . '()".',
                                      'eZPersistentObject::attribute()' );
             }
             return $retVal;

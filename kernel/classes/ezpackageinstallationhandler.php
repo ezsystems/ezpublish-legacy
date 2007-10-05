@@ -346,7 +346,7 @@ class eZPackageInstallationHandler
     */
     function packageType( $package, &$persistentData )
     {
-        if ( strtolower( get_class( $package ) ) == 'ezpackage' )
+        if ( $package instanceof eZPackage )
         {
             return $package->attribute( 'type' );
         }

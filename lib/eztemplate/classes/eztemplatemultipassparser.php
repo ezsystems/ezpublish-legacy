@@ -1384,12 +1384,13 @@ class eZTemplateMultiPassParser extends eZTemplateParser
 
     static function instance()
     {
-        $instance =& $GLOBALS['eZTemplateMultiPassParserInstance'];
-        if ( strtolower( get_class( $instance ) ) != 'eztemplatemultipassparser' )
+        if ( !isset( $GLOBALS['eZTemplateMultiPassParserInstance'] ) ||
+             !( $GLOBALS['eZTemplateMultiPassParserInstance'] instanceof eZTemplateMultiPassParser )
         {
-            $instance = new eZTemplateMultiPassParser();
+            $GLOBALS['eZTemplateMultiPassParserInstance'] = new eZTemplateMultiPassParser();
         }
-        return $instance;
+
+        return $GLOBALS['eZTemplateMultiPassParserInstance'];
     }
 
     /// \privatesection

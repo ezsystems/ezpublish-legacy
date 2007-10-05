@@ -199,14 +199,15 @@ class eZHTTPTool
     */
     static function instance()
     {
-        $instance =& $GLOBALS["eZHTTPToolInstance"];
-        if ( strtolower( get_class( $instance ) ) != "ezhttptool" )
+        if ( !isset( $GLOBALS["eZHTTPToolInstance"] ) ||
+             !( $GLOBALS["eZHTTPToolInstance"] instanceof eZHTTPTool ) )
         {
-            $instance = new eZHTTPTool();
-            $instance->createPostVarsFromImageButtons();
+            $GLOBALS["eZHTTPToolInstance"] = new eZHTTPTool();
+            $GLOBALS["eZHTTPToolInstance"]->createPostVarsFromImageButtons();
             eZSessionStart();
         }
-        return $instance;
+
+        return $GLOBALS["eZHTTPToolInstance"];
     }
 
     /*!

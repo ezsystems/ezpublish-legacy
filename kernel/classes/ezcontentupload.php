@@ -830,7 +830,7 @@ class eZContentUpload
         }
 
         $file = eZHTTPFile::fetch( $httpFileIdentifier );
-        if ( strtolower( get_class( $file ) ) != "ezhttpfile" )
+        if ( !( $file instanceof eZHTTPFile ) )
         {
             $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
                                                         'Expected a eZHTTPFile object but got nothing.' ) );

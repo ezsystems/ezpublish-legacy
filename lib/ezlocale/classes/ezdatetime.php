@@ -92,14 +92,14 @@ class eZDateTime
     */
     function eZDateTime( $datetime = false )
     {
-        if ( strtolower( get_class( $datetime ) ) == 'ezdate' )
+        if ( $datetime instanceof eZDate )
         {
             $arr = getdate( $datetime->timeStamp() );
             $arr2 = getdate( $this->DateTime );
             $datetime = mktime( $arr2['hours'], $arr2['minutes'], $arr2['seconds'],
                                 $arr['mon'], $arr['mday'], $arr['year'] );
         }
-        else if ( strtolower( get_class( $datetime ) ) == 'eztime' )
+        else if ( $datetime instanceof eZTime )
         {
             $arr2 = getdate( $datetime->timeStamp() );
             $arr = getdate( $this->DateTime );
@@ -418,12 +418,12 @@ class eZDateTime
     */
     function isGreaterThan( &$datetime, $equal = false )
     {
-        if ( strtolower( get_class( $datetime ) ) == 'ezdate' )
+        if ( $datetime instanceof eZDate )
         {
             $d1 = $this->toDate();
             return $d1->isGreaterThan( $datetime, $equal );
         }
-        else if ( strtolower( get_class( $datetime ) ) == 'eztime' )
+        else if ( $datetime instanceof eZTime )
         {
             $t1 = $this->toTime();
             return $t1->isGreaterThan( $datetime, $equal );
@@ -431,10 +431,8 @@ class eZDateTime
         else
         {
             $dt1 = $this->timeStamp();
-            if ( strtolower( get_class( $datetime ) ) == 'ezdatetime' )
-                $dt2 = $datetime->timeStamp();
-            else
-                $dt2 = $datetime;
+            $dt2 = $datetime instanceof eZDateTime ? $datetime->timeStamp() : $datetime;
+
             if ( $dt1 > $dt2 )
                 return true;
             else if ( $equal and $dt1 == $dt2 )
@@ -451,12 +449,12 @@ class eZDateTime
     */
     function isEqualTo( &$datetime )
     {
-        if ( strtolower( get_class( $datetime ) ) == 'ezdate' )
+        if ( $datetime instanceof eZDate )
         {
             $d1 = $this->toDate();
             return $d1->isEqualTo( $datetime );
         }
-        else if ( strtolower( get_class( $datetime ) ) == 'eztime' )
+        else if ( $datetime instanceof eZTime )
         {
             $t1 = $this->toTime();
             return $t1->isEqualTo( $datetime );
@@ -464,10 +462,8 @@ class eZDateTime
         else
         {
             $dt1 = $this->timeStamp();
-            if ( strtolower( get_class( $datetime ) ) == 'ezdatetime' )
-                $dt2 = $datetime->timeStamp();
-            else
-                $dt2 = $datetime;
+            $dt2 = $datetime instanceof eZDateTime ? $datetime->timeStamp() : $datetime;
+
             return $dt1 == $dt2;
         }
     }
@@ -497,13 +493,13 @@ class eZDateTime
     }
 
     /*!
-     Creates an exact copy of this object and returns a reference to it.
+     \deprecated This function is deprecated in PHP5, use the PHP5 clone keyword instead
+     Creates an exact copy of this object and returns it.
     */
-    function &duplicate()
+    function duplicate()
     {
-        $dt = new eZDateTime( $this->DateTime );
-        $dt->setLocale( $this->Locale );
-        return $dt;
+        $copy = clone $this;
+        return $copy;
     }
 
     /*!

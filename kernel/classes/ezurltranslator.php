@@ -102,7 +102,7 @@ class eZURLTranslator
         $node = eZContentObjectTreeNode::fetchByCRC( $nodePathString );
 
         $uriResult = false;
-        if ( strtolower( get_class( $node ) ) == 'ezcontentobjecttreenode' )
+        if ( $node instanceof eZContentObjectTreeNode )
         {
             $uriResult= 'content/view/full/' . $node->attribute( 'node_id' ) . '/';
         }
@@ -116,7 +116,7 @@ class eZURLTranslator
     {
         die( __CLASS__ . "::" . __FUNCTION__ . " in file " . __FILE__ . ":" . __LINE__ . " is deprecated" );
         $instance =& $GLOBALS['eZURLTranslatorInstance'];
-        if ( strtolower( get_class( $instance ) ) != 'ezurltranslator' )
+        if ( !( $instance instanceof eZURLTranslator ) )
         {
             $instance = new eZURLTranslator();
         }

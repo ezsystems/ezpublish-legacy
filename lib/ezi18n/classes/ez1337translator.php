@@ -83,7 +83,7 @@ class eZ1337Translator extends eZTranslatorHandler
     /*!
      Translates the text into 1337 code.
     */
-    function &leetify( $text )
+    function leetify( $text )
     {
         $text = preg_replace( "/to/", "2", $text );
         $text = preg_replace( "/for/", "4", $text );
@@ -120,15 +120,17 @@ class eZ1337Translator extends eZTranslatorHandler
      \static
      Initialize the bork translator if this is not allready done.
     */
-    function &initialize()
+    static function initialize()
     {
-        $translator =& $GLOBALS["eZ1337Translator"];
-        if ( isset( $translator ) and strtolower( get_class( $translator ) ) == "ez1337translator" )
-            return $translator;
-        $translator = new eZ1337Translator();
-        $man =& eZTranslatorManager::instance();
-        $man->registerHandler( $translator );
-        return $translator;
+        if ( !isset( $GLOBALS['eZ1337Translator'] ||
+             !( $GLOBALS['eZ1337Translator'] instanceof eZ1337Translator ) )
+        {
+            $GLOBALS['eZ1337Translator'] = new eZ1337Translator();
+        }
+
+        $man = eZTranslatorManager::instance();
+        $man->registerHandler( $GLOBALS['eZ1337Translator'] );
+        return $GLOBALS['eZ1337Translator'];
     }
 
     /// \privatesection

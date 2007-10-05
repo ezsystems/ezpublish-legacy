@@ -651,21 +651,17 @@ class eZDOMNode
     /*!
       Appends the node \a $node as a child of the current node.
 
-      \return The node that was just inserted or \c false if it failed to insert a node.
+      \return The node that was just inserted.
 
       \note This will only make sense for element nodes.
     */
-    function appendChild( &$node )
+    function appendChild( eZDOMNode $node )
     {
-        if ( strtolower( get_class( $node ) ) == "ezdomnode" )
-        {
-            if ( $this->parentNode !== false )
-                $node->parentNode =& $this;
+        if ( $this->parentNode !== false )
+            $node->parentNode =& $this;
 
-            $this->Children[] =& $node;
-            return $node;
-        }
-        return false;
+        $this->Children[] =& $node;
+        return $node;
     }
 
     /*!
@@ -679,18 +675,14 @@ class eZDOMNode
     /*!
       Appends the attribute node \a $node as an attribute of the current node.
 
-      \return The attribute node that was just inserted or \c false if it failed to insert an attribute.
+      \return The attribute node that was just inserted.
 
       \note This will only make sense for element nodes.
     */
-    function appendAttribute( $node )
+    function appendAttribute( eZDOMNode $node )
     {
-        if ( strtolower( get_class( $node ) ) == "ezdomnode" )
-        {
-            $this->Attributes[] =& $node;
-            return $node;
-        }
-        return false;
+        $this->Attributes[] =& $node;
+        return $node;
     }
 
     function set_attribute( $name, $value )
@@ -1370,13 +1362,15 @@ class eZDOMNode
 
         if ( $node )
         {
-            if ( strtolower( get_class( $node ) ) == 'ezdomnode' )
+            if ( $node instanceof eZDOMNode )
             {
                 $d = eZDOMNode::debugNode( $node, $showAttributes, $showParent );
                 eZDebug::writeDebug( $d, $text );
             }
             else
+            {
                 eZDebug::writeDebug( $node, $text );
+            }
         }
         else
         {

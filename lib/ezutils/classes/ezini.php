@@ -1350,17 +1350,17 @@ class eZINI
     */
     static function instance( $fileName = "site.ini", $rootDir = "settings", $useTextCodec = null, $useCache = null, $useLocalOverrides = null, $directAccess = false, $addArrayDefinition = false )
     {
-        $impl =& $GLOBALS["eZINIGlobalInstance-$rootDir-$fileName-$useLocalOverrides"];
-        $isLoaded =& $GLOBALS["eZINIGlobalIsLoaded-$rootDir-$fileName-$useLocalOverrides"];
+        $globalsKey = "eZINIGlobalInstance-$rootDir-$fileName-$useLocalOverrides";
+        $globalsIsLoadedKey = "eZINIGlobalIsLoaded-$rootDir-$fileName-$useLocalOverrides";
 
-        $class = strtolower( get_class( $impl ) );
-        if ( $class != "ezini" )
+        if ( !isset( $GLOBALS[$globalsKey] ) ||
+             !( $GLOBALS[$globalsKey] instanceof eZINI ) )
         {
-            $isLoaded = false;
+            $GLOBALS[$globalsIsLoadedKey] = false;
 
             $impl = new eZINI( $fileName, $rootDir, $useTextCodec, $useCache, $useLocalOverrides, $directAccess, $addArrayDefinition );
 
-            $isLoaded = true;
+            $GLOBALS[$globalsIsLoadedKey] = true;
         }
         return $impl;
     }

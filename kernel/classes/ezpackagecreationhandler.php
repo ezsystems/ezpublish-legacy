@@ -515,7 +515,7 @@ class eZPackageCreationHandler
     */
     function packageType( $package, &$persistentData )
     {
-        if ( strtolower( get_class( $package ) ) == 'ezpackage' )
+        if ( $package instanceof eZPackage )
         {
             return $package->attribute( 'type' );
         }
@@ -532,7 +532,7 @@ class eZPackageCreationHandler
     function createPackage( $package, $http, &$persistentData, &$cleanupFiles, $storePackage = true )
     {
         $createdPackage = false;
-        if ( strtolower( get_class( $package ) ) != 'ezpackage' )
+        if ( !( $package instanceof eZPackage ) )
         {
             $package = eZPackage::create( $persistentData['name'],
                                           array( 'summary' => $persistentData['summary'] ) );
@@ -780,7 +780,7 @@ class eZPackageCreationHandler
 
         $persistentData['changelog_person'] = $changelogPerson;
         $persistentData['changelog_email'] = $changelogEmail;
-        if ( strtolower( get_class( $package ) ) != 'ezpackage' )
+        if ( !( $package instanceof eZPackage ) )
         {
             $changelogText = $this->initialChangelogEntry( $package, $http, $step, $persistentData, $tpl );
         }
@@ -937,7 +937,7 @@ class eZPackageCreationHandler
         $roleList = eZPackage::fetchMaintainerRoleIDList( $this->packageType( $package, $persistentData ), true );
         if ( count( $roleList ) > 0 )
         {
-            if ( strtolower( get_class( $package ) ) == 'ezpackage' )
+            if ( $package instanceof eZPackage )
             {
                 $maintainerPerson = false;
                 $user = eZUser::currentUser();
