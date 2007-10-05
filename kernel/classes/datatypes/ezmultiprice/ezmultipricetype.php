@@ -285,8 +285,7 @@ class eZMultiPriceType extends eZDataType
     */
     function deleteStoredObjectAttribute( $objectAttribute, $version = null )
     {
-        $multiprice = $objectAttribute->content();
-        $multiprice->removeByID( $objectAttribute->attribute( 'id' ), $version );
+        eZMultiprice::removeByID( $objectAttribute->attribute( 'id' ), $version );
     }
 
     function title( $contentObjectAttribute, $name = null )

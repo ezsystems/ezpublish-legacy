@@ -176,7 +176,7 @@ class eZBinaryFile extends eZPersistentObject
         }
     }
 
-    function removeByID( $id, $version )
+    static function removeByID( $id, $version )
     {
         if ( $version == null )
         {
