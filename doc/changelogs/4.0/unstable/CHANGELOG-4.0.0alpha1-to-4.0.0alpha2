@@ -1,7 +1,9 @@
-Changes from 3.9.0 to 4.0.0alpha1
+Changes from 4.0.0alpha1 to 4.0.0alpha2
 
 *Bugs:
 - Fixed bug #11561: Errors on SOAP response library.
 - Fixed bug #11572: Preview page from Template look does not display any information.
 - Fixed bug: updateisbn13.php doesn't accept --siteaccess param
   (Merged from trunk rev. 20290)
+- Fixed bug #11580: PHP warning: Undefined variable: origBlockName
+  (Merged from trunk rev. 20316)
