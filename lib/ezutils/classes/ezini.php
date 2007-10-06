@@ -1358,11 +1358,11 @@ class eZINI
         {
             $GLOBALS[$globalsIsLoadedKey] = false;
 
-            $impl = new eZINI( $fileName, $rootDir, $useTextCodec, $useCache, $useLocalOverrides, $directAccess, $addArrayDefinition );
+            $GLOBALS[$globalsKey] = new eZINI( $fileName, $rootDir, $useTextCodec, $useCache, $useLocalOverrides, $directAccess, $addArrayDefinition );
 
             $GLOBALS[$globalsIsLoadedKey] = true;
         }
-        return $impl;
+        return $GLOBALS[$globalsKey];
     }
 
     /*!
