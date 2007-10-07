@@ -340,7 +340,7 @@ class eZContentCacheManager
                     }
                     else
                     {
-                        // depricated
+                        // deprecated
                         if ( $type == 'clear_all_caches' )
                         {
                             $info['clear_cache_type'] = EZ_VCSC_CLEAR_ALL_CACHE;
