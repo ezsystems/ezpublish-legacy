@@ -20,8 +20,8 @@ Class diagram
                         +------------+
        ...   ...  ...   | eZISBNType |   ...   ...   ...
                         +------------+
-                             1| 
-                              | 
+                             1|
+                              |
                               |1
                      oo +------------+
        +----------------|  eZISBN13  |
@@ -43,7 +43,7 @@ eZISBNType
 ----------
 Is the main class for the isbn datatype, which inherit from eZDataType. This
 class is also handling all processing of ISBN-10 numbers, that is the old
-standard of ISBN, which now is depricated and should not be used.
+standard of ISBN, which now is deprecated and should not be used.
 
 The isbn Number is stored in one field, data_text in the table
 ezcontentobject_attribute, which will allways be stored with separator as

@@ -117,15 +117,15 @@ class eZRSSImport extends eZPersistentObject
                                                               'foreign_class' => 'eZContentClass',
                                                               'foreign_attribute' => 'id',
                                                               'multiplicity' => '1..*' ),
-                                         'class_title' => array( 'name' => 'ClassTitle', // depricated
+                                         'class_title' => array( 'name' => 'ClassTitle', // deprecated
                                                                  'datatype' => 'string',
                                                                  'default' => '',
                                                                  'required' => false ),
-                                         'class_url' => array( 'name' => 'ClassURL', // depricated
+                                         'class_url' => array( 'name' => 'ClassURL', // deprecated
                                                                'datatype' => 'string',
                                                                'default' => '',
                                                                'required' => false ),
-                                         'class_description' => array( 'name' => 'ClassDescription', // depricated
+                                         'class_description' => array( 'name' => 'ClassDescription', // deprecated
                                                                        'datatype' => 'string',
                                                                        'default' => '',
                                                                        'required' => false ),
