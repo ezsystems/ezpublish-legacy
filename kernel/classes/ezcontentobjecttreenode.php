@@ -5421,7 +5421,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $retNodes;
     }
 
-    function getParentNodeId( $nodeID )
+    static function getParentNodeId( $nodeID )
     {
         if ( !isset( $nodeID ) )
             return null;
