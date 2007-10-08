@@ -35,7 +35,7 @@ include_once( "kernel/common/template.php" );
 
 include_once( "kernel/classes/ezorder.php" );
 
-$module =& $Params["module"];
+$module =& $Params["Module"];
 
 $offset = $Params['Offset'];
 $limit = 15;
