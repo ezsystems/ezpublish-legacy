@@ -26,8 +26,18 @@
 //
 //
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-
 //
+
+if ( version_compare( phpversion(), '5.1' ) < 0 )
+{
+    //error_log( "Unsupported PHP version " . phpversion() .". eZ Publish 4.x does not run with PHP 4");
+    header( "HTTP/1.1 404 Not Found" );
+    print ( "WebDAV functionality is disabled!" );
+    exit;
+}
+
+require 'autoload.php';
+
 ignore_user_abort( true );
 ob_start();
 
@@ -102,10 +112,10 @@ function eZDBCleanup()
 function eZFatalError()
 {
     eZDebug::setHandleType( eZDebug::EZ_HANDLE_NONE );
-    if ( !class_exists( 'eZWebDAVServer' ) )
-    {
+    //if ( !class_exists( 'eZWebDAVServer' ) )
+    //{
         //include_once( "lib/ezwebdav/classes/ezwebdavserver.php" );
-    }
+    //}
     eZWebDAVServer::appendLogEntry( "****************************************" );
     eZWebDAVServer::appendLogEntry( "Fatal error: eZ Publish did not finish its request" );
     eZWebDAVServer::appendLogEntry( "The execution of eZ Publish was abruptly ended, the debug output is present below." );
