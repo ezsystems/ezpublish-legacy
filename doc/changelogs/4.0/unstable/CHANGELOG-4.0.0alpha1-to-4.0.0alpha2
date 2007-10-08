@@ -7,3 +7,4 @@ Changes from 4.0.0alpha1 to 4.0.0alpha2
   (Merged from trunk rev. 20290)
 - Fixed bug #11580: PHP warning: Undefined variable: origBlockName
   (Merged from trunk rev. 20316)
+- Fixed bug #11584: kernel/shop/customerlist.php uses $Params['module'] which should be $Params['Module']
