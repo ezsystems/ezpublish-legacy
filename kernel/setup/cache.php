@@ -86,7 +86,7 @@ if ( $module->isCurrentAction( 'ClearTemplateCache' ) )
     $cacheCleared['template'] = true;
 }
 
-if ( $module->isCurrentAction( 'ClearCache' ) )
+if ( $module->isCurrentAction( 'ClearCache' ) && $module->hasActionParameter( 'CacheList' ) && is_array( $module->actionParameter( 'CacheList' ) ) )
 {
     $cacheClearList = $module->actionParameter( 'CacheList' );
     eZCache::clearByID( $cacheClearList );
