@@ -10,3 +10,5 @@ Changes from 4.0.0alpha1 to 4.0.0alpha2
 - Fixed bug #11584: kernel/shop/customerlist.php uses $Params['module'] which should be $Params['Module']
 - Fixed bug #11593: Class attribute drafts after fresh install of website interface
   (Merged from trunk rev. 20338)
+- Fixed bug #11589: Fatal error: Cannot break/continue 1 level in kernel/setup/steps/ezstep_site_details.php on line 307
+  (Merged from trunk rev. 20342)

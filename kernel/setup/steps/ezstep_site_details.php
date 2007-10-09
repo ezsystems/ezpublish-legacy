@@ -296,7 +296,7 @@ class eZStepSiteDetails extends eZStepInstaller
             {
                 $this->Error[0] = array( 'type' => 'db',
                                                 'error_code' => $result['error_code'] );
-                continue;
+                return false;
             }
 
             // Store charset if found
