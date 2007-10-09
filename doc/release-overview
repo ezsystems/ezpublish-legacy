@@ -877,3 +877,27 @@ Datatype branch:
 - Revision=19767
 - Version url=http://svn.ez.no/svn/ezpublish/versions/3.10.0beta1
 - Date 22-Aug-2007
+
+3.8.10:
+- Release branch=release/3.8.10
+- Release branch start=
+- Release date 02-Oct-2007
+- Revision=20334
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.8.10
+- Date 02-Oct-2007
+
+3.9.4:
+- Release branch=release/3.9.4
+- Release branch start=20213
+- Release date 02-Oct-2007
+- Revision=20335
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.9.4
+- Date 02-Oct-2007
+
+3.10.0:
+- Release branch=release/3.10.0
+- Release branch start=20204
+- Release date 02-Oct-2007
+- Revision=20336
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.10.0
+- Date 02-Oct-2007
