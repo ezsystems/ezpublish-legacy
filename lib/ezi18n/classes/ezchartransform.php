@@ -392,27 +392,15 @@ class eZCharTransform
     */
     static function varExport( $value )
     {
-        $ver = phpversion();
-        // If we the version used is a PHP version with broken var_export
-        // we use our own PHP code to export.
-        // PHP versions known to have broken var_export are:
-        // 4.3.4 and lower
-        // 4.3.10
-        if ( version_compare( $ver, '4.3.5' ) < 0 or
-             ( version_compare( $ver, '4.3.10' ) >= 0 and
-               version_compare( $ver, '4.3.11' ) < 0 ) )
-        {
-            return eZCharTransform::varExportInternal( $value );
-        }
-        else
-        {
-            return var_export( $value, true );
-        }
+        return var_export( $value, true );
     }
 
     /*!
      \private
      \static
+     Creates a text representation of the value \a $value which can
+     be placed in files and be read back by a PHP parser as it was.
+     Meant as a replacement for PHP versions with broken var_export.
     */
     static function varExportInternal( $value, $column = 0, $iteration = 0 )
     {
