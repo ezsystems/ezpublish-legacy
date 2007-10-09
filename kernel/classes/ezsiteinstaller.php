@@ -498,6 +498,9 @@ class eZSiteInstaller
             $attributes =& $class->fetchAttributes();
             $attributes[] =& $newAttribute;
 
+            // remove temporary version
+            $newAttribute->remove();
+
             $newAttribute->setAttribute( 'version', EZ_CLASS_VERSION_STATUS_DEFINED );
             $newAttribute->setAttribute( 'placement', count( $attributes ) );
 
