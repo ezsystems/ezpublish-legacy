@@ -104,11 +104,11 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
 
     function notificationParticipantTemplate( $participantRole )
     {
-        if ( $participantRole == eZCollaborationItemParticipantLink::EZ_COLLABORATION_PARTICIPANT_ROLE_APPROVER )
+        if ( $participantRole == eZCollaborationItemParticipantLink::ROLE_APPROVER )
         {
             return 'approve.tpl';
         }
-        else if ( $participantRole == eZCollaborationItemParticipantLink::EZ_COLLABORATION_PARTICIPANT_ROLE_AUTHOR )
+        else if ( $participantRole == eZCollaborationItemParticipantLink::ROLE_AUTHOR )
         {
             return 'author.tpl';
         }
@@ -212,16 +212,16 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
         $collaborationID = $collaborationItem->attribute( 'id' );
 
         $participantList = array( array( 'id' => array( $authorID ),
-                                         'role' => eZCollaborationItemParticipantLink::EZ_COLLABORATION_PARTICIPANT_ROLE_AUTHOR ),
+                                         'role' => eZCollaborationItemParticipantLink::ROLE_AUTHOR ),
                                   array( 'id' => $approverIDArray,
-                                         'role' => eZCollaborationItemParticipantLink::EZ_COLLABORATION_PARTICIPANT_ROLE_APPROVER ) );
+                                         'role' => eZCollaborationItemParticipantLink::ROLE_APPROVER ) );
         foreach ( $participantList as $participantItem )
         {
             foreach( $participantItem['id'] as $participantID )
             {
                 $participantRole = $participantItem['role'];
                 $link = eZCollaborationItemParticipantLink::create( $collaborationID, $participantID,
-                                                                    $participantRole, eZCollaborationItemParticipantLink::EZ_COLLABORATION_PARTICIPANT_TYPE_USER );
+                                                                    $participantRole, eZCollaborationItemParticipantLink::TYPE_USER );
                 $link->store();
 
                 $profile = eZCollaborationProfile::instance( $participantID );
@@ -262,7 +262,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
             foreach( $participantList as $participant )
             {
                 if ( $participant->ParticipantID == $userID &&
-                     $participant->ParticipantRole == eZCollaborationItemParticipantLink::EZ_COLLABORATION_PARTICIPANT_ROLE_APPROVER )
+                     $participant->ParticipantRole == eZCollaborationItemParticipantLink::ROLE_APPROVER )
                 {
                     $approveAllowed = true;
                     break;

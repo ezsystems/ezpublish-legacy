@@ -141,7 +141,7 @@ class eZCollaborationItemHandler
     {
         //include_once( 'kernel/classes/ezcollaborationitemparticipantlink.php' );
         $participantList = eZCollaborationItemParticipantLink::fetchParticipantList( array( 'item_id' => $item->attribute( 'id' ),
-                                                                                             'participant_type' => eZCollaborationItemParticipantLink::EZ_COLLABORATION_PARTICIPANT_TYPE_USER,
+                                                                                             'participant_type' => eZCollaborationItemParticipantLink::TYPE_USER,
                                                                                              'as_object' => false ) );
 
         $userIDList = array();
