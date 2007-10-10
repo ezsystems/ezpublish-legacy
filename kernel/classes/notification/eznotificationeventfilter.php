@@ -74,7 +74,7 @@ class eZNotificationEventFilter
             }
             else
             {
-                $event->setAttribute( 'status', eZNotificationEvent::EZ_NOTIFICATIONEVENT_STATUS_HANDLED );
+                $event->setAttribute( 'status', eZNotificationEvent::STATUS_HANDLED );
                 $event->store();
             }
         }
