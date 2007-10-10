@@ -43,17 +43,17 @@ Of course you can use all other protocols like http, https, ftp etc. like before
 if you want. It should also be possible to use nodepaths instead of an ID. If a
 nodepath is detected (e.g community/specs would be valid on ez.no) the page is
 translated into the corresponding node or object id. This id is then used for in
-the URL. 
+the URL.
 
 *Backward compatibility:
 
 The old object tag which was used to render both links and embedded objects is
-now depricated. However it is not removed to keep backward compatibility.
+now deprecated. However it is not removed to keep backward compatibility.
 
 *Implementation details:
 
 - 'href' attribute is not stored in DB. Instead we store 'node_id', 'object_id',
-  'url_id' attributes depending on used protocol. 
+  'url_id' attributes depending on used protocol.
 
 - When you use nodepath in 'eznode://' protocol, for ex.:
   " href='eznode://galleries/misc_flowers' ", no nodepath is stored in the DB.

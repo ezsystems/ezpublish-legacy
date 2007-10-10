@@ -84,7 +84,7 @@ class eZTipafriendCounter extends eZPersistentObject
     }
 
     /*!
-     \depricated
+     \deprecated
      Use removeForNode instead
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
@@ -95,7 +95,7 @@ class eZTipafriendCounter extends eZPersistentObject
     }
 
     /*!
-     \depricated, will be removed in future versions of eZP
+     \deprecated, will be removed in future versions of eZP
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */

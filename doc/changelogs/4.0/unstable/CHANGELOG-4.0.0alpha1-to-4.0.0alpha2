@@ -20,3 +20,5 @@ Changes from 4.0.0alpha1 to 4.0.0alpha2
   (Merged from trunk rev. 20357)
 - Fixed bug #11576: Unclear text in "ezcache.php" script.
   (Merged from trunk rev. 20358)
+- Fixed bug #11581: depricated should be deprecated.
+  (Merged from trunk rev. 20362)

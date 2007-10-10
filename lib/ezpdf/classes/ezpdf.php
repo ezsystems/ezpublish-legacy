@@ -418,7 +418,7 @@ class eZPDF
 
             } break;
 
-            /* depricated */
+            /* deprecated */
             case 'footer':
             case 'frame_header':
             {
