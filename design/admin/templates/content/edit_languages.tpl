@@ -114,7 +114,7 @@
 {foreach $object_create_languages as $language}
 
     <label>
-       <input name="EditLanguage" type="radio" value="{$language.locale}"{run-once} checked="checked"{/run-once} /> {$language.name|wash}
+       <input name="EditLanguage" type="radio" value="{$language.locale}" /> {$language.name|wash}
     </label>
     <div class="labelbreak"></div>
 {/foreach}
