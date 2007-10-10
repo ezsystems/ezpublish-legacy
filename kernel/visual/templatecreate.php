@@ -160,7 +160,16 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
 
             $oldumask = umask( 0 );
             $overrideINI->save( "siteaccess/$siteAccess/override.ini.append" );
-            chmod( "settings/siteaccess/$siteAccess/override.ini.append.php", octdec( $filePermission ) );
+            $overridePath = "settings/siteaccess/$siteAccess/override.ini.append.php";
+            if ( file_exists( $overridePath ) )
+            {
+                $s = stat($overridePath); 
+                $mode = $s["mode"] & 0777; // get only the last 9 bits.
+                if ($mode & $filePermission != $filePermission ) // filePermission wrong?
+                {
+                    chmod( $overridePath, octdec( $filePermission ) );
+                }
+            }
             umask( $oldumask );
 
             // Expire content view cache
