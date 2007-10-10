@@ -35,12 +35,12 @@
 
 class eZMultiPriceData extends eZPersistentObject
 {
-    const EZ_MULTIPRICEDATA_VALUE_TYPE_CUSTOM = 1;
-    const EZ_MULTIPRICEDATA_VALUE_TYPE_AUTO = 2;
-    const EZ_MULTIPRICEDATA_FETCH_DATA_LIST_LIMIT = 5000;
+    const VALUE_TYPE_CUSTOM = 1;
+    const VALUE_TYPE_AUTO = 2;
+    const FETCH_DATA_LIST_LIMIT = 5000;
 
-    const EZ_MULTIPRICEDATA_OK = 0;
-    const EZ_MULTIPRICEDATA_AUTOPRICES_UPDATE_FAILED = 1;
+    const ERROR_OK = 0;
+    const ERROR_AUTOPRICES_UPDATE_FAILED = 1;
 
     function eZMultiPriceData( $row )
     {
@@ -191,9 +191,9 @@ class eZMultiPriceData extends eZPersistentObject
         $dataList = false;
         $insertSql = 'INSERT INTO ezmultipricedata(contentobject_attr_id, contentobject_attr_version, currency_code, type)';
 
-        $fetchCount = self::EZ_MULTIPRICEDATA_FETCH_DATA_LIST_LIMIT;
+        $fetchCount = self::FETCH_DATA_LIST_LIMIT;
         $db->begin();
-        while( $fetchCount === self::EZ_MULTIPRICEDATA_FETCH_DATA_LIST_LIMIT  )
+        while( $fetchCount === self::FETCH_DATA_LIST_LIMIT  )
         {
             $dataList = eZMultiPriceData::fetchDataListWithoutPriceInCurrency( $currencyCode, $fetchCount );
             $fetchCount = count( $dataList );
@@ -202,7 +202,7 @@ class eZMultiPriceData extends eZPersistentObject
             foreach ( $dataList as $data )
             {
                 $sql = $insertSql . "
-                               VALUES( {$data['contentobject_attr_id']}, {$data['contentobject_attr_version']}, '$currencyCode', " . self::EZ_MULTIPRICEDATA_VALUE_TYPE_AUTO . " )";
+                               VALUES( {$data['contentobject_attr_id']}, {$data['contentobject_attr_version']}, '$currencyCode', " . self::VALUE_TYPE_AUTO . " )";
                 $db->query( $sql );
             }
         }
@@ -268,8 +268,8 @@ class eZMultiPriceData extends eZPersistentObject
                                 AND ezmultipricedata.contentobject_attr_version = ezcontentobject_attribute.version
                                 AND ezmultipricedata.contentobject_attr_id = ezcontentobject_attribute.id";
 
-            $fetchCount = self::EZ_MULTIPRICEDATA_FETCH_DATA_LIST_LIMIT;
-            while( $fetchCount === self::EZ_MULTIPRICEDATA_FETCH_DATA_LIST_LIMIT  )
+            $fetchCount = self::FETCH_DATA_LIST_LIMIT;
+            while( $fetchCount === self::FETCH_DATA_LIST_LIMIT  )
             {
                 $dataList = $db->arrayQuery( $fetchSql, array( 'limit' => $fetchCount ) );
                 $fetchCount = count( $dataList );
@@ -314,8 +314,8 @@ class eZMultiPriceData extends eZPersistentObject
                                 AND ezmultipricedata.contentobject_attr_version = ezcontentobject_attribute.version
                                 AND ezmultipricedata.contentobject_attr_id = ezcontentobject_attribute.id";
 
-            $fetchCount = self::EZ_MULTIPRICEDATA_FETCH_DATA_LIST_LIMIT;
-            while( $fetchCount === self::EZ_MULTIPRICEDATA_FETCH_DATA_LIST_LIMIT  )
+            $fetchCount = self::FETCH_DATA_LIST_LIMIT;
+            while( $fetchCount === self::FETCH_DATA_LIST_LIMIT  )
             {
                 $dataList = $db->arrayQuery( $fetchSql, array( 'limit' => $fetchCount ) );
                 $fetchCount = count( $dataList );
@@ -353,7 +353,7 @@ class eZMultiPriceData extends eZPersistentObject
 
         if ( $currencyListCount > 0 )
         {
-            $fetchCount = self::EZ_MULTIPRICEDATA_FETCH_DATA_LIST_LIMIT;
+            $fetchCount = self::FETCH_DATA_LIST_LIMIT;
             $fetchOffset = 0;
             $sql = "SELECT DISTINCT ezmultipricedata.*
                     FROM ezmultipricedata, ezcontentobject, ezcontentobject_attribute
@@ -368,7 +368,7 @@ class eZMultiPriceData extends eZPersistentObject
 
             $db = eZDB::instance();
             $db->begin();
-            while( $fetchCount === self::EZ_MULTIPRICEDATA_FETCH_DATA_LIST_LIMIT  )
+            while( $fetchCount === self::FETCH_DATA_LIST_LIMIT  )
             {
                 $multipriceDataList = $db->arrayQuery( $sql, array( 'offset' => $fetchOffset, 'limit' => $fetchCount ) );
                 $fetchCount = count( $multipriceDataList );
@@ -386,7 +386,7 @@ class eZMultiPriceData extends eZPersistentObject
                         $fromValue = $multipriceData['value'];
                     }
 
-                    if ( $multipriceData['type'] == self::EZ_MULTIPRICEDATA_VALUE_TYPE_AUTO )
+                    if ( $multipriceData['type'] == self::VALUE_TYPE_AUTO )
                     {
                         $value = $converter->convert( $fromCurrency, $multipriceData['currency_code'], $fromValue );
 
@@ -398,7 +398,7 @@ class eZMultiPriceData extends eZPersistentObject
             $db->commit();
         }
 
-        $error = array( 'code' => self::EZ_MULTIPRICEDATA_OK,
+        $error = array( 'code' => self::ERROR_OK,
                         'description' => ezi18n( 'kernel/shop', "'Auto' prices were updated successfully." ) );
 
         return $error;

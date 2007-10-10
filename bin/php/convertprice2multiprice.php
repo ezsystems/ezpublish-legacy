@@ -141,7 +141,7 @@ foreach ( $classList as $class )
                                                                 $version,
                                                                 $defaultCurrencyCode,
                                                                 $priceValue,
-                                                                eZMultiPriceData::EZ_MULTIPRICEDATA_VALUE_TYPE_CUSTOM );
+                                                                eZMultiPriceData::VALUE_TYPE_CUSTOM );
                         $multiprice->store();
 
                         $objectAttribute->setAttribute( 'data_type_string', 'ezmultiprice' );

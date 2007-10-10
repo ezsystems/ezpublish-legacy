@@ -250,12 +250,12 @@ class eZMultiPrice extends eZSimplePrice
     */
     function customPriceList()
     {
-        return $this->priceList( eZMultiPriceData::EZ_MULTIPRICEDATA_VALUE_TYPE_CUSTOM );
+        return $this->priceList( eZMultiPriceData::VALUE_TYPE_CUSTOM );
     }
 
     function autoPriceList()
     {
-        return $this->priceList( eZMultiPriceData::EZ_MULTIPRICEDATA_VALUE_TYPE_AUTO );
+        return $this->priceList( eZMultiPriceData::VALUE_TYPE_AUTO );
     }
 
     function priceList( $type = false )
@@ -371,12 +371,12 @@ class eZMultiPrice extends eZSimplePrice
 
     function setCustomPrice( $currencyCode, $value )
     {
-        $this->setPriceByCurrency( $currencyCode, $value, eZMultiPriceData::EZ_MULTIPRICEDATA_VALUE_TYPE_CUSTOM );
+        $this->setPriceByCurrency( $currencyCode, $value, eZMultiPriceData::VALUE_TYPE_CUSTOM );
     }
 
     function setAutoPrice( $currencyCode, $value )
     {
-        $this->setPriceByCurrency( $currencyCode, $value, eZMultiPriceData::EZ_MULTIPRICEDATA_VALUE_TYPE_AUTO );
+        $this->setPriceByCurrency( $currencyCode, $value, eZMultiPriceData::VALUE_TYPE_AUTO );
     }
 
     function setPriceByCurrency( $currencyCode, $value, $type )
@@ -464,12 +464,12 @@ class eZMultiPrice extends eZSimplePrice
 
     function customPrice( $currencyCode )
     {
-        return $this->priceByCurrency( $currencyCode, eZMultiPriceData::EZ_MULTIPRICEDATA_VALUE_TYPE_CUSTOM );
+        return $this->priceByCurrency( $currencyCode, eZMultiPriceData::VALUE_TYPE_CUSTOM );
     }
 
     function autoPrice( $currencyCode )
     {
-        return $this->priceByCurrency( $currencyCode, eZMultiPriceData::EZ_MULTIPRICEDATA_VALUE_TYPE_AUTO );
+        return $this->priceByCurrency( $currencyCode, eZMultiPriceData::VALUE_TYPE_AUTO );
     }
 
     /*!
