@@ -461,9 +461,22 @@ function createTranslationSiteAccesses( $params )
 {
     foreach( $params['locales'] as $locale )
     {
+        // Prepare 'SiteLanguageList':
+        // make $locale as 'top priority language'
+        // and append 'primary language' as fallback language.
+        $primaryLanguage = $params['primary_language'];
+        $languageList = array( $locale );
+        if ( $locale != $primaryLanguage )
+        {
+            $languageList[] = $primaryLanguage;
+        }
+
         eZSiteInstaller::createSiteAccess( array( 'src' => array( 'siteaccess' => $params['user_siteaccess'] ),
                                                   'dst' => array( 'siteaccess' => eZSiteInstaller::languageNameFromLocale( $locale ),
-                                                                  'locale' => $locale ) ) );
+                                                                  'settings' => array( 'site.ini' => array( 'RegionalSettings' => array( 'Locale' => $locale,
+                                                                                                                                         'ContentObjectLocale' => $locale,
+                                                                                                                                         'TextTranslation' => $locale != 'eng-GB' ? 'enabled' : 'disabled',
+                                                                                                                                         'SiteLanguageList' => $languageList ) ) ) ) ) );
     }
 }
 
