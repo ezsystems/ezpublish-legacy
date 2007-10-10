@@ -81,7 +81,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
                                            ezi18n( 'kernel/classes', 'Approval' ),
                                            array( 'use-messages' => true,
                                                   'notification-types' => true,
-                                                  'notification-collection-handling' => eZCollaborationItemHandler::EZ_COLLABORATION_NOTIFICATION_COLLECTION_PER_PARTICIPATION_ROLE ) );
+                                                  'notification-collection-handling' => eZCollaborationItemHandler::NOTIFICATION_COLLECTION_PER_PARTICIPATION_ROLE ) );
     }
 
     /*!

@@ -45,9 +45,9 @@ class eZCollaborationItemHandler
     /*
      Definitions for notification handling for collaboration handlers.
     */
-    const EZ_COLLABORATION_NOTIFICATION_COLLECTION_ONE_FOR_ALL = 1;
-    const EZ_COLLABORATION_NOTIFICATION_COLLECTION_PER_USER = 2;
-    const EZ_COLLABORATION_NOTIFICATION_COLLECTION_PER_PARTICIPATION_ROLE = 3;
+    const NOTIFICATION_COLLECTION_ONE_FOR_ALL = 1;
+    const NOTIFICATION_COLLECTION_PER_USER = 2;
+    const NOTIFICATION_COLLECTION_PER_PARTICIPATION_ROLE = 3;
 
     /*!
      Initializes the handler with identifier and name.
@@ -57,7 +57,7 @@ class eZCollaborationItemHandler
     {
         $parameters = array_merge( array( 'use-messages' => false,
                                           'type-class-list' => array(),
-                                          'notification-collection-handling' => self::EZ_COLLABORATION_NOTIFICATION_COLLECTION_ONE_FOR_ALL,
+                                          'notification-collection-handling' => self::NOTIFICATION_COLLECTION_ONE_FOR_ALL,
                                           'notification-types' => false ),
                                    $parameters );
         $typeClassList = $parameters['type-class-list'];
@@ -176,7 +176,7 @@ class eZCollaborationItemHandler
 
         $db = eZDB::instance();
         $db->begin();
-        if ( $collectionHandling == self::EZ_COLLABORATION_NOTIFICATION_COLLECTION_ONE_FOR_ALL )
+        if ( $collectionHandling == self::NOTIFICATION_COLLECTION_ONE_FOR_ALL )
         {
             //include_once( 'kernel/classes/notification/eznotificationcollection.php' );
             require_once( 'kernel/common/template.php' );
@@ -207,7 +207,7 @@ class eZCollaborationItemHandler
                 $collection->addItem( $subscriber['email'] );
             }
         }
-        else if ( $collectionHandling == self::EZ_COLLABORATION_NOTIFICATION_COLLECTION_PER_PARTICIPATION_ROLE )
+        else if ( $collectionHandling == self::NOTIFICATION_COLLECTION_PER_PARTICIPATION_ROLE )
         {
             $userCollection = array();
             foreach( $userList as $subscriber )
@@ -260,7 +260,7 @@ class eZCollaborationItemHandler
                 }
             }
         }
-        else if ( $collectionHandling == self::EZ_COLLABORATION_NOTIFICATION_COLLECTION_PER_USER )
+        else if ( $collectionHandling == self::NOTIFICATION_COLLECTION_PER_USER )
         {
         }
         else
