@@ -54,7 +54,7 @@
 
 class eZTranslatorManager
 {
-    const EZ_TM_DYNAMIC_TRANSLATIONS_ENABLED = 'eZTMDynamicTranslationsEnabled';
+    const DYNAMIC_TRANSLATIONS_ENABLED = 'eZTMDynamicTranslationsEnabled';
 
     /*!
     */
@@ -219,7 +219,7 @@ class eZTranslatorManager
     */
     static function dynamicTranslationsEnabled()
     {
-        return isset( $GLOBALS[self::EZ_TM_DYNAMIC_TRANSLATIONS_ENABLED] );
+        return isset( $GLOBALS[self::DYNAMIC_TRANSLATIONS_ENABLED] );
     }
 
     /*!
@@ -229,11 +229,11 @@ class eZTranslatorManager
     {
         if ( $enable )
         {
-            $GLOBALS[self::EZ_TM_DYNAMIC_TRANSLATIONS_ENABLED] = true;
+            $GLOBALS[self::DYNAMIC_TRANSLATIONS_ENABLED] = true;
         }
         else
         {
-            unset( $GLOBALS[self::EZ_TM_DYNAMIC_TRANSLATIONS_ENABLED] );
+            unset( $GLOBALS[self::DYNAMIC_TRANSLATIONS_ENABLED] );
         }
     }
 
