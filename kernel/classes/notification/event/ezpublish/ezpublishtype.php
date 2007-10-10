@@ -39,14 +39,14 @@
 
 class eZPublishType extends eZNotificationEventType
 {
-    const EZ_NOTIFICATIONTYPESTRING_PUBLISH = 'ezpublish';
+    const NOTIFICATION_TYPE_STRING = 'ezpublish';
 
     /*!
      Constructor
     */
     function eZPublishType()
     {
-        $this->eZNotificationEventType( self::EZ_NOTIFICATIONTYPESTRING_PUBLISH );
+        $this->eZNotificationEventType( self::NOTIFICATION_TYPE_STRING );
     }
 
     function initializeEvent( $event, $params )
@@ -62,6 +62,6 @@ class eZPublishType extends eZNotificationEventType
     }
 }
 
-eZNotificationEventType::register( eZPublishType::EZ_NOTIFICATIONTYPESTRING_PUBLISH, 'eZPublishType' );
+eZNotificationEventType::register( eZPublishType::NOTIFICATION_TYPE_STRING, 'eZPublishType' );
 
 ?>

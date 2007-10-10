@@ -42,14 +42,14 @@
 
 class eZCollaborationEventType extends eZNotificationEventType
 {
-    const EZ_NOTIFICATIONTYPESTRING_COLLABORATION = 'ezcollaboration';
+    const NOTIFICATION_TYPE_STRING = 'ezcollaboration';
 
     /*!
      Constructor
     */
     function eZCollaborationEventType()
     {
-        $this->eZNotificationEventType( self::EZ_NOTIFICATIONTYPESTRING_COLLABORATION );
+        $this->eZNotificationEventType( self::NOTIFICATION_TYPE_STRING );
     }
 
     function initializeEvent( $event, $params )
@@ -91,6 +91,6 @@ class eZCollaborationEventType extends eZNotificationEventType
     }
 }
 
-eZNotificationEventType::register( eZCollaborationEventType::EZ_NOTIFICATIONTYPESTRING_COLLABORATION, 'eZCollaborationEventType' );
+eZNotificationEventType::register( eZCollaborationEventType::NOTIFICATION_TYPE_STRING, 'eZCollaborationEventType' );
 
 ?>
