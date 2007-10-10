@@ -40,13 +40,13 @@
 class eZCodeTemplate
 {
     /// There are errors in the template code
-    const EZ_CODE_TEMPLATE_STATUS_FAILED = 0;
+    const STATUS_FAILED = 0;
 
     /// Code files was succesfully updated
-    const EZ_CODE_TEMPLATE_STATUS_OK = 1;
+    const STATUS_OK = 1;
 
     /// Code file was updated, but no new elements has been added
-    const EZ_CODE_TEMPLATE_STATUS_NO_CHANGE = 2;
+    const STATUS_NO_CHANGE = 2;
 
     /*!
      Constructor
@@ -76,7 +76,7 @@ class eZCodeTemplate
         {
             eZDebug::writeError( "File $filePath does not exists",
                                  'eZCodeTemplate::apply' );
-            return self::EZ_CODE_TEMPLATE_STATUS_FAILED;
+            return self::STATUS_FAILED;
         }
 
         $text = file_get_contents( $filePath );
@@ -86,7 +86,7 @@ class eZCodeTemplate
         {
             eZDebug::writeError( "Failed to open temporary file $tempFile",
                                  'eZCodeTemplate::apply' );
-            return self::EZ_CODE_TEMPLATE_STATUS_FAILED;
+            return self::STATUS_FAILED;
         }
 
         $createTag = 'code-template::create-block:';
@@ -342,12 +342,12 @@ class eZCodeTemplate
             if ( $originalMD5 == $updatedMD5 )
             {
                 unlink( $tempFile );
-                return self::EZ_CODE_TEMPLATE_STATUS_NO_CHANGE;
+                return self::STATUS_NO_CHANGE;
             }
             else if ( $checkOnly )
             {
                 unlink( $tempFile );
-                return self::EZ_CODE_TEMPLATE_STATUS_OK;
+                return self::STATUS_OK;
             }
             else
             {
@@ -357,11 +357,11 @@ class eZCodeTemplate
                     unlink( $backupFile );
                 rename( $filePath, $backupFile );
                 rename( $tempFile, $filePath );
-                return self::EZ_CODE_TEMPLATE_STATUS_OK;
+                return self::STATUS_OK;
             }
         }
         unlink( $tempFile );
-        return self::EZ_CODE_TEMPLATE_STATUS_FAILED;
+        return self::STATUS_FAILED;
     }
 
     /*!

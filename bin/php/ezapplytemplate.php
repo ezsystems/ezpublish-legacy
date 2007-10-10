@@ -76,16 +76,16 @@ else
 foreach ( $files as $file )
 {
     $status = $tpl->apply( $file, $options['check-only'] );
-    if ( $status == eZCodeTemplate::EZ_CODE_TEMPLATE_STATUS_OK )
+    if ( $status == eZCodeTemplate::STATUS_OK )
     {
         $cli->output( "Updated " . $cli->stylize( 'file', $file ) );
         $hasModified = true;
     }
-    else if ( $status == eZCodeTemplate::EZ_CODE_TEMPLATE_STATUS_NO_CHANGE )
+    else if ( $status == eZCodeTemplate::STATUS_NO_CHANGE )
     {
         $cli->output( "No change in " . $cli->stylize( 'file', $file ) );
     }
-    else if ( $status == eZCodeTemplate::EZ_CODE_TEMPLATE_STATUS_FAILED )
+    else if ( $status == eZCodeTemplate::STATUS_FAILED )
     {
         $cli->output( "Template errors for " . $cli->stylize( 'file', $file ) );
         $hasErrors = true;
