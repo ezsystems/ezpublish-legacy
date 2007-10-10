@@ -96,9 +96,9 @@ if ( $version != $currentVersion )
 }
 
 $fileHandler = eZBinaryFileHandler::instance();
-$result = $fileHandler->handleDownload( $contentObject, $contentObjectAttribute, eZBinaryFileHandler::EZ_BINARY_FILE_TYPE_FILE );
+$result = $fileHandler->handleDownload( $contentObject, $contentObjectAttribute, eZBinaryFileHandler::TYPE_FILE );
 
-if ( $result == eZBinaryFileHandler::EZ_BINARY_FILE_RESULT_UNAVAILABLE )
+if ( $result == eZBinaryFileHandler::RESULT_UNAVAILABLE )
 {
     eZDebug::writeError( "The specified file could not be found." );
     return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );

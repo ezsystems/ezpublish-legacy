@@ -43,12 +43,12 @@ class eZFileDirectHandler extends eZBinaryFileHandler
 
     function eZFileDirectHandler()
     {
-        $this->eZBinaryFileHandler( self::HANDLER_ID, "direct download", eZBinaryFileHandler::EZ_BINARY_FILE_HANDLE_DOWNLOAD );
+        $this->eZBinaryFileHandler( self::HANDLER_ID, "direct download", eZBinaryFileHandler::HANDLE_DOWNLOAD );
     }
 
     function handleFileDownload( $contentObject, $contentObjectAttribute, $type, $fileInfo )
     {
-        return eZBinaryFileHandler::EZ_BINARY_FILE_RESULT_OK;
+        return eZBinaryFileHandler::RESULT_OK;
     }
 
     /*!
