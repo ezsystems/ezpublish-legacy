@@ -51,14 +51,14 @@ require_once( 'access.php' );
 class eZContentCacheManager
 {
     // Clear cache types
-    const EZ_VCSC_CLEAR_NO_CACHE       = 0;
-    const EZ_VCSC_CLEAR_NODE_CACHE     = 1;
-    const EZ_VCSC_CLEAR_PARENT_CACHE   = 2;
-    const EZ_VCSC_CLEAR_RELATING_CACHE = 4;
-    const EZ_VCSC_CLEAR_KEYWORD_CACHE  = 8;
-    const EZ_VCSC_CLEAR_SIBLINGS_CACHE = 16;
-    const EZ_VCSC_CLEAR_ALL_CACHE      = 31;
-    const EZ_VCSC_CLEAR_DEFAULT        = 15; // EZ_VCSC_CLEAR_NODE_CACHE and EZ_VCSC_CLEAR_PARENT_CACHE and EZ_VCSC_CLEAR_RELATING_CACHE and EZ_VCSC_CLEAR_KEYWORD_CACHE
+    const CLEAR_NO_CACHE       = 0;
+    const CLEAR_NODE_CACHE     = 1;
+    const CLEAR_PARENT_CACHE   = 2;
+    const CLEAR_RELATING_CACHE = 4;
+    const CLEAR_KEYWORD_CACHE  = 8;
+    const CLEAR_SIBLINGS_CACHE = 16;
+    const CLEAR_ALL_CACHE      = 31;
+    const CLEAR_DEFAULT        = 15; // CLEAR_NODE_CACHE and CLEAR_PARENT_CACHE and CLEAR_RELATING_CACHE and CLEAR_KEYWORD_CACHE
 
     /*!
      \static
@@ -305,28 +305,28 @@ class eZContentCacheManager
                     {
                         if ( in_array( 'none', $type ) )
                         {
-                            $info['clear_cache_type'] = self::EZ_VCSC_CLEAR_NO_CACHE;
+                            $info['clear_cache_type'] = self::CLEAR_NO_CACHE;
                         }
                         elseif ( in_array( 'all', $type ) )
                         {
-                            $info['clear_cache_type'] = self::EZ_VCSC_CLEAR_ALL_CACHE;
+                            $info['clear_cache_type'] = self::CLEAR_ALL_CACHE;
                         }
                         else
                         {
                             if ( in_array( 'object', $type ) )
-                                $info['clear_cache_type'] |= self::EZ_VCSC_CLEAR_NODE_CACHE;
+                                $info['clear_cache_type'] |= self::CLEAR_NODE_CACHE;
 
                             if ( in_array( 'parent', $type ) )
-                                $info['clear_cache_type'] |= self::EZ_VCSC_CLEAR_PARENT_CACHE;
+                                $info['clear_cache_type'] |= self::CLEAR_PARENT_CACHE;
 
                             if ( in_array( 'relating', $type ) )
-                                $info['clear_cache_type'] |= self::EZ_VCSC_CLEAR_RELATING_CACHE;
+                                $info['clear_cache_type'] |= self::CLEAR_RELATING_CACHE;
 
                             if ( in_array( 'keyword', $type ) )
-                                $info['clear_cache_type'] |= self::EZ_VCSC_CLEAR_KEYWORD_CACHE;
+                                $info['clear_cache_type'] |= self::CLEAR_KEYWORD_CACHE;
 
                             if ( in_array( 'siblings', $type ) )
-                                $info['clear_cache_type'] |= self::EZ_VCSC_CLEAR_SIBLINGS_CACHE;
+                                $info['clear_cache_type'] |= self::CLEAR_SIBLINGS_CACHE;
                         }
                     }
                     else
@@ -334,7 +334,7 @@ class eZContentCacheManager
                         // deprecated
                         if ( $type == 'clear_all_caches' )
                         {
-                            $info['clear_cache_type'] = self::EZ_VCSC_CLEAR_ALL_CACHE;
+                            $info['clear_cache_type'] = self::CLEAR_ALL_CACHE;
                         }
                         else
                         {
@@ -342,33 +342,33 @@ class eZContentCacheManager
                                  $type == 'clear_object_and_parent_nodes_caches' ||
                                  $type == 'clear_object_and_relating_objects_caches' )
                             {
-                                $info['clear_cache_type'] |= self::EZ_VCSC_CLEAR_NODE_CACHE;
+                                $info['clear_cache_type'] |= self::CLEAR_NODE_CACHE;
                             }
 
                             if ( $type == 'clear_object_and_parent_nodes_caches' ||
                                  $type == 'clear_parent_nodes_caches_only' ||
                                  $type == 'clear_parent_nodes_and_relating_caches' )
                             {
-                                $info['clear_cache_type'] |= self::EZ_VCSC_CLEAR_PARENT_CACHE;
+                                $info['clear_cache_type'] |= self::CLEAR_PARENT_CACHE;
                             }
 
                             if ( $type == 'clear_object_and_relating_objects_caches' ||
                                  $type == 'clear_parent_nodes_and_relating_caches' ||
                                  $type == 'clear_relating_caches_only' )
                             {
-                                $info['clear_cache_type'] |= self::EZ_VCSC_CLEAR_RELATING_CACHE;
+                                $info['clear_cache_type'] |= self::CLEAR_RELATING_CACHE;
                             }
 
                             if ( $type == 'clear_keyword_caches_only' )
                             {
-                                $info['clear_cache_type'] |= self::EZ_VCSC_CLEAR_KEYWORD_CACHE;
+                                $info['clear_cache_type'] |= self::CLEAR_KEYWORD_CACHE;
                             }
                         }
                     }
                 }
                 else
                 {
-                    $info['clear_cache_type'] = self::EZ_VCSC_CLEAR_DEFAULT;
+                    $info['clear_cache_type'] = self::CLEAR_DEFAULT;
                 }
 
                 $info['object_filter'] = array();
@@ -391,13 +391,13 @@ class eZContentCacheManager
      \param $versionNum The version of the object to use or \c true for current version
      \param $clearCacheType Bit field which controls the the extra nodes to include,
                             use bitwise or with one of these defines:
-                            - self::EZ_VCSC_CLEAR_NODE_CACHE - Clear the nodes of the object
-                            - self::EZ_VCSC_CLEAR_PARENT_CACHE - Clear the parent nodes of the object
-                            - self::EZ_VCSC_CLEAR_RELATING_CACHE - Clear nodes of objects that relate this object
-                            - self::EZ_VCSC_CLEAR_KEYWORD_CACHE - Clear nodes of objects that have the same keyword as this object
-                            - self::EZ_VCSC_CLEAR_SIBLINGS_CACHE - Clear caches for siblings of the node.
-                            - self::EZ_VCSC_CLEAR_ALL_CACHE - Enables all of the above
-                            - self::EZ_VCSC_CLEAR_NO_CACHE - Do not clear cache for current object.
+                            - self::CLEAR_NODE_CACHE - Clear the nodes of the object
+                            - self::CLEAR_PARENT_CACHE - Clear the parent nodes of the object
+                            - self::CLEAR_RELATING_CACHE - Clear nodes of objects that relate this object
+                            - self::CLEAR_KEYWORD_CACHE - Clear nodes of objects that have the same keyword as this object
+                            - self::CLEAR_SIBLINGS_CACHE - Clear caches for siblings of the node.
+                            - self::CLEAR_ALL_CACHE - Enables all of the above
+                            - self::CLEAR_NO_CACHE - Do not clear cache for current object.
      \param[out] $nodeList An array with node IDs that are affected by the current object change.
 
      \note This function is recursive.
@@ -411,43 +411,43 @@ class eZContentCacheManager
         $dependentClassInfo = eZContentCacheManager::dependencyInfo( $objectClassIdentifier );
 
         //Check if clear_cache_type on class type is none before we begin
-        if ( $dependentClassInfo['clear_cache_type'] === self::EZ_VCSC_CLEAR_NO_CACHE )
+        if ( $dependentClassInfo['clear_cache_type'] === self::CLEAR_NO_CACHE )
         {
             $clearCacheType = $dependentClassInfo['clear_cache_type'];
         }
 
-        if ( $clearCacheType & self::EZ_VCSC_CLEAR_NODE_CACHE )
+        if ( $clearCacheType & self::CLEAR_NODE_CACHE )
         {
             eZContentCacheManager::appendNodeIDs( $assignedNodes, $nodeList );
         }
 
-        if ( $clearCacheType & self::EZ_VCSC_CLEAR_PARENT_CACHE )
+        if ( $clearCacheType & self::CLEAR_PARENT_CACHE )
         {
             eZContentCacheManager::appendParentNodeIDs( $contentObject, $versionNum, $nodeList );
         }
 
-        if ( $clearCacheType & self::EZ_VCSC_CLEAR_RELATING_CACHE )
+        if ( $clearCacheType & self::CLEAR_RELATING_CACHE )
         {
             eZContentCacheManager::appendRelatingNodeIDs( $contentObject, $nodeList );
         }
 
-        if ( $clearCacheType & self::EZ_VCSC_CLEAR_KEYWORD_CACHE )
+        if ( $clearCacheType & self::CLEAR_KEYWORD_CACHE )
         {
             eZContentCacheManager::appendKeywordNodeIDs( $contentObject, $versionNum, $nodeList );
         }
 
-        if ( $clearCacheType & self::EZ_VCSC_CLEAR_SIBLINGS_CACHE )
+        if ( $clearCacheType & self::CLEAR_SIBLINGS_CACHE )
         {
             eZContentCacheManager::appendSiblingsNodeIDs( $assignedNodes, $nodeList );
         }
 
-        if ( $dependentClassInfo['clear_cache_type'] & self::EZ_VCSC_CLEAR_SIBLINGS_CACHE )
+        if ( $dependentClassInfo['clear_cache_type'] & self::CLEAR_SIBLINGS_CACHE )
         {
             eZContentCacheManager::appendSiblingsNodeIDs( $assignedNodes, $nodeList );
 
             // drop 'siblings' bit and process parent nodes.
             // since 'sibling' mode is affected to the current object
-            $dependentClassInfo['clear_cache_type'] &= ~self::EZ_VCSC_CLEAR_SIBLINGS_CACHE;
+            $dependentClassInfo['clear_cache_type'] &= ~self::CLEAR_SIBLINGS_CACHE;
         }
 
         if ( isset( $dependentClassInfo['additional_objects'] ) )
@@ -456,7 +456,7 @@ class eZContentCacheManager
             {
                 $object = eZContentObject::fetch( $objectID );
                 if ( $object )
-                    eZContentCacheManager::nodeListForObject( $object, true, self::EZ_VCSC_CLEAR_NODE_CACHE, $nodeList );
+                    eZContentCacheManager::nodeListForObject( $object, true, self::CLEAR_NODE_CACHE, $nodeList );
             }
         }
 
@@ -544,7 +544,7 @@ class eZContentCacheManager
             return false;
         }
 
-        eZContentCacheManager::nodeListForObject( $object, $versionNum, self::EZ_VCSC_CLEAR_DEFAULT, $nodeList );
+        eZContentCacheManager::nodeListForObject( $object, $versionNum, self::CLEAR_DEFAULT, $nodeList );
 
         return $nodeList;
     }
@@ -786,9 +786,9 @@ class eZContentCacheManager
                 $useURLAlias = $ini->variable( 'URLTranslator', 'Translation' ) == 'enabled';
             }
 
-            eZContentCacheManager::nodeListForObject( $object, true, self::EZ_VCSC_CLEAR_DEFAULT, $nodes );
+            eZContentCacheManager::nodeListForObject( $object, true, self::CLEAR_DEFAULT, $nodes );
 
-            // If no nodes returns it means that ClearCacheMethod = self::EZ_VCSC_CLEAR_NO_CACHE
+            // If no nodes returns it means that ClearCacheMethod = self::CLEAR_NO_CACHE
             if ( count( $nodes ) )
             {
                 foreach ( $nodes as $nodeID )
