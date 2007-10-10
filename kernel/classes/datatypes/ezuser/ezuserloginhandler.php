@@ -40,18 +40,18 @@
 
 class eZUserLoginHandler
 {
-    const EZ_LOGIN_HANDLER_AVAILABLE_ARRAY = 'eZLoginHandlerAvailbleArray'; // stores untested login handlers for login
-    const EZ_LOGIN_HANDLER_STEP = 'eZLoginHandlerStep';
-    const EZ_LOGIN_HANDLER_USER_INFO = 'eZLoginHandlerUserInfo';
-    const EZ_LOGIN_HANDLER_LAST_CHECK_REDIRECT = 'eZLoginHandlerLastCheckRedirect';
-    const EZ_LOGIN_HANDLER_FORCE_LOGIN = 'eZLoginHandlerForceLogin';
-    const EZ_LOGIN_HANDLER_LAST_HANDLER_NAME = 'eZLoginHandlerLastHandlerName';
+    const AVAILABLE_ARRAY = 'eZLoginHandlerAvailbleArray'; // stores untested login handlers for login
+    const STEP = 'eZLoginHandlerStep';
+    const USER_INFO = 'eZLoginHandlerUserInfo';
+    const LAST_CHECK_REDIRECT = 'eZLoginHandlerLastCheckRedirect';
+    const FORCE_LOGIN = 'eZLoginHandlerForceLogin';
+    const LAST_HANDLER_NAME = 'eZLoginHandlerLastHandlerName';
 
-    const EZ_LOGIN_HANDLER_STEP_PRE_CHECK_USER_INFO = 0;
-    const EZ_LOGIN_HANDLER_STEP_PRE_COLLECT_USER_INFO = 1;
-    const EZ_LOGIN_HANDLER_STEP_POST_COLLECT_USER_INFO = 2;
-    const EZ_LOGIN_HANDLER_STEP_CHECK_USER = 3;
-    const EZ_LOGIN_HANDLER_STEP_LOGIN_USER = 4;
+    const STEP_PRE_CHECK_USER_INFO = 0;
+    const STEP_PRE_COLLECT_USER_INFO = 1;
+    const STEP_POST_COLLECT_USER_INFO = 2;
+    const STEP_CHECK_USER = 3;
+    const STEP_LOGIN_USER = 4;
     
     /*!
      Constructor
@@ -68,11 +68,11 @@ class eZUserLoginHandler
     {
         $http = eZHTTPTool::instance();
 
-        $valueList = array( self::EZ_LOGIN_HANDLER_AVAILABLE_ARRAY,
-                            self::EZ_LOGIN_HANDLER_STEP,
-                            self::EZ_LOGIN_HANDLER_USER_INFO,
-                            self::EZ_LOGIN_HANDLER_LAST_CHECK_REDIRECT,
-                            self::EZ_LOGIN_HANDLER_FORCE_LOGIN );
+        $valueList = array( self::AVAILABLE_ARRAY,
+                            self::STEP,
+                            self::USER_INFO,
+                            self::LAST_CHECK_REDIRECT,
+                            self::FORCE_LOGIN );
 
         foreach ( $valueList as $value )
         {
@@ -162,22 +162,22 @@ class eZUserLoginHandler
     {
         $http = eZHTTPTool::instance();
 
-        if ( !$http->hasSessionVariable( self::EZ_LOGIN_HANDLER_STEP ) )
+        if ( !$http->hasSessionVariable( self::STEP ) )
         {
-            $http->setSessionVariable( self::EZ_LOGIN_HANDLER_STEP, self::EZ_LOGIN_HANDLER_STEP_PRE_CHECK_USER_INFO );
+            $http->setSessionVariable( self::STEP, self::STEP_PRE_CHECK_USER_INFO );
         }
 
-        $loginStep =& $http->sessionVariable( self::EZ_LOGIN_HANDLER_STEP );
+        $loginStep =& $http->sessionVariable( self::STEP );
 
-        if ( $http->hasSessionVariable( self::EZ_LOGIN_HANDLER_FORCE_LOGIN ) &&
-             $loginStep < self::EZ_LOGIN_HANDLER_STEP_PRE_COLLECT_USER_INFO )
+        if ( $http->hasSessionVariable( self::FORCE_LOGIN ) &&
+             $loginStep < self::STEP_PRE_COLLECT_USER_INFO )
         {
-            $loginStep = self::EZ_LOGIN_HANDLER_STEP_PRE_COLLECT_USER_INFO;
+            $loginStep = self::STEP_PRE_COLLECT_USER_INFO;
         }
 
         switch( $loginStep )
         {
-            case self::EZ_LOGIN_HANDLER_STEP_PRE_CHECK_USER_INFO:
+            case self::STEP_PRE_CHECK_USER_INFO:
             {
                 $ini = eZINI::instance();
                 $handlerList = array( 'standard' );
@@ -186,9 +186,9 @@ class eZUserLoginHandler
                     $handlerList = $ini->variable( 'UserSettings', 'LoginHandler' );
                 }
 
-                if ( $http->hasSessionVariable( self::EZ_LOGIN_HANDLER_LAST_HANDLER_NAME ) )
+                if ( $http->hasSessionVariable( self::LAST_HANDLER_NAME ) )
                 {
-                    $http->removeSessionVariable( self::EZ_LOGIN_HANDLER_LAST_HANDLER_NAME );
+                    $http->removeSessionVariable( self::LAST_HANDLER_NAME );
                 }
 
                 foreach( $handlerList as $handler )
@@ -202,23 +202,23 @@ class eZUserLoginHandler
                             eZUserLoginHandler::sessionCleanup();
                             return null;
                         }
-                        $http->setSessionVariable( self::EZ_LOGIN_HANDLER_LAST_CHECK_REDIRECT, $check );
-                        $http->setSessionVariable( self::EZ_LOGIN_HANDLER_LAST_HANDLER_NAME, $handler );
+                        $http->setSessionVariable( self::LAST_CHECK_REDIRECT, $check );
+                        $http->setSessionVariable( self::LAST_HANDLER_NAME, $handler );
                     }
                 }
 
-                $http->setSessionVariable( self::EZ_LOGIN_HANDLER_STEP, self::EZ_LOGIN_HANDLER_STEP_PRE_COLLECT_USER_INFO );
+                $http->setSessionVariable( self::STEP, self::STEP_PRE_COLLECT_USER_INFO );
                 return eZUserLoginHandler::checkUser( $siteBasics, $url );
             } break;
 
-            case self::EZ_LOGIN_HANDLER_STEP_PRE_COLLECT_USER_INFO:
+            case self::STEP_PRE_COLLECT_USER_INFO:
             {
-                $http->setSessionVariable( self::EZ_LOGIN_HANDLER_STEP, self::EZ_LOGIN_HANDLER_STEP_POST_COLLECT_USER_INFO );
+                $http->setSessionVariable( self::STEP, self::STEP_POST_COLLECT_USER_INFO );
 
                 $handler = null;
-                if ( $http->hasSessionVariable( self::EZ_LOGIN_HANDLER_LAST_HANDLER_NAME ) )
+                if ( $http->hasSessionVariable( self::LAST_HANDLER_NAME ) )
                 {
-                    $handlerName = $http->sessionVariable( self::EZ_LOGIN_HANDLER_LAST_HANDLER_NAME );
+                    $handlerName = $http->sessionVariable( self::LAST_HANDLER_NAME );
                     $handler = eZUserLoginHandler::instance( $handlerName );
                 }
                 if ( $handler )
@@ -227,7 +227,7 @@ class eZUserLoginHandler
                 }
                 else
                 {
-                    $redirect =& $http->sessionVariable( self::EZ_LOGIN_HANDLER_LAST_CHECK_REDIRECT );
+                    $redirect =& $http->sessionVariable( self::LAST_CHECK_REDIRECT );
                     if ( !$redirect )
                     {
                         $redirect = array( 'module' => 'user', 'function' => 'login' );
@@ -236,14 +236,14 @@ class eZUserLoginHandler
                 }
             } break;
 
-            case self::EZ_LOGIN_HANDLER_STEP_POST_COLLECT_USER_INFO:
+            case self::STEP_POST_COLLECT_USER_INFO:
             {
-                $http->setSessionVariable( self::EZ_LOGIN_HANDLER_STEP, self::EZ_LOGIN_HANDLER_STEP_LOGIN_USER );
+                $http->setSessionVariable( self::STEP, self::STEP_LOGIN_USER );
 
                 $handler = null;
-                if ( $http->hasSessionVariable( self::EZ_LOGIN_HANDLER_LAST_HANDLER_NAME ) )
+                if ( $http->hasSessionVariable( self::LAST_HANDLER_NAME ) )
                 {
-                    $handlerName = $http->sessionVariable( self::EZ_LOGIN_HANDLER_LAST_HANDLER_NAME );
+                    $handlerName = $http->sessionVariable( self::LAST_HANDLER_NAME );
                     $handler = eZUserLoginHandler::instance( $handlerName );
                 }
 
@@ -260,7 +260,7 @@ class eZUserLoginHandler
                 return eZUserLoginHandler::checkUser( $siteBasics, $url );
             } break;
 
-            case self::EZ_LOGIN_HANDLER_STEP_LOGIN_USER:
+            case self::STEP_LOGIN_USER:
             {
                 $ini = eZINI::instance();
                 $handlerList = array( 'standard' );
@@ -269,12 +269,12 @@ class eZUserLoginHandler
                     $handlerList = $ini->variable( 'UserSettings', 'LoginHandler' );
                 }
 
-                $userInfoArray =& $http->sessionVariable( self::EZ_LOGIN_HANDLER_USER_INFO );
-                $http->removeSessionVariable( self::EZ_LOGIN_HANDLER_USER_INFO );
+                $userInfoArray =& $http->sessionVariable( self::USER_INFO );
+                $http->removeSessionVariable( self::USER_INFO );
 
-                if ( $http->hasSessionVariable( self::EZ_LOGIN_HANDLER_FORCE_LOGIN ) )
+                if ( $http->hasSessionVariable( self::FORCE_LOGIN ) )
                 {
-                    $http->removeSessionVariable( self::EZ_LOGIN_HANDLER_FORCE_LOGIN );
+                    $http->removeSessionVariable( self::FORCE_LOGIN );
                 }
 
                 $user = null;
@@ -297,7 +297,7 @@ class eZUserLoginHandler
                     }
                 }
 
-                $http->setSessionVariable( self::EZ_LOGIN_HANDLER_STEP, self::EZ_LOGIN_HANDLER_STEP_PRE_CHECK_USER_INFO );
+                $http->setSessionVariable( self::STEP, self::STEP_PRE_CHECK_USER_INFO );
                 return eZUserLoginHandler::checkUser( $siteBasics, $url );
             } break;
         }
@@ -309,7 +309,7 @@ class eZUserLoginHandler
     static function forceLogin()
     {
         $http = eZHTTPTool::instance();
-        $http->setSessionVariable( self::EZ_LOGIN_HANDLER_FORCE_LOGIN, 1 );
+        $http->setSessionVariable( self::FORCE_LOGIN, 1 );
     }
 }
 
