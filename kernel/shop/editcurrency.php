@@ -74,7 +74,7 @@ else if ( $module->isCurrentAction( 'StoreChanges' ) )
         $currencyParams = $module->actionParameter( 'CurrencyData' );
 
     $errCode = eZShopFunctions::changeCurrency( $originalCurrencyCode, $currencyParams['code'] );
-    if ( $errCode === eZCurrencyData::EZ_CURRENCYDATA_ERROR_OK )
+    if ( $errCode === eZCurrencyData::ERROR_OK )
     {
         $currency = eZCurrencyData::fetch( $currencyParams['code'] );
         if ( is_object( $currency ) )

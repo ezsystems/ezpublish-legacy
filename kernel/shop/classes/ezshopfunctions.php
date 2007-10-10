@@ -320,7 +320,7 @@ class eZShopFunctions
 
     static function changeCurrency( $oldCurrencyCode, $newCurrencyCode )
     {
-        $errCode = eZCurrencyData::EZ_CURRENCYDATA_ERROR_OK;
+        $errCode = eZCurrencyData::ERROR_OK;
 
         if ( strcmp( $oldCurrencyCode, $newCurrencyCode ) !== 0 )
         {
@@ -328,7 +328,7 @@ class eZShopFunctions
             //include_once( 'kernel/shop/classes/ezmultipricedata.php' );
 
             $errCode = eZCurrencyData::canCreate( $newCurrencyCode );
-            if ( $errCode === eZCurrencyData::EZ_CURRENCYDATA_ERROR_OK )
+            if ( $errCode === eZCurrencyData::ERROR_OK )
             {
                 $currency = eZCurrencyData::fetch( $oldCurrencyCode );
                 if ( is_object( $currency ) )
@@ -345,7 +345,7 @@ class eZShopFunctions
                 }
                 else
                 {
-                    $errCode = eZCurrencyData::EZ_CURRENCYDATA_ERROR_UNKNOWN;
+                    $errCode = eZCurrencyData::ERROR_UNKNOWN;
                 }
             }
         }
