@@ -44,7 +44,7 @@ require_once( 'lib/ezutils/classes/ezdebug.php' );
 
 class eZTranslationCache
 {
-    const EZ_TRANSLATION_CACHE_CODE_DATE = 1058863428;
+    const CODE_DATE = 1058863428;
 
     /*!
      \static
@@ -181,7 +181,7 @@ class eZTranslationCache
         $variables = $php->restore( array( 'info' => 'TranslationInfo',
                                            'root' => 'TranslationRoot',
                                            'cache-date' => 'eZTranslationCacheCodeDate' ) );
-        if ( $variables['cache-date'] != self::EZ_TRANSLATION_CACHE_CODE_DATE )
+        if ( $variables['cache-date'] != self::CODE_DATE )
             return false;
         eZTranslationCache::setContextCache( $key, $variables['root'] );
         return true;
@@ -214,7 +214,7 @@ class eZTranslationCache
             eZDir::mkdir( eZTranslationCache::cacheDirectory(), eZDir::directoryPermission(), true );
         }
         $php = new eZPHPCreator( eZTranslationCache::cacheDirectory(), $cacheFileName );
-        $php->addRawVariable( 'eZTranslationCacheCodeDate', self::EZ_TRANSLATION_CACHE_CODE_DATE );
+        $php->addRawVariable( 'eZTranslationCacheCodeDate', self::CODE_DATE );
         $php->addSpace();
         $php->addRawVariable( 'CacheInfo', array( 'charset' => $internalCharset ) );
         $php->addRawVariable( 'TranslationInfo', $cache['info'] );
