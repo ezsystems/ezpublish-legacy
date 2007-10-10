@@ -41,10 +41,10 @@
 
 class eZNotificationEventHandler
 {
-    const EZ_NOTIFICATIONEVENTHANDLER_EVENT_HANDLED = 0;
-    const EZ_NOTIFICATIONEVENTHANDLER_EVENT_SKIPPED = 1;
-    const EZ_NOTIFICATIONEVENTHANDLER_EVENT_UNKNOWN = 2;
-    const EZ_NOTIFICATIONEVENTHANDLER_EVENT_ERROR = 3;
+    const EVENT_HANDLED = 0;
+    const EVENT_SKIPPED = 1;
+    const EVENT_UNKNOWN = 2;
+    const EVENT_ERROR = 3;
 
     /*!
      Constructor

@@ -111,7 +111,7 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
         {
             $parameters = array();
             $status = $this->handleCollaborationEvent( $event, $parameters );
-            if ( $status == eZNotificationEventHandler::EZ_NOTIFICATIONEVENTHANDLER_EVENT_HANDLED )
+            if ( $status == eZNotificationEventHandler::EVENT_HANDLED )
                 $this->sendMessage( $event, $parameters );
             else
                 return false;
@@ -123,7 +123,7 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
     {
         $collaborationItem = $event->attribute( 'content' );
         if ( !$collaborationItem )
-            return eZNotificationEventHandler::EZ_NOTIFICATIONEVENTHANDLER_EVENT_SKIPPED;
+            return eZNotificationEventHandler::EVENT_SKIPPED;
         $collaborationHandler = $collaborationItem->attribute( 'handler' );
         return $collaborationHandler->handleCollaborationEvent( $event, $collaborationItem, $parameters );
     }

@@ -91,7 +91,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         {
             $parameters = array();
             $status = $this->handlePublishEvent( $event, $parameters );
-            if ( $status == eZNotificationEventHandler::EZ_NOTIFICATIONEVENTHANDLER_EVENT_HANDLED )
+            if ( $status == eZNotificationEventHandler::EVENT_HANDLED )
                 $this->sendMessage( $event, $parameters );
             else
                 return false;
@@ -103,24 +103,24 @@ class eZSubTreeHandler extends eZNotificationEventHandler
     {
         $versionObject = $event->attribute( 'content' );
         if ( !$versionObject )
-            return eZNotificationEventHandler::EZ_NOTIFICATIONEVENTHANDLER_EVENT_SKIPPED;
+            return eZNotificationEventHandler::EVENT_SKIPPED;
         $contentObject = $versionObject->attribute( 'contentobject' );
         if ( !$contentObject )
-            return eZNotificationEventHandler::EZ_NOTIFICATIONEVENTHANDLER_EVENT_SKIPPED;
+            return eZNotificationEventHandler::EVENT_SKIPPED;
         $contentNode = $contentObject->attribute( 'main_node' );
         if ( !$contentNode )
-            return eZNotificationEventHandler::EZ_NOTIFICATIONEVENTHANDLER_EVENT_SKIPPED;
+            return eZNotificationEventHandler::EVENT_SKIPPED;
 
         // Notification should only be sent out when the object is published (is visible)
         if ( $contentNode->attribute( 'is_invisible' ) == 1 )
-           return eZNotificationEventHandler::EZ_NOTIFICATIONEVENTHANDLER_EVENT_SKIPPED;
+           return eZNotificationEventHandler::EVENT_SKIPPED;
         $contentClass = $contentObject->attribute( 'content_class' );
         if ( !$contentClass )
-            return eZNotificationEventHandler::EZ_NOTIFICATIONEVENTHANDLER_EVENT_SKIPPED;
+            return eZNotificationEventHandler::EVENT_SKIPPED;
         if ( // $versionObject->attribute( 'version' ) != 1 ||
              $versionObject->attribute( 'version' ) != $contentObject->attribute( 'current_version' ) )
         {
-            return eZNotificationEventHandler::EZ_NOTIFICATIONEVENTHANDLER_EVENT_SKIPPED;
+            return eZNotificationEventHandler::EVENT_SKIPPED;
         }
         require_once( 'kernel/common/template.php' );
         $tpl = templateInit();
@@ -228,7 +228,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
                 }
             }
         }
-        return eZNotificationEventHandler::EZ_NOTIFICATIONEVENTHANDLER_EVENT_HANDLED;
+        return eZNotificationEventHandler::EVENT_HANDLED;
     }
 
     function sendMessage( $event, $parameters )

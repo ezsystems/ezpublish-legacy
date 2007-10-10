@@ -169,7 +169,7 @@ class eZCollaborationItemHandler
             $userList = $db->arrayQuery( "SELECT contentobject_id, email FROM ezuser WHERE contentobject_id IN ( $userIDListText )" );
         }
         else
-            return eZNotificationEventHandler::EZ_NOTIFICATIONEVENTHANDLER_EVENT_SKIPPED;
+            return eZNotificationEventHandler::EVENT_SKIPPED;
 
         $itemHandler = $item->attribute( 'handler' );
         $collectionHandling = $itemHandler->notificationCollectionHandling();
@@ -270,7 +270,7 @@ class eZCollaborationItemHandler
         }
         $db->commit();
 
-        return eZNotificationEventHandler::EZ_NOTIFICATIONEVENTHANDLER_EVENT_HANDLED;
+        return eZNotificationEventHandler::EVENT_HANDLED;
     }
 
     /*!
