@@ -160,7 +160,7 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
 
             $oldumask = umask( 0 );
             $overrideINI->save( "siteaccess/$siteAccess/override.ini.append" );
-            chmod( "settings/siteaccess/$siteAccess/override.ini.append.php", octdec( $filePermission ) );
+            chmod( "settings/siteaccess/$siteAccess/override.ini.append", octdec( $filePermission ) );
             umask( $oldumask );
 
             // Expire content view cache
