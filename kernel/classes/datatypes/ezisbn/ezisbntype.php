@@ -191,7 +191,7 @@ class eZISBNType extends eZDataType
 
     /*!
      \private
-     \depricated, should use the class eZISBN13 instead.
+     \deprecated, should use the class eZISBN13 instead.
      Validates the ISBN-13 number \a $isbnNr.
      \param $isbnNr A string containing the number without any dashes.
      \return \c true if it is valid.

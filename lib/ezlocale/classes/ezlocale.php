@@ -1174,8 +1174,9 @@ class eZLocale
     }
 
     /*!
+     \deprecated
      Formats the currency $number according to locale information and returns it. If $as_html
-     is true all spaces are converted to &nbsp; before being returned ( depricated ).
+     is true all spaces are converted to &nbsp; before being returned.
     */
     function formatCurrency( $number, $as_html = true )
     {
