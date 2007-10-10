@@ -40,14 +40,14 @@
 
 class eZPDFTable extends Cezpdf
 {
-    const EZ_PDF_LIB_NEWLINE = '<C:callNewLine>';
-    const EZ_PDF_LIB_SPACE = '<C:callSpace>';
-    const EZ_PDF_LIB_TAB = '<C:callTab>';
+    const NEWLINE = '<C:callNewLine>';
+    const SPACE = '<C:callSpace>';
+    const TAB = '<C:callTab>';
 
-    const EZ_PDF_LIB_PAGENUM = '#page';
-    const EZ_PDF_LIB_TOTAL_PAGENUM = '#total';
-    const EZ_PDF_LIB_HEADER_LEVEL = '#level';
-    const EZ_PDF_LIB_HEADER_LEVEL_INDEX = '#indexLevel';
+    const PAGENUM = '#page';
+    const TOTAL_PAGENUM = '#total';
+    const HEADER_LEVEL = '#level';
+    const HEADER_LEVEL_INDEX = '#indexLevel';
 
     /**
      Constructor. This class is only used to encapsulate a table.
@@ -1541,9 +1541,9 @@ class eZPDFTable extends Cezpdf
 
     function &fixWhitespace( &$text )
     {
-        $text = str_replace( array( self::EZ_PDF_LIB_SPACE,
-                                    self::EZ_PDF_LIB_TAB,
-                                    self::EZ_PDF_LIB_NEWLINE ),
+        $text = str_replace( array( self::SPACE,
+                                    self::TAB,
+                                    self::NEWLINE ),
                              array( ' ',
                                     "\t",
                                     "\n" ),
@@ -1646,8 +1646,8 @@ class eZPDFTable extends Cezpdf
     */
     function fixupTableCellText( $text )
     {
-        $text = preg_replace( "/^" . self::EZ_PDF_LIB_NEWLINE . "/i", "", $text );
-        $text = preg_replace( "/" . self::EZ_PDF_LIB_NEWLINE . "$/i", "", $text );
+        $text = preg_replace( "/^" . self::NEWLINE . "/i", "", $text );
+        $text = preg_replace( "/" . self::NEWLINE . "$/i", "", $text );
         return preg_replace( "'<[\/]*?ezCall:[^<>]*?>'si", "", $text );
     }
 
@@ -2041,20 +2041,20 @@ class eZPDFTable extends Cezpdf
                       $pageNum % 2 == 0 )
                 continue;
 
-            if ( strstr( $frameText, self::EZ_PDF_LIB_PAGENUM ) !== false )
+            if ( strstr( $frameText, self::PAGENUM ) !== false )
             {
                 foreach ( array_keys( $this->PageCounter ) as $identifier )
                 {
                     if ( $this->PageCounter[$identifier]['start'] <= $pageNum &&
                          $this->PageCounter[$identifier]['stop'] >= $pageNum )
                     {
-                        $frameText = str_replace( self::EZ_PDF_LIB_PAGENUM,
+                        $frameText = str_replace( self::PAGENUM,
                                                   $this->ezWhatPageNumber( $pageNum, $identifier ),
                                                   $frameText );
 
-                        if ( strstr( $frameText, self::EZ_PDF_LIB_TOTAL_PAGENUM ) !== false )
+                        if ( strstr( $frameText, self::TOTAL_PAGENUM ) !== false )
                         {
-                            $frameText = str_replace( self::EZ_PDF_LIB_TOTAL_PAGENUM,
+                            $frameText = str_replace( self::TOTAL_PAGENUM,
                                                       $this->PageCounter[$identifier]['stop'] - $this->PageCounter[$identifier]['start'] + 1,
                                                       $frameText );
                         }
@@ -2064,16 +2064,16 @@ class eZPDFTable extends Cezpdf
 
             for( $levelCount = 0; $levelCount < 9; $levelCount++ )
             {
-                if ( strstr( $frameText, self::EZ_PDF_LIB_HEADER_LEVEL.$levelCount ) !== false )
+                if ( strstr( $frameText, self::HEADER_LEVEL.$levelCount ) !== false )
                 {
-                    $frameText = str_replace( self::EZ_PDF_LIB_HEADER_LEVEL.$levelCount,
+                    $frameText = str_replace( self::HEADER_LEVEL.$levelCount,
                                               $this->headerLabel( $pageNum, $levelCount ),
                                               $frameText );
                 }
 
-                if ( strstr( $frameText, self::EZ_PDF_LIB_HEADER_LEVEL_INDEX.$levelCount ) !== false )
+                if ( strstr( $frameText, self::HEADER_LEVEL_INDEX.$levelCount ) !== false )
                 {
-                    $frameText = str_replace( self::EZ_PDF_LIB_HEADER_LEVEL_INDEX.$levelCount,
+                    $frameText = str_replace( self::HEADER_LEVEL_INDEX.$levelCount,
                                               $this->headerIndex( $pageNum, $levelCount ),
                                               $frameText );
                 }
@@ -2144,20 +2144,20 @@ class eZPDFTable extends Cezpdf
                 continue;
 
             $countIdentifier = '';
-            if ( strstr( $frameText, self::EZ_PDF_LIB_PAGENUM ) !== false )
+            if ( strstr( $frameText, self::PAGENUM ) !== false )
             {
                 foreach ( array_keys( $this->PageCounter ) as $identifier )
                 {
                     if ( $this->PageCounter[$identifier]['start'] <= $pageNum &&
                          $this->PageCounter[$identifier]['stop'] >= $pageNum )
                     {
-                        $frameText = str_replace( self::EZ_PDF_LIB_PAGENUM,
+                        $frameText = str_replace( self::PAGENUM,
                                                   $this->ezWhatPageNumber( $pageNum, $identifier ),
                                                   $frameText );
 
-                        if ( strstr( $frameText, self::EZ_PDF_LIB_TOTAL_PAGENUM ) !== false )
+                        if ( strstr( $frameText, self::TOTAL_PAGENUM ) !== false )
                         {
-                            $frameText = str_replace( self::EZ_PDF_LIB_TOTAL_PAGENUM,
+                            $frameText = str_replace( self::TOTAL_PAGENUM,
                                                       $this->PageCounter[$identifier]['stop'] - $this->PageCounter[$identifier]['start'] + 1,
                                                       $frameText );
                         }
@@ -2167,16 +2167,16 @@ class eZPDFTable extends Cezpdf
 
             for( $levelCount = 0; $levelCount < 9; $levelCount++ )
             {
-                if ( strstr( $frameText, self::EZ_PDF_LIB_HEADER_LEVEL.$levelCount ) !== false )
+                if ( strstr( $frameText, self::HEADER_LEVEL.$levelCount ) !== false )
                 {
-                    $frameText = str_replace( self::EZ_PDF_LIB_HEADER_LEVEL.$levelCount,
+                    $frameText = str_replace( self::HEADER_LEVEL.$levelCount,
                                               $this->headerLabel( $pageNum, $levelCount ),
                                               $frameText );
                 }
 
-                if ( strstr( $frameText, self::EZ_PDF_LIB_HEADER_LEVEL_INDEX.$levelCount ) !== false )
+                if ( strstr( $frameText, self::HEADER_LEVEL_INDEX.$levelCount ) !== false )
                 {
-                    $frameText = str_replace( self::EZ_PDF_LIB_HEADER_LEVEL_INDEX.$levelCount,
+                    $frameText = str_replace( self::HEADER_LEVEL_INDEX.$levelCount,
                                               $this->headerIndex( $pageNum, $levelCount ),
                                               $frameText );
                 }
