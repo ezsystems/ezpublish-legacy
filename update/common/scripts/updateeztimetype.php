@@ -115,16 +115,16 @@ foreach( $times_array as $item )
     {
         // if time stamp more when 24 hours then identify
         // it as old style full timestamp, and update it
-        if ( $timestamp >= eZTime::EZTIME_SECONDS_A_DAY )
+        if ( $timestamp >= eZTime::SECONDS_A_DAY )
         {
             $date = getdate( $timestamp );
-            $timestamp = $date[ 'hours' ] * eZTime::EZTIME_SECONDS_AN_HOUR +
-                         $date[ 'minutes' ] * eZTime::EZTIME_SECONDS_A_MINUTE +
+            $timestamp = $date[ 'hours' ] * eZTime::SECONDS_AN_HOUR +
+                         $date[ 'minutes' ] * eZTime::SECONDS_A_MINUTE +
                          $date[ 'seconds' ];
         }
         else
         {
-            $timestamp = ( $timestamp + $timezone_offset ) % eZTime::EZTIME_SECONDS_A_DAY;
+            $timestamp = ( $timestamp + $timezone_offset ) % eZTime::SECONDS_A_DAY;
         }
     }
 
