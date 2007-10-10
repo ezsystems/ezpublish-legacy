@@ -44,14 +44,14 @@
 
 class eZImageAnalyzer
 {
-    const EZ_IMAGE_MODE_INDEXED = 1;
-    const EZ_IMAGE_MODE_TRUECOLOR = 2;
+    const MODE_INDEXED = 1;
+    const MODE_TRUECOLOR = 2;
 
-    const EZ_IMAGE_TIMER_HUNDRETHS_OF_A_SECOND = 1;
+    const TIMER_HUNDRETHS_OF_A_SECOND = 1;
 
-    const EZ_IMAGE_TRANSPARENCY_OPAQUE = 1;
-    const EZ_IMAGE_TRANSPARENCY_TRANSPARENT = 2;
-    const EZ_IMAGE_TRANSPARENCY_TRANSLUCENT = 3;
+    const TRANSPARENCY_OPAQUE = 1;
+    const TRANSPARENCY_TRANSPARENT = 2;
+    const TRANSPARENCY_TRANSLUCENT = 3;
 
     /*!
      Constructor
