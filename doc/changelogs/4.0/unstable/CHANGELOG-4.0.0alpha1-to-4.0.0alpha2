@@ -16,3 +16,5 @@ Changes from 4.0.0alpha1 to 4.0.0alpha2
   (Merged from trunk rev. 20347)
 - Fixed bug #11594: Hardcoded object id in kernel/setup/steps/ezstep_create_sites.php.
   (Merged from trunk rev. 20355)
+- Fixed bug #10847: Use of deprecated php function - mysql_escape_string.
+  (Merged from trunk rev. 20357)
