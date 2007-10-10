@@ -40,9 +40,9 @@
 
 class eZCodeMapper
 {
-    const EZ_CODEMAPPER_TYPE_DIRECT = 1;
-    const EZ_CODEMAPPER_TYPE_RANGE = 2;
-    const EZ_CODEMAPPER_TYPE_REPLACE = 3;
+    const TYPE_DIRECT = 1;
+    const TYPE_RANGE = 2;
+    const TYPE_REPLACE = 3;
 
     /*!
      Constructor
@@ -872,14 +872,14 @@ class eZCodeMapper
         if ( count( $destinationValues ) == 1 )
             $destinationValues = array_pop( $destinationValues );
         if ( isset( $block[$count - 1] ) and
-             $block[$count - 1][0] == self::EZ_CODEMAPPER_TYPE_DIRECT and
+             $block[$count - 1][0] == self::TYPE_DIRECT and
              $block[$count - 1][2] == $identifier )
         {
             $block[$count - 1][1][$sourceValue] = $destinationValues;
         }
         else
         {
-            $block[] = array( self::EZ_CODEMAPPER_TYPE_DIRECT,
+            $block[] = array( self::TYPE_DIRECT,
                               array( $sourceValue => $destinationValues ),
                               $identifier );
 
@@ -901,14 +901,14 @@ class eZCodeMapper
         if ( count( $destinationValues ) == 1 )
             $destinationValues = array_pop( $destinationValues );
         if ( isset( $block[$count - 1] ) and
-             $block[$count - 1][0] == self::EZ_CODEMAPPER_TYPE_REPLACE and
+             $block[$count - 1][0] == self::TYPE_REPLACE and
              $block[$count - 1][2] == $identifier )
         {
             $block[$count - 1][1][] = array( $sourceValue, $sourceEndValue, $destinationValues );
         }
         else
         {
-            $block[] = array( self::EZ_CODEMAPPER_TYPE_REPLACE,
+            $block[] = array( self::TYPE_REPLACE,
                               array( array( $sourceValue, $sourceEndValue, $destinationValues ) ),
                               $identifier );
 
@@ -929,14 +929,14 @@ class eZCodeMapper
     {
         $count = count( $block );
         if ( isset( $block[$count - 1] ) and
-             $block[$count - 1][0] == self::EZ_CODEMAPPER_TYPE_RANGE and
+             $block[$count - 1][0] == self::TYPE_RANGE and
              $block[$count - 1][2] == $identifier )
         {
             $block[$count - 1][1][] = array( $sourceValue, $sourceEndValue, $addValue ? $transposeValue : -$transposeValue, $moduloValue );
         }
         else
         {
-            $block[] = array( self::EZ_CODEMAPPER_TYPE_RANGE,
+            $block[] = array( self::TYPE_RANGE,
                               array( array( $sourceValue, $sourceEndValue, $addValue ? $transposeValue : -$transposeValue, $moduloValue ) ),
                               $identifier );
 
@@ -1154,7 +1154,7 @@ class eZCodeMapper
                 $identifier = $tableItem[2];
 //                print( "identifier: $identifier\n" );
             }
-            if ( $type == self::EZ_CODEMAPPER_TYPE_DIRECT )
+            if ( $type == self::TYPE_DIRECT )
             {
                 foreach ( $item as $fromCode => $toCode )
                 {
@@ -1233,7 +1233,7 @@ class eZCodeMapper
                     }
                 }
             }
-            else if ( $type == self::EZ_CODEMAPPER_TYPE_RANGE )
+            else if ( $type == self::TYPE_RANGE )
             {
                 foreach ( $item as $rangeItem )
                 {
@@ -1319,7 +1319,7 @@ class eZCodeMapper
                     }
                 }
             }
-            else if ( $type == self::EZ_CODEMAPPER_TYPE_REPLACE )
+            else if ( $type == self::TYPE_REPLACE )
             {
                 foreach ( $item as $rangeItem )
                 {
