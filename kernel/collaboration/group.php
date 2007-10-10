@@ -48,7 +48,7 @@ if ( $collabGroup === null )
 if ( !eZCollaborationViewHandler::groupExists( $ViewMode ) )
     return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
-$view = eZCollaborationViewHandler::instance( $ViewMode, eZCollaborationViewHandler::EZ_COLLABORATION_VIEW_TYPE_GROUP );
+$view = eZCollaborationViewHandler::instance( $ViewMode, eZCollaborationViewHandler::TYPE_GROUP );
 
 $template = $view->template();
 

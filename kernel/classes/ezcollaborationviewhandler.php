@@ -39,8 +39,8 @@
 
 class eZCollaborationViewHandler
 {
-    const EZ_COLLABORATION_VIEW_TYPE_STANDARD = 1;
-    const EZ_COLLABORATION_VIEW_TYPE_GROUP = 2;
+    const TYPE_STANDARD = 1;
+    const TYPE_GROUP = 2;
 
     /*!
      Initializes the view mode.
@@ -51,12 +51,12 @@ class eZCollaborationViewHandler
         $this->ViewType = $viewType;
         $this->TemplateName = $viewMode;
         $ini = $this->ini();
-        if ( $viewType == self::EZ_COLLABORATION_VIEW_TYPE_STANDARD )
+        if ( $viewType == self::TYPE_STANDARD )
         {
             $this->TemplatePrefix = "design:collaboration/view/";
             $viewGroup = $viewMode . "View";
         }
-        else if ( $viewType == self::EZ_COLLABORATION_VIEW_TYPE_GROUP )
+        else if ( $viewType == self::TYPE_GROUP )
         {
             $this->TemplatePrefix = "design:collaboration/group/view/";
             $viewGroup = $viewMode . "GroupView";
@@ -127,11 +127,11 @@ class eZCollaborationViewHandler
      \static
      \return the single instance of the viewmode \a $viewMode.
     */
-    static function instance( $viewMode, $type = self::EZ_COLLABORATION_VIEW_TYPE_STANDARD )
+    static function instance( $viewMode, $type = self::TYPE_STANDARD )
     {
-        if ( $type == self::EZ_COLLABORATION_VIEW_TYPE_STANDARD )
+        if ( $type == self::TYPE_STANDARD )
             $instance =& $GLOBALS["eZCollaborationView"][$viewMode];
-        else if ( $type == self::EZ_COLLABORATION_VIEW_TYPE_GROUP )
+        else if ( $type == self::TYPE_GROUP )
             $instance =& $GLOBALS["eZCollaborationGroupView"][$viewMode];
         else
         {
