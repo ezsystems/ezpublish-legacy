@@ -76,7 +76,7 @@ class eZViewCounter extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function remove( $node_id )
+    public static function removeCounter( $node_id )
     {
         eZPersistentObject::removeObject( eZViewCounter::definition(),
                                           array("node_id" => $node_id ) );
