@@ -42,7 +42,7 @@ require_once( "lib/ezutils/classes/ezdebug.php" );
 
 class eZCodePageMapper
 {
-    const EZ_CODEPAGE_MAPPER_CACHE_CODE_DATE = 1026316422;
+    const CACHE_CODE_DATE = 1026316422;
 
     /*!
      Constructor
@@ -190,7 +190,7 @@ class eZCodePageMapper
                 eZDebug::writeDebug( 'loading cache from: ' . $cache, 'eZCodePageMapper::load' );
                 include( $cache );
                 if ( isset( $eZCodePageMapperCacheCodeDate ) or
-                     $eZCodePageMapperCacheCodeDate == self::EZ_CODEPAGE_MAPPER_CACHE_CODE_DATE )
+                     $eZCodePageMapperCacheCodeDate == self::CACHE_CODE_DATE )
                 {
                     $this->Valid = true;
                     return;
