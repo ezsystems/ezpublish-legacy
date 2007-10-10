@@ -39,7 +39,7 @@ require_once( "lib/ezutils/classes/ezdebug.php" );
 
 class eZCodePage
 {
-    const EZ_CODEPAGE_CACHE_CODE_DATE = 1028204478;
+    const CACHE_CODE_DATE = 1028204478;
 
     /*!
      Initializes the codepage with the charset code $charset_code, and then loads it.
@@ -467,7 +467,7 @@ class eZCodePage
 
         $str = "<?" . "php
 $str
-\$eZCodePageCacheCodeDate = " . self::EZ_CODEPAGE_CACHE_CODE_DATE . ";
+\$eZCodePageCacheCodeDate = " . self::CACHE_CODE_DATE . ";
 \$min_char = " . $this->MinCharValue . ";
 \$max_char = " . $this->MaxCharValue . ";
 ?" . ">";
@@ -575,7 +575,7 @@ $str
                 $this->ReadExtraMap = $read_extra;
 
                 if ( isset( $eZCodePageCacheCodeDate ) and
-                     $eZCodePageCacheCodeDate == self::EZ_CODEPAGE_CACHE_CODE_DATE )
+                     $eZCodePageCacheCodeDate == self::CACHE_CODE_DATE )
                 {
                     $this->Valid = true;
                     return;
