@@ -50,7 +50,7 @@ class eZCharTransform
     /// 1101288452
     /// 30. Jan. 2007 - 1170165730
     /// 24. Apr. 2007 - 1177423380
-    const EZ_CHARTRANSFORM_CODEDATE = 1177423380;
+    const CODEDATE = 1177423380;
 
     /*!
      Constructor
@@ -325,7 +325,7 @@ class eZCharTransform
             {
                 return false;
             }
-            if ( $time >= max( self::EZ_CHARTRANSFORM_CODEDATE, $timestamp ) )
+            if ( $time >= max( self::CODEDATE, $timestamp ) )
             {
                 // Execute the PHP file causing $text will be transformed
                 include "$filepath";
