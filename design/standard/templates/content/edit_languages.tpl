@@ -41,7 +41,7 @@
                                              'contentobject', $object,
                                              'language', $language.locale ) )}
             <label>
-               <input name="EditLanguage" type="radio" value="{$language.locale}"{run-once} checked="checked"{/run-once} /> {$language.name|wash}
+               <input name="EditLanguage" type="radio" value="{$language.locale}" /> {$language.name|wash}
             </label>
             <div class="labelbreak"></div>
         {/if}
