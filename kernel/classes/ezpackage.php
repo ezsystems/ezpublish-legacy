@@ -48,7 +48,7 @@ class eZPackage
     const VERSION = '3.5.2';
     const DEVELOPMENT = false;
     const USE_CACHE = true;
-    const CACHE_CODEDATE = 1069339607;
+    const CACHE_CODE_DATE = 1069339607;
 
     const STATUS_ALREADY_EXISTS = 1;
 
@@ -1014,7 +1014,7 @@ class eZPackage
         $php->addComment( "Automatically created cache file for the package format\n" .
                           "Do not modify this file" );
         $php->addSpace();
-        $php->addVariable( 'CacheCodeDate', eZPackage::CACHE_CODEDATE );
+        $php->addVariable( 'CacheCodeDate', eZPackage::CACHE_CODE_DATE );
         $php->addSpace();
         $php->addVariable( 'Parameters', $this->Parameters, eZPHPCreator::VARIABLE_ASSIGNMENT,
                            array( 'full-tree' => true ) );
@@ -1401,7 +1401,7 @@ class eZPackage
             {
                 include( $packageCachePath );
                 if ( !isset( $CacheCodeDate ) or
-                     $CacheCodeDate != eZPackage::CACHE_CODEDATE )
+                     $CacheCodeDate != eZPackage::CACHE_CODE_DATE )
                 {
                     $cacheExpired = true;
                     return false;
