@@ -43,18 +43,18 @@
 class eZImageObject extends eZImageInterface
 {
     /// Alignment values @{
-    const EZ_IMAGE_ALIGN_AXIS_NONE = 0x00;
-    const EZ_IMAGE_ALIGN_AXIS_START = 0x01;
-    const EZ_IMAGE_ALIGN_AXIS_STOP = 0x02;
-    const EZ_IMAGE_ALIGN_AXIS_CENTER = 0x03; // EZ_IMAGE_ALIGN_AXIS_START | EZ_IMAGE_ALIGN_AXIS_STOP
-    const EZ_IMAGE_ALIGN_AXIS_MASK = 0x03; // EZ_IMAGE_ALIGN_AXIS_START | EZ_IMAGE_ALIGN_AXIS_STOP
+    const ALIGN_AXIS_NONE = 0x00;
+    const ALIGN_AXIS_START = 0x01;
+    const ALIGN_AXIS_STOP = 0x02;
+    const ALIGN_AXIS_CENTER = 0x03; // ALIGN_AXIS_START | ALIGN_AXIS_STOP
+    const ALIGN_AXIS_MASK = 0x03; // ALIGN_AXIS_START | ALIGN_AXIS_STOP
     ///@}
 
     /// Placement types @{
     /// Places the layer absolutely from on the axis.
-    const EZ_IMAGE_PLACE_CONSTANT = 1;
+    const PLACE_CONSTANT = 1;
     /// Places the layer relative to the axis size.
-    const EZ_IMAGE_PLACE_RELATIVE = 2;
+    const PLACE_RELATIVE = 2;
     ///@}
 
     function eZImageObject( $imageObjectRef = null, $imageObject = null, $width = false, $height = false )
@@ -87,29 +87,29 @@ class eZImageObject extends eZImageInterface
     /*!
      Figures out the absolute axis placement and returns it.
      The variable \a $type determines how \a $value is used, it can either
-     be a constant value (self::EZ_IMAGE_PLACE_CONSTANT) or a relative value
-     (self::EZ_IMAGE_PLACE_RELATIVE) where input value is placed relative to the length
+     be a constant value (self::PLACE_CONSTANT) or a relative value
+     (self::PLACE_RELATIVE) where input value is placed relative to the length
      of the axis (\a $axisStop - \a $axisStart).
-     \a $alignment determines where the axis should start, self::EZ_IMAGE_ALIGN_AXIS_NONE
-     and self::EZ_IMAGE_ALIGN_AXIS_START will return the position from \a $axisStart towards \a $axisStop,
-     self::EZ_IMAGE_ALIGN_AXIS_STOP returns the position from the \a $axisStop towards \a $axisStart
-     while self::EZ_IMAGE_ALIGN_AXIS_CENTER returns the middle of \a $axisStart and \a $axisStop.
+     \a $alignment determines where the axis should start, self::ALIGN_AXIS_NONE
+     and self::ALIGN_AXIS_START will return the position from \a $axisStart towards \a $axisStop,
+     self::ALIGN_AXIS_STOP returns the position from the \a $axisStop towards \a $axisStart
+     while self::ALIGN_AXIS_CENTER returns the middle of \a $axisStart and \a $axisStop.
     */
     function calculateAxisPlacement( $value, $type, $alignment, $axisStart, $axisStop, $currentLength )
     {
         $pos = 0;
-        if ( $type == self::EZ_IMAGE_PLACE_CONSTANT )
+        if ( $type == self::PLACE_CONSTANT )
             $pos = $value;
-        else if ( $type == self::EZ_IMAGE_PLACE_RELATIVE )
+        else if ( $type == self::PLACE_RELATIVE )
         {
             $length = $axisStop - $axisStart;
             $pos = $value * $length;
         }
-        $alignment = $alignment & self::EZ_IMAGE_ALIGN_AXIS_MASK;
-        if ( $alignment == self::EZ_IMAGE_ALIGN_AXIS_NONE or
-             $alignment == self::EZ_IMAGE_ALIGN_AXIS_START )
+        $alignment = $alignment & self::ALIGN_AXIS_MASK;
+        if ( $alignment == self::ALIGN_AXIS_NONE or
+             $alignment == self::ALIGN_AXIS_START )
             return $axisStart + $pos;
-        if ( $alignment == self::EZ_IMAGE_ALIGN_AXIS_CENTER )
+        if ( $alignment == self::ALIGN_AXIS_CENTER )
         {
             $length = $axisStop - $axisStart;
             $halfLength = (int)(($length - $currentLength) / 2);
@@ -132,9 +132,9 @@ class eZImageObject extends eZImageInterface
         if ( isset( $parameters[$name] ) )
             $axis = $parameters[$name];
         if ( !isset( $axis['alignment'] ) )
-            $axis['alignment'] = self::EZ_IMAGE_ALIGN_AXIS_NONE;
+            $axis['alignment'] = self::ALIGN_AXIS_NONE;
         if ( !isset( $axis['placement'] ) )
-            $axis['placement'] = self::EZ_IMAGE_PLACE_CONSTANT;
+            $axis['placement'] = self::PLACE_CONSTANT;
         if ( !isset( $axis['value'] ) )
             $axis['value'] = 0;
         return $axis;
