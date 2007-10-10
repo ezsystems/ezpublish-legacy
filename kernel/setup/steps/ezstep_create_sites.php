@@ -1126,23 +1126,19 @@ language_locale='eng-GB'";
                 if ( $templateLookClass )
                 {
                     $objectList = $templateLookClass->objectList();
-                    if ( count( $objectList ) > 0 )
+                    if ( $objectList and count( $objectList ) > 0 )
                     {
                         $templateLookObject = current( $objectList );
-                        if ( $templateLookObject )
-                        {
-                            $dataMap = $templateLookObject->fetchDataMap();
-                            $dataMap[ 'title' ]->setAttribute( 'data_text', $siteINIChanges['SiteSettings']['SiteName'] );
-                            $dataMap[ 'title' ]->store();
-                            $dataMap[ 'siteurl' ]->setAttribute( 'data_text', $siteINIChanges['SiteSettings']['SiteURL'] );
-                            $dataMap[ 'siteurl' ]->store();
-                            $dataMap[ 'email' ]->setAttribute( 'data_text', $siteINIChanges['MailSettings']['AdminEmail'] );
-                            $dataMap[ 'email' ]->store();
-                            $class = eZContentClass::fetch( $templateLookObject->attribute( 'contentclass_id' ) );
-                            $objectName = $class->contentObjectName( $templateLookObject );
-                            $templateLookObject->setName( $objectName );
-                            $templateLookObject->store();
-                        }
+                        $dataMap = $templateLookObject->fetchDataMap();
+                        $dataMap[ 'title' ]->setAttribute( 'data_text', $siteINIChanges['SiteSettings']['SiteName'] );
+                        $dataMap[ 'title' ]->store();
+                        $dataMap[ 'siteurl' ]->setAttribute( 'data_text', $siteINIChanges['SiteSettings']['SiteURL'] );
+                        $dataMap[ 'siteurl' ]->store();
+                        $dataMap[ 'email' ]->setAttribute( 'data_text', $siteINIChanges['MailSettings']['AdminEmail'] );
+                        $dataMap[ 'email' ]->store();
+                        $objectName = $templateLookClass->contentObjectName( $templateLookObject );
+                        $templateLookObject->setName( $objectName );
+                        $templateLookObject->store();
                     }
                 }
             }
