@@ -40,8 +40,8 @@
 
 class eZLog
 {
-    const EZ_MAX_LOGROTATE_FILES = 3;
-    const EZ_MAX_LOGFILE_SIZE = 204800; // 200*1024
+    const MAX_LOGROTATE_FILES = 3;
+    const MAX_LOGFILE_SIZE = 204800; // 200*1024
 
     /*!
       Creates a new log object.
@@ -145,7 +145,7 @@ class eZLog
         $maxLogSize =& $GLOBALS['eZMaxLogSize'];
         if ( isset( $maxLogSize ) )
             return $maxLogSize;
-        return self::EZ_MAX_LOGFILE_SIZE;
+        return self::MAX_LOGFILE_SIZE;
     }
 
     /*!
@@ -166,7 +166,7 @@ class eZLog
         $maxLogrotateFiles =& $GLOBALS['eZMaxLogrotateFiles'];
         if ( isset( $maxLogrotateFiles ) )
             return $maxLogrotateFiles;
-        return self::EZ_MAX_LOGROTATE_FILES;
+        return self::MAX_LOGROTATE_FILES;
     }
 
     /*!
