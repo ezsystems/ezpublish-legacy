@@ -76,15 +76,15 @@ class eZGIFImageAnalyzer
 
                 $info['version'] = substr( $data, 3 );
                 $info['frame_count'] = 0;
-                $info['mode'] = eeZImageAnalyzer::MODE_INDEXED;
+                $info['mode'] = eZImageAnalyzer::MODE_INDEXED;
                 $offset = 6;
 
                 $info['animation_timer'] = false;
-                $info['animation_timer_type'] = eeZImageAnalyzer::TIMER_HUNDRETHS_OF_A_SECOND;
+                $info['animation_timer_type'] = eZImageAnalyzer::TIMER_HUNDRETHS_OF_A_SECOND;
 
                 $info['comment_list'] = array();
 
-                $info['transparency_type'] = eeZImageAnalyzer::TRANSPARENCY_OPAQUE;
+                $info['transparency_type'] = eZImageAnalyzer::TRANSPARENCY_OPAQUE;
 
                 // Read Logical Screen Descriptor
                 $data = fread( $fd, 7 );
@@ -145,7 +145,7 @@ class eZGIFImageAnalyzer
                             $info['animation_timer'] = ( ord( $data[3] ) << 8 ) + ord( $data[2] );
                             $gceFlags = ord( $data[1] );
                             if ( $gceFlags & 0x01 )
-                                $info['transparency_type'] = eeZImageAnalyzer::TRANSPARENCY_TRANSPARENT;
+                                $info['transparency_type'] = eZImageAnalyzer::TRANSPARENCY_TRANSPARENT;
                             $offset += 5 + 1;
                         }
                         else if ( $extensionLabel == 0xff ) // Application Extension
