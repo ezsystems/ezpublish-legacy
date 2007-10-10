@@ -39,11 +39,11 @@
 
 class eZFilePasstroughHandler extends eZBinaryFileHandler
 {
-    const EZ_FILE_PASSTROUGH_ID = 'ezfilepasstrough';
+    const HANDLER_ID = 'ezfilepasstrough';
 
     function eZFilePasstroughHandler()
     {
-        $this->eZBinaryFileHandler( self::EZ_FILE_PASSTROUGH_ID, "PHP passtrough", eZBinaryFileHandler::EZ_BINARY_FILE_HANDLE_DOWNLOAD );
+        $this->eZBinaryFileHandler( self::HANDLER_ID, "PHP passtrough", eZBinaryFileHandler::EZ_BINARY_FILE_HANDLE_DOWNLOAD );
     }
 
     function handleFileDownload( $contentObject, $contentObjectAttribute, $type,
