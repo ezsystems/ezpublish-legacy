@@ -99,6 +99,8 @@ class eZFloatType extends eZDataType
             $locale =& eZLocale::instance();
             $data = $locale->internalNumber( $data );
 
+            $data = str_replace(" ", "", $data);
+
             $contentObjectAttribute->setAttribute( "data_float", $data );
             return true;
         }
