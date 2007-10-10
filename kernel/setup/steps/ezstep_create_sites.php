@@ -468,13 +468,13 @@ class eZStepCreateSites extends eZStepInstaller
         {
             $siteType['existing_database'] = false;
         }
-        if ( $siteType['existing_database'] == eZStepInstaller::EZ_SETUP_DB_DATA_REMOVE )
+        if ( $siteType['existing_database'] == eZStepInstaller::DB_DATA_REMOVE )
         {
             //include_once( 'lib/ezdb/classes/ezdbtool.php' );
             eZDBTool::cleanup( $db );
         }
 
-        if ( $siteType['existing_database'] != eZStepInstaller::EZ_SETUP_DB_DATA_KEEP )
+        if ( $siteType['existing_database'] != eZStepInstaller::DB_DATA_KEEP )
         {
             //include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
             $result = true;
@@ -831,7 +831,7 @@ language_locale='eng-GB'";
         // Make sure priority list is changed to the new chosen languages
         eZContentLanguage::setPrioritizedLanguages( $prioritizedLanguages );
 
-        if ( $siteType['existing_database'] != eZStepInstaller::EZ_SETUP_DB_DATA_KEEP )
+        if ( $siteType['existing_database'] != eZStepInstaller::DB_DATA_KEEP )
         {
             $user = eZUser::instance( 14 );  // Must be initialized to make node assignments work correctly
             if ( !is_object( $user ) )
@@ -1119,7 +1119,7 @@ language_locale='eng-GB'";
             }
             $tmpINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName", $resetArray );
 
-            if ( $siteType['existing_database'] != eZStepInstaller::EZ_SETUP_DB_DATA_KEEP )
+            if ( $siteType['existing_database'] != eZStepInstaller::DB_DATA_KEEP )
             {
                 // setting up appropriate data in look&feel object
                 $templateLookClass = eZContentClass::fetchByIdentifier( 'template_look', true );
@@ -1215,7 +1215,7 @@ language_locale='eng-GB'";
         eZDir::mkdir( "design/" . $userDesignName . "/override" );
         eZDir::mkdir( "design/" . $userDesignName . "/override/templates" );
 
-        if ( $siteType['existing_database'] == eZStepInstaller::EZ_SETUP_DB_DATA_KEEP )
+        if ( $siteType['existing_database'] == eZStepInstaller::DB_DATA_KEEP )
         {
             return true;
         }

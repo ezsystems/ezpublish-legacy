@@ -39,20 +39,20 @@
 
 class eZStepInstaller
 {
-    const EZ_SETUP_DB_ERROR_EMPTY_PASSWORD = 1;
-    const EZ_SETUP_DB_ERROR_NONMATCH_PASSWORD = 2;
-    const EZ_SETUP_DB_ERROR_CONNECTION_FAILED = 3;
-    const EZ_SETUP_DB_ERROR_NOT_EMPTY = 4;
-    const EZ_SETUP_DB_ERROR_NO_DATABASES = 5;
-    const EZ_SETUP_DB_ERROR_NO_DIGEST_PROC = 6;
-    const EZ_SETUP_DB_ERROR_VERSION_INVALID = 7;
-    const EZ_SETUP_DB_ERROR_CHARSET_DIFFERS = 8;
-    const EZ_SETUP_DB_ERROR_ALREADY_CHOSEN = 10;
+    const DB_ERROR_EMPTY_PASSWORD = 1;
+    const DB_ERROR_NONMATCH_PASSWORD = 2;
+    const DB_ERROR_CONNECTION_FAILED = 3;
+    const DB_ERROR_NOT_EMPTY = 4;
+    const DB_ERROR_NO_DATABASES = 5;
+    const DB_ERROR_NO_DIGEST_PROC = 6;
+    const DB_ERROR_VERSION_INVALID = 7;
+    const DB_ERROR_CHARSET_DIFFERS = 8;
+    const DB_ERROR_ALREADY_CHOSEN = 10;
 
-    const EZ_SETUP_DB_DATA_APPEND = 1;
-    const EZ_SETUP_DB_DATA_REMOVE = 2;
-    const EZ_SETUP_DB_DATA_KEEP = 3;
-    const EZ_SETUP_DB_DATA_CHOOSE = 4;
+    const DB_DATA_APPEND = 1;
+    const DB_DATA_REMOVE = 2;
+    const DB_DATA_KEEP = 3;
+    const DB_DATA_CHOOSE = 4;
 
     /*!
      Default constructor for eZ publish installer classes
@@ -368,7 +368,7 @@ class eZStepInstaller
         $result['connected'] = $db->isConnected();
         if ( $db->isConnected() == false )
         {
-            $result['error_code'] = self::EZ_SETUP_DB_ERROR_CONNECTION_FAILED;
+            $result['error_code'] = self::DB_ERROR_CONNECTION_FAILED;
             return $result;
         }
 
@@ -381,7 +381,7 @@ class eZStepInstaller
             if ( version_compare( $result['db_version'], $databaseInfo['info']['required_version'] ) == -1 )
             {
                 $result['connected'] = false;
-                $result['error_code'] = self::EZ_SETUP_DB_ERROR_VERSION_INVALID;
+                $result['error_code'] = self::DB_ERROR_VERSION_INVALID;
                 return $result;
             }
         }
@@ -395,7 +395,7 @@ class eZStepInstaller
             // If it is 0 we don't have it
             if ( $count == 0 )
             {
-                $result['error_code'] = self::EZ_SETUP_DB_ERROR_NO_DIGEST_PROC;
+                $result['error_code'] = self::DB_ERROR_NO_DIGEST_PROC;
                 return $result;
             }
         }
@@ -474,7 +474,7 @@ class eZStepInstaller
                     $result['connected'] = false;
                     $this->PersistenceList['database_info']['requested_charset'] = implode( ", ", $charsetsList );
                     $this->PersistenceList['database_info']['current_charset'] = $currentCharset;
-                    $result['error_code'] = self::EZ_SETUP_DB_ERROR_CHARSET_DIFFERS;
+                    $result['error_code'] = self::DB_ERROR_CHARSET_DIFFERS;
                     return $result;
                 }
             }
@@ -499,7 +499,7 @@ class eZStepInstaller
 
         switch ( $code )
         {
-            case self::EZ_SETUP_DB_ERROR_CONNECTION_FAILED:
+            case self::DB_ERROR_CONNECTION_FAILED:
             {
                 if ( $errorInfo['database_info']['type'] == 'pgsql' )
                 {
@@ -510,55 +510,55 @@ class eZStepInstaller
                                                         .'<br>Note that PostgreSQL 7.2 is not supported.' ),
                                       'url' => array( 'href' => 'http://www.php.net/manual/en/ref.pgsql.php',
                                                       'text' => 'PHP documentation' ),
-                                      'number' => self::EZ_SETUP_DB_ERROR_CONNECTION_FAILED );
+                                      'number' => self::DB_ERROR_CONNECTION_FAILED );
                 }
                 else
                 {
                     $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
                                                         'The database would not accept the connection, please review your settings and try again.' ),
                                   'url' => false,
-                                      'number' => self::EZ_SETUP_DB_ERROR_CONNECTION_FAILED );
+                                      'number' => self::DB_ERROR_CONNECTION_FAILED );
                 }
 
                 break;
             }
-            case self::EZ_SETUP_DB_ERROR_NONMATCH_PASSWORD:
+            case self::DB_ERROR_NONMATCH_PASSWORD:
             {
                 $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
                                                     'Password entries did not match.' ),
                                   'url' => false,
-                                  'number' => self::EZ_SETUP_DB_ERROR_NONMATCH_PASSWORD );
+                                  'number' => self::DB_ERROR_NONMATCH_PASSWORD );
                 break;
             }
-            case self::EZ_SETUP_DB_ERROR_NOT_EMPTY:
+            case self::DB_ERROR_NOT_EMPTY:
             {
                 $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
                                                     'The selected database was not empty, please choose from the alternatives below.' ),
                                   'url' => false,
-                                  'number' => self::EZ_SETUP_DB_ERROR_NOT_EMPTY );
+                                  'number' => self::DB_ERROR_NOT_EMPTY );
                 $dbNotEmpty = 1;
                 break;
             }
-            case self::EZ_SETUP_DB_ERROR_NO_DATABASES:
+            case self::DB_ERROR_NO_DATABASES:
             {
                 $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
                                                     'The selected user has not got access to any databases. Change user or create a database for the user.' ),
                                   'url' => false,
-                                  'number' => self::EZ_SETUP_DB_ERROR_NO_DATABASES );
+                                  'number' => self::DB_ERROR_NO_DATABASES );
                 break;
             }
 
-            case self::EZ_SETUP_DB_ERROR_NO_DIGEST_PROC:
+            case self::DB_ERROR_NO_DIGEST_PROC:
             {
                 $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
                                                     "The 'digest' procedure is not available in your database, you cannot run eZ Publish without this. Visit the FAQ for more information." ),
                                   'url' => array( 'href' => 'http://ez.no/ez_publish/documentation/faq/database/what_is_the_reason_i_get_error_function_digest_character_varying_does_not_exist_on_postgresql',
                                                   'text' => 'PostgreSQL digest FAQ' ),
-                                  'number' => self::EZ_SETUP_DB_ERROR_NO_DATABASES );
+                                  'number' => self::DB_ERROR_NO_DATABASES );
                 break;
             }
 
-            case self::EZ_SETUP_DB_ERROR_VERSION_INVALID:
+            case self::DB_ERROR_VERSION_INVALID:
             {
                 $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
                                                     "Your database version %version does not fit the minimum requirement which is %req_version.
@@ -568,11 +568,11 @@ See the requirements page for more information.",
                                                            '%req_version' => $errorInfo['database_info']['required_version'] ) ),
                                   'url' => array( 'href' => 'http://ez.no/ez_publish/documentation/general_information/what_is_ez_publish/ez_publish_requirements',
                                                   'text' => 'eZ Publish requirements' ),
-                                  'number' => self::EZ_SETUP_DB_ERROR_NO_DATABASES );
+                                  'number' => self::DB_ERROR_NO_DATABASES );
                 break;
             }
 
-            case self::EZ_SETUP_DB_ERROR_CHARSET_DIFFERS:
+            case self::DB_ERROR_CHARSET_DIFFERS:
             {
                 $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
                                                     "The database [%database_name] cannot be used, the setup wizard wants to create the site in [%req_charset] but the database has been created using character set [%charset]. You will have to choose a database having support for [%req_charset] or modify [%database_name] .",
@@ -581,7 +581,7 @@ See the requirements page for more information.",
                                                            '%charset' => $errorInfo['database_info']['current_charset'],
                                                            '%req_charset' => $errorInfo['database_info']['requested_charset'] ) ),
                                   'url' => false,
-                                  'number' => self::EZ_SETUP_DB_ERROR_CHARSET_DIFFERS );
+                                  'number' => self::DB_ERROR_CHARSET_DIFFERS );
                 break;
             }
         }

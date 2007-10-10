@@ -116,7 +116,7 @@ class eZStepSiteAdmin extends eZStepInstaller
     {
         $siteType = $this->chosenSiteType();
         if ( isset( $siteType['existing_database'] ) &&
-             $siteType['existing_database'] == eZStepInstaller::EZ_SETUP_DB_DATA_KEEP ) // Keep existing data in database, no need to reset admin user.
+             $siteType['existing_database'] == eZStepInstaller::DB_DATA_KEEP ) // Keep existing data in database, no need to reset admin user.
         {
             return true;
         }

@@ -132,11 +132,11 @@ class eZStepDatabaseInit extends eZStepInstaller
         }
         else if ( $availDatabases == null && $db->isConnected() === true )
         {
-            $this->Error = eZStepInstaller::EZ_SETUP_DB_ERROR_NO_DATABASES;
+            $this->Error = eZStepInstaller::DB_ERROR_NO_DATABASES;
             return false;
         }
 
-        $this->Error = eZStepInstaller::EZ_SETUP_DB_ERROR_CONNECTION_FAILED;
+        $this->Error = eZStepInstaller::DB_ERROR_CONNECTION_FAILED;
 
         return false;
     }
@@ -201,7 +201,7 @@ class eZStepDatabaseInit extends eZStepInstaller
 
         if ( $this->Http->postVariable( 'eZSetup_current_step' ) == 'SiteDetails' ) // Failed to connect to tables in database
         {
-            $this->Error = eZStepInstaller::EZ_SETUP_DB_ERROR_CONNECTION_FAILED;
+            $this->Error = eZStepInstaller::DB_ERROR_CONNECTION_FAILED;
         }
 
         return false; // Always show database initialization
