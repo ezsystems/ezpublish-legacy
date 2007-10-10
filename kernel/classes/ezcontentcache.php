@@ -44,7 +44,7 @@ class eZContentCache
 {
     // The timestamp for the cache format, will expire
     // cache which differs from this.
-    const EZ_CONTENT_CACHE_CODE_DATE = 1064816011;
+    const CODE_DATE = 1064816011;
 
     static function cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout, $cacheTTL = false,
                             $parameters = array() )
@@ -178,7 +178,7 @@ class eZContentCache
 
         // Check for template language timestamp
         $cacheCodeDate = $cachedArray['cache_code_date'];
-        if ( $cacheCodeDate != self::EZ_CONTENT_CACHE_CODE_DATE )
+        if ( $cacheCodeDate != self::CODE_DATE )
             return false;
 
         $viewMode = $cachedArray['content_info']['viewmode'];
@@ -258,7 +258,7 @@ class eZContentCache
 
         $serializeArray['cache_ttl'] = $cacheTTL;
 
-        $serializeArray['cache_code_date'] = self::EZ_CONTENT_CACHE_CODE_DATE;
+        $serializeArray['cache_code_date'] = self::CODE_DATE;
         $serializeArray['content'] = $result['content'];
 
         $serializeString = serialize( $serializeArray );
