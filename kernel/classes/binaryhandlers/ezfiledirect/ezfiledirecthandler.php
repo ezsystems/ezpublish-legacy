@@ -39,7 +39,7 @@
 
 class eZFileDirectHandler extends eZBinaryFileHandler
 {
-    const EZ_FILE_DIRECT_ID = 'ezfiledirect';
+    const HANDLER_ID = 'ezfiledirect';
 
     function eZFileDirectHandler()
     {
