@@ -42,9 +42,9 @@
 
 class eZCollaborationItem extends eZPersistentObject
 {
-    const EZ_COLLABORATION_STATUS_ACTIVE = 1;
-    const EZ_COLLABORATION_STATUS_INACTIVE = 2;
-    const EZ_COLLABORATION_STATUS_ARCHIVE = 3;
+    const STATUS_ACTIVE = 1;
+    const STATUS_INACTIVE = 2;
+    const STATUS_ARCHIVE = 3;
 
     /*!
      Constructor
@@ -136,7 +136,7 @@ class eZCollaborationItem extends eZPersistentObject
                       'name' => 'ezcollab_item' );
     }
 
-    static function create( $typeIdentifier, $creatorID, $status = self::EZ_COLLABORATION_STATUS_ACTIVE )
+    static function create( $typeIdentifier, $creatorID, $status = self::STATUS_ACTIVE )
     {
         $date_time = time();
         $row = array(
@@ -338,8 +338,8 @@ class eZCollaborationItem extends eZPersistentObject
 
 //         $statusText = '';
 //         if ( $statusTypes === false )
-//             $statusTypes = array( self::EZ_COLLABORATION_STATUS_ACTIVE,
-//                                   self::EZ_COLLABORATION_STATUS_INACTIVE );
+//             $statusTypes = array( self::STATUS_ACTIVE,
+//                                   self::STATUS_INACTIVE );
 //         $statusText = implode( ', ', $statusTypes );
 
 //         $sql = "SELECT count( ezcollab_item.id ) as count
@@ -472,8 +472,8 @@ class eZCollaborationItem extends eZPersistentObject
 
         $statusText = '';
         if ( $statusTypes === false )
-            $statusTypes = array( self::EZ_COLLABORATION_STATUS_ACTIVE,
-                                  self::EZ_COLLABORATION_STATUS_INACTIVE );
+            $statusTypes = array( self::STATUS_ACTIVE,
+                                  self::STATUS_INACTIVE );
         $statusText = implode( ', ', $statusTypes );
 
         if ( $asCount )

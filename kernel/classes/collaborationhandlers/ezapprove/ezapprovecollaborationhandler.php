@@ -182,7 +182,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
         if ( $collaborationItem !== null )
         {
             $collaborationItem->setAttribute( 'data_int3', self::STATUS_WAITING );
-            $collaborationItem->setAttribute( 'status', eZCollaborationItem::EZ_COLLABORATION_STATUS_ACTIVE );
+            $collaborationItem->setAttribute( 'status', eZCollaborationItem::STATUS_ACTIVE );
             $timestamp = time();
             $collaborationItem->setAttribute( 'modified', $timestamp );
             $collaborationItem->store();
@@ -285,7 +285,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
                       $this->isCustomAction( 'Deny' ) )
                 $status = self::STATUS_DENIED;
             $collaborationItem->setAttribute( 'data_int3', $status );
-            $collaborationItem->setAttribute( 'status', eZCollaborationItem::EZ_COLLABORATION_STATUS_INACTIVE );
+            $collaborationItem->setAttribute( 'status', eZCollaborationItem::STATUS_INACTIVE );
             $timestamp = time();
             $collaborationItem->setAttribute( 'modified', $timestamp );
             $collaborationItem->setIsActive( false );
