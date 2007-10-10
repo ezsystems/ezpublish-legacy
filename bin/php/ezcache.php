@@ -273,7 +273,7 @@ if ( $idName )
 
 if ( $noAction )
 {
-    $cli->warning( "Clearing of caches is done using one of the options --clear-id, --clear-tag or --clear-all. Use --help for more details." );
+    $cli->warning( "To clear caches use one of the options --clear-id, --clear-tag or --clear-all. Use --help option for more details." );
 }
 
 $script->shutdown();
