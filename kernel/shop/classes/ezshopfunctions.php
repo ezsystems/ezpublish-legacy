@@ -366,7 +366,7 @@ class eZShopFunctions
 
         //include_once( 'kernel/shop/classes/ezcurrencyconverter.php' );
         $converter = eZCurrencyConverter::instance();
-        $converter->setRoundingType( eZCurrencyConverter::EZ_CURRENCY_CONVERTER_ROUNDING_TYPE_ROUND );
+        $converter->setRoundingType( eZCurrencyConverter::ROUNDING_TYPE_ROUND );
         $converter->setRoundingPrecision( 2 );
         $converter->setRoundingTarget( false );
 

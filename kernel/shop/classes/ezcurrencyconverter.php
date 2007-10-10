@@ -43,10 +43,10 @@
 
 class eZCurrencyConverter
 {
-    const EZ_CURRENCY_CONVERTER_ROUNDING_TYPE_NONE = 1;
-    const EZ_CURRENCY_CONVERTER_ROUNDING_TYPE_ROUND = 2;
-    const EZ_CURRENCY_CONVERTER_ROUNDING_TYPE_CEIL = 3;
-    const EZ_CURRENCY_CONVERTER_ROUNDING_TYPE_FLOOR = 4;
+    const ROUNDING_TYPE_NONE = 1;
+    const ROUNDING_TYPE_ROUND = 2;
+    const ROUNDING_TYPE_CEIL = 3;
+    const ROUNDING_TYPE_FLOOR = 4;
 
     function eZCurrencyConverter()
     {
@@ -189,7 +189,7 @@ class eZCurrencyConverter
 
             $roundingType = 'EZ_CURRENCY_CONVERTER_ROUNDING_TYPE_' . strtoupper( $ini->variable( 'MathSettings', 'RoundingType' ) );
             if ( !defined( "self::{$roundingType}" ) )
-                $roundingType = self::EZ_CURRENCY_CONVERTER_ROUNDING_TYPE_NONE;
+                $roundingType = self::ROUNDING_TYPE_NONE;
 
             $this->setRoundingType( $roundingType );
         }
