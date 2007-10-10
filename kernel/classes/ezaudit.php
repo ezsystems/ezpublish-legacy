@@ -33,7 +33,7 @@
 
 class eZAudit
 {
-    const EZ_AUDIT_DEFAULT_LOGDIR = 'var/log/audit';
+    const DEFAULT_LOG_DIR = 'var/log/audit';
 
     /*!
       Creates a new audit object.
@@ -54,7 +54,7 @@ class eZAudit
         $auditNames = $ini->hasVariable( 'AuditSettings', 'AuditFileNames' )
                       ? $ini->variable( 'AuditSettings', 'AuditFileNames' )
                       : array();
-        $logDir = $ini->hasVariable( 'AuditSettings', 'LogDir' ) ? $ini->variable( 'AuditSettings', 'LogDir' ): self::EZ_AUDIT_DEFAULT_LOGDIR;
+        $logDir = $ini->hasVariable( 'AuditSettings', 'LogDir' ) ? $ini->variable( 'AuditSettings', 'LogDir' ): self::DEFAULT_LOG_DIR;
 
         $resultArray = array();
         foreach ( array_keys( $auditNames ) as $auditNameKey )
