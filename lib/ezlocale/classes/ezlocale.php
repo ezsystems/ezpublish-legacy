@@ -131,7 +131,7 @@ The following characters are recognized in the format string:
 
 class eZLocale
 {
-    const EZ_LOCALE_DEBUG_INTERNALS = false;
+    const DEBUG_INTERNALS = false;
 
     /*!
      Initializes the locale with the locale string \a $localeString.
@@ -1585,7 +1585,7 @@ class eZLocale
     static function isDebugEnabled()
     {
         if ( !isset( $GLOBALS['eZLocaleDebugInternalsEnabled'] ) )
-             $GLOBALS['eZLocaleDebugInternalsEnabled'] = self::EZ_LOCALE_DEBUG_INTERNALS;
+             $GLOBALS['eZLocaleDebugInternalsEnabled'] = self::DEBUG_INTERNALS;
         return $GLOBALS['eZLocaleDebugInternalsEnabled'];
     }
 
