@@ -110,14 +110,14 @@ class eZSOAPRequest extends eZSOAPEnvelope
         $doc = new DOMDocument( "1.0" );
         $doc->name = 'eZSOAP message';
 
-        $root = $doc->createElementNS( eZSOAPEnvelope::EZ_SOAP_ENV, eZSOAPEnvelope::EZ_SOAP_ENV_PREFIX . ':Envelope' );
+        $root = $doc->createElementNS( eZSOAPEnvelope::ENV, eZSOAPEnvelope::ENV_PREFIX . ':Envelope' );
 
-        $root->setAttribute( 'xmlns:' . eZSOAPEnvelope::EZ_SOAP_XSI_PREFIX, eZSOAPEnvelope::EZ_SOAP_SCHEMA_INSTANCE );
-        $root->setAttribute( 'xmlns:' . eZSOAPEnvelope::EZ_SOAP_XSD_PREFIX, eZSOAPEnvelope::EZ_SOAP_SCHEMA_DATA );
-        $root->setAttribute( 'xmlns:' . eZSOAPEnvelope::EZ_SOAP_ENC_PREFIX, eZSOAPEnvelope::EZ_SOAP_ENC );
+        $root->setAttribute( 'xmlns:' . eZSOAPEnvelope::XSI_PREFIX, eZSOAPEnvelope::SCHEMA_INSTANCE );
+        $root->setAttribute( 'xmlns:' . eZSOAPEnvelope::XSD_PREFIX, eZSOAPEnvelope::SCHEMA_DATA );
+        $root->setAttribute( 'xmlns:' . eZSOAPEnvelope::ENC_PREFIX, eZSOAPEnvelope::ENC );
 
         // add the body
-        $body = $doc->createElement( eZSOAPEnvelope::EZ_SOAP_ENV_PREFIX . ':Body' );
+        $body = $doc->createElement( eZSOAPEnvelope::ENV_PREFIX . ':Body' );
         $body->setAttribute( 'xmlns:req', $this->Namespace );
 
         foreach( $this->BodyAttributes as $name => $value )

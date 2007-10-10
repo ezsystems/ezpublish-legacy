@@ -69,7 +69,7 @@ class eZSOAPResponse extends eZSOAPEnvelope
         if ( !empty( $dom ) )
         {
             // check for fault
-            $response = $dom->getElementsByTagNameNS( eZSOAPEnvelope::EZ_SOAP_ENV, 'Fault' );
+            $response = $dom->getElementsByTagNameNS( eZSOAPEnvelope::ENV, 'Fault' );
 
             if ( $response->length  == 1 )
             {
@@ -136,7 +136,7 @@ class eZSOAPResponse extends eZSOAPEnvelope
         $returnValue = false;
 
         $attributeValue = '';
-        $attribute = $node->getAttributeNodeNS( eZSOAPEnvelope::EZ_SOAP_SCHEMA_INSTANCE, 'type' );
+        $attribute = $node->getAttributeNodeNS( eZSOAPEnvelope::SCHEMA_INSTANCE, 'type' );
         if ( !$attribute )
         {
             $attribute = $node->getAttributeNodeNS( 'http://www.w3.org/1999/XMLSchema-instance', 'type' );
@@ -154,8 +154,8 @@ class eZSOAPResponse extends eZSOAPEnvelope
         $typeNamespacePrefix = $this->DOMDocument->namespaceByAlias( $attrParts[0] );
 
         check that this is a namespace type definition
-                if ( ( $typeNamespacePrefix == eZSOAPEnvelope::EZ_SOAP_SCHEMA_DATA ) ||
-                     ( $typeNamespacePrefix == eZSOAPEnvelope::EZ_SOAP_ENC )
+                if ( ( $typeNamespacePrefix == eZSOAPEnvelope::SCHEMA_DATA ) ||
+                     ( $typeNamespacePrefix == eZSOAPEnvelope::ENC )
                      )
 TODO: add encoding checks with schema validation.
 */
@@ -186,7 +186,7 @@ TODO: add encoding checks with schema validation.
             case "Array" :
             {
                 // Get array type
-                $arrayType = $node->getAttributeNodeNS( eZSOAPEnvelope::EZ_SOAP_ENC, 'arrayType' )->value;
+                $arrayType = $node->getAttributeNodeNS( eZSOAPEnvelope::ENC, 'arrayType' )->value;
                 $arrayTypeParts = explode( ":", $arrayType );
 
                 preg_match( "#(.*)\[(.*)\]#",  $arrayTypeParts[1], $matches );
@@ -224,7 +224,7 @@ TODO: add encoding checks with schema validation.
                     if ( $child instanceof DOMElement )
                     {
                         // check data type for child
-                        $attr = $childNode->getAttributeNodeNS( eZSOAPEnvelope::EZ_SOAP_SCHEMA_INSTANCE, 'type' )->value;
+                        $attr = $childNode->getAttributeNodeNS( eZSOAPEnvelope::SCHEMA_INSTANCE, 'type' )->value;
 
                         $dataType = false;
                         $attrParts = explode( ":", $attr );
@@ -249,20 +249,20 @@ TODO: add encoding checks with schema validation.
         $doc = new DOMDocument();
         $doc->name = "eZSOAP message";
 
-        $root = $doc->createElementNS( eZSOAPEnvelope::EZ_SOAP_ENV, eZSOAPEnvelope::EZ_SOAP_ENV_PREFIX . ':Envelope' );
+        $root = $doc->createElementNS( eZSOAPEnvelope::ENV, eZSOAPEnvelope::ENV_PREFIX . ':Envelope' );
 
-        $root->setAttribute( 'xmlns:' . eZSOAPEnvelope::EZ_SOAP_XSI_PREFIX, eZSOAPEnvelope::EZ_SOAP_SCHEMA_INSTANCE );
-        $root->setAttribute( 'xmlns:' . eZSOAPEnvelope::EZ_SOAP_XSD_PREFIX, eZSOAPEnvelope::EZ_SOAP_SCHEMA_DATA );
-        $root->setAttribute( 'xmlns:' . eZSOAPEnvelope::EZ_SOAP_ENC_PREFIX, eZSOAPEnvelope::EZ_SOAP_ENC );
+        $root->setAttribute( 'xmlns:' . eZSOAPEnvelope::XSI_PREFIX, eZSOAPEnvelope::SCHEMA_INSTANCE );
+        $root->setAttribute( 'xmlns:' . eZSOAPEnvelope::XSD_PREFIX, eZSOAPEnvelope::SCHEMA_DATA );
+        $root->setAttribute( 'xmlns:' . eZSOAPEnvelope::ENC_PREFIX, eZSOAPEnvelope::ENC );
 
         // add the body
-        $body = $doc->createElement(  eZSOAPEnvelope::EZ_SOAP_ENV_PREFIX . ':Body' );
+        $body = $doc->createElement(  eZSOAPEnvelope::ENV_PREFIX . ':Body' );
         $root->appendChild( $body );
 
         // Check if it's a fault
         if ( $this->Value instanceof eZSOAPFault )
         {
-            $fault = $doc->createElement( eZSOAPEnvelope::EZ_SOAP_ENV_PREFIX . ':Fault' );
+            $fault = $doc->createElement( eZSOAPEnvelope::ENV_PREFIX . ':Fault' );
 
             $faultCodeNode = $doc->createElement( "faultcode", $this->Value->faultCode() );
             $fault->appendChild( $faultCodeNode );
