@@ -33,12 +33,12 @@
 
 class eZExchangeRatesUpdateHandler
 {
-    const EZ_EXCHANGE_RATES_HANDLER_OK = 0;
-    const EZ_EXCHANGE_RATES_HANDLER_CANT_CREATE_HANDLER = 1;
-    const EZ_EXCHANGE_RATES_HANDLER_REQUEST_RATES_FAILED = 2;
-    const EZ_EXCHANGE_RATES_HANDLER_EMPTY_RATE_LIST = 3;
-    const EZ_EXCHANGE_RATES_HANDLER_UNKNOWN_BASE_CURRENCY = 4;
-    const EZ_EXCHANGE_RATES_HANDLER_INVALID_BASE_CROSS_RATE = 5;
+    const OK = 0;
+    const CANT_CREATE_HANDLER = 1;
+    const FAILED = 2;
+    const EMPTY_RATE_LIST = 3;
+    const UNKNOWN_BASE_CURRENCY = 4;
+    const INVALID_BASE_CROSS_RATE = 5;
 
     function eZExchangeRatesUpdateHandler()
     {
@@ -137,7 +137,7 @@ class eZExchangeRatesUpdateHandler
 
     function requestRates()
     {
-        $error = array( 'code' => self::EZ_EXCHANGE_RATES_HANDLER_REQUEST_RATES_FAILED,
+        $error = array( 'code' => self::FAILED,
                         'description' => ezi18n( 'kernel/shop', "eZExchangeRatesUpdateHandler: you should reimplement 'requestRates' method" ) );
 
         return $error;

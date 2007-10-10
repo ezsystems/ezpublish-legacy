@@ -378,14 +378,14 @@ class eZShopFunctions
         //include_once( 'kernel/shop/errors.php' );
         //include_once( 'kernel/shop/classes/exchangeratehandlers/ezexchangeratesupdatehandler.php' );
 
-        $error = array( 'code' => eZExchangeRatesUpdateHandler::EZ_EXCHANGE_RATES_HANDLER_OK,
+        $error = array( 'code' => eZExchangeRatesUpdateHandler::OK,
                         'description' => '' );
 
         $handler = eZExchangeRatesUpdateHandler::create();
         if ( $handler )
         {
             $error = $handler->requestRates();
-            if ( $error['code'] === eZExchangeRatesUpdateHandler::EZ_EXCHANGE_RATES_HANDLER_OK )
+            if ( $error['code'] === eZExchangeRatesUpdateHandler::OK )
             {
                 $rateList = $handler->rateList();
                 if ( is_array( $rateList ) && count( $rateList ) > 0 )
@@ -439,36 +439,36 @@ class eZShopFunctions
                                 }
                             }
 
-                            $error['code'] = eZExchangeRatesUpdateHandler::EZ_EXCHANGE_RATES_HANDLER_OK;
+                            $error['code'] = eZExchangeRatesUpdateHandler::OK;
                             $error['description'] = ezi18n( 'kernel/shop', "'Auto' rates were updated successfully." );
                         }
                         else
                         {
-                            $error['code'] = eZExchangeRatesUpdateHandler::EZ_EXCHANGE_RATES_HANDLER_INVALID_BASE_CROSS_RATE;
+                            $error['code'] = eZExchangeRatesUpdateHandler::INVALID_BASE_CROSS_RATE;
                             $error['description'] = ezi18n( 'kernel/shop', "Unable to calculate cross-rate for currency-pair '%1'/'%2'", null, array( $handlerBaseCurrency, $shopBaseCurrency ) );
                         }
                     }
                     else
                     {
-                        $error['code'] = eZExchangeRatesUpdateHandler::EZ_EXCHANGE_RATES_HANDLER_UNKNOWN_BASE_CURRENCY;
+                        $error['code'] = eZExchangeRatesUpdateHandler::UNKNOWN_BASE_CURRENCY;
                         $error['description'] = ezi18n( 'kernel/shop', 'Unable to determine currency for retrieved rates.' );
                     }
                 }
                 else
                 {
-                    $error['code'] = eZExchangeRatesUpdateHandler::EZ_EXCHANGE_RATES_HANDLER_EMPTY_RATE_LIST;
+                    $error['code'] = eZExchangeRatesUpdateHandler::EMPTY_RATE_LIST;
                     $error['description'] = ezi18n( 'kernel/shop', 'Retrieved empty list of rates.' );
                 }
             }
         }
         else
         {
-            $error['code'] = eZExchangeRatesUpdateHandler::EZ_EXCHANGE_RATES_HANDLER_CANT_CREATE_HANDLER;
+            $error['code'] = eZExchangeRatesUpdateHandler::CANT_CREATE_HANDLER;
             $error['description'] = ezi18n( 'kernel/shop', 'Unable to create handler to update auto rates.' );
 
         }
 
-        if ( $error['code'] !== eZExchangeRatesUpdateHandler::EZ_EXCHANGE_RATES_HANDLER_OK )
+        if ( $error['code'] !== eZExchangeRatesUpdateHandler::OK )
         {
             eZDebug::writeError( $error['description'],
                                  'eZShopFunctions::updateAutoRates' );

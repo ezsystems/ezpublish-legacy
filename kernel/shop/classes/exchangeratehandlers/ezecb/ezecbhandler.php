@@ -84,7 +84,7 @@ class eZECBHandler extends eZExchangeRatesUpdateHandler
 
     function requestRates()
     {
-        $error = array( 'code' => self::EZ_EXCHANGE_RATES_HANDLER_OK,
+        $error = array( 'code' => self::OK,
                         'description' => ezi18n( 'kernel/shop', "'Autorates' were retrieved successfully" ) );
 
         $serverName = $this->serverName();
@@ -125,19 +125,19 @@ class eZECBHandler extends eZExchangeRatesUpdateHandler
                 }
                 else
                 {
-                    $error['code'] = self::EZ_EXCHANGE_RATES_HANDLER_REQUEST_RATES_FAILED;
+                    $error['code'] = self::FAILED;
                     $error['description'] = ezi18n( 'kernel/shop', "Unknown body format in HTTP response. Expected 'text/xml'" );
                 }
             }
             else
             {
-                $error['code'] = self::EZ_EXCHANGE_RATES_HANDLER_REQUEST_RATES_FAILED;
+                $error['code'] = self::FAILED;
                 $error['description'] = ezi18n( 'kernel/shop', "Invalid HTTP response" );
             }
         }
         else
         {
-            $error['code'] = self::EZ_EXCHANGE_RATES_HANDLER_REQUEST_RATES_FAILED;
+            $error['code'] = self::FAILED;
             $error['description'] = ezi18n( 'kernel/shop', "Unable to send http request: %1:%2/%3", null, array( $serverName, $serverPort, $ratesURI ) );
         }
 
