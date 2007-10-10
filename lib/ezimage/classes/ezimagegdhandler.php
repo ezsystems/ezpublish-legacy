@@ -51,7 +51,7 @@ class eZImageGDHandler extends eZImageHandler
      Constructor
     */
     function eZImageGDHandler( $handlerName, $isGloballyEnabled,
-                               $outputRewriteType = self::EZ_IMAGE_HANDLER_REPLACE_SUFFIX,
+                               $outputRewriteType = self::REPLACE_SUFFIX,
                                $conversionRules = false )
     {
         $supportedInputMIMETypes = array();
@@ -764,7 +764,7 @@ class eZImageGDHandler extends eZImageHandler
                 }
             }
             $isEnabled = $ini->variable( $iniGroup, 'IsEnabled' ) == 'true';
-            $outputRewriteType = self::EZ_IMAGE_HANDLER_REPLACE_SUFFIX;
+            $outputRewriteType = self::REPLACE_SUFFIX;
             $handler = new eZImageGDHandler( $name, $isEnabled,
                                              $outputRewriteType,
                                              $conversionRules );

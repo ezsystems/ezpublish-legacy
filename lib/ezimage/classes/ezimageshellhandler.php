@@ -45,7 +45,7 @@ class eZImageShellHandler extends eZImageHandler
     /*!
      Constructor
     */
-    function eZImageShellHandler( $handlerName, $isEnabled = true, $outputRewriteType = self::EZ_IMAGE_HANDLER_REPLACE_SUFFIX,
+    function eZImageShellHandler( $handlerName, $isEnabled = true, $outputRewriteType = self::REPLACE_SUFFIX,
                                   $supportedInputMIMETypes = false, $supportedOutputMIMETypes = false,
                                   $conversionRules = false, $filters = false, $mimeTagMap = false)
     {
@@ -247,7 +247,7 @@ class eZImageShellHandler extends eZImageHandler
             {
                 $useTypeTag = $ini->variable( $iniGroup, 'UseTypeTag' );
             }
-            $outputRewriteType = self::EZ_IMAGE_HANDLER_REPLACE_SUFFIX;
+            $outputRewriteType = self::REPLACE_SUFFIX;
             $filters = false;
             if ( $ini->hasVariable( $iniGroup, 'Filters' ) )
             {

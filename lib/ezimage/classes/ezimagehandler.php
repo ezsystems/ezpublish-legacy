@@ -40,9 +40,9 @@
 
 class eZImageHandler
 {
-    const EZ_IMAGE_HANDLER_KEEP_SUFFIX = 1;
-    const EZ_IMAGE_HANDLER_REPLACE_SUFFIX = 2;
-    const EZ_IMAGE_HANDLER_PREPEND_TAG_REPLACE_SUFFIX = 3;
+    const KEEP_SUFFIX = 1;
+    const REPLACE_SUFFIX = 2;
+    const PREPEND_TAG_REPLACE_SUFFIX = 3;
 
     /*!
      Initializes the image handler with data sent from the inheriting class.
@@ -55,7 +55,7 @@ class eZImageHandler
      \param $filters A list of filters this handler supports
      \param $mimeTagMap A mapping table which maps from a MIME-Type to a specific tag, this tag can be used when rewriting the filename.
     */
-    function eZImageHandler( $handlerName, $isEnabled = true, $outputRewriteType = self::EZ_IMAGE_HANDLER_REPLACE_SUFFIX,
+    function eZImageHandler( $handlerName, $isEnabled = true, $outputRewriteType = self::REPLACE_SUFFIX,
                              $supportedInputMIMETypes = false, $supportedOutputMIMETypes,
                              $conversionRules = false, $filters = false, $mimeTagMap = false )
     {
@@ -190,9 +190,9 @@ class eZImageHandler
      \virtual
      Rewrites the URL in \a $originalMimeData to become a url for \a $destinationMimeData.
      The type of rewrite is determined by \a $rewriteType which can be one of:
-     - self::EZ_IMAGE_HANDLER_KEEP_SUFFIX - Does nothing to the url
-     - self::EZ_IMAGE_HANDLER_REPLACE_SUFFIX - Replaces the suffix or the url
-     - self::EZ_IMAGE_HANDLER_PREPEND_TAG_REPLACE_SUFFIX - Prepends the tag name and replaces the suffix of the url
+     - self::KEEP_SUFFIX - Does nothing to the url
+     - self::REPLACE_SUFFIX - Replaces the suffix or the url
+     - self::PREPEND_TAG_REPLACE_SUFFIX - Prepends the tag name and replaces the suffix of the url
      The new url is placed in the \a $destinationMimeData.
     */
     static function rewriteURL( $originalMimeData, &$destinationMimeData, $rewriteType, $aliasName = false )
@@ -203,7 +203,7 @@ class eZImageHandler
             $extraText = '_' . $aliasName;
         switch ( $rewriteType )
         {
-            case self::EZ_IMAGE_HANDLER_KEEP_SUFFIX:
+            case self::KEEP_SUFFIX:
             {
                 $destinationMimeData['basename'] = $originalMimeData['basename'];
                 $destinationMimeData['filename'] = $originalMimeData['basename'] . $extraText . '.' . $originalMimeData['suffix'];
@@ -213,7 +213,7 @@ class eZImageHandler
                 else
                     $destinationMimeData['url'] = $destinationMimeData['filename'];
             } break;
-            case self::EZ_IMAGE_HANDLER_REPLACE_SUFFIX:
+            case self::REPLACE_SUFFIX:
             {
                 $destinationMimeData['basename'] = $originalMimeData['basename'];
                 $destinationMimeData['filename'] = $originalMimeData['basename'] . $extraText . '.' . $destinationMimeData['suffixes'][0];
@@ -223,7 +223,7 @@ class eZImageHandler
                 else
                     $destinationMimeData['url'] = $destinationMimeData['filename'];
             } break;
-            case self::EZ_IMAGE_HANDLER_PREPEND_TAG_REPLACE_SUFFIX:
+            case self::PREPEND_TAG_REPLACE_SUFFIX:
             {
                 $tagName = $this->tagForMIMEType( $destinationMimeData );
                 $destinationMimeData['basename'] = $originalMimeData['basename'];
