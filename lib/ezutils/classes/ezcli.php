@@ -54,10 +54,10 @@ $cli->output( "This is a text string" );
 require_once( 'lib/ezutils/classes/ezdebug.php' );
 //include_once( 'lib/ezutils/classes/ezdebugsetting.php' );
 
-define( 'EZ_CLI_TERMINAL_ENDOFLINE_STRING', "\n" );
-
 class eZCLI
 {
+    const TERMINAL_ENDOFLINE_STRING = "\n";
+
     /*!
      Initializes object and detects if the CLI is used.
     */
@@ -67,7 +67,7 @@ class eZCLI
         $webOutput = true;
         if ( isset( $_SERVER['argv'] ) )
         {
-            $endl = EZ_CLI_TERMINAL_ENDOFLINE_STRING;
+            $endl = self::TERMINAL_ENDOFLINE_STRING;
             $webOutput = false;
         }
         $this->EndlineString = $endl;
