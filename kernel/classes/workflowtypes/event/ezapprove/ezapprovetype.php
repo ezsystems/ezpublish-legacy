@@ -732,18 +732,18 @@ class eZApproveType extends eZWorkflowEventType
         $collaborationItem = eZCollaborationItem::fetch( $collaborationID );
         $contentObjectVersion = eZApproveCollaborationHandler::contentObjectVersion( $collaborationItem );
         $approvalStatus = eZApproveCollaborationHandler::checkApproval( $collaborationID );
-        if ( $approvalStatus == eZApproveCollaborationHandler::EZ_COLLABORATION_APPROVE_STATUS_WAITING )
+        if ( $approvalStatus == eZApproveCollaborationHandler::STATUS_WAITING )
         {
             eZDebugSetting::writeDebug( 'kernel-workflow-approve', $event, 'approval still waiting' );
             return eZWorkflowType::STATUS_DEFERRED_TO_CRON_REPEAT;
         }
-        else if ( $approvalStatus == eZApproveCollaborationHandler::EZ_COLLABORATION_APPROVE_STATUS_ACCEPTED )
+        else if ( $approvalStatus == eZApproveCollaborationHandler::STATUS_ACCEPTED )
         {
             eZDebugSetting::writeDebug( 'kernel-workflow-approve', $event, 'approval was accepted' );
             $status = eZWorkflowType::STATUS_ACCEPTED;
         }
-        else if ( $approvalStatus == eZApproveCollaborationHandler::EZ_COLLABORATION_APPROVE_STATUS_DENIED or
-                  $approvalStatus == eZApproveCollaborationHandler::EZ_COLLABORATION_APPROVE_STATUS_DEFERRED )
+        else if ( $approvalStatus == eZApproveCollaborationHandler::STATUS_DENIED or
+                  $approvalStatus == eZApproveCollaborationHandler::STATUS_DEFERRED )
         {
             eZDebugSetting::writeDebug( 'kernel-workflow-approve', $event, 'approval was denied' );
             $contentObjectVersion->setAttribute( 'status', eZContentObjectVersion::STATUS_DRAFT );
@@ -756,7 +756,7 @@ class eZApproveType extends eZWorkflowEventType
             $status = eZWorkflowType::STATUS_WORKFLOW_CANCELLED;
         }
         $contentObjectVersion->sync();
-        if ( $approvalStatus != eZApproveCollaborationHandler::EZ_COLLABORATION_APPROVE_STATUS_DEFERRED )
+        if ( $approvalStatus != eZApproveCollaborationHandler::STATUS_DEFERRED )
             $db->query( 'DELETE FROM ezapprove_items WHERE workflow_process_id = ' . $process->attribute( 'id' )  );
         return $status;
     }

@@ -58,19 +58,19 @@ require_once( 'kernel/common/i18n.php' );
 class eZApproveCollaborationHandler extends eZCollaborationItemHandler
 {
     /// Approval message type
-    const EZ_COLLABORATION_MESSAGE_TYPE_APPROVE = 1;
+    const MESSAGE_TYPE_APPROVE = 1;
 
     /// Default status, no approval decision has been made
-    const EZ_COLLABORATION_APPROVE_STATUS_WAITING = 0;
+    const STATUS_WAITING = 0;
 
     /// The contentobject was approved and will be published.
-    const EZ_COLLABORATION_APPROVE_STATUS_ACCEPTED = 1;
+    const STATUS_ACCEPTED = 1;
 
     /// The contentobject was denied and will be archived.
-    const EZ_COLLABORATION_APPROVE_STATUS_DENIED = 2;
+    const STATUS_DENIED = 2;
 
     /// The contentobject was deferred and will be a draft again for reediting.
-    const EZ_COLLABORATION_APPROVE_STATUS_DEFERRED = 3;
+    const STATUS_DEFERRED = 3;
 
     /*!
      Initializes the handler
@@ -181,7 +181,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
         $collaborationItem = eZCollaborationItem::fetch( $approvalID );
         if ( $collaborationItem !== null )
         {
-            $collaborationItem->setAttribute( 'data_int3', self::EZ_COLLABORATION_APPROVE_STATUS_WAITING );
+            $collaborationItem->setAttribute( 'data_int3', self::STATUS_WAITING );
             $collaborationItem->setAttribute( 'status', eZCollaborationItem::EZ_COLLABORATION_STATUS_ACTIVE );
             $timestamp = time();
             $collaborationItem->setAttribute( 'modified', $timestamp );
@@ -274,16 +274,16 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
             }
 
             $contentObjectVersion = $this->contentObjectVersion( $collaborationItem );
-            $status = self::EZ_COLLABORATION_APPROVE_STATUS_DENIED;
+            $status = self::STATUS_DENIED;
             if ( $this->isCustomAction( 'Accept' ) )
-                $status = self::EZ_COLLABORATION_APPROVE_STATUS_ACCEPTED;
+                $status = self::STATUS_ACCEPTED;
 //             else if ( $this->isCustomAction( 'Defer' ) )
-//                 $status = self::EZ_COLLABORATION_APPROVE_STATUS_DEFERRED;
+//                 $status = self::STATUS_DEFERRED;
 //             else if ( $this->isCustomAction( 'Deny' ) )
-//                 $status = self::EZ_COLLABORATION_APPROVE_STATUS_DENIED;
+//                 $status = self::STATUS_DENIED;
             else if ( $this->isCustomAction( 'Defer' ) or
                       $this->isCustomAction( 'Deny' ) )
-                $status = self::EZ_COLLABORATION_APPROVE_STATUS_DENIED;
+                $status = self::STATUS_DENIED;
             $collaborationItem->setAttribute( 'data_int3', $status );
             $collaborationItem->setAttribute( 'status', eZCollaborationItem::EZ_COLLABORATION_STATUS_INACTIVE );
             $timestamp = time();
@@ -300,7 +300,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
             {
                 $message = eZCollaborationSimpleMessage::create( 'ezapprove_comment', $messageText );
                 $message->store();
-                eZCollaborationItemMessageLink::addMessage( $collaborationItem, $message, self::EZ_COLLABORATION_MESSAGE_TYPE_APPROVE );
+                eZCollaborationItemMessageLink::addMessage( $collaborationItem, $message, self::MESSAGE_TYPE_APPROVE );
             }
         }
         $collaborationItem->sync();
