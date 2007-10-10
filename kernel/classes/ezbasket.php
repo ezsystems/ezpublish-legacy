@@ -50,7 +50,7 @@ class eZBasket extends eZPersistentObject
     /*!
      Controls the default value for how many items are cleaned in one batch operation.
     */
-    const EZ_BASKET_ITEM_LIMIT = 3000;
+    const ITEM_LIMIT = 3000;
 
     /*!
     */
@@ -487,7 +487,7 @@ USING ezsession
 FROM ezbasket, ezsession
 WHERE ezbasket.session_id = ezsession.session_key AND
       ezsession.expiration_time < " . (int)$time;
-        $limit = self::EZ_BASKET_ITEM_LIMIT;
+        $limit = self::ITEM_LIMIT;
 
         do
         {
@@ -520,7 +520,7 @@ WHERE ezbasket.session_id = ezsession.session_key AND
     {
         $db = eZDB::instance();
         $sql = "SELECT productcollection_id FROM ezbasket";
-        $limit = self::EZ_BASKET_ITEM_LIMIT;
+        $limit = self::ITEM_LIMIT;
 
         $db->begin();
         do
