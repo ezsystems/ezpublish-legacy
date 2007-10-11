@@ -56,10 +56,10 @@
 
 class eZMultiPrice extends eZSimplePrice
 {
-    const EZ_MULTIPRICE_CALCULATION_TYPE_VAT_INCLUDE = 1;
-    const EZ_MULTIPRICE_CALCULATION_TYPE_VAT_EXCLUDE = 2;
-    const EZ_MULTIPRICE_CALCULATION_TYPE_DISCOUNT_INCLUDE = 3;
-    const EZ_MULTIPRICE_CALCULATION_TYPE_DISCOUNT_EXCLUDE = 4;
+    const CALCULATION_TYPE_VAT_INCLUDE = 1;
+    const CALCULATION_TYPE_VAT_EXCLUDE = 2;
+    const CALCULATION_TYPE_DISCOUNT_INCLUDE = 3;
+    const CALCULATION_TYPE_DISCOUNT_EXCLUDE = 4;
 
     /*!
      Constructor
@@ -295,22 +295,22 @@ class eZMultiPrice extends eZSimplePrice
 
     function incVATPriceList( $type = false )
     {
-        return $this->calcPriceList( self::EZ_MULTIPRICE_CALCULATION_TYPE_VAT_INCLUDE, $type );
+        return $this->calcPriceList( self::CALCULATION_TYPE_VAT_INCLUDE, $type );
     }
 
     function exVATPriceList( $type = false )
     {
-        return $this->calcPriceList( self::EZ_MULTIPRICE_CALCULATION_TYPE_VAT_EXCLUDE, $type );
+        return $this->calcPriceList( self::CALCULATION_TYPE_VAT_EXCLUDE, $type );
     }
 
     function discountIncVATPriceList( $type = false )
     {
-        return $this->calcPriceList( self::EZ_MULTIPRICE_CALCULATION_TYPE_DISCOUNT_INCLUDE, $type );
+        return $this->calcPriceList( self::CALCULATION_TYPE_DISCOUNT_INCLUDE, $type );
     }
 
     function discountExVATPriceList( $type = false )
     {
-        return $this->calcPriceList( self::EZ_MULTIPRICE_CALCULATION_TYPE_DISCOUNT_EXCLUDE, $type );
+        return $this->calcPriceList( self::CALCULATION_TYPE_DISCOUNT_EXCLUDE, $type );
     }
 
     function calcPriceList( $calculationType, $priceType )
@@ -321,22 +321,22 @@ class eZMultiPrice extends eZSimplePrice
         {
             switch ( $calculationType )
             {
-                case self::EZ_MULTIPRICE_CALCULATION_TYPE_VAT_INCLUDE :
+                case self::CALCULATION_TYPE_VAT_INCLUDE :
                 {
                     $value = $this->calcIncVATPrice( $price->attribute( 'value' ) );
                 } break;
 
-                case self::EZ_MULTIPRICE_CALCULATION_TYPE_VAT_EXCLUDE :
+                case self::CALCULATION_TYPE_VAT_EXCLUDE :
                 {
                     $value = $this->calcExVATPrice( $price->attribute( 'value' ) );
                 } break;
 
-                case self::EZ_MULTIPRICE_CALCULATION_TYPE_DISCOUNT_INCLUDE :
+                case self::CALCULATION_TYPE_DISCOUNT_INCLUDE :
                 {
                     $value = $this->calcDiscountIncVATPrice( $price->attribute( 'value' ) );
                 } break;
 
-                case self::EZ_MULTIPRICE_CALCULATION_TYPE_DISCOUNT_EXCLUDE :
+                case self::CALCULATION_TYPE_DISCOUNT_EXCLUDE :
                 {
                     $value = $this->calcDiscountIncVATPrice( $price->attribute( 'value' ) );
                 } break;
