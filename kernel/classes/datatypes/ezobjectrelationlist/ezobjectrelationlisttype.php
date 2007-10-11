@@ -50,14 +50,14 @@ Bugs/missing/deprecated features:
 
 class eZObjectRelationListType extends eZDataType
 {
-    const EZ_DATATYPESTRING_OBJECT_RELATION_LIST = "ezobjectrelationlist";
+    const DATA_TYPE_STRING = "ezobjectrelationlist";
 
     /*!
      Initializes with a string id and a description.
     */
     function eZObjectRelationListType()
     {
-        $this->eZDataType( self::EZ_DATATYPESTRING_OBJECT_RELATION_LIST, ezi18n( 'kernel/classes/datatypes', "Object relations", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Object relations", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -1801,6 +1801,6 @@ class eZObjectRelationListType extends eZDataType
     /// \privatesection
 }
 
-eZDataType::register( eZObjectRelationListType::EZ_DATATYPESTRING_OBJECT_RELATION_LIST, "eZObjectRelationListType" );
+eZDataType::register( eZObjectRelationListType::DATA_TYPE_STRING, "eZObjectRelationListType" );
 
 ?>
