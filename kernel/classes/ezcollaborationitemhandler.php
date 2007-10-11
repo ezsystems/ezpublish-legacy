@@ -195,8 +195,8 @@ class eZCollaborationItemHandler
                 $parameters['from'] = $tpl->variable( 'from' );
 
             $collection = eZNotificationCollection::create( $event->attribute( 'id' ),
-                                                            eZCollaborationNotificationHandler::EZ_COLLABORATION_NOTIFICATION_HANDLER_ID,
-                                                            eZCollaborationNotificationHandler::EZ_COLLABORATION_NOTIFICATION_HANDLER_TRANSPORT );
+                                                            eZCollaborationNotificationHandler::NOTIFICATION_HANDLER_ID,
+                                                            eZCollaborationNotificationHandler::TRANSPORT );
 
             $collection->setAttribute( 'data_subject', $subject );
             $collection->setAttribute( 'data_text', $result );
@@ -248,8 +248,8 @@ class eZCollaborationItemHandler
                     $parameters['from'] = $tpl->variable( 'from' );
 
                 $collection = eZNotificationCollection::create( $event->attribute( 'id' ),
-                                                                eZCollaborationNotificationHandler::EZ_COLLABORATION_NOTIFICATION_HANDLER_ID,
-                                                                eZCollaborationNotificationHandler::EZ_COLLABORATION_NOTIFICATION_HANDLER_TRANSPORT );
+                                                                eZCollaborationNotificationHandler::NOTIFICATION_HANDLER_ID,
+                                                                eZCollaborationNotificationHandler::TRANSPORT );
 
                 $collection->setAttribute( 'data_subject', $subject );
                 $collection->setAttribute( 'data_text', $result );

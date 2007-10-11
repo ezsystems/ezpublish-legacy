@@ -46,15 +46,15 @@
 
 class eZSubTreeHandler extends eZNotificationEventHandler
 {
-    const EZ_SUBTREE_NOTIFICATION_HANDLER_ID = 'ezsubtree';
-    const EZ_SUBTREE_NOTIFICATION_HANDLER_TRANSPORT = 'ezmail';
+    const NOTIFICATION_HANDLER_ID = 'ezsubtree';
+    const TRANSPORT = 'ezmail';
 
     /*!
      Constructor
     */
     function eZSubTreeHandler()
     {
-        $this->eZNotificationEventHandler( self::EZ_SUBTREE_NOTIFICATION_HANDLER_ID, "Subtree Handler" );
+        $this->eZNotificationEventHandler( self::NOTIFICATION_HANDLER_ID, "Subtree Handler" );
     }
 
     function attributes()
@@ -165,8 +165,8 @@ class eZSubTreeHandler extends eZNotificationEventHandler
             $parameters['from'] = $tpl->variable( 'from' );
 
         $collection = eZNotificationCollection::create( $event->attribute( 'id' ),
-                                                        self::EZ_SUBTREE_NOTIFICATION_HANDLER_ID,
-                                                        self::EZ_SUBTREE_NOTIFICATION_HANDLER_TRANSPORT );
+                                                        self::NOTIFICATION_HANDLER_ID,
+                                                        self::TRANSPORT );
 
         $collection->setAttribute( 'data_subject', $subject );
         $collection->setAttribute( 'data_text', $result );
@@ -205,19 +205,19 @@ class eZSubTreeHandler extends eZNotificationEventHandler
                     $timeArray = explode( ':', $time );
                     $hour = $timeArray[0];
 
-                    if ( $settings->attribute( 'digest_type' ) == eZGeneralDigestUserSettings::EZ_DIGEST_SETTINGS_TYPE_DAILY )
+                    if ( $settings->attribute( 'digest_type' ) == eZGeneralDigestUserSettings::TYPE_DAILY )
                     {
                         eZNotificationSchedule::setDateForItem( $item, array( 'frequency' => 'day',
                                                                               'hour' => $hour ) );
                     }
-                    else if ( $settings->attribute( 'digest_type' ) == eZGeneralDigestUserSettings::EZ_DIGEST_SETTINGS_TYPE_WEEKLY )
+                    else if ( $settings->attribute( 'digest_type' ) == eZGeneralDigestUserSettings::TYPE_WEEKLY )
                     {
                         $weekday = $weekDaysByName[ $settings->attribute( 'day' ) ];
                         eZNotificationSchedule::setDateForItem( $item, array( 'frequency' => 'week',
                                                                               'day' => $weekday,
                                                                               'hour' => $hour ) );
                     }
-                    else if ( $settings->attribute( 'digest_type' ) == eZGeneralDigestUserSettings::EZ_DIGEST_SETTINGS_TYPE_MONTHLY )
+                    else if ( $settings->attribute( 'digest_type' ) == eZGeneralDigestUserSettings::TYPE_MONTHLY )
                     {
                         eZNotificationSchedule::setDateForItem( $item,
                                                                 array( 'frequency' => 'month',
@@ -233,9 +233,9 @@ class eZSubTreeHandler extends eZNotificationEventHandler
 
     function sendMessage( $event, $parameters )
     {
-        $collection = eZNotificationCollection::fetchForHandler( self::EZ_SUBTREE_NOTIFICATION_HANDLER_ID,
+        $collection = eZNotificationCollection::fetchForHandler( self::NOTIFICATION_HANDLER_ID,
                                                                  $event->attribute( 'id' ),
-                                                                 self::EZ_SUBTREE_NOTIFICATION_HANDLER_TRANSPORT );
+                                                                 self::TRANSPORT );
 
         if ( !$collection )
             return;
@@ -298,7 +298,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
 
     function fetchHttpInput( $http, $module )
     {
-        if ( $http->hasPostVariable( 'NewRule_' . self::EZ_SUBTREE_NOTIFICATION_HANDLER_ID  ) )
+        if ( $http->hasPostVariable( 'NewRule_' . self::NOTIFICATION_HANDLER_ID  ) )
         {
             //include_once( "kernel/classes/ezcontentbrowse.php" );
             eZContentBrowse::browse( array( 'action_name' => 'AddSubtreeSubscribingNode',
@@ -306,8 +306,8 @@ class eZSubTreeHandler extends eZNotificationEventHandler
                                      $module );
 
         }
-        else if ( $http->hasPostVariable( 'RemoveRule_' . self::EZ_SUBTREE_NOTIFICATION_HANDLER_ID  ) and
-                  $http->hasPostVariable( 'SelectedRuleIDArray_' . self::EZ_SUBTREE_NOTIFICATION_HANDLER_ID ) )
+        else if ( $http->hasPostVariable( 'RemoveRule_' . self::NOTIFICATION_HANDLER_ID  ) and
+                  $http->hasPostVariable( 'SelectedRuleIDArray_' . self::NOTIFICATION_HANDLER_ID ) )
         {
             $user = eZUser::currentUser();
             $userList = eZSubtreeNotificationRule::fetchList( $user->attribute( 'contentobject_id' ), false );
@@ -315,7 +315,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
             {
                 $listID[] = $userRow['id'];
             }
-            $ruleIDList = $http->postVariable( 'SelectedRuleIDArray_' . self::EZ_SUBTREE_NOTIFICATION_HANDLER_ID );
+            $ruleIDList = $http->postVariable( 'SelectedRuleIDArray_' . self::NOTIFICATION_HANDLER_ID );
             foreach ( $ruleIDList as $ruleID )
             {
                 if ( in_array( $ruleID, $listID ) )

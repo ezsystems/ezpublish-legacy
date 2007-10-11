@@ -42,14 +42,14 @@
 
 class eZGeneralDigestHandler extends eZNotificationEventHandler
 {
-    const EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID = 'ezgeneraldigest';
+    const NOTIFICATION_HANDLER_ID = 'ezgeneraldigest';
 
     /*!
      Constructor
     */
     function eZGeneralDigestHandler()
     {
-        $this->eZNotificationEventHandler( self::EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID, "General Digest Handler" );
+        $this->eZNotificationEventHandler( self::NOTIFICATION_HANDLER_ID, "General Digest Handler" );
 
     }
 
@@ -239,21 +239,21 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
         $address = $user->attribute( 'email' );
         $settings = eZGeneralDigestUserSettings::fetchForUser( $address );
 
-        if ( $http->hasPostVariable( 'ReceiveDigest_' . self::EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID ) &&
-             $http->hasPostVariable( 'ReceiveDigest_' . self::EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID ) == '1' )
+        if ( $http->hasPostVariable( 'ReceiveDigest_' . self::NOTIFICATION_HANDLER_ID ) &&
+             $http->hasPostVariable( 'ReceiveDigest_' . self::NOTIFICATION_HANDLER_ID ) == '1' )
         {
             $settings->setAttribute( 'receive_digest', 1 );
-            $digestType = $http->postVariable( 'DigestType_' . self::EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID );
+            $digestType = $http->postVariable( 'DigestType_' . self::NOTIFICATION_HANDLER_ID );
             $settings->setAttribute( 'digest_type', $digestType );
             if ( $digestType == 1 )
             {
-                $settings->setAttribute( 'day', $http->postVariable( 'Weekday_' . self::EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID ) );
+                $settings->setAttribute( 'day', $http->postVariable( 'Weekday_' . self::NOTIFICATION_HANDLER_ID ) );
             }
             else if ( $digestType == 2 )
             {
-                $settings->setAttribute( 'day', $http->postVariable( 'Monthday_' . self::EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID ) );
+                $settings->setAttribute( 'day', $http->postVariable( 'Monthday_' . self::NOTIFICATION_HANDLER_ID ) );
             }
-            $settings->setAttribute( 'time', $http->postVariable( 'Time_' . self::EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID ) );
+            $settings->setAttribute( 'time', $http->postVariable( 'Time_' . self::NOTIFICATION_HANDLER_ID ) );
             $settings->store();
         }
         else
