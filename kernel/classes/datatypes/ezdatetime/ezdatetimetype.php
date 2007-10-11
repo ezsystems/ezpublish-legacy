@@ -39,21 +39,21 @@
 
 class eZDateTimeType extends eZDataType
 {
-    const EZ_DATATYPESTRING_DATETIME = 'ezdatetime';
+    const DATA_TYPE_STRING = 'ezdatetime';
 
-    const EZ_DATATYPESTRING_DATETIME_DEFAULT = 'data_int1';
+    const DEFAULT_FIELD = 'data_int1';
 
-    const EZ_DATATYPESTRING_DATETIME_ADJUSTMENT_FIELD = 'data_text5';
+    const ADJUSTMENT_FIELD = 'data_text5';
 
-    const EZ_DATATYPESTRING_DATETIME_DEFAULT_EMTPY = 0;
+    const DEFAULT_EMTPY = 0;
 
-    const EZ_DATATYPESTRING_DATETIME_DEFAULT_CURRENT_DATE = 1;
+    const DEFAULT_CURRENT_DATE = 1;
 
-    const EZ_DATATYPESTRING_DATETIME_DEFAULT_ADJUSTMENT = 2;
+    const DEFAULT_ADJUSTMENT = 2;
 
     function eZDateTimeType()
     {
-        $this->eZDataType( self::EZ_DATATYPESTRING_DATETIME, ezi18n( 'kernel/classes/datatypes', "Date and time", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Date and time", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -304,8 +304,8 @@ class eZDateTimeType extends eZDataType
     */
     function initializeClassAttribute( $classAttribute )
     {
-        if ( $classAttribute->attribute( self::EZ_DATATYPESTRING_DATETIME_DEFAULT ) == null )
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_DATETIME_DEFAULT, 0 );
+        if ( $classAttribute->attribute( self::DEFAULT_FIELD ) == null )
+            $classAttribute->setAttribute( self::DEFAULT_FIELD, 0 );
         $classAttribute->store();
     }
 
@@ -376,12 +376,12 @@ class eZDateTimeType extends eZDataType
         else
         {
             $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
-            $defaultType = $contentClassAttribute->attribute( self::EZ_DATATYPESTRING_DATETIME_DEFAULT );
-            if ( $defaultType == self::EZ_DATATYPESTRING_DATETIME_DEFAULT_CURRENT_DATE )
+            $defaultType = $contentClassAttribute->attribute( self::DEFAULT_FIELD );
+            if ( $defaultType == self::DEFAULT_CURRENT_DATE )
             {
                 $contentObjectAttribute->setAttribute( "data_int", time() );
             }
-            else if ( $defaultType == self::EZ_DATATYPESTRING_DATETIME_DEFAULT_ADJUSTMENT )
+            else if ( $defaultType == self::DEFAULT_ADJUSTMENT )
             {
                 $adjustments = eZDateTimeType::classAttributeContent( $contentClassAttribute );
                 $value = new eZDateTime();
@@ -399,8 +399,8 @@ class eZDateTimeType extends eZDataType
         if ( $http->hasPostVariable( $default ) )
         {
             $defaultValue = $http->postVariable( $default );
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_DATETIME_DEFAULT,  $defaultValue );
-            if ( $defaultValue == self::EZ_DATATYPESTRING_DATETIME_DEFAULT_ADJUSTMENT )
+            $classAttribute->setAttribute( self::DEFAULT_FIELD,  $defaultValue );
+            if ( $defaultValue == self::DEFAULT_ADJUSTMENT )
             {
                 $doc = new DOMDocument();
                 $root = $doc->createElement( 'adjustment' );
@@ -415,7 +415,7 @@ class eZDateTimeType extends eZDataType
                 }
                 $doc->appendChild( $root );
                 $docText = $doc->saveXML();
-                $classAttribute->setAttribute( self::EZ_DATATYPESTRING_DATETIME_ADJUSTMENT_FIELD , $docText );
+                $classAttribute->setAttribute( self::ADJUSTMENT_FIELD , $docText );
             }
         }
         return true;
@@ -467,21 +467,21 @@ class eZDateTimeType extends eZDataType
     */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $defaultValue = $classAttribute->attribute( self::EZ_DATATYPESTRING_DATETIME_DEFAULT );
+        $defaultValue = $classAttribute->attribute( self::DEFAULT_FIELD );
         $defaultValueNode = $attributeParametersNode->ownerDocument->createElement( 'default-value' );
 
         switch ( $defaultValue )
         {
-            case self::EZ_DATATYPESTRING_DATETIME_DEFAULT_CURRENT_DATE:
+            case self::DEFAULT_CURRENT_DATE:
             {
                 $defaultValueNode->setAttribute( 'type', 'current-date' );
             } break;
-            case self::EZ_DATATYPESTRING_DATETIME_DEFAULT_ADJUSTMENT:
+            case self::DEFAULT_ADJUSTMENT:
             {
                 $defaultValueNode->setAttribute( 'type', 'adjustment' );
 
                 $adjustDOMValue = new DOMDocument();
-                $adjustValue = $classAttribute->attribute( self::EZ_DATATYPESTRING_DATETIME_ADJUSTMENT_FIELD );
+                $adjustValue = $classAttribute->attribute( self::ADJUSTMENT_FIELD );
                 $success = $adjustDOMValue->loadXML( $adjustValue );
 
                 if ( $success )
@@ -495,7 +495,7 @@ class eZDateTimeType extends eZDataType
                     }
                 }
             } break;
-            case self::EZ_DATATYPESTRING_DATETIME_DEFAULT_EMTPY:
+            case self::DEFAULT_EMTPY:
             {
                 $defaultValueNode->setAttribute( 'type', 'empty' );
             } break;
@@ -525,7 +525,7 @@ class eZDateTimeType extends eZDataType
         {
             case 'current-date':
             {
-                $classAttribute->setAttribute( self::EZ_DATATYPESTRING_DATETIME_DEFAULT, self::EZ_DATATYPESTRING_DATETIME_DEFAULT_CURRENT_DATE );
+                $classAttribute->setAttribute( self::DEFAULT_FIELD, self::DEFAULT_CURRENT_DATE );
             } break;
             case 'adjustment':
             {
@@ -539,18 +539,18 @@ class eZDateTimeType extends eZDataType
                     $adjustmentValue = $adjustmentDOMValue->saveXML();
                 }
 
-                $classAttribute->setAttribute( self::EZ_DATATYPESTRING_DATETIME_DEFAULT, self::EZ_DATATYPESTRING_DATETIME_DEFAULT_ADJUSTMENT );
-                $classAttribute->setAttribute( self::EZ_DATATYPESTRING_DATETIME_ADJUSTMENT_FIELD, $adjustmentValue );
+                $classAttribute->setAttribute( self::DEFAULT_FIELD, self::DEFAULT_ADJUSTMENT );
+                $classAttribute->setAttribute( self::ADJUSTMENT_FIELD, $adjustmentValue );
             } break;
             case 'empty':
             {
-                $classAttribute->setAttribute( self::EZ_DATATYPESTRING_DATETIME_DEFAULT, self::EZ_DATATYPESTRING_DATETIME_DEFAULT_EMTPY );
+                $classAttribute->setAttribute( self::DEFAULT_FIELD, self::DEFAULT_EMTPY );
             } break;
             default:
             {
                 eZDebug::writeError( 'Type of DateTime default value is not set. Empty type used as default.',
                                     'eZDateTimeType::unserializeContentClassAttribute()' );
-                $classAttribute->setAttribute( self::EZ_DATATYPESTRING_DATETIME_DEFAULT, self::EZ_DATATYPESTRING_DATETIME_DEFAULT_EMTPY );
+                $classAttribute->setAttribute( self::DEFAULT_FIELD, self::DEFAULT_EMTPY );
             } break;
         }
     }
@@ -589,6 +589,6 @@ class eZDateTimeType extends eZDataType
     }
 }
 
-eZDataType::register( eZDateTimeType::EZ_DATATYPESTRING_DATETIME, "eZDateTimeType" );
+eZDataType::register( eZDateTimeType::DATA_TYPE_STRING, "eZDateTimeType" );
 
 ?>
