@@ -108,19 +108,19 @@ require_once( "kernel/common/template.php" );
 
 class eZXMLTextType extends eZDataType
 {
-    const EZ_DATATYPESTRING_XML_TEXT = "ezxmltext";
-    const EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD = 'data_int1';
-    const EZ_DATATYPESTRING_XML_TEXT_COLS_VARIABLE = '_ezxmltext_cols_';
+    const DATA_TYPE_STRING = "ezxmltext";
+    const COLS_FIELD = 'data_int1';
+    const COLS_VARIABLE = '_ezxmltext_cols_';
 
     // The timestamp of the format for eZ Publish 3.0.
-    const EZ_XMLTEXT_VERSION_30_TIMESTAMP = 1045487555;
+    const VERSION_30_TIMESTAMP = 1045487555;
     // Contains the timestamp of the current xml format, if the stored
     // timestamp is less than this it needs to be upgraded until it is correct.
-    const EZ_XMLTEXT_VERSION_TIMESTAMP = 1045487555; // AS 21-09-2007: should be the same as EZ_XMLTEXT_VERSION_30_TIMESTAMP
+    const VERSION_TIMESTAMP = 1045487555; // AS 21-09-2007: should be the same as EZ_XMLTEXT_VERSION_30_TIMESTAMP
 
     function eZXMLTextType()
     {
-        $this->eZDataType( self::EZ_DATATYPESTRING_XML_TEXT, ezi18n( 'kernel/classes/datatypes', "XML block", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "XML block", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -129,8 +129,8 @@ class eZXMLTextType extends eZDataType
     */
     function initializeClassAttribute( $classAttribute )
     {
-        if ( $classAttribute->attribute( self::EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD ) == null )
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD, 10 );
+        if ( $classAttribute->attribute( self::COLS_FIELD ) == null )
+            $classAttribute->setAttribute( self::COLS_FIELD, 10 );
         $classAttribute->store();
     }
 
@@ -171,11 +171,11 @@ class eZXMLTextType extends eZDataType
 
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $column = $base . self::EZ_DATATYPESTRING_XML_TEXT_COLS_VARIABLE . $classAttribute->attribute( 'id' );
+        $column = $base . self::COLS_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $column ) )
         {
             $columnValue = $http->postVariable( $column );
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD,  $columnValue );
+            $classAttribute->setAttribute( self::COLS_FIELD,  $columnValue );
             return true;
         }
         return false;
@@ -207,7 +207,7 @@ class eZXMLTextType extends eZDataType
     */
     function storeObjectAttribute( $attribute )
     {
-        $attribute->setAttribute( 'data_int', self::EZ_XMLTEXT_VERSION_TIMESTAMP );
+        $attribute->setAttribute( 'data_int', self::VERSION_TIMESTAMP );
     }
 
     /*!
@@ -287,13 +287,13 @@ class eZXMLTextType extends eZDataType
     {
         $text = $contentObjectAttribute->attribute( 'data_text' );
         $timestamp = $contentObjectAttribute->attribute( 'data_int' );
-        if ( $timestamp < self::EZ_XMLTEXT_VERSION_30_TIMESTAMP )
+        if ( $timestamp < self::VERSION_30_TIMESTAMP )
         {
             //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
             $charset = 'UTF-8';
             $codec = eZTextCodec::instance( false, $charset );
             $text = $codec->convertString( $text );
-            $timestamp = self::EZ_XMLTEXT_VERSION_30_TIMESTAMP;
+            $timestamp = self::VERSION_30_TIMESTAMP;
         }
         return $text;
     }
@@ -427,7 +427,7 @@ class eZXMLTextType extends eZDataType
     */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $textColumns = $classAttribute->attribute( self::EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD );
+        $textColumns = $classAttribute->attribute( self::COLS_FIELD );
         $textColumnCountNode = $attributeParametersNode->ownerDocument->createElement( 'text-column-count', $textColumns );
         $attributeParametersNode->appendChild( $textColumnCountNode );
     }
@@ -438,7 +438,7 @@ class eZXMLTextType extends eZDataType
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $textColumns = $attributeParametersNode->getElementsByTagName( 'text-column-count' )->item( 0 )->textContent;
-        $classAttribute->setAttribute( self::EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD, $textColumns );
+        $classAttribute->setAttribute( self::COLS_FIELD, $textColumns );
     }
 
     /*!
@@ -753,6 +753,6 @@ class eZXMLTextType extends eZDataType
 
 }
 
-eZDataType::register( eZXMLTextType::EZ_DATATYPESTRING_XML_TEXT, "eZXMLTextType" );
+eZDataType::register( eZXMLTextType::DATA_TYPE_STRING, "eZXMLTextType" );
 
 ?>

@@ -272,16 +272,16 @@ if ( $fixAttribute )
                 if ( $doc )
                 {
                     if ( findAndReplaceLinks( $doc, $doc->documentElement ) ||
-                         $objectAttribute->attribute( 'data_int' ) < eZXMLTextType::EZ_XMLTEXT_VERSION_TIMESTAMP ||
+                         $objectAttribute->attribute( 'data_int' ) < eZXMLTextType::VERSION_TIMESTAMP ||
                          $fixAllAttributes )
                     {
                         if ( $showDebug )
                             print( "Links found and replaced\n" );
                         $docString = eZXMLTextType::domString( $doc );
                         $objectAttribute->setAttribute( 'data_text', $docString );
-                        $objectAttribute->setAttribute( 'data_int', eZXMLTextType::EZ_XMLTEXT_VERSION_TIMESTAMP );
+                        $objectAttribute->setAttribute( 'data_int', eZXMLTextType::VERSION_TIMESTAMP );
                         if ( findAndReplaceLinks( $doc, $doc->documentElement ) ||
-                             $objectAttribute->attribute( 'data_int' ) < eZXMLTextType::EZ_XMLTEXT_VERSION_TIMESTAMP )
+                             $objectAttribute->attribute( 'data_int' ) < eZXMLTextType::VERSION_TIMESTAMP )
                         {
                             ++$wrongLinkCount;
                             print( '*' );
@@ -302,7 +302,7 @@ if ( $fixAttribute )
                         $doc->importNode( $doc->createElement( 'section' ) );
                         $docString = eZXMLTextType::domString( $doc );
                         $objectAttribute->setAttribute( 'data_text', $docString );
-                        $objectAttribute->setAttribute( 'data_int', eZXMLTextType::EZ_XMLTEXT_VERSION_TIMESTAMP );
+                        $objectAttribute->setAttribute( 'data_int', eZXMLTextType::VERSION_TIMESTAMP );
                         ++$wrongLinkCount;
                         print( '0' );
                     }
@@ -313,7 +313,7 @@ if ( $fixAttribute )
                         $doc->importNode( $doc->createElement( 'section' ) );
                         $docString = eZXMLTextType::domString( $doc );
                         $objectAttribute->setAttribute( 'data_text', $docString );
-                        $objectAttribute->setAttribute( 'data_int', eZXMLTextType::EZ_XMLTEXT_VERSION_TIMESTAMP );
+                        $objectAttribute->setAttribute( 'data_int', eZXMLTextType::VERSION_TIMESTAMP );
                         ++$wrongLinkCount;
                         $badXMLArray[] = array( 'id' => $objectAttribute->attribute( 'id' ),
                                                 'version' => $objectAttribute->attribute( 'version' ) );
