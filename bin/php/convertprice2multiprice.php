@@ -109,7 +109,7 @@ foreach ( $classList as $class )
 
         // replace 'ezprice' class attribute with 'ezmultiprice'.
         $priceClassAttribute->setAttribute( 'data_type_string', 'ezmultiprice' );
-        $priceClassAttribute->setAttribute( eZMultiPriceType::EZ_DATATYPESTRING_DEFAULT_CURRENCY_CODE_FIELD, $defaultCurrencyCode );
+        $priceClassAttribute->setAttribute( eZMultiPriceType::DEFAULT_CURRENCY_CODE_FIELD, $defaultCurrencyCode );
         $priceClassAttribute->store();
 
         unset( $GLOBALS['eZContentClassAttributeCache'][$priceClassAttributeID] );
