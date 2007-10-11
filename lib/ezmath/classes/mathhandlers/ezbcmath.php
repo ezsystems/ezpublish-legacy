@@ -40,14 +40,14 @@
 
 class eZBCMath extends eZPHPMath
 {
-    const EZ_BCMATH_DEFAULT_SCALE = 10;
+    const DEFAULT_SCALE = 10;
 
     function eZBCMath( $params = array () )
     {
         if( isset( $params['scale'] ) && is_numeric( $params['scale'] ) )
             $this->setScale( $params['scale'] );
         else
-            $this->setScale( self::EZ_BCMATH_DEFAULT_SCALE );
+            $this->setScale( self::DEFAULT_SCALE );
     }
 
     function scale()
