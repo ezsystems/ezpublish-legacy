@@ -39,13 +39,13 @@
 
 class eZTextType extends eZDataType
 {
-    const EZ_DATATYPESTRING_TEXT = "eztext";
-    const EZ_DATATYPESTRING_TEXT_COLS_FIELD = 'data_int1';
-    const EZ_DATATYPESTRING_TEXT_COLS_VARIABLE = '_eztext_cols_';
+    const DATA_TYPE_STRING = "eztext";
+    const COLS_FIELD = 'data_int1';
+    const COLS_VARIABLE = '_eztext_cols_';
 
     function eZTextType()
     {
-        $this->eZDataType( self::EZ_DATATYPESTRING_TEXT, ezi18n( 'kernel/classes/datatypes', "Text block", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Text block", 'Datatype name' ),
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( 'data_text' => 'text' ) ) );
     }
@@ -55,8 +55,8 @@ class eZTextType extends eZDataType
     */
     function initializeClassAttribute( $classAttribute )
     {
-        if ( $classAttribute->attribute( self::EZ_DATATYPESTRING_TEXT_COLS_FIELD ) == null )
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_TEXT_COLS_FIELD, 10 );
+        if ( $classAttribute->attribute( self::COLS_FIELD ) == null )
+            $classAttribute->setAttribute( self::COLS_FIELD, 10 );
         $classAttribute->store();
     }
 
@@ -196,11 +196,11 @@ class eZTextType extends eZDataType
 
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $column = $base . self::EZ_DATATYPESTRING_TEXT_COLS_VARIABLE . $classAttribute->attribute( 'id' );
+        $column = $base . self::COLS_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $column ) )
         {
             $columnValue = $http->postVariable( $column );
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_TEXT_COLS_FIELD,  $columnValue );
+            $classAttribute->setAttribute( self::COLS_FIELD,  $columnValue );
             return true;
         }
         return false;
@@ -262,7 +262,7 @@ class eZTextType extends eZDataType
     */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $textColumns = $classAttribute->attribute( self::EZ_DATATYPESTRING_TEXT_COLS_FIELD );
+        $textColumns = $classAttribute->attribute( self::COLS_FIELD );
         $textColumnCountNode = $attributeParametersNode->ownerDocument->createElement( 'text-column-count', $textColumns );
         $attributeParametersNode->appendChild( $textColumnCountNode );
     }
@@ -273,7 +273,7 @@ class eZTextType extends eZDataType
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $textColumns = $attributeParametersNode->getElementsByTagName( 'text-column-count' )->item( 0 )->textContent;
-        $classAttribute->setAttribute( self::EZ_DATATYPESTRING_TEXT_COLS_FIELD, $textColumns );
+        $classAttribute->setAttribute( self::COLS_FIELD, $textColumns );
     }
 
     /*!
@@ -291,6 +291,6 @@ class eZTextType extends eZDataType
 
 }
 
-eZDataType::register( eZTextType::EZ_DATATYPESTRING_TEXT, "eZTextType" );
+eZDataType::register( eZTextType::DATA_TYPE_STRING, "eZTextType" );
 
 ?>
