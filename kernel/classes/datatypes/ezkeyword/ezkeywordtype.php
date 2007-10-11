@@ -42,14 +42,14 @@ require_once( 'kernel/common/i18n.php' );
 
 class eZKeywordType extends eZDataType
 {
-    const EZ_DATATYPESTRING_KEYWORD = 'ezkeyword';
+    const DATA_TYPE_STRING = 'ezkeyword';
 
     /*!
      Initializes with a keyword id and a description.
     */
     function eZKeywordType()
     {
-        $this->eZDataType( self::EZ_DATATYPESTRING_KEYWORD, ezi18n( 'kernel/classes/datatypes', 'Keywords', 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', 'Keywords', 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -333,6 +333,6 @@ class eZKeywordType extends eZDataType
     }
 }
 
-eZDataType::register( eZKeywordType::EZ_DATATYPESTRING_KEYWORD, 'eZKeywordType' );
+eZDataType::register( eZKeywordType::DATA_TYPE_STRING, 'eZKeywordType' );
 
 ?>
