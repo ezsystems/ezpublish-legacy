@@ -39,11 +39,11 @@
 
 class eZBooleanType extends eZDataType
 {
-    const EZ_DATATYPESTRING_BOOLEAN = "ezboolean";
+    const DATA_TYPE_STRING = "ezboolean";
 
     function eZBooleanType()
     {
-        $this->eZDataType( self::EZ_DATATYPESTRING_BOOLEAN, ezi18n( 'kernel/classes/datatypes', "Checkbox", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Checkbox", 'Datatype name' ),
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( 'data_int' => 'value' ) ) );
     }
@@ -276,6 +276,6 @@ class eZBooleanType extends eZDataType
     }
 }
 
-eZDataType::register( eZBooleanType::EZ_DATATYPESTRING_BOOLEAN, "eZBooleanType" );
+eZDataType::register( eZBooleanType::DATA_TYPE_STRING, "eZBooleanType" );
 
 ?>
