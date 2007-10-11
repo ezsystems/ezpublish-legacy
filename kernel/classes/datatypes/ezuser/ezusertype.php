@@ -42,11 +42,11 @@
 
 class eZUserType extends eZDataType
 {
-    const EZ_DATATYPESTRING_USER = "ezuser";
+    const DATA_TYPE_STRING = "ezuser";
 
     function eZUserType( )
     {
-        $this->eZDataType( self::EZ_DATATYPESTRING_USER, ezi18n( 'kernel/classes/datatypes', "User account", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "User account", 'Datatype name' ),
                            array( 'translation_allowed' => false,
                                   'serialize_supported' => true ) );
     }
@@ -453,6 +453,6 @@ class eZUserType extends eZDataType
     }
 }
 
-eZDataType::register( eZUserType::EZ_DATATYPESTRING_USER, "eZUserType" );
+eZDataType::register( eZUserType::DATA_TYPE_STRING, "eZUserType" );
 
 ?>

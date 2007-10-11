@@ -1444,7 +1444,7 @@ WHERE user_id = '" . $userID . "' AND
         $classAttributeList = $contentClass->fetchAttributes();
         foreach( $classAttributeList as $classAttribute )
         {
-            if ( $classAttribute->attribute( 'data_type_string' ) == eZUserType::EZ_DATATYPESTRING_USER )
+            if ( $classAttribute->attribute( 'data_type_string' ) == eZUserType::DATA_TYPE_STRING )
                 return true;
         }
 
