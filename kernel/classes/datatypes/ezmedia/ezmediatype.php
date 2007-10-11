@@ -44,15 +44,15 @@
 
 class eZMediaType extends eZDataType
 {
-    const EZ_DATATYPESTRING_MEDIA = "ezmedia";
-    const EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_FIELD = 'data_int1';
-    const EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_VARIABLE = '_ezmedia_max_filesize_';
-    const EZ_DATATYPESTRING_TYPE_FIELD = "data_text1";
-    const EZ_DATATYPESTRING_TYPE_VARIABLE = "_ezmedia_type_";
+    const DATA_TYPE_STRING = "ezmedia";
+    const MAX_FILESIZE_FIELD = 'data_int1';
+    const MAX_FILESIZE_VARIABLE = '_ezmedia_max_filesize_';
+    const TYPE_FIELD = "data_text1";
+    const TYPE_VARIABLE = "_ezmedia_type_";
 
     function eZMediaType()
     {
-        $this->eZDataType( self::EZ_DATATYPESTRING_MEDIA, ezi18n( 'kernel/classes/datatypes', "Media", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Media", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -158,7 +158,7 @@ class eZMediaType extends eZDataType
     {
         $classAttribute = $contentObjectAttribute->contentClassAttribute();
         $httpFileName = $base . "_data_mediafilename_" . $contentObjectAttribute->attribute( "id" );
-        $maxSize = 1024 * 1024 * $classAttribute->attribute( self::EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_FIELD );
+        $maxSize = 1024 * 1024 * $classAttribute->attribute( self::MAX_FILESIZE_FIELD );
         $mustUpload = false;
 
         if ( $contentObjectAttribute->validateIsRequired() )
@@ -579,17 +579,17 @@ class eZMediaType extends eZDataType
     */
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $filesizeName = $base . self::EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_VARIABLE . $classAttribute->attribute( 'id' );
-        $typeName = $base . self::EZ_DATATYPESTRING_TYPE_VARIABLE . $classAttribute->attribute( 'id' );
+        $filesizeName = $base . self::MAX_FILESIZE_VARIABLE . $classAttribute->attribute( 'id' );
+        $typeName = $base . self::TYPE_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $filesizeName ) )
         {
             $filesizeValue = $http->postVariable( $filesizeName );
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_FIELD, $filesizeValue );
+            $classAttribute->setAttribute( self::MAX_FILESIZE_FIELD, $filesizeValue );
         }
         if ( $http->hasPostVariable( $typeName ) )
         {
             $typeValue = $http->postVariable( $typeName );
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_TYPE_FIELD, $typeValue );
+            $classAttribute->setAttribute( self::TYPE_FIELD, $typeValue );
         }
     }
 
@@ -673,8 +673,8 @@ class eZMediaType extends eZDataType
     */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $maxSize = $classAttribute->attribute( self::EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_FIELD );
-        $type = $classAttribute->attribute( self::EZ_DATATYPESTRING_TYPE_FIELD );
+        $maxSize = $classAttribute->attribute( self::MAX_FILESIZE_FIELD );
+        $type = $classAttribute->attribute( self::TYPE_FIELD );
 
         $dom = $attributeParametersNode->ownerDocument;
 
@@ -695,8 +695,8 @@ class eZMediaType extends eZDataType
         $maxSize = $sizeNode->textContent;
         $unitSize = $sizeNode->getAttribute( 'unit-size' );
         $type = $attributeParametersNode->getElementsByTagName( 'type' )->item( 0 )->textContent;
-        $classAttribute->setAttribute( self::EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_FIELD, $maxSize );
-        $classAttribute->setAttribute( self::EZ_DATATYPESTRING_TYPE_FIELD, $type );
+        $classAttribute->setAttribute( self::MAX_FILESIZE_FIELD, $maxSize );
+        $classAttribute->setAttribute( self::TYPE_FIELD, $type );
     }
 
     /*!
@@ -814,6 +814,6 @@ class eZMediaType extends eZDataType
     }
 }
 
-eZDataType::register( eZMediaType::EZ_DATATYPESTRING_MEDIA, "eZMediaType" );
+eZDataType::register( eZMediaType::DATA_TYPE_STRING, "eZMediaType" );
 
 ?>
