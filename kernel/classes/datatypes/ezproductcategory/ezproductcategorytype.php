@@ -40,11 +40,11 @@ require_once( 'kernel/classes/ezproductcategory.php' );
 
 class eZProductCategoryType extends eZDataType
 {
-    const EZ_DATATYPESTRING_PRODUCTCATEGORY = "ezproductcategory";
+    const DATA_TYPE_STRING = "ezproductcategory";
 
     function eZProductCategoryType()
     {
-        $this->eZDataType( self::EZ_DATATYPESTRING_PRODUCTCATEGORY, ezi18n( 'kernel/classes/datatypes', "Product category", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Product category", 'Datatype name' ),
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( 'data_int' => 'value' ) ) );
     }
@@ -242,6 +242,6 @@ class eZProductCategoryType extends eZDataType
     }
 }
 
-eZDataType::register( eZProductCategoryType::EZ_DATATYPESTRING_PRODUCTCATEGORY, "eZProductCategoryType" );
+eZDataType::register( eZProductCategoryType::DATA_TYPE_STRING, "eZProductCategoryType" );
 
 ?>
