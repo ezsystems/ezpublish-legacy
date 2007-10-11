@@ -40,17 +40,17 @@
 
 class eZPriceType extends eZDataType
 {
-    const EZ_DATATYPESTRING_PRICE = "ezprice";
-    const EZ_DATATYPESTRING_INCLUDE_VAT_FIELD = 'data_int1';
-    const EZ_DATATYPESTRING_INCLUDE_VAT_VARIABLE = '_ezprice_include_vat_';
-    const EZ_DATATYPESTRING_VAT_ID_FIELD = 'data_float1';
-    const EZ_DATATYPESTRING_VAT_ID_VARIABLE = '_ezprice_vat_id_';
-    const EZ_PRICE_INCLUDED_VAT = 1;
-    const EZ_PRICE_EXCLUDED_VAT = 2;
+    const DATA_TYPE_STRING = "ezprice";
+    const INCLUDE_VAT_FIELD = 'data_int1';
+    const INCLUDE_VAT_VARIABLE = '_ezprice_include_vat_';
+    const VAT_ID_FIELD = 'data_float1';
+    const VAT_ID_VARIABLE = '_ezprice_vat_id_';
+    const INCLUDED_VAT = 1;
+    const EXCLUDED_VAT = 2;
 
     function eZPriceType()
     {
-        $this->eZDataType( self::EZ_DATATYPESTRING_PRICE, ezi18n( 'kernel/classes/datatypes', "Price", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Price", 'Datatype name' ),
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( 'data_float' => 'price' ) ) );
     }
@@ -125,23 +125,23 @@ class eZPriceType extends eZDataType
     */
     function initializeClassAttribute( $classAttribute )
     {
-        if ( $classAttribute->attribute( self::EZ_DATATYPESTRING_INCLUDE_VAT_FIELD ) == 0 )
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_INCLUDE_VAT_FIELD, self::EZ_PRICE_INCLUDED_VAT );
+        if ( $classAttribute->attribute( self::INCLUDE_VAT_FIELD ) == 0 )
+            $classAttribute->setAttribute( self::INCLUDE_VAT_FIELD, self::INCLUDED_VAT );
         $classAttribute->store();
     }
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $isVatIncludedVariable = $base . self::EZ_DATATYPESTRING_INCLUDE_VAT_VARIABLE . $classAttribute->attribute( 'id' );
+        $isVatIncludedVariable = $base . self::INCLUDE_VAT_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $isVatIncludedVariable ) )
         {
             $isVatIncluded = $http->postVariable( $isVatIncludedVariable );
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_INCLUDE_VAT_FIELD, $isVatIncluded );
+            $classAttribute->setAttribute( self::INCLUDE_VAT_FIELD, $isVatIncluded );
         }
-        $vatIDVariable = $base . self::EZ_DATATYPESTRING_VAT_ID_VARIABLE . $classAttribute->attribute( 'id' );
+        $vatIDVariable = $base . self::VAT_ID_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $vatIDVariable  ) )
         {
             $vatID = $http->postVariable( $vatIDVariable  );
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_VAT_ID_FIELD, $vatID );
+            $classAttribute->setAttribute( self::VAT_ID_FIELD, $vatID );
         }
         return true;
     }
@@ -305,11 +305,11 @@ class eZPriceType extends eZDataType
         $vatNode = $attributeParametersNode->getElementsByTagName( 'vat-included' )->item( 0 );
         $vatIncluded = strtolower( $vatNode->getAttribute( 'is-set' ) ) == 'true';
         if ( $vatIncluded )
-            $vatIncluded = self::EZ_PRICE_INCLUDED_VAT;
+            $vatIncluded = self::INCLUDED_VAT;
         else
-            $vatIncluded = self::EZ_PRICE_EXCLUDED_VAT;
+            $vatIncluded = self::EXCLUDED_VAT;
 
-        $classAttribute->setAttribute( self::EZ_DATATYPESTRING_INCLUDE_VAT_FIELD, $vatIncluded );
+        $classAttribute->setAttribute( self::INCLUDE_VAT_FIELD, $vatIncluded );
         $vatTypeNode = $attributeParametersNode->getElementsByTagName( 'vat-type' )->item( 0 );
         $vatName = $vatTypeNode->getAttribute( 'name' );
         $vatPercentage = $vatTypeNode->getAttribute( 'percentage' );
@@ -332,10 +332,10 @@ class eZPriceType extends eZDataType
             $vatType->store();
             $vatID = $vatType->attribute( 'id' );
         }
-        $classAttribute->setAttribute( self::EZ_DATATYPESTRING_VAT_ID_FIELD, $vatID );
+        $classAttribute->setAttribute( self::VAT_ID_FIELD, $vatID );
     }
 }
 
-eZDataType::register( eZPriceType::EZ_DATATYPESTRING_PRICE, "eZPriceType" );
+eZDataType::register( eZPriceType::DATA_TYPE_STRING, "eZPriceType" );
 
 ?>

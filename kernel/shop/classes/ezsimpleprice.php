@@ -405,7 +405,7 @@ class eZSimplePrice
     {
         $vatNode = $attributeParametersNode->getElementsByTagName( 'vat-included' )->item( 0 );
         $vatIncluded = strtolower( $vatNode->getAttribute( 'is-set' ) ) == 'true';
-        $classAttribute->setAttribute( eZPriceType::EZ_DATATYPESTRING_INCLUDE_VAT_FIELD, $vatIncluded );
+        $classAttribute->setAttribute( eZPriceType::INCLUDE_VAT_FIELD, $vatIncluded );
         $vatTypeNode = $attributeParametersNode->getElementsByTagName( 'vat-type' )->item( 0 );
         $vatName = $vatTypeNode->getAttribute( 'name' );
         $vatPercentage = $vatTypeNode->getAttribute( 'percentage' );
@@ -428,7 +428,7 @@ class eZSimplePrice
             $vatType->store();
             $vatID = $vatType->attribute( 'id' );
         }
-        $classAttribute->setAttribute( eZPriceType::EZ_DATATYPESTRING_VAT_ID_FIELD, $vatID );
+        $classAttribute->setAttribute( eZPriceType::VAT_ID_FIELD, $vatID );
     }
 
     /// \privatesection
