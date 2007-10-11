@@ -41,17 +41,17 @@
 
 class eZDateType extends eZDataType
 {
-    const EZ_DATATYPESTRING_DATE = "ezdate";
+    const DATA_TYPE_STRING = "ezdate";
 
-    const EZ_DATATYPESTRING_DATE_DEFAULT = 'data_int1';
+    const DEFAULT_FIELD = 'data_int1';
 
-    const EZ_DATATYPESTRING_DATE_DEFAULT_EMTPY = 0;
+    const DEFAULT_EMTPY = 0;
 
-    const EZ_DATATYPESTRING_DATE_DEFAULT_CURRENT_DATE = 1;
+    const DEFAULT_CURRENT_DATE = 1;
 
     function eZDateType()
     {
-        $this->eZDataType( self::EZ_DATATYPESTRING_DATE, ezi18n( 'kernel/classes/datatypes', "Date", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Date", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -222,8 +222,8 @@ class eZDateType extends eZDataType
     */
     function initializeClassAttribute( $classAttribute )
     {
-        if ( $classAttribute->attribute( self::EZ_DATATYPESTRING_DATE_DEFAULT ) == null )
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_DATE_DEFAULT, 0 );
+        if ( $classAttribute->attribute( self::DEFAULT_FIELD ) == null )
+            $classAttribute->setAttribute( self::DEFAULT_FIELD, 0 );
         $classAttribute->store();
     }
 
@@ -240,7 +240,7 @@ class eZDateType extends eZDataType
         else
         {
             $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
-            $defaultType = $contentClassAttribute->attribute( self::EZ_DATATYPESTRING_DATE_DEFAULT );
+            $defaultType = $contentClassAttribute->attribute( self::DEFAULT_FIELD );
             if ( $defaultType == 1 )
                 $contentObjectAttribute->setAttribute( "data_int", time() );
         }
@@ -252,7 +252,7 @@ class eZDateType extends eZDataType
         if ( $http->hasPostVariable( $default ) )
         {
             $defaultValue = $http->postVariable( $default );
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_DATE_DEFAULT,  $defaultValue );
+            $classAttribute->setAttribute( self::DEFAULT_FIELD,  $defaultValue );
         }
         return true;
     }
@@ -333,15 +333,15 @@ class eZDateType extends eZDataType
     {
         $dom = $attributeParametersNode->ownerDocument;
 
-        $defaultValue = $classAttribute->attribute( self::EZ_DATATYPESTRING_DATE_DEFAULT );
+        $defaultValue = $classAttribute->attribute( self::DEFAULT_FIELD );
         $defaultValueNode = $dom->createElement( 'default-value' );
         switch ( $defaultValue )
         {
-            case self::EZ_DATATYPESTRING_DATE_DEFAULT_EMTPY:
+            case self::DEFAULT_EMTPY:
                 $defaultValueNode->setAttribute( 'type', 'empty' );
                 break;
 
-            case self::EZ_DATATYPESTRING_DATE_DEFAULT_CURRENT_DATE:
+            case self::DEFAULT_CURRENT_DATE:
                 $defaultValueNode->setAttribute( 'type', 'current-date' );
                 break;
         }
@@ -359,11 +359,11 @@ class eZDateType extends eZDataType
         {
             case 'empty':
             {
-                $classAttribute->setAttribute( self::EZ_DATATYPESTRING_DATE_DEFAULT, self::EZ_DATATYPESTRING_DATE_DEFAULT_EMTPY );
+                $classAttribute->setAttribute( self::DEFAULT_FIELD, self::DEFAULT_EMTPY );
             } break;
             case 'current-date':
             {
-                $classAttribute->setAttribute( self::EZ_DATATYPESTRING_DATE_DEFAULT, self::EZ_DATATYPESTRING_DATE_DEFAULT_CURRENT_DATE );
+                $classAttribute->setAttribute( self::DEFAULT_FIELD, self::DEFAULT_CURRENT_DATE );
             } break;
         }
     }
@@ -407,6 +407,6 @@ class eZDateType extends eZDataType
     }
 }
 
-eZDataType::register( eZDateType::EZ_DATATYPESTRING_DATE, "eZDateType" );
+eZDataType::register( eZDateType::DATA_TYPE_STRING, "eZDateType" );
 
 ?>
