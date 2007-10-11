@@ -38,11 +38,11 @@
 
 class eZEmailType extends eZDataType
 {
-    const EZ_DATATYPESTRING_EMAIL = "ezemail";
+    const DATA_TYPE_STRING = "ezemail";
 
     function eZEmailType()
     {
-        $this->eZDataType( self::EZ_DATATYPESTRING_EMAIL, ezi18n( 'kernel/classes/datatypes', "Email", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Email", 'Datatype name' ),
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( 'data_text' => 'email' ) ) );
     }
@@ -249,6 +249,6 @@ class eZEmailType extends eZDataType
     }
 }
 
-eZDataType::register( eZEmailType::EZ_DATATYPESTRING_EMAIL, "eZEmailType" );
+eZDataType::register( eZEmailType::DATA_TYPE_STRING, "eZEmailType" );
 
 ?>
