@@ -43,14 +43,14 @@ require_once( 'kernel/common/i18n.php' );
 
 class eZURLType extends eZDataType
 {
-    const EZ_DATATYPEURL_URL = 'ezurl';
+    const DATA_TYPE_STRING = 'ezurl';
 
     /*!
      Initializes with a url id and a description.
     */
     function eZURLType()
     {
-        $this->eZDataType( self::EZ_DATATYPEURL_URL, ezi18n( 'kernel/classes/datatypes', 'URL', 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', 'URL', 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
         $this->MaxLenValidator = new eZIntegerValidator();
     }
@@ -358,6 +358,6 @@ class eZURLType extends eZDataType
     }
 }
 
-eZDataType::register( eZURLType::EZ_DATATYPEURL_URL, 'eZURLType' );
+eZDataType::register( eZURLType::DATA_TYPE_STRING, 'eZURLType' );
 
 ?>
