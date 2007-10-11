@@ -43,13 +43,13 @@
 
 class eZImageType extends eZDataType
 {
-    const EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_FIELD = 'data_int1';
-    const EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_VARIABLE = '_ezimage_max_filesize_';
-    const EZ_DATATYPESTRING_IMAGE = "ezimage";
+    const FILESIZE_FIELD = 'data_int1';
+    const FILESIZE_VARIABLE = '_ezimage_max_filesize_';
+    const DATA_TYPE_STRING = "ezimage";
 
     function eZImageType()
     {
-        $this->eZDataType( self::EZ_DATATYPESTRING_IMAGE, ezi18n( 'kernel/classes/datatypes', "Image", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Image", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -129,7 +129,7 @@ class eZImageType extends eZDataType
     {
         $classAttribute = $contentObjectAttribute->contentClassAttribute();
         $httpFileName = $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" );
-        $maxSize = 1024 * 1024 * $classAttribute->attribute( self::EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_FIELD );
+        $maxSize = 1024 * 1024 * $classAttribute->attribute( self::FILESIZE_FIELD );
         $mustUpload = false;
 
         if( $contentObjectAttribute->validateIsRequired() )
@@ -401,11 +401,11 @@ class eZImageType extends eZDataType
     */
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $filesizeName = $base . self::EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_VARIABLE . $classAttribute->attribute( 'id' );
+        $filesizeName = $base . self::FILESIZE_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $filesizeName ) )
         {
             $filesizeValue = $http->postVariable( $filesizeName );
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_FIELD, $filesizeValue );
+            $classAttribute->setAttribute( self::FILESIZE_FIELD, $filesizeValue );
             return true;
         }
         return false;
@@ -484,7 +484,7 @@ class eZImageType extends eZDataType
     */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $maxSize = $classAttribute->attribute( self::EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_FIELD );
+        $maxSize = $classAttribute->attribute( self::FILESIZE_FIELD );
         $maxSizeNode = $attributeParametersNode->ownerDocument->createElement( 'max-size', $maxSize );
         $maxSizeNode->setAttribute( 'unit-size', 'mega' );
         $attributeParametersNode->appendChild( $maxSizeNode );
@@ -498,7 +498,7 @@ class eZImageType extends eZDataType
         $sizeNode = $attributeParametersNode->getElementsByTagName( 'max-size' )->item( 0 );
         $maxSize = $sizeNode->textContent;
         $unitSize = $sizeNode->getAttribute( 'unit-size' );
-        $classAttribute->setAttribute( self::EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_FIELD, $maxSize );
+        $classAttribute->setAttribute( self::FILESIZE_FIELD, $maxSize );
     }
 
 
@@ -576,6 +576,6 @@ class eZImageType extends eZDataType
 
 }
 
-eZDataType::register( eZImageType::EZ_DATATYPESTRING_IMAGE, "eZImageType" );
+eZDataType::register( eZImageType::DATA_TYPE_STRING, "eZImageType" );
 
 ?>
