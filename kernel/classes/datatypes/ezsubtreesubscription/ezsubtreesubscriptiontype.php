@@ -41,14 +41,14 @@
 
 class eZSubtreeSubscriptionType extends eZDataType
 {
-    const EZ_DATATYPESTRING_SUBTREESUBSCRIPTION = "ezsubtreesubscription";
+    const DATA_TYPE_STRING = "ezsubtreesubscription";
 
     /*!
      Constructor
     */
     function eZSubtreeSubscriptionType()
     {
-        $this->eZDataType(  self::EZ_DATATYPESTRING_SUBTREESUBSCRIPTION, ezi18n( 'kernel/classes/datatypes', "Subtree subscription", 'Datatype name' ),
+        $this->eZDataType(  self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Subtree subscription", 'Datatype name' ),
                             array( 'serialize_supported' => true,
                                    'object_serialize_map' => array( 'data_int' => 'value' ) ) );
     }
@@ -170,6 +170,6 @@ class eZSubtreeSubscriptionType extends eZDataType
     }
 }
 
-eZDataType::register( eZSubtreeSubscriptionType::EZ_DATATYPESTRING_SUBTREESUBSCRIPTION, "eZSubtreeSubscriptionType" );
+eZDataType::register( eZSubtreeSubscriptionType::DATA_TYPE_STRING, "eZSubtreeSubscriptionType" );
 
 ?>
