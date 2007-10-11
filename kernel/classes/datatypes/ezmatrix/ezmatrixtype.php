@@ -45,19 +45,19 @@
 
 class eZMatrixType extends eZDataType
 {
-    const EZ_MATRIX_DEFAULT_NAME_VARIABLE = '_ezmatrix_default_name_';
+    const DEFAULT_NAME_VARIABLE = '_ezmatrix_default_name_';
 
-    const EZ_MATRIX_NUMCOLUMNS_VARIABLE = '_ezmatrix_default_num_columns_';
-    const EZ_MATRIX_NUMROWS_VARIABLE = '_ezmatrix_default_num_rows_';
-    const EZ_MATRIX_CELL_VARIABLE = '_ezmatrix_cell_';
-    const EZ_DATATYPESTRING_MATRIX = 'ezmatrix';
+    const NUM_COLUMNS_VARIABLE = '_ezmatrix_default_num_columns_';
+    const NUM_ROWS_VARIABLE = '_ezmatrix_default_num_rows_';
+    const CELL_VARIABLE = '_ezmatrix_cell_';
+    const DATA_TYPE_STRING = 'ezmatrix';
 
     /*!
      Constructor
     */
     function eZMatrixType()
     {
-        $this->eZDataType( self::EZ_DATATYPESTRING_MATRIX, ezi18n( 'kernel/classes/datatypes', 'Matrix', 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', 'Matrix', 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -156,7 +156,7 @@ class eZMatrixType extends eZDataType
     */
     function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
-        $cellsVarName = $base . self::EZ_MATRIX_CELL_VARIABLE . $contentObjectAttribute->attribute( 'id' );
+        $cellsVarName = $base . self::CELL_VARIABLE . $contentObjectAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $cellsVarName ) )
         {
             $cells = array();
@@ -279,10 +279,10 @@ class eZMatrixType extends eZDataType
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         // 'default name' is never used => just a stub
-        // $defaultValueName = $base . self::EZ_MATRIX_DEFAULT_NAME_VARIABLE . $classAttribute->attribute( 'id' );
+        // $defaultValueName = $base . self::DEFAULT_NAME_VARIABLE . $classAttribute->attribute( 'id' );
         $defaultValueName = '';
-        $defaultNumColumnsName = $base . self::EZ_MATRIX_NUMCOLUMNS_VARIABLE . $classAttribute->attribute( 'id' );
-        $defaultNumRowsName = $base . self::EZ_MATRIX_NUMROWS_VARIABLE . $classAttribute->attribute( 'id' );
+        $defaultNumColumnsName = $base . self::NUM_COLUMNS_VARIABLE . $classAttribute->attribute( 'id' );
+        $defaultNumRowsName = $base . self::NUM_ROWS_VARIABLE . $classAttribute->attribute( 'id' );
         $dataFetched = false;
         // 'default name' is never used => just a stub
         /*
@@ -547,6 +547,6 @@ class eZMatrixType extends eZDataType
     }
 }
 
-eZDataType::register( eZMatrixType::EZ_DATATYPESTRING_MATRIX, 'ezmatrixtype' );
+eZDataType::register( eZMatrixType::DATA_TYPE_STRING, 'ezmatrixtype' );
 
 ?>
