@@ -44,18 +44,18 @@
 
 class eZEnumType extends eZDataType
 {
-    const EZ_DATATYPESTRING_ENUM = 'ezenum';
-    const EZ_DATATYPESTRING_ENUM_ISMULTIPLE_FIELD = 'data_int1';
-    const EZ_DATATYPESTRING_ENUM_ISMULTIPLE_VARIABLE = '_ezenum_ismultiple_value_';
-    const EZ_DATATYPESTRING_ENUM_ISOPTION_FIELD = 'data_int2';
-    const EZ_DATATYPESTRING_ENUM_ISOPTION_VARIABLE = '_ezenum_isoption_value_';
+    const DATA_TYPE_STRING = 'ezenum';
+    const IS_MULTIPLE_FIELD = 'data_int1';
+    const IS_MULTIPLE_VARIABLE = '_ezenum_ismultiple_value_';
+    const IS_OPTION_FIELD = 'data_int2';
+    const IS_OPTION_VARIABLE = '_ezenum_isoption_value_';
 
     /*!
      Constructor
     */
     function eZEnumType()
     {
-         $this->eZDataType( self::EZ_DATATYPESTRING_ENUM, ezi18n( 'kernel/classes/datatypes', 'Enum', 'Datatype name' ),
+         $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', 'Enum', 'Datatype name' ),
                             array( 'serialize_supported' => true ) );
     }
 
@@ -272,8 +272,8 @@ class eZEnumType extends eZDataType
     */
     function fetchClassAttributeHTTPInput( $http, $base, $contentClassAttribute )
     {
-        $ismultiple = $base . self::EZ_DATATYPESTRING_ENUM_ISMULTIPLE_VARIABLE . $contentClassAttribute->attribute( 'id' );
-        $isoption = $base . self::EZ_DATATYPESTRING_ENUM_ISOPTION_VARIABLE . $contentClassAttribute->attribute( 'id' );
+        $ismultiple = $base . self::IS_MULTIPLE_VARIABLE . $contentClassAttribute->attribute( 'id' );
+        $isoption = $base . self::IS_OPTION_VARIABLE . $contentClassAttribute->attribute( 'id' );
         $enumID =  $base . '_data_enumid_' . $contentClassAttribute->attribute( 'id' );
         $enumElement = $base . '_data_enumelement_' . $contentClassAttribute->attribute( 'id' );
         $enumValue = $base . '_data_enumvalue_' . $contentClassAttribute->attribute( 'id' );
@@ -281,13 +281,13 @@ class eZEnumType extends eZDataType
         $version = $contentClassAttribute->attribute( 'version' );
 
         $ismultipleValue = $http->hasPostVariable( $ismultiple ) ? 1 : 0;
-        $contentClassAttribute->setAttribute( self::EZ_DATATYPESTRING_ENUM_ISMULTIPLE_FIELD, $ismultipleValue );
+        $contentClassAttribute->setAttribute( self::IS_MULTIPLE_FIELD, $ismultipleValue );
 
         if ( $http->hasPostVariable( $isoption ) )
         {
              $optionValue = $http->postVariable( $isoption );
              $optionValueSet = $optionValue == 1 ? '1' : '0';
-             $contentClassAttribute->setAttribute( self::EZ_DATATYPESTRING_ENUM_ISOPTION_FIELD, $optionValueSet );
+             $contentClassAttribute->setAttribute( self::IS_OPTION_FIELD, $optionValueSet );
         }
 
         if ( $http->hasPostVariable( $enumID ) &&
@@ -511,8 +511,8 @@ class eZEnumType extends eZDataType
     */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $isOption = $classAttribute->attribute( self::EZ_DATATYPESTRING_ENUM_ISOPTION_FIELD );
-        $isMultiple = $classAttribute->attribute( self::EZ_DATATYPESTRING_ENUM_ISMULTIPLE_FIELD );
+        $isOption = $classAttribute->attribute( self::IS_OPTION_FIELD );
+        $isMultiple = $classAttribute->attribute( self::IS_MULTIPLE_FIELD );
         $content = $classAttribute->attribute( 'content' );
         $enumList = $content->attribute( 'enum_list' );
         $attributeParametersNode->appendAttribute( eZDOMDocument::createAttributeNode( 'is-option', $isOption ? 'true' : 'false' ) );
@@ -536,8 +536,8 @@ class eZEnumType extends eZDataType
     {
         $isOption = strtolower( $attributeParametersNode->attributeValue( 'is-option' ) ) == 'true';
         $isMultiple = strtolower( $attributeParametersNode->attributeValue( 'is-multiple' ) ) == 'true';
-        $classAttribute->setAttribute( self::EZ_DATATYPESTRING_ENUM_ISOPTION_FIELD, $isOption );
-        $classAttribute->setAttribute( self::EZ_DATATYPESTRING_ENUM_ISMULTIPLE_FIELD, $isMultiple );
+        $classAttribute->setAttribute( self::IS_OPTION_FIELD, $isOption );
+        $classAttribute->setAttribute( self::IS_MULTIPLE_FIELD, $isMultiple );
 
         $enum = new eZEnum( $classAttribute->attribute( 'id' ), $classAttribute->attribute( 'version' ) );
         $elementListNode = $attributeParametersNode->elementByName( 'elements' );
@@ -564,6 +564,6 @@ class eZEnumType extends eZDataType
         return null;
     }
 }
-eZDataType::register( eZEnumType::EZ_DATATYPESTRING_ENUM, 'eZEnumType' );
+eZDataType::register( eZEnumType::DATA_TYPE_STRING, 'eZEnumType' );
 
 ?>
