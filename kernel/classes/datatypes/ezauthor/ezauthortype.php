@@ -42,11 +42,11 @@
 
 class eZAuthorType extends eZDataType
 {
-    const EZ_DATATYPESTRING_AUTHOR = "ezauthor";
+    const DATA_TYPE_STRING = "ezauthor";
 
     function eZAuthorType()
     {
-        $this->eZDataType( self::EZ_DATATYPESTRING_AUTHOR, ezi18n( 'kernel/classes/datatypes', "Authors", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Authors", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -344,6 +344,6 @@ class eZAuthorType extends eZDataType
 
 }
 
-eZDataType::register( eZAuthorType::EZ_DATATYPESTRING_AUTHOR, "eZAuthorType" );
+eZDataType::register( eZAuthorype::DATA_TYPE_STRING, "eZAuthorType" );
 
 ?>
