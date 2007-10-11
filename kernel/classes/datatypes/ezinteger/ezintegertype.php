@@ -43,22 +43,22 @@
 
 class eZIntegerType extends eZDataType
 {
-    const EZ_DATATYPESTRING_INTEGER = "ezinteger";
-    const EZ_DATATYPESTRING_MIN_VALUE_FIELD = "data_int1";
-    const EZ_DATATYPESTRING_MIN_VALUE_VARIABLE = "_ezinteger_min_integer_value_";
-    const EZ_DATATYPESTRING_MAX_VALUE_FIELD = "data_int2";
-    const EZ_DATATYPESTRING_MAX_VALUE_VARIABLE = "_ezinteger_max_integer_value_";
-    const EZ_DATATYPESTRING_DEFAULT_VALUE_FIELD = "data_int3";
-    const EZ_DATATYPESTRING_DEFAULT_VALUE_VARIABLE = "_ezinteger_default_value_";
-    const EZ_DATATYPESTRING_INTEGER_INPUT_STATE_FIELD = "data_int4";
-    const EZ_INTEGER_NO_MIN_MAX_VALUE = 0;
-    const EZ_INTEGER_HAS_MIN_VALUE = 1;
-    const EZ_INTEGER_HAS_MAX_VALUE = 2;
-    const EZ_INTEGER_HAS_MIN_MAX_VALUE = 3;
+    const DATA_TYPE_STRING = "ezinteger";
+    const MIN_VALUE_FIELD = "data_int1";
+    const MIN_VALUE_VARIABLE = "_ezinteger_min_integer_value_";
+    const MAX_VALUE_FIELD = "data_int2";
+    const MAX_VALUE_VARIABLE = "_ezinteger_max_integer_value_";
+    const DEFAULT_VALUE_FIELD = "data_int3";
+    const DEFAULT_VALUE_VARIABLE = "_ezinteger_default_value_";
+    const INPUT_STATE_FIELD = "data_int4";
+    const NO_MIN_MAX_VALUE = 0;
+    const HAS_MIN_VALUE = 1;
+    const HAS_MAX_VALUE = 2;
+    const HAS_MIN_MAX_VALUE = 3;
 
     function eZIntegerType()
     {
-        $this->eZDataType( self::EZ_DATATYPESTRING_INTEGER, ezi18n( 'kernel/classes/datatypes', "Integer", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Integer", 'Datatype name' ),
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( 'data_int' => 'value' ) ) );
         $this->IntegerValidator = new eZIntegerValidator();
@@ -69,13 +69,13 @@ class eZIntegerType extends eZDataType
     */
     function validateIntegerHTTPInput( $data, $contentObjectAttribute, $classAttribute )
     {
-        $min = $classAttribute->attribute( self::EZ_DATATYPESTRING_MIN_VALUE_FIELD );
-        $max = $classAttribute->attribute( self::EZ_DATATYPESTRING_MAX_VALUE_FIELD );
-        $input_state = $classAttribute->attribute( self::EZ_DATATYPESTRING_INTEGER_INPUT_STATE_FIELD );
+        $min = $classAttribute->attribute( self::MIN_VALUE_FIELD );
+        $max = $classAttribute->attribute( self::MAX_VALUE_FIELD );
+        $input_state = $classAttribute->attribute( self::INPUT_STATE_FIELD );
 
         switch( $input_state )
         {
-            case self::EZ_INTEGER_NO_MIN_MAX_VALUE:
+            case self::NO_MIN_MAX_VALUE:
             {
                 $this->IntegerValidator->setRange( false, false );
                 $state = $this->IntegerValidator->validate( $data );
@@ -85,7 +85,7 @@ class eZIntegerType extends eZDataType
                 else
                     return $state;
             } break;
-            case self::EZ_INTEGER_HAS_MIN_VALUE:
+            case self::HAS_MIN_VALUE:
             {
                 $this->IntegerValidator->setRange( $min, false );
                 $state = $this->IntegerValidator->validate( $data );
@@ -96,7 +96,7 @@ class eZIntegerType extends eZDataType
                                                                          'The number must be greater than %1' ),
                                                                  $min );
             } break;
-            case self::EZ_INTEGER_HAS_MAX_VALUE:
+            case self::HAS_MAX_VALUE:
             {
                 $this->IntegerValidator->setRange( false, $max );
                 $state = $this->IntegerValidator->validate( $data );
@@ -107,7 +107,7 @@ class eZIntegerType extends eZDataType
                                                                          'The number must be less than %1' ),
                                                                  $max );
             } break;
-            case self::EZ_INTEGER_HAS_MIN_MAX_VALUE:
+            case self::HAS_MIN_MAX_VALUE:
             {
                 $this->IntegerValidator->setRange( $min, $max );
                 $state = $this->IntegerValidator->validate( $data );
@@ -261,9 +261,9 @@ class eZIntegerType extends eZDataType
     */
     function validateClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $minValueName = $base . self::EZ_DATATYPESTRING_MIN_VALUE_VARIABLE . $classAttribute->attribute( "id" );
-        $maxValueName = $base . self::EZ_DATATYPESTRING_MAX_VALUE_VARIABLE . $classAttribute->attribute( "id" );
-        $defaultValueName = $base . self::EZ_DATATYPESTRING_DEFAULT_VALUE_VARIABLE . $classAttribute->attribute( "id" );
+        $minValueName = $base . self::MIN_VALUE_VARIABLE . $classAttribute->attribute( "id" );
+        $maxValueName = $base . self::MAX_VALUE_VARIABLE . $classAttribute->attribute( "id" );
+        $defaultValueName = $base . self::DEFAULT_VALUE_VARIABLE . $classAttribute->attribute( "id" );
 
         if ( $http->hasPostVariable( $minValueName ) and
              $http->hasPostVariable( $maxValueName ) and
@@ -322,8 +322,8 @@ class eZIntegerType extends eZDataType
     */
     function fixupClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $minValueName = $base . self::EZ_DATATYPESTRING_MIN_VALUE_VARIABLE . $classAttribute->attribute( "id" );
-        $maxValueName = $base . self::EZ_DATATYPESTRING_MAX_VALUE_VARIABLE . $classAttribute->attribute( "id" );
+        $minValueName = $base . self::MIN_VALUE_VARIABLE . $classAttribute->attribute( "id" );
+        $maxValueName = $base . self::MAX_VALUE_VARIABLE . $classAttribute->attribute( "id" );
         if ( $http->hasPostVariable( $minValueName ) and $http->hasPostVariable( $maxValueName ) )
         {
             $minValueValue = $http->postVariable( $minValueName );
@@ -348,9 +348,9 @@ class eZIntegerType extends eZDataType
     */
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $minValueName = $base . self::EZ_DATATYPESTRING_MIN_VALUE_VARIABLE . $classAttribute->attribute( "id" );
-        $maxValueName = $base . self::EZ_DATATYPESTRING_MAX_VALUE_VARIABLE . $classAttribute->attribute( "id" );
-        $defaultValueName = $base . self::EZ_DATATYPESTRING_DEFAULT_VALUE_VARIABLE . $classAttribute->attribute( "id" );
+        $minValueName = $base . self::MIN_VALUE_VARIABLE . $classAttribute->attribute( "id" );
+        $maxValueName = $base . self::MAX_VALUE_VARIABLE . $classAttribute->attribute( "id" );
+        $defaultValueName = $base . self::DEFAULT_VALUE_VARIABLE . $classAttribute->attribute( "id" );
 
         if ( $http->hasPostVariable( $minValueName ) and
              $http->hasPostVariable( $maxValueName ) and
@@ -363,28 +363,28 @@ class eZIntegerType extends eZDataType
             $defaultValueValue = $http->postVariable( $defaultValueName );
             $defaultValueValue = str_replace(" ", "", $defaultValueValue );
 
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_MIN_VALUE_FIELD, $minValueValue );
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_MAX_VALUE_FIELD, $maxValueValue );
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_DEFAULT_VALUE_FIELD, $defaultValueValue );
+            $classAttribute->setAttribute( self::MIN_VALUE_FIELD, $minValueValue );
+            $classAttribute->setAttribute( self::MAX_VALUE_FIELD, $maxValueValue );
+            $classAttribute->setAttribute( self::DEFAULT_VALUE_FIELD, $defaultValueValue );
 
             if ( ( $minValueValue == "" ) && ( $maxValueValue == "") ){
-                $input_state = self::EZ_INTEGER_NO_MIN_MAX_VALUE;
-                $classAttribute->setAttribute( self::EZ_DATATYPESTRING_INTEGER_INPUT_STATE_FIELD, $input_state );
+                $input_state = self::NO_MIN_MAX_VALUE;
+                $classAttribute->setAttribute( self::INPUT_STATE_FIELD, $input_state );
             }
             else if ( ( $minValueValue == "" ) && ( $maxValueValue !== "") )
             {
-                $input_state = self::EZ_INTEGER_HAS_MAX_VALUE;
-                $classAttribute->setAttribute( self::EZ_DATATYPESTRING_INTEGER_INPUT_STATE_FIELD, $input_state );
+                $input_state = self::HAS_MAX_VALUE;
+                $classAttribute->setAttribute( self::INPUT_STATE_FIELD, $input_state );
             }
             else if ( ( $minValueValue !== "" ) && ( $maxValueValue == "") )
             {
-                $input_state = self::EZ_INTEGER_HAS_MIN_VALUE;
-                $classAttribute->setAttribute( self::EZ_DATATYPESTRING_INTEGER_INPUT_STATE_FIELD, $input_state );
+                $input_state = self::HAS_MIN_VALUE;
+                $classAttribute->setAttribute( self::INPUT_STATE_FIELD, $input_state );
             }
             else
             {
-                $input_state = self::EZ_INTEGER_HAS_MIN_MAX_VALUE;
-                $classAttribute->setAttribute( self::EZ_DATATYPESTRING_INTEGER_INPUT_STATE_FIELD, $input_state );
+                $input_state = self::HAS_MIN_MAX_VALUE;
+                $classAttribute->setAttribute( self::INPUT_STATE_FIELD, $input_state );
             }
             return true;
         }
@@ -471,20 +471,20 @@ class eZIntegerType extends eZDataType
     */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $defaultValue = $classAttribute->attribute( self::EZ_DATATYPESTRING_DEFAULT_VALUE_FIELD );
-        $minValue = $classAttribute->attribute( self::EZ_DATATYPESTRING_MIN_VALUE_FIELD );
-        $maxValue = $classAttribute->attribute( self::EZ_DATATYPESTRING_MAX_VALUE_FIELD );
-        $minMaxState = $classAttribute->attribute( self::EZ_DATATYPESTRING_INTEGER_INPUT_STATE_FIELD );
+        $defaultValue = $classAttribute->attribute( self::DEFAULT_VALUE_FIELD );
+        $minValue = $classAttribute->attribute( self::MIN_VALUE_FIELD );
+        $maxValue = $classAttribute->attribute( self::MAX_VALUE_FIELD );
+        $minMaxState = $classAttribute->attribute( self::INPUT_STATE_FIELD );
 
         $dom = $attributeParametersNode->ownerDocument;
         $defaultValueNode = $dom->createElement( 'default-value', $defaultValue );
         $attributeParametersNode->appendChild( $defaultValueNode );
-        if ( $minMaxState == self::EZ_INTEGER_HAS_MIN_VALUE or $minMaxState == self::EZ_INTEGER_HAS_MIN_MAX_VALUE )
+        if ( $minMaxState == self::HAS_MIN_VALUE or $minMaxState == self::HAS_MIN_MAX_VALUE )
         {
             $minValueNode = $dom->createElement( 'min-value', $minValue );
             $attributeParametersNode->appendChild( $minValueNode );
         }
-        if ( $minMaxState == self::EZ_INTEGER_HAS_MAX_VALUE or $minMaxState == self::EZ_INTEGER_HAS_MIN_MAX_VALUE )
+        if ( $minMaxState == self::HAS_MAX_VALUE or $minMaxState == self::HAS_MIN_MAX_VALUE )
         {
             $maxValueNode = $dom->createElement( 'max-value', $maxValue );
             $attributeParametersNode->appendChild( $maxValueNode );
@@ -501,18 +501,18 @@ class eZIntegerType extends eZDataType
         $maxValue = $attributeParametersNode->getElementsByTagName( 'max-value' )->item( 0 )->textContent;
 
         if ( strlen( $minValue ) > 0 and strlen( $maxValue ) > 0 )
-            $minMaxState = self::EZ_INTEGER_HAS_MIN_MAX_VALUE;
+            $minMaxState = self::HAS_MIN_MAX_VALUE;
         else if ( strlen( $minValue ) > 0 )
-            $minMaxState = self::EZ_INTEGER_HAS_MIN_VALUE;
+            $minMaxState = self::HAS_MIN_VALUE;
         else if ( strlen( $maxValue ) > 0 )
-            $minMaxState = self::EZ_INTEGER_HAS_MAX_VALUE;
+            $minMaxState = self::HAS_MAX_VALUE;
         else
-            $minMaxState = self::EZ_INTEGER_NO_MIN_MAX_VALUE;
+            $minMaxState = self::NO_MIN_MAX_VALUE;
 
-        $classAttribute->setAttribute( self::EZ_DATATYPESTRING_DEFAULT_VALUE_FIELD, $defaultValue );
-        $classAttribute->setAttribute( self::EZ_DATATYPESTRING_MIN_VALUE_FIELD, $minValue );
-        $classAttribute->setAttribute( self::EZ_DATATYPESTRING_MAX_VALUE_FIELD, $maxValue );
-        $classAttribute->setAttribute( self::EZ_DATATYPESTRING_INTEGER_INPUT_STATE_FIELD, $minMaxState );
+        $classAttribute->setAttribute( self::DEFAULT_VALUE_FIELD, $defaultValue );
+        $classAttribute->setAttribute( self::MIN_VALUE_FIELD, $minValue );
+        $classAttribute->setAttribute( self::MAX_VALUE_FIELD, $maxValue );
+        $classAttribute->setAttribute( self::INPUT_STATE_FIELD, $minMaxState );
     }
 
     /// \privatesection
@@ -520,6 +520,6 @@ class eZIntegerType extends eZDataType
     public $IntegerValidator;
 }
 
-eZDataType::register( eZIntegerType::EZ_DATATYPESTRING_INTEGER, "eZIntegerType" );
+eZDataType::register( eZIntegerType::DATA_TYPE_STRING, "eZIntegerType" );
 
 ?>
