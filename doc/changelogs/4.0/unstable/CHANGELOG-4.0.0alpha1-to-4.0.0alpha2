@@ -22,3 +22,4 @@ Changes from 4.0.0alpha1 to 4.0.0alpha2
   (Merged from trunk rev. 20358)
 - Fixed bug #11581: depricated should be deprecated.
   (Merged from trunk rev. 20362)
+- Fixed bug #11633: Settings view need included validation function

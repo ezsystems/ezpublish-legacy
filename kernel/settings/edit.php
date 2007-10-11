@@ -92,7 +92,7 @@ if ( $http->hasPostVariable( 'WriteSetting' ) )
     $ini = eZINI::instance( $iniFile . '.append', $path, null, null, null, true, true );
 
     $hasValidationError = false;
-    //include_once( 'kernel/settings/validation.php' );
+    require 'kernel/settings/validation.php';
     $validationResult = validate( array( 'Name' => $settingName,
                                          'Value' => $valueToWrite ),
                                   array( 'name', $settingType ), true );
