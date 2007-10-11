@@ -116,7 +116,7 @@ class eZXMLTextType extends eZDataType
     const VERSION_30_TIMESTAMP = 1045487555;
     // Contains the timestamp of the current xml format, if the stored
     // timestamp is less than this it needs to be upgraded until it is correct.
-    const VERSION_TIMESTAMP = 1045487555; // AS 21-09-2007: should be the same as EZ_XMLTEXT_VERSION_30_TIMESTAMP
+    const VERSION_TIMESTAMP = 1045487555; // AS 21-09-2007: should be the same as VERSION_30_TIMESTAMP
 
     function eZXMLTextType()
     {
