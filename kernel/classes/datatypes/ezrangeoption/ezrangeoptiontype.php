@@ -42,16 +42,16 @@
 
 class eZRangeOptionType extends eZDataType
 {
-    const EZ_RANGEOPTION_DEFAULT_NAME_VARIABLE = "_ezrangeoption_default_name_";
+    const DEFAULT_NAME_VARIABLE = "_ezrangeoption_default_name_";
 
-    const EZ_DATATYPESTRING_RANGEOPTION = "ezrangeoption";
+    const DATA_TYPE_STRING = "ezrangeoption";
 
     /*!
      Constructor
     */
     function eZRangeOptionType()
     {
-        $this->eZDataType( self::EZ_DATATYPESTRING_RANGEOPTION, ezi18n( 'kernel/classes/datatypes', "Range option", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Range option", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -233,7 +233,7 @@ class eZRangeOptionType extends eZDataType
     */
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $defaultValueName = $base . self::EZ_RANGEOPTION_DEFAULT_NAME_VARIABLE . $classAttribute->attribute( 'id' );
+        $defaultValueName = $base . self::DEFAULT_NAME_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $defaultValueName ) )
         {
             $defaultValueValue = $http->postVariable( $defaultValueName );
@@ -293,6 +293,6 @@ class eZRangeOptionType extends eZDataType
     }
 }
 
-eZDataType::register( eZRangeOptionType::EZ_DATATYPESTRING_RANGEOPTION, "eZRangeOptionType" );
+eZDataType::register( eZRangeOptionType::DATA_TYPE_STRING, "eZRangeOptionType" );
 
 ?>
