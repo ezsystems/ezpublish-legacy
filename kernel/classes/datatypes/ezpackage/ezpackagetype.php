@@ -43,18 +43,18 @@ require_once( 'kernel/common/i18n.php' );
 
 class eZPackageType extends eZDataType
 {
-    const EZ_DATATYPESTRING_EZ_PACKAGE = 'ezpackage';
-    const EZ_DATATYPESTRING_PACKAGE_TYPE_FIELD = 'data_text1';
-    const EZ_DATATYPESTRING_PACKAGE_TYPE_VARIABLE = '_ezpackage_type_';
-    const EZ_DATATYPESTRING_PACKAGE_VIEW_MODE_FIELD = 'data_int1';
-    const EZ_DATATYPESTRING_PACKAGE_VIEW_MODE_VARIABLE = '_ezpackage_view_mode_';
+    const DATA_TYPE_STRING = 'ezpackage';
+    const TYPE_FIELD = 'data_text1';
+    const TYPE_VARIABLE = '_ezpackage_type_';
+    const VIEW_MODE_FIELD = 'data_int1';
+    const VIEW_MODE_VARIABLE = '_ezpackage_view_mode_';
 
     /*!
      Constructor
     */
     function eZPackageType()
     {
-        $this->eZDataType( self::EZ_DATATYPESTRING_EZ_PACKAGE, ezi18n( 'kernel/classes/datatypes', 'Package', 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', 'Package', 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -84,7 +84,7 @@ class eZPackageType extends eZDataType
 
             // Save in ini files if the package type is sitestyle.
             $classAttribute = $contentObjectAttribute->attribute( 'contentclass_attribute' );
-            if ( $classAttribute->attribute( self::EZ_DATATYPESTRING_PACKAGE_TYPE_FIELD ) == 'sitestyle' )
+            if ( $classAttribute->attribute( self::TYPE_FIELD ) == 'sitestyle' )
             {
                 $package = eZPackage::fetch( $data );
                 if ( $package )
@@ -172,17 +172,17 @@ class eZPackageType extends eZDataType
     */
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $packageTypeName = $base . self::EZ_DATATYPESTRING_PACKAGE_TYPE_VARIABLE . $classAttribute->attribute( 'id' );
+        $packageTypeName = $base . self::TYPE_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $packageTypeName ) )
         {
             $packageTypeValue = $http->postVariable( $packageTypeName );
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_PACKAGE_TYPE_FIELD, $packageTypeValue );
+            $classAttribute->setAttribute( self::TYPE_FIELD, $packageTypeValue );
         }
-        $packageViewModeName = $base . self::EZ_DATATYPESTRING_PACKAGE_VIEW_MODE_VARIABLE . $classAttribute->attribute( 'id' );
+        $packageViewModeName = $base . self::VIEW_MODE_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $packageViewModeName ) )
         {
             $packageViewModeValue = $http->postVariable( $packageViewModeName );
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_PACKAGE_VIEW_MODE_FIELD, $packageViewModeValue );
+            $classAttribute->setAttribute( self::VIEW_MODE_FIELD, $packageViewModeValue );
         }
         return true;
     }
@@ -247,7 +247,7 @@ class eZPackageType extends eZDataType
     */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $type = $classAttribute->attribute( self::EZ_DATATYPESTRING_PACKAGE_TYPE_FIELD );
+        $type = $classAttribute->attribute( self::TYPE_FIELD );
         $typeNode = $attributeParametersNode->ownerDocument->createElement( 'type', $type );
         $attributeParametersNode->appendChild( $typeNode );
     }
@@ -258,7 +258,7 @@ class eZPackageType extends eZDataType
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $type = $attributeParametersNode->getElementsByTagName( 'type' )->item( 0 )->textContent;
-        $classAttribute->setAttribute( self::EZ_DATATYPESTRING_PACKAGE_TYPE_FIELD, $type );
+        $classAttribute->setAttribute( self::TYPE_FIELD, $type );
     }
 
     /*!
@@ -270,6 +270,6 @@ class eZPackageType extends eZDataType
     }
 }
 
-eZDataType::register( eZPackageType::EZ_DATATYPESTRING_EZ_PACKAGE, 'eZPackageType' );
+eZDataType::register( eZPackageType::DATA_TYPE_STRING, 'eZPackageType' );
 
 ?>
