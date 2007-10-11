@@ -43,29 +43,29 @@
 
 class eZIdentifierType extends eZDataType
 {
-    const EZ_DATATYPESTRING_PRETEXT_FIELD = "data_text1";
-    const EZ_DATATYPESTRING_PRETEXT_VARIABLE = "_ezidentifier_pretext_value_";
+    const PRETEXT_FIELD = "data_text1";
+    const PRETEXT_VARIABLE = "_ezidentifier_pretext_value_";
 
-    const EZ_DATATYPESTRING_POSTTEXT_FIELD = "data_text2";
-    const EZ_DATATYPESTRING_POSTTEXT_VARIABLE = "_ezidentifier_posttext_value_";
+    const POSTTEXT_FIELD = "data_text2";
+    const POSTTEXT_VARIABLE = "_ezidentifier_posttext_value_";
 
-    const EZ_DATATYPESTRING_START_VALUE_FIELD = "data_int1";
-    const EZ_DATATYPESTRING_START_VALUE_VARIABLE = "_ezidentifier_start_integer_value_";
+    const START_VALUE_FIELD = "data_int1";
+    const START_VALUE_VARIABLE = "_ezidentifier_start_integer_value_";
 
-    const EZ_DATATYPESTRING_DIGITS_FIELD = "data_int2";
-    const EZ_DATATYPESTRING_DIGITS_VARIABLE = "_ezidentifier_digits_integer_value_";
+    const DIGITS_FIELD = "data_int2";
+    const DIGITS_VARIABLE = "_ezidentifier_digits_integer_value_";
 
-    const EZ_DATATYPESTRING_IDENTIFIER_FIELD = "data_int3";
-    const EZ_DATATYPESTRING_IDENTIFIER_VARIABLE = "_ezidentifier_identifier_value_";
+    const IDENTIFIER_FIELD = "data_int3";
+    const IDENTIFIER_VARIABLE = "_ezidentifier_identifier_value_";
 
-    const EZ_DATATYPESTRING_IDENTIFIER = "ezidentifier";
+    const DATA_TYPE_STRING = "ezidentifier";
 
     /*!
      Constructor
     */
     function eZIdentifierType()
     {
-        $this->eZDataType( self::EZ_DATATYPESTRING_IDENTIFIER,
+        $this->eZDataType( self::DATA_TYPE_STRING,
                            ezi18n( 'kernel/classes/datatypes', "Identifier", 'Datatype name' ),
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( 'data_text' => 'identifier',
@@ -128,13 +128,13 @@ class eZIdentifierType extends eZDataType
 
     function initializeClassAttribute( $classAttribute )
     {
-        if ( $classAttribute->attribute( self::EZ_DATATYPESTRING_START_VALUE_FIELD ) == null
-          && $classAttribute->attribute( self::EZ_DATATYPESTRING_DIGITS_FIELD ) == null
-          && $classAttribute->attribute( self::EZ_DATATYPESTRING_IDENTIFIER_FIELD ) == null )
+        if ( $classAttribute->attribute( self::START_VALUE_FIELD ) == null
+          && $classAttribute->attribute( self::DIGITS_FIELD ) == null
+          && $classAttribute->attribute( self::IDENTIFIER_FIELD ) == null )
         {
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_START_VALUE_FIELD, 1 );
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_IDENTIFIER_FIELD, 1 );
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_DIGITS_FIELD, 1 );
+            $classAttribute->setAttribute( self::START_VALUE_FIELD, 1 );
+            $classAttribute->setAttribute( self::IDENTIFIER_FIELD, 1 );
+            $classAttribute->setAttribute( self::DIGITS_FIELD, 1 );
         }
     }
 
@@ -144,8 +144,8 @@ class eZIdentifierType extends eZDataType
     */
     function validateClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $startValueName = $base . self::EZ_DATATYPESTRING_START_VALUE_VARIABLE . $classAttribute->attribute( "id" );
-        $digitsName = $base . self::EZ_DATATYPESTRING_DIGITS_VARIABLE . $classAttribute->attribute( "id" );
+        $startValueName = $base . self::START_VALUE_VARIABLE . $classAttribute->attribute( "id" );
+        $digitsName = $base . self::DIGITS_VARIABLE . $classAttribute->attribute( "id" );
 
         if ( $http->hasPostVariable( $startValueName ) and
              $http->hasPostVariable( $digitsName ) )
@@ -171,10 +171,10 @@ class eZIdentifierType extends eZDataType
     */
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $startValueName = $base . self::EZ_DATATYPESTRING_START_VALUE_VARIABLE . $classAttribute->attribute( "id" );
-        $digitsName = $base . self::EZ_DATATYPESTRING_DIGITS_VARIABLE . $classAttribute->attribute( "id" );
-        $preTextName = $base . self::EZ_DATATYPESTRING_PRETEXT_VARIABLE . $classAttribute->attribute( "id" );
-        $postTextName = $base . self::EZ_DATATYPESTRING_POSTTEXT_VARIABLE . $classAttribute->attribute( "id" );
+        $startValueName = $base . self::START_VALUE_VARIABLE . $classAttribute->attribute( "id" );
+        $digitsName = $base . self::DIGITS_VARIABLE . $classAttribute->attribute( "id" );
+        $preTextName = $base . self::PRETEXT_VARIABLE . $classAttribute->attribute( "id" );
+        $postTextName = $base . self::POSTTEXT_VARIABLE . $classAttribute->attribute( "id" );
 
         if ( $http->hasPostVariable( $startValueName ) and
              $http->hasPostVariable( $digitsName ) and
@@ -197,24 +197,24 @@ class eZIdentifierType extends eZDataType
             $preTextValue =  $http->postVariable( $preTextName );
             $postTextValue = $http->postVariable( $postTextName );
 
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_DIGITS_FIELD, $digitsValue );
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_PRETEXT_FIELD, $preTextValue );
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_POSTTEXT_FIELD, $postTextValue );
+            $classAttribute->setAttribute( self::DIGITS_FIELD, $digitsValue );
+            $classAttribute->setAttribute( self::PRETEXT_FIELD, $preTextValue );
+            $classAttribute->setAttribute( self::POSTTEXT_FIELD, $postTextValue );
 
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_START_VALUE_FIELD, $startValueValue );
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_IDENTIFIER_FIELD,
-                                           $classAttribute->attribute( self::EZ_DATATYPESTRING_START_VALUE_FIELD ) );
+            $classAttribute->setAttribute( self::START_VALUE_FIELD, $startValueValue );
+            $classAttribute->setAttribute( self::IDENTIFIER_FIELD,
+                                           $classAttribute->attribute( self::START_VALUE_FIELD ) );
 
             $originalClassAttribute = eZContentClassAttribute::fetch( $classAttribute->attribute( 'id' ), true, 0 );
             if ( $originalClassAttribute )
             {
-                if ( $originalClassAttribute->attribute( self::EZ_DATATYPESTRING_DIGITS_FIELD ) == $digitsValue
-                  && $originalClassAttribute->attribute( self::EZ_DATATYPESTRING_PRETEXT_FIELD ) == $preTextValue
-                  && $originalClassAttribute->attribute( self::EZ_DATATYPESTRING_POSTTEXT_FIELD ) == $postTextValue
-                  && $originalClassAttribute->attribute( self::EZ_DATATYPESTRING_IDENTIFIER_FIELD ) >= $startValueValue )
+                if ( $originalClassAttribute->attribute( self::DIGITS_FIELD ) == $digitsValue
+                  && $originalClassAttribute->attribute( self::PRETEXT_FIELD ) == $preTextValue
+                  && $originalClassAttribute->attribute( self::POSTTEXT_FIELD ) == $postTextValue
+                  && $originalClassAttribute->attribute( self::IDENTIFIER_FIELD ) >= $startValueValue )
                 {
-                    $classAttribute->setAttribute( self::EZ_DATATYPESTRING_START_VALUE_FIELD, $originalClassAttribute->attribute( self::EZ_DATATYPESTRING_START_VALUE_FIELD ) );
-                    $classAttribute->setAttribute( self::EZ_DATATYPESTRING_IDENTIFIER_FIELD, $originalClassAttribute->attribute( self::EZ_DATATYPESTRING_IDENTIFIER_FIELD ) );
+                    $classAttribute->setAttribute( self::START_VALUE_FIELD, $originalClassAttribute->attribute( self::START_VALUE_FIELD ) );
+                    $classAttribute->setAttribute( self::IDENTIFIER_FIELD, $originalClassAttribute->attribute( self::IDENTIFIER_FIELD ) );
                 }
             }
         }
@@ -385,9 +385,9 @@ class eZIdentifierType extends eZDataType
 
     function generateIdentifierString( $contentClassAttribute, $identifierValue = false )
     {
-        $preText = $contentClassAttribute->attribute( self::EZ_DATATYPESTRING_PRETEXT_FIELD );
-        $postText = $contentClassAttribute->attribute( self::EZ_DATATYPESTRING_POSTTEXT_FIELD );
-        $digits = $contentClassAttribute->attribute( self::EZ_DATATYPESTRING_DIGITS_FIELD );
+        $preText = $contentClassAttribute->attribute( self::PRETEXT_FIELD );
+        $postText = $contentClassAttribute->attribute( self::POSTTEXT_FIELD );
+        $digits = $contentClassAttribute->attribute( self::DIGITS_FIELD );
 
         if ( $identifierValue !== false )
             $midText = str_pad( $identifierValue, $digits, '0', STR_PAD_LEFT );
@@ -415,11 +415,11 @@ class eZIdentifierType extends eZDataType
     */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $digits     = $classAttribute->attribute( self::EZ_DATATYPESTRING_DIGITS_FIELD );
-        $preText    = $classAttribute->attribute( self::EZ_DATATYPESTRING_PRETEXT_FIELD );
-        $postText   = $classAttribute->attribute( self::EZ_DATATYPESTRING_POSTTEXT_FIELD );
-        $startValue = $classAttribute->attribute( self::EZ_DATATYPESTRING_START_VALUE_FIELD );
-        $identifier = $classAttribute->attribute( self::EZ_DATATYPESTRING_IDENTIFIER_FIELD );
+        $digits     = $classAttribute->attribute( self::DIGITS_FIELD );
+        $preText    = $classAttribute->attribute( self::PRETEXT_FIELD );
+        $postText   = $classAttribute->attribute( self::POSTTEXT_FIELD );
+        $startValue = $classAttribute->attribute( self::START_VALUE_FIELD );
+        $identifier = $classAttribute->attribute( self::IDENTIFIER_FIELD );
 
         $dom = $attributeParametersNode->ownerDocument;
 
@@ -447,24 +447,24 @@ class eZIdentifierType extends eZDataType
         $identifier = $attributeParametersNode->getElementsByTagName( 'identifier' )->item( 0 )->textContent;
 
         if ( $digits !== false )
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_DIGITS_FIELD,      $digits );
+            $classAttribute->setAttribute( self::DIGITS_FIELD,      $digits );
 
         if ( $preText !== false )
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_PRETEXT_FIELD,     $preText );
+            $classAttribute->setAttribute( self::PRETEXT_FIELD,     $preText );
 
         if ( $postText !== false )
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_POSTTEXT_FIELD,    $postText );
+            $classAttribute->setAttribute( self::POSTTEXT_FIELD,    $postText );
 
         if ( $startValue !== false )
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_START_VALUE_FIELD, $startValue );
+            $classAttribute->setAttribute( self::START_VALUE_FIELD, $startValue );
 
         if ( $identifier !== false )
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_IDENTIFIER_FIELD,  $identifier );
+            $classAttribute->setAttribute( self::IDENTIFIER_FIELD,  $identifier );
     }
 
     public $IntegerValidator;
 }
 
-eZDataType::register( eZIdentifierType::EZ_DATATYPESTRING_IDENTIFIER, "ezidentifiertype" );
+eZDataType::register( eZIdentifierType::DATA_TYPE_STRING, "ezidentifiertype" );
 
 ?>
