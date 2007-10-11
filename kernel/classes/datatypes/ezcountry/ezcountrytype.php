@@ -43,15 +43,15 @@ require_once( 'kernel/common/i18n.php' );
 
 class eZCountryType extends eZDataType
 {
-    const EZ_DATATYPESTRING_COUNTRY = 'ezcountry';
+    const DATA_TYPE_STRING = 'ezcountry';
 
-    const EZ_DATATYPESTRING_COUNTRY_DEFAULT_LIST_FIELD = 'data_text5';
+    const DEFAULT_LIST_FIELD = 'data_text5';
 
-    const EZ_DATATYPESTRING_COUNTRY_MULTIPLE_CHOICE_FIELD = 'data_int1';
+    const MULTIPLE_CHOICE_FIELD = 'data_int1';
 
     function eZCountryType()
     {
-        $this->eZDataType( self::EZ_DATATYPESTRING_COUNTRY, ezi18n( 'kernel/classes/datatypes', 'Country', 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', 'Country', 'Datatype name' ),
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( 'data_text' => 'country' ) ) );
     }
@@ -173,8 +173,8 @@ class eZCountryType extends eZDataType
             $defaultCountryList = $content['default_countries'];
             $defaultCountry = implode( ',', array_keys( $defaultCountryList ) );
 
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_COUNTRY_DEFAULT_LIST_FIELD, $defaultCountry );
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_COUNTRY_MULTIPLE_CHOICE_FIELD, $multipleChoice );
+            $classAttribute->setAttribute( self::DEFAULT_LIST_FIELD, $defaultCountry );
+            $classAttribute->setAttribute( self::MULTIPLE_CHOICE_FIELD, $multipleChoice );
         }
         return false;
     }
@@ -362,8 +362,8 @@ class eZCountryType extends eZDataType
     */
     function classAttributeContent( $classAttribute )
     {
-        $defaultCountry = $classAttribute->attribute( self::EZ_DATATYPESTRING_COUNTRY_DEFAULT_LIST_FIELD );
-        $multipleChoice = $classAttribute->attribute( self::EZ_DATATYPESTRING_COUNTRY_MULTIPLE_CHOICE_FIELD );
+        $defaultCountry = $classAttribute->attribute( self::DEFAULT_LIST_FIELD );
+        $multipleChoice = $classAttribute->attribute( self::MULTIPLE_CHOICE_FIELD );
         $defaultCountryList = explode( ',', $defaultCountry );
         $resultList = array();
         foreach ( $defaultCountryList as $alpha2 )
@@ -500,6 +500,6 @@ class eZCountryType extends eZDataType
     }
 }
 
-eZDataType::register( eZCountryType::EZ_DATATYPESTRING_COUNTRY, 'ezcountrytype' );
+eZDataType::register( eZCountryType::DATA_TYPE_STRING, 'ezcountrytype' );
 
 ?>
