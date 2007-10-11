@@ -41,14 +41,14 @@
 
 class eZObjectRelationType extends eZDataType
 {
-    const EZ_DATATYPESTRING_OBJECT_RELATION = "ezobjectrelation";
+    const DATA_TYPE_STRING = "ezobjectrelation";
 
     /*!
      Initializes with a string id and a description.
     */
     function eZObjectRelationType()
     {
-        $this->eZDataType( self::EZ_DATATYPESTRING_OBJECT_RELATION, ezi18n( 'kernel/classes/datatypes', "Object relation", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Object relation", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -672,6 +672,6 @@ class eZObjectRelationType extends eZDataType
     /// \privatesection
 }
 
-eZDataType::register( eZObjectRelationType::EZ_DATATYPESTRING_OBJECT_RELATION, "eZObjectRelationType" );
+eZDataType::register( eZObjectRelationType::DATA_TYPE_STRING, "eZObjectRelationType" );
 
 ?>
