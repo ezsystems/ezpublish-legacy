@@ -42,14 +42,14 @@
 
 class eZSelectionType extends eZDataType
 {
-    const EZ_DATATYPESTRING_EZ_SELECTION = "ezselection";
+    const DATA_TYPE_STRING = "ezselection";
 
     /*!
       Constructor
     */
     function eZSelectionType()
     {
-        $this->eZDataType( self::EZ_DATATYPESTRING_EZ_SELECTION, ezi18n( 'kernel/classes/datatypes', "Selection", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Selection", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -475,5 +475,5 @@ class eZSelectionType extends eZDataType
         $objectAttribute->setAttribute( 'data_text', $idString );
     }
 
-eZDataType::register( eZSelectionType::EZ_DATATYPESTRING_EZ_SELECTION, "eZSelectionType" );
+eZDataType::register( eZSelectionType::DATA_TYPE_STRING, "eZSelectionType" );
 ?>
