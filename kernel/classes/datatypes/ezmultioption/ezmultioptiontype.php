@@ -55,15 +55,15 @@
 
 class eZMultiOptionType extends eZDataType
 {
-    const EZ_MULTIOPTION_DEFAULT_NAME_VARIABLE = "_ezmultioption_default_name_";
-    const EZ_DATATYPESTRING_MULTIOPTION = "ezmultioption";
+    const DEFAULT_NAME_VARIABLE = "_ezmultioption_default_name_";
+    const DATA_TYPE_STRING = "ezmultioption";
 
     /*!
      Constructor to initialize the datatype.
     */
     function eZMultiOptionType()
     {
-        $this->eZDataType( self::EZ_DATATYPESTRING_MULTIOPTION, ezi18n( 'kernel/classes/datatypes', "Multi-option", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Multi-option", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -376,7 +376,7 @@ class eZMultiOptionType extends eZDataType
     */
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $defaultValueName = $base . self::EZ_MULTIOPTION_DEFAULT_NAME_VARIABLE . $classAttribute->attribute( 'id' );
+        $defaultValueName = $base . self::DEFAULT_NAME_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $defaultValueName ) )
         {
             $defaultValueValue = $http->postVariable( $defaultValueName );
@@ -503,6 +503,6 @@ class eZMultiOptionType extends eZDataType
     }
 }
 
-eZDataType::register( eZMultiOptionType::EZ_DATATYPESTRING_MULTIOPTION, "eZMultiOptionType" );
+eZDataType::register( eZMultiOptionType::DATA_TYPE_STRING, "eZMultiOptionType" );
 
 ?>
