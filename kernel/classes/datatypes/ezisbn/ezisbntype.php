@@ -38,16 +38,15 @@
 
 class eZISBNType extends eZDataType
 {
-    const EZ_DATATYPESTRING_ISBN = "ezisbn";
-    const EZ_DATATYPESTRING_ISBN_CLASS_IS_ISBN13 = 'data_int1';
-    const EZ_DATATYPESTRING_ISBN_CONTENT_VALUE = 'data_text';
-    const EZ_DATATYPESTRING_ISBN_13_DBA_DATA = 'kernel/classes/datatypes/ezisbn/share/db_data.dba';
+    const DATA_TYPE_STRING = "ezisbn";
+    const CLASS_IS_ISBN13 = 'data_int1';
+    const CONTENT_VALUE = 'data_text';
 
     function eZISBNType()
     {
-        $this->eZDataType( self::EZ_DATATYPESTRING_ISBN, ezi18n( 'kernel/classes/datatypes', "ISBN", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "ISBN", 'Datatype name' ),
                            array( 'serialize_supported' => true,
-                                  'object_serialize_map' => array( self::EZ_DATATYPESTRING_ISBN_CONTENT_VALUE => 'isbn' ) ) );
+                                  'object_serialize_map' => array( self::CONTENT_VALUE => 'isbn' ) ) );
     }
 
     /*!
@@ -262,7 +261,7 @@ class eZISBNType extends eZDataType
                 else
                 {
                     // Add the value so the added value will be shown back to the user with an error message.
-                    $contentObjectAttribute->setAttribute( self::EZ_DATATYPESTRING_ISBN_CONTENT_VALUE, $number13 );
+                    $contentObjectAttribute->setAttribute( self::CONTENT_VALUE, $number13 );
                     return true;
                 }
             }
@@ -270,7 +269,7 @@ class eZISBNType extends eZDataType
             // Extract the different parts and set the hyphens correctly.
             $isbn13 = new eZISBN13();
             $isbn13Value = $isbn13->formatedISBNValue( $number13, $error );
-            $contentObjectAttribute->setAttribute( self::EZ_DATATYPESTRING_ISBN_CONTENT_VALUE, $isbn13Value );
+            $contentObjectAttribute->setAttribute( self::CONTENT_VALUE, $isbn13Value );
             return true;
         }
 
@@ -284,7 +283,7 @@ class eZISBNType extends eZDataType
 
         $isbn = $field1 . '-' . $field2 . '-' . $field3 . '-' . $field4;
         $isbn = strtoupper( $isbn );
-        $contentObjectAttribute->setAttribute( self::EZ_DATATYPESTRING_ISBN_CONTENT_VALUE, $isbn );
+        $contentObjectAttribute->setAttribute( self::CONTENT_VALUE, $isbn );
         return true;
     }
 
@@ -340,7 +339,7 @@ class eZISBNType extends eZDataType
         if ( is_array( $content ) )
         {
             $ISBN_13 = $content['ISBN13'];
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_ISBN_CLASS_IS_ISBN13, $ISBN_13 );
+            $classAttribute->setAttribute( self::CLASS_IS_ISBN13, $ISBN_13 );
         }
         return false;
     }
@@ -350,7 +349,7 @@ class eZISBNType extends eZDataType
     */
     function objectAttributeContent( $contentObjectAttribute )
     {
-        $data = $contentObjectAttribute->attribute( self::EZ_DATATYPESTRING_ISBN_CONTENT_VALUE );
+        $data = $contentObjectAttribute->attribute( self::CONTENT_VALUE );
         $classAttribute = $contentObjectAttribute->contentClassAttribute();
         $classContent = $classAttribute->content();
         if ( isset( $classContent['ISBN13'] ) and $classContent['ISBN13'] )
@@ -384,7 +383,7 @@ class eZISBNType extends eZDataType
     {
         //include_once( 'kernel/classes/datatypes/ezisbn/ezisbn13.php' );
 
-        $ISBN_13 = $classAttribute->attribute( self::EZ_DATATYPESTRING_ISBN_CLASS_IS_ISBN13 );
+        $ISBN_13 = $classAttribute->attribute( self::CLASS_IS_ISBN13 );
         $isbn13Info = new eZISBN13();
         $content = array( 'ISBN13' => $ISBN_13,
                           'ranges' => $isbn13Info );
@@ -406,7 +405,7 @@ class eZISBNType extends eZDataType
     */
     function metaData( $contentObjectAttribute )
     {
-        return $contentObjectAttribute->attribute( self::EZ_DATATYPESTRING_ISBN_CONTENT_VALUE );
+        return $contentObjectAttribute->attribute( self::CONTENT_VALUE );
     }
 
     /*!
@@ -415,12 +414,12 @@ class eZISBNType extends eZDataType
     */
     function toString( $contentObjectAttribute )
     {
-        return $contentObjectAttribute->attribute( self::EZ_DATATYPESTRING_ISBN_CONTENT_VALUE );
+        return $contentObjectAttribute->attribute( self::CONTENT_VALUE );
     }
 
     function fromString( $contentObjectAttribute, $string )
     {
-        return $contentObjectAttribute->setAttribute( self::EZ_DATATYPESTRING_ISBN_CONTENT_VALUE, $string );
+        return $contentObjectAttribute->setAttribute( self::CONTENT_VALUE, $string );
     }
 
     /*!
@@ -428,7 +427,7 @@ class eZISBNType extends eZDataType
     */
     function title( $data_instance, $name = null )
     {
-        return $data_instance->attribute( self::EZ_DATATYPESTRING_ISBN_CONTENT_VALUE );
+        return $data_instance->attribute( self::CONTENT_VALUE );
     }
 
     /*!
@@ -437,9 +436,9 @@ class eZISBNType extends eZDataType
     */
     function initializeClassAttribute( $classAttribute )
     {
-        if ( $classAttribute->attribute( self::EZ_DATATYPESTRING_ISBN_CLASS_IS_ISBN13 ) === null )
+        if ( $classAttribute->attribute( self::CLASS_IS_ISBN13 ) === null )
         {
-            $classAttribute->setAttribute( self::EZ_DATATYPESTRING_ISBN_CLASS_IS_ISBN13, 1 );
+            $classAttribute->setAttribute( self::CLASS_IS_ISBN13, 1 );
         }
     }
 
@@ -448,7 +447,7 @@ class eZISBNType extends eZDataType
     */
     function hasObjectAttributeContent( $contentObjectAttribute )
     {
-        return trim( $contentObjectAttribute->attribute( self::EZ_DATATYPESTRING_ISBN_CONTENT_VALUE ) ) != '';
+        return trim( $contentObjectAttribute->attribute( self::CONTENT_VALUE ) ) != '';
     }
 
     /*!
@@ -467,6 +466,6 @@ class eZISBNType extends eZDataType
     }
 }
 
-eZDataType::register( eZISBNType::EZ_DATATYPESTRING_ISBN, "eZISBNType" );
+eZDataType::register( eZISBNType::DATA_TYPE_STRING, "eZISBNType" );
 
 ?>
