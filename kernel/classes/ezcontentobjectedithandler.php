@@ -61,7 +61,7 @@ class eZContentObjectEditHandler
 
      Return list of HTTP postparameters which should trigger store action.
     */
-    function storeActionList()
+    static function storeActionList()
     {
     }
 
