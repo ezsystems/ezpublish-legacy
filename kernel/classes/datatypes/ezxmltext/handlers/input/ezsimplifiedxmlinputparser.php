@@ -124,7 +124,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         '#text'     => array( 'structHandler' => 'structHandlerText' )
         );
 
-    function eZSimplifiedXMLInputParser( $contentObjectID, $validateErrorLevel = eZXMLInputParser::EZ_XMLINPUTPARSER_ERROR_ALL, $detectErrorLevel = eZXMLInputParser::EZ_XMLINPUTPARSER_ERROR_ALL,
+    function eZSimplifiedXMLInputParser( $contentObjectID, $validateErrorLevel = eZXMLInputParser::ERROR_ALL, $detectErrorLevel = eZXMLInputParser::ERROR_ALL,
                                          $parseLineBreaks = false, $removeDefaultAttrs = false )
     {
         $this->contentObjectID = $contentObjectID;
@@ -425,7 +425,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 if ( $this->StrictHeaders &&
                      $level - $sectionLevel > 1 )
                 {
-                    $this->handleError( eZXMLInputParser::EZ_XMLINPUTPARSER_ERROR_SCHEMA, ezi18n( 'kernel/classes/datatypes/ezxmltext', "Incorrect headers nesting" ) );
+                    $this->handleError( eZXMLInputParser::ERROR_SCHEMA, ezi18n( 'kernel/classes/datatypes/ezxmltext', "Incorrect headers nesting" ) );
                 }
 
                 $newParent = $parent;
@@ -709,7 +709,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
                     if ( !$node )
                     {
-                        $this->handleError( eZXMLInputParser::EZ_XMLINPUTPARSER_ERROR_DATA, "Node '%1' does not exist.",
+                        $this->handleError( eZXMLInputParser::ERROR_DATA, "Node '%1' does not exist.",
                                             array( $nodeID ) );
                     }
                     else
@@ -722,7 +722,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     $node = eZContentObjectTreeNode::fetchByURLPath( $nodePath, false );
                     if ( !$node )
                     {
-                        $this->handleError( eZXMLInputParser::EZ_XMLINPUTPARSER_ERROR_DATA, "Node '%1' does not exist.",
+                        $this->handleError( eZXMLInputParser::ERROR_DATA, "Node '%1' does not exist.",
                                             array( $nodePath ) );
                     }
                     else
@@ -760,7 +760,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     // Protection from XSS attack
                     if ( preg_match( "/^(java|vb)script:.*/i" , $url ) )
                     {
-                        $this->handleError( eZXMLInputParser::EZ_XMLINPUTPARSER_ERROR_DATA, "Using scripts in links is not allowed, link '%1' has been removed",
+                        $this->handleError( eZXMLInputParser::ERROR_DATA, "Using scripts in links is not allowed, link '%1' has been removed",
                                             array( $url ) );
 
                         $element->removeAttribute( 'href' );
@@ -772,7 +772,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     if ( preg_match( "/^mailto:(.*)/i" , $url, $mailAddr ) &&
                          !eZMail::validate( $mailAddr[1] ) )
                     {
-                        $this->handleError( eZXMLInputParser::EZ_XMLINPUTPARSER_ERROR_DATA, "Invalid e-mail address: '%1'",
+                        $this->handleError( eZXMLInputParser::ERROR_DATA, "Invalid e-mail address: '%1'",
                                             array( $mailAddr[1] ) );
 
                         $element->removeAttribute( 'href' );
@@ -832,7 +832,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 // protection from self-embedding
                 if ( $objectID == $this->contentObjectID )
                 {
-                    $this->handleError( eZXMLInputParser::EZ_XMLINPUTPARSER_ERROR_DATA, 'Object %1 can not be embeded to itself.',
+                    $this->handleError( eZXMLInputParser::ERROR_DATA, 'Object %1 can not be embeded to itself.',
                                         array( $objectID ) );
 
                     $element->removeAttribute( 'href' );
@@ -856,7 +856,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
                     if ( !$node )
                     {
-                        $this->handleError( eZXMLInputParser::EZ_XMLINPUTPARSER_ERROR_DATA, "Node '%1' does not exist.",
+                        $this->handleError( eZXMLInputParser::ERROR_DATA, "Node '%1' does not exist.",
                                             array( $nodeID ) );
 
                         $element->removeAttribute( 'href' );
@@ -868,7 +868,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     $node = eZContentObjectTreeNode::fetchByURLPath( $nodePath, false );
                     if ( !$node )
                     {
-                        $this->handleError( eZXMLInputParser::EZ_XMLINPUTPARSER_ERROR_DATA, 'Node \'%1\' does not exist.',
+                        $this->handleError( eZXMLInputParser::ERROR_DATA, 'Node \'%1\' does not exist.',
                                             array( $nodePath ) );
 
                         $element->removeAttribute( 'href' );
@@ -884,7 +884,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 // protection from self-embedding
                 if ( $objectID == $this->contentObjectID )
                 {
-                    $this->handleError( eZXMLInputParser::EZ_XMLINPUTPARSER_ERROR_DATA, 'Object %1 can not be embeded to itself.',
+                    $this->handleError( eZXMLInputParser::ERROR_DATA, 'Object %1 can not be embeded to itself.',
                                         array( $objectID ) );
 
                     $element->removeAttribute( 'href' );

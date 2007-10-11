@@ -45,16 +45,16 @@
 class eZXMLInputParser
 {
     /// \deprecated (back-compatibility)
-    const EZ_XMLINPUTPARSER_SHOW_NO_ERRORS = 0;
-    const EZ_XMLINPUTPARSER_SHOW_SCHEMA_ERRORS = 1;
-    const EZ_XMLINPUTPARSER_SHOW_ALL_ERRORS = 2;
+    const SHOW_NO_ERRORS = 0;
+    const SHOW_SCHEMA_ERRORS = 1;
+    const SHOW_ALL_ERRORS = 2;
 
     /// Use these constants for error types
-    const EZ_XMLINPUTPARSER_ERROR_NONE = 0;
-    const EZ_XMLINPUTPARSER_ERROR_SYNTAX = 4;
-    const EZ_XMLINPUTPARSER_ERROR_SCHEMA = 8;
-    const EZ_XMLINPUTPARSER_ERROR_DATA = 16;
-    const EZ_XMLINPUTPARSER_ERROR_ALL = 28; // 4+8+16
+    const ERROR_NONE = 0;
+    const ERROR_SYNTAX = 4;
+    const ERROR_SCHEMA = 8;
+    const ERROR_DATA = 16;
+    const ERROR_ALL = 28; // 4+8+16
 
     /* $InputTags array contains properties of elements that come from the input.
 
@@ -138,22 +138,22 @@ class eZXMLInputParser
     \param $detectErrorLevel Determines types of errors that will be detected and added to error log ($Messages).
     */
 
-    function eZXMLInputParser( $validateErrorLevel = self::EZ_XMLINPUTPARSER_ERROR_NONE, $detectErrorLevel = self::EZ_XMLINPUTPARSER_ERROR_NONE, $parseLineBreaks = false,
+    function eZXMLInputParser( $validateErrorLevel = self::ERROR_NONE, $detectErrorLevel = self::ERROR_NONE, $parseLineBreaks = false,
                                $removeDefaultAttrs = false )
     {
         // Back-compatibility fixes:
-        if ( $detectErrorLevel === self::EZ_XMLINPUTPARSER_SHOW_SCHEMA_ERRORS )
+        if ( $detectErrorLevel === self::SHOW_SCHEMA_ERRORS )
         {
-            $detectErrorLevel = self::EZ_XMLINPUTPARSER_ERROR_SCHEMA;
+            $detectErrorLevel = self::ERROR_SCHEMA;
         }
-        elseif ( $detectErrorLevel === self::EZ_XMLINPUTPARSER_SHOW_ALL_ERRORS )
+        elseif ( $detectErrorLevel === self::SHOW_ALL_ERRORS )
         {
-            $detectErrorLevel = self::EZ_XMLINPUTPARSER_ERROR_ALL;
+            $detectErrorLevel = self::ERROR_ALL;
         }
 
         if ( $validateErrorLevel === false )
         {
-            $validateErrorLevel = self::EZ_XMLINPUTPARSER_ERROR_NONE;
+            $validateErrorLevel = self::ERROR_NONE;
         }
         elseif ( $validateErrorLevel === true )
         {
@@ -369,7 +369,7 @@ class eZXMLInputParser
             {
                 $pos = $tagBeginPos + 1;
 
-                $this->handleError( self::EZ_XMLINPUTPARSER_ERROR_SYNTAX, ezi18n( 'kernel/classes/datatypes/ezxmltext', 'Wrong closing tag' ) );
+                $this->handleError( self::ERROR_SYNTAX, ezi18n( 'kernel/classes/datatypes/ezxmltext', 'Wrong closing tag' ) );
                 return false;
             }
 
@@ -402,7 +402,7 @@ class eZXMLInputParser
                 $firstLoop = false;
             }
 
-            $this->handleError( self::EZ_XMLINPUTPARSER_ERROR_SYNTAX, ezi18n( 'kernel/classes/datatypes/ezxmltext', 'Wrong closing tag : &lt;/%1&gt;.', false, array( $closedTagName ) ) );
+            $this->handleError( self::ERROR_SYNTAX, ezi18n( 'kernel/classes/datatypes/ezxmltext', 'Wrong closing tag : &lt;/%1&gt;.', false, array( $closedTagName ) ) );
 
             return false;
         }
@@ -421,7 +421,7 @@ class eZXMLInputParser
             {
                 $pos = $tagBeginPos + 1;
 
-                $this->handleError( self::EZ_XMLINPUTPARSER_ERROR_SYNTAX, ezi18n( 'kernel/classes/datatypes/ezxmltext', 'Wrong opening tag' ) );
+                $this->handleError( self::ERROR_SYNTAX, ezi18n( 'kernel/classes/datatypes/ezxmltext', 'Wrong opening tag' ) );
                 return false;
             }
 
@@ -472,7 +472,7 @@ class eZXMLInputParser
                 }
                 else
                 {
-                    $this->handleError( self::EZ_XMLINPUTPARSER_ERROR_SYNTAX, ezi18n( 'kernel/classes/datatypes/ezxmltext', 'Unknown tag: &lt;%1&gt;.', false, array( $tagName ) ) );
+                    $this->handleError( self::ERROR_SYNTAX, ezi18n( 'kernel/classes/datatypes/ezxmltext', 'Unknown tag: &lt;%1&gt;.', false, array( $tagName ) ) );
                     return false;
                 }
             }
@@ -507,7 +507,7 @@ class eZXMLInputParser
             {
                 // If $newTagName is an empty string then it's not a error
                 if ( $newTagName === false )
-                    $this->handleError( self::EZ_XMLINPUTPARSER_ERROR_SYNTAX, ezi18n( 'kernel/classes/datatypes/ezxmltext', "Can't convert tag's name: &lt;%1&gt;.", false, array( $tagName ) ) );
+                    $this->handleError( self::ERROR_SYNTAX, ezi18n( 'kernel/classes/datatypes/ezxmltext', "Can't convert tag's name: &lt;%1&gt;.", false, array( $tagName ) ) );
 
                 return false;
             }
@@ -648,7 +648,7 @@ class eZXMLInputParser
                 $classesList = $this->XMLSchema->getClassesList( $element->nodeName );
                 if ( !in_array( $value, $classesList ) )
                 {
-                    $this->handleError( self::EZ_XMLINPUTPARSER_ERROR_DATA,
+                    $this->handleError( self::ERROR_DATA,
                                         ezi18n( 'kernel/classes/datatypes/ezxmltext', "Class '%1' is not allowed for element &lt;%2&gt; (check content.ini).",
                                         false, array( $value, $element->nodeName ) ) );
                     continue;
@@ -694,7 +694,7 @@ class eZXMLInputParser
                 }
                 if ( !$presented )
                 {
-                    $this->handleError( self::EZ_XMLINPUTPARSER_ERROR_SCHEMA,
+                    $this->handleError( self::ERROR_SCHEMA,
                                         ezi18n( 'kernel/classes/datatypes/ezxmltext', "Required attribute '%1' is not presented in tag &lt;%2&gt;.",
                                         false, array( $reqAttrName, $element->nodeName ) ) );
                 }
@@ -940,7 +940,7 @@ class eZXMLInputParser
             {
                 if ( $element->nodeName == 'custom' )
                 {
-                    $this->handleError( self::EZ_XMLINPUTPARSER_ERROR_SCHEMA,
+                    $this->handleError( self::ERROR_SCHEMA,
                                         ezi18n( 'kernel/classes/datatypes/ezxmltext', "Custom tag '%1' is not allowed.",
                                         false, array( $element->getAttribute( 'name' ) ) ) );
                 }
@@ -957,7 +957,7 @@ class eZXMLInputParser
                 $element = $parent->removeChild( $element );
                 if ( !$element->getAttributeNS( 'http://ez.no/namespaces/ezpublish3/temporary/', 'new-element' ) )
                 {
-                    $this->handleError( self::EZ_XMLINPUTPARSER_ERROR_SCHEMA, ezi18n( 'kernel/classes/datatypes/ezxmltext', "&lt;%1&gt; tag can't be empty.",
+                    $this->handleError( self::ERROR_SCHEMA, ezi18n( 'kernel/classes/datatypes/ezxmltext', "&lt;%1&gt; tag can't be empty.",
                                         false, array( $element->nodeName ) ) );
                     return false;
                 }
@@ -992,7 +992,7 @@ class eZXMLInputParser
                     }
 
                     $elementName = $element->nodeType == XML_ELEMENT_NODE ? '&lt;' . $element->nodeName . '&gt;' : $element->nodeName;
-                    $this->handleError( self::EZ_XMLINPUTPARSER_ERROR_SCHEMA, ezi18n( 'kernel/classes/datatypes/ezxmltext', "%1 is not allowed to be a child of &lt;%2&gt;.",
+                    $this->handleError( self::ERROR_SCHEMA, ezi18n( 'kernel/classes/datatypes/ezxmltext', "%1 is not allowed to be a child of &lt;%2&gt;.",
                                         false, array( $elementName, $parent->nodeName ) ) );
                 }
                 $this->fixSubtree( $element, $element );
@@ -1075,7 +1075,7 @@ class eZXMLInputParser
             if ( !$allowed )
             {
                 $removeAttr = true;
-                $this->handleError( self::EZ_XMLINPUTPARSER_ERROR_SCHEMA,
+                $this->handleError( self::ERROR_SCHEMA,
                                     ezi18n( 'kernel/classes/datatypes/ezxmltext', "Attribute '%1' is not allowed in &lt;%2&gt; element.",
                                     false, array( $fullName, $element->nodeName ) ) );
             }

@@ -98,7 +98,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
             eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $text, 'eZSimplifiedXMLInput::validateInput text' );
 
-            $parser = new eZSimplifiedXMLInputParser( $contentObjectID, true, eZXMLInputParser::EZ_XMLINPUTPARSER_SHOW_ALL_ERRORS, true );
+            $parser = new eZSimplifiedXMLInputParser( $contentObjectID, true, eZXMLInputParser::ERROR_ALL, true );
             $document = $parser->process( $text );
 
             if ( !is_object( $document ) )
