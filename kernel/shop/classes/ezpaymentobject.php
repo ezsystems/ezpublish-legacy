@@ -43,8 +43,8 @@
 
 class eZPaymentObject extends eZPersistentObject
 {
-    const EZ_REDIRECT_PAYMENT_STATUS_NOT_APPROVED = 0;
-    const EZ_REDIRECT_PAYMENT_STATUS_APPROVED = 1;
+    const STATUS_NOT_APPROVED = 0;
+    const STATUS_APPROVED = 1;
 
     /*!
     Constructor.
@@ -70,13 +70,13 @@ class eZPaymentObject extends eZPersistentObject
     */
     function approve()
     {
-        $this->setAttribute( 'status', self::EZ_REDIRECT_PAYMENT_STATUS_APPROVED );
+        $this->setAttribute( 'status', self::STATUS_APPROVED );
         $this->store();
     }
 
     function approved()
     {
-        return ( $this->attribute( 'status' ) == self::EZ_REDIRECT_PAYMENT_STATUS_APPROVED );
+        return ( $this->attribute( 'status' ) == self::STATUS_APPROVED );
     }
 
     static function definition()
