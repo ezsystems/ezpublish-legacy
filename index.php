@@ -121,10 +121,10 @@ function eZUpdateDebugSettings()
         $ini->variableMulti( 'DebugSettings',
                              array( 'DebugOutput', 'DebugByIP', 'DebugLogOnly', 'DebugByUser', 'DebugIPList', 'AlwaysLog', 'DebugUserIDList' ),
                              array( 'enabled', 'enabled', 'disabled', 'enabled' ) );
-    $logMap = array( 'notice' => eZDebug::EZ_LEVEL_NOTICE,
-                     'warning' => eZDebug::EZ_LEVEL_WARNING,
-                     'error' => eZDebug::EZ_LEVEL_ERROR,
-                     'debug' => eZDebug::EZ_LEVEL_DEBUG );
+    $logMap = array( 'notice' => eZDebug::LEVEL_NOTICE,
+                     'warning' => eZDebug::LEVEL_WARNING,
+                     'error' => eZDebug::LEVEL_ERROR,
+                     'debug' => eZDebug::LEVEL_DEBUG );
     $settings['always-log'] = array();
     foreach ( $logMap as $name => $level )
     {
@@ -223,7 +223,7 @@ function eZDBCleanup()
 
 function eZFatalError()
 {
-    //eZDebug::setHandleType( eZDebug::EZ_HANDLE_NONE );
+    //eZDebug::setHandleType( eZDebug::HANDLE_NONE );
     print( "<b>Fatal error</b>: eZ Publish did not finish its request<br/>" );
     print( "<p>The execution of eZ Publish was abruptly ended, the debug output is present below.</p>" );
     $templateResult = null;
@@ -248,7 +248,7 @@ function eZDisplayDebug()
         return null;
 
     $type = $ini->variable( "DebugSettings", "Debug" );
-    //eZDebug::setHandleType( eZDebug::EZ_HANDLE_NONE );
+    //eZDebug::setHandleType( eZDebug::HANDLE_NONE );
     if ( $type == "inline" or $type == "popup" )
     {
         $as_html = true;
@@ -334,7 +334,7 @@ if ( $ini->variable( 'RegionalSettings', 'Debug' ) == 'enabled' )
 ////include_once( "lib/ezutils/classes/ezsys.php" );
 
 
-eZDebug::setHandleType( eZDebug::EZ_HANDLE_FROM_PHP );
+eZDebug::setHandleType( eZDebug::HANDLE_FROM_PHP );
 
 $GLOBALS['eZGlobalRequestURI'] = eZSys::serverVariable( 'REQUEST_URI' );
 

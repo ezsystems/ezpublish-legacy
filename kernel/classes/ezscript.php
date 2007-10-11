@@ -175,7 +175,7 @@ class eZScript
     {
         error_reporting( E_ALL );
 
-        eZDebug::setHandleType( eZDebug::EZ_HANDLE_TO_PHP );
+        eZDebug::setHandleType( eZDebug::HANDLE_TO_PHP );
 
         if ( php_sapi_name() != 'cli' )
         {
@@ -234,7 +234,7 @@ class eZScript
         eZExecution::addCleanupHandler( 'eZDBCleanup' );
         eZExecution::addFatalErrorHandler( 'eZFatalError' );
 
-        eZDebug::setHandleType( eZDebug::EZ_HANDLE_FROM_PHP );
+        eZDebug::setHandleType( eZDebug::HANDLE_FROM_PHP );
 
         if ( $this->UseExtensions )
         {
@@ -973,13 +973,13 @@ class eZScript
                         $useIncludeFiles = true;
                     }
                     if ( $level == 'error' )
-                        $level = eZDebug::EZ_LEVEL_ERROR;
+                        $level = eZDebug::LEVEL_ERROR;
                     else if ( $level == 'warning' )
-                        $level = eZDebug::EZ_LEVEL_WARNING;
+                        $level = eZDebug::LEVEL_WARNING;
                     else if ( $level == 'debug' )
-                        $level = eZDebug::EZ_LEVEL_DEBUG;
+                        $level = eZDebug::LEVEL_DEBUG;
                     else if ( $level == 'notice' )
-                        $level = eZDebug::EZ_LEVEL_NOTICE;
+                        $level = eZDebug::LEVEL_NOTICE;
                     else if ( $level == 'timing' )
                         $level = eZDebug::EZ_LEVEL_TIMING;
                     $allowedDebugLevels[] = $level;
@@ -1047,10 +1047,10 @@ class eZScript
             $debugSettings['debug-styles'] = $cli->terminalStyles();
         }
         $logList = $ini->variable( 'DebugSettings', 'AlwaysLog' );
-        $logMap = array( 'notice' => eZDebug::EZ_LEVEL_NOTICE,
-                         'warning' => eZDebug::EZ_LEVEL_WARNING,
-                         'error' => eZDebug::EZ_LEVEL_ERROR,
-                         'debug' => eZDebug::EZ_LEVEL_DEBUG );
+        $logMap = array( 'notice' => eZDebug::LEVEL_NOTICE,
+                         'warning' => eZDebug::LEVEL_WARNING,
+                         'error' => eZDebug::LEVEL_ERROR,
+                         'debug' => eZDebug::LEVEL_DEBUG );
         $debugSettings['always-log'] = array();
         foreach ( $logMap as $name => $level )
         {
@@ -1113,7 +1113,7 @@ function eZFatalError()
     $useDebugAccumulators = true;
     $useDebugTimingpoints = true;
 
-    eZDebug::setHandleType( eZDebug::EZ_HANDLE_NONE );
+    eZDebug::setHandleType( eZDebug::HANDLE_NONE );
     if ( !$webOutput )
         fputs( STDERR, $endl );
     fputs( STDERR, $bold . "Fatal error" . $unbold . ": eZ Publish did not finish its request$endl" );

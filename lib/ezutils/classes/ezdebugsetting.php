@@ -118,7 +118,7 @@ class eZDebugSetting
     */
     static function writeNotice( $conditionName, $string, $label = "" )
     {
-        if ( !eZDebugSetting::isConditionTrue( $conditionName, eZDebug::EZ_LEVEL_NOTICE ) )
+        if ( !eZDebugSetting::isConditionTrue( $conditionName, eZDebug::LEVEL_NOTICE ) )
             return false;
         eZDebug::writeNotice( $string, eZDebugSetting::changeLabel( $conditionName, $label ) );
     }
@@ -129,7 +129,7 @@ class eZDebugSetting
     */
     static function writeWarning( $conditionName, $string, $label = "" )
     {
-        if ( !eZDebugSetting::isConditionTrue( $conditionName, eZDebug::EZ_LEVEL_WARNING ) )
+        if ( !eZDebugSetting::isConditionTrue( $conditionName, eZDebug::LEVEL_WARNING ) )
             return false;
         eZDebug::writeWarning( $string, eZDebugSetting::changeLabel( $conditionName, $label ) );
     }
@@ -140,7 +140,7 @@ class eZDebugSetting
     */
     static function writeError( $conditionName, $string, $label = "" )
     {
-        if ( !eZDebugSetting::isConditionTrue( $conditionName, eZDebug::EZ_LEVEL_ERROR ) )
+        if ( !eZDebugSetting::isConditionTrue( $conditionName, eZDebug::LEVEL_ERROR ) )
             return false;
         eZDebug::writeError( $string, eZDebugSetting::changeLabel( $conditionName, $label ) );
     }
@@ -151,7 +151,7 @@ class eZDebugSetting
     */
     static function writeDebug( $conditionName, $string, $label = "" )
     {
-        if ( !eZDebugSetting::isConditionTrue( $conditionName, eZDebug::EZ_LEVEL_DEBUG ) )
+        if ( !eZDebugSetting::isConditionTrue( $conditionName, eZDebug::LEVEL_DEBUG ) )
             return false;
         eZDebug::writeDebug( $string, eZDebugSetting::changeLabel( $conditionName, $label ) );
     }
@@ -162,7 +162,7 @@ class eZDebugSetting
     */
     static function addTimingPoint( $conditionName, $label = "" )
     {
-        if ( !eZDebugSetting::isConditionTrue( $conditionName, eZDebug::EZ_LEVEL_TIMING_POINT ) )
+        if ( !eZDebugSetting::isConditionTrue( $conditionName, eZDebug::LEVEL_TIMING_POINT ) )
             return false;
         eZDebug::addTimingPoint( eZDebugSetting::changeLabel( $conditionName, $label ) );
     }

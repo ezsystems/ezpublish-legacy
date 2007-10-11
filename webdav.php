@@ -111,7 +111,7 @@ function eZDBCleanup()
 
 function eZFatalError()
 {
-    eZDebug::setHandleType( eZDebug::EZ_HANDLE_NONE );
+    eZDebug::setHandleType( eZDebug::HANDLE_NONE );
     //if ( !class_exists( 'eZWebDAVServer' ) )
     //{
         //include_once( "lib/ezwebdav/classes/ezwebdavserver.php" );
@@ -130,7 +130,7 @@ if ( $enable === 'true' )
     require_once( 'lib/ezutils/classes/ezexecution.php' );
     eZExecution::addCleanupHandler( 'eZDBCleanup' );
     eZExecution::addFatalErrorHandler( 'eZFatalError' );
-    eZDebug::setHandleType( eZDebug::EZ_HANDLE_FROM_PHP );
+    eZDebug::setHandleType( eZDebug::HANDLE_FROM_PHP );
 
     if ( !isset( $_SERVER['REQUEST_URI'] ) or
          !isset( $_SERVER['REQUEST_METHOD'] ) )

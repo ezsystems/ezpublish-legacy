@@ -938,7 +938,7 @@ class eZDBInterface
             eZExecution::setCleanExit();
 
             // Give some feedback, and also possibly show the debug output
-            eZDebug::setHandleType( eZDebug::EZ_HANDLE_NONE );
+            eZDebug::setHandleType( eZDebug::HANDLE_NONE );
 
             $ini = eZINI::instance();
             $adminEmail = $ini->variable( 'MailSettings', 'AdminEmail' );

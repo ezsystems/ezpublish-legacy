@@ -68,7 +68,7 @@ ob_start();
 error_reporting ( E_ALL );
 
 eZExecution::addFatalErrorHandler( 'eZFatalError' );
-eZDebug::setHandleType( eZDebug::EZ_HANDLE_FROM_PHP );
+eZDebug::setHandleType( eZDebug::HANDLE_FROM_PHP );
 
 // Trick to get eZSys working with a script other than index.php (while index.php still used in generated URLs):
 $_SERVER['SCRIPT_FILENAME'] = str_replace( '/index_treemenu.php', '/index.php', $_SERVER['SCRIPT_FILENAME'] );

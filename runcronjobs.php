@@ -226,13 +226,13 @@ for ( $i = 1; $i < count( $argv ); ++$i )
                             $useIncludeFiles = true;
                         }
                         if ( $level == 'error' )
-                            $level = eZDebug::EZ_LEVEL_ERROR;
+                            $level = eZDebug::LEVEL_ERROR;
                         else if ( $level == 'warning' )
-                            $level = eZDebug::EZ_LEVEL_WARNING;
+                            $level = eZDebug::LEVEL_WARNING;
                         else if ( $level == 'debug' )
-                            $level = eZDebug::EZ_LEVEL_DEBUG;
+                            $level = eZDebug::LEVEL_DEBUG;
                         else if ( $level == 'notice' )
-                            $level = eZDebug::EZ_LEVEL_NOTICE;
+                            $level = eZDebug::LEVEL_NOTICE;
                         else if ( $level == 'timing' )
                             $level = eZDebug::EZ_LEVEL_TIMING;
                         $allowedDebugLevels[] = $level;

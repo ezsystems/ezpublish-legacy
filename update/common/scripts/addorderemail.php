@@ -89,7 +89,7 @@ function changeSiteAccessSetting( &$siteaccess, $optionData )
 
 print( "Starting add email into table ezorder\n" );
 
-//eZDebug::setHandleType( eZDebug::EZ_HANDLE_FROM_PHP );
+//eZDebug::setHandleType( eZDebug::HANDLE_FROM_PHP );
 
 //include_once( "lib/ezutils/classes/ezmodule.php" );
 // eZModule::setGlobalPathList( array( "kernel" ) );
