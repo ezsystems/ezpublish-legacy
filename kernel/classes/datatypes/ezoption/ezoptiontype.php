@@ -42,13 +42,13 @@
 
 class eZOptionType extends eZDataType
 {
-    const EZ_OPTION_DEFAULT_NAME_VARIABLE = "_ezoption_default_name_";
+    const DEFAULT_NAME_VARIABLE = "_ezoption_default_name_";
 
-    const EZ_DATATYPESTRING_OPTION = "ezoption";
+    const DATA_TYPE_STRING = "ezoption";
 
     function eZOptionType()
     {
-        $this->eZDataType( self::EZ_DATATYPESTRING_OPTION, ezi18n( 'kernel/classes/datatypes', "Option", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Option", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -341,7 +341,7 @@ class eZOptionType extends eZDataType
     */
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $defaultValueName = $base . self::EZ_OPTION_DEFAULT_NAME_VARIABLE . $classAttribute->attribute( 'id' );
+        $defaultValueName = $base . self::DEFAULT_NAME_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $defaultValueName ) )
         {
             $defaultValueValue = $http->postVariable( $defaultValueName );
@@ -475,6 +475,6 @@ class eZOptionType extends eZDataType
     }
 }
 
-eZDataType::register( eZOptionType::EZ_DATATYPESTRING_OPTION, "eZOptionType" );
+eZDataType::register( eZOptionType::DATA_TYPE_STRING, "eZOptionType" );
 
 ?>
