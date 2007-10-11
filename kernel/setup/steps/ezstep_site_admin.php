@@ -43,13 +43,13 @@ require_once( "kernel/common/i18n.php" );
 
 class eZStepSiteAdmin extends eZStepInstaller
 {
-    const EZ_SETUP_SITE_ADMIN_PASSWORD_MISSMATCH = 1;
-    const EZ_SETUP_SITE_ADMIN_FIRST_NAME_MISSING = 2;
-    const EZ_SETUP_SITE_ADMIN_LAST_NAME_MISSING = 3;
-    const EZ_SETUP_SITE_ADMIN_EMAIL_MISSING = 4;
-    const EZ_SETUP_SITE_ADMIN_EMAIL_INVALID = 5;
-    const EZ_SETUP_SITE_ADMIN_PASSWORD_MISSING = 6;
-    const EZ_SETUP_SITE_ADMIN_PASSWORD_TOO_SHORT = 7;
+    const PASSWORD_MISSMATCH = 1;
+    const FIRST_NAME_MISSING = 2;
+    const LAST_NAME_MISSING = 3;
+    const EMAIL_MISSING = 4;
+    const EMAIL_INVALID = 5;
+    const PASSWORD_MISSING = 6;
+    const PASSWORD_TOO_SHORT = 7;
 
     /*!
      Constructor
@@ -72,31 +72,31 @@ class eZStepSiteAdmin extends eZStepInstaller
         $user['email'] = $this->Http->postVariable( 'eZSetup_site_templates_email' );
         if ( strlen( trim( $user['first_name'] ) ) == 0 )
         {
-            $this->Error[] = self::EZ_SETUP_SITE_ADMIN_FIRST_NAME_MISSING;
+            $this->Error[] = self::FIRST_NAME_MISSING;
         }
         if ( strlen( trim( $user['last_name'] ) ) == 0 )
         {
-            $this->Error[] = self::EZ_SETUP_SITE_ADMIN_LAST_NAME_MISSING;
+            $this->Error[] = self::LAST_NAME_MISSING;
         }
         if ( strlen( trim( $user['email'] ) ) == 0 )
         {
-            $this->Error[] = self::EZ_SETUP_SITE_ADMIN_EMAIL_MISSING;
+            $this->Error[] = self::EMAIL_MISSING;
         }
         else if ( !eZMail::validate( trim( $user['email'] ) ) )
         {
-            $this->Error[] = self::EZ_SETUP_SITE_ADMIN_EMAIL_INVALID;
+            $this->Error[] = self::EMAIL_INVALID;
         }
         if ( strlen( trim( $this->Http->postVariable( 'eZSetup_site_templates_password1' ) ) ) == 0 )
         {
-            $this->Error[] = self::EZ_SETUP_SITE_ADMIN_PASSWORD_MISSING;
+            $this->Error[] = self::PASSWORD_MISSING;
         }
         else if ( $this->Http->postVariable( 'eZSetup_site_templates_password1' ) != $this->Http->postVariable( 'eZSetup_site_templates_password2' ) )
         {
-            $this->Error[] = self::EZ_SETUP_SITE_ADMIN_PASSWORD_MISSMATCH;
+            $this->Error[] = self::PASSWORD_MISSMATCH;
         }
         else if ( !eZUser::validatePassword( trim( $this->Http->postVariable( 'eZSetup_site_templates_password1' ) ) ) )
         {
-            $this->Error[] = self::EZ_SETUP_SITE_ADMIN_PASSWORD_TOO_SHORT;
+            $this->Error[] = self::PASSWORD_TOO_SHORT;
         }
         else
         {
@@ -173,37 +173,37 @@ class eZStepSiteAdmin extends eZStepInstaller
         {
             switch ( $this->Error[0] )
             {
-                case self::EZ_SETUP_SITE_ADMIN_FIRST_NAME_MISSING:
+                case self::FIRST_NAME_MISSING:
                 {
                     $this->Tpl->setVariable( 'first_name_missing', 1 );
                 } break;
 
-                case self::EZ_SETUP_SITE_ADMIN_LAST_NAME_MISSING:
+                case self::LAST_NAME_MISSING:
                 {
                     $this->Tpl->setVariable( 'last_name_missing', 1 );
                 } break;
 
-                case self::EZ_SETUP_SITE_ADMIN_EMAIL_MISSING:
+                case self::EMAIL_MISSING:
                 {
                     $this->Tpl->setVariable( 'email_missing', 1 );
                 } break;
 
-                case self::EZ_SETUP_SITE_ADMIN_EMAIL_INVALID:
+                case self::EMAIL_INVALID:
                 {
                     $this->Tpl->setVariable( 'email_invalid', 1 );
                 } break;
 
-                case self::EZ_SETUP_SITE_ADMIN_PASSWORD_MISSMATCH:
+                case self::PASSWORD_MISSMATCH:
                 {
                     $this->Tpl->setVariable( 'password_missmatch', 1 );
                 } break;
 
-                case self::EZ_SETUP_SITE_ADMIN_PASSWORD_MISSING:
+                case self::PASSWORD_MISSING:
                 {
                     $this->Tpl->setVariable( 'password_missing', 1 );
                 } break;
 
-                case self::EZ_SETUP_SITE_ADMIN_PASSWORD_TOO_SHORT:
+                case self::PASSWORD_TOO_SHORT:
                 {
                     $this->Tpl->setVariable( 'password_too_short', 1 );
                 } break;
