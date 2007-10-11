@@ -55,16 +55,16 @@
 
 class eZMultiOption2Type extends eZDataType
 {
-    const EZ_MULTIOPTION2_DEFAULT_NAME_VARIABLE = "_ezmultioption2_default_name_";
-    const EZ_MULTIOPTION2_MAX_CHILD_LEVEL = 50;
-    const EZ_DATATYPESTRING_MULTIOPTION2 = "ezmultioption2";
+    const DEFAULT_NAME_VARIABLE = "_ezmultioption2_default_name_";
+    const MAX_CHILD_LEVEL = 50;
+    const DATA_TYPE_STRING = "ezmultioption2";
 
     /*!
      Constructor to initialize the datatype.
     */
     function eZMultiOption2Type()
     {
-        $this->eZDataType( self::EZ_DATATYPESTRING_MULTIOPTION2, ezi18n( 'kernel/classes/datatypes', "Multi-option2", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Multi-option2", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -269,7 +269,7 @@ class eZMultiOption2Type extends eZDataType
                     $optionGroup->addOption( $newID, $optionCountArray[$i], $optionValueArray[$i], $optionAdditionalPriceArray[$i], $isSelectable, $objectID );
                 }
             }
-            if ( $depth > self::EZ_MULTIOPTION2_MAX_CHILD_LEVEL)
+            if ( $depth > self::MAX_CHILD_LEVEL)
                 die('max recursion level has been reached');
             $this->fetchHTTPInputForGroup( $optionGroup, $http, $base, $contentObjectAttribute, $depth+1 );
 
@@ -706,6 +706,6 @@ class eZMultiOption2Type extends eZDataType
 
 }
 
-eZDataType::register( eZMultiOption2Type::EZ_DATATYPESTRING_MULTIOPTION2, "eZMultiOption2Type" );
+eZDataType::register( eZMultiOption2Type::DATA_TYPE_STRING, "eZMultiOption2Type" );
 
 ?>
