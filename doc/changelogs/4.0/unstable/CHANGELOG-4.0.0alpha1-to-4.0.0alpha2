@@ -28,3 +28,5 @@ Changes from 4.0.0alpha1 to 4.0.0alpha2
   (Merged from trunk rev. 20390)
 - Fixed bug #11526: Error in integer validation in publish
   (Merged from trunk rev. 20403)
+- Fixed bug #11605: Space characters in float attribute input is not correctly handled
+  (Merged from trunk rev. 20404)
