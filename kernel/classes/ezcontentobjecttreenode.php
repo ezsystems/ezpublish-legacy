@@ -2013,8 +2013,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $pathStringCond     = '';
             $notEqParentString  = '';
             // If the node(s) doesn't exist we return null.
-            $noNode = null;
-            if ( !eZContentObjectTreeNode::createPathConditionAndNotEqParentSQLStrings( $pathStringCond, $notEqParentString, $noNode, $nodeID, $depth, $depthOperator ) )
+
+            if ( !eZContentObjectTreeNode::createPathConditionAndNotEqParentSQLStrings( $pathStringCond, $notEqParentString, $nodeID, $depth, $depthOperator ) )
             {
                 $retValue = null;
                 return $retValue;
@@ -2888,7 +2888,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $pathStringCond     = '';
         $notEqParentString  = '';
-        eZContentObjectTreeNode::createPathConditionAndNotEqParentSQLStrings( $pathStringCond, $notEqParentString, $this, $nodeID, $depth, $depthOperator );
+        eZContentObjectTreeNode::createPathConditionAndNotEqParentSQLStrings( $pathStringCond, $notEqParentString, $nodeID, $depth, $depthOperator );
 
         $groupBySelectText  = '';
         $groupByText        = '';
