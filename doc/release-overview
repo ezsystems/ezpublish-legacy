@@ -880,7 +880,7 @@ Datatype branch:
 
 3.8.10:
 - Release branch=release/3.8.10
-- Release branch start=
+- Release branch start=20215
 - Release date 02-Oct-2007
 - Revision=20334
 - Version url=http://svn.ez.no/svn/ezpublish/versions/3.8.10
