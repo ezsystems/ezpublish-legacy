@@ -13,3 +13,22 @@ Changes from 3.10.0 to 3.11.0alpha1
 *Translations:
 
 *Bugfixes:
+- Fixed bug #11526: Error in integer validation in publish
+  (Merged from stable/3.9 (3.9.5) rev. 20298)
+- Fixed bug #11580: PHP warning: Undefined variable: origBlockName
+  (Merged from trunk rev. 20316)
+- Fixed bug #11581: depricated should be deprecated.
+  (Merged from stable/3.9 (3.9.5) rev. 20322)
+- Fixed bug #11576: Unclear text in "ezcache.php" script.
+- Fixed bug #10847: Use of deprecated php function - mysql_escape_string.
+- Fixed bug #11584: kernel/shop/customerlist.php uses $Params['module'] which should be $Params['Module']
+  (Merged from trunk rev. 20327)
+- Fixed bug #11593: Class attribute drafts after fresh install of website interface
+  (Merged from trunk rev. 20338)
+- Fixed bug #11589: Fatal error: Cannot break/continue 1 level in kernel/setup/steps/ezstep_site_details.php on line 307
+  (Merged from trunk rev. 20342)
+- Fixed bug #11541: Warnings on setup/cache when using fine-grained cache control
+  (Merged from trunk rev. 20347)
+- Fixed bug #11594: Hardcoded object id in kernel/setup/steps/ezstep_create_sites.php.
+- Fixed bug #11605: Space characters in float attribute input is not correctly handled
+- Fixed bug #11558: Additional site accesses are missing SiteLanguageList[]=main_language.
