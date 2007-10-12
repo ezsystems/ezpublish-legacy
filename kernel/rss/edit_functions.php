@@ -41,7 +41,7 @@ class eZRSSEditFunction
      \param HTTP
      \param publish ( true/false )
     */
-    function storeRSSExport( $Module, $http, $publish = false )
+    static function storeRSSExport( $Module, $http, $publish = false )
     {
         $valid = true;
         $validationErrors = array();

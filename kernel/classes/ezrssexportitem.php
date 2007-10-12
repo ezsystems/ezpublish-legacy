@@ -135,7 +135,7 @@ class eZRSSExportItem extends eZPersistentObject
             //include_once( 'kernel/classes/ezcontentclass.php' );
             $contentClass = eZContentClass::fetch( $this->ClassID );
             if ( $contentClass )
-                $attributes =& $contentClass->fetchAttributes();
+                $attributes = $contentClass->fetchAttributes();
             else
                 $attributes = null;
         }
@@ -210,7 +210,7 @@ class eZRSSExportItem extends eZPersistentObject
 
      \return array containing RSSExport Items
     */
-    function fetchFilteredList( $cond, $asObject = true, $status = eZRSSExport::STATUS_VALID )
+    static function fetchFilteredList( $cond, $asObject = true, $status = eZRSSExport::STATUS_VALID )
     {
         return eZPersistentObject::fetchObjectList( eZRSSExportItem::definition(),
                                                     null, $cond, array( 'id' => 'asc',
@@ -251,7 +251,7 @@ class eZRSSExportItem extends eZPersistentObject
 
      \return list of Nodes
     */
-    function fetchNodeList( $rssSources, $objectListFilter )
+    static function fetchNodeList( $rssSources, $objectListFilter )
     {
         // compose parameters for several subtrees
         if( is_array( $rssSources ) && count( $rssSources ) )

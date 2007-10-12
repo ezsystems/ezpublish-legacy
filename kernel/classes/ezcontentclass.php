@@ -925,7 +925,7 @@ You will need to change the class of the node by using the swap functionality.' 
         return  ( $attr1->attribute( "placement" ) > $attr2->attribute( "placement" )  ) ? 1 : -1;
     }
 
-    function adjustAttributePlacements( &$attributes )
+    function adjustAttributePlacements( $attributes )
     {
         if ( !is_array( $attributes ) )
             return;

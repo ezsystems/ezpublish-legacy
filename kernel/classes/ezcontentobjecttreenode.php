@@ -1931,7 +1931,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         'SortBy' => [sorting-criteria]
         )
     */
-    function subTreeMultiPaths( $nodesParams, $listParams = NULL )
+    static function subTreeMultiPaths( $nodesParams, $listParams = NULL )
     {
         if( !is_array( $nodesParams ) || !count( $nodesParams ) )
         {
