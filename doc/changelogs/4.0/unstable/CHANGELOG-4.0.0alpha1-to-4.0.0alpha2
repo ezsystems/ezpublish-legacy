@@ -31,3 +31,5 @@ Changes from 4.0.0alpha1 to 4.0.0alpha2
 - Fixed bug #11605: Space characters in float attribute input is not correctly handled
   (Merged from trunk rev. 20404)
 - Fixed bug #11635: no rss items in 4.0alpha
+- Fixed bug #11628: View Cache for related objects is not properly cleared.
+  (Merged from trunk rev. 20489)
