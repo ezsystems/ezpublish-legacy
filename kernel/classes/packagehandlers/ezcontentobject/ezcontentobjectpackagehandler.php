@@ -42,17 +42,17 @@
 
 class eZContentObjectPackageHandler extends eZPackageHandler
 {
-    const EZ_PACKAGE_CONTENTOBJECT__MAX_LISTED_OBJECTS_NUMBER = 30;
+    const MAX_LISTED_OBJECTS = 30;
 
     // If number of objects in the package is bigger than this constant,
     // they are stored in separate files to prevent memory overflow.
     // 'null' means always use separate files
-    const EZ_PACKAGE_CONTENTOBJECT__STORE_OBJECTS_TO_SEPARATE_FILES_THRESHOLD = 100;
+    const STORE_OBJECTS_TO_SEPARATE_FILES_THRESHOLD = 100;
 
-    const EZ_PACKAGE_CONTENTOBJECT__INSTALL_OBJECTS_ERROR_RANGE_FROM = 1;
-    const EZ_PACKAGE_CONTENTOBJECT__INSTALL_OBJECTS_ERROR_RANGE_TO = 100;
-    const EZ_PACKAGE_CONTENTOBJECT__UNINSTALL_OBJECTS_ERROR_RANGE_FROM = 101;
-    const EZ_PACKAGE_CONTENTOBJECT__UNINSTALL_OBJECTS_ERROR_RANGE_TO = 200;
+    const INSTALL_OBJECTS_ERROR_RANGE_FROM = 1;
+    const INSTALL_OBJECTS_ERROR_RANGE_TO = 100;
+    const UNINSTALL_OBJECTS_ERROR_RANGE_FROM = 101;
+    const UNINSTALL_OBJECTS_ERROR_RANGE_TO = 200;
 
     /*!
      Constructor
@@ -145,7 +145,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 $objectListNode = $content->getElementsByTagName( 'object-files-list' )->item( 0 );
                 $objectNodes = $objectListNode->getElementsByTagName( 'object-file' );
 
-                if ( count( $objectNodes ) > self::EZ_PACKAGE_CONTENTOBJECT__MAX_LISTED_OBJECTS_NUMBER )
+                if ( count( $objectNodes ) > self::MAX_LISTED_OBJECTS )
                 {
                     return array( 'description' => ezi18n( 'kernel/package', '%number content objects', false,
                                                            array( '%number' => count( $objectNodes ) ) ) );
@@ -363,7 +363,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         $dom = new DOMDocument();
 
         // Store objects to separate files or not
-        $storeToMultiple = count( $this->ObjectArray ) >= self::EZ_PACKAGE_CONTENTOBJECT__STORE_OBJECTS_TO_SEPARATE_FILES_THRESHOLD ? true : false;
+        $storeToMultiple = count( $this->ObjectArray ) >= self::STORE_OBJECTS_TO_SEPARATE_FILES_THRESHOLD ? true : false;
         if ( $storeToMultiple )
             $objectListNode = $dom->createElement( 'object-files-list' );
         else
@@ -853,8 +853,8 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             $errorCode = false;
 
         // Error codes reserverd for content object uninstallation
-        if ( !$errorCode || ( $errorCode >= self::EZ_PACKAGE_CONTENTOBJECT__UNINSTALL_OBJECTS_ERROR_RANGE_FROM &&
-                              $errorCode <= self::EZ_PACKAGE_CONTENTOBJECT__UNINSTALL_OBJECTS_ERROR_RANGE_TO ) )
+        if ( !$errorCode || ( $errorCode >= self::UNINSTALL_OBJECTS_ERROR_RANGE_FROM &&
+                              $errorCode <= self::UNINSTALL_OBJECTS_ERROR_RANGE_TO ) )
         {
             $objectListNode = $content->getElementsByTagName( 'object-list' )->item( 0 );
             if ( $objectListNode )
@@ -982,8 +982,8 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             $errorCode = false;
 
         // Error codes reservered for content object installation
-        if ( !$errorCode || ( $errorCode >= self::EZ_PACKAGE_CONTENTOBJECT__INSTALL_OBJECTS_ERROR_RANGE_FROM &&
-                              $errorCode <= self::EZ_PACKAGE_CONTENTOBJECT__INSTALL_OBJECTS_ERROR_RANGE_TO ) )
+        if ( !$errorCode || ( $errorCode >= self::INSTALL_OBJECTS_ERROR_RANGE_FROM &&
+                              $errorCode <= self::INSTALL_OBJECTS_ERROR_RANGE_TO ) )
         {
             $objectListNode = $content->getElementsByTagName( 'object-list' )->item( 0 );
             if ( $objectListNode )
