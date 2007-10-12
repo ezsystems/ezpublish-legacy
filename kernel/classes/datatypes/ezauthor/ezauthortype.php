@@ -344,6 +344,6 @@ class eZAuthorType extends eZDataType
 
 }
 
-eZDataType::register( eZAuthorype::DATA_TYPE_STRING, "eZAuthorType" );
+eZDataType::register( eZAuthorType::DATA_TYPE_STRING, "eZAuthorType" );
 
 ?>
