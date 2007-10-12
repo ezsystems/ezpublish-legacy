@@ -42,10 +42,10 @@
 
 class eZExtensionPackageHandler extends eZPackageHandler
 {
-    const EZ_PACKAGE_EXTENSION_ERROR_EXISTS = 1;
+    const ERROR_EXISTS = 1;
 
-    const EZ_PACKAGE_EXTENSION_REPLACE = 1;
-    const EZ_PACKAGE_EXTENSION_SKIP = 2;
+    const ACTION_REPLACE = 1;
+    const ACTION_SKIP = 2;
 
     /*!
      Constructor
@@ -143,24 +143,24 @@ class eZExtensionPackageHandler extends eZPackageHandler
         {
             $description = ezi18n( 'kernel/package', "Extension '%extensionname' already exists.",
                                    false, array( '%extensionname' => $extensionName ) );
-            $choosenAction = $this->errorChoosenAction( self::EZ_PACKAGE_EXTENSION_ERROR_EXISTS,
+            $choosenAction = $this->errorChoosenAction( self::ERROR_EXISTS,
                                                         $installParameters, $description );
             switch( $choosenAction )
             {
-            case self::EZ_PACKAGE_EXTENSION_SKIP:
+            case self::ACTION_SKIP:
                 return true;
 
             case eZPackage::NON_INTERACTIVE:
-            case self::EZ_PACKAGE_EXTENSION_REPLACE:
+            case self::ACTION_REPLACE:
                 eZDir::recursiveDelete( $extensionDir );
                 break;
 
             default:
-                $installParameters['error'] = array( 'error_code' => self::EZ_PACKAGE_EXTENSION_ERROR_EXISTS,
+                $installParameters['error'] = array( 'error_code' => self::ERROR_EXISTS,
                                                      'element_id' => $extensionName,
                                                      'description' => $description,
-                                                     'actions' => array( self::EZ_PACKAGE_EXTENSION_REPLACE => ezi18n( 'kernel/package', "Replace extension" ),
-                                                                         self::EZ_PACKAGE_EXTENSION_SKIP => ezi18n( 'kernel/package', 'Skip' ) ) );
+                                                     'actions' => array( self::ACTION_REPLACE => ezi18n( 'kernel/package', "Replace extension" ),
+                                                                         self::ACTION_SKIP => ezi18n( 'kernel/package', 'Skip' ) ) );
                 return false;
             }
         }
