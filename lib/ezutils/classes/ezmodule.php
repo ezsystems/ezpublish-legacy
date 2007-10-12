@@ -1062,12 +1062,13 @@ class eZModule
             $function = $this->Module["function"];
         else
             $function = $this->Functions[$functionName];
-        $functionParameterDefinitions = $function["params"];
+
         $params = array();
         $i = 0;
         $parameterValues = array();
-        if ( isset( $functionParameterDefinitions ) )
+        if ( isset( $function["params"] ) )
         {
+            $functionParameterDefinitions = $function["params"];
             foreach ( $functionParameterDefinitions as $param )
             {
                 if ( isset( $parameters[$i] ) )
