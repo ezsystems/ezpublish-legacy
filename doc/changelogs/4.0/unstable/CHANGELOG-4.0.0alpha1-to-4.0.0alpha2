@@ -26,3 +26,5 @@ Changes from 4.0.0alpha1 to 4.0.0alpha2
 - Fixed bug #11558: Additional site accesses are missing SiteLanguageList[]=main_language.
   (also in ezwebin/trunk (1.3) rev. 1944)
   (Merged from trunk rev. 20390)
+- Fixed bug #11526: Error in integer validation in publish
+  (Merged from trunk rev. 20403)

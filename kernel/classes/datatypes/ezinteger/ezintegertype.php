@@ -194,6 +194,7 @@ class eZIntegerType extends eZDataType
         {
             $data = $http->postVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) );
             $data = trim( $data ) != '' ? $data : null;
+            $data = str_replace(" ", "", $data);
             $contentObjectAttribute->setAttribute( "data_int", $data );
             return true;
         }
