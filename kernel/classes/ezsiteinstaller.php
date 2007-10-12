@@ -1555,7 +1555,7 @@ class eZSiteInstaller
     {
         $srcSiteaccess = $params['src']['siteaccess'];
         $dstSiteaccess = $params['dst']['siteaccess'];
-        $dstLocale     = isset( $params['dst']['locale'] ) ? $params['dst']['locale'] : false;
+        $dstSettings   = isset( $params['dst']['settings'] ) ? $params['dst']['settings'] : array();
 
         // Create the siteaccess directory
         $srcSiteaccessDir = "settings/siteaccess/" . $srcSiteaccess;
@@ -1564,18 +1564,21 @@ class eZSiteInstaller
         eZDir::copy( $srcSiteaccessDir, $dstSiteaccessDir, false, true );
 
         // Update settings
-        $siteINI = eZINI::instance( "site.ini.append.php", $dstSiteaccessDir, null, false, null, true );
-
-        if( $dstLocale )
+        foreach ( $dstSettings as $iniFile => $settingGroups )
         {
-            $siteINI->setVariable( "RegionalSettings", "Locale", $dstLocale );
-            $siteINI->setVariable( "RegionalSettings", "TextTranslation", $dstLocale != 'eng-GB' ? 'enabled' : 'disabled' );
-            $siteINI->setVariable( "RegionalSettings", "ContentObjectLocale", $dstLocale );
-            $siteINI->setVariable( "RegionalSettings", "SiteLanguageList", array( $dstLocale ) );
-        }
+            $ini = eZINI::instance( $iniFile . ".append.php", $dstSiteaccessDir, null, false, null, true );
 
-        $siteINI->save(  false, false, false, false, true, true );
-        unset( $siteINI );
+            foreach ( $settingGroups as $settingGroup => $settings )
+            {
+                foreach ( $settings as $name => $value )
+                {
+                    $ini->setVariable( $settingGroup, $name, $value );
+                }
+            }
+
+            $ini->save(  false, false, false, false, true, true );
+            unset( $ini );
+        }
 
         // Create roles
         $role = eZRole::fetchByName( "Anonymous" );

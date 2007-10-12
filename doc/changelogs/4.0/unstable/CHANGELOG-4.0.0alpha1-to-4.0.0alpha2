@@ -23,3 +23,6 @@ Changes from 4.0.0alpha1 to 4.0.0alpha2
 - Fixed bug #11581: depricated should be deprecated.
   (Merged from trunk rev. 20362)
 - Fixed bug #11633: Settings view need included validation function
+- Fixed bug #11558: Additional site accesses are missing SiteLanguageList[]=main_language.
+  (also in ezwebin/trunk (1.3) rev. 1944)
+  (Merged from trunk rev. 20390)

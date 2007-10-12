@@ -224,6 +224,7 @@ if( downloadPackages( $packageList, $packageURL, $packageDir, $packageRepository
                                                'access_type_value' => $accessTypeValue,
                                                'admin_access_type_value' => $adminAccessTypeValue ),
                          'all_language_codes' => $locales,
+                         'primary_language' => $primaryLanguage->attribute( 'locale' ),
                          'host' => $siteINI->variable( 'SiteSettings', 'SiteURL' ) );
 
         $user =& eZUser::currentUser();
