@@ -218,7 +218,7 @@ class eZRSSExportItem extends eZPersistentObject
                                                     $asObject );
     }
 
-    function getAttributeMappings( $rssSources )
+    static function getAttributeMappings( $rssSources )
     {
         if( is_array( $rssSources ) && count( $rssSources ) )
         {
