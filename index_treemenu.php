@@ -46,6 +46,7 @@ require_once( 'kernel/common/ezincludefunctions.php' );
 ////include_once( 'lib/ezutils/classes/ezmodule.php' );
 ////include_once( 'lib/ezdb/classes/ezdb.php' );
 ////include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+require 'autoload.php';
 
 function ezupdatedebugsettings()
 {
@@ -85,7 +86,6 @@ if ( $timezone )
 $GLOBALS['eZGlobalRequestURI'] = eZSys::serverVariable( 'REQUEST_URI' );
 
 eZSys::init( 'index.php', $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) == 'true' );
-eZSys::initIni( $ini );
 
 $uri = eZURI::instance( eZSys::requestURI() );
 
