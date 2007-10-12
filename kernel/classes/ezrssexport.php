@@ -428,7 +428,7 @@ class eZRSSExport extends eZPersistentObject
         $channelDescription = $doc->createElement( 'description', $this->attribute( 'description' ) );
         $channel->appendChild( $channelDescription );
 
-        $channel->appendChild( $doc->createElement( 'language', $locale->httpLocaleCode() ) );
+        $channelLanguage = $doc->createElement( 'language', $locale->httpLocaleCode() );
         $channel->appendChild( $channelLanguage );
 
         $imageURL = $this->fetchImageURL();
