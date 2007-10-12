@@ -154,7 +154,14 @@ class eZContentCacheManager
             {
                 $objects = $object->relatedContentObjectList( false, false, false, false,
                                                               array( 'AllRelations' => $relationsMask ) );
-                $relatedObjects = array_merge( $relatedObjects, $objects );
+                $previousVersionObjects = array();
+                $previousVersion = $object->previousVersion();
+                if ( $previousVersion )
+                {
+                    $previousVersionObjects = $object->relatedContentObjectList( $previousVersion, false, false, false,
+                                                              array( 'AllRelations' => $relationsMask ) );
+                }
+                $relatedObjects = array_merge( $relatedObjects, $objects, $previousVersionObjects );
             }
 
             $relationsMask = 0;
@@ -177,7 +184,14 @@ class eZContentCacheManager
             {
                 $objects = $object->reverseRelatedObjectList( false, false, false, false,
                                                               array( 'AllRelations' => $relationsMask ) );
-                $relatedObjects = array_merge( $relatedObjects, $objects );
+                $previousVersionObjects = array();
+                $previousVersion = $object->previousVersion();
+                if ( $previousVersion )
+                {
+                    $previousVersionObjects = $object->relatedContentObjectList( $previousVersion, false, false, false,
+                                                              array( 'AllRelations' => $relationsMask ) );
+                }
+                $relatedObjects = array_merge( $relatedObjects, $objects, $previousVersionObjects );
             }
         }
         else
@@ -198,6 +212,7 @@ class eZContentCacheManager
                 $nodeIDList[] = $assignedNode['node_id'];
             }
         }
+        $nodeIDList = array_unique( $nodeIDList );
     }
 
     /*!
