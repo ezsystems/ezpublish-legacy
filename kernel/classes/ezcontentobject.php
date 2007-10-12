@@ -2391,6 +2391,26 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
+     Returns the previous available version number for this object, if existing, false otherwise ( if the object has only one version )
+    */
+    function previousVersion()
+    {
+        $db =& eZDB::instance();
+        $versions = $db->arrayQuery( "SELECT `version` FROM ezcontentobject_version
+                                      WHERE contentobject_id='$this->ID'
+                                      ORDER BY version DESC
+                                      LIMIT 2" );
+        if ( count( $versions ) > 1 and isset( $versions[1]['version'] ) )
+        {
+            return $versions[1]['version'];
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /*!
      Returns number of exist versions.
     */
     function getVersionCount()
