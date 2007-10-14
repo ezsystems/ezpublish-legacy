@@ -179,21 +179,11 @@ class eZMySQLiDB extends eZDBInterface
 
         if ( $this->IsConnected and $charset !== null and $this->isCharsetSupported( $charset ) )
         {
-            $versionInfo = $this->databaseServerVersion();
-
-            // We require MySQL 4.1.1 to use the new character set functionality,
-            // MySQL 4.1.0 does not have a full implementation of this, see:
-            // http://dev.mysql.com/doc/mysql/en/Charset.html
-            if ( version_compare( $versionInfo['string'], '4.1.1' ) >= 0 )
+            $status = mysqli_set_charset( $connection, $charset );
+            if ( !$status )
             {
-                $query = "SET NAMES '" . $charset . "'";
-                $status = mysqli_query( $connection, $query );
-                $this->reportQuery( 'eZMySQLiDB', $query, false, false );
-                if ( !$status )
-                {
-                    $this->setError();
-                    eZDebug::writeWarning( "Connection warning: " . mysqli_errno( $connection ) . ": " . mysqli_error( $connection ), "eZMySQLiDB" );
-                }
+                $this->setError();
+                eZDebug::writeWarning( "Connection warning: " . mysqli_errno( $connection ) . ": " . mysqli_error( $connection ), "eZMySQLiDB" );
             }
         }
 
@@ -928,19 +918,7 @@ class eZMySQLiDB extends eZDBInterface
     */
     function isCharsetSupported( $charset )
     {
-        if ( $charset == 'utf-8' )
-        {
-            $versionInfo = $this->databaseServerVersion();
-
-            // We require MySQL 4.1.1 to use the new character set functionality,
-            // MySQL 4.1.0 does not have a full implementation of this, see:
-            // http://dev.mysql.com/doc/mysql/en/Charset.html
-            return ( version_compare( $versionInfo['string'], '4.1.1' ) >= 0 );
-        }
-        else
-        {
-            return true;
-        }
+        return true;
     }
 
     public $CharsetMapping;
