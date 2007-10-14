@@ -59,7 +59,7 @@ class eZCountryType extends eZDataType
     /*!
      Fetches country list from ini.
     */
-    function fetchCountryList()
+    static function fetchCountryList()
     {
         if ( isset( $GLOBALS['CountryList'] ) )
             return $GLOBALS['CountryList'];
@@ -75,7 +75,7 @@ class eZCountryType extends eZDataType
       Fetches translated country names from locale
       \a $countries will be updated.
     */
-    function fetchTranslatedNames( &$countries )
+    static function fetchTranslatedNames( &$countries )
     {
         //include_once( "lib/ezlocale/classes/ezlocale.php" );
         $locale = eZLocale::instance();
@@ -92,7 +92,7 @@ class eZCountryType extends eZDataType
       Fetches country by \a $fetchBy.
       if \a $fetchBy is false country name will be used.
     */
-    function fetchCountry( $value, $fetchBy = false )
+    static function fetchCountry( $value, $fetchBy = false )
     {
         $fetchBy = !$fetchBy ? 'Name' : $fetchBy;
 
