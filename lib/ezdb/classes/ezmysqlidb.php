@@ -268,7 +268,7 @@ class eZMySQLiDB extends eZDBInterface
     */
     function checkCharsetPriv( $charset, &$currentCharset )
     {
-        $query = "SHOW CREATE DATABASE " . $this->DB;
+        $query = "SHOW CREATE DATABASE `{$this->DB}`";
         $status = mysqli_query( $this->DBConnection, $query );
         $this->reportQuery( 'eZMySQLiDB', $query, false, false );
         if ( !$status )
@@ -342,7 +342,7 @@ class eZMySQLiDB extends eZDBInterface
             $sql = trim( $sql );
 
             $isWriteQuery = true;
-            if ( stristr( $sql, "select" ) )
+            if ( strncasecmp( $sql, 'select', 6 ) === 0 )
             {
                 $isWriteQuery = false;
             }
@@ -812,12 +812,12 @@ class eZMySQLiDB extends eZDBInterface
     {
         if ( is_object( $this->DBConnection ) )
         {
-            return mysqli_escape_string( $this->DBConnection, $str );
+            return mysqli_real_escape_string( $this->DBConnection, $str );
         }
         else
         {
             eZDebug::writeDebug( 'escapeString called before connection is made', 'eZMySQLiDB::escapeString' );
-            return mysqli_escape_string( $this->DBConnection, $str );
+            return $str;
         }
     }
 
@@ -900,9 +900,9 @@ class eZMySQLiDB extends eZDBInterface
         if ( is_object( $this->DBConnection ) )
         {
             $versionInfo = mysqli_get_server_info( $this->DBConnection );
-    
+
             $versionArray = explode( '.', $versionInfo );
-    
+
             return array( 'string' => $versionInfo,
                           'values' => $versionArray );
         }
