@@ -1452,7 +1452,8 @@ td.timingpoint2
                            self::LEVEL_WARNING => false,
                            self::LEVEL_ERROR => false,
                            self::LEVEL_TIMING_POINT => false,
-                           self::LEVEL_DEBUG => false );
+                           self::LEVEL_DEBUG => false,
+                           self::LEVEL_STRICT => false );
 
         foreach ( $this->DebugStrings as $debug )
         {
