@@ -27,16 +27,18 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ Publish Database Converter\n\n" .
-                                                         "Convert the database to the given type\n".
-                                                         "ezconvertmysqltabletype.php [--host=VALUE --user=VALUE --database=VALUE [--password=VALUE]] [--list] [--newtype=TYPE] [--usecopy]" ),
-                                      'use-session' => false,
-                                      'use-modules' => false,
-                                      'use-extensions' => false ) );
+require 'autoload.php';
+
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'description' => ( "eZ Publish Database Converter\n\n" .
+                                                        "Convert the database to the given type\n".
+                                                        "ezconvertmysqltabletype.php [--host=VALUE --user=VALUE --database=VALUE [--password=VALUE]] [--list] [--newtype=TYPE] [--usecopy]" ),
+                                     'use-session' => false,
+                                     'use-modules' => false,
+                                     'use-extensions' => false ) );
 
 $script->startup();
 
@@ -65,7 +67,7 @@ $newType = $options["newtype"];
 $usecopy = $options["usecopy"];
 
 checkParameters( $cli, $script, $options, $host, $user, $password, $database, $listMode, $newType );
-$db =& connectToDatabase( $cli, $script, $host, $user, $password, $database );
+$db = connectToDatabase( $cli, $script, $host, $user, $password, $database );
 
 // If the listMode parameter is set or no newType is assigned then show the list.
 if ( $listMode || !isset( $newType ) )
@@ -117,20 +119,20 @@ function checkParameters( $cli, $script, $options, $host, $user, $password, $dat
 /**
  * Connect to the database
 **/
-function &connectToDatabase( $cli, $script, $host, $user, $password, $database )
+function connectToDatabase( $cli, $script, $host, $user, $password, $database )
 {
-    include_once( 'lib/ezdb/classes/ezdb.php' );
+    //include_once( 'lib/ezdb/classes/ezdb.php' );
 
     if ( $user )
     {
-        $db =& eZDB::instance( "mysql",
+        $db = eZDB::instance( "mysql",
                            array( 'server' => $host,
                                   'user' => $user,
                                   'password' => $password,
                                   'database' => $database ) );
     } else
     {
-         $db =& eZDB::instance();
+         $db = eZDB::instance();
          if ( $db->databaseName() != "mysql" )
          {
             $cli->error( 'This script can only show and convert mysql databases.' );

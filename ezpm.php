@@ -28,19 +28,19 @@
 
 //
 
-include_once( "lib/ezutils/classes/ezextension.php" );
-include_once( "lib/ezutils/classes/ezmodule.php" );
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( "lib/ezutils/classes/ezextension.php" );
+//include_once( "lib/ezutils/classes/ezmodule.php" );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'debug-message' => '',
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'debug-message' => '',
                                       'use-session' => true,
                                       'use-modules' => true,
                                       'use-extensions' => true ) );
 
 $script->startup();
-include_once( 'kernel/common/i18n.php' );
+require_once( 'kernel/common/i18n.php' );
 
 $endl = $cli->endlineString();
 $webOutput = $cli->isWebOutput();
@@ -48,7 +48,7 @@ $webOutput = $cli->isWebOutput();
 function help()
 {
     $argv = $_SERVER['argv'];
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     $cli->output( "Usage: " . $argv[0] . " [OPTION]... COMMAND [COMMAND OPTION]... [-- COMMAND [COMMAND OPTION]...]...\n" .
                   "eZ Publish package manager.\n" .
                   "\n" .
@@ -76,7 +76,7 @@ function help()
 
 function helpCreate()
 {
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     $cli->output( "create: Create a new package.\n" .
                   "usage: create NAME [SUMMARY [VERSION [INSTALLTYPE]]] [PARAMETERS]\n" .
                   "\n" .
@@ -90,7 +90,7 @@ function helpCreate()
 
 function helpExport()
 {
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     $cli->output( "export: Export a part of the eZ Publish installation into a package.\n" .
                   "usage: export TYPE [PARAMETERS]... [TYPE [PARAMETERS]...]...\n" .
                   "\n" .
@@ -101,7 +101,7 @@ function helpExport()
 
 function helpInstall()
 {
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     $cli->output( "import: Install an eZ Publish package.\n" .
                   "usage: install PACKAGE\n" .
                   "\n" .
@@ -113,7 +113,7 @@ function helpInstall()
 
 function helpImport()
 {
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     $cli->output( "import: Import an eZ Publish package.\n" .
                   "usage: import PACKAGE [ARCHIVENAME]\n" .
                   "\n" .
@@ -125,7 +125,7 @@ function helpImport()
 
 function helpList()
 {
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     $cli->output( "list (ls): Lists all the packages\n" .
                   "If repository ID is given (-r option) it will show packages\n" .
                   "only from the given repository" .
@@ -135,7 +135,7 @@ function helpList()
 
 function helpInfo()
 {
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     $cli->output( "info: Displays information on a given package.\n" .
                   "usage: info PACKAGE\n"
                   );
@@ -143,7 +143,7 @@ function helpInfo()
 
 function helpAdd()
 {
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     $cli->output( "add: Adds an eZ Publish item to the package.\n" .
                   "usage: add PACKAGE ITEM [ITEMPARAMETERS]...\n" .
                   "\n" .
@@ -156,7 +156,7 @@ function helpAdd()
 
 function helpSet()
 {
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     $cli->output( "set: Sets an attribute in the package.\n" .
                   "usage: set PACKAGE ATTRIBUTE ATTRIBUTEVALUE\n" .
                   "\n" .
@@ -177,7 +177,7 @@ function helpSet()
 
 function helpDelete()
 {
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     $cli->output( "delete (del, remove, rm): Removes an eZ Publish item from the package.\n" .
                   "usage: delete PACKAGE ITEM [ITEMPARAMETERS]...\n" .
                   "\n" .
@@ -188,7 +188,7 @@ function helpDelete()
 function helpHelp()
 {
     $argv = $_SERVER['argv'];
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     $cli->output( "help: Displays help information on commands.\n" .
                   "usage: help COMMAND\n" .
                   "\n" .
@@ -208,20 +208,19 @@ function helpHelp()
                   );
 }
 
-function changeSiteAccessSetting( &$siteaccess, $optionData )
+function changeSiteAccessSetting( $siteAccess )
 {
     global $isQuiet;
-    $cli =& eZCLI::instance();
-    if ( file_exists( 'settings/siteaccess/' . $optionData ) )
+    $cli = eZCLI::instance();
+    if ( file_exists( 'settings/siteaccess/' . $siteAccess) )
     {
-        $siteaccess = $optionData;
         if ( !$isQuiet )
-            $cli->notice( "Using siteaccess $siteaccess for package creating" );
+            $cli->notice( "Using siteaccess $siteAccess for nice url update" );
     }
     else
     {
         if ( !$isQuiet )
-            $cli->notice( "Siteaccess $optionData does not exist, using default siteaccess" );
+            $cli->notice( "Siteaccess $siteAccess does not exist, using default siteaccess" );
     }
 }
 
@@ -257,9 +256,8 @@ $dbName = false;
 // $packageFile = false;
 
 $commandList = array();
-$commandItem = array();
 
-function resetCommandItem( &$commandItem )
+function resetCommandItem()
 {
     $commandItem = array( 'command' => false,
                           'name' => false,
@@ -271,14 +269,10 @@ function resetCommandItem( &$commandItem )
                           'installtype' => false,
                           'version' => false,
                           'file' => false );
+    return $commandItem;
 }
 
-function appendCommandItem( &$commandList, &$commandItem )
-{
-    $commandList[] = $commandItem;
-}
-
-resetCommandItem( $commandItem );
+$commandItem = resetCommandItem();
 
 $optionsWithData = array( 's', 'o', 'l', 'p', 'r' );
 $longOptionsWithData = array( 'siteaccess', 'login', 'password', 'repos',
@@ -305,8 +299,8 @@ for ( $i = 1; $i < count( $argv ); ++$i )
     $arg = $argv[$i];
     if ( $arg == '--' )
     {
-        appendCommandItem( $commandList, $commandItem );
-        resetCommandItem( $commandItem );
+        $commandList[]= $commandItem;
+        $commandItem = resetCommandItem();
     }
     else if ( $readOptions and
          strlen( $arg ) > 0 and
@@ -333,7 +327,7 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             }
             else if ( $flag == 'siteaccess' )
             {
-                changeSiteAccessSetting( $siteaccess, $optionData );
+                changeSiteAccessSetting( $optionData );
             }
             else if ( $flag == 'debug' )
             {
@@ -456,22 +450,22 @@ for ( $i = 1; $i < count( $argv ); ++$i )
                             $useIncludeFiles = true;
                         }
                         if ( $level == 'error' )
-                            $level = EZ_LEVEL_ERROR;
+                            $level = eZDebug::LEVEL_ERROR;
                         else if ( $level == 'warning' )
-                            $level = EZ_LEVEL_WARNING;
+                            $level = eZDebug::LEVEL_WARNING;
                         else if ( $level == 'debug' )
-                            $level = EZ_LEVEL_DEBUG;
+                            $level = eZDebug::LEVEL_DEBUG;
                         else if ( $level == 'notice' )
-                            $level = EZ_LEVEL_NOTICE;
+                            $level = eZDebug::LEVEL_NOTICE;
                         else if ( $level == 'timing' )
-                            $level = EZ_LEVEL_TIMING;
+                            $level = eZDebug::EZ_LEVEL_TIMING;
                         $allowedDebugLevels[] = $level;
                     }
                 }
             }
             else if ( $flag == 's' )
             {
-                changeSiteAccessSetting( $siteaccess, $optionData );
+                changeSiteAccessSetting( $optionData );
             }
             else if ( $flag == 'l' )
             {
@@ -622,7 +616,7 @@ $script->setUseDebugTimingPoints( $useDebugTimingpoints );
 $script->setUseIncludeFiles( $useIncludeFiles );
 
 
-appendCommandItem( $commandList, $commandItem );
+$commandList[] = $commandItem;
 
 // Check all commands
 foreach ( $commandList as $commandItem )
@@ -732,7 +726,7 @@ if ( $dbUser !== false or $dbHost !== false or $dbSocket !== false or
                      'socket' => $dbSocket,
                      'password' => $dbPassword,
                      'database' => $dbName );
-    $db =& eZDB::instance( $dbType,
+    $db = eZDB::instance( $dbType,
                            $params,
                            true );
 
@@ -749,7 +743,7 @@ if ( $dbUser !== false or $dbHost !== false or $dbSocket !== false or
     if ( count( $rows ) > 0 )
     {
         $version = $rows[0]['value'];
-        include_once( 'lib/version.php' );
+        //include_once( 'lib/version.php' );
         if ( version_compare( $version, eZPublishSDK::version() ) != 0 )
         {
             $cli->error( "Version '$version' in database '$dbName' is different from the running version " . eZPublishSDK::version() );
@@ -762,7 +756,7 @@ $script->setUser( $userLogin, $userPassword );
 
 $script->initialize();
 
-include_once( 'kernel/classes/ezpackage.php' );
+//include_once( 'kernel/classes/ezpackage.php' );
 
 $alreadyCreated = false;
 
@@ -976,7 +970,7 @@ foreach ( $commandList as $commandItem )
         {
             $package =& eZPackage::import( $archiveName, $commandItem['name'], true, $repositoryID );
 
-            if ( $package == EZ_PACKAGE_STATUS_ALREADY_EXISTS )
+            if ( $package == eZPackage::STATUS_ALREADY_EXISTS )
             {
                 $cli->notice( "Package " . $cli->stylize( 'emphasize', $archiveName ) . " is already imported " );
                 $package = false;
@@ -1030,7 +1024,7 @@ foreach ( $commandList as $commandItem )
                 }
                 else
                 {
-                    include_once( 'lib/ezutils/classes/ezsys.php' );
+                    //include_once( 'lib/ezutils/classes/ezsys.php' );
                     $package->exportToArchive( $exportDirectory . eZSys::fileSeparator() . $package->exportName() );
                     if ( !$isQuiet )
                         $cli->notice( "Package " . $cli->stylize( 'symbol', $package->attribute( 'name' ) ) . " exported to directory " . $cli->stylize( 'dir', $exportDirectory ) );
@@ -1055,7 +1049,7 @@ foreach ( $commandList as $commandItem )
                                       false, $repositoryID );
 
         require_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
         $userObject = $user->attribute( 'contentobject' );
 
         $commandItem['licence'] = 'GPL';
@@ -1069,7 +1063,7 @@ foreach ( $commandList as $commandItem )
         $package->setAttribute( 'install_type', $commandItem['installtype'] );
         if ( $userObject )
             $package->appendMaintainer( $userObject->attribute( 'name' ), $user->attribute( 'email' ), 'lead' );
-        include_once( 'kernel/classes/ezpackagecreationhandler.php' );
+        //include_once( 'kernel/classes/ezpackagecreationhandler.php' );
         eZPackageCreationHandler::appendLicence( $package );
         if ( $userObject )
             $package->appendChange( $userObject->attribute( 'name' ), $user->attribute( 'email' ), 'Creation of package' );

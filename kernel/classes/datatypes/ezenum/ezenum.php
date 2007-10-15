@@ -31,9 +31,9 @@
 /*! \file ezenum.php
 */
 
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "kernel/classes/datatypes/ezenum/ezenumvalue.php" );
-include_once( "kernel/classes/datatypes/ezenum/ezenumobjectvalue.php" );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( "kernel/classes/datatypes/ezenum/ezenumvalue.php" );
+//include_once( "kernel/classes/datatypes/ezenum/ezenumobjectvalue.php" );
 
 /*!
   \class eZEnum ezenum.php
@@ -72,7 +72,7 @@ class eZEnum
         return in_array( $attr, $this->attributes() );
     }
 
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         switch ( $attr )
         {
@@ -103,8 +103,7 @@ class eZEnum
             default :
             {
                 eZDebug::writeError( "Attribute '$attr' does not exist", 'eZEnum::attribute' );
-                $retValue = null;
-                return $retValue;
+                return null;
             }break;
         }
     }
@@ -136,7 +135,7 @@ class eZEnum
 
     function setValue( $array_enumid, $array_enumelement, $array_enumvalue, $version )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
         for ($i=0;$i<count( $array_enumid );$i++ )
@@ -155,7 +154,7 @@ class eZEnum
         if ( $version == $this->ClassAttributeVersion )
             return;
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
         eZEnumValue::removeAllElements( $this->ClassAttributeID, 0 );
@@ -203,23 +202,23 @@ class eZEnum
     /*!
      Adds the enumeration value object \a $enumValue to the enumeration list.
     */
-    function addEnumerationValue( &$enumValue )
+    function addEnumerationValue( $enumValue )
     {
         $this->Enumerations[] = $enumValue;
     }
 
     function removeEnumeration( $id, $enumid, $version )
     {
-       eZEnumValue::remove( $enumid, $version );
+       eZEnumValue::removeByID( $enumid, $version );
        $this->Enumerations = eZEnumValue::fetchAllElements( $id, $version );
     }
 
-    var $Enumerations;
-    var $ObjectEnumerations;
-    var $ClassAttributeID;
-    var $ClassAttributeVersion;
-    var $IsmultipleEnum;
-    var $IsoptionEnum;
+    public $Enumerations;
+    public $ObjectEnumerations;
+    public $ClassAttributeID;
+    public $ClassAttributeVersion;
+    public $IsmultipleEnum;
+    public $IsoptionEnum;
 }
 
 ?>

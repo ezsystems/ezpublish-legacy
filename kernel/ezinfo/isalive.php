@@ -28,7 +28,7 @@
 
 header( "Content-Type: text/plain;" );
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 
 if ( $db->isConnected() === true )
     print( "eZ publish is alive" );

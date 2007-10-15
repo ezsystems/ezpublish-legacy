@@ -34,18 +34,19 @@
   \brief Handles file downloading by passing the file trough PHP
 
 */
-include_once( "kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php" );
-include_once( "kernel/classes/ezbinaryfilehandler.php" );
-define( "EZ_FILE_PASSTROUGH_ID", 'ezfilepasstrough' );
+//include_once( "kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php" );
+//include_once( "kernel/classes/ezbinaryfilehandler.php" );
 
 class eZFilePasstroughHandler extends eZBinaryFileHandler
 {
+    const HANDLER_ID = 'ezfilepasstrough';
+
     function eZFilePasstroughHandler()
     {
-        $this->eZBinaryFileHandler( EZ_FILE_PASSTROUGH_ID, "PHP passtrough", EZ_BINARY_FILE_HANDLE_DOWNLOAD );
+        $this->eZBinaryFileHandler( self::HANDLER_ID, "PHP passtrough", eZBinaryFileHandler::HANDLE_DOWNLOAD );
     }
 
-    function handleFileDownload( &$contentObject, &$contentObjectAttribute, $type,
+    function handleFileDownload( $contentObject, $contentObjectAttribute, $type,
                                  $fileInfo )
     {
         $fileName = $fileInfo['filepath'];
@@ -103,7 +104,7 @@ class eZFilePasstroughHandler extends eZBinaryFileHandler
 
             eZExecution::cleanExit();
         }
-        return EZ_BINARY_FILE_RESULT_UNAVAILABLE;
+        return eZBinaryFileHandler::RESULT_UNAVAILABLE;
     }
 }
 

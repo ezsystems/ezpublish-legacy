@@ -31,49 +31,46 @@
 /*! \file settings.php
 */
 
-include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-include_once( 'kernel/common/template.php' );
-include_once( "lib/ezutils/classes/ezhttptool.php" );
-include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+require_once( 'kernel/common/template.php' );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
+//include_once( "lib/ezdb/classes/ezdb.php" );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 
-$user =& eZUser::currentUser();
+$user = eZUser::currentUser();
 
-include_once( 'kernel/classes/notification/eznotificationeventfilter.php' );
-$availableHandlers =& eZNotificationEventFilter::availableHandlers();
+//include_once( 'kernel/classes/notification/eznotificationeventfilter.php' );
+$availableHandlers = eZNotificationEventFilter::availableHandlers();
 
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 $db->begin();
 if ( $http->hasPostVariable( 'Store' ) )
 {
-    foreach ( array_keys( $availableHandlers ) as $key )
+    foreach ( $availableHandlers as $handler )
     {
-        $handler =& $availableHandlers[$key];
         $handler->storeSettings( $http, $Module );
     }
 
 }
 
-foreach ( array_keys( $availableHandlers ) as $key )
+foreach ( $availableHandlers as $handler )
 {
-    $handler =& $availableHandlers[$key];
-
     $handler->fetchHttpInput( $http, $Module );
 }
 $db->commit();
 
 $viewParameters = array( 'offset' => $Params['Offset'] );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable( 'user', $user );
 $tpl->setVariable( 'view_parameters', $viewParameters );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:notification/settings.tpl' );
+$Result['content'] = $tpl->fetch( 'design:notification/settings.tpl' );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/notification', 'Notification settings' ) ) );
 

@@ -26,21 +26,21 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'kernel/common/template.php' );
+//include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+require_once( 'kernel/common/template.php' );
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 
-$http =& eZHttpTool::instance();
+$http = eZHTTPTool::instance();
 
-$contentIni =& eZINI::instance( 'content.ini' );
+$contentIni = eZINI::instance( 'content.ini' );
 
 $Module->setTitle( ezi18n( 'kernel/setup', 'Setup menu' ) );
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:setup/setupmenu.tpl' );
+$Result['content'] = $tpl->fetch( 'design:setup/setupmenu.tpl' );
 $Result['path'] = array( array( 'url' => '/setup/menu',
                                 'text' => ezi18n( 'kernel/setup', 'Setup menu' ) ) );
 

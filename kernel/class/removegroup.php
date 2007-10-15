@@ -26,12 +26,12 @@
 //
 
 
-include_once( "kernel/classes/ezcontentclass.php" );
-include_once( "lib/ezutils/classes/ezhttppersistence.php" );
-include_once( "kernel/classes/ezcontentclassclassgroup.php" );
+//include_once( "kernel/classes/ezcontentclass.php" );
+//include_once( "lib/ezutils/classes/ezhttppersistence.php" );
+//include_once( "kernel/classes/ezcontentclassclassgroup.php" );
 
-$Module =& $Params["Module"];
-$http =& eZHTTPTool::instance();
+$Module = $Params['Module'];
+$http = eZHTTPTool::instance();
 $deleteIDArray = $http->sessionVariable( "DeleteGroupIDArray" );
 $groupsInfo = array();
 $deleteResult = array();
@@ -78,7 +78,7 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
             $deleteClass = eZContentClass::fetch( $deleteClassID );
             if ( $deleteClass )
                 $deleteClass->remove( true );
-            $deleteClass = eZContentClass::fetch( $deleteClassID, true, EZ_CLASS_VERSION_STATUS_TEMPORARY );
+            $deleteClass = eZContentClass::fetch( $deleteClassID, true, eZContentClass::VERSION_STATUS_TEMPORARY );
             if ( $deleteClass )
                 $deleteClass->remove( true );
         }
@@ -90,14 +90,14 @@ if ( $http->hasPostVariable( "CancelButton" ) )
     $Module->redirectTo( '/class/grouplist/' );
 }
 $Module->setTitle( ezi18n( 'kernel/class', 'Remove class groups' ) . ' ' . $GroupName );
-include_once( "kernel/common/template.php" );
-$tpl =& templateInit();
+require_once( "kernel/common/template.php" );
+$tpl = templateInit();
 
 $tpl->setVariable( "DeleteResult", $deleteResult );
 $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "groups_info", $groupsInfo );
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:class/removegroup.tpl" );
+$Result['content'] = $tpl->fetch( "design:class/removegroup.tpl" );
 $Result['path'] = array( array( 'url' => '/class/removegroup/',
                                 'text' => ezi18n( 'kernel/class', 'Remove class groups' ) ) );
 ?>

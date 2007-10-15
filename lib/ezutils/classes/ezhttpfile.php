@@ -39,16 +39,16 @@
 
 */
 
-include_once( "lib/ezutils/classes/ezdebug.php" );
-include_once( "lib/ezutils/classes/ezini.php" );
-
-define( 'EZ_UPLOADEDFILE_OK', 0 );
-define( 'EZ_UPLOADEDFILE_DOES_NOT_EXIST', -1 );
-define( 'EZ_UPLOADEDFILE_EXCEEDS_PHP_LIMIT', -2 );
-define( 'EZ_UPLOADEDFILE_EXCEEDS_MAX_SIZE', -3 );
+require_once( "lib/ezutils/classes/ezdebug.php" );
+//include_once( "lib/ezutils/classes/ezini.php" );
 
 class eZHTTPFile
 {
+    const UPLOADEDFILE_OK = 0;
+    const UPLOADEDFILE_DOES_NOT_EXIST = -1;
+    const UPLOADEDFILE_EXCEEDS_PHP_LIMIT = -2;
+    const UPLOADEDFILE_EXCEEDS_MAX_SIZE = -3;
+
     /*!
      Initializes with a name and http variable.
     */
@@ -71,7 +71,7 @@ class eZHTTPFile
     */
     function storageDir( $sub_dir = false )
     {
-        $sys =& eZSys::instance();
+        $sys = eZSys::instance();
         $storage_dir = $sys->storageDirectory();
         if ( $sub_dir !== false )
             $dir = $storage_dir . "/$sub_dir/" . $this->MimeCategory;
@@ -85,7 +85,7 @@ class eZHTTPFile
     */
     function store( $sub_dir = false, $suffix = false, $mimeData = false )
     {
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        //include_once( 'lib/ezfile/classes/ezdir.php' );
         if ( !$this->IsTemporary )
         {
             eZDebug::writeError( "Cannot store non temporary file: " . $this->Filename,
@@ -94,7 +94,7 @@ class eZHTTPFile
         }
         $this->IsTemporary = false;
 
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
 //         $storage_dir = $ini->variable( "FileSettings", "VarDir" ) . '/' . $ini->variable( "FileSettings", "StorageDir" );
         $storage_dir = eZSys::storageDirectory();
         if ( $sub_dir !== false )
@@ -164,7 +164,7 @@ class eZHTTPFile
             umask( $oldumask );
 
             // Write log message to storage.log
-            include_once( 'lib/ezutils/classes/ezlog.php' );
+            //include_once( 'lib/ezfile/classes/ezlog.php' );
             $storageDir = $dir . "/";
             eZLog::writeStorageLog( basename( $this->Filename ), $storageDir );
         }
@@ -196,7 +196,7 @@ class eZHTTPFile
     /*!
      \return the value for the attribute $attr or null if the attribute does not exist.
     */
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         switch ( $attr )
         {
@@ -217,8 +217,7 @@ class eZHTTPFile
             default:
             {
                 eZDebug::writeError( "Attribute '$attr' does not exist", 'eZHTTPFile::attribute' );
-                $retValue = null;
-                return $retValue;
+                return null;
             } break;
         };
     }
@@ -226,17 +225,17 @@ class eZHTTPFile
     /*!
      \return true if the HTTP file $http_name can be fetched. If $maxSize is given,
      the function returns
-        0 (EZ_UPLOADEDFILE_OK) if the file can be fetched,
-       -1 (EZ_UPLOADEDFILE_DOES_NOT_EXIST) if there has been no file uploaded,
-       -2 (EZ_UPLOADEDFILE_EXCEEDS_PHP_LIMIT) if the file was uploaded but size
+        0 (eZHTTPFile::UPLOADEDFILE_OK) if the file can be fetched,
+       -1 (eZHTTPFile::UPLOADEDFILE_DOES_NOT_EXIST) if there has been no file uploaded,
+       -2 (eZHTTPFile::UPLOADEDFILE_EXCEEDS_PHP_LIMIT) if the file was uploaded but size
           exceeds the upload_max_size limit (set in the PHP configuration),
-       -3 (EZ_UPLOADEDFILE_EXCEEDS_MAX_SIZE) if the file was uploaded but size
+       -3 (eZHTTPFile::UPLOADEDFILE_EXCEEDS_MAX_SIZE) if the file was uploaded but size
           exceeds $maxSize or MAX_FILE_SIZE variable in the form.
     */
-    function canFetch( $http_name, $maxSize = false )
+    static function canFetch( $http_name, $maxSize = false )
     {
-        $file =& $GLOBALS["eZHTTPFile-$http_name"];
-        if ( get_class( $file ) != "ezhttpfile" )
+        if ( !isset( $GLOBALS["eZHTTPFile-$http_name"] ) ||
+             !( $GLOBALS["eZHTTPFile-$http_name"] instanceof eZHTTPFile ) )
         {
             if ( $maxSize === false )
             {
@@ -249,33 +248,33 @@ class eZHTTPFile
                 {
                     case ( UPLOAD_ERR_NO_FILE ):
                     {
-                        return EZ_UPLOADEDFILE_DOES_NOT_EXIST;
+                        return eZHTTPFile::UPLOADEDFILE_DOES_NOT_EXIST;
                     }break;
 
                     case ( UPLOAD_ERR_INI_SIZE ):
                     {
-                        return EZ_UPLOADEDFILE_EXCEEDS_PHP_LIMIT;
+                        return eZHTTPFile::UPLOADEDFILE_EXCEEDS_PHP_LIMIT;
                     }break;
 
                     case ( UPLOAD_ERR_FORM_SIZE ):
                     {
-                        return EZ_UPLOADEDFILE_EXCEEDS_MAX_SIZE;
+                        return eZHTTPFile::UPLOADEDFILE_EXCEEDS_MAX_SIZE;
                     }break;
 
                     default:
                     {
-                        return ( $maxSize == 0 || $_FILES[$http_name]['size'] <= $maxSize )? EZ_UPLOADEDFILE_OK:
-                                                                                             EZ_UPLOADEDFILE_EXCEEDS_MAX_SIZE;
+                        return ( $maxSize == 0 || $_FILES[$http_name]['size'] <= $maxSize )? eZHTTPFile::UPLOADEDFILE_OK:
+                                                                                             eZHTTPFile::UPLOADEDFILE_EXCEEDS_MAX_SIZE;
                     }
                 }
             }
             else
             {
-                return EZ_UPLOADEDFILE_DOES_NOT_EXIST;
+                return eZHTTPFile::UPLOADEDFILE_DOES_NOT_EXIST;
             }
         }
         if ( $maxSize === false )
-            return EZ_UPLOADEDFILE_OK;
+            return eZHTTPFile::UPLOADEDFILE_OK;
         else
             return true;
     }
@@ -284,27 +283,29 @@ class eZHTTPFile
      Fetches the HTTP file named $http_name and returns a eZHTTPFile object,
      or null if the file could not be fetched.
     */
-    function &fetch( $http_name )
+    static function fetch( $http_name )
     {
-        $file =& $GLOBALS["eZHTTPFile-$http_name"];
-        if ( get_class( $file ) != "ezhttpfile" )
+        if ( !isset( $GLOBALS["eZHTTPFile-$http_name"] ) ||
+             !( $GLOBALS["eZHTTPFile-$http_name"] instanceof eZHTTPFile ) )
         {
-            $file = null;
+            $GLOBALS["eZHTTPFile-$http_name"] = null;
 
             if ( isset( $_FILES[$http_name] ) and
                  $_FILES[$http_name]["name"] != "" )
             {
-                include_once( 'lib/ezutils/classes/ezmimetype.php' );
-                include_once( 'lib/ezfile/classes/ezfile.php' );
+                //include_once( 'lib/ezutils/classes/ezmimetype.php' );
+                //include_once( 'lib/ezfile/classes/ezfile.php' );
                 $mimeType = eZMimeType::findByURL( $_FILES[$http_name]['name'] );
                 $_FILES[$http_name]['type'] = $mimeType['name'];
-                $file = new eZHTTPFile( $http_name, $_FILES[$http_name] );
+                $GLOBALS["eZHTTPFile-$http_name"] = new eZHTTPFile( $http_name, $_FILES[$http_name] );
             }
             else
+            {
                 eZDebug::writeError( "Unknown file for post variable: $http_name",
                                      "eZHTTPFile" );
+            }
         }
-        return $file;
+        return $GLOBALS["eZHTTPFile-$http_name"];
     }
 
     /*!
@@ -317,21 +318,21 @@ class eZHTTPFile
     }
 
     /// The name of the HTTP file
-    var $HTTPName;
+    public $HTTPName;
     /// The original name of the file from the client
-    var $OriginalFilename;
+    public $OriginalFilename;
     /// The mime type of the file
-    var $Type;
+    public $Type;
     /// The mimetype category (first part)
-    var $MimeCategory;
+    public $MimeCategory;
     /// The mimetype type (second part)
-    var $MimePart;
+    public $MimePart;
     /// The local filename
-    var $Filename;
+    public $Filename;
     /// The size of the local file
-    var $Size;
+    public $Size;
     /// Whether the file is a temporary file or if it has been moved(stored).
-    var $IsTemporary;
+    public $IsTemporary;
 }
 
 ?>

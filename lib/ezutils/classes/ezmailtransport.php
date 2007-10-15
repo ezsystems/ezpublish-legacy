@@ -51,13 +51,8 @@ class eZMailTransport
      Tries to send the contents of the email object \a $mail and
      returns \c true if succesful.
     */
-    function sendMail( &$mail )
+    function sendMail( eZMail $mail )
     {
-        if ( get_class( $mail ) != 'ezmail' )
-        {
-            eZDebug::writeError( 'Can only handle objects of type eZMail.', 'eZMailTransport::sendMail' );
-            return false;
-        }
         return false;
     }
 
@@ -65,19 +60,14 @@ class eZMailTransport
      \static
      Sends the contents of the email object \a $mail using the default transport.
     */
-    function send( &$mail )
+    function send( eZMail $mail )
     {
-        if ( get_class( $mail ) != 'ezmail' )
-        {
-            eZDebug::writeError( 'Can only handle objects of type eZMail.', 'eZMailTransport::send' );
-            return false;
-        }
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
 
         $transportType = trim( $ini->variable( 'MailSettings', 'Transport' ) );
-        $transportObject =& $GLOBALS['eZMailTransportHandler_' . strtolower( $transportType )];
-        if ( !isset( $transportObject ) or
-             !is_object( $transportObject ) )
+        $globalsKey = 'eZMailTransportHandler_' . strtolower( $transportType );
+        if ( !isset( $GLOBALS[$globalsKey] ) ||
+             !( $GLOBALS[$globalsKey] instanceof eZMailTransport ) )
         {
             $transportClassFile = 'ez' . strtolower( $transportType ) . 'transport.php';
             $transportClassPath = 'lib/ezutils/classes/' . $transportClassFile;
@@ -95,9 +85,9 @@ class eZMailTransport
                                      'eZMailTransport::send' );
                 return false;
             }
-            $transportObject = new $transportClass();
+            $GLOBALS[$globalsKey] = new $transportClass();
         }
-        return $transportObject->sendMail( $mail );
+        return $GLOBALS[$globalsKey]->sendMail( $mail );
     }
 }
 

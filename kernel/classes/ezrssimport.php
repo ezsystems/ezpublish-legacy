@@ -38,13 +38,13 @@
   RSSImport is used to create RSS feeds from published content. See kernel/rss for more files.
 */
 
-include_once( 'kernel/classes/ezpersistentobject.php' );
-
-define( "EZ_RSSIMPORT_STATUS_VALID", 1 );
-define( "EZ_RSSIMPORT_STATUS_DRAFT", 0 );
+//include_once( 'kernel/classes/ezpersistentobject.php' );
 
 class eZRSSImport extends eZPersistentObject
 {
+    const STATUS_VALID = 1;
+    const STATUS_DRAFT = 0;
+
     /*!
      Initializes a new RSSImport.
     */
@@ -56,7 +56,7 @@ class eZRSSImport extends eZPersistentObject
     /*!
      \reimp
     */
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -157,11 +157,11 @@ class eZRSSImport extends eZPersistentObject
 
      \return the new RSS Import object
     */
-    function create( $userID = false )
+    static function create( $userID = false )
     {
         if ( $userID === false )
         {
-            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+            //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
             $user = eZUser::currentUser();
             $userID = $user->attribute( "contentobject_id" );
         }
@@ -191,15 +191,15 @@ class eZRSSImport extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function store()
+    function store( $fieldFilters = null )
     {
-        include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+        //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
         $dateTime = time();
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
 
         $this->setAttribute( 'modifier_id', $user->attribute( 'contentobject_id' ) );
         $this->setAttribute( 'modified', $dateTime );
-        eZPersistentObject::store();
+        eZPersistentObject::store( $fieldFilters );
     }
 
     /*!
@@ -208,7 +208,7 @@ class eZRSSImport extends eZPersistentObject
 
      \param RSS Import ID
     */
-    function fetch( $id, $asObject = true, $status = EZ_RSSIMPORT_STATUS_VALID )
+    static function fetch( $id, $asObject = true, $status = eZRSSImport::STATUS_VALID )
     {
         return eZPersistentObject::fetchObject( eZRSSImport::definition(),
                                                 null,
@@ -221,7 +221,7 @@ class eZRSSImport extends eZPersistentObject
      \static
       Fetches complete list of RSS Imports.
     */
-    function fetchList( $asObject = true, $status = EZ_RSSIMPORT_STATUS_VALID )
+    static function fetchList( $asObject = true, $status = eZRSSImport::STATUS_VALID )
     {
         $cond = null;
         if ( $status !== false )
@@ -237,7 +237,7 @@ class eZRSSImport extends eZPersistentObject
      \static
       Fetches complete list of active RSS Imports.
     */
-    function fetchActiveList( $asObject = true )
+    static function fetchActiveList( $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZRSSImport::definition(),
                                                     null,
@@ -249,56 +249,50 @@ class eZRSSImport extends eZPersistentObject
     }
 
 
-    function &objectOwner()
+    function objectOwner()
     {
         if ( isset( $this->ObjectOwnerID ) and $this->ObjectOwnerID )
         {
-            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-            $user = eZUser::fetch( $this->ObjectOwnerID );
+            //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+            return eZUser::fetch( $this->ObjectOwnerID );
         }
-        else
-            $user = null;
-        return $user;
+        return null;
     }
 
-    function &modifier()
+    function modifier()
     {
         if ( isset( $this->ModifierID ) and $this->ModifierID )
         {
-            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-            $user = eZUser::fetch( $this->ModifierID );
+            //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+            return eZUser::fetch( $this->ModifierID );
         }
-        else
-            $user = null;
-        return $user;
+        return null;
     }
 
-    function &classAttributes()
+    function classAttributes()
     {
         if ( isset( $this->ClassID ) and $this->ClassID )
         {
-            include_once( 'kernel/classes/ezcontentclass.php' );
+            //include_once( 'kernel/classes/ezcontentclass.php' );
             $contentClass = eZContentClass::fetch( $this->ClassID );
             if ( $contentClass )
-                $attributes =& $contentClass->fetchAttributes();
-            else
-                $attributes = null;
+            {
+                return $contentClass->fetchAttributes();
+            }
         }
-        else
-            $attributes = null;
-        return $attributes;
+        return null;
     }
 
-    function &destinationPath()
+    function destinationPath()
     {
         $retValue = null;
         if ( isset( $this->DestinationNodeID ) and $this->DestinationNodeID )
         {
-            include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+            //include_once( "kernel/classes/ezcontentobjecttreenode.php" );
             $objectNode = eZContentObjectTreeNode::fetch( $this->DestinationNodeID );
             if ( isset( $objectNode ) )
             {
-                $path_array =& $objectNode->attribute( 'path_array' );
+                $path_array = $objectNode->attribute( 'path_array' );
                 $path_array_count = count( $path_array );
                 for ( $i = 0; $i < $path_array_count; ++$i )
                 {
@@ -328,32 +322,27 @@ class eZRSSImport extends eZPersistentObject
 
      \return RSS version number, false if invalid URL
     */
-    function getRSSVersion( $url )
+    static function getRSSVersion( $url )
     {
-        include_once( "lib/ezutils/classes/ezhttptool.php" );
+        //include_once( "lib/ezutils/classes/ezhttptool.php" );
         $xmlData = eZHTTPTool::getDataByURL( $url );
 
         if ( $xmlData === false )
             return false;
 
-        include_once( 'lib/ezxml/classes/ezxml.php' );
-        // Create DomDocumnt from http data
-        $xmlObject = new eZXML();
-        $domDocument = $xmlObject->domTree( $xmlData );
+        // Create DomDocument from http data
 
-        if ( $domDocument == null or $domDocument === false )
+        $domDocument = new DOMDocument();
+        $success = $domDocument->loadXML( $xmlData );
+
+        if ( !$success )
         {
             return false;
         }
 
-        $root = $domDocument->root();
+        $root = $domDocument->documentElement;
 
-        if ( $root == null )
-        {
-            return false;
-        }
-
-        switch( $root->attributeValue( 'version' ) )
+        switch( $root->getAttribute( 'version' ) )
         {
             default:
             case '1.0':
@@ -365,7 +354,7 @@ class eZRSSImport extends eZPersistentObject
             case '0.92':
             case '2.0':
             {
-                return $root->attributeValue( 'version' );
+                return $root->getAttribute( 'version' );
             } break;
         }
     }
@@ -374,11 +363,10 @@ class eZRSSImport extends eZPersistentObject
      \static
      Object attribute list
     */
-    function &objectAttributeList()
+    static function objectAttributeList()
     {
-        $objectAttributeList = array( 'published' => 'Published',
-                                      'modified' => 'Modified' );
-        return $objectAttributeList;
+        return array( 'published' => 'Published',
+                      'modified' => 'Modified' );
     }
 
     /*!
@@ -390,7 +378,7 @@ class eZRSSImport extends eZPersistentObject
 
      \return RSS field definition array.
     */
-    function rssFieldDefinition( $version = '2.0' )
+    static function rssFieldDefinition( $version = '2.0' )
     {
         switch ( $version )
         {
@@ -443,7 +431,7 @@ class eZRSSImport extends eZPersistentObject
 
      \return Ordered array of field definitions
     */
-    function &fieldMap( $version = '2.0' )
+    static function fieldMap( $version = '2.0' )
     {
         $fieldDefinition = eZRSSImport::rssFieldDefinition();
 
@@ -470,7 +458,7 @@ class eZRSSImport extends eZPersistentObject
 
      \param array
     */
-    function recursiveFieldMap( $definitionArray, $globalKey, $value, &$returnArray, $count )
+    static function recursiveFieldMap( $definitionArray, $globalKey, $value, &$returnArray, $count )
     {
         foreach( $definitionArray as $key => $definition )
         {
@@ -507,7 +495,7 @@ class eZRSSImport extends eZPersistentObject
 
      \return import description
     */
-    function &importDescription()
+    function importDescription()
     {
         $description = @unserialize( $this->attribute( 'import_description' ) );
         if ( !$description )
@@ -517,7 +505,7 @@ class eZRSSImport extends eZPersistentObject
         return $description;
     }
 
-    function arrayMergeRecursive( $arr1, $arr2 )
+    static function arrayMergeRecursive( $arr1, $arr2 )
     {
         if ( !is_array( $arr1 ) ||
              !is_array( $arr2 ) )

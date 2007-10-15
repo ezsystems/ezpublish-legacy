@@ -39,7 +39,7 @@
   which is not directly related to content classes (e.g. clearing caches, etc).
 */
 
-include_once( 'kernel/classes/ezcontentclass.php' );
+//include_once( 'kernel/classes/ezcontentclass.php' );
 
 class eZContentClassOperations
 {
@@ -47,7 +47,7 @@ class eZContentClassOperations
      Removes content class and all data associated with it.
      \static
     */
-    function remove( $classID )
+    static function remove( $classID )
     {
         $contentClass = eZContentClass::fetch( $classID );
 
@@ -56,7 +56,7 @@ class eZContentClassOperations
 
         // Remove all objects
         $contentObjects = eZContentObject::fetchSameClassList( $classID );
-        include_once( 'kernel/classes/ezcontentobjectoperations.php' );
+        //include_once( 'kernel/classes/ezcontentobjectoperations.php' );
         foreach ( $contentObjects as $contentObject )
         {
             eZContentObjectOperations::remove( $contentObject->attribute( 'id' ) );

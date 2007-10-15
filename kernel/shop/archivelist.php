@@ -26,14 +26,14 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezorder.php' );
-include_once( 'kernel/classes/ezorderstatus.php' );
-include_once( 'kernel/classes/ezpreferences.php' );
+require_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezorder.php' );
+//include_once( 'kernel/classes/ezorderstatus.php' );
+//include_once( 'kernel/classes/ezpreferences.php' );
 
-$module =& $Params['Module'];
+$module = $Params['Module'];
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $offset = $Params['Offset'];
 $limit = 50;
@@ -59,7 +59,7 @@ if ( !isset( $sortOrder ) || ( ( $sortOrder != 'asc' ) && ( $sortOrder!= 'desc' 
     $sortOrder = 'asc';
 }
 
-$http =& eZHttpTool::instance();
+$http = eZHTTPTool::instance();
 
 // Unarchive options.
 if ( $http->hasPostVariable( 'UnarchiveButton' ) )
@@ -75,8 +75,8 @@ if ( $http->hasPostVariable( 'UnarchiveButton' ) )
     }
 }
 
-$archiveArray =& eZOrder::active( true, $offset, $limit, $sortField, $sortOrder, SHOW_ARCHIVED_ORDERS );
-$archiveCount = eZOrder::activeCount( SHOW_ARCHIVED_ORDERS );
+$archiveArray = eZOrder::active( true, $offset, $limit, $sortField, $sortOrder, eZOrder::SHOW_ARCHIVED );
+$archiveCount = eZOrder::activeCount( eZOrder::SHOW_ARCHIVED );
 
 $tpl->setVariable( 'archive_list', $archiveArray );
 $tpl->setVariable( 'archive_list_count', $archiveCount );
@@ -87,12 +87,9 @@ $tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( 'sort_field', $sortField );
 $tpl->setVariable( 'sort_order', $sortOrder );
 
-$path = array();
-$path[] = array( 'text' => ezi18n( 'kernel/shop', 'Order list' ),
-                 'url' => false );
-
 $Result = array();
-$Result['path'] =& $path;
+$Result['path'] = array( array( 'text' => ezi18n( 'kernel/shop', 'Order list' ),
+                                'url' => false ) );
 
-$Result['content'] =& $tpl->fetch( 'design:shop/archivelist.tpl' );
+$Result['content'] = $tpl->fetch( 'design:shop/archivelist.tpl' );
 ?>

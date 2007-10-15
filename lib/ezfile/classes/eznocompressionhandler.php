@@ -37,7 +37,7 @@
 
 */
 
-include_once( 'lib/ezfile/classes/ezcompressionhandler.php' );
+//include_once( 'lib/ezfile/classes/ezcompressionhandler.php' );
 
 class eZNoCompressionHandler extends eZCompressionHandler
 {

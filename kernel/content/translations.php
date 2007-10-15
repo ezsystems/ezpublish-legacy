@@ -31,14 +31,14 @@
 /*! \file translations.php
 */
 
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezcontentlanguage.php' );
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'lib/ezdb/classes/ezdb.php' );
+require_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezcontentlanguage.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'lib/ezdb/classes/ezdb.php' );
 
-$tpl =& templateInit();
-$http =& eZHTTPTool::instance();
-$Module =& $Params['Module'];
+$tpl = templateInit();
+$http = eZHTTPTool::instance();
+$Module = $Params['Module'];
 
 $tpl->setVariable( 'module', $Module );
 
@@ -47,7 +47,7 @@ if ( $Module->isCurrentAction( 'New' ) /*or
      $Module->isCurrentAction( 'Edit' )*/ )
 {
     $tpl->setVariable( 'is_edit', $Module->isCurrentAction( 'Edit' ) );
-    $Result['content'] =& $tpl->fetch( 'design:content/translationnew.tpl' );
+    $Result['content'] = $tpl->fetch( 'design:content/translationnew.tpl' );
     $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Translation' ),
                                     'url' => false ),
                              array( 'text' => 'New',
@@ -65,7 +65,7 @@ if ( $Module->isCurrentAction( 'StoreNew' ) /* || $http->hasPostVariable( 'Store
          $localeID != -1 )
     {
         $translationLocale = $localeID;
-        $localeInstance =& eZLocale::instance( $translationLocale );
+        $localeInstance = eZLocale::instance( $translationLocale );
         $translationName = $localeInstance->internationalLanguageName();
     }
     else
@@ -76,7 +76,7 @@ if ( $Module->isCurrentAction( 'StoreNew' ) /* || $http->hasPostVariable( 'Store
         eZDebug::writeDebug( $translationLocale, 'translationLocale' );
     }
 
-    include_once( 'lib/ezlocale/classes/ezlocale.php' );
+    //include_once( 'lib/ezlocale/classes/ezlocale.php' );
     // Make sure the locale string is valid, if not we try to extract a valid part of it
     if ( !preg_match( "/^" . eZLocale::localeRegexp( false, false ) . "$/", $translationLocale ) )
     {
@@ -88,7 +88,7 @@ if ( $Module->isCurrentAction( 'StoreNew' ) /* || $http->hasPostVariable( 'Store
         {
             // The locale cannot be used so we show the edit page again.
             $tpl->setVariable( 'is_edit', $Module->isCurrentAction( 'Edit' ) );
-            $Result['content'] =& $tpl->fetch( 'design:content/translationnew.tpl' );
+            $Result['content'] = $tpl->fetch( 'design:content/translationnew.tpl' );
             $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Translation' ),
                                             'url' => false ),
                                      array( 'text' => 'New',
@@ -99,7 +99,7 @@ if ( $Module->isCurrentAction( 'StoreNew' ) /* || $http->hasPostVariable( 'Store
 
     if ( !eZContentLanguage::fetchByLocale( $translationLocale ) )
     {
-        $locale =& eZLocale::instance( $translationLocale );
+        $locale = eZLocale::instance( $translationLocale );
         if ( $locale->isValid() )
         {
             $translation = eZContentLanguage::addLanguage( $locale->localeCode(), $translationName );
@@ -108,7 +108,7 @@ if ( $Module->isCurrentAction( 'StoreNew' ) /* || $http->hasPostVariable( 'Store
         {
             // The locale cannot be used so we show the edit page again.
             $tpl->setVariable( 'is_edit', $Module->isCurrentAction( 'Edit' ) );
-            $Result['content'] =& $tpl->fetch( 'design:content/translationnew.tpl' );
+            $Result['content'] = $tpl->fetch( 'design:content/translationnew.tpl' );
             $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Translation' ),
                                             'url' => false ),
                                      array( 'text' => 'New',
@@ -122,7 +122,7 @@ if ( $Module->isCurrentAction( 'Remove' ) )
 {
     $seletedIDList = $Module->actionParameter( 'SelectedTranslationList' );
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
 
     $db->begin();
     foreach ( $seletedIDList as $translationID )
@@ -139,12 +139,12 @@ if ( $Params['TranslationID'] )
 
     if( !$translation )
     {
-        return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
     }
 
     $tpl->setVariable( 'translation',  $translation );
 
-    $Result['content'] =& $tpl->fetch( 'design:content/translationview.tpl' );
+    $Result['content'] = $tpl->fetch( 'design:content/translationview.tpl' );
     $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Content translations' ),
                                     'url' => 'content/translations' ),
                              array( 'text' => $translation->attribute( 'name' ),
@@ -156,7 +156,7 @@ $availableTranslations = eZContentLanguage::fetchList();
 
 $tpl->setVariable( 'available_translations', $availableTranslations );
 
-$Result['content'] =& $tpl->fetch( 'design:content/translations.tpl' );
+$Result['content'] = $tpl->fetch( 'design:content/translations.tpl' );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Languages' ),
                                 'url' => false ) );
 

@@ -38,12 +38,12 @@
 
 */
 
-define( "EZ_CODEMAPPER_TYPE_DIRECT", 1 );
-define( "EZ_CODEMAPPER_TYPE_RANGE", 2 );
-define( "EZ_CODEMAPPER_TYPE_REPLACE", 3 );
-
 class eZCodeMapper
 {
+    const TYPE_DIRECT = 1;
+    const TYPE_RANGE = 2;
+    const TYPE_REPLACE = 3;
+
     /*!
      Constructor
     */
@@ -86,8 +86,8 @@ class eZCodeMapper
         $str .= $text;
         if ( class_exists( 'ezcli' ) )
         {
-            include_once( 'lib/ezutils/classes/ezcli.php' );
-            $cli =& eZCLI::instance();
+            //include_once( 'lib/ezutils/classes/ezcli.php' );
+            $cli = eZCLI::instance();
             $cli->error( $str );
         }
         else
@@ -111,8 +111,8 @@ class eZCodeMapper
         $str .= $text;
         if ( class_exists( 'ezcli' ) )
         {
-            include_once( 'lib/ezutils/classes/ezcli.php' );
-            $cli =& eZCLI::instance();
+            //include_once( 'lib/ezutils/classes/ezcli.php' );
+            $cli = eZCLI::instance();
             $cli->warning( $str );
         }
         else
@@ -139,10 +139,10 @@ class eZCodeMapper
     */
     function loadTransformationFiles( $currentCharset, $transformationGroup )
     {
-        $ini =& eZINI::instance( 'transform.ini' );
+        $ini = eZINI::instance( 'transform.ini' );
         $repositoryList = array( $ini->variable( 'Transformation', 'Repository' ) );
         $files = $ini->variable( 'Transformation', 'Files' );
-        include_once( 'lib/ezutils/classes/ezextension.php' );
+        //include_once( 'lib/ezutils/classes/ezextension.php' );
         $extensions = $ini->variable( 'Transformation', 'Extensions' );
         $repositoryList = array_merge( $repositoryList,
                                        eZExtension::expandedPathList( $extensions, 'transformations' ) );
@@ -216,9 +216,9 @@ class eZCodeMapper
 
         $this->TransformationFiles[] = $name;
 
-        include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-        include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
-        $this->ISOUnicodeCodec =& eZTextCodec::instance( 'iso-8859-1', 'unicode' );
+        //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+        //include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
+        $this->ISOUnicodeCodec = eZTextCodec::instance( 'iso-8859-1', 'unicode' );
 
         $buffer = '';
         $lineNum = 1;
@@ -872,14 +872,14 @@ class eZCodeMapper
         if ( count( $destinationValues ) == 1 )
             $destinationValues = array_pop( $destinationValues );
         if ( isset( $block[$count - 1] ) and
-             $block[$count - 1][0] == EZ_CODEMAPPER_TYPE_DIRECT and
+             $block[$count - 1][0] == self::TYPE_DIRECT and
              $block[$count - 1][2] == $identifier )
         {
             $block[$count - 1][1][$sourceValue] = $destinationValues;
         }
         else
         {
-            $block[] = array( EZ_CODEMAPPER_TYPE_DIRECT,
+            $block[] = array( self::TYPE_DIRECT,
                               array( $sourceValue => $destinationValues ),
                               $identifier );
 
@@ -901,14 +901,14 @@ class eZCodeMapper
         if ( count( $destinationValues ) == 1 )
             $destinationValues = array_pop( $destinationValues );
         if ( isset( $block[$count - 1] ) and
-             $block[$count - 1][0] == EZ_CODEMAPPER_TYPE_REPLACE and
+             $block[$count - 1][0] == self::TYPE_REPLACE and
              $block[$count - 1][2] == $identifier )
         {
             $block[$count - 1][1][] = array( $sourceValue, $sourceEndValue, $destinationValues );
         }
         else
         {
-            $block[] = array( EZ_CODEMAPPER_TYPE_REPLACE,
+            $block[] = array( self::TYPE_REPLACE,
                               array( array( $sourceValue, $sourceEndValue, $destinationValues ) ),
                               $identifier );
 
@@ -929,14 +929,14 @@ class eZCodeMapper
     {
         $count = count( $block );
         if ( isset( $block[$count - 1] ) and
-             $block[$count - 1][0] == EZ_CODEMAPPER_TYPE_RANGE and
+             $block[$count - 1][0] == self::TYPE_RANGE and
              $block[$count - 1][2] == $identifier )
         {
             $block[$count - 1][1][] = array( $sourceValue, $sourceEndValue, $addValue ? $transposeValue : -$transposeValue, $moduloValue );
         }
         else
         {
-            $block[] = array( EZ_CODEMAPPER_TYPE_RANGE,
+            $block[] = array( self::TYPE_RANGE,
                               array( array( $sourceValue, $sourceEndValue, $addValue ? $transposeValue : -$transposeValue, $moduloValue ) ),
                               $identifier );
 
@@ -1100,8 +1100,10 @@ class eZCodeMapper
     /*!
      Goes trough all to codes in the mapping table \a $unicodeMap and maps
      those that match \a $fromCode into \a $toCode.
+
+     \return \a $unicodeMap
     */
-    function mapExistingCodes( &$unicodeMap, $fromCode, $toCode )
+    protected function mapExistingCodes( $unicodeMap, $fromCode, $toCode )
     {
         foreach ( $unicodeMap as $from => $to )
         {
@@ -1112,20 +1114,21 @@ class eZCodeMapper
                 {
                     if ( $ordinal == $fromCode )
                     {
-                        $newTo = array_merge( $newTo, $toCode );
+                        $newTo = array_merge( $newTo, array( $toCode ) );
                     }
                     else
                     {
                         $newTo[] = $ordinal;
                     }
                 }
-                $unicodeMap[$from]=  $newTo;
+                $unicodeMap[$from] = $newTo;
             }
             else if ( $to == $fromCode )
             {
-                $unicodeMap[$from]=  $toCode;
+                $unicodeMap[$from] = $toCode;
             }
         }
+        return $unicodeMap;
     }
 
     /*!
@@ -1151,7 +1154,7 @@ class eZCodeMapper
                 $identifier = $tableItem[2];
 //                print( "identifier: $identifier\n" );
             }
-            if ( $type == EZ_CODEMAPPER_TYPE_DIRECT )
+            if ( $type == self::TYPE_DIRECT )
             {
                 foreach ( $item as $fromCode => $toCode )
                 {
@@ -1174,7 +1177,7 @@ class eZCodeMapper
                             continue;
 
                         $unicodeMap[$fromCode] = $toCode;
-                        eZCodeMapper::mapExistingCodes( $unicodeMap, $fromCode, $toCode );
+                        $unicodeMap = eZCodeMapper::mapExistingCodes( $unicodeMap, $fromCode, $toCode );
                     }
                     else
                     {
@@ -1223,14 +1226,14 @@ class eZCodeMapper
                             if ( isset( $unicodeMap[$fromCode] ) )
                                 continue;
 
-                            eZCodeMapper::mapExistingCodes( $unicodeMap, $fromCode, $toCode );
+                            $unicodeMap = eZCodeMapper::mapExistingCodes( $unicodeMap, $fromCode, $toCode );
 
                             $unicodeMap[$fromCode] = $toCode;
                         }
                     }
                 }
             }
-            else if ( $type == EZ_CODEMAPPER_TYPE_RANGE )
+            else if ( $type == self::TYPE_RANGE )
             {
                 foreach ( $item as $rangeItem )
                 {
@@ -1277,7 +1280,7 @@ class eZCodeMapper
                                 $replace = false;
                             else if ( count( $replace ) == 1 )
                                 $replace = $replace[0];
-                            eZCodeMapper::mapExistingCodes( $unicodeMap, $i, $replace );
+                            $unicodeMap = eZCodeMapper::mapExistingCodes( $unicodeMap, $i, $replace );
 
                             // If the mapping already exists we skip it
                             if ( isset( $unicodeMap[$i] ) )
@@ -1310,13 +1313,13 @@ class eZCodeMapper
                             if ( isset( $unicodeMap[$i] ) )
                                 continue;
 
-                            eZCodeMapper::mapExistingCodes( $unicodeMap, $i, $replace );
+                            $unicodeMap = eZCodeMapper::mapExistingCodes( $unicodeMap, $i, $replace );
                             $unicodeMap[$i] = $replace;
                         }
                     }
                 }
             }
-            else if ( $type == EZ_CODEMAPPER_TYPE_REPLACE )
+            else if ( $type == self::TYPE_REPLACE )
             {
                 foreach ( $item as $rangeItem )
                 {
@@ -1342,7 +1345,7 @@ class eZCodeMapper
                             if ( isset( $unicodeMap[$i] ) )
                                 continue;
 
-                            eZCodeMapper::mapExistingCodes( $unicodeMap, $i, $replace );
+                            $unicodeMap = eZCodeMapper::mapExistingCodes( $unicodeMap, $i, $replace );
                             $unicodeMap[$i] = $replace;
                         }
                     }
@@ -1384,7 +1387,7 @@ class eZCodeMapper
                                 if ( isset( $unicodeMap[$i] ) )
                                     continue;
 
-                                eZCodeMapper::mapExistingCodes( $unicodeMap, $i, $replace );
+                                $unicodeMap = eZCodeMapper::mapExistingCodes( $unicodeMap, $i, $replace );
                                 $unicodeMap[$i] = $replace;
                             }
                         }
@@ -1423,9 +1426,9 @@ class eZCodeMapper
     */
     function generateCharsetMappingTable( $unicodeTable, $charset )
     {
-        include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+        //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
 
-        $codec =& eZTextCodec::instance( 'unicode', $charset );
+        $codec = eZTextCodec::instance( 'unicode', $charset );
         if ( !$codec )
         {
             eZDebug::writeError( "Failed to create textcodec for charset '$charset'" );
@@ -1527,7 +1530,7 @@ class eZCodeMapper
 
             default:
             {
-                $ini =& eZINI::instance( 'transform.ini' );
+                $ini = eZINI::instance( 'transform.ini' );
                 $commands = $ini->variable( 'Extensions', 'Commands' );
                 if ( isset( $commands[$name] ) )
                 {
@@ -1587,8 +1590,8 @@ class eZCodeMapper
             if ( !in_array( $charsetName, $nonCJKCharsets ) )
             {
                 $code .= ( '// add N-Gram(N=2)  chinese / japanese / korean multibyte characters' . "\n" .
-                           'include_once( \'lib/ezi18n/classes/eztextcodec.php\' );' . "\n" .
-                           '$codec =& eZTextCodec::instance( false, \'unicode\' );' . "\n" .
+                           '//include_once( \'lib/ezi18n/classes/eztextcodec.php\' );' . "\n" .
+                           '$codec = eZTextCodec::instance( false, \'unicode\' );' . "\n" .
                            "\n" .
                            '$unicodeValueArray = $codec->convertString( $text );' . "\n" .
                            "\n" .
@@ -1626,7 +1629,7 @@ class eZCodeMapper
                            '{' . "\n" .
                            '    $normalizedTextArray[count($normalizedTextArray)-1]=32;' . "\n" .
                            '}' . "\n" .
-                           '$revCodec =& eZTextCodec::instance( \'unicode\', false ); // false means use internal charset' . "\n" .
+                           '$revCodec = eZTextCodec::instance( \'unicode\', false ); // false means use internal charset' . "\n" .
                            '$text = $revCodec->convertString( $normalizedTextArray );' . "\n" );
             }
             $code .= ( '$text = preg_replace( array( "#(\.){2,}#",' . "\n" .
@@ -1642,7 +1645,7 @@ class eZCodeMapper
                        '                             " ",' . "\n" .
                        '                             " " ),' . "\n" .
                        '                      $text );' . "\n" .
-                       '$ini =& eZINI::instance();' . "\n" .
+                       '$ini = eZINI::instance();' . "\n" .
                        'if ( $ini->variable( \'SearchSettings\', \'EnableWildcard\' ) != \'true\' )' . "\n" .
                        '{' . "\n" .
                        '    $text = str_replace( "*", " ", $text );' . "\n" .
@@ -1663,7 +1666,7 @@ class eZCodeMapper
         }
         else
         {
-            $ini =& eZINI::instance( 'transform.ini' );
+            $ini = eZINI::instance( 'transform.ini' );
             $commands = $ini->variable( 'Extensions', 'Commands' );
             if ( isset( $commands[$command['command']] ) )
             {
@@ -1728,8 +1731,8 @@ class eZCodeMapper
             if ( !in_array( $charsetName, $nonCJKCharsets ) )
             {
                 // 4 Add spaces after chinese / japanese / korean multibyte characters
-                include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-                $codec =& eZTextCodec::instance( false, 'unicode' );
+                //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+                $codec = eZTextCodec::instance( false, 'unicode' );
 
                 $unicodeValueArray = $codec->convertString( $text );
 
@@ -1769,7 +1772,7 @@ class eZCodeMapper
                     $normalizedTextArray[ count( $normalizedTextArray ) - 1 ] = 32;
                 }
 
-                $revCodec =& eZTextCodec::instance( 'unicode', false ); // false means use internal charset
+                $revCodec = eZTextCodec::instance( 'unicode', false ); // false means use internal charset
                 $text = $revCodec->convertString( $normalizedTextArray );
             }
 
@@ -1787,7 +1790,7 @@ class eZCodeMapper
                                          " ",
                                          "$1 " ),
                                   $text );
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             if ( $ini->variable( 'SearchSettings', 'EnableWildcard' ) != 'true' )
             {
                 $text = str_replace( "*", " ", $text );
@@ -1808,7 +1811,7 @@ class eZCodeMapper
         }
         else
         {
-            $ini =& eZINI::instance( 'transform.ini' );
+            $ini = eZINI::instance( 'transform.ini' );
             $commands = $ini->variable( 'Extensions', 'Commands' );
             if ( isset( $commands[$command['command']] ) )
             {
@@ -1849,9 +1852,9 @@ class eZCodeMapper
     }
 
     /// \privatesection
-    var $TransformationTables;
-    var $TransformationFiles;
-    var $ISOUnicodeCodec;
+    public $TransformationTables;
+    public $TransformationFiles;
+    public $ISOUnicodeCodec;
 }
 
 ?>

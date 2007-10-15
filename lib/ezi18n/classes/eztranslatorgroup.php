@@ -38,7 +38,7 @@
 
 */
 
-include_once( "lib/ezi18n/classes/eztranslatorhandler.php" );
+//include_once( "lib/ezi18n/classes/eztranslatorhandler.php" );
 
 class eZTranslatorGroup extends eZTranslatorHandler
 {
@@ -156,20 +156,20 @@ class eZTranslatorGroup extends eZTranslatorHandler
     /*!
      Registers the handler object \a $handler.
     */
-    function registerHandler( &$handler )
+    function registerHandler( $handler )
     {
         if ( !$this->isKeyBased() and $handler->isKeyBased() )
         {
             eZDebug::writeError( "Cannot register keybased handler for non-keybased group", "eZTranslatorGroup" );
             return false;
         }
-        $this->Handlers[] =& $handler;
+        $this->Handlers[] = $handler;
         return true;
     }
 
     /// \privatesection
     /// The array of grouped handlers
-    var $Handlers;
+    public $Handlers;
 }
 
 ?>

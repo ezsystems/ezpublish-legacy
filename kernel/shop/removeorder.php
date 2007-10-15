@@ -31,16 +31,16 @@
 /*! \file removeorder.php
 */
 
-include_once( "kernel/common/template.php" );
-include_once( "kernel/classes/ezorder.php" );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/classes/ezorder.php" );
 
-$Module =& $Params["Module"];
-$http =& eZHTTPTool::instance();
+$Module = $Params['Module'];
+$http = eZHTTPTool::instance();
 $deleteIDArray = $http->sessionVariable( "DeleteOrderIDArray" );
 
 if ( $http->hasPostVariable( "ConfirmButton" ) )
 {
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach ( $deleteIDArray as $deleteID )
     {
@@ -68,15 +68,13 @@ else // no action yet: just displaying the template
 
     $Module->setTitle( ezi18n( 'shop', 'Remove orders' ) );
 
-    $tpl =& templateInit();
+    $tpl = templateInit();
     $tpl->setVariable( "module", $Module );
     $tpl->setVariable( "delete_result", $orderNumbersString );
     $Result = array();
 
-    $path = array();
-    $path[] = array( 'text' => ezi18n( 'kernel/shop', 'Remove order' ),
-                     'url' => false );
-    $Result['path'] =& $path;
-    $Result['content'] =& $tpl->fetch( "design:shop/removeorder.tpl" );
+    $Result['path'] = array( array( 'text' => ezi18n( 'kernel/shop', 'Remove order' ),
+                                    'url' => false ) );
+    $Result['content'] = $tpl->fetch( "design:shop/removeorder.tpl" );
 }
 ?>

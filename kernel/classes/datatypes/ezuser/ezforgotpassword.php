@@ -38,7 +38,7 @@
 
 */
 
-include_once( 'kernel/classes/ezpersistentobject.php' );
+//include_once( 'kernel/classes/ezpersistentobject.php' );
 
 class eZForgotPassword extends eZPersistentObject
 {
@@ -50,7 +50,7 @@ class eZForgotPassword extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -99,7 +99,7 @@ class eZForgotPassword extends eZPersistentObject
     */
     function cleanup()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->query( "DELETE FROM ezforgot_password" );
     }
 
@@ -110,7 +110,7 @@ class eZForgotPassword extends eZPersistentObject
     {
         if ( $userID === false )
         {
-            if ( get_class( $this ) == 'ezforgotpassword' )
+            if ( strtolower( get_class( $this ) ) == 'ezforgotpassword' )
             {
                 eZPersistentObject::removeObject( eZForgotPassword::definition(),
                                                   array( 'id' => $this->attribute( 'id' ) ) );

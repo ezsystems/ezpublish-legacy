@@ -62,11 +62,11 @@ ALTER TABLE eznode_assignment ADD COLUMN op_code int NOT NULL DEFAULT 0;
 
 // TODO: check if the sql update script was already run...
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
-include_once( 'kernel/classes/ezcontentlanguage.php' );
-include_once( 'kernel/classes/ezcontentobjectversion.php' );
-include_once( 'lib/ezutils/classes/ezextension.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'kernel/classes/ezcontentlanguage.php' );
+//include_once( 'kernel/classes/ezcontentobjectversion.php' );
+//include_once( 'lib/ezutils/classes/ezextension.php' );
 
 function minBit( $value )
 {
@@ -88,9 +88,9 @@ function minBit( $value )
 
 set_time_limit( 0 );
 
-$cli =& eZCLI::instance();
+$cli = eZCLI::instance();
 
-$script =& eZScript::instance( array( 'description' => "Update database for the multilingual suport.",
+$script = eZScript::instance( array( 'description' => "Update database for the multilingual suport.",
                                       'use-session' => true,
                                       'use-modules' => true,
                                       'use-extensions' => true ) );
@@ -138,8 +138,8 @@ $script->initialize();
 
 $cli->warning( "Have you backed up your database? If not, press Ctrl-C and back up your data!" );
 
-$db =& eZDB::instance();
-$ini =& eZINI::instance();
+$db = eZDB::instance();
+$ini = eZINI::instance();
 
 $defaultLanguageCode = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
 

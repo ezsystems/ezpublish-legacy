@@ -30,9 +30,9 @@
 
 /*! \file ezstep_system_check.php
 */
-include_once( "kernel/setup/ezsetuptests.php" );
-include_once( 'kernel/setup/steps/ezstep_installer.php' );
-include_once( "kernel/common/i18n.php" );
+//include_once( "kernel/setup/ezsetuptests.php" );
+//include_once( 'kernel/setup/steps/ezstep_installer.php' );
+require_once( "kernel/common/i18n.php" );
 
 /*!
   \class eZStepSystemCheck ezstep_system_check.php
@@ -45,7 +45,7 @@ class eZStepSystemCheck extends eZStepInstaller
     /*!
      Constructor
     */
-    function eZStepSystemCheck( &$tpl, &$http, &$ini, &$persistenceList )
+    function eZStepSystemCheck( $tpl, $http, $ini, &$persistenceList )
     {
         $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
                                 'system_check', 'System check' );
@@ -71,9 +71,8 @@ class eZStepSystemCheck extends eZStepInstaller
         $optionalTests = eZSetupOptionalTests();
         $testTable = eZSetupTestTable();
 
-        $arguments = array();
-        $runResult = eZSetupRunTests( $criticalTests, $arguments, 'eZSetup:init:system_check', $this->PersistenceList );
-        $optionalRunResult = eZSetupRunTests( $optionalTests, $arguments, 'eZSetup:init:system_check', $this->PersistenceList );
+        $runResult = eZSetupRunTests( $criticalTests, 'eZSetup:init:system_check', $this->PersistenceList );
+        $optionalRunResult = eZSetupRunTests( $optionalTests, 'eZSetup:init:system_check', $this->PersistenceList );
         $this->Results = $runResult['results'];
         $this->Result = $runResult['result'];
         $this->OptionalResults = $optionalRunResult['results'];
@@ -96,7 +95,7 @@ class eZStepSystemCheck extends eZStepInstaller
 
     /*!
     */
-    function &display()
+    function display()
     {
         $this->Tpl->setVariable( 'test', array( 'result' => $this->Result,
                                                 'results' => $this->Results ) );
@@ -120,8 +119,8 @@ class eZStepSystemCheck extends eZStepInstaller
     }
 
     // Variables for storing results from tests
-    var $Result = null;
-    var $Results = null;
+    public $Result = null;
+    public $Results = null;
 }
 
 ?>

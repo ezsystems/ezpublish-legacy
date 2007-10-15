@@ -31,14 +31,14 @@
 /*! \file unarchiveorder.php
 */
 
-include_once( "kernel/common/template.php" );
-include_once( "kernel/classes/ezorder.php" );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/classes/ezorder.php" );
 
-$Module =& $Params["Module"];
-$http =& eZHTTPTool::instance();
+$Module = $Params['Module'];
+$http = eZHTTPTool::instance();
 $orderIDArray = $http->sessionVariable( "OrderIDArray" );
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 $db->begin();
 foreach ( $orderIDArray as $archiveID )
 {

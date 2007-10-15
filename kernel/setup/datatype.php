@@ -26,14 +26,14 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$module =& $Params["Module"];
+$module = $Params['Module'];
 
-include_once( "kernel/common/template.php" );
-include_once( "kernel/common/eztemplatedesignresource.php" );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/common/eztemplatedesignresource.php" );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
-$ini =& eZINI::instance();
-$tpl =& templateInit();
+$ini = eZINI::instance();
+$tpl = templateInit();
 
 $steps = array( 'basic' => array( 'template' => 'datatype_basic.tpl',
                                   'function' => 'datatypeBasic' ),
@@ -45,7 +45,7 @@ $steps = array( 'basic' => array( 'template' => 'datatype_basic.tpl',
 
 $template = 'datatype.tpl';
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 $persistentData = array();
 if ( $http->hasPostVariable( 'PersistentData' ) )
@@ -75,37 +75,47 @@ if ( $currentStep )
     {
         $preFunctionName = $currentStep['pre_function'];
         if ( function_exists( $preFunctionName ) )
+        {
             $preFunctionName( $tpl, $persistentData );
+        }
         else
+        {
             eZDebug::writeWarning( 'Unknown pre step function ' . $preFunctionName );
+        }
     }
     if ( isset( $currentStep['function'] ) )
     {
         $functionName = $currentStep['function'];
         if ( function_exists( $functionName ) )
+        {
             $functionName( $tpl, $persistentData, $currentStep );
+        }
         else
+        {
             eZDebug::writeWarning( 'Unknown step function ' . $functionName );
+        }
     }
     if ( isset( $currentStep['template'] ) )
+    {
         $template = $currentStep['template'];
+    }
 }
 
 $tpl->setVariable( 'persistent_data', $persistentData );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:setup/$template" );
+$Result['content'] = $tpl->fetch( "design:setup/$template" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/setup', 'Datatype wizard' ) ) );
 
 
-function datatypeBasic( &$tpl, &$persistentData, $stepData )
+function datatypeBasic( $tpl, &$persistentData, $stepData )
 {
 }
 
-function datatypeBasicFetchData( &$tpl, &$persistentData )
+function datatypeBasicFetchData( $tpl, &$persistentData )
 {
-    $http =& eZHTTPTool::instance();
+    $http = eZHTTPTool::instance();
     $datatypeName = false;
     if ( $http->hasPostVariable( 'Name' ) )
         $datatypeName = $http->postVariable( 'Name' );
@@ -134,7 +144,7 @@ function datatypeBasicFetchData( &$tpl, &$persistentData )
     $persistentData['desc-name'] = $descName;
 }
 
-function datatypeDescribe( &$tpl, &$persistentData, $stepData )
+function datatypeDescribe( $tpl, &$persistentData, $stepData )
 {
     $datatypeName = $persistentData['name'];
     $classInput = $persistentData['class-input'];
@@ -157,9 +167,9 @@ function datatypeDescribe( &$tpl, &$persistentData, $stepData )
     $tpl->setVariable( 'desc-name', $descName );
 }
 
-function datatypeDescribeFetchData( &$tpl, &$persistentData )
+function datatypeDescribeFetchData( $tpl, &$persistentData )
 {
-    $http =& eZHTTPTool::instance();
+    $http = eZHTTPTool::instance();
     $className = false;
     if ( $http->hasPostVariable( 'ClassName' ) )
         $className = $http->postVariable( 'ClassName' );
@@ -179,7 +189,7 @@ function datatypeDescribeFetchData( &$tpl, &$persistentData )
     $persistentData['description'] = $description;
 }
 
-function datatypeDownload( &$tpl, &$persistentData, $stepData )
+function datatypeDownload( $tpl, &$persistentData, $stepData )
 {
     $datatypeName = $persistentData['name'];
     $classInput = $persistentData['class-input'];
@@ -216,7 +226,7 @@ function datatypeDownload( &$tpl, &$persistentData, $stepData )
     $contentLength = strlen( $content );
     $mimeType = 'application/octet-stream';
 
-    include_once( 'lib/version.php' );
+    //include_once( 'lib/version.php' );
     $version = eZPublishSDK::version();
 
     header( "Pragma: " );

@@ -27,13 +27,13 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "lib/ezutils/classes/ezextension.php" );
-include_once( "lib/ezutils/classes/ezmodule.php" );
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( "lib/ezutils/classes/ezextension.php" );
+//include_once( "lib/ezutils/classes/ezmodule.php" );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'debug-message' => '',
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'debug-message' => '',
                                       'use-session' => true,
                                       'use-modules' => true,
                                       'use-extensions' => true ) );
@@ -46,7 +46,7 @@ $webOutput = $cli->isWebOutput();
 function help()
 {
     $argv = $_SERVER['argv'];
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     $cli->output( "Usage: " . $argv[0] . " [OPTION]... MARK [MARK]\n" .
                   "Runs selected benchmarks.\n" .
                   "e.g. " . $argv[0] . " eztemplate\n" .
@@ -66,7 +66,7 @@ function help()
 function changeSiteAccessSetting( &$siteaccess, $optionData )
 {
     global $isQuiet;
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     if ( file_exists( 'settings/siteaccess/' . $optionData ) )
     {
         $siteaccess = $optionData;
@@ -211,15 +211,15 @@ for ( $i = 1; $i < count( $argv ); ++$i )
                             $useIncludeFiles = true;
                         }
                         if ( $level == 'error' )
-                            $level = EZ_LEVEL_ERROR;
+                            $level = eZDebug::LEVEL_ERROR;
                         else if ( $level == 'warning' )
-                            $level = EZ_LEVEL_WARNING;
+                            $level = eZDebug::LEVEL_WARNING;
                         else if ( $level == 'debug' )
-                            $level = EZ_LEVEL_DEBUG;
+                            $level = eZDebug::LEVEL_DEBUG;
                         else if ( $level == 'notice' )
-                            $level = EZ_LEVEL_NOTICE;
+                            $level = eZDebug::LEVEL_NOTICE;
                         else if ( $level == 'timing' )
-                            $level = EZ_LEVEL_TIMING;
+                            $level = eZDebug::EZ_LEVEL_TIMING;
                         $allowedDebugLevels[] = $level;
                     }
                 }
@@ -258,9 +258,9 @@ $script->setUseSiteAccess( $siteaccess );
 
 $script->initialize();
 
-include_once( 'benchmarks/classes/ezbenchmark.php' );
-include_once( 'benchmarks/classes/ezbenchmarkcase.php' );
-include_once( 'benchmarks/classes/ezbenchmarkclirunner.php' );
+//include_once( 'benchmarks/classes/ezbenchmark.php' );
+//include_once( 'benchmarks/classes/ezbenchmarkcase.php' );
+//include_once( 'benchmarks/classes/ezbenchmarkclirunner.php' );
 
 $success = true;
 

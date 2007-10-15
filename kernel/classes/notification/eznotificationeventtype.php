@@ -47,7 +47,7 @@ class eZNotificationEventType
         $this->NotificationEventTypeString = $notificationEventTypeString;
     }
 
-    function initializeEvent( &$event, $params )
+    function initializeEvent( $event, $params )
     {
     }
 
@@ -56,7 +56,7 @@ class eZNotificationEventType
      Crates a datatype instance of the datatype string id \a $dataTypeString.
      \note It only creates one instance for each datatype.
     */
-    function &create( $notificationEventTypeString )
+    static function create( $notificationEventTypeString )
     {
         $types =& $GLOBALS["eZNotificationEventTypes"];
         if( !isset( $types[$notificationEventTypeString] ) )
@@ -71,7 +71,7 @@ class eZNotificationEventType
             $className = $types[$notificationEventTypeString];
             $def =& $GLOBALS["eZNotificationEventTypeObjects"][$notificationEventTypeString];
 
-            if ( get_class( $def ) != $className )
+            if ( strtolower( get_class( $def ) ) != $className )
             {
                 $def = new $className();
             }
@@ -91,47 +91,48 @@ class eZNotificationEventType
         return in_array( $attr, $this->attributes() );
     }
 
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         if ( $attr == "description" )
-            $retValue =& $this->eventDescription();
-        if ( isset( $this->Attributes[$attr] ) )
-            return $this->Attributes[$attr];
-        else
         {
-            eZDebug::writeError( "Attribute '$attr' does not exist", 'eZNotificationEventType::attribute' );
-            $retValue = null;
+            return  $this->eventDescription();
         }
-        return $retValue;
+        if ( isset( $this->Attributes[$attr] ) )
+        {
+            return $this->Attributes[$attr];
+        }
+
+        eZDebug::writeError( "Attribute '$attr' does not exist", 'eZNotificationEventType::attribute' );
+        return null;
     }
 
-    function &eventDescription()
+    function eventDescription()
     {
         return $this->Attributes["name"];
     }
 
-    function execute( &$event )
+    function execute( $event )
     {
     }
 
-    function eventContent()
+    function eventContent( $event )
     {
         return "";
     }
 
-    function allowedTypes()
+    static function allowedTypes()
     {
-        $allowedTypes =& $GLOBALS["eZNotificationEventTypeAllowedTypes"];
+        $allowedTypes = $GLOBALS["eZNotificationEventTypeAllowedTypes"];
         if ( !is_array( $allowedTypes ) )
         {
-            $notificationINI =& eZINI::instance( 'notification.ini' );
+            $notificationINI = eZINI::instance( 'notification.ini' );
             $eventTypes = $notificationINI->variable( 'NotificationEventTypeSettings', 'AvailableEventTypes' );
             $allowedTypes = array_unique( $eventTypes );
         }
         return $allowedTypes;
     }
 
-    function loadAndRegisterAllTypes()
+    static function loadAndRegisterAllTypes()
     {
         $allowedTypes = eZNotificationEventType::allowedTypes();
         foreach( $allowedTypes as $type )
@@ -140,18 +141,18 @@ class eZNotificationEventType
         }
     }
 
-    function loadAndRegisterType( $type )
+    static function loadAndRegisterType( $type )
     {
-        $types =& $GLOBALS["eZNotificationEventTypes"];
+        $types = $GLOBALS["eZNotificationEventTypes"];
         if ( isset( $types[$type] ) )
         {
             eZDebug::writeError( "Notification event type already registered: $type", "eZNotificationEventType::loadAndRegisterType" );
             return false;
         }
 
-        include_once( 'lib/ezutils/classes/ezextension.php' );
+        //include_once( 'lib/ezutils/classes/ezextension.php' );
         $baseDirectory = eZExtension::baseDirectory();
-        $notificationINI =& eZINI::instance( 'notification.ini' );
+        $notificationINI = eZINI::instance( 'notification.ini' );
         $repositoryDirectories = $notificationINI->variable( 'NotificationEventTypeSettings', 'RepositoryDirectories' );
         $extensionDirectories = $notificationINI->variable( 'NotificationEventTypeSettings', 'ExtensionDirectories' );
         foreach ( $extensionDirectories as $extensionDirectory )
@@ -179,12 +180,13 @@ class eZNotificationEventType
         return true;
     }
 
-    function register( $notificationTypeString, $className )
+    static function register( $notificationTypeString, $className )
     {
-        $types =& $GLOBALS["eZNotificationEventTypes"];
-        if ( !is_array( $types ) )
+        if ( !is_array( $GLOBALS["eZNotificationEventTypes"] ) )
+        {
             $types = array();
-        $types[$notificationTypeString] = $className;
+        }
+        $GLOBALS["eZNotificationEventTypes"][$notificationTypeString] = $className;
     }
 
 

@@ -43,17 +43,17 @@ if( !file_exists( 'update/common/scripts' ) || !is_dir( 'update/common/scripts' 
     exit;
 }
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
+$cli = eZCLI::instance();
 
-$script =& eZScript::instance( array( 'description' => ( "\nDatabase converter for eZ Publish 3.6.\n" .
-                                                         "Updates <link> tags in 'ezxmltext' type attributes.\n" .
-                                                         "Run this script before using database created with eZ Publish version 3.5.* or lower." ),
-                                      'use-session' => false,
-                                      'use-modules' => false,
-                                      'use-extensions' => false ) );
+$script = eZScript::instance( array( 'description' => ( "\nDatabase converter for eZ Publish 3.6.\n" .
+                                                        "Updates <link> tags in 'ezxmltext' type attributes.\n" .
+                                                        "Run this script before using database created with eZ Publish version 3.5.* or lower." ),
+                                     'use-session' => false,
+                                     'use-modules' => false,
+                                     'use-extensions' => false ) );
 
 $script->startup();
 
@@ -89,12 +89,12 @@ if ( $dbHost or $dbName or $dbUser or $dbImpl )
     if ( $dbName !== false )
         $params['database'] = $dbName;
 
-    $db =& eZDB::instance( $dbImpl, $params, true );
+    $db = eZDB::instance( $dbImpl, $params, true );
     eZDB::setInstance( $db );
 }
 else
 {
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
 }
 
 if ( !$db->isConnected() )

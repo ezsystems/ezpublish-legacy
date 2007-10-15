@@ -27,16 +27,18 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ Publish static cache generator\n" .
-                                                         "\n" .
-                                                         "./bin/makestaticcache.php --siteaccess user" ),
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+require 'autoload.php';
+
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'description' => ( "eZ Publish static cache generator\n" .
+                                                        "\n" .
+                                                        "./bin/makestaticcache.php --siteaccess user" ),
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 
@@ -48,10 +50,10 @@ $force = $options['force'];
 
 $script->initialize();
 
-include_once( 'lib/ezutils/classes/ezdebug.php' );
-include_once( 'lib/ezfile/classes/ezdir.php' );
-include_once( 'lib/ezutils/classes/ezini.php' );
-include_once( 'kernel/classes/ezstaticcache.php' );
+require_once( 'lib/ezutils/classes/ezdebug.php' );
+//include_once( 'lib/ezfile/classes/ezdir.php' );
+//include_once( 'lib/ezutils/classes/ezini.php' );
+//include_once( 'kernel/classes/ezstaticcache.php' );
 
 $staticCache = new eZStaticCache();
 $staticCache->generateCache( $force, false, $cli, false );

@@ -37,25 +37,18 @@
 
 */
 
-include_once( 'lib/ezdb/classes/ezdb.php' );
+//include_once( 'lib/ezdb/classes/ezdb.php' );
 
 class eZDBTool
 {
     /*!
-     Constructor
-    */
-    function eZDBTool()
-    {
-    }
-
-    /*!
      \return true if the database does not contain any relation objects.
      \note If db is not specified it will use eZDB::instance()
     */
-    function isEmpty( &$db )
+    static function isEmpty( $db )
     {
         if ( $db === null )
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
         $relationTypeMask = $db->supportedRelationTypeMask();
         $count = $db->relationCounts( $relationTypeMask );
         return $count == 0;
@@ -65,10 +58,10 @@ class eZDBTool
      Tries to remove all relation types from the database.
      \note If db is not specified it will use eZDB::instance()
     */
-    function cleanup( &$db )
+    static function cleanup( $db )
     {
         if ( $db === null )
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
         $relationTypes = $db->supportedRelationTypes();
         $result = true;
         $defaultRegexp = "#^ez|tmp_notification_rule_s#";

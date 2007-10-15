@@ -37,7 +37,7 @@
 
 */
 
-include_once( 'kernel/error/errors.php' );
+//include_once( 'kernel/error/errors.php' );
 
 class eZSearchFunctionCollection
 {
@@ -50,9 +50,9 @@ class eZSearchFunctionCollection
 
     function fetchSearchListCount()
     {
-        include_once( "kernel/classes/ezsearchlog.php" );
+        //include_once( "kernel/classes/ezsearchlog.php" );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $query = "SELECT count(*) as count FROM ezsearch_search_phrase";
         $searchListCount = $db->arrayQuery( $query );
 
@@ -61,12 +61,12 @@ class eZSearchFunctionCollection
 
     function fetchSearchList( $offset, $limit )
     {
-        include_once( "kernel/classes/ezsearchlog.php" );
+        //include_once( "kernel/classes/ezsearchlog.php" );
 
         $parameters = array( 'offset' => $offset, 'limit'  => $limit );
-        $mostFrequentPhraseArray =& eZSearchLog::mostFrequentPhraseArray( $parameters );
+        $mostFrequentPhraseArray = eZSearchLog::mostFrequentPhraseArray( $parameters );
 
-        return array( 'result' => &$mostFrequentPhraseArray );
+        return array( 'result' => $mostFrequentPhraseArray );
     }
 
 }

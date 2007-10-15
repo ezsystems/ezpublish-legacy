@@ -66,7 +66,7 @@ class eZTemplateMenuFunction
     }
 
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, $parameters, $privateData )
+                                         $tpl, $parameters, $privateData )
     {
         if ( $functionName != $this->BlockName )
             return false;
@@ -80,7 +80,7 @@ class eZTemplateMenuFunction
         $newNodes = array();
         if ( isset( $parameters["name"] ) )
         {
-            $menuIni =& eZINI::instance( "menu.ini" );
+            $menuIni = eZINI::instance( "menu.ini" );
             $nameData = $parameters["name"];
             if ( !eZTemplateNodeTool::isStaticElement( $nameData ) )
                 return false;
@@ -96,7 +96,7 @@ class eZTemplateMenuFunction
                     $uriString = "design:menu/$menuTemplate.tpl";
                     $resourceName = "";
                     $templateName = "";
-                    $resource =& $tpl->resourceFor( $uriString, $resourceName, $templateName );
+                    $resource = $tpl->resourceFor( $uriString, $resourceName, $templateName );
                     $resourceData = $tpl->resourceData( $resource, $uriString, $resourceName, $templateName );
                     $resourceData['use-comments'] = eZTemplateCompiler::isCommentsEnabled();
 
@@ -111,7 +111,7 @@ class eZTemplateMenuFunction
                             continue;
                         $parameterData =& $parameters[$parameterName];
                         $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameterData, false, array(),
-                                                                              array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $parameterName ) );
+                                                                              array( $namespaceValue, eZTemplate::NAMESPACE_SCOPE_RELATIVE, $parameterName ) );
                         $variableList[] = $parameterName;
                     }
 
@@ -119,7 +119,7 @@ class eZTemplateMenuFunction
 
                     foreach ( $variableList as $variableName )
                     {
-                        $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $variableName ) );
+                        $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( array( $namespaceValue, eZTemplate::NAMESPACE_SCOPE_RELATIVE, $variableName ) );
                     }
                 }
                 else
@@ -140,7 +140,7 @@ class eZTemplateMenuFunction
     /*!
      Processes the function with all it's children.
     */
-    function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
+    function process( $tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
         $params = $functionParameters;
         switch ( $functionName )
@@ -148,7 +148,7 @@ class eZTemplateMenuFunction
             case $this->BlockName:
             {
                 $name ="";
-                $menuIni =& eZINI::instance( "menu.ini" );
+                $menuIni = eZINI::instance( "menu.ini" );
 
                 if ( isset( $functionParameters["name"] ) )
                 {

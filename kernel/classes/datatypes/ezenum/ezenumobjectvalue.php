@@ -31,9 +31,9 @@
 /*! \file ezenumobjectvalue.php
 */
 
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "kernel/classes/ezpersistentobject.php" );
-include_once( "kernel/classes/ezcontentclassattribute.php" );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezcontentclassattribute.php" );
 
 /*!
   \class eZEnumObjectValue ezenumobjectvalue.php
@@ -51,7 +51,7 @@ class eZEnumObjectValue extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "contentobject_attribute_id" => array( 'name' => "ContentObjectAttributeID",
                                                                                 'datatype' => 'integer',
@@ -108,7 +108,7 @@ class eZEnumObjectValue extends eZPersistentObject
         }
     }
 
-    function remove( $contentObjectAttributeID, $contentObjectAttributeVersion, $enumid )
+    function removeByOAID( $contentObjectAttributeID, $contentObjectAttributeVersion, $enumid )
     {
         eZPersistentObject::removeObject( eZEnumObjectValue::definition(),
                                           array( "enumid" => $enumid,
@@ -137,11 +137,11 @@ class eZEnumObjectValue extends eZPersistentObject
                                                     $asObject );
     }
 
-    var $ContentObjectAttributeID;
-    var $ContentObjectAttributeVersion;
-    var $EnumID;
-    var $EnumElement;
-    var $EnumValue;
+    public $ContentObjectAttributeID;
+    public $ContentObjectAttributeVersion;
+    public $EnumID;
+    public $EnumElement;
+    public $EnumValue;
 }
 
 ?>

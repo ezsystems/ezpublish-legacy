@@ -33,7 +33,7 @@ class eZWorkflowFunctions
 {
     function addGroup( $workflowID, $workflowVersion, $selectedGroup )
     {
-        include_once( "kernel/classes/ezworkflowgrouplink.php" );
+        //include_once( "kernel/classes/ezworkflowgrouplink.php" );
 
         list ( $groupID, $groupName ) = split( "/", $selectedGroup );
         $ingroup = eZWorkflowGroupLink::create( $workflowID, $workflowVersion, $groupID, $groupName );
@@ -43,8 +43,8 @@ class eZWorkflowFunctions
 
     function removeGroup( $workflowID, $workflowVersion, $selectedGroup )
     {
-        include_once( "kernel/classes/ezworkflow.php" );
-        include_once( "kernel/classes/ezworkflowgrouplink.php" );
+        //include_once( "kernel/classes/ezworkflow.php" );
+        //include_once( "kernel/classes/ezworkflowgrouplink.php" );
 
         $workflow = eZWorkflow::fetch( $workflowID );
         if ( !$workflow )
@@ -64,11 +64,11 @@ class eZWorkflowFunctions
         }
         else
         {
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
             foreach(  $selectedGroup as $group_id )
             {
-                eZWorkflowGroupLink::remove( $workflowID, $workflowVersion, $group_id );
+                eZWorkflowGroupLink::removeByID( $workflowID, $workflowVersion, $group_id );
             }
             $db->commit();
         }

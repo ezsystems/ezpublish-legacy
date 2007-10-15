@@ -39,20 +39,19 @@
 
 */
 
-define( "EZ_BINARY_FILE_HANDLE_UPLOAD", 0x1 );
-define( "EZ_BINARY_FILE_HANDLE_DOWNLOAD", 0x2 );
-
-define( "EZ_BINARY_FILE_HANDLE_ALL", EZ_BINARY_FILE_HANDLE_UPLOAD |
-                                     EZ_BINARY_FILE_HANDLE_DOWNLOAD );
-
-define( "EZ_BINARY_FILE_TYPE_FILE", 'file' );
-define( "EZ_BINARY_FILE_TYPE_MEDIA", 'media' );
-
-define( "EZ_BINARY_FILE_RESULT_OK", 1 );
-define( "EZ_BINARY_FILE_RESULT_UNAVAILABLE", 2 );
-
 class eZBinaryFileHandler
 {
+    const HANDLE_UPLOAD = 0x1;
+    const HANDLE_DOWNLOAD = 0x2;
+
+    const HANDLE_ALL = 0x3; // HANDLE_UPLOAD | HANDLE_DOWNLOAD
+
+    const TYPE_FILE = 'file';
+    const TYPE_MEDIA = 'media';
+
+    const RESULT_OK = 1;
+    const RESULT_UNAVAILABLE = 2;
+
     function eZBinaryFileHandler( $identifier, $name, $handleType )
     {
         $this->Info = array();
@@ -71,23 +70,22 @@ class eZBinaryFileHandler
         return isset( $this->Info[$attribute] );
     }
 
-    function &attribute( $attribute )
+    function attribute( $attribute )
     {
         if ( isset( $this->Info[$attribute] ) )
-            return $this->Info[$attribute];
-        else
         {
-            eZDebug::writeError( "Attribute '$attribute' does not exist", 'eZBinaryFileHandler::attribute' );
-            $retValue = null;
-            return $retValue;
+            return $this->Info[$attribute];
         }
+
+        eZDebug::writeError( "Attribute '$attribute' does not exist", 'eZBinaryFileHandler::attribute' );
+        return null;
     }
 
     /*!
      \return the suffix for the template name which will be used for attribute viewing.
      \note Default returns false which means no special template.
     */
-    function &viewTemplate( &$contentobjectAttribute )
+    function viewTemplate( $contentobjectAttribute )
     {
         $retVal = false;
         return $retVal;
@@ -97,7 +95,7 @@ class eZBinaryFileHandler
      \return the suffix for the template name which will be used for attribute viewing.
      \note Default returns false which means no special template.
     */
-    function &editTemplate( &$contentobjectAttribute )
+    function editTemplate( $contentobjectAttribute )
     {
         $retVal = false;
         return $retVal;
@@ -107,7 +105,7 @@ class eZBinaryFileHandler
      \return the suffix for the template name which will be used for attribute viewing.
      \note Default returns false which means no special template.
     */
-    function &informationTemplate( &$contentobjectAttribute )
+    function informationTemplate( $contentobjectAttribute )
     {
         $retVal = false;
         return $retVal;
@@ -128,12 +126,12 @@ class eZBinaryFileHandler
         $class = get_class( $binary );
         $fileName = false;
         $originalFilename = false;
-        if ( in_array( $class, array( 'ezbinaryfile', 'ezmedia' ) ) )
+        if ( in_array( $class, array( 'eZBinaryFile', 'eZMedia' ) ) )
         {
             $fileName = $origDir . "/" . $binary->attribute( 'mime_type_category' ) . '/'.  $binary->attribute( "filename" );
             $originalFilename = $binary->attribute( 'original_filename' );
         }
-        else if ( $class == 'ezimagealiashandler' )
+        else if ( $class == 'eZImageAliasHandler' )
         {
             $alias = $binary->attribute( 'original' );
             if ( $alias )
@@ -164,7 +162,7 @@ class eZBinaryFileHandler
     /*!
      \return the file object which corresponds to \a $contentObject and \a $contentObjectAttribute.
     */
-    function downloadFileObject( &$contentObject, &$contentObjectAttribute )
+    function downloadFileObject( $contentObject, $contentObjectAttribute )
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
         $version = $contentObject->attribute( 'current_version' );
@@ -179,16 +177,16 @@ class eZBinaryFileHandler
      \return the file object type which corresponds to \a $contentObject and \a $contentObjectAttribute.
      \deprecated
     */
-    function downloadType( &$contentObject, &$contentObjectAttribute )
+    function downloadType( $contentObject, $contentObjectAttribute )
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
         $version = $contentObject->attribute( 'current_version' );
         $fileObject = eZBinaryFile::fetch( $contentObjectAttributeID, $version );
         if ( $fileObject )
-            return EZ_BINARY_FILE_TYPE_FILE;
+            return self::TYPE_FILE;
         $fileObject = eZMedia::fetch( $contentObjectAttributeID, $version );
         if ( $fileObject )
-            return EZ_BINARY_FILE_TYPE_MEDIA;
+            return self::TYPE_MEDIA;
         return false;
     }
 
@@ -196,7 +194,7 @@ class eZBinaryFileHandler
      \return the download url for the file object which corresponds to \a $contentObject and \a $contentObjectAttribute.
      \deprecated
     */
-    function downloadURL( &$contentObject, &$contentObjectAttribute )
+    function downloadURL( $contentObject, $contentObjectAttribute )
     {
         $contentObjectID = $contentObject->attribute( 'id' );
         $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
@@ -205,11 +203,11 @@ class eZBinaryFileHandler
         $name = '';
         switch ( $downloadType )
         {
-            case EZ_BINARY_FILE_TYPE_FILE:
+            case self::TYPE_FILE:
             {
                 $name = $downloadObject->attribute( 'original_filename' );
             } break;
-            case EZ_BINARY_FILE_TYPE_MEDIA:
+            case self::TYPE_MEDIA:
             {
                 $name = $downloadObject->attribute( 'original_filename' );
             } break;
@@ -222,10 +220,10 @@ class eZBinaryFileHandler
         return $url;
     }
 
-    function handleDownload( &$contentObject, &$contentObjectAttribute, $type )
+    function handleDownload( $contentObject, $contentObjectAttribute, $type )
     {
-        include_once( 'lib/ezutils/classes/ezmimetype.php' );
-        include_once( 'kernel/classes/datatypes/ezimage/ezimagealiashandler.php' );
+        //include_once( 'lib/ezutils/classes/ezmimetype.php' );
+        //include_once( 'kernel/classes/datatypes/ezimage/ezimagealiashandler.php' );
         $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
         $version = $contentObject->attribute( 'current_version' );
 
@@ -233,14 +231,14 @@ class eZBinaryFileHandler
 
         if ( !$contentObjectAttribute->hasStoredFileInformation( $contentObject, $version,
                                                                  $contentObjectAttribute->attribute( 'language_code' ) ) )
-            return EZ_BINARY_FILE_RESULT_UNAVAILABLE;
+            return self::RESULT_UNAVAILABLE;
 
         $fileInfo = $contentObjectAttribute->storedFileInformation( $contentObject, $version,
                                                                     $contentObjectAttribute->attribute( 'language_code' ) );
         if ( !$fileInfo )
-            return EZ_BINARY_FILE_RESULT_UNAVAILABLE;
+            return self::RESULT_UNAVAILABLE;
         if ( !$fileInfo['mime_type'] )
-            return EZ_BINARY_FILE_RESULT_UNAVAILABLE;
+            return self::RESULT_UNAVAILABLE;
 
         $contentObjectAttribute->handleDownload( $contentObject, $version,
                                                  $contentObjectAttribute->attribute( 'language_code' ) );
@@ -248,7 +246,7 @@ class eZBinaryFileHandler
         return $this->handleFileDownload( $contentObject, $contentObjectAttribute, $type, $fileInfo );
     }
 
-    function handleFileDownload( &$contentObject, &$contentObjectAttribute, $type, $mimeData )
+    function handleFileDownload( $contentObject, $contentObjectAttribute, $type, $mimeData )
     {
         return false;
     }
@@ -258,11 +256,11 @@ class eZBinaryFileHandler
         return array( 'kernel/classes/binaryhandlers' );
     }
 
-    function &instance( $identifier = false )
+    static function instance( $identifier = false )
     {
         if ( $identifier === false )
         {
-            $fileINI =& eZINI::instance( 'file.ini' );
+            $fileINI = eZINI::instance( 'file.ini' );
             $identifier = $fileINI->variable( 'BinaryFileSettings', 'Handler' );
         }
         $instance =& $GLOBALS['eZBinaryFileHandlerInstance-' . $identifier];
@@ -287,13 +285,15 @@ class eZBinaryFileHandler
                 $instance = new $classname();
             }
             else
+            {
                 eZDebug::writeError( "Could not find binary file handler '$identifier'", 'eZBinaryFileHandler::instance' );
+            }
         }
         return $instance;
     }
 
     /// \privatesection
-    var $Info;
+    public $Info;
 }
 
 ?>

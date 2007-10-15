@@ -57,7 +57,7 @@ class eZTemplateTextOperator
     /*!
      Returns the operators in this class.
     */
-    function &operatorList()
+    function operatorList()
     {
         return $this->Operators;
     }
@@ -104,8 +104,8 @@ class eZTemplateTextOperator
                                                                             'default' => false ) ) );
     }
 
-    function indentTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                   &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function indentTransformation( $operatorName, &$node, $tpl, &$resourceData,
+                                   $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $count = $type = $filler = false;
@@ -191,8 +191,8 @@ class eZTemplateTextOperator
         return $newElements;
     }
 
-    function concatTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                   &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function concatTransformation( $operatorName, &$node, $tpl, &$resourceData,
+                                   $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $function = $operatorName;
@@ -229,7 +229,7 @@ class eZTemplateTextOperator
     /*!
      Handles concat and indent operators.
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters,
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters,
                      $placement )
     {
         switch ( $operatorName )
@@ -275,8 +275,8 @@ class eZTemplateTextOperator
     }
 
     /// \privatesection
-    var $ConcatName;
-    var $Operators;
+    public $ConcatName;
+    public $Operators;
 }
 
 ?>

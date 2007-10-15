@@ -28,30 +28,30 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$siteBasics =& $GLOBALS['eZSiteBasics'];
-$siteBasics['no-cache-adviced'] = false;
+$GLOBALS['eZSiteBasics']['no-cache-adviced'] = false;
 
-include_once( "lib/eztemplate/classes/eztemplate.php" );
-include_once( "lib/eztemplate/classes/eztemplatesectionfunction.php" );
-include_once( "lib/eztemplate/classes/eztemplateincludefunction.php" );
+//include_once( "lib/eztemplate/classes/eztemplate.php" );
+//include_once( "lib/eztemplate/classes/eztemplatesectionfunction.php" );
+//include_once( "lib/eztemplate/classes/eztemplateincludefunction.php" );
 
-include_once( "lib/ezutils/classes/ezhttptool.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
 
 
 // Include common functions
 include_once( "kernel/setup/ezsetupcommon.php" );
-include_once( 'kernel/setup/steps/ezstep_data.php' );
+include_once( "kernel/setup/ezsetuptests.php" );
+//include_once( 'kernel/setup/steps/ezstep_data.php' );
 include_once( 'kernel/setup/ezsetup_summary.php' );
 
 // Initialize template
-$tpl =& eZTemplate::instance();
+$tpl = eZTemplate::instance();
 //$tpl->registerFunction( "section", new eZTemplateSectionFunction( "section" ) );
 //$tpl->registerFunction( "include", new eZTemplateIncludeFunction() );
 
-include_once( 'kernel/common/eztemplatedesignresource.php' );
-include_once( 'lib/ezutils/classes/ezini.php' );
-include_once( "lib/ezutils/classes/ezdebug.php" );
-$ini =& eZINI::instance();
+//include_once( 'kernel/common/eztemplatedesignresource.php' );
+//include_once( 'lib/ezutils/classes/ezini.php' );
+require_once( "lib/ezutils/classes/ezdebug.php" );
+$ini = eZINI::instance();
 if ( $ini->variable( 'TemplateSettings', 'Debug' ) == 'enabled' )
     eZTemplate::setIsDebugEnabled( true );
 //eZDebug::setLogOnly( true );
@@ -59,7 +59,7 @@ if ( $ini->variable( 'TemplateSettings', 'Debug' ) == 'enabled' )
 //$ini->setVariable( 'RegionalSettings', 'TextTranslation', 'disabled' );
 
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 
 $tpl->setAutoloadPathList( $ini->variable( 'TemplateSettings', 'AutoloadPathList' ) );
 $tpl->autoload();
@@ -67,7 +67,7 @@ $tpl->autoload();
 $tpl->registerResource( eZTemplateDesignResource::instance() );
 
 // Initialize HTTP variables
-$http =& eZHttpTool::instance();
+$http = eZHTTPTool::instance();
 
 $baseDir = 'kernel/setup/';
 
@@ -97,7 +97,7 @@ $currentStep = null;
 if ( $http->hasPostVariable( 'eZSetup_back_button' ) ) // previous step selected
 {
     $previousStep = $http->postVariable( 'eZSetup_current_step' );
-    $step =& $stepData->previousStep( $previousStep );
+    $step = $stepData->previousStep( $previousStep );
     $goBack = true;
     while ( $goBack )
     {
@@ -111,7 +111,7 @@ if ( $http->hasPostVariable( 'eZSetup_back_button' ) ) // previous step selected
 
             if ( $stepObject->init() === true )
             {
-                $step =& $stepData->previousStep( $step );
+                $step = $stepData->previousStep( $step );
                 continue;
             }
         }
@@ -122,7 +122,7 @@ if ( $http->hasPostVariable( 'eZSetup_back_button' ) ) // previous step selected
 }
 else if ( $http->hasPostVariable( 'eZSetup_refresh_button' ) ) // refresh selected step
 {
-    $step =& $stepData->step( $http->postVariable( 'eZSetup_current_step' ) );
+    $step = $stepData->step( $http->postVariable( 'eZSetup_current_step' ) );
 }
 else if ( $http->hasPostVariable( 'eZSetup_next_button' ) || $http->hasPostVariable( 'eZSetup_current_step' ) ) // next step selected,
 {
@@ -147,11 +147,11 @@ else if ( $http->hasPostVariable( 'eZSetup_next_button' ) || $http->hasPostVaria
         }
         else if ( $processPostDataResult !== true ) // step to redo specified
         {
-            $step =& $stepData->step( $processPostDataResult );
+            $step = $stepData->step( $processPostDataResult );
         }
         else
         {
-            $step =& $stepData->nextStep( $currentStep );
+            $step = $stepData->nextStep( $currentStep );
         }
     }
 
@@ -169,7 +169,7 @@ while( !$done && $step != null )
 // Some common variables for all steps
     $tpl->setVariable( "script", eZSys::serverVariable( 'PHP_SELF' ) );
 
-    $siteBasics =& $GLOBALS['eZSiteBasics'];
+    $siteBasics = $GLOBALS['eZSiteBasics'];
     $useIndex = $siteBasics['validity-check-required'];
 
     if ( $useIndex )
@@ -178,7 +178,7 @@ while( !$done && $step != null )
         $script = eZSys::indexFile() . "/setup/$partName";
     $tpl->setVariable( 'script', $script );
 
-    include_once( 'lib/version.php' );
+    //include_once( 'lib/version.php' );
     $tpl->setVariable( "version", array( "text" => eZPublishSDK::version(),
                                          "major" => eZPublishSDK::majorVersion(),
                                          "minor" => eZPublishSDK::minorVersion(),
@@ -210,7 +210,7 @@ while( !$done && $step != null )
 
         if( $result === true )
         {
-            $step =& $stepData->nextStep( $step );
+            $step = $stepData->nextStep( $step );
         }
         else if( is_int( $result ) || is_string( $result ) )
         {
@@ -220,7 +220,7 @@ while( !$done && $step != null )
         {
             $tpl->setVariable( 'setup_current_step', $step['class'] ); // set current step
             $result = $stepInstaller->display();
-            $result['help'] =& $tpl->fetch( 'design:setup/init/'.$step['file'].'_help.tpl' );
+            $result['help'] = $tpl->fetch( 'design:setup/init/'.$step['file'].'_help.tpl' );
             $done = true;
         }
     }

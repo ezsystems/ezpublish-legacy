@@ -44,7 +44,7 @@
   http://www.isbn-international.org
 */
 
-include_once( 'kernel/classes/ezpersistentobject.php' );
+//include_once( 'kernel/classes/ezpersistentobject.php' );
 
 class eZISBNRegistrantRange extends eZPersistentObject
 {
@@ -59,7 +59,7 @@ class eZISBNRegistrantRange extends eZPersistentObject
     /*!
       Definition of the ranges for ISBN Registrant.
     */
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -114,7 +114,7 @@ class eZISBNRegistrantRange extends eZPersistentObject
 
      \return A new eZISBNRegistrantRange object.
     */
-    function create( $ISBNGroupID, $fromNumber, $toNumber, $registrantFrom, $registrantTo, $length )
+    static function create( $ISBNGroupID, $fromNumber, $toNumber, $registrantFrom, $registrantTo, $length )
     {
         $row = array(
             'id' => null,
@@ -132,7 +132,7 @@ class eZISBNRegistrantRange extends eZPersistentObject
      \static
      Removes the registrant area based on ID \a $id.
     */
-    function removeByID( $id )
+    static function removeByID( $id )
     {
         eZPersistentObject::removeObject( eZISBNRegistrantRange::definition(),
                                           array( 'id' => $id ) );
@@ -150,15 +150,13 @@ class eZISBNRegistrantRange extends eZPersistentObject
      \param $asObject If the result should be returned as object or an array.
      \return the registrant list for an ISBN registration group id.
     */
-    function fetchListByGroupID( $groupID, &$count, $asObject = true )
+    static function fetchListByGroupID( $groupID, $asObject = true )
     {
         $conditions = array( 'isbn_group_id' => $groupID );
         $sortArray = array( array( 'from_number' => 'asc' ) );
-        $registrantRangeArray = eZPersistentObject::fetchObjectList( eZISBNRegistrantRange::definition(),
+        return eZPersistentObject::fetchObjectList( eZISBNRegistrantRange::definition(),
                                                     null, $conditions, $sortArray, null,
                                                     $asObject );
-        $count = count( $sortArray );
-        return $registrantRangeArray;
     }
 
     /*!
@@ -177,14 +175,14 @@ class eZISBNRegistrantRange extends eZPersistentObject
 
      \return the registrant range object if found and false if not found.
     */
-    function extractRegistrant( $isbnNr, $group, $groupRange, &$registrantLength )
+    static function extractRegistrant( $isbnNr, $group, $groupRange, &$registrantLength )
     {
         $registrant = false;
-        if ( get_class( $group ) == 'ezisbngroup' and
-             get_class( $groupRange ) == 'ezisbngrouprange' )
+        if ( $group instanceof eZISBNGroup and
+             $groupRange instanceof eZISBNGroupRange )
         {
-            $groupLength =& $groupRange->attribute( 'group_length' );
-            $groupID =& $group->attribute( 'id' );
+            $groupLength = $groupRange->attribute( 'group_length' );
+            $groupID = $group->attribute( 'id' );
 
             $registrantOffset = 3 + $groupLength;
             $testSegment = substr( $isbnNr, $registrantOffset, 5 );
@@ -198,7 +196,7 @@ class eZISBNRegistrantRange extends eZPersistentObject
                                                                         true );
                 if ( count( $groupRangeArray ) == 1 )
                 {
-                    $length =& $groupRangeArray[0]->attribute( 'registrant_length' );
+                    $length = $groupRangeArray[0]->attribute( 'registrant_length' );
 
                     // Copy the length to send it back as a reference.
                     $registrantLength = $length;
@@ -213,9 +211,9 @@ class eZISBNRegistrantRange extends eZPersistentObject
      \static
      Removes all ISBN group ranges from the database.
     */
-    function cleanAll()
+    static function cleanAll()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $definition = eZISBNRegistrantRange::definition();
         $table = $definition['name'];
         $sql = "TRUNCATE TABLE " . $table;

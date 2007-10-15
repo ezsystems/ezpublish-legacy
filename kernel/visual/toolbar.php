@@ -31,29 +31,29 @@
 /*! \file toolbar.php
 */
 
-$http =& eZHTTPTool::instance();
-$module =& $Params["Module"];
+$http = eZHTTPTool::instance();
+$module = $Params['Module'];
 
 $currentSiteAccess = ( $Params['SiteAccess'] ) ? $Params['SiteAccess'] : false;
 $toolbarPosition = ( $Params['Position'] ) ? $Params['Position'] : false;
 
-include_once( "kernel/common/template.php" );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( 'kernel/classes/ezcontentbrowse.php' );
-include_once( "kernel/classes/ezsiteaccess.php" );
+require_once( "kernel/common/template.php" );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( 'kernel/classes/ezcontentbrowse.php' );
+//include_once( "kernel/classes/ezsiteaccess.php" );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
-$siteini =& eZINI::instance();
+$siteini = eZINI::instance();
 if ( !$currentSiteAccess or
      !$toolbarPosition or
      !in_array( $currentSiteAccess, $siteini->variable( 'SiteAccessSettings', 'RelatedSiteAccessList' ) ) )
-    return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
 $iniPath = eZSiteAccess::findPathToSiteAccess( $currentSiteAccess );
-$ini =& eZINI::instance( "toolbar.ini", 'settings', null, false, null, false );
+$ini = eZINI::instance( "toolbar.ini", 'settings', null, false, null, false );
 
-$iniAppend =& eZINI::instance( 'toolbar.ini.append', $iniPath, null, false, null, true );
+$iniAppend = eZINI::instance( 'toolbar.ini.append', $iniPath, null, false, null, true );
 
 $toolArray = array();
 if ( $iniAppend->hasVariable( "Toolbar_" . $toolbarPosition, "Tool" ) )
@@ -363,7 +363,7 @@ if ( $removeCache )
     removeRelatedCache( $currentSiteAccess );
 }
 
-$toolbarIni =& eZINI::instance( "toolbar.ini", 'settings', null, false, true, false );
+$toolbarIni = eZINI::instance( "toolbar.ini", 'settings', null, false, true, false );
 $toolbarIni->prependOverrideDir( "siteaccess/$currentSiteAccess", false, 'siteaccess' );
 $toolbarIni->parse();
 
@@ -372,7 +372,7 @@ if ( $toolbarIni->hasVariable( "Tool", "AvailableToolArray" ) )
     $availableToolArray = $toolbarIni->variable( "Tool", "AvailableToolArray" );
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( 'toolbar_position', $toolbarPosition );
 $tpl->setVariable( 'tool_list', $toolList );
@@ -380,14 +380,14 @@ $tpl->setVariable( 'available_tool_list', $availableToolArray  );
 $tpl->setVariable( 'current_siteaccess', $currentSiteAccess );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:visual/toolbar.tpl" );
+$Result['content'] = $tpl->fetch( "design:visual/toolbar.tpl" );
 $Result['path'] = array( array( 'url' => 'visual/toolbarlist',
                                 'text' => ezi18n( 'kernel/design', 'Toolbar list' ) ) );
 
 function removeRelatedCache( $siteAccess )
 {
     // Delete compiled template
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
     $iniPath = eZSiteAccess::findPathToSiteAccess( $siteAccess );
     $siteINI = eZINI::instance( 'site.ini.append', $iniPath );
     if ( $siteINI->hasVariable( 'FileSettings', 'CacheDir' ) )
@@ -418,11 +418,11 @@ function removeRelatedCache( $siteAccess )
     }
     $compiledTemplateDir = $cacheDir . "/template/compiled";
     eZDir::unlinkWildcard( $compiledTemplateDir . "/", "*pagelayout*.*" );
-    include_once( 'kernel/classes/ezcache.php' );
+    //include_once( 'kernel/classes/ezcache.php' );
     eZCache::clearByTag( 'template-block' );
 
     // Expire content view cache
-    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearAllContentCache();
 }
 

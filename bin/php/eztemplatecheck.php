@@ -27,23 +27,25 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ Publish Template Syntax Checker\n" .
-                                                         "\n" .
-                                                         "./bin/php/eztemplatecheck.php -sadmin\n" .
-                                                         "or\n" .
-                                                         "./bin/php/eztemplatecheck.php design/" ),
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+require 'autoload.php';
+
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'description' => ( "eZ Publish Template Syntax Checker\n" .
+                                                        "\n" .
+                                                        "./bin/php/eztemplatecheck.php -sadmin\n" .
+                                                        "or\n" .
+                                                        "./bin/php/eztemplatecheck.php design/" ),
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 
 $options = $script->getOptions( "", "[FILE*]", array() );
-$sys =& eZSys::instance();
+$sys = eZSys::instance();
 
 $script->initialize();
 
@@ -51,10 +53,10 @@ $result = true;
 
 if ( count( $options['arguments'] ) > 0 )
 {
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
 
-    include_once( 'kernel/common/template.php' );
-    $tpl =& templateInit();
+    require_once( 'kernel/common/template.php' );
+    $tpl = templateInit();
 
     $fileList = array();
 
@@ -106,15 +108,15 @@ if ( count( $options['arguments'] ) > 0 )
 }
 else
 {
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
     $standardDesign = $ini->variable( "DesignSettings", "StandardDesign" );
     $siteDesign = $ini->variable( "DesignSettings", "SiteDesign" );
     $additionalSiteDesignList = $ini->variable( "DesignSettings", "AdditionalSiteDesignList" );
 
     $designList = array_merge( array( $standardDesign ), $additionalSiteDesignList, array( $siteDesign ) );
 
-    include_once( 'kernel/common/template.php' );
-    $tpl =& templateInit();
+    require_once( 'kernel/common/template.php' );
+    $tpl = templateInit();
 
     $script->setIterationData( '.', '~' );
     $script->setShowVerboseOutput( true );

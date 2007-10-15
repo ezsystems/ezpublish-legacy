@@ -35,8 +35,6 @@
 
 */
 
-define( "EZ_WEB_DEBUG_INTERNALS", false );
-
 class eZWeb
 {
     /*!
@@ -57,14 +55,13 @@ class eZWeb
      Returns the only legal instance of the eZWeb class.
      \static
     */
-    function &instance()
+    static function instance()
     {
-        $instance =& $GLOBALS["eZWebInstance"];
-        if ( get_class( $instance ) != "ezweb" )
+        if ( empty( $GLOBALS["eZWebInstance"] ) )
         {
-            $instance = new eZWeb();
+            $GLOBALS["eZWebInstance"] = new eZWeb();
         }
-        return $instance;
+        return $GLOBALS["eZWebInstance"];
     }
 
     /// \privatesection

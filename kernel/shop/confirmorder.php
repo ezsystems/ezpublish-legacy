@@ -26,35 +26,35 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$http =& eZHTTPTool::instance();
-$module =& $Params["Module"];
+$http = eZHTTPTool::instance();
+$module = $Params['Module'];
 
-include_once( "kernel/classes/ezbasket.php" );
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezorder.php' );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( "kernel/classes/ezbasket.php" );
+require_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezorder.php' );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable( "module_name", 'shop' );
 
-$orderID = eZHTTPTool::sessionVariable( 'MyTemporaryOrderID' );
+$orderID = $http->sessionVariable( 'MyTemporaryOrderID' );
 
 $order = eZOrder::fetch( $orderID );
 if ( !is_object( $order ) )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
-include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+//include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
 
-if ( get_class( $order ) == 'ezorder' )
+if ( $order instanceof eZOrder )
 {
     if ( $http->hasPostVariable( "ConfirmOrderButton" ) )
     {
         $order->detachProductCollection();
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         if ( $ini->variable( 'ShopSettings', 'ClearBasketOnCheckout' ) == 'enabled' )
         {
-            include_once( "kernel/classes/ezbasket.php" );
-            $basket =& eZBasket::currentBasket();
+            //include_once( "kernel/classes/ezbasket.php" );
+            $basket = eZBasket::currentBasket();
             $basket->remove();
         }
         $module->redirectTo( '/shop/checkout/' );
@@ -71,14 +71,14 @@ if ( get_class( $order ) == 'ezorder' )
     $tpl->setVariable( "order", $order );
 }
 
-$basket =& eZBasket::currentBasket();
+$basket = eZBasket::currentBasket();
 $basket->updatePrices();
 
 $operationResult = eZOperationHandler::execute( 'shop', 'confirmorder', array( 'order_id' => $order->attribute( 'id' ) ) );
 
 switch( $operationResult['status'] )
 {
-    case EZ_MODULE_OPERATION_CONTINUE:
+    case eZModuleOperationInfo::STATUS_CONTINUE:
     {
         if ( $operationResult != null &&
              !isset( $operationResult['result'] ) &&
@@ -88,12 +88,12 @@ switch( $operationResult['status'] )
             $tpl->setVariable( "order", $order );
 
             $Result = array();
-            $Result['content'] =& $tpl->fetch( "design:shop/confirmorder.tpl" );
+            $Result['content'] = $tpl->fetch( "design:shop/confirmorder.tpl" );
             $Result['path'] = array( array( 'url' => false,
                                             'text' => ezi18n( 'kernel/shop', 'Confirm order' ) ) );
         }
     }break;
-    case EZ_MODULE_OPERATION_HALTED:
+    case eZModuleOperationInfo::STATUS_HALTED:
     {
         if (  isset( $operationResult['redirect_url'] ) )
         {
@@ -102,21 +102,27 @@ switch( $operationResult['status'] )
         }
         else if ( isset( $operationResult['result'] ) )
         {
-            $result =& $operationResult['result'];
+            $result = $operationResult['result'];
             $resultContent = false;
             if ( is_array( $result ) )
             {
                 if ( isset( $result['content'] ) )
+                {
                     $resultContent = $result['content'];
+                }
                 if ( isset( $result['path'] ) )
+                {
                     $Result['path'] = $result['path'];
+                }
             }
             else
-                $resultContent =& $result;
-            $Result['content'] =& $resultContent;
+            {
+                $resultContent = $result;
+            }
+            $Result['content'] = $resultContent;
         }
     }break;
-    case EZ_MODULE_OPERATION_CANCELED:
+    case eZModuleOperationInfo::STATUS_CANCELLED:
     {
         $Result = array();
         if ( isset( $operationResult['result']['content'] ) )
@@ -132,7 +138,7 @@ switch( $operationResult['status'] )
 
 /*
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:shop/confirmorder.tpl" );
+$Result['content'] = $tpl->fetch( "design:shop/confirmorder.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/shop', 'Confirm order' ) ) );
 */

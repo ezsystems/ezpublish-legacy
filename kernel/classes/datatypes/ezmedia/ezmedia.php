@@ -35,9 +35,9 @@
 
 */
 
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "kernel/classes/ezpersistentobject.php" );
-include_once( "kernel/classes/ezcontentclassattribute.php" );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezcontentclassattribute.php" );
 
 class eZMedia extends eZPersistentObject
 {
@@ -46,7 +46,7 @@ class eZMedia extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "contentobject_attribute_id" => array( 'name' => "ContentObjectAttributeID",
                                                                                 'datatype' => 'integer',
@@ -116,7 +116,7 @@ class eZMedia extends eZPersistentObject
                       "name" => "ezmedia" );
     }
 
-    function &fileSize()
+    function fileSize()
     {
         $fileInfo = $this->storedFileInfo();
 
@@ -125,31 +125,32 @@ class eZMedia extends eZPersistentObject
         $file = eZClusterFileHandler::instance( $fileInfo['filepath'] );
 
         if ( $file->exists() )
-            $fileSize = $file->size();
-        else
-            $fileSize = 0;
-        return $fileSize;
+        {
+            return $file->size();
+        }
+
+        return 0;
     }
 
-    function &filePath()
+    function filePath()
     {
         $fileInfo = $this->storedFileInfo();
         return $fileInfo['filepath'];
     }
 
-    function &mimeTypeCategory()
+    function mimeTypeCategory()
     {
         $types = explode( "/", eZPersistentObject::attribute( "mime_type" ) );
         return $types[0];
     }
 
-    function &mimeTypePart()
+    function mimeTypePart()
     {
         $types = explode( "/", eZPersistentObject::attribute( "mime_type" ) );
         return $types[1];
     }
 
-    function create( $contentObjectAttributeID, $version )
+    static function create( $contentObjectAttributeID, $version )
     {
         $row = array( "contentobject_attribute_id" => $contentObjectAttributeID,
                       "version" => $version,
@@ -168,7 +169,7 @@ class eZMedia extends eZPersistentObject
         return new eZMedia( $row );
     }
 
-    function fetch( $id, $version, $asObject = true )
+    static function fetch( $id, $version, $asObject = true )
     {
         if( $version == null )
         {
@@ -189,7 +190,7 @@ class eZMedia extends eZPersistentObject
         }
     }
 
-    function remove( $id, $version )
+    function removeByID( $id, $version )
     {
         if( $version == null )
         {
@@ -225,18 +226,18 @@ class eZMedia extends eZPersistentObject
                       'mime_type' => $mimeType );
     }
 
-    var $ContentObjectAttributeID;
-    var $Filename;
-    var $OriginalFilename;
-    var $MimeType;
-    var $Width;
-    var $Height;
-    var $HasController;
-    var $Controls;
-    var $IsLoop;
-    var $IsAutoplay;
-    var $Pluginspage;
-    var $Quality;
+    public $ContentObjectAttributeID;
+    public $Filename;
+    public $OriginalFilename;
+    public $MimeType;
+    public $Width;
+    public $Height;
+    public $HasController;
+    public $Controls;
+    public $IsLoop;
+    public $IsAutoplay;
+    public $Pluginspage;
+    public $Quality;
 }
 
 ?>

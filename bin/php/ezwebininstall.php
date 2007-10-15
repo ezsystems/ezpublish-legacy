@@ -44,17 +44,18 @@
  includes
 */
 include_once( 'bin/php/ezwebincommon.php' );
-include_once( 'kernel/classes/ezcontentlanguage.php' );
+//include_once( 'kernel/classes/ezcontentlanguage.php' );
 
+require 'autoload.php';
 
 // script initializing
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "\n" .
-                                                         "Install eZWebin package\n" ),
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => false,
-                                      'user' => true ) );
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'description' => ( "\n" .
+                                                        "Install eZWebin package\n" ),
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => false,
+                                     'user' => true ) );
 $script->startup();
 
 $scriptOptions = $script->getOptions( "[repository:][package:][package-dir:][url:][admin-siteaccess:][user-siteaccess:][auto-mode:]",
@@ -132,7 +133,7 @@ $packageDir = $scriptOptions['package-dir'] ? $scriptOptions['package-dir'] : "/
 $packageURL = $scriptOptions['url'];
 if ( !$packageURL )
 {
-    $packageINI =& eZINI::instance( 'package.ini' );
+    $packageINI = eZINI::instance( 'package.ini' );
     $packageURL = $packageINI->variable( 'RepositorySettings', 'RemotePackagesIndexURL' );
 }
 
@@ -169,7 +170,7 @@ if( downloadPackages( $packageList, $packageURL, $packageDir, $packageRepository
         $locales = eZContentLanguage::fetchLocaleList();
         $primaryLanguage = eZContentLanguage::topPriorityLanguage();
 
-        $siteINI =& eZINI::instance();
+        $siteINI = eZINI::instance();
         $matchOrder = $siteINI->variableArray( 'SiteAccessSettings', 'MatchOrder' );
         $accessType = $matchOrder[0];
         $accessTypeValue = 'ezwebin_site';
@@ -264,7 +265,7 @@ if( downloadPackages( $packageList, $packageURL, $packageDir, $packageRepository
             // BC for eZWebin < 1.3
             //
 
-            include_once( 'kernel/classes/ezsiteinstaller.php' );
+            //include_once( 'kernel/classes/ezsiteinstaller.php' );
 
             $siteInstaller = new eZSiteInstaller();
 

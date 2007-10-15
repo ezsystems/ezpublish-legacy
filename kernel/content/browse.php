@@ -26,17 +26,17 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-include_once( 'kernel/classes/ezcontentbrowse.php' );
+//include_once( 'kernel/classes/ezcontentbrowse.php' );
 
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
-include_once( 'kernel/common/template.php' );
+require_once( 'kernel/common/template.php' );
 
-$tpl =& templateInit();
-$http =& eZHTTPTool::instance();
+$tpl = templateInit();
+$http = eZHTTPTool::instance();
 
 $browse = new eZContentBrowse();
 
@@ -68,22 +68,22 @@ else
 
     $node = eZContentObjectTreeNode::fetch( $NodeID );
     if ( !$node )
-        return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
     if ( $node->attribute( 'is_invisible' ) && !eZContentObjectTreeNode::showInvisibleNodes() )
     {
-        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
     }
 
-    $object =& $node->attribute( 'object' );
+    $object = $node->attribute( 'object' );
     if ( !$object )
-        return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
     if ( !$object->attribute( 'can_read' ) || !$node->attribute( 'can_read' ) )
     {
         if ( !$node->attribute( 'children_count' ) )
         {
-            return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+            return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
         }
     }
     $parents = $node->attribute( 'path' );
@@ -95,7 +95,7 @@ if ( $cancelAction == trim( $browse->attribute( 'from_page' ) ) )
     $cancelAction = false;
 }
 
-$res =& eZTemplateDesignResource::instance();
+$res = eZTemplateDesignResource::instance();
 
 $keyArray = array();
 if ( $browse->hasAttribute( 'keys' ) )
@@ -153,7 +153,7 @@ if (isset( $GLOBALS['eZDesignKeys']['section'] ))
 
 
 //setting keys for override
-$res =& eZTemplateDesignResource::instance();
+$res = eZTemplateDesignResource::instance();
 
 $Result = array();
 
@@ -161,7 +161,7 @@ $Result = array();
 $Result['navigation_part'] = 'ezcontentnavigationpart';
 if ( !isset( $nodeList ) )
 {
-    include_once( 'kernel/classes/ezsection.php' );
+    //include_once( 'kernel/classes/ezsection.php' );
     $section = eZSection::fetch( $object->attribute( 'section_id' ) );
     if ( $section )
     {
@@ -185,8 +185,8 @@ $res->setKeys( array( array( 'view_offset', $Offset ),
                       array( 'navigation_part_identifier', $Result['navigation_part'] )
                       ) );
 
-//$Result['path'] =& $path;
-$Result['content'] =& $tpl->fetch( 'design:content/browse.tpl' );
+//$Result['path'] = $path;
+$Result['content'] = $tpl->fetch( 'design:content/browse.tpl' );
 
 if (isset( $globalSectionID ))
 {

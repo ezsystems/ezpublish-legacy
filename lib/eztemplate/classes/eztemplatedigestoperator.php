@@ -60,7 +60,7 @@ class eZTemplateDigestOperator
     /*!
      Returns the template operators.
     */
-    function &operatorList()
+    function operatorList()
     {
         return $this->Operators;
     }
@@ -113,8 +113,8 @@ class eZTemplateDigestOperator
         return false;
     }
 
-    function hashTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                 &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function hashTransformation( $operatorName, &$node, $tpl, &$resourceData,
+                                 $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         if ( ( count( $parameters ) != 1) )
         {
@@ -130,7 +130,7 @@ class eZTemplateDigestOperator
         {
             case 'crc32':
                 {
-                    $code = "include_once( 'lib/ezutils/classes/ezsys.php' );\n";
+                    $code = "//include_once( 'lib/ezutils/classes/ezsys.php' );\n";
                     $function = "eZSys::ezcrc32";
                 } break;
 
@@ -154,7 +154,7 @@ class eZTemplateDigestOperator
     /*!
      Display the variable.
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters,
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters,
                      $placement )
     {
         $digestData = $operatorValue;
@@ -163,7 +163,7 @@ class eZTemplateDigestOperator
             // Calculate and return crc32 polynomial.
             case $this->Crc32Name:
             {
-                include_once( 'lib/ezutils/classes/ezsys.php' );
+                //include_once( 'lib/ezutils/classes/ezsys.php' );
                 $operatorValue = eZSys::ezcrc32( $digestData );
             }break;
 
@@ -194,7 +194,7 @@ class eZTemplateDigestOperator
     }
 
     /// The array of operators, used for registering operators
-    var $Operators;
+    public $Operators;
 }
 
 ?>

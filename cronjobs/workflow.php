@@ -35,32 +35,31 @@ $runInBrowser = true;
 if ( isset( $webOutput ) )
     $runInBrowser = $webOutput;
 
-include_once( "lib/ezutils/classes/ezdebug.php" );
-include_once( "lib/ezutils/classes/ezini.php" );
+require_once( "lib/ezutils/classes/ezdebug.php" );
+//include_once( "lib/ezutils/classes/ezini.php" );
 
-include_once( "kernel/classes/ezworkflowprocess.php" );
-include_once( "kernel/classes/ezcontentobject.php" );
-include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-include_once( "lib/ezutils/classes/ezoperationmemento.php" );
-include_once( "lib/ezutils/classes/ezoperationhandler.php" );
-include_once( "lib/ezutils/classes/ezsession.php" );
+//include_once( "kernel/classes/ezworkflowprocess.php" );
+//include_once( "kernel/classes/ezcontentobject.php" );
+//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+//include_once( "lib/ezutils/classes/ezoperationmemento.php" );
+//include_once( "lib/ezutils/classes/ezoperationhandler.php" );
+require_once( "lib/ezutils/classes/ezsession.php" );
 
-include_once( "lib/ezutils/classes/ezdebug.php" );
-include_once( "lib/ezutils/classes/ezini.php" );
-include_once( "lib/ezutils/classes/ezdebugsetting.php" );
+require_once( "lib/ezutils/classes/ezdebug.php" );
+//include_once( "lib/ezutils/classes/ezini.php" );
+//include_once( "lib/ezutils/classes/ezdebugsetting.php" );
 
-$workflowProcessList = eZWorkflowProcess::fetchForStatus( EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON );
+$workflowProcessList = eZWorkflowProcess::fetchForStatus( eZWorkflow::STATUS_DEFERRED_TO_CRON );
 //var_dump( $workflowProcessList  );
-//$user =& eZUser::instance( 14 );
+//$user = eZUser::instance( 14 );
 
 if ( !$isQuiet )
     $cli->output( "Checking for workflow processes"  );
 $removedProcessCount = 0;
 $processCount = 0;
 $statusMap = array();
-foreach( array_keys( $workflowProcessList ) as $key )
+foreach( $workflowProcessList as $process )
 {
-    $process =& $workflowProcessList[ $key ];
     $workflow = eZWorkflow::fetch( $process->attribute( "workflow_id" ) );
 
     if ( $process->attribute( "event_id" ) != 0 )
@@ -74,23 +73,22 @@ foreach( array_keys( $workflowProcessList ) as $key )
         $statusMap[$status] = 0;
     ++$statusMap[$status];
 
-    if ( $process->attribute( 'status' ) != EZ_WORKFLOW_STATUS_DONE )
+    if ( $process->attribute( 'status' ) != eZWorkflow::STATUS_DONE )
     {
-        if ( $process->attribute( 'status' ) == EZ_WORKFLOW_STATUS_CANCELLED )
+        if ( $process->attribute( 'status' ) == eZWorkflow::STATUS_CANCELLED )
         {
             ++$removedProcessCount;
-            $process->remove();
+            $process->removeThis();
             continue;
         }
         $process->store();
-        if ( $process->attribute( 'status' ) == EZ_WORKFLOW_STATUS_RESET )
+        if ( $process->attribute( 'status' ) == eZWorkflow::STATUS_RESET )
         {
             $bodyMemento = eZOperationMemento::fetchMain( $process->attribute( 'memento_key' ) );
             $mementoList = eZOperationMemento::fetchList( $process->attribute( 'memento_key' ) );
             $bodyMemento->remove();
-            for ( $i = 0; $i < count( $mementoList ); ++$i )
+            foreach( $mementoList as $memento )
             {
-                $memento =& $mementoList[$i];
                 $memento->remove();
             }
         }
@@ -104,13 +102,13 @@ foreach( array_keys( $workflowProcessList ) as $key )
             continue;
         }
         $bodyMementoData = $bodyMemento->data();
-        $mainMemento =& $bodyMemento->attribute( 'main_memento' );
+        $mainMemento = $bodyMemento->attribute( 'main_memento' );
         if ( !$mainMemento )
             continue;
 
         $mementoData = $bodyMemento->data();
         $mainMementoData = $mainMemento->data();
-        $mementoData['main_memento'] =& $mainMemento;
+        $mementoData['main_memento'] = $mainMemento;
         $mementoData['skip_trigger'] = true;
         $mementoData['memento_key'] = $process->attribute( 'memento_key' );
         $bodyMemento->remove();
@@ -119,7 +117,7 @@ foreach( array_keys( $workflowProcessList ) as $key )
             $operationParameters = $mementoData['parameters'];
         $operationResult = eZOperationHandler::execute( $mementoData['module_name'], $mementoData['operation_name'], $operationParameters, $mementoData );
         ++$removedProcessCount;
-        $process->remove();
+        $process->removeThis();
     }
 
 }

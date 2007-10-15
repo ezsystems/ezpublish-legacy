@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$Module =& $Params["Module"];
+$Module = $Params['Module'];
 
 $WorkflowProcessID = null;
 if ( !isset( $Params["WorkflowProcessID"] ) )
@@ -37,7 +37,7 @@ if ( !isset( $Params["WorkflowProcessID"] ) )
 
 $WorkflowProcessID = $Params["WorkflowProcessID"];
 
-include_once( "kernel/classes/ezworkflowprocess.php" );
+//include_once( "kernel/classes/ezworkflowprocess.php" );
 
 $process = eZWorkflowProcess::fetch( $WorkflowProcessID );
 if ( $process === null )
@@ -46,8 +46,8 @@ if ( $process === null )
     return;
 }
 
-include_once( "lib/ezutils/classes/ezhttptool.php" );
-$http =& eZHTTPTool::instance();
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
+$http = eZHTTPTool::instance();
 
 if ( $http->hasPostVariable( "Reset" ) )
 {
@@ -57,10 +57,10 @@ if ( $http->hasPostVariable( "Reset" ) )
 }
 
 // Template handling
-include_once( "kernel/common/template.php" );
-$tpl =& templateInit();
+require_once( "kernel/common/template.php" );
+$tpl = templateInit();
 
-include_once( "kernel/classes/ezworkflow.php" );
+//include_once( "kernel/classes/ezworkflow.php" );
 $workflow = eZWorkflow::fetch( $process->attribute( "workflow_id" ) );
 $workflowEvent = false;
 if ( $process->attribute( "event_id" ) != 0 )
@@ -72,9 +72,9 @@ if ( $http->hasPostVariable( "RunProcess" ) )
 {
 //     $Module->redirectTo( $Module->functionURI( "process" ) . "/" . $WorkflowProcessID );
 //     return;
-    if ( get_class( $workflowEvent ) == "ezworkflowevent" )
+    if ( $workflowEvent instanceof eZWorkflowEvent )
     {
-        $eventType =& $workflowEvent->eventType();
+        $eventType = $workflowEvent->eventType();
         $lastEventStatus = $eventType->execute( $process, $workflowEvent );
     }
     $event_pos = $process->attribute( "event_position" );
@@ -105,7 +105,7 @@ $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "http", $http );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:workflow/process.tpl" );
+$Result['content'] = $tpl->fetch( "design:workflow/process.tpl" );
 
 
 ?>

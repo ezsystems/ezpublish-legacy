@@ -73,7 +73,7 @@
 
   Example:
 \code
-$img =& eZImageManager::instance();
+$img = eZImageManager::instance();
 $img->registerType( "convert", new eZImageShell( '', "convert", array(), array(),
                                                  array( eZImageShell::createRule( "-geometry %wx%h>", // Scale rule
                                                                                   "modify/scale" ),
@@ -101,7 +101,7 @@ $img1 = $img->convert( "image1.png", "cache/", // Scale PNG image and place in c
 
 */
 
-include_once( 'lib/ezutils/classes/ezini.php' );
+//include_once( 'lib/ezutils/classes/ezini.php' );
 
 class eZImageManager
 {
@@ -111,7 +111,6 @@ class eZImageManager
     */
     function eZImageManager()
     {
-//         $this->MIMEOctet =& $this->createMIMEType( "application/octet-stream", "^.+$", "" );
         $this->SupportedFormats = array();
         $this->SupportedMIMEMap = array();
         $this->ImageHandlers = array();
@@ -123,7 +122,7 @@ class eZImageManager
         $this->QualityValues = array();
         $this->QualityValueMap = array();
 
-        $ini =& eZINI::instance( 'image.ini' );
+        $ini = eZINI::instance( 'image.ini' );
         $this->TemporaryImageDirPath = eZSys::cacheDirectory() . '/' . $ini->variable( 'FileSettings', 'TemporaryDir' );
     }
 
@@ -163,13 +162,13 @@ class eZImageManager
 
      \note If the handler is not available (isAvailable()) it will not be added.
     */
-    function appendImageHandler( &$handler )
+    function appendImageHandler( $handler )
     {
         if ( !$handler )
             return false;
         if ( !$handler->isAvailable() )
             return false;
-        $this->ImageHandlers[] =& $handler;
+        $this->ImageHandlers[] = $handler;
         $this->ImageFilters = array_merge( $this->ImageFilters, $handler->supportedImageFilters() );
         $this->ImageFilters = array_unique( $this->ImageFilters );
         return true;
@@ -262,7 +261,7 @@ class eZImageManager
             $keyData[] = $filterData;
         }
 
-        include_once( 'lib/ezutils/classes/ezsys.php' );
+        //include_once( 'lib/ezutils/classes/ezsys.php' );
         $key = eZSys::ezcrc32( implode( "\n", $keyData ) );
 
         return $key;
@@ -299,7 +298,7 @@ class eZImageManager
     */
     function isImageTimestampValid( $timestamp )
     {
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $expiryHandler = eZExpiryHandler::instance();
         if ( $expiryHandler->hasTimestamp( 'image-manager-alias' ) )
         {
@@ -318,7 +317,7 @@ class eZImageManager
     {
         if ( !$iniFile )
             $iniFile = 'image.ini';
-        $ini =& eZINI::instance( $iniFile );
+        $ini = eZINI::instance( $iniFile );
         if ( !$ini )
             return false;
         $aliasNames = $ini->variable( 'AliasSettings', 'AliasList' );
@@ -336,8 +335,8 @@ class eZImageManager
         $aliasName = 'original';
         if ( !in_array( $aliasName, $aliasNames ) )
         {
-            include_once( 'lib/ezutils/classes/ezini.php' );
-            $ini =& eZINI::instance( 'image.ini' );
+            //include_once( 'lib/ezutils/classes/ezini.php' );
+            $ini = eZINI::instance( 'image.ini' );
             if ( $ini->hasGroup( $aliasName ) )
             {
                 $alias = $this->createAliasFromINI( $aliasName );
@@ -347,8 +346,10 @@ class eZImageManager
                     $this->appendImageAlias( $alias );
                 }
                 else
+                {
                     eZDebug::writeWarning( "Failed reading Image Alias $aliasName from $iniFile",
                                            'eZImageManager::readImageAliasFromINI' );
+                }
             }
         }
     }
@@ -362,7 +363,7 @@ class eZImageManager
     {
         if ( !$iniFile )
             $iniFile = 'image.ini';
-        $ini =& eZINI::instance( $iniFile );
+        $ini = eZINI::instance( $iniFile );
         if ( !$ini )
             return false;
         $allowedOutputFormats = $ini->variable( 'OutputSettings', 'AllowedOutputFormat' );
@@ -395,7 +396,7 @@ class eZImageManager
                 if ( array_key_exists( 'info', $mimeData ) && is_array( $mimeData['info'] ) )
                 {
                     $isMatch = true;
-                    $info =& $mimeData['info'];
+                    $info = $mimeData['info'];
                     foreach ( $item['match'] as $matchKey => $matchValue )
                     {
                         if ( !isset( $info[$matchKey] ) or
@@ -419,7 +420,7 @@ class eZImageManager
      Calls eZImageHandler::wildcardToRegexp() to generate
      a regular expression out of the wilcard and return it.
     */
-    function wildcardToRegexp( $wildcard, $separatorCharacter = false )
+    static function wildcardToRegexp( $wildcard, $separatorCharacter = false )
     {
         return eZImageHandler::wildcardToRegexp( $wildcard, $separatorCharacter );
     }
@@ -522,10 +523,10 @@ class eZImageManager
     */
     function appendMIMETypeSetting( $settings )
     {
-        $this->MIMETypeSettings[] =& $settings;
+        $this->MIMETypeSettings[] = $settings;
         if ( !isset( $this->MIMETypeSettingsMap[$settings['mime_type']] ) )
             $this->MIMETypeSettingsMap[$settings['mime_type']] = array();
-        $this->MIMETypeSettingsMap[$settings['mime_type']][] =& $settings;
+        $this->MIMETypeSettingsMap[$settings['mime_type']][] = $settings;
     }
 
     /*!
@@ -537,7 +538,7 @@ class eZImageManager
     {
         if ( !$iniFile )
             $iniFile = 'image.ini';
-        $ini =& eZINI::instance( $iniFile );
+        $ini = eZINI::instance( $iniFile );
         if ( !$ini )
             return false;
         $overrideList = $ini->variable( 'MIMETypeSettings', 'OverrideList' );
@@ -556,7 +557,7 @@ class eZImageManager
     {
         if ( !$iniFile )
             $iniFile = 'image.ini';
-        $ini =& eZINI::instance( $iniFile );
+        $ini = eZINI::instance( $iniFile );
         if ( !$ini )
             return false;
         if ( !$ini->hasVariable( 'MIMETypeSettings', 'Quality' ) )
@@ -578,7 +579,7 @@ class eZImageManager
     {
         if ( !$iniFile )
             $iniFile = 'image.ini';
-        $ini =& eZINI::instance( $iniFile );
+        $ini = eZINI::instance( $iniFile );
         if ( !$ini )
             return false;
         if ( $ini->hasVariable( 'MIMETypeSettings', 'ConversionRules' ) )
@@ -638,7 +639,7 @@ class eZImageManager
     {
         if ( !$iniFile )
             $iniFile = 'image.ini';
-        $ini =& eZINI::instance( $iniFile );
+        $ini = eZINI::instance( $iniFile );
         if ( !$ini )
             return false;
         if ( !$ini->hasGroup( $mimeGroup ) )
@@ -680,7 +681,7 @@ class eZImageManager
     {
         if ( !$iniFile )
             $iniFile = 'image.ini';
-        $ini =& eZINI::instance( $iniFile );
+        $ini = eZINI::instance( $iniFile );
         if ( !$ini )
             return false;
         $handlerList = $ini->variable( 'ImageConverterSettings', 'ImageConverters' );
@@ -691,10 +692,10 @@ class eZImageManager
                 if ( $ini->hasVariable( $handlerName, 'Handler' ) )
                 {
                     $factoryName = $ini->variable( $handlerName, 'Handler' );
-                    $factory =& $this->factoryFor( $factoryName, $iniFile );
+                    $factory = $this->factoryFor( $factoryName, $iniFile );
                     if ( $factory )
                     {
-                        $convertHandler =& $factory->produceFromINI( $handlerName, $iniFile );
+                        $convertHandler = $factory->produceFromINI( $handlerName, $iniFile );
                         $this->appendImageHandler( $convertHandler );
                     }
                 }
@@ -716,7 +717,7 @@ class eZImageManager
      Finds the image handler factory with the name \a $factoryName and returns it.
      \param $iniFile The INI file to read from or if \c false use 'image.ini'
     */
-    function &factoryFor( $factoryName, $iniFile = false )
+    function factoryFor( $factoryName, $iniFile = false )
     {
         if ( !$iniFile )
             $iniFile = 'image.ini';
@@ -726,7 +727,7 @@ class eZImageManager
         }
         else
         {
-            include_once( 'lib/ezutils/classes/ezextension.php' );
+            //include_once( 'lib/ezutils/classes/ezextension.php' );
             if ( eZExtension::findExtensionType( array( 'ini-name' => $iniFile,
                                                         'repository-group' => 'ImageConverterSettings',
                                                         'repository-variable' => 'RepositoryList',
@@ -745,9 +746,7 @@ class eZImageManager
                 $className = $result['type'] . 'factory';
                 if ( class_exists( $className ) )
                 {
-                    $factory = new $className();
-                    $this->Factories[$factoryName] =& $factory;
-                    return $factory;
+                    return $this->Factories[$factoryName] = new $className();
                 }
                 else
                 {
@@ -761,8 +760,7 @@ class eZImageManager
                                        'eZImageManager::factoryFor' );
             }
         }
-        $retValue = false;
-        return $retValue;
+        return false;
     }
 
     /*!
@@ -791,8 +789,8 @@ class eZImageManager
     */
     function createAliasFromINI( $iniGroup )
     {
-        include_once( 'lib/ezutils/classes/ezini.php' );
-        $ini =& eZINI::instance( 'image.ini' );
+        //include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini = eZINI::instance( 'image.ini' );
         if ( !$ini->hasGroup( $iniGroup ) )
         {
             eZDebug::writeError( "No such group $iniGroup in ini file image.ini",
@@ -829,6 +827,7 @@ class eZImageManager
     */
     function createImageAlias( $aliasName, &$existingAliasList, $parameters = array() )
     {
+        //eZDebug::writeDebug( $existingAliasList, 'eZImageManager::createImageAlias existing alias list' );
         $aliasList = $this->aliasList();
         if ( !isset( $aliasList[$aliasName] ) )
         {
@@ -847,6 +846,7 @@ class eZImageManager
         if ( !$referenceAlias )
             $referenceAlias = 'original';
         $hasReference = false;
+        //eZDebug::writeDebug( 'alias ' . $referenceAlias, 'eZImageManager::createImageAlias' );
         if ( array_key_exists( $referenceAlias, $existingAliasList ) )
         {
             // VS-DBFILE
@@ -859,6 +859,10 @@ class eZImageManager
             }
             else
             {
+                eZDebug::writeDebug( 'cluster file handler could not find ' . $existingAliasList[$referenceAlias]['url'], 'eZImageManager::createImageAlias' );
+                //$backtrace = debug_backtrace();
+                /*var_dump( count( $backtrace ) );
+                var_dump( $backtrace[3] );*/
                 eZDebug::writeError( "The reference alias $referenceAlias file " . $existingAliasList[$referenceAlias]['url'] . " does not exist",
                                      'eZImageManager::createImageAlias' );
             }
@@ -891,7 +895,7 @@ class eZImageManager
             if ( $aliasFile->exists() )
             {
                 $aliasFile->fetch();
-                include_once( 'lib/ezutils/classes/ezmimetype.php' );
+                //include_once( 'lib/ezutils/classes/ezmimetype.php' );
                 $sourceMimeData = eZMimeType::findByFileContents( $aliasFilePath );
                 $destinationMimeData = $sourceMimeData;
                 if ( isset( $parameters['basename'] ) )
@@ -977,7 +981,7 @@ class eZImageManager
      \return \c true if the image was succesfully analyzed, \c false otherwise.
      \note It will return \c true if there is no analyzer for the image type.
     */
-    function analyzeImage( &$mimeData, $parameters = array() )
+    static function analyzeImage( &$mimeData, $parameters = array() )
     {
         $file = $mimeData['url'];
         if ( !file_exists( $file ) )
@@ -1011,12 +1015,12 @@ class eZImageManager
         $sourceFile = eZClusterFileHandler::instance( $sourceMimeData['url'] );
         $sourceFile->fetch();
 
-        include_once( 'lib/ezutils/classes/ezmimetype.php' );
+        //include_once( 'lib/ezutils/classes/ezmimetype.php' );
         if ( is_string( $sourceMimeData ) )
             $sourceMimeData = eZMimeType::findByFileContents( $sourceMimeData );
         $this->analyzeImage( $sourceMimeData );
         $currentMimeData = $sourceMimeData;
-        $handlers =& $this->ImageHandlers;
+        $handlers = $this->ImageHandlers;
         $supportedMIMEMap = $this->SupportedMIMEMap;
         if ( is_string( $destinationMimeData ) )
         {
@@ -1079,9 +1083,8 @@ class eZImageManager
             else
             {
                 $hasDestination = false;
-                foreach ( array_keys( $handlers ) as $handlerKey )
+                foreach ( $handlers as $handler )
                 {
-                    $handler =& $handlers[$handlerKey];
                     $gotMimeData = true;
                     while( $gotMimeData )
                     {
@@ -1128,23 +1131,22 @@ class eZImageManager
             {
                 $nextMimeData = false;
                 $nextHandler = false;
-                foreach ( array_keys( $handlers ) as $handlerKey )
+                foreach ( $handlers as $handler )
                 {
-                    $handler =& $handlers[$handlerKey];
                     if ( !$handler )
                         continue;
                     $outputMimeData = $handler->outputMIMEType( $this, $currentMimeData, $destinationMimeData, $this->SupportedFormats, $aliasName );
                     if ( $outputMimeData['name'] == $destinationMimeData['name'] )
                     {
                         $nextMimeData = $outputMimeData;
-                        $nextHandler =& $handler;
+                        $nextHandler = $handler;
                         break;
                     }
                     if ( $outputMimeData and
                          !$nextMimeData )
                     {
                         $nextMimeData = $outputMimeData;
-                        $nextHandler =& $handler;
+                        $nextHandler = $handler;
                     }
                 }
                 if ( !$nextMimeData )
@@ -1185,7 +1187,7 @@ class eZImageManager
                 {
                     if ( $currentMimeData['url'] != $nextMimeData['url'] )
                     {
-                        include_once( 'lib/ezfile/classes/ezfilehandler.php' );
+                        //include_once( 'lib/ezfile/classes/ezfilehandler.php' );
                         if ( eZFileHandler::copy( $currentMimeData['url'], $nextMimeData['url'] ) )
                         {
                             if ( $useTempImage )
@@ -1230,7 +1232,7 @@ class eZImageManager
             }
             if ( $sourceMimeData['url'] != $destinationMimeData['url'] )
             {
-                include_once( 'lib/ezfile/classes/ezfilehandler.php' );
+                //include_once( 'lib/ezfile/classes/ezfilehandler.php' );
                 if ( $useCopy )
                 {
                     eZFileHandler::copy( $sourceMimeData['url'], $destinationMimeData['url'] );
@@ -1282,25 +1284,24 @@ class eZImageManager
     /*!
      Returns the only instance of the image manager.
     */
-    function &instance()
+    static function instance()
     {
-        $instance =& $GLOBALS["eZImageManager"];
-        if ( get_class( $instance ) != "ezimagemanager" )
+        if ( !isset( $GLOBALS["eZImageManager"] ) )
         {
-            $instance = new eZImageManager();
+            $GLOBALS["eZImageManager"] = new eZImageManager();
         }
-        return $instance;
+        return $GLOBALS["eZImageManager"];
     }
 
     /// \privatesection
-    var $ImageHandlers;
-    var $OutputMIME;
-    var $OutputMIMEMap;
-    var $Rules;
-    var $DefaultRule;
-    var $RuleMap;
-    var $MIMETypes;
-    var $Types = array();
+    public $ImageHandlers;
+    public $OutputMIME;
+    public $OutputMIMEMap;
+    public $Rules;
+    public $DefaultRule;
+    public $RuleMap;
+    public $MIMETypes;
+    public $Types = array();
 }
 
 ?>

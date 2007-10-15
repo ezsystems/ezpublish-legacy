@@ -35,7 +35,7 @@
 
 */
 
-include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+//include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 
 class eZKeyword
 {
@@ -59,7 +59,7 @@ class eZKeyword
         return in_array( $name, $this->attributes() );
     }
 
-    function &attribute( $name )
+    function attribute( $name )
     {
         switch ( $name )
         {
@@ -70,21 +70,18 @@ class eZKeyword
 
             case 'keyword_string' :
             {
-                $keywordString = $this->keywordString();
-                return $keywordString;
+                return $this->keywordString();
             }break;
 
             case 'related_objects' :
             case 'related_nodes' :
             {
-                $objectList =& $this->relatedObjects();
-                return $objectList;
+                return $this->relatedObjects();
             }break;
             default:
             {
                 eZDebug::writeError( "Attribute '$name' does not exist", 'eZKeyword::attribute' );
-                $retValue = null;
-                return $retValue;
+                return null;
             }break;
         }
     }
@@ -108,9 +105,9 @@ class eZKeyword
     */
     function store( &$attribute )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
-        $object =& $attribute->attribute( 'object' );
+        $object = $attribute->attribute( 'object' );
         $classID = $object->attribute( 'contentclass_id' );
 
         // Get already existing keywords
@@ -252,7 +249,7 @@ class eZKeyword
         if ( $attribute->attribute( 'id' ) === null )
             return;
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $wordArray = $db->arrayQuery( "SELECT ezkeyword.keyword FROM ezkeyword_attribute_link, ezkeyword
                                     WHERE ezkeyword_attribute_link.keyword_id=ezkeyword.id AND
                                     ezkeyword_attribute_link.objectattribute_id='" . $attribute->attribute( 'id' ) ."' " );
@@ -269,13 +266,13 @@ class eZKeyword
     */
     function setKeywordArray( $keywords )
     {
-        $this->KeywordArray =& $keywords;
+        $this->KeywordArray = $keywords;
     }
 
     /*!
      Returns the keyword index
     */
-    function &keywordArray( )
+    function keywordArray( )
     {
         return $this->KeywordArray;
     }
@@ -291,13 +288,13 @@ class eZKeyword
     /*!
      Returns the objects which has atleast one of the same keywords
     */
-    function &relatedObjects()
+    function relatedObjects()
     {
         $return = false;
         if ( $this->ObjectAttributeID )
         {
             // Fetch words
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
 
             $wordArray = $db->arrayQuery( "SELECT * FROM ezkeyword_attribute_link
                                     WHERE objectattribute_id='" . $this->ObjectAttributeID ."' " );
@@ -324,7 +321,7 @@ class eZKeyword
                     $objectIDArray[] = $object['contentobject_id'];
                 }
 
-                $aNodes =& eZContentObjectTreeNode::findMainNodeArray( $objectIDArray );
+                $aNodes = eZContentObjectTreeNode::findMainNodeArray( $objectIDArray );
                 foreach ( $aNodes as $key => $node )
                 {
                     $theObject = $node->object();
@@ -339,10 +336,10 @@ class eZKeyword
     }
 
     /// Contains the keywords
-    var $KeywordArray = array();
+    public $KeywordArray = array();
 
     /// Contains the ID attribute if fetched
-    var $ObjectAttributeID = false;
+    public $ObjectAttributeID = false;
 }
 
 ?>

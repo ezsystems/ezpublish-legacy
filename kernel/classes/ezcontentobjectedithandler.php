@@ -52,7 +52,7 @@ class eZContentObjectEditHandler
 
      Override this function in the extension to handle edit input parameters.
     */
-    function fetchInput( &$http, &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage )
+    function fetchInput( $http, &$module, &$class, $object, &$version, $contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage )
     {
     }
 
@@ -61,7 +61,7 @@ class eZContentObjectEditHandler
 
      Return list of HTTP postparameters which should trigger store action.
     */
-    function storeActionList()
+    static function storeActionList()
     {
     }
 
@@ -78,7 +78,7 @@ class eZContentObjectEditHandler
      \static
      Initialize all extension input handler.
     */
-    function initialize()
+    static function initialize()
     {
         $contentINI = eZINI::instance( 'content.ini' );
         foreach( array_unique( $contentINI->variable( 'EditSettings', 'ExtensionDirectories' ) ) as $extensionDirectory )
@@ -105,9 +105,9 @@ class eZContentObjectEditHandler
      \static
      Calls all extension object edit input handler, and executes this the fetchInput function
     */
-    function executeInputHandlers( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage )
+    static function executeInputHandlers( &$module, &$class, $object, &$version, $contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage )
     {
-        $http =& eZHTTPTool::instance();
+        $http = eZHTTPTool::instance();
         $contentINI = eZINI::instance( 'content.ini' );
         foreach( array_unique( $contentINI->variable( 'EditSettings', 'ExtensionDirectories' ) ) as $extensionDirectory )
         {
@@ -118,7 +118,7 @@ class eZContentObjectEditHandler
                 $className = $extensionDirectory . 'Handler';
                 $inputHandler = new $className();
                 call_user_func_array( array( $inputHandler, 'fetchInput' ),
-                                      array( &$http, &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage ) );
+                                      array( $http, &$module, &$class, $object, &$version, $contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage ) );
             }
         }
     }
@@ -127,7 +127,7 @@ class eZContentObjectEditHandler
      \static
      Calls all publish functions.
     */
-    function executePublish( $contentObjectID, $contentObjectVersion )
+    static function executePublish( $contentObjectID, $contentObjectVersion )
     {
         $contentINI = eZINI::instance( 'content.ini' );
         foreach( array_unique( $contentINI->variable( 'EditSettings', 'ExtensionDirectories' ) ) as $extensionDirectory )
@@ -150,7 +150,7 @@ class eZContentObjectEditHandler
 
      \param HTTP post parameter name
     */
-    function addStoreAction( $name )
+    static function addStoreAction( $name )
     {
         if ( !isset( $GLOBALS['eZContentObjectEditHandler_StoreAction'] ) )
         {
@@ -163,7 +163,7 @@ class eZContentObjectEditHandler
      \static
      Check if any HTTP input trigger store action
     */
-    function isStoreAction()
+    static function isStoreAction()
     {
         if ( !isset( $GLOBALS['eZContentObjectEditHandler_StoreAction'] ) )
             return 0;

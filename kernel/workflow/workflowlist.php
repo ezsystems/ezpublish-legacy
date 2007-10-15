@@ -27,23 +27,23 @@
 //
 
 
-include_once( 'kernel/classes/ezworkflow.php' );
-include_once( 'kernel/classes/ezworkflowgroup.php' );
-include_once( "kernel/classes/ezworkflowgrouplink.php" );
-include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
+//include_once( 'kernel/classes/ezworkflow.php' );
+//include_once( 'kernel/classes/ezworkflowgroup.php' );
+//include_once( "kernel/classes/ezworkflowgrouplink.php" );
+//include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $WorkflowGroupID = null;
 if ( isset( $Params["GroupID"] ) )
-    $WorkflowGroupID =& $Params["GroupID"];
+    $WorkflowGroupID = $Params["GroupID"];
 
-// include_once( 'lib/ezutils/classes/ezexecutionstack.php' );
-// $execStack =& eZExecutionStack::instance();
+// //include_once( 'lib/ezutils/classes/ezexecutionstack.php' );
+// $execStack = eZExecutionStack::instance();
 // $execStack->clear();
 // $execStack->addEntry( $Module->functionURI( 'list' ),
 //                       $Module->attribute( 'name' ), 'list' );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 if ( $http->hasPostVariable( 'NewWorkflowButton' ) )
 {
@@ -74,7 +74,7 @@ if ( $http->hasPostVariable( 'DeleteButton' ) and
                 if ( count( $workflowInGroups ) == 1 )
                 {
                     //remove entry from eztrigger table also, if it exists there.
-                    include_once( "kernel/classes/eztrigger.php" );
+                    //include_once( "kernel/classes/eztrigger.php" );
                     eZTrigger::removeTriggerForWorkflow( $workflowID );
 
                     // if there is only one group which the workflow belongs to, delete (=disable) it:
@@ -83,7 +83,7 @@ if ( $http->hasPostVariable( 'DeleteButton' ) and
                 else
                 {
                     // if there is more than 1 group, remove only from the group:
-                    include_once( "kernel/workflow/ezworkflowfunctions.php" );
+                    //include_once( "kernel/workflow/ezworkflowfunctions.php" );
 
                     eZWorkflowFunctions::removeGroup( $workflowID, 0, array( $groupID ) );
                 }
@@ -118,44 +118,42 @@ if ( $http->hasPostVariable( 'DeleteButton' ) and
 $workflowList = array();
 foreach( array_keys( $workflows ) as $workflowID )
 {
-    $workflow =& $workflows[$workflowID];
-    $workflowList[$workflow->attribute( 'id' )] =& $workflow;
+    $workflow = $workflows[$workflowID];
+    $workflowList[$workflow->attribute( 'id' )] = $workflow;
 }
 */
-include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-$user =& eZUser::currentUser();
+//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+$user = eZUser::currentUser();
 
-$list_in_group = & eZWorkflowGroupLink::fetchWorkflowList( 0, $WorkflowGroupID, $asObject = true);
+$list_in_group = eZWorkflowGroupLink::fetchWorkflowList( 0, $WorkflowGroupID, $asObject = true);
 
-$workflow_list =  eZWorkflow::fetchList( );
+$workflow_list = eZWorkflow::fetchList( );
 
 $list = array();
-for ( $i=0;$i<count( $workflow_list );$i++ )
+foreach( $workflow_list as $workflow )
 {
-    for ( $j=0;$j<count( $list_in_group );$j++ )
+    foreach( $list_in_group as $inGroup )
     {
-        $id =  $workflow_list[$i]->attribute("id");
-        $workflow_id =  $list_in_group[$j]->attribute("workflow_id");
-        if ( $id === $workflow_id )
+        if ( $workflow->attribute( 'id' ) === $inGroup->attribute( 'workflow_id' ) )
         {
-            $list[] =& $workflow_list[$i];
+            $list[] = $workflow;
         }
     }
 }
 
-$templist_in_group = & eZWorkflowGroupLink::fetchWorkflowList( 1, $WorkflowGroupID, $asObject = true);
-$tempworkflow_list =  eZWorkflow::fetchList( 1 );
+$templist_in_group = eZWorkflowGroupLink::fetchWorkflowList( 1, $WorkflowGroupID, $asObject = true);
+$tempworkflow_list = eZWorkflow::fetchList( 1 );
 
 $temp_list =array();
-for ( $i=0;$i<count( $tempworkflow_list );$i++ )
+foreach( $tempworkflow_list as $tmpWorkflow )
 {
-    for ( $j=0;$j<count( $templist_in_group );$j++ )
+    foreach ( $templist_in_group as $tmpInGroup )
     {
         $id =  $tempworkflow_list[$i]->attribute("id");
         $workflow_id =  $templist_in_group[$j]->attribute("workflow_id");
-        if ( $id === $workflow_id )
+        if ( $tmpWorkflow->attribute( 'id' ) === $tmpWorkflow->attribute( 'workflow_id' ) )
         {
-            $temp_list[] =& $tempworkflow_list[$i];
+            $temp_list[] = $tmpWorkflow;
         }
     }
 }
@@ -165,11 +163,11 @@ $Module->setTitle( ezi18n( 'kernel/workflow', 'Workflow list of group' ) . ' ' .
 $WorkflowgroupInfo =  eZWorkflowGroup::fetch( $WorkflowGroupID );
 if ( !$WorkflowgroupInfo )
 {
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
-include_once( 'kernel/common/template.php' );
-$tpl =& templateInit();
+require_once( 'kernel/common/template.php' );
+$tpl = templateInit();
 $tpl->setVariable( "temp_workflow_list", $temp_list );
 $tpl->setVariable( "group_id", $WorkflowGroupID );
 $WorkflowGroupName = $WorkflowgroupInfo->attribute("name");
@@ -179,7 +177,7 @@ $tpl->setVariable( 'workflow_list', $list );
 $tpl->setVariable( 'module', $Module );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:workflow/workflowlist.tpl' );
+$Result['content'] = $tpl->fetch( 'design:workflow/workflowlist.tpl' );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/workflow', 'Workflow' ),
                                 'url' => false ),
                          array( 'text' => ezi18n( 'kernel/workflow', 'List' ),

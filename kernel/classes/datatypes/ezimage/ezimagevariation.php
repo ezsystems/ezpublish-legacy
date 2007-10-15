@@ -39,9 +39,9 @@
   \deprecated
 */
 
-include_once( "kernel/classes/ezpersistentobject.php" );
-include_once( "kernel/classes/ezcontentclassattribute.php" );
-include_once( "kernel/common/image.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezcontentclassattribute.php" );
+require_once( "kernel/common/image.php" );
 
 class eZImageVariation extends eZPersistentObject
 {
@@ -54,7 +54,7 @@ class eZImageVariation extends eZPersistentObject
         $this->IsOriginal = false;
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "contentobject_attribute_id" => array( 'name' => "ContentObjectAttributeID",
                                                                                 'datatype' => 'integer',
@@ -93,13 +93,13 @@ class eZImageVariation extends eZPersistentObject
                                                             'required' => true ) ),
                       "keys" => array( "contentobject_attribute_id, version, requestedwidth, requestedheight" ),
                       "function_attributes" => array( 'full_path' => 'fullPath' ),
-                      "relations" => array( "contentobject_attribute_id" => array( "class" => "ezcontentobjectattribute",
+                      "relations" => array( "contentobject_attribute_id" => array( "class" => "eZContentObjectAttribute",
                                                                          "field" => "id" ) ),
                       "class_name" => "eZImageVariation",
                       "name" => "ezimagevariation" );
     }
 
-    function &createOriginal( $contentObjectAttributeID, $version, $filename, $additionalPath )
+    function createOriginal( $contentObjectAttributeID, $version, $filename, $additionalPath )
     {
         $additionalPath = false;
         $row = array( 'contentobject_attribute_id' => $contentObjectAttributeID,
@@ -136,10 +136,14 @@ class eZImageVariation extends eZPersistentObject
                 }
             }
             else
+            {
                 eZDebug::writeError( "Unknown function 'getimagesize' cannot get image size", 'eZImageVariation::createOriginal' );
+            }
         }
         else
+        {
             eZDebug::writeError( "Unknown imagefile '$fullPath'", 'eZImageVariation::createOriginal' );
+        }
         return $variation;
     }
 
@@ -193,11 +197,11 @@ class eZImageVariation extends eZPersistentObject
                 $imagevariation->removeVariation( $contentobjectAttributeID, $version );
         }
 
-        include_once( "lib/ezutils/classes/ezini.php" );
-        include_once( "lib/ezfile/classes/ezdir.php" );
+        //include_once( "lib/ezutils/classes/ezini.php" );
+        //include_once( "lib/ezfile/classes/ezdir.php" );
 
-        $ini =& eZINI::instance();
-        $sys =& eZSys::instance();
+        $ini = eZINI::instance();
+        $sys = eZSys::instance();
         $StoragePath = $sys->storageDirectory();
         $cat = $ezimageobj->attribute( "mime_type_category" );
 
@@ -210,11 +214,11 @@ class eZImageVariation extends eZPersistentObject
         $additionalPath = eZDir::getPathFromFilename( $origFilename );
         eZDir::mkdir( $variationPath . '/' . $additionalPath , 0777, true);
 
-        $img =& imageInit();
+        $img = imageInit();
 
         $convertedName = $ezimageobj->attribute( "filename" );
 
-        $imgINI =& eZINI::instance( 'image.ini' );
+        $imgINI = eZINI::instance( 'image.ini' );
         $ruleList = $imgINI->variableArray( 'Rules', 'Rules' );
         foreach ( $ruleList as $items )
         {
@@ -274,10 +278,10 @@ class eZImageVariation extends eZPersistentObject
         return $imageVariation;
     }
 
-    function &fullPath()
+    function fullPath()
     {
-        $sys =& eZSys::instance();
-        $ini =& eZINI::instance();
+        $sys = eZSys::instance();
+        $ini = eZINI::instance();
         $contentobjectAttributeID = $this->attribute( "contentobject_attribute_id" );
         $version = $this->attribute( "version" );
         $img_obj = eZImage::fetch( $contentobjectAttributeID, $version );
@@ -291,18 +295,17 @@ class eZImageVariation extends eZPersistentObject
         else
             $variationPath = $ini->variable( "ImageSettings", "VariationsDir" );
 
-        $retFullPath = eZDir::path( array( $storageDir, $variationPath, $category, $additionalPath, $filename ) );
-        return $retFullPath;
+        return eZDir::path( array( $storageDir, $variationPath, $category, $additionalPath, $filename ) );
     }
 
-    var $Version;
-    var $ContentObjectAttributeID;
-    var $Filename;
-    var $RequestedWidth;
-    var $RequestedHeight;
-    var $Width;
-    var $Height;
-    var $IsOriginal;
+    public $Version;
+    public $ContentObjectAttributeID;
+    public $Filename;
+    public $RequestedWidth;
+    public $RequestedHeight;
+    public $Width;
+    public $Height;
+    public $IsOriginal;
 }
 
 ?>

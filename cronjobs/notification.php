@@ -29,13 +29,13 @@
 /*! \file notification.php
 */
 
-include_once( 'kernel/classes/notification/eznotificationeventfilter.php' );
-include_once( 'kernel/classes/notification/eznotificationevent.php' );
-include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( 'kernel/classes/notification/eznotificationeventfilter.php' );
+//include_once( 'kernel/classes/notification/eznotificationevent.php' );
+//include_once( "lib/ezdb/classes/ezdb.php" );
 
 $event = eZNotificationEvent::create( 'ezcurrenttime', array() );
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 $db->begin();
 
 $event->store();

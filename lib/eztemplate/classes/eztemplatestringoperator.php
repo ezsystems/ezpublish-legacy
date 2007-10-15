@@ -66,11 +66,11 @@ class eZTemplateStringOperator
                                                           'code' => '$result = preg_match_all( "#(\w+)#", $staticValues[0], $dummy );'
                                                         ),
                                    'chr' => array( 'return' => 'string',
-                                                   'code' => '$codec =& eZTextCodec::instance( "unicode", false );' . "\n" .
+                                                   'code' => '$codec = eZTextCodec::instance( "unicode", false );' . "\n" .
                                                              '$result = $codec->convertString( $staticValues[0] );'
                                                  ),
                                    'ord' => array( 'return' => 'string',
-                                                   'code' => '$codec =& eZTextCodec::instance( false, "unicode" );' . "\n" .
+                                                   'code' => '$codec = eZTextCodec::instance( false, "unicode" );' . "\n" .
                                                              '$result = $codec->convertString( $staticValues[0] );'
                                                  ),
                                    'pad' => array( 'return' => 'string',
@@ -147,7 +147,7 @@ class eZTemplateStringOperator
                                                                   }'
                                                      ),
                                    'upfirst' => array( 'return' => 'string',
-                                                       'code' => '$i18nIni =& eZINI::instance( \'i18n.ini\' );
+                                                       'code' => '$i18nIni = eZINI::instance( \'i18n.ini\' );
                                                                   $hasMBString = ( $i18nIni->variable( \'CharacterSettings\', \'MBStringExtension\' ) == \'enabled\' and
                                                                   function_exists( "mb_strtoupper" ) and
                                                                   function_exists( "mb_substr" ) and
@@ -155,7 +155,7 @@ class eZTemplateStringOperator
 
                                                                   if ( $hasMBString )
                                                                   {
-                                                                      $encoding = ezTextCodec::internalCharset();
+                                                                      $encoding = eZTextCodec::internalCharset();
                                                                       $firstLetter = mb_strtoupper( mb_substr( $staticValues[0], 0, 1, $encoding ), $encoding );
                                                                       $remainingText = mb_substr( $staticValues[0], 1, mb_strlen( $staticValues[0], $encoding ), $encoding );
                                                                       $result = $firstLetter . $remainingText;
@@ -166,7 +166,7 @@ class eZTemplateStringOperator
                                                                   }'
                                                      ),
                                    'upword' => array( 'return' => 'string',
-                                                      'code' => ' $i18nIni =& eZINI::instance( \'i18n.ini\' );
+                                                      'code' => ' $i18nIni = eZINI::instance( \'i18n.ini\' );
                                                                   $hasMBString = ( $i18nIni->variable( \'CharacterSettings\', \'MBStringExtension\' ) == \'enabled\' and
                                                                                    function_exists( "mb_strtoupper" ) and
                                                                                    function_exists( "mb_substr" ) and
@@ -174,7 +174,7 @@ class eZTemplateStringOperator
 
                                                                   if ( $hasMBString )
                                                                   {
-                                                                      $encoding = ezTextCodec::internalCharset();
+                                                                      $encoding = eZTextCodec::internalCharset();
                                                                       $words = explode( " ", $staticValues[0] );
                                                                       $newString = array();
                                                                       foreach ( $words as $word )
@@ -198,7 +198,7 @@ class eZTemplateStringOperator
     /*!
      Returns the template operators.
     */
-    function &operatorList()
+    function operatorList()
     {
         return $this->Operators;
     }
@@ -285,8 +285,8 @@ class eZTemplateStringOperator
                                                                              "default" => false ) ) );
     }
 
-    function phpMapTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                   &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function phpMapTransformation( $operatorName, $node, $tpl, $resourceData,
+                                   $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $phpFunctionList = explode( ',', $this->phpMap[$operatorName] );
@@ -322,8 +322,8 @@ class eZTemplateStringOperator
         return $newElements;
     }
 
-    function customMapTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                       &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function customMapTransformation( $operatorName, $node, $tpl, $resourceData,
+                                       $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $newElements = array();
@@ -400,7 +400,7 @@ class eZTemplateStringOperator
     /*!
      * \private
      */
-    function wash( $operatorValue, &$tpl, $type = 'xhtml' )
+    function wash( $operatorValue, $tpl, $type = 'xhtml' )
     {
         switch ( $type )
         {
@@ -411,7 +411,7 @@ class eZTemplateStringOperator
 
             case "email":
             {
-                $ini =& $tpl->ini();
+                $ini = $tpl->ini();
                 $dotText = $ini->variable( 'WashSettings', 'EmailDotText' );
                 $atText = $ini->variable( 'WashSettings', 'EmailAtText' );
                 $operatorValue = str_replace( array( '.',
@@ -442,8 +442,8 @@ class eZTemplateStringOperator
         return $operatorValue;
     }
 
-    function washTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                 &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function washTransformation( $operatorName, $node, $tpl, $resourceData,
+                                 $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $tmpVarCount = 0;
@@ -498,7 +498,7 @@ class eZTemplateStringOperator
         /* MAIL: Type is static, input is not static */
         else if ( ( $paramCount == 2 ) && isset( $staticValues[1] ) && ( $staticValues[1] == 'email' ) )
         {
-            $ini =& $tpl->ini();
+            $ini = $tpl->ini();
             $dotText = addcslashes( $ini->variable( 'WashSettings', 'EmailDotText' ), "'" );
             $atText = addcslashes( $ini->variable( 'WashSettings', 'EmailAtText' ), "'" );
 
@@ -527,13 +527,13 @@ class eZTemplateStringOperator
     /*
      The modify function takes care of the various operations.
     */
-    function modify( &$tpl,
-                     &$operatorName,
-                     &$operatorParameters,
-                     &$rootNamespace,
-                     &$currentNamespace,
+    function modify( $tpl,
+                     $operatorName,
+                     $operatorParameters,
+                     $rootNamespace,
+                     $currentNamespace,
                      &$operatorValue,
-                     &$namedParameters,
+                     $namedParameters,
                      $placement )
     {
         switch ( $operatorName )
@@ -593,7 +593,7 @@ class eZTemplateStringOperator
             // Convert the first character to uppercase.
             case $this->UpfirstName:
             {
-                $i18nIni =& eZINI::instance( 'i18n.ini' );
+                $i18nIni = eZINI::instance( 'i18n.ini' );
                 $hasMBString = ( $i18nIni->variable( 'CharacterSettings', 'MBStringExtension' ) == 'enabled' and
                                  function_exists( "mb_strtoupper" ) and
                                  function_exists( "mb_substr" ) and
@@ -601,7 +601,7 @@ class eZTemplateStringOperator
 
                 if ( $hasMBString )
                 {
-                    $encoding = ezTextCodec::internalCharset();
+                    $encoding = eZTextCodec::internalCharset();
                     $firstLetter = mb_strtoupper( mb_substr( $operatorValue, 0, 1, $encoding ), $encoding );
                     $remainingText = mb_substr( $operatorValue, 1, mb_strlen( $operatorValue, $encoding ), $encoding );
                     $operatorValue = $firstLetter . $remainingText;
@@ -631,7 +631,7 @@ class eZTemplateStringOperator
             // Convert all first characters [in all words] to uppercase.
             case $this->UpwordName:
             {
-                $i18nIni =& eZINI::instance( 'i18n.ini' );
+                $i18nIni = eZINI::instance( 'i18n.ini' );
                 $hasMBString = ( $i18nIni->variable( 'CharacterSettings', 'MBStringExtension' ) == 'enabled' and
                                  function_exists( "mb_strtoupper" ) and
                                  function_exists( "mb_substr" ) and
@@ -639,7 +639,7 @@ class eZTemplateStringOperator
 
                 if ( $hasMBString )
                 {
-                    $encoding = ezTextCodec::internalCharset();
+                    $encoding = eZTextCodec::internalCharset();
                     $words = explode( " ", $operatorValue );
                     $newString = array();
                     foreach ( $words as $word )
@@ -726,7 +726,7 @@ class eZTemplateStringOperator
             // Ord (translate a unicode string to actual unicode id/numbers):
             case $this->OrdName:
             {
-                $codec =& eZTextCodec::instance( false, 'unicode' );
+                $codec = eZTextCodec::instance( false, 'unicode' );
                 $output = $codec->convertString( $operatorValue );
                 $operatorValue = $output;
             }break;
@@ -734,7 +734,7 @@ class eZTemplateStringOperator
             // Chr (generate unicode characters based on input):
             case $this->ChrName:
             {
-                $codec =& eZTextCodec::instance( 'unicode', false );
+                $codec = eZTextCodec::instance( 'unicode', false );
                 $output = $codec->convertString( $operatorValue );
                 $operatorValue = $output;
             }break;
@@ -748,7 +748,7 @@ class eZTemplateStringOperator
     }
 
     /// The array of operators, used for registering operators
-    var $Operators;
+    public $Operators;
 }
 
 ?>

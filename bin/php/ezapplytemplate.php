@@ -27,19 +27,21 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ Publish Code Template Generator\n\n" .
-                                                         "This will apply any template blocks it finds in files\n" .
-                                                         "and writes back the new file\n" .
-                                                         "\n" .
-                                                         "The return code is set to 0 if no changes occured, 1 if a file is changed\n" .
-                                                         "or 2 if an error occurs" ),
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+require 'autoload.php';
+
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'description' => ( "eZ Publish Code Template Generator\n\n" .
+                                                        "This will apply any template blocks it finds in files\n" .
+                                                        "and writes back the new file\n" .
+                                                        "\n" .
+                                                        "The return code is set to 0 if no changes occured, 1 if a file is changed\n" .
+                                                        "or 2 if an error occurs" ),
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 
@@ -55,7 +57,7 @@ if ( !$options['all'] and count( $options['arguments'] ) < 1 )
     $script->shutdown( 1 );
 }
 
-include_once( 'kernel/classes/ezcodetemplate.php' );
+//include_once( 'kernel/classes/ezcodetemplate.php' );
 
 $hasErrors = false;
 $hasModified = false;
@@ -74,16 +76,16 @@ else
 foreach ( $files as $file )
 {
     $status = $tpl->apply( $file, $options['check-only'] );
-    if ( $status == EZ_CODE_TEMPLATE_STATUS_OK )
+    if ( $status == eZCodeTemplate::STATUS_OK )
     {
         $cli->output( "Updated " . $cli->stylize( 'file', $file ) );
         $hasModified = true;
     }
-    else if ( $status == EZ_CODE_TEMPLATE_STATUS_NO_CHANGE )
+    else if ( $status == eZCodeTemplate::STATUS_NO_CHANGE )
     {
         $cli->output( "No change in " . $cli->stylize( 'file', $file ) );
     }
-    else if ( $status == EZ_CODE_TEMPLATE_STATUS_FAILED )
+    else if ( $status == eZCodeTemplate::STATUS_FAILED )
     {
         $cli->output( "Template errors for " . $cli->stylize( 'file', $file ) );
         $hasErrors = true;

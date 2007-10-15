@@ -105,7 +105,7 @@ class eZTranslatorHandler
 
     /// \privatesection
     /// Tells whether the handler is key based or not
-    var $IsKeyBased;
+    public $IsKeyBased;
 }
 
 ?>

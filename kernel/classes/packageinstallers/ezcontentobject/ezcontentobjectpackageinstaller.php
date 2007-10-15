@@ -37,7 +37,7 @@
   \brief A package creator for content objects
 */
 
-include_once( 'kernel/classes/ezpackageinstallationhandler.php' );
+//include_once( 'kernel/classes/ezpackageinstallationhandler.php' );
 
 class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
 {
@@ -45,7 +45,7 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
     /*!
      \reimp
     */
-    function eZContentObjectPackageInstaller( &$package, $type, $installItem )
+    function eZContentObjectPackageInstaller( $package, $type, $installItem )
     {
         $steps = array();
         $steps[] = array( 'id' => 'site_access',
@@ -69,7 +69,7 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
      \reimp
      Returns \c 'stable', content class packages are always stable.
     */
-    function packageInitialState( &$package, &$persistentData )
+    function packageInitialState( $package, &$persistentData )
     {
         return 'stable';
     }
@@ -77,7 +77,7 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
     /*!
      \return \c 'contentobject'.
     */
-    function packageType( &$package, &$persistentData )
+    function packageType( $package, &$persistentData )
     {
         return 'contentobject';
     }
@@ -85,10 +85,10 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
     /*!
      \reimp
     */
-    function initializeSiteAccess( &$package, &$http, $step, &$persistentData, &$tpl )
+    function initializeSiteAccess( $package, $http, $step, &$persistentData, $tpl )
     {
-        include_once( 'lib/ezutils/classes/ezini.php' );
-        $ini =& eZINI::instance();
+        //include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini = eZINI::instance();
         $availableSiteAccessArray = $ini->variable( 'SiteAccessSettings', 'RelatedSiteAccessList' );
 
         if ( !isset( $persistentData['site_access_map'] ) )
@@ -96,11 +96,11 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
             $persistentData['site_access_map'] = array();
             $persistentData['site_access_available'] = $availableSiteAccessArray;
             $rootDOMNode = $this->rootDOMNode();
-            $siteAccessListNode = $rootDOMNode->elementByName( 'site-access-list' );
+            $siteAccessListNode = $rootDOMNode->getElementsByTagName( 'site-access-list' )->item( 0 );
 
-            foreach( $siteAccessListNode->elementsByName( 'site-access' ) as $siteAccessNode )
+            foreach( $siteAccessListNode->getElementsByTagName( 'site-access' ) as $siteAccessNode )
             {
-                $originalSiteAccessName = $siteAccessNode->textContent();
+                $originalSiteAccessName = $siteAccessNode->textContent;
                 if ( in_array( $originalSiteAccessName, $availableSiteAccessArray ) )
                 {
                     $persistentData['site_access_map'][$originalSiteAccessName] = $originalSiteAccessName;
@@ -119,7 +119,7 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
     /*!
      \reimp
     */
-    function validateSiteAccess( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
+    function validateSiteAccess( $package, $http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
         $validate = true;
         foreach( $persistentData['site_access_map'] as $originalSiteAccess => $newSiteAccess )
@@ -137,22 +137,22 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
     /*!
      \reimp
     */
-    function initializeTopNodes( &$package, &$http, $step, &$persistentData, &$tpl, &$module )
+    function initializeTopNodes( $package, $http, $step, &$persistentData, $tpl, &$module )
     {
         if ( !isset( $persistentData['top_nodes_map'] ) )
         {
             $persistentData['top_nodes_map'] = array();
             $rootDOMNode = $this->rootDOMNode();
-            $topNodeListNode = $rootDOMNode->elementByName( 'top-node-list' );
+            $topNodeListNode = $rootDOMNode->getElementsByTagName( 'top-node-list' )->item( 0 );
 
-            $ini =& eZINI::instance( 'content.ini' );
+            $ini = eZINI::instance( 'content.ini' );
             $defaultPlacementNodeID = $ini->variable( 'NodeSettings', 'RootNode' );
             $defaultPlacementNode = eZContentObjectTreeNode::fetch( $defaultPlacementNodeID );
             $defaultPlacementName = $defaultPlacementNode->attribute( 'name' );
-            foreach ( $topNodeListNode->elementsByName( 'top-node' ) as $topNodeDOMNode )
+            foreach ( $topNodeListNode->getElementsByTagName( 'top-node' ) as $topNodeDOMNode )
             {
-                $persistentData['top_nodes_map'][(string)$topNodeDOMNode->attributeValue( 'node-id' )] = array( 'old_node_id' => $topNodeDOMNode->attributeValue( 'node-id' ),
-                                                                                                                'name' => $topNodeDOMNode->textContent(),
+                $persistentData['top_nodes_map'][(string)$topNodeDOMNode->getAttribute( 'node-id' )] = array( 'old_node_id' => $topNodeDOMNode->getAttribute( 'node-id' ),
+                                                                                                                'name' => $topNodeDOMNode->textContent,
                                                                                                                 'new_node_id' => $defaultPlacementNodeID,
                                                                                                                 'new_parent_name' => $defaultPlacementName );
             }
@@ -162,7 +162,7 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
         {
             if ( $http->hasPostVariable( 'BrowseNode_' . $topNodeArrayKey ) )
             {
-                include_once( 'kernel/classes/ezcontentbrowse.php' );
+                //include_once( 'kernel/classes/ezcontentbrowse.php' );
                 eZContentBrowse::browse( array( 'action_name' => 'SelectObjectRelationNode',
                                                 'description_template' => 'design:package/installers/ezcontentobject/browse_topnode.tpl',
                                                 'from_page' => '/package/install',
@@ -190,7 +190,7 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
     /*!
      \reimp
     */
-    function validateTopNodes( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
+    function validateTopNodes( $package, $http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
         $validate = true;
         foreach( array_keys( $persistentData['top_nodes_map'] ) as $topNodeArrayKey )
@@ -210,8 +210,9 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
     /*!
      \reimp
     */
-    function finalize( &$package, &$http, &$persistentData )
+    function finalize( $package, $http, &$persistentData )
     {
+        eZDebug::writeDebug( 'finalize is called', 'eZContentObjectPackageInstaller::finalize' );
         $package->installItem( $this->InstallItem, $persistentData );
     }
 

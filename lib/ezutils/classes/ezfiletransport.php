@@ -37,8 +37,8 @@
 
 */
 
-include_once( 'lib/ezutils/classes/ezmailtransport.php' );
-include_once( 'lib/ezfile/classes/ezfile.php' );
+//include_once( 'lib/ezutils/classes/ezmailtransport.php' );
+//include_once( 'lib/ezfile/classes/ezfile.php' );
 
 class eZFileTransport extends eZMailTransport
 {
@@ -52,9 +52,9 @@ class eZFileTransport extends eZMailTransport
     /*!
      \reimp
     */
-    function sendMail( &$mail )
+    function sendMail( eZMail $mail )
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $sendmailOptions = '';
         $emailFrom = $mail->sender();
         $emailSender = $emailFrom['email'];
@@ -71,7 +71,7 @@ class eZFileTransport extends eZMailTransport
              $mail->sender() == false )
             $mail->setSenderText( $emailSender );
 
-        $filename = mktime() . '-' . rand() . '.mail';
+        $filename = time() . '-' . rand() . '.mail';
 
         $data = preg_replace('/(\r\n|\r|\n)/', "\r\n", $mail->headerText() . "\n" . $mail->body() );
         return eZFile::create( $filename, 'var/log/mail', $data );

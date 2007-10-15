@@ -45,7 +45,7 @@
 
 */
 
-include_once( 'benchmarks/classes/ezbenchmarkrunner.php' );
+//include_once( 'benchmarks/classes/ezbenchmarkrunner.php' );
 
 class eZBenchmarkCLIRunner extends eZBenchmarkRunner
 {
@@ -75,8 +75,8 @@ class eZBenchmarkCLIRunner extends eZBenchmarkRunner
     */
     function display( $result )
     {
-        include_once( 'lib/ezutils/classes/ezcli.php' );
-        $cli =& eZCLI::instance();
+        //include_once( 'lib/ezutils/classes/ezcli.php' );
+        $cli = eZCLI::instance();
         $col = 60;
         $start = $result['start'];
         $end = $result['end'];

@@ -30,10 +30,10 @@
 
 /*! \file ezstep_language_options.php
 */
-include_once( 'kernel/setup/steps/ezstep_installer.php' );
-include_once( 'kernel/setup/ezsetupcommon.php' );
-include_once( 'kernel/common/i18n.php' );
-include_once( 'kernel/classes/ezpackage.php' );
+//include_once( 'kernel/setup/steps/ezstep_installer.php' );
+//include_once( 'kernel/setup/ezsetupcommon.php' );
+require_once( 'kernel/common/i18n.php' );
+//include_once( 'kernel/classes/ezpackage.php' );
 
 /*!
   \class eZStepPackageLanguageOptions ezstep_package_language_options.php
@@ -47,7 +47,7 @@ class eZStepPackageLanguageOptions extends eZStepInstaller
      Constructor
      \reimp
     */
-    function eZStepPackageLanguageOptions(&$tpl, &$http, &$ini, &$persistenceList )
+    function eZStepPackageLanguageOptions( $tpl, $http, $ini, &$persistenceList )
     {
         $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
                                 'package_language_options', 'Package language options' );

@@ -37,7 +37,7 @@
 
 */
 
-include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
 
 class eZNotificationCollectionItem extends eZPersistentObject
 {
@@ -49,7 +49,7 @@ class eZNotificationCollectionItem extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -84,7 +84,7 @@ class eZNotificationCollectionItem extends eZPersistentObject
                       "name" => "eznotificationcollection_item" );
     }
 
-    function create( $collectionID, $eventID, $address, $sendDate = 0 )
+    static function create( $collectionID, $eventID, $address, $sendDate = 0 )
     {
         return new eZNotificationCollectionItem( array( 'collection_id' => $collectionID,
                                                         'event_id' => $eventID,
@@ -92,7 +92,7 @@ class eZNotificationCollectionItem extends eZPersistentObject
                                                         'send_date' => $sendDate ) );
     }
 
-    function fetchByDate( $date )
+    static function fetchByDate( $date )
     {
         return eZPersistentObject::fetchObjectList( eZNotificationCollectionItem::definition(),
                                                     null, array( 'send_date' => array( '<', $date ),
@@ -100,7 +100,7 @@ class eZNotificationCollectionItem extends eZPersistentObject
                                                     true );
     }
 
-    function fetchCountForEvent( $eventID )
+    static function fetchCountForEvent( $eventID )
     {
         $result = eZPersistentObject::fetchObjectList( eZNotificationCollectionItem::definition(),
                                                        array(),
@@ -118,9 +118,9 @@ class eZNotificationCollectionItem extends eZPersistentObject
      \static
      Removes all notification collection items.
     */
-    function cleanup()
+    static function cleanup()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->query( "DELETE FROM eznotificationcollection_item" );
     }
 }

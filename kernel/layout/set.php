@@ -25,10 +25,10 @@
 //
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
-include_once( "lib/ezutils/classes/ezhttptool.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
 
 $LayoutStyle = $Params['LayoutStyle'];
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 
 $userParamString = '';
 foreach ( $Params['UserParameters'] as $key => $param )
@@ -40,8 +40,8 @@ $Result = array();
 $Result['content'] = '';
 $Result['rerun_uri'] = '/' . implode( '/', array_splice( $Params['Parameters'], 1 ) ) . $userParamString;
 
-$layoutINI =& eZINI::instance( 'layout.ini' );
-$i18nINI =& eZINI::instance( 'i18n.ini' );
+$layoutINI = eZINI::instance( 'layout.ini' );
+$i18nINI = eZINI::instance( 'i18n.ini' );
 if ( $layoutINI->hasGroup( $LayoutStyle ) )
 {
     if ( $layoutINI->hasVariable( $LayoutStyle, 'PageLayout' ) )
@@ -50,8 +50,8 @@ if ( $layoutINI->hasGroup( $LayoutStyle ) )
     if ( $layoutINI->hasVariable( $LayoutStyle, 'ContentType' ) )
         header( 'Content-Type: ' . $layoutINI->variable( $LayoutStyle, 'ContentType' ) . '; charset=' . $i18nINI->variable( 'CharacterSettings', 'Charset' ) );
 
-    include_once( 'kernel/common/eztemplatedesignresource.php' );
-    $res =& eZTemplateDesignResource::instance();
+    //include_once( 'kernel/common/eztemplatedesignresource.php' );
+    $res = eZTemplateDesignResource::instance();
     $res->setKeys( array( array( 'layout', $LayoutStyle ) ) );
 
     if ( $layoutINI->hasVariable( $LayoutStyle, 'UseAccessPass' ) && $layoutINI->variable( $LayoutStyle, 'UseAccessPass' ) == 'false' )
@@ -59,14 +59,14 @@ if ( $layoutINI->hasGroup( $LayoutStyle ) )
     }
     else
     {
-        include_once( 'lib/ezutils/classes/ezsys.php' );
+        //include_once( 'lib/ezutils/classes/ezsys.php' );
         eZSys::addAccessPath( array( 'layout', 'set', $LayoutStyle ) );
     }
 
 
 
     $useFullUrl = false;
-    $http =& eZHTTPTool::instance();
+    $http = eZHTTPTool::instance();
     $http->UseFullUrl = false;
     if ( $layoutINI->hasVariable( $LayoutStyle, 'UseFullUrl' ) )
     {
@@ -76,7 +76,7 @@ if ( $layoutINI->hasGroup( $LayoutStyle ) )
         }
     }
 
-    $Module->setExitStatus( EZ_MODULE_STATUS_RERUN );
+    $Module->setExitStatus( eZModule::STATUS_RERUN );
 }
 else
 {

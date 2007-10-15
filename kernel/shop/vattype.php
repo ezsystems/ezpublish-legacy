@@ -28,24 +28,27 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/common/template.php" );
-include_once( "kernel/classes/ezvattype.php" );
-include_once( "lib/ezutils/classes/ezhttppersistence.php" );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/classes/ezvattype.php" );
+//include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 
-$module =& $Params["Module"];
-$http =& eZHttpTool::instance();
-$tpl =& templateInit();
+$module = $Params['Module'];
+$http = eZHTTPTool::instance();
+$tpl = templateInit();
 $errors = false;
 
-/**
- * Apply changes made to VAT types' names and/or percentages.
+/*!
+  Apply changes made to VAT types' names and/or percentages.
+
+  \return errors array
  */
-function applyChanges( $module, $http, &$errors, $vatTypeArray = false )
+function applyChanges( $module, $http, $vatTypeArray = false )
 {
+    $errors = array();
     if ( $vatTypeArray === false )
         $vatTypeArray = eZVatType::fetchList( true, true );
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach ( $vatTypeArray as $vatType )
     {
@@ -78,6 +81,8 @@ function applyChanges( $module, $http, &$errors, $vatTypeArray = false )
         $vatType->store();
     }
     $db->commit();
+
+    return $errors;
 }
 
 /**
@@ -124,7 +129,7 @@ function findDependencies( $vatTypeIDList, &$deps, &$haveDeps, &$canRemove )
         $vatName = $vatType->attribute( 'name' );
 
         // Find dependent VAT rules.
-        $nRules = eZVatrule::fetchCountByVatType( $vatID );
+        $nRules = eZVatRule::fetchCountByVatType( $vatID );
 
         // Find dependent products.
         $nProducts = eZVatType::fetchDependentProductsCount( $vatID );
@@ -149,7 +154,7 @@ function findDependencies( $vatTypeIDList, &$deps, &$haveDeps, &$canRemove )
 if ( $module->isCurrentAction( 'Add' ) )
 {
     $vatTypeArray = eZVatType::fetchList( true, true );
-    applyChanges( $module, $http, $errors, $vatTypeArray );
+    $errors = applyChanges( $module, $http, $vatTypeArray );
 
     $vatType = eZVatType::create();
     $vatType->setAttribute( 'name', generateUniqueVatTypeName( $vatTypeArray ) );
@@ -159,7 +164,7 @@ if ( $module->isCurrentAction( 'Add' ) )
 // Save changes made to names and percentages.
 elseif ( $module->isCurrentAction( 'SaveChanges' ) )
 {
-    applyChanges( $module, $http, $errors );
+    $errors = applyChanges( $module, $http );
 }
 // Remove checked VAT types [with or without confirmation].
 elseif ( $module->isCurrentAction( 'Remove' ) )
@@ -199,8 +204,8 @@ elseif ( $module->isCurrentAction( 'Remove' ) )
                               'url'  => false ) );
 
         $Result = array();
-        $Result['path'] =& $path;
-        $Result['content'] =& $tpl->fetch( "design:shop/removevattypes.tpl" );
+        $Result['path'] = $path;
+        $Result['content'] = $tpl->fetch( "design:shop/removevattypes.tpl" );
         return;
     }
     else // otherwise just silently remove the VAT types.
@@ -226,13 +231,17 @@ if ( $module->isCurrentAction( 'ConfirmRemoval' ) )
     }
 
     if ( !$afterConfirmation )
-        applyChanges( $module, $http, $errors );
+        $errors = applyChanges( $module, $http );
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach ( $vatIDsToRemove as $vatID )
     {
-        eZVatType::remove( $vatID );
+        $vatType = eZVatType::fetch( $vatID );
+        if ( is_object( $vatType ) )
+        {
+            $vatType->removeThis();
+        }
     }
     $db->commit();
 }
@@ -252,7 +261,7 @@ $path[] = array( 'text' => ezi18n( 'kernel/shop', 'VAT types' ),
 
 
 $Result = array();
-$Result['path'] =& $path;
-$Result['content'] =& $tpl->fetch( "design:shop/vattype.tpl" );
+$Result['path'] = $path;
+$Result['content'] = $tpl->fetch( "design:shop/vattype.tpl" );
 
 ?>

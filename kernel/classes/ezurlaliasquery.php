@@ -129,20 +129,23 @@ class eZURLAliasQuery
                                      array( 'query' ) ) );
     }
 
-    function &attribute( $name )
+    function attribute( $name )
     {
         switch ( $name )
         {
             case 'count':
-                $value = $this->count();
-                break;
+            {
+                return $this->count();
+            } break;
             case 'items':
-                $value = $this->fetchAll();
-                break;
+            {
+                return $this->fetchAll();
+            } break;
             default:
-                $value = $this->$name;
+            {
+                return $this->$name;
+            } break;
         }
-        return $value;
     }
 
     function setAttribute( $name, $value )
@@ -182,7 +185,7 @@ class eZURLAliasQuery
         if ( $this->query === false )
             return 0;
         $query = "SELECT count(*) AS count {$this->query}";
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $rows = $db->arrayQuery( $query );
         if ( count( $rows ) == 0 )
             $this->count = 0;
@@ -210,7 +213,7 @@ class eZURLAliasQuery
         $query = "SELECT * {$this->query} ORDER BY {$this->order}";
         $params = array( 'offset' => $this->offset,
                          'limit'  => $this->limit );
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $rows = $db->arrayQuery( $query, $params );
         if ( count( $rows ) == 0 )
             $this->items = array();
@@ -223,7 +226,7 @@ class eZURLAliasQuery
      \private
      Generates the common part of the SQL using the properties as filters and returns it.
      */
-    function generateSQL()
+    private function generateSQL()
     {
         if ( !in_array( $this->type, array( 'name', 'alias', 'all' ) ) )
         {
@@ -231,7 +234,7 @@ class eZURLAliasQuery
             return null;
         }
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         if ( $this->languages === true )
         {
             $langMask = trim( eZContentLanguage::languagesSQLFilter( 'ezurlalias_ml', 'lang_mask' ) );
@@ -332,14 +335,13 @@ class eZURLAliasQuery
      Takes an array with database data in $row and turns them into eZPathElement objects.
      Entries which have multiple languages will be turned into multiple objects.
      */
-    function makeList( $rows )
+    static public function makeList( $rows )
     {
         if ( !is_array( $rows ) || count( $rows ) == 0 )
             return array();
         $list = array();
-        foreach ( array_keys ($rows) as $row_key )
+        foreach ( $rows as $row )
         {
-            $row = &$rows[$row_key];
             $row['always_available'] = $row['lang_mask'] % 2;
             $mask = $row['lang_mask'] & ~1;
             for ( $i = 1; $i < 30; ++$i )
@@ -352,7 +354,7 @@ class eZURLAliasQuery
                 }
             }
         }
-        include_once( 'kernel/classes/ezpathelement.php' );
+        //include_once( 'kernel/classes/ezpathelement.php' );
         $objectList = eZPersistentObject::handleRows( $list, 'eZPathElement', true );
         return $objectList;
     }

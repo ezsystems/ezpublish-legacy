@@ -116,7 +116,7 @@
   Example of how to crete an option, adding multioptions and options
   and finally retrieving the xml structure.
   \code
-   include_once( "kernel/classes/datatypes/ezoption/ezmultioption.php" );
+   //include_once( "kernel/classes/datatypes/ezoption/ezmultioption.php" );
    $option = new eZOption( "Car" );
    $newID = $option->addMultiOption("Model",$priority,false);
       $option->addOption( $newID, "", "Model - A", "100", false );
@@ -127,11 +127,9 @@
       $option->addOption( $newID, "", "Red", "", false );
       $option->addOption( $newID, "", "Blue", "", false );
   // Serialize the class to an XML document
-  $xmlString =& $option->xmlString();
+  $xmlString = $option->xmlString();
   \endcode
 */
-
-include_once( "lib/ezxml/classes/ezxml.php" );
 
 class eZMultiOption
 {
@@ -236,12 +234,11 @@ class eZMultiOption
     */
     function removeMultiOptions( $array_remove )
     {
-        $options =& $this->Options;
         foreach ( $array_remove as $id )
         {
-            unset( $options[ $id - 1 ] );
+            unset( $this->Options[ $id - 1 ] );
         }
-        $options = array_values( $options );
+        $this->Options = array_values( $this->Options );
         $this->changeMultiOptionId();
     }
 
@@ -254,16 +251,15 @@ class eZMultiOption
     */
     function removeOptions( $arrayRemove, $optionId )
     {
-        $options =& $this->Options;
         foreach ( $arrayRemove as  $id )
         {
-            unset( $options[$optionId]['optionlist'][$id - 1] );
+            unset( $this->Options[$optionId]['optionlist'][$id - 1] );
         }
-        $options = array_values( $options );
+        $this->Options = array_values( $this->Options );
         $i = 1;
-        foreach ( $options[$optionId]['optionlist'] as $key => $opt )
+        foreach ( $this->Options[$optionId]['optionlist'] as $key => $opt )
         {
-            $options[$optionId]['optionlist'][$key]['id'] = $i;
+            $this->Options[$optionId]['optionlist'][$key]['id'] = $i;
             $i++;
         }
     }
@@ -292,7 +288,7 @@ class eZMultiOption
     \a name contains the name of multioption
     \a multioption_list contains the list of all multioptions.
     */
-    function &attribute( $name )
+    function attribute( $name )
     {
         switch ( $name )
         {
@@ -308,8 +304,7 @@ class eZMultiOption
             default:
             {
                 eZDebug::writeError( "Attribute '$name' does not exist", 'eZMultiOption::attribute' );
-                $retValue = null;
-                return $retValue;
+                return null;
             }break;
         }
     }
@@ -327,24 +322,25 @@ class eZMultiOption
         $this->Options = array();
         if ( $xmlString != "" )
         {
-            $xml = new eZXML();
-            $dom =& $xml->domTree( $xmlString );
-            $root =& $dom->root();
+            $dom = new DOMDocument();
+            $success = $dom->loadXML( $xmlString );
+
+            $root = $dom->documentElement;
             // set the name of the node
-            $this->Name = $root->elementTextContentByName( "name" );
-            $this->OptionCounter = $root->attributeValue("option_counter");
-            $multioptionsNode = $root->elementByName( "multioptions" );
-            $multioptionsList = $multioptionsNode->elementsByName( "multioption" );
+            $this->Name = $root->getElementsByTagName( "name" )->item( 0 )->textContent;
+            $this->OptionCounter = $root->getAttribute( "option_counter" );
+            $multioptionsNode = $root->getElementsByTagName( "multioptions" )->item( 0 );
+            $multioptionsList = $multioptionsNode->getElementsByTagName( "multioption" );
             //Loop for MultiOptions
             foreach ( $multioptionsList as $multioption )
             {
-                $newID = $this->addMultiOption( $multioption->attributeValue( "name" ),
-                                                $multioption->attributeValue( "priority" ),
-                                                $multioption->attributeValue( "default_option_id" ) );
-                $optionNode = $multioption->elementsByName( "option" );
+                $newID = $this->addMultiOption( $multioption->getAttribute( "name" ),
+                                                $multioption->getAttribute( "priority" ),
+                                                $multioption->getAttribute( "default_option_id" ) );
+                $optionNode = $multioption->getElementsByTagName( "option" );
                 foreach ( $optionNode as $option )
                 {
-                    $this->addOption( $newID, $option->attributeValue( "option_id" ), $option->attributeValue( "value" ), $option->attributeValue( "additional_price" ) );
+                    $this->addOption( $newID, $option->getAttribute( "option_id" ), $option->getAttribute( "value" ), $option->getAttribute( "additional_price" ) );
                 }
             }
         }
@@ -360,52 +356,51 @@ class eZMultiOption
      Will return the XML string for this MultiOption set.
      \sa decodeXML()
     */
-    function &xmlString()
+    function xmlString()
     {
-        $doc = new eZDOMDocument( "MultiOption" );
-        $root = $doc->createElementNode( "ezmultioption" );
-        $doc->setRoot( $root );
-        $name = $doc->createElementNode( "name" );
-        $nameValue = $doc->createTextNode( $this->Name );
-        $name->appendChild( $nameValue );
-        $optionCounter = $doc->createAttributeNode( 'option_counter', $this->OptionCounter );
-        $root->appendAttribute( $optionCounter );
+        $doc = new DOMDocument();
+        $root = $doc->createElement( "ezmultioption" );
+        $root->setAttribute( 'option_counter', $this->OptionCounter );
+        $doc->appendChild( $root );
 
-        $root->appendChild( $name );
-        $multioptions = $doc->createElementNode( "multioptions" );
-        $root->appendChild( $multioptions );
+        $nameNode = $doc->createElement( 'name', $this->Name );
+        $root->appendChild( $nameNode );
+
+        $multiOptionsNode = $doc->createElement( "multioptions" );
+        $root->appendChild( $multiOptionsNode );
+
         foreach ( $this->Options as $multioption )
         {
             unset( $multioptionNode );
-            $multioptionNode = $doc->createElementNode( "multioption" );
-            $multioptionNode->appendAttribute( $doc->createAttributeNode( "id", $multioption['id'] ) );
-            $multioptionNode->appendAttribute( $doc->createAttributeNode( "name", $multioption['name'] ) );
-            $multioptionNode->appendAttribute( $doc->createAttributeNode( "priority", $multioption['priority'] ) );
-            $multioptionNode->appendAttribute( $doc->createAttributeNode( 'default_option_id', $multioption['default_option_id'] ) );
+            $multioptionNode = $doc->createElement( "multioption" );
+            $multioptionNode->setAttribute( "id", $multioption['id'] );
+            $multioptionNode->setAttribute( "name", $multioption['name'] );
+            $multioptionNode->setAttribute( "priority", $multioption['priority'] );
+            $multioptionNode->setAttribute( 'default_option_id', $multioption['default_option_id'] );
             foreach ( $multioption['optionlist'] as $option )
             {
                 unset( $optionNode );
-                $optionNode = $doc->createElementNode( "option" );
-                $optionNode->appendAttribute( $doc->createAttributeNode( "id", $option['id'] ) );
-                $optionNode->appendAttribute( $doc->createAttributeNode( "option_id", $option['option_id'] ) );
-                $optionNode->appendAttribute( $doc->createAttributeNode( "value", $option['value'] ) );
-                $optionNode->appendAttribute( $doc->createAttributeNode( 'additional_price', $option['additional_price'] ) );
+                $optionNode = $doc->createElement( "option" );
+                $optionNode->setAttribute( "id", $option['id'] );
+                $optionNode->setAttribute( "option_id", $option['option_id'] );
+                $optionNode->setAttribute( "value", $option['value'] );
+                $optionNode->setAttribute( 'additional_price', $option['additional_price'] );
                 $multioptionNode->appendChild( $optionNode );
             }
-            $multioptions->appendChild( $multioptionNode );
+            $multiOptionsNode->appendChild( $multioptionNode );
         }
-        $xml = $doc->toString();
+        $xml = $doc->saveXML();
         return $xml;
     }
 
     /// \privatesection
     /// Contains the Option name
-    var $Name;
+    public $Name;
     /// Contains the Options
-    var $Options;
+    public $Options;
     /// Contains the multioption counter value
-    var $MultiOptionCount;
+    public $MultiOptionCount;
     /// Contains the option counter value
-    var $OptionCounter;
+    public $OptionCounter;
 }
 ?>

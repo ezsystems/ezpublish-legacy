@@ -36,7 +36,7 @@
   \brief The class eZNotificationTransport does
 
 */
-include_once( 'kernel/classes/notification/ezmailnotificationtransport.php' );
+//include_once( 'kernel/classes/notification/ezmailnotificationtransport.php' );
 class eZNotificationTransport
 {
     /*!
@@ -46,15 +46,15 @@ class eZNotificationTransport
     {
     }
 
-    function &instance( $transport = false, $forceNewInstance = false )
+    static function instance( $transport = false, $forceNewInstance = false )
     {
-        $ini =& eZINI::instance( 'notification.ini' );
+        $ini = eZINI::instance( 'notification.ini' );
         if ( $transport == false )
         {
             $transport = $ini->variable( 'TransportSettings', 'DefaultTransport' );
         }
         $transportImpl =& $GLOBALS['eZNotificationTransportGlobalInstance_' . $transport ];
-        $class = get_class( $transportImpl );
+        $class = strtolower( get_class( $transportImpl ) );
 
         $fetchInstance = false;
         if ( !preg_match( '/.*?transport/', $class ) )

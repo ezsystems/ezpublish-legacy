@@ -51,15 +51,16 @@
 \endcode
 */
 
-define ( 'EZ_TEMPLATE_WHILE_FUNCTION_NAME', 'while' );
 class eZTemplateWhileFunction
 {
+    const FUNCTION_NAME = 'while';
+
     /*!
      * Returns an array of the function names, required for eZTemplate::registerFunctions.
      */
     function &functionList()
     {
-        $functionList = array( EZ_TEMPLATE_WHILE_FUNCTION_NAME );
+        $functionList = array( eZTemplateWhileFunction::FUNCTION_NAME );
         return $functionList;
     }
 
@@ -82,7 +83,7 @@ class eZTemplateWhileFunction
      */
     function functionTemplateHints()
     {
-        return array( EZ_TEMPLATE_WHILE_FUNCTION_NAME => array( 'parameters' => true,
+        return array( eZTemplateWhileFunction::FUNCTION_NAME => array( 'parameters' => true,
                                                                 'static' => false,
                                                                 'transform-parameters' => true,
                                                                 'tree-transformation' => true ) );
@@ -92,7 +93,7 @@ class eZTemplateWhileFunction
      * Compiles the function and its children into PHP code.
      */
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, &$parameters, $privateData )
+                                         $tpl, &$parameters, $privateData )
     {
         // {while <condition> [sequence <sequence_array> as $<sequence_var>]}
 
@@ -102,7 +103,7 @@ class eZTemplateWhileFunction
         $uniqid        =  md5( $nodePlacement[2] ) . "_" . $tpl->WhileCounter;
 
         require_once( 'lib/eztemplate/classes/eztemplatecompiledloop.php' );
-        $loop = new eZTemplateCompiledLoop( EZ_TEMPLATE_WHILE_FUNCTION_NAME,
+        $loop = new eZTemplateCompiledLoop( eZTemplateWhileFunction::FUNCTION_NAME,
                                             $newNodes, $parameters, $nodePlacement, $uniqid,
                                             $node, $tpl, $privateData );
 
@@ -130,7 +131,7 @@ class eZTemplateWhileFunction
     /*!
      * Actually executes the function and its children (in processed mode).
      */
-    function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
+    function process( $tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
         if ( count( $functionParameters ) == 0 )
         {
@@ -139,7 +140,7 @@ class eZTemplateWhileFunction
         }
 
         require_once( 'lib/eztemplate/classes/eztemplateloop.php' );
-        $loop = new eZTemplateLoop( EZ_TEMPLATE_WHILE_FUNCTION_NAME,
+        $loop = new eZTemplateLoop( eZTemplateWhileFunction::FUNCTION_NAME,
                                     $functionParameters, $functionChildren, $functionPlacement,
                                     $tpl, $textElements, $rootNamespace, $currentNamespace );
 

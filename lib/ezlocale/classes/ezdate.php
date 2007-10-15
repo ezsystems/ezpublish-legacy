@@ -56,16 +56,16 @@
 
 Example:
 \code
-include_once( 'lib/ezlocale/classes/ezlocale.php' );
-include_once( 'lib/ezlocale/classes/ezdate.php' );
+//include_once( 'lib/ezlocale/classes/ezlocale.php' );
+//include_once( 'lib/ezlocale/classes/ezdate.php' );
 
-$us_locale =& eZLocale::instance( 'us' );
+$us_locale = eZLocale::instance( 'us' );
 
 $date1 = new eZDate();
 $date2 = eZDate::create();
 $date2->setLocale( $us_locale );
 $date2->adjustDate( 1, 2, 3 );
-$date3 =& $date1->duplicate();
+$date3 = $date1->duplicate();
 
 print( $date1->toString() );
 print( $date2->toString( true ) );
@@ -76,7 +76,7 @@ print( $date1->isEqualTo( $date3 ) ? 'true' : 'false' ); // Prints 'true'
   \sa eZTime, eZDateTime, eZLocale
 */
 
-include_once( 'lib/ezlocale/classes/ezlocale.php' );
+//include_once( 'lib/ezlocale/classes/ezlocale.php' );
 
 class eZDate
 {
@@ -96,7 +96,7 @@ class eZDate
             $date = mktime( 0, 0, 0, $arr['mon'], $arr['mday'], $arr['year'] );
         }
         $this->Date = $date;
-        $this->Locale =& eZLocale::instance();
+        $this->Locale = eZLocale::instance();
         $this->IsValid = $date > 0;
     }
 
@@ -114,24 +114,21 @@ class eZDate
         return in_array( $name, $this->attributes() );
     }
 
-    function &attribute( $name )
+    function attribute( $name )
     {
         if ( $name == 'timestamp'  )
-            $retValue = $this->timeStamp();
+            return $this->timeStamp();
         else if ( $name == 'is_valid' )
-            $retValue = $this->isValid();
+            return $this->isValid();
         else if ( $name == 'day'  )
-            $retValue = $this->day();
+            return $this->day();
         else if ( $name == 'year'  )
-            $retValue = $this->year();
+            return $this->year();
         else if ( $name == 'month'  )
-            $retValue = $this->month();
-        else
-        {
-            eZDebug::writeError( "Attribute '$name' does not exist", 'eZDate::attribute' );
-            $retValue = false;
-        }
-        return $retValue;
+            return $this->month();
+
+        eZDebug::writeError( "Attribute '$name' does not exist", 'eZDate::attribute' );
+        return false;
     }
 
     /*!
@@ -145,15 +142,15 @@ class eZDate
     /*!
      Sets the locale to $locale which is used in text output.
     */
-    function setLocale( &$locale )
+    function setLocale( $locale )
     {
-        $this->Locale =& $locale;
+        $this->Locale = $locale;
     }
 
     /*!
      Returns a reference to the current locale.
     */
-    function &locale()
+    function locale()
     {
         return $this->Locale;
     }
@@ -256,11 +253,13 @@ class eZDate
      a timestamp value or as an eZDate object. If $equal is true it returns true if
      they are equal as well.
     */
-    function isGreaterThan( &$date, $equal = false )
+    function isGreaterThan( $date, $equal = false )
     {
         $d1 = $this->timeStamp();
-        if ( get_class( $date ) == 'ezdate' )
+        if ( $date instanceof eZDate )
+        {
             $d2 = $date->timeStamp();
+        }
         else
         {
             $arr = getdate( $date );
@@ -277,11 +276,13 @@ class eZDate
      Returns true if this object is equal to $date. $date can be specified as
      a timestamp value or as an eZDate object.
     */
-    function isEqualTo( &$date )
+    function isEqualTo( $date )
     {
         $d1 = $this->timeStamp();
-        if ( get_class( $date ) == 'ezdate' )
+        if ( $date instanceof eZDate )
+        {
             $d2 = $date->timeStamp();
+        }
         else
         {
             $arr = getdate( $date );
@@ -307,13 +308,13 @@ class eZDate
     }
 
     /*!
-     Creates an exact copy of this object and returns a reference to it.
+     \deprecated This function is deprecated in PHP5, use the PHP5 clone keyword instead
+     Creates an exact copy of this object and returns it.
     */
-    function &duplicate()
+    function duplicate()
     {
-        $d = new eZDate( $this->Date );
-        $d->setLocale( $this->Locale );
-        return $d;
+        $copy = clone $this;
+        return $copy;
     }
 
     /*!
@@ -331,10 +332,10 @@ class eZDate
 
 
     /// Locale object, is just a reference to minimize memory usage.
-    var $Locale;
+    public $Locale;
     /// The current date as a timestamp without hour, minute or second values
-    var $Date;
-    var $IsValid;
+    public $Date;
+    public $IsValid;
 }
 
 ?>

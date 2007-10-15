@@ -26,8 +26,8 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/classes/ezserializedobjectnamelist.php' );
-include_once( 'kernel/classes/ezcontentclassname.php' );
+//include_once( 'kernel/classes/ezserializedobjectnamelist.php' );
+//include_once( 'kernel/classes/ezcontentclassname.php' );
 
 class eZContentClassNameList extends eZSerializedObjectNameList
 {
@@ -42,7 +42,7 @@ class eZContentClassNameList extends eZSerializedObjectNameList
         return $object;
     }
 
-    function store( &$contentClass )
+    function store( $contentClass )
     {
         if ( $this->hasDirtyData() && is_object($contentClass ) )
         {
@@ -87,9 +87,9 @@ class eZContentClassNameList extends eZSerializedObjectNameList
         }
     }
 
-    function remove( &$contentClass )
+    static function remove( $contentClass )
     {
-        eZContentClassName::remove( $contentClass->attribute( 'id' ), $contentClass->attribute( 'version' ) );
+        eZContentClassName::removeClassName( $contentClass->attribute( 'id' ), $contentClass->attribute( 'version' ) );
     }
 };
 

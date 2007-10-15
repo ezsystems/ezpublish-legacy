@@ -54,7 +54,7 @@
 
 */
 
-include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
 
 class eZOrderStatusHistory extends eZPersistentObject
 {
@@ -74,7 +74,7 @@ class eZOrderStatusHistory extends eZPersistentObject
     /*!
      \return the persistent object definition for the eZOrderStatusHistory class.
     */
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -119,12 +119,12 @@ class eZOrderStatusHistory extends eZPersistentObject
       \note The field \c modified_id is used to find the user, this will contain
             the content object ID of the user.
     */
-    function &modifier()
+    function modifier()
     {
         if ( $this->Modifier === null )
         {
-            include_once( 'kernel/classes/ezcontentobject.php' );
-            $this->Modifier =& eZContentObject::fetch( $this->ModifierID );
+            //include_once( 'kernel/classes/ezcontentobject.php' );
+            $this->Modifier = eZContentObject::fetch( $this->ModifierID );
         }
         return $this->Modifier;
     }
@@ -133,21 +133,22 @@ class eZOrderStatusHistory extends eZPersistentObject
      \return The order status object for this history entry.
      \sa fetchOrderStatusName()
     */
-    function &fetchOrderStatus()
+    function fetchOrderStatus()
     {
-        include_once( 'kernel/classes/ezorderstatus.php' );
+        //include_once( 'kernel/classes/ezorderstatus.php' );
         $statusList = eZOrderStatus::fetchMap( true, true );
         if ( isset( $statusList[$this->StatusID] ) )
+        {
             return $statusList[$this->StatusID];
-        $retValue = false;
-        return $retValue;
+        }
+        return false;
     }
 
     /*!
      \return The name of the order status for this history entry.
      \sa fetchOrderStatus()
     */
-    function &fetchOrderStatusName()
+    function fetchOrderStatusName()
     {
         if ( $this->StatusName === null )
         {
@@ -174,9 +175,9 @@ class eZOrderStatusHistory extends eZPersistentObject
      \param $asObject If \c true return them as objects.
      \return A list of defined orders sorted by status ID.
     */
-    function fetchListByOrder( $orderID, $asObject = true )
+    static function fetchListByOrder( $orderID, $asObject = true )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $orderID = (int)$orderID;
         $rows = $db->arrayQuery(  "SELECT ezorder_status_history.*, ezorder_status.name AS status_name\n" .
@@ -193,9 +194,9 @@ class eZOrderStatusHistory extends eZPersistentObject
      \param $asObject If \c true return them as objects.
      \return A list of defined orders sorted by status ID.
     */
-    function fetchCount( $orderID, $asObject = true )
+    static function fetchCount( $orderID, $asObject = true )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $orderID = (int)$orderID;
         $countArray = $db->arrayQuery(  "SELECT count( * ) AS count FROM ezorder_status_history WHERE order_id = $orderID" );
@@ -206,12 +207,16 @@ class eZOrderStatusHistory extends eZPersistentObject
      \static
      \return A new eZOrderStatusHistory object initialized with the input parameters.
     */
-    function create( $orderID, $statusID, $userID = false, $timestamp = false )
+    static function create( $orderID, $statusID, $userID = false, $timestamp = false )
     {
         if ( $timestamp === false )
-            $timestamp = mktime();
+        {
+            $timestamp = time();
+        }
         if ( $userID === false )
+        {
             $userID = eZUser::currentUserID();
+        }
         $row = array( 'id' => null,
                       'order_id' => $orderID,
                       'status_id' => $statusID,
@@ -224,7 +229,7 @@ class eZOrderStatusHistory extends eZPersistentObject
     /// \privatesection
     /// This is used for caching the current modifier,
     /// it will either contain \c null (uncached) or a content object (cached).
-    var $Modifier;
+    public $Modifier;
 }
 
 ?>

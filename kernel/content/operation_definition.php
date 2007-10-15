@@ -81,7 +81,7 @@ $OperationList['publish'] = array( 'name' => 'publish',
                                                                                          'required' => true ),
                                                                                   array( 'name' => 'status',
                                                                                          'type' => 'integer',
-                                                                                         'constant' => 1 ) ) ), // EZ_VERSION_STATUS_PENDING
+                                                                                         'constant' => 1 ) ) ), // eZContentObjectVersion::STATUS_PENDING
                                                     array( 'type' => 'method',
                                                            'name' => 'update-section-id',
                                                            'frequency' => 'once',
@@ -113,7 +113,7 @@ $OperationList['publish'] = array( 'name' => 'publish',
                                                                                          'constant' => false ), // false means current version
                                                                                   array( 'name' => 'status',
                                                                                          'type' => 'integer',
-                                                                                         'constant' => 2 ) ) ), // EZ_VERSION_STATUS_ARCHIVED
+                                                                                         'constant' => 2 ) ) ), // eZContentObjectVersion::STATUS_ARCHIVED
                                                     array( 'type' => 'loop',
                                                            'name' => 'loop-nodes',
                                                            'method' => 'loopNodeAssignment',
@@ -147,7 +147,7 @@ $OperationList['publish'] = array( 'name' => 'publish',
                                                                                          'required' => true ),
                                                                                   array( 'name' => 'status',
                                                                                          'type' => 'integer',
-                                                                                         'constant' => 3 ) ) ), // EZ_VERSION_STATUS_PUBLISHED
+                                                                                         'constant' => 3 ) ) ), // eZContentObjectVersion::STATUS_PUBLISHED
                                                     array( 'type' => 'method',
                                                            'name' => 'set-object-published',
                                                            'frequency' => 'once',

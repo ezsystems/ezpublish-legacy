@@ -34,24 +34,24 @@
   \param $Module must be set by the code which includes this file
 */
 
-include_once( 'kernel/classes/ezcontentclass.php' );
-include_once( 'kernel/classes/ezcontentclassattribute.php' );
+//include_once( 'kernel/classes/ezcontentclass.php' );
+//include_once( 'kernel/classes/ezcontentclassattribute.php' );
 
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/ezcontentobjectversion.php' );
-include_once( 'kernel/classes/ezcontentobjectattribute.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'kernel/classes/ezcontentobjectversion.php' );
+//include_once( 'kernel/classes/ezcontentobjectattribute.php' );
 
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
-include_once( 'kernel/common/template.php' );
+require_once( 'kernel/common/template.php' );
 
-include_once( 'kernel/classes/ezpreferences.php' );
+//include_once( 'kernel/classes/ezpreferences.php' );
 
 if ( isset( $Module ) )
-    $Module =& $Params['Module'];
-$ObjectID =& $Params['ObjectID'];
+    $Module = $Params['Module'];
+$ObjectID = $Params['ObjectID'];
 if ( !isset( $EditVersion ) )
-    $EditVersion =& $Params['EditVersion'];
+    $EditVersion = $Params['EditVersion'];
 
 if ( !isset( $EditLanguage ) and
      isset( $Params['EditLanguage'] ) )
@@ -69,26 +69,26 @@ if ( !isset( $FromLanguage ) or
      strlen( $FromLanguage ) == 0 )
     $FromLanguage = false;
 
-if ( $Module->runHooks( 'pre_fetch', array( $ObjectID, &$EditVersion, &$EditLanguage, &$FromLanguage ) ) )
+if ( $Module->runHooks( 'pre_fetch', array( $ObjectID, $EditVersion, $EditLanguage, $FromLanguage ) ) )
     return;
 
-$object =& eZContentObject::fetch( $ObjectID );
+$object = eZContentObject::fetch( $ObjectID );
 if ( $object === null )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
 
-$version =& $object->version( $EditVersion );
+$version = $object->version( $EditVersion );
 $classID = $object->attribute( 'contentclass_id' );
 
 $attributeDataBaseName = 'ContentObjectAttribute';
 
 
 $class = eZContentClass::fetch( $classID );
-$contentObjectAttributes =& $version->contentObjectAttributes( $EditLanguage );
+$contentObjectAttributes = $version->contentObjectAttributes( $EditLanguage );
 if ( $contentObjectAttributes === null or
      count( $contentObjectAttributes ) == 0 )
 {
-    $contentObjectAttributes =& $version->contentObjectAttributes();
+    $contentObjectAttributes = $version->contentObjectAttributes();
     $EditLanguage = $version->initialLanguageCode();
 }
 
@@ -97,7 +97,7 @@ $isTranslatingContent = false;
 if ( $FromLanguage !== false )
 {
     $isTranslatingContent = true;
-    $fromContentObjectAttributes =& $object->contentObjectAttributes( true, false, $FromLanguage );
+    $fromContentObjectAttributes = $object->contentObjectAttributes( true, false, $FromLanguage );
     if ( $fromContentObjectAttributes === null or
          count( $fromContentObjectAttributes ) == 0 )
     {
@@ -107,13 +107,13 @@ if ( $FromLanguage !== false )
     }
 }
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 $validation = array( 'processed' => false,
                      'attributes' => array(),
                      'placement' => array( ) );
 
-if ( $Module->runHooks( 'post_fetch', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage, &$validation ) ) )
+if ( $Module->runHooks( 'post_fetch', array( $class, $object, $version, $contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage, &$validation ) ) )
     return;
 
 // Checking if user chose placement of object from browse page (when restoring from the TRASH),
@@ -142,8 +142,8 @@ else
 }
 
 // Checking if object has at least one placement, if not user needs to choose it from browse page
-$assignments =& $version->attribute( 'parent_nodes' );
-$assignedNodes =& $object->attribute( 'assigned_nodes' );
+$assignments = $version->attribute( 'parent_nodes' );
+$assignedNodes = $object->attribute( 'assigned_nodes' );
 
 // Figure out how many locations it has (or will get)
 $locationIDList = array();
@@ -153,12 +153,12 @@ foreach ( $assignedNodes as $node )
 }
 foreach ( $assignments as $assignment )
 {
-    if ( $assignment->attribute( 'op_code' ) == EZ_NODE_ASSIGNMENT_OP_CODE_CREATE ||
-         $assignment->attribute( 'op_code' ) == EZ_NODE_ASSIGNMENT_OP_CODE_SET )
+    if ( $assignment->attribute( 'op_code' ) == eZNodeAssignment::OP_CODE_CREATE ||
+         $assignment->attribute( 'op_code' ) == eZNodeAssignment::OP_CODE_SET )
     {
         $locationIDList[$assignment->attribute( 'parent_node' )] = true;
     }
-    elseif ( $assignment->attribute( 'op_code' ) == EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE )
+    elseif ( $assignment->attribute( 'op_code' ) == eZNodeAssignment::OP_CODE_REMOVE )
     {
         unset( $locationIDList[$assignment->attribute( 'parent_node' )] );
     }
@@ -168,7 +168,7 @@ $locationCount = count( $locationIDList );
 // If there are no locations we need to browse for one.
 if ( $locationCount < 1 && $Module->isCurrentAction( 'Publish' ) )
 {
-//    if ( $object->attribute( 'status' ) == EZ_CONTENT_OBJECT_STATUS_DRAFT )
+//    if ( $object->attribute( 'status' ) == eZContentObject::STATUS_DRAFT )
     {
         $Module->setCurrentAction( 'BrowseForPrimaryNodes' );
         // Store currentAction
@@ -201,7 +201,7 @@ if ( $http->hasPostVariable( "CustomActionButton" ) )
     }
 }
 
-include_once( 'kernel/classes/ezcontentobjectedithandler.php' );
+//include_once( 'kernel/classes/ezcontentobjectedithandler.php' );
 eZContentObjectEditHandler::initialize();
 
 $storeActions = array( 'Preview',
@@ -251,7 +251,7 @@ if ( $storingAllowed && $hasObjectInput)
     }
 
     // Validate input
-    include_once( 'lib/ezutils/classes/ezinputvalidator.php' );
+    //include_once( 'lib/ezutils/classes/ezinputvalidator.php' );
     $validationResult = $object->validateInput( $contentObjectAttributes, $attributeDataBaseName, false, $validationParameters );
     $unvalidatedAttributes = $validationResult['unvalidated-attributes'];
     $validatedAttributes = $validationResult['validated-attributes'];
@@ -270,24 +270,24 @@ if ( $storingAllowed && $hasObjectInput)
 
     $fetchResult = $object->fetchInput( $contentObjectAttributes, $attributeDataBaseName,
                                         $customActionAttributeArray,
-                                        array( 'module' => &$Module,
+                                        array( 'module' => $Module,
                                                'current-redirection-uri' => $currentRedirectionURI ) );
-    $attributeInputMap =& $fetchResult['attribute-input-map'];
+    $attributeInputMap = $fetchResult['attribute-input-map'];
     if ( $Module->isCurrentAction( 'Discard' ) )
         $inputValidated = true;
 
     // If an input is invalid, prevent from redirection that might be set by a custom action
-    if ( !$inputValidated && $Module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
-        $Module->setExitStatus( EZ_MODULE_STATUS_OK );
+    if ( !$inputValidated && $Module->exitStatus() == eZModule::STATUS_REDIRECT )
+        $Module->setExitStatus( eZModule::STATUS_OK );
 
     if ( $inputValidated and count( $attributeInputMap ) > 0 )
     {
-        if ( $Module->runHooks( 'pre_commit', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage ) ) )
+        if ( $Module->runHooks( 'pre_commit', array( $class, $object, $version, $contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage ) ) )
             return;
         $version->setAttribute( 'modified', time() );
-        $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
+        $version->setAttribute( 'status', eZContentObjectVersion::STATUS_DRAFT );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $version->store();
 //         print( "storing<br/>" );
@@ -300,7 +300,7 @@ if ( $storingAllowed && $hasObjectInput)
     $validation['processed'] = true;
     $validation['attributes'] = $unvalidatedAttributes;
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     $object->setName( $class->contentObjectName( $object ), $version->attribute( 'version' ), $EditLanguage );
     $db->commit();
@@ -310,12 +310,11 @@ elseif ( $storingAllowed )
     if ( !isset( $currentRedirectionURI ) )
         $currentRedirectionURI = $Module->redirectionURI( 'content', 'edit', array( $ObjectID, $EditVersion, $EditLanguage ) );
     eZContentObject::recursionProtectionStart();
-    foreach( array_keys( $contentObjectAttributes ) as $key )
+    foreach( $contentObjectAttributes as $contentObjectAttribute )
     {
-        $contentObjectAttribute =& $contentObjectAttributes[$key];
         $object->handleCustomHTTPActions( $contentObjectAttribute,  $attributeDataBaseName,
                                           $customActionAttributeArray,
-                                          array( 'module' => &$Module,
+                                          array( 'module' => $Module,
                                                  'current-redirection-uri' => $currentRedirectionURI ) );
         $contentObjectAttribute->setContent( $contentObjectAttribute->attribute( 'content' ) );
     }
@@ -326,8 +325,8 @@ $invalidNodeAssignmentList = array();
 if ( $Module->isCurrentAction( 'Publish' ) )
 {
     $mainFound = false;
-    $assignments =& $version->attribute( 'parent_nodes' );
-    $db =& eZDB::instance();
+    $assignments = $version->attribute( 'parent_nodes' );
+    $db = eZDB::instance();
     $db->begin();
     foreach ( array_keys( $assignments ) as $key )
     {
@@ -372,16 +371,16 @@ if ( $inputValidated == true )
 {
     if ( $validatedAttributes == null )
     {
-        if ( $Module->runHooks( 'action_check', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage, &$Result  ) ) )
+        if ( $Module->runHooks( 'action_check', array( $class, $object, $version, $contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage, &$Result  ) ) )
             return;
     }
 }
 
 if ( isset( $Params['TemplateObject'] ) )
-    $tpl =& $Params['TemplateObject'];
+    $tpl = $Params['TemplateObject'];
 
-if ( !isset( $tpl ) || get_class( $tpl ) != 'eztemplate' )
-    $tpl =& templateInit();
+if ( !isset( $tpl ) || !( $tpl instanceof eZTemplate ) )
+    $tpl = templateInit();
 
 $tpl->setVariable( 'validation', $validation );
 $tpl->setVariable( 'validation_log', $validatedAttributes );
@@ -389,15 +388,15 @@ $tpl->setVariable( 'validation_log', $validatedAttributes );
 $tpl->setVariable( 'invalid_node_assignment_list', $invalidNodeAssignmentList );
 
 $Module->setTitle( 'Edit ' . $class->attribute( 'name' ) . ' - ' . $object->attribute( 'name' ) );
-$res =& eZTemplateDesignResource::instance();
+$res = eZTemplateDesignResource::instance();
 
-$assignments =& $version->attribute( 'parent_nodes' );
+$assignments = $version->attribute( 'parent_nodes' );
 $mainAssignment = false;
-foreach ( array_keys( $assignments ) as $key )
+foreach ( $assignments as $assignment )
 {
-    if ( $assignments[$key]->attribute( 'is_main' ) == 1 )
+    if ( $assignment->attribute( 'is_main' ) == 1 )
     {
-        $mainAssignment =& $assignments[$key];
+        $mainAssignment = $assignment;
         break;
     }
 }
@@ -409,18 +408,17 @@ $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ),
 
 if ( $mainAssignment )
 {
-    $parentNode =& $mainAssignment->attribute( 'parent_node_obj' );
+    $parentNode = $mainAssignment->attribute( 'parent_node_obj' );
     if ( $parentNode )
     {
-        $parentObject =& $parentNode->attribute( 'object' );
+        $parentObject = $parentNode->attribute( 'object' );
         if ( $parentObject )
         {
-            $parentClass =& $parentObject->attribute( 'content_class' );
+            $parentClass = $parentObject->attribute( 'content_class' );
             if ( $parentClass )
             {
                 $res->setKeys( array( array( 'parent_class', $parentClass->attribute( 'id' ) ),
-                                      array( 'parent_class_identifier', $parentClass->attribute( 'identifier' ) )
-                                      ) );
+                                      array( 'parent_class_identifier', $parentClass->attribute( 'identifier' ) ) ) );
             }
         }
     }
@@ -430,16 +428,15 @@ if ( !isset( $OmitSectionSetting ) )
     $OmitSectionSetting = false;
 if ( $OmitSectionSetting !== true )
 {
-    include_once( 'kernel/classes/ezsection.php' );
+    //include_once( 'kernel/classes/ezsection.php' );
     eZSection::setGlobalID( $object->attribute( 'section_id' ) );
 }
 
 $contentObjectDataMap = array();
-foreach ( array_keys( $contentObjectAttributes ) as $contentObjectAttributeKey )
+foreach ( $contentObjectAttributes as $contentObjectAttribute )
 {
-    $contentObjectAttribute =& $contentObjectAttributes[$contentObjectAttributeKey];
     $contentObjectAttributeIdentifier = $contentObjectAttribute->attribute( 'contentclass_attribute_identifier' );
-    $contentObjectDataMap[$contentObjectAttributeIdentifier] =& $contentObjectAttribute;
+    $contentObjectDataMap[$contentObjectAttributeIdentifier] = $contentObjectAttribute;
 }
 
 $object->setCurrentLanguage( $EditLanguage );
@@ -459,14 +456,14 @@ $tpl->setVariable( 'attribute_base', $attributeDataBaseName );
 
 $locationUIEnabled = true;
 // If the object has been published we disable the location UI
-if ( $object->attribute( 'status' ) != EZ_CONTENT_OBJECT_STATUS_DRAFT )
+if ( $object->attribute( 'status' ) != eZContentObject::STATUS_DRAFT )
 {
     $locationUIEnabled = false;
 }
 $tpl->setVariable( "location_ui_enabled", $locationUIEnabled );
 
 
-if ( $Module->runHooks( 'pre_template', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage, &$tpl, $FromLanguage ) ) )
+if ( $Module->runHooks( 'pre_template', array( $class, $object, $version, $contentObjectAttributes, $EditVersion, $EditLanguage, $tpl, $FromLanguage ) ) )
     return;
 
 $templateName = 'design:content/edit.tpl';
@@ -488,7 +485,7 @@ $viewParameters = $UserParameters;
 $tpl->setVariable( 'view_parameters', $viewParameters );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( $templateName );
+$Result['content'] = $tpl->fetch( $templateName );
 // $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Content' ),
 //                                 'url' => false ),
 //                          array( 'text' => ezi18n( 'kernel/content', 'Edit' ),
@@ -502,10 +499,10 @@ $titlePath = array();
 $hasPath = false;
 if ( $mainAssignment )
 {
-    $parentNode =& $mainAssignment->attribute( 'parent_node_obj' );
+    $parentNode = $mainAssignment->attribute( 'parent_node_obj' );
     if ( $parentNode )
     {
-        $parents =& $parentNode->attribute( 'path' );
+        $parents = $parentNode->attribute( 'path' );
 
         foreach ( $parents as $parent )
         {
@@ -543,7 +540,7 @@ if ( !$hasPath )
     $existingNode = $object->attribute( 'main_node' );
     if ( $existingNode )
     {
-        $parents =& $existingNode->attribute( 'path' );
+        $parents = $existingNode->attribute( 'path' );
 
         foreach ( $parents as $parent )
         {
@@ -568,7 +565,7 @@ if ( !$hasPath )
 
 $Result['path'] = $path;
 
-include_once( 'kernel/classes/ezsection.php' );
+//include_once( 'kernel/classes/ezsection.php' );
 $section = eZSection::fetch( $object->attribute( 'section_id' ) );
 if ( $section )
     $Result['navigation_part'] = $section->attribute( 'navigation_part_identifier' );

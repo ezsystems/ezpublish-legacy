@@ -37,11 +37,11 @@
 
 */
 
-define( 'EZ_COLLABORATION_VIEW_TYPE_STANDARD', 1 );
-define( 'EZ_COLLABORATION_VIEW_TYPE_GROUP', 2 );
-
 class eZCollaborationViewHandler
 {
+    const TYPE_STANDARD = 1;
+    const TYPE_GROUP = 2;
+
     /*!
      Initializes the view mode.
     */
@@ -50,13 +50,13 @@ class eZCollaborationViewHandler
         $this->ViewMode = $viewMode;
         $this->ViewType = $viewType;
         $this->TemplateName = $viewMode;
-        $ini =& $this->ini();
-        if ( $viewType == EZ_COLLABORATION_VIEW_TYPE_STANDARD )
+        $ini = $this->ini();
+        if ( $viewType == self::TYPE_STANDARD )
         {
             $this->TemplatePrefix = "design:collaboration/view/";
             $viewGroup = $viewMode . "View";
         }
-        else if ( $viewType == EZ_COLLABORATION_VIEW_TYPE_GROUP )
+        else if ( $viewType == self::TYPE_GROUP )
         {
             $this->TemplatePrefix = "design:collaboration/group/view/";
             $viewGroup = $viewMode . "GroupView";
@@ -80,17 +80,16 @@ class eZCollaborationViewHandler
      \static
      \return the ini object for collaboration.ini
     */
-    function &ini()
+    static function ini()
     {
-        $iniInstance =& eZINI::instance( 'collaboration.ini' );
-        return $iniInstance;
+        return eZINI::instance( 'collaboration.ini' );
     }
 
     /*!
      \static
      \return true if the viewmode \a $viewMode exists with the current configuration
     */
-    function exists( $viewMode )
+    static function exists( $viewMode )
     {
         $list = eZCollaborationViewHandler::fetchList();
         return in_array( $viewMode, $list );
@@ -100,7 +99,7 @@ class eZCollaborationViewHandler
      \static
      \return true if the viewmode \a $viewMode exists for groups with the current configuration
     */
-    function groupExists( $viewMode )
+    static function groupExists( $viewMode )
     {
         $list = eZCollaborationViewHandler::fetchGroupList();
         return in_array( $viewMode, $list );
@@ -110,36 +109,33 @@ class eZCollaborationViewHandler
      \static
      \return a list of active viewmodes.
     */
-    function fetchList()
+    static function fetchList()
     {
-        $ini =& eZCollaborationViewHandler::ini();
-        return $ini->variable( 'ViewSettings', 'ViewList' );
+        return eZCollaborationViewHandler::ini()->variable( 'ViewSettings', 'ViewList' );
     }
 
     /*!
      \static
      \return a list of active viewmodes for groups.
     */
-    function fetchGroupList()
+    static function fetchGroupList()
     {
-        $ini =& eZCollaborationViewHandler::ini();
-        return $ini->variable( 'ViewSettings', 'GroupViewList' );
+        return eZCollaborationViewHandler::ini()->variable( 'ViewSettings', 'GroupViewList' );
     }
 
     /*!
      \static
      \return the single instance of the viewmode \a $viewMode.
     */
-    function &instance( $viewMode, $type = EZ_COLLABORATION_VIEW_TYPE_STANDARD )
+    static function instance( $viewMode, $type = self::TYPE_STANDARD )
     {
-        if ( $type == EZ_COLLABORATION_VIEW_TYPE_STANDARD )
+        if ( $type == self::TYPE_STANDARD )
             $instance =& $GLOBALS["eZCollaborationView"][$viewMode];
-        else if ( $type == EZ_COLLABORATION_VIEW_TYPE_GROUP )
+        else if ( $type == self::TYPE_GROUP )
             $instance =& $GLOBALS["eZCollaborationGroupView"][$viewMode];
         else
         {
-            $instance = null;
-            return $instance;
+            return null;
         }
         if ( !isset( $instance ) )
         {
@@ -150,10 +146,10 @@ class eZCollaborationViewHandler
 
     /// \privatesection
     /// The viewmode
-    var $ViewMode;
-    var $ViewType;
-    var $TemplateName;
-    var $TemplatePrefix;
+    public $ViewMode;
+    public $ViewType;
+    public $TemplateName;
+    public $TemplatePrefix;
 }
 
 ?>

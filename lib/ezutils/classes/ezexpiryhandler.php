@@ -37,7 +37,7 @@
 
 */
 
-//include_once( 'lib/ezutils/classes/ezphpcreator.php' );
+////include_once( 'lib/ezutils/classes/ezphpcreator.php' );
 
 class eZExpiryHandler
 {
@@ -66,10 +66,10 @@ class eZExpiryHandler
     }
 
     /*!
-     \private
+     \static
      Includes the expiry file and extracts the $Timestamps variable from it.
      */
-    function fetchData( $path )
+    static function fetchData( $path )
     {
         include( $path );
         return $Timestamps;
@@ -131,9 +131,9 @@ class eZExpiryHandler
      \static
      \return the timestamp value for the expiry key \a $name if it exists or \c false if not,
     */
-    function getTimestamp( $name, $default = false )
+    static function getTimestamp( $name, $default = false )
     {
-        $handler =& eZExpiryHandler::instance();
+        $handler = eZExpiryHandler::instance();
         if ( !isset( $handler->Timestamps[$name] ) )
         {
             return $default;
@@ -145,14 +145,24 @@ class eZExpiryHandler
      \static
      \return the unique instance of the expiry handler.
     */
-    function &instance()
+    static function instance()
     {
-        $expiryInstance =& $GLOBALS['eZExpiryHandlerInstance'];
-        if ( !isset( $expiryInstance ) )
+        if ( !isset( $GLOBALS['eZExpiryHandlerInstance'] ) ||
+             !( $GLOBALS['eZExpiryHandlerInstance'] instanceof eZExpiryHandler ) )
         {
-            $expiryInstance = new eZExpiryHandler();
+            $GLOBALS['eZExpiryHandlerInstance'] = new eZExpiryHandler();
         }
-        return $expiryInstance;
+
+        return $GLOBALS['eZExpiryHandlerInstance'];
+    }
+
+    /*!
+     \static
+     \return true if there's a unique instance of the expiry handler, false otherwise.
+    */
+    static function hasInstance()
+    {
+        return isset( $GLOBALS['eZExpiryHandlerInstance'] ) && $GLOBALS['eZExpiryHandlerInstance'] instanceof eZExpiryHandler;
     }
 
     /*!
@@ -164,8 +174,8 @@ class eZExpiryHandler
     }
 
     /// \privatesection
-    var $Timestamps;
-    var $IsModified;
+    public $Timestamps;
+    public $IsModified;
 }
 
 /*!
@@ -173,11 +183,9 @@ class eZExpiryHandler
 */
 function eZExpiryHandlerShutdownHandler()
 {
-    $expiryInstance =& $GLOBALS['eZExpiryHandlerInstance'];
-    if ( isset( $expiryInstance ) and
-         get_class( $expiryInstance ) == 'ezexpiryhandler' )
+    if ( eZExpiryHandler::hasInstance() )
     {
-        $instance =& eZExpiryHandler::instance();
+        $instance = eZExpiryHandler::instance();
         if ( $instance->isModified() )
         {
             $instance->store();

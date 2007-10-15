@@ -29,19 +29,21 @@
 
 set_time_limit( 0 );
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
+require 'autoload.php';
+
+$cli = eZCLI::instance();
 $endl = $cli->endlineString();
 
-$script =& eZScript::instance( array( 'description' => ( "eZ Publish search index updater.\n\n" .
-                                                         "Goes trough all objects and reindexes the meta data to the search engine" .
-                                                         "\n" .
-                                                         "updatesearchindex.php"),
-                                      'use-session' => true,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+$script = eZScript::instance( array( 'description' => ( "eZ Publish search index updater.\n\n" .
+                                                        "Goes trough all objects and reindexes the meta data to the search engine" .
+                                                        "\n" .
+                                                        "updatesearchindex.php"),
+                                     'use-session' => true,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 
@@ -69,35 +71,34 @@ $cleanupSearch = $options['clean'] ? true : false;
 
 if ( $siteAccess )
 {
-    changeSiteAccessSetting( $siteaccess, $siteAccess );
+    changeSiteAccessSetting( $siteAccess );
 }
 
-function changeSiteAccessSetting( &$siteaccess, $optionData )
+function changeSiteAccessSetting( $siteAccess )
 {
     global $isQuiet;
-    $cli =& eZCLI::instance();
-    if ( file_exists( 'settings/siteaccess/' . $optionData ) )
+    $cli = eZCLI::instance();
+    if ( file_exists( 'settings/siteaccess/' . $siteAccess) )
     {
-        $siteaccess = $optionData;
         if ( !$isQuiet )
-            $cli->notice( "Using siteaccess $siteaccess for search index update" );
+            $cli->notice( "Using siteaccess $siteAccess for nice url update" );
     }
     else
     {
         if ( !$isQuiet )
-            $cli->notice( "Siteaccess $optionData does not exist, using default siteaccess" );
+            $cli->notice( "Siteaccess $siteAccess does not exist, using default siteaccess" );
     }
 }
 
 print( "Starting object re-indexing\n" );
 
-include_once( 'lib/ezutils/classes/ezexecution.php' );
-include_once( "lib/ezutils/classes/ezdebug.php" );
-include_once( "kernel/classes/ezsearch.php" );
+require_once( 'lib/ezutils/classes/ezexecution.php' );
+require_once( "lib/ezutils/classes/ezdebug.php" );
+//include_once( "kernel/classes/ezsearch.php" );
 
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 
 if ( $dbHost or $dbName or $dbUser or $dbImpl )
 {
@@ -113,7 +114,7 @@ if ( $dbHost or $dbName or $dbUser or $dbImpl )
         $params['password'] = $dbPassword;
     if ( $dbName !== false )
         $params['database'] = $dbName;
-    $db =& eZDB::instance( $dbImpl, $params, true );
+    $db = eZDB::instance( $dbImpl, $params, true );
     eZDB::setInstance( $db );
 }
 

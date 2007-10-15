@@ -32,22 +32,24 @@
          calculate the length of Registration group, Registrant and Publication element.
  */
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
-include_once( 'kernel/classes/datatypes/ezisbn/ezisbngroup.php' );
-include_once( 'kernel/classes/datatypes/ezisbn/ezisbngrouprange.php' );
-include_once( 'kernel/classes/datatypes/ezisbn/ezisbnregistrantrange.php' );
+//include_once( 'kernel/classes/datatypes/ezisbn/ezisbngroup.php' );
+//include_once( 'kernel/classes/datatypes/ezisbn/ezisbngrouprange.php' );
+//include_once( 'kernel/classes/datatypes/ezisbn/ezisbnregistrantrange.php' );
+require 'autoload.php';
+
 
 $fileAdded = false;
 $file = ''; // url to get file "http://www.isbn-international.org/converter/ranges.js";
 
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => "eZ Publish ISBN-13 update\n\n" .
-                                                       "Update the database with new updated ISBN data to the database.",
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'description' => "eZ Publish ISBN-13 update\n\n" .
+                                                      "Update the database with new updated ISBN data to the database.",
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 
@@ -74,7 +76,7 @@ else
 
 $script->initialize();
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 if( !$db->IsConnected )
 {
     // default settings are not valid
@@ -100,7 +102,7 @@ if( !$db->IsConnected )
             $params['password'] = $dbPassword;
         if ( $dbName !== false )
             $params['database'] = $dbName;
-        $db =& eZDB::instance( $dbImpl, $params, true );
+        $db = eZDB::instance( $dbImpl, $params, true );
         eZDB::setInstance( $db );
     }
 
@@ -246,7 +248,7 @@ foreach ( $isbnArray as $isbnRegGroupElement => $isbnItem )
 
     $isbnGroup = eZISBNGroup::create( $isbnRegGroupElement, $isbnItem['text'] );
     $isbnGroup->store();
-    $isbnGroupID =& $isbnGroup->attribute( 'id' );
+    $isbnGroupID = $isbnGroup->attribute( 'id' );
     $pubRangeArray = $isbnItem['pubrange'];
     if ( is_array( $pubRangeArray ) )
     {

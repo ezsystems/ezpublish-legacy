@@ -29,11 +29,11 @@
 
 class eZContentFunctions
 {
-    function createAndPublishObject( $params )
+    static function createAndPublishObject( $params )
     {
-        include_once( 'kernel/classes/ezcontentobject.php' );
-        include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+        //include_once( 'kernel/classes/ezcontentobject.php' );
+        //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+        //include_once( 'lib/ezlocale/classes/ezdatetime.php' );
 
         $parentNodeID = $params['parent_node_id'];
         $classIdentifier = $params['class_identifier'];
@@ -50,7 +50,7 @@ class eZContentFunctions
             $contentClass = eZContentClass::fetchByIdentifier( $classIdentifier );
             if ( is_object( $contentClass ) )
             {
-                $db =& eZDB::instance();
+                $db = eZDB::instance();
                 $db->begin();
 
                 $contentObject = $contentClass->instantiate( $creatorID );
@@ -64,9 +64,9 @@ class eZContentFunctions
                                                                    'sort_order' => $contentClass->attribute( 'sort_order' ) ) );
                 $nodeAssignment->store();
 
-                $version =& $contentObject->version( 1 );
+                $version = $contentObject->version( 1 );
                 $version->setAttribute( 'modified', eZDateTime::currentTimeStamp() );
-                $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
+                $version->setAttribute( 'status', eZContentObjectVersion::STATUS_DRAFT );
                 $version->store();
 
                 if ( is_array( $attributesData ) && count( $attributesData ) > 0 )
@@ -99,7 +99,7 @@ class eZContentFunctions
 
                 $db->commit();
 
-                include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+                //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
                 $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObject->attribute( 'id' ),
                                                                                              'version' => 1 ) );
             }

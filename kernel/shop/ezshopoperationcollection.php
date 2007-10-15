@@ -36,7 +36,7 @@
   \brief The class eZShopOperationCollection does
 
 */
-include_once( "lib/ezutils/classes/ezinputvalidator.php" );
+//include_once( "lib/ezutils/classes/ezinputvalidator.php" );
 
 class eZShopOperationCollection
 {
@@ -49,7 +49,7 @@ class eZShopOperationCollection
 
     function fetchOrder( $orderID )
     {
-        return array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
+        return array( 'status' => eZModuleOperationInfo::STATUS_CONTINUE );
     }
 
     /*!
@@ -60,9 +60,9 @@ class eZShopOperationCollection
         // If user country is not required to calculate VAT then do nothing.
         require_once( 'kernel/classes/ezvatmanager.php' );
         if ( !eZVATManager::isDynamicVatChargingEnabled() || !eZVATManager::isUserCountryRequired() )
-            return array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
+            return array( 'status' => eZModuleOperationInfo::STATUS_CONTINUE );
 
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
 
         // Get order's account information and extract user country from it.
         $order = eZOrder::fetch( $orderID );
@@ -70,7 +70,7 @@ class eZShopOperationCollection
         if ( !$order )
         {
             eZDebug::writeError( "No such order: $orderID" );
-            return array( 'status' => EZ_MODULE_OPERATION_CANCELED );
+            return array( 'status' => eZModuleOperationInfo::STATUS_CANCELLED );
         }
 
         if ( $user->attribute( 'is_logged_in' ) )
@@ -94,21 +94,19 @@ class eZShopOperationCollection
         }
         else
         {
-            //eZDebug::writeError( $acctInfo, "User country was not found in the following account information" );
-
             $header = ezi18n( 'kernel/shop', 'Error checking out' );
             $msg = ezi18n( 'kernel/shop',
                            'Unable to calculate VAT percentage because your country is unknown. ' .
                            'You can either fill country manually in your account information (if you are a registered user) ' .
                            'or contact site administrator.' );
 
-            include_once( "kernel/common/template.php" );
-            $tpl =& templateInit();
+            require_once( "kernel/common/template.php" );
+            $tpl = templateInit();
             $tpl->setVariable( "error_header",  $header );
             $tpl->setVariable( "error_list", array( $msg ) );
 
             $operationResult = array(
-                'status' => EZ_MODULE_OPERATION_CANCELED,
+                'status' => eZModuleOperationInfo::STATUS_CANCELLED,
                 'result' => array( 'content' => $tpl->fetch( "design:shop/cancelconfirmorder.tpl" ) )
                 );
             return $operationResult;
@@ -117,34 +115,33 @@ class eZShopOperationCollection
         // Recalculate VAT for order's product collection items
         // according to the specified user country.
 
-        $productCollection =& $order->attribute( 'productcollection' );
+        $productCollection = $order->attribute( 'productcollection' );
         if ( !$productCollection )
         {
             eZDebug::writeError( "Cannot find product collection for order " . $order->attribute( 'id' ),
-                                   "ezshopoperationcollection::handleUserCountry" );
-            return array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
+                                 "eZShopOperationCollection::handleUserCountry" );
+            return array( 'status' => eZModuleOperationInfo::STATUS_CONTINUE );
         }
 
         require_once( 'kernel/classes/ezproductcollectionitem.php' );
         $items = eZProductCollectionItem::fetchList( array( 'productcollection_id' => $productCollection->attribute( 'id' ) ) );
         $vatIsKnown = true;
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
-        include_once( 'kernel/shop/classes/ezshopfunctions.php' );
-        foreach( array_keys( $items ) as $key )
+        //include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+        foreach( $items as $item )
         {
-            $item =& $items[$key];
-            $productContentObject =& $item->attribute( 'contentobject' );
+            $productContentObject = $item->attribute( 'contentobject' );
 
             // Look up price object.
             $priceObj = null;
-            $attributes =&  $productContentObject->contentObjectAttributes();
+            $attributes =  $productContentObject->contentObjectAttributes();
             foreach ( $attributes as $attribute )
             {
                 $dataType = $attribute->dataType();
                 if ( eZShopFunctions::isProductDatatype( $dataType->isA() ) )
                 {
-                    $priceObj =& $attribute->content();
+                    $priceObj = $attribute->content();
                     break;
                 }
             }
@@ -167,7 +164,7 @@ class eZShopOperationCollection
         }
         $db->commit();
 
-        return array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
+        return array( 'status' => eZModuleOperationInfo::STATUS_CONTINUE );
     }
 
     /*!
@@ -221,7 +218,7 @@ class eZShopOperationCollection
             $order = eZOrder::fetch( $orderID );
             if ( !$order )
                 break;
-            $productCollectionID =& $order->attribute( 'productcollection_id' );
+            $productCollectionID = $order->attribute( 'productcollection_id' );
 
             require_once( 'kernel/classes/ezshippingmanager.php' );
             $shippingInfo = eZShippingManager::getShippingInfo( $productCollectionID );
@@ -280,7 +277,7 @@ class eZShopOperationCollection
 
         } while ( false );
 
-        return array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
+        return array( 'status' => eZModuleOperationInfo::STATUS_CONTINUE );
     }
 
     /*!
@@ -288,20 +285,20 @@ class eZShopOperationCollection
     */
     function updateShippingInfo( $objectID, $optionList )
     {
-        $basket =& eZBasket::currentBasket();
+        $basket = eZBasket::currentBasket();
         require_once( 'kernel/classes/ezshippingmanager.php' );
         $shippingInfo = eZShippingManager::updateShippingInfo( $basket->attribute( 'productcollection_id' ) );
-        return array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
+        return array( 'status' => eZModuleOperationInfo::STATUS_CONTINUE );
     }
 
     function updateBasket( $itemCountList, $itemIDList )
     {
         if ( is_array( $itemCountList ) && is_array( $itemIDList ) && count( $itemCountList ) == count ( $itemIDList ) )
         {
-            $basket =& eZBasket::currentBasket();
+            $basket = eZBasket::currentBasket();
             if ( is_object( $basket ) )
             {
-                $productCollectionID =& $basket->attribute( 'productcollection_id' );
+                $productCollectionID = $basket->attribute( 'productcollection_id' );
 
                 $i = 0;
                 foreach ( $itemIDList as $id )
@@ -330,7 +327,7 @@ class eZShopOperationCollection
     */
     function addToBasket( $objectID, $optionList )
     {
-        include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+        //include_once( 'kernel/shop/classes/ezshopfunctions.php' );
 
         $object = eZContentObject::fetch( $objectID );
         $nodeID = $object->attribute( 'main_node_id' );
@@ -345,7 +342,7 @@ class eZShopOperationCollection
             $dataType = $attribute->dataType();
             if ( eZShopFunctions::isProductDatatype( $dataType->isA() ) )
             {
-                $priceObj =& $attribute->content();
+                $priceObj = $attribute->content();
                 $price += $priceObj->attribute( 'price' );
                 $priceFound = true;
             }
@@ -354,7 +351,7 @@ class eZShopOperationCollection
         if ( !$priceFound )
         {
             eZDebug::writeError( 'Attempted to add object without price to basket.' );
-            return array( 'status' => EZ_MODULE_OPERATION_CANCELED );
+            return array( 'status' => eZModuleOperationInfo::STATUS_CANCELLED );
         }
 
         $currency = $priceObj->attribute( 'currency' );
@@ -368,7 +365,7 @@ class eZShopOperationCollection
             {
                 $returnStatus = eZShopOperationCollection::addToBasket( $objectID, $optionList[$optionKey] );
                 // If adding one 'option set' fails we should stop immediately
-                if ( $returnStatus['status'] == EZ_MODULE_OPERATION_CANCELED )
+                if ( $returnStatus['status'] == eZModuleOperationInfo::STATUS_CANCELLED )
                     return $returnStatus;
                 $hasOptionSet = true;
             }
@@ -385,10 +382,10 @@ class eZShopOperationCollection
             if ( $dataType->isAddToBasketValidationRequired() )
             {
                 $errors = array();
-                if ( $attribute->validateAddToBasket( $optionList[$attribute->attribute('id')], $errors ) !== EZ_INPUT_VALIDATOR_STATE_ACCEPTED )
+                if ( $attribute->validateAddToBasket( $optionList[$attribute->attribute('id')], $errors ) !== eZInputValidator::STATE_ACCEPTED )
                 {
                     $description = $errors;
-                    $contentClassAttribute =& $attribute->contentClassAttribute();
+                    $contentClassAttribute = $attribute->contentClassAttribute();
                     $attributeName = $contentClassAttribute->attribute( 'name' );
                     $unvalidatedAttributes[] = array( "name" => $attributeName,
                                                       "description" => $description );
@@ -397,20 +394,20 @@ class eZShopOperationCollection
         }
         if ( count( $unvalidatedAttributes ) > 0 )
         {
-            return array( 'status' => EZ_MODULE_OPERATION_CANCELED,
+            return array( 'status' => eZModuleOperationInfo::STATUS_CANCELLED,
                           'reason' => 'validation',
                           'error_data' => $unvalidatedAttributes );
         }
 
-        $basket =& eZBasket::currentBasket();
+        $basket = eZBasket::currentBasket();
 
         /* Check if the item with the same options is not already in the basket: */
         $itemID = false;
-        $collection =& $basket->attribute( 'productcollection' );
+        $collection = $basket->attribute( 'productcollection' );
         if ( !$collection )
         {
             eZDebug::writeError( 'Unable to find product collection.' );
-            return array( 'status' => EZ_MODULE_OPERATION_CANCELED );
+            return array( 'status' => eZModuleOperationInfo::STATUS_CANCELLED );
         }
         else
         {
@@ -426,7 +423,7 @@ class eZShopOperationCollection
                 else
                     $count++;
             }
-            $collectionItems =& $collection->itemList( false );
+            $collectionItems = $collection->itemList( false );
             foreach ( $collectionItems as $item )
             {
                 /* For all items in the basket which have the same object_id: */
@@ -507,7 +504,7 @@ class eZShopOperationCollection
                     }
                 }
 
-                $db =& eZDB::instance();
+                $db = eZDB::instance();
                 $db->begin();
                 foreach ( $optionIDList as $optionIDItem )
                 {
@@ -536,48 +533,48 @@ class eZShopOperationCollection
             }
         }
 
-        return array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
+        return array( 'status' => eZModuleOperationInfo::STATUS_CONTINUE );
     }
 
     function activateOrder( $orderID )
     {
-        include_once( "kernel/classes/ezbasket.php" );
-        include_once( 'kernel/classes/ezorder.php' );
+        //include_once( "kernel/classes/ezbasket.php" );
+        //include_once( 'kernel/classes/ezorder.php' );
 
         $order = eZOrder::fetch( $orderID );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $order->activate();
 
-        $basket =& eZBasket::currentBasket( true, $orderID);
+        $basket = eZBasket::currentBasket( true, $orderID);
         $basket->remove();
         $db->commit();
 
-        include_once( "lib/ezutils/classes/ezhttptool.php" );
-        eZHTTPTool::setSessionVariable( "UserOrderID", $orderID );
-        return array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
+        //include_once( "lib/ezutils/classes/ezhttptool.php" );
+        eZHTTPTool::instance()->setSessionVariable( "UserOrderID", $orderID );
+        return array( 'status' => eZModuleOperationInfo::STATUS_CONTINUE );
     }
 
     function sendOrderEmails( $orderID )
     {
-        include_once( 'kernel/classes/ezorder.php' );
+        //include_once( 'kernel/classes/ezorder.php' );
         $order = eZOrder::fetch( $orderID );
 
         // Fetch the shop account handler
-        include_once( 'kernel/classes/ezshopaccounthandler.php' );
+        //include_once( 'kernel/classes/ezshopaccounthandler.php' );
 
-        $accountHandler =& eZShopAccountHandler::instance();
+        $accountHandler = eZShopAccountHandler::instance();
         $email = $accountHandler->email( $order );
 
         // Fetch the confirm order handler
-        include_once( 'kernel/classes/ezconfirmorderhandler.php' );
-        $confirmOrderHandler =& eZConfirmOrderHandler::instance();
+        //include_once( 'kernel/classes/ezconfirmorderhandler.php' );
+        $confirmOrderHandler = eZConfirmOrderHandler::instance();
         $params = array( 'email' => $email,
                          'order' => $order );
         $confirmOrderStatus = $confirmOrderHandler->execute( $params );
 
-        return array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
+        return array( 'status' => eZModuleOperationInfo::STATUS_CONTINUE );
     }
 
     /*!
@@ -585,24 +582,24 @@ class eZShopOperationCollection
     */
     function checkCurrency( $orderID )
     {
-        $returnStatus = array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
+        $returnStatus = array( 'status' => eZModuleOperationInfo::STATUS_CONTINUE );
         $order = eZOrder::fetch( $orderID );
-        $productCollection =& $order->attribute( 'productcollection' );
-        $currencyCode =& $productCollection->attribute( 'currency_code' );
+        $productCollection = $order->attribute( 'productcollection' );
+        $currencyCode = $productCollection->attribute( 'currency_code' );
         $currencyCode = trim( $currencyCode );
         if ( $currencyCode == '' )
         {
-            $returnStatus = array( 'status' => EZ_MODULE_OPERATION_CANCELED );
+            $returnStatus = array( 'status' => eZModuleOperationInfo::STATUS_CANCELLED );
         }
 
-        $locale =& eZLocale::instance();
+        $locale = eZLocale::instance();
         $localeCurrencyCode = $locale->currencyShortName();
 
         // Reverse logic to avoid calling eZCurrencyData::currencyExists() if the first expression is true.
         if ( !( $currencyCode == $localeCurrencyCode or
                 eZCurrencyData::currencyExists( $currencyCode ) ) )
         {
-            $returnStatus = array( 'status' => EZ_MODULE_OPERATION_CANCELED );
+            $returnStatus = array( 'status' => eZModuleOperationInfo::STATUS_CANCELLED );
         }
         return $returnStatus;
     }

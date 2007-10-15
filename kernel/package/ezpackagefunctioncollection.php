@@ -37,7 +37,7 @@
 
 */
 
-include_once( 'kernel/error/errors.php' );
+//include_once( 'kernel/error/errors.php' );
 
 class eZPackageFunctionCollection
 {
@@ -110,23 +110,23 @@ class eZPackageFunctionCollection
         if ( $repositoryID )
             $params['repository_id'] = $repositoryID;
 
-        include_once( 'kernel/classes/ezpackage.php' );
+        //include_once( 'kernel/classes/ezpackage.php' );
         $packageList = eZPackage::fetchPackages( $params,
                                                  $filterParams );
         if ( $packageList === null )
             return array( 'error' => array( 'error_type' => 'kernel',
-                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+                                            'error_code' => eZError::KERNEL_NOT_FOUND ) );
         return array( 'result' => $packageList );
     }
 
     function fetchPackage( $packageName, $repositoryID )
     {
-        include_once( 'kernel/classes/ezpackage.php' );
+        //include_once( 'kernel/classes/ezpackage.php' );
         $package = eZPackage::fetch( $packageName, false, $repositoryID );
         if ( $package === false )
         {
             $retValue = array( 'error' => array( 'error_type' => 'kernel',
-                                                 'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+                                                 'error_code' => eZError::KERNEL_NOT_FOUND ) );
         }
         else
         {
@@ -198,13 +198,13 @@ class eZPackageFunctionCollection
                 }
             }
         }
-        include_once( 'kernel/classes/ezpackage.php' );
+        //include_once( 'kernel/classes/ezpackage.php' );
         $package = eZPackage::fetch( $packageName, false, $repositoryID );
         $packageList = $package->fetchDependentPackages( $filterParams );
         if ( $packageList === false )
         {
             $retValue = array( 'error' => array( 'error_type' => 'kernel',
-                                                 'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+                                                 'error_code' => eZError::KERNEL_NOT_FOUND ) );
         }
         else
         {
@@ -215,21 +215,21 @@ class eZPackageFunctionCollection
 
     function fetchMaintainerRoleList( $packageType, $checkRoles )
     {
-        include_once( 'kernel/classes/ezpackage.php' );
+        //include_once( 'kernel/classes/ezpackage.php' );
         $list = eZPackage::fetchMaintainerRoleList( $packageType, $checkRoles );
         if ( $list === false )
             return array( 'error' => array( 'error_type' => 'kernel',
-                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+                                            'error_code' => eZError::KERNEL_NOT_FOUND ) );
         return array( 'result' => $list );
     }
 
     function fetchRepositoryList()
     {
-        include_once( 'kernel/classes/ezpackage.php' );
+        //include_once( 'kernel/classes/ezpackage.php' );
         $list = eZPackage::packageRepositories();
         if ( $list === false )
             return array( 'error' => array( 'error_type' => 'kernel',
-                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+                                            'error_code' => eZError::KERNEL_NOT_FOUND ) );
         return array( 'result' => $list );
     }
 

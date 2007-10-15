@@ -38,25 +38,25 @@
 
 */
 
-include_once( 'lib/ezimage/classes/ezimageinterface.php' );
-
-/// Alignment values @{
-define( 'EZ_IMAGE_ALIGN_AXIS_NONE', 0x00 );
-define( 'EZ_IMAGE_ALIGN_AXIS_START', 0x01 );
-define( 'EZ_IMAGE_ALIGN_AXIS_STOP', 0x02 );
-define( 'EZ_IMAGE_ALIGN_AXIS_CENTER', EZ_IMAGE_ALIGN_AXIS_START | EZ_IMAGE_ALIGN_AXIS_STOP );
-define( 'EZ_IMAGE_ALIGN_AXIS_MASK', EZ_IMAGE_ALIGN_AXIS_START | EZ_IMAGE_ALIGN_AXIS_STOP );
-///@}
-
-/// Placement types @{
-/// Places the layer absolutely from on the axis.
-define( 'EZ_IMAGE_PLACE_CONSTANT', 1 );
-/// Places the layer relative to the axis size.
-define( 'EZ_IMAGE_PLACE_RELATIVE', 2 );
-///@}
+//include_once( 'lib/ezimage/classes/ezimageinterface.php' );
 
 class eZImageObject extends eZImageInterface
 {
+    /// Alignment values @{
+    const ALIGN_AXIS_NONE = 0x00;
+    const ALIGN_AXIS_START = 0x01;
+    const ALIGN_AXIS_STOP = 0x02;
+    const ALIGN_AXIS_CENTER = 0x03; // ALIGN_AXIS_START | ALIGN_AXIS_STOP
+    const ALIGN_AXIS_MASK = 0x03; // ALIGN_AXIS_START | ALIGN_AXIS_STOP
+    ///@}
+
+    /// Placement types @{
+    /// Places the layer absolutely from on the axis.
+    const PLACE_CONSTANT = 1;
+    /// Places the layer relative to the axis size.
+    const PLACE_RELATIVE = 2;
+    ///@}
+
     function eZImageObject( $imageObjectRef = null, $imageObject = null, $width = false, $height = false )
     {
         $this->eZImageInterface( $imageObjectRef, $imageObject, $width, $height );
@@ -87,29 +87,29 @@ class eZImageObject extends eZImageInterface
     /*!
      Figures out the absolute axis placement and returns it.
      The variable \a $type determines how \a $value is used, it can either
-     be a constant value (EZ_IMAGE_PLACE_CONSTANT) or a relative value
-     (EZ_IMAGE_PLACE_RELATIVE) where input value is placed relative to the length
+     be a constant value (self::PLACE_CONSTANT) or a relative value
+     (self::PLACE_RELATIVE) where input value is placed relative to the length
      of the axis (\a $axisStop - \a $axisStart).
-     \a $alignment determines where the axis should start, EZ_IMAGE_ALIGN_AXIS_NONE
-     and EZ_IMAGE_ALIGN_AXIS_START will return the position from \a $axisStart towards \a $axisStop,
-     EZ_IMAGE_ALIGN_AXIS_STOP returns the position from the \a $axisStop towards \a $axisStart
-     while EZ_IMAGE_ALIGN_AXIS_CENTER returns the middle of \a $axisStart and \a $axisStop.
+     \a $alignment determines where the axis should start, self::ALIGN_AXIS_NONE
+     and self::ALIGN_AXIS_START will return the position from \a $axisStart towards \a $axisStop,
+     self::ALIGN_AXIS_STOP returns the position from the \a $axisStop towards \a $axisStart
+     while self::ALIGN_AXIS_CENTER returns the middle of \a $axisStart and \a $axisStop.
     */
     function calculateAxisPlacement( $value, $type, $alignment, $axisStart, $axisStop, $currentLength )
     {
         $pos = 0;
-        if ( $type == EZ_IMAGE_PLACE_CONSTANT )
+        if ( $type == self::PLACE_CONSTANT )
             $pos = $value;
-        else if ( $type == EZ_IMAGE_PLACE_RELATIVE )
+        else if ( $type == self::PLACE_RELATIVE )
         {
             $length = $axisStop - $axisStart;
             $pos = $value * $length;
         }
-        $alignment = $alignment & EZ_IMAGE_ALIGN_AXIS_MASK;
-        if ( $alignment == EZ_IMAGE_ALIGN_AXIS_NONE or
-             $alignment == EZ_IMAGE_ALIGN_AXIS_START )
+        $alignment = $alignment & self::ALIGN_AXIS_MASK;
+        if ( $alignment == self::ALIGN_AXIS_NONE or
+             $alignment == self::ALIGN_AXIS_START )
             return $axisStart + $pos;
-        if ( $alignment == EZ_IMAGE_ALIGN_AXIS_CENTER )
+        if ( $alignment == self::ALIGN_AXIS_CENTER )
         {
             $length = $axisStop - $axisStart;
             $halfLength = (int)(($length - $currentLength) / 2);
@@ -132,9 +132,9 @@ class eZImageObject extends eZImageInterface
         if ( isset( $parameters[$name] ) )
             $axis = $parameters[$name];
         if ( !isset( $axis['alignment'] ) )
-            $axis['alignment'] = EZ_IMAGE_ALIGN_AXIS_NONE;
+            $axis['alignment'] = self::ALIGN_AXIS_NONE;
         if ( !isset( $axis['placement'] ) )
-            $axis['placement'] = EZ_IMAGE_PLACE_CONSTANT;
+            $axis['placement'] = self::PLACE_CONSTANT;
         if ( !isset( $axis['value'] ) )
             $axis['value'] = 0;
         return $axis;
@@ -186,8 +186,7 @@ class eZImageObject extends eZImageInterface
     */
     function appendLayer( &$imageLayer, $parameters = array() )
     {
-        if ( get_class( $imageLayer ) != 'ezimagelayer' and
-             !is_subclass_of( $imageLayer, 'ezimagelayer' ) )
+        if ( !$imageLayer instanceof eZImageLayer )
         {
             eZDebug::writeWarning( 'Only eZImageLayer objects may be added as layer items',
                                    'eZImageObject::appendLayer' );
@@ -208,8 +207,7 @@ class eZImageObject extends eZImageInterface
     */
     function prependLayer( &$imageLayer, $parameters = array() )
     {
-        if ( get_class( $imageLayer ) != 'ezimagelayer' and
-             !is_subclass_of( $imageLayer, 'ezimagelayer' ) )
+        if ( !$imageLayer instanceof eZImageLayer )
         {
             eZDebug::writeWarning( 'Only eZImageLayer objects may be added as layer items',
                                    'eZImageObject::prependLayer' );
@@ -238,13 +236,14 @@ class eZImageObject extends eZImageInterface
     */
     function destroy()
     {
-        if( is_array( $this->ImageLayers ) )
+        if ( is_array( $this->ImageLayers ) )
         {
             foreach( $this->ImageLayers as $item )
             {
-                if ( get_class( $this->ImageLayerIndex[$item]['image'] ) == 'ezimagelayer' or
-                     is_subclass_of( $this->ImageLayerIndex[$item]['image'], 'ezimagelayer' ) )
+                if ( $this->ImageLayerIndex[$item]['image'] instanceof eZImageLayer )
+                {
                     $this->ImageLayerIndex[$item]['image']->destroy();
+                }
             }
         }
         parent::destroy();
@@ -298,8 +297,7 @@ class eZImageObject extends eZImageInterface
             $layerID = $this->ImageLayers[$i];
             $layerData =& $this->ImageLayerIndex[$layerID];
             $layer =& $layerData['image'];
-            if ( get_class( $layer ) == 'ezimagelayer' or
-                 is_subclass_of( $layer, 'ezimagelayer' ) )
+            if ( $layer instanceof eZImageLayer )
             {
                 $firstImageLayerData =& $layerData;
                 $firstImageLayer =& $layer;
@@ -330,8 +328,7 @@ class eZImageObject extends eZImageInterface
                 $layerData =& $this->ImageLayerIndex[$layerID];
                 $layer =& $layerData['image'];
                 unset( $imageObject );
-                if ( get_class( $layer ) == 'ezimagelayer' or
-                     is_subclass_of( $layer, 'ezimagelayer' ) )
+                if ( $layer instanceof eZImageLayer )
                 {
                     $layer->mergeLayer( $this,
                                         $layerData,
@@ -350,9 +347,9 @@ class eZImageObject extends eZImageInterface
     }
 
     /// \privatesection
-    var $ImageLayers;
-    var $TemplateURI;
-    var $ImageLayerIndex;
+    public $ImageLayers;
+    public $TemplateURI;
+    public $ImageLayerIndex;
 }
 
 ?>

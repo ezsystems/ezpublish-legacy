@@ -39,14 +39,7 @@
 
 class eZOverride
 {
-    /*!
-     Constructor
-    */
-    function eZOverride()
-    {
-    }
-
-    function selectFile( $matches, $matchKeys, &$matchedKeys, $regexpMatch )
+    static function selectFile( $matches, $matchKeys, &$matchedKeys, $regexpMatch )
     {
         $match = null;
         foreach ( $matches as $templateMatch )
@@ -85,7 +78,6 @@ class eZOverride
                             $match["file"] = $file;
                             $foundOverrideFile = true;
                             $matchedKeys[$matchKeyName] = $matchKeyValue;
-//                             eZDebug::writeNotice( "Match found, using override " . $match["file"]  );
                             break;
                         }
                     }

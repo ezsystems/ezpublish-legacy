@@ -40,12 +40,12 @@
   If fontDir() is an empty string the font will be looked for in the system.
 */
 
-include_once( "lib/eztemplate/classes/eztemplate.php" );
-include_once( "lib/ezimage/classes/ezimageobject.php" );
-include_once( "lib/ezimage/classes/ezimagelayer.php" );
-include_once( "lib/ezimage/classes/ezimagetextlayer.php" );
-include_once( 'lib/ezimage/classes/ezimagefont.php' );
-include_once( "lib/ezutils/classes/ezini.php" );
+//include_once( "lib/eztemplate/classes/eztemplate.php" );
+//include_once( "lib/ezimage/classes/ezimageobject.php" );
+//include_once( "lib/ezimage/classes/ezimagelayer.php" );
+//include_once( "lib/ezimage/classes/ezimagetextlayer.php" );
+//include_once( 'lib/ezimage/classes/ezimagefont.php' );
+//include_once( "lib/ezutils/classes/ezini.php" );
 
 class eZTemplateImageOperator
 {
@@ -60,8 +60,8 @@ class eZTemplateImageOperator
                                   $imageName,
                                   $imagefileName );
 
-        include_once( "lib/ezutils/classes/ezsys.php" );
-        $ini =& eZINI::instance( 'texttoimage.ini' );
+        //include_once( "lib/ezutils/classes/ezsys.php" );
+        $ini = eZINI::instance( 'texttoimage.ini' );
         $fontDirs = $ini->variable( "PathSettings", "FontDir" );
         $this->FontDir = array();
         foreach ( $fontDirs as $fontDir )
@@ -122,7 +122,7 @@ class eZTemplateImageOperator
      Performs image conversion using Image GD and returns the html
      text for the image.
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$inputValue, &$namedParameters,
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$inputValue, $namedParameters,
                      $placement )
     {
         if ( !$this->ImageGDSupported )
@@ -146,7 +146,7 @@ class eZTemplateImageOperator
             $bgcol = $this->color( "bgcolor" );
             $textcol = $this->color( "textcolor" );
 
-            $ini =& eZINI::instance( 'texttoimage.ini' );
+            $ini = eZINI::instance( 'texttoimage.ini' );
             $family = $ini->variable( 'DefaultSettings', 'Family' );
             $size = $ini->variable( 'DefaultSettings', 'PointSize' );
             $angle = $ini->variable( 'DefaultSettings', 'Angle' );
@@ -308,7 +308,7 @@ class eZTemplateImageOperator
     /*!
      Returns the operators in this class.
     */
-    function &operatorList()
+    function operatorList()
     {
         return $this->Operators;
     }
@@ -650,7 +650,7 @@ class eZTemplateImageOperator
         $dirPath = eZDir::path( array( $dirs, $base, $splitMD5Path, $md5Text ) );
         if ( !file_exists( $dirPath ) )
         {
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $mod = $ini->variable( 'FileSettings', 'StorageDirPermissions' );
             eZDir::mkdir( $dirPath, octdec( $mod ), true );
         }
@@ -695,13 +695,13 @@ class eZTemplateImageOperator
         return $layer;
     }
 
-    function readImageParameters( &$tpl, &$image, &$operatorParameters, $rootNamespace, $currentNamespace, &$md5Input, &$alternativeText,
+    function readImageParameters( $tpl, &$image, $operatorParameters, $rootNamespace, $currentNamespace, &$md5Input, &$alternativeText,
                                   $placement )
     {
         $imageAlternativeText = false;
         foreach ( array_keys( $operatorParameters ) as $operatorParameterKey )
         {
-            $operatorParameter =& $tpl->elementValue( $operatorParameters[$operatorParameterKey], $rootNamespace, $currentNamespace, $placement );
+            $operatorParameter = $tpl->elementValue( $operatorParameters[$operatorParameterKey], $rootNamespace, $currentNamespace, $placement );
             unset( $imageLayer );
             $imageLayer = null;
             $imageParameters = array();
@@ -720,10 +720,10 @@ class eZTemplateImageOperator
                      isset( $imageParameterSource['x'] ) or
                      isset( $imageParameterSource['y'] ) )
                 {
-                    $xAlignment = EZ_IMAGE_ALIGN_AXIS_NONE;
-                    $yAlignment = EZ_IMAGE_ALIGN_AXIS_NONE;
-                    $xPlacement = EZ_IMAGE_PLACE_CONSTANT;
-                    $yPlacement = EZ_IMAGE_PLACE_CONSTANT;
+                    $xAlignment = eZImageObject::ALIGN_AXIS_NONE;
+                    $yAlignment = eZImageObject::ALIGN_AXIS_NONE;
+                    $xPlacement = eZImageObject::PLACE_CONSTANT;
+                    $yPlacement = eZImageObject::PLACE_CONSTANT;
                     $xPos = 0;
                     $yPos = 0;
                     if ( isset( $imageParameterSource['halign'] ) )
@@ -733,15 +733,15 @@ class eZTemplateImageOperator
                         {
                             case 'left':
                             {
-                                $xAlignment = EZ_IMAGE_ALIGN_AXIS_START;
+                                $xAlignment = eZImageObject::ALIGN_AXIS_START;
                             } break;
                             case 'right':
                             {
-                                $xAlignment = EZ_IMAGE_ALIGN_AXIS_STOP;
+                                $xAlignment = eZImageObject::ALIGN_AXIS_STOP;
                             } break;
                             case 'center':
                             {
-                                $xAlignment = EZ_IMAGE_ALIGN_AXIS_CENTER;
+                                $xAlignment = eZImageObject::ALIGN_AXIS_CENTER;
                             } break;
                         }
                     }
@@ -752,37 +752,37 @@ class eZTemplateImageOperator
                         {
                             case 'top':
                             {
-                                $yAlignment = EZ_IMAGE_ALIGN_AXIS_START;
+                                $yAlignment = eZImageObject::ALIGN_AXIS_START;
                             } break;
                             case 'bottom':
                             {
-                                $yAlignment = EZ_IMAGE_ALIGN_AXIS_STOP;
+                                $yAlignment = eZImageObject::ALIGN_AXIS_STOP;
                             } break;
                             case 'center':
                             {
-                                $yAlignment = EZ_IMAGE_ALIGN_AXIS_CENTER;
+                                $yAlignment = eZImageObject::ALIGN_AXIS_CENTER;
                             } break;
                         }
                     }
                     if ( isset( $imageParameterSource['x'] ) )
                     {
                         $xPos = $imageParameterSource['x'];
-                        $xPlacement = EZ_IMAGE_PLACE_CONSTANT;
+                        $xPlacement = eZImageObject::PLACE_CONSTANT;
                     }
                     if ( isset( $imageParameterSource['xrel'] ) )
                     {
                         $xPos = $imageParameterSource['xrel'];
-                        $xPlacement = EZ_IMAGE_PLACE_RELATIVE;
+                        $xPlacement = eZImageObject::PLACE_RELATIVE;
                     }
                     if ( isset( $imageParameterSource['y'] ) )
                     {
                         $yPos = $imageParameterSource['y'];
-                        $yPlacement = EZ_IMAGE_PLACE_CONSTANT;
+                        $yPlacement = eZImageObject::PLACE_CONSTANT;
                     }
                     if ( isset( $imageParameterSource['yrel'] ) )
                     {
                         $yPos = $imageParameterSource['yrel'];
-                        $yPlacement = EZ_IMAGE_PLACE_RELATIVE;
+                        $yPlacement = eZImageObject::PLACE_RELATIVE;
                     }
                     $x = array( 'alignment' => $xAlignment,
                                 'placement' => $xPlacement,
@@ -807,10 +807,10 @@ class eZTemplateImageOperator
                     $alternativeText .= $layerText;
                 }
                 $md5Input .= $imageLayer->attribute( 'imagepath' );
-                $xAlignment = EZ_IMAGE_ALIGN_AXIS_NONE;
-                $yAlignment = EZ_IMAGE_ALIGN_AXIS_NONE;
-                $xPlacement = EZ_IMAGE_PLACE_CONSTANT;
-                $yPlacement = EZ_IMAGE_PLACE_CONSTANT;
+                $xAlignment = eZImageObject::ALIGN_AXIS_NONE;
+                $yAlignment = eZImageObject::ALIGN_AXIS_NONE;
+                $xPlacement = eZImageObject::PLACE_CONSTANT;
+                $yPlacement = eZImageObject::PLACE_CONSTANT;
                 $xPos = 0;
                 $yPos = 0;
                 if ( isset( $imageParameters['x']['alignment'] ) )
@@ -834,33 +834,33 @@ class eZTemplateImageOperator
 
     /// \privatesection
     /// The operator array
-    var $Operators;
+    public $Operators;
     /// The default class to use for text to image conversion
-    var $DefaultClass;
+    public $DefaultClass;
     /// the directory were fonts are found, default is ""
-    var $FontDir;
+    public $FontDir;
     /// the directory were cache files are created, default is ""
-    var $CacheDir;
+    public $CacheDir;
     /// the directory were html code finds the images, default is ""
-    var $HTMLDir;
+    public $HTMLDir;
     /// the default font family, default is "arial"
-    var $Family;
+    public $Family;
     /// the default font point size, default is 12
-    var $PointSize;
+    public $PointSize;
     /// the default font angle, default is 0
-    var $Angle;
+    public $Angle;
     /// the default font x adjustment, default is 0
-    var $XAdjust;
+    public $XAdjust;
     /// the default font y adjustment, default is 0
-    var $YAdjust;
+    public $YAdjust;
     /// whether to reuse cache files or not
-    var $UseCache;
+    public $UseCache;
     /// the color array, default is bgcolor=white and textcolor=black
-    var $Colors;
+    public $Colors;
     /// Whether image GD is supported
-    var $ImageGDSupported;
+    public $ImageGDSupported;
     /// Storage Format, default is "png"
-    var $StoreAs = 'png';
+    public $StoreAs = 'png';
 }
 
 ?>

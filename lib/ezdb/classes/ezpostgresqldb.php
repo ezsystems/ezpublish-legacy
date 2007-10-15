@@ -40,9 +40,9 @@
   \sa eZDB
 */
 
-include_once( "lib/ezutils/classes/ezdebug.php" );
-include_once( "lib/ezutils/classes/ezini.php" );
-include_once( "lib/ezdb/classes/ezdbinterface.php" );
+require_once( "lib/ezutils/classes/ezdebug.php" );
+//include_once( "lib/ezutils/classes/ezini.php" );
+//include_once( "lib/ezdb/classes/ezdbinterface.php" );
 
 class eZPostgreSQLDB extends eZDBInterface
 {
@@ -58,7 +58,7 @@ class eZPostgreSQLDB extends eZDBInterface
             if ( function_exists( 'eZAppendWarningItem' ) )
             {
                 eZAppendWarningItem( array( 'error' => array( 'type' => 'ezdb',
-                                                              'number' => EZ_DB_ERROR_MISSING_EXTENSION ),
+                                                              'number' => eZDBInterface::ERROR_MISSING_EXTENSION ),
                                             'text' => 'PostgreSQL extension was not found, the DB handler will not be initialized.' ) );
                 $this->IsConnected = false;
             }
@@ -66,7 +66,7 @@ class eZPostgreSQLDB extends eZDBInterface
             return;
         }
 
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
 
         $server = $this->Server;
         $db = $this->DB;
@@ -139,13 +139,13 @@ class eZPostgreSQLDB extends eZDBInterface
     */
     function bindingType( )
     {
-        return EZ_DB_BINDING_NO;
+        return eZDBInterface::BINDING_NO;
     }
 
     /*!
       \reimp
     */
-    function bindVariable( &$value, $fieldDef = false )
+    function bindVariable( $value, $fieldDef = false )
     {
         return $value;
     }
@@ -170,6 +170,7 @@ class eZPostgreSQLDB extends eZDBInterface
 
                 if ($this->timeTaken() > $this->SlowSQLTimeout)
                 {
+                    eZDebug::instance();
                     eZDebug::accumulatorStop( 'postgresql_query' );
                     $this->reportQuery( 'eZPostgreSQLDB', $sql, false, $this->timeTaken() );
                 }
@@ -294,11 +295,11 @@ class eZPostgreSQLDB extends eZDBInterface
     */
     function supportedRelationTypeMask()
     {
-        return ( EZ_DB_RELATION_TABLE_BIT |
-                 EZ_DB_RELATION_SEQUENCE_BIT |
-                 EZ_DB_RELATION_TRIGGER_BIT |
-                 EZ_DB_RELATION_VIEW_BIT |
-                 EZ_DB_RELATION_INDEX_BIT );
+        return ( eZDBInterface::RELATION_TABLE_BIT |
+                 eZDBInterface::RELATION_SEQUENCE_BIT |
+                 eZDBInterface::RELATION_TRIGGER_BIT |
+                 eZDBInterface::RELATION_VIEW_BIT |
+                 eZDBInterface::RELATION_INDEX_BIT );
     }
 
     /*!
@@ -306,11 +307,11 @@ class eZPostgreSQLDB extends eZDBInterface
     */
     function supportedRelationTypes()
     {
-        return array( EZ_DB_RELATION_TABLE,
-                      EZ_DB_RELATION_SEQUENCE,
-                      EZ_DB_RELATION_TRIGGER,
-                      EZ_DB_RELATION_VIEW,
-                      EZ_DB_RELATION_INDEX );
+        return array( eZDBInterface::RELATION_TABLE,
+                      eZDBInterface::RELATION_SEQUENCE,
+                      eZDBInterface::RELATION_TRIGGER,
+                      eZDBInterface::RELATION_VIEW,
+                      eZDBInterface::RELATION_INDEX );
     }
 
     /*!
@@ -318,11 +319,11 @@ class eZPostgreSQLDB extends eZDBInterface
     */
     function relationKind( $relationType )
     {
-        $kind = array( EZ_DB_RELATION_TABLE => 'r',
-                       EZ_DB_RELATION_SEQUENCE => 'S',
-                       EZ_DB_RELATION_TRIGGER => 't',
-                       EZ_DB_RELATION_VIEW => 'v',
-                       EZ_DB_RELATION_INDEX => 'i' );
+        $kind = array( eZDBInterface::RELATION_TABLE => 'r',
+                       eZDBInterface::RELATION_SEQUENCE => 'S',
+                       eZDBInterface::RELATION_TRIGGER => 't',
+                       eZDBInterface::RELATION_VIEW => 'v',
+                       eZDBInterface::RELATION_INDEX => 'i' );
         if ( !isset( $kind[$relationType] ) )
             return false;
         return $kind[$relationType];
@@ -369,7 +370,7 @@ class eZPostgreSQLDB extends eZDBInterface
     /*!
       \reimp
     */
-    function relationCount( $relationType = EZ_DB_RELATION_TABLE )
+    function relationCount( $relationType = eZDBInterface::RELATION_TABLE )
     {
         $count = false;
         $relationKind = $this->relationKind( $relationType );
@@ -391,7 +392,7 @@ class eZPostgreSQLDB extends eZDBInterface
     /*!
       \reimp
     */
-    function relationList( $relationType = EZ_DB_RELATION_TABLE )
+    function relationList( $relationType = eZDBInterface::RELATION_TABLE )
     {
         $count = false;
         $relationKind = $this->relationKind( $relationType );
@@ -418,7 +419,7 @@ class eZPostgreSQLDB extends eZDBInterface
         $array = array();
         if ( $this->isConnected() )
         {
-            foreach ( array( EZ_DB_RELATION_TABLE, EZ_DB_RELATION_SEQUENCE ) as $relationType )
+            foreach ( array( eZDBInterface::RELATION_TABLE, eZDBInterface::RELATION_SEQUENCE ) as $relationType )
             {
                 $sql = "SELECT relname FROM pg_class WHERE relkind='" . $this->relationKind( $relationType ) . "' AND relname like 'ez%'";
                 foreach ( $this->arrayQuery( $sql, array( 'column' => 'relname' ) ) as $result )
@@ -525,7 +526,7 @@ class eZPostgreSQLDB extends eZDBInterface
     /*!
      \reimp
     */
-    function lastSerialID( $table, $column = 'id' )
+    function lastSerialID( $table = false, $column = 'id' )
     {
         if ( $this->isConnected() )
         {

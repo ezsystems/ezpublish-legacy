@@ -46,19 +46,19 @@ if( !file_exists( 'update/common/scripts' ) || !is_dir( 'update/common/scripts' 
     exit;
 }
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
+$cli = eZCLI::instance();
 
-$script =& eZScript::instance( array( 'description' => ( "\nDatabase converter for eZ Publish 3.6.\n" .
-                                                         "Updates 'ezcontentobject_link' table by adding related objects links made with\n" .
-                                                         "attributes of 'ezobjectrelation' and 'ezobjectrelationlist' types.\n\n" .
-                                                         "Run this script before using a database created with eZ Publish version 3.5.* or lower.\n" .
-                                                         "Don't forget to update database's structure before running this script." ),
-                                      'use-session' => false,
-                                      'use-modules' => false,
-                                      'use-extensions' => false ) );
+$script = eZScript::instance( array( 'description' => ( "\nDatabase converter for eZ Publish 3.6.\n" .
+                                                        "Updates 'ezcontentobject_link' table by adding related objects links made with\n" .
+                                                        "attributes of 'ezobjectrelation' and 'ezobjectrelationlist' types.\n\n" .
+                                                        "Run this script before using a database created with eZ Publish version 3.5.* or lower.\n" .
+                                                        "Don't forget to update database's structure before running this script." ),
+                                     'use-session' => false,
+                                     'use-modules' => false,
+                                     'use-extensions' => false ) );
 
 $script->startup();
 
@@ -88,7 +88,7 @@ if ( $siteAccess )
 function changeSiteAccessSetting( &$siteaccess, $optionData )
 {
     global $isQuiet;
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     if ( file_exists( 'settings/siteaccess/' . $optionData ) )
     {
         $siteaccess = $optionData;
@@ -116,7 +116,7 @@ if ( $dbHost or $dbName or $dbUser or $dbImpl )
         $params['password'] = $dbPassword;
     if ( $dbName !== false )
         $params['database'] = $dbName;
-    $db =& eZDB::instance( $dbImpl, $params, true );
+    $db = eZDB::instance( $dbImpl, $params, true );
     if ( !$db )
     {
         $cli->notice( "Can't initialize database connection.\n" );
@@ -126,7 +126,7 @@ if ( $dbHost or $dbName or $dbUser or $dbImpl )
 }
 else
 {
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     if ( !$db )
     {
         $cli->notice( "Can't initialize database connection.\n" );
@@ -134,8 +134,8 @@ else
     }
 }
 
-include_once( 'kernel/classes/ezcontentobjectattribute.php' );
-include_once( 'lib/ezxml/classes/ezxml.php' );
+//include_once( 'kernel/classes/ezcontentobjectattribute.php' );
+//include_once( 'lib/ezxml/classes/ezxml.php' );
 
 $links = array();
 $added_links_count = 0;
@@ -220,7 +220,7 @@ while( count( $result ) )
         if ( $attr->attribute( 'data_text' ) )
         {
             $xml = new eZXML();
-            $dom =& $xml->domTree( $attr->attribute( 'data_text' ) );
+            $dom = $xml->domTree( $attr->attribute( 'data_text' ) );
 
             $root =& $dom->root();
             $relationList =& $root->elementByName( 'relation-list' );

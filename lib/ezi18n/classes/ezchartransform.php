@@ -39,18 +39,19 @@
   \sa eZCodeMapper
 */
 
-/// The timestamp for when the format of the cache files were
-/// last changed. This must be updated when the format changes
-/// to invalidate existing cache files.
-/// 1101288452
-/// 30. Jan. 2007 - 1170165730
-/// 24. Apr. 2007 - 1177423380
-define( 'EZ_CHARTRANSFORM_CODEDATE', 1177423380 );
-include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
+//include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+//include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
 
 class eZCharTransform
 {
+    /// The timestamp for when the format of the cache files were
+    /// last changed. This must be updated when the format changes
+    /// to invalidate existing cache files.
+    /// 1101288452
+    /// 30. Jan. 2007 - 1170165730
+    /// 24. Apr. 2007 - 1177423380
+    const CODE_DATE = 1177423380;
+
     /*!
      Constructor
     */
@@ -69,29 +70,35 @@ class eZCharTransform
     */
     function transform( $text, $rule, $charset = false, $useCache = true )
     {
+        if ( $text === '' )
+        {
+            return $text;
+        }
+
         if ( $useCache )
         {
             // CRC32 is used for speed, MD5 would be more unique but is slower
-            include_once( 'lib/ezutils/classes/ezsys.php' );
+            //include_once( 'lib/ezutils/classes/ezsys.php' );
             $key = eZSys::ezcrc32( 'Rule: ' . ( is_array( $rule ) ? implode( ',', $rule ) : $rule ) . '-' . $charset );
+            $filepath = $this->cacheFilePath( 'rule-',
+                                              '-' . $charsetName,
+                                              $key );
 
             $charsetName = ( $charset === false ? eZTextCodec::internalCharset() : eZCharsetInfo::realCharsetCode( $charset ) );
 
             // Try to execute code in the cache file, if it succeeds
             // \a $text will/ transformated
-            if ( $this->executeCacheFile( $text,
-                                          'rule-', '-' . $charsetName,
-                                          $key, false, $filepath ) )
+            $retText = $this->executeCacheFile( $text, $filepath );
+            if ( $retText !== false )
             {
-//                 eZDebug::writeDebug( 'executed cache file ' . $filepath );
-                return $text;
+                return $retText;
             }
         }
 
         // Make sure we have a mapper
         if ( $this->Mapper === false )
         {
-            include_once( 'lib/ezi18n/classes/ezcodemapper.php' );
+            //include_once( 'lib/ezi18n/classes/ezcodemapper.php' );
             $this->Mapper = new eZCodeMapper();
         }
 
@@ -127,23 +134,28 @@ class eZCharTransform
     */
     function transformByGroup( $text, $group, $charset = false, $useCache = true )
     {
+        if ( $text === '' )
+        {
+            return $text;
+        }
         $charsetName = ( $charset === false ? eZTextCodec::internalCharset() : eZCharsetInfo::realCharsetCode( $charset ) );
         if ( $useCache )
         {
             // CRC32 is used for speed, MD5 would be more unique but is slower
-            include_once( 'lib/ezutils/classes/ezsys.php' );
+            //include_once( 'lib/ezutils/classes/ezsys.php' );
 
             $keyText = 'Group:' . $group;
             $key = eZSys::ezcrc32( $keyText . '-' . $charset );
+            $filepath = $this->cacheFilePath( 'g-' . $group . '-',
+                                              '-' . $charsetName,
+                                              $key);
 
             // Try to execute code in the cache file, if it succeeds
             // \a $text will/ transformated
-            if ( $this->executeCacheFile( $text,
-                                          'g-' . $group . '-', '-' . $charsetName,
-                                          $key, false, $filepath ) )
+            $retText = $this->executeCacheFile( $text, $filepath );
+            if ( $retText !== false )
             {
-//                 eZDebug::writeDebug( 'executed cache file ' . $filepath );
-                return $text;
+                return $retText;
             }
         }
 
@@ -154,7 +166,7 @@ class eZCharTransform
         // Make sure we have a mapper
         if ( $this->Mapper === false )
         {
-            include_once( 'lib/ezi18n/classes/ezcodemapper.php' );
+            //include_once( 'lib/ezi18n/classes/ezcodemapper.php' );
             $this->Mapper = new eZCodeMapper();
         }
 
@@ -214,8 +226,8 @@ class eZCharTransform
         if ( isset( $dir ) )
             return $dir;
 
-        include_once( 'lib/ezutils/classes/ezsys.php' );
-        $sys =& eZSys::instance();
+        //include_once( 'lib/ezutils/classes/ezsys.php' );
+        $sys = eZSys::instance();
         $dir = $sys->cacheDirectory() . '/trans';
         return $dir;
     }
@@ -236,7 +248,7 @@ class eZCharTransform
         if ( isset( $rules ) )
             return $rules;
 
-        $ini =& eZINI::instance( 'transform.ini' );
+        $ini = eZINI::instance( 'transform.ini' );
         $groups = $ini->variable( 'Transformation', 'Groups' );
         if ( !in_array( $group, $groups ) )
         {
@@ -273,6 +285,26 @@ class eZCharTransform
     }
 
     /*!
+     Get cache file path.
+
+     \param $prefix
+     \param $suffix
+     \param $key
+
+     \return cache file path.
+    */
+    function cacheFilePath( $prefix, $suffix, $key )
+    {
+        $path = eZCharTransform::cachedTransformationPath();
+        if ( !file_exists( $path ) )
+        {
+            //include_once( 'lib/ezfile/classes/ezdir.php' );
+            eZDir::mkdir( $path, false, true );
+        }
+        return $path . '/' . $prefix . sprintf( "%u", $key ) . $suffix . '.ctt.php'; // ctt=charset transform table
+    }
+
+    /*!
      \private
      \param $text The text that should be transformed
      \param $key The unique key for the cache, this should be a CRC32 or MD5 of
@@ -283,28 +315,21 @@ class eZCharTransform
                            this can be used for the storeCacheFile() method.
      \return The restored transformation data or \c false if there is no cached data.
     */
-    function executeCacheFile( &$text, $prefix, $suffix, $key, $timestamp = false, &$filepath )
+    protected function executeCacheFile( $text, $filepath, $timestamp = false )
     {
-        $path = eZCharTransform::cachedTransformationPath();
-        if ( !file_exists( $path ) )
-        {
-            include_once( 'lib/ezfile/classes/ezdir.php' );
-            eZDir::mkdir( $path, false, true );
-        }
-        $filepath = $path . '/' . $prefix . sprintf( "%u", $key ) . $suffix . '.ctt.php'; // ctt=charset transform table
         if ( file_exists( $filepath ) )
         {
             $time = filemtime( $filepath );
-            $ini =& eZINI::instance( 'transform.ini' );
-            if ( $ini->CacheFile && $time < filemtime( $ini->CacheFile ) )
+            $ini = eZINI::instance( 'transform.ini' );
+            if ( $ini->CacheFile && file_exists( $ini->CacheFile ) && $time < filemtime( $ini->CacheFile ) )
             {
                 return false;
             }
-            if ( $time >= max( EZ_CHARTRANSFORM_CODEDATE, $timestamp ) )
+            if ( $time >= max( self::CODE_DATE, $timestamp ) )
             {
                 // Execute the PHP file causing $text will be transformed
-                include( $filepath );
-                return true;
+                include "$filepath";
+                return $text;
             }
         }
         return false;
@@ -327,6 +352,8 @@ class eZCharTransform
             @fwrite( $fd, "// Cached transformation data\n" );
 
             // The code that does the transformation
+            // http://ez.no/community/bugs/char_transform_cache_file_is_not_valid_php
+            // the following line makes the cache file outputting to the browser with PHP5
             @fwrite( $fd, '$data = ' . eZCharTransform::varExport( $transformationData ) . ";\n" );
             @fwrite( $fd, "\$text = strtr( \$text, \$data['table'] );\n" );
 
@@ -335,7 +362,8 @@ class eZCharTransform
                 @fwrite( $fd, $extraCode );
             }
 
-            @fwrite( $fd, "?>" );
+            fwrite( $fd, '?' );
+            fwrite( $fd, '>' );
             @fclose( $fd );
         }
         else
@@ -362,31 +390,19 @@ class eZCharTransform
      \param $iteration The current iteration, starts at 0 and increases with 1 for each recursive call
 
     */
-    function varExport( $value )
+    static function varExport( $value )
     {
-        $ver = phpversion();
-        // If we the version used is a PHP version with broken var_export
-        // we use our own PHP code to export.
-        // PHP versions known to have broken var_export are:
-        // 4.3.4 and lower
-        // 4.3.10
-        if ( version_compare( $ver, '4.3.5' ) < 0 or
-             ( version_compare( $ver, '4.3.10' ) >= 0 and
-               version_compare( $ver, '4.3.11' ) < 0 ) )
-        {
-            return eZCharTransform::varExportInternal( $value );
-        }
-        else
-        {
-            return var_export( $value, true );
-        }
+        return var_export( $value, true );
     }
 
     /*!
      \private
      \static
+     Creates a text representation of the value \a $value which can
+     be placed in files and be read back by a PHP parser as it was.
+     Meant as a replacement for PHP versions with broken var_export.
     */
-    function varExportInternal( $value, $column = 0, $iteration = 0 )
+    static function varExportInternal( $value, $column = 0, $iteration = 0 )
     {
 
         if ( is_bool( $value ) )
@@ -494,7 +510,7 @@ class eZCharTransform
      Returns the current word separator, if none is found it will read from site.ini URLTranslator/WordSeparator
      \sa setWordSeparator
      */
-    function wordSeparator()
+    static function wordSeparator()
     {
         if ( isset( $GLOBALS['eZCharTransform_wordSeparator'] ) )
         {
@@ -502,7 +518,7 @@ class eZCharTransform
         }
         else
         {
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $separator = strtolower( $ini->variable( "URLTranslator", "WordSeparator" ) );
             switch ( $separator )
             {
@@ -531,7 +547,7 @@ class eZCharTransform
         $GLOBALS['eZCharTransform_wordSeparator'] = $char;
     }
 
-    function commandUrlCleanupCompat( $text, $charsetName )
+    static function commandUrlCleanupCompat( $text, $charsetName )
     {
         // Old style of url alias with lowercase only and underscores for separators
         $text = strtolower( $text );
@@ -543,7 +559,7 @@ class eZCharTransform
         return $text;
     }
 
-    function commandUrlCleanup( $text, $charsetName )
+    static function commandUrlCleanup( $text, $charsetName )
     {
         $sep  = eZCharTransform::wordSeparator();
         $sepQ = preg_quote( $sep );
@@ -561,7 +577,7 @@ class eZCharTransform
         return $text;
     }
 
-    function commandUrlCleanupIRI( $text, $charsetName )
+    static function commandUrlCleanupIRI( $text, $charsetName )
     {
         // With IRI support we keep all characters except some reserved ones,
         // they are space, ampersand, semi-colon, forward slash, colon, equal sign, question mark,
@@ -592,7 +608,7 @@ class eZCharTransform
     /*!
      \return The unique instance of the character transformer.
     */
-    function &instance()
+    static function instance()
     {
         $instance =& $GLOBALS['eZCharTransformInstance'];
         if ( !isset( $instance ) )

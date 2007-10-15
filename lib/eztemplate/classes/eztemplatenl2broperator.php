@@ -51,7 +51,7 @@ class eZTemplateNl2BrOperator
     /*!
      Returns the template operators.
     */
-    function &operatorList()
+    function operatorList()
     {
         return $this->Operators;
     }
@@ -75,8 +75,8 @@ class eZTemplateNl2BrOperator
                                                  'element-transformation-func' => 'nl2brTransformation') );
     }
 
-    function nl2brTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                  &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function nl2brTransformation( $operatorName, &$node, $tpl, &$resourceData,
+                                  $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $function = $operatorName;
@@ -97,7 +97,7 @@ class eZTemplateNl2BrOperator
     /*!
      Display the variable.
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
         $operatorValue = str_replace( "\n",
                                       "<br />",
@@ -105,7 +105,7 @@ class eZTemplateNl2BrOperator
     }
 
     /// The array of operators, used for registering operators
-    var $Operators;
+    public $Operators;
 }
 
 ?>

@@ -33,7 +33,7 @@
 
 */
 
-include_once( 'kernel/classes/ezpersistentobject.php' );
+//include_once( 'kernel/classes/ezpersistentobject.php' );
 
 class eZInformationCollectionAttribute extends eZPersistentObject
 {
@@ -46,7 +46,7 @@ class eZInformationCollectionAttribute extends eZPersistentObject
     /*!
      \return the persistent object definition for the eZInformationCollectionAttribute class.
     */
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -109,27 +109,27 @@ class eZInformationCollectionAttribute extends eZPersistentObject
     /*!
      \return the content for the contentclass attribute which defines this information collection attribute.
     */
-    function &classContent()
+    function classContent()
     {
         $classAttribute =& $this->contentClassAttribute();
         if ( is_object( $classAttribute ) )
-            $content =& $classAttribute->content();
-        else
-            $content = null;
-        return $content;
+        {
+            return $classAttribute->content();
+        }
+        return null;
     }
 
     /*!
      \return the content for this attribute.
     */
-    function &content()
+    function content()
     {
         if ( $this->Content === null )
         {
             $dataType = $this->dataType();
             if ( is_object( $dataType ) )
             {
-                $this->Content =& $dataType->objectAttributeContent( $this );
+                $this->Content = $dataType->objectAttributeContent( $this );
             }
         }
         return $this->Content;
@@ -140,15 +140,14 @@ class eZInformationCollectionAttribute extends eZPersistentObject
 
      It will call the hasObjectAttributeContent() for the current datatype to figure this out.
     */
-    function &hasContent()
+    function hasContent()
     {
-        $hasContent = false;
         $dataType = $this->dataType();
         if ( is_object( $dataType ) )
         {
-            $hasContent = $dataType->hasObjectAttributeContent( $this );
+            return $dataType->hasObjectAttributeContent( $this );
         }
-        return $hasContent;
+        return false;
     }
 
     /*!
@@ -156,46 +155,43 @@ class eZInformationCollectionAttribute extends eZPersistentObject
      \note The returned template name does not include the .tpl extension.
      \sa informationTemplate
     */
-    function &resultTemplateName()
+    function resultTemplateName()
     {
         $dataType = $this->dataType();
         if ( $dataType )
-            $retValue =& $dataType->resultTemplate( $this );
-        else
-            $retValue = null;
-        return $retValue;
+        {
+            return $dataType->resultTemplate( $this );
+        }
+        return null;
     }
 
     /*!
     */
-    function &contentObject()
+    function contentObject()
     {
-        $contentObject =& eZContentObject::fetch( $this->attribute( 'contentobject_id' ) );
-        return $contentObject;
+        return eZContentObject::fetch( $this->attribute( 'contentobject_id' ) );
     }
 
     /*!
     */
-    function &contentObjectAttribute()
+    function contentObjectAttribute()
     {
-        $contentObject =& $this->contentObject();
-        $contentObjectAttribute = eZContentObjectAttribute::fetch( $this->attribute( 'contentobject_attribute_id' ), $contentObject->attribute( 'current_version' ) );
-        return $contentObjectAttribute;
+        $contentObject = $this->contentObject();
+        return eZContentObjectAttribute::fetch( $this->attribute( 'contentobject_attribute_id' ), $contentObject->attribute( 'current_version' ) );
     }
 
     /*!
     */
-    function &contentClassAttribute()
+    function contentClassAttribute()
     {
-        $contentClassAttribute =& eZContentClassAttribute::fetch( $this->attribute( 'contentclass_attribute_id' ) );
-        return $contentClassAttribute;
+        return eZContentClassAttribute::fetch( $this->attribute( 'contentclass_attribute_id' ) );
     }
 
     /*!
     */
     function dataType()
     {
-        $contentClassAttribute =& $this->contentClassAttribute();
+        $contentClassAttribute = $this->contentClassAttribute();
         if ( $contentClassAttribute )
             return  $contentClassAttribute->dataType();
         return null;
@@ -203,9 +199,9 @@ class eZInformationCollectionAttribute extends eZPersistentObject
 
     /*!
     */
-    function &contentClassAttributeName()
+    function contentClassAttributeName()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $nameArray = $db->arrayQuery( "SELECT serialized_name_list FROM ezcontentclass_attribute WHERE id='$this->ContentClassAttributeID'" );
 
         return eZContentClassAttributeNameList::nameFromSerializedString( $nameArray[0]['serialized_name_list'] );
@@ -241,12 +237,12 @@ class eZInformationCollectionAttribute extends eZPersistentObject
     */
     function cleanup()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->query( "DELETE FROM ezinfocollection_attribute" );
     }
 
     // Contains the content for this attribute
-    var $Content;
+    public $Content;
 }
 
 ?>

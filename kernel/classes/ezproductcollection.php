@@ -35,8 +35,8 @@
 
 */
 
-include_once( "kernel/classes/ezpersistentobject.php" );
-include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "lib/ezdb/classes/ezdb.php" );
 
 class eZProductCollection extends eZPersistentObject
 {
@@ -45,7 +45,7 @@ class eZProductCollection extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -68,7 +68,7 @@ class eZProductCollection extends eZPersistentObject
     /*!
      Creates a new empty collection and returns it.
     */
-    function create( )
+    static function create( )
     {
         $row = array( "created" => time() );
         return new eZProductCollection( $row );
@@ -77,11 +77,9 @@ class eZProductCollection extends eZPersistentObject
     /*!
      Clones the collection object and returns it. The ID of the clone is erased.
     */
-    function clone()
+    function __clone()
     {
-        $collection = $this;
-        $collection->setAttribute( 'id', null );
-        return $collection;
+        $this->setAttribute( 'id', null );
     }
 
     /*!
@@ -91,19 +89,18 @@ class eZProductCollection extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function &copy()
+    function copy()
     {
-        $collection = $this->clone();
+        $collection = clone $this;
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $collection->store();
 
-        $oldItems =& $this->itemList();
-        foreach ( array_keys( $oldItems ) as $oldItemKey )
+        $oldItems = $this->itemList();
+        foreach ( $oldItems as $oldItem )
         {
-            $oldItem =& $oldItems[$oldItemKey];
-            $item =& $oldItem->copy( $collection->attribute( 'id' ) );
+            $item = $oldItem->copy( $collection->attribute( 'id' ) );
         }
         $db->commit();
         return $collection;
@@ -112,7 +109,7 @@ class eZProductCollection extends eZPersistentObject
     /*!
      \return the product collection with ID \a $productCollectionID.
     */
-    function fetch( $productCollectionID, $asObject = true )
+    static function fetch( $productCollectionID, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZProductCollection::definition(),
                                                 null,
@@ -123,24 +120,23 @@ class eZProductCollection extends eZPersistentObject
     /*!
      \return all production collection items as an array.
     */
-    function &itemList( $asObject = true )
+    function itemList( $asObject = true )
     {
-        $productItems = eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
-                                                              null, array( "productcollection_id" => $this->ID ),
-                                                              null,
-                                                              null,
-                                                              $asObject );
-        return $productItems;
+        return eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
+                                                    null, array( "productcollection_id" => $this->ID ),
+                                                    null,
+                                                    null,
+                                                    $asObject );
     }
 
-    function &verify( $id )
+    static function verify( $id )
     {
         $invalidItemArray = array();
         $collection = eZProductCollection::fetch( $id );
         if ( !is_object( $collection ) )
              return $invalidItemArray;
 
-        $currency =& $collection->attribute( 'currency_code' );
+        $currency = $collection->attribute( 'currency_code' );
         $productItemList = eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
                                                                  null, array( "productcollection_id" => $id ),
                                                                  null,
@@ -148,14 +144,11 @@ class eZProductCollection extends eZPersistentObject
                                                                  true );
         $isValid = true;
 
-        foreach ( array_keys( $productItemList ) as $key )
+        foreach ( $productItemList as $productItem )
         {
-            $productItem =& $productItemList[$key];
-
             if ( !$productItem->verify( $currency ) )
             {
-                $invalidItemArray[] =& $productItem;
-                //  eZDebug::writeDebug( $productItem , "invalid item" );
+                $invalidItemArray[] = $productItem;
                 $isValid = false;
             }
         }
@@ -170,9 +163,9 @@ class eZProductCollection extends eZPersistentObject
      \static
      \return a count of the number of product collections that exists.
     */
-    function count()
+    static function count()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $rows = $db->arrayQuery( "SELECT count( id ) as count FROM ezproductcollection_item" );
         return $rows[0]['count'];
     }
@@ -184,9 +177,9 @@ class eZProductCollection extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function cleanupList( $productCollectionIDList )
+    static function cleanupList( $productCollectionIDList )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
         // Purge shipping information associated with product collections being removed.
@@ -194,7 +187,7 @@ class eZProductCollection extends eZPersistentObject
         foreach ( $productCollectionIDList as $productCollectionID )
             eZShippingManager::purgeShippingInfo( $productCollectionID );
 
-        include_once( 'kernel/classes/ezproductcollectionitem.php' );
+        //include_once( 'kernel/classes/ezproductcollectionitem.php' );
         eZProductCollectionItem::cleanupList( $productCollectionIDList );
         $idText = $db->implodeWithTypeCast( ', ', $productCollectionIDList, 'int' );
         $db->query( "DELETE FROM ezproductcollection WHERE id IN ( $idText )" );

@@ -36,18 +36,18 @@
   \brief Handles calculation using bcmath library.
 */
 
-include_once( 'lib/ezmath/classes/mathhandlers/ezphpmath.php' );
-
-define( 'EZ_BCMATH_DEFAULT_SCALE', 10 );
+//include_once( 'lib/ezmath/classes/mathhandlers/ezphpmath.php' );
 
 class eZBCMath extends eZPHPMath
 {
+    const DEFAULT_SCALE = 10;
+
     function eZBCMath( $params = array () )
     {
         if( isset( $params['scale'] ) && is_numeric( $params['scale'] ) )
             $this->setScale( $params['scale'] );
         else
-            $this->setScale( EZ_BCMATH_DEFAULT_SCALE );
+            $this->setScale( self::DEFAULT_SCALE );
     }
 
     function scale()
@@ -126,7 +126,7 @@ class eZBCMath extends eZPHPMath
 
 
     /// \privatesection
-    var $Scale;
+    public $Scale;
 };
 
 ?>

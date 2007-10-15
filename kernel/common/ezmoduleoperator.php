@@ -37,7 +37,7 @@
   \brief The class eZModuleOperator does
 
 */
-include_once( 'kernel/common/i18n.php' );
+require_once( 'kernel/common/i18n.php' );
 
 class eZModuleOperator
 {
@@ -52,7 +52,7 @@ class eZModuleOperator
     /*!
      Returns the operators in this class.
     */
-    function &operatorList()
+    function operatorList()
     {
         return $this->Operators;
     }
@@ -69,7 +69,7 @@ class eZModuleOperator
     /*!
      \reimp
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
         $uri = new eZURI( $namedParameters[ 'uri' ] );
         $check = accessAllowed( $uri );

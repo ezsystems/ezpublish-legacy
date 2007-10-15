@@ -27,17 +27,19 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ Publish Translation Checker\n\n" .
-                                                         "Will display some statistics on a given translation" .
-                                                         "\n" .
-                                                         "ezchecktranslation.php ita-IT" ),
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+require 'autoload.php';
+
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'description' => ( "eZ Publish Translation Checker\n\n" .
+                                                        "Will display some statistics on a given translation" .
+                                                        "\n" .
+                                                        "ezchecktranslation.php ita-IT" ),
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 
@@ -66,84 +68,76 @@ $fd = fopen( $translationFile, "rb" );
 $transXML = fread( $fd, filesize( $translationFile ) );
 fclose( $fd );
 
-include_once( "lib/ezxml/classes/ezxml.php" );
-$xml = new eZXML();
 
 $cli->output( " parsing", false );
-$tree =& $xml->domTree( $transXML );
+
+$tree = new DOMDOcument();
+$success = $tree->loadXML( $transXML );
 
 $cli->output( " validating", false );
-include_once( 'lib/ezi18n/classes/eztstranslator.php' );
+//include_once( 'lib/ezi18n/classes/eztstranslator.php' );
 if ( !eZTSTranslator::validateDOMTree( $tree ) )
     $script->shutdown( 1, "XML text for file $translationFile did not validate" );
 
 
-function handleContextNode( $context, &$cli, &$data )
+function handleContextNode( $context, $cli, $data )
 {
     $contextName = null;
     $messages = array();
-    $context_children = $context->children();
-    foreach( $context_children as $context_child )
+    $context_children = $context->childNodes;
+    foreach ( $context_children as $context_child )
     {
-        if ( $context_child->type() == 1 )
+        if ( $context_child->nodeType == XML_ELEMENT_NODE )
         {
-            if ( $context_child->name() == "name" )
+            if ( $context_child->localName == "name" )
             {
                 $data['context_count']++;
-                $name_el = $context_child->children();
-                if ( count( $name_el ) > 0 )
-                {
-                    $name_el = $name_el[0];
-                    $contextName = $name_el->content();
-                }
+                $contextName = $context_child->textContent;
             }
-            else if ( $context_child->name() == "message" )
+            else if ( $context_child->localName == "message" )
             {
                 $messages[] = $context_child;
             }
             else
-                $cli->warning( "Unknown element name: " . $context_child->name() );
+            {
+                $cli->warning( "Unknown element name: " . $context_child->localName );
+            }
         }
-        else
-            $cli->warning( "Unknown DOMnode type: " . $context_child->type() );
     }
     if ( $contextName === null )
     {
         $cli->warning( "No context name found, skipping context" );
-        return false;
     }
-
-    if ( !in_array( $contextName, $data['ignored_context_list'] ) )
+    else if ( !in_array( $contextName, $data['ignored_context_list'] ) )
     {
         foreach( $messages as $message )
         {
             $data['element_count']++;
-            handleMessageNode( $contextName, $message, $cli, $data, true );
+            $data = handleMessageNode( $contextName, $message, $cli, $data, true );
         }
     }
-    return true;
+
+    return $data;
 }
 
-function handleMessageNode( $contextName, &$message, &$cli, &$data, $requireTranslation )
+function handleMessageNode( $contextName, $message, $cli, $data, $requireTranslation )
 {
     $source = null;
     $translation = null;
     $comment = null;
-    $message_children =& $message->children();
+    $message_children = $message->childNodes;
     foreach( $message_children as $message_child )
     {
-        if ( $message_child->type() == 1 )
+        if ( $message_child->nodeType == XML_ELEMENT_NODE )
         {
-            if ( $message_child->name() == "source" )
+            if ( $message_child->localName == "source" )
             {
-                $source_el = $message_child->children();
-                $source_el = $source_el[0];
-                $source = $source_el->content();
+                $source = $message_child->textContent;
             }
-            else if ( $message_child->name() == "translation" )
+            else if ( $message_child->localName == "translation" )
             {
-                $translation_el = $message_child->children();
-                $type = $message_child->attributeValue( 'type' );
+                $translation_el = $message_child->childNodes;
+                $type = $message_child->getAttribute( 'type' );
                 if ( $type == 'unfinished' )
                 {
                     $data['untranslated_element_count']++;
@@ -156,34 +150,28 @@ function handleMessageNode( $contextName, &$message, &$cli, &$data, $requireTran
                 {
                     $data['translated_element_count']++;
                 }
-                if ( count( $translation_el ) > 0 )
+                if ( $translation_el->length > 0 )
                 {
-                    $translation_el = $translation_el[0];
-                    $translation = $translation_el->content();
+                    $translation_el = $translation_el->item( 0 );
+                    $translation = $translation_el->textContent;
                 }
             }
-            else if ( $message_child->name() == "comment" )
+            else if ( $message_child->localName == "comment" )
             {
-                $comment_el = $message_child->children();
-                $comment_el = $comment_el[0];
-                $comment = $comment_el->content();
+                $comment = $message_child->textContent;
             }
             else
-                $cli->warning( "Unknown element name: " . $message_child->name() );
+            {
+                $cli->warning( "Unknown element name: " . $message_child->localName );
+            }
         }
-        else
-            $cli->warning( "Unknown DOMnode type: " . $message_child->type() );
     }
     if ( $source === null )
     {
         $cli->warning( "No source name found, skipping message" );
-        return false;
     }
-    if ( $translation === null )
-    {
-        return false;
-    }
-    return true;
+
+    return $data;
 }
 
 $data = array( 'element_count' => 0,
@@ -205,21 +193,21 @@ if ( $options['ignore-tr-setup'] )
                                                         'design/standard/setup/tests' ) );
 }
 
-$treeRoot =& $tree->get_root();
-$children = $treeRoot->children();
+$treeRoot = $tree->documentElement;
+$children = $treeRoot->childNodes;
 foreach( $children as $child )
 {
-    if ( $child->type() == 1 )
+    if ( $child->nodeType == XML_ELEMENT_NODE )
     {
-        if ( $child->name() == "context" )
+        if ( $child->localName == "context" )
         {
-            handleContextNode( $child, $cli, $data );
+            $data = handleContextNode( $child, $cli, $data );
         }
         else
-            $cli->warning( "Unknown element name: " . $child->name() );
+        {
+            $cli->warning( "Unknown element name: " . $child->localName );
+        }
     }
-    else
-        $cli->warning( "Unknown DOMnode type: " . $child->type() );
 }
 
 $cli->output();

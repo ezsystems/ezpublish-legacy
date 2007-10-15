@@ -30,13 +30,13 @@
 
 /*! \file ezstep_create_sites.php
 */
-include_once( 'kernel/setup/steps/ezstep_installer.php');
-include_once( "kernel/common/i18n.php" );
-include_once( 'lib/ezdb/classes/ezdb.php' );
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/ezpolicy.php' );
-include_once( 'lib/ezutils/classes/ezini.php' );
-include_once( 'lib/ezlocale/classes/ezlocale.php' );
+//include_once( 'kernel/setup/steps/ezstep_installer.php');
+require_once( "kernel/common/i18n.php" );
+//include_once( 'lib/ezdb/classes/ezdb.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'kernel/classes/ezpolicy.php' );
+//include_once( 'lib/ezutils/classes/ezini.php' );
+//include_once( 'lib/ezlocale/classes/ezlocale.php' );
 
 /*!
   Error codes:
@@ -79,7 +79,7 @@ class eZStepCreateSites extends eZStepInstaller
     /*!
      Constructor
     */
-    function eZStepCreateSites( &$tpl, &$http, &$ini, &$persistenceList )
+    function eZStepCreateSites( $tpl, $http, $ini, &$persistenceList )
     {
         $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
                                 'create_sites', 'Create sites' );
@@ -103,15 +103,15 @@ class eZStepCreateSites extends eZStepInstaller
         set_time_limit( 10*60 );
         $saveData = true; // set to true to save data
 
-        //$ini =& eZINI::create();
+        //$ini = eZINI::create();
 
-        include_once( 'kernel/classes/ezpackage.php' );
+        //include_once( 'kernel/classes/ezpackage.php' );
         $accessMap = array( 'url' => array(),
                             'hostname' => array(),
                             'port' => array(),
                             'accesses' => array() );
 
-        include_once( 'lib/ezlocale/classes/ezlocale.php' );
+        //include_once( 'lib/ezlocale/classes/ezlocale.php' );
         $primaryLanguage     = null;
         $allLanguages        = array();
         $allLanguageCodes    = array();
@@ -171,7 +171,7 @@ class eZStepCreateSites extends eZStepInstaller
         }
         else
         {
-            $i18nINI =& eZINI::create( 'i18n.ini' );
+            $i18nINI = eZINI::create( 'i18n.ini' );
             // Set ReadOnlySettingsCheck to false: towards
             // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
             $i18nINI->setReadOnlySettingsCheck( false );
@@ -224,11 +224,11 @@ class eZStepCreateSites extends eZStepInstaller
                     if ( file_exists( 'settings/override/' . $iniName . '.append' ) ||
                          file_exists( 'settings/override/' . $iniName . '.append.php' ) )
                     {
-                        $tmpINI =& eZINI::instance( $iniName, 'settings/override', null, null, false, true );
+                        $tmpINI = eZINI::instance( $iniName, 'settings/override', null, null, false, true );
                     }
                     else
                     {
-                        $tmpINI =& eZINI::create( $iniName );
+                        $tmpINI = eZINI::create( $iniName );
                     }
                     // Set ReadOnlySettingsCheck to false: towards
                     // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
@@ -244,7 +244,7 @@ class eZStepCreateSites extends eZStepInstaller
             return false;
         }
 
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         // Set ReadOnlySettingsCheck to false: towards
         // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
         $ini->setReadOnlySettingsCheck( false );
@@ -252,7 +252,7 @@ class eZStepCreateSites extends eZStepInstaller
         $regionalInfo = $this->PersistenceList['regional_info'];
         $emailInfo = $this->PersistenceList['email_info'];
 
-        $imageINI =& eZINI::create( 'image.ini' );
+        $imageINI = eZINI::create( 'image.ini' );
         // Set ReadOnlySettingsCheck to false: towards
         // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
         $imageINI->setReadOnlySettingsCheck( false );
@@ -275,7 +275,7 @@ class eZStepCreateSites extends eZStepInstaller
         if ( $saveResult and
              $charset !== false )
         {
-            /*$i18nINI =& eZINI::create( 'i18n.ini' );
+            /*$i18nINI = eZINI::create( 'i18n.ini' );
             // Set ReadOnlySettingsCheck to false: towards
             // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
             $i18nINI->setReadOnlySettingsCheck( false );
@@ -361,7 +361,7 @@ class eZStepCreateSites extends eZStepInstaller
     /*!
      \reimp
     */
-    function &display()
+    function display()
     {
         $errors = array();
         if ( is_array( $this->Error ) )
@@ -380,7 +380,7 @@ class eZStepCreateSites extends eZStepInstaller
         return $result;
     }
 
-    function initializePackage( // &$package,
+    function initializePackage( // $package,
                                 $siteType,
                                 &$accessMap, $charset,
                                 &$extraLanguageCodes, &$allLanguages, &$primaryLanguage,
@@ -450,7 +450,7 @@ class eZStepCreateSites extends eZStepInstaller
                                'socket' => $dbSocket,
                                'database' => $dbName,
                                'charset' => $dbCharset );
-        $db =& eZDB::instance( $dbDriver, $dbParameters, true );
+        $db = eZDB::instance( $dbDriver, $dbParameters, true );
         if ( !$db->isConnected() )
         {
             $resultArray['errors'][] = array( 'code' => 'EZSW-005',
@@ -468,17 +468,17 @@ class eZStepCreateSites extends eZStepInstaller
         {
             $siteType['existing_database'] = false;
         }
-        if ( $siteType['existing_database'] == EZ_SETUP_DB_DATA_REMOVE )
+        if ( $siteType['existing_database'] == eZStepInstaller::DB_DATA_REMOVE )
         {
-            include_once( 'lib/ezdb/classes/ezdbtool.php' );
+            //include_once( 'lib/ezdb/classes/ezdbtool.php' );
             eZDBTool::cleanup( $db );
         }
 
-        if ( $siteType['existing_database'] != EZ_SETUP_DB_DATA_KEEP )
+        if ( $siteType['existing_database'] != eZStepInstaller::DB_DATA_KEEP )
         {
-            include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
+            //include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
             $result = true;
-            $schemaArray = eZDBSchema::read( 'share/db_schema.dba', true );
+            $schemaArray = eZDbSchema::read( 'share/db_schema.dba', true );
             if ( !$schemaArray )
             {
                 $resultArray['errors'][] = array( 'code' => 'EZSW-001',
@@ -489,7 +489,7 @@ class eZStepCreateSites extends eZStepInstaller
             if ( $result )
             {
                 $result = true;
-                $dataArray = eZDBSchema::read( 'share/db_data.dba', true );
+                $dataArray = eZDbSchema::read( 'share/db_data.dba', true );
                 if ( !$dataArray )
                 {
                     $resultArray['errors'][] = array( 'code' => 'EZSW-002',
@@ -501,9 +501,9 @@ class eZStepCreateSites extends eZStepInstaller
                 {
                     $schemaArray = array_merge( $schemaArray, $dataArray );
                     $schemaArray['type'] = strtolower( $db->databaseName() );
-                    $schemaArray['instance'] =& $db;
+                    $schemaArray['instance'] = $db;
                     $result = true;
-                    $dbSchema = eZDBSchema::instance( $schemaArray );
+                    $dbSchema = eZDbSchema::instance( $schemaArray );
                     if ( !$dbSchema )
                     {
                         $resultArray['errors'][] = array( 'code' => 'EZSW-003',
@@ -541,9 +541,9 @@ class eZStepCreateSites extends eZStepInstaller
             if ( $result )
             {
                 // Inserting data from the dba-data files of the datatypes
-                include_once( 'kernel/classes/ezdatatype.php' );
+                //include_once( 'kernel/classes/ezdatatype.php' );
                 eZDataType::loadAndRegisterAllTypes();
-                $registeredDataTypes =& eZDataType::registeredDataTypes();
+                $registeredDataTypes = eZDataType::registeredDataTypes();
                 foreach ( $registeredDataTypes as $dataType )
                 {
                     if ( !$dataType->importDBDataFromDBAFile() )
@@ -615,7 +615,7 @@ class eZStepCreateSites extends eZStepInstaller
         $installParameters['variables']['admin_siteaccess'] = $adminSiteaccessName;
         $installParameters['variables']['design'] = $userDesignName;
 
-        $tmpSiteINI =& eZINI::create( 'site.ini' );
+        $tmpSiteINI = eZINI::create( 'site.ini' );
         // Set ReadOnlySettingsCheck to false: towards
         // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
         $tmpSiteINI->setReadOnlySettingsCheck( false );
@@ -659,7 +659,10 @@ class eZStepCreateSites extends eZStepInstaller
         $settingsFiles = $sitePackage->attribute( 'settings-files' );
         foreach( $settingsFiles as $settingsFileName )
         {
-            include_once( $sitePackage->path() . '/settings/' . $settingsFileName );
+            if ( file_exists( $sitePackage->path() . '/settings/' . $settingsFileName ) )
+            {
+                include_once( $sitePackage->path() . '/settings/' . $settingsFileName );
+            }
         }
 
         // Call user function for additional setup tasks.
@@ -667,7 +670,7 @@ class eZStepCreateSites extends eZStepInstaller
             eZSitePreInstall();
 
 
-        include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+        //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 
         // Make sure objects use the selected main language instead of eng-GB
         if ( $primaryLanguageLocaleCode != 'eng-GB' )
@@ -797,7 +800,7 @@ language_locale='eng-GB'";
             $contentClassList = eZContentClass::fetchList();
             foreach( $contentClassList as $contentClass )
             {
-                $classAttributes =& $contentClass->fetchAttributes();
+                $classAttributes = $contentClass->fetchAttributes();
                 foreach( $classAttributes as $classAttribute )
                 {
                     $classAttribute->NameList->setName( $classAttribute->NameList->name( 'eng-GB' ), $primaryLanguageLocaleCode );
@@ -828,7 +831,7 @@ language_locale='eng-GB'";
         // Make sure priority list is changed to the new chosen languages
         eZContentLanguage::setPrioritizedLanguages( $prioritizedLanguages );
 
-        if ( $siteType['existing_database'] != EZ_SETUP_DB_DATA_KEEP )
+        if ( $siteType['existing_database'] != eZStepInstaller::DB_DATA_KEEP )
         {
             $user = eZUser::instance( 14 );  // Must be initialized to make node assignments work correctly
             if ( !is_object( $user ) )
@@ -955,9 +958,8 @@ language_locale='eng-GB'";
             if ( $package->attribute( 'type' ) == 'sitestyle' )
             {
                 $fileList = $package->fileList( 'default' );
-                foreach ( array_keys( $fileList ) as $key )
+                foreach ( $fileList as $file )
                 {
-                    $file =& $fileList[$key];
                     $fileIdentifier = $file["variable-name"];
                     if ( $fileIdentifier == 'sitecssfile' )
                     {
@@ -1094,7 +1096,7 @@ language_locale='eng-GB'";
             if ( isset( $extraSetting['reset_arrays'] ) )
                 $resetArray = $extraSetting['reset_arrays'];
 
-            $tmpINI =& eZINI::create( $iniName );
+            $tmpINI = eZINI::create( $iniName );
             // Set ReadOnlySettingsCheck to false: towards
             // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
             $tmpINI->setReadOnlySettingsCheck( false );
@@ -1117,17 +1119,17 @@ language_locale='eng-GB'";
             }
             $tmpINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName", $resetArray );
 
-            if ( $siteType['existing_database'] != EZ_SETUP_DB_DATA_KEEP )
+            if ( $siteType['existing_database'] != eZStepInstaller::DB_DATA_KEEP )
             {
                 // setting up appropriate data in look&feel object
                 $templateLookClass = eZContentClass::fetchByIdentifier( 'template_look', true );
                 if ( $templateLookClass )
                 {
-                    $objectList =& $templateLookClass->objectList();
+                    $objectList = $templateLookClass->objectList();
                     if ( $objectList and count( $objectList ) > 0 )
                     {
                         $templateLookObject = current( $objectList );
-                        $dataMap =& $templateLookObject->fetchDataMap();
+                        $dataMap = $templateLookObject->fetchDataMap();
                         $dataMap[ 'title' ]->setAttribute( 'data_text', $siteINIChanges['SiteSettings']['SiteName'] );
                         $dataMap[ 'title' ]->store();
                         $dataMap[ 'siteurl' ]->setAttribute( 'data_text', $siteINIChanges['SiteSettings']['SiteURL'] );
@@ -1153,7 +1155,7 @@ language_locale='eng-GB'";
             if ( isset( $extraSetting['reset_arrays'] ) )
                 $resetArray = $extraSetting['reset_arrays'];
 
-            $tmpINI =& eZINI::create( $iniName );
+            $tmpINI = eZINI::create( $iniName );
 
             $tmpINI->setVariables( $settings );
             if ( $iniName == 'site.ini' )
@@ -1169,7 +1171,7 @@ language_locale='eng-GB'";
 
         if ( !$siteINIAdminStored )
         {
-            $siteINI =& eZINI::create( 'site.ini' );
+            $siteINI = eZINI::create( 'site.ini' );
             // Set ReadOnlySettingsCheck to false: towards
             // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
             $siteINI->setReadOnlySettingsCheck( false );
@@ -1182,7 +1184,7 @@ language_locale='eng-GB'";
         }
         if ( !$siteINIStored )
         {
-            $siteINI =& eZINI::create( 'site.ini' );
+            $siteINI = eZINI::create( 'site.ini' );
             // Set ReadOnlySettingsCheck to false: towards
             // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
             $siteINI->setReadOnlySettingsCheck( false );
@@ -1194,7 +1196,7 @@ language_locale='eng-GB'";
         }
         if ( !$designINIStored )
         {
-            $designINI =& eZINI::create( 'design.ini' );
+            $designINI = eZINI::create( 'design.ini' );
             // Set ReadOnlySettingsCheck to false: towards
             // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
             $designINI->setReadOnlySettingsCheck( false );
@@ -1213,23 +1215,23 @@ language_locale='eng-GB'";
         eZDir::mkdir( "design/" . $userDesignName . "/override" );
         eZDir::mkdir( "design/" . $userDesignName . "/override/templates" );
 
-        if ( $siteType['existing_database'] == EZ_SETUP_DB_DATA_KEEP )
+        if ( $siteType['existing_database'] == eZStepInstaller::DB_DATA_KEEP )
         {
             return true;
         }
 
-        include_once( 'kernel/classes/ezrole.php' );
+        //include_once( 'kernel/classes/ezrole.php' );
         // Try and remove user/login without limitation from the anonymous user
         $anonRole = eZRole::fetchByName( 'Anonymous' );
         if ( is_object( $anonRole ) )
         {
-            $anonPolicies =& $anonRole->policyList();
+            $anonPolicies = $anonRole->policyList();
             foreach ( $anonPolicies as $anonPolicy )
             {
                 if ( $anonPolicy->attribute( 'module_name' ) == 'user' and
                      $anonPolicy->attribute( 'function_name' ) == 'login' )
                 {
-                    $anonPolicy->remove();
+                    $anonPolicy->removeThis();
                     break;
                 }
             }
@@ -1288,7 +1290,7 @@ language_locale='eng-GB'";
         }
 
         // Setup user preferences based on the site chosen and addons
-        include_once( 'kernel/classes/ezpreferences.php' );
+        //include_once( 'kernel/classes/ezpreferences.php' );
 
         if ( function_exists( 'eZSitePreferences' ) )
         {
@@ -1313,7 +1315,7 @@ language_locale='eng-GB'";
         }
 
         $publishAdmin = false;
-        include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+        //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
         $userAccount = eZUser::fetch( 14 );
         if ( !is_object( $userAccount ) )
         {
@@ -1322,7 +1324,7 @@ language_locale='eng-GB'";
             return false;
         }
 
-        $userObject =& $userAccount->attribute( 'contentobject' );
+        $userObject = $userAccount->attribute( 'contentobject' );
         if ( !is_object( $userObject ) )
         {
             $resultArray['errors'][] = array( 'code' => 'EZSW-021',
@@ -1344,7 +1346,7 @@ language_locale='eng-GB'";
                                                   'text' => "Could not create new version of administrator content object" );
                 return false;
             }
-            $dataMap =& $newUserObject->attribute( 'data_map' );
+            $dataMap = $newUserObject->attribute( 'data_map' );
             $error = false;
             if ( !isset( $dataMap['first_name'] ) )
             {
@@ -1373,10 +1375,10 @@ language_locale='eng-GB'";
 
         if ( $publishAdmin )
         {
-            include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+            //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
             $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $newUserObject->attribute( 'contentobject_id' ),
                                                                                          'version' => $newUserObject->attribute( 'version' ) ) );
-            if ( $operationResult['status'] != EZ_MODULE_OPERATION_CONTINUE )
+            if ( $operationResult['status'] != eZModuleOperationInfo::STATUS_CONTINUE )
             {
                 $resultArray['errors'][] = array( 'code' => 'EZSW-025',
                                                   'text' => "Failed to properly publish the administrator object" );
@@ -1390,13 +1392,13 @@ language_locale='eng-GB'";
 
 
         // get all siteaccesses. do it via 'RelatedSiteAccessesList' settings.
-        $adminSiteINI =& eZINI::instance( 'site.ini' . '.append.php', "settings/siteaccess/$adminSiteaccessName" );
+        $adminSiteINI = eZINI::instance( 'site.ini' . '.append.php', "settings/siteaccess/$adminSiteaccessName" );
         $relatedSiteAccessList = $adminSiteINI->variable( 'SiteAccessSettings', 'RelatedSiteAccessList' );
 
         // Adding override for 'tiny_image' view for 'multi-option2' datatype
         foreach ( $relatedSiteAccessList as $siteAccess )
         {
-            $tmpOverrideINI =& eZINI::instance( 'override.ini' . '.append.php', "settings/siteaccess/$siteAccess", null, null, null, true, true );
+            $tmpOverrideINI = eZINI::instance( 'override.ini' . '.append.php', "settings/siteaccess/$siteAccess", null, null, null, true, true );
 
             $tmpOverrideINI->setVariable( 'tiny_image', 'Source'    , 'content/view/tiny.tpl' );
             $tmpOverrideINI->setVariable( 'tiny_image', 'MatchFile' , 'tiny_image.tpl' );

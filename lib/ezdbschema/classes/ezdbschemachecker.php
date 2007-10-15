@@ -27,8 +27,8 @@
 //
 
 /*!
-  \class eZDBSchemaChecker ezdbschemachecker.php
-  \ingroup eZDBSchema
+  \class eZDbSchemaChecker ezdbschemachecker.php
+  \ingroup eZDbSchema
   \brief Checks differences between schemas
 
 */
@@ -49,7 +49,7 @@ class eZDbSchemaChecker
                - removed_indexes - A list of removed indexes in the table
                - changed_indexes - A list of indexes that have changed definition
     */
-    function diff( $schema1, $schema2 = array(), $schema1Type = false, $schema2Type = false )
+    static function diff( $schema1, $schema2 = array(), $schema1Type = false, $schema2Type = false )
     {
         if ( !is_array( $schema1 ) )
         {
@@ -111,7 +111,7 @@ class eZDbSchemaChecker
              - removed_indexes - A list of removed indexes in the table
              - changed_indexes - A list of indexes that have changed definition
     */
-    function diffTable( $table1, $table2, $schema1Type, $schema2Type )
+    static function diffTable( $table1, $table2, $schema1Type, $schema2Type )
     {
         $table_diff = array();
 
@@ -196,7 +196,7 @@ class eZDbSchemaChecker
 
      \return The field definition of the changed field or \c false if there are no changes.
     */
-    function diffField( $field1, $field2, $schema1Type, $schema2Type )
+    static function diffField( $field1, $field2, $schema1Type, $schema2Type )
     {
         /* Type is always available */
         if ( $field1['type'] != $field2['type'] )
@@ -239,7 +239,7 @@ class eZDbSchemaChecker
 
      \return The index definition of the changed index or \c false if there are no changes.
     */
-    function diffIndex( $index1, $index2, $schema1Type, $schema2Type )
+    static function diffIndex( $index1, $index2, $schema1Type, $schema2Type )
     {
         if ( ( $index1['type'] != $index2['type'] ) ||
              count( array_diff( $index1, $index2 ) ) )

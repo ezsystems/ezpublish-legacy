@@ -38,13 +38,13 @@
 require_once( 'kernel/classes/ezdatatype.php' );
 require_once( 'kernel/classes/ezproductcategory.php' );
 
-define( "EZ_DATATYPESTRING_PRODUCTCATEGORY", "ezproductcategory" );
-
 class eZProductCategoryType extends eZDataType
 {
+    const DATA_TYPE_STRING = "ezproductcategory";
+
     function eZProductCategoryType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_PRODUCTCATEGORY, ezi18n( 'kernel/classes/datatypes', "Product category", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Product category", 'Datatype name' ),
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( 'data_int' => 'value' ) ) );
     }
@@ -52,7 +52,7 @@ class eZProductCategoryType extends eZDataType
    /*!
      Sets the default value.
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
@@ -69,28 +69,28 @@ class eZProductCategoryType extends eZDataType
     /*!
       Validates the http post var.
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( !$contentObjectAttribute->validateIsRequired() )
-            return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            return eZInputValidator::STATE_ACCEPTED;
 
         if ( $http->hasPostVariable( $base . "_category_id_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
             $data = $http->postVariable( $base . "_category_id_" . $contentObjectAttribute->attribute( "id" ) );
 
             if ( is_numeric( $data ) )
-                return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                return eZInputValidator::STATE_ACCEPTED;
         }
 
         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                              'Input required.' ) );
-        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+        return eZInputValidator::STATE_INVALID;
     }
 
     /*!
      Fetches the http post var and stores it in the data instance.
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . "_category_id_" . $contentObjectAttribute->attribute( "id" ) ))
         {
@@ -111,7 +111,7 @@ class eZProductCategoryType extends eZDataType
     \reimp
     Fetches the http post variable for collected information
    */
-    function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$contentObjectAttribute )
+    function fetchCollectionAttributeHTTPInput( $collection, $collectionAttribute, $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . "_category_id_" . $contentObjectAttribute->attribute( "id" ) ))
         {
@@ -128,7 +128,7 @@ class eZProductCategoryType extends eZDataType
         return true;
     }
 
-    function metaData( &$contentObjectAttribute )
+    function metaData( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( "data_int" );
     }
@@ -152,7 +152,7 @@ class eZProductCategoryType extends eZDataType
     /*!
      \reimp
     */
-    function sortKey( &$contentObjectAttribute )
+    function sortKey( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( 'data_int' );
     }
@@ -168,7 +168,7 @@ class eZProductCategoryType extends eZDataType
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         require_once( 'kernel/classes/ezproductcategory.php' );
         $category = eZProductCategory::fetch( $contentObjectAttribute->attribute( 'data_int' ) );
@@ -178,7 +178,7 @@ class eZProductCategoryType extends eZDataType
     /*!
      \reimp
      */
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         $productCategory = $this->objectAttributeContent( $contentObjectAttribute );
         return is_object( $productCategory );
@@ -195,7 +195,7 @@ class eZProductCategoryType extends eZDataType
     }
 
 
-    function fromString( &$contentObjectAttribute, $string )
+    function fromString( $contentObjectAttribute, $string )
     {
         if ( $string == '' )
             return true;
@@ -226,7 +226,7 @@ class eZProductCategoryType extends eZDataType
     /*!
      Returns the integer value.
     */
-    function title( &$contentObjectAttribute )
+    function title( $contentObjectAttribute, $name = null )
     {
         $categoryID = $contentObjectAttribute->attribute( "data_int" );
         $category = $categoryID > 0 ? eZProductCategory::fetch( $categoryID ) : false;
@@ -242,6 +242,6 @@ class eZProductCategoryType extends eZDataType
     }
 }
 
-eZDataType::register( EZ_DATATYPESTRING_PRODUCTCATEGORY, "ezproductcategorytype" );
+eZDataType::register( eZProductCategoryType::DATA_TYPE_STRING, "eZProductCategoryType" );
 
 ?>

@@ -26,14 +26,14 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezorder.php' );
-include_once( 'kernel/classes/ezorderstatus.php' );
-include_once( 'kernel/classes/ezpreferences.php' );
+require_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezorder.php' );
+//include_once( 'kernel/classes/ezorderstatus.php' );
+//include_once( 'kernel/classes/ezpreferences.php' );
 
-$module =& $Params['Module'];
+$module = $Params['Module'];
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $offset = $Params['Offset'];
 $limit = 15;
@@ -59,7 +59,7 @@ if ( !isset( $sortOrder ) || ( ( $sortOrder != 'asc' ) && ( $sortOrder!= 'desc' 
     $sortOrder = 'asc';
 }
 
-$http =& eZHttpTool::instance();
+$http = eZHTTPTool::instance();
 
 // The RemoveButton is not present in the orderlist, but is here for backwards
 // compatibility. Simply replace the ArchiveButton for the RemoveButton will
@@ -110,7 +110,7 @@ if ( $http->hasPostVariable( 'SaveOrderStatusButton' ) )
     }
 }
 
-$orderArray =& eZOrder::active( true, $offset, $limit, $sortField, $sortOrder );
+$orderArray = eZOrder::active( true, $offset, $limit, $sortField, $sortOrder );
 $orderCount = eZOrder::activeCount();
 
 $tpl->setVariable( 'order_list', $orderArray );
@@ -122,12 +122,9 @@ $tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( 'sort_field', $sortField );
 $tpl->setVariable( 'sort_order', $sortOrder );
 
-$path = array();
-$path[] = array( 'text' => ezi18n( 'kernel/shop', 'Order list' ),
-                 'url' => false );
-
 $Result = array();
-$Result['path'] =& $path;
+$Result['path'] = array( array( 'text' => ezi18n( 'kernel/shop', 'Order list' ),
+                                'url' => false ) );
 
-$Result['content'] =& $tpl->fetch( 'design:shop/orderlist.tpl' );
+$Result['content'] = $tpl->fetch( 'design:shop/orderlist.tpl' );
 ?>

@@ -33,9 +33,9 @@
 
 */
 
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "kernel/classes/ezpersistentobject.php" );
-include_once( "kernel/classes/ezcontentclassgroup.php" );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezcontentclassgroup.php" );
 
 class eZViewCounter extends eZPersistentObject
 {
@@ -44,7 +44,7 @@ class eZViewCounter extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "node_id" => array( 'name' => "NodeID",
                                                              'datatype' => 'integer',
@@ -58,14 +58,14 @@ class eZViewCounter extends eZPersistentObject
                                                            'default' => 0,
                                                            'required' => true ) ),
                       "keys" => array( "node_id" ),
-                      'relations' => array( 'node_id' => array( 'class' => 'ezcontentobjecttreenode',
+                      'relations' => array( 'node_id' => array( 'class' => 'eZContentObjectTreeNode',
                                                                 'field' => 'node_id' ) ),
                       "class_name" => "eZViewCounter",
                       "sort" => array( "count" => "desc" ),
                       "name" => "ezview_counter" );
     }
 
-    function create( $node_id )
+    static function create( $node_id )
     {
         $row = array("node_id" => $node_id,
                      "count" => 0 );
@@ -76,7 +76,7 @@ class eZViewCounter extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function remove( $node_id )
+    public static function removeCounter( $node_id )
     {
         eZPersistentObject::removeObject( eZViewCounter::definition(),
                                           array("node_id" => $node_id ) );
@@ -86,7 +86,7 @@ class eZViewCounter extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function clear( $node_id )
+    static function clear( $node_id )
     {
         $counter = eZViewCounter::fetch( $node_id );
         if ( $counter != null )
@@ -108,7 +108,7 @@ class eZViewCounter extends eZPersistentObject
         $this->store();
     }
 
-    function fetch( $node_id, $asObject = true )
+    static function fetch( $node_id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZViewCounter::definition(),
                                                 null,
@@ -116,7 +116,7 @@ class eZViewCounter extends eZPersistentObject
                                                 $asObject );
     }
 
-    function fetchTopList( $classID = false, $sectionID = false, $offset = false, $limit = false )
+    static function fetchTopList( $classID = false, $sectionID = false, $offset = false, $limit = false )
     {
         if ( !$classID && !$sectionID )
         {
@@ -142,7 +142,7 @@ class eZViewCounter extends eZPersistentObject
             $queryPart .= "ezcontentobject.section_id=$sectionID AND ";
         }
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $query = "SELECT ezview_counter.*
                   FROM
                          ezcontentobject_tree,
@@ -167,8 +167,8 @@ class eZViewCounter extends eZPersistentObject
     }
 
     /// \privatesection
-    var $NodeID;
-    var $Count;
+    public $NodeID;
+    public $Count;
 }
 
 ?>

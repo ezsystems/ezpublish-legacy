@@ -37,15 +37,15 @@
 
 */
 
-include_once( 'kernel/classes/ezpersistentobject.php' );
-
-define( 'EZ_DIGEST_SETTINGS_TYPE_NONE', 0 );
-define( 'EZ_DIGEST_SETTINGS_TYPE_WEEKLY', 1 );
-define( 'EZ_DIGEST_SETTINGS_TYPE_MONTHLY', 2 );
-define( 'EZ_DIGEST_SETTINGS_TYPE_DAILY', 3 );
+//include_once( 'kernel/classes/ezpersistentobject.php' );
 
 class eZGeneralDigestUserSettings extends eZPersistentObject
 {
+    const TYPE_NONE = 0;
+    const TYPE_WEEKLY = 1;
+    const TYPE_MONTHLY = 2;
+    const TYPE_DAILY = 3;
+
     /*!
      Constructor
     */
@@ -54,7 +54,7 @@ class eZGeneralDigestUserSettings extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -88,7 +88,7 @@ class eZGeneralDigestUserSettings extends eZPersistentObject
     }
 
 
-    function create( $address, $receiveDigest = 0, $digestType = EZ_DIGEST_SETTINGS_TYPE_NONE, $day = '', $time = '' )
+    static function create( $address, $receiveDigest = 0, $digestType = self::TYPE_NONE, $day = '', $time = '' )
     {
         return new eZGeneralDigestUserSettings( array( 'address' => $address,
                                                        'receive_digest' => $receiveDigest,
@@ -97,7 +97,7 @@ class eZGeneralDigestUserSettings extends eZPersistentObject
                                                        'time' => $time ) );
     }
 
-    function fetchForUser( $address, $asObject = true )
+    static function fetchForUser( $address, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZGeneralDigestUserSettings::definition(),
                                                 null,
@@ -109,9 +109,9 @@ class eZGeneralDigestUserSettings extends eZPersistentObject
      \static
      Removes all general digest settings for all users.
     */
-    function cleanup()
+    static function cleanup()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->query( "DELETE FROM ezgeneral_digest_user_settings" );
     }
 }

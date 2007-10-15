@@ -29,20 +29,20 @@
 /*! \file view.php
 */
 
-include_once( 'kernel/classes/ezmodulemanager.php' );
-include_once( 'kernel/classes/ezrole.php' );
-include_once( 'kernel/classes/ezsearch.php' );
-include_once( 'kernel/classes/ezcontentbrowse.php' );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
-include_once( 'lib/ezutils/classes/ezmodule.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezmodulemanager.php' );
+//include_once( 'kernel/classes/ezrole.php' );
+//include_once( 'kernel/classes/ezsearch.php' );
+//include_once( 'kernel/classes/ezcontentbrowse.php' );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
+//include_once( 'lib/ezutils/classes/ezmodule.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-include_once( 'kernel/common/template.php' );
+require_once( 'kernel/common/template.php' );
 
-$http =& eZHTTPTool::instance();
-$Module =& $Params['Module'];
-$roleID =& $Params['RoleID'];
+$http = eZHTTPTool::instance();
+$Module = $Params['Module'];
+$roleID = $Params['RoleID'];
 
 $role = eZRole::fetch( $roleID );
 
@@ -62,7 +62,7 @@ if ( $http->hasPostVariable( 'EditRoleButton' ) )
 // Redirect to content node browse in the user tree
 if ( $http->hasPostVariable( 'AssignRoleButton' ) )
 {
-    include_once( 'kernel/classes/ezcontentbrowse.php' );
+    //include_once( 'kernel/classes/ezcontentbrowse.php' );
     eZContentBrowse::browse( array( 'action_name' => 'AssignRole',
                                     'from_page' => '/role/assign/' . $roleID,
                                     'cancel_page' => '/role/view/'. $roleID ),
@@ -81,9 +81,9 @@ if ( $Module->isCurrentAction( 'AssignRole' ) )
 {
     $selectedObjectIDArray = eZContentBrowse::result( 'AssignRole' );
 
-    $assignedUserIDArray =& $role->fetchUserID();
+    $assignedUserIDArray = $role->fetchUserID();
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach ( $selectedObjectIDArray as $objectID )
     {
@@ -93,14 +93,14 @@ if ( $Module->isCurrentAction( 'AssignRole' ) )
         }
     }
     /* Clean up policy cache */
-    include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+    //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
     eZUser::cleanupCache();
 
     // Clear role caches.
     eZRole::expireCache();
 
     // Clear all content cache.
-    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearAllContentCache();
 
     $db->commit();
@@ -111,29 +111,29 @@ if ( $http->hasPostVariable( 'RemoveRoleAssignmentButton' ) )
 {
     $idArray = $http->postVariable( "IDArray" );
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach ( $idArray as $id )
     {
         $role->removeUserAssignmentByID( $id );
     }
     /* Clean up policy cache */
-    include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+    //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
     eZUser::cleanupCache();
 
     // Clear role caches.
     eZRole::expireCache();
 
     // Clear all content cache.
-    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearAllContentCache();
 
     $db->commit();
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
-$userArray =& $role->fetchUserByRole();
+$userArray = $role->fetchUserByRole();
 
 $policies = $role->attribute( 'policies' );
 $tpl->setVariable( 'policies', $policies );
@@ -145,7 +145,7 @@ $tpl->setVariable( 'user_array', $userArray );
 $Module->setTitle( 'View role - ' . $role->attribute( 'name' ) );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:role/view.tpl' );
+$Result['content'] = $tpl->fetch( 'design:role/view.tpl' );
 $Result['path'] = array( array( 'text' => 'Role',
                                 'url' => 'role/list' ),
                          array( 'text' => $role->attribute( 'name' ),

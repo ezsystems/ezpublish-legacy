@@ -29,9 +29,9 @@
 /*! \file setpreferredcurrency.php
 */
 
-include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+//include_once( 'kernel/shop/classes/ezshopfunctions.php' );
 
-$module =& $Params['Module'];
+$module = $Params['Module'];
 
 $preferredCurrency = $Params['Currency'];
 
@@ -44,7 +44,7 @@ if ( $module->isCurrentAction( 'Set' ) )
 if ( $preferredCurrency )
     eZShopFunctions::setPreferredCurrencyCode( $preferredCurrency );
 
-include_once( 'kernel/classes/ezredirectmanager.php' );
+//include_once( 'kernel/classes/ezredirectmanager.php' );
 eZRedirectManager::redirectTo( $module, false );
 
 ?>

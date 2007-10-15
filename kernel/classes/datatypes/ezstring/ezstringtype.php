@@ -41,24 +41,24 @@
 
 */
 
-include_once( 'kernel/classes/ezdatatype.php' );
-include_once( 'lib/ezutils/classes/ezintegervalidator.php' );
-include_once( 'kernel/common/i18n.php' );
-
-define( 'EZ_DATATYPESTRING_STRING', 'ezstring' );
-define( 'EZ_DATATYPESTRING_MAX_LEN_FIELD', 'data_int1' );
-define( 'EZ_DATATYPESTRING_MAX_LEN_VARIABLE', '_ezstring_max_string_length_' );
-define( "EZ_DATATYPESTRING_DEFAULT_STRING_FIELD", "data_text1" );
-define( "EZ_DATATYPESTRING_DEFAULT_STRING_VARIABLE", "_ezstring_default_value_" );
+//include_once( 'kernel/classes/ezdatatype.php' );
+//include_once( 'lib/ezutils/classes/ezintegervalidator.php' );
+require_once( 'kernel/common/i18n.php' );
 
 class eZStringType extends eZDataType
 {
+    const DATA_TYPE_STRING = 'ezstring';
+    const MAX_LEN_FIELD = 'data_int1';
+    const MAX_LEN_VARIABLE = '_ezstring_max_string_length_';
+    const DEFAULT_STRING_FIELD = "data_text1";
+    const DEFAULT_STRING_VARIABLE = "_ezstring_default_value_";
+
     /*!
      Initializes with a string id and a description.
     */
     function eZStringType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_STRING, ezi18n( 'kernel/classes/datatypes', 'Text line', 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', 'Text line', 'Datatype name' ),
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( 'data_text' => 'text' ) ) );
         $this->MaxLenValidator = new eZIntegerValidator();
@@ -67,7 +67,7 @@ class eZStringType extends eZDataType
     /*!
      Sets the default value.
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
@@ -79,7 +79,7 @@ class eZStringType extends eZDataType
         }
         else
         {
-            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
             $default = $contentClassAttribute->attribute( "data_text1" );
             if ( $default !== "" )
             {
@@ -91,31 +91,31 @@ class eZStringType extends eZDataType
     /*
      Private method, only for using inside this class.
     */
-    function validateStringHTTPInput( $data, &$contentObjectAttribute, &$classAttribute )
+    function validateStringHTTPInput( $data, $contentObjectAttribute, $classAttribute )
     {
-        $maxLen = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_LEN_FIELD );
-        $textCodec =& eZTextCodec::instance( false );
+        $maxLen = $classAttribute->attribute( self::MAX_LEN_FIELD );
+        $textCodec = eZTextCodec::instance( false );
         if ( $textCodec->strlen( $data ) > $maxLen and
              $maxLen > 0 )
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                  'The input text is too long. The maximum number of characters allowed is %1.' ),
                                                          $maxLen );
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INVALID;
         }
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
 
     /*!
      \reimp
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_ezstring_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
             $data = $http->postVariable( $base . '_ezstring_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $classAttribute = $contentObjectAttribute->contentClassAttribute();
 
             if ( $data == "" )
             {
@@ -124,7 +124,7 @@ class eZStringType extends eZDataType
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'Input required.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    return eZInputValidator::STATE_INVALID;
                 }
             }
             else
@@ -132,18 +132,18 @@ class eZStringType extends eZDataType
                 return $this->validateStringHTTPInput( $data, $contentObjectAttribute, $classAttribute );
             }
         }
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
      \reimp
     */
-    function validateCollectionAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateCollectionAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_ezstring_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
             $data = $http->postVariable( $base . '_ezstring_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $classAttribute = $contentObjectAttribute->contentClassAttribute();
 
             if ( $data == "" )
             {
@@ -151,10 +151,10 @@ class eZStringType extends eZDataType
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'Input required.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    return eZInputValidator::STATE_INVALID;
                 }
                 else
-                    return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                    return eZInputValidator::STATE_ACCEPTED;
             }
             else
             {
@@ -162,13 +162,13 @@ class eZStringType extends eZDataType
             }
         }
         else
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INVALID;
     }
 
     /*!
      Fetches the http post var string input and stores it in the data instance.
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_ezstring_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
@@ -182,7 +182,7 @@ class eZStringType extends eZDataType
     /*!
      Fetches the http post variables for collected information
     */
-    function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$contentObjectAttribute )
+    function fetchCollectionAttributeHTTPInput( $collection, $collectionAttribute, $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . "_ezstring_data_text_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
@@ -197,7 +197,7 @@ class eZStringType extends eZDataType
      Does nothing since it uses the data_text field in the content object attribute.
      See fetchObjectAttributeHTTPInput for the actual storing.
     */
-    function storeObjectAttribute( &$attribute )
+    function storeObjectAttribute( $attribute )
     {
     }
 
@@ -214,8 +214,8 @@ class eZStringType extends eZDataType
      \reimp
      Inserts the string \a $string in the \c 'data_text' database field.
     */
-    function insertSimpleString( &$object, $objectVersion, $objectLanguage,
-                                 &$objectAttribute, $string,
+    function insertSimpleString( $object, $objectVersion, $objectLanguage,
+                                 $objectAttribute, $string,
                                  &$result )
     {
         $result = array( 'errors' => array(),
@@ -225,20 +225,20 @@ class eZStringType extends eZDataType
         return true;
     }
 
-    function storeClassAttribute( &$attribute, $version )
+    function storeClassAttribute( $attribute, $version )
     {
     }
 
-    function storeDefinedClassAttribute( &$attribute )
+    function storeDefinedClassAttribute( $attribute )
     {
     }
 
     /*!
      \reimp
     */
-    function validateClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function validateClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $maxLenName = $base . EZ_DATATYPESTRING_MAX_LEN_VARIABLE . $classAttribute->attribute( 'id' );
+        $maxLenName = $base . self::MAX_LEN_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $maxLenName ) )
         {
             $maxLenValue = $http->postVariable( $maxLenName );
@@ -247,7 +247,7 @@ class eZStringType extends eZDataType
             {
                 $maxLenValue = 0;
                 $http->setPostVariable( $maxLenName, $maxLenValue );
-                return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                return eZInputValidator::STATE_ACCEPTED;
             }
             else
             {
@@ -255,15 +255,15 @@ class eZStringType extends eZDataType
                 return $this->MaxLenValidator->validate( $maxLenValue );
             }
         }
-        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+        return eZInputValidator::STATE_INVALID;
     }
 
     /*!
      \reimp
     */
-    function fixupClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fixupClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $maxLenName = $base . EZ_DATATYPESTRING_MAX_LEN_VARIABLE . $classAttribute->attribute( 'id' );
+        $maxLenName = $base . self::MAX_LEN_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $maxLenName ) )
         {
             $maxLenValue = $http->postVariable( $maxLenName );
@@ -276,20 +276,20 @@ class eZStringType extends eZDataType
     /*!
      \reimp
     */
-    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $maxLenName = $base . EZ_DATATYPESTRING_MAX_LEN_VARIABLE . $classAttribute->attribute( 'id' );
-        $defaultValueName = $base . EZ_DATATYPESTRING_DEFAULT_STRING_VARIABLE . $classAttribute->attribute( 'id' );
+        $maxLenName = $base . self::MAX_LEN_VARIABLE . $classAttribute->attribute( 'id' );
+        $defaultValueName = $base . self::DEFAULT_STRING_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $maxLenName ) )
         {
             $maxLenValue = $http->postVariable( $maxLenName );
-            $classAttribute->setAttribute( EZ_DATATYPESTRING_MAX_LEN_FIELD, $maxLenValue );
+            $classAttribute->setAttribute( self::MAX_LEN_FIELD, $maxLenValue );
         }
         if ( $http->hasPostVariable( $defaultValueName ) )
         {
             $defaultValueValue = $http->postVariable( $defaultValueName );
 
-            $classAttribute->setAttribute( EZ_DATATYPESTRING_DEFAULT_STRING_FIELD, $defaultValueValue );
+            $classAttribute->setAttribute( self::DEFAULT_STRING_FIELD, $defaultValueValue );
         }
         return true;
     }
@@ -297,7 +297,7 @@ class eZStringType extends eZDataType
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( 'data_text' );
     }
@@ -305,7 +305,7 @@ class eZStringType extends eZDataType
     /*!
      Returns the meta data used for storing search indeces.
     */
-    function metaData( &$contentObjectAttribute )
+    function metaData( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( 'data_text' );
     }
@@ -318,7 +318,7 @@ class eZStringType extends eZDataType
         return $contentObjectAttribute->attribute( 'data_text' );
     }
 
-    function fromString( &$contentObjectAttribute, $string )
+    function fromString( $contentObjectAttribute, $string )
     {
         return $contentObjectAttribute->setAttribute( 'data_text', $string );
     }
@@ -327,12 +327,12 @@ class eZStringType extends eZDataType
     /*!
      Returns the content of the string for use as a title
     */
-    function title( &$contentObjectAttribute )
+    function title( $contentObjectAttribute, $name = null )
     {
         return $contentObjectAttribute->attribute( 'data_text' );
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         return trim( $contentObjectAttribute->attribute( 'data_text' ) ) != '';
     }
@@ -356,10 +356,10 @@ class eZStringType extends eZDataType
     /*!
      \reimp
     */
-    function sortKey( &$contentObjectAttribute )
+    function sortKey( $contentObjectAttribute )
     {
-        include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-        $trans =& eZCharTransform::instance();
+        //include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+        $trans = eZCharTransform::instance();
         return $trans->transformByGroup( $contentObjectAttribute->attribute( 'data_text' ), 'lowercase' );
     }
 
@@ -374,26 +374,33 @@ class eZStringType extends eZDataType
     /*!
      \reimp
     */
-    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $maxLength = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_LEN_FIELD );
-        $defaultString = $classAttribute->attribute( EZ_DATATYPESTRING_DEFAULT_STRING_FIELD );
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'max-length', $maxLength ) );
+        $maxLength = $classAttribute->attribute( self::MAX_LEN_FIELD );
+        $defaultString = $classAttribute->attribute( self::DEFAULT_STRING_FIELD );
+        $dom = $attributeParametersNode->ownerDocument;
+        $maxLengthNode = $dom->createElement( 'max-length', $maxLength );
+        $attributeParametersNode->appendChild( $maxLengthNode );
         if ( $defaultString )
-            $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'default-string', $defaultString ) );
+        {
+            $defaultStringNode = $dom->createElement( 'default-string', $defaultString );
+        }
         else
-            $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'default-string' ) );
+        {
+            $defaultStringNode = $dom->createElement( 'default-string' );
+        }
+        $attributeParametersNode->appendChild( $defaultStringNode );
     }
 
     /*!
      \reimp
     */
-    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $maxLength = $attributeParametersNode->elementTextContentByName( 'max-length' );
-        $defaultString = $attributeParametersNode->elementTextContentByName( 'default-string' );
-        $classAttribute->setAttribute( EZ_DATATYPESTRING_MAX_LEN_FIELD, $maxLength );
-        $classAttribute->setAttribute( EZ_DATATYPESTRING_DEFAULT_STRING_FIELD, $defaultString );
+        $maxLength = $attributeParametersNode->getElementsByTagName( 'max-length' )->item( 0 )->textContent;
+        $defaultString = $attributeParametersNode->getElementsByTagName( 'default-string' )->item( 0 )->textContent;
+        $classAttribute->setAttribute( self::MAX_LEN_FIELD, $maxLength );
+        $classAttribute->setAttribute( self::DEFAULT_STRING_FIELD, $defaultString );
     }
 
     /*!
@@ -401,7 +408,7 @@ class eZStringType extends eZDataType
     */
     function diff( $old, $new, $options = false )
     {
-        include_once( 'lib/ezdiff/classes/ezdiff.php' );
+        //include_once( 'lib/ezdiff/classes/ezdiff.php' );
         $diff = new eZDiff();
         $diff->setDiffEngineType( $diff->engineType( 'text' ) );
         $diff->initDiffEngine();
@@ -411,9 +418,9 @@ class eZStringType extends eZDataType
 
     /// \privatesection
     /// The max len validator
-    var $MaxLenValidator;
+    public $MaxLenValidator;
 }
 
-eZDataType::register( EZ_DATATYPESTRING_STRING, 'ezstringtype' );
+eZDataType::register( eZStringType::DATA_TYPE_STRING, 'eZStringType' );
 
 ?>

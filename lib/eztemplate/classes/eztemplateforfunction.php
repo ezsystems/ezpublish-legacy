@@ -55,15 +55,16 @@
 \endcode
 */
 
-define ( 'EZ_TEMPLATE_FOR_FUNCTION_NAME', 'for' );
 class eZTemplateForFunction
 {
+    const FUNCTION_NAME = 'for';
+
     /*!
      * Returns an array of the function names, required for eZTemplate::registerFunctions.
      */
     function &functionList()
     {
-        $functionList = array( EZ_TEMPLATE_FOR_FUNCTION_NAME );
+        $functionList = array( eZTemplateForFunction::FUNCTION_NAME );
         return $functionList;
     }
 
@@ -86,7 +87,7 @@ class eZTemplateForFunction
      */
     function functionTemplateHints()
     {
-        return array( EZ_TEMPLATE_FOR_FUNCTION_NAME => array( 'parameters' => true,
+        return array( eZTemplateForFunction::FUNCTION_NAME => array( 'parameters' => true,
                                                               'static' => false,
                                                               'transform-parameters' => true,
                                                               'tree-transformation' => true ) );
@@ -96,7 +97,7 @@ class eZTemplateForFunction
      * Compiles the function and its children into PHP code.
      */
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, $parameters, $privateData )
+                                         $tpl, $parameters, $privateData )
     {
         // {for <first_val> to <last_val> as $<loop_var> [sequence <sequence_array> as $<sequence_var>]}
 
@@ -106,7 +107,7 @@ class eZTemplateForFunction
         $uniqid        =  md5( $nodePlacement[2] ) . "_" . $tpl->ForCounter;
 
         require_once( 'lib/eztemplate/classes/eztemplatecompiledloop.php' );
-        $loop = new eZTemplateCompiledLoop( EZ_TEMPLATE_FOR_FUNCTION_NAME,
+        $loop = new eZTemplateCompiledLoop( eZTemplateForFunction::FUNCTION_NAME,
                                             $newNodes, $parameters, $nodePlacement, $uniqid,
                                             $node, $tpl, $privateData );
 
@@ -159,14 +160,14 @@ class eZTemplateForFunction
     /*!
      * Actually executes the function and its children (in processed mode).
      */
-    function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
+    function process( $tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
         /*
          * Check function parameters
          */
 
         require_once( 'lib/eztemplate/classes/eztemplateloop.php' );
-        $loop = new eZTemplateLoop( EZ_TEMPLATE_FOR_FUNCTION_NAME,
+        $loop = new eZTemplateLoop( eZTemplateForFunction::FUNCTION_NAME,
                                     $functionParameters, $functionChildren, $functionPlacement,
                                     $tpl, $textElements, $rootNamespace, $currentNamespace );
 
@@ -178,7 +179,7 @@ class eZTemplateForFunction
 
         if ( $firstValIsProxy || $lastValIsProxy )
         {
-            $tpl->error( EZ_TEMPLATE_FOR_FUNCTION_NAME,
+            $tpl->error( eZTemplateForFunction::FUNCTION_NAME,
                          "Proxy objects ({section} loop iterators) cannot be used to specify the range \n" .
                          "(this will lead to indefinite loops in compiled mode).\n" .
                          "Please explicitly dereference the proxy object like this: \$current_node.item." );
@@ -189,13 +190,13 @@ class eZTemplateForFunction
 
         if ( is_null( $firstVal ) || is_null( $lastVal ) || !$loopVarName )
         {
-            $tpl->error( EZ_TEMPLATE_FOR_FUNCTION_NAME, "Wrong arguments passed." );
+            $tpl->error( eZTemplateForFunction::FUNCTION_NAME, "Wrong arguments passed." );
             return;
         }
 
         if ( !is_numeric( $firstVal ) || !is_numeric( $lastVal ) )
         {
-            $tpl->error( EZ_TEMPLATE_FOR_FUNCTION_NAME, "Both 'from' and 'to' values can only be numeric." );
+            $tpl->error( eZTemplateForFunction::FUNCTION_NAME, "Both 'from' and 'to' values can only be numeric." );
             return;
         }
 

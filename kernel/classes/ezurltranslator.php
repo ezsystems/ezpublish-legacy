@@ -41,8 +41,8 @@
   \deprecated This class is deprecated and not in use.
 */
 
-include_once( 'lib/ezutils/classes/ezini.php' );
-include_once( 'kernel/classes/ezurlaliasml.php' );
+//include_once( 'lib/ezutils/classes/ezini.php' );
+//include_once( 'kernel/classes/ezurlaliasml.php' );
 
 class eZURLTranslator
 {
@@ -56,7 +56,7 @@ class eZURLTranslator
     /*!
      Adds a new URL alias.
     */
-    function &addURLAlias( $source, $destination, $isInternal = true )
+    function addURLAlias( $source, $destination, $isInternal = true )
     {
         die( __CLASS__ . "::" . __FUNCTION__ . " in file " . __FILE__ . ":" . __LINE__ . " is deprecated" );
     }
@@ -65,12 +65,12 @@ class eZURLTranslator
      Translates the url found in the object \a $uri and returns the corrected url object.
      \return false if no url translation was done.
     */
-    function &translate( &$uri )
+    function translate( &$uri )
     {
         die( __CLASS__ . "::" . __FUNCTION__ . " in file " . __FILE__ . ":" . __LINE__ . " is deprecated" );
         $newURI = false;
         $functionList = array();
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         if ( $ini->variable( 'URLTranslator', 'NodeTranslation' ) == 'enabled' )
             $functionList[] = 'translateNodeTree';
         foreach ( $functionList as $functionName )
@@ -97,12 +97,12 @@ class eZURLTranslator
         $nodePathString = preg_replace( "#\/$#", "", $nodePathString );
         print( "try to translate: $nodePathString<br>" );
 
-        include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+        //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
         $node = eZContentObjectTreeNode::fetchByCRC( $nodePathString );
 
         $uriResult = false;
-        if ( get_class( $node ) == 'ezcontentobjecttreenode' )
+        if ( $node instanceof eZContentObjectTreeNode )
         {
             $uriResult= 'content/view/full/' . $node->attribute( 'node_id' ) . '/';
         }
@@ -112,11 +112,11 @@ class eZURLTranslator
     /*!
      \return The only instance of the translator.
     */
-    function &instance()
+    static function instance()
     {
         die( __CLASS__ . "::" . __FUNCTION__ . " in file " . __FILE__ . ":" . __LINE__ . " is deprecated" );
         $instance =& $GLOBALS['eZURLTranslatorInstance'];
-        if ( get_class( $instance ) != 'ezurltranslator' )
+        if ( !( $instance instanceof eZURLTranslator ) )
         {
             $instance = new eZURLTranslator();
         }

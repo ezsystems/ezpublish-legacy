@@ -37,7 +37,7 @@
   \brief The class eZTopMenuOperator does
 
 */
-include_once( 'kernel/common/i18n.php' );
+require_once( 'kernel/common/i18n.php' );
 
 class eZTopMenuOperator
 {
@@ -81,7 +81,7 @@ class eZTopMenuOperator
     /*!
      Returns the operators in this class.
     */
-    function &operatorList()
+    function operatorList()
     {
         return $this->Operators;
     }
@@ -98,10 +98,10 @@ class eZTopMenuOperator
     /*!
      \reimp
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
 
-        $ini =& eZINI::instance( 'menu.ini' );
+        $ini = eZINI::instance( 'menu.ini' );
 
         if ( !$ini->hasVariable( 'TopAdminMenu', 'Tabs' ) )
         {
@@ -179,8 +179,8 @@ class eZTopMenuOperator
     }
 
     /// \privatesection
-    var $Operators;
-    var $DefaultNames;
+    public $Operators;
+    public $DefaultNames;
 }
 
 

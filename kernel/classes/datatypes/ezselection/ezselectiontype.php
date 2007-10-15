@@ -37,40 +37,39 @@
 
 */
 
-include_once( "kernel/classes/ezdatatype.php" );
-include_once( "lib/ezxml/classes/ezxml.php" );
-include_once( 'lib/ezutils/classes/ezstringutils.php' );
-
-define( "EZ_DATATYPESTRING_EZ_SELECTION", "ezselection" );
+//include_once( "kernel/classes/ezdatatype.php" );
+//include_once( 'lib/ezutils/classes/ezstringutils.php' );
 
 class eZSelectionType extends eZDataType
 {
+    const DATA_TYPE_STRING = "ezselection";
+
     /*!
       Constructor
     */
     function eZSelectionType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_EZ_SELECTION, ezi18n( 'kernel/classes/datatypes', "Selection", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Selection", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
     /*!
      Validates all variables given on content class level
-     \return EZ_INPUT_VALIDATOR_STATE_ACCEPTED or EZ_INPUT_VALIDATOR_STATE_INVALID if
+     \return eZInputValidator::STATE_ACCEPTED or eZInputValidator::STATE_INVALID if
              the values are accepted or not
     */
-    function validateClassAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateClassAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
      Fetches all variables inputed on content class level
      \return true if fetching of class attributes are successfull, false if not
     */
-    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $attributeContent =& $this->classAttributeContent( $classAttribute );
+        $attributeContent = $this->classAttributeContent( $classAttribute );
         $classAttributeID = $classAttribute->attribute( 'id' );
         $isMultipleSelection = false;
 
@@ -132,24 +131,24 @@ class eZSelectionType extends eZDataType
         {
 
             // Serialize XML
-            $doc = new eZDOMDocument( "selection" );
-            $root = $doc->createElementNode( "ezselection" );
-            $doc->setRoot( $root );
+            $doc = new DOMDocument();
+            $root = $doc->createElement( "ezselection" );
+            $doc->appendChild( $root );
 
-            $options = $doc->createElementNode( "options" );
+            $options = $doc->createElement( "options" );
 
             $root->appendChild( $options );
             foreach ( $currentOptions as $optionArray )
             {
                 unset( $optionNode );
-                $optionNode = $doc->createElementNode( "option" );
-                $optionNode->appendAttribute( $doc->createAttributeNode( "id", $optionArray['id'] ) );
-                $optionNode->appendAttribute( $doc->createAttributeNode( 'name', $optionArray['name'] ) );
+                $optionNode = $doc->createElement( "option" );
+                $optionNode->setAttribute( 'id', $optionArray['id'] );
+                $optionNode->setAttribute( 'name', $optionArray['name'] );
 
                 $options->appendChild( $optionNode );
             }
 
-            $xml = $doc->toString();
+            $xml = $doc->saveXML();
 
             $classAttribute->setAttribute( "data_text5", $xml );
 
@@ -162,10 +161,10 @@ class eZSelectionType extends eZDataType
     }
     /*!
      Validates input on content object level
-     \return EZ_INPUT_VALIDATOR_STATE_ACCEPTED or EZ_INPUT_VALIDATOR_STATE_INVALID if
+     \return eZInputValidator::STATE_ACCEPTED or eZInputValidator::STATE_INVALID if
              the values are accepted or not
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_ezselect_selected_array_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
@@ -177,18 +176,18 @@ class eZSelectionType extends eZDataType
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'Input required.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    return eZInputValidator::STATE_INVALID;
                 }
             }
         }
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
      Fetches all variables from the object
      \return true if fetching of class attributes are successfull, false if not
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_ezselect_selected_array_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
@@ -203,16 +202,16 @@ class eZSelectionType extends eZDataType
     /*!
      \reimp
     */
-    function validateCollectionAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateCollectionAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
    /*!
     \reimp
     Fetches the http post variables for collected information
    */
-    function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$contentObjectAttribute )
+    function fetchCollectionAttributeHTTPInput( $collection, $collectionAttribute, $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_ezselect_selected_array_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
@@ -227,7 +226,7 @@ class eZSelectionType extends eZDataType
     /*!
      Sets the default value.
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
@@ -240,7 +239,7 @@ class eZSelectionType extends eZDataType
     /*!
      Returns the selected options by id.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         $idString = explode( '-', $contentObjectAttribute->attribute( 'data_text' ) );
         return $idString;
@@ -249,22 +248,27 @@ class eZSelectionType extends eZDataType
     /*!
      Returns the content data for the given content class attribute.
     */
-    function &classAttributeContent( &$classAttribute )
+    function classAttributeContent( $classAttribute )
     {
-        $xml = new eZXML();
-        $xmlString =& $classAttribute->attribute( 'data_text5' );
-        $dom =& $xml->domTree( $xmlString );
-        if ( $dom )
+        $dom = new DOMDocument();
+        $xmlString = $classAttribute->attribute( 'data_text5' );
+        $optionArray = array();
+        if ( $xmlString != '' )
         {
-            $options =& $dom->elementsByName( 'option' );
-            $optionArray = array();
-            foreach ( $options as $optionNode )
+            $success = $dom->loadXML( $xmlString );
+            if ( $success )
             {
-                $optionArray[] = array( 'id' => $optionNode->attributeValue( 'id' ),
-                                        'name' => $optionNode->attributeValue( 'name' ) );
+                $options = $dom->getElementsByTagName( 'option' );
+
+                foreach ( $options as $optionNode )
+                {
+                    $optionArray[] = array( 'id' => $optionNode->getAttribute( 'id' ),
+                                            'name' => $optionNode->getAttribute( 'name' ) );
+                }
             }
         }
-        else
+
+        if ( count( $optionArray ) == 0 )
         {
             $optionArray[] = array( 'id' => 0,
                                     'name' => '' );
@@ -326,7 +330,7 @@ class eZSelectionType extends eZDataType
     }
 
 
-    function fromString( &$contentObjectAttribute, $string )
+    function fromString( $contentObjectAttribute, $string )
     {
         if ( $string == '' )
             return true;
@@ -351,7 +355,7 @@ class eZSelectionType extends eZDataType
     /*!
      Returns the value as it will be shown if this attribute is used in the object name pattern.
     */
-    function title( &$contentObjectAttribute )
+    function title( $contentObjectAttribute, $name = null )
     {
         $selected = $this->objectAttributeContent( $contentObjectAttribute );
         $classContent = $this->classAttributeContent( $contentObjectAttribute->attribute( 'contentclass_attribute' ) );
@@ -369,7 +373,7 @@ class eZSelectionType extends eZDataType
         return $return;
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         return true;
     }
@@ -377,7 +381,7 @@ class eZSelectionType extends eZDataType
     /*!
      \reimp
     */
-    function sortKey( &$contentObjectAttribute )
+    function sortKey( $contentObjectAttribute )
     {
         return strtolower( $contentObjectAttribute->attribute( 'data_text' ) );
     }
@@ -409,67 +413,67 @@ class eZSelectionType extends eZDataType
     /*!
      \reimp
     */
-    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $xml                 = new eZXML();
+        $isMultipleSelection = $classAttribute->attribute( 'data_int1'  );
+        $xmlString = $classAttribute->attribute( 'data_text5' );
 
-        $isMultipleSelection =& $classAttribute->attribute( 'data_int1'  );
-        $xmlString           =& $classAttribute->attribute( 'data_text5' );
+        $dom = new DOMDocument();
+        $success = $dom->loadXML( $xmlString );
+        $domRoot = $dom->documentElement;
+        $options = $domRoot->getElementsByTagName( 'options' )->item( 0 );
 
-        $dom                 =& $xml->domTree( $xmlString );
-        $domRoot             =& $dom->root();
-        $options             =& $domRoot->elementByName( 'options' );
-
-        $attributeParametersNode->appendChild( $options );
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'is-multiselect', $isMultipleSelection ) );
+        $importedOptionsNode = $attributeParametersNode->ownerDocument->importNode( $options, true );
+        $attributeParametersNode->appendChild( $importedOptionsNode );
+        $isMultiSelectNode = $attributeParametersNode->ownerDocument->createElement( 'is-multiselect', $isMultipleSelection );
+        $attributeParametersNode->appendChild( $isMultiSelectNode );
     }
 
     /*!
      \reimp
     */
-    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $options =& $attributeParametersNode->elementByName( 'options' );
+        $options = $attributeParametersNode->getElementsByTagName( 'options' )->item( 0 );
 
-        $doc = new eZDOMDocument( "selection" );
-        $root = $doc->createElementNode( "ezselection" );
+        $doc = new DOMDocument();
+        $root = $doc->createElement( 'ezselection' );
+        $doc->appendChild( $root );
 
-        $doc->setRoot( $root );
-        $root->appendChild( $options );
+        $importedOptions = $doc->importNode( $options, true );
+        $root->appendChild( $importedOptions );
 
-        $xml = $doc->toString();
-        $classAttribute->setAttribute( "data_text5", $xml );
+        $xml = $doc->saveXML();
+        $classAttribute->setAttribute( 'data_text5', $xml );
 
-        if ( $attributeParametersNode->elementTextContentByName( 'is-multiselect' ) == 0 )
-            $classAttribute->setAttribute( "data_int1", 0 );
+        if ( $attributeParametersNode->getElementsByTagName( 'is-multiselect' )->item( 0 )->textContent == 0 )
+            $classAttribute->setAttribute( 'data_int1', 0 );
         else
-            $classAttribute->setAttribute( "data_int1", 1 );
+            $classAttribute->setAttribute( 'data_int1', 1 );
     }
 }
     /*!
      \reimp
     */
-    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( $package, $objectAttribute )
     {
        $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
        $idString = $objectAttribute->attribute( 'data_text' );
 
-       $node->appendChild( eZDOMDocument::createElementTextNode( 'idstring', $idString ) );
+       $idStringNode = $node->ownerDocument->createElement( 'idstring', $idString );
+       $node->appendChild( $idStringNode );
        return $node;
     }
 
     /*!
      \reimp
     */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
-        $idString = $attributeNode->elementTextContentByName( 'idstring' );
-
-        if ( $idString === false )
-            $idString = '';
-
+        $idStringNode = $attributeNode->getElementsByTagName( 'idstring' )->item( 0 );
+        $idString = $idStringNode ? $idStringNode->textContent : '';
         $objectAttribute->setAttribute( 'data_text', $idString );
     }
 
-eZDataType::register( EZ_DATATYPESTRING_EZ_SELECTION, "ezselectiontype" );
+eZDataType::register( eZSelectionType::DATA_TYPE_STRING, "eZSelectionType" );
 ?>

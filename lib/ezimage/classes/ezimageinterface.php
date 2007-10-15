@@ -116,7 +116,7 @@ class eZImageInterface
     /*!
      \return the attribute with name \a $name or \c null if the attribute does not exist.
     */
-    function &attribute( $name )
+    function attribute( $name )
     {
         $attributeMemberMap = eZImageInterface::attributeMemberMap();
         if ( isset( $attributeMemberMap[$name] ) )
@@ -125,8 +125,7 @@ class eZImageInterface
             if ( isset( $this->$member ) )
                 return $this->$member;
             eZDebug::writeWarning( 'The member variable $member was not found for attribute $name', 'eZImageInterface::attribute' );
-            $retValue = null;
-            return $retValue;
+            return null;
         }
         $attributeFunctionMap = eZImageInterface::attributeFunctionMap();
         if ( isset( $attributeFunctionMap[$name] ) )
@@ -135,12 +134,10 @@ class eZImageInterface
             if ( method_exists( $this, $function ) )
                 return $this->$function();
             eZDebug::writeWarning( 'The member function $function was not found for attribute $name', 'eZImageInterface::attribute' );
-            $retValue = null;
-            return $retValue;
+            return null;
         }
         eZDebug::writeError( "Attribute '$name' does not exist", 'eZImageInterface::attribute' );
-        $retValue = null;
-        return $retValue;
+        return null;
     }
 
     /*!
@@ -406,7 +403,7 @@ class eZImageInterface
         if ( $this->StoredFile == '' )
             return true;
         $fileArray = array( $this->StoredPath, $this->StoredFile );
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        //include_once( 'lib/ezfile/classes/ezdir.php' );
         $filePath = eZDir::path( $fileArray );
         $imageinfo = getimagesize( $filePath );
         if ( $imageinfo )
@@ -441,10 +438,10 @@ class eZImageInterface
         {
             case 'png':
             {
-                include_once( 'lib/ezfile/classes/ezdir.php' );
+                //include_once( 'lib/ezfile/classes/ezdir.php' );
                 if ( !file_exists( $filePath ) )
                 {
-                    $ini =& eZINI::instance();
+                    $ini = eZINI::instance();
                     $perm = $ini->variable( 'FileSettings', 'StorageDirPermissions' );
                     eZDir::mkdir( $filePath, octdec( $perm ), true );
                 }
@@ -458,10 +455,10 @@ class eZImageInterface
 
             case 'jpg':
             {
-                include_once( 'lib/ezfile/classes/ezdir.php' );
+                //include_once( 'lib/ezfile/classes/ezdir.php' );
                 if ( !file_exists( $filePath ) )
                 {
-                    $ini =& eZINI::instance();
+                    $ini = eZINI::instance();
                     $perm = $ini->variable( 'FileSettings', 'StorageDirPermissions' );
                     eZDir::mkdir( $filePath, octdec( $perm ), true );
                 }
@@ -486,7 +483,7 @@ class eZImageInterface
     */
     function hasGD2()
     {
-        $imageINI =& eZINI::instance( 'image.ini' );
+        $imageINI = eZINI::instance( 'image.ini' );
         return $imageINI->variable( 'GDSettings', 'HasGD2' ) == 'true';
 //         $testGD = get_extension_funcs( "gd" ); // Grab function list
 //         if ( !$testGD )
@@ -551,10 +548,10 @@ class eZImageInterface
     /*!
      Copies the image from \a $image as the current image object.
     */
-    function clone( &$image )
+    function __clone()
     {
-        $this->cloneImage( $image->imageObject(), $image->width(), $image->height(),
-                           $image->isTruecolor() );
+        $this->cloneImage( $this->imageObject(), $this->width(), $this>height(),
+                           $this->isTruecolor() );
     }
 
     /*!
@@ -802,19 +799,19 @@ class eZImageInterface
     }
 
     /// \privatesection
-    var $Width;
-    var $Height;
-    var $Font;
-    var $ImageObject;
-    var $ImageObjectRef;
-    var $StoredFile;
-    var $StoredPath;
-    var $StoredType;
-    var $PaletteIndex;
-    var $Palette;
-    var $AlternativeText;
-    var $IsTrueColor;
-    var $IsProcessed;
+    public $Width;
+    public $Height;
+    public $Font;
+    public $ImageObject;
+    public $ImageObjectRef;
+    public $StoredFile;
+    public $StoredPath;
+    public $StoredType;
+    public $PaletteIndex;
+    public $Palette;
+    public $AlternativeText;
+    public $IsTrueColor;
+    public $IsProcessed;
 }
 
 /*!

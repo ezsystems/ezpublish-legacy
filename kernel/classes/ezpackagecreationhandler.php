@@ -38,8 +38,8 @@
 
 */
 
-include_once( 'kernel/classes/ezpackage.php' );
-include_once( 'lib/ezutils/classes/ezextension.php' );
+//include_once( 'kernel/classes/ezpackage.php' );
+//include_once( 'lib/ezutils/classes/ezextension.php' );
 
 class eZPackageCreationHandler
 {
@@ -66,7 +66,7 @@ class eZPackageCreationHandler
 
       It will also make sure that steps can be looked up by their ID.
     */
-    function generateStepMap( &$package, &$persistentData )
+    function generateStepMap( $package, &$persistentData )
     {
         $steps = $this->attribute( 'steps' );
         $map = array();
@@ -127,16 +127,15 @@ class eZPackageCreationHandler
         return array_key_exists( $name, $this->Attributes );
     }
 
-    function &attribute( $name )
+    function attribute( $name )
     {
         if ( array_key_exists( $name, $this->Attributes ) )
-            return $this->Attributes[$name];
-        else
         {
-            eZDebug::writeError( "Attribute '$name' does not exist", 'eZPackageCreationHandler::attribute' );
-            $retValue = null;
-            return $retValue;
+            return $this->Attributes[$name];
         }
+
+        eZDebug::writeError( "Attribute '$name' does not exist", 'eZPackageCreationHandler::attribute' );
+        return null;
     }
 
     function initializeStepMethodMap()
@@ -189,7 +188,7 @@ class eZPackageCreationHandler
      and can be used to fill in values in the \a $persistentData variable
      for use in the template or later retrieval.
     */
-    function initializeStep( &$package, &$http, $step, &$persistentData, &$tpl )
+    function initializeStep( $package, $http, $step, &$persistentData, $tpl )
     {
         $methodMap = $this->initializeStepMethodMap();
         if ( count( $methodMap ) > 0 )
@@ -206,7 +205,7 @@ class eZPackageCreationHandler
      \virtual
      Called each time a step is loaded, and can be used to fetch and process input data in each step.
     */
-    function loadStep( &$package, &$http, $currentStepID, &$persistentData, &$tpl, &$module )
+    function loadStep( $package, $http, $currentStepID, &$persistentData, $tpl, &$module )
     {
         $methodMap = $this->loadStepMethodMap();
         if ( count( $methodMap ) > 0 )
@@ -227,30 +226,31 @@ class eZPackageCreationHandler
              It is also possible to return a step identifier, in which case
              this will be the next step.
     */
-    function validateStep( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
+    function validateStep( $package, $http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
         $nextStep = $this->validateAndAdvanceStep( $package, $http, $currentStepID, $stepMap, $persistentData, $errorList );
         if ( $nextStep === true )
         {
             if ( !isset( $stepMap['map'][$currentStepID] ) )
             {
-                $nextStep = $stepMap['first']['id'];
+                return $stepMap['first']['id'];
             }
             else
             {
-                $currentStep =& $stepMap['map'][$currentStepID];
-                $nextStep = $currentStep['next_step'];
+                return $stepMap['map'][$currentStepID]['next_step'];
             }
         }
         else if ( $nextStep === false )
-            $nextStep = $currentStepID;
+        {
+            return $currentStepID;
+        }
         return $nextStep;
     }
 
     /*!
      \virtual
     */
-    function validateAndAdvanceStep( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
+    function validateAndAdvanceStep( $package, $http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
         $methodMap = $this->validateStepMethodMap();
         if ( count( $methodMap ) > 0 )
@@ -269,7 +269,7 @@ class eZPackageCreationHandler
      This is called after a step has validated it's information. It can
      be used to put values in the \a $persistentData variable for later retrieval.
     */
-    function commitStep( &$package, &$http, $step, &$persistentData, &$tpl )
+    function commitStep( $package, $http, $step, &$persistentData, $tpl )
     {
         $methodMap = $this->commitStepMethodMap();
         if ( count( $methodMap ) > 0 )
@@ -288,7 +288,7 @@ class eZPackageCreationHandler
      This is usually the function that creates the package and
      adds the proper elements.
     */
-    function finalize( &$package, &$http, &$persistentData )
+    function finalize( $package, $http, &$persistentData )
     {
     }
 
@@ -296,7 +296,7 @@ class eZPackageCreationHandler
      \static
      \return a list of the available creators usable as a limitation in the role system.
     */
-    function creatorLimitationList()
+    static function creatorLimitationList()
     {
         $creators =& eZPackageCreationHandler::creatorList();
         $list = array();
@@ -312,12 +312,12 @@ class eZPackageCreationHandler
      \static
      \return a list of the available creators.
     */
-    function &creatorList( $checkRoles = false )
+    static function &creatorList( $checkRoles = false )
     {
         $allowedCreators = false;
 
-        include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-        $currentUser =& eZUser::currentUser();
+        //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+        $currentUser = eZUser::currentUser();
         $accessResult = $currentUser->hasAccessTo( 'package', 'create' );
         $limitationList = array();
         $canCreate = false;
@@ -329,8 +329,8 @@ class eZPackageCreationHandler
 
         if ( $accessResult['accessWord'] == 'limited' )
         {
-            $limitationList =& $accessResult['policies'];
-            foreach( $limitationList as $dummyKey => $limitationArray ) // TODO : fix this
+            $limitationList = $accessResult['policies'];
+            foreach( $limitationList as $limitationArray ) // TODO : fix this
             {
                 foreach ( $limitationArray as $key => $limitation )
                 {
@@ -349,15 +349,15 @@ class eZPackageCreationHandler
         if ( !isset( $creators ) )
         {
             $creators = array();
-            $ini =& eZINI::instance( 'package.ini' );
+            $ini = eZINI::instance( 'package.ini' );
             $list = $ini->variable( 'CreationSettings', 'HandlerList' );
             foreach ( $list as $name )
             {
                 if ( is_array( $allowedCreators ) and
                      !in_array( $name, $allowedCreators ) )
                      continue;
-                $handler =& eZPackageCreationHandler::instance( $name );
-                $creators[] =& $handler;
+                $handler = eZPackageCreationHandler::instance( $name );
+                $creators[] = $handler;
             }
         }
         return $creators;
@@ -366,7 +366,7 @@ class eZPackageCreationHandler
     /*!
      \return the package creation handler object for the handler named \a $handlerName.
     */
-    function &instance( $handlerName )
+    static function instance( $handlerName )
     {
         $handlers =& $GLOBALS['eZPackageCreationHandlers'];
         if ( !isset( $handlers ) )
@@ -398,7 +398,7 @@ class eZPackageCreationHandler
                 }
                 else
                 {
-                    $handler =& new $handlerClassName( $handlerName );
+                    $handler = new $handlerClassName( $handlerName );
                     $handlers[$result['type']] =& $handler;
                 }
             }
@@ -474,7 +474,7 @@ class eZPackageCreationHandler
      This method is called from the createPackage() method and will return \c 'install' by default.
      If you want the creator to have a different install type reimplement this function in the creator.
     */
-    function packageInstallType( &$package, &$persistentData )
+    function packageInstallType( $package, &$persistentData )
     {
         return 'install';
     }
@@ -487,7 +487,7 @@ class eZPackageCreationHandler
      see eZPackage::stateList() for more information on possible states.
      \note The default returns \c 'alpha'
     */
-    function packageInitialState( &$package, &$persistentData )
+    function packageInitialState( $package, &$persistentData )
     {
         return 'alpha';
     }
@@ -499,7 +499,7 @@ class eZPackageCreationHandler
 
      \note This function is called from initializePackageChangelog()
     */
-    function initialChangelogEntry( &$package, &$http, $step, &$persistentData, &$tpl )
+    function initialChangelogEntry( $package, $http, $step, &$persistentData, $tpl )
     {
         return '- Creation of package.';
     }
@@ -513,9 +513,9 @@ class eZPackageCreationHandler
 
      \note This function is called from createPackage and checkPackageMaintainer()
     */
-    function packageType( &$package, &$persistentData )
+    function packageType( $package, &$persistentData )
     {
-        if ( get_class( $package ) == 'ezpackage' )
+        if ( $package instanceof eZPackage )
         {
             return $package->attribute( 'type' );
         }
@@ -529,10 +529,10 @@ class eZPackageCreationHandler
      \return \c true if the package was created or \c false if it was only re-initialized.
      \sa packageType, packageInitialState and packageInstallType
     */
-    function createPackage( &$package, &$http, &$persistentData, &$cleanupFiles, $storePackage = true )
+    function createPackage( $package, $http, &$persistentData, &$cleanupFiles, $storePackage = true )
     {
         $createdPackage = false;
-        if ( get_class( $package ) != 'ezpackage' )
+        if ( !( $package instanceof eZPackage ) )
         {
             $package = eZPackage::create( $persistentData['name'],
                                           array( 'summary' => $persistentData['summary'] ) );
@@ -640,7 +640,7 @@ class eZPackageCreationHandler
      Reimplementing this function allows the creator to fill in some default values for the information fields.
      \note The default does nothing.
     */
-    function generatePackageInformation( &$packageInformation, &$package, &$http, $step, &$persistentData )
+    function generatePackageInformation( $packageInformation, $package, $http, $step, &$persistentData )
     {
     }
 
@@ -648,7 +648,7 @@ class eZPackageCreationHandler
      Initializes the package information step with some default values.
      It will call generatePackageInformation() after the values are initialized.
     */
-    function initializePackageInformation( &$package, &$http, $step, &$persistentData, &$tpl )
+    function initializePackageInformation( $package, $http, $step, &$persistentData, $tpl )
     {
         $persistentData['name'] = false;
         $persistentData['summary'] = false;
@@ -660,8 +660,8 @@ class eZPackageCreationHandler
         else
             $host = $_SERVER['HTTP_HOST'];
         $persistentData['host'] = $host;
-        $user =& eZUser::currentUser();
-        $userObject =& $user->attribute( 'contentobject' );
+        $user = eZUser::currentUser();
+        $userObject = $user->attribute( 'contentobject' );
         $packager = false;
         if ( $userObject )
             $packager = $userObject->attribute( 'name' );
@@ -669,8 +669,8 @@ class eZPackageCreationHandler
         $this->generatePackageInformation( $persistentData, $package, $http, $step, $persistentData );
 
         // Make sure the package name contains only valid characters
-        include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-        $trans =& eZCharTransform::instance();
+        //include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+        $trans = eZCharTransform::instance();
         $persistentData['name'] = $trans->transformByGroup( $persistentData['name'], 'urlalias' );
     }
 
@@ -679,7 +679,7 @@ class eZPackageCreationHandler
      that the package name and package summary is filled in, the version is in correct
      format and that a package does not already exists with the same name.
     */
-    function validatePackageInformation( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
+    function validatePackageInformation( $package, $http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
         $packageName = false;
         $packageSummary = false;
@@ -732,8 +732,8 @@ class eZPackageCreationHandler
             else
             {
                 // Make sure the package name contains only valid characters
-                include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-                $trans =& eZCharTransform::instance();
+                //include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+                $trans = eZCharTransform::instance();
                 $validPackageName = $trans->transformByGroup( $packageName, 'urlalias' );
                 if ( strcmp( $validPackageName, $packageName ) != 0 )
                 {
@@ -761,7 +761,7 @@ class eZPackageCreationHandler
     /*!
      Commits package information.
     */
-    function commitPackageInformation( &$package, &$http, $step, &$persistentData, &$tpl )
+    function commitPackageInformation( $package, $http, $step, &$persistentData, $tpl )
     {
     }
 
@@ -769,10 +769,10 @@ class eZPackageCreationHandler
      Initializes the package changelog step with some values taken from the
      current users and the funcvtion initialChangelogEntry().
     */
-    function initializePackageChangelog( &$package, &$http, $step, &$persistentData, &$tpl )
+    function initializePackageChangelog( $package, $http, $step, &$persistentData, $tpl )
     {
-        $user =& eZUser::currentUser();
-        $userObject =& $user->attribute( 'contentobject' );
+        $user = eZUser::currentUser();
+        $userObject = $user->attribute( 'contentobject' );
         if ( $userObject )
             $changelogPerson = $userObject->attribute( 'name' );
         $changelogEmail = $user->attribute( 'email' );
@@ -780,7 +780,7 @@ class eZPackageCreationHandler
 
         $persistentData['changelog_person'] = $changelogPerson;
         $persistentData['changelog_email'] = $changelogEmail;
-        if ( get_class( $package ) != 'ezpackage' )
+        if ( !( $package instanceof eZPackage ) )
         {
             $changelogText = $this->initialChangelogEntry( $package, $http, $step, $persistentData, $tpl );
         }
@@ -792,7 +792,7 @@ class eZPackageCreationHandler
      Checks if the POST variables contains a name and email for the changelog person and
      the changelog field contains some text.
     */
-    function validatePackageChangelog( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
+    function validatePackageChangelog( $package, $http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
         $changelogPerson = false;
         $changelogEmail = false;
@@ -833,7 +833,7 @@ class eZPackageCreationHandler
     /*!
      Parses the changelog entry text and turns into an array with change entries.
     */
-    function commitPackageChangelog( &$package, &$http, $step, &$persistentData, &$tpl )
+    function commitPackageChangelog( $package, $http, $step, &$persistentData, $tpl )
     {
         $changelogEntries = array();
         $changelogText = $persistentData['changelog_text'];
@@ -870,12 +870,12 @@ class eZPackageCreationHandler
     /*!
      Initializes the package maintainer step with some values taken from the current user.
     */
-    function initializePackageMaintainer( &$package, &$http, $step, &$persistentData, &$tpl )
+    function initializePackageMaintainer( $package, $http, $step, &$persistentData, $tpl )
     {
         $maintainerPerson = false;
         $maintainerEmail = false;
-        $user =& eZUser::currentUser();
-           $userObject =& $user->attribute( 'contentobject' );
+        $user = eZUser::currentUser();
+           $userObject = $user->attribute( 'contentobject' );
         if ( $userObject )
             $maintainerPerson = $userObject->attribute( 'name' );
         $maintainerEmail = $user->attribute( 'email' );
@@ -887,7 +887,7 @@ class eZPackageCreationHandler
     /*!
      Checks if the POST variables has a name and email for the person.
     */
-    function validatePackageMaintainer( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
+    function validatePackageMaintainer( $package, $http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
         $maintainerPerson = false;
         $maintainerEmail = false;
@@ -922,7 +922,7 @@ class eZPackageCreationHandler
     /*!
      Commits maintainer step data. Does nothing for now.
     */
-    function commitPackageMaintainer( &$package, &$http, $step, &$persistentData, &$tpl )
+    function commitPackageMaintainer( $package, $http, $step, &$persistentData, $tpl )
     {
     }
 
@@ -932,16 +932,16 @@ class eZPackageCreationHandler
      The maintainer step is not required if the user has no maintainer roles to use
      or if the package already has a maintainer with the same name as the current user.
     */
-    function checkPackageMaintainer( &$package, &$persistentData )
+    function checkPackageMaintainer( $package, &$persistentData )
     {
         $roleList = eZPackage::fetchMaintainerRoleIDList( $this->packageType( $package, $persistentData ), true );
         if ( count( $roleList ) > 0 )
         {
-            if ( get_class( $package ) == 'ezpackage' )
+            if ( $package instanceof eZPackage )
             {
                 $maintainerPerson = false;
-                $user =& eZUser::currentUser();
-                   $userObject =& $user->attribute( 'contentobject' );
+                $user = eZUser::currentUser();
+                   $userObject = $user->attribute( 'contentobject' );
                 if ( $userObject )
                     $maintainerPerson = $userObject->attribute( 'name' );
 
@@ -962,7 +962,7 @@ class eZPackageCreationHandler
     /*!
      Initializes the package thumbnail step.
     */
-    function initializePackageThumbnail( &$package, &$http, $step, &$persistentData, &$tpl )
+    function initializePackageThumbnail( $package, $http, $step, &$persistentData, $tpl )
     {
         $persistentData['thumbnail'] = false;
     }
@@ -970,19 +970,19 @@ class eZPackageCreationHandler
     /*!
      Checks if the POST variables has a proper thumbnail image.
     */
-    function validatePackageThumbnail( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
+    function validatePackageThumbnail( $package, $http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
-        include_once( 'lib/ezutils/classes/ezhttpfile.php' );
+        //include_once( 'lib/ezutils/classes/ezhttpfile.php' );
         // If we don't have an image we continue as normal
         if ( !eZHTTPFile::canFetch( 'PackageThumbnail' ) )
             return true;
 
-        $file =& eZHTTPFile::fetch( 'PackageThumbnail' );
+        $file = eZHTTPFile::fetch( 'PackageThumbnail' );
 
         $result = true;
         if ( $file )
         {
-            include_once( 'lib/ezutils/classes/ezmimetype.php' );
+            //include_once( 'lib/ezutils/classes/ezmimetype.php' );
             $mimeData = eZMimeType::findByFileContents( $file->attribute( 'original_filename' ) );
             $dir = eZSys::storageDirectory() . '/temp';
             eZMimeType::changeDirectoryPath( $mimeData, $dir );
@@ -995,7 +995,7 @@ class eZPackageCreationHandler
     /*!
      Commits thumbnail step data. Does nothing for now.
     */
-    function commitPackageThumbnail( &$package, &$http, $step, &$persistentData, &$tpl )
+    function commitPackageThumbnail( $package, $http, $step, &$persistentData, $tpl )
     {
     }
 
@@ -1003,7 +1003,7 @@ class eZPackageCreationHandler
      \static
      Appends the GPL licence file to the package object \a $package.
     */
-    function appendLicence( &$package )
+    function appendLicence( $package )
     {
         $package->appendDocument( 'LICENCE', false, false, false, true,
                                   "This file is part of the package " . $package->attribute( 'name' ) . ".\n" .

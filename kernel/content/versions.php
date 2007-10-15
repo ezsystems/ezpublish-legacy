@@ -26,21 +26,21 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/classes/ezcontentclass.php' );
-include_once( 'kernel/classes/ezcontentclassattribute.php' );
+//include_once( 'kernel/classes/ezcontentclass.php' );
+//include_once( 'kernel/classes/ezcontentclassattribute.php' );
 
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/ezcontentobjectversion.php' );
-include_once( 'kernel/classes/ezcontentobjectattribute.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'kernel/classes/ezcontentobjectversion.php' );
+//include_once( 'kernel/classes/ezcontentobjectattribute.php' );
 
-include_once( 'kernel/common/template.php' );
-include_once( "lib/ezutils/classes/ezini.php" );
-include_once( "lib/ezdb/classes/ezdb.php" );
+require_once( 'kernel/common/template.php' );
+//include_once( "lib/ezutils/classes/ezini.php" );
+//include_once( "lib/ezdb/classes/ezdb.php" );
 
-include_once( 'lib/ezutils/classes/ezdebug.php' );
+require_once( 'lib/ezutils/classes/ezdebug.php' );
 
-$tpl =& templateInit();
-$http =& eZHTTPTool::instance();
+$tpl = templateInit();
+$http = eZHTTPTool::instance();
 
 $ObjectID = $Params['ObjectID'];
 $EditVersion = $Params['EditVersion'];
@@ -62,24 +62,24 @@ if ( $http->hasPostVariable( 'BackButton' )  )
     return $Module->redirectTo( $userRedirectURI );
 }
 
-$object =& eZContentObject::fetch( $ObjectID );
+$object = eZContentObject::fetch( $ObjectID );
 $editWarning = false;
 
 $canEdit = false;
 $canRemove = false;
 
 if ( $object === null )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
 if ( !$object->attribute( 'can_read' ) )
-    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
 if ( $object->attribute( 'can_edit' ) )
     $canEdit = true;
 
 $canRemove = true;
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 if ( $http->hasSessionVariable( 'ExcessVersionHistoryLimit' ) )
 {
@@ -92,10 +92,10 @@ if ( $http->hasSessionVariable( 'ExcessVersionHistoryLimit' ) )
 if ( $http->hasPostVariable( 'RemoveButton' )  )
 {
     if ( !$canEdit )
-        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
     if ( $http->hasPostVariable( 'DeleteIDArray' ) )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
         $deleteIDArray = $http->postVariable( 'DeleteIDArray' );
@@ -108,7 +108,7 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
                 $versionArray[] = $version->attribute( 'version' );
                 if ( $version->attribute( 'can_remove' ) )
                 {
-                    $version->remove();
+                    $version->removeThis();
                 }
             }
         }
@@ -116,12 +116,12 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
     }
 }
 
-$user =& eZUser::currentUser();
+$user = eZUser::currentUser();
 
 if ( $Module->isCurrentAction( 'Edit' )  )
 {
     if ( !$canEdit )
-        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
     $versionID = false;
 
@@ -132,12 +132,12 @@ if ( $Module->isCurrentAction( 'Edit' )  )
     }
     else if ( $Module->hasActionParameter( 'VersionID' ) )
         $versionID = $Module->actionParameter( 'VersionID' );
-    $version =& $object->version( $versionID );
+    $version = $object->version( $versionID );
     if ( !$version )
         $versionID = false;
 
     if ( $versionID !== false and
-         !in_array( $version->attribute( 'status' ), array( EZ_VERSION_STATUS_DRAFT, EZ_VERSION_STATUS_INTERNAL_DRAFT ) ) )
+         !in_array( $version->attribute( 'status' ), array( eZContentObjectVersion::STATUS_DRAFT, eZContentObjectVersion::STATUS_INTERNAL_DRAFT ) ) )
     {
         $editWarning = 1;
         $EditVersion = $versionID;
@@ -158,7 +158,7 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
 {
     if ( !$canEdit )
     {
-        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
     }
 
     if ( is_array( $Module->actionParameter( 'VersionKeyArray' ) ) )
@@ -171,17 +171,17 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
         $versionID = $Module->actionParameter( 'VersionID' );
     }
 
-    $version =& $object->version( $versionID );
+    $version = $object->version( $versionID );
     if ( !$version )
         $versionID = false;
 
     // if we cannot fetch version with given versionID or if fetched version is
     // an internal-draft then just skip copying and redirect back to the history view
-    if ( !$versionID or $version->attribute( 'status' ) == EZ_VERSION_STATUS_INTERNAL_DRAFT )
+    if ( !$versionID or $version->attribute( 'status' ) == eZContentObjectVersion::STATUS_INTERNAL_DRAFT )
     {
         $currentVersion = $object->attribute( 'current_version' );
         $Module->redirectToView( 'versions', array( $ObjectID, $currentVersion ) );
-        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+        return eZModule::HOOK_STATUS_CANCEL_RUN;
     }
 
     $languages = $Module->actionParameter( 'LanguageArray' );
@@ -196,10 +196,10 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
 
     if ( !$object->checkAccess( 'edit', false, false, false, $language ) )
     {
-        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
     }
 
-    $contentINI =& eZINI::instance( 'content.ini' );
+    $contentINI = eZINI::instance( 'content.ini' );
     $versionlimit = $contentINI->variable( 'VersionManagement', 'DefaultVersionHistoryLimit' );
 
     $limitList = $contentINI->variable( 'VersionManagement', 'VersionHistoryClass' );
@@ -208,7 +208,7 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
     foreach ( array_keys ( $limitList ) as $key )
     {
         if ( $classID == $key )
-            $versionlimit =& $limitList[$key];
+            $versionlimit = $limitList[$key];
     }
     if ( $versionlimit < 2 )
         $versionlimit = 2;
@@ -216,7 +216,7 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
     $versionCount = $object->getVersionCount();
     if ( $versionCount < $versionlimit )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $newVersionID = $object->copyRevertTo( $versionID, $language );
         $db->commit();
@@ -229,14 +229,13 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
     else
     {
         $params = array( 'conditions'=> array( 'status' => 3 ) );
-        $versions =& $object->versions( true, $params );
+        $versions = $object->versions( true, $params );
         if ( count( $versions ) > 0 )
         {
             $modified = $versions[0]->attribute( 'modified' );
-            $removeVersion =& $versions[0];
-            foreach ( array_keys( $versions ) as $versionKey )
+            $removeVersion = $versions[0];
+            foreach ( $versions as $version )
             {
-                $version =& $versions[$versionKey];
                 $currentModified = $version->attribute( 'modified' );
                 if ( $currentModified < $modified )
                 {
@@ -245,9 +244,9 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
                 }
             }
 
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
-            $removeVersion->remove();
+            $removeVersion->removeThis();
             $newVersionID = $object->copyRevertTo( $versionID, $language );
             $db->commit();
 
@@ -261,19 +260,19 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
             $http->setSessionVariable( 'ExcessVersionHistoryLimit', true );
             $currentVersion = $object->attribute( 'current_version' );
             $Module->redirectToView( 'versions', array( $ObjectID, $currentVersion ) );
-            return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+            return eZModule::HOOK_STATUS_CANCEL_RUN;
         }
     }
 }
 
-$res =& eZTemplateDesignResource::instance();
+$res = eZTemplateDesignResource::instance();
 $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object ID
                       array( 'class', $object->attribute( 'contentclass_id' ) ), // Class ID
                       array( 'class_identifier', $object->attribute( 'class_identifier' ) ), // Class identifier
                       array( 'section_id', $object->attribute( 'section_id' ) ) // Section ID
                       ) ); // Section ID, 0 so far
 
-include_once( 'kernel/classes/ezsection.php' );
+//include_once( 'kernel/classes/ezsection.php' );
 eZSection::setGlobalID( $object->attribute( 'section_id' ) );
 $versionArray =( isset( $versionArray ) and is_array( $versionArray ) ) ? array_unique( $versionArray ) : array();
 $LastAccessesVersionURI = $http->hasSessionVariable( 'LastAccessesVersionURI' ) ? $http->sessionVariable( 'LastAccessesVersionURI' ) : null;
@@ -281,7 +280,7 @@ $explodedURI = $LastAccessesVersionURI ? explode ( '/', $LastAccessesVersionURI 
 if ( $LastAccessesVersionURI and is_array( $versionArray ) and !in_array( $explodedURI[3], $versionArray ) )
     $tpl->setVariable( 'redirect_uri', $http->sessionVariable( 'LastAccessesVersionURI' ) );
 
-$versions =& $object->versions();
+$versions = $object->versions();
 
 $tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( 'object', $object );
@@ -295,7 +294,7 @@ $tpl->setVariable( 'user_id', $user->attribute( 'contentobject_id' ) );
 eZDebug::writeNotice( 'The versions view has been deprecated, please use the /content/history/ view instead' );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:content/versions.tpl' );
+$Result['content'] = $tpl->fetch( 'design:content/versions.tpl' );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Versions' ),
                                 'url' => false ) );
 

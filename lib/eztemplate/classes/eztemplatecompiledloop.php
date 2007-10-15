@@ -36,17 +36,17 @@
 */
 class eZTemplateCompiledLoop
 {
-    function eZTemplateCompiledLoop( $name, &$newNodes, &$parameters, &$nodePlacement, $uniqid,
-                                     &$node, &$tpl, &$privateData )
+    function eZTemplateCompiledLoop( $name, &$newNodes, $parameters, $nodePlacement, $uniqid,
+                                     $node, $tpl, $privateData )
     {
-        $this->Name          =& $name;
-        $this->Parameters    =& $parameters;
-        $this->NodePlacement =& $nodePlacement;
-        $this->UniqID        =& $uniqid;
+        $this->Name          = $name;
+        $this->Parameters    = $parameters;
+        $this->NodePlacement = $nodePlacement;
+        $this->UniqID        = $uniqid;
         $this->NewNodes      =& $newNodes;
-        $this->Node          =& $node;
-        $this->Tpl           =& $tpl;
-        $this->PrivateData   =& $privateData;
+        $this->Node          = $node;
+        $this->Tpl           = $tpl;
+        $this->PrivateData   = $privateData;
     }
 
     /*!
@@ -154,17 +154,15 @@ class eZTemplateCompiledLoop
 
         if ( is_array( $transformedChildren ) )
         {
-            foreach ( array_keys( $transformedChildren ) as $childKey )
+            foreach ( $transformedChildren as $child )
             {
-                $child =& $transformedChildren[$childKey];
-
-                if ( $child[0] == EZ_TEMPLATE_NODE_FUNCTION ) // check child type
+                if ( $child[0] == eZTemplate::NODE_FUNCTION ) // check child type
                 {
                     $childFunctionName = $child[2];
                     if ( $childFunctionName == 'delimiter' )
                     {
                         // save delimiter for it to be processed below
-                        $delimiter =& $child;
+                        $delimiter = $child;
                         continue;
                     }
                     elseif ( $childFunctionName == 'break' )
@@ -193,7 +191,7 @@ class eZTemplateCompiledLoop
             $delimiterNodes = eZTemplateNodeTool::extractNodes( $children,
                                                     array( 'match' => array( 'type' => 'equal',
                                                                              'matches' => array( array( 'match-keys' => array( 0 ),
-                                                                                                       'match-with' => EZ_TEMPLATE_NODE_FUNCTION ),
+                                                                                                       'match-with' => eZTemplate::NODE_FUNCTION ),
                                                                                                  array( 'match-keys' => array( 2 ),
                                                                                                         'match-with' => 'delimiter' ) ) ) ) );
             $delimiterNode = false;
@@ -296,14 +294,14 @@ class eZTemplateCompiledLoop
     ///
     /// \privatesection
     ///
-    var $Name;
-    var $Parameters;
-    var $NodePlacement;
-    var $UniqID;
-    var $NewNodes;
-    var $Node;
-    var $Tpl;
-    var $PrivateData;
+    public $Name;
+    public $Parameters;
+    public $NodePlacement;
+    public $UniqID;
+    public $NewNodes;
+    public $Node;
+    public $Tpl;
+    public $PrivateData;
 
 }
 

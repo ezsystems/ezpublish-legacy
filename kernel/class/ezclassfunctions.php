@@ -31,21 +31,21 @@
 
 class eZClassFunctions
 {
-    function addGroup( $classID, $classVersion, $selectedGroup )
+    static function addGroup( $classID, $classVersion, $selectedGroup )
     {
-        include_once( 'kernel/classes/ezcontentclassclassgroup.php' );
+        //include_once( 'kernel/classes/ezcontentclassclassgroup.php' );
         list ( $groupID, $groupName ) = split( '/', $selectedGroup );
         $ingroup = eZContentClassClassGroup::create( $classID, $classVersion, $groupID, $groupName );
         $ingroup->store();
         return true;
     }
 
-    function removeGroup( $classID, $classVersion, $selectedGroup )
+    static function removeGroup( $classID, $classVersion, $selectedGroup )
     {
-        include_once( 'kernel/classes/ezcontentclass.php' );
-        include_once( 'kernel/classes/ezcontentclassclassgroup.php' );
+        //include_once( 'kernel/classes/ezcontentclass.php' );
+        //include_once( 'kernel/classes/ezcontentclassclassgroup.php' );
 
-        $class = eZContentClass::fetch( $classID, true, EZ_CLASS_VERSION_STATUS_DEFINED );
+        $class = eZContentClass::fetch( $classID, true, eZContentClass::VERSION_STATUS_DEFINED );
         if ( !$class )
             return false;
         $groups = $class->attribute( 'ingroup_list' );
@@ -65,7 +65,7 @@ class eZClassFunctions
         {
             foreach(  $selectedGroup as $group_id )
             {
-                eZContentClassClassGroup::remove( $classID, $classVersion, $group_id );
+                eZContentClassClassGroup::removeGroup( $classID, $classVersion, $group_id );
             }
         }
         return true;

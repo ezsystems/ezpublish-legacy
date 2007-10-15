@@ -1,1 +1,0 @@
-Folder full: {$node.name}

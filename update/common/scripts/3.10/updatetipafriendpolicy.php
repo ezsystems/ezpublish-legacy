@@ -27,12 +27,12 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
+$cli = eZCLI::instance();
 
-$script =& eZScript::instance( array( 'description' => "\nThis script is optional for upgrading to 3.10.\n" .
+$script = eZScript::instance( array( 'description' => "\nThis script is optional for upgrading to 3.10.\n" .
                                                        "The script adds a role which contains a policy 'content/tipafriend' and" .
                                                        "\nassigns this role to all user groups except anonymous. That will give " .
                                                        "\npossibility to use tipafriend view for all users except anonymous." .
@@ -54,10 +54,10 @@ $script->initialize();
 
 $cli->notice( "\nStart." );
 
-$contentIni =& eZINI::instance( 'content.ini' );
+$contentIni = eZINI::instance( 'content.ini' );
 $userRootNodeID = $contentIni->variable( 'NodeSettings', 'UserRootNode' );
 
-$siteIni =& eZINI::instance( 'site.ini' );
+$siteIni = eZINI::instance( 'site.ini' );
 $anonymousUserID = $siteIni->variable( 'UserSettings', 'AnonymousUserID' );
 $anonymousUser = eZUser::fetch( $anonymousUserID );
 $anonymousUsers = array();
@@ -67,10 +67,10 @@ if ( is_object( $anonymousUser ) )
     $anonymousUsers[] = $anonymousUserID;
 }
 
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'kernel/classes/ezrole.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezrole.php' );
 
-$topUserNodes =& eZContentObjectTreeNode::subTree( array( 'Depth' => 1 ), $userRootNodeID );
+$topUserNodes = eZContentObjectTreeNode::subTreeByNodeID( array( 'Depth' => 1 ), $userRootNodeID );
 
 $roleName = 'Tipafriend Role';
 $role = eZRole::fetchByName( $roleName );
@@ -120,7 +120,7 @@ else
         }
         // clear role cache
         eZRole::expireCache();
-        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearAllContentCache();
         // clear policy cache
         eZUser::cleanupCache();

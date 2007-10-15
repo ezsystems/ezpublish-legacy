@@ -40,9 +40,9 @@ define( 'EZ_ACCESS_SUBTYPE_POST', 2 );
  Goes trough the access matching rules and returns the access match.
  The returned match is an associative array with \a name and \c type.
 */
-function accessType( &$uri, $host, $port, $file )
+function accessType( $uri, $host, $port, $file )
 {
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
     if ( $ini->hasVariable( 'SiteAccessSettings', 'StaticMatch' ) )
     {
         $match = $ini->variable( 'SiteAccessSettings', 'StaticMatch' );
@@ -75,7 +75,7 @@ function accessType( &$uri, $host, $port, $file )
         {
             case 'servervar':
             {
-                include_once( 'lib/ezutils/classes/ezsys.php' );
+                //include_once( 'lib/ezutils/classes/ezsys.php' );
                 if ( $serversiteaccess = eZSys::serverVariable( $ini->variable( 'SiteAccessSettings', 'ServerVariableName' ), true ) )
                 {
                     $access['name'] = $serversiteaccess;
@@ -284,7 +284,7 @@ function accessType( &$uri, $host, $port, $file )
 
 function changeAccess( $access )
 {
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
 
     $GLOBALS['eZCurrentAccess'] =& $access;
 
@@ -292,7 +292,7 @@ function changeAccess( $access )
     if ( isset( $access['type'] ) &&
          $access['type'] == EZ_ACCESS_TYPE_URI )
     {
-        include_once( 'lib/ezutils/classes/ezsys.php' );
+        //include_once( 'lib/ezutils/classes/ezsys.php' );
         eZSys::addAccessPath( $name );
     }
 
@@ -302,14 +302,16 @@ function changeAccess( $access )
     }
 
     /* Make sure extension siteaccesses are prepended */
-    include_once( 'lib/ezutils/classes/ezextension.php' );
+    //include_once( 'lib/ezutils/classes/ezextension.php' );
     eZExtension::prependExtensionSiteAccesses( $name );
 
     $ini->loadCache();
 
     eZUpdateDebugSettings();
     if ( accessDebugEnabled() )
+    {
         eZDebug::writeDebug( "Updated settings to use siteaccess '$name'", 'access.php' );
+    }
 
     return $access;
 }
@@ -358,7 +360,7 @@ function accessAllowed( $uri )
                     'view' => $viewName,
                     'view_checked' => false );
 
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
 
     $access = true;
     $currentAccess = true;
@@ -413,14 +415,16 @@ function accessAllowed( $uri )
     return $check;
 }
 
-function precheckAllowed( &$prechecks )
+/*!
+ */
+function precheckAllowed( $prechecks )
 {
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
 
     $tmp_allow = true;
     if ( !$ini->hasGroup( 'SitePrecheckRules' ) )
-        return true;
-    $items =& $ini->variableArray( 'SitePrecheckRules', 'Rules' );
+        return $prechecks;
+    $items = $ini->variableArray( 'SitePrecheckRules', 'Rules' );
     foreach( $items as $item )
     {
         $name = strtolower( $item[0] );
@@ -452,17 +456,19 @@ function precheckAllowed( &$prechecks )
             } break;
         }
     }
+
+    return $prechecks;
 }
 
 function accessDebugEnabled()
 {
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
     return $ini->variable( 'SiteAccessSettings', 'DebugAccess' ) == 'enabled';
 }
 
 function accessExtraDebugEnabled()
 {
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
     return $ini->variable( 'SiteAccessSettings', 'DebugExtraAccess' ) == 'enabled';
 }
 

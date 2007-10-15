@@ -26,15 +26,15 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$Module =& $Params["Module"];
+$Module = $Params['Module'];
 
-include_once( "kernel/common/template.php" );
-include_once( "kernel/common/eztemplatedesignresource.php" );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/common/eztemplatedesignresource.php" );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
 define( 'MD5_SUM_LIST_FILE', 'share/filelist.md5' );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( 'md5_result', false );
 $tpl->setVariable( 'upgrade_sql', false );
@@ -51,7 +51,7 @@ if ( $Module->isCurrentAction( 'MD5Check' ) )
     }
     else
     {
-        include_once( 'lib/ezfile/classes/ezmd5.php' );
+        //include_once( 'lib/ezfile/classes/ezmd5.php' );
         $checkResult = eZMD5::checkMD5Sums( 'share/filelist.md5' );
 
         if ( count( $checkResult ) == 0 )
@@ -67,12 +67,12 @@ if ( $Module->isCurrentAction( 'MD5Check' ) )
 
 if ( $Module->isCurrentAction( 'DBCheck' ) )
 {
-    include_once( 'lib/ezdbschema/classes/ezdbschemachecker.php');
-    include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
+    //include_once( 'lib/ezdbschema/classes/ezdbschemachecker.php');
+    //include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
 
-    $db =& eZDB::instance();
-    $dbSchema = eZDBSchema::instance();
-    $differences = eZDbSchemaChecker::diff( $dbSchema->schema(), eZDBSchema::read( 'share/db_schema.dba' ) );
+    $db = eZDB::instance();
+    $dbSchema = eZDbSchema::instance();
+    $differences = eZDbSchemaChecker::diff( $dbSchema->schema(), eZDbSchema::read( 'share/db_schema.dba' ) );
     $sqlDiff = $dbSchema->generateUpgradeFile( $differences );
 
     if ( strlen( $sqlDiff ) == 0 )
@@ -86,7 +86,7 @@ if ( $Module->isCurrentAction( 'DBCheck' ) )
 }
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:setup/systemupgrade.tpl" );
+$Result['content'] = $tpl->fetch( "design:setup/systemupgrade.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/setup', 'System Upgrade' ) ) );
 ?>

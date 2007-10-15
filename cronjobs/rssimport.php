@@ -29,16 +29,15 @@
 /*! \file rssimport.php
 */
 
-include_once( 'kernel/classes/ezrssimport.php' );
-include_once( 'kernel/classes/ezcontentclass.php' );
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/ezpersistentobject.php' );
-include_once( 'lib/ezxml/classes/ezxml.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'kernel/classes/ezcontentobjectversion.php' );
-include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "lib/ezutils/classes/ezhttptool.php" );
+//include_once( 'kernel/classes/ezrssimport.php' );
+//include_once( 'kernel/classes/ezcontentclass.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'kernel/classes/ezpersistentobject.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezcontentobjectversion.php' );
+//include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
 
 //For ezUser, we would make this the ezUser class id but otherwise just pick and choose.
 
@@ -46,11 +45,10 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 $rssImportArray = eZRSSImport::fetchActiveList();
 
 // Loop through all configured and active rss imports. If something goes wrong while processing them, continue to next import
-foreach ( array_keys( $rssImportArray ) as $rssImportKey )
+foreach ( $rssImportArray as $rssImport )
 {
     // Get RSSImport object
-    $rssImport =& $rssImportArray[$rssImportKey];
-    $rssSource =& $rssImport->attribute( 'url' );
+    $rssSource = $rssImport->attribute( 'url' );
     $addCount = 0;
 
     if ( !$isQuiet )
@@ -68,11 +66,11 @@ foreach ( array_keys( $rssImportArray ) as $rssImportKey )
         continue;
     }
 
-    // Create DomDocumnt from http data
-    $xmlObject = new eZXML();
-    $domDocument =& $xmlObject->domTree( $xmlData );
+    // Create DomDocument from http data
+    $domDocument = new DOMDocument();
+    $success = $domDocument->loadXML( $xmlData );
 
-    if ( $domDocument == null or $domDocument === false )
+    if ( !$success )
     {
         if ( !$isQuiet )
         {
@@ -81,18 +79,9 @@ foreach ( array_keys( $rssImportArray ) as $rssImportKey )
         continue;
     }
 
-    $root =& $domDocument->root();
+    $root = $domDocument->documentElement;
 
-    if ( $root == null )
-    {
-        if ( !$isQuiet )
-        {
-            $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Invalid RSS document.' );
-        }
-        continue;
-    }
-
-    switch( $root->attributeValue( 'version' ) )
+    switch( $root->getAttribute( 'version' ) )
     {
         default:
         case '1.0':
@@ -104,7 +93,7 @@ foreach ( array_keys( $rssImportArray ) as $rssImportKey )
         case '0.92':
         case '2.0':
         {
-            $version = $root->attributeValue( 'version' );
+            $version = $root->getAttribute( 'version' );
         } break;
     }
 
@@ -118,7 +107,7 @@ foreach ( array_keys( $rssImportArray ) as $rssImportKey )
         continue;
     }
 
-    switch( $root->attributeValue( 'version' ) )
+    switch( $root->getAttribute( 'version' ) )
     {
         default:
         case '1.0':
@@ -136,7 +125,7 @@ foreach ( array_keys( $rssImportArray ) as $rssImportKey )
 
 }
 
-include_once( 'kernel/classes/ezstaticcache.php' );
+//include_once( 'kernel/classes/ezstaticcache.php' );
 eZStaticCache::executeActions();
 
 /*!
@@ -146,15 +135,15 @@ eZStaticCache::executeActions();
   \param RSS Import item
   \param cli
 */
-function rssImport1( &$root, &$rssImport, &$cli )
+function rssImport1( $root, $rssImport, $cli )
 {
     global $isQuiet;
 
     $addCount = 0;
 
     // Get all items in rss feed
-    $itemArray = $root->elementsByName( 'item' );
-    $channel = $root->firstElementByName( 'channel' );
+    $itemArray = $root->getElementsByTagName( 'item' );
+    $channel = $root->getElementsByTagName( 'channel' )->item( 0 );
 
     // Loop through all items in RSS feed
     foreach ( $itemArray as $item )
@@ -176,17 +165,17 @@ function rssImport1( &$root, &$rssImport, &$cli )
   \param RSS Import item
   \param cli
 */
-function rssImport2( &$root, &$rssImport, &$cli )
+function rssImport2( $root, $rssImport, $cli )
 {
     global $isQuiet;
 
     $addCount = 0;
 
     // Get all items in rss feed
-    $channel =& $root->firstElementByName( 'channel' );
+    $channel = $root->getElementsByTagName( 'channel' )->item( 0 );
 
     // Loop through all items in RSS feed
-    foreach ( $channel->elementsByName( 'item' ) as $item )
+    foreach ( $channel->getElementsByTagName( 'item' ) as $item )
     {
         $addCount += importRSSItem( $item, $rssImport, $cli, $channel );
     }
@@ -208,7 +197,7 @@ function rssImport2( &$root, &$rssImport, &$cli )
 
  \return 1 if object added, 0 if not
 */
-function importRSSItem( $item, &$rssImport, &$cli, $channel )
+function importRSSItem( $item, $rssImport, $cli, $channel )
 {
     global $isQuiet;
     $rssImportID = $rssImport->attribute( 'id' );
@@ -224,11 +213,11 @@ function importRSSItem( $item, &$rssImport, &$cli, $channel )
         return 0;
     }
 
-    $parentContentObject =& $parentContentObjectTreeNode->attribute( 'object' ); // Get parent content object
-    $titleElement = $item->firstElementByName( 'title' );
-    $title = is_object( $titleElement ) ? $titleElement->textContent() . getCDATA( $titleElement ) : '';
-    $link = $item->firstElementByName( 'link' );
-    $linkURL = $link->textContent() . getCDATA( $link );
+    $parentContentObject = $parentContentObjectTreeNode->attribute( 'object' ); // Get parent content object
+    $titleElement = $item->getElementsByTagName( 'title' )->item( 0 );
+    $title = is_object( $titleElement ) ? $titleElement->textContent : '';
+    $link = $item->getElementsByTagName( 'link' )->item( 0 );
+    $linkURL = $link->textContent;
     $md5Sum = md5( $linkURL );
 
     // Try to fetch RSSImport object with md5 sum matching link.
@@ -252,7 +241,7 @@ function importRSSItem( $item, &$rssImport, &$cli, $channel )
     // Instantiate the object with user $rssOwnerID and use section id from parent. And store it.
     $contentObject = $contentClass->instantiate( $rssOwnerID, $parentContentObject->attribute( 'section_id' ) );
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     $contentObject->store();
     $contentObjectID = $contentObject->attribute( 'id' );
@@ -264,12 +253,12 @@ function importRSSItem( $item, &$rssImport, &$cli, $channel )
                                                        'parent_node' => $parentContentObjectTreeNode->attribute( 'node_id' ) ) );
     $nodeAssignment->store();
 
-    $version =& $contentObject->version( 1 );
-    $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
+    $version = $contentObject->version( 1 );
+    $version->setAttribute( 'status', eZContentObjectVersion::STATUS_DRAFT );
     $version->store();
 
     // Get object attributes, and set their values and store them.
-    $dataMap =& $contentObject->dataMap();
+    $dataMap = $contentObject->dataMap();
     $importDescription = $rssImport->importDescription();
 
     // Set content object attribute values.
@@ -320,7 +309,7 @@ function importRSSItem( $item, &$rssImport, &$cli, $channel )
     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObject->attribute( 'id' ),
                                                                                  'version' => 1 ) );
 
-    if ( !isset( $operationResult['status'] ) || $operationResult['status'] != EZ_MODULE_OPERATION_CONTINUE )
+    if ( !isset( $operationResult['status'] ) || $operationResult['status'] != eZModuleOperationInfo::STATUS_CONTINUE )
     {
         if ( isset( $operationResult['result'] ) && isset( $operationResult['result']['content'] ) )
             $failReason = $operationResult['result']['content'];
@@ -400,23 +389,6 @@ function importRSSItem( $item, &$rssImport, &$cli, $channel )
 
     return 1;
 }
-/*
- * Returns CDATA content of all $xmlDomNode children
-*/
-function getCDATA( $xmlDomNode )
-{
-    $textCDATA = '';
-    if ( is_object( $xmlDomNode ) and $xmlDomNode->hasChildren() )
-    {
-        $elementChildren = $xmlDomNode->children();
-        foreach ( $elementChildren as $children )
-        {
-            if ( $children->type() == EZ_NODE_TYPE_CDATASECTION )
-                $textCDATA .= $children->content() ;
-        }
-    }
-    return $textCDATA;
-}
 
 function recursiveFindRSSElementValue( $importDescriptionArray, $xmlDomNode )
 {
@@ -433,27 +405,27 @@ function recursiveFindRSSElementValue( $importDescriptionArray, $xmlDomNode )
         {
             if ( count( $importDescriptionArray ) == 1 )
             {
-                $element = $xmlDomNode->firstElementByName( $importDescriptionArray[0] );
-                // We should check if text contains CDATA content
-                $resultText = is_object( $element ) ? $element->textContent() . getCDATA( $element ) : false;
+                $element = $xmlDomNode->getElementsByTagName( $importDescriptionArray[0] )->item( 0 );
+
+                $resultText = is_object( $element ) ? $element->textContent : false;
                 return $resultText;
             }
             else
             {
                 $elementName = $importDescriptionArray[0];
                 array_shift( $importDescriptionArray );
-                return recursiveFindRSSElementValue( $importDescriptionArray, $xmlDomNode->firstElementByName( $elementName ) );
+                return recursiveFindRSSElementValue( $importDescriptionArray, $xmlDomNode->getElementsByTagName( $elementName )->item( 0 ) );
             }
         }
 
         case 'attributes':
         {
-            return $xmlDomNode->attributeValue( $importDescriptionArray[0] );
+            return $xmlDomNode->getAttribute( $importDescriptionArray[0] );
         } break;
     }
 }
 
-function setObjectAttributeValue( &$objectAttribute, $value )
+function setObjectAttributeValue( $objectAttribute, $value )
 {
     if ( $value === false )
     {
@@ -475,7 +447,7 @@ function setObjectAttributeValue( &$objectAttribute, $value )
 
         case 'ezkeyword':
         {
-            include_once( 'kernel/classes/datatypes/ezkeyword/ezkeyword.php' );
+            //include_once( 'kernel/classes/datatypes/ezkeyword/ezkeyword.php' );
             $keyword = new eZKeyword();
             $keyword->initializeKeyword( $value );
             $objectAttribute->setContent( $keyword );
@@ -490,9 +462,9 @@ function setObjectAttributeValue( &$objectAttribute, $value )
     $objectAttribute->store();
 }
 
-function setEZXMLAttribute( &$attribute, &$attributeValue, $link = false )
+function setEZXMLAttribute( $attribute, $attributeValue, $link = false )
 {
-    include_once( 'kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmlinputparser.php' );
+    //include_once( 'kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmlinputparser.php' );
     $contentObjectID = $attribute->attribute( "contentobject_id" );
     $parser = new eZSimplifiedXMLInputParser( $contentObjectID, false, 0, false );
 
@@ -503,7 +475,7 @@ function setEZXMLAttribute( &$attribute, &$attributeValue, $link = false )
     $document = $parser->process( $attributeValue );
     if ( !is_object( $document ) )
     {
-        $cli =& eZCLI::instance();
+        $cli = eZCLI::instance();
         $cli->output( 'Error in xml parsing' );
         return;
     }

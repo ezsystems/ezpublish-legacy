@@ -37,7 +37,7 @@
 
 class eZPlainTextParser
 {
-    function &parseFile( $fileName )
+    function parseFile( $fileName )
     {
         $metaData = "";
         if ( file_exists( $fileName ) )

@@ -27,19 +27,19 @@
 //
 
 $OrderID = $Params['OrderID'];
-$module =& $Params['Module'];
-include_once( "kernel/common/template.php" );
+$module = $Params['Module'];
+require_once( "kernel/common/template.php" );
 
-include_once( "kernel/classes/ezorder.php" );
+//include_once( "kernel/classes/ezorder.php" );
 
-$ini =& eZINI::instance();
-$http =& eZHTTPTool::instance();
-$user =& eZUser::currentUser();
+$ini = eZINI::instance();
+$http = eZHTTPTool::instance();
+$user = eZUser::currentUser();
 $access = false;
 $order = eZOrder::fetch( $OrderID );
 if ( !$order )
 {
-    return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
 $accessToAdministrate = $user->hasAccessTo( 'shop', 'administrate' );
@@ -79,15 +79,15 @@ elseif ( $accessToBuyWord != 'no' )
 }
 if ( !$access )
 {
-     return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+     return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 }
-$tpl =& templateInit();
+$tpl = templateInit();
 
 
 $tpl->setVariable( "order", $order );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:shop/orderview.tpl" );
+$Result['content'] = $tpl->fetch( "design:shop/orderview.tpl" );
 $Result['path'] = array( array( 'url' => 'shop/orderlist',
                                 'text' => ezi18n( 'kernel/shop', 'Order list' ) ),
                          array( 'url' => false,

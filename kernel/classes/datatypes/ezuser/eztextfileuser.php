@@ -46,9 +46,9 @@
 
 */
 
-include_once( "kernel/classes/datatypes/ezuser/ezusersetting.php" );
-include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-include_once( 'lib/ezutils/classes/ezini.php' );
+//include_once( "kernel/classes/datatypes/ezuser/ezusersetting.php" );
+//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+//include_once( 'lib/ezutils/classes/ezini.php' );
 
 class eZTextFileUser extends eZUser
 {
@@ -64,10 +64,10 @@ class eZTextFileUser extends eZUser
      Logs in the user if applied username and password is
      valid. The userID is returned if succesful, false if not.
     */
-    function &loginUser( $login, $password, $authenticationMatch = false )
+    function loginUser( $login, $password, $authenticationMatch = false )
     {
-        $http =& eZHTTPTool::instance();
-        $db =& eZDB::instance();
+        $http = eZHTTPTool::instance();
+        $db = eZDB::instance();
 
         if ( $authenticationMatch === false )
             $authenticationMatch = eZUser::authenticationMatch();
@@ -76,18 +76,18 @@ class eZTextFileUser extends eZUser
         $passwordEscaped = $db->escapeString( $password );
 
         $loginArray = array();
-        if ( $authenticationMatch & EZ_USER_AUTHENTICATE_LOGIN )
+        if ( $authenticationMatch & eZUser::AUTHENTICATE_LOGIN )
             $loginArray[] = "login='$loginEscaped'";
-        if ( $authenticationMatch & EZ_USER_AUTHENTICATE_EMAIL )
+        if ( $authenticationMatch & eZUser::AUTHENTICATE_EMAIL )
             $loginArray[] = "email='$loginEscaped'";
         if ( count( $loginArray ) == 0 )
             $loginArray[] = "login='$loginEscaped'";
         $loginText = implode( ' OR ', $loginArray );
 
-        $contentObjectStatus = EZ_CONTENT_OBJECT_STATUS_PUBLISHED;
+        $contentObjectStatus = eZContentObject::STATUS_PUBLISHED;
 
-        $ini =& eZINI::instance();
-        $textFileIni =& eZINI::instance( 'textfile.ini' );
+        $ini = eZINI::instance();
+        $textFileIni = eZINI::instance( 'textfile.ini' );
         $databaseImplementation = $ini->variable( 'DatabaseSettings', 'DatabaseImplementation' );
         // if mysql
         if ( $databaseImplementation == "ezmysql" )
@@ -111,9 +111,8 @@ class eZTextFileUser extends eZUser
         $exists = false;
         if ( count( $users ) >= 1 )
         {
-            foreach ( array_keys( $users ) as $key )
+            foreach ( $users as $userRow )
             {
-                $userRow =& $users[$key];
                 $userID = $userRow['contentobject_id'];
                 $hashType = $userRow['password_hash_type'];
                 $hash = $userRow['password_hash'];
@@ -122,7 +121,7 @@ class eZTextFileUser extends eZUser
                                                     $hash );
 
                 // If hash type is MySql
-                if ( $hashType == EZ_USER_PASSWORD_HASH_MYSQL and $databaseImplementation == "ezmysql" )
+                if ( $hashType == eZUser::PASSWORD_HASH_MYSQL and $databaseImplementation == "ezmysql" )
                 {
                     $queryMysqlUser = "SELECT contentobject_id, password_hash, password_hash_type, email, login
                                        FROM ezuser, ezcontentobject
@@ -233,8 +232,7 @@ class eZTextFileUser extends eZUser
                 if ( isset( $userID ) )
                     eZUser::setFailedLoginAttempts( $userID );
 
-                $user = false;
-                return $user;
+                return false;
             }
 
             while ( !feof( $handle ) )
@@ -280,13 +278,13 @@ class eZTextFileUser extends eZUser
                                                                                'parent_node' => $defaultUserPlacement,
                                                                                'is_main' => 1 ) );
                             $nodeAssignment->store();
-                            $version =& $contentObject->version( 1 );
+                            $version = $contentObject->version( 1 );
                             $version->setAttribute( 'modified', time() );
-                            $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
+                            $version->setAttribute( 'status', eZContentObjectVersion::STATUS_DRAFT );
                             $version->store();
 
                             $contentObjectID = $contentObject->attribute( 'id' );
-                            $contentObjectAttributes =& $version->contentObjectAttributes();
+                            $contentObjectAttributes = $version->contentObjectAttributes();
 
                             $contentObjectAttributes[0]->setAttribute( 'data_text', $firstName );
                             $contentObjectAttributes[0]->store();
@@ -307,7 +305,7 @@ class eZTextFileUser extends eZUser
                             // Reset number of failed login attempts
                             eZUser::setFailedLoginAttempts( $userID, 0 );
 
-                            include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+                            //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
                             $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID,
                                                                                                          'version' => 1 ) );
                             return $user;
@@ -316,13 +314,13 @@ class eZTextFileUser extends eZUser
                         {
                             // Update user information
                             $userID = $existUser->attribute( 'contentobject_id' );
-                            $contentObject =& eZContentObject::fetch( $userID );
+                            $contentObject = eZContentObject::fetch( $userID );
 
                             $parentNodeID = $contentObject->attribute( 'main_parent_node_id' );
                             $currentVersion = $contentObject->attribute( 'current_version' );
 
-                            $version =& $contentObject->attribute( 'current' );
-                            $contentObjectAttributes =& $version->contentObjectAttributes();
+                            $version = $contentObject->attribute( 'current' );
+                            $contentObjectAttributes = $version->contentObjectAttributes();
 
                             $contentObjectAttributes[0]->setAttribute( 'data_text', $firstName );
                             $contentObjectAttributes[0]->store();
@@ -342,7 +340,7 @@ class eZTextFileUser extends eZUser
                                 $newVersion->assignToNode( $defaultUserPlacement, 1 );
                                 $newVersion->removeAssignment( $parentNodeID );
                                 $newVersionNr = $newVersion->attribute( 'version' );
-                                include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+                                //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
                                 $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $userID,
                                                                                                              'version' => $newVersionNr ) );
                             }
@@ -362,8 +360,7 @@ class eZTextFileUser extends eZUser
                         if ( isset( $userID ) )
                             eZUser::setFailedLoginAttempts( $userID );
 
-                        $user = false;
-                        return $user;
+                        return false;
                     }
                 }
             }
@@ -373,8 +370,7 @@ class eZTextFileUser extends eZUser
         if ( isset( $userID ) )
             eZUser::setFailedLoginAttempts( $userID );
 
-        $user = false;
-        return $user;
+        return false;
     }
 }
 

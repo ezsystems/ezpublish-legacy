@@ -33,25 +33,25 @@
 
 $CustomerID = $Params['CustomerID'];
 $Email = $Params['Email'];
-$module =& $Params['Module'];
-include_once( "kernel/common/template.php" );
+$module = $Params['Module'];
+require_once( "kernel/common/template.php" );
 
-include_once( "kernel/classes/ezorder.php" );
+//include_once( "kernel/classes/ezorder.php" );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $Email = urldecode( $Email );
-$productList =& eZOrder::productList( $CustomerID, $Email );
-$orderList =& eZOrder::orderList( $CustomerID, $Email );
+$productList = eZOrder::productList( $CustomerID, $Email );
+$orderList = eZOrder::orderList( $CustomerID, $Email );
 
 $tpl->setVariable( "product_list", $productList );
 
 $tpl->setVariable( "order_list", $orderList );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:shop/customerorderview.tpl" );
+$Result['content'] = $tpl->fetch( "design:shop/customerorderview.tpl" );
 $path = array();
 $path[] = array( 'url' => '/shop/orderlist',
                  'text' => ezi18n( 'kernel/shop', 'Order list' ) );

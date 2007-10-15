@@ -26,22 +26,22 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/common/template.php" );
-include_once( "kernel/common/eztemplatedesignresource.php" );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/common/eztemplatedesignresource.php" );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( 'lib/ezi18n/classes/eztextcodec.php' );
 
-$http =& eZHTTPTool::instance();
-$module =& $Params["Module"];
-$parameters =& $Params["Parameters"];
+$http = eZHTTPTool::instance();
+$module = $Params['Module'];
+$parameters = $Params["Parameters"];
 
 if ( $http->hasPostVariable( 'Cancel' ) )
 {
     return $Module->redirectTo( $http->postVariable( 'RedirectToURI' ) );
 }
 
-$ini =& eZINI::instance();
-$tpl =& templateInit();
+$ini = eZINI::instance();
+$tpl = templateInit();
 
 $Result = array();
 $Result['path'] = array( array( 'url' => false,
@@ -82,7 +82,7 @@ if ( $isExistingTemplate == false )
     $tpl->setVariable( 'original_template', false );
     $tpl->setVariable( 'site_access', $siteAccess );
 
-    $Result['content'] =& $tpl->fetch( "design:visual/templateedit_error.tpl" );
+    $Result['content'] = $tpl->fetch( "design:visual/templateedit_error.tpl" );
     return;
 }
 
@@ -107,8 +107,8 @@ foreach ( $overrideArray as $overrideSetting )
 
 /* Check if we need to do characterset conversions for editting and saving
  * templates. */
-$templateConfig =& eZINI::instance( 'template.ini' );
-$i18nConfig =& eZINI::instance( 'i18n.ini' );
+$templateConfig = eZINI::instance( 'template.ini' );
+$i18nConfig = eZINI::instance( 'i18n.ini' );
 
 /* First we check the HTML Output Charset */
 $outputCharset = eZTextCodec::internalCharset();
@@ -121,7 +121,7 @@ if ( $module->isCurrentAction( 'Save' ) )
 
         if ( $templateConfig->variable( 'CharsetSettings', 'AutoConvertOnSave') == 'enabled' )
         {
-            include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
+            //include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
             $outputCharset = eZCharsetInfo::realCharsetCode( $outputCharset );
             if ( preg_match( '|{\*\?template.*charset=([a-zA-Z0-9-]*).*\?\*}|', $templateContent, $matches ) )
             {
@@ -152,7 +152,7 @@ if ( $module->isCurrentAction( 'Save' ) )
 
             /* If we're saving a template after editting we need to convert it to the template's
              * Charset. */
-            $codec =& eZTextCodec::instance( $outputCharset, $templateCharset, false );
+            $codec = eZTextCodec::instance( $outputCharset, $templateCharset, false );
             if ( $codec )
             {
                 $templateContent = $codec->convertString( $templateContent );
@@ -166,16 +166,16 @@ if ( $module->isCurrentAction( 'Save' ) )
         }
         fclose( $fp );
 
-        $siteConfig =& eZINI::instance( 'site.ini' );
+        $siteConfig = eZINI::instance( 'site.ini' );
         $filePermissions = $siteConfig->variable( 'FileSettings', 'StorageFilePermissions');
         @chmod( $template, octdec( $filePermissions ) );
 
         // Expire content view cache
-        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearAllContentCache();
 
         $module->redirectTo( '/visual/templateview'. $originalTemplate );
-        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+        return eZModule::HOOK_STATUS_CANCEL_RUN;
     }
 }
 
@@ -183,7 +183,7 @@ if ( $module->isCurrentAction( 'Save' ) )
 if ( $module->isCurrentAction( 'Discard' ) )
 {
     $module->redirectTo( '/visual/templateview'. $originalTemplate );
-    return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+    return eZModule::HOOK_STATUS_CANCEL_RUN;
 }
 
 // get the content of the template
@@ -197,7 +197,7 @@ if ( !is_readable( $fileName ) )
     $tpl->setVariable( 'is_readable', false );
     $tpl->setVariable( 'site_access', $siteAccess );
 
-    $Result['content'] =& $tpl->fetch( "design:visual/templateedit_error.tpl" );
+    $Result['content'] = $tpl->fetch( "design:visual/templateedit_error.tpl" );
     return;
 }
 
@@ -215,7 +215,7 @@ if ( !is_writable( $fileName ) )
         $tpl->setVariable( 'is_readable', true );
         $tpl->setVariable( 'site_access', $siteAccess );
 
-        $Result['content'] =& $tpl->fetch( "design:visual/templateedit_error.tpl" );
+        $Result['content'] = $tpl->fetch( "design:visual/templateedit_error.tpl" );
         return;
     }
 }
@@ -240,7 +240,7 @@ else
 
 /* If we're loading a template for editting we need to convert it to the HTTP
  * Charset. */
-$codec =& eZTextCodec::instance( $templateCharset, $outputCharset, false );
+$codec = eZTextCodec::instance( $templateCharset, $outputCharset, false );
 if ( $codec )
 {
     $templateContent = $codec->convertString( $templateContent );
@@ -249,6 +249,6 @@ if ( $codec )
 $tpl->setVariable( 'template', $template );
 $tpl->setVariable( 'template_content', $templateContent );
 
-$Result['content'] =& $tpl->fetch( "design:visual/templateedit.tpl" );
+$Result['content'] = $tpl->fetch( "design:visual/templateedit.tpl" );
 
 ?>

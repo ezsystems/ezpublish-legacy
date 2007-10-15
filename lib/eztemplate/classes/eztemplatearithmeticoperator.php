@@ -85,7 +85,7 @@ class eZTemplateArithmeticOperator
     /*!
      Returns the operators in this class.
     */
-    function &operatorList()
+    function operatorList()
     {
         return $this->Operators;
     }
@@ -224,8 +224,8 @@ class eZTemplateArithmeticOperator
                                                 'element-transformation-func' => 'randTransformation') );
     }
 
-    function basicTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                  &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function basicTransformation( $operatorName, &$node, $tpl, &$resourceData,
+                                  $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $function = $operatorName;
@@ -364,8 +364,8 @@ class eZTemplateArithmeticOperator
         return $newElements;
     }
 
-    function minMaxTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                   &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function minMaxTransformation( $operatorName, &$node, $tpl, &$resourceData,
+                                   $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $function = $operatorName;
@@ -414,8 +414,8 @@ class eZTemplateArithmeticOperator
         return $newElements;
     }
 
-    function modTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                  &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function modTransformation( $operatorName, &$node, $tpl, &$resourceData,
+                                  $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         if ( count( $parameters ) != 2 )
@@ -437,8 +437,8 @@ class eZTemplateArithmeticOperator
         return $newElements;
     }
 
-    function roundTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                  &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function roundTransformation( $operatorName, &$node, $tpl, &$resourceData,
+                                  $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $function = $operatorName;
@@ -461,8 +461,8 @@ class eZTemplateArithmeticOperator
         return $newElements;
     }
 
-    function decIncTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                  &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function decIncTransformation( $operatorName, &$node, $tpl, &$resourceData,
+                                  $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $function = $operatorName;
@@ -485,8 +485,8 @@ class eZTemplateArithmeticOperator
         return $newElements;
     }
 
-    function castTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                 &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function castTransformation( $operatorName, &$node, $tpl, &$resourceData,
+                                 $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         if ( count( $parameters ) != 1 )
@@ -507,8 +507,8 @@ class eZTemplateArithmeticOperator
         return $newElements;
     }
 
-    function randTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                 &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function randTransformation( $operatorName, &$node, $tpl, &$resourceData,
+                                 $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $paramCount = count( $parameters );
         if ( $paramCount != 0 ||
@@ -534,8 +534,8 @@ class eZTemplateArithmeticOperator
         return $newElements;
     }
 
-    function romanTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                  &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function romanTransformation( $operatorName, &$node, $tpl, &$resourceData,
+                                  $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         if ( count( $parameters ) != 1 )
@@ -603,7 +603,7 @@ class eZTemplateArithmeticOperator
     /*!
      Examines the input value and outputs a boolean value. See class documentation for more information.
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters,
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters,
                      $placement )
     {
         switch ( $operatorName )
@@ -622,7 +622,7 @@ class eZTemplateArithmeticOperator
                 if ( count( $operatorParameters ) == 0 )
                     $mixedValue =& $operatorValue;
                 else
-                    $mixedValue =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
+                    $mixedValue = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
                 if ( count( $operatorParameters ) > 1 )
                     $tpl->extraParameters( $operatorName, count( $operatorParameters ), 1 );
                 if ( is_array( $mixedValue ) )
@@ -642,7 +642,7 @@ class eZTemplateArithmeticOperator
                     $value = $operatorValue;
                 for ( $i = 0; $i < count( $operatorParameters ); ++$i )
                 {
-                    $tmpValue =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
+                    $tmpValue = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
                     $value += $tmpValue;
                 }
                 $operatorValue = $value;
@@ -694,7 +694,7 @@ class eZTemplateArithmeticOperator
                     $value = $tpl->elementValue( $operatorParameters[$i++], $rootNamespace, $currentNamespace, $placement );
                 for ( ; $i < count( $operatorParameters ); ++$i )
                 {
-                    $tmpValue =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
+                    $tmpValue = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
                     @$value /= $tmpValue;
                 }
                 $operatorValue = $value;
@@ -732,7 +732,7 @@ class eZTemplateArithmeticOperator
                     $value = $tpl->elementValue( $operatorParameters[$i++], $rootNamespace, $currentNamespace, $placement );
                 for ( ; $i < count( $operatorParameters ); ++$i )
                 {
-                    $tmpValue =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
+                    $tmpValue = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
                     $value *= $tmpValue;
                 }
                 $operatorValue = $value;
@@ -756,7 +756,7 @@ class eZTemplateArithmeticOperator
                 }
                 for ( ; $i < count( $operatorParameters ); ++$i )
                 {
-                    $tmpValue =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
+                    $tmpValue = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
                     if ( $tmpValue > $value )
                         $value = $tmpValue;
                 }
@@ -772,7 +772,7 @@ class eZTemplateArithmeticOperator
                 $value = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
                 for ( $i = 1; $i < count( $operatorParameters ); ++$i )
                 {
-                    $tmpValue =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
+                    $tmpValue = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
                     if ( $tmpValue < $value )
                         $value = $tmpValue;
                 }
@@ -897,32 +897,32 @@ class eZTemplateArithmeticOperator
         return '';
     }
 
-    var $Operators;
-    var $SumName;
-    var $SubName;
-    var $IncName;
-    var $DecName;
+    public $Operators;
+    public $SumName;
+    public $SubName;
+    public $IncName;
+    public $DecName;
 
-    var $DivName;
-    var $ModName;
-    var $MulName;
+    public $DivName;
+    public $ModName;
+    public $MulName;
 
-    var $MaxName;
-    var $MinName;
+    public $MaxName;
+    public $MinName;
 
-    var $AbsName;
-    var $CeilName;
-    var $FloorName;
-    var $RoundName;
+    public $AbsName;
+    public $CeilName;
+    public $FloorName;
+    public $RoundName;
 
-    var $IntName;
-    var $FloatName;
+    public $IntName;
+    public $FloatName;
 
-    var $CountName;
+    public $CountName;
 
-    var $RomanName;
+    public $RomanName;
 
-    var $RandName;
+    public $RandName;
 }
 
 ?>

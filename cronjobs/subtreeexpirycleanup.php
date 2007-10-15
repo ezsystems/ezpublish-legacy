@@ -29,7 +29,7 @@
 /*! \file subtreeexpirycleanup.php
 */
 
-include_once( 'kernel/classes/ezsubtreecache.php' );
+//include_once( 'kernel/classes/ezsubtreecache.php' );
 eZSubtreeCache::removeAllExpiryCacheFromDisk();
 
 ?>

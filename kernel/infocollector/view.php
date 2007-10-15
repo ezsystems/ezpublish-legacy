@@ -26,11 +26,11 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/classes/ezinformationcollection.php' );
-include_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezinformationcollection.php' );
+require_once( 'kernel/common/template.php' );
 
-$http =& eZHTTPTool::instance();
-$Module =& $Params['Module'];
+$http = eZHTTPTool::instance();
+$Module = $Params['Module'];
 $collectionID = $Params['CollectionID'];
 
 $collection = false;
@@ -43,25 +43,25 @@ if( is_numeric( $collectionID ) )
 
 if( !$collection )
 {
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
 $object = eZContentObject::fetch( $collection->attribute( 'contentobject_id' ) );
 
 if( !$object )
 {
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
 $objectID   = $collection->attribute( 'contentobject_id' );
 $objectName = $object->attribute( 'name' );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable( 'module', $Module );
 $tpl->setVariable( 'collection', $collection );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:infocollector/view.tpl' );
+$Result['content'] = $tpl->fetch( 'design:infocollector/view.tpl' );
 $Result['path'] = array( array( 'url' => '/infocollector/overview',
                                 'text' => ezi18n( 'kernel/infocollector', 'Collected information' ) ),
                          array( 'url' => '/infocollector/collectionlist/' . $objectID,

@@ -36,7 +36,7 @@
   \brief The class eZSubtreeNotificationRule does
 
 */
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
 class eZSubtreeNotificationRule extends eZPersistentObject
 {
@@ -48,7 +48,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -81,7 +81,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
     }
 
 
-    function create( $nodeID, $userID, $useDigest = 0 )
+    static function create( $nodeID, $userID, $useDigest = 0 )
     {
         $rule = new eZSubtreeNotificationRule( array( 'user_id' => $userID,
                                                       'use_digest' => $useDigest,
@@ -89,7 +89,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
         return $rule;
     }
 
-    function fetchNodesForUserID( $userID, $asObject = true )
+    static function fetchNodesForUserID( $userID, $asObject = true )
     {
         $nodeIDList = eZPersistentObject::fetchObjectList( eZSubtreeNotificationRule::definition(),
                                                             array( 'node_id' ), array( 'user_id' => $userID ),
@@ -112,7 +112,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
         return $nodes;
     }
 
-    function fetchList( $userID, $asObject = true, $offset = false, $limit = false )
+    static function fetchList( $userID, $asObject = true, $offset = false, $limit = false )
     {
         return eZPersistentObject::fetchObjectList( eZSubtreeNotificationRule::definition(),
                                                             null, array( 'user_id' => $userID ),
@@ -120,7 +120,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
                                                                          'length' => $limit ), $asObject );
     }
 
-    function fetchListCount( $userID )
+    static function fetchListCount( $userID )
     {
         $countRes = eZPersistentObject::fetchObjectList( eZSubtreeNotificationRule::definition(),
                                                          array(),
@@ -142,7 +142,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
 
      \return array of eZSubtreeNotificationRule objects
     */
-    function fetchUserList( $nodeIDList, $contentObject )
+    static function fetchUserList( $nodeIDList, $contentObject )
     {
         if ( count( $nodeIDList ) == 0 )
         {
@@ -150,7 +150,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
             return $retValue;
         }
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $concatString = $db->concatString(  array( 'user_tree.path_string', "'%'" ) );
 
         $sql = 'SELECT DISTINCT policy.id AS policy_id, subtree_rule.user_id,
@@ -185,14 +185,14 @@ class eZSubtreeNotificationRule extends eZPersistentObject
             }
             else
             {
-                $limitedPolicyIDArray[] = array( 'user_id' => &$userIDArray[(string)$result['user_id']],
+                $limitedPolicyIDArray[] = array( 'user_id' => $userIDArray[(string)$result['user_id']],
                                                  'limitation' => $result['limitation'],
                                                  'value' => $result['value'],
                                                  'policyID' => $result['policy_id'] );
             }
         }
 
-        include_once( 'kernel/classes/ezpolicy.php' );
+        //include_once( 'kernel/classes/ezpolicy.php' );
         $acceptedUserArray = array();
         foreach( array_keys( $policyIDArray ) as $policyID )
         {
@@ -273,7 +273,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
 
      \return array of user ID's which has access to object
     */
-    function checkObjectAccess( $contentObject, $policyID, $userIDArray, $userLimits = false )
+    static function checkObjectAccess( $contentObject, $policyID, $userIDArray, $userLimits = false )
     {
         $policy = eZPolicy::fetch( $policyID );
         if ( $userLimits )
@@ -300,7 +300,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
 
         $limitationArray = current( $limitationArray );
 
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
         $classID = $contentObject->attribute( 'contentclass_id' );
         $nodeArray = $contentObject->attribute( 'assigned_nodes' );
 
@@ -456,7 +456,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
         return $returnArray;
     }
 
-    function &node()
+    function node()
     {
         if ( $this->Node == null )
         {
@@ -465,7 +465,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
         return $this->Node;
     }
 
-    function removeByNodeAndUserID( $userID, $nodeID )
+    static function removeByNodeAndUserID( $userID, $nodeID )
     {
         eZPersistentObject::removeObject( eZSubtreeNotificationRule::definition(), array( 'user_id' => $userID,
                                                                                           'node_id' => $nodeID ) );
@@ -478,7 +478,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
 
      \param userID
     */
-    function removeByUserID( $userID )
+    static function removeByUserID( $userID )
     {
         eZPersistentObject::removeObject( eZSubtreeNotificationRule::definition(), array( 'user_id' => $userID ) );
     }
@@ -487,13 +487,13 @@ class eZSubtreeNotificationRule extends eZPersistentObject
      \static
      Cleans up all notification rules for all users.
     */
-    function cleanup()
+    static function cleanup()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->query( "DELETE FROM ezsubtree_notification_rule" );
     }
 
-    var $Node = null;
+    public $Node = null;
 }
 
 ?>

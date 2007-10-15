@@ -62,7 +62,7 @@ class eZContentObjectTranslation
         return in_array( $attribute, $this->attributes() );
     }
 
-    function &attribute( $attribute )
+    function attribute( $attribute )
     {
         if ( $attribute == 'contentobject_id' )
             return $this->ContentObjectID;
@@ -75,35 +75,33 @@ class eZContentObjectTranslation
         else
         {
             eZDebug::writeError( "Attribute '$attribute' does not exist", 'eZContentObjectTranslation::attribute' );
-            $retValue = null;
-            return $retValue;
+            return null;
         }
     }
 
-    function &locale()
+    function locale()
     {
         if ( $this->Locale !== null )
             return $this->Locale;
-        include_once( 'lib/ezlocale/classes/ezlocale.php' );
-        $this->Locale =& eZLocale::instance( $this->LanguageCode );
+        //include_once( 'lib/ezlocale/classes/ezlocale.php' );
+        $this->Locale = eZLocale::instance( $this->LanguageCode );
         return $this->Locale;
     }
 
     /*!
      Returns the attributes for the current content object translation.
     */
-    function &objectAttributes( $asObject = true )
+    function objectAttributes( $asObject = true )
     {
-        $attributeList = eZContentObjectVersion::fetchAttributes( $this->Version, $this->ContentObjectID, $this->LanguageCode, $asObject );
-        return $attributeList;
+        return eZContentObjectVersion::fetchAttributes( $this->Version, $this->ContentObjectID, $this->LanguageCode, $asObject );
     }
 
     /// The content object identifier
-    var $ContentObjectID;
+    public $ContentObjectID;
     /// Contains the content object
-    var $Version;
+    public $Version;
 
     /// Contains the language code for the current translation
-    var $LanguageCode;
+    public $LanguageCode;
 }
 ?>

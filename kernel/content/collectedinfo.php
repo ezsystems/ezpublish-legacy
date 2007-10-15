@@ -26,37 +26,37 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/classes/ezinformationcollection.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezinformationcollection.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+require_once( 'kernel/common/template.php' );
 
-$module =& $Params['Module'];
+$module = $Params['Module'];
 
 $nodeID = $Params['NodeID'];
 if ( !$nodeID )
-    return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 $node = eZContentObjectTreeNode::fetch( $nodeID );
 if ( !$node )
-    return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
 if ( $node->attribute( 'is_invisible' ) && !eZContentObjectTreeNode::showInvisibleNodes() )
 {
-    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 }
 
-$object =& $node->attribute( 'object' );
+$object = $node->attribute( 'object' );
 if ( !$object )
-    return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 if ( !$object->attribute( 'can_read' ) )
-    return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
-// $http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $icMap = array();
-if ( eZHTTPTool::hasSessionVariable( 'InformationCollectionMap' ) )
-    $icMap = eZHTTPTool::sessionVariable( 'InformationCollectionMap' );
+if ( $http->hasSessionVariable( 'InformationCollectionMap' ) )
+    $icMap = $http->sessionVariable( 'InformationCollectionMap' );
 $icID = false;
 if ( isset( $icMap[$object->attribute( 'id' )] ) )
     $icID = $icMap[$object->attribute( 'id' )];
@@ -75,7 +75,7 @@ $section = eZSection::fetch( $object->attribute( 'section_id' ) );
 if ( $section )
     $navigationPartIdentifier = $section->attribute( 'navigation_part_identifier' );
 
-$res =& eZTemplateDesignResource::instance();
+$res = eZTemplateDesignResource::instance();
 $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ),
                       array( 'node', $node->attribute( 'node_id' ) ),
                       array( 'parent_node', $node->attribute( 'parent_node_id' ) ),
@@ -87,14 +87,14 @@ $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ),
                       ) );
 
 
-$Result['content'] =& $tpl->fetch( 'design:content/collectedinfo/' . $informationCollectionTemplate . '.tpl' );
+$Result['content'] = $tpl->fetch( 'design:content/collectedinfo/' . $informationCollectionTemplate . '.tpl' );
 
 $title = $object->attribute( 'name' );
 if ( $tpl->hasVariable( 'title' ) )
     $title = $tpl->variable( 'title' );
 
 // create path
-$parents =& $node->attribute( 'path' );
+$parents = $node->attribute( 'path' );
 
 $path = array();
 $titlePath = array();
@@ -125,7 +125,7 @@ $titlePath[] = array( 'text' => $title,
                       'url_alias' => $node->attribute( 'url_alias' ),
                       'node_id' => $node->attribute( 'node_id' ) );
 
-$Result['path'] =& $path;
-$Result['title_path'] =& $titlePath;
+$Result['path'] = $path;
+$Result['title_path'] = $titlePath;
 
 ?>

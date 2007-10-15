@@ -27,27 +27,29 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ Publish DB file verifier\n\n" .
-                                                         "Checks the database update files and gives a report on them.\n" .
-                                                         "It will show which files are missing and which should not be present.\n" .
-                                                         "\n" .
-                                                         "For each file with problems it will output a status and the filepath\n" .
-                                                         "The status will be one of these:\n" .
-                                                         " '?' file is not defined in upgrade path\n" .
-                                                         " '!' file defined in upgrade path but missing on filesystem\n" .
-                                                         " 'A' file is present in working copy but not in the original stable branch\n" .
-                                                         " 'C' file data conflicts with the original stable branch\n" .
-                                                         "\n" .
-                                                         "Example output:\n" .
-                                                         "  checkdbfiles.php\n" .
-                                                         "  ? update/database/mysql/3.5/dbupdate-3.5.0-to-3.5.1.sql" ),
-                                      'use-session' => false,
-                                      'use-modules' => false,
-                                      'use-extensions' => true ) );
+require 'autoload.php';
+
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'description' => ( "eZ Publish DB file verifier\n\n" .
+                                                        "Checks the database update files and gives a report on them.\n" .
+                                                        "It will show which files are missing and which should not be present.\n" .
+                                                        "\n" .
+                                                        "For each file with problems it will output a status and the filepath\n" .
+                                                        "The status will be one of these:\n" .
+                                                        " '?' file is not defined in upgrade path\n" .
+                                                        " '!' file defined in upgrade path but missing on filesystem\n" .
+                                                        " 'A' file is present in working copy but not in the original stable branch\n" .
+                                                        " 'C' file data conflicts with the original stable branch\n" .
+                                                        "\n" .
+                                                        "Example output:\n" .
+                                                        "  checkdbfiles.php\n" .
+                                                        "  ? update/database/mysql/3.5/dbupdate-3.5.0-to-3.5.1.sql" ),
+                                     'use-session' => false,
+                                     'use-modules' => false,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 
@@ -176,6 +178,12 @@ $versions310 = array( 'unstable' => array( array( '3.9.0', '3.10.0alpha1' )
                                          ),
                      'unstable_subdir' => 'unstable',
                      'stable' => array( array( '3.9.0', '3.10.0' ) ) );
+
+$versions40 = array( 'unstable' => array( array( '3.9.0', '4.0.0alpha1' )
+                                          , array( '4.0.0alpha1', '4.0.0alpha2' )
+                                         ),
+                     'unstable_subdir' => 'unstable',
+                     'stable' => array() );
 
 $versions['3.0'] = $versions30;
 $versions['3.1'] = $versions31;
@@ -329,15 +337,15 @@ if ( !$options['no-verify-branches'] )
     $exportPath .= "/dbupdate-check/";
     if ( file_exists( $exportPath ) )
     {
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        //include_once( 'lib/ezfile/classes/ezdir.php' );
         eZDir::recursiveDelete( $exportPath );
     }
-    include_once( 'lib/ezfile/classes/ezdir.php' );
+    //include_once( 'lib/ezfile/classes/ezdir.php' );
     eZDir::mkdir( $exportPath, octdec( "777" ), true );
 }
 
 // Figure out the current branch, we do not want to export it
-include_once( 'lib/version.php' );
+//include_once( 'lib/version.php' );
 $currentBranch = EZ_SDK_VERSION_MAJOR . '.' . EZ_SDK_VERSION_MINOR;
 
 foreach ( $dbTypes as $dbType )
@@ -455,7 +463,7 @@ if ( !$options['no-verify-branches'] )
     // Cleanup any exports
     if ( file_exists( $exportPath ) )
     {
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        //include_once( 'lib/ezfile/classes/ezdir.php' );
         eZDir::recursiveDelete( $exportPath );
     }
 }

@@ -42,6 +42,7 @@
 /*!
  includes
 */
+require 'autoload.php';
 include_once( 'bin/php/ezwebincommon.php' );
 
 /*!
@@ -157,7 +158,7 @@ function updateINI()
                 {
                     //Certain INI files we don't want to replace fully, for instance design.ini can have other values for sitestyles.
                     $iniToModify = $iniName . '.append.php';
-                    $tmpINI =& eZINI::instance( $iniToModify, $saPath );
+                    $tmpINI = eZINI::instance( $iniToModify, $saPath );
                     // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
                     $tmpINI->setReadOnlySettingsCheck( false );
                     $tmpINI->setVariables( $settings );
@@ -166,7 +167,7 @@ function updateINI()
                 else
                 {
                     //Replace new INI files eZ webin 1.2 accordingly.
-                    $tmpINI =& eZINI::create( $iniName );
+                    $tmpINI = eZINI::create( $iniName );
                     // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
                     $tmpINI->setReadOnlySettingsCheck( false );
                     $tmpINI->setVariables( $settings );
@@ -190,11 +191,11 @@ function updateINI()
         if ( file_exists( 'settings/override/' . $iniName . '.append' ) ||
              file_exists( 'settings/override/' . $iniName . '.append.php' ) )
         {
-            $tmpINI =& eZINI::instance( $iniName, 'settings/override', null, null, false, true );
+            $tmpINI = eZINI::instance( $iniName, 'settings/override', null, null, false, true );
         }
         else
         {
-            $tmpINI =& eZINI::create( $iniName );
+            $tmpINI = eZINI::create( $iniName );
         }
         // Set ReadOnlySettingsCheck to false: towards
         // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
@@ -206,13 +207,13 @@ function updateINI()
 
 
 // script initializing
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "\n" .
-                                                         "This script will upgrade ezwebin 1.1-1 to 1.2-0\n" ),
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => false,
-                                      'user' => true ) );
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'description' => ( "\n" .
+                                                        "This script will upgrade ezwebin 1.1-1 to 1.2-0\n" ),
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => false,
+                                     'user' => true ) );
 $script->startup();
 
 $scriptOptions = $script->getOptions( "[repository:][package:][package-dir:][url:][auto-mode:]",
@@ -297,7 +298,7 @@ $packageDir = $scriptOptions['package-dir'] ? $scriptOptions['package-dir'] : "/
 $packageURL = $scriptOptions['url'];
 if ( !$packageURL )
 {
-    $packageINI =& eZINI::instance( 'package.ini' );
+    $packageINI = eZINI::instance( 'package.ini' );
     $packageURL = $packageINI->variable( 'RepositorySettings', 'RemotePackagesIndexURL' );
 }
 

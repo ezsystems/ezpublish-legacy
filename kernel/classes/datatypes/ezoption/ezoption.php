@@ -35,19 +35,17 @@
 
   \code
 
-  include_once( "kernel/classes/datatypes/ezoption/ezoption.php" );
+  //include_once( "kernel/classes/datatypes/ezoption/ezoption.php" );
 
   $option = new eZOption( "Colour" );
   $option->addValue( "Red" );
   $option->addValue( "Green" );
 
   // Serialize the class to an XML document
-  $xmlString =& $option->xmlString();
+  $xmlString = $option->xmlString();
 
   \endcode
 */
-
-include_once( "lib/ezxml/classes/ezxml.php" );
 
 class eZOption
 {
@@ -72,7 +70,7 @@ class eZOption
     /*!
      Returns the name of the option set.
     */
-    function &name()
+    function name()
     {
         return $this->Name;
     }
@@ -103,11 +101,10 @@ class eZOption
 
     function removeOptions( $array_remove )
     {
-        $options =& $this->Options;
         $shiftvalue = 0;
         foreach( $array_remove as $id )
         {
-            array_splice( $options, $id - $shiftvalue, 1 );
+            array_splice( $this->Options, $id - $shiftvalue, 1 );
             $shiftvalue++;
         }
         $this->OptionCount -= $shiftvalue;
@@ -124,7 +121,7 @@ class eZOption
         return in_array( $name, $this->attributes() );
     }
 
-    function &attribute( $name )
+    function attribute( $name )
     {
         switch ( $name )
         {
@@ -139,8 +136,7 @@ class eZOption
             default:
             {
                 eZDebug::writeError( "Attribute '$name' does not exist", 'eZOption::attribute' );
-                $retValue = null;
-                return $retValue;
+                return null;
             }break;
         }
     }
@@ -150,26 +146,22 @@ class eZOption
     */
     function decodeXML( $xmlString )
     {
-        $xml = new eZXML();
-
-
-        $dom =& $xml->domTree( $xmlString );
-
         if ( $xmlString != "" )
         {
-            // set the name of the node
-            $nameArray = $dom->elementsByName( "name" );
-            $this->setName( $nameArray[0]->textContent() );
+            $dom = new DOMDocument();
+            $success = $dom->loadXML( $xmlString );
 
-            $optionArray = $dom->elementsByName( "option" );
+            // set the name of the node
+            $nameNode = $dom->getElementsByTagName( "name" )->item( 0 );
+            $this->setName( $nameNode->textContent );
+
+            $optionNodes = $dom->getElementsByTagName( "option" );
             $this->OptionCount = 0;
-            if ( is_array( $optionArray ) )
+
+            foreach ( $optionNodes as $optionNode )
             {
-                foreach ( $optionArray as $option )
-                {
-                    $this->addOption( array( 'value' => $option->textContent(),
-                                             'additional_price' => $option->attributeValue( 'additional_price' ) ) );
-                }
+                $this->addOption( array( 'value' => $optionNode->textContent,
+                                         'additional_price' => $optionNode->getAttribute( 'additional_price' ) ) );
             }
         }
         else
@@ -182,51 +174,42 @@ class eZOption
     /*!
      Will return the XML string for this option set.
     */
-    function &xmlString( )
+    function xmlString( )
     {
-        $doc = new eZDOMDocument( "Option" );
+        $doc = new DOMDocument();
 
-        $root = $doc->createElementNode( "ezoption" );
-        $doc->setRoot( $root );
+        $root = $doc->createElement( "ezoption" );
+        $doc->appendChild( $root );
 
-        $name = $doc->createElementNode( "name" );
-        $nameValue = $doc->createTextNode( $this->Name );
-        $name->appendChild( $nameValue );
-
-        $name->setContent( $this->Name() );
-
+        $name = $doc->createElement( "name", $this->Name );
         $root->appendChild( $name );
 
-        $options = $doc->createElementNode( "options" );
-
+        $options = $doc->createElement( "options" );
         $root->appendChild( $options );
+
         $id=0;
         foreach ( $this->Options as $option )
         {
             unset( $optionNode );
-            $optionNode = $doc->createElementNode( "option" );
-            $optionNode->appendAttribute( $doc->createAttributeNode( "id", $option['id'] ) );
-            $optionNode->appendAttribute( $doc->createAttributeNode( 'additional_price', $option['additional_price'] ) );
-            unset( $optionValueNode );
-            $optionValueNode = $doc->createTextNode( $option["value"] );
-            $optionNode->appendChild( $optionValueNode );
-
+            $optionNode = $doc->createElement( "option", $option["value"] );
+            $optionNode->setAttribute( "id", $option['id'] );
+            $optionNode->setAttribute( 'additional_price', $option['additional_price'] );
             $options->appendChild( $optionNode );
         }
 
-        $xml = $doc->toString();
+        $xml = $doc->saveXML();
 
         return $xml;
     }
 
     /// Contains the Option name
-    var $Name;
+    public $Name;
 
     /// Contains the Options
-    var $Options;
+    public $Options;
 
     /// Contains the option counter value
-    var $OptionCount;
+    public $OptionCount;
 }
 
 ?>

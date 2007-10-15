@@ -29,10 +29,10 @@
 /*! \file eztemplateautoload.php
 */
 
-include_once( 'lib/ezpdf/classes/class.ezpdftable.php' );
-include_once( 'lib/ezpdf/classes/class.pdf.php' );
+//include_once( 'lib/ezpdf/classes/class.ezpdftable.php' );
+//include_once( 'lib/ezpdf/classes/class.pdf.php' );
 
-//include_once( 'lib/ezutils/classes/eztexttool.php' );
+////include_once( 'lib/ezutils/classes/eztexttool.php' );
 
 /*!
   \defgroup eZPDF PDF generator library
@@ -53,13 +53,13 @@ class eZPDF
     function eZPDF( $name = "pdf" )
     {
         $this->Operators = array( $name );
-        $this->Config =& eZINI::instance( 'pdf.ini' );
+        $this->Config = eZINI::instance( 'pdf.ini' );
     }
 
     /*!
      Returns the template operators.
     */
-    function &operatorList()
+    function operatorList()
     {
         return $this->Operators;
     }
@@ -77,7 +77,7 @@ class eZPDF
     /*!
      Display the variable.
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
         switch ( $namedParameters['operation'] )
         {
@@ -285,7 +285,7 @@ class eZPDF
 
             case 'close':
             {
-                include_once( 'lib/ezfile/classes/ezdir.php' );
+                //include_once( 'lib/ezfile/classes/ezdir.php' );
                 $filename = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
                 eZDir::mkdir( eZDir::dirpath( $filename ), false, true );
@@ -309,7 +309,7 @@ class eZPDF
             /* usage : execute/add text to pdf file, pdf(execute,<text>) */
             case 'execute':
             {
-                $config =& eZINI::instance( 'pdf.ini' );
+                $config = eZINI::instance( 'pdf.ini' );
 
                 $text = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
@@ -328,14 +328,14 @@ class eZPDF
                 }
 
                 $text = str_replace( array( ' ', "\n", "\t" ), '', $text );
-                include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+                //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
                 $httpCharset = eZTextCodec::internalCharset();
                 $outputCharset = $config->hasVariable( 'PDFGeneral', 'OutputCharset' )
                                  ? $config->variable( 'PDFGeneral', 'OutputCharset' )
                                  : 'iso-8859-1';
-                $codec =& eZTextCodec::instance( $httpCharset, $outputCharset );
+                $codec = eZTextCodec::instance( $httpCharset, $outputCharset );
                 // Convert current text to $outputCharset (by default iso-8859-1)
-                $text =& $codec->convertString( $text );
+                $text = $codec->convertString( $text );
 
                 $this->PDF->ezText( $text );
                 eZDebug::writeNotice( 'Execute text in PDF, length: "'. strlen( $text ) .'"', 'eZPDF::modify' );
@@ -630,7 +630,7 @@ class eZPDF
             */
             case 'set_margin':
             {
-                include_once( 'lib/ezutils/classes/ezmath.php' );
+                //include_once( 'lib/ezutils/classes/ezmath.php' );
                 $operatorValue = '<C:callSetMargin';
                 $options = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
@@ -679,7 +679,7 @@ class eZPDF
 
                 if ( isset( $params['rgb'] ) )
                 {
-                    eZMath::normalizeColorArray( $params['rgb'] );
+                    $params['rgb'] = eZMath::normalizeColorArray( $params['rgb'] );
                     $params['cmyk'] = eZMath::rgbToCMYK2( $params['rgb'][0]/255,
                                                           $params['rgb'][1]/255,
                                                           $params['rgb'][2]/255 );
@@ -730,7 +730,7 @@ class eZPDF
 
             case 'filled_circle':
             {
-                include_once( 'lib/ezutils/classes/ezmath.php' );
+                //include_once( 'lib/ezutils/classes/ezmath.php' );
                 $operatorValue = '';
                 $options = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
@@ -751,7 +751,7 @@ class eZPDF
 
                 if ( isset( $options['rgb'] ) )
                 {
-                    eZMath::normalizeColorArray( $options['rgb'] );
+                    $options['rgb'] = eZMath::normalizeColorArray( $options['rgb'] );
                     $options['cmyk'] = eZMath::rgbToCMYK2( $options['rgb'][0]/255,
                                                            $options['rgb'][1]/255,
                                                            $options['rgb'][2]/255 );
@@ -777,7 +777,7 @@ class eZPDF
 
             case 'rectangle':
             {
-                include_once( 'lib/ezutils/classes/ezmath.php' );
+                //include_once( 'lib/ezutils/classes/ezmath.php' );
                 $operatorValue = '';
                 $options = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
@@ -799,7 +799,7 @@ class eZPDF
                 {
                     if ( $key == 'rgb' )
                     {
-                        eZMath::normalizeColorArray( $options['rgb'] );
+                        $options['rgb'] = eZMath::normalizeColorArray( $options['rgb'] );
                         $operatorValue .= ':cmyk:' . implode( ',',  eZMath::rgbToCMYK2( $options['rgb'][0]/255,
                                                                                         $options['rgb'][1]/255,
                                                                                         $options['rgb'][2]/255 ) );
@@ -830,7 +830,7 @@ class eZPDF
                                                     'cmykBottom', array( <c>, <m>, <y>, <k> ) ) ) */
             case 'filled_rectangle':
             {
-                include_once( 'lib/ezutils/classes/ezmath.php' );
+                //include_once( 'lib/ezutils/classes/ezmath.php' );
                 $operatorValue = '';
                 $options = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
@@ -841,7 +841,7 @@ class eZPDF
 
                 if ( isset( $options['rgb'] ) )
                 {
-                    eZMath::normalizeColorArray( $options['rgb'] );
+                    $options['rgb'] = eZMath::normalizeColorArray( $options['rgb'] );
                     $options['cmyk'] = eZMath::rgbToCMYK2( $options['rgb'][0]/255,
                                                            $options['rgb'][1]/255,
                                                            $options['rgb'][2]/255 );
@@ -857,7 +857,7 @@ class eZPDF
                 {
                     if ( isset( $options['rgbTop'] ) )
                     {
-                        eZMath::normalizeColorArray( $options['rgbTop'] );
+                        $options['rgbTop'] = eZMath::normalizeColorArray( $options['rgbTop'] );
                         $options['cmykTop'] = eZMath::rgbToCMYK2( $options['rgbTop'][0]/255,
                                                                   $options['rgbTop'][1]/255,
                                                                   $options['rgbTop'][2]/255 );
@@ -872,7 +872,7 @@ class eZPDF
                 {
                     if ( isset( $options['rgbBottom'] ) )
                     {
-                        eZMath::normalizeColorArray( $options['rgbBottom'] );
+                        $options['rgbBottom'] = eZMath::normalizeColorArray( $options['rgbBottom'] );
                         $options['cmykBottom'] = eZMath::rgbToCMYK2( $options['rgbBottom'][0]/255,
                                                                      $options['rgbBottom'][1]/255,
                                                                      $options['rgbBottom'][2]/255 );
@@ -1051,9 +1051,9 @@ class eZPDF
     }
 
     /// The array of operators, used for registering operators
-    var $Operators;
-    var $PDF;
-    var $Config;
+    public $Operators;
+    public $PDF;
+    public $Config;
 }
 
 

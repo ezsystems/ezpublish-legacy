@@ -26,14 +26,14 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$module =& $Params["Module"];
+$module = $Params['Module'];
 
-include_once( "kernel/common/template.php" );
-include_once( "kernel/common/eztemplatedesignresource.php" );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/common/eztemplatedesignresource.php" );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
-$ini =& eZINI::instance();
-$tpl =& templateInit();
+$ini = eZINI::instance();
+$tpl = templateInit();
 
 /*
 - Name
@@ -59,7 +59,7 @@ $steps = array( 'basic' => array( 'template' => 'templateoperator_basic.tpl',
 
 $template = 'templateoperator.tpl';
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 $persistentData = array();
 if ( $http->hasPostVariable( 'PersistentData' ) )
@@ -89,37 +89,47 @@ if ( $currentStep )
     {
         $preFunctionName = $currentStep['pre_function'];
         if ( function_exists( $preFunctionName ) )
+        {
             $preFunctionName( $tpl, $persistentData );
+        }
         else
+        {
             eZDebug::writeWarning( 'Unknown pre step function ' . $preFunctionName );
+        }
     }
     if ( isset( $currentStep['function'] ) )
     {
         $functionName = $currentStep['function'];
         if ( function_exists( $functionName ) )
+        {
             $functionName( $tpl, $persistentData, $currentStep );
+        }
         else
+        {
             eZDebug::writeWarning( 'Unknown step function ' . $functionName );
+        }
     }
     if ( isset( $currentStep['template'] ) )
+    {
         $template = $currentStep['template'];
+    }
 }
 
 $tpl->setVariable( 'persistent_data', $persistentData );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:setup/$template" );
+$Result['content'] = $tpl->fetch( "design:setup/$template" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/setup', 'Template operator wizard' ) ) );
 
 
-function templateOperatorBasic( &$tpl, &$persistentData, $stepData )
+function templateOperatorBasic( $tpl, &$persistentData, $stepData )
 {
 }
 
-function templateOperatorBasicFetchData( &$tpl, &$persistentData )
+function templateOperatorBasicFetchData( $tpl, &$persistentData )
 {
-    $http =& eZHTTPTool::instance();
+    $http = eZHTTPTool::instance();
     $operatorName = false;
     if ( $http->hasPostVariable( 'Name' ) )
         $operatorName = $http->postVariable( 'Name' );
@@ -152,7 +162,7 @@ function templateOperatorBasicFetchData( &$tpl, &$persistentData )
     $persistentData['parameter-check'] = $parameterCheck;
 }
 
-function templateOperatorDescribe( &$tpl, &$persistentData, $stepData )
+function templateOperatorDescribe( $tpl, &$persistentData, $stepData )
 {
     $operatorName = $persistentData['name'];
     $fullClassName = 'Template' . strtoupper( $operatorName[0] ) . substr( $operatorName, 1 ) . 'Operator';
@@ -182,9 +192,9 @@ function templateOperatorDescribe( &$tpl, &$persistentData, $stepData )
     $tpl->setVariable( 'parameter_check', $parameterCheck );
 }
 
-function templateOperatorDescribeFetchData( &$tpl, &$persistentData )
+function templateOperatorDescribeFetchData( $tpl, &$persistentData )
 {
-    $http =& eZHTTPTool::instance();
+    $http = eZHTTPTool::instance();
     $className = false;
     if ( $http->hasPostVariable( 'ClassName' ) )
         $className = $http->postVariable( 'ClassName' );
@@ -204,7 +214,7 @@ function templateOperatorDescribeFetchData( &$tpl, &$persistentData )
     $persistentData['example-code'] = $exampleCode;
 }
 
-function templateOperatorDownload( &$tpl, &$persistentData, $stepData )
+function templateOperatorDownload( $tpl, &$persistentData, $stepData )
 {
     $singleOperator = $persistentData['single-operator'];
     $useInput = $persistentData['use-input'];
@@ -254,7 +264,7 @@ function templateOperatorDownload( &$tpl, &$persistentData, $stepData )
     $contentLength = strlen( $content );
     $mimeType = 'application/octet-stream';
 
-    include_once( 'lib/version.php' );
+    //include_once( 'lib/version.php' );
     $version = eZPublishSDK::version();
 
     header( "Pragma: " );

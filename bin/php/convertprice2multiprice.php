@@ -39,15 +39,17 @@
 
 
 // script initializing
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'kernel/classes/ezscript.php' );
+
+require 'autoload.php';
 
 global $cli;
 global $currencyList;
 
 $currencyList = false;
 
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "\n" .
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'description' => ( "\n" .
                                                          "This script will convert objects with 'price' datatype to\n" .
                                                          "the objects with 'multiprice' datatype.\n" ),
                                       'use-session' => false,
@@ -66,27 +68,26 @@ $scriptOptions = $script->getOptions( "",
 
 $script->initialize();
 
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'kernel/classes/ezcontentclass.php' );
-include_once( 'kernel/shop/classes/ezshopfunctions.php' );
-include_once( 'kernel/shop/classes/ezcurrencydata.php' );
-include_once( 'kernel/classes/datatypes/ezmultiprice/ezmultipricetype.php' );
-include_once( 'kernel/classes/datatypes/ezmultiprice/ezmultiprice.php' );
-include_once( 'kernel/shop/classes/ezmultipricedata.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezcontentclass.php' );
+//include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+//include_once( 'kernel/shop/classes/ezcurrencydata.php' );
+//include_once( 'kernel/classes/datatypes/ezmultiprice/ezmultipricetype.php' );
+//include_once( 'kernel/classes/datatypes/ezmultiprice/ezmultiprice.php' );
+//include_once( 'kernel/shop/classes/ezmultipricedata.php' );
 
 
 $convertedObjectsCount = 0;
 
 $classList = eZContentClass::fetchList();
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 $db->begin();
-foreach ( array_keys( $classList ) as $classListKey )
+foreach ( $classList as $class )
 {
-    $class =& $classList[$classListKey];
     if ( eZShopFunctions::isSimplePriceClass( $class ) )
     {
-        $classID =& $class->attribute( 'id' );
+        $classID = $class->attribute( 'id' );
         $objectListCount = eZContentObject::fetchSameClassListCount( $classID );
         if ( $objectListCount == 0 )
         {
@@ -101,14 +102,14 @@ foreach ( array_keys( $classList ) as $classListKey )
         if ( !$defaultCurrency )
             $script->shutdown( 1 );
 
-        $defaultCurrencyCode =& $defaultCurrency->attribute( 'code' );
+        $defaultCurrencyCode = $defaultCurrency->attribute( 'code' );
 
         $priceClassAttribute = eZShopFunctions::priceAttribute( $class );
-        $priceClassAttributeID =& $priceClassAttribute->attribute( 'id' );
+        $priceClassAttributeID = $priceClassAttribute->attribute( 'id' );
 
         // replace 'ezprice' class attribute with 'ezmultiprice'.
         $priceClassAttribute->setAttribute( 'data_type_string', 'ezmultiprice' );
-        $priceClassAttribute->setAttribute( EZ_DATATYPESTRING_DEFAULT_CURRENCY_CODE_FIELD, $defaultCurrencyCode );
+        $priceClassAttribute->setAttribute( eZMultiPriceType::DEFAULT_CURRENCY_CODE_FIELD, $defaultCurrencyCode );
         $priceClassAttribute->store();
 
         unset( $GLOBALS['eZContentClassAttributeCache'][$priceClassAttributeID] );
@@ -123,27 +124,24 @@ foreach ( array_keys( $classList ) as $classListKey )
             $objectList = eZContentObject::fetchSameClassList( $class->attribute( 'id' ), true, $offset, $limit );
             $offset += count( $objectList );
 
-            foreach ( array_keys( $objectList ) as $key )
+            foreach ( $objectList as $object )
             {
-                $object =& $objectList[$key];
-                $contentObjectID =& $object->attribute( 'id' );
+                $contentObjectID = $object->attribute( 'id' );
                 $objectVersions =& $object->versions();
                 foreach ( $objectVersions as $objectVersion )
                 {
                     $version = $objectVersion->attribute( 'version' );
                     $objectAttributeList = eZContentObjectAttribute::fetchSameClassAttributeIDList( $priceClassAttributeID, true, $version, $contentObjectID );
 
-                    foreach ( array_keys( $objectAttributeList ) as $objectAttributeKey )
+                    foreach ( $objectAttributeList as $objectAttribute )
                     {
-                        $objectAttribute =& $objectAttributeList[$objectAttributeKey];
-
-                        $priceValue =& $objectAttribute->attribute( 'data_float' );
+                        $priceValue = $objectAttribute->attribute( 'data_float' );
 
                         $multiprice = eZMultiPriceData::create( $objectAttribute->attribute( 'id' ),
                                                                 $version,
                                                                 $defaultCurrencyCode,
                                                                 $priceValue,
-                                                                EZ_MULTIPRICEDATA_VALUE_TYPE_CUSTOM );
+                                                                eZMultiPriceData::VALUE_TYPE_CUSTOM );
                         $multiprice->store();
 
                         $objectAttribute->setAttribute( 'data_type_string', 'ezmultiprice' );
@@ -177,7 +175,7 @@ if ( is_array( $currencyList ) )
 
 $db->commit();
 
-include_once( 'kernel/classes/ezcontentcachemanager.php' );
+//include_once( 'kernel/classes/ezcontentcachemanager.php' );
 eZContentCacheManager::clearAllContentCache();
 
 $cli->output( "Total converted objects: $convertedObjectsCount" );
@@ -196,7 +194,7 @@ function currencyForLocale( $localeString = false )
         $currencyList = eZCurrencyData::fetchList();
     }
 
-    $locale =& eZLocale::instance( $localeString );
+    $locale = eZLocale::instance( $localeString );
     if ( is_object( $locale ) )
     {
         // get currency
@@ -214,7 +212,7 @@ function currencyForLocale( $localeString = false )
                 {
                     $cli->output( 'Ok' );
                     $currency->store();
-                    $currencyList[$currencyCode] =& $currency;
+                    $currencyList[$currencyCode] = $currency;
                 }
                 else
                 {
@@ -223,7 +221,7 @@ function currencyForLocale( $localeString = false )
             }
             else
             {
-                $currency =& $currencyList[$currencyCode];
+                $currency = $currencyList[$currencyCode];
             }
         }
         else

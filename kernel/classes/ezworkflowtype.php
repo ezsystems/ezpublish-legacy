@@ -34,26 +34,26 @@
 
 */
 
-include_once( "kernel/classes/ezworkflow.php" );
-include_once( "kernel/common/i18n.php" );
-include_once( "lib/ezutils/classes/ezdebug.php" );
-
-define( "EZ_WORKFLOW_TYPE_STATUS_NONE", 0 );
-define( "EZ_WORKFLOW_TYPE_STATUS_ACCEPTED", 1 );
-define( "EZ_WORKFLOW_TYPE_STATUS_REJECTED", 2 );
-define( "EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON", 3 );
-define( "EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON_REPEAT", 4 );
-define( "EZ_WORKFLOW_TYPE_STATUS_RUN_SUB_EVENT", 5 );
-define( "EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_CANCELLED", 6 );
-define( "EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE", 7 );
-define( "EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE_REPEAT", 8 );
-define( "EZ_WORKFLOW_TYPE_STATUS_REDIRECT", 10 );
-define( "EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_DONE", 9 );
-define( "EZ_WORKFLOW_TYPE_STATUS_REDIRECT_REPEAT", 11 );
-define( "EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_RESET", 12 );
+//include_once( "kernel/classes/ezworkflow.php" );
+require_once( "kernel/common/i18n.php" );
+require_once( "lib/ezutils/classes/ezdebug.php" );
 
 class eZWorkflowType
 {
+    const STATUS_NONE = 0;
+    const STATUS_ACCEPTED = 1;
+    const STATUS_REJECTED = 2;
+    const STATUS_DEFERRED_TO_CRON = 3;
+    const STATUS_DEFERRED_TO_CRON_REPEAT = 4;
+    const STATUS_RUN_SUB_EVENT = 5;
+    const STATUS_WORKFLOW_CANCELLED = 6;
+    const STATUS_FETCH_TEMPLATE = 7;
+    const STATUS_FETCH_TEMPLATE_REPEAT = 8;
+    const STATUS_REDIRECT = 10;
+    const STATUS_WORKFLOW_DONE = 9;
+    const STATUS_REDIRECT_REPEAT = 11;
+    const STATUS_WORKFLOW_RESET = 12;
+
     function eZWorkflowType( $group, $type,
                              $groupName, $name )
     {
@@ -74,19 +74,18 @@ class eZWorkflowType
         $this->Attributes["activation_date"] =& $this->ActivationDate;
     }
 
-    function statusName( $status )
+    static function statusName( $status )
     {
-        include_once( 'kernel/workflow/ezworkflowfunctioncollection.php' );
+        //include_once( 'kernel/workflow/ezworkflowfunctioncollection.php' );
         $statusNames = eZWorkflowFunctionCollection::fetchWorkflowTypeStatuses();
         if ( isset( $statusNames[$status] ) )
             return $statusNames[$status];
         return false;
     }
 
-    function &createType( $typeString )
+    static function createType( $typeString )
     {
         $types =& $GLOBALS["eZWorkflowTypes"];
-        $def = null;
         if ( !isset( $types[$typeString] ) )
         {
             $result = eZWorkflowType::loadAndRegisterType( $typeString );
@@ -96,61 +95,67 @@ class eZWorkflowType
 
         if ( isset( $types[$typeString] ) )
         {
-            $type_def =& $types[$typeString];
-            $class_name = $type_def["class_name"];
+            $class_name = $types[$typeString]["class_name"];
 
-            $def =& $GLOBALS["eZWorkflowTypeObjects"][$typeString];
-            if ( get_class( $def ) != $class_name )
+            if ( !isset( $GLOBALS["eZWorkflowTypeObjects"][$typeString] ) )
             {
                 if ( class_exists( $class_name ) )
-                    $def = new $class_name();
+                {
+                    $GLOBALS["eZWorkflowTypeObjects"][$typeString] = new $class_name();
+                }
                 else
+                {
                     eZDebug::writeError( "Undefined event type class: $class_name", "eZWorkflowType::createType" );
+                }
             }
+            return $GLOBALS["eZWorkflowTypeObjects"][$typeString];
         }
         else
+        {
             eZDebug::writeError( "Undefined type: $typeString", "eZWorkflowType::createType" );
-        return $def;
+        }
+        return null;
     }
 
-    function &fetchRegisteredTypes()
+    static function fetchRegisteredTypes()
     {
         eZWorkflowType::loadAndRegisterAllTypes();
-        $definition_objects =& $GLOBALS["eZWorkflowTypeObjects"];
-        $types =& $GLOBALS["eZWorkflowTypes"];
+        $types = $GLOBALS["eZWorkflowTypes"];
         if ( is_array( $types ) )
         {
             foreach ( $types as $typeString => $type_def )
             {
                 $class_name = $type_def["class_name"];
                 $def =& $definition_objects[$typeString];
-                if ( get_class( $def ) != $class_name )
+                if ( !isset( $GLOBALS["eZWorkflowTypeObjects"][$typeString] ) )
                 {
                     if ( class_exists( $class_name ) )
-                        $def = new $class_name();
+                    {
+                        $GLOBALS["eZWorkflowTypeObjects"][$typeString] = new $class_name();
+                    }
                     else
+                    {
                         eZDebug::writeError( "Undefined event type class: $class_name", "eZWorkflowType::fetchRegisteredTypes" );
+                    }
                 }
             }
         }
-        return $definition_objects;
+        return $GLOBALS["eZWorkflowTypeObjects"];
     }
 
-    function allowedTypes()
+    static function allowedTypes()
     {
-        $allowedTypes =& $GLOBALS["eZWorkflowAllowedTypes"];
-        if ( !is_array( $allowedTypes ) )
+        if ( !isset( $GLOBALS["eZWorkflowAllowedTypes"] ) ||
+             !is_array( $GLOBALS["eZWorkflowAllowedTypes"] ) )
         {
-            $wfINI =& eZINI::instance( 'workflow.ini' );
+            $wfINI = eZINI::instance( 'workflow.ini' );
             $eventTypes = $wfINI->variable( "EventSettings", "AvailableEventTypes" );
-            // $availableTypes = $wfINI->variableArray( "EventSettings", "AvailableWorkflowTypes" );
-            // $allowedTypes = array_unique( array_merge( $eventTypes, $availableTypes ) );
-            $allowedTypes = array_unique( $eventTypes );
+            $GLOBALS["eZWorkflowAllowedTypes"] = array_unique( $eventTypes );
         }
-        return $allowedTypes;
+        return $GLOBALS["eZWorkflowAllowedTypes"];
     }
 
-    function loadAndRegisterAllTypes()
+    static function loadAndRegisterAllTypes()
     {
         $allowedTypes = eZWorkflowType::allowedTypes();
         foreach( $allowedTypes as $type )
@@ -159,23 +164,24 @@ class eZWorkflowType
         }
     }
 
-    function registerType( $group, $type, $class_name )
+    static function registerType( $group, $type, $class_name )
     {
         $typeString = $group . "_" . $type;
-        $types =& $GLOBALS["eZWorkflowTypes"];
-        if ( !is_array( $types ) )
-            $types = array();
-        if ( isset( $types[$typeString] ) )
+        if ( !is_array( $GLOBALS["eZWorkflowTypes"] ) )
+        {
+            $GLOBALS["eZWorkflowTypes"] = array();
+        }
+        if ( isset( $GLOBALS["eZWorkflowTypes"][$typeString] ) )
         {
             eZDebug::writeError( "Type already registered: $typeString", "eZWorkflowType::registerType" );
         }
         else
         {
-            $types[$typeString] = array( "class_name" => $class_name );
+            $GLOBALS["eZWorkflowTypes"][$typeString] = array( "class_name" => $class_name );
         }
     }
 
-    function loadAndRegisterType( $typeString )
+    static function loadAndRegisterType( $typeString )
     {
         $typeElements = explode( "_", $typeString );
         if ( count( $typeElements ) < 2 )
@@ -195,9 +201,9 @@ class eZWorkflowType
         $group = $typeElements[0];
         $type = $typeElements[1];
 
-        include_once( 'lib/ezutils/classes/ezextension.php' );
+        //include_once( 'lib/ezutils/classes/ezextension.php' );
         $baseDirectory = eZExtension::baseDirectory();
-        $wfINI =& eZINI::instance( 'workflow.ini' );
+        $wfINI = eZINI::instance( 'workflow.ini' );
         $repositoryDirectories = $wfINI->variable( 'EventSettings', 'RepositoryDirectories' );
         $extensionDirectories = $wfINI->variable( 'EventSettings', 'ExtensionDirectories' );
         foreach ( $extensionDirectories as $extensionDirectory )
@@ -234,7 +240,7 @@ class eZWorkflowType
         return in_array( $attr, $this->attributes() );
     }
 
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         switch( $attr )
         {
@@ -254,9 +260,9 @@ class eZWorkflowType
                     return $this->Attributes[$attr];
             } break;
         }
+
         eZDebug::writeError( "Attribute '$attr' does not exist", 'eZWorkflowType::attribute' );
-        $retValue = null;
-        return $retValue;
+        return null;
     }
 
     function setAttribute( $attr, $value )
@@ -278,31 +284,31 @@ class eZWorkflowType
         $this->TriggerTypes = $allowedTypes;
     }
 
-    function &eventDescription()
+    function eventDescription()
     {
         return $this->Attributes["name"];
     }
 
-    function execute( &$process, &$event )
+    function execute( $process, $event )
     {
-        return EZ_WORKFLOW_TYPE_STATUS_NONE;
+        return eZWorkflowType::STATUS_NONE;
     }
 
-    function initializeEvent( &$event )
+    function initializeEvent( $event )
     {
     }
 
-    function validateHTTPInput( &$http, $base, &$event, &$validation )
+    function validateHTTPInput( $http, $base, $event, &$validation )
     {
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
-    function fixupHTTPInput( &$http, $base, &$event )
+    function fixupHTTPInput( $http, $base, $event )
     {
         return true;
     }
 
-    function fetchHTTPInput( &$http, $base, &$event )
+    function fetchHTTPInput( $http, $base, $event )
     {
     }
 
@@ -325,14 +331,13 @@ class eZWorkflowType
     {
     }
 
-    function cleanup( &$process, &$event )
+    function cleanup( $process, $event )
     {
     }
 
-    function &attributeDecoder( &$event, $attr )
+    function attributeDecoder( $event, $attr )
     {
-        $retValue = null;
-        return $retValue;
+        return null;
     }
 
     function typeFunctionalAttributes( )
@@ -340,16 +345,15 @@ class eZWorkflowType
         return array();
     }
 
-    function customWorkflowEventHTTPAction( &$http, $action, &$workflowEvent )
+    function customWorkflowEventHTTPAction( $http, $action, $workflowEvent )
     {
     }
 
-    function &workflowEventContent()
+    function workflowEventContent( $event )
     {
-        $retValue = "";
-        return $retValue;
+        return "";
     }
-    function storeEventData( &$event, $version )
+    function storeEventData( $event, $version )
     {
     }
 
@@ -383,40 +387,14 @@ class eZWorkflowType
     }
 
     /// \privatesection
-    var $Group;
-    var $Type;
-    var $TypeString;
-    var $GroupName;
-    var $Name;
-    var $ActivationDate;
-    var $Information;
-    var $TriggerTypes = array( '*' => true );
-}
-
-class eZWorkflowEventType extends eZWorkflowType
-{
-    function eZWorkflowEventType( $typeString, $name )
-    {
-        $this->eZWorkflowType( "event", $typeString, ezi18n( 'kernel/workflow/event', "Event" ), $name );
-    }
-
-    function registerType( $typeString, $class_name )
-    {
-        eZWorkflowType::registerType( "event", $typeString, $class_name );
-    }
-}
-
-class eZWorkflowGroupType extends eZWorkflowType
-{
-    function eZWorkflowGroupType( $typeString, $name )
-    {
-        $this->eZWorkflowType( "group", $typeString, ezi18n( 'kernel/workflow/group', "Group" ), $name );
-    }
-
-    function registerType( $typeString, $class_name )
-    {
-        eZWorkflowType::registerType( "group", $typeString, $class_name );
-    }
+    public $Group;
+    public $Type;
+    public $TypeString;
+    public $GroupName;
+    public $Name;
+    public $ActivationDate;
+    public $Information;
+    public $TriggerTypes = array( '*' => true );
 }
 
 ?>

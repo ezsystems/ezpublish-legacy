@@ -41,8 +41,8 @@
   for the different available DiffEngine.
 */
 
-include_once( 'lib/ezdiff/classes/ezdiffengine.php' );
-include_once( 'lib/ezdiff/classes/ezdiffmatrix.php' );
+//include_once( 'lib/ezdiff/classes/ezdiffengine.php' );
+//include_once( 'lib/ezdiff/classes/ezdiffmatrix.php' );
 
 class eZDiffTextEngine extends eZDiffEngine
 {
@@ -56,7 +56,7 @@ class eZDiffTextEngine extends eZDiffEngine
     */
     function createDifferenceObject( $fromData, $toData )
     {
-        include_once( 'lib/ezdiff/classes/eztextdiff.php' );
+        //include_once( 'lib/ezdiff/classes/eztextdiff.php' );
 
         $pattern = array( '/[ ][ ]+/',
                           '/ \n( \n)+/',

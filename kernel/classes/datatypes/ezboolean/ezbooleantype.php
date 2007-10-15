@@ -35,15 +35,15 @@
 
 */
 
-include_once( "kernel/classes/ezdatatype.php" );
-
-define( "EZ_DATATYPESTRING_BOOLEAN", "ezboolean" );
+//include_once( "kernel/classes/ezdatatype.php" );
 
 class eZBooleanType extends eZDataType
 {
+    const DATA_TYPE_STRING = "ezboolean";
+
     function eZBooleanType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_BOOLEAN, ezi18n( 'kernel/classes/datatypes', "Checkbox", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Checkbox", 'Datatype name' ),
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( 'data_int' => 'value' ) ) );
     }
@@ -51,7 +51,7 @@ class eZBooleanType extends eZDataType
     /*!
      Store content
     */
-    function storeObjectAttribute( &$attribute )
+    function storeObjectAttribute( $attribute )
     {
     }
 
@@ -59,7 +59,7 @@ class eZBooleanType extends eZDataType
    /*!
      Sets the default value.
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
@@ -68,7 +68,7 @@ class eZBooleanType extends eZDataType
         }
         else
         {
-            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
             $default = $contentClassAttribute->attribute( "data_int3" );
             $contentObjectAttribute->setAttribute( "data_int", $default );
         }
@@ -77,9 +77,9 @@ class eZBooleanType extends eZDataType
     /*!
       Validates the http post var boolean input.
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
-        $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $classAttribute = $contentObjectAttribute->contentClassAttribute();
         if ( $contentObjectAttribute->validateIsRequired() and
              !$classAttribute->attribute( 'is_information_collector' ) )
         {
@@ -87,21 +87,21 @@ class eZBooleanType extends eZDataType
             {
                 $data = $http->postVariable( $base . "_data_boolean_" . $contentObjectAttribute->attribute( "id" ) );
                 if ( isset( $data ) )
-                    return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                    return eZInputValidator::STATE_ACCEPTED;
             }
             else
             {
                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                      'Input required.' ) );
-                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                return eZInputValidator::STATE_INVALID;
             }
         }
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
     */
-    function validateCollectionAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateCollectionAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $contentObjectAttribute->validateIsRequired() )
         {
@@ -109,13 +109,13 @@ class eZBooleanType extends eZDataType
             {
                 $data = $http->postVariable( $base . "_data_boolean_" . $contentObjectAttribute->attribute( "id" ) );
                 if ( isset( $data ) )
-                    return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                    return eZInputValidator::STATE_ACCEPTED;
             }
             else
             {
                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                      'Input required.' ) );
-                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                return eZInputValidator::STATE_INVALID;
             }
         }
     }
@@ -123,7 +123,7 @@ class eZBooleanType extends eZDataType
     /*!
      Fetches the http post var boolean input and stores it in the data instance.
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . "_data_boolean_" . $contentObjectAttribute->attribute( "id" ) ))
         {
@@ -145,7 +145,7 @@ class eZBooleanType extends eZDataType
     \reimp
     Fetches the http post variables for collected information
    */
-    function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$contentObjectAttribute )
+    function fetchCollectionAttributeHTTPInput( $collection, $collectionAttribute, $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . "_data_boolean_" . $contentObjectAttribute->attribute( "id" ) ))
         {
@@ -163,7 +163,7 @@ class eZBooleanType extends eZDataType
         return true;
     }
 
-    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         if ( $http->hasPostVariable( $base . '_ezboolean_default_value_' . $classAttribute->attribute( 'id' ) . '_exists' ) )
         {
@@ -182,7 +182,7 @@ class eZBooleanType extends eZDataType
         return true;
     }
 
-    function metaData( &$contentObjectAttribute )
+    function metaData( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( "data_int" );
     }
@@ -195,7 +195,7 @@ class eZBooleanType extends eZDataType
         return $contentObjectAttribute->attribute( 'data_int' );
     }
 
-    function fromString( &$contentObjectAttribute, $string )
+    function fromString( $contentObjectAttribute, $string )
     {
         return $contentObjectAttribute->setAttribute( 'data_int', $string );
     }
@@ -219,7 +219,7 @@ class eZBooleanType extends eZDataType
     /*!
      \reimp
     */
-    function sortKey( &$contentObjectAttribute )
+    function sortKey( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( 'data_int' );
     }
@@ -235,7 +235,7 @@ class eZBooleanType extends eZDataType
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( "data_int" );
     }
@@ -243,12 +243,12 @@ class eZBooleanType extends eZDataType
     /*!
      Returns the integer value.
     */
-    function title( &$contentObjectAttribute )
+    function title( $contentObjectAttribute, $name = null )
     {
         return $contentObjectAttribute->attribute( "data_int" );
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         return true;
     }
@@ -256,24 +256,26 @@ class eZBooleanType extends eZDataType
     /*!
      \reimp
     */
-    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $defaultValue = $classAttribute->attribute( 'data_int3' );
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'default-value',
-                                                                                 array( 'is-set' => $defaultValue ? 'true' : 'false' ) ) );
+        $dom = $attributeParametersNode->ownerDocument;
+        $defaultValueNode = $dom->createElement( 'default-value' );
+        $defaultValueNode->setAttribute( 'is-set', $defaultValue ? 'true' : 'false' );
+        $attributeParametersNode->appendChild( $defaultValueNode );
     }
 
     /*!
      \reimp
     */
-    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $defaultValueNode = $attributeParametersNode->elementByName( 'default-value' );
-        $defaultValue = strtolower( $defaultValueNode->attributeValue( 'is-set' ) ) == 'true' ? 1 : 0;
+
+        $defaultValue = strtolower( $attributeParametersNode->getElementsByTagName( 'default-value' )->item( 0 )->getAttribute( 'is-set' ) ) == 'true';
         $classAttribute->setAttribute( 'data_int3', $defaultValue );
     }
 }
 
-eZDataType::register( EZ_DATATYPESTRING_BOOLEAN, "ezbooleantype" );
+eZDataType::register( eZBooleanType::DATA_TYPE_STRING, "eZBooleanType" );
 
 ?>

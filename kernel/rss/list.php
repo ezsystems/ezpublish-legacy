@@ -28,14 +28,14 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$Module =& $Params["Module"];
+$Module = $Params['Module'];
 
-include_once( "kernel/common/template.php" );
-include_once( 'kernel/classes/ezrssexport.php' );
-include_once( 'kernel/classes/ezrssimport.php' );
-include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
+require_once( "kernel/common/template.php" );
+//include_once( 'kernel/classes/ezrssexport.php' );
+//include_once( 'kernel/classes/ezrssimport.php' );
+//include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 if ( $http->hasPostVariable( 'NewExportButton' ) )
 {
@@ -46,12 +46,12 @@ else if ( $http->hasPostVariable( 'RemoveExportButton' ) )
     $deleteArray = $http->postVariable( 'DeleteIDArray' );
     foreach ( $deleteArray as $deleteID )
     {
-        $rssExport = eZRSSExport::fetch( $deleteID, true, EZ_RSSEXPORT_STATUS_DRAFT );
+        $rssExport = eZRSSExport::fetch( $deleteID, true, eZRSSExport::STATUS_DRAFT );
         if ( $rssExport )
         {
             $rssExport->remove();
         }
-        $rssExport = eZRSSExport::fetch( $deleteID, true, EZ_RSSEXPORT_STATUS_VALID );
+        $rssExport = eZRSSExport::fetch( $deleteID, true, eZRSSExport::STATUS_VALID );
         if ( $rssExport )
         {
             $rssExport->remove();
@@ -67,12 +67,12 @@ else if ( $http->hasPostVariable( 'RemoveImportButton' ) )
     $deleteArray = $http->postVariable( 'DeleteIDArrayImport' );
     foreach ( $deleteArray as $deleteID )
     {
-        $rssImport = eZRSSImport::fetch( $deleteID, true, EZ_RSSIMPORT_STATUS_DRAFT );
+        $rssImport = eZRSSImport::fetch( $deleteID, true, eZRSSImport::STATUS_DRAFT );
         if ( $rssImport )
         {
             $rssImport->remove();
         }
-        $rssImport = eZRSSImport::fetch( $deleteID, true, EZ_RSSIMPORT_STATUS_VALID );
+        $rssImport = eZRSSImport::fetch( $deleteID, true, eZRSSImport::STATUS_VALID );
         if ( $rssImport )
         {
             $rssImport->remove();
@@ -84,28 +84,26 @@ else if ( $http->hasPostVariable( 'RemoveImportButton' ) )
 // Get all RSS Exports
 $exportArray = eZRSSExport::fetchList();
 $exportList = array();
-foreach( array_keys( $exportArray ) as $exportID )
+foreach( $exportArray as $export )
 {
-    $export =& $exportArray[$exportID];
-    $exportList[$export->attribute( 'id' )] =& $export;
+    $exportList[$export->attribute( 'id' )] = $export;
 }
 
 // Get all RSS imports
 $importArray = eZRSSImport::fetchList();
 $importList = array();
-foreach( array_keys( $importArray ) as $importID )
+foreach( $importArray as $import )
 {
-    $import =& $importArray[$importID];
-    $importList[$import->attribute( 'id' )] =& $import;
+    $importList[$import->attribute( 'id' )] = $import;
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( 'rssexport_list', $exportList );
 $tpl->setVariable( 'rssimport_list', $importList );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:rss/list.tpl" );
+$Result['content'] = $tpl->fetch( "design:rss/list.tpl" );
 $Result['path'] = array( array( 'url' => 'rss/list',
                                 'text' => ezi18n( 'kernel/rss', 'Really Simple Syndication' ) ) );
 

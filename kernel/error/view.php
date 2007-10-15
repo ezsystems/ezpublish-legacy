@@ -26,28 +26,29 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/common/template.php" );
+require_once( "kernel/common/template.php" );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
-$module =& $Params['Module'];
+$module = $Params['Module'];
 $errorType = $Params['Type'];
 $errorNumber = $Params['Number'];
 $extraErrorParameters = $Params['ExtraParameters'];
 
 $tpl->setVariable( 'parameters', $extraErrorParameters );
 
+
 $siteBasics = $GLOBALS['eZSiteBasics'];
 $userObjectRequired = $siteBasics['user-object-required'];
 
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 
 if ( $userObjectRequired )
 {
     // include user class
-    include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+    //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 
-    $currentUser =& eZUser::currentUser();
+    $currentUser = eZUser::currentUser();
     $tpl->setVariable( "current_user", $currentUser );
     $tpl->setVariable( "anonymous_user_id", $ini->variable( 'UserSettings', 'AnonymousUserID' ) );
 }
@@ -64,7 +65,7 @@ eZDebug::writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "er
 
 // if ( $errorType == 'kernel' )
 {
-    $errorINI =& eZINI::instance( 'error.ini' );
+    $errorINI = eZINI::instance( 'error.ini' );
 
     // Redirect if error.ini tells us to
     $errorHandlerList = $errorINI->variable( 'ErrorSettings-' . $errorType, 'ErrorHandler' );
@@ -91,7 +92,7 @@ eZDebug::writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "er
                     $httpErrorString = "$httpErrorCode $httpErrorName";
                     header( eZSys::serverVariable( 'SERVER_PROTOCOL' ) . " $httpErrorString" );
                     header( "Status: $httpErrorString" );
-                    if ( $errorNumber == EZ_ERROR_KERNEL_MOVED )
+                    if ( $errorNumber == eZError::KERNEL_MOVED )
                     {
                         $location = eZSys::indexDir() . "/" . $extraErrorParameters['new_location'];
                         // Set moved permanently headers.
@@ -119,7 +120,7 @@ eZDebug::writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "er
         $Result = array();
         $Result['content'] = false;
         $Result['rerun_uri'] = $errorRerunURL;
-        $module->setExitStatus( EZ_MODULE_STATUS_RERUN );
+        $module->setExitStatus( eZModule::STATUS_RERUN );
         return $Result;
     }
     else if ( $errorHandlerType == 'embed' )
@@ -130,7 +131,7 @@ eZDebug::writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "er
         $uri = new eZURI( $errorEmbedURL );
         $moduleName = $uri->element();
         $embedModule = eZModule::exists( $moduleName );
-        if ( get_class( $module ) == "ezmodule" )
+        if ( $module instanceof eZModule )
         {
             $uri->increase();
             $viewName = false;
@@ -140,7 +141,7 @@ eZDebug::writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "er
                 $uri->increase();
             }
             $embedParameters = $uri->elements( false );
-            $embedResult =& $embedModule->run( $viewName, $embedParameters );
+            $embedResult = $embedModule->run( $viewName, $embedParameters );
             $embedContent = $embedResult['content'];
         }
 
@@ -179,8 +180,8 @@ eZDebug::writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "er
 
 
 $userRedirectURI = '';
-$requestedURI =& $GLOBALS['eZRequestedURI'];
-if ( get_class( $requestedURI ) == 'ezuri' )
+$requestedURI = $GLOBALS['eZRequestedURI'];
+if ( $requestedURI instanceof eZURI )
 {
     $userRedirectURI = $requestedURI->uriString( true );
 }
@@ -193,11 +194,11 @@ if ( (isset( $Params['ExtraParameters']['AccessList'] ) ) and  ( $ini->variable(
     $tpl->setVariable( 'function_required', $Params['ExtraParameters']['AccessList']['FunctionRequired']['Function'] );
 }
 
-$res =& eZTemplateDesignResource::instance();
+$res = eZTemplateDesignResource::instance();
 $res->setKeys( array( array( 'error_type', $errorType ), array( 'error_number', $errorNumber ) ) );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:error/$errorType/$errorNumber.tpl" );
+$Result['content'] = $tpl->fetch( "design:error/$errorType/$errorNumber.tpl" );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/error', 'Error' ),
                                 'url' => false ),
                          array( 'text' => "$errorType ($errorNumber)",

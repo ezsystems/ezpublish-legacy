@@ -26,15 +26,15 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'lib/ezutils/classes/ezini.php' );
+//include_once( 'lib/ezutils/classes/ezini.php' );
 
 /*!
  \return the current language used.
 */
 function ezcurrentLanguage()
 {
-    include_once( 'lib/ezlocale/classes/ezlocale.php' );
-    $locale =& eZLocale::instance();
+    //include_once( 'lib/ezlocale/classes/ezlocale.php' );
+    $locale = eZLocale::instance();
     return $locale->translationCode();
 }
 
@@ -70,16 +70,16 @@ function ezinsertarguments( $text, $arguments )
  If the site.ini settings RegionalSettings/TextTranslation is set to disabled this function
  will only return the source text.
 */
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 $useTextTranslation = false;
 $hasFallback = false;
 if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
 {
     $language = ezcurrentLanguage();
-    $iniI18N =& eZINI::instance( "i18n.ini" );
+    $iniI18N = eZINI::instance( "i18n.ini" );
     $fallbacks = $iniI18N->variable( 'TranslationSettings', 'FallbackLanguages' );
 
-    include_once( 'lib/ezutils/classes/ezextension.php' );
+    //include_once( 'lib/ezutils/classes/ezextension.php' );
     $extensionBase = eZExtension::baseDirectory();
     $translationExtensions = $ini->variable( 'RegionalSettings', 'TranslationExtensions' );
 
@@ -120,33 +120,30 @@ if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
     }
 }
 
-include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
+//include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
 
 if ( $useTextTranslation || eZTranslatorManager::dynamicTranslationsEnabled() )
 {
-    include_once( 'lib/ezi18n/classes/eztstranslator.php' );
+    //include_once( 'lib/ezi18n/classes/eztstranslator.php' );
 
-    function &ezi18n( $context, $source, $comment = null, $arguments = null )
+    function ezi18n( $context, $source, $comment = null, $arguments = null )
     {
-        $text = eZTranslateText( $context, $source, $comment, $arguments );
-        return $text;
+        return eZTranslateText( $context, $source, $comment, $arguments );
     }
 
-    function &ezx18n( $extension, $context, $source, $comment = null, $arguments = null )
+    function ezx18n( $extension, $context, $source, $comment = null, $arguments = null )
     {
-        $text = eZTranslateText( $context, $source, $comment, $arguments );
-        return $text;
+        return eZTranslateText( $context, $source, $comment, $arguments );
     }
 
-    function &eZTranslateText( $context, $source, $comment = null, $arguments = null )
+    function eZTranslateText( $context, $source, $comment = null, $arguments = null )
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         if ( $ini->variable( 'RegionalSettings', 'Locale' ) == 'eng-GB' )
         {
             // we don't have ts-file for 'eng-GB'.
             // NOTE: don't remove this 'if'. it's needed to support dynamic switch between translations.
-            $text = ezinsertarguments( $source, $arguments );
-            return $text;
+            return ezinsertarguments( $source, $arguments );
         }
 
         $language = ezcurrentLanguage();
@@ -163,20 +160,18 @@ if ( $useTextTranslation || eZTranslatorManager::dynamicTranslationsEnabled() )
         $developmentMode = $ini->variable( 'RegionalSettings', 'DevelopmentMode' ) != 'disabled';
         if ( $developmentMode )
         {
-            include_once( 'lib/ezi18n/classes/ezborktranslator.php' );
+            //include_once( 'lib/ezi18n/classes/ezborktranslator.php' );
             eZBorkTranslator::initialize();
         }
 
-        $man =& eZTranslatorManager::instance();
+        $man = eZTranslatorManager::instance();
         $trans = $man->translate( $context, $source, $comment );
         if ( $trans !== null ) {
-            $text = ezinsertarguments( $trans, $arguments );
-            return $text;
+            return ezinsertarguments( $trans, $arguments );
         }
 
         eZDebug::writeWarning( "No translation for file(translation.ts) in context($context): '$source' with comment($comment)", "ezi18n" );
-        $text = ezinsertarguments( $source, $arguments );
-        return $text;
+        return ezinsertarguments( $source, $arguments );
     }
 }
 else

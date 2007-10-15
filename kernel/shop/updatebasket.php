@@ -26,12 +26,12 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/classes/ezbasket.php' );
-include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+//include_once( 'kernel/classes/ezbasket.php' );
+//include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
 
-$http = eZHttpTool::instance();
+$http = eZHTTPTool::instance();
 $basket = eZBasket::currentBasket();
-$module =& $Params['Module'];
+$module = $Params['Module'];
 
 $itemCountList = $http->sessionVariable( 'ProductItemCountList' );
 $itemIDList = $http->sessionVariable( 'ProductItemIDList' );
@@ -41,7 +41,7 @@ $operationResult = eZOperationHandler::execute( 'shop', 'updatebasket', array( '
 
 switch( $operationResult['status'] )
 {
-    case EZ_MODULE_OPERATION_HALTED:
+    case eZModuleOperationInfo::STATUS_HALTED:
     {
         if ( isset( $operationResult['redirect_url'] ) )
         {
@@ -50,18 +50,24 @@ switch( $operationResult['status'] )
         }
         else if ( isset( $operationResult['result'] ) )
         {
-            $result =& $operationResult['result'];
+            $result = $operationResult['result'];
             $resultContent = false;
             if ( is_array( $result ) )
             {
                 if ( isset( $result['content'] ) )
+                {
                     $resultContent = $result['content'];
+                }
                 if ( isset( $result['path'] ) )
+                {
                     $Result['path'] = $result['path'];
+                }
             }
             else
-                $resultContent =& $result;
-            $Result['content'] =& $resultContent;
+            {
+                $resultContent = $result;
+            }
+            $Result['content'] = $resultContent;
             return $Result;
        }
     }break;

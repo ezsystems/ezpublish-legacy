@@ -26,16 +26,16 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/datatypes/ezuser/ezusersetting.php' );
-include_once( 'kernel/classes/datatypes/ezuser/ezuseraccountkey.php' );
+////include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'kernel/classes/datatypes/ezuser/ezusersetting.php' );
+//include_once( 'kernel/classes/datatypes/ezuser/ezuseraccountkey.php' );
 
-$Module =& $Params['Module'];
-//$http =& eZHTTPTool::instance();
-$hash =& $Params['Hash'];
-$mainNodeID =& $Params['MainNodeID'];
+$Module = $Params['Module'];
+//$http = eZHTTPTool::instance();
+$hash = $Params['Hash'];
+$mainNodeID = $Params['MainNodeID'];
 
 // Check if key exists
 $accountActivated = false;
@@ -56,7 +56,7 @@ if ( $accountKey )
     $user = eZUser::fetch( $userID );
 
     if ( $user === null )
-        return $Module->handleError( EZ_ERROR_KERNEL_NOT_FOUND, 'kernel' );
+        return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 
     $user->loginCurrent();
 
@@ -75,8 +75,8 @@ elseif( $mainNodeID )
 }
 
 // Template handling
-include_once( 'kernel/common/template.php' );
-$tpl =& templateInit();
+require_once( 'kernel/common/template.php' );
+$tpl = templateInit();
 
 $tpl->setVariable( 'module', $Module );
 $tpl->setVariable( 'account_activated', $accountActivated );
@@ -88,12 +88,12 @@ $tpl->setVariable( 'already_active', $alreadyActive );
 $tpl->setVariable( 'account_avtivated', $accountActivated );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:user/activate.tpl' );
+$Result['content'] = $tpl->fetch( 'design:user/activate.tpl' );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/user', 'User' ),
                                 'url' => false ),
                          array( 'text' => ezi18n( 'kernel/user', 'Activate' ),
                                 'url' => false ) );
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 if ( $ini->variable( 'SiteSettings', 'LoginPage' ) == 'custom' )
     $Result['pagelayout'] = 'loginpagelayout.tpl';
 

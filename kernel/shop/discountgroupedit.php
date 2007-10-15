@@ -28,11 +28,11 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/common/template.php" );
-include_once( "kernel/classes/ezdiscountrule.php" );
-include_once( "lib/ezutils/classes/ezhttppersistence.php" );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/classes/ezdiscountrule.php" );
+//include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 
-$module =& $Params["Module"];
+$module = $Params['Module'];
 $discountGroupID = null;
 if ( isset( $Params["DiscountGroupID"] ) )
     $discountGroupID = $Params["DiscountGroupID"];
@@ -47,7 +47,7 @@ else
     $discountGroupID = $discountGroup->attribute( "id" );
 }
 
-$http =& eZHttpTool::instance();
+$http = eZHTTPTool::instance();
 if ( $http->hasPostVariable( "DiscardButton" ) )
 {
     $module->redirectTo( $module->functionURI( "discountgroup" ) . "/" );
@@ -66,11 +66,11 @@ if ( $http->hasPostVariable( "ApplyButton" ) )
 }
 
 $module->setTitle( "Editing discount group" );
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable( "module", $module );
 $tpl->setVariable( "discount_group", $discountGroup );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:shop/discountgroupedit.tpl" );
+$Result['content'] = $tpl->fetch( "design:shop/discountgroupedit.tpl" );
 
 ?>

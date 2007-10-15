@@ -26,13 +26,13 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/classes/ezcontentclass.php" );
-include_once( "kernel/classes/ezcontentclassattribute.php" );
-include_once( "kernel/classes/ezcontentclassclassgroup.php" );
+//include_once( "kernel/classes/ezcontentclass.php" );
+//include_once( "kernel/classes/ezcontentclassattribute.php" );
+//include_once( "kernel/classes/ezcontentclassclassgroup.php" );
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $LanguageCode = $Params['Language'];
-$http =& eZHttpTool::instance();
+$http = eZHTTPTool::instance();
 $ClassID = null;
 $validation = array( 'processed' => false,
                      'groups' => array() );
@@ -42,25 +42,25 @@ if ( isset( $Params["ClassID"] ) )
 $ClassVersion = null;
 
 if ( !is_numeric( $ClassID ) )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_FOUND, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 
-$class = eZContentClass::fetch( $ClassID, true, EZ_CLASS_VERSION_STATUS_DEFINED );
+$class = eZContentClass::fetch( $ClassID, true, eZContentClass::VERSION_STATUS_DEFINED );
 
 if ( !$class )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
 if ( !$LanguageCode)
     $LanguageCode = $class->attribute( 'top_priority_language_locale' );
 
 if ( $http->hasPostVariable( 'AddGroupButton' ) && $http->hasPostVariable( 'ContentClass_group' ) )
 {
-    include_once( "kernel/class/ezclassfunctions.php" );
+    //include_once( "kernel/class/ezclassfunctions.php" );
     eZClassFunctions::addGroup( $ClassID, $ClassVersion, $http->postVariable( 'ContentClass_group' ) );
 }
 
 if ( $http->hasPostVariable( 'RemoveGroupButton' ) && $http->hasPostVariable( 'group_id_checked' ) )
 {
-    include_once( "kernel/class/ezclassfunctions.php" );
+    //include_once( "kernel/class/ezclassfunctions.php" );
     if ( !eZClassFunctions::removeGroup( $ClassID, $ClassVersion, $http->postVariable( 'group_id_checked' ) ) )
     {
         $validation['groups'][] = array( 'text' => ezi18n( 'kernel/class', 'You have to have at least one group that the class belongs to!' ) );
@@ -70,7 +70,7 @@ if ( $http->hasPostVariable( 'RemoveGroupButton' ) && $http->hasPostVariable( 'g
 else if ( $http->hasPostVariable( 'SetSorting' ) &&
           $http->hasPostVariable( 'ContentClass_default_sorting_exists' ) )
 {
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     if ( $http->hasPostVariable( 'ContentClass_default_sorting_field' ) )
     {
@@ -86,13 +86,13 @@ else if ( $http->hasPostVariable( 'SetSorting' ) &&
     $db->commit();
 }
 
-$attributes =& $class->fetchAttributes();
-include_once( "kernel/classes/ezdatatype.php" );
-$datatypes =& eZDataType::registeredDataTypes();
+$attributes = $class->fetchAttributes();
+//include_once( "kernel/classes/ezdatatype.php" );
+$datatypes = eZDataType::registeredDataTypes();
 
 $mainGroupID = false;
 $mainGroupName = false;
-$groupList =& $class->fetchGroupList();
+$groupList = $class->fetchGroupList();
 if ( count( $groupList ) > 0 )
 {
     $mainGroupID = $groupList[0]->attribute( 'group_id' );
@@ -101,10 +101,10 @@ if ( count( $groupList ) > 0 )
 
 $Module->setTitle( "Edit class " . $class->attribute( "name" ) );
 
-include_once( "kernel/common/template.php" );
-$tpl =& templateInit();
+require_once( "kernel/common/template.php" );
+$tpl = templateInit();
 
-$res =& eZTemplateDesignResource::instance();
+$res = eZTemplateDesignResource::instance();
 $res->setKeys( array( array( 'class', $class->attribute( "id" ) ),
                       array( 'class_identifier', $class->attribute( 'identifier' ) ) ) );
 
@@ -116,7 +116,7 @@ $tpl->setVariable( 'datatypes', $datatypes );
 $tpl->setVariable( 'validation', $validation );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:class/view.tpl' );
+$Result['content'] = $tpl->fetch( 'design:class/view.tpl' );
 $Result['path'] = array( array( 'url' => '/class/grouplist/',
                                 'text' => ezi18n( 'kernel/class', 'Classes' ) ) );
 if ( $mainGroupID !== false )

@@ -38,8 +38,6 @@
 
 */
 
-include_once( "lib/ezxml/classes/ezxml.php" );
-
 class eZMatrix
 {
     /*!
@@ -60,12 +58,12 @@ class eZMatrix
             foreach ( $columns as $column )
             {
                 $sequentialColumns[] = array( 'identifier' => $column['identifier'],
-                                            'index' => $column['index'],
-                                            'name' => $column['name'] );
+                                              'index' => $column['index'],
+                                              'name' => $column['name'] );
 
             }
             $this->Matrix['columns'] = array();
-            $this->Matrix['columns']['sequential'] =& $sequentialColumns;
+            $this->Matrix['columns']['sequential'] = $sequentialColumns;
 
             $this->NumRows = $numRows;
             $cells = array();
@@ -76,12 +74,139 @@ class eZMatrix
                     $cells[] = '';
                 }
             }
-            $this->Cells =& $cells;
+            $this->Cells = $cells;
 
 
-            $xmlString =& $this->xmlString();
+            $xmlString = $this->xmlString();
             $this->decodeXML( $xmlString );
         }
+    }
+
+    /*!
+        Check if column index differs, and so, set new index.
+
+        \param internal column index
+        \param new column index
+
+        \return true if index differs
+    */
+    function adjustColumnIndex( $columnIndex, $newColumnIndex )
+    {
+        $matrix = $this->attribute( 'matrix' );
+        $columnDefinition = $matrix['columns']['sequential'][$columnIndex];
+        if ( $columnDefinition['index'] != $newColumnIndex )
+        {
+            $this->setColumnIndex( $columnIndex, $newColumnIndex );
+            return true;
+        }
+        return false;
+    }
+
+    /*!
+        Sets column's index to \a $newColumnIndex.
+    */
+    function setColumnIndex( $columnIndex, $newColumnIndex )
+    {
+        $this->Matrix['columns']['sequential'][$columnIndex]['index'] = $newColumnIndex;
+    }
+
+    /*!
+        Searches in matrix columns with identifiers that in \a $matrixColumnDefinition an
+        a) if column exists and \a $updateColumnsAttributesAllowed is true then modification of
+           column attributes is performed( index, name, etc.);
+        b) if column doesn't exists and \a $addNewColumnsAllowed then new column will be created.
+    */
+    protected function updateColumns( $matrixColumnDefinition )
+    {
+        $matrixWasModified = false;
+
+        if ( $matrixColumnDefinition && $matrixColumnDefinition !== false )
+        {
+            $columns = $matrixColumnDefinition->attribute( 'columns' );
+            foreach ( $columns as $column )
+            {
+                $columnIndex = $this->columnIndex( $column['identifier'] );
+                if ( $columnIndex !== false )
+                {
+                    $matrixWasModified |= $this->adjustColumnName( $columnIndex, $column['name'] );
+                    $matrixWasModified |= $this->adjustColumnIndex( $columnIndex, $column['index'] );
+                }
+                else
+                {
+                    $matrixWasModified |= $this->addColumn( $column );
+                }
+            }
+        }
+        return $matrixWasModified;
+    }
+
+    /*!
+        Adds column \a $columnDefinition to eZMatrix object.
+    */
+    function addColumn( $columnDefinition )
+    {
+        $this->addColumnToMatrix( $columnDefinition );
+        $this->addColumnToCells( $columnDefinition );
+        return true;
+    }
+
+    /*!
+        Adds column \a $columnDefinition to 'matrix' member of eZMatrix.
+    */
+    function addColumnToMatrix( $columnDefinition )
+    {
+        $newColumn  = array( 'identifier'   => $columnDefinition['identifier'],
+                             'index'        => $columnDefinition['index'],
+                             'name'         => $columnDefinition['name'] );
+
+        array_splice( $this->Matrix['columns']['sequential'], $columnDefinition['index'], 0, array( $newColumn ) );
+    }
+
+    /*!
+        Adds column \a $columnDefinition to 'cells' member of eZMatrix.
+    */
+    function addColumnToCells( $columnDefinition )
+    {
+        $cells = $this->attribute( 'cells' );
+        $columnCount = $this->attribute( 'columnCount' );
+        $rowCount = $this->attribute( 'rowCount' );
+        $pos = $columnDefinition['index'];
+
+        // walk through rows and add elements one by one.
+        while ( $rowCount > 0 )
+        {
+            array_splice( $this->Cells, $pos, 0, '' );
+            $pos += $columnCount;
+            --$rowCount;
+        }
+    }
+
+    /*!
+        Check if new column name differs from existing column name, and sets new name.
+
+        \param internal column index
+        \param column name
+
+        \return true if name differs
+    */
+    function adjustColumnName( $columnIndex, $newColumnName )
+    {
+        $matrix = $this->attribute( 'matrix' );
+        $columnDefinition = $matrix['columns']['sequential'][$columnIndex];
+        if ( $columnDefinition['name'] != $newColumnName )
+        {
+            $this->setColumnName( $columnIndex, $newColumnName );
+            return true;
+        }
+        return false;
+    }
+
+    /*!
+        Sets column's name to \a $newColumnName.
+    */
+    function setColumnName( $columnIndex, $newColumnName )
+    {
+        $this->Matrix['columns']['sequential'][$columnIndex]['name'] = $newColumnName;
     }
 
     /*!
@@ -99,17 +224,17 @@ class eZMatrix
         $matrixWasModified = false;
 
         $matrixWasModified |= $this->removeUselessColumns( $classColumnsDefinition );
-        $matrixWasModified |= $this->updateColumns       ( $classColumnsDefinition, true, true );
+        $matrixWasModified |= $this->updateColumns( $classColumnsDefinition, true, true );
 
         if ( $matrixWasModified )
         {
             $this->reorderColumns();
 
-            $columns          =& $classColumnsDefinition->attribute( 'columns' );
+            $columns          = $classColumnsDefinition->attribute( 'columns' );
             $numColumns       =  count( $columns );
             $this->NumColumns =  $numColumns;
 
-            $xmlString        =& $this->xmlString();
+            $xmlString        = $this->xmlString();
             $this->decodeXML( $xmlString );
         }
 
@@ -117,51 +242,44 @@ class eZMatrix
     }
 
     /*!
-        \a static
+        Create reorder column reference array.
     */
-    function buildReorderChains( &$chain, &$columns, &$curPos, &$startPos )
+    function buildReorderRuleForColumn( $columns, $pos )
     {
-        $column  =& $columns[$curPos];
-        $toPos   =  $column['index'];
-        $chain[] = $toPos;
+        $rule = array( $pos );
+        $startPos = $pos;
 
-        $curPos  = $toPos;
-        $column  =& $columns[$curPos];
-        if ( $column['index'] != $startPos )
+        $column = $columns[$pos];
+        while( $column['index'] != $startPos )
         {
-            eZMatrix::buildReorderChains( $chain, $columns, $curPos, $startPos );
+            $pos = $column['index'];
+            $rule[] = $pos;
+            $column = $columns[$pos];
         }
-    }
 
-    /*!
-        \a static
-    */
-    function &buildReorderRuleForColumn( &$columns, $curPos, $startPos )
-    {
-        $rule = array( $curPos );
-        eZMatrix::buildReorderChains( $rule, $columns, $curPos, $startPos );
         return $rule;
     }
 
     /*!
-        \a static
+        Build column reorder rules.
     */
-    function &buildReorderRules( &$columns )
+    function buildReorderRules()
     {
+        $matrix     = $this->attribute( 'matrix' );
+        $columns    = $matrix['columns']['sequential'];
         $rules      = array();
         $positions  = array_keys( $columns );
 
-        foreach ( $positions as $pos )
+        foreach ( $columns as $pos => $column )
         {
-            if ( eZMatrix::hasRuleForColumn( $rules, $pos ) )
+            if ( $this->hasRuleForColumn( $rules, $pos ) )
             {
                 continue;
             }
 
-            $column =& $columns[$pos];
             if ( $column['index'] != $pos )
             {
-                $rules[] =& eZMatrix::buildReorderRuleForColumn( $columns, $pos, $pos );
+                $rules[] = $this->buildReorderRuleForColumn( $columns, $pos );
             }
         }
         return $rules;
@@ -171,10 +289,7 @@ class eZMatrix
     */
     function reorderColumns()
     {
-        $matrix     =& $this->attribute( 'matrix' );
-        $columns    =& $matrix['columns']['sequential'];
-
-        $rules      =& eZMatrix::buildReorderRules( $columns );
+        $rules = $this->buildReorderRules();
 
         /*
             example rule: ( 0, 3, 2, 1 )
@@ -187,13 +302,10 @@ class eZMatrix
         */
         foreach( $rules as $rule )
         {
-            $buffer = array( 'columnDefinition' => array(),
-                             'cellsData'        => array() );
-
             // last column in rule
             $pos = count( $rule ) - 1;
 
-            $this->copyColumn( $rule[$pos], $buffer, true );
+            $column = $this->column( $rule[$pos] );
 
             while ( $pos != 0 )
             {
@@ -202,20 +314,17 @@ class eZMatrix
             }
 
             // first column in rule
-            $this->copyColumn( $rule[0], $buffer, false );
+            $this->setColumn( $rule[0], $column );
         }
     }
 
     /*!
         \a static
     */
-    function hasRuleForColumn( &$rules, $pos )
+    function hasRuleForColumn( $rules, $pos )
     {
-        $keys = array_keys( $rules );
-
-        foreach ( $keys as $key )
+        foreach ( $rules as $rule )
         {
-            $rule =& $rules[$key];
             foreach ( $rule as $columnPos )
             {
                 if ( $columnPos == $pos )
@@ -228,97 +337,128 @@ class eZMatrix
     }
 
     /*!
+     Set column data and definition
+
+     \param column index
+     \param column data and definition
     */
-    function copyColumn( $colIdx, &$buffer, $toBuffer )
+    function setColumn( $colIdx, $column )
     {
-        $this->copyColumnDefinition( $colIdx, $buffer['columnDefinition'], $toBuffer );
-        $this->copyColumnCellsData ( $colIdx, $buffer['cellsData'], $toBuffer );
+        $this->setColumnDefinition( $colIdx, $column['columnDefinition'] );
+        $this->setColumnCellData( $colIdx, $column['cellsData'] );
     }
 
     /*!
-    */
-    function copyColumnDefinition( $colIdx, &$buffer, $toBuffer )
-    {
-        $matrix      =& $this->attribute( 'matrix' );
-        $columns     =& $matrix['columns']['sequential'];
+     Get column data and definition
 
-        if ( $toBuffer )
-            $buffer = $columns[$colIdx];
-        else
-            $columns[$colIdx] = $buffer;
+     \param column index
+
+     \return columnt data and definition
+    */
+    function column( $colIdx )
+    {
+        return array( 'columnDefinition' => $this->columnDefinition( $colIdx ),
+                      'cellsData' => $this->columnCellsData ( $colIdx ) );
     }
 
     /*!
-    */
-    function copyColumnCellsData( $colIdx, &$buffer, $toBuffer )
-    {
-        $columnCount =  $this->attribute( 'columnCount' );
-        $rowCount    =  $this->attribute( 'rowCount' );
-        $cells       =& $this->attribute( 'cells' );
-        $pos         =  $colIdx;
-        $i           =  0;
+     Set column definition.
 
-        // walk through rows and add elements one by one.
-        while ( $rowCount > 0 )
+     \param column index
+     \param column definition
+    */
+    protected function setColumnDefinition( $colIdx, $columnDefinition )
+    {
+        $this->Matrix['columns']['sequential'][$colIdx] = $columnDefinition;
+    }
+
+    /*!
+     Get column definition.
+
+     \param column index
+
+     \return column definition
+    */
+    protected function columnDefinition( $colIdx )
+    {
+        $matrix = $this->attribute( 'matrix' );
+        return $matrix['columns']['sequential'][$colIdx];
+    }
+
+    /*!
+     Set column cell data
+
+     \param column index
+     \param column definitio
+    */
+    protected function setColumnCellData( $colIdx, $cellData )
+    {
+        $columnCount = $this->attribute( 'columnCount' );
+        $dataCount = count( $cellData );
+        $dataOffset = 0;
+        $cellOffset = $colIdx;
+
+        for( $dataOffset = 0 ; $dataOffset < $dataCount; $dataOffset++ )
         {
-            if ( $toBuffer )
-            {
-                $buffer[] = $cells[$pos];
-            }
-            else
-            {
-                $cells[$pos] = $buffer[$i];
-                ++$i;
-            }
-
-            $pos += $columnCount;
-            --$rowCount;
+            $this->Cells[$cellOffset] = $cellData[$dataOffset];
+            $cellOffset += $columnCount;
         }
     }
 
     /*!
-    */
-    function copyDataBetweenColumns( $firstColIdx, $secondColIdx, $toSecondCol = true )
-    {
-        $this->copyDefinitionBetweenColumns( $firstColIdx, $secondColIdx, $toSecondCol );
-        $this->copyCellsDataBetweenColumns ( $firstColIdx, $secondColIdx, $toSecondCol );
-    }
+     Get column data
 
-    /*!
-    */
-    function copyDefinitionBetweenColumns( $firstColIdx, $secondColIdx, $toSecondCol )
-    {
-        $matrix      =& $this->attribute( 'matrix' );
-        $columns     =& $matrix['columns']['sequential'];
+     \param column index
 
-        if ( $toSecondCol )
-            $columns[$secondColIdx] = $columns[$firstColIdx];
-        else
-            $columns[$firstColIdx]  = $columns[$secondColIdx];
-    }
-
-    /*!
+     \return column data
     */
-    function copyCellsDataBetweenColumns ( $firstColIdx, $secondColIdx, $toSecondCol )
+    protected function columnCellsData( $colIdx )
     {
-        $columnCount =  $this->attribute( 'columnCount' );
-        $rowCount    =  $this->attribute( 'rowCount' );
-        $cells       =& $this->attribute( 'cells' );
-        $firstColPos =  $firstColIdx;
-        $secondColIdx=  $secondColIdx;
+        $retArray = array();
+        $columnCount = $this->attribute( 'columnCount' );
+        $rowCount = $this->attribute( 'rowCount' );
+        $cells = $this->attribute( 'cells' );
+        $pos = $colIdx;
 
         // walk through rows and add elements one by one.
         while ( $rowCount > 0 )
         {
-            if ( $toSecondCol )
-            {
-                $cells[$secondColIdx] = $cells[$firstColIdx];
-            }
-            else
-            {
-                $cells[$firstColIdx] = $cells[$secondColIdx];
-            }
+            $retArray[] = $cells[$pos];
+            $pos += $columnCount;
+            --$rowCount;
+        }
 
+        return $retArray;
+    }
+
+    /*!
+    */
+    function copyDataBetweenColumns( $firstColIdx, $secondColIdx )
+    {
+        $this->copyDefinitionBetweenColumns( $firstColIdx, $secondColIdx );
+        $this->copyCellsDataBetweenColumns ( $firstColIdx, $secondColIdx );
+    }
+
+    /*!
+    */
+    protected function copyDefinitionBetweenColumns( $col1, $col2 )
+    {
+        $this->Matrix['columns']['sequential'][$col2] = $this->Matrix['columns']['sequential'][$col1];
+    }
+
+    /*!
+    */
+    protected function copyCellsDataBetweenColumns ( $firstColIdx, $secondColIdx )
+    {
+        $columnCount = $this->attribute( 'columnCount' );
+        $rowCount = $this->attribute( 'rowCount' );
+        $firstColPos = $firstColIdx;
+        $secondColIdx= $secondColIdx;
+
+        // walk through rows and add elements one by one.
+        while ( $rowCount > 0 )
+        {
+            $this->Cells[$secondColIdx] = $this->Cells[$firstColIdx];
             $firstColIdx  += $columnCount;
             $secondColIdx += $columnCount;
             --$rowCount;
@@ -326,143 +466,39 @@ class eZMatrix
     }
 
     /*!
-        Searches in matrix columns with identifiers that in \a $matrixColumnDefinition and
-        a) if column exists and \a $updateColumnsAttributesAllowed is true then modification of
-           column attributes is performed( index, name, etc.);
-        b) if column doesn't exists and \a $addNewColumnsAllowed then new column will be created.
-    */
-    function updateColumns( &$matrixColumnDefinition, $addNewColumnsAllowed, $updateColumnsAttributesAllowed )
-    {
-        $matrixWasModified = false;
-
-        if ( $matrixColumnDefinition && $matrixColumnDefinition !== false )
-        {
-            $columns    =& $matrixColumnDefinition->attribute( 'columns' );
-            foreach ( $columns as $column )
-            {
-                $originalColumn =& $this->getColumnDefinitionByID( $column['identifier'] );
-                if ( $originalColumn !== false && $updateColumnsAttributesAllowed )
-                {
-                    $matrixWasModified |= $this->adjustColumnName( $originalColumn, $column['name'] );
-                    $matrixWasModified |= $this->adjustColumnIndex( $originalColumn, $column['index'] );
-                }
-                else if ( $addNewColumnsAllowed )
-                {
-                    $matrixWasModified |= $this->addColumn( $column );
-                }
-            }
-        }
-        return $matrixWasModified;
-    }
-
-    /*!
         Removes columns that are in matrix but not in \a $matrixColumnDefinition
+
+      \return true if matrix was modified.
     */
-    function removeUselessColumns( &$matrixColumnDefinition )
+    function removeUselessColumns( $matrixColumnDefinition )
     {
-        $matrixWasModified  = false;
-        $columnsToRemove    =& $this->getColumnsToRemove( $matrixColumnDefinition );
+        $columnsToRemove = $this->getColumnsToRemove( $matrixColumnDefinition );
 
         if ( count( $columnsToRemove ) > 0 )
         {
             // remove begins from last column (reverse order )
-            $keys = array_keys( $columnsToRemove );
-            $keys = array_reverse( $keys );
-
-            foreach ( $keys as $key )
+            foreach ( array_reverse( $columnsToRemove ) as $column )
             {
-                $column =& $columnsToRemove[$key];
                 $this->removeColumn( $column );
             }
-
-            $matrixWasModified = true;
-        }
-
-        return $matrixWasModified;
-    }
-
-    /*!
-        Checks if column \a $columnDefinition has name \a $newColumnName. If so does
-        nothing and returns false, otherwise changes column's name to
-        \a $newColumnName and returns true.
-    */
-    function adjustColumnName( &$columnDefinition, $newColumnName )
-    {
-        if ( $columnDefinition['name'] != $newColumnName )
-        {
-            $this->setColumnName( $columnDefinition, $newColumnName );
             return true;
         }
+
         return false;
-    }
-
-    /*!
-        Sets column's name to \a $newColumnName.
-    */
-    function setColumnName( &$columnDefinition, $newColumnName )
-    {
-        $columnDefinition['name'] = $newColumnName;
-    }
-
-    /*!
-        Checks if column \a $columnDefinition has index \a $newColumnIndex. If so does
-        nothing and returns false, otherwise changes column's index to
-        \a $newColumnIndex and returns true.
-    */
-    function adjustColumnIndex( &$columnDefinition, $newColumnIndex )
-    {
-        $colIdx = $columnDefinition['index'];
-
-        if ( $columnDefinition['index'] != $newColumnIndex )
-        {
-            $this->setColumnIndex( $columnDefinition, $newColumnIndex );
-            return true;
-        }
-        return false;
-    }
-
-    /*!
-        Sets column's name to \a $newColumnIndex.
-    */
-    function setColumnIndex( &$columnDefinition, $newColumnIndex )
-    {
-        $columnDefinition['index'] = $newColumnIndex;
-    }
-
-    /*!
-        Searches column definition by indentifier. If column was found returns it,
-        otherwise returns false.
-    */
-    function &getColumnDefinitionByID( &$id )
-    {
-        $isColumnExists = false;
-        $matrix         =& $this->attribute( 'matrix' );
-        $columns        =& $matrix['columns']['sequential'];
-
-        $keys = array_keys( $columns );
-        foreach ( $keys as $key )
-        {
-            $column =& $columns[$key];
-            if ( $column['identifier'] == $id )
-            {
-                return $column;
-            }
-        }
-        return $isColumnExists;
     }
 
     /*!
         Searches columns that are in matrix but not in \a $matrixColumnDefinition.
     */
-    function &getColumnsToRemove( &$matrixColumnsDefinition )
+    function getColumnsToRemove( $matrixColumnsDefinition )
     {
-        $columnsToRemove =  array();
-        $matrix          =& $this->attribute( 'matrix' );
-        $columns         =& $matrix['columns']['sequential'];
+        $columnsToRemove = array();
+        $matrix          = $this->attribute( 'matrix' );
+        $columns         = $matrix['columns']['sequential'];
 
         foreach ( $columns as $column )
         {
-            if ( !eZMatrix::isColumnExists( $column, $matrixColumnsDefinition ) )
+            if ( !$this->columnExists( $column, $matrixColumnsDefinition ) )
             {
                 $columnsToRemove[] = $column;
             }
@@ -472,13 +508,35 @@ class eZMatrix
     }
 
     /*!
-        \a static
+     Get internal column index by column indentifier
+
+     \param column identifier
+
+     \return column index.
+    */
+    protected function columnIndex( $columnIdent )
+    {
+        $matrix = $this->attribute( 'matrix' );
+        $columns = $matrix['columns']['sequential'];
+
+        foreach( $columns as $key => $column )
+        {
+            if ( $column['identifier'] == $columnIdent )
+            {
+                return $key;
+            }
+        }
+
+        return false;
+    }
+
+    /*!
         Searches column \a $columnToFind in \a $matrixColumnDefinition.
         Returns true if found, false - otherwise.
     */
-    function isColumnExists( &$columnToFind, &$matrixColumnsDefinition )
+    protected function columnExists( $columnToFind, $matrixColumnsDefinition )
     {
-        $columns =& $matrixColumnsDefinition->attribute( 'columns' );
+        $columns = $matrixColumnsDefinition->attribute( 'columns' );
 
         foreach ( $columns as $column )
         {
@@ -490,53 +548,9 @@ class eZMatrix
     }
 
     /*!
-        Adds column \a $columnDefinition to eZMatrix object.
-    */
-    function addColumn( &$columnDefinition )
-    {
-        $this->addColumnToMatrix( $columnDefinition );
-        $this->addColumnToCells( $columnDefinition );
-        return true;
-    }
-
-    /*!
-        Adds column \a $columnDefinition to 'matrix' member of eZMatrix.
-    */
-    function addColumnToMatrix( &$columnDefinition )
-    {
-        $matrix     =& $this->attribute( 'matrix' );
-        $columns    =& $matrix['columns']['sequential'];
-
-        $newColumn  = array( 'identifier'   => $columnDefinition['identifier'],
-                             'index'        => $columnDefinition['index'],
-                             'name'         => $columnDefinition['name'] );
-
-        array_splice( $columns, $columnDefinition['index'], 0, array( $newColumn ) );
-    }
-
-    /*!
-        Adds column \a $columnDefinition to 'cells' member of eZMatrix.
-    */
-    function addColumnToCells( &$columnDefinition )
-    {
-        $cells          =& $this->attribute( 'cells' );
-        $columnCount    =  $this->attribute( 'columnCount' );
-        $rowCount       =  $this->attribute( 'rowCount' );
-        $pos            = $columnDefinition['index'];
-
-        // walk through rows and add elements one by one.
-        while ( $rowCount > 0 )
-        {
-            array_splice( $cells, $pos, 0, '' );
-            $pos += $columnCount;
-            --$rowCount;
-        }
-    }
-
-    /*!
         Removess column \a $columnDefinition from eZMatrix object.
     */
-    function removeColumn( &$columnDefinition )
+    function removeColumn( $columnDefinition )
     {
         $this->removeColumnFromCells( $columnDefinition );
         $this->removeColumnFromMatrix( $columnDefinition );
@@ -545,11 +559,11 @@ class eZMatrix
     /*!
         Removess column \a $columnDefinition from 'cells' member of eZMatrix.
     */
-    function removeColumnFromCells( &$columnDefinition )
+    protected function removeColumnFromCells( $columnDefinition )
     {
-        $cells          =& $this->attribute( 'cells' );
-        $rowCount       =  $this->attribute( 'rowCount' );
-        $columnCount    =  $this->attribute( 'columnCount' );
+        $cells          = $this->attribute( 'cells' );
+        $rowCount       = $this->attribute( 'rowCount' );
+        $columnCount    = $this->attribute( 'columnCount' );
 
         // last position(index) of element to remove in $cells.
         $pos =  ( $rowCount - 1 ) * $columnCount + $columnDefinition['index'];
@@ -557,7 +571,7 @@ class eZMatrix
         // walk through rows and remove elements one by one.
         while ( $rowCount > 0 )
         {
-            array_splice( $cells, $pos, 1 );
+            array_splice( $this->Cells, $pos, 1 );
             $pos -= $columnCount;
             --$rowCount;
         }
@@ -566,17 +580,17 @@ class eZMatrix
     /*!
         Removess column \a $columnDefinition from 'matrix' member of eZMatrix.
     */
-    function removeColumnFromMatrix( &$columnDefinition )
+    protected function removeColumnFromMatrix( $columnDefinition )
     {
-        $matrix  =& $this->attribute( 'matrix' );
-        $columns =& $matrix['columns']['sequential'];
+        $matrix  = $this->attribute( 'matrix' );
+        $columns = $matrix['columns']['sequential'];
         $pos     = 0;
 
         foreach ( $columns as $column )
         {
             if ( $column['identifier'] == $columnDefinition['identifier'] )
             {
-                array_splice( $columns, $pos, 1 );
+                array_splice( $this->Matrix['columns']['sequential'], $pos, 1 );
                 return true;
             }
             ++$pos;
@@ -595,7 +609,7 @@ class eZMatrix
     /*!
      Returns the name of the matrix.
     */
-    function &name()
+    function name()
     {
         return $this->Name;
     }
@@ -616,7 +630,7 @@ class eZMatrix
         return in_array( $name, $this->attributes() );
     }
 
-    function &attribute( $name )
+    function attribute( $name )
     {
         switch ( $name )
         {
@@ -642,19 +656,16 @@ class eZMatrix
             }break;
             case "rowCount" :
             {
-                $rowCount = count( $this->Matrix['rows']['sequential'] );
-                return $rowCount;
+                return count( $this->Matrix['rows']['sequential'] );
             }break;
             case "columnCount" :
             {
-                $columnCount = count( $this->Matrix['columns']['sequential'] );
-                return $columnCount;
+                return count( $this->Matrix['columns']['sequential'] );
             }break;
             default:
             {
                 eZDebug::writeError( "Attribute '$name' does not exist", 'eZMatrix::attribute' );
-                $retValue = null;
-                return $retValue;
+                return null;
             }break;
         }
     }
@@ -710,44 +721,43 @@ class eZMatrix
     */
     function decodeXML( $xmlString )
     {
-        $xml = new eZXML();
-        $dom = $xml->domTree( $xmlString );
+        $dom = new DOMDocument();
+        $success = $dom->loadXML( $xmlString );
         if ( $xmlString != "" )
         {
             // set the name of the node
-            $nameArray = $dom->elementsByName( "name" );
-            $this->setName( $nameArray[0]->textContent() );
+            $nameArray = $dom->getElementsByTagName( "name" );
+            $this->setName( $nameArray->item( 0 )->textContent );
 
-            $columns = $dom->elementsByName( "columns" );
-            $numColumns = $columns[0]->attributeValue( 'number');
+            $columnsNode = $dom->getElementsByTagName( "columns" )->item( 0 );
+            $numColumns = $columnsNode->getAttribute( 'number');
 
-            $rows = $dom->elementsByName( "rows" );
-            $numRows = $rows[0]->attributeValue( 'number');
+            $rowsNode = $dom->getElementsByTagName( "rows" )->item( 0 );
+            $numRows = $rowsNode->getAttribute( 'number' );
 
-            $namedColumns = $dom->elementsByName( "column" );
+            $namedColumns = $dom->getElementsByTagName( "column" );
             $namedColumnList = array();
-            if ( count( $namedColumns ) > 0 )
+            if ( $namedColumns->length > 0 )
             {
                 foreach ( $namedColumns as $namedColumn )
                 {
-                    $columnName = $namedColumn->textContent();
-                    $columnID = $namedColumn->attributeValue( 'id' );
-                    $columnNumber = $namedColumn->attributeValue( 'num' );
+                    $columnName = $namedColumn->textContent;
+                    $columnID = $namedColumn->getAttribute( 'id' );
+                    $columnNumber = $namedColumn->getAttribute( 'num' );
                     $namedColumnList[$columnNumber] = array( 'name' => $columnName,
                                                              'column_number' => $columnNumber,
                                                              'column_id' => $columnID );
                 }
             }
-            $cellArray = $dom->elementsByName( "c" );
-            $cellCount = count( $cellArray );
+            $cellNodes = $dom->getElementsByTagName( "c" );
             $cellList = array();
-            for ( $i = 0; $i < $cellCount; ++$i )
+            foreach ( $cellNodes as $cellNode )
             {
-                $cellList[] = $cellArray[$i]->textContent();
+                $cellList[] = $cellNode->textContent;
             }
 
             $rows = array( 'sequential' => array() );
-            $sequentialRows =& $rows['sequential'];
+            $sequentialRows = array();
 
             for ( $i = 1; $i <= $numRows; $i++ )
             {
@@ -761,11 +771,12 @@ class eZMatrix
                 $row['columns'] = $rowColumns;
                 $sequentialRows[] = $row;
             }
+            $rows['sequential'] = $sequentialRows;
 
             $columns = array( 'sequential' => array(),
                               'id' => array() );
-            $sequentialColumns =& $columns['sequential'];
-            $idColumns =& $columns['id'];
+            $sequentialColumns = array();
+            $idColumns = array();
 
             for ( $i = 0; $i < $numColumns; $i++ )
             {
@@ -789,22 +800,23 @@ class eZMatrix
                 $columnRows = array();
                 for( $j = 0; $j < $numRows; $j++ )
                 {
-                    $columnRows[] =& $sequentialRows[$j]['columns'][$i];
+                    $columnRows[] = $sequentialRows[$j]['columns'][$i];
                 }
-                $column['rows'] =& $columnRows;
-                unset( $columnRows );
-                $sequentialColumns[] =& $column;
-                $idColumns[$column['identifier']] =& $column;
-
+                $column['rows'] = $columnRows;
+                $sequentialColumns[] = $column;
+                $idColumns[$column['identifier']] = $column;
             }
-            $matrix = array( 'rows' => &$rows,
-                             'columns' => &$columns,
-                             'cells' => &$cellList );
+            $columns['sequential'] = $sequentialColumns;
+            $columns['id'] = $idColumns;
 
-            $this->Matrix =& $matrix;
-            $this->NumRows =& $numRows;
-            $this->NumColumns =& $numColumns;
-            $this->Cells =& $cellList;
+            $matrix = array( 'rows' => $rows,
+                             'columns' => $columns,
+                             'cells' => $cellList );
+
+            $this->Matrix = $matrix;
+            $this->NumRows = $numRows;
+            $this->NumColumns = $numColumns;
+            $this->Cells = $cellList;
         }
         else
         {
@@ -813,18 +825,17 @@ class eZMatrix
         }
     }
     /*!
-     \static
      \return the XML structure in \a $domDocument as text.
              It will take of care of the necessary charset conversions
              for content storage.
     */
-    function domString( &$domDocument )
+    function domString( $domDocument )
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $xmlCharset = $ini->variable( 'RegionalSettings', 'ContentXMLCharset' );
         if ( $xmlCharset == 'enabled' )
         {
-            include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+            //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
             $charset = eZTextCodec::internalCharset();
         }
         else if ( $xmlCharset == 'disabled' )
@@ -833,129 +844,81 @@ class eZMatrix
             $charset = $xmlCharset;
         if ( $charset !== true )
         {
-            include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
+            //include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
             $charset = eZCharsetInfo::realCharsetCode( $charset );
         }
-        $domString = $domDocument->toString( $charset );
+        $domString = $domDocument->saveXML();
         return $domString;
     }
 
     /*!
      Will return the XML string for this matrix.
     */
-    function &xmlString( )
+    function xmlString()
     {
-        $doc = new eZDOMDocument( "Matrix" );
-        $root = $doc->createElementNode( "ezmatrix" );
-        $doc->setRoot( $root );
+        $doc = new DOMDocument();
+        $root = $doc->createElement( "ezmatrix" );
+        $doc->appendChild( $root );
 
-        $name = $doc->createElementNode( "name" );
-        $nameValue = $doc->createTextNode( $this->Name );
-        $name->appendChild( $nameValue );
-
-        $name->setContent( $this->Name() );
+        $name = $doc->createElement( "name", $this->Name );
         $root->appendChild( $name );
 
+        $columnsNode = $doc->createElement( "columns" );
 
-        $columnsNode = $doc->createElementNode( "columns" );
-
-
-        $sequentalColumns =& $this->Matrix['columns']['sequential'];
-//        $columnAmount = count(  $sequentalColumns );
+        $sequentalColumns = $this->Matrix['columns']['sequential'];
         $columnAmount = $this->NumColumns;
-        $columnsNode->appendAttribute( $doc->createAttributeNode( 'number', $columnAmount ) );
+        $columnsNode->setAttribute( 'number', $columnAmount );
         $root->appendChild( $columnsNode );
 
         if ( $sequentalColumns != null )
         {
             for( $i = 0; $i < $columnAmount; $i++ )
             {
-                $column =& $sequentalColumns[$i];
+                $column = $sequentalColumns[$i];
                 if( $column != null && $column['identifier'] != 'col_'. $i+1 )
                 {
                     unset( $columnNode );
-                    $columnNode = $doc->createElementNode( 'column' );
-                    $columnNode->appendAttribute( $doc->createAttributeNode( 'num', $i ) );
-                    $columnNode->appendAttribute( $doc->createAttributeNode( 'id', $column['identifier'] ) );
+                    $columnNode = $doc->createElement( 'column', $column['name'] );
+                    $columnNode->setAttribute( 'num', $i );
+                    $columnNode->setAttribute( 'id', $column['identifier'] );
 
-                    unset( $columnValueNode );
-                    $columnValueNode = $doc->createTextNode( $column["name"] );
-
-                    $columnNode->appendChild( $columnValueNode );
                     $columnsNode->appendChild( $columnNode );
                 }
             }
 
         }
-//        $rows = & $dom->elementsByName( "rows" );
 
-        $rowsNode =  $doc->createElementNode( "rows" );
-//        $rowAmount = count( $this->Matrix['rows'] );
+        $rowsNode =  $doc->createElement( "rows" );
         $rowAmount = $this->NumRows;
 
-        $rowsNode->appendAttribute( $doc->createAttributeNode( 'number', $rowAmount ) );
+        $rowsNode->setAttribute( 'number', $rowAmount );
 
         $root->appendChild( $rowsNode );
 
         foreach ( $this->Cells as $cell )
         {
             unset( $cellNode );
-            $cellNode = $doc->createElementNode( 'c' );
+            $cellNode = $doc->createElement( 'c', $cell );
 
-            unset( $columnValueNode );
-            $columnValueNode = $doc->createTextNode( $cell );
-
-            $cellNode->appendChild( $columnValueNode );
             $root->appendChild( $cellNode );
         }
 
-        $xml = eZMatrix::domString( $doc );
-
-        return $xml;
+        return $this->domString( $doc );
     }
 
     /// Contains the Matrix name
-    var $Name;
+    public $Name;
 
     /// Contains the Matrix array
-    var $Matrix;
+    public $Matrix;
 
     /// Contains the number of columns
-    var $NumColumns;
+    public $NumColumns;
 
     /// Contains the number of rows
 
-    var $NumRows;
-    var $Cells;
-
-
-
+    public $NumRows;
+    public $Cells;
 }
-/*
-$content = array( 'rows' => array( array( 'identifier' => 'some',
-                                         'name' => 'Some',
-                                         'columns' => array( 1, "test", 5 ) ),
-                                  array( 'identifier' => 'some2',
-                                         'name' => 'Some2',
-                                         'columns' => array( 2, "test2", 10 ) ) ),
-                 'columns' => array( 'id' => array( 'c1' => &array( 'identifier' => 'c1',
-                                                                    'name' => 'C1',
-                                                                    'index' => 1,
-                                                                    'columns' => array( 1, 2 ) ) ),
-                                     'sequential' => array( array( 'identifier' => 'c1',
-                                                                   'name' => 'C1',
-                                                                   'columns' => array( 1, 2 ) ),
-                                                            array( 'identifier' => 'c2',
-                                                                   'name' => 'C2',
-                                                                   'columns' => array( "test", "test2" ) ),
-                                                            array( 'identifier' => 'c3',
-                                                                   'name' => 'C3',
-                                                                   'columns' => array( 5, 10 ) ) ) );
 
-'<input type="text" name="_c1_r1" ';
-
-$matrix = array( array( 1, "test", 5 ),
-                array( 2, "test2", 10 ) );
-$matrix[1][1] = 42;
-*/
 ?>

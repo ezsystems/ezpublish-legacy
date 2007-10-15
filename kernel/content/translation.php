@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$module =& $Params['Module'];
+$module = $Params['Module'];
 
 if ( !$module->hasActionParameter( 'NodeID' ) )
 {
@@ -59,17 +59,18 @@ if ( $module->isCurrentAction( 'Cancel' ) )
 
 if ( !$module->hasActionParameter( 'ObjectID' ) )
 {
-    eZDebug::writeError( 'Missing ObjectID parameter for action ' . $module->currentAction(), 'content/translation' );
+    eZDebug::writeError( 'Missing ObjectID parameter for action ' . $module->currentAction(),
+                         'content/translation' );
     return $module->redirectToView( 'view', array( 'full', 2 ) );
 }
 $objectID = $module->actionParameter( 'ObjectID' );
 
 
-$object =& eZContentObject::fetch( $objectID );
+$object = eZContentObject::fetch( $objectID );
 
 if ( !$object )
 {
-    return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
 if ( $module->isCurrentAction( 'UpdateInitialLanguage' ) )
@@ -80,10 +81,10 @@ if ( $module->isCurrentAction( 'UpdateInitialLanguage' ) )
 
         if ( !$object->canEdit() )
         {
-            return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array() );
+            return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel', array() );
         }
 
-        include_once( 'kernel/classes/ezcontentlanguage.php' );
+        //include_once( 'kernel/classes/ezcontentlanguage.php' );
         $language = eZContentLanguage::fetch( $newInitialLanguageID );
         if ( $language && !$language->attribute( 'disabled' ) )
         {
@@ -97,13 +98,13 @@ if ( $module->isCurrentAction( 'UpdateInitialLanguage' ) )
                 $object->setAlwaysAvailableLanguageID( $newInitialLanguageID );
             }
 
-            $nodes =& $object->assignedNodes();
+            $nodes = $object->assignedNodes();
             foreach ( $nodes as $node )
             {
                 $node->updateSubTreePath();
             }
 
-            include_once( 'kernel/classes/ezcontentcachemanager.php' );
+            //include_once( 'kernel/classes/ezcontentcachemanager.php' );
             eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
         }
     }
@@ -114,12 +115,12 @@ else if ( $module->isCurrentAction( 'UpdateAlwaysAvailable' ) )
 {
     if ( !$object->canEdit() )
     {
-        return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array() );
+        return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel', array() );
     }
 
     $newAlwaysAvailable = $module->hasActionParameter( 'AlwaysAvailable' );
 
-    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
 
     if ( $object->isAlwaysAvailable() & $newAlwaysAvailable == false )
     {
@@ -149,20 +150,21 @@ else if ( $module->isCurrentAction( 'RemoveTranslation' ) )
         {
             if ( !$object->removeTranslation( $languageID ) )
             {
-                eZDebug::writeError( "Object with id $objectID: cannot remove the translation with language id $languageID!", 'content/translation' );
+                eZDebug::writeError( "Object with id $objectID: cannot remove the translation with language id $languageID!",
+                                     'content/translation' );
             }
         }
 
-        include_once( 'kernel/content/ezcontentoperationcollection.php' );
+        //include_once( 'kernel/content/ezcontentoperationcollection.php' );
         eZContentOperationCollection::registerSearchObject( $object->attribute( 'id' ), $object->attribute( 'current_version' ) );
 
-        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
 
         return $module->redirectToView( 'view', array( $viewMode, $nodeID, $languageCode ) );
     }
 
-    include_once( 'kernel/classes/ezcontentlanguage.php' );
+    //include_once( 'kernel/classes/ezcontentlanguage.php' );
 
     $languages = array();
     foreach( $languageIDArray as $languageID )
@@ -179,9 +181,9 @@ else if ( $module->isCurrentAction( 'RemoveTranslation' ) )
         return $module->redirectToView( 'view', array( $viewMode, $nodeID, $languageCode ) );
     }
 
-    include_once( "kernel/common/template.php" );
+    require_once( "kernel/common/template.php" );
 
-    $tpl =& templateInit();
+    $tpl = templateInit();
 
     $tpl->setVariable( 'object_id', $objectID );
     $tpl->setVariable( 'object', $object );
@@ -191,7 +193,7 @@ else if ( $module->isCurrentAction( 'RemoveTranslation' ) )
     $tpl->setVariable( 'view_mode', $viewMode );
 
     $Result = array();
-    $Result['content'] =& $tpl->fetch( 'design:content/removetranslation.tpl' );
+    $Result['content'] = $tpl->fetch( 'design:content/removetranslation.tpl' );
     $Result['path'] = array( array( 'url' => false,
                                     'text' => ezi18n( 'kernel/content', 'Remove translation' ) ) );
 

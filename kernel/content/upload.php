@@ -26,18 +26,18 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-include_once( 'kernel/classes/ezcontentupload.php' );
+//include_once( 'kernel/classes/ezcontentupload.php' );
 
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
-include_once( 'kernel/common/template.php' );
+require_once( 'kernel/common/template.php' );
 
-$tpl =& templateInit();
-$http =& eZHTTPTool::instance();
-$module =& $Params['Module'];
+$tpl = templateInit();
+$http = eZHTTPTool::instance();
+$module = $Params['Module'];
 
 $upload = new eZContentUpload();
 
@@ -70,7 +70,7 @@ if ( $module->isCurrentAction( 'CancelUpload' ) )
     {
         $url = '/';
     }
-    $http =& eZHTTPTool::instance();
+    $http = eZHTTPTool::instance();
     $http->removeSessionVariable( 'ContentUploadParameters' );
     return $module->redirectTo( $url );
 }
@@ -86,8 +86,8 @@ if ( $module->isCurrentAction( 'UploadFile' ) )
 
     if ( $upload->handleUpload( $result, 'UploadFile', $location, false, $objectName ) )
     {
-        $object =& $result['contentobject'];
-        $mainNode =& $result['contentobject_main_node'];
+        $object = $result['contentobject'];
+        $mainNode = $result['contentobject_main_node'];
         if ( $result['redirect_url'] )
         {
             return $module->redirectTo( $result['redirect_url'] );
@@ -123,7 +123,7 @@ if ( $module->isCurrentAction( 'UploadFile' ) )
             $view = $data[1];
             $parameters = isset( $data[2] ) ? $data[2] : array();
             $userParameters = isset( $data[3] ) ? $data[3] : array();
-            $resultModule =& eZModule::findModule( $moduleName, $module );
+            $resultModule = eZModule::findModule( $moduleName );
             $resultModule->setCurrentAction( $upload->attribute( 'result_action_name' ), $view );
             $actionParameters = false;
             if ( $upload->hasAttribute( 'result_action_parameters' ) )
@@ -154,7 +154,7 @@ if ( $module->isCurrentAction( 'UploadFile' ) )
 }
 
 
-$res =& eZTemplateDesignResource::instance();
+$res = eZTemplateDesignResource::instance();
 $keyArray = array();
 $attributeKeys = $upload->attribute( 'keys' );
 
@@ -182,9 +182,9 @@ if ( $uiContext )
     $tpl->setVariable( 'ui_context', $uiContext );
 }
 // setting keys for override
-$res =& eZTemplateDesignResource::instance();
+$res = eZTemplateDesignResource::instance();
 
-$Result['content'] =& $tpl->fetch( 'design:content/upload.tpl' );
+$Result['content'] = $tpl->fetch( 'design:content/upload.tpl' );
 
 $Result['path'] = array( array( 'text' => 'Upload',
                                 'url' => false ) );

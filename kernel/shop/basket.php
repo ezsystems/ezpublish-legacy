@@ -26,22 +26,22 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$http =& eZHTTPTool::instance();
-$module =& $Params["Module"];
+$http = eZHTTPTool::instance();
+$module = $Params['Module'];
 
-include_once( "kernel/classes/ezcontentobject.php" );
-include_once( "kernel/classes/ezbasket.php" );
-include_once( "kernel/classes/ezvattype.php" );
-include_once( "kernel/classes/ezorder.php" );
-include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+//include_once( "kernel/classes/ezcontentobject.php" );
+//include_once( "kernel/classes/ezbasket.php" );
+//include_once( "kernel/classes/ezvattype.php" );
+//include_once( "kernel/classes/ezorder.php" );
+//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 
-include_once( "kernel/classes/ezproductcollection.php" );
-include_once( "kernel/classes/ezproductcollectionitem.php" );
-include_once( "kernel/classes/ezproductcollectionitemoption.php" );
-include_once( "kernel/common/template.php" );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( "kernel/classes/ezproductcollection.php" );
+//include_once( "kernel/classes/ezproductcollectionitem.php" );
+//include_once( "kernel/classes/ezproductcollectionitemoption.php" );
+require_once( "kernel/common/template.php" );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
-$basket =& eZBasket::currentBasket();
+$basket = eZBasket::currentBasket();
 $basket->updatePrices(); // Update the prices. Transaction not necessary.
 
 
@@ -68,7 +68,7 @@ if ( $http->hasPostVariable( "RemoveProductItemButton" ) )
 
     if ( is_array( $itemCountList ) && is_array( $itemIDList ) && count( $itemCountList ) == count( $itemIDList ) && is_object( $basket ) )
     {
-        $productCollectionID =& $basket->attribute( 'productcollection_id' );
+        $productCollectionID = $basket->attribute( 'productcollection_id' );
         $item = $http->postVariable( "RemoveProductItemButton" );
         if ( $http->hasPostVariable( "RemoveProductItemDeleteList" ) )
             $itemList = $http->postVariable( "RemoveProductItemDeleteList" );
@@ -77,7 +77,7 @@ if ( $http->hasPostVariable( "RemoveProductItemButton" ) )
 
         $i = 0;
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $itemCountError = false;
         foreach ( $itemIDList as $id )
@@ -161,7 +161,7 @@ if ( $http->hasPostVariable( "ContinueShoppingButton" ) )
 
         $i = 0;
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $itemCountError = false;
         foreach ( $itemIDList as $id )
@@ -195,12 +195,12 @@ if ( $http->hasPostVariable( "ContinueShoppingButton" ) )
 }
 
 $doCheckout = false;
-if ( eZHTTPTool::hasSessionVariable( 'DoCheckoutAutomatically' ) )
+if ( $http->hasSessionVariable( 'DoCheckoutAutomatically' ) )
 {
-    if ( eZHTTPTool::sessionVariable( 'DoCheckoutAutomatically' ) === true )
+    if ( $http->sessionVariable( 'DoCheckoutAutomatically' ) === true )
     {
         $doCheckout = true;
-        eZHTTPTool::setSessionVariable( 'DoCheckoutAutomatically', false );
+        $http->setSessionVariable( 'DoCheckoutAutomatically', false );
     }
 }
 
@@ -216,7 +216,7 @@ if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
         if ( is_array( $itemCountList ) && is_array( $itemIDList ) && count( $itemCountList ) == count( $itemIDList ) && is_object( $basket ) )
         {
             $productCollectionID = $basket->attribute( 'productcollection_id' );
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
 
             for ( $i = 0, $itemCountError = false; $i < count( $itemIDList ); ++$i )
@@ -245,8 +245,8 @@ if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
     }
 
     // Fetch the shop account handler
-    include_once( 'kernel/classes/ezshopaccounthandler.php' );
-    $accountHandler =& eZShopAccountHandler::instance();
+    //include_once( 'kernel/classes/ezshopaccounthandler.php' );
+    $accountHandler = eZShopAccountHandler::instance();
 
     // Do we have all the information we need to start the checkout
     if ( !$accountHandler->verifyAccountInformation() )
@@ -258,11 +258,12 @@ if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
     else
     {
         // Creates an order and redirects
+        $basket = eZBasket::currentBasket();
         $productCollectionID = $basket->attribute( 'productcollection_id' );
 
-        $verifyResult =& eZProductCollection::verify( $productCollectionID  );
+        $verifyResult = eZProductCollection::verify( $productCollectionID  );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $basket->updatePrices();
 
@@ -272,7 +273,7 @@ if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
             $order->setAttribute( 'account_identifier', "default" );
             $order->store();
 
-            eZHTTPTool::setSessionVariable( 'MyTemporaryOrderID', $order->attribute( 'id' ) );
+            $http->setSessionVariable( 'MyTemporaryOrderID', $order->attribute( 'id' ) );
 
             $db->commit();
             $module->redirectTo( '/shop/confirmorder/' );
@@ -280,7 +281,7 @@ if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
         }
         else
         {
-            $itemList =& $verifyResult;
+            $basket = eZBasket::currentBasket();
             $removedItems = array();
             foreach ( $itemList as $item )
             {
@@ -291,8 +292,9 @@ if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
         $db->commit();
     }
 }
+$basket = eZBasket::currentBasket();
 
-$tpl =& templateInit();
+$tpl = templateInit();
 if ( isset( $Params['Error'] ) )
 {
     $tpl->setVariable( 'error', $Params['Error'] );
@@ -331,7 +333,7 @@ if ( $shippingInfo !== null )
 }
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:shop/basket.tpl" );
+$Result['content'] = $tpl->fetch( "design:shop/basket.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/shop', 'Basket' ) ) );
 ?>

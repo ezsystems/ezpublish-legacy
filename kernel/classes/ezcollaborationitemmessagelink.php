@@ -37,8 +37,8 @@
 
 */
 
-include_once( 'kernel/classes/ezpersistentobject.php' );
-include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( 'kernel/classes/ezpersistentobject.php' );
+//include_once( "lib/ezdb/classes/ezdb.php" );
 
 class eZCollaborationItemMessageLink extends eZPersistentObject
 {
@@ -50,7 +50,7 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -98,7 +98,7 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
                       'name' => 'ezcollab_item_message_link' );
     }
 
-    function create( $collaborationID, $messageID, $messageType, $participantID )
+    static function create( $collaborationID, $messageID, $messageType, $participantID )
     {
         $dateTime = time();
         $row = array(
@@ -115,11 +115,10 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function &addMessage( &$collaborationItem, &$message, $messageType, $participantID = false )
+    static function addMessage( $collaborationItem, $message, $messageType, $participantID = false )
     {
-        $messageID =& $message->attribute( 'id' );
-        eZDebug::writeDebug( $message );
-        eZDebug::writeDebug( $messageID );
+        $messageID = $message->attribute( 'id' );
+
         if ( !$messageID )
         {
             eZDebug::writeError( 'No message ID, cannot create link', 'eZCollaborationItemMessageLink::addMessage' );
@@ -128,15 +127,15 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
         }
         if ( $participantID === false )
         {
-            include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-            $user =& eZUser::currentUser();
-            $participantID =& $user->attribute( 'contentobject_id' );
+            //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+            $user = eZUser::currentUser();
+            $participantID = $user->attribute( 'contentobject_id' );
         }
         $collaborationID = $collaborationItem->attribute( 'id' );
         $timestamp = time();
         $collaborationItem->setAttribute( 'modified', $timestamp );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $collaborationItem->sync();
         $link = eZCollaborationItemMessageLink::create( $collaborationID, $messageID, $messageType, $participantID );
@@ -146,7 +145,7 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
         return $link;
     }
 
-    function fetch( $id, $asObject = true )
+    static function fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZCollaborationItemMessageLink::definition(),
                                                 null,
@@ -155,7 +154,7 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
                                                 $asObject );
     }
 
-    function fetchItemCount( $parameters )
+    static function fetchItemCount( $parameters )
     {
         $parameters = array_merge( array( 'item_id' => false,
                                           'conditions' => null ),
@@ -178,7 +177,7 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
         return $objectList[0]['count'];
     }
 
-    function fetchItemList( $parameters )
+    static function fetchItemList( $parameters )
     {
         $parameters = array_merge( array( 'as_object' => true,
                                           'item_id' => false,
@@ -205,42 +204,39 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
     }
 
 
-    function &collaborationItem()
+    function collaborationItem()
     {
         if ( isset( $this->CollaborationID ) and $this->CollaborationID )
         {
-            include_once( 'kernel/classes/ezcollaborationitem.php' );
-            $item = eZCollaborationItem::fetch( $this->CollaborationID );
+            //include_once( 'kernel/classes/ezcollaborationitem.php' );
+            return eZCollaborationItem::fetch( $this->CollaborationID );
         }
-        else
-            $item = null;
-        return $item;
+
+        return null;
     }
 
-    function &participant()
+    function participant()
     {
-        $participantLink =& eZCollaborationItemParticipantLink::fetch( $this->CollaborationID, $this->ParticipantID );
-        return $participantLink;
+        return eZCollaborationItemParticipantLink::fetch( $this->CollaborationID, $this->ParticipantID );
     }
 
-    function &simpleMessage()
+    function simpleMessage()
     {
         if ( isset( $this->MessageID ) and $this->MessageID )
         {
-            include_once( 'kernel/classes/ezcollaborationsimplemessage.php' );
-            $message = eZCollaborationSimpleMessage::fetch( $this->MessageID );
+            //include_once( 'kernel/classes/ezcollaborationsimplemessage.php' );
+            return eZCollaborationSimpleMessage::fetch( $this->MessageID );
         }
-        else
-            $message = null;
-        return $message;
+
+        return null;
     }
 
     /// \privatesection
-    var $CollaborationID;
-    var $MessageID;
-    var $ParticipantID;
-    var $Created;
-    var $Modified;
+    public $CollaborationID;
+    public $MessageID;
+    public $ParticipantID;
+    public $Created;
+    public $Modified;
 }
 
 ?>

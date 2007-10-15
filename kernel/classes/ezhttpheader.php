@@ -44,14 +44,14 @@ class eZHTTPHeader
      * Returns true if the custom HTTP headers are enabled, false otherwise.
      * The result is cached in memory to save time on multiple invocations.
      */
-    function enabled()
+    static function enabled()
     {
         if ( isset( $GLOBALS['eZHTTPHeaderCustom'] ) )
         {
             return $GLOBALS['eZHTTPHeaderCustom'];
         }
 
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         if ( !$ini->hasVariable( 'HTTPHeaderSettings', 'CustomHeader' ) )
         {
             $GLOBALS['eZHTTPHeaderCustom'] = false;
@@ -68,7 +68,7 @@ class eZHTTPHeader
      \static
      Get Header override array by requested URI
     */
-    function headerOverrideArray( $uri )
+    static function headerOverrideArray( $uri )
     {
         $headerArray = array();
 
@@ -79,7 +79,7 @@ class eZHTTPHeader
 
         $contentView = false;
 
-        include_once( 'kernel/classes/ezurlaliasml.php' );
+        //include_once( 'kernel/classes/ezurlaliasml.php' );
         $uriString = eZURLAliasML::cleanURL( $uri->uriString() );
 
         // If content/view used, get url alias for node
@@ -92,7 +92,7 @@ class eZHTTPHeader
                 return $headerArray;
             }
 
-            include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+            //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
             $node = eZContentObjectTreeNode::fetch( $nodeID );
             if ( !$node )
             {
@@ -133,7 +133,7 @@ class eZHTTPHeader
 
                     if ( $header == 'Expires' )
                     {
-                        $headerValue = gmdate( 'D, d M Y H:i:s', mktime() + $headerValue ) . ' GMT';
+                        $headerValue = gmdate( 'D, d M Y H:i:s', time() + $headerValue ) . ' GMT';
                     }
 
                     if ( $depth === null )

@@ -47,9 +47,11 @@ global $script;
 /*!
  includes
 */
-include_once( 'kernel/classes/ezscript.php' );
-include_once( 'kernel/common/i18n.php' );
-include_once( 'kernel/classes/ezpackage.php' );
+require 'autoload.php';
+
+//include_once( 'kernel/classes/ezscript.php' );
+require_once( 'kernel/common/i18n.php' );
+//include_once( 'kernel/classes/ezpackage.php' );
 
 
 /**************************************************************
@@ -106,10 +108,11 @@ function showPackageActions( $actionList )
 /*!
  add extra actions to default package item's actions
 */
-function getExtraActions( &$actionList )
+function getExtraActions( $actionList )
 {
     $actionList[EZ_INSTALL_PACKAGE_EXTRA_ACTION_SKIP_PACKAGE] = "Skipt rest of the package";
     $actionList[EZ_INSTALL_PACKAGE_EXTRA_ACTION_QUIT] = "Quit";
+    return $actionList;
 }
 
 /*!
@@ -139,7 +142,7 @@ function handlePackageError( $error )
     showWarning( $error['description'] );
 
     $actionList = $error['actions'];
-    getExtraActions( $actionList );
+    $actionList = getExtraActions( $actionList );
 
     showPackageActions( $actionList );
 
@@ -269,7 +272,7 @@ function downloadPackages( $packageList, $packageURL, $packageDir, $packageRepos
     {
         // TODO: using 'eZStepSiteTypes' is hack.
         //       need to exclude 'downloadFile' from that class.
-        include_once( 'kernel/setup/steps/ezstep_site_types.php' );
+        //include_once( 'kernel/setup/steps/ezstep_site_types.php' );
 
         $tpl = false;
         $http = false;
@@ -402,7 +405,7 @@ function siteAccessMap( $siteAccessNameArray )
 
 function checkSiteaccess( $siteAccess, $bailOutOnError = false )
 {
-    include_once( 'lib/ezutils/classes/ezextension.php' );
+    //include_once( 'lib/ezutils/classes/ezextension.php' );
     $extensionBaseDir = eZExtension::baseDirectory();
     $extensionNameArray = eZExtension::activeExtensions();
     $siteAccessPath = '/settings/siteaccess/';
@@ -440,7 +443,7 @@ function checkSiteaccess( $siteAccess, $bailOutOnError = false )
 //
 function postInstallAdminSiteaccessINIUpdate( $params )
 {
-    $siteINI =& eZINI::instance( "site.ini.append.php", "settings/siteaccess/" . $params['admin_siteaccess'], null, false, null, true );
+    $siteINI = eZINI::instance( "site.ini.append.php", "settings/siteaccess/" . $params['admin_siteaccess'], null, false, null, true );
     $siteINI->setVariable( "DesignSettings", "SiteDesign", $params['admin_siteaccess'] );
     $siteINI->setVariable( "DesignSettings", "AdditionalSiteDesignList", array( "admin" ) );
     $siteINI->setVariable( "SiteAccessSettings", "RelatedSiteAccessList", $params['all_siteaccess_list'] );
@@ -450,7 +453,7 @@ function postInstallAdminSiteaccessINIUpdate( $params )
 
 function postInstallUserSiteaccessINIUpdate( $params )
 {
-    $siteINI =& eZINI::instance( "site.ini.append.php", "settings/siteaccess/" . $params['user_siteaccess'], null, false, null, true );
+    $siteINI = eZINI::instance( "site.ini.append.php", "settings/siteaccess/" . $params['user_siteaccess'], null, false, null, true );
     $siteINI->setVariable( "DesignSettings", "SiteDesign", $params['main_site_design'] );
     $siteINI->setVariable( "SiteAccessSettings", "RelatedSiteAccessList", $params['all_siteaccess_list'] );
     $siteINI->setVariable( "FileSettings", "VarDir", "var/ezwebin_site" );
@@ -487,7 +490,7 @@ function resetINI( $settingsGroups, $iniToReset )
         if( $settingsGroup['name'] === $iniToReset )
         {
             $iniFilename = $settingsGroup['name'] . '.append.php';
-            $ini =& eZINI::instance( $iniFilename, $settingsGroups['settings_dir'] );
+            $ini = eZINI::instance( $iniFilename, $settingsGroups['settings_dir'] );
             $ini->reset();
         }
     }
@@ -553,7 +556,7 @@ function updateINIAccessType( $accessType, $params )
     $portMatch = array();
     $hostMatch = array();
 
-    $siteINI =& eZINI::instance( "site.ini.append.php", "settings/override", null, false, null, true );
+    $siteINI = eZINI::instance( "site.ini.append.php", "settings/override", null, false, null, true );
 
     $siteaccessTypes = $params['siteaccess_urls'];
 

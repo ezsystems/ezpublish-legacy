@@ -26,13 +26,13 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/classes/ezsection.php' );
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezpreferences.php' );
+//include_once( 'kernel/classes/ezsection.php' );
+require_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezpreferences.php' );
 
-$http =& eZHTTPTool::instance();
-$Module =& $Params["Module"];
-$tpl =& templateInit();
+$http = eZHTTPTool::instance();
+$Module = $Params['Module'];
+$tpl = templateInit();
 $tpl->setVariable( 'module', $Module );
 
 $offset = $Params['Offset'];
@@ -59,8 +59,8 @@ if ( $http->hasPostVariable( 'CreateSectionButton' ) )
 
 if ( $http->hasPostVariable( 'RemoveSectionButton' ) )
 {
-    include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-    $currentUser =& eZUser::currentUser();
+    //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+    $currentUser = eZUser::currentUser();
     $accessResult = $currentUser->hasAccessTo( 'section', 'edit' );
     if ( $accessResult['accessWord'] == 'yes' )
     {
@@ -97,7 +97,7 @@ if ( $http->hasPostVariable( 'RemoveSectionButton' ) )
                 $tpl->setVariable( 'unallowed_sections', $sectionsUnallowed );
 
                 $Result = array();
-                $Result['content'] =& $tpl->fetch( "design:section/confirmremove.tpl" );
+                $Result['content'] = $tpl->fetch( "design:section/confirmremove.tpl" );
                 $Result['path'] = array( array( 'url' => false,
                                                 'text' => ezi18n( 'kernel/section', 'Sections' ) ) );
                 return;
@@ -106,24 +106,24 @@ if ( $http->hasPostVariable( 'RemoveSectionButton' ) )
     }
     else
     {
-        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
     }
 }
 
 if ( $http->hasPostVariable( 'ConfirmRemoveSectionButton' ) )
 {
-    include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-    $currentUser =& eZUser::currentUser();
+    //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+    $currentUser = eZUser::currentUser();
     $accessResult = $currentUser->hasAccessTo( 'section', 'edit' );
     if ( $accessResult['accessWord'] == 'yes' )
     {
         if ( $http->hasSessionVariable( 'SectionIDArray' ) )
         {
-            $sectionIDArray =& $http->sessionVariable( 'SectionIDArray' );
+            $sectionIDArray = $http->sessionVariable( 'SectionIDArray' );
 
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
-            include_once( 'kernel/classes/ezcontentcachemanager.php' );
+            //include_once( 'kernel/classes/ezcontentcachemanager.php' );
             foreach ( $sectionIDArray as $sectionID )
             {
                 $section = eZSection::fetch( $sectionID );
@@ -140,7 +140,7 @@ if ( $http->hasPostVariable( 'ConfirmRemoveSectionButton' ) )
     }
     else
     {
-        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
     }
 }
 
@@ -148,8 +148,8 @@ $viewParameters = array( 'offset' => $offset );
 $sectionArray = eZSection::fetchByOffset( $offset, $limit );
 $sectionCount = eZSection::sectionCount();
 
-include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-$currentUser =& eZUser::currentUser();
+//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+$currentUser = eZUser::currentUser();
 $allowedAssignSectionList = $currentUser->canAssignSectionList();
 
 $tpl->setVariable( "limit", $limit );
@@ -159,7 +159,7 @@ $tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( 'allowed_assign_sections', $allowedAssignSectionList );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:section/list.tpl" );
+$Result['content'] = $tpl->fetch( "design:section/list.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/section', 'Sections' ) ) );
 

@@ -55,7 +55,7 @@
 \endcode
 */
 
-include_once( "lib/ezutils/classes/ezini.php" );
+//include_once( "lib/ezutils/classes/ezini.php" );
 
 class eZTemplateUnitOperator
 {
@@ -71,7 +71,7 @@ class eZTemplateUnitOperator
     /*!
      Returns the operators in this class.
     */
-    function &operatorList()
+    function operatorList()
     {
         return $this->Operators;
     }
@@ -90,8 +90,8 @@ class eZTemplateUnitOperator
     /*!
       \reimp
     */
-    function operatorTransform( $operatorName, &$node, &$tpl, &$resourceData,
-                                &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function operatorTransform( $operatorName, &$node, $tpl, &$resourceData,
+                                $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         if ( !eZTemplateNodeTool::isStaticElement( $parameters[1] ) ||
              ( count( $parameters ) > 2 && !eZTemplateNodeTool::isStaticElement( $parameters[2] ) ) )
@@ -110,8 +110,8 @@ class eZTemplateUnitOperator
              !eZTemplateNodeTool::isStaticElement( $parameters[5] ) )
             return false;
 
-        include_once( 'lib/ezlocale/classes/ezlocale.php' );
-        $locale =& eZLocale::instance();
+        //include_once( 'lib/ezlocale/classes/ezlocale.php' );
+        $locale = eZLocale::instance();
         $decimalCount = $locale->decimalCount();
         $decimalSymbol = $locale->decimalSymbol();
         $decimalThousandsSeparator = $locale->thousandsSeparator();
@@ -140,7 +140,7 @@ class eZTemplateUnitOperator
 
         $unit = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
 
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         if ( $prefix == "auto" )
         {
             $prefixes = $ini->variableArray( "UnitSettings", "BinaryUnits" );
@@ -150,7 +150,7 @@ class eZTemplateUnitOperator
                 $prefix = "decimal";
         }
 
-        $unit_ini =& eZINI::instance( "units.ini" );
+        $unit_ini = eZINI::instance( "units.ini" );
         $use_si = $ini->variable( "UnitSettings", "UseSIUnits" ) == "true";
         $fake = $use_si ? "" : "Fake";
         if ( $unit_ini->hasVariable( "Base", $unit ) )
@@ -385,14 +385,14 @@ class eZTemplateUnitOperator
     /*!
      Performs unit conversion.
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters,
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters,
                      $placement )
     {
         $unit = $namedParameters["unit"];
         $prefix = $namedParameters["prefix"];
 
-        include_once( 'lib/ezlocale/classes/ezlocale.php' );
-        $locale =& eZLocale::instance();
+        //include_once( 'lib/ezlocale/classes/ezlocale.php' );
+        $locale = eZLocale::instance();
         $decimalCount = $locale->decimalCount();
         $decimalSymbol = $locale->decimalSymbol();
         $decimalThousandsSeparator = $locale->thousandsSeparator();
@@ -407,7 +407,7 @@ class eZTemplateUnitOperator
         if ( strlen( $namedParameters['thousands_separator'] ) > 0 )
             $decimalThousandsSeparator = $namedParameters['thousands_separator'];
 
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         if ( $prefix == "auto" )
         {
             $prefixes = $ini->variableArray( "UnitSettings", "BinaryUnits" );
@@ -416,7 +416,7 @@ class eZTemplateUnitOperator
             else
                 $prefix = "decimal";
         }
-        $unit_ini =& eZINI::instance( "units.ini" );
+        $unit_ini = eZINI::instance( "units.ini" );
         $use_si = $ini->variable( "UnitSettings", "UseSIUnits" ) == "true";
         $fake = $use_si ? "" : "Fake";
         if ( $unit_ini->hasVariable( "Base", $unit ) )

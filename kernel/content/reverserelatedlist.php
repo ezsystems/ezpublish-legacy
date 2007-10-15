@@ -26,15 +26,15 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/classes/ezcontentobject.php" );
-include_once( "lib/ezutils/classes/ezhttptool.php" );
-include_once( "kernel/common/template.php" );
-include_once( 'kernel/classes/ezpreferences.php' );
+//include_once( "kernel/classes/ezcontentobject.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
+require_once( "kernel/common/template.php" );
+//include_once( 'kernel/classes/ezpreferences.php' );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
-$Module =& $Params['Module'];
-$NodeID =& $Params['NodeID'];
+$Module = $Params['Module'];
+$NodeID = $Params['NodeID'];
 
 if ( $http->hasPostVariable( "BackButton" ) )
 {
@@ -72,20 +72,20 @@ if ( $Offset < $pageLimit )
 
 $requestedURI = '';
 $userRedirectURI = '';
-$requestedURI =& $GLOBALS['eZRequestedURI'];
-if ( get_class( $requestedURI ) == 'ezuri' )
+$requestedURI = $GLOBALS['eZRequestedURI'];
+if ( $requestedURI instanceof eZURI )
 {
     $userRedirectURI = $requestedURI->uriString( true );
 }
 $http->setSessionVariable( 'userRedirectURIReverseObjects', $userRedirectURI );
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 
 $deleteIDArray = array();
 
 $contentObjectTreeNode = eZContentObjectTreeNode::fetch( $NodeID );
 if ( !$contentObjectTreeNode )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
 $path_strings = '( ';
 $path_strings2 = '( ';
@@ -134,9 +134,9 @@ $childrenList = array(); // Contains children of Nodes from $deleteIDArray
 $reverselistCountChildrenArray = array();
 foreach( $rows as $child )
 {
-    $contentObject =& eZContentObject::fetchByNodeID( $child['node_id'] );
+    $contentObject = eZContentObject::fetchByNodeID( $child['node_id'] );
     $contentObject_ID = $contentObject->attribute('id');
-    $reverseObjectCount = $contentObject->reverseRelatedObjectCount( false, false, false, 1 );
+    $reverseObjectCount = $contentObject->reverseRelatedObjectCount( false, false, 1 );
     $reverselistCountChildrenArray[$contentObject_ID] = $reverseObjectCount;
     $childrenList[] = eZContentObjectTreeNode::fetch( $child['node_id'] );
 }
@@ -144,7 +144,7 @@ foreach( $rows as $child )
 $contentObjectName = $contentObjectTreeNode->attribute('name');
 $viewParameters = array( 'offset' => $Offset );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( 'children_list', $childrenList );
 $tpl->setVariable( 'view_parameters', $viewParameters );
@@ -156,7 +156,7 @@ $tpl->setVariable( 'node_id',  $NodeID );
 
 $Result = array();
 
-$contentObject =& $contentObjectTreeNode->attribute( 'object' );
+$contentObject = $contentObjectTreeNode->attribute( 'object' );
 if ( $contentObject )
 {
     $section = eZSection::fetch( $contentObject->attribute( 'section_id' ) );
@@ -170,7 +170,7 @@ if ( $contentObject )
     }
 }
 
-$Result['content'] =& $tpl->fetch( "design:content/reverserelatedlist.tpl" );
+$Result['content'] = $tpl->fetch( "design:content/reverserelatedlist.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/content', "\"$contentObjectName\": Sub items that are used by other objects" ) ) );
 

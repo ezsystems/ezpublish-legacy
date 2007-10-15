@@ -30,7 +30,7 @@
 
 // This file holds shared functions for the ezsetup files
 
-include_once( 'lib/ezutils/classes/ezini.php' );
+//include_once( 'lib/ezutils/classes/ezini.php' );
 
 /*!
  \return an array with tests that need to be run
@@ -38,7 +38,7 @@ include_once( 'lib/ezutils/classes/ezini.php' );
 */
 function eZSetupCriticalTests()
 {
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
     return $ini->variableArray( 'SetupSettings', 'CriticalTests' );
 }
 
@@ -47,7 +47,7 @@ function eZSetupCriticalTests()
 */
 function eZSetupOptionalTests()
 {
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
     return $ini->variableArray( 'SetupSettings', 'OptionalTests' );
 }
 
@@ -70,8 +70,8 @@ function eZSetupDatabaseMap()
 function eZSetupFetchPersistenceList()
 {
     $persistenceList = array();
-    include_once( 'lib/ezutils/classes/ezhttptool.php' );
-    $http =& eZHTTPTool::instance();
+    //include_once( 'lib/ezutils/classes/ezhttptool.php' );
+    $http = eZHTTPTool::instance();
     $postVariables = $http->attribute( 'post' );
 
     foreach ( $postVariables as $name => $value )
@@ -89,8 +89,8 @@ function eZSetupFetchPersistenceList()
 
 function eZSetupSetPersistencePostVariable( $var, $value )
 {
-    include_once( 'lib/ezutils/classes/ezhttptool.php' );
-    $http =& eZHTTPTool::instance();
+    //include_once( 'lib/ezutils/classes/ezhttptool.php' );
+    $http = eZHTTPTool::instance();
     if ( is_array( $value ) )
     {
         foreach ( $value as $valueKey => $valueItem )
@@ -123,9 +123,6 @@ function eZSetupMergePersistenceList( &$persistenceList, $persistenceDataList )
             $oldValues =& $persistenceList[$persistenceName];
             foreach ( $persistenceValues as $persistenceValueName => $persistenceValueData )
             {
-//                eZDebug::writeDebug( $oldValues, 'oldValues' );
-//                eZDebug::writeDebug( $persistenceValueName, 'persistenceValueName' );
-//                eZDebug::writeDebug( $persistenceValueData, 'persistenceValueData' );
                 if ( !isset( $oldValues[$persistenceValueName] ) )
                 {
                     $oldValues[$persistenceValueName] = $persistenceValueData['value'];
@@ -183,7 +180,7 @@ function eZSetupLanguageList( &$languageList, &$defaultLanguage, &$defaultExtraL
     for ( $i =0; $i < count( $languageList ); $i++ )
         for ( $n = 0; $n < count( $languageList ) - 1; $n++ )
         {
-            if ( strcmp( $languageList[$n]['language_name'], $languageList[$n+1]['language_name'] ) > 0 )
+            if ( strcmp( $languageList[$n]->attribute( 'language_name' ), $languageList[$n+1]->attribute( 'language_name' ) ) > 0 )
             {
                 $tmpElement = $languageList[$n];
                 $languageList[$n] = $languageList[$n+1];

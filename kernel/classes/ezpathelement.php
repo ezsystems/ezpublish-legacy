@@ -42,8 +42,8 @@
   possible to store and remove items of this class.
 */
 
-include_once( "kernel/classes/ezpersistentobject.php" );
-include_once( "kernel/classes/ezcontentlanguage.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezcontentlanguage.php" );
 
 class eZPathElement extends eZPersistentObject
 {
@@ -64,7 +64,7 @@ class eZPathElement extends eZPersistentObject
     /*!
      \reimp
     */
-    function definition()
+    static public function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -119,7 +119,7 @@ class eZPathElement extends eZPersistentObject
     /*!
      Storing of path elements is not allowed.
      */
-    function store()
+    function store( $fieldFilters = null )
     {
         eZDebug::writeError( "Cannot store objects of eZPathElement, use eZURLAliasML instead" );
         return;
@@ -128,7 +128,7 @@ class eZPathElement extends eZPersistentObject
     /*!
      Removal of path elements is not allowed.
      */
-    function remove()
+    function removeThis()
     {
         eZDebug::writeError( "Cannot remove objects of eZPathElement, use eZURLAliasML instead" );
         return;
@@ -137,29 +137,27 @@ class eZPathElement extends eZPersistentObject
     /*!
      Returns the eZContentLanguage object which maches the element language mask.
      */
-    function &getLanguage()
+    function getLanguage()
     {
-        $lang = eZContentLanguage::fetch( $this->LangMask );
-        return $lang;
+        return eZContentLanguage::fetch( $this->LangMask );
     }
 
     /*!
      Converts the action property into a real url which responds to the
      module/view on the site.
      */
-    function &actionURL()
+    function actionURL()
     {
-        $url = eZURLAliasML::actionToUrl( $this->Action );
-        return $url;
+        return eZURLAliasML::actionToUrl( $this->Action );
     }
 
     /*!
      Fetches path elements which has the parent $parentID and name $name.
      \return An array of path element objects.
      */
-    function fetchNamedByParentID( $parentID, $name )
+    static public function fetchNamedByParentID( $parentID, $name )
     {
-        include_once( 'kernel/classes/ezurlaliasquery.php' );
+        //include_once( 'kernel/classes/ezurlaliasquery.php' );
         $filter = new eZURLAliasQuery();
         $filter->paren = $parentID;
         $filter->text  = $name;
@@ -173,7 +171,7 @@ class eZPathElement extends eZPersistentObject
      \note If you know the action values of the path use fetchPathByActionList() instead, it is more optimized.
      \note The calculated path is cached in $Path.
      */
-    function &getPath()
+    function getPath()
     {
         if ( $this->Path !== null )
             return $this->Path;
@@ -181,7 +179,7 @@ class eZPathElement extends eZPersistentObject
         // Fetch path 'text' elements of correct parent path
         $path = array( $this->Text );
         $id = (int)$this->Parent;
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         while ( $id != 0 )
         {
             $query = "SELECT parent, lang_mask, text FROM ezurlalias_ml WHERE id={$id}";
@@ -202,7 +200,7 @@ class eZPathElement extends eZPersistentObject
         return $this->Path;
     }
 
-    function &getPathArray()
+    function getPathArray()
     {
         if ( $this->PathArray !== null )
             return $this->PathArray;
@@ -210,7 +208,7 @@ class eZPathElement extends eZPersistentObject
         // Fetch path 'text' elements of correct parent path
         $path = array( $this );
         $id = (int)$this->Parent;
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         while ( $id != 0 )
         {
             $query = "SELECT * FROM ezurlalias_ml WHERE id={$id}";

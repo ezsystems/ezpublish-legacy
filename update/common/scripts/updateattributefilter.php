@@ -32,18 +32,18 @@
 
 set_time_limit( 0 );
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
+$cli = eZCLI::instance();
 $endl = $cli->endlineString();
 
-$script =& eZScript::instance( array( 'description' => ( "eZ Publish attribute filter update.".
-                                                         "\n" .
-                                                         "updateattributefileter.php" ),
-                                      'use-session' => true,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+$script = eZScript::instance( array( 'description' => ( "eZ Publish attribute filter update.".
+                                                        "\n" .
+                                                        "updateattributefileter.php" ),
+                                     'use-session' => true,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 
@@ -64,7 +64,7 @@ if ( $siteAccess )
 function changeSiteAccessSetting( &$siteaccess, $optionData )
 {
     global $isQuiet;
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     if ( file_exists( 'settings/siteaccess/' . $optionData ) )
     {
         $siteaccess = $optionData;
@@ -78,16 +78,16 @@ function changeSiteAccessSetting( &$siteaccess, $optionData )
     }
 }
 
-include_once( 'kernel/classes/ezcontentclassattribute.php' );
-include_once( 'kernel/classes/ezcontentobjectattribute.php' );
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/ezbinaryfilehandler.php' );
-include_once( 'kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php' );
+//include_once( 'kernel/classes/ezcontentclassattribute.php' );
+//include_once( 'kernel/classes/ezcontentobjectattribute.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'kernel/classes/ezbinaryfilehandler.php' );
+//include_once( 'kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php' );
 
-include_once( 'lib/ezdb/classes/ezdb.php' );
-include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+//include_once( 'lib/ezdb/classes/ezdb.php' );
+//include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 $db->setIsSQLOutputEnabled( $showSQL );
 
 $attributeList =& eZContentClassAttribute::fetchList( true, array( 'version' => 0 ) );
@@ -111,7 +111,7 @@ for ( $i = 0; $i < count( $attributeList ); ++$i )
     $classDataTypeString = $attribute->attribute( 'data_type_string' );
     if ( !isset( $classDataTypeList[$classDataTypeString] ) )
     {
-        $classDataType =& $attribute->attribute( 'data_type' );
+        $classDataType = $attribute->attribute( 'data_type' );
         $sortKeyType = $classDataType->sortKeyType();
         if ( $sortKeyType )
         {
@@ -151,7 +151,7 @@ foreach ( $simpleTypes as $simpleType )
     {
         $sortField = $simpleType['sort_field'];
         $field = $simpleType['field'];
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $sql = "UPDATE ezcontentobject_attribute SET $sortField=$field WHERE contentclassattribute_id IN (" . implode( ",", $simpleType['id_list'] ) . ")";
         $db->query( $sql );
     }

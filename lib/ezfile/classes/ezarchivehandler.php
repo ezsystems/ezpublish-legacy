@@ -40,21 +40,21 @@
   formats is sent of the specific archive handlers.
 
 \code
-$handler =& eZArchiveHandler::instance( 'tar', 'ezpublish.tar' );
+$handler = eZArchiveHandler::instance( 'tar', 'ezpublish.tar' );
 \endcode
 
 */
 
-include_once( 'lib/ezfile/classes/ezfilehandler.php' );
+//include_once( 'lib/ezfile/classes/ezfilehandler.php' );
 
 class eZArchiveHandler
 {
     /*!
      Constructor
     */
-    function eZArchiveHandler( &$fileHandler, $archiveFilename = false )
+    function eZArchiveHandler( $fileHandler, $archiveFilename = false )
     {
-        $this->FileHandler =& $fileHandler;
+        $this->FileHandler = $fileHandler;
         $this->ArchiveFilename = $archiveFilename;
     }
 
@@ -233,8 +233,8 @@ class eZArchiveHandler
     */
     function &detachHandler()
     {
-        $oldHandler =& $this->FileHandler;
-        $this->FileHandler =& $oldHandler->duplicate();
+        $oldHandler = $this->FileHandler;
+        $this->FileHandler = $oldHandler->duplicate();
         return $oldHandler;
     }
 
@@ -243,10 +243,10 @@ class eZArchiveHandler
      The parameter \a $fileHandler must contain the filehandler object.
      \return \c false if the handler could not be created.
     */
-    function &instance( $identifier, $fileHandlerType = false, $arhiveFilename = false )
+    static function instance( $identifier, $fileHandlerType = false, $arhiveFilename = false )
     {
-        include_once( 'lib/ezutils/classes/ezini.php' );
-        $ini =& eZINI::instance( 'file.ini' );
+        //include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini = eZINI::instance( 'file.ini' );
         $handlers = $ini->variable( 'ArchiveSettings', 'Handlers' );
         $instance = false;
         if ( isset( $handlers[$identifier] ) )
@@ -254,7 +254,7 @@ class eZArchiveHandler
             $className = $handlers[$identifier];
             $includeFile = 'lib/ezfile/classes/' . $className . '.php';
             include_once( $includeFile );
-            $fileHandler =& eZFileHandler::instance( $fileHandlerType );
+            $fileHandler = eZFileHandler::instance( $fileHandlerType );
             $instance = new $className( $fileHandler, $arhiveFilename );
             if ( !$instance->isAvailable() )
             {
@@ -266,7 +266,7 @@ class eZArchiveHandler
     }
 
     /// \privatesection
-    var $FileHandler;
+    public $FileHandler;
 }
 
 ?>

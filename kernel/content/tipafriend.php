@@ -26,30 +26,30 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "lib/ezutils/classes/ezhttptool.php" );
-include_once( "lib/ezutils/classes/ezmail.php" );
-include_once( "lib/ezutils/classes/ezmailtransport.php" );
-include_once( "lib/ezutils/classes/ezsys.php" );
-include_once( "lib/ezutils/classes/ezini.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
+//include_once( "lib/ezutils/classes/ezmail.php" );
+//include_once( "lib/ezutils/classes/ezmailtransport.php" );
+//include_once( "lib/ezutils/classes/ezsys.php" );
+//include_once( "lib/ezutils/classes/ezini.php" );
 
-include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-include_once( "kernel/common/template.php" );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+require_once( "kernel/common/template.php" );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 $NodeID = (int)$Params['NodeID'];
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable( 'action', '' );
 
 $error_strings = array();
 $yourName = '';
 $yourEmail = '';
 $user = eZUser::currentUser();
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 // Get name and email from current user, unless it is the anonymous user
 if ( is_object( $user ) && $user->id() != $ini->variable( 'UserSettings', 'AnonymousUserID' ) )
 {
@@ -70,13 +70,13 @@ if ( is_object( $node ) )
 }
 else
 {
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
 $object = $node->object();
 if ( !$object->canRead() )
 {
-    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $object->accessList( 'read' ) ) );
+    return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $object->accessList( 'read' ) ) );
 }
 
 $hostName = eZSys::hostname();
@@ -126,7 +126,7 @@ if ( $http->hasPostVariable( 'SendButton' ) )
     if ( $fromEmail == null )
         $fromEmail = $yourEmail;
 
-    include_once( "kernel/classes/eztipafriendrequest.php" );
+    //include_once( "kernel/classes/eztipafriendrequest.php" );
     if ( !eZTipafriendRequest::checkReceiver( $receiversEmail ) )
         $error_strings[] = ezi18n( 'kernel/content', 'The receiver has already received the maximum number of tipafriend mails the last hours' );
 
@@ -139,7 +139,7 @@ if ( $http->hasPostVariable( 'SendButton' ) )
         $mail->setSubject( $subject );
 
         // fetch
-        $res =& eZTemplateDesignResource::instance();
+        $res = eZTemplateDesignResource::instance();
         $res->setKeys( array( array( 'object',           $object->attribute( 'id' ) ),
                               array( 'class',            $object->attribute( 'contentclass_id' ) ),
                               array( 'class_identifier', $object->attribute( 'class_identifier' ) ),
@@ -153,7 +153,7 @@ if ( $http->hasPostVariable( 'SendButton' ) )
         $overrideKeysAreSet = true;
 
         // fetch text from mail template
-        $mailtpl =& templateInit();
+        $mailtpl = templateInit();
         $mailtpl->setVariable( 'hostname', $hostName );
         $mailtpl->setVariable( 'nodename', $nodeName );
         $mailtpl->setVariable( 'node_id', $NodeID );
@@ -162,7 +162,7 @@ if ( $http->hasPostVariable( 'SendButton' ) )
         $mailtpl->setVariable( 'receivers_name', $receiversName );
         $mailtpl->setVariable( 'receivers_email', $receiversEmail );
         $mailtpl->setVariable( 'comment', $comment );
-        $mailtext =& $mailtpl->fetch( 'design:content/tipafriendmail.tpl' );
+        $mailtext = $mailtpl->fetch( 'design:content/tipafriendmail.tpl' );
 
         $mail->setBody( $mailtext );
 
@@ -175,7 +175,7 @@ if ( $http->hasPostVariable( 'SendButton' ) )
             $request->store();
 
             // Increase tipafriend count for this node
-            include_once( "kernel/classes/eztipafriendcounter.php" );
+            //include_once( "kernel/classes/eztipafriendcounter.php" );
             $counter = eZTipafriendCounter::create( $NodeID );
             $counter->store();
         }
@@ -197,7 +197,7 @@ else if ( $http->hasPostVariable( 'CancelButton' ) )
 
 if ( !$overrideKeysAreSet )
 {
-    $res =& eZTemplateDesignResource::instance();
+    $res = eZTemplateDesignResource::instance();
     $res->setKeys( array( array( 'object',           $object->attribute( 'id' ) ),
                           array( 'class',            $object->attribute( 'contentclass_id' ) ),
                           array( 'class_identifier', $object->attribute( 'class_identifier' ) ),
@@ -222,7 +222,7 @@ $tpl->setVariable( 'subject', $subject );
 $tpl->setVariable( 'comment', $comment );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:content/tipafriend.tpl' );
+$Result['content'] = $tpl->fetch( 'design:content/tipafriend.tpl' );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Tip a friend' ),
                                 'url' => false ) );
 

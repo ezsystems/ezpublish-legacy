@@ -27,18 +27,20 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ Publish SQL diff\n\n" .
-                                                         "Displays differences between two database schemas,\n" .
-                                                         "and sets exit code based whether there is a difference or not\n" .
-                                                         "\n" .
-                                                         "ezsqldiff.php --type mysql --user=root stable32 stable33" ),
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+require 'autoload.php';
+
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'description' => ( "eZ Publish SQL diff\n\n" .
+                                                        "Displays differences between two database schemas,\n" .
+                                                        "and sets exit code based whether there is a difference or not\n" .
+                                                        "\n" .
+                                                        "ezsqldiff.php --type mysql --user=root stable32 stable33" ),
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 
@@ -118,22 +120,22 @@ if ( strlen( trim( $matchType ) ) == 0 )
     }
 }
 
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 
-function &loadDatabaseSchema( $type, $host, $user, $password, $socket, $db, &$cli )
+function loadDatabaseSchema( $type, $host, $user, $password, $socket, $db, $cli )
 {
     $dbSchema = false;
     if ( file_exists( $db ) and is_file( $db ) )
     {
-        include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
-        $dbSchema = eZDBSchema::instance( array( 'type' => $type,
-                                                 'schema' => eZDBSchema::read( $db ) ) );
+        //include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
+        $dbSchema = eZDbSchema::instance( array( 'type' => $type,
+                                                 'schema' => eZDbSchema::read( $db ) ) );
         return $dbSchema;
     }
     else
     {
-        include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
-        include_once( 'lib/ezdb/classes/ezdb.php' );
+        //include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
+        //include_once( 'lib/ezdb/classes/ezdb.php' );
         $parameters = array( 'use_defaults' => false,
                              'server' => $host,
                              'user' => $user,
@@ -141,7 +143,7 @@ function &loadDatabaseSchema( $type, $host, $user, $password, $socket, $db, &$cl
                              'database' => $db );
         if ( $socket )
             $parameters['socket'] = $socket;
-        $dbInstance =& eZDB::instance( 'ez' . $type,
+        $dbInstance = eZDB::instance( 'ez' . $type,
                                        $parameters,
                                        true );
 
@@ -184,16 +186,14 @@ function &loadDatabaseSchema( $type, $host, $user, $password, $socket, $db, &$cl
             return $dbSchema;
         }
 
-        $dbSchema = eZDBSchema::instance( $dbInstance );
-        return $dbSchema;
+        return eZDbSchema::instance( $dbInstance );
     }
 }
 
-function &loadLintSchema( &$dbSchema, &$cli )
+function loadLintSchema( $dbSchema, $cli )
 {
-    include_once( 'lib/ezdbschema/classes/ezlintschema.php' );
-    $lintSchema = new eZLintSchema( false, $dbSchema );
-    return $lintSchema;
+    //include_once( 'lib/ezdbschema/classes/ezlintschema.php' );
+    return new eZLintSchema( false, $dbSchema );
 }
 
 $sourceSchema = loadDatabaseSchema( $sourceType, $sourceDBHost, $sourceDBUser, $sourceDBPassword, $sourceDBSocket, $sourceDB, $cli );
@@ -220,7 +220,7 @@ else
     }
 }
 
-include_once( 'lib/ezdbschema/classes/ezdbschemachecker.php' );
+//include_once( 'lib/ezdbschema/classes/ezdbschemachecker.php' );
 
 if ( $options['reverse'] )
 {

@@ -30,9 +30,9 @@
 
 /*! \file ezstep_system_check.php
 */
-include_once( "kernel/setup/ezsetuptests.php" );
-include_once( 'kernel/setup/steps/ezstep_installer.php' );
-include_once( "kernel/common/i18n.php" );
+//include_once( "kernel/setup/ezsetuptests.php" );
+//include_once( 'kernel/setup/steps/ezstep_installer.php' );
+require_once( "kernel/common/i18n.php" );
 
 /*!
   \class eZStepSystemCheck ezstep_system_check.php
@@ -45,7 +45,7 @@ class eZStepSystemFinetune extends eZStepInstaller
     /*!
      Constructor
     */
-    function eZStepSystemFinetune( &$tpl, &$http, &$ini, &$persistenceList )
+    function eZStepSystemFinetune( $tpl, $http, $ini, &$persistenceList )
     {
         $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
                                 'system_finetune', 'System finetune' );
@@ -76,9 +76,8 @@ class eZStepSystemFinetune extends eZStepInstaller
             $optionalTests = eZSetupOptionalTests();
             $testTable = eZSetupTestTable();
 
-            $arguments = array();
-            $runResult = eZSetupRunTests( $criticalTests, $arguments, 'eZSetup:init:system_check', $this->PersistenceList );
-            $optionalRunResult = eZSetupRunTests( $optionalTests, $arguments, 'eZSetup:init:system_check', $this->PersistenceList );
+            $runResult = eZSetupRunTests( $criticalTests, 'eZSetup:init:system_check', $this->PersistenceList );
+            $optionalRunResult = eZSetupRunTests( $optionalTests, 'eZSetup:init:system_check', $this->PersistenceList );
             $this->Results = $runResult['results'];
             $this->Result = $runResult['result'];
             $this->OptionalResults = $optionalRunResult['results'];
@@ -103,7 +102,7 @@ class eZStepSystemFinetune extends eZStepInstaller
 
     /*!
     */
-    function &display()
+    function display()
     {
         $this->Tpl->setVariable( 'test', array( 'result' => $this->OptionalResult,
                                                          'results' => $this->OptionalResults ) );
@@ -125,8 +124,8 @@ class eZStepSystemFinetune extends eZStepInstaller
     }
 
     // Variables for storing results from tests
-    var $Result = null;
-    var $Results = null;
+    public $Result = null;
+    public $Results = null;
 }
 
 ?>

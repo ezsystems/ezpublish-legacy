@@ -63,10 +63,10 @@ class eZSOAPFault
     }
 
     /// Contains the fault code
-    var $FaultCode;
+    public $FaultCode;
 
     /// Contains the fault string
-    var $FaultString;
+    public $FaultString;
 }
 
 ?>

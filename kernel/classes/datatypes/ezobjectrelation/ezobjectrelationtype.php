@@ -35,20 +35,20 @@
 
 */
 
-include_once( "kernel/classes/ezdatatype.php" );
-include_once( "lib/ezutils/classes/ezintegervalidator.php" );
-include_once( "lib/ezi18n/classes/eztranslatormanager.php" );
-
-define( "EZ_DATATYPESTRING_OBJECT_RELATION", "ezobjectrelation" );
+//include_once( "kernel/classes/ezdatatype.php" );
+//include_once( "lib/ezutils/classes/ezintegervalidator.php" );
+//include_once( "lib/ezi18n/classes/eztranslatormanager.php" );
 
 class eZObjectRelationType extends eZDataType
 {
+    const DATA_TYPE_STRING = "ezobjectrelation";
+
     /*!
      Initializes with a string id and a description.
     */
     function eZObjectRelationType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_OBJECT_RELATION, ezi18n( 'kernel/classes/datatypes', "Object relation", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Object relation", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -56,7 +56,7 @@ class eZObjectRelationType extends eZDataType
      Initializes the class attribute with some data.
      \reimp
      */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
@@ -69,28 +69,28 @@ class eZObjectRelationType extends eZDataType
      Validates the input and returns true if the input was
      valid for this datatype.
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $postVariableName = $base . "_data_object_relation_id_" . $contentObjectAttribute->attribute( "id" );
         if ( $http->hasPostVariable( $postVariableName ) )
         {
             $relatedObjectID = $http->postVariable( $postVariableName );
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $classAttribute = $contentObjectAttribute->contentClassAttribute();
 
             if ( $contentObjectAttribute->validateIsRequired() and $relatedObjectID == 0 )
             {
                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                      'Missing objectrelation input.' ) );
-                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                return eZInputValidator::STATE_INVALID;
             }
         }
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
      Fetches the http post var string input and stores it in the data instance.
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $postVariableName = $base . "_data_object_relation_id_" . $contentObjectAttribute->attribute( "id" );
         $haveData = false;
@@ -105,21 +105,21 @@ class eZObjectRelationType extends eZDataType
         $fuzzyMatchVariableName = $base . "_data_object_relation_fuzzy_match_" . $contentObjectAttribute->attribute( "id" );
         if ( $http->hasPostVariable( $fuzzyMatchVariableName ) )
         {
-            include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-            $trans =& eZCharTransform::instance();
+            //include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+            $trans = eZCharTransform::instance();
 
             $fuzzyMatchText = trim( $http->postVariable( $fuzzyMatchVariableName ) );
             if ( $fuzzyMatchText != '' )
             {
                 $fuzzyMatchText = $trans->transformByGroup( $fuzzyMatchText, 'lowercase' );
-                $classAttribute =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
+                $classAttribute = $contentObjectAttribute->attribute( 'contentclass_attribute' );
                 if ( $classAttribute )
                 {
-                    $classContent =& $classAttribute->content();
+                    $classContent = $classAttribute->content();
                     if ( $classContent['default_selection_node'] )
                     {
                         $nodeID = $classContent['default_selection_node'];
-                        $nodeList =& eZContentObjectTreeNode::subTree( array( 'Depth' => 1 ), $nodeID );
+                        $nodeList = eZContentObjectTreeNode::subTreeByNodeID( array( 'Depth' => 1 ), $nodeID );
                         $lastDiff = false;
                         $matchObjectID = false;
                         foreach ( $nodeList as $node )
@@ -172,7 +172,7 @@ class eZObjectRelationType extends eZDataType
     /*!
      Stores relation to the ezcontentobject_link table
     */
-    function storeObjectAttribute( &$contentObjectAttribute )
+    function storeObjectAttribute( $contentObjectAttribute )
     {
         $contentClassAttributeID = $contentObjectAttribute->ContentClassAttributeID;
         $contentObjectID = $contentObjectAttribute->ContentObjectID;
@@ -182,32 +182,36 @@ class eZObjectRelationType extends eZDataType
         //get eZContentObjectVersion
         $currVerobj = $obj->version( $contentObjectVersion );
         // get array of language codes
-        $transList =& $currVerobj->translations( false );
+        $transList = $currVerobj->translations( false );
         $countTsl = count( $transList );
 
         if ( ( $countTsl == 1 ) )
-             eZContentObject::removeContentObjectRelation( false, $contentObjectVersion, $contentObjectID, $contentClassAttributeID, EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE );
+        {
+             eZContentObject::fetch( $contentObjectID )->removeContentObjectRelation( false, $contentObjectVersion, $contentClassAttributeID, eZContentObject::RELATION_ATTRIBUTE );
+        }
 
         $objectID = $contentObjectAttribute->attribute( "data_int" );
 
         if ( $objectID )
-            eZContentObject::addContentObjectRelation( $objectID, $contentObjectVersion, $contentObjectID, $contentClassAttributeID, EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE );
+        {
+            eZContentObject::fetch( $contentObjectID )->addContentObjectRelation( $objectID, $contentObjectVersion, $contentClassAttributeID, eZContentObject::RELATION_ATTRIBUTE );
+        }
     }
 
     /*!
      \reimp
     */
-    function validateClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function validateClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $selectionTypeName = 'ContentClass_ezobjectrelation_selection_type_' . $classAttribute->attribute( 'id' );
-        $state = EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        $state = eZInputValidator::STATE_ACCEPTED;
         if ( $http->hasPostVariable( $selectionTypeName ) )
         {
             $selectionType = $http->postVariable( $selectionTypeName );
             if ( $selectionType < 0 and
                  $selectionType > 2 )
             {
-                $state = EZ_INPUT_VALIDATOR_STATE_INVALID;
+                $state = eZInputValidator::STATE_INVALID;
             }
         }
         return $state;
@@ -216,14 +220,14 @@ class eZObjectRelationType extends eZDataType
     /*!
      \reimp
     */
-    function fixupClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fixupClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
     }
 
     /*!
      \reimp
     */
-    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $selectionTypeName = 'ContentClass_ezobjectrelation_selection_type_' . $classAttribute->attribute( 'id' );
         $content = $classAttribute->content();
@@ -253,7 +257,7 @@ class eZObjectRelationType extends eZDataType
         return false;
     }
 
-    function preStoreClassAttribute( &$classAttribute, $version )
+    function preStoreClassAttribute( $classAttribute, $version )
     {
         $content = $classAttribute->content();
         $classAttribute->setAttribute( 'data_int1', $content['selection_type'] );
@@ -265,7 +269,7 @@ class eZObjectRelationType extends eZDataType
      \private
      Delete the old version from ezcontentobject_link if count of translations > 1
     */
-    function removeContentObjectRelation( &$contentObjectAttribute )
+    function removeContentObjectRelation( $contentObjectAttribute )
     {
         $obj = $contentObjectAttribute->object();
         $atrributeTrans = $contentObjectAttribute->fetchAttributeTranslations( );
@@ -280,7 +284,7 @@ class eZObjectRelationType extends eZDataType
         //get eZContentObjectVersion
         $currVerobj = $obj->currentVersion();
         // get array of ezcontentobjecttranslations
-        $transList =& $currVerobj->translations( false );
+        $transList = $currVerobj->translations( false );
         // get count of LanguageCode in transList
         $countTsl = count( $transList );
         // Delete the old version from ezcontentobject_link if count of translations > 1
@@ -290,13 +294,13 @@ class eZObjectRelationType extends eZDataType
             $contentClassAttributeID = $contentObjectAttribute->ContentClassAttributeID;
             $contentObjectID = $contentObjectAttribute->ContentObjectID;
             $contentObjectVersion = $contentObjectAttribute->Version;
-            eZContentObject::removeContentObjectRelation( $objectID, $contentObjectVersion, $contentObjectID, $contentClassAttributeID, EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE );
+            eZContentObject::fetch( $contentObjectID )->removeContentObjectRelation( $objectID, $contentObjectVersion, $contentClassAttributeID, eZContentObject::RELATION_ATTRIBUTE );
         }
     }
 
     /*!
     */
-    function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute, $parameters )
+    function customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute, $parameters )
     {
         switch ( $action )
         {
@@ -323,11 +327,11 @@ class eZObjectRelationType extends eZDataType
 
             case "browse_object" :
             {
-                $module =& $parameters['module'];
+                $module = $parameters['module'];
                 $redirectionURI = $parameters['current-redirection-uri'];
                 $ini = eZINI::instance( 'content.ini' );
 
-                include_once( 'kernel/classes/ezcontentbrowse.php' );
+                //include_once( 'kernel/classes/ezcontentbrowse.php' );
                 $browseType = 'AddRelatedObjectToDataType';
                 $browseTypeINIVariable = $ini->variable( 'ObjectRelationDataTypeSettings', 'ClassAttributeStartNode' );
                 foreach( $browseTypeINIVariable as $value )
@@ -367,11 +371,11 @@ class eZObjectRelationType extends eZDataType
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         $objectID = $contentObjectAttribute->attribute( "data_int" );
         if ( $objectID != 0 )
-            $object =& eZContentObject::fetch( $objectID );
+            $object = eZContentObject::fetch( $objectID );
         else
             $object = null;
         return $object;
@@ -382,10 +386,10 @@ class eZObjectRelationType extends eZDataType
      Sets \c grouped_input to \c true when browse mode is active or
      a dropdown with a fuzzy match is used.
     */
-    function objectDisplayInformation( &$objectAttribute, $mergeInfo = false )
+    function objectDisplayInformation( $objectAttribute, $mergeInfo = false )
     {
-        $classAttribute =& $objectAttribute->contentClassAttribute();
-        $content =& eZObjectRelationType::classAttributeContent( $classAttribute );
+        $classAttribute = $objectAttribute->contentClassAttribute();
+        $content = eZObjectRelationType::classAttributeContent( $classAttribute );
         $editGrouped = ( $content['selection_type'] == 0 or
                          ( $content['selection_type'] == 1 and $content['fuzzy_match'] ) );
 
@@ -397,7 +401,7 @@ class eZObjectRelationType extends eZDataType
     /*!
      \reimp
     */
-    function sortKey( &$contentObjectAttribute )
+    function sortKey( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( 'data_int' );
     }
@@ -410,25 +414,24 @@ class eZObjectRelationType extends eZDataType
         return 'int';
     }
 
-    function &classAttributeContent( &$classObjectAttribute )
+    function classAttributeContent( $classObjectAttribute )
     {
         $selectionType = $classObjectAttribute->attribute( "data_int1" );
         $defaultSelectionNode = $classObjectAttribute->attribute( "data_int2" );
         $fuzzyMatch = $classObjectAttribute->attribute( "data_int3" );
-        $content = array( 'selection_type' => $selectionType,
-                          'default_selection_node' => $defaultSelectionNode,
-                          'fuzzy_match' => $fuzzyMatch );
-        return $content;
+        return array( 'selection_type' => $selectionType,
+                      'default_selection_node' => $defaultSelectionNode,
+                      'fuzzy_match' => $fuzzyMatch );
     }
 
-    function customClassAttributeHTTPAction( &$http, $action, &$classAttribute )
+    function customClassAttributeHTTPAction( $http, $action, $classAttribute )
     {
         switch ( $action )
         {
             case 'browse_for_selection_node':
             {
-                $module =& $classAttribute->currentModule();
-                include_once( 'kernel/classes/ezcontentbrowse.php' );
+                $module = $classAttribute->currentModule();
+                //include_once( 'kernel/classes/ezcontentbrowse.php' );
                 $customActionName = 'CustomActionButton[' . $classAttribute->attribute( 'id' ) . '_browsed_for_selection_node]';
                 eZContentBrowse::browse( array( 'action_name' => 'SelectObjectRelationNode',
                                                 'content' => array( 'contentclass_id' => $classAttribute->attribute( 'contentclass_id' ),
@@ -443,7 +446,7 @@ class eZObjectRelationType extends eZDataType
             } break;
             case 'browsed_for_selection_node':
             {
-                include_once( 'kernel/classes/ezcontentbrowse.php' );
+                //include_once( 'kernel/classes/ezcontentbrowse.php' );
                 $nodeSelection = eZContentBrowse::result( 'SelectObjectRelationNode' );
                 if ( count( $nodeSelection ) > 0 )
                 {
@@ -455,7 +458,7 @@ class eZObjectRelationType extends eZDataType
             } break;
             case 'disable_selection_node':
             {
-                $content =& $classAttribute->content();
+                $content = $classAttribute->content();
                 $content['default_selection_node'] = false;
                 $classAttribute->setContent( $content );
             } break;
@@ -476,7 +479,7 @@ class eZObjectRelationType extends eZDataType
         {
             if ( eZContentObject::recursionProtect( $object->attribute( 'id' ) ) )
             {
-                $attributes =& $object->contentObjectAttributes();
+                $attributes = $object->contentObjectAttributes();
                 return eZContentObjectAttribute::metaDataArray( $attributes );
             }
             else
@@ -495,7 +498,7 @@ class eZObjectRelationType extends eZDataType
         return $contentObjectAttribute->attribute( 'data_int' );
     }
 
-    function fromString( &$contentObjectAttribute, $string )
+    function fromString( $contentObjectAttribute, $string )
     {
         if ( is_numeric( $string ) && ! eZContentObject::fetch( $string ) )
             return false;
@@ -513,7 +516,7 @@ class eZObjectRelationType extends eZDataType
     /*!
      Returns the content of the string for use as a title
     */
-    function title( &$contentObjectAttribute )
+    function title( $contentObjectAttribute, $name = null )
     {
         $object = $this->objectAttributeContent( $contentObjectAttribute );
         if ( $object )
@@ -523,7 +526,7 @@ class eZObjectRelationType extends eZDataType
         return false;
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         $object = $this->objectAttributeContent( $contentObjectAttribute );
         if ( $object )
@@ -531,38 +534,44 @@ class eZObjectRelationType extends eZDataType
         return false;
     }
 
-    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $content =& $classAttribute->content();
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'selection-type',
-                                                                                 array( 'id' => $content['selection_type'] ) ) );
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'fuzzy-match',
-                                                                                 array( 'id' => $content['fuzzy_match'] ) ) );
+        $content = $classAttribute->content();
+        $dom = $attributeParametersNode->ownerDocument;
+        $selectionTypeNode = $dom->createElement( 'selection-type' );
+        $selectionTypeNode->setAttribute( 'id', $content['selection_type'] );
+        $attributeParametersNode->appendChild( $selectionTypeNode );
+        $fuzzyMatchNode = $dom->createElement( 'fuzzy-match' );
+        $fuzzyMatchNode->setAttribute( 'id', $content['fuzzy_match'] );
+        $attributeParametersNode->appendChild( $fuzzyMatchNode );
         if ( $content['default_selection_node'] )
-            $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'default-selection',
-                                                                                     array( 'node-id' => $content['default_selection_node'] ) ) );
+        {
+            $defaultSelectionNode = $dom->createElement( 'default-selection' );
+            $defaultSelectionNode->setAttribute( 'node-id', $content['default_selection_node'] );
+            $attributeParametersNode->appendChild( $defaultSelectionNode );
+        }
     }
 
     /*!
      \reimp
     */
-    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $content =& $classAttribute->content();
-        $selectionTypeNode = $attributeParametersNode->elementByName( 'selection-type' );
+        $content = $classAttribute->content();
+        $selectionTypeNode = $attributeParametersNode->getElementsByTagName( 'selection-type' )->item( 0 );
         $content['selection_type'] = 0;
         if ( $selectionTypeNode )
-            $content['selection_type'] = $selectionTypeNode->attributeValue( 'id' );
+            $content['selection_type'] = $selectionTypeNode->getAttribute( 'id' );
 
-        $fuzzyMatchNode = $attributeParametersNode->elementByName( 'fuzzy-match' );
+        $fuzzyMatchNode = $attributeParametersNode->getElementsByTagName( 'fuzzy-match' )->item( 0 );
         $content['fuzzy_match'] = false;
         if ( $fuzzyMatchNode )
-            $content['fuzzy_match'] = $fuzzyMatchNode->attributeValue( 'id' );
+            $content['fuzzy_match'] = $fuzzyMatchNode->getAttribute( 'id' );
 
-        $defaultSelectionNode = $attributeParametersNode->elementByName( 'default-selection' );
+        $defaultSelectionNode = $attributeParametersNode->getElementsByTagName( 'default-selection' )->item( 0 );
         $content['default_selection_node'] = false;
         if ( $defaultSelectionNode )
-            $content['default_selection_node'] = $defaultSelectionNode->attributeValue( 'node-id' );
+            $content['default_selection_node'] = $defaultSelectionNode->getAttribute( 'node-id' );
 
         $classAttribute->setContent( $content );
         $classAttribute->store();
@@ -572,7 +581,7 @@ class eZObjectRelationType extends eZDataType
      Export related object's remote_id.
      \reimp
     */
-    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
         $relatedObjectID = $objectAttribute->attribute( 'data_int' );
@@ -588,7 +597,9 @@ class eZObjectRelationType extends eZDataType
             else
             {
                 $relatedObjectRemoteID = $relatedObject->attribute( 'remote_id' );
-                $node->appendChild( eZDOMDocument::createElementTextNode( 'related-object-remote-id', $relatedObjectRemoteID ) );
+                $dom = $node->ownerDocument;
+                $relatedObjectRemoteIDNode = $dom->createElement( 'related-object-remote-id', $relatedObjectRemoteID );
+                $node->appendChild( $relatedObjectRemoteIDNode );
             }
         }
 
@@ -598,13 +609,14 @@ class eZObjectRelationType extends eZDataType
     /*!
      \reimp
     */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
-        $relatedObjectRemoteID = $attributeNode->elementTextContentByName( 'related-object-remote-id' );
+        $relatedObjectRemoteIDNode = $attributeNode->getElementsByTagName( 'related-object-remote-id' )->item( 0 );
         $relatedObjectID = null;
 
-        if ( $relatedObjectRemoteID != false )
+        if ( $relatedObjectRemoteIDNode )
         {
+            $relatedObjectRemoteID = $relatedObjectRemoteIDNode->textContent;
             $object = eZContentObject::fetchByRemoteID( $relatedObjectRemoteID );
             if ( $object )
             {
@@ -623,7 +635,7 @@ class eZObjectRelationType extends eZDataType
     /*!
      \reimp
     */
-    function postUnserializeContentObjectAttribute( &$package, &$objectAttribute )
+    function postUnserializeContentObjectAttribute( $package, $objectAttribute )
     {
         $attributeChanged = false;
         $relatedObjectID = $objectAttribute->attribute( 'data_int' );
@@ -651,7 +663,7 @@ class eZObjectRelationType extends eZDataType
     /*!
      Removes objects with given ID from the relations list
     */
-    function removeRelatedObjectItem( &$contentObjectAttribute, $objectID )
+    function removeRelatedObjectItem( $contentObjectAttribute, $objectID )
     {
         $contentObjectAttribute->setAttribute( "data_int", null );
         return true;
@@ -660,6 +672,6 @@ class eZObjectRelationType extends eZDataType
     /// \privatesection
 }
 
-eZDataType::register( EZ_DATATYPESTRING_OBJECT_RELATION, "ezobjectrelationtype" );
+eZDataType::register( eZObjectRelationType::DATA_TYPE_STRING, "eZObjectRelationType" );
 
 ?>

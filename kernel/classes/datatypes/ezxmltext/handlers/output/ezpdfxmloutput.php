@@ -31,7 +31,7 @@
 /*!
 */
 
-include_once( 'kernel/classes/datatypes/ezxmltext/handlers/output/ezxhtmlxmloutput.php' );
+//include_once( 'kernel/classes/datatypes/ezxmltext/handlers/output/ezxhtmlxmloutput.php' );
 
 class eZPDFXMLOutput extends eZXHTMLXMLOutput
 {
@@ -44,7 +44,7 @@ class eZPDFXMLOutput extends eZXHTMLXMLOutput
         $this->OutputTags['li']['initHandler'] = 'initHandlerLi';
     }
 
-    function initHandlerTable( &$element, &$attributes, &$sibilingParams, &$parentParams )
+    function initHandlerTable( $element, &$attributes, &$sibilingParams, &$parentParams )
     {
         $ret = array();
 
@@ -57,7 +57,7 @@ class eZPDFXMLOutput extends eZXHTMLXMLOutput
         return $ret;
     }
 
-    function initHandlerLi( &$element, &$attributes, &$sibilingParams, &$parentParams )
+    function initHandlerLi( $element, &$attributes, &$sibilingParams, &$parentParams )
     {
         if( !isset( $sibilingParams['list_count'] ) )
             $sibilingParams['list_count'] = 1;
@@ -69,7 +69,7 @@ class eZPDFXMLOutput extends eZXHTMLXMLOutput
         return $ret;
     }
 
-    var $TemplatesPath = 'design:content/datatype/pdf/ezxmltags/';
+    public $TemplatesPath = 'design:content/datatype/pdf/ezxmltags/';
 }
 
 ?>

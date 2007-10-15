@@ -34,17 +34,19 @@
 
 set_time_limit ( 0 );
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ Publish nice url updater.\n\n" .
-                                                         "Will go trough and remake all nice urls" .
-                                                         "\n" .
-                                                         "updateniceurls.php" ),
-                                      'use-session' => true,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+require 'autoload.php';
+
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'description' => ( "eZ Publish nice url updater.\n\n" .
+                                                        "Will go trough and remake all nice urls" .
+                                                        "\n" .
+                                                        "updateniceurls.php" ),
+                                     'use-session' => true,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 
@@ -69,30 +71,29 @@ $showSQL = $options['sql'] ? true : false;
 $siteAccess = $options['siteaccess'] ? $options['siteaccess'] : false;;
 if ( $siteAccess )
 {
-    changeSiteAccessSetting( $siteaccess, $siteAccess );
+    changeSiteAccessSetting( $siteAccess );
 }
 
-function changeSiteAccessSetting( &$siteaccess, $optionData )
+function changeSiteAccessSetting( $siteAccess )
 {
     global $isQuiet;
-    $cli =& eZCLI::instance();
-    if ( file_exists( 'settings/siteaccess/' . $optionData ) )
+    $cli = eZCLI::instance();
+    if ( file_exists( 'settings/siteaccess/' . $siteAccess) )
     {
-        $siteaccess = $optionData;
         if ( !$isQuiet )
-            $cli->notice( "Using siteaccess $siteaccess for nice url update" );
+            $cli->notice( "Using siteaccess $siteAccess for nice url update" );
     }
     else
     {
         if ( !$isQuiet )
-            $cli->notice( "Siteaccess $optionData does not exist, using default siteaccess" );
+            $cli->notice( "Siteaccess $siteAccess does not exist, using default siteaccess" );
     }
 }
 
-include_once( 'lib/ezdb/classes/ezdb.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'lib/ezdb/classes/ezdb.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-$db =& eZDb::instance();
+$db = eZDb::instance();
 
 if ( $dbHost or $dbName or $dbUser or $dbImpl )
 {
@@ -108,13 +109,13 @@ if ( $dbHost or $dbName or $dbUser or $dbImpl )
         $params['password'] = $dbPassword;
     if ( $dbName !== false )
         $params['database'] = $dbName;
-    $db =& eZDB::instance( $dbImpl, $params, true );
+    $db = eZDB::instance( $dbImpl, $params, true );
     eZDB::setInstance( $db );
 }
 
 $db->setIsSQLOutputEnabled( $showSQL );
 
-include_once( 'kernel/classes/ezcontentlanguage.php' );
+//include_once( 'kernel/classes/ezcontentlanguage.php' );
 eZContentLanguage::setCronjobMode( true );
 
 $fetchLimit = 200;
@@ -123,6 +124,7 @@ $timeLength = 12;
 $maxColumn = 72 - $percentLength - $timeLength;
 $totalChangedNodes = 0;
 $totalNodeCount = 0;
+
 
 function microtimeFloat()
 {
@@ -173,7 +175,7 @@ function displayProgress( $statusCharacter, $startTime, $currentCount, $totalCou
 
 function fetchMaskByNodeID( $nodeID )
 {
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $sql = "SELECT language_mask FROM ezcontentobject, ezcontentobject_tree
             WHERE ezcontentobject.id = ezcontentobject_tree.contentobject_id
             AND   ezcontentobject_tree.node_id = " . (int)$nodeID;
@@ -211,7 +213,7 @@ function decodeAction( $destination )
 
 function fetchHistoricURLCount()
 {
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $sql = 'SELECT count(*) AS count FROM ezurlalias
             WHERE is_imported = 0 AND is_wildcard = 0 AND forward_to_id = 0';
     $rows = $db->arrayQuery( $sql );
@@ -220,7 +222,7 @@ function fetchHistoricURLCount()
 
 function fetchHistoricRedirectionCount()
 {
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $sql = 'SELECT count(*) AS count FROM ezurlalias
             WHERE is_imported = 0 AND is_wildcard = 0 AND forward_to_id != 0';
     $rows = $db->arrayQuery( $sql );
@@ -229,7 +231,7 @@ function fetchHistoricRedirectionCount()
 
 function fetchHistoricWildcardCount()
 {
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $sql = 'SELECT count(*) AS count FROM ezurlalias
             WHERE is_imported = 0 AND is_wildcard = 1';
     $rows = $db->arrayQuery( $sql );
@@ -238,7 +240,7 @@ function fetchHistoricWildcardCount()
 
 function fetchHistoricURLChunk( $offset, $fetchLimit )
 {
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $sql = 'SELECT id, source_url, destination_url FROM ezurlalias
             WHERE is_imported = 0 AND is_wildcard = 0 AND forward_to_id = 0';
     $rows = $db->arrayQuery( $sql,
@@ -249,7 +251,7 @@ function fetchHistoricURLChunk( $offset, $fetchLimit )
 
 function fetchHistoricRedirectionChunk( $offset, $fetchLimit )
 {
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $sql = 'SELECT id, forward_to_id, source_url, destination_url FROM ezurlalias
             WHERE is_imported = 0 AND is_wildcard = 0 AND forward_to_id != 0';
     $rows = $db->arrayQuery( $sql,
@@ -260,7 +262,7 @@ function fetchHistoricRedirectionChunk( $offset, $fetchLimit )
 
 function fetchHistoricWildcardChunk( $offset, $fetchLimit )
 {
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $sql = 'SELECT id, is_wildcard, source_url, destination_url
             FROM ezurlalias WHERE is_imported = 0 AND is_wildcard = 1';
     $rows = $db->arrayQuery( $sql,
@@ -329,7 +331,7 @@ function removeURLList( $rows )
 {
     if ( count( $rows ) == 0 )
         return;
-    $db   =& eZDB::instance();
+    $db   = eZDB::instance();
     $cond =  createURLListCondition( $rows );
     $sql  =  "DELETE FROM ezurlalias WHERE $cond";
     $db->query( $sql );
@@ -339,7 +341,7 @@ function markAsImported( $rows )
 {
     if ( count( $rows ) == 0 )
         return;
-    $db   =& eZDB::instance();
+    $db   = eZDB::instance();
     $cond =  createURLListCondition( $rows );
     $sql  =  "UPDATE ezurlalias SET is_imported = 1 WHERE $cond";
     $db->query( $sql );
@@ -482,7 +484,7 @@ if ( $urlCount > 0 )
         $cli->output();
 
 //    $cli->output( "Removing urlalias data which have been imported" );
-//    $db =& eZDB::instance();
+//    $db = eZDB::instance();
 //    $db->query( "DELETE FROM ezurlalias WHERE is_imported = 1" ); // Removing all aliases which have been imported
 
     $rows = $db->arrayQuery( "SELECT count(*) AS count FROM ezurlalias WHERE is_imported = 0" );
@@ -493,7 +495,7 @@ if ( $urlCount > 0 )
     }
 
     $cli->output( "Removing old wildcard caches" );
-    include_once( 'kernel/classes/ezcache.php' );
+    //include_once( 'kernel/classes/ezcache.php' );
     eZCache::clearByID( 'urlalias' );
 
     $cli->output( "Importing completed" );
@@ -521,13 +523,13 @@ foreach ( array_keys( $topLevelNodesArray ) as $key )
     $nodeStartTime = microtimeFloat();
     while ( !$done )
     {
-        $nodeList =& $rootNode->subTree( array( 'Offset' => $offset,
+        $nodeList = $rootNode->subTree( array( 'Offset' => $offset,
                                              'Limit' => $fetchLimit,
                                              'IgnoreVisibility' => true,
                                              'Limitation' => array() ) );
         foreach ( array_keys( $nodeList ) as $key )
         {
-            $node =& $nodeList[ $key ];
+            $node = $nodeList[ $key ];
             $hasChanged = $node->updateSubTreePath();
             if ( $hasChanged )
             {

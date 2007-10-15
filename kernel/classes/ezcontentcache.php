@@ -37,23 +37,16 @@
 
 */
 
-include_once( 'lib/ezutils/classes/ezsys.php' );
-include_once( "lib/ezfile/classes/ezdir.php" );
-
-// The timestamp for the cache format, will expire
-// cache which differs from this.
-define( 'EZ_CONTENT_CACHE_CODE_DATE', 1064816011 );
+//include_once( 'lib/ezutils/classes/ezsys.php' );
+//include_once( "lib/ezfile/classes/ezdir.php" );
 
 class eZContentCache
 {
-    /*!
-     Constructor
-    */
-    function eZContentCache()
-    {
-    }
+    // The timestamp for the cache format, will expire
+    // cache which differs from this.
+    const CODE_DATE = 1064816011;
 
-    function cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout, $cacheTTL = false,
+    static function cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout, $cacheTTL = false,
                             $parameters = array() )
     {
         $md5Input = array( $nodeID, $viewMode, $language );
@@ -79,7 +72,7 @@ class eZContentCache
         $md5Text = md5( implode( '-', $md5Input ) );
         $cacheFile = $nodeID . '-' . $md5Text . '.cache';
         $extraPath = eZDir::filenamePath( "$nodeID" );
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $currentSiteAccess = $GLOBALS['eZCurrentAccess']['name'];
         $cacheDir = eZDir::path( array( eZSys::cacheDirectory(), $ini->variable( 'ContentSettings', 'CacheDir' ), $currentSiteAccess, $extraPath ) );
         $cachePath = eZDir::path( array( $cacheDir, $cacheFile ) );
@@ -88,7 +81,7 @@ class eZContentCache
                       'path' => $cachePath );
     }
 
-    function exists( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout,
+    static function exists( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout,
                      $parameters = array() )
     {
         $cachePathInfo = eZContentCache::cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList,
@@ -101,7 +94,7 @@ class eZContentCache
         if ( $cacheFile->exists() )
         {
             $timestamp = $cacheFile->mtime();
-            include_once( 'kernel/classes/ezcontentobject.php' );
+            //include_once( 'kernel/classes/ezcontentobject.php' );
             if ( eZContentObject::isCacheExpired( $timestamp ) )
             {
                 eZDebugSetting::writeDebug( 'kernel-content-view-cache', 'cache expired #1' );
@@ -121,7 +114,7 @@ class eZContentCache
         return false;
     }
 
-    function restore( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout,
+    static function restore( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout,
                       $parameters = array() )
     {
         $result = array();
@@ -140,7 +133,7 @@ class eZContentCache
         if ( $cacheFile->exists() )
         {
             $timestamp = $cacheFile->mtime();
-            include_once( 'kernel/classes/ezcontentobject.php' );
+            //include_once( 'kernel/classes/ezcontentobject.php' );
             if ( eZContentObject::isCacheExpired( $timestamp ) )
             {
                 eZDebugSetting::writeDebug( 'kernel-content-view-cache', 'cache expired #2' );
@@ -185,12 +178,12 @@ class eZContentCache
 
         // Check for template language timestamp
         $cacheCodeDate = $cachedArray['cache_code_date'];
-        if ( $cacheCodeDate != EZ_CONTENT_CACHE_CODE_DATE )
+        if ( $cacheCodeDate != self::CODE_DATE )
             return false;
 
         $viewMode = $cachedArray['content_info']['viewmode'];
 
-        $res =& eZTemplateDesignResource::instance();
+        $res = eZTemplateDesignResource::instance();
         $res->setKeys( array( array( 'node', $nodeID ),
                               array( 'view_offset', $offset ),
                               array( 'viewmode', $viewMode )
@@ -209,12 +202,12 @@ class eZContentCache
         }
 
         // set section id
-        include_once( 'kernel/classes/ezsection.php' );
+        //include_once( 'kernel/classes/ezsection.php' );
         eZSection::setGlobalID( $cachedArray['section_id'] );
         return $result;
     }
 
-    function store( $siteDesign, $objectID, $classID, $classIdentifier,
+    static function store( $siteDesign, $objectID, $classID, $classIdentifier,
                     $nodeID, $parentNodeID, $nodeDepth, $urlAlias, $viewMode, $sectionID,
                     $language, $offset, $roleList, $discountList, $layout, $navigationPartIdentifier,
                     $result, $cacheTTL = -1,
@@ -265,15 +258,15 @@ class eZContentCache
 
         $serializeArray['cache_ttl'] = $cacheTTL;
 
-        $serializeArray['cache_code_date'] = EZ_CONTENT_CACHE_CODE_DATE;
+        $serializeArray['cache_code_date'] = self::CODE_DATE;
         $serializeArray['content'] = $result['content'];
 
         $serializeString = serialize( $serializeArray );
 
         if ( !file_exists( $cacheDir ) )
         {
-            include_once( 'lib/ezfile/classes/ezdir.php' );
-            $ini =& eZINI::instance();
+            //include_once( 'lib/ezfile/classes/ezdir.php' );
+            $ini = eZINI::instance();
             $perm = octdec( $ini->variable( 'FileSettings', 'StorageDirPermissions' ) );
             eZDir::mkdir( $cacheDir, $perm, true );
         }
@@ -293,24 +286,24 @@ class eZContentCache
         return true;
     }
 
-    function calculateCleanupValue( $nodeCount )
+    static function calculateCleanupValue( $nodeCount )
     {
         return $nodeCount;
     }
 
-    function inCleanupThresholdRange( $value )
+    static function inCleanupThresholdRange( $value )
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $threshold = $ini->variable( 'ContentSettings', 'CacheThreshold' );
         return ( $value < $threshold );
     }
 
-    function cleanup( $nodeList )
+    static function cleanup( $nodeList )
     {
         // The view-cache has a different storage structure than before:
         // var/cache/content/<siteaccess>/<extra-path>/<nodeID>-<hash>.cache
         // Also it uses the cluster file handler to delete files using a wildcard (glob style).
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $cacheBaseDir = eZDir::path( array( eZSys::cacheDirectory(), $ini->variable( 'ContentSettings', 'CacheDir' ) ) );
 
         require_once( 'kernel/classes/ezclusterfilehandler.php' );

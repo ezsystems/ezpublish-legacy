@@ -40,22 +40,22 @@
 
 */
 
-include_once( 'kernel/classes/ezcontentobjectattribute.php' );
-include_once( 'kernel/classes/ezcontentclassattribute.php' );
-include_once( 'kernel/classes/ezrole.php' );
-
-define( 'EZSITE_INSTALLER_ERR_OK', 0 );
-define( 'EZSITE_INSTALLER_ERR_ABORT', 1 );
-define( 'EZSITE_INSTALLER_ERR_CONTINUE', 2);
+//include_once( 'kernel/classes/ezcontentobjectattribute.php' );
+//include_once( 'kernel/classes/ezcontentclassattribute.php' );
+//include_once( 'kernel/classes/ezrole.php' );
 
 class eZSiteInstaller
 {
+    const ERR_OK = 0;
+    const ERR_ABORT = 1;
+    const ERR_CONTINUE = 2;
+
     function eZSiteInstaller( $parameters = false )
     {
         $this->initSettings( $parameters );
         $this->initSteps();
 
-        $this->LastErrorCode = EZSITE_INSTALLER_ERR_OK;
+        $this->LastErrorCode = eZSiteInstaller::ERR_OK;
     }
 
     function &instance( $params )
@@ -89,8 +89,8 @@ class eZSiteInstaller
         // you code goes here
         ...
 
-        // optionally you can set $LastErrorCode to 'EZSITE_INSTALLER_ERR_ABORT' if you want to break installation if some step is failed.
-        // $this->setLastErrorCode( EZSITE_INSTALLER_ERR_ABORT );
+        // optionally you can set $LastErrorCode to 'eZSiteInstaller::ERR_ABORT' if you want to break installation if some step is failed.
+        // $this->setLastErrorCode( eZSiteInstaller::ERR_ABORT );
      }
 
      Example:
@@ -127,9 +127,13 @@ class eZSiteInstaller
     {
         $value = false;
         if( $this->hasSetting( $name ) )
+        {
             $value = $this->Settings[$name];
+        }
         else
+        {
             eZDebug::writeWarning( "Setting '$name' doesn't exist", "eZSiteInstaller::setting" );
+        }
 
         return $value;
     }
@@ -173,13 +177,13 @@ class eZSiteInstaller
         {
             $this->execFunction( $step );
 
-            if( $this->lastErrorCode() !== EZSITE_INSTALLER_ERR_OK )
+            if( $this->lastErrorCode() !== eZSiteInstaller::ERR_OK )
             {
                 $res = $this->handleError();
                 if( $res === false )
                     $res = $this->defaultErrorHandler();
 
-                if( $res === EZSITE_INSTALLER_ERR_ABORT )
+                if( $res === eZSiteInstaller::ERR_ABORT )
                 {
                     $this->reportError( "Aborting execution on step number $stepNum: '". $step['_function'] ."'", 'eZSiteInstaller::postInstall' );
                     break;
@@ -257,7 +261,7 @@ class eZSiteInstaller
         $caption - error message caption;
         $errCode - error code to set;
     */
-    function reportError( $text, $caption, $errCode = EZSITE_INSTALLER_ERR_ABORT )
+    function reportError( $text, $caption, $errCode = eZSiteInstaller::ERR_ABORT )
     {
         eZDebug::writeError( $text, $caption );
 
@@ -282,7 +286,7 @@ class eZSiteInstaller
     */
     function dbBegin( $params )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
     }
 
@@ -293,7 +297,7 @@ class eZSiteInstaller
     */
     function dbCommit( $params )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->commit();
     }
 
@@ -330,7 +334,7 @@ class eZSiteInstaller
     */
     function classByIdentifier( $params )
     {
-        include_once( 'kernel/classes/ezcontentclass.php' );
+        //include_once( 'kernel/classes/ezcontentclass.php' );
 
         $classIdentifier = $params['identifier'];
 
@@ -359,13 +363,13 @@ class eZSiteInstaller
     */
     function removeClassAttribute( $params )
     {
-        include_once( 'kernel/classes/ezcontentclassattribute.php' );
+        //include_once( 'kernel/classes/ezcontentclassattribute.php' );
 
         $contentClassID = $params['class_id'];
         $classAttributeIdentifier = $params['attribute_identifier'];
 
         // get attributes of 'temporary' version as well
-        $classAttributeList =& eZContentClassAttribute::fetchFilteredList( array( 'contentclass_id' => $contentClassID,
+        $classAttributeList = eZContentClassAttribute::fetchFilteredList( array( 'contentclass_id' => $contentClassID,
                                                                                   'identifier' => $classAttributeIdentifier ),
                                                                            true );
 
@@ -379,10 +383,10 @@ class eZSiteInstaller
                 foreach( $objectAttributes as $objectAttribute )
                 {
                     $objectAttributeID = $objectAttribute->attribute( 'id' );
-                    $objectAttribute->remove( $objectAttributeID );
+                    $objectAttribute->removeThis( $objectAttributeID );
                 }
 
-                $classAttribute->remove();
+                $classAttribute->removeThis();
             }
             else
             {
@@ -422,7 +426,7 @@ class eZSiteInstaller
     */
     function addClassAttributes( $params )
     {
-        include_once( 'kernel/classes/ezcontentclassattribute.php' );
+        //include_once( 'kernel/classes/ezcontentclassattribute.php' );
 
         $classInfo = $params['class'];
         $attributesInfo = $params['attributes'];
@@ -495,19 +499,18 @@ class eZSiteInstaller
                 $newAttribute->setContent( $attrContent );
 
             // store attribute, update placement, etc...
-            $attributes =& $class->fetchAttributes();
-            $attributes[] =& $newAttribute;
+            $attributes = $class->fetchAttributes();
+            $attributes[] = $newAttribute;
 
             // remove temporary version
             $newAttribute->remove();
 
-            $newAttribute->setAttribute( 'version', EZ_CLASS_VERSION_STATUS_DEFINED );
+            $newAttribute->setAttribute( 'version', eZContentClass::VERSION_STATUS_DEFINED );
             $newAttribute->setAttribute( 'placement', count( $attributes ) );
 
             $class->adjustAttributePlacements( $attributes );
-            foreach( array_keys( $attributes ) as $attributeKey )
+            foreach( $attributes as $attribute )
             {
-                $attribute =& $attributes[$attributeKey];
                 $attribute->storeDefined();
             }
 
@@ -517,7 +520,7 @@ class eZSiteInstaller
             foreach( $objects as $object )
             {
                 $contentobjectID = $object->attribute( 'id' );
-                $objectVersions =& $object->versions();
+                $objectVersions = $object->versions();
                 foreach( $objectVersions as $objectVersion )
                 {
                     $translations = $objectVersion->translations( false );
@@ -557,9 +560,9 @@ class eZSiteInstaller
                 $attributeIdentifier = $attributeInfo['identifier'];
                 $name = isset( $attributeInfo['new_name'] ) ? $attributeInfo['new_name'] : false;
 
-                $classAttributeList =& eZContentClassAttribute::fetchFilteredList( array( 'contentclass_id' => $contentClassID,
-                                                                                          'identifier' => $attributeIdentifier ),
-                                                                                   true );
+                $classAttributeList = eZContentClassAttribute::fetchFilteredList( array( 'contentclass_id' => $contentClassID,
+                                                                                         'identifier' => $attributeIdentifier ),
+                                                                                  true );
                 foreach( $classAttributeList as $attribute )
                 {
                     if( $name !== false )
@@ -595,7 +598,7 @@ class eZSiteInstaller
         $node = $this->nodeByUrl( $params );
         if( is_object( $node ) )
         {
-            $object =& $node->object();
+            $object = $node->object();
         }
 
         return $object;
@@ -610,7 +613,7 @@ class eZSiteInstaller
     */
     function createContentObject( $params )
     {
-        include_once( 'kernel/classes/ezcontentfunctions.php' );
+        //include_once( 'kernel/classes/ezcontentfunctions.php' );
 
         $objectID = false;
 
@@ -643,7 +646,7 @@ class eZSiteInstaller
     */
     function renameContentObject( $params )
     {
-        include_once( 'kernel/classes/ezcontentobject.php' );
+        //include_once( 'kernel/classes/ezcontentobject.php' );
         $contentObjectID = $params['contentobject_id'];
         $newName = $params['name'];
         $object = eZContentObject::fetch( $contentObjectID );
@@ -686,9 +689,13 @@ class eZSiteInstaller
     {
         $object = $this->contentObjectByName( $params );
         if( is_object( $object ) )
+        {
             $object->purge();
+        }
         else
+        {
             eZDebug::writeWarning( "Object with name '" . $params['name'] . "' doesn't exist", "eZSiteInstaller::removeContentObject" );
+        }
     }
 
 
@@ -719,7 +726,7 @@ class eZSiteInstaller
         $contentObject = false;
         if( $objectID )
         {
-            $contentObject =& eZContentObject::fetch( $objectID );
+            $contentObject = eZContentObject::fetch( $objectID );
             if( !is_object( $contentObject ) )
             {
                 $this->reportError( "Content object with id '$objectID' doesn't exist." , 'eZSiteInstaller::updateObjectAttributeFromString' );
@@ -732,15 +739,15 @@ class eZSiteInstaller
 
         if( is_object( $contentObject ) )
         {
-            $attributes =& $contentObject->contentObjectAttributes();
+            $attributes = $contentObject->contentObjectAttributes();
             if( count( $attributes ) > 0 )
             {
                 $objectAttribute = false;
-                foreach( array_keys( $attributes ) as $attributeKey )
+                foreach( $attributes as $attribute )
                 {
-                    if( $attributes[$attributeKey]->attribute( 'contentclass_attribute_identifier' ) == $classAttrIdentifier )
+                    if( $attribute->attribute( 'contentclass_attribute_identifier' ) == $classAttrIdentifier )
                     {
-                        $objectAttribute = $attributes[$attributeKey];
+                        $objectAttribute = $attribute;
                         break;
                     }
                 }
@@ -768,22 +775,22 @@ class eZSiteInstaller
         $objectID = $params['object_id'];
         $attributesData = $params['attributes_data'];
 
-        $contentObject =& eZContentObject::fetch( $objectID );
+        $contentObject = eZContentObject::fetch( $objectID );
         if( !is_object( $contentObject ) )
         {
             $this->reportError( "Content object with id '$objectID' doesn't exist." , 'eZSiteInstaller::updateContentObjectAttributes' );
             return;
         }
 
-        $dataMap =& $contentObject->dataMap();
+        $dataMap = $contentObject->dataMap();
         foreach( $attributesData as $attrIdentifier => $attrData )
         {
-            $attribute =& $dataMap[$attrIdentifier];
+            $attribute = $dataMap[$attrIdentifier];
             if( !is_object( $attribute ) )
             {
                 $this->reportError( "Warning: could not acquire attribute with identifier '$attrIdentifier'.",
                                     'eZSiteInstaller::updateContentObjectAttributes',
-                                    EZSITE_INSTALLER_ERR_CONTINUE );
+                                    eZSiteInstaller::ERR_CONTINUE );
                 continue;
             }
 
@@ -846,7 +853,7 @@ class eZSiteInstaller
                     {
                         $this->reportError( "Number of columns in 'ezmatrix' should be greater then zero",
                                             'eZSiteInstaller::updateContentObjectAttributes',
-                                            EZSITE_INSTALLER_ERR_CONTINUE );
+                                            eZSiteInstaller::ERR_CONTINUE );
                     }
 
                 } break;
@@ -885,15 +892,15 @@ class eZSiteInstaller
 
                 case 'ezuser':
                 {
-                    $user =& $attribute->content();
+                    $user = $attribute->content();
                     if( $user === null )
                     {
                         $user = eZUser::create( $objectID );
                     }
 
                     $user->setInformation( $objectID,
-                                           md5( mktime() . '-' . mt_rand() ),
-                                           md5( mktime() . '-' . mt_rand() ) . '@ez.no',
+                                           md5( time() . '-' . mt_rand() ),
+                                           md5( time() . '-' . mt_rand() ) . '@ez.no',
                                            'publish',
                                            'publish' );
                     $user->store();
@@ -923,7 +930,7 @@ class eZSiteInstaller
     */
     function nodePathStringByURL( $params )
     {
-        include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+        //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
         $pathString = '';
 
@@ -944,7 +951,7 @@ class eZSiteInstaller
     */
     function nodeByUrl( $params )
     {
-        include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+        //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
         $path_identification_string = $params['location'];
 
@@ -1037,9 +1044,9 @@ class eZSiteInstaller
             return false;
         }
 
-        $nodeParentNodeID =& $node->attribute( 'parent_node_id' );
+        $nodeParentNodeID = $node->attribute( 'parent_node_id' );
 
-        $object =& $node->object();
+        $object = $node->object();
         if( !is_object( $object ) )
         {
             $this->reportError( "Cannot fetch object for node '$nodeID'", 'eZSiteInstaller::swapNodes' );
@@ -1048,7 +1055,7 @@ class eZSiteInstaller
 
         $objectID = $object->attribute( 'id' );
         $objectVersion = $object->attribute( 'current_version' );
-        $class =& $object->contentClass();
+        $class = $object->contentClass();
         $classID = $class->attribute( 'id' );
 
         $selectedNodeID = $node2;
@@ -1069,13 +1076,13 @@ class eZSiteInstaller
         }
 
         // clear cache.
-        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
 
-        $selectedObject =& $selectedNode->object();
-        $selectedObjectID =& $selectedObject->attribute( 'id' );
-        $selectedObjectVersion =& $selectedObject->attribute( 'current_version' );
-        $selectedNodeParentNodeID=& $selectedNode->attribute( 'parent_node_id' );
+        $selectedObject = $selectedNode->object();
+        $selectedObjectID = $selectedObject->attribute( 'id' );
+        $selectedObjectVersion = $selectedObject->attribute( 'current_version' );
+        $selectedNodeParentNodeID = $selectedNode->attribute( 'parent_node_id' );
 
 
         /* In order to swap node1 and node2 a user should have the following permissions:
@@ -1086,10 +1093,10 @@ class eZSiteInstaller
          *
          * The First two has already been checked. Let's check the rest.
          */
-        $nodeParent            =& $node->attribute( 'parent' );
-        $selectedNodeParent    =& $selectedNode->attribute( 'parent' );
-        $objectClassID         =& $object->attribute( 'contentclass_id' );
-        $selectedObjectClassID =& $selectedObject->attribute( 'contentclass_id' );
+        $nodeParent            = $node->attribute( 'parent' );
+        $selectedNodeParent    = $selectedNode->attribute( 'parent' );
+        $objectClassID         = $object->attribute( 'contentclass_id' );
+        $selectedObjectClassID = $selectedObject->attribute( 'contentclass_id' );
 
         if( !$nodeParent || !$selectedNodeParent )
         {
@@ -1116,7 +1123,7 @@ class eZSiteInstaller
         $node->setAttribute( 'contentobject_id', $selectedObjectID );
         $node->setAttribute( 'contentobject_version', $selectedObjectVersion );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $node->store();
         $selectedNode->setAttribute( 'contentobject_id', $objectID );
@@ -1132,8 +1139,8 @@ class eZSiteInstaller
         // modify section
         if( $changedOriginalNode->attribute( 'main_node_id' ) == $changedOriginalNode->attribute( 'node_id' ) )
         {
-            $changedOriginalObject =& $changedOriginalNode->object();
-            $parentObject =& $nodeParent->object();
+            $changedOriginalObject = $changedOriginalNode->object();
+            $parentObject = $nodeParent->object();
             if( $changedOriginalObject->attribute( 'section_id' ) != $parentObject->attribute( 'section_id' ) )
             {
 
@@ -1144,8 +1151,8 @@ class eZSiteInstaller
         }
         if( $changedTargetNode->attribute( 'main_node_id' ) == $changedTargetNode->attribute( 'node_id' ) )
         {
-            $changedTargetObject =& $changedTargetNode->object();
-            $selectedParentObject =& $selectedNodeParent->object();
+            $changedTargetObject = $changedTargetNode->object();
+            $selectedParentObject = $selectedNodeParent->object();
             if( $changedTargetObject->attribute( 'section_id' ) != $selectedParentObject->attribute( 'section_id' ) )
             {
 
@@ -1178,7 +1185,7 @@ class eZSiteInstaller
     */
     function assignUserToRole( $params )
     {
-        include_once( 'kernel/classes/ezrole.php' );
+        //include_once( 'kernel/classes/ezrole.php' );
 
         $location = $params['location'];
         $roleName = $params['role_name'];
@@ -1205,7 +1212,7 @@ class eZSiteInstaller
     */
     function addPoliciesForRole( $params )
     {
-        include_once( 'kernel/classes/ezrole.php' );
+        //include_once( 'kernel/classes/ezrole.php' );
 
         $roleName = $params['role_name'];
         $policiesDefinition = $params['policies'];
@@ -1254,7 +1261,7 @@ class eZSiteInstaller
     */
     function removePoliciesForRole( $params )
     {
-        include_once( 'kernel/classes/ezrole.php' );
+        //include_once( 'kernel/classes/ezrole.php' );
 
         $roleName = $params['role_name'];
         $policiesDefinition = $params['policies'];
@@ -1270,7 +1277,7 @@ class eZSiteInstaller
 
             if( $removeRoleIfEmpty && count( $role->policyList() ) == 0 )
             {
-                $role->remove();
+                $role->removeThis();
             }
         }
         else
@@ -1294,7 +1301,7 @@ class eZSiteInstaller
     */
     function sectionIDbyName( $params )
     {
-        include_once( 'kernel/classes/ezsection.php' );
+        //include_once( 'kernel/classes/ezsection.php' );
 
         $sectionID = false;
         $sectionName = $params['section_name'];
@@ -1321,7 +1328,7 @@ class eZSiteInstaller
     */
     function createContentSection( $params )
     {
-        include_once( 'kernel/classes/ezsection.php' );
+        //include_once( 'kernel/classes/ezsection.php' );
 
         $section = false;
 
@@ -1370,9 +1377,9 @@ class eZSiteInstaller
     */
     function setRSSExport( $params )
     {
-        include_once( 'kernel/classes/ezrssexport.php' );
-        include_once( 'kernel/classes/ezrssexportitem.php' );
-        include_once( 'kernel/common/i18n.php' );
+        //include_once( 'kernel/classes/ezrssexport.php' );
+        //include_once( 'kernel/classes/ezrssexportitem.php' );
+        require_once( 'kernel/common/i18n.php' );
 
         // Create default rssExport object to use
         $rssExport = eZRSSExport::create( $params['creator'] );
@@ -1468,7 +1475,7 @@ class eZSiteInstaller
     */
     function createSiteaccessUrls( $params )
     {
-        $sys =& eZSys::instance();
+        $sys = eZSys::instance();
 
         $urlList = array();
 
@@ -1559,7 +1566,7 @@ class eZSiteInstaller
         // Update settings
         foreach ( $dstSettings as $iniFile => $settingGroups )
         {
-            $ini =& eZINI::instance( $iniFile . ".append.php", $dstSiteaccessDir, null, false, null, true );
+            $ini = eZINI::instance( $iniFile . ".append.php", $dstSiteaccessDir, null, false, null, true );
 
             foreach ( $settingGroups as $settingGroup => $settings )
             {
@@ -1596,7 +1603,7 @@ class eZSiteInstaller
     */
     function setVersion( $params = false )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $name = strtolower( $this->solutionName() );
         $version = $this->solutionVersion();
@@ -1611,7 +1618,7 @@ class eZSiteInstaller
         foreach( $params['groups'] as $settingsData )
         {
             $iniFilename = $settingsData['name'] . '.append.php';
-            $ini =& eZINI::instance( $iniFilename, $params['settings_dir'] );
+            $ini = eZINI::instance( $iniFilename, $params['settings_dir'] );
             if( isset( $settingsData['discard_old_values'] ) && $settingsData['discard_old_values'] )
                 $ini->reset();
 

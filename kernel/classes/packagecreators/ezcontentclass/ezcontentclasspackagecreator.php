@@ -38,7 +38,7 @@
 
 */
 
-include_once( 'kernel/classes/ezpackagecreationhandler.php' );
+//include_once( 'kernel/classes/ezpackagecreationhandler.php' );
 
 class eZContentClassPackageCreator extends eZPackageCreationHandler
 {
@@ -66,7 +66,7 @@ class eZContentClassPackageCreator extends eZPackageCreationHandler
      \reimp
      Creates the package and adds the selected content classes.
     */
-    function finalize( &$package, &$http, &$persistentData )
+    function finalize( $package, $http, &$persistentData )
     {
         $this->createPackage( $package, $http, $persistentData, $cleanupFiles );
 
@@ -84,7 +84,7 @@ class eZContentClassPackageCreator extends eZPackageCreationHandler
      \reimp
      Returns \c 'stable', content class packages are always stable.
     */
-    function packageInitialState( &$package, &$persistentData )
+    function packageInitialState( $package, &$persistentData )
     {
         return 'stable';
     }
@@ -92,19 +92,19 @@ class eZContentClassPackageCreator extends eZPackageCreationHandler
     /*!
      \return \c 'contentclass'.
     */
-    function packageType( &$package, &$persistentData )
+    function packageType( $package, &$persistentData )
     {
         return 'contentclass';
     }
 
-    function initializeClassData( &$package, &$http, $step, &$persistentData, &$tpl )
+    function initializeClassData( $package, $http, $step, &$persistentData, $tpl )
     {
     }
 
     /*!
      Checks if at least one content class has been selected.
     */
-    function validateClassData( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
+    function validateClassData( $package, $http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
         $classList = array();
         if ( $http->hasPostVariable( 'ClassList' ) )
@@ -122,7 +122,7 @@ class eZContentClassPackageCreator extends eZPackageCreationHandler
         return $result;
     }
 
-    function commitClassData( &$package, &$http, $step, &$persistentData, &$tpl )
+    function commitClassData( $package, $http, $step, &$persistentData, $tpl )
     {
     }
 
@@ -130,7 +130,7 @@ class eZContentClassPackageCreator extends eZPackageCreationHandler
      \reimp
      Fetches the selected content classes and generates a name, summary and description from the selection.
     */
-    function generatePackageInformation( &$packageInformation, &$package, &$http, $step, &$persistentData )
+    function generatePackageInformation( $packageInformation, $package, $http, $step, &$persistentData )
     {
         $classList = $persistentData['classlist'];
 

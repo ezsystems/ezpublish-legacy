@@ -38,7 +38,7 @@
   The most common way of using it is.
   \code
   // include the file
-  include_once( "classes/ezinifile.php" );
+  //include_once( "classes/ezinifile.php" );
 
   $ini = eZINI::instance( "site.ini" );
 
@@ -67,18 +67,18 @@
 */
 
 include_once 'lib/ezutils/classes/ezdebug.php';
-include_once( 'lib/ezfile/classes/ezdir.php' );
+//include_once( 'lib/ezfile/classes/ezdir.php' );
 
 /*!
  Has the date of the current cache code implementation as a timestamp,
  if this changes(increases) the cache files will need to be recreated.
 */
-// define( "EZ_INI_CACHE_CODE_DATE", 1043407541 );
-define( "EZ_INI_CACHE_CODE_DATE", 1043407542 );
-define( "EZ_INI_DEBUG_INTERNALS", false );
 
 class eZINI
 {
+    const CACHE_CODE_DATE = 1043407542;
+    const DEBUG_INTERNALS = false;
+
     /*!
       Initialization of object;
     */
@@ -128,7 +128,7 @@ class eZINI
      \return true if INI cache is enabled globally, the default value is true.
      Change this setting with setIsCacheEnabled.
     */
-    function isCacheEnabled()
+    static function isCacheEnabled()
     {
         if ( !isset( $GLOBALS['eZINICacheEnabled'] ) )
              $GLOBALS['eZINICacheEnabled'] = true;
@@ -154,7 +154,7 @@ class eZINI
      Sets whether caching is enabled for INI files or not. This setting is global
      and can be overriden in the instance() function.
     */
-    function setIsCacheEnabled( $cache )
+    static function setIsCacheEnabled( $cache )
     {
         $GLOBALS['eZINICacheEnabled'] = $cache;
     }
@@ -165,10 +165,10 @@ class eZINI
      which files are loaded and when cache files are created.
       Set the option with setIsDebugEnabled().
     */
-    function isDebugEnabled()
+    static function isDebugEnabled()
     {
         if ( !isset( $GLOBALS['eZINIDebugInternalsEnabled'] ) )
-             $GLOBALS['eZINIDebugInternalsEnabled'] = EZ_INI_DEBUG_INTERNALS;
+             $GLOBALS['eZINIDebugInternalsEnabled'] = eZINI::DEBUG_INTERNALS;
         return $GLOBALS['eZINIDebugInternalsEnabled'];
     }
 
@@ -176,7 +176,7 @@ class eZINI
      \static
      Sets whether internal debugging is enabled or not.
     */
-    function setIsDebugEnabled( $debug )
+    static function setIsDebugEnabled( $debug )
     {
         $GLOBALS['eZINIDebugInternalsEnabled'] = $debug;
     }
@@ -187,7 +187,7 @@ class eZINI
              in the eZI18N library for text conversion.
       Set the option with setIsTextCodecEnabled().
     */
-    function isTextCodecEnabled()
+    static function isTextCodecEnabled()
     {
         if ( !isset( $GLOBALS['eZINITextCodecEnabled'] ) )
              $GLOBALS['eZINITextCodecEnabled'] = true;
@@ -198,7 +198,7 @@ class eZINI
      \static
      Sets whether textcodec conversion is enabled or not.
     */
-    function setIsTextCodecEnabled( $codec )
+    static function setIsTextCodecEnabled( $codec )
     {
         $GLOBALS['eZINITextCodecEnabled'] = $codec;
     }
@@ -212,12 +212,12 @@ class eZINI
      \param parameter name
      \return true if the the parameter is set.
     */
-    function parameterSet( $fileName = 'site.ini', $rootDir = 'settings', &$section, &$parameter )
+    static function parameterSet( $fileName = 'site.ini', $rootDir = 'settings', &$section, &$parameter )
     {
         if ( !eZINI::exists( $fileName, $rootDir ) )
             return false;
 
-        $iniInstance =& eZINI::instance( $fileName, $rootDir, null, null, null, true );
+        $iniInstance = eZINI::instance( $fileName, $rootDir, null, null, null, true );
         return $iniInstance->hasVariable( $section, $parameter );
     }
 
@@ -226,7 +226,7 @@ class eZINI
      \return true if the INI file \a $fileName exists in the root dir \a $rootDir.
      $fileName defaults to site.ini and rootDir to settings.
     */
-    function exists( $fileName = "site.ini", $rootDir = "settings" )
+    static function exists( $fileName = "site.ini", $rootDir = "settings" )
     {
         if ( $fileName == "" )
             $fileName = "site.ini";
@@ -378,7 +378,7 @@ class eZINI
         }
         if ( $this->UseTextCodec )
         {
-            include_once( "lib/ezi18n/classes/eztextcodec.php" );
+            //include_once( "lib/ezi18n/classes/eztextcodec.php" );
             $md5_input .= '-' . eZTextCodec::internalCharset();
         }
         if ( $placement )
@@ -433,7 +433,7 @@ class eZINI
             include( $cachedFile );
             if ( !isset( $val ) or
                  !isset( $eZIniCacheCodeDate ) or
-                 $eZIniCacheCodeDate != EZ_INI_CACHE_CODE_DATE )
+                 $eZIniCacheCodeDate != eZINI::CACHE_CODE_DATE )
             {
                 if ( eZINI::isDebugEnabled() )
                     eZDebug::writeNotice( "Old structure in cache file used, recreating '$cachedFile' to new structure", "eZINI" );
@@ -467,7 +467,7 @@ class eZINI
             if ( $cacheSaved )
             {
                 // Write log message to storage.log
-                include_once( 'lib/ezutils/classes/ezlog.php' );
+                //include_once( 'lib/ezfile/classes/ezlog.php' );
                 eZLog::writeStorageLog( $fileName, $cachedDir );
             }
         }
@@ -483,7 +483,7 @@ class eZINI
     {
         if ( !file_exists( $cachedDir ) )
         {
-            include_once( 'lib/ezfile/classes/ezdir.php' );
+            //include_once( 'lib/ezfile/classes/ezdir.php' );
             if ( !eZDir::mkdir( $cachedDir, 0777, true ) )
             {
                 eZDebug::writeError( "Couldn't create cache directory $cachedDir, perhaps wrong permissions", "eZINI" );
@@ -498,7 +498,7 @@ class eZINI
             eZDebug::writeError( "Couldn't create cache file '$cachedFile', perhaps wrong permissions", "eZINI" );
             return false;
         }
-        fwrite( $fp, "<?php\n\$eZIniCacheCodeDate = " . EZ_INI_CACHE_CODE_DATE . ";\n" );
+        fwrite( $fp, "<?php\n\$eZIniCacheCodeDate = " . eZINI::CACHE_CODE_DATE . ";\n" );
 
         if ( $this->Codec )
             fwrite( $fp, "\$charset = \"".$this->Codec->RequestedOutputCharsetCode."\";\n" );
@@ -508,7 +508,7 @@ class eZINI
         fwrite( $fp, "\$val = " . preg_replace( "@\n[\s]+@", '', var_export( $data, true ) ) . ";" );
         fwrite( $fp, "\n?>" );
         fclose( $fp );
-        include_once( 'lib/ezfile/classes/ezfile.php' );
+        //include_once( 'lib/ezfile/classes/ezfile.php' );
         eZFile::rename( $tmpCacheFile, $cachedFile );
 
         if ( eZINI::isDebugEnabled() )
@@ -548,7 +548,7 @@ class eZINI
         if ( eZINI::isDebugEnabled() )
             eZDebug::writeNotice( "Parsing file '$file'", 'eZINI' );
 
-        include_once( "lib/ezfile/classes/ezfile.php" );
+        //include_once( "lib/ezfile/classes/ezfile.php" );
         $contents = eZFile::getContents( $file );
         if ( $contents === false )
         {
@@ -586,8 +586,8 @@ class eZINI
         unset( $this->Codec );
         if ( $this->UseTextCodec )
         {
-            include_once( "lib/ezi18n/classes/eztextcodec.php" );
-            $this->Codec =& eZTextCodec::instance( $this->Charset, false, false );
+            //include_once( "lib/ezi18n/classes/eztextcodec.php" );
+            $this->Codec = eZTextCodec::instance( $this->Charset, false, false );
 
             if ( $this->Codec )
             {
@@ -711,7 +711,7 @@ class eZINI
     function save( $fileName = false, $suffix = false, $useOverride = false,
                    $onlyModified = false, $useRootDir = true, $resetArrays = false )
     {
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        //include_once( 'lib/ezfile/classes/ezdir.php' );
         $lineSeparator = eZSys::lineSeparator();
         $pathArray = array();
         $dirArray = array();
@@ -746,8 +746,8 @@ class eZINI
         {
             $fnAppend    = ereg_replace( '\.php$', '', $fileName );
             $fnAppendPhp = $fnAppend.'.php';
-            $fpAppend    = eZDir::path( array_merge( $pathArray, $fnAppend    ) );
-            $fpAppendPhp = eZDir::path( array_merge( $pathArray, $fnAppendPhp ) );
+            $fpAppend    = eZDir::path( array_merge( $pathArray, array( $fnAppend ) ) );
+            $fpAppendPhp = eZDir::path( array_merge( $pathArray, array( $fnAppendPhp ) ) );
             $fileName = ( file_exists( $fpAppend ) && !file_exists( $fpAppendPhp ) )
                        ? $fnAppend : $fnAppendPhp;
         }
@@ -760,10 +760,10 @@ class eZINI
         if ( !file_exists( $dirPath ) )
             eZDir::mkdir( $dirPath, octdec( '777' ), true );
 
-        include_once( 'lib/ezfile/classes/ezdir.php' );
-        $filePath = eZDir::path( array_merge( $pathArray, $fileName ) );
-        $originalFilePath = eZDir::path( array_merge( $pathArray, $originalFileName ) );
-        $backupFilePath = eZDir::path( array_merge( $pathArray, $backupFileName ) );
+        //include_once( 'lib/ezfile/classes/ezdir.php' );
+        $filePath = eZDir::path( array_merge( $pathArray, array( $fileName ) ) );
+        $originalFilePath = eZDir::path( array_merge( $pathArray, array( $originalFileName ) ) );
+        $backupFilePath = eZDir::path( array_merge( $pathArray, array( $backupFileName ) ) );
 
         $fp = @fopen( $filePath, "w+");
         if ( !$fp )
@@ -879,7 +879,7 @@ class eZINI
             return false;
         }
 
-        $siteConfig =& eZINI::instance( 'site.ini' );
+        $siteConfig = eZINI::instance( 'site.ini' );
         $filePermissions = $siteConfig->variable( 'FileSettings', 'StorageFilePermissions');
         @chmod( $filePath, octdec( $filePermissions ) );
 
@@ -1159,7 +1159,7 @@ class eZINI
         if ( !$this->readOnlySettingsCheck() )
             return true;
 
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         if ( !$ini->hasVariable( 'eZINISettings', 'ReadonlySettingList' ) )
             return true;
 
@@ -1332,7 +1332,7 @@ class eZINI
      \static
      \return true if the ini file \a $fileName has been loaded yet.
     */
-    function isLoaded( $fileName = "site.ini", $rootDir = "settings", $useLocalOverrides = null )
+    static function isLoaded( $fileName = "site.ini", $rootDir = "settings", $useLocalOverrides = null )
     {
         $isLoaded =& $GLOBALS["eZINIGlobalIsLoaded-$rootDir-$fileName-$useLocalOverrides"];
         if ( !isset( $isLoaded ) )
@@ -1348,28 +1348,28 @@ class eZINI
       Direct access is for accessing the filename directly in the specified path. .append and .append.php is automaticly added to filename
       \note Use create() if you need to get a unique copy which you can alter.
     */
-    function &instance( $fileName = "site.ini", $rootDir = "settings", $useTextCodec = null, $useCache = null, $useLocalOverrides = null, $directAccess = false, $addArrayDefinition = false )
+    static function instance( $fileName = "site.ini", $rootDir = "settings", $useTextCodec = null, $useCache = null, $useLocalOverrides = null, $directAccess = false, $addArrayDefinition = false )
     {
-        $impl =& $GLOBALS["eZINIGlobalInstance-$rootDir-$fileName-$useLocalOverrides"];
-        $isLoaded =& $GLOBALS["eZINIGlobalIsLoaded-$rootDir-$fileName-$useLocalOverrides"];
+        $globalsKey = "eZINIGlobalInstance-$rootDir-$fileName-$useLocalOverrides";
+        $globalsIsLoadedKey = "eZINIGlobalIsLoaded-$rootDir-$fileName-$useLocalOverrides";
 
-        $class = get_class( $impl );
-        if ( $class != "ezini" )
+        if ( !isset( $GLOBALS[$globalsKey] ) ||
+             !( $GLOBALS[$globalsKey] instanceof eZINI ) )
         {
-            $isLoaded = false;
+            $GLOBALS[$globalsIsLoadedKey] = false;
 
-            $impl = new eZINI( $fileName, $rootDir, $useTextCodec, $useCache, $useLocalOverrides, $directAccess, $addArrayDefinition );
+            $GLOBALS[$globalsKey] = new eZINI( $fileName, $rootDir, $useTextCodec, $useCache, $useLocalOverrides, $directAccess, $addArrayDefinition );
 
-            $isLoaded = true;
+            $GLOBALS[$globalsIsLoadedKey] = true;
         }
-        return $impl;
+        return $GLOBALS[$globalsKey];
     }
 
     /*!
      Fetches the ini file \a $fileName and returns the INI object for it.
      \note This will not use the override system or read cache files, this is a direct fetch from one file.
     */
-    function &fetchFromFile( $fileName, $useTextCodec = null )
+    static function &fetchFromFile( $fileName, $useTextCodec = null )
     {
         $impl = new eZINI( $fileName, false, $useTextCodec, false, false, true );
         return $impl;
@@ -1379,7 +1379,7 @@ class eZINI
       \static
       Similar to instance() but will always create a new copy.
     */
-    function &create( $fileName = "site.ini", $rootDir = "settings", $useTextCodec = null, $useCache = null, $useLocalOverrides = null )
+    static function create( $fileName = "site.ini", $rootDir = "settings", $useTextCodec = null, $useCache = null, $useLocalOverrides = null )
     {
         $impl = new eZINI( $fileName, $rootDir, $useTextCodec, $useCache, $useLocalOverrides );
         return $impl;
@@ -1404,7 +1404,7 @@ class eZINI
     /*!
      \static
     */
-    function resetGlobals(  $fileName = "site.ini", $rootDir = "settings", $useLocalOverrides = null )
+    static function resetGlobals(  $fileName = "site.ini", $rootDir = "settings", $useLocalOverrides = null )
     {
         unset( $GLOBALS["eZINIGlobalInstance-$rootDir-$fileName-$useLocalOverrides"] );
         unset( $GLOBALS["eZINIGlobalIsLoaded-$rootDir-$fileName-$useLocalOverrides"] );
@@ -1412,52 +1412,52 @@ class eZINI
 
     /// \privatesection
     /// The charset of the ini file
-    var $Charset;
+    public $Charset;
 
     /// Variable to store the textcodec.
-    var $Codec;
+    public $Codec;
 
     /// Variable to store the ini file values.
-    var $BlockValues;
+    public $BlockValues;
 
     /// Variable to store the setting placement (which file is the setting in).
-    var $BlockValuesPlacement;
+    public $BlockValuesPlacement;
 
     /// Variable to store whether variables are modified or not
-    var $ModifiedBlockValues;
+    public $ModifiedBlockValues;
 
     /// Stores the filename
-    var $FileName;
+    public $FileName;
 
     /// The root of all ini files
-    var $RootDir;
+    public $RootDir;
 
     /// Whether to use the text codec when reading the ini file or not
-    var $UseTextCodec;
+    public $UseTextCodec;
 
     /// Stores the path and filename of the value cache file
-    var $CacheFile;
+    public $CacheFile;
 
     /// Stores the path and filename of the placement cache file
-    var $PlacementCacheFile;
+    public $PlacementCacheFile;
 
     /// true if cache should be used
-    var $UseCache;
+    public $UseCache;
 
     /// true if the overrides should only be changed locally
-    var $UseLocalOverrides;
+    public $UseLocalOverrides;
 
     /// Contains the override dirs, if in local mode
-    var $LocalOverrideDirArray;
+    public $LocalOverrideDirArray;
 
     /// If \c true then all file loads are done directly on the filename.
-    var $DirectAccess;
+    public $DirectAccess;
 
     /// If \c true empty element will be created in the beginning of array if it is defined in this ini file.
-    var $AddArrayDefinition;
+    public $AddArrayDefinition;
 
     /// If \c true eZINI will check each setting (before saving) for correspondence of settings in site.ini[eZINISetting].ReadonlySettingList
-    var $ReadOnlySettingsCheck = true;
+    public $ReadOnlySettingsCheck = true;
 
 }
 

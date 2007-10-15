@@ -29,12 +29,12 @@
 
 //
 
-if ( !class_exists( 'eZXMLInputParser' ) )
-    include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlinputparser.php' );
+// if ( !class_exists( 'eZXMLInputParser' ) )
+    //include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlinputparser.php' );
 
 class eZSimplifiedXMLInputParser extends eZXMLInputParser
 {
-    var $InputTags = array(
+    public $InputTags = array(
         'b'       => array( 'name' => 'strong' ),
         'bold'    => array( 'name' => 'strong' ),
         'i'       => array( 'name' => 'emphasize' ),
@@ -47,7 +47,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         'a'       => array( 'name' => 'link' ),
         );
 
-    var $OutputTags = array(
+    public $OutputTags = array(
         'section'   => array(),
 
         'embed'     => array( //'parsingHandler' => 'breakInlineFlow',
@@ -124,7 +124,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         '#text'     => array( 'structHandler' => 'structHandlerText' )
         );
 
-    function eZSimplifiedXMLInputParser( $contentObjectID, $validateErrorLevel = EZ_XMLINPUTPARSER_ERROR_ALL, $detectErrorLevel = EZ_XMLINPUTPARSER_ERROR_ALL,
+    function eZSimplifiedXMLInputParser( $contentObjectID, $validateErrorLevel = eZXMLInputParser::ERROR_ALL, $detectErrorLevel = eZXMLInputParser::ERROR_ALL,
                                          $parseLineBreaks = false, $removeDefaultAttrs = false )
     {
         $this->contentObjectID = $contentObjectID;
@@ -134,18 +134,22 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     /*
         Parsing Handlers (called at pass 1)
     */
-    function &parsingHandlerLiteral( &$element, &$param )
+    function parsingHandlerLiteral( $element, &$param )
     {
         $ret = null;
-        $data =& $param[0];
+        $data = $param[0];
         $pos =& $param[1];
 
         $tablePos = strpos( $data, '</literal>', $pos );
         if ( $tablePos === false )
+        {
             $tablePos = strpos( $data, '</LITERAL>', $pos );
+        }
 
         if ( $tablePos === false )
+        {
             return $ret;
+        }
 
         $text = substr( $data, $pos, $tablePos - $pos );
 
@@ -158,15 +162,15 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         return $ret;
     }
 
-    function &breakInlineFlow( &$element, &$param )
+    function breakInlineFlow( $element, $param )
     {
         // Breaks the flow of inline tags. Used for non-inline tags caught within inline.
         // Works for tags with no children only.
         $ret = null;
         $data =& $param[0];
         $pos =& $param[1];
-        $tagBeginPos =& $param[2];
-        $parent =& $element->parentNode;
+        $tagBeginPos = $param[2];
+        $parent = $element->parentNode;
 
         $wholeTagString = substr( $data, $tagBeginPos, $pos - $tagBeginPos );
 
@@ -174,7 +178,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
              $this->XMLSchema->isInline( $parent ) )
         {
             $insertData = '';
-            $currentParent =& $parent;
+            $currentParent = $parent;
             // Close all parent tags
             end( $this->ParentStack );
             do
@@ -183,14 +187,14 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 $currentParentName = $stackData[0];
                 $insertData .= "</$currentParentName>";
                 $currentParent->setAttributeNS( 'http://ez.no/namespaces/ezpublish3/temporary/', 'tmp:new-element', 'true' );
-                $currentParent =& $currentParent->parentNode;
+                $currentParent = $currentParent->parentNode;
                 prev( $this->ParentStack );
             }
             while( $this->XMLSchema->isInline( $currentParent ) );
 
             $insertData .= $wholeTagString;
 
-            $currentParent =& $parent;
+            $currentParent = $parent;
             end( $this->ParentStack );
             $appendData = '';
             do
@@ -199,10 +203,12 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 $currentParentName = $stackData[0];
                 $currentParentAttrString = '';
                 if ( $stackData[2] )
+                {
                     $currentParentAttrString = ' ' . $stackData[2];
+                }
                 $currentParentAttrString .= " tmp:new-element='true'";
                 $appendData = "<$currentParentName$currentParentAttrString>" . $appendData;
-                $currentParent =& $currentParent->parentNode;
+                $currentParent = $currentParent->parentNode;
                 prev( $this->ParentStack );
             }
             while( $this->XMLSchema->isInline( $currentParent ) );
@@ -211,7 +217,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
 
             $data = $insertData . substr( $data, $pos );
             $pos = 0;
-            $parent->removeChild( $element );
+            $element = $parent->removeChild( $element );
             $ret = false;
         }
 
@@ -223,11 +229,12 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         Structure handlers. (called at pass 2)
     */
     // Structure handler for inline nodes.
-    function &appendLineParagraph( &$element, &$newParent )
+    function appendLineParagraph( $element, $newParent )
     {
+        eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $newParent, 'eZSimplifiedXMLInputParser::appendLineParagraph new parent' );
         $ret = array();
-        $parent =& $element->parentNode;
-        if ( !$parent )
+        $parent = $element->parentNode;
+        if ( !$parent instanceof DOMElement )
         {
             return $ret;
         }
@@ -243,47 +250,47 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
 
         if ( $newParentName == 'line' )
         {
-            $parent->removeChild( $element );
+            $element = $parent->removeChild( $element );
             $newParent->appendChild( $element );
-            $newLine =& $newParent;
-            $ret['result'] =& $newParent;
+            $newLine = $newParent;
+            $ret['result'] = $newParent;
         }
         elseif ( $parentName == 'paragraph' )
         {
-            $newLine =& $this->createAndPublishElement( 'line', $ret );
-            $parent->replaceChild( $newLine, $element );
+            $newLine = $this->createAndPublishElement( 'line', $ret );
+            $element = $parent->replaceChild( $newLine, $element );
             $newLine->appendChild( $element );
-            $ret['result'] =& $newLine;
+            $ret['result'] = $newLine;
         }
         elseif ( $newParentName == 'paragraph' )
         {
-            $newLine =& $this->createAndPublishElement( 'line', $ret );
-            $parent->removeChild( $element );
+            $newLine = $this->createAndPublishElement( 'line', $ret );
+            $element = $parent->removeChild( $element );
             $newParent->appendChild( $newLine );
             $newLine->appendChild( $element );
-            $ret['result'] =& $newLine;
+            $ret['result'] = $newLine;
         }
         elseif ( $this->XMLSchema->check( $parent, 'paragraph' ) )
         {
-            $newLine =& $this->createAndPublishElement( 'line', $ret );
-            $newPara =& $this->createAndPublishElement( 'paragraph', $ret );
-            $parent->replaceChild( $newPara, $element );
+            $newLine = $this->createAndPublishElement( 'line', $ret );
+            $newPara = $this->createAndPublishElement( 'paragraph', $ret );
+            $element = $parent->replaceChild( $newPara, $element );
             $newPara->appendChild( $newLine );
             $newLine->appendChild( $element );
-            $ret['result'] =& $newLine;
+            $ret['result'] = $newLine;
         }
 
         return $ret;
     }
 
     // Structure handler for temporary <br> elements
-    function &structHandlerBr( &$element, &$newParent )
+    function structHandlerBr( $element, $newParent )
     {
         $ret = array();
-        $ret['result'] =& $newParent;
-        $parent =& $element->parentNode;
+        $ret['result'] = $newParent;
+        $parent = $element->parentNode;
 
-        $next =& $element->nextSibling();
+        $next = $element->nextSibling;
 
         if ( $element->getAttribute( 'ignore' ) != 'true' &&
              $next &&
@@ -294,7 +301,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 if ( !$newParent )
                 {
                     // create paragraph in case of the first empty paragraph
-                    $newPara =& $this->createAndPublishElement( 'paragraph', $ret );
+                    $newPara = $this->createAndPublishElement( 'paragraph', $ret );
                     $parent->replaceChild( $newPara, $element );
                 }
                 elseif ( $newParent->nodeName == 'paragraph' ||
@@ -308,16 +315,16 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     $next->setAttribute( 'ignore', 'true' );
 
                     // create paragraph in case of the last empty paragraph (not inside section)
-                    $nextToNext =& $next->nextSibling();
-                    $tmp =& $parent;
+                    $nextToNext = $next->nextSibling;
+                    $tmp = $parent;
                     while( !$nextToNext && $tmp && $tmp->nodeName == 'section' )
                     {
-                        $nextToNext =& $tmp->nextSibling();
-                        $tmp =& $tmp->parentNode;
+                        $nextToNext = $tmp->nextSibling;
+                        $tmp = $tmp->parentNode;
                     }
                     if ( !$nextToNext )
                     {
-                        $newPara =& $this->createAndPublishElement( 'paragraph', $ret );
+                        $newPara = $this->createAndPublishElement( 'paragraph', $ret );
                         $parent->replaceChild( $newPara, $element );
                     }
                 }
@@ -327,29 +334,31 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         {
             if ( $newParent && $newParent->nodeName == 'line' )
             {
-                $ret['result'] =& $newParent->parentNode;
+                $ret['result'] = $newParent->parentNode;
             }
         }
 
         // Trim spaces used for tag indenting
-        if ( $next && $next->Type == EZ_XML_NODE_TEXT && !trim( $next->content() ) )
+        if ( $next && $next->nodeType == XML_TEXT_NODE && !trim( $next->textContent ) )
         {
-            $nextToNext =& $next->nextSibling();
+            $nextToNext = $next->nextSibling;
             if ( !$nextToNext || $nextToNext->nodeName != 'br' )
             {
-                $parent->removeChild( $next );
+                $next = $parent->removeChild( $next );
             }
         }
         return $ret;
     }
 
     // Structure handler for in-paragraph nodes.
-    function &appendParagraph( &$element, &$newParent )
+    function appendParagraph( $element, &$newParent )
     {
         $ret = array();
-        $parent =& $element->parentNode;
+        $parent = $element->parentNode;
         if ( !$parent )
+        {
             return $ret;
+        }
 
         $parentName = $parent->nodeName;
 
@@ -357,85 +366,94 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         {
             if ( $newParent && $newParent->nodeName == 'paragraph' )
             {
-                $parent->removeChild( $element );
+                $element = $parent->removeChild( $element );
                 $newParent->appendChild( $element );
-                $ret['result'] =& $newParent;
+                $ret['result'] = $newParent;
             }
             elseif ( $newParent && $newParent->parentNode && $newParent->parentNode->nodeName == 'paragraph' )
             {
-                $para =& $newParent->parentNode;
-                $parent->removeChild( $element );
+                $para = $newParent->parentNode;
+                $element = $parent->removeChild( $element );
                 $para->appendChild( $element );
-                $ret['result'] =& $newParent->parentNode;
+                $ret['result'] = $newParent->parentNode;
             }
             elseif ( $this->XMLSchema->check( $parentName, 'paragraph' ) )
             {
-                $newPara =& $this->createAndPublishElement( 'paragraph', $ret );
+                $newPara = $this->createAndPublishElement( 'paragraph', $ret );
                 $parent->replaceChild( $newPara, $element );
                 $newPara->appendChild( $element );
-                $ret['result'] =& $newPara;
+                $ret['result'] = $newPara;
             }
         }
         return $ret;
     }
 
     // Structure handler for 'header' tag.
-    function &structHandlerHeader( &$element, &$param )
+    function structHandlerHeader( $element, &$param )
     {
         $ret = null;
-        $parent =& $element->parentNode;
+        $parent = $element->parentNode;
         $level = $element->getAttribute( 'level' );
         if ( !$level )
+        {
             $level = 1;
+        }
 
         $element->removeAttribute( 'level' );
         if ( $level )
         {
             $sectionLevel = -1;
-            $current =& $element;
+            $current = $element;
             while( $current->parentNode )
             {
-                $tmp =& $current;
-                $current =& $tmp->parentNode;
+                $current = $current->parentNode;
                 if ( $current->nodeName == 'section' )
+                {
                     $sectionLevel++;
+                }
                 else
+                {
                     if ( $current->nodeName == 'td' )
                     {
                         $sectionLevel++;
                         break;
                     }
+                }
             }
             if ( $level > $sectionLevel )
             {
                 if ( $this->StrictHeaders &&
                      $level - $sectionLevel > 1 )
                 {
-                    $this->handleError( EZ_XMLINPUTPARSER_ERROR_SCHEMA, ezi18n( 'kernel/classes/datatypes/ezxmltext', "Incorrect headers nesting" ) );
+                    $this->handleError( eZXMLInputParser::ERROR_SCHEMA, ezi18n( 'kernel/classes/datatypes/ezxmltext', "Incorrect headers nesting" ) );
                 }
 
-                $newParent =& $parent;
+                $newParent = $parent;
                 for ( $i = $sectionLevel; $i < $level; $i++ )
                 {
-                   $newSection =& $this->Document->createElement( 'section' );
+                   $newSection = $this->Document->createElement( 'section' );
                    if ( $i == $sectionLevel )
-                       $newParent->insertBefore( $newSection, $element );
+                   {
+                       $newSection = $newParent->insertBefore( $newSection, $element );
+                   }
                    else
+                   {
                        $newParent->appendChild( $newSection );
+                   }
 
-                   $newParent =& $newSection;
+                   $newParent = $newSection;
                    unset( $newSection );
                 }
-                $elementToMove =& $element;
+                $elementToMove = $element;
                 while( $elementToMove &&
                        $elementToMove->nodeName != 'section' )
                 {
-                    $next =& $elementToMove->nextSibling();
-                    $parent->removeChild( $elementToMove );
+                    $next = $elementToMove->nextSibling;
+                    $elementToMove = $parent->removeChild( $elementToMove );
                     $newParent->appendChild( $elementToMove );
-                    $elementToMove =& $next;
+                    $elementToMove = $next;
 
-                    if ( $elementToMove->nodeName == 'header' )
+                    if ( $elementToMove && $elementToMove->nodeName == 'header' )
                     {
                         // in the case of non-strict headers
                         $headerLevel = $elementToMove->getAttribute( 'level' );
@@ -443,43 +461,51 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                         {
                             if ( $headerLevel == $level )
                             {
-                                $newParent2 =& $this->Document->createElement( 'section' );
+                                $newParent2 = $this->Document->createElement( 'section' );
                                 $newParent->parentNode->appendChild( $newParent2 );
-                                unset( $newParent );
-                                $newParent =& $newParent2;
+                                $newParent = $newParent2;
                             }
                             elseif ( $headerLevel < $level )
+                            {
                                 break;
+                            }
                         }
                         else
+                        {
                             if ( $headerLevel <= $level )
+                            {
                                 break;
+                            }
+                        }
                     }
                 }
             }
             elseif ( $level < $sectionLevel )
             {
                 $newLevel = $sectionLevel + 1;
-                $current =& $element;
+                $current = $element;
                 while( $level < $newLevel )
                 {
-                    $tmp =& $current;
-                    $current =& $tmp->parentNode;
+                    $current = $current->parentNode;
                     if ( $current->nodeName == 'section' )
+                    {
                         $newLevel--;
+                    }
                 }
-                $elementToMove =& $element;
+                $elementToMove = $element;
                 while( $elementToMove &&
                        $elementToMove->nodeName != 'section' )
                 {
-                    $next =& $elementToMove->nextSibling();
-                    $parent->removeChild( $elementToMove );
+                    $next = $elementToMove->nextSibling;
+                    $elementToMove = $parent->removeChild( $elementToMove );
                     $current->appendChild( $elementToMove );
-                    $elementToMove =& $next;
+                    $elementToMove = $next;
 
                     if ( $elementToMove->nodeName == 'header' &&
                          $elementToMove->getAttribute( 'level' ) <= $level )
+                    {
                         break;
+                    }
                 }
             }
         }
@@ -487,126 +513,134 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     }
 
     // Structure handler for 'custom' tag.
-    function &structHandlerCustom( &$element, &$params )
+    function structHandlerCustom( $element, &$params )
     {
         $ret = null;
         if ( $this->XMLSchema->isInline( $element ) )
         {
-            $ret =& $this->appendLineParagraph( $element, $params );
+            $ret = $this->appendLineParagraph( $element, $params );
         }
         else
         {
-            $ret =& $this->appendParagraph( $element, $params );
+            $ret = $this->appendParagraph( $element, $params );
         }
         return $ret;
     }
 
     // Structure handler for 'ul' and 'ol' tags.
-    function &structHandlerLists( &$element, &$params )
+    function structHandlerLists( $element, &$params )
     {
         $ret = array();
-        $parent =& $element->parentNode;
+        $parent = $element->parentNode;
         $parentName = $parent->nodeName;
 
         if ( $parentName == 'paragraph' )
+        {
             return $ret;
+        }
 
         // If we are inside a list
         if ( $parentName == 'ol' || $parentName == 'ul' )
         {
             // If previous 'li' doesn't exist, create it,
             // else append to the previous 'li' element.
-            $prev =& $element->previousSibling();
+            $prev = $element->previousSibling;
             if ( !$prev )
             {
-                $li =& $this->Document->createElement( 'li' );
-                $parent->insertBefore( $li, $element );
-                $parent->removeChild( $element );
+                $li = $this->Document->createElement( 'li' );
+                $li = $parent->insertBefore( $li, $element );
+                $element = $parent->removeChild( $element );
                 $li->appendChild( $element );
             }
             else
             {
-                $lastChild =& $prev->lastChild();
+                $lastChild = $prev->lastChild;
                 if ( $lastChild->nodeName != 'paragraph' )
                 {
-                    $para =& $this->Document->createElement( 'paragraph' );
-                    $parent->removeChild( $element );
+                    $para = $this->Document->createElement( 'paragraph' );
+                    $element = $parent->removeChild( $element );
                     $prev->appendChild( $element );
-                    $ret['result'] =& $para;
+                    $ret['result'] = $para;
                 }
                 else
                 {
-                    $parent->removeChild( $element );
+                    $element = $parent->removeChild( $element );
                     $lastChild->appendChild( $element );
-                    $ret['result'] =& $lastChild;
+                    $ret['result'] = $lastChild;
                 }
                 return $ret;
             }
         }
         if ( $parentName == 'li' )
         {
-            $prev =& $element->previousSibling();
+            $prev = $element->previousSibling;
             if ( $prev )
             {
-                $parent->removeChild( $element );
+                $element = $parent->removeChild( $element );
                 $prev->appendChild( $element );
-                $ret['result'] =& $prev;
+                $ret['result'] = $prev;
                 return $ret;
             }
         }
-        $ret =& $this->appendParagraph( $element, $params );
+        $ret = $this->appendParagraph( $element, $params );
 
         return $ret;
     }
 
-    // Strucutre handler for #text
-    function &structHandlerText( &$element, &$newParent )
+    // Structure handler for #text
+    function structHandlerText( $element, &$newParent )
     {
         $ret = null;
-        $parent =& $element->parentNode;
+        $parent = $element->parentNode;
         if ( !$parent )
-            return $ret;
-
-        // Remove empty text elements
-        if ( $element->content() == '' )
         {
-            $parent->removeChild( $element );
             return $ret;
         }
 
-        $ret =& $this->appendLineParagraph( $element, $newParent );
+        // Remove empty text elements
+        if ( $element->textContent == '' )
+        {
+            $element = $parent->removeChild( $element );
+            return $ret;
+        }
+
+        $ret = $this->appendLineParagraph( $element, $newParent );
 
         // Left trim spaces:
         if ( $this->TrimSpaces )
         {
             $trim = false;
-            $currentElement =& $element;
+            $currentElement = $element;
 
             // Check if it is the first element in line
             do
             {
-                $prev =& $currentElement->previousSibling();
+                $prev = $currentElement->previousSibling;
                 if ( $prev )
+                {
                     break;
+                }
 
-                $currentElement =& $currentElement->parentNode;
-                if ( $currentElement->nodeName == 'line' ||
-                     $currentElement->nodeName == 'paragraph' )
+                $currentElement = $currentElement->parentNode;
+
+                if ( $currentElement instanceof DOMElement &&
+                     ( $currentElement->nodeName == 'line' ||
+                       $currentElement->nodeName == 'paragraph' ) )
                 {
                     $trim = true;
                     break;
                 }
 
-            }while( $currentElement );
+            } while ( $currentElement instanceof DOMElement );
 
             if ( $trim )
             {
                 // Trim and remove if empty
-                $element->content = ltrim( $element->content );
-                if ( $element->content == '' )
+                $element->textContent = ltrim( $element->textContent );
+                if ( $element->textContent == '' )
                 {
-                    $parent =& $element->parentNode;
-                    $parent->removeChild( $element );
+                    $parent = $element->parentNode;
+                    $element = $parent->removeChild( $element );
                 }
             }
         }
@@ -618,20 +652,24 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         Publish handlers. (called at pass 2)
     */
     // Publish handler for 'paragraph' element.
-    function &publishHandlerParagraph( &$element, &$params )
+    function publishHandlerParagraph( $element, &$params )
     {
         $ret = null;
         // Removes single line tag
-        // php5 TODO: childNodes->length
-        $line =& $element->lastChild();
-        if ( count( $element->Children ) == 1 && $line->nodeName == 'line' )
+        $line = $element->lastChild;
+        if ( $element->childNodes->length == 1 && $line->nodeName == 'line' )
         {
-            $element->removeChild( $line );
-            foreach( array_keys( $line->Children ) as $key )
+            $lineChildren = array();
+            $lineChildNodes = $line->childNodes;
+            foreach ( $lineChildNodes as $lineChildNode )
             {
-                $newChild =& $line->Children[$key];
-                $line->removeChild( $newChild );
-                $element->appendChild( $newChild );
+                $lineChildren[] = $lineChildNode;
+            }
+
+            $line = $element->removeChild( $line );
+            foreach ( $lineChildren as $lineChild )
+            {
+                $element->appendChild( $lineChild );
             }
         }
 
@@ -639,7 +677,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     }
 
     // Publish handler for 'link' element.
-    function &publishHandlerLink( &$element, &$params )
+    function publishHandlerLink( $element, &$params )
     {
         $ret = null;
 
@@ -655,7 +693,9 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 $element->setAttribute( 'object_id', $objectID );
 
                  if ( !in_array( $objectID, $this->linkedObjectIDArray ) )
+                 {
                     $this->linkedObjectIDArray[] = $objectID;
+                }
             }
             elseif ( ereg( "^eznode://.+(#.*)?$" , $href ) )
             {
@@ -669,7 +709,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
                     if ( !$node )
                     {
-                        $this->handleError( EZ_XMLINPUTPARSER_ERROR_DATA, "Node '%1' does not exist.",
+                        $this->handleError( eZXMLInputParser::ERROR_DATA, "Node '%1' does not exist.",
                                             array( $nodeID ) );
                     }
                     else
@@ -682,7 +722,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     $node = eZContentObjectTreeNode::fetchByURLPath( $nodePath, false );
                     if ( !$node )
                     {
-                        $this->handleError( EZ_XMLINPUTPARSER_ERROR_DATA, "Node '%1' does not exist.",
+                        $this->handleError( eZXMLInputParser::ERROR_DATA, "Node '%1' does not exist.",
                                             array( $nodePath ) );
                     }
                     else
@@ -695,7 +735,9 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 $element->setAttribute( 'node_id', $nodeID );
 
                 if ( $objectID && !in_array( $objectID, $this->linkedObjectIDArray ) )
+                {
                     $this->linkedObjectIDArray[] = $objectID;
+                }
             }
             elseif ( ereg( "^#.*$" , $href ) )
             {
@@ -709,14 +751,16 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 $temp = explode( '#', $href );
                 $url = $temp[0];
                 if ( isset( $temp[1] ) )
+                {
                     $anchorName = $temp[1];
+                }
 
                 if ( $url )
                 {
                     // Protection from XSS attack
                     if ( preg_match( "/^(java|vb)script:.*/i" , $url ) )
                     {
-                        $this->handleError( EZ_XMLINPUTPARSER_ERROR_DATA, "Using scripts in links is not allowed, link '%1' has been removed",
+                        $this->handleError( eZXMLInputParser::ERROR_DATA, "Using scripts in links is not allowed, link '%1' has been removed",
                                             array( $url ) );
 
                         $element->removeAttribute( 'href' );
@@ -724,34 +768,31 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
 
                     }
                     // Check mail address validity
-                    if ( preg_match( "/^mailto:(.*)/i" , $url, $mailAddr ) )
+                    //include_once( 'lib/ezutils/classes/ezmail.php' );
+                    if ( preg_match( "/^mailto:(.*)/i" , $url, $mailAddr ) &&
+                         !eZMail::validate( $mailAddr[1] ) )
                     {
-                        include_once( 'lib/ezutils/classes/ezmail.php' );
-                        if ( !eZMail::validate( $mailAddr[1] ) )
-                        {
-                            $this->handleError( EZ_XMLINPUTPARSER_ERROR_DATA, "Invalid e-mail address: '%1'",
-                                                array( $mailAddr[1] ) );
+                        $this->handleError( eZXMLInputParser::ERROR_DATA, "Invalid e-mail address: '%1'",
+                                            array( $mailAddr[1] ) );
 
-                            $element->removeAttribute( 'href' );
-                            return $ret;
-                        }
-
+                        $element->removeAttribute( 'href' );
+                        return $ret;
                     }
                     // Store urlID instead of href
                     $urlID = $this->convertHrefToID( $url );
                     if ( $urlID )
                     {
-                        if ( $this->eZPublishVersion >= 3.6 )
-                            $urlIDAttributeName = 'url_id';
-                        else
-                            $urlIDAttributeName = 'id';
+                        $urlIDAttributeName = 'url_id';
+
                         $element->setAttribute( $urlIDAttributeName, $urlID );
                     }
                 }
             }
 
             if ( isset( $anchorName ) && $anchorName )
-                    $element->setAttribute( 'anchor_name', $anchorName );
+            {
+                $element->setAttribute( 'anchor_name', $anchorName );
+            }
 
             $element->removeAttribute( 'href' );
         }
@@ -766,13 +807,15 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         $urlID = eZURL::registerURL( $href );
 
         if ( !in_array( $urlID, $this->urlIDArray ) )
+        {
              $this->urlIDArray[] = $urlID;
+         }
 
         return $urlID;
     }
 
     // Publish handler for 'embed' element.
-    function &publishHandlerEmbed( &$element, &$params )
+    function publishHandlerEmbed( $element, &$params )
     {
         $ret = null;
 
@@ -789,7 +832,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 // protection from self-embedding
                 if ( $objectID == $this->contentObjectID )
                 {
-                    $this->handleError( EZ_XMLINPUTPARSER_ERROR_DATA, 'Object %1 can not be embeded to itself.',
+                    $this->handleError( eZXMLInputParser::ERROR_DATA, 'Object %1 can not be embeded to itself.',
                                         array( $objectID ) );
 
                     $element->removeAttribute( 'href' );
@@ -799,7 +842,9 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 $element->setAttribute( 'object_id', $objectID );
 
                 if ( !in_array( $objectID, $this->relatedObjectIDArray ) )
+                {
                     $this->relatedObjectIDArray[] = $objectID;
+                }
             }
             elseif ( ereg( "^eznode://.+$" , $href ) )
             {
@@ -811,7 +856,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
                     if ( !$node )
                     {
-                        $this->handleError( EZ_XMLINPUTPARSER_ERROR_DATA, "Node '%1' does not exist.",
+                        $this->handleError( eZXMLInputParser::ERROR_DATA, "Node '%1' does not exist.",
                                             array( $nodeID ) );
 
                         $element->removeAttribute( 'href' );
@@ -823,7 +868,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     $node = eZContentObjectTreeNode::fetchByURLPath( $nodePath, false );
                     if ( !$node )
                     {
-                        $this->handleError( EZ_XMLINPUTPARSER_ERROR_DATA, 'Node \'%1\' does not exist.',
+                        $this->handleError( eZXMLInputParser::ERROR_DATA, 'Node \'%1\' does not exist.',
                                             array( $nodePath ) );
 
                         $element->removeAttribute( 'href' );
@@ -839,7 +884,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 // protection from self-embedding
                 if ( $objectID == $this->contentObjectID )
                 {
-                    $this->handleError( EZ_XMLINPUTPARSER_ERROR_DATA, 'Object %1 can not be embeded to itself.',
+                    $this->handleError( eZXMLInputParser::ERROR_DATA, 'Object %1 can not be embeded to itself.',
                                         array( $objectID ) );
 
                     $element->removeAttribute( 'href' );
@@ -847,7 +892,9 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 }
 
                 if ( !in_array( $objectID, $this->relatedObjectIDArray ) )
+                {
                      $this->relatedObjectIDArray[] = $objectID;
+                 }
             }
             else
             {
@@ -864,7 +911,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     }
 
     // Publish handler for 'object' element.
-    function &publishHandlerObject( &$element, &$params )
+    function publishHandlerObject( $element, &$params )
     {
         $ret = null;
 
@@ -879,7 +926,9 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         }
 
         if ( !in_array( $objectID, $this->relatedObjectIDArray ) )
-             $this->relatedObjectIDArray[] = $objectID;
+        {
+            $this->relatedObjectIDArray[] = $objectID;
+        }
 
         // If there are any image object with links.
         $href = $element->getAttributeNS( $this->Namespaces['image'], 'ezurl_href' );
@@ -906,7 +955,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     }
 
     // Publish handler for 'custom' element.
-    function &publishHandlerCustom( &$element, &$params )
+    function publishHandlerCustom( $element, &$params )
     {
         $ret = null;
 
@@ -916,17 +965,18 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         return $ret;
     }
 
-    function convertCustomAttributes( &$element )
+    function convertCustomAttributes( $element )
     {
         $schemaAttrs = $this->XMLSchema->attributes( $element );
-        $attributes = $element->attributes();
+        $attributes = $element->attributes;
 
-        foreach( $attributes as $attr )
+        for ( $i = $attributes->length - 1; $i >= 0; $i-- )
         {
-            if ( !$attr->Prefix && !in_array( $attr->LocalName, $schemaAttrs ) )
+            $attr = $attributes->item( $i );
+            if ( !$attr->prefix && !in_array( $attr->nodeName, $schemaAttrs ) )
             {
-                $element->setAttributeNS( $this->Namespaces['custom'], 'custom:' . $attr->LocalName, $element->getAttribute( $attr->LocalName ) );
-                $element->removeAttribute( $attr->LocalName );
+                $element->setAttributeNS( $this->Namespaces['custom'], 'custom:' . $attr->name, $element->getAttribute( $attr->name ) );
+                $element->removeAttributeNode( $attr );
             }
         }
     }
@@ -946,11 +996,11 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         return $this->urlIDArray;
     }
 
-    var $urlIDArray = array();
-    var $relatedObjectIDArray = array();
-    var $linkedObjectIDArray = array();
+    public $urlIDArray = array();
+    public $relatedObjectIDArray = array();
+    public $linkedObjectIDArray = array();
 
     // needed for self-embedding protection
-    var $contentObjectID = 0;
+    public $contentObjectID = 0;
 }
 ?>

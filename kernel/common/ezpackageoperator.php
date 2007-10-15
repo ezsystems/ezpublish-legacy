@@ -50,7 +50,7 @@ class eZPackageOperator
     /*!
      Returns the operators in this class.
     */
-    function &operatorList()
+    function operatorList()
     {
         return $this->Operators;
     }
@@ -71,21 +71,20 @@ class eZPackageOperator
     /*!
      \reimp
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
-        $package =& $operatorValue;
+        $package = $operatorValue;
         $class = $namedParameters['class'];
         switch ( $class )
         {
             case 'thumbnail':
             {
-                if ( get_class( $operatorValue ) == 'ezpackage' )
+                if ( $operatorValue instanceof eZPackage )
                 {
                     if ( !is_array( $fileList = $operatorValue->fileList( 'default' ) ) )
                         $fileList = array();
-                    foreach ( array_keys( $fileList ) as $key )
+                    foreach ( $fileList as $file )
                     {
-                        $file =& $fileList[$key];
                         $fileType = $file["type"];
                         if ( $fileType == 'thumbnail' )
                         {
@@ -99,13 +98,12 @@ class eZPackageOperator
 
             case 'filepath':
             {
-                if ( get_class( $operatorValue ) == 'ezpackage' )
+                if ( $operatorValue instanceof eZPackage )
                 {
                     $variableName = $namedParameters['data'];
                     $fileList = $operatorValue->fileList( 'default' );
-                    foreach ( array_keys( $fileList ) as $key )
+                    foreach ( $fileList as $file )
                     {
-                        $file =& $fileList[$key];
                         $fileIdentifier = $file["variable-name"];
                         if ( $fileIdentifier == $variableName )
                         {
@@ -121,7 +119,7 @@ class eZPackageOperator
 
             case 'fileitempath':
             {
-                if ( get_class( $operatorValue ) == 'ezpackage' )
+                if ( $operatorValue instanceof eZPackage )
                 {
                     $fileItem = $namedParameters['data'];
                     $operatorValue = $operatorValue->fileItemPath( $fileItem, 'default' );
@@ -130,7 +128,7 @@ class eZPackageOperator
 
             case 'documentpath':
             {
-                if ( get_class( $package ) == 'ezpackage' )
+                if ( $package instanceof eZPackage )
                 {
                     $documentName = $namedParameters['data'];
                     $documentList = $package->attribute( 'documents' );
@@ -163,7 +161,7 @@ class eZPackageOperator
         }
     }
     /// \privatesection
-    var $Operators;
+    public $Operators;
 };
 
 ?>

@@ -31,15 +31,15 @@
 */
 
 
-include_once( "kernel/common/template.php" );
-include_once( "kernel/classes/ezorder.php" );
-include_once( 'lib/ezlocale/classes/ezdate.php' );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/classes/ezorder.php" );
+//include_once( 'lib/ezlocale/classes/ezdate.php' );
 
-$module =& $Params["Module"];
+$module = $Params['Module'];
 $year = $Params['Year'];
 $month = $Params['Month'];
 
-$http =& eZHttpTool::instance();
+$http = eZHTTPTool::instance();
 if ( $http->hasPostVariable( "Year" ) )
 {
     $year = $http->postVariable( "Year" );
@@ -55,7 +55,7 @@ if ( $http->hasPostVariable( "View" ) )
     $module->redirectTo( "/shop/statistics/" . $year . '/' . $month );
 }
 
-$statisticArray =& eZOrder::orderStatistics( $year, $month );
+$statisticArray = eZOrder::orderStatistics( $year, $month );
 $yearList = array();
 $currentDate = new eZDate();
 $currentYear = $currentDate->attribute( 'year' );
@@ -64,14 +64,14 @@ for ( $index = 0; $index < 10; $index++ )
     $yearList[] = $currentYear - $index;
 }
 
-$locale =& eZLocale::instance();
+$locale = eZLocale::instance();
 $monthList = array();
 for ( $monthIndex = 1; $monthIndex <= 12; $monthIndex++ )
 {
     $monthList[] = array( 'value' => $monthIndex, 'name' => $locale->longMonthName( $monthIndex ) );
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable( "year", $year );
 $tpl->setVariable( "month", $month );
 $tpl->setVariable( "year_list", $yearList );
@@ -83,8 +83,9 @@ $path[] = array( 'text' => ezi18n( 'kernel/shop', 'Statistics' ),
                  'url' => false );
 
 $Result = array();
-$Result['path'] =& $path;
+$Result['path'] = array( array( 'text' => ezi18n( 'kernel/shop', 'Statistics' ),
+                                'url' => false ) );
 
-$Result['content'] =& $tpl->fetch( "design:shop/orderstatistics.tpl" );
+$Result['content'] = $tpl->fetch( "design:shop/orderstatistics.tpl" );
 
 ?>

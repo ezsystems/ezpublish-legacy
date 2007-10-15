@@ -37,7 +37,7 @@
 
 */
 
-include_once( "lib/ezutils/classes/ezinputvalidator.php" );
+//include_once( "lib/ezutils/classes/ezinputvalidator.php" );
 
 class eZRegExpValidator extends eZInputValidator
 {
@@ -57,17 +57,17 @@ class eZRegExpValidator extends eZInputValidator
     function validate( $text )
     {
         if ( !is_array( $this->RegExpRule ) )
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INVALID;
         $accepted =& $this->RegExpRule["accepted"];
         if ( preg_match( $accepted, $text ) )
-            return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            return eZInputValidator::STATE_ACCEPTED;
         $intermediate =& $this->RegExpRule["intermediate"];
         if ( preg_match( $intermediate, $text ) )
-            return EZ_INPUT_VALIDATOR_STATE_INTERMEDIATE;
-        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INTERMEDIATE;
+        return eZInputValidator::STATE_INVALID;
     }
 
-    function &fixup( $text )
+    function fixup( $text )
     {
         if ( !is_array( $this->RegExpRule ) )
             return $text;
@@ -75,15 +75,15 @@ class eZRegExpValidator extends eZInputValidator
         $fixup =& $this->RegExpRule["fixup"];
         if ( is_array( $fixup ) )
         {
-            $intermediate =& $fixup["match"];
-            $fixup =& $fixup["replace"];
+            $intermediate = $fixup["match"];
+            $fixup = $fixup["replace"];
         }
         $text = preg_replace( $intermediate, $fixup, $text );
         return $text;
     }
 
     /// \privatesection
-    var $RegExpRule;
+    public $RegExpRule;
 }
 
 ?>

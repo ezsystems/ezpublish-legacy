@@ -63,21 +63,21 @@
 
 */
 
-include_once( "kernel/classes/ezpersistentobject.php" );
-
-// Define for statuses that doesn't really exist (DB error)
-define( 'EZ_ORDER_STATUS_UNDEFINED', 0 );
-
-// Some predefined statuses, they will also appear in the database.
-define( 'EZ_ORDER_STATUS_PENDING', 1 );
-define( 'EZ_ORDER_STATUS_PROCESSING', 2 );
-define( 'EZ_ORDER_STATUS_DELIVERED', 3 );
-
-// All custom order statuses have this value or higher
-define( 'EZ_ORDER_STATUS_CUSTOM', 1000 );
+//include_once( "kernel/classes/ezpersistentobject.php" );
 
 class eZOrderStatus extends eZPersistentObject
 {
+    // Define for statuses that doesn't really exist (DB error)
+    const UNDEFINED = 0;
+
+    // Some predefined statuses, they will also appear in the database.
+    const PENDING = 1;
+    const PROCESSING = 2;
+    const DELIVERED = 3;
+
+    // All custom order statuses have this value or higher
+    const CUSTOM = 1000;
+
     /*!
     */
     function eZOrderStatus( $row )
@@ -88,7 +88,7 @@ class eZOrderStatus extends eZPersistentObject
     /*!
      \return the persistent object definition for the eZOrderStatus class.
     */
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -116,10 +116,9 @@ class eZOrderStatus extends eZPersistentObject
     /*!
      \return \c true if the status is considered an internal status.
     */
-    function &isInternal()
+    function isInternal()
     {
-        $isInternal = $this->StatusID < EZ_ORDER_STATUS_CUSTOM;
-        return $isInternal;
+        return $this->StatusID < eZOrderStatus::CUSTOM;
     }
 
     /*!
@@ -137,7 +136,7 @@ class eZOrderStatus extends eZPersistentObject
     /*!
      \return the status object with the given DB ID.
     */
-    function fetch( $id, $asObject = true )
+    static function fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZOrderStatus::definition(),
                                                 null,
@@ -150,7 +149,7 @@ class eZOrderStatus extends eZPersistentObject
      \note It is safe to call this with ID 0, instead of fetching the DB
            data it calls createUndefined() and returns that data.
     */
-    function fetchByStatus( $statusID, $asObject = true )
+    static function fetchByStatus( $statusID, $asObject = true )
     {
         if ( $statusID == 0 )
             return eZOrderStatus::createUndefined();
@@ -168,8 +167,7 @@ class eZOrderStatus extends eZPersistentObject
     */
     function fetchMap( $asObject = true, $showInactive = false )
     {
-        $map =& $GLOBALS['eZOrderStatusMap'][$asObject][$showInactive];
-        if ( !isset( $map ) )
+        if ( empty( $GLOBALS['eZOrderStatusMap'][$asObject][$showInactive] ) )
         {
             $conds = array();
             if ( !$showInactive )
@@ -196,8 +194,10 @@ class eZOrderStatus extends eZPersistentObject
                     $map[$statusItem['status_id']] = $statusItem;
                 }
             }
+            $GLOBALS['eZOrderStatusMap'][$asObject][$showInactive] = $map;
         }
-        return $map;
+
+        return $GLOBALS['eZOrderStatusMap'][$asObject][$showInactive];
     }
 
     /*!
@@ -205,22 +205,21 @@ class eZOrderStatus extends eZPersistentObject
      \param $showInactive If \c true it will include status items that are not active, default is \c false.
      \return A list of defined orders sorted by status ID.
     */
-    function fetchList( $asObject = true, $showInactive = false )
+    static function fetchList( $asObject = true, $showInactive = false )
     {
-        $list =& $GLOBALS['eZOrderStatusList'][$asObject][$showInactive];
-        if ( !isset( $list ) )
+        if ( empty( $GLOBALS['eZOrderStatusList'][$asObject][$showInactive] ) )
         {
             $conds = array();
             if ( !$showInactive )
                 $conds['is_active'] = 1;
-            $list = eZPersistentObject::fetchObjectList( eZOrderStatus::definition(),
-                                                         null,
-                                                         $conds,
-                                                         array( 'status_id' => false ),
-                                                         null,
-                                                         $asObject );
+            $GLOBALS['eZOrderStatusList'][$asObject][$showInactive] = eZPersistentObject::fetchObjectList( eZOrderStatus::definition(),
+                                                                                                           null,
+                                                                                                           $conds,
+                                                                                                           array( 'status_id' => false ),
+                                                                                                           null,
+                                                                                                           $asObject );
         }
-        return $list;
+        return $GLOBALS['eZOrderStatusList'][$asObject][$showInactive];
     }
 
     /*!
@@ -230,7 +229,7 @@ class eZOrderStatus extends eZPersistentObject
     */
     function fetchPolicyList( $showInactive = false )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $conditionText = '';
         if ( !$showInactive )
@@ -245,22 +244,21 @@ class eZOrderStatus extends eZPersistentObject
      \param $showInactive If \c true it will include status items that are not active, default is \c false.
      \return A list of defined orders sorted by name.
     */
-    function fetchOrderedList( $asObject = true, $showInactive = false )
+    static function fetchOrderedList( $asObject = true, $showInactive = false )
     {
-        $list =& $GLOBALS['eZOrderStatusOList'][$asObject][$showInactive];
-        if ( !isset( $list ) )
+        if ( empty( $GLOBALS['eZOrderStatusOList'][$asObject][$showInactive] ) )
         {
             $conds = array();
             if ( !$showInactive )
                 $conds['is_active'] = 1;
-            $list = eZPersistentObject::fetchObjectList( eZOrderStatus::definition(),
-                                                         null,
-                                                         $conds,
-                                                         array( 'name' => false ),
-                                                         null,
-                                                         $asObject );
+            $GLOBALS['eZOrderStatusOList'][$asObject][$showInactive] = eZPersistentObject::fetchObjectList( eZOrderStatus::definition(),
+                                                                                                            null,
+                                                                                                            $conds,
+                                                                                                            array( 'name' => false ),
+                                                                                                            null,
+                                                                                                            $asObject );
         }
-        return $list;
+        return $GLOBALS['eZOrderStatusOList'][$asObject][$showInactive];
     }
 
     /*!
@@ -268,7 +266,7 @@ class eZOrderStatus extends eZPersistentObject
     */
     function orderStatusCount( $showInactive = false )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $condText = '';
         if ( !$showInactive )
@@ -282,9 +280,9 @@ class eZOrderStatus extends eZPersistentObject
      Will remove the current status from the database identifed by its DB ID.
      \note transaction safe
     */
-    function remove()
+    function removeThis()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
         // Set all elements using this status to 0 (undefined).
@@ -321,17 +319,16 @@ class eZOrderStatus extends eZPersistentObject
     */
     function createUndefined()
     {
-        $obj =& $GLOBALS['eZOrderStatusUndefined'];
-        if ( !isset( $obj ) )
+        if ( empty( $GLOBALS['eZOrderStatusUndefined'] ) )
         {
             $row = array(
                 'id' => null,
-                'status_id' => EZ_ORDER_STATUS_UNDEFINED,
+                'status_id' => eZOrderStatus::UNDEFINED,
                 'is_active' => true,
                 'name' => ezi18n( 'kernel/shop', 'Undefined' ) );
-            $obj = new eZOrderStatus( $row );
+            $GLOBALS['eZOrderStatusUndefined'] = new eZOrderStatus( $row );
         }
-        return $obj;
+        return $GLOBALS['eZOrderStatusUndefined'];
     }
 
     /*!
@@ -350,7 +347,7 @@ class eZOrderStatus extends eZPersistentObject
         else
         {
             // Lock the table while we find the highest number
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->lock( 'ezorder_status' );
 
             $rows = $db->arrayQuery( "SELECT max( status_id ) as status_id FROM ezorder_status" );
@@ -358,9 +355,9 @@ class eZOrderStatus extends eZPersistentObject
 
             // If the max ID is below the custom one we set as the first
             // custom ID, if not we increase it by one.
-            if ( $statusID < EZ_ORDER_STATUS_CUSTOM )
+            if ( $statusID < eZOrderStatus::CUSTOM )
             {
-                $statusID = EZ_ORDER_STATUS_CUSTOM;
+                $statusID = eZOrderStatus::CUSTOM;
             }
             else
             {

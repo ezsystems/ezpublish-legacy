@@ -35,7 +35,7 @@
 
 */
 
-include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
 
 class eZVatType extends eZPersistentObject
 {
@@ -46,7 +46,7 @@ class eZVatType extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -82,7 +82,7 @@ class eZVatType extends eZPersistentObject
         return $percentage;
     }
 
-    function dynamicVatType( $asObject = true )
+    static function dynamicVatType( $asObject = true )
     {
         $row = array( 'id' => -1,
                       'name' => eZVatType::dynamicVatTypeName(),
@@ -100,7 +100,7 @@ class eZVatType extends eZPersistentObject
      * \private
      * \static
      */
-    function dynamicVatTypeName()
+    static function dynamicVatTypeName()
     {
         if ( !isset( $GLOBALS['eZVatType_dynamicVatTypeName'] ) )
         {
@@ -112,7 +112,7 @@ class eZVatType extends eZPersistentObject
         return $GLOBALS['eZVatType_dynamicVatTypeName'];
     }
 
-    function fetch( $id, $asObject = true )
+    static function fetch( $id, $asObject = true )
     {
         require_once( 'kernel/classes/ezvatmanager.php' );
 
@@ -125,16 +125,15 @@ class eZVatType extends eZPersistentObject
                                                 $asObject );
     }
 
-    function &isDynamic()
+    function isDynamic()
     {
-        $retVal = ( $this->ID == -1 );
-        return $retVal;
+        return ( $this->ID == -1 );
     }
 
     /**
      * \param $skipDynamic if false, include dynamic VAT type to the list being returned.
      */
-    function fetchList( $asObject = true, $skipDynamic = false )
+    static function fetchList( $asObject = true, $skipDynamic = false )
     {
         // Fetch "real" VAT types, stored in DB.
         $VATTypes = eZPersistentObject::fetchObjectList( eZVatType::definition(),
@@ -162,7 +161,7 @@ class eZVatType extends eZPersistentObject
      * \param $vatID id of VAT type to count dependent products for.
      * \return Number of dependent products.
      */
-    function fetchDependentProductsCount( $vatID )
+    static function fetchDependentProductsCount( $vatID )
     {
         $vatID = (int) $vatID; // prevent SQL injection
 
@@ -189,7 +188,7 @@ class eZVatType extends eZPersistentObject
      * \static
      * \return Number of dependent product classes.
      */
-    function fetchDependentClassesCount( $vatID )
+    static function fetchDependentClassesCount( $vatID )
     {
         $vatID = (int) $vatID; // prevent SQL injection
 
@@ -204,7 +203,7 @@ class eZVatType extends eZPersistentObject
         return $nClasses;
     }
 
-    function create()
+    static function create()
     {
         /*
         $row = array(
@@ -227,9 +226,9 @@ class eZVatType extends eZPersistentObject
      * \param $oldVAT old VAT type id.
      * \param $newVAT new VAT type id.
      */
-    function resetToDefaultInProducts( $oldVAT )
+    static function resetToDefaultInProducts( $oldVAT )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
         $selectProductsQuery =
@@ -276,16 +275,19 @@ class eZVatType extends eZPersistentObject
      * \public
      * \static
      */
-    function remove( $vatID )
+    function removeThis()
     {
-        $db =& eZDB::instance();
+        $vatID = $this->ID;
+        $db = eZDB::instance();
         $db->begin();
 
         // remove dependent VAT rules
         require_once( 'kernel/classes/ezvatrule.php' );
         $dependentRules = eZVatRule::fetchByVatType( $vatID );
         foreach ( $dependentRules as $rule )
-            eZVatRule::remove( $rule->attribute( 'id' ) );
+        {
+            eZVatRule::removeVatRule( $rule->attribute( 'id' ) );
+        }
 
         // replace VAT type in dependent products.
         eZVatType::resetToDefaultInProducts( $vatID );
@@ -297,7 +299,7 @@ class eZVatType extends eZPersistentObject
         $db->commit();
     }
 
-    function &VATTypeList()
+    function VATTypeList()
     {
         if ( !isset( $this->VatTypeList ) )
         {
@@ -309,7 +311,7 @@ class eZVatType extends eZPersistentObject
         return $this->VatTypeList;
     }
 
-    var $VatTypeList;
+    public $VatTypeList;
 }
 
 ?>

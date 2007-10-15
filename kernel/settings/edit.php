@@ -25,9 +25,9 @@
 //
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
-include_once( "kernel/common/template.php" );
-include_once( "lib/ezutils/classes/ezhttptool.php" );
-include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+require_once( "kernel/common/template.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
+//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 
 $settingTypeArray = array( 'array' => 'Array',
                            'true/false' => 'True/False',
@@ -35,9 +35,9 @@ $settingTypeArray = array( 'array' => 'Array',
                            'string' => 'String',
                            'numeric' => 'Numeric' );
 
-$tpl =& templateInit();
-$http =& eZHTTPTool::instance();
-//$ini =& eZINI::instance();
+$tpl = templateInit();
+$http = eZHTTPTool::instance();
+//$ini = eZINI::instance();
 
 if ( $Params['INIFile'] )
     $iniFile = $Params['INIFile'];
@@ -89,10 +89,10 @@ if ( $http->hasPostVariable( 'WriteSetting' ) )
     elseif ( $settingPlacement != 'override' )
         $path = "extension/$settingPlacement/settings";
 
-    $ini =& eZINI::instance( $iniFile . '.append', $path, null, null, null, true, true );
+    $ini = eZINI::instance( $iniFile . '.append', $path, null, null, null, true, true );
 
     $hasValidationError = false;
-    include_once( 'kernel/settings/validation.php' );
+    require 'kernel/settings/validation.php';
     $validationResult = validate( array( 'Name' => $settingName,
                                          'Value' => $valueToWrite ),
                                   array( 'name', $settingType ), true );
@@ -196,13 +196,13 @@ function parseArrayToStr( $value, $separator )
 
 function getVariable( $block, $settingName, $iniFile, $path )
 {
-    $ini =& eZINI::instance( $iniFile, $path, null, null, null, true, true );
+    $ini = eZINI::instance( $iniFile, $path, null, null, null, true, true );
     $result = $ini->hasVariable( $block, $settingName ) ? $ini->variable( $block, $settingName ) : false;
     $result = parseArrayToStr( $result, '<br>' );
     return $result;
 }
 
-$ini =& eZINI::instance( $iniFile, 'settings', null, null, false );
+$ini = eZINI::instance( $iniFile, 'settings', null, null, false );
 
 if ( isset( $settingPlacement ) and $settingPlacement == 'siteaccess' )
 {
@@ -228,7 +228,7 @@ $values['default'] = getVariable( $block, $settingName, $iniFile, 'settings/' );
 $values['siteaccess'] = getVariable( $block, $settingName, $iniFile, "settings/siteaccess/$siteAccess" );
 $values['override'] = getVariable( $block, $settingName, $iniFile, "settings/override/" );
 // Get values from extensions
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 $extensions = $ini->hasVariable( 'ExtensionSettings','ActiveExtensions' ) ? $ini->variable( 'ExtensionSettings','ActiveExtensions' ) : array();
 $extensionDir = $ini->hasVariable( 'ExtensionSettings','ExtensionDirectory' ) ? $ini->variable( 'ExtensionSettings','ExtensionDirectory' ) : 'extension';
 foreach ( $extensions as $extension )
@@ -251,7 +251,7 @@ $tpl->setVariable( 'values', $values );
 $tpl->setVariable( 'placement', $settingPlacement );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:settings/edit.tpl' );
+$Result['content'] = $tpl->fetch( 'design:settings/edit.tpl' );
 $Result['path'] = array( array( 'text' => ezi18n( 'settings/edit', 'Settings' ),
                                 'url' => false ),
                          array( 'text' => ezi18n( 'settings/edit', 'Edit' ),

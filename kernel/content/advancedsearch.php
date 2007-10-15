@@ -26,15 +26,15 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
-include_once( 'kernel/common/template.php' );
+require_once( 'kernel/common/template.php' );
 
-include_once( 'kernel/classes/ezsearch.php' );
-include_once( 'kernel/classes/ezcontentclass.php' );
+//include_once( 'kernel/classes/ezsearch.php' );
+//include_once( 'kernel/classes/ezcontentclass.php' );
 
-include_once( 'kernel/classes/ezsearchlog.php' );
-include_once( 'kernel/classes/ezsection.php' );
+//include_once( 'kernel/classes/ezsearchlog.php' );
+//include_once( 'kernel/classes/ezsection.php' );
 
 /*!
  Get search limit
@@ -61,18 +61,18 @@ function pageLimit( $searchPageLimit )
     }
 }
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $ViewMode = $Params['ViewMode'];
 $Offset = $Params['Offset'];
 
 if ( $ViewMode == 'offset' )
     $ViewMode = '';
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 $useSearchCode = $ini->variable( 'SearchSettings', 'SearchViewHandling' ) == 'default';
 $logSearchStats = $ini->variable( 'SearchSettings', 'LogSearchStats' ) == 'enabled';
 
@@ -174,7 +174,7 @@ $classArray = eZContentClass::fetchList();
 
 $sectionArray = eZSection::fetchList();
 
-$searchArray =& eZSearch::buildSearchArray();
+$searchArray = eZSearch::buildSearchArray();
 
 if ( $useSearchCode )
 {
@@ -277,8 +277,8 @@ $tpl->setVariable( 'search_array_by_class_attribute_id', $searchArrayByClassAttr
 
 if ( $searchSectionID != -1 )
 {
-    include_once( 'kernel/common/eztemplatedesignresource.php' );
-    $res =& eZTemplateDesignResource::instance();
+    //include_once( 'kernel/common/eztemplatedesignresource.php' );
+    $res = eZTemplateDesignResource::instance();
     $res->setKeys( array( array( 'section', $searchSectionID ) ) );
 }
 
@@ -287,11 +287,11 @@ $Result = array();
 if ( trim( $ViewMode ) != '' )
 {
     // Fetch override template for viewmode if wanted
-    $Result['content'] =& $tpl->fetch( "design:content/advancedsearch/$ViewMode.tpl" );
+    $Result['content'] = $tpl->fetch( "design:content/advancedsearch/$ViewMode.tpl" );
 }
 else
 {
-    $Result['content'] =& $tpl->fetch( 'design:content/advancedsearch.tpl' );
+    $Result['content'] = $tpl->fetch( 'design:content/advancedsearch.tpl' );
 }
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Search' ),
                                 'url' => false ),

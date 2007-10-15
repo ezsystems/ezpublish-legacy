@@ -37,8 +37,8 @@
 
 */
 
-include_once( 'kernel/classes/ezpersistentobject.php' );
-include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+//include_once( 'kernel/classes/ezpersistentobject.php' );
+//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 
 class eZCollaborationItemStatus extends eZPersistentObject
 {
@@ -50,7 +50,7 @@ class eZCollaborationItemStatus extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'collaboration_id' => array( 'name' => 'CollaborationID',
                                                                       'datatype' => 'integer',
@@ -83,7 +83,7 @@ class eZCollaborationItemStatus extends eZPersistentObject
                       'name' => 'ezcollab_item_status' );
     }
 
-    function create( $collaborationID, $userID = false )
+    static function create( $collaborationID, $userID = false )
     {
         if ( $userID === false )
             $userID = eZUser::currentUserID();
@@ -93,14 +93,12 @@ class eZCollaborationItemStatus extends eZPersistentObject
             'is_read' => false,
             'is_active' => true,
             'last_read' => 0 );
-        $statusObject =& $GLOBALS['eZCollaborationItemStatusCache'][$collaborationID][$userID];
-        $statusObject = new eZCollaborationItemStatus( $row );
-        return $statusObject;
+        return $GLOBALS['eZCollaborationItemStatusCache'][$collaborationID][$userID] = new eZCollaborationItemStatus( $row );
     }
 
-    function store()
+    function store( $fieldFilters = null )
     {
-        $stored = eZPersistentObject::store();
+        $stored = eZPersistentObject::store( $fieldFilters );
         $this->updateCache();
         return $stored;
     }
@@ -109,27 +107,29 @@ class eZCollaborationItemStatus extends eZPersistentObject
     {
         $userID = $this->UserID;
         $collaborationID = $this->CollaborationID;
-        $GLOBALS['eZCollaborationItemStatusCache'][$collaborationID][$userID] =& $this;
+        $GLOBALS['eZCollaborationItemStatusCache'][$collaborationID][$userID] = $this;
     }
 
-    function &fetch( $collaborationID, $userID = false, $asObject = true )
+    static function fetch( $collaborationID, $userID = false, $asObject = true )
     {
         if ( $userID === false )
+        {
             $userID = eZUser::currentUserID();
-        $statusObject =& $GLOBALS['eZCollaborationItemStatusCache'][$collaborationID][$userID];
-        if ( isset( $statusObject ) and $statusObject )
-            return $statusObject;
-
-        $conditions = array( 'collaboration_id' => $collaborationID,
-                             'user_id' => $userID );
-        $statusObject = eZPersistentObject::fetchObject( eZCollaborationItemStatus::definition(),
-                                                         null,
-                                                         $conditions,
-                                                         $asObject );
-        return $statusObject;
+        }
+        if ( !isset( $GLOBALS['eZCollaborationItemStatusCache'][$collaborationID][$userID] ) )
+        {
+            $conditions = array( 'collaboration_id' => $collaborationID,
+                                 'user_id' => $userID );
+            $GLOBALS['eZCollaborationItemStatusCache'][$collaborationID][$userID] = eZPersistentObject::fetchObject(
+                eZCollaborationItemStatus::definition(),
+                null,
+                $conditions,
+                $asObject );
+        }
+        return $GLOBALS['eZCollaborationItemStatusCache'][$collaborationID][$userID];
     }
 
-    function setLastRead( $collaborationID, $userID = false, $timestamp = false )
+    static function setLastRead( $collaborationID, $userID = false, $timestamp = false )
     {
         if ( $timestamp === false )
             $timestamp = time();
@@ -138,7 +138,7 @@ class eZCollaborationItemStatus extends eZPersistentObject
                                                                                    'is_read' => 1 ) );
     }
 
-    function updateFields( $collaborationID, $userID = false, $fields )
+    static function updateFields( $collaborationID, $userID = false, $fields )
     {
         if ( $userID === false )
             $userID = eZUser::currentUserID();

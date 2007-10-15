@@ -44,7 +44,7 @@ class eZConfirmOrderHandler
     /*!
      returns the current order confirmation instance
     */
-    function &instance()
+    static function instance()
     {
         $confirmOrderHandler = null;
         if ( eZExtension::findExtensionType( array( 'ini-name' => 'shopaccount.ini',
@@ -65,14 +65,11 @@ class eZConfirmOrderHandler
             $filePath = $out['found-file-path'];
             include_once( $filePath );
             $class = $out['type'] . 'ConfirmOrderHandler';
-            $confirmOrderHandler = new $class();
+            return new $class();
         }
-        else
-        {
-            include_once( 'kernel/classes/confirmorderhandlers/ezdefaultconfirmorderhandler.php' );
-            $confirmOrderHandler = new eZDefaultConfirmOrderHandler();
-        }
-        return $confirmOrderHandler;
+
+        //include_once( 'kernel/classes/confirmorderhandlers/ezdefaultconfirmorderhandler.php' );
+        return new eZDefaultConfirmOrderHandler();
     }
 
 }

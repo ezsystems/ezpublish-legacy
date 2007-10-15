@@ -38,7 +38,7 @@
 
 */
 
-include_once( "lib/ezi18n/classes/eztranslatorhandler.php" );
+//include_once( "lib/ezi18n/classes/eztranslatorhandler.php" );
 
 class eZShuffleTranslator extends eZTranslatorHandler
 {
@@ -110,7 +110,7 @@ class eZShuffleTranslator extends eZTranslatorHandler
 
     /// \privatesection
     /// Contains the hash table with cached 1337 translations
-    var $Messages;
+    public $Messages;
 }
 
 ?>

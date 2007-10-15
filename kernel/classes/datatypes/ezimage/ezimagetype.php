@@ -37,25 +37,25 @@
         storage technique removes the need to have it.
 */
 
-include_once( "kernel/classes/ezdatatype.php" );
-include_once( "lib/ezfile/classes/ezdir.php" );
-include_once( "lib/ezutils/classes/ezhttpfile.php" );
-
-define( 'EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_FIELD', 'data_int1' );
-define( 'EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_VARIABLE', '_ezimage_max_filesize_' );
-define( "EZ_DATATYPESTRING_IMAGE", "ezimage" );
+//include_once( "kernel/classes/ezdatatype.php" );
+//include_once( "lib/ezfile/classes/ezdir.php" );
+//include_once( "lib/ezutils/classes/ezhttpfile.php" );
 
 class eZImageType extends eZDataType
 {
+    const FILESIZE_FIELD = 'data_int1';
+    const FILESIZE_VARIABLE = '_ezimage_max_filesize_';
+    const DATA_TYPE_STRING = "ezimage";
+
     function eZImageType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_IMAGE, ezi18n( 'kernel/classes/datatypes', "Image", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Image", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
-    function repairContentObjectAttribute( &$contentObjectAttribute )
+    function repairContentObjectAttribute( $contentObjectAttribute )
     {
-        include_once( "kernel/classes/datatypes/ezimage/ezimage.php" );
+        //include_once( "kernel/classes/datatypes/ezimage/ezimage.php" );
         $image = eZImage::fetch( $contentObjectAttribute->attribute( 'id' ),
                                   $contentObjectAttribute->attribute( 'version' ) );
         if ( !is_object( $image ) )
@@ -65,18 +65,17 @@ class eZImageType extends eZDataType
                                                                               $contentObjectAttribute->attribute( 'version' ) );
             $language = eZContentObject::defaultLanguage();
             $attribute = false;
-            foreach ( array_keys( $list ) as $listKey )
+            foreach ( $list as $listItem )
             {
-                $listItem =& $list[$listKey];
                 if ( $listItem->attribute( 'language_code' ) == $language )
                 {
-                    $attribute =& $listItem;
+                    $attribute = $listItem;
                     break;
                 }
             }
             if ( $attribute === false )
             {
-                $attribute =& $list[0];
+                $attribute = $list[0];
             }
             if ( $attribute )
             {
@@ -96,7 +95,7 @@ class eZImageType extends eZDataType
     /*!
      \reimp
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
@@ -108,16 +107,16 @@ class eZImageType extends eZDataType
     /*!
      \reimp
     */
-    function deleteStoredObjectAttribute( &$contentObjectAttribute, $version = null )
+    function deleteStoredObjectAttribute( $contentObjectAttribute, $version = null )
     {
         if ( $version === null )
         {
-            include_once( "kernel/classes/datatypes/ezimage/ezimagealiashandler.php" );
+            //include_once( "kernel/classes/datatypes/ezimage/ezimagealiashandler.php" );
             eZImageAliasHandler::removeAllAliases( $contentObjectAttribute );
         }
         else
         {
-            $imageHandler =& $contentObjectAttribute->attribute( 'content' );
+            $imageHandler = $contentObjectAttribute->attribute( 'content' );
             if ( $imageHandler )
                 $imageHandler->removeAliases( $contentObjectAttribute );
         }
@@ -126,17 +125,17 @@ class eZImageType extends eZDataType
     /*!
      \reimp
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
-        $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $classAttribute = $contentObjectAttribute->contentClassAttribute();
         $httpFileName = $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" );
-        $maxSize = 1024 * 1024 * $classAttribute->attribute( EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_FIELD );
+        $maxSize = 1024 * 1024 * $classAttribute->attribute( self::FILESIZE_FIELD );
         $mustUpload = false;
 
         if( $contentObjectAttribute->validateIsRequired() )
         {
-            $tmpImgObj =& $contentObjectAttribute->attribute( 'content' );
-            $original =& $tmpImgObj->attribute( 'original' );
+            $tmpImgObj = $contentObjectAttribute->attribute( 'content' );
+            $original = $tmpImgObj->attribute( 'original' );
             if ( !$original['is_valid'] )
             {
                 $mustUpload = true;
@@ -151,7 +150,7 @@ class eZImageType extends eZDataType
              {
                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                      'The image file must have non-zero size.' ) );
-                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                return eZInputValidator::STATE_INVALID;
              }
              if ( function_exists( 'getimagesize' ) )
              {
@@ -160,12 +159,12 @@ class eZImageType extends eZDataType
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'A valid image file is required.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    return eZInputValidator::STATE_INVALID;
                 }
              }
              else
              {
-                 include_once( 'lib/ezutils/classes/ezmimetype.php' );
+                 //include_once( 'lib/ezutils/classes/ezmimetype.php' );
                  $mimeType = eZMimeType::findByURL( $_FILES[$httpFileName]['name'] );
                  $nameMimeType = $mimeType['name'];
                  $nameMimeTypes = explode("/", $nameMimeType);
@@ -173,51 +172,51 @@ class eZImageType extends eZDataType
                  {
                      $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                           'A valid image file is required.' ) );
-                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                     return eZInputValidator::STATE_INVALID;
                  }
              }
         }
-        if ( $mustUpload && $canFetchResult == EZ_UPLOADEDFILE_DOES_NOT_EXIST )
+        if ( $mustUpload && $canFetchResult == eZHTTPFile::UPLOADEDFILE_DOES_NOT_EXIST )
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                 'A valid image file is required.' ) );
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INVALID;
         }
-        if ( $canFetchResult == EZ_UPLOADEDFILE_EXCEEDS_PHP_LIMIT )
+        if ( $canFetchResult == eZHTTPFile::UPLOADEDFILE_EXCEEDS_PHP_LIMIT )
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                 'The size of the uploaded image exceeds limit set by upload_max_filesize directive in php.ini. Please contact the site administrator.' ) );
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INVALID;
         }
-        if ( $canFetchResult == EZ_UPLOADEDFILE_EXCEEDS_MAX_SIZE )
+        if ( $canFetchResult == eZHTTPFile::UPLOADEDFILE_EXCEEDS_MAX_SIZE )
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                 'The size of the uploaded file exceeds the limit set for this site: %1 bytes.' ), $maxSize );
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INVALID;
         }
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
      \reimp
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $result = false;
         $imageAltText = false;
         $hasImageAltText = false;
         if ( $http->hasPostVariable( $base . "_data_imagealttext_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
-            $imageAltText = eZHTTPTool::postVariable( $base . "_data_imagealttext_" . $contentObjectAttribute->attribute( "id" ) );
+            $imageAltText = $http->postVariable( $base . "_data_imagealttext_" . $contentObjectAttribute->attribute( "id" ) );
             $hasImageAltText = true;
         }
 
-        $content =& $contentObjectAttribute->attribute( 'content' );
+        $content = $contentObjectAttribute->attribute( 'content' );
         $httpFileName = $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" );
 
         if ( eZHTTPFile::canFetch( $httpFileName ) )
         {
-            $httpFile =& eZHTTPFile::fetch( $httpFileName );
+            $httpFile = eZHTTPFile::fetch( $httpFileName );
             if ( $httpFile )
             {
                 if ( $content )
@@ -241,12 +240,12 @@ class eZImageType extends eZDataType
     /*!
      \reimp
     */
-    function storeObjectAttribute( &$contentObjectAttribute )
+    function storeObjectAttribute( $contentObjectAttribute )
     {
-        $imageHandler =& $contentObjectAttribute->attribute( 'content' );
+        $imageHandler = $contentObjectAttribute->attribute( 'content' );
         if ( $imageHandler )
         {
-            $httpFile =& $imageHandler->httpFile( true );
+            $httpFile = $imageHandler->httpFile( true );
             if ( $httpFile )
             {
                 $imageAltText = $imageHandler->attribute( 'alternative_text' );
@@ -282,19 +281,18 @@ class eZImageType extends eZDataType
      \reimp
      Inserts the file using the Image Handler eZImageAliasHandler.
     */
-    function insertHTTPFile( &$object, $objectVersion, $objectLanguage,
-                             &$objectAttribute, &$httpFile, $mimeData,
+    function insertHTTPFile( $object, $objectVersion, $objectLanguage,
+                             $objectAttribute, $httpFile, $mimeData,
                              &$result )
     {
         $result = array( 'errors' => array(),
                          'require_storage' => false );
-        $errors =& $result['errors'];
 
-        $handler =& $objectAttribute->content();
+        $handler = $objectAttribute->content();
         if ( !$handler )
         {
-            $errors[] = array( 'description' => ezi18n( 'kernel/classes/datatypes/ezimage',
-                                                        'Failed to fetch Image Handler. Please contact the site administrator.' ) );
+            $result['errors'][] = array( 'description' => ezi18n( 'kernel/classes/datatypes/ezimage',
+                                                                  'Failed to fetch Image Handler. Please contact the site administrator.' ) );
             return false;
         }
 
@@ -307,19 +305,18 @@ class eZImageType extends eZDataType
      \reimp
      Inserts the file using the Image Handler eZImageAliasHandler.
     */
-    function insertRegularFile( &$object, $objectVersion, $objectLanguage,
-                                &$objectAttribute, $filePath,
+    function insertRegularFile( $object, $objectVersion, $objectLanguage,
+                                $objectAttribute, $filePath,
                                 &$result )
     {
         $result = array( 'errors' => array(),
                          'require_storage' => false );
-        $errors =& $result['errors'];
 
-        $handler =& $objectAttribute->content();
+        $handler = $objectAttribute->content();
         if ( !$handler )
         {
-            $errors[] = array( 'description' => ezi18n( 'kernel/classes/datatypes/ezimage',
-                                                        'Failed to fetch Image Handler. Please contact the site administrator.' ) );
+            $result['errors'][] = array( 'description' => ezi18n( 'kernel/classes/datatypes/ezimage',
+                                                                  'Failed to fetch Image Handler. Please contact the site administrator.' ) );
             return false;
         }
 
@@ -332,8 +329,8 @@ class eZImageType extends eZDataType
       \reimp
       We support file information
     */
-    function hasStoredFileInformation( &$object, $objectVersion, $objectLanguage,
-                                       &$objectAttribute )
+    function hasStoredFileInformation( $object, $objectVersion, $objectLanguage,
+                                       $objectAttribute )
     {
         return true;
     }
@@ -342,10 +339,10 @@ class eZImageType extends eZDataType
       \reimp
       Extracts file information for the image entry.
     */
-    function storedFileInformation( &$object, $objectVersion, $objectLanguage,
-                                    &$objectAttribute )
+    function storedFileInformation( $object, $objectVersion, $objectLanguage,
+                                    $objectAttribute )
     {
-        $content =& $objectAttribute->content();
+        $content = $objectAttribute->content();
         if ( $content )
         {
             $original = $content->attribute( 'original' );
@@ -365,19 +362,19 @@ class eZImageType extends eZDataType
     /*!
      \reimp
     */
-    function onPublish( &$contentObjectAttribute, &$contentObject, &$publishedNodes )
+    function onPublish( $contentObjectAttribute, $contentObject, $publishedNodes )
     {
         $hasContent = $contentObjectAttribute->hasContent();
         if ( $hasContent )
         {
-            $imageHandler =& $contentObjectAttribute->attribute( 'content' );
+            $imageHandler = $contentObjectAttribute->attribute( 'content' );
             $mainNode = false;
             foreach ( array_keys( $publishedNodes ) as $publishedNodeKey )
             {
-                $publishedNode =& $publishedNodes[$publishedNodeKey];
+                $publishedNode = $publishedNodes[$publishedNodeKey];
                 if ( $publishedNode->attribute( 'main_node_id' ) )
                 {
-                    $mainNode =& $publishedNode;
+                    $mainNode = $publishedNode;
                     break;
                 }
             }
@@ -402,13 +399,13 @@ class eZImageType extends eZDataType
     /*!
      \reimp
     */
-    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $filesizeName = $base . EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_VARIABLE . $classAttribute->attribute( 'id' );
+        $filesizeName = $base . self::FILESIZE_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $filesizeName ) )
         {
             $filesizeValue = $http->postVariable( $filesizeName );
-            $classAttribute->setAttribute( EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_FIELD, $filesizeValue );
+            $classAttribute->setAttribute( self::FILESIZE_FIELD, $filesizeValue );
             return true;
         }
         return false;
@@ -417,11 +414,11 @@ class eZImageType extends eZDataType
     /*!
      \reimp
     */
-    function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute )
+    function customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute, $parameters )
     {
         if( $action == "delete_image" )
         {
-            $content =& $contentObjectAttribute->attribute( 'content' );
+            $content = $contentObjectAttribute->attribute( 'content' );
             if ( $content )
             {
                 $content->removeAliases( $contentObjectAttribute );
@@ -436,9 +433,9 @@ class eZImageType extends eZDataType
      - Default paramater in \a $name if it exists
      - original_filename, this is the default fallback.
     */
-    function title( &$contentObjectAttribute, $name = 'original_filename' )
+    function title( $contentObjectAttribute, $name = 'original_filename' )
     {
-        $content =& $contentObjectAttribute->content();
+        $content = $contentObjectAttribute->content();
         $original = $content->attribute( 'original' );
         $value = $original['alternative_text'];
         if ( trim( $value ) == '' )
@@ -452,9 +449,9 @@ class eZImageType extends eZDataType
         return $value;
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
-        $handler =& $contentObjectAttribute->content();
+        $handler = $contentObjectAttribute->content();
         if ( !$handler )
             return false;
         return $handler->attribute( 'is_valid' );
@@ -463,9 +460,9 @@ class eZImageType extends eZDataType
     /*!
      \reimp
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
-        include_once( "kernel/classes/datatypes/ezimage/ezimagealiashandler.php" );
+        //include_once( "kernel/classes/datatypes/ezimage/ezimagealiashandler.php" );
         $imageHandler = new eZImageAliasHandler( $contentObjectAttribute );
 
         return $imageHandler;
@@ -476,7 +473,7 @@ class eZImageType extends eZDataType
     */
     function metaData( $contentObjectAttribute )
     {
-        $content =& $contentObjectAttribute->content();
+        $content = $contentObjectAttribute->content();
         $original = $content->attribute( 'original' );
         $value = $original['alternative_text'];
         return $value;
@@ -485,22 +482,23 @@ class eZImageType extends eZDataType
     /*!
      \reimp
     */
-    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $maxSize = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_FIELD );
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'max-size', $maxSize,
-                                                                                     array( 'unit-size' => 'mega' ) ) );
+        $maxSize = $classAttribute->attribute( self::FILESIZE_FIELD );
+        $maxSizeNode = $attributeParametersNode->ownerDocument->createElement( 'max-size', $maxSize );
+        $maxSizeNode->setAttribute( 'unit-size', 'mega' );
+        $attributeParametersNode->appendChild( $maxSizeNode );
     }
 
     /*!
      \reimp
     */
-    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $maxSize = $attributeParametersNode->elementTextContentByName( 'max-size' );
-        $sizeNode = $attributeParametersNode->elementByName( 'max-size' );
-        $unitSize = $sizeNode->attributeValue( 'unit-size' );
-        $classAttribute->setAttribute( EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_FIELD, $maxSize );
+        $sizeNode = $attributeParametersNode->getElementsByTagName( 'max-size' )->item( 0 );
+        $maxSize = $sizeNode->textContent;
+        $unitSize = $sizeNode->getAttribute( 'unit-size' );
+        $classAttribute->setAttribute( self::FILESIZE_FIELD, $maxSize );
     }
 
 
@@ -508,7 +506,7 @@ class eZImageType extends eZDataType
      \reimp
      \return a DOM representation of the content object attribute
     */
-    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
 
@@ -520,10 +518,10 @@ class eZImageType extends eZDataType
             $imageKey = md5( mt_rand() );
 
             $package->appendSimpleFile( $imageKey, $original['url'] );
-            $node->appendAttribute( eZDomDocument::createAttributeNode( 'image-file-key', $imageKey ) );
+            $node->setAttribute( 'image-file-key', $imageKey );
         }
 
-        $node->appendAttribute( eZDomDocument::createAttributeNode( 'alternative-text', $original['alternative_text'] ) );
+        $node->setAttribute( 'alternative-text', $original['alternative_text'] );
 
         return $node;
     }
@@ -532,20 +530,20 @@ class eZImageType extends eZDataType
      \reimp
      \param package
      \param contentobject attribute object
-     \param ezdomnode object
+     \param domnode object
     */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         // Remove all existing image data for the case this is a translated attribute,
         // so initial language's image alias will not be removed in 'initializeFromFile'
         $objectAttribute->setAttribute( 'data_text', '' );
 
-        $alternativeText = $attributeNode->attributeValue( 'alternative-text' );
+        $alternativeText = $attributeNode->getAttribute( 'alternative-text' );
         // Backwards compatability with older node name
         if ( $alternativeText === false )
-            $alternativeText = $attributeNode->attributeValue( 'alternativ-text' );
-        $content =& $objectAttribute->attribute( 'content' );
-        $imageFileKey = $attributeNode->attributeValue( 'image-file-key' );
+            $alternativeText = $attributeNode->getAttribute( 'alternativ-text' );
+        $content = $objectAttribute->attribute( 'content' );
+        $imageFileKey = $attributeNode->getAttribute( 'image-file-key' );
         if ( $imageFileKey )
         {
             $content->initializeFromFile( $package->simpleFilePath( $imageFileKey ), $alternativeText );
@@ -568,16 +566,16 @@ class eZImageType extends eZDataType
         return $original['url'];
     }
 
-    function fromString( &$objectAttribute, $string )
+    function fromString( $objectAttribute, $string )
     {
-        $content =& $objectAttribute->attribute( 'content' );
-        $content->initializeFromFile(  $string, "" );
+        $content = $objectAttribute->attribute( 'content' );
+        $content->initializeFromFile( $string, "" );
         $content->store( $objectAttribute );
         return true;
     }
 
 }
 
-eZDataType::register( EZ_DATATYPESTRING_IMAGE, "ezimagetype" );
+eZDataType::register( eZImageType::DATA_TYPE_STRING, "eZImageType" );
 
 ?>

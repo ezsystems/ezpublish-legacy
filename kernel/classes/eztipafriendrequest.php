@@ -37,7 +37,7 @@
   \brief The class eZTipafriendRequest does
 
 */
-include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( "lib/ezdb/classes/ezdb.php" );
 
 class eZTipafriendRequest extends eZPersistentObject
 {
@@ -49,7 +49,7 @@ class eZTipafriendRequest extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( 'email_receiver' => array( 'name' => 'EmailReceiver',
                                                                     'datatype' => 'string',

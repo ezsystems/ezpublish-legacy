@@ -34,9 +34,9 @@
 
 */
 
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "kernel/classes/ezpersistentobject.php" );
-include_once( "kernel/classes/ezworkflowtype.php" );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezworkflowtype.php" );
 
 class eZWorkflowEvent extends eZPersistentObject
 {
@@ -46,7 +46,7 @@ class eZWorkflowEvent extends eZPersistentObject
         $this->Content = null;
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -116,7 +116,7 @@ class eZWorkflowEvent extends eZPersistentObject
                       "name" => "ezworkflow_event" );
     }
 
-    function create( $workflow_id, $type_string )
+    static function create( $workflow_id, $type_string )
     {
         $row = array(
             "id" => null,
@@ -131,7 +131,7 @@ class eZWorkflowEvent extends eZPersistentObject
         return new eZWorkflowEvent( $row );
     }
 
-    function fetch( $id, $asObject = true, $version = 0, $field_filters = null )
+    static function fetch( $id, $asObject = true, $version = 0, $field_filters = null )
     {
         return eZPersistentObject::fetchObject( eZWorkflowEvent::definition(),
                                                 $field_filters,
@@ -140,15 +140,14 @@ class eZWorkflowEvent extends eZPersistentObject
                                                 $asObject );
     }
 
-    function &fetchList( $asObject = true )
+    static function fetchList( $asObject = true )
     {
-        $objectList = eZPersistentObject::fetchObjectList( eZWorkflowEvent::definition(),
-                                                            null, null, null, null,
-                                                            $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZWorkflowEvent::definition(),
+                                                    null, null, null, null,
+                                                    $asObject );
     }
 
-    function fetchFilteredList( $cond, $asObject = true )
+    static function fetchFilteredList( $cond, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZWorkflowEvent::definition(),
                                                     null, $cond, null, null,
@@ -182,34 +181,32 @@ class eZWorkflowEvent extends eZPersistentObject
 
     function attributes()
     {
-        $eventType =& $this->eventType();
-        return array_merge( eZPersistentObject::attributes(), $eventType->typeFunctionalAttributes() );
+        return array_merge( eZPersistentObject::attributes(), $this->eventType()->typeFunctionalAttributes() );
     }
 
     function hasAttribute( $attr )
     {
-        $eventType =& $this->eventType();
+        $eventType = $this->eventType();
         return eZPersistentObject::hasAttribute( $attr ) or
                in_array( $attr, $eventType->typeFunctionalAttributes() );
     }
 
-    function &attribute( $attr )
+    function attribute( $attr, $noFunction = false )
     {
-        $eventType =& $this->eventType();
+        $eventType = $this->eventType();
         if ( is_object( $eventType ) and in_array( $attr, $eventType->typeFunctionalAttributes( ) ) )
         {
-            $attributeDecoder =& $eventType->attributeDecoder( $this, $attr );
-            return $attributeDecoder;
+            return $eventType->attributeDecoder( $this, $attr );
         }
-        else
-            return eZPersistentObject::attribute( $attr );
+
+        return eZPersistentObject::attribute( $attr );
     }
 
-    function &eventType()
+    function eventType()
     {
-        if ( ! isset (  $this->EventType ) )
+        if ( ! isset( $this->EventType ) )
         {
-            $this->EventType =& eZWorkflowType::createType( $this->TypeString );
+            $this->EventType = eZWorkflowType::createType( $this->TypeString );
         }
         return $this->EventType;
     }
@@ -217,12 +214,12 @@ class eZWorkflowEvent extends eZPersistentObject
     /*!
      Returns the content for this event.
     */
-    function &content()
+    function content()
     {
         if ( $this->Content === null )
         {
-            $eventType =& $this->eventType();
-            $this->Content =& $eventType->workflowEventContent( $this );
+            $eventType = $this->eventType();
+            $this->Content = $eventType->workflowEventContent( $this );
         }
 
         return $this->Content;
@@ -233,16 +230,16 @@ class eZWorkflowEvent extends eZPersistentObject
     */
     function setContent( $content )
     {
-        $this->Content =& $content;
+        $this->Content = $content;
     }
 
 
     /*!
      Executes the custom HTTP action
     */
-    function customHTTPAction( &$http, $action )
+    function customHTTPAction( $http, $action )
     {
-        $eventType =& $this->eventType();
+        $eventType = $this->eventType();
         $eventType->customWorkflowEventHTTPAction( $http, $action, $this );
     }
 
@@ -250,13 +247,13 @@ class eZWorkflowEvent extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function store()
+    function store( $fieldFilters = null )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
-        $stored = eZPersistentObject::store();
+        $stored = eZPersistentObject::store( $fieldFilters );
 
-        $eventType =& $this->eventType();
+        $eventType = $this->eventType();
         $eventType->storeEventData( $this, $this->attribute( 'version' ) );
         $db->commit();
 
@@ -264,21 +261,21 @@ class eZWorkflowEvent extends eZPersistentObject
     }
 
     /// \privatesection
-    var $ID;
-    var $Version;
-    var $WorkflowID;
-    var $TypeString;
-    var $Description;
-    var $Placement;
-    var $DataInt1;
-    var $DataInt2;
-    var $DataInt3;
-    var $DataInt4;
-    var $DataText1;
-    var $DataText2;
-    var $DataText3;
-    var $DataText4;
-    var $Content;
+    public $ID;
+    public $Version;
+    public $WorkflowID;
+    public $TypeString;
+    public $Description;
+    public $Placement;
+    public $DataInt1;
+    public $DataInt2;
+    public $DataInt3;
+    public $DataInt4;
+    public $DataText1;
+    public $DataText2;
+    public $DataText3;
+    public $DataText4;
+    public $Content;
 }
 
 ?>

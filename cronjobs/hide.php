@@ -29,10 +29,10 @@
 /*! \file hide.php
 */
 
-include_once( "kernel/classes/ezcontentobjecttreenode.php" );
-include_once( "lib/ezutils/classes/ezini.php" );
+//include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+//include_once( "lib/ezutils/classes/ezini.php" );
 
-$ini =& eZINI::instance( 'content.ini' );
+$ini = eZINI::instance( 'content.ini' );
 $rootNodeIDList = $ini->variable( 'HideSettings','RootNodeList' );
 $hideAttributeArray = $ini->variable( 'HideSettings', 'HideDateAttributeList' );
 $hideClasses = array_keys( $hideAttributeArray );
@@ -48,10 +48,10 @@ foreach( $rootNodeIDList as $nodeID )
 
     while( true )
     {
-        $nodeArray =& $rootNode->subTree( array( 'ClassFilterType' => 'include',
-                                                 'ClassFilterArray' => $hideClasses,
-                                                 'Offset' => $offset,
-                                                 'Limit' => $limit ) );
+        $nodeArray = $rootNode->subTree( array( 'ClassFilterType' => 'include',
+                                                'ClassFilterArray' => $hideClasses,
+                                                'Offset' => $offset,
+                                                'Limit' => $limit ) );
         if ( !$nodeArray ||
              count( $nodeArray ) == 0 )
         {
@@ -60,10 +60,9 @@ foreach( $rootNodeIDList as $nodeID )
 
         $offset += $limit;
 
-        foreach ( array_keys( $nodeArray ) as $key )
+        foreach ( $nodeArray as $node )
         {
-            $node =& $nodeArray[$key];
-            $dataMap =& $node->attribute( 'data_map' );
+            $dataMap = $node->attribute( 'data_map' );
 
             $dateAttributeName = $hideAttributeArray[$node->attribute( 'class_identifier' )];
 
@@ -72,7 +71,7 @@ foreach( $rootNodeIDList as $nodeID )
                 continue;
             }
 
-            $dateAttribute =& $dataMap[$dateAttributeName];
+            $dateAttribute = $dataMap[$dateAttributeName];
 
             if ( is_null( $dateAttribute ) || !$dateAttribute->hasContent() )
             {

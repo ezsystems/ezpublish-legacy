@@ -106,7 +106,7 @@ class eZTemplateLogicOperator
     /*!
      Returns the operators in this class.
     */
-    function &operatorList()
+    function operatorList()
     {
         return $this->Operators;
     }
@@ -253,8 +253,8 @@ class eZTemplateLogicOperator
     }
 
 
-    function logicalComparisonTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                               &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function logicalComparisonTransformation( $operatorName, &$node, $tpl, &$resourceData,
+                                               $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $function = $operatorName;
@@ -497,8 +497,8 @@ class eZTemplateLogicOperator
         return $newElements;
     }
 
-    function negateTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                   &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function negateTransformation( $operatorName, &$node, $tpl, &$resourceData,
+                                   $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $function = $operatorName;
@@ -516,8 +516,8 @@ class eZTemplateLogicOperator
         return $newElements;
     }
 
-    function trueFalseTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                      &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function trueFalseTransformation( $operatorName, &$node, $tpl, &$resourceData,
+                                      $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         if ( ( count( $parameters ) != 0 ) )
@@ -533,8 +533,8 @@ class eZTemplateLogicOperator
         return $newElements;
     }
 
-    function chooseTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                   &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function chooseTransformation( $operatorName, &$node, $tpl, &$resourceData,
+                                   $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $function = $operatorName;
@@ -648,7 +648,7 @@ class eZTemplateLogicOperator
     /*!
      Examines the input value and outputs a boolean value. See class documentation for more information.
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value, &$namedParameters,
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$value, $namedParameters,
                      $placement )
     {
         if ( $operatorName == $this->LtName or $operatorName == $this->GtName or
@@ -675,17 +675,17 @@ class eZTemplateLogicOperator
                 {
                     if ( count( $operatorParameters ) == 1 )
                     {
-                        $lastOperand =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
+                        $lastOperand = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
                         $value = ( $lastOperand != $value );
                     }
                     else
                     {
                         $similar = false;
                         $value = false;
-                        $lastOperand =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
+                        $lastOperand = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
                         for ( $i = 1; $i < count( $operatorParameters ); ++$i )
                         {
-                            $operand =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
+                            $operand = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
                             if ( $operand != $lastOperand )
                             {
                                 $value = true;
@@ -708,17 +708,17 @@ class eZTemplateLogicOperator
                 {
                     if ( count( $operatorParameters ) == 1 )
                     {
-                        $lastOperand =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
+                        $lastOperand = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
                         $value = ( $lastOperand == $value );
                     }
                     else
                     {
                         $similar = false;
                         $value = true;
-                        $lastOperand =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
+                        $lastOperand = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
                         for ( $i = 1; $i < count( $operatorParameters ); ++$i )
                         {
-                            $operand =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
+                            $operand = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
                             if ( $operand != $lastOperand )
                             {
                                 $value = false;
@@ -884,33 +884,33 @@ class eZTemplateLogicOperator
 
     /// \privatesection
     /// The array of operators
-    var $Operators;
+    public $Operators;
     /// The "less than" name
-    var $LtName;
+    public $LtName;
     /// The "greater than" name
-    var $GtName;
+    public $GtName;
     /// The "less than or equal" name
-    var $LeName;
+    public $LeName;
     /// The "greater than or equal" name
-    var $GeName;
+    public $GeName;
     /// The "equal" name
-    var $EqName;
+    public $EqName;
     /// The "not equal" name
-    var $NeName;
+    public $NeName;
     /// The "null" name
-    var $NullName;
+    public $NullName;
     /// The "not" name
-    var $NotName;
+    public $NotName;
     /// The "or" name
-    var $OrName;
+    public $OrName;
     /// The "and" name
-    var $AndName;
+    public $AndName;
     /// The "true" name
-    var $TrueName;
+    public $TrueName;
     /// The "false" name
-    var $FalseName;
+    public $FalseName;
     /// The "choose" name
-    var $ChooseName;
+    public $ChooseName;
 };
 
 ?>

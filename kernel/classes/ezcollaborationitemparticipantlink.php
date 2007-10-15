@@ -37,25 +37,25 @@
 
 */
 
-define( "EZ_COLLABORATION_PARTICIPANT_TYPE_USER", 1 );
-define( "EZ_COLLABORATION_PARTICIPANT_TYPE_USERGROUP", 2 );
-
-// Everything from 1024 and above is considered custom and is specific per collaboration handler.
-define( "EZ_COLLABORATION_PARTICIPANT_TYPE_CUSTOM", 1024 );
-
-define( "EZ_COLLABORATION_PARTICIPANT_ROLE_STANDARD", 1 );
-define( "EZ_COLLABORATION_PARTICIPANT_ROLE_OBSERVER", 2 );
-define( "EZ_COLLABORATION_PARTICIPANT_ROLE_OWNER", 3 );
-define( "EZ_COLLABORATION_PARTICIPANT_ROLE_APPROVER", 4 );
-define( "EZ_COLLABORATION_PARTICIPANT_ROLE_AUTHOR", 5 );
-
-// Everything from 1024 and above is considered custom and is specific per collaboration handler.
-define( "EZ_COLLABORATION_PARTICIPANT_ROLE_CUSTOM", 1024 );
-
-include_once( 'kernel/classes/ezpersistentobject.php' );
+//include_once( 'kernel/classes/ezpersistentobject.php' );
 
 class eZCollaborationItemParticipantLink extends eZPersistentObject
 {
+    const TYPE_USER = 1;
+    const TYPE_USERGROUP = 2;
+
+    // Everything from 1024 and above is considered custom and is specific per collaboration handler.
+    const TYPE_CUSTOM = 1024;
+
+    const ROLE_STANDARD = 1;
+    const ROLE_OBSERVER = 2;
+    const ROLE_OWNER = 3;
+    const ROLE_APPROVER = 4;
+    const ROLE_AUTHOR = 5;
+
+    // Everything from 1024 and above is considered custom and is specific per collaboration handler.
+    const ROLE_CUSTOM = 1024;
+
     /*!
      Constructor
     */
@@ -64,7 +64,7 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'collaboration_id' => array( 'name' => 'CollaborationID',
                                                                       'datatype' => 'integer',
@@ -111,8 +111,8 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
                       'name' => 'ezcollab_item_participant_link' );
     }
 
-    function &create( $collaborationID, $participantID,
-                      $participantRole = EZ_COLLABORATION_PARTICIPANT_ROLE_STANDARD, $participantType = EZ_COLLABORATION_PARTICIPANT_TYPE_USER )
+    static function create( $collaborationID, $participantID,
+                      $participantRole = self::ROLE_STANDARD, $participantType = self::TYPE_USER )
     {
         $dateTime = time();
         $row = array(   'collaboration_id' => $collaborationID,
@@ -121,50 +121,49 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
                         'participant_type' => $participantType,
                         'created' => $dateTime,
                         'modified' => $dateTime );
-        $newCollaborationItemParticipantLink = new eZCollaborationItemParticipantLink( $row );
-        return $newCollaborationItemParticipantLink;
+        return new eZCollaborationItemParticipantLink( $row );
     }
 
     /*!
      \note transaction unsafe
      */
-    function setLastRead( $collaborationID, $userID = false, $timestamp = false )
+    static function setLastRead( $collaborationID, $userID = false, $timestamp = false )
     {
         if ( $userID === false )
         {
-            include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+            //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
             $userID = eZUser::currentUserID();
         }
         if ( $timestamp === false )
         {
             $timestamp = time();
         }
-        include_once( 'lib/ezdb/classes/ezdb.php' );
-        $db =& eZDB::instance();
+        //include_once( 'lib/ezdb/classes/ezdb.php' );
+        $db = eZDB::instance();
         $userID = (int) $userID;
         $timestamp = (int) $timestamp;
         $sql = "UPDATE ezcollab_item_participant_link set last_read='$timestamp'
                 WHERE  collaboration_id='$collaborationID' AND participant_id='$userID'";
         $db->query( $sql );
-        $collabLink =& $GLOBALS["eZCollaborationItemParticipantLinkCache"][$collaborationID][$userID];
-        if ( isset( $collabLink ) )
-            $collabLink->setAttribute( 'last_read', $timestamp );
+        if ( !empty( $GLOBALS["eZCollaborationItemParticipantLinkCache"][$collaborationID][$userID] ) )
+            $GLOBALS["eZCollaborationItemParticipantLinkCache"][$collaborationID][$userID]->setAttribute( 'last_read', $timestamp );
     }
 
-    function &fetch( $collaborationID, $participantID, $asObject = true )
+    static function fetch( $collaborationID, $participantID, $asObject = true )
     {
-        $collabLink =& $GLOBALS["eZCollaborationItemParticipantLinkCache"][$collaborationID][$participantID];
-        if ( isset( $collabLink ) )
-            return $collabLink;
-        $collabLink = eZPersistentObject::fetchObject( eZCollaborationItemParticipantLink::definition(),
-                                                       null,
-                                                       array( "collaboration_id" => $collaborationID,
-                                                              'participant_id' => $participantID ),
-                                                       $asObject );
-        return $collabLink;
+        if ( empty( $GLOBALS["eZCollaborationItemParticipantLinkCache"][$collaborationID][$participantID] ) )
+        {
+            $GLOBALS["eZCollaborationItemParticipantLinkCache"][$collaborationID][$participantID] =
+                eZPersistentObject::fetchObject( eZCollaborationItemParticipantLink::definition(),
+                                                 null,
+                                                 array( "collaboration_id" => $collaborationID,
+                                                        'participant_id' => $participantID ),
+                                                 $asObject );
+        }
+        return $GLOBALS["eZCollaborationItemParticipantLinkCache"][$collaborationID][$participantID];
     }
 
-    function &fetchParticipantList( $parameters = array() )
+    static function fetchParticipantList( $parameters = array() )
     {
         $parameters = array_merge( array( 'as_object' => true,
                                           'item_id' => false,
@@ -179,9 +178,10 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
         $linkList = null;
         if ( !$offset and !$limit )
         {
-            $linkList =& $GLOBALS['eZCollaborationItemParticipantLinkListCache'];
-            if ( isset( $linkList ) )
-                return $linkList;
+            if ( !empty( $GLOBALS['eZCollaborationItemParticipantLinkListCache'] ) )
+            {
+                return $GLOBALS['eZCollaborationItemParticipantLinkListCache'];
+            }
         }
         $limitArray = null;
         if ( $offset and $limit )
@@ -191,37 +191,40 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
                                                           array( "collaboration_id" => $itemID ),
                                                           null, $limitArray,
                                                           $asObject );
-        for ( $i = 0; $i < count( $linkList ); ++$i )
+        foreach( $linkList as $linkItem )
         {
-            $linkItem =& $linkList[$i];
             if ( $asObject )
-                $participantID =& $linkItem->attribute( 'participant_id' );
+            {
+                $participantID = $linkItem->attribute( 'participant_id' );
+            }
             else
-                $participantID =& $linkItem['participant_id'];
-            if ( !isset( $GLOBALS["eZCollaborationItemParticipantLinkCache"][$itemID][$participantID] ) )
-                $GLOBALS["eZCollaborationItemParticipantLinkCache"][$itemID][$participantID] =& $linkList[$i];
+            {
+                $participantID = $linkItem['participant_id'];
+            }
+            if ( empty( $GLOBALS["eZCollaborationItemParticipantLinkCache"][$itemID][$participantID] ) )
+            {
+                $GLOBALS["eZCollaborationItemParticipantLinkCache"][$itemID][$participantID] = $linkItem;
+            }
         }
-        return $linkList;
+        return $GLOBALS['eZCollaborationItemParticipantLinkListCache'] = $linkList;
     }
 
-    function &fetchParticipantMap( $originalParameters = array() )
+    static function fetchParticipantMap( $originalParameters = array() )
     {
         $parameters = array_merge( array( 'sort_field' => 'role' ),
                                    $originalParameters );
         $itemID = $parameters['item_id'];
         $sortField = $parameters['sort_field'];
-        $list =& eZCollaborationItemParticipantLink::fetchParticipantList( $originalParameters );
+        $list = eZCollaborationItemParticipantLink::fetchParticipantList( $originalParameters );
         if ( $list === null )
         {
             $listMap = null;
             return $listMap;
         }
 
-        $listKeys = array_keys( $list );
         $listMap = array();
-        foreach ( $listKeys as $listKey )
+        foreach ( $list as $listItem )
         {
-            $listItem =& $list[$listKey];
             $sortKey = null;
             if ( $sortField == 'role' )
             {
@@ -238,149 +241,133 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
                     $listMap[$sortKey] = array( 'name' => $sortName,
                                                 'items' => array() );
                 }
-                $listMap[$sortKey]['items'][] =& $listItem;
+                $listMap[$sortKey]['items'][] = $listItem;
             }
         }
         return $listMap;
     }
 
-    function &typeString( $participantType )
+    static function typeString( $participantType )
     {
-        $typeMap =& $GLOBALS['eZCollaborationParticipantTypeMap'];
-        if ( !isset( $typeMap ) )
+        if ( !isset( $GLOBALS['eZCollaborationParticipantTypeMap'] ) )
         {
-            $typeMap = array( EZ_COLLABORATION_PARTICIPANT_TYPE_USER => 'user',
-                              EZ_COLLABORATION_PARTICIPANT_TYPE_USERGROUP => 'usergroup' );
+            $GLOBALS['eZCollaborationParticipantTypeMap'] = array( self::TYPE_USER => 'user',
+                                                                   self::TYPE_USERGROUP => 'usergroup' );
         }
-        if ( isset( $typeMap[$participantType] ) )
-            $retString = $typeMap[$participantType];
-        else
-            $retString = null;
-        return $retString;
+        if ( isset( $GLOBALS['eZCollaborationParticipantTypeMap'][$participantType] ) )
+        {
+            return $GLOBALS['eZCollaborationParticipantTypeMap'][$participantType];
+        }
+        return null;
     }
 
-    function &roleString( $participantRole )
+    static function roleString( $participantRole )
     {
-        $roleMap =& $GLOBALS['eZCollaborationParticipantRoleMap'];
-        if ( !isset( $roleMap ) )
+        if ( empty( $GLOBALS['eZCollaborationParticipantRoleMap'] ) )
         {
-            $roleMap = array( EZ_COLLABORATION_PARTICIPANT_ROLE_STANDARD => 'standard',
-                              EZ_COLLABORATION_PARTICIPANT_ROLE_OBSERVER => 'observer',
-                              EZ_COLLABORATION_PARTICIPANT_ROLE_OWNER => 'owner',
-                              EZ_COLLABORATION_PARTICIPANT_ROLE_APPROVER => 'approver',
-                              EZ_COLLABORATION_PARTICIPANT_ROLE_AUTHOR => 'author' );
+            $GLOBALS['eZCollaborationParticipantRoleMap'] =
+                array( self::ROLE_STANDARD => 'standard',
+                       self::ROLE_OBSERVER => 'observer',
+                       self::ROLE_OWNER => 'owner',
+                       self::ROLE_APPROVER => 'approver',
+                       self::ROLE_AUTHOR => 'author' );
         }
+        $roleMap = $GLOBALS['eZCollaborationParticipantRoleMap'];
         if ( isset( $roleMap[$participantRole] ) )
-            $retString = $roleMap[$participantRole];
-        else
-            $retString = null;
-        return $retString;
+        {
+            return $roleMap[$participantRole];
+        }
+
+        return null;
     }
 
-    function &roleName( $collaborationID, $roleID )
+    static function roleName( $collaborationID, $roleID )
     {
-        if ( $roleID < EZ_COLLABORATION_PARTICIPANT_TYPE_CUSTOM )
+        if ( $roleID < self::TYPE_CUSTOM )
         {
-            $roleNameMap =& $GLOBALS['eZCollaborationParticipantRoleNameMap'];
-            if ( !isset( $roleNameMap ) )
+            if ( empty( $GLOBALS['eZCollaborationParticipantRoleNameMap'] ) )
             {
-                include_once( 'kernel/common/i18n.php' );
-                $roleNameMap = array( EZ_COLLABORATION_PARTICIPANT_ROLE_STANDARD => ezi18n( 'kernel/classes', 'Standard' ),
-                                      EZ_COLLABORATION_PARTICIPANT_ROLE_OBSERVER => ezi18n( 'kernel/classes', 'Observer' ),
-                                      EZ_COLLABORATION_PARTICIPANT_ROLE_OWNER => ezi18n( 'kernel/classes', 'Owner' ),
-                                      EZ_COLLABORATION_PARTICIPANT_ROLE_APPROVER => ezi18n( 'kernel/classes', 'Approver' ),
-                                      EZ_COLLABORATION_PARTICIPANT_ROLE_AUTHOR => ezi18n( 'kernel/classes', 'Author' ) );
+                require_once( 'kernel/common/i18n.php' );
+                $GLOBALS['eZCollaborationParticipantRoleNameMap'] =
+                    array( self::ROLE_STANDARD => ezi18n( 'kernel/classes', 'Standard' ),
+                           self::ROLE_OBSERVER => ezi18n( 'kernel/classes', 'Observer' ),
+                           self::ROLE_OWNER => ezi18n( 'kernel/classes', 'Owner' ),
+                           self::ROLE_APPROVER => ezi18n( 'kernel/classes', 'Approver' ),
+                           self::ROLE_AUTHOR => ezi18n( 'kernel/classes', 'Author' ) );
             }
+            $roleNameMap = $GLOBALS['eZCollaborationParticipantRoleNameMap'];
             if ( isset( $roleNameMap[$roleID] ) )
-                $retRoleName = $roleNameMap[$roleID];
-            else
-                $retRoleName = null;
+            {
+                return $roleNameMap[$roleID];
+            }
+            return null;
         }
-        else
-        {
-            $item = eZCollaborationItem::fetch( $collaborationID );
-            $itemHandler =& $item->handler();
-            $retRoleName = $itemHandler->roleName( $collaborationID, $roleID );
-        }
-        return $retRoleName;
+
+        $item = eZCollaborationItem::fetch( $collaborationID );
+        return $item->handler()->roleName( $collaborationID, $roleID );
     }
 
-    function &collaborationItem()
+    function collaborationItem()
     {
-        include_once( 'kernel/classes/ezcollaborationitem.php' );
+        //include_once( 'kernel/classes/ezcollaborationitem.php' );
+        return eZCollaborationItem::fetch( $this->CollaborationID );
+    }
+
+    function participant()
+    {
+        if ( $this->ParticipantType == self::TYPE_USER )
+        {
+            //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+            return eZUser::fetch( $this->ParticipantID );
+        }
+        else if ( $this->ParticipantType == self::TYPE_USERGROUP )
+        {
+            //include_once( 'kernel/classes/ezcontentobject.php' );
+            return eZContentObject::fetch( $this->ParticipantID );
+        }
+        return null;
+    }
+
+    function participantTypeString()
+    {
+        if ( $this->ParticipantType < self::TYPE_CUSTOM )
+        {
+            return  eZCollaborationItemParticipantLink::typeString( $this->ParticipantType );
+        }
+
         $item = eZCollaborationItem::fetch( $this->CollaborationID );
-        return $item;
+        return $item->attribute( 'type_identifier' ) . '_' . $item->handler()->participantTypeString( $this->ParticipantType );
     }
 
-    function &participant()
+    function participantRoleString()
     {
-        if ( $this->ParticipantType == EZ_COLLABORATION_PARTICIPANT_TYPE_USER )
+        if ( $this->ParticipantRole < self::ROLE_CUSTOM )
         {
-            include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-            $participant = eZUser::fetch( $this->ParticipantID );
+            return  eZCollaborationItemParticipantLink::roleString( $this->ParticipantRole );
         }
-        else if ( $this->ParticipantType == EZ_COLLABORATION_PARTICIPANT_TYPE_USERGROUP )
-        {
-            include_once( 'kernel/classes/ezcontentobject.php' );
-            $participant =& eZContentObject::fetch( $this->ParticipantID );
-        }
-        else
-        {
-            $participant = null;
-        }
-        return $participant;
+
+        $item = eZCollaborationItem::fetch( $this->CollaborationID );
+        return $item->attribute( 'type_identifier' ) . '_' . $item->handler()->participantRoleString( $this->ParticipantRole );
     }
 
-    function &participantTypeString()
+    function isBuiltinType()
     {
-        if ( $this->ParticipantType < EZ_COLLABORATION_PARTICIPANT_TYPE_CUSTOM )
-        {
-            $typeString =& eZCollaborationItemParticipantLink::typeString( $this->ParticipantType );
-        }
-        else
-        {
-            $item = eZCollaborationItem::fetch( $this->CollaborationID );
-            $itemHandler =& $item->handler();
-            $typeString = $item->attribute( 'type_identifier' ) . '_' . $itemHandler->participantTypeString( $this->ParticipantType );
-        }
-        return $typeString;
+        return $this->ParticipantType < self::TYPE_CUSTOM;
     }
 
-    function &participantRoleString()
+    function isBuiltinRole()
     {
-        if ( $this->ParticipantRole < EZ_COLLABORATION_PARTICIPANT_ROLE_CUSTOM )
-        {
-            $roleString =& eZCollaborationItemParticipantLink::roleString( $this->ParticipantRole );
-        }
-        else
-        {
-            $item = eZCollaborationItem::fetch( $this->CollaborationID );
-            $itemHandler =& $item->handler();
-            $roleString = $item->attribute( 'type_identifier' ) . '_' . $itemHandler->participantRoleString( $this->ParticipantRole );
-        }
-        return $roleString;
-    }
-
-    function &isBuiltinType()
-    {
-        $isBuiltinType = $this->ParticipantType < EZ_COLLABORATION_PARTICIPANT_TYPE_CUSTOM;
-        return $isBuiltinType;
-    }
-
-    function &isBuiltinRole()
-    {
-        $isBuiltinRole = $this->ParticipantRole < EZ_COLLABORATION_PARTICIPANT_ROLE_CUSTOM;
-        return $isBuiltinRole;
+        return $this->ParticipantRole < self::ROLE_CUSTOM;
     }
 
     /// \privatesection
-    var $CollaborationID;
-    var $ParticipantID;
-    var $ParticipantType;
-    var $IsRead;
-    var $IsActive;
-    var $Created;
-    var $Modified;
+    public $CollaborationID;
+    public $ParticipantID;
+    public $ParticipantType;
+    public $IsRead;
+    public $IsActive;
+    public $Created;
+    public $Modified;
 }
 
 ?>

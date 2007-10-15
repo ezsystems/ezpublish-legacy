@@ -95,7 +95,7 @@ class eZTemplateOperatorElement
      Process the operator and sets $value.
 
     */
-    function process( &$tpl, &$value, $nspace, $current_nspace )
+    function process( $tpl, &$value, $nspace, $current_nspace )
     {
         $named_params = array();
         $param_list = $tpl->operatorParameterList( $this->Name );
@@ -137,11 +137,11 @@ class eZTemplateOperatorElement
     }
 
     /// The operator name
-    var $Name;
+    public $Name;
     /// The paramer array
-    var $Params;
-    var $Resource;
-    var $TemplateName;
+    public $Params;
+    public $Resource;
+    public $TemplateName;
 }
 
 ?>

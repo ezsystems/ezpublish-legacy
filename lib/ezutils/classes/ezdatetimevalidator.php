@@ -36,7 +36,7 @@
 
 */
 
-include_once( 'lib/ezutils/classes/ezinputvalidator.php' );
+//include_once( 'lib/ezutils/classes/ezinputvalidator.php' );
 
 class eZDateTimeValidator extends eZInputValidator
 {
@@ -47,7 +47,7 @@ class eZDateTimeValidator extends eZInputValidator
     {
     }
 
-    function validateDate( $day, $month, $year )
+    static function validateDate( $day, $month, $year )
     {
         $check = checkdate( $month, $day, $year );
         $datetime = mktime( 0, 0, 0, $month, $day, $year );
@@ -55,35 +55,35 @@ class eZDateTimeValidator extends eZInputValidator
              $year < 1970 or
              $datetime === false )
         {
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INVALID;
         }
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
-    function validateTime( $hour, $minute )
+    static function validateTime( $hour, $minute )
     {
         if( preg_match( '/\d+/', trim( $hour )   ) &&
             preg_match( '/\d+/', trim( $minute ) ) &&
             $hour >= 0 && $minute >= 0 &&
             $hour < 24 && $minute < 60 )
         {
-            return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            return eZInputValidator::STATE_ACCEPTED;
         }
-        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+        return eZInputValidator::STATE_INVALID;
     }
 
-    function validateDateTime( $day, $month, $year, $hour, $minute )
+    static function validateDateTime( $day, $month, $year, $hour, $minute )
     {
         $check = checkdate( $month, $day, $year );
         $datetime = mktime( $hour, $minute, 0, $month, $day, $year );
         if ( !$check or
              $year < 1970 or
              $datetime === false or
-             eZDateTimeValidator::validateTime( $hour, $minute ) == EZ_INPUT_VALIDATOR_STATE_INVALID )
+             eZDateTimeValidator::validateTime( $hour, $minute ) == eZInputValidator::STATE_INVALID )
         {
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INVALID;
         }
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /// \privatesection

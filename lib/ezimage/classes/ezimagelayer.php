@@ -38,7 +38,7 @@
 
 */
 
-include_once( 'lib/ezimage/classes/ezimageinterface.php' );
+//include_once( 'lib/ezimage/classes/ezimageinterface.php' );
 
 class eZImageLayer extends eZImageInterface
 {
@@ -89,7 +89,7 @@ class eZImageLayer extends eZImageInterface
             $destinationImageObject = $image->imageObjectInternal( false );
             if ( $destinationImageObject === null )
             {
-                $image->clone( $this );
+                $image = clone $this;
             }
             else
             {
@@ -121,7 +121,7 @@ class eZImageLayer extends eZImageInterface
     }
 
     /// \privatesection
-    var $TemplateURI;
+    public $TemplateURI;
 }
 
 ?>

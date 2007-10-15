@@ -39,7 +39,7 @@
    http://www.php.net/manual/en/ref.zlib.php
 */
 
-include_once( 'lib/ezfile/classes/ezcompressionhandler.php' );
+//include_once( 'lib/ezfile/classes/ezcompressionhandler.php' );
 
 class eZGZIPZLIBCompressionHandler extends eZCompressionHandler
 {
@@ -75,7 +75,7 @@ class eZGZIPZLIBCompressionHandler extends eZCompressionHandler
      \return true if this handler can be used.
      This function checks if the zlib extension is available.
     */
-    function isAvailable()
+    static function isAvailable()
     {
         $extensionName = 'zlib';
         if ( !extension_loaded( $extensionName ) )
@@ -177,7 +177,7 @@ class eZGZIPZLIBCompressionHandler extends eZCompressionHandler
     /*!
      \reimp
     */
-    function doPasstrough( $closeFile)
+    function doPasstrough( $closeFile = true )
     {
         $result = @gzpasstru( $this->File );
         if ( !$closeFile )
@@ -224,9 +224,9 @@ class eZGZIPZLIBCompressionHandler extends eZCompressionHandler
 
     /// \privatesection
     /// File pointer, returned by gzopen
-    var $File;
+    public $File;
     /// The compression level
-    var $Level;
+    public $Level;
 }
 
 ?>

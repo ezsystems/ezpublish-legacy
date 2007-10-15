@@ -38,36 +38,32 @@
   \sa eZDB
 */
 
-include_once( "lib/ezutils/classes/ezdebug.php" );
-include_once( "lib/ezutils/classes/ezini.php" );
-
-define( 'EZ_DB_BINDING_NO', 0 );
-define( 'EZ_DB_BINDING_NAME', 1 );
-define( 'EZ_DB_BINDING_ORDERED', 2 );
-
-define( 'EZ_DB_RELATION_TABLE', 0 );
-define( 'EZ_DB_RELATION_SEQUENCE', 1 );
-define( 'EZ_DB_RELATION_TRIGGER', 2 );
-define( 'EZ_DB_RELATION_VIEW', 3 );
-define( 'EZ_DB_RELATION_INDEX', 4 );
-
-define( 'EZ_DB_RELATION_TABLE_BIT', (1 << EZ_DB_RELATION_TABLE) );
-define( 'EZ_DB_RELATION_SEQUENCE_BIT', (1 << EZ_DB_RELATION_SEQUENCE) );
-define( 'EZ_DB_RELATION_TRIGGER_BIT', (1 << EZ_DB_RELATION_TRIGGER) );
-define( 'EZ_DB_RELATION_VIEW_BIT', (1 << EZ_DB_RELATION_VIEW) );
-define( 'EZ_DB_RELATION_INDEX_BIT', (1 << EZ_DB_RELATION_INDEX) );
-
-define( 'EZ_DB_RELATION_NONE', 0 );
-define( 'EZ_DB_RELATION_MASK', ( EZ_DB_RELATION_TABLE_BIT |
-                                 EZ_DB_RELATION_SEQUENCE_BIT |
-                                 EZ_DB_RELATION_TRIGGER_BIT |
-                                 EZ_DB_RELATION_VIEW_BIT |
-                                 EZ_DB_RELATION_INDEX_BIT ) );
-
-define( 'EZ_DB_ERROR_MISSING_EXTENSION', 1 );
+require_once( "lib/ezutils/classes/ezdebug.php" );
+//include_once( "lib/ezutils/classes/ezini.php" );
 
 class eZDBInterface
 {
+    const BINDING_NO = 0;
+    const BINDING_NAME = 1;
+    const BINDING_ORDERED = 2;
+
+    const RELATION_TABLE = 0;
+    const RELATION_SEQUENCE = 1;
+    const RELATION_TRIGGER = 2;
+    const RELATION_VIEW = 3;
+    const RELATION_INDEX = 4;
+
+    const RELATION_TABLE_BIT = 1;
+    const RELATION_SEQUENCE_BIT = 2;
+    const RELATION_TRIGGER_BIT = 4;
+    const RELATION_VIEW_BIT = 8;
+    const RELATION_INDEX_BIT = 16;
+
+    const RELATION_NONE = 0;
+    const RELATION_MASK = 31;
+
+    const ERROR_MISSING_EXTENSION = 1;
+
     /*!
       Create a new eZDBInterface object and connects to the database backend.
     */
@@ -125,9 +121,9 @@ class eZDBInterface
         else
 */
         {
-            include_once( "lib/ezi18n/classes/eztextcodec.php" );
-            $tmpOutputTextCodec =& eZTextCodec::instance( $charset, false, false );
-            $tmpInputTextCodec =& eZTextCodec::instance( false, $charset, false );
+            //include_once( "lib/ezi18n/classes/eztextcodec.php" );
+            $tmpOutputTextCodec = eZTextCodec::instance( $charset, false, false );
+            $tmpInputTextCodec = eZTextCodec::instance( false, $charset, false );
             unset( $this->OutputTextCodec );
             unset( $this->InputTextCodec );
             $this->OutputTextCodec = null;
@@ -145,7 +141,7 @@ class eZDBInterface
 
         $this->OutputSQL = false;
         $this->SlowSQLTimeout = 0;
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         if ( ( $ini->variable( "DatabaseSettings", "SQLOutput" ) == "enabled" ) and
              ( $ini->variable( "DebugSettings", "DebugOutput" ) == "enabled" ) )
         {
@@ -210,7 +206,7 @@ class eZDBInterface
     /*!
      \return the value of the attribute \a $name if it exists, otherwise \c null.
     */
-    function &attribute( $name )
+    function attribute( $name )
     {
         if ( isset( $this->AttributeVariableMap[$name] ) )
         {
@@ -220,8 +216,7 @@ class eZDBInterface
         else
         {
             eZDebug::writeError( "Attribute '$name' does not exist", 'eZDBInterface::attribute' );
-            $retValue = null;
-            return $retValue;
+            return null;
         }
     }
 
@@ -300,7 +295,7 @@ class eZDBInterface
     {
         $type = $this->databaseName();
 
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        //include_once( 'lib/ezfile/classes/ezdir.php' );
         if ( $usePathType )
             $sqlFileName = eZDir::path( array( $path, $type, $sqlFile ) );
         else
@@ -457,7 +452,7 @@ class eZDBInterface
     */
     function supportedRelationTypeMask()
     {
-        return EZ_DB_RELATION_NONE;
+        return eZDBInterface::RELATION_NONE;
     }
 
     /*!
@@ -608,7 +603,7 @@ class eZDBInterface
     */
     function begin()
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         if ($ini->variable( "DatabaseSettings", "Transactions" ) == "enabled")
         {
             if ( $this->TransactionCounter > 0 )
@@ -681,7 +676,7 @@ class eZDBInterface
     */
     function commit()
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         if ($ini->variable( "DatabaseSettings", "Transactions" ) == "enabled")
         {
             if ( $this->TransactionCounter <= 0 )
@@ -761,7 +756,7 @@ class eZDBInterface
             // All transactions were rollbacked, reset the tree.
             $this->TransactionStackTree = array();
         }
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         if ($ini->variable( "DatabaseSettings", "Transactions" ) == "enabled")
         {
             if ( $this->TransactionCounter <= 0 )
@@ -927,7 +922,7 @@ class eZDBInterface
             $this->invalidateTransaction();
 
             // This is the unique ID for this incidence which will also be placed in the error logs.
-            $transID = 'TRANSID-' . md5( mktime() . mt_rand() );
+            $transID = 'TRANSID-' . md5( time() . mt_rand() );
 
             eZDebug::writeError( 'Transaction in progress failed due to DB error, transaction was rollbacked. Transaction ID is ' . $transID . '.', 'eZDBInterface::commit ' . $transID );
 
@@ -938,16 +933,16 @@ class eZDBInterface
             $this->RecordError = $oldRecordError;
 
             // Stop execution immediately while allowing other systems (session etc.) to cleanup
-            include_once( 'lib/ezutils/classes/ezexecution.php' );
+            require_once( 'lib/ezutils/classes/ezexecution.php' );
             eZExecution::cleanup();
             eZExecution::setCleanExit();
 
             // Give some feedback, and also possibly show the debug output
-            eZDebug::setHandleType( EZ_HANDLE_NONE );
+            eZDebug::setHandleType( eZDebug::HANDLE_NONE );
 
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $adminEmail = $ini->variable( 'MailSettings', 'AdminEmail' );
-            include_once( 'lib/ezutils/classes/ezsys.php' );
+            //include_once( 'lib/ezutils/classes/ezsys.php' );
             $site = eZSys::serverVariable( 'HTTP_HOST' );
             $uri = eZSys::serverVariable( 'REQUEST_URI' );
 
@@ -1027,7 +1022,7 @@ class eZDBInterface
       \pure
       \return the number of relation objects in the database for the relation type \a $relationType.
     */
-    function relationCount( $relationType = EZ_DB_RELATION_TABLE )
+    function relationCount( $relationType = eZDBInterface::RELATION_TABLE )
     {
     }
 
@@ -1043,7 +1038,7 @@ class eZDBInterface
       \pure
       \return the relation names in the database as an array for the relation type \a $relationType.
     */
-    function relationList( $relationType = EZ_DB_RELATION_TABLE )
+    function relationList( $relationType = eZDBInterface::RELATION_TABLE )
     {
     }
 
@@ -1064,11 +1059,11 @@ class eZDBInterface
     */
     function relationName( $relationType )
     {
-        $names = array( EZ_DB_RELATION_TABLE => 'TABLE',
-                        EZ_DB_RELATION_SEQUENCE => 'SEQUENCE',
-                        EZ_DB_RELATION_TRIGGER => 'TRIGGER',
-                        EZ_DB_RELATION_VIEW => 'VIEW',
-                        EZ_DB_RELATION_INDEX => 'INDEX' );
+        $names = array( eZDBInterface::RELATION_TABLE => 'TABLE',
+                        eZDBInterface::RELATION_SEQUENCE => 'SEQUENCE',
+                        eZDBInterface::RELATION_TRIGGER => 'TRIGGER',
+                        eZDBInterface::RELATION_VIEW => 'VIEW',
+                        eZDBInterface::RELATION_INDEX => 'INDEX' );
         if ( !isset( $names[$relationType] ) )
             return false;
         return $names[$relationType];
@@ -1125,7 +1120,7 @@ class eZDBInterface
       \pure
       Returns the last serial ID generated with an auto increment field.
     */
-    function lastSerialID( $table, $column )
+    function lastSerialID( $table = false, $column = false )
     {
     }
 
@@ -1159,7 +1154,7 @@ class eZDBInterface
       \pure
       Create a new database
     */
-    function createDatabase()
+    function createDatabase( $dbName )
     {
     }
 
@@ -1302,64 +1297,64 @@ class eZDBInterface
 
     /// \protectedsection
     /// Contains the current server
-    var $Server;
+    public $Server;
     /// The socket path, used by MySQL
-    var $SocketPath;
+    public $SocketPath;
     /// The current database name
-    var $DB;
+    public $DB;
     /// The current connection, \c false if not connection has been made
-    var $DBConnection;
+    public $DBConnection;
     /// Contains the write database connection if used
-    var $DBWriteConnection;
+    public $DBWriteConnection;
     /// Stores the database connection user
-    var $User;
+    public $User;
     /// Stores the database connection password
-    var $Password;
+    public $Password;
     /// The charset used for the current database
-    var $Charset;
+    public $Charset;
     /// The number of times to retry a connection if it fails
-    var $ConnectRetries;
+    public $ConnectRetries;
     /// Instance of a textcodec which handles text conversion, may not be set if no builtin encoding is used
-    var $OutputTextCodec;
-    var $InputTextCodec;
+    public $OutputTextCodec;
+    public $InputTextCodec;
 
     /// True if a builtin encoder is to be used, this means that all input/output text is converted
-    var $UseBuiltinEncoding;
+    public $UseBuiltinEncoding;
     /// Setting if SQL queries should be sent to debug output
-    var $OutputSQL;
+    public $OutputSQL;
     /// Contains true if we're connected to the database backend
-    var $IsConnected = false;
+    public $IsConnected = false;
     /// Contains number of queries sended to DB
-    var $NumQueries = 0;
+    public $NumQueries = 0;
     /// The start time of the timer
-    var $StartTime;
+    public $StartTime;
     /// The end time of the tiemr
-    var $EndTime;
+    public $EndTime;
     /// The total number of milliseconds the timer took
-    var $TimeTaken;
+    public $TimeTaken;
     /// The database error message of the last executed function
-    var $ErrorMessage;
+    public $ErrorMessage;
     /// The database error message number of the last executed function
-    var $ErrorNumber = 0;
+    public $ErrorNumber = 0;
     /// If true then ErrorMessage and ErrorNumber get filled
-    var $RecordError = true;
+    public $RecordError = true;
     /// If true then the database connection should be persistent
-    var $UsePersistentConnection = false;
+    public $UsePersistentConnection = false;
     /// Contains true if slave servers are enabled
-    var $UserSlaveServer;
+    public $UserSlaveServer;
     /// The slave database name
-    var $SlaveDB;
+    public $SlaveDB;
     /// The slave server name
-    var $SlaveServer;
+    public $SlaveServer;
     /// The slave database user
-    var $SlaveUser;
+    public $SlaveUser;
     /// The slave database user password
-    var $SlavePassword;
+    public $SlavePassword;
     /// The transaction counter, 0 means no transaction
-    var $TransactionCounter;
+    public $TransactionCounter;
     /// Flag which tells if a transaction is considered valid or not
     /// A transaction will be made invalid if SQL errors occur
-    var $TransactionIsValid;
+    public $TransactionIsValid;
 }
 
 ?>

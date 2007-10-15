@@ -30,7 +30,7 @@
 
 /*!
   \class eZLintSchema ezlintschema.php
-  \ingroup eZDBSchema
+  \ingroup eZDbSchema
   \brief Provides lint checking of database schemas
 
   Checks a given schema by going trough all tables, fields and indexes
@@ -57,7 +57,7 @@
 
 */
 
-include_once( 'lib/ezdbschema/classes/ezdbschemainterface.php' );
+//include_once( 'lib/ezdbschema/classes/ezdbschemainterface.php' );
 
 class eZLintSchema extends eZDBSchemaInterface
 {
@@ -155,7 +155,7 @@ class eZLintSchema extends eZDBSchemaInterface
     {
         $status = true;
 
-        $ini =& eZINI::instance( 'dbschema.ini' );
+        $ini = eZINI::instance( 'dbschema.ini' );
 
         // A mapping table that maps from a long name to a short name
         // This will be used if an identifier/name is too long
@@ -560,11 +560,11 @@ class eZLintSchema extends eZDBSchemaInterface
 
     /// \privatesection
     /// eZDBSchemaInterface object which should be lint checked
-    var $OtherSchema;
+    public $OtherSchema;
     /// The corrected schema
-    var $CorrectSchema;
+    public $CorrectSchema;
     /// Whether the schema has been checked or not
-    var $IsLintChecked;
+    public $IsLintChecked;
 }
 
 ?>

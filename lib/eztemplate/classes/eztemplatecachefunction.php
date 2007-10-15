@@ -35,12 +35,7 @@
 
 */
 
-/*!
- \deprecated Cluster file handler is now taking care of this.
- */
-define( 'eZTemplateCacheFunction_FileGenerateTimeout', 5 );
-
-include_once( 'lib/eztemplate/classes/eztemplatecacheblock.php' );
+//include_once( 'lib/eztemplate/classes/eztemplatecacheblock.php' );
 
 class eZTemplateCacheFunction
 {
@@ -71,9 +66,9 @@ class eZTemplateCacheFunction
     }
 
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, $parameters, $privateData )
+                                         $tpl, $parameters, $privateData )
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $children = eZTemplateNodeTool::extractFunctionNodeChildren( $node );
         if ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) != 'enabled' )
         {
@@ -148,7 +143,7 @@ class eZTemplateCacheFunction
             $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $keysData, false, array(), 'cacheKeys' );
             $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $subtreeExpiryData, false, array(), 'subtreeExpiry' );
 
-            $code = ( "include_once( 'lib/eztemplate/classes/eztemplatecacheblock.php' );\n" .
+            $code = ( "//include_once( 'lib/eztemplate/classes/eztemplatecacheblock.php' );\n" .
                       "\$cacheKeys = array( \$cacheKeys, $placementKeyStringText, $accessNameText );\n" );
             $cachePathText = "\$cachePath";
         }
@@ -156,7 +151,7 @@ class eZTemplateCacheFunction
         {
             $nodeID = eZTemplateCacheBlock::decodeNodeID( $subtreeValue );
             $cachePath = eZTemplateCacheBlock::cachePath( eZTemplateCacheBlock::keyString( array( $placementKeyString, $accessName ) ), $nodeID );
-            $code = ( "include_once( 'lib/eztemplate/classes/eztemplatecacheblock.php' );\n" );
+            $code = ( "//include_once( 'lib/eztemplate/classes/eztemplatecacheblock.php' );\n" );
             $cachePathText = eZPHPCreator::variableText( $cachePath, 0, 0, false );
         }
 
@@ -180,7 +175,7 @@ class eZTemplateCacheFunction
             $code .= "list(\$cacheHandler_{$codePlacementHash}, \$contentData) =\n  eZTemplateCacheBlock::handle( $cachePathText, $nodeIDText, $ttlCode, " . ($ignoreContentExpiry ? "false" : "true") . " );\n";
         }
         $code .=
-            "if ( get_class( \$contentData ) != 'ezclusterfilefailure' )\n" .
+            "if ( !( \$contentData instanceof eZClusterFileFailure ) )\n" .
             "{\n";
 
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code, array( 'spacing' => 0 ) );
@@ -211,14 +206,14 @@ class eZTemplateCacheFunction
     /*!
      Processes the function with all it's children.
     */
-    function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
+    function process( $tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
         switch ( $functionName )
         {
             case $this->BlockName:
             {
                 // Check for disabled cache.
-                $ini =& eZINI::instance();
+                $ini = eZINI::instance();
                 if ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) != 'enabled' )
                 {
                     $text = eZTemplateCacheFunction::processUncached( $tpl, $functionChildren,
@@ -237,7 +232,7 @@ class eZTemplateCacheFunction
         }
     }
 
-    function processCachedPreprocess( &$tpl, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
+    function processCachedPreprocess( $tpl, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
         $keys                = null;
         $subtreeExpiry       = null;
@@ -273,7 +268,7 @@ class eZTemplateCacheFunction
                        );
     }
 
-    function processCached( &$tpl, $functionChildren, $rootNamespace, $currentNamespace,
+    function processCached( $tpl, $functionChildren, $rootNamespace, $currentNamespace,
                             $placementString, $keys, $subtreeExpiry, $expiry, $ignoreContentExpiry, $subtreeExpiry )
     {
         // Fetch the current siteaccess
@@ -308,7 +303,7 @@ class eZTemplateCacheFunction
         }
 
         $globalExpiryTime = -1;
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         if ( $ignoreContentExpiry == false )
         {
             $globalExpiryTime = eZExpiryHandler::getTimestamp( 'template-block-cache', -1 );
@@ -319,7 +314,7 @@ class eZTemplateCacheFunction
         // Check if we can restore
         require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $cacheFile = eZClusterFileHandler::instance( $phpPath );
-        $args = array( "tpl" => &$tpl,
+        $args = array( "tpl" => $tpl,
                        "functionChildren" => $functionChildren,
                        "rootNamespace" => $rootNamespace,
                        "currentNamespace" => $currentNamespace );
@@ -344,7 +339,7 @@ class eZTemplateCacheFunction
      \static
      Performs processing of the cache-block using the non-compiled way and with caching off.
      */
-    function processUncached( &$tpl, $functionChildren, $rootNamespace, $currentNamespace )
+    function processUncached( $tpl, $functionChildren, $rootNamespace, $currentNamespace )
     {
         $children = $functionChildren;
 
@@ -376,7 +371,7 @@ class eZTemplateCacheFunction
      \deprecated
      Returns base directory where 'subtree_expiry' caches are stored.
     */
-    function subtreeCacheBaseSubDir()
+    static function subtreeCacheBaseSubDir()
     {
         return eZTemplateCacheBlock::subtreeCacheBaseSubDir();
     }
@@ -386,9 +381,9 @@ class eZTemplateCacheFunction
      \deprecated Does not seem to be used
      Returns base directory where expired 'subtree_expiry' caches are stored.
     */
-    function expiryTemplateBlockCacheDir()
+    static function expiryTemplateBlockCacheDir()
     {
-        include_once( 'lib/ezutils/classes/ezsys.php' );
+        //include_once( 'lib/ezutils/classes/ezsys.php' );
         $expiryCacheDir = eZSys::cacheDirectory() . '/' . 'template-block-expiry';
         return $expiryCacheDir;
     }
@@ -398,7 +393,7 @@ class eZTemplateCacheFunction
      \deprecated
      Returns base directory where template block caches are stored.
     */
-    function templateBlockCacheDir()
+    static function templateBlockCacheDir()
     {
         return eZTemplateCacheBlock::templateBlockCacheDir();
     }
@@ -408,7 +403,7 @@ class eZTemplateCacheFunction
      \deprecated
      Returns path of the directory where 'subtree_expiry' caches are stored.
     */
-    function subtreeCacheSubDir( $subtreeExpiryParameter, $cacheFilename )
+    static function subtreeCacheSubDir( $subtreeExpiryParameter, $cacheFilename )
     {
         return eZTemplateCacheBlock::subtreeCacheSubDir( $subtreeExpiryParameter, $cacheFilename );
     }
@@ -418,14 +413,14 @@ class eZTemplateCacheFunction
      \deprecated
      Builds and returns path from $nodeID, e.g. if $nodeID = 23 then path = subtree/2/3
     */
-    function subtreeCacheSubDirForNode( $nodeID )
+    static function subtreeCacheSubDirForNode( $nodeID )
     {
         return eZTemplateCacheBlock::subtreeCacheSubDirForNode( $nodeID );
     }
 
     /// \privatesection
     /// Name of the function
-    var $BlockName;
+    public $BlockName;
 }
 
 ?>

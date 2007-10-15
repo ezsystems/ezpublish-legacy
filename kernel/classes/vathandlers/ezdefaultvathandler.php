@@ -69,11 +69,6 @@ class eZDefaultVATHandler
             $country = '*';
         }
 
-        /*
-        eZDebug::writeDebug( sprintf( "getVatPercent( country='%s', category='%s' )",
-                                      $country, $productCategory->attribute( 'name' ) ) );
-        */
-
         $vatType = eZDefaultVATHandler::chooseVatType( $productCategory, $country );
 
         return $vatType->attribute( 'percentage' );
@@ -87,7 +82,7 @@ class eZDefaultVATHandler
      */
     function getProductCategory( $object )
     {
-        $ini =& eZINI::instance( 'shop.ini' );
+        $ini = eZINI::instance( 'shop.ini' );
         if ( !$ini->hasVariable( 'VATSettings', 'ProductCategoryAttribute' ) )
         {
             eZDebug::writeError( "Cannot find product category: please specify its attribute identifier " .
@@ -110,9 +105,9 @@ class eZDefaultVATHandler
         if ( !isset( $productDataMap[$categoryAttributeName] ) )
         {
             eZDebug::writeError( "Cannot find product category: there is no attribute '$categoryAttributeName' in object '" .
-                                   $object->attribute( 'name' ) .
-                                   "' of class '" .
-                                   $object->attribute( 'class_name' ) . "'." );
+                                  $object->attribute( 'name' ) .
+                                  "' of class '" .
+                                  $object->attribute( 'class_name' ) . "'." );
             return null;
         }
 
@@ -194,13 +189,6 @@ class eZDefaultVATHandler
             else
                 $vatPriority = 0;
 
-            /*
-            eZDebug::writeDebug( sprintf( "Rule: country='%s' categories='%s' => country_match=%d cat_match=%d : pri=%d",
-                                          $ruleCountry,
-                                          $rule->attribute( 'product_categories_string' ),
-                                          $countryMatch, $categoryMatch, $vatPriority ) );
-            */
-
             if ( !isset( $vatPriorities[$vatPriority] ) )
                 $vatPriorities[$vatPriority] = $ruleVatID;
         }
@@ -218,9 +206,9 @@ class eZDefaultVATHandler
                                  "for country '" . $country . "'" .
                                  " and category '" . $productCategory->attribute( 'name' ). "'." );
 
-            return new eZVATType(  array( "id" => 0,
-                                          "name" => ezi18n( 'kernel/shop', 'None' ),
-                                          "percentage" => 0.0 ) );
+            return new eZVatType( array( "id" => 0,
+                                         "name" => ezi18n( 'kernel/shop', 'None' ),
+                                         "percentage" => 0.0 ) );
         }
 
         $bestVatTypeID = array_shift( $vatPriorities );

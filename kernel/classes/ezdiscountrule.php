@@ -37,7 +37,7 @@
 
 */
 
-include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
 
 class eZDiscountRule extends eZPersistentObject
 {
@@ -49,7 +49,7 @@ class eZDiscountRule extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                          'datatype' => 'integer',
@@ -65,7 +65,7 @@ class eZDiscountRule extends eZPersistentObject
                       "name" => "ezdiscountrule" );
     }
 
-    function fetch( $id, $asObject = true )
+    static function fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZDiscountRule::definition(),
                                                 null,
@@ -73,14 +73,14 @@ class eZDiscountRule extends eZPersistentObject
                                                 $asObject );
     }
 
-    function fetchList( $asObject = true )
+    static function fetchList( $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZDiscountRule::definition(),
                                                     null, null, null, null,
                                                     $asObject );
     }
 
-    function create()
+    static function create()
     {
         $row = array(
             "id" => null,
@@ -92,7 +92,7 @@ class eZDiscountRule extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function remove( $id )
+    static function removeByID( $id )
     {
         eZPersistentObject::removeObject( eZDiscountRule::definition(),
                                           array( "id" => $id ) );

@@ -41,8 +41,8 @@
   \sa eZProductCollection eZBasket eZOrder
 */
 
-include_once( "kernel/classes/ezpersistentobject.php" );
-include_once( "kernel/classes/ezvattype.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezvattype.php" );
 
 class eZOrderItem extends eZPersistentObject
 {
@@ -51,7 +51,7 @@ class eZOrderItem extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -92,18 +92,17 @@ class eZOrderItem extends eZPersistentObject
                       'name' => 'ezorder_item' );
     }
 
-    function fetchList( $orderID, $asObject = true )
+    static function fetchList( $orderID, $asObject = true )
     {
-        $returnValue = eZPersistentObject::fetchObjectList( eZOrderItem::definition(),
+        return eZPersistentObject::fetchObjectList( eZOrderItem::definition(),
                                                     null,
                                                     array( "order_id" => $orderID ),
                                                     null,
                                                     null,
                                                     $asObject );
-        return $returnValue;
     }
 
-    function fetchListByType( $orderID, $itemType, $asObject = true )
+    static function fetchListByType( $orderID, $itemType, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZOrderItem::definition(),
                                                     null,
@@ -114,12 +113,12 @@ class eZOrderItem extends eZPersistentObject
 
     }
 
-    function &vatValue()
+    function vatValue()
     {
         return $this->VATValue;
     }
 
-    function &priceIncVAT()
+    function priceIncVAT()
     {
         if ( $this->attribute( 'is_vat_inc' ) == 1 )
         {
@@ -133,16 +132,14 @@ class eZOrderItem extends eZPersistentObject
 
     }
 
-    function &priceExVAT()
+    function priceExVAT()
     {
         if ( $this->attribute( 'is_vat_inc' ) == 1 )
         {
-            $exVATPrice = $this->Price / ( $this->vatValue() + 100 ) * 100;
-            return $exVATPrice;
+            return $this->Price / ( $this->vatValue() + 100 ) * 100;
         }
-        else
-            return $this->Price;
 
+        return $this->Price;
     }
 
     /*!
@@ -153,7 +150,7 @@ class eZOrderItem extends eZPersistentObject
     */
     function cleanup()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->query( "DELETE FROM ezorder_item" );
     }
 }

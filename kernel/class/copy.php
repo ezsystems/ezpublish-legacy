@@ -26,19 +26,19 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/classes/ezcontentclass.php" );
-include_once( "kernel/classes/ezcontentclassattribute.php" );
-include_once( "kernel/classes/ezcontentclassclassgroup.php" );
+//include_once( "kernel/classes/ezcontentclass.php" );
+//include_once( "kernel/classes/ezcontentclassattribute.php" );
+//include_once( "kernel/classes/ezcontentclassclassgroup.php" );
 
-$Module =& $Params["Module"];
+$Module = $Params['Module'];
 $ClassID = null;
 if ( isset( $Params["ClassID"] ) )
     $ClassID = $Params["ClassID"];
 $class = eZContentClass::fetch( $ClassID, true, 0 );
 if ( !$class )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE );
 
-$classCopy = $class->clone();
+$classCopy = clone $class;
 $classCopy->initializeCopy( $class );
 $classCopy->setAttribute( 'version', 1 );
 $classCopy->store();
@@ -57,11 +57,11 @@ for ( $i = 0; $i < count( $classGroups ); ++$i )
 }
 
 $classAttributeCopies = array();
-$classAttributes =& $class->fetchAttributes();
+$classAttributes = $class->fetchAttributes();
 foreach ( array_keys( $classAttributes ) as $classAttributeKey )
 {
     $classAttribute =& $classAttributes[$classAttributeKey];
-    $classAttributeCopy = $classAttribute->clone();
+    $classAttributeCopy = clone $classAttribute;
 
     if ( $datatype = $classAttributeCopy->dataType() ) //avoiding fatal error if datatype not exist (was removed).
     {
@@ -79,7 +79,7 @@ foreach ( array_keys( $classAttributes ) as $classAttributeKey )
     unset( $classAttributeCopy );
 }
 
-$ini =& eZINI::instance( 'content.ini' );
+$ini = eZINI::instance( 'content.ini' );
 $classRedirect = strtolower( trim( $ini->variable( 'CopySettings', 'ClassRedirect' ) ) );
 
 switch ( $classRedirect )

@@ -26,12 +26,12 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/common/template.php" );
-include_once( "kernel/classes/ezorderstatus.php" );
-include_once( "lib/ezutils/classes/ezhttppersistence.php" );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/classes/ezorderstatus.php" );
+//include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 
-$module =& $Params["Module"];
-$http =& eZHttpTool::instance();
+$module = $Params['Module'];
+$http = eZHTTPTool::instance();
 $messages = array();
 
 if ( $http->hasPostVariable( "SaveOrderStatusButton" ) or
@@ -86,7 +86,7 @@ if ( $http->hasPostVariable( "RemoveOrderStatusButton" ) )
             $triedRemoveInternal = true;
             continue;
         }
-        $status->remove();
+        $status->removeThis();
         $hasRemoved = true;
     }
     if ( $hasRemoved )
@@ -97,7 +97,7 @@ if ( $http->hasPostVariable( "RemoveOrderStatusButton" ) )
 
 $orderStatusArray = eZOrderStatus::fetchList( true, true );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable( "orderstatus_array", $orderStatusArray );
 $tpl->setVariable( "module", $module );
 $tpl->setVariable( "messages", $messages );
@@ -109,7 +109,7 @@ $path[] = array( 'text' => ezi18n( 'kernel/shop', 'Status' ),
                  'url' => false );
 
 $Result = array();
-$Result['path'] =& $path;
-$Result['content'] =& $tpl->fetch( "design:shop/status.tpl" );
+$Result['path'] = $path;
+$Result['content'] = $tpl->fetch( "design:shop/status.tpl" );
 
 ?>

@@ -28,16 +28,16 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$http =& eZHTTPTool::instance();
-$module =& $Params["Module"];
+$http = eZHTTPTool::instance();
+$module = $Params['Module'];
 
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( 'lib/ezfile/classes/ezdir.php' );
-include_once( "kernel/common/template.php" );
-include_once( "kernel/classes/ezsiteaccess.php" );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( 'lib/ezfile/classes/ezdir.php' );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/classes/ezsiteaccess.php" );
 
-$ini =& eZINI::instance();
-$tpl =& templateInit();
+$ini = eZINI::instance();
+$tpl = templateInit();
 
 if ( $module->isCurrentAction( 'SelectCurrentSiteAccess' ) )
 {
@@ -65,7 +65,7 @@ if ( $http->hasPostVariable( 'SelectCurrentSiteAccessButton' ) )
 
 // Get path to specified site access.
 $pathToSiteAccess = eZSiteAccess::findPathToSiteAccess( $siteAccess );
-$menuINI =& eZINI::instance( "menu.ini", "", null, null, true );
+$menuINI = eZINI::instance( "menu.ini", "", null, null, true );
 $menuINI->prependOverrideDir( $pathToSiteAccess, true, 'siteaccess' );
 $menuINI->loadCache();
 
@@ -115,7 +115,7 @@ if ( $module->isCurrentAction( 'Store' ) )
     eZDir::unlinkWildcard( $compiledTemplateDir . "/", "*pagelayout*.*" );
 
     // Expire template block cache
-    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearTemplateBlockCacheIfNeeded( false );
 }
 
@@ -134,7 +134,7 @@ $tpl->setVariable( 'siteaccess_list', $siteAccessList );
 $tpl->setVariable( 'current_siteaccess', $siteAccess );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:visual/menuconfig.tpl" );
+$Result['content'] = $tpl->fetch( "design:visual/menuconfig.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'design/standard/menuconfig', 'Menu management' ) ) );
 

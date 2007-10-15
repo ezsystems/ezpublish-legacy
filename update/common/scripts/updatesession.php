@@ -27,18 +27,18 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ Publish Session Updater\n\n" .
-                                                         "This script will update entries in the session table*.\n" .
-                                                         "* This is only required when updating from 3.3 or lower" .
-                                                         "\n" .
-                                                         "updatesession.php" ),
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'description' => ( "eZ Publish Session Updater\n\n" .
+                                                        "This script will update entries in the session table*.\n" .
+                                                        "* This is only required when updating from 3.3 or lower" .
+                                                        "\n" .
+                                                        "updatesession.php" ),
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 
@@ -46,13 +46,13 @@ $options = $script->getOptions( "", "",
                                 array() );
 $script->initialize();
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 
-include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 
-include_once( 'lib/ezutils/classes/ezsession.php' );
+require_once( 'lib/ezutils/classes/ezsession.php' );
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 
 $sql = "SELECT count( session_key ) as count FROM ezsession";
 $rows = $db->arrayQuery( $sql );

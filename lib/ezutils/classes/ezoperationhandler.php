@@ -37,7 +37,7 @@
 
 */
 
-include_once( 'lib/ezutils/classes/ezmoduleoperationinfo.php' );
+//include_once( 'lib/ezutils/classes/ezmoduleoperationinfo.php' );
 
 class eZOperationHandler
 {
@@ -48,22 +48,24 @@ class eZOperationHandler
     {
     }
 
-    function &moduleOperationInfo( $moduleName, $useTriggers = true )
+    static function moduleOperationInfo( $moduleName, $useTriggers = true )
     {
-        $globalModuleOperationList =& $GLOBALS['eZGlobalModuleOperationList'];
-        if ( !isset( $globalModuleOperationList ) )
-            $globalModuleOperationList = array();
-        if ( isset( $globalModuleOperationList[$moduleName] ) )
-            return $globalModuleOperationList[$moduleName];
+        if ( !isset( $GLOBALS['eZGlobalModuleOperationList'] ) )
+        {
+            $GLOBALS['eZGlobalModuleOperationList'] = array();
+        }
+        if ( isset( $GLOBALS['eZGlobalModuleOperationList'][$moduleName] ) )
+        {
+            return $GLOBALS['eZGlobalModuleOperationList'][$moduleName];
+        }
         $moduleOperationInfo = new eZModuleOperationInfo( $moduleName, $useTriggers );
         $moduleOperationInfo->loadDefinition();
-        $globalModuleOperationList[$moduleName] =& $moduleOperationInfo;
-        return $moduleOperationInfo;
+        return $GLOBALS['eZGlobalModuleOperationList'][$moduleName] = $moduleOperationInfo;
     }
 
-    function execute( $moduleName, $operationName, $operationParameters, $lastTriggerName = null, $useTriggers = true )
+    static function execute( $moduleName, $operationName, $operationParameters, $lastTriggerName = null, $useTriggers = true )
     {
-        $moduleOperationInfo =& eZOperationHandler::moduleOperationInfo( $moduleName, $useTriggers );
+        $moduleOperationInfo = eZOperationHandler::moduleOperationInfo( $moduleName, $useTriggers );
         if ( !$moduleOperationInfo->isValid() )
         {
             eZDebug::writeError( "Cannot execute operation '$operationName' in module '$moduleName', no valid data",

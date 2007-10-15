@@ -29,13 +29,13 @@
 /*! \file view.php
 */
 
-$Module =& $Params['Module'];
-$urlID =& $Params['ID'];
+$Module = $Params['Module'];
+$urlID = $Params['ID'];
 
-include_once( "lib/ezutils/classes/ezhttptool.php" );
-include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
-include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
-include_once( 'kernel/classes/ezpreferences.php' );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
+//include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+//include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
+//include_once( 'kernel/classes/ezpreferences.php' );
 
 if( eZPreferences::value( 'admin_url_view_limit' ) )
 {
@@ -59,7 +59,7 @@ if ( !is_numeric( $offset ) )
 
 $url = eZURL::fetch( $urlID );
 if ( !$url )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
 $link = $url->attribute( 'url' );
 if ( preg_match("/^(http:)/i", $link ) or
@@ -72,13 +72,13 @@ if ( preg_match("/^(http:)/i", $link ) or
 }
 else
 {
-    include_once( "lib/ezutils/classes/ezini.php" );
-    include_once( "lib/ezutils/classes/ezsys.php" );
+    //include_once( "lib/ezutils/classes/ezini.php" );
+    //include_once( "lib/ezutils/classes/ezsys.php" );
     $domain = getenv( 'HTTP_HOST' );
     $protocol = 'http';
 
     // Check if SSL port is defined in site.ini
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
     $sslPort = 443;
     if ( $ini->hasVariable( 'SiteSettings', 'SSLPort' ) )
     {
@@ -98,8 +98,8 @@ else
 }
 
 $viewParameters = array( 'offset' => $offset, 'limit'  => $limit );
-$http =& eZHttpTool::instance();
-$objectList =& eZURLObjectLink::fetchObjectVersionList( $urlID, $viewParameters );
+$http = eZHTTPTool::instance();
+$objectList = eZURLObjectLink::fetchObjectVersionList( $urlID, $viewParameters );
 $urlViewCount= eZURLObjectLink::fetchObjectVersionCount( $urlID );
 
 if ( $Module->isCurrentAction( 'EditObject' ) )
@@ -114,8 +114,8 @@ if ( $Module->isCurrentAction( 'EditObject' ) )
     }
 }
 
-include_once( 'kernel/common/template.php' );
-$tpl =& templateInit();
+require_once( 'kernel/common/template.php' );
+$tpl = templateInit();
 
 $tpl->setVariable( 'Module', $Module );
 $tpl->setVariable( 'url_object', $url );

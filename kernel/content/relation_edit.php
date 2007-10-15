@@ -26,28 +26,28 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/classes/ezcontentclass.php' );
-include_once( 'kernel/classes/ezcontentclassattribute.php' );
+//include_once( 'kernel/classes/ezcontentclass.php' );
+//include_once( 'kernel/classes/ezcontentclassattribute.php' );
 
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/ezcontentobjectversion.php' );
-include_once( 'kernel/classes/ezcontentobjectattribute.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'kernel/classes/ezcontentbrowse.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'kernel/classes/ezcontentobjectversion.php' );
+//include_once( 'kernel/classes/ezcontentobjectattribute.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezcontentbrowse.php' );
 
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
-include_once( 'kernel/common/template.php' );
+require_once( 'kernel/common/template.php' );
 
-function checkRelationAssignments( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage, &$validation )
+function checkRelationAssignments( $module, $class, $object, $version, $contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage, &$validation )
 {
-    $http =& eZHTTPTool::instance();
+    $http = eZHTTPTool::instance();
     // Add object relations
     if ( $module->isCurrentAction( 'AddRelatedObject' ) )
     {
         $selectedObjectIDArray = eZContentBrowse::result( 'AddRelatedObject' );
-        $relatedObjects =& $object->relatedContentObjectArray( $editVersion, false, 0, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_COMMON ) );
+        $relatedObjects = $object->relatedContentObjectArray( $editVersion, false, 0, array( 'AllRelations' => eZContentObject::RELATION_COMMON ) );
         $relatedObjectIDArray = array();
         $objectID = $object->attribute( 'id' );
 
@@ -56,7 +56,7 @@ function checkRelationAssignments( &$module, &$class, &$object, &$version, &$con
 
         if ( is_array( $selectedObjectIDArray ) )
         {
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
             foreach ( $selectedObjectIDArray as $selectedObjectID )
             {
@@ -68,15 +68,15 @@ function checkRelationAssignments( &$module, &$class, &$object, &$version, &$con
 
         $module->redirectToView( 'edit', array( $object->attribute( 'id' ), $editVersion, $editLanguage, $fromLanguage ),
                                  null, false, 'content-relation-items' );
-        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+        return eZModule::HOOK_STATUS_CANCEL_RUN;
     }
     if ( $module->isCurrentAction( 'UploadedFileRelation' ) )
     {
-        include_once( 'kernel/classes/ezcontentupload.php' );
+        //include_once( 'kernel/classes/ezcontentupload.php' );
         $relatedObjectID = eZContentUpload::result( 'RelatedObjectUpload' );
         if ( $relatedObjectID )
         {
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
             $object->addContentObjectRelation( $relatedObjectID, $editVersion );
             $db->commit();
@@ -86,22 +86,22 @@ function checkRelationAssignments( &$module, &$class, &$object, &$version, &$con
         // browser scrolls down the relation list (if the anchor exists).
         $module->redirectToView( 'edit', array( $object->attribute( 'id' ), $editVersion, $editLanguage, $fromLanguage ),
                                  null, false, 'content-relation-items' );
-        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+        return eZModule::HOOK_STATUS_CANCEL_RUN;
     }
 }
 
-function storeRelationAssignments( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage )
+function storeRelationAssignments( $module, $class, $object, $version, $contentObjectAttributes, $editVersion, $editLanguage )
 {
 }
 
-function checkRelationActions( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage )
+function checkRelationActions( $module, $class, $object, $version, $contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage )
 {
-    $http =& eZHTTPTool::instance();
+    $http = eZHTTPTool::instance();
     if ( $module->isCurrentAction( 'BrowseForObjects' ) )
     {
         $objectID = $object->attribute( 'id' );
 
-        $assignedNodes =& $object->attribute( 'assigned_nodes' );
+        $assignedNodes = $object->attribute( 'assigned_nodes' );
         $assignedNodesIDs = array();
         foreach ( $assignedNodes as $node )
             $assignedNodesIDs = $node->attribute( 'node_id' );
@@ -120,26 +120,26 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
                                         'from_page' => $module->redirectionURI( 'content', 'edit', array( $objectID, $editVersion, $editLanguage, $fromLanguage ) ) ),
                                  $module );
 
-        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+        return eZModule::HOOK_STATUS_CANCEL_RUN;
     }
     if ( $module->isCurrentAction( 'UploadFileRelation' ) )
     {
         $objectID = $object->attribute( 'id' );
 
-        include_once( 'kernel/classes/ezsection.php' );
+        //include_once( 'kernel/classes/ezsection.php' );
         $section = eZSection::fetch( $object->attribute( 'section_id' ) );
         $navigationPart = false;
         if ( $section )
             $navigationPart = $section->attribute( 'navigation_part_identifier' );
 
-        include_once( 'kernel/classes/ezcontentupload.php' );
+        //include_once( 'kernel/classes/ezcontentupload.php' );
         $location = false;
         if ( $module->hasActionParameter( 'UploadRelationLocation' ) )
         {
             $location = $module->actionParameter( 'UploadRelationLocation' );
         }
 
-        include_once( 'lib/ezutils/classes/ezhttpfile.php' );
+        //include_once( 'lib/ezutils/classes/ezhttpfile.php' );
         // We only do direct uploading if we have the uploaded HTTP file
         // if not we need to go to the content/upload page.
         if ( eZHTTPFile::canFetch( 'UploadRelationFile' ) )
@@ -150,7 +150,7 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
                 $relatedObjectID = $result['contentobject_id'];
                 if ( $relatedObjectID )
                 {
-                    $db =& eZDB::instance();
+                    $db = eZDB::instance();
                     $db->begin();
                     $object->addContentObjectRelation( $relatedObjectID, $editVersion );
                     $db->commit();
@@ -174,7 +174,7 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
                                             'result_module' => array( 'content', 'edit',
                                                                       array( $objectID, $editVersion, $editLanguage, $fromLanguage ) ) ),
                                      $module );
-            return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+            return eZModule::HOOK_STATUS_CANCEL_RUN;
         }
     }
     if ( $module->isCurrentAction( 'DeleteRelation' ) )
@@ -189,7 +189,7 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
             $relationObjectIDs = array();
         }
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         foreach ( $relationObjectIDs as $relationObjectID )
         {
@@ -202,9 +202,9 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
     {
         if ( $http->hasPostVariable( 'ClassID' ) )
         {
-            include_once( 'kernel/classes/ezcontentobjectassignmenthandler.php' );
-            $user =& eZUser::currentUser();
-            $userID =& $user->attribute( 'contentobject_id' );
+            //include_once( 'kernel/classes/ezcontentobjectassignmenthandler.php' );
+            $user = eZUser::currentUser();
+            $userID = $user->attribute( 'contentobject_id' );
             if ( $http->hasPostVariable( 'SectionID' ) )
             {
                 $sectionID = $http->postVariable( 'SectionID' );
@@ -215,16 +215,16 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
             }
             $contentClassID = $http->postVariable( 'ClassID' );
             $class = eZContentClass::fetch( $contentClassID );
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
             $relatedContentObject = $class->instantiate( $userID, $sectionID );
             $db->commit();
             $newObjectID = $relatedContentObject->attribute( 'id' );
-            $relatedContentVersion =& $relatedContentObject->attribute( 'current' );
+            $relatedContentVersion = $relatedContentObject->attribute( 'current' );
 
             if ( $relatedContentObject->attribute( 'can_edit' ) )
             {
-                $db =& eZDB::instance();
+                $db = eZDB::instance();
                 $db->begin();
                 $assignmentHandler = new eZContentObjectAssignmentHandler( $relatedContentObject, $relatedContentVersion );
                 $sectionID = (int) $assignmentHandler->setupAssignments( array( 'group-name' => 'RelationAssignmentSettings',
@@ -245,7 +245,7 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
             }
             else
             {
-                $db =& eZDB::instance();
+                $db = eZDB::instance();
                 $db->begin();
                 $relatedContentObject->purge();
                 $db->commit();
@@ -256,17 +256,17 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
     }
 }
 
-function handleRelationTemplate( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, &$tpl )
+function handleRelationTemplate( $module, $class, $object, $version, $contentObjectAttributes, $editVersion, $editLanguage, $tpl )
 {
-    $relatedObjects =& $object->relatedContentObjectArray( $editVersion );
+    $relatedObjects = $object->relatedContentObjectArray( $editVersion );
     $tpl->setVariable( 'related_contentobjects', $relatedObjects );
 
     $relatedObjectsTyped = array();
-    $relatedObjectsTyped['common'] =& $object->relatedContentObjectArray( $editVersion, false, 0, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_COMMON ) );
-    $relatedObjectsTyped['xml_embed'] =& $object->relatedContentObjectArray( $editVersion, false, 0, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_EMBED ) );
+    $relatedObjectsTyped['common'] = $object->relatedContentObjectArray( $editVersion, false, 0, array( 'AllRelations' => eZContentObject::RELATION_COMMON ) );
+    $relatedObjectsTyped['xml_embed'] = $object->relatedContentObjectArray( $editVersion, false, 0, array( 'AllRelations' => eZContentObject::RELATION_EMBED ) );
     if ( eZContentObject::isObjectRelationTyped() )
     {
-        $relatedObjectsTyped['xml_link'] =& $object->relatedContentObjectArray( $editVersion, false, 0, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_LINK ) );
+        $relatedObjectsTyped['xml_link'] = $object->relatedContentObjectArray( $editVersion, false, 0, array( 'AllRelations' => eZContentObject::RELATION_LINK ) );
     }
 
     $relatedObjectsTypedIDArray = array();
@@ -280,7 +280,7 @@ function handleRelationTemplate( &$module, &$class, &$object, &$version, &$conte
     }
     unset( $relatedObjectsTyped );
 
-    $ini =& eZINI::instance( 'content.ini' );
+    $ini = eZINI::instance( 'content.ini' );
 
     $groups = $ini->variable( 'RelationGroupSettings', 'Groups' );
     $defaultGroup = $ini->variable( 'RelationGroupSettings', 'DefaultGroup' );
@@ -306,11 +306,11 @@ function handleRelationTemplate( &$module, &$class, &$object, &$version, &$conte
         if ( isset( $classGroupMap[$classIdentifier] ) )
         {
             $groupName = $classGroupMap[$classIdentifier];
-            $groupedRelatedObjects[$groupName][] =& $relatedObjects[$relatedObjectKey];
+            $groupedRelatedObjects[$groupName][] = $relatedObjects[$relatedObjectKey];
         }
         else
         {
-            $groupedRelatedObjects[$defaultGroup][] =& $relatedObjects[$relatedObjectKey];
+            $groupedRelatedObjects[$defaultGroup][] = $relatedObjects[$relatedObjectKey];
         }
     }
     $tpl->setVariable( 'related_contentobjects', $relatedObjects );
@@ -318,7 +318,7 @@ function handleRelationTemplate( &$module, &$class, &$object, &$version, &$conte
     $tpl->setVariable( 'grouped_related_contentobjects', $groupedRelatedObjects );
 }
 
-function initializeRelationEdit( &$module )
+function initializeRelationEdit( $module )
 {
     $module->addHook( 'post_fetch', 'checkRelationAssignments' );
     $module->addHook( 'pre_commit', 'storeRelationAssignments' );

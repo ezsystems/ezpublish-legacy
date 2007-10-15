@@ -36,7 +36,7 @@
   \brief The class eZWaitUntilDate does
 
 */
-include_once( 'kernel/classes/workflowtypes/event/ezwaituntildate/ezwaituntildatevalue.php' );
+//include_once( 'kernel/classes/workflowtypes/event/ezwaituntildate/ezwaituntildatevalue.php' );
 
 class eZWaitUntilDate
 {
@@ -44,7 +44,7 @@ class eZWaitUntilDate
     {
         $this->WorkflowEventID = $eventID;
         $this->WorkflowEventVersion = $eventVersion;
-        $this->Entries =& eZWaitUntilDateValue::fetchAllElements( $eventID, $eventVersion );
+        $this->Entries = eZWaitUntilDateValue::fetchAllElements( $eventID, $eventVersion );
     }
 
     function attributes()
@@ -60,7 +60,7 @@ class eZWaitUntilDate
         return in_array( $attr, $this->attributes() );
     }
 
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         switch ( $attr )
         {
@@ -83,8 +83,7 @@ class eZWaitUntilDate
             default :
             {
                 eZDebug::writeError( "Attribute '$attr' does not exist", 'eZWaitUntilDate::attribute' );
-                $retValue = null;
-                return $retValue;
+                return null;
             }break;
         }
     }
@@ -115,23 +114,22 @@ class eZWaitUntilDate
         }
         $waitUntilDateValue = eZWaitUntilDateValue::create( $this->WorkflowEventID, $this->WorkflowEventVersion, $contentClassAttributeID, $contentClassID );
         $waitUntilDateValue->store();
-        $this->Entries =& eZWaitUntilDateValue::fetchAllElements( $this->WorkflowEventID, $this->WorkflowEventVersion );
+        $this->Entries = eZWaitUntilDateValue::fetchAllElements( $this->WorkflowEventID, $this->WorkflowEventVersion );
     }
 
     function removeEntry( $workflowEventID, $id, $version )
     {
         eZDebug::writeDebug( "$workflowEventID - $id - $version ", 'remove params 2' );
 
-       eZWaitUntilDateValue::remove( $id, $version );
-       $this->Entries =& eZWaitUntilDateValue::fetchAllElements( $workflowEventID, $version );
+       eZWaitUntilDateValue::removeByID( $id, $version );
+       $this->Entries = eZWaitUntilDateValue::fetchAllElements( $workflowEventID, $version );
     }
 
-    function &classAttributeIDList()
+    function classAttributeIDList()
     {
         $attributeIDList = array();
-        foreach ( array_keys( $this->Entries ) as $key )
+        foreach ( $this->Entries as $entry )
         {
-            $entry =& $this->Entries[$key];
             $attributeIDList[] = $entry->attribute( 'contentclass_attribute_id' );
         }
         return $attributeIDList;
@@ -140,9 +138,8 @@ class eZWaitUntilDate
     function setVersion( $version )
     {
         eZWaitUntilDateValue::removeAllElements( $this->WorkflowEventID, 0 );
-        for ( $i = 0; $i < count( $this->Entries ); $i++ )
+        foreach( $this->Entries as $entry )
         {
-            $entry =& $this->Entries[$i];
             $oldversion = $entry->attribute( "workflow_event_version" );
             $id = $entry->attribute( "id" );
             $workflowEventID = $entry->attribute( "workflow_event_id" );
@@ -164,9 +161,9 @@ class eZWaitUntilDate
     }
 
 
-    var $WorkflowEventID;
-    var $WorkflowEventVersion;
-    var $Entries;
+    public $WorkflowEventID;
+    public $WorkflowEventVersion;
+    public $Entries;
 
 }
 

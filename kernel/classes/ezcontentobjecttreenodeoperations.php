@@ -65,14 +65,14 @@ class eZContentObjectTreeNodeOperations
      \param $newParentNodeID The id of a new parent.
      \return \c true if 'move' was done successfully, otherwise \c false;
     */
-    function move( $nodeID, $newParentNodeID )
+    static function move( $nodeID, $newParentNodeID )
     {
         $result = false;
 
         if ( !is_numeric( $nodeID ) || !is_numeric( $newParentNodeID ) )
             return false;
 
-        include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+        //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
         $node = eZContentObjectTreeNode::fetch( $nodeID );
         if ( !$node )
@@ -87,21 +87,21 @@ class eZContentObjectTreeNodeOperations
         $oldParentObject =& $oldParentNode->object();
 
         // clear user policy cache if this was a user object
-        include_once( "lib/ezutils/classes/ezini.php" );
-        $ini =& eZINI::instance();
+        //include_once( "lib/ezutils/classes/ezini.php" );
+        $ini = eZINI::instance();
         $userClassID = $ini->variable( "UserSettings", "UserClassID" );
         if ( $object->attribute( 'contentclass_id' ) == $userClassID )
         {
-            include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+            //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
             eZUser::cleanupCache();
         }
 
         // clear cache for old placement.
-        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
 
-        include_once( "lib/ezdb/classes/ezdb.php" );
-        $db =& eZDB::instance();
+        //include_once( "lib/ezdb/classes/ezdb.php" );
+        $db = eZDB::instance();
         $db->begin();
 
         $node->move( $newParentNodeID );
@@ -126,14 +126,14 @@ class eZContentObjectTreeNodeOperations
             }
 
             // modify assignment
-            include_once( "kernel/classes/eznodeassignment.php" );
-            $curVersion     =& $object->attribute( 'current_version' );
+            //include_once( "kernel/classes/eznodeassignment.php" );
+            $curVersion     = $object->attribute( 'current_version' );
             $nodeAssignment = eZNodeAssignment::fetch( $objectID, $curVersion, $oldParentNode->attribute( 'node_id' ) );
 
             if ( $nodeAssignment )
             {
                 $nodeAssignment->setAttribute( 'parent_node', $newParentNodeID );
-                $nodeAssignment->setAttribute( 'op_code', EZ_NODE_ASSIGNMENT_OP_CODE_MOVE );
+                $nodeAssignment->setAttribute( 'op_code', eZNodeAssignment::OP_CODE_MOVE );
                 $nodeAssignment->store();
             }
 

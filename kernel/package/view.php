@@ -26,10 +26,10 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/common/template.php" );
-include_once( "kernel/classes/ezpackage.php" );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/classes/ezpackage.php" );
 
-$module =& $Params['Module'];
+$module = $Params['Module'];
 $viewMode = $Params['ViewMode'];
 $packageName = $Params['PackageName'];
 $repositoryID = false;
@@ -38,10 +38,10 @@ if ( isset( $Params['RepositoryID'] ) and $Params['RepositoryID'] )
 
 $package = eZPackage::fetch( $packageName, false, $repositoryID );
 if ( !is_object( $package ) )
-    return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
 if ( !$package->attribute( 'can_read' ) )
-    return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
 
 if ( $module->isCurrentAction( 'Export' ) )
@@ -59,13 +59,13 @@ else if ( $module->isCurrentAction( 'Uninstall' ) )
 
 $repositoryInformation = $package->currentRepositoryInformation();
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( 'package_name', $packageName );
 $tpl->setVariable( 'repository_id', $repositoryID );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:package/view/$viewMode.tpl" );
+$Result['content'] = $tpl->fetch( "design:package/view/$viewMode.tpl" );
 $path = array( array( 'url' => 'package/list',
                       'text' => ezi18n( 'kernel/package', 'Packages' ) ) );
 if ( $repositoryInformation and $repositoryInformation['id'] != 'local' )

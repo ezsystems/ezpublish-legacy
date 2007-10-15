@@ -64,14 +64,14 @@
 
   \code
   // include the library
-  include_once( 'lib/ezdb/classes/ezdb.php' );
+  //include_once( 'lib/ezdb/classes/ezdb.php' );
 
   // Get the current database instance
   // will create a new database object and connect to the database backend
   // if there is already created an instance for this session the existing
   // object will be returned.
   // the settings for the database connections are set in site.ini
-  $db =& eZDB::instance();
+  $db = eZDB::instance();
 
   // Run a simple query
   $db->query( 'DELETE FROM sql_test' );
@@ -104,7 +104,7 @@
   \sa eZLocale eZINI
 */
 
-include_once( 'lib/ezutils/classes/ezdebug.php' );
+require_once( 'lib/ezutils/classes/ezdebug.php' );
 
 class eZDB
 {
@@ -112,7 +112,7 @@ class eZDB
       Constructor.
       NOTE: Should not be used.
     */
-    function eZDB()
+    private function __construct()
     {
         eZDebug::writeError( 'This class should not be instantiated', 'eZDB::eZDB' );
     }
@@ -121,25 +121,18 @@ class eZDB
       \static
       Returns an instance of the database object.
     */
-    function hasInstance()
+    static function hasInstance()
     {
-        $impl =& $GLOBALS['eZDBGlobalInstance'];
-        $class = get_class( $impl );
-        $hasDB = false;
-        if ( preg_match( '/.*?db/', $class ) )
-        {
-            $hasDB = true;
-        }
-        return $hasDB;
+        return isset( $GLOBALS['eZDBGlobalInstance'] ) && $GLOBALS['eZDBGlobalInstance'] instanceof eZDBInterface;
     }
 
     /*!
      \static
      Sets the global database instance to \a $instance.
     */
-    function setInstance( &$instance )
+    static function setInstance( $instance )
     {
-        $GLOBALS['eZDBGlobalInstance'] =& $instance;
+        $GLOBALS['eZDBGlobalInstance'] = $instance;
     }
 
     /*!
@@ -147,13 +140,12 @@ class eZDB
       Returns an instance of the database object.
       If you want to change the current database values you should set \a $forceNewInstance to \c true to force a new instance.
     */
-    function &instance( $databaseImplementation = false, $databaseParameters = false, $forceNewInstance = false )
+    static function instance( $databaseImplementation = false, $databaseParameters = false, $forceNewInstance = false )
     {
         $impl =& $GLOBALS['eZDBGlobalInstance'];
-        $class = get_class( $impl );
 
         $fetchInstance = false;
-        if ( strstr( $class, 'db' ) === false )
+        if ( !( $impl instanceof eZDBInterface ) )
             $fetchInstance = true;
 
         if ( $forceNewInstance  )
@@ -169,8 +161,8 @@ class eZDB
 
         if ( $fetchInstance )
         {
-            include_once( 'lib/ezutils/classes/ezini.php' );
-            $ini =& eZINI::instance();
+            //include_once( 'lib/ezutils/classes/ezini.php' );
+            $ini = eZINI::instance();
             if ( $databaseImplementation === false and $useDefaults )
                 $databaseImplementation = $ini->variable( 'DatabaseSettings', 'DatabaseImplementation' );
 
@@ -287,7 +279,7 @@ class eZDB
                 $databaseParameters['show_errors'] = $b['show_errors'];
 
             // Search for the db interface implementations in active extensions directories.
-            include_once( 'lib/ezutils/classes/ezextension.php' );
+            //include_once( 'lib/ezutils/classes/ezextension.php' );
             $baseDirectory         = eZExtension::baseDirectory();
             $extensionDirectories  = eZExtension::activeExtensions();
             $extensionDirectories  = array_unique( $extensionDirectories );
@@ -320,7 +312,7 @@ class eZDB
             }
             if ( $impl === null )
             {
-                include_once( 'lib/ezdb/classes/eznulldb.php' );
+                //include_once( 'lib/ezdb/classes/eznulldb.php' );
                 $impl = new eZNullDB( $databaseParameters );
                 $impl->ErrorMessage = "No database handler was found for '$databaseImplementation'";
                 $impl->ErrorNumber = -1;
@@ -341,16 +333,16 @@ class eZDB
       means something is wrong.
       Prints the error.
     */
-    function checkTransactionCounter()
+    static function checkTransactionCounter()
     {
         $result = true;
-        include_once( 'lib/ezutils/classes/ezini.php' );
-        $ini =& eZINI::instance();
+        //include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini = eZINI::instance();
         $checkValidity = ( $ini->variable( "SiteAccessSettings", "CheckValidity" ) == "true" );
         if ( $checkValidity )
             return $result;
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         if ( $db->transactionCounter() > 0 )
         {
@@ -362,8 +354,8 @@ class eZDB
             {
                 eZDebug::writeError( $stack, 'Transaction stack' );
             }
-            include_once( 'lib/ezutils/classes/ezini.php' );
-            $ini =& eZINI::instance();
+            //include_once( 'lib/ezutils/classes/ezini.php' );
+            $ini = eZINI::instance();
             // In debug mode the transaction will be invalidated causing the top-level commit
             // to issue an error.
             if ( $ini->variable( "DatabaseSettings", "DebugTransactions" ) == "enabled" )

@@ -35,9 +35,9 @@
 
 */
 
-include_once( "kernel/classes/ezpersistentobject.php" );
-include_once( "kernel/classes/ezcontentobject.php" );
-include_once( "kernel/classes/ezproductcollectionitemoption.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezcontentobject.php" );
+//include_once( "kernel/classes/ezproductcollectionitemoption.php" );
 
 
 class eZProductCollectionItem extends eZPersistentObject
@@ -47,7 +47,7 @@ class eZProductCollectionItem extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -94,6 +94,7 @@ class eZProductCollectionItem extends eZPersistentObject
                       'function_attributes' => array( 'contentobject' => 'contentObject',
                                                       'option_list' => 'optionList' ),
                       "keys" => array( "id" ),
+                      'sort' => array( 'id' => 'asc' ),
                       "increment_key" => "id",
                       "relations" => array( "contentobject_id" => array( "class" => "ezcontentobject",
                                                                          "field" => "id" ),
@@ -107,20 +108,17 @@ class eZProductCollectionItem extends eZPersistentObject
      Creates a new empty collection item which belongs to
      collection \a $collectionID and returns it.
     */
-    function create( $productCollectionID )
+    static function create( $productCollectionID )
     {
-        $row = array( "productcollection_id" => $productCollectionID );
-        return new eZProductCollectionItem( $row );
+        return new eZProductCollectionItem( array( "productcollection_id" => $productCollectionID ) );
     }
 
     /*!
      Clones the collection item object and returns it. The ID of the clone is erased.
     */
-    function clone()
+    function __clone()
     {
-        $item = $this;
-        $item->setAttribute( 'id', null );
-        return $item;
+        $this->setAttribute( 'id', null );
     }
 
     /*!
@@ -131,21 +129,20 @@ class eZProductCollectionItem extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function &copy( $collectionID )
+    function copy( $collectionID )
     {
-        $item = $this->clone();
+        $item = clone $this;
         $item->setAttribute( 'productcollection_id', $collectionID );
         $item->store();
-        $oldItemOptionList =& $this->optionList();
-        foreach ( array_keys( $oldItemOptionList ) as $oldItemOptionKey )
+        $oldItemOptionList = $this->optionList();
+        foreach ( $oldItemOptionList as $oldItemOption )
         {
-            $oldItemOption =& $oldItemOptionList[$oldItemOptionKey];
-            $itemOption =& $oldItemOption->copy( $item->attribute( 'id' ) );
+            $itemOption = $oldItemOption->copy( $item->attribute( 'id' ) );
         }
         return $item;
     }
 
-    function fetch( $id, $asObject = true )
+    static function fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZProductCollectionItem::definition(),
                                                 null,
@@ -153,7 +150,7 @@ class eZProductCollectionItem extends eZPersistentObject
                                                 $asObject );
     }
 
-    function fetchList( $conditions = null, $asObjects = true, $offset = false, $limit = false )
+    static function fetchList( $conditions = null, $asObjects = true, $offset = false, $limit = false )
     {
         $limitation = null;
         if ( $offset !== false or $limit !== false )
@@ -179,39 +176,36 @@ class eZProductCollectionItem extends eZPersistentObject
     /*!
      \return Returns the content object defining the product.
     */
-    function &contentObject()
+    function contentObject()
     {
         if ( $this->ContentObject === null )
         {
             if ( $this->ContentObjectID == 0 )
             {
-                $retValue = null;
-                return $retValue;
+                return null;
             }
-            $this->ContentObject =& eZContentObject::fetch( $this->ContentObjectID );
+            $this->ContentObject = eZContentObject::fetch( $this->ContentObjectID );
         }
         return $this->ContentObject;
     }
 
-    function &optionList()
+    function optionList()
     {
-        $optionList = eZProductCollectionItemOption::fetchList( $this->attribute( 'id' ) );
-        return $optionList;
+        return eZProductCollectionItemOption::fetchList( $this->attribute( 'id' ) );
     }
 
     /*!
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function remove()
+    function removeThis()
     {
         $itemOptionList = eZProductCollectionItemOption::fetchList( $this->attribute( 'id' ) );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
-        foreach( array_keys( $itemOptionList ) as $key )
+        foreach( $itemOptionList as $itemOption )
         {
-            $itemOption =& $itemOptionList[$key];
             $itemOption->remove();
         }
         eZPersistentObject::remove();
@@ -225,15 +219,15 @@ class eZProductCollectionItem extends eZPersistentObject
     */
     function calculatePriceWithOptions( $currency = false )
     {
-        include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+        //include_once( 'kernel/shop/classes/ezshopfunctions.php' );
 
         $optionList = eZProductCollectionItemOption::fetchList( $this->attribute( 'id' ) );
-        $contentObject =& $this->contentObject();
-        $contentObjectVersion =& $contentObject->attribute( 'current_version' );
+        $contentObject = $this->contentObject();
+        $contentObjectVersion = $contentObject->attribute( 'current_version' );
         $optionsPrice = 0.0;
         if ( count( $optionList ) > 0 )
         {
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
             foreach( $optionList as $option )
             {
@@ -264,25 +258,20 @@ class eZProductCollectionItem extends eZPersistentObject
 
     function verify( $currency = false )
     {
-        $contentObject =& $this->attribute( 'contentobject' );
+        $contentObject = $this->attribute( 'contentobject' );
         if ( $contentObject != null && $contentObject->attribute( 'main_node_id' ) > 0 )
         {
-            include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+            //include_once( 'kernel/shop/classes/ezshopfunctions.php' );
 
             $attributes = $contentObject->contentObjectAttributes();
             $optionsPrice = $this->calculatePriceWithOptions( $currency );
-/*            if (  $optionsPrice === false )
-            {
-                eZDebug::writeDebug( $optionPrice , "Option price is not the same" );
 
-                return false;
-            } */
             foreach ( $attributes as $attribute )
             {
                 $dataType = $attribute->dataType();
                 if ( eZShopFunctions::isProductDatatype( $dataType->isA() ) )
                 {
-                    $priceObj =& $attribute->content();
+                    $priceObj = $attribute->content();
 
                     $price = $priceObj->attribute( 'price' );
                     $priceWithOptions = $price + $optionsPrice;
@@ -318,7 +307,7 @@ class eZProductCollectionItem extends eZPersistentObject
     */
     function cleanupList( $productCollectionIDList )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $idText = $db->implodeWithTypeCast( ', ', $productCollectionIDList, 'int' );
         $rows = $db->arrayQuery( "SELECT id FROM ezproductcollection_item WHERE productcollection_id IN ( $idText )" );
@@ -329,7 +318,7 @@ class eZProductCollectionItem extends eZPersistentObject
             {
                 $itemIDList[] = $row['id'];
             }
-            include_once( 'kernel/classes/ezproductcollectionitemoption.php' );
+            //include_once( 'kernel/classes/ezproductcollectionitemoption.php' );
             eZProductCollectionItemOption::cleanupList( $itemIDList );
         }
         $db->query( "DELETE FROM ezproductcollection_item WHERE productcollection_id IN ( $idText )" );
@@ -338,7 +327,7 @@ class eZProductCollectionItem extends eZPersistentObject
     }
 
     /// Stores the content object
-    var $ContentObject = null;
+    public $ContentObject = null;
 }
 
 ?>

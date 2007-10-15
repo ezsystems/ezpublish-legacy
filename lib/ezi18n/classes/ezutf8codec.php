@@ -48,7 +48,7 @@ class eZUTF8Codec
     /*!
      Converts an UTF8 string into Unicode values and returns an array with the values.
     */
-    function convertStringToUnicode( $str )
+    static function convertStringToUnicode( $str )
     {
         $unicodeValues = array();
         $strLen = strlen( $str );
@@ -66,7 +66,7 @@ class eZUTF8Codec
     /*!
      Converts an array with Unicode values into an UTF8 string and returns it.
     */
-    function convertUnicodeToString( $unicodeValues )
+    static function convertUnicodeToString( $unicodeValues )
     {
         if ( !is_array( $unicodeValues ) )
             return false;
@@ -83,7 +83,7 @@ class eZUTF8Codec
      \static
      Converts the 32 bit integer $char_code to a utf8 string representing the Unicode character.
     */
-    function &toUTF8( $char_code )
+    static function toUTF8( $char_code )
     {
         switch ( $char_code )
         {
@@ -131,7 +131,7 @@ class eZUTF8Codec
      $len will contain the length of utf8 char in the string which can be used to
      find the next char.
     */
-    function &fromUtf8( $multi_char, $offs, &$len )
+    static function fromUtf8( $multi_char, $offs, &$len )
     {
         $char_code = false;
         if ( ( ord( $multi_char[$offs + 0] ) & 0x80 ) == 0x00 ) // 7 bit, 1 char
@@ -222,26 +222,28 @@ class eZUTF8Codec
         return $char_code;
     }
 
-    function &utf8LengthTable()
+    static function utf8LengthTable()
     {
-        $table =& $GLOBALS["eZUTF8LengthTable"];
-        if ( !is_array( $table ) )
-            $table = array( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 5, 6 );
-        return $table;
+        if ( empty( $GLOBALS['eZUTF8LengthTable'] ) )
+        {
+            $GLOBALS['eZUTF8LengthTable'] =
+                array( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                       0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 5, 6 );
+        }
+        return $GLOBALS['eZUTF8LengthTable'];
     }
 
-    function characterByteLength( &$str, $pos )
+    static function characterByteLength( $str, $pos )
     {
-        $table =& eZUTF8Codec::utf8LengthTable();
+        $table = eZUTF8Codec::utf8LengthTable();
         $char = ord( $str[$pos] );
         return $table[($char >> 2) & 0x3f];
     }
 
-    function strlen( &$str )
+    static function strlen( $str )
     {
-        $table =& eZUTF8Codec::utf8LengthTable();
+        $table = eZUTF8Codec::utf8LengthTable();
         $len = strlen( $str );
         $strlen = 0;
         for ( $i = 0; $i < $len; )
@@ -257,14 +259,13 @@ class eZUTF8Codec
     /*!
      \return a unique instance of the UTF8 codec.
     */
-    function &instance()
+    static function instance()
     {
-        $instance =& $GLOBALS["eZUTF8CodecInstance"];
-        if ( get_class( $instance ) != "ezutf8codec" )
+        if ( empty( $GLOBALS['eZUTF8CodecInstance'] ) )
         {
-            $instance = new eZUTF8Codec();
+            $GLOBALS['eZUTF8CodecInstance'] = new eZUTF8Codec();
         }
-        return $instance;
+        return $GLOBALS['eZUTF8CodecInstance'];
     }
 }
 

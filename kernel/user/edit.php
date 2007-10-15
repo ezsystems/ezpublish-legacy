@@ -26,18 +26,18 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-include_once( "lib/ezutils/classes/ezhttptool.php" );
-include_once( "kernel/classes/ezcontentclass.php" );
-include_once( "kernel/classes/ezcontentclassattribute.php" );
-include_once( "kernel/classes/ezcontentobject.php" );
-include_once( "kernel/classes/ezcontentobjectattribute.php" );
+//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
+//include_once( "kernel/classes/ezcontentclass.php" );
+//include_once( "kernel/classes/ezcontentclassattribute.php" );
+//include_once( "kernel/classes/ezcontentobject.php" );
+//include_once( "kernel/classes/ezcontentobjectattribute.php" );
 
 
-$currentUser =& eZUser::currentUser();
+$currentUser = eZUser::currentUser();
 $currentUserID = $currentUser->attribute( "contentobject_id" );
-$http =& eZHTTPTool::instance();
-$Module =& $Params["Module"];
+$http = eZHTTPTool::instance();
+$Module = $Params['Module'];
 
 if ( isset( $Params["UserID"] ) )
     $UserID = $Params["UserID"];
@@ -70,22 +70,22 @@ if ( $Module->isCurrentAction( "Edit" ) )
 
 $userAccount = eZUser::fetch( $UserID );
 if ( !$userAccount )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
-$userObject =& $userAccount->attribute( 'contentobject' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
+$userObject = $userAccount->attribute( 'contentobject' );
 if ( !$userObject )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 if ( !$userObject->canEdit( ) )
-    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
-include_once( "kernel/common/template.php" );
-$tpl =& templateInit();
+require_once( "kernel/common/template.php" );
+$tpl = templateInit();
 $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "http", $http );
 $tpl->setVariable( "userID", $UserID );
 $tpl->setVariable( "userAccount", $userAccount );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:user/edit.tpl" );
+$Result['content'] = $tpl->fetch( "design:user/edit.tpl" );
 $Result['path'] = array( array( 'text' =>  ezi18n( 'kernel/user', 'User profile' ),
                                 'url' => false ) );
 

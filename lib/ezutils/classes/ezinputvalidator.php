@@ -59,10 +59,10 @@ class IntegerValidator
 
     function validate( $text )
     {
-        return is_numeric( $text ) ? EZ_INPUT_VALIDATOR_STATE_ACCEPTED : EZ_INPUT_VALIDATOR_STATE_INVALID;
+        return is_numeric( $text ) ? eZInputValidator::STATE_ACCEPTED : eZInputValidator::STATE_INVALID;
     }
 
-    function fixup( &$text )
+    function fixup( $text )
     {
     }
 }
@@ -80,13 +80,13 @@ class BooleanValidator
     {
         if ( strtolower( $text ) == "true" or
              strtolower( $text ) == "false" )
-            return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            return eZInputValidator::STATE_ACCEPTED;
         if ( is_numeric( $text ) )
-            return EZ_INPUT_VALIDATOR_STATE_INTERMEDIATE;
-        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INTERMEDIATE;
+        return eZInputValidator::STATE_INVALID;
     }
 
-    function fixup( &$text )
+    function fixup( $text )
     {
         $text = ( $text == 0 ? "false" : "true" );
     }
@@ -97,12 +97,12 @@ class BooleanValidator
 
 */
 
-define( "EZ_INPUT_VALIDATOR_STATE_ACCEPTED", 1 );
-define( "EZ_INPUT_VALIDATOR_STATE_INTERMEDIATE", 2 );
-define( "EZ_INPUT_VALIDATOR_STATE_INVALID", 3 );
-
 class eZInputValidator
 {
+    const STATE_ACCEPTED = 1;
+    const STATE_INTERMEDIATE = 2;
+    const STATE_INVALID = 3;
+
     /*!
      Default constructor, does nothing.
     */
@@ -112,21 +112,21 @@ class eZInputValidator
 
     /*!
      Tries to validate to the text \a $text and returns one of the validator states
-     EZ_INPUT_VALIDATOR_STATE_ACCEPTED, EZ_INPUT_VALIDATOR_STATE_INTERMEDIATE or
-     EZ_INPUT_VALIDATOR_STATE_INVALID.
-     This returns EZ_INPUT_VALIDATOR_STATE_ACCEPTED as default and must be reimplemented
+     eZInputValidator::STATE_ACCEPTED, eZInputValidator::STATE_INTERMEDIATE or
+     eZInputValidator::STATE_INVALID.
+     This returns eZInputValidator::STATE_ACCEPTED as default and must be reimplemented
      in real valiators.
     */
     function validate( $text )
     {
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
-     Tries to fix the text \a $text which was previously marked as EZ_INPUT_VALIDATOR_STATE_INTERMEDIATE
-     so that it can be seen as EZ_INPUT_VALIDATOR_STATE_ACCEPTED.
+     Tries to fix the text \a $text which was previously marked as eZInputValidator::STATE_INTERMEDIATE
+     so that it can be seen as eZInputValidator::STATE_ACCEPTED.
     */
-    function fixup( &$text )
+    function fixup( $text )
     {
     }
 }

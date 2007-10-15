@@ -28,8 +28,8 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/setup/steps/ezstep_installer.php');
-include_once( "kernel/common/i18n.php" );
+//include_once( 'kernel/setup/steps/ezstep_installer.php');
+require_once( "kernel/common/i18n.php" );
 
 /*!
   \class eZStepSitePackages ezstep_site_packages.php
@@ -42,7 +42,7 @@ class eZStepSitePackages extends eZStepInstaller
     /*!
      Constructor
     */
-    function eZStepSitePackages( &$tpl, &$http, &$ini, &$persistenceList )
+    function eZStepSitePackages( $tpl, $http, $ini, &$persistenceList )
     {
         $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
                                 'site_packages', 'Site packages' );
@@ -117,7 +117,7 @@ class eZStepSitePackages extends eZStepInstaller
     /*!
      \reimp
     */
-    function &display()
+    function display()
     {
         $siteTypes = $this->chosenSiteTypes();
         $siteType = $siteTypes[0]['identifier'];
@@ -130,7 +130,7 @@ class eZStepSitePackages extends eZStepInstaller
             $requiredPackages[] = strtolower( $requiredPackage );
         }
 
-        include_once( 'kernel/classes/ezpackage.php' );
+        //include_once( 'kernel/classes/ezpackage.php' );
         $packageArray = eZPackage::fetchPackages( array( 'repository_id' => 'addons' ) );
 
         $requiredPackageInfoArray = array();
@@ -176,7 +176,7 @@ class eZStepSitePackages extends eZStepInstaller
 
     }
 
-    var $Error = 0;
+    public $Error = 0;
 }
 
 ?>

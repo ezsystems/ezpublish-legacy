@@ -34,15 +34,13 @@
 
 */
 
-define( 'eZNodeViewFunctions_FileGenerateTimeout', 3 );
-
 class eZNodeviewfunctions
 {
     // Deprecated function for generating the view cache
-    function &generateNodeView( &$tpl, &$node, &$object, $languageCode, $viewMode, $offset,
-                                $cacheDir, $cachePath, $viewCacheEnabled,
-                                $viewParameters = array( 'offset' => 0, 'year' => false, 'month' => false, 'day' => false ),
-                                $collectionAttributes = false, $validation = false )
+    static function generateNodeView( $tpl, $node, $object, $languageCode, $viewMode, $offset,
+                                      $cacheDir, $cachePath, $viewCacheEnabled,
+                                      $viewParameters = array( 'offset' => 0, 'year' => false, 'month' => false, 'day' => false ),
+                                      $collectionAttributes = false, $validation = false )
     {
         require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $cacheFile = eZClusterFileHandler::instance( $cachePath );
@@ -60,7 +58,7 @@ class eZNodeviewfunctions
 
     // Note: This callback is needed to generate the array which is returned
     //       back to eZClusterFileHandler for processing.
-    function generateCallback( $file, $args )
+    static function generateCallback( $file, $args )
     {
         $res = call_user_func_array( array( 'eZNodeviewfunctions', 'generateNodeViewData' ),
                                      $args );
@@ -79,11 +77,11 @@ class eZNodeviewfunctions
         return $retval;
     }
 
-    function &generateNodeViewData( &$tpl, &$node, &$object, $languageCode, $viewMode, $offset,
-                                    $viewParameters = array( 'offset' => 0, 'year' => false, 'month' => false, 'day' => false ),
-                                    $collectionAttributes = false, $validation = false )
+    static function generateNodeViewData( $tpl, $node, $object, $languageCode, $viewMode, $offset,
+                                          $viewParameters = array( 'offset' => 0, 'year' => false, 'month' => false, 'day' => false ),
+                                          $collectionAttributes = false, $validation = false )
     {
-        include_once( 'kernel/classes/ezsection.php' );
+        //include_once( 'kernel/classes/ezsection.php' );
         eZSection::setGlobalID( $object->attribute( 'section_id' ) );
 
         $section = eZSection::fetch( $object->attribute( 'section_id' ) );
@@ -124,7 +122,7 @@ class eZNodeviewfunctions
             }
         }
 
-        $res =& eZTemplateDesignResource::instance();
+        $res = eZTemplateDesignResource::instance();
         $res->setKeys( $keyArray );
 
         if ( $languageCode )
@@ -141,7 +139,7 @@ class eZNodeviewfunctions
         $tpl->setVariable( 'validation', $validation );
         $tpl->setVariable( 'persistent_variable', false );
 
-        $parents =& $node->attribute( 'path' );
+        $parents = $node->attribute( 'path' );
 
         $path = array();
         $titlePath = array();
@@ -166,12 +164,12 @@ class eZNodeviewfunctions
         $tpl->setVariable( 'node_path', $path );
 
         $Result = array();
-        $Result['content'] =& $tpl->fetch( 'design:node/view/' . $viewMode . '.tpl' );
-        $Result['view_parameters'] =& $viewParameters;
-        $Result['path'] =& $path;
-        $Result['title_path'] =& $titlePath;
-        $Result['section_id'] =& $object->attribute( 'section_id' );
-        $Result['node_id'] =& $node->attribute( 'node_id' );
+        $Result['content'] = $tpl->fetch( 'design:node/view/' . $viewMode . '.tpl' );
+        $Result['view_parameters'] = $viewParameters;
+        $Result['path'] = $path;
+        $Result['title_path'] = $titlePath;
+        $Result['section_id'] = $object->attribute( 'section_id' );
+        $Result['node_id'] = $node->attribute( 'node_id' );
         $Result['navigation_part'] = $navigationPartIdentifier;
 
         $contentInfoArray = array();
@@ -204,7 +202,7 @@ class eZNodeviewfunctions
         // Check if time to live is set in template
         if ( $tpl->hasVariable( 'cache_ttl' ) )
         {
-            $cacheTTL =& $tpl->variable( 'cache_ttl' );
+            $cacheTTL = $tpl->variable( 'cache_ttl' );
         }
 
         if ( !isset( $cacheTTL ) )
@@ -230,7 +228,7 @@ class eZNodeviewfunctions
         {
             $serializeString = serialize( $Result );
 
-            include_once( "lib/ezfile/classes/ezatomicfile.php" );
+            //include_once( "lib/ezfile/classes/ezatomicfile.php" );
             $cacheFile = new eZAtomicFile( $cachePath );
             $cacheFile->write( $serializeString );
             $cacheFile->close();
@@ -251,10 +249,10 @@ class eZNodeviewfunctions
         return $Result;
     }
 
-    function generateViewCacheFile( $user, $nodeID, $offset, $layout, $language, $viewMode, $viewParameters = false, $cachedViewPreferences = false )
+    static function generateViewCacheFile( $user, $nodeID, $offset, $layout, $language, $viewMode, $viewParameters = false, $cachedViewPreferences = false )
     {
-        include_once( 'kernel/classes/ezuserdiscountrule.php' );
-        include_once( 'kernel/classes/ezpreferences.php' );
+        //include_once( 'kernel/classes/ezuserdiscountrule.php' );
+        //include_once( 'kernel/classes/ezpreferences.php' );
 
         $limitedAssignmentValueList = $user->limitValueList();
         $roleList = $user->roleIDList();
@@ -293,7 +291,7 @@ class eZNodeviewfunctions
         // Make the cache unique for every case of the preferences
         if ( $cachedViewPreferences === false )
         {
-            $siteIni =& eZINI::instance( );
+            $siteIni = eZINI::instance( );
             $depPreferences = $siteIni->variable( 'ContentSettings', 'CachedViewPreferences' );
         }
         else
@@ -320,7 +318,7 @@ class eZNodeviewfunctions
             $cacheHashArray[] = $pString;
         }
 
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
 
         $cacheFile = $nodeID . '-' . md5( implode( '-', $cacheHashArray ) ) . '.cache';
         $extraPath = eZDir::filenamePath( $nodeID );
@@ -333,7 +331,7 @@ class eZNodeviewfunctions
     }
 
 
-    function contentViewRetrieve( $file, $mtime, $args )
+    static function contentViewRetrieve( $file, $mtime, $args )
     {
         extract( $args );
 
@@ -397,11 +395,11 @@ class eZNodeviewfunctions
                 if ( isset( $Result['content_info']['class_identifier'] ) )
                     $keyArray[] = array( 'class_identifier', $Result['content_info']['class_identifier'] );
 
-                $res =& eZTemplateDesignResource::instance();
+                $res = eZTemplateDesignResource::instance();
                 $res->setKeys( $keyArray );
 
                 // set section id
-                include_once( 'kernel/classes/ezsection.php' );
+                //include_once( 'kernel/classes/ezsection.php' );
                 eZSection::setGlobalID( $Result['section_id'] );
 
                 return $Result;
@@ -415,62 +413,62 @@ class eZNodeviewfunctions
         // Cache is expired so return specialized cluster object
         if ( !isset( $expiryReason ) )
             $expiryReason = 'Content cache is expired';
-        include_once( 'kernel/classes/ezclusterfilefailure.php' );
+        //include_once( 'kernel/classes/ezclusterfilefailure.php' );
         return new eZClusterFileFailure( 1, $expiryReason );
     }
 
-    function contentViewGenerate( $file, $args )
+    static function contentViewGenerate( $file, $args )
     {
         extract( $args );
         $node = eZContentObjectTreeNode::fetch( $NodeID );
 
         if ( !is_object( $node ) )
         {
-            return  array( 'content' => $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' ),
+            return  array( 'content' => $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' ),
                            'store'   => false );
         }
 
-        $object =& $node->attribute( 'object' );
+        $object = $node->attribute( 'object' );
 
         if ( !is_object( $object ) )
         {
-            return  array( 'content' => $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' ),
+            return  array( 'content' => $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' ),
                            'store'   => false );
         }
 
-        if ( !get_class( $object ) == 'ezcontentobject' )
+        if ( !$object instanceof eZContentObject )
         {
-            return  array( 'content' => $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' ),
+            return  array( 'content' => $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' ),
                            'store'   => false );
         }
         if ( $node === null )
         {
-            return  array( 'content' => $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' ),
+            return  array( 'content' => $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' ),
                            'store'   => false );
         }
 
         if ( $object === null )
         {
-            return  array( 'content' => $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' ),
+            return  array( 'content' => $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' ),
                            'store'   => false );
         }
 
         if ( $node->attribute( 'is_invisible' ) && !eZContentObjectTreeNode::showInvisibleNodes() )
         {
-            return array( 'content' => $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' ),
+            return array( 'content' => $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' ),
                           'store'   => false );
         }
 
 //    if ( !$object->attribute( 'can_read' ) )
         if ( !$object->canRead() )
         {
-            return array( 'content' => $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED,
+            return array( 'content' => $Module->handleError( eZError::KERNEL_ACCESS_DENIED,
                                                              'kernel',
                                                              array( 'AccessList' => $object->accessList( 'read' ) ) ),
                           'store'   => false );
         }
 
-        $Result =& eZNodeviewfunctions::generateNodeViewData( $tpl, $node, $object,
+        $Result = eZNodeviewfunctions::generateNodeViewData( $tpl, $node, $object,
                                                               $LanguageCode, $ViewMode, $Offset,
                                                               $viewParameters, $collectionAttributes,
                                                               $validation );

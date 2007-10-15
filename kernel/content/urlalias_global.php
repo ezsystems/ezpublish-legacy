@@ -28,18 +28,18 @@
 
 /*! \file urltranslator.php
 */
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'kernel/classes/ezurlaliasml.php' );
-include_once( 'kernel/classes/ezpathelement.php' );
+require_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezurlaliasml.php' );
+//include_once( 'kernel/classes/ezpathelement.php' );
 
-$Module =& $Params['Module'];
-$http =& eZHTTPTool::instance();
+$Module = $Params['Module'];
+$http = eZHTTPTool::instance();
 
 $Offset = $Params['Offset'];
 $viewParameters = array( 'offset' => $Offset );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 $limit = 20;
 
 // TODO: For PHP 5, merge similar code in urlalias.php and urlalias_global.php into a function/class.
@@ -53,7 +53,7 @@ $aliasOutputDestinationText = false;
 
 if ( $Module->isCurrentAction( 'RemoveAllAliases' ) )
 {
-    include_once( 'kernel/classes/ezurlaliasquery.php' );
+    //include_once( 'kernel/classes/ezurlaliasquery.php' );
     $filter = new eZURLAliasQuery();
     $filter->actionTypesEx = array( 'eznode', 'nop' );
     $filter->offset = 0;
@@ -147,7 +147,7 @@ else if ( $Module->isCurrentAction( 'NewAlias' ) )
             $result = eZURLAliasML::storePath( $aliasText, $action,
                                                $language, $linkID, $isAlwaysAvailable, $parentID,
                                                true, false, false );
-            if ( $result['status'] === EZ_URLALIAS_LINK_ALREADY_TAKEN )
+            if ( $result['status'] === eZURLAliasML::LINK_ALREADY_TAKEN )
             {
                 $lastElements = eZURLAliasML::fetchByPath( $result['path'] );
                 if ( count ( $lastElements ) > 0 )
@@ -198,7 +198,7 @@ $limitList = array( array( 'id'    => 1,
                            'value' => 50 ),
                     array( 'id'    => 4,
                            'value' => 100 ) );
-include_once( 'kernel/classes/ezpreferences.php' );
+//include_once( 'kernel/classes/ezpreferences.php' );
 $limitID = eZPreferences::value( 'admin_urlalias_list_limit' );
 foreach ( $limitList as $limitEntry )
 {
@@ -211,7 +211,7 @@ if ( !in_array( $limitID, $limitIDs ) )
 }
 
 // Fetch global custom aliases (excluding eznode)
-include_once( 'kernel/classes/ezurlaliasquery.php' );
+//include_once( 'kernel/classes/ezurlaliasquery.php' );
 $filter = new eZURLAliasQuery();
 $filter->actionTypesEx = array( 'eznode', 'nop' );
 $filter->offset = $Offset;
@@ -238,7 +238,7 @@ $tpl->setVariable( 'limitID', $limitID );
 $tpl->setVariable( 'view_parameters', $viewParameters );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:content/urlalias_global.tpl' );
+$Result['content'] = $tpl->fetch( 'design:content/urlalias_global.tpl' );
 $Result['path'] = $path;
 
 ?>

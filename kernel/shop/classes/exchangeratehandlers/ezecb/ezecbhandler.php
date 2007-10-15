@@ -31,7 +31,7 @@
 /*! \file ezecbhandler.php
 */
 
-include_once( 'kernel/shop/classes/exchangeratehandlers/ezexchangeratesupdatehandler.php' );
+//include_once( 'kernel/shop/classes/exchangeratehandlers/ezexchangeratesupdatehandler.php' );
 
 class eZECBHandler extends eZExchangeRatesUpdateHandler
 {
@@ -48,7 +48,7 @@ class eZECBHandler extends eZExchangeRatesUpdateHandler
     {
         eZExchangeRatesUpdateHandler::initialize( $params );
 
-        $shopINI =& eZINI::instance( 'shop.ini' );
+        $shopINI = eZINI::instance( 'shop.ini' );
         if ( !isset( $params['ServerName'] ) )
         {
             $params['ServerName'] = '';
@@ -84,7 +84,7 @@ class eZECBHandler extends eZExchangeRatesUpdateHandler
 
     function requestRates()
     {
-        $error = array( 'code' => EZ_EXCHANGE_RATES_HANDLER_OK,
+        $error = array( 'code' => self::OK,
                         'description' => ezi18n( 'kernel/shop', "'Autorates' were retrieved successfully" ) );
 
         $serverName = $this->serverName();
@@ -93,7 +93,7 @@ class eZECBHandler extends eZExchangeRatesUpdateHandler
 
         $ratesList = array();
 
-        include_once( 'lib/ezutils/classes/ezhttptool.php' );
+        //include_once( 'lib/ezutils/classes/ezhttptool.php' );
         $buf = eZHTTPTool::sendHTTPRequest( "{$serverName}/{$ratesURI}", $serverPort,  false, 'eZ Publish', false );
         if ( $buf )
         {
@@ -105,38 +105,39 @@ class eZECBHandler extends eZExchangeRatesUpdateHandler
                 if ( $header['content-type'] === 'text/xml' )
                 {
                     // parse xml
-                    include_once( 'lib/ezxml/classes/ezxml.php' );
-                    $xml = new eZXML();
-                    $domDocument =& $xml->domTree( $body );
+                    $dom = new DOMDocument();
+                    $dom->preserveWhiteSpace = false;
+                    $success = $dom->loadXML( $body );
 
-                    $rootNode =& $domDocument->root();
-                    $cubeNode = $rootNode->elementFirstChildByName( 'Cube' );
-                    if ( $cubeNode )
+                    $xpath = new DOMXPath( $dom );
+                    $xpath->registerNamespace( 'eurofxref', 'http://www.ecb.int/vocabulary/2002-08-01/eurofxref' );
+
+                    $rootNode = $dom->documentElement;
+                    $cubeNode = $xpath->query( 'eurofxref:Cube', $rootNode )->item( 0 );
+                    $timeNode = $cubeNode->firstChild;
+
+                    foreach ( $timeNode->childNodes as $currencyNode )
                     {
-                        $currencyNodes = $cubeNode->children();
-                        foreach ( $currencyNodes as $currencyNode )
-                        {
-                            $currencyCode = $currencyNode->attributeValue( 'currency' );
-                            $rateValue = $currencyNode->attributeValue( 'rate' );
-                            $ratesList[$currencyCode] = $rateValue;
-                        }
+                        $currencyCode = $currencyNode->getAttribute( 'currency' );
+                        $rateValue = $currencyNode->getAttribute( 'rate' );
+                        $ratesList[$currencyCode] = $rateValue;
                     }
                 }
                 else
                 {
-                    $error['code'] = EZ_EXCHANGE_RATES_HANDLER_REQUEST_RATES_FAILED;
+                    $error['code'] = self::FAILED;
                     $error['description'] = ezi18n( 'kernel/shop', "Unknown body format in HTTP response. Expected 'text/xml'" );
                 }
             }
             else
             {
-                $error['code'] = EZ_EXCHANGE_RATES_HANDLER_REQUEST_RATES_FAILED;
+                $error['code'] = self::FAILED;
                 $error['description'] = ezi18n( 'kernel/shop', "Invalid HTTP response" );
             }
         }
         else
         {
-            $error['code'] = EZ_EXCHANGE_RATES_HANDLER_REQUEST_RATES_FAILED;
+            $error['code'] = self::FAILED;
             $error['description'] = ezi18n( 'kernel/shop', "Unable to send http request: %1:%2/%3", null, array( $serverName, $serverPort, $ratesURI ) );
         }
 
@@ -174,9 +175,9 @@ class eZECBHandler extends eZExchangeRatesUpdateHandler
         return $this->RatesURI;
     }
 
-    var $ServerName;
-    var $ServerPort;
-    var $RatesURI;
+    public $ServerName;
+    public $ServerPort;
+    public $RatesURI;
 }
 
 ?>

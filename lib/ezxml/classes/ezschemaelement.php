@@ -215,31 +215,31 @@ class eZSchemaElement
     }
 
     /// Reference to element
-    var $Reference = false;
+    public $Reference = false;
 
     /// The name of the element
-    var $Name = "";
+    public $Name = "";
 
     /// The minimum number of occurances of the element
-    var $MinOccurs = 1;
+    public $MinOccurs = 1;
 
     /// The maximum number of occurances of the element
-    var $MaxOccurs = 1;
+    public $MaxOccurs = 1;
 
     /// The schema type
-    var $Type = "simpleType";
+    public $Type = "simpleType";
 
     /// The next element in the schema
-    var $NextElement = false;
+    public $NextElement = false;
 
     /// The datatype of the element
-    var $DataType = false;
+    public $DataType = false;
 
     /// The parent element
-    var $ParentElement = false;
+    public $ParentElement = false;
 
     /// The sub elements of this element
-    var $Children = array();
+    public $Children = array();
 }
 
 ?>

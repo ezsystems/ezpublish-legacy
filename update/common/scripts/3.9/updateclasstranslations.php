@@ -34,19 +34,19 @@ set_time_limit( 0 );
 
 define( "QUERY_LIMIT", 30 );
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
+$cli = eZCLI::instance();
 $endl = $cli->endlineString();
 
-$script =& eZScript::instance( array( 'description' => ( "eZ Publish update of class/classattribute names translations.\n\n".
-                                                         "Will go over class/classattributes and reinitialize their names for missing translations" .
-                                                         "\n" .
-                                                         "updateclasstranslations.php" ),
-                                      'use-session' => true,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+$script = eZScript::instance( array( 'description' => ( "eZ Publish update of class/classattribute names translations.\n\n".
+                                                        "Will go over class/classattributes and reinitialize their names for missing translations" .
+                                                        "\n" .
+                                                        "updateclasstranslations.php" ),
+                                     'use-session' => true,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 
@@ -69,7 +69,7 @@ if ( $siteAccess )
 function changeSiteAccessSetting( &$siteaccess, $optionData )
 {
     global $isQuiet;
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     if ( file_exists( 'settings/siteaccess/' . $optionData ) )
     {
         $siteaccess = $optionData;
@@ -83,12 +83,12 @@ function changeSiteAccessSetting( &$siteaccess, $optionData )
     }
 }
 
-include_once( 'kernel/classes/ezcontentclassattribute.php' );
-include_once( 'kernel/classes/ezcontentclass.php' );
-include_once( 'kernel/classes/ezcontentlanguage.php' );
-include_once( 'lib/ezdb/classes/ezdb.php' );
+//include_once( 'kernel/classes/ezcontentclassattribute.php' );
+//include_once( 'kernel/classes/ezcontentclass.php' );
+//include_once( 'kernel/classes/ezcontentlanguage.php' );
+//include_once( 'lib/ezdb/classes/ezdb.php' );
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 $db->setIsSQLOutputEnabled( $showSQL );
 
 $language = eZContentLanguage::fetchByLocale( $languageLocale );
@@ -100,12 +100,12 @@ if ( !$language )
 }
 
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 $db->begin();
 
 for ( $offset = 0; ; $offset += QUERY_LIMIT )
 {
-    $classList = eZContentClass::fetchList( $version = EZ_CLASS_VERSION_STATUS_DEFINED,
+    $classList = eZContentClass::fetchList( $version = eZContentClass::VERSION_STATUS_DEFINED,
                                             $asObject = true,
                                             $user_id = false,
                                             $sorts = null,

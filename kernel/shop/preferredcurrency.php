@@ -29,13 +29,13 @@
 /*! \file preferredcurrency.php
 */
 
-include_once( 'kernel/common/template.php' );
-$tpl =& templateInit();
+require_once( 'kernel/common/template.php' );
+$tpl = templateInit();
 
 $Result = array();
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/shop', 'Preferred currency' ),
                                 'url' => false ) );
-$Result['content'] =& $tpl->fetch( "design:shop/preferredcurrency.tpl" );
+$Result['content'] = $tpl->fetch( "design:shop/preferredcurrency.tpl" );
 
 
 ?>

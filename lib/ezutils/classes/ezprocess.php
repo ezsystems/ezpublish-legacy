@@ -35,29 +35,21 @@
 
 */
 
-include_once( "lib/ezutils/classes/ezdebug.php" );
+require_once( "lib/ezutils/classes/ezdebug.php" );
 
 class eZProcess
 {
-    function eZProcess()
+    static function run( $file, $Params = array(), $params_as_var = false )
     {
-    }
-
-    function run( $file, $Params = array(), $params_as_var = false )
-    {
-        if ( isset( $this ) and
-             get_class( $this ) == "ezprocess" )
-            $instance =& $this;
-        else
-            $instance =& eZProcess::instance();
-        return $instance->runFile( $Params, $file, $params_as_var );
+        return eZProcess::instance()->runFile( $Params, $file, $params_as_var );
     }
 
     /*!
      Helper function, executes the file.
      */
-    function &runFile( &$Params, $file, $params_as_var )
+    function runFile( $Params, $file, $params_as_var )
     {
+        $Result = null;
         if ( $params_as_var )
         {
             foreach ( $Params as $key => $dummy )
@@ -66,16 +58,20 @@ class eZProcess
                      $key != "this" and
                      $key != "file" and
                      !is_numeric( $key ) )
-                    ${$key} =& $Params[$key];
+                {
+                    ${$key} = $Params[$key];
+                }
             }
         }
 
         if ( file_exists( $file ) )
         {
-
             $includeResult = include( $file );
-            if ( !isset( $Result ) and $includeResult != 1 )
+            if ( empty( $Result ) &&
+                 $includeResult != 1 )
+            {
                 $Result = $includeResult;
+            }
         }
         else
             eZDebug::writeWarning( "PHP script $file does not exist, cannot run.",
@@ -83,14 +79,13 @@ class eZProcess
         return $Result;
     }
 
-    function &instance()
+    static function instance()
     {
-        $instance =& $GLOBALS["eZProcessInstance"];
-        if ( get_class( $instance ) != "ezprocess" )
+        if ( empty( $GLOBALS['eZProcessInstance'] ) )
         {
-            $instance = new eZProcess();
+            $GLOBALS['eZProcessInstance'] = new eZProcess();
         }
-        return $instance;
+        return $GLOBALS['eZProcessInstance'];
     }
 }
 

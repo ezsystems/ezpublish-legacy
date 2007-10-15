@@ -41,7 +41,7 @@
   for the different available DiffEngine.
 */
 
-include_once( 'lib/ezdiff/classes/ezdiffengine.php' );
+//include_once( 'lib/ezdiff/classes/ezdiffengine.php' );
 
 class eZDiffContainerObjectEngine extends eZDiffEngine
 {
@@ -54,7 +54,7 @@ class eZDiffContainerObjectEngine extends eZDiffEngine
     */
     function createDifferenceObject( $old, $new )
     {
-        include_once( 'lib/ezdiff/classes/ezdiffcontainerobject.php' );
+        //include_once( 'lib/ezdiff/classes/ezdiffcontainerobject.php' );
         $container = new eZDiffContainerObject();
         $container->setOldContent( $old );
         $container->setNewContent( $new );

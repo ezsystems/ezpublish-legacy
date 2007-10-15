@@ -26,12 +26,12 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/classes/ezcontentlanguage.php' );
-
-define( 'EZ_ALWAYS_AVAILABLE_STR', 'always-available' );
+//include_once( 'kernel/classes/ezcontentlanguage.php' );
 
 class eZSerializedObjectNameList
 {
+    const ALWAYS_AVAILABLE_STR = 'always-available';
+
     function eZSerializedObjectNameList( $serializedNamesString = false )
     {
         $this->DefaultLanguage = null;
@@ -52,7 +52,7 @@ class eZSerializedObjectNameList
             $languageLocale = $this->defaultLanguageLocale();
 
         $serializedNameList = serialize( array( $languageLocale => $nameString,
-                                                EZ_ALWAYS_AVAILABLE_STR => $languageLocale ) );
+                                                eZSerializedObjectNameList::ALWAYS_AVAILABLE_STR => $languageLocale ) );
         $this->initFromSerializedList( $serializedNameList );
     }
 
@@ -67,11 +67,8 @@ class eZSerializedObjectNameList
         return $object;
     }
 
-    function clone()
+    function __clone()
     {
-        $clone = $this->create();
-        $clone->copy( $this );
-        return $clone;
     }
 
     function copy( $serializedObjectNameListObject )
@@ -122,15 +119,15 @@ class eZSerializedObjectNameList
 
     function alwaysAvailableLanguageLocale()
     {
-        $languageLocale = isset( $this->NameList[EZ_ALWAYS_AVAILABLE_STR] ) ? $this->NameList[EZ_ALWAYS_AVAILABLE_STR] : false;
+        $languageLocale = isset( $this->NameList[eZSerializedObjectNameList::ALWAYS_AVAILABLE_STR] ) ? $this->NameList[eZSerializedObjectNameList::ALWAYS_AVAILABLE_STR] : false;
         return $languageLocale;
     }
 
     function alwaysAvailableLanguage()
     {
         $language = false;
-        if ( isset( $this->NameList[EZ_ALWAYS_AVAILABLE_STR] ) )
-            $language = eZContentLanguage::fetchByLocale( $this->NameList[EZ_ALWAYS_AVAILABLE_STR] );
+        if ( isset( $this->NameList[eZSerializedObjectNameList::ALWAYS_AVAILABLE_STR] ) )
+            $language = eZContentLanguage::fetchByLocale( $this->NameList[eZSerializedObjectNameList::ALWAYS_AVAILABLE_STR] );
 
         return $language;
     }
@@ -140,7 +137,7 @@ class eZSerializedObjectNameList
         $mask = 0;
         foreach ( $this->NameList as $languageLocale => $name )
         {
-            if ( $languageLocale == EZ_ALWAYS_AVAILABLE_STR )
+            if ( $languageLocale == eZSerializedObjectNameList::ALWAYS_AVAILABLE_STR )
             {
                 $mask += 1;
             }
@@ -187,9 +184,9 @@ class eZSerializedObjectNameList
     function alwaysAvailableName()
     {
         $name = '';
-        if ( isset( $this->NameList[EZ_ALWAYS_AVAILABLE_STR] ) )
+        if ( isset( $this->NameList[eZSerializedObjectNameList::ALWAYS_AVAILABLE_STR] ) )
         {
-            $name = $this->nameByLanguageLocale( $this->NameList[EZ_ALWAYS_AVAILABLE_STR] );
+            $name = $this->nameByLanguageLocale( $this->NameList[eZSerializedObjectNameList::ALWAYS_AVAILABLE_STR] );
         }
 
         return $name;
@@ -199,11 +196,11 @@ class eZSerializedObjectNameList
     {
         if ( $languageLocale )
         {
-            $this->NameList[EZ_ALWAYS_AVAILABLE_STR] = $languageLocale;
+            $this->NameList[eZSerializedObjectNameList::ALWAYS_AVAILABLE_STR] = $languageLocale;
         }
         else
         {
-            unset( $this->NameList[EZ_ALWAYS_AVAILABLE_STR] );
+            unset( $this->NameList[eZSerializedObjectNameList::ALWAYS_AVAILABLE_STR] );
         }
 
         $this->setHasDirtyData();
@@ -276,7 +273,7 @@ class eZSerializedObjectNameList
     {
         foreach ( array_keys( $this->NameList ) as $languageLocale )
         {
-            if ( $languageLocale != EZ_ALWAYS_AVAILABLE_STR )
+            if ( $languageLocale != eZSerializedObjectNameList::ALWAYS_AVAILABLE_STR )
                 $this->NameList[$languageLocale] .= $appendString;
         }
     }
@@ -284,7 +281,7 @@ class eZSerializedObjectNameList
     /*!
      \static
     */
-    function nameFromSerializedString( $serializedNames, $languageLocale = false )
+    static function nameFromSerializedString( $serializedNames, $languageLocale = false )
     {
         $nameList = new eZSerializedObjectNameList( $serializedNames );
         return $nameList->name( $languageLocale );
@@ -475,7 +472,7 @@ class eZSerializedObjectNameList
         {
             foreach ( array_keys( $this->NameList ) as $languageLocale )
             {
-                if ( $languageLocale != EZ_ALWAYS_AVAILABLE_STR )
+                if ( $languageLocale != eZSerializedObjectNameList::ALWAYS_AVAILABLE_STR )
                     $languageLocaleList[] = $languageLocale;
             }
         }
@@ -544,7 +541,7 @@ class eZSerializedObjectNameList
             //      'map_table' => array( 'eng-GB' => 'get-DE',
             //                            'ger-DE' => 'skip_language' )
             // will produce different results.
-            $nameList = $this->clone();
+            $nameList = clone $this;
             $this->resetNameList();
 
             foreach ( $languageInfo['map_table'] as $fromLanguageLocale => $toLanguageLocale )
@@ -587,11 +584,10 @@ class eZSerializedObjectNameList
     {
         $languageMap = is_array( $param ) ? $param : array();
         $createLanguageIfNotExist = ( $param === true ) ? true : false;
-
         $nameList = $this->nameList();
         foreach ( $nameList as $nameLanguageLocale => $name )
         {
-            if ( $nameLanguageLocale != EZ_ALWAYS_AVAILABLE_STR )
+            if ( $nameLanguageLocale != eZSerializedObjectNameList::ALWAYS_AVAILABLE_STR )
             {
                 $language = false;
 
@@ -626,14 +622,13 @@ class eZSerializedObjectNameList
                 }
             }
         }
-
         // update always-available(probably original 'always-available' was skiped)
         $this->updateAlwaysAvailable();
     }
 
-    var $NameList;
-    var $HasDirtyData;
-    var $DefaultLanguage;
+    public $NameList;
+    public $HasDirtyData;
+    public $DefaultLanguage;
 }
 
 ?>

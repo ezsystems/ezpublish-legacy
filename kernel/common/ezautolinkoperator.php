@@ -40,7 +40,7 @@ class eZAutoLinkOperator
     /*!
      Returns the operators in this class.
     */
-    function &operatorList()
+    function operatorList()
     {
         return $this->Operators;
     }
@@ -81,9 +81,9 @@ class eZAutoLinkOperator
     /*!
      \reimp
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
-        $ini =& $tpl->ini();
+        $ini = $tpl->ini();
         $max = $ini->variable( 'AutoLinkOperator', 'MaxCharacters' );
         if ( $namedParameters['max_chars'] !== null )
         {
@@ -101,7 +101,7 @@ class eZAutoLinkOperator
     }
 
     /// \privatesection
-    var $Operators;
+    public $Operators;
 };
 
 ?>

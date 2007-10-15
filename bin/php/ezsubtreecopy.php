@@ -31,11 +31,13 @@
 // file  bin/php/ezsubtreecopy.php
 
 // script initializing
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "\n" .
+require 'autoload.php';
+
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'description' => ( "\n" .
                                                          "This script will make a copy of a content object subtree and place it in a specified\n" .
                                                          "location.\n" ),
                                       'use-session' => false,
@@ -63,14 +65,14 @@ $allVersions = $scriptOptions[ 'all-versions' ];
 $keepCreator = $scriptOptions[ 'keep-creator' ];
 $keepTime    = $scriptOptions[ 'keep-time' ];
 
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 
-function copyPublishContentObject( &$sourceObject,
-                                    &$sourceSubtreeNodeIDList,
-                                    &$syncNodeIDListSrc, &$syncNodeIDListNew,
-                                    &$syncObjectIDListSrc, &$syncObjectIDListNew,
-                                    $allVersions = false, $keepCreator = false, $keepTime = false )
+function copyPublishContentObject( $sourceObject,
+                                   $sourceSubtreeNodeIDList,
+                                   &$syncNodeIDListSrc, &$syncNodeIDListNew,
+                                   &$syncObjectIDListSrc, &$syncObjectIDListNew,
+                                   $allVersions = false, $keepCreator = false, $keepTime = false )
 {
     global $cli;
 
@@ -174,15 +176,15 @@ function copyPublishContentObject( &$sourceObject,
     }
 
     // publish the newly created object
-    include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+    //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
     $result = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $newObject->attribute( 'id' ),
                                                                         'version'   => $curVersion ) );
     // JB start
     // Refetch the object data since it might change in the database.
     $newObjectID = $newObject->attribute( 'id' );
-    $newObject =& eZContentObject::fetch( $newObjectID );
+    $newObject = eZContentObject::fetch( $newObjectID );
     // JB end
-    $newNodeList =& $newObject->attribute( 'assigned_nodes' );
+    $newNodeList = $newObject->attribute( 'assigned_nodes' );
     if ( count($newNodeList) == 0 )
     {
         $newObject->purge();
@@ -223,7 +225,7 @@ function copyPublishContentObject( &$sourceObject,
             die( "Copy Subtree Error: Algoritm ERROR! Cannot find source parent node ID in source parent node ID's list of contentobject being copied." );
         }
         // Create unique remote_id
-        $newRemoteID = md5( (string)mt_rand() . (string)mktime() );
+        $newRemoteID = md5( (string)mt_rand() . (string)time() );
         $oldRemoteID = $newNode->attribute( 'remote_id' );
         $newNode->setAttribute( 'remote_id', $newRemoteID );
         // Change parent_remote_id for object assignments
@@ -239,7 +241,7 @@ function copyPublishContentObject( &$sourceObject,
     }
 
     // Update "is_invisible" attribute for the newly created node.
-    $newNode =& $newObject->attribute( 'main_node' );
+    $newNode = $newObject->attribute( 'main_node' );
     eZContentObjectTreeNode::updateNodeVisibility( $newNode, $newParentNode ); // ??? do we need this here?
 
     // if $keepCreator == true then keep owner of contentobject being
@@ -354,7 +356,7 @@ $syncNodeIDListNew[] = (int) $dstNodeID;
 $syncObjectIDListSrc = array();
 $syncObjectIDListNew = array();
 
-$sourceNodeList = array_merge( $sourceNodeList, eZContentObjectTreeNode::subTree( false, $sourceSubTreeMainNodeID ) );
+$sourceNodeList = array_merge( $sourceNodeList, eZContentObjectTreeNode::subTreeByNodeID( false, $sourceSubTreeMainNodeID ) );
 $countNodeList = count( $sourceNodeList );
 
 // Prepare list of source node IDs. We will need it in the future
@@ -422,13 +424,13 @@ $newSubTreeMainNode   = eZContentObjectTreeNode::fetch( $newSubTreeMainNodeID );
 
 $newNodeList[] = $newSubTreeMainNode;
 $newNodeList = $sourceNodeList = array_merge( $newNodeList,
-                                              eZContentObjectTreeNode::subTree( false, $newSubTreeMainNodeID ) );
+                                              eZContentObjectTreeNode::subTreeByNodeID( false, $newSubTreeMainNodeID ) );
 
 $cli->output( "Fixing global and local links..." );
 
 // 3. fix local links (in ezcontentobject_link)
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 
 if ( !$db )
 {
@@ -439,9 +441,8 @@ if ( !$db )
 $idListStr = implode( ',', $syncObjectIDListNew );
 $relatedRecordsList = $db->arrayQuery( "SELECT * FROM ezcontentobject_link WHERE from_contentobject_id IN ($idListStr)" );
 
-foreach ( array_keys( $relatedRecordsList ) as $key )
+foreach ( $relatedRecordsList as $relatedEntry )
 {
-    $relatedEntry =& $relatedRecordsList[ $key ];
     $kindex = array_search( $relatedEntry[ 'to_contentobject_id' ], $syncObjectIDListSrc );
     if ( $kindex !== false )
     {
@@ -466,9 +467,8 @@ foreach ( $syncObjectIDListNew as $contentObjectID )
     {
         continue;
     }
-    foreach ( array_keys( $attributeList ) as $key )
+    foreach ( $attributeList as $xmlAttribute )
     {
-        $xmlAttribute =& $attributeList[ $key ];
         $xmlText = $xmlAttribute->attribute( 'data_text' );
         $xmlTextLen = strlen ( $xmlText );
         $isTextModified = false;
@@ -599,11 +599,10 @@ foreach ( $syncObjectIDListNew as $contentObjectID )
     {
         continue;
     }
-    foreach ( array_keys( $attributeList ) as $key )
+    foreach ( $attributeList as $relationListAttribute )
     {
-        $relationListAttribute =& $attributeList[ $key ];
         $relationsXmlText = $relationListAttribute->attribute( 'data_text' );
-        $relationsDom =& eZObjectRelationListType::parseXML( $relationsXmlText );
+        $relationsDom = eZObjectRelationListType::parseXML( $relationsXmlText );
         $relationItems = $relationsDom->elementsByName( 'relation-item' ) ? $relationsDom->elementsByName( 'relation-item' ) : array();
         $isRelationModified = false;
 

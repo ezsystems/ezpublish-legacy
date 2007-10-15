@@ -37,7 +37,7 @@
 
 */
 
-include_once( 'kernel/error/errors.php' );
+//include_once( 'kernel/error/errors.php' );
 
 class eZSectionFunctionCollection
 {
@@ -50,33 +50,33 @@ class eZSectionFunctionCollection
 
     function fetchSectionObject( $sectionID )
     {
-        include_once( 'kernel/classes/ezsection.php' );
+        //include_once( 'kernel/classes/ezsection.php' );
         $sectionObject = eZSection::fetch( $sectionID );
         if ( $sectionObject === null )
             return array( 'error' => array( 'error_type' => 'kernel',
-                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+                                            'error_code' => eZError::KERNEL_NOT_FOUND ) );
         return array( 'result' => $sectionObject );
     }
 
     function fetchSectionList()
     {
-        include_once( 'kernel/classes/ezsection.php' );
+        //include_once( 'kernel/classes/ezsection.php' );
         $sectionObjects = eZSection::fetchList( );
         return array( 'result' => $sectionObjects );
     }
 
     function fetchObjectList( $sectionID, $offset = false, $limit = false, $sortOrder = false, $status = false )
     {
-        include_once( "kernel/classes/ezcontentobject.php" );
+        //include_once( "kernel/classes/ezcontentobject.php" );
 
         if ( $sortOrder === false )
         {
             $sortOrder = array( 'id' => 'desc' );
         }
         if ( $status == 'archived' )
-            $status = EZ_CONTENT_OBJECT_STATUS_ARCHIVED;
+            $status = eZContentObject::STATUS_ARCHIVED;
         else
-            $status = EZ_CONTENT_OBJECT_STATUS_PUBLISHED;
+            $status = eZContentObject::STATUS_PUBLISHED;
         $objects = eZPersistentObject::fetchObjectList( eZContentObject::definition(),
                                                         null,
                                                         array( 'section_id' => $sectionID,
@@ -88,12 +88,12 @@ class eZSectionFunctionCollection
 
     function fetchObjectListCount( $sectionID, $status = false )
     {
-        include_once( "kernel/classes/ezcontentobject.php" );
+        //include_once( "kernel/classes/ezcontentobject.php" );
 
         if ( $status == 'archived' )
-            $status = EZ_CONTENT_OBJECT_STATUS_ARCHIVED;
+            $status = eZContentObject::STATUS_ARCHIVED;
         else
-            $status = EZ_CONTENT_OBJECT_STATUS_PUBLISHED;
+            $status = eZContentObject::STATUS_PUBLISHED;
         $rows = eZPersistentObject::fetchObjectList( eZContentObject::definition(),
                                                      array(),
                                                      array( 'section_id' => $sectionID,
@@ -109,29 +109,29 @@ class eZSectionFunctionCollection
 
     function fetchRoles( $sectionID )
     {
-        include_once( 'kernel/classes/ezpolicylimitation.php' );
-        include_once( 'kernel/classes/ezrole.php' );
+        //include_once( 'kernel/classes/ezpolicylimitation.php' );
+        //include_once( 'kernel/classes/ezrole.php' );
 
         $policies = $roleIDs = $usedRoleIDs = $roles = $roleLimitations = array();
 
         $limitations = eZPolicyLimitation::findByType( 'Section', $sectionID, true, false );
-        foreach ( array_keys( $limitations ) as $key )
+        foreach ( $limitations as $policyEntry )
         {
-            $policy =& $limitations[$key]->policy();
+            $policy = $policyEntry->policy();
             $policies[] = $policy;
 
-            $roleID= $policy->attribute( 'role_id' );
+            $roleID = $policy->attribute( 'role_id' );
             $roleIDs[] = $roleID;
             if ( !isset( $roleLimitations[$roleID] ) )
             {
                 $roleLimitations[$roleID] = array();
             }
-            $roleLimitations[$roleID][] =& $policy;
+            $roleLimitations[$roleID][] = $policy;
         }
 
-        foreach ( array_keys( $policies ) as $key )
+        foreach ( $policies as $policy )
         {
-            $roleID = $policies[$key]->attribute( 'role_id' );
+            $roleID = $policy->attribute( 'role_id' );
             if ( in_array( $roleID, $roleIDs ) && !in_array( $roleID, $usedRoleIDs ) )
             {
                 $roles[] = $policies[$key]->attribute( 'role' );
@@ -144,7 +144,7 @@ class eZSectionFunctionCollection
 
     function fetchUserRoles( $sectionID )
     {
-        include_once( 'kernel/classes/ezrole.php' );
+        //include_once( 'kernel/classes/ezrole.php' );
 
         $userRoles = eZRole::fetchRolesByLimitation( 'section', $sectionID );
         return array( 'result' => $userRoles );

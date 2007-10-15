@@ -64,9 +64,10 @@ class eZPackageHandler
      \pure
      Installs the package item
     */
-    function install( &$package, $installType, $parameters,
+    function install( $package, $installType, $parameters,
                       $name, $os, $filename, $subdirectory,
-                      &$content, &$installParameters, &$installData )
+                      $content, &$installParameters,
+                      &$installData )
     {
     }
 
@@ -74,9 +75,10 @@ class eZPackageHandler
      \pure
      Uninstalls the package item
     */
-    function uninstall( &$package, $installType, $parameters,
+    function uninstall( $package, $installType, $parameters,
                         $name, $os, $filename, $subdirectory,
-                        $installParameters, &$installData )
+                        $content, &$installParameters,
+                        &$installData )
     {
     }
 
@@ -106,7 +108,7 @@ class eZPackageHandler
 
      \note This must be implemented for package handlers.
     */
-    function explainInstallItem( &$package, $installItem, $requestedInfo = array() )
+    function explainInstallItem( $package, $installItem, $requestedInfo = array() )
     {
     }
 
@@ -114,7 +116,7 @@ class eZPackageHandler
      \pure
      Adds items defined in \a $parameters to the package \a $package.
     */
-    function add( $packageType, &$package, $parameters )
+    function add( $packageType, $package, $cli, $parameters )
     {
     }
 
@@ -128,7 +130,7 @@ class eZPackageHandler
      \param $cli         Command line interface object, can be used to output errors etc.
      \param $arguments   An array with string values taken from the command line after the add command.
     */
-    function handleAddParameters( $packageType, &$package, &$cli, $arguments )
+    function handleAddParameters( $packageType, $package, $cli, $arguments )
     {
     }
 
@@ -136,7 +138,7 @@ class eZPackageHandler
 //      \pure
 //      Inteprets the parameters defined in \a $parameters and adds items to \a $package.
 //     */
-//     function handle( &$package, $parameters )
+//     function handle( $package, $parameters )
 //     {
 //     }
 
@@ -148,7 +150,7 @@ class eZPackageHandler
      \param $dependencyItem Contains all variables for the dependency
      \param $dependencySection The section for the dependency, can be \c 'provide', \c 'require', \c 'obsolete' or \c 'conflict'
     */
-    function createDependencyNode( &$package, &$dependencyNode, $dependencyItem, $dependencySection )
+    function createDependencyNode( $package, &$dependencyNode, $dependencyItem, $dependencySection )
     {
     }
 
@@ -160,7 +162,7 @@ class eZPackageHandler
      \param $dependencyParameters Reference to an array with must be filled with specific data for the current handler.
      \param $dependencySection The section for the dependency, can be \c 'provide', \c 'require', \c 'obsolete' or \c 'conflict'
     */
-    function parseDependencyNode( &$package, &$dependencyNode, &$dependencyParameters, $dependencySection )
+    function parseDependencyNode( $package, &$dependencyNode, &$dependencyParameters, $dependencySection )
     {
     }
 
@@ -172,7 +174,7 @@ class eZPackageHandler
      \param $dependencySection The section for the dependency, can be \c 'provide', \c 'require', \c 'obsolete' or \c 'conflict'
      \return \c false if no special text is required.
     */
-    function createDependencyText( &$package, $dependencyItem, $dependencySection )
+    function createDependencyText( $package, $dependencyItem, $dependencySection )
     {
     }
 
@@ -184,7 +186,7 @@ class eZPackageHandler
      \param $installItem Contains all variables for the install
      \param $installType The type of install, can be \c 'install' or \c 'uninstall'
     */
-    function createInstallNode( &$package, &$installNode, $installItem, $installType )
+    function createInstallNode( $package, $installNode, $installItem, $installType )
     {
     }
 
@@ -196,7 +198,7 @@ class eZPackageHandler
      \param $installParameters Reference to an array which must be filled with specific data for the current handler.
      \param $isInstall Is \c true if this is an install node, \c false if it is an uninstall node
     */
-    function parseInstallNode( &$package, &$installNode, &$installParameters, $isInstall )
+    function parseInstallNode( $package, $installNode, $installParameters, $isInstall )
     {
     }
 
@@ -236,7 +238,7 @@ class eZPackageHandler
             {
                 eZDebug::writeNotice( $description, 'Package installation conflict' );
             }
-            return EZ_PACKAGE_NON_INTERACTIVE;
+            return eZPackage::NON_INTERACTIVE;
         }
 
         if ( !$handlerType )

@@ -29,20 +29,20 @@
 
 set_time_limit( 0 );
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
+$cli = eZCLI::instance();
 $endl = $cli->endlineString();
 
-$script =& eZScript::instance( array( 'description' => ( "eZ Publish add order email.\n\n" .
-                                                         "Fetch email value from eZShopAccountHandler and insert into table ezorder\n" .
-                                                         "This script only need to be run when updating from eZ Publish 3.3 to eZ Publish 3.4\n" .
-                                                         "\n" .
-                                                         "addorderemail.php"),
-                                      'use-session' => true,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+$script = eZScript::instance( array( 'description' => ( "eZ Publish add order email.\n\n" .
+                                                        "Fetch email value from eZShopAccountHandler and insert into table ezorder\n" .
+                                                        "This script only need to be run when updating from eZ Publish 3.3 to eZ Publish 3.4\n" .
+                                                        "\n" .
+                                                        "addorderemail.php"),
+                                     'use-session' => true,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 
@@ -73,7 +73,7 @@ if ( $siteAccess )
 function changeSiteAccessSetting( &$siteaccess, $optionData )
 {
     global $isQuiet;
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     if ( file_exists( 'settings/siteaccess/' . $optionData ) )
     {
         $siteaccess = $optionData;
@@ -89,15 +89,15 @@ function changeSiteAccessSetting( &$siteaccess, $optionData )
 
 print( "Starting add email into table ezorder\n" );
 
-//eZDebug::setHandleType( EZ_HANDLE_FROM_PHP );
+//eZDebug::setHandleType( eZDebug::HANDLE_FROM_PHP );
 
-include_once( "lib/ezutils/classes/ezmodule.php" );
+//include_once( "lib/ezutils/classes/ezmodule.php" );
 // eZModule::setGlobalPathList( array( "kernel" ) );
-include_once( 'lib/ezutils/classes/ezexecution.php' );
-include_once( "lib/ezutils/classes/ezdebug.php" );
-include_once( 'kernel/classes/ezorder.php' );
+require_once( 'lib/ezutils/classes/ezexecution.php' );
+require_once( "lib/ezutils/classes/ezdebug.php" );
+//include_once( 'kernel/classes/ezorder.php' );
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 
 if ( $dbHost or $dbName or $dbUser or $dbImpl )
 {
@@ -113,7 +113,7 @@ if ( $dbHost or $dbName or $dbUser or $dbImpl )
         $params['password'] = $dbPassword;
     if ( $dbName !== false )
         $params['database'] = $dbName;
-    $db =& eZDB::instance( $dbImpl, $params, true );
+    $db = eZDB::instance( $dbImpl, $params, true );
     eZDB::setInstance( $db );
 }
 
@@ -124,8 +124,8 @@ $orderCount = count( $orderArray );
 
 print( $endl . $orderCount . " order email will be updated" . $endl );
 // Fetch the shop account handler
-include_once( 'kernel/classes/ezshopaccounthandler.php' );
-$accountHandler =& eZShopAccountHandler::instance();
+//include_once( 'kernel/classes/ezshopaccounthandler.php' );
+$accountHandler = eZShopAccountHandler::instance();
 
 $i = 0;
 $dotMax = 70;

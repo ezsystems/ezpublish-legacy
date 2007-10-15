@@ -26,10 +26,10 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "lib/ezutils/classes/ezhttptool.php" );
-include_once( "kernel/common/template.php" );
-include_once( "kernel/classes/ezsearchlog.php" );
-include_once( "kernel/classes/ezpreferences.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/classes/ezsearchlog.php" );
+//include_once( "kernel/classes/ezpreferences.php" );
 
 if ( eZPreferences::value( 'admin_search_stats_limit' ) )
 {
@@ -51,8 +51,8 @@ if ( !is_numeric( $offset ) )
     $offset = 0;
 }
 
-$http =& eZHTTPTool::instance();
-$module =& $Params["Module"];
+$http = eZHTTPTool::instance();
+$module = $Params['Module'];
 
 if ( $module->isCurrentAction( 'ResetSearchStats' ) )
 {
@@ -60,20 +60,20 @@ if ( $module->isCurrentAction( 'ResetSearchStats' ) )
 }
 
 $viewParameters = array( 'offset' => $offset, 'limit'  => $limit );
-$tpl =& templateInit();
+$tpl = templateInit();
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 $query = "SELECT count(*) as count FROM ezsearch_search_phrase";
 $searchListCount = $db->arrayQuery( $query );
 
-$mostFrequentPhraseArray =& eZSearchLog::mostFrequentPhraseArray( $viewParameters );
+$mostFrequentPhraseArray = eZSearchLog::mostFrequentPhraseArray( $viewParameters );
 
 $tpl->setVariable( "view_parameters", $viewParameters );
 $tpl->setVariable( "most_frequent_phrase_array", $mostFrequentPhraseArray );
 $tpl->setVariable( "search_list_count", $searchListCount[0]['count'] );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:search/stats.tpl" );
+$Result['content'] = $tpl->fetch( "design:search/stats.tpl" );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/search', 'Search stats' ),
                                 'url' => false ) );
 

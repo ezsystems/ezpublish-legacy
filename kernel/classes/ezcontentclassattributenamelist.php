@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/classes/ezserializedobjectnamelist.php' );
+//include_once( 'kernel/classes/ezserializedobjectnamelist.php' );
 
 class eZContentClassAttributeNameList extends eZSerializedObjectNameList
 {

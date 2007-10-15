@@ -33,15 +33,15 @@
 
 */
 
-include_once( "lib/ezutils/classes/ezdebug.php" );
-include_once( "lib/ezi18n/classes/ezutf8codec.php" );
-include_once( "lib/ezi18n/classes/ezcharsetinfo.php" );
-
-define( "EZ_CODEPAGE_CACHE_CODE_DATE", 1028204478 );
+require_once( "lib/ezutils/classes/ezdebug.php" );
+//include_once( "lib/ezi18n/classes/ezutf8codec.php" );
+//include_once( "lib/ezi18n/classes/ezcharsetinfo.php" );
 
 class eZCodePage
 {
-   /*!
+    const CACHE_CODE_DATE = 1028204478;
+
+    /*!
      Initializes the codepage with the charset code $charset_code, and then loads it.
     */
     function eZCodePage( $charset_code, $use_cache = true )
@@ -57,11 +57,11 @@ class eZCodePage
         $this->load( $use_cache );
     }
 
-    function convertString( &$str )
+    function convertString( $str )
     {
         $len = strlen( $str );
         $chars = '';
-        $utf8_codec =& eZUTF8Codec::instance();
+        $utf8_codec = eZUTF8Codec::instance();
         for ( $i = 0; $i < $len; )
         {
             $charLen = 1;
@@ -75,7 +75,7 @@ class eZCodePage
         return $chars;
     }
 
-    function convertStringToUnicode( &$str )
+    function convertStringToUnicode( $str )
     {
         $len = strlen( $str );
         $unicodeValues = array();
@@ -103,11 +103,11 @@ class eZCodePage
         return $text;
     }
 
-    function convertStringFromUTF8( &$multi_char )
+    function convertStringFromUTF8( $multi_char )
     {
         $strlen = strlen( $multi_char );
         $text = '';
-        $codeMap =& $this->CodeMap;
+        $codeMap = $this->CodeMap;
         $subChar = $this->SubstituteChar;
         for ( $offs = 0; $offs < $strlen; )
         {
@@ -226,7 +226,7 @@ class eZCodePage
         return $text;
     }
 
-    function strlen( &$str )
+    function strlen( $str )
     {
         if ( $this->CharsetEncodingScheme == "doublebyte" )
         {
@@ -247,13 +247,12 @@ class eZCodePage
             return strlen( $str );
     }
 
-    function strlenFromUTF8( &$str )
+    function strlenFromUTF8( $str )
     {
-        $utf8_codec =& eZUTF8Codec::instance();
-        return $utf8_codec->strlen( $str );
+        return eZUTF8Codec::instance()->strlen( $str );
     }
 
-    function charToUtf8( &$str, $pos, &$charLen )
+    function charToUtf8( $str, $pos, &$charLen )
     {
         $code = ord( $str[$pos] );
         $charLen = 1;
@@ -267,7 +266,7 @@ class eZCodePage
         return null;
     }
 
-    function charToUnicode( &$str, $pos, &$charLen )
+    function charToUnicode( $str, $pos, &$charLen )
     {
         $code = ord( $str[$pos] );
         $charLen = 1;
@@ -281,12 +280,12 @@ class eZCodePage
         return null;
     }
 
-    function codeToUtf8( &$code )
+    function codeToUtf8( $code )
     {
         return $this->UTF8Map[$code];
     }
 
-    function codeToUnicode( &$code )
+    function codeToUnicode( $code )
     {
         if ( isset( $this->UnicodeMap[$code] ) )
         {
@@ -295,7 +294,7 @@ class eZCodePage
         return null;
     }
 
-    function utf8ToChar( &$ucode )
+    function utf8ToChar( $ucode )
     {
         if ( isset( $this->UTF8CodeMap[$ucode] ) )
         {
@@ -309,7 +308,7 @@ class eZCodePage
             return chr( $this->SubstituteChar );
     }
 
-    function unicodeToChar( &$ucode )
+    function unicodeToChar( $ucode )
     {
         if ( isset( $this->CodeMap[$ucode] ) )
         {
@@ -323,14 +322,14 @@ class eZCodePage
             return chr( $this->SubstituteChar );
     }
 
-    function utf8ToCode( &$ucode )
+    function utf8ToCode( $ucode )
     {
         if ( isset( $this->UTF8CodeMap[$ucode] ) )
             return $this->UTF8CodeMap[$ucode];
         return null;
     }
 
-    function unicodeToCode( &$ucode )
+    function unicodeToCode( $ucode )
     {
         if ( isset( $this->CodeMap[$ucode] ) )
             return $this->CodeMap[$ucode];
@@ -351,7 +350,7 @@ class eZCodePage
      \static
      Returns true if the codepage $charset_code exists.
     */
-    function exists( $charset_code )
+    static function exists( $charset_code )
     {
         $file = eZCodePage::fileName( $charset_code );
         return file_exists( $file );
@@ -361,7 +360,7 @@ class eZCodePage
      \static
      Returns the filename of the charset code \a $charset_code.
     */
-    function fileName( $charset_code )
+    static function fileName( $charset_code )
     {
         $charset_code = eZCharsetInfo::realCharsetCode( $charset_code );
         $file = "share/codepages/" . $charset_code;
@@ -370,7 +369,7 @@ class eZCodePage
 
     function cacheFileName( $charset_code )
     {
-        $permissionArray = eZCodepage::permissionSetting();
+        $permissionArray = eZCodePage::permissionSetting();
         $charset_code = eZCharsetInfo::realCharsetCode( $charset_code );
         $cache_dir = $permissionArray['var_directory'] . "/codepages/";
         $cache_filename = md5( $charset_code );
@@ -420,14 +419,14 @@ class eZCodePage
         reset( $this->UnicodeMap );
         while ( ( $key = key( $this->UnicodeMap ) ) !== null )
         {
-            $item =& $this->UnicodeMap[$key];
+            $item = $this->UnicodeMap[$key];
             $str .= "\$umap[$key] = $item;\n";
             next( $this->UnicodeMap );
         }
         reset( $this->UTF8Map );
         while ( ( $key = key( $this->UTF8Map ) ) !== null )
         {
-            $item =& $this->UTF8Map[$key];
+            $item = $this->UTF8Map[$key];
             $val = str_replace( array( "\\", "'" ),
                                 array( "\\\\", "\\'" ),
                                 $item );
@@ -437,14 +436,14 @@ class eZCodePage
         reset( $this->CodeMap );
         while ( ( $key = key( $this->CodeMap ) ) !== null )
         {
-            $item =& $this->CodeMap[$key];
+            $item = $this->CodeMap[$key];
             $str .= "\$cmap[$key] = $item;\n";
             next( $this->CodeMap );
         }
         reset( $this->UTF8CodeMap );
         while ( ( $key = key( $this->UTF8CodeMap ) ) !== null )
         {
-            $item =& $this->UTF8CodeMap[$key];
+            $item = $this->UTF8CodeMap[$key];
             if ( $item == 0 )
             {
                 $str .= "\$utf8cmap[chr(0)] = 0;\n";
@@ -461,14 +460,14 @@ class eZCodePage
         reset( $this->ReadExtraMap );
         while ( ( $key = key( $this->ReadExtraMap ) ) !== null )
         {
-            $item =& $this->ReadExtraMap[$key];
+            $item = $this->ReadExtraMap[$key];
             $str .= "\$read_extra[$key] = $item;\n";
             next( $this->ReadExtraMap );
         }
 
         $str = "<?" . "php
 $str
-\$eZCodePageCacheCodeDate = " . EZ_CODEPAGE_CACHE_CODE_DATE . ";
+\$eZCodePageCacheCodeDate = " . self::CACHE_CODE_DATE . ";
 \$min_char = " . $this->MinCharValue . ";
 \$max_char = " . $this->MaxCharValue . ";
 ?" . ">";
@@ -480,9 +479,9 @@ $str
             // Store the old umask and set a new one.
             $oldPermissionSetting = umask( 0 );
 
-            include_once( 'lib/ezfile/classes/ezdir.php' );
+            //include_once( 'lib/ezfile/classes/ezdir.php' );
             if ( ! eZDir::mkdir( $cache_dir, $permissionArray['dir_permission'], true ) )
-                eZDebug::writeError( "Couldn't create cache directory $cache_dir, perhaps wrong permissions", "eZCodepage" );
+                eZDebug::writeError( "Couldn't create cache directory $cache_dir, perhaps wrong permissions", "eZCodePage" );
 
             // Restore the old umask.
             umask( $oldPermissionSetting );
@@ -491,7 +490,7 @@ $str
         $fd = @fopen( $filename, "w+" );
         if ( ! $fd )
         {
-            eZDebug::writeError( "Couldn't write cache file $filename, perhaps wrong permissions or leading directories not created", "eZCodepage" );
+            eZDebug::writeError( "Couldn't write cache file $filename, perhaps wrong permissions or leading directories not created", "eZCodePage" );
         }
         else
         {
@@ -517,7 +516,7 @@ $str
     */
     function cacheFilepath()
     {
-        $permissionArray = eZCodepage::permissionSetting();
+        $permissionArray = eZCodePage::permissionSetting();
         $cache_dir = $permissionArray['var_directory'] . "/codepages/";
         $cache_filename = md5( $this->CharsetCode );
         $cache = $cache_dir . $cache_filename . ".php";
@@ -534,10 +533,13 @@ $str
     */
     function load( $use_cache = true )
     {
+        // temporarely hide the cache display problem
+        // http://ez.no/community/bugs/char_transform_cache_file_is_not_valid_php
+        //$use_cache = false;
         $file = "share/codepages/" . $this->CharsetCode;
 //         eZDebug::writeDebug( "ezcodepage::load was called for $file..." );
 
-        $permissionArray = eZCodepage::permissionSetting();
+        $permissionArray = eZCodePage::permissionSetting();
         $cache_dir = $permissionArray['var_directory'] . "/codepages/";
         $cache_filename = md5( $this->CharsetCode );
         $cache = $cache_dir . $cache_filename . ".php";
@@ -562,23 +564,18 @@ $str
             if ( $file_m <= $cache_m )
             {
                 unset( $eZCodePageCacheCodeDate );
-                $umap =& $this->UnicodeMap;
-                $utf8map =& $this->UTF8Map;
-                $cmap =& $this->CodeMap;
-                $utf8cmap =& $this->UTF8CodeMap;
-                $min_char =& $this->MinCharValue;
-                $max_char =& $this->MaxCharValue;
-                $read_extra =& $this->ReadExtraMap;
+                $umap = $utf8map = $cmap = $utf8cmap = $min_char = $max_char = $read_extra = null;
                 include( $cache );
-                unset( $umap );
-                unset( $utf8map );
-                unset( $cmap );
-                unset( $utf8map );
-                unset( $min_char );
-                unset( $max_char );
-                unset( $read_extra );
+                $this->UnicodeMap = $umap;
+                $this->UTF8Map = $utf8map;
+                $this->CodeMap = $cmap;
+                $this->UTF8CodeMap = $utf8cmap;
+                $this->MinCharValue = $min_char;
+                $this->MaxCharValue = $max_char;
+                $this->ReadExtraMap = $read_extra;
+
                 if ( isset( $eZCodePageCacheCodeDate ) and
-                     $eZCodePageCacheCodeDate == EZ_CODEPAGE_CACHE_CODE_DATE )
+                     $eZCodePageCacheCodeDate == self::CACHE_CODE_DATE )
                 {
                     $this->Valid = true;
                     return;
@@ -586,7 +583,7 @@ $str
             }
         }
 
-        $utf8_codec =& eZUTF8Codec::instance();
+        $utf8_codec = eZUTF8Codec::instance();
 
         $this->UnicodeMap = array();
         $this->UTF8Map = array();
@@ -674,7 +671,7 @@ $str
                 }
 
                 // The array already exists; we simply append to it.
-                $GLOBALS['EZCODEPAGECACHEOBJECTLIST'][] =& $this;
+                $GLOBALS['EZCODEPAGECACHEOBJECTLIST'][] = $this;
             }
             // Else: a permission setting exists:
             else
@@ -732,14 +729,13 @@ $str
     /*!
      Returns the only instance of the codepage for $charset_code.
     */
-    function &instance( $charset_code, $use_cache = true )
+    static function instance( $charset_code, $use_cache = true )
     {
-        $cp =& $GLOBALS["eZCodePage-$charset_code"];
-        if ( get_class( $cp ) != "ezcodepage" )
+        if ( empty( $GLOBALS["eZCodePage-$charset_code"] ) )
         {
-            $cp = new eZCodePage( $charset_code, $use_cache );
+            $GLOBALS["eZCodePage-$charset_code"] = new eZCodePage( $charset_code, $use_cache );
         }
-        return $cp;
+        return $GLOBALS["eZCodePage-$charset_code"];
     }
 
     /*!
@@ -775,14 +771,14 @@ $str
 
         if ( $permissionArray !== false )
         {
-            eZCodepage::flushCacheObject();
+            eZCodePage::flushCacheObject();
         }
     }
 
     /*!
      \private
     */
-    function flushCacheObject()
+    static function flushCacheObject()
     {
 //         eZDebug::writeDebug("flushCacheObject is called... ","");
         if ( !isset( $GLOBALS['EZCODEPAGECACHEOBJECTLIST'] ) )
@@ -791,7 +787,7 @@ $str
         }
 
         // Grab the permission setting for codepage cache files.
-        $permissionArray = eZCodepage::permissionSetting();
+        $permissionArray = eZCodePage::permissionSetting();
 
         // If we were unable to extract the permission setting:
         if ( $permissionArray === false )
@@ -809,7 +805,7 @@ $str
             // For all the cache objects:
             foreach( array_keys( $GLOBALS['EZCODEPAGECACHEOBJECTLIST'] ) as $codePageKey )
             {
-                $codePage =& $GLOBALS['EZCODEPAGECACHEOBJECTLIST'][$codePageKey];
+                $codePage = $GLOBALS['EZCODEPAGECACHEOBJECTLIST'][$codePageKey];
 
                 $filename = $codePage->cacheFilepath();
 
@@ -824,34 +820,34 @@ $str
 
     /// \privatesection
     /// The charset code which was requested, may differ from $CharsetCode
-    var $RequestedCharsetCode;
+    public $RequestedCharsetCode;
     /// The read charset code, may differ from $RequestedCharsetCode
-    var $CharsetCode;
+    public $CharsetCode;
     /// Encoding scheme for current charset, for instance utf-8, singlebyte, multibyte
-    var $CharsetEncodingScheme;
+    public $CharsetEncodingScheme;
     /// Maps normal codes to unicode
-    var $UnicodeMap;
+    public $UnicodeMap;
     /// Maps normal codes to utf8
-    var $UTF8Map;
+    public $UTF8Map;
     /// Maps unicode to normal codes
-    var $CodeMap;
+    public $CodeMap;
     /// Maps utf8 to normal codes
-    var $UTF8CodeMap;
+    public $UTF8CodeMap;
     /// The minimum key value for the mapping tables
-    var $MinCharValue;
+    public $MinCharValue;
     /// The maximum key value for the mapping tables
-    var $MaxCharValue;
+    public $MaxCharValue;
     /// Whether the codepage is valid or not
-    var $Valid;
+    public $Valid;
     /// The character to use when an alternative doesn't exist
-    var $SubstituteChar;
+    public $SubstituteChar;
 }
 
 // Checks if index.php or any other script has set any codepage permissions
 if ( isset( $GLOBALS['EZCODEPAGEPERMISSIONS'] ) and
      $GLOBALS['EZCODEPAGEPERMISSIONS'] !== false )
 {
-    eZCodepage::flushCacheObject();
+    eZCodePage::flushCacheObject();
 }
 
 ?>

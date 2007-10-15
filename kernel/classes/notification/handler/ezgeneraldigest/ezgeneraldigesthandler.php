@@ -36,19 +36,20 @@
   \brief The class eZGeneralDigestHandler does
 
 */
-include_once( 'kernel/classes/notification/eznotificationeventhandler.php' );
-include_once( 'kernel/classes/notification/eznotificationcollection.php' );
-define( 'EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID', 'ezgeneraldigest' );
-include_once( 'kernel/classes/notification/handler/ezgeneraldigest/ezgeneraldigestusersettings.php' );
+//include_once( 'kernel/classes/notification/eznotificationeventhandler.php' );
+//include_once( 'kernel/classes/notification/eznotificationcollection.php' );
+//include_once( 'kernel/classes/notification/handler/ezgeneraldigest/ezgeneraldigestusersettings.php' );
 
 class eZGeneralDigestHandler extends eZNotificationEventHandler
 {
+    const NOTIFICATION_HANDLER_ID = 'ezgeneraldigest';
+
     /*!
      Constructor
     */
     function eZGeneralDigestHandler()
     {
-        $this->eZNotificationEventHandler( EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID, "General Digest Handler" );
+        $this->eZNotificationEventHandler( self::NOTIFICATION_HANDLER_ID, "General Digest Handler" );
 
     }
 
@@ -66,61 +67,55 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
         return in_array( $attr, $this->attributes() );
     }
 
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         if ( $attr == 'settings' )
         {
-            $user =& eZUser::currentUser();
-            $settings =& $this->settings( $user );
-            return $settings;
+            return $this->settings( eZUser::currentUser() );
         }
         else if ( $attr == 'all_week_days' )
         {
-            $locale =& eZLocale::instance();
-            $nameList =& $locale->attribute( 'weekday_name_list' );
-            return $nameList;
+            return eZLocale::instance()->attribute( 'weekday_name_list' );
         }
         else if ( $attr == 'all_month_days' )
         {
-            $range = range( 1, 31 );
-            return $range;
+            return range( 1, 31 );
         }
         else if ( $attr == 'available_hours' )
         {
-            $hours = array( '0:00',
-                            '1:00',
-                            '2:00',
-                            '3:00',
-                            '4:00',
-                            '5:00',
-                            '6:00',
-                            '7:00',
-                            '8:00',
-                            '9:00',
-                            '10:00',
-                            '11:00',
-                            '12:00',
-                            '13:00',
-                            '14:00',
-                            '15:00',
-                            '16:00',
-                            '17:00',
-                            '18:00',
-                            '19:00',
-                            '20:00',
-                            '21:00',
-                            '22:00',
-                            '23:00' );
-            return $hours;
+            return array( '0:00',
+                          '1:00',
+                          '2:00',
+                          '3:00',
+                          '4:00',
+                          '5:00',
+                          '6:00',
+                          '7:00',
+                          '8:00',
+                          '9:00',
+                          '10:00',
+                          '11:00',
+                          '12:00',
+                          '13:00',
+                          '14:00',
+                          '15:00',
+                          '16:00',
+                          '17:00',
+                          '18:00',
+                          '19:00',
+                          '20:00',
+                          '21:00',
+                          '22:00',
+                          '23:00' );
         }
         return eZNotificationEventHandler::attribute( $attr );
     }
 
-    function &settings( $user = false )
+    function settings( $user = false )
     {
         if ( $user === false )
         {
-            $user =& eZUser::currentUser();
+            $user = eZUser::currentUser();
         }
         $address = $user->attribute( 'email' );
         $settings = eZGeneralDigestUserSettings::fetchForUser( $address );
@@ -132,18 +127,18 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
         return $settings;
     }
 
-    function handle( &$event )
+    function handle( $event )
     {
         eZDebugSetting::writeDebug( 'kernel-notification', $event, "trying to handle event" );
         if ( $event->attribute( 'event_type_string' ) == 'ezcurrenttime' )
         {
-            $date =& $event->content();
+            $date = $event->content();
             $timestamp = $date->attribute( 'timestamp' );
 
             $addressArray = $this->fetchUsersForDigest( $timestamp );
 
-            include_once( 'kernel/common/template.php' );
-            $tpl =& templateInit();
+            require_once( 'kernel/common/template.php' );
+            $tpl = templateInit();
 
             foreach ( $addressArray as $address )
             {
@@ -151,17 +146,17 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
                 $tpl->setVariable( 'address', $address['address'] );
                 $result = $tpl->fetch( 'design:notification/handler/ezgeneraldigest/view/plain.tpl' );
                 $subject = $tpl->variable( 'subject' );
-                $transport =& eZNotificationTransport::instance( 'ezmail' );
+                $transport = eZNotificationTransport::instance( 'ezmail' );
                 $transport->send( $address, $subject, $result);
                 eZDebugSetting::writeDebug( 'kernel-notification', $result, "digest result" );
             }
 
-            $collectionItemIDList =& $tpl->variable( 'collection_item_id_list' );
+            $collectionItemIDList = $tpl->variable( 'collection_item_id_list' );
             eZDebugSetting::writeDebug( 'kernel-notification', $collectionItemIDList, "handled items" );
 
             if ( is_array( $collectionItemIDList ) && count( $collectionItemIDList ) > 0 )
             {
-                $ini =& eZINI::instance( 'notification.ini' );
+                $ini = eZINI::instance( 'notification.ini' );
                 $countElements = $ini->variable( 'RuleSettings', 'LimitDeleteElements' );
                 if ( !$countElements )
                 {
@@ -190,7 +185,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
 
     function fetchHandlersForUser( $time, $address )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $time = (int)$time;
         $address = $db->escapeString( $address );
@@ -204,17 +199,17 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
                         send_date < $time";
         $handlerResult = $db->arrayQuery( $query );
         $handlers = array();
-        $availableHandlers =& eZNotificationEventFilter::availableHandlers();
+        $availableHandlers = eZNotificationEventFilter::availableHandlers();
         foreach ( $handlerResult as $handlerName )
         {
-            $handlers[$handlerName['handler']] =& $availableHandlers[$handlerName['handler']];
+            $handlers[$handlerName['handler']] = $availableHandlers[$handlerName['handler']];
         }
         return $handlers;
     }
 
     function fetchItemsForUser( $time, $address, $handler )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $time = (int)$time;
         $address = $db->escapeString( $address );
@@ -238,27 +233,27 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
         return $items;
     }
 
-    function storeSettings( &$http, &$module )
+    function storeSettings( $http, $module )
     {
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
         $address = $user->attribute( 'email' );
         $settings = eZGeneralDigestUserSettings::fetchForUser( $address );
 
-        if ( $http->hasPostVariable( 'ReceiveDigest_' . EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID ) &&
-             $http->hasPostVariable( 'ReceiveDigest_' . EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID ) == '1' )
+        if ( $http->hasPostVariable( 'ReceiveDigest_' . self::NOTIFICATION_HANDLER_ID ) &&
+             $http->hasPostVariable( 'ReceiveDigest_' . self::NOTIFICATION_HANDLER_ID ) == '1' )
         {
             $settings->setAttribute( 'receive_digest', 1 );
-            $digestType = $http->postVariable( 'DigestType_' . EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID );
+            $digestType = $http->postVariable( 'DigestType_' . self::NOTIFICATION_HANDLER_ID );
             $settings->setAttribute( 'digest_type', $digestType );
             if ( $digestType == 1 )
             {
-                $settings->setAttribute( 'day', $http->postVariable( 'Weekday_' . EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID ) );
+                $settings->setAttribute( 'day', $http->postVariable( 'Weekday_' . self::NOTIFICATION_HANDLER_ID ) );
             }
             else if ( $digestType == 2 )
             {
-                $settings->setAttribute( 'day', $http->postVariable( 'Monthday_' . EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID ) );
+                $settings->setAttribute( 'day', $http->postVariable( 'Monthday_' . self::NOTIFICATION_HANDLER_ID ) );
             }
-            $settings->setAttribute( 'time', $http->postVariable( 'Time_' . EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID ) );
+            $settings->setAttribute( 'time', $http->postVariable( 'Time_' . self::NOTIFICATION_HANDLER_ID ) );
             $settings->store();
         }
         else

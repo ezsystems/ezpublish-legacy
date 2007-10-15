@@ -29,11 +29,11 @@
 
 /*! \file removeobject.php
 */
-include_once( "kernel/classes/ezcontentobject.php" );
-include_once( "lib/ezutils/classes/ezhttppersistence.php" );
-include_once( "lib/ezdb/classes/ezdb.php" );
-$Module =& $Params["Module"];
-$http =& eZHTTPTool::instance();
+//include_once( "kernel/classes/ezcontentobject.php" );
+//include_once( "lib/ezutils/classes/ezhttppersistence.php" );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+$Module = $Params['Module'];
+$http = eZHTTPTool::instance();
 $objectID = (int) $http->sessionVariable( "DiscardObjectID" );
 $version = (int) $http->sessionVariable( "DiscardObjectVersion" );
 $editLanguage = $http->sessionVariable( "DiscardObjectLanguage" );
@@ -51,12 +51,12 @@ if ( $http->hasSessionVariable( "DiscardConfirm" ) )
 
 if ( $isConfirmed )
 {
-    $object =& eZContentObject::fetch( $objectID );
+    $object = eZContentObject::fetch( $objectID );
     if ( $object === null )
-        return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
-    $versionObject =& $object->version( $version );
-    if ( is_object( $versionObject ) and $versionObject->attribute('status') != EZ_VERSION_STATUS_PUBLISHED )
+    $versionObject = $object->version( $version );
+    if ( is_object( $versionObject ) and $versionObject->attribute('status') != eZContentObjectVersion::STATUS_PUBLISHED )
     {
         if ( !$object->attribute( 'can_edit' ) )
         {
@@ -72,17 +72,17 @@ if ( $isConfirmed )
                 $allowEdit = false;
 
             if ( !$allowEdit )
-                return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $object->accessList( 'edit' ) ) );
+                return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $object->accessList( 'edit' ) ) );
         }
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
-        $contentObjectAttributes =& $versionObject->contentObjectAttributes( $editLanguage );
+        $contentObjectAttributes = $versionObject->contentObjectAttributes( $editLanguage );
         foreach ( $contentObjectAttributes as $contentObjectAttribute )
         {
             $objectAttributeID = $contentObjectAttribute->attribute( 'id' );
-            $contentObjectAttribute->remove( $objectAttributeID, $version );
+            $contentObjectAttribute->removeThis( $objectAttributeID, $version );
         }
         $versionCount= $object->getVersionCount();
         if ( $versionCount == 1 )
@@ -127,7 +127,7 @@ if ( $isConfirmed )
         if ( isset( $nodeID ) && $nodeID )
             return $Module->redirectTo( '/content/view/full/' . $nodeID .'/' );
 
-        include_once( 'kernel/classes/ezredirectmanager.php' );
+        //include_once( 'kernel/classes/ezredirectmanager.php' );
         return eZRedirectManager::redirectTo( $Module, '/', true, array( 'content/edit' ) );
     }
 }
@@ -139,14 +139,14 @@ if ( $http->hasPostVariable( "CancelButton" ) )
 
 $Module->setTitle( "Remove Editing Version" );
 
-include_once( "kernel/common/template.php" );
-$tpl =& templateInit();
+require_once( "kernel/common/template.php" );
+$tpl = templateInit();
 $tpl->setVariable( "Module", $Module );
 $tpl->setVariable( "object_id", $objectID );
 $tpl->setVariable( "object_version", $version );
 $tpl->setVariable( "object_language", $editLanguage );
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:content/removeeditversion.tpl" );
+$Result['content'] = $tpl->fetch( "design:content/removeeditversion.tpl" );
 $Result['path'] = array( array( 'url' => '/content/removeeditversion/',
                                 'text' => ezi18n( 'kernel/content', 'Remove editing version' ) ) );
 ?>

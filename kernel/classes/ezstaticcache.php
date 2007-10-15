@@ -49,8 +49,8 @@
 
 */
 
-include_once( 'lib/ezutils/classes/ezini.php' );
-include_once( 'kernel/classes/ezurlaliasml.php' );
+//include_once( 'lib/ezutils/classes/ezini.php' );
+//include_once( 'kernel/classes/ezurlaliasml.php' );
 
 class eZStaticCache
 {
@@ -59,7 +59,7 @@ class eZStaticCache
     */
     function eZStaticCache()
     {
-        $ini =& eZINI::instance( 'staticcache.ini');
+        $ini = eZINI::instance( 'staticcache.ini');
         $this->HostName = $ini->variable( 'CacheSettings', 'HostName' );
         $this->StaticStorageDir = $ini->variable( 'CacheSettings', 'StaticStorageDir' );
         $this->MaxCacheDepth = $ini->variable( 'CacheSettings', 'MaxCacheDepth' );
@@ -147,7 +147,7 @@ class eZStaticCache
      */
     function generateNodeListCache( $nodeList )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         foreach ( $nodeList as $uri )
         {
@@ -187,7 +187,7 @@ class eZStaticCache
     function generateCache( $force = false, $quiet = false, $cli = false, $delay = true )
     {
         $staticURLArray = $this->cachedURLArray();
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $configSettingCount = count( $staticURLArray );
         $currentSetting = 0;
 
@@ -375,7 +375,7 @@ class eZStaticCache
                         }
                         else
                         {
-                            $this->storeCachedFile( $file, $content );
+                            eZStaticCache::storeCachedFile( $file, $content );
                         }
                     }
                 }
@@ -402,7 +402,7 @@ class eZStaticCache
      Stores the cache file \a $file with contents \a $content.
      Takes care of setting proper permissions on the new file.
     */
-    function storeCachedFile( $file, $content )
+    static function storeCachedFile( $file, $content )
     {
         $dir = dirname( $file );
         if ( !is_dir( $dir ) )
@@ -423,7 +423,7 @@ class eZStaticCache
         {
             fwrite( $fp, $content . '<!-- Generated: '. date( 'Y-m-d H:i:s' ). " -->\n\n" );
             fclose( $fp );
-            include_once( 'lib/ezfile/classes/ezfile.php' );
+            //include_once( 'lib/ezfile/classes/ezfile.php' );
             eZFile::rename( $tmpFileName, $file );
         }
 
@@ -467,7 +467,7 @@ class eZStaticCache
      \static
      This function goes over the list of recorded actions and excecutes them.
     */
-    function executeActions()
+    static function executeActions()
     {
         if (! isset( $GLOBALS['eZStaticCache-ActionList'] ) ) {
             return;
@@ -476,13 +476,13 @@ class eZStaticCache
         $fileContentCache = array();
         $doneDestList = array();
 
-        $ini =& eZINI::instance( 'staticcache.ini');
+        $ini = eZINI::instance( 'staticcache.ini');
         $clearByCronjob = ( $ini->variable( 'CacheSettings', 'CronjobCacheClear' ) == 'enabled' );
 
         if ( $clearByCronjob )
         {
-            include_once( "lib/ezdb/classes/ezdb.php" );
-            $db =& eZDB::instance();
+            //include_once( "lib/ezdb/classes/ezdb.php" );
+            $db = eZDB::instance();
         }
 
         foreach ( $GLOBALS['eZStaticCache-ActionList'] as $action )
@@ -526,13 +526,13 @@ class eZStaticCache
 
     /// \privatesection
     /// The name of the host to fetch HTML data from.
-    var $HostName;
+    public $HostName;
     /// The base path for the directory where static files are placed.
-    var $StaticStorage;
+    public $StaticStorage;
     /// The maximum depth of URLs that will be cached.
-    var $MaxCacheDepth;
+    public $MaxCacheDepth;
     /// Array of URLs to cache.
-    var $CachedURLArray;
+    public $CachedURLArray;
 }
 
 ?>

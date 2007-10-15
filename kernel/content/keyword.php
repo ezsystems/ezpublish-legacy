@@ -30,22 +30,22 @@
 
 /*! \file keyword.php
 */
-include_once( 'kernel/common/template.php' );
+require_once( 'kernel/common/template.php' );
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $Alphabet = rawurldecode( $Params['Alphabet'] );
 
 $Offset = $Params['Offset'];
 $ClassID = $Params['ClassID'];
 $viewParameters = array( 'offset' => $Offset, 'classid' => $ClassID );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( 'alphabet', $Alphabet );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:content/keyword.tpl' );
+$Result['content'] = $tpl->fetch( 'design:content/keyword.tpl' );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Keywords' ),
                                 'url' => false ) );
 

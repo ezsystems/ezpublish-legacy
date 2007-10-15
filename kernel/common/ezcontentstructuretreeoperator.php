@@ -37,7 +37,7 @@
 */
 
 require_once( 'kernel/classes/ezcontentlanguage.php' );
-include_once( 'kernel/classes/ezcontentclassnamelist.php' );
+//include_once( 'kernel/classes/ezcontentclassnamelist.php' );
 
 class eZContentStructureTreeOperator
 {
@@ -49,7 +49,7 @@ class eZContentStructureTreeOperator
     /*!
      Returns the operators in this class.
     */
-    function &operatorList()
+    function operatorList()
     {
         return $this->Operators;
     }
@@ -85,7 +85,7 @@ class eZContentStructureTreeOperator
     /*!
      \reimp
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
         $sortArray = false;
         $fetchHidden = false;
@@ -106,7 +106,7 @@ class eZContentStructureTreeOperator
                 $sortingMethod = explode("/", $namedParameters[ 'sort_by' ]);
                 $sortingMethod[1] = ($sortingMethod[1] == 'ascending') ? '1' : '0';
                 $sortArray = array();
-                $sortArray[] =& $sortingMethod;
+                $sortArray[] = $sortingMethod;
             }
         }
 
@@ -128,7 +128,7 @@ class eZContentStructureTreeOperator
         Returns one-level children of node \a $nodeID if \a $countChildren = false,
         othewise returns count of one-level children of node \a nodeID.
     */
-    function &subTree( $params, $nodeID, $countChildren = false )
+    function subTree( $params, $nodeID, $countChildren = false )
     {
         $nodeListArray = array();
 
@@ -214,7 +214,7 @@ class eZContentStructureTreeOperator
 
         }
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $nodeListArray = $db->arrayQuery( $query );
 
         // cleanup temp tables
@@ -228,7 +228,7 @@ class eZContentStructureTreeOperator
         {
             foreach ( $nodeListArray as $key => $row )
             {
-                $nodeListArray[$key]['path_identification_string'] = eZContentObjectTreeNode::pathWithNames( $row['node_id'] );
+                $nodeListArray[$key]['path_identification_string'] = eZContentObjectTreeNode::fetch( $row['node_id'] )->pathWithNames();
             }
             return $nodeListArray;
         }
@@ -243,9 +243,9 @@ class eZContentStructureTreeOperator
 
                 'children' is array( tree_node, children );
     */
-    function &contentStructureTree( $rootNodeID, &$classFilter, $maxDepth, $maxNodes, &$sortArray, $fetchHidden, $unfoldNodeID )
+    function contentStructureTree( $rootNodeID, $classFilter, $maxDepth, $maxNodes, $sortArray, $fetchHidden, $unfoldNodeID )
     {
-        $contentTree =& eZContentStructureTreeOperator::initContentStructureTree( $rootNodeID, $fetchHidden, $classFilter );
+        $contentTree = eZContentStructureTreeOperator::initContentStructureTree( $rootNodeID, $fetchHidden, $classFilter );
 
         // if root node is invisible then no point to fetch children
         //if ( count( $contentTree ) == 0 )
@@ -270,7 +270,7 @@ class eZContentStructureTreeOperator
     */
     function oneLevelChildren( &$contentTree, &$classFilter, &$sortBy, &$nodesLeft, $fetchHidden )
     {
-        $parentNode =& $contentTree['parent_node'];
+        $parentNode = $contentTree['parent_node'];
 
         if ( !is_array( $parentNode ) || count( $parentNode['node'] ) == 0 )
         {
@@ -288,13 +288,13 @@ class eZContentStructureTreeOperator
             // get children
             $sortArray = ( $sortBy == false ) ? $parentNode['node']['sort_array'] : $sortBy;
 
-            $children =& eZContentStructureTreeOperator::subTree( array(  'SortBy' => $sortArray,
-                                                                          'ClassFilterType' => 'include',
-                                                                          'ClassFilterArray'=> $classFilter,
-                                                                          'NodePath' => $parentNode['node']['path_string'],
-                                                                          'NodeDepth' => $parentNode['node']['depth'],
-                                                                          'FetchHidden' => $fetchHidden ),
-                                                                  $parentNode['node']['node_id'] );
+            $children = eZContentStructureTreeOperator::subTree( array(  'SortBy' => $sortArray,
+                                                                         'ClassFilterType' => 'include',
+                                                                         'ClassFilterArray'=> $classFilter,
+                                                                         'NodePath' => $parentNode['node']['path_string'],
+                                                                         'NodeDepth' => $parentNode['node']['depth'],
+                                                                         'FetchHidden' => $fetchHidden ),
+                                                                 $parentNode['node']['node_id'] );
             if ( $children && count( $children ) > 0 )
             {
                 $childrenNodes =& $contentTree['children'];
@@ -354,12 +354,10 @@ class eZContentStructureTreeOperator
             --$depthLeft;
             if ( $depthLeft != 0 )
             {
-                $children =& $contentTree['children'];
-                $children_keys = array_keys( $children );
+                $children = $contentTree['children'];
 
-                foreach( $children_keys as $key )
+                foreach( $children as $child )
                 {
-                    $child =& $children[$key];
                     $currentDepth = $depthLeft;
 
                     if ( $unfoldNodeID != 0 and $unfoldNodeID != $child['parent_node']['node']['node_id'] )
@@ -410,7 +408,7 @@ class eZContentStructureTreeOperator
         Initializes a tree: creates root node.
      \return a tree with one node and empty children subtree.
     */
-    function &initContentStructureTree( $rootNodeID, $fetchHidden, $classFilter = false )
+    function initContentStructureTree( $rootNodeID, $fetchHidden, $classFilter = false )
     {
         // create initial subtree with root node and empty children.
         $nodes = false;
@@ -419,16 +417,16 @@ class eZContentStructureTreeOperator
         {
             if ( !$fetchHidden && ( $rootTreeNode->attribute( 'is_hidden' ) || $rootTreeNode->attribute( 'is_invisible' ) ) )
             {
-                $nodes = false;
+                return false;
             }
             else
             {
-                $contentObject =& $rootTreeNode->attribute( 'object' );
+                $contentObject = $rootTreeNode->attribute( 'object' );
 
                 $viewNodeAllowed = true;
                 if ( is_array( $classFilter ) && count( $classFilter ) > 0 )
                 {
-                    $contentClassIdentifier =& $contentObject->attribute( 'class_identifier' );
+                    $contentClassIdentifier = $contentObject->attribute( 'class_identifier' );
 
                     if ( !in_array( $contentClassIdentifier, $classFilter ) )
                         $viewNodeAllowed = false;
@@ -463,6 +461,6 @@ class eZContentStructureTreeOperator
     }
 
     /// \privatesection
-    var $Operators;
+    public $Operators;
 }
 ?>

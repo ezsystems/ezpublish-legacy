@@ -35,17 +35,18 @@ if ( isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) )
     exit();
 }
 
-include_once( 'lib/ezutils/classes/ezexecution.php' );
-include_once( 'lib/ezutils/classes/ezsys.php' );
-include_once( 'lib/ezutils/classes/ezdebug.php' );
-include_once( 'lib/ezutils/classes/ezini.php' );
-include_once( 'lib/ezutils/classes/ezuri.php' );
-include_once( 'lib/ezutils/classes/ezsession.php' );
-include_once( 'lib/ezutils/classes/ezextension.php' );
-include_once( 'kernel/common/ezincludefunctions.php' );
-include_once( 'lib/ezutils/classes/ezmodule.php' );
-include_once( 'lib/ezdb/classes/ezdb.php' );
-include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+//require_once( 'lib/ezutils/classes/ezexecution.php' );
+////include_once( 'lib/ezutils/classes/ezsys.php' );
+//require_once( 'lib/ezutils/classes/ezdebug.php' );
+////include_once( 'lib/ezutils/classes/ezini.php' );
+////include_once( 'lib/ezutils/classes/ezuri.php' );
+require_once( 'lib/ezutils/classes/ezsession.php' );
+////include_once( 'lib/ezutils/classes/ezextension.php' );
+require_once( 'kernel/common/ezincludefunctions.php' );
+////include_once( 'lib/ezutils/classes/ezmodule.php' );
+////include_once( 'lib/ezdb/classes/ezdb.php' );
+////include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+require 'autoload.php';
 
 function ezupdatedebugsettings()
 {
@@ -68,13 +69,13 @@ ob_start();
 error_reporting ( E_ALL );
 
 eZExecution::addFatalErrorHandler( 'eZFatalError' );
-eZDebug::setHandleType( EZ_HANDLE_FROM_PHP );
+eZDebug::setHandleType( eZDebug::HANDLE_FROM_PHP );
 
 // Trick to get eZSys working with a script other than index.php (while index.php still used in generated URLs):
 $_SERVER['SCRIPT_FILENAME'] = str_replace( '/index_treemenu.php', '/index.php', $_SERVER['SCRIPT_FILENAME'] );
 $_SERVER['PHP_SELF'] = str_replace( '/index_treemenu.php', '/index.php', $_SERVER['PHP_SELF'] );
 
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 
 $timezone = $ini->variable( 'TimeZoneSettings', 'TimeZone' );
 if ( $timezone )
@@ -85,24 +86,23 @@ if ( $timezone )
 $GLOBALS['eZGlobalRequestURI'] = eZSys::serverVariable( 'REQUEST_URI' );
 
 eZSys::init( 'index.php', $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) == 'true' );
-eZSys::initIni( $ini );
 
-$uri =& eZURI::instance( eZSys::requestURI() );
+$uri = eZURI::instance( eZSys::requestURI() );
 
-$GLOBALS['eZRequestedURI'] =& $uri;
+$GLOBALS['eZRequestedURI'] = $uri;
 
-include_once( 'pre_check.php' );
+require_once 'pre_check.php';
 
-include_once( 'access.php' );
+require_once 'access.php';
 
 $access = accessType( $uri,
                       eZSys::hostname(),
                       eZSys::serverPort(),
                       eZSys::indexFile() );
 $access = changeAccess( $access );
-$GLOBALS['eZCurrentAccess'] =& $access;
+$GLOBALS['eZCurrentAccess'] = $access;
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 if ( $db->isConnected() )
 {
     eZSessionStart();
@@ -113,7 +113,7 @@ else
     return;
 }
 
-$moduleINI =& eZINI::instance( 'module.ini' );
+$moduleINI = eZINI::instance( 'module.ini' );
 $globalModuleRepositories = $moduleINI->variable( 'ModuleSettings', 'ModuleRepositories' );
 eZModule::setGlobalPathList( $globalModuleRepositories );
 
@@ -128,15 +128,14 @@ $function_name = 'treemenu';
 $uri->increase();
 $uri->increase();
 
-$currentUser =& eZUser::currentUser();
+$currentUser = eZUser::currentUser();
 $siteAccessResult = $currentUser->hasAccessTo( 'user', 'login' );
 $hasAccessToSite = false;
 if ( $siteAccessResult[ 'accessWord' ] == 'limited' )
 {
     $policyChecked = false;
-    foreach ( array_keys( $siteAccessResult['policies'] ) as $key )
+    foreach ( $siteAccessResult['policies'] as $policy )
     {
-        $policy =& $siteAccessResult['policies'][$key];
         if ( isset( $policy['SiteAccess'] ) )
         {
             $policyChecked = true;
@@ -168,8 +167,8 @@ if ( !$hasAccessToSite )
     return;
 }
 
-$GLOBALS['eZRequestedModule'] =& $module;
-$moduleResult =& $module->run( $function_name, false, false, false );
+$GLOBALS['eZRequestedModule'] = $module;
+$moduleResult = $module->run( $function_name, false, false, false );
 
 eZExecution::cleanup();
 eZExecution::setCleanExit();

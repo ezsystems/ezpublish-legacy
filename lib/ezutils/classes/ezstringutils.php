@@ -46,7 +46,7 @@ class eZStringUtils
     {
     }
 
-    function  explodeStr( $str, $delimiter = '|' )
+    static function  explodeStr( $str, $delimiter = '|' )
     {
         $offset = 0;
         $array = array();
@@ -71,7 +71,7 @@ class eZStringUtils
         return $array;
     }
 
-    function implodeStr( $values, $delimiter = '|' )
+    static function implodeStr( $values, $delimiter = '|' )
     {
         $str = '';
         while ( list( $key, $value ) = each( $values ) )

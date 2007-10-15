@@ -36,7 +36,7 @@
   \brief The class eZDiscountSubRuleValue does
 
 */
-include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
 class eZDiscountSubRuleValue extends eZPersistentObject
 {
     /*!
@@ -47,7 +47,7 @@ class eZDiscountSubRuleValue extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "discountsubrule_id" => array( 'name' => "DiscountSubRuleID",
                                                                         'datatype' => 'integer',
@@ -70,7 +70,7 @@ class eZDiscountSubRuleValue extends eZPersistentObject
                       "name" => "ezdiscountsubrule_value" );
     }
 
-    function fetchBySubRuleID( $discountSubRuleID, $isSection = 0, $asObject = true )
+    static function fetchBySubRuleID( $discountSubRuleID, $isSection = 0, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZDiscountSubRuleValue::definition(),
                                                     null,
@@ -93,20 +93,18 @@ class eZDiscountSubRuleValue extends eZPersistentObject
                                                   "issection" => $isSection ) );
     }
 
-    function &fetchList( $asObject = true )
+    static function fetchList( $asObject = true )
     {
-        $objectList = eZPersistentObject::fetchObjectList( eZDiscountSubRuleValue::definition(),
-                                                            null, null, null, null,
-                                                            $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZDiscountSubRuleValue::definition(),
+                                                    null, null, null, null,
+                                                    $asObject );
     }
 
-    function create( $discountSubRuleID, $value, $isSection = false )
+    static function create( $discountSubRuleID, $value, $isSection = false )
     {
-        $row = array(
-            "discountsubrule_id" => $discountSubRuleID,
-            "value" => $value,
-            "issection" => $isSection );
+        $row = array( "discountsubrule_id" => $discountSubRuleID,
+                      "value" => $value,
+                      "issection" => $isSection );
         return new eZDiscountSubRuleValue( $row );
     }
 
@@ -114,7 +112,7 @@ class eZDiscountSubRuleValue extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function removeBySubRuleID ( $discountSubRuleID )
+    static function removeBySubRuleID ( $discountSubRuleID )
     {
         eZPersistentObject::removeObject( eZDiscountSubRuleValue::definition(),
                                           array( "discountsubrule_id" => $discountSubRuleID ) );

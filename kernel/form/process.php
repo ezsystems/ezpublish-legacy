@@ -26,29 +26,29 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/common/template.php" );
-include_once( "lib/ezutils/classes/ezhttptool.php" );
-include_once( "lib/ezutils/classes/ezmail.php" );
-include_once( 'lib/ezutils/classes/ezmailtransport.php' );
+require_once( "kernel/common/template.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
+//include_once( "lib/ezutils/classes/ezmail.php" );
+//include_once( 'lib/ezutils/classes/ezmailtransport.php' );
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 $isEnabled = $ini->variable( 'FormProcessSettings', 'Module' ) == 'enabled';
 if ( !$isEnabled )
 {
-    return $Module->handleError( EZ_ERROR_KERNEL_MODULE_DISABLED, 'kernel',
+    return $Module->handleError( eZError::KERNEL_MODULE_DISABLED, 'kernel',
                                  array( 'check' => array( 'view_checked' => false,
                                                           'module' => 'form' ) ) );
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 // Parse HTTP POST variables and generate Mail message
 $formProcessed = false;
 
-$http =& eZHTTPTool::instance();
-$postVariables =& $http->attribute( 'post' );
+$http = eZHTTPTool::instance();
+$postVariables = $http->attribute( 'post' );
 
 if ( count( $postVariables ) > 0 )
 {
@@ -132,7 +132,7 @@ if ( count( $postVariables ) > 0 )
 
 $tpl->setVariable( 'form_processed', $formProcessed );
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:form/process.tpl" );
+$Result['content'] = $tpl->fetch( "design:form/process.tpl" );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/form', 'Form processing' ),
                                 'url' => false ) );
 ?>

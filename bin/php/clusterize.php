@@ -38,11 +38,13 @@ NOTE:
 
 error_reporting( E_ALL | E_NOTICE );
 
-require_once( 'lib/ezdb/classes/ezdb.php' );
-require_once( 'lib/ezutils/classes/ezcli.php' );
-require_once( 'lib/ezutils/classes/ezsys.php' );
-require_once( 'kernel/classes/ezscript.php' );
-require_once( 'kernel/classes/ezclusterfilehandler.php' );
+// require_once( 'lib/ezdb/classes/ezdb.php' );
+// require_once( 'lib/ezutils/classes/ezcli.php' );
+// require_once( 'lib/ezutils/classes/ezsys.php' );
+// require_once( 'kernel/classes/ezscript.php' );
+// require_once( 'kernel/classes/ezclusterfilehandler.php' );
+
+require 'autoload.php';
 
 // This code is taken from eZBinaryFile::storedFileInfo()
 function filePathForBinaryFile($fileName, $mimeType )
@@ -57,7 +59,7 @@ function copyBinaryfilesToDB( $remove )
 {
     global $cli, $dbFileHandler;
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
 
     $cli->output( "Importing binary files to database:");
     $rows = $db->arrayQuery('select filename, mime_type from ezbinaryfile' );
@@ -76,7 +78,7 @@ function copyMediafilesToDB( $remove )
 {
     global $cli, $dbFileHandler;
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
 
     $cli->output( "Importing media files to database:");
     $rows = $db->arrayQuery('select filename, mime_type from ezmedia' );
@@ -94,11 +96,11 @@ function copyImagesToDB( $remove )
 {
     global $cli, $dbFileHandler;
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
 
     $cli->output( "Importing images and imagealiases files to database:");
     $rows = $db->arrayQuery('select filepath from ezimagefile' );
-    include_once( 'lib/ezutils/classes/ezmimetype.php' );
+    //include_once( 'lib/ezutils/classes/ezmimetype.php' );
 
     foreach( $rows as $row )
     {
@@ -130,15 +132,15 @@ function copyFilesFromDB( $copyFiles, $copyImages, $remove )
     $cli->output();
 }
 
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ Publish (un)clusterize\n" .
-                                                         "Script for moving var_dir files from " .
-                                                         "filesystem to database and vice versa\n" .
-                                                         "\n" .
-                                                         "./bin/php/clusterize.php" ),
-                                      'use-session'    => false,
-                                      'use-modules'    => false,
-                                      'use-extensions' => true ) );
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'description' => ( "eZ Publish (un)clusterize\n" .
+                                                        "Script for moving var_dir files from " .
+                                                        "filesystem to database and vice versa\n" .
+                                                        "\n" .
+                                                        "./bin/php/clusterize.php" ),
+                                     'use-session'    => false,
+                                     'use-modules'    => false,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 
@@ -171,7 +173,7 @@ if ( $wait )
 }
 
 $dbFileHandler = eZClusterFileHandler::instance();
-if ( !is_object( $dbFileHandler ) || get_class( $dbFileHandler ) != 'ezdbfilehandler' )
+if ( !is_object( $dbFileHandler ) || !( $dbFileHandler instanceof eZDBFileHandler ) )
 {
     $cli->error( "Clustering settings specified incorrectly or the chosen file handler is ezfs." );
     $script->shutdown( 1 );

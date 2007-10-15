@@ -29,18 +29,18 @@
 /*! \file unpublish.php
 */
 
-include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+//include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 
 
 
 // Check for extension
-include_once( 'lib/ezutils/classes/ezextension.php' );
-include_once( 'kernel/common/ezincludefunctions.php' );
+//include_once( 'lib/ezutils/classes/ezextension.php' );
+require_once( 'kernel/common/ezincludefunctions.php' );
 eZExtension::activateExtensions();
 // Extension check end
 
-include_once( "lib/ezutils/classes/ezini.php" );
-$ini =& eZINI::instance( 'content.ini' );
+//include_once( "lib/ezutils/classes/ezini.php" );
+$ini = eZINI::instance( 'content.ini' );
 $unpublishClasses = $ini->variable( 'UnpublishSettings','ClassList' );
 
 $rootNodeIDList = $ini->variable( 'UnpublishSettings','RootNodeList' );
@@ -51,15 +51,15 @@ foreach( $rootNodeIDList as $nodeID )
 {
     $rootNode = eZContentObjectTreeNode::fetch( $nodeID );
 
-    $articleNodeArray =& $rootNode->subTree( array( 'ClassFilterType' => 'include',
+    $articleNodeArray = $rootNode->subTree( array( 'ClassFilterType' => 'include',
                                                     'ClassFilterArray' => $unpublishClasses ) );
 
-    foreach ( array_keys( $articleNodeArray ) as $key )
+    foreach ( $articleNodeArray as $articleNode )
     {
-        $article =& $articleNodeArray[$key]->attribute( 'object' );
-        $dataMap =& $article->attribute( 'data_map' );
+        $article = $articleNode->attribute( 'object' );
+        $dataMap = $article->attribute( 'data_map' );
 
-        $dateAttribute =& $dataMap['unpublish_date'];
+        $dateAttribute = $dataMap['unpublish_date'];
 
         if ( is_null( $dateAttribute ) )
             continue;
@@ -69,10 +69,10 @@ foreach( $rootNodeIDList as $nodeID )
         if ( $articleRetractDate > 0 && $articleRetractDate < $currrentDate )
         {
             // Clean up content cache
-            include_once( 'kernel/classes/ezcontentcachemanager.php' );
+            //include_once( 'kernel/classes/ezcontentcachemanager.php' );
             eZContentCacheManager::clearContentCacheIfNeeded( $article->attribute( 'id' ) );
 
-            $article->remove( $article->attribute( 'id' ), $articleNodeArray[$key]->attribute( 'node_id' ) );
+            $article->remove( $article->attribute( 'id' ), $articleNode->attribute( 'node_id' ) );
         }
     }
 }

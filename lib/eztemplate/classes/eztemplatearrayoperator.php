@@ -44,7 +44,7 @@
 
 */
 
-include_once( "lib/eztemplate/classes/eztemplate.php" );
+//include_once( "lib/eztemplate/classes/eztemplate.php" );
 
 class eZTemplateArrayOperator
 {
@@ -130,7 +130,7 @@ class eZTemplateArrayOperator
     /*!
      Returns the operators in this class.
     */
-    function &operatorList()
+    function operatorList()
     {
         return $this->Operators;
     }
@@ -304,8 +304,8 @@ class eZTemplateArrayOperator
     /*!
      \reimp
     */
-    function arrayTrans( $operatorName, &$node, &$tpl, &$resourceData,
-                         &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function arrayTrans( $operatorName, &$node, $tpl, &$resourceData,
+                         $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         switch( $operatorName )
         {
@@ -1056,8 +1056,8 @@ class eZTemplateArrayOperator
     /*!
      \reimp
     */
-    function compareTrans( $operatorName, &$node, &$tpl, &$resourceData,
-                           &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function compareTrans( $operatorName, &$node, $tpl, &$resourceData,
+                           $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $isArray = false;
         $isString = false;
@@ -1250,8 +1250,8 @@ class eZTemplateArrayOperator
     /*!
      \reimp
     */
-    function extractTrans( $operatorName, &$node, &$tpl, &$resourceData,
-                           &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function extractTrans( $operatorName, &$node, $tpl, &$resourceData,
+                           $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $offset = 0;
         $length = false;
@@ -1356,8 +1356,8 @@ class eZTemplateArrayOperator
     /*!
      \reimp
     */
-    function mergeTrans( $operatorName, &$node, &$tpl, &$resourceData,
-                         &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function mergeTrans( $operatorName, &$node, $tpl, &$resourceData,
+                         $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $code = '';
         $stringCode = '';
@@ -1587,9 +1587,9 @@ class eZTemplateArrayOperator
                                                                                  "default"   => false ) ) );
     }
 
-    function modify( &$tpl, &$operatorName, &$operatorParameters,
-                     &$rootNamespace, &$currentNamespace, &$operatorValue,
-                     &$namedParameters, $placement )
+    function modify( $tpl, $operatorName, $operatorParameters,
+                     $rootNamespace, $currentNamespace, &$operatorValue,
+                     $namedParameters, $placement )
     {
         switch( $operatorName )
         {
@@ -1598,7 +1598,7 @@ class eZTemplateArrayOperator
                 $operatorValue = array();
                 for ( $i = 0; $i < count( $operatorParameters ); ++$i )
                 {
-                    $operatorValue[] =& $tpl->elementValue( $operatorParameters[$i],
+                    $operatorValue[] = $tpl->elementValue( $operatorParameters[$i],
                                                             $rootNamespace,
                                                             $currentNamespace,
                                                             $placement );
@@ -1618,7 +1618,7 @@ class eZTemplateArrayOperator
                                                     $placement );
                     if ( is_string( $hashName ) or
                          is_numeric( $hashName ) )
-                        $operatorValue[$hashName] =& $tpl->elementValue( $operatorParameters[($i*2)+1],
+                        $operatorValue[$hashName] = $tpl->elementValue( $operatorParameters[($i*2)+1],
                                                                          $rootNamespace,
                                                                          $currentNamespace,
                                                                          $placement );
@@ -1687,7 +1687,7 @@ class eZTemplateArrayOperator
                                          $placement );
                             return;
                         }
-                        $mainArray =& $tpl->elementValue( $operatorParameters[$i++],
+                        $mainArray = $tpl->elementValue( $operatorParameters[$i++],
                                                           $rootNamespace,
                                                           $currentNamespace,
                                                           $placement );
@@ -1695,7 +1695,7 @@ class eZTemplateArrayOperator
                     $tmpArray = array();
                     for ( ; $i < count( $operatorParameters ); ++$i )
                     {
-                        $tmpArray[] =& $tpl->elementValue( $operatorParameters[$i],
+                        $tmpArray[] = $tpl->elementValue( $operatorParameters[$i],
                                                            $rootNamespace,
                                                            $currentNamespace,
                                                            $placement );
@@ -1724,7 +1724,7 @@ class eZTemplateArrayOperator
 
                     for ( $i = 0; $i < count( $operatorParameters ); ++$i )
                     {
-                        $tmpArray[] =& $tpl->elementValue( $operatorParameters[$i],
+                        $tmpArray[] = $tpl->elementValue( $operatorParameters[$i],
                                                            $rootNamespace,
                                                            $currentNamespace,
                                                            $placement );
@@ -1741,7 +1741,7 @@ class eZTemplateArrayOperator
                                      $placement );
                         return;
                     }
-                    $matchValue =& $tpl->elementValue( $operatorParameters[0],
+                    $matchValue = $tpl->elementValue( $operatorParameters[0],
                                                        $rootNamespace,
                                                        $currentNamespace,
                                                        $placement );
@@ -1871,7 +1871,7 @@ class eZTemplateArrayOperator
                     $array_to_insert = array();
                     for ( $i = 1; $i < count( $operatorParameters ); ++$i )
                     {
-                        $array_to_insert[] =& $tpl->elementValue( $operatorParameters[$i],
+                        $array_to_insert[] = $tpl->elementValue( $operatorParameters[$i],
                                                                   $rootNamespace,
                                                                   $currentNamespace,
                                                                   $placement );
@@ -1898,7 +1898,7 @@ class eZTemplateArrayOperator
 
                     for ( $i = 2; $i < count( $operatorParameters ); ++ $i )
                     {
-                        $array_mid[] =& $tpl->elementValue( $operatorParameters[$i],
+                        $array_mid[] = $tpl->elementValue( $operatorParameters[$i],
                                                             $rootNamespace,
                                                             $currentNamespace,
                                                             $placement );
@@ -2111,7 +2111,7 @@ class eZTemplateArrayOperator
             $operatorValue = array();
             for ( $i = 0; $i < count( $operatorParameters ); ++$i )
             {
-                $operatorValue[] =& $tpl->elementValue( $operatorParameters[$i],
+                $operatorValue[] = $tpl->elementValue( $operatorParameters[$i],
                                                         $rootNamespace,
                                                         $currentNamespace,
                                                         $placement );
@@ -2120,9 +2120,9 @@ class eZTemplateArrayOperator
     }
 
     /// \privatesection
-    var $Operators;
-    var $ArrayName;
-    var $HashName;
+    public $Operators;
+    public $ArrayName;
+    public $HashName;
 }
 
 ?>

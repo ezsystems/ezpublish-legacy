@@ -28,16 +28,16 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/common/template.php" );
-include_once( "kernel/classes/ezcontentobject.php" );
-include_once( "kernel/classes/ezdiscountrule.php" );
-include_once( "kernel/classes/ezuserdiscountrule.php" );
-include_once( "kernel/classes/ezdiscountsubrule.php" );
-include_once( "kernel/classes/ezdiscountsubrulevalue.php" );
-include_once( "kernel/classes/ezcontentbrowse.php" );
-include_once( "lib/ezutils/classes/ezhttppersistence.php" );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/classes/ezcontentobject.php" );
+//include_once( "kernel/classes/ezdiscountrule.php" );
+//include_once( "kernel/classes/ezuserdiscountrule.php" );
+//include_once( "kernel/classes/ezdiscountsubrule.php" );
+//include_once( "kernel/classes/ezdiscountsubrulevalue.php" );
+//include_once( "kernel/classes/ezcontentbrowse.php" );
+//include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 
-$module =& $Params["Module"];
+$module = $Params['Module'];
 $discountGroupID = null;
 if ( isset( $Params["DiscountGroupID"] ) )
     $discountGroupID = $Params["DiscountGroupID"];
@@ -45,11 +45,11 @@ if ( isset( $Params["DiscountGroupID"] ) )
 $discountGroup = eZDiscountRule::fetch( $discountGroupID );
 if( is_null( $discountGroup ) )
 {
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
 
-$http =& eZHttpTool::instance();
+$http = eZHTTPTool::instance();
 
 if ( $http->hasPostVariable( "AddRuleButton" ) )
 {
@@ -60,7 +60,7 @@ if ( $http->hasPostVariable( "RemoveRuleButton" ) )
 {
     $discountRuleIDList = $http->postVariable( "removeRuleList" );
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach ( $discountRuleIDList  as $discountRuleID )
     {
@@ -69,7 +69,7 @@ if ( $http->hasPostVariable( "RemoveRuleButton" ) )
     $db->commit();
 
     // we changed prices => remove content cache
-    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearAllContentCache();
 
     $module->redirectTo( $module->functionURI( "discountgroupview" ) . "/" . $discountGroupID );
@@ -93,7 +93,7 @@ if ( $module->isCurrentAction( 'AddCustomer' ) )
     $selectedObjectIDArray = eZContentBrowse::result( 'AddCustomer' );
     $userIDArray = eZUserDiscountRule::fetchUserID( $discountGroupID );
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach ( $selectedObjectIDArray as $objectID )
     {
@@ -106,7 +106,7 @@ if ( $module->isCurrentAction( 'AddCustomer' ) )
     $db->commit();
 
     // because we changed users, we have to remove content cache
-    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearAllContentCache();
 }
 if ( $http->hasPostVariable( "RemoveCustomerButton" ) )
@@ -115,7 +115,7 @@ if ( $http->hasPostVariable( "RemoveCustomerButton" ) )
     {
         $customerIDArray = $http->postVariable( "CustomerIDArray" );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         foreach ( $customerIDArray as $customerID )
         {
@@ -124,7 +124,7 @@ if ( $http->hasPostVariable( "RemoveCustomerButton" ) )
         $db->commit();
     }
 
-    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearAllContentCache();
 }
 
@@ -211,7 +211,7 @@ foreach ( $ruleList as $rule )
             foreach ( $productRuleValues as $productRuleValue )
             {
                 $objectID = $productRuleValue->attribute( 'value' );
-                $product =& eZContentObject::fetch( $objectID );
+                $product = eZContentObject::fetch( $objectID );
                 if ( $product )
                 {
                     if ( !$firstLoop )
@@ -239,14 +239,14 @@ foreach ( $ruleList as $rule )
                    "limitation" => $limitation );
     $ruleArray[] = $item;
 }
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable( "module", $module );
 $tpl->setVariable( "customers", $customers );
 $tpl->setVariable( "discountgroup", $discountGroup );
 $tpl->setVariable( "rule_list", $ruleArray );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:shop/discountgroupmembershipview.tpl" );
+$Result['content'] = $tpl->fetch( "design:shop/discountgroupmembershipview.tpl" );
 $Result['path'] = array( array( 'url' => '/shop/discountgroup/',
                                 'text' => ezi18n( 'kernel/shop', 'Group view of discount rule' ) ) );
 ?>

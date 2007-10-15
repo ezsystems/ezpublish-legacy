@@ -37,9 +37,9 @@
 
 */
 
-include_once( 'kernel/classes/ezpersistentobject.php' );
-include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+//include_once( 'kernel/classes/ezpersistentobject.php' );
+//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+//include_once( 'lib/ezlocale/classes/ezdatetime.php' );
 
 class eZCollaborationItemGroupLink extends eZPersistentObject
 {
@@ -51,7 +51,7 @@ class eZCollaborationItemGroupLink extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'collaboration_id' => array( 'name' => 'CollaborationID',
                                                                       'datatype' => 'integer',
@@ -122,7 +122,7 @@ class eZCollaborationItemGroupLink extends eZPersistentObject
     {
         $groupLink = eZCollaborationItemGroupLink::create( $collaborationID, $groupID, $userID );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $groupLink->store();
         $itemStatus = eZCollaborationItemStatus::create( $collaborationID, $userID );
@@ -156,49 +156,43 @@ class eZCollaborationItemGroupLink extends eZPersistentObject
                                                     $asObject );
     }
 
-    function &user()
+    function user()
     {
         if ( isset( $this->UserID ) and $this->UserID )
         {
-            include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-            $user = eZUser::fetch( $this->UserID );
+            //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+            return eZUser::fetch( $this->UserID );
         }
-        else
-            $user = null;
-        return $user;
+        return null;
     }
 
-    function &collaborationItem()
+    function collaborationItem()
     {
         if ( isset( $this->CollaborationID ) and $this->CollaborationID )
         {
-            include_once( 'kernel/classes/ezcollaborationitem.php' );
-            $item = eZCollaborationItem::fetch( $this->CollaborationID, $this->UserID );
+            //include_once( 'kernel/classes/ezcollaborationitem.php' );
+            return eZCollaborationItem::fetch( $this->CollaborationID, $this->UserID );
         }
-        else
-            $item = null;
-        return $item;
+        return null;
     }
 
-    function &collaborationGroup()
+    function collaborationGroup()
     {
         if ( isset( $this->GroupID ) and $this->GroupID )
         {
-            include_once( 'kernel/classes/ezcollaborationitem.php' );
-            $group = eZCollaborationGroup::fetch( $this->GroupID, $this->UserID );
+            //include_once( 'kernel/classes/ezcollaborationitem.php' );
+            return eZCollaborationGroup::fetch( $this->GroupID, $this->UserID );
         }
-        else
-            $group = null;
-        return $group;
+        return null;
     }
 
 
     /// \privatesection
-    var $CollaborationID;
-    var $GroupID;
-    var $UserID;
-    var $Created;
-    var $Modified;
+    public $CollaborationID;
+    public $GroupID;
+    public $UserID;
+    public $Created;
+    public $Modified;
 }
 
 ?>

@@ -26,17 +26,17 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$module =& $Params["Module"];
+$module = $Params['Module'];
 
-include_once( "kernel/common/template.php" );
-include_once( "kernel/common/eztemplatedesignresource.php" );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/common/eztemplatedesignresource.php" );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
-$ini =& eZINI::instance();
-$tpl =& templateInit();
+$ini = eZINI::instance();
+$tpl = templateInit();
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:setup/rad.tpl" );
+$Result['content'] = $tpl->fetch( "design:setup/rad.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/setup', 'Rapid Application Development' ) ) );
 

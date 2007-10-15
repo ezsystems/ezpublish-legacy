@@ -69,7 +69,7 @@ class eZTemplateAttributeOperator
     /*!
      Returns the template operators.
     */
-    function &operatorList()
+    function operatorList()
     {
         return $this->Operators;
     }
@@ -100,7 +100,7 @@ class eZTemplateAttributeOperator
     /*!
      Display the variable.
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
         $max = $namedParameters["max_val"];
         $as_html = $namedParameters["as_html"];
@@ -172,7 +172,7 @@ class eZTemplateAttributeOperator
             $attrs = $value->attributes();
             foreach ( $attrs as $key )
             {
-                $item =& $value->attribute( $key );
+                $item = $value->attribute( $key );
                 $type = gettype( $item );
                 if ( is_object( $item ) )
                     $type .= "[" . get_class( $item ) . "]";
@@ -207,7 +207,7 @@ class eZTemplateAttributeOperator
     }
 
     /// The array of operators, used for registering operators
-    var $Operators;
+    public $Operators;
 }
 
 ?>

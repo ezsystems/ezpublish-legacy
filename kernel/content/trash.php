@@ -31,11 +31,11 @@
 /*! \file trash.php
 */
 
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( "lib/ezdb/classes/ezdb.php" );
+require_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( "lib/ezdb/classes/ezdb.php" );
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $Offset = $Params['Offset'];
 if ( isset( $Params['UserParameters'] ) )
 {
@@ -48,9 +48,9 @@ else
 $viewParameters = array( 'offset' => $Offset, 'namefilter' => false );
 $viewParameters = array_merge( $viewParameters, $UserParameters );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
-$user =& eZUser::currentUser();
+$user = eZUser::currentUser();
 $userID = $user->id();
 
 if ( $http->hasPostVariable( 'RemoveButton' )  )
@@ -62,7 +62,7 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
         {
             $deleteIDArray = $http->postVariable( 'DeleteIDArray' );
 
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
             foreach ( $deleteIDArray as $deleteID )
             {
@@ -74,9 +74,8 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
                                                                    null,
                                                                    true );
                 eZDebug::writeNotice( $deleteID, "deleteID" );
-                foreach ( array_keys( $objectList ) as $key )
+                foreach ( $objectList as $object )
                 {
-                    $object =& $objectList[$key];
                     $object->purge();
                 }
             }
@@ -84,7 +83,7 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
         }
         else
         {
-            return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+            return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
         }
     }
 }
@@ -95,31 +94,30 @@ else if ( $http->hasPostVariable( 'EmptyButton' )  )
     {
         $objectList = eZPersistentObject::fetchObjectList( eZContentObject::definition(),
                                                            null,
-                                                           array( 'status' => EZ_CONTENT_OBJECT_STATUS_ARCHIVED ),
+                                                           array( 'status' => eZContentObject::STATUS_ARCHIVED ),
                                                            null,
                                                            null,
                                                            true );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
-        foreach ( array_keys( $objectList ) as $key )
+        foreach ( $objectList as $object )
         {
-            $object =& $objectList[$key];
             $object->purge();
         }
         $db->commit();
     }
     else
     {
-        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
     }
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable( 'view_parameters', $viewParameters );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:content/trash.tpl' );
+$Result['content'] = $tpl->fetch( 'design:content/trash.tpl' );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Trash' ),
                                 'url' => false ) );
 

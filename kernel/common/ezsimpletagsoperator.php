@@ -40,7 +40,7 @@ class eZSimpleTagsOperator
     /*!
      Returns the operators in this class.
     */
-    function &operatorList()
+    function operatorList()
     {
         return $this->Operators;
     }
@@ -63,15 +63,14 @@ class eZSimpleTagsOperator
     */
     function initializeIncludes()
     {
-        $init =& $GLOBALS['eZSimpleTagsInit'];
         // If we have this global variable we shouldn't do any processing
-        if ( isset( $init ) and $init )
+        if ( !empty( $GLOBALS['eZSimpleTagsInit'] ) )
             return;
 
-        $init = true;
-        $ini =& eZINI::instance( 'template.ini' );
+        $GLOBALS['eZSimpleTagsInit'] = true;
+        $ini = eZINI::instance( 'template.ini' );
         $extensions = $ini->variable( 'SimpleTagsOperator', 'Extensions' );
-        include_once( 'lib/ezutils/classes/ezextension.php' );
+        //include_once( 'lib/ezutils/classes/ezextension.php' );
         $pathList = eZExtension::expandedPathList( $extensions, 'simpletags' );
         $includeList = $ini->variable( 'SimpleTagsOperator', 'IncludeList' );
 
@@ -91,7 +90,7 @@ class eZSimpleTagsOperator
     /*!
      \reimp
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
         $elements = preg_split( "#(</?[a-zA-Z0-9_-]+>)#",
                                 $operatorValue,
@@ -124,7 +123,7 @@ class eZSimpleTagsOperator
         $this->initializeIncludes();
 
         $tagMap = array();
-        $ini =& eZINI::instance( 'template.ini' );
+        $ini = eZINI::instance( 'template.ini' );
         $tagList = $ini->variable( 'SimpleTagsOperator', $tagListName );
         foreach ( $tagList as $tag => $tagItem )
         {
@@ -226,7 +225,7 @@ class eZSimpleTagsOperator
     }
 
     /// \privatesection
-    var $Operators;
+    public $Operators;
 };
 
 ?>

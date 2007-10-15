@@ -32,25 +32,25 @@
 /*! \file updateiscontainer.php
 */
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
 
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ Publish eZTimeType update script\n\n" .
-                                                         "This script will transform all eZTimeType attributes value\n" .
-                                                         "from GMT to the server local time.\n Please backup your database" .
-                                                         "before to restore your old values if results will something else" .
-                                                         "you expect.".
-                                                         "\n" .
-                                                         "Note: The script must be run for each siteaccess" .
-                                                         "\n" .
-                                                         "updateeztimetype.php -sSITEACCESS" ),
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => true,
-                                      'min_version' => '3.4.7',
-                                      'max_version' => '3.5.3' ) );
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'description' => ( "eZ Publish eZTimeType update script\n\n" .
+                                                        "This script will transform all eZTimeType attributes value\n" .
+                                                        "from GMT to the server local time.\n Please backup your database" .
+                                                        "before to restore your old values if results will something else" .
+                                                        "you expect.".
+                                                        "\n" .
+                                                        "Note: The script must be run for each siteaccess" .
+                                                        "\n" .
+                                                        "updateeztimetype.php -sSITEACCESS" ),
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => true,
+                                     'min_version' => '3.4.7',
+                                     'max_version' => '3.5.3' ) );
 
 $script->startup();
 
@@ -65,10 +65,10 @@ if ( !$script->validateVersion() )
     $script->shutdown( 1 );
 }
 
-include_once( 'lib/ezlocale/classes/eztime.php' );
-include_once( 'kernel/classes/ezcontentobjectattribute.php' );
+//include_once( 'lib/ezlocale/classes/eztime.php' );
+//include_once( 'kernel/classes/ezcontentobjectattribute.php' );
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 
 if ( !is_object( $db ) )
 {
@@ -115,16 +115,16 @@ foreach( $times_array as $item )
     {
         // if time stamp more when 24 hours then identify
         // it as old style full timestamp, and update it
-        if ( $timestamp >= EZTIME_SECONDS_A_DAY )
+        if ( $timestamp >= eZTime::SECONDS_A_DAY )
         {
             $date = getdate( $timestamp );
-            $timestamp = $date[ 'hours' ] * EZTIME_SECONDS_AN_HOUR +
-                         $date[ 'minutes' ] * EZTIME_SECONDS_A_MINUTE +
+            $timestamp = $date[ 'hours' ] * eZTime::SECONDS_AN_HOUR +
+                         $date[ 'minutes' ] * eZTime::SECONDS_A_MINUTE +
                          $date[ 'seconds' ];
         }
         else
         {
-            $timestamp = ( $timestamp + $timezone_offset ) % EZTIME_SECONDS_A_DAY;
+            $timestamp = ( $timestamp + $timezone_offset ) % eZTime::SECONDS_A_DAY;
         }
     }
 

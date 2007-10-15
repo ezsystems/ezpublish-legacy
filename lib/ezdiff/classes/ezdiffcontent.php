@@ -2,7 +2,7 @@
 //
 // Definition of eZDiffContent class
 //
-// <creation-tag>
+// Created on: <24-Jul-2007 13:45:21 hovik>
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ publish
@@ -110,42 +110,41 @@ class eZDiffContent
         return in_array( $name, $this->attributes() );
     }
 
-    function &attribute( $attrName )
+    function attribute( $attrName )
     {
         switch ( $attrName )
         {
             case 'changes':
             {
-                $retVal = $this->getChanges();
+                return $this->getChanges();
             }break;
 
             case 'old_content':
             {
-                $retVal = $this->getOldContent();
+                return $this->getOldContent();
             }break;
 
             case 'new_content':
             {
-                $retVal = $this->getNewContent();
+                return $this->getNewContent();
             }break;
 
             default:
             {
                 eZDebug::writeError( "Attribute '$attrName' does not exist", 'eZDiffContent' );
-                $retVal = null;
+                return null;
             }break;
         }
-        return $retVal;
     }
 
     /// \privatesection
     /// The set of detected changes
-    var $Changeset;
+    public $Changeset;
 
     /// Old Object
-    var $OldContent;
+    public $OldContent;
 
     /// New Object
-    var $NewContent;
+    public $NewContent;
 }
 ?>

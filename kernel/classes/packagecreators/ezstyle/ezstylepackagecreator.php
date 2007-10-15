@@ -38,7 +38,7 @@
 
 */
 
-include_once( 'kernel/classes/ezpackagecreationhandler.php' );
+//include_once( 'kernel/classes/ezpackagecreationhandler.php' );
 
 class eZStylePackageCreator extends eZPackageCreationHandler
 {
@@ -69,7 +69,7 @@ class eZStylePackageCreator extends eZPackageCreationHandler
                                          $steps );
     }
 
-    function finalize( &$package, &$http, &$persistentData )
+    function finalize( $package, $http, &$persistentData )
     {
         $cleanupFiles = array();
         $this->createPackage( $package, $http, $persistentData, $cleanupFiles, false );
@@ -173,7 +173,7 @@ class eZStylePackageCreator extends eZPackageCreationHandler
      \reimp
      \return \c 'import'
     */
-    function packageInstallType( &$package, &$persistentData )
+    function packageInstallType( $package, &$persistentData )
     {
         return 'import';
     }
@@ -182,7 +182,7 @@ class eZStylePackageCreator extends eZPackageCreationHandler
      \reimp
      Returns \c 'stable', site style packages are always stable.
     */
-    function packageInitialState( &$package, &$persistentData )
+    function packageInitialState( $package, &$persistentData )
     {
         return 'stable';
     }
@@ -190,22 +190,22 @@ class eZStylePackageCreator extends eZPackageCreationHandler
     /*!
      \return \c 'sitestyle'.
     */
-    function packageType( &$package, &$persistentData )
+    function packageType( $package, &$persistentData )
     {
         return 'sitestyle';
     }
 
 
-    function initializeCSSFile( &$package, &$http, $step, &$persistentData, &$tpl )
+    function initializeCSSFile( $package, $http, $step, &$persistentData, $tpl )
     {
     }
 
     /*!
      Checks if the css file was uploaded.
     */
-    function validateCSSFile( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
+    function validateCSSFile( $package, $http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
-        include_once( 'lib/ezutils/classes/ezhttpfile.php' );
+        //include_once( 'lib/ezutils/classes/ezhttpfile.php' );
         $hasSiteFile = eZHTTPFile::canFetch( 'PackageSiteCSSFile' );
         $hasClassesFile = eZHTTPFile::canFetch( 'PackageClassesCSSFile' );
 
@@ -217,8 +217,8 @@ class eZStylePackageCreator extends eZPackageCreationHandler
             return false;
         }
 
-        $siteFile =& eZHTTPFile::fetch( 'PackageSiteCSSFile' );
-        $classesFile =& eZHTTPFile::fetch( 'PackageClassesCSSFile' );
+        $siteFile = eZHTTPFile::fetch( 'PackageSiteCSSFile' );
+        $classesFile = eZHTTPFile::fetch( 'PackageClassesCSSFile' );
         if ( !preg_match( "#\.css$#", strtolower( $siteFile->attribute( 'original_filename' ) ) ) or
              !preg_match( "#\.css$#", strtolower( $classesFile->attribute( 'original_filename' ) ) ) )
         {
@@ -229,12 +229,12 @@ class eZStylePackageCreator extends eZPackageCreationHandler
         return $result;
     }
 
-    function commitCSSFile( &$package, &$http, $step, &$persistentData, &$tpl )
+    function commitCSSFile( $package, $http, $step, &$persistentData, $tpl )
     {
-        include_once( 'lib/ezutils/classes/ezhttpfile.php' );
-        $siteFile =& eZHTTPFile::fetch( 'PackageSiteCSSFile' );
-        $classesFile =& eZHTTPFile::fetch( 'PackageClassesCSSFile' );
-        include_once( 'lib/ezutils/classes/ezmimetype.php' );
+        //include_once( 'lib/ezutils/classes/ezhttpfile.php' );
+        $siteFile = eZHTTPFile::fetch( 'PackageSiteCSSFile' );
+        $classesFile = eZHTTPFile::fetch( 'PackageClassesCSSFile' );
+        //include_once( 'lib/ezutils/classes/ezmimetype.php' );
         $siteMimeData = eZMimeType::findByFileContents( $siteFile->attribute( 'original_filename' ) );
         $dir = eZSys::storageDirectory() . '/temp';
         eZMimeType::changeDirectoryPath( $siteMimeData, $dir );
@@ -247,7 +247,7 @@ class eZStylePackageCreator extends eZPackageCreationHandler
         $persistentData['classescssfile'] = $classesMimeData;
     }
 
-    function initializeImageFiles( &$package, &$http, $step, &$persistentData, &$tpl )
+    function initializeImageFiles( $package, $http, $step, &$persistentData, $tpl )
     {
         $persistentData['imagefiles'] = array();
     }
@@ -255,19 +255,19 @@ class eZStylePackageCreator extends eZPackageCreationHandler
     /*!
      Checks if the css file was uploaded.
     */
-    function validateImageFiles( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
+    function validateImageFiles( $package, $http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
-        include_once( 'lib/ezutils/classes/ezhttpfile.php' );
+        //include_once( 'lib/ezutils/classes/ezhttpfile.php' );
         // If we don't have an image we continue as normal
         if ( !eZHTTPFile::canFetch( 'PackageImageFile' ) )
             return true;
 
-        $file =& eZHTTPFile::fetch( 'PackageImageFile' );
+        $file = eZHTTPFile::fetch( 'PackageImageFile' );
 
         $result = true;
         if ( $file )
         {
-            include_once( 'lib/ezutils/classes/ezmimetype.php' );
+            //include_once( 'lib/ezutils/classes/ezmimetype.php' );
             $mimeData = eZMimeType::findByFileContents( $file->attribute( 'original_filename' ) );
             $dir = eZSys::storageDirectory() .  '/temp';
             eZMimeType::changeDirectoryPath( $mimeData, $dir );
@@ -278,7 +278,7 @@ class eZStylePackageCreator extends eZPackageCreationHandler
         return $result;
     }
 
-    function commitImageFiles( &$package, &$http, $step, &$persistentData, &$tpl )
+    function commitImageFiles( $package, $http, $step, &$persistentData, $tpl )
     {
     }
 
@@ -286,7 +286,7 @@ class eZStylePackageCreator extends eZPackageCreationHandler
      \reimp
      Fetches the selected content classes and generates a name, summary and description from the selection.
     */
-    function generatePackageInformation( &$packageInformation, &$package, &$http, $step, &$persistentData )
+    function generatePackageInformation( $packageInformation, $package, $http, $step, &$persistentData )
     {
         $cssfile = $persistentData['sitecssfile'];
         if ( $cssfile )

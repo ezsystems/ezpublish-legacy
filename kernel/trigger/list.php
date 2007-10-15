@@ -25,38 +25,34 @@
 //
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
-function &makeTriggerArray( &$triggerList )
+function makeTriggerArray( $triggerList )
 {
     $triggerArray = array();
-    foreach ( array_keys( $triggerList ) as $key )
+    foreach ( $triggerList as $trigger )
     {
-        $trigger =& $triggerList[$key];
         $newKey = $trigger->attribute( 'module_name' ) . '_' . $trigger->attribute( 'function_name' ) . '_' . $trigger->attribute( 'connect_type' );
-        $triggerArray[$newKey] =& $trigger;
+        $triggerArray[$newKey] = $trigger;
     }
     return $triggerArray;
 }
 
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'kernel/classes/ezcontentclass.php' );
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/eztrigger.php' );
-include_once( "kernel/classes/ezmodulemanager.php" );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezcontentclass.php' );
+require_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/eztrigger.php' );
+//include_once( "kernel/classes/ezmodulemanager.php" );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 
-$moduleName= & $Params['ModuleName1'];
-$functionName= & $Params['FunctionName1'];
-
-$wfINI =& eZINI::instance( 'workflow.ini' );
+$wfINI = eZINI::instance( 'workflow.ini' );
 $operations = $wfINI->variableArray( 'OperationSettings', 'AvailableOperations' );
 $operations = array_unique( array_merge( $operations, $wfINI->variable( 'OperationSettings', 'AvailableOperationList' ) ) );
 $possibleTriggers = array();
 
-$triggers =& makeTriggerArray( eZTrigger::fetchList() );
+$triggers = makeTriggerArray( eZTrigger::fetchList() );
 
 foreach ( $operations as $operation )
 {
@@ -90,10 +86,8 @@ foreach ( $operations as $operation )
         $trigger['key'] = $trigger['module'] . '_' . $trigger['operation'] . '_' . $trigger['connect_type'][0];
         $trigger['allowed_workflows'] = eZWorkflow::fetchLimited( $trigger['module'], $trigger['operation'], $trigger['connect_type'] );
 
-        foreach ( array_keys ( $triggers ) as $key )
+        foreach ( $triggers as $existendTrigger )
         {
-            $existendTrigger =& $triggers[$key];
-
             if ( $existendTrigger->attribute( 'module_name' ) == $trigger['module'] &&
                  $existendTrigger->attribute( 'function_name' ) == $trigger['operation'] &&
                  $existendTrigger->attribute( 'connect_type' ) == $trigger['connect_type'][0] )
@@ -108,12 +102,10 @@ foreach ( $operations as $operation )
 
 if ( $http->hasPostVariable( 'StoreButton' )  )
 {
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
-    foreach ( array_keys( $possibleTriggers ) as $key )
+    foreach ( $possibleTriggers as $trigger )
     {
-        $trigger =& $possibleTriggers[$key];
-
         if ( $http->hasPostVariable( 'WorkflowID_' . $trigger['key'] ) )
         {
             $workflowID = $http->postVariable( 'WorkflowID_' . $trigger['key'] );
@@ -134,10 +126,10 @@ if ( $http->hasPostVariable( 'StoreButton' )  )
                 }
                 else
                 {
-                    $existendTrigger =& $triggers[$trigger['key']];
+                    $existendTrigger = $triggers[$trigger['key']];
                     if ( $existendTrigger->attribute( 'workflow_id' ) != $workflowID )
                     {
-                        $existendTrigger =& $triggers[$trigger['key']];
+                        $existendTrigger = $triggers[$trigger['key']];
                         $existendTrigger->setAttribute( 'workflow_id', $workflowID );
                         $existendTrigger->store();
                     }
@@ -146,7 +138,7 @@ if ( $http->hasPostVariable( 'StoreButton' )  )
             }
             else if ( array_key_exists( $trigger['key'], $triggers ) )
             {
-                $existendTrigger =& $triggers[$trigger['key']];
+                $existendTrigger = $triggers[$trigger['key']];
                 $existendTrigger->remove();
                 //remove trigger
             }
@@ -157,15 +149,8 @@ if ( $http->hasPostVariable( 'StoreButton' )  )
 
 }
 
-
-if ( $moduleName == '' )
-{
-    $moduleName='*';
-}
-if ( $functionName == '' )
-{
-    $functionName='*';
-}
+$moduleName='*';
+$functionName='*';
 
 if ( $http->hasPostVariable( 'RemoveButton' )  )
 {
@@ -173,7 +158,7 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
     {
         $deleteIDArray = $http->postVariable( 'DeleteIDArray' );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         foreach ( $deleteIDArray as $deleteID )
         {
@@ -189,7 +174,7 @@ if ( $http->hasPostVariable( 'NewButton' )  )
 }
 
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $triggers = eZTrigger::fetchList( array(
                                        'module' => $moduleName,
@@ -206,7 +191,7 @@ if ( $moduleName == '*' )
 }
 elseif( $functionName == '*' )
 {
-    $mod =& eZModule::exists( $moduleName );
+    $mod = eZModule::exists( $moduleName );
     $functionList = array_keys( $mod->attribute( 'available_functions' ) );
     eZDebug::writeNotice( $functionList, "functions" );
     $showFunctionList = true;
@@ -225,7 +210,7 @@ $tpl->setVariable( 'functions', $functionList );
 $tpl->setVariable( 'triggers', $triggers );
 $tpl->setVariable( 'module', $Module );
 
-$Result['content'] =& $tpl->fetch( 'design:trigger/list.tpl' );
+$Result['content'] = $tpl->fetch( 'design:trigger/list.tpl' );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/trigger', 'Trigger' ),
                                 'url' => false ),
                          array( 'text' => ezi18n( 'kernel/trigger', 'List' ),

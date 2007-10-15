@@ -26,20 +26,20 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$http =& eZHTTPTool::instance();
-$module =& $Params["Module"];
-$parameters =& $Params["Parameters"];
+$http = eZHTTPTool::instance();
+$module = $Params['Module'];
+$parameters = $Params["Parameters"];
 
 $overrideKeys = array( 'nodeID' => $Params['NodeID'],
                        'classID' => $Params['ClassID'] );
 
-include_once( "kernel/common/template.php" );
-include_once( "kernel/common/eztemplatedesignresource.php" );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( "kernel/classes/ezcontentclass.php" );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/common/eztemplatedesignresource.php" );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( "kernel/classes/ezcontentclass.php" );
 
-$ini =& eZINI::instance();
-$tpl =& templateInit();
+$ini = eZINI::instance();
+$tpl = templateInit();
 
 // Todo: read from siteaccess settings
 $siteAccess = $Params['SiteAccess'];
@@ -98,22 +98,22 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
         {
             case "node_view":
             {
-                $templateCode =& generateNodeViewTemplate( $http, $template, $fileName );
+                $templateCode = generateNodeViewTemplate( $http, $template, $fileName );
             }break;
 
             case "object_view":
             {
-                $templateCode =& generateObjectViewTemplate( $http, $template, $fileName );
+                $templateCode = generateObjectViewTemplate( $http, $template, $fileName );
             }break;
 
             case "pagelayout":
             {
-                $templateCode =& generatePagelayoutTemplate( $http, $template, $fileName );
+                $templateCode = generatePagelayoutTemplate( $http, $template, $fileName );
             }break;
 
             default:
             {
-                $templateCode =& generateDefaultTemplate( $http, $template, $fileName );
+                $templateCode = generateDefaultTemplate( $http, $template, $fileName );
             }break;
         }
 
@@ -160,11 +160,20 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
 
             $oldumask = umask( 0 );
             $overrideINI->save( "siteaccess/$siteAccess/override.ini.append" );
-            chmod( "settings/siteaccess/$siteAccess/override.ini.append.php", octdec( $filePermission ) );
+            $overridePath = "settings/siteaccess/$siteAccess/override.ini.append.php";
+            if ( file_exists( $overridePath ) )
+            {
+                $s = stat($overridePath); 
+                $mode = $s["mode"] & 0777; // get only the last 9 bits.
+                if ($mode & $filePermission != $filePermission ) // filePermission wrong?
+                {
+                    chmod( $overridePath, octdec( $filePermission ) );
+                }
+            }
             umask( $oldumask );
 
             // Expire content view cache
-            include_once( 'kernel/classes/ezcontentcachemanager.php' );
+            //include_once( 'kernel/classes/ezcontentcachemanager.php' );
             eZContentCacheManager::clearAllContentCache();
 
             // Clear override cache
@@ -186,7 +195,7 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
     if ( $error == false )
     {
         $module->redirectTo( '/visual/templateview'. $template );
-        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+        return eZModule::HOOK_STATUS_CANCEL_RUN;
     }
 }
 else if( $module->isCurrentAction( 'CancelOverride' ) )
@@ -195,7 +204,7 @@ else if( $module->isCurrentAction( 'CancelOverride' ) )
 }
 
 
-function &generateNodeViewTemplate( &$http, $template, $fileName )
+function generateNodeViewTemplate( $http, $template, $fileName )
 {
     $matchArray = $http->postVariable( 'Match' );
 
@@ -232,9 +241,9 @@ function &generateNodeViewTemplate( &$http, $template, $fileName )
             $templateCode = "<h1>{\$node.name}</h1>\n\n";
 
             // Append attribute view
-            if ( get_class( $class ) == "ezcontentclass" )
+            if ( $class instanceof eZContentClass )
             {
-                $attributes =& $class->fetchAttributes();
+                $attributes = $class->fetchAttributes();
                 foreach ( $attributes as $attribute )
                 {
                     $identifier = $attribute->attribute( 'identifier' );
@@ -267,9 +276,9 @@ function &generateNodeViewTemplate( &$http, $template, $fileName )
             $templateCode = "<h1>{\$node.name}</h1>\n\n";
 
             // Append attribute view
-            if ( get_class( $class ) == "ezcontentclass" )
+            if ( $class instanceof eZContentClass )
             {
-                $attributes =& $class->fetchAttributes();
+                $attributes = $class->fetchAttributes();
                 foreach ( $attributes as $attribute )
                 {
                     $identifier = $attribute->attribute( 'identifier' );
@@ -291,7 +300,7 @@ function &generateNodeViewTemplate( &$http, $template, $fileName )
 }
 
 
-function &generateObjectViewTemplate( &$http, $template, $fileName )
+function generateObjectViewTemplate( $http, $template, $fileName )
 {
     $matchArray = $http->postVariable( 'Match' );
 
@@ -328,9 +337,9 @@ function &generateObjectViewTemplate( &$http, $template, $fileName )
             $templateCode = "<h1>{\$object.name}</h1>\n\n";
 
             // Append attribute view
-            if ( get_class( $class ) == "ezcontentclass" )
+            if ( $class instanceof eZContentClass )
             {
-                $attributes =& $class->fetchAttributes();
+                $attributes = $class->fetchAttributes();
                 foreach ( $attributes as $attribute )
                 {
                     $identifier = $attribute->attribute( 'identifier' );
@@ -350,7 +359,7 @@ function &generateObjectViewTemplate( &$http, $template, $fileName )
     return $templateCode;
 }
 
-function &generatePagelayoutTemplate( &$http, $template, $fileName )
+function generatePagelayoutTemplate( $http, $template, $fileName )
 {
     $templateCode = "";
     // Check what kind of contents we should create in the template
@@ -398,7 +407,7 @@ function &generatePagelayoutTemplate( &$http, $template, $fileName )
     return $templateCode;
 }
 
-function &generateDefaultTemplate( &$http, $template, $fileName )
+function generateDefaultTemplate( $http, $template, $fileName )
 {
     $templateCode = "";
     // Check what kind of contents we should create in the template
@@ -456,7 +465,7 @@ $tpl->setVariable( 'site_design', $siteDesign );
 $tpl->setVariable( 'override_keys', $overrideKeys );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:visual/templatecreate.tpl" );
+$Result['content'] = $tpl->fetch( "design:visual/templatecreate.tpl" );
 $Result['path'] = array( array( 'url' => "/visual/templatelist/",
                                 'text' => ezi18n( 'kernel/design', 'Template list' ) ),
                          array( 'url' => "/visual/templateview". $template,

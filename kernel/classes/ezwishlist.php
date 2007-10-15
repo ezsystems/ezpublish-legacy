@@ -37,18 +37,18 @@
   \sa eZProductCollection
 */
 
-include_once( "kernel/classes/ezpersistentobject.php" );
-include_once( "kernel/classes/ezproductcollection.php" );
-include_once( "kernel/classes/ezproductcollectionitem.php" );
-include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-include_once( "kernel/classes/ezuserdiscountrule.php" );
-include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezproductcollection.php" );
+//include_once( "kernel/classes/ezproductcollectionitem.php" );
+//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+//include_once( "kernel/classes/ezuserdiscountrule.php" );
+//include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 
 class eZWishList extends eZPersistentObject
 {
     /*!
     */
-    function eZWishList( $row )
+    function eZWishList( $row = array() )
     {
         $this->eZPersistentObject( $row );
     }
@@ -56,7 +56,7 @@ class eZWishList extends eZPersistentObject
     /*!
      \return the persistent object definition for the eZCard class.
     */
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -87,7 +87,7 @@ class eZWishList extends eZPersistentObject
     function discountPercent()
     {
         $discountPercent = 0;
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
         $userID = $user->attribute( 'contentobject_id' );
         $nodes = eZContentObjectTreeNode::fetchByContentObjectID( $userID );
         $idArray = array();
@@ -121,7 +121,7 @@ class eZWishList extends eZPersistentObject
         return $countRes[0]['count'];
     }
 
-    function &items( $asObject = true, $alternativeProductionID = false, $offset = false, $limit = false )
+    function items( $asObject = true, $alternativeProductionID = false, $offset = false, $limit = false )
     {
         $productItems = eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
                                                        null,
@@ -185,7 +185,7 @@ class eZWishList extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function removeItem( $itemID )
+    static function removeItem( $itemID )
     {
         $item = eZProductCollectionItem::fetch( $itemID );
         $item->remove();
@@ -197,11 +197,11 @@ class eZWishList extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function &currentWishList( $asObject=true )
+    static function currentWishList( $asObject=true )
     {
-        $http =& eZHTTPTool::instance();
+        $http = eZHTTPTool::instance();
 
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
         $userID = $user->attribute( 'contentobject_id' );
         $WishListArray = eZPersistentObject::fetchObjectList( eZWishList::definition(),
                                                           null, array( "user_id" => $userID
@@ -221,7 +221,7 @@ class eZWishList extends eZPersistentObject
         }
         else
         {
-            $currentWishList =& $WishListArray[0];
+            $currentWishList = $WishListArray[0];
         }
         return $currentWishList;
     }
@@ -232,9 +232,9 @@ class eZWishList extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function cleanup()
+    static function cleanup()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $rows = $db->arrayQuery( "SELECT productcollection_id FROM ezwishlist" );
         if ( count( $rows ) > 0 )

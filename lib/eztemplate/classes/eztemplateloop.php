@@ -32,9 +32,9 @@
 // private class, should not be used outside of this file
 class eZTemplateLoopSequence
 {
-    function eZTemplateLoopSequence( &$array )
+    function eZTemplateLoopSequence( $array )
     {
-        $this->ArrayRef =& $array;
+        $this->ArrayRef = $array;
         $this->CurVal   =  current( $this->ArrayRef );
     }
 
@@ -52,8 +52,8 @@ class eZTemplateLoopSequence
         }
     }
 
-    var $ArrayRef;
-    var $CurVal;
+    public $ArrayRef;
+    public $CurVal;
 }
 
 /*!
@@ -63,8 +63,8 @@ class eZTemplateLoopSequence
 */
 class eZTemplateLoop
 {
-    function eZTemplateLoop( $functionName, &$functionParameters, &$functionChildren, &$functionPlacement,
-                             &$tpl, &$textElements, &$rootNamespace, &$currentNamespace )
+    function eZTemplateLoop( $functionName, &$functionParameters, $functionChildren, $functionPlacement,
+                             $tpl, &$textElements, $rootNamespace, $currentNamespace )
     {
         $this->SkipDelimiter         = true;
         $this->SkipSequenceIncrement = false;
@@ -75,15 +75,15 @@ class eZTemplateLoop
         $this->LoopVariablesNames    = array();
 
 
-        $this->FunctionName       =  $functionName;
+        $this->FunctionName       = $functionName;
         $this->FunctionParameters =& $functionParameters;
-        $this->FunctionChildren   =& $functionChildren;
+        $this->FunctionChildren   = $functionChildren;
 
-        $this->Tpl                =& $tpl;
+        $this->Tpl                = $tpl;
         $this->TextElements       =& $textElements;
-        $this->RootNamespace      =& $rootNamespace;
-        $this->CurrentNamespace   =& $currentNamespace;
-        $this->FunctionPlacement  =& $functionPlacement;
+        $this->RootNamespace      = $rootNamespace;
+        $this->CurrentNamespace   = $currentNamespace;
+        $this->FunctionPlacement  = $functionPlacement;
 
         $this->Initialized = $this->processFunctionParameters();
     }
@@ -189,11 +189,11 @@ class eZTemplateLoop
         }
         foreach ( array_keys( $this->FunctionChildren ) as $childKey )
         {
-            $child =& $this->FunctionChildren[$childKey];
+            $child = $this->FunctionChildren[$childKey];
 
-            if ( $child[0] == EZ_TEMPLATE_NODE_FUNCTION ) // check child type
+            if ( $child[0] == eZTemplate::NODE_FUNCTION ) // check child type
             {
-                $childFunctionName  =& $child[2];
+                $childFunctionName = $child[2];
 
                 if ( $childFunctionName == 'break' )
                     return true;
@@ -211,7 +211,7 @@ class eZTemplateLoop
                 elseif ( $childFunctionName == 'delimiter' )
                 {
                     if ( is_null( $this->Delimiter ) )
-                        $this->Delimiter =& $child;
+                        $this->Delimiter = $child;
                     continue;
                 }
             }
@@ -252,8 +252,8 @@ class eZTemplateLoop
         if ( is_null( $this->Delimiter ) || $this->SkipDelimiter )
             return false;
 
-        $delimiterChildren =& $this->Delimiter[1];
-        $delimiterParameters =& $this->Delimiter[3]; // Get parameters
+        $delimiterChildren = $this->Delimiter[1];
+        $delimiterParameters = $this->Delimiter[3]; // Get parameters
         $delimiterMatch = true;
         // Check for "modulo"
         if ( isset( $delimiterParameters["modulo"] ) and $index !== false )
@@ -266,8 +266,10 @@ class eZTemplateLoop
         }
         if ( $delimiterMatch )
         {
-            foreach ( array_keys( $delimiterChildren ) as $key )
-                $this->Tpl->processNode( $delimiterChildren[$key], $this->TextElements, $this->RootNamespace, $this->CurrentNamespace );
+            foreach ( $delimiterChildren as $delimiterChild )
+            {
+                $this->Tpl->processNode( $delimiterChild, $this->TextElements, $this->RootNamespace, $this->CurrentNamespace );
+            }
         }
 
         return false;
@@ -291,7 +293,7 @@ class eZTemplateLoop
 
         list( $varNsName, $varNsType, $varName ) = $this->FunctionParameters[$paramName][0][1];
 
-        if ( $varNsType != EZ_TEMPLATE_NAMESPACE_SCOPE_LOCAL || $varNsName )
+        if ( $varNsType != eZTemplate::NAMESPACE_SCOPE_LOCAL || $varNsName )
         {
             $this->Tpl->error( $this->FunctionName,
                                'Loop variables can be defined in root namespace only (e.g. $foo, but not $#foo or $:foo.)' );
@@ -370,29 +372,29 @@ class eZTemplateLoop
     /// \privatesection
     ///
 
-    var $FunctionName;
-    var $FunctionParameters;
-    var $FunctionChildren;
-    var $FunctionPlacement;
+    public $FunctionName;
+    public $FunctionParameters;
+    public $FunctionChildren;
+    public $FunctionPlacement;
 
-    var $SkipDelimiter;
-    var $SkipSequenceIncrement;
-    var $delimiter;
+    public $SkipDelimiter;
+    public $SkipSequenceIncrement;
+    public $delimiter;
 
-    var $Tpl;
-    var $TextElements;
-    var $RootNamespace;
-    var $CurrentNamespace;
+    public $Tpl;
+    public $TextElements;
+    public $RootNamespace;
+    public $CurrentNamespace;
 
-    var $Initialized;
-    var $Sequence;
-    var $SequenceVarName;
+    public $Initialized;
+    public $Sequence;
+    public $SequenceVarName;
     /*!
      * Before we create a new loop variable, we check if it already exists.
      * If it doesn't, we store its name in this array, so that we know
      * which variables to destroy after the loop execution finishes.
      */
-    var $LoopVariablesNames;
+    public $LoopVariablesNames;
 }
 
 ?>

@@ -31,8 +31,8 @@
 /*!
 */
 
-include_once( 'kernel/classes/datatypes/ezxmltext/ezxmloutputhandler.php' );
-//include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
+//include_once( 'kernel/classes/datatypes/ezxmltext/ezxmloutputhandler.php' );
+////include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
 
 class eZXHTMLXMLOutput extends eZXMLOutputHandler
 {
@@ -154,12 +154,12 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     {
         $this->eZXMLOutputHandler( $xmlData, $aliasedType, $contentObjectAttribute );
 
-        $ini =& eZINI::instance('ezxml.ini');
+        $ini = eZINI::instance('ezxml.ini');
         if ( $ini->variable( 'ezxhtml', 'RenderParagraphInTableCells' ) == 'disabled' )
             $this->RenderParagraphInTableCells = false;
     }
 
-    function initHandlerSection( &$element, &$attributes, &$sibilingParams, &$parentParams )
+    function initHandlerSection( $element, &$attributes, &$siblingParams, &$parentParams )
     {
         $ret = array();
         if( !isset( $parentParams['section_level'] ) )
@@ -180,7 +180,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $ret;
     }
 
-    function initHandlerHeader( &$element, &$attributes, &$sibilingParams, &$parentParams )
+    function initHandlerHeader( $element, &$attributes, &$siblingParams, &$parentParams )
     {
         $level = $parentParams['section_level'];
         $this->HeaderCount[$level]++;
@@ -208,7 +208,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $ret;
     }
 
-    function initHandlerLink( &$element, &$attributes, &$sibilingParams, &$parentParams )
+    function initHandlerLink( $element, &$attributes, &$siblingParams, &$parentParams )
     {
         $ret = array();
 
@@ -222,7 +222,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         elseif ( $element->getAttribute( 'node_id' ) != null )
         {
             $nodeID = $element->getAttribute( 'node_id' );
-            $node =& $this->NodeArray[$nodeID];
+            $node = $this->NodeArray[$nodeID];
 
             if ( $node != null )
             {
@@ -233,15 +233,17 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     $href = $node->attribute( 'url_alias' );
             }
             else
+            {
                 eZDebug::writeWarning( "Node #$nodeID doesn't exist", "XML output handler: link" );
+            }
         }
         elseif ( $element->getAttribute( 'object_id' ) != null )
         {
             $objectID = $element->getAttribute( 'object_id' );
-            $object =& $this->ObjectArray["$objectID"];
-            if ( $object )
+            if ( isset( $this->ObjectArray["$objectID"] ) )
             {
-                $node =& $object->attribute( 'main_node' );
+                $object = $this->ObjectArray["$objectID"];
+                $node = $object->attribute( 'main_node' );
                 if ( $node )
                 {
                     $nodeID = $node->attribute( 'node_id' );
@@ -253,7 +255,9 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                         $href = $node->attribute( 'url_alias' );
                 }
                 else
+                {
                     eZDebug::writeWarning( "Object #$objectID doesn't have assigned nodes", "XML output handler: link" );
+                }
             }
             else
             {
@@ -279,16 +283,17 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $ret;
     }
 
-    function initHandlerEmbed( &$element, &$attributes, &$sibilingParams, &$parentParams )
+    function initHandlerEmbed( $element, &$attributes, &$siblingParams, &$parentParams )
     {
         // default return value in case of errors
         $ret = array( 'no_render' => true );
 
         $tplSuffix = '';
         $objectID = $element->getAttribute( 'object_id' );
-        if ( $objectID )
+        if ( $objectID &&
+             !empty( $this->ObjectArray["$objectID"] ) )
         {
-            $object =& $this->ObjectArray["$objectID"];
+            $object = $this->ObjectArray["$objectID"];
         }
         else
         {
@@ -297,9 +302,9 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             {
                 if ( isset( $this->NodeArray[$nodeID] ) )
                 {
-                    $node =& $this->NodeArray[$nodeID];
+                    $node = $this->NodeArray[$nodeID];
                     $objectID = $node->attribute( 'contentobject_id' );
-                    $object =& $node->object();
+                    $object = $node->object();
                     $tplSuffix = '_node';
                 }
                 else
@@ -310,12 +315,12 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             }
         }
 
-        if ( !isset( $object ) || !$object || get_class( $object ) != "ezcontentobject" )
+        if ( !isset( $object ) || !$object || !( $object instanceof eZContentObject ) )
         {
             eZDebug::writeWarning( "Can't fetch object #$objectID", "XML output handler: embed" );
             return $ret;
         }
-        if ( $object->attribute( 'status' ) != EZ_CONTENT_OBJECT_STATUS_PUBLISHED )
+        if ( $object->attribute( 'status' ) != eZContentObject::STATUS_PUBLISHED )
         {
             eZDebug::writeWarning( "Object #$objectID is not published", "XML output handler: embed" );
             return $ret;
@@ -364,15 +369,15 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $ret;
     }
 
-    function initHandlerTable( &$element, &$attributes, &$sibilingParams, &$parentParams )
+    function initHandlerTable( $element, &$attributes, &$siblingParams, &$parentParams )
     {
         // Numbers of rows and cols are lower by 1 for back-compatibility.
-        $rows =& $element->children();
-        $rowCount = count( $rows );
+        $rows = $element->childNodes;
+        $rowCount = $rows->length;
         $rowCount--;
-        $lastRow =& $element->lastChild();
-        $cols =& $lastRow->children();
-        $colCount = count( $cols );
+        $lastRow = $element->lastChild;
+        $cols = $lastRow->childNodes;
+        $colCount = $cols->length;
         if ( $colCount )
             $colCount--;
 
@@ -381,19 +386,19 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $ret;
     }
 
-    function initHandlerTr( &$element, &$attributes, &$sibilingParams, &$parentParams )
+    function initHandlerTr( $element, &$attributes, &$siblingParams, &$parentParams )
     {
         $ret = array();
-        if( !isset( $sibilingParams['table_row_count'] ) )
-            $sibilingParams['table_row_count'] = 0;
+        if( !isset( $siblingParams['table_row_count'] ) )
+            $siblingParams['table_row_count'] = 0;
         else
-            $sibilingParams['table_row_count']++;
+            $siblingParams['table_row_count']++;
 
-        $parentParams['table_row_count'] = $sibilingParams['table_row_count'];
+        $parentParams['table_row_count'] = $siblingParams['table_row_count'];
 
         // Number of cols is lower by 1 for back-compatibility.
-        $cols =& $element->children();
-        $colCount = count( $cols );
+        $cols = $element->childNodes;
+        $colCount = $cols->length;
         if ( $colCount )
             $colCount--;
 
@@ -402,33 +407,33 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $ret;
     }
 
-    function initHandlerTd( &$element, &$attributes, &$sibilingParams, &$parentParams )
+    function initHandlerTd( $element, &$attributes, &$siblingParams, &$parentParams )
     {
-        if( !isset( $sibilingParams['table_col_count'] ) )
-            $sibilingParams['table_col_count'] = 0;
+        if( !isset( $siblingParams['table_col_count'] ) )
+            $siblingParams['table_col_count'] = 0;
         else
-            $sibilingParams['table_col_count']++;
+            $siblingParams['table_col_count']++;
 
-        $ret = array( 'tpl_vars' => array( 'col_count' => $sibilingParams['table_col_count'],
-                                           'row_count' => $parentParams['table_row_count'] ) );
+        $ret = array( 'tpl_vars' => array( 'col_count' => &$siblingParams['table_col_count'],
+                                           'row_count' => &$parentParams['table_row_count'] ) );
         return $ret;
     }
 
-    function initHandlerCustom( &$element, &$attributes, &$sibilingParams, &$parentParams )
-    {
+    function initHandlerCustom( $element, &$attributes, &$siblingParams, &$parentParams )
+{
         $ret = array( 'template_name' => $attributes['name'] );
         return $ret;
     }
 
     // Render handlers
 
-    function renderParagraph( &$element, $childrenOutput, $vars )
+    function renderParagraph( $element, $childrenOutput, $vars )
     {
         // don't render if inside 'li' or inside 'td' (by option)
-        $parent =& $element->parentNode;
+        $parent = $element->parentNode;
 
-        if ( ( $parent->nodeName == 'li' && count( $parent->Children ) == 1 ) ||
-             ( $parent->nodeName == 'td' && count( $parent->Children ) == 1 && !$this->RenderParagraphInTableCells ) )
+        if ( ( $parent->nodeName == 'li' && $parent->childNodes->length == 1 ) ||
+             ( $parent->nodeName == 'td' && $parent->childNodes->length == 1 && !$this->RenderParagraphInTableCells ) )
         {
             return $childrenOutput;
         }
@@ -457,7 +462,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return array( false, $tagText );
     }
 
-    function renderInline( &$element, $childrenOutput, $vars )
+    function renderInline( $element, $childrenOutput, $vars )
     {
         $renderedArray = array();
         $lastTagInline = null;
@@ -486,7 +491,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $renderedArray;
     }
 
-    function renderLine( &$element, $childrenOutput, $vars )
+    function renderLine( $element, $childrenOutput, $vars )
     {
         $renderedArray = array();
         $lastTagInline = null;
@@ -507,7 +512,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             }
             elseif ( $childOutput[0] === true && !array_key_exists( $key + 1, $childrenOutput ) )
             {
-                $next =& $element->nextSibling();
+                $next = $element->nextSibling;
                 if ( $next && $next->nodeName == 'line' )
                 {
                     $tagText = $this->renderTag( $element, $inlineContent, $vars );
@@ -525,7 +530,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $renderedArray;
     }
 
-    function renderCustom( &$element, $childrenOutput, $vars )
+    function renderCustom( $element, $childrenOutput, $vars )
     {
         if ( $this->XMLSchema->isInline( $element ) )
         {
@@ -538,7 +543,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $ret;
     }
 
-    function renderChildrenOnly( &$element, $childrenOutput, $vars )
+    function renderChildrenOnly( $element, $childrenOutput, $vars )
     {
         $tagText = '';
         foreach( $childrenOutput as $childOutput )
@@ -549,11 +554,11 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return array( false, $tagText );
     }
 
-    function renderText( &$element, $childrenOutput, $vars )
+    function renderText( $element, $childrenOutput, $vars )
     {
         if ( $element->parentNode->nodeName != 'literal' )
         {
-            $text = htmlspecialchars( $element->Content );
+            $text = htmlspecialchars( $element->textContent );
             // Get rid of linebreak and spaces stored in xml file
             $text = preg_replace( "#[\n]+#", "", $text );
 
@@ -567,7 +572,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         }
         else
         {
-            $text = $element->Content;
+            $text = $element->textContent;
         }
 
         return array( true, $text );
@@ -575,11 +580,11 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
 
     /// Array of parameters for rendering tags that are children of 'link' tag
-    var $LinkParameters = array();
+    public $LinkParameters = array();
 
-    var $HeaderCount = array();
+    public $HeaderCount = array();
 
-    var $RenderParagraphInTableCells = true;
+    public $RenderParagraphInTableCells = true;
 }
 
 ?>

@@ -30,7 +30,7 @@
 
 /*! \file ezsetup_summary.php
 */
-include_once( "kernel/setup/ezsetuptests.php" );
+// include_once( "kernel/setup/ezsetuptests.php" );
 
 /*!
   \class eZSetupSummary ezsetup_summary.php
@@ -48,7 +48,7 @@ class eZSetupSummary
      \param template
      \param persistence list
     */
-    function eZSetupSummary( &$tpl, &$persistenceList )
+    function eZSetupSummary( $tpl, &$persistenceList )
     {
         $this->Tpl =& $tpl;
         $this->PersistenceList =& $persistenceList;
@@ -147,8 +147,8 @@ class eZSetupSummary
         return $this->Tpl->fetch( 'design:setup/summary.tpl' );
     }
 
-    var $Tpl;
-    var $PersistenceList;
+    public $Tpl;
+    public $PersistenceList;
 }
 
 ?>

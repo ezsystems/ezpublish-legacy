@@ -36,22 +36,22 @@
   \sa eZProductCollection
 */
 
-include_once( "kernel/classes/ezpersistentobject.php" );
-include_once( "kernel/classes/ezproductcollection.php" );
-include_once( "kernel/classes/ezproductcollectionitem.php" );
-include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-include_once( "kernel/classes/ezuserdiscountrule.php" );
-include_once( "kernel/classes/ezcontentobjecttreenode.php" );
-include_once( "kernel/classes/ezshippingmanager.php" );
-include_once( "kernel/classes/ezorder.php" );
-
-/*!
- Controls the default value for how many items are cleaned in one batch operation.
-*/
-define( "EZ_BASKET_ITEM_LIMIT", 3000 );
+//include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezproductcollection.php" );
+//include_once( "kernel/classes/ezproductcollectionitem.php" );
+//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+//include_once( "kernel/classes/ezuserdiscountrule.php" );
+//include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+//include_once( "kernel/classes/ezshippingmanager.php" );
+//include_once( "kernel/classes/ezorder.php" );
 
 class eZBasket extends eZPersistentObject
 {
+    /*!
+     Controls the default value for how many items are cleaned in one batch operation.
+    */
+    const ITEM_LIMIT = 3000;
+
     /*!
     */
     function eZBasket( $row )
@@ -62,7 +62,7 @@ class eZBasket extends eZPersistentObject
     /*!
      \return the persistent object definition for the eZCard class.
     */
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -98,7 +98,7 @@ class eZBasket extends eZPersistentObject
                       "name" => "ezbasket" );
     }
 
-    function &items( $asObject = true )
+    function items( $asObject = true )
     {
         $productItems = eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
                                                              null,
@@ -165,12 +165,11 @@ class eZBasket extends eZPersistentObject
     /*!
      Fetching calculated information about the product items.
     */
-    function &itemsInfo()
+    function itemsInfo()
     {
         $basketInfo = array();
         // Build a price summary for the items based on VAT.
-        $items =& $this->items();
-        foreach ( $items as $item )
+        foreach ( $this->items() as $item )
         {
             $vatValue = $item['vat_value'];
             $itemCount = abs( $item['item_count'] );
@@ -249,9 +248,9 @@ class eZBasket extends eZPersistentObject
         return true;
     }
 
-    function &totalIncVAT()
+    function totalIncVAT()
     {
-        $items =& $this->items();
+        $items = $this->items();
 
         $total = 0.0;
         foreach ( $items as $item )
@@ -261,9 +260,9 @@ class eZBasket extends eZPersistentObject
         return $total;
     }
 
-    function &totalExVAT()
+    function totalExVAT()
     {
-        $items =& $this->items();
+        $items = $this->items();
 
         $total = 0.0;
         foreach ( $items as $item )
@@ -286,19 +285,10 @@ class eZBasket extends eZPersistentObject
         }
     }
 
-    function &isEmpty()
+    function isEmpty()
     {
         $items = $this->items();
-        if ( count( $items ) > 0 )
-        {
-            $result = false;
-        }
-        else
-        {
-            $result = true;
-        }
-
-        return $result;
+        return count( $items ) < 1;
     }
 
     /*!
@@ -306,12 +296,11 @@ class eZBasket extends eZPersistentObject
      \param $sessionKey A string containing the session key.
      \return An eZSessionBasket object or \c false if none was found.
     */
-    function &fetch( $sessionKey )
+    static function fetch( $sessionKey )
     {
-        $basket = eZPersistentObject::fetchObject( eZBasket::definition(),
-                                                   null, array( "session_id" => $sessionKey ),
-                                                   true );
-        return $basket;
+        return eZPersistentObject::fetchObject( eZBasket::definition(),
+                                                null, array( "session_id" => $sessionKey ),
+                                                true );
     }
 
     /*!
@@ -320,7 +309,7 @@ class eZBasket extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function &currentBasket( $asObject=true, $byOrderID=-1 )
+    static function currentBasket( $asObject=true, $byOrderID=-1 )
     {
         $basketList = array();
 
@@ -333,7 +322,7 @@ class eZBasket extends eZPersistentObject
         }
         else
         {
-            $http =& eZHTTPTool::instance();
+            $http = eZHTTPTool::instance();
             $sessionID = $http->sessionID();
 
             $basketList = eZPersistentObject::fetchObjectList( eZBasket::definition(),
@@ -345,7 +334,7 @@ class eZBasket extends eZPersistentObject
         $currentBasket = false;
         if ( count( $basketList ) == 0 )
         {
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
             $collection = eZProductCollection::create();
             $collection->store();
@@ -357,7 +346,7 @@ class eZBasket extends eZPersistentObject
         }
         else
         {
-            $currentBasket =& $basketList[0];
+            $currentBasket = $basketList[0];
         }
         return $currentBasket;
     }
@@ -373,21 +362,21 @@ class eZBasket extends eZPersistentObject
         // Make order
         $productCollectionID = $this->attribute( 'productcollection_id' );
 
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
         $userID = $user->attribute( 'contentobject_id' );
 
-        include_once( 'kernel/classes/ezorderstatus.php' );
-        $time = mktime();
+        //include_once( 'kernel/classes/ezorderstatus.php' );
+        $time = time();
         $order = new eZOrder( array( 'productcollection_id' => $productCollectionID,
                                      'user_id' => $userID,
                                      'is_temporary' => 1,
                                      'created' => $time,
-                                     'status_id' => EZ_ORDER_STATUS_PENDING,
+                                     'status_id' => eZOrderStatus::PENDING,
                                      'status_modified' => $time,
                                      'status_modifier_id' => $userID
                                      ) );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $order->store();
 
@@ -405,30 +394,29 @@ class eZBasket extends eZPersistentObject
      */
     function updatePrices()
     {
-        $productCollection =& $this->attribute( 'productcollection' );
+        $productCollection = $this->attribute( 'productcollection' );
         if ( $productCollection )
         {
-            include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+            //include_once( 'kernel/shop/classes/ezshopfunctions.php' );
 
             $currencyCode = '';
-            $items =& $this->items();
+            $items = $this->items();
 
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
-            foreach( array_keys( $items ) as $key )
+            foreach( $items as $itemArray )
             {
-                $itemArray =& $items[ $key ];
-                $item =& $itemArray['item_object'];
-                $productContentObject =& $item->attribute( 'contentobject' );
+                $item = $itemArray['item_object'];
+                $productContentObject = $item->attribute( 'contentobject' );
                 $priceObj = null;
                 $price = 0.0;
-                $attributes =&  $productContentObject->contentObjectAttributes();
+                $attributes = $productContentObject->contentObjectAttributes();
                 foreach ( $attributes as $attribute )
                 {
                     $dataType = $attribute->dataType();
                     if ( eZShopFunctions::isProductDatatype( $dataType->isA() ) )
                     {
-                        $priceObj =& $attribute->content();
+                        $priceObj = $attribute->content();
                         $price += $priceObj->attribute( 'price' );
                         break;
                     }
@@ -436,7 +424,7 @@ class eZBasket extends eZPersistentObject
                 if ( !is_object( $priceObj ) )
                     break;
 
-                $currency =& $priceObj->attribute( 'currency' );
+                $currency = $priceObj->attribute( 'currency' );
                 $optionsPrice = $item->calculatePriceWithOptions( $currency );
 
                 $price += $optionsPrice;
@@ -470,9 +458,9 @@ class eZBasket extends eZPersistentObject
      Removes all baskets which are considered expired (due to session expiration).
      \note This will also remove the product collection the basket is using.
     */
-    function cleanupExpired( $time )
+    static function cleanupExpired( $time )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         if ( $db->hasRequiredServerVersion( '4.0', 'mysql' ) )
         {
@@ -499,7 +487,7 @@ USING ezsession
 FROM ezbasket, ezsession
 WHERE ezbasket.session_id = ezsession.session_key AND
       ezsession.expiration_time < " . (int)$time;
-        $limit = EZ_BASKET_ITEM_LIMIT;
+        $limit = self::ITEM_LIMIT;
 
         do
         {
@@ -528,11 +516,11 @@ WHERE ezbasket.session_id = ezsession.session_key AND
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function cleanup()
+    static function cleanup()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $sql = "SELECT productcollection_id FROM ezbasket";
-        $limit = EZ_BASKET_ITEM_LIMIT;
+        $limit = self::ITEM_LIMIT;
 
         $db->begin();
         do
@@ -571,10 +559,10 @@ WHERE ezbasket.session_id = ezsession.session_key AND
 
         if ( is_array( $productCollectionItemList ) && count( $productCollectionItemList ) === 1 )
         {
-            $product =& $productCollectionItemList[0]->attribute( 'contentobject' );
+            $product = $productCollectionItemList[0]->attribute( 'contentobject' );
             if ( is_object( $product ) )
             {
-                include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+                //include_once( 'kernel/shop/classes/ezshopfunctions.php' );
                 $type = eZShopFunctions::productTypeByObject( $product );
             }
         }
@@ -584,36 +572,35 @@ WHERE ezbasket.session_id = ezsession.session_key AND
 
     function canAddProduct( $contentObject )
     {
-        include_once( 'kernel/shop/classes/ezshopfunctions.php' );
-        include_once( 'kernel/shop/errors.php' );
+        //include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+        //include_once( 'kernel/shop/errors.php' );
 
-        $error = EZ_ERROR_SHOP_OK;
+        $error = eZError::SHOP_OK;
 
         $productType = eZShopFunctions::productTypeByObject( $contentObject );
         if ( $productType === false )
         {
-            $error = EZ_ERROR_SHOP_NOT_A_PRODUCT;
+            $error = eZError::SHOP_NOT_A_PRODUCT;
         }
         else
         {
             if ( !eZShopFunctions::isSimplePriceProductType( $productType ) )
                 $error = eZShopFunctions::isPreferredCurrencyValid();
 
-            if ( $error === EZ_ERROR_SHOP_OK )
+            if ( $error === eZError::SHOP_OK )
             {
                 $basketType = $this->type();
                 if ( $basketType !== false && $basketType !== $productType )
-                    $error = EZ_ERROR_SHOP_BASKET_INCOMPATIBLE_PRODUCT_TYPE;
+                    $error = eZError::SHOP_BASKET_INCOMPATIBLE_PRODUCT_TYPE;
             }
         }
 
         return $error;
     }
 
-    function &productCollection()
+    function productCollection()
     {
-        $productCollection = eZProductCollection::fetch( $this->attribute( 'productcollection_id' ) );
-        return $productCollection;
+        return eZProductCollection::fetch( $this->attribute( 'productcollection_id' ) );
     }
 
     /*!
@@ -625,19 +612,19 @@ WHERE ezbasket.session_id = ezsession.session_key AND
      the calls within a db transaction; thus within db->begin and db->commit.
 
     */
-    function cleanupCurrentBasket( $useSetting = true )
+    static function cleanupCurrentBasket( $useSetting = true )
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $removeBasket = true;
         if ( $useSetting )
             $removeBasket = $ini->hasVariable( 'ShopSettings', 'ClearBasketOnLogout' ) ? $ini->variable( 'ShopSettings', 'ClearBasketOnLogout' ) == 'enabled' : false;
 
         if ( $removeBasket )
         {
-            $basket =& eZBasket::currentBasket();
+            $basket = eZBasket::currentBasket();
             if ( !is_object( $basket ) )
                 return false;
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
             $productCollectionID = $basket->attribute( 'productcollection_id' );
             eZProductCollection::cleanupList( array( $productCollectionID ) );

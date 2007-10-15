@@ -38,24 +38,24 @@
 
 set_time_limit( 0 );
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
 $fixErrors = true;
 $fixAllAttributes = true;
 $fixAttribute = true;
 $fixURL = true;
 
-$cli =& eZCLI::instance();
+$cli = eZCLI::instance();
 $endl = $cli->endlineString();
 
-$script =& eZScript::instance( array( 'description' => ( "eZ Publish xml text field updater.\n\n".
-                                                         "Goes trough all objects with XML fields and corrects any broken XML structures and content." .
-                                                         "\n" .
-                                                         "updatexmltext.php" ),
-                                      'use-session' => true,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+$script = eZScript::instance( array( 'description' => ( "eZ Publish xml text field updater.\n\n".
+                                                        "Goes trough all objects with XML fields and corrects any broken XML structures and content." .
+                                                        "\n" .
+                                                        "updatexmltext.php" ),
+                                     'use-session' => true,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 
@@ -76,7 +76,7 @@ if ( $siteAccess )
 function changeSiteAccessSetting( &$siteaccess, $optionData )
 {
     global $isQuiet;
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     if ( file_exists( 'settings/siteaccess/' . $optionData ) )
     {
         $siteaccess = $optionData;
@@ -90,120 +90,125 @@ function changeSiteAccessSetting( &$siteaccess, $optionData )
     }
 }
 
-include_once( 'kernel/classes/ezcontentclassattribute.php' );
-include_once( 'kernel/classes/ezcontentobjectattribute.php' );
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/ezbinaryfilehandler.php' );
-include_once( 'kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php' );
+//include_once( 'kernel/classes/ezcontentclassattribute.php' );
+//include_once( 'kernel/classes/ezcontentobjectattribute.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'kernel/classes/ezbinaryfilehandler.php' );
+//include_once( 'kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php' );
 
-include_once( 'lib/ezdb/classes/ezdb.php' );
-include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+//include_once( 'lib/ezdb/classes/ezdb.php' );
+//include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 $db->setIsSQLOutputEnabled( $showSQL );
 
-$xmlTypeAttributeList =& eZContentClassAttribute::fetchList( true, array( 'data_type' => 'ezxmltext',
-                                                                          'version' => 0 ) );
+$xmlTypeAttributeList = eZContentClassAttribute::fetchList( true, array( 'data_type' => 'ezxmltext',
+                                                                         'version' => 0 ) );
 $classAttributeIDList = array();
-for ( $i = 0; $i < count( $xmlTypeAttributeList ); ++$i )
+foreach( $xmlTypeAttributeList as $xmlTypeAttribute )
 {
-    $xmlTypeAttribute =& $xmlTypeAttributeList[$i];
     $classAttributeIDList[] = $xmlTypeAttribute->attribute( 'id' );
 }
 unset( $xmlTypeAttributeList );
 
 $urlCount = eZURL::fetchListCount();
 
-$attributeCount = eZContentObjectAttribute::fetchListByClassID( $classAttributeIDList, false, array( 'offset' => 0,
-                                                                                                     'length' => 3 ),
+$attributeCount = eZContentObjectAttribute::fetchListByClassID( $classAttributeIDList,
+                                                                false,
+                                                                array( 'offset' => 0,
+                                                                       'length' => 3 ),
                                                                 false, true );
 $urlList = eZURL::fetchList();
 
 $urlRefMap = array();
 $urlIDMap = array();
-for ( $i = 0; $i < count( $urlList ); ++$i )
+foreach( $urlList as $url )
 {
-    $url =& $urlList[$i];
-    $urlRefMap[$url->attribute( 'url' )] =& $url;
-    $urlIDMap[$url->attribute( 'id' )] =& $url;
+    $urlRefMap[$url->attribute( 'url' )] = $url;
+    $urlIDMap[$url->attribute( 'id' )] = $url;
 }
 
-function findAndReplaceLinks( &$doc, &$node )
+function findAndReplaceLinks( $doc, $node )
 {
     global $urlRefMap;
     global $urlIDMap;
     global $showDebug;
     global $fixErrors;
     $foundLinks = false;
-    unset( $children );
     if ( !$node )
         return $foundLinks;
-    $children =& $node->Children;
-    for ( $i = 0; $i < count( $children ); ++$i )
+
+    foreach( $node->childNodes as $child )
     {
-        unset( $child );
-        $child =& $children[$i];
-        if ( $child->name() == 'link' )
+        if ( $child->nodeName == 'link' )
         {
-            unset( $linkAttributes );
-            $linkAttributes =& $child->attributes();
-            unset( $hrefAttribute );
-            unset( $idAttribute );
-            unset( $targetAttribute );
             $hrefAttribute = null;
             $idAttribute = null;
             $targetAttribute = null;
-            for ( $j = 0; $j < count( $linkAttributes ); ++$j )
+            foreach( $child->attributes as $linkAttribute )
             {
-                $linkAttribute =& $linkAttributes[$j];
-                if ( $linkAttribute->name() == 'href' )
-                    $hrefAttribute =& $linkAttributes[$j];
-                else if ( $linkAttribute->name() == 'id' )
-                    $idAttribute =& $linkAttributes[$j];
-                else if ( $linkAttribute->name() == 'target' )
-                    $targetAttribute =& $linkAttributes[$j];
+                if ( $linkAttribute->name == 'href' )
+                {
+                    $hrefAttribute = $linkAttribute;
+                }
+                else if ( $linkAttribute->name == 'id' )
+                {
+                    $idAttribute = $linkAttribute;
+                }
+                else if ( $linkAttribute->name == 'target' )
+                {
+                    $targetAttribute = $linkAttribute;
+                }
             }
             if ( $idAttribute === null and
                  $hrefAttribute !== null )
             {
-                $href = $hrefAttribute->content();
+                $href = $hrefAttribute->value;
                 if ( array_key_exists( $href, $urlRefMap ) )
                 {
                     if ( $showDebug )
+                    {
                         print( "Found '$href'\n" );
-                    $url =& $urlRefMap[$href];
+                    }
+                    $url = $urlRefMap[$href];
                 }
                 else
                 {
                     if ( $showDebug )
+                    {
                         print( "Found new '$href'\n" );
+                    }
                     $urlID = eZURL::registerURL( $href );
                     $url = eZURL::fetch( $urlID );
-                    $urlRefMap[$href] =& $url;
-                    $urlIDMap[$urlID] =& $url;
+                    $urlRefMap[$href] = $url;
+                    $urlIDMap[$urlID] = $url;
                 }
-                $idAttribute = $doc->createAttributeNode( 'id', $url->attribute( 'id' ) );
-                $child->appendAttribute( $idAttribute );
-                $child->removeNamedAttribute( 'href' );
+                $child->setAttribute( 'id', $url->attribute( 'id' ) );
+                $child->removeAttribute( 'href' );
                 $foundLinks = true;
             }
             if ( $targetAttribute !== null )
             {
-                $target = $targetAttribute->content();
+                $target = $targetAttribute->value;
                 if ( $target == '_self' )
                 {
                     if ( $showDebug )
+                    {
                         print( "Found '$target'\n" );
-                    $child->removeNamedAttribute( 'target' );
+                    }
+                    $child->removeAttribute( 'target' );
                     $foundLinks = true;
                 }
             }
         }
-        if ( findAndReplaceLinks( $doc, $child ) )
+        if ( $child instanceof DOMNode &&
+             $child->hasChildNodes() &&
+             findAndReplaceLinks( $doc, $child ) )
+        {
             $foundLinks = true;
-        unset( $child );
+        }
     }
-    unset( $children );
+
     return $foundLinks;
 }
 
@@ -218,9 +223,6 @@ $dotCount = 0;
 $dotTotalCount = 0;
 $dotMax = 70;
 
-include_once( 'lib/ezxml/classes/ezxml.php' );
-$xml = new eZXML();
-
 if ( $fixAttribute )
 {
     print( "Fixing bad xml text links\n" );
@@ -228,77 +230,58 @@ if ( $fixAttribute )
     while ( $attributeOffset < $attributeCount )
     {
         $percent = ( $dotTotalCount * 100.0 ) / ( $attributeCount - 1 );
-//         if ( $percent > 27.76 )
-//             print( "cd " . $attributeOffset . ", " . $attributeLimit );
-        unset( $objectAttributeList );
-        $objectAttributeList =& eZContentObjectAttribute::fetchListByClassID( $classAttributeIDList, false, array( 'offset' => $attributeOffset,
+        $objectAttributeList = eZContentObjectAttribute::fetchListByClassID( $classAttributeIDList, false, array( 'offset' => $attributeOffset,
                                                                                                                    'length' => $attributeLimit ),
                                                                               true, false );
-//         if ( $percent > 27.76 )
-//             print( "ef" );
         $lastID = false;
-        for ( $i = 0; $i < count( $objectAttributeList ); ++$i )
+        foreach( $objectAttributeList as $objectAttribute )
         {
             $percent = ( $dotTotalCount * 100.0 ) / ( $attributeCount - 1 );
-            $objectAttribute =& $objectAttributeList[$i];
-//             if ( $percent > 27.76 )
-//             {
-//                 print( $objectAttribute->attribute( 'id' ) . " (" . $objectAttribute->attribute( 'version' ) . ")\n" );
-//             }
-//             if ( $lastID !== false and
-//                  $objectAttribute->attribute( 'id' ) == $lastID)
-//                 print( "Found duplicate " . $objectAttribute->attribute( 'id' ) . "\n" );
             $lastID = $objectAttribute->attribute( 'id' );
             $dataType = $objectAttribute->dataType();
             $handleAttribute = true;
             $badDataType = false;
-            if ( !$dataType or get_class( $dataType ) != 'ezxmltexttype' )
+            if ( empty( $dataType ) ||
+                 !( $dataType instanceof eZXMLTextType ) )
             {
                 $handleAttribute = false;
                 $badDataType = true;
             }
-            unset( $content );
             $content = null;
             if ( $handleAttribute )
             {
-                $content =& $objectAttribute->content();
+                $content = $objectAttribute->content();
                 if ( !$content or !is_object( $content ) )
+                {
                     $handleAttribute = false;
+                }
             }
-            unset( $xmlData );
             $xmlData = null;
             if ( $handleAttribute )
             {
-//                 if ( !is_object( $content ) )
-//                     print( get_class( $dataType ) . ", " . gettype( $content ) . " [$content]" . "\n" );
-//                 if ( is_object( $content ) )
-//                 {
                 $xmlData = $content->attribute( 'xml_data' );
                 if ( !$xmlData )
+                {
                     $handleAttribute = false;
-//                 }
-//                 else
-//                     $handleAttribute = false;
+                }
             }
-            unset( $doc );
             $doc = null;
             if ( $handleAttribute )
             {
-                $doc =& $xml->domTree( $xmlData );
+                $doc = DomDocument::loadXML( $xmlData );
                 if ( $doc )
                 {
-                    if ( findAndReplaceLinks( $doc, $doc->root() ) or
-                         $objectAttribute->attribute( 'data_int' ) < EZ_XMLTEXT_VERSION_TIMESTAMP or
+                    if ( findAndReplaceLinks( $doc, $doc->documentElement ) ||
+                         $objectAttribute->attribute( 'data_int' ) < eZXMLTextType::VERSION_TIMESTAMP ||
                          $fixAllAttributes )
                     {
                         if ( $showDebug )
                             print( "Links found and replaced\n" );
-//                 print( $doc->toString() . "\n" );
                         $docString = eZXMLTextType::domString( $doc );
                         $objectAttribute->setAttribute( 'data_text', $docString );
-                        $objectAttribute->setAttribute( 'data_int', EZ_XMLTEXT_VERSION_TIMESTAMP );
-                        if ( findAndReplaceLinks( $doc, $doc->root() ) or
-                             $objectAttribute->attribute( 'data_int' ) < EZ_XMLTEXT_VERSION_TIMESTAMP )
+                        $objectAttribute->setAttribute( 'data_int', eZXMLTextType::VERSION_TIMESTAMP );
+                        if ( findAndReplaceLinks( $doc, $doc->documentElement ) ||
+                             $objectAttribute->attribute( 'data_int' ) < eZXMLTextType::VERSION_TIMESTAMP )
                         {
                             ++$wrongLinkCount;
                             print( '*' );
@@ -315,23 +298,22 @@ if ( $fixAttribute )
                         print( "Invalid XML data: $xmlData\n" );
                     if ( trim( $xmlData ) == '' )
                     {
-                        unset( $doc );
-                        $doc = new eZDOMDocument();
-                        $doc->setRoot( $doc->createElementNode( 'section' ) );
+                        $doc = new DOMDocument();
+                        $doc->importNode( $doc->createElement( 'section' ) );
                         $docString = eZXMLTextType::domString( $doc );
                         $objectAttribute->setAttribute( 'data_text', $docString );
-                        $objectAttribute->setAttribute( 'data_int', EZ_XMLTEXT_VERSION_TIMESTAMP );
+                        $objectAttribute->setAttribute( 'data_int', eZXMLTextType::VERSION_TIMESTAMP );
                         ++$wrongLinkCount;
                         print( '0' );
                     }
                     else
                     {
                         unset( $doc );
-                        $doc = new eZDOMDocument();
-                        $doc->setRoot( $doc->createElementNode( 'section' ) );
+                        $doc = new DOMDocument();
+                        $doc->importNode( $doc->createElement( 'section' ) );
                         $docString = eZXMLTextType::domString( $doc );
                         $objectAttribute->setAttribute( 'data_text', $docString );
-                        $objectAttribute->setAttribute( 'data_int', EZ_XMLTEXT_VERSION_TIMESTAMP );
+                        $objectAttribute->setAttribute( 'data_int', eZXMLTextType::VERSION_TIMESTAMP );
                         ++$wrongLinkCount;
                         $badXMLArray[] = array( 'id' => $objectAttribute->attribute( 'id' ),
                                                 'version' => $objectAttribute->attribute( 'version' ) );
@@ -408,9 +390,8 @@ if ( $fixURL )
 {
     $failedURLArray = array();
     print( "Fixing bad download urls\n" );
-    for ( $i = 0; $i < count( $urlList ); ++$i )
+    foreach( $urlList as $url )
     {
-        $url =& $urlList[$i];
         $urlText = $url->attribute( 'url' );
         if ( preg_match( "#/?content/download/[0-9]+/[0-9]+/[a-z_-]+/.+$#", $urlText, $matches ) )
         {
@@ -431,7 +412,7 @@ if ( $fixURL )
             if ( $contentObjectAttribute )
             {
                 $contentObjectID = $contentObjectAttribute->attribute( 'contentobject_id' );
-                $contentObject =& eZContentObject::fetch( $contentObjectID );
+                $contentObject = eZContentObject::fetch( $contentObjectID );
                 $downloadURL = eZBinaryFileHandler::downloadURL( $contentObject, $contentObjectAttribute );
                 $url->setAttribute( 'url', $downloadURL );
                 $url->setModified();

@@ -38,7 +38,7 @@
   This class is returned when a proper implementation could not be found.
 */
 
-include_once( 'lib/ezdb/classes/ezdbinterface.php' );
+//include_once( 'lib/ezdb/classes/ezdbinterface.php' );
 
 class eZNullDB extends eZDBInterface
 {

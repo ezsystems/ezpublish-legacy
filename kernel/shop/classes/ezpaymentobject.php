@@ -41,12 +41,11 @@
 
 */
 
-define( "EZ_REDIRECT_PAYMENT_STATUS_NOT_APPROVED"   , 0 );
-define( "EZ_REDIRECT_PAYMENT_STATUS_APPROVED"       , 1 );
-
-
 class eZPaymentObject extends eZPersistentObject
 {
+    const STATUS_NOT_APPROVED = 0;
+    const STATUS_APPROVED = 1;
+
     /*!
     Constructor.
     */
@@ -59,12 +58,11 @@ class eZPaymentObject extends eZPersistentObject
      \static
     Creates new object.
     */
-    function &createNew( $workflowprocessID, $orderID, $paymentType )
+    function createNew( $workflowprocessID, $orderID, $paymentType )
     {
-        $paymentObject = new eZPaymentObject( array( 'workflowprocess_id'  => $workflowprocessID,
-                                                     'order_id'            => $orderID,
-                                                     'payment_string'      => $paymentType ) );
-        return $paymentObject;
+        return new eZPaymentObject( array( 'workflowprocess_id'  => $workflowprocessID,
+                                           'order_id'            => $orderID,
+                                           'payment_string'      => $paymentType ) );
     }
 
     /*!
@@ -72,16 +70,16 @@ class eZPaymentObject extends eZPersistentObject
     */
     function approve()
     {
-        $this->setAttribute( 'status', EZ_REDIRECT_PAYMENT_STATUS_APPROVED );
+        $this->setAttribute( 'status', self::STATUS_APPROVED );
         $this->store();
     }
 
     function approved()
     {
-        return ( $this->attribute( 'status' ) == EZ_REDIRECT_PAYMENT_STATUS_APPROVED );
+        return ( $this->attribute( 'status' ) == self::STATUS_APPROVED );
     }
 
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -119,19 +117,18 @@ class eZPaymentObject extends eZPersistentObject
      \static
     Returns eZPaymentObject by 'id'.
     */
-    function fetchByID( $transactionID )
+    static function fetchByID( $transactionID )
     {
-        $object = eZPersistentObject::fetchObject( eZPaymentObject::definition(),
-                                                   null,
-                                                   array( 'id' => $transactionID ) );
-        return $object;
+        return eZPersistentObject::fetchObject( eZPaymentObject::definition(),
+                                                null,
+                                                array( 'id' => $transactionID ) );
     }
 
     /*!
      \static
     Returns eZPaymentObject by 'id' of eZOrder.
     */
-    function fetchByOrderID( $orderID )
+    static function fetchByOrderID( $orderID )
     {
         return eZPersistentObject::fetchObject( eZPaymentObject::definition(),
                                                 null,
@@ -142,7 +139,7 @@ class eZPaymentObject extends eZPersistentObject
      \static
     Returns eZPaymentObject by 'id' of eZWorkflowProcess.
     */
-    function fetchByProcessID( $workflowprocessID )
+    static function fetchByProcessID( $workflowprocessID )
     {
         return eZPersistentObject::fetchObject( eZPaymentObject::definition(),
                                                 null,
@@ -155,9 +152,9 @@ class eZPaymentObject extends eZPersistentObject
     */
     function continueWorkflow( $workflowProcessID )
     {
-        include_once( 'kernel/classes/ezworkflowprocess.php' );
-        include_once( 'lib/ezutils/classes/ezoperationmemento.php' );
-        include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+        //include_once( 'kernel/classes/ezworkflowprocess.php' );
+        //include_once( 'lib/ezutils/classes/ezoperationmemento.php' );
+        //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
 
         $operationResult =  null;
         $theProcess      = eZWorkflowProcess::fetch( $workflowProcessID );
@@ -171,7 +168,7 @@ class eZPaymentObject extends eZPersistentObject
                 return $operationResult;
             }
             $bodyMementoData =  $bodyMemento->data();
-            $mainMemento     =& $bodyMemento->attribute( 'main_memento' );
+            $mainMemento     = $bodyMemento->attribute( 'main_memento' );
             if ( !$mainMemento )
             {
                 return $operationResult;
@@ -179,7 +176,7 @@ class eZPaymentObject extends eZPersistentObject
 
             $mementoData = $bodyMemento->data();
             $mainMementoData = $mainMemento->data();
-            $mementoData['main_memento'] =& $mainMemento;
+            $mementoData['main_memento'] = $mainMemento;
             $mementoData['skip_trigger'] = false;
             $mementoData['memento_key'] = $theProcess->attribute( 'memento_key' );
             $bodyMemento->remove();

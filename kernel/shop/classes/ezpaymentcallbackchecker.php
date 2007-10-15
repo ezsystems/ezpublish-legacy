@@ -37,9 +37,9 @@
   payment gateways.
 */
 
-include_once( 'kernel/classes/workflowtypes/event/ezpaymentgateway/ezpaymentlogger.php' );
-include_once( 'kernel/shop/classes/ezpaymentobject.php' );
-include_once( 'kernel/classes/ezorder.php' );
+//include_once( 'kernel/classes/workflowtypes/event/ezpaymentgateway/ezpaymentlogger.php' );
+//include_once( 'kernel/shop/classes/ezpaymentobject.php' );
+//include_once( 'kernel/classes/ezorder.php' );
 
 
 class eZPaymentCallbackChecker
@@ -49,8 +49,8 @@ class eZPaymentCallbackChecker
     */
     function eZPaymentCallbackChecker( $iniFile )
     {
-        $this->logger   =& eZPaymentLogger::CreateForAdd( 'var/log/eZPaymentChecker.log' );
-        $this->ini      =& eZINI::instance( $iniFile );
+        $this->logger   = eZPaymentLogger::CreateForAdd( 'var/log/eZPaymentChecker.log' );
+        $this->ini      = eZINI::instance( $iniFile );
     }
 
     /*!
@@ -251,7 +251,7 @@ class eZPaymentCallbackChecker
         $orderAmount = $this->order->attribute( 'total_inc_vat' );
 
         // To avoid floating errors, round the value down before checking.
-        $shopINI =& eZINI::instance( 'shop.ini' );
+        $shopINI = eZINI::instance( 'shop.ini' );
         $precisionValue = (int)$shopINI->variable( 'MathSettings', 'RoundingPrecision' );
         if ( round( $orderAmount, $precisionValue ) === round( $amount, $precisionValue ) )
         {
@@ -270,7 +270,7 @@ class eZPaymentCallbackChecker
     {
         //get the order currency
         $productCollection = $this->order->productCollection();
-        $orderCurrency =& $productCollection->attribute( 'currency_code' );
+        $orderCurrency = $productCollection->attribute( 'currency_code' );
 
         if ( $orderCurrency == $currency )
         {
@@ -309,28 +309,26 @@ class eZPaymentCallbackChecker
     /*!
         Postback request which will be sent to payment server.
     */
-    function &buildRequestString()
+    function buildRequestString()
     {
         $this->logger->writeTimedString( 'You must override this function.', 'buildRequestString failed' );
-        $retString = null;
-        return $retString;
+        return null;
     }
 
     /*!
         Handles server response.
     */
-    function &handleResponse( &$socket )
+    function handleResponse( $socket )
     {
         $this->logger->writeTimedString( 'You must override this function.', 'handlePOSTResponse failed' );
-        $retResponse = null;
-        return $retResponse;
+        return null;
     }
 
-    var $logger;
-    var $ini;
-    var $callbackData;
-    var $paymentObject;
-    var $order;
+    public $logger;
+    public $ini;
+    public $callbackData;
+    public $paymentObject;
+    public $order;
 }
 
 ?>

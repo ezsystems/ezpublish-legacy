@@ -35,12 +35,12 @@ if( !file_exists( 'update/common/scripts' ) || !is_dir( 'update/common/scripts' 
     exit;
 }
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
+$cli = eZCLI::instance();
 
-$script =& eZScript::instance( array( 'description' => "\nThis script performs tasks needed to upgrade to 3.9:\n" .
+$script = eZScript::instance( array( 'description' => "\nThis script performs tasks needed to upgrade to 3.9:\n" .
                                                        "\n- Converting <object> tags to <embed> tags" .
                                                        "\n- Adding existing 'class' attibute values to AvailableClasses arrays of content.ini" .
                                                        "\n- Adding existing custom attibutes to CustomAttributes arrays of content.ini\n" .
@@ -98,12 +98,12 @@ if ( $dbHost or $dbName or $dbUser or $dbImpl )
     if ( $dbName !== false )
         $params['database'] = $dbName;
 
-    $db =& eZDB::instance( $dbImpl, $params, true );
+    $db = eZDB::instance( $dbImpl, $params, true );
     eZDB::setInstance( $db );
 }
 else
 {
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
 }
 
 if ( !$db->isConnected() )
@@ -112,39 +112,42 @@ if ( !$db->isConnected() )
     $script->shutdown( 1 );
 }
 
-include_once( 'lib/ezxml/classes/ezxml.php' );
-include_once( 'kernel/classes/datatypes/ezxmltext/ezxmltexttype.php' );
+//include_once( 'kernel/classes/datatypes/ezxmltext/ezxmltexttype.php' );
 
-include_once( 'lib/version.php' );
+//include_once( 'lib/version.php' );
 
 $eZPublishVersion = eZPublishSDK::majorVersion() + eZPublishSDK::minorVersion() * 0.1;
 $siteaccess = $GLOBALS['eZCurrentAccess']['name'];
 
-$xml = new eZXML();
+$domDocument = new DomDocument( '1.0' );
 
 if ( !$skipClasses || !$skipCustom )
 {
-    $contentIni =& eZINI::instance( 'content.ini' );
+    $contentIni = eZINI::instance( 'content.ini' );
     if ( $global )
         $iniPath = "settings/override";
     else
         $iniPath = "settings/siteaccess/$siteaccess";
-    $contentIniDirect =& eZINI::instance( 'content.ini.append', $iniPath, null, null, null, true, true );
+    $contentIniDirect = eZINI::instance( 'content.ini.append', $iniPath, null, null, null, true, true );
 
-    include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlschema.php' );
-    $XMLSchema =& eZXMLSchema::instance();
+    //include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlschema.php' );
+    $XMLSchema = eZXMLSchema::instance();
 }
 
 // update AvailableClasses setting
-function updateAvailableClasses( &$doc, &$element, &$isIniModified, &$contentIniDirect, &$XMLSchema, $dumpOnly, $isQuiet = false )
+function updateAvailableClasses( $doc, $element, &$isIniModified, &$contentIniDirect, $XMLSchema, $dumpOnly, $isQuiet = false )
 {
-    $children =& $element->Children;
-    foreach( array_keys( $children ) as $key )
+    if ( $children = $element->childNodes )
     {
-        $child =& $children[$key];
-        updateAvailableClasses( $doc, $child, $isIniModified, $contentIniDirect, $XMLSchema, $dumpOnly );
+        foreach( $children as $child )
+        {
+            updateAvailableClasses( $doc, $child, $isIniModified, $contentIniDirect, $XMLSchema, $dumpOnly );
+        }
     }
-
+    if ( !( $element instanceof DOMElement ) )
+    {
+        return;
+    }
     $class = $element->getAttribute( 'class' );
     if ( !$class )
         return;
@@ -154,7 +157,7 @@ function updateAvailableClasses( &$doc, &$element, &$isIniModified, &$contentIni
     {
         if ( !$isQuiet )
         {
-            $cli =& eZCLI::instance();
+            $cli = eZCLI::instance();
             if ( $dumpOnly )
                     $action = " is not defined.";
                 else
@@ -173,38 +176,39 @@ function updateAvailableClasses( &$doc, &$element, &$isIniModified, &$contentIni
 }
 
 // update CustomAttributes setting
-function updateCustomAttributes( &$doc, &$element, &$isIniModified, &$contentIniDirect, &$XMLSchema, $dumpOnly, $isQuiet = false )
+function updateCustomAttributes( $doc, $element, &$isIniModified, &$contentIniDirect, $XMLSchema, $dumpOnly, $isQuiet = false )
 {
-    $children =& $element->Children;
-    foreach( array_keys( $children ) as $key )
+    if ( $children = $element->childNodes )
     {
-        $child =& $children[$key];
-        updateCustomAttributes( $doc, $child, $isIniModified, $contentIniDirect, $XMLSchema, $dumpOnly );
+        foreach( $children as $child )
+        {
+            updateCustomAttributes( $doc, $child, $isIniModified, $contentIniDirect, $XMLSchema, $dumpOnly );
+        }
     }
 
     if ( !$element->hasAttributes() )
         return;
 
     $customAttrs = $XMLSchema->customAttributes( $element );
-    $attrs =& $element->attributes();
+    $attrs = $element->attributes;
     $newAttrFound = false;
-    foreach( $attrs as $attr )
+    foreach( $attrs as $name => $attr )
     {
-        if ( $attr->Prefix == 'custom' &&
-             !in_array( $attr->LocalName, $customAttrs ) )
+        if ( $attr->prefix == 'custom' &&
+             !in_array( $name, $customAttrs ) )
         {
             $newAttrFound = true;
-            $XMLSchema->addCustomAttribute( $element, $attr->LocalName );
-            $customAttrs[] = $attr->LocalName;
+            $XMLSchema->addCustomAttribute( $element, $name );
+            $customAttrs[] = $name;
             if ( !$isQuiet )
             {
-                $cli =& eZCLI::instance();
+                $cli = eZCLI::instance();
                 if ( $dumpOnly )
                     $action = " is not defined.";
                 else
                     $action = " is added to the list.";
 
-                $cli->notice( "Element '$element->nodeName': custom attribute '$attr->LocalName'" . $action );
+                $cli->notice( "Element '$element->nodeName': custom attribute '$name'" . $action );
             }
         }
     }
@@ -222,13 +226,14 @@ function updateCustomAttributes( &$doc, &$element, &$isIniModified, &$contentIni
 }
 
 
-function convertObjects( &$doc, &$element, &$isTextModified )
+function convertObjects( $doc, $element, &$isTextModified )
 {
-    $children =& $element->Children;
-    foreach( array_keys( $children ) as $key )
+    if ( $children = $element->childNodes )
     {
-        $child =& $children[$key];
-        convertObjects( $doc, $child, $isTextModified );
+        foreach( $children as $child )
+        {
+            convertObjects( $doc, $child, $isTextModified );
+        }
     }
 
     // Convert 'objects' to 'embed' and 'embed-inline'
@@ -246,7 +251,7 @@ function convertObjects( &$doc, &$element, &$isTextModified )
 
         if ( $objectID )
         {
-            $embed =& $doc->createElement( 'embed' );
+            $embed = $doc->createElement( 'embed' );
             $embed->setAttribute( 'object_id', $objectID );
             if ( $class )
                 $embed->setAttribute( 'class', $class );
@@ -259,12 +264,12 @@ function convertObjects( &$doc, &$element, &$isTextModified )
 
             if ( $urlID || $urlHref )
             {
-                $link =& $doc->createElement( 'link' );
+                $link = $doc->createElement( 'link' );
                 if ( $urlID )
                     $link->setAttribute( 'url_id', $urlID );
                 elseif ( $urlHref )
                 {
-                    include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+                    //include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
                     $urlHref = str_replace("&amp;", "&", $urlHref );
                     $urlID = eZURL::registerURL( $urlHref );
                     $link->setAttribute( 'url_id', $urlID );
@@ -315,7 +320,11 @@ while( count( $xmlFieldsArray ) )
     foreach ( $xmlFieldsArray as $xmlField )
     {
         $text = $xmlField['data_text'];
-        $doc =& $xml->domTree( $text, array( "TrimWhiteSpace" => false, "SetParentNode" => true ) );
+        if ( empty( $text ) )
+        {
+            continue;
+        }
+        $doc = DomDocument::loadXML( $text );
 
         if ( $doc )
         {
@@ -323,17 +332,17 @@ while( count( $xmlFieldsArray ) )
             //fixParagraph( $doc, $doc->Root, $isTextModified );
 
             if ( !$skipObjects )
-                convertObjects( $doc, $doc->Root, $isTextModified );
+                convertObjects( $doc, $doc->documentElement, $isTextModified );
 
             if ( !$skipClasses )
-                updateAvailableClasses( $doc, $doc->Root, $isIniModified, $contentIniDirect, $XMLSchema, $classesDumpOnly, $isQuiet );
+                updateAvailableClasses( $doc, $doc->documentElement, $isIniModified, $contentIniDirect, $XMLSchema, $classesDumpOnly, $isQuiet );
 
             if ( !$skipCustom && $eZPublishVersion >= 3.9 )
-                updateCustomAttributes( $doc, $doc->Root, $isIniModified, $contentIniDirect, $XMLSchema, $customDumpOnly, $isQuiet );
+                updateCustomAttributes( $doc, $doc->documentElement, $isIniModified, $contentIniDirect, $XMLSchema, $customDumpOnly, $isQuiet );
 
             if ( $isTextModified )
             {
-                $result = eZXMLTextType::domString( $doc );
+                $result = $doc->saveXML();
                 $sql = "UPDATE ezcontentobject_attribute SET data_text='" . $result .
                    "' WHERE id=" . $xmlField['id'] . " AND version=" . $xmlField['version'];
                 $db->query( $sql );
@@ -343,9 +352,7 @@ while( count( $xmlFieldsArray ) )
                                   ", attribute ID :" . $xmlField['id'] );
                 $totalAttrCount++;
             }
-            $doc->cleanup();
         }
-        unset( $doc );
     }
 
     $pass++;

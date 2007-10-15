@@ -26,19 +26,19 @@
 //
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
-include_once( "lib/ezutils/classes/ezini.php" );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
+//include_once( "lib/ezutils/classes/ezini.php" );
 
-$cli =& eZCLI::instance();
+$cli = eZCLI::instance();
 $endl = $cli->endlineString();
 
-$script =& eZScript::instance( array( 'description' => ( "eZ Publish overridesettings generate.".
-                                                         "\n" .
-                                                         "generateoverridesettings.php" ),
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+$script = eZScript::instance( array( 'description' => ( "eZ Publish overridesettings generate.".
+                                                        "\n" .
+                                                        "generateoverridesettings.php" ),
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 
@@ -52,7 +52,7 @@ if ( $hasSiteAccess )
 {
     $siteAccess = $options['siteaccess'];
     print( "Using siteacces: " . $siteAccess . "\n" );
-    $ini =& eZINI::instance( 'site.ini', 'settings', null, null, true );
+    $ini = eZINI::instance( 'site.ini', 'settings', null, null, true );
     $ini->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
     $ini->loadCache();
 

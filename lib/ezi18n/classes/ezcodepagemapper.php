@@ -37,13 +37,13 @@
 
 */
 
-include_once( "lib/ezutils/classes/ezdebug.php" );
-include_once( "lib/ezi18n/classes/ezcodepage.php" );
-
-define( "EZ_CODEPAGE_MAPPER_CACHE_CODE_DATE", 1026316422 );
+require_once( "lib/ezutils/classes/ezdebug.php" );
+//include_once( "lib/ezi18n/classes/ezcodepage.php" );
 
 class eZCodePageMapper
 {
+    const CACHE_CODE_DATE = 1026316422;
+
     /*!
      Constructor
     */
@@ -139,8 +139,8 @@ class eZCodePageMapper
     function setSubstituteCharacter( $char_code )
     {
         $this->SubstituteCharValue = $char_code;
-        $input_codepage =& eZCodePage::instance( $this->InputCharsetCode );
-        $output_codepage =& eZCodePage::instance( $this->OutputCharsetCode );
+        $input_codepage = eZCodePage::instance( $this->InputCharsetCode );
+        $output_codepage = eZCodePage::instance( $this->OutputCharsetCode );
         if ( !$input_codepage->isValid() )
         {
             eZDebug::writeError( "Input codepage for " . $this->InputCharsetCode . " is not valid", "eZCodePageMapper" );
@@ -157,6 +157,9 @@ class eZCodePageMapper
 
     function load( $use_cache = true )
     {
+        // temporarely hide the cache display problem
+        // http://ez.no/community/bugs/char_transform_cache_file_is_not_valid_php
+        //$use_cache = false;
         $cache_dir = "var/cache/codepages/";
         $cache_filename = md5( $this->InputCharsetCode . $this->OutputCharsetCode );
         $cache = $cache_dir . $cache_filename . ".php";
@@ -184,9 +187,10 @@ class eZCodePageMapper
                 unset( $eZCodePageMapperCacheCodeDate );
                 $in_out_map =& $this->InputOutputMap;
                 $out_in_map =& $this->OutputInputMap;
+                eZDebug::writeDebug( 'loading cache from: ' . $cache, 'eZCodePageMapper::load' );
                 include( $cache );
                 if ( isset( $eZCodePageMapperCacheCodeDate ) or
-                     $eZCodePageMapperCacheCodeDate == EZ_CODEPAGE_MAPPER_CACHE_CODE_DATE )
+                     $eZCodePageMapperCacheCodeDate == self::CACHE_CODE_DATE )
                 {
                     $this->Valid = true;
                     return;
@@ -197,8 +201,8 @@ class eZCodePageMapper
         $this->InputOutputMap = array();
         $this->OutputInputMap = array();
 
-        $input_codepage =& eZCodePage::instance( $this->InputCharsetCode );
-        $output_codepage =& eZCodePage::instance( $this->OutputCharsetCode );
+        $input_codepage = eZCodePage::instance( $this->InputCharsetCode );
+        $output_codepage = eZCodePage::instance( $this->OutputCharsetCode );
 
         if ( !$input_codepage->isValid() )
         {
@@ -235,14 +239,17 @@ class eZCodePageMapper
     /*!
      Returns the only instance of the codepage mapper for $input_charset_code and $output_charset_code.
     */
-    function &instance( $input_charset_code, $output_charset_code, $use_cache = true )
+    static function instance( $input_charset_code, $output_charset_code, $use_cache = true )
     {
-        $cp =& $GLOBALS["eZCodePageMapper-$input_charset_code-$output_charset_code"];
-        if ( get_class( $cp ) != "ezcodepagemapper" )
+        $globalsKey = "eZCodePageMapper-$input_charset_code-$output_charset_code";
+
+        if ( !isset( $GLOBALS[$globalsKey] ) ||
+             !( $GLOBALS[$globalsKey] instanceof eZCodePageMapper ) )
         {
-            $cp = new eZCodePageMapper( $input_charset_code, $output_charset_code, $use_cache );
+            $GLOBALS[$globalsKey] = new eZCodePageMapper( $input_charset_code, $output_charset_code, $use_cache );
         }
-        return $cp;
+
+        return $GLOBALS[$globalsKey];
     }
 
 }

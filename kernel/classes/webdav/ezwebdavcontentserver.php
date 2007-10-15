@@ -35,36 +35,30 @@
 
 */
 
-
-include_once( 'lib/ezwebdav/classes/ezwebdavserver.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( "kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php" );
-include_once( "lib/ezutils/classes/ezmimetype.php" );
-include_once( 'lib/ezfile/classes/ezdir.php' );
-include_once( "kernel/classes/ezurlaliasml.php" );
-include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-
-// Get the path to the var directory.
-$varDir = eZSys::varDirectory();
-
-define( "VIRTUAL_CONTENT_FOLDER_NAME", ezi18n( 'kernel/content', "Content" ) );
-define( "VIRTUAL_MEDIA_FOLDER_NAME", ezi18n( 'kernel/content', "Media" ) );
-define( "VIRTUAL_INFO_FILE_NAME", $varDir . "/webdav/root/info.txt" );
-define( "WEBDAV_INI_FILE", "webdav.ini" );
-define( "WEBDAV_AUTH_REALM", "eZ Publish WebDAV interface" );
-define( "WEBDAV_AUTH_FAILED", "Invalid username or password!" );
-define( "WEBDAV_INVALID_SITE", "Invalid site name specified!" );
-define( "WEBDAV_DISABLED", "WebDAV functionality is disabled!" );
+//include_once( 'lib/ezwebdav/classes/ezwebdavserver.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( "kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php" );
+//include_once( "lib/ezutils/classes/ezmimetype.php" );
+//include_once( 'lib/ezfile/classes/ezdir.php' );
+//include_once( "kernel/classes/ezurlaliasml.php" );
+//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+require_once( 'access.php' );
 
 class eZWebDAVContentServer extends eZWebDAVServer
 {
+    const WEBDAV_INI_FILE = "webdav.ini";
+    const WEBDAV_AUTH_REALM = "eZ publish WebDAV interface";
+    const WEBDAV_AUTH_FAILED = "Invalid username or password!";
+    const WEBDAV_INVALID_SITE = "Invalid site name specified!";
+    const WEBDAV_DISABLED = "WebDAV functionality is disabled!";
+
     /*!
      Initializes the eZWebDAVServer
     */
     function eZWebDAVContentServer()
     {
         $this->eZWebDAVServer();
-        $this->User =& eZUser::currentUser();
+        $this->User = eZUser::currentUser();
         $this->FolderClasses = null;
     }
 
@@ -75,7 +69,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
     */
     function processClientRequest()
     {
-        $this->User =& eZUser::currentUser();
+        $this->User = eZUser::currentUser();
         eZWebDAVServer::processClientRequest();
     }
 
@@ -89,17 +83,17 @@ class eZWebDAVContentServer extends eZWebDAVServer
     */
     function outputSendDataToClient( $output, $headers_only = false )
     {
-    	if ( $output["file"] )
-    	{
-    		$realPath = $output["file"];
-	        require_once( 'kernel/classes/ezclusterfilehandler.php' );
-	        $file = eZClusterFileHandler::instance( $realPath );
-	        $file->fetch();
-    	}
-    	$result = eZWebDAVServer::outputSendDataToClient($output,$headers_only);
+        if ( $output["file"] )
+        {
+            $realPath = $output["file"];
+            require_once( 'kernel/classes/ezclusterfilehandler.php' );
+            $file = eZClusterFileHandler::instance( $realPath );
+            $file->fetch();
+        }
+        $result = eZWebDAVServer::outputSendDataToClient($output,$headers_only);
         if ( $output["file"] && is_object( $file ) )
             $file->deleteLocal();
-    	return $result;
+        return $result;
     }
 
     /*!
@@ -139,7 +133,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
         if ( !$this->userHasSiteAccess( $currentSite ) )
         {
             $this->appendLogEntry( "No access to site '$currentSite'", 'CS:getCollectionContent' );
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return eZWebDAVServer::FAILED_FORBIDDEN;
         }
 
         return $this->getVirtualFolderCollection( $currentSite, $collection, $fullPath, $depth, $properties );
@@ -168,13 +162,13 @@ class eZWebDAVContentServer extends eZWebDAVServer
         if ( !in_array( $virtualFolder, $this->virtualFolderList() ) )
         {
             $this->appendLogEntry( "Unknown virtual folder: '$virtualFolder' in site '$currentSite'", 'CS:getVirtualFolderCollection' );
-            return EZ_WEBDAV_FAILED_NOT_FOUND;
+            return eZWebDAVServer::FAILED_NOT_FOUND;
         }
 
         if ( !$this->userHasVirtualAccess( $currentSite, $virtualFolder ) )
         {
             $this->appendLogEntry( "No access to virtual folder '$virtualFolder' in site '$currentSite'", 'CS:getVirtualFolderCollection' );
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return eZWebDAVServer::FAILED_FORBIDDEN;
         }
 
         return $this->getContentTreeCollection( $currentSite, $virtualFolder, $collection, $fullPath, $depth, $properties );
@@ -195,14 +189,14 @@ class eZWebDAVContentServer extends eZWebDAVServer
         if ( !$node )
         {
             $this->appendLogEntry( "Unknown node: $nodePath", 'CS:getContentTreeCollection' );
-            return EZ_WEBDAV_FAILED_NOT_FOUND;
+            return eZWebDAVServer::FAILED_NOT_FOUND;
         }
 
         // Can we list the children of the node?
         if ( !$node->canRead() )
         {
             $this->appendLogEntry( "No access to content '$nodePath' in site '$currentSite'", 'CS:getContentTreeCollection' );
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return eZWebDAVServer::FAILED_FORBIDDEN;
         }
 
         $entries = $this->fetchContentList( $node, $nodePath, $depth, $properties );
@@ -226,13 +220,13 @@ class eZWebDAVContentServer extends eZWebDAVServer
         if ( !$currentSite )
         {
             // Sites are folders and have no data
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return eZWebDAVServer::FAILED_FORBIDDEN;
         }
 
         if ( !$this->userHasSiteAccess( $currentSite ) )
         {
             $this->appendLogEntry( "No access to site '$currentSite'", 'CS:get' );
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return eZWebDAVServer::FAILED_FORBIDDEN;
         }
 
         return $this->getVirtualFolderData( $result, $currentSite, $target, $fullPath );
@@ -253,39 +247,39 @@ class eZWebDAVContentServer extends eZWebDAVServer
         {
             if ( !in_array( $virtualFolder, $this->virtualFileList() ) )
             {
-                return EZ_WEBDAV_FAILED_NOT_FOUND;
+                return eZWebDAVServer::FAILED_NOT_FOUND;
             }
 
             // We have reached the end of the path
-            if ( $virtualFolder == basename( VIRTUAL_INFO_FILE_NAME ) )
+            if ( $virtualFolder == basename( eZWebDAVContentServer::virtualInfoFileName() ) )
             {
-                $result["file"] = VIRTUAL_INFO_FILE_NAME;
+                $result["file"] = eZWebDAVContentServer::virtualInfoFileName();
 
                 return $result;
             }
 
             // The rest in the virtual folder does not have any data
-            return EZ_WEBDAV_FAILED_NOT_FOUND;
+            return eZWebDAVServer::FAILED_NOT_FOUND;
         }
 
         if ( !$this->userHasVirtualAccess( $currentSite, $virtualFolder ) )
         {
             $this->appendLogEntry( "No access to virtual folder '$virtualFolder' in site '$currentSite'", 'CS:get' );
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return eZWebDAVServer::FAILED_FORBIDDEN;
         }
 
         if ( !in_array( $virtualFolder, $this->virtualFolderList() ) )
         {
             $this->appendLogEntry( "Unknown virtual folder: '$virtualFolder' in site '$currentSite'", 'CS:get' );
-            return EZ_WEBDAV_FAILED_NOT_FOUND;
+            return eZWebDAVServer::FAILED_NOT_FOUND;
         }
 
-        if ( $virtualFolder == VIRTUAL_CONTENT_FOLDER_NAME or
-             $virtualFolder == VIRTUAL_MEDIA_FOLDER_NAME )
+        if ( $virtualFolder == eZWebDAVContentServer::virtualContentFolderName() or
+             $virtualFolder == eZWebDAVContentServer::virtualMediaFolderName() )
         {
             return $this->getContentNodeData( $result, $currentSite, $virtualFolder, $target, $fullPath );
         }
-        return EZ_WEBDAV_FAILED_NOT_FOUND;
+        return eZWebDAVServer::FAILED_NOT_FOUND;
     }
 
     /*!
@@ -311,12 +305,12 @@ class eZWebDAVContentServer extends eZWebDAVServer
         if ( !$node->canRead() )
         {
             $this->appendLogEntry( "No access to get '$nodePath' in site '$currentSite'", 'CS:get' );
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return eZWebDAVServer::FAILED_FORBIDDEN;
         }
 
         $object = $node->attribute( 'object' );
 
-        include_once( 'kernel/classes/ezcontentupload.php' );
+        //include_once( 'kernel/classes/ezcontentupload.php' );
         $upload = new eZContentUpload();
         $info = $upload->objectFileInfo( $object );
         if ( $info )
@@ -332,7 +326,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
     */
     function head( $target )
     {
-        return EZ_WEBDAV_FAILED_NOT_FOUND;
+        return eZWebDAVServer::FAILED_NOT_FOUND;
     }
 
     /*!
@@ -346,13 +340,13 @@ class eZWebDAVContentServer extends eZWebDAVServer
 
         if ( !$currentSite )
         {
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return eZWebDAVServer::FAILED_FORBIDDEN;
         }
 
         if ( !$this->userHasSiteAccess( $currentSite ) )
         {
             $this->appendLogEntry( "No access to site '$currentSite'", 'CS:put' );
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return eZWebDAVServer::FAILED_FORBIDDEN;
         }
 
         return $this->putVirtualFolderData( $currentSite, $target, $tempFile, $fullPath );
@@ -374,28 +368,28 @@ class eZWebDAVContentServer extends eZWebDAVServer
         {
             // We have reached the end of the path
             // We do not allow 'put' operations for the virtual folder.
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return eZWebDAVServer::FAILED_FORBIDDEN;
         }
 
         if ( !in_array( $virtualFolder, $this->virtualFolderList() ) )
         {
             $this->appendLogEntry( "Unknown virtual folder: '$virtualFolder' in site '$currentSite'", 'CS:put' );
-            return EZ_WEBDAV_FAILED_CONFLICT;
+            return eZWebDAVServer::FAILED_CONFLICT;
         }
 
         if ( !$this->userHasVirtualAccess( $currentSite, $virtualFolder ) )
         {
             $this->appendLogEntry( "No access to virtual folder '$virtualFolder' in site '$currentSite'", 'CS:put' );
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return eZWebDAVServer::FAILED_FORBIDDEN;
         }
 
-        if ( $virtualFolder == VIRTUAL_CONTENT_FOLDER_NAME or
-             $virtualFolder == VIRTUAL_MEDIA_FOLDER_NAME )
+        if ( $virtualFolder == eZWebDAVContentServer::virtualContentFolderName() or
+             $virtualFolder == eZWebDAVContentServer::virtualMediaFolderName() )
         {
             return $this->putContentData( $currentSite, $virtualFolder, $target, $tempFile, $fullPath );
         }
 
-        return EZ_WEBDAV_FAILED_FORBIDDEN;
+        return eZWebDAVServer::FAILED_FORBIDDEN;
     }
 
     /*!
@@ -415,14 +409,14 @@ class eZWebDAVContentServer extends eZWebDAVServer
         {
             // The node does not exist, so we cannot put the file
             $this->appendLogEntry( "Cannot put file $nodePath, not parent found", 'CS:put' );
-            return EZ_WEBDAV_FAILED_CONFLICT;
+            return eZWebDAVServer::FAILED_CONFLICT;
         }
 
         // Can we put content in the parent node
         if ( !$parentNode->canRead() )
         {
             $this->appendLogEntry( "No access to put '$nodePath' in site '$currentSite'", 'CS:put' );
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return eZWebDAVServer::FAILED_FORBIDDEN;
         }
 
         $parentNodeID = $parentNode->attribute( 'node_id' );
@@ -431,11 +425,11 @@ class eZWebDAVContentServer extends eZWebDAVServer
         $mimeInfo = eZMimeType::findByURL( $nodePath );
         $mime = $mimeInfo['name'];
 
-        $webdavINI =& eZINI::instance( WEBDAV_INI_FILE );
+        $webdavINI = eZINI::instance( eZWebDAVContentServer::WEBDAV_INI_FILE );
         $defaultObjectType = $webdavINI->variable( 'PutSettings', 'DefaultClass' );
 
         $existingNode = $this->fetchNodeByTranslation( $nodePath );
-        include_once( 'kernel/classes/ezcontentupload.php' );
+        //include_once( 'kernel/classes/ezcontentupload.php' );
 
         $upload = new eZContentUpload();
         if ( !$upload->handleLocalFile( $result, $tempFile, $parentNodeID, $existingNode ) )
@@ -448,15 +442,15 @@ class eZWebDAVContentServer extends eZWebDAVServer
             {
                 $this->appendLogEntry( "Notice: " . $notice['description'], 'CS: put' );
             }
-            if ( $result['status'] == EZ_CONTENTUPLOAD_STATUS_PERMISSION_DENIED )
+            if ( $result['status'] == eZContentUpload::STATUS_PERMISSION_DENIED )
             {
-                return EZ_WEBDAV_FAILED_FORBIDDEN;
+                return eZWebDAVServer::FAILED_FORBIDDEN;
             }
             else
-                return EZ_WEBDAV_FAILED_UNSUPPORTED;
+                return eZWebDAVServer::FAILED_UNSUPPORTED;
         }
 
-        return EZ_WEBDAV_OK_CREATED;
+        return eZWebDAVServer::OK_CREATED;
     }
 
     /*!
@@ -472,13 +466,13 @@ class eZWebDAVContentServer extends eZWebDAVServer
         if ( !$currentSite )
         {
             // Site list cannot get new entries
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return eZWebDAVServer::FAILED_FORBIDDEN;
         }
 
         if ( !$this->userHasSiteAccess( $currentSite ) )
         {
             $this->appendLogEntry( "No access to site '$currentSite'", 'CS:mkcol' );
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return eZWebDAVServer::FAILED_FORBIDDEN;
         }
 
         return $this->mkcolVirtualFolder( $currentSite, $target, $fullPath );
@@ -498,29 +492,29 @@ class eZWebDAVContentServer extends eZWebDAVServer
         if ( !in_array( $virtualFolder, $this->virtualList() ) )
         {
             $this->appendLogEntry( "Unknown virtual element: '$virtualFolder' in site '$currentSite'", 'CS:mkcol' );
-            return EZ_WEBDAV_FAILED_NOT_FOUND;
+            return eZWebDAVServer::FAILED_NOT_FOUND;
         }
 
         if ( !$target )
         {
             // We have reached the end of the path
             // We do not allow 'mkcol' operations for the virtual folder.
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return eZWebDAVServer::FAILED_FORBIDDEN;
         }
 
         if ( !$this->userHasVirtualAccess( $currentSite, $virtualFolder ) )
         {
             $this->appendLogEntry( "No access to virtual folder '$virtualFolder' in site '$currentSite'", 'CS:mkcol' );
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return eZWebDAVServer::FAILED_FORBIDDEN;
         }
 
-        if ( $virtualFolder == VIRTUAL_CONTENT_FOLDER_NAME or
-             $virtualFolder == VIRTUAL_MEDIA_FOLDER_NAME )
+        if ( $virtualFolder == eZWebDAVContentServer::virtualContentFolderName() or
+             $virtualFolder == eZWebDAVContentServer::virtualMediaFolderName() )
         {
             return $this->mkcolContent( $currentSite, $virtualFolder, $target, $fullPath );
         }
 
-        return EZ_WEBDAV_FAILED_FORBIDDEN;
+        return eZWebDAVServer::FAILED_FORBIDDEN;
     }
 
     /*!
@@ -535,7 +529,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
         $node = $this->fetchNodeByTranslation( $nodePath );
         if ( $node )
         {
-            return EZ_WEBDAV_FAILED_EXISTS;
+            return eZWebDAVServer::FAILED_EXISTS;
         }
 
         $parentNode = $this->fetchParentNodeByTranslation( $nodePath );
@@ -543,14 +537,14 @@ class eZWebDAVContentServer extends eZWebDAVServer
 
         if ( !$parentNode )
         {
-            return EZ_WEBDAV_FAILED_NOT_FOUND;
+            return eZWebDAVServer::FAILED_NOT_FOUND;
         }
 
         // Can we create a collection in the parent node
         if ( !$parentNode->canRead() )
         {
             $this->appendLogEntry( "No access to mkcol '$nodePath' in site '$currentSite'", 'CS:mkcolContent' );
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return eZWebDAVServer::FAILED_FORBIDDEN;
         }
 
         return $this->createFolder( $parentNode, $nodePath );
@@ -568,13 +562,13 @@ class eZWebDAVContentServer extends eZWebDAVServer
         if ( !$currentSite )
         {
             // Cannot delete entries in site list
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return eZWebDAVServer::FAILED_FORBIDDEN;
         }
 
         if ( !$this->userHasSiteAccess( $currentSite ) )
         {
             $this->appendLogEntry( "No access to site '$currentSite'", 'CS:delete' );
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return eZWebDAVServer::FAILED_FORBIDDEN;
         }
 
         return $this->deleteVirtualFolder( $currentSite, $target, $fullPath );
@@ -595,29 +589,29 @@ class eZWebDAVContentServer extends eZWebDAVServer
         if ( !in_array( $virtualFolder, $this->virtualList() ) )
         {
             $this->appendLogEntry( "Unknown virtual element: '$virtualFolder' in site '$currentSite'", 'CS:deleteVirtualFolder' );
-            return EZ_WEBDAV_FAILED_NOT_FOUND;
+            return eZWebDAVServer::FAILED_NOT_FOUND;
         }
 
         if ( !$target )
         {
             // We have reached the end of the path
             // We do not allow 'delete' operations for the virtual folder.
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return eZWebDAVServer::FAILED_FORBIDDEN;
         }
 
         if ( !$this->userHasVirtualAccess( $currentSite, $virtualFolder ) )
         {
             $this->appendLogEntry( "No access to virtual folder '$virtualFolder' in site '$currentSite'", 'CS:deleteVirtualFolder' );
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return eZWebDAVServer::FAILED_FORBIDDEN;
         }
 
-        if ( $virtualFolder == VIRTUAL_CONTENT_FOLDER_NAME or
-             $virtualFolder == VIRTUAL_MEDIA_FOLDER_NAME )
+        if ( $virtualFolder == eZWebDAVContentServer::virtualContentFolderName() or
+             $virtualFolder == eZWebDAVContentServer::virtualMediaFolderName() )
         {
             return $this->deleteContent( $currentSite, $virtualFolder, $target, $fullPath );
         }
 
-        return EZ_WEBDAV_FAILED_FORBIDDEN;
+        return eZWebDAVServer::FAILED_FORBIDDEN;
     }
 
     /*!
@@ -634,7 +628,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
         if ( $node == null )
         {
             $this->appendLogEntry( "Cannot delete node/object $nodePath, it does not exist", 'CS:deleteContent' );
-            return EZ_WEBDAV_FAILED_NOT_FOUND;
+            return eZWebDAVServer::FAILED_NOT_FOUND;
         }
 
         // Can we delete the node?
@@ -642,12 +636,12 @@ class eZWebDAVContentServer extends eZWebDAVServer
              !$node->canRemove() )
         {
             $this->appendLogEntry( "No access to delete '$nodePath' in site '$currentSite'", 'CS:deleteContent' );
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return eZWebDAVServer::FAILED_FORBIDDEN;
         }
 
         $this->appendLogEntry( "Removing node: $nodePath", 'CS:deleteContent' );
         $node->removeNodeFromTree( true );
-        return EZ_WEBDAV_OK;
+        return eZWebDAVServer::OK;
     }
 
     /*!
@@ -667,25 +661,25 @@ class eZWebDAVContentServer extends eZWebDAVServer
             //       if so allow the move as a simple object move
             //       If not we will have to do an object export from
             //       $sourceSite and import it in $destinationSite
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return eZWebDAVServer::FAILED_FORBIDDEN;
         }
 
         if ( !$sourceSite or
              !$destinationSite )
         {
             // Cannot move entries in site list
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return eZWebDAVServer::FAILED_FORBIDDEN;
         }
 
         if ( !$this->userHasSiteAccess( $sourceSite ) )
         {
             $this->appendLogEntry( "No access to site '$sourceSite'", 'CS:move' );
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return eZWebDAVServer::FAILED_FORBIDDEN;
         }
         if ( !$this->userHasSiteAccess( $destinationSite ) )
         {
             $this->appendLogEntry( "No access to site '$destinationSite'", 'CS:move' );
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return eZWebDAVServer::FAILED_FORBIDDEN;
         }
 
         return $this->moveVirtualFolder( $sourceSite, $destinationSite,
@@ -710,13 +704,13 @@ class eZWebDAVContentServer extends eZWebDAVServer
         if ( !in_array( $sourceVFolder, $this->virtualList() ) )
         {
             $this->appendLogEntry( "Unknown virtual element: '$sourceVFolder' in site '$sourceSite'", 'CS:moveVirtualFolder' );
-            return EZ_WEBDAV_FAILED_NOT_FOUND;
+            return eZWebDAVServer::FAILED_NOT_FOUND;
         }
 
         if ( !in_array( $destinationVFolder, $this->virtualList() ) )
         {
             $this->appendLogEntry( "Unknown virtual element: '$destinationVFolder' in site '$destinationSite'", 'CS:moveVirtualFolder' );
-            return EZ_WEBDAV_FAILED_NOT_FOUND;
+            return eZWebDAVServer::FAILED_NOT_FOUND;
         }
 
         if ( !$source or
@@ -724,24 +718,24 @@ class eZWebDAVContentServer extends eZWebDAVServer
         {
             // We have reached the end of the path for source or destination
             // We do not allow 'move' operations for the virtual folder (from or to)
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return eZWebDAVServer::FAILED_FORBIDDEN;
         }
 
         if ( !$this->userHasVirtualAccess( $sourceSite, $sourceVFolder ) )
         {
             $this->appendLogEntry( "No access to virtual folder '$sourceVFolder' in site '$sourceSite'", 'CS:moveVirtualFolder' );
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return eZWebDAVServer::FAILED_FORBIDDEN;
         }
         if ( !$this->userHasVirtualAccess( $destinationSite, $destinationVFolder ) )
         {
             $this->appendLogEntry( "No access to virtual folder '$destinationVFolder' in site '$destinationSite'", 'CS:moveVirtualFolder' );
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return eZWebDAVServer::FAILED_FORBIDDEN;
         }
 
-        if ( ( $sourceVFolder == VIRTUAL_CONTENT_FOLDER_NAME or
-               $sourceVFolder == VIRTUAL_MEDIA_FOLDER_NAME ) and
-             ( $destinationVFolder == VIRTUAL_CONTENT_FOLDER_NAME or
-               $destinationVFolder == VIRTUAL_MEDIA_FOLDER_NAME ) )
+        if ( ( $sourceVFolder == eZWebDAVContentServer::virtualContentFolderName() or
+               $sourceVFolder == eZWebDAVContentServer::virtualMediaFolderName() ) and
+             ( $destinationVFolder == eZWebDAVContentServer::virtualContentFolderName() or
+               $destinationVFolder == eZWebDAVContentServer::virtualMediaFolderName() ) )
         {
             return $this->moveContent( $sourceSite, $destinationSite,
                                        $sourceVFolder, $destinationVFolder,
@@ -749,7 +743,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
                                        $fullSource, $fullDestination );
         }
 
-        return EZ_WEBDAV_FAILED_FORBIDDEN;
+        return eZWebDAVServer::FAILED_FORBIDDEN;
     }
 
     /*!
@@ -773,14 +767,14 @@ class eZWebDAVContentServer extends eZWebDAVServer
 
         if ( !$sourceNode )
         {
-            return EZ_WEBDAV_FAILED_NOT_FOUND;
+            return eZWebDAVServer::FAILED_NOT_FOUND;
         }
 
         // Can we move the node from $sourceNode
         if ( !$sourceNode->canMoveFrom() )
         {
             $this->appendLogEntry( "No access to move the node '$sourceSite':'$nodePath'", 'CS:moveContent' );
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return eZWebDAVServer::FAILED_FORBIDDEN;
         }
 
         $object = $sourceNode->attribute( 'object' );
@@ -794,21 +788,21 @@ class eZWebDAVContentServer extends eZWebDAVServer
 
         if ( $destinationNode )
         {
-            return EZ_WEBDAV_FAILED_EXISTS;
+            return eZWebDAVServer::FAILED_EXISTS;
         }
 
         $destinationNode = $this->fetchParentNodeByTranslation( $destinationNodePath );
 
         if ( !$destinationNode )
         {
-            return EZ_WEBDAV_FAILED_NOT_FOUND;
+            return eZWebDAVServer::FAILED_NOT_FOUND;
         }
 
         // Can we move the node to $destinationNode
         if ( !$destinationNode->canMoveTo( $classID ) )
         {
             $this->appendLogEntry( "No access to move the node '$sourceSite':'$nodePath' to '$destinationSite':'$destinationNodePath'", 'CS:moveContent' );
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return eZWebDAVServer::FAILED_FORBIDDEN;
         }
 
         $srcParentPath = $this->splitLastPathElement( $nodePath, $srcNodeName );
@@ -818,16 +812,16 @@ class eZWebDAVContentServer extends eZWebDAVServer
             if( !$object->rename( $dstNodeName ) )
             {
                 $this->appendLogEntry( "Unable to rename the node '$sourceSite':'$nodePath' to '$destinationSite':'$destinationNodePath'", 'CS:moveContent' );
-                return EZ_WEBDAV_FAILED_FORBIDDEN;
+                return eZWebDAVServer::FAILED_FORBIDDEN;
             }
         }
         else
         {
-            include_once( 'kernel/classes/ezcontentobjecttreenodeoperations.php' );
+            //include_once( 'kernel/classes/ezcontentobjecttreenodeoperations.php' );
             if( !eZContentObjectTreeNodeOperations::move( $sourceNode->attribute( 'node_id' ), $destinationNode->attribute( 'node_id' ) ) )
             {
                 $this->appendLogEntry( "Unable to move the node '$sourceSite':'$nodePath' to '$destinationSite':'$destinationNodePath'", 'CS:moveContent' );
-                return EZ_WEBDAV_FAILED_FORBIDDEN;
+                return eZWebDAVServer::FAILED_FORBIDDEN;
             }
         }
 
@@ -839,12 +833,12 @@ class eZWebDAVContentServer extends eZWebDAVServer
                     $contentObjectAttributes[0]->setAttribute( 'data_text', basename( $destination ) );
                     $contentObjectAttributes[0]->store();
 
-                    include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+                    //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
                     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID, 'version' => 1 ) );
                     $object->store();
         */
 
-        return EZ_WEBDAV_OK_CREATED;
+        return eZWebDAVServer::OK_CREATED;
     }
 
     /*!
@@ -878,7 +872,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
 
         if ( $accessWord == 'limited' )
         {
-            include_once( 'lib/ezutils/classes/ezsys.php' );
+            //include_once( 'lib/ezutils/classes/ezsys.php' );
 
             $hasAccess = false;
             $policyChecked = false;
@@ -1072,7 +1066,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
     {
         // All root nodes needs to prepend their name to get the correct path
         // except for the content root which uses the path directly.
-        if ( $virtualFolder == VIRTUAL_MEDIA_FOLDER_NAME )
+        if ( $virtualFolder == eZWebDAVContentServer::virtualMediaFolderName() )
         {
             $nodePath = 'media';
             if ( strlen( $collection ) > 0 )
@@ -1190,7 +1184,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
     */
     function virtualFolderList()
     {
-        return array( VIRTUAL_CONTENT_FOLDER_NAME, VIRTUAL_MEDIA_FOLDER_NAME );
+        return array( eZWebDAVContentServer::virtualContentFolderName(), eZWebDAVContentServer::virtualMediaFolderName() );
     }
 
     /*!
@@ -1198,8 +1192,8 @@ class eZWebDAVContentServer extends eZWebDAVServer
     */
     function virtualFolderInfoList()
     {
-        return array( array( 'name' => VIRTUAL_CONTENT_FOLDER_NAME ),
-                      array( 'name' => VIRTUAL_MEDIA_FOLDER_NAME ) );
+        return array( array( 'name' => eZWebDAVContentServer::virtualContentFolderName() ),
+                      array( 'name' => eZWebDAVContentServer::virtualMediaFolderName() ) );
     }
 
     /*!
@@ -1207,7 +1201,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
     */
     function virtualFileList()
     {
-        return array( basename( VIRTUAL_INFO_FILE_NAME ) );
+        return array( basename( eZWebDAVContentServer::virtualInfoFileName() ) );
     }
 
     /*!
@@ -1215,8 +1209,8 @@ class eZWebDAVContentServer extends eZWebDAVServer
     */
     function virtualFileInfoList()
     {
-        return array( array( 'name' => basename( VIRTUAL_INFO_FILE_NAME ),
-                             'filepath' => VIRTUAL_INFO_FILE_NAME ) );
+        return array( array( 'name' => basename( eZWebDAVContentServer::virtualInfoFileName() ),
+                             'filepath' => eZWebDAVContentServer::virtualInfoFileName() ) );
     }
 
     /*!
@@ -1253,7 +1247,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
     {
         $this->appendLogEntry( "Script URL.." . $_SERVER["SCRIPT_URL"], 'CS:fetchVirtualSiteContent' );
         // Location of the info file.
-        $infoFile = $_SERVER['DOCUMENT_ROOT'] . '/' . VIRTUAL_INFO_FILE_NAME;
+        $infoFile = $_SERVER['DOCUMENT_ROOT'] . '/' . eZWebDAVContentServer::virtualInfoFileName();
 
         // Always add the current collection
         $contentEntry = array();
@@ -1380,7 +1374,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
         if ( $depth == 1 )
         {
             // Get all the children of the target node.
-            $subTree =& $node->subTree( array ( 'Depth' => 1 ) );
+            $subTree = $node->subTree( array ( 'Depth' => 1 ) );
 
             // Build the entries array by going through all the
             // nodes in the subtree and getting their attributes:
@@ -1403,12 +1397,12 @@ class eZWebDAVContentServer extends eZWebDAVServer
     /*!
       \return \c true if the object \a $object should always be considered a folder.
     */
-    function isObjectFolder( &$object, &$class )
+    function isObjectFolder( $object, &$class )
     {
         $classIdentifier = $class->attribute( 'identifier' );
         if ( $this->FolderClasses === null )
         {
-            $webdavINI =& eZINI::instance( WEBDAV_INI_FILE );
+            $webdavINI = eZINI::instance( eZWebDAVContentServer::WEBDAV_INI_FILE );
             $folderClasses = array();
             if ( $webdavINI->hasGroup( 'GeneralSettings' ) and
                  $webdavINI->hasVariable( 'GeneralSettings', 'FolderClasses' ) )
@@ -1429,12 +1423,12 @@ class eZWebDAVContentServer extends eZWebDAVServer
         $entry = array();
 
         // Grab settings from the ini file:
-        $webdavINI =& eZINI::instance( WEBDAV_INI_FILE );
+        $webdavINI = eZINI::instance( eZWebDAVContentServer::WEBDAV_INI_FILE );
         $iniSettings = $webdavINI->variable( 'DisplaySettings', 'FileAttribute' );
 
         $classIdentifier = $node->attribute( 'class_identifier' );
 
-        $object =& $node->attribute( 'object' );
+        $object = $node->attribute( 'object' );
 
         // By default, everything is displayed as a folder:
         // Trim the name of the node, it is in some cases whitespace in eZ Publish
@@ -1444,11 +1438,11 @@ class eZWebDAVContentServer extends eZWebDAVServer
         $entry["ctime"] = $object->attribute( 'published' );
         $entry["mtime"] = $object->attribute( 'modified' );
 
-        include_once( 'kernel/classes/ezcontentupload.php' );
+        //include_once( 'kernel/classes/ezcontentupload.php' );
         $upload = new eZContentUpload();
         $info = $upload->objectFileInfo( $object );
         $suffix = '';
-        $class =& $object->contentClass();
+        $class = $object->contentClass();
         $isObjectFolder = $this->isObjectFolder( $object, $class );
 
         if ( $isObjectFolder )
@@ -1466,7 +1460,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
                 $entry['mimetype'] = $info['mime_type'];
 
             // Fill in information from the actual file if they are missing.
-	        $file = eZClusterFileHandler::instance( $filePath );
+            $file = eZClusterFileHandler::instance( $filePath );
             if ( !$entry['size'] and $file->exists() )
             {
                 $entry["size"] = $file->size();
@@ -1528,35 +1522,35 @@ class eZWebDAVContentServer extends eZWebDAVServer
     function createFolder( $parentNode, $target )
     {
         // Grab settings from the ini file:
-        $webdavINI =& eZINI::instance( WEBDAV_INI_FILE );
+        $webdavINI = eZINI::instance( eZWebDAVContentServer::WEBDAV_INI_FILE );
         $folderClassID = $webdavINI->variable( 'FolderSettings', 'FolderClass' );
         $languageCode = eZContentObject::defaultLanguage();
 
         $contentObject = eZContentObject::createWithNodeAssignment( $parentNode, $folderClassID, $languageCode );
         if ( $contentObject )
         {
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
-            $version =& $contentObject->version( 1 );
-            $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
+            $version = $contentObject->version( 1 );
+            $version->setAttribute( 'status', eZContentObjectVersion::STATUS_DRAFT );
             $version->store();
 
             $contentObjectID = $contentObject->attribute( 'id' );
-            $contentObjectAttributes =& $version->contentObjectAttributes();
+            $contentObjectAttributes = $version->contentObjectAttributes();
 
             $contentObjectAttributes[0]->setAttribute( 'data_text', basename( $target ) );
             $contentObjectAttributes[0]->store();
             $db->commit();
 
-            include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+            //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
             $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID,
                                                                                          'version' => 1 ) );
-            return EZ_WEBDAV_OK_CREATED;
+            return eZWebDAVServer::OK_CREATED;
         }
         else
         {
             $this->appendLogEntry( "Not allowed", 'CS:createFolder' );
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return eZWebDAVServer::FAILED_FORBIDDEN;
         }
     }
 
@@ -1569,15 +1563,31 @@ class eZWebDAVContentServer extends eZWebDAVServer
         $siteList = array();
 
         // Grab the sitelist from the ini file.
-        $webdavINI =& eZINI::instance();
+        $webdavINI = eZINI::instance();
         $siteList = $webdavINI->variable( 'SiteSettings', 'SiteList' );
 
         // Return the site list.
         return $siteList ;
     }
 
+    static function virtualContentFolderName()
+    {
+        return ezi18n( 'kernel/content', "Content" );
+    }
+
+    static function virtualMediaFolderName()
+    {
+        return ezi18n( 'kernel/content', "Media" );
+    }
+
+    static function virtualInfoFileName()
+    {
+        $infoFile = eZSys::varDirectory() . '/webdav/root/info.txt';
+        return $infoFile;
+    }
+
     /// \privatesection
     /// Contains an array with classes that are considered folder
-    var $FolderClasses;
+    public $FolderClasses;
 }
 ?>

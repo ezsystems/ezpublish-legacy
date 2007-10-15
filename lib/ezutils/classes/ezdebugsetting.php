@@ -62,8 +62,8 @@ bad-name-flag=disabled
 
 */
 
-include_once( 'lib/ezutils/classes/ezdebug.php' );
-include_once( 'lib/ezutils/classes/ezini.php' );
+require_once( 'lib/ezutils/classes/ezdebug.php' );
+//include_once( 'lib/ezutils/classes/ezini.php' );
 
 class eZDebugSetting
 {
@@ -78,18 +78,19 @@ class eZDebugSetting
       \static
       \return true if the condition \a $conditionName is considered enabled.
     */
-    function isConditionTrue( $conditionName, $messageType )
+    static function isConditionTrue( $conditionName, $messageType )
     {
         global $eZDebugSettingINIObject;
 
-        $ini =& $eZDebugSettingINIObject;
+        $ini = $eZDebugSettingINIObject;
 
-        if ( isset( $eZDebugSettingINIObject ) and  get_class( $ini ) == 'ezini' )
+        if ( isset( $eZDebugSettingINIObject ) and $ini instanceof eZINI )
         {
             if ( $ini->variable( 'DebugSettings', 'ConditionDebug' ) != 'enabled' )
                 return false;
             $generalSetting = 'GeneralCondition';
-            $debugName = eZDebug::messageName( $messageType );
+            $debug = eZDebug::instance();
+            $debugName = $debug->messageName( $messageType );
             $specificSetting = $debugName . 'Condition';
             if ( $ini->hasVariable( $generalSetting, $conditionName ) )
                 return $ini->variable( $generalSetting, $conditionName ) == 'enabled';
@@ -103,7 +104,7 @@ class eZDebugSetting
      \static
      Creates a new debug label from the original and the condition and returns it.
     */
-    function changeLabel( $conditionName, $label )
+    static function changeLabel( $conditionName, $label )
     {
         if ( $label == "" )
             return '<' . $conditionName . '>';
@@ -115,9 +116,9 @@ class eZDebugSetting
       \static
       Writes a debug notice if the condition \a $conditionName is enabled.
     */
-    function writeNotice( $conditionName, $string, $label = "" )
+    static function writeNotice( $conditionName, $string, $label = "" )
     {
-        if ( !eZDebugSetting::isConditionTrue( $conditionName, EZ_LEVEL_NOTICE ) )
+        if ( !eZDebugSetting::isConditionTrue( $conditionName, eZDebug::LEVEL_NOTICE ) )
             return false;
         eZDebug::writeNotice( $string, eZDebugSetting::changeLabel( $conditionName, $label ) );
     }
@@ -126,9 +127,9 @@ class eZDebugSetting
       \static
       Writes a debug warning if the condition \a $conditionName is enabled.
     */
-    function writeWarning( $conditionName, $string, $label = "" )
+    static function writeWarning( $conditionName, $string, $label = "" )
     {
-        if ( !eZDebugSetting::isConditionTrue( $conditionName, EZ_LEVEL_WARNING ) )
+        if ( !eZDebugSetting::isConditionTrue( $conditionName, eZDebug::LEVEL_WARNING ) )
             return false;
         eZDebug::writeWarning( $string, eZDebugSetting::changeLabel( $conditionName, $label ) );
     }
@@ -137,9 +138,9 @@ class eZDebugSetting
       \static
       Writes a debug error if the condition \a $conditionName is enabled.
     */
-    function writeError( $conditionName, $string, $label = "" )
+    static function writeError( $conditionName, $string, $label = "" )
     {
-        if ( !eZDebugSetting::isConditionTrue( $conditionName, EZ_LEVEL_ERROR ) )
+        if ( !eZDebugSetting::isConditionTrue( $conditionName, eZDebug::LEVEL_ERROR ) )
             return false;
         eZDebug::writeError( $string, eZDebugSetting::changeLabel( $conditionName, $label ) );
     }
@@ -148,9 +149,9 @@ class eZDebugSetting
       \static
       Writes a debug message if the condition \a $conditionName is enabled.
     */
-    function writeDebug( $conditionName, $string, $label = "" )
+    static function writeDebug( $conditionName, $string, $label = "" )
     {
-        if ( !eZDebugSetting::isConditionTrue( $conditionName, EZ_LEVEL_DEBUG ) )
+        if ( !eZDebugSetting::isConditionTrue( $conditionName, eZDebug::LEVEL_DEBUG ) )
             return false;
         eZDebug::writeDebug( $string, eZDebugSetting::changeLabel( $conditionName, $label ) );
     }
@@ -159,9 +160,9 @@ class eZDebugSetting
       \static
       Adds the timing point if the condition \a $conditionName is enabled.
     */
-    function addTimingPoint( $conditionName, $label = "" )
+    static function addTimingPoint( $conditionName, $label = "" )
     {
-        if ( !eZDebugSetting::isConditionTrue( $conditionName, EZ_LEVEL_TIMING_POINT ) )
+        if ( !eZDebugSetting::isConditionTrue( $conditionName, eZDebug::LEVEL_TIMING_POINT ) )
             return false;
         eZDebug::addTimingPoint( eZDebugSetting::changeLabel( $conditionName, $label ) );
     }
@@ -170,7 +171,7 @@ class eZDebugSetting
      \static
      Sets the INI object
     */
-    function setDebugINI( $ini )
+    static function setDebugINI( $ini )
     {
         global $eZDebugSettingINIObject;
         $eZDebugSettingINIObject = $ini;

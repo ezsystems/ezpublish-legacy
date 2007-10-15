@@ -47,9 +47,9 @@ class eZXMLInputType
     {
     }
 
-    function &instance()
+    static function instance()
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $inputHandler = $ini->variable( "ExtensionSettings", "XMLEditor" );
 
         $isMSIE = false;
@@ -64,7 +64,7 @@ class eZXMLInputType
         }
 
         $disableExtension = false;
-        $http =& eZHTTPTool::instance();
+        $http = eZHTTPTool::instance();
         if ( $http->hasSessionVariable( 'DisableEditorExtension' ) )
         {
             $disableExtension = true;
@@ -75,7 +75,7 @@ class eZXMLInputType
         {
             if ( file_exists( "kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php" ) )
             {
-                include_once( "kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php" );
+                //include_once( "kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php" );
                 $impl = new eZXMLInputHandler();
             }
         }
@@ -92,7 +92,7 @@ class eZXMLInputType
             {
                 if ( file_exists( "kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php" ) )
                 {
-                    include_once( "kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php" );
+                    //include_once( "kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php" );
                     $impl = new eZXMLInputHandler();
                 }
             }
@@ -106,7 +106,7 @@ class eZXMLInputType
 
     function &editorName()
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $inputHandler = $ini->variable( "ExtensionSettings", "XMLEditor" );
 
         $disableExtension = false;
@@ -122,7 +122,7 @@ class eZXMLInputType
             }
         }
 
-        $http =& eZHTTPTool::instance();
+        $http = eZHTTPTool::instance();
         if ( $http->hasSessionVariable( 'DisableEditorExtension' ) )
         {
             $disableExtension = true;

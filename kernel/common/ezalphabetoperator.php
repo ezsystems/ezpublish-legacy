@@ -48,7 +48,7 @@ class eZAlphabetOperator
     /*!
      Returns the operators in this class.
     */
-    function &operatorList()
+    function operatorList()
     {
         return $this->Operators;
     }
@@ -64,7 +64,7 @@ class eZAlphabetOperator
     /*!
      \reimp
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value, &$namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$value, $namedParameters )
     {
         switch ( $operatorName )
         {
@@ -80,10 +80,10 @@ class eZAlphabetOperator
       Static
       Returns alphabet.
     */
-    function fetchAlphabet()
+    static function fetchAlphabet()
     {
-        include_once( "lib/ezutils/classes/ezini.php" );
-        $contentINI =& eZINI::instance( 'content.ini' );
+        //include_once( "lib/ezutils/classes/ezini.php" );
+        $contentINI = eZINI::instance( 'content.ini' );
 
         $alphabetRangeList = $contentINI->hasVariable( 'AlphabeticalFilterSettings', 'AlphabetList' )
                              ? $contentINI->variable( 'AlphabeticalFilterSettings', 'AlphabetList' )
@@ -124,14 +124,14 @@ class eZAlphabetOperator
             $alphabet = range( $rangeArray[0], $rangeArray[1] );
         }
         $resAlphabet = array();
-        $i18nINI =& eZINI::instance( 'i18n.ini' );
+        $i18nINI = eZINI::instance( 'i18n.ini' );
         $charset = $i18nINI->variable( 'CharacterSettings', 'Charset' );
 
-        include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-        $codec =& eZTextCodec::instance( 'utf-8', $charset );
+        //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+        $codec = eZTextCodec::instance( 'utf-8', $charset );
 
-        include_once( "lib/ezi18n/classes/ezutf8codec.php" );
-        $utf8_codec =& eZUTF8Codec::instance();
+        //include_once( "lib/ezi18n/classes/ezutf8codec.php" );
+        $utf8_codec = eZUTF8Codec::instance();
         // Convert all letters of alphabet from unicode to utf-8 and from utf-8 to current locale
         foreach ( $alphabet as $item )
         {

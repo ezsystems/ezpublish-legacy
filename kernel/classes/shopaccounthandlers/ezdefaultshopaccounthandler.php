@@ -44,7 +44,7 @@ class eZDefaultShopAccountHandler
     function verifyAccountInformation()
     {
         // Check login
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
         if ( !$user->isLoggedIn() )
             return false;
         else
@@ -57,9 +57,9 @@ class eZDefaultShopAccountHandler
     function email( $order = false )
     {
         if ( $order === false )
-            $user =& eZUser::currentUser();
+            $user = eZUser::currentUser();
         else
-            $user =& $order->attribute( 'user' );
+            $user = $order->attribute( 'user' );
 
         if ( is_object( $user ) )
             return $user->attribute( 'email' );
@@ -73,9 +73,9 @@ class eZDefaultShopAccountHandler
     function accountName( $order = false )
     {
         if ( $order === false )
-            $user =& eZUser::currentUser();
+            $user = eZUser::currentUser();
         else
-            $user =& $order->attribute( 'user' );
+            $user = $order->attribute( 'user' );
 
         if ( is_object( $user ) )
         {
@@ -89,21 +89,21 @@ class eZDefaultShopAccountHandler
 
     function fetchAccountInformation( &$module )
     {
-        eZHTTPTool::setSessionVariable( 'RedirectAfterLogin', '/shop/basket/' );
-        eZHTTPTool::setSessionVariable( 'DoCheckoutAutomatically', true );
+        $http = eZHTTPTool::instance();
+        $http->setSessionVariable( 'RedirectAfterLogin', '/shop/basket/' );
+        $http->setSessionVariable( 'DoCheckoutAutomatically', true );
         $module->redirectTo( '/user/login/' );
     }
 
     function accountInformation( $order )
     {
-        $user =& $order->user();
-        $userObject =& $user->attribute( "contentobject" );
-        $dataMap =& $userObject->dataMap();
+        $user = $order->user();
+        $userObject = $user->attribute( "contentobject" );
+        $dataMap = $userObject->dataMap();
 
         return array( 'first_name' => $dataMap['first_name']->content(),
                       'last_name' => $dataMap['last_name']->content(),
-                      'email' => $user->attribute( "email" )
-                      );
+                      'email' => $user->attribute( "email" ) );
     }
 }
 

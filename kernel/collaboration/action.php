@@ -26,19 +26,18 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 
-$http =& eZHTTPTool::instance();
-eZDebug::writeDebug( $http->attribute( 'post' ) );
+$http = eZHTTPTool::instance();
 
 if ( $Module->isCurrentAction( 'Custom' ) )
 {
     $typeIdentifier = $Module->actionParameter( 'TypeIdentifer' );
     $itemID = $Module->actionParameter( 'ItemID' );
-    include_once( 'kernel/classes/ezcollaborationitem.php' );
-    include_once( 'kernel/classes/ezcollaborationitemhandler.php' );
+    //include_once( 'kernel/classes/ezcollaborationitem.php' );
+    //include_once( 'kernel/classes/ezcollaborationitemhandler.php' );
     $collaborationItem = eZCollaborationItem::fetch( $itemID );
-    $handler =& eZCollaborationItemHandler::instantiate( $typeIdentifier );
+    $handler = eZCollaborationItemHandler::instantiate( $typeIdentifier );
     return $handler->handleCustomAction( $Module, $collaborationItem );
 }
 

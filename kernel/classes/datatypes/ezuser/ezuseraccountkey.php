@@ -38,7 +38,7 @@
 
 */
 
-include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
 
 class eZUserAccountKey extends eZPersistentObject
 {
@@ -50,7 +50,7 @@ class eZUserAccountKey extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => "ID",
                                          "user_id" => "UserID",
@@ -64,14 +64,14 @@ class eZUserAccountKey extends eZPersistentObject
                       "name" => "ezuser_accountkey" );
     }
 
-    function createNew( $userID, $hashKey, $time)
+    static function createNew( $userID, $hashKey, $time)
     {
         return new eZUserAccountKey( array( "user_id" => $userID,
                                             "hash_key" => $hashKey,
                                             "time" => $time ) );
     }
 
-    function fetchByKey( $hashKey )
+    static function fetchByKey( $hashKey )
     {
         return eZPersistentObject::fetchObject( eZUserAccountKey::definition(),
                                                 null,

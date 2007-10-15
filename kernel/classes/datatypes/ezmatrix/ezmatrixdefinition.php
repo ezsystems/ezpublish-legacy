@@ -37,7 +37,6 @@
   \brief The class eZMatrixDefinition does
 
 */
-include_once( "lib/ezxml/classes/ezxml.php" );
 
 class eZMatrixDefinition
 {
@@ -52,19 +51,19 @@ class eZMatrixDefinition
 
     function decodeClassAttribute( $xmlString )
     {
-        $xml = new eZXML();
-        $dom =& $xml->domTree( $xmlString );
+        $dom = new DOMDocument();
         if ( strlen ( $xmlString ) != 0 )
         {
-            $columns = $dom->elementsByName( "column-name" );
+            $success = $dom->loadXML( $xmlString );
+            $columns = $dom->getElementsByTagName( "column-name" );
             $columnList = array();
             foreach ( $columns as $columnElement )
             {
-                $columnList[] = array( 'name' => $columnElement->textContent(),
-                                       'identifier' => $columnElement->attributeValue( 'id' ),
-                                       'index' =>  $columnElement->attributeValue( 'idx' ) );
+                $columnList[] = array( 'name' => $columnElement->textContent,
+                                       'identifier' => $columnElement->getAttribute( 'id' ),
+                                       'index' =>  $columnElement->getAttribute( 'idx' ) );
             }
-            $this->ColumnNames =& $columnList;
+            $this->ColumnNames = $columnList;
         }
         else
         {
@@ -84,39 +83,34 @@ class eZMatrixDefinition
         return in_array( $attr, $this->attributes() );
     }
 
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         if ( $attr == 'columns' )
         {
             return $this->ColumnNames;
         }
-        else
-        {
-            eZDebug::writeError( "Attribute '$attr' does not exist", 'eZMatrixDefinition::attribute' );
-            $retValue = null;
-            return $retValue;
-        }
+
+        eZDebug::writeError( "Attribute '$attr' does not exist", 'eZMatrixDefinition::attribute' );
+        return null;
     }
 
-    function &xmlString( )
+    function xmlString( )
     {
-        $doc = new eZDOMDocument( "Matrix" );
-        $root = $doc->createElementNode( "ezmatrix" );
-        $doc->setRoot( $root );
+        $doc = new DOMDocument();
+        $root = $doc->createElement( "ezmatrix" );
+        $doc->appendChild( $root );
 
         foreach ( $this->ColumnNames as $columnName )
         {
-            $columnNameNode = $doc->createElementNode( 'column-name' );
-            $columnNameNode->appendAttribute( $doc->createAttributeNode( 'id', $columnName['identifier'] ) );
-            $columnNameNode->appendAttribute( $doc->createAttributeNode( 'idx', $columnName['index'] ) );
-            $textNode = $doc->createTextNode( $columnName['name'] );
-            $columnNameNode->appendChild( $textNode );
+            $columnNameNode = $doc->createElement( 'column-name', $columnName['name'] );
+            $columnNameNode->setAttribute( 'id', $columnName['identifier'] );
+            $columnNameNode->setAttribute( 'idx', $columnName['index'] );
             $root->appendChild( $columnNameNode );
             unset( $columnNameNode );
             unset( $textNode );
         }
 
-        $xml = $doc->toString();
+        $xml = $doc->saveXML();
 
         return $xml;
     }
@@ -131,8 +125,8 @@ class eZMatrixDefinition
         if ( $id == false )
         {
             // Initialize transformation system
-            include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-            $trans =& eZCharTransform::instance();
+            //include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+            $trans = eZCharTransform::instance();
             $id = $trans->transformByGroup( $name, 'identifier' );
         }
 
@@ -153,7 +147,7 @@ class eZMatrixDefinition
         }
     }
 
-    var $ColumnNames;
+    public $ColumnNames;
 
 }
 

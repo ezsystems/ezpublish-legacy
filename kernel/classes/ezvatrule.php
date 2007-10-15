@@ -48,7 +48,7 @@ class eZVatRule extends eZPersistentObject
     /**
      * \reimp
      */
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -94,7 +94,7 @@ class eZVatRule extends eZPersistentObject
         }
     }
 
-    function fetch( $id )
+    static function fetch( $id )
     {
         return eZPersistentObject::fetchObject( eZVatRule::definition(),
                                                 null,
@@ -102,7 +102,7 @@ class eZVatRule extends eZPersistentObject
                                                 true );
     }
 
-    function fetchList()
+    static function fetchList()
     {
         return eZPersistentObject::fetchObjectList( eZVatRule::definition(),
                                                     null, null,
@@ -117,7 +117,7 @@ class eZVatRule extends eZPersistentObject
      * \public
      * \static
      */
-    function fetchByVatType( $vatID )
+    static function fetchByVatType( $vatID )
     {
         return eZPersistentObject::fetchObjectList( eZVatRule::definition(), null,
                                                      array( 'vat_type' => (int) $vatID ),
@@ -131,9 +131,9 @@ class eZVatRule extends eZPersistentObject
      * \public
      * \static
      */
-    function fetchCountByCategory( $categories )
+    static function fetchCountByCategory( $categories )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $query = "SELECT COUNT(*) AS count FROM ezvatrule vr, ezvatrule_product_category vrpc " .
                  "WHERE vr.id=vrpc.vatrule_id AND vrpc.product_category_id";
@@ -155,7 +155,7 @@ class eZVatRule extends eZPersistentObject
      * \public
      * \static
      */
-    function fetchCountByVatType( $vatID )
+    static function fetchCountByVatType( $vatID )
     {
         $rows = eZPersistentObject::fetchObjectList( eZVatRule::definition(),
                                                      array(),
@@ -170,7 +170,7 @@ class eZVatRule extends eZPersistentObject
     }
 
 
-    function create()
+    static function create()
     {
         $row = array(
             "id" => null,
@@ -183,9 +183,9 @@ class eZVatRule extends eZPersistentObject
     /**
      * Remove given VAT charging rule.
      */
-    function remove( $id )
+    static function removeVatRule( $id )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $db->begin();
 
@@ -201,13 +201,13 @@ class eZVatRule extends eZPersistentObject
     /**
      * \reimp
      */
-    function store()
+    function store( $fieldFilters = null )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
         // Store the rule itself.
-        eZPersistentObject::store();
+        eZPersistentObject::store( $fieldFilters );
 
         // Store product categories associated with the rule,
         $this->removeProductCategories();
@@ -229,13 +229,13 @@ class eZVatRule extends eZPersistentObject
     /**
      * \private
      */
-    function &productCategories()
+    function productCategories()
     {
         // If product categories for this rule have not been fetched yet
         if ( $this->ProductCategories === null )
         {
             // fetch them
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $query = "SELECT pc.* FROM ezproductcategory pc, ezvatrule_product_category vrpc WHERE" .
                      " pc.id = vrpc.product_category_id AND" .
                      " vrpc.vatrule_id = {$this->ID}";
@@ -250,7 +250,7 @@ class eZVatRule extends eZPersistentObject
      *
      * \private
      */
-    function &productCategoriesString()
+    function productCategoriesString()
     {
         $categories = $this->attribute( 'product_categories' );
         if ( !$categories )
@@ -263,8 +263,7 @@ class eZVatRule extends eZPersistentObject
         foreach ( $categories as $cat )
             $categoriesNames[] = $cat['name'];
 
-        $result = join( ', ', $categoriesNames );
-        return $result;
+        return join( ', ', $categoriesNames );
     }
 
     /**
@@ -272,7 +271,7 @@ class eZVatRule extends eZPersistentObject
      *
      * \private
      */
-    function &productCategoriesIDs()
+    function productCategoriesIDs()
     {
         $catIDs = array();
         $categories = $this->attribute( 'product_categories' );
@@ -291,7 +290,7 @@ class eZVatRule extends eZPersistentObject
      *
      * \prrivate
      */
-    function &productCategoriesNames()
+    function productCategoriesNames()
     {
         $catNames = array();
         $categories = $this->attribute( 'product_categories' );
@@ -309,22 +308,20 @@ class eZVatRule extends eZPersistentObject
     /**
      * Return VAT type name.
      */
-    function &vatTypeName()
+    function vatTypeName()
     {
         require_once( 'kernel/classes/ezvattype.php' );
         $vatType = eZVatType::fetch( $this->attribute( 'vat_type' ) );
-        $name = $vatType->attribute( 'name' );
-        return $name;
+        return $vatType->attribute( 'name' );
     }
 
     /**
      * Return VAT type object.
      */
-    function &vatTypeObject()
+    function vatTypeObject()
     {
         require_once( 'kernel/classes/ezvattype.php' );
-        $retObject = eZVatType::fetch( $this->attribute( 'vat_type' ) );
-        return $retObject;
+        return eZVatType::fetch( $this->attribute( 'vat_type' ) );
     }
 
     /*
@@ -356,7 +353,7 @@ class eZVatRule extends eZPersistentObject
         if ( $ruleID === false )
             $ruleID = $this->ID;
         $ruleID =(int) $ruleID;
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->query( "DELETE FROM ezvatrule_product_category WHERE vatrule_id = $ruleID" );
     }
 
@@ -368,16 +365,15 @@ class eZVatRule extends eZPersistentObject
      * \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      * the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function removeReferencesToProductCategory( $cartegoryID )
+    static function removeReferencesToProductCategory( $cartegoryID )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $query = "DELETE FROM ezvatrule_product_category WHERE product_category_id=" . (int) $cartegoryID;
-        eZDebug::writeDebug( $query, '$query' );
         $db->query( $query );
     }
 
 
-    var $ProductCategories;
+    public $ProductCategories;
 }
 
 ?>

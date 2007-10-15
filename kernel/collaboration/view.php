@@ -29,30 +29,30 @@
 /*! \file view.php
 */
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $ViewMode = $Params['ViewMode'];
 
 $Offset = $Params['Offset'];
 if ( !is_numeric( $Offset ) )
     $Offset = 0;
 
-include_once( 'kernel/classes/ezcollaborationviewhandler.php' );
+//include_once( 'kernel/classes/ezcollaborationviewhandler.php' );
 
 if ( !eZCollaborationViewHandler::exists( $ViewMode ) )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
-$view =& eZCollaborationViewHandler::instance( $ViewMode );
+$view = eZCollaborationViewHandler::instance( $ViewMode );
 
 $template = $view->template();
 
-include_once( 'kernel/classes/ezcollaborationitemhandler.php' );
+//include_once( 'kernel/classes/ezcollaborationitemhandler.php' );
 
 // $collaborationHandlers =& eZCollaborationItemHandler::fetchList();
 
 $viewParameters = array( 'offset' => $Offset );
 
-include_once( 'kernel/common/template.php' );
-$tpl =& templateInit();
+require_once( 'kernel/common/template.php' );
+$tpl = templateInit();
 
 $tpl->setVariable( 'view_parameters', $viewParameters );
 

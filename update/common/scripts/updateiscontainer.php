@@ -32,22 +32,22 @@
 /*! \file updateiscontainer.php
 */
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
 
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ Publish is_container update script\n\n" .
-                                                         "This script will set the is_container attribute on known eZ Publish classes\n" .
-                                                         "\n" .
-                                                         "Note: The script must be run for each siteaccess" .
-                                                         "\n" .
-                                                         "updateiscontainer.php -sSITEACCESS" ),
-                                      'use-session' => false,
-                                      'use-modules' => false,
-                                      'use-extensions' => true,
-                                      'min_version'  => '3.4.2',
-                                      'max_version' => '3.5.0' ) );
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'description' => ( "eZ Publish is_container update script\n\n" .
+                                                        "This script will set the is_container attribute on known eZ Publish classes\n" .
+                                                        "\n" .
+                                                        "Note: The script must be run for each siteaccess" .
+                                                        "\n" .
+                                                        "updateiscontainer.php -sSITEACCESS" ),
+                                     'use-session' => false,
+                                     'use-modules' => false,
+                                     'use-extensions' => true,
+                                     'min_version'  => '3.4.2',
+                                     'max_version' => '3.5.0' ) );
 
 $script->startup();
 
@@ -63,7 +63,7 @@ if ( !$script->validateVersion() )
     $script->shutdown( 1 );
 }
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 
 $classList = array( 'folder', 'article', 'user_group', 'forum', 'forum_topic', 'gallery', 'weblog' );
 $idText = "'" . implode( "', '", $classList ) . "'";

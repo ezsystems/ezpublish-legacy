@@ -31,12 +31,12 @@
 /*! \file ezstep_welcome.php
 */
 
-include_once( 'kernel/setup/steps/ezstep_installer.php');
-include_once( "kernel/common/i18n.php" );
+//include_once( 'kernel/setup/steps/ezstep_installer.php');
+require_once( "kernel/common/i18n.php" );
 
 /*!
-  \class EZStepWelcome ezstep_welcome.php
-  \brief The class EZStepWelcome does
+  \class eZStepWelcome ezstep_welcome.php
+  \brief The class eZStepWelcome does
 
 */
 class eZStepWelcome extends eZStepInstaller
@@ -46,7 +46,7 @@ class eZStepWelcome extends eZStepInstaller
      Constructor
      \reimp
     */
-    function eZStepWelcome( &$tpl, &$http, &$ini, &$persistenceList )
+    function eZStepWelcome( $tpl, $http, $ini, &$persistenceList )
     {
         $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
                                 'welcome', 'Welcome' );
@@ -67,7 +67,7 @@ class eZStepWelcome extends eZStepInstaller
             $wizardLanguage = $this->Http->postVariable( 'eZSetupWizardLanguage' );
             $this->PersistenceList['setup_wizard'] = array( 'language' => $wizardLanguage );
 
-            include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
+            //include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
             eZTranslatorManager::setActiveTranslation( $wizardLanguage );
         }
 
@@ -82,8 +82,7 @@ class eZStepWelcome extends eZStepInstaller
         $optionalTests = eZSetupOptionalTests();
         $testTable = eZSetupTestTable();
 
-        $arguments = array();
-        $optionalRunResult = eZSetupRunTests( $optionalTests, $arguments, 'eZSetup:init:system_check', $this->PersistenceList );
+        $optionalRunResult = eZSetupRunTests( $optionalTests, 'eZSetup:init:system_check', $this->PersistenceList );
         $this->OptionalResults = $optionalRunResult['results'];
         $this->OptionalResult = $optionalRunResult['result'];
 
@@ -105,7 +104,7 @@ class eZStepWelcome extends eZStepInstaller
     /*!
      \reimp
     */
-    function &display()
+    function display()
     {
         $result = array();
 
@@ -115,7 +114,7 @@ class eZStepWelcome extends eZStepInstaller
 
         eZSetupLanguageList( $languages, $defaultLanguage, $defaultExtraLanguages );
 
-        include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
+        //include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
         eZTranslatorManager::setActiveTranslation( $defaultLanguage, false );
 
         $this->Tpl->setVariable( 'language_list', $languages );

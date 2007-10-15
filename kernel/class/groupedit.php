@@ -26,13 +26,13 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/classes/ezcontentclass.php" );
-include_once( "kernel/classes/ezcontentclassattribute.php" );
-include_once( "kernel/classes/ezcontentclassgroup.php" );
-include_once( "kernel/classes/ezcontentclassclassgroup.php" );
-include_once( "lib/ezutils/classes/ezhttptool.php" );
+//include_once( "kernel/classes/ezcontentclass.php" );
+//include_once( "kernel/classes/ezcontentclassattribute.php" );
+//include_once( "kernel/classes/ezcontentclassgroup.php" );
+//include_once( "kernel/classes/ezcontentclassclassgroup.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
 
-$Module =& $Params["Module"];
+$Module = $Params['Module'];
 $GroupID = null;
 if ( isset( $Params["GroupID"] ) )
     $GroupID = $Params["GroupID"];
@@ -43,8 +43,8 @@ if ( is_numeric( $GroupID ) )
 }
 else
 {
-    include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-    $user =& eZUser::currentUser();
+    //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+    $user = eZUser::currentUser();
     $user_id = $user->attribute( "contentobject_id" );
     $classgroup = eZContentClassGroup::create( $user_id );
     $classgroup->setAttribute( "name", ezi18n( 'kernel/class/groupedit', "New Group" ) );
@@ -54,7 +54,7 @@ else
     return;
 }
 
-$http =& eZHttpTool::instance();
+$http = eZHTTPTool::instance();
 if ( $http->hasPostVariable( "DiscardButton" ) )
 {
     $Module->redirectTo( $Module->functionURI( "grouplist" ) );
@@ -71,8 +71,8 @@ if ( $http->hasPostVariable( "StoreButton" ) )
     // Set new modification date
     $date_time = time();
     $classgroup->setAttribute( "modified", $date_time );
-    include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-    $user =& eZUser::currentUser();
+    //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+    $user = eZUser::currentUser();
     $user_id = $user->attribute( "contentobject_id" );
     $classgroup->setAttribute( "modifier_id", $user_id );
     $classgroup->store();
@@ -86,10 +86,10 @@ if ( $http->hasPostVariable( "StoreButton" ) )
 $Module->setTitle( "Edit class group " . $classgroup->attribute( "name" ) );
 
 // Template handling
-include_once( "kernel/common/template.php" );
-$tpl =& templateInit();
+require_once( "kernel/common/template.php" );
+$tpl = templateInit();
 
-$res =& eZTemplateDesignResource::instance();
+$res = eZTemplateDesignResource::instance();
 $res->setKeys( array( array( "classgroup", $classgroup->attribute( "id" ) ) ) );
 
 $tpl->setVariable( "http", $http );
@@ -97,6 +97,6 @@ $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "classgroup", $classgroup );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:class/groupedit.tpl" );
+$Result['content'] = $tpl->fetch( "design:class/groupedit.tpl" );
 
 ?>

@@ -27,10 +27,10 @@
 //
 
 // Redirect to visual module which is the correct place for this functionality
-$module =& $Params['Module'];
-$parameters =& $Params["Parameters"];
+$module = $Params['Module'];
+$parameters = $Params["Parameters"];
 
-$visualModule =& eZModule::exists( 'visual' );
+$visualModule = eZModule::exists( 'visual' );
 if( $visualModule )
 {
     return $module->forward( $visualModule, 'templateview', $parameters );

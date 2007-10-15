@@ -26,18 +26,18 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/classes/ezpackage.php" );
+//include_once( "kernel/classes/ezpackage.php" );
 
-$module =& $Params['Module'];
+$module = $Params['Module'];
 
 $packageName = $Params['PackageName'];
 
 $package = eZPackage::fetch( $packageName );
 if ( !$package )
-    return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
 if ( !$package->attribute( 'can_export' ) )
-    return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
 
 $exportDirectory = eZPackage::temporaryExportPath();

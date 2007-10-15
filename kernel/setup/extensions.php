@@ -28,14 +28,14 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$http =& eZHTTPTool::instance();
-$module =& $Params["Module"];
+$http = eZHTTPTool::instance();
+$module = $Params['Module'];
 
-include_once( "kernel/common/template.php" );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( 'lib/ezfile/classes/ezdir.php' );
+require_once( "kernel/common/template.php" );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( 'lib/ezfile/classes/ezdir.php' );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 if ( $module->isCurrentAction( 'ActivateExtensions' ) )
 {
@@ -54,7 +54,7 @@ if ( $module->isCurrentAction( 'ActivateExtensions' ) )
     $writeSiteINI = eZINI::instance( 'site.ini.append', 'settings/override', null, null, false, true );
     $writeSiteINI->setVariable( "ExtensionSettings", "ActiveExtensions", $selectedExtensionArray );
     $writeSiteINI->save( 'site.ini.append', '.php', false, false );
-    include_once( 'kernel/classes/ezcache.php' );
+    //include_once( 'kernel/classes/ezcache.php' );
     eZCache::clearByTag( 'ini' );
 }
 // open site.ini for reading
@@ -72,7 +72,7 @@ $tpl->setVariable( "available_extension_array", $availableExtensionArray );
 $tpl->setVariable( "selected_extension_array", $selectedExtensions );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:setup/extensions.tpl" );
+$Result['content'] = $tpl->fetch( "design:setup/extensions.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/setup', 'Extension configuration' ) ) );
 

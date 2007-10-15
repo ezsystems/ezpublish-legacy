@@ -38,12 +38,12 @@
 
 */
 
-define( "EZ_IMAGE_HANDLER_KEEP_SUFFIX", 1 );
-define( "EZ_IMAGE_HANDLER_REPLACE_SUFFIX", 2 );
-define( "EZ_IMAGE_HANDLER_PREPEND_TAG_REPLACE_SUFFIX", 3 );
-
 class eZImageHandler
 {
+    const KEEP_SUFFIX = 1;
+    const REPLACE_SUFFIX = 2;
+    const PREPEND_TAG_REPLACE_SUFFIX = 3;
+
     /*!
      Initializes the image handler with data sent from the inheriting class.
      \param $handlerName The name of the current handler
@@ -55,7 +55,7 @@ class eZImageHandler
      \param $filters A list of filters this handler supports
      \param $mimeTagMap A mapping table which maps from a MIME-Type to a specific tag, this tag can be used when rewriting the filename.
     */
-    function eZImageHandler( $handlerName, $isEnabled = true, $outputRewriteType = EZ_IMAGE_HANDLER_REPLACE_SUFFIX,
+    function eZImageHandler( $handlerName, $isEnabled = true, $outputRewriteType = self::REPLACE_SUFFIX,
                              $supportedInputMIMETypes = false, $supportedOutputMIMETypes,
                              $conversionRules = false, $filters = false, $mimeTagMap = false )
     {
@@ -136,7 +136,7 @@ class eZImageHandler
      Parses the filter text \a $filterText which is taken from an INI file
      and returns a filter definition structure for it.
     */
-    function createFilterDefinitionFromINI( $filterText )
+    static function createFilterDefinitionFromINI( $filterText )
     {
         $equalPosition = strpos( $filterText, '=' );
         $filterData = false;
@@ -155,7 +155,7 @@ class eZImageHandler
      Converts a filter definition and filter data into a text string.
      This string is usually the commandline parameter.
     */
-    function convertFilterToText( $filterDefinition, $filterData )
+    static function convertFilterToText( $filterDefinition, $filterData )
     {
         $replaceList = array();
         if ( $filterData['data'] )
@@ -190,12 +190,12 @@ class eZImageHandler
      \virtual
      Rewrites the URL in \a $originalMimeData to become a url for \a $destinationMimeData.
      The type of rewrite is determined by \a $rewriteType which can be one of:
-     - EZ_IMAGE_HANDLER_KEEP_SUFFIX - Does nothing to the url
-     - EZ_IMAGE_HANDLER_REPLACE_SUFFIX - Replaces the suffix or the url
-     - EZ_IMAGE_HANDLER_PREPEND_TAG_REPLACE_SUFFIX - Prepends the tag name and replaces the suffix of the url
+     - self::KEEP_SUFFIX - Does nothing to the url
+     - self::REPLACE_SUFFIX - Replaces the suffix or the url
+     - self::PREPEND_TAG_REPLACE_SUFFIX - Prepends the tag name and replaces the suffix of the url
      The new url is placed in the \a $destinationMimeData.
     */
-    function rewriteURL( $originalMimeData, &$destinationMimeData, $rewriteType, $aliasName = false )
+    static function rewriteURL( $originalMimeData, &$destinationMimeData, $rewriteType, $aliasName = false )
     {
         $extraText = false;
         if ( $aliasName and
@@ -203,7 +203,7 @@ class eZImageHandler
             $extraText = '_' . $aliasName;
         switch ( $rewriteType )
         {
-            case EZ_IMAGE_HANDLER_KEEP_SUFFIX:
+            case self::KEEP_SUFFIX:
             {
                 $destinationMimeData['basename'] = $originalMimeData['basename'];
                 $destinationMimeData['filename'] = $originalMimeData['basename'] . $extraText . '.' . $originalMimeData['suffix'];
@@ -213,7 +213,7 @@ class eZImageHandler
                 else
                     $destinationMimeData['url'] = $destinationMimeData['filename'];
             } break;
-            case EZ_IMAGE_HANDLER_REPLACE_SUFFIX:
+            case self::REPLACE_SUFFIX:
             {
                 $destinationMimeData['basename'] = $originalMimeData['basename'];
                 $destinationMimeData['filename'] = $originalMimeData['basename'] . $extraText . '.' . $destinationMimeData['suffixes'][0];
@@ -223,7 +223,7 @@ class eZImageHandler
                 else
                     $destinationMimeData['url'] = $destinationMimeData['filename'];
             } break;
-            case EZ_IMAGE_HANDLER_PREPEND_TAG_REPLACE_SUFFIX:
+            case self::PREPEND_TAG_REPLACE_SUFFIX:
             {
                 $tagName = $this->tagForMIMEType( $destinationMimeData );
                 $destinationMimeData['basename'] = $originalMimeData['basename'];
@@ -268,11 +268,11 @@ class eZImageHandler
      defines in image.ini. It uses the group FileSettings and variable ImagePermissions.
      \return \c true on success, \c false otherwise
     */
-    function changeFilePermissions( $filepath )
+    static function changeFilePermissions( $filepath )
     {
         if ( !file_exists( $filepath ) )
             return false;
-        $ini =& eZINI::instance( 'image.ini' );
+        $ini = eZINI::instance( 'image.ini' );
         $perm = $ini->variable( "FileSettings", "ImagePermissions" );
         $success = false;
         $oldmask = umask( 0 );
@@ -289,7 +289,7 @@ class eZImageHandler
      \static
      Creats a regexp string out of the wildcard \a $wilcard and returns it.
     */
-    function wildcardToRegexp( $wildcard, $separatorCharacter = false )
+    static function wildcardToRegexp( $wildcard, $separatorCharacter = false )
     {
         if ( !$separatorCharacter )
             $separatorCharacter = '#';
@@ -375,7 +375,14 @@ class eZImageHandler
     */
     function outputMIMEType( &$manager, $currentMimeData, $wantedMimeData, $supportedFormatsOriginal, $aliasName = false )
     {
-        $conversionRules = array_merge( $manager->conversionRules(), $this->conversionRules() );
+        if ( is_array( $this->conversionRules() ) )
+        {
+            $conversionRules = array_merge( $manager->conversionRules(), $this->conversionRules() );
+        }
+        else
+        {
+            $conversionRules = $manager->conversionRules();
+        }
         $mimeData = false;
         $mimeType = false;
         if ( !$this->isInputMIMETypeSupported( $currentMimeData ) )
@@ -467,52 +474,10 @@ class eZImageHandler
      Converts the source file \a $sourceMimeData to the destination file \a $destinationMimeData.
      If \a $filters is supplied then the filters will be applied to the conversion.
     */
-    function convert( &$manager, $sourceMimeData, &$destinationMimeData, $filters = false )
+    function convert( $manager, $sourceMimeData, &$destinationMimeData, $filters = false )
     {
     }
 
-}
-
-/*!
-  \class eZImageFactory ezimagehandler.php
-  \brief Base class for image factories
-
-  The image factory is responsible for producing image handlers
-  when requested. This class must be inherited by specific
-  factories to create specific handlers.
-*/
-
-class eZImageFactory
-{
-    /*!
-     Initializes the factory with the name \a $name.
-    */
-    function eZImageFactory( $name )
-    {
-        $this->Name = $name;
-    }
-
-    /*!
-     \return the name of the factory, this is the name referenced in the INI file.
-    */
-    function name()
-    {
-        return $this->Name;
-    }
-
-    /*!
-     \pure
-     Creates a new image handler from the INI group \a $iniGroup and optionally INI file \a $iniFilename.
-     \note The default implementation returns \c null.
-    */
-    function &produceFromINI( $iniGroup, $iniFilename = false )
-    {
-        $imageHandler = null;
-        return $imageHandler;
-    }
-
-    /// \privatesection
-    var $Name;
 }
 
 ?>

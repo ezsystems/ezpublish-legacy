@@ -26,16 +26,16 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$http =& eZHTTPTool::instance();
-$module =& $Params["Module"];
+$http = eZHTTPTool::instance();
+$module = $Params['Module'];
 
-include_once( "kernel/common/template.php" );
-include_once( "kernel/classes/ezcache.php" );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( 'lib/ezfile/classes/ezdir.php' );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/classes/ezcache.php" );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( 'lib/ezfile/classes/ezdir.php' );
 
-$ini =& eZINI::instance( );
-$tpl =& templateInit();
+$ini = eZINI::instance( );
+$tpl = templateInit();
 
 $cacheList = eZCache::fetchList();
 
@@ -107,7 +107,7 @@ if ( $module->isCurrentAction( 'ClearCache' ) && $module->hasActionParameter( 'C
 
 if ( $module->isCurrentAction( 'RegenerateStaticCache' ) )
 {
-    include_once( 'kernel/classes/ezstaticcache.php' );
+    //include_once( 'kernel/classes/ezstaticcache.php' );
 
     $staticCache = new eZStaticCache();
     $staticCache->generateCache( true, true );
@@ -121,7 +121,7 @@ $tpl->setVariable( 'cache_list', $cacheList );
 
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:setup/cache.tpl" );
+$Result['content'] = $tpl->fetch( "design:setup/cache.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/setup', 'Cache admin' ) ) );
 

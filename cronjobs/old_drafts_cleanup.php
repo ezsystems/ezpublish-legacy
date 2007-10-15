@@ -30,14 +30,14 @@
 */
 
 
-include_once( 'lib/ezutils/classes/ezini.php' );
-include_once( 'kernel/classes/ezcontentobjectversion.php' );
+//include_once( 'lib/ezutils/classes/ezini.php' );
+//include_once( 'kernel/classes/ezcontentobjectversion.php' );
 
 if ( !$isQuiet )
     $cli->output( "Cleaning up user's drafts..." );
 
 // Cleaning up usual drafts
-$ini =& eZINI::instance( 'content.ini' );
+$ini = eZINI::instance( 'content.ini' );
 $draftsCleanUpLimit = $ini->hasVariable( 'VersionManagement', 'DraftsCleanUpLimit' ) ?
                          $ini->variable( 'VersionManagement', 'DraftsCleanUpLimit' ) : 0;
 $durationSetting = $ini->hasVariable( 'VersionManagement', 'DraftsDuration' ) ?
@@ -71,8 +71,8 @@ if ( is_array( $durationSetting ) )
 
 if ( $isDurationSet )
 {
-    $expiryTime = mktime() - $duration;
-    $processedCount = eZContentObjectVersion::removeVersions( EZ_VERSION_STATUS_DRAFT, $draftsCleanUpLimit, $expiryTime );
+    $expiryTime = time() - $duration;
+    $processedCount = eZContentObjectVersion::removeVersions( eZContentObjectVersion::STATUS_DRAFT, $draftsCleanUpLimit, $expiryTime );
 
     if ( !$isQuiet )
         $cli->output( "Cleaned up " . $processedCount . " drafts" );

@@ -31,7 +31,7 @@
 
 /* Module action checks */
 if ( $Module->isCurrentAction( 'Edit' ) and
-     $versionObject->attribute( 'status' ) == EZ_VERSION_STATUS_DRAFT and
+     $versionObject->attribute( 'status' ) == eZContentObjectVersion::STATUS_DRAFT and
      $contentObject->attribute( 'can_edit' ) and
      $isCreator )
 {
@@ -42,24 +42,24 @@ if ( $Module->isCurrentAction( 'Edit' ) and
 // Instead we redirect to the edit page without a version, this will create
 // a new version for us and start the edit operation
 if ( $Module->isCurrentAction( 'Edit' ) and
-     $contentObject->attribute( 'status' ) == EZ_CONTENT_OBJECT_STATUS_ARCHIVED and
+     $contentObject->attribute( 'status' ) == eZContentObject::STATUS_ARCHIVED and
      $contentObject->attribute( 'can_edit' ) )
 {
     return $Module->redirectToView( 'edit', array( $ObjectID, false, $LanguageCode, $FromLanguage ) );
 }
 
 if ( $Module->isCurrentAction( 'Publish' ) and
-     $versionObject->attribute( 'status' ) == EZ_VERSION_STATUS_DRAFT and
+     $versionObject->attribute( 'status' ) == eZContentObjectVersion::STATUS_DRAFT and
      $contentObject->attribute( 'can_edit' ) and
      $isCreator )
 {
     $conflictingVersions = $versionObject->hasConflicts( $LanguageCode );
     if ( $conflictingVersions )
     {
-        include_once( 'kernel/common/template.php' );
-        $tpl =& templateInit();
+        require_once( 'kernel/common/template.php' );
+        $tpl = templateInit();
 
-        $res =& eZTemplateDesignResource::instance();
+        $res = eZTemplateDesignResource::instance();
         $res->setKeys( array( array( 'object', $contentObject->attribute( 'id' ) ),
                             array( 'class', $class->attribute( 'id' ) ),
                             array( 'class_identifier', $class->attribute( 'identifier' ) ),
@@ -71,17 +71,17 @@ if ( $Module->isCurrentAction( 'Publish' ) and
         $tpl->setVariable( 'draft_versions', $conflictingVersions );
 
         $Result = array();
-        $Result['content'] =& $tpl->fetch( 'design:content/edit_conflict.tpl' );
+        $Result['content'] = $tpl->fetch( 'design:content/edit_conflict.tpl' );
         $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Version preview' ),
                                         'url' => false ) );
         return $Result;
     }
 
-    include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+    //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $ObjectID,
                                                                                  'version' => $EditVersion ) );
     $object = eZContentObject::fetch( $ObjectID );
-    $http =& eZHttpTool::instance();
+    $http = eZHTTPTool::instance();
     if ( $object->attribute( 'main_node_id' ) != null )
     {
         if ( $http->hasSessionVariable( 'ParentObject' ) && $http->sessionVariable( 'NewObjectID' ) == $object->attribute( 'id' ) )
@@ -109,7 +109,7 @@ if ( $Module->isCurrentAction( 'Publish' ) and
 
 $contentObject->setAttribute( 'current_version', $EditVersion );
 
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 
 $siteaccess = $ini->variable( 'SiteSettings', 'DefaultAccess' );
 if ( $Module->hasActionParameter( 'SiteAccess' ) )
@@ -135,8 +135,8 @@ $tpl->setVariable( 'is_creator', $isCreator );
 $tpl->setVariable( 'from_language', $FromLanguage );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:content/view/versionview.tpl' );
-$Result['node_id'] =& $node->attribute( 'node_id' );
+$Result['content'] = $tpl->fetch( 'design:content/view/versionview.tpl' );
+$Result['node_id'] = $node->attribute( 'node_id' );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Version preview' ),
                                 'url' => false ) );
 

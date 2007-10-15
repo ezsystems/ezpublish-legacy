@@ -29,21 +29,22 @@
 
 set_time_limit( 0 );
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
+require 'autoload.php';
 
-$cli =& eZCLI::instance();
+$cli = eZCLI::instance();
 $endl = $cli->endlineString();
 
-$script =& eZScript::instance( array( 'description' => ( "eZ Publish database flattening.\n\n" .
-                                                         "Will remove data that is not considered currently in use to minimize the amount of database data it consumes\n" .
-                                                         "\n" .
-                                                         "Possible values for NAME is:\n" .
-                                                         "contentobject, contentclass, workflow, role or all (for all items)\n" .
-                                                         "flatten.php -s admin contentobject"),
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+$script = eZScript::instance( array( 'description' => ( "eZ Publish database flattening.\n\n" .
+                                                        "Will remove data that is not considered currently in use to minimize the amount of database data it consumes\n" .
+                                                        "\n" .
+                                                        "Possible values for NAME is:\n" .
+                                                        "contentobject, contentclass, workflow, role or all (for all items)\n" .
+                                                        "flatten.php -s admin contentobject"),
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 
@@ -75,7 +76,7 @@ $siteAccess = $options['siteaccess'] ? $options['siteaccess'] : false;
 
 if ( $siteAccess )
 {
-    changeSiteAccessSetting( $siteaccess, $siteAccess );
+    changeSiteAccessSetting( $siteAccess );
 }
 
 
@@ -117,24 +118,23 @@ else
     }
 }
 
-function changeSiteAccessSetting( &$siteaccess, $optionData )
+function changeSiteAccessSetting( $siteAccess )
 {
     global $isQuiet;
-    $cli =& eZCLI::instance();
-    if ( file_exists( 'settings/siteaccess/' . $optionData ) )
+    $cli = eZCLI::instance();
+    if ( file_exists( 'settings/siteaccess/' . $siteAccess) )
     {
-        $siteaccess = $optionData;
         if ( !$isQuiet )
-            $cli->notice( "Using siteaccess $siteaccess for flattening" );
+            $cli->notice( "Using siteaccess $siteAccess for nice url update" );
     }
     else
     {
         if ( !$isQuiet )
-            $cli->notice( "Siteaccess $optionData does not exist, using default siteaccess" );
+            $cli->notice( "Siteaccess $siteAccess does not exist, using default siteaccess" );
     }
 }
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 
 if ( $dbHost or $dbName or $dbUser or $dbImpl )
 {
@@ -150,38 +150,38 @@ if ( $dbHost or $dbName or $dbUser or $dbImpl )
         $params['password'] = $dbPassword;
     if ( $dbName !== false )
         $params['database'] = $dbName;
-    $db =& eZDB::instance( $dbImpl, $params, true );
+    $db = eZDB::instance( $dbImpl, $params, true );
     eZDB::setInstance( $db );
 }
 
 $db->setIsSQLOutputEnabled( $showSQL );
 
-include_once( 'kernel/classes/ezpersistentobject.php' );
+//include_once( 'kernel/classes/ezpersistentobject.php' );
 
 if ( $flatten['contentobject'] )
 {
-    include_once( 'kernel/classes/ezcontentobject.php' );
+    //include_once( 'kernel/classes/ezcontentobject.php' );
     $cli->output( "Removing non-published content object versions" );
     eZContentObjectVersion::removeVersions();
 }
 
 if ( $flatten['contentclass'] )
 {
-    include_once( 'kernel/classes/ezcontentclass.php' );
+    //include_once( 'kernel/classes/ezcontentclass.php' );
     $cli->output( "Removing temporary content classes" );
     eZContentClass::removeTemporary();
 }
 
 if ( $flatten['workflow'] )
 {
-    include_once( 'kernel/classes/ezworkflow.php' );
+    //include_once( 'kernel/classes/ezworkflow.php' );
     $cli->output( "Removing temporary workflows" );
     eZWorkflow::removeTemporary();
 }
 
 if ( $flatten['role'] )
 {
-    include_once( 'kernel/classes/ezrole.php' );
+    //include_once( 'kernel/classes/ezrole.php' );
     $cli->output( "Removing temporary roles" );
     eZRole::removeTemporary();
 }

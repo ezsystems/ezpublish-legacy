@@ -30,8 +30,8 @@
 
 /*! \file ezstep_site_templates.php
 */
-include_once( 'kernel/setup/steps/ezstep_installer.php');
-include_once( "kernel/common/i18n.php" );
+//include_once( 'kernel/setup/steps/ezstep_installer.php');
+require_once( "kernel/common/i18n.php" );
 
 /*!
   \class eZStepSiteTemplates ezstep_site_templates.php
@@ -44,7 +44,7 @@ class eZStepSiteTemplates extends eZStepInstaller
     /*!
      Constructor
     */
-    function eZStepSiteTemplates( &$tpl, &$http, &$ini, &$persistenceList )
+    function eZStepSiteTemplates( $tpl, $http, $ini, &$persistenceList )
     {
         $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
                                 'site_templates', 'Site templates' );
@@ -56,7 +56,7 @@ class eZStepSiteTemplates extends eZStepInstaller
     function processPostData()
     {
         // set template and template thumbnail
-        $config =& eZINI::instance( 'setup.ini' );
+        $config = eZINI::instance( 'setup.ini' );
         $thumbnailBase = $config->variable( 'SiteTemplates', 'ThumbnailBase' );
         $thumbnailExtension = $config->variable( 'SiteTemplates', 'ThumbnailExtension' );
 
@@ -104,21 +104,20 @@ class eZStepSiteTemplates extends eZStepInstaller
     /*!
      \reimp
     */
-    function &display()
+    function display()
     {
         // Get site templates from setup.ini
-        $config =& eZINI::instance( 'setup.ini' );
+        $config = eZINI::instance( 'setup.ini' );
         $thumbnailBase = $config->variable( 'SiteTemplates', 'ThumbnailBase' );
         $thumbnailExtension = $config->variable( 'SiteTemplates', 'ThumbnailExtension' );
 
         $site_templates = array();
 
-        include_once( 'kernel/classes/ezpackage.php' );
+        //include_once( 'kernel/classes/ezpackage.php' );
 
         $packages = eZPackage::fetchPackages( array( 'path' => 'kernel/setup/packages' ) );
-        for ( $key = 0; $key < count( $packages ); ++$key )
+        foreach( $packages as $key => $packages )
         {
-            $package =& $packages[$key];
             $site_templates[$key]['name'] = $package->attribute( 'summary' );
             $site_templates[$key]['identifier'] = $package->attribute( 'name' );
             $thumbnails = $package->thumbnailList( 'default' );
@@ -142,7 +141,7 @@ class eZStepSiteTemplates extends eZStepInstaller
 
     }
 
-    var $Error = 0;
+    public $Error = 0;
 }
 
 ?>

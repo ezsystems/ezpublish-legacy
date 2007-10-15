@@ -36,8 +36,8 @@
 
 */
 
-include_once( 'kernel/classes/ezinformationcollectionattribute.php' );
-include_once( 'lib/ezutils/classes/ezsys.php' );
+//include_once( 'kernel/classes/ezinformationcollectionattribute.php' );
+//include_once( 'lib/ezutils/classes/ezsys.php' );
 
 class eZInformationCollection extends eZPersistentObject
 {
@@ -49,7 +49,7 @@ class eZInformationCollection extends eZPersistentObject
     /*!
      \return the persistent object definition for the eZInformationCollection class.
     */
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -96,10 +96,10 @@ class eZInformationCollection extends eZPersistentObject
      \return an array with attribute identifiers that are not to be shown in
              information collection templates.
     */
-    function attributeHideList()
+    static function attributeHideList()
     {
         $attributes = array();
-        $ini =& eZINI::instance( 'collect.ini' );
+        $ini = eZINI::instance( 'collect.ini' );
         $attributes[] = $ini->variable( 'InfoSettings', 'TypeAttribute' );
         $attributes[] = $ini->variable( 'EmailSettings', 'SendEmailAttribute' );
         $attributes[] = $ini->variable( 'DisplaySettings', 'DisplayAttribute' );
@@ -118,14 +118,14 @@ class eZInformationCollection extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function removeContentObject( $delID )
+    static function removeContentObject( $delID )
     {
         if( !is_numeric( $delID ) )
         {
             return;
         }
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
         $db->query( "DELETE FROM ezinfocollection
@@ -142,14 +142,14 @@ class eZInformationCollection extends eZPersistentObject
 
      \param contentobject id
     */
-    function removeCollection( $collectionID )
+    static function removeCollection( $collectionID )
     {
         if( !is_numeric( $collectionID ) )
         {
             return;
         }
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $db->query( "DELETE FROM ezinfocollection
                      WHERE id = '$collectionID'" );
@@ -164,7 +164,7 @@ class eZInformationCollection extends eZPersistentObject
      The template name is determined from the content class type and object attributes.
      See settings/collect.ini for more information.
     */
-    function templateForObject( &$object )
+    static function templateForObject( $object )
     {
         return eZInformationCollection::typeForObject( $object );
     }
@@ -176,15 +176,15 @@ class eZInformationCollection extends eZPersistentObject
      The template name is determined from the content class type and object attributes.
      See settings/collect.ini for more information.
     */
-    function typeForObject( &$object )
+    static function typeForObject( $object )
     {
         if ( !$object )
             return false;
-        $class =& $object->contentClass();
+        $class = $object->contentClass();
         if ( !$class )
             return false;
 
-        $ini =& eZINI::instance( 'collect.ini' );
+        $ini = eZINI::instance( 'collect.ini' );
         $typeList = $ini->variable( 'InfoSettings', 'TypeList' );
 
         $classID = $class->attribute( 'id' );
@@ -220,13 +220,13 @@ class eZInformationCollection extends eZPersistentObject
      \static
      \return \c true if anonymous users can submit data to the information collection \a $contentObject.
     */
-    function allowAnonymous( &$contentObject )
+    static function allowAnonymous( $contentObject )
     {
         if ( !$contentObject )
             return false;
         $type = eZInformationCollection::typeForObject( $contentObject );
 
-        $ini =& eZINI::instance( 'collect.ini' );
+        $ini = eZINI::instance( 'collect.ini' );
         $collectAnonymousList = $ini->variable( 'CollectionSettings', 'CollectAnonymousDataList' );
 
         $collectAnonymous = false;
@@ -267,13 +267,13 @@ class eZInformationCollection extends eZPersistentObject
      - unique
      - overwrite
     */
-    function userDataHandling( &$contentObject )
+    static function userDataHandling( $contentObject )
     {
         if ( !$contentObject )
             return false;
         $type = eZInformationCollection::typeForObject( $contentObject );
 
-        $ini =& eZINI::instance( 'collect.ini' );
+        $ini = eZINI::instance( 'collect.ini' );
         $userDataList = $ini->variable( 'CollectionSettings', 'CollectionUserDataList' );
 
         $userData = false;
@@ -303,13 +303,13 @@ class eZInformationCollection extends eZPersistentObject
         return $userData;
     }
 
-    function sendOutEmail( &$contentObject )
+    function sendOutEmail( $contentObject )
     {
         if ( !$contentObject )
             return false;
         $type = eZInformationCollection::typeForObject( $contentObject );
 
-        $ini =& eZINI::instance( 'collect.ini' );
+        $ini = eZINI::instance( 'collect.ini' );
         $sendEmailList = $ini->variable( 'EmailSettings', 'SendEmailList' );
 
         $sendEmail = null;
@@ -336,13 +336,13 @@ class eZInformationCollection extends eZPersistentObject
         return $sendEmail;
     }
 
-    function displayHandling( &$contentObject )
+    function displayHandling( $contentObject )
     {
         if ( !$contentObject )
             return false;
         $type = eZInformationCollection::typeForObject( $contentObject );
 
-        $ini =& eZINI::instance( 'collect.ini' );
+        $ini = eZINI::instance( 'collect.ini' );
         $displayList = $ini->variable( 'DisplaySettings', 'DisplayList' );
 
         $display = false;
@@ -372,13 +372,13 @@ class eZInformationCollection extends eZPersistentObject
         return $display;
     }
 
-    function redirectURL( &$contentObject )
+    function redirectURL( $contentObject )
     {
         if ( !$contentObject )
             return false;
         $type = eZInformationCollection::typeForObject( $contentObject );
 
-        $ini =& eZINI::instance( 'collect.ini' );
+        $ini = eZINI::instance( 'collect.ini' );
         $redirectURLList = $ini->variable( 'DisplaySettings', 'RedirectURLList' );
 
         $redirectURL = false;
@@ -409,7 +409,7 @@ class eZInformationCollection extends eZPersistentObject
      \static
       Fetches the information collection by ID.
     */
-    function fetch( $id, $asObject = true )
+    static function fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZInformationCollection::definition(),
                                                 null,
@@ -421,7 +421,7 @@ class eZInformationCollection extends eZPersistentObject
      \static
       Fetches the information collection by user identifier.
     */
-    function fetchByUserIdentifier( $userIdentifier, $contentObjectID = false, $asObject = true )
+    static function fetchByUserIdentifier( $userIdentifier, $contentObjectID = false, $asObject = true )
     {
         $conditions = array( 'user_identifier' => $userIdentifier );
         if ( $contentObjectID )
@@ -434,7 +434,7 @@ class eZInformationCollection extends eZPersistentObject
 
     function fetchCountForAttribute( $objectAttributeID, $value )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         // Do a count on the value of collected integer info. Useful for e.g. polls
         $valueSQL = "";
         if ( $value !== false )
@@ -459,146 +459,145 @@ class eZInformationCollection extends eZPersistentObject
             return false;
         }
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $resultArray = $db->arrayQuery( 'SELECT COUNT( * ) as count FROM ezinfocollection WHERE contentobject_id=' . $objectID );
 
         return $resultArray[0]['count'];
     }
 
-   /*!
-    \static
-    \param $definition      - required, definition of fields
-    \param $sortArray       - required, the input array
+    /*!
+     \static
+     \param $definition      - required, definition of fields
+     \param $sortArray       - required, the input array
 
-     This function converts sorting on the form array ( 'field', true ) to the array( 'field' => true )
-     and checks if the field exists in the definition. The functions is used to make sorting the same
-     way as done in fetch('content','list', ... )
-   */
-   function getSortArrayFromParam( $definition, $sortArray )
-   {
-      if ( count( $sortArray ) < 2 )
-         return null;
+      This function converts sorting on the form array ( 'field', true ) to the array( 'field' => true )
+      and checks if the field exists in the definition. The functions is used to make sorting the same
+      way as done in fetch('content','list', ... )
+    */
+    static function getSortArrayFromParam( $definition, $sortArray )
+    {
+        if ( count( $sortArray ) < 2 )
+        {
+            return null;
+        }
 
-      $sortField = $sortArray[0];
+        $sortField = $sortArray[0];
 
-      // Check if we have the specified sort_field in the definition
-      if ( isset( $definition[ 'fields' ][ $sortField ] ) )
-      {
-         $sortDir = $sortArray[1] ? 'asc' : 'desc';
-         $sorts = array( $sortField => $sortDir );
-         return $sorts;
-      }
-      eZDebug::writeWarning( 'Unknown sort field: ' . $sortField, 'eZInformationCollection ::fetchCollectionsList::getSortArrayFromParam' );
-      return null;
-   }
+        // Check if we have the specified sort_field in the definition
+        if ( isset( $definition[ 'fields' ][ $sortField ] ) )
+        {
+            $sortDir = $sortArray[1] ? 'asc' : 'desc';
+            $sorts = array( $sortField => $sortDir );
+            return $sorts;
+        }
 
-   /*!
-    \static
-    \param $creatorID       - optional, default false, limits the fetched set to a creator_id
-    \param $contentObjectID - optional, default false, limits the fetched set of collection to
-                              a specific content object
-    \param $userIdentifier  - optional, default false, limits the fetched set to a user_identifier
-    \param $limitArray      - optional, default false, limits the number of returned results
-                              on the form:  array( 'limit' => $limit, 'offset' => $offset )
-    \param $sortArray       - optional, default false, how to sort the result,
-                              on the form: array( 'field', true/false ), true = asc
-    \param $asObject        - optional, default true, specifies if results should be returned as objects.
+        eZDebug::writeWarning( 'Unknown sort field: ' . $sortField, 'eZInformationCollection ::fetchCollectionsList::getSortArrayFromParam' );
+        return null;
+    }
+
+    /*!
+     \static
+     \param $creatorID       - optional, default false, limits the fetched set to a creator_id
+     \param $contentObjectID - optional, default false, limits the fetched set of collection to
+                               a specific content object
+     \param $userIdentifier  - optional, default false, limits the fetched set to a user_identifier
+     \param $limitArray      - optional, default false, limits the number of returned results
+                               on the form:  array( 'limit' => $limit, 'offset' => $offset )
+     \param $sortArray       - optional, default false, how to sort the result,
+                               on the form: array( 'field', true/false ), true = asc
+     \param $asObject        - optional, default true, specifies if results should be returned as objects.
 
       Fetches a list of information collections.
     */
-    function fetchCollectionsList( $contentObjectID = false, $creatorID = false , $userIdentifier = false, $limitArray  = false, $sortArray = false, $asObject = true )
+    static function fetchCollectionsList( $contentObjectID = false, $creatorID = false , $userIdentifier = false, $limitArray  = false, $sortArray = false, $asObject = true )
     {
-         $conditions = array();
-         if ( $contentObjectID )
+        $conditions = array();
+        if ( $contentObjectID )
             $conditions = array( 'contentobject_id' => $contentObjectID  );
-         if ( $creatorID )
+        if ( $creatorID )
             $conditions['creator_id'] = $creatorID;
-         if ( $userIdentifier )
+        if ( $userIdentifier )
             $conditions['user_identifier'] = $userIdentifier;
 
-         $limit = null;
-         if ( isset( $limitArray['limit'] ) )
-         {
+        $limit = null;
+        if ( isset( $limitArray['limit'] ) )
+        {
             $limit = $limitArray;
             if ( ! ( $limit['offset'] ) )
-               $limit['offset'] = 0;
-         }
+            {
+                $limit['offset'] = 0;
+            }
+        }
 
-         $sorts = null;
-         if ( !( $sortArray === false ) )
-         {
+        $sorts = null;
+        if ( $sortArray !== false )
+        {
             if ( count( $sortArray ) >= 2 )
             {
-               $def = eZInformationCollection::definition();
+                $def = eZInformationCollection::definition();
 
-               if ( ! ( is_array( $sortArray[0] ) ) )
-               {
-                  $sortArray = array( 0 => $sortArray );
-               }
+                if ( ! ( is_array( $sortArray[0] ) ) )
+                {
+                    $sortArray = array( 0 => $sortArray );
+                }
 
-               foreach ( $sortArray as $sortElement )
-               {
-                  $result = eZInformationCollection::getSortArrayFromParam( $def, $sortElement );
-                  $sorts = array_merge($sorts, $result );
-               }
+                foreach ( $sortArray as $sortElement )
+                {
+                    $result = eZInformationCollection::getSortArrayFromParam( $def, $sortElement );
+                    $sorts = array_merge($sorts, $result );
+                }
             }
             else
             {
-               eZDebug::writeWarning( 'Too few parameters for setting sorting in fetch, ignoring', 'eZInformationCollection ::fetchCollectionsList' );
+                eZDebug::writeWarning( 'Too few parameters for setting sorting in fetch, ignoring', 'eZInformationCollection ::fetchCollectionsList' );
             }
-         }
+        }
 
-         return eZPersistentObject::fetchObjectList( eZInformationCollection::definition(),
-                                                      null,
-                                                      $conditions,
-                                                      $sorts,
-                                                      $limit,
-                                                      $asObject );
+        return eZPersistentObject::fetchObjectList( eZInformationCollection::definition(),
+                                                    null,
+                                                    $conditions,
+                                                    $sorts,
+                                                    $limit,
+                                                    $asObject );
     }
 
-   /*!
-     \static
+    /*!
+      \static
 
-     \param $creatorID       - optional, default false, the user to fetch collections for
-     \param $contentObjectID - optional, default false, limits the fetched set of collection to
-                               a specific content object
+      \param $creatorID       - optional, default false, the user to fetch collections for
+      \param $contentObjectID - optional, default false, limits the fetched set of collection to
+                                a specific content object
 
-     Fetch the number of items limited by the parameters
-   */
-    function fetchCollectionsCount( $contentObjectID = false, $creatorID = false, $userIdentifier = false )
+      Fetch the number of items limited by the parameters
+    */
+    static function fetchCollectionsCount( $contentObjectID = false, $creatorID = false, $userIdentifier = false )
     {
-         $conditions = array();
-         if ( is_numeric( $contentObjectID ) )
+        $conditions = array();
+        if ( is_numeric( $contentObjectID ) )
             $conditions = array( 'contentobject_id' => $contentObjectID  );
-         if ( is_numeric( $creatorID ) )
+        if ( is_numeric( $creatorID ) )
             $conditions['creator_id'] = $creatorID ;
-         if ( $userIdentifier )
+        if ( $userIdentifier )
             $conditions['user_identifier'] = $userIdentifier;
 
-         $resultSet = eZPersistentObject::fetchObjectList( eZInformationCollection::definition(),
-                                                           array(),
-                                                           $conditions,
-                                                           false,
-                                                           null,
-                                                           false,
-                                                           false,
-                                                           array( array( 'operation' => 'count( id )',
-                                                                         'name' => 'count' ) ) );
-         return $resultSet[0]['count'];
-   }
+        $resultSet = eZPersistentObject::fetchObjectList( eZInformationCollection::definition(),
+                                                          array(),
+                                                          $conditions,
+                                                          false,
+                                                          null,
+                                                          false,
+                                                          false,
+                                                          array( array( 'operation' => 'count( id )',
+                                                                        'name' => 'count' ) ) );
+        return $resultSet[0]['count'];
+    }
 
     function fetchCountList( $objectAttributeID )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         // Do a count on the value of collected integer info. Useful for e.g. polls
         $valueSQL = "";
-//         if ( $value !== false )
-//         {
-//             if ( is_integer( $value ) )
-//             {
-//                 $valueSQL = " AND data_int='" . $db->escapeString( $value ) . "'";
-//             }
-//         }
+
         $objectAttributeID =(int) $objectAttributeID;
         $resArray = $db->arrayQuery( "SELECT data_int, count( ezinfocollection_attribute.id ) as count FROM ezinfocollection_attribute, ezinfocollection
                                        WHERE ezinfocollection_attribute.informationcollection_id = ezinfocollection.id
@@ -614,15 +613,15 @@ class eZInformationCollection extends eZPersistentObject
         return $result;
     }
 
-    function &creator()
+    function creator()
     {
        $creator = eZUser::fetch( $this->attribute( 'creator_id' ) );
        return $creator;
     }
 
-    function &informationCollectionAttributes( $asObject = true )
+    function informationCollectionAttributes( $asObject = true )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $arrayRes = $db->arrayQuery( "SELECT ica.id, ica.informationcollection_id, ica.contentclass_attribute_id, ica.contentobject_attribute_id, ica.contentobject_id, ica.data_text, ica.data_int,
                                           ica.data_float
@@ -654,10 +653,10 @@ class eZInformationCollection extends eZPersistentObject
       Fetches information collection attributes and indexes by the
       content class attribute identifier.
     */
-    function &dataMap()
+    function dataMap()
     {
         // Retreive the indexed information collection attributes
-        $informationCollectionAttributes =& $this->informationCollectionAttributes();
+        $informationCollectionAttributes = $this->informationCollectionAttributes();
 
         $retArray = array();
 
@@ -666,7 +665,7 @@ class eZInformationCollection extends eZPersistentObject
         // collection attribute
         foreach ( $informationCollectionAttributes as $informationAttribute )
         {
-            $contentClassAttribute =& $informationAttribute->attribute( 'contentclass_attribute' );
+            $contentClassAttribute = $informationAttribute->attribute( 'contentclass_attribute' );
             $id = $contentClassAttribute->attribute( 'identifier' );
             $retArray[$id] = $informationAttribute;
         }
@@ -674,10 +673,9 @@ class eZInformationCollection extends eZPersistentObject
         return $retArray;
     }
 
-    function &object()
+    function object()
     {
-        $object =& eZContentObject::fetch( $this->ContentObjectID );
-        return $object;
+        return eZContentObject::fetch( $this->ContentObjectID );
     }
 
     /*!
@@ -700,7 +698,7 @@ class eZInformationCollection extends eZPersistentObject
     {
         if ( !$user )
         {
-            $user =& eZUser::currentUser();
+            $user = eZUser::currentUser();
         }
         $userIdentifierBase = false;
         if ( $user->attribute( 'is_logged_in' ) )
@@ -719,7 +717,7 @@ class eZInformationCollection extends eZPersistentObject
     /*!
      Creates a new eZInformationCollection instance.
     */
-    function &create( $contentObjectID, $userIdentifier, $creatorID = false )
+    function create( $contentObjectID, $userIdentifier, $creatorID = false )
     {
         $timestamp = time();
 
@@ -733,8 +731,7 @@ class eZInformationCollection extends eZPersistentObject
                       'creator_id' => $creatorID,
                       'created' => $timestamp,
                       'modified' => $timestamp );
-        $newInformationCollection = new eZInformationCollection( $row );
-        return $newInformationCollection;
+        return new eZInformationCollection( $row );
     }
 
     /*!
@@ -743,9 +740,9 @@ class eZInformationCollection extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function cleanup()
+    static function cleanup()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         eZInformationCollectionAttribute::cleanup();
         $db->query( "DELETE FROM ezinfocollection" );

@@ -55,8 +55,8 @@ class MyClass extends eZPersistentObject
 
 */
 
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "lib/ezutils/classes/ezdebug.php" );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+require_once( "lib/ezutils/classes/ezdebug.php" );
 
 class eZPersistentObject
 {
@@ -80,21 +80,31 @@ class eZPersistentObject
      data \a $row. Each field will be fetch from the definition and then
      use that fieldname to fetch from the row and set the data.
     */
-    function fill( &$row )
+    function fill( $row )
     {
-        if ( $row == false )
+        if ( !is_array( $row ) )
             return;
         $def = $this->definition();
-        $fields =& $def["fields"];
+        $fields = $def["fields"];
+        $intersectList = array_intersect_key( $fields,
+                                              $row );
 
-        foreach ( $fields as $key => $value )
+        foreach ( $intersectList as $key => $item )
         {
-            $item = $fields[$key];
             if ( is_array( $item ) )
             {
                 $item = $item['name'];
             }
-            $this->$item =& $row[$key];
+            $this->$item = $row[$key];
+        }
+
+        foreach( array_diff_key( $fields, $intersectList ) as $item )
+        {
+            if ( is_array( $item ) )
+            {
+                $item = $item['name'];
+            }
+            $this->$item = null;
         }
     }
 
@@ -105,7 +115,7 @@ class eZPersistentObject
     values (for non-associative array) as table fields names and replaces them
     with short names (aliases) found in \a fieldDefs.
     */
-    function replaceFieldsWithShortNames( &$db, &$fieldDefs, &$fields )
+    static function replaceFieldsWithShortNames( $db, $fieldDefs, &$fields )
     {
         if ( !$db->useShortNames() || !$fields )
             return;
@@ -146,8 +156,8 @@ class eZPersistentObject
 
      See fetchObjectList() for a full description of the input parameters.
     */
-    function fetchObject( /*! The definition structure */
-                               &$def,
+    static function fetchObject( /*! The definition structure */
+                               $def,
                                /*! If defined determines the fields which are extracted, if not all fields are fetched */
                                $field_filters,
                                /*! An array of conditions which determines which rows are fetched*/
@@ -178,14 +188,14 @@ class eZPersistentObject
     function remove( $conditions = null, $extraConditions = null )
     {
         $def = $this->definition();
-        $keys =& $def["keys"];
+        $keys = $def["keys"];
         if ( !is_array( $conditions ) )
         {
             $conditions = array();
             foreach ( $keys as $key )
             {
-                $value =& $this->attribute( $key );
-                $conditions[$key] =& $value;
+                $value = $this->attribute( $key );
+                $conditions[$key] = $value;
             }
         }
         eZPersistentObject::removeObject( $def, $conditions, $extraConditions );
@@ -199,11 +209,11 @@ class eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function removeObject( &$def, $conditions = null, $extraConditions = null )
+    static function removeObject( $def, $conditions = null, $extraConditions = null )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
-        $table =& $def["name"];
+        $table = $def["name"];
         if ( is_array( $extraConditions ) )
         {
             foreach ( $extraConditions as $key => $cond )
@@ -215,7 +225,7 @@ class eZPersistentObject
         /* substitute fields mentioned the conditions whith their
            short names (if any)
          */
-        $fields =& $def['fields'];
+        $fields = $def['fields'];
         eZPersistentObject::replaceFieldsWithShortNames( $db, $fields, $conditions );
 
         $cond_text = eZPersistentObject::conditionText( $conditions );
@@ -253,21 +263,21 @@ class eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function storeObject( &$obj, $fieldFilters = null )
+    static function storeObject( $obj, $fieldFilters = null )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $useFieldFilters = ( isset( $fieldFilters ) && is_array( $fieldFilters ) && $fieldFilters );
 
         $def = $obj->definition();
-        $fields =& $def["fields"];
-        $keys =& $def["keys"];
-        $table =& $def["name"];
-        $relations =& $def["relations"];
+        $fields = $def["fields"];
+        $keys = $def["keys"];
+        $table = $def["name"];
+        $relations = isset( $def["relations"] ) ? $def["relations"] : null;
         $insert_object = false;
         $exclude_fields = array();
         foreach ( $keys as $key )
         {
-            $value =& $obj->attribute( $key );
+            $value = $obj->attribute( $key );
             if ( is_null( $value ) )
             {
                 $insert_object = true;
@@ -289,7 +299,7 @@ class eZPersistentObject
         foreach ( $use_fields as $field_name  )
         {
             $field_def = $fields[$field_name];
-            $value =& $obj->attribute( $field_name );
+            $value = $obj->attribute( $field_name );
 
             if ( is_null( $value ) )
             {
@@ -334,7 +344,7 @@ class eZPersistentObject
                 eZDebug::writeDebug( $value, "truncation of $field_name to max_length=". $field_def['max_length'] );
             }
             $bindDataTypes = array( 'text' );
-            if ( $db->bindingType() != EZ_DB_BINDING_NO &&
+            if ( $db->bindingType() != eZDBInterface::BINDING_NO &&
                  strlen( $value ) > 2000 &&
                  is_array( $field_def ) &&
                  in_array( $field_def['datatype'], $bindDataTypes  )
@@ -350,7 +360,7 @@ class eZPersistentObject
         $key_conds = array();
         foreach ( $keys as $key )
         {
-            $value =& $obj->attribute( $key );
+            $value = $obj->attribute( $key );
             $key_conds[$key] = $value;
         }
         unset( $value );
@@ -429,8 +439,7 @@ class eZPersistentObject
             }
             foreach ( $doNotEscapeFields as $key )
             {
-                $value =& $changedValueFields[$key];
-                $use_values_hash[$key] = $value;
+                $use_values_hash[$key] = $changedValueFields[$key];
             }
             $use_values = array();
             foreach ( $use_field_names as $field )
@@ -443,7 +452,7 @@ class eZPersistentObject
 
             if ( isset( $def["increment_key"] ) && !($obj->attribute( $def["increment_key"]) > 0) )
             {
-                $inc =& $def["increment_key"];
+                $inc = $def["increment_key"];
                 $id = $db->lastSerialID( $table, $inc );
                 if ( $id !== false )
                     $obj->setAttribute( $inc, $id );
@@ -519,19 +528,18 @@ class eZPersistentObject
     /*!
      Calls conditionTextByRow with an empty row and \a $conditions.
     */
-    function conditionText( &$conditions )
+    static function conditionText( $conditions )
     {
-        $row = null;
-        return eZPersistentObject::conditionTextByRow( $conditions, $row );
+        return eZPersistentObject::conditionTextByRow( $conditions, null );
     }
 
     /*!
      Generates an SQL sentence from the conditions \a $conditions and row data \a $row.
      If \a $row is empty (null) it uses the condition data instead of row data.
     */
-    function &conditionTextByRow( &$conditions, &$row )
+    static function conditionTextByRow( $conditions, $row )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $where_text = "";
         if ( is_array( $conditions ) and
@@ -586,7 +594,7 @@ class eZPersistentObject
                                   } break;
                               default:
                                   {
-                                    eZDebug::writeError( "Conditional operator '$cond[0]' is not supported.",'eZPersistentObject::conditionTextByRow()' );
+                                      eZDebug::writeError( "Conditional operator '$cond[0]' is not supported.",'eZPersistentObject::conditionTextByRow()' );
                                   } break;
                           }
 
@@ -702,7 +710,7 @@ class eZPersistentObject
                                                   $group, $customFields, $customTables, $customConds );
      \endcode
     */
-    function fetchObjectList( &$def,
+    static function fetchObjectList( $def,
                               $field_filters = null,
                               $conds = null,
                               $sorts = null,
@@ -713,10 +721,10 @@ class eZPersistentObject
                               $custom_tables = null,
                               $custom_conds = null )
     {
-        $db =& eZDB::instance();
-        $fields =& $def["fields"];
-        $tables =& $def["name"];
-        $class_name =& $def["class_name"];
+        $db = eZDB::instance();
+        $fields = $def["fields"];
+        $tables = $def["name"];
+        $class_name = $def["class_name"];
         if ( is_array( $custom_tables ) )
         {
             foreach( $custom_tables as $custom_table )
@@ -737,7 +745,7 @@ class eZPersistentObject
                     $custom_text = $custom_field["operation"];
                     if ( isset( $custom_field["name"] ) )
                     {
-                        $field_name =& $custom_field["name"];
+                        $field_name = $custom_field["name"];
                         $custom_text .= " AS $field_name";
                     }
                 }
@@ -769,9 +777,15 @@ class eZPersistentObject
         $sort_text = "";
         if ( $sorts !== false and ( isset( $def["sort"] ) or is_array( $sorts ) ) )
         {
-            $sort_list =& $def["sort"];
+            $sort_list = array();
             if ( is_array( $sorts ) )
-                $sort_list =& $sorts;
+            {
+                $sort_list = $sorts;
+            }
+            else if ( isset( $def['sort'] ) )
+            {
+                $sort_list = $def["sort"];
+            }
             if ( count( $sort_list ) > 0 )
             {
                 $sort_text = "\nORDER BY ";
@@ -792,9 +806,9 @@ class eZPersistentObject
         $grouping_text = "";
         if ( isset( $def["grouping"] ) or ( is_array( $grouping ) and count( $grouping ) > 0 ) )
         {
-            $grouping_list =& $def["grouping"];
+            $grouping_list = $def["grouping"];
             if ( is_array( $grouping ) )
-                $grouping_list =& $grouping;
+                $grouping_list = $grouping;
             if ( count( $grouping_list ) > 0 )
             {
                 $grouping_text = "\nGROUP BY ";
@@ -850,7 +864,7 @@ class eZPersistentObject
      \param $asObject If \c true then objects will be created,
                       if not it just returns \a $rows as it is.
     */
-    function handleRows( &$rows, $class_name, $asObject )
+    static function handleRows( $rows, $class_name, $asObject )
     {
         if ( $asObject )
         {
@@ -873,9 +887,9 @@ class eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function swapRow( $table, &$keys, &$order_id, &$rows, $id1, $id2 )
+    static function swapRow( $table, $keys, $order_id, $rows, $id1, $id2 )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $text = $order_id . "='" . $db->escapeString( $rows[$id1][$order_id] ) . "' WHERE ";
         $i = 0;
         foreach ( $keys as $key )
@@ -893,11 +907,11 @@ class eZPersistentObject
      Uses \a $def, \a $orderField and \a $conditions to figure out the currently maximum order value
      and returns one that is larger.
     */
-    function newObjectOrder( &$def, $orderField, $conditions )
+    static function newObjectOrder( $def, $orderField, $conditions )
     {
-        $db =& eZDB::instance();
-        $table =& $def["name"];
-        $keys =& $def["keys"];
+        $db = eZDB::instance();
+        $table = $def["name"];
+        $keys = $def["keys"];
         $cond_text = eZPersistentObject::conditionText( $conditions );
         $rows = $db->arrayQuery( "SELECT MAX($orderField) AS $orderField FROM $table $cond_text" );
         if ( count( $rows ) > 0 and isset( $rows[0][$orderField] ) )
@@ -918,15 +932,15 @@ class eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function reorderObject( &$def,
+    static function reorderObject( $def,
                             /*! Associative array with one element, the key is the order id and values is order value. */
                             $orderField,
                             $conditions,
                             $down = true )
     {
-        $db =& eZDB::instance();
-        $table =& $def["name"];
-        $keys =& $def["keys"];
+        $db = eZDB::instance();
+        $table = $def["name"];
+        $keys = $def["keys"];
 
         reset( $orderField );
         $order_id = key( $orderField );
@@ -995,7 +1009,7 @@ class eZPersistentObject
 
      Example:
 \code
-function definition()
+static function definition()
 {
     return array( "fields" => array( "id" => "ID",
                                      "version" => "Version",
@@ -1010,14 +1024,14 @@ function definition()
 }
 \endcode
     */
-    function definition()
+    static function definition()
     {
         return array();
     }
 
-    function &escapeArray( &$array )
+    static function escapeArray( $array )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $out = array();
         foreach( $array as $key => $value )
         {
@@ -1041,16 +1055,16 @@ function definition()
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function updateObjectList( $parameters )
+    static function updateObjectList( $parameters )
     {
-        $db =& eZDB::instance();
-        $def =& $parameters['definition'];
-        $table =& $def['name'];
-        $fields =& $def['fields'];
-        $keys =& $def['keys'];
+        $db = eZDB::instance();
+        $def = $parameters['definition'];
+        $table = $def['name'];
+        $fields = $def['fields'];
+        $keys = $def['keys'];
 
-        $updateFields =& $parameters['update_fields'];
-        $conditions =& $parameters['conditions'];
+        $updateFields = $parameters['update_fields'];
+        $conditions = $parameters['conditions'];
 
         $query = "UPDATE $table SET ";
         $i = 0;
@@ -1058,7 +1072,7 @@ function definition()
 
         foreach( $updateFields as $field => $value )
         {
-            $fieldDef =& $fields[ $field ];
+            $fieldDef = $fields[ $field ];
             $numericDataTypes = array( 'integer', 'float', 'double' );
             if ( strlen( $value ) == 0 &&
                  is_array( $fieldDef ) &&
@@ -1070,7 +1084,7 @@ function definition()
             }
 
             $bindDataTypes = array( 'text' );
-            if ( $db->bindingType() != EZ_DB_BINDING_NO &&
+            if ( $db->bindingType() != eZDBInterface::BINDING_NO &&
                  strlen( $value ) > 2000 &&
                  is_array( $fieldDef ) &&
                  in_array( $fieldDef['datatype'], $bindDataTypes  )
@@ -1149,19 +1163,19 @@ function definition()
      \return the attribute data for \a $attr, this is either returned from the member variables
              or a member function depending on whether the definition field or function attributes matched.
     */
-    function &attribute( $attr, $noFunction = false )
+    function attribute( $attr, $noFunction = false )
     {
         $def = $this->definition();
-        $fields =& $def["fields"];
-        $functions =& $def["functions"];
-        $attrFunctions =& $def["function_attributes"];
+        $fields = $def["fields"];
+        $functions = isset( $def["functions"] ) ? $def["functions"] : null;
+        $attrFunctions = isset( $def["function_attributes"] ) ? $def["function_attributes"] : null;
         if ( $noFunction === false and isset( $attrFunctions[$attr] ) )
         {
             $functionName = $attrFunctions[$attr];
             $retVal = null;
             if ( method_exists( $this, $functionName ) )
             {
-                $retVal =& $this->$functionName();
+                $retVal = $this->$functionName();
             }
             else
             {
@@ -1175,7 +1189,7 @@ function definition()
             $attrName = $fields[$attr];
             if ( is_array( $attrName ) )
             {
-                $attrName =& $attrName['name'];
+                $attrName = $attrName['name'];
             }
             return $this->$attrName;
         }
@@ -1199,21 +1213,22 @@ function definition()
     function setAttribute( $attr, $val )
     {
         $def = $this->definition();
-        $fields =& $def["fields"];
-        $functions =& $def["set_functions"];
+        $fields = $def["fields"];
+        $functions = isset( $def["set_functions"] ) ? $def["set_functions"] : null;
         if ( isset( $fields[$attr] ) )
         {
             $attrName = $fields[$attr];
             if ( is_array( $attrName ) )
             {
-                $attrName =& $attrName['name'];
+                $attrName = $attrName['name'];
             }
 
             $oldValue = null;
             if ( isset( $this->$attrName ) )
                 $oldValue = $this->$attrName;
             $this->$attrName = $val;
-            if ( $oldValue === null or $oldValue !== $val )
+            if ( $oldValue === null ||
+                 $oldValue !== $val )
                 $this->setHasDirtyData( true );
         }
         else if ( isset( $functions[$attr] ) )
@@ -1251,9 +1266,9 @@ function definition()
     /*!
      \return short attribute name (alias) if it's defined, given attribute name otherwise
     */
-    function getShortAttributeName( &$db, &$def, $attrName )
+    static function getShortAttributeName( $db, $def, $attrName )
     {
-        $fields =& $def['fields'];
+        $fields = $def['fields'];
 
         if ( $db->useShortNames() && isset( $fields[$attrName] ) && array_key_exists( 'short_name', $fields[$attrName] ) && $fields[$attrName]['short_name'] )
             return $fields[$attrName]['short_name'];
@@ -1263,7 +1278,7 @@ function definition()
 
     /// \privatesection
     /// Whether the data is dirty, ie needs to be stored, or not.
-    var $PersistentDataDirty;
+    public $PersistentDataDirty;
 }
 
 ?>

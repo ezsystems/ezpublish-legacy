@@ -37,18 +37,18 @@
   \brief The class eZSubtreeSubscriptionType does
 
 */
-include_once( "kernel/classes/ezdatatype.php" );
-
-define( "EZ_DATATYPESTRING_SUBTREESUBSCRIPTION", "ezsubtreesubscription" );
+//include_once( "kernel/classes/ezdatatype.php" );
 
 class eZSubtreeSubscriptionType extends eZDataType
 {
+    const DATA_TYPE_STRING = "ezsubtreesubscription";
+
     /*!
      Constructor
     */
     function eZSubtreeSubscriptionType()
     {
-        $this->eZDataType(  EZ_DATATYPESTRING_SUBTREESUBSCRIPTION, ezi18n( 'kernel/classes/datatypes', "Subtree subscription", 'Datatype name' ),
+        $this->eZDataType(  self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Subtree subscription", 'Datatype name' ),
                             array( 'serialize_supported' => true,
                                    'object_serialize_map' => array( 'data_int' => 'value' ) ) );
     }
@@ -57,10 +57,10 @@ class eZSubtreeSubscriptionType extends eZDataType
     /*!
      Store content
     */
-    function onPublish( &$attribute, &$contentObject, &$publishedNodes )
+    function onPublish( $attribute, $contentObject, $publishedNodes )
     {
-        include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreenotificationrule.php' );
-        $user =& eZUser::currentUser();
+        //include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreenotificationrule.php' );
+        $user = eZUser::currentUser();
         $address = $user->attribute( 'email' );
         $userID = $user->attribute( 'contentobject_id' );
 
@@ -69,15 +69,13 @@ class eZSubtreeSubscriptionType extends eZDataType
         if ( $attribute->attribute( 'data_int' ) == '1' )
         {
             $newSubscriptions = array();
-            foreach ( array_keys( $publishedNodes ) as $key )
+            foreach ( $publishedNodes as $node )
             {
-                $node =& $publishedNodes[$key];
                 if ( !in_array( $node->attribute( 'node_id' ), $nodeIDList ) )
                 {
                     $newSubscriptions[] = $node->attribute( 'node_id' );
                 }
             }
-//             eZDebug::writeDebug( $newSubscriptions, "New subscriptions shell be created" );
 
             foreach ( $newSubscriptions as $nodeID )
             {
@@ -88,9 +86,8 @@ class eZSubtreeSubscriptionType extends eZDataType
         }
         else
         {
-            foreach ( array_keys( $publishedNodes ) as $key )
+            foreach ( $publishedNodes as $node )
             {
-                $node =& $publishedNodes[$key];
                 if ( in_array( $node->attribute( 'node_id' ), $nodeIDList ) )
                 {
                     eZSubtreeNotificationRule::removeByNodeAndUserID( $user->attribute( 'contentobject_id' ), $node->attribute( 'node_id' ) );
@@ -103,7 +100,7 @@ class eZSubtreeSubscriptionType extends eZDataType
     /*!
      Fetches the http post var integer input and stores it in the data instance.
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . "_data_subtreesubscription_" . $contentObjectAttribute->attribute( "id" ) ))
         {
@@ -119,7 +116,7 @@ class eZSubtreeSubscriptionType extends eZDataType
         return true;
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         return true;
     }
@@ -130,7 +127,7 @@ class eZSubtreeSubscriptionType extends eZDataType
     }
 
 
-    function fromString( &$contentObjectAttribute, $string )
+    function fromString( $contentObjectAttribute, $string )
     {
         if ( $string == '' )
             return true;
@@ -144,11 +141,12 @@ class eZSubtreeSubscriptionType extends eZDataType
     /*!
      \reimp
     */
-    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
         $value = $objectAttribute->attribute( 'data_int' );
-        $node->appendChild( eZDOMDocument::createElementTextNode( 'value', $value ) );
+        $valueNode = $node->ownerDocument->createElement( 'value', $value );
+        $node->appendChild( $valueNode );
 
         return $node;
     }
@@ -156,25 +154,22 @@ class eZSubtreeSubscriptionType extends eZDataType
     /*!
      \reimp
     */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
-        $value = $attributeNode->elementTextContentByName( 'value' );
-
-        if ( $value === false )
-            $value = 0;
-
+        $valueNode = $attributeNode->getElementsByTagName( 'value' )->item( 0 );
+        $value = $valueNode ? $valueNode->textContent : 0;
         $objectAttribute->setAttribute( 'data_int', $value );
     }
 
     /*!
       \reimp
     */
-    function diff( $old, $new )
+    function diff( $old, $new, $options = false )
     {
         return null;
     }
 }
 
-eZDataType::register( EZ_DATATYPESTRING_SUBTREESUBSCRIPTION, "ezsubtreesubscriptiontype" );
+eZDataType::register( eZSubtreeSubscriptionType::DATA_TYPE_STRING, "eZSubtreeSubscriptionType" );
 
 ?>

@@ -32,7 +32,7 @@
   Diff functionality
 */
 
-include_once( 'lib/ezutils/classes/ezdebug.php' );
+require_once( 'lib/ezutils/classes/ezdebug.php' );
 
 /*!
   \class eZDiff ezdiff.php
@@ -111,7 +111,7 @@ class eZDiff
     */
     function initDiffEngine()
     {
-        include_once( 'lib/ezdiff/classes/ezdiffengine.php' );
+        //include_once( 'lib/ezdiff/classes/ezdiffengine.php' );
 
         if ( !$diffEngine = $this->DiffEngineInstance )
         {
@@ -119,19 +119,19 @@ class eZDiff
             {
                 case '0': //Text
                 {
-                    include_once( 'lib/ezdiff/classes/ezdifftextengine.php' );
+                    //include_once( 'lib/ezdiff/classes/ezdifftextengine.php' );
                     $this->DiffEngineInstance = new eZDiffTextEngine();
                 }break;
 
                 case '1': //XML
                 {
-                    include_once( 'lib/ezdiff/classes/ezdiffxmltextengine.php' );
+                    //include_once( 'lib/ezdiff/classes/ezdiffxmltextengine.php' );
                     $this->DiffEngineInstance = new eZDiffXMLTextEngine();
                 }break;
 
                 case '2': //ObjectContainer
                 {
-                    include_once( 'lib/ezdiff/classes/ezdiffcontainerobjectengine.php' );
+                    //include_once( 'lib/ezdiff/classes/ezdiffcontainerobjectengine.php' );
                     $this->DiffEngineInstance = new eZDiffContainerObjectEngine();
                 }
             }
@@ -157,13 +157,13 @@ class eZDiff
 
     ///\privatesection
     /// Variable holding the diff engine type
-    var $DiffEngine;
+    public $DiffEngine;
 
     /// The instance of the diff engine class
-    var $DiffEngineInstance;
+    public $DiffEngineInstance;
 
     /// The allowed input on which to diff
-    var $DIFF_TYPE = array( 'text' => 0,
+    public $DIFF_TYPE = array( 'text' => 0,
                             'xml' => 1,
                             'container' => 2 );
 }

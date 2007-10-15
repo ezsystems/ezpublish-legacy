@@ -35,22 +35,22 @@
 
 */
 
-include_once( 'kernel/classes/ezdatatype.php' );
-include_once( 'lib/ezutils/classes/ezintegervalidator.php' );
-include_once( 'kernel/common/i18n.php' );
-include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
-include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
-
-define( 'EZ_DATATYPEURL_URL', 'ezurl' );
+//include_once( 'kernel/classes/ezdatatype.php' );
+//include_once( 'lib/ezutils/classes/ezintegervalidator.php' );
+require_once( 'kernel/common/i18n.php' );
+//include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+//include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
 
 class eZURLType extends eZDataType
 {
+    const DATA_TYPE_STRING = 'ezurl';
+
     /*!
      Initializes with a url id and a description.
     */
     function eZURLType()
     {
-        $this->eZDataType( EZ_DATATYPEURL_URL, ezi18n( 'kernel/classes/datatypes', 'URL', 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', 'URL', 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
         $this->MaxLenValidator = new eZIntegerValidator();
     }
@@ -58,7 +58,7 @@ class eZURLType extends eZDataType
     /*!
      Sets the default value.
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
@@ -72,7 +72,7 @@ class eZURLType extends eZDataType
         }
         else
         {
-            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
             $default = $contentClassAttribute->attribute( "data_text1" );
             if ( $default !== "" )
             {
@@ -85,7 +85,7 @@ class eZURLType extends eZDataType
      Validates the input and returns true if the input was
      valid for this datatype.
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . "_ezurl_url_" . $contentObjectAttribute->attribute( "id" ) )  and
              $http->hasPostVariable( $base . "_ezurl_text_" . $contentObjectAttribute->attribute( "id" ) )
@@ -98,18 +98,18 @@ class eZURLType extends eZDataType
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'Input required.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    return eZInputValidator::STATE_INVALID;
                 }
             // Remove all url-object links to this attribute.
             eZURLObjectLink::removeURLlinkList( $contentObjectAttribute->attribute( "id" ), $contentObjectAttribute->attribute('version') );
         }
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
      \reimp
     */
-    function deleteStoredObjectAttribute( &$contentObjectAttribute, $version = null )
+    function deleteStoredObjectAttribute( $contentObjectAttribute, $version = null )
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
         $urls = array();
@@ -125,7 +125,7 @@ class eZURLType extends eZDataType
         }
         $urls = array_unique( $urls );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
         foreach ( $urls as $urlID )
@@ -142,7 +142,7 @@ class eZURLType extends eZDataType
     /*!
      Fetches the http post var url input and stores it in the data instance.
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_ezurl_url_' . $contentObjectAttribute->attribute( 'id' ) ) and
              $http->hasPostVariable( $base . '_ezurl_text_' . $contentObjectAttribute->attribute( 'id' ) )
@@ -162,7 +162,7 @@ class eZURLType extends eZDataType
     /*!
       Makes some post-store operations. Called by framework after store of eZContentObjectAttribute object.
     */
-    function postStore( &$objectAttribute )
+    function postStore( $objectAttribute )
     {
         // Update url-object link
         $urlValue = $objectAttribute->content();
@@ -184,7 +184,7 @@ class eZURLType extends eZDataType
     /*!
       Store the URL in the URL database and store the reference to it.
     */
-    function storeObjectAttribute( &$attribute )
+    function storeObjectAttribute( $attribute )
     {
         $urlValue = $attribute->content();
         if ( trim( $urlValue ) != '' )
@@ -204,26 +204,26 @@ class eZURLType extends eZDataType
 
     }
 
-    function storeClassAttribute( &$attribute, $version )
+    function storeClassAttribute( $attribute, $version )
     {
     }
 
-    function storeDefinedClassAttribute( &$attribute )
+    function storeDefinedClassAttribute( $attribute )
     {
     }
 
     /*!
      \reimp
     */
-    function validateClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function validateClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         if ( !$contentObjectAttribute->attribute( 'data_int' ) )
         {
@@ -235,7 +235,7 @@ class eZURLType extends eZDataType
         return $url;
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         if ( $contentObjectAttribute->attribute( 'data_int' ) == 0 )
             return false;
@@ -259,7 +259,7 @@ class eZURLType extends eZDataType
     /*!
      Returns the content of the url for use as a title
     */
-    function title( &$contentObjectAttribute )
+    function title( $contentObjectAttribute, $name = null )
     {
         return  $contentObjectAttribute->attribute( 'data_text' );
     }
@@ -277,7 +277,7 @@ class eZURLType extends eZDataType
     }
 
 
-    function fromString( &$contentObjectAttribute, $string )
+    function fromString( $contentObjectAttribute, $string )
     {
         if ( $string == '' )
             return true;
@@ -294,26 +294,29 @@ class eZURLType extends eZDataType
 
      \return a DOM representation of the content object attribute
     */
-    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
+        $dom = $node->ownerDocument;
 
         $url = eZURL::fetch( $objectAttribute->attribute( 'data_int' ) );
         if ( is_object( $url ) and
              trim( $url->attribute( 'url' ) ) != '' )
         {
-            $urlNode = eZDOMDocument::createElementNode( 'url' );
-            $urlNode->appendAttribute( eZDOMDocument::createAttributeNode( 'original-url-md5', $url->attribute( 'original_url_md5' ) ) );
-            $urlNode->appendAttribute( eZDOMDocument::createAttributeNode( 'is-valid', $url->attribute( 'is_valid' ) ) );
-            $urlNode->appendAttribute( eZDOMDocument::createAttributeNode( 'last-checked', $url->attribute( 'last_checked' ) ) );
-            $urlNode->appendAttribute( eZDOMDocument::createAttributeNode( 'created', $url->attribute( 'created' ) ) );
-            $urlNode->appendAttribute( eZDOMDocument::createAttributeNode( 'modified', $url->attribute( 'modified' ) ) );
-            $urlNode->appendChild( eZDOMDocument::createTextNode( $url->attribute( 'url' ) ) );
+            $urlNode = $dom->createElement( 'url', $url->attribute( 'url' ) );
+            $urlNode->setAttribute( 'original-url-md5', $url->attribute( 'original_url_md5' ) );
+            $urlNode->setAttribute( 'is-valid', $url->attribute( 'is_valid' ) );
+            $urlNode->setAttribute( 'last-checked', $url->attribute( 'last_checked' ) );
+            $urlNode->setAttribute( 'created', $url->attribute( 'created' ) );
+            $urlNode->setAttribute( 'modified', $url->attribute( 'modified' ) );
             $node->appendChild( $urlNode );
         }
 
         if ( $objectAttribute->attribute( 'data_text' ) )
-            $node->appendChild( eZDOMDocument::createElementTextNode( 'text', $objectAttribute->attribute( 'data_text' ) ) );
+        {
+            $textNode = $dom->createElement( 'text', $objectAttribute->attribute( 'data_text' ) );
+            $node->appendChild( $textNode );
+        }
 
         return $node;
     }
@@ -322,37 +325,39 @@ class eZURLType extends eZDataType
      \reimp
      \param package
      \param contentobject attribute object
-     \param ezdomnode object
+     \param domnode object
     */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
-        $urlNode =& $attributeNode->elementByName( 'url' );
-        $urlTextNode = is_object( $urlNode ) ? $urlNode->firstChild() : null;
-        if ( is_object( $urlTextNode ) )
+        $urlNode = $attributeNode->getElementsByTagName( 'url' )->item( 0 );
+
+        if ( is_object( $urlNode ) )
         {
             unset( $url );
-            $url =& $urlTextNode->content();
+            $url = $urlNode->textContent;
 
             $urlID = eZURL::registerURL( $url );
             if ( $urlID )
             {
                 $urlObject = eZURL::fetch( $urlID );
 
-                $urlObject->setAttribute( 'original_url_md5', $urlNode->attributeValue( 'original-url-md5' ) );
-                $urlObject->setAttribute( 'is_valid', $urlNode->attributeValue( 'is-valid' ) );
-                $urlObject->setAttribute( 'last_checked', $urlNode->attributeValue( 'last-checked' ) );
-                $urlObject->setAttribute( 'created', mktime() );
-                $urlObject->setAttribute( 'modified', mktime() );
+                $urlObject->setAttribute( 'original_url_md5', $urlNode->getAttribute( 'original-url-md5' ) );
+                $urlObject->setAttribute( 'is_valid', $urlNode->getAttribute( 'is-valid' ) );
+                $urlObject->setAttribute( 'last_checked', $urlNode->getAttribute( 'last-checked' ) );
+                $urlObject->setAttribute( 'created', time() );
+                $urlObject->setAttribute( 'modified', time() );
                 $urlObject->store();
 
                 $objectAttribute->setAttribute( 'data_int', $urlID );
             }
         }
-        if ( $attributeNode->elementTextContentByName( 'text' ) )
-            $objectAttribute->setAttribute( 'data_text', $attributeNode->elementTextContentByName( 'text' ) );
+
+        $textNode = $attributeNode->getElementsByTagName( 'text' )->item( 0 );
+        if ( $textNode )
+            $objectAttribute->setAttribute( 'data_text', $textNode->textContent );
     }
 }
 
-eZDataType::register( EZ_DATATYPEURL_URL, 'ezurltype' );
+eZDataType::register( eZURLType::DATA_TYPE_STRING, 'eZURLType' );
 
 ?>

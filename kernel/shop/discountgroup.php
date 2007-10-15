@@ -28,13 +28,13 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/common/template.php" );
-include_once( "kernel/classes/ezdiscountrule.php" );
-include_once( "lib/ezutils/classes/ezhttppersistence.php" );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/classes/ezdiscountrule.php" );
+//include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 
-$module =& $Params["Module"];
+$module = $Params['Module'];
 
-$http =& eZHttpTool::instance();
+$http = eZHTTPTool::instance();
 
 $discountGroupArray = eZDiscountRule::fetchList();
 
@@ -55,28 +55,28 @@ if ( $http->hasPostVariable( "RemoveDiscountGroupButton" ) )
 {
     $discountRuleIDList = $http->postVariable( "discountGroupIDList" );
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach ( $discountRuleIDList  as $discountRuleID )
     {
-        eZDiscountRule::remove( $discountRuleID );
+        eZDiscountRule::removeByID( $discountRuleID );
     }
     $db->commit();
 
     // we changed prices of products (no discount now) => remove content caches
-    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearAllContentCache();
 
     $module->redirectTo( $module->functionURI( "discountgroup" ) . "/" );
     return;
 }
 $module->setTitle( "View discount group" );
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable( "discountgroup_array", $discountGroupArray );
 $tpl->setVariable( "module", $module );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:shop/discountgroup.tpl" );
+$Result['content'] = $tpl->fetch( "design:shop/discountgroup.tpl" );
 $Result['path'] = array( array( 'url' => '/shop/discountgroup/',
                                 'text' => ezi18n( 'kernel/shop', 'Discount group' ) ) );
 ?>

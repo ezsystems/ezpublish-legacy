@@ -37,8 +37,8 @@
 
 */
 
-include_once( "kernel/classes/ezpersistentobject.php" );
-include_once( "kernel/classes/ezdiscountrule.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezdiscountrule.php" );
 
 class eZUserDiscountRule extends eZPersistentObject
 {
@@ -50,7 +50,7 @@ class eZUserDiscountRule extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -72,24 +72,24 @@ class eZUserDiscountRule extends eZPersistentObject
                                                                       'multiplicity' => '1..*' ) ),
                       "keys" => array( "id" ),
                       "increment_key" => "id",
-                      "relations" => array( "discountrule_id" => array( "class" => "ezdiscountrule",
+                      "relations" => array( "discountrule_id" => array( "class" => "eZDiscountRule",
                                                                          "field" => "id" ),
-                                            "contentobject_id" => array( "class" => "ezcontentobject",
+                                            "contentobject_id" => array( "class" => "eZContentObject",
                                                                          "field" => "id" ) ),
                       "class_name" => "eZUserDiscountRule",
                       "name" => "ezuser_discountrule" );
     }
 
-    function store()
+    function store( $fieldFilters = null )
     {
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-        $handler =& eZExpiryHandler::instance();
-        $handler->setTimestamp( 'user-discountrules-cache', mktime() );
+        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $handler = eZExpiryHandler::instance();
+        $handler->setTimestamp( 'user-discountrules-cache', time() );
         $handler->store();
-        eZPersistentObject::store();
+        eZPersistentObject::store( $fieldFilters );
     }
 
-    function fetch( $id, $asObject = true )
+    static function fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZUserDiscountRule::definition(),
                                                 null,
@@ -98,7 +98,7 @@ class eZUserDiscountRule extends eZPersistentObject
                                                 $asObject );
     }
 
-    function fetchByUserID( $userID, $asObject = true )
+    static function fetchByUserID( $userID, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZUserDiscountRule::definition(),
                                                     null,
@@ -108,12 +108,12 @@ class eZUserDiscountRule extends eZPersistentObject
                                                     $asObject );
     }
 
-    function fetchIDListByUserID( $userID )
+    static function fetchIDListByUserID( $userID )
     {
-        $http =& eZHTTPTool::instance();
+        $http = eZHTTPTool::instance();
 
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-        $handler =& eZExpiryHandler::instance();
+        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $handler = eZExpiryHandler::instance();
         $expiredTimeStamp = 0;
         if ( $handler->hasTimestamp( 'user-discountrules-cache' ) )
             $expiredTimeStamp = $handler->timestamp( 'user-discountrules-cache' );
@@ -133,7 +133,7 @@ class eZUserDiscountRule extends eZPersistentObject
         if ( !is_array( $ruleArray ) )
         {
             $userID = (int)$userID;
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $query = "SELECT DISTINCT ezdiscountrule.id
                   FROM ezdiscountrule,
                        ezuser_discountrule
@@ -141,7 +141,7 @@ class eZUserDiscountRule extends eZPersistentObject
                         ezuser_discountrule.discountrule_id = ezdiscountrule.id";
             $ruleArray = $db->arrayQuery( $query );
             $http->setSessionVariable( 'eZUserDiscountRules' . $userID, $ruleArray );
-            $http->setSessionVariable( 'eZUserDiscountRulesTimestamp', mktime() );
+            $http->setSessionVariable( 'eZUserDiscountRulesTimestamp', time() );
         }
 
         $rules = array();
@@ -152,9 +152,9 @@ class eZUserDiscountRule extends eZPersistentObject
         return $rules;
     }
 
-    function &fetchByUserIDArray( $idArray )
+    static function &fetchByUserIDArray( $idArray )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $groupString = $db->implodeWithTypeCast( ',', $idArray, 'int' );
         $query = "SELECT DISTINCT ezdiscountrule.id,
                                   ezdiscountrule.name
@@ -172,7 +172,7 @@ class eZUserDiscountRule extends eZPersistentObject
         return $rules;
     }
 
-    function &fetchUserID( $discountRuleID )
+    static function &fetchUserID( $discountRuleID )
     {
          $userList = eZPersistentObject::fetchObjectList( eZUserDiscountRule::definition(),
                                               null,
@@ -189,7 +189,7 @@ class eZUserDiscountRule extends eZPersistentObject
         return $idArray;
     }
 
-    function &fetchByRuleID( $discountRuleID, $asObject = true )
+    static function &fetchByRuleID( $discountRuleID, $asObject = true )
     {
         $objectList = eZPersistentObject::fetchObjectList( eZUserDiscountRule::definition(),
                                                             null,
@@ -200,7 +200,7 @@ class eZUserDiscountRule extends eZPersistentObject
         return $objectList;
     }
 
-    function create( $discountRuleID, $contentobjectID )
+    static function create( $discountRuleID, $contentobjectID )
     {
         $row = array(
             "id" => null,
@@ -209,12 +209,12 @@ class eZUserDiscountRule extends eZPersistentObject
         return new eZUserDiscountRule( $row );
     }
 
-    function removeUser( $userID )
+    static function removeUser( $userID )
     {
         eZPersistentObject::removeObject( eZUserDiscountRule::definition(),
                                           array( "contentobject_id" => $userID ) );
     }
-    function remove( $id )
+    function removeByID( $id )
     {
         eZPersistentObject::removeObject( eZUserDiscountRule::definition(),
                                           array( "id" => $id ) );

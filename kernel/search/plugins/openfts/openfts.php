@@ -36,10 +36,10 @@
   \brief The class openFts does
 
 */
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "lib/ezutils/classes/ezini.php" );
-include_once( 'lib/ezfile/classes/ezdir.php' );
-include_once( "lib/ezutils/classes/ezdebug.php" );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( "lib/ezutils/classes/ezini.php" );
+//include_once( 'lib/ezfile/classes/ezdir.php' );
+require_once( "lib/ezutils/classes/ezdebug.php" );
 
 class openFts
 {
@@ -56,9 +56,9 @@ class openFts
     /*!
      Adds an object to the search database.
     */
-    function addObject( &$contentObject, $uri )
+    function addObject( $contentObject, $uri )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $contentObjectID = $contentObject->attribute( 'id' );
 
@@ -66,7 +66,7 @@ class openFts
 
         $allText = '';
 
-        $sys =& eZSys::instance();
+        $sys = eZSys::instance();
         $storagePath = $sys->storageDirectory;
 
         $tmpFname = tempnam ( $storagePath, "txt$contentObjectID" );
@@ -111,7 +111,7 @@ class openFts
     */
     function removeObject( $contentObject )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $contentObjectID = $contentObject->attribute( "id" );
         eZDebugSetting::writeDebug( 'kernel-search-openfts', "/home/sp/projects/php/ezpublish3/bin/openfts/delete.pl nextgen_test $contentObjectID " , "delete error string" );
 
@@ -128,7 +128,7 @@ class openFts
     */
     function search( $searchText, $params = array() )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $nonExistingWordArray = array();
 

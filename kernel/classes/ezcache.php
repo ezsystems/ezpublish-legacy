@@ -40,9 +40,9 @@
 
 */
 
-include_once( 'lib/ezfile/classes/ezfilehandler.php' );
-include_once( 'lib/ezfile/classes/ezdir.php' );
-include_once( 'kernel/common/i18n.php' );
+//include_once( 'lib/ezfile/classes/ezfilehandler.php' );
+//include_once( 'lib/ezfile/classes/ezdir.php' );
+require_once( 'kernel/common/i18n.php' );
 
 class eZCache
 {
@@ -57,12 +57,12 @@ class eZCache
      \static
      \return a list of all cache items in the system.
     */
-    function fetchList()
+    static function fetchList()
     {
         $cacheList =& $GLOBALS['eZCacheList'];
         if ( !isset( $cacheList ) )
         {
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $cacheList = array( array( 'name' => ezi18n( 'kernel/cache', 'Content view cache' ),
                                        'id' => 'content',
                                        'tag' => array( 'content' ),
@@ -169,7 +169,7 @@ class eZCache
                            eZCache functions are called it is a good idea to call
                            fetchList() yourself and pass it as a parameter.
     */
-    function fetchTagList( $cacheInfoList = false )
+    static function fetchTagList( $cacheInfoList = false )
     {
         if ( !$cacheInfoList )
             $cacheInfoList = eZCache::fetchList();
@@ -192,7 +192,7 @@ class eZCache
                            eZCache functions are called it is a good idea to call
                            fetchList() yourself and pass it as a parameter.
     */
-    function fetchIDList( $cacheInfoList = false )
+    static function fetchIDList( $cacheInfoList = false )
     {
         if ( !$cacheInfoList )
             $cacheInfoList = eZCache::fetchList();
@@ -210,7 +210,7 @@ class eZCache
      Finds all cache entries using tag \a $tagName.
      \return An array with cache items.
     */
-    function fetchByTag( $tagName, $cacheInfoList = false )
+    static function fetchByTag( $tagName, $cacheInfoList = false )
     {
         if ( !$cacheInfoList )
             $cacheInfoList = eZCache::fetchList();
@@ -230,7 +230,7 @@ class eZCache
      Finds the first entry with the ID \a $id.
      \return The cache info structure.
     */
-    function fetchByID( $id, $cacheInfoList = false )
+    static function fetchByID( $id, $cacheInfoList = false )
     {
         if ( !$cacheInfoList )
             $cacheInfoList = eZCache::fetchList();
@@ -248,7 +248,7 @@ class eZCache
      Finds the entries matching and ID in the list \a $idList.
      \return An array with cache info structures.
     */
-    function fetchByIDList( $idList, $cacheInfoList = false )
+    static function fetchByIDList( $idList, $cacheInfoList = false )
     {
         if ( !$cacheInfoList )
             $cacheInfoList = eZCache::fetchList();
@@ -266,7 +266,7 @@ class eZCache
      \static
      Clears all cache items.
     */
-    function clearAll( $cacheList = false )
+    static function clearAll( $cacheList = false )
     {
         if ( !$cacheList )
             $cacheList = eZCache::fetchList();
@@ -282,7 +282,7 @@ class eZCache
      \static
      Finds all cache item which has the tag \a $tagName and clears them.
     */
-    function clearByTag( $tagName, $cacheList = false )
+    static function clearByTag( $tagName, $cacheList = false )
     {
         if ( !$cacheList )
             $cacheList = eZCache::fetchList();
@@ -305,7 +305,7 @@ class eZCache
      Finds all cache item which has ID equal to one of the IDs in \a $idList.
      You can also submit a single id to \a $idList.
     */
-    function clearByID( $idList, $cacheList = false )
+    static function clearByID( $idList, $cacheList = false )
     {
         if ( !$cacheList )
             $cacheList = eZCache::fetchList();
@@ -339,14 +339,14 @@ class eZCache
      \param $iterationMax   The maximum number of items to purge in one iteration, false means use default limit.
      \param $expiry         A timestamp which is matched against all cache items, if the modification of the cache is older than the expiry the cache is purged, false means no expiry checking.
     */
-    function clearItem( $cacheItem, $purge = false, $reporter = false, $iterationSleep = false, $iterationMax = false, $expiry = false )
+    static function clearItem( $cacheItem, $purge = false, $reporter = false, $iterationSleep = false, $iterationMax = false, $expiry = false )
     {
         // Get the global expiry value if one is set and compare it with supplied $expiry value.
         // Use the largest value of the two.
         if ( isset( $cacheItem['expiry-key'] ) )
         {
             $key = $cacheItem['expiry-key'];
-            include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+            //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
             $expiryHandler = eZExpiryHandler::instance();
             $keyValue = $expiryHandler->getTimestamp( $key );
             if ( $keyValue !== false )
@@ -417,9 +417,9 @@ class eZCache
      Sets the image alias timestamp to the current timestamp,
      this causes all image aliases to be recreated on viewing.
     */
-    function clearImageAlias( $cacheItem )
+    static function clearImageAlias( $cacheItem )
     {
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $expiryHandler = eZExpiryHandler::instance();
         $expiryHandler->setTimestamp( 'image-manager-alias', time() );
         $expiryHandler->store();
@@ -433,9 +433,9 @@ class eZCache
      forces a browser to load the content tree menu from a server rather than
      to use a cached copy.
     */
-    function clearContentTreeMenu( $cacheItem )
+    static function clearContentTreeMenu( $cacheItem )
     {
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $expiryHandler = eZExpiryHandler::instance();
         $expiryHandler->setTimestamp( 'content-tree-menu', time() );
         $expiryHandler->store();
@@ -446,9 +446,9 @@ class eZCache
      \static
      Removes all template block cache files and subtree entries.
     */
-    function clearTemplateBlockCache( $cacheItem )
+    static function clearTemplateBlockCache( $cacheItem )
     {
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $expiryHandler = eZExpiryHandler::instance();
         $expiryHandler->setTimestamp( 'global-template-block-cache', time() );
         $expiryHandler->store();
@@ -459,7 +459,7 @@ class eZCache
      \static
      Clears all content class identifier cache files from var/cache.
     */
-    function clearClassID( $cacheItem )
+    static function clearClassID( $cacheItem )
     {
         $cachePath = eZSys::cacheDirectory();
 
@@ -476,7 +476,7 @@ class eZCache
      \static
      Clears all datatype sortkey cache files from var/cache.
     */
-    function clearSortKey( $cacheItem )
+    static function clearSortKey( $cacheItem )
     {
         $cachePath = eZSys::cacheDirectory();
 
@@ -508,11 +508,11 @@ class eZCache
      \static
      Clears all user-info caches by setting a new expiry value for the key *user-access-cache*.
     */
-    function clearUserInfoCache( $cacheItem )
+    static function clearUserInfoCache( $cacheItem )
     {
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-        $handler =& eZExpiryHandler::instance();
-        $handler->setTimestamp( 'user-access-cache', mktime() );
+        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $handler = eZExpiryHandler::instance();
+        $handler->setTimestamp( 'user-access-cache', time() );
         $handler->store();
     }
 
@@ -521,11 +521,11 @@ class eZCache
      \static
      Clears all content caches by setting a new expiry value for the key *content-view-cache*.
     */
-    function clearContentCache( $cacheItem )
+    static function clearContentCache( $cacheItem )
     {
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-        $handler =& eZExpiryHandler::instance();
-        $handler->setTimestamp( 'content-view-cache', mktime() );
+        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $handler = eZExpiryHandler::instance();
+        $handler->setTimestamp( 'content-view-cache', time() );
         $handler->store();
     }
 
@@ -534,7 +534,7 @@ class eZCache
      \static
      Clear global ini cache
     */
-    function clearGlobalINICache()
+    static function clearGlobalINICache()
     {
         eZDir::recursiveDelete( 'var/cache/ini' );
     }

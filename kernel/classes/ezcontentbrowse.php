@@ -52,7 +52,7 @@ eZContentBrowse::browse( array( 'action_name' => 'MyActionName' ), $module );
 
 */
 
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
 class eZContentBrowse
 {
@@ -62,7 +62,7 @@ class eZContentBrowse
     */
     function eZContentBrowse( $params = false )
     {
-        $http =& eZHTTPTool::instance();
+        $http = eZHTTPTool::instance();
         if ( !$params && $http->hasSessionVariable( 'BrowseParameters' ) )
         {
             $this->Parameters =& $http->sessionVariable( 'BrowseParameters' );
@@ -92,16 +92,15 @@ class eZContentBrowse
     /*!
      \return the attribute value of the attribute named \a $attributeName or \c null if no such attribute.
     */
-    function &attribute( $attributeName )
+    function attribute( $attributeName )
     {
         if ( isset( $this->Parameters[$attributeName] ) )
-            return $this->Parameters[$attributeName];
-        else
         {
-            eZDebug::writeError( "Attribute '$attributeName' does not exist", 'eZContentBrowse::attribute' );
-            $attribute = null;
-            return $attribute;
+            return $this->Parameters[$attributeName];
         }
+
+        eZDebug::writeError( "Attribute '$attributeName' does not exist", 'eZContentBrowse::attribute' );
+        return null;
     }
 
     /*!
@@ -110,9 +109,9 @@ class eZContentBrowse
      Most data will be automatically derived from the \c action_name value taken from settings/browse.ini, other
      values will override default values.
     */
-    function browse( $parameters = array(), &$module )
+    static function browse( $parameters = array(), &$module )
     {
-        $ini =& eZINI::instance( 'browse.ini' );
+        $ini = eZINI::instance( 'browse.ini' );
 
         if ( !isset( $parameters['action_name'] ) )
             $parameters['action_name'] = $ini->variable( 'BrowseSettings', 'DefaultActionName' );
@@ -223,9 +222,11 @@ class eZContentBrowse
             $parameters['cancel_page'] = false;
 
         if ( !isset( $parameters['from_page'] ) )
+        {
             eZDebug::writeError( $parameters, 'eZContentBrowse::browse() $parameters[\'from_page\'] is not set' );
+        }
 
-        $http =& eZHTTPTool::instance();
+        $http = eZHTTPTool::instance();
         $http->setSessionVariable( 'BrowseParameters', $parameters );
 
         if ( is_null( $module ) )
@@ -243,15 +244,15 @@ class eZContentBrowse
      \static
      \return the node ID for the node alias \a $nodeName or \c false if no ID could be found.
     */
-    function nodeAliasID( $nodeName )
+    static function nodeAliasID( $nodeName )
     {
         if ( is_numeric( $nodeName ) )
             return $nodeName;
-        $browseINI =& eZINI::instance( 'browse.ini' );
+        $browseINI = eZINI::instance( 'browse.ini' );
         $aliasList = $browseINI->variable( 'BrowseSettings', 'AliasList' );
         if ( isset( $aliasList[$nodeName] ) )
             return $aliasList[$nodeName];
-        $contentINI =& eZINI::instance( 'content.ini' );
+        $contentINI = eZINI::instance( 'content.ini' );
         if ( $nodeName == 'content' )
             return $contentINI->variable( 'NodeSettings', 'RootNode' );
         else if ( $nodeName == 'users' )
@@ -277,15 +278,15 @@ class eZContentBrowse
      \return the result of the previous browse operation or \c false if no result was found.
              It uses the action name \a $actionName to determine which result to look for.
     */
-    function result( $actionName, $asObject = false )
+    static function result( $actionName, $asObject = false )
     {
-        $ini =& eZINI::instance( 'browse.ini' );
+        $ini = eZINI::instance( 'browse.ini' );
         $isNodeSelection = $ini->variable( $actionName, 'ReturnType' ) == 'NodeID';
         if ( $isNodeSelection )
             $postName = 'SelectedNodeIDArray';
         else
             $postName = 'SelectedObjectIDArray';
-        $http =& eZHTTPTool::instance();
+        $http = eZHTTPTool::instance();
         if ( $http->hasPostVariable( $postName ) && !$http->hasPostVariable( 'BrowseCancelButton' ) )
         {
             $postList = $http->postVariable( $postName );
@@ -315,7 +316,7 @@ class eZContentBrowse
 
     /// \privatesection
     /// The browse parameters.
-    var $Parameters = false;
+    public $Parameters = false;
 }
 
 ?>

@@ -35,32 +35,36 @@
 
 */
 
-include_once( "kernel/classes/ezdatatype.php" );
+//include_once( "kernel/classes/ezdatatype.php" );
 
-define( "EZ_DATATYPESTRING_DATE", "ezdate" );
-define( 'EZ_DATATYPESTRING_DATE_DEFAULT', 'data_int1' );
-define( 'EZ_DATATYPESTRING_DATE_DEFAULT_EMTPY', 0 );
-define( 'EZ_DATATYPESTRING_DATE_DEFAULT_CURRENT_DATE', 1 );
-include_once( "lib/ezlocale/classes/ezdate.php" );
+//include_once( "lib/ezlocale/classes/ezdate.php" );
 
 class eZDateType extends eZDataType
 {
+    const DATA_TYPE_STRING = "ezdate";
+
+    const DEFAULT_FIELD = 'data_int1';
+
+    const DEFAULT_EMTPY = 0;
+
+    const DEFAULT_CURRENT_DATE = 1;
+
     function eZDateType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_DATE, ezi18n( 'kernel/classes/datatypes', "Date", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Date", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
 
-    function validateDateTimeHTTPInput( $day, $month, $year, &$contentObjectAttribute )
+    function validateDateTimeHTTPInput( $day, $month, $year, $contentObjectAttribute )
     {
-        include_once( 'lib/ezutils/classes/ezdatetimevalidator.php' );
+        //include_once( 'lib/ezutils/classes/ezdatetimevalidator.php' );
         $state = eZDateTimeValidator::validateDate( $day, $month, $year );
-        if ( $state == EZ_INPUT_VALIDATOR_STATE_INVALID )
+        if ( $state == eZInputValidator::STATE_INVALID )
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                  'Date is not valid.' ) );
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INVALID;
         }
         return $state;
     }
@@ -68,7 +72,7 @@ class eZDateType extends eZDataType
      Validates the input and returns true if the input was
      valid for this datatype.
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_date_year_' . $contentObjectAttribute->attribute( 'id' ) ) and
              $http->hasPostVariable( $base . '_date_month_' . $contentObjectAttribute->attribute( 'id' ) ) and
@@ -77,7 +81,7 @@ class eZDateType extends eZDataType
             $year  = $http->postVariable( $base . '_date_year_' . $contentObjectAttribute->attribute( 'id' ) );
             $month = $http->postVariable( $base . '_date_month_' . $contentObjectAttribute->attribute( 'id' ) );
             $day   = $http->postVariable( $base . '_date_day_' . $contentObjectAttribute->attribute( 'id' ) );
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $classAttribute = $contentObjectAttribute->contentClassAttribute();
 
             if ( $year == '' or $month == '' or $day == '' )
             {
@@ -87,10 +91,10 @@ class eZDateType extends eZDataType
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'Missing date input.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    return eZInputValidator::STATE_INVALID;
                 }
                 else
-                    return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                    return eZInputValidator::STATE_ACCEPTED;
             }
             else
             {
@@ -98,13 +102,13 @@ class eZDateType extends eZDataType
             }
         }
         else
-            return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
      Fetches the http post var integer input and stores it in the data instance.
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_date_year_' . $contentObjectAttribute->attribute( 'id' ) ) and
              $http->hasPostVariable( $base . '_date_month_' . $contentObjectAttribute->attribute( 'id' ) ) and
@@ -115,7 +119,7 @@ class eZDateType extends eZDataType
             $month = $http->postVariable( $base . '_date_month_' . $contentObjectAttribute->attribute( 'id' ) );
             $day   = $http->postVariable( $base . '_date_day_' . $contentObjectAttribute->attribute( 'id' ) );
             $date = new eZDate();
-            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
 
             if ( ( $year == '' and $month == '' and $day == '' ) or
                  !checkdate( $month, $day, $year ) or
@@ -137,7 +141,7 @@ class eZDateType extends eZDataType
     /*!
      \reimp
     */
-    function validateCollectionAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateCollectionAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_date_year_' . $contentObjectAttribute->attribute( 'id' ) ) and
              $http->hasPostVariable( $base . '_date_month_' . $contentObjectAttribute->attribute( 'id' ) ) and
@@ -146,7 +150,7 @@ class eZDateType extends eZDataType
             $year  = $http->postVariable( $base . '_date_year_' . $contentObjectAttribute->attribute( 'id' ) );
             $month = $http->postVariable( $base . '_date_month_' . $contentObjectAttribute->attribute( 'id' ) );
             $day   = $http->postVariable( $base . '_date_day_' . $contentObjectAttribute->attribute( 'id' ) );
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $classAttribute = $contentObjectAttribute->contentClassAttribute();
 
             if ( $year == '' or $month == '' or $day == '' )
             {
@@ -155,10 +159,10 @@ class eZDateType extends eZDataType
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'Missing date input.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    return eZInputValidator::STATE_INVALID;
                 }
                 else
-                    return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                    return eZInputValidator::STATE_ACCEPTED;
             }
             else
             {
@@ -166,13 +170,13 @@ class eZDateType extends eZDataType
             }
         }
         else
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INVALID;
     }
 
     /*!
      Fetches the http post variables for collected information
     */
-    function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$contentObjectAttribute )
+    function fetchCollectionAttributeHTTPInput( $collection, $collectionAttribute, $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_date_year_' . $contentObjectAttribute->attribute( 'id' ) ) and
              $http->hasPostVariable( $base . '_date_month_' . $contentObjectAttribute->attribute( 'id' ) ) and
@@ -183,7 +187,7 @@ class eZDateType extends eZDataType
             $month = $http->postVariable( $base . '_date_month_' . $contentObjectAttribute->attribute( 'id' ) );
             $day   = $http->postVariable( $base . '_date_day_' . $contentObjectAttribute->attribute( 'id' ) );
             $date = new eZDate();
-            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
 
             if ( ( $year == '' and $month == '' and $day == '' ) or
                  !checkdate( $month, $day, $year ) or
@@ -205,7 +209,7 @@ class eZDateType extends eZDataType
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         $date = new eZDate( );
         $stamp = $contentObjectAttribute->attribute( 'data_int' );
@@ -216,17 +220,17 @@ class eZDateType extends eZDataType
     /*!
      Set class attribute value for template version
     */
-    function initializeClassAttribute( &$classAttribute )
+    function initializeClassAttribute( $classAttribute )
     {
-        if ( $classAttribute->attribute( EZ_DATATYPESTRING_DATE_DEFAULT ) == null )
-            $classAttribute->setAttribute( EZ_DATATYPESTRING_DATE_DEFAULT, 0 );
+        if ( $classAttribute->attribute( self::DEFAULT_FIELD ) == null )
+            $classAttribute->setAttribute( self::DEFAULT_FIELD, 0 );
         $classAttribute->store();
     }
 
     /*!
      Sets the default value.
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
@@ -235,20 +239,20 @@ class eZDateType extends eZDataType
         }
         else
         {
-            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
-            $defaultType = $contentClassAttribute->attribute( EZ_DATATYPESTRING_DATE_DEFAULT );
+            $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
+            $defaultType = $contentClassAttribute->attribute( self::DEFAULT_FIELD );
             if ( $defaultType == 1 )
-                $contentObjectAttribute->setAttribute( "data_int", mktime() );
+                $contentObjectAttribute->setAttribute( "data_int", time() );
         }
     }
 
-    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $default = $base . "_ezdate_default_" . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $default ) )
         {
             $defaultValue = $http->postVariable( $default );
-            $classAttribute->setAttribute( EZ_DATATYPESTRING_DATE_DEFAULT,  $defaultValue );
+            $classAttribute->setAttribute( self::DEFAULT_FIELD,  $defaultValue );
         }
         return true;
     }
@@ -286,7 +290,7 @@ class eZDateType extends eZDataType
         return $contentObjectAttribute->attribute( 'data_int' );
     }
 
-    function fromString( &$contentObjectAttribute, $string )
+    function fromString( $contentObjectAttribute, $string )
     {
         return $contentObjectAttribute->setAttribute( 'data_int', $string );
     }
@@ -294,14 +298,14 @@ class eZDateType extends eZDataType
     /*!
      Returns the date.
     */
-    function title( &$contentObjectAttribute )
+    function title( $contentObjectAttribute, $name = null )
     {
-        $locale =& eZLocale::instance();
+        $locale = eZLocale::instance();
         $retVal = $contentObjectAttribute->attribute( "data_int" ) == 0 ? '' : $locale->formatDate( $contentObjectAttribute->attribute( "data_int" ) );
         return $retVal;
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( "data_int" ) != 0;
     }
@@ -309,7 +313,7 @@ class eZDateType extends eZDataType
     /*!
      \reimp
     */
-    function sortKey( &$contentObjectAttribute )
+    function sortKey( $contentObjectAttribute )
     {
         return (int)$contentObjectAttribute->attribute( 'data_int' );
     }
@@ -325,40 +329,41 @@ class eZDateType extends eZDataType
     /*!
      \reimp
     */
-    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $defaultValue = $classAttribute->attribute( EZ_DATATYPESTRING_DATE_DEFAULT );
+        $dom = $attributeParametersNode->ownerDocument;
+
+        $defaultValue = $classAttribute->attribute( self::DEFAULT_FIELD );
+        $defaultValueNode = $dom->createElement( 'default-value' );
         switch ( $defaultValue )
         {
-            case EZ_DATATYPESTRING_DATE_DEFAULT_EMTPY:
-            {
-                $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'default-value',
-                                                                                         array( 'type' => 'empty' ) ) );
-            } break;
-            case EZ_DATATYPESTRING_DATE_DEFAULT_CURRENT_DATE:
-            {
-                $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'default-value',
-                                                                                         array( 'type' => 'current-date' ) ) );
-            } break;
+            case self::DEFAULT_EMTPY:
+                $defaultValueNode->setAttribute( 'type', 'empty' );
+                break;
+
+            case self::DEFAULT_CURRENT_DATE:
+                $defaultValueNode->setAttribute( 'type', 'current-date' );
+                break;
         }
+        $attributeParametersNode->appendChild( $defaultValueNode );
     }
 
     /*!
      \reimp
     */
-    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $defaultNode =& $attributeParametersNode->elementByName( 'default-value' );
-        $defaultValue = strtolower( $defaultNode->attributeValue( 'type' ) );
+        $defaultNode = $attributeParametersNode->getElementsByTagName( 'default-value' )->item( 0 );
+        $defaultValue = strtolower( $defaultNode->getAttribute( 'type' ) );
         switch ( $defaultValue )
         {
             case 'empty':
             {
-                $classAttribute->setAttribute( EZ_DATATYPESTRING_DATE_DEFAULT, EZ_DATATYPESTRING_DATE_DEFAULT_EMTPY );
+                $classAttribute->setAttribute( self::DEFAULT_FIELD, self::DEFAULT_EMTPY );
             } break;
             case 'current-date':
             {
-                $classAttribute->setAttribute( EZ_DATATYPESTRING_DATE_DEFAULT, EZ_DATATYPESTRING_DATE_DEFAULT_CURRENT_DATE );
+                $classAttribute->setAttribute( self::DEFAULT_FIELD, self::DEFAULT_CURRENT_DATE );
             } break;
         }
     }
@@ -369,7 +374,7 @@ class eZDateType extends eZDataType
 
      \return a DOM representation of the content object attribute
     */
-    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
 
@@ -377,8 +382,9 @@ class eZDateType extends eZDataType
 
         if ( !is_null( $stamp ) )
         {
-            include_once( 'lib/ezlocale/classes/ezdateutils.php' );
-            $node->appendChild( eZDOMDocument::createElementTextNode( 'date', eZDateUtils::rfc1123Date( $stamp ) ) );
+            //include_once( 'lib/ezlocale/classes/ezdateutils.php' );
+            $dateNode = $node->ownerDocument->createElement( 'date', eZDateUtils::rfc1123Date( $stamp ) );
+            $node->appendChild( $dateNode );
         }
         return $node;
     }
@@ -387,21 +393,20 @@ class eZDateType extends eZDataType
      \reimp
      \param package
      \param contentobject attribute object
-     \param ezdomnode object
+     \param domnode object
     */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
-        $timeNode = $attributeNode->elementByName( 'date' );
-        if ( is_object( $timeNode ) )
-            $timestampNode = $timeNode->firstChild();
-        if ( is_object( $timestampNode ) )
+        $dateNode = $attributeNode->getElementsByTagName( 'date' )->item( 0 );
+        if ( is_object( $dateNode ) )
         {
-            include_once( 'lib/ezlocale/classes/ezdateutils.php' );
-            $objectAttribute->setAttribute( 'data_int', eZDateUtils::textToDate( $timestampNode->content() ) );
+            //include_once( 'lib/ezlocale/classes/ezdateutils.php' );
+            $timestamp = eZDateUtils::textToDate( $dateNode->textContent );
+            $objectAttribute->setAttribute( 'data_int', $timestamp );
         }
     }
 }
 
-eZDataType::register( EZ_DATATYPESTRING_DATE, "ezdatetype" );
+eZDataType::register( eZDateType::DATA_TYPE_STRING, "eZDateType" );
 
 ?>

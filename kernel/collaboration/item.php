@@ -29,7 +29,7 @@
 /*! \file view.php
 */
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $ViewMode = $Params['ViewMode'];
 $ItemID = $Params['ItemID'];
 
@@ -37,23 +37,23 @@ $Offset = $Params['Offset'];
 if ( !is_numeric( $Offset ) )
     $Offset = 0;
 
-include_once( 'kernel/classes/ezcollaborationitem.php' );
+//include_once( 'kernel/classes/ezcollaborationitem.php' );
 
 $collabItem = eZCollaborationItem::fetch( $ItemID );
 if ( $collabItem === null )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
-$collabHandler =& $collabItem->handler();
+$collabHandler = $collabItem->handler();
 $collabItem->handleView( $ViewMode );
 $template = $collabHandler->template( $ViewMode );
 $collabTitle = $collabItem->title();
 
-include_once( 'kernel/classes/ezcollaborationitemhandler.php' );
+//include_once( 'kernel/classes/ezcollaborationitemhandler.php' );
 
 $viewParameters = array( 'offset' => $Offset );
 
-include_once( 'kernel/common/template.php' );
-$tpl =& templateInit();
+require_once( 'kernel/common/template.php' );
+$tpl = templateInit();
 
 $tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( 'collab_item', $collabItem );

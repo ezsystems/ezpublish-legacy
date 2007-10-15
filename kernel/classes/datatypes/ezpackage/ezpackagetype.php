@@ -37,54 +37,54 @@
   \brief The class eZPackageType does
 
 */
-include_once( 'kernel/classes/ezdatatype.php' );
-include_once( 'kernel/classes/ezpackage.php' );
-include_once( 'kernel/common/i18n.php' );
-
-define( 'EZ_DATATYPESTRING_EZ_PACKAGE', 'ezpackage' );
-define( 'EZ_DATATYPESTRING_PACKAGE_TYPE_FIELD', 'data_text1' );
-define( 'EZ_DATATYPESTRING_PACKAGE_TYPE_VARIABLE', '_ezpackage_type_' );
-define( 'EZ_DATATYPESTRING_PACKAGE_VIEW_MODE_FIELD', 'data_int1' );
-define( 'EZ_DATATYPESTRING_PACKAGE_VIEW_MODE_VARIABLE', '_ezpackage_view_mode_' );
+//include_once( 'kernel/classes/ezdatatype.php' );
+//include_once( 'kernel/classes/ezpackage.php' );
+require_once( 'kernel/common/i18n.php' );
 
 class eZPackageType extends eZDataType
 {
+    const DATA_TYPE_STRING = 'ezpackage';
+    const TYPE_FIELD = 'data_text1';
+    const TYPE_VARIABLE = '_ezpackage_type_';
+    const VIEW_MODE_FIELD = 'data_int1';
+    const VIEW_MODE_VARIABLE = '_ezpackage_view_mode_';
+
     /*!
      Constructor
     */
     function eZPackageType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_EZ_PACKAGE, ezi18n( 'kernel/classes/datatypes', 'Package', 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', 'Package', 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
     /*!
      Sets the default value.
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
     }
 
     /*!
      \reimp
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
      Fetches the http post var string input and stores it in the data instance.
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_ezpackage_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
             $data = $http->postVariable( $base . '_ezpackage_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
 
             // Save in ini files if the package type is sitestyle.
-            $classAttribute =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
-            if ( $classAttribute->attribute( EZ_DATATYPESTRING_PACKAGE_TYPE_FIELD ) == 'sitestyle' )
+            $classAttribute = $contentObjectAttribute->attribute( 'contentclass_attribute' );
+            if ( $classAttribute->attribute( self::TYPE_FIELD ) == 'sitestyle' )
             {
                 $package = eZPackage::fetch( $data );
                 if ( $package )
@@ -113,7 +113,7 @@ class eZPackageType extends eZDataType
                         $iniPath = 'settings/siteaccess/' . $currentSiteAccess;
                     }
 
-                    $designINI =& eZIni::instance( 'design.ini.append.php', $iniPath, null, false, null, true );
+                    $designINI = eZINI::instance( 'design.ini.append.php', $iniPath, null, false, null, true );
                     $designINI->setVariable( 'StylesheetSettings', 'SiteCSS', $siteCSS );
                     $designINI->setVariable( 'StylesheetSettings', 'ClassesCSS', $classesCSS );
                     $designINI->save();
@@ -128,9 +128,9 @@ class eZPackageType extends eZDataType
      Does nothing since it uses the data_text field in the content object attribute.
      See fetchObjectAttributeHTTPInput for the actual storing.
     */
-    function storeObjectAttribute( &$attribute )
+    function storeObjectAttribute( $attribute )
     {
-        $ini =& eZIni::instance();
+        $ini = eZINI::instance();
         // Delete compiled template
         $siteINI = eZINI::instance();
         if ( $siteINI->hasVariable( 'FileSettings', 'CacheDir' ) )
@@ -163,26 +163,26 @@ class eZPackageType extends eZDataType
         eZDir::unlinkWildcard( $compiledTemplateDir . "/", "*pagelayout*.*" );
 
         // Expire template block cache
-        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearTemplateBlockCacheIfNeeded( false );
     }
 
     /*!
      \reimp
     */
-    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $packageTypeName = $base . EZ_DATATYPESTRING_PACKAGE_TYPE_VARIABLE . $classAttribute->attribute( 'id' );
+        $packageTypeName = $base . self::TYPE_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $packageTypeName ) )
         {
             $packageTypeValue = $http->postVariable( $packageTypeName );
-            $classAttribute->setAttribute( EZ_DATATYPESTRING_PACKAGE_TYPE_FIELD, $packageTypeValue );
+            $classAttribute->setAttribute( self::TYPE_FIELD, $packageTypeValue );
         }
-        $packageViewModeName = $base . EZ_DATATYPESTRING_PACKAGE_VIEW_MODE_VARIABLE . $classAttribute->attribute( 'id' );
+        $packageViewModeName = $base . self::VIEW_MODE_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $packageViewModeName ) )
         {
             $packageViewModeValue = $http->postVariable( $packageViewModeName );
-            $classAttribute->setAttribute( EZ_DATATYPESTRING_PACKAGE_VIEW_MODE_FIELD, $packageViewModeValue );
+            $classAttribute->setAttribute( self::VIEW_MODE_FIELD, $packageViewModeValue );
         }
         return true;
     }
@@ -190,7 +190,7 @@ class eZPackageType extends eZDataType
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         $packageName = $contentObjectAttribute->attribute( "data_text" );
         $package = eZPackage::fetch( $packageName );
@@ -200,7 +200,7 @@ class eZPackageType extends eZDataType
     /*!
      Returns the meta data used for storing search indeces.
     */
-    function metaData( &$contentObjectAttribute )
+    function metaData( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( 'data_text' );
     }
@@ -208,12 +208,12 @@ class eZPackageType extends eZDataType
     /*!
      Returns the content of the string for use as a title
     */
-    function title( &$contentObjectAttribute )
+    function title( $contentObjectAttribute, $name = null )
     {
         return $contentObjectAttribute->attribute( 'data_text' );
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         return trim( $contentObjectAttribute->attribute( 'data_text' ) ) != '';
     }
@@ -229,7 +229,7 @@ class eZPackageType extends eZDataType
     /*!
      \reimp
     */
-    function sortKey( &$contentObjectAttribute )
+    function sortKey( $contentObjectAttribute )
     {
         return strtolower( $contentObjectAttribute->attribute( 'data_text' ) );
     }
@@ -245,19 +245,20 @@ class eZPackageType extends eZDataType
     /*!
      \reimp
     */
-    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $type = $classAttribute->attribute( EZ_DATATYPESTRING_PACKAGE_TYPE_FIELD );
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'type', $type ) );
+        $type = $classAttribute->attribute( self::TYPE_FIELD );
+        $typeNode = $attributeParametersNode->ownerDocument->createElement( 'type', $type );
+        $attributeParametersNode->appendChild( $typeNode );
     }
 
     /*!
      \reimp
     */
-    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $type = $attributeParametersNode->elementTextContentByName( 'type' );
-        $classAttribute->setAttribute( EZ_DATATYPESTRING_PACKAGE_TYPE_FIELD, $type );
+        $type = $attributeParametersNode->getElementsByTagName( 'type' )->item( 0 )->textContent;
+        $classAttribute->setAttribute( self::TYPE_FIELD, $type );
     }
 
     /*!
@@ -269,6 +270,6 @@ class eZPackageType extends eZDataType
     }
 }
 
-eZDataType::register( EZ_DATATYPESTRING_EZ_PACKAGE, 'ezpackagetype' );
+eZDataType::register( eZPackageType::DATA_TYPE_STRING, 'eZPackageType' );
 
 ?>

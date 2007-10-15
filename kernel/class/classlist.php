@@ -27,16 +27,16 @@
 //
 
 
-include_once( "kernel/classes/ezcontentclass.php" );
-include_once( "lib/ezutils/classes/ezhttppersistence.php" );
-include_once( "kernel/classes/ezcontentclassclassgroup.php" );
+//include_once( "kernel/classes/ezcontentclass.php" );
+//include_once( "lib/ezutils/classes/ezhttppersistence.php" );
+//include_once( "kernel/classes/ezcontentclassclassgroup.php" );
 
-$Module =& $Params["Module"];
+$Module = $Params['Module'];
 $GroupID = false;
 if ( isset( $Params["GroupID"] ) )
-    $GroupID =& $Params["GroupID"];
+    $GroupID = $Params["GroupID"];
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $http->setSessionVariable( 'FromGroupID', $GroupID );
 if ( $http->hasPostVariable( "RemoveButton" ) )
 {
@@ -74,11 +74,11 @@ if ( !isset( $TemplateData ) or !is_array( $TemplateData ) )
 }
 
 $Module->setTitle( ezi18n( 'kernel/class', 'Class list of group' ) . ' ' . $GroupID );
-include_once( "kernel/common/template.php" );
-$tpl =& templateInit();
+require_once( "kernel/common/template.php" );
+$tpl = templateInit();
 
-include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-$user =& eZUser::currentUser();
+//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+$user = eZUser::currentUser();
 foreach( $TemplateData as $tpldata )
 {
     $tplname = $tpldata["name"];
@@ -87,11 +87,11 @@ foreach( $TemplateData as $tpldata )
 
     if( !$groupInfo )
     {
-       return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+       return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
     }
 
     $list = eZContentClassClassGroup::fetchClassList( 0, $GroupID, $asObject = true );
-    $groupModifier =& eZContentObject::fetch( $groupInfo->attribute( 'modifier_id') );
+    $groupModifier = eZContentObject::fetch( $groupInfo->attribute( 'modifier_id') );
     $tpl->setVariable( $tplname, $list );
     $tpl->setVariable( "class_count", count( $list ) );
     $tpl->setVariable( "GroupID", $GroupID );
@@ -106,7 +106,7 @@ $groupName = $group->attribute( 'name' );
 $tpl->setVariable( "module", $Module );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:class/classlist.tpl" );
+$Result['content'] = $tpl->fetch( "design:class/classlist.tpl" );
 $Result['path'] = array( array( 'url' => '/class/grouplist/',
                                 'text' => ezi18n( 'kernel/class', 'Classes' ) ),
                          array( 'url' => false,

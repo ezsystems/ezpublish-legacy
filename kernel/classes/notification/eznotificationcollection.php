@@ -36,7 +36,7 @@
   \brief The class eZNotificationCollection does
 
 */
-include_once( 'kernel/classes/notification/eznotificationcollectionitem.php' );
+//include_once( 'kernel/classes/notification/eznotificationcollectionitem.php' );
 
 class eZNotificationCollection extends eZPersistentObject
 {
@@ -48,7 +48,7 @@ class eZNotificationCollection extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -88,7 +88,7 @@ class eZNotificationCollection extends eZPersistentObject
     }
 
 
-    function create( $eventID, $handler, $transport )
+    static function create( $eventID, $handler, $transport )
     {
         return new eZNotificationCollection( array( 'event_id' => $eventID,
                                                     'handler' => $handler,
@@ -102,15 +102,14 @@ class eZNotificationCollection extends eZPersistentObject
         return $item;
     }
 
-    function &items()
+    function items()
     {
-        $items = eZPersistentObject::fetchObjectList( eZNotificationCollectionItem::definition(),
-                                                       null, array( 'collection_id' => $this->attribute( 'id' ) ), null,null,
-                                                       true );
-        return $items;
+        return eZPersistentObject::fetchObjectList( eZNotificationCollectionItem::definition(),
+                                                    null, array( 'collection_id' => $this->attribute( 'id' ) ), null,null,
+                                                    true );
     }
 
-    function &itemCount()
+    function itemCount()
     {
         $result = eZPersistentObject::fetchObjectList( eZNotificationCollectionItem::definition(),
                                                        array(),
@@ -124,16 +123,15 @@ class eZNotificationCollection extends eZPersistentObject
         return $result[0]['count'];
     }
 
-    function &itemsToSend()
+    function itemsToSend()
     {
-        $items = eZPersistentObject::fetchObjectList( eZNotificationCollectionItem::definition(),
-                                                       null, array( 'collection_id' => $this->attribute( 'id' ),
-                                                                    'send_date' => 0 ),
-                                                       null, null, true );
-        return $items;
+        return eZPersistentObject::fetchObjectList( eZNotificationCollectionItem::definition(),
+                                                    null, array( 'collection_id' => $this->attribute( 'id' ),
+                                                                 'send_date' => 0 ),
+                                                    null, null, true );
     }
 
-    function fetchForHandler( $handler, $eventID, $transport )
+    static function fetchForHandler( $handler, $eventID, $transport )
     {
         return eZPersistentObject::fetchObject( eZNotificationCollection::definition(), null,
                                                 array( 'event_id' => $eventID,
@@ -141,7 +139,7 @@ class eZNotificationCollection extends eZPersistentObject
                                                        'transport' => $transport ) );
     }
 
-    function fetchListForHandler( $handler, $eventID, $transport )
+    static function fetchListForHandler( $handler, $eventID, $transport )
     {
         return eZPersistentObject::fetchObjectList( eZNotificationCollection::definition(), null,
                                                     array( 'event_id' => $eventID,
@@ -153,9 +151,9 @@ class eZNotificationCollection extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function removeEmpty()
+    static function removeEmpty()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         if ( $db->databaseName() == 'oracle' ) // fix for compatibility with Oracle versions prior to 9
             $query = 'SELECT eznotificationcollection.id FROM eznotificationcollection, eznotificationcollection_item
                       WHERE  eznotificationcollection.id = eznotificationcollection_item.collection_id(+) AND
@@ -181,9 +179,9 @@ class eZNotificationCollection extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function cleanup()
+    static function cleanup()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         eZNotificationCollectionItem::cleanup();
         $db->query( "DELETE FROM eznotificationcollection" );

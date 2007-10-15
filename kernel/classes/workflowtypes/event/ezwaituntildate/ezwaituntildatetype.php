@@ -36,59 +36,57 @@
   \brief The class eZWaitUntilDateType does
 
 */
-include_once( 'kernel/classes/workflowtypes/event/ezwaituntildate/ezwaituntildate.php' );
-define( "EZ_WORKFLOW_TYPE_WAIT_UNTIL_DATE_ID", "ezwaituntildate" );
+//include_once( 'kernel/classes/workflowtypes/event/ezwaituntildate/ezwaituntildate.php' );
 
 class eZWaitUntilDateType  extends eZWorkflowEventType
 {
+    const WORKFLOW_TYPE_STRING = "ezwaituntildate";
+
     /*!
      Constructor
     */
     function eZWaitUntilDateType()
     {
-        $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_WAIT_UNTIL_DATE_ID, ezi18n( 'kernel/workflow/event', "Wait until date" ) );
+        $this->eZWorkflowEventType( eZWaitUntilDateType::WORKFLOW_TYPE_STRING, ezi18n( 'kernel/workflow/event', "Wait until date" ) );
         $this->setTriggerTypes( array( 'content' => array( 'publish' => array( 'before',
                                                                                'after' ) ) ) );
     }
 
-    function execute( &$process, &$event )
+    function execute( $process, $event )
     {
         $parameters = $process->attribute( 'parameter_list' );
-        $object =& eZContentObject::fetch( $parameters['object_id'] );
+        $object = eZContentObject::fetch( $parameters['object_id'] );
 
         if ( !$object )
         {
             eZDebugSetting::writeError( 'kernel-workflow-waituntildate','The object with ID '.$parameters['object_id'].' does not exist.', 'eZApproveType::execute() object is unavailable' );
-            return EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_CANCELLED;
+            return eZWorkflowType::STATUS_WORKFLOW_CANCELLED;
         }
 
-        $version =& $object->version( $parameters['version'] );
+        $version = $object->version( $parameters['version'] );
         $objectAttributes = $version->attribute( 'contentobject_attributes' );
         $waitUntilDateObject =& $this->workflowEventContent( $event );
         $waitUntilDateEntryList = $waitUntilDateObject->attribute( 'classattribute_id_list' );
         $modifyPublishDate = $event->attribute( 'data_int1' );
+
         eZDebug::writeDebug( 'executing publish on time event' );
-//        eZDebug::writeDebug( $waitUntilDateEntryList, 'executing publish on time event' );
-//        eZDebug::writeDebug( $objectAttributes, 'publish on time event' );
 
         foreach ( array_keys( $objectAttributes ) as $key )
         {
             $objectAttribute =& $objectAttributes[$key];
             $contentClassAttributeID = $objectAttribute->attribute( 'contentclassattribute_id' );
-//            eZDebug::writeDebug( $waitUntilDateEntryList, "checking if $contentClassAttributeID in array:" );
             if ( in_array( $objectAttribute->attribute( 'contentclassattribute_id' ), $waitUntilDateEntryList ) )
             {
-                $dateTime =& $objectAttribute->attribute( 'content' );
-                if ( get_class( $dateTime ) == 'ezdatetime' or
-                     get_class( $dateTime ) == 'eztime' or
-                     get_class( $dateTime ) == 'ezdate' )
+                $dateTime = $objectAttribute->attribute( 'content' );
+                if ( $dateTime instanceof eZDateTime or
+                     $dateTime instanceof eZTime or
+                     $dateTime instanceof eZDate )
                 {
                     if ( time() < $dateTime->timeStamp() )
                     {
                         $this->setInformation( "Event delayed until " . $dateTime->toString( true ) );
                         $this->setActivationDate( $dateTime->timeStamp() );
-//                        eZDebug::writeDebug( $dateTime->toString(), 'executing publish on time event' );
-                        return EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON_REPEAT;
+                        return eZWorkflowType::STATUS_DEFERRED_TO_CRON_REPEAT;
                     }
                     else if ( $dateTime->isValid() and $modifyPublishDate )
                     {
@@ -97,19 +95,19 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
                     }
                     else
                     {
-                        return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
-//                        return EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_DONE;
+                        return eZWorkflowType::STATUS_ACCEPTED;
+//                        return eZWorkflowType::STATUS_WORKFLOW_DONE;
                     }
                 }
                 else
                 {
-                    return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
-//                   return EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_DONE;
+                    return eZWorkflowType::STATUS_ACCEPTED;
+//                   return eZWorkflowType::STATUS_WORKFLOW_DONE;
                 }
             }
         }
-        return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
-//        return EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_DONE;
+        return eZWorkflowType::STATUS_ACCEPTED;
+//        return eZWorkflowType::STATUS_WORKFLOW_DONE;
     }
 
     function attributes()
@@ -125,15 +123,13 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
         return in_array( $attr, $this->attributes() );
     }
 
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         switch( $attr )
         {
             case 'contentclass_list' :
             {
-                $classList = eZContentClass::fetchList( EZ_CLASS_VERSION_STATUS_DEFINED, true );
-                return $classList;
-
+                return eZContentClass::fetchList( eZContentClass::VERSION_STATUS_DEFINED, true );
             }break;
             case 'contentclassattribute_list' :
             {
@@ -154,24 +150,21 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
                 }
                 if ( $classID )
                 {
-                   $attributeList = eZContentClassAttribute::fetchListByClassID( $classID );
+                   return eZContentClassAttribute::fetchListByClassID( $classID );
                 }
-                else
-                    $attributeList = array();
-                return $attributeList;
+                return array();
             }break;
             case 'has_class_attributes' :
             {
                 // for the backward compatability:
-                $hasClassAttribute = 1;
-                return $hasClassAttribute;
+                return 1;
             }break;
             default:
                 return eZWorkflowEventType::attribute( $attr );
         }
     }
 
-    function customWorkflowEventHTTPAction( &$http, $action, &$workflowEvent )
+    function customWorkflowEventHTTPAction( $http, $action, $workflowEvent )
     {
         $id = $workflowEvent->attribute( "id" );
         switch ( $action )
@@ -181,9 +174,7 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
                 $waitUntilDate =& $workflowEvent->content( );
 
                 $classIDList = $http->postVariable( 'WorkflowEvent' . '_event_ezwaituntildate_' . 'class_' . $workflowEvent->attribute( 'id' )  );
-
                 $classAttributeIDList = $http->postVariable( 'WorkflowEvent' . '_event_ezwaituntildate_' . 'classattribute_' . $workflowEvent->attribute( 'id' )  );
-
 
                 $waitUntilDate->addEntry(  $classAttributeIDList[0], $classIDList[0] );
                 $workflowEvent->setContent( $waitUntilDate );
@@ -208,7 +199,6 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
                 {
                     $classIDList = $http->postVariable( 'WorkflowEvent' . '_event_ezwaituntildate_' .'class_' . $workflowEvent->attribute( 'id' ) );
                     eZDebug::writeDebug($classIDList, "classIDLIst" );
-//                    $http->setSessionVariable( 'eZWaitUntilDateSelectedClass',  $classIDList[0] );
                     $GLOBALS['eZWaitUntilDateSelectedClass'] = $classIDList[0];
                 }
                 else
@@ -224,7 +214,7 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
 
     }
 
-    function fetchHTTPInput( &$http, $base, &$event )
+    function fetchHTTPInput( $http, $base, $event )
     {
         $modifyDateVariable = $base . "_data_waituntildate_modifydate_" . $event->attribute( "id" );
         if ( $http->hasPostVariable( $modifyDateVariable ) )
@@ -234,24 +224,22 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
         }
     }
 
-    function &workflowEventContent( &$event )
+    function workflowEventContent( $event )
     {
         $id = $event->attribute( "id" );
         $version = $event->attribute( "version" );
-        $waitUntilDate = new eZWaitUntilDate( $id, $version );
-        return $waitUntilDate;
+        return new eZWaitUntilDate( $id, $version );
     }
 
-    function storeEventData( &$event, $version )
+    function storeEventData( $event, $version )
     {
-        $waitUntilDate =& $event->content();
-        $waitUntilDate->setVersion( $version );
+        $event->content()->setVersion( $version );
 
     }
 
 }
 
-eZWorkflowEventType::registerType( EZ_WORKFLOW_TYPE_WAIT_UNTIL_DATE_ID, "ezwaituntildatetype" );
+eZWorkflowEventType::registerEventType( eZWaitUntilDateType::WORKFLOW_TYPE_STRING, "eZWaitUntilDateType" );
 
 
 ?>

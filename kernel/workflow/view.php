@@ -26,34 +26,34 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/classes/ezworkflow.php" );
-include_once( "kernel/classes/ezworkflowgrouplink.php" );
-include_once( "kernel/common/template.php" );
+//include_once( "kernel/classes/ezworkflow.php" );
+//include_once( "kernel/classes/ezworkflowgrouplink.php" );
+require_once( "kernel/common/template.php" );
 
-$Module =& $Params["Module"];
-$http =& eZHTTPTool::instance();
+$Module = $Params['Module'];
+$http = eZHTTPTool::instance();
 $validation = array( 'processed' => false,
                      'groups' => array() );
 
 $WorkflowID = $Params["WorkflowID"];
 $WorkflowID = (int) $WorkflowID;
 if ( !is_int( $WorkflowID ) )
-    $Module->handleError( EZ_ERROR_KERNEL_NOT_FOUND, 'kernel' );
+    $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 
 $workflow = eZWorkflow::fetch( $WorkflowID );
 if ( !$workflow )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
 if ( $http->hasPostVariable( "AddGroupButton" ) && $http->hasPostVariable( "Workflow_group") )
 {
-    include_once( "kernel/workflow/ezworkflowfunctions.php" );
+    //include_once( "kernel/workflow/ezworkflowfunctions.php" );
 
     $selectedGroup = $http->postVariable( "Workflow_group" );
     eZWorkflowFunctions::addGroup( $WorkflowID, 0, $selectedGroup );
 }
 if ( $http->hasPostVariable( "DeleteGroupButton" ) && $http->hasPostVariable( "group_id_checked" ) )
 {
-    include_once( "kernel/workflow/ezworkflowfunctions.php" );
+    //include_once( "kernel/workflow/ezworkflowfunctions.php" );
 
     $selectedGroup = $http->postVariable( "group_id_checked" );
     if ( !eZWorkflowFunctions::removeGroup( $WorkflowID, 0, $selectedGroup ) )
@@ -63,10 +63,10 @@ if ( $http->hasPostVariable( "DeleteGroupButton" ) && $http->hasPostVariable( "g
     }
 }
 
-$event_list =& $workflow->fetchEvents();
+$event_list = $workflow->fetchEvents();
 
-$tpl =& templateInit();
-$res =& eZTemplateDesignResource::instance();
+$tpl = templateInit();
+$res = eZTemplateDesignResource::instance();
 $res->setKeys( array( array( "workflow", $workflow->attribute( "id" ) ) ) );
 
 $tpl->setVariable( "workflow", $workflow );
@@ -74,7 +74,7 @@ $tpl->setVariable( "event_list", $event_list );
 $tpl->setVariable( 'validation', $validation );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:workflow/view.tpl" );
+$Result['content'] = $tpl->fetch( "design:workflow/view.tpl" );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/workflow', 'Workflow' ),
                                 'url' => false ),
                          array( 'text' => ezi18n( 'kernel/workflow', 'View' ),

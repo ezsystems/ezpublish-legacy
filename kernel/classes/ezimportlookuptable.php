@@ -110,7 +110,7 @@ class eZImportLookupTable
 
      \param force new instance (optional), default false
     */
-    function &instance( $forceNewInstance = false )
+    static function instance( $forceNewInstance = false )
     {
         if ( $forceNewInstance === true )
         {
@@ -127,9 +127,9 @@ class eZImportLookupTable
         return $object;
     }
 
-    var $NodeIDTable = array();
-    var $NodePathTable = array();
-    var $ObjectIDTable = array();
-    var $ObjectPathTable = array();
+    public $NodeIDTable = array();
+    public $NodePathTable = array();
+    public $ObjectIDTable = array();
+    public $ObjectPathTable = array();
 }
 ?>

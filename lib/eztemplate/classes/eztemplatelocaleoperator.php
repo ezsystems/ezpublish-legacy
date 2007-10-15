@@ -46,8 +46,8 @@
 \endcode
 */
 
-include_once( "lib/ezlocale/classes/ezlocale.php" );
-include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+//include_once( "lib/ezlocale/classes/ezlocale.php" );
+//include_once( 'lib/ezlocale/classes/ezdatetime.php' );
 
 class eZTemplateLocaleOperator
 {
@@ -70,7 +70,7 @@ class eZTemplateLocaleOperator
     /*!
      Returns array with l10n.
     */
-    function &operatorList()
+    function operatorList()
     {
         return $this->Operators;
     }
@@ -147,25 +147,25 @@ class eZTemplateLocaleOperator
     /*!
      Transforms
      */
-    function l10nTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                 &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function l10nTransformation( $operatorName, &$node, $tpl, &$resourceData,
+                                 $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $newElements = array();
 
         $newElements[] = eZTemplateNodeTool::createCodePieceElement( '// l10nTransformation begin' . "\n" );
-        $newElements[] = eZTemplateNodeTool::createCodePieceElement( 'include_once("lib/ezlocale/classes/ezlocale.php");' . "\n" );
+        $newElements[] = eZTemplateNodeTool::createCodePieceElement( '//include_once("lib/ezlocale/classes/ezlocale.php");' . "\n" );
         $values[] = $parameters[0];
 
         if ( count( $parameters ) > 2 )
         {
             $values[] = $parameters[2];
-            $newElements[] = eZTemplateNodeTool::createCodePieceElement( "\$locale =& eZLocale::instance( %2% );\n", $values );
+            $newElements[] = eZTemplateNodeTool::createCodePieceElement( "\$locale = eZLocale::instance( %2% );\n", $values );
         }
         else
         {
             $values[] = false;
-            $newElements[] = eZTemplateNodeTool::createCodePieceElement( "\$locale =& eZLocale::instance();\n" );
+            $newElements[] = eZTemplateNodeTool::createCodePieceElement( "\$locale = eZLocale::instance();\n" );
         }
 
         if ( !eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
@@ -208,7 +208,7 @@ class eZTemplateLocaleOperator
             $newElements[] = eZTemplateNodeTool::createCodePieceElement( '// l10nTransformation: static' . "\n" );
             if ( ( $function = eZTemplateNodeTool::elementStaticValue( $parameters[1] ) ) !== false )
             {
-                $locale =& eZLocale::instance();
+                $locale = eZLocale::instance();
                 $method = $locale->getFormattingFunction( $function );
 
                 if ( $method )
@@ -239,8 +239,8 @@ class eZTemplateLocaleOperator
         }
     }
 
-    function dateTimeTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                     &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function dateTimeTransformation( $operatorName, &$node, $tpl, &$resourceData,
+                                     $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $newElements = array();
@@ -262,8 +262,8 @@ class eZTemplateLocaleOperator
             return false;
         }
 
-        $newElements[] = eZTemplateNodeTool::createCodePieceElement( 'include_once("lib/ezlocale/classes/ezlocale.php");' . "\n" );
-        $newElements[] = eZTemplateNodeTool::createCodePieceElement( '$locale =& eZLocale::instance();' . "\n" );
+        $newElements[] = eZTemplateNodeTool::createCodePieceElement( '//include_once("lib/ezlocale/classes/ezlocale.php");' . "\n" );
+        $newElements[] = eZTemplateNodeTool::createCodePieceElement( '$locale = eZLocale::instance();' . "\n" );
 
         if ( $class == 'custom' )
         {
@@ -275,7 +275,7 @@ class eZTemplateLocaleOperator
         }
         else
         {
-            $dtINI =& eZINI::instance( 'datetime.ini' );
+            $dtINI = eZINI::instance( 'datetime.ini' );
             $formats = $dtINI->variable( 'ClassSettings', 'Formats' );
             if ( array_key_exists( $class, $formats ) )
             {
@@ -288,16 +288,16 @@ class eZTemplateLocaleOperator
         return false;
     }
 
-    function currentDateTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                        &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function currentDateTransformation( $operatorName, &$node, $tpl, &$resourceData,
+                                        $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $newElements = array();
         $newElements[] = eZTemplateNodeTool::createCodePieceElement( "%output% = time();\n" );
         return $newElements;
     }
 
-    function makeDateTimeTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                         &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function makeDateTimeTransformation( $operatorName, &$node, $tpl, &$resourceData,
+                                         $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $arguments = array();
@@ -323,8 +323,8 @@ class eZTemplateLocaleOperator
         return $newElements;
     }
 
-    function getTimeTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                    &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function getTimeTransformation( $operatorName, &$node, $tpl, &$resourceData,
+                                    $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $newElements = array();
         $values = array();
@@ -372,7 +372,7 @@ class eZTemplateLocaleOperator
      - clean_currency
      - number
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters,
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters,
                      $placement )
     {
         if ( $operatorName == $this->LocaleFetchName )
@@ -390,11 +390,11 @@ class eZTemplateLocaleOperator
                 }
                 $localeString = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement, true );
             }
-            $locale =& eZLocale::instance( $localeString );
+            $locale = eZLocale::instance( $localeString );
             $operatorValue = $locale;
             return;
         }
-        $locale =& eZLocale::instance();
+        $locale = eZLocale::instance();
         if ( $operatorName == $this->GetTimeName )
         {
             $timestamp = $operatorValue;
@@ -478,7 +478,7 @@ class eZTemplateLocaleOperator
             }
             else
             {
-                $dtINI =& eZINI::instance( 'datetime.ini' );
+                $dtINI = eZINI::instance( 'datetime.ini' );
                 $formats = $dtINI->variable( 'ClassSettings', 'Formats' );
                 if ( array_key_exists( $class, $formats ) )
                 {
@@ -500,7 +500,7 @@ class eZTemplateLocaleOperator
 
             // change locale if need
             if ( $localeString )
-                $locale =& eZLocale::instance( $localeString );
+                $locale = eZLocale::instance( $localeString );
 
             $method = $locale->getFormattingFunction( $type );
             if ( $method )
@@ -530,13 +530,13 @@ class eZTemplateLocaleOperator
 
     /// \privatesection
     /// The operator array
-    var $Operators;
+    public $Operators;
     /// A reference to the locale object
-    var $Locale;
+    public $Locale;
 
-    var $LocaleName;
-    var $DateTimeName;
-    var $CurrentDateName;
+    public $LocaleName;
+    public $DateTimeName;
+    public $CurrentDateName;
 }
 
 ?>

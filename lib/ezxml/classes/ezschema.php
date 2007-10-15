@@ -38,13 +38,13 @@
 
 */
 
-include_once( "lib/ezutils/classes/ezdebug.php" );
+require_once( "lib/ezutils/classes/ezdebug.php" );
 
-include_once( "lib/ezxml/classes/ezxml.php" );
-include_once( "lib/ezxml/classes/ezschemaelement.php" );
+//include_once( "lib/ezxml/classes/ezxml.php" );
+//include_once( "lib/ezxml/classes/ezschemaelement.php" );
 
-include_once( "lib/ezxml/classes/ezsimpletype.php" );
-include_once( "lib/ezxml/classes/ezcomplextype.php" );
+//include_once( "lib/ezxml/classes/ezsimpletype.php" );
+//include_once( "lib/ezxml/classes/ezcomplextype.php" );
 
 class eZSchema
 {
@@ -72,7 +72,7 @@ class eZSchema
     function setSchema( &$schemaDocument )
     {
         $xml = new eZXML();
-        $schemaDom =& $xml->domTree( $schemaDocument );
+        $schemaDom = $xml->domTree( $schemaDocument );
 
         $schemaRoot = $schemaDom->root();
 
@@ -91,7 +91,7 @@ class eZSchema
                 // register types
                 $element =& $this->parseElement( $schemaNode );
 
-                if ( get_class( $element ) == "ezschemaelement" )
+                if ( $element instanceof eZSchemaElement )
                 {
                     if ( $i == 0 )
                     {
@@ -120,7 +120,7 @@ class eZSchema
             $element->setName( $schemaNode->attributeValue( "name" ) );
 
             // set the next reference in the parent element
-            if ( get_class( $parentElement ) == "ezelement" )
+            if ( $parentElement instanceof eZElement )
                 $parentElement->setNext( $element );
 
             $minOccurs = $schemaNode->attributeValue( "minOccurs" );
@@ -183,7 +183,7 @@ class eZSchema
                                     {
                                         $subElement =& $this->parseElement( $seqElement, $element );
 
-                                        if ( get_clasS( $subElement ) == "ezschemaelement" )
+                                        if ( $subElement instanceof eZSchemaElement )
                                             $element->Children[] = $subElement;
 
                                     }
@@ -283,7 +283,7 @@ class eZSchema
       \private
       Debug function. Prints the element information.
     */
-    function printElement( &$element, &$dom, $level )
+    function printElement( $element, &$dom, $level )
     {
         $spacer = str_repeat( "&nbsp;", $level*4 );
 
@@ -376,16 +376,16 @@ class eZSchema
     }
 
     /// Contains the validation root
-    var $ValidationRoot = false;
+    public $ValidationRoot = false;
 
     /// Contains the schema elements, elements are indexed by their name.
-    var $Elements = array();
+    public $Elements = array();
 
     /// Description or the schema
-    var $Annotation = "";
+    public $Annotation = "";
 
     /// Contains the schema root namespace prefix
-    var $RootPrefix;
+    public $RootPrefix;
 
 }
 

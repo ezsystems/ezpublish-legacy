@@ -37,7 +37,7 @@
 
 */
 
-include_once( 'kernel/error/errors.php' );
+//include_once( 'kernel/error/errors.php' );
 
 class eZClassFunctionCollection
 {
@@ -66,21 +66,21 @@ class eZClassFunctionCollection
         if ( !is_array( $classFilter ) or
              count( $classFilter ) > 0 )
         {
-            include_once( 'kernel/classes/ezcontentclass.php' );
+            //include_once( 'kernel/classes/ezcontentclass.php' );
             $contentClassList = eZContentClass::fetchList( 0, true, false,
                                                             $sorts, null,
                                                             $classFilter );
         }
         if ( $contentClassList === null )
             return array( 'error' => array( 'error_type' => 'kernel',
-                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+                                            'error_code' => eZError::KERNEL_NOT_FOUND ) );
         return array( 'result' => $contentClassList );
     }
 
     function fetchLatestClassList( $offset, $limit )
     {
         $contentClassList = array();
-        include_once( 'kernel/classes/ezcontentclass.php' );
+        //include_once( 'kernel/classes/ezcontentclass.php' );
         $limitData = null;
         if ( $limit )
             $limitData = array( 'offset' => $offset,
@@ -93,11 +93,15 @@ class eZClassFunctionCollection
 
     function fetchClassAttributeList( $classID )
     {
-        include_once( 'kernel/classes/ezcontentclass.php' );
-        $contentClassAttributeList =& eZContentClass::fetchAttributes( $classID );
+        //include_once( 'kernel/classes/ezcontentclass.php' );
+        $contentClassAttributeList = array();
+        if ( $contentClass = eZContentClass::fetch( $classID ) )
+        {
+            $contentClassAttributeList = $contentClass->fetchAttributes();
+        }
         if ( $contentClassAttributeList === null )
             return array( 'error' => array( 'error_type' => 'kernel',
-                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+                                            'error_code' => eZError::KERNEL_NOT_FOUND ) );
         return array( 'result' => $contentClassAttributeList );
     }
 
@@ -108,7 +112,7 @@ class eZClassFunctionCollection
 
         $result = array ();
 
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
 
         $siteAccessArray = $ini->variable('SiteAccessSettings', 'AvailableSiteAccessList' );
 

@@ -28,12 +28,12 @@
 
 /*!
   \class eZMysqlSchema ezmysqlschema.php
-  \ingroup eZDBSchema
+  \ingroup eZDbSchema
   \brief Handles schemas for MySQL
 
 */
 
-include_once( 'lib/ezdbschema/classes/ezdbschemainterface.php' );
+//include_once( 'lib/ezdbschema/classes/ezdbschemainterface.php' );
 
 class eZMysqlSchema extends eZDBSchemaInterface
 {
@@ -442,7 +442,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
     /*!
      * \private
      */
-    function generateAlterFieldSql( $table_name, $field_name, $def = array() )
+    function generateAlterFieldSql( $table_name, $field_name, $def, $params )
     {
         $sql = "ALTER TABLE $table_name CHANGE COLUMN $field_name ";
         $sql .= eZMysqlSchema::generateFieldDef ( $field_name, $def, $dummy );
@@ -600,7 +600,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
     */
     function tableCharsetName( $charset )
     {
-        include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
+        //include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
         $charset = eZCharsetInfo::realCharsetCode( $charset );
         // Convert charset names into something MySQL will understand
         $charsetMapping = array( 'iso-8859-1' => 'latin1',
@@ -668,7 +668,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
     */
     function isMultiInsertSupported()
     {
-        if ( is_subclass_of( $this->DBInstance, 'ezdbinterface' ) )
+        if ( $this->DBInstance instanceof eZDBInterface )
         {
             $versionInfo = $this->DBInstance->databaseServerVersion();
 

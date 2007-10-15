@@ -28,8 +28,8 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/setup/steps/ezstep_installer.php');
-include_once( "kernel/common/i18n.php" );
+//include_once( 'kernel/setup/steps/ezstep_installer.php');
+require_once( "kernel/common/i18n.php" );
 
 /*!
   \class eZStepSiteTypes ezstep_site_types.php
@@ -42,9 +42,9 @@ class eZStepSiteTypes extends eZStepInstaller
     /*!
      Constructor
     */
-    function eZStepSiteTypes( &$tpl, &$http, &$ini, &$persistenceList )
+    function eZStepSiteTypes( $tpl, $http, $ini, &$persistenceList )
     {
-        $ini =& eZINI::instance( 'package.ini' );
+        $ini = eZINI::instance( 'package.ini' );
         $this->IndexURL = $ini->variable( 'RepositorySettings', 'RemotePackagesIndexURL' );
 
         if ( substr( $this->IndexURL, -1, 1 ) == '/' )
@@ -71,13 +71,6 @@ class eZStepSiteTypes extends eZStepInstaller
     {
         $fileName = $outDir . "/" . ( $forcedFileName ? $forcedFileName : basename( $url ) );
 
-        /* Do nothing if the file already exists (no need to download).
-        if ( file_exists( $fileName ) )
-        {
-            eZDebug::writeNotice( "Skipping download to '$fileName': file already exists." );
-            return $fileName;
-        }
-        */
         eZDebug::writeNotice( "Downloading file '$fileName' from $url" );
 
         // Create the out directory if not exists.
@@ -101,7 +94,7 @@ class eZStepSiteTypes extends eZStepInstaller
             curl_setopt( $ch, CURLOPT_HEADER, 0 );
             curl_setopt( $ch, CURLOPT_FAILONERROR, 1 );
             // Get proxy
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $proxy = $ini->hasVariable( 'ProxySettings', 'ProxyServer' ) ? $ini->variable( 'ProxySettings', 'ProxyServer' ) : false;
             if ( $proxy )
             {
@@ -136,8 +129,8 @@ class eZStepSiteTypes extends eZStepInstaller
             // Note: Could be blocked by not allowing remote calls.
             if ( !copy( $url, $fileName ) )
             {
-                include_once( 'lib/ezutils/classes/ezhttptool.php' );
-                include_once( 'lib/ezfile/classes/ezfile.php' );
+                //include_once( 'lib/ezutils/classes/ezhttptool.php' );
+                //include_once( 'lib/ezfile/classes/ezfile.php' );
 
                 $buf = eZHTTPTool::sendHTTPRequest( $url, 80, false, 'eZ Publish', false );
 
@@ -171,7 +164,7 @@ class eZStepSiteTypes extends eZStepInstaller
      */
     function downloadAndImportPackage( $packageName, $packageUrl, $forceDownload = false )
     {
-        include_once( 'kernel/classes/ezpackage.php' );
+        //include_once( 'kernel/classes/ezpackage.php' );
         $package = eZPackage::fetch( $packageName, false, false, false );
 
         if ( is_object( $package ) )
@@ -201,7 +194,7 @@ class eZStepSiteTypes extends eZStepInstaller
         $package = eZPackage::import( $archiveName, $packageName, false );
 
         // Remove downloaded ezpkg file
-        include_once( 'lib/ezfile/classes/ezfilehandler.php' );
+        //include_once( 'lib/ezfile/classes/ezfilehandler.php' );
         eZFileHandler::unlink( $archiveName );
 
         if ( !is_object( $package ) )
@@ -301,8 +294,8 @@ class eZStepSiteTypes extends eZStepInstaller
      */
     function uploadPackage()
     {
-        include_once( "lib/ezutils/classes/ezhttpfile.php" );
-        include_once( "kernel/classes/ezpackage.php" );
+        //include_once( "lib/ezutils/classes/ezhttpfile.php" );
+        //include_once( "kernel/classes/ezpackage.php" );
 
 
         if ( !eZHTTPFile::canFetch( 'PackageBinaryFile' ) )
@@ -312,7 +305,7 @@ class eZStepSiteTypes extends eZStepInstaller
             return;
         }
 
-        $file =& eZHTTPFile::fetch( 'PackageBinaryFile' );
+        $file = eZHTTPFile::fetch( 'PackageBinaryFile' );
         if ( !$file )
         {
             $this->ErrorMsg = ezi18n( 'design/standard/setup/init',
@@ -337,8 +330,10 @@ class eZStepSiteTypes extends eZStepInstaller
             // package successfully imported
             return;
         }
-        elseif ( $package == EZ_PACKAGE_STATUS_ALREADY_EXISTS )
+        elseif ( $package == eZPackage::STATUS_ALREADY_EXISTS )
+        {
             eZDebug::writeWarning( "Package '$packageName' already exists." );
+        }
         else
         {
             $this->ErrorMsg = ezi18n( 'design/standard/setup/init',
@@ -388,7 +383,7 @@ class eZStepSiteTypes extends eZStepInstaller
             // local (already imported) site package chosen: just fetch it.
             $sitePackageName = $sitePackageInfo;
 
-            include_once( 'kernel/classes/ezpackage.php' );
+            //include_once( 'kernel/classes/ezpackage.php' );
             $package = eZPackage::fetch( $sitePackageName, false, false, false );
             $this->ErrorMsg = ezi18n( 'design/standard/setup/init', 'Invalid package' ) . '.';
         }
@@ -499,7 +494,7 @@ class eZStepSiteTypes extends eZStepInstaller
     /*!
      \reimp
     */
-    function &display()
+    function display()
     {
         $remoteSitePackages = $this->retrieveRemoteSitePackagesList();
         $importedSitePackages = $this->fetchAvailableSitePackages();
@@ -559,7 +554,7 @@ class eZStepSiteTypes extends eZStepInstaller
      */
     function fetchAvailableSitePackages()
     {
-        include_once( 'kernel/classes/ezpackage.php' );
+        //include_once( 'kernel/classes/ezpackage.php' );
         $packageList = eZPackage::fetchPackages( array( 'db_available' => false ), array( 'type' => 'site' ) );
 
         return $packageList;
@@ -576,7 +571,7 @@ class eZStepSiteTypes extends eZStepInstaller
         if ( $type )
             $typeArray['type'] = $type;
 
-        include_once( 'kernel/classes/ezpackage.php' );
+        //include_once( 'kernel/classes/ezpackage.php' );
         $packageList = eZPackage::fetchPackages( array( 'db_available' => false ), $typeArray );
 
         return $packageList;
@@ -611,36 +606,40 @@ class eZStepSiteTypes extends eZStepInstaller
         }
 
         // Parse it.
-        include_once( 'lib/ezfile/classes/ezfile.php' );
-        include_once( "lib/ezxml/classes/ezxml.php" );
+        //include_once( 'lib/ezfile/classes/ezfile.php' );
 
         $xmlString = eZFile::getContents( $idxFileName );
         @unlink( $idxFileName );
-        $xml = new eZXML();
-        $domDocument = $xml->domTree( $xmlString );
+        $dom = new DOMDocument();
+        $dom->preserveWhiteSpace = false;
+        $success = $dom->loadXML( $xmlString );
 
-        if ( !is_object( $domDocument ) )
+        if ( !$success )
         {
             eZDebug::writeError( "Malformed index file." );
             return false;
         }
 
-        $root = $domDocument->root();
+        $root = $dom->documentElement;
 
-        if ( $root->name() != 'packages' )
+        if ( $root->localName != 'packages' )
         {
             eZDebug::writeError( "Malformed index file." );
             return false;
         }
 
         $packageList = array();
-        foreach ( $root->children() as $packageNode )
+        foreach ( $root->childNodes as $packageNode )
         {
-            if ( $packageNode->name() != 'package' ) // skip unwanted chilren
+            if ( $packageNode->localName != 'package' ) // skip unwanted chilren
                 continue;
             if ( $onlySitePackages && $packageNode->getAttribute( 'type' ) != 'site' )  // skip non-site packages
                 continue;
-            $packageAttributes = $packageNode->attributeValues();
+            $packageAttributes = array();
+            foreach ( $packageNode->attributes as $attributeNode )
+            {
+                $packageAttributes[$attributeNode->localName] = $attributeNode->value;
+            }
             $packageList[$packageAttributes['name']] = $packageAttributes;
         }
 
@@ -687,13 +686,13 @@ class eZStepSiteTypes extends eZStepInstaller
     }
 
     // current repository URL
-    var $IndexURL;
-    var $XMLIndexURL;
+    public $IndexURL;
+    public $XMLIndexURL;
 
-    var $Error = 0;
-    var $ErrorMsg = false;
-    var $FileOpenErrorMsg = false;
-    var $Message = false;
+    public $Error = 0;
+    public $ErrorMsg = false;
+    public $FileOpenErrorMsg = false;
+    public $Message = false;
 }
 
 ?>

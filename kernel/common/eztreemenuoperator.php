@@ -28,7 +28,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+//include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 
 class eZTreeMenuOperator
 {
@@ -42,7 +42,7 @@ class eZTreeMenuOperator
     /*!
      Returns the operators in this class.
     */
-    function &operatorList()
+    function operatorList()
     {
         return $this->Operators;
     }
@@ -81,7 +81,7 @@ class eZTreeMenuOperator
     /*!
      \reimp
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
         $level = 0;
         $done = false;
@@ -92,7 +92,9 @@ class eZTreeMenuOperator
         $language = $namedParameters['language'];
         // node_id is not used anymore
         if ( isset( $namedParameters['node_id'] ) )
+        {
             eZDebug::writeNotice( 'Deprecated parameter "node_id" in treemenu template operator' );
+        }
 
         if ( $classFilter === false )
         {
@@ -149,7 +151,7 @@ class eZTreeMenuOperator
                 else
                     $nextNodeID = false;
 
-                $menuChildren = eZContentObjectTreeNode::subTree( array( 'Depth' => 1,
+                $menuChildren = eZContentObjectTreeNode::subTreeByNodeID( array( 'Depth' => 1,
                                                                          'Offset' => 0,
                                                                          'SortBy' => $node->sortArray(),
                                                                          'Language' => $language,
@@ -224,7 +226,7 @@ class eZTreeMenuOperator
                 {
                     $node = eZContentObjectTreeNode::fetch( 2 );
                     if ( !isset( $node ) ) { $operatorValue = $pathArray; return; }
-                    $menuChildren = eZContentObjectTreeNode::subTree( array( 'Depth' => 1,
+                    $menuChildren = eZContentObjectTreeNode::subTreeByNodeID( array( 'Depth' => 1,
                                                                              'Offset' => 0,
                                                                              'SortBy' => $node->sortArray(),
                                                                              'Language' => $language,
@@ -263,7 +265,7 @@ class eZTreeMenuOperator
     }
 
     /// \privatesection
-    var $Operators;
+    public $Operators;
 };
 
 ?>

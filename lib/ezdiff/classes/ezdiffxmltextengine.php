@@ -38,7 +38,7 @@
   \brief This class creates a diff for xml text.
 */
 
-include_once( 'lib/ezdiff/classes/ezdiffengine.php' );
+//include_once( 'lib/ezdiff/classes/ezdiffengine.php' );
 
 class eZDiffXMLTextEngine extends eZDiffEngine
 {
@@ -52,11 +52,10 @@ class eZDiffXMLTextEngine extends eZDiffEngine
     */
     function createDifferenceObject( $fromData, $toData )
     {
-        include_once( 'lib/ezdiff/classes/ezxmltextdiff.php' );
-        include_once( 'lib/ezdiff/classes/ezdifftextengine.php' );
-        include_once( 'lib/ezutils/classes/ezini.php' );
-        include_once( 'kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmleditoutput.php' );
-        include_once( 'lib/ezxml/classes/ezxml.php' );
+        //include_once( 'lib/ezdiff/classes/ezxmltextdiff.php' );
+        //include_once( 'lib/ezdiff/classes/ezdifftextengine.php' );
+        //include_once( 'lib/ezutils/classes/ezini.php' );
+        //include_once( 'kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmleditoutput.php' );
 
         $changes = new eZXMLTextDiff();
         $contentINI = eZINI::instance( 'content.ini' );
@@ -70,14 +69,17 @@ class eZDiffXMLTextEngine extends eZDiffEngine
         $newXML = $newXMLTextObject->attribute( 'xml_data' );
 
         $simplifiedXML = new eZSimplifiedXMLEditOutput();
-        $xml = new eZXML();
-        $domOld =& $xml->domTree( $oldXML, array( 'CharsetConversion' => false, 'ConvertSpecialChars' => false, 'SetParentNode' => true ) );
-        $domNew =& $xml->domTree( $newXML, array( 'CharsetConversion' => false, 'ConvertSpecialChars' => false, 'SetParentNode' => true ) );
+
+        $domOld = new DOMDocument();
+        $domOld->preserveWhiteSpace = false;
+        $domOld->loadXML( $oldXML );
+
+        $domNew = new DOMDocument();
+        $domNew->preserveWhiteSpace = false;
+        $domNew->loadXML( $newXML );
+
         $old = $simplifiedXML->performOutput( $domOld );
         $new = $simplifiedXML->performOutput( $domNew );
-
-        $domOld->cleanup();
-        $domNew->cleanup();
 
         if ( !$diffSimplifiedXML )
         {

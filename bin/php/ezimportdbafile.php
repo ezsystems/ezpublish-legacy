@@ -29,18 +29,20 @@
 /*! \file ezimportdbafile.php
 */
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
-include_once( 'kernel/classes/ezdatatype.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'kernel/classes/ezdatatype.php' );
 
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ Publish datatype sql update\n\n" .
-                                                         "Script can be runned as:\n" .
-                                                         "bin/php/ezimportdbafile.php --datatype=\n\n" .
-                                                         "Example: bin/php/ezimportdbafile.php --datatype=ezisbn" ),
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+require 'autoload.php';
+
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'description' => ( "eZ Publish datatype sql update\n\n" .
+                                                        "Script can be runned as:\n" .
+                                                        "bin/php/ezimportdbafile.php --datatype=\n\n" .
+                                                        "Example: bin/php/ezimportdbafile.php --datatype=ezisbn" ),
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 
@@ -60,11 +62,11 @@ if ( $dataTypeName !== null and
 {
     // Inserting data from the dba-data files of the datatypes
     eZDataType::loadAndRegisterAllTypes();
-    $registeredDataTypes =& eZDataType::registeredDataTypes();
+    $registeredDataTypes = eZDataType::registeredDataTypes();
 
     if ( isset( $registeredDataTypes[$dataTypeName] ) )
     {
-        $dataType =& $registeredDataTypes[$dataTypeName];
+        $dataType = $registeredDataTypes[$dataTypeName];
         if ( $dataType->importDBDataFromDBAFile() )
         {
             $cli->output( "The database is updated for the datatype: " .

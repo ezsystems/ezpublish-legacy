@@ -27,12 +27,12 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "lib/ezutils/classes/ezhttptool.php" );
-include_once( "kernel/common/template.php" );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
+require_once( "kernel/common/template.php" );
 
-$module =& $Params["Module"];
-$http   =& eZHTTPTool::instance();
+$module = $Params['Module'];
+$http   = eZHTTPTool::instance();
 
 if ( $http->hasSessionVariable( 'AssignmentRemoveData' ) )
 {
@@ -43,11 +43,11 @@ if ( $http->hasSessionVariable( 'AssignmentRemoveData' ) )
     $editLanguage = $data['edit_language'];
     $fromLanguage = $data['from_language'];
 
-    $object =& eZContentObject::fetch( $objectID );
+    $object = eZContentObject::fetch( $objectID );
     if ( !$object )
-        return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
     if ( !$object->checkAccess( 'edit' ) )
-        return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
     unset( $object );
 }
 else
@@ -61,10 +61,10 @@ if ( $module->isCurrentAction( 'ConfirmRemoval' ) )
 {
     $http->removeSessionVariable( 'AssignmentRemoveData' );
 
-    $assignments     = eZnodeAssignment::fetchListByID( $removeList );
+    $assignments     = eZNodeAssignment::fetchListByID( $removeList );
     $mainNodeChanged = false;
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach ( $assignments as $assignment )
     {
@@ -93,7 +93,7 @@ $removeList = array();
 $canRemoveAll = true;
 foreach ( $assignmentsToRemove as $assignment )
 {
-    $node =& $assignment->attribute( 'node' );
+    $node = $assignment->attribute( 'node' );
 
     // skip assignments which don't have associated node or node with no children
     if ( !$node )
@@ -106,20 +106,20 @@ foreach ( $assignmentsToRemove as $assignment )
     // if this differs from the total count it means we have items we cannot remove
     // We do this by fetching the limitation list for content/remove
     // and passing it to the subtre count function.
-    include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-    $currentUser =& eZUser::currentUser();
+    //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+    $currentUser = eZUser::currentUser();
     $accessResult = $currentUser->hasAccessTo( 'content', 'remove' );
     $canRemoveSubtree = true;
     if ( $accessResult['accessWord'] == 'limited' )
     {
-        $limitationList =& $accessResult['policies'];
+        $limitationList = $accessResult['policies'];
         $removeableChildCount = $node->subTreeCount( array( 'Limitation' => $limitationList ) );
         $canRemoveSubtree = ( $removeableChildCount == $count );
     }
     if ( !$canRemoveSubtree )
         $canRemoveAll = false;
-    $object =& $node->object();
-    $class =& $object->contentClass();
+    $object = $node->object();
+    $class = $object->contentClass();
 
     $removeList[] = array( 'node' => $node,
                            'object' => $object,
@@ -135,12 +135,12 @@ $assignmentData = array( 'object_id'      => $objectID,
                          'remove_list'    => $removeList );
 $info = array( 'can_remove_all' => $canRemoveAll );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable( 'assignment_data', $assignmentData );
 $tpl->setVariable( 'remove_info', $info );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:content/removeassignment.tpl" );
+$Result['content'] = $tpl->fetch( "design:content/removeassignment.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/content', 'Remove location' ) ) );
 ?>

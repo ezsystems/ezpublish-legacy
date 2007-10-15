@@ -44,11 +44,13 @@
  For more details pleaase see doc/feautures/3.8/ssl_zones.txt
 */
 
-include_once( 'lib/ezutils/classes/ezini.php' );
-include_once( 'lib/ezutils/classes/ezsys.php' );
+//include_once( 'lib/ezutils/classes/ezini.php' );
+//include_once( 'lib/ezutils/classes/ezsys.php' );
 
 class eZSSLZone
 {
+    const DEFAULT_SSL_PORT = 443;
+
     /*! \privatesection */
 
     /**
@@ -56,13 +58,13 @@ class eZSSLZone
      * Returns true if the SSL zones functionality is enabled, false otherwise.
      * The result is cached in memory to save time on multiple invocations.
      */
-    function enabled()
+    static function enabled()
     {
         if ( isset( $GLOBALS['eZSSLZoneEnabled'] ) )
             return $GLOBALS['eZSSLZoneEnabled'];
 
         $enabled = false;
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         if ( $ini->hasVariable( 'SSLZoneSettings', 'SSLZones' ) )
             $enabled = ( $ini->variable( 'SSLZoneSettings', 'SSLZones' ) == 'enabled' );
 
@@ -72,17 +74,17 @@ class eZSSLZone
     /**
      * \static
      */
-    function cacheFileName()
+    static function cacheFileName()
     {
-        include_once( 'lib/ezutils/classes/ezsys.php' );
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        //include_once( 'lib/ezutils/classes/ezsys.php' );
+        //include_once( 'lib/ezfile/classes/ezdir.php' );
         return eZDir::path( array( eZSys::cacheDirectory(), 'ssl_zones_cache.php' ) );
     }
 
     /**
      * \static
      */
-    function clearCacheIfNeeded()
+    static function clearCacheIfNeeded()
     {
         if ( eZSSLZone::enabled() )
             eZSSLZone::clearCache();
@@ -91,7 +93,7 @@ class eZSSLZone
     /**
      * \static
      */
-    function clearCache()
+    static function clearCache()
     {
         eZDebugSetting::writeDebug( 'kernel-ssl-zone', 'Clearing caches.' );
 
@@ -112,7 +114,7 @@ class eZSSLZone
      * The result is cached in memory to save time on multiple invocations.
      * It is also saved in a cache file that is usually updated by eZContentCacheManager along with content cache.
      */
-    function getSSLZones()
+    static function getSSLZones()
     {
         if ( !isset( $GLOBALS['eZSSLZonesCachedPathStrings'] ) ) // if in-memory cache does not exist
         {
@@ -122,7 +124,7 @@ class eZSSLZone
             // if file cache does not exist then create it
             if ( !is_readable( $cacheFileName ) )
             {
-                $ini =& eZINI::instance();
+                $ini = eZINI::instance();
                 $sslSubtrees = $ini->variable( 'SSLZoneSettings', 'SSLSubtrees' );
 
                 if ( !isset( $sslSubtrees ) || !$sslSubtrees )
@@ -133,7 +135,7 @@ class eZSSLZone
                 $pathStringsArray = array();
                 foreach ( $sslSubtrees as $uri )
                 {
-                    include_once( 'kernel/classes/ezurlaliasml.php' );
+                    //include_once( 'kernel/classes/ezurlaliasml.php' );
                     $elements = eZURLAliasML::fetchByPath( $uri );
                     if ( count( $elements ) == 0 )
                     {
@@ -194,7 +196,7 @@ class eZSSLZone
      *         1        if exact match occurs on the given view
      *         0        if the view is not found in the list
      */
-    function viewIsInArray( $module, $view, $moduleViews )
+    static function viewIsInArray( $module, $view, $moduleViews )
     {
         if ( in_array( "$module/$view", $moduleViews ) )
             return 2;
@@ -207,9 +209,9 @@ class eZSSLZone
      * \static
      * \return true if the view is defined as 'keep'
      */
-    function isKeepModeView( $module, $view )
+    static function isKeepModeView( $module, $view )
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $viewsModes  = $ini->variable( 'SSLZoneSettings', 'ModuleViewAccessMode' );
         $sslViews      = array_keys( $viewsModes, 'ssl' );
         $keepModeViews = array_keys( $viewsModes, 'keep' );
@@ -238,7 +240,7 @@ class eZSSLZone
      *
      * In case of mode change this method does not return (exit() is called).
      */
-    function switchIfNeeded( $inSSL )
+    static function switchIfNeeded( $inSSL )
     {
         // if it's undefined whether we should redirect  we do nothing
         if ( !isset( $inSSL ) )
@@ -254,7 +256,7 @@ class eZSSLZone
         if ( $nowSSL && !$inSSL )
         {
             // switch to plain HTTP
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $host = $ini->variable( 'SiteSettings', 'SiteURL' );
             $sslZoneRedirectionURL = "http://" . $host . $indexDir . $requestURI;
         }
@@ -264,9 +266,9 @@ class eZSSLZone
             $host = eZSys::serverVariable( 'HTTP_HOST' );
             $host = preg_replace( '/:\d+$/', '', $host );
 
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $sslPort = $ini->variable( 'SiteSettings', 'SSLPort' );
-            $sslPortString = ( $sslPort == EZSSLZONE_DEFAULT_SSL_PORT ) ? '' : ":$sslPort";
+            $sslPortString = ( $sslPort == eZSSLZone::DEFAULT_SSL_PORT ) ? '' : ":$sslPort";
             $sslZoneRedirectionURL = "https://" . $host  . $sslPortString . $indexDir . $requestURI;
         }
 
@@ -287,7 +289,7 @@ class eZSSLZone
      *
      * \see checkNode()
      */
-    function checkNodeID( $module, $view, $nodeID )
+    static function checkNodeID( $module, $view, $nodeID )
     {
         if ( !eZSSLZone::enabled() )
             return;
@@ -323,7 +325,7 @@ class eZSSLZone
      * Check whether the given node should cause access mode change.
      * It it should, this method does not return.
      */
-    function checkNode( $module, $view, &$node, $redirect = true )
+    static function checkNode( $module, $view, &$node, $redirect = true )
     {
         if ( !eZSSLZone::enabled() )
             return;
@@ -335,7 +337,7 @@ class eZSSLZone
         if ( !$redirect && !eZSSLZone::isKeepModeView( $module, $view ) )
             return;
 
-        include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+        //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
         $pathString = $node->attribute( 'path_string' );
 
         return eZSSLZone::checkNodePath( $module, $view, $pathString, $redirect );
@@ -346,7 +348,7 @@ class eZSSLZone
      * Check whether the given node should cause access mode change.
      * It it should, this method does not return.
      */
-    function checkNodePath( $module, $view, $pathString, $redirect = true )
+    static function checkNodePath( $module, $view, $pathString, $redirect = true )
     {
         if ( !eZSSLZone::enabled() )
             return;
@@ -386,7 +388,7 @@ class eZSSLZone
      * Check whether the given object should cause access mode change.
      * It it should, this method does not return.
      */
-    function checkObject( $module, $view, $object )
+    static function checkObject( $module, $view, $object )
     {
         if ( !eZSSLZone::enabled() )
             return;
@@ -458,12 +460,12 @@ class eZSSLZone
      * Decide whether we should change access mode for this module view or not.
      * Called from index.php.
      */
-    function checkModuleView( $module, $view )
+    static function checkModuleView( $module, $view )
     {
         if ( !eZSSLZone::enabled() )
             return;
 
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $viewsModes  = $ini->variable( 'SSLZoneSettings', 'ModuleViewAccessMode' );
 
         $sslViews      = array_keys( $viewsModes, 'ssl' );

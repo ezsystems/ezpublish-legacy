@@ -37,13 +37,13 @@
 
 class eZWordParser
 {
-    function &parseFile( $fileName )
+    function parseFile( $fileName )
     {
-        $binaryINI =& eZINI::instance( 'binaryfile.ini' );
+        $binaryINI = eZINI::instance( 'binaryfile.ini' );
 
         $textExtractionTool = $binaryINI->variable( 'WordHandlerSettings', 'TextExtractionTool' );
 
-        $tmpName = "var/cache/" . md5( mktime() ) . '.txt';
+        $tmpName = "var/cache/" . md5( time() ) . '.txt';
         $handle = fopen( $tmpName, "w" );
         fclose( $handle );
         chmod( $tmpName, 0777 );

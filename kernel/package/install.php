@@ -26,15 +26,15 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezpackage.php' );
-include_once( 'kernel/classes/ezpackageinstallationhandler.php' );
-include_once( "lib/ezdb/classes/ezdb.php" );
+require_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezpackage.php' );
+//include_once( 'kernel/classes/ezpackageinstallationhandler.php' );
+//include_once( "lib/ezdb/classes/ezdb.php" );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
-$module =& $Params['Module'];
-$packageName =& $Params['PackageName'];
+$module = $Params['Module'];
+$packageName = $Params['PackageName'];
 $installer = false;
 $currentItem = 0;
 $displayStep = false;
@@ -57,15 +57,15 @@ else
 }
 
 if ( !eZPackage::canUsePolicyFunction( 'install' ) )
-    return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
 $package = eZPackage::fetch( $packageName );
 if ( !$package )
-    return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
 $installItemArray = $package->installItemsList( false, eZSys::osType() );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 if ( $module->isCurrentAction( 'SkipPackage' ) )
 {
@@ -115,7 +115,7 @@ elseif ( !$persistentData['doItemInstall'] )
     $installElements = array();
     foreach ( $installItemArray as $installItem )
     {
-        $handler =& eZPackage::packageHandler( $installItem['type'] );
+        $handler = eZPackage::packageHandler( $installItem['type'] );
         if ( $handler )
         {
             $installElement = $handler->explainInstallItem( $package, $installItem );
@@ -251,7 +251,7 @@ $tpl->setVariable( 'persistent_data', $persistentData );
 $tpl->setVariable( 'package', $package );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( $templateName );
+$Result['content'] = $tpl->fetch( $templateName );
 $Result['path'] = array( array( 'url' => 'package/list',
                                 'text' => ezi18n( 'kernel/package', 'Packages' ) ),
                          array( 'url' => false,

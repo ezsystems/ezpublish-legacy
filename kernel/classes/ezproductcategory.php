@@ -32,7 +32,7 @@
   \ingroup eZKernel
 */
 
-include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
 
 class eZProductCategory extends eZPersistentObject
 {
@@ -43,7 +43,7 @@ class eZProductCategory extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -59,7 +59,7 @@ class eZProductCategory extends eZPersistentObject
                       "name" => "ezproductcategory" );
     }
 
-    function fetch( $id, $asObject = true )
+    static function fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZProductCategory::definition(),
                                                 null,
@@ -67,7 +67,7 @@ class eZProductCategory extends eZPersistentObject
                                                 $asObject );
     }
 
-    function fetchByName( $name, $asObject = true )
+    static function fetchByName( $name, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZProductCategory::definition(),
                                                 null,
@@ -75,7 +75,7 @@ class eZProductCategory extends eZPersistentObject
                                                 $asObject );
     }
 
-    function fetchList( $asObject = true )
+    static function fetchList( $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZProductCategory::definition(),
                                                     null, null, array( 'name' => 'asc' ), null,
@@ -88,15 +88,15 @@ class eZProductCategory extends eZPersistentObject
      * \public
      * \static
      */
-    function fetchProductCountByCategory( $categoryID )
+    static function fetchProductCountByCategory( $categoryID )
     {
-        $ini =& eZINI::instance( 'shop.ini' );
+        $ini = eZINI::instance( 'shop.ini' );
         if ( !$ini->hasVariable( 'VATSettings', 'ProductCategoryAttribute' ) ||
              !$categoryAttrName = $ini->variable( 'VATSettings', 'ProductCategoryAttribute' ) )
             return 0;
 
         require_once( 'lib/ezdb/classes/ezdb.php' );
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $categoryID =(int) $categoryID;
         $categoryAttrName = $db->escapeString( $categoryAttrName );
         $query = "SELECT COUNT(*) AS count " .
@@ -112,7 +112,7 @@ class eZProductCategory extends eZPersistentObject
         return $rows[0]['count'];
     }
 
-    function create()
+    static function create()
     {
         $row = array(
             "id" => null,
@@ -126,11 +126,11 @@ class eZProductCategory extends eZPersistentObject
      * \public
      * \static
      */
-    function remove( $id )
+    static function removeByID( $id )
     {
         $id = (int) $id;
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
         // Delete references to the category from VAT charging rules.
@@ -139,7 +139,7 @@ class eZProductCategory extends eZPersistentObject
 
         // Reset product category attribute for all products
         // that have been referencing the category.
-        $ini =& eZINI::instance( 'shop.ini' );
+        $ini = eZINI::instance( 'shop.ini' );
         if ( $ini->hasVariable( 'VATSettings', 'ProductCategoryAttribute' ) &&
              $categoryAttrName = $ini->variable( 'VATSettings', 'ProductCategoryAttribute' ) )
         {
@@ -158,7 +158,6 @@ class eZProductCategory extends eZPersistentObject
             foreach ( $rows as $row )
             {
                 $query = "UPDATE ezcontentobject_attribute SET data_int=0, sort_key_int=0 WHERE id=" . (int) $row['id'];
-                eZDebug::writeDebug( $query, '$query' );
                 $db->query( $query );
             }
         }

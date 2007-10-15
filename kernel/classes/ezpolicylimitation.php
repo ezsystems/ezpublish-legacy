@@ -37,9 +37,9 @@
   \brief Defines a limitation for a policy in the permission system
 
 */
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "kernel/classes/ezpolicylimitationvalue.php" );
-include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( "kernel/classes/ezpolicylimitationvalue.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
 
 class eZPolicyLimitation extends eZPersistentObject
 {
@@ -52,7 +52,7 @@ class eZPolicyLimitation extends eZPersistentObject
           $this->NodeID = 0;
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -82,7 +82,7 @@ class eZPolicyLimitation extends eZPersistentObject
                       "name" => "ezpolicy_limitation" );
     }
 
-    function &limitValue()
+    function limitValue()
     {
         return $this->LimitValue;
     }
@@ -90,11 +90,10 @@ class eZPolicyLimitation extends eZPersistentObject
     /*!
      Get policy object of this policy limitation
     */
-    function &policy()
+    function policy()
     {
-        include_once( 'kernel/classes/ezpolicy.php' );
-        $policy = eZPolicy::fetch( $this->attribute( 'policy_id' ) );
-        return $policy;
+        //include_once( 'kernel/classes/ezpolicy.php' );
+        return eZPolicy::fetch( $this->attribute( 'policy_id' ) );
     }
 
     /*!
@@ -120,7 +119,7 @@ class eZPolicyLimitation extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function createNew( $policyID, $identifier )
+    static function createNew( $policyID, $identifier )
     {
         $policyParameter = new eZPolicyLimitation( array() );
         $policyParameter->setAttribute( 'policy_id', $policyID );
@@ -135,26 +134,25 @@ class eZPolicyLimitation extends eZPersistentObject
      Create a new policy limitation for the policy \a $policyID with the identifier \a $identifier.
      \note The limitation is not stored.
     */
-    function &create( $policyID, $identifier )
+    static function create( $policyID, $identifier )
     {
         $row = array( 'id' => null,
                       'policy_id' => $policyID,
                       'identifier' => $identifier );
-        $limitation = new eZPolicyLimitation( $row );
-        return $limitation;
+        return new eZPolicyLimitation( $row );
     }
 
     /*!
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function removeSelected( $ID )
+    static function removeSelected( $ID )
     {
         eZPersistentObject::removeObject( eZPolicyLimitation::definition(),
                                           array( "id" => $ID ) );
     }
 
-    function fetchByIdentifier( $policyID, $identifier, $asObject = true )
+    static function fetchByIdentifier( $policyID, $identifier, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZPolicyLimitation::definition(),
                                                 null,
@@ -163,7 +161,7 @@ class eZPolicyLimitation extends eZPersistentObject
                                                 $asObject );
     }
 
-    function fetchByPolicyID( $policyID, $asObject = true )
+    static function fetchByPolicyID( $policyID, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZPolicyLimitation::definition(),
                                                     null,
@@ -187,34 +185,33 @@ class eZPolicyLimitation extends eZPersistentObject
     }
 
     /*!
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
-     */
-    function remove( $id = false )
+     \sa removeThis
+    */
+    static function removeByID( $id )
     {
-        if ( is_numeric( $id ) )
-        {
-            $delID = $id;
-//            $policyParameter = eZPolicyLimitation::fetch( $delID );
-        }
-        else
-        {
-//            $policyParameter =& $this;
-            $delID = $this->ID;
-        }
+        $db = eZDB::instance();
 
-        $db =& eZDB::instance();
+        $idString = $db->escapeString( $id );
         $db->begin();
 
         $db->query( "DELETE FROM ezpolicy_limitation_value
-                     WHERE ezpolicy_limitation_value.limitation_id = '$delID'" );
+                     WHERE ezpolicy_limitation_value.limitation_id = '$idString'" );
 
         $db->query( "DELETE FROM ezpolicy_limitation
-                     WHERE ezpolicy_limitation.id = '$delID' " );
+                     WHERE ezpolicy_limitation.id = '$idString' " );
         $db->commit();
     }
 
-    function &allValuesAsString()
+    /*!
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
+     */
+    function removeThis()
+    {
+        eZPolicyLimitation::removeByID( $this->attribute( 'id' ) );
+    }
+
+    function allValuesAsString()
     {
         $str='';
         foreach ( $this->attribute( 'values' ) as $value )
@@ -230,31 +227,31 @@ class eZPolicyLimitation extends eZPersistentObject
         return $str;
     }
 
-    function &allValuesAsArrayWithNames()
+    function allValuesAsArrayWithNames()
     {
-        $returnValue =  null;
-        $valueList   =& $this->attribute( 'values_as_array' );
-        $names       =  array();
-        $policy      =& $this->attribute( 'policy' );
+        $returnValue = null;
+        $valueList   = $this->attribute( 'values_as_array' );
+        $names       = array();
+        $policy      = $this->attribute( 'policy' );
         if ( !$policy )
         {
             return $returnValue;
         }
 
         $currentModule = $policy->attribute( 'module_name' );
-        $mod = & eZModule::exists( $currentModule );
+        $mod = eZModule::exists( $currentModule );
         if ( !is_object( $mod ) )
         {
             eZDebug::writeError( 'Failed to fetch instance for module ' . $currentModule );
             return $returnValue;
         }
-        $functions =& $mod->attribute( 'available_functions' );
+        $functions = $mod->attribute( 'available_functions' );
         $functionNames = array_keys( $functions );
 
         $currentFunction = $policy->attribute( 'function_name' );
         $limitationValueArray = array();
 
-        $limitation =& $functions[ $currentFunction ][$this->attribute( 'identifier' )];
+        $limitation = $functions[$currentFunction ][$this->attribute( 'identifier' )];
 
         if ( $limitation &&
              count( $limitation[ 'values' ] == 0 ) &&
@@ -267,7 +264,7 @@ class eZPolicyLimitation extends eZPersistentObject
             }
             include_once( $basePath . $limitation['path'] . $limitation['file']  );
             $obj = new $limitation['class']( array() );
-            $limitationValueList = call_user_func_array ( array( &$obj , $limitation['function']) , $limitation['parameter'] );
+            $limitationValueList = call_user_func_array ( array( $obj , $limitation['function']) , $limitation['parameter'] );
             foreach( $limitationValueList as $limitationValue )
             {
                 $limitationValuePair = array();
@@ -278,7 +275,7 @@ class eZPolicyLimitation extends eZPersistentObject
         }
         else if ( $limitation['name'] == "Node" )
         {
-            include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+            //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
             foreach ( $valueList as $value )
             {
                 $node = eZContentObjectTreeNode::fetch( $value, false, false );
@@ -292,7 +289,7 @@ class eZPolicyLimitation extends eZPersistentObject
         }
         else if ( $limitation['name'] == "Subtree" )
         {
-            include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+            //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
             foreach ( $valueList as $value )
             {
                 $subtreeObject = eZContentObjectTreeNode::fetchByPath( $value, false );
@@ -320,7 +317,7 @@ class eZPolicyLimitation extends eZPersistentObject
                 {
                     if ( $value == $limitationValueArray[$ckey]['value'] )
                     {
-                        $limitationValuesWithNames[] =& $limitationValueArray[$ckey];
+                        $limitationValuesWithNames[] = $limitationValueArray[$ckey];
                     }
                 }
             }
@@ -336,7 +333,7 @@ class eZPolicyLimitation extends eZPersistentObject
     */
     function limitArray()
     {
-        $limitValues =& $this->attribute( 'values' );
+        $limitValues = $this->attribute( 'values' );
 
         $valueArray = array();
 
@@ -348,7 +345,7 @@ class eZPolicyLimitation extends eZPersistentObject
         return array( $this->attribute( 'identifier' ) => $valueArray );
     }
 
-    function &allValues()
+    function allValues()
     {
         $values = array();
         foreach ( $this->attribute( 'values' ) as $value )
@@ -359,13 +356,13 @@ class eZPolicyLimitation extends eZPersistentObject
         return $values;
     }
 
-    function &valueList()
+    function valueList()
     {
         if ( !isset( $this->Values ) )
         {
             $values = eZPersistentObject::fetchObjectList( eZPolicyLimitationValue::definition(),
-                                                            null, array( 'limitation_id' => $this->attribute( 'id') ), null, null,
-                                                            true);
+                                                           null, array( 'limitation_id' => $this->attribute( 'id') ), null, null,
+                                                           true);
 
             if ( $this->LimitValue )
             {
@@ -373,13 +370,13 @@ class eZPolicyLimitation extends eZPersistentObject
                                                                  'value' => $this->LimitValue ) );
             }
 
-            $this->Values =& $values;
+            $this->Values = $values;
         }
 
         return $this->Values;
     }
 
-    function findByType( $type, $value, $asObject = true, $useLike = true )
+    static function findByType( $type, $value, $asObject = true, $useLike = true )
     {
         $cond = '';
         $db = eZDB::instance();
@@ -420,7 +417,7 @@ class eZPolicyLimitation extends eZPersistentObject
     }
 
     // Used for assign subtree matching
-    var $LimitValue;
+    public $LimitValue;
 
 }
 

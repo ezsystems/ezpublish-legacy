@@ -26,18 +26,18 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'kernel/classes/ezcontentclass.php' );
-include_once( 'kernel/classes/ezcontentbrowse.php' );
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezrole.php' );
-include_once( 'kernel/classes/ezpreferences.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezcontentclass.php' );
+//include_once( 'kernel/classes/ezcontentbrowse.php' );
+require_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezrole.php' );
+//include_once( 'kernel/classes/ezpreferences.php' );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 
 $offset = $Params['Offset'];
 
@@ -60,17 +60,17 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
    if ( $http->hasPostVariable( 'DeleteIDArray' ) )
     {
         $deleteIDArray = $http->postVariable( 'DeleteIDArray' );
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         foreach ( $deleteIDArray as $deleteID )
         {
-            eZRole::remove( $deleteID );
+            eZRole::removeRole( $deleteID );
         }
         // Clear role caches.
         eZRole::expireCache();
 
         // Clear all content cache.
-        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearAllContentCache();
 
         $db->commit();
@@ -90,7 +90,7 @@ if ( $Module->isCurrentAction( 'AssignRole' ) )
     eZRole::expireCache();
 
     // Clear all content cache.
-    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearAllContentCache();
 }
 
@@ -101,7 +101,7 @@ if ( $http->hasPostVariable( 'NewButton' )  )
 }
 
 $viewParameters = array( 'offset' => $offset );
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $roles = eZRole::fetchByOffset( $offset, $limit, $asObject = true, $ignoreTemp = true );
 $roleCount = eZRole::roleCount();
@@ -115,7 +115,7 @@ $tpl->setVariable( 'limit', $limit );
 
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:role/list.tpl' );
+$Result['content'] = $tpl->fetch( 'design:role/list.tpl' );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/role', 'Role list' ) ) );
 ?>

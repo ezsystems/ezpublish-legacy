@@ -37,9 +37,9 @@
   \brief The class eZLDAPUser does
 
 */
-include_once( "kernel/classes/datatypes/ezuser/ezusersetting.php" );
-include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-include_once( 'lib/ezutils/classes/ezini.php' );
+//include_once( "kernel/classes/datatypes/ezuser/ezusersetting.php" );
+//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+//include_once( 'lib/ezutils/classes/ezini.php' );
 
 class eZLDAPUser extends eZUser
 {
@@ -55,10 +55,10 @@ class eZLDAPUser extends eZUser
      Logs in the user if applied username and password is
      valid. The userID is returned if succesful, false if not.
     */
-    function &loginUser( $login, $password, $authenticationMatch = false )
+    static function loginUser( $login, $password, $authenticationMatch = false )
     {
-        $http =& eZHTTPTool::instance();
-        $db =& eZDB::instance();
+        $http = eZHTTPTool::instance();
+        $db = eZDB::instance();
 
         if ( $authenticationMatch === false )
             $authenticationMatch = eZUser::authenticationMatch();
@@ -67,18 +67,18 @@ class eZLDAPUser extends eZUser
         $passwordEscaped = $db->escapeString( $password );
 
         $loginArray = array();
-        if ( $authenticationMatch & EZ_USER_AUTHENTICATE_LOGIN )
+        if ( $authenticationMatch & eZUser::AUTHENTICATE_LOGIN )
             $loginArray[] = "login='$loginEscaped'";
-        if ( $authenticationMatch & EZ_USER_AUTHENTICATE_EMAIL )
+        if ( $authenticationMatch & eZUser::AUTHENTICATE_EMAIL )
             $loginArray[] = "email='$loginEscaped'";
         if ( count( $loginArray ) == 0 )
             $loginArray[] = "login='$loginEscaped'";
         $loginText = implode( ' OR ', $loginArray );
 
-        $contentObjectStatus = EZ_CONTENT_OBJECT_STATUS_PUBLISHED;
+        $contentObjectStatus = eZContentObject::STATUS_PUBLISHED;
 
-        $ini =& eZINI::instance();
-        $LDAPIni =& eZINI::instance( 'ldap.ini' );
+        $ini = eZINI::instance();
+        $LDAPIni = eZINI::instance( 'ldap.ini' );
         $databaseImplementation = $ini->variable( 'DatabaseSettings', 'DatabaseImplementation' );
         // if mysql
         if ( $databaseImplementation == "ezmysql" )
@@ -102,9 +102,8 @@ class eZLDAPUser extends eZUser
         $exists = false;
         if ( count( $users ) >= 1 )
         {
-            foreach ( array_keys( $users ) as $key )
+            foreach ( $users as $userRow )
             {
-                $userRow =& $users[$key];
                 $userID = $userRow['contentobject_id'];
                 $hashType = $userRow['password_hash_type'];
                 $hash = $userRow['password_hash'];
@@ -113,7 +112,7 @@ class eZLDAPUser extends eZUser
                                                     $hash );
 
                 // If hash type is MySql
-                if ( $hashType == EZ_USER_PASSWORD_HASH_MYSQL and $databaseImplementation == "ezmysql" )
+                if ( $hashType == eZUser::PASSWORD_HASH_MYSQL and $databaseImplementation == "ezmysql" )
                 {
                     $queryMysqlUser = "SELECT contentobject_id, password_hash, password_hash_type, email, login
                                        FROM ezuser, ezcontentobject
@@ -485,7 +484,7 @@ class eZLDAPUser extends eZUser
                         eZUser::setCurrentlyLoggedInUser( $adminUser, $adminUserContentObjectID );
 
                         $stack = array();
-                        goAndPublishGroups( $requiredParams, $userData['dn'], $groupsTree, $stack, $groupSearchingDepth, true );
+                        self::goAndPublishGroups( $requiredParams, $userData['dn'], $groupsTree, $stack, $groupSearchingDepth, true );
                     }
                     if ( isset( $userRecord['new_parents'] ) and
                          count( $userRecord['new_parents'] ) > 0 )
@@ -602,7 +601,7 @@ class eZLDAPUser extends eZUser
         Static method, for internal usage only.
         Publishes new or update existing user
     */
-    function publishUpdateUser( $parentNodeIDs, $defaultUserPlacement, $userAttributes, $isUtf8Encoding = false )
+    static function publishUpdateUser( $parentNodeIDs, $defaultUserPlacement, $userAttributes, $isUtf8Encoding = false )
     {
         $thisFunctionErrorLabel = 'eZLDAPUser.php, function publishUpdateUser()';
 
@@ -645,7 +644,7 @@ class eZLDAPUser extends eZUser
                 return false;
             }
 
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $userClassID = $ini->variable( "UserSettings", "UserClassID" );
             $userCreatorID = $ini->variable( "UserSettings", "UserCreatorID" );
             $defaultSectionID = $ini->variable( "UserSettings", "DefaultSectionID" );
@@ -659,9 +658,9 @@ class eZLDAPUser extends eZUser
 
             $userID = $contentObjectID = $contentObject->attribute( 'id' );
 
-            $version =& $contentObject->version( 1 );
+            $version = $contentObject->version( 1 );
             $version->setAttribute( 'modified', time() );
-            $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
+            $version->setAttribute( 'status', eZContentObjectVersion::STATUS_DRAFT );
             $version->store();
 
             $user = eZLDAPUser::create( $userID );
@@ -670,13 +669,13 @@ class eZLDAPUser extends eZUser
         else
         {
             $userID = $contentObjectID = $user->attribute( 'contentobject_id' );
-            $contentObject =& eZContentObject::fetch( $userID );
-            $version =& $contentObject->attribute( 'current' );
+            $contentObject = eZContentObject::fetch( $userID );
+            $version = $contentObject->attribute( 'current' );
             //$currentVersion = $contentObject->attribute( 'current_version' );
         }
 
         //================= common part : start ========================
-        $contentObjectAttributes =& $version->contentObjectAttributes();
+        $contentObjectAttributes = $version->contentObjectAttributes();
 
         // find ant set 'name' and 'description' attributes (as standard user group class)
         $firstNameIdentifier = 'first_name';
@@ -684,14 +683,16 @@ class eZLDAPUser extends eZUser
         $firstNameAttribute = null;
         $lastNameAttribute = null;
 
-        foreach( array_keys( $contentObjectAttributes ) as $key )
+        foreach( $contentObjectAttributes as $attribute )
         {
-            $attribute =& $contentObjectAttributes[ $key ];
             if ( $attribute->attribute( 'contentclass_attribute_identifier' ) == $firstNameIdentifier )
-                $firstNameAttribute =& $attribute;
-            else
-            if ( $attribute->attribute( 'contentclass_attribute_identifier' ) == $lastNameIdentifier )
-                $lastNameAttribute =& $attribute;
+            {
+                $firstNameAttribute = $attribute;
+            }
+            else if ( $attribute->attribute( 'contentclass_attribute_identifier' ) == $lastNameIdentifier )
+            {
+                $lastNameAttribute = $attribute;
+            }
         }
         if ( $firstNameAttribute )
         {
@@ -708,7 +709,7 @@ class eZLDAPUser extends eZUser
             $lastNameAttribute->store();
         }
 
-        $contentClass =& $contentObject->attribute( 'content_class' );
+        $contentClass = $contentObject->attribute( 'content_class' );
         $name = $contentClass->contentObjectName( $contentObject );
         $contentObject->setName( $name );
 
@@ -736,13 +737,13 @@ class eZLDAPUser extends eZUser
             //$adminUser = eZUser::fetchByName( 'admin' );
             //eZUser::setCurrentlyLoggedInUser( $adminUser, $adminUser->attribute( 'contentobject_id' ) );
 
-            include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+            //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
             $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID,
                                                                                          'version' => 1 ) );
         }
         else
         {
-            $LDAPIni =& eZINI::instance( 'ldap.ini' );
+            $LDAPIni = eZINI::instance( 'ldap.ini' );
             $keepGroupAssignment = ( $LDAPIni->hasVariable( 'LDAPSettings', 'KeepGroupAssignment' ) ) ?
                 ( $LDAPIni->variable( 'LDAPSettings', 'KeepGroupAssignment' ) == "enabled" ) : false;
 
@@ -755,11 +756,10 @@ class eZLDAPUser extends eZUser
                     //eZUser::setCurrentlyLoggedInUser( $adminUser, $adminUser->attribute( 'contentobject_id' ) );
 
                     // Check: is there user has location (not main) in default placement
-                    $nodeAssignmentList =& $version->nodeAssignments();
+                    $nodeAssignmentList = $version->nodeAssignments();
                     $isAssignmentExist = false;
-                    foreach ( array_keys( $nodeAssignmentList ) as $nodeAssignmentKey )
+                    foreach ( $nodeAssignmentList as $nodeAssignment )
                     {
-                        $nodeAssignment =& $nodeAssignmentList[$nodeAssignmentKey];
                         if ( $defaultUserPlacement == $nodeAssignment->attribute( 'parent_node' ) )
                         {
                             $isAssignmentExist = true;
@@ -802,7 +802,7 @@ class eZLDAPUser extends eZUser
                         }
                         else
                         {
-                            include_once( 'kernel/classes/ezcontentobjecttreenodeoperations.php' );
+                            //include_once( 'kernel/classes/ezcontentobjecttreenodeoperations.php' );
                             if ( !eZContentObjectTreeNodeOperations::move( $mainNodeID, $defaultUserPlacement ) )
                             {
                                 eZDebug::writeError( "Failed to move node $mainNodeID as child of parent node $defaultUserPlacement",
@@ -826,7 +826,7 @@ class eZLDAPUser extends eZUser
         Note: used user group class (see 'UserGroupClassID' ini setting, in 'UserSettings' section)
               must have name attribute with indentifier equal 'name'
     */
-    function publishNewUserGroup( $parentNodeIDs, $newGroupAttributes, $isUtf8Encoding = false )
+    static function publishNewUserGroup( $parentNodeIDs, $newGroupAttributes, $isUtf8Encoding = false )
     {
         $thisFunctionErrorLabel = 'eZLDAPUser.php, function publishNewUserGroup()';
         $newNodeIDs = array();
@@ -847,7 +847,7 @@ class eZLDAPUser extends eZUser
             return $newNodeIDs;
         }
 
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $userGroupClassID = $ini->variable( "UserSettings", "UserGroupClassID" );
         $userCreatorID = $ini->variable( "UserSettings", "UserCreatorID" );
         $defaultSectionID = $ini->variable( "UserSettings", "DefaultSectionID" );
@@ -882,28 +882,27 @@ class eZLDAPUser extends eZUser
             $newNodeAssignment->store();
         }
 
-        $version =& $contentObject->version( 1 );
+        $version = $contentObject->version( 1 );
         $version->setAttribute( 'modified', time() );
-        $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
+        $version->setAttribute( 'status', eZContentObjectVersion::STATUS_DRAFT );
         $version->store();
 
-        $contentObjectAttributes =& $version->contentObjectAttributes();
+        $contentObjectAttributes = $version->contentObjectAttributes();
 
         // find ant set 'name' and 'description' attributes (as standard user group class)
         $nameIdentifier = 'name';
         $descIdentifier = 'description';
         $nameContentAttribute = null;
         $descContentAttribute = null;
-        foreach( array_keys( $contentObjectAttributes ) as $key )
+        foreach( $contentObjectAttributes as $attribute )
         {
-            $attribute =& $contentObjectAttributes[ $key ];
             if ( $attribute->attribute( 'contentclass_attribute_identifier' ) == $nameIdentifier )
             {
-                $nameContentAttribute =& $attribute;
-            } else
-            if ( $attribute->attribute( 'contentclass_attribute_identifier' ) == $descIdentifier )
+                $nameContentAttribute = $attribute;
+            }
+            else if ( $attribute->attribute( 'contentclass_attribute_identifier' ) == $descIdentifier )
             {
-                $descContentAttribute =& $attribute;
+                $descContentAttribute = $attribute;
             }
         }
         if ( $nameContentAttribute )
@@ -922,13 +921,12 @@ class eZLDAPUser extends eZUser
             $descContentAttribute->store();
         }
 
-        include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+        //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
         $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID,
                                                                                      'version' => 1 ) );
         $newNodes = eZContentObjectTreeNode::fetchByContentObjectID( $contentObjectID, true, 1 );
-        foreach ( array_keys( $newNodes ) as $key )
+        foreach ( $newNodes as $newNode )
         {
-            $newNode =& $newNodes[ $key ];
             $newNodeIDs[] = $newNode->attribute( 'node_id' );
         }
 
@@ -939,7 +937,7 @@ class eZLDAPUser extends eZUser
         Static method, for internal usage only.
         Recursive, publishes groups by prepared tree of groups returned by getUserGroupsTree() method
     */
-    function goAndPublishGroups( &$requiredParams,
+    static function goAndPublishGroups( &$requiredParams,
                                  $curDN,
                                  &$groupsTree,
                                  &$stack,
@@ -998,11 +996,11 @@ class eZLDAPUser extends eZUser
                 {
                     continue;
                 }
-                $ret = goAndPublishGroups( $requiredParams,
-                                           $parent['data']['dn'],
-                                           $groupsTree,
-                                           $stack,
-                                           $depth - 1 );
+                $ret = self::goAndPublishGroups( $requiredParams,
+                                                 $parent['data']['dn'],
+                                                 $groupsTree,
+                                                 $stack,
+                                                 $depth - 1 );
                 if ( isset( $groupsTree[ '_recursion_detected_' ] ) and $groupsTree[ '_recursion_detected_' ] )
                 {
                     return false;
@@ -1042,7 +1040,7 @@ class eZLDAPUser extends eZUser
                     {
                         $params = array( 'Depth' => 1,
                                          'AttributeFilter' => array( array( 'name', '=', $currentName ) ) );
-                        $nodes =& eZContentObjectTreeNode::subTree( $params, $parentNodeID );
+                        $nodes = eZContentObjectTreeNode::subTreeByNodeID( $params, $parentNodeID );
 
                         if ( is_array( $nodes ) and count( $nodes ) > 0 and !$isUser )
                         {
@@ -1096,7 +1094,7 @@ class eZLDAPUser extends eZUser
         Static method, for internal usage only
         Recursive method, which parses tree of groups from ldap server
     */
-    function getUserGroupsTree( &$requiredParams,
+    static function getUserGroupsTree( &$requiredParams,
                                 $filter,
                                 $curDN,
                                 &$groupsTree,

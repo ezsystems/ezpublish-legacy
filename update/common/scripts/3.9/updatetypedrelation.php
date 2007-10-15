@@ -35,13 +35,13 @@ if( !file_exists( 'update/common/scripts/3.9' ) || !is_dir( 'update/common/scrip
     exit;
 }
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
-include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
 
-$cli =& eZCLI::instance();
+$cli = eZCLI::instance();
 
-$script =& eZScript::instance( array( 'description' => ( "\nThis script performs the task needed to upgrade to 3.9:\n" .
+$script = eZScript::instance( array( 'description' => ( "\nThis script performs the task needed to upgrade to 3.9:\n" .
                                                          "\nAdds 'embed' & 'link' contentobject relations.\n"  ),
                                       'use-session' => false,
                                       'use-modules' => false,
@@ -81,12 +81,12 @@ if ( $dbHost or $dbName or $dbUser or $dbImpl )
     if ( $dbName !== false )
         $params['database'] = $dbName;
 
-    $db =& eZDB::instance( $dbImpl, $params, true );
+    $db = eZDB::instance( $dbImpl, $params, true );
     eZDB::setInstance( $db );
 }
 else
 {
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
 }
 
 if ( !$db->isConnected() )
@@ -95,18 +95,14 @@ if ( !$db->isConnected() )
     $script->shutdown( 1 );
 }
 
-include_once( 'lib/ezxml/classes/ezxml.php' );
-include_once( 'kernel/classes/datatypes/ezxmltext/ezxmltexttype.php' );
-
-$xml = new eZXML();
-
+//include_once( 'kernel/classes/datatypes/ezxmltext/ezxmltexttype.php' );
 
 function AddObjectRelation( $fromObjectID, $fromObjectVersion, $toObjectID, $relationType )
 {
-    $db =& eZDB::instance();
-    $relationBaseType = EZ_CONTENT_OBJECT_RELATION_COMMON |
-                        EZ_CONTENT_OBJECT_RELATION_EMBED |
-                        EZ_CONTENT_OBJECT_RELATION_LINK;
+    $db = eZDB::instance();
+    $relationBaseType = eZContentObject::RELATION_COMMON |
+                        eZContentObject::RELATION_EMBED |
+                        eZContentObject::RELATION_LINK;
     $query = "SELECT count(*) AS count
               FROM   ezcontentobject_link
               WHERE  from_contentobject_id=$fromObjectID AND
@@ -134,7 +130,7 @@ function AddObjectRelation( $fromObjectID, $fromObjectVersion, $toObjectID, $rel
     }
 }
 
-function AddNewRelations( $objectID, $version, $relatedObjectIDArray, &$cli )
+function AddNewRelations( $objectID, $version, $relatedObjectIDArray, $cli )
 {
     $relationCount = 0;
     foreach ( $relatedObjectIDArray as $relationType => $relatedObjectIDSubArray )
@@ -142,7 +138,7 @@ function AddNewRelations( $objectID, $version, $relatedObjectIDArray, &$cli )
         foreach ( $relatedObjectIDSubArray as $relatedObjectID )
         {
             AddObjectRelation( $objectID, $version, $relatedObjectID, $relationType );
-            $cli->notice( implode( '', array( 'Added ', ( ( EZ_CONTENT_OBJECT_RELATION_EMBED === $relationType ) ? 'embed' : 'link' ) , ' relation. ',
+            $cli->notice( implode( '', array( 'Added ', ( ( eZContentObject::RELATION_EMBED === $relationType ) ? 'embed' : 'link' ) , ' relation. ',
                                    'Object ID ', $objectID,
                                    '( ver. ', $version,
                                    ' ) => ID ', $relatedObjectID ) ) );
@@ -153,9 +149,9 @@ function AddNewRelations( $objectID, $version, $relatedObjectIDArray, &$cli )
 }
 
 
-function getRelatedObjectsID( &$domDocument, $tagName, &$objectIDArray )
+function getRelatedObjectsID( $domDocument, $tagName, $objectIDArray )
 {
-    $xmlNodeList = $domDocument->get_elements_by_tagname( $tagName );
+    $xmlNodeList = $domDocument->getElementsByTagName( $tagName );
     if ( !is_array( $xmlNodeList ) )
     {
         return;
@@ -215,8 +211,8 @@ for ( $offset = 0; ; $offset += QUERY_LIMIT )
             }
 
             $version = ( int ) $xmlField['version'];
-            $relatedObjectIDArray[EZ_CONTENT_OBJECT_RELATION_EMBED] = array();
-            $relatedObjectIDArray[EZ_CONTENT_OBJECT_RELATION_LINK] = array();
+            $relatedObjectIDArray[eZContentObject::RELATION_EMBED] = array();
+            $relatedObjectIDArray[eZContentObject::RELATION_LINK] = array();
 
             if ( $objectID == null || $objectID != $xmlField['contentobject_id'] )
             {
@@ -230,13 +226,16 @@ for ( $offset = 0; ; $offset += QUERY_LIMIT )
             }
         }
 
-        $text = $xmlField['data_text'];
-        $doc =& $xml->domTree( $text, array( "TrimWhiteSpace" => false ) );
+        if ( empty( $xmlField['data_text'] ) )
+        {
+            continue;
+        }
+        $doc = DomDocument::loadXML( $xmlField['data_text'] );
 
         if ( $doc )
         {
-            getRelatedObjectsID( $doc, 'embed', $relatedObjectIDArray[EZ_CONTENT_OBJECT_RELATION_EMBED] );
-            getRelatedObjectsID( $doc, 'link', $relatedObjectIDArray[EZ_CONTENT_OBJECT_RELATION_LINK] );
+            getRelatedObjectsID( $doc, 'embed', $relatedObjectIDArray[eZContentObject::RELATION_EMBED] );
+            getRelatedObjectsID( $doc, 'link', $relatedObjectIDArray[eZContentObject::RELATION_LINK] );
         }
     }
 }

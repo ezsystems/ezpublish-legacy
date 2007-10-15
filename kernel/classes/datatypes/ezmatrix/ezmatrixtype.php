@@ -38,26 +38,26 @@
 
 */
 
-include_once( 'kernel/classes/ezdatatype.php' );
-include_once( 'kernel/classes/datatypes/ezmatrix/ezmatrix.php' );
-include_once( 'kernel/classes/datatypes/ezmatrix/ezmatrixdefinition.php' );
-include_once( 'lib/ezutils/classes/ezstringutils.php' );
-
-define( 'EZ_MATRIX_DEFAULT_NAME_VARIABLE', '_ezmatrix_default_name_' );
-
-define( 'EZ_MATRIX_NUMCOLUMNS_VARIABLE', '_ezmatrix_default_num_columns_' );
-define( 'EZ_MATRIX_NUMROWS_VARIABLE', '_ezmatrix_default_num_rows_' );
-define( 'EZ_MATRIX_CELL_VARIABLE', '_ezmatrix_cell_' );
-define( 'EZ_DATATYPESTRING_MATRIX', 'ezmatrix' );
+//include_once( 'kernel/classes/ezdatatype.php' );
+//include_once( 'kernel/classes/datatypes/ezmatrix/ezmatrix.php' );
+//include_once( 'kernel/classes/datatypes/ezmatrix/ezmatrixdefinition.php' );
+//include_once( 'lib/ezutils/classes/ezstringutils.php' );
 
 class eZMatrixType extends eZDataType
 {
+    const DEFAULT_NAME_VARIABLE = '_ezmatrix_default_name_';
+
+    const NUM_COLUMNS_VARIABLE = '_ezmatrix_default_num_columns_';
+    const NUM_ROWS_VARIABLE = '_ezmatrix_default_num_rows_';
+    const CELL_VARIABLE = '_ezmatrix_cell_';
+    const DATA_TYPE_STRING = 'ezmatrix';
+
     /*!
      Constructor
     */
     function eZMatrixType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_MATRIX, ezi18n( 'kernel/classes/datatypes', 'Matrix', 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', 'Matrix', 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -65,7 +65,7 @@ class eZMatrixType extends eZDataType
      Validates the input and returns true if the input was
      valid for this datatype.
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $data = false;
         if ( $http->hasPostVariable( $base . '_ezmatrix_cell_' . $contentObjectAttribute->attribute( 'id' ) ) )
@@ -81,25 +81,25 @@ class eZMatrixType extends eZDataType
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                  'Missing matrix input.' ) );
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INVALID;
         }
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
      Store content
     */
-    function storeObjectAttribute( &$contentObjectAttribute )
+    function storeObjectAttribute( $contentObjectAttribute )
     {
-        $matrix =& $contentObjectAttribute->content();
+        $matrix = $contentObjectAttribute->content();
         $contentObjectAttribute->setAttribute( 'data_text', $matrix->xmlString() );
         $matrix->decodeXML( $contentObjectAttribute->attribute( 'data_text' ) );
         $contentObjectAttribute->setContent( $matrix );
     }
 
-    function storeClassAttribute( &$contentClassAttribute, $version )
+    function storeClassAttribute( $contentClassAttribute, $version )
     {
-        $matrixDefinition =& $contentClassAttribute->content();
+        $matrixDefinition = $contentClassAttribute->content();
         $contentClassAttribute->setAttribute( 'data_text5', $matrixDefinition->xmlString() );
         $matrixDefinition->decodeClassAttribute( $contentClassAttribute->attribute( 'data_text5' ) );
         $contentClassAttribute->setContent(  $matrixDefinition );
@@ -108,7 +108,7 @@ class eZMatrixType extends eZDataType
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         $matrix = new eZMatrix( '' );
 
@@ -117,11 +117,11 @@ class eZMatrixType extends eZDataType
         return $matrix;
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
-        $matrix =& $contentObjectAttribute->content();
-        $columnsArray =& $matrix->attribute( 'columns' );
-        $columns =& $columnsArray['sequential'];
+        $matrix = $contentObjectAttribute->content();
+        $columnsArray = $matrix->attribute( 'columns' );
+        $columns = $columnsArray['sequential'];
         $count = 0;
         foreach ( $columns as $column )
         {
@@ -135,9 +135,9 @@ class eZMatrixType extends eZDataType
     */
     function metaData( $contentObjectAttribute )
     {
-        $matrix =& $contentObjectAttribute->content();
-        $columnsArray =& $matrix->attribute( 'columns' );
-        $columns =& $columnsArray['sequential'];
+        $matrix = $contentObjectAttribute->content();
+        $columnsArray = $matrix->attribute( 'columns' );
+        $columns = $columnsArray['sequential'];
         $metaDataArray = array();
         foreach ( $columns as $column )
         {
@@ -154,9 +154,9 @@ class eZMatrixType extends eZDataType
     /*!
      Fetches the http post var matrix cells input and stores it in the data instance.
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
-        $cellsVarName = $base . EZ_MATRIX_CELL_VARIABLE . $contentObjectAttribute->attribute( 'id' );
+        $cellsVarName = $base . self::CELL_VARIABLE . $contentObjectAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $cellsVarName ) )
         {
             $cells = array();
@@ -164,8 +164,8 @@ class eZMatrixType extends eZDataType
             {
                 $cells[] = $cell;
             }
-            $matrix =& $contentObjectAttribute->attribute( 'content' );
-            $matrix->Cells =& $cells;
+            $matrix = $contentObjectAttribute->attribute( 'content' );
+            $matrix->Cells = $cells;
 
             $contentObjectAttribute->setAttribute( 'data_text', $matrix->xmlString() );
             $matrix->decodeXML( $contentObjectAttribute->attribute( 'data_text' ) );
@@ -176,13 +176,13 @@ class eZMatrixType extends eZDataType
 
     /*!
     */
-    function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute )
+    function customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute, $parameters )
     {
         switch ( $action )
         {
             case 'new_row' :
             {
-                $matrix =& $contentObjectAttribute->content( );
+                $matrix = $contentObjectAttribute->content( );
 
                 $postvarname = 'ContentObjectAttribute' . '_data_matrix_remove_' . $contentObjectAttribute->attribute( 'id' );
                 $addCountName = 'ContentObjectAttribute' . '_data_matrix_add_count_' . $contentObjectAttribute->attribute( 'id' );
@@ -210,7 +210,7 @@ class eZMatrixType extends eZDataType
             }break;
             case 'remove_selected' :
             {
-                $matrix =& $contentObjectAttribute->content( );
+                $matrix = $contentObjectAttribute->content( );
                 $postvarname = 'ContentObjectAttribute' . '_data_matrix_remove_' . $contentObjectAttribute->attribute( 'id' );
                 $arrayRemove = $http->postVariable( $postvarname );
 
@@ -235,9 +235,9 @@ class eZMatrixType extends eZDataType
     /*!
      Returns the integer value.
     */
-    function title( &$contentObjectAttribute, $name = 'name' )
+    function title( $contentObjectAttribute, $name = 'name' )
     {
-        $matrix =& $contentObjectAttribute->content( );
+        $matrix = $contentObjectAttribute->content( );
 
         $value = $matrix->attribute( $name );
 
@@ -247,13 +247,13 @@ class eZMatrixType extends eZDataType
     /*!
      Sets the default value.
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
 
         if ( $currentVersion != false )
         {
-            $matrix =& $originalContentObjectAttribute->content();
-            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $matrix = $originalContentObjectAttribute->content();
+            $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
             // make sure that $matrix contains right columns
             $matrix->adjustColumnsToDefinition( $contentClassAttribute->attribute( 'content' ) );
 
@@ -262,7 +262,7 @@ class eZMatrixType extends eZDataType
         }
         else
         {
-            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
             $numRows = $contentClassAttribute->attribute( 'data_int1' );
             $matrix = new eZMatrix( '', $numRows, $contentClassAttribute->attribute( 'content' ) );
             // 'default name' is never used => just a stub
@@ -276,13 +276,13 @@ class eZMatrixType extends eZDataType
     /*!
      \reimp
     */
-    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         // 'default name' is never used => just a stub
-        // $defaultValueName = $base . EZ_MATRIX_DEFAULT_NAME_VARIABLE . $classAttribute->attribute( 'id' );
+        // $defaultValueName = $base . self::DEFAULT_NAME_VARIABLE . $classAttribute->attribute( 'id' );
         $defaultValueName = '';
-        $defaultNumColumnsName = $base . EZ_MATRIX_NUMCOLUMNS_VARIABLE . $classAttribute->attribute( 'id' );
-        $defaultNumRowsName = $base . EZ_MATRIX_NUMROWS_VARIABLE . $classAttribute->attribute( 'id' );
+        $defaultNumColumnsName = $base . self::NUM_COLUMNS_VARIABLE . $classAttribute->attribute( 'id' );
+        $defaultNumRowsName = $base . self::NUM_ROWS_VARIABLE . $classAttribute->attribute( 'id' );
         $dataFetched = false;
         // 'default name' is never used => just a stub
         /*
@@ -322,8 +322,8 @@ class eZMatrixType extends eZDataType
             $columnNameList = $http->postVariable( $columnNameVariable );
             $columnIDList = $http->postVariable( $columnIDVariable );
 
-            $matrixDefinition =& $classAttribute->attribute( 'content' );
-            $columnNames =& $matrixDefinition->attribute( 'columns' );
+            $matrixDefinition = $classAttribute->attribute( 'content' );
+            $columnNames = $matrixDefinition->attribute( 'columns' );
             foreach ( $columnNames as $columnName )
             {
                 $columnID = '';
@@ -340,8 +340,8 @@ class eZMatrixType extends eZDataType
                     {
                         $columnID = $name;
                         // Initialize transformation system
-                        include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-                        $trans =& eZCharTransform::instance();
+                        //include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+                        $trans = eZCharTransform::instance();
                         $columnID = $trans->transformByGroup( $columnID, 'identifier' );
                     }
                 }
@@ -353,7 +353,7 @@ class eZMatrixType extends eZDataType
                 $i++;
             }
 
-            $matrixDefinition->ColumnNames =& $columns;
+            $matrixDefinition->ColumnNames = $columns;
             $classAttribute->setContent( $matrixDefinition );
             $classAttribute->setAttribute( 'data_text5', $matrixDefinition->xmlString() );
 
@@ -371,7 +371,7 @@ class eZMatrixType extends eZDataType
     /*!
      Returns the content.
     */
-    function &classAttributeContent( &$contentClassAttribute )
+    function classAttributeContent( $contentClassAttribute )
     {
         $matrixDefinition = new eZMatrixDefinition();
         $matrixDefinition->decodeClassAttribute( $contentClassAttribute->attribute( 'data_text5' ) );
@@ -380,21 +380,21 @@ class eZMatrixType extends eZDataType
 
     /*!
     */
-    function customClassAttributeHTTPAction( &$http, $action, &$contentClassAttribute )
+    function customClassAttributeHTTPAction( $http, $action, $contentClassAttribute )
     {
         $id = $contentClassAttribute->attribute( 'id' );
         switch ( $action )
         {
             case 'new_ezmatrix_column' :
             {
-                $matrixDefinition =& $contentClassAttribute->content( );
+                $matrixDefinition = $contentClassAttribute->content( );
                 $matrixDefinition->addColumn( '' );
                 $contentClassAttribute->setContent( $matrixDefinition );
                 $contentClassAttribute->store();
             }break;
             case 'remove_selected' :
             {
-                $matrixDefinition =& $contentClassAttribute->content( );
+                $matrixDefinition = $contentClassAttribute->content( );
 
                 $postvarname = 'ContentClass' . '_data_ezmatrix_column_remove_' . $contentClassAttribute->attribute( 'id' );
                 $array_remove = $http->postVariable( $postvarname );
@@ -438,11 +438,11 @@ class eZMatrixType extends eZDataType
 
     }
 
-    function fromString( &$contentObjectAttribute, $string )
+    function fromString( $contentObjectAttribute, $string )
     {
         if ( $string != '' )
         {
-            $matrix =& $contentObjectAttribute->attribute( 'content' );
+            $matrix = $contentObjectAttribute->attribute( 'content' );
             $matrixRowsList = eZStringUtils::explodeStr( $string, "&" );
             $cells = array();
             $matrix->Matrix['rows']['sequential'] = array();
@@ -470,24 +470,30 @@ class eZMatrixType extends eZDataType
     /*!
      \reimp
     */
-    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $content =& $classAttribute->content();
+        $content = $classAttribute->content();
         if ( $content )
         {
             $defaultName = $classAttribute->attribute( 'data_text1' );
             $defaultRowCount = $classAttribute->attribute( 'data_int1' );
             $columns = $content->attribute( 'columns' );
-            $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'default-name', $defaultName ) );
-            $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'default-row-count', $defaultRowCount ) );
-            $columnsNode = eZDOMDocument::createElementNode( 'columns' );
+
+            $dom = $attributeParametersNode->ownerDocument;
+            $defaultNameNode = $dom->createElement( 'default-name', $defaultName );
+            $attributeParametersNode->appendChild( $defaultNameNode );
+            $defaultRowCountNode = $dom->createElement( 'default-row-count', $defaultRowCount );
+            $attributeParametersNode->appendChild( $defaultRowCountNode );
+            $columnsNode = $dom->createElement( 'columns' );
             $attributeParametersNode->appendChild( $columnsNode );
             foreach ( $columns as $column )
             {
-                $columnsNode->appendChild( eZDOMDocument::createElementNode( 'column',
-                                                                             array( 'name' => $column['name'],
-                                                                                    'identifier' => $column['identifier'],
-                                                                                    'index' => $column['index'] ) ) );
+                unset( $columnNode );
+                $columnNode = $dom->createElement( 'column' );
+                $columnNode->setAttribute( 'name', $column['name'] );
+                $columnNode->setAttribute( 'identifier', $column['identifier'] );
+                $columnNode->setAttribute( 'index', $column['index'] );
+                $columnsNode->appendChild( $columnNode );
             }
         }
     }
@@ -495,20 +501,20 @@ class eZMatrixType extends eZDataType
     /*!
      \reimp
     */
-    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $defaultName = $attributeParametersNode->elementTextContentByName( 'default-name' );
-        $defaultRowCount = $attributeParametersNode->elementTextContentByName( 'default-row-count' );
+        $defaultName = $attributeParametersNode->getElementsByTagName( 'default-name' )->item( 0 )->textContent;
+        $defaultRowCount = $attributeParametersNode->getElementsByTagName( 'default-row-count' )->item( 0 )->textContent;
         $classAttribute->setAttribute( 'data_text1', $defaultName );
         $classAttribute->setAttribute( 'data_int1', $defaultRowCount );
 
         $matrixDefinition = new eZMatrixDefinition();
-        $columnsNode =& $attributeParametersNode->elementByName( 'columns' );
-        $columnsList = $columnsNode->children();
+        $columnsNode = $attributeParametersNode->getElementsByTagName( 'columns' )->item( 0 );
+        $columnsList = $columnsNode->getElementsByTagName( 'column' );
         foreach ( $columnsList  as $columnNode )
         {
-            $columnName = $columnNode->attributeValue( 'name' );
-            $columnIdentifier = $columnNode->attributeValue( 'identifier' );
+            $columnName = $columnNode->getAttribute( 'name' );
+            $columnIdentifier = $columnNode->getAttribute( 'identifier' );
             $matrixDefinition->addColumn( $columnName, $columnIdentifier );
         }
         $classAttribute->setAttribute( 'data_text5', $matrixDefinition->xmlString() );
@@ -517,13 +523,15 @@ class eZMatrixType extends eZDataType
     /*!
      \reimp
     */
-    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
 
-        $xml = new eZXML();
-        $domDocument = $xml->domTree( $objectAttribute->attribute( 'data_text' ) );
-        $node->appendChild( $domDocument->root() );
+        $dom = new DOMDocument();
+        $success = $dom->loadXML( $objectAttribute->attribute( 'data_text' ) );
+
+        $importedRoot = $node->ownerDocument->importNode( $dom->documentElement, true );
+        $node->appendChild( $importedRoot );
 
         return $node;
     }
@@ -531,14 +539,14 @@ class eZMatrixType extends eZDataType
     /*!
      \reimp
     */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
-        $rootNode = $attributeNode->firstChild();
-        $xmlString = $rootNode->attributeValue( 'local_name' ) == 'data-text' ? '' : $rootNode->toString( 0 );
+        $rootNode = $attributeNode->getElementsByTagName( 'ezmatrix' )->item( 0 );
+        $xmlString = $rootNode ? $rootNode->ownerDocument->saveXML( $rootNode ) : '';
         $objectAttribute->setAttribute( 'data_text', $xmlString );
     }
 }
 
-eZDataType::register( EZ_DATATYPESTRING_MATRIX, 'ezmatrixtype' );
+eZDataType::register( eZMatrixType::DATA_TYPE_STRING, 'ezmatrixtype' );
 
 ?>

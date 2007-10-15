@@ -26,20 +26,20 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "lib/ezutils/classes/ezhttptool.php" );
-$http =& eZHTTPTool::instance();
-$Module =& $Params["Module"];
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
+$http = eZHTTPTool::instance();
+$Module = $Params['Module'];
 
-include_once( "kernel/classes/eztrigger.php" );
+//include_once( "kernel/classes/eztrigger.php" );
 
 //////////////////////
 //$userID = eZUser::currentUserID();
 $conds = array();
 //$conds['user_id'] =  $userID;
-$conds['status'] = array( array( EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON,
-                                 EZ_WORKFLOW_STATUS_FETCH_TEMPLATE,
-                                 EZ_WORKFLOW_STATUS_REDIRECT,
-                                 EZ_WORKFLOW_STATUS_WAITING_PARENT ) );
+$conds['status'] = array( array( eZWorkflow::STATUS_DEFERRED_TO_CRON,
+                                 eZWorkflow::STATUS_FETCH_TEMPLATE,
+                                 eZWorkflow::STATUS_REDIRECT,
+                                 eZWorkflow::STATUS_WAITING_PARENT ) );
 $db = eZDB::instance();
 if ( $db->databaseName() == 'oracle' )
     $conds['LENGTH(memento_key)'] = array( '!=', 0 );
@@ -50,7 +50,7 @@ $plist = eZWorkflowProcess::fetchList( $conds );
 
 $totalProcessCount = 0;
 $outList2 = array();
-include_once( 'lib/ezutils/classes/ezoperationmemento.php' );
+//include_once( 'lib/ezutils/classes/ezoperationmemento.php' );
 foreach ( $plist as $p )
 {
     $mementoMain = eZOperationMemento::fetchMain( $p->attribute( 'memento_key' ) );
@@ -63,7 +63,7 @@ foreach ( $plist as $p )
                                              'name' => $mementoChildData['name'] ) );
     if ( count( $triggers ) > 0 )
     {
-        $trigger =& $triggers[0];
+        $trigger = $triggers[0];
         if ( is_object( $trigger ) )
         {
             $nkey = $trigger->attribute( 'module_name' ) . '/' . $trigger->attribute( 'function_name' ) . '/' . $trigger->attribute( 'name' );
@@ -80,8 +80,8 @@ foreach ( $plist as $p )
 }
 
 // Template handling
-include_once( "kernel/common/template.php" );
-$tpl =& templateInit();
+require_once( "kernel/common/template.php" );
+$tpl = templateInit();
 
 $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "trigger_list", $outList2 );
@@ -89,7 +89,7 @@ $tpl->setVariable( "total_process_count", $totalProcessCount );
 
 $Module->setTitle( "Workflow processes list" );
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:workflow/processlist.tpl" );
+$Result['content'] = $tpl->fetch( "design:workflow/processlist.tpl" );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/workflow', 'Workflow' ),
                                 'url' => false ),
                          array( 'text' => ezi18n( 'kernel/workflow', 'Process list' ),

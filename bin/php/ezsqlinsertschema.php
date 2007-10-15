@@ -27,16 +27,17 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
+require 'autoload.php';
 
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ Publish SQL Schema insert\n\n" .
-                                                         "Insert database schema and data to specified database\n".
-                                                         "ezsqlinsertschema.php --type=mysql --user=root share/db_schema.dba ezp35stable" ),
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'description' => ( "eZ Publish SQL Schema insert\n\n" .
+                                                        "Insert database schema and data to specified database\n".
+                                                        "ezsqlinsertschema.php --type=mysql --user=root share/db_schema.dba ezp35stable" ),
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 
@@ -197,7 +198,7 @@ function eZTriedDatabaseString( $database, $host, $user, $password, $socket )
 
 // Connect to database
 
-include_once( 'lib/ezdb/classes/ezdb.php' );
+//include_once( 'lib/ezdb/classes/ezdb.php' );
 $parameters = array( 'server' => $host,
                      'user' => $user,
                      'password' => $password,
@@ -206,7 +207,7 @@ if ( $socket )
     $parameters['socket'] = $socket;
 if ( $port )
     $parameters['port'] = $port;
-$db =& eZDB::instance( $type,
+$db = eZDB::instance( $type,
                        $parameters,
                        true );
 
@@ -236,8 +237,8 @@ if ( !$db or !$db->isConnected() )
 
 // Load in schema/data files
 
-include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
-$schemaArray = eZDBSchema::read( $filename, true );
+//include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
+$schemaArray = eZDbSchema::read( $filename, true );
 if ( $includeData and !$options['schema-file'] )
 {
     $cli->error( "Cannot insert data without a schema file, please specify with --schema-file" );
@@ -251,7 +252,7 @@ if ( $options['schema-file'] )
         $cli->error( "Schema file " . $options['schema-file'] . " does not exist" );
         $script->shutdown( 1 );
     }
-    $schema = eZDBSchema::read( $options['schema-file'], false );
+    $schema = eZDbSchema::read( $options['schema-file'], false );
     $schemaArray['schema'] = $schema;
 }
 
@@ -275,7 +276,7 @@ $schemaArray['type'] = $type;
 
 if ( $options['clean-existing'] )
 {
-    include_once( 'lib/ezdb/classes/ezdbtool.php' );
+    //include_once( 'lib/ezdb/classes/ezdbtool.php' );
     $status = eZDBTool::cleanup( $db );
     if ( !$status )
     {
@@ -289,7 +290,7 @@ if ( $options['clean-existing'] )
 // Prepare schema handler
 
 $schemaArray['instance'] =& $db;
-$dbSchema = eZDBSchema::instance( $schemaArray );
+$dbSchema = eZDbSchema::instance( $schemaArray );
 
 if ( $dbSchema === false )
 {

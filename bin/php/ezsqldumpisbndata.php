@@ -35,34 +35,36 @@
 
 */
 
-include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
-include_once( 'lib/ezdb/classes/ezdb.php' );
-include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
+//include_once( 'lib/ezdb/classes/ezdb.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
 
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'kernel/classes/ezscript.php' );
+
+require 'autoload.php';
 
 $fileNameDba = 'db_data.dba';
 $fileNameSql = 'cleandata.sql';
 $stdOutSQL = null;
 $stdOutDBA = null;
 
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ Publish SQL Isbn data dump\n\n" .
-                                                         "Dump sql data to file or standard output from the tables:\n" .
-                                                         "  ezisbn_group\n" .
-                                                         "  ezisbn_group_range\n" .
-                                                         "  ezisbn_registrant_range\n\n" .
-                                                         "Default is file, wich will be written to:\n" .
-                                                         "  kernel/classes/datatypes/ezisbn/sql/<database>/cleandata.sql\n" .
-                                                         "  kernel/classes/datatypes/ezisbn/share/db_data.dba\n\n" .
-                                                         "Script can be runned as:\n" .
-                                                         "php bin/php/ezsqldumpisbndata.php --stdout-sql\n" .
-                                                         "                                  --stdout-dba\n" .
-                                                         "                                  --filename-sql=customname.sql\n" .
-                                                         "                                  --filename-dba=customname.dba" ),
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'description' => ( "eZ Publish SQL Isbn data dump\n\n" .
+                                                        "Dump sql data to file or standard output from the tables:\n" .
+                                                        "  ezisbn_group\n" .
+                                                        "  ezisbn_group_range\n" .
+                                                        "  ezisbn_registrant_range\n\n" .
+                                                        "Default is file, wich will be written to:\n" .
+                                                        "  kernel/classes/datatypes/ezisbn/sql/<database>/cleandata.sql\n" .
+                                                        "  kernel/classes/datatypes/ezisbn/share/db_data.dba\n\n" .
+                                                        "Script can be runned as:\n" .
+                                                        "php bin/php/ezsqldumpisbndata.php --stdout-sql\n" .
+                                                        "                                  --stdout-dba\n" .
+                                                        "                                  --filename-sql=customname.sql\n" .
+                                                        "                                  --filename-dba=customname.dba" ),
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 
@@ -74,8 +76,8 @@ $options = $script->getOptions( "[stdout-sql][stdout-dba][filename-sql:][filenam
                                        'filename-dba' => "Custom name for the dba file. Will be stored in the directory: \n" .
                                                          "kernel/classes/datatypes/ezisbn/share/" ) );
 $script->initialize();
-$db =& eZDB::instance();
-$dbSchema = eZDBSchema::instance( $db );
+$db = eZDB::instance();
+$dbSchema = eZDbSchema::instance( $db );
 
 if ( isset( $options['filename-sql'] ) )
 {

@@ -37,21 +37,18 @@
 
 */
 
-include_once( 'kernel/common/eztemplatedesignresource.php' );
-include_once( 'lib/eztemplate/classes/eztemplate.php' );
-include_once( 'lib/ezutils/classes/ezsys.php' );
+//include_once( 'kernel/common/eztemplatedesignresource.php' );
+//include_once( 'lib/eztemplate/classes/eztemplate.php' );
+//include_once( 'lib/ezutils/classes/ezsys.php' );
 
 class eZTemplatesStatisticsReporter
 {
-    function eZTemplatesStatisticsReporter()
-    {
-    }
-
     /*!
      static
     */
-    function &generateStatistics( $as_html = true )
+    static function generateStatistics( $as_html = true )
     {
+        $statStartTime = microtime( true );
         $stats = '';
 
         if ( !eZTemplate::isTemplatesUsageStatisticsEnabled() )
@@ -60,12 +57,13 @@ class eZTemplatesStatisticsReporter
         if ( $as_html )
         {
             $stats .= "<h2>Templates used to render the page:</h2>";
-            $stats .= ( "<table style='border: 1px dashed black;' cellspacing='0'>" .
-                   "<tr><th>&nbsp;Template</th>" .
-                   "<th>&nbsp;Requested template</th>" .
-                   "<th>&nbsp;Template loaded</th>" .
-                   "<th>&nbsp;Edit</th>" .
-                   "<th>&nbsp;Override</th></tr>" );
+            $stats .= ( "<table id='templateusage' style='border: 1px dashed black;' cellspacing='0'>" .
+                   "<tr><th>Usage count</th>" .
+                   "<th>Requested template</th>" .
+                   "<th>Template</th>" .
+                   "<th>Template loaded</th>" .
+                   "<th>Edit</th>" .
+                   "<th>Override</th></tr>" );
         }
         else
         {
@@ -93,52 +91,85 @@ class eZTemplatesStatisticsReporter
             $currentSiteAccess = $GLOBALS['eZCurrentAccess']['name'];
         }
 
-        $templatesUsageStatistics =& eZTemplate::templatesUsageStatistics();
+        $templatesUsageStatistics = eZTemplate::templatesUsageStatistics();
+        
+        $alreadyListedTemplate = $templateCounts = array();
+        
+        //Generate usage count for each unique template first.
         foreach( $templatesUsageStatistics as $templateInfo )
         {
-            $actualTemplateName =& $templateInfo['actual-template-name'];
-            $requestedTemplateName =& $templateInfo['requested-template-name'];
-            $templateFileName =& $templateInfo['template-filename'];
-
-            if ( $as_html )
+            $actualTemplateName = $templateInfo['actual-template-name'];
+            
+            if ( !array_key_exists( $actualTemplateName, $templateCounts ) )
             {
-                $tdClass = ( $j % 2 == 0 ) ? 'used_templates_stats1' : 'used_templates_stats2';
+                $templateCounts[$actualTemplateName] = 1;
 
-                $requestedTemplateViewURI = $templateViewFunction . $requestedTemplateName;
-                $actualTemplateViewURI = $templateViewFunction . $actualTemplateName;
-
-                $templateEditURI = $templateEditFunction . $templateFileName;
-                $templateOverrideURI = $templateOverrideFunction . $actualTemplateName;
-
-                $stats .= ( "<tr><td class=\"$tdClass\"><a href=\"$actualTemplateViewURI\">&nbsp;$actualTemplateName</a></td>" .
-                       "<td class=\"$tdClass\"><a href=\"$requestedTemplateViewURI\">&nbsp;$requestedTemplateName</a></td>" .
-                       "<td class=\"$tdClass\">&nbsp;$templateFileName</td>" .
-                       "<td class=\"$tdClass\" align=\"center\"><a href=\"$templateEditURI/(siteAccess)/$currentSiteAccess\"><img src=\"$editIconFile\" width=\"$iconSizeX\" height=\"$iconSizeY\" alt=\"Edit template\" title=\"Edit template\" /></a></td>".
-                       "<td class=\"$tdClass\" align=\"center\"><a href=\"$templateOverrideURI/(siteAccess)/$currentSiteAccess\"><img src=\"$overrideIconFile\" width=\"$iconSizeX\" height=\"$iconSizeY\" alt=\"Override template\" title=\"Override template\" /></a></td></tr>" );
-
-                $j++;
             }
             else
             {
-                $stats .= sprintf( $formatString, $actualTemplateName, $requestedTemplateName, $templateFileName );
+                ++$templateCounts[$actualTemplateName];
+            }
+        }
+        
+        //Then create the actual listing
+        foreach ($templatesUsageStatistics as $templateInfo)
+        {
+            $actualTemplateName = $templateInfo['actual-template-name'];
+            $requestedTemplateName = $templateInfo['requested-template-name'];
+            $templateFileName = $templateInfo['template-filename'];
+            
+            if ( !in_array( $actualTemplateName, $alreadyListedTemplate ) )
+            {
+                $alreadyListedTemplate[] = $actualTemplateName;
+                if ( $as_html )
+                {
+                    $tdClass = ( $j % 2 == 0 ) ? 'used_templates_stats1' : 'used_templates_stats2';
+
+                    $requestedTemplateViewURI = $templateViewFunction . $requestedTemplateName;
+                    $actualTemplateViewURI = $templateViewFunction . $actualTemplateName;
+
+                    $templateEditURI = $templateEditFunction . $templateFileName;
+                    $templateOverrideURI = $templateOverrideFunction . $actualTemplateName;
+                    
+                    $actualTemplateNameOutput = ( $actualTemplateName == $requestedTemplateName ) ? "<span style=\"font-style: italic;\">&lt;No override&gt;</span>" : $actualTemplateName;
+
+                    $stats .= (
+                           "<tr><td class=\"$tdClass\" style=\"text-align: center;\">$templateCounts[$actualTemplateName]</td>" .
+                           "<td class=\"$tdClass\"><a href=\"/$requestedTemplateViewURI\">$requestedTemplateName</a></td>" .
+                           "<td class=\"$tdClass\">$actualTemplateNameOutput</td>" .
+                           "<td class=\"$tdClass\">$templateFileName</td>" .
+                           "<td class=\"$tdClass\" align=\"center\"><a href=\"/$templateEditURI/(siteAccess)/$currentSiteAccess\"><img src=\"$editIconFile\" width=\"$iconSizeX\" height=\"$iconSizeY\" alt=\"Edit template\" title=\"Edit template\" /></a></td>".
+                           "<td class=\"$tdClass\" align=\"center\"><a href=\"/$templateOverrideURI/(siteAccess)/$currentSiteAccess\"><img src=\"$overrideIconFile\" width=\"$iconSizeX\" height=\"$iconSizeY\" alt=\"Override template\" title=\"Override template\" /></a></td></tr>" );
+
+                    $j++;
+                }
+                else
+                {
+                    $stats .= sprintf( $formatString, $requestedTemplateName, $actualTemplateName, $templateFileName );
+                }
             }
         }
 
         $totalTemplatesCount = count( $templatesUsageStatistics );
+        $totalUniqueTemplatesCopunt = count( array_keys( $alreadyListedTemplate ) );
+        $statEndTime = microtime( true );
+        $timeUsage = number_format( $statEndTime - $statStartTime, 4 );
 
         if ( $as_html )
         {
             $stats .= ( "<tr><td class=\"$tdClass\">&nbsp;</td>" .
                    "<td class=\"$tdClass\">&nbsp;</td>" .
+                   "<td class=\"$tdClass\">&nbsp;</td>" .
                    "<td class=\"$tdClass\">&nbsp;</td>".
                    "<td class=\"$tdClass\">&nbsp;</td>".
                    "<td class=\"$tdClass\">&nbsp;</td></tr>" );
-            $stats .= "<tr><td><b>&nbsp;Total templates count: $totalTemplatesCount</b></td></tr>";
+            $stats .= "<tr><td colspan=\"2\" style=\"text-align: left;\"><b>&nbsp;Number of times templates used: $totalTemplatesCount<br />&nbsp;Number of unique templates used: $totalUniqueTemplatesCopunt</b></td></tr>";
+            $stats .= "<tr><td colspan=\"2\" style=\"text-align: left;\"><b>&nbsp;Time used to render template usage: $timeUsage secs</b></td></tr>";
             $stats .= "</table>";
         }
         else
         {
-            $stats .= "\nTotal templates count: " . $totalTemplatesCount . "\n";
+            $stats .= "\nTotal templates count: " . $totalTemplatesCount . "\n" . "Total unique templates count: " . $totalUniqueTemplatesCopunt . "\n";
         }
 
         return $stats;

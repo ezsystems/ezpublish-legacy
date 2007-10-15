@@ -12,7 +12,7 @@
 {* get the name of the object's current section *}
 {foreach $sections as $sectionItem }
     {if eq( $sectionItem.id, $object.section_id )}
-		{set $currentSectionName=$sectionItem.name}
+        {set $currentSectionName=$sectionItem.name}
     {/if}
 {/foreach}
 
@@ -27,15 +27,15 @@
 
 {* show the section selector *}
 <div class="block">
-	<label>{'Choose section'|i18n( 'design/admin/node/view/full' )}:</label>
-	<select name="SelectedSectionId">
-	{foreach $sections as $section}
-	    {if eq( $section.id, $object.section_id )}
+    <label>{'Choose section'|i18n( 'design/admin/node/view/full' )}:</label>
+    <select name="SelectedSectionId">
+    {foreach $sections as $section}
+        {if eq( $section.id, $object.section_id )}
         <option value="{$section.id}" selected="selected">{$section.name}</option>
         {else}
         <option value="{$section.id}">{$section.name}</option>
         {/if}
-	{/foreach}
+    {/foreach}
     </select>
 </div>
 

@@ -27,22 +27,25 @@
 //
 
 
-function &templateInit( $name = false )
+function templateInit( $name = false )
 {
-    if ( $name === false )
-        $tpl =& $GLOBALS["eZPublishTemplate"];
-    else
-        $tpl =& $GLOBALS["eZPublishTemplate_$name"];
-    if ( get_class( $tpl ) == "eztemplate" )
-        return $tpl;
-    include_once( "lib/eztemplate/classes/eztemplate.php" );
-    include_once( 'kernel/common/eztemplatedesignresource.php' );
-    include_once( 'lib/ezutils/classes/ezextension.php' );
+    if ( $name === false &&
+         isset( $GLOBALS['eZPublishTemplate'] ) )
+    {
+        return $GLOBALS['eZPublishTemplate'];
+    }
+    if ( isset( $GLOBALS["eZPublishTemplate_$name"] ) )
+    {
+        return $GLOBALS["eZPublishTemplate_$name"];
+    }
+    //include_once( 'lib/eztemplate/classes/eztemplate.php' );
+    //include_once( 'kernel/common/eztemplatedesignresource.php' );
+    //include_once( 'lib/ezutils/classes/ezextension.php' );
 
     $tpl = eZTemplate::instance();
 
-    include_once( 'lib/ezutils/classes/ezini.php' );
-    $ini =& eZINI::instance();
+    //include_once( 'lib/ezutils/classes/ezini.php' );
+    $ini = eZINI::instance();
     if ( $ini->variable( 'TemplateSettings', 'Debug' ) == 'enabled' )
         eZTemplate::setIsDebugEnabled( true );
 
@@ -54,12 +57,20 @@ function &templateInit( $name = false )
 
     $autoLoadPathList = array_unique( array_merge( $compatAutoLoadPath, $autoLoadPathList, $extensionPathList ) );
 
-    $a =& $autoLoadPathList;
-    $tpl->setAutoloadPathList( $a );
+    $tpl->setAutoloadPathList( $autoLoadPathList );
     $tpl->autoload();
 
     $tpl->registerResource( eZTemplateDesignResource::instance() );
     $tpl->registerResource( eZTemplateDesignResource::standardInstance() );
+
+    if ( $name === false )
+    {
+        $GLOBALS['eZPublishTemplate'] = $tpl;
+    }
+    else
+    {
+        $GLOBALS["eZPublishTemplate_$name"] = $tpl;
+    }
 
     return $tpl;
 }

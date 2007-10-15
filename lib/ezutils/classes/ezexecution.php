@@ -45,17 +45,10 @@
 class eZExecution
 {
     /*!
-     Constructor
-    */
-    function eZExecution()
-    {
-    }
-
-    /*!
      Sets the clean exit flag to on,
      this notifies the exit handler that everything finished properly.
     */
-    function setCleanExit()
+    static function setCleanExit()
     {
         $GLOBALS['eZExecutionCleanExit'] = true;
     }
@@ -63,9 +56,9 @@ class eZExecution
     /*!
      Calls the cleanup handlers to make sure that the script is ready to exit.
     */
-    function cleanup()
+    static function cleanup()
     {
-        $handlers =& eZExecution::cleanupHandlers();
+        $handlers = eZExecution::cleanupHandlers();
         foreach ( $handlers as $handler )
         {
             if ( function_exists( $handler ) )
@@ -79,7 +72,7 @@ class eZExecution
      The function is called at the end of the script execution to
      do some cleanups.
     */
-    function addCleanupHandler( $handler )
+    static function addCleanupHandler( $handler )
     {
         $handlers =& eZExecution::cleanupHandlers();
         $handlers[] = $handler;
@@ -88,7 +81,7 @@ class eZExecution
     /*!
      \return An array with cleanup handlers.
     */
-    function &cleanupHandlers()
+    static function &cleanupHandlers()
     {
         $handlers =& $GLOBALS['eZExecutionCleanupHandlers'];
         if ( !isset( $handlers ) )
@@ -102,7 +95,7 @@ class eZExecution
      The handler will be called whenever a fatal error occurs,
      which usually happens when the script did not finish.
     */
-    function addFatalErrorHandler( $handler )
+    static function addFatalErrorHandler( $handler )
     {
         $handlers =& eZExecution::fatalErrorHandlers();
         $handlers[] = $handler;
@@ -111,7 +104,7 @@ class eZExecution
     /*!
      \return An array with fatal error handlers.
     */
-    function &fatalErrorHandlers()
+    static function &fatalErrorHandlers()
     {
         $handlers =& $GLOBALS['eZExecutionFatalErrorHandlers'];
         if ( !isset( $handlers ) )
@@ -122,7 +115,7 @@ class eZExecution
     /*!
      \return true if the request finished properly.
     */
-    function isCleanExit()
+    static function isCleanExit()
     {
         return $GLOBALS['eZExecutionCleanExit'];
     }
@@ -131,7 +124,7 @@ class eZExecution
      Sets the clean exit flag and exits the page.
      Use this if you want premature exits instead of the \c exit function.
     */
-    function cleanExit()
+    static function cleanExit()
     {
         eZExecution::cleanup();
         eZExecution::setCleanExit();

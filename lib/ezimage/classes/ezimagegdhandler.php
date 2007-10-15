@@ -43,7 +43,7 @@
   - height - The height
 */
 
-include_once( 'lib/ezimage/classes/ezimagehandler.php' );
+//include_once( 'lib/ezimage/classes/ezimagehandler.php' );
 
 class eZImageGDHandler extends eZImageHandler
 {
@@ -51,7 +51,7 @@ class eZImageGDHandler extends eZImageHandler
      Constructor
     */
     function eZImageGDHandler( $handlerName, $isGloballyEnabled,
-                               $outputRewriteType = EZ_IMAGE_HANDLER_REPLACE_SUFFIX,
+                               $outputRewriteType = self::REPLACE_SUFFIX,
                                $conversionRules = false )
     {
         $supportedInputMIMETypes = array();
@@ -140,7 +140,7 @@ class eZImageGDHandler extends eZImageHandler
     /*!
      Creates the shell string and runs the executable.
     */
-    function convert( &$manager, $sourceMimeData, &$destinationMimeData, $filters = false )
+    function convert( $manager, $sourceMimeData, &$destinationMimeData, $filters = false )
     {
         $sourceMimeType = $sourceMimeData['name'];
         $destinationMimeType = $destinationMimeData['name'];
@@ -169,9 +169,8 @@ class eZImageGDHandler extends eZImageHandler
                                  'eZImageGDHandler::convert' );
             return false;
         }
-        $inputImage = $inputFunction( $inputFile );
 
-        $currentImage =& $inputImage;
+        $currentImage = $inputFunction( $inputFile );
 
         $filterVariables = array( 'border-color' => array( 127, 127, 127 ),
                                   'border-size' => array( 0, 0 ) );
@@ -184,20 +183,20 @@ class eZImageGDHandler extends eZImageHandler
                 if ( isset( $this->FilterFunctionMap[$filterName] ) )
                 {
                     $filterFunction = $this->FilterFunctionMap[$filterName];
-                    $filteredImage =& $this->$filterFunction( $currentImage, $filterData, $filterVariables, $sourceMimeData, $destinationMimeData );
+                    $filteredImage = $this->$filterFunction( $currentImage, $filterData, $filterVariables, $sourceMimeData, $destinationMimeData );
                     if ( $filteredImage !== false )
                     {
                         if ( $filteredImage != $currentImage )
                         {
                             ImageDestroy( $currentImage );
                         }
-                        $currentImage =& $filteredImage;
+                        $currentImage = $filteredImage;
                     }
                 }
             }
         }
 
-        $outputImage =& $currentImage;
+        $outputImage = $currentImage;
 
         if ( $outputImage )
         {
@@ -235,25 +234,25 @@ class eZImageGDHandler extends eZImageHandler
         }
     }
 
-    function setImageBorderColor( &$imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
+    static function setImageBorderColor( &$imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
     {
         $filterVariables['border-color'] = $filterData['data'];
         return false;
     }
 
-    function setImageBorderWidth( &$imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
+    function setImageBorderWidth( $imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
     {
         $filterVariables['border-size'] = array( $filterData['data'][0], $filterData['data'][0] );
         return $this->createImageBorder( $imageObject, $filterData, $filterVariables, $sourceMimeData, $destinationMimeData );
     }
 
-    function &setImageBorder( &$imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
+    function setImageBorder( $imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
     {
         $filterVariables['border-size'] = array( $filterData['data'][0], $filterData['data'][1] );
         return $this->createImageBorder( $imageObject, $filterData, $filterVariables, $sourceMimeData, $destinationMimeData );
     }
 
-    function &createImageBorder( &$imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
+    static function createImageBorder( $imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
     {
         $width = ImageSX( $imageObject );
         $height = ImageSY( $imageObject );
@@ -263,10 +262,10 @@ class eZImageGDHandler extends eZImageHandler
         $newWidth = $width + $borderWidth*2;
         $newHeight = $height + $borderHeight*2;
 
-        $temporaryImageObject =& $this->imageCopy( $imageObject,
-                                                   $this->createGeometry( $newWidth, $newHeight, $borderWidth, $borderHeight ),
-                                                   $this->createGeometry( $width, $height, 0, 0 ),
-                                                   $sourceMimeData, $destinationMimeData );
+        $temporaryImageObject = $this->imageCopy( $imageObject,
+                                                  $this->createGeometry( $newWidth, $newHeight, $borderWidth, $borderHeight ),
+                                                  $this->createGeometry( $width, $height, 0, 0 ),
+                                                  $sourceMimeData, $destinationMimeData );
         $color = ImageColorAllocate( $temporaryImageObject, $borderColor[0], $borderColor[1], $borderColor[2] );
         ImageFilledRectangle( $temporaryImageObject, 0, 0, $newWidth, $borderHeight, $color );
         ImageFilledRectangle( $temporaryImageObject, $newWidth - $borderWidth, 0, $newWidth, $newHeight, $color );
@@ -278,7 +277,7 @@ class eZImageGDHandler extends eZImageHandler
     /*!
      Converts the image to grayscale.
     */
-    function &setImageColorspaceGray( &$imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
+    function setImageColorspaceGray( $imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
     {
         $colorScale = array( 1.0, 1.0, 1.0 );
         return $this->setImageLuminanceColorScale( $imageObject, $filterData, $sourceMimeData, $destinationMimeData,
@@ -289,7 +288,7 @@ class eZImageGDHandler extends eZImageHandler
      Changes the colors of the image based on the luminance.
      The new scale for the colors are taken from the filter parameters, the parameters must contain three values.
     */
-    function &setImageLuminance( &$imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
+    function setImageLuminance( $imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
     {
         $colorScale = $filterData['data'];
         return $this->setImageLuminanceColorScale( $imageObject, $filterData, $sourceMimeData, $destinationMimeData,
@@ -300,7 +299,7 @@ class eZImageGDHandler extends eZImageHandler
      Changes the colors of the image based on the luminance.
      The new scale for the colors are based on the name of the filters.
     */
-    function &setImageLuminanceNamed( &$imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
+    function setImageLuminanceNamed( $imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
     {
         if ( isset( $this->LuminanceColorScales[$filterData['name']] ) )
         {
@@ -320,8 +319,8 @@ class eZImageGDHandler extends eZImageHandler
      Changes the colors of the image based on the luminance.
      \param $colorScale is an array with three float elements in range 0 to 1 that define the new color scale.
     */
-    function &setImageLuminanceColorScale( &$imageObject, $filterData, $sourceMimeData, $destinationMimeData,
-                                           $colorScale )
+    function setImageLuminanceColorScale( $imageObject, $filterData, $sourceMimeData, $destinationMimeData,
+                                          $colorScale )
     {
         $white = ImageColorAllocate( $imageObject, 255, 255, 255 );
         $black = ImageColorAllocate( $imageObject, 0, 0, 0 );
@@ -360,7 +359,7 @@ class eZImageGDHandler extends eZImageHandler
      Changes the colors of the image based on threshold values.
      The threshold values are based on the filter name.
     */
-    function &setImageColorThresholdName( &$imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
+    function setImageColorThresholdName( $imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
     {
         if ( isset( $this->ThresholdList[$filterData['name']] ) )
         {
@@ -383,13 +382,12 @@ class eZImageGDHandler extends eZImageHandler
      Changes the colors of the image based on threshold values. The luminance will be calculated and if it is
      in a threshold range it will use the specified color for the range.
     */
-    function &setImageColorThreshold( &$imageObject, $filterData, $sourceMimeData, $destinationMimeData,
-                                      $thresholdList )
+    static function setImageColorThreshold( $imageObject, $filterData, $sourceMimeData, $destinationMimeData,
+                                            $thresholdList )
     {
         foreach ( array_keys( $thresholdList ) as $thresholdKey )
         {
-            $thresholdItem =& $thresholdList[$thresholdKey];
-            $thresholdItem['color'] = ImageColorAllocate( $imageObject, $thresholdItem['rgb'][0], $thresholdItem['rgb'][1], $thresholdItem['rgb'][2] );
+            $thresholdList[$thresholdKey]['color'] = ImageColorAllocate( $imageObject, $thresholdItem['rgb'][0], $thresholdItem['rgb'][1], $thresholdItem['rgb'][2] );
         }
         $defaultColor = $thresholdList[count( $thresholdList ) - 1]['color'];
 
@@ -428,7 +426,7 @@ class eZImageGDHandler extends eZImageHandler
     /*!
       Crops a portion of the image from the filter parameters.
     */
-    function &cropImage( &$imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
+    function cropImage( $imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
     {
         $width = $filterData['data'][0];
         $height = $filterData['data'][1];
@@ -451,7 +449,7 @@ class eZImageGDHandler extends eZImageHandler
      This means that image will not be exactly the image size.
      \sa scaleImageExact
     */
-    function &scaleImage( &$imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
+    function scaleImage( $imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
     {
         $geometry = $this->calculateScaledAspectGeometry( ImageSX( $imageObject ), ImageSY( $imageObject ),
                                                           $filterData['data'][0], $filterData['data'][1], true );
@@ -466,15 +464,13 @@ class eZImageGDHandler extends eZImageHandler
      \note The image will not be scaled if the source size is smaller than the destination size.
      \sa scaleImageExact
     */
-    function &scaleImageDownOnly( &$imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
+    function scaleImageDownOnly( $imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
     {
         $geometry = $this->calculateScaledAspectGeometry( ImageSX( $imageObject ), ImageSY( $imageObject ),
                                                           $filterData['data'][0], $filterData['data'][1], false );
-        $scaleDownOnly =& $this->scaleImageCopy( $imageObject,
-                                                 $geometry,
-                                                 $sourceMimeData, $destinationMimeData );
-
-        return $scaleDownOnly;
+        return $this->scaleImageCopy( $imageObject,
+                                      $geometry,
+                                      $sourceMimeData, $destinationMimeData );
     }
 
     /*!
@@ -482,7 +478,7 @@ class eZImageGDHandler extends eZImageHandler
      This means that image will not be exactly the image size.
      \sa scaleImageExact
     */
-    function &scaleImageWidth( &$imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
+    function scaleImageWidth( $imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
     {
         $geometry = $this->calculateFixedWidthAspectGeometry( ImageSX( $imageObject ), ImageSY( $imageObject ),
                                                               $filterData['data'][0], true );
@@ -496,7 +492,7 @@ class eZImageGDHandler extends eZImageHandler
      This means that image will not be exactly the image size.
      \sa scaleImageExact
     */
-    function &scaleImageHeight( &$imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
+    function scaleImageHeight( $imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
     {
         $geometry = $this->calculateFixedHeightAspectGeometry( ImageSX( $imageObject ), ImageSY( $imageObject ),
                                                                $filterData['data'][0], true );
@@ -511,7 +507,7 @@ class eZImageGDHandler extends eZImageHandler
      \note The image will not be scaled if the source size is smaller than the destination size.
      \sa scaleImageExact
     */
-    function &scaleImageWidthDownOnly( &$imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
+    function scaleImageWidthDownOnly( $imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
     {
         $geometry = $this->calculateFixedWidthAspectGeometry( ImageSX( $imageObject ), ImageSY( $imageObject ),
                                                               $filterData['data'][0], false );
@@ -526,7 +522,7 @@ class eZImageGDHandler extends eZImageHandler
      \note The image will not be scaled if the source size is smaller than the destination size.
      \sa scaleImageExact
     */
-    function &scaleImageHeightDownOnly( &$imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
+    function scaleImageHeightDownOnly( $imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
     {
         $geometry = $this->calculateFixedHeightAspectGeometry( ImageSX( $imageObject ), ImageSY( $imageObject ),
                                                                $filterData['data'][0], false );
@@ -538,7 +534,7 @@ class eZImageGDHandler extends eZImageHandler
     /*!
      Scales the image \a $imageObject to the size specified in \a $filterData without caring about aspect ratio.
     */
-    function &scaleImageExact( &$imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
+    function scaleImageExact( $imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
     {
         return $this->scaleImageCopy( $imageObject,
                                       $this->createGeometry( $filterData['data'][0], $filterData['data'][1] ),
@@ -548,7 +544,7 @@ class eZImageGDHandler extends eZImageHandler
     /*!
      Scales the image \a $imageObject to the size specified in \a $filterData with aspect ratio maintained.
     */
-    function &scaleImagePercent( &$imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
+    function scaleImagePercent( $imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
     {
         $geometry = $this->calculateScaledPercentAspectGeometry( ImageSX( $imageObject ), ImageSY( $imageObject ),
                                                                  $filterData['data'][0] / 100.0, $filterData['data'][1] / 100.0, true );
@@ -658,16 +654,16 @@ class eZImageGDHandler extends eZImageHandler
     /*!
      Scales the image \a $imageObject to the size specified in \a $filterData.
     */
-    function &scaleImageCopy( &$imageObject,
-                              $geometry,
-                              $sourceMimeData, $destinationMimeData )
+    static function scaleImageCopy( $imageObject,
+                                    $geometry,
+                                    $sourceMimeData, $destinationMimeData )
     {
         $destinationWidth = $geometry['width'];
         $destinationHeight = $geometry['height'];
         $sourceWidth = ImageSX( $imageObject );
         $sourceHeight = ImageSY( $imageObject );
 
-        $temporaryImageObject = $this->imageCreate( $destinationWidth, $destinationHeight, eZImageGDHandler::isImageTrueColor( $imageObject, $sourceMimeData ) );
+        $temporaryImageObject = eZImageGDHandler::imageCreate( $destinationWidth, $destinationHeight, eZImageGDHandler::isImageTrueColor( $imageObject, $sourceMimeData ) );
         ImageCopyResampled( $temporaryImageObject, $imageObject,
                             0, 0, 0, 0,
                             $destinationWidth, $destinationHeight, $sourceWidth, $sourceHeight );
@@ -677,13 +673,13 @@ class eZImageGDHandler extends eZImageHandler
     /*!
       Copies a portion of the source image \a $imageObject to a new image.
     */
-    function &imageCopy( &$imageObject, $destinationGeometry, $sourceGeometry,
-                         $sourceMimeData, $destinationMimeData )
+    static function imageCopy( $imageObject, $destinationGeometry, $sourceGeometry,
+                               $sourceMimeData, $destinationMimeData )
     {
         $destinationWidth = $destinationGeometry['width'];
         $destinationHeight = $destinationGeometry['height'];
 
-        $temporaryImageObject = $this->imageCreate( $destinationWidth, $destinationHeight, eZImageGDHandler::isImageTrueColor( $imageObject, $sourceMimeData ) );
+        $temporaryImageObject = eZImageGDHandler::imageCreate( $destinationWidth, $destinationHeight, eZImageGDHandler::isImageTrueColor( $imageObject, $sourceMimeData ) );
         ImageCopy( $temporaryImageObject, $imageObject,
                    $destinationGeometry['x'], $destinationGeometry['y'],
                    $sourceGeometry['x'], $sourceGeometry['y'], $sourceGeometry['width'], $sourceGeometry['height'] );
@@ -694,7 +690,7 @@ class eZImageGDHandler extends eZImageHandler
      \static
      \return \c true if the image object \a $imageObject is in true color format.
     */
-    function isImageTrueColor( &$imageObject, $mimeData )
+    static function isImageTrueColor( &$imageObject, $mimeData )
     {
         if ( eZSys::isPHPVersionSufficient( array( 4, 3, 2 ) ) )
             return ImageIsTrueColor( $imageObject );
@@ -708,7 +704,7 @@ class eZImageGDHandler extends eZImageHandler
      Creates a new GD image and returns it.
      \param $isTrueColor determines if a true color image is created, if false an indexed image is created.
     */
-    function imageCreate( $width, $height, $isTrueColor = true )
+    static function imageCreate( $width, $height, $isTrueColor = true )
     {
         if ( $isTrueColor )
             return ImageCreateTrueColor( $width, $height );
@@ -719,7 +715,7 @@ class eZImageGDHandler extends eZImageHandler
     /*!
      Creates a geometry array with width \a $width, height \a $height, x position \a $x and y position \a $y and returns it.
     */
-    function createGeometry( $width, $height, $x = 0, $y = 0 )
+    static function createGeometry( $width, $height, $x = 0, $y = 0 )
     {
         return array( 'x' => $x,
                       'y' => $y,
@@ -732,14 +728,14 @@ class eZImageGDHandler extends eZImageHandler
      The INI settings are read from ini file \a $iniFilename and group \a $iniGroup.
      If \a $iniFilename is not supplied \c image.ini is used.
     */
-    function &createFromINI( $iniGroup, $iniFilename = false )
+    static function createFromINI( $iniGroup, $iniFilename = false )
     {
         if ( !$iniFilename )
             $iniFilename = 'image.ini';
 
         $handler = false;
-        include_once( 'lib/ezutils/classes/ezini.php' );
-        $ini =& eZINI::instance( $iniFilename );
+        //include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini = eZINI::instance( $iniFilename );
         if ( !$ini )
         {
             eZDebug::writeError( "Failed loading ini file $iniFilename",
@@ -768,7 +764,7 @@ class eZImageGDHandler extends eZImageHandler
                 }
             }
             $isEnabled = $ini->variable( $iniGroup, 'IsEnabled' ) == 'true';
-            $outputRewriteType = EZ_IMAGE_HANDLER_REPLACE_SUFFIX;
+            $outputRewriteType = self::REPLACE_SUFFIX;
             $handler = new eZImageGDHandler( $name, $isEnabled,
                                              $outputRewriteType,
                                              $conversionRules );
@@ -778,10 +774,10 @@ class eZImageGDHandler extends eZImageHandler
     }
 
     /// \privatesection
-    var $Path;
-    var $Executable;
-    var $PreParameters;
-    var $PostParameters;
+    public $Path;
+    public $Executable;
+    public $PreParameters;
+    public $PostParameters;
 }
 
 class eZImageGDFactory extends eZImageFactory
@@ -798,9 +794,9 @@ class eZImageGDFactory extends eZImageFactory
      \reimp
      Creates eZImageGDHandler objects and returns them.
     */
-    function &produceFromINI( $iniGroup, $iniFilename = false )
+    static function produceFromINI( $iniGroup, $iniFilename = false )
     {
-        $convertHandler =& eZImageGDHandler::createFromINI( $iniGroup, $iniFilename );
+        $convertHandler = eZImageGDHandler::createFromINI( $iniGroup, $iniFilename );
         return $convertHandler;
     }
 }

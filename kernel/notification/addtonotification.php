@@ -30,29 +30,22 @@
 
 /*! \file addtonotification.php
 */
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreenotificationrule.php' );
+require_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreenotificationrule.php' );
 
-$module =& $Params['Module'];
-$http =& eZHTTPTool::instance();
+$module = $Params['Module'];
+$http = eZHTTPTool::instance();
 
 //$Offset = $Params['Offset'];
 //$viewParameters = array( 'offset' => $Offset );
 
 //$nodeID = $http->postVariable( 'ContentNodeID' );
-$nodeID =& $Params['ContentNodeID'];
-$user =& eZUser::currentUser();
+$nodeID = $Params['ContentNodeID'];
+$user = eZUser::currentUser();
 
-$redirectURI = '';
-if ( $http->hasSessionVariable( "LastAccessesURI" ) )
-{
-    $redirectURI = $http->sessionVariable( "LastAccessesURI" );
-}
+$redirectURI = $http->hasSessionVariable( "LastAccessesURI" ) ? $http->sessionVariable( "LastAccessesURI" ): '';
 
-if ( $http->hasPostVariable( 'ViewMode' ) )
-   $viewMode = $http->postVariable( 'ViewMode' );
-else
-    $viewMode = 'full';
+$viewMode = $http->hasPostVariable( 'ViewMode' ) ? $http->postVariable( 'ViewMode' ) : 'full';
 
 if ( !$user->isLoggedIn() )
 {
@@ -78,7 +71,7 @@ if ( !$contentNode->attribute( 'can_read' ) )
     return;
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 if ( $http->hasSessionVariable( "LastAccessesURI" ) )
     $tpl->setVariable( 'redirect_url', $http->sessionVariable( "LastAccessesURI" ) );
 //else
@@ -98,7 +91,7 @@ $tpl->setVariable( 'node_id', $nodeID );
 
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:notification/addingresult.tpl' );
+$Result['content'] = $tpl->fetch( 'design:notification/addingresult.tpl' );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/notification', ($alreadyExists ? 'Notification already exists.' : 'Notification was added successfully!') ),
                                 'url' => false ) );
 

@@ -51,7 +51,7 @@
   \note It uses eZSys to figure out the OS type.
 */
 
-include_once( 'lib/ezutils/classes/ezsys.php' );
+//include_once( 'lib/ezutils/classes/ezsys.php' );
 
 class eZSysInfo
 {
@@ -92,7 +92,7 @@ class eZSysInfo
      \return The value of the attribute named \a $name, or \c null if it does not exist.
      See attributes() for a list of available attributes.
     */
-    function &attribute( $name )
+    function attribute( $name )
     {
         if ( $name == 'is_valid' )
             return $this->IsValid;
@@ -107,8 +107,7 @@ class eZSysInfo
         else
         {
             eZDebug::writeError( "Attribute '$name' does not exist", 'eZSysInfo::attribute' );
-            $retValue = null;
-            return $retValue;
+            return null;
         }
     }
 
@@ -163,7 +162,7 @@ class eZSysInfo
         $this->CPUUnit = false;
         $this->MemorySize = false;
 
-        $sys =& eZSys::instance();
+        $sys = eZSys::instance();
         $osType = $sys->osType();
 
         if ( $osType == 'win32' )
@@ -341,11 +340,11 @@ class eZSysInfo
     }
 
     /// \privatesection
-    var $IsValid = false;
-    var $CPUSpeed = false;
-    var $CPUType = false;
-    var $CPUUnit = false;
-    var $MemorySize = false;
+    public $IsValid = false;
+    public $CPUSpeed = false;
+    public $CPUType = false;
+    public $CPUUnit = false;
+    public $MemorySize = false;
 }
 
 ?>

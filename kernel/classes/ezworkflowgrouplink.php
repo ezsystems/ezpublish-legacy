@@ -33,9 +33,9 @@
 
 */
 
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "kernel/classes/ezpersistentobject.php" );
-include_once( "kernel/classes/ezworkflowgroup.php" );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezworkflowgroup.php" );
 
 class eZWorkflowGroupLink extends eZPersistentObject
 {
@@ -44,7 +44,7 @@ class eZWorkflowGroupLink extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "workflow_id" => array( 'name' => "WorkflowID",
                                                                  'datatype' => 'integer',
@@ -87,7 +87,7 @@ class eZWorkflowGroupLink extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function remove( $workflow_id, $workflow_version, $group_id )
+    static function removeByID( $workflow_id, $workflow_version, $group_id )
     {
         eZPersistentObject::removeObject( eZWorkflowGroupLink::definition(),
                                           array("workflow_id" => $workflow_id,
@@ -116,30 +116,28 @@ class eZWorkflowGroupLink extends eZPersistentObject
                                                  "workflow_version" =>$workflow_version ) );
     }
 
-    function &fetch( $workflow_id, $workflow_version, $group_id, $asObject = true )
+    static function fetch( $workflow_id, $workflow_version, $group_id, $asObject = true )
     {
-        $object = eZPersistentObject::fetchObject( eZWorkflowGroupLink::definition(),
+        return eZPersistentObject::fetchObject( eZWorkflowGroupLink::definition(),
+                                                null,
+                                                array("workflow_id" => $workflow_id,
+                                                      "workflow_version" =>$workflow_version,
+                                                      "group_id" => $group_id ),
+                                                $asObject );
+    }
+
+    static function fetchWorkflowList( $workflow_version, $group_id, $asObject = true )
+    {
+        return eZPersistentObject::fetchObjectList( eZWorkflowGroupLink::definition(),
                                                     null,
-                                                    array("workflow_id" => $workflow_id,
-                                                          "workflow_version" =>$workflow_version,
-                                                          "group_id" => $group_id ),
-                                                    $asObject );
-        return $object;
+                                                    array( "workflow_version" =>$workflow_version,
+                                                           "group_id" => $group_id ),
+                                                    null,
+                                                    null,
+                                                    $asObject);
     }
 
-    function &fetchWorkflowList( $workflow_version, $group_id, $asObject = true )
-    {
-        $objectList = eZPersistentObject::fetchObjectList( eZWorkflowGroupLink::definition(),
-                                                            null,
-                                                            array( "workflow_version" =>$workflow_version,
-                                                                   "group_id" => $group_id ),
-                                                            null,
-                                                            null,
-                                                            $asObject);
-        return $objectList;
-    }
-
-    function fetchGroupList( $workflow_id, $workflow_version, $asObject = true )
+    static function fetchGroupList( $workflow_id, $workflow_version, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZWorkflowGroupLink::definition(),
                                                     null,
@@ -151,10 +149,10 @@ class eZWorkflowGroupLink extends eZPersistentObject
     }
 
     /// \privatesection
-    var $WorkflowID;
-    var $WorkflowVersion;
-    var $GroupID;
-    var $GroupName;
+    public $WorkflowID;
+    public $WorkflowVersion;
+    public $GroupID;
+    public $GroupName;
 }
 
 ?>

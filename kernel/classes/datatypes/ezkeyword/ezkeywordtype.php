@@ -35,28 +35,28 @@
 
 */
 
-include_once( 'kernel/classes/ezdatatype.php' );
-include_once( 'kernel/common/i18n.php' );
+//include_once( 'kernel/classes/ezdatatype.php' );
+require_once( 'kernel/common/i18n.php' );
 
-include_once( 'kernel/classes/datatypes/ezkeyword/ezkeyword.php' );
-
-define( 'EZ_DATATYPESTRING_KEYWORD', 'ezkeyword' );
+//include_once( 'kernel/classes/datatypes/ezkeyword/ezkeyword.php' );
 
 class eZKeywordType extends eZDataType
 {
+    const DATA_TYPE_STRING = 'ezkeyword';
+
     /*!
      Initializes with a keyword id and a description.
     */
     function eZKeywordType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_KEYWORD, ezi18n( 'kernel/classes/datatypes', 'Keywords', 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', 'Keywords', 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
     /*!
      Sets the default value.
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
@@ -67,7 +67,7 @@ class eZKeywordType extends eZDataType
             if ( $originalContentObjectAttributeID != $contentObjectAttributeID )
             {
                 // copy keywords links as well
-                $keyword =& $originalContentObjectAttribute->content();
+                $keyword = $originalContentObjectAttribute->content();
                 if ( is_object( $keyword ) )
                 {
                     $keyword->store( $contentObjectAttribute );
@@ -80,12 +80,12 @@ class eZKeywordType extends eZDataType
      Validates the input and returns true if the input was
      valid for this datatype.
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_ezkeyword_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
             $data = $http->postVariable( $base . '_ezkeyword_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $classAttribute = $contentObjectAttribute->contentClassAttribute();
 
             if ( $data == "" )
             {
@@ -94,17 +94,17 @@ class eZKeywordType extends eZDataType
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'Input required.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    return eZInputValidator::STATE_INVALID;
                 }
             }
         }
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
      Fetches the http post var keyword input and stores it in the data instance.
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_ezkeyword_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
@@ -121,43 +121,43 @@ class eZKeywordType extends eZDataType
      Does nothing since it uses the data_text field in the content object attribute.
      See fetchObjectAttributeHTTPInput for the actual storing.
     */
-    function storeObjectAttribute( &$attribute )
+    function storeObjectAttribute( $attribute )
     {
         // create keyword index
-        $keyword =& $attribute->content();
+        $keyword = $attribute->content();
         if ( is_object( $keyword ) )
         {
             $keyword->store( $attribute );
         }
     }
 
-    function storeClassAttribute( &$attribute, $version )
+    function storeClassAttribute( $attribute, $version )
     {
     }
 
-    function storeDefinedClassAttribute( &$attribute )
-    {
-    }
-
-    /*!
-     \reimp
-    */
-    function validateClassAttributeHTTPInput( &$http, $base, &$attribute )
-    {
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
-    }
-
-    /*!
-     \reimp
-    */
-    function fixupClassAttributeHTTPInput( &$http, $base, &$attribute )
+    function storeDefinedClassAttribute( $attribute )
     {
     }
 
     /*!
      \reimp
     */
-    function fetchClassAttributeHTTPInput( &$http, $base, &$attribute )
+    function validateClassAttributeHTTPInput( $http, $base, $attribute )
+    {
+        return eZInputValidator::STATE_ACCEPTED;
+    }
+
+    /*!
+     \reimp
+    */
+    function fixupClassAttributeHTTPInput( $http, $base, $attribute )
+    {
+    }
+
+    /*!
+     \reimp
+    */
+    function fetchClassAttributeHTTPInput( $http, $base, $attribute )
     {
         return true;
     }
@@ -165,7 +165,7 @@ class eZKeywordType extends eZDataType
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$attribute )
+    function objectAttributeContent( $attribute )
     {
         $keyword = new eZKeyword();
         $keyword->fetch( $attribute );
@@ -176,7 +176,7 @@ class eZKeywordType extends eZDataType
     /*!
      Returns the meta data used for storing search indeces.
     */
-    function metaData( &$attribute )
+    function metaData( $attribute )
     {
         $keyword = new eZKeyword();
         $keyword->fetch( $attribute );
@@ -188,7 +188,7 @@ class eZKeywordType extends eZDataType
     /*!
      \reuturn the collect information action if enabled
     */
-    function contentActionList( &$classAttribute )
+    function contentActionList( $classAttribute )
     {
         return array();
     }
@@ -196,7 +196,7 @@ class eZKeywordType extends eZDataType
     /*!
      Delete stored object attribute
     */
-    function deleteStoredObjectAttribute( &$contentObjectAttribute, $version = null )
+    function deleteStoredObjectAttribute( $contentObjectAttribute, $version = null )
     {
         if ( $version != null ) // Do not delete if discarding draft
         {
@@ -205,7 +205,7 @@ class eZKeywordType extends eZDataType
 
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         /* First we retrieve all the keyword ID related to this object attribute */
         $res = $db->arrayQuery( "SELECT keyword_id
@@ -247,7 +247,7 @@ class eZKeywordType extends eZDataType
     /*!
      Returns the content of the keyword for use as a title
     */
-    function title( &$attribute )
+    function title( $attribute, $name = null )
     {
         $keyword = new eZKeyword();
         $keyword->fetch( $attribute );
@@ -256,11 +256,11 @@ class eZKeywordType extends eZDataType
         return $return;
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         $keyword = new eZKeyword();
         $keyword->fetch( $contentObjectAttribute );
-        $array =& $keyword->keywordArray();
+        $array = $keyword->keywordArray();
 
         return count( $array ) > 0;
     }
@@ -284,7 +284,7 @@ class eZKeywordType extends eZDataType
         return  $keyword->keywordString();
     }
 
-    function fromString( &$contentObjectAttribute, $string )
+    function fromString( $contentObjectAttribute, $string )
     {
         if ( $string != '' )
         {
@@ -302,14 +302,16 @@ class eZKeywordType extends eZDataType
 
      \return a DOM representation of the content object attribute
     */
-    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
 
         $keyword = new eZKeyword();
         $keyword->fetch( $objectAttribute );
         $keyWordString = $keyword->keywordString();
-        $node->appendChild( eZDOMDocument::createElementTextNode( 'keyword-string', $keyWordString ) );
+        $dom = $node->ownerDocument;
+        $keywordStringNode = $dom->createElement( 'keyword-string', $keyWordString );
+        $node->appendChild( $keywordStringNode );
 
         return $node;
     }
@@ -320,17 +322,17 @@ class eZKeywordType extends eZDataType
 
      \param package
      \param contentobject attribute object
-     \param ezdomnode object
+     \param domnode object
     */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
-        $keyWordString = $attributeNode->elementTextContentByName( 'keyword-string' );
+        $keyWordString = $attributeNode->getElementsByTagName( 'keyword-string' )->item( 0 )->textContent;
         $keyword = new eZKeyword();
         $keyword->initializeKeyword( $keyWordString );
         $objectAttribute->setContent( $keyword );
     }
 }
 
-eZDataType::register( EZ_DATATYPESTRING_KEYWORD, 'ezkeywordtype' );
+eZDataType::register( eZKeywordType::DATA_TYPE_STRING, 'eZKeywordType' );
 
 ?>

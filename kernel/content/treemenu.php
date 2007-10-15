@@ -24,12 +24,13 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'lib/ezutils/classes/ezuri.php' );
-include_once( 'lib/ezutils/classes/ezsys.php' );
-include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-include_once( 'kernel/classes/ezclusterfilehandler.php' );
-include_once( 'lib/eztemplate/classes/eztemplatecacheblock.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'lib/ezutils/classes/ezuri.php' );
+//include_once( 'lib/ezutils/classes/ezsys.php' );
+//include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+//include_once( 'kernel/classes/ezclusterfilehandler.php' );
+//include_once( 'lib/eztemplate/classes/eztemplatecacheblock.php' );
+//include_once( 'kernel/classes/ezclusterfilefailure.php' );
 
 define( 'MAX_AGE', 86400 );
 
@@ -96,8 +97,8 @@ if ( isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) )
 
 $nodeID = (int) $_GET['node_id'];
 
-$siteINI =& eZINI::instance();
-$contentstructuremenuINI =& eZINI::instance( 'contentstructuremenu.ini' );
+$siteINI = eZINI::instance();
+$contentstructuremenuINI = eZINI::instance( 'contentstructuremenu.ini' );
 
 if ( $contentstructuremenuINI->variable( 'TreeMenu', 'Dynamic' ) != 'enabled' )
 {
@@ -113,7 +114,7 @@ if ( isset( $GLOBALS['eZCurrentAccess']['name'] ) )
     $accessName = $GLOBALS['eZCurrentAccess']['name'];
 }
 
-$user =& eZUser::currentUser();
+$user = eZUser::currentUser();
 $limitedAssignmentValueList = implode( ',', $user->limitValueList() );
 $roleList = implode( ',', $user->roleIDList() );
 
@@ -131,7 +132,7 @@ if ( $contentstructuremenuINI->variable( 'TreeMenu', 'UseCache' ) == 'enabled' a
         $user->limitValueList(),
         $accessName ), $nodeID, -1 );
 
-    if ( get_class( $cacheFileContent ) != 'ezclusterfilefailure' )
+    if ( !( $cacheFileContent  instanceof eZClusterFileFailure ) )
     {
         header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', time() + MAX_AGE ) . ' GMT' );
         header( 'Cache-Control: max-age=' . MAX_AGE );
@@ -226,7 +227,7 @@ else
         $childResponse = array();
         $childResponse['node_id'] = $child->NodeID;
         $childResponse['object_id'] = $child->ContentObjectID;
-        $object =& $child->object();
+        $object = $child->object();
         $childResponse['class_id'] = $object->ClassID;
         $childResponse['has_children'] = ( $child->subTreeCount( $conditions ) )? 1: 0;
         $childResponse['name'] = $child->getName();

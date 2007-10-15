@@ -35,7 +35,7 @@
   \brief Cpdf provides
 */
 
-include_once( 'lib/ezutils/classes/ezmath.php' );
+//include_once( 'lib/ezutils/classes/ezmath.php' );
 require_once( 'lib/compat.php' );
 
 class Cpdf
@@ -44,208 +44,208 @@ class Cpdf
     /**
      * the current number of pdf objects in the document
      */
-    var $numObj = 0;
+    public $numObj = 0;
 
     /**
      * this array contains all of the pdf objects, ready for final assembly
      */
-    var $objects = array();
+    public $objects = array();
 
     /**
      * the objectId (number within the objects array) of the document catalog
      */
-    var $catalogId;
+    public $catalogId;
 
     /**
      * array carrying information about the fonts that the system currently knows about
      * used to ensure that a font is not loaded twice, among other things
      */
-    var $fonts = array();
+    public $fonts = array();
 
     /**
      * a record of the current font
      */
-    var $currentFont = '';
+    public $currentFont = '';
 
     /**
      * the current base font
      */
-    var $currentBaseFont = '';
+    public $currentBaseFont = '';
 
     /**
      * the number of the current font within the font array
      */
-    var $currentFontNum = 0;
+    public $currentFontNum = 0;
 
     /**
      *
      */
-    var $currentNode;
+    public $currentNode;
 
     /**
      * object number of the current page
      */
-    var $currentPage;
+    public $currentPage;
 
     /**
      * object number of the currently active contents block
      */
-    var $currentContents;
+    public $currentContents;
 
     /**
      * number of fonts within the system
      */
-    var $numFonts = 0;
+    public $numFonts = 0;
 
     /**
      * current colour for fill operations, defaults to inactive value, all three components should be between 0 and 1 inclusive when active
      */
-    var $currentColour;
+    public $currentColour;
 
     /**
      * current colour for stroke operations (lines etc.)
      */
-    var $currentStrokeColour;
+    public $currentStrokeColour;
 
     /**
      * current style that lines are drawn in
      */
-    var $currentLineStyle = '';
+    public $currentLineStyle = '';
 
     /**
      * an array which is used to save the state of the document, mainly the colours and styles
      * it is used to temporarily change to another state, the change back to what it was before
      */
-    var $stateStack = array();
+    public $stateStack = array();
 
     /**
      * number of elements within the state stack
      */
-    var $nStateStack = 0;
+    public $nStateStack = 0;
 
     /**
      * number of page objects within the document
      */
-    var $numPages = 0;
+    public $numPages = 0;
 
     /**
      * object Id storage stack
      */
-    var $stack = array();
+    public $stack = array();
 
     /**
      * number of elements within the object Id storage stack
      */
-    var $nStack = 0;
+    public $nStack = 0;
 
     /**
      * an array which contains information about the objects which are not firmly attached to pages
      * these have been added with the addObject function
      */
-    var $looseObjects = array();
+    public $looseObjects = array();
 
     /**
      * array contains infomation about how the loose objects are to be added to the document
      */
-    var $addLooseObjects = array();
+    public $addLooseObjects = array();
 
     /**
      * the objectId of the information object for the document
      * this contains authorship, title etc.
      */
-    var $infoObject = 0;
+    public $infoObject = 0;
 
     /**
      * number of images being tracked within the document
      */
-    var $numImages = 0;
+    public $numImages = 0;
 
     /**
      * an array containing options about the document
      * it defaults to turning on the compression of the objects
      */
-    var $options = array( 'compression' => 1 );
+    public $options = array( 'compression' => 1 );
 
     /**
      * the objectId of the first page of the document
      */
-    var $firstPageId;
+    public $firstPageId;
 
     /**
      * used to track the last used value of the inter-word spacing, this is so that it is known
      * when the spacing is changed.
      */
-    var $wordSpaceAdjust = 0;
+    public $wordSpaceAdjust = 0;
 
     /**
      * the object Id of the procset object
      */
-    var $procsetObjectId;
+    public $procsetObjectId;
 
     /**
      * store the information about the relationship between font families
      * this used so that the code knows which font is the bold version of another font, etc.
      * the value of this array is initialised in the constuctor function.
      */
-    var $fontFamilies = array();
+    public $fontFamilies = array();
 
     /**
      * track if the current font is bolded or italicised
      */
-    var $currentTextState = '';
+    public $currentTextState = '';
 
     /**
      * messages are stored here during processing, these can be selected afterwards to give some useful debug information
      */
-    var $messages = '';
+    public $messages = '';
 
     /**
      * the ancryption array for the document encryption is stored here
      */
-    var $arc4 = '';
+    public $arc4 = '';
 
     /**
      * the object Id of the encryption information
      */
-    var $arc4_objnum = 0;
+    public $arc4_objnum = 0;
 
     /**
      * the file identifier, used to uniquely identify a pdf document
      */
-    var $fileIdentifier = '';
+    public $fileIdentifier = '';
 
     /**
      * a flag to say if a document is to be encrypted or not
      */
-    var $encrypted = 0;
+    public $encrypted = 0;
 
     /**
      * the ancryption key for the encryption of all the document content (structure is not encrypted)
      */
-    var $encryptionKey = '';
+    public $encryptionKey = '';
 
     /**
      * array which forms a stack to keep track of nested callback functions
      */
-    var $callback = array();
+    public $callback = array();
 
     /**
      * the number of callback functions in the callback array
      */
-    var $nCallback = 0;
+    public $nCallback = 0;
 
     /**
      * store label->id pairs for named destinations, these will be used to replace internal links
      * done this way so that destinations can be defined after the location that links to them
      */
-    var $destinations = array();
+    public $destinations = array();
 
     /**
      * store the stack for the transaction commands, each item in here is a record of the values of all the
      * variables within the class, so that the user can rollback at will (from each 'start' command)
      * note that this includes the objects array, so these can be large.
      */
-    var $checkpoint = '';
+    public $checkpoint = '';
 
     /**
      * class constructor
@@ -2606,7 +2606,7 @@ class Cpdf
 
         echo $tmp;
 
-        include_once( 'lib/ezutils/classes/ezexecution.php' );
+        require_once( 'lib/ezutils/classes/ezexecution.php' );
         eZExecution::cleanExit();
     }
 
@@ -4149,7 +4149,7 @@ class Cpdf
         $this->setCurrentFont();
     }
 
-    var $textStateStack = array( '' );
+    public $textStateStack = array( '' );
 } // end of class
 
 ?>

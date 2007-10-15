@@ -4,8 +4,8 @@ td.debugheader
 	background-color : #eeeeee;
 	border-top : 1px solid #444488;
 	border-bottom : 1px solid #444488;
-	font-size : 65%;
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size : 0.9em;
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 pre.debugtransaction
@@ -17,16 +17,16 @@ td.timingpoint1
 {
 	background-color : #ffffff;
 	border-top : 1px solid #444488;
-	font-size : 65%;
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 0.9em;
 }
 
 td.timingpoint2
 {
 	background-color : #eeeeee;
 	border-top : 1px solid #444488;
-	font-size : 65%;
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 0.9em;
 }
 
 p.comment /* Class to be used during development for quick comments that someone should notice easily */
@@ -46,13 +46,13 @@ td.ezsetup_header
 	border-top : 1px solid #444488;
 	border-bottom : 1px solid #444488;
 	font-size : 120%;
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 td.ezsetup_req
 {
 	font-size : 80%;
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 .ezsetup_critical
@@ -61,7 +61,7 @@ td.ezsetup_req
 	border-top : 1px solid #444488;
 	border-bottom : 1px solid #444488;
 	font-size : 120%;
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
 	color: #FF0000;
 }
@@ -72,7 +72,7 @@ td.ezsetup_req
 	border-top : 1px solid #444488;
 	border-bottom : 1px solid #444488;
 	font-size : 120%;
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
 
 	/*color: #E8E800;*/
 	color: #E2A31D;
@@ -84,7 +84,7 @@ td.ezsetup_req
 	border-top : 1px solid #444488;
 	border-bottom : 1px solid #444488;
 	font-size : 120%;
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
 
 	color: #00B500;
 }
@@ -99,12 +99,32 @@ td.used_templates_stats1
 {
 	background-color : #ffffff;
 	border-top : 1px solid #444488;
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 td.used_templates_stats2
 {
 	background-color : #eeeeee;
 	border-top : 1px solid #444488;
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+div#debug
+{
+    text-align: left;
+}
+
+div#debug table + h2, table + h3
+{
+    margin-top: 1em;
+}
+
+table#templateusage th + th, td + td
+{
+	padding: 0.25em 0.5em 0.25em 0.5em;
+}
+
+div#debug th
+{
+    text-align: left;
 }

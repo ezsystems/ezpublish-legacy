@@ -52,15 +52,15 @@
 
 */
 
-include_once( 'kernel/classes/ezpersistentobject.php' );
-
-/*!
- Controls the default value for how many items are cleaned in one batch operation.
-*/
-define( "EZ_DB_GC_ITEM_LIMIT", 3000 );
+//include_once( 'kernel/classes/ezpersistentobject.php' );
 
 class eZDBGarbageCollector
 {
+    /*!
+     Controls the default value for how many items are cleaned in one batch operation.
+    */
+    const ITEM_LIMIT = 3000;
+
     /*!
      \static
      Removes all baskets which are missing a session entry.
@@ -84,7 +84,7 @@ class eZDBGarbageCollector
     */
     function collectBaskets( $maxTime = false, $sleepTime = false, $limit = false )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         if ( $maxTime === false and $db->hasRequiredServerVersion( '4.0', 'mysql' ) )
         {
@@ -120,12 +120,12 @@ FROM ezsession
 WHERE ezsession.session_key IS NULL";
         }
         if ( $limit === false )
-            $limit = EZ_DB_GC_ITEM_LIMIT;
+            $limit = eZDBGarbageCollector::ITEM_LIMIT;
         $end = false;
         if ( is_numeric( $maxTime ) )
             $end = time() + $maxTime;
 
-        include_once( 'kernel/classes/ezproductcollection.php' );
+        //include_once( 'kernel/classes/ezproductcollection.php' );
 
         do
         {
@@ -179,7 +179,7 @@ WHERE ezsession.session_key IS NULL";
     */
     function collectProductCollections( $maxTime = false, $sleepTime = false, $limit = false )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         // Create a temporary table for filling in collection ids
         // that are in use
@@ -236,12 +236,12 @@ FROM ezproductcollection_used
 WHERE ezproductcollection_used.id IS NULL";
         }
         if ( $limit === false )
-            $limit = EZ_DB_GC_ITEM_LIMIT;
+            $limit = eZDBGarbageCollector::ITEM_LIMIT;
         $end = false;
         if ( is_numeric( $maxTime ) )
             $end = time() + $maxTime;
 
-        include_once( 'kernel/classes/ezproductcollectionitem.php' );
+        //include_once( 'kernel/classes/ezproductcollectionitem.php' );
 
         do
         {
@@ -296,7 +296,7 @@ WHERE ezproductcollection_used.id IS NULL";
     */
     function collectProductCollectionItems( $maxTime = false, $sleepTime = false, $limit = false )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         if ( $maxTime === false and $db->hasRequiredServerVersion( '4.0', 'mysql' ) )
         {
@@ -329,12 +329,12 @@ FROM ezproductcollection
 WHERE ezproductcollection.id IS NULL";
         }
         if ( $limit === false )
-            $limit = EZ_DB_GC_ITEM_LIMIT;
+            $limit = eZDBGarbageCollector::ITEM_LIMIT;
         $end = false;
         if ( is_numeric( $maxTime ) )
             $end = time() + $maxTime;
 
-        include_once( 'kernel/classes/ezproductcollectionitemoption.php' );
+        //include_once( 'kernel/classes/ezproductcollectionitemoption.php' );
 
         do
         {
@@ -383,7 +383,7 @@ WHERE ezproductcollection.id IS NULL";
     */
     function collectProductCollectionItemOptions( $maxTime = false, $sleepTime = false, $limit = false )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         if ( $maxTime === false and $db->hasRequiredServerVersion( '4.0', 'mysql' ) )
         {
@@ -414,7 +414,7 @@ FROM ezproductcollection_item
 WHERE ezproductcollection_item.id IS NULL";
         }
         if ( $limit === false )
-            $limit = EZ_DB_GC_ITEM_LIMIT;
+            $limit = eZDBGarbageCollector::ITEM_LIMIT;
         $end = false;
         if ( is_numeric( $maxTime ) )
             $end = time() + $maxTime;

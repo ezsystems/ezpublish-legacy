@@ -51,15 +51,16 @@
 \endcode
 */
 
-define ( 'EZ_TEMPLATE_DO_FUNCTION_NAME', 'do' );
 class eZTemplateDoFunction
 {
+    const FUNCTION_NAME = 'do';
+
     /*!
      * Returns an array of the function names, required for eZTemplate::registerFunctions().
      */
     function &functionList()
     {
-        $functionList = array( EZ_TEMPLATE_DO_FUNCTION_NAME );
+        $functionList = array( eZTemplateDoFunction::FUNCTION_NAME );
         return $functionList;
     }
 
@@ -82,7 +83,7 @@ class eZTemplateDoFunction
      */
     function functionTemplateHints()
     {
-        return array( EZ_TEMPLATE_DO_FUNCTION_NAME => array( 'parameters' => true,
+        return array( eZTemplateDoFunction::FUNCTION_NAME => array( 'parameters' => true,
                                                              'static' => false,
                                                              'transform-parameters' => true,
                                                              'tree-transformation' => true ) );
@@ -92,18 +93,18 @@ class eZTemplateDoFunction
      * Compiles the function and its children into PHP code.
      */
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, $parameters, $privateData )
+                                         $tpl, $parameters, $privateData )
     {
         // {/do while <condition> [sequence <sequence_array> as $<sequence_var>]}
 
         $tpl->DoCounter++;
         $newNodes      = array();
         $nodePlacement = eZTemplateNodeTool::extractFunctionNodePlacement( $node );
-        $uniqid        =  md5( $nodePlacement[2] ) . "_" . $tpl->DoCounter;
+        $uniqid        = md5( $nodePlacement[2] ) . "_" . $tpl->DoCounter;
 
         // initialize loop
         require_once( 'lib/eztemplate/classes/eztemplatecompiledloop.php' );
-        $loop = new eZTemplateCompiledLoop( EZ_TEMPLATE_DO_FUNCTION_NAME,
+        $loop = new eZTemplateCompiledLoop( eZTemplateDoFunction::FUNCTION_NAME,
                                             $newNodes, $parameters, $nodePlacement, $uniqid,
                                             $node, $tpl, $privateData );
 
@@ -130,10 +131,10 @@ class eZTemplateDoFunction
     /*!
      * Actually executes the function and its children (in processed mode).
      */
-    function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
+    function process( $tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
         require_once( 'lib/eztemplate/classes/eztemplateloop.php' );
-        $loop = new eZTemplateLoop( EZ_TEMPLATE_DO_FUNCTION_NAME,
+        $loop = new eZTemplateLoop( eZTemplateDoFunction::FUNCTION_NAME,
                                     $functionParameters, $functionChildren, $functionPlacement,
                                     $tpl, $textElements, $rootNamespace, $currentNamespace );
 

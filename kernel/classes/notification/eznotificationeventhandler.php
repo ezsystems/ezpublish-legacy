@@ -37,15 +37,15 @@
 
 */
 
-define( 'EZ_NOTIFICATIONEVENTHANDLER_EVENT_HANDLED', 0 );
-define( 'EZ_NOTIFICATIONEVENTHANDLER_EVENT_SKIPPED', 1 );
-define( 'EZ_NOTIFICATIONEVENTHANDLER_EVENT_UNKNOWN', 2 );
-define( 'EZ_NOTIFICATIONEVENTHANDLER_EVENT_ERROR', 3 );
-
-include_once( 'kernel/classes/notification/eznotificationtransport.php' );
+//include_once( 'kernel/classes/notification/eznotificationtransport.php' );
 
 class eZNotificationEventHandler
 {
+    const EVENT_HANDLED = 0;
+    const EVENT_SKIPPED = 1;
+    const EVENT_UNKNOWN = 2;
+    const EVENT_ERROR = 3;
+
     /*!
      Constructor
     */
@@ -66,7 +66,7 @@ class eZNotificationEventHandler
         return in_array( $attr, $this->attributes() );
     }
 
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         if ( $attr == 'id_string' )
         {
@@ -76,12 +76,9 @@ class eZNotificationEventHandler
         {
             return $this->Name;
         }
-        else
-        {
-            eZDebug::writeError( "Attribute '$attr' does not exist", 'eZNotificationEventHandler::attribute' );
-            $retValue = null;
-            return $retValue;
-        }
+
+        eZDebug::writeError( "Attribute '$attr' does not exist", 'eZNotificationEventHandler::attribute' );
+        return null;
     }
 
     function handle( $event )
@@ -96,18 +93,18 @@ class eZNotificationEventHandler
     {
     }
 
-    function fetchHttpInput( &$http, &$module )
+    function fetchHttpInput( $http, $module )
     {
         return true;
     }
 
-    function storeSettings( &$http, &$module )
+    function storeSettings( $http, $module )
     {
         return true;
     }
 
-    var $IDString = false;
-    var $Name = false;
+    public $IDString = false;
+    public $Name = false;
 }
 
 ?>

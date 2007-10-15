@@ -25,13 +25,13 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$Module =& $Params["Module"];
+$Module = $Params['Module'];
 $Module->setTitle( "Successful registration" );
 // Template handling
-include_once( "kernel/common/template.php" );
-$tpl =& templateInit();
+require_once( "kernel/common/template.php" );
+$tpl = templateInit();
 $tpl->setVariable( "module", $Module );
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 $verifyUserEmail = $ini->variable( 'UserSettings', 'VerifyUserEmail' );
 if ( $verifyUserEmail == "enabled" )
     $tpl->setVariable( "verify_user_email", true );
@@ -39,7 +39,7 @@ else
     $tpl->setVariable( "verify_user_email", false );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:user/success.tpl" );
+$Result['content'] = $tpl->fetch( "design:user/success.tpl" );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/user', 'User' ),
                                 'url' => false ),
                          array( 'text' => ezi18n( 'kernel/user', 'Success' ),

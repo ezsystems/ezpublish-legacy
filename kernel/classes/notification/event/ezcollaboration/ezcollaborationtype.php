@@ -36,22 +36,23 @@
   \brief The class eZCollaborationEventType does
 
 */
-define( 'EZ_NOTIFICATIONTYPESTRING_COLLABORATION', 'ezcollaboration' );
 
-include_once( 'kernel/classes/notification/eznotificationeventtype.php' );
-include_once( 'kernel/classes/ezcollaborationitem.php' );
+//include_once( 'kernel/classes/notification/eznotificationeventtype.php' );
+//include_once( 'kernel/classes/ezcollaborationitem.php' );
 
 class eZCollaborationEventType extends eZNotificationEventType
 {
+    const NOTIFICATION_TYPE_STRING = 'ezcollaboration';
+
     /*!
      Constructor
     */
     function eZCollaborationEventType()
     {
-        $this->eZNotificationEventType( EZ_NOTIFICATIONTYPESTRING_COLLABORATION );
+        $this->eZNotificationEventType( self::NOTIFICATION_TYPE_STRING );
     }
 
-    function initializeEvent( &$event, $params )
+    function initializeEvent( $event, $params )
     {
         eZDebugSetting::writeDebug( 'kernel-notification', $params, 'params for type collaboration' );
         $event->setAttribute( 'data_int1', $params['collaboration_id'] );
@@ -70,22 +71,26 @@ class eZCollaborationEventType extends eZNotificationEventType
         return in_array( $attributeName, $this->attributes() );
     }
 
-    function &attribute( $attributeName )
+    function attribute( $attributeName )
     {
         if ( $attributeName == 'collaboration_identifier' )
+        {
             return eZNotificationEventType::attribute( 'data_text1' );
+        }
         else if ( $attributeName == 'collaboration_id' )
+        {
             return eZNotificationEventType::attribute( 'data_int1' );
-        else
-            return eZNotificationEventType::attribute( $attributeName );
+        }
+
+        return eZNotificationEventType::attribute( $attributeName );
     }
 
-    function eventContent( &$event )
+    function eventContent( $event )
     {
         return eZCollaborationItem::fetch( $event->attribute( 'data_int1' ) );
     }
 }
 
-eZNotificationEventType::register( EZ_NOTIFICATIONTYPESTRING_COLLABORATION, 'ezcollaborationeventtype' );
+eZNotificationEventType::register( eZCollaborationEventType::NOTIFICATION_TYPE_STRING, 'eZCollaborationEventType' );
 
 ?>

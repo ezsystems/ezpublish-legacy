@@ -26,12 +26,9 @@
 //
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 
-
-include_once( "lib/ezxml/classes/ezxml.php" );
-
 class eZXMLSchema
 {
-    var $Schema = array(
+    public $Schema = array(
         'section'   => array( 'blockChildrenAllowed' => array( 'header', 'paragraph', 'section' ),
                               'inlineChildrenAllowed' => false,
                               'childrenRequired' => false,
@@ -162,8 +159,8 @@ class eZXMLSchema
 
     function eZXMLSchema()
     {
-        include_once( 'lib/ezutils/classes/ezini.php' );
-        $ini =& eZINI::instance( 'content.ini' );
+        //include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini = eZINI::instance( 'content.ini' );
 
         // Get inline custom tags list
         $this->Schema['custom']['isInline'] = $ini->variable( 'CustomTagSettings', 'IsInline' );
@@ -174,7 +171,7 @@ class eZXMLSchema
         if ( !is_array( $this->Schema['custom']['tagList'] ) )
             $this->Schema['custom']['tagList'] = array();
 
-        include_once( 'lib/version.php' );
+        //include_once( 'lib/version.php' );
         $eZPublishVersion = eZPublishSDK::majorVersion() + eZPublishSDK::minorVersion() * 0.1;
 
         // Get all tags available classes list
@@ -198,7 +195,7 @@ class eZXMLSchema
         $this->Schema['paragraph']['childrenRequired'] = $allowEmptyParagraph == 'true' ? false : true;
 
         // Get all tags custom attributes list
-        $ini =& eZINI::instance( 'content.ini' );
+        $ini = eZINI::instance( 'content.ini' );
         foreach( array_keys( $this->Schema ) as $tagName )
         {
             if ( $tagName == 'custom' )
@@ -235,21 +232,14 @@ class eZXMLSchema
         }
     }
 
-    function &instance()
+    static function instance()
     {
-        $impl =& $GLOBALS["eZXMLSchemaGlobalInstance"];
-
-        $class = get_class( $impl );
-        if ( $class != "ezxmlschema" )
+        if ( empty( $GLOBALS["eZXMLSchemaGlobalInstance"] ) )
         {
-            unset( $impl );
-            $impl = new eZXMLSchema();
-
-            // Set global instance
-            $GLOBALS["eZXMLSchemaGlobalInstance"] =& $impl;
+            $GLOBALS["eZXMLSchemaGlobalInstance"] = new eZXMLSchema();
         }
 
-        return $impl;
+        return $GLOBALS["eZXMLSchemaGlobalInstance"];
     }
 
     // Determines if the tag is inline
@@ -280,8 +270,8 @@ class eZXMLSchema
     /*!
        Checks if one element is allowed to be a child of another
 
-       \param $parent   parent element: eZDOMNode or string
-       \param $child    child element: eZDOMNode or string
+       \param $parent   parent element: DOMNode or string
+       \param $child    child element: DOMNode or string
 
        \return true  if elements match schema
        \return false if elements don't match schema
@@ -330,7 +320,6 @@ class eZXMLSchema
         }
         else
         {
-            //eZDebug::writeError( "No schema set for <" . $childName . "> tag.", 'eZXMLSchema' );
             return null;
         }
         return true;

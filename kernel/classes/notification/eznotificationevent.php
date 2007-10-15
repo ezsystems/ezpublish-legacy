@@ -36,14 +36,14 @@
   \brief The class eZNotificationEvent does
 
 */
-include_once( 'kernel/classes/notification/eznotificationeventtype.php' );
-include_once( 'kernel/classes/ezpersistentobject.php' );
-
-define( 'EZ_NOTIFICATIONEVENT_STATUS_CREATED', 0 );
-define( 'EZ_NOTIFICATIONEVENT_STATUS_HANDLED', 1 );
+//include_once( 'kernel/classes/notification/eznotificationeventtype.php' );
+//include_once( 'kernel/classes/ezpersistentobject.php' );
 
 class eZNotificationEvent extends eZPersistentObject
 {
+    const STATUS_CREATED = 0;
+    const STATUS_HANDLED = 1;
+
     /*!
      Constructor
     */
@@ -53,7 +53,7 @@ class eZNotificationEvent extends eZPersistentObject
         $this->TypeString = $this->attribute( 'event_type_string' );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -107,7 +107,7 @@ class eZNotificationEvent extends eZPersistentObject
                       "name" => "eznotificationevent" );
     }
 
-    function create( $type, $params = array() )
+    static function create( $type, $params = array() )
     {
         $row = array(
             "id" => null,
@@ -128,16 +128,16 @@ class eZNotificationEvent extends eZPersistentObject
 
     function initializeEventType( $params = array() )
     {
-        $eventType =& $this->eventType();
+        $eventType = $this->eventType();
         $eventType->initializeEvent( $this, $params );
         eZDebugSetting::writeDebug( 'kernel-notification', $this, 'event after initialization' );
     }
 
-    function &eventType()
+    function eventType()
     {
-        if ( ! isset (  $this->EventType ) )
+        if ( ! isset ( $this->EventType ) )
         {
-            $this->EventType =& eZNotificationEventType::create( $this->TypeString );
+            $this->EventType = eZNotificationEventType::create( $this->TypeString );
         }
         return $this->EventType;
     }
@@ -146,11 +146,11 @@ class eZNotificationEvent extends eZPersistentObject
     /*!
      Returns the content for this event.
     */
-    function &content()
+    function content()
     {
         if ( $this->Content === null )
         {
-            $eventType =& $this->eventType();
+            $eventType = $this->eventType();
             $this->Content = $eventType->eventContent( $this );
         }
         return $this->Content;
@@ -161,27 +161,27 @@ class eZNotificationEvent extends eZPersistentObject
     */
     function setContent( $content )
     {
-        $this->Content =& $content;
+        $this->Content = $content;
     }
 
-    function fetchList()
+    static function fetchList()
     {
         return eZPersistentObject::fetchObjectList( eZNotificationEvent::definition(),
                                                     null,  null, null,null,
                                                     true );
     }
 
-    function fetch( $eventID )
+    static function fetch( $eventID )
     {
         return eZPersistentObject::fetchObject( eZNotificationEvent::definition(),
                                                 null,
                                                 array( 'id' => $eventID ) );
     }
 
-    function fetchUnhandledList()
+    static function fetchUnhandledList()
     {
         return eZPersistentObject::fetchObjectList( eZNotificationEvent::definition(),
-                                                    null, array( 'status' => EZ_NOTIFICATIONEVENT_STATUS_CREATED ), null,null,
+                                                    null, array( 'status' => self::STATUS_CREATED ), null,null,
                                                     true );
     }
 
@@ -189,13 +189,13 @@ class eZNotificationEvent extends eZPersistentObject
      \static
      Removes all notification events.
     */
-    function cleanup()
+    static function cleanup()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->query( "DELETE FROM eznotificationevent" );
     }
 
-    var $Content = null;
+    public $Content = null;
 }
 
 ?>

@@ -51,7 +51,7 @@ class eZTemplateCacheBlock
      Example of usage:
      \code
      list($handler, $data) = eZTemplateCacheBlock::retrieve( array( 'my_cool_key', $id, ), $nodeID, 60 ); // lives 60 seconds
-     if ( get_class( $data ) != 'ezclusterfilefailure' )
+     if ( !$data instanceof eZClusterFileFailure )
      {
          echo $data;
      }
@@ -67,7 +67,7 @@ class eZTemplateCacheBlock
      Note: Because of the cluster code the storeCache() call must occur to ensure stability.
 
      */
-    function retrieve( $keys, $subtreeExpiry, $ttl, $useGlobalExpiry = true )
+    static function retrieve( $keys, $subtreeExpiry, $ttl, $useGlobalExpiry = true )
     {
         $nodeID = eZTemplateCacheBlock::decodeNodeID( $subtreeExpiry );
         $cachePath = eZTemplateCacheBlock::cachePath( eZTemplateCacheBlock::keyString( $keys ), $nodeID );
@@ -78,10 +78,10 @@ class eZTemplateCacheBlock
      \static
      Helper function for the compiled code, similar to retrieve() but requires the $cachePath to be calculated up front.
      */
-    function handle( $cachePath, $nodeID, $ttl, $useGlobalExpiry = true )
+    static function handle( $cachePath, $nodeID, $ttl, $useGlobalExpiry = true )
     {
         $globalExpiryTime = -1;
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         if ( $useGlobalExpiry )
         {
             $globalExpiryTime = eZExpiryHandler::getTimestamp( 'template-block-cache', -1 );
@@ -94,7 +94,7 @@ class eZTemplateCacheBlock
         // Perform an extra check if the DB handler is in use,
         // get the modified_subnode value from the specified node ($nodeID)
         // and use it as an extra expiry value.
-        if ( get_class( $cacheHandler ) == 'ezdbfilehandler' )
+        if ( $cacheHandler instanceof eZDBFileHandler )
         {
             $subtreeExpiry = eZTemplateCacheBlock::getSubtreeModification( $nodeID );
         }
@@ -119,8 +119,8 @@ class eZTemplateCacheBlock
             return -1;
         $nodeID = (int)$nodeID;
         $sql = "SELECT modified_subnode FROM ezcontentobject_tree WHERE node_id=$nodeID";
-        include_once( 'lib/ezdb/classes/ezdb.php' );
-        $db =& eZDB::instance();
+        //include_once( 'lib/ezdb/classes/ezdb.php' );
+        $db = eZDB::instance();
         $rows = $db->arrayQuery( $sql );
         if ( count( $rows ) > 0 )
             return $rows[0]['modified_subnode'];
@@ -134,7 +134,7 @@ class eZTemplateCacheBlock
      \note This function is placed in this class to reduce the need to load the class eZTemplateCacheFunction
            when the templates are compiled. This reduces memory usage.
      */
-    function placementString( $functionPlacement )
+    static function placementString( $functionPlacement )
     {
         $placementString =  $functionPlacement[0][0] . "_";
         $placementString .= $functionPlacement[0][1] . "_";
@@ -150,7 +150,7 @@ class eZTemplateCacheBlock
 
      Note: Arrays are traversed recursively.
      */
-    function keyString( $keys )
+    static function keyString( $keys )
     {
         return serialize( $keys );
     }
@@ -161,9 +161,9 @@ class eZTemplateCacheBlock
 
      See subtreeCacheSubDir() for more details on the $nodeID parameter.
      */
-    function cachePath( $keyString, $nodeID )
+    static function cachePath( $keyString, $nodeID )
     {
-        include_once( 'lib/ezutils/classes/ezsys.php' );
+        //include_once( 'lib/ezutils/classes/ezsys.php' );
         $filename = eZSys::ezcrc32( $keyString ) . ".cache";
 
         $phpDir = eZTemplateCacheBlock::templateBlockCacheDir();
@@ -185,7 +185,7 @@ class eZTemplateCacheBlock
      \static
      Returns base directory where template block caches are stored.
     */
-    function templateBlockCacheDir()
+    static function templateBlockCacheDir()
     {
         $cacheDir = eZSys::cacheDirectory() . '/template-block/' ;
         return $cacheDir;
@@ -200,7 +200,7 @@ class eZTemplateCacheBlock
      - A string containing 'content/view/full/xxx' where xx is the node ID number, the number will be extracted.
      - A string containing a nice url which will be decoded into a node ID using the database (slowest approach).
     */
-    function decodeNodeID( $subtreeExpiryParameter )
+    static function decodeNodeID( $subtreeExpiryParameter )
     {
         $nodeID = false;
         if ( !is_numeric( $subtreeExpiryParameter ) )
@@ -229,8 +229,8 @@ class eZTemplateCacheBlock
                 }
                 else
                 {
-                    include_once( 'lib/ezdb/classes/ezdb.php' );
-                    $db =& eZDB::instance();
+                    //include_once( 'lib/ezdb/classes/ezdb.php' );
+                    $db = eZDB::instance();
                     // 'subtree_expiry' is url_alias
                     $nodePathStringSQL = "SELECT node_id FROM ezcontentobject_tree WHERE path_identification_string='" . $db->escapeString( $subtree ) . "'";
                     $nodes = $db->arrayQuery( $nodePathStringSQL );
@@ -258,7 +258,7 @@ class eZTemplateCacheBlock
 
      See decodeNodeID() for details on the $subtreeExpiryParameter parameter.
     */
-    function calculateSubtreeCacheDir( $nodeID, $cacheFilename )
+    static function calculateSubtreeCacheDir( $nodeID, $cacheFilename )
     {
         $cacheDir = eZTemplateCacheBlock::subtreeCacheSubDirForNode( $nodeID );
         $cacheDir .= '/' . $cacheFilename[0] . '/' . $cacheFilename[1] . '/' . $cacheFilename[2];
@@ -274,7 +274,7 @@ class eZTemplateCacheBlock
 
      \note If you know the node ID you can use calculateSubtreeCacheDir() instead.
     */
-    function subtreeCacheSubDir( $subtreeExpiryParameter, $cacheFilename )
+    static function subtreeCacheSubDir( $subtreeExpiryParameter, $cacheFilename )
     {
         $nodeID = eZTemplateCacheBlock::decodeNodeID( $subtreeExpiryParameter );
         return eZTemplateCacheBlock::calculateSubtreeCacheDir( $nodeID, $cacheFilename );
@@ -284,7 +284,7 @@ class eZTemplateCacheBlock
      \static
      Builds and returns path from $nodeID, e.g. if $nodeID = 23 then path = subtree/2/3
     */
-    function subtreeCacheSubDirForNode( $nodeID )
+    static function subtreeCacheSubDirForNode( $nodeID )
     {
         $cacheDir = eZTemplateCacheBlock::subtreeCacheBaseSubDir();
 
@@ -312,7 +312,7 @@ class eZTemplateCacheBlock
      \static
      Returns base directory where 'subtree_expiry' caches are stored.
     */
-    function subtreeCacheBaseSubDir()
+    static function subtreeCacheBaseSubDir()
     {
         return 'subtree';
     }
@@ -324,7 +324,7 @@ class eZTemplateCacheBlock
      \param $fname Name of file
      \param $mtime Modified time of file.
      */
-    function retrieveContent( $fname, $mtime )
+    static function retrieveContent( $fname, $mtime )
     {
         return file_get_contents( $fname );
     }

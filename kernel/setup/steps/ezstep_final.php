@@ -30,9 +30,9 @@
 
 /*! \file ezstep_final.php
 */
-include_once( 'kernel/setup/steps/ezstep_installer.php');
-include_once( "kernel/setup/ezsetuptests.php" );
-include_once( "kernel/common/i18n.php" );
+//include_once( 'kernel/setup/steps/ezstep_installer.php');
+//include_once( "kernel/setup/ezsetuptests.php" );
+require_once( "kernel/common/i18n.php" );
 
 /*!
   \class eZStepFinal ezstep_final.php
@@ -45,7 +45,7 @@ class eZStepFinal extends eZStepInstaller
     /*!
      Constructor
     */
-    function eZStepFinal( &$tpl, &$http, &$ini, &$persistenceList )
+    function eZStepFinal( $tpl, $http, $ini, &$persistenceList )
     {
         $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
                                 'final', 'Final' );
@@ -70,7 +70,7 @@ class eZStepFinal extends eZStepInstaller
     /*!
      \reimp
     */
-    function &display()
+    function display()
     {
         $siteType = $this->chosenSiteType();
 

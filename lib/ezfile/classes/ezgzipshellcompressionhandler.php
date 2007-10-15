@@ -41,7 +41,7 @@
 NOTE: This is not done yet.
 */
 
-include_once( 'lib/ezfile/classes/ezcompressionhandler.php' );
+//include_once( 'lib/ezfile/classes/ezcompressionhandler.php' );
 
 class eZGZIPShellCompressionHandler extends eZCompressionHandler
 {
@@ -76,7 +76,7 @@ class eZGZIPShellCompressionHandler extends eZCompressionHandler
     /*!
      \return true if this handler can be used.
     */
-    function isAvailable()
+    static function isAvailable()
     {
         return false;
     }
@@ -169,7 +169,7 @@ class eZGZIPShellCompressionHandler extends eZCompressionHandler
     /*!
      \reimp
     */
-    function doPasstrough()
+    function doPasstrough( $closeFile = true )
     {
         return @gzpasstru( $this->File );
     }
@@ -208,9 +208,9 @@ class eZGZIPShellCompressionHandler extends eZCompressionHandler
 
     /// \privatesection
     /// File pointer, returned by gzopen
-    var $File;
+    public $File;
     /// The compression level
-    var $Level;
+    public $Level;
 }
 
 ?>

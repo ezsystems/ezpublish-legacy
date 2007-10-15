@@ -39,7 +39,7 @@
 
 */
 
-include_once( 'lib/ezutils/classes/ezmailtransport.php' );
+//include_once( 'lib/ezutils/classes/ezmailtransport.php' );
 
 class eZSendmailTransport extends eZMailTransport
 {
@@ -55,7 +55,7 @@ class eZSendmailTransport extends eZMailTransport
     */
     function sendMail( &$mail )
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $sendmailOptions = '';
         $emailFrom = $mail->sender();
         $emailSender = isset( $emailFrom['email'] ) ? $emailFrom['email'] : false;

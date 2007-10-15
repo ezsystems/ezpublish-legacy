@@ -36,35 +36,35 @@
   Enable editing and versioning of ini files from the admin interface
 */
 
-include_once( 'kernel/classes/ezdatatype.php' );
-include_once( 'lib/ezutils/classes/ezintegervalidator.php' );
-include_once( 'kernel/common/i18n.php' );
-
-define( 'EZ_DATATYPESTRING_INISETTING', 'ezinisetting' );
-
-define( 'EZ_DATATYPEINISETTING_CLASS_TYPE', '_ezinisetting_type_' );
-define( 'EZ_DATATYPEINISETTING_CLASS_FILE', '_ezinisetting_file_' );
-define( 'EZ_DATATYPEINISETTING_CLASS_SECTION', '_ezinisetting_section_' );
-define( 'EZ_DATATYPEINISETTING_CLASS_PARAMETER', '_ezinisetting_parameter_' );
-define( 'EZ_DATATYPEINISETTING_CLASS_INI_INSTANCE', '_ezinisetting_ini_instance_' );
-
-define( 'EZ_DATATYPEINISETTING_CLASS_FILE_FIELD', 'data_text1' );
-define( 'EZ_DATATYPEINISETTING_CLASS_SECTION_FIELD', 'data_text2' );
-define( 'EZ_DATATYPEINISETTING_CLASS_PARAMETER_FIELD', 'data_text3' );
-define( 'EZ_DATATYPEINISETTING_CLASS_TYPE_FIELD', 'data_int1' );
-define( 'EZ_DATATYPEINISETTING_CLASS_INI_INSTANCE_FIELD', 'data_text4' );
-define( 'EZ_DATATYPEINISETTING_CLASS_SITE_ACCESS_LIST_FIELD', 'data_text5' );
-
-define( 'EZ_DATATYPEINISETTING_CLASS_TYPE_ARRAY', 6 );
+//include_once( 'kernel/classes/ezdatatype.php' );
+//include_once( 'lib/ezutils/classes/ezintegervalidator.php' );
+require_once( 'kernel/common/i18n.php' );
 
 class eZIniSettingType extends eZDataType
 {
+    const DATA_TYPE_STRING = 'ezinisetting';
+
+    const CLASS_TYPE = '_ezinisetting_type_';
+    const CLASS_FILE = '_ezinisetting_file_';
+    const CLASS_SECTION = '_ezinisetting_section_';
+    const CLASS_PARAMETER = '_ezinisetting_parameter_';
+    const CLASS_INI_INSTANCE = '_ezinisetting_ini_instance_';
+
+    const CLASS_FILE_FIELD = 'data_text1';
+    const CLASS_SECTION_FIELD = 'data_text2';
+    const CLASS_PARAMETER_FIELD = 'data_text3';
+    const CLASS_TYPE_FIELD = 'data_int1';
+    const CLASS_INI_INSTANCE_FIELD = 'data_text4';
+    const SITE_ACCESS_LIST_FIELD = 'data_text5';
+
+    const CLASS_TYPE_ARRAY = 6;
+
     /*!
      Initializes with a string id and a description.
     */
     function eZIniSettingType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_INISETTING, ezi18n( 'kernel/classes/datatypes', 'Ini Setting', 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', 'Ini Setting', 'Datatype name' ),
                                                          array( 'translation_allowed' => false,
                                                                 'serialize_supported' => true ) );
     }
@@ -72,24 +72,24 @@ class eZIniSettingType extends eZDataType
     /*!
       \reimp
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_ini_setting_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
-            $contentClassAttribute =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
-            $iniFile =& eZIniSettingType::iniFile( $contentClassAttribute );
-            $iniSection =& eZIniSettingType::iniSection( $contentClassAttribute );
-            $iniParameterName =& eZIniSettingType::iniParameterName( $contentClassAttribute );
+            $contentClassAttribute = $contentObjectAttribute->attribute( 'contentclass_attribute' );
+            $iniFile = eZIniSettingType::iniFile( $contentClassAttribute );
+            $iniSection = eZIniSettingType::iniSection( $contentClassAttribute );
+            $iniParameterName = eZIniSettingType::iniParameterName( $contentClassAttribute );
 
-            $config =& eZINI::instance( $iniFile );
+            $config = eZINI::instance( $iniFile );
             if ( $config == null )
             {
                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                      'Could not locate the ini file.' ) );
-                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                return eZInputValidator::STATE_INVALID;
             }
 
-            if ( $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_TYPE_FIELD ) == EZ_DATATYPEINISETTING_CLASS_TYPE_ARRAY )
+            if ( $contentClassAttribute->attribute( self::CLASS_TYPE_FIELD ) == self::CLASS_TYPE_ARRAY )
             {
                 $iniArray = array();
    //             if ( eZIniSettingType::parseArrayInput( $contentObjectAttribute->attribute( 'data_text' ), $iniArray ) === false )
@@ -97,23 +97,23 @@ class eZIniSettingType extends eZDataType
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes', 'Wrong text field value.' ) );
 
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    return eZInputValidator::STATE_INVALID;
                 }
             }
         }
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
      \reimp
     */
-    function validateClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function validateClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $fileParam = $base . EZ_DATATYPEINISETTING_CLASS_FILE . $classAttribute->attribute( 'id' );
-        $sectionParam = $base . EZ_DATATYPEINISETTING_CLASS_SECTION . $classAttribute->attribute( 'id' );
-        $parameterParam = $base . EZ_DATATYPEINISETTING_CLASS_PARAMETER . $classAttribute->attribute( 'id' );
-        $typeParam = $base . EZ_DATATYPEINISETTING_CLASS_TYPE . $classAttribute->attribute( 'id' );
-        $iniInstanceParam = $base . EZ_DATATYPEINISETTING_CLASS_INI_INSTANCE . $classAttribute->attribute( 'id' );
+        $fileParam = $base . self::CLASS_FILE . $classAttribute->attribute( 'id' );
+        $sectionParam = $base . self::CLASS_SECTION . $classAttribute->attribute( 'id' );
+        $parameterParam = $base . self::CLASS_PARAMETER . $classAttribute->attribute( 'id' );
+        $typeParam = $base . self::CLASS_TYPE . $classAttribute->attribute( 'id' );
+        $iniInstanceParam = $base . self::CLASS_INI_INSTANCE . $classAttribute->attribute( 'id' );
 
         if ( $http->hasPostVariable( $fileParam ) &&
              $http->hasPostVariable( $sectionParam ) &&
@@ -124,17 +124,17 @@ class eZIniSettingType extends eZDataType
             $iniFile = $http->postVariable( $fileParam );
             $iniSection = $http->postVariable( $sectionParam );
 
-            $config =& eZIni::instance( $iniFile );
+            $config = eZINI::instance( $iniFile );
             if ( $config == null )
             {
-                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                return eZInputValidator::STATE_INVALID;
             }
 
             if ( !$config->hasGroup( $iniSection ) )
             {
-                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                return eZInputValidator::STATE_INVALID;
             }
-            return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            return eZInputValidator::STATE_ACCEPTED;
         }
 
         eZDebug::writeNotice( 'Could not validate parameters: ' . "\n" .
@@ -144,13 +144,13 @@ class eZIniSettingType extends eZDataType
                               $typeParam . ': ' .  $http->postVariable( $typeParam ). "\n" .
                               $iniInstanceParam. ': '. $http->postVariable( $iniInstanceParam ), 'eZIniSettingType::validateClassAttributeHTTPInput',
                               'eZIniSettingType::validateClassAttributeHTTPInput' );
-        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+        return eZInputValidator::STATE_INVALID;
     }
 
     /*!
      \reimp
     */
-    function initializeClassAttribute( &$classAttribute )
+    function initializeClassAttribute( $classAttribute )
     {
         eZIniSettingType::setSiteAccessList( $classAttribute );
     }
@@ -158,7 +158,7 @@ class eZIniSettingType extends eZDataType
     /*!
      \reimp
     */
-    function initializeObjectAttribute( &$objectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $objectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
@@ -166,12 +166,12 @@ class eZIniSettingType extends eZDataType
         }
         else
         {
-            $contentClassAttribute =& $objectAttribute->attribute( 'contentclass_attribute' );
-            $iniInstanceArray = explode( ';', $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_INI_INSTANCE_FIELD ) );
-            $siteAccessArray = explode( ';', $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_SITE_ACCESS_LIST_FIELD ) );
-            $filename =& $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_FILE_FIELD );
-            $section =& $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_SECTION_FIELD );
-            $parameter =& $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_PARAMETER_FIELD );
+            $contentClassAttribute = $objectAttribute->attribute( 'contentclass_attribute' );
+            $iniInstanceArray = explode( ';', $contentClassAttribute->attribute( self::CLASS_INI_INSTANCE_FIELD ) );
+            $siteAccessArray = explode( ';', $contentClassAttribute->attribute( self::SITE_ACCESS_LIST_FIELD ) );
+            $filename = $contentClassAttribute->attribute( self::CLASS_FILE_FIELD );
+            $section = $contentClassAttribute->attribute( self::CLASS_SECTION_FIELD );
+            $parameter = $contentClassAttribute->attribute( self::CLASS_PARAMETER_FIELD );
 
             if ( ! in_array( 0, $iniInstanceArray ) )  /* Makes sure it check 'settings' and 'settings/override' last */
                 array_unshift( $iniInstanceArray,  0 );
@@ -191,7 +191,7 @@ class eZIniSettingType extends eZDataType
                 if ( !eZINI::parameterSet( $filename, $path, $section, $parameter ) )
                     continue;
 
-                $config =& eZINI::instance( $filename, $path, null, null, null, true );
+                $config = eZINI::instance( $filename, $path, null, null, null, true );
 
                 $configValue = $config->variable( $section, $parameter );
 
@@ -233,13 +233,13 @@ class eZIniSettingType extends eZDataType
     /*!
      \reimp
     */
-    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $fileParam = $base . EZ_DATATYPEINISETTING_CLASS_FILE . $classAttribute->attribute( 'id' );
-        $sectionParam = $base . EZ_DATATYPEINISETTING_CLASS_SECTION . $classAttribute->attribute( 'id' );
-        $paramParam = $base . EZ_DATATYPEINISETTING_CLASS_PARAMETER . $classAttribute->attribute( 'id' );
-        $typeParam = $base . EZ_DATATYPEINISETTING_CLASS_TYPE . $classAttribute->attribute( 'id' );
-        $iniInstanceParam = $base . EZ_DATATYPEINISETTING_CLASS_INI_INSTANCE . $classAttribute->attribute( 'id' );
+        $fileParam = $base . self::CLASS_FILE . $classAttribute->attribute( 'id' );
+        $sectionParam = $base . self::CLASS_SECTION . $classAttribute->attribute( 'id' );
+        $paramParam = $base . self::CLASS_PARAMETER . $classAttribute->attribute( 'id' );
+        $typeParam = $base . self::CLASS_TYPE . $classAttribute->attribute( 'id' );
+        $iniInstanceParam = $base . self::CLASS_INI_INSTANCE . $classAttribute->attribute( 'id' );
 
         if ( $http->hasPostVariable( $fileParam ) &&
              $http->hasPostVariable( $sectionParam ) &&
@@ -269,11 +269,11 @@ class eZIniSettingType extends eZDataType
             }
 
             eZIniSettingType::setSiteAccessList( $classAttribute );
-            $classAttribute->setAttribute( EZ_DATATYPEINISETTING_CLASS_FILE_FIELD, $file );
-            $classAttribute->setAttribute( EZ_DATATYPEINISETTING_CLASS_SECTION_FIELD, $section );
-            $classAttribute->setAttribute( EZ_DATATYPEINISETTING_CLASS_PARAMETER_FIELD, $parameter );
-            $classAttribute->setAttribute( EZ_DATATYPEINISETTING_CLASS_TYPE_FIELD, $type );
-            $classAttribute->setAttribute( EZ_DATATYPEINISETTING_CLASS_INI_INSTANCE_FIELD, $iniInstance );
+            $classAttribute->setAttribute( self::CLASS_FILE_FIELD, $file );
+            $classAttribute->setAttribute( self::CLASS_SECTION_FIELD, $section );
+            $classAttribute->setAttribute( self::CLASS_PARAMETER_FIELD, $parameter );
+            $classAttribute->setAttribute( self::CLASS_TYPE_FIELD, $type );
+            $classAttribute->setAttribute( self::CLASS_INI_INSTANCE_FIELD, $iniInstance );
 
             return true;
         }
@@ -283,7 +283,7 @@ class eZIniSettingType extends eZDataType
     /*!
       \reimp
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_ini_setting_' . $contentObjectAttribute->attribute( "id" ) ) )
         {
@@ -308,14 +308,14 @@ class eZIniSettingType extends eZDataType
     /*!
      \reimp
     */
-    function onPublish( &$contentObjectAttribute, &$contentObject, &$publishedNodes )
+    function onPublish( $contentObjectAttribute, $contentObject, $publishedNodes )
     {
-        $contentClassAttribute =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
-        $section =& $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_SECTION_FIELD );
-        $parameter =& $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_PARAMETER_FIELD );
-        $iniInstanceArray = explode( ';', $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_INI_INSTANCE_FIELD ) );
-        $siteAccessArray = explode( ';', $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_SITE_ACCESS_LIST_FIELD ) );
-        $filename =& $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_FILE_FIELD );
+        $contentClassAttribute = $contentObjectAttribute->attribute( 'contentclass_attribute' );
+        $section = $contentClassAttribute->attribute( self::CLASS_SECTION_FIELD );
+        $parameter = $contentClassAttribute->attribute( self::CLASS_PARAMETER_FIELD );
+        $iniInstanceArray = explode( ';', $contentClassAttribute->attribute( self::CLASS_INI_INSTANCE_FIELD ) );
+        $siteAccessArray = explode( ';', $contentClassAttribute->attribute( self::SITE_ACCESS_LIST_FIELD ) );
+        $filename = $contentClassAttribute->attribute( self::CLASS_FILE_FIELD );
         $makeEmptyArray = $contentObjectAttribute->attribute( 'data_int' );
 
         foreach ( $iniInstanceArray as $iniInstance )
@@ -325,14 +325,14 @@ class eZIniSettingType extends eZDataType
             else
                 $path = 'settings/siteaccess/' . $siteAccessArray[$iniInstance];
 
-            $config =& eZINI::instance( $filename . '.append', $path, null, false, null, true, true );
+            $config = eZINI::instance( $filename . '.append', $path, null, false, null, true, true );
 
             if ( $config == null )
             {
                 eZDebug::writeError( 'Could not open ' . $path . '/' . $filename );
                 continue;
             }
-            if ( $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_TYPE_FIELD ) == EZ_DATATYPEINISETTING_CLASS_TYPE_ARRAY )
+            if ( $contentClassAttribute->attribute( self::CLASS_TYPE_FIELD ) == self::CLASS_TYPE_ARRAY )
             {
                 if ( $contentObjectAttribute->attribute( 'data_text' ) != null )
                 {
@@ -406,19 +406,19 @@ class eZIniSettingType extends eZDataType
     /*!
      \reimp
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
-        $contentClassAttribute =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
-        $section =& $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_SECTION_FIELD );
-        $parameter =& $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_PARAMETER_FIELD );
+        $contentClassAttribute = $contentObjectAttribute->attribute( 'contentclass_attribute' );
+        $section = $contentClassAttribute->attribute( self::CLASS_SECTION_FIELD );
+        $parameter = $contentClassAttribute->attribute( self::CLASS_PARAMETER_FIELD );
 
-        $iniInstanceArray = explode( ';', $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_INI_INSTANCE_FIELD ) );
-        $siteAccessArray = explode( ';', $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_SITE_ACCESS_LIST_FIELD ) );
-        $filename =& $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_FILE_FIELD );
+        $iniInstanceArray = explode( ';', $contentClassAttribute->attribute( self::CLASS_INI_INSTANCE_FIELD ) );
+        $siteAccessArray = explode( ';', $contentClassAttribute->attribute( self::SITE_ACCESS_LIST_FIELD ) );
+        $filename = $contentClassAttribute->attribute( self::CLASS_FILE_FIELD );
 
         $modified = array();
 
-        $contentObject =& $contentObjectAttribute->attribute( 'object' );
+        $contentObject = $contentObjectAttribute->attribute( 'object' );
         foreach ( $iniInstanceArray as $iniInstance )
         {
             if ( $iniInstance == 0 )
@@ -429,7 +429,7 @@ class eZIniSettingType extends eZDataType
             if ( !eZINI::parameterSet( $filename, $path, $section, $parameter ) )
                 continue;
 
-            $config =& eZINI::instance( $filename, $path, null, null, null, true );
+            $config = eZINI::instance( $filename, $path, null, null, null, true );
 
             if ( is_array( $config->variable( $section, $parameter ) ) )
             {
@@ -460,12 +460,12 @@ class eZIniSettingType extends eZDataType
     /*!
       \reimp
     */
-    function title( &$contentObjectAttribute )
+    function title( $contentObjectAttribute, $name = null )
     {
         return $contentObjectAttribute->attribute( 'data_text' );
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         return true;
     }
@@ -473,23 +473,28 @@ class eZIniSettingType extends eZDataType
     /*!
      \reimp
     */
-    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        include_once( 'lib/ezxml/classes/ezdomdocument.php' );
+        $file = $classAttribute->attribute( self::CLASS_FILE_FIELD );
+        $section = $classAttribute->attribute( self::CLASS_SECTION_FIELD );
+        $parameter = $classAttribute->attribute( self::CLASS_PARAMETER_FIELD );
+        $type = $classAttribute->attribute( self::CLASS_TYPE_FIELD );
+        $iniInstance = $classAttribute->attribute( self::CLASS_INI_INSTANCE_FIELD );
+        $siteAccess = $classAttribute->attribute( self::SITE_ACCESS_LIST_FIELD );
 
-        $file =& $classAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_FILE_FIELD );
-        $section =& $classAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_SECTION_FIELD );
-        $parameter =& $classAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_PARAMETER_FIELD );
-        $type =& $classAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_TYPE_FIELD );
-        $iniInstance =& $classAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_INI_INSTANCE_FIELD );
-        $siteAccess =& $classAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_SITE_ACCESS_LIST_FIELD );
-
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'file', $file ) );
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'section', $section ) );
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'parameter', $parameter ) );
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'type', $type ) );
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'ini_instance', $iniInstance ) );
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'site_access_list', $siteAccess ) );
+        $dom = $attributeParametersNode->ownerDocument;
+        $fileNode = $dom->createElement( 'file', $file );
+        $attributeParametersNode->appendChild( $fileNode );
+        $sectionNode = $dom->createElement( 'section', $section );
+        $attributeParametersNode->appendChild( $sectionNode );
+        $parameterNode = $dom->createElement( 'parameter', $parameter );
+        $attributeParametersNode->appendChild( $parameterNode );
+        $typeNode = $dom->createElement( 'type', $type );
+        $attributeParametersNode->appendChild( $typeNode );
+        $iniInstanceNode = $dom->createElement( 'ini_instance', $iniInstance );
+        $attributeParametersNode->appendChild( $iniInstanceNode );
+        $siteAccessListNode = $dom->createElement( 'site_access_list', $siteAccess );
+        $attributeParametersNode->appendChild( $siteAccessListNode );
     }
 
     /*!
@@ -497,26 +502,26 @@ class eZIniSettingType extends eZDataType
 
      Use Override to do ini alterations if the specified site access does not exist
     */
-    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $file = $attributeParametersNode->elementTextContentByName( 'file' );
-        $section = $attributeParametersNode->elementTextContentByName( 'section' );
-        $parameter = $attributeParametersNode->elementTextContentByName( 'parameter' );
-        $type = $attributeParametersNode->elementTextContentByName( 'type' );
+        $file = $attributeParametersNode->getElementsByTagName( 'file' )->item( 0 )->textContent;
+        $section = $attributeParametersNode->getElementsByTagName( 'section' )->item( 0 )->textContent;
+        $parameter = $attributeParametersNode->getElementsByTagName( 'parameter' )->item( 0 )->textContent;
+        $type = $attributeParametersNode->getElementsByTagName( 'type' )->item( 0 )->textContent;
 
-        $classAttribute->setAttribute( EZ_DATATYPEINISETTING_CLASS_FILE_FIELD, $file );
-        $classAttribute->setAttribute( EZ_DATATYPEINISETTING_CLASS_SECTION_FIELD, $section );
-        $classAttribute->setAttribute( EZ_DATATYPEINISETTING_CLASS_PARAMETER_FIELD, $parameter );
-        $classAttribute->setAttribute( EZ_DATATYPEINISETTING_CLASS_TYPE_FIELD, $type );
+        $classAttribute->setAttribute( self::CLASS_FILE_FIELD, $file );
+        $classAttribute->setAttribute( self::CLASS_SECTION_FIELD, $section );
+        $classAttribute->setAttribute( self::CLASS_PARAMETER_FIELD, $parameter );
+        $classAttribute->setAttribute( self::CLASS_TYPE_FIELD, $type );
 
 
         /* Get and check if site access settings exist in this setup */
-        $remoteIniInstanceList = $attributeParametersNode->elementTextContentByName( 'ini_instance' );
-        $remoteSiteAccessList = $attributeParametersNode->elementTextContentByName( 'site_access_list' );
+        $remoteIniInstanceList = $attributeParametersNode->getElementsByTagName( 'ini_instance' )->item( 0 )->textContent;
+        $remoteSiteAccessList = $attributeParametersNode->getElementsByTagName( 'site_access_list' )->item( 0 )->textContent;
         $remoteIniInstanceArray = explode( ';', $remoteIniInstanceList );
         $remoteSiteAccessArray = explode( ';', $remoteSiteAccessList );
 
-        $config =& eZINI::instance( 'site.ini' );
+        $config = eZINI::instance( 'site.ini' );
         $localSiteAccessArray = array_merge( array( 'override' ), $config->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' ) );
 
         $localIniInstanceArray = array();
@@ -549,8 +554,8 @@ class eZIniSettingType extends eZDataType
             $siteAccess .= $localSiteAccess;
         }
 
-        $classAttribute->setAttribute( EZ_DATATYPEINISETTING_CLASS_INI_INSTANCE_FIELD, $iniInstance );
-        $classAttribute->setAttribute( EZ_DATATYPEINISETTING_CLASS_SITE_ACCESS_LIST_FIELD, $siteAccess );
+        $classAttribute->setAttribute( self::CLASS_INI_INSTANCE_FIELD, $iniInstance );
+        $classAttribute->setAttribute( self::SITE_ACCESS_LIST_FIELD, $siteAccess );
     }
 
 
@@ -560,9 +565,9 @@ class eZIniSettingType extends eZDataType
 
      \param Content Class Attribute
     */
-    function &iniParameterName( &$contentClassAttribute )
+    function iniParameterName( $contentClassAttribute )
     {
-        return $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_PARAMETER_FIELD );
+        return $contentClassAttribute->attribute( self::CLASS_PARAMETER_FIELD );
     }
 
     /*!
@@ -571,9 +576,9 @@ class eZIniSettingType extends eZDataType
 
      \param Content Class Attribute
     */
-    function &iniFile( &$contentClassAttribute )
+    function iniFile( $contentClassAttribute )
     {
-        return $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_FILE_FIELD );
+        return $contentClassAttribute->attribute( self::CLASS_FILE_FIELD );
     }
 
     /*!
@@ -582,9 +587,9 @@ class eZIniSettingType extends eZDataType
 
      \param Content Class Attribute
     */
-    function &iniSection( &$contentClassAttribute )
+    function iniSection( $contentClassAttribute )
     {
-        return $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_SECTION_FIELD );
+        return $contentClassAttribute->attribute( self::CLASS_SECTION_FIELD );
     }
 
     /*!
@@ -594,9 +599,9 @@ class eZIniSettingType extends eZDataType
 
      \param contentClassAttribute to set site access list and override options
     */
-    function setSiteAccessList( &$contentClassAttribute )
+    function setSiteAccessList( $contentClassAttribute )
     {
-        $config =& eZINI::instance( 'site.ini' );
+        $config = eZINI::instance( 'site.ini' );
         $siteAccessArray = $config->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
         $siteAccessList = 'override';
         foreach ( $siteAccessArray as $idx => $siteAccess )
@@ -604,7 +609,7 @@ class eZIniSettingType extends eZDataType
             $siteAccessList .= ';' . $siteAccess;
         }
 
-        $contentClassAttribute->setAttribute( EZ_DATATYPEINISETTING_CLASS_SITE_ACCESS_LIST_FIELD, $siteAccessList );
+        $contentClassAttribute->setAttribute( self::SITE_ACCESS_LIST_FIELD, $siteAccessList );
     }
 
     function toString( $contentObjectAttribute )
@@ -615,7 +620,7 @@ class eZIniSettingType extends eZDataType
     }
 
 
-    function fromString( &$contentObjectAttribute, $string )
+    function fromString( $contentObjectAttribute, $string )
     {
         if ( $string == '' )
             return true;
@@ -630,14 +635,18 @@ class eZIniSettingType extends eZDataType
     /*!
      \reimp
     */
-    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
         $makeEmptyArray = $objectAttribute->attribute( 'data_int' );
         $value = $objectAttribute->attribute( 'data_text' );
 
-        $node->appendChild( eZDOMDocument::createElementTextNode( 'make_empty_array', $makeEmptyArray ) );
-        $node->appendChild( eZDOMDocument::createElementTextNode( 'value', $value ) );
+        $dom = $node->ownerDocument;
+
+        $makeEmptyArrayNode = $dom->createElement( 'make_empty_array', $makeEmptyArray );
+        $node->appendChild( $makeEmptyArrayNode );
+        $valueNode = $dom->createElement( 'value', $value );
+        $node->appendChild( $valueNode );
 
         return $node;
     }
@@ -645,10 +654,10 @@ class eZIniSettingType extends eZDataType
     /*!
      \reimp
     */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
-        $makeEmptyArray = $attributeNode->elementTextContentByName( 'make_empty_array' );
-        $value = $attributeNode->elementTextContentByName( 'value' );
+        $makeEmptyArray = $attributeNode->getElementsByTagName( 'make_empty_array' )->item( 0 )->textContent;
+        $value = $attributeNode->getElementsByTagName( 'value' )->item( 0 )->textContent;
 
         if ( $makeEmptyArray === false )
             $makeEmptyArray = 0;
@@ -669,6 +678,6 @@ class eZIniSettingType extends eZDataType
     }
 }
 
-eZDataType::register( EZ_DATATYPESTRING_INISETTING, 'ezinisettingtype' );
+eZDataType::register( eZIniSettingType::DATA_TYPE_STRING, 'eZIniSettingType' );
 
 ?>

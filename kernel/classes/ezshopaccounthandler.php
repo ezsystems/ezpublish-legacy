@@ -38,7 +38,7 @@ class eZShopAccountHandler
     /*!
      returns the current shop account instance
     */
-    function &instance()
+    static function instance()
     {
         $accountHandler = null;
         if ( eZExtension::findExtensionType( array( 'ini-name' => 'shopaccount.ini',
@@ -63,7 +63,7 @@ class eZShopAccountHandler
         }
         else
         {
-            include_once( 'kernel/classes/shopaccounthandlers/ezdefaultshopaccounthandler.php' );
+            //include_once( 'kernel/classes/shopaccounthandlers/ezdefaultshopaccounthandler.php' );
             $accountHandler = new eZDefaultShopAccountHandler();
         }
         return $accountHandler;

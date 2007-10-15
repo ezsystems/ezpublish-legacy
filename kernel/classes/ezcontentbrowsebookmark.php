@@ -54,7 +54,7 @@ eZContentBrowseBookmark::fetchListForUser( $userID )
 
 */
 
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
 class eZContentBrowseBookmark extends eZPersistentObject
 {
@@ -69,7 +69,7 @@ class eZContentBrowseBookmark extends eZPersistentObject
     /*!
      \reimp
     */
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -107,7 +107,7 @@ class eZContentBrowseBookmark extends eZPersistentObject
      \static
      \return the bookmark item \a $bookmarkID.
     */
-    function fetch( $bookmarkID )
+    static function fetch( $bookmarkID )
     {
         return eZPersistentObject::fetchObject( eZContentBrowseBookmark::definition(),
                                                 null, array( 'id' => $bookmarkID ), true );
@@ -117,7 +117,7 @@ class eZContentBrowseBookmark extends eZPersistentObject
      \static
      \return the bookmark list for user \a $userID.
     */
-    function fetchListForUser( $userID, $offset = false, $limit = false )
+    static function fetchListForUser( $userID, $offset = false, $limit = false )
     {
         $objectList = eZPersistentObject::fetchObjectList( eZContentBrowseBookmark::definition(),
                                                             null,
@@ -135,9 +135,9 @@ class eZContentBrowseBookmark extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function &createNew( $userID, $nodeID, $nodeName )
+    static function createNew( $userID, $nodeID, $nodeName )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $userID =(int) $userID;
         $nodeID =(int) $nodeID;
@@ -154,23 +154,23 @@ class eZContentBrowseBookmark extends eZPersistentObject
     /*!
      \return the tree node which this item refers to.
     */
-    function &fetchNode()
+    function fetchNode()
     {
-        $node = eZContentObjectTreeNode::fetch( $this->attribute( 'node_id' ) );
-        return $node;
+        return eZContentObjectTreeNode::fetch( $this->attribute( 'node_id' ) );
     }
 
     /*!
      \return the content object ID of the tree node which this item refers to.
     */
-    function &contentObjectID()
+    function contentObjectID()
     {
-        $node =& $this->fetchNode();
+        $node = $this->fetchNode();
         if ( $node )
-            $retValue = $node->attribute( 'contentobject_id' );
-        else
-            $retValue = false;
-        return $retValue;
+        {
+            return $node->attribute( 'contentobject_id' );
+        }
+
+        return false;
     }
 
     /*!
@@ -179,9 +179,9 @@ class eZContentBrowseBookmark extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function cleanup()
+    static function cleanup()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->query( "DELETE FROM ezcontentbrowsebookmark" );
     }
 
@@ -191,9 +191,9 @@ class eZContentBrowseBookmark extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function removeByNodeID( $nodeID )
+    static function removeByNodeID( $nodeID )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $nodeID =(int) $nodeID;
         $db->query( "DELETE FROM ezcontentbrowsebookmark WHERE node_id=$nodeID" );
     }

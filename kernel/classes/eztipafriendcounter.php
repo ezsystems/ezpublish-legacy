@@ -33,9 +33,9 @@
 
 */
 
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "kernel/classes/ezpersistentobject.php" );
-include_once( "kernel/classes/ezcontentclassgroup.php" );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezcontentclassgroup.php" );
 
 class eZTipafriendCounter extends eZPersistentObject
 {
@@ -44,7 +44,7 @@ class eZTipafriendCounter extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'node_id' => array( 'name' => 'NodeID',
                                                              'datatype' => 'integer',
@@ -59,29 +59,28 @@ class eZTipafriendCounter extends eZPersistentObject
                                                                'default' => 0,
                                                                'required' => true ) ),
                       'keys' => array( 'node_id', 'requested' ),
-                      'relations' => array( 'node_id' => array( 'class' => 'ezcontentobjecttreenode',
+                      'relations' => array( 'node_id' => array( 'class' => 'eZContentObjectTreeNode',
                                                                 'field' => 'node_id' ) ),
                       'class_name' => 'eZTipafriendCounter',
                       'sort' => array( 'count' => 'desc' ),
                       'name' => 'eztipafriend_counter' );
     }
 
-    function create( $node_id )
+    static function create( $nodeID )
     {
-        $row = array( 'node_id' => $node_id,
-                      'count' => 0,
-                      'requested' => time() );
-        return new eZTipafriendCounter( $row );
+        return new eZTipafriendCounter( array( 'node_id' => $nodeID,
+                                               'count' => 0,
+                                               'requested' => time() ) );
     }
 
     /*!
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function removeForNode( $node_id )
+    static function removeForNode( $nodeID )
     {
         eZPersistentObject::removeObject( eZTipafriendCounter::definition(),
-                                          array( 'node_id' => $node_id ) );
+                                          array( 'node_id' => $nodeID ) );
     }
 
     /*!
@@ -90,9 +89,9 @@ class eZTipafriendCounter extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function clear( $node_id )
+    function clear( $nodeID )
     {
-        eZTipafriendCounter::removeForNode( $node_id );
+        eZTipafriendCounter::removeForNode( $nodeID );
     }
 
     /*!
@@ -104,11 +103,11 @@ class eZTipafriendCounter extends eZPersistentObject
     {
     }
 
-    function fetch( $node_id, $asObject = true )
+    static function fetch( $nodeID, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZTipafriendCounter::definition(),
                                                 null,
-                                                array( 'node_id' => $node_id ),
+                                                array( 'node_id' => $nodeID ),
                                                 $asObject );
     }
 
@@ -118,15 +117,15 @@ class eZTipafriendCounter extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function cleanup()
+    static function cleanup()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->query( "DELETE FROM eztipafriend_counter" );
     }
 
     /// \privatesection
-    var $NodeID;
-    var $Count;
+    public $NodeID;
+    public $Count;
 }
 
 ?>

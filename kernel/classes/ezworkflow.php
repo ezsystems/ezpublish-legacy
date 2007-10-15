@@ -34,30 +34,30 @@
 
 */
 
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "kernel/classes/ezpersistentobject.php" );
-include_once( "kernel/classes/ezworkflowevent.php" );
-include_once( 'kernel/classes/ezworkflowgrouplink.php' );
-
-define( "EZ_WORKFLOW_STATUS_NONE", 0 );
-define( "EZ_WORKFLOW_STATUS_BUSY", 1 );
-define( "EZ_WORKFLOW_STATUS_DONE", 2 );
-define( "EZ_WORKFLOW_STATUS_FAILED", 3 );
-define( "EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON", 4 );
-define( "EZ_WORKFLOW_STATUS_CANCELLED", 5 );
-define( "EZ_WORKFLOW_STATUS_FETCH_TEMPLATE", 6 );
-define( "EZ_WORKFLOW_STATUS_REDIRECT", 7 );
-define( "EZ_WORKFLOW_STATUS_RESET", 8 );
-define( "EZ_WORKFLOW_STATUS_WAITING_PARENT", 9 );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezworkflowevent.php" );
+//include_once( 'kernel/classes/ezworkflowgrouplink.php' );
 
 class eZWorkflow extends eZPersistentObject
 {
+    const STATUS_NONE = 0;
+    const STATUS_BUSY = 1;
+    const STATUS_DONE = 2;
+    const STATUS_FAILED = 3;
+    const STATUS_DEFERRED_TO_CRON = 4;
+    const STATUS_CANCELLED = 5;
+    const STATUS_FETCH_TEMPLATE = 6;
+    const STATUS_REDIRECT = 7;
+    const STATUS_RESET = 8;
+    const STATUS_WAITING_PARENT = 9;
+
     function eZWorkflow( $row )
     {
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -116,9 +116,9 @@ class eZWorkflow extends eZPersistentObject
                       "name" => "ezworkflow" );
     }
 
-    function statusName( $status )
+    static function statusName( $status )
     {
-        include_once( 'kernel/workflow/ezworkflowfunctioncollection.php' );
+        //include_once( 'kernel/workflow/ezworkflowfunctioncollection.php' );
         $statusNames = eZWorkflowFunctionCollection::fetchWorkflowStatuses();
         if ( isset( $statusNames[$status] ) )
             return $statusNames[$status];
@@ -169,28 +169,24 @@ class eZWorkflow extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function remove( $remove_childs = false )
+    function removeThis( $remove_childs = false )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
-        if ( is_array( $remove_childs ) or $remove_childs )
+        if ( is_array( $remove_childs ) )
         {
-            if ( is_array( $remove_childs ) )
+            foreach( $remove_childs as $event )
             {
-                $events =& $remove_childs;
-                for ( $i = 0; $i < count( $events ); ++$i )
-                {
-                    $event =& $events[$i];
-                    $event->remove();
-                }
-            }
-            else
-            {
-                eZPersistentObject::removeObject( eZWorkflowEvent::definition(),
-                                                  array( "workflow_id" => $this->ID,
-                                                         "version" => $this->Version ) );
+                $event->remove();
             }
         }
+        else if ( $remove_childs )
+        {
+            eZPersistentObject::removeObject( eZWorkflowEvent::definition(),
+                                              array( "workflow_id" => $this->ID,
+                                                     "version" => $this->Version ) );
+        }
+
         eZPersistentObject::remove();
         $db->commit();
     }
@@ -206,11 +202,11 @@ class eZWorkflow extends eZPersistentObject
         $version = 1;
         $temporaryWorkflows = eZWorkflow::fetchList( $version, null, true );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         foreach ( $temporaryWorkflows as $workflow )
         {
-            $workflow->remove( true );
+            $workflow->removeThis( true );
         }
         eZPersistentObject::removeObject( eZWorkflowEvent::definition(),
                                           array( 'version' => $version ) );
@@ -225,7 +221,7 @@ class eZWorkflow extends eZPersistentObject
     {
         if ( is_array( $events ) )
         {
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
             for ( $i = 0; $i < count( $events ); ++$i )
             {
@@ -246,13 +242,12 @@ class eZWorkflow extends eZPersistentObject
         }
     }
 
-    function adjustEventPlacements( &$events )
+    function adjustEventPlacements( $events )
     {
         if ( !is_array( $events ) )
             return;
-        for ( $i = 0; $i < count( $events ); ++$i )
+        foreach( $events as $event )
         {
-            $event =& $events[$i];
             $event->setAttribute( "placement", $i + 1 );
         }
     }
@@ -264,7 +259,7 @@ class eZWorkflow extends eZPersistentObject
     function store( $store_childs = false )
     {
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         if ( is_array( $store_childs ) or $store_childs )
         {
@@ -299,7 +294,7 @@ class eZWorkflow extends eZPersistentObject
         eZPersistentObject::setAttribute( "version", $version );
     }
 
-    function fetch( $id, $asObject = true, $version = 0 )
+    static function fetch( $id, $asObject = true, $version = 0 )
     {
         return eZPersistentObject::fetchObject( eZWorkflow::definition(),
                                                 null,
@@ -318,7 +313,7 @@ class eZWorkflow extends eZPersistentObject
 
       \returns array of allowed workflows limited by trigger
     */
-    function &fetchLimited( $moduleName, $functionName, $connectType )
+    static function fetchLimited( $moduleName, $functionName, $connectType )
     {
         $workflowArray = eZWorkflow::fetchList();
         $returnArray = array();
@@ -347,11 +342,11 @@ class eZWorkflow extends eZPersistentObject
     */
     function isAllowed( $moduleName, $functionName, $connectType )
     {
-        $eventArray =& $this->fetchEvents();
+        $eventArray = $this->fetchEvents();
 
         foreach ( array_keys( $eventArray ) as $key )
         {
-            $eventType =& $eventArray[$key]->attribute( 'workflow_type' );
+            $eventType = $eventArray[$key]->attribute( 'workflow_type' );
             if ( !is_object( $eventType ) or !$eventType->isAllowed( $moduleName, $functionName, $connectType ) )
             {
                 return false;
@@ -361,7 +356,7 @@ class eZWorkflow extends eZPersistentObject
         return true;
     }
 
-    function fetchList( $version = 0, $enabled = 1, $asObject = true )
+    static function fetchList( $version = 0, $enabled = 1, $asObject = true )
     {
         $conds = array( 'version' => $version );
         if ( $enabled !== null )
@@ -371,7 +366,7 @@ class eZWorkflow extends eZPersistentObject
                                                     $asObject );
     }
 
-    function &fetchListCount( $version = 0, $enabled = 1 )
+    static function fetchListCount( $version = 0, $enabled = 1 )
     {
         $list = eZPersistentObject::fetchObjectList( eZWorkflow::definition(),
                                                      array(),
@@ -405,12 +400,12 @@ class eZWorkflow extends eZPersistentObject
         return null;
     }
 
-    function &fetchEvents( $id = false, $asObject = true, $version = 0 )
+    function fetchEvents( $id = false, $asObject = true, $version = 0 )
     {
         if ( $id === false )
         {
             if ( isset( $this ) and
-                 get_class( $this ) == "ezworkflow" )
+                 strtolower( get_class( $this ) ) == "ezworkflow" )
             {
                 $id = $this->ID;
                 $version = $this->Version;
@@ -426,12 +421,12 @@ class eZWorkflow extends eZPersistentObject
         return $filteredList;
     }
 
-    function &fetchEventCount( $id = false, $version = 0 )
+    function fetchEventCount( $id = false, $version = 0 )
     {
         if ( $id === false )
         {
             if ( isset( $this ) and
-                 get_class( $this ) == "ezworkflow" )
+                 strtolower( get_class( $this ) ) == "ezworkflow" )
             {
                 $id = $this->ID;
                 $version = $this->Version;
@@ -455,31 +450,29 @@ class eZWorkflow extends eZPersistentObject
         return $list[0]["count"];
     }
 
-    function &creator()
+    function creator()
     {
         if ( isset( $this->CreatorID ) and $this->CreatorID )
         {
-            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-            $user = eZUser::fetch( $this->CreatorID );
+            //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+            return eZUser::fetch( $this->CreatorID );
         }
-        else
-            $user = null;
-        return $user;
+
+        return null;
     }
 
-    function &modifier()
+    function modifier()
     {
         if ( isset( $this->ModifierID ) and $this->ModifierID )
         {
-            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-            $user = eZUser::fetch( $this->ModifierID );
+            //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+            return eZUser::fetch( $this->ModifierID );
         }
-        else
-            $user = null;
-        return $user;
+
+        return null;
     }
 
-    function &ingroupList()
+    function ingroupList()
     {
         $this->InGroups = eZWorkflowGroupLink::fetchGroupList( $this->attribute("id"),
                                                                $this->attribute("version"),
@@ -487,7 +480,7 @@ class eZWorkflow extends eZPersistentObject
         return $this->InGroups;
     }
 
-    function &ingroupIDList()
+    function ingroupIDList()
     {
         $list = eZWorkflowGroupLink::fetchGroupList( $this->attribute("id"),
                                                      $this->attribute("version"),
@@ -501,17 +494,16 @@ class eZWorkflow extends eZPersistentObject
         return $this->InGroupIDs;
     }
 
-    function &groupList()
+    function groupList()
     {
         $this->AllGroups = eZWorkflowGroup::fetchList();
         return $this->AllGroups;
     }
 
-    function &workflowType()
+    function workflowType()
     {
-        include_once( "kernel/classes/ezworkflowtype.php" );
-        $workflowType =& eZWorkflowType::createType( $this->WorkflowTypeString );
-        return $workflowType;
+        //include_once( "kernel/classes/ezworkflowtype.php" );
+        return eZWorkflowType::createType( $this->WorkflowTypeString );
     }
 
     /*!
@@ -522,7 +514,7 @@ class eZWorkflow extends eZPersistentObject
     {
         if ( isset( $this ) )
         {
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $workflowID = $this->attribute( 'id' );
             $event_list =& $this->fetchEvents();
             if ( $event_list != null )
@@ -548,18 +540,18 @@ class eZWorkflow extends eZPersistentObject
     }
 
     /// \privatesection
-    var $ID;
-    var $Name;
-    var $WorkflowTypeString;
-    var $Version;
-    var $IsEnabled;
-    var $CreatorID;
-    var $ModifierID;
-    var $Created;
-    var $Modified;
-    var $InGroups;
-    var $InGroupIDs;
-    var $AllGroups;
+    public $ID;
+    public $Name;
+    public $WorkflowTypeString;
+    public $Version;
+    public $IsEnabled;
+    public $CreatorID;
+    public $ModifierID;
+    public $Created;
+    public $Modified;
+    public $InGroups;
+    public $InGroupIDs;
+    public $AllGroups;
 }
 
 ?>

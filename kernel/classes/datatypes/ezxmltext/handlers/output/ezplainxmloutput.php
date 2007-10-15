@@ -31,7 +31,7 @@
 /*!
 */
 
-include_once( 'kernel/classes/datatypes/ezxmltext/ezxmloutputhandler.php' );
+//include_once( 'kernel/classes/datatypes/ezxmltext/ezxmloutputhandler.php' );
 
 class eZPlainXMLOutput extends eZXMLOutputHandler
 {

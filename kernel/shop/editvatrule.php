@@ -28,7 +28,7 @@
 
 // Parameters: ruleID (optional)
 
-$module =& $Params['Module'];
+$module = $Params['Module'];
 
 require_once( 'kernel/classes/ezvatrule.php' );
 require_once( 'kernel/classes/ezproductcategory.php' );
@@ -223,8 +223,8 @@ if ( $errors !== false )
 
 $vatTypes = eZVatType::fetchList( true, true );
 
-include_once( 'kernel/common/template.php' );
-$tpl =& templateInit();
+require_once( 'kernel/common/template.php' );
+$tpl = templateInit();
 
 $tpl->setVariable( 'error_header', $errorHeader );
 $tpl->setVariable( 'errors', $errors );
@@ -237,7 +237,7 @@ $tpl->setVariable( 'category_ids', $tplCategoryIDs );
 $tpl->setVariable( 'vat_type_id',  $tplVatTypeID );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:shop/editvatrule.tpl" );
+$Result['content'] = $tpl->fetch( "design:shop/editvatrule.tpl" );
 $Result['path'] = array( array( 'text' => $pathText,
                                 'url' => false ) );
 

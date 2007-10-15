@@ -55,15 +55,15 @@ The available attributes are:
   - price
 */
 
-include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'kernel/classes/ezvattype.php' );
-include_once( 'kernel/classes/ezdiscount.php' );
+//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezvattype.php' );
+//include_once( 'kernel/classes/ezdiscount.php' );
 
 
 class eZSimplePrice
 {
-    function eZSimplePrice( &$classAttribute, &$contentObjectAttribute, $storedPrice = null )
+    function eZSimplePrice( $classAttribute, $contentObjectAttribute, $storedPrice = null )
     {
         $this->setVATIncluded( false );
 
@@ -75,9 +75,9 @@ class eZSimplePrice
         $this->setPrice( $price );
 
         $discountPercent = 0.0;
-        if ( get_class( $contentObjectAttribute ) == 'ezcontentobjectattribute' )
+        if ( $contentObjectAttribute instanceof eZContentObjectAttribute )
         {
-            $object =& $contentObjectAttribute->object();
+            $object = $contentObjectAttribute->object();
             $this->ContentObject = $object;
             $discountPercent = eZDiscount::discountPercent( eZUser::currentUser(),
                                                             array( 'contentclass_id' => $object->attribute( 'contentclass_id'),
@@ -134,7 +134,7 @@ class eZSimplePrice
         }
     }
 
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         switch ( $attr )
         {
@@ -155,15 +155,12 @@ class eZSimplePrice
 
             case 'vat_type' :
             {
-                $VATType =& $this->VATType();
-                return $VATType->VATTypeList();
-
+                return $this->VATType()->VATTypeList();
             } break;
 
             case 'vat_percent' :
             {
-                $vatPercent = $this->VATPercent();
-                return $vatPercent;
+                return $this->VATPercent();
             } break;
 
             case 'is_vat_included':
@@ -209,16 +206,17 @@ class eZSimplePrice
             default :
             {
                 eZDebug::writeError( "Attribute '$attr' does not exist", 'eZSimplePrice::attribute' );
-                $retValue = null;
-                return $retValue;
+                return null;
             } break;
         }
     }
 
-    function &VATType()
+    function VATType()
     {
         if ( !$this->VATType )
+        {
             $this->VATType = eZVatType::create();
+        }
 
         return $this->VATType;
     }
@@ -238,7 +236,7 @@ class eZSimplePrice
      */
     function VATPercent( $object = false, $country = false )
     {
-        $VATType =& $this->VATType();
+        $VATType = $this->VATType();
 
         if ( $object === false )
         {
@@ -251,7 +249,7 @@ class eZSimplePrice
         return $VATType->getPercentage( $object, $country );
     }
 
-    function &VATIncluded()
+    function VATIncluded()
     {
         return $this->IsVATIncluded;
     }
@@ -261,7 +259,7 @@ class eZSimplePrice
         $this->IsVATIncluded = $VATIncluded ;
     }
 
-    function &price()
+    function price()
     {
         return $this->Price;
     }
@@ -271,17 +269,17 @@ class eZSimplePrice
         $this->Price = $value;
     }
 
-    function &incVATPrice()
+    function incVATPrice()
     {
         return $this->calcIncVATPrice( $this->price() );
     }
 
-    function &exVATPrice()
+    function exVATPrice()
     {
         return $this->calcExVATPrice( $this->price() );
     }
 
-    function &discountPercent()
+    function discountPercent()
     {
         return $this->DiscountPercent;
     }
@@ -291,22 +289,17 @@ class eZSimplePrice
         $this->DiscountPercent = $percent;
     }
 
-    function &hasDiscount()
+    function hasDiscount()
     {
-        $hasDiscount = false;
-        $discountPercent = $this->discountPercent();
-        if ( $discountPercent != 0 )
-            $hasDiscount = true;
-
-        return $hasDiscount;
+        return ( $this->discountPercent() != 0 );
     }
 
-    function &discountIncVATPrice()
+    function discountIncVATPrice()
     {
         return $this->calcDiscountIncVATPrice( $this->price() );
     }
 
-    function &discountExVATPrice()
+    function discountExVATPrice()
     {
         return $this->calcDiscountExVATPrice( $this->price() );
     }
@@ -319,23 +312,21 @@ class eZSimplePrice
         return $this->discountPercent();
     }
 
-    function &calcDiscountIncVATPrice( $priceValue )
+    function calcDiscountIncVATPrice( $priceValue )
     {
-        $discountPercent =& $this->discountPercent();
-        $incVATPrice =& $this->calcIncVATPrice( $priceValue );
-        $discountPrice = $incVATPrice * ( 100 - $discountPercent ) / 100;
-        return $discountPrice;
+        $discountPercent = $this->discountPercent();
+        $incVATPrice = $this->calcIncVATPrice( $priceValue );
+        return $incVATPrice * ( 100 - $discountPercent ) / 100;
     }
 
-    function &calcDiscountExVATPrice( $priceValue )
+    function calcDiscountExVATPrice( $priceValue )
     {
-        $discountPercent =& $this->discountPercent();
-        $exVATPrice =& $this->calcExVATPrice( $priceValue );
-        $discountPrice = $exVATPrice * ( 100 - $discountPercent ) / 100;
-        return $discountPrice;
+        $discountPercent = $this->discountPercent();
+        $exVATPrice = $this->calcExVATPrice( $priceValue );
+        return $exVATPrice * ( 100 - $discountPercent ) / 100;
     }
 
-    function &calcIncVATPrice( $priceValue )
+    function calcIncVATPrice( $priceValue )
     {
         $incVATPrice = $priceValue;
         if ( !$this->VATIncluded() )
@@ -350,7 +341,7 @@ class eZSimplePrice
         return $incVATPrice;
     }
 
-    function &calcExVATPrice( $priceValue )
+    function calcExVATPrice( $priceValue )
     {
         $exVATPrice = $priceValue;
         if ( $this->VATIncluded() )
@@ -367,9 +358,9 @@ class eZSimplePrice
     /*!
      Return the currency for the datatype.
     */
-    function &currency()
+    function currency()
     {
-        $locale =& eZLocale::instance();
+        $locale = eZLocale::instance();
         $currencyCode = $locale->currencyShortName();
         return $currencyCode;
     }
@@ -377,16 +368,18 @@ class eZSimplePrice
     /*!
      \reimp
     */
-    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $price =& $classAttribute->content();
+        $price = $classAttribute->content();
         if ( $price )
         {
             $vatIncluded = $price->attribute( 'is_vat_included' );
             $vatTypes = $price->attribute( 'vat_type' );
-            $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'vat-included',
-                                                                                     array( 'is-set' => $vatIncluded ? 'true' : 'false' ) ) );
-            $vatTypeNode = eZDOMDocument::createElementNode( 'vat-type' );
+            $dom = $attributeParametersNode->ownerDocument;
+            $vatIncludedNode = $dom->createElement( 'vat-included' );
+            $vatIncludedNode->setAttribute( 'is-set', $vatIncluded ? 'true' : 'false' );
+            $attributeParametersNode->appendChild( $vatIncludedNode );
+            $vatTypeNode = $dom->createElement( 'vat-type' );
             $chosenVatType = $classAttribute->attribute( 'data_float1' );
             $gotVat = false;
             foreach ( $vatTypes as $vatType )
@@ -394,8 +387,8 @@ class eZSimplePrice
                 $id = $vatType->attribute( 'id' );
                 if ( $id == $chosenVatType )
                 {
-                    $vatTypeNode->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $vatType->attribute( 'name' ) ) );
-                    $vatTypeNode->appendAttribute( eZDOMDocument::createAttributeNode( 'percentage', $vatType->attribute( 'percentage' ) ) );
+                    $vatTypeNode->setAttribute( 'name', $vatType->attribute( 'name' ) );
+                    $vatTypeNode->setAttribute( 'percentage', $vatType->attribute( 'percentage' ) );
                     $gotVat = true;
                     break;
                 }
@@ -408,19 +401,18 @@ class eZSimplePrice
     /*!
      \reimp
     */
-    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $vatNode =& $attributeParametersNode->elementByName( 'vat-included' );
-        $vatIncluded = strtolower( $vatNode->attributeValue( 'is-set' ) ) == 'true';
-        $classAttribute->setAttribute( EZ_DATATYPESTRING_INCLUDE_VAT_FIELD, $vatIncluded );
-        $vatTypeNode =& $attributeParametersNode->elementByName( 'vat-type' );
-        $vatName = $vatTypeNode->attributeValue( 'name' );
-        $vatPercentage = $vatTypeNode->attributeValue( 'percentage' );
+        $vatNode = $attributeParametersNode->getElementsByTagName( 'vat-included' )->item( 0 );
+        $vatIncluded = strtolower( $vatNode->getAttribute( 'is-set' ) ) == 'true';
+        $classAttribute->setAttribute( eZPriceType::INCLUDE_VAT_FIELD, $vatIncluded );
+        $vatTypeNode = $attributeParametersNode->getElementsByTagName( 'vat-type' )->item( 0 );
+        $vatName = $vatTypeNode->getAttribute( 'name' );
+        $vatPercentage = $vatTypeNode->getAttribute( 'percentage' );
         $vatID = false;
-        $vatTypes = eZVATType::fetchList();
-        foreach ( array_keys( $vatTypes ) as $vatTypeKey )
+        $vatTypes = eZVatType::fetchList();
+        foreach ( $vatTypes as $vatType )
         {
-            $vatType =& $vatTypes[$vatTypeKey];
             if ( $vatType->attribute( 'name' ) == $vatName and
                  $vatType->attribute( 'percentage' ) == $vatPercentage )
             {
@@ -430,21 +422,21 @@ class eZSimplePrice
         }
         if ( !$vatID )
         {
-            $vatType = eZVATType::create();
+            $vatType = eZVatType::create();
             $vatType->setAttribute( 'name', $vatName );
             $vatType->setAttribute( 'percentage', $vatPercentage );
             $vatType->store();
             $vatID = $vatType->attribute( 'id' );
         }
-        $classAttribute->setAttribute( EZ_DATATYPESTRING_VAT_ID_FIELD, $vatID );
+        $classAttribute->setAttribute( eZPriceType::VAT_ID_FIELD, $vatID );
     }
 
     /// \privatesection
-    var $Price;
-    var $VATType;
-    var $IsVATIncluded;
-    var $DiscountPercent;
-    var $ContentObject;
+    public $Price;
+    public $VATType;
+    public $IsVATIncluded;
+    public $DiscountPercent;
+    public $ContentObject;
 }
 
 

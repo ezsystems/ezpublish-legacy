@@ -247,7 +247,7 @@ class eZDBFileHandlerMysqlBackend
         if ( $insideOfTransaction )
         {
             $res = $this->_deleteInner( $filePath, $fname );
-            if ( !$res || get_class( $res ) == 'ezmysqlbackenderror' )
+            if ( !$res || $res instanceof eZMySQLBackendError )
             {
                 $this->_handleErrorType( $res );
             }
@@ -475,7 +475,7 @@ class eZDBFileHandlerMysqlBackend
 
         if ( ! $uniqueName === true )
         {
-            include_once( 'lib/ezfile/classes/ezfile.php' );
+            //include_once( 'lib/ezfile/classes/ezfile.php' );
             eZFile::rename( $tmpFilePath, $filePath );
         }
         else
@@ -651,7 +651,7 @@ class eZDBFileHandlerMysqlBackend
     {
         if ( !is_readable( $filePath ) )
         {
-            eZDebug::writeError( "Unable to store file '$filePath' since it is not readable.", 'ezdbfilehandlermysqlbackend' );
+            eZDebug::writeError( "Unable to store file '$filePath' since it is not readable.", 'eZDBFileHandlerMysqlBackend' );
             return;
         }
         if ( $fname )
@@ -687,7 +687,7 @@ class eZDBFileHandlerMysqlBackend
         // Insert file contents.
         if ( !$fp = @fopen( $filePath, 'rb' ) )
         {
-            return $this->_fail( "Cannot read '$filePath'.", 'ezdbfilehandlermysqlbackend' );
+            return $this->_fail( "Cannot read '$filePath'.", 'eZDBFileHandlerMysqlBackend' );
         }
 
         $chunkSize = $this->dbparams['chunk_size'];
@@ -810,14 +810,12 @@ class eZDBFileHandlerMysqlBackend
     function _die( $msg, $sql = null )
     {
         if ( $this->db )
-            eZDebug::writeError( $sql, "$msg" . mysql_error( $this->db ) );
-        else
-            eZDebug::writeError( $sql, "$msg: " . mysql_error() );
-
-        if( @include_once( '../bt.php' ) )
         {
-            bt();
-            die( $msg );
+            eZDebug::writeError( $sql, "$msg" . mysql_error( $this->db ) );
+        }
+        else
+        {
+            eZDebug::writeError( $sql, "$msg: " . mysql_error() );
         }
     }
 
@@ -1147,7 +1145,7 @@ class eZDBFileHandlerMysqlBackend
                     $this->_query( 'ROLLBACK', $fname );
                 return false;
             }
-            elseif ( get_class( $result ) == 'ezmysqlbackenderror' )
+            elseif ( $result instanceof eZMySQLBackendError )
             {
                 eZDebug::writeError( $result->errorValue, $result->errorText );
                 $this->transactionCount--;
@@ -1171,7 +1169,7 @@ class eZDBFileHandlerMysqlBackend
         {
             eZDebug::writeError( "SQL failed" );
         }
-        elseif ( get_class( $res ) == 'ezmysqlbackenderror' )
+        elseif ( $res instanceof eZMySQLBackendError )
         {
             eZDebug::writeError( $res->errorValue, $res->errorText );
         }
@@ -1184,7 +1182,7 @@ class eZDBFileHandlerMysqlBackend
      */
     function _isFailure( $result )
     {
-        if ( $result === false || get_class( $result ) == 'ezmysqlbackenderror' )
+        if ( $result === false || ($result instanceof eZMySQLBackendError ) )
         {
             return true;
         }
@@ -1221,7 +1219,7 @@ class eZDBFileHandlerMysqlBackend
     function _fail( $value, $text = false )
     {
         $value .= "\n" . mysql_errno( $this->db ) . ": " . mysql_error( $this->db );
-        include_once( 'kernel/classes/clusterfilehandlers/dbbackends/mysqlbackenderror.php' );
+        //include_once( 'kernel/classes/clusterfilehandlers/dbbackends/mysqlbackenderror.php' );
         return new eZMySQLBackendError( $value, $text );
     }
 
@@ -1284,7 +1282,9 @@ class eZDBFileHandlerMysqlBackend
     function _error( $query, $fname, $error )
     {
         if ( $error === false )
+        {
             eZDebug::writeError( "Failed to execute SQL for function:\n $query\n" . mysql_error( $this->db ), "$fname" );
+        }
         else if ( is_array( $error ) )
         {
             eZDebug::writeError( $error[0] . "\n" . mysql_error( $this->db ), $error[1] );

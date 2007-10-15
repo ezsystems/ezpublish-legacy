@@ -26,15 +26,15 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "lib/ezutils/classes/ezhttptool.php" );
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "kernel/classes/ezsection.php" );
-include_once( "kernel/classes/ezcontentobjecttreenode.php" );
-include_once( "kernel/classes/ezcontentbrowse.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( "kernel/classes/ezsection.php" );
+//include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+//include_once( "kernel/classes/ezcontentbrowse.php" );
 
-$http =& eZHTTPTool::instance();
-$SectionID =& $Params["SectionID"];
-$Module =& $Params["Module"];
+$http = eZHTTPTool::instance();
+$SectionID = $Params["SectionID"];
+$Module = $Params['Module'];
 
 if ( $http->hasPostVariable( 'BrowseCancelButton' ) )
 {
@@ -52,8 +52,8 @@ else
     }
     else
     {
-        include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-        $currentUser =& eZUser::currentUser();
+        //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+        $currentUser = eZUser::currentUser();
 
         if ( $currentUser->canAssignSection( $SectionID ) )
         {
@@ -87,7 +87,7 @@ else
 
                     if ( count( $allowedNodeIDList ) > 0 )
                     {
-                        $db =& eZDB::instance();
+                        $db = eZDB::instance();
                         $db->begin();
                         foreach ( $allowedNodeIDList as $nodeID )
                         {
@@ -96,20 +96,20 @@ else
                         $db->commit();
 
                         // clear content caches
-                        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+                        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
                         eZContentCacheManager::clearAllContentCache();
                     }
                     if ( count( $deniedNodeIDList ) > 0 )
                     {
-                        include_once( 'kernel/common/template.php' );
-                        $tpl =& templateInit();
+                        require_once( 'kernel/common/template.php' );
+                        $tpl = templateInit();
                         $tpl->setVariable( 'section_name', $section->attribute( 'name' ) );
                         $tpl->setVariable( 'error_number', 1 );
                         $deniedNodes = eZContentObjectTreeNode::fetch( $deniedNodeIDList );
                         $tpl->setVariable( 'denied_node_list', $deniedNodes );
 
                         $Result = array();
-                        $Result['content'] =& $tpl->fetch( "design:section/assign_notification.tpl" );
+                        $Result['content'] = $tpl->fetch( "design:section/assign_notification.tpl" );
                         $Result['path'] = array( array( 'url' => false,
                                                         'text' => ezi18n( 'kernel/section', 'Sections' ) ),
                                                  array( 'url' => false,
@@ -140,12 +140,12 @@ else
                 }
                 else
                 {
-                    include_once( 'kernel/common/template.php' );
-                    $tpl =& templateInit();
+                    require_once( 'kernel/common/template.php' );
+                    $tpl = templateInit();
                     $tpl->setVariable( 'section_name', $section->attribute( 'name' ) );
                     $tpl->setVariable( 'error_number', 2 );
                     $Result = array();
-                    $Result['content'] =& $tpl->fetch( "design:section/assign_notification.tpl" );
+                    $Result['content'] = $tpl->fetch( "design:section/assign_notification.tpl" );
                     $Result['path'] = array( array( 'url' => false,
                                                     'text' => ezi18n( 'kernel/section', 'Sections' ) ),
                                              array( 'url' => false,
@@ -156,12 +156,12 @@ else
         }
         else
         {
-            include_once( 'kernel/common/template.php' );
-            $tpl =& templateInit();
+            require_once( 'kernel/common/template.php' );
+            $tpl = templateInit();
             $tpl->setVariable( 'section_name', $section->attribute( 'name' ) );
             $tpl->setVariable( 'error_number', 3 );
             $Result = array();
-            $Result['content'] =& $tpl->fetch( "design:section/assign_notification.tpl" );
+            $Result['content'] = $tpl->fetch( "design:section/assign_notification.tpl" );
             $Result['path'] = array( array( 'url' => false,
                                             'text' => ezi18n( 'kernel/section', 'Sections' ) ),
                                      array( 'url' => false,

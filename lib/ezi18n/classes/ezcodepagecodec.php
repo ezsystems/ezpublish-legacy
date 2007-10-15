@@ -35,8 +35,8 @@
 
 */
 
-include_once( "lib/ezi18n/classes/eztextcodec.php" );
-include_once( "lib/ezi18n/classes/ezutf8codec.php" );
+//include_once( "lib/ezi18n/classes/eztextcodec.php" );
+//include_once( "lib/ezi18n/classes/ezutf8codec.php" );
 
 class eZCodePageCodec extends eZTextCodec
 {
@@ -49,7 +49,7 @@ class eZCodePageCodec extends eZTextCodec
         $this->CodePage = false;
     }
 
-    function &toUnicode( $str )
+    function toUnicode( $str )
     {
         $ustr = "";
         if ( !is_string( $str ) or
@@ -66,13 +66,13 @@ class eZCodePageCodec extends eZTextCodec
         return $ustr;
     }
 
-    function &fromUnicode( $str )
+    function fromUnicode( $str )
     {
         $ustr = "";
         if ( !is_string( $str ) or
              !$this->isValid() )
             return $ustr;
-        $utf8_codec =& eZUTF8Codec::instance();
+        $utf8_codec = eZUTF8Codec::instance();
         $len = strlen( $str );
         for ( $i = 0; $i < $len; )
         {
@@ -93,13 +93,13 @@ class eZCodePageCodec extends eZTextCodec
     */
     function isValid()
     {
-        return get_class( $this->CodePage ) == "ezcodepage";
+        return $this->CodePage instanceof eZCodePage;
     }
 
     /*!
      Returns the codepage.
     */
-    function &codePage()
+    function codePage()
     {
         return $this->CodePage;
     }
@@ -107,12 +107,12 @@ class eZCodePageCodec extends eZTextCodec
     /*!
      Sets the current codepage which is used for utf8/text translation.
     */
-    function setCodePage( &$cp )
+    function setCodePage( $cp )
     {
-        $this->CodePage =& $cp;
+        $this->CodePage = $cp;
     }
 
-    var $CodePage;
+    public $CodePage;
 }
 
 ?>

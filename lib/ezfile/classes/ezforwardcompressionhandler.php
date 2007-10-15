@@ -39,7 +39,7 @@
   eZGZIPShellCompressionHandler classes.
 */
 
-include_once( 'lib/ezfile/classes/ezcompressionhandler.php' );
+//include_once( 'lib/ezfile/classes/ezcompressionhandler.php' );
 
 class eZForwardCompressionHandler extends eZCompressionHandler
 {
@@ -136,9 +136,9 @@ class eZForwardCompressionHandler extends eZCompressionHandler
     /*!
      \reimp
     */
-    function doPasstrough()
+    function doPasstrough( $closeFile = true )
     {
-        return $this->ForwardHandler->doPasstrough();
+        return $this->ForwardHandler->doPasstrough( $closeFile );
     }
 
     /*!
@@ -186,9 +186,9 @@ class eZForwardCompressionHandler extends eZCompressionHandler
      Duplicates the forward compression handler by calling duplicate() on the handler
      which gets the forwarded requests and then creates a new eZForwardCompressionHandler.
     */
-    function &duplicate()
+    function duplicate()
     {
-        $forwardCopy =& $this->ForwardHandler->duplicate();
+        $forwardCopy = $this->ForwardHandler->duplicate();
         $copy = new eZForwardCompressionHandler( $forwardCopy, $this->name(), $this->identifier() );
         return $copy;
     }

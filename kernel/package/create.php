@@ -26,14 +26,14 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezpackage.php' );
-include_once( 'kernel/classes/ezpackagecreationhandler.php' );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
+require_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezpackage.php' );
+//include_once( 'kernel/classes/ezpackagecreationhandler.php' );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
-$module =& $Params['Module'];
+$module = $Params['Module'];
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 $creator = false;
 $initializeStep = false;
@@ -42,7 +42,7 @@ if ( $module->isCurrentAction( 'CreatePackage' ) )
     $creatorID = $module->actionParameter( 'CreatorItemID' );
     if ( $creatorID )
     {
-        $creator =& eZPackageCreationHandler::instance( $creatorID );
+        $creator = eZPackageCreationHandler::instance( $creatorID );
         $persistentData = array();
         $http->setSessionVariable( 'eZPackageCreatorData' . $creatorID, $persistentData );
         $initializeStep = true;
@@ -57,7 +57,7 @@ else if ( $module->isCurrentAction( 'PackageStep' ) )
     if ( $module->hasActionParameter( 'CreatorItemID' ) )
     {
         $creatorID = $module->actionParameter( 'CreatorItemID' );
-        $creator =& eZPackageCreationHandler::instance( $creatorID );
+        $creator = eZPackageCreationHandler::instance( $creatorID );
         if ( $http->hasSessionVariable( 'eZPackageCreatorData' . $creatorID ) )
             $persistentData = $http->sessionVariable( 'eZPackageCreatorData' . $creatorID );
         else
@@ -69,7 +69,7 @@ else if ( $module->isCurrentAction( 'PackageStep' ) )
     }
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $templateName = 'design:package/create.tpl';
 if ( $creator )
@@ -140,7 +140,7 @@ else
 }
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( $templateName );
+$Result['content'] = $tpl->fetch( $templateName );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/package', 'Create package' ) ) );
 ?>

@@ -31,9 +31,9 @@
 /*! \file ezenum.php
 */
 
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "kernel/classes/ezpersistentobject.php" );
-include_once( "kernel/classes/ezcontentclassattribute.php" );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezcontentclassattribute.php" );
 
 /*!
   \class eZEnumValue ezenumvalue.php
@@ -52,7 +52,7 @@ class eZEnumValue extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -88,16 +88,9 @@ class eZEnumValue extends eZPersistentObject
                       "name" => "ezenumvalue" );
     }
 
-    function &clone()
+    function __clone()
     {
-        $row = array( "id" => null,
-                      "contentclass_attribute_id" => $this->attribute( 'contentclass_attribute_id' ),
-                      "contentclass_attribute_version" => $this->attribute( 'contentclass_attribute_version' ),
-                      "enumvalue" => $this->attribute( 'enumvalue' ),
-                      "enumelement" => $this->attribute( 'enumelement' ),
-                      "placement" => $this->attribute( 'placement' ) );
-        $newEnumValue = new eZEnumValue( $row );
-        return $newEnumValue;
+        unset( $this->ID );
     }
 
     function create( $contentClassAttributeID, $contentClassAttributeVersion, $element )
@@ -132,7 +125,7 @@ class eZEnumValue extends eZPersistentObject
                                                  "contentclass_attribute_version" => $version) );
     }
 
-    function remove( $id , $version )
+    static function removeByID( $id , $version )
     {
         eZPersistentObject::removeObject( eZEnumValue::definition(),
                                           array( "id" => $id,
@@ -163,12 +156,12 @@ class eZEnumValue extends eZPersistentObject
         return $elementList;
     }
 
-    var $ID;
-    var $ContentClassAttributeID;
-    var $ContentClassAttributeVersion;
-    var $EnumElement;
-    var $EnumValue;
-    var $Placement;
+    public $ID;
+    public $ContentClassAttributeID;
+    public $ContentClassAttributeVersion;
+    public $EnumElement;
+    public $EnumValue;
+    public $Placement;
 }
 
 ?>

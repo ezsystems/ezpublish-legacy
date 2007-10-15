@@ -48,8 +48,8 @@ class eZShopFunctionCollection
 
     function fetchBasket( )
     {
-        include_once( 'kernel/classes/ezbasket.php' );
-        $http =& eZHTTPTool::instance();
+        //include_once( 'kernel/classes/ezbasket.php' );
+        $http = eZHTTPTool::instance();
         $sessionID = $http->sessionID();
 
         $basketList = eZPersistentObject::fetchObjectList( eZBasket::definition(),
@@ -77,7 +77,7 @@ class eZShopFunctionCollection
         if ( $currentBasket === null )
         {
             $result = array( 'error' => array( 'error_type' => 'kernel',
-                                               'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+                                               'error_code' => eZError::KERNEL_NOT_FOUND ) );
         }
         else
         {
@@ -89,7 +89,7 @@ class eZShopFunctionCollection
 
     function fetchBestSellList( $topParentNodeID, $limit, $offset, $start_time, $end_time, $duration, $ascending, $extended )
     {
-        include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+        //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
         $node = eZContentObjectTreeNode::fetch( $topParentNodeID , false, false);
         if ( !is_array( $node ) )
@@ -143,19 +143,19 @@ class eZShopFunctionCollection
                  $sqlOrderString";
 
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $topList = $db->arrayQuery( $query, array( 'limit' => $limit, 'offset' => $offset ) );
 
-        include_once( 'kernel/classes/ezcontentobject.php' );
+        //include_once( 'kernel/classes/ezcontentobject.php' );
 
         if ( $extended )
         {
             foreach ( array_keys ( $topList ) as $key )
             {
-                $contentObject =& eZContentObject::fetch( $topList[ $key ][ 'contentobject_id' ] );
+                $contentObject = eZContentObject::fetch( $topList[ $key ][ 'contentobject_id' ] );
                 if ( $contentObject === null )
                     return array( 'error' => array( 'error_type' => 'kernel',
-                                                    'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+                                                    'error_code' => eZError::KERNEL_NOT_FOUND ) );
                 $topList[$key]['object'] = $contentObject;
             }
             return array( 'result' => $topList );
@@ -166,10 +166,10 @@ class eZShopFunctionCollection
             foreach ( array_keys ( $topList ) as $key )
             {
                 $objectID = $topList[$key]['contentobject_id'];
-                $contentObject =& eZContentObject::fetch( $objectID );
+                $contentObject = eZContentObject::fetch( $objectID );
                 if ( $contentObject === null )
                     return array( 'error' => array( 'error_type' => 'kernel',
-                                                    'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+                                                    'error_code' => eZError::KERNEL_NOT_FOUND ) );
                 $contentObjectList[] = $contentObject;
             }
             return array( 'result' => $contentObjectList );
@@ -178,11 +178,11 @@ class eZShopFunctionCollection
 
     function fetchRelatedPurchaseList( $contentObjectID, $limit )
     {
-        include_once( 'kernel/classes/ezcontentobject.php' );
-        include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+        //include_once( 'kernel/classes/ezcontentobject.php' );
+        //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
         $contentObjectID = (int)$contentObjectID;
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $tmpTableName = $db->generateUniqueTempTableName( 'ezproductcoll_tmp_%' );
         $db->createTempTable( "CREATE TEMPORARY TABLE $tmpTableName( productcollection_id int )" );
         $db->query( "INSERT INTO $tmpTableName SELECT ezorder.productcollection_id
@@ -196,7 +196,7 @@ class eZShopFunctionCollection
               GROUP BY ezproductcollection_item.contentobject_id
               ORDER BY count desc";
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $objectList = $db->arrayQuery( $query, array( 'limit' => $limit ) );
 
         $db->dropTempTable( "DROP TABLE $tmpTableName" );
@@ -204,10 +204,10 @@ class eZShopFunctionCollection
         foreach ( array_keys ( $objectList ) as $key )
         {
             $objectID = $objectList[$key]['contentobject_id'];
-            $contentObject =& eZContentObject::fetch( $objectID );
+            $contentObject = eZContentObject::fetch( $objectID );
             if ( $contentObject === null )
                 return array( 'error' => array( 'error_type' => 'kernel',
-                                                'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+                                                'error_code' => eZError::KERNEL_NOT_FOUND ) );
             $contentObjectList[] = $contentObject;
         }
         return array( 'result' => $contentObjectList );
@@ -215,17 +215,19 @@ class eZShopFunctionCollection
 
     function fetchWishList( $production_id, $offset = false, $limit = false )
     {
-        include_once( 'kernel/classes/ezwishlist.php' );
+        //include_once( 'kernel/classes/ezwishlist.php' );
 
-        $wishList =& eZWishList::items( true, $production_id, $offset, $limit );
-        return array ( 'result' => &$wishList );
+        $wishList = new eZWishList();
+        $wishListItems = $wishList->items( true, $production_id, $offset, $limit );
+        return array ( 'result' => $wishListItems );
     }
 
     function fetchWishListCount( $production_id )
     {
-        include_once( 'kernel/classes/ezwishlist.php' );
+        //include_once( 'kernel/classes/ezwishlist.php' );
 
-        $count = eZWishList::itemCount( $production_id );
+        $wishList = new eZWishList();
+        $count = $wishList->itemCount( $production_id );
         return array ( 'result' => $count );
     }
 
@@ -234,7 +236,7 @@ class eZShopFunctionCollection
     */
     function fetchOrderStatusHistoryCount( $orderID )
     {
-        include_once( 'kernel/classes/ezorderstatushistory.php' );
+        //include_once( 'kernel/classes/ezorderstatushistory.php' );
 
         $count = eZOrderStatusHistory::fetchCount( $orderID );
         return array( 'result' => $count );
@@ -245,7 +247,7 @@ class eZShopFunctionCollection
     */
     function fetchOrderStatusHistory( $orderID )
     {
-        include_once( 'kernel/classes/ezorderstatushistory.php' );
+        //include_once( 'kernel/classes/ezorderstatushistory.php' );
 
         $list = eZOrderStatusHistory::fetchListByOrder( $orderID );
         return array( 'result' => $list );
@@ -256,7 +258,7 @@ class eZShopFunctionCollection
     */
     function fetchCurrencyList( $status = false )
     {
-        include_once( 'kernel/shop/classes/ezcurrencydata.php' );
+        //include_once( 'kernel/shop/classes/ezcurrencydata.php' );
 
         $conditions = null;
         $status = eZCurrencyData::statusStringToNumeric( $status );
@@ -277,7 +279,7 @@ class eZShopFunctionCollection
     */
     function fetchCurrency( $code )
     {
-        include_once( 'kernel/shop/classes/ezcurrencydata.php' );
+        //include_once( 'kernel/shop/classes/ezcurrencydata.php' );
 
         $currency = eZCurrencyData::fetch( $code );
         if ( is_object( $currency ) )
@@ -290,7 +292,7 @@ class eZShopFunctionCollection
 
     function fetchPreferredCurrencyCode()
     {
-        include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+        //include_once( 'kernel/shop/classes/ezshopfunctions.php' );
 
         $currency = eZShopFunctions::preferredCurrencyCode();
         $result = array( 'result' => $currency );
@@ -300,7 +302,7 @@ class eZShopFunctionCollection
 
     function fetchUserCountry()
     {
-        include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+        //include_once( 'kernel/shop/classes/ezshopfunctions.php' );
 
         // Get country saved in user preferences.
         $country = eZShopFunctions::getPreferredUserCountry();

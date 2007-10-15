@@ -37,7 +37,7 @@
 
 */
 
-include_once( 'kernel/error/errors.php' );
+//include_once( 'kernel/error/errors.php' );
 
 class eZLayoutFunctionCollection
 {
@@ -50,8 +50,8 @@ class eZLayoutFunctionCollection
 
     function fetchSitedesignList()
     {
-        include_once( 'lib/ezutils/classes/ezini.php' );
-        $contentINI =& eZINI::instance( 'content.ini' );
+        //include_once( 'lib/ezutils/classes/ezini.php' );
+        $contentINI = eZINI::instance( 'content.ini' );
         if ( $contentINI->hasVariable( 'VersionView', 'AvailableSiteDesigns' ) )
         {
             $sitedesignList = $contentINI->variableArray( 'VersionView', 'AvailableSiteDesigns' );
@@ -62,7 +62,7 @@ class eZLayoutFunctionCollection
         }
         if ( !$sitedesignList )
             return array( 'error' => array( 'error_type' => 'kernel',
-                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+                                            'error_code' => eZError::KERNEL_NOT_FOUND ) );
         return array( 'result' => $sitedesignList );
     }
 

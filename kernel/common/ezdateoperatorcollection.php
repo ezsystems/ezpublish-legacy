@@ -41,7 +41,7 @@ class eZDateOperatorCollection
     /*!
      Returns the operators in this class.
     */
-    function &operatorList()
+    function operatorList()
     {
         return $this->Operators;
     }
@@ -73,9 +73,9 @@ class eZDateOperatorCollection
     /*!
      \reimp
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
-        $locale =& eZLocale::instance();
+        $locale = eZLocale::instance();
         if ( $operatorName == $this->MonthOverviewName )
         {
             $field = $namedParameters['field'];
@@ -112,9 +112,8 @@ class eZDateOperatorCollection
                 {
                     $days[$day] = false;
                 }
-                foreach ( array_keys( $operatorValue ) as $key )
+                foreach ( $operatorValue as $item )
                 {
-                    $item =& $operatorValue[$key];
                     $value = null;
                     if ( is_object( $item ) and
                          method_exists( $item, 'hasattribute' ) and
@@ -144,7 +143,7 @@ class eZDateOperatorCollection
                     $info = getdate( $optional['current'] );
                     $currentDay = $info['yday'];
                 }
-                $today = mktime();
+                $today = time();
                 $todayInfo = getdate( $today );
                 $todayClass = false;
                 if ( isset( $optional['today_class'] ) )
@@ -307,7 +306,7 @@ class eZDateOperatorCollection
     }
 
     /// \privatesection
-    var $Operators;
+    public $Operators;
 };
 
 ?>

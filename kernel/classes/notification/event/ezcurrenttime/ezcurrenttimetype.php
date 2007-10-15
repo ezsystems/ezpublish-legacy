@@ -36,22 +36,22 @@
   \brief The class eZCurrentTimeType does
 
 */
-include_once( 'kernel/classes/notification/eznotificationeventtype.php' );
-include_once( "lib/ezlocale/classes/ezdate.php" );
-
-define( 'EZ_NOTIFICATIONTYPESTRING_CURRENTTIME', 'ezcurrenttime' );
+//include_once( 'kernel/classes/notification/eznotificationeventtype.php' );
+//include_once( "lib/ezlocale/classes/ezdate.php" );
 
 class eZCurrentTimeType extends eZNotificationEventType
 {
+    const NOTIFICATION_TYPE_STRING = 'ezcurrenttime';
+
     /*!
      Constructor
     */
     function eZCurrentTimeType()
     {
-        $this->eZNotificationEventType( EZ_NOTIFICATIONTYPESTRING_CURRENTTIME );
+        $this->eZNotificationEventType( self::NOTIFICATION_TYPE_STRING );
     }
 
-    function initializeEvent( &$event, $params )
+    function initializeEvent( $event, $params )
     {
         eZDebugSetting::writeDebug( 'kernel-notification', $params, 'params for type' );
         $time = 0;
@@ -61,12 +61,12 @@ class eZCurrentTimeType extends eZNotificationEventType
         }
         else
         {
-            $time = mktime();
+            $time = time();
         }
         $event->setAttribute( 'data_int1', $time );
     }
 
-    function &eventContent( &$event )
+    function eventContent( $event )
     {
         $date = new eZDate( );
         $stamp = $event->attribute( 'data_int1' );
@@ -76,7 +76,7 @@ class eZCurrentTimeType extends eZNotificationEventType
 
 }
 
-eZNotificationEventType::register( EZ_NOTIFICATIONTYPESTRING_CURRENTTIME, 'ezcurrenttimetype' );
+eZNotificationEventType::register( eZCurrentTimeType::NOTIFICATION_TYPE_STRING, 'eZCurrentTimeType' );
 
 
 ?>

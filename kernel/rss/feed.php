@@ -26,15 +26,15 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$Module =& $Params["Module"];
+$Module = $Params['Module'];
 
 if ( !isset ( $Params['RSSFeed'] ) )
 {
     eZDebug::writeError( 'No RSS feed specified' );
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
-include_once( 'kernel/classes/ezrssexport.php' );
+//include_once( 'kernel/classes/ezrssexport.php' );
 
 $feedName = $Params['RSSFeed'];
 $RSSExport = eZRSSExport::fetchByName( $feedName );
@@ -43,18 +43,18 @@ $RSSExport = eZRSSExport::fetchByName( $feedName );
 if ( !$RSSExport )
 {
     eZDebug::writeError( 'Could not find RSSExport : ' . $Params['RSSFeed'] );
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
-include_once( 'kernel/classes/ezrssexportitem.php' );
+//include_once( 'kernel/classes/ezrssexportitem.php' );
 
-$config =& eZINI::instance( 'site.ini' );
+$config = eZINI::instance( 'site.ini' );
 $cacheTime = intval( $config->variable( 'RSSSettings', 'CacheTime' ) );
 
 if ( $cacheTime <= 0 )
 {
-    $xmlDoc =& $RSSExport->attribute( 'rss-xml' );
-    $rssContent = $xmlDoc->toString();
+    $xmlDoc = $RSSExport->attribute( 'rss-xml' );
+    $rssContent = $xmlDoc->saveXML();
 }
 else
 {
@@ -82,11 +82,11 @@ else
 
     if ( !$cacheFile->exists() or ( time() - $cacheFile->mtime() > $cacheTime ) )
     {
-        $xmlDoc =& $RSSExport->attribute( 'rss-xml' );
+        $xmlDoc = $RSSExport->attribute( 'rss-xml' );
         // Get current charset
-        include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+        //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
         $charset = eZTextCodec::internalCharset();
-        $rssContent = $xmlDoc->toString( $charset );
+        $rssContent = $xmlDoc->saveXML();
         $cacheFile->storeContents( $rssContent, 'rsscache', 'xml' );
     }
     else

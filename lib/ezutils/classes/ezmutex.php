@@ -44,13 +44,13 @@
 
 */
 
-define( 'eZMutex_StealString', '_eZMutex_Steal' );
-
-include_once( 'lib/ezutils/classes/ezsys.php' );
-include_once( 'lib/ezfile/classes/ezfile.php' );
+//include_once( 'lib/ezutils/classes/ezsys.php' );
+//include_once( 'lib/ezfile/classes/ezfile.php' );
 
 class eZMutex
 {
+    const STEAL_STRING = '_eZMutex_Steal';
+
     /*!
      Constructor. Creates a mutex object for
      mutext <name>. The mutex is file based, and a
@@ -60,7 +60,7 @@ class eZMutex
     */
     function eZMutex( $name )
     {
-        include_once( 'lib/ezutils/classes/ezdir.php' );
+        //include_once( 'lib/ezutils/classes/ezdir.php' );
         $this->Name = md5( $name );
         $mutexPath = eZDir::path( array( eZSys::cacheDirectory(),
                                          'ezmutex' ) );
@@ -120,7 +120,7 @@ class eZMutex
             if ( flock( $fp, LOCK_EX ) )
             {
                 $this->clearMeta();
-                $this->setMeta( 'timestamp', gmmktime() );
+                $this->setMeta( 'timestamp', time() );
                 return true;
             }
         }
@@ -220,7 +220,7 @@ class eZMutex
     */
     function steal( $force = false )
     {
-        $stealMutex = new eZMutex( $this->Name . eZMutex_StealString );
+        $stealMutex = new eZMutex( $this->Name . eZMutex::STEAL_STRING );
         if ( !$force )
         {
             // Aquire a steal mutex, and steal the mutex.

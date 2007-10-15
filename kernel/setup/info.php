@@ -26,19 +26,19 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$http =& eZHTTPTool::instance();
-$module =& $Params["Module"];
+$http = eZHTTPTool::instance();
+$module = $Params['Module'];
 
-include_once( "kernel/common/template.php" );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( 'lib/ezutils/classes/ezextension.php' );
-include_once( 'lib/ezutils/classes/ezsysinfo.php' );
-include_once( 'lib/version.php' );
+require_once( "kernel/common/template.php" );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( 'lib/ezutils/classes/ezextension.php' );
+//include_once( 'lib/ezutils/classes/ezsysinfo.php' );
+//include_once( 'lib/version.php' );
 
-$ini =& eZINI::instance( );
-$tpl =& templateInit();
+$ini = eZINI::instance( );
+$tpl = templateInit();
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 
 $phpAcceleratorInfo = false;
 if ( isset( $GLOBALS['_PHPA'] ) )
@@ -127,7 +127,7 @@ foreach ( array( 'open_basedir', 'post_max_size', 'memory_limit', 'max_execution
 $tpl->setVariable( 'php_ini', $phpINI );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:setup/info.tpl" );
+$Result['content'] = $tpl->fetch( "design:setup/info.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/setup', 'System information' ) ) );
 

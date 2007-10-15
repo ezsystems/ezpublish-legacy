@@ -42,7 +42,7 @@ class eZDefaultConfirmOrderHandler
 
     function execute( $params = array() )
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $sendOrderEmail = $ini->variable( 'ShopSettings', 'SendOrderEmail' );
         if ( $sendOrderEmail == 'enabled' )
         {
@@ -52,22 +52,22 @@ class eZDefaultConfirmOrderHandler
 
     function sendOrderEmail( $params )
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         if ( isset( $params['order'] ) and
              isset( $params['email'] ) )
         {
             $order = $params['order'];
             $email = $params['email'];
 
-            include_once( "kernel/common/template.php" );
-            $tpl =& templateInit();
+            require_once( "kernel/common/template.php" );
+            $tpl = templateInit();
             $tpl->setVariable( 'order', $order );
-            $templateResult =& $tpl->fetch( 'design:shop/orderemail.tpl' );
+            $templateResult = $tpl->fetch( 'design:shop/orderemail.tpl' );
 
             $subject = $tpl->variable( 'subject' );
 
-            include_once( 'lib/ezutils/classes/ezmail.php' );
-            include_once( 'lib/ezutils/classes/ezmailtransport.php' );
+            //include_once( 'lib/ezutils/classes/ezmail.php' );
+            //include_once( 'lib/ezutils/classes/ezmailtransport.php' );
             $mail = new eZMail();
 
             $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );

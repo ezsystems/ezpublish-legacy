@@ -40,7 +40,7 @@
 
 */
 
-include_once( 'kernel/classes/ezpersistentobject.php' );
+//include_once( 'kernel/classes/ezpersistentobject.php' );
 
 class eZISBNGroupRange extends eZPersistentObject
 {
@@ -56,7 +56,7 @@ class eZISBNGroupRange extends eZPersistentObject
     /*!
       Definition of the ranges for ISBN groups.
     */
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -103,7 +103,7 @@ class eZISBNGroupRange extends eZPersistentObject
      \param $length     How many characters $groupFrom and $groupTo should have.
      \return a new eZISBNGroupRange object.
     */
-    function create( $fromNumber, $toNumber, $groupFrom, $groupTo, $length )
+    static function create( $fromNumber, $toNumber, $groupFrom, $groupTo, $length )
     {
         $row = array(
             'id' => null,
@@ -120,7 +120,7 @@ class eZISBNGroupRange extends eZPersistentObject
      \static
      Removes the ISBN group based on ID \a $id.
     */
-    function removeByID( $id )
+    static function removeByID( $id )
     {
         eZPersistentObject::removeObject( eZISBNGroupRange::definition(),
                                           array( 'id' => $id ) );
@@ -131,14 +131,12 @@ class eZISBNGroupRange extends eZPersistentObject
                    back in the reference variable.
      \return the group range list for ISBN groups.
     */
-    function fetchList( &$count, $asObject = true )
+    static function fetchList( $asObject = true )
     {
         $sortArray = array( 'from_number' => 'asc' );
-        $groupRangeArray = eZPersistentObject::fetchObjectList( eZISBNGroupRange::definition(),
-                                                                null, null, $sortArray, null,
-                                                                $asObject );
-        $count = count( $groupRangeArray );
-        return $groupRangeArray;
+        return eZPersistentObject::fetchObjectList( eZISBNGroupRange::definition(),
+                                                    null, null, $sortArray, null,
+                                                    $asObject );
     }
 
     /*!
@@ -150,7 +148,7 @@ class eZISBNGroupRange extends eZPersistentObject
                          Is sent back in the reference variable.
      \return the group range object if found and false if not found.
     */
-    function extractGroup( $isbnNr, &$groupLength )
+    static function extractGroup( $isbnNr )
     {
         $groupRange = false;
         $testSegment = substr( $isbnNr, 3, 5 );
@@ -163,9 +161,6 @@ class eZISBNGroupRange extends eZPersistentObject
             if ( count( $groupRangeArray ) == 1 )
             {
                 $groupRange = $groupRangeArray[0];
-                $length =& $groupRange->attribute( 'group_length' );
-
-                $groupLength = $length;
             }
         }
         return $groupRange;
@@ -175,9 +170,9 @@ class eZISBNGroupRange extends eZPersistentObject
      \static
      Removes all ISBN group ranges from the database.
     */
-    function cleanAll()
+    static function cleanAll()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $definition = eZISBNGroupRange::definition();
         $table = $definition['name'];
         $sql = "TRUNCATE TABLE " . $table;

@@ -35,16 +35,18 @@
 * script initializing                                         *
 ***************************************************************/
 
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "\n" .
-                                                         "This script will generate caches for translations.\n" .
-                                                         "Default usage: ./bin/php/ezgeneratetranslationcache -s setup\n" ),
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => false,
-                                      'user' => true ) );
+require 'autoload.php';
+
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'description' => ( "\n" .
+                                                        "This script will generate caches for translations.\n" .
+                                                        "Default usage: ./bin/php/ezgeneratetranslationcache -s setup\n" ),
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => false,
+                                     'user' => true ) );
 $script->startup();
 
 $scriptOptions = $script->getOptions( "[ts-list:]",
@@ -56,8 +58,8 @@ $scriptOptions = $script->getOptions( "[ts-list:]",
                                      );
 $script->initialize();
 
-include_once( 'lib/ezi18n/classes/eztstranslator.php' );
-include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
+//include_once( 'lib/ezi18n/classes/eztstranslator.php' );
+//include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
 
 /**************************************************************
 * process options                                             *
@@ -76,7 +78,7 @@ $translations = eZTSTranslator::fetchList( $translations );
 
 $cli->output( $cli->stylize( 'blue', "Processing: " ), false );
 
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 
 foreach( $translations as $translation )
 {

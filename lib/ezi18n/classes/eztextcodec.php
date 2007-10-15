@@ -45,7 +45,7 @@ class eZTextCodec
                           $realInputCharsetCode, $realOutputCharsetCode,
                           $inputEncoding, $outputEncoding )
     {
-        include_once( "lib/ezi18n/classes/ezcharsetinfo.php" );
+        //include_once( "lib/ezi18n/classes/ezcharsetinfo.php" );
         $this->RequestedInputCharsetCode = $inputCharsetCode;
         $this->RequestedOutputCharsetCode = $outputCharsetCode;
         $this->InputCharsetCode = $realInputCharsetCode;
@@ -203,7 +203,7 @@ class eZTextCodec
                 $strlenFunction = $encodingStrlenMap[$inpenc];
                 if ( $inpenc == 'utf-8')
                 {
-                    include_once( "lib/ezi18n/classes/ezutf8codec.php" );
+                    //include_once( "lib/ezi18n/classes/ezutf8codec.php" );
                 }
             }
         }
@@ -255,21 +255,21 @@ class eZTextCodec
 
     function initializeCodepageMapper()
     {
-        include_once( 'lib/ezi18n/classes/ezcodepagemapper.php' );
-        $this->CodepageMapper =& eZCodepageMapper::instance( $this->InputCharsetCode,
+        //include_once( 'lib/ezi18n/classes/ezcodepagemapper.php' );
+        $this->CodepageMapper = eZCodePageMapper::instance( $this->InputCharsetCode,
                                                              $this->OutputCharsetCode );
     }
 
     function initializeInputCodepage()
     {
-        include_once( 'lib/ezi18n/classes/ezcodepage.php' );
-        $this->Codepage =& eZCodepage::instance( $this->InputCharsetCode );
+        //include_once( 'lib/ezi18n/classes/ezcodepage.php' );
+        $this->Codepage = eZCodePage::instance( $this->InputCharsetCode );
     }
 
     function initializeOutputCodepage()
     {
-        include_once( 'lib/ezi18n/classes/ezcodepage.php' );
-        $this->Codepage =& eZCodepage::instance( $this->OutputCharsetCode );
+        //include_once( 'lib/ezi18n/classes/ezcodepage.php' );
+        $this->Codepage = eZCodePage::instance( $this->OutputCharsetCode );
     }
 
     /*!/
@@ -316,6 +316,7 @@ class eZTextCodec
     function convertString( $str )
     {
         eZDebug::accumulatorStart( 'textcodec_conversion', false, 'String conversion' );
+        //eZDebug::writeDebug( $this->ConversionFunction, 'conversion function' );
         $conversionFunction = $this->ConversionFunction;
         $tmp = $this->$conversionFunction( $str );
         eZDebug::accumulatorStop( 'textcodec_conversion' );
@@ -427,7 +428,7 @@ class eZTextCodec
 
     function strlenUTF8( $str )
     {
-        $utf8_codec =& eZUTF8Codec::instance();
+        $utf8_codec = eZUTF8Codec::instance();
         return $utf8_codec->strlen( $str );
     }
 
@@ -458,7 +459,7 @@ class eZTextCodec
      \param $alwaysReturn If \c false it will only return a textcodec instance if it is required for the input and output charset.
                           In which case it returns \c null.
     */
-    function &instance( $inputCharsetCode, $outputCharsetCode = false, $alwaysReturn = true )
+    static function instance( $inputCharsetCode, $outputCharsetCode = false, $alwaysReturn = true )
     {
         if ( $inputCharsetCode === false or $outputCharsetCode === false )
         {
@@ -503,12 +504,12 @@ class eZTextCodec
 
         if ( !$realInputCharsetCode )
         {
-            include_once( "lib/ezi18n/classes/ezcharsetinfo.php" );
+            //include_once( "lib/ezi18n/classes/ezcharsetinfo.php" );
             $realInputCharsetCode = eZCharsetInfo::realCharsetCode( $inputCharsetCode );
         }
         if ( !$realOutputCharsetCode )
         {
-            include_once( "lib/ezi18n/classes/ezcharsetinfo.php" );
+            //include_once( "lib/ezi18n/classes/ezcharsetinfo.php" );
             $realOutputCharsetCode = eZCharsetInfo::realCharsetCode( $outputCharsetCode );
         }
         $inputEncoding = eZCharsetInfo::characterEncodingScheme( $realInputCharsetCode, true );
@@ -521,15 +522,18 @@ class eZTextCodec
             $check = null;
             return $check;
         }
-        $codec =& $GLOBALS["eZTextCodec-$realInputCharsetCode-$realOutputCharsetCode"];
-        if ( get_class( $codec ) != "eztextcodec" )
+
+        $globalsKey = "eZTextCodec-$realInputCharsetCode-$realOutputCharsetCode";
+        if ( !isset( $GLOBALS[$globalsKey] ) ||
+             !( $GLOBALS[$globalsKey] instanceof eZTextCodec ) )
         {
-            $codec = new eZTextCodec( $inputCharsetCode, $outputCharsetCode,
-                                      $realInputCharsetCode, $realOutputCharsetCode,
-                                      $inputEncoding, $outputEncoding );
+            $GLOBALS[$globalsKey] = new eZTextCodec( $inputCharsetCode, $outputCharsetCode,
+                                                     $realInputCharsetCode, $realOutputCharsetCode,
+                                                     $inputEncoding, $outputEncoding );
         }
-        $check =& $codec;
-        return $codec;
+
+        $check = $GLOBALS[$globalsKey];
+        return $GLOBALS[$globalsKey];
     }
 
     /*!
@@ -537,7 +541,7 @@ class eZTextCodec
      Initializes the eZTextCodec settings to the ones in the array \a $settings.
      \sa internalCharset, httpCharset.
     */
-    function updateSettings( $settings )
+    static function updateSettings( $settings )
     {
         unset( $GLOBALS['eZTextCodecInternalCharsetReal'] );
         unset( $GLOBALS['eZTextCodecHTTPCharsetReal'] );
@@ -557,19 +561,19 @@ class eZTextCodec
      this is the charset which all external files and resources are converted to.
      \note will return iso-8859-1 if eZTextCodec has been updated with proper settings.
     */
-    function internalCharset()
+    static function internalCharset()
     {
         $realCharset =& $GLOBALS['eZTextCodecInternalCharsetReal'];
         if ( !isset( $realCharset ) )
         {
             if ( !isset( $GLOBALS['eZTextCodecInternalCharset'] ) )
             {
-                $i18n =& eZINI::instance( 'i18n.ini', '', false );
+                $i18n = eZINI::instance( 'i18n.ini', '', false );
                 $charsetCode = $i18n->variable( 'CharacterSettings', 'Charset' );
             }
             else
                 $charsetCode = $GLOBALS['eZTextCodecInternalCharset'];
-            include_once( "lib/ezi18n/classes/ezcharsetinfo.php" );
+            //include_once( "lib/ezi18n/classes/ezcharsetinfo.php" );
             $realCharset = eZCharsetInfo::realCharsetCode( $charsetCode );
         }
         return $realCharset;
@@ -580,7 +584,7 @@ class eZTextCodec
      \return a charset value which can be used in HTTP headers.
      \note Will return the internalCharset() if not http charset is set.
     */
-    function httpCharset()
+    static function httpCharset()
     {
         $realCharset =& $GLOBALS['eZTextCodecHTTPCharsetReal'];
         if ( !isset( $realCharset ) )
@@ -597,7 +601,7 @@ class eZTextCodec
             }
             else
             {
-                include_once( "lib/ezi18n/classes/ezcharsetinfo.php" );
+                //include_once( "lib/ezi18n/classes/ezcharsetinfo.php" );
                 $realCharset = eZCharsetInfo::realCharsetCode( $charset );
             }
         }

@@ -29,7 +29,7 @@
 /*! \file group.php
 */
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $ViewMode = $Params['ViewMode'];
 $GroupID = $Params['GroupID'];
 
@@ -37,29 +37,29 @@ $Offset = $Params['Offset'];
 if ( !is_numeric( $Offset ) )
     $Offset = 0;
 
-include_once( 'kernel/classes/ezcollaborationgroup.php' );
+//include_once( 'kernel/classes/ezcollaborationgroup.php' );
 
 $collabGroup = eZCollaborationGroup::fetch( $GroupID );
 if ( $collabGroup === null )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
-include_once( 'kernel/classes/ezcollaborationviewhandler.php' );
+//include_once( 'kernel/classes/ezcollaborationviewhandler.php' );
 
 if ( !eZCollaborationViewHandler::groupExists( $ViewMode ) )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
-$view =& eZCollaborationViewHandler::instance( $ViewMode, EZ_COLLABORATION_VIEW_TYPE_GROUP );
+$view = eZCollaborationViewHandler::instance( $ViewMode, eZCollaborationViewHandler::TYPE_GROUP );
 
 $template = $view->template();
 
 $collabGroupTitle = $collabGroup->attribute( 'title' );
 
-include_once( 'kernel/classes/ezcollaborationitemhandler.php' );
+//include_once( 'kernel/classes/ezcollaborationitemhandler.php' );
 
 $viewParameters = array( 'offset' => $Offset );
 
-include_once( 'kernel/common/template.php' );
-$tpl =& templateInit();
+require_once( 'kernel/common/template.php' );
+$tpl = templateInit();
 
 $tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( 'collab_group', $collabGroup );

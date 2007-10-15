@@ -27,19 +27,19 @@
 //
 
 
-include_once( 'kernel/classes/ezworkflow.php' );
-include_once( 'kernel/classes/ezworkflowgroup.php' );
-include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
+//include_once( 'kernel/classes/ezworkflow.php' );
+//include_once( 'kernel/classes/ezworkflowgroup.php' );
+//include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 
-// include_once( 'lib/ezutils/classes/ezexecutionstack.php' );
-// $execStack =& eZExecutionStack::instance();
+// //include_once( 'lib/ezutils/classes/ezexecutionstack.php' );
+// $execStack = eZExecutionStack::instance();
 // $execStack->clear();
 // $execStack->addEntry( $Module->functionURI( 'list' ),
 //                       $Module->attribute( 'name' ), 'list' );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 if ( $http->hasPostVariable( 'NewGroupButton' ) )
     return $Module->run( 'groupedit', array() );
@@ -55,23 +55,22 @@ if ( $http->hasPostVariable( 'DeleteButton' ) and
 $groupList = eZWorkflowGroup::fetchList();
 $workflows = eZWorkflow::fetchList();
 $workflowList = array();
-foreach( array_keys( $workflows ) as $workflowID )
+foreach( $workflows as $workflow )
 {
-    $workflow =& $workflows[$workflowID];
-    $workflowList[$workflow->attribute( 'id' )] =& $workflow;
+    $workflowList[$workflow->attribute( 'id' )] = $workflow;
 }
 
 $Module->setTitle( 'Workflow list' );
 
-include_once( 'kernel/common/template.php' );
-$tpl =& templateInit();
+require_once( 'kernel/common/template.php' );
+$tpl = templateInit();
 
 $tpl->setVariable( 'workflow_list', $workflowList );
 $tpl->setVariable( 'group_list', $groupList );
 $tpl->setVariable( 'module', $Module );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:workflow/list.tpl' );
+$Result['content'] = $tpl->fetch( 'design:workflow/list.tpl' );
 $Result['path'] = array( array( 'url' => '/workflow/list/',
                                 'text' => ezi18n( 'kernel/workflow', 'Workflow list' ) ) );
 

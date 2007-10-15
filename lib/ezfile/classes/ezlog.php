@@ -36,11 +36,13 @@
 */
 
 
-include_once( "lib/ezutils/classes/ezsys.php" );
-define( "EZ_MAX_LOGROTATE_FILES", 3 );
-define( "EZ_MAX_LOGFILE_SIZE", 200*1024 );
+//include_once( "lib/ezutils/classes/ezsys.php" );
+
 class eZLog
 {
+    const MAX_LOGROTATE_FILES = 3;
+    const MAX_LOGFILE_SIZE = 204800; // 200*1024
+
     /*!
       Creates a new log object.
     */
@@ -49,16 +51,17 @@ class eZLog
     }
 
     /*!
+     \static
      \public
      Writes a message $message to a given file name $name and directory $dir for logging
     */
-    function write( $message, $logName = 'common.log', $dir = 'var/log' )
+    static function write( $message, $logName = 'common.log', $dir = 'var/log' )
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $fileName = $dir . '/' . $logName;
         if ( !file_exists( $dir ) )
         {
-            include_once( 'lib/ezfile/classes/ezdir.php' );
+            //include_once( 'lib/ezfile/classes/ezdir.php' );
             eZDir::mkdir( $dir, 0775, true );
         }
         $oldumask = @umask( 0 );
@@ -88,16 +91,16 @@ class eZLog
      \private
      Writes file name $name and storage directory $dir to storage log
     */
-    function writeStorageLog( $name, $dir = false )
+    static function writeStorageLog( $name, $dir = false )
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $varDir = $ini->variable( 'FileSettings', 'VarDir' );
         $logDir = $ini->variable( 'FileSettings', 'LogDir' );
         $logName = 'storage.log';
         $fileName = $varDir . '/' . $logDir . '/' . $logName;
         if ( !file_exists( $varDir . '/' . $logDir ) )
         {
-            include_once( 'lib/ezfile/classes/ezdir.php' );
+            //include_once( 'lib/ezfile/classes/ezdir.php' );
             eZDir::mkdir( $varDir . '/' . $logDir, 0775, true );
         }
         $oldumask = @umask( 0 );
@@ -137,19 +140,19 @@ class eZLog
      \static
      \return the maxium size for a log file in bytes.
     */
-    function maxLogSize()
+    static function maxLogSize()
     {
         $maxLogSize =& $GLOBALS['eZMaxLogSize'];
         if ( isset( $maxLogSize ) )
             return $maxLogSize;
-        return EZ_MAX_LOGFILE_SIZE;
+        return self::MAX_LOGFILE_SIZE;
     }
 
     /*!
      \static
      Sets the maxium size for a log file to \a $size.
     */
-    function setMaxLogSize( $size )
+    static function setMaxLogSize( $size )
     {
         $GLOBALS['eZMaxLogSize'] = $size;
     }
@@ -158,12 +161,12 @@ class eZLog
      \static
      \return the maxium number of logrotate files to keep.
     */
-    function maxLogrotateFiles()
+    static function maxLogrotateFiles()
     {
         $maxLogrotateFiles =& $GLOBALS['eZMaxLogrotateFiles'];
         if ( isset( $maxLogrotateFiles ) )
             return $maxLogrotateFiles;
-        return EZ_MAX_LOGROTATE_FILES;
+        return self::MAX_LOGROTATE_FILES;
     }
 
     /*!
@@ -173,9 +176,9 @@ class eZLog
      exceed maxLogrotateFiles() will be removed.
      Rotated files will get the extension .1, .2 etc.
     */
-    function rotateLog( $fileName )
+    static function rotateLog( $fileName )
     {
-        include_once( 'lib/ezfile/classes/ezfile.php' );
+        //include_once( 'lib/ezfile/classes/ezfile.php' );
         $maxLogrotateFiles = eZLog::maxLogrotateFiles();
         for ( $i = $maxLogrotateFiles; $i > 0; --$i )
         {
@@ -206,7 +209,7 @@ class eZLog
      \static
      Sets the maxium number of logrotate files to keep to \a $files.
     */
-    function setLogrotateFiles( $files )
+    static function setLogrotateFiles( $files )
     {
         $GLOBALS['eZMaxLogrotateFiles'] = $files;
     }

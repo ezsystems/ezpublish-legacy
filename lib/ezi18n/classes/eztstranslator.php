@@ -38,9 +38,9 @@
 
 */
 
-include_once( "lib/ezi18n/classes/eztranslatorhandler.php" );
-include_once( "lib/ezi18n/classes/eztextcodec.php" );
-include_once( "lib/ezi18n/classes/eztranslationcache.php" );
+//include_once( "lib/ezi18n/classes/eztranslatorhandler.php" );
+//include_once( "lib/ezi18n/classes/eztextcodec.php" );
+//include_once( "lib/ezi18n/classes/eztranslationcache.php" );
 
 class eZTSTranslator extends eZTranslatorHandler
 {
@@ -71,24 +71,26 @@ class eZTSTranslator extends eZTranslatorHandler
      \static
      Initialize the ts translator and context if this is not already done.
     */
-    function &initialize( $context, $locale, $filename, $useCache = true )
+    static function initialize( $context, $locale, $filename, $useCache = true )
     {
-        $tables =& $GLOBALS["eZTSTranslationTables"];
         $instance = false;
         $file = $locale . '/' . $filename;
-        if ( isset( $tables[$file] ) and
-             get_class( $tables[$file] ) == "eztstranslator" )
-            $instance =& $tables[$file];
-        if ( $instance and
-             $instance->hasInitializedContext( $context ) )
-            return $instance;
+        if ( !empty( $GLOBALS['eZTSTranslationTables'][$file] ) )
+        {
+            $instance = $GLOBALS['eZTSTranslationTables'][$file];
+            if ( $instance->hasInitializedContext( $context ) )
+            {
+                return $instance;
+            }
+        }
+
         eZDebug::createAccumulatorGroup( 'tstranslator', 'TS translator' );
         eZDebug::accumulatorStart( 'tstranslator_init', 'tstranslator', 'TS init' );
         if ( !$instance )
         {
             $instance = new eZTSTranslator( $locale, $filename, $useCache );
-            $tables[$file] =& $instance;
-            $manager =& eZTranslatorManager::instance();
+            $GLOBALS['eZTSTranslationTables'][$file] = $instance;
+            $manager = eZTranslatorManager::instance();
             $manager->registerHandler( $instance );
         }
         $instance->load( $context );
@@ -117,7 +119,7 @@ class eZTSTranslator extends eZTranslatorHandler
     */
     function loadTranslationFile( $locale, $filename, $requestedContext )
     {
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        //include_once( 'lib/ezfile/classes/ezdir.php' );
 
         // First try for current charset
         $charset = eZTextCodec::internalCharset();
@@ -125,7 +127,7 @@ class eZTSTranslator extends eZTranslatorHandler
 
         if ( !$this->RootCache )
         {
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $roots = array( $ini->variable( 'RegionalSettings', 'TranslationRepository' ) );
             $extensionBase = eZExtension::baseDirectory();
             $translationExtensions = $ini->variable( 'RegionalSettings', 'TranslationExtensions' );
@@ -145,6 +147,7 @@ class eZTSTranslator extends eZTranslatorHandler
             if ( isset( $this->RootCache['timestamp'] ) )
                 $tsTimeStamp = $this->RootCache['timestamp'];
         }
+
 
         // Load cached translations if possible
         if ( $this->UseCache == true )
@@ -235,7 +238,7 @@ class eZTSTranslator extends eZTranslatorHandler
             {
                 $path = eZDir::path( array( $root, $locale, $filename ) );
 
-                $ini =& eZINI::instance( "i18n.ini" );
+                $ini = eZINI::instance( "i18n.ini" );
                 $fallbacks = $ini->variable( 'TranslationSettings', 'FallbackLanguages' );
 
                 if ( array_key_exists( $locale,  $fallbacks ) and $fallbacks[$locale] )
@@ -253,34 +256,38 @@ class eZTSTranslator extends eZTranslatorHandler
             }
 
             eZDebug::accumulatorStart( 'tstranslator_load', 'tstranslator', 'TS load' );
-            $fd = fopen( $path, "rb" );
-            $trans_xml = fread( $fd, filesize( $path ) );
-            fclose( $fd );
 
-            include_once( "lib/ezxml/classes/ezxml.php" );
-            $xml = new eZXML();
+            $doc = new DOMDocument();
+            $success = $doc->load( $path );
 
-            $tree =& $xml->domTree( $trans_xml, array(), true );
+            if ( !$success )
+            {
+                eZDebug::writeWarning( "Unable to load XML from file $path", 'eZTSTranslator::loadTranslationFile' );
+                continue;
+            }
 
-            if ( !$this->validateDOMTree( $tree ) )
+            if ( !$this->validateDOMTree( $doc ) )
             {
                 eZDebug::writeWarning( "XML text for file $path did not validate", 'eZTSTranslator::loadTranslationFile' );
                 continue;
             }
+
             $status = true;
 
-            $treeRoot = $tree->get_root();
-            $children = $treeRoot->children();
-            foreach( $children as $child )
+            $treeRoot = $doc->documentElement;
+            $children = $treeRoot->childNodes;
+            for ($i = 0; $i < $children->length; $i++ )
             {
-                if ( $child->type == 1 )
+                $child = $children->item( $i );
+
+                if ( $child->nodeType == XML_ELEMENT_NODE )
                 {
-                    if ( $child->name() == "context" )
+                    if ( $child->tagName == "context" )
                     {
                         $this->handleContextNode( $child );
                     }
                     else
-                        eZDebug::writeError( "Unknown element name: " . $child->name(),
+                        eZDebug::writeError( "Unknown element name: " . $child->tagName,
                                              "eZTSTranslator::loadTranslationFile" );
                 }
             }
@@ -316,81 +323,34 @@ class eZTSTranslator extends eZTranslatorHandler
     /*!
      \static
      Validates the DOM tree \a $tree and returns true if it is correct.
-     \warning There's no validation done yet. It checks if \a $tree is object only.
-     In all other cases it returns \c true for all DOM trees.
     */
-    function validateDOMTree( &$tree )
+    static function validateDOMTree( $tree )
     {
         if ( !is_object( $tree ) )
             return false;
 
-        return true;
-/*        $xmlSchema = '<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-xmlns="http://www.w3.org/2001/XMLSchema/default">
+        $isValid = $tree->RelaxNGValidate( 'schemas/translation/ts.rng' );
 
-<xsd:annotation>
-  <xsd:documentation xml:lang="en">
-   Translation message schema for ez.no.
-   Copyright 2002 ez.no. All rights reserved.
-  </xsd:documentation>
- </xsd:annotation>
-
- <xsd:element name="TS" type="TranslateRootType"/>
-
- <xsd:complexType name="TranslateRootType">
-  <xsd:sequence>
-   <xsd:element name="context" type="ContextType"/>
-  </xsd:sequence>
- </xsd:complexType>
-
- <xsd:complexType name="ContextType">
-  <xsd:sequence>
-   <xsd:element name="name" type="xsd:string" />
-   <xsd:element name="message" type="MessageType"/>
-  </xsd:sequence>
- </xsd:complexType>
-
- <xsd:complexType name="MessageType">
-  <xsd:sequence>
-   <xsd:element name="source"      type="xsd:string"/>
-   <xsd:element name="translation" type="TranslationType"/>
-   <xsd:element name="comment"     type="xsd:string" minOccurs="0" maxOccurs="1"/>
-  </xsd:sequence>
- </xsd:complexType>
-
- <xsd:simpleType name="TranslationType">
-  <xsd:restriction base="xsd:string">
-  </xsd:restriction>
-  <xsd:attribute name="type" type="xsd:string" />
- </xsd:simpleType>
-
-</xsd:schema>';
-
-        include_once( "lib/ezxml/classes/ezschema.php" );
-
-        $schema = new eZSchema( );
-        $schema->setSchema( $xmlSchema );
-
-        return $schema->validate( $tree );*/
+        return $isValid;
     }
 
     function handleContextNode( $context )
     {
         $contextName = null;
         $messages = array();
-        $context_children = $context->children();
+        $context_children = $context->childNodes;
 
-        foreach( $context_children as $context_child )
+        for( $i = 0; $i < $context_children->length; $i++ )
         {
-            if ( $context_child->type == 1 )
+            $context_child = $context_children->item( $i );
+            if ( $context_child->nodeType == XML_ELEMENT_NODE )
             {
-                if ( $context_child->name() == "name" )
+                if ( $context_child->tagName == "name" )
                 {
-                    $name_el = $context_child->children();
-                    if ( count( $name_el ) > 0 )
+                    $name_el = $context_child->firstChild;
+                    if ( $name_el )
                     {
-                        $name_el = $name_el[0];
-                        $contextName = $name_el->content;
+                        $contextName = $name_el->nodeValue;
                     }
                 }
                 break;
@@ -404,9 +364,9 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
         }
         foreach( $context_children as $context_child )
         {
-            if ( $context_child->type == 1 )
+            if ( $context_child->nodeType == XML_ELEMENT_NODE )
             {
-                $childName = $context_child->name();
+                $childName = $context_child->tagName;
                 if ( $childName == "message" )
                 {
                     $this->handleMessageNode( $contextName, $context_child );
@@ -434,43 +394,42 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
         return true;
     }
 
-    function handleMessageNode( $contextName, &$message )
+    function handleMessageNode( $contextName, $message )
     {
         $source = null;
         $translation = null;
         $comment = null;
-        $message_children = $message->children();
-        foreach( $message_children as $message_child )
+        $message_children = $message->childNodes;
+        for( $i = 0; $i < $message_children->length; $i++ )
         {
-            if ( $message_child->type == 1 )
+            $message_child = $message_children->item( $i );
+            if ( $message_child->nodeType == XML_ELEMENT_NODE )
             {
-                if ( $message_child->name() == "source" )
+                $childName = $message_child->tagName;
+                if ( $childName  == "source" )
                 {
-                    $source_el = $message_child->children();
-                    $source_el = $source_el[0];
-                    $source = $source_el->content;
+                    $source_el = $message_child->firstChild;
+                    $source = $source_el->nodeValue;
                 }
-                else if ( $message_child->name() == "translation" )
+                else if ( $childName == "translation" )
                 {
-                    $translation_el = $message_child->children();
-                    if ( count( $translation_el ) > 0 )
+                    $translation_el = $message_child->firstChild;
+                    if ( $translation_el )
                     {
-                        $translation_el = $translation_el[0];
-                        $translation = $translation_el->content;
+                        $translation = $translation_el->nodeValue;
                     }
                 }
-                else if ( $message_child->name() == "comment" )
+                else if ( $childName == "comment" )
                 {
-                    $comment_el = $message_child->children();
-                    $comment_el = $comment_el[0];
-                    $comment = $comment_el->content;
+                    $comment_el = $message_child->firstChild;
+                    $comment = $comment_el->nodeValue;
                 }
-                else if ( $message_child->name() == "location" )
+                else if ( $childName == "location" )
                 {
                     //Handle location element. No functionality yet.
                 }
                 else
-                    eZDebug::writeError( "Unknown element name: " . $message_child->name(),
+                    eZDebug::writeError( "Unknown element name: " . $childName,
                                          "eZTSTranslator::handleMessageNode" );
             }
         }
@@ -486,9 +445,9 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
             return false;
         }
         /* we need to convert ourselves if we're using libxml stuff here */
-        if ( get_class( $message ) == 'domelement' )
+        if ( $message instanceof DOMElement )
         {
-            $codec =& eZTextCodec::instance( "utf8" );
+            $codec = eZTextCodec::instance( "utf8" );
             $source = $codec->convertString( $source );
             $translation = $codec->convertString( $translation );
             $comment = $codec->convertString( $comment );
@@ -568,7 +527,7 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
 //         eZDebug::writeDebug( "context=$context" );
         if ( $context == "" )
             $context = "default";
-        $man =& eZTranslatorManager::instance();
+        $man = eZTranslatorManager::instance();
         $key = $man->createKey( $context, $source, $comment );
 //         if ( isset( $this->Messages[$key] ) )
 //             return $key;
@@ -595,7 +554,7 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
     {
         if ( $context == "" )
             $context = "default";
-        $man =& eZTranslatorManager::instance();
+        $man = eZTranslatorManager::instance();
         $key = $man->createKey( $context, $source, $message );
         if ( isset( $this->Messages[$key] ) )
             unset( $this->Messages[$key] );
@@ -616,10 +575,10 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
      Fetche list of available translations, create eZTrnslator for each translations.
      \return list of eZTranslator objects representing available translations.
     */
-    function fetchList( $localeList = array() )
+    static function fetchList( $localeList = array() )
     {
-        include_once( 'lib/ezutils/classes/ezini.php' );
-        $ini =& eZINI::instance();
+        //include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini = eZINI::instance();
 
         $dir = $ini->variable( 'RegionalSettings', 'TranslationRepository' );
 
@@ -627,7 +586,7 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
         $translationList = array();
         $locale = '';
 
-        include_once( 'lib/ezfile/classes/ezfile.php' );
+        //include_once( 'lib/ezfile/classes/ezfile.php' );
 
         if ( count( $localeList ) == 0 )
         {
@@ -656,18 +615,18 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
     /*!
      \static
     */
-    function resetGlobals()
+    static function resetGlobals()
     {
         unset( $GLOBALS["eZTSTranslationTables"] );
     }
 
     /// \privatesection
     /// Contains the hash table with message translations
-    var $Messages;
-    var $File;
-    var $UseCache;
-    var $BuildCache;
-    var $CachedMessages;
+    public $Messages;
+    public $File;
+    public $UseCache;
+    public $BuildCache;
+    public $CachedMessages;
 }
 
 ?>

@@ -26,11 +26,11 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/common/template.php" );
-include_once( "kernel/classes/ezpackage.php" );
-include_once( "lib/ezutils/classes/ezhttpfile.php" );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/classes/ezpackage.php" );
+//include_once( "lib/ezutils/classes/ezhttpfile.php" );
 
-$module =& $Params['Module'];
+$module = $Params['Module'];
 
 if ( !eZPackage::canUsePolicyFunction( 'import' ) )
     return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
@@ -43,7 +43,7 @@ if ( $module->isCurrentAction( 'UploadPackage' ) )
 {
     if ( eZHTTPFile::canFetch( 'PackageBinaryFile' ) )
     {
-        $file =& eZHTTPFile::fetch( 'PackageBinaryFile' );
+        $file = eZHTTPFile::fetch( 'PackageBinaryFile' );
         if ( $file )
         {
             $packageFilename = $file->attribute( 'filename' );
@@ -69,15 +69,19 @@ if ( $module->isCurrentAction( 'UploadPackage' ) )
                     return $module->redirectToView( 'install', array( $package->attribute( 'name' ) ) );
                 }
             }
-            else if ( $package == EZ_PACKAGE_STATUS_ALREADY_EXISTS )
+            else if ( $package == eZPackage::STATUS_ALREADY_EXISTS )
             {
                 $errorList[] = array( 'description' => ezi18n( 'kernel/package', 'Package %packagename already exists, cannot import the package', false, array( '%packagename' => $packageName ) ) );
             }
             else
+            {
                 eZDebug::writeError( "Uploaded file is not an eZ Publish package" );
+            }
         }
         else
+        {
             eZDebug::writeError( "Failed fetching upload package file" );
+        }
     }
     else
     {
@@ -90,13 +94,13 @@ else if ( $module->isCurrentAction( 'UploadCancel' ) )
     return;
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( 'package', $package );
 $tpl->setVariable( 'error_list', $errorList );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:package/upload.tpl" );
+$Result['content'] = $tpl->fetch( "design:package/upload.tpl" );
 $Result['path'] = array( array( 'url' => 'package/list',
                                 'text' => ezi18n( 'kernel/package', 'Packages' ) ),
                          array( 'url' => false,

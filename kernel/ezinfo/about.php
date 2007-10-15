@@ -29,8 +29,8 @@
 define( 'EZ_ABOUT_CONTRIBUTORS_DIR', 'var/storage/contributors' );
 define( 'EZ_ABOUT_THIRDPARTY_SOFTWARE_FILE', 'var/storage/third_party_software.php' );
 
-include_once( 'kernel/common/template.php' );
-include_once( 'lib/version.php' );
+require_once( 'kernel/common/template.php' );
+//include_once( 'lib/version.php' );
 
 /*!
   Returns list of contributors;
@@ -38,7 +38,7 @@ include_once( 'lib/version.php' );
 */
 function getContributors( $pathToDir )
 {
-    include_once( 'lib/ezfile/classes/ezdir.php' );
+    //include_once( 'lib/ezfile/classes/ezdir.php' );
     $contribFiles = eZDir::recursiveFind( $pathToDir, "php" );
     $contributors = array();
     if ( count( $contribFiles ) )
@@ -85,8 +85,8 @@ function getThirdPartySoftware( $pathToFile )
 */
 function getExtensionsInfo()
 {
-    include_once( 'lib/ezutils/classes/ezini.php' );
-    include_once( 'lib/ezutils/classes/ezextension.php' );
+    //include_once( 'lib/ezutils/classes/ezini.php' );
+    //include_once( 'lib/ezutils/classes/ezextension.php' );
 
     $siteINI = eZINI::instance();
     $extensionDir = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' );
@@ -107,27 +107,24 @@ function getExtensionsInfo()
 /*!
   Replaces all occurrences (in \a $subjects) of the search string (keys of \a $searches )
   with the replacement string (values of \a $searches)
+
+  Returns array with replacements
 */
 function strReplaceByArray( $searches = array(), $subjects = array() )
 {
-    foreach ( array_keys( $subjects ) as $subjectKey )
+    $retArray = array();
+    foreach( $subjects as $key => $subject )
     {
-        $subject =& $subjects[$subjectKey];
-        foreach ( array_keys( $searches ) as $search )
+        if ( is_array( $subject ) )
         {
-            $replace = $searches[$search];
-            if ( is_array( $subject ) )
-            {
-                foreach ( array_keys( $subject ) as $sububjectItemKey )
-                {
-                    $sububjectItem =& $subject[$sububjectItemKey];
-                    $sububjectItem = str_replace( $search, $replace, $sububjectItem );
-                }
-            }
-            else
-                $subject = str_replace( $search, $replace, $subject );
+            $retArray[$key] = strReplaceByArray( $searches, $subject );
+        }
+        else
+        {
+            $retArray[$key] = str_replace( array_keys( $searches ), $searches, $subject );
         }
     }
+    return $retArray;
 }
 
 $ezinfo = eZPublishSDK::version( true );
@@ -162,13 +159,17 @@ $contributors = getContributors( EZ_ABOUT_CONTRIBUTORS_DIR );
 $thirdPartySoftware = getThirdPartySoftware( EZ_ABOUT_THIRDPARTY_SOFTWARE_FILE );
 $extensions = getExtensionsInfo();
 
-strReplaceByArray( array( 'eZ Systems AS' => '<a href="http://ez.no/">eZ Systems AS</a>',
-                          'eZ systems AS' => '<a href="http://ez.no/">eZ Systems AS</a>',
-                          'eZ Publish' => '<a href="http://ez.no/ezpublish">eZ Publish</a>',
-                          'eZ publish' => '<a href="http://ez.no/ezpublish">eZ Publish</a>' ),
-                   array( &$whatIsEzPublish, &$license, &$contributors, &$thirdPartySoftware, &$extensions ) );
+list( $whatIsEzPublish,
+      $license,
+      $contributors,
+      $thirdPartySoftware,
+      $extensions ) = strReplaceByArray( array( 'eZ Systems AS' => '<a href="http://ez.no/">eZ Systems AS</a>',
+                                                'eZ systems AS' => '<a href="http://ez.no/">eZ Systems AS</a>',
+                                                'eZ Publish' => '<a href="http://ez.no/ezpublish">eZ Publish</a>',
+                                                'eZ publish' => '<a href="http://ez.no/ezpublish">eZ Publish</a>' ),
+                                         array( $whatIsEzPublish, $license, $contributors, $thirdPartySoftware, $extensions ) );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable( 'ezinfo', $ezinfo );
 $tpl->setVariable( 'what_is_ez_publish', $whatIsEzPublish );
 $tpl->setVariable( 'license', $license );
@@ -177,7 +178,7 @@ $tpl->setVariable( 'third_party_software', $thirdPartySoftware );
 $tpl->setVariable( 'extensions', $extensions );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:ezinfo/about.tpl" );
+$Result['content'] = $tpl->fetch( "design:ezinfo/about.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/ezinfo', 'Info' ) ),
                          array( 'url' => false,

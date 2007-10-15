@@ -143,7 +143,7 @@ class eZTemplateDebugFunction
     }
 
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, $parameters, $privateData )
+                                         $tpl, $parameters, $privateData )
     {
         if ( $functionName == $this->TimingPointName )
         {
@@ -287,7 +287,7 @@ class eZTemplateDebugFunction
     /*!
      Processes the function with all it's children.
     */
-    function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
+    function process( $tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
         switch ( $functionName )
         {
@@ -433,9 +433,9 @@ class eZTemplateDebugFunction
 
     /// \privatesection
     /// Name of the function
-    var $DebugName;
-    var $AppendDebugName;
-    var $OnceName;
+    public $DebugName;
+    public $AppendDebugName;
+    public $OnceName;
 }
 
 ?>

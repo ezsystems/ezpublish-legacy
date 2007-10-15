@@ -28,10 +28,10 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$Module =& $Params["Module"];
+$Module = $Params['Module'];
 
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezpdfexport.php' );
+require_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezpdfexport.php' );
 
 // Create new PDF Export
 if ( $Module->isCurrentAction( 'NewExport' ) )
@@ -45,7 +45,7 @@ else if ( $Module->isCurrentAction( 'RemoveExport' ) )
     foreach ( $deleteArray as $deleteID )
     {
         // remove draft if it exists:
-        $pdfExport = eZPDFExport::fetch( $deleteID, true, EZ_PDFEXPORT_VERSION_DRAFT );
+        $pdfExport = eZPDFExport::fetch( $deleteID, true, eZPDFExport::VERSION_DRAFT );
         if ( $pdfExport )
         {
             $pdfExport->remove();
@@ -61,18 +61,17 @@ else if ( $Module->isCurrentAction( 'RemoveExport' ) )
 
 $exportArray = eZPDFExport::fetchList();
 $exportList = array();
-foreach( array_keys( $exportArray ) as $exportID )
+foreach( $exportArray as $export )
 {
-    $export =& $exportArray[$exportID];
-    $exportList[$export->attribute( 'id' )] =& $export;
+    $exportList[$export->attribute( 'id' )] = $export;
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( 'pdfexport_list', $exportList );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:pdf/list.tpl" );
+$Result['content'] = $tpl->fetch( "design:pdf/list.tpl" );
 $Result['path'] = array( array( 'url' => 'kernel/pdf',
                                 'text' => ezi18n( 'kernel/pdf', 'PDF Export' ) ) );
 

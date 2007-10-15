@@ -46,10 +46,10 @@
   Example:
 
 \code
-include_once( 'lib/ezlocale/classes/ezlocale.php' );
+//include_once( 'lib/ezlocale/classes/ezlocale.php' );
 
 // Fetch the default values supplied by site.ini
-$locale =& eZLocale::instance();
+$locale = eZLocale::instance();
 
 // Make sure PHP is to the correct locale
 $locale->initPHP();
@@ -127,12 +127,12 @@ The following characters are recognized in the format string:
 \sa eZLanguage
 */
 
-include_once( 'lib/ezutils/classes/ezini.php' );
-
-define( "EZ_LOCALE_DEBUG_INTERNALS", false );
+//include_once( 'lib/ezutils/classes/ezini.php' );
 
 class eZLocale
 {
+    const DEBUG_INTERNALS = false;
+
     /*!
      Initializes the locale with the locale string \a $localeString.
      All locale data is read from locale/$localeString.ini
@@ -194,13 +194,13 @@ class eZLocale
         $this->LanguageINI = array( 'default' => null, 'variation' => null );
 
         // Figure out if we use one locale file or separate country/language file.
-        $localeINI =& $this->localeFile();
-        $countryINI =& $localeINI;
-        $languageINI =& $localeINI;
+        $localeINI = $this->localeFile();
+        $countryINI = $localeINI;
+        $languageINI = $localeINI;
         if ( $localeINI === null )
         {
-            $countryINI =& $this->countryFile();
-            $languageINI =& $this->languageFile();
+            $countryINI = $this->countryFile();
+            $languageINI = $this->languageFile();
         }
 
         $this->reset();
@@ -233,7 +233,7 @@ class eZLocale
         // Load variation if any
         if ( $this->countryVariation() )
         {
-            $localeVariationINI =& $this->localeFile( true );
+            $localeVariationINI = $this->localeFile( true );
             $countryVariationINI = $localeVariationINI;
             $languageVariationINI = $localeVariationINI;
             if ( $localeVariationINI === null )
@@ -479,7 +479,7 @@ class eZLocale
            The groups 6 and 7 will only be used if \a $withVariations is \c true.
      \param $withVariations If \c true it will include variations of locales (ends with @identifier)
     */
-    function localeRegexp( $withVariations = true, $withCharset = true )
+    static function localeRegexp( $withVariations = true, $withCharset = true )
     {
         return "([a-zA-Z]+)([_-]([a-zA-Z]+))?" . ( $withCharset ? "(\.([a-zA-Z-]+))?" : '' ) . ( $withVariations ? "(@([a-zA-Z0-9]+))?" : '' );
     }
@@ -555,7 +555,7 @@ class eZLocale
             return false;
     }
 
-    function &attribute( $attribute )
+    function attribute( $attribute )
     {
         $attributeMap = eZLocale::attributeFunctionMap();
         if ( isset( $attributeMap[$attribute] ) )
@@ -563,20 +563,17 @@ class eZLocale
             $method = $attributeMap[$attribute];
             if ( method_exists( $this, $method ) )
             {
-                $retValue = $this->$method();
+                return $this->$method();
             }
             else
             {
                 eZDebug::writeError( "Unknown method '$method' specified for attribute '$attribute'", 'eZLocale::attribute' );
-                $retValue = null;
+                return null;
             }
         }
-        else
-        {
-            eZDebug::writeError( "Attribute '$attribute' does not exist", 'eZLocale::attribute' );
-            $retValue = null;
-        }
-        return $retValue;
+
+        eZDebug::writeError( "Attribute '$attribute' does not exist", 'eZLocale::attribute' );
+        return null;
     }
 
     function attributeFunctionMap()
@@ -721,7 +718,7 @@ class eZLocale
     */
     function httpLocaleCode()
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $localeCode = '';
         if ( $ini->hasVariable( 'RegionalSettings', 'HTTPLocale' ) )
         {
@@ -741,9 +738,9 @@ class eZLocale
      for instance nor-NO or eng-GB.
      \sa localeCode, instance
     */
-    function currentLocaleCode()
+    static function currentLocaleCode()
     {
-        $locale =& eZLocale::instance();
+        $locale = eZLocale::instance();
         return $locale->localeCode();
     }
 
@@ -991,7 +988,7 @@ class eZLocale
     function meridiemName( $time = false, $upcase = false )
     {
         if ( $time == false )
-            $time = mktime();
+            $time = time();
         $hour = date( 'G', $time );
         $name = $hour < 12 ? $this->AM : $this->PM;
         if ( $upcase )
@@ -1088,7 +1085,7 @@ class eZLocale
                      Any character not found in this array will be kept intact by escaping it.
      \sa http://www.php.net/manual/en/function.date.php
     */
-    function transformToPHPFormat( $fmt, $allowed )
+    static function transformToPHPFormat( $fmt, $allowed )
     {
         // This goes trough each of the characters in the format
         // string $fmt, if a valid %x character is found it is replaced
@@ -1353,7 +1350,7 @@ class eZLocale
      \param $asObject If \c true it returns each element as an eZLocale object
      \param $withVariations If \c true it will include variations of locales (ends with @identifier)
     */
-    function localeList( $asObject = false, $withVariations = true )
+    static function localeList( $asObject = false, $withVariations = true )
     {
         $locales =& $GLOBALS['eZLocaleLocaleStringList'];
         if ( !is_array( $locales ) )
@@ -1376,7 +1373,7 @@ class eZLocale
                 $localeObjects = array();
                 foreach ( $locales as $locale )
                 {
-                    $localeInstance =& eZLocale::instance( $locale );
+                    $localeInstance = eZLocale::instance( $locale );
                     if ( $localeInstance )
                         $localeObjects[] = $localeInstance;
                 }
@@ -1392,7 +1389,7 @@ class eZLocale
              for instance: NO, GB, US
      \param $withVariations If \c true it will include variations of locales (ends with @identifier)
     */
-    function countryList( $withVariations = true )
+    static function countryList( $withVariations = true )
     {
         $countries =& $GLOBALS['eZLocaleCountryList'];
         if ( !is_array( $countries ) )
@@ -1419,7 +1416,7 @@ class eZLocale
              for instance: nor, eng
      \param $withVariations If \c true it will include variations of locales (ends with @identifier)
     */
-    function languageList( $withVariations = true )
+    static function languageList( $withVariations = true )
     {
         $languages =& $GLOBALS['eZLocaleLanguageist'];
         if ( !is_array( $languages ) )
@@ -1448,7 +1445,7 @@ class eZLocale
     function &localeFile( $withVariation = false )
     {
         $type = $withVariation ? 'variation' : 'default';
-        if ( get_class( $this->LocaleINI[$type] ) != 'ezini' )
+        if ( !( $this->LocaleINI[$type] instanceof eZINI ) )
         {
             $country = $this->countryCode();
             $countryVariation = $this->countryVariation();
@@ -1463,7 +1460,9 @@ class eZLocale
             }
             $localeFile = $locale . '.ini';
             if ( eZLocale::isDebugEnabled() )
+            {
                 eZDebug::writeNotice( "Requesting $localeFile", 'eZLocale::localeFile' );
+            }
             if ( eZINI::exists( $localeFile, 'share/locale' ) )
                 $this->LocaleINI[$type] = eZINI::instance( $localeFile, 'share/locale' );
         }
@@ -1477,7 +1476,7 @@ class eZLocale
     function &countryFile( $withVariation = false )
     {
         $type = $withVariation ? 'variation' : 'default';
-        if ( get_class( $this->CountryINI[$type] ) != 'ezini' )
+        if ( !( $this->CountryINI[$type] instanceof eZINI ) )
         {
             $country = $this->countryCode();
             $countryVariation = $this->countryVariation();
@@ -1489,7 +1488,9 @@ class eZLocale
             }
             $countryFile = 'country/' . $locale . '.ini';
             if ( eZLocale::isDebugEnabled() )
+            {
                 eZDebug::writeNotice( "Requesting $countryFile", 'eZLocale::countryFile' );
+            }
             if ( eZINI::exists( $countryFile, 'share/locale' ) )
                 $this->CountryINI[$type] = eZINI::instance( $countryFile, 'share/locale' );
         }
@@ -1503,7 +1504,7 @@ class eZLocale
     function &languageFile( $withVariation = false )
     {
         $type = $withVariation ? 'variation' : 'default';
-        if ( get_class( $this->LanguageINI[$type] ) != 'ezini' )
+        if ( !( $this->LanguageINI[$type] instanceof eZINI ) )
         {
             $language = $this->languageCode();
             $countryVariation = $this->countryVariation();
@@ -1515,7 +1516,9 @@ class eZLocale
             }
             $languageFile = 'language/' . $locale . '.ini';
             if ( eZLocale::isDebugEnabled() )
+            {
                 eZDebug::writeNotice( "Requesting $languageFile", 'eZLocale::languageFile' );
+            }
             if ( eZINI::exists( $languageFile, 'share/locale' ) )
                 $this->LanguageINI[$type] = eZINI::instance( $languageFile, 'share/locale' );
         }
@@ -1529,14 +1532,14 @@ class eZLocale
      Use this instead of newing eZLocale to benefit from speed and unified access.
      \note Use create() if you need to get a new unique copy you can alter.
     */
-    function &instance( $localeString = false )
+    static function instance( $localeString = false )
     {
         if ( $localeString === false )
         {
             $localeStringDefault =& $GLOBALS["eZLocaleStringDefault"];
-            if (!isset( $localeStringDefault ) )
+            if ( !isset( $localeStringDefault ) )
             {
-                $ini =& eZINI::instance();
+                $ini = eZINI::instance();
                 $localeString = $ini->variable( 'RegionalSettings', 'Locale' );
                 /* Cache this answer to prevent countless calls to retrieve this
                  * from the INI settings */
@@ -1548,23 +1551,26 @@ class eZLocale
                 $localeString = $localeStringDefault;
             }
         }
-        $instance =& $GLOBALS["eZLocaleInstance_$localeString"];
-        if ( get_class( $instance ) != 'ezlocale' )
+
+        $globalsKey = "eZLocaleInstance_$localeString";
+
+        if ( !isset( $GLOBALS[$globalsKey] ) ||
+             !( $GLOBALS[$globalsKey] instanceof eZLocale ) )
         {
-            $instance = new eZLocale( $localeString );
+            $GLOBALS[$globalsKey] = new eZLocale( $localeString );
         }
-        return $instance;
+        return $GLOBALS[$globalsKey];
     }
 
     /*!
      \static
      Similar to instance() but will always create a new copy.
     */
-    function create( $localeString = false )
+    static function create( $localeString = false )
     {
         if ( $localeString === false )
         {
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $localeString = $ini->variable( 'RegionalSettings', 'Locale' );
         }
         return new eZLocale( $localeString );
@@ -1576,10 +1582,10 @@ class eZLocale
      which files are loaded and when cache files are created.
       Set the option with setIsDebugEnabled().
     */
-    function isDebugEnabled()
+    static function isDebugEnabled()
     {
         if ( !isset( $GLOBALS['eZLocaleDebugInternalsEnabled'] ) )
-             $GLOBALS['eZLocaleDebugInternalsEnabled'] = EZ_LOCALE_DEBUG_INTERNALS;
+             $GLOBALS['eZLocaleDebugInternalsEnabled'] = self::DEBUG_INTERNALS;
         return $GLOBALS['eZLocaleDebugInternalsEnabled'];
     }
 
@@ -1587,7 +1593,7 @@ class eZLocale
      \static
      Sets whether internal debugging is enabled or not.
     */
-    function setIsDebugEnabled( $debug )
+    static function setIsDebugEnabled( $debug )
     {
         $GLOBALS['eZLocaleDebugInternalsEnabled'] = $debug;
     }
@@ -1595,7 +1601,7 @@ class eZLocale
     /*!
      \static
     */
-    function resetGlobals( $localeString = false )
+    static function resetGlobals( $localeString = false )
     {
         if ( $localeString === false )
         {
@@ -1611,76 +1617,76 @@ class eZLocale
     }
 
     //@{
-    var $IsValid;
+    public $IsValid;
     //@}
 
     //@{
     /// Format of dates
-    var $DateFormat;
+    public $DateFormat;
     /// Format of short dates
-    var $ShortDateFormat;
+    public $ShortDateFormat;
     /// Format of times
-    var $TimeFormat;
+    public $TimeFormat;
     /// Format of short times
-    var $ShortTimeFormat;
+    public $ShortTimeFormat;
     /// True if monday is the first day of the week
-    var $MondayFirst;
+    public $MondayFirst;
     /// AM and PM names
-    var $AM, $PM;
+    public $AM, $PM;
     //@}
 
     //@{
     /// Numbers
-    var $DecimalSymbol;
-    var $ThousandsSeparator;
-    var $FractDigits;
-    var $NegativeSymbol;
-    var $PositiveSymbol;
+    public $DecimalSymbol;
+    public $ThousandsSeparator;
+    public $FractDigits;
+    public $NegativeSymbol;
+    public $PositiveSymbol;
     //@}
 
     //@{
     /// Currency
-    var $CurrencyDecimalSymbol;
-    var $CurrencyThousandsSeparator;
-    var $CurrencyFractDigits;
-    var $CurrencyNegativeSymbol;
-    var $CurrencyPositiveSymbol;
-    var $CurrencySymbol;
-    var $CurrencyPositiveFormat;
-    var $CurrencyNegativeFormat;
+    public $CurrencyDecimalSymbol;
+    public $CurrencyThousandsSeparator;
+    public $CurrencyFractDigits;
+    public $CurrencyNegativeSymbol;
+    public $CurrencyPositiveSymbol;
+    public $CurrencySymbol;
+    public $CurrencyPositiveFormat;
+    public $CurrencyNegativeFormat;
     //@}
 
     //@{
     /// Help arrays
-    var $DayNames;
-    var $ShortDayNames, $LongDayNames;
-    var $MonthNames;
-    var $ShortMonthNames, $LongMonthNames;
-    var $WeekDays, $Months;
-    var $ShortWeekDayNames, $LongWeekDayNames;
+    public $DayNames;
+    public $ShortDayNames, $LongDayNames;
+    public $MonthNames;
+    public $ShortMonthNames, $LongMonthNames;
+    public $WeekDays, $Months;
+    public $ShortWeekDayNames, $LongWeekDayNames;
 
-    var $TimeArray;
-    var $DateArray;
-    var $TimePHPArray;
-    var $DatePHPArray;
+    public $TimeArray;
+    public $DateArray;
+    public $TimePHPArray;
+    public $DatePHPArray;
     //@}
 
     //@{
     /// Objects
-    var $Country;
-    var $CountryCode;
-    var $CountryVariation;
-    var $CountryComment;
-    var $LanguageComment;
-    var $LocaleINI;
-    var $CountryINI;
-    var $LanguageINI;
+    public $Country;
+    public $CountryCode;
+    public $CountryVariation;
+    public $CountryComment;
+    public $LanguageComment;
+    public $LocaleINI;
+    public $CountryINI;
+    public $LanguageINI;
     /// The language code, for instance nor-NO, or eng-GB
-    var $LanguageCode;
+    public $LanguageCode;
     /// Name of the language
-    var $LanguageName;
+    public $LanguageName;
     /// Internationalized name of the language
-    var $IntlLanguageName;
+    public $IntlLanguageName;
     var $CountryNames;
     //@}
 };

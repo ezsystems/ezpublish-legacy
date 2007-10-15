@@ -30,21 +30,20 @@
 
 /*! \file linkcheck.php
 */
-include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
-include_once( "lib/ezutils/classes/ezini.php" );
-include_once( "lib/ezutils/classes/ezhttptool.php" );
+//include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+//include_once( "lib/ezutils/classes/ezini.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
 
 ini_set( 'user_agent', 'eZ Publish Link Validator' );
 
 if ( !$isQuiet )
     $cli->output( "Checking link ..." );
 
-$cronjobIni =& eZINI::instance( 'cronjob.ini' );
+$cronjobIni = eZINI::instance( 'cronjob.ini' );
 $siteURLs = $cronjobIni->variable( 'linkCheckSettings', 'SiteURL' );
 $linkList = eZURL::fetchList( array( 'only_published' => true ) );
-foreach ( array_keys( $linkList ) as $key )
+foreach ( $linkList as $link )
 {
-    $link =& $linkList[$key];
     $linkID = $link->attribute( 'id' );
     $url = $link->attribute( 'url' );
     $isValid = $link->attribute( 'is_valid' );
@@ -102,7 +101,7 @@ foreach ( array_keys( $linkList ) as $key )
     }
     else
     {
-        include_once( 'kernel/classes/ezurlaliasml.php' );
+        //include_once( 'kernel/classes/ezurlaliasml.php' );
         $translateResult = eZURLAliasML::translate( $url );
 
         if ( !$translateResult )

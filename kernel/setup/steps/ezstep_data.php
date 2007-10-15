@@ -48,7 +48,7 @@ class eZStepData
              step name
       \return array containing file name and class name
     */
-    function &step( $description )
+    function step( $description )
     {
         if ( is_string( $description ) )
         {
@@ -79,7 +79,7 @@ class eZStepData
 
      \return next step
     */
-    function &nextStep( &$step )
+    function nextStep( $step )
     {
         foreach ( $this->StepTable as $key => $tableStep )
         {
@@ -100,7 +100,7 @@ class eZStepData
 
      \return previous step
     */
-    function &previousStep( &$step )
+    function previousStep( $step )
     {
         if ( is_string( $step ) ){
             foreach ( $this->StepTable as $key => $tableStep )
@@ -133,7 +133,7 @@ class eZStepData
 
      \return Percentage of completet setup, step 1 => 0%, final step => 100%
     */
-    function progress( &$step )
+    function progress( $step )
     {
         $totalSteps = 0;
         foreach ( $this->StepTable as $tableStep )
@@ -160,7 +160,7 @@ class eZStepData
 
     /// \privatesection
     /// Array contain all steps in the setup wizard
-    var $StepTable = array( array( 'file' => 'welcome',
+    public $StepTable = array( array( 'file' => 'welcome',
                                    'class' => 'Welcome' ),
                             array( 'file' => 'system_check',
                                    'class' => 'SystemCheck' ),

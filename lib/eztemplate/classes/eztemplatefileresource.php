@@ -36,9 +36,9 @@
  The name of the resource is "file:".
 */
 
-include_once( "lib/ezi18n/classes/eztextcodec.php" );
-include_once( "lib/eztemplate/classes/eztemplatetreecache.php" );
-include_once( "lib/eztemplate/classes/eztemplatecompiler.php" );
+//include_once( "lib/ezi18n/classes/eztextcodec.php" );
+//include_once( "lib/eztemplate/classes/eztemplatetreecache.php" );
+//include_once( "lib/eztemplate/classes/eztemplatecompiler.php" );
 
 class eZTemplateFileResource
 {
@@ -74,7 +74,7 @@ class eZTemplateFileResource
     /*!
     */
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, &$resourceData, $parameters, $namespaceValue )
+                                         $tpl, &$resourceData, $parameters, $namespaceValue )
     {
         if ( $this->Name != 'file' )
             return false;
@@ -84,7 +84,7 @@ class eZTemplateFileResource
         $newNodes = array();
         $newNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( $resourceData['resource'],
                                                                          $file, $file,
-                                                                         EZ_RESOURCE_FETCH, false,
+                                                                         eZTemplate::RESOURCE_FETCH, false,
                                                                          $node[4],
                                                                          array(),
                                                                          $namespaceValue );
@@ -121,7 +121,7 @@ class eZTemplateFileResource
     /*!
      Sets the cached node tree for the selected template to \a $root.
     */
-    function compileTemplate( &$tpl, $keyData, $uri, $res, $templatePath, &$extraParameters, &$resourceData )
+    function compileTemplate( $tpl, $keyData, $uri, $res, $templatePath, &$extraParameters, &$resourceData )
     {
         $key = $this->cacheKey( $keyData, $res, $templatePath, $extraParameters );
         return eZTemplateCompiler::compileTemplate( $tpl, $key, $resourceData );
@@ -130,7 +130,7 @@ class eZTemplateFileResource
     /*!
      Sets the cached node tree for the selected template to \a $root.
     */
-    function executeCompiledTemplate( &$tpl, &$textElements,
+    function executeCompiledTemplate( $tpl, &$textElements,
                                       $keyData, $uri, $resourceData, $templatePath,
                                       &$extraParameters, $timestamp,
                                       $rootNamespace, $currentNamespace )
@@ -152,7 +152,7 @@ class eZTemplateFileResource
     /*!
      \return \c true if a compiled template can be generated for this request.
     */
-    function canCompileTemplate( &$tpl, &$resourceData, &$extraParameters )
+    function canCompileTemplate( $tpl, &$resourceData, &$extraParameters )
     {
         return eZTemplateCompiler::isCompilationEnabled();
     }
@@ -182,7 +182,7 @@ class eZTemplateFileResource
      Loads the template file if it exists, also sets the modification timestamp.
      Returns true if the file exists.
     */
-    function handleResource( &$tpl, &$resourceData, $method, &$extraParameters )
+    function handleResource( $tpl, &$resourceData, $method, &$extraParameters )
     {
         return $this->handleResourceData( $tpl, $this, $resourceData, $method, $extraParameters );
     }
@@ -194,7 +194,7 @@ class eZTemplateFileResource
      It will load the template file and handle any charsets conversion if necessary.
      It will also handle tree node caching if one is found.
     */
-    function handleResourceData( &$tpl, &$handler, &$resourceData, $method, &$extraParameters )
+    function handleResourceData( $tpl, $handler, &$resourceData, $method, &$extraParameters )
     {
         // &$templateRoot, &$text, &$tstamp, $uri, $resourceName, &$path, &$keyData
         $templateRoot =& $resourceData['root-node'];
@@ -217,7 +217,7 @@ class eZTemplateFileResource
         if ( !$tpl->isCachingAllowed() )
             $canCache = false;
         $keyData = 'file:' . $path;
-        if ( $method == EZ_RESOURCE_FETCH )
+        if ( $method == eZTemplate::RESOURCE_FETCH )
         {
             if ( $canCache )
             {
@@ -237,7 +237,7 @@ class eZTemplateFileResource
             {
                 $text = file_get_contents( $path );
                 $text = preg_replace( "/\n|\r\n|\r/", "\n", $text );
-                $tplINI =& $tpl->ini();
+                $tplINI = $tpl->ini();
                 $charset = $tplINI->variable( 'CharsetSettings', 'DefaultTemplateCharset' );
                 $locales = array();
                 $pos = strpos( $text, "\n" );
@@ -291,7 +291,7 @@ class eZTemplateFileResource
 
                 if ( eZTemplate::isDebugEnabled() )
                     eZDebug::writeNotice( "$path, $charset" );
-                $codec =& eZTextCodec::instance( $charset, false, false );
+                $codec = eZTextCodec::instance( $charset, false, false );
                 if ( $codec )
                 {
                     eZDebug::accumulatorStart( 'template_resource_conversion', 'template_total', 'String conversion in template resource' );
@@ -301,18 +301,18 @@ class eZTemplateFileResource
                 $result = true;
             }
         }
-        else if ( $method == EZ_RESOURCE_QUERY )
+        else if ( $method == eZTemplate::RESOURCE_QUERY )
             $result = true;
         return $result;
     }
 
     /// \privatesection
     /// The name of the resource
-    var $Name;
+    public $Name;
     /// True if the data served from this resource is static, ie it can be cached properly
-    var $ServesStaticData;
+    public $ServesStaticData;
     /// The cache for templates
-    var $TemplateCache;
+    public $TemplateCache;
 }
 
 ?>

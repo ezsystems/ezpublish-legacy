@@ -26,12 +26,12 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezpreferences.php' );
-include_once( 'kernel/classes/ezinformationcollection.php' );
+require_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezpreferences.php' );
+//include_once( 'kernel/classes/ezinformationcollection.php' );
 
-$http =& eZHTTPTool::instance();
-$module =& $Params['Module'];
+$http = eZHTTPTool::instance();
+$module = $Params['Module'];
 $offset = $Params['Offset'];
 
 if( !is_numeric( $offset ) )
@@ -52,13 +52,13 @@ if( $module->isCurrentAction( 'RemoveObjectCollection' ) && $http->hasPostVariab
         $collections += eZInformationCollection::fetchCollectionCountForObject( $objectID );
     }
 
-    $tpl =& templateInit();
+    $tpl = templateInit();
     $tpl->setVariable( 'module', $module );
     $tpl->setVariable( 'collections', $collections );
     $tpl->setVariable( 'remove_type', 'objects' );
 
     $Result = array();
-    $Result['content'] =& $tpl->fetch( 'design:infocollector/confirmremoval.tpl' );
+    $Result['content'] = $tpl->fetch( 'design:infocollector/confirmremoval.tpl' );
     $Result['path'] = array( array( 'url' => false,
                                     'text' => ezi18n( 'kernel/infocollector', 'Collected information' ) ) );
     return;
@@ -68,7 +68,7 @@ if( $module->isCurrentAction( 'RemoveObjectCollection' ) && $http->hasPostVariab
 if( $module->isCurrentAction( 'ConfirmRemoval' ) )
 {
 
-    $objectIDArray =& $http->sessionVariable( 'ObjectIDArray' );
+    $objectIDArray = $http->sessionVariable( 'ObjectIDArray' );
 
     if( is_array( $objectIDArray) )
     {
@@ -95,7 +95,7 @@ else
 }
 
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 $objects = $db->arrayQuery( 'SELECT DISTINCT ezinfocollection.contentobject_id,
                                     ezcontentobject.name,
                                     ezcontentobject_tree.main_node_id,
@@ -157,7 +157,7 @@ foreach ( array_keys( $objects ) as $i )
 
 $viewParameters = array( 'offset' => $offset );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable( 'module', $module );
 $tpl->setVariable( 'limit', $limit );
 $tpl->setVariable( 'view_parameters', $viewParameters );
@@ -165,7 +165,7 @@ $tpl->setVariable( 'object_array', $objects );
 $tpl->setVariable( 'object_count', $numberOfInfoCollectorObjects );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:infocollector/overview.tpl' );
+$Result['content'] = $tpl->fetch( 'design:infocollector/overview.tpl' );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/infocollector', 'Collected information' ) ) );
 

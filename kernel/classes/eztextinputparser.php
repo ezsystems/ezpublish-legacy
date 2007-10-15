@@ -33,11 +33,11 @@
 
 */
 
-define( "EZ_INPUT_CHUNK_TEXT", 1 );
-define( "EZ_INPUT_CHUNK_TAG", 2 );
-
 class eZTextInputParser
 {
+    const CHUNK_TEXT = 1;
+    const CHUNK_TAG = 2;
+
     /*!
 
     */
@@ -50,10 +50,11 @@ class eZTextInputParser
      Will parse the input text and create an array of the input.
      False will be returned if the parsing
     */
-    function &parseText( &$text )
+    function parseText( $text )
     {
         $returnArray = array();
         $pos = 0;
+
 
         while ( $pos < strlen( $text ) )
         {
@@ -70,7 +71,7 @@ class eZTextInputParser
 
                     if ( strlen( trim( $textChunk ) ) != 0 )
                     {
-                        $returnArray[] = array( "Type" => EZ_INPUT_CHUNK_TEXT,
+                        $returnArray[] = array( "Type" => eZTextInputParser::CHUNK_TEXT,
                                                 "Text" => $textChunk,
                                                 "TagName" => "#text" );
 
@@ -88,7 +89,7 @@ class eZTextInputParser
                     print( "endtag" );
                 }
 
-                $returnArray[] = array( "Type" => EZ_INPUT_CHUNK_TAG,
+                $returnArray[] = array( "Type" => eZTextInputParser::CHUNK_TAG,
                                         "TagName" => $tagName,
                                         "Text" => $tagChunk,
                                         );
@@ -105,7 +106,7 @@ class eZTextInputParser
 
                 if ( strlen( trim( $textChunk ) ) != 0 )
                 {
-                    $returnArray[] = array( "Type" => EZ_INPUT_CHUNK_TEXT,
+                    $returnArray[] = array( "Type" => eZTextInputParser::CHUNK_TEXT,
                                             "Text" => $textChunk,
                                             "TagName" => "#text"  );
                 }
@@ -113,22 +114,19 @@ class eZTextInputParser
                 $pos = strlen( $text );
             }
 
-
-//            eZDebug::writeNotice( $pos, "Current pos" );
-
             $pos++;
         }
         return $returnArray;
     }
 
     /// Contains the tags found
-    var $TagStack = array();
+    public $TagStack = array();
 
     /// The tags that don't break the text
-    var $InlineTags = array( "emphasize", "strong" );
+    public $InlineTags = array( "emphasize", "strong" );
 
     /// The tags that break the paragraph
-    var $BreakTags = array();
+    public $BreakTags = array();
 }
 
 ?>

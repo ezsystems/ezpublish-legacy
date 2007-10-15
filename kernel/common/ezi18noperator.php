@@ -39,8 +39,8 @@ function make_seed() {
     return (float) $sec + ((float) $usec * 100000);
 }
 
-include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
-include_once( 'lib/ezi18n/classes/eztstranslator.php' );
+//include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
+//include_once( 'lib/ezi18n/classes/eztstranslator.php' );
 
 class eZi18nOperator
 {
@@ -56,7 +56,7 @@ class eZi18nOperator
     /*!
      Returns the operators in this class.
     */
-    function &operatorList()
+    function operatorList()
     {
         return $this->Operators;
     }
@@ -108,8 +108,8 @@ class eZi18nOperator
                                             'element-transformation-func' => 'i18nTrans') );
     }
 
-    function i18nTrans( $operatorName, &$node, &$tpl, &$resourceData,
-                        &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function i18nTrans( $operatorName, &$node, $tpl, &$resourceData,
+                        $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         // i18n( $input, $context, $comment, $arguments )
         // Check if if the three first parameters are constants, if not we cannot compile it
@@ -122,7 +122,7 @@ class eZi18nOperator
             }
         }
 
-        include_once( 'kernel/common/i18n.php' );
+        require_once( 'kernel/common/i18n.php' );
         $value = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
 
         $numParameters = count ( $parameters );
@@ -136,18 +136,18 @@ class eZi18nOperator
 
         $values = array();
 
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
         {
             $language = ezcurrentLanguage();
             if ( $language != "eng-GB" ) // eng-GB does not need translation
             {
                 $file = 'translation.ts';
-                $ini =& eZINI::instance();
+                $ini = eZINI::instance();
                 $useCache = $ini->variable( 'RegionalSettings', 'TranslationCache' ) != 'disabled';
                 eZTSTranslator::initialize( $context, $language, $file, $useCache );
 
-                $man =& eZTranslatorManager::instance();
+                $man = eZTranslatorManager::instance();
                 $newValue = $man->translate( $context, $value, $comment );
                 if ( $newValue )
                 {
@@ -175,9 +175,9 @@ class eZi18nOperator
     /*!
      \reimp
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value, &$namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$value, $namedParameters )
     {
-        include_once( 'kernel/common/i18n.php' );
+        require_once( 'kernel/common/i18n.php' );
         switch ( $operatorName )
         {
             case $this->Name:
@@ -199,9 +199,9 @@ class eZi18nOperator
     }
 
     /// \privatesection
-    var $Operators;
-    var $Name;
-    var $ExtensionName;
+    public $Operators;
+    public $Name;
+    public $ExtensionName;
 };
 
 ?>

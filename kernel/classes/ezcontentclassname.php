@@ -33,7 +33,7 @@ class eZContentClassName extends eZPersistentObject
         eZPersistentObject::eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'contentclass_id' => array( 'name' => 'ContentClassID',
                                                                      'datatype' => 'integer',
@@ -70,7 +70,7 @@ class eZContentClassName extends eZPersistentObject
                       'name' => 'ezcontentclass_name' );
     }
 
-    function fetchList( $classID, $classVersion, $languageLocaleList, $asObjects = true, $fields = null, $sorts = null, $limit = null )
+    static function fetchList( $classID, $classVersion, $languageLocaleList, $asObjects = true, $fields = null, $sorts = null, $limit = null )
     {
         $conds = array();
 
@@ -95,7 +95,7 @@ class eZContentClassName extends eZPersistentObject
      \param languageTable Name of the table containing the attribute with bitmaps, e.g. ezcontentclass
      \param languageListTable Name of the table containing the attribute with language id.
     */
-    function sqlFilter( $languageTable = 'ezcontentclass' )
+    static function sqlFilter( $languageTable = 'ezcontentclass' )
     {
         $def = eZContentClassName::definition();
         $languageListTable = $def['name'];
@@ -112,7 +112,7 @@ class eZContentClassName extends eZPersistentObject
     /*!
      The same as 'sqlFilter' but adds symbol ',' to 'nameField' and 'from' parts
     */
-    function sqlAppendFilter( $languageTable = 'ezcontentclass' )
+    static function sqlAppendFilter( $languageTable = 'ezcontentclass' )
     {
         $def = eZContentClassName::definition();
         $languageListTable = $def['name'];
@@ -129,19 +129,17 @@ class eZContentClassName extends eZPersistentObject
     /*!
      The same as 'sqlFilter' but all fields are empty
     */
-    function sqlEmptyFilter()
+    static function sqlEmptyFilter()
     {
-        $sqlFilter = array( 'nameField' => '',
-                            'from' => '',
-                            'where' => '',
-                            'orderBy' => '' );
-
-        return $sqlFilter;
+        return array( 'nameField' => '',
+                      'from' => '',
+                      'where' => '',
+                      'orderBy' => '' );
     }
 
-    function remove( $contentClassID, $contentClassVersion )
+    static function removeClassName( $contentClassID, $contentClassVersion )
     {
-        $db =& eZDb::instance();
+        $db = eZDb::instance();
         $db->begin();
 
         $sql = "DELETE FROM ezcontentclass_name WHERE contentclass_id = $contentClassID AND contentclass_version = $contentClassVersion";

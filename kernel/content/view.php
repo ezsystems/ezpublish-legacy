@@ -26,22 +26,22 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/ezcontentclass.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'kernel/classes/eznodeviewfunctions.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'kernel/classes/ezcontentclass.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/eznodeviewfunctions.php' );
 
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
-include_once( 'kernel/common/template.php' );
+require_once( 'kernel/common/template.php' );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $ViewMode = $Params['ViewMode'];
 $NodeID = $Params['NodeID'];
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $LanguageCode = $Params['Language'];
 $Offset = $Params['Offset'];
 $Year = $Params['Year'];
@@ -49,7 +49,7 @@ $Month = $Params['Month'];
 $Day = $Params['Day'];
 
 // Check if we should switch access mode (http/https) for this node.
-include_once( 'kernel/classes/ezsslzone.php' );
+//include_once( 'kernel/classes/ezsslzone.php' );
 eZSSLZone::checkNodeID( 'content', 'view', $NodeID );
 
 if ( isset( $Params['UserParameters'] ) )
@@ -76,7 +76,7 @@ if ( $NodeID < 2 )
 if ( !is_numeric( $Offset ) )
     $Offset = 0;
 
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
 
 if ( isset( $Params['ViewCache'] ) )
@@ -98,7 +98,7 @@ if ( isset( $Params['AttributeValidation'] ) )
     $validation = $Params['AttributeValidation'];
 
 // Check if read operations should be used
-$workflowINI =& eZINI::instance( 'workflow.ini' );
+$workflowINI = eZINI::instance( 'workflow.ini' );
 $operationList = $workflowINI->variableArray( 'OperationSettings', 'AvailableOperations' );
 $operationList = array_unique( array_merge( $operationList, $workflowINI->variable( 'OperationSettings', 'AvailableOperationList' ) ) );
 if ( in_array( 'content_read', $operationList ) )
@@ -110,8 +110,8 @@ else
     $useTriggers = false;
 }
 
-$res =& eZTemplateDesignResource::instance();
-$keys =& $res->keys();
+$res = eZTemplateDesignResource::instance();
+$keys = $res->keys();
 if ( isset( $keys['layout'] ) )
     $layout = $keys['layout'];
 else
@@ -124,30 +124,30 @@ $viewParameters = array( 'offset' => $Offset,
                          'namefilter' => false );
 $viewParameters = array_merge( $viewParameters, $UserParameters );
 
-$user =& eZUser::currentUser();
+$user = eZUser::currentUser();
 
 eZDebugSetting::addTimingPoint( 'kernel-content-view', 'Operation start' );
 
 
-include_once( 'lib/ezutils/classes/ezmoduleoperationdefinition.php' );
+//include_once( 'lib/ezutils/classes/ezmoduleoperationdefinition.php' );
 
 $operationResult = array();
 
 if ( $useTriggers == true )
 {
-    include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
-    include_once( 'kernel/classes/eztrigger.php' );
+    //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+    //include_once( 'kernel/classes/eztrigger.php' );
 
     $operationResult = eZOperationHandler::execute( 'content', 'read', array( 'node_id' => $NodeID,
                                                                               'user_id' => $user->id(),
                                                                               'language_code' => $LanguageCode ), null, $useTriggers );
 }
 
-if ( ( array_key_exists(  'status', $operationResult ) && $operationResult['status'] != EZ_MODULE_OPERATION_CONTINUE ) )
+if ( ( array_key_exists(  'status', $operationResult ) && $operationResult['status'] != eZModuleOperationInfo::STATUS_CONTINUE ) )
 {
     switch( $operationResult['status'] )
     {
-        case EZ_MODULE_OPERATION_HALTED:
+        case eZModuleOperationInfo::STATUS_HALTED:
         {
             if ( isset( $operationResult['redirect_url'] ) )
             {
@@ -156,25 +156,31 @@ if ( ( array_key_exists(  'status', $operationResult ) && $operationResult['stat
             }
             else if ( isset( $operationResult['result'] ) )
             {
-                $result =& $operationResult['result'];
+                $result = $operationResult['result'];
                 $resultContent = false;
                 if ( is_array( $result ) )
                 {
                     if ( isset( $result['content'] ) )
+                    {
                         $resultContent = $result['content'];
+                    }
                     if ( isset( $result['path'] ) )
+                    {
                         $Result['path'] = $result['path'];
+                    }
                 }
                 else
-                    $resultContent =& $result;
-                $Result['content'] =& $resultContent;
+                {
+                    $resultContent = $result;
+                }
+                $Result['content'] = $resultContent;
             }
-        }break;
-        case EZ_MODULE_OPERATION_CANCELED:
+        } break;
+        case eZModuleOperationInfo::STATUS_CANCELLED:
         {
             $Result = array();
             $Result['content'] = "Content view cancelled<br/>";
-        }
+        } break;
     }
     return $Result;
 }
@@ -186,7 +192,7 @@ else
                         "validation" );
     if ( $viewCacheEnabled )
     {
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
 
         $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $user, $NodeID, $Offset, $layout, $LanguageCode, $ViewMode, $viewParameters );
 

@@ -1,4 +1,4 @@
-#!/usr/bin/env php
+#!/usr/bin/env php
 <?php
 //
 // Created on: <19-Jul-2004 10:51:17 amos>
@@ -27,20 +27,22 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ Publish Content Cache Handler\n" .
-                                                         "Allows for easy clearing of Content Caches\n" .
-                                                         "\n" .
-                                                         "Clearing node for content and users tree\n" .
-                                                         "./bin/ezcontentcache.php --clear-node=/,5\n" .
-                                                         "Clearing subtree for content tree\n" .
-                                                         "./bin/ezcontentcache.php --clear-subtree=/" ),
-                                      'use-session' => false,
-                                      'use-modules' => false,
-                                      'use-extensions' => true ) );
+require 'autoload.php';
+
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'description' => ( "eZ Publish Content Cache Handler\n" .
+                                                        "Allows for easy clearing of Content Caches\n" .
+                                                        "\n" .
+                                                        "Clearing node for content and users tree\n" .
+                                                        "./bin/ezcontentcache.php --clear-node=/,5\n" .
+                                                        "Clearing subtree for content tree\n" .
+                                                        "./bin/ezcontentcache.php --clear-subtree=/" ),
+                                     'use-session' => false,
+                                     'use-modules' => false,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 
@@ -52,12 +54,12 @@ $options = $script->getOptions( "[clear-node:][clear-subtree:]",
                                        'clear-subtree' => ( "Clears all content caches related to a given node subtree,\n" .
                                                             "subtree expects a nice url as input.\n" .
                                                             "Separate multiple subtrees with a comma" ) ) );
-$sys =& eZSys::instance();
+$sys = eZSys::instance();
 
 $script->initialize();
 
-include_once( 'kernel/classes/ezcontentcachemanager.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezcontentcachemanager.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
 // Max nodes to fetch at a time
 $limit = 50;

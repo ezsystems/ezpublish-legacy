@@ -26,16 +26,16 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$http =& eZHTTPTool::instance();
-$module =& $Params["Module"];
-$parameters =& $Params["Parameters"];
+$http = eZHTTPTool::instance();
+$module = $Params['Module'];
+$parameters = $Params["Parameters"];
 
-include_once( "kernel/common/template.php" );
-include_once( "kernel/common/eztemplatedesignresource.php" );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/common/eztemplatedesignresource.php" );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
-$ini =& eZINI::instance();
-$tpl =& templateInit();
+$ini = eZINI::instance();
+$tpl = templateInit();
 
 $template = "";
 
@@ -70,7 +70,7 @@ if ( $module->isCurrentAction( 'NewOverride' ) )
     }
 
     $module->redirectTo( '/visual/templatecreate'. $template );
-    return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+    return eZModule::HOOK_STATUS_CANCEL_RUN;
 }
 
 if ( $module->isCurrentAction( 'UpdateOverride' ) )
@@ -139,7 +139,6 @@ if ( $module->isCurrentAction( 'RemoveOverride' ) )
             else
             {
                 $notRemoved[] = array( 'filename' => $fileName );
-                // eZDebug::writeError( "Could not remove override template, check permissions on $fileName", "Template override" );
             }
         }
         if ( $overrideINI->save( "siteaccess/$siteAccess/override.ini.append" ) == false )
@@ -148,7 +147,7 @@ if ( $module->isCurrentAction( 'RemoveOverride' ) )
         }
 
         // Expire content view cache
-        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearAllContentCache();
 
         // Clear override cache
@@ -174,14 +173,14 @@ $tpl->setVariable( 'current_siteaccess', $siteAccess );
 $tpl->setVariable( 'not_removed', $notRemoved );
 $tpl->setVariable( 'ini_not_saved', $overrideINISaveFailed );
 
-$siteINI =& eZINI::instance( 'site.ini' );
+$siteINI = eZINI::instance( 'site.ini' );
 if ( $siteINI->variable( 'BackwardCompatibilitySettings', 'UsingDesignAdmin34' ) == 'enabled' )
 {
     $tpl->setVariable( 'custom_match', $templateSettings['custom_match'] );
 }
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:visual/templateview.tpl" );
+$Result['content'] = $tpl->fetch( "design:visual/templateview.tpl" );
 $Result['path'] = array( array( 'url' => "/visual/templatelist/",
                                 'text' => ezi18n( 'kernel/design', 'Template list' ) ),
                          array( 'url' => false,

@@ -27,17 +27,18 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
+require 'autoload.php';
 
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ publish Cache Handler\n" .
-                                                         "Allows for easy clearing of Cache files\n" .
-                                                         "\n" .
-                                                         "./bin/php/ezcache.php --clear-tag=content" ),
-                                      'use-session' => false,
-                                      'use-modules' => false,
-                                      'use-extensions' => true ) );
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'description' => ( "eZ publish Cache Handler\n" .
+                                                        "Allows for easy clearing of Cache files\n" .
+                                                        "\n" .
+                                                        "./bin/php/ezcache.php --clear-tag=content" ),
+                                     'use-session' => false,
+                                     'use-modules' => false,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 
@@ -52,7 +53,7 @@ $options = $script->getOptions( "[clear-tag:][clear-id:][clear-all]" . /*[purge-
                                        'expiry' => 'Date or relative time which specifies when cache items are to be considered expired, e.g \'now\', \'-2 days\' or \'last monday\'',
                                        'list-tags' => 'Lists all available tags',
                                        'list-ids' => 'Lists all available ids' ) );
-$sys =& eZSys::instance();
+$sys = eZSys::instance();
 
 $script->initialize();
 
@@ -84,7 +85,7 @@ if ( $options['purge'] )
 }
 $noAction = true;
 
-include_once( 'kernel/classes/ezcache.php' );
+//include_once( 'kernel/classes/ezcache.php' );
 
 $cacheList = eZCache::fetchList();
 
@@ -157,7 +158,7 @@ if ( $options['list-ids'] )
     $script->shutdown( 0 );
 }
 
-function clearItems( $cacheEntries, &$cli, $name )
+function clearItems( $cacheEntries, $cli, $name )
 {
     if ( $name )
         $name = $cli->stylize( 'emphasize', $name );
@@ -174,7 +175,7 @@ function clearItems( $cacheEntries, &$cli, $name )
     $cli->output();
 }
 
-function purgeItems( $cacheEntries, &$cli, $name )
+function purgeItems( $cacheEntries, $cli, $name )
 {
     global $purgeSleep, $purgeMax, $purgeExpiry;
     if ( $name )

@@ -27,35 +27,36 @@
 //
 
 
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/ezcontentclass.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'kernel/classes/ezcontentclass.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
-include_once( 'kernel/common/template.php' );
+require_once( 'kernel/common/template.php' );
+require_once( 'access.php' );
 
 $Offset = $Params['Offset'];
 $viewParameters = array( 'offset' => $Offset );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 // Will be sent from the content/edit page and should be kept
 // incase the user decides to continue editing.
 $FromLanguage = $Params['FromLanguage'];
 
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 
-$contentObject =& eZContentObject::fetch( $ObjectID );
+$contentObject = eZContentObject::fetch( $ObjectID );
 if ( $contentObject === null )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
-$versionObject =& $contentObject->version( $EditVersion );
+$versionObject = $contentObject->version( $EditVersion );
 if ( !$versionObject )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
 if ( !$versionObject->attribute( 'can_read' ) )
 {
-    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 }
 
 if ( !$LanguageCode )
@@ -63,7 +64,7 @@ if ( !$LanguageCode )
     $LanguageCode = $versionObject->initialLanguageCode();
 }
 
-$user =& eZUser::currentUser();
+$user = eZUser::currentUser();
 
 $isCreator = ( $versionObject->attribute( 'creator_id' ) == $user->id() );
 
@@ -76,14 +77,14 @@ $sectionID = false;
 $placementID = false;
 $assignment = false;
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 if ( $http->hasPostVariable( 'ContentObjectLanguageCode' ) )
     $LanguageCode = $http->postVariable( 'ContentObjectLanguageCode' );
 if ( $http->hasPostVariable( 'ContentObjectPlacementID' ) )
     $placementID = $http->postVariable( 'ContentObjectPlacementID' );
 
-$nodeAssignments =& $versionObject->attribute( 'node_assignments' );
+$nodeAssignments = $versionObject->attribute( 'node_assignments' );
 $virtualNodeID = null;
 if ( is_array( $nodeAssignments ) and
      count( $nodeAssignments ) == 1 )
@@ -97,9 +98,8 @@ if ( is_array( $nodeAssignments ) and
 }
 else if ( !$placementID && count( $nodeAssignments ) )
 {
-    foreach ( array_keys( $nodeAssignments ) as $key )
+    foreach ( $nodeAssignments as $nodeAssignment )
     {
-        $nodeAssignment =& $nodeAssignments[$key];
         if ( $nodeAssignment->attribute( 'is_main' ) )
         {
             $placementID = $nodeAssignment->attribute( 'id' );
@@ -110,7 +110,7 @@ else if ( !$placementID && count( $nodeAssignments ) )
                     WHERE contentobject_id=$ObjectID
                     AND parent_node_id=$parentNodeID";
 
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $nodeListArray = $db->arrayQuery( $query );
             $virtualNodeID = $nodeListArray[0]['node_id'];
             break;
@@ -119,17 +119,17 @@ else if ( !$placementID && count( $nodeAssignments ) )
 }
 $parentNodeID = false;
 $mainAssignment = false;
-foreach ( array_keys( $nodeAssignments ) as $key )
+foreach ( $nodeAssignments as $nodeAssignment )
 {
-    if ( $nodeAssignments[$key]->attribute( 'is_main' ) == 1 )
+    if ( $nodeAssignment->attribute( 'is_main' ) == 1 )
     {
-        $mainAssignment =& $nodeAssignments[$key];
+        $mainAssignment = $nodeAssignment;
         $parentNodeID = $mainAssignment->attribute( 'parent_node' );
         break;
     }
 }
 
-$contentINI =& eZINI::instance( 'content.ini' );
+$contentINI = eZINI::instance( 'content.ini' );
 
 if ( $Module->isCurrentAction( 'ChangeSettings' ) )
 {
@@ -149,10 +149,10 @@ if ( is_numeric( $placementID ) )
     $assignment = eZNodeAssignment::fetchByID( $placementID );
 if ( $assignment !== null )
 {
-    $node =& $assignment->getParentNode();
+    $node = $assignment->getParentNode();
     if ( $node !== null )
     {
-        $nodeObject =& $node->attribute( "object" );
+        $nodeObject = $node->attribute( "object" );
         $sectionID = $nodeObject->attribute( "section_id" );
     }
 }
@@ -169,18 +169,18 @@ if ( $versionAttributes === null or
     $versionAttributes = $versionObject->contentObjectAttributes( $LanguageCode );
 }
 
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 
 if ( $assignment )
 {
-    $parentNodeObject =& $assignment->attribute( 'parent_node_obj' );
+    $parentNodeObject = $assignment->attribute( 'parent_node_obj' );
 }
 
 $navigationPartIdentifier = false;
 if ( $sectionID !== false )
 {
     $designKeys[] = array( 'section', $sectionID ); // Section ID
-    include_once( 'kernel/classes/ezsection.php' );
+    //include_once( 'kernel/classes/ezsection.php' );
     eZSection::setGlobalID( $sectionID );
 
     $section = eZSection::fetch( $sectionID );
@@ -236,11 +236,11 @@ if ( $Params['SiteAccess'] )
 }
 else
 {
-    include_once( 'kernel/content/versionviewframe.php' );
+    include( 'kernel/content/versionviewframe.php' );
     return;
 }
 
-$contentINI =& eZINI::instance( 'content.ini' );
+$contentINI = eZINI::instance( 'content.ini' );
 if ( !$siteAccess )
 {
     if ( $contentINI->hasVariable( 'VersionView', 'DefaultPreviewDesign' ) )
@@ -273,7 +273,7 @@ eZContentLanguage::expireCache();
 
 $Module->setTitle( 'View ' . $class->attribute( 'name' ) . ' - ' . $contentObject->attribute( 'name' ) );
 
-$res =& eZTemplateDesignResource::instance();
+$res = eZTemplateDesignResource::instance();
 $res->setDesignSetting( $ini->variable( 'DesignSettings', 'SiteDesign' ), 'site' );
 $res->setOverrideAccess( $siteAccess );
 
@@ -286,19 +286,19 @@ $designKeys = array( array( 'object', $contentObject->attribute( 'id' ) ), // Ob
 if ( $assignment )
 {
     $designKeys[] = array( 'parent_node', $assignment->attribute( 'parent_node' ) );
-    if ( get_class( $parentNodeObject ) == 'ezcontentobjecttreenode' )
+    if ( $parentNodeObject instanceof eZContentObjectTreeNode )
         $designKeys[] = array( 'depth', $parentNodeObject->attribute( 'depth' ) + 1 );
 }
 
 
 $res->setKeys( $designKeys );
 
-include_once( 'kernel/classes/eznodeviewfunctions.php' );
+//include_once( 'kernel/classes/eznodeviewfunctions.php' );
 
 unset( $contentObject );
-$contentObject =& $node->attribute( 'object' ); // do not remove &
+$contentObject = $node->attribute( 'object' ); // do not remove &
 
-$Result =& eZNodeviewfunctions::generateNodeView( $tpl, $node, $contentObject, $LanguageCode, 'full', 0,
+$Result = eZNodeviewfunctions::generateNodeView( $tpl, $node, $contentObject, $LanguageCode, 'full', 0,
                                                  false, false, false );
 
 $Result['requested_uri_string'] = $requestedURIString;

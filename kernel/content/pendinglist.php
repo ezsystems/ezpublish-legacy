@@ -31,24 +31,24 @@
 /*! \file pendinglist.php
 */
 
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezcontentobjectversion.php' );
+require_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezcontentobjectversion.php' );
 
-$Module =& $Params['Module'];
-$http =& eZHTTPTool::instance();
+$Module = $Params['Module'];
+$http = eZHTTPTool::instance();
 
 $Offset = $Params['Offset'];
 $viewParameters = array( 'offset' => $Offset );
 
-$user =& eZUser::currentUser();
+$user = eZUser::currentUser();
 $userID = $user->id();
 
 
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable('view_parameters', $viewParameters );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:content/pendinglist.tpl' );
+$Result['content'] = $tpl->fetch( 'design:content/pendinglist.tpl' );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'My pending list' ),
                                 'url' => false ) );
 ?>

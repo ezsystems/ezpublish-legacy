@@ -59,7 +59,7 @@ class eZTemplateControlOperator
     /*!
      Returns the operators in this class.
     */
-    function &operatorList()
+    function operatorList()
     {
         return $this->Operators;
     }
@@ -85,8 +85,8 @@ class eZTemplateControlOperator
     /*!
      \reimp
     */
-    function condTransform( $operatorName, &$node, &$tpl, &$resourceData,
-                            &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function condTransform( $operatorName, &$node, $tpl, &$resourceData,
+                            $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         switch( $operatorName )
         {
@@ -215,7 +215,7 @@ class eZTemplateControlOperator
     /*!
      Examines the input value and outputs a boolean value. See class documentation for more information.
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value, &$namedParameters,
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$value, $namedParameters,
                      $placement )
     {
         switch ( $operatorName )
@@ -228,10 +228,10 @@ class eZTemplateControlOperator
                 $conditionSuccess = false;
                 for ( $i = 0; $i < $clauseCount; ++$i )
                 {
-                    $condition =& $tpl->elementValue( $operatorParameters[$i*2], $rootNamespace, $currentNamespace, $placement );
+                    $condition = $tpl->elementValue( $operatorParameters[$i*2], $rootNamespace, $currentNamespace, $placement );
                     if ( $condition )
                     {
-                        $body =& $tpl->elementValue( $operatorParameters[$i*2 + 1], $rootNamespace, $currentNamespace, $placement );
+                        $body = $tpl->elementValue( $operatorParameters[$i*2 + 1], $rootNamespace, $currentNamespace, $placement );
                         $conditionSuccess = true;
                         $value = $body;
                         break;
@@ -240,7 +240,7 @@ class eZTemplateControlOperator
                 if ( !$conditionSuccess and
                      $clauseMod > 0 )
                 {
-                    $condition =& $tpl->elementValue( $operatorParameters[count($operatorParameters) - 1], $rootNamespace, $currentNamespace, $placement );
+                    $condition = $tpl->elementValue( $operatorParameters[count($operatorParameters) - 1], $rootNamespace, $currentNamespace, $placement );
                     if ( $condition )
                     {
                         $conditionSuccess = true;
@@ -254,7 +254,7 @@ class eZTemplateControlOperator
                 {
                     for ( $i = 0; $i < count( $operatorParameters ); ++$i )
                     {
-                        $operand =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement, true );
+                        $operand = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement, true );
                         if ( $operand !== null )
                         {
                             $value = $operand;
@@ -268,7 +268,7 @@ class eZTemplateControlOperator
     }
 
     /// The array of operators
-    var $Operators;
+    public $Operators;
 };
 
 ?>

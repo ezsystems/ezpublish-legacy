@@ -30,12 +30,12 @@
 
 /*! \file updateviewcount.php
 */
-include_once( "lib/ezutils/classes/ezsys.php" );
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "lib/ezutils/classes/ezini.php" );
-include_once( "kernel/classes/ezviewcounter.php" );
-include_once( "kernel/classes/ezcontentobjecttreenode.php" );
-include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+//include_once( "lib/ezutils/classes/ezsys.php" );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( "lib/ezutils/classes/ezini.php" );
+//include_once( "kernel/classes/ezviewcounter.php" );
+//include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+//include_once( 'lib/ezlocale/classes/ezdatetime.php' );
 
 set_time_limit( 0 );
 
@@ -45,7 +45,7 @@ if ( !$isQuiet )
 
 $dt = new eZDateTime();
 $year = $dt->year();
-$month = date( 'M', mktime() );
+$month = date( 'M', time() );
 $day = $dt->day();
 $hour = $dt->hour();
 $minute = $dt->minute();
@@ -61,20 +61,20 @@ $contentArray = array();
 
 $nonContentArray = array();
 
-$ini =& eZINI::instance();
-$logFileIni =& eZINI::instance( 'logfile.ini' );
+$ini = eZINI::instance();
+$logFileIni = eZINI::instance( 'logfile.ini' );
 $fileDir = $logFileIni->variable( 'AccessLogFileSettings', 'StorageDir' );
 $fileName = $logFileIni->variable( 'AccessLogFileSettings', 'LogFileName' );
 
 $prefixes = $logFileIni->variable( 'AccessLogFileSettings', 'SitePrefix' );
 
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 $logDir = $ini->variable( 'FileSettings', 'LogDir' );
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 $db->setIsSQLOutputEnabled( false );
 
-$sys =& eZSys::instance();
+$sys = eZSys::instance();
 $varDir = $sys->varDirectory();
 $updateViewLog = "updateview.log";
 

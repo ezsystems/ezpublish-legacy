@@ -44,13 +44,13 @@
 
 */
 
-include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-include_once( 'lib/ezutils/classes/ezini.php' );
-
-define( 'EZ_MAIL_REGEXP', '([0-9a-zA-Z]([-+.\w]*[0-9a-zA-Z_])*@(((([0-9a-zA-Z])+([-\w]*[0-9a-zA-Z])*\.)+[a-zA-Z]{2,9})|(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)))' );
+//include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+//include_once( 'lib/ezutils/classes/ezini.php' );
 
 class eZMail
 {
+    const REGEXP = '([0-9a-zA-Z]([-+.\w]*[0-9a-zA-Z_])*@(((([0-9a-zA-Z])+([-\w]*[0-9a-zA-Z])*\.)+[a-zA-Z]{2,9})|(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)))';
+
     /*!
       Constructs a new eZMail object.
     */
@@ -68,7 +68,7 @@ class eZMail
         $this->MessageID = false;
 
         // Sets some default values
-        include_once( 'lib/version.php' );
+        //include_once( 'lib/version.php' );
         $version = eZPublishSDK::version();
 
         $this->MIMEVersion = '1.0';
@@ -79,35 +79,10 @@ class eZMail
                                     'boundary' => false );
         $this->UserAgent = "eZ Publish, Version $version";
 
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
 
         if ( $ini->hasVariable( 'MailSettings', 'ContentType' ) )
             $this->setContentType( $ini->variable( 'MailSettings', 'ContentType' ) );
-
-        if (! defined( 'EZ_MAIL_LINE_SEPARATOR' ) )
-        {
-            $ini =& eZINI::instance( 'site.ini' );
-            $ending = $ini->variable( 'MailSettings', 'HeaderLineEnding' );
-            if ( $ending == 'auto' )
-            {
-                $sys =& eZSys::instance();
-                // For windows we use \r\n which is the endline defined in RFC 2045
-                if ( $sys->osType() == 'win32' )
-                {
-                    $separator = "\r\n";
-                }
-                else // for linux/unix/mac we use \n only due to some mail transfer agents destroying
-                     // emails containing \r\n
-                {
-                    $separator = "\n";
-                }
-            }
-            else
-            {
-                $separator = urldecode( $ending );
-            }
-            define( 'EZ_MAIL_LINE_SEPARATOR', $separator );
-        }
     }
 
     /*!
@@ -518,7 +493,7 @@ class eZMail
     */
     function setBody( $newBody )
     {
-        $newBody = preg_replace( "/\r\n|\r|\n/", EZ_MAIL_LINE_SEPARATOR, $newBody );
+        $newBody = preg_replace( "/\r\n|\r|\n/", eZMail::lineSeparator(), $newBody );
         $this->BodyText = $newBody;
     }
 
@@ -526,7 +501,7 @@ class eZMail
       \static
       Splits a list of email addresses into an array where each entry is an email address.
     */
-    function &splitList( $emails )
+    static function &splitList( $emails )
     {
         $emails = preg_split( "/[,;]/", $emails );
         return $emails;
@@ -538,15 +513,15 @@ class eZMail
 
       Returns true if successful, false if not.
     */
-    function validate( $address )
+    static function validate( $address )
     {
-        $pos = ( ereg( '^' . EZ_MAIL_REGEXP . '$', $address) );
+        $pos = ( ereg( '^' . eZMail::REGEXP . '$', $address) );
         return $pos;
     }
 
-    function extractEmail( $text, &$email, &$name )
+    static function extractEmail( $text, &$email, &$name )
     {
-        if ( preg_match( "/([^<]+)<" . EZ_MAIL_REGEXP . ">/", $text, $matches ) )
+        if ( preg_match( "/([^<]+)<" . eZMail::REGEXP . ">/", $text, $matches ) )
         {
             $email = $matches[2];
             $name = $matches[1];
@@ -564,9 +539,9 @@ class eZMail
 
       Returns the first valid e-mail in address, returns false if no e-mail addresses found
     */
-    function stripEmail( $address )
+    static function stripEmail( $address )
     {
-        $res = ereg( EZ_MAIL_REGEXP, $address, $email );
+        $res = ereg( eZMail::REGEXP, $address, $email );
         if ( $res )
             return $email[0];
         else
@@ -577,7 +552,7 @@ class eZMail
      \static
      \returns a text which does not contain newlines, newlines are converted to spaces.
     */
-    function blankNewlines( $text )
+    static function blankNewlines( $text )
     {
         return preg_replace( "/\r\n|\r|\n/", ' ', $text );
     }
@@ -587,7 +562,7 @@ class eZMail
      \returns the header content as a simple string, will deflate arrays.
      \sa blankNewLines
     */
-    function contentString( $content )
+    static function contentString( $content )
     {
         if ( is_array( $content ) )
             return implode( '; ', $content );
@@ -596,7 +571,6 @@ class eZMail
     }
 
     /*!
-     \static
      Composes a text out of the email and name and returns it.
 
      Example: John Doe <john@doe.com> or just john@doe.com
@@ -618,7 +592,6 @@ class eZMail
     }
 
     /*!
-     \static
      Composes an email text out of all items in \a $items and returns it.
      All items are comma separated.
     */
@@ -802,7 +775,7 @@ class eZMail
         foreach ( $headers as $header )
         {
             if ( $headerCount++ > 0 )
-                $text .= EZ_MAIL_LINE_SEPARATOR;
+                $text .= eZMail::lineSeparator();
             $text .= $this->blankNewlines( $header['name'] ) . ': ';
             $contentText = $this->blankNewlines( $this->contentString( $header['content'] ) );
             $text .= $contentText;
@@ -831,12 +804,12 @@ class eZMail
     {
         if ( !$this->TextCodec )
         {
-             $this->TextCodec =& eZTextCodec::instance( $this->contentCharset(), $this->outputCharset() );
+             $this->TextCodec = eZTextCodec::instance( $this->contentCharset(), $this->outputCharset() );
         }
 
         if ( function_exists( "mb_encode_mimeheader" ) )
         {
-            $encoded = mb_encode_mimeheader( $str, $this->TextCodec->InputCharsetCode, "B", EZ_MAIL_LINE_SEPARATOR );
+            $encoded = mb_encode_mimeheader( $str, $this->TextCodec->InputCharsetCode, "B", eZMail::lineSeparator() );
         }
         else
         {
@@ -852,7 +825,7 @@ class eZMail
 
             $encoded = preg_replace( '/^(.*)$/m', " =?".$this->TextCodec->InputCharsetCode."?$encoding?\\1?=", $encoded );
 
-            $encoded = trim( str_replace( "\n", EZ_MAIL_LINE_SEPARATOR, $encoded ) );
+            $encoded = trim( str_replace( "\n", eZMail::lineSeparator(), $encoded ) );
         }
 
         return $encoded;
@@ -872,7 +845,7 @@ class eZMail
         $outputCharset = $this->outputCharset();
         if ( !$this->TextCodec )
         {
-            $this->TextCodec =& eZTextCodec::instance( $charset, $outputCharset );
+            $this->TextCodec = eZTextCodec::instance( $charset, $outputCharset );
         }
         $newText = $this->TextCodec->convertString( $text );
         return $newText;
@@ -884,7 +857,7 @@ class eZMail
     */
     function isAllowedCharset( $charset )
     {
-        include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
+        //include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
         $realCharset = eZCharsetInfo::realCharsetCode( $charset );
         $charsets = $this->allowedCharsets();
         foreach ( $charsets as $charsetName )
@@ -901,7 +874,7 @@ class eZMail
     */
     function allowedCharsets()
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $charsets = $ini->variable( 'MailSettings', 'AllowedCharsets' );
         return $charsets;
     }
@@ -922,9 +895,35 @@ class eZMail
     */
     function outputCharset()
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $outputCharset = $ini->variable( 'MailSettings', 'OutputCharset' );
         return $outputCharset;
+    }
+
+    static function lineSeparator()
+    {
+        $ini = eZINI::instance( 'site.ini' );
+        $ending = $ini->variable( 'MailSettings', 'HeaderLineEnding' );
+        if ( $ending == 'auto' )
+        {
+            $sys = eZSys::instance();
+            // For windows we use \r\n which is the endline defined in RFC 2045
+            if ( $sys->osType() == 'win32' )
+            {
+                $separator = "\r\n";
+            }
+            else // for linux/unix/mac we use \n only due to some mail transfer agents destroying
+                 // emails containing \r\n
+            {
+                $separator = "\n";
+            }
+        }
+        else
+        {
+            $separator = urldecode( $ending );
+        }
+
+        return $separator;
     }
 
 /*
@@ -932,18 +931,18 @@ class eZMail
 */
 
     /// \privatesection
-    var $ReceiverElements;
-    var $From;
-    var $CcElements;
-    var $BccElements;
-    var $ContentType;
-    var $UserAgent;
-    var $ReplyTo;
-    var $Subject;
-    var $BodyText;
-    var $ExtraHeaders;
-    var $TextCodec;
-    var $MessageID;
+    public $ReceiverElements;
+    public $From;
+    public $CcElements;
+    public $BccElements;
+    public $ContentType;
+    public $UserAgent;
+    public $ReplyTo;
+    public $Subject;
+    public $BodyText;
+    public $ExtraHeaders;
+    public $TextCodec;
+    public $MessageID;
 }
 
 ?>

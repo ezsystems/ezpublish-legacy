@@ -26,15 +26,15 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/classes/ezwishlist.php" );
+//include_once( "kernel/classes/ezwishlist.php" );
 
-$http =& eZHTTPTool::instance();
-$module =& $Params["Module"];
+$http = eZHTTPTool::instance();
+$module = $Params['Module'];
 $offset = $Params['Offset'];
 
-$user =& eZUser::currentUser();
+$user = eZUser::currentUser();
 if ( !$user->isLoggedIn() )
-    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
 if ( $http->hasPostVariable( "ActionAddToWishList" ) )
 {
@@ -54,13 +54,13 @@ if ( $http->hasPostVariable( "ActionAddToWishList" ) )
     //
     //    if ( $dataType->isA() == "ezprice" )
     //    {
-    //        $content =& $attribute->content();
+    //        $content = $attribute->content();
     //        $price += $content->attribute( 'price' );
-    //        $priceObj =& $content;
+    //        $priceObj = $content;
     //    }
     //}
 
-    $wishList =& eZWishList::currentWishList();
+    $wishList = eZWishList::currentWishList();
 
     /* Find out, if the item with the same options is not already in the wishlist: */
     $itemID = false;
@@ -76,7 +76,7 @@ if ( $http->hasPostVariable( "ActionAddToWishList" ) )
             else
                 $count++;
         }
-        $collectionItems =& $collection->itemList( false );
+        $collectionItems = $collection->itemList( false );
         foreach ( $collectionItems as $item )
         {
             /* For all items in the wishlist which have the same object_id: */
@@ -120,7 +120,7 @@ if ( $http->hasPostVariable( "ActionAddToWishList" ) )
         //$item->setAttribute( "price", $price );
 
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
         $item->store();
@@ -192,9 +192,9 @@ if ( $http->hasPostVariable( "RemoveProductItemButton" ) )
 {
     $itemList = $http->postVariable( "RemoveProductItemDeleteList" );
 
-    $wishList =& eZWishList::currentWishList();
+    $wishList = eZWishList::currentWishList();
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach ( $itemList as $item )
     {
@@ -211,7 +211,7 @@ if ( $http->hasPostVariable( "StoreChangesButton" ) )
     $collection = eZProductCollection::fetch( $wishList->attribute( 'productcollection_id' ) );
     if ( $collection and $http->hasPostVariable( "ProductItemIDList" ) )
     {
-        $collectionItems =& $collection->itemList();
+        $collectionItems = $collection->itemList();
         $productItemIDlist = $http->postVariable( "ProductItemIDList" );
         $productItemCountList = $http->hasPostVariable( "ProductItemCountList" ) ? $http->postVariable( "ProductItemCountList" ) : false;
         if ( $productItemCountList == false )
@@ -226,7 +226,7 @@ if ( $http->hasPostVariable( "StoreChangesButton" ) )
             if ( isset( $productItemCountList[$key] ) )
                 $productItemsCount[$productItemID] = $productItemCountList[$key];
         }
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         foreach ( $collectionItems as $item )
         {
@@ -242,11 +242,11 @@ if ( $http->hasPostVariable( "StoreChangesButton" ) )
         return;
     }
 }
-include_once( "kernel/common/template.php" );
+require_once( "kernel/common/template.php" );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
-$wishList =& eZWishList::currentWishList();
+$wishList = eZWishList::currentWishList();
 
 $tpl->setVariable( "wish_list", $wishList );
 
@@ -254,7 +254,7 @@ $viewParameters = array( 'offset' => $offset );
 $tpl->setVariable( 'view_parameters', $viewParameters );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:shop/wishlist.tpl" );
+$Result['content'] = $tpl->fetch( "design:shop/wishlist.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/shop', 'Wishlist' ) ) );
 

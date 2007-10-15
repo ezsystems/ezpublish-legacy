@@ -152,7 +152,7 @@ class eZFileHandler
      \return true if this handler can be used.
      \note The default implementation is to return \c true for all handlers.
     */
-    function isAvailable()
+    static function isAvailable()
     {
         return true;
     }
@@ -164,7 +164,7 @@ class eZFileHandler
      \param $symbolicLink if \c true then the files will be made as symbolic links, otherwise as hard links.
      \return \c true if sucessful or \c false if the copy failed.
     */
-    function linkCopy( $sourceFilename, $destinationFilename, $symbolicLink = true )
+    static function linkCopy( $sourceFilename, $destinationFilename, $symbolicLink = true )
     {
         if ( in_array( eZSys::osType(),
                        array( 'unix', 'linux', 'mac' ) ) )
@@ -190,7 +190,7 @@ class eZFileHandler
      It will first try to rename the file and if that does not work copy the file and unlink.
      \return \c true if sucessful or \c false if the copy failed.
     */
-    function symlink( $sourceFilename, $destinationFilename )
+    static function symlink( $sourceFilename, $destinationFilename )
     {
         if ( !file_exists( $sourceFilename ) and
              !is_link( $sourceFilename ) )
@@ -263,7 +263,7 @@ class eZFileHandler
      It will first try to rename the file and if that does not work copy the file and unlink.
      \return \c true if sucessful or \c false if the copy failed.
     */
-    function link( $sourceFilename, $destinationFilename )
+    static function link( $sourceFilename, $destinationFilename )
     {
         if ( !file_exists( $sourceFilename ) and
              !is_link( $sourceFilename ) )
@@ -312,7 +312,7 @@ class eZFileHandler
      It will first try to rename the file and if that does not work copy the file and unlink.
      \return \c true if sucessful or \c false if the copy failed.
     */
-    function move( $sourceFilename, $destinationFilename )
+    static function move( $sourceFilename, $destinationFilename )
     {
         // VS-DBFILE : TODO
 
@@ -360,7 +360,7 @@ class eZFileHandler
         {
             $isLink = true;
         }
-        include_once( 'lib/ezfile/classes/ezfile.php' );
+        //include_once( 'lib/ezfile/classes/ezfile.php' );
         if ( !$isLink and
              eZFile::rename( $sourceFilename, $destinationFilename ) )
         {
@@ -386,7 +386,7 @@ class eZFileHandler
      Copies the file \a $sourceFilename to \a $destinationFilename.
      \return \c true if sucessful or \c false if the copy failed.
     */
-    function copy( $sourceFilename, $destinationFilename )
+    static function copy( $sourceFilename, $destinationFilename )
     {
         if ( is_dir( $sourceFilename ) )
         {
@@ -601,7 +601,7 @@ class eZFileHandler
     /*!
      Tries to unlink the file from the file system.
     */
-    function unlink( $filename = false )
+    static function unlink( $filename = false )
     {
         if ( !$filename )
         {
@@ -824,7 +824,7 @@ class eZFileHandler
      Does the actual file unlinking.
      \sa unlink
     */
-    function doUnlink( $filename )
+    static function doUnlink( $filename )
     {
         return @unlink( $filename );
     }
@@ -834,7 +834,7 @@ class eZFileHandler
      Does the actual file exists checking.
      \sa exists
     */
-    function doExists( $filename )
+    static function doExists( $filename )
     {
         return file_exists( $filename );
     }
@@ -844,7 +844,7 @@ class eZFileHandler
      Does the actual directory checking.
      \sa isDirectory
     */
-    function doIsDirectory( $filename )
+    static function doIsDirectory( $filename )
     {
         return @is_dir( $filename );
     }
@@ -854,7 +854,7 @@ class eZFileHandler
      Does the actual executable checking.
      \sa isExecutable
     */
-    function doIsExecutable( $filename )
+    static function doIsExecutable( $filename )
     {
         return @is_executable( $filename );
     }
@@ -864,7 +864,7 @@ class eZFileHandler
      Does the actual file checking.
      \sa isFile
     */
-    function doIsFile( $filename )
+    static function doIsFile( $filename )
     {
         return @is_file( $filename );
     }
@@ -874,7 +874,7 @@ class eZFileHandler
      Does the actual link checking.
      \sa isLink
     */
-    function doIsLink( $filename )
+    static function doIsLink( $filename )
     {
         return @is_link( $filename );
     }
@@ -884,7 +884,7 @@ class eZFileHandler
      Does the actual readable checking.
      \sa isReadable
     */
-    function doIsReadable( $filename )
+    static function doIsReadable( $filename )
     {
         return @is_readable( $filename );
     }
@@ -894,7 +894,7 @@ class eZFileHandler
      Does the actual writeable checking.
      \sa isWriteable
     */
-    function doIsWriteable( $filename )
+    static function doIsWriteable( $filename )
     {
         return @is_writable( $filename );
     }
@@ -904,7 +904,7 @@ class eZFileHandler
      Does the actual writeable checking.
      \sa isWriteable
     */
-    function doStatistics( $filename )
+    static function doStatistics( $filename )
     {
         return @stat( $filename );
     }
@@ -1003,9 +1003,9 @@ class eZFileHandler
      Does the actual file renaming.
      \sa rename
     */
-    function doRename( $destinationFilename, $sourceFilename )
+    static function doRename( $destinationFilename, $sourceFilename )
     {
-        include_once( 'lib/ezfile/classes/ezfile.php' );
+        //include_once( 'lib/ezfile/classes/ezfile.php' );
         return eZFile::rename( $sourceFilename, $destinationFilename );
     }
 
@@ -1045,9 +1045,9 @@ class eZFileHandler
      Creates a copy of the current handler and returns a reference to the copy.
      \note The default does a simple copy of \c $this, this method must be reimplemented for specific handlers.
     */
-    function &duplicate()
+    function duplicate()
     {
-        $copy = $this;
+        $copy = clone $this;
         return $copy;
     }
 
@@ -1056,10 +1056,10 @@ class eZFileHandler
              The parameters \a $filename, \a $mode and \a $binaryFile is passed to the handler.
      \return \c false if the handler could not be created.
     */
-    function &instance( $identifier, $filename = false, $mode = false, $binaryFile = true )
+    static function instance( $identifier, $filename = false, $mode = false, $binaryFile = true )
     {
-        include_once( 'lib/ezutils/classes/ezini.php' );
-        $ini =& eZINI::instance( 'file.ini' );
+        //include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini = eZINI::instance( 'file.ini' );
         $handlers = $ini->variable( 'FileSettings', 'Handlers' );
         $instance = false;
         if ( !$identifier )
@@ -1087,11 +1087,11 @@ class eZFileHandler
     }
 
     /// \privatesection
-    var $Name;
-    var $FileName;
-    var $Mode;
-    var $IsBinary;
-    var $IsOpen;
+    public $Name;
+    public $FileName;
+    public $Mode;
+    public $IsBinary;
+    public $IsOpen;
 }
 
 ?>

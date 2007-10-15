@@ -26,14 +26,14 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "lib/ezutils/classes/ezhttptool.php" );
-include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-include_once( "lib/ezutils/classes/ezmail.php" );
-include_once( "kernel/classes/ezcontentclassattribute.php" );
-include_once( "kernel/classes/ezcontentclass.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
+//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+//include_once( "lib/ezutils/classes/ezmail.php" );
+//include_once( "kernel/classes/ezcontentclassattribute.php" );
+//include_once( "kernel/classes/ezcontentclass.php" );
 
-$http =& eZHTTPTool::instance();
-$Module =& $Params["Module"];
+$http = eZHTTPTool::instance();
+$Module = $Params['Module'];
 
 if ( isset( $Params['UserParameters'] ) )
 {
@@ -49,24 +49,24 @@ $viewParameters = array_merge( $viewParameters, $UserParameters );
 $Params['TemplateName'] = "design:user/register.tpl";
 $EditVersion = 1;
 
-include_once( "kernel/common/template.php" );
-$tpl =& templateInit();
+require_once( "kernel/common/template.php" );
+$tpl = templateInit();
 $tpl->setVariable( 'view_parameters', $viewParameters );
 
-$Params['TemplateObject'] =& $tpl;
+$Params['TemplateObject'] = $tpl;
 
 // $http->removeSessionVariable( "RegisterUserID" );
 
 // Create new user object if user is not logged in
 if ( !$http->hasSessionVariable( "RegisterUserID" ) and !$http->hasPostVariable( "UserID" ) )
 {
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
     $errMsg = '';
     $checkErrNodeId = false;
 
     $defaultUserPlacement = (int)$ini->variable( "UserSettings", "DefaultUserPlacement" );
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $sql = "SELECT count(*) as count FROM ezcontentobject_tree WHERE node_id = $defaultUserPlacement";
     $rows = $db->arrayQuery( $sql );
     $count = $rows[0]['count'];
@@ -113,30 +113,30 @@ $Module->addHook( 'post_publish', 'registerSearchObject', 1, false );
 
 if ( !function_exists( 'checkContentActions' ) )
 {
-    function checkContentActions( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage )
+    function checkContentActions( $module, $class, $object, $version, $contentObjectAttributes, $EditVersion, $EditLanguage )
     {
         if ( $module->isCurrentAction( 'Cancel' ) )
         {
-            include_once( 'kernel/classes/ezredirectmanager.php' );
+            //include_once( 'kernel/classes/ezredirectmanager.php' );
             eZRedirectManager::redirectTo( $module, '/' );
 
             $EditVersion = (int)$EditVersion;
             $objectID = $object->attribute( 'id' );
             $versionCount= $object->getVersionCount();
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
             $db->query( "DELETE FROM ezcontentobject_link
                          WHERE from_contentobject_id=$objectID AND from_contentobject_version=$EditVersion" );
             $db->query( "DELETE FROM eznode_assignment
                          WHERE contentobject_id=$objectID AND contentobject_version=$EditVersion" );
-            $version->remove();
+            $version->removeThis();
             foreach ( $contentObjectAttributes as $contentObjectAttribute )
             {
                 $objectAttributeID = $contentObjectAttribute->attribute( 'id' );
                 $version = $contentObjectAttribute->attribute( 'version' );
                 if ( $version == $EditVersion )
                 {
-                    $contentObjectAttribute->remove( $objectAttributeID, $version );
+                    $contentObjectAttribute->removeThis( $objectAttributeID, $version );
                 }
             }
             if ( $versionCount == 1 )
@@ -144,17 +144,17 @@ if ( !function_exists( 'checkContentActions' ) )
                 $object->purge();
             }
             $db->commit();
-            $http =& eZHTTPTool::instance();
+            $http = eZHTTPTool::instance();
             $http->removeSessionVariable( "RegisterUserID" );
-            return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+            return eZModule::HOOK_STATUS_CANCEL_RUN;
         }
 
         if ( $module->isCurrentAction( 'Publish' ) )
         {
-            $http =& eZHTTPTool::instance();
+            $http = eZHTTPTool::instance();
 
-            $user =& eZUser::currentUser();
-            include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+            $user = eZUser::currentUser();
+            //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
             $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
                                                                                          'version' => $version->attribute( 'version') ) );
 
@@ -170,11 +170,11 @@ if ( !function_exists( 'checkContentActions' ) )
             if ( !$mail->validate( $receiver ) )
             {
             }
-            include_once( "kernel/common/template.php" );
-            include_once( 'lib/ezutils/classes/ezmail.php' );
-            include_once( 'lib/ezutils/classes/ezmailtransport.php' );
-            $ini =& eZINI::instance();
-            $tpl =& templateInit();
+            require_once( "kernel/common/template.php" );
+            //include_once( 'lib/ezutils/classes/ezmail.php' );
+            //include_once( 'lib/ezutils/classes/ezmailtransport.php' );
+            $ini = eZINI::instance();
+            $tpl = templateInit();
             $tpl->setVariable( 'user', $user );
             $tpl->setVariable( 'object', $object );
             $hostname = eZSys::hostname();
@@ -197,15 +197,15 @@ if ( !function_exists( 'checkContentActions' ) )
                 eZUser::logoutCurrent();
 
                 // Create enable account hash and send it to the newly registered user
-                $hash = md5( mktime( ) . $user->attribute( 'contentobject_id' ) );
-                include_once( "kernel/classes/datatypes/ezuser/ezuseraccountkey.php" );
-                $accountKey = eZUserAccountKey::createNew( $user->attribute( 'contentobject_id' ), $hash, mktime() );
+                $hash = md5( time() . $user->attribute( 'contentobject_id' ) );
+                //include_once( "kernel/classes/datatypes/ezuser/ezuseraccountkey.php" );
+                $accountKey = eZUserAccountKey::createNew( $user->attribute( 'contentobject_id' ), $hash, time() );
                 $accountKey->store();
 
                 $tpl->setVariable( 'hash', $hash );
             }
 
-            $templateResult =& $tpl->fetch( 'design:user/registrationinfo.tpl' );
+            $templateResult = $tpl->fetch( 'design:user/registrationinfo.tpl' );
             $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
             if ( !$emailSender )
                 $emailSender = $ini->variable( 'MailSettings', 'AdminEmail' );
@@ -230,7 +230,7 @@ if ( !function_exists( 'checkContentActions' ) )
                         $tpl->setVariable( 'user', $user );
                         $tpl->setVariable( 'object', $object );
                         $tpl->setVariable( 'hostname', $hostname );
-                        $templateResult =& $tpl->fetch( 'design:user/registrationfeedback.tpl' );
+                        $templateResult = $tpl->fetch( 'design:user/registrationfeedback.tpl' );
 
                         $feedbackReceiver = $ini->variable( 'UserSettings', 'RegistrationEmail' );
                         if ( !$feedbackReceiver )
@@ -238,9 +238,9 @@ if ( !function_exists( 'checkContentActions' ) )
 
                         $subject = ezi18n( 'kernel/user/register', 'New user registered' );
                         if ( $tpl->hasVariable( 'subject' ) )
-                            $subject =& $tpl->variable( 'subject' );
+                            $subject = $tpl->variable( 'subject' );
                         if ( $tpl->hasVariable( 'email_receiver' ) )
-                            $feedbackReceiver =& $tpl->variable( 'email_receiver' );
+                            $feedbackReceiver = $tpl->variable( 'email_receiver' );
 
                         $mail->setReceiver( $feedbackReceiver );
                         $mail->setSubject( $subject );
@@ -260,10 +260,10 @@ if ( !function_exists( 'checkContentActions' ) )
             $http->removeSessionVariable( "RegisterUserID" );
 
             // check for redirectionvariable
-            if ( eZHTTPTool::hasSessionVariable( 'RedirectAfterUserRegister' ) )
+            if ( $http->hasSessionVariable( 'RedirectAfterUserRegister' ) )
             {
-                $module->redirectTo( eZHTTPTool::sessionVariable( 'RedirectAfterUserRegister' ) );
-                eZHTTPTool::removeSessionVariable( 'RedirectAfterUserRegister' );
+                $module->redirectTo( $http->sessionVariable( 'RedirectAfterUserRegister' ) );
+                $http->removeSessionVariable( 'RedirectAfterUserRegister' );
             }
             else if ( $http->hasPostVariable( 'RedirectAfterUserRegister' ) )
             {
@@ -285,11 +285,13 @@ if ( $includeResult != 1 )
 {
     return $includeResult;
 }
-$ini =& eZINI::instance();
-//eZDebug::writeDebug( $includeResult );
+$ini = eZINI::instance();
 
 if ( $ini->variable( 'SiteSettings', 'LoginPage' ) == 'custom' )
+{
     $Result['pagelayout'] = 'loginpagelayout.tpl';
+}
+
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/user', 'User' ) ),
                          array( 'url' => false,

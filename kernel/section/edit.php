@@ -26,13 +26,13 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "lib/ezutils/classes/ezhttptool.php" );
-include_once( "kernel/classes/ezsection.php" );
-include_once( "kernel/common/template.php" );
+//include_once( "lib/ezutils/classes/ezhttptool.php" );
+//include_once( "kernel/classes/ezsection.php" );
+require_once( "kernel/common/template.php" );
 
-$http =& eZHTTPTool::instance();
-$SectionID =& $Params["SectionID"];
-$Module =& $Params["Module"];
+$http = eZHTTPTool::instance();
+$SectionID = $Params["SectionID"];
+$Module = $Params['Module'];
 
 if ( $SectionID == 0 )
 {
@@ -45,7 +45,7 @@ else
     $section = eZSection::fetch( $SectionID );
     if( is_null( $section ) )
     {
-        return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
     }
 }
 
@@ -60,7 +60,7 @@ if ( $http->hasPostVariable( "StoreButton" ) )
     if ( $http->hasPostVariable( 'Locale' ) )
         $section->setAttribute( 'locale', $http->postVariable( 'Locale' ) );
     $section->store();
-    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearContentCacheIfNeededBySectionID( $section->attribute( 'id' ) );
     $Module->redirectTo( $Module->functionURI( 'list' ) );
     return;
@@ -71,12 +71,12 @@ if ( $http->hasPostVariable( 'CancelButton' )  )
     $Module->redirectTo( $Module->functionURI( 'list' ) );
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( "section", $section );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:section/edit.tpl" );
+$Result['content'] = $tpl->fetch( "design:section/edit.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/section', 'Edit Section' ) ) );
 

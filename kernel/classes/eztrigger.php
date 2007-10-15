@@ -36,20 +36,19 @@
   \brief The class eZTrigger does
 
 */
-include_once( 'kernel/classes/ezworkflowprocess.php' );
-include_once( 'kernel/classes/ezworkflow.php' );
-
-define( "EZ_TRIGGER_STATUS_CRON_JOB", 0 );
-define( "EZ_TRIGGER_WORKFLOW_DONE", 1 );
-define( "EZ_TRIGGER_WORKFLOW_CANCELED", 2 );
-define( "EZ_TRIGGER_NO_CONNECTED_WORKFLOWS", 3 );
-define( "EZ_TRIGGER_FETCH_TEMPLATE", 4 );
-define( "EZ_TRIGGER_REDIRECT", 5 );
-define( "EZ_TRIGGER_WORKFLOW_RESET", 6 );
-
+//include_once( 'kernel/classes/ezworkflowprocess.php' );
+//include_once( 'kernel/classes/ezworkflow.php' );
 
 class eZTrigger extends eZPersistentObject
 {
+    const STATUS_CRON_JOB = 0;
+    const WORKFLOW_DONE = 1;
+    const WORKFLOW_CANCELLED = 2;
+    const NO_CONNECTED_WORKFLOWS = 3;
+    const FETCH_TEMPLATE = 4;
+    const REDIRECT = 5;
+    const WORKFLOW_RESET = 6;
+
     /*!
      Constructor
     */
@@ -58,7 +57,7 @@ class eZTrigger extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -99,7 +98,7 @@ class eZTrigger extends eZPersistentObject
 
      \return array containing allowed workflows
     */
-    function &fetchAllowedWorkflows()
+    function fetchAllowedWorkflows()
     {
         $connectionType = '*';
         if ( $this->attribute( 'connect_type') == 'b' )
@@ -116,14 +115,15 @@ class eZTrigger extends eZPersistentObject
                                          $connectionType );
     }
 
-    function fetch( $triggerID )
+    static function fetch( $triggerID )
     {
         return eZPersistentObject::fetchObject( eZTrigger::definition(),
                                                 null,
                                                 array( 'id' => $triggerID ),
                                                 true);
     }
-    function fetchList( $parameters = array(), $asObject = true )
+
+    static function fetchList( $parameters = array(), $asObject = true )
     {
         $filterArray = array();
         if ( array_key_exists('module', $parameters ) && $parameters[ 'module' ] != '*' )
@@ -155,7 +155,7 @@ class eZTrigger extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function runTrigger( $name, $moduleName, $function, $parameters, $keys = null )
+    static function runTrigger( $name, $moduleName, $function, $parameters, $keys = null )
     {
         $trigger = eZPersistentObject::fetchObject( eZTrigger::definition(),
                                                     null,
@@ -179,7 +179,7 @@ class eZTrigger extends eZPersistentObject
             if ( !isset( $parameters['user_id'] ) or
                  $parameters['user_id'] == 0 )
             {
-                $user =& eZUser::currentUser();
+                $user = eZUser::currentUser();
                 $parameters['user_id'] = $user->attribute( 'contentobject_id' );
             }
             $processKey = eZWorkflowProcess::createKey( $parameters, $keys );
@@ -196,39 +196,39 @@ class eZTrigger extends eZPersistentObject
 
                 switch( $existingWorkflowStatus )
                 {
-                    case EZ_WORKFLOW_STATUS_FAILED:
-                    case EZ_WORKFLOW_STATUS_CANCELLED:
-                    case EZ_WORKFLOW_STATUS_NONE:
-                    case EZ_WORKFLOW_STATUS_BUSY:
+                    case eZWorkflow::STATUS_FAILED:
+                    case eZWorkflow::STATUS_CANCELLED:
+                    case eZWorkflow::STATUS_NONE:
+                    case eZWorkflow::STATUS_BUSY:
                     {
-                        $existingWorkflowProcess->remove();
-                        return array( 'Status' => EZ_TRIGGER_WORKFLOW_CANCELED,
+                        $existingWorkflowProcess->removeThis();
+                        return array( 'Status' => eZTrigger::WORKFLOW_CANCELLED,
                                       'Result' => null );
                     } break;
-                    case EZ_WORKFLOW_STATUS_FETCH_TEMPLATE:
-                    case EZ_WORKFLOW_STATUS_REDIRECT:
-                    case EZ_WORKFLOW_STATUS_RESET:
+                    case eZWorkflow::STATUS_FETCH_TEMPLATE:
+                    case eZWorkflow::STATUS_REDIRECT:
+                    case eZWorkflow::STATUS_RESET:
                     {
                         return eZTrigger::runWorkflow( $existingWorkflowProcess );
-//                        return EZ_TRIGGER_FETCH_TEMPLATE;
+//                        return eZTrigger::FETCH_TEMPLATE;
                     } break;
-                    case EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON:
+                    case eZWorkflow::STATUS_DEFERRED_TO_CRON:
                     {
                         return eZTrigger::runWorkflow( $existingWorkflowProcess );
-/*                        return array( 'Status' => EZ_TRIGGER_STATUS_CRON_JOB,
+/*                        return array( 'Status' => eZTrigger::STATUS_CRON_JOB,
 
                                       'Result' => array( 'content' => 'Operation halted during execution.<br/>Refresh page to continue<br/><br/><b>Note: The halt is just a temporary test</b><br/>',
                                                          'path' => array( array( 'text' => 'Operation halt',
                                                                             'url' => false ) ) ) );
 */                  } break;
-                    case EZ_WORKFLOW_STATUS_DONE:
+                    case eZWorkflow::STATUS_DONE:
                     {
-                        $existingWorkflowProcess->remove();
-                        return array( 'Status' => EZ_TRIGGER_WORKFLOW_DONE,
+                        $existingWorkflowProcess->removeThis();
+                        return array( 'Status' => eZTrigger::WORKFLOW_DONE,
                                       'Result' => null );
                     }
                 }
-                return array( 'Status' => EZ_TRIGGER_WORKFLOW_CANCELED,
+                return array( 'Status' => eZTrigger::WORKFLOW_CANCELLED,
                               'Result' => null );
             }else
             {
@@ -245,7 +245,7 @@ class eZTrigger extends eZPersistentObject
         }
         else
         {
-            return array( 'Status' => EZ_TRIGGER_NO_CONNECTED_WORKFLOWS,
+            return array( 'Status' => eZTrigger::NO_CONNECTED_WORKFLOWS,
                           'Result' => null );
         }
     }
@@ -261,84 +261,84 @@ class eZTrigger extends eZPersistentObject
 
         $workflowStatus = $workflowProcess->run( $workflow, $workflowEvent, $eventLog );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $workflowProcess->store();
 
         switch ( $workflowStatus )
         {
-            case EZ_WORKFLOW_STATUS_FAILED:
-            case EZ_WORKFLOW_STATUS_CANCELLED:
-            case EZ_WORKFLOW_STATUS_NONE:
-            case EZ_WORKFLOW_STATUS_BUSY:
+            case eZWorkflow::STATUS_FAILED:
+            case eZWorkflow::STATUS_CANCELLED:
+            case eZWorkflow::STATUS_NONE:
+            case eZWorkflow::STATUS_BUSY:
             {
-                $workflowProcess->remove();
+                $workflowProcess->removeThis();
                 $db->commit();
-                return array( 'Status' => EZ_TRIGGER_WORKFLOW_CANCELED,
+                return array( 'Status' => eZTrigger::WORKFLOW_CANCELLED,
                               'Result' => null );
             } break;
-            case EZ_WORKFLOW_STATUS_FETCH_TEMPLATE:
+            case eZWorkflow::STATUS_FETCH_TEMPLATE:
             {
-                include_once( 'kernel/common/template.php' );
-                $tpl =& templateInit();
+                require_once( 'kernel/common/template.php' );
+                $tpl = templateInit();
                 $result = array();
                 foreach ( array_keys( $workflowProcess->Template['templateVars'] ) as $key )
                 {
                     $value =& $workflowProcess->Template['templateVars'][$key];
                     $tpl->setVariable( $key, $value );
                 }
-                $result['content'] =& $tpl->fetch( $workflowProcess->Template['templateName'] );
+                $result['content'] = $tpl->fetch( $workflowProcess->Template['templateName'] );
                 if ( isset( $workflowProcess->Template['path'] ) )
                     $result['path'] = $workflowProcess->Template['path'];
 
                     $db->commit();
-                return array( 'Status' => EZ_TRIGGER_FETCH_TEMPLATE,
+                return array( 'Status' => eZTrigger::FETCH_TEMPLATE,
                               'WorkflowProcess' => &$workflowProcess,
                               'Result' => $result );
             } break;
-            case EZ_WORKFLOW_STATUS_REDIRECT:
+            case eZWorkflow::STATUS_REDIRECT:
             {
 //                var_dump( $workflowProcess->RedirectUrl  );
                 $db->commit();
-                return array( 'Status' => EZ_TRIGGER_REDIRECT,
+                return array( 'Status' => eZTrigger::REDIRECT,
                               'WorkflowProcess' => &$workflowProcess,
                               'Result' => $workflowProcess->RedirectUrl );
 
             } break;
-            case EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON:
+            case eZWorkflow::STATUS_DEFERRED_TO_CRON:
             {
 
                 $db->commit();
-                return array( 'Status' => EZ_TRIGGER_STATUS_CRON_JOB,
+                return array( 'Status' => eZTrigger::STATUS_CRON_JOB,
                               'WorkflowProcess' => &$workflowProcess,
                               'Result' => array( 'content' => 'Deffered to cron. Operation halted during execution. <br/>Refresh page to continue<br/><br/><b>Note: The halt is just a temporary test</b><br/>',
                                                  'path' => array( array( 'text' => 'Operation halt',
                                                                          'url' => false ) ) ) );
 /*
-                return array( 'Status' => EZ_TRIGGER_STATUS_CRON_JOB,
+                return array( 'Status' => eZTrigger::STATUS_CRON_JOB,
                               'Result' => $workflowProcess->attribute( 'id') );
 */
             } break;
-            case EZ_WORKFLOW_STATUS_RESET:
+            case eZWorkflow::STATUS_RESET:
             {
                 $db->commit();
-                return array( 'Status' => EZ_TRIGGER_WORKFLOW_RESET,
+                return array( 'Status' => eZTrigger::WORKFLOW_RESET,
                               'WorkflowProcess' => &$workflowProcess,
                               'Result' => array( 'content' => 'Workflow was reset',
                                                  'path' => array( array( 'text' => 'Operation halt',
                                                                          'url' => false ) ) ) );
             } break;
-            case EZ_WORKFLOW_STATUS_DONE:
+            case eZWorkflow::STATUS_DONE:
             {
-                $workflowProcess->remove();
+                $workflowProcess->removeThis();
                 $db->commit();
-                return array( 'Status' => EZ_TRIGGER_WORKFLOW_DONE,
+                return array( 'Status' => eZTrigger::WORKFLOW_DONE,
                               'Result' => null );
             }
         }
 
         $db->commit();
-        return array( 'Status' => EZ_TRIGGER_WORKFLOW_CANCELED,
+        return array( 'Status' => eZTrigger::WORKFLOW_CANCELLED,
                       'Result' => null );
 
 
@@ -379,7 +379,7 @@ class eZTrigger extends eZPersistentObject
     */
     function removeTriggerForWorkflow( $workFlowID )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $workFlowID = (int)$workFlowID;
         $db->query( "DELETE FROM eztrigger WHERE workflow_id=$workFlowID" );
     }

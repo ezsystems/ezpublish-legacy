@@ -35,11 +35,11 @@
 
 */
 
-include_once( "lib/ezutils/classes/ezdebug.php" );
-include_once( "lib/ezxml/classes/ezxml.php" );
-include_once( "lib/ezsoap/classes/ezsoapparameter.php" );
-include_once( 'lib/ezsoap/classes/ezsoapcodec.php' );
-include_once( "lib/ezsoap/classes/ezsoapenvelope.php" );
+require_once( "lib/ezutils/classes/ezdebug.php" );
+//include_once( "lib/ezxml/classes/ezxml.php" );
+//include_once( "lib/ezsoap/classes/ezsoapparameter.php" );
+//include_once( 'lib/ezsoap/classes/ezsoapcodec.php' );
+//include_once( "lib/ezsoap/classes/ezsoapenvelope.php" );
 
 class eZSOAPRequest extends eZSOAPEnvelope
 {
@@ -90,7 +90,7 @@ class eZSOAPRequest extends eZSOAPEnvelope
     */
     function addBodyAttribute( $name, $value, $prefix = false )
     {
-        $this->BodyAttributes[] = eZDOMDocument::createAttributeNode( $name, $value, $prefix );
+        $this->BodyAttributes[( $prefix ? $prefix . ':' : '' ) . $name] = $value;
     }
 
     /*!
@@ -107,38 +107,33 @@ class eZSOAPRequest extends eZSOAPEnvelope
     */
     function payload()
     {
-        $doc = new eZDOMDocument();
-        $doc->setName( "eZSOAP message" );
+        $doc = new DOMDocument( "1.0" );
+        $doc->name = 'eZSOAP message';
 
-        $root = $doc->createElementNodeNS( EZ_SOAP_ENV, "Envelope" );
+        $root = $doc->createElementNS( eZSOAPEnvelope::ENV, eZSOAPEnvelope::ENV_PREFIX . ':Envelope' );
 
-        $root->appendAttribute( $doc->createAttributeNamespaceDefNode( EZ_SOAP_XSI_PREFIX, EZ_SOAP_SCHEMA_INSTANCE ) );
-        $root->appendAttribute( $doc->createAttributeNamespaceDefNode( EZ_SOAP_XSD_PREFIX, EZ_SOAP_SCHEMA_DATA ) );
-        $root->appendAttribute( $doc->createAttributeNamespaceDefNode( EZ_SOAP_ENC_PREFIX, EZ_SOAP_ENC ) );
-
-        $root->setPrefix( EZ_SOAP_ENV_PREFIX );
+        $root->setAttribute( 'xmlns:' . eZSOAPEnvelope::XSI_PREFIX, eZSOAPEnvelope::SCHEMA_INSTANCE );
+        $root->setAttribute( 'xmlns:' . eZSOAPEnvelope::XSD_PREFIX, eZSOAPEnvelope::SCHEMA_DATA );
+        $root->setAttribute( 'xmlns:' . eZSOAPEnvelope::ENC_PREFIX, eZSOAPEnvelope::ENC );
 
         // add the body
-        $body = $doc->createElementNode( "Body" );
-        $body->appendAttribute( $doc->createAttributeNamespaceDefNode( "req", $this->Namespace ) );
+        $body = $doc->createElement( eZSOAPEnvelope::ENV_PREFIX . ':Body' );
+        $body->setAttribute( 'xmlns:req', $this->Namespace );
 
-        foreach( $this->BodyAttributes as $attribute )
+        foreach( $this->BodyAttributes as $name => $value )
         {
-            $body->appendAttribute( $attribute );
+            $body->setAttribute( $name, $value );
         }
 
-        $body->setPrefix( EZ_SOAP_ENV_PREFIX );
         $root->appendChild( $body );
 
         // add the request
-        $request = $doc->createElementNode( $this->Name );
-        $request->setPrefix( "req" );
+        $request = $doc->createElement( 'req:' . $this->Name );
 
         // add the request parameters
         foreach ( $this->Parameters as $parameter )
         {
-            unset( $param );
-            $param = eZSOAPCodec::encodeValue( $parameter->name(), $parameter->value() );
+            $param = eZSOAPCodec::encodeValue( $doc, $parameter->name(), $parameter->value() );
 
             if ( $param == false )
                 eZDebug::writeError( "Error enconding data for payload", "eZSOAPRequest::payload()" );
@@ -147,21 +142,21 @@ class eZSOAPRequest extends eZSOAPEnvelope
 
         $body->appendChild( $request );
 
-        $doc->setRoot( $root );
-        return $doc->toString();
+        $doc->appendChild( $root );
+        return $doc->saveXML();
     }
 
     /// The request name
-    var $Name;
+    public $Name;
 
     /// The request target namespace
-    var $Namespace;
+    public $Namespace;
 
     /// Additional body element attributes.
-    var $BodyAttributes = array();
+    public $BodyAttributes = array();
 
     /// Contains the request parameters
-    var $Parameters = array();
+    public $Parameters = array();
 }
 
 ?>

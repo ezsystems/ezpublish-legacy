@@ -38,8 +38,8 @@
 
 */
 
-include_once( 'kernel/classes/ezpackagecreationhandler.php' );
-include_once( 'lib/ezfile/classes/ezdir.php' );
+//include_once( 'kernel/classes/ezpackagecreationhandler.php' );
+//include_once( 'lib/ezfile/classes/ezdir.php' );
 
 class eZExtensionPackageCreator extends eZPackageCreationHandler
 {
@@ -64,7 +64,7 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
                                          $steps );
     }
 
-    function finalize( &$package, &$http, &$persistentData )
+    function finalize( $package, $http, &$persistentData )
     {
         $this->createPackage( $package, $http, $persistentData, $cleanupFiles, false );
 
@@ -80,9 +80,9 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
 
         eZDir::recursiveList( $targetDir, '', $fileList );
 
-        $doc = new eZDOMDocument;
+        $doc = new DOMDocument();
 
-        $packageRoot =& $doc->createElement( 'extension' );
+        $packageRoot = $doc->createElement( 'extension' );
         $packageRoot->setAttribute( 'name', $persistentData['extensionname'] );
 
         foreach( $fileList as $file )
@@ -94,7 +94,6 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
                 $fileNode->setAttribute( 'path', $file['path'] );
 
             $fullPath = $targetDir . $file['path'] . '/' . $file['name'];
-            //$fileNode->setAttribute( 'full-path', $fullPath );
             $fileNode->setAttribute( 'md5sum', $package->md5sum( $fullPath ) );
 
             if ( $file['type'] == 'dir' )
@@ -121,7 +120,7 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
      \reimp
      \return \c 'import'
     */
-    function packageInstallType( &$package, &$persistentData )
+    function packageInstallType( $package, &$persistentData )
     {
         return 'install';
     }
@@ -130,7 +129,7 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
      \reimp
      Returns \c 'stable', site style packages are always stable.
     */
-    function packageInitialState( &$package, &$persistentData )
+    function packageInitialState( $package, &$persistentData )
     {
         return 'stable';
     }
@@ -138,16 +137,16 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
     /*!
      \return \c 'sitestyle'.
     */
-    function packageType( &$package, &$persistentData )
+    function packageType( $package, &$persistentData )
     {
         return 'extension';
     }
 
-    function initializeExtensionName( &$package, &$http, $step, &$persistentData, &$tpl )
+    function initializeExtensionName( $package, $http, $step, &$persistentData, $tpl )
     {
     }
 
-    function loadExtensionName( &$package, &$http, $step, &$persistentData, &$tpl )
+    function loadExtensionName( $package, $http, $step, &$persistentData, $tpl )
     {
         $siteINI = eZINI::instance();
         $extensionDir = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' );
@@ -155,7 +154,7 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
         $tpl->setVariable( 'extension_list', $extensionList );
     }
 
-    function validateExtensionName( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
+    function validateExtensionName( $package, $http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
         if ( !$http->hasPostVariable( 'PackageExtensionName' ) )
         {
@@ -166,7 +165,7 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
         return true;
     }
 
-    function commitExtensionName( &$package, &$http, $step, &$persistentData, &$tpl )
+    function commitExtensionName( $package, $http, $step, &$persistentData, $tpl )
     {
         $persistentData['extensionname'] = $http->postVariable( 'PackageExtensionName' );
     }
@@ -175,7 +174,7 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
      \reimp
      Fetches the selected content classes and generates a name, summary and description from the selection.
     */
-    function generatePackageInformation( &$packageInformation, &$package, &$http, $step, &$persistentData )
+    function generatePackageInformation( $packageInformation, $package, $http, $step, &$persistentData )
     {
         $extensionName = $persistentData['extensionname'];
 

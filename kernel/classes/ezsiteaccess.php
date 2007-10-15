@@ -37,7 +37,7 @@
 
 */
 
-include_once( 'lib/ezutils/classes/ezsys.php' );
+//include_once( 'lib/ezutils/classes/ezsys.php' );
 
 class eZSiteAccess
 {
@@ -50,9 +50,9 @@ class eZSiteAccess
 
     function siteAccessList()
     {
-        include_once( 'lib/ezutils/classes/ezsys.php' );
+        //include_once( 'lib/ezutils/classes/ezsys.php' );
 
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $siteAccessArray = $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
 
         $siteAccessList = array();
@@ -60,14 +60,14 @@ class eZSiteAccess
         foreach ( array_keys( $siteAccessArray ) as $key )
         {
             $siteAccessItem = array();
-            $siteAccessItem['name'] =& $siteAccessArray[$key];
+            $siteAccessItem['name'] = $siteAccessArray[$key];
             $siteAccessItem['id'] = eZSys::ezcrc32( $siteAccessArray[$key] );
             $siteAccessList[] = $siteAccessItem;
         }
         if ( $serversiteaccess = eZSys::serverVariable( $ini->variable( 'SiteAccessSettings', 'ServerVariableName' ), true ) and !in_array( $serversiteaccess, $siteAccessArray ) )
         {
             $siteAccessItem = array();
-            $siteAccessItem['name'] =& $serversiteaccess;
+            $siteAccessItem['name'] = $serversiteaccess;
             $siteAccessItem['id'] = eZSys::ezcrc32( $serversiteaccess );
             $siteAccessList[] = $siteAccessItem;
         }
@@ -77,10 +77,10 @@ class eZSiteAccess
     /*!
        Returns path to \a $siteAccess site access
     */
-    function findPathToSiteAccess( $siteAccess )
+    static function findPathToSiteAccess( $siteAccess )
     {
-        include_once( 'lib/ezutils/classes/ezini.php' );
-        $ini =& eZINI::instance();
+        //include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini = eZINI::instance();
         $siteAccessList = $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
         if ( !in_array( $siteAccess, $siteAccessList )  )
             return false;
@@ -89,7 +89,7 @@ class eZSiteAccess
         if ( file_exists( $currentPath ) )
             return $currentPath;
 
-        include_once( 'lib/ezutils/classes/ezextension.php' );
+        //include_once( 'lib/ezutils/classes/ezextension.php' );
         $activeExtensions = eZExtension::activeExtensions();
         $baseDir = eZExtension::baseDirectory();
         foreach ( $activeExtensions as $extension )

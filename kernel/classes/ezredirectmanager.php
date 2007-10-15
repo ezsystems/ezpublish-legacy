@@ -59,10 +59,10 @@ class eZRedirectManager
 
      \sa redirectTo()
     */
-    function redirectURI( &$module, $default, $view = true, $disallowed = false, $preferredURI = false )
+    static function redirectURI( &$module, $default, $view = true, $disallowed = false, $preferredURI = false )
     {
         $uri = false;
-        $http =& eZHTTPTool::instance();
+        $http = eZHTTPTool::instance();
 
         if ( $preferredURI ) // check if $preferredURI is a valid URI
             return $preferredURI;
@@ -134,7 +134,7 @@ class eZRedirectManager
      \note All URLs must start with a slash \c /
      \sa redirectURI()
     */
-    function redirectTo( &$module, $default, $view = true, $disallowed = false, $preferredURI = false )
+    static function redirectTo( &$module, $default, $view = true, $disallowed = false, $preferredURI = false )
     {
         $uri = eZRedirectManager::redirectURI( $module, $default, $view, $disallowed, $preferredURI );
         if ( $uri === false )

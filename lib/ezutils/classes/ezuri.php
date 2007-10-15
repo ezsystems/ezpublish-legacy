@@ -59,7 +59,7 @@ class eZURI
 
      More info on IRI here: http://www.w3.org/International/O-URL-and-ident.html
      */
-    function decodeIRI( $str )
+    static function decodeIRI( $str )
     {
         $str = urldecode( $str ); // Decode %xx entries, we now have a utf-8 string
         $codec = eZTextCodec::instance( 'utf-8' ); // Make sure string is converted from utf-8 to internal encoding
@@ -72,7 +72,7 @@ class eZURI
 
      More info on IRI here: http://www.w3.org/International/O-URL-and-ident.html
      */
-    function encodeIRI( $str )
+    static function encodeIRI( $str )
     {
         $codec = eZTextCodec::instance( false, 'utf-8' );
         $str = $codec->convertString( $str ); // Make sure the string is in utf-8
@@ -88,7 +88,7 @@ class eZURI
      \static
      Parse URL and encode/decode its path string.
      */
-    function codecURL( $url, $encode )
+    static function codecURL( $url, $encode )
     {
         // Parse URL and encode the path.
         $data = parse_url( $url );
@@ -142,7 +142,7 @@ class eZURI
      \static
      Encodes path string of URL in internal encoding to a new string which conforms to the IRI specification.
      */
-    function encodeURL( $url )
+    static function encodeURL( $url )
     {
         return eZURI::codecURL( $url, true );
     }
@@ -150,7 +150,7 @@ class eZURI
     /*!
      Decodes URL which has path string is in IRI format and returns the new URL with path in the internal encoding.
      */
-    function decodeURL( $url )
+    static function decodeURL( $url )
     {
         return eZURI::codecURL( $url, false );
     }
@@ -176,8 +176,8 @@ class eZURI
             $this->OriginalURI = $uri;
             $this->UserArray = array();
 
-            include_once( 'lib/ezutils/classes/ezini.php' );
-            $ini =& eZINI::instance( 'template.ini' );
+            //include_once( 'lib/ezutils/classes/ezini.php' );
+            $ini = eZINI::instance( 'template.ini' );
 
             if ( $ini->variable( 'ControlSettings', 'OldStyleUserVariables' ) == 'enabled' )
             {
@@ -233,8 +233,8 @@ class eZURI
             // Remake the URI without any user parameters
             $this->URI = implode( '/', $this->URIArray );
 
-            include_once( 'lib/ezutils/classes/ezini.php' );
-            $ini =& eZINI::instance( 'template.ini' );
+            //include_once( 'lib/ezutils/classes/ezini.php' );
+            $ini = eZINI::instance( 'template.ini' );
             if ( $ini->variable( 'ControlSettings', 'AllowUserVariables' ) == 'false' )
             {
                 $this->UserArray = array();
@@ -248,7 +248,7 @@ class eZURI
      \return the URI passed as to the object.
      \note the URI will not include the leading \c / if \a $withLeadingSlash is \c true.
     */
-    function &uriString( $withLeadingSlash = false )
+    function uriString( $withLeadingSlash = false )
     {
         $uri = $this->URI;
         if ( $withLeadingSlash )
@@ -260,7 +260,7 @@ class eZURI
      \return the URI passed to the object with user parameters (if any).
      \note the URI will not include the leading \c / if \a $withLeadingSlash is \c true.
     */
-    function &originalURIString( $withLeadingSlash = false )
+    function originalURIString( $withLeadingSlash = false )
     {
         $uri = $this->OriginalURI;
         if ( $withLeadingSlash )
@@ -280,7 +280,7 @@ class eZURI
      \return the element at $index.
      If $relative is true the index is relative to the current index().
     */
-    function &element( $index = 0, $relative = true )
+    function element( $index = 0, $relative = true )
     {
         $pos = $index;
         if ( $relative )
@@ -295,7 +295,7 @@ class eZURI
      \return all elements as a string, this is all elements after the current index.
      If $as_text is false the returned item is an array.
     */
-    function &elements( $as_text = true )
+    function elements( $as_text = true )
     {
         $elements = array_slice( $this->URIArray, $this->Index );
         if ( $as_text )
@@ -319,11 +319,11 @@ class eZURI
         {
             if ( $paramKey == 'namefilter' )
             {
-                $char =& $this->UserArray[$paramKey];
+                $char = $this->UserArray[$paramKey];
                 $char = urldecode( $char );
 
-                include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-                $codec =& eZTextCodec::instance( 'utf-8', false );
+                //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+                $codec = eZTextCodec::instance( 'utf-8', false );
                 if ( $codec )
                     $char = $codec->convertString( $char );
             }
@@ -385,7 +385,7 @@ class eZURI
     /*!
      \return the current index.
     */
-    function &index()
+    function index()
     {
         return $this->Index;
     }
@@ -394,7 +394,7 @@ class eZURI
      \return the base string or the base elements as an array if $as_text is true.
      \sa elements
     */
-    function &base( $as_text = true )
+    function base( $as_text = true )
     {
         $elements = array_slice( $this->URIArray, 0, $this->Index );
         if ( $as_text )
@@ -411,19 +411,25 @@ class eZURI
      A match is made if all elements of this object match the base elements of
      the $uri object, this means that $uri's base may be longer than this base but
      not shorter.
-     \note $uri must be a ezuri object
+     \note $uri must be a eZURI object
     */
-    function matchBase( &$uri )
+    function matchBase( $uri )
     {
-        if ( get_class( $uri ) != 'ezuri' )
+        if ( !( $uri instanceof eZURI ) )
+        {
             return false;
+        }
         if ( count( $this->URIArray ) == 0 or
              count( $uri->URIArray ) == 0 )
+        {
             return false;
+        }
         for ( $i = 0; $i < count( $this->URIArray ); ++$i )
         {
             if ( $this->URIArray[$i] != $uri->URIArray[$i] )
+            {
                 return false;
+            }
         }
         return true;
     }
@@ -452,59 +458,53 @@ class eZURI
     /*!
      \return the value for attribute $attr or null if it does not exist.
     */
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         switch ( $attr )
         {
             case 'element':
-                $retValue =& $this->element();
+                return $this->element();
                 break;
             case 'tail':
-                $retValue =& $this->elements();
+                return $this->elements();
                 break;
             case 'base':
-                $retValue =& $this->base();
+                return $this->base();
                 break;
             case 'index':
-                $retValue =& $this->index();
+                return $this->index();
                 break;
             case 'uri':
-                $retValue =& $this->uriString();
+                return $this->uriString();
                 break;
             case 'original_uri':
-                $retValue =& $this->originalURIString();
+                return $this->originalURIString();
                 break;
             default:
             {
                 eZDebug::writeError( "Attribute '$attr' does not exist", 'eZURI::attribute' );
-                $retValue = null;
+                return null;
             } break;
         }
-        return $retValue;
     }
 
     /*!
      \return the unique instance for the URI, if $uri is supplied it used as the global URI value.
     */
-    function &instance( $uri = false )
+    static function instance( $uri = false )
     {
-        $uri_obj =& $GLOBALS['eZURIInstance'];
-        if ( $uri )
+        if ( !isset( $GLOBALS['eZURIInstance'][$uri] ) )
         {
-            $uri_obj = new eZURI( $uri );
+            $GLOBALS['eZURIInstance'][$uri] = new eZURI( $uri );
         }
-        if ( get_class( $uri_obj ) != 'ezuri' )
-        {
-            $uri_obj = new eZURI( $uri );
-        }
-        return $uri_obj;
+        return $GLOBALS['eZURIInstance'][$uri];
     }
 
     /*!
      Implementation of an 'ezurl' template operator.
      Makes valid ez publish urls to use in links.
     */
-    function transformURI( &$href, $ignoreIndexDir = false, $serverURL = 'relative' )
+    static function transformURI( &$href, $ignoreIndexDir = false, $serverURL = 'relative' )
     {
         if ( preg_match( "#^[a-zA-Z0-9]+:#", $href ) || substr( $href, 0, 2 ) == '//' )
             return false;
@@ -521,8 +521,8 @@ class eZURI
             $href = '/' . $href;
         }
 
-        include_once( 'lib/ezutils/classes/ezsys.php' );
-        $sys =& eZSys::instance();
+        //include_once( 'lib/ezutils/classes/ezsys.php' );
+        $sys = eZSys::instance();
         $dir = !$ignoreIndexDir ? $sys->indexDir() : $sys->wwwDir();
         $serverURL = $serverURL === 'full' ? $sys->serverURL() : '' ;
         $href = $serverURL . $dir . $href;
@@ -540,13 +540,13 @@ class eZURI
     }
 
     /// The original URI string
-    var $URI;
+    public $URI;
     /// The URI array
-    var $URIArray;
+    public $URIArray;
     /// The current index
-    var $Index;
+    public $Index;
     /// User defined template variables
-    var $UserArray;
+    public $UserArray;
 };
 
 ?>

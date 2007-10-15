@@ -35,18 +35,18 @@
 
 */
 
-include_once( "kernel/classes/ezdatatype.php" );
-include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-include_once( "kernel/classes/datatypes/ezuser/ezusersetting.php" );
-include_once( "lib/ezutils/classes/ezmail.php" );
-
-define( "EZ_DATATYPESTRING_USER", "ezuser" );
+//include_once( "kernel/classes/ezdatatype.php" );
+//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+//include_once( "kernel/classes/datatypes/ezuser/ezusersetting.php" );
+//include_once( "lib/ezutils/classes/ezmail.php" );
 
 class eZUserType extends eZDataType
 {
+    const DATA_TYPE_STRING = "ezuser";
+
     function eZUserType( )
     {
-        $this->eZDataType( EZ_DATATYPESTRING_USER, ezi18n( 'kernel/classes/datatypes', "User account", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "User account", 'Datatype name' ),
                            array( 'translation_allowed' => false,
                                   'serialize_supported' => true ) );
     }
@@ -54,9 +54,9 @@ class eZUserType extends eZDataType
     /*!
      Delete stored object attribute
     */
-    function deleteStoredObjectAttribute( &$contentObjectAttribute, $version = null )
+    function deleteStoredObjectAttribute( $contentObjectAttribute, $version = null )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $userID = $contentObjectAttribute->attribute( "contentobject_id" );
 
         $res = $db->arrayQuery( "SELECT COUNT(*) AS version_count FROM ezcontentobject_version WHERE contentobject_id = $userID" );
@@ -73,11 +73,11 @@ class eZUserType extends eZDataType
      Validates the input and returns true if the input was
      valid for this datatype.
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . "_data_user_login_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $classAttribute = $contentObjectAttribute->contentClassAttribute();
             $loginName = $http->postVariable( $base . "_data_user_login_" . $contentObjectAttribute->attribute( "id" ) );
             $email = $http->postVariable( $base . "_data_user_email_" . $contentObjectAttribute->attribute( "id" ) );
             $password = $http->postVariable( $base . "_data_user_password_" . $contentObjectAttribute->attribute( "id" ) );
@@ -88,7 +88,7 @@ class eZUserType extends eZDataType
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'The username must be specified.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    return eZInputValidator::STATE_INVALID;
                 }
             }
             else
@@ -101,7 +101,7 @@ class eZUserType extends eZDataType
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                              'The username already exists, please choose another one.' ) );
-                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                        return eZInputValidator::STATE_INVALID;
                     }
                 }
                 $isValidate = eZMail::validate( $email );
@@ -109,11 +109,11 @@ class eZUserType extends eZDataType
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'The email address is not valid.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    return eZInputValidator::STATE_INVALID;
                 }
 
                 $authenticationMatch = eZUser::authenticationMatch();
-                if ( $authenticationMatch & EZ_USER_AUTHENTICATE_EMAIL )
+                if ( $authenticationMatch & eZUser::AUTHENTICATE_EMAIL )
                 {
                     if ( eZUser::requireUniqueEmail() )
                     {
@@ -125,12 +125,12 @@ class eZUserType extends eZDataType
                             {
                                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                                      'A user with this email already exists.' ) );
-                                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                                return eZInputValidator::STATE_INVALID;
                             }
                         }
                     }
                 }
-                $ini =& eZINI::instance();
+                $ini = eZINI::instance();
                 $generatePasswordIfEmpty = $ini->variable( "UserSettings", "GeneratePasswordIfEmpty" ) == 'true';
                 if ( !$generatePasswordIfEmpty || ( $password != "" ) )
                 {
@@ -139,7 +139,7 @@ class eZUserType extends eZDataType
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                              'The passwords do not match.',
                                                                              'eZUserType' ) );
-                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                        return eZInputValidator::STATE_INVALID;
                     }
                     $minPasswordLength = $ini->hasVariable( 'UserSettings', 'MinPasswordLength' ) ? $ini->variable( 'UserSettings', 'MinPasswordLength' ) : 3;
 
@@ -147,24 +147,24 @@ class eZUserType extends eZDataType
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                              'The password must be at least %1 characters long.',null, array( $minPasswordLength ) ) );
-                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                        return eZInputValidator::STATE_INVALID;
                     }
                     if ( strtolower( $password ) == 'password' )
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                              'The password must not be "password".' ) );
-                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                        return eZInputValidator::STATE_INVALID;
                     }
                 }
             }
         }
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
      Fetches the http post var integer input and stores it in the data instance.
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . "_data_user_login_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
@@ -175,13 +175,13 @@ class eZUserType extends eZDataType
 
             $contentObjectID = $contentObjectAttribute->attribute( "contentobject_id" );
 
-            $user =& $contentObjectAttribute->content();
+            $user = $contentObjectAttribute->content();
             if ( $user === null )
             {
                 $user = eZUser::create( $contentObjectID );
             }
 
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $generatePasswordIfEmpty = $ini->variable( "UserSettings", "GeneratePasswordIfEmpty" );
             if (  $password == "" )
             {
@@ -219,10 +219,10 @@ class eZUserType extends eZDataType
         return false;
     }
 
-    function storeObjectAttribute( &$contentObjectAttribute )
+    function storeObjectAttribute( $contentObjectAttribute )
     {
-        $user =& $contentObjectAttribute->content();
-        if ( get_class( $user ) != "ezuser" )
+        $user = $contentObjectAttribute->content();
+        if ( !( $user instanceof eZUser ) )
         {
             // create a default user account
             $user = eZUser::create( $contentObjectAttribute->attribute( "contentobject_id" ) );
@@ -238,7 +238,7 @@ class eZUserType extends eZDataType
     /*!
      Returns the object title.
     */
-    function title( &$contentObjectAttribute, $name = "login" )
+    function title( $contentObjectAttribute, $name = "login" )
     {
         $user = $this->objectAttributeContent( $contentObjectAttribute );
 
@@ -247,7 +247,7 @@ class eZUserType extends eZDataType
         return $value;
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         $user = $this->objectAttributeContent( $contentObjectAttribute );
         if ( is_object( $user ) and
@@ -259,13 +259,14 @@ class eZUserType extends eZDataType
     /*!
      Returns the user object.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         $userID = $contentObjectAttribute->attribute( "contentobject_id" );
-        $user =& $GLOBALS['eZUserObject_' . $userID];
-        if ( !isset( $user ) or
-             get_class( $user ) != 'ezuser' )
-            $user = eZUser::fetch( $userID );
+        if ( empty( $GLOBALS['eZUserObject_' . $userID] ) )
+        {
+            $GLOBALS['eZUserObject_' . $userID] = eZUser::fetch( $userID );
+        }
+        $user = eZUser::fetch( $userID );
         eZDebugSetting::writeDebug( 'kernel-user', $user, 'user' );
         return $user;
     }
@@ -284,24 +285,22 @@ class eZUserType extends eZDataType
      - The current user, anonymous user and administrator user is not using this class
      - There are more classes with the ezuser datatype
     */
-    function classAttributeRemovableInformation( &$contentClassAttribute, $includeAll = true )
+    function classAttributeRemovableInformation( $contentClassAttribute, $includeAll = true )
     {
         $result  = array( 'text' => ezi18n( 'kernel/classes/datatypes',
                                             "Cannot remove the account:" ),
                           'list' => array() );
-        $reasons =& $result['list'];
-
-        $currentUser =& eZUser::currentUser();
-        $userObject  =& $currentUser->attribute( 'contentobject' );
-        $ini         =& eZINI::instance();
+        $currentUser = eZUser::currentUser();
+        $userObject  = $currentUser->attribute( 'contentobject' );
+        $ini         = eZINI::instance();
         $anonID      = (int)$ini->variable( 'UserSettings', 'AnonymousUserID' );
         $classID     = (int)$contentClassAttribute->attribute( 'contentclass_id' );
-        $db          =& eZDB::instance();
+        $db          = eZDB::instance();
 
         if ( $classID == $userObject->attribute( 'contentclass_id' ) )
         {
-            $reasons[] = array( 'text' => ezi18n( 'kernel/classes/datatypes',
-                                                  "The account owner is currently logged in." ) );
+            $result['list'][] = array( 'text' => ezi18n( 'kernel/classes/datatypes',
+                                                         "The account owner is currently logged in." ) );
             if ( !$includeAll )
                 return $result;
         }
@@ -310,8 +309,8 @@ class eZUserType extends eZDataType
         $rows = $db->arrayQuery( $sql );
         if ( count( $rows ) > 0 )
         {
-            $reasons[] = array( 'text' => ezi18n( 'kernel/classes/datatypes',
-                                                  "The account is currently used by the anonymous user." ) );
+            $result['list'][] = array( 'text' => ezi18n( 'kernel/classes/datatypes',
+                                                         "The account is currently used by the anonymous user." ) );
             if ( !$includeAll )
                 return $result;
         }
@@ -323,8 +322,8 @@ class eZUserType extends eZDataType
         $rows = $db->arrayQuery( $sql );
         if ( count( $rows ) > 0 )
         {
-            $reasons[] = array( 'text' => ezi18n( 'kernel/classes/datatypes',
-                                                  "The account is currently used the administrator user." ) );
+            $result['list'][] = array( 'text' => ezi18n( 'kernel/classes/datatypes',
+                                                         "The account is currently used the administrator user." ) );
             if ( !$includeAll )
                 return $result;
         }
@@ -336,8 +335,8 @@ class eZUserType extends eZDataType
         $rows = $db->arrayQuery( $sql );
         if ( $rows[0]['count'] == 0 )
         {
-            $reasons[] = array( 'text' => ezi18n( 'kernel/classes/datatypes',
-                                                  "You cannot remove the last class holding user accounts." ) );
+            $result['list'][] = array( 'text' => ezi18n( 'kernel/classes/datatypes',
+                                                         "You cannot remove the last class holding user accounts." ) );
             if ( !$includeAll )
                 return $result;
         }
@@ -351,9 +350,9 @@ class eZUserType extends eZDataType
     function metaData( $contentObjectAttribute )
     {
         $metaString = "";
-        $user =& $contentObjectAttribute->content();
+        $user = $contentObjectAttribute->content();
 
-        if ( get_class( $user ) == "ezuser" )
+        if ( $user instanceof eZUser )
         {
             // create a default user account
             $metaString .= $user->attribute( 'login' ) . " ";
@@ -365,10 +364,11 @@ class eZUserType extends eZDataType
     function toString( $contentObjectAttribute )
     {
         $userID = $contentObjectAttribute->attribute( "contentobject_id" );
-        $user =& $GLOBALS['eZUserObject_' . $userID];
-        if ( !isset( $user ) or
-             get_class( $user ) != 'ezuser' )
-            $user = eZUser::fetch( $userID );
+        if ( empty( $GLOBALS['eZUserObject_' . $userID] ) )
+        {
+            $GLOBALS['eZUserObject_' . $userID] = eZUser::fetch( $userID );
+        }
+        $user = $GLOBALS['eZUserObject_' . $userID];
 
         return implode( '|', array( $user->attribute( 'login' ),
                                     $user->attribute( 'email' ),
@@ -377,7 +377,7 @@ class eZUserType extends eZDataType
     }
 
 
-    function fromString( &$contentObjectAttribute, $string )
+    function fromString( $contentObjectAttribute, $string )
     {
         if ( $string == '' )
             return true;
@@ -409,18 +409,18 @@ class eZUserType extends eZDataType
 
      \return a DOM representation of the content object attribute
     */
-    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
         $userID = $objectAttribute->attribute( "contentobject_id" );
         $user = eZUser::fetch( $userID );
         if ( is_object( $user ) )
         {
-            $userNode = eZDOMDocument::createElementNode( 'account' );
-            $userNode->appendAttribute( eZDOMDocument::createAttributeNode( 'login', $user->attribute( 'login' ) ) );
-            $userNode->appendAttribute( eZDOMDocument::createAttributeNode( 'email', $user->attribute( 'email' ) ) );
-            $userNode->appendAttribute( eZDOMDocument::createAttributeNode( 'password_hash', $user->attribute( 'password_hash' ) ) );
-            $userNode->appendAttribute( eZDOMDocument::createAttributeNode( 'password_hash_type', eZUser::passwordHashTypeName( $user->attribute( 'password_hash_type' ) ) ) );
+            $userNode = $node->ownerDocument->createElement( 'account' );
+            $userNode->setAttribute( 'login', $user->attribute( 'login' ) );
+            $userNode->setAttribute( 'email', $user->attribute( 'email' ) );
+            $userNode->setAttribute( 'password_hash', $user->attribute( 'password_hash' ) );
+            $userNode->setAttribute( 'password_hash_type', eZUser::passwordHashTypeName( $user->attribute( 'password_hash_type' ) ) );
             $node->appendChild( $userNode );
         }
 
@@ -433,9 +433,9 @@ class eZUserType extends eZDataType
      \param contentobject attribute object
      \param ezdomnode object
     */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
-        $userNode = $attributeNode->elementByName( 'account' );
+        $userNode = $attributeNode->getElementsByTagName( 'account' )->item( 0 );
         if ( is_object( $userNode ) )
         {
             $userID = $objectAttribute->attribute( 'contentobject_id' );
@@ -444,15 +444,15 @@ class eZUserType extends eZDataType
             {
                 $user = eZUser::create( $userID );
             }
-            $user->setAttribute( 'login', $userNode->attributeValue( 'login' ) );
-            $user->setAttribute( 'email', $userNode->attributeValue( 'email' ) );
-            $user->setAttribute( 'password_hash', $userNode->attributeValue( 'password_hash' ) );
-            $user->setAttribute( 'password_hash_type', eZUser::passwordHashTypeID( $userNode->attributeValue( 'passsword_hash_type' ) ) );
+            $user->setAttribute( 'login', $userNode->getAttribute( 'login' ) );
+            $user->setAttribute( 'email', $userNode->getAttribute( 'email' ) );
+            $user->setAttribute( 'password_hash', $userNode->getAttribute( 'password_hash' ) );
+            $user->setAttribute( 'password_hash_type', eZUser::passwordHashTypeID( $userNode->getAttribute( 'passsword_hash_type' ) ) );
             $user->store();
         }
     }
 }
 
-eZDataType::register( EZ_DATATYPESTRING_USER, "ezusertype" );
+eZDataType::register( eZUserType::DATA_TYPE_STRING, "eZUserType" );
 
 ?>

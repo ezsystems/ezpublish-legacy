@@ -37,7 +37,7 @@
   \brief Defines a limitation value for a policy in the permission system
 
 */
-include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
 
 class eZPolicyLimitationValue extends eZPersistentObject
 {
@@ -50,7 +50,7 @@ class eZPolicyLimitationValue extends eZPersistentObject
     }
 
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -79,7 +79,7 @@ class eZPolicyLimitationValue extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function createNew( $limitationID, $value )
+    static function createNew( $limitationID, $value )
     {
         $limitationValue = new eZPolicyLimitationValue( array() );
         $limitationValue->setAttribute( 'limitation_id', $limitationID );
@@ -94,7 +94,7 @@ class eZPolicyLimitationValue extends eZPersistentObject
      Creates a new limitation value for the limitation \a $limitationID and returns it.
      \note The value is not stored.
     */
-    function create( $limitationID, $value )
+    static function create( $limitationID, $value )
     {
         $row = array( 'id' => null,
                       'limitation_id' => $limitationID,
@@ -111,7 +111,7 @@ class eZPolicyLimitationValue extends eZPersistentObject
         $newValue = eZPolicyLimitationValue::createNew( $limitationID, $this->attribute( 'value' ) );
     }
 
-    function fetchList( $limitationID, $asObject = true )
+    static function fetchList( $limitationID, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZPolicyLimitationValue::definition(),
                                                     null,
@@ -125,7 +125,7 @@ class eZPolicyLimitationValue extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function removeByValue( $value, $policyID = false )
+    static function removeByValue( $value, $policyID = false )
     {
         if ( $policyID )
         {

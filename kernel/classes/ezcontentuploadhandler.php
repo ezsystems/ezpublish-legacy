@@ -83,9 +83,9 @@ class eZContentUploadHandler
 
     /// \privatesection
     /// The name of the handler, can be displayed to the end user.
-    var $Name;
+    public $Name;
     /// The identifier of the handler.
-    var $Identifier;
+    public $Identifier;
 }
 
 ?>

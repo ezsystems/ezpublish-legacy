@@ -26,15 +26,15 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/classes/ezinformationcollection.php' );
-include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( 'lib/ezutils/classes/ezmail.php' );
-include_once( 'lib/ezutils/classes/ezmailtransport.php' );
-include_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezinformationcollection.php' );
+//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( 'lib/ezutils/classes/ezmail.php' );
+//include_once( 'lib/ezutils/classes/ezmailtransport.php' );
+require_once( 'kernel/common/template.php' );
 
-$Module =& $Params['Module'];
-$http =& eZHTTPTool::instance();
+$Module = $Params['Module'];
+$http = eZHTTPTool::instance();
 
 if ( $Module->isCurrentAction( 'CollectInformation' ) )
 {
@@ -44,15 +44,15 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
     if ( $Module->hasActionParameter( 'ViewMode' ) )
         $ViewMode = $Module->actionParameter( 'ViewMode' );
 
-    $object =& eZContentObject::fetch( $ObjectID );
+    $object = eZContentObject::fetch( $ObjectID );
     if ( !$object )
-        return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
     if ( !$object->attribute( 'can_read' ) )
-        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
-    $version =& $object->currentVersion();
-    $contentObjectAttributes =& $version->contentObjectAttributes();
+        return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
+    $version = $object->currentVersion();
+    $contentObjectAttributes = $version->contentObjectAttributes();
 
-    $user =& eZUser::currentUser();
+    $user = eZUser::currentUser();
     $isLoggedIn = $user->attribute( 'is_logged_in' );
     $allowAnonymous = true;
     if ( !$isLoggedIn )
@@ -71,7 +71,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
          ( $userDataHandling == 'unique' and
            $collection ) )
     {
-        $tpl =& templateInit();
+        $tpl = templateInit();
 
         $attributeHideList = eZInformationCollection::attributeHideList();
         $informationCollectionTemplate = eZInformationCollection::templateForObject( $object );
@@ -96,7 +96,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
         if ( $section )
             $navigationPartIdentifier = $section->attribute( 'navigation_part_identifier' );
 
-        $res =& eZTemplateDesignResource::instance();
+        $res = eZTemplateDesignResource::instance();
         $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ),
                               array( 'node', $node->attribute( 'node_id' ) ),
                               array( 'parent_node', $node->attribute( 'parent_node_id' ) ),
@@ -107,14 +107,14 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
                               array( 'url_alias', $node->attribute( 'url_alias' ) )
                               ) );
 
-        $Result['content'] =& $tpl->fetch( 'design:content/collectedinfo/' . $informationCollectionTemplate . '.tpl' );
+        $Result['content'] = $tpl->fetch( 'design:content/collectedinfo/' . $informationCollectionTemplate . '.tpl' );
 
         $title = $object->attribute( 'name' );
         if ( $tpl->hasVariable( 'title' ) )
             $title = $tpl->variable( 'title' );
 
         // create path
-        $parents =& $node->attribute( 'path' );
+        $parents = $node->attribute( 'path' );
 
         $path = array();
         $titlePath = array();
@@ -145,8 +145,8 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
                               'url_alias' => $node->attribute( 'url_alias' ),
                               'node_id' => $node->attribute( 'node_id' ) );
 
-        $Result['path'] =& $path;
-        $Result['title_path'] =& $titlePath;
+        $Result['path'] = $path;
+        $Result['title_path'] = $titlePath;
 
         return $Result;
     }
@@ -168,15 +168,15 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
     foreach ( array_keys( $contentObjectAttributes ) as $key )
     {
         $contentObjectAttribute = $contentObjectAttributes[$key];
-        $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
 
         if ( $contentClassAttribute->attribute( 'is_information_collector' ) )
         {
             $inputParameters = null;
             $status = $contentObjectAttribute->validateInformation( $http, $attributeDataBaseName, $inputParameters );
-            if ( $status == EZ_INPUT_VALIDATOR_STATE_INTERMEDIATE )
+            if ( $status == eZInputValidator::STATE_INTERMEDIATE )
                 $requireFixup = true;
-            else if ( $status == EZ_INPUT_VALIDATOR_STATE_INVALID )
+            else if ( $status == eZInputValidator::STATE_INVALID )
             {
                 $canCollect = false;
                 $description = $contentObjectAttribute->attribute( 'validation_error' );
@@ -192,20 +192,20 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
                                                       'description' => $description );
                 }
             }
-            else if ( $status == EZ_INPUT_VALIDATOR_STATE_ACCEPTED )
+            else if ( $status == eZInputValidator::STATE_ACCEPTED )
             {
             }
         }
     }
     $collectionAttributes = array();
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
 
     foreach ( array_keys( $contentObjectAttributes ) as $key )
     {
         $contentObjectAttribute = $contentObjectAttributes[$key];
-        $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
 
         if ( $contentClassAttribute->attribute( 'is_information_collector' ) )
         {
@@ -238,7 +238,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
 
         if ( $sendEmail )
         {
-            $tpl =& templateInit();
+            $tpl = templateInit();
 
             $attributeHideList = eZInformationCollection::attributeHideList();
             $informationCollectionTemplate = eZInformationCollection::templateForObject( $object );
@@ -249,7 +249,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
             if ( $section )
                 $navigationPartIdentifier = $section->attribute( 'navigation_part_identifier' );
 
-            $res =& eZTemplateDesignResource::instance();
+            $res = eZTemplateDesignResource::instance();
             $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ),
                                   array( 'node', $node->attribute( 'node_id' ) ),
                                   array( 'parent_node', $node->attribute( 'parent_node_id' ) ),
@@ -269,16 +269,16 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
 
             $tpl->setVariable( 'collection', $collection );
             $tpl->setVariable( 'object', $object );
-            $templateResult =& $tpl->fetch( 'design:content/collectedinfomail/' . $informationCollectionTemplate . '.tpl' );
+            $templateResult = $tpl->fetch( 'design:content/collectedinfomail/' . $informationCollectionTemplate . '.tpl' );
 
-            $subject =& $tpl->variable( 'subject' );
-            $receiver =& $tpl->variable( 'email_receiver' );
-            $ccReceivers =& $tpl->variable( 'email_cc_receivers' );
-            $bccReceivers =& $tpl->variable( 'email_bcc_receivers' );
-            $sender =& $tpl->variable( 'email_sender' );
-            $redirectToNodeID =& $tpl->variable( 'redirect_to_node_id' );
+            $subject = $tpl->variable( 'subject' );
+            $receiver = $tpl->variable( 'email_receiver' );
+            $ccReceivers = $tpl->variable( 'email_cc_receivers' );
+            $bccReceivers = $tpl->variable( 'email_bcc_receivers' );
+            $sender = $tpl->variable( 'email_sender' );
+            $redirectToNodeID = $tpl->variable( 'redirect_to_node_id' );
 
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $mail = new eZMail();
 
             if ( !$mail->validate( $receiver ) )
@@ -327,10 +327,10 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
         }
 
         $icMap = array();
-        if ( eZHTTPTool::hasSessionVariable( 'InformationCollectionMap' ) )
-            $icMap = eZHTTPTool::sessionVariable( 'InformationCollectionMap' );
+        if ( $http->hasSessionVariable( 'InformationCollectionMap' ) )
+            $icMap = $http->sessionVariable( 'InformationCollectionMap' );
         $icMap[$object->attribute( 'id' )] = $collection->attribute( 'id' );
-        eZHTTPTool::setSessionVariable( 'InformationCollectionMap', $icMap );
+        $http->setSessionVariable( 'InformationCollectionMap', $icMap );
 
         if ( is_numeric( $redirectToNodeID ) )
         {
@@ -365,7 +365,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
                                     'CollectionAttributes' => $collectionAttributes ) );
     }
 
-    return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+    return eZModule::HOOK_STATUS_CANCEL_RUN;
 }
 
 ?>

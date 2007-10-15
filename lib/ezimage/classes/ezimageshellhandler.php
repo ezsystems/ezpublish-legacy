@@ -38,14 +38,14 @@
 
 */
 
-include_once( 'lib/ezimage/classes/ezimagehandler.php' );
+//include_once( 'lib/ezimage/classes/ezimagehandler.php' );
 
 class eZImageShellHandler extends eZImageHandler
 {
     /*!
      Constructor
     */
-    function eZImageShellHandler( $handlerName, $isEnabled = true, $outputRewriteType = EZ_IMAGE_HANDLER_REPLACE_SUFFIX,
+    function eZImageShellHandler( $handlerName, $isEnabled = true, $outputRewriteType = self::REPLACE_SUFFIX,
                                   $supportedInputMIMETypes = false, $supportedOutputMIMETypes = false,
                                   $conversionRules = false, $filters = false, $mimeTagMap = false)
     {
@@ -64,7 +64,7 @@ class eZImageShellHandler extends eZImageHandler
     /*!
      Creates the shell string and runs the executable.
     */
-    function convert( &$manager, $sourceMimeData, &$destinationMimeData, $filters = false )
+    function convert( $manager, $sourceMimeData, &$destinationMimeData, $filters = false )
     {
         $argumentList = array();
         $executable = $this->Executable;
@@ -151,14 +151,14 @@ class eZImageShellHandler extends eZImageHandler
      The INI settings are read from ini file \a $iniFilename and group \a $iniGroup.
      If \a $iniFilename is not supplied \c image.ini is used.
     */
-    function &createFromINI( $iniGroup, $iniFilename = false )
+    static function createFromINI( $iniGroup, $iniFilename = false )
     {
         if ( !$iniFilename )
             $iniFilename = 'image.ini';
 
         $handler = false;
-        include_once( 'lib/ezutils/classes/ezini.php' );
-        $ini =& eZINI::instance( $iniFilename );
+        //include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini = eZINI::instance( $iniFilename );
         if ( !$ini )
         {
             eZDebug::writeError( "Failed loading ini file $iniFilename",
@@ -247,7 +247,7 @@ class eZImageShellHandler extends eZImageHandler
             {
                 $useTypeTag = $ini->variable( $iniGroup, 'UseTypeTag' );
             }
-            $outputRewriteType = EZ_IMAGE_HANDLER_REPLACE_SUFFIX;
+            $outputRewriteType = self::REPLACE_SUFFIX;
             $filters = false;
             if ( $ini->hasVariable( $iniGroup, 'Filters' ) )
             {
@@ -291,10 +291,10 @@ class eZImageShellHandler extends eZImageHandler
     }
 
     /// \privatesection
-    var $Path;
-    var $Executable;
-    var $PreParameters;
-    var $PostParameters;
+    public $Path;
+    public $Executable;
+    public $PreParameters;
+    public $PostParameters;
 }
 
 class eZImageShellFactory extends eZImageFactory
@@ -311,10 +311,9 @@ class eZImageShellFactory extends eZImageFactory
      \reimp
      Creates eZImageShellHandler objects and returns them.
     */
-    function &produceFromINI( $iniGroup, $iniFilename = false )
+    static function produceFromINI( $iniGroup, $iniFilename = false )
     {
-        $convertHandler =& eZImageShellHandler::createFromINI( $iniGroup, $iniFilename );
-        return $convertHandler;
+        return eZImageShellHandler::createFromINI( $iniGroup, $iniFilename );
     }
 }
 

@@ -35,19 +35,17 @@
 
   \code
 
-  include_once( "kernel/classes/datatypes/ezauthor/ezauthor.php" );
+  //include_once( "kernel/classes/datatypes/ezauthor/ezauthor.php" );
 
   $author = new eZAuthor( "Colour" );
   $author->addValue( "Red" );
   $author->addValue( "Green" );
 
   // Serialize the class to an XML document
-  $xmlString =& $author->xmlString();
+  $xmlString = $author->xmlString();
 
   \endcode
 */
-
-include_once( "lib/ezxml/classes/ezxml.php" );
 
 class eZAuthor
 {
@@ -93,16 +91,14 @@ class eZAuthor
 
     function removeAuthors( $array_remove )
     {
-        $authors =& $this->Authors;
-
         if ( count( $array_remove ) > 0 )
             foreach ( $array_remove as $id )
             {
-                foreach ( $authors as $authorKey => $author )
+                foreach ( $this->Authors as $authorKey => $author )
                 {
                     if ( $author['id'] == $id )
                     {
-                        array_splice( $authors, $authorKey, 1 );
+                        array_splice( $this->Authors, $authorKey, 1 );
                         $this->AuthorCount --;
                     }
                 }
@@ -121,7 +117,7 @@ class eZAuthor
         return in_array( $name, $this->attributes() );
     }
 
-    function &attribute( $name )
+    function attribute( $name )
     {
         switch ( $name )
         {
@@ -131,8 +127,7 @@ class eZAuthor
             }break;
             case "is_empty" :
             {
-                $count = count( $this->Authors ) == 0 ;
-                return $count;
+                return count( $this->Authors ) == 0 ;
             }break;
             case "author_list" :
             {
@@ -141,8 +136,7 @@ class eZAuthor
             default:
             {
                 eZDebug::writeError( "Attribute '$name' does not exist", 'eZAuthor::attribute' );
-                $retValue = null;
-                return $retValue;
+                return null;
             }
             break;
         }
@@ -176,63 +170,57 @@ class eZAuthor
     */
     function decodeXML( $xmlString )
     {
-        $xml = new eZXML();
-        $dom =& $xml->domTree( $xmlString );
+        $dom = new DOMDocument();
+        $success = $dom->loadXML( $xmlString );
 
-        if ( $dom )
+        if ( $success )
         {
-            $authorArray =& $dom->elementsByName( 'author' );
-            if ( is_array( $authorArray ) )
+            $authors = $dom->getElementsByTagName( 'author' );
+            foreach ( $authors as $author )
             {
-                foreach ( $authorArray as $author )
-                {
-                    $this->addAuthor( $author->attributeValue( "id" ), $author->attributeValue( "name" ), $author->attributeValue( "email" ) );
-                }
+                $this->addAuthor( $author->getAttribute( "id" ), $author->getAttribute( "name" ), $author->getAttribute( "email" ) );
             }
-        }
-        else
-        {
         }
     }
 
     /*!
      Will return the XML string for this author set.
     */
-    function &xmlString( )
+    function xmlString( )
     {
-        $doc = new eZDOMDocument( "Author" );
+        $doc = new DOMDocument();
 
-        $root = $doc->createElementNode( "ezauthor" );
-        $doc->setRoot( $root );
+        $root = $doc->createElement( "ezauthor" );
+        $doc->appendChild( $root );
 
-        $authors = $doc->createElementNode( "authors" );
-
+        $authors = $doc->createElement( "authors" );
         $root->appendChild( $authors );
+
         $id=0;
         if ( is_array( $this->Authors ) )
         {
             foreach ( $this->Authors as $author )
             {
                 unset( $authorNode );
-                $authorNode = $doc->createElementNode( "author" );
-                $authorNode->appendAttribute( $doc->createAttributeNode( "id", $id++ ) );
-                $authorNode->appendAttribute( $doc->createAttributeNode( "name", $author["name"] ) );
-                $authorNode->appendAttribute( $doc->createAttributeNode( "email", $author["email"] ) );
+                $authorNode = $doc->createElement( "author" );
+                $authorNode->setAttribute( "id", $id++ );
+                $authorNode->setAttribute( "name", $author["name"] );
+                $authorNode->setAttribute( "email", $author["email"] );
 
                 $authors->appendChild( $authorNode );
             }
         }
 
-        $xml = $doc->toString();
+        $xml = $doc->saveXML();
 
         return $xml;
     }
 
     /// Contains the Authors
-    var $Authors;
+    public $Authors;
 
     /// Contains the author counter value
-    var $AuthorCount;
+    public $AuthorCount;
 }
 
 ?>

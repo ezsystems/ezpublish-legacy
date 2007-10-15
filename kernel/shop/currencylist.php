@@ -29,13 +29,13 @@
 /*! \file currencylist.php
 */
 
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezpreferences.php' );
-include_once( 'kernel/shop/classes/ezcurrencydata.php' );
-include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+require_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezpreferences.php' );
+//include_once( 'kernel/shop/classes/ezcurrencydata.php' );
+//include_once( 'kernel/shop/classes/ezshopfunctions.php' );
 
-$module =& $Params['Module'];
-$offset =& $Params['Offset'];
+$module = $Params['Module'];
+$offset = $Params['Offset'];
 
 $error = false;
 
@@ -54,7 +54,7 @@ else if ( $module->isCurrentAction( 'RemoveCurrency' ) )
 
     eZShopFunctions::removeCurrency( $currencyList );
 
-    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearAllContentCache();
 }
 else if ( $module->isCurrentAction( 'ApplyChanges' ) )
@@ -62,7 +62,7 @@ else if ( $module->isCurrentAction( 'ApplyChanges' ) )
     $updateDataList = $module->hasActionParameter( 'CurrencyList' ) ? $module->actionParameter( 'CurrencyList' ) : array();
 
     $currencyList = eZCurrencyData::fetchList();
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach ( $currencyList as $currency )
     {
@@ -96,7 +96,7 @@ else if ( $module->isCurrentAction( 'UpdateAutoprices' ) )
 {
     $error = eZShopFunctions::updateAutoprices();
 
-    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearAllContentCache();
 }
 else if ( $module->isCurrentAction( 'UpdateAutoRates' ) )
@@ -125,7 +125,7 @@ $currencyCount = eZCurrencyData::fetchListCount();
 
 $viewParameters = array( 'offset' => $offset );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( 'currency_list', $currencyList );
 $tpl->setVariable( 'currency_list_count', $currencyCount );
@@ -137,7 +137,7 @@ $tpl->setVariable( 'error', $error );
 $Result = array();
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/shop', 'Available currency list' ),
                                 'url' => false ) );
-$Result['content'] =& $tpl->fetch( "design:shop/currencylist.tpl" );
+$Result['content'] = $tpl->fetch( "design:shop/currencylist.tpl" );
 
 
 

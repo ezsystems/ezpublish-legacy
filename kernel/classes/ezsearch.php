@@ -35,7 +35,7 @@
 
 */
 
-include_once( 'lib/ezutils/classes/ezini.php' );
+//include_once( 'lib/ezutils/classes/ezini.php' );
 
 class eZSearch
 {
@@ -50,7 +50,7 @@ class eZSearch
      \static
      Will remove the index from the given object from the search engine
     */
-    function removeObject( $contentObject )
+    static function removeObject( $contentObject )
     {
         $searchEngine = eZSearch::getEngine();
 
@@ -64,7 +64,7 @@ class eZSearch
      \static
      Will index the content object to the search engine.
     */
-    function addObject( $contentObject )
+    static function addObject( $contentObject )
     {
         $searchEngine = eZSearch::getEngine();
 
@@ -78,7 +78,7 @@ class eZSearch
      \static
      Runs a query to the search engine.
     */
-    function search( $searchText, $params, $searchTypes = array() )
+    static function search( $searchText, $params, $searchTypes = array() )
     {
         $searchEngine = eZSearch::getEngine();
 
@@ -91,25 +91,23 @@ class eZSearch
     /*!
      \static
     */
-    function &normalizeText( $text )
+    static function normalizeText( $text )
     {
         $searchEngine = eZSearch::getEngine();
-        $normalizedText = '';
 
         if ( is_object( $searchEngine ) )
         {
-            $normalizedText =& $searchEngine->normalizeText( $text );
-
+            return $searchEngine->normalizeText( $text );
         }
 
-        return $normalizedText;
+        return '';
     }
 
     /*!
      \static
       returns search parameters in array based on supported search types and post variables
      */
-    function &buildSearchArray()
+    static function buildSearchArray()
     {
         $searchEngine = eZSearch::getEngine();
 
@@ -130,7 +128,7 @@ class eZSearch
             }
         }
 
-        $http =& eZHTTPTool::instance();
+        $http = eZHTTPTool::instance();
 
         foreach ( $searchTypesDefinition['types'] as $searchType )
         {
@@ -382,9 +380,13 @@ class eZSearch
         }
 
         if ( $andSearchParts != null )
-            $searchArray['and'] =& $andSearchParts;
+        {
+            $searchArray['and'] = $andSearchParts;
+        }
         if ( $generalFilter != null )
-            $searchArray['general'] =& $generalFilter;
+        {
+            $searchArray['general'] = $generalFilter;
+        }
 
         eZDebugSetting::writeDebug( 'kernel-search-ezsearch', $searchArray, 'search array' );
         return $searchArray;
@@ -394,7 +396,7 @@ class eZSearch
      \static
      Tells the current search engine to cleanup up all data.
     */
-    function cleanup()
+    static function cleanup()
     {
         $searchEngine = eZSearch::getEngine();
 
@@ -410,7 +412,7 @@ class eZSearch
 
      \return instance of eZSearch class.
     */
-    function getEngine()
+    static function getEngine()
     {
         // Get instance if already created.
         $instanceName = 'eZSearchPlugin_' . $GLOBALS['eZCurrentAccess'];
@@ -419,8 +421,8 @@ class eZSearch
             return $GLOBALS[$instanceName];
         }
 
-        include_once( 'lib/ezutils/classes/ezini.php' );
-        $ini =& eZINI::instance();
+        //include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini = eZINI::instance();
 
         $searchEngineString = 'ezsearch';
         if ( $ini->hasVariable( 'SearchSettings', 'SearchEngine' ) == true )
@@ -429,7 +431,7 @@ class eZSearch
         }
 
         $directoryList = array();
-        include_once( 'lib/ezutils/classes/ezextension.php' );
+        //include_once( 'lib/ezutils/classes/ezextension.php' );
         if ( $ini->hasVariable( 'SearchSettings', 'ExtensionDirectories' ) )
         {
             $extensionDirectories = $ini->variable( 'SearchSettings', 'ExtensionDirectories' );

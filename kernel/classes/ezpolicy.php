@@ -38,8 +38,8 @@
 
 */
 
-include_once( 'kernel/classes/ezpolicylimitation.php' );
-include_once( 'kernel/classes/ezrole.php' );
+//include_once( 'kernel/classes/ezpolicylimitation.php' );
+//include_once( 'kernel/classes/ezrole.php' );
 
 class eZPolicy extends eZPersistentObject
 {
@@ -52,7 +52,7 @@ class eZPolicy extends eZPersistentObject
           $this->NodeID = 0;
     }
 
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -85,17 +85,17 @@ class eZPolicy extends eZPersistentObject
                       'name' => 'ezpolicy' );
     }
 
-    function &limitIdentifier()
+    function limitIdentifier()
     {
         return $this->LimitIdentifier;
     }
 
-    function &limitValue()
+    function limitValue()
     {
         return $this->LimitValue;
     }
 
-    function &userRoleID()
+    function userRoleID()
     {
         return $this->UserRoleID;
     }
@@ -141,9 +141,9 @@ class eZPolicy extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function createNew( $roleID , $params = array() )
+    static function createNew( $roleID , $params = array() )
     {
-        $policy = new eZPolicy( array() );
+        $policy = new eZPolicy( array( 'id' => null ) );
         $policy->setAttribute( 'role_id', $roleID );
         if ( array_key_exists( 'ModuleName', $params ))
         {
@@ -166,7 +166,7 @@ class eZPolicy extends eZPersistentObject
      \param $function Which function to give access to or \c true to give access to all functions.
      \param $limitations An associative array with limitations and their values, use an empty array for no limitations.
     */
-    function create( $roleID, $module, $function )
+    static function create( $roleID, $module, $function )
     {
         if ( $module === true )
             $module = '*';
@@ -188,13 +188,13 @@ class eZPolicy extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function &appendLimitation( $identifier, $values )
+    function appendLimitation( $identifier, $values )
     {
-        include_once( 'kernel/classes/ezpolicylimitation.php' );
-        include_once( 'kernel/classes/ezpolicylimitationvalue.php' );
+        //include_once( 'kernel/classes/ezpolicylimitation.php' );
+        //include_once( 'kernel/classes/ezpolicylimitationvalue.php' );
         $limitation = eZPolicyLimitation::create( $this->ID, $identifier );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $limitation->store();
         $limitationID = $limitation->attribute( 'id' );
@@ -205,14 +205,14 @@ class eZPolicy extends eZPersistentObject
             $limitationValue->store();
             if ( isset( $limitation->Values ) )
             {
-                $limitation->Values[] =& $limitationValue;
+                $limitation->Values[] = $limitationValue;
             }
         }
         $db->commit();
 
         if ( isset( $this->Limitations ) )
         {
-            $this->Limitations[] =& $limitation;
+            $this->Limitations[] = $limitation;
         }
         return $limitation;
     }
@@ -227,7 +227,7 @@ class eZPolicy extends eZPersistentObject
         $params['ModuleName'] = $this->attribute( 'module_name' );
         $params['FunctionName'] = $this->attribute( 'function_name' );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $newPolicy = eZPolicy::createNew( $roleID, $params  );
         foreach ( $this->attribute( 'limitations' ) as $limitation )
@@ -238,34 +238,33 @@ class eZPolicy extends eZPersistentObject
     }
 
     /*!
+     \sa removeThis
+    */
+    static function removeByID( $id )
+    {
+        $policy = eZPolicy::fetch( $id );
+        if ( !$policy )
+        {
+            return null;
+        }
+        $policy->removeThis();
+    }
+
+    /*!
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function remove( $id = false )
+    function removeThis( $id = false )
     {
-        if ( is_numeric( $id ) )
-        {
-            $delID = $id;
-            $policy = eZPolicy::fetch( $delID );
-        }
-        else
-        {
-            $policy =& $this;
-            $delID = $this->ID;
-        }
-
-        if ( $policy === null )
-            return;
-
-        include_once( 'lib/ezdb/classes/ezdb.php' );
-        $db =& eZDB::instance();
+        //include_once( 'lib/ezdb/classes/ezdb.php' );
+        $db = eZDB::instance();
         $db->begin();
-        foreach ( $policy->attribute( 'limitations' ) as $limitation )
+        foreach ( $this->attribute( 'limitations' ) as $limitation )
         {
-            $limitation->remove();
+            $limitation->removeThis();
         }
         $db->query( "DELETE FROM ezpolicy
-                     WHERE id='$delID'" );
+                     WHERE id='" . $db->escapeString( $this->attribute( 'id' ) ) . "'" );
         $db->commit();
     }
 
@@ -276,7 +275,7 @@ class eZPolicy extends eZPersistentObject
     */
     function accessArray( $ignoreLimitIdentifier = false )
     {
-        $limitations =& $this->limitationList( true, $ignoreLimitIdentifier );
+        $limitations = $this->limitationList( true, $ignoreLimitIdentifier );
         if ( $this->Disabled === true )
         {
             return array();
@@ -304,7 +303,7 @@ class eZPolicy extends eZPersistentObject
 
      \param use limitation cache, true by default.
     */
-    function &limitationList( $useCache = true, $ignoreLimitIdentifier = false )
+    function limitationList( $useCache = true, $ignoreLimitIdentifier = false )
     {
         if ( !isset( $this->Limitations ) || !$useCache )
         {
@@ -330,11 +329,10 @@ class eZPolicy extends eZPersistentObject
                         {
                             $limitationTouched = true;
 
-                            $values =& $limitation->attribute( 'values' );
+                            $values = $limitation->attribute( 'values' );
 
-                            foreach ( array_keys( $values ) as $key )
+                            foreach ( $values as $limitationValue )
                             {
-                                $limitationValue =& $values[$key];
                                 $value = $limitationValue->attribute( 'value' );
                                 if ( strpos( $value, $limitValue ) === 0 )
                                 {
@@ -381,34 +379,33 @@ class eZPolicy extends eZPersistentObject
             }
             eZDebugSetting::writeDebug( 'kernel-policy-limitation', $limitations, "policy limitations " . $this->ID );
 
-            $this->Limitations =& $limitations;
+            $this->Limitations = $limitations;
         }
         return $this->Limitations;
     }
 
-    function &role()
+    function role()
     {
         if ( $this->ID )
         {
-            $role = eZPersistentObject::fetchObject( eZRole::definition(),
-                                                      null, array( 'id' => $this->RoleID ), true );
+            return eZPersistentObject::fetchObject( eZRole::definition(),
+                                                    null, array( 'id' => $this->RoleID ), true );
         }
-        else
-            $role = false;
-        return $role;
+
+        return false;
     }
 
-    function fetch( $policyID )
+    static function fetch( $policyID )
     {
         return eZPersistentObject::fetchObject( eZPolicy::definition(),
                                                 null, array('id' => $policyID ), true);
     }
 
     // Used for assign based limitations.
-    var $Disabled = false;
-    var $LimitValue;
-    var $LimitIdentifier;
-    var $UserRoleID;
+    public $Disabled = false;
+    public $LimitValue;
+    public $LimitIdentifier;
+    public $UserRoleID;
 
 }
 

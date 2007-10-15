@@ -36,7 +36,7 @@
   \class eZInstallScriptPackageInstaller ezcontentclasspackageinstaller.php
 */
 
-include_once( 'kernel/classes/ezpackageinstallationhandler.php' );
+//include_once( 'kernel/classes/ezpackageinstallationhandler.php' );
 
 class eZInstallScriptPackageInstaller extends eZPackageInstallationHandler
 {
@@ -44,14 +44,14 @@ class eZInstallScriptPackageInstaller extends eZPackageInstallationHandler
       Constructor should be implemented in the child class
         and call the constructor of eZPackageInstallationHandler.
      */
-    function eZInstallScriptPackageInstaller( &$package, $type, $installItem )
+    function eZInstallScriptPackageInstaller( $package, $type, $installItem )
     {
     }
     /*!
      \reimp
      Returns \c 'stable', content class packages are always stable.
     */
-    function packageInitialState( &$package, &$persistentData )
+    function packageInitialState( $package, &$persistentData )
     {
         return 'stable';
     }

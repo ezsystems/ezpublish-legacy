@@ -26,8 +26,8 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$http =& eZHTTPTool::instance();
-$module =& $Params["Module"];
+$http = eZHTTPTool::instance();
+$module = $Params['Module'];
 
 $offset = $Params['Offset'];
 
@@ -44,16 +44,16 @@ if ( $http->hasVariable( 'filterString' ) )
         $doFiltration = true;
 }
 
-include_once( "kernel/common/template.php" );
-include_once( "kernel/common/eztemplatedesignresource.php" );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/common/eztemplatedesignresource.php" );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
-$ini =& eZINI::instance();
-$tpl =& templateInit();
+$ini = eZINI::instance();
+$tpl = templateInit();
 
 $siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
 
-$overrideArray = eZTemplatedesignresource::overrideArray( $siteAccess );
+$overrideArray = eZTemplateDesignResource::overrideArray( $siteAccess );
 
 $mostUsedOverrideArray = array();
 $filteredOverrideArray = array();
@@ -93,7 +93,7 @@ $viewParameters = array( 'offset' => $offset );
 $tpl->setVariable( 'view_parameters', $viewParameters );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:visual/templatelist.tpl" );
+$Result['content'] = $tpl->fetch( "design:visual/templatelist.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/design', 'Template list' ) ) );
 

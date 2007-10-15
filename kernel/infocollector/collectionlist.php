@@ -26,13 +26,13 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/ezinformationcollection.php' );
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezpreferences.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'kernel/classes/ezinformationcollection.php' );
+require_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezpreferences.php' );
 
-$http =& eZHTTPTool::instance();
-$module =& $Params['Module'];
+$http = eZHTTPTool::instance();
+$module = $Params['Module'];
 $objectID = $Params['ObjectID'];
 $offset = $Params['Offset'];
 
@@ -50,14 +50,14 @@ if( $module->isCurrentAction( 'RemoveCollections' ) && $http->hasPostVariable( '
 
     $collections = count( $collectionIDArray );
 
-    $tpl =& templateInit();
+    $tpl = templateInit();
     $tpl->setVariable( 'module', $module );
     $tpl->setVariable( 'collections', $collections );
     $tpl->setVariable( 'object_id', $objectID );
     $tpl->setVariable( 'remove_type', 'collections' );
 
     $Result = array();
-    $Result['content'] =& $tpl->fetch( 'design:infocollector/confirmremoval.tpl' );
+    $Result['content'] = $tpl->fetch( 'design:infocollector/confirmremoval.tpl' );
     $Result['path'] = array( array( 'url' => false,
                                     'text' => ezi18n( 'kernel/infocollector', 'Collected information' ) ) );
     return;
@@ -66,7 +66,7 @@ if( $module->isCurrentAction( 'RemoveCollections' ) && $http->hasPostVariable( '
 
 if( $module->isCurrentAction( 'ConfirmRemoval' ) )
 {
-    $collectionIDArray =& $http->sessionVariable( 'CollectionIDArray' );
+    $collectionIDArray = $http->sessionVariable( 'CollectionIDArray' );
 
     if( is_array( $collectionIDArray ) )
     {
@@ -99,12 +99,12 @@ $object = false;
 
 if( is_numeric( $objectID ) )
 {
-    $object =& eZContentObject::fetch( $objectID );
+    $object = eZContentObject::fetch( $objectID );
 }
 
 if( !$object )
 {
-    return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
 $collections = eZInformationCollection::fetchCollectionsList( $objectID, /* object id */
@@ -116,7 +116,7 @@ $numberOfCollections = eZInformationCollection::fetchCollectionsCount( $objectID
 $viewParameters = array( 'offset' => $offset );
 $objectName = $object->attribute( 'name' );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable( 'module', $module );
 $tpl->setVariable( 'limit', $limit );
 $tpl->setVariable( 'view_parameters', $viewParameters );
@@ -125,7 +125,7 @@ $tpl->setVariable( 'collection_array', $collections );
 $tpl->setVariable( 'collection_count', $numberOfCollections );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:infocollector/collectionlist.tpl' );
+$Result['content'] = $tpl->fetch( 'design:infocollector/collectionlist.tpl' );
 $Result['path'] = array( array( 'url' => '/infocollector/overview',
                                 'text' => ezi18n( 'kernel/infocollector', 'Collected information' ) ),
                          array( 'url' => false,

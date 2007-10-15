@@ -26,7 +26,8 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$module =& $Params['Module'];
+$module = $Params['Module'];
+
 
 if ( !$module->hasActionParameter( 'ClassID' ) )
 {
@@ -55,7 +56,7 @@ $class = eZContentClass::fetch( $classID );
 
 if ( !$class )
 {
-    return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
 if ( $module->isCurrentAction( 'UpdateInitialLanguage' ) )
@@ -64,7 +65,7 @@ if ( $module->isCurrentAction( 'UpdateInitialLanguage' ) )
     {
         $newInitialLanguageID = $module->actionParameter( 'InitialLanguageID' );
 
-        include_once( 'kernel/classes/ezcontentlanguage.php' );
+        //include_once( 'kernel/classes/ezcontentlanguage.php' );
         $language = eZContentLanguage::fetch( $newInitialLanguageID );
         if ( $language )
         {
@@ -101,7 +102,7 @@ else if ( $module->isCurrentAction( 'RemoveTranslation' ) )
         return $module->redirectToView( 'view', array( $classID ), array( 'Language' => $languageCode ) );
     }
 
-    include_once( 'kernel/classes/ezcontentlanguage.php' );
+    //include_once( 'kernel/classes/ezcontentlanguage.php' );
 
     $languages = array();
     foreach( $languageIDArray as $languageID )
@@ -118,9 +119,9 @@ else if ( $module->isCurrentAction( 'RemoveTranslation' ) )
         return $module->redirectToView( 'view', array( $classID ), array( $languageCode ) );
     }
 
-    include_once( "kernel/common/template.php" );
+    require_once( "kernel/common/template.php" );
 
-    $tpl =& templateInit();
+    $tpl = templateInit();
 
     $tpl->setVariable( 'class_id', $classID );
     $tpl->setVariable( 'class', $class );
@@ -128,7 +129,7 @@ else if ( $module->isCurrentAction( 'RemoveTranslation' ) )
     $tpl->setVariable( 'languages', $languages );
 
     $Result = array();
-    $Result['content'] =& $tpl->fetch( 'design:class/removetranslation.tpl' );
+    $Result['content'] = $tpl->fetch( 'design:class/removetranslation.tpl' );
     $Result['path'] = array( array( 'url' => false,
                                     'text' => ezi18n( 'kernel/class', 'Remove translation' ) ) );
 

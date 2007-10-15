@@ -26,8 +26,18 @@
 //
 //
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-
 //
+
+if ( version_compare( phpversion(), '5.1' ) < 0 )
+{
+    //error_log( "Unsupported PHP version " . phpversion() .". eZ Publish 4.x does not run with PHP 4");
+    header( "HTTP/1.1 404 Not Found" );
+    print ( "WebDAV functionality is disabled!" );
+    exit;
+}
+
+require 'autoload.php';
+
 ignore_user_abort( true );
 ob_start();
 
@@ -38,16 +48,16 @@ error_reporting ( E_ALL );
 // Turn off session stuff, isn't needed for WebDAV operations.
 $GLOBALS['eZSiteBasics']['session-required'] = false;
 
-include_once( "lib/ezutils/classes/ezdebug.php" );
-include_once( "lib/ezutils/classes/ezsys.php" );
-include_once( "lib/ezutils/classes/ezini.php" );
-include_once( "kernel/classes/webdav/ezwebdavcontentserver.php" );
+require_once( "lib/ezutils/classes/ezdebug.php" );
+//include_once( "lib/ezutils/classes/ezsys.php" );
+//include_once( "lib/ezutils/classes/ezini.php" );
+//include_once( "kernel/classes/webdav/ezwebdavcontentserver.php" );
 
 /*! Reads settings from site.ini and passes them to eZDebug.
  */
 function eZUpdateDebugSettings()
 {
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
     $debugSettings = array();
     $debugSettings['debug-enabled'] = $ini->variable( 'DebugSettings', 'DebugOutput' ) == 'enabled';
     $debugSettings['debug-by-ip']   = $ini->variable( 'DebugSettings', 'DebugByIP' )   == 'enabled';
@@ -60,12 +70,12 @@ function eZUpdateDebugSettings()
 */
 function eZUpdateTextCodecSettings()
 {
-    $ini =& eZINI::instance( 'i18n.ini' );
+    $ini = eZINI::instance( 'i18n.ini' );
 
     list( $i18nSettings['internal-charset'], $i18nSettings['http-charset'], $i18nSettings['mbstring-extension'] ) =
         $ini->variableMulti( 'CharacterSettings', array( 'Charset', 'HTTPCharset', 'MBStringExtension' ), array( false, false, 'enabled' ) );
 
-    include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+    //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
     eZTextCodec::updateSettings( $i18nSettings );
 }
 
@@ -73,20 +83,20 @@ function eZUpdateTextCodecSettings()
 eZUpdateTextCodecSettings();
 
 // Check for extension
-include_once( 'lib/ezutils/classes/ezextension.php' );
-include_once( 'kernel/common/ezincludefunctions.php' );
+//include_once( 'lib/ezutils/classes/ezextension.php' );
+require_once( 'kernel/common/ezincludefunctions.php' );
 eZExtension::activateExtensions( 'default' );
 // Extension check end
 
 // Make sure site.ini and template.ini reloads its cache incase
 // extensions override it
-$ini =& eZINI::instance( 'site.ini' );
+$ini = eZINI::instance( 'site.ini' );
 $ini->loadCache();
-$tplINI =& eZINI::instance( 'template.ini' );
+$tplINI = eZINI::instance( 'template.ini' );
 $tplINI->loadCache();
 
 // Grab the main WebDAV setting (enable/disable) from the WebDAV ini file.
-$webDavIni =& eZINI::instance( 'webdav.ini' );
+$webDavIni = eZINI::instance( 'webdav.ini' );
 $enable = $webDavIni->variable( 'GeneralSettings', 'EnableWebDAV' );
 
 function eZDBCleanup()
@@ -94,18 +104,18 @@ function eZDBCleanup()
     if ( class_exists( 'ezdb' )
          and eZDB::hasInstance() )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->setIsSQLOutputEnabled( false );
     }
 }
 
 function eZFatalError()
 {
-    eZDebug::setHandleType( EZ_HANDLE_NONE );
-    if ( !class_exists( 'eZWebDAVServer' ) )
-    {
-        include_once( "lib/ezwebdav/classes/ezwebdavserver.php" );
-    }
+    eZDebug::setHandleType( eZDebug::HANDLE_NONE );
+    //if ( !class_exists( 'eZWebDAVServer' ) )
+    //{
+        //include_once( "lib/ezwebdav/classes/ezwebdavserver.php" );
+    //}
     eZWebDAVServer::appendLogEntry( "****************************************" );
     eZWebDAVServer::appendLogEntry( "Fatal error: eZ Publish did not finish its request" );
     eZWebDAVServer::appendLogEntry( "The execution of eZ Publish was abruptly ended, the debug output is present below." );
@@ -117,10 +127,10 @@ function eZFatalError()
 // Check and proceed only if WebDAV functionality is enabled:
 if ( $enable === 'true' )
 {
-    include_once( 'lib/ezutils/classes/ezexecution.php' );
+    require_once( 'lib/ezutils/classes/ezexecution.php' );
     eZExecution::addCleanupHandler( 'eZDBCleanup' );
     eZExecution::addFatalErrorHandler( 'eZFatalError' );
-    eZDebug::setHandleType( EZ_HANDLE_FROM_PHP );
+    eZDebug::setHandleType( eZDebug::HANDLE_FROM_PHP );
 
     if ( !isset( $_SERVER['REQUEST_URI'] ) or
          !isset( $_SERVER['REQUEST_METHOD'] ) )
@@ -129,11 +139,11 @@ if ( $enable === 'true' )
         // e.g. if run from the shell
         eZExecution::cleanExit();
     }
-    include_once( "lib/ezutils/classes/ezmodule.php" );
-    include_once( 'lib/ezutils/classes/ezexecution.php' );
-    include_once( "lib/ezutils/classes/ezsession.php" );
-    include_once( "access.php" );
-    include_once( "kernel/common/i18n.php" );
+    //include_once( "lib/ezutils/classes/ezmodule.php" );
+    require_once( 'lib/ezutils/classes/ezexecution.php' );
+    require_once( "lib/ezutils/classes/ezsession.php" );
+    require_once( "access.php" );
+    require_once( "kernel/common/i18n.php" );
 
     eZModule::setGlobalPathList( array( "kernel" ) );
     eZWebDAVServer::appendLogEntry( "========================================" );
@@ -181,7 +191,7 @@ if ( $enable === 'true' )
             $user = false;
             if ( isset( $loginUsername ) && isset( $loginPassword ) )
             {
-                include_once( 'kernel/classes/datatypes/ezuser/ezuserloginhandler.php' );
+                //include_once( 'kernel/classes/datatypes/ezuser/ezuserloginhandler.php' );
 
                 if ( $ini->hasVariable( 'UserSettings', 'LoginHandler' ) )
                 {
@@ -195,18 +205,18 @@ if ( $enable === 'true' )
                 foreach ( array_keys ( $loginHandlers ) as $key )
                 {
                     $loginHandler = $loginHandlers[$key];
-                    $userClass =& eZUserLoginHandler::instance( $loginHandler );
+                    $userClass = eZUserLoginHandler::instance( $loginHandler );
                     $user = $userClass->loginUser( $loginUsername, $loginPassword );
-                    if ( get_class( $user ) == 'ezuser' )
+                    if ( $user instanceof eZUser )
                         break;
                 }
             }
 
             // Check if username & password contain someting, attempt to login.
-            if ( get_class( $user ) != 'ezuser' )
+            if ( !( $user instanceof eZUser ) )
             {
                 header( 'HTTP/1.0 401 Unauthorized' );
-                header( 'WWW-Authenticate: Basic realm="' . WEBDAV_AUTH_REALM . '"' );
+                header( 'WWW-Authenticate: Basic realm="' . eZWebDAVContentServer::WEBDAV_AUTH_REALM . '"' );
 
                // Read XML body and discard it
                file_get_contents( "php://input" );

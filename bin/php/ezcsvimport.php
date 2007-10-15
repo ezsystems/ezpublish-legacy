@@ -38,22 +38,23 @@
 */
 
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( "lib/ezlocale/classes/ezdatetime.php" );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( "lib/ezlocale/classes/ezdatetime.php" );
 
+require 'autoload.php';
 
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ Publish CSV import script\n\n" .
-                                                         "\n" .
-                                                         "\n" .
-                                                         "\n" .
-                                                         "\n" .
-                                                         "" ),
-                                      'use-session' => false,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'description' => ( "eZ Publish CSV import script\n\n" .
+                                                        "\n" .
+                                                        "\n" .
+                                                        "\n" .
+                                                        "\n" .
+                                                        "" ),
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 
@@ -134,15 +135,15 @@ while ( $objectData = fgetcsv( $fp, $csvLineLength , ';', '"' ) )
                                                  );
     $nodeAssignment->store();
 
-    $version =& $contentObject->version( 1 );
+    $version = $contentObject->version( 1 );
     $version->setAttribute( 'modified', eZDateTime::currentTimeStamp() );
-    $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
+    $version->setAttribute( 'status', eZContentObjectVersion::STATUS_DRAFT );
     $version->store();
 
 
     $contentObjectID = $contentObject->attribute( 'id' );
 
-    $attributes =& $contentObject->attribute( 'contentobject_attributes' );
+    $attributes = $contentObject->attribute( 'contentobject_attributes' );
 
 
 
@@ -165,7 +166,7 @@ while ( $objectData = fgetcsv( $fp, $csvLineLength , ';', '"' ) )
         $attribute->store();
     }
 
-    include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+    //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID,
                                                                                  'version' => 1 ) );
 }

@@ -27,11 +27,13 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
+//include_once( 'lib/ezutils/classes/ezcli.php' );
+//include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ publish Template Compiler\n" .
+require 'autoload.php';
+
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'description' => ( "eZ publish Template Compiler\n" .
                                                          "\n" .
                                                          "./bin/php/eztc.php -snews --www-dir='/mypath' --index-file='/index.php' --access-path='news'" ),
                                       'use-session' => false,
@@ -49,7 +51,7 @@ $options = $script->getOptions( "[compile-directory:][www-dir:][index-file:][acc
                                        'www-dir' => "The part before the index.php in your URL, you should supply this if you are running in non-virtualhost mode",
                                        'index-file' => "The name of your index.php if you are running in non-virtualhost mode",
                                        'access-path' => "Extra access path" ) );
-$sys =& eZSys::instance();
+$sys = eZSys::instance();
 
 $forceCompile = false;
 $useFullURL = false;
@@ -81,18 +83,18 @@ if ( $options['no-full-url'] )
 
 $script->initialize();
 
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
-$http =& eZHTTPTool::instance();
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
+$http = eZHTTPTool::instance();
 $http->UseFullUrl = $useFullURL;
 
 
 if ( count( $options['arguments'] ) > 0 )
 {
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
 
-    include_once( 'kernel/common/template.php' );
-    include_once( 'lib/eztemplate/classes/eztemplatecompiler.php' );
-    $tpl =& templateInit();
+    require_once( 'kernel/common/template.php' );
+    //include_once( 'lib/eztemplate/classes/eztemplatecompiler.php' );
+    $tpl = templateInit();
 
     $fileList = $options['arguments'];
 
@@ -131,23 +133,23 @@ if ( count( $options['arguments'] ) > 0 )
 }
 else
 {
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
     $standardDesign = $ini->variable( "DesignSettings", "StandardDesign" );
     $siteDesign = $ini->variable( "DesignSettings", "SiteDesign" );
     $additionalSiteDesignList = $ini->variable( "DesignSettings", "AdditionalSiteDesignList" );
 
     $designList = array_merge( array( $standardDesign ), $additionalSiteDesignList, array( $siteDesign ) );
 
-    include_once( 'kernel/common/template.php' );
-    include_once( 'lib/eztemplate/classes/eztemplatecompiler.php' );
-    $tpl =& templateInit();
+    require_once( 'kernel/common/template.php' );
+    //include_once( 'lib/eztemplate/classes/eztemplatecompiler.php' );
+    $tpl = templateInit();
 
     $script->setIterationData( '.', '~' );
     if ( $forceCompile )
         eZTemplateCompiler::setSettings( array( 'generate' => true ) );
 
     $extensionDirectory = eZExtension::baseDirectory();
-    $designINI =& eZINI::instance( 'design.ini' );
+    $designINI = eZINI::instance( 'design.ini' );
     $extensions = $designINI->variable( 'ExtensionSettings', 'DesignExtensions' );
 
     foreach ( $designList as $design )

@@ -30,23 +30,23 @@
   \brief contains the eZ Publish SDK version.
 */
 
-define( "EZ_SDK_VERSION_MAJOR", 3 );
-define( "EZ_SDK_VERSION_MINOR", 10 );
-define( "EZ_SDK_VERSION_RELEASE", 0 );
-define( "EZ_SDK_VERSION_STATE", '' );
-define( "EZ_SDK_VERSION_DEVELOPMENT", false );
-define( "EZ_SDK_VERSION_REVISION_STRING", '$Rev$' );
-define( "EZ_SDK_VERSION_ALIAS", '3.10' );
-define( "EZ_SDK_VERSION_REVISION", preg_replace( "#\\\$Rev:\s+([0-9]+)\s+\\\$#", '$1', EZ_SDK_VERSION_REVISION_STRING ) );
-
 class eZPublishSDK
 {
+    const VERSION_MAJOR = 4;
+    const VERSION_MINOR = 0;
+    const VERSION_RELEASE = 0;
+    const VERSION_STATE = 'alpha2';
+    const VERSION_DEVELOPMENT = true;
+    const VERSION_REVISION_STRING = '$Rev$';
+    const VERSION_ALIAS = '4.0';
+    const VERSION_REVISION = 19785;
+
     /*!
       \return the SDK version as a string
       \param withRelease If true the release version is appended
       \param withAlias If true the alias is used instead
     */
-    function version( $withRelease = true, $asAlias = false, $withState = true )
+    static function version( $withRelease = true, $asAlias = false, $withState = true )
     {
         if ( $asAlias )
         {
@@ -72,55 +72,55 @@ class eZPublishSDK
     /*!
      \return the major version
     */
-    function majorVersion()
+    static function majorVersion()
     {
-        return EZ_SDK_VERSION_MAJOR;
+        return eZPublishSDK::VERSION_MAJOR;
     }
 
     /*!
      \return the minor version
     */
-    function minorVersion()
+    static function minorVersion()
     {
-        return EZ_SDK_VERSION_MINOR;
+        return eZPublishSDK::VERSION_MINOR;
     }
 
     /*!
      \return the state of the release
     */
-    function state()
+    static function state()
     {
-        return EZ_SDK_VERSION_STATE;
+        return eZPublishSDK::VERSION_STATE;
     }
 
     /*!
      \return the development version or \c false if this is not a development version
     */
-    function developmentVersion()
+    static function developmentVersion()
     {
-        return EZ_SDK_VERSION_DEVELOPMENT;
+        return eZPublishSDK::VERSION_DEVELOPMENT;
     }
 
     /*!
      \return the release number
     */
-    function release()
+    static function release()
     {
-        return EZ_SDK_VERSION_RELEASE;
+        return eZPublishSDK::VERSION_RELEASE;
     }
 
     /*!
      \return the SVN revision number
     */
-    function revision()
+    static function revision()
     {
-        return EZ_SDK_VERSION_REVISION;
+        return eZPublishSDK::VERSION_REVISION;
     }
 
     /*!
      \return the alias name for the release, this is often used for beta releases and release candidates.
     */
-    function alias()
+    static function alias()
     {
         return eZPublishSDK::version();
     }
@@ -129,10 +129,10 @@ class eZPublishSDK
       \return the version of the database.
       \param withRelease If true the release version is appended
     */
-    function databaseVersion( $withRelease = true )
+    static function databaseVersion( $withRelease = true )
     {
-        include_once( 'lib/ezdb/classes/ezdb.php' );
-        $db =& eZDB::instance();
+        //include_once( 'lib/ezdb/classes/ezdb.php' );
+        $db = eZDB::instance();
         $rows = $db->arrayQuery( "SELECT value as version FROM ezsite_data WHERE name='ezpublish-version'" );
         $version = false;
         if ( count( $rows ) > 0 )
@@ -150,10 +150,10 @@ class eZPublishSDK
     /*!
       \return the release of the database.
     */
-    function databaseRelease()
+    static function databaseRelease()
     {
-        include_once( 'lib/ezdb/classes/ezdb.php' );
-        $db =& eZDB::instance();
+        //include_once( 'lib/ezdb/classes/ezdb.php' );
+        $db = eZDB::instance();
         $rows = $db->arrayQuery( "SELECT value as release FROM ezsite_data WHERE name='ezpublish-release'" );
         $release = false;
         if ( count( $rows ) > 0 )

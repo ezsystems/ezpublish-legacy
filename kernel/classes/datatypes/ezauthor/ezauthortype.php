@@ -35,18 +35,18 @@
 
 */
 
-include_once( "kernel/classes/ezdatatype.php" );
-include_once( "kernel/classes/datatypes/ezauthor/ezauthor.php" );
-include_once( "lib/ezutils/classes/ezmail.php" );
-include_once( 'lib/ezutils/classes/ezstringutils.php' );
-
-define( "EZ_DATATYPESTRING_AUTHOR", "ezauthor" );
+//include_once( "kernel/classes/ezdatatype.php" );
+//include_once( "kernel/classes/datatypes/ezauthor/ezauthor.php" );
+//include_once( "lib/ezutils/classes/ezmail.php" );
+//include_once( 'lib/ezutils/classes/ezstringutils.php' );
 
 class eZAuthorType extends eZDataType
 {
+    const DATA_TYPE_STRING = "ezauthor";
+
     function eZAuthorType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_AUTHOR, ezi18n( 'kernel/classes/datatypes', "Authors", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Authors", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -54,7 +54,7 @@ class eZAuthorType extends eZDataType
      Validates the input and returns true if the input was
      valid for this datatype.
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $actionRemoveSelected = false;
         if ( $http->hasPostVariable( 'CustomActionButton' ) )
@@ -68,7 +68,7 @@ class eZAuthorType extends eZDataType
 
         if ( $http->hasPostVariable( $base . "_data_author_id_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $classAttribute = $contentObjectAttribute->contentClassAttribute();
             $idList = $http->postVariable( $base . "_data_author_id_" . $contentObjectAttribute->attribute( "id" ) );
             $nameList = $http->postVariable( $base . "_data_author_name_" . $contentObjectAttribute->attribute( "id" ) );
             $emailList = $http->postVariable( $base . "_data_author_email_" . $contentObjectAttribute->attribute( "id" ) );
@@ -84,7 +84,7 @@ class eZAuthorType extends eZDataType
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'At least one author is required.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    return eZInputValidator::STATE_INVALID;
                 }
             }
             if ( trim( $nameList[0] ) != "" )
@@ -101,7 +101,7 @@ class eZAuthorType extends eZDataType
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                              'The author name must be provided.' ) );
-                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                        return eZInputValidator::STATE_INVALID;
 
                     }
                     $isValidate =  eZMail::validate( $email );
@@ -109,7 +109,7 @@ class eZAuthorType extends eZDataType
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                              'The email address is not valid.' ) );
-                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                        return eZInputValidator::STATE_INVALID;
                     }
                 }
             }
@@ -120,25 +120,25 @@ class eZAuthorType extends eZDataType
             {
                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                      'At least one author is required.' ) );
-                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                return eZInputValidator::STATE_INVALID;
             }
         }
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
      Store content
     */
-    function storeObjectAttribute( &$contentObjectAttribute )
+    function storeObjectAttribute( $contentObjectAttribute )
     {
-        $author =& $contentObjectAttribute->content();
+        $author = $contentObjectAttribute->content();
         $contentObjectAttribute->setAttribute( "data_text", $author->xmlString() );
     }
 
     /*!
      Sets the default value.
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
@@ -150,7 +150,7 @@ class eZAuthorType extends eZDataType
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         $author = new eZAuthor( );
 
@@ -161,8 +161,8 @@ class eZAuthorType extends eZDataType
         }
         else
         {
-            $user =& eZUser::currentUser();
-            $userobject =& $user->attribute( 'contentobject' );
+            $user = eZUser::currentUser();
+            $userobject = $user->attribute( 'contentobject' );
             if ( $userobject )
             {
                 $author->addAuthor( $userobject->attribute( 'id' ), $userobject->attribute( 'name' ), $user->attribute( 'email' ) );
@@ -181,9 +181,9 @@ class eZAuthorType extends eZDataType
     /*!
      Returns the meta data used for storing search indeces.
     */
-    function metaData( &$contentObjectAttribute )
+    function metaData( $contentObjectAttribute )
     {
-        $author =& $contentObjectAttribute->content();
+        $author = $contentObjectAttribute->content();
         if ( !$author )
             return false;
 
@@ -201,7 +201,7 @@ class eZAuthorType extends eZDataType
         return eZStringUtils::implodeStr( $authorList, "&" );
     }
 
-    function fromString( &$contentObjectAttribute, $string )
+    function fromString( $contentObjectAttribute, $string )
     {
         $authorList = eZStringUtils::explodeStr( $string, '&' );
 
@@ -221,7 +221,7 @@ class eZAuthorType extends eZDataType
     /*!
      Fetches the http post var integer input and stores it in the data instance.
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . "_data_author_id_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
@@ -244,20 +244,20 @@ class eZAuthorType extends eZDataType
 
     /*!
     */
-    function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute )
+    function customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute, $parameters )
     {
         switch ( $action )
         {
             case "new_author" :
             {
-                $author =& $contentObjectAttribute->content( );
+                $author = $contentObjectAttribute->content( );
 
                 $author->addAuthor( -1, "", "" );
                 $contentObjectAttribute->setContent( $author );
             }break;
             case "remove_selected" :
             {
-                $author =& $contentObjectAttribute->content( );
+                $author = $contentObjectAttribute->content( );
                 $postvarname = "ContentObjectAttribute" . "_data_author_remove_" . $contentObjectAttribute->attribute( "id" );
                 if ( !$http->hasPostVariable( $postvarname ) )
                     break;
@@ -273,9 +273,9 @@ class eZAuthorType extends eZDataType
         }
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
-        $author =& $contentObjectAttribute->content( );
+        $author = $contentObjectAttribute->content( );
         $authorList = $author->attribute( 'author_list' );
         return count( $authorList ) > 0;
     }
@@ -283,9 +283,9 @@ class eZAuthorType extends eZDataType
     /*!
      Returns the string value.
     */
-    function title( &$contentObjectAttribute )
+    function title( $contentObjectAttribute, $name = null )
     {
-        $author =& $contentObjectAttribute->content( );
+        $author = $contentObjectAttribute->content( );
         $name = $author->attribute( 'name' );
         if ( trim( $name ) == '' )
         {
@@ -314,13 +314,16 @@ class eZAuthorType extends eZDataType
 
      \return a DOM representation of the content object attribute
     */
-    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
 
-        $xml = new eZXML();
-        $domDocument = $xml->domTree( $objectAttribute->attribute( 'data_text' ) );
-        $node->appendChild( $domDocument->root() );
+        $dom = new DOMDocument();
+        $success = $dom->loadXML( $objectAttribute->attribute( 'data_text' ) );
+
+        $nodeDOM = $node->ownerDocument;
+        $importedElement = $nodeDOM->importNode( $dom->documentElement, true );
+        $node->appendChild( $importedElement );
 
         return $node;
     }
@@ -330,16 +333,17 @@ class eZAuthorType extends eZDataType
 
      \param package
      \param contentobject attribute object
-     \param ezdomnode object
+     \param domnode object
     */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
-        $rootNode = $attributeNode->firstChild();
-        $objectAttribute->setAttribute( 'data_text', $rootNode->toString( 0 ) );
+        $rootNode = $attributeNode->getElementsByTagName( 'ezauthor' )->item( 0 );
+        $xmlString = $rootNode->ownerDocument->saveXML( $rootNode );
+        $objectAttribute->setAttribute( 'data_text', $xmlString );
     }
 
 }
 
-eZDataType::register( EZ_DATATYPESTRING_AUTHOR, "ezauthortype" );
+eZDataType::register( eZAuthorType::DATA_TYPE_STRING, "eZAuthorType" );
 
 ?>

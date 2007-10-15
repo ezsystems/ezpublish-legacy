@@ -36,7 +36,7 @@
   \brief The class eZNotificationEventFilter does
 
 */
-include_once( 'kernel/classes/notification/eznotificationevent.php' );
+//include_once( 'kernel/classes/notification/eznotificationevent.php' );
 class eZNotificationEventFilter
 {
     /*!
@@ -50,16 +50,14 @@ class eZNotificationEventFilter
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function process()
+    static function process()
     {
         $eventList = eZNotificationEvent::fetchUnhandledList();
-        $availableHandlers =& eZNotificationEventFilter::availableHandlers();
-        foreach( array_keys( $eventList ) as $key )
+        $availableHandlers = eZNotificationEventFilter::availableHandlers();
+        foreach( $eventList as $event )
         {
-            $event =& $eventList[$key];
-            foreach( array_keys( $availableHandlers ) as $handlerKey )
+            foreach( $availableHandlers as $handler )
             {
-                $handler =& $availableHandlers[$handlerKey];
                 if ( $handler === false )
                 {
                     eZDebug::writeError( "Notification handler does not exist: $handlerKey", 'eZNotificationEventFilter::process()' );
@@ -76,18 +74,18 @@ class eZNotificationEventFilter
             }
             else
             {
-                $event->setAttribute( 'status', EZ_NOTIFICATIONEVENT_STATUS_HANDLED );
+                $event->setAttribute( 'status', eZNotificationEvent::STATUS_HANDLED );
                 $event->store();
             }
         }
         eZNotificationCollection::removeEmpty();
     }
 
-    function &availableHandlers()
+    static function availableHandlers()
     {
-        include_once( 'lib/ezutils/classes/ezextension.php' );
+        //include_once( 'lib/ezutils/classes/ezextension.php' );
         $baseDirectory = eZExtension::baseDirectory();
-        $notificationINI =& eZINI::instance( 'notification.ini' );
+        $notificationINI = eZINI::instance( 'notification.ini' );
         $availableHandlers = $notificationINI->variable( 'NotificationEventHandlerSettings', 'AvailableNotificationEventTypes' );
         $repositoryDirectories = array();
         $extensionDirectories = $notificationINI->variable( 'NotificationEventHandlerSettings', 'ExtensionDirectories' );
@@ -107,15 +105,14 @@ class eZNotificationEventFilter
         return $handlers;
     }
 
-    function loadHandler( $directories, $handlerString )
+    static function loadHandler( $directories, $handlerString )
     {
         $foundHandler = false;
         $includeFile = '';
 
-
-        include_once( 'lib/ezutils/classes/ezextension.php' );
+        //include_once( 'lib/ezutils/classes/ezextension.php' );
         $baseDirectory = eZExtension::baseDirectory();
-        $notificationINI =& eZINI::instance( 'notification.ini' );
+        $notificationINI = eZINI::instance( 'notification.ini' );
         $repositoryDirectories = $notificationINI->variable( 'NotificationEventHandlerSettings', 'RepositoryDirectories' );
         $extensionDirectories = $notificationINI->variable( 'NotificationEventHandlerSettings', 'ExtensionDirectories' );
         foreach ( $extensionDirectories as $extensionDirectory )
@@ -151,15 +148,14 @@ class eZNotificationEventFilter
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function cleanup()
+    static function cleanup()
     {
-        $availableHandlers =& eZNotificationEventFilter::availableHandlers();
+        $availableHandlers = eZNotificationEventFilter::availableHandlers();
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
-        foreach( array_keys( $availableHandlers ) as $handlerKey )
+        foreach( $availableHandlers as $handler )
         {
-            $handler =& $availableHandlers[$handlerKey];
             if ( $handler !== false )
             {
                 $handler->cleanup();

@@ -26,12 +26,12 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$http =& eZHTTPTool::instance();
-$module =& $Params["Module"];
+$http = eZHTTPTool::instance();
+$module = $Params['Module'];
 
-include_once( 'kernel/classes/ezcache.php' );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( 'kernel/classes/ezpreferences.php' );
+//include_once( 'kernel/classes/ezcache.php' );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( 'kernel/classes/ezpreferences.php' );
 
 $cacheType = $module->actionParameter( 'CacheType' );
 
@@ -66,7 +66,7 @@ elseif ( $cacheType == 'Ini' )
 }
 elseif ( $cacheType == 'Static' )
 {
-    include_once( 'kernel/classes/ezstaticcache.php' );
+    //include_once( 'kernel/classes/ezstaticcache.php' );
 
     $staticCache = new eZStaticCache();
     $staticCache->generateCache( true, true );
@@ -75,7 +75,7 @@ elseif ( $cacheType == 'Static' )
 elseif ( $cacheType == 'ContentNode' )
 {
     $contentModule = eZModule::exists( 'content' );
-    if ( get_class( $contentModule ) == "ezmodule" )
+    if ( $contentModule instanceof eZModule )
     {
         $contentModule->setCurrentAction( 'ClearViewCache', 'action' );
 
@@ -88,7 +88,7 @@ elseif ( $cacheType == 'ContentNode' )
 elseif ( $cacheType == 'ContentSubtree' )
 {
     $contentModule = eZModule::exists( 'content' );
-    if ( get_class( $contentModule ) == "ezmodule" )
+    if ( $contentModule instanceof eZModule )
     {
         $contentModule->setCurrentAction( 'ClearViewCacheSubtree', 'action' );
 

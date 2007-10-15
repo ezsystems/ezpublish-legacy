@@ -42,56 +42,8 @@
   \todo Add support for propall and propname
 */
 
-include_once( 'lib/ezxml/classes/ezxml.php' );
-include_once( "lib/ezutils/classes/ezmimetype.php" );
-include_once( 'lib/ezfile/classes/ezdir.php' );
-
-// General status OK return codes:
-define( "EZ_WEBDAV_OK", 10 );
-define( "EZ_WEBDAV_OK_SILENT", 11 );
-define( "EZ_WEBDAV_OK_CREATED", 12 );
-define( "EZ_WEBDAV_OK_OVERWRITE", 13 );
-
-// General status FAILED return codes:
-define( "EZ_WEBDAV_FAILED_FORBIDDEN", 30 );
-define( "EZ_WEBDAV_FAILED_NOT_FOUND", 31 );
-define( "EZ_WEBDAV_FAILED_EXISTS", 32 );
-define( "EZ_WEBDAV_FAILED_CONFLICT", 33 );
-define( "EZ_WEBDAV_FAILED_PRECONDITION", 34 );
-define( "EZ_WEBDAV_FAILED_LOCKED", 35 );
-define( "EZ_WEBDAV_FAILED_BAD_GATEWAY", 36 );
-define( "EZ_WEBDAV_FAILED_STORAGE_FULL", 37 );
-define( "EZ_WEBDAV_FAILED_UNSUPPORTED", 38 );
-
-
-// File timestamp formats (MUST be correct, or else: Won't work in MSIE...).
-// Yes, the two timestamps are actually in different formats. Don't touch!
-define( "EZ_WEBDAV_CTIME_FORMAT", "Y-m-d\\TH:i:s\\Z" );
-define( "EZ_WEBDAV_MTIME_FORMAT", "D, d M Y H:i:s" );
-
-
-// Get the location of the correct var directory.
-$varDir = eZSys::varDirectory();
-
-
-// Temporary (uploaded) file stuff:
-define( "EZ_WEBDAV_TEMP_DIRECTORY",   $varDir . "/webdav/tmp" );
-define( "EZ_WEBDAV_ROOT_DIRECTORY",   $varDir . "/webdav/root" );
-define( "EZ_WEBDAV_TEMP_FILE_PREFIX", "eZWebDAVUpload_" );
-
-
-// Check if necessary temp. dir. actually exists, if not: create it!
-if ( !file_exists( EZ_WEBDAV_TEMP_DIRECTORY ) )
-{
-    eZDir::mkdir( EZ_WEBDAV_TEMP_DIRECTORY, eZDir::directoryPermission(), true);
-}
-
-// Check if necessary root dir. actually exists, if not: create it!
-if ( !file_exists( EZ_WEBDAV_ROOT_DIRECTORY ) )
-{
-    eZDir::mkdir( EZ_WEBDAV_ROOT_DIRECTORY, eZDir::directoryPermission(), true);
-}
-
+//include_once( "lib/ezutils/classes/ezmimetype.php" );
+//include_once( 'lib/ezfile/classes/ezdir.php' );
 
 /*!
   \return \c true if logging is enabled.
@@ -124,6 +76,31 @@ function eZWebDavAppendToLog( $logString )
 
 class eZWebDAVServer
 {
+    // General status OK return codes:
+    const OK = 10;
+    const OK_SILENT = 11;
+    const OK_CREATED = 12;
+    const OK_OVERWRITE = 13;
+
+    // General status FAILED return codes:
+    const FAILED_FORBIDDEN = 30;
+    const FAILED_NOT_FOUND = 31;
+    const FAILED_EXISTS = 32;
+    const FAILED_CONFLICT = 33;
+    const FAILED_PRECONDITION = 34;
+    const FAILED_LOCKED = 35;
+    const FAILED_BAD_GATEWAY = 36;
+    const FAILED_STORAGE_FULL = 37;
+    const FAILED_UNSUPPORTED = 38;
+
+    // File timestamp formats (MUST be correct, or else: Won't work in MSIE...).
+    // Yes, the two timestamps are actually in different formats. Don't touch!
+    const CTIME_FORMAT = "Y-m-d\\TH:i:s\\Z";
+    const MTIME_FORMAT = "D, d M Y H:i:s";
+
+    // Temporary (uploaded) file stuff:
+    const TEMP_FILE_PREFIX = "eZWebDAVUpload_";
+
     /*! Constructor of eZWebDAVServer;
         disables PHP error messages.
      */
@@ -171,7 +148,7 @@ class eZWebDAVServer
         $this->appendLogEntry( "Target: " . $_SERVER["REQUEST_URI"], 'processClientRequest' );
         $this->appendLogEntry( "----------------------------------------" );
 
-        $status = EZ_WEBDAV_FAILED_NOT_FOUND;
+        $status = eZWebDAVServer::FAILED_NOT_FOUND;
 
         switch ( $_SERVER["REQUEST_METHOD"] )
         {
@@ -193,27 +170,30 @@ class eZWebDAVServer
                     $depth = "infinity";
                 $this->appendLogEntry( "Depth: $depth.", 'processClientRequest' );
 
+                $xmlBody = $this->xmlBody();
                 // Find which properties were requested
                 // $this->appendLogEntry( $xmlBody, 'xmlbody' );
-                $xml = new eZXML();
-                $bodyTree = $xml->domTree( $this->xmlBody() );
+                $dom = new DOMDocument();
+                $dom->preserveWhiteSpace = false;
+                $ok = $dom->loadXML( $xmlBody );
+
                 $requestedProperties = array();
-                if ( $bodyTree )
+                if ( $ok )
                 {
-                    $propfindNode =& $bodyTree->root();
-                    $propNode =& $propfindNode->elementByName( 'prop' );
+                    $propfindNode = $dom->documentElement;
+                    $propNode = $propfindNode->getElementsByTagName( 'prop' )->item( 0 );
                     if ( $propNode )
                     {
-                        $propList = $propNode->children();
+                        $propList = $propNode->childNodes;
                         foreach ( $propList as $node )
                         {
-                            $name = $node->name();
+                            $name = $node->localName;
                             $requestedProperties[] = $name;
                         }
                     }
                     else
                     {
-                        $allpropNode =& $propfindNode->elementByName( 'allprop' );
+                        $allpropNode = $propfindNode->getElementsByTagName( 'allprop' )->item( 0 );
                         if ( $allpropNode )
                         {
                             // The server must return all possible properties
@@ -221,7 +201,7 @@ class eZWebDAVServer
                         }
                         else
                         {
-                            $propnameNode =& $propfindNode->elementByName( 'propname' );
+                            $propnameNode = $propfindNode->getElementsByTagName( 'propname' )->item( 0 );
                             if ( $propnameNode )
                             {
                                 // The server must return only the names of all properties
@@ -262,7 +242,7 @@ class eZWebDAVServer
             case "PUT":
             {
                 $this->appendLogEntry( "PUT was issued from client.", 'processClientRequest' );
-                $status = EZ_WEBDAV_OK_CREATED;
+                $status = eZWebDAVServer::OK_CREATED;
 
                 // Attempt to get file/resource sent from client/browser.
                 $tempFile = $this->storeUploadedFile( $target );
@@ -274,13 +254,13 @@ class eZWebDAVServer
                     $status = $this->put( $target, $tempFile );
 
                     unlink( $tempFile );
-                    include_once( 'lib/ezfile/classes/ezdir.php' );
+                    //include_once( 'lib/ezfile/classes/ezdir.php' );
                     eZDir::cleanupEmptyDirectories( dirname( $tempFile ) );
                 }
                 // Else: something went wrong...
                 else
                 {
-                    $status = EZ_WEBDAV_FAILED_FORBIDDEN;
+                    $status = eZWebDAVServer::FAILED_FORBIDDEN;
                 }
 
             } break;
@@ -292,7 +272,7 @@ class eZWebDAVServer
                 if ( strlen( $this->xmlBody() ) > 0 )
                 {
                     $this->appendLogEntry( "MKCOL body error.", 'processClientRequest' );
-                    $status = EZ_WEBDAV_FAILED_FORBIDDEN;
+                    $status = eZWebDAVServer::FAILED_FORBIDDEN;
                 }
                 else
                 {
@@ -372,7 +352,7 @@ class eZWebDAVServer
         header( 'DAV: ' . implode( ',', $versions ) );
         header( 'Content-Type: text/plain; charset=iso-8859-1' );
 
-        return EZ_WEBDAV_OK_SILENT;
+        return eZWebDAVServer::OK_SILENT;
     }
 
     /*!
@@ -443,8 +423,8 @@ class eZWebDAVServer
         foreach ( $collection as $entry )
         {
             // Translate the various UNIX timestamps to WebDAV format:
-            $creationTime = date( EZ_WEBDAV_CTIME_FORMAT, $entry['ctime'] );
-            $modificationTime = date( EZ_WEBDAV_MTIME_FORMAT, $entry['mtime'] );
+            $creationTime = date( eZWebDAVServer::CTIME_FORMAT, $entry['ctime'] );
+            $modificationTime = date( eZWebDAVServer::MTIME_FORMAT, $entry['mtime'] );
 
             // The following lines take care of URL encoding special characters
             // for each element (stuff between slashes) in the path.
@@ -483,12 +463,12 @@ class eZWebDAVServer
                 {
                     if ( $requestedProperty == 'creationdate' )
                     {
-                        $creationTime = date( EZ_WEBDAV_CTIME_FORMAT, $entry['ctime'] );
+                        $creationTime = date( eZWebDAVServer::CTIME_FORMAT, $entry['ctime'] );
                         $xmlText .= "   <D:" . $requestedProperty . ">" . $creationTime . "</D:" . $requestedProperty . ">\n";
                     }
                     else if ( $requestedProperty == 'getlastmodified' )
                     {
-                        $modificationTime = date( EZ_WEBDAV_MTIME_FORMAT, $entry['mtime'] );
+                        $modificationTime = date( eZWebDAVServer::MTIME_FORMAT, $entry['mtime'] );
                         $xmlText .= "   <D:" . $requestedProperty . ">" . $modificationTime . "</D:" . $requestedProperty . ">\n";
                     }
                     else if ( $isCollection and $requestedProperty == 'getcontenttype' )
@@ -555,15 +535,15 @@ class eZWebDAVServer
         // Dump the actual XML data containing collection list.
         print( $xmlText );
 
-        $xml = new eZXML();
-        $domTree = $xml->domTree( $xmlText );
-        if ( $domTree )
+        $dom = new DOMDocument();
+        $success = $dom->loadXML( $xmlText );
+        if ( $success )
             $this->appendLogEntry( "XML was parsed", 'outputCollectionContent' );
         else
             $this->appendLogEntry( "XML was NOT parsed $xmlText", 'outputCollectionContent' );
 
         // If we got this far: everything is OK.
-        return EZ_WEBDAV_OK_SILENT;
+        return eZWebDAVServer::OK_SILENT;
     }
 
     /*!
@@ -579,7 +559,7 @@ class eZWebDAVServer
         if ( !$output )
         {
             $this->appendLogEntry( "outputData: no data available", 'outputSendDataToClient' );
-            return EZ_WEBDAV_FAILED_NOT_FOUND;
+            return eZWebDAVServer::FAILED_NOT_FOUND;
         }
 
         // Check if we are dealing with custom data.
@@ -631,23 +611,23 @@ class eZWebDAVServer
                     // Check if the last command succeded..
                     if ( $status == $size)
                     {
-                        return EZ_WEBDAV_OK_SILENT;
+                        return eZWebDAVServer::OK_SILENT;
                     }
                     else
                     {
-                        return EZ_WEBDAV_FAILED_FORBIDDEN;
+                        return eZWebDAVServer::FAILED_FORBIDDEN;
                     }
                 }
                 else
                 {
-                    return EZ_WEBDAV_OK_SILENT;
+                    return eZWebDAVServer::OK_SILENT;
                 }
             }
             // Else: file/dir doesn't exist!
             else
             {
                 $this->appendLogEntry( "outputData: file DOES NOT exists on server...", 'outputSendDataToClient' );
-                return EZ_WEBDAV_FAILED_NOT_FOUND;
+                return eZWebDAVServer::FAILED_NOT_FOUND;
             }
         }
         else
@@ -659,7 +639,7 @@ class eZWebDAVServer
                 $this->appendLogEntry( $text, "DAV: PHP Output" );
             while ( @ob_end_clean() );
 
-            return EZ_WEBDAV_FAILED_NOT_FOUND;
+            return eZWebDAVServer::FAILED_NOT_FOUND;
         }
     }
 
@@ -671,12 +651,12 @@ class eZWebDAVServer
     */
     function storeUploadedFile( $target )
     {
-        $dir = EZ_WEBDAV_TEMP_DIRECTORY . '/' . md5( microtime() . '-' . $target );
+        $dir = eZWebDAVServer::tempDirectory() . '/' . md5( microtime() . '-' . $target );
         $filePath = $dir . '/' . basename( $target );
 
         if ( !file_exists( $dir ) )
         {
-            include_once( 'lib/ezfile/classes/ezdir.php' );
+            //include_once( 'lib/ezfile/classes/ezdir.php' );
             eZDir::mkdir( $dir, false, true );
         }
 
@@ -835,79 +815,79 @@ class eZWebDAVServer
         switch ( $status )
         {
             // OK.
-            case EZ_WEBDAV_OK:
+            case eZWebDAVServer::OK:
             {
                 header( "HTTP/1.1 200 OK" );
             } break;
 
             // OK, SILENT.
-            case EZ_WEBDAV_OK_SILENT:
+            case eZWebDAVServer::OK_SILENT:
             {
                 // Do nothing...
             } break;
 
             // OK, CREATED.
-            case EZ_WEBDAV_OK_CREATED:
+            case eZWebDAVServer::OK_CREATED:
             {
                 header( "HTTP/1.1 201 Created" );
             } break;
 
             // OK, OVERWRITE.
-            case EZ_WEBDAV_OK_OVERWRITE:
+            case eZWebDAVServer::OK_OVERWRITE:
             {
                 header( "HTTP/1.1 204 No Content");
             } break;
 
             // FAILED, FORBIDDEN!
-            case EZ_WEBDAV_FAILED_FORBIDDEN:
+            case eZWebDAVServer::FAILED_FORBIDDEN:
             {
                 header( "HTTP/1.1 403 Forbidden");
             } break;
 
             // FAILED, NOT FOUND!
-            case EZ_WEBDAV_FAILED_NOT_FOUND:
+            case eZWebDAVServer::FAILED_NOT_FOUND:
             {
                 header( "HTTP/1.1 404 Not Found" );
             } break;
 
             // FAILED, ALREADY EXISTS!
-            case EZ_WEBDAV_FAILED_EXISTS:
+            case eZWebDAVServer::FAILED_EXISTS:
             {
                 header( "HTTP/1.1 405 Method not allowed" );
             } break;
 
             // FAILED, CONFLICT!
-            case EZ_WEBDAV_FAILED_CONFLICT:
+            case eZWebDAVServer::FAILED_CONFLICT:
             {
                 header( "HTTP/1.1 409 Conflict" );
             }break;
 
             // FAILED, PRECONDITION.
-            case EZ_WEBDAV_FAILED_PRECONDITION:
+            case eZWebDAVServer::FAILED_PRECONDITION:
             {
                 header( "HTTP/1.1 412 Precondition Failed" );
             } break;
 
             // FAILED, RESOURCE IS LOCKED!
-            case EZ_WEBDAV_FAILED_LOCKED:
+            case eZWebDAVServer::FAILED_LOCKED:
             {
                 header( "HTTP/1.1 423 Locked" );
             } break;
 
             // FAILED, BAD GATEWAY!
-            case EZ_WEBDAV_FAILED_BAD_GATEWAY:
+            case eZWebDAVServer::FAILED_BAD_GATEWAY:
             {
                 header( "HTTP/1.1 502 Bad Gateway" );
             } break;
 
             // FAILED, NO SPACE LEFT ON DEVICE!
-            case EZ_WEBDAV_FAILED_STORAGE_FULL:
+            case eZWebDAVServer::FAILED_STORAGE_FULL:
             {
                 header( "HTTP/1.1 507 Insufficient Storage" );
             } break;
 
             // FAILED, UNSUPPORTED REQUEST!
-            case EZ_WEBDAV_FAILED_UNSUPPORTED:
+            case eZWebDAVServer::FAILED_UNSUPPORTED:
             {
                 header( "HTTP/1.1 415 Unsupported Media Type" );
             } break;
@@ -943,7 +923,7 @@ class eZWebDAVServer
         $fileName = $varDir . '/' . $logDir . '/' . $logName;
         if ( !file_exists( $varDir . '/' . $logDir ) )
         {
-            include_once( 'lib/ezfile/classes/ezdir.php' );
+            //include_once( 'lib/ezfile/classes/ezdir.php' );
             eZDir::mkdir( $varDir . '/' . $logDir, 0775, true );
         }
 
@@ -965,7 +945,7 @@ class eZWebDAVServer
         $useLogging =& $GLOBALS['eZWebDavLogging'];
         if ( !isset( $useLogging ) )
         {
-            $ini =& eZINI::instance( 'webdav.ini' );
+            $ini = eZINI::instance( 'webdav.ini' );
             $useLogging = $ini->variable( 'GeneralSettings', 'Logging' ) == 'enabled';
         }
         return $useLogging;
@@ -1022,7 +1002,7 @@ class eZWebDAVServer
     */
     function dataCharset()
     {
-        $ini =& eZINI::instance( 'i18n.ini' );
+        $ini = eZINI::instance( 'i18n.ini' );
         $charset = $ini->variable('CharacterSettings', 'Charset' );
         return $charset;
     }
@@ -1066,17 +1046,49 @@ class eZWebDAVServer
     */
     function recode( $string, $fromCharset, $toCharset, $stop = false )
     {
-        include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-        $codec =& eZTextCodec::instance( $fromCharset, $toCharset, false );
+        //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+        $codec = eZTextCodec::instance( $fromCharset, $toCharset, false );
         if ( $codec )
             $string = $codec->convertString( $string );
 
         return $string;
     }
 
+    /*!
+     \static
+     \return the path to the WebDAV temporary directory
+
+     If the directory does not exist yet, it will be created first.
+    */
+    static function tempDirectory()
+    {
+        $tempDir = eZSys::varDirectory() . '/webdav/tmp';
+        if ( !file_exists( $tempDir ) )
+        {
+            eZDir::mkdir( $tempDir, eZDir::directoryPermission(), true );
+        }
+        return $tempDir;
+    }
+
+    /*
+     \static
+     \return the path to the WebDAV root directory
+
+     If the directory does not exist yet, it will be created first.
+    */
+    static function rootDirectory()
+    {
+        $rootDir = eZSys::varDirectory() . '/webdav/root';
+        if ( !file_exists( $rootDir ) )
+        {
+            eZDir::mkdir( $rootDir, eZDir::directoryPermission(), true );
+        }
+        return $rootDir;
+    }
+
     /// \privatesection
-    var $ServerRootDir = "";
-    var $XMLBodyRead = false;
-    var $XMLOutputCharset = 'utf-8';
+    public $ServerRootDir = "";
+    public $XMLBodyRead = false;
+    public $XMLOutputCharset = 'utf-8';
 }
 ?>

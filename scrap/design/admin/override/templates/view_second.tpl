@@ -1,1 +1,0 @@
-Viewing second {$obj.name}

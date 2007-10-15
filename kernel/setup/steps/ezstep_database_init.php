@@ -30,10 +30,10 @@
 
 /*! \file ezstep_database_init.php
 */
-include_once( 'kernel/setup/steps/ezstep_installer.php');
-include_once( 'lib/ezdb/classes/ezdbtool.php' );
-include_once( 'kernel/common/i18n.php' );
-include_once( "kernel/setup/ezsetuptests.php" );
+//include_once( 'kernel/setup/steps/ezstep_installer.php');
+//include_once( 'lib/ezdb/classes/ezdbtool.php' );
+require_once( 'kernel/common/i18n.php' );
+//include_once( "kernel/setup/ezsetuptests.php" );
 
 /*!
   \class eZStepDatabaseInit ezstep_database_init.php
@@ -47,7 +47,7 @@ class eZStepDatabaseInit extends eZStepInstaller
      Constructor
      \reimp
     */
-    function eZStepDatabaseInit( &$tpl, &$http, &$ini, &$persistenceList )
+    function eZStepDatabaseInit( $tpl, $http, $ini, &$persistenceList )
     {
         $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
                                 'database_init', 'Database init' );
@@ -117,7 +117,7 @@ class eZStepDatabaseInit extends eZStepInstaller
             return false;
         }
 
-        $db =& $result['db_instance'];
+        $db = $result['db_instance'];
         $this->PersistenceList['database_info']['use_unicode'] = $result['use_unicode'];
         $availDatabases = $db->availableDatabases();
 
@@ -132,11 +132,11 @@ class eZStepDatabaseInit extends eZStepInstaller
         }
         else if ( $availDatabases == null && $db->isConnected() === true )
         {
-            $this->Error = EZ_SETUP_DB_ERROR_NO_DATABASES;
+            $this->Error = eZStepInstaller::DB_ERROR_NO_DATABASES;
             return false;
         }
 
-        $this->Error = EZ_SETUP_DB_ERROR_CONNECTION_FAILED;
+        $this->Error = eZStepInstaller::DB_ERROR_CONNECTION_FAILED;
 
         return false;
     }
@@ -183,7 +183,7 @@ class eZStepDatabaseInit extends eZStepInstaller
             return true;
         }*/
 
-        $config =& eZINI::instance( 'setup.ini' );
+        $config = eZINI::instance( 'setup.ini' );
         if ( !isset( $this->PersistenceList['database_info']['server'] ) or
              !$this->PersistenceList['database_info']['server'] )
             $this->PersistenceList['database_info']['server'] = $config->variable( 'DatabaseSettings', 'DefaultServer' );
@@ -201,7 +201,7 @@ class eZStepDatabaseInit extends eZStepInstaller
 
         if ( $this->Http->postVariable( 'eZSetup_current_step' ) == 'SiteDetails' ) // Failed to connect to tables in database
         {
-            $this->Error = EZ_SETUP_DB_ERROR_CONNECTION_FAILED;
+            $this->Error = eZStepInstaller::DB_ERROR_CONNECTION_FAILED;
         }
 
         return false; // Always show database initialization
@@ -210,7 +210,7 @@ class eZStepDatabaseInit extends eZStepInstaller
     /*!
      \reimp
      */
-    function &display()
+    function display()
     {
         $databaseMap = eZSetupDatabaseMap();
 
@@ -248,8 +248,8 @@ class eZStepDatabaseInit extends eZStepInstaller
         return $result;
     }
 
-    var $Error = 0;
-    var $DBEmpty = true;
+    public $Error = 0;
+    public $DBEmpty = true;
 }
 
 ?>

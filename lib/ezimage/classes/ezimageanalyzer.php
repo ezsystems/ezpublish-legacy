@@ -42,18 +42,17 @@
 
 */
 
-
-define( 'EZ_IMAGE_MODE_INDEXED', 1 );
-define( 'EZ_IMAGE_MODE_TRUECOLOR', 2 );
-
-define( 'EZ_IMAGE_TIMER_HUNDRETHS_OF_A_SECOND', 1 );
-
-define( 'EZ_IMAGE_TRANSPARENCY_OPAQUE', 1 );
-define( 'EZ_IMAGE_TRANSPARENCY_TRANSPARENT', 2 );
-define( 'EZ_IMAGE_TRANSPARENCY_TRANSLUCENT', 3 );
-
 class eZImageAnalyzer
 {
+    const MODE_INDEXED = 1;
+    const MODE_TRUECOLOR = 2;
+
+    const TIMER_HUNDRETHS_OF_A_SECOND = 1;
+
+    const TRANSPARENCY_OPAQUE = 1;
+    const TRANSPARENCY_TRANSPARENT = 2;
+    const TRANSPARENCY_TRANSLUCENT = 3;
+
     /*!
      Constructor
     */
@@ -77,9 +76,9 @@ class eZImageAnalyzer
     /*!
      Creates an analyzer for the analyzer name \a $analyzerName and returns it.
     */
-    function createForMIME( $mimeData )
+    static function createForMIME( $mimeData )
     {
-        $analyzerData =& eZImageAnalyzer::analyzerData();
+        $analyzerData = eZImageAnalyzer::analyzerData();
         $mimeType = $mimeData['name'];
         if ( !isset( $analyzerData['analyzer_map'][$mimeType] ) )
             return false;
@@ -91,12 +90,12 @@ class eZImageAnalyzer
     /*!
      Creates an analyzer for the analyzer name \a $analyzerName and returns it.
     */
-    function create( $analyzerName )
+    static function create( $analyzerName )
     {
-        $analyzerData =& eZImageAnalyzer::analyzerData();
+        $analyzerData = eZImageAnalyzer::analyzerData();
         if ( !isset( $analyzerData['handlers'][$analyzerName] ) )
         {
-            include_once( 'lib/ezutils/classes/ezextension.php' );
+            //include_once( 'lib/ezutils/classes/ezextension.php' );
             if ( eZExtension::findExtensionType( array( 'ini-name' => 'image.ini',
                                                         'repository-group' => 'AnalyzerSettings',
                                                         'repository-variable' => 'RepositoryList',
@@ -143,13 +142,13 @@ class eZImageAnalyzer
      \static
      \private
     */
-    function &analyzerData()
+    static function analyzerData()
     {
         $analyzerData =& $GLOBALS['eZImageAnalyzer'];
         if ( isset( $analyzerData ) )
             return $analyzerData;
 
-        $ini =& eZINI::instance( 'image.ini' );
+        $ini = eZINI::instance( 'image.ini' );
         $analyzerData['analyzers'] = $ini->variable( 'AnalyzerSettings', 'ImageAnalyzers' );
         $analyzerData['mime_list'] = $ini->variable( 'AnalyzerSettings', 'AnalyzerMIMEList' );
         $analyzerData['analyzer_map'] = array();
@@ -160,10 +159,10 @@ class eZImageAnalyzer
     /*!
      \static
     */
-    function readAnalyzerSettingsFromINI()
+    static function readAnalyzerSettingsFromINI()
     {
-        $analyzerData =& eZImageAnalyzer::analyzerData();
-        $ini =& eZINI::instance( 'image.ini' );
+        $analyzerData = eZImageAnalyzer::analyzerData();
+        $ini = eZINI::instance( 'image.ini' );
         foreach ( $analyzerData['analyzers'] as $analyzerName )
         {
             $iniGroup = $analyzerName . 'Analyzer';
@@ -186,8 +185,8 @@ class eZImageAnalyzer
 
     /// \privatesection
 
-    var $MIMEList;
-    var $Name;
+    public $MIMEList;
+    public $Name;
 }
 
 ?>

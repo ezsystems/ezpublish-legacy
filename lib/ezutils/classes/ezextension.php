@@ -37,7 +37,7 @@
 
 */
 
-include_once( 'lib/ezutils/classes/ezini.php' );
+//include_once( 'lib/ezutils/classes/ezini.php' );
 
 class eZExtension
 {
@@ -52,9 +52,9 @@ class eZExtension
      \static
      \return the base directory for extensions
     */
-    function baseDirectory()
+    static function baseDirectory()
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $extensionDirectory = $ini->variable( 'ExtensionSettings', 'ExtensionDirectory' );
         return $extensionDirectory;
     }
@@ -70,9 +70,9 @@ class eZExtension
      Default extensions are those who are loaded before a siteaccess are determined while access extensions
      are loaded after siteaccess is set.
     */
-    function activeExtensions( $extensionType = false )
+    static function activeExtensions( $extensionType = false )
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $activeExtensions = array();
         if ( !$extensionType or
              $extensionType == 'default' )
@@ -97,12 +97,12 @@ class eZExtension
      Will make sure that all extensions that has settings directories
      are added to the eZINI override list.
     */
-    function activateExtensions( $extensionType = false )
+    static function activateExtensions( $extensionType = false )
     {
         $extensionDirectory = eZExtension::baseDirectory();
         $activeExtensions = eZExtension::activeExtensions( $extensionType );
         $hasExtensions = false;
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         foreach ( $activeExtensions as $activeExtension )
         {
             if ( !file_exists( $extensionDirectory . '/' . $activeExtension ) )
@@ -132,7 +132,7 @@ class eZExtension
 
      \param siteaccess name ( default false )
     */
-    function prependExtensionSiteAccesses( $accessName = false, $ini = false, $globalDir = true, $identifier = false, $order = true )
+    static function prependExtensionSiteAccesses( $accessName = false, $ini = false, $globalDir = true, $identifier = false, $order = true )
     {
         $extensionList = eZExtension::activeExtensions();
 
@@ -154,7 +154,7 @@ class eZExtension
 
      \param $extension name
     */
-    function prependSiteAccess( $extension, $accessName = false, $ini = false, $globalDir = true, $identifier = false )
+    static function prependSiteAccess( $extension, $accessName = false, $ini = false, $globalDir = true, $identifier = false )
     {
         if ( !$accessName )
         {
@@ -167,7 +167,7 @@ class eZExtension
         {
             if ( !$ini )
             {
-                $ini =& eZINI::instance();
+                $ini = eZINI::instance();
             }
             $ini->prependOverrideDir( $extensionSettingsPath . '/settings/siteaccess/' . $accessName, $globalDir );
         }
@@ -179,7 +179,7 @@ class eZExtension
      The paths are expanded to where the extensions are placed.
      Optionally a subdirectory of the extension may be set using \a $subdirectory.
     */
-    function expandedPathList( $extensionList, $subdirectory = false )
+    static function expandedPathList( $extensionList, $subdirectory = false )
     {
         $pathList = array();
         $extensionBase = eZExtension::baseDirectory();
@@ -230,7 +230,7 @@ class eZExtension
 
      \return true if the extension type was found.
     */
-    function findExtensionType( $parameters, &$out )
+    static function findExtensionType( $parameters, &$out )
     {
         $iniName = $parameters['ini-name'];
         $repositoryGroup = $parameters['repository-group'];
@@ -247,7 +247,7 @@ class eZExtension
         if ( isset( $parameters['type-directory'] ) )
             $typeDirectory = $parameters['type-directory'];
         $suffixName = $parameters['suffix-name'];
-        $ini =& eZINI::instance( $iniName );
+        $ini = eZINI::instance( $iniName );
         if ( isset( $parameters['type'] ) )
             $originalType = $parameters['type'];
         else if ( isset( $parameters['type-group'] ) and
@@ -329,9 +329,9 @@ class eZExtension
      \return Extension information array. null if extension is not found,
              or does not contain extension information.
     */
-    function extensionInfo( $extension )
+    static function extensionInfo( $extension )
     {
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        //include_once( 'lib/ezfile/classes/ezdir.php' );
         $infoFileName = eZDir::path( array( eZExtension::baseDirectory(), $extension, 'ezinfo.php' ) );
         if ( file_exists( $infoFileName ) )
         {
@@ -349,41 +349,7 @@ class eZExtension
 
         return null;
     }
-}
-
-function extension_path( $extension, $withWWWDir = false, $withHost = false, $withProtocol = false )
-{
-    $base = eZExtension::baseDirectory();
-    $path = '';
-    if ( $withProtocol )
-    {
-        if ( is_string( $withProtocol ) )
-            $path .= $withProtocol;
-        else
-        {
-            include_once( 'lib/ezutils/classes/ezsys.php' );
-            $path .= eZSys::serverProtocol();
-        }
-        $path .= ':';
-    }
-    if ( $withHost )
-    {
-        $path .= '//';
-        if ( is_string( $withHost ) )
-            $path .= $withHost;
-        else
-            $path .= eZSys::hostname();
-    }
-    if ( $withWWWDir )
-        $path .= eZSys::wwwDir();
-
-    if ( $withWWWDir )
-        $path .= '/' . $base . '/' . $extension;
-    else
-        $path .= $base . '/' . $extension;
-    return $path;
-}
-
+    
     /*!
      \static
      eZExtension::nameFromPath( __FILE__ ) executed in any file of an extension
@@ -393,7 +359,7 @@ function extension_path( $extension, $withWWWDir = false, $withHost = false, $wi
     */
     function nameFromPath( $path )
     {
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        //include_once( 'lib/ezfile/classes/ezdir.php' );
         $path = eZDir::cleanPath( $path );
         $base = eZExtension::baseDirectory() . '/';
         $base = preg_quote( $base, '/' );
@@ -417,65 +383,7 @@ function extension_path( $extension, $withWWWDir = false, $withHost = false, $wi
         else
             return false;
     }
-
-/*!
- Includes the file named \a $name in extension \a $extension
- \note This works similar to include() meaning that it always includes the file.
-*/
-function ext_include( $extension, $name )
-{
-    $base = eZExtension::baseDirectory();
-    $include = "$base/$extension/$name";
-    return include( $include );
-}
-
-/*!
- Activates the file named \a $name in extension \a $extension
- \note This works similar to include_once() meaning that it's included one time.
-*/
-function ext_activate( $extension, $name )
-{
-    $base = eZExtension::baseDirectory();
-    $include = "$base/$extension/$name";
-    return include_once( $include );
-}
-
-/*!
- Activates the file named \a $name in extension \a $extension
- \note This works similar to include_once() meaning that it's included one time.
-*/
-function ext_class( $extension, $name )
-{
-    $name = strtolower( $name );
-    $base = eZExtension::baseDirectory();
-    $include = "$base/$extension/classes/$name.php";
-    return include_once( $include );
-}
-
-/*!
-*/
-function lib_include( $libName, $name )
-{
-    $include = "lib/$libName/classes/$name";
-    return include_once( $include );
-}
-
-/*!
-*/
-function lib_class( $libName, $name )
-{
-    $name = strtolower( $name );
-    $include = "lib/$libName/classes/$name.php";
-    return include_once( $include );
-}
-
-/*!
-*/
-function kernel_class( $name )
-{
-    $name = strtolower( $name );
-    $include = "kernel/classes/$name.php";
-    return include_once( $include );
+    
 }
 
 ?>

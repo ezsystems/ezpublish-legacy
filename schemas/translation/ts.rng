@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar ns="" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <start>
+    <element name="TS">
+      <optional>
+        <attribute name="language">
+          <data type="NCName"/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute name="version">
+          <data type="decimal"/>
+        </attribute>
+      </optional>
+      <optional>
+        <element name="defaultcodec">
+          <empty/>
+        </element>
+      </optional>
+      <oneOrMore>
+        <element name="context">
+          <element name="name">
+            <text/>
+          </element>
+          <oneOrMore>
+            <element name="message">
+              <optional>
+                <element name="location">
+                  <attribute name="filename"/>
+                  <attribute name="line">
+                    <data type="integer"/>
+                  </attribute>
+                </element>
+              </optional>
+              <element name="source">
+                <text/>
+              </element>
+              <optional>
+                <element name="comment">
+                  <text/>
+                </element>
+              </optional>
+              <element name="translation">
+                <optional>
+                  <attribute name="type">
+                    <data type="NCName"/>
+                  </attribute>
+                </optional>
+                <text/>
+              </element>
+            </element>
+          </oneOrMore>
+        </element>
+      </oneOrMore>
+    </element>
+  </start>
+</grammar>

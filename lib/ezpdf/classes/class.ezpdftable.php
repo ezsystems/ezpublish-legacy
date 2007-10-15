@@ -30,16 +30,7 @@
 /*! \file ezpdftable.php
 */
 
-include_once( 'lib/ezpdf/classes/class.ezpdf.php' );
-
-define( 'EZ_PDF_LIB_NEWLINE', '<C:callNewLine>' );
-define( 'EZ_PDF_LIB_SPACE', '<C:callSpace>' );
-define( 'EZ_PDF_LIB_TAB', '<C:callTab>' );
-
-define( 'EZ_PDF_LIB_PAGENUM', '#page' );
-define( 'EZ_PDF_LIB_TOTAL_PAGENUM', '#total' );
-define( 'EZ_PDF_LIB_HEADER_LEVEL', '#level' );
-define( 'EZ_PDF_LIB_HEADER_LEVEL_INDEX', '#indexLevel' );
+//include_once( 'lib/ezpdf/classes/class.ezpdf.php' );
 
 /*!
   \class eZPDFTable class.ezpdftable.php
@@ -49,6 +40,14 @@ define( 'EZ_PDF_LIB_HEADER_LEVEL_INDEX', '#indexLevel' );
 
 class eZPDFTable extends Cezpdf
 {
+    const NEWLINE = '<C:callNewLine>';
+    const SPACE = '<C:callSpace>';
+    const TAB = '<C:callTab>';
+
+    const PAGENUM = '#page';
+    const TOTAL_PAGENUM = '#total';
+    const HEADER_LEVEL = '#level';
+    const HEADER_LEVEL_INDEX = '#indexLevel';
 
     /**
      Constructor. This class is only used to encapsulate a table.
@@ -77,7 +76,7 @@ class eZPDFTable extends Cezpdf
     {
         $this->ezFrame = array();
 
-        $config =& eZINI::instance( 'pdf.ini' );
+        $config = eZINI::instance( 'pdf.ini' );
 
         $this->ezFrame['header'] = array( 'y0' => $this->ez['pageHeight'],
                                           'leftMargin' => $config->variable( 'Header', 'LeftMargin' ),
@@ -176,7 +175,7 @@ class eZPDFTable extends Cezpdf
      */
     function ezTable(&$data,$cols='',$title='',$options='')
     {
-        include_once( 'lib/ezutils/classes/ezmath.php' );
+        //include_once( 'lib/ezutils/classes/ezmath.php' );
 
         if (!is_array($data)){
             return;
@@ -1163,7 +1162,7 @@ class eZPDFTable extends Cezpdf
 
         $filename = rawurldecode( $params['src'] );
 
-        include_once( 'lib/ezutils/classes/ezmimetype.php' );
+        //include_once( 'lib/ezutils/classes/ezmimetype.php' );
         $mimetype = eZMimeType::findByFileContents( $filename );
 
         $this->transaction( 'start' );
@@ -1180,7 +1179,7 @@ class eZPDFTable extends Cezpdf
 
         if ( isset( $params['dpi'] ) )
         {
-            include_once( 'kernel/common/image.php' );
+            require_once( 'kernel/common/image.php' );
 
             $newWidth = (int)( $params['width'] * ( (int)$params['dpi'] / 72 ) );
             $newHeight = (int)( $params['height'] * ( (int)$params['dpi'] / 72 ) );
@@ -1189,7 +1188,7 @@ class eZPDFTable extends Cezpdf
             {
                 $newFilename = eZSys::cacheDirectory() . '/' . md5( mt_rand() ) . '.jpg';
             }
-            $img =& imageInit();
+            $img = imageInit();
             $newImg = $img->convert( $filename,
                                      $newFilename,
                                      false,
@@ -1280,7 +1279,7 @@ class eZPDFTable extends Cezpdf
                 }
                 $newMimetype = eZMimeType::findByURL( $newFilename );
 
-                $img =& imageInit();
+                $img = imageInit();
                 $newImg = $img->convert( $mimetype,
                                          $newMimetype,
                                          false,
@@ -1542,9 +1541,9 @@ class eZPDFTable extends Cezpdf
 
     function &fixWhitespace( &$text )
     {
-        $text = str_replace( array( EZ_PDF_LIB_SPACE,
-                                    EZ_PDF_LIB_TAB,
-                                    EZ_PDF_LIB_NEWLINE ),
+        $text = str_replace( array( self::SPACE,
+                                    self::TAB,
+                                    self::NEWLINE ),
                              array( ' ',
                                     "\t",
                                     "\n" ),
@@ -1647,8 +1646,8 @@ class eZPDFTable extends Cezpdf
     */
     function fixupTableCellText( $text )
     {
-        $text = preg_replace( "/^" . EZ_PDF_LIB_NEWLINE . "/i", "", $text );
-        $text = preg_replace( "/" . EZ_PDF_LIB_NEWLINE . "$/i", "", $text );
+        $text = preg_replace( "/^" . self::NEWLINE . "/i", "", $text );
+        $text = preg_replace( "/" . self::NEWLINE . "$/i", "", $text );
         return preg_replace( "'<[\/]*?ezCall:[^<>]*?>'si", "", $text );
     }
 
@@ -2042,20 +2041,20 @@ class eZPDFTable extends Cezpdf
                       $pageNum % 2 == 0 )
                 continue;
 
-            if ( strstr( $frameText, EZ_PDF_LIB_PAGENUM ) !== false )
+            if ( strstr( $frameText, self::PAGENUM ) !== false )
             {
                 foreach ( array_keys( $this->PageCounter ) as $identifier )
                 {
                     if ( $this->PageCounter[$identifier]['start'] <= $pageNum &&
                          $this->PageCounter[$identifier]['stop'] >= $pageNum )
                     {
-                        $frameText = str_replace( EZ_PDF_LIB_PAGENUM,
+                        $frameText = str_replace( self::PAGENUM,
                                                   $this->ezWhatPageNumber( $pageNum, $identifier ),
                                                   $frameText );
 
-                        if ( strstr( $frameText, EZ_PDF_LIB_TOTAL_PAGENUM ) !== false )
+                        if ( strstr( $frameText, self::TOTAL_PAGENUM ) !== false )
                         {
-                            $frameText = str_replace( EZ_PDF_LIB_TOTAL_PAGENUM,
+                            $frameText = str_replace( self::TOTAL_PAGENUM,
                                                       $this->PageCounter[$identifier]['stop'] - $this->PageCounter[$identifier]['start'] + 1,
                                                       $frameText );
                         }
@@ -2065,16 +2064,16 @@ class eZPDFTable extends Cezpdf
 
             for( $levelCount = 0; $levelCount < 9; $levelCount++ )
             {
-                if ( strstr( $frameText, EZ_PDF_LIB_HEADER_LEVEL.$levelCount ) !== false )
+                if ( strstr( $frameText, self::HEADER_LEVEL.$levelCount ) !== false )
                 {
-                    $frameText = str_replace( EZ_PDF_LIB_HEADER_LEVEL.$levelCount,
+                    $frameText = str_replace( self::HEADER_LEVEL.$levelCount,
                                               $this->headerLabel( $pageNum, $levelCount ),
                                               $frameText );
                 }
 
-                if ( strstr( $frameText, EZ_PDF_LIB_HEADER_LEVEL_INDEX.$levelCount ) !== false )
+                if ( strstr( $frameText, self::HEADER_LEVEL_INDEX.$levelCount ) !== false )
                 {
-                    $frameText = str_replace( EZ_PDF_LIB_HEADER_LEVEL_INDEX.$levelCount,
+                    $frameText = str_replace( self::HEADER_LEVEL_INDEX.$levelCount,
                                               $this->headerIndex( $pageNum, $levelCount ),
                                               $frameText );
                 }
@@ -2145,20 +2144,20 @@ class eZPDFTable extends Cezpdf
                 continue;
 
             $countIdentifier = '';
-            if ( strstr( $frameText, EZ_PDF_LIB_PAGENUM ) !== false )
+            if ( strstr( $frameText, self::PAGENUM ) !== false )
             {
                 foreach ( array_keys( $this->PageCounter ) as $identifier )
                 {
                     if ( $this->PageCounter[$identifier]['start'] <= $pageNum &&
                          $this->PageCounter[$identifier]['stop'] >= $pageNum )
                     {
-                        $frameText = str_replace( EZ_PDF_LIB_PAGENUM,
+                        $frameText = str_replace( self::PAGENUM,
                                                   $this->ezWhatPageNumber( $pageNum, $identifier ),
                                                   $frameText );
 
-                        if ( strstr( $frameText, EZ_PDF_LIB_TOTAL_PAGENUM ) !== false )
+                        if ( strstr( $frameText, self::TOTAL_PAGENUM ) !== false )
                         {
-                            $frameText = str_replace( EZ_PDF_LIB_TOTAL_PAGENUM,
+                            $frameText = str_replace( self::TOTAL_PAGENUM,
                                                       $this->PageCounter[$identifier]['stop'] - $this->PageCounter[$identifier]['start'] + 1,
                                                       $frameText );
                         }
@@ -2168,16 +2167,16 @@ class eZPDFTable extends Cezpdf
 
             for( $levelCount = 0; $levelCount < 9; $levelCount++ )
             {
-                if ( strstr( $frameText, EZ_PDF_LIB_HEADER_LEVEL.$levelCount ) !== false )
+                if ( strstr( $frameText, self::HEADER_LEVEL.$levelCount ) !== false )
                 {
-                    $frameText = str_replace( EZ_PDF_LIB_HEADER_LEVEL.$levelCount,
+                    $frameText = str_replace( self::HEADER_LEVEL.$levelCount,
                                               $this->headerLabel( $pageNum, $levelCount ),
                                               $frameText );
                 }
 
-                if ( strstr( $frameText, EZ_PDF_LIB_HEADER_LEVEL_INDEX.$levelCount ) !== false )
+                if ( strstr( $frameText, self::HEADER_LEVEL_INDEX.$levelCount ) !== false )
                 {
-                    $frameText = str_replace( EZ_PDF_LIB_HEADER_LEVEL_INDEX.$levelCount,
+                    $frameText = str_replace( self::HEADER_LEVEL_INDEX.$levelCount,
                                               $this->headerIndex( $pageNum, $levelCount ),
                                               $frameText );
                 }
@@ -2741,7 +2740,7 @@ class eZPDFTable extends Cezpdf
     */
     function pushStack( $continous = true)
     {
-        include_once( 'lib/ezutils/classes/ezmath.php' );
+        //include_once( 'lib/ezutils/classes/ezmath.php' );
         $docSpecArray = array( 'DocSpec' => $this->DocSpecification,
                                'PreStack' => $this->PreStack,
                                'LeftMarginArray' => $this->LeftMarginArray,
@@ -3038,20 +3037,20 @@ class eZPDFTable extends Cezpdf
         return ( $headerIndex != 0 ? $headerIndex : '' );
     }
 
-    var $TOC; // Table of content array
-    var $KeywordArray; // keyword array
-    var $PageCounter;
+    public $TOC; // Table of content array
+    public $KeywordArray; // keyword array
+    public $PageCounter;
 
-    var $FrontpageID; // Variable used to store reference to frontpage
+    public $FrontpageID; // Variable used to store reference to frontpage
 
-    var $ezFrame; // array containing frame definitions
+    public $ezFrame; // array containing frame definitions
 
     /* Stack and array used for preprocessing document */
-    var $PreStack;
-    var $DocSpecification;
+    public $PreStack;
+    public $DocSpecification;
 
     /* Stack array for recursive ezText calls */
-    var $DocSpecStack = array();
+    public $DocSpecStack = array();
 }
 
 

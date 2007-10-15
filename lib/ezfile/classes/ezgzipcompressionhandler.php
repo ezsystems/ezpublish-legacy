@@ -41,10 +41,10 @@
   Duplication of this handler is done by the eZForwardCompressionHandler class.
 */
 
-include_once( 'lib/ezfile/classes/ezforwardcompressionhandler.php' );
-include_once( 'lib/ezfile/classes/ezgzipzlibcompressionhandler.php' );
-include_once( 'lib/ezfile/classes/ezgzipshellcompressionhandler.php' );
-include_once( 'lib/ezfile/classes/eznocompressionhandler.php' );
+//include_once( 'lib/ezfile/classes/ezforwardcompressionhandler.php' );
+//include_once( 'lib/ezfile/classes/ezgzipzlibcompressionhandler.php' );
+//include_once( 'lib/ezfile/classes/ezgzipshellcompressionhandler.php' );
+//include_once( 'lib/ezfile/classes/eznocompressionhandler.php' );
 
 class eZGZIPCompressionHandler extends eZForwardCompressionHandler
 {

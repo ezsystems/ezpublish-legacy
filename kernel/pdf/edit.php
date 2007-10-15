@@ -28,22 +28,20 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-define( 'EZ_PDFEXPORT_GENERATE_STRING', 'generate' );
+require_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/ezpdfexport.php' );
+//include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
 
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'kernel/classes/ezpdfexport.php' );
-include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
+$Module = $Params['Module'];
+$http = eZHTTPTool::instance();
 
-$Module =& $Params['Module'];
-$http =& eZHTTPTool::instance();
-
-if ( isset( $Params['PDFGenerate'] ) && $Params['PDFGenerate'] == EZ_PDFEXPORT_GENERATE_STRING )
+if ( isset( $Params['PDFGenerate'] ) && $Params['PDFGenerate'] == 'generate' )
 {
     $pdfExport = eZPDFExport::fetch( $Params['PDFExportID'] );
-    if ( $pdfExport && $pdfExport->attribute( 'status' ) == EZ_PDFEXPORT_CREATE_ONFLY ) // only generate OnTheFly if status set correctly
+    if ( $pdfExport && $pdfExport->attribute( 'status' ) == eZPDFExport::CREATE_ONFLY ) // only generate OnTheFly if status set correctly
     {
-        include_once( 'lib/ezutils/classes/ezexecution.php' );
+        require_once( 'lib/ezutils/classes/ezexecution.php' );
         generatePDF( $pdfExport );
         eZExecution::cleanExit();
     }
@@ -52,24 +50,24 @@ if ( isset( $Params['PDFGenerate'] ) && $Params['PDFGenerate'] == EZ_PDFEXPORT_G
 
 if ( isset( $Params['PDFExportID'] ) )
 {
-    $pdfExport = eZPDFExport::fetch( $Params['PDFExportID'], true, EZ_PDFEXPORT_VERSION_DRAFT );
+    $pdfExport = eZPDFExport::fetch( $Params['PDFExportID'], true, eZPDFExport::VERSION_DRAFT );
 
     if ( $pdfExport )
     {
-        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+        //include_once( 'lib/ezlocale/classes/ezdatetime.php' );
 
-        $user =& eZUser::currentUser();
-        $contentIni =& eZIni::instance( 'content.ini' );
+        $user = eZUser::currentUser();
+        $contentIni = eZINI::instance( 'content.ini' );
         $timeOut = $contentIni->variable( 'PDFExportSettings', 'DraftTimeout' );
         if ( $pdfExport->attribute( 'modifier_id' ) != $user->attribute( 'contentobject_id' ) &&
              $pdfExport->attribute( 'modified' ) + $timeOut > time() )
         {
             // TODO: In 3.6
             // // locked editing
-            // $tpl =& templateInit();
+            // $tpl = templateInit();
             // $tpl->setVariable ...
             // $Result = array();
-            // $Result['content'] =& $tpl->fetch( 'design:pdf/edit_denied.tpl' );
+            // $Result['content'] = $tpl->fetch( 'design:pdf/edit_denied.tpl' );
             // $Result['path'] = ...
             // return $Result;
         }
@@ -84,17 +82,17 @@ if ( isset( $Params['PDFExportID'] ) )
         $pdfExport = eZPDFExport::fetch( $Params['PDFExportID'] );
         if( !$pdfExport ) // user requested a non existent export
         {
-            return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+            return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
         }
-        $pdfExport->setAttribute( 'version', EZ_PDFEXPORT_VERSION_DRAFT );
+        $pdfExport->setAttribute( 'version', eZPDFExport::VERSION_DRAFT );
         $pdfExport->store();
     }
 }
 else
 {
-    include_once( 'kernel/classes/ezpdfexport.php' );
-    include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-    $user =& eZUser::currentUser();
+    //include_once( 'kernel/classes/ezpdfexport.php' );
+    //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+    $user = eZUser::currentUser();
 
     $pdfExport = eZPDFExport::create( $user->attribute( 'contentobject_id' ) );
     $pdfExport->store();
@@ -122,13 +120,13 @@ if ( $Module->isCurrentAction( 'BrowseSource' ) || // Store PDF export objects
         $pdfExport->setAttribute( 'export_classes', implode( ':', $Module->actionParameter( 'ClassList' ) ) );
     $pdfExport->setAttribute( 'pdf_filename', basename( $Module->actionParameter( 'DestinationFile' ) ) );
     $pdfExport->setAttribute( 'status', ( basename( $Module->actionParameter( 'DestinationType' ) ) != 'download' ) ?
-                              EZ_PDFEXPORT_CREATE_ONCE : EZ_PDFEXPORT_CREATE_ONFLY );
+                              eZPDFExport::CREATE_ONCE : eZPDFExport::CREATE_ONFLY );
 
     if ( $Module->isCurrentAction( 'Export' ) )
     {
         $pdfExport->setAttribute( 'source_node_id', $Module->actionParameter( 'SourceNode' ) );
 
-        if ( $pdfExport->attribute( 'status' ) == EZ_PDFEXPORT_CREATE_ONCE
+        if ( $pdfExport->attribute( 'status' ) == eZPDFExport::CREATE_ONCE
              && $pdfExport->countGeneratingOnceExports() > 0 )
         {
             $validation[ 'placement' ][] = array( 'text' => ezi18n( 'kernel/pdf', 'An export with such filename already exists.' ) );
@@ -147,7 +145,7 @@ $setWarning = false; // used to set missing options during export
 
 if ( $Module->isCurrentAction( 'BrowseSource' ) )
 {
-    include_once( 'kernel/classes/ezcontentbrowse.php' );
+    //include_once( 'kernel/classes/ezcontentbrowse.php' );
     eZContentBrowse::browse( array( 'action_name' => 'ExportSourceBrowse',
                                     'description_template' => 'design:content/browse_export.tpl',
                                     'from_page' => '/pdf/edit/'. $pdfExport->attribute( 'id' ) ),
@@ -157,16 +155,16 @@ else if ( $Module->isCurrentAction( 'Export' ) && $inputValidated )
 {
     // remove the old file ( user may changed the filename )
     $originalPdfExport = eZPDFExport::fetch( $Params['PDFExportID'] );
-    if ( $originalPdfExport && $originalPdfExport->attribute( 'status' ) == EZ_PDFEXPORT_CREATE_ONCE )
+    if ( $originalPdfExport && $originalPdfExport->attribute( 'status' ) == eZPDFExport::CREATE_ONCE )
     {
-        $filename =& $originalPdfExport->attribute( 'filepath' );
+        $filename = $originalPdfExport->attribute( 'filepath' );
         if ( file_exists( $filename ) )
         {
             unlink( $filename );
         }
     }
 
-    if ( $pdfExport->attribute( 'status' ) == EZ_PDFEXPORT_CREATE_ONCE )
+    if ( $pdfExport->attribute( 'status' ) == eZPDFExport::CREATE_ONCE )
     {
         generatePDF( $pdfExport, $pdfExport->attribute( 'filepath' ) );
         $pdfExport->store( true );
@@ -184,7 +182,7 @@ else if ( $Module->isCurrentAction( 'Discard' ) )
     return $Module->redirect( 'pdf', 'list' );
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( 'set_warning', $setWarning );
 
@@ -202,7 +200,7 @@ if ( !$inputValidated )
 }
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:pdf/edit.tpl' );
+$Result['content'] = $tpl->fetch( 'design:pdf/edit.tpl' );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'pdf/edit', 'PDF Export' ) ) );
 
@@ -213,7 +211,7 @@ $Result['path'] = array( array( 'url' => false,
  \param toFile, false if generate to stream, $
                 filename if generate to file
 */
-function generatePDF( &$pdfExport, $toFile = false )
+function generatePDF( $pdfExport, $toFile = false )
 {
     if ( $pdfExport == null )
         return;
@@ -221,9 +219,9 @@ function generatePDF( &$pdfExport, $toFile = false )
     $node = $pdfExport->attribute( 'source_node' );
     if ( $node )
     {
-        $object =& $node->attribute( 'object' );
+        $object = $node->attribute( 'object' );
 
-        $tpl =& templateInit();
+        $tpl = templateInit();
 
         $tpl->setVariable( 'node', $node );
         $tpl->setVariable( 'generate_toc', 1 );
@@ -248,7 +246,7 @@ function generatePDF( &$pdfExport, $toFile = false )
             $tpl->setVariable( 'filename', $toFile );
         }
 
-        $res =& eZTemplateDesignResource::instance();
+        $res = eZTemplateDesignResource::instance();
         $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ),
                               array( 'node', $node->attribute( 'node_id' ) ),
                               array( 'parent_node', $node->attribute( 'parent_node_id' ) ),

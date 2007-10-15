@@ -37,26 +37,25 @@
   \brief The class eZRangeOptionType does
 
 */
-include_once( "kernel/classes/ezdatatype.php" );
-include_once( "kernel/classes/datatypes/ezrangeoption/ezrangeoption.php" );
-
-define( "EZ_RANGEOPTION_DEFAULT_NAME_VARIABLE", "_ezrangeoption_default_name_" );
-
-
-define( "EZ_DATATYPESTRING_RANGEOPTION", "ezrangeoption" );
+//include_once( "kernel/classes/ezdatatype.php" );
+//include_once( "kernel/classes/datatypes/ezrangeoption/ezrangeoption.php" );
 
 class eZRangeOptionType extends eZDataType
 {
+    const DEFAULT_NAME_VARIABLE = "_ezrangeoption_default_name_";
+
+    const DATA_TYPE_STRING = "ezrangeoption";
+
     /*!
      Constructor
     */
     function eZRangeOptionType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_RANGEOPTION, ezi18n( 'kernel/classes/datatypes', "Range option", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Range option", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . "_data_rangeoption_name_" . $contentObjectAttribute->attribute( "id" ) ) and
              $http->hasPostVariable( $base . '_data_rangeoption_start_value_' . $contentObjectAttribute->attribute( 'id' ) ) and
@@ -68,7 +67,7 @@ class eZRangeOptionType extends eZDataType
             $startValue = $http->postVariable( $base . '_data_rangeoption_start_value_' . $contentObjectAttribute->attribute( 'id' ) );
             $stopValue = $http->postVariable( $base . '_data_rangeoption_stop_value_' . $contentObjectAttribute->attribute( 'id' ) );
             $stepValue = $http->postVariable( $base . '_data_rangeoption_step_value_' . $contentObjectAttribute->attribute( 'id' ) );
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $classAttribute = $contentObjectAttribute->contentClassAttribute();
             if ( $name == '' or
                  $startValue == '' or
                  $stopValue == '' or
@@ -79,21 +78,21 @@ class eZRangeOptionType extends eZDataType
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                      'Missing range option input.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    return eZInputValidator::STATE_INVALID;
                 }
                 else
-                    return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                    return eZInputValidator::STATE_ACCEPTED;
             }
         }
         else
         {
-            return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            return eZInputValidator::STATE_ACCEPTED;
         }
 
 
     }
 
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
 
         $optionName = $http->postVariable( $base . "_data_rangeoption_name_" . $contentObjectAttribute->attribute( "id" ) );
@@ -123,13 +122,13 @@ class eZRangeOptionType extends eZDataType
         return true;
     }
 
-    function storeObjectAttribute( &$contentObjectAttribute )
+    function storeObjectAttribute( $contentObjectAttribute )
     {
-        $option =& $contentObjectAttribute->content();
+        $option = $contentObjectAttribute->content();
         $contentObjectAttribute->setAttribute( "data_text", $option->xmlString() );
     }
 
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         $option = new eZRangeOption( "" );
         $option->decodeXML( $contentObjectAttribute->attribute( "data_text" ) );
@@ -150,7 +149,7 @@ class eZRangeOptionType extends eZDataType
     }
 
 
-    function fromString( &$contentObjectAttribute, $string )
+    function fromString( $contentObjectAttribute, $string )
     {
         if ( $string == '' )
             return true;
@@ -174,9 +173,9 @@ class eZRangeOptionType extends eZDataType
      Finds the option which has the ID that matches \a $optionID, if found it returns
      an option structure.
     */
-    function productOptionInformation( &$objectAttribute, $optionID, &$productItem )
+    function productOptionInformation( $objectAttribute, $optionID, $productItem )
     {
-        $option =& $objectAttribute->attribute( 'content' );
+        $option = $objectAttribute->attribute( 'content' );
         foreach( $option->attribute( 'option_list' ) as $optionArray )
         {
             if ( $optionArray['id'] == $optionID )
@@ -195,14 +194,14 @@ class eZRangeOptionType extends eZDataType
         return $contentObjectAttribute->attribute( "data_text" );
     }
 
-    function title( &$contentObjectAttribute )
+    function title( $contentObjectAttribute, $name = null )
     {
         $option = new eZRangeOption( "" );
         $option->decodeXML( $contentObjectAttribute->attribute( "data_text" ) );
         return $option->attribute('name');
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         return true;
     }
@@ -210,12 +209,12 @@ class eZRangeOptionType extends eZDataType
     /*!
      Sets the default value.
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         if ( $currentVersion == false )
         {
-            $option =& $contentObjectAttribute->content();
-            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $option = $contentObjectAttribute->content();
+            $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
             if ( !$option )
             {
                 $option = new eZRangeOption( $contentClassAttribute->attribute( 'data_text1' ) );
@@ -232,9 +231,9 @@ class eZRangeOptionType extends eZDataType
     /*!
      \reimp
     */
-    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $defaultValueName = $base . EZ_RANGEOPTION_DEFAULT_NAME_VARIABLE . $classAttribute->attribute( 'id' );
+        $defaultValueName = $base . self::DEFAULT_NAME_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $defaultValueName ) )
         {
             $defaultValueValue = $http->postVariable( $defaultValueName );
@@ -251,31 +250,34 @@ class eZRangeOptionType extends eZDataType
     /*!
      \reimp
     */
-    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $defaultName = $classAttribute->attribute( 'data_text1' );
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'default-name', $defaultName ) );
+        $defaultNameNode = $attributeParametersNode->ownerDocument->createElement( 'default-name', $defaultName );
+        $attributeParametersNode->appendChild( $defaultNameNode );
     }
 
     /*!
      \reimp
     */
-    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $defaultName = $attributeParametersNode->elementTextContentByName( 'default-name' );
+        $defaultName = $attributeParametersNode->getElementsByTagName( 'default-name' )->item( 0 )->textContent;
         $classAttribute->setAttribute( 'data_text1', $defaultName );
     }
 
     /*!
      \reimp
     */
-    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
 
-        $xml = new eZXML();
-        $domDocument = $xml->domTree( $objectAttribute->attribute( 'data_text' ) );
-        $node->appendChild( $domDocument->root() );
+        $domDocument = new DOMDocument();
+        $success = $domDocument->loadXML( $objectAttribute->attribute( 'data_text' ) );
+
+        $importedRoot = $node->ownerDocument->importNode( $domDocument->documentElement, true );
+        $node->appendChild( $importedRoot );
 
         return $node;
     }
@@ -283,14 +285,14 @@ class eZRangeOptionType extends eZDataType
     /*!
      \reimp
     */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
-        $rootNode = $attributeNode->firstChild();
-        $xmlString = $rootNode->attributeValue( 'local_name' ) == 'data-text' ? '' : $rootNode->toString( 0 );
+        $rootNode = $attributeNode->getElementsByTagName( 'ezrangeoption' )->item( 0 );
+        $xmlString = $rootNode ? $rootNode->ownerDocument->saveXML( $rootNode ) : '';
         $objectAttribute->setAttribute( 'data_text', $xmlString );
     }
 }
 
-eZDataType::register( EZ_DATATYPESTRING_RANGEOPTION, "ezrangeoptiontype" );
+eZDataType::register( eZRangeOptionType::DATA_TYPE_STRING, "eZRangeOptionType" );
 
 ?>

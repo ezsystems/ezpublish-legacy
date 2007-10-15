@@ -27,13 +27,13 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/common/template.php' );
-include_once( 'lib/ezdiff/classes/ezdiff.php' );
-include_once( 'lib/ezutils/classes/ezdebug.php' );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+require_once( 'kernel/common/template.php' );
+//include_once( 'lib/ezdiff/classes/ezdiff.php' );
+require_once( 'lib/ezutils/classes/ezdebug.php' );
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $objectID = $Params['ObjectID'];
 
 $Offset = $Params['Offset'];
@@ -43,21 +43,21 @@ $viewParameters = array( 'offset' => $Offset );
 $contentObject = eZContentObject::fetch( $objectID );
 
 if ( !$contentObject )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
 $classID = $contentObject->attribute( 'contentclass_id' );
 $class = eZContentClass::fetch( $classID );
 
 if ( !$contentObject->attribute( 'can_read' ) )
-    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
 if ( !$contentObject->attribute( 'can_diff' ) )
-    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
-$http =& eZHTTPTool::instance();
-$tpl =& templateInit();
+$http = eZHTTPTool::instance();
+$tpl = templateInit();
 
-$res =& eZTemplateDesignResource::instance();
+$res = eZTemplateDesignResource::instance();
 $res->setKeys( array( array( 'object', $contentObject->attribute( 'id' ) ),
                     array( 'class', $class->attribute( 'id' ) ),
                     array( 'class_identifier', $class->attribute( 'identifier' ) ) ) );
@@ -165,7 +165,7 @@ if ( $section )
     }
 }
 
-$Result['content'] =& $tpl->fetch( "design:content/diff.tpl" );
+$Result['content'] = $tpl->fetch( "design:content/diff.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/content', 'Differences' ) ) );
 

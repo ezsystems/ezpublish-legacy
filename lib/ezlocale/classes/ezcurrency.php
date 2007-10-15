@@ -49,7 +49,7 @@
   \sa eZLocale
 */
 
-include_once( "lib/ezlocale/classes/ezlocale.php" );
+//include_once( "lib/ezlocale/classes/ezlocale.php" );
 
 class eZCurrency
 {
@@ -59,10 +59,12 @@ class eZCurrency
     */
     function eZCurrency( $value )
     {
-        if ( get_class( $value ) == "ezcurrency" )
-            $value =& $value->value();
-        $this->Value =& $value;
-        $this->Locale =& eZLocale::instance();
+        if ( $value instanceof eZCurrency )
+        {
+            $value = $value->value();
+        }
+        $this->Value = $value;
+        $this->Locale = eZLocale::instance();
     }
 
     /*!
@@ -95,7 +97,7 @@ class eZCurrency
     /*!
      Returns a reference to the current locale.
     */
-    function &locale()
+    function locale()
     {
         return $this->Locale;
     }
@@ -141,9 +143,9 @@ class eZCurrency
     }
 
     /// The currency value.
-    var $Value;
+    public $Value;
     /// The current locale object
-    var $Locale;
+    public $Locale;
 }
 
 ?>

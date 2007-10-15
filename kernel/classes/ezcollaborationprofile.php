@@ -37,8 +37,8 @@
 
 */
 
-include_once( 'kernel/classes/ezpersistentobject.php' );
-include_once( 'kernel/classes/ezcollaborationgroup.php' );
+//include_once( 'kernel/classes/ezpersistentobject.php' );
+//include_once( 'kernel/classes/ezcollaborationgroup.php' );
 
 class eZCollaborationProfile extends eZPersistentObject
 {
@@ -50,7 +50,7 @@ class eZCollaborationProfile extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -88,7 +88,7 @@ class eZCollaborationProfile extends eZPersistentObject
                       'name' => 'ezcollab_profile' );
     }
 
-    function &create( $userID, $mainGroup = 0 )
+    static function create( $userID, $mainGroup = 0 )
     {
         $date_time = time();
         $row = array( 'id' => null,
@@ -100,7 +100,7 @@ class eZCollaborationProfile extends eZPersistentObject
         return $newCollaborationProfile;
     }
 
-    function fetch( $id, $asObject = true )
+    static function fetch( $id, $asObject = true )
     {
         $conditions = array( "id" => $id );
         return eZPersistentObject::fetchObject( eZCollaborationProfile::definition(),
@@ -109,7 +109,7 @@ class eZCollaborationProfile extends eZPersistentObject
                                                 $asObject );
     }
 
-    function fetchByUser( $userID, $asObject = true )
+    static function fetchByUser( $userID, $asObject = true )
     {
         $conditions = array( "user_id" => $userID );
         return eZPersistentObject::fetchObject( eZCollaborationProfile::definition(),
@@ -122,11 +122,11 @@ class eZCollaborationProfile extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function &instance( $userID = false )
+    static function instance( $userID = false )
     {
         if ( $userID === false )
         {
-            $user =& eZUser::currentUser();
+            $user = eZUser::currentUser();
             $userID = $user->attribute( 'contentobject_id' );
         }
         $instance =& $GLOBALS["eZCollaborationProfile-$userID"];

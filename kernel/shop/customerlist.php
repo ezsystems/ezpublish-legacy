@@ -31,22 +31,22 @@
 /*! \file customlist.php
 */
 
-include_once( "kernel/common/template.php" );
+require_once( "kernel/common/template.php" );
 
-include_once( "kernel/classes/ezorder.php" );
+//include_once( "kernel/classes/ezorder.php" );
 
-$module =& $Params["Module"];
+$module = $Params["Module"];
 
 $offset = $Params['Offset'];
 $limit = 15;
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
-$http =& eZHttpTool::instance();
+$http = eZHTTPTool::instance();
 
-$customerArray =& eZOrder::customerList( $offset, $limit );
+$customerArray = eZOrder::customerList( $offset, $limit );
 
-$customerCount =& eZOrder::customerCount();
+$customerCount = eZOrder::customerCount();
 
 $tpl->setVariable( "customer_list", $customerArray );
 $tpl->setVariable( "customer_list_count", $customerCount );
@@ -61,8 +61,8 @@ $path[] = array( 'text' => ezi18n( 'kernel/shop', 'Customer list' ),
                  'url' => false );
 
 $Result = array();
-$Result['path'] =& $path;
+$Result['path'] = $path;
 
-$Result['content'] =& $tpl->fetch( "design:shop/customerlist.tpl" );
+$Result['content'] = $tpl->fetch( "design:shop/customerlist.tpl" );
 
 ?>

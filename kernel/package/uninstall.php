@@ -26,13 +26,13 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/common/template.php" );
-include_once( "kernel/classes/ezpackage.php" );
+require_once( "kernel/common/template.php" );
+//include_once( "kernel/classes/ezpackage.php" );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
-$module =& $Params['Module'];
-$packageName =& $Params['PackageName'];
+$module = $Params['Module'];
+$packageName = $Params['PackageName'];
 $currentItem = 0;
 $doItemInstall = false;
 
@@ -51,11 +51,11 @@ else
 }
 
 if ( !eZPackage::canUsePolicyFunction( 'install' ) )
-    return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
 $package = eZPackage::fetch( $packageName );
 if ( !$package )
-    return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
 if ( $module->isCurrentAction( 'SkipPackage' ) )
 {
@@ -63,7 +63,7 @@ if ( $module->isCurrentAction( 'SkipPackage' ) )
     return $module->redirectToView( 'view', array( 'full', $package->attribute( 'name' ) ) );
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 // Get all uninstall items and reverse array
 $uninstallItems = array_reverse( $package->installItemsList( false, false, false, false ) );
@@ -100,7 +100,7 @@ else
     $uninstallElements = array();
     foreach ( $uninstallItems as $uninstallItem )
     {
-        $handler =& eZPackage::packageHandler( $uninstallItem['type'] );
+        $handler = eZPackage::packageHandler( $uninstallItem['type'] );
         if ( $handler )
         {
             $uninstallElement = $handler->explainInstallItem( $package, $uninstallItem );
@@ -152,7 +152,7 @@ $tpl->setVariable( 'persistent_data', $persistentData );
 $tpl->setVariable( 'package', $package );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( $templateName );
+$Result['content'] = $tpl->fetch( $templateName );
 $Result['path'] = array( array( 'url' => 'package/list',
                                 'text' => ezi18n( 'kernel/package', 'Packages' ) ),
                          array( 'url' => false,

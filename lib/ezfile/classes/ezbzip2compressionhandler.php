@@ -39,7 +39,7 @@
 NOTE: This is not done yet.
 */
 
-include_once( 'lib/ezfile/classes/ezcompressionhandler.php' );
+//include_once( 'lib/ezfile/classes/ezcompressionhandler.php' );
 
 class eZBZIP2Handler extends eZCompressionHandler
 {
@@ -122,9 +122,9 @@ class eZBZIP2Handler extends eZCompressionHandler
     }
 
     /// \privatesection
-    var $WorkFactor;
-    var $BlockSize;
-    var $SmallDecompress;
+    public $WorkFactor;
+    public $BlockSize;
+    public $SmallDecompress;
 }
 
 ?>

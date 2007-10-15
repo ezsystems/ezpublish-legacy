@@ -40,9 +40,9 @@
 
 */
 
-include_once( "lib/ezutils/classes/ezdebug.php" );
-include_once( "lib/ezutils/classes/ezsession.php" );
-include_once( "lib/ezutils/classes/ezsys.php" );
+require_once( "lib/ezutils/classes/ezdebug.php" );
+require_once( "lib/ezutils/classes/ezsession.php" );
+//include_once( "lib/ezutils/classes/ezsys.php" );
 
 class eZHTTPTool
 {
@@ -180,7 +180,7 @@ class eZHTTPTool
     /*!
      \return the value for the attribute $attr or null if the attribute does not exist.
     */
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         if ( $attr == "post" )
             return $_POST;
@@ -197,16 +197,17 @@ class eZHTTPTool
     /*!
      \return the unique instance of the HTTP tool
     */
-    function &instance()
+    static function instance()
     {
-        $instance =& $GLOBALS["eZHTTPToolInstance"];
-        if ( get_class( $instance ) != "ezhttptool" )
+        if ( !isset( $GLOBALS["eZHTTPToolInstance"] ) ||
+             !( $GLOBALS["eZHTTPToolInstance"] instanceof eZHTTPTool ) )
         {
-            $instance = new eZHTTPTool();
-            $instance->createPostVarsFromImageButtons();
+            $GLOBALS["eZHTTPToolInstance"] = new eZHTTPTool();
+            $GLOBALS["eZHTTPToolInstance"]->createPostVarsFromImageButtons();
             eZSessionStart();
         }
-        return $instance;
+
+        return $GLOBALS["eZHTTPToolInstance"];
     }
 
     /*!
@@ -225,7 +226,7 @@ class eZHTTPTool
              If pipetrough, program will end here.
 
     */
-    function sendHTTPRequest( $uri, $port = 80, $postParameters = false, $userAgent = 'eZ Publish', $passtrough = true )
+    static function sendHTTPRequest( $uri, $port = 80, $postParameters = false, $userAgent = 'eZ Publish', $passtrough = true )
     {
         preg_match( "/^((http[s]?:\/\/)([a-zA-Z0-9_.]+))?([\/]?[~]?(\.?[^.]+[~]?)*)/i", $uri, $matches );
         $protocol = $matches[2];
@@ -359,7 +360,7 @@ class eZHTTPTool
             header( 'Content-Location: ' . $uri );
 
             fpassthru( $fp );
-            include_once( 'lib/ezutils/classes/ezexecution.php' );
+            require_once( 'lib/ezutils/classes/ezexecution.php' );
             eZExecution::cleanExit();
         }
         else
@@ -378,7 +379,7 @@ class eZHTTPTool
     /*!
      \static
     */
-    function parseHTTPResponse( &$response, &$header, &$body )
+    static function parseHTTPResponse( &$response, &$header, &$body )
     {
         if ( $response )
         {
@@ -433,7 +434,7 @@ class eZHTTPTool
 
      \note The redirection does not happen immedietaly and the script execution will continue.
     */
-    function createRedirectUrl( $path, $parameters = array() )
+    static function createRedirectUrl( $path, $parameters = array() )
     {
         $parameters = array_merge( array( 'host' => false,
                                           'protocol' => false,
@@ -499,7 +500,7 @@ class eZHTTPTool
             // Default to https if SSL is enabled
 
             // Check if SSL port is defined in site.ini
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $sslPort = 443;
             if ( $ini->hasVariable( 'SiteSettings', 'SSLPort' ) )
             {
@@ -534,7 +535,7 @@ class eZHTTPTool
         return $uri;
     }
 
-    function redirect( $path, $parameters = array(), $status = false )
+    static function redirect( $path, $parameters = array(), $status = false )
     {
         $url = eZHTTPTool::createRedirectUrl( $path, $parameters );
         if ( strlen( $status ) > 0 )
@@ -559,12 +560,12 @@ class eZHTTPTool
      Sets the header variable \a $headerName to have the data \a $headerData.
      \note Calls PHPs header() with a constructed string.
     */
-    function headerVariable( $headerName, $headerData )
+    static function headerVariable( $headerName, $headerData )
     {
         header( $headerName .': '. $headerData );
     }
 
-    function removeMagicQuotes()
+    static function removeMagicQuotes()
     {
         foreach ( array_keys( $_POST ) as $key )
         {
@@ -688,7 +689,7 @@ class eZHTTPTool
      \param $justCheckURL if true, we should check url only not downloading data.
      \return data from \p $url, false if invalid URL
     */
-    function getDataByURL( $url, $justCheckURL = false )
+    static function getDataByURL( $url, $justCheckURL = false )
     {
         // First try CURL
         if ( extension_loaded( 'curl' ) )
@@ -701,7 +702,7 @@ class eZHTTPTool
                 curl_setopt( $ch, CURLOPT_NOBODY, 1 );
             }
 
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $proxy = $ini->hasVariable( 'ProxySettings', 'ProxyServer' ) ? $ini->variable( 'ProxySettings', 'ProxyServer' ) : false;
             // If we should use proxy
             if ( $proxy )

@@ -26,12 +26,12 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$http =& eZHTTPTool::instance();
-$module =& $Params["Module"];
+$http = eZHTTPTool::instance();
+$module = $Params['Module'];
 
-include_once( 'lib/ezutils/classes/ezini.php' );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( 'kernel/classes/ezpreferences.php' );
+//include_once( 'lib/ezutils/classes/ezini.php' );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( 'kernel/classes/ezpreferences.php' );
 
 $allSettingsList = $module->actionParameter( 'AllSettingsList' );
 
@@ -63,8 +63,8 @@ $iniPath = ( $siteAccess == "global_override" ) ? "settings/override" : "setting
 
 foreach( $iniFiles as $fileName => $settings )
 {
-    $ini =& eZINI::instance( $fileName . '.append', $iniPath, null, null, null, true, true );
-    $baseIni =& eZINI::instance( $fileName );
+    $ini = eZINI::instance( $fileName . '.append', $iniPath, null, null, null, true, true );
+    $baseIni = eZINI::instance( $fileName );
 
     foreach( $settings as $setting )
     {
@@ -80,7 +80,9 @@ foreach( $iniFiles as $fileName => $settings )
     }
 
     if ( !$ini->save() )
+    {
         eZDebug::writeError( "Can't save ini file: $iniPath/$fileName.append" );
+    }
 
     unset( $baseIni );
     unset( $ini );
@@ -88,14 +90,16 @@ foreach( $iniFiles as $fileName => $settings )
     // Remove variable from the global override
     if ( $siteAccess != "global_override" )
     {
-        $ini =& eZINI::instance( $fileName . '.append', "settings/override", null, null, null, true, true );
+        $ini = eZINI::instance( $fileName . '.append', "settings/override", null, null, null, true, true );
         foreach( $settings as $setting )
         {
             if ( $ini->hasVariable( $setting[0], $setting[1] ) )
                 $ini->removeSetting( $setting[0], $setting[1] );
         }
         if ( !$ini->save() )
+        {
             eZDebug::writeError( "Can't save ini file: $iniPath/$fileName.append" );
+        }
 
         unset($ini);
     }

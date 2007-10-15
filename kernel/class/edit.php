@@ -26,20 +26,21 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/classes/ezcontentclass.php' );
-include_once( 'kernel/classes/ezcontentclassattribute.php' );
-include_once( 'kernel/classes/ezcontentclassclassgroup.php' );
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
+//include_once( 'kernel/classes/ezcontentclass.php' );
+//include_once( 'kernel/classes/ezcontentclassattribute.php' );
+//include_once( 'kernel/classes/ezcontentclassclassgroup.php' );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
 
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $ClassID = $Params['ClassID'];
 $GroupID = $Params['GroupID'];
 $GroupName = $Params['GroupName'];
 $EditLanguage = $Params['Language'];
 $FromLanguage = false;
 $ClassVersion = null;
+
 
 switch ( $Params['FunctionName'] )
 {
@@ -49,12 +50,12 @@ switch ( $Params['FunctionName'] )
     default:
     {
         eZDebug::writeError( 'Undefined function: ' . $params['Function'] );
-        $Module->setExitStatus( EZ_MODULE_STATUS_FAILED );
+        $Module->setExitStatus( eZModule::STATUS_FAILED );
         return;
     };
 }
 
-$http =& eZHttpTool::instance();
+$http = eZHTTPTool::instance();
 if ( $http->hasPostVariable( 'CancelConflictButton' ) )
 {
     $Module->redirectToView( 'grouplist' );
@@ -67,45 +68,45 @@ if ( $http->hasPostVariable( 'EditLanguage' ) )
 
 if ( is_numeric( $ClassID ) )
 {
-    $class = eZContentClass::fetch( $ClassID, true, EZ_CLASS_VERSION_STATUS_TEMPORARY );
+    $class = eZContentClass::fetch( $ClassID, true, eZContentClass::VERSION_STATUS_TEMPORARY );
 
     // If temporary version does not exist fetch the current and add temperory class to corresponding group
     if ( !is_object( $class ) or $class->attribute( 'id' ) == null )
     {
-        $class = eZContentClass::fetch( $ClassID, true, EZ_CLASS_VERSION_STATUS_DEFINED );
+        $class = eZContentClass::fetch( $ClassID, true, eZContentClass::VERSION_STATUS_DEFINED );
         if( is_null( $class ) ) // Class does not exist
         {
-            return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+            return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
         }
-        $classGroups= eZContentClassClassGroup::fetchGroupList( $ClassID, EZ_CLASS_VERSION_STATUS_DEFINED );
+        $classGroups= eZContentClassClassGroup::fetchGroupList( $ClassID, eZContentClass::VERSION_STATUS_DEFINED );
         foreach ( $classGroups as $classGroup )
         {
             $groupID = $classGroup->attribute( 'group_id' );
             $groupName = $classGroup->attribute( 'group_name' );
-            $ingroup = eZContentClassClassGroup::create( $ClassID, EZ_CLASS_VERSION_STATUS_TEMPORARY, $groupID, $groupName );
+            $ingroup = eZContentClassClassGroup::create( $ClassID, eZContentClass::VERSION_STATUS_TEMPORARY, $groupID, $groupName );
             $ingroup->store();
         }
     }
     else
     {
-        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
-        $user =& eZUser::currentUser();
-        $contentIni =& eZIni::instance( 'content.ini' );
+        //include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+        $user = eZUser::currentUser();
+        $contentIni = eZINI::instance( 'content.ini' );
         $timeOut = $contentIni->variable( 'ClassSettings', 'DraftTimeout' );
 
         if ( $class->attribute( 'modifier_id' ) != $user->attribute( 'contentobject_id' ) &&
              $class->attribute( 'modified' ) + $timeOut > time() )
         {
-            include_once( 'kernel/common/template.php' );
-            $tpl =& templateInit();
+            require_once( 'kernel/common/template.php' );
+            $tpl = templateInit();
 
-            $res =& eZTemplateDesignResource::instance();
+            $res = eZTemplateDesignResource::instance();
             $res->setKeys( array( array( 'class', $class->attribute( 'id' ) ) ) ); // Class ID
             $tpl->setVariable( 'class', $class );
             $tpl->setVariable( 'lock_timeout', $timeOut );
 
             $Result = array();
-            $Result['content'] =& $tpl->fetch( 'design:class/edit_denied.tpl' );
+            $Result['content'] = $tpl->fetch( 'design:class/edit_denied.tpl' );
             $Result['path'] = array( array( 'url' => '/class/grouplist/',
                                             'text' => ezi18n( 'kernel/class', 'Class list' ) ) );
             return $Result;
@@ -114,7 +115,7 @@ if ( is_numeric( $ClassID ) )
 }
 else
 {
-    include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+    //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 
     if ( !$EditLanguage )
     {
@@ -126,14 +127,14 @@ else
         else
         {
             eZDebug::writeError( 'Undefined default language', 'class/edit.php' );
-            $Module->setExitStatus( EZ_MODULE_STATUS_FAILED );
+            $Module->setExitStatus( eZModule::STATUS_FAILED );
             return;
         }
     }
 
     if ( is_numeric( $GroupID ) and is_string( $GroupName ) and $GroupName != '' )
     {
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
         $user_id = $user->attribute( 'contentobject_id' );
         $class = eZContentClass::create( $user_id, array(), $EditLanguage );
         $class->setName( ezi18n( 'kernel/class/edit', 'New Class' ), $EditLanguage );
@@ -152,8 +153,8 @@ else
         $errorResponseGroupName = ( $GroupName == '' ) ? '<Empty name>' : $GroupName;
         $errorResponseGroupID = ( !is_numeric( $GroupID ) ) ? '<Empty ID>' : $GroupID;
         eZDebug::writeError( "Unknown class group: {$errorResponseGroupName} (ID: {$errorResponseGroupID})", 'Kernel - Class - Edit' );
-        $Module->setExitStatus( EZ_MODULE_STATUS_FAILED );
-        return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        $Module->setExitStatus( eZModule::STATUS_FAILED );
+        return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
     }
 }
 
@@ -184,9 +185,9 @@ if ( $http->hasPostVariable( 'DiscardButton' ) )
 {
     eZSessionDestroy( $http->sessionVariable( 'CanStoreTicket' ) );
     $http->removeSessionVariable( 'CanStoreTicket' );
-    $class->setVersion( EZ_CLASS_VERSION_STATUS_TEMPORARY );
-    $class->remove( true, EZ_CLASS_VERSION_STATUS_TEMPORARY );
-    eZContentClassClassGroup::removeClassMembers( $ClassID, EZ_CLASS_VERSION_STATUS_TEMPORARY );
+    $class->setVersion( eZContentClass::VERSION_STATUS_TEMPORARY );
+    $class->remove( true, eZContentClass::VERSION_STATUS_TEMPORARY );
+    eZContentClassClassGroup::removeClassMembers( $ClassID, eZContentClass::VERSION_STATUS_TEMPORARY );
     if ( $fromGroupID === false )
     {
         $Module->redirectToView( 'grouplist' );
@@ -199,12 +200,12 @@ if ( $http->hasPostVariable( 'DiscardButton' ) )
 }
 if ( $http->hasPostVariable( 'AddGroupButton' ) && $http->hasPostVariable( 'ContentClass_group' ) )
 {
-    include_once( "kernel/class/ezclassfunctions.php" );
+    //include_once( "kernel/class/ezclassfunctions.php" );
     eZClassFunctions::addGroup( $ClassID, $ClassVersion, $http->postVariable( 'ContentClass_group' ) );
 }
 if ( $http->hasPostVariable( 'RemoveGroupButton' ) && $http->hasPostVariable( 'group_id_checked' ) )
 {
-    include_once( "kernel/class/ezclassfunctions.php" );
+    //include_once( "kernel/class/ezclassfunctions.php" );
     if ( !eZClassFunctions::removeGroup( $ClassID, $ClassVersion, $http->postVariable( 'group_id_checked' ) ) )
     {
         $validation['groups'][] = array( 'text' => ezi18n( 'kernel/class', 'You have to have at least one group that the class belongs to!' ) );
@@ -213,7 +214,7 @@ if ( $http->hasPostVariable( 'RemoveGroupButton' ) && $http->hasPostVariable( 'g
 }
 
 // Fetch attributes and definitions
-$attributes =& $class->fetchAttributes();
+$attributes = $class->fetchAttributes();
 
 if ( $http->hasPostVariable( 'SelectLanguageButton' ) && $http->hasPostVariable( 'EditLanguage' ) )
 {
@@ -247,7 +248,7 @@ if ( $http->hasPostVariable( 'SelectLanguageButton' ) && $http->hasPostVariable(
 if ( !$EditLanguage )
 {
     // Check number of languages
-    include_once( 'kernel/classes/ezcontentlanguage.php' );
+    //include_once( 'kernel/classes/ezcontentlanguage.php' );
     $languages = eZContentLanguage::fetchList();
     // If there is only one language we choose it for the user.
     if ( count( $languages ) == 1 )
@@ -264,18 +265,18 @@ if ( !$EditLanguage )
         }
         else
         {
-            include_once( 'kernel/common/template.php' );
+            require_once( 'kernel/common/template.php' );
 
-            $tpl =& templateInit();
+            $tpl = templateInit();
 
-            $res =& eZTemplateDesignResource::instance();
+            $res = eZTemplateDesignResource::instance();
             $res->setKeys( array( array( 'class', $class->attribute( 'id' ) ) ) ); // Class ID
 
             $tpl->setVariable( 'module', $Module );
             $tpl->setVariable( 'class', $class );
 
             $Result = array();
-            $Result['content'] =& $tpl->fetch( 'design:class/select_language.tpl' );
+            $Result['content'] = $tpl->fetch( 'design:class/select_language.tpl' );
             $Result['path'] = array( array( 'url' => '/class/edit/',
                                             'text' => ezi18n( 'kernel/class', 'Class edit' ) ) );
             return $Result;
@@ -283,7 +284,7 @@ if ( !$EditLanguage )
     }
 }
 
-include_once( 'kernel/classes/ezdatatype.php' );
+//include_once( 'kernel/classes/ezdatatype.php' );
 eZDataType::loadAndRegisterAllTypes();
 $datatypes = eZDataType::registeredDataTypes();
 
@@ -319,21 +320,20 @@ foreach( $storeActions as $storeAction )
     }
 }
 
-include_once( 'lib/ezutils/classes/ezinputvalidator.php' );
+//include_once( 'lib/ezutils/classes/ezinputvalidator.php' );
 $canStore = true;
 $requireFixup = false;
 if ( $contentClassHasInput )
 {
     if ( $validationRequired )
     {
-        foreach ( array_keys( $attributes ) as $key )
+        foreach ( $attributes as $attribute )
         {
-            $attribute =& $attributes[$key];
             $dataType = $attribute->dataType();
             $status = $dataType->validateClassAttributeHTTPInput( $http, 'ContentClass', $attribute );
-            if ( $status == EZ_INPUT_VALIDATOR_STATE_INTERMEDIATE )
+            if ( $status == eZInputValidator::STATE_INTERMEDIATE )
                 $requireFixup = true;
-            else if ( $status == EZ_INPUT_VALIDATOR_STATE_INVALID )
+            else if ( $status == eZInputValidator::STATE_INVALID )
             {
                 $canStore = false;
                 $attributeName = $dataType->attribute( 'information' );
@@ -365,9 +365,8 @@ if ( $contentClassHasInput )
         if ( $http->hasPostVariable( 'ContentAttribute_priority' ) )
             $placementArray = $http->postVariable( 'ContentAttribute_priority' );
 
-        foreach ( array_keys( $attributes ) as $key )
+        foreach ( $attributes as $key => $attribute )
         {
-            $attribute =& $attributes[$key];
             $attributeID = $attribute->attribute( 'id' );
             $attribute->setAttribute( 'is_required', in_array( $attributeID, $requireCheckedArray ) );
             $attribute->setAttribute( 'is_searchable', in_array( $attributeID, $searchableCheckedArray ) );
@@ -385,9 +384,8 @@ if ( $contentClassHasInput )
 // Fixup input
 if ( $requireFixup )
 {
-    foreach( array_keys( $attributes ) as $key )
+    foreach( $attributes as $attribute )
     {
-        $attribute =& $attributes[$key];
         $dataType = $attribute->dataType();
         $status = $dataType->fixupClassAttributeHTTPInput( $http, 'ContentClass', $attribute );
     }
@@ -458,17 +456,16 @@ if ( $contentClassHasInput )
         $cur_datatype = $http->postVariable( 'DataTypeString' );
 }
 
-$class->setAttribute( 'version', EZ_CLASS_VERSION_STATUS_TEMPORARY );
+$class->setAttribute( 'version', eZContentClass::VERSION_STATUS_TEMPORARY );
 $class->NameList->setHasDirtyData();
 
-include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-$trans =& eZCharTransform::instance();
+//include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+$trans = eZCharTransform::instance();
 
 // Fixed identifiers to only contain a-z0-9_
-foreach( array_keys( $attributes ) as $key )
+foreach( $attributes as $attribute )
 {
-    $attribute =& $attributes[$key];
-    $attribute->setAttribute( 'version', EZ_CLASS_VERSION_STATUS_TEMPORARY );
+    $attribute->setAttribute( 'version', eZContentClass::VERSION_STATUS_TEMPORARY );
     $identifier = $attribute->attribute( 'identifier' );
     if ( $identifier == '' )
         $identifier = $attribute->attribute( 'name' );
@@ -491,9 +488,8 @@ $class->setAttribute( 'identifier', $identifier );
 // Run custom actions if any
 if ( $customAction )
 {
-    foreach( array_keys( $attributes ) as $key )
+    foreach( $attributes as $attribute )
     {
-        $attribute =& $attributes[$key];
         if ( $customActionAttributeID == $attribute->attribute( 'id' ) )
         {
             $attribute->customHTTPAction( $Module, $http, $customAction );
@@ -503,8 +499,8 @@ if ( $customAction )
 // Set new modification date
 $date_time = time();
 $class->setAttribute( 'modified', $date_time );
-include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-$user =& eZUser::currentUser();
+//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+$user = eZUser::currentUser();
 $user_id = $user->attribute( 'contentobject_id' );
 $class->setAttribute( 'modifier_id', $user_id );
 
@@ -512,14 +508,14 @@ $class->setAttribute( 'modifier_id', $user_id );
 if ( $http->hasPostVariable( 'RemoveButton' ) )
 {
     $validation['processed'] = true;
-    if ( eZHttpPersistence::splitSelected( 'ContentAttribute', $attributes,
+    if ( eZHTTPPersistence::splitSelected( 'ContentAttribute', $attributes,
                                            $http, 'id',
                                            $keepers, $rejects ) )
     {
         $attributes = $keepers;
         foreach ( $rejects as $reject )
         {
-            if ( !$reject->remove( true ) )
+            if ( !$reject->removeThis( true ) )
             {
                 $dataType = $reject->dataType();
                 $removeInfo = $dataType->classAttributeRemovableInformation( $reject );
@@ -538,9 +534,8 @@ if ( $http->hasPostVariable( 'RemoveButton' ) )
 $datatypeValidation = array();
 if ( $contentClassHasInput )
 {
-    foreach( array_keys( $attributes ) as $key )
+    foreach( $attributes as $attribute )
     {
-        $attribute =& $attributes[$key];
         if ( $dataType = $attribute->dataType() )
         {
             $dataType->fetchClassAttributeHTTPInput( $http, 'ContentClass', $attribute );
@@ -605,45 +600,42 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
 {
 
     $id = $class->attribute( 'id' );
-    $oldClassAttributes = $class->fetchAttributes( $id, true, EZ_CLASS_VERSION_STATUS_DEFINED );
+    $oldClassAttributes = $class->fetchAttributes( $id, true, eZContentClass::VERSION_STATUS_DEFINED );
     $newClassAttributes = $class->fetchAttributes( );
 
     // validate class name and identifier; check presence of class attributes
     // FIXME: object pattern name is never validated
 
     $basicClassPropertiesValid = true;
+    $className       = $class->attribute( 'name' );
+    $classIdentifier = $class->attribute( 'identifier' );
+    $classID         = $class->attribute( 'id' );
+
+    // validate class name
+    if( trim( $className ) == '' )
     {
-        $className       =& $class->attribute( 'name' );
-        $classIdentifier =& $class->attribute( 'identifier' );
-        $classID         =& $class->attribute( 'id' );
-
-        // validate class name
-        if( trim( $className ) == '' )
-        {
-            $validation['class_errors'][] = array( 'text' => ezi18n( 'kernel/class', 'The class should have nonempty \'Name\' attribute.' ) );
-            $basicClassPropertiesValid = false;
-        }
-
-        // check presence of attributes
-        $newClassAttributes = $class->fetchAttributes( );
-        if ( count( $newClassAttributes ) == 0 )
-        {
-            $validation['class_errors'][] = array( 'text' => ezi18n( 'kernel/class', 'The class should have at least one attribute.' ) );
-            $basicClassPropertiesValid = false;
-        }
-
-        // validate class identifier
-
-        $db =& eZDB::instance();
-        $classCount = $db->arrayQuery( "SELECT COUNT(*) AS count FROM ezcontentclass WHERE  identifier='$classIdentifier' AND version=" . EZ_CLASS_VERSION_STATUS_DEFINED . " AND id <> $classID" );
-        if ( $classCount[0]['count'] > 0 )
-        {
-            $validation['class_errors'][] = array( 'text' => ezi18n( 'kernel/class', 'There is a class already having the same identifier.' ) );
-            $basicClassPropertiesValid = false;
-        }
-        unset( $classList );
-        unset( $db );
+        $validation['class_errors'][] = array( 'text' => ezi18n( 'kernel/class', 'The class should have nonempty \'Name\' attribute.' ) );
+        $basicClassPropertiesValid = false;
     }
+
+    // check presence of attributes
+    if ( count( $newClassAttributes ) == 0 )
+    {
+        $validation['class_errors'][] = array( 'text' => ezi18n( 'kernel/class', 'The class should have at least one attribute.' ) );
+        $basicClassPropertiesValid = false;
+    }
+
+    // validate class identifier
+
+    $db = eZDB::instance();
+    $classCount = $db->arrayQuery( "SELECT COUNT(*) AS count FROM ezcontentclass WHERE  identifier='$classIdentifier' AND version=" . eZContentClass::VERSION_STATUS_DEFINED . " AND id <> $classID" );
+    if ( $classCount[0]['count'] > 0 )
+    {
+        $validation['class_errors'][] = array( 'text' => ezi18n( 'kernel/class', 'There is a class already having the same identifier.' ) );
+        $basicClassPropertiesValid = false;
+    }
+    unset( $classList );
+    unset( $db );
 
     if ( !$basicClassPropertiesValid )
     {
@@ -652,7 +644,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
     }
     else
     {
-        $firstStoreAttempt =& eZSessionRead( $http->sessionVariable( 'CanStoreTicket' ) );
+        $firstStoreAttempt = eZSessionRead( $http->sessionVariable( 'CanStoreTicket' ) );
         if ( !$firstStoreAttempt )
         {
             return $Module->redirectToView( 'view', array( $ClassID ), array( 'Language' => $EditLanguage ) );
@@ -660,9 +652,9 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
         eZSessionDestroy( $http->sessionVariable( 'CanStoreTicket' ) );
 
         // Class cleanup, update existing class objects according to new changes
-        include_once( 'kernel/classes/ezcontentobject.php' );
+        //include_once( 'kernel/classes/ezcontentobject.php' );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
         $objects = null;
@@ -686,7 +678,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
                     foreach ( $objectAttributes as $objectAttribute )
                     {
                         $objectAttributeID = $objectAttribute->attribute( 'id' );
-                        $objectAttribute->remove( $objectAttributeID );
+                        $objectAttribute->removeThis( $objectAttributeID );
                     }
                 }
             }
@@ -712,7 +704,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
                     foreach ( $objects as $object )
                     {
                         $contentobjectID = $object->attribute( 'id' );
-                        $objectVersions =& $object->versions();
+                        $objectVersions = $object->versions();
                         foreach ( $objectVersions as $objectVersion )
                         {
                             $translations = $objectVersion->translations( false );
@@ -754,11 +746,11 @@ if ( $http->hasPostVariable( 'NewButton' ) )
     $dataType = $new_attribute->dataType();
     $dataType->initializeClassAttribute( $new_attribute );
     $new_attribute->store();
-    $attributes[] =& $new_attribute;
+    $attributes[] = $new_attribute;
 }
 else if ( $http->hasPostVariable( 'MoveUp' ) )
 {
-    $attribute =& eZContentClassAttribute::fetch( $http->postVariable( 'MoveUp' ), true, EZ_CLASS_VERSION_STATUS_TEMPORARY,
+    $attribute = eZContentClassAttribute::fetch( $http->postVariable( 'MoveUp' ), true, eZContentClass::VERSION_STATUS_TEMPORARY,
                                                   array( 'contentclass_id', 'version', 'placement' ) );
     $attribute->move( false );
     $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $ClassID . '/(language)/' . $EditLanguage );
@@ -766,7 +758,7 @@ else if ( $http->hasPostVariable( 'MoveUp' ) )
 }
 else if ( $http->hasPostVariable( 'MoveDown' ) )
 {
-    $attribute =& eZContentClassAttribute::fetch( $http->postVariable( 'MoveDown' ), true, EZ_CLASS_VERSION_STATUS_TEMPORARY,
+    $attribute = eZContentClassAttribute::fetch( $http->postVariable( 'MoveDown' ), true, eZContentClass::VERSION_STATUS_TEMPORARY,
                                                   array( 'contentclass_id', 'version', 'placement' ) );
     $attribute->move( true );
     $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $ClassID . '/(language)/' . $EditLanguage );
@@ -785,9 +777,9 @@ $attributes = $class->fetchAttributes();
 $validation = array_merge( $validation, $datatypeValidation );
 
 // Template handling
-include_once( 'kernel/common/template.php' );
-$tpl =& templateInit();
-$res =& eZTemplateDesignResource::instance();
+require_once( 'kernel/common/template.php' );
+$tpl = templateInit();
+$res = eZTemplateDesignResource::instance();
 $res->setKeys( array( array( 'class', $class->attribute( 'id' ) ) ) ); // Class ID
 $tpl->setVariable( 'http', $http );
 $tpl->setVariable( 'validation', $validation );
@@ -801,7 +793,7 @@ $tpl->setVariable( 'datatype', $cur_datatype );
 $tpl->setVariable( 'language_code', $EditLanguage );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:class/edit.tpl' );
+$Result['content'] = $tpl->fetch( 'design:class/edit.tpl' );
 $Result['path'] = array( array( 'url' => '/class/edit/',
                                 'text' => ezi18n( 'kernel/class', 'Class edit' ) ) );
 

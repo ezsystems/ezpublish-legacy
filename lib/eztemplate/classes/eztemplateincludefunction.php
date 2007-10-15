@@ -77,7 +77,7 @@ class eZTemplateIncludeFunction
     }
 
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, $parameters, $privateData )
+                                         $tpl, $parameters, $privateData )
     {
         if ( $functionName != $this->IncludeName )
             return false;
@@ -104,7 +104,7 @@ class eZTemplateIncludeFunction
 
         $resourceName = "";
         $templateName = "";
-        $resource =& $tpl->resourceFor( $uriString, $resourceName, $templateName );
+        $resource = $tpl->resourceFor( $uriString, $resourceName, $templateName );
         $resourceData = $tpl->resourceData( $resource, $uriString, $resourceName, $templateName );
         $resourceData['use-comments'] = eZTemplateCompiler::isCommentsEnabled();
 
@@ -130,7 +130,7 @@ class eZTemplateIncludeFunction
                                                                    "    \$restoreIncludeArray[] = array( ( isset( $namespaceName ) ? $namespaceName : '' ), '$parameterName', 'unset' );\n" );
 
             $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameterData, false, array(),
-                                                                  array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $parameterName ) );
+                                                                  array( $namespaceValue, eZTemplate::NAMESPACE_SCOPE_RELATIVE, $parameterName ) );
             $variableList[] = $parameterName;
         }
 
@@ -153,7 +153,7 @@ class eZTemplateIncludeFunction
     /*!
      Loads the file specified in the parameter "uri" with namespace "name".
     */
-    function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
+    function process( $tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
         $params = $functionParameters;
         if ( !isset( $params["uri"] ) )
@@ -218,7 +218,7 @@ class eZTemplateIncludeFunction
      \static
      Takes care of loading the template file and set it in the \a $text parameter.
     */
-    function handleInclude( &$textElements, &$uri, &$tpl, $rootNamespace, $name )
+    static function handleInclude( &$textElements, &$uri, $tpl, $rootNamespace, $name )
     {
         $tpl->processURI( $uri, true, $extraParameters, $textElements, $name, $name );
     }
@@ -233,7 +233,7 @@ class eZTemplateIncludeFunction
 
     /// \privatesection
     /// The name of the include function
-    var $IncludeName;
+    public $IncludeName;
 }
 
 ?>

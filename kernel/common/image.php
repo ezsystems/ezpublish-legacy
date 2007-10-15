@@ -28,22 +28,23 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-function &imageInit()
+function imageInit()
 {
-    include_once( 'lib/ezimage/classes/ezimagemanager.php' );
-    include_once( 'lib/ezimage/classes/ezimageanalyzer.php' );
+    //include_once( 'lib/ezimage/classes/ezimagemanager.php' );
+    //include_once( 'lib/ezimage/classes/ezimageanalyzer.php' );
 
-    $manager =& $GLOBALS['eZPublishImageManager'];
-    if ( get_class( $manager ) == 'ezimagemanager' )
-        return $manager;
+    if ( isset( $GLOBALS['eZPublishImageManager'] ) )
+    {
+        return $GLOBALS['eZPublishImageManager'];
+    }
 
-    $manager = eZImageManager::instance();
+    $GLOBALS['eZPublishImageManager'] = eZImageManager::instance();
 
-    $manager->readINISettings();
+    $GLOBALS['eZPublishImageManager']->readINISettings();
 
     eZImageAnalyzer::readAnalyzerSettingsFromINI();
 
-    return $manager;
+    return $GLOBALS['eZPublishImageManager'];
 }
 
 ?>

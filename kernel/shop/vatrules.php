@@ -26,9 +26,9 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/common/template.php" );
-include_once( "lib/ezutils/classes/ezhttppersistence.php" );
-include_once( "kernel/classes/ezvatrule.php" );
+require_once( "kernel/common/template.php" );
+//include_once( "lib/ezutils/classes/ezhttppersistence.php" );
+//include_once( "kernel/classes/ezvatrule.php" );
 
 /**
  * Find errors in VAT charging rules.
@@ -163,9 +163,9 @@ function compareVatRules($a, $b)
     return 0;
 }
 
-$module =& $Params["Module"];
-$http   =& eZHttpTool::instance();
-$tpl =& templateInit();
+$module = $Params['Module'];
+$http   = eZHTTPTool::instance();
+$tpl = templateInit();
 
 if ( $http->hasPostVariable( "AddRuleButton" ) )
 {
@@ -179,16 +179,16 @@ if ( $http->hasPostVariable( "RemoveRuleButton" ) )
     else
         $ruleIDList = $http->postVariable( "RuleIDList" );
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach ( $ruleIDList as $ruleID )
-        eZVatRule::remove( $ruleID );
+        eZVatRule::removeVatRule( $ruleID );
     $db->commit();
 }
 
 if ( $http->hasPostVariable( "SaveCategoriesButton" ) )
 {
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach ( $productCategories as $cat )
     {
@@ -217,7 +217,7 @@ $path[] = array( 'text' => ezi18n( 'kernel/shop/vatrules', 'VAT rules' ),
                  'url' => false );
 
 $Result = array();
-$Result['path'] =& $path;
-$Result['content'] =& $tpl->fetch( "design:shop/vatrules.tpl" );
+$Result['path'] = $path;
+$Result['content'] = $tpl->fetch( "design:shop/vatrules.tpl" );
 
 ?>

@@ -74,7 +74,7 @@ asdfasdf
 */
 
 
-include_once( 'lib/eztemplate/classes/eztemplatesectioniterator.php' );
+//include_once( 'lib/eztemplate/classes/eztemplatesectioniterator.php' );
 
 class eZTemplateSectionFunction
 {
@@ -117,7 +117,7 @@ class eZTemplateSectionFunction
                                             'transform-parameters' => true ) );
     }
 
-    function functionTemplateStatistics( $functionName, &$node, &$tpl, $resourceData, $namespace, &$stats )
+    function functionTemplateStatistics( $functionName, &$node, $tpl, $resourceData, $namespace, &$stats )
     {
         if ( $functionName != $this->Name )
             return false;
@@ -193,7 +193,7 @@ class eZTemplateSectionFunction
     }
 
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, $parameters, $privateData )
+                                         $tpl, $parameters, $privateData )
     {
         $useLastValue = false;
         if ( isset( $parameters['last-value'] ) and
@@ -299,23 +299,23 @@ class eZTemplateSectionFunction
         $mainNodes = eZTemplateNodeTool::extractNodes( $children,
                                                        array( 'match' => array( 'type' => 'before',
                                                                                 'matches' => array( array( 'match-keys' => array( 0 ),
-                                                                                                           'match-with' => EZ_TEMPLATE_NODE_FUNCTION ),
+                                                                                                           'match-with' => eZTemplate::NODE_FUNCTION ),
                                                                                                     array( 'match-keys' => array( 2 ),
                                                                                                            'match-with' => 'section-else' ) ),
                                                                                 'filter' => array( array( array( 'match-keys' => array( 0 ),
-                                                                                                                 'match-with' => EZ_TEMPLATE_NODE_FUNCTION ),
+                                                                                                                 'match-with' => eZTemplate::NODE_FUNCTION ),
                                                                                                           array( 'match-keys' => array( 2 ),
                                                                                                                  'match-with' => array( 'delimiter', 'section-exclude', 'section-include' ) ) ) ) ) ) );
         $delimiterNodes = eZTemplateNodeTool::extractNodes( $children,
                                                             array( 'match' => array( 'type' => 'equal',
                                                                                      'matches' => array( array( 'match-keys' => array( 0 ),
-                                                                                                               'match-with' => EZ_TEMPLATE_NODE_FUNCTION ),
+                                                                                                               'match-with' => eZTemplate::NODE_FUNCTION ),
                                                                                                          array( 'match-keys' => array( 2 ),
                                                                                                                 'match-with' => 'delimiter' ) ) ) ) );
         $filterNodes = eZTemplateNodeTool::extractNodes( $children,
                                                          array( 'match' => array( 'type' => 'equal',
                                                                                   'matches' => array( array( 'match-keys' => array( 0 ),
-                                                                                                             'match-with' => EZ_TEMPLATE_NODE_FUNCTION ),
+                                                                                                             'match-with' => eZTemplate::NODE_FUNCTION ),
                                                                                                       array( 'match-keys' => array( 2 ),
                                                                                                              'match-with' => array( 'section-exclude', 'section-include' ) ) ) ) ) );
 
@@ -352,7 +352,7 @@ class eZTemplateSectionFunction
             $variableValuePopText = '';
             if ( $varName )
             {
-                $code .= ( "include_once( 'lib/eztemplate/classes/eztemplatesectioniterator.php' );\n" .
+                $code .= ( "//include_once( 'lib/eztemplate/classes/eztemplatesectioniterator.php' );\n" .
                            "\$variableValue = new eZTemplateSectionIterator();\n" .
                            "\$lastVariableValue = false;\n" );
                 $variableValuePushText = "&\$variableValue, ";
@@ -485,19 +485,19 @@ class eZTemplateSectionFunction
                 $code .= "    \$variableValue->setIteratorValues( \$item, \$loopKey, \$currentIndex - 1, \$currentIndex, false, \$last );";
                 $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code );
                 $newNodes[] = eZTemplateNodeTool::createVariableNode( false, 'variableValue', eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
-                                                                      array( 'spacing' => 4 ), array( '', EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $varName ), false, true, true );
+                                                                      array( 'spacing' => 4 ), array( '', eZTemplate::NAMESPACE_SCOPE_RELATIVE, $varName ), false, true, true );
             }
             else
             {
                 $newNodes[] = eZTemplateNodeTool::createVariableNode( false, 'loopKey', eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
-                                                                      array( 'spacing' => 4 ), array( '', EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, 'key' ), false, true, true );
+                                                                      array( 'spacing' => 4 ), array( '', eZTemplate::NAMESPACE_SCOPE_RELATIVE, 'key' ), false, true, true );
                 $newNodes[] = eZTemplateNodeTool::createVariableNode( false, 'item', eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
-                                                                      array( 'spacing' => 4 ), array( '', EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, 'item' ), false, true, true );
+                                                                      array( 'spacing' => 4 ), array( '', eZTemplate::NAMESPACE_SCOPE_RELATIVE, 'item' ), false, true, true );
                 $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$currentIndexInc = \$currentIndex - 1;\n" );
                 $newNodes[] = eZTemplateNodeTool::createVariableNode( false, 'currentIndexInc', eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
-                                                                      array( 'spacing' => 4 ), array( '', EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, 'index' ), false, true, true );
+                                                                      array( 'spacing' => 4 ), array( '', eZTemplate::NAMESPACE_SCOPE_RELATIVE, 'index' ), false, true, true );
                 $newNodes[] = eZTemplateNodeTool::createVariableNode( false, 'currentIndex', eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
-                                                                      array( 'spacing' => 4 ), array( '', EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, 'number' ), false, true, true );
+                                                                      array( 'spacing' => 4 ), array( '', eZTemplate::NAMESPACE_SCOPE_RELATIVE, 'number' ), false, true, true );
             }
 
             $mainSpacing = 0;
@@ -575,7 +575,7 @@ class eZTemplateSectionFunction
                                                                            "    unset( \$sequenceValue );\n" .
                                                                            "}", array( 'spacing' => $mainSpacing + 4 ) );
                     $newNodes[] = eZTemplateNodeTool::createVariableNode( false, 'variableValue', eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
-                                                                          array( 'spacing' => 4 ), array( '', EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $varName ), false, true, true );
+                                                                          array( 'spacing' => 4 ), array( '', eZTemplate::NAMESPACE_SCOPE_RELATIVE, $varName ), false, true, true );
                 }
                 else
                 {
@@ -583,7 +583,7 @@ class eZTemplateSectionFunction
                                                                            "{\n" .
                                                                            "    \$sequenceValue = array_shift( \$sequence );\n", array( 'spacing' => $mainSpacing + 4 ) );
                     $newNodes[] = eZTemplateNodeTool::createVariableNode( false, 'sequenceValue', eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
-                                                                          array( 'spacing' => $mainSpacing + 4 ), array( '', EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, 'sequence' ), false, true, true );
+                                                                          array( 'spacing' => $mainSpacing + 4 ), array( '', eZTemplate::NAMESPACE_SCOPE_RELATIVE, 'sequence' ), false, true, true );
                     $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "    \$sequence[] = \$sequenceValue;\n" .
                                                                            "    unset( \$sequenceValue );\n" .
                                                                            "}", array( 'spacing' => $mainSpacing + 4 ) );
@@ -685,7 +685,7 @@ class eZTemplateSectionFunction
             $elseNodes = eZTemplateNodeTool::extractNodes( $children,
                                                            array( 'match' => array( 'type' => 'after',
                                                                                     'matches' => array( array( 'match-keys' => array( 0 ),
-                                                                                                               'match-with' => EZ_TEMPLATE_NODE_FUNCTION ),
+                                                                                                               'match-with' => eZTemplate::NODE_FUNCTION ),
                                                                                                         array( 'match-keys' => array( 2 ),
                                                                                                                'match-with' => 'section-else' ) )
                                                                                     ) ) );
@@ -725,7 +725,7 @@ class eZTemplateSectionFunction
     /*!
      Processes the function with all it's children.
     */
-    function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
+    function process( $tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
         $children = $functionChildren;
         $parameters = $functionParameters;
@@ -747,26 +747,26 @@ class eZTemplateSectionFunction
         if ( isset( $parameters["loop"] ) )
         {
             $hasLoopItemParameter = true;
-            $loopItem =& $tpl->elementValue( $parameters["loop"], $rootNamespace, $currentNamespace, $functionPlacement );
+            $loopItem = $tpl->elementValue( $parameters["loop"], $rootNamespace, $currentNamespace, $functionPlacement );
         }
 
         $variableIterator = null;
         if ( isset( $parameters['var'] ) )
         {
-            $variableIterator =& $tpl->elementValue( $parameters['var'], $rootNamespace, $currentNamespace, $functionPlacement );
+            $variableIterator = $tpl->elementValue( $parameters['var'], $rootNamespace, $currentNamespace, $functionPlacement );
         }
 
         $noLastValue = true;
         if ( isset( $parameters['last-value'] ) )
         {
-            $lastValue =& $tpl->elementValue( $parameters['last-value'], $rootNamespace, $currentNamespace, $functionPlacement );
+            $lastValue = $tpl->elementValue( $parameters['last-value'], $rootNamespace, $currentNamespace, $functionPlacement );
             $noLastValue = !$lastValue;
         }
 
         $reverseLoop = false;
         if ( isset( $parameters['reverse'] ) )
         {
-            $reverseLoop =& $tpl->elementValue( $parameters['reverse'], $rootNamespace, $currentNamespace, $functionPlacement );
+            $reverseLoop = $tpl->elementValue( $parameters['reverse'], $rootNamespace, $currentNamespace, $functionPlacement );
         }
         if ( $hasLoopItemParameter and $loopItem === null )
             return;
@@ -774,7 +774,7 @@ class eZTemplateSectionFunction
         $showItem = null;
         $showSet = isset( $parameters["show"] );
         if ( $showSet )
-            $showItem =& $tpl->elementValue( $parameters["show"], $rootNamespace, $currentNamespace, $functionPlacement );
+            $showItem = $tpl->elementValue( $parameters["show"], $rootNamespace, $currentNamespace, $functionPlacement );
 
         $sequenceStructure = null;
         if ( isset( $parameters["sequence"] ) )
@@ -783,7 +783,7 @@ class eZTemplateSectionFunction
         $iterationMaxCount = false;
         if ( isset( $parameters["max"] ) )
         {
-            $iterationMaxCount =& $tpl->elementValue( $parameters["max"], $rootNamespace, $currentNamespace, $functionPlacement );
+            $iterationMaxCount = $tpl->elementValue( $parameters["max"], $rootNamespace, $currentNamespace, $functionPlacement );
             if ( is_array( $iterationMaxCount ) )
             {
                 $iterationMaxCount = count( $iterationMaxCount );
@@ -798,7 +798,7 @@ class eZTemplateSectionFunction
         $iterationOffset = false;
         if ( isset( $parameters["offset"] ) )
         {
-            $iterationOffset =& $tpl->elementValue( $parameters["offset"], $rootNamespace, $currentNamespace, $functionPlacement );
+            $iterationOffset = $tpl->elementValue( $parameters["offset"], $rootNamespace, $currentNamespace, $functionPlacement );
             if ( is_array( $iterationOffset ) )
             {
                 $iterationOffset = count( $iterationOffset );
@@ -829,7 +829,7 @@ class eZTemplateSectionFunction
             {
                 $child =& $children[$childKey];
                 $childType = $child[0];
-                if ( $childType == EZ_TEMPLATE_NODE_FUNCTION )
+                if ( $childType == eZTemplate::NODE_FUNCTION )
                 {
                     switch ( $child[2] )
                     {
@@ -1025,7 +1025,7 @@ class eZTemplateSectionFunction
      Goes trough all children and process them into text.
      \return \c true.
     */
-    function processChildrenOnce( &$textElements, &$children, &$tpl, $rootNamespace, $name )
+    function processChildrenOnce( &$textElements, &$children, $tpl, $rootNamespace, $name )
     {
         foreach ( array_keys( $children ) as $childKey )
         {
@@ -1044,7 +1044,7 @@ class eZTemplateSectionFunction
     function processChildren( &$textElements,
                               &$children, $key, &$item, &$index, &$isFirstRun,
                               &$delimiterStructure, &$sequenceStructure, &$filterStructure,
-                              &$tpl, $rootNamespace, $name, $functionPlacement,
+                              $tpl, $rootNamespace, $name, $functionPlacement,
                               &$variableIterator, $noLastValue,
                               &$iteratorData )
     {
@@ -1159,7 +1159,7 @@ class eZTemplateSectionFunction
 
     /// \privatesection
     /// Name of the function
-    var $Name;
+    public $Name;
 }
 
 ?>

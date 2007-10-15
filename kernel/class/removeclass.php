@@ -25,17 +25,17 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/classes/ezcontentclass.php" );
-include_once( "lib/ezutils/classes/ezhttppersistence.php" );
-include_once( "kernel/classes/ezcontentclassclassgroup.php" );
-include_once( "lib/ezutils/classes/ezini.php" );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( "kernel/classes/ezcontentclass.php" );
+//include_once( "lib/ezutils/classes/ezhttppersistence.php" );
+//include_once( "kernel/classes/ezcontentclassclassgroup.php" );
+//include_once( "lib/ezutils/classes/ezini.php" );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-$Module =& $Params["Module"];
+$Module = $Params['Module'];
 $GroupID = null;
 if ( isset( $Params["GroupID"] ) )
-    $GroupID =& $Params["GroupID"];
-$http =& eZHTTPTool::instance();
+    $GroupID = $Params["GroupID"];
+$http = eZHTTPTool::instance();
 $deleteIDArray = $http->sessionVariable( "DeleteClassIDArray" );
 $DeleteResult = array();
 $alreadyRemoved = array();
@@ -56,7 +56,7 @@ if ( !$http->hasPostVariable( 'ConfirmButton' ) && !$http->hasPostVariable( 'Can
             if ( count( $classInGroups ) != 1 )
             {
                 // remove class - group relation:
-                include_once( "kernel/class/ezclassfunctions.php" );
+                //include_once( "kernel/class/ezclassfunctions.php" );
                 eZClassFunctions::removeGroup( $classID, null, array( $GroupID ) );
                 $alreadyRemoved[] = array( 'id' => $classID,
                                            'name' => $class->attribute( 'name' ) );
@@ -81,7 +81,7 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
 {
     foreach ( $deleteIDArray as $deleteID )
     {
-        include_once( 'kernel/classes/ezcontentclassoperations.php' );
+        //include_once( 'kernel/classes/ezcontentclassoperations.php' );
         eZContentClassOperations::remove( $deleteID );
     }
     return $Module->redirectTo( '/class/classlist/' . $GroupID );
@@ -123,8 +123,8 @@ foreach ( $deleteIDArray as $deleteID )
 $canRemove = ( $canRemoveCount > 0 );
 
 $Module->setTitle( ezi18n( 'kernel/class', 'Remove classes %class_id', null, array( '%class_id' => $ClassID ) ) );
-include_once( "kernel/common/template.php" );
-$tpl =& templateInit();
+require_once( "kernel/common/template.php" );
+$tpl = templateInit();
 
 $tpl->setVariable( 'module', $Module );
 $tpl->setVariable( 'GroupID', $GroupID );
@@ -133,7 +133,7 @@ $tpl->setVariable( 'already_removed', $alreadyRemoved );
 $tpl->setVariable( 'can_remove', $canRemove );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:class/removeclass.tpl" );
+$Result['content'] = $tpl->fetch( "design:class/removeclass.tpl" );
 $Result['path'] = array( array( 'url' => '/class/grouplist/',
                                 'text' => ezi18n( 'kernel/class', 'Classes' ) ) );
 ?>

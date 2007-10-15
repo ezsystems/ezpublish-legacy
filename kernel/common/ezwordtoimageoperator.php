@@ -32,8 +32,8 @@
 */
 
 /*!
-  \class eZWordtoimageoperator ezwordtoimageoperator.php
-  \brief The class eZWordtoimageoperator does
+  \class eZWordToImageOperator ezwordtoimageoperator.php
+  \brief The class eZWordToImageOperator does
 
 */
 class eZWordToImageOperator
@@ -52,19 +52,19 @@ class eZWordToImageOperator
     /*!
       Returns the template operators.
     */
-    function &operatorList()
+    function operatorList()
     {
         return $this->Operators;
     }
 
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
         switch ( $operatorName )
         {
             case "wordtoimage":
             {
-                include_once( "lib/ezutils/classes/ezini.php" );
-                $ini =& eZINI::instance("wordtoimage.ini");
+                //include_once( "lib/ezutils/classes/ezini.php" );
+                $ini = eZINI::instance("wordtoimage.ini");
                 $iconRoot = $ini->variable( 'WordToImageSettings', 'IconRoot' );
 
                 $replaceText = $ini->variable( 'WordToImageSettings', 'ReplaceText' );
@@ -105,7 +105,7 @@ class eZWordToImageOperator
                     return;
                 }
 
-                $ini =& eZINI::instance( 'icon.ini' );
+                $ini = eZINI::instance( 'icon.ini' );
                 $repository = $ini->variable( 'IconSettings', 'Repository' );
                 $theme = $ini->variable( 'IconSettings', 'Theme' );
                 $groups = array( 'mimetype' => 'MimeIcons',
@@ -128,7 +128,7 @@ class eZWordToImageOperator
                 }
 
                 // Load icon settings from the theme
-                $themeINI =& eZINI::instance( 'icon.ini', $repository . '/' . $theme );
+                $themeINI = eZINI::instance( 'icon.ini', $repository . '/' . $theme );
 
                 $sizes = $themeINI->variable( 'IconSettings', 'Sizes' );
                 if ( $ini->hasVariable( 'IconSettings', 'Sizes' ) )
@@ -204,12 +204,12 @@ class eZWordToImageOperator
 
             case 'flag_icon':
             {
-                $ini =& eZINI::instance( 'icon.ini' );
+                $ini = eZINI::instance( 'icon.ini' );
                 $repository = $ini->variable( 'IconSettings', 'Repository' );
                 $theme = $ini->variable( 'FlagIcons', 'Theme' );
 
                 // Load icon settings from the theme
-                $themeINI =& eZINI::instance( 'icon.ini', $repository . '/' . $theme );
+                $themeINI = eZINI::instance( 'icon.ini', $repository . '/' . $theme );
 
                 $iconFormat = $themeINI->variable( 'FlagIcons', 'IconFormat' );
                 if ( $ini->hasVariable( 'FlagIcons', 'IconFormat' ) )
@@ -243,7 +243,7 @@ class eZWordToImageOperator
                 else
                     $returnURIOnly = false;
 
-                $ini =& eZINI::instance( 'icon.ini' );
+                $ini = eZINI::instance( 'icon.ini' );
                 $repository = $ini->variable( 'IconSettings', 'Repository' );
                 $theme = $ini->variable( 'IconSettings', 'Theme' );
                 $groups = array( 'mimetype_icon' => 'MimeIcons',
@@ -260,7 +260,7 @@ class eZWordToImageOperator
                 }
 
                 // Load icon settings from the theme
-                $themeINI =& eZINI::instance( 'icon.ini', $repository . '/' . $theme );
+                $themeINI = eZINI::instance( 'icon.ini', $repository . '/' . $theme );
 
                 if ( isset( $operatorParameters[0] ) )
                 {
@@ -503,7 +503,7 @@ class eZWordToImageOperator
     }
 
     /// \privatesection
-    var $Operators;
-    var $IconInfo;
+    public $Operators;
+    public $IconInfo;
 }
 ?>

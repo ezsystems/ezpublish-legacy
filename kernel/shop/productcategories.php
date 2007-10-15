@@ -26,19 +26,22 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( "kernel/common/template.php" );
-include_once( "lib/ezutils/classes/ezhttppersistence.php" );
-include_once( "kernel/classes/ezproductcategory.php" );
+require_once( "kernel/common/template.php" );
+//include_once( "lib/ezutils/classes/ezhttppersistence.php" );
+//include_once( "kernel/classes/ezproductcategory.php" );
 
-/**
- * Apply changes made to categories' names.
+/*!
+  Apply changes made to categories' names.
+
+  \return errors, empty array if none exists
  */
-function applyChanges( $module, $http, &$errors, $productCategories = false )
+function applyChanges( $module, $http, $productCategories = false )
 {
+    $errors = array();
     if ( $productCategories === false )
         $productCategories = eZProductCategory::fetchList();
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach ( $productCategories as $cat )
     {
@@ -59,6 +62,8 @@ function applyChanges( $module, $http, &$errors, $productCategories = false )
         $cat->store();
     }
     $db->commit();
+
+    return $errors;
 }
 
 /**
@@ -87,9 +92,9 @@ function generateUniqueCategoryName( $productCategories )
     return "$commonPart $maxNumber";
 }
 
-$module =& $Params["Module"];
-$http   =& eZHttpTool::instance();
-$tpl =& templateInit();
+$module = $Params['Module'];
+$http   = eZHTTPTool::instance();
+$tpl = templateInit();
 $errors = false;
 
 // Remove checked categories.
@@ -98,7 +103,7 @@ $errors = false;
 // Otherwise shows confirmation dialog with the dependencies displayed.
 if ( $module->isCurrentAction( 'Remove' ) )
 {
-    applyChanges( $module, $http, $errors );
+    $errors = applyChanges( $module, $http );
 
     if ( !$module->hasActionParameter( 'CategoryIDList' ) )
         $catIDList = array();
@@ -142,8 +147,8 @@ if ( $module->isCurrentAction( 'Remove' ) )
             $path = array( array( 'text' => ezi18n( 'kernel/shop/productcategories', 'Product categories' ),
                                   'url' => false ) );
             $Result = array();
-            $Result['path'] =& $path;
-            $Result['content'] =& $tpl->fetch( "design:shop/removeproductcategories.tpl" );
+            $Result['path'] = $path;
+            $Result['content'] = $tpl->fetch( "design:shop/removeproductcategories.tpl" );
             return;
         }
         else
@@ -168,17 +173,17 @@ if ( $module->isCurrentAction( 'ConfirmRemoval' ) )
             $catIDList = explode( ',', $catIDList );
     }
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach ( $catIDList as $catID )
-        eZProductCategory::remove( (int) $catID );
+        eZProductCategory::removeByID( (int) $catID );
     $db->commit();
 }
 // Add new category.
 elseif ( $module->isCurrentAction( 'Add' ) )
 {
     $productCategories = eZProductCategory::fetchList( true );
-    applyChanges( $module, $http, $errors, $productCategories );
+    $errors = applyChanges( $module, $http, $productCategories );
 
     $category = eZProductCategory::create();
     $category->setAttribute( 'name', generateUniqueCategoryName( $productCategories ) );
@@ -188,7 +193,7 @@ elseif ( $module->isCurrentAction( 'Add' ) )
 // Apply changes made to categories' names.
 elseif ( $module->isCurrentAction( 'StoreChanges' ) )
 {
-    applyChanges( $module, $http, $errors );
+    $errors = applyChanges( $module, $http );
 }
 
 // (re-)fetch product categoried list to display them in the template
@@ -204,7 +209,7 @@ $path = array();
 $path[] = array( 'text' => ezi18n( 'kernel/shop/productcategories', 'Product categories' ),
                  'url' => false );
 $Result = array();
-$Result['path'] =& $path;
-$Result['content'] =& $tpl->fetch( "design:shop/productcategories.tpl" );
+$Result['path'] = $path;
+$Result['content'] = $tpl->fetch( "design:shop/productcategories.tpl" );
 
 ?>

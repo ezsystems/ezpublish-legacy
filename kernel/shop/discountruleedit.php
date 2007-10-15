@@ -29,20 +29,20 @@
 // TODO: it was not in the original code, but we may consider to add support for "folder with products",
 //       not only products (i.e. objects with attribute of the ezprice datatype).
 
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/ezdiscountrule.php' );
-include_once( 'kernel/classes/ezdiscountsubrule.php' );
-include_once( 'kernel/classes/ezdiscountsubrulevalue.php' );
-include_once( 'kernel/classes/ezcontentbrowse.php' );
-include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
-include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+require_once( 'kernel/common/template.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'kernel/classes/ezdiscountrule.php' );
+//include_once( 'kernel/classes/ezdiscountsubrule.php' );
+//include_once( 'kernel/classes/ezdiscountsubrulevalue.php' );
+//include_once( 'kernel/classes/ezcontentbrowse.php' );
+//include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
+//include_once( 'kernel/shop/classes/ezshopfunctions.php' );
 
-$module =& $Params['Module'];
+$module = $Params['Module'];
 
 if ( !isset( $Params['DiscountGroupID'] ) )
 {
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 else
 {
@@ -56,7 +56,7 @@ if ( isset( $Params['DiscountRuleID'] ) )
     $discountRuleID = $Params['DiscountRuleID'];
 }
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 if ( $http->hasPostVariable( 'DiscardButton' ) )
 {
@@ -85,8 +85,8 @@ if ( $http->hasPostVariable( 'BrowseProductButton' ) )
 if ( $http->hasPostVariable( 'discountrule_name' ) )
 {
     // if it has post variables, the values will be taken from POST variables instead of object itself
-    include_once( 'lib/ezlocale/classes/ezlocale.php' );
-    $locale =& eZLocale::instance();
+    //include_once( 'lib/ezlocale/classes/ezlocale.php' );
+    $locale = eZLocale::instance();
 
     $discountRuleName = $http->postVariable( 'discountrule_name' );
     $discountRulePercent = $locale->internalNumber( $http->postVariable( 'discountrule_percent' ) );
@@ -134,7 +134,7 @@ else
         $discountRule = eZDiscountSubRule::fetch( $discountRuleID );
         if ( !$discountRule )
         {
-            return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+            return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
         }
 
         $discountRuleSelectedClasses = array();
@@ -212,7 +212,7 @@ if ( $http->hasPostVariable( 'DeleteProductButton' ) )
 $productList = array();
 foreach ( $discountRuleSelectedProducts as $productID )
 {
-    $object =& eZContentObject::fetch( $productID );
+    $object = eZContentObject::fetch( $productID );
     if ( eZShopFunctions::isProductObject( $object ) )
         $productList[] = $object;
 }
@@ -220,7 +220,7 @@ foreach ( $discountRuleSelectedProducts as $productID )
 if ( $http->hasPostVariable( 'StoreButton' ) )
 {
     // remove products stored in the database and store them again
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     if ( $discountRuleID )
     {
@@ -273,7 +273,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) )
     $db->commit();
 
     // we changed prices => remove content cache
-    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearAllContentCache();
 
     return $module->redirectTo( $module->functionURI( 'discountgroupview' ) . '/' . $discountGroupID );
@@ -289,7 +289,7 @@ foreach ( $classList as $class )
 
 $sectionList = eZSection::fetchList();
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( 'module', $module );
 $tpl->setVariable( 'discountgroup_id', $discountGroupID );
@@ -306,7 +306,7 @@ $tpl->setVariable( 'class_any_selected', in_array( -1, $discountRuleSelectedClas
 $tpl->setVariable( 'section_any_selected', in_array( -1, $discountRuleSelectedSections ) );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:shop/discountruleedit.tpl' );
+$Result['content'] = $tpl->fetch( 'design:shop/discountruleedit.tpl' );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/shop', 'Editing rule' ) ) );
 

@@ -26,18 +26,18 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-include_once( 'kernel/common/template.php' );
-include_once( 'lib/ezutils/classes/ezini.php' );
-include_once( 'kernel/classes/datatypes/ezuser/ezuserloginhandler.php' );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
+//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+require_once( 'kernel/common/template.php' );
+//include_once( 'lib/ezutils/classes/ezini.php' );
+//include_once( 'kernel/classes/datatypes/ezuser/ezuserloginhandler.php' );
 
 //$Module->setExitStatus( EZ_MODULE_STATUS_SHOW_LOGIN_PAGE );
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 
-$ini =& eZINI::instance();
-$http =& eZHTTPTool::instance();
+$ini = eZINI::instance();
+$http = eZHTTPTool::instance();
 
 $userLogin = '';
 $userPassword = '';
@@ -104,7 +104,7 @@ if ( $Module->isCurrentAction( 'Login' ) and
     {
         $http->removeSessionVariable( 'RedirectAfterLogin' );
 
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         if ( $ini->hasVariable( 'UserSettings', 'LoginHandler' ) )
         {
             $loginHandlers = $ini->variable( 'UserSettings', 'LoginHandler' );
@@ -117,11 +117,11 @@ if ( $Module->isCurrentAction( 'Login' ) and
         foreach ( array_keys ( $loginHandlers ) as $key )
         {
             $loginHandler = $loginHandlers[$key];
-            $userClass =& eZUserLoginHandler::instance( $loginHandler );
+            $userClass = eZUserLoginHandler::instance( $loginHandler );
             $user = $userClass->loginUser( $userLogin, $userPassword );
-            if ( get_class( $user ) == 'ezuser' )
+            if ( $user instanceof eZUser )
             {
-                $uri =& eZURI::instance( eZSys::requestURI() );
+                $uri = eZURI::instance( eZSys::requestURI() );
                 $access = accessType( $uri,
                                       eZSys::hostname(),
                                       eZSys::serverPort(),
@@ -131,12 +131,11 @@ if ( $Module->isCurrentAction( 'Login' ) and
                 // A check that the user has rights to access current siteaccess.
                 if ( $siteAccessResult[ 'accessWord' ] == 'limited' )
                 {
-                    include_once( 'lib/ezutils/classes/ezsys.php' );
+                    //include_once( 'lib/ezutils/classes/ezsys.php' );
 
                     $policyChecked = false;
-                    foreach ( array_keys( $siteAccessResult['policies'] ) as $key )
+                    foreach ( $siteAccessResult['policies'] as $policy )
                     {
-                        $policy =& $siteAccessResult['policies'][$key];
                         if ( isset( $policy['SiteAccess'] ) )
                         {
                             $policyChecked = true;
@@ -167,7 +166,7 @@ if ( $Module->isCurrentAction( 'Login' ) and
                 break;
             }
         }
-        if ( ( get_class( $user ) != 'ezuser' ) and $hasAccessToSite )
+        if ( !( $user instanceof eZUser ) and $hasAccessToSite )
             $loginWarning = true;
     }
     else
@@ -202,7 +201,7 @@ if ( $Module->isCurrentAction( 'Login' ) and
         // First, let's determine which attributes we should search redirection URI in.
         $userUriAttrName  = '';
         $groupUriAttrName = '';
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         if ( $ini->hasVariable( 'UserSettings', 'LoginRedirectionUriAttribute' ) )
         {
             $uriAttrNames = $ini->variable( 'UserSettings', 'LoginRedirectionUriAttribute' );
@@ -223,8 +222,6 @@ if ( $Module->isCurrentAction( 'Login' ) and
         if ( $userUriAttrName )
         {
             $userDataMap = $userObject->attribute( 'data_map' );
-            $uriAttribute =& $userDataMap[$userUriAttrName];
-
             if ( !isset( $userDataMap[$userUriAttrName] ) )
             {
                 eZDebug::writeWarning( "Cannot find redirection URI: there is no attribute '$userUriAttrName' in object '" .
@@ -232,7 +229,7 @@ if ( $Module->isCurrentAction( 'Login' ) and
                                        "' of class '" .
                                        $userObject->attribute( 'class_name' ) . "'." );
             }
-            elseif ( ( $uriAttribute =& $userDataMap[$userUriAttrName] ) &&
+            elseif ( ( $uriAttribute = $userDataMap[$userUriAttrName] ) &&
                      ( $uri = $uriAttribute->attribute( 'content' ) ) )
             {
                 $redirectionURI = $uri;
@@ -262,8 +259,7 @@ if ( $Module->isCurrentAction( 'Login' ) and
                                                $group->attribute( 'class_name' ) . "'." );
                         continue;
                     }
-                    $uriAttribute =& $groupDataMap[$groupUriAttrName];
-                    $uri = $uriAttribute->attribute( 'content' );
+                    $uri = $groupDataMap[$groupUriAttrName]->attribute( 'content' );
                     if ( $uri )
                     {
                         if ( $isMainParent )
@@ -283,13 +279,13 @@ if ( $Module->isCurrentAction( 'Login' ) and
     }
 
     $userID = 0;
-    if ( get_class( $user ) == 'ezuser' )
+    if ( $user instanceof eZUser )
         $userID = $user->id();
     if ( $userID > 0 )
     {
         if ( $http->hasPostVariable( 'Cookie' ) )
         {
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $rememberMeTimeout = $ini->hasVariable( 'Session', 'RememberMeTimeout' )
                                  ? $ini->variable( 'Session', 'RememberMeTimeout' )
                                  : false;
@@ -306,7 +302,7 @@ if ( $Module->isCurrentAction( 'Login' ) and
         $http->setSessionVariable( 'eZUserLoggedInID', $userID );
 
         // Remove all temporary drafts
-        include_once( 'kernel/classes/ezcontentobject.php' );
+        //include_once( 'kernel/classes/ezcontentobject.php' );
         eZContentObject::cleanupAllInternalDrafts( $userID );
         return $Module->redirectTo( $redirectionURI );
     }
@@ -314,8 +310,8 @@ if ( $Module->isCurrentAction( 'Login' ) and
 else
 {
     // called from outside of a template (?)
-    $requestedURI =& $GLOBALS['eZRequestedURI'];
-    if ( get_class( $requestedURI ) == 'ezuri' )
+    $requestedURI = $GLOBALS['eZRequestedURI'];
+    if ( $requestedURI instanceof eZURI )
     {
         $requestedModule = $requestedURI->element( 0, false );
         $requestedView = $requestedURI->element( 1, false );
@@ -337,7 +333,7 @@ $maxNumOfFailedLogin = !eZUser::isTrusted() ? eZUser::maxNumberOfFailedLogin() :
 // Should we show message about failed login attempt and max number of failed login
 if ( $loginWarning and isset( $GLOBALS['eZFailedLoginAttemptUserID'] ) )
 {
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
     $showMessageIfExceeded = $ini->hasVariable( 'UserSettings', 'ShowMessageIfExceeded' ) ? $ini->variable( 'UserSettings', 'ShowMessageIfExceeded' ) == 'true' : false;
 
     $failedUserID = $GLOBALS['eZFailedLoginAttemptUserID'];
@@ -348,7 +344,7 @@ if ( $loginWarning and isset( $GLOBALS['eZFailedLoginAttemptUserID'] ) )
         $userIsNotAllowedToLogin = true;
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( 'login', $userLogin, 'User' );
 $tpl->setVariable( 'post_data', $postData, 'User' );
@@ -364,7 +360,7 @@ $tpl->setVariable( 'max_num_of_failed_login', $maxNumOfFailedLogin, 'User' );
 
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:user/login.tpl' );
+$Result['content'] = $tpl->fetch( 'design:user/login.tpl' );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/user', 'User' ),
                                 'url' => false ),
                          array( 'text' => ezi18n( 'kernel/user', 'Login' ),

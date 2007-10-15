@@ -66,7 +66,7 @@ class eZTemplatePHPOperator
     /*!
      Returns the template operators.
     */
-    function &operatorList()
+    function operatorList()
     {
         return $this->Operators;
     }
@@ -87,8 +87,8 @@ class eZTemplatePHPOperator
         return $hints;
     }
 
-    function phpOperatorTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                        &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function phpOperatorTransformation( $operatorName, &$node, $tpl, &$resourceData,
+                                        $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $function = $operatorName;
@@ -110,7 +110,7 @@ class eZTemplatePHPOperator
     /*!
      Executes the PHP function for the operator $op_name.
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value, $namedParameters, $placement )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$value, $namedParameters, $placement )
     {
         $phpname = $this->PHPNames[$operatorName];
         if ( $value !== null )
@@ -121,9 +121,9 @@ class eZTemplatePHPOperator
     }
 
     /// The array of operators, used for registering operators
-    var $Operators;
+    public $Operators;
     /// The associative array of operator/php function redirection
-    var $PHPNames;
+    public $PHPNames;
 }
 
 ?>

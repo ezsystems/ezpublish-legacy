@@ -35,12 +35,12 @@
 
 */
 
-define( 'EZ_HTTP_OPERATOR_TYPE_POST', 1 );
-define( 'EZ_HTTP_OPERATOR_TYPE_GET', 2 );
-define( 'EZ_HTTP_OPERATOR_TYPE_SESSION', 3 );
-
 class eZURLOperator
 {
+    const HTTP_OPERATOR_TYPE_POST = 1;
+    const HTTP_OPERATOR_TYPE_GET = 2;
+    const HTTP_OPERATOR_TYPE_SESSION = 3;
+
     /*!
      Initializes the image operator with the operator name $name.
     */
@@ -66,7 +66,7 @@ class eZURLOperator
         $this->ININame = $iniName;
         $this->ININameHasVariable = $iniNameHasVariable;
         $this->HTTPNameHasVariable = $httpNameHasVariable;
-        $this->Sys =& eZSys::instance();
+        $this->Sys = eZSys::instance();
     }
 
     function operatorTemplateHints()
@@ -130,8 +130,8 @@ class eZURLOperator
                       );
     }
 
-    function iniTrans( $operatorName, &$node, &$tpl, &$resourceData,
-                       &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function iniTrans( $operatorName, &$node, $tpl, &$resourceData,
+                       $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         if ( count ( $parameters ) < 2 )
             return false;
@@ -172,21 +172,21 @@ class eZURLOperator
                     $values[] = $parameters[0];
                     $values[] = $parameters[1];
 
-                    $code = "include_once( 'lib/ezutils/classes/ezini.php' );\n";
+                    $code = "//include_once( 'lib/ezutils/classes/ezini.php' );\n";
 
                     if ( $iniPath !== false )
                     {
                         $values[] = $parameters[2];
                         $values[] = $parameters[3];
-                        $code .= '%tmp1% =& eZINI::instance( %3%, %4%, null, null, null, true );' . "\n";
+                        $code .= '%tmp1% = eZINI::instance( %3%, %4%, null, null, null, true );' . "\n";
                     }
                     elseif ( $iniName !== false )
                     {
                         $values[] = $parameters[2];
-                        $code .= '%tmp1% =& eZINI::instance( %3% );' . "\n";
+                        $code .= '%tmp1% = eZINI::instance( %3% );' . "\n";
                     }
                     else
-                        $code .= '%tmp1% =& eZINI::instance();' . "\n";
+                        $code .= '%tmp1% = eZINI::instance();' . "\n";
 
                     $checkExist = $checkExistence ? 'true' : 'false';
 
@@ -199,14 +199,14 @@ class eZURLOperator
                     return array( eZTemplateNodeTool::createCodePieceElement( $code, $values, false, 1 ) );
                 }
             }
-            include_once( 'lib/ezutils/classes/ezini.php' );
+            //include_once( 'lib/ezutils/classes/ezini.php' );
 
             if ( $iniPath !== false )
-                $ini =& eZINI::instance( $iniName, $iniPath, null, null, null, true );
+                $ini = eZINI::instance( $iniName, $iniPath, null, null, null, true );
             elseif ( $iniName !== false )
-                $ini =& eZINI::instance( $iniName );
+                $ini = eZINI::instance( $iniName );
             else
-                $ini =& eZINI::instance();
+                $ini = eZINI::instance();
 
             $value = '';
             if ( $ini->hasVariable( $iniGroup, $iniVariable ) )
@@ -233,8 +233,8 @@ class eZURLOperator
             return false;
     }
 
-    function urlTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function urlTransformation( $operatorName, &$node, $tpl, &$resourceData,
+                                $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $newElements = array();
         $values = array();
@@ -250,7 +250,7 @@ class eZURLOperator
 
                     $serverURL = isset( $parameters[2] ) ? eZTemplateNodeTool::elementStaticValue( $parameters[2] ) : 'relative';
 
-                    include_once( 'lib/ezutils/classes/ezuri.php' );
+                    //include_once( 'lib/ezutils/classes/ezuri.php' );
                     eZURI::transformURI( $url, false, $serverURL );
 
                     $url = $this->applyQuotes( $url, $parameters[1] );
@@ -260,7 +260,7 @@ class eZURLOperator
                 $values[] = isset( $parameters[2] ) ? $parameters[2] : array( eZTemplateNodeTool::createStringElement( 'relative' ) );
                 $code = <<<CODEPIECE
 
-include_once( 'lib/ezutils/classes/ezuri.php' );
+//include_once( 'lib/ezutils/classes/ezuri.php' );
 eZURI::transformURI( %1%, false, %2% );
 
 CODEPIECE;
@@ -284,7 +284,7 @@ CODEPIECE;
                     $serverURL = isset( $parameters[2] ) ? eZTemplateNodeTool::elementStaticValue( $parameters[2] ) : 'relative';
 
                     // Same as "ezurl" without "index.php" and the siteaccess name in the returned address.
-                    include_once( 'lib/ezutils/classes/ezuri.php' );
+                    //include_once( 'lib/ezutils/classes/ezuri.php' );
                     eZURI::transformURI( $url, true, $serverURL );
 
                     $url = $this->applyQuotes( $url, $parameters[1] );
@@ -301,7 +301,7 @@ CODEPIECE;
                     $values[] = $parameters[0];
                 }
                 $values[] = isset( $parameters[2] ) ? $parameters[2] : array( eZTemplateNodeTool::createStringElement( 'relative' ) );
-                $code .= 'include_once( \'lib/ezutils/classes/ezuri.php\' );' . "\n" .
+                $code .= '//include_once( \'lib/ezutils/classes/ezuri.php\' );' . "\n" .
                          'eZURI::transformURI( %1%, true, %2% );' . "\n";
 
                 ++$paramCount;
@@ -327,11 +327,11 @@ CODEPIECE;
 
                     $matches = eZTemplateDesignResource::fileMatchingRules( false, $path );
 
-                    $designResource =& eZTemplateDesignResource::instance();
+                    $designResource = eZTemplateDesignResource::instance();
                     $matchKeys = $designResource->keys();
                     $matchedKeys = array();
 
-                    include_once( 'kernel/common/ezoverride.php' );
+                    //include_once( 'kernel/common/ezoverride.php' );
                     $match = eZOverride::selectFile( $matches, $matchKeys, $matchedKeys, "#^(.+)/(.+)(\.[a-zA-Z0-9]+)$#" );
                     if ( $match === null )
                     {
@@ -352,8 +352,8 @@ CODEPIECE;
                     return array( eZTemplateNodeTool::createStringElement( $path ) );
                 }
 
-                $code = ( '%tmp1% =& eZTemplateDesignResource::instance();' . "\n" .
-                          'include_once( \'kernel/common/ezoverride.php\' );' . "\n" .
+                $code = ( '%tmp1% = eZTemplateDesignResource::instance();' . "\n" .
+                          '//include_once( \'kernel/common/ezoverride.php\' );' . "\n" .
                           '%tmp2% = array();' . "\n" .
                           '%tmp3% = eZOverride::selectFile( eZTemplateDesignResource::fileMatchingRules( false, %1% ), %tmp1%->keys(), %tmp2%, "#^(.+)/(.+)(\.[a-zA-Z0-9]+)$#" );' . "\n" .
                           'if ( %tmp3% === null )' . "\n" .
@@ -434,7 +434,7 @@ CODEPIECE;
                         }
                     }
 
-                    $ini =& eZINI::instance();
+                    $ini = eZINI::instance();
                     $values[] = array( eZTemplateNodeTool::createStringElement( $this->Sys->wwwDir() ) );
                     $values[] = array( eZTemplateNodeTool::createArrayElement( eZTemplateDesignResource::allDesignBases() ) );
 
@@ -480,7 +480,7 @@ CODEPIECE;
                 {
                     $origUrl = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
 
-                    include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+                    //include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
                     $url = eZURL::urlByMD5( md5( $origUrl ) );
                     if ( $url == false )
                         eZURL::registerURL( $origUrl );
@@ -492,7 +492,7 @@ CODEPIECE;
                     return array( eZTemplateNodeTool::createStringElement( $origUrl ) );
                 }
 
-                $code .= 'include_once( \'kernel/classes/datatypes/ezurl/ezurl.php\' );' . "\n" .
+                $code .= '//include_once( \'kernel/classes/datatypes/ezurl/ezurl.php\' );' . "\n" .
                      '%tmp1% = eZURL::urlByMD5( md5( %1% ) );' . "\n" .
                      'if ( %tmp1% == false )' . "\n" .
                      '  eZURL::registerURL( %1% );' . "\n" .
@@ -505,14 +505,14 @@ CODEPIECE;
 
         }
 
-        include_once( 'lib/ezutils/classes/ezhttptool.php' );
-        $http =& eZHTTPTool::instance();
+        //include_once( 'lib/ezutils/classes/ezhttptool.php' );
+        $http = eZHTTPTool::instance();
 
         if ( isset( $http->UseFullUrl ) and $http->UseFullUrl )
         {
             ++$tmpCount;
-            $code .= 'include_once( \'lib/ezutils/classes/ezhttptool.php\' );' . "\n" .
-                 '%tmp' . $tmpCount . '% =& eZHTTPTool::instance();' . "\n" .
+            $code .= '//include_once( \'lib/ezutils/classes/ezhttptool.php\' );' . "\n" .
+                 '%tmp' . $tmpCount . '% = eZHTTPTool::instance();' . "\n" .
                  'if ( isset( %tmp' . $tmpCount . '%->UseFullUrl ) and %tmp' . $tmpCount . '%->UseFullUrl )' . "\n" .
                  '{' . "\n" .
                  ' %1% = %tmp' . $tmpCount . '%->createRedirectUrl( %1%, array( \'pre_url\' => false ) );' . "\n" .
@@ -592,8 +592,8 @@ CODEPIECE;
             return $quote;
         }
 
-        include_once( 'lib/ezutils/classes/ezhttptool.php' );
-        $http =& eZHTTPTool::instance();
+        //include_once( 'lib/ezutils/classes/ezhttptool.php' );
+        $http = eZHTTPTool::instance();
 
         if ( isset( $http->UseFullUrl ) and $http->UseFullUrl )
         {
@@ -608,7 +608,7 @@ CODEPIECE;
     /*!
      Returns the operators in this class.
     */
-    function &operatorList()
+    function operatorList()
     {
         return $this->Operators;
     }
@@ -625,7 +625,7 @@ CODEPIECE;
 
     /*!
      */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
         switch ( $operatorName )
         {
@@ -659,14 +659,14 @@ CODEPIECE;
                                               $tpl->elementValue( $operatorParameters[5], $rootNamespace, $currentNamespace ) == 'hasVariable' ) ? true : false
                                           : false;
                     }
-                    include_once( 'lib/ezutils/classes/ezini.php' );
+                    //include_once( 'lib/ezutils/classes/ezini.php' );
 
                     if ( $iniPath !== false )
-                        $ini =& eZINI::instance( $iniName, $iniPath, null, null, null, true );
+                        $ini = eZINI::instance( $iniName, $iniPath, null, null, null, true );
                     elseif ( $iniName !== false )
-                        $ini =& eZINI::instance( $iniName );
+                        $ini = eZINI::instance( $iniName );
                     else
-                        $ini =& eZINI::instance();
+                        $ini = eZINI::instance();
 
                     if ( $ini->hasVariable( $iniGroup, $iniVariable ) )
                     {
@@ -701,21 +701,21 @@ CODEPIECE;
             case $this->HTTPNameHasVariable:
             case $this->HTTPName:
             {
-                include_once( 'lib/ezutils/classes/ezhttptool.php' );
-                $http =& eZHTTPTool::instance();
+                //include_once( 'lib/ezutils/classes/ezhttptool.php' );
+                $http = eZHTTPTool::instance();
                 if ( count( $operatorParameters ) > 0 )
                 {
-                    $httpType = EZ_HTTP_OPERATOR_TYPE_POST;
+                    $httpType = eZURLOperator::HTTP_OPERATOR_TYPE_POST;
                     $httpName = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
                     if ( count( $operatorParameters ) > 1 )
                     {
                         $httpTypeName = strtolower( $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace ) );
                         if ( $httpTypeName == 'post' )
-                            $httpType = EZ_HTTP_OPERATOR_TYPE_POST;
+                            $httpType = eZURLOperator::HTTP_OPERATOR_TYPE_POST;
                         else if ( $httpTypeName == 'get' )
-                            $httpType = EZ_HTTP_OPERATOR_TYPE_GET;
+                            $httpType = eZURLOperator::HTTP_OPERATOR_TYPE_GET;
                         else if ( $httpTypeName == 'session' )
-                            $httpType = EZ_HTTP_OPERATOR_TYPE_SESSION;
+                            $httpType = eZURLOperator::HTTP_OPERATOR_TYPE_SESSION;
                         else
                             $tpl->warning( $operatorName, "Unknown http type '$httpTypeName'" );
                     }
@@ -737,7 +737,7 @@ CODEPIECE;
                     }
                     switch( $httpType )
                     {
-                        case EZ_HTTP_OPERATOR_TYPE_POST:
+                        case eZURLOperator::HTTP_OPERATOR_TYPE_POST:
                         {
                             if ( $http->hasPostVariable( $httpName ) )
                                 $operatorValue = !$checkExistence ? $http->postVariable( $httpName ) : true;
@@ -752,7 +752,7 @@ CODEPIECE;
                                 $tpl->error( $operatorName, "Unknown post variable '$httpName'" );
                             }
                         } break;
-                        case EZ_HTTP_OPERATOR_TYPE_GET:
+                        case eZURLOperator::HTTP_OPERATOR_TYPE_GET:
                         {
                             if ( $http->hasGetVariable( $httpName ) )
                                 $operatorValue = !$checkExistence ? $http->getVariable( $httpName ) : true;
@@ -766,7 +766,7 @@ CODEPIECE;
                                 $tpl->error( $operatorName, "Unknown get variable '$httpName'" );
                             }
                         } break;
-                        case EZ_HTTP_OPERATOR_TYPE_SESSION:
+                        case eZURLOperator::HTTP_OPERATOR_TYPE_SESSION:
                         {
                             if ( $http->hasSessionVariable( $httpName ) )
                                 $operatorValue = !$checkExistence ? $http->sessionVariable( $httpName ) : true;
@@ -791,7 +791,7 @@ CODEPIECE;
 
             case $this->URLName:
             {
-                include_once( 'lib/ezutils/classes/ezuri.php' );
+                //include_once( 'lib/ezutils/classes/ezuri.php' );
                 eZURI::transformURI( $operatorValue, false, $namedParameters['server_url'] );
 
             } break;
@@ -806,7 +806,7 @@ CODEPIECE;
                     $operatorValue = '/' . $operatorValue;
 
                 // Same as "ezurl" without "index.php" and the siteaccess name in the returned address.
-                include_once( 'lib/ezutils/classes/ezuri.php' );
+                //include_once( 'lib/ezutils/classes/ezuri.php' );
                 eZURI::transformURI( $operatorValue, true, $namedParameters['server_url'] );
 
             } break;
@@ -828,7 +828,7 @@ CODEPIECE;
 
             case $this->ImageName:
             {
-                $ini =& eZINI::instance();
+                $ini = eZINI::instance();
                 $no_slash_prefix = false;
                 if ( count( $operatorParameters ) == 2 )
                 {
@@ -865,7 +865,7 @@ CODEPIECE;
 
             case $this->ExtName:
             {
-                include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+                //include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
                 $urlMD5 = md5( $operatorValue );
                 $url = eZURL::urlByMD5( $urlMD5 );
                 if ( $url === false )
@@ -878,11 +878,11 @@ CODEPIECE;
             {
                 $matches = eZTemplateDesignResource::fileMatchingRules( false, $operatorValue );
 
-                $designResource =& eZTemplateDesignResource::instance();
+                $designResource = eZTemplateDesignResource::instance();
                 $matchKeys = $designResource->keys();
                 $matchedKeys = array();
 
-                include_once( 'kernel/common/ezoverride.php' );
+                //include_once( 'kernel/common/ezoverride.php' );
                 $match = eZOverride::selectFile( $matches, $matchKeys, $matchedKeys, "#^(.+)/(.+)(\.[a-zA-Z0-9]+)$#" );
                 if ( $match === null )
                 {
@@ -905,8 +905,8 @@ CODEPIECE;
         else if ( $val == 'no' )
             $quote = false;
 
-        include_once( 'lib/ezutils/classes/ezhttptool.php' );
-        $http =& eZHTTPTool::instance();
+        //include_once( 'lib/ezutils/classes/ezhttptool.php' );
+        $http = eZHTTPTool::instance();
 
         if ( isset( $http->UseFullUrl ) and $http->UseFullUrl )
         {
@@ -916,9 +916,9 @@ CODEPIECE;
             $operatorValue = $quote . $operatorValue . $quote;
     }
 
-    var $Operators;
-    var $URLName, $URLRootName, $DesignName, $ImageName;
-    var $Sys;
+    public $Operators;
+    public $URLName, $URLRootName, $DesignName, $ImageName;
+    public $Sys;
 };
 
 ?>

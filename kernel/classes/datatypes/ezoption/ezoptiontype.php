@@ -35,28 +35,28 @@
 
 */
 
-include_once( "kernel/classes/ezdatatype.php" );
+//include_once( "kernel/classes/ezdatatype.php" );
 
-include_once( "kernel/classes/datatypes/ezoption/ezoption.php" );
-include_once( 'lib/ezutils/classes/ezstringutils.php' );
-
-define( "EZ_OPTION_DEFAULT_NAME_VARIABLE", "_ezoption_default_name_" );
-
-define( "EZ_DATATYPESTRING_OPTION", "ezoption" );
+//include_once( "kernel/classes/datatypes/ezoption/ezoption.php" );
+//include_once( 'lib/ezutils/classes/ezstringutils.php' );
 
 class eZOptionType extends eZDataType
 {
+    const DEFAULT_NAME_VARIABLE = "_ezoption_default_name_";
+
+    const DATA_TYPE_STRING = "ezoption";
+
     function eZOptionType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_OPTION, ezi18n( 'kernel/classes/datatypes', "Option", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Option", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
     /*!
     */
-    function validateCollectionAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateCollectionAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
-        $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $classAttribute = $contentObjectAttribute->contentClassAttribute();
         if ( $http->hasPostVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
             $value = $http->hasPostVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) );
@@ -65,14 +65,14 @@ class eZOptionType extends eZDataType
             {
                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                      'Input required.' ) );
-                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                return eZInputValidator::STATE_INVALID;
             }
         }
         else
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                  'Input required.' ) );
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            return eZInputValidator::STATE_INVALID;
         }
     }
 
@@ -80,10 +80,10 @@ class eZOptionType extends eZDataType
      Validates the input and returns true if the input was
      valid for this datatype.
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $count = 0;
-        $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $classAttribute = $contentObjectAttribute->contentClassAttribute();
         if ( $http->hasPostVariable( $base . "_data_option_id_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
             $idList = $http->postVariable( $base . "_data_option_id_" . $contentObjectAttribute->attribute( "id" ) );
@@ -105,7 +105,7 @@ class eZOptionType extends eZDataType
             {
                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                      'NAME is required.' ) );
-                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                return eZInputValidator::STATE_INVALID;
             }
             if ( $count != 0 )
             {
@@ -116,7 +116,7 @@ class eZOptionType extends eZDataType
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                              'The option value must be provided.' ) );
-                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                        return eZInputValidator::STATE_INVALID;
                     }
                     if ( isset( $optionAdditionalPriceList[$i] ) &&
                          strlen( $optionAdditionalPriceList[$i] ) &&
@@ -124,7 +124,7 @@ class eZOptionType extends eZDataType
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                              'The Additional price value is not valid.' ) );
-                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                        return eZInputValidator::STATE_INVALID;
                     }
                 }
             }
@@ -136,25 +136,25 @@ class eZOptionType extends eZDataType
             {
                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                      'At least one option is required.' ) );
-                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                return eZInputValidator::STATE_INVALID;
             }
         }
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!
      Store content
     */
-    function storeObjectAttribute( &$contentObjectAttribute )
+    function storeObjectAttribute( $contentObjectAttribute )
     {
-        $option =& $contentObjectAttribute->content();
+        $option = $contentObjectAttribute->content();
         $contentObjectAttribute->setAttribute( "data_text", $option->xmlString() );
     }
 
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         $option = new eZOption( "" );
 
@@ -174,7 +174,7 @@ class eZOptionType extends eZDataType
     /*!
      Fetches the http post var integer input and stores it in the data instance.
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $optionName = $http->postVariable( $base . "_data_option_name_" . $contentObjectAttribute->attribute( "id" ) );
         if ( $http->hasPostVariable( $base . "_data_option_id_" . $contentObjectAttribute->attribute( "id" ) ) )
@@ -207,14 +207,14 @@ class eZOptionType extends eZDataType
     /*!
      Fetches the http post variables for collected information
     */
-    function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$contentObjectAttribute )
+    function fetchCollectionAttributeHTTPInput( $collection, $collectionAttribute, $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
             $optionValue = $http->postVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) );
 
             $collectionAttribute->setAttribute( 'data_int', $optionValue );
-            $attr =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
+            $attr = $contentObjectAttribute->attribute( 'contentclass_attribute' );
 
             return true;
         }
@@ -223,13 +223,13 @@ class eZOptionType extends eZDataType
 
     /*!
     */
-    function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute )
+    function customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute, $parameters )
     {
         switch ( $action )
         {
             case "new_option" :
             {
-                $option =& $contentObjectAttribute->content( );
+                $option = $contentObjectAttribute->content( );
 
                 $postvarname = "ContentObjectAttribute" . "_data_option_remove_" . $contentObjectAttribute->attribute( "id" );
                 if ( $http->hasPostVariable( $postvarname ) )
@@ -239,7 +239,6 @@ class eZOptionType extends eZDataType
                     if ( $beforeID >= 0 )
                     {
                         $option->insertOption( array(), $beforeID );
-//                         eZDebug::writeDebug( $option, "option added before $beforeID" );
                         $contentObjectAttribute->setContent( $option );
                         $contentObjectAttribute->store();
                         $option = new eZOption( "" );
@@ -254,7 +253,7 @@ class eZOptionType extends eZDataType
             }break;
             case "remove_selected" :
             {
-                $option =& $contentObjectAttribute->content( );
+                $option = $contentObjectAttribute->content( );
                 $postvarname = "ContentObjectAttribute" . "_data_option_remove_" . $contentObjectAttribute->attribute( "id" );
                 $array_remove = $http->postVariable( $postvarname );
                 $option->removeOptions( $array_remove );
@@ -275,9 +274,9 @@ class eZOptionType extends eZDataType
      Finds the option which has the ID that matches \a $optionID, if found it returns
      an option structure.
     */
-    function productOptionInformation( &$objectAttribute, $optionID, &$productItem )
+    function productOptionInformation( $objectAttribute, $optionID, $productItem )
     {
-        $option =& $objectAttribute->attribute( 'content' );
+        $option = $objectAttribute->attribute( 'content' );
         foreach( $option->attribute( 'option_list' ) as $optionArray )
         {
             if ( $optionArray['id'] == $optionID )
@@ -294,18 +293,18 @@ class eZOptionType extends eZDataType
     /*!
      Returns the integer value.
     */
-    function title( &$contentObjectAttribute, $name = "name" )
+    function title( $contentObjectAttribute, $name = "name" )
     {
-        $option =& $contentObjectAttribute->content( );
+        $option = $contentObjectAttribute->content( );
 
         $value = $option->attribute( $name );
 
         return $value;
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
-        $option =& $contentObjectAttribute->content( );
+        $option = $contentObjectAttribute->content( );
         $options = $option->attribute( 'option_list' );
         return count( $options ) > 0;
     }
@@ -313,12 +312,12 @@ class eZOptionType extends eZDataType
     /*!
      Sets the default value.
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         if ( $currentVersion == false )
         {
-            $option =& $contentObjectAttribute->content();
-            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $option = $contentObjectAttribute->content();
+            $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
             if ( !$option )
             {
                 $option = new eZOption( $contentClassAttribute->attribute( 'data_text1' ) );
@@ -340,9 +339,9 @@ class eZOptionType extends eZDataType
     /*!
      \reimp
     */
-    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $defaultValueName = $base . EZ_OPTION_DEFAULT_NAME_VARIABLE . $classAttribute->attribute( 'id' );
+        $defaultValueName = $base . self::DEFAULT_NAME_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $defaultValueName ) )
         {
             $defaultValueValue = $http->postVariable( $defaultValueName );
@@ -375,7 +374,7 @@ class eZOptionType extends eZDataType
     }
 
 
-    function fromString( &$contentObjectAttribute, $string )
+    function fromString( $contentObjectAttribute, $string )
     {
         if ( $string == '' )
             return true;
@@ -404,31 +403,34 @@ class eZOptionType extends eZDataType
     /*!
      \reimp
     */
-    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $defaultValue = $classAttribute->attribute( 'data_text1' );
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'default-value', $defaultValue ) );
+        $defaultValueNode = $attributeParametersNode->ownerDocument->createElement( 'default-value', $defaultValue );
+        $attributeParametersNode->appendChild( $defaultValueNode );
     }
 
     /*!
      \reimp
     */
-    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $defaultValue = $attributeParametersNode->elementTextContentByName( 'default-value' );
+        $defaultValue = $attributeParametersNode->getElementsByTagName( 'default-value' )->item( 0 )->textContent;
         $classAttribute->setAttribute( 'data_text1', $defaultValue );
     }
 
     /*!
      \reimp
     */
-    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
 
-        $xml = new eZXML();
-        $domDocument = $xml->domTree( $objectAttribute->attribute( 'data_text' ) );
-        $node->appendChild( $domDocument->root() );
+        $domDocument = new DOMDocument();
+        $success = $domDocument->loadXML( $objectAttribute->attribute( 'data_text' ) );
+
+        $importedRoot = $node->ownerDocument->importNode( $domDocument->documentElement, true );
+        $node->appendChild( $importedRoot );
 
         return $node;
     }
@@ -436,30 +438,28 @@ class eZOptionType extends eZDataType
     /*!
      \reimp
     */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         $xmlString = '';
-        $optionNode = $attributeNode->elementByName( 'ezoption' );
+        $optionNode = $attributeNode->getElementsByTagName( 'ezoption' )->item( 0 );
 
-        if( $optionNode )
+        if ( $optionNode )
         {
-            $doc = new eZDOMDocument();
-            $doc->setRoot( $optionNode );
-            $xmlString = $doc->toString();
+            $xmlString = $optionNode->ownerDocument->saveXML( $optionNode );
         }
         else
         {
             // backward compatibility
-            $optionNode = $attributeNode->elementByName( 'data-text' );
-            if( $optionNode )
+            $optionNode = $attributeNode->getElementsByTagName( 'data-text' )->item( 0 );
+            if ( $optionNode )
             {
-                $xmlString = $optionNode->textContent();
+                $xmlString = $optionNode->textContent;
             }
             else
             {
                 // dl: unknown case. Probably should be removed at all.
-                $optionNode = $attributeNode->firstChild();
-                $xmlString = $optionNode->attributeValue( 'local_name' ) == 'data-text' ? '' : $optionNode->textContent();
+                $optionNode = $attributeNode->firstChild;
+                $xmlString = $optionNode->getAttribute( 'local_name' ) == 'data-text' ? '' : $optionNode->textContent;
             }
         }
 
@@ -475,6 +475,6 @@ class eZOptionType extends eZDataType
     }
 }
 
-eZDataType::register( EZ_DATATYPESTRING_OPTION, "ezoptiontype" );
+eZDataType::register( eZOptionType::DATA_TYPE_STRING, "eZOptionType" );
 
 ?>

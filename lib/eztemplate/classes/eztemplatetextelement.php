@@ -64,7 +64,7 @@ class eZTemplateTextElement
     /*!
      Appends the element text to $text.
     */
-    function process( &$tpl, &$text )
+    function process( $tpl, &$text )
     {
         $text .= $this->Text;
     }
@@ -78,7 +78,7 @@ class eZTemplateTextElement
     }
 
     /// The element text
-    var $Text;
+    public $Text;
 }
 
 ?>

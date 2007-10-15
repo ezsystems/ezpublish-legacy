@@ -40,7 +40,7 @@
 
   A typical usage:
 \code
-$cli =& eZCLI::instance();
+$cli = eZCLI::instance();
 
 $cli->setUseStyles( true ); // enable colors
 
@@ -50,14 +50,14 @@ $cli->output( "This is a text string" );
 
 */
 
-include_once( 'lib/ezutils/classes/ezini.php' );
-include_once( 'lib/ezutils/classes/ezdebug.php' );
-include_once( 'lib/ezutils/classes/ezdebugsetting.php' );
-
-define( 'EZ_CLI_TERMINAL_ENDOFLINE_STRING', "\n" );
+//include_once( 'lib/ezutils/classes/ezini.php' );
+require_once( 'lib/ezutils/classes/ezdebug.php' );
+//include_once( 'lib/ezutils/classes/ezdebugsetting.php' );
 
 class eZCLI
 {
+    const TERMINAL_ENDOFLINE_STRING = "\n";
+
     /*!
      Initializes object and detects if the CLI is used.
     */
@@ -67,7 +67,7 @@ class eZCLI
         $webOutput = true;
         if ( isset( $_SERVER['argv'] ) )
         {
-            $endl = EZ_CLI_TERMINAL_ENDOFLINE_STRING;
+            $endl = self::TERMINAL_ENDOFLINE_STRING;
             $webOutput = false;
         }
         $this->EndlineString = $endl;
@@ -570,10 +570,10 @@ class eZCLI
             array_shift( $arguments );
         }
 
-        if ( isset( $this ) and get_class( $this ) == 'ezcli' )
+        if ( isset( $this ) and strtolower( get_class( $this ) ) == 'ezcli' )
             $cli =& $this;
         else
-            $cli =& eZCLI::instance();
+            $cli = eZCLI::instance();
 
         if ( is_string( $config ) )
             $config = eZCLI::parseOptionString( $config, $optionConfig );
@@ -705,15 +705,15 @@ class eZCLI
     /*!
      \return the unique instance for the cli class.
     */
-    function &instance()
+    static function instance()
     {
-        $implementation =& $GLOBALS['eZCLIInstance'];
-        if ( !isset( $implementation ) or
-             get_class( $implementation ) != 'ezcli' )
+        if ( !isset( $GLOBALS['eZCLIInstance'] ) ||
+             !( $GLOBALS['eZCLIInstance'] instanceof eZCLI ) )
         {
-            $implementation = new eZCLI();
+            $GLOBALS['eZCLIInstance'] = new eZCLI();
         }
-        return $implementation;
+
+        return $GLOBALS['eZCLIInstance'];
     }
 
     /*!
@@ -721,11 +721,7 @@ class eZCLI
     */
     function hasInstance()
     {
-        $implementation =& $GLOBALS['eZCLIInstance'];
-        if ( isset( $implementation ) && get_class( $implementation ) == 'ezcli' )
-            return true;
-
-        return false;
+        return isset( $GLOBALS['eZCLIInstance'] ) && $GLOBALS['eZCLIInstance'] instanceof eZCLI;
     }
 }
 

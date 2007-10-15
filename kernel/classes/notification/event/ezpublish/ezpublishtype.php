@@ -36,31 +36,32 @@
   \brief The class eZPublishType does
 
 */
-define( 'EZ_NOTIFICATIONTYPESTRING_PUBLISH', 'ezpublish' );
 
 class eZPublishType extends eZNotificationEventType
 {
+    const NOTIFICATION_TYPE_STRING = 'ezpublish';
+
     /*!
      Constructor
     */
     function eZPublishType()
     {
-        $this->eZNotificationEventType( EZ_NOTIFICATIONTYPESTRING_PUBLISH );
+        $this->eZNotificationEventType( self::NOTIFICATION_TYPE_STRING );
     }
 
-    function initializeEvent( &$event, $params )
+    function initializeEvent( $event, $params )
     {
         eZDebugSetting::writeDebug( 'kernel-notification', $params, 'params for type' );
         $event->setAttribute( 'data_int1', $params['object'] );
         $event->setAttribute( 'data_int2', $params['version'] );
     }
 
-    function eventContent( &$event )
+    function eventContent( $event )
     {
         return eZContentObjectVersion::fetchVersion( $event->attribute( 'data_int2' ), $event->attribute( 'data_int1' ) );
     }
 }
 
-eZNotificationEventType::register( EZ_NOTIFICATIONTYPESTRING_PUBLISH, 'ezpublishtype' );
+eZNotificationEventType::register( eZPublishType::NOTIFICATION_TYPE_STRING, 'eZPublishType' );
 
 ?>

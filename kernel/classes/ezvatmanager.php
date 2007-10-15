@@ -46,13 +46,15 @@ class eZVATManager
      * \public
      * \static
      */
-    function getVAT( $object, $country )
+    static function getVAT( $object, $country )
     {
         // Load VAT handler.
         if ( !is_object( $handler = eZVATManager::loadVATHandler() ) )
         {
             if ( $handler === true )
+            {
                 eZDebug::writeWarning( "No VAT handler specified but dynamic VAT charging is used." );
+            }
 
             return null;
         }
@@ -65,7 +67,9 @@ class eZVATManager
             $country = eZVATManager::getUserCountry();
 
         if ( !$country && $requireUserCountry )
+        {
             eZDebug::writeNotice( "User country is not specified." );
+        }
 
         return $handler->getVatPercent( $object, $country );
     }
@@ -76,11 +80,11 @@ class eZVATManager
      * \public
      * \static
      */
-    function isUserCountryRequired()
+    static function isUserCountryRequired()
     {
         // Check if user country must be specified.
         $requireUserCountry = true;
-        $shopINI =& eZINI::instance( 'shop.ini' );
+        $shopINI = eZINI::instance( 'shop.ini' );
         if ( $shopINI->hasVariable( 'VATSettings', 'RequireUserCountry' ) )
             $requireUserCountry = ( $shopINI->variable( 'VATSettings', 'RequireUserCountry' ) == 'true' );
         return $requireUserCountry;
@@ -92,15 +96,15 @@ class eZVATManager
      * \private
      * \static
      */
-    function getUserCountryAttributeName( $requireUserCountry )
+    static function getUserCountryAttributeName( $requireUserCountry )
     {
-        $ini =& eZINI::instance( 'shop.ini' );
+        $ini = eZINI::instance( 'shop.ini' );
         if ( !$ini->hasVariable( 'VATSettings', 'UserCountryAttribute' ) )
         {
             if ( $requireUserCountry )
             {
                 eZDebug::writeError( "Cannot find user country: please specify its attribute identifier " .
-                                     "in the following setting: shop.ini.[VATSettings].UserCountryAttribute",
+                                       "in the following setting: shop.ini.[VATSettings].UserCountryAttribute",
                                      'getUserCountryAttributeName' );
             }
             return null;
@@ -112,7 +116,7 @@ class eZVATManager
             if ( $requireUserCountry )
             {
                 eZDebug::writeError( "Cannot find user country: empty attribute name specified " .
-                                     "in the following setting: shop.ini.[VATSettings].UserCountryAttribute",
+                                       "in the following setting: shop.ini.[VATSettings].UserCountryAttribute",
                                      'getUserCountryAttributeName' );
             }
 
@@ -128,7 +132,7 @@ class eZVATManager
      * \public
      * \static
      */
-    function getUserCountry( $user = false, $considerPreferedCountry = true )
+    static function getUserCountry( $user = false, $considerPreferedCountry = true )
     {
         $requireUserCountry = eZVATManager::isUserCountryRequired();
 
@@ -136,7 +140,7 @@ class eZVATManager
         if ( $considerPreferedCountry )
         {
             // return it
-            include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+            //include_once( 'kernel/shop/classes/ezshopfunctions.php' );
             $country = eZShopFunctions::getPreferredUserCountry();
             if ( $country )
             {
@@ -228,14 +232,16 @@ class eZVATManager
      * \public
      * \static
      */
-    function setUserCountry( $user, $country )
+    static function setUserCountry( $user, $country )
     {
         $userObject = $user->attribute( 'contentobject' );
         $requireUserCountry = eZVATManager::isUserCountryRequired();
         require_once( 'kernel/classes/ezvatmanager.php' );
         $countryAttributeName = eZVATManager::getUserCountryAttributeName( $requireUserCountry );
         if ( $countryAttributeName === null )
+        {
             return false;
+        }
 
         $userDataMap = $userObject->attribute( 'data_map' );
         if ( !isset( $userDataMap[$countryAttributeName] ) )
@@ -253,7 +259,7 @@ class eZVATManager
         }
 
         eZDebug::writeNotice( sprintf( "Saving country '%s' for user '%s'",
-                                       $country, $user->attribute( 'login' )  ) );
+                                       $country, $user->attribute( 'login' ) ) );
 
         $countryAttribute = $userDataMap[$countryAttributeName];
         $countryAttributeContent = $countryAttribute->content();
@@ -272,7 +278,7 @@ class eZVATManager
     /*!
      \return true if a VAT handler is specified in the ini setting, false otherwise.
      */
-    function isDynamicVatChargingEnabled()
+    static function isDynamicVatChargingEnabled()
     {
         if ( isset( $GLOBALS['eZVATManager_isDynamicVatChargingEnabled'] ) )
             return $GLOBALS['eZVATManager_isDynamicVatChargingEnabled'];
@@ -291,11 +297,11 @@ class eZVATManager
              false if a handler specified but could not be loaded,
              handler object if handler specified and found.
      */
-    function loadVATHandler()
+    static function loadVATHandler()
     {
         // FIXME: cache loaded handler.
 
-        $shopINI =& eZINI::instance( 'shop.ini' );
+        $shopINI = eZINI::instance( 'shop.ini' );
 
         if ( !$shopINI->hasVariable( 'VATSettings', 'Handler' ) )
             return true;
@@ -327,8 +333,8 @@ class eZVATManager
         if ( !$foundHandler )
         {
             eZDebug::writeError( "VAT handler '$handlerName' not found, " .
-                                 "searched in these directories: " .
-                                 implode( ', ', $repositoryDirectories ),
+                                   "searched in these directories: " .
+                                   implode( ', ', $repositoryDirectories ),
                                  'eVATManager::loadVATHandler' );
             return false;
         }

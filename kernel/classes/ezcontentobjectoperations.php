@@ -39,7 +39,7 @@
   which is not directly related to content objects (e.g. clearing caches, etc).
 */
 
-include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
 
 class eZContentObjectOperations
 {
@@ -49,10 +49,10 @@ class eZContentObjectOperations
     */
     function remove( $objectID, $removeSubtrees = true )
     {
-        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
 
-        $object =& eZContentObject::fetch( $objectID );
+        $object = eZContentObject::fetch( $objectID );
         if ( !is_object( $object ) )
             return false;
 

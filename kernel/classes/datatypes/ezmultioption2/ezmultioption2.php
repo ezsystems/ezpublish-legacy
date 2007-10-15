@@ -33,7 +33,7 @@
   \ingroup eZDatatype
   \brief Encapsulates multiple options in one datatype.
 */
-include_once( "lib/ezxml/classes/ezxml.php" );
+//include_once( "lib/ezxml/classes/ezxml.php" );
 
 class eZMultiOption2
 {
@@ -81,7 +81,7 @@ class eZMultiOption2
         return $this->OptionCounter;
     }
 
-    function addChildGroup( &$group, $multioptionID = false )
+    function addChildGroup( $group, $multioptionID = false )
     {
         if ( $group->GroupID == 0 )
         {
@@ -94,11 +94,12 @@ class eZMultiOption2
             $this->initCounters( $group );
         }
         if ( $multioptionID === false )
-            $this->ChildGroupList[] =& $group;
+        {
+            $this->ChildGroupList[] = $group;
+        }
         else
         {
-            $option =& $this->Options[$multioptionID];
-            $option['child_group'] =& $group;
+            $this->Options[$multioptionID]['child_group'] = $group;
         }
         return count( $this->ChildGroupList );
     }
@@ -172,7 +173,7 @@ class eZMultiOption2
         $searchResult = $this->findMultiOption( $multioptionID );
         if ( !$searchResult )
             return null;
-        $group =& $searchResult['group'];
+        $group = $searchResult['group'];
         $this->initCounters( $group );
         return $group->addOption( $searchResult['id'], $OptionID, $optionValue, $optionAdditionalPrice );
     }
@@ -182,7 +183,7 @@ class eZMultiOption2
         $searchResult = $this->findMultiOption( $multioptionID );
         if ( !$searchResult )
             return null;
-        $group =& $searchResult['group'];
+        $group = $searchResult['group'];
 
         if ( isset( $group->Options[$searchResult['id']]['optionlist'][$optionID] ) )
         {
@@ -195,7 +196,7 @@ class eZMultiOption2
         $searchResult = $this->findMultiOption( $multioptionID );
         if ( !$searchResult )
             return null;
-        $group =& $searchResult['group'];
+        $group = $searchResult['group'];
 
         if ( isset( $group->Options[$searchResult['id']]['optionlist'][$optionID]['object'] ) )
         {
@@ -209,7 +210,7 @@ class eZMultiOption2
         }
     }
 
-    function &findGroup( $groupID, $depth = 0, $groupStack = array() )
+    function findGroup( $groupID, $depth = 0, $groupStack = array() )
     {
         $groupStack[] = array( $this->attribute( 'group_id' ), $depth );
         if ( $depth > 15 )
@@ -225,7 +226,7 @@ class eZMultiOption2
                     return $this->Options[$key]['child_group'];
                 else
                 {
-                    if ( $group =& $this->Options[$key]['child_group']->findGroup( $groupID, $depth + 1, $groupStack ) )
+                    if ( $group = $this->Options[$key]['child_group']->findGroup( $groupID, $depth + 1, $groupStack ) )
                         return $group;
                 }
             }
@@ -238,7 +239,7 @@ class eZMultiOption2
                 return $this->ChildGroupList[$key];
             }
 
-            if ( $group =& $this->ChildGroupList[$key]->findGroup( $groupID, $depth + 1, $groupStack ) )
+            if ( $group = $this->ChildGroupList[$key]->findGroup( $groupID, $depth + 1, $groupStack ) )
                 return $group;
         }
         $dummyGroup = null;
@@ -252,12 +253,12 @@ class eZMultiOption2
             if ( $optionList['multioption_id'] == $multioptionID )
             {
                 $option = $this->Options[$key];
-                return array( "group" => &$this,
+                return array( "group" => $this,
                               "id" => $option['id'] );
             }
             if ( isset( $optionList['child_group'] ) )
             {
-                $group =& $this->Options[$key]['child_group'];
+                $group = $this->Options[$key]['child_group'];
                 $returnArray = $group->findMultiOption( $multioptionID,$depth+1 );
                 if ( $returnArray )
                 {
@@ -414,12 +415,11 @@ class eZMultiOption2
     */
     function removeMultiOptions( $array_remove )
     {
-        $options =& $this->Options;
         foreach ( $array_remove as $id )
         {
-            unset( $options[ $id ] );
+            unset( $this->Options[ $id ] );
         }
-        $options = array_values( $options );
+        $this->Options = array_values( $this->Options );
         $this->changeMultiOptionId();
     }
 
@@ -433,16 +433,15 @@ class eZMultiOption2
     */
     function removeOptions( $arrayRemove, $optionId )
     {
-        $options =& $this->Options;
         foreach ( $arrayRemove as  $id )
         {
-            unset( $options[$optionId]['optionlist'][$id - 1] );
+            unset( $this->Options[$optionId]['optionlist'][$id - 1] );
         }
-        $options = array_values( $options );
+        $this->Options = array_values( $this->Options );
         $i = 1;
-        foreach ( $options[$optionId]['optionlist'] as $key => $opt )
+        foreach ( $this->Options[$optionId]['optionlist'] as $key => $opt )
         {
-            $options[$optionId]['optionlist'][$key]['id'] = $i;
+            $this->Options[$optionId]['optionlist'][$key]['id'] = $i;
             $i++;
         }
     }
@@ -464,7 +463,7 @@ class eZMultiOption2
 
     function cleanupRules( )
     {
-        $this->runFunctionForAllGroups( 'getIDsFromMultioptions', array( 'group' => &$this ) );
+        $this->runFunctionForAllGroups( 'getIDsFromMultioptions', array( 'group' => $this ) );
         foreach( $this->Rules as $key => $ruleForOption )
         {
             if ( ! in_array( $key, $this->OptionIDList ) )
@@ -621,12 +620,12 @@ class eZMultiOption2
         $this->Options = array();
         if ( $xmlString != "" )
         {
-            $xml = new eZXML();
-            $dom =& $xml->domTree( $xmlString );
-//            var_dump( $xmlString );
-            $root =& $dom->root();
+            $dom = new DOMDocument();
+            $success = $dom->loadXML( $xmlString );
 
-            if ( $root->name() == 'ezmultioption' )
+            $root = $dom->documentElement;
+
+            if ( $root->localName == 'ezmultioption' )
             {
                 $this->initFromXMLCompat( $root );
                 return;
@@ -634,25 +633,25 @@ class eZMultiOption2
 
             $this->initGroupFromDom( $root );
 
-            $rulesNode = $root->elementByName( "rules" );
+            $rulesNode = $root->getElementsByTagName( "rules" )->item( 0 );
             if ( !$rulesNode )
                 return;
-            $ruleList = $rulesNode->elementsByName( "rule" );
+            $ruleList = $rulesNode->getElementsByTagName( "rule" );
             //Loop for rules
             $rules = array();
             foreach ( $ruleList as $ruleNode )
             {
-                $optionID = $ruleNode->attributeValue( "option_id" );
-                $ruleDataNodeList = $ruleNode->elementsByName( 'rule_data' );
+                $optionID = $ruleNode->getAttribute( "option_id" );
+                $ruleDataNodeList = $ruleNode->getElementsByTagName( 'rule_data' );
                 $ruleForOption = array();
                 foreach ( $ruleDataNodeList as $ruleDataNode )
                 {
-                    $multioptionID = $ruleDataNode->attributeValue( "multioption_id" );
-                    $includeOptionNodeList = $ruleDataNode->elementsByName( 'option_id' );
+                    $multioptionID = $ruleDataNode->getAttribute( "multioption_id" );
+                    $includeOptionNodeList = $ruleDataNode->getElementsByTagName( 'option_id' );
                     $includeOptions = array();
                     foreach ( $includeOptionNodeList as $includeOptionNode )
                     {
-                        $includeOptions[] = $includeOptionNode->textContent();
+                        $includeOptions[] = $includeOptionNode->textContent;
                     }
                     $ruleForOption[$multioptionID] = $includeOptions;
                 }
@@ -674,7 +673,7 @@ class eZMultiOption2
 
     function initFromXMLCompat( $root, $new = false )
     {
-        if ( $root && $root->attributeValue("option_counter") > 0 )
+        if ( $root && $root->getAttribute( 'option_counter' ) > 0 )
         {
             $this->Name = '';
             $this->OptionCounter = 0;
@@ -683,7 +682,7 @@ class eZMultiOption2
             $this->GroupID = 0;
             $this->ID = 0;
 
-            $multiOptionGroup = new eZMultiOption2( '', 0,0,0,1 );
+            $multiOptionGroup = new eZMultiOption2( '', 0, 0, 0, 1 );
             $multiOptionGroup->initCounters( $this );
             $multiOptionGroup->initGroupFromDom( $root );
             $this->initCounters( $multiOptionGroup );
@@ -694,43 +693,42 @@ class eZMultiOption2
 
     function initGroupFromDom( $root, $new = false )
     {
+        $xpath = new DOMXPath( $root->ownerDocument );
 
-        if ( $root && $root->attributeValue("option_counter") > 0 )
+        if ( $root && $root->getAttribute("option_counter") > 0 )
         {
             // set the name of the node
-            $this->Name = $root->elementTextContentByName( "name" );
-            $this->OptionCounter = $root->attributeValue("option_counter");
-            $this->MultiOptionIDCounter = $root->attributeValue("multioption_counter")
-                                          ?  $root->attributeValue("multioption_counter")
+            $this->Name = $xpath->query( 'name', $root )->item( 0 )->textContent;
+            $this->OptionCounter = $root->getAttribute("option_counter");
+            $this->MultiOptionIDCounter = $root->getAttribute("multioption_counter")
+                                          ?  $root->getAttribute("multioption_counter")
                                           : $this->MultiOptionIDCounter;
 
-            $this->GroupIDCounter = $root->attributeValue("group_counter") ? $root->attributeValue("group_counter") : $this->GroupIDCounter;
-            $this->GroupID = $root->attributeValue("group_id") ? $root->attributeValue("group_id") : $this->GroupID ;
-            $this->ID = $root->attributeValue("id") ? $root->attributeValue("id") : $this->ID;
+            $this->GroupIDCounter = $root->getAttribute( 'group_counter ') ? $root->getAttribute( 'group_counter ') : $this->GroupIDCounter;
+            $this->GroupID = $root->getAttribute( 'group_id' ) ? $root->getAttribute( 'group_id' ) : $this->GroupID ;
+            $this->ID = $root->getAttribute( 'id' ) ? $root->getAttribute( 'id' ) : $this->ID;
 
-            $multioptionsNode = $root->elementByName( "multioptions" );
-            $multioptionsList = $multioptionsNode->elementsByName( "multioption" );
+            $multioptionsList = $xpath->query( "multioptions/multioption", $root );
             //Loop for MultiOptions
             foreach ( $multioptionsList as $multioption )
             {
+                $newID = $this->addMultiOption( $multioption->getAttribute( "name" ),
+                                                $multioption->getAttribute( "priority" ),
+                                                $multioption->getAttribute( "default_option_id" ),
+                                                $multioption->getAttribute( "multioption_id" ) );
 
-                $newID = $this->addMultiOption( $multioption->attributeValue( "name" ),
-                                                $multioption->attributeValue( "priority" ),
-                                                $multioption->attributeValue( "default_option_id" ),
-                                                $multioption->attributeValue( "multioption_id" ) );
-
-                $optionNode = $multioption->elementsByName( "option" );
+                $optionNode = $xpath->query( "option", $multioption );
                 foreach ( $optionNode as $option )
                 {
-                    $isSelectable = $option->attributeValue( "is_selectable" ) === false ? 1 : $option->attributeValue( "is_selectable" );
+                    $isSelectable = $option->getAttribute( "is_selectable" ) === false ? 1 : $option->getAttribute( "is_selectable" );
                     $this->addOption( $newID,
-                                      $option->attributeValue( "option_id" ),
-                                      $option->attributeValue( "value" ),
-                                      $option->attributeValue( "additional_price" ),
+                                      $option->getAttribute( "option_id" ),
+                                      $option->getAttribute( "value" ),
+                                      $option->getAttribute( "additional_price" ),
                                       $isSelectable,
-                                      $option->attributeValue( "object" ) );
+                                      $option->getAttribute( "object" ) );
                 }
-                $groupNode = $multioption->elementByName( "optiongroup" );
+                $groupNode = $xpath->query( "optiongroup", $multioption )->item( 0 );
                 if( $groupNode )
                 {
                     $multiOptionGroup = new eZMultiOption2( '' );
@@ -742,10 +740,8 @@ class eZMultiOption2
 
             }
             $this->changeMultiOptionId();
-            $groupsNode = $root->elementByName( "groups" );
-            if ( ! $groupsNode )
-                return;
-            $groupList = $groupsNode->elementsByName( "optiongroup" );
+
+            $groupList = $xpath->query( "groups/optiongroup", $root );
             foreach ( $groupList as $group )
             {
                 $multiOptionGroup = new eZMultiOption2( '' );
@@ -772,33 +768,31 @@ class eZMultiOption2
      Will return the XML string for this MultiOption set.
      \sa decodeXML()
     */
-    function &xmlString()
+    function xmlString()
     {
-        $doc = new eZDOMDocument( "MultiOption2" );
-        $root = $doc->createElementNode( "ezmultioption2" );
-        $doc->setRoot( $root );
+        $doc = new DOMDocument();
+        $root = $doc->createElement( "ezmultioption2" );
+        $doc->appendChild( $root );
+
 
         $this->createDomElementForGroup( $doc, $root );
 
-        $rulesNode = $doc->createElementNode( "rules" );
+        $rulesNode = $doc->createElement( "rules" );
 
-        foreach( $this->Rules as $ruleFor => $rule )
+        foreach ( $this->Rules as $ruleFor => $rule )
         {
             unset( $ruleNode );
-            $ruleNode = $doc->createElementNode( "rule" );
-            $ruleNode->appendAttribute( $doc->createAttributeNode( "option_id", $ruleFor ) );
+            $ruleNode = $doc->createElement( "rule" );
+            $ruleNode->setAttribute( "option_id", $ruleFor );
             foreach ( $rule as $multioptionID => $ruleData )
             {
                 unset( $ruleDataNode );
-                $ruleDataNode = $doc->createElementNode( "rule_data" );
-                $ruleDataNode->appendAttribute( $doc->createAttributeNode( "multioption_id", $multioptionID ) );
+                $ruleDataNode = $doc->createElement( "rule_data" );
+                $ruleDataNode->setAttribute( "multioption_id", $multioptionID );
                 foreach ( $ruleData as $optionID )
                 {
                     unset( $includeNode );
-                    unset( $includeValue );
-                    $includeNode = $doc->createElementNode( "option_id" );
-                    $includeValue = $doc->createTextNode( $optionID );
-                    $includeNode->appendChild( $includeValue );
+                    $includeNode = $doc->createElement( "option_id", $optionID );
                     $ruleDataNode->appendChild( $includeNode );
                 }
                 $ruleNode->appendChild( $ruleDataNode );
@@ -807,78 +801,74 @@ class eZMultiOption2
         }
         $root->appendChild( $rulesNode );
 
-        $xml = $doc->toString();
+        $xml = $doc->saveXML();
         return $xml;
     }
 
-    function createDomElementForGroup( &$doc, &$groupNode, $depth = 0 )
+    function createDomElementForGroup( $doc, $groupNode, $depth = 0 )
     {
+        $root = $groupNode;
+        $root->setAttribute( 'option_counter', $this->OptionCounter );
+        $root->setAttribute( 'multioption_counter', $this->MultiOptionIDCounter );
+        $root->setAttribute( 'group_counter', $this->GroupIDCounter );
 
-        $root =& $groupNode;
-        $name = $doc->createElementNode( "name" );
-        $nameValue = $doc->createTextNode( $this->Name );
-        $name->appendChild( $nameValue );
+        $root->setAttribute( 'group_id', $this->GroupID );
+        $root->setAttribute( 'id', $this->ID );
 
-
-        $optionCounter = $doc->createAttributeNode( 'option_counter', $this->OptionCounter );
-        $root->appendAttribute( $optionCounter );
-        $multiOptionIDCounter = $doc->createAttributeNode( 'multioption_counter', $this->MultiOptionIDCounter);
-        $root->appendAttribute( $multiOptionIDCounter );
-        $groupIDCounter = $doc->createAttributeNode( 'group_counter', $this->GroupIDCounter );
-        $root->appendAttribute( $groupIDCounter );
-
-        $groupID = $doc->createAttributeNode( 'group_id', $this->GroupID );
-        $root->appendAttribute( $groupID );
-        $ID = $doc->createAttributeNode( 'id', $this->ID );
-        $root->appendAttribute( $ID );
-
+        $name = $doc->createElement( "name", $this->Name );
         $root->appendChild( $name );
-        $multioptions = $doc->createElementNode( "multioptions" );
+
+        $multioptions = $doc->createElement( "multioptions" );
         $root->appendChild( $multioptions );
+
         foreach ( $this->Options as $multioption )
         {
             unset( $multioptionNode );
-            $multioptionNode = $doc->createElementNode( "multioption" );
-            $multioptionNode->appendAttribute( $doc->createAttributeNode( "id", $multioption['id'] ) );
-            $multioptionNode->appendAttribute( $doc->createAttributeNode( "name", $multioption['name'] ) );
-            $multioptionNode->appendAttribute( $doc->createAttributeNode( "multioption_id", $multioption['multioption_id'] ) );
-            $multioptionNode->appendAttribute( $doc->createAttributeNode( "priority", $multioption['priority'] ) );
-            $multioptionNode->appendAttribute( $doc->createAttributeNode( 'default_option_id', $multioption['default_option_id'] ) );
+            $multioptionNode = $doc->createElement( "multioption" );
+            $multioptionNode->setAttribute( "id", $multioption['id'] );
+            $multioptionNode->setAttribute( "name", $multioption['name'] );
+            $multioptionNode->setAttribute( "multioption_id", $multioption['multioption_id'] );
+            $multioptionNode->setAttribute( "priority", $multioption['priority'] );
+            $multioptionNode->setAttribute( 'default_option_id', $multioption['default_option_id'] );
+
             if ( isset( $multioption['imageoption'] ) && $multioption['imageoption'] )
-                    $multioptionNode->appendAttribute( $doc->createAttributeNode( "imageoption", $multioption['imageoption'] ) );
+                    $multioptionNode->setAttribute( "imageoption", $multioption['imageoption'] );
 
             foreach ( $multioption['optionlist'] as $option )
             {
                 unset( $optionNode );
-                $optionNode = $doc->createElementNode( "option" );
-                $optionNode->appendAttribute( $doc->createAttributeNode( "id", $option['id'] ) );
-                $optionNode->appendAttribute( $doc->createAttributeNode( "option_id", $option['option_id'] ) );
-                $optionNode->appendAttribute( $doc->createAttributeNode( "value", $option['value'] ) );
+                $optionNode = $doc->createElement( "option" );
+                $optionNode->setAttribute( "id", $option['id'] );
+                $optionNode->setAttribute( "option_id", $option['option_id'] );
+                $optionNode->setAttribute( "value", $option['value'] );
+
                 if ( isset( $option['object'] ) && $option['object']  )
-                    $optionNode->appendAttribute( $doc->createAttributeNode( "object", $option['object'] ) );
-                $optionNode->appendAttribute( $doc->createAttributeNode( 'additional_price', $option['additional_price'] ) );
-                $optionNode->appendAttribute( $doc->createAttributeNode( 'is_selectable', $option['is_selectable'] ) );
+                {
+                    $optionNode->setAttribute( "object", $option['object'] );
+                }
+                $optionNode->setAttribute( 'additional_price', $option['additional_price'] );
+                $optionNode->setAttribute( 'is_selectable', $option['is_selectable'] );
                 $multioptionNode->appendChild( $optionNode );
             }
             if ( array_key_exists( 'child_group', $multioption ) && $multioption['child_group'] )
             {
                 $childGroup = $multioption['child_group'];
                 unset( $childGroupNode );
-                $childGroupNode = $doc->createElementNode( "optiongroup" );
-                $childGroupNode->appendAttribute( $doc->createAttributeNode( "id", $childGroup->ID ) );
+                $childGroupNode = $doc->createElement( "optiongroup" );
+                $childGroupNode->setAttribute( "id", $childGroup->ID );
                 $childGroup->createDomElementForGroup( $doc, $childGroupNode, $depth + 1 );
                 $multioptionNode->appendChild( $childGroupNode );
             }
             $multioptions->appendChild( $multioptionNode );
         }
 
-        $groups = $doc->createElementNode( "groups" );
+        $groups = $doc->createElement( "groups" );
 
         foreach ( $this->ChildGroupList as $childGroup )
         {
             unset( $childGroupNode );
-            $childGroupNode = $doc->createElementNode( "optiongroup" );
-            $childGroupNode->appendAttribute( $doc->createAttributeNode( "id", $childGroup->ID ) );
+            $childGroupNode = $doc->createElement( "optiongroup" );
+            $childGroupNode->setAttribute( "id", $childGroup->ID );
             $childGroup->createDomElementForGroup( $doc, $childGroupNode, $depth + 1 );
             $groups->appendChild( $childGroupNode );
         }

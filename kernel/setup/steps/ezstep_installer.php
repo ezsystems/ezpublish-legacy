@@ -32,28 +32,28 @@
 */
 
 /*!
-  \class EZStepInstaller ezstep_class_definition.ph
+  \class eZStepInstaller ezstep_class_definition.ph
   \brief The class EZStepInstaller provide a framework for eZStep installer classes
 
 */
 
-define( 'EZ_SETUP_DB_ERROR_EMPTY_PASSWORD', 1 );
-define( 'EZ_SETUP_DB_ERROR_NONMATCH_PASSWORD', 2 );
-define( 'EZ_SETUP_DB_ERROR_CONNECTION_FAILED', 3 );
-define( 'EZ_SETUP_DB_ERROR_NOT_EMPTY', 4 );
-define( 'EZ_SETUP_DB_ERROR_NO_DATABASES', 5 );
-define( 'EZ_SETUP_DB_ERROR_NO_DIGEST_PROC', 6 );
-define( 'EZ_SETUP_DB_ERROR_VERSION_INVALID', 7 );
-define( 'EZ_SETUP_DB_ERROR_CHARSET_DIFFERS', 8 );
-
-define( 'EZ_SETUP_DB_DATA_APPEND', 1 );
-define( 'EZ_SETUP_DB_DATA_REMOVE', 2 );
-define( 'EZ_SETUP_DB_DATA_KEEP', 3 );
-define( 'EZ_SETUP_DB_DATA_CHOOSE', 4 );
-
-
 class eZStepInstaller
 {
+    const DB_ERROR_EMPTY_PASSWORD = 1;
+    const DB_ERROR_NONMATCH_PASSWORD = 2;
+    const DB_ERROR_CONNECTION_FAILED = 3;
+    const DB_ERROR_NOT_EMPTY = 4;
+    const DB_ERROR_NO_DATABASES = 5;
+    const DB_ERROR_NO_DIGEST_PROC = 6;
+    const DB_ERROR_VERSION_INVALID = 7;
+    const DB_ERROR_CHARSET_DIFFERS = 8;
+    const DB_ERROR_ALREADY_CHOSEN = 10;
+
+    const DB_DATA_APPEND = 1;
+    const DB_DATA_REMOVE = 2;
+    const DB_DATA_KEEP = 3;
+    const DB_DATA_CHOOSE = 4;
+
     /*!
      Default constructor for eZ publish installer classes
 
@@ -62,16 +62,16 @@ class eZStepInstaller
     \param ini settings object
     \param persistencelist, all previous posted data
     */
-    function eZStepInstaller( &$tpl, &$http, &$ini, &$persistenceList,
+    function eZStepInstaller( $tpl, $http, $ini, &$persistenceList,
                               $identifier, $name )
     {
-        $this->Tpl =& $tpl;
-        $this->Http =& $http;
-        $this->Ini =& $ini;
+        $this->Tpl = $tpl;
+        $this->Http = $http;
+        $this->Ini = $ini;
         $this->PersistenceList =& $persistenceList;
         $this->Identifier = $identifier;
         $this->Name = $name;
-        $this->INI =& eZINI::instance( 'kickstart.ini', '.' );
+        $this->INI = eZINI::instance( 'kickstart.ini', '.' );
         $this->KickstartData = false;
 
         $this->PersistenceList['use_kickstart'][$identifier] = true;
@@ -120,21 +120,21 @@ class eZStepInstaller
     Display information and forms needed to pass this step.
     \return result to use in template
     */
-    function &display()
+    function display()
     {
         $result = array();
         return $result;
     }
 
-    function findAppropriateCharset( &$primaryLanguage, &$allLanguages, $canUseUnicode )
+    function findAppropriateCharset( $primaryLanguage, $allLanguages, $canUseUnicode )
     {
-        include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
+        //include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
         $commonCharsets = array();
 
         if ( is_array( $allLanguages ) and count( $allLanguages ) > 0 )
         {
 
-            $language =& $allLanguages[ 0 ];
+            $language = $allLanguages[ 0 ];
             $charsets = $language->allowedCharsets();
             foreach ( $charsets as $charset )
             {
@@ -144,7 +144,7 @@ class eZStepInstaller
 
             for ( $i = 1; $i < count( $allLanguages ); ++$i )
             {
-                $language =& $allLanguages[$i];
+                $language = $allLanguages[$i];
                 $charsets = $language->allowedCharsets();
                 $realCharsets = array();
                 foreach ( $charsets as $charset )
@@ -179,15 +179,15 @@ class eZStepInstaller
         return $charset;
     }
 
-    function findAppropriateCharsetsList( &$primaryLanguage, &$allLanguages, $canUseUnicode )
+    function findAppropriateCharsetsList( $primaryLanguage, $allLanguages, $canUseUnicode )
     {
-        include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
+        //include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
         $commonCharsets = array();
 
         if ( is_array( $allLanguages ) and count( $allLanguages ) > 0 )
         {
 
-            $language =& $allLanguages[ 0 ];
+            $language = $allLanguages[ 0 ];
             $charsets = $language->allowedCharsets();
             foreach ( $charsets as $charset )
             {
@@ -197,7 +197,7 @@ class eZStepInstaller
 
             for ( $i = 1; $i < count( $allLanguages ); ++$i )
             {
-                $language =& $allLanguages[$i];
+                $language = $allLanguages[$i];
                 $charsets = $language->allowedCharsets();
                 $realCharsets = array();
                 foreach ( $charsets as $charset )
@@ -231,7 +231,7 @@ class eZStepInstaller
 
     function availableSitePackages()
     {
-        include_once( 'kernel/classes/ezpackage.php' );
+        //include_once( 'kernel/classes/ezpackage.php' );
         $packageList = eZPackage::fetchPackages( array(), array( 'type' => 'site' ) );
 
         return $packageList;
@@ -275,7 +275,7 @@ class eZStepInstaller
 
     function selectSiteType( $sitePackageName )
     {
-        include_once( 'kernel/classes/ezpackage.php' );
+        //include_once( 'kernel/classes/ezpackage.php' );
 
         $package = eZPackage::fetch( $sitePackageName );
         if ( !$package )
@@ -305,7 +305,7 @@ class eZStepInstaller
 
     function storePersistenceData()
     {
-        include_once( 'kernel/setup/ezsetupcommon.php' );
+        //include_once( 'kernel/setup/ezsetupcommon.php' );
         foreach ( $this->PersistenceList as $key => $value )
         {
             eZSetupSetPersistencePostVariable( $key, $value );
@@ -363,12 +363,12 @@ class eZStepInstaller
         if( $dbParameters['database'] == '' and $this->PersistenceList['database_info']['type'] == 'pgsql' )
             $dbParameters['database'] = 'template1';
 
-        $db =& eZDB::instance( $dbDriver, $dbParameters, true );
-        $result['db_instance'] =& $db;
+        $db = eZDB::instance( $dbDriver, $dbParameters, true );
+        $result['db_instance'] = $db;
         $result['connected'] = $db->isConnected();
         if ( $db->isConnected() == false )
         {
-            $result['error_code'] = EZ_SETUP_DB_ERROR_CONNECTION_FAILED;
+            $result['error_code'] = self::DB_ERROR_CONNECTION_FAILED;
             return $result;
         }
 
@@ -381,7 +381,7 @@ class eZStepInstaller
             if ( version_compare( $result['db_version'], $databaseInfo['info']['required_version'] ) == -1 )
             {
                 $result['connected'] = false;
-                $result['error_code'] = EZ_SETUP_DB_ERROR_VERSION_INVALID;
+                $result['error_code'] = self::DB_ERROR_VERSION_INVALID;
                 return $result;
             }
         }
@@ -395,7 +395,7 @@ class eZStepInstaller
             // If it is 0 we don't have it
             if ( $count == 0 )
             {
-                $result['error_code'] = EZ_SETUP_DB_ERROR_NO_DIGEST_PROC;
+                $result['error_code'] = self::DB_ERROR_NO_DIGEST_PROC;
                 return $result;
             }
         }
@@ -417,7 +417,7 @@ class eZStepInstaller
             else
             {
                 // Figure out charset automatically if it is not set yet
-                include_once( 'lib/ezlocale/classes/ezlocale.php' );
+                //include_once( 'lib/ezlocale/classes/ezlocale.php' );
                 $primaryLanguage     = null;
                 $allLanguages        = array();
                 $allLanguageCodes    = array();
@@ -448,7 +448,7 @@ class eZStepInstaller
                 if ( $primaryLanguage === null )
                     $primaryLanguage = eZLocale::create( $primaryLanguageCode );
 
-                $allLanguages[] =& $primaryLanguage;
+                $allLanguages[] = $primaryLanguage;
 
                 foreach ( $extraLanguageCodes as $extraLanguageCode )
                 {
@@ -474,7 +474,7 @@ class eZStepInstaller
                     $result['connected'] = false;
                     $this->PersistenceList['database_info']['requested_charset'] = implode( ", ", $charsetsList );
                     $this->PersistenceList['database_info']['current_charset'] = $currentCharset;
-                    $result['error_code'] = EZ_SETUP_DB_ERROR_CHARSET_DIFFERS;
+                    $result['error_code'] = self::DB_ERROR_CHARSET_DIFFERS;
                     return $result;
                 }
             }
@@ -499,7 +499,7 @@ class eZStepInstaller
 
         switch ( $code )
         {
-            case EZ_SETUP_DB_ERROR_CONNECTION_FAILED:
+            case self::DB_ERROR_CONNECTION_FAILED:
             {
                 if ( $errorInfo['database_info']['type'] == 'pgsql' )
                 {
@@ -510,55 +510,55 @@ class eZStepInstaller
                                                         .'<br>Note that PostgreSQL 7.2 is not supported.' ),
                                       'url' => array( 'href' => 'http://www.php.net/manual/en/ref.pgsql.php',
                                                       'text' => 'PHP documentation' ),
-                                      'number' => EZ_SETUP_DB_ERROR_CONNECTION_FAILED );
+                                      'number' => self::DB_ERROR_CONNECTION_FAILED );
                 }
                 else
                 {
                     $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
                                                         'The database would not accept the connection, please review your settings and try again.' ),
                                   'url' => false,
-                                      'number' => EZ_SETUP_DB_ERROR_CONNECTION_FAILED );
+                                      'number' => self::DB_ERROR_CONNECTION_FAILED );
                 }
 
                 break;
             }
-            case EZ_SETUP_DB_ERROR_NONMATCH_PASSWORD:
+            case self::DB_ERROR_NONMATCH_PASSWORD:
             {
                 $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
                                                     'Password entries did not match.' ),
                                   'url' => false,
-                                  'number' => EZ_SETUP_DB_ERROR_NONMATCH_PASSWORD );
+                                  'number' => self::DB_ERROR_NONMATCH_PASSWORD );
                 break;
             }
-            case EZ_SETUP_DB_ERROR_NOT_EMPTY:
+            case self::DB_ERROR_NOT_EMPTY:
             {
                 $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
                                                     'The selected database was not empty, please choose from the alternatives below.' ),
                                   'url' => false,
-                                  'number' => EZ_SETUP_DB_ERROR_NOT_EMPTY );
+                                  'number' => self::DB_ERROR_NOT_EMPTY );
                 $dbNotEmpty = 1;
                 break;
             }
-            case EZ_SETUP_DB_ERROR_NO_DATABASES:
+            case self::DB_ERROR_NO_DATABASES:
             {
                 $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
                                                     'The selected user has not got access to any databases. Change user or create a database for the user.' ),
                                   'url' => false,
-                                  'number' => EZ_SETUP_DB_ERROR_NO_DATABASES );
+                                  'number' => self::DB_ERROR_NO_DATABASES );
                 break;
             }
 
-            case EZ_SETUP_DB_ERROR_NO_DIGEST_PROC:
+            case self::DB_ERROR_NO_DIGEST_PROC:
             {
                 $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
                                                     "The 'digest' procedure is not available in your database, you cannot run eZ Publish without this. Visit the FAQ for more information." ),
                                   'url' => array( 'href' => 'http://ez.no/ez_publish/documentation/faq/database/what_is_the_reason_i_get_error_function_digest_character_varying_does_not_exist_on_postgresql',
                                                   'text' => 'PostgreSQL digest FAQ' ),
-                                  'number' => EZ_SETUP_DB_ERROR_NO_DATABASES );
+                                  'number' => self::DB_ERROR_NO_DATABASES );
                 break;
             }
 
-            case EZ_SETUP_DB_ERROR_VERSION_INVALID:
+            case self::DB_ERROR_VERSION_INVALID:
             {
                 $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
                                                     "Your database version %version does not fit the minimum requirement which is %req_version.
@@ -568,11 +568,11 @@ See the requirements page for more information.",
                                                            '%req_version' => $errorInfo['database_info']['required_version'] ) ),
                                   'url' => array( 'href' => 'http://ez.no/ez_publish/documentation/general_information/what_is_ez_publish/ez_publish_requirements',
                                                   'text' => 'eZ Publish requirements' ),
-                                  'number' => EZ_SETUP_DB_ERROR_NO_DATABASES );
+                                  'number' => self::DB_ERROR_NO_DATABASES );
                 break;
             }
 
-            case EZ_SETUP_DB_ERROR_CHARSET_DIFFERS:
+            case self::DB_ERROR_CHARSET_DIFFERS:
             {
                 $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
                                                     "The database [%database_name] cannot be used, the setup wizard wants to create the site in [%req_charset] but the database has been created using character set [%charset]. You will have to choose a database having support for [%req_charset] or modify [%database_name] .",
@@ -581,7 +581,7 @@ See the requirements page for more information.",
                                                            '%charset' => $errorInfo['database_info']['current_charset'],
                                                            '%req_charset' => $errorInfo['database_info']['requested_charset'] ) ),
                                   'url' => false,
-                                  'number' => EZ_SETUP_DB_ERROR_CHARSET_DIFFERS );
+                                  'number' => self::DB_ERROR_CHARSET_DIFFERS );
                 break;
             }
         }
@@ -659,7 +659,7 @@ See the requirements page for more information.",
 
         if ( $siteType['access_type'] == 'url' )
         {
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             if ( $ini->hasVariable( 'SiteSettings', 'DefaultAccess' ) )
             {
                 $siteType['access_type_value'] = $ini->variable( 'SiteSettings', 'DefaultAccess' );
@@ -695,18 +695,18 @@ See the requirements page for more information.",
         return $siteaccessURL;
     }
 
-    var $Tpl;
-    var $Http;
-    var $Ini;
-    var $PersistenceList;
+    public $Tpl;
+    public $Http;
+    public $Ini;
+    public $PersistenceList;
     // The identifier of the current step
-    var $Identifier;
+    public $Identifier;
     // The name of the current step
-    var $Name;
+    public $Name;
     /// Kickstart INI file, if one is found
-    var $INI;
+    public $INI;
     /// The kickstart data as an associative array or \c false if no data available
-    var $KickstartData;
+    public $KickstartData;
 }
 
 ?>

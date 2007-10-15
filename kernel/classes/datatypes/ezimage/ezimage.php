@@ -36,10 +36,10 @@
   \deprecated
 */
 
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "kernel/classes/ezpersistentobject.php" );
-include_once( "kernel/classes/ezcontentclassattribute.php" );
-include_once( "kernel/classes/datatypes/ezimage/ezimagevariation.php");
+//include_once( "lib/ezdb/classes/ezdb.php" );
+//include_once( "kernel/classes/ezpersistentobject.php" );
+//include_once( "kernel/classes/ezcontentclassattribute.php" );
+//include_once( "kernel/classes/datatypes/ezimage/ezimagevariation.php");
 
 class eZImage extends eZPersistentObject
 {
@@ -48,7 +48,7 @@ class eZImage extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "contentobject_attribute_id" => array( 'name' => "ContentObjectAttributeID",
                                                                                 'datatype' => 'integer',
@@ -78,7 +78,7 @@ class eZImage extends eZPersistentObject
                                                                       'default' => '',
                                                                       'required' => true ) ),
                       "keys" => array( "contentobject_attribute_id", "version" ),
-                      "relations" => array( "contentobject_attribute_id" => array( "class" => "ezcontentobjectattribute",
+                      "relations" => array( "contentobject_attribute_id" => array( "class" => "eZContentObjectAttribute",
                                                                                    "field" => "id" ) ),
                       "class_name" => "eZImage",
                       "name" => "ezimage" );
@@ -91,7 +91,7 @@ class eZImage extends eZPersistentObject
 
     function hasAttribute( $attr )
     {
-        $imageIni =& eZINI::instance( 'image.ini' );
+        $imageIni = eZINI::instance( 'image.ini' );
         if ( $imageIni->hasVariable( 'ImageSizes', 'Height' ) )
             $heightList = $imageIni->variable( 'ImageSizes', 'Height' );
         if ( $imageIni->hasVariable( 'ImageSizes', 'Width' ) )
@@ -123,11 +123,11 @@ class eZImage extends eZPersistentObject
                $attr == 'original';
     }
 
-    function &attribute( $attr )
+    function attribute( $attr )
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
 
-        $imageIni =& eZINI::instance( 'image.ini' );
+        $imageIni = eZINI::instance( 'image.ini' );
         if ( $imageIni->hasVariable( 'ImageSizes', 'Height' ) )
             $heightList = $imageIni->variable( 'ImageSizes', 'Height' );
         if ( $imageIni->hasVariable( 'ImageSizes', 'Width' ) )
@@ -199,9 +199,8 @@ class eZImage extends eZPersistentObject
 
                 if ( $heightList != null )
                 {
-                    foreach ( array_keys ( $heightList ) as $key )
+                    foreach ( $heightList as $key => $heightValue )
                     {
-                        $heightValue =& $heightList[$key];
                         if ( $heightValue )
                         {
                             if ( $key == "small" and $attr == "small" )
@@ -239,14 +238,18 @@ class eZImage extends eZPersistentObject
                 if ( !isset( $GLOBALS[$cacheString] ) )
                 {
                     if ( $attr == "original" )
-                        $img_variation =& eZImageVariation::createOriginal( $this->ContentObjectAttributeID, $this->Version, $this->Filename, eZDir::getPathFromFilename( $this->Filename ) );
+                    {
+                        $img_variation = eZImageVariation::createOriginal( $this->ContentObjectAttributeID, $this->Version, $this->Filename, eZDir::getPathFromFilename( $this->Filename ) );
+                    }
                     else
-                        $img_variation =& eZImageVariation::requestVariation( $this, $width, $height );
-                    $GLOBALS[$cacheString] =& $img_variation;
+                    {
+                        $img_variation = eZImageVariation::requestVariation( $this, $width, $height );
+                    }
+                    $GLOBALS[$cacheString] = $img_variation;
                 }
                 else
                 {
-                    $img_variation =& $GLOBALS[$cacheString];
+                    $img_variation = $GLOBALS[$cacheString];
                 }
                 return $img_variation;
             }break;
@@ -309,11 +312,11 @@ class eZImage extends eZPersistentObject
         }
     }
 
-    var $Version;
-    var $ContentObjectAttributeID;
-    var $Filename;
-    var $OriginalFilename;
-    var $MimeType;
+    public $Version;
+    public $ContentObjectAttributeID;
+    public $Filename;
+    public $OriginalFilename;
+    public $MimeType;
 }
 
 ?>

@@ -26,49 +26,48 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once('lib/ezutils/classes/ezdebug.php');
-include_once('lib/ezutils/classes/ezhttptool.php');
-include_once('lib/ezdb/classes/ezdb.php');
+require_once('lib/ezutils/classes/ezdebug.php');
+//include_once('lib/ezutils/classes/ezhttptool.php');
+//include_once('lib/ezdb/classes/ezdb.php');
 
-function sectionEditPostFetch( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage, &$validation )
+function sectionEditPostFetch( $module, $class, $object, $version, $contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage, &$validation )
 {
 }
 
-function sectionEditPreCommit( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage )
+function sectionEditPreCommit( $module, $class, $object, $version, $contentObjectAttributes, $editVersion, $editLanguage )
 {
 }
 
-function sectionEditActionCheck( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage )
+function sectionEditActionCheck( $module, $class, $object, $version, $contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage )
 {
     if ( $module->isCurrentAction( 'SectionEdit' ) )
     {
-        $http =& eZHTTPTool::instance();
+        $http = eZHTTPTool::instance();
         if ( $http->hasPostVariable( 'SelectedSectionId' ) )
         {
             $selectedSectionID = (int) $http->postVariable( 'SelectedSectionId' );
             $selectedSection = eZSection::fetch( $selectedSectionID );
-            $objectSectionID = $object->attribute( 'section_id' );
-            $objectID = $object->attribute( 'id' );
-
-            if ( is_object( $selectedSection ) and $objectSectionID != $selectedSectionID )
+            if ( is_object( $selectedSection ) )
             {
-                include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-                $currentUser =& eZUser::currentUser();
+                //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+                $currentUser = eZUser::currentUser();
                 if ( $currentUser->canAssignSectionToObject( $selectedSectionID, $object ) )
                 {
-                    $db =& eZDB::instance();
+                    $db = eZDB::instance();
                     $db->begin();
-                    $assignedNodes =& $object->attribute( 'assigned_nodes' );
+                    $assignedNodes = $object->attribute( 'assigned_nodes' );
                     if ( count( $assignedNodes ) > 0 )
                     {
                         foreach ( $assignedNodes as $node )
                         {
                             eZContentObjectTreeNode::assignSectionToSubTree( $node->attribute( 'node_id' ), $selectedSectionID );
                         }
+                        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
                     }
                     else
                     {
                         // If there are no assigned nodes we should update db for the current object.
+                        $objectID = $object->attribute( 'id' );
                         $db->query( "UPDATE ezcontentobject SET section_id='$selectedSectionID' WHERE id = '$objectID'" );
                         $db->query( "UPDATE ezsearch_object_word_link SET section_id='$selectedSectionID' WHERE  contentobject_id = '$objectID'" );
                     }
@@ -80,17 +79,17 @@ function sectionEditActionCheck( &$module, &$class, &$object, &$version, &$conte
                     eZDebug::writeError( "You do not have permissions to assign the section <" . $selectedSection->attribute( 'name' ) .
                                          "> to the object <" . $object->attribute( 'name' ) . ">." );
                 }
+                $module->redirectToView( 'edit', array( $object->attribute( 'id' ), $editVersion, $editLanguage, $fromLanguage ) );
             }
-            $module->redirectToView( 'edit', array( $objectID, $editVersion, $editLanguage, $fromLanguage ) );
         }
     }
 }
 
-function sectionEditPreTemplate( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, &$tpl )
+function sectionEditPreTemplate( $module, $class, $object, $version, $contentObjectAttributes, $editVersion, $editLanguage, $tpl )
 {
 }
 
-function initializeSectionEdit( &$module )
+function initializeSectionEdit( $module )
 {
     $module->addHook( 'post_fetch', 'sectionEditPostFetch' );
     $module->addHook( 'pre_commit', 'sectionEditPreCommit' );

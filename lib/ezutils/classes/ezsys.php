@@ -53,12 +53,10 @@ print( eZSys::wwwDir() );
 \endcode
 */
 
-define( "EZ_SYS_DEBUG_INTERNALS", false );
-
-define( 'EZSSLZONE_DEFAULT_SSL_PORT', 443 );
-
 class eZSys
 {
+    const DEBUG_INTERNALS = false;
+
     /*!
      Initializes the object with settings taken from the current script run.
     */
@@ -119,6 +117,8 @@ class eZSys
         {
             eZSys::removeMagicQuotes();
         }
+
+        $this->AccessPath = array();
     }
 
     function removeMagicQuotes()
@@ -140,13 +140,9 @@ class eZSys
      \static
      \return the os type, either \c "win32", \c "unix" or \c "mac"
     */
-    function osType()
+    static function osType()
     {
-        if ( isset( $this ) and get_class( $this ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance =& eZSys::instance();
-        return $instance->OSType;
+        return eZSys::instance()->OSType;
     }
 
     /*!
@@ -158,39 +154,27 @@ class eZSys
      - linux (unix)
      - freebsd (unix)
     */
-    function osName()
+    static function osName()
     {
-        if ( isset( $this ) and get_class( $this ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance =& eZSys::instance();
-        return $instance->OS;
+        return eZSys::instance()->OS;
     }
 
     /*!
      \static
      \return the filesystem type, either \c "win32" or \c "unix"
     */
-    function filesystemType()
+    static function filesystemType()
     {
-        if ( isset( $this ) and get_class( $this ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance =& eZSys::instance();
-        return $instance->FileSystemType;
+        return eZSys::instance()->FileSystemType;
     }
 
     /*!
      Returns the string which is used for file separators on the current OS (server).
      \static
     */
-    function fileSeparator()
+    static function fileSeparator()
     {
-        if ( isset( $this ) and get_class( $this ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance =& eZSys::instance();
-        return $instance->FileSeparator;
+        return eZSys::instance()->FileSeparator;
     }
 
     /*!
@@ -198,7 +182,7 @@ class eZSys
      \return the PHP version as text.
      \note Calls phpversion().
     */
-    function phpVersionText()
+    static function phpVersionText()
     {
         return phpversion();
     }
@@ -210,7 +194,7 @@ class eZSys
      array( 4, 3, 4 )
      \endexample
     */
-    function phpVersion()
+    static function phpVersion()
     {
         $text = eZSys::phpVersionText();
         $elements = explode( '.', $text );
@@ -225,7 +209,7 @@ class eZSys
      eZSys::isPHPVersionSufficient( array( 4, 1, 0 ) );
      \endcode
     */
-    function isPHPVersionSufficient( $requiredVersion )
+    static function isPHPVersionSufficient( $requiredVersion )
     {
         if ( !is_array( $requiredVersion ) )
             return false;
@@ -245,7 +229,7 @@ class eZSys
      \static
      Determins if the script got executed over the web or the shell/commandoline.
     */
-    function isShellExecution()
+    static function isShellExecution()
     {
         $sapiType = php_sapi_name();
 
@@ -268,13 +252,9 @@ class eZSys
      \static
      Escape a string to be used as a shell argument and return it.
     */
-    function escapeShellArgument( $argument )
+    static function escapeShellArgument( $argument )
     {
-        if ( isset( $this ) and get_class( $this ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance =& eZSys::instance();
-        $escapeChar = $instance->ShellEscapeCharacter;
+        $escapeChar = eZSys::instance()->ShellEscapeCharacter;
         $argument = str_replace( "\\", "\\\\", $argument );
         $argument = str_replace( $escapeChar, "\\" . $escapeChar, $argument );
         $argument = $escapeChar . $argument . $escapeChar;
@@ -287,12 +267,9 @@ class eZSys
      It will also properly escape the argument.
      \sa splitArgumentIntoElements, mergeArgumentElements
     */
-    function createShellArgument( $argumentText, $replaceList )
+    static function createShellArgument( $argumentText, $replaceList )
     {
-        if ( isset( $this ) and get_class( $this ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance =& eZSys::instance();
+        $instance = eZSys::instance();
         $elements = $instance->splitArgumentIntoElements( $argumentText );
         $replacedElements = array();
         foreach ( $elements as $element )
@@ -322,12 +299,8 @@ class eZSys
 
      You can then easily modify the elements separately and create the argument text with mergeArgumentElements().
     */
-    function splitArgumentIntoElements( $argumentText )
+    static function splitArgumentIntoElements( $argumentText )
     {
-        if ( isset( $this ) and get_class( $this ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance =& eZSys::instance();
         $argumentElements = array();
         $pos = 0;
 
@@ -406,12 +379,9 @@ class eZSys
      Merges an argument list created by splitArgumentIntoElements() back into a text string.
      The argument text will be properly quoted.
     */
-    function mergeArgumentElements( $argumentElements )
+    static function mergeArgumentElements( $argumentElements )
     {
-        if ( isset( $this ) and get_class( $this ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance =& eZSys::instance();
+        $instance = eZSys::instance();
         $argumentText = '';
         foreach ( $argumentElements as $element )
         {
@@ -431,50 +401,38 @@ class eZSys
      \static
      \return the backup filename for this platform, returns .bak for win32 and ~ for unix and mac.
     */
-    function backupFilename()
+    static function backupFilename()
     {
-        if ( isset( $this ) and get_class( $this ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance =& eZSys::instance();
-        return $instance->BackupFilename;
+        return eZSys::instance()->BackupFilename;
     }
 
     /*!
      Returns the string which is used for line separators on the current OS (server).
      \static
     */
-    function lineSeparator()
+    static function lineSeparator()
     {
-        if ( isset( $this ) and get_class( $this ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance =& eZSys::instance();
-        return $instance->LineSeparator;
+        return eZSys::instance()->LineSeparator;
     }
 
     /*!
      Returns the string which is used for enviroment separators on the current OS (server).
      \static
     */
-    function envSeparator()
+    static function envSeparator()
     {
-        if ( isset( $this ) and get_class( $this ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance =& eZSys::instance();
-        return $instance->EnvSeparator;
+        return eZSys::instance()->EnvSeparator;
     }
 
     /*!
      \static
      \return the directory used for storing various kinds of files like cache, temporary files and logs.
     */
-    function varDirectory()
+    static function varDirectory()
     {
-        include_once( 'lib/ezutils/classes/ezini.php' );
-        $ini =& eZINI::instance();
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        //include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini = eZINI::instance();
+        //include_once( 'lib/ezfile/classes/ezdir.php' );
         return eZDir::path( array( $ini->variable( 'FileSettings', 'VarDir' ) ) );
     }
 
@@ -483,11 +441,11 @@ class eZSys
      \ return the directory used for storing various kinds of files like images, audio and more.
      \Note This will include the varDirectory().
     */
-    function storageDirectory()
+    static function storageDirectory()
     {
-        include_once( 'lib/ezutils/classes/ezini.php' );
-        include_once( 'lib/ezfile/classes/ezdir.php' );
-        $ini =& eZINI::instance();
+        //include_once( 'lib/ezutils/classes/ezini.php' );
+        //include_once( 'lib/ezfile/classes/ezdir.php' );
+        $ini = eZINI::instance();
         $varDir = eZSys::varDirectory();
         $storageDir = $ini->variable( 'FileSettings', 'StorageDir' );
         return eZDir::path( array( $varDir, $storageDir ) );
@@ -498,13 +456,13 @@ class eZSys
      \return the directory used for storing cache files.
      \note This will include the varDirectory().
     */
-    function cacheDirectory()
+    static function cacheDirectory()
     {
-        include_once( 'lib/ezutils/classes/ezini.php' );
-        $ini =& eZINI::instance();
+        //include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini = eZINI::instance();
         $cacheDir = $ini->variable( 'FileSettings', 'CacheDir' );
 
-        include_once( 'lib/ezfile/classes/ezdir.php' );
+        //include_once( 'lib/ezfile/classes/ezdir.php' );
         if ( $cacheDir[0] == "/" )
         {
             return eZDir::path( array( $cacheDir ) );
@@ -519,12 +477,9 @@ class eZSys
      The absolute path to the root directory.
      \static
     */
-    function rootDir()
+    static function rootDir()
     {
-        if ( isset( $this ) and get_class( $this ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance =& eZSys::instance();
+        $instance = eZSys::instance();
         if ( !$instance->RootDir )
         {
             $cwd  = getcwd();
@@ -546,12 +501,12 @@ class eZSys
      The path to where all the code resides.
      \static
     */
-    function &siteDir()
+    static function siteDir()
     {
-        if ( isset( $this ) and get_class( $this ) == "ezsys" )
-            $instance =& $this;
+        if ( isset( $this ) and strtolower( get_class( $this ) ) == "ezsys" )
+            $instance = $this;
         else
-            $instance =& eZSys::instance();
+            $instance = eZSys::instance();
         return $instance->SiteDir;
     }
 
@@ -559,12 +514,12 @@ class eZSys
      The relative directory path of the vhless setup.
      \static
     */
-    function &wwwDir()
+    static function wwwDir()
     {
-        if ( isset( $this ) and get_class( $this ) == "ezsys" )
-            $instance =& $this;
+        if ( isset( $this ) and strtolower( get_class( $this ) ) == "ezsys" )
+            $instance = $this;
         else
-            $instance =& eZSys::instance();
+            $instance = eZSys::instance();
         return $instance->WWWDir;
     }
 
@@ -572,12 +527,12 @@ class eZSys
      The filepath for the index file.
      \static
     */
-    function &indexDir( $withAccessList = true )
+    static function indexDir( $withAccessList = true )
     {
-        if ( isset( $this ) and get_class( $this ) == "ezsys" )
-            $instance =& $this;
+        if ( isset( $this ) and strtolower( get_class( $this ) ) == "ezsys" )
+            $instance = $this;
         else
-            $instance =& eZSys::instance();
+            $instance = eZSys::instance();
 
         $indexDir = $instance->wwwDir() . $instance->indexFile( $withAccessList );
         return $indexDir;
@@ -588,15 +543,12 @@ class eZSys
      \static
      \sa indexFileName
     */
-    function &indexFile( $withAccessList = true )
+    static function indexFile( $withAccessList = true )
     {
-        if ( isset( $this ) and get_class( $this ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance =& eZSys::instance();
+        $instance = eZSys::instance();
         $text = $instance->IndexFile;
 
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         if ( $ini->variable( 'SiteAccessSettings', 'RemoveSiteAccessIfDefaultAccess' ) == 'enabled' )
         {
             $defaultAccess = $ini->variable( 'SiteSettings', 'DefaultAccess' );
@@ -613,7 +565,7 @@ class eZSys
         {
             $accessPath = implode( '/', $instance->AccessPath );
 
-            include_once( 'access.php' );
+            require_once( 'access.php' );
             if ( isset( $GLOBALS['eZCurrentAccess'] ) &&
                  isset( $GLOBALS['eZCurrentAccess']['type'] ) &&
                  $GLOBALS['eZCurrentAccess']['type'] == EZ_ACCESS_TYPE_URI &&
@@ -632,20 +584,16 @@ class eZSys
      The filepath for the index file.
      \static
     */
-    function indexFileName()
+    static function indexFileName()
     {
-        if ( isset( $this ) and get_class( $this ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance =& eZSys::instance();
-        return $instance->IndexFile;
+        return eZSys::instance()->IndexFile;
     }
 
     /*!
      Returns the current hostname.
      \static
     */
-    function &hostname()
+    static function hostname()
     {
         $retVal = eZSys::serverVariable( 'HTTP_HOST' );
         return  $retVal;
@@ -656,12 +604,12 @@ class eZSys
      \return true if current access mode is HTTPS.
      \static
     */
-    function isSSLNow()
+    static function isSSLNow()
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $sslPort = $ini->variable( 'SiteSettings', 'SSLPort' );
         if ( !$sslPort )
-            $sslPort = EZSSLZONE_DEFAULT_SSL_PORT;
+            $sslPort = eZSSLZone::DEFAULT_SSL_PORT;
         // $nowSSl is true if current access mode is HTTPS.
         $nowSSL = ( eZSys::serverPort() == $sslPort );
 
@@ -677,7 +625,7 @@ class eZSys
     /*!
      \static
     */
-    function serverProtocol()
+    static function serverProtocol()
     {
         if ( eZSys::isSSLNow() )
             return 'https';
@@ -689,7 +637,7 @@ class eZSys
      Returns the server URL. (protocol with hostname and port)
      \static
     */
-    function serverURL()
+    static function serverURL()
     {
         $host = eZSys::hostname();
         $url = '';
@@ -700,10 +648,10 @@ class eZSys
                 // https case
                 $host = preg_replace( '/:\d+$/', '', $host );
 
-                $ini =& eZINI::instance();
+                $ini = eZINI::instance();
                 $sslPort = $ini->variable( 'SiteSettings', 'SSLPort' );
 
-                $sslPortString = ( $sslPort == EZSSLZONE_DEFAULT_SSL_PORT ) ? '' : ":$sslPort";
+                $sslPortString = ( $sslPort == eZSSLZone::DEFAULT_SSL_PORT ) ? '' : ":$sslPort";
                 $url = "https://" . $host  . $sslPortString;
             }
             else
@@ -717,10 +665,9 @@ class eZSys
       \static
       \return the port of the server.
     */
-    function serverPort()
+    static function serverPort()
     {
-        $port =& $GLOBALS['eZSysServerPort'];
-        if ( !isset( $port ) )
+        if ( empty( $GLOBALS['eZSysServerPort'] ) )
         {
             $hostname = eZSys::hostname();
             if ( preg_match( "/.*:([0-9]+)/", $hostname, $regs ) )
@@ -731,30 +678,32 @@ class eZSys
             {
                 $port = eZSys::serverVariable( 'SERVER_PORT' );
             }
+            $GLOBALS['eZSysServerPort'] = $port;
         }
-        return $port;
+        return $GLOBALS['eZSysServerPort'];
     }
 
     /*!
      Returns true if magick quotes is enabled.
      \static
     */
-    function &magickQuotes()
+    static function magickQuotes()
     {
-        $retValue = null;
-        return $retValue;
+        return null;
     }
 
     /*!
      \return the variable named \a $variableName in the global \c $_SERVER variable.
              If the variable is not present an error is shown and \c null is returned.
     */
-    function &serverVariable( $variableName, $quiet = false )
+    static static function &serverVariable( $variableName, $quiet = false )
     {
         if ( !isset( $_SERVER[$variableName] ) )
         {
             if ( !$quiet )
+            {
                 eZDebug::writeError( "Server variable '$variableName' does not exist", 'eZSys::serverVariable' );
+            }
             $retVal = null;
             return $retVal;
         }
@@ -765,7 +714,7 @@ class eZSys
      Sets the server variable named \a $variableName to \a $variableValue.
      \note Variables are only set for the current page view.
     */
-    function setServerVariable( $variableName, $variableValue )
+    static function setServerVariable( $variableName, $variableValue )
     {
         $_SERVER;
         $_SERVER[$variableName] = $variableValue;
@@ -774,7 +723,7 @@ class eZSys
     /*!
      \return the path string for the server.
     */
-    function path( $quiet = false )
+    static function path( $quiet = false )
     {
         return eZSys::serverVariable( 'PATH', $quiet );
     }
@@ -783,13 +732,15 @@ class eZSys
      \return the variable named \a $variableName in the global \c $_ENV variable.
              If the variable is not present an error is shown and \c null is returned.
     */
-    function &environmentVariable( $variableName, $quiet = false )
+    static function &environmentVariable( $variableName, $quiet = false )
     {
         $_ENV;
         if ( !isset( $_ENV[$variableName] ) )
         {
             if ( !$quiet )
+            {
                 eZDebug::writeError( "Environment variable '$variableName' does not exist", 'eZSys::environmentVariable' );
+            }
             $retValue = null;
             return $retValue;
         }
@@ -800,7 +751,7 @@ class eZSys
      Sets the environment variable named \a $variableName to \a $variableValue.
      \note Variables are only set for the current page view.
     */
-    function setEnvironmentVariable( $variableName, $variableValue )
+    static function setEnvironmentVariable( $variableName, $variableValue )
     {
         $_ENV;
         $_ENV[$variableName] = $variableValue;
@@ -828,12 +779,11 @@ class eZSys
     /*!
      Returns the attribute value for $attr or null if the attribute does not exist.
     */
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         if ( isset( $this->Attributes[$attr] ) )
         {
-            $mname = $attr;
-            return $this->$mname();
+            return $this->$attr();
         }
         else if ( $attr == 'wwwdir' )
         {
@@ -849,15 +799,11 @@ class eZSys
         }
         else if ( $attr == 'indexdir' )
         {
-            $retVal = $this->indexDir();
-            return $retVal;
+            return $this->indexDir();
         }
-        else
-        {
-            eZDebug::writeError( "Attribute '$attr' does not exist", 'eZSys::attribute' );
-            $retValue = null;
-            return $retValue;
-        }
+
+        eZDebug::writeError( "Attribute '$attr' does not exist", 'eZSys::attribute' );
+        return null;
     }
 
     /*!
@@ -865,12 +811,9 @@ class eZSys
      Sets the access path which is appended to the index file.
      \sa indexFile
     */
-    function addAccessPath( $path )
+    static function addAccessPath( $path )
     {
-        if ( isset( $this ) and get_class( $this ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance =& eZSys::instance();
+        $instance = eZSys::instance();
         if ( !is_array( $path ) )
             $path = array( $path );
         $instance->AccessPath = array_merge( $instance->AccessPath, $path );
@@ -880,13 +823,9 @@ class eZSys
      \static
      Empties the access path.
     */
-    function clearAccessPath()
+    static function clearAccessPath()
     {
-        if ( isset( $this ) and get_class( $this ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance =& eZSys::instance();
-        $instance->AccessPath = array();
+        eZSys::instance()->AccessPath = array();
     }
 
     /*!
@@ -895,10 +834,10 @@ class eZSys
      which server variables are read.
       Set the option with setIsDebugEnabled().
     */
-    function isDebugEnabled()
+    static function isDebugEnabled()
     {
         if ( !isset( $GLOBALS['eZSysDebugInternalsEnabled'] ) )
-             $GLOBALS['eZSysDebugInternalsEnabled'] = EZ_SYS_DEBUG_INTERNALS;
+             $GLOBALS['eZSysDebugInternalsEnabled'] = eZSys::DEBUG_INTERNALS;
         return $GLOBALS['eZSysDebugInternalsEnabled'];
     }
 
@@ -906,7 +845,7 @@ class eZSys
      \static
      Sets whether internal debugging is enabled or not.
     */
-    function setIsDebugEnabled( $debug )
+    static function setIsDebugEnabled( $debug )
     {
         $GLOBALS['eZSysDebugInternalsEnabled'] = $debug;
     }
@@ -917,14 +856,11 @@ class eZSys
      stated in the parameter list.
      \static
     */
-    function init( $def_index = "index.php", $force_VirtualHost = false )
+    static function init( $def_index = "index.php", $force_VirtualHost = false )
     {
         $isCGI = ( substr( php_sapi_name(), 0, 3 ) == 'cgi' );
 
-        if ( isset( $this ) and get_class( $this ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance =& eZSys::instance();
+        $instance = eZSys::instance();
 
         if ( eZSys::isDebugEnabled() )
         {
@@ -1020,7 +956,9 @@ class eZSys
             else
             {
                 if ( eZSys::isDebugEnabled() )
+                {
                     eZDebug::writeNotice( "$wwwDir$index", '$wwwDir$index' );
+                }
                 // Get the right $_SERVER['REQUEST_URI'], when using nVH setup.
                 if ( ereg( "^$wwwDir$index(.*)", $phpSelf, $req ) )
                 {
@@ -1082,9 +1020,9 @@ class eZSys
         }
 
         $instance->AccessPath = array();
-        $instance->SiteDir =& $siteDir;
-        $instance->WWWDir =& $wwwDir;
-        $instance->IndexFile =& $index;
+        $instance->SiteDir = $siteDir;
+        $instance->WWWDir = $wwwDir;
+        $instance->IndexFile = $index;
         $instance->RequestURI = $requestURI;
 
         if ( eZSys::isDebugEnabled() )
@@ -1100,45 +1038,32 @@ class eZSys
     /*!
      \return the URI used for parsing modules, views and parameters, may differ from $_SERVER['REQUEST_URI'].
     */
-    function requestURI()
+    static function requestURI()
     {
-        if ( isset( $this ) and get_class( $this ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance =& eZSys::instance();
-        return $instance->RequestURI;
-    }
-
-    /*!
-     Initializes some variables which are read from site.ini
-     \warning Do not call this before init()
-    */
-    function initIni( &$ini )
-    {
+        return eZSys::instance()->RequestURI;
     }
 
     /*!
      Returns the only legal instance of the eZSys class.
      \static
     */
-    function &instance()
+    static function instance()
     {
-        $instance =& $GLOBALS["eZSysInstance"];
-        if ( get_class( $instance ) != "ezsys" )
+        if ( empty( $GLOBALS['eZSysInstance'] ) )
         {
-            $instance = new eZSys();
+            $GLOBALS['eZSysInstance'] = new eZSys();
         }
-        return $instance;
+        return $GLOBALS['eZSysInstance'];
     }
 
     /*!
      A wrapper for php's crc32 function.
      \return the crc32 polynomial as unsigned int
     */
-    function ezcrc32( $string )
+    static function ezcrc32( $string )
     {
-        include_once( 'lib/ezutils/classes/ezini.php' );
-        $ini =& eZINI::instance();
+        //include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini = eZINI::instance();
 
         if ( $ini->variable( 'SiteSettings', '64bitCompatibilityMode' ) === 'enabled' )
             $checksum = sprintf( '%u', crc32( $string ) );
@@ -1149,28 +1074,28 @@ class eZSys
     }
 
     /// The line separator used in files
-    var $LineSeparator;
+    public $LineSeparator;
     /// The directory separator used for files
-    var $FileSeparator;
+    public $FileSeparator;
     /// The list separator used for env variables
-    var $EnvSeparator;
+    public $EnvSeparator;
     /// The absolute path to the root directory.
-    var $RootDir;
+    public $RootDir;
     /// The path to where all the code resides
-    var $SiteDir;
+    public $SiteDir;
     /// The access path of the current site view
-    var $AccessPath;
+    public $AccessPath;
     /// The relative directory path of the vhless setup
-    var $WWWDir;
+    public $WWWDir;
     /// The filepath for the index
-    var $IndexFile;
+    public $IndexFile;
     /// The uri which is used for parsing module/view information from, may differ from $_SERVER['REQUEST_URI']
-    var $RequestURI;
+    public $RequestURI;
     /// The type of filesystem, is either win32 or unix. This often used to determine os specific paths.
-    var $FileSystemType;
+    public $FileSystemType;
     /// The character to be used in shell escaping, this character is OS specific
-    var $ShellEscapeCharacter;
-    var $OSType;
+    public $ShellEscapeCharacter;
+    public $OSType;
 }
 
 ?>

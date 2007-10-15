@@ -29,33 +29,33 @@
 /*! \file removenode.php
 */
 
-include_once( 'lib/ezutils/classes/ezhttptool.php' );
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/common/i18n.php' );
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/ezcontentobjectversion.php' );
-include_once( 'kernel/classes/ezcontentobjectattribute.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'lib/ezutils/classes/ezhttptool.php' );
+require_once( 'kernel/common/template.php' );
+require_once( 'kernel/common/i18n.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'kernel/classes/ezcontentobjectversion.php' );
+//include_once( 'kernel/classes/ezcontentobjectattribute.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $ObjectID = $Params['ObjectID'];
 
 $NodeID = $Params['NodeID'];
 if ( !isset( $EditVersion ) )
-    $EditVersion =& $Params['EditVersion'];
+    $EditVersion = $Params['EditVersion'];
 
-$object =& eZContentObject::fetch( $ObjectID );
+$object = eZContentObject::fetch( $ObjectID );
 if ( $object === null )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
 if ( !$object->attribute( 'can_remove' ) )
-    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
-$version =& $object->version( $EditVersion );
+$version = $object->version( $EditVersion );
 $node = eZContentObjectTreeNode::fetchNode( $ObjectID, $NodeID );
 if ( $node !== null )
     $ChildObjectsCount = $node->subTreeCount();
@@ -89,7 +89,7 @@ $tpl->setVariable( 'ChildObjectsCount', $ChildObjectsCount );
 $tpl->setVariable( 'node', $node );
 
 
-$Result['content'] =& $tpl->fetch( 'design:node/removenode.tpl' );
+$Result['content'] = $tpl->fetch( 'design:node/removenode.tpl' );
 
 $Result['path'] = array( array( 'text' => $object->attribute( 'name' ),
                                 'url' => false ) );

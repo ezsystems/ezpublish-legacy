@@ -37,20 +37,20 @@
 
 */
 
-include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( 'kernel/classes/ezcontentobjectversion.php' );
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'kernel/classes/eznodeassignment.php' );
+//include_once( 'kernel/classes/ezcontentobject.php' );
+//include_once( 'kernel/classes/ezcontentobjectversion.php' );
+//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+//include_once( 'kernel/classes/eznodeassignment.php' );
 
 class eZContentObjectAssignmentHandler
 {
     /*!
      Constructor
     */
-    function eZContentObjectAssignmentHandler( &$contentObject, &$contentVersion )
+    function eZContentObjectAssignmentHandler( $contentObject, $contentVersion )
     {
-        $this->CurrentObject =& $contentObject;
-        $this->CurrentVersion =& $contentVersion;
+        $this->CurrentObject = $contentObject;
+        $this->CurrentVersion = $contentVersion;
     }
 
     function nodeIDList( $selectionText )
@@ -82,7 +82,7 @@ class eZContentObjectAssignmentHandler
                 $nodeID = $node['node_id'];
             return $nodeID;
         }
-        $contentINI =& eZINI::instance( 'content.ini' );
+        $contentINI = eZINI::instance( 'content.ini' );
         switch ( $name )
         {
             case 'root':
@@ -121,14 +121,14 @@ class eZContentObjectAssignmentHandler
              !$parameters['default-variable-name'] and
              !$parameters['specific-variable-name'] )
              return false;
-        $contentINI =& eZINI::instance( 'content.ini' );
+        $contentINI = eZINI::instance( 'content.ini' );
         $defaultAssignment = $contentINI->variable( $parameters['group-name'], $parameters['default-variable-name'] );
         $specificAssignments = $contentINI->variable( $parameters['group-name'], $parameters['specific-variable-name'] );
         $hasAssignment = false;
         $assignments = false;
         $sectionIDWanted = $parameters['section-id-wanted'];
         $sectionID = 0;
-        $contentClass =& $this->CurrentObject->attribute( 'content_class' );
+        $contentClass = $this->CurrentObject->attribute( 'content_class' );
         $contentClassIdentifier = $contentClass->attribute( 'identifier' );
         $contentClassID = $contentClass->attribute( 'id' );
         foreach ( $specificAssignments as $specificAssignment )
@@ -189,7 +189,7 @@ class eZContentObjectAssignmentHandler
                 $node = eZContentObjectTreeNode::fetch( $nodeID );
                 if ( !$node )
                     continue;
-                $parentContentObject =& $node->attribute( 'object' );
+                $parentContentObject = $node->attribute( 'object' );
 
                 eZDebug::writeDebug( "Checking for '$nodeID'" );
                 if ( $parentContentObject->checkAccess( 'create',
@@ -208,7 +208,7 @@ class eZContentObjectAssignmentHandler
                      * to assign a newly created object to. */
                     if ( $sectionIDWanted and $isMain )
                     {
-                        $db =& eZDB::instance();
+                        $db = eZDB::instance();
                         $query = "SELECT section_id
                                   FROM ezcontentobject c, ezcontentobject_tree t
                                   WHERE t.node_id = 109
@@ -242,8 +242,8 @@ class eZContentObjectAssignmentHandler
     }
 
     /// \privatesection
-    var $CurrentObject;
-    var $ContentVersion;
+    public $CurrentObject;
+    public $ContentVersion;
 }
 
 ?>

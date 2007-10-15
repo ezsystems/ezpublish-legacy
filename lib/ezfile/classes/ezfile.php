@@ -38,18 +38,11 @@
 
 */
 
-include_once( "lib/ezutils/classes/ezdebug.php" );
-include_once( 'lib/ezfile/classes/ezdir.php' );
+require_once( "lib/ezutils/classes/ezdebug.php" );
+//include_once( 'lib/ezfile/classes/ezdir.php' );
 
 class eZFile
 {
-    /*!
-     Constructor
-    */
-    function eZFile()
-    {
-    }
-
     /*!
      \static
      Reads the whole contents of the file \a $file and
@@ -57,7 +50,7 @@ class eZFile
      It will handle Unix (\n), Windows (\r\n) and Mac (\r) style newlines.
      \note The newline character(s) are not present in the line string.
     */
-    function splitLines( $file )
+    static function splitLines( $file )
     {
         $fp = @fopen( $file, "rb" );
         if ( !$fp )
@@ -77,7 +70,7 @@ class eZFile
 
      \param $atomic If true the file contents will be written to a temporary file and renamed to the correct file.
     */
-    function create( $filename, $directory = false, $data = false, $atomic = false )
+    static function create( $filename, $directory = false, $data = false, $atomic = false )
     {
         $filepath = $filename;
         if ( $directory )
@@ -126,7 +119,7 @@ class eZFile
 
      \return file contents, false if error
     */
-    function getContents( $filename )
+    static function getContents( $filename )
     {
         if ( function_exists( 'file_get_contents' ) )
         {
@@ -152,9 +145,10 @@ class eZFile
      \param filename
      \return suffix, extends: file/to/readme.txt return txt
     */
-    function suffix( $filename )
+    static function suffix( $filename )
     {
-        return array_pop( explode( '.', $filename) );
+        $parts = explode( '.', $filename);
+        return array_pop( $parts );
     }
 
     /*!
@@ -163,9 +157,9 @@ class eZFile
 
     \return TRUE/FALSE
     */
-    function isWriteable( $filename )
+    static function isWriteable( $filename )
     {
-        include_once( 'lib/ezutils/classes/ezsys.php' );
+        //include_once( 'lib/ezutils/classes/ezsys.php' );
 
         if ( eZSys::osType() != 'win32' )
             return is_writable( $filename );
@@ -191,7 +185,7 @@ class eZFile
 
     \return rename status. ( true if successful, false if not )
     */
-    function rename( $srcFile, $destFile )
+    static function rename( $srcFile, $destFile )
     {
         /* On windows we need to unlink the destination file first */
         if ( strtolower( substr( PHP_OS, 0, 3 ) ) == 'win' )
@@ -210,11 +204,11 @@ class eZFile
 
      \return false if error
     */
-    function download( $file, $isAttachedDownload = true, $overrideFilename = false )
+    static function download( $file, $isAttachedDownload = true, $overrideFilename = false )
     {
         if ( file_exists( $file ) )
         {
-            include_once( 'lib/ezutils/classes/ezmimetype.php' );
+            //include_once( 'lib/ezutils/classes/ezmimetype.php' );
             $mimeinfo = eZMimeType::findByURL( $file );
 
             ob_clean();
@@ -245,7 +239,7 @@ class eZFile
 
             @readfile( $file );
 
-            include_once( 'lib/ezutils/classes/ezexecution.php' );
+            require_once( 'lib/ezutils/classes/ezexecution.php' );
             eZExecution::cleanExit();
         }
         else

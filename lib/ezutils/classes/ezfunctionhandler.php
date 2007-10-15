@@ -37,40 +37,36 @@
 
 */
 
-include_once( 'lib/ezutils/classes/ezmodulefunctioninfo.php' );
+//include_once( 'lib/ezutils/classes/ezmodulefunctioninfo.php' );
 
 class eZFunctionHandler
 {
-    /*!
-     Constructor
-    */
-    function eZFunctionHandler()
+    static function moduleFunctionInfo( $moduleName )
     {
-    }
-
-    function &moduleFunctionInfo( $moduleName )
-    {
-        $globalModuleFunctionList =& $GLOBALS['eZGlobalModuleFunctionList'];
-        if ( !isset( $globalModuleFunctionList ) )
-            $globalModuleFunctionList = array();
-        if ( isset( $globalModuleFunctionList[$moduleName] ) )
-            return $globalModuleFunctionList[$moduleName];
+        if ( !isset( $GLOBALS['eZGlobalModuleFunctionList'] ) )
+        {
+            $GLOBALS['eZGlobalModuleFunctionList'] = array();
+        }
+        if ( isset( $GLOBALS['eZGlobalModuleFunctionList'][$moduleName] ) )
+        {
+            return $GLOBALS['eZGlobalModuleFunctionList'][$moduleName];
+        }
         $moduleFunctionInfo = new eZModuleFunctionInfo( $moduleName );
         $moduleFunctionInfo->loadDefinition();
-        $globalModuleFunctionList[$moduleName] =& $moduleFunctionInfo;
-        return $moduleFunctionInfo;
+
+        return $GLOBALS['eZGlobalModuleFunctionList'][$moduleName] = $moduleFunctionInfo;
     }
 
     /*!
      \static
      Execute alias fetch for simplified fetching of objects
     */
-    function executeAlias( $aliasFunctionName, $functionParameters )
+    static function executeAlias( $aliasFunctionName, $functionParameters )
     {
-        $aliasSettings =& eZINI::instance( 'fetchalias.ini' );
+        $aliasSettings = eZINI::instance( 'fetchalias.ini' );
         if ( $aliasSettings->hasSection( $aliasFunctionName ) )
         {
-            $moduleFunctionInfo =& eZFunctionHandler::moduleFunctionInfo( $aliasSettings->variable( $aliasFunctionName, 'Module' ) );
+            $moduleFunctionInfo = eZFunctionHandler::moduleFunctionInfo( $aliasSettings->variable( $aliasFunctionName, 'Module' ) );
             if ( !$moduleFunctionInfo->isValid() )
             {
                 eZDebug::writeError( "Cannot execute function '$aliasFunctionName' in module '$moduleName', no valid data",
@@ -165,9 +161,9 @@ class eZFunctionHandler
                                'eZFunctionHandler::executeAlias' );
     }
 
-    function execute( $moduleName, $functionName, $functionParameters )
+    static function execute( $moduleName, $functionName, $functionParameters )
     {
-        $moduleFunctionInfo =& eZFunctionHandler::moduleFunctionInfo( $moduleName );
+        $moduleFunctionInfo = eZFunctionHandler::moduleFunctionInfo( $moduleName );
         if ( !$moduleFunctionInfo->isValid() )
         {
             eZDebug::writeError( "Cannot execute function '$functionName' in module '$moduleName', no valid data",

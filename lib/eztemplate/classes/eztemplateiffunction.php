@@ -54,16 +54,17 @@
 \endcode
 */
 
-define ( 'EZ_TEMPLATE_IF_FUNCTION_NAME', 'if' );
 class eZTemplateIfFunction
 {
+    const FUNCTION_NAME = 'if';
+
     /*!
      * Returns an array of the function names, required for eZTemplate::registerFunctions.
      */
     function &functionList()
     {
         //eZDebug::writeDebug( "if::functionList()" );
-        $functionList = array( EZ_TEMPLATE_IF_FUNCTION_NAME );
+        $functionList = array( eZTemplateIfFunction::FUNCTION_NAME );
         return $functionList;
     }
 
@@ -84,7 +85,7 @@ class eZTemplateIfFunction
      */
     function functionTemplateHints()
     {
-        return array( EZ_TEMPLATE_IF_FUNCTION_NAME => array( 'parameters' => true,
+        return array( eZTemplateIfFunction::FUNCTION_NAME => array( 'parameters' => true,
                                                              'static' => false,
                                                              'transform-parameters' => true,
                                                              'tree-transformation' => true ) );
@@ -94,7 +95,7 @@ class eZTemplateIfFunction
      * Compiles the function and its children into PHP code.
      */
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, $parameters, $privateData )
+                                         $tpl, $parameters, $privateData )
     {
         $tpl->ElseifCounter++;
         $newNodes       = array();
@@ -116,7 +117,7 @@ class eZTemplateIfFunction
             {
                 $child =& $children[$childKey];
 
-                if ( $child[0] == EZ_TEMPLATE_NODE_FUNCTION )
+                if ( $child[0] == eZTemplate::NODE_FUNCTION )
                 {
                     $childFunctionName =& $child[2];
                     $childChildren     = eZTemplateNodeTool::extractFunctionNodeChildren( $child );
@@ -170,7 +171,7 @@ class eZTemplateIfFunction
     /*!
      * Actually executes the function and its children (in processed mode).
      */
-    function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
+    function process( $tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
         if ( count( $functionParameters ) == 0 || !count( $functionParameters['condition'] ) )
         {
@@ -193,7 +194,7 @@ class eZTemplateIfFunction
             $childType = $child[0];
 
             // parse 'elseif', 'else' functions
-            if ( $childType == EZ_TEMPLATE_NODE_FUNCTION )
+            if ( $childType == eZTemplate::NODE_FUNCTION )
             {
                 $childFunctionName      =& $child[2];
                 $childFunctionArgs      =& $child[3];

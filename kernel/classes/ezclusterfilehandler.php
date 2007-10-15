@@ -38,7 +38,7 @@ class eZClusterFileHandler
      * \static
      * \return filehandler
      */
-    function instance( $filename = false )
+    static function instance( $filename = false )
     {
         // Determine handler to use and cache its name in a global variable.
         if ( !isset( $GLOBALS['eZClusterFileHandler_chosen_handler_class'] ) )
@@ -100,7 +100,7 @@ class eZClusterFileHandler
      * \static
      * \return list of directories used to search cluster file handlers for.
      */
-    function searchPathArray()
+    static function searchPathArray()
     {
         if ( !isset( $GLOBALS['eZClusterFileHandler_search_path_array'] ) )
         {

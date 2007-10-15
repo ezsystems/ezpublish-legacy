@@ -31,8 +31,8 @@
 /*! \file ezstep_email_settings.php
 */
 
-include_once( 'kernel/setup/steps/ezstep_installer.php');
-include_once( 'kernel/common/i18n.php' );
+//include_once( 'kernel/setup/steps/ezstep_installer.php');
+require_once( 'kernel/common/i18n.php' );
 
 /*!
   \class eZStepEmailSettings ezstep_email_settings.php
@@ -46,7 +46,7 @@ class eZStepEmailSettings extends eZStepInstaller
      Constructor
      \reimp
     */
-    function eZStepEmailSettings(&$tpl, &$http, &$ini, &$persistenceList )
+    function eZStepEmailSettings( $tpl, $http, $ini, &$persistenceList )
     {
         $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
                                 'email_settings', 'Email settings' );
@@ -102,7 +102,7 @@ class eZStepEmailSettings extends eZStepInstaller
     /*!
      \reimp
      */
-    function &display()
+    function display()
     {
         $emailInfo = array( 'type' => 1,
                             'server' => false,

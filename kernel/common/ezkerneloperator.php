@@ -33,7 +33,7 @@
 
 /*!
   \class eZKerneloperator ezkerneloperator.php
-  \brief The class eZKerneloperator does handles eZ Publish preferences
+  \brief The class eZKernelOperator does handles eZ Publish preferences
 
 */
 class eZKernelOperator
@@ -49,7 +49,7 @@ class eZKernelOperator
     /*!
       Returns the template operators.
     */
-    function &operatorList()
+    function operatorList()
     {
         return $this->Operators;
     }
@@ -83,8 +83,8 @@ class eZKernelOperator
                                                'element-transformation-func' => 'preferencesTransformation') );
     }
 
-    function preferencesTransformation( $operatorName, &$node, &$tpl, &$resourceData,
-                                        &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    function preferencesTransformation( $operatorName, &$node, $tpl, &$resourceData,
+                                        $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         if ( count( $parameters[0] ) == 0 )
             return false;
@@ -99,18 +99,18 @@ class eZKernelOperator
             $nameText = '%1%';
             $values[] = $parameters[0];
         }
-        return array( eZTemplateNodeTool::createCodePieceElement( "include_once( 'kernel/classes/ezpreferences.php' );\n" .
+        return array( eZTemplateNodeTool::createCodePieceElement( "//include_once( 'kernel/classes/ezpreferences.php' );\n" .
                                                                   "%output% = eZPreferences::value( $nameText );\n",
                                                                   $values ) );
     }
 
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
         switch ( $operatorName )
         {
             case 'ezpreference':
             {
-                include_once( 'kernel/classes/ezpreferences.php' );
+                //include_once( 'kernel/classes/ezpreferences.php' );
                 $name = $namedParameters['name'];
                 $value = eZPreferences::value( $name );
                 $operatorValue = $value;
@@ -122,6 +122,6 @@ class eZKernelOperator
             }break;
         }
     }
-    var $Operators;
+    public $Operators;
 }
 ?>

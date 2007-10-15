@@ -36,7 +36,7 @@
   \brief The class eZNotificationSchedule does
 
 */
-include_once( "lib/ezlocale/classes/ezdate.php" );
+//include_once( "lib/ezlocale/classes/ezdate.php" );
 
 
 class eZNotificationSchedule
@@ -48,7 +48,7 @@ class eZNotificationSchedule
     {
     }
 
-    function setDateForItem( &$item, $settings )
+    function setDateForItem( $item, $settings )
     {
         if ( !is_array( $settings ) )
             return false;
@@ -109,7 +109,7 @@ class eZNotificationSchedule
             } break;
         }
 
-        $sendDate = mktime() + $secondsDiff;
+        $sendDate = time() + $secondsDiff;
         eZDebugSetting::writeDebug( 'kernel-notification', getdate( $sendDate ), "item date"  );
         $item->setAttribute( 'send_date', $sendDate );
         return $sendDate;
