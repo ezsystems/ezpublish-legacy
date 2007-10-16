@@ -34,5 +34,3 @@ Changes from 4.0.0alpha1 to 4.0.0alpha2
 - Fixed bug #11628: View Cache for related objects is not properly cleared.
   (Merged from trunk rev. 20489)
 - Fixed bug #11652: ezp4 content/treemenu not working
-- Fixed bug #11619: ezp4 update scripts not working
-- Fixed bug #11659: Declaration of eZNullDB::lastSerialID() should be compatible with that of eZDBInterface::lastSerialID()
