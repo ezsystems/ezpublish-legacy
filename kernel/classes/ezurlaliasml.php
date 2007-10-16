@@ -186,7 +186,7 @@ class eZURLAliasML extends eZPersistentObject
      \param $language ID or mask of languages
      \param $languageName Name of language(s), comma separated
      */
-    function create( $element, $action, $parentID, $language )
+    static function create( $element, $action, $parentID, $language )
     {
         $row = array( 'text'      => $element,
                       'text_md5'  => md5( eZURLALiasML::strtolower( $element ) ),
