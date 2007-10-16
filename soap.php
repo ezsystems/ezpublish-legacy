@@ -43,6 +43,7 @@ require_once( "lib/ezutils/classes/ezdebug.php" );
 //include_once( "lib/ezutils/classes/ezini.php" );
 //include_once( 'lib/ezutils/classes/ezsys.php' );
 require_once( 'lib/ezutils/classes/ezexecution.php' );
+require 'autoload.php';
 
 /*!
  Reads settings from site.ini and passes them to eZDebug.
