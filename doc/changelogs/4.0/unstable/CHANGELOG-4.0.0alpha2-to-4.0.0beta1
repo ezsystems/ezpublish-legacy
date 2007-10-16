@@ -6,4 +6,5 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #11566: ez4: webdav.php misses autoload
 - Fixed bug #11232: eZ Publish affected by microtime bug
 - Fixed bug #11672: Warnings in objectrelations datatype (strict warnings and undefined index)
-
+- Fixed bug #11665: Class and attribute names set to "always-available" when importing packages
+  (Merged from stable/3.10 (3.10.1) rev. 20511)

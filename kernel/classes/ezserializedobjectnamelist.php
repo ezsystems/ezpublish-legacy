@@ -582,7 +582,7 @@ class eZSerializedObjectNameList
     */
     function validate( $param = true )
     {
-        $languageMap = is_array( $param ) ? $param : array();
+        $languageMap = ( is_array( $param ) && (count( $param ) > 0) ) ? $param : false;
         $createLanguageIfNotExist = ( $param === true ) ? true : false;
         $nameList = $this->nameList();
         foreach ( $nameList as $nameLanguageLocale => $name )
@@ -597,11 +597,19 @@ class eZSerializedObjectNameList
                 }
                 else
                 {
-                    $languageLocale = isset( $languageMap[$nameLanguageLocale] ) ? $languageMap[$nameLanguageLocale] : false;
-
-                    if( $languageLocale && $languageLocale != 'skip' )
+                    if ( is_array( $languageMap ) )
                     {
-                        $language = eZContentLanguage::fetchByLocale( $languageLocale, true );
+                        $languageLocale = isset( $languageMap[$nameLanguageLocale] ) ? $languageMap[$nameLanguageLocale] : false;
+
+                        if( $languageLocale && $languageLocale != 'skip' )
+                        {
+                            $language = eZContentLanguage::fetchByLocale( $languageLocale, true );
+                        }
+                    }
+                    else
+                    {
+                        // just check '$nameLanguageLocale' language if '$languageMap' is not specified.
+                        $language = eZContentLanguage::fetchByLocale( $nameLanguageLocale, false );
                     }
                 }
 
