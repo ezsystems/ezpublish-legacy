@@ -1089,10 +1089,11 @@ class eZObjectRelationListType extends eZDataType
             $subObjectVersion = $relationItem['contentobject_version'];
 
             $attributeBase = $attributeDataBaseName . '_ezorl_edit_object_' . $subObjectID;
-            $object = $content['temp'][$subObjectID]['object'];
             if ( eZContentObject::recursionProtect( $subObjectID ) )
             {
-                if ( !$object )
+                if ( isset ( $conent['temp'] ) )
+                    $object = $content['temp'][$subObjectID]['object'];
+                else
                     $object = eZContentObject::fetch( $subObjectID );
                 if ( $object )
                     $object->handleAllCustomHTTPActions( $attributeBase,
@@ -1266,7 +1267,7 @@ class eZObjectRelationListType extends eZDataType
 
     function fixRelationsTrash ( $objectID, $contentObjectAttribute )
     {
-        $content =& $contentObjectAttribute->attribute( 'content' );
+        $content = $contentObjectAttribute->attribute( 'content' );
         foreach ( array_keys( $content['relation_list'] ) as $key )
         {
             if ( $content['relation_list'][$key]['contentobject_id'] == $objectID )
@@ -1283,7 +1284,7 @@ class eZObjectRelationListType extends eZDataType
 
     function fixRelationsRestore ( $objectID, $contentObjectAttribute )
     {
-        $content =& $contentObjectAttribute->content();
+        $content = $contentObjectAttribute->content();
 
         foreach ( array_keys( $content['relation_list'] ) as $key )
         {
@@ -1488,7 +1489,7 @@ class eZObjectRelationListType extends eZDataType
     }
 
     /*!
-     Returns the meta data used for storing search indeces.
+     Returns the meta data used for storing search indexes.
     */
     function metaData( $contentObjectAttribute )
     {
@@ -1500,8 +1501,9 @@ class eZObjectRelationListType extends eZDataType
             if ( !$subObjectID )
                 continue;
 
-            $attributes = $content['temp'][$subObjectID]['attributes'];
-            if ( !$attributes )
+            if ( isset( $content['temp'] ) )
+                $attributes = $content['temp'][$subObjectID]['attributes'];
+            else
             {
                 $subObjectVersion = $relationItem['contentobject_version'];
                 $object = eZContentObject::fetch( $subObjectID );

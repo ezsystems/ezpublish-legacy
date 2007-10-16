@@ -5,3 +5,5 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #11659: Declaration of eZNullDB::lastSerialID() should be compatible with that of eZDBInterface::lastSerialID()
 - Fixed bug #11566: ez4: webdav.php misses autoload
 - Fixed bug #11232: eZ Publish affected by microtime bug
+- Fixed bug #11672: Warnings in objectrelations datatype (strict warnings and undefined index)
+
