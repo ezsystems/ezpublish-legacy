@@ -56,7 +56,7 @@ if ($memLimit != '')
     }
 }
 
-$scriptStartTime = microtime();
+$scriptStartTime = microtime( true );
 ob_start();
 
 $use_external_css = true;

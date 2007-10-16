@@ -34,11 +34,6 @@
 
 */
 
-function make_seed() {
-    list($usec, $sec) = explode(' ', microtime());
-    return (float) $sec + ((float) $usec * 100000);
-}
-
 //include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
 //include_once( 'lib/ezi18n/classes/eztstranslator.php' );
 

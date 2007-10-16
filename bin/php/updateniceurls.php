@@ -125,14 +125,6 @@ $maxColumn = 72 - $percentLength - $timeLength;
 $totalChangedNodes = 0;
 $totalNodeCount = 0;
 
-
-function microtimeFloat()
-{
-    $mtime = microtime();
-    $tTime = explode( " ", $mtime );
-    return $tTime[1] + $tTime[0];
-}
-
 function displayProgress( $statusCharacter, $startTime, $currentCount, $totalCount, $currentColumn )
 {
     global $maxColumn;
@@ -143,7 +135,7 @@ function displayProgress( $statusCharacter, $startTime, $currentCount, $totalCou
 
     if ( $currentColumn > $maxColumn )
     {
-        $endTime = microtimeFloat();
+        $endTime = microtime( true );
         $relTime = ( $endTime - $startTime ) / $currentCount;
 #        $totalTime = ( $relTime * (float)$totalCount ) - ( $endTime - $startTime );
         $totalTime = ( $relTime * (float)($totalCount - $currentCount) );
@@ -358,7 +350,7 @@ if ( $urlCount > 0 )
     $urlCount = fetchHistoricURLCount();
     $cli->output( "Importing {$urlCount} " . $cli->stylize( 'emphasize', "standard urls" ) );
     $column = $counter = $offset = 0;
-    $urlImportStartTime = microtimeFloat();
+    $urlImportStartTime = microtime( true );
     do
     {
         list( $rows, $offset ) = fetchHistoricURLChunk( 0/*$offset*/, $fetchLimit );
@@ -382,7 +374,7 @@ if ( $urlCount > 0 )
     $urlCount = fetchHistoricRedirectionCount();
     $cli->output( "Importing {$urlCount} " . $cli->stylize( 'emphasize', "redirections" ) );
     $column = $counter = $offset = 0;
-    $urlImportStartTime = microtimeFloat();
+    $urlImportStartTime = microtime( true );
     do
     {
         list( $rows, $offset ) = fetchHistoricRedirectionChunk( 0, $fetchLimit );
@@ -434,7 +426,7 @@ if ( $urlCount > 0 )
     $urlCount = fetchHistoricWildcardCount();
     $cli->output( "Importing {$urlCount} " . $cli->stylize( 'emphasize', "wildcards" ) );
     $column = $counter = $offset = 0;
-    $urlImportStartTime = microtimeFloat();
+    $urlImportStartTime = microtime( true );
     do
     {
         list( $rows, $offset ) = fetchHistoricWildcardChunk( 0, $fetchLimit );
@@ -520,7 +512,7 @@ foreach ( array_keys( $topLevelNodesArray ) as $key )
                                                  'IgnoreVisibility' => true ) );
     $totalNodeCount += $nodeCount + 1;
     $cli->output( "Starting updates for " . $cli->stylize( 'mark', $rootNode->attribute( 'name' ) ) . ", $nodeCount nodes" );
-    $nodeStartTime = microtimeFloat();
+    $nodeStartTime = microtime( true );
     while ( !$done )
     {
         $nodeList = $rootNode->subTree( array( 'Offset' => $offset,

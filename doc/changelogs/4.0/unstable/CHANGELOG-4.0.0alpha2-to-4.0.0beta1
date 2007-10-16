@@ -4,3 +4,4 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #11619: ezp4 update scripts not working
 - Fixed bug #11659: Declaration of eZNullDB::lastSerialID() should be compatible with that of eZDBInterface::lastSerialID()
 - Fixed bug #11566: ez4: webdav.php misses autoload
+- Fixed bug #11232: eZ Publish affected by microtime bug

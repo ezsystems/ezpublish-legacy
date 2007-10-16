@@ -921,7 +921,7 @@ class eZDBFileHandlerMysqlBackend
     function _selectOne( $query, $fname, $error = false, $debug = false, $fetchCall )
     {
         eZDebug::accumulatorStart( 'mysql_cluster_query', 'mysql_cluster_total', 'Mysql_cluster_queries' );
-        $time = array_sum( split( " ", microtime() ) );
+        $time = microtime( true );
 
         $res = mysql_query( $query, $this->db );
         if ( !$res )
@@ -944,7 +944,7 @@ class eZDBFileHandlerMysqlBackend
         if ( $debug )
             $query = "SQL for _selectOneAssoc:\n" . $query . "\n\nRESULT:\n" . var_export( $row, true );
 
-        $time = array_sum( split( " ", microtime() ) ) - $time;
+        $time = microtime( true ) - $time;
         eZDebug::accumulatorStop( 'mysql_cluster_query' );
 
         $this->_report( $query, $fname, $time );
@@ -1232,7 +1232,7 @@ class eZDBFileHandlerMysqlBackend
     function _query( $query, $fname = false, $reportError = true )
     {
         eZDebug::accumulatorStart( 'mysql_cluster_query', 'mysql_cluster_total', 'Mysql_cluster_queries' );
-        $time = array_sum( split( " ", microtime() ) );
+        $time = microtime( true );
 
         $res = mysql_query( $query, $this->db );
         if ( !$res && $reportError )
@@ -1242,7 +1242,7 @@ class eZDBFileHandlerMysqlBackend
 
         $numRows = mysql_affected_rows( $this->db );
 
-        $time = array_sum( split( " ", microtime() ) ) - $time;
+        $time = microtime( true ) - $time;
         eZDebug::accumulatorStop( 'mysql_cluster_query' );
 
         $this->_report( $query, $fname, $time, $numRows );

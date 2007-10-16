@@ -364,7 +364,7 @@ class eZDBInterface
     */
     function startTimer()
     {
-        $this->StartTime = microtime();
+        $this->StartTime = microtime( true );
     }
 
     /*!
@@ -374,13 +374,9 @@ class eZDBInterface
     */
     function endTimer()
     {
-        $this->EndTime = microtime();
+        $this->EndTime = microtime( true );
         // Calculate time taken in ms
-        list($usec, $sec) = explode( " ", $this->StartTime );
-        $start_val = ((float)$usec + (float)$sec);
-        list($usec, $sec) = explode( " ", $this->EndTime );
-        $end_val = ((float)$usec + (float)$sec);
-        $this->TimeTaken = $end_val - $start_val;
+        $this->TimeTaken = $this->EndTime - $this->StartTime;
         $this->TimeTaken *= 1000.0;
     }
 

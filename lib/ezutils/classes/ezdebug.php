@@ -184,7 +184,7 @@ class eZDebug
         $this->OldHandler = false;
         $this->UseCSS = false;
         $this->MessageOutput = self::OUTPUT_MESSAGE_STORE;
-        $this->ScriptStart = eZDebug::timeToFloat( microtime() );
+        $this->ScriptStart = microtime( true );
         $this->TimeAccumulatorList = array();
         $this->TimeAccumulatorGroupList = array();
         $this->OverrideList = array();
@@ -664,7 +664,7 @@ class eZDebug
             return;
         $debug = eZDebug::instance();
 
-        $time = microtime();
+        $time = microtime( true );
         $usedMemory = 0;
         if ( function_exists( "memory_get_usage" ) )
             $usedMemory = memory_get_usage();
@@ -1242,15 +1242,14 @@ showDebug();
     }
 
     /*!
-     Sets the time of the start of the script ot \a $mtime.
-     If \a $mtime is not supplied it gets the current \c microtime().
+     Sets the time of the start of the script ot \a $time.
+     If \a $time is not supplied it gets the current \c microtime( true ).
      This is used to calculate total execution time and percentages.
     */
-    static function setScriptStart( $mtime = false )
+    static function setScriptStart( $time = false )
     {
-        if ( $mtime == false )
-            $mtime = microtime();
-        $time = eZDebug::timeToFloat( microtime() );
+        if ( $time == false )
+            $time = microtime( true );
         $debug = eZDebug::instance();
         $debug->ScriptStart = $time;
     }
@@ -1327,7 +1326,7 @@ showDebug();
             $debug->TimeAccumulatorList[$key]['recursive_counter'] = 0;
         }
 
-        $debug->TimeAccumulatorList[$key]['temp_time'] = $debug->timeToFloat( microtime() );
+        $debug->TimeAccumulatorList[$key]['temp_time'] = microtime( true );
     }
 
     /*!
@@ -1338,7 +1337,7 @@ showDebug();
         if ( !eZDebug::isDebugEnabled() )
             return;
         $debug = eZDebug::instance();
-        $stopTime = $debug->timeToFloat( microtime() );
+        $stopTime = microtime( true );
         $key = $key === false ? 'Default Debug-Accumulator' : $key;
         if ( ! array_key_exists( $key, $debug->TimeAccumulatorList ) )
         {
@@ -1392,7 +1391,7 @@ showDebug();
         if ( !$allowedDebugLevels )
             $allowedDebugLevels = array( self::LEVEL_NOTICE, self::LEVEL_WARNING, self::LEVEL_ERROR,
                                          self::LEVEL_DEBUG, self::LEVEL_TIMING_POINT, self::LEVEL_STRICT );
-        $endTime = microtime();
+        $endTime = microtime( true );
 
         if ( $returnReport )
         {
@@ -1515,10 +1514,10 @@ td.timingpoint2
                 $nextPoint = false;
                 if ( isset( $this->TimePoints[$i + 1] ) )
                     $nextPoint = $this->TimePoints[$i + 1];
-                $time = $this->timeToFloat( $point["Time"] );
+                $time = $point["Time"];
                 $nextTime = false;
                 if ( $nextPoint !== false )
-                    $nextTime = $this->timeToFloat( $nextPoint["Time"] );
+                    $nextTime = $nextPoint["Time"];
                 if ( $startTime === false )
                     $startTime = $time;
                 $elapsed = $time - $startTime;
@@ -1559,10 +1558,6 @@ td.timingpoint2
 
             if ( count( $this->TimePoints ) > 0 )
             {
-                $tTime = explode( " ", $endTime );
-                ereg( "0\.([0-9]+)", "" . $tTime[0], $t1 );
-                $endTime = $tTime[1] . "." . $t1[1];
-
                 $totalElapsed = $endTime - $startTime;
 
                 if ( $as_html )
@@ -1637,7 +1632,7 @@ td.timingpoint2
             $i = 0;
         }
 
-        $scriptEndTime = eZDebug::timeToFloat( microtime() );
+        $scriptEndTime = microtime( true );
         $totalElapsed = $scriptEndTime - $this->ScriptStart;
         $timeList = $this->TimeAccumulatorList;
         $groups = $this->TimeAccumulatorGroupList;
