@@ -32,6 +32,7 @@
 //include_once( 'kernel/classes/ezcontentobjectattribute.php' );
 define( "QUERY_LIMIT", 100 );
 
+require 'autoload.php';
 
 
 

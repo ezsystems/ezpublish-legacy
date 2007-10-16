@@ -31,6 +31,8 @@
 //include_once( 'kernel/classes/ezscript.php' );
 //include_once( 'kernel/classes/datatypes/ezcountry/ezcountrytype.php' );
 
+require 'autoload.php';
+
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "eZ Publish Country update script\n\n" .
                                                         "Upgrades db table in addition with upgrade from 3.8.x to 3.9.x\n" .
