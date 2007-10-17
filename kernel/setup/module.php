@@ -26,12 +26,9 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$Module = array( "name" => "eZSetup",
-                 "variable_params" => true,
-                 'ui_component_match' => 'view',
-                 "function" => array(
-                     "script" => "setup.php",
-                     "params" => array( ) ) );
+$Module = array( 'name' => 'eZSetup',
+                 'variable_params' => true,
+                 'ui_component_match' => 'view' );
 
 $ViewList = array();
 $ViewList["init"] = array(
