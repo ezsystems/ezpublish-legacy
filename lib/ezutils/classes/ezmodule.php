@@ -95,7 +95,7 @@ class eZModule
             }
             $this->UIComponentMatch = $uiComponentMatch;
 
-            foreach( $this->Functions as $key => $dummy)
+            foreach ( $this->Functions as $key => $dummy )
             {
                 $this->Functions[$key]["uri"] = "/$moduleName/$key";
             }
@@ -173,7 +173,7 @@ class eZModule
     function setCurrentName( $name )
     {
         $this->Name = $name;
-        foreach( $this->Functions as $key => $dummy )
+        foreach ( $this->Functions as $key => $dummy )
         {
             $this->Functions[$key]["uri"] = "/$name/$key";
         }
@@ -458,8 +458,8 @@ class eZModule
                 // We don't show a warning anymore since some parameters can be optional
                 // In future versions we will need required and optional parameters
                 // for modules and give warnings for required ones.
-//                 eZDebug::writeWarning( "Missing parameter(s) " . implode( ', ', array_slice( $viewParameters, $parameterIndex ) ) .
-//                                        " in view '$viewName'", 'eZModule::redirect' );
+                //eZDebug::writeWarning( "Missing parameter(s) " . implode( ', ', array_slice( $viewParameters, $parameterIndex ) ) .
+                //                       " in view '$viewName'", 'eZModule::redirect' );
             }
             else
                 $uri .= $parameters[$parameterIndex] . '/';
@@ -714,7 +714,7 @@ class eZModule
         if ( isset( $this->Functions[$view]['single_post_actions'] ) )
         {
             $singlePostActions =& $this->Functions[$view]['single_post_actions'];
-            foreach( $singlePostActions as $postActionName => $realActionName )
+            foreach ( $singlePostActions as $postActionName => $realActionName )
             {
                 if ( $http->hasPostVariable( $postActionName ) )
                 {
@@ -726,7 +726,7 @@ class eZModule
         if ( isset( $this->Functions[$view]['post_actions'] ) )
         {
             $postActions =& $this->Functions[$view]['post_actions'];
-            foreach( $postActions as $postActionName )
+            foreach ( $postActions as $postActionName )
             {
                 if ( $http->hasPostVariable( $postActionName ) )
                 {
@@ -735,10 +735,11 @@ class eZModule
                 }
             }
         }
-/*        if ( isset( $this->Functions[$view]['group_post_actions'] ) )
+/*
+        if ( isset( $this->Functions[$view]['group_post_actions'] ) )
         {
             $singlePostActions =& $this->Functions[$view]['group_post_actions'];
-            foreach( $singlePostActions as $postActionName => $realActionName )
+            foreach ( $singlePostActions as $postActionName => $realActionName )
             {
                 if ( $http->hasPostVariable( $postActionName ) )
                 {

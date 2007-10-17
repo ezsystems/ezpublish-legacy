@@ -171,8 +171,7 @@ class eZDBInterface
         $this->EndTime = false;
         $this->TimeTaken = false;
 
-        $this->AttributeVariableMap =
-        array(
+        $this->AttributeVariableMap = array(
             'database_name' => 'DB',
             'database_server' => 'Server',
             'database_socket_path' => 'SocketPath',
@@ -257,7 +256,6 @@ class eZDBInterface
             if ( $buffer )
             {
                 // Fix SQL file by deleting all comments and newlines
-//            eZDebug::writeDebug( $buffer, "read data" );
                 $sqlQuery = preg_replace( array( "/^#.*\n" . "/m",
                                                  "#^/\*.*\*/\n" . "#m",
                                                  "/^--.*\n" . "/m",
@@ -267,8 +265,6 @@ class eZDBInterface
                                                  "",
                                                  "\n" ),
                                           $buffer );
-//            eZDebug::writeDebug( $sqlQuery, "read data" );
-
                 // Split the query into an array
                 $sqlQueryArray = preg_split( "/;\n/m", $sqlQuery );
 
@@ -285,7 +281,6 @@ class eZDBInterface
             else
             {
                 return $sqlQueryArray;
-
             }
         }
         return $sqlQueryArray;
@@ -325,7 +320,6 @@ class eZDBInterface
                     }
                     if ( trim( $singleQuery ) != "" )
                     {
-//                    eZDebug::writeDebug( $singleQuery );
                         $this->query( trim( $singleQuery ) );
                         if ( $this->errorNumber() )
                         {
@@ -348,9 +342,12 @@ class eZDBInterface
     function reportQuery( $class, $sql, $numRows, $timeTaken )
     {
         $rowText = '';
-        if ( $numRows !== false ) $rowText = "$numRows rows, ";
+        if ( $numRows !== false )
+        {
+            $rowText = "$numRows rows, ";
+        }
 
-        $backgroundClass = ($this->TransactionCounter > 0  ? "debugtransaction transactionlevel-$this->TransactionCounter" : "");
+        $backgroundClass = ( $this->TransactionCounter > 0  ? "debugtransaction transactionlevel-$this->TransactionCounter" : "" );
         eZDebug::writeNotice( "$sql", "$class::query($rowText" . number_format( $timeTaken, 3 ) . " ms) query number per page:" . $this->NumQueries++, $backgroundClass );
     }
 
@@ -609,7 +606,7 @@ class eZDBInterface
     function begin()
     {
         $ini =& eZINI::instance();
-        if ($ini->variable( "DatabaseSettings", "Transactions" ) == "enabled")
+        if ( $ini->variable( "DatabaseSettings", "Transactions" ) == "enabled" )
         {
             if ( $this->TransactionCounter > 0 )
             {
@@ -664,7 +661,7 @@ class eZDBInterface
       The query to start a transaction.
       This function must be reimplemented in the subclasses.
     */
-     function beginQuery()
+    function beginQuery()
     {
         return false;
     }
@@ -682,7 +679,7 @@ class eZDBInterface
     function commit()
     {
         $ini =& eZINI::instance();
-        if ($ini->variable( "DatabaseSettings", "Transactions" ) == "enabled")
+        if ( $ini->variable( "DatabaseSettings", "Transactions" ) == "enabled" )
         {
             if ( $this->TransactionCounter <= 0 )
             {
@@ -762,7 +759,7 @@ class eZDBInterface
             $this->TransactionStackTree = array();
         }
         $ini =& eZINI::instance();
-        if ($ini->variable( "DatabaseSettings", "Transactions" ) == "enabled")
+        if ( $ini->variable( "DatabaseSettings", "Transactions" ) == "enabled" )
         {
             if ( $this->TransactionCounter <= 0 )
             {
@@ -1240,7 +1237,8 @@ class eZDBInterface
         {
             $uniqueTempTableName = str_replace( '%', $randomizeIndex, $pattern );
             $randomizeIndex++;
-        } while ( in_array( $uniqueTempTableName, $tableList ) );
+        }
+        while ( in_array( $uniqueTempTableName, $tableList ) );
 
         return $uniqueTempTableName;
     }

@@ -99,8 +99,6 @@ class eZPostgreSQLDB extends eZDBInterface
             }
             if ( $this->DBConnection )
                 $this->IsConnected = true;
-            // add error checking
-//          eZDebug::writeError( "Error: could not connect to database." . pg_errormessage( $this->DBConnection ), "eZPostgreSQLDB" );
         }
         else if ( function_exists( "pg_connect" ) )
         {
@@ -202,21 +200,19 @@ class eZPostgreSQLDB extends eZDBInterface
             // check for array parameters
             if ( is_array( $params ) )
             {
-//                $params = $min;
-
-
                 $column = false;
                 if ( isset( $params["limit"] ) and is_numeric( $params["limit"] ) )
                 {
                     $limit = $params["limit"];
                 }
-
                 if ( isset( $params["offset"] ) and is_numeric( $params["offset"] ) )
                 {
                     $offset = $params["offset"];
                 }
                 if ( isset( $params["column"] ) and ( is_numeric( $params["column"] ) or is_string( $params["column"] ) ) )
+                {
                     $column = $params["column"];
+                }
             }
 
             if ( $limit != -1 )
@@ -271,7 +267,8 @@ class eZPostgreSQLDB extends eZDBInterface
         if ( $len == null )
         {
             return " substring( $string from $from ) ";
-        }else
+        }
+        else
         {
             return " substring( $string from $from for $len ) ";
         }
