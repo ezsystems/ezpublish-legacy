@@ -411,7 +411,7 @@ class eZWebDAVServer
             $requestedProperties[] = 'getcontenttype';
         }
 
-        $this->appendLogEntry( 'Client requesed ' .
+        $this->appendLogEntry( 'Client requested ' .
                                count( $requestedProperties ) .
                                ' properties.', 'outputCollectionContent' );
 
