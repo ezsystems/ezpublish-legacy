@@ -89,17 +89,17 @@ class eZWebDAVContentServer extends eZWebDAVServer
     */
     function outputSendDataToClient( $output, $headers_only = false )
     {
-    	if ( $output["file"] )
-    	{
-    		$realPath = $output["file"];
-	        require_once( 'kernel/classes/ezclusterfilehandler.php' );
-	        $file = eZClusterFileHandler::instance( $realPath );
-	        $file->fetch();
-    	}
-    	$result = eZWebDAVServer::outputSendDataToClient($output,$headers_only);
+        if ( $output["file"] )
+        {
+            $realPath = $output["file"];
+            require_once( 'kernel/classes/ezclusterfilehandler.php' );
+            $file = eZClusterFileHandler::instance( $realPath );
+            $file->fetch();
+        }
+        $result = eZWebDAVServer::outputSendDataToClient($output,$headers_only);
         if ( $output["file"] && is_object( $file ) )
             $file->deleteLocal();
-    	return $result;
+        return $result;
     }
 
     /*!
@@ -1473,7 +1473,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
                 $entry['mimetype'] = $info['mime_type'];
 
             // Fill in information from the actual file if they are missing.
-	        $file = eZClusterFileHandler::instance( $filePath );
+            $file = eZClusterFileHandler::instance( $filePath );
             if ( !$entry['size'] and $file->exists() )
             {
                 $entry["size"] = $file->size();
