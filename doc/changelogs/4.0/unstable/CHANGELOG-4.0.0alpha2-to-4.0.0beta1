@@ -9,3 +9,4 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #11665: Class and attribute names set to "always-available" when importing packages
   (Merged from stable/3.10 (3.10.1) rev. 20511)
 - Fixed bug #11678: Typo in WebDAV log: "requesed" instead of "requested"
+- Fixed bug #11679: typo "getconentlength" in eZWebDAVServer::outputCollectionContent()

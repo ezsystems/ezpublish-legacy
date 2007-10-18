@@ -379,7 +379,7 @@ class eZWebDAVServer
                                           'creationdate',
                                           'getlastmodified',
                                           'getcontenttype',
-                                          'getconentlength',
+                                          'getcontentlength',
                                           'resourcetype' );
         }
 
