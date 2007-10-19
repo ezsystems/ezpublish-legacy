@@ -1166,6 +1166,14 @@ class eZWebDAVContentServer extends eZWebDAVServer
         // Attempt to translate the URL to something like "/content/view/full/84".
         $translateResult = eZURLAliasML::translate( $nodePathString );
 
+        // handle redirects
+        while ( $nodePathString == 'error/301' )
+        {
+            $nodePathString = $translateResult;
+
+            $translateResult = eZURLAliasML::translate( $nodePathString );
+        }
+
         // Get the ID of the node (which is the last part of the translated path).
         if ( preg_match( "#^content/view/full/([0-9]+)$#", $nodePathString, $matches ) )
         {
