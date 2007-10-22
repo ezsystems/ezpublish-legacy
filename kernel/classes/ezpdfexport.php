@@ -1,6 +1,6 @@
 <?php
 //
-// Definition of eZRSSExport class
+// Definition of eZPDFExport class
 //
 // Created on: <21-Nov-2003 15:59:56 kk>
 //
@@ -28,17 +28,17 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file ezrssexport.php
+/*! \file ezpdfexport.php
 */
 
 /*!
-  \class for storing PDF exports
+  \class eZPDFExport ezpdfexport.php
+  \brief class for storing PDF exports
 
-  RSSExport is used to create RSS feeds from published content. See kernel/rss for more files.
+  eZPDFExport is used to create PDF exports from published content. See kernel/pdf for more files.
 */
 
 //include_once( 'kernel/classes/ezpersistentobject.php' );
-//include_once( 'kernel/classes/ezrssexportitem.php' );
 
 class eZPDFExport extends eZPersistentObject
 {
@@ -49,7 +49,7 @@ class eZPDFExport extends eZPersistentObject
     const CREATE_ONFLY = 2;
 
     /*!
-     Initializes a new RSSExport.
+     Initializes a new eZPDFExport.
     */
     function eZPDFExport( $row )
     {
@@ -147,7 +147,7 @@ class eZPDFExport extends eZPersistentObject
 
     /*!
      \static
-     Creates a new RSS Export with the new RSS Export
+     Creates a new PDF Export
      \param User ID
     */
     function create( $user_id )
@@ -205,9 +205,9 @@ class eZPDFExport extends eZPersistentObject
 
     /*!
      \static
-      Fetches the RSS Export by ID.
+      Fetches the PDF Export by ID.
 
-     \param RSS Export ID
+     \param PDF Export ID
     */
     static function fetch( $id, $asObject = true, $version = eZPDFExport::VERSION_VALID )
     {
@@ -241,7 +241,7 @@ class eZPDFExport extends eZPersistentObject
 
     /*!
      \static
-      Fetches complete list of RSS Exports.
+      Fetches complete list of PDF Exports.
     */
     static function fetchList( $asObject = true )
     {
