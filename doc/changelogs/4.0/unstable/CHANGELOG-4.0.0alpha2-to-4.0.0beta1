@@ -11,3 +11,4 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #11678: Typo in WebDAV log: "requesed" instead of "requested"
 - Fixed bug #11679: typo "getconentlength" in eZWebDAVServer::outputCollectionContent()
 - Fixed bug #11701: Content uploaded in the media tree with WebDAV gets located under the content tree root node
+- Fixed bug #11503: WebDAV does not work since certain level
