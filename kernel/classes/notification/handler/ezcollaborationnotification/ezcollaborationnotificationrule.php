@@ -144,6 +144,18 @@ class eZCollaborationNotificationRule extends eZPersistentObject
 
     /*!
      \static
+
+     Remove notifications by user id
+
+     \param userID
+    */
+    function removeByUserID( $userID )
+    {
+        eZPersistentObject::removeObject( eZCollaborationNotificationRule::definition(), array( 'user_id' => $userID ) );
+    }
+
+    /*!
+     \static
      Removes all notification rules for all collaboration items for all users.
     */
     function cleanup()

@@ -536,6 +536,7 @@ WHERE user_id = '" . $userID . "' AND
     function removeUser( $userID )
     {
         include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreenotificationrule.php' );
+        include_once( 'kernel/classes/notification/handler/ezcollaborationnotification/ezcollaborationnotificationrule.php' );
         include_once( 'kernel/classes/datatypes/ezuser/ezusersetting.php' );
         include_once( 'kernel/classes/datatypes/ezuser/ezuseraccountkey.php' );
         include_once( 'kernel/classes/datatypes/ezuser/ezforgotpassword.php' );
@@ -547,6 +548,7 @@ WHERE user_id = '" . $userID . "' AND
         }
 
         eZSubtreeNotificationRule::removeByUserID( $userID );
+        eZCollaborationNotificationRule::removeByUserID( $userID );
         eZUserSetting::remove( $userID );
         eZUserAccountKey::remove( $userID );
         eZForgotPassword::remove( $userID );
