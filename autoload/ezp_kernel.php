@@ -178,6 +178,7 @@ return array(
       'eZFileDirectHandler'                => 'kernel/classes/binaryhandlers/ezfiledirect/ezfiledirecthandler.php',
       'eZFileHandler'                      => 'lib/ezfile/classes/ezfilehandler.php',
       'eZFilePackageHandler'               => 'kernel/classes/packagehandlers/ezfile/ezfilepackagehandler.php',
+      'eZFilePassthroughHandler'           => 'kernel/classes/binaryhandlers/ezfilepassthrough/ezfilepassthroughhandler.php',
       'eZFilePasstroughHandler'            => 'kernel/classes/binaryhandlers/ezfilepasstrough/ezfilepasstroughhandler.php',
       'eZFileTransport'                    => 'lib/ezutils/classes/ezfiletransport.php',
       'eZFloatType'                        => 'kernel/classes/datatypes/ezfloat/ezfloattype.php',
