@@ -150,7 +150,7 @@ class eZPDFExport extends eZPersistentObject
      Creates a new PDF Export
      \param User ID
     */
-    function create( $user_id )
+    static function create( $user_id )
     {
         $config = eZINI::instance( 'site.ini' );
         $dateTime = time();
