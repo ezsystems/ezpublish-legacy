@@ -61,9 +61,9 @@ class eZUser extends eZPersistentObject
     const AUTHENTICATE_EMAIL = 2;
 
     const AUTHENTICATE_ALL = 3; //EZ_USER_AUTHENTICATE_LOGIN | EZ_USER_AUTHENTICATE_EMAIL;
-    
+
     private static $anonymousId = null;
-    
+
     function eZUser( $row )
     {
         $this->eZPersistentObject( $row );
@@ -2598,7 +2598,6 @@ WHERE user_id = '" . $userID . "' AND
             $ini = eZINI::instance();
             self::$anonymousId = (int)$ini->variable( 'UserSettings', 'AnonymousUserID' );
             $GLOBALS['eZUserBuiltins'] = array( self::$anonymousId );
-            
         }
         return self::$anonymousId;
     }
