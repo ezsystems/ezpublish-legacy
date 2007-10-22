@@ -1,6 +1,6 @@
 <?php
 //
-// Definition of eZBinaryFileHandler class
+// Definition of eZFilePasstroughHandler class
 //
 // Created on: <30-Apr-2002 16:47:08 bf>
 //
@@ -31,80 +31,23 @@
 /*!
   \class eZFilePasstroughHandler ezfilepasstroughhandler.php
   \ingroup eZBinaryHandlers
+  \deprecated Use eZFilePassthroughHandler instead
   \brief Handles file downloading by passing the file trough PHP
 
 */
 //include_once( "kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php" );
 //include_once( "kernel/classes/ezbinaryfilehandler.php" );
 
-class eZFilePasstroughHandler extends eZBinaryFileHandler
+class eZFilePasstroughHandler extends eZFilePassthroughHandler
 {
     const HANDLER_ID = 'ezfilepasstrough';
 
     function eZFilePasstroughHandler()
     {
-        $this->eZBinaryFileHandler( self::HANDLER_ID, "PHP passtrough", eZBinaryFileHandler::HANDLE_DOWNLOAD );
-    }
-
-    function handleFileDownload( $contentObject, $contentObjectAttribute, $type,
-                                 $fileInfo )
-    {
-        $fileName = $fileInfo['filepath'];
-
-        // VS-DBFILE
-
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
-        $file = eZClusterFileHandler::instance( $fileName );
-
-        if ( $fileName != "" and $file->exists() )
-        {
-            $file->fetch( true );
-            $fileSize = $file->size();
-            $mimeType =  $fileInfo['mime_type'];
-            $originalFileName = $fileInfo['original_filename'];
-            $contentLength = $fileSize;
-            $fileOffset = false;
-            $fileLength = false;
-            if ( isset( $_SERVER['HTTP_RANGE'] ) )
-            {
-                $httpRange = trim( $_SERVER['HTTP_RANGE'] );
-                if ( preg_match( "/^bytes=([0-9]+)-$/", $httpRange, $matches ) )
-                {
-                    $fileOffset = $matches[1];
-                    header( "Content-Range: bytes $fileOffset-" . $fileSize - 1 . "/$fileSize" );
-                    header( "HTTP/1.1 206 Partial content" );
-                    $contentLength -= $fileOffset;
-                }
-            }
-            // Figure out the time of last modification of the file right way to get the file mtime ... the
-            $fileModificationTime = filemtime( $fileName );
-
-            ob_clean();
-            header( "Pragma: " );
-            header( "Cache-Control: " );
-            /* Set cache time out to 10 minutes, this should be good enough to work around an IE bug */
-            header( "Expires: ". gmdate('D, d M Y H:i:s T', time() + 600) . ' GMT' );
-            header( "Last-Modified: ". gmdate( 'D, d M Y H:i:s T', $fileModificationTime ) . ' GMT' );
-            header( "Content-Length: $contentLength" );
-            header( "Content-Type: $mimeType" );
-            header( "X-Powered-By: eZ Publish" );
-            header( "Content-disposition: attachment; filename=\"$originalFileName\"" );
-            header( "Content-Transfer-Encoding: binary" );
-            header( "Accept-Ranges: bytes" );
-
-            $fh = fopen( "$fileName", "rb" );
-            if ( $fileOffset )
-            {
-                fseek( $fh, $fileOffset );
-            }
-
-            ob_end_clean();
-            fpassthru( $fh );
-            fclose( $fh );
-
-            eZExecution::cleanExit();
-        }
-        return eZBinaryFileHandler::RESULT_UNAVAILABLE;
+        eZDebug::writeWarning( 'eZFilePasstroughHandler is deprecated, use eZFilePassthroughHandler instead. ' .
+                                 'Change file.ini [BinaryFileSettings] Handler to ezfilepassthrough',
+                               'Usage of deprecated class' );
+        $this->eZBinaryFileHandler( self::HANDLER_ID, "PHP passthrough", eZBinaryFileHandler::HANDLE_DOWNLOAD );
     }
 }
 
