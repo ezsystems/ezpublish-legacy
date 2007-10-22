@@ -206,7 +206,7 @@ function fetchFiles( $path, $mask )
 
 function buildFileList( $path, $extraFilter = null )
 {
-    $exclusionFilter = array( "@^{$path}/(var|settings|benchmarks|autoload|port_info|templates|tmp)/@" );
+    $exclusionFilter = array( "@^{$path}/(var|settings|benchmarks|autoload|port_info|templates|tmp|UnitTest|tests)/@" );
     if ( !empty( $extraFilter ) and is_array( $extraFilter ) )
     {
         foreach( $extraFilter as $filter )
