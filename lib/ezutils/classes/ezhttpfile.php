@@ -106,30 +106,16 @@ class eZHTTPFile
 
         // VS-DBFILE : TODO
 
-        if ( !file_exists( $dir ) )
-        {
-            $oldumask = umask( 0 );
-            if ( !eZDir::mkdir( $dir, eZDir::directoryPermission(), true ) )
-            {
-                umask( $oldumask );
-                return false;
-            }
-            umask( $oldumask );
-        }
-
         if ( !$mimeData )
         {
             $dir .= $this->MimeCategory;
-            if ( !file_exists( $dir ) )
+        }
+
+        if ( !file_exists( $dir ) )
+        {
+            if ( !eZDir::mkdir( $dir, eZDir::directoryPermission(), true ) )
             {
-                $oldumask = umask( 0 );
-                $perm = $ini->variable( "FileSettings", "StorageDirPermissions" );
-                if ( !eZDir::mkdir( $dir, octdec( $perm ), true ) )
-                {
-                    umask( $oldumask );
-                    return false;
-                }
-                umask( $oldumask );
+                return false;
             }
         }
 
