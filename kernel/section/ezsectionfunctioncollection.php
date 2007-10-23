@@ -134,7 +134,7 @@ class eZSectionFunctionCollection
             $roleID = $policy->attribute( 'role_id' );
             if ( in_array( $roleID, $roleIDs ) && !in_array( $roleID, $usedRoleIDs ) )
             {
-                $roles[] = $policies[$key]->attribute( 'role' );
+                $roles[] = $policy->attribute( 'role' );
                 $usedRoleIDs[] = $roleID;
             }
         }
