@@ -290,7 +290,7 @@ class eZBinaryFileType extends eZDataType
             {
                 $mime = $binaryFile->attribute( "mime_type" );
             }
-            $extension = preg_replace('/.*\.(.+?)$/', '\\1', $binaryFile->attribute( "original_filename" ) );
+            $extension = eZFile::suffix( $binaryFile->attribute( "original_filename" ) );
             $binaryFile->setMimeType( $mime );
             if ( !$binaryFile->store( "original", $extension ) )
             {
@@ -439,15 +439,27 @@ class eZBinaryFileType extends eZDataType
         $storageDir = eZSys::storageDirectory();
         list( $group, $type ) = explode( '/', $mimeData['name'] );
         $destination = $storageDir . '/original/' . $group;
-        $oldumask = umask( 0 );
-        if ( !eZDir::mkdir( $destination, false, true ) )
+
+        if ( !file_exists( $destination ) )
         {
-            umask( $oldumask );
-            return false;
+            if ( !eZDir::mkdir( $destination, eZDir::directoryPermission(), true ) )
+            {
+                return false;
+            }
         }
-        umask( $oldumask );
-        $destFileName = md5( basename( $fileName ) . microtime() . mt_rand() );
+
+        // create dest filename in the same manner as eZHTTPFile::store()
+        // grab file's suffix
+        $fileSuffix = eZFile::suffix( $fileName );
+        // prepend dot
+        if( $fileSuffix )
+            $fileSuffix = '.' . $fileSuffix;
+        // grab filename without suffix
+        $fileBaseName = basename( $fileName, $fileSuffix );
+        // create dest filename
+        $destFileName = md5( $fileBaseName . microtime() . mt_rand() ) . $fileSuffix;
         $destination = $destination . '/' . $destFileName;
+
         copy( $filePath, $destination );
 
         // SP-DBFILE

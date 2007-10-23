@@ -306,7 +306,7 @@ class eZMediaType extends eZDataType
             {
                 $mime = $mediaFile->attribute( "mime_type" );
             }
-            $extension = preg_replace('/.*\.(.+?)$/', '\\1', $mediaFile->attribute( "original_filename" ) );
+            $extension = eZFile::suffix( $mediaFile->attribute( "original_filename" ) );
             $mediaFile->setMimeType( $mime );
             if ( !$mediaFile->store( "original", $extension ) )
             {
@@ -464,13 +464,14 @@ class eZMediaType extends eZDataType
         $storageDir = eZSys::storageDirectory();
         list( $group, $type ) = explode( '/', $mimeData['name'] );
         $destination = $storageDir . '/original/' . $group;
-        $oldumask = umask( 0 );
-        if ( !eZDir::mkdir( $destination, false, true ) )
+
+        if ( !file_exists( $destination ) )
         {
-            umask( $oldumask );
-            return false;
+            if ( !eZDir::mkdir( $destination, eZDir::directoryPermission(), true ) )
+            {
+                return false;
+            }
         }
-        umask( $oldumask );
 
         // create dest filename in the same manner as eZHTTPFile::store()
         // grab file's suffix
@@ -481,9 +482,11 @@ class eZMediaType extends eZDataType
         // grab filename without suffix
         $fileBaseName = basename( $fileName, $fileSuffix );
         // create dest filename
-        $destination = $destination . '/' . md5( $fileBaseName . microtime() . mt_rand() ) . $fileSuffix;
+        $destFileName = md5( $fileBaseName . microtime() . mt_rand() ) . $fileSuffix;
+        $destination = $destination . '/' . $destFileName;
 
         copy( $filePath, $destination );
+
         // SP-DBFILE
         require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $fileHandler = eZClusterFileHandler::instance();
@@ -495,7 +498,7 @@ class eZMediaType extends eZDataType
 
         $media->setAttribute( "contentobject_attribute_id", $attributeID );
         $media->setAttribute( "version", $objectVersion );
-        $media->setAttribute( "filename", basename( $destination ) );
+        $media->setAttribute( "filename", $destFileName );
         $media->setAttribute( "original_filename", $fileName );
         $media->setAttribute( "mime_type", $mimeData['name'] );
 
@@ -765,13 +768,10 @@ class eZMediaType extends eZDataType
         $destinationPath = eZSys::storageDirectory() . '/original/' . $mimeTypeCategory . '/';
         if ( !file_exists( $destinationPath ) )
         {
-            $oldumask = umask( 0 );
             if ( !eZDir::mkdir( $destinationPath, eZDir::directoryPermission(), true ) )
             {
-                umask( $oldumask );
                 return false;
             }
-            umask( $oldumask );
         }
 
         $basename = basename( $mediaNode->attributeValue( 'filename' ) );
