@@ -273,19 +273,50 @@ class eZURLType extends eZDataType
         }
 
         $url = eZURL::url( $contentObjectAttribute->attribute( 'data_int' ) );
-        return $url;
+        $text = $contentObjectAttribute->attribute( 'data_text');
+        if ( $text != '' )
+        {
+            $exportData = $url . '|' . $text;
+        }
+        else
+        {
+            $exportData = $url;
+        }
+        return $exportData;
     }
 
 
     function fromString( $contentObjectAttribute, $string )
     {
+
         if ( $string == '' )
             return true;
 
+        $separatorPos = strpos( $string, '|' );
+        // Check if supplied data has a separator which separates url from url text
+        if( $separatorPos === false )
+        {
+            $urlID = eZURL::registerURL( $string );
+            $contentObjectAttribute->setAttribute( 'data_int', $urlID );
+            return $urlID;
+        }
+        else
+        {
+            $url = substr( $string, 0, $separatorPos );
+            $text = substr( $string, $separatorPos + 1 );
+            if( $url )
+            {
+                $urlID = eZURL::registerURL( $url );
+                $contentObjectAttribute->setAttribute( 'data_int', $urlID );
+            }
 
-        $urlID = eZURL::registerURL( $string );
-        $contentObjectAttribute->setAttribute( 'data_int', $urlID );
-        return $urlID;
+            if( $text )
+            {
+                $contentObjectAttribute->setAttribute( 'data_text', $text );
+            }
+
+            return true;
+        }
     }
 
     /*!
