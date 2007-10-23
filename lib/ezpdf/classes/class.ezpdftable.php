@@ -1569,7 +1569,7 @@ class eZPDFTable extends Cezpdf
                     $newTextLength = strlen( $newText );
                     if ( $newTextLength > 0 && $newText[$newTextLength - 1] == "\n" )
                     {
-                        unset( $newText[$newTextLength - 1] );
+                        $newText = rtrim( $newText, "\n" );
                         $this->addDocSpecification( $newText );
                         $newText = "\n";
                     }
@@ -1601,7 +1601,7 @@ class eZPDFTable extends Cezpdf
                     $newTextLength = strlen( $newText );
                     if ( $newTextLength > 0 && $newText[$newTextLength - 1] == "\n" )
                     {
-                        unset( $newText[$newTextLength - 1] );
+                        $newText = rtrim( $newText, "\n" );
                         $this->addDocSpecification( $newText );
                         $newText = "\n";
                     }

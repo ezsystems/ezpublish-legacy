@@ -23,3 +23,4 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #11731: Incompatible function declarations of eZUserAccountKey::remove and eZForgotPassword::remove
 - Fixed bug #011712: Enhanced use of fromString function in ezurl datatype.
 - Fixed bug #11568: eZCli::getOptions should be either a static or instance method
+- Fixed bug #11735: Fatal error: Cannot unset string offsets in lib/ezpdf/classes/class.ezpdftable.php on line 1604
