@@ -93,7 +93,7 @@ class eZEnumValue extends eZPersistentObject
         unset( $this->ID );
     }
 
-    function create( $contentClassAttributeID, $contentClassAttributeVersion, $element )
+    static function create( $contentClassAttributeID, $contentClassAttributeVersion, $element )
     {
         $row = array( "id" => null,
                       "contentclass_attribute_id" => $contentClassAttributeID,
@@ -118,7 +118,7 @@ class eZEnumValue extends eZPersistentObject
         return new eZEnumValue( $row );
     }
 
-    function removeAllElements( $contentClassAttributeID, $version )
+    static function removeAllElements( $contentClassAttributeID, $version )
     {
         eZPersistentObject::removeObject( eZEnumValue::definition(),
                                           array( "contentclass_attribute_id" => $contentClassAttributeID,
@@ -132,7 +132,7 @@ class eZEnumValue extends eZPersistentObject
                                                  "contentclass_attribute_version" => $version) );
     }
 
-    function fetch( $id, $version, $asObject = true )
+    static function fetch( $id, $version, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZEnumValue::definition(),
                                                 null,
@@ -141,7 +141,7 @@ class eZEnumValue extends eZPersistentObject
                                                 $asObject );
     }
 
-    function fetchAllElements( $classAttributeID, $version, $asObject = true )
+    static function fetchAllElements( $classAttributeID, $version, $asObject = true )
     {
         if ( is_null( $classAttributeID ) )
             $elementList = array();
