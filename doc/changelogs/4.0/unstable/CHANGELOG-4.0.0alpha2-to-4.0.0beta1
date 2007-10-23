@@ -19,3 +19,4 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #11730: 4.0.0alpha2: fatal error on /index.php/ezwebin_site_admin/section/view/3 (<-3, 1 and 6)
 - Fixed bug #11731: Incompatible function declarations of eZUserAccountKey::remove and eZForgotPassword::remove
 - Fixed bug #011712: Enhanced use of fromString function in ezurl datatype.
+- Fixed bug #11568: eZCli::getOptions should be either a static or instance method

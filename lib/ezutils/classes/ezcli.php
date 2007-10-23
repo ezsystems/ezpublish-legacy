@@ -570,11 +570,6 @@ class eZCLI
             array_shift( $arguments );
         }
 
-        if ( isset( $this ) and strtolower( get_class( $this ) ) == 'ezcli' )
-            $cli =& $this;
-        else
-            $cli = eZCLI::instance();
-
         if ( is_string( $config ) )
             $config = eZCLI::parseOptionString( $config, $optionConfig );
         if ( is_string( $argumentConfig ) )
@@ -653,7 +648,7 @@ class eZCLI
                             else
                             {
                                 --$i;
-                                $cli->error( "$program: option `$optionPrefix$optionName' requires an argument" . $helpText );
+                                $this->error( "$program: option `$optionPrefix$optionName' requires an argument" . $helpText );
                                 return false;
                             }
                             if ( $hasArgumentValue )
@@ -663,7 +658,7 @@ class eZCLI
                         {
                             if ( $configItem['has-value'] !== 'optional' )
                             {
-                                $cli->error( "$program: option `$optionPrefix$optionName' requires an argument" . $helpText );
+                                $this->error( "$program: option `$optionPrefix$optionName' requires an argument" . $helpText );
                                 return false;
                             }
                         }
@@ -684,7 +679,7 @@ class eZCLI
                 }
                 else
                 {
-                    $cli->error( "$program: invalid option `$optionPrefix$optionName'" . $helpText );
+                    $this->error( "$program: invalid option `$optionPrefix$optionName'" . $helpText );
                     return false;
                 }
             }
