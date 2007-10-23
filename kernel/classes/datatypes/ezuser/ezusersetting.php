@@ -122,6 +122,12 @@ class eZUserSetting extends eZPersistentObject
                                                     $asObject );
     }
 
+    static function removeByUserID( $userID )
+    {
+        eZPersisentObject::removeObject( eZUserSetting::definition(),
+                                         array( 'user_id' => $userID ) );
+    }
+
     /// \privatesection
     public $UserID;
     public $IsEnabled;

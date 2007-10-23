@@ -17,3 +17,4 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #11691: Missing files are listed in default autoload/ezp_kernel.php
 - Fixed bug #11616: ezfilepasstroughhandler should be ezfilepassthroughandler
 - Fixed bug #11730: 4.0.0alpha2: fatal error on /index.php/ezwebin_site_admin/section/view/3 (<-3, 1 and 6)
+- Fixed bug #11731: Incompatible function declarations of eZUserAccountKey::remove and eZForgotPassword::remove

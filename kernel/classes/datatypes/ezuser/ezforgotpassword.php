@@ -106,23 +106,11 @@ class eZForgotPassword extends eZPersistentObject
     /*!
      Remove forgot password entries belonging to user \a $userID
     */
-    function remove( $userID = false )
+    static function removeByUserID( $userID )
     {
-        if ( $userID === false )
-        {
-            if ( strtolower( get_class( $this ) ) == 'ezforgotpassword' )
-            {
-                eZPersistentObject::removeObject( eZForgotPassword::definition(),
-                                                  array( 'id' => $this->attribute( 'id' ) ) );
-            }
-        }
-        else
-        {
-            eZPersistentObject::removeObject( eZForgotPassword::definition(),
-                                              array( 'user_id' => $userID ) );
-        }
+        eZPersistentObject::removeObject( eZForgotPassword::definition(),
+                                          array( 'user_id' => $userID ) );
     }
-
 }
 
 ?>

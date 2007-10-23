@@ -554,9 +554,9 @@ WHERE user_id = '" . $userID . "' AND
 
         eZSubtreeNotificationRule::removeByUserID( $userID );
         eZCollaborationNotificationRule::removeByUserID( $userID );
-        eZUserSetting::removeObject( eZUserSetting::definition(), array( 'user_id' => $userID ) );
-        eZUserAccountKey::remove( $userID );
-        eZForgotPassword::remove( $userID );
+        eZUserSetting::removeByUserID( $userID );
+        eZUserAccountKey::removeByUserID( $userID );
+        eZForgotPassword::removeByUserID( $userID );
 
         eZPersistentObject::removeObject( eZUser::definition(),
                                           array( 'contentobject_id' => $userID ) );
