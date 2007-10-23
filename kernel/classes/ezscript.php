@@ -184,9 +184,6 @@ class eZScript
             exit( 1 );
         }
 
-        // Make sure compatability functions are available.
-        require_once( 'lib/compat.php' );
-
         //include_once( "lib/ezutils/classes/ezini.php" );
         $ini = eZINI::instance();
         $phpLocale = trim( $ini->variable( 'RegionalSettings', 'SystemLocale' ) );

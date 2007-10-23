@@ -398,9 +398,6 @@ class eZPersistentObject
 
         if ( $insert_object )
         {
-            // We include compat.php here because of the ezsprintf function call below
-            require_once( 'lib/compat.php' );
-
             // Note: When inserting we cannot hone the $fieldFilters parameters
 
             $use_fields = array_diff( array_keys( $fields ), $exclude_fields );
@@ -425,7 +422,7 @@ class eZPersistentObject
 
                 if ( $field_def['datatype'] == 'float' )
                 {
-                    $value = ezsprintf( '%F', $value );
+                    $value = sprintf( '%F', $value );
                 }
                 if (is_null($value) &&
                     $key == 'data_int' )
@@ -463,9 +460,6 @@ class eZPersistentObject
             $use_fields = array_diff( array_keys( $fields ), array_merge( $keys, $exclude_fields ) );
             if ( count( $use_fields ) > 0 )
             {
-                // We include compat.php here because of the ezsprintf function call below
-                require_once( 'lib/compat.php' );
-
                 // If we filter out some of the fields we need to intersect it with $use_fields
                 if ( is_array( $fieldFilters ) )
                     $use_fields = array_intersect( $use_fields, $fieldFilters );
@@ -489,7 +483,7 @@ class eZPersistentObject
 
                     if ( $fields[$key]['datatype'] == 'float' )
                     {
-                        $value = ezsprintf( '%F', $value );
+                        $value = sprintf( '%F', $value );
                     }
 
                     if (is_null($value) && $key == 'data_int' )

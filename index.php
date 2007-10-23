@@ -36,7 +36,6 @@ if ( version_compare( phpversion(), '5.1' ) < 0 )
 require 'autoload.php';
 
 ignore_user_abort( true );
-require_once 'lib/compat.php';
 
 $memLimit = ini_get( 'memory_limit' );
 if ($memLimit != '')

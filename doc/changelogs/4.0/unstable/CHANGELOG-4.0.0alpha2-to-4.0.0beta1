@@ -1,5 +1,8 @@
 Changes from 4.0.0alpha2 to 4.0.0beta1
 
+*Kernel:
+- Implemented enhancement #11596: ez4: compat.php cleanup
+
 *Bugs:
 - Fixed bug #11619: ezp4 update scripts not working
 - Fixed bug #11659: Declaration of eZNullDB::lastSerialID() should be compatible with that of eZDBInterface::lastSerialID()

@@ -333,9 +333,6 @@ class eZTemplateArithmeticOperator
             $counter = 1;
             $index = 0;
 
-            // We include compat.php here because of the ezsprintf function call below
-            require_once( 'lib/compat.php' );
-
             foreach ( $newParameters as $parameter )
             {
                 if ( $index > 0 )
@@ -347,7 +344,7 @@ class eZTemplateArithmeticOperator
                     $staticValue = eZTemplateNodeTool::elementStaticValue( $parameter );
                     if ( !is_numeric( $staticValue ) )
                         $staticValue = (int)$staticValue;
-                    $code .= ezsprintf(" %F", $staticValue);
+                    $code .= sprintf(" %F", $staticValue);
                 }
                 else
                 {
