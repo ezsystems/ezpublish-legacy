@@ -155,7 +155,6 @@ class eZObjectRelationListType extends eZDataType
             if ( $relationItem['is_modified'] )
             {
                 $subObjectID = $relationItem['contentobject_id'];
-                $subObjectVersion = $relationItem['contentobject_version'];
                 $attributeBase = $base . '_ezorl_edit_object_' . $subObjectID;
                 $object =& $content['temp'][$subObjectID]['object'];
                 $requireFixup = $content['temp'][$subObjectID]['require-fixup'];
@@ -255,7 +254,6 @@ class eZObjectRelationListType extends eZDataType
             if ( $relationItem['is_modified'] )
             {
                 $subObjectID = $relationItem['contentobject_id'];
-                $subObjectVersion = $relationItem['contentobject_version'];
                 $attributeBase = $base . '_ezorl_edit_object_' . $subObjectID;
                 $object =& $content['temp'][$subObjectID]['object'];
                 if ( $object )
@@ -935,7 +933,7 @@ class eZObjectRelationListType extends eZDataType
                         if ( $object->attribute( 'can_edit' ) )
                         {
                             $relationItem['is_modified'] = true;
-                            $version = $object->createNewVersion( $relationItem['contentobject_version'] );
+                            $version = $object->createNewVersion();
                             $relationItem['contentobject_version'] = $version->attribute( 'version' );
                         }
                     }
