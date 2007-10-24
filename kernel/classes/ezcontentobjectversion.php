@@ -263,12 +263,15 @@ class eZContentObjectVersion extends eZPersistentObject
         else if ( $object->attribute( 'status' ) == EZ_CONTENT_OBJECT_STATUS_PUBLISHED )
         {
             $mainNode =& $object->mainNode();
-            $this->TempNode = eZContentObjectTreeNode::create( $mainNode->attribute( 'parent_node_id' ),
-                                                               $mainNode->attribute( 'contentobject_id' ),
-                                                               $this->attribute( 'version' ),
-                                                               $mainNode->attribute( 'sort_field' ),
-                                                               $mainNode->attribute( 'sort_order' ) );
-            $this->TempNode->setName( $mainNode->Name );
+            if ( is_object( $mainNode ) )
+            {
+                $this->TempNode = eZContentObjectTreeNode::create( $mainNode->attribute( 'parent_node_id' ),
+                                                                   $mainNode->attribute( 'contentobject_id' ),
+                                                                   $this->attribute( 'version' ),
+                                                                   $mainNode->attribute( 'sort_field' ),
+                                                                   $mainNode->attribute( 'sort_order' ) );
+                $this->TempNode->setName( $mainNode->Name );
+            }
         }
         return $this->TempNode;
     }
@@ -1804,8 +1807,9 @@ class eZContentObjectVersion extends eZPersistentObject
                                                                             'language_code' => $editLanguage ) ) );
 
         $conflictVersions = array();
-        foreach ( $versions as $version )
+        foreach ( array_keys( $versions ) as $key )
         {
+            $version =& $versions[$key];
             if ( $version->attribute( 'modified' ) > $this->attribute( 'created' ) )
             {
                 $conflictVersions[] =& $version;
