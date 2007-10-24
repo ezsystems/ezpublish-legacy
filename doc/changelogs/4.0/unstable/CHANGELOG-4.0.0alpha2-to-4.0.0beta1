@@ -28,3 +28,5 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #11738: typo pdf(tabel, ...) in templates
 - Fixed bug #11740: Warning on PDF export: eZTemplate:eZTemplateOperatorElement: Parameter 'operation' (0) missing
 - Fixed bug #9450: Wevdav - creating objects based on mime type corrupts file download url
+- Fixed bug #11529: Datatype ezobjectrelationlist store contentobject-version in attribute
+  (Merged from stable/3.10 (3.10.1) rev. 20562)

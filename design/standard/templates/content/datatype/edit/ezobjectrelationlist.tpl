@@ -162,7 +162,7 @@
            </div>
         {/case}
         {/switch}
-	
+
         {if eq( count( $nodesList ), 0 )}
             {def $parentnode = fetch( 'content', 'node', hash( 'node_id', $parent_node ) )}
             {if is_set( $parentnode )}
@@ -244,13 +244,6 @@
         {section-else}
         <label>{$:item.contentclass_attribute.name}:</label>
         {attribute_edit_gui attribute_base=concat( $attribute_base, '_ezorl_edit_object_', $Relation:item.contentobject_id ) html_class='half' attribute=$:item}
-        {/section}
-
-        {* Edit. *}
-        {section show=$:item.is_modified|not}
-             <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}" class="ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="image" name="CustomActionButton[{$attribute.id}_edit_objects_{$:item.contentobject_id}]" value="{'Edit'|i18n( 'design/standard/content/datatype' )}" src={'edit.gif'|ezimage} />
-        {section-else}
-             &nbsp;
         {/section}
 
         </div>
