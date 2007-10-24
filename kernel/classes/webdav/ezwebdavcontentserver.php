@@ -41,6 +41,7 @@ include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 include_once( "kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php" );
 include_once( "lib/ezutils/classes/ezmimetype.php" );
 include_once( 'lib/ezfile/classes/ezdir.php' );
+include_once( 'lib/ezfile/classes/ezfile.php' );
 include_once( "kernel/classes/ezurlaliasml.php" );
 include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 
@@ -1489,8 +1490,15 @@ class eZWebDAVContentServer extends eZWebDAVServer
             }
             else
             {
-                $mimeInfo = eZMimeType::findByName( $entry['mimetype'] );
-                $suffix = $mimeInfo['suffix'];
+                // eZMimeType returns first suffix in its list
+                // this could be another one than the original file extension
+                // so let's try to get the suffix from the file path first
+                $suffix = eZFile::suffix( $filePath );
+                if ( !$suffix )
+                {
+                    $mimeInfo = eZMimeType::findByName( $entry['mimetype'] );
+                    $suffix = $mimeInfo['suffix'];
+                }
                 if ( strlen( $suffix ) > 0 )
                     $entry["name"] .= '.' . $suffix;
             }
