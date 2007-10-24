@@ -2,7 +2,7 @@
 {section show=$attribute.content.relation_list}
 {section var=Relations loop=$attribute.content.relation_list sequence=array( bglight, bgdark )}
 {section show=$Relations.item.in_trash|not()}
-    {content_view_gui view=embed content_object=fetch( content, object, hash( object_id, $Relations.item.contentobject_id, object_version, $Relations.item.contentobject_version ) )}<br />
+    {content_view_gui view=embed content_object=fetch( content, object, hash( object_id, $Relations.item.contentobject_id ) )}<br />
 {/section}
 {/section}
 {section-else}
