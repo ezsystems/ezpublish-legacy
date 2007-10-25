@@ -503,7 +503,10 @@ class eZSiteInstaller
             $attributes[] = $newAttribute;
 
             // remove temporary version
-            $newAttribute->remove();
+            if ( $newAttribute->attribute( 'id' ) !== null )
+            {
+                $newAttribute->remove();
+            }
 
             $newAttribute->setAttribute( 'version', eZContentClass::VERSION_STATUS_DEFINED );
             $newAttribute->setAttribute( 'placement', count( $attributes ) );
