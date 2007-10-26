@@ -347,7 +347,7 @@ class eZCache
         {
             $key = $cacheItem['expiry-key'];
             include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-            $expiryHandler = eZExpiryHandler::instance();
+            $expiryHandler =& eZExpiryHandler::instance();
             $keyValue = $expiryHandler->getTimestamp( $key );
             if ( $keyValue !== false )
             {
@@ -420,7 +420,7 @@ class eZCache
     function clearImageAlias( $cacheItem )
     {
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-        $expiryHandler = eZExpiryHandler::instance();
+        $expiryHandler =& eZExpiryHandler::instance();
         $expiryHandler->setTimestamp( 'image-manager-alias', time() );
         $expiryHandler->store();
     }
@@ -436,7 +436,7 @@ class eZCache
     function clearContentTreeMenu( $cacheItem )
     {
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-        $expiryHandler = eZExpiryHandler::instance();
+        $expiryHandler =& eZExpiryHandler::instance();
         $expiryHandler->setTimestamp( 'content-tree-menu', time() );
         $expiryHandler->store();
     }
@@ -449,7 +449,7 @@ class eZCache
     function clearTemplateBlockCache( $cacheItem )
     {
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-        $expiryHandler = eZExpiryHandler::instance();
+        $expiryHandler =& eZExpiryHandler::instance();
         $expiryHandler->setTimestamp( 'global-template-block-cache', time() );
         $expiryHandler->store();
     }
