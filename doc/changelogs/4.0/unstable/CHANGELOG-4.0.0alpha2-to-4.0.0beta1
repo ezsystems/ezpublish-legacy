@@ -32,3 +32,6 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
   (Merged from stable/3.10 (3.10.1) rev. 20562)
 - Fixed bug: unused parameter in ezobjectrelationlist.tpl.
   (Merged from stable/3.10 (3.10.1) rev. 20565)
+- Fixed bug #11658: eZURLAliasML relies on md5 function of database implementation, but this function is not 
+  defined in eZDBInterface.
+  (Merged from stable/3.10 (3.10.1) rev. 20572)
