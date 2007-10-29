@@ -190,7 +190,7 @@ class eZTrigger extends eZPersistentObject
 
             if ( count( $workflowProcessList ) > 0 )
             {
-                $existingWorkflowProcess =& $workflowProcessList[0];
+                $existingWorkflowProcess = $workflowProcessList[0];
                 $existingWorkflowStatus = $existingWorkflowProcess->attribute( 'status' );
 
 
@@ -254,7 +254,7 @@ class eZTrigger extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function runWorkflow( &$workflowProcess )
+    static function runWorkflow( $workflowProcess )
     {
         $workflow = eZWorkflow::fetch( $workflowProcess->attribute( "workflow_id" ) );
         $workflowEvent = null;
@@ -284,7 +284,7 @@ class eZTrigger extends eZPersistentObject
                 $result = array();
                 foreach ( array_keys( $workflowProcess->Template['templateVars'] ) as $key )
                 {
-                    $value =& $workflowProcess->Template['templateVars'][$key];
+                    $value = $workflowProcess->Template['templateVars'][$key];
                     $tpl->setVariable( $key, $value );
                 }
                 $result['content'] = $tpl->fetch( $workflowProcess->Template['templateName'] );
@@ -293,7 +293,7 @@ class eZTrigger extends eZPersistentObject
 
                     $db->commit();
                 return array( 'Status' => eZTrigger::FETCH_TEMPLATE,
-                              'WorkflowProcess' => &$workflowProcess,
+                              'WorkflowProcess' => $workflowProcess,
                               'Result' => $result );
             } break;
             case eZWorkflow::STATUS_REDIRECT:
@@ -301,7 +301,7 @@ class eZTrigger extends eZPersistentObject
 //                var_dump( $workflowProcess->RedirectUrl  );
                 $db->commit();
                 return array( 'Status' => eZTrigger::REDIRECT,
-                              'WorkflowProcess' => &$workflowProcess,
+                              'WorkflowProcess' => $workflowProcess,
                               'Result' => $workflowProcess->RedirectUrl );
 
             } break;
@@ -310,7 +310,7 @@ class eZTrigger extends eZPersistentObject
 
                 $db->commit();
                 return array( 'Status' => eZTrigger::STATUS_CRON_JOB,
-                              'WorkflowProcess' => &$workflowProcess,
+                              'WorkflowProcess' => $workflowProcess,
                               'Result' => array( 'content' => 'Deffered to cron. Operation halted during execution. <br/>Refresh page to continue<br/><br/><b>Note: The halt is just a temporary test</b><br/>',
                                                  'path' => array( array( 'text' => 'Operation halt',
                                                                          'url' => false ) ) ) );
@@ -323,7 +323,7 @@ class eZTrigger extends eZPersistentObject
             {
                 $db->commit();
                 return array( 'Status' => eZTrigger::WORKFLOW_RESET,
-                              'WorkflowProcess' => &$workflowProcess,
+                              'WorkflowProcess' => $workflowProcess,
                               'Result' => array( 'content' => 'Workflow was reset',
                                                  'path' => array( array( 'text' => 'Operation halt',
                                                                          'url' => false ) ) ) );
@@ -349,7 +349,7 @@ class eZTrigger extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function createNew( $moduleName, $functionName, $connectType, $workflowID, $name = false )
+    static function createNew( $moduleName, $functionName, $connectType, $workflowID, $name = false )
     {
         if ( !$name )
         {

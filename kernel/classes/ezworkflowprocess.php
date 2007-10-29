@@ -151,9 +151,7 @@ class eZWorkflowProcess extends eZPersistentObject
                       'name' => 'ezworkflow_process' );
     }
 
-    function create( $processKey, $parameters )
-//                      $workflowID, $userID,
-//                      $contentID, $contentVersion, $nodeID, $sessionKey = '' )
+    static function create( $processKey, $parameters )
     {
         $dateTime = time();
         if ( !isset( $parameters['user_id'] ) )
