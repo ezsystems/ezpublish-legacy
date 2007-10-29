@@ -226,6 +226,8 @@ $node->setAttribute( 'main_node_id', $virtualNodeID );
 $node->setAttribute( 'path_string', $pathString );
 $node->setAttribute( 'depth', $depth );
 $node->setAttribute( 'node_id', $virtualNodeID );
+$node->setAttribute( 'sort_field', $class->attribute( 'sort_field' ) );
+$node->setAttribute( 'sort_order', $class->attribute( 'sort_order' ) );
 $node->setName( $objectName );
 
 $node->setContentObject( $contentObject );
