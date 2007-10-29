@@ -14,7 +14,7 @@
         <p>{$validation_field|wash} is not allowed to contain spaces</p>
     {/case}
     {case match='write_error'}
-        <p>>Writing setting <em>{$setting_name|wash}</em> to <em>{$filename}</em> failed</p>>
+        <p>Writing setting <em>{$setting_name|wash}</em> to <em>{$filename}</em> failed</p>
         <p>Make sure you have proper permissions to {$path} and try again.</p>
     {/case}
     {case match='not_valid_name'}
@@ -27,7 +27,7 @@
     {/case}
     {case match='not_numeric'}
         <p>{$validation_field} does not contain a valid numeric</p>
-        <p>A valid numeric can only contain 0-9 and one . (dot). </å>
+        <p>A valid numeric can only contain 0-9 and one . (dot). </p>
     {/case}
     {case match='not_array'}
         <p>{$validation_field} does not contain valid array</p>

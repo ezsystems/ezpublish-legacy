@@ -32,7 +32,7 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
   (Merged from stable/3.10 (3.10.1) rev. 20562)
 - Fixed bug: unused parameter in ezobjectrelationlist.tpl.
   (Merged from stable/3.10 (3.10.1) rev. 20565)
-- Fixed bug #11658: eZURLAliasML relies on md5 function of database implementation, but this function is not 
+- Fixed bug #11658: eZURLAliasML relies on md5 function of database implementation, but this function is not
   defined in eZDBInterface.
   (Merged from stable/3.10 (3.10.1) rev. 20572)
 - Fixed bug #11747: Warning about unknown sort order on preview.
@@ -47,4 +47,4 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #11775: wrong path to ezpopupmenu.js in standard template popup_menu.tpl
 - Fixed bug #011776: SQL error with contentclass_serialized_name_list with ezoracle.
   (Merged from stable/3.9 (3.9.5) rev. 20592)
-
+- Fixed bug #11765: settings_validation.tpl: malformed XML
