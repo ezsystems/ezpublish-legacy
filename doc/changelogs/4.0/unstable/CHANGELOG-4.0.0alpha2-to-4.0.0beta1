@@ -44,3 +44,4 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed issue #011615: Unused QUERY_LIMIT constant in update/common/scripts/3.10/updatemultioption.php.
 - Fixed issue #011661: updatemultioption.php CLI script has wrong description.
 - Fixed issue #11771: PHP warnings using triggers.
+- Fixed bug #11775: wrong path to ezpopupmenu.js in standard template popup_menu.tpl
