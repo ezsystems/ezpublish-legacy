@@ -81,6 +81,9 @@ class eZContentObject extends eZPersistentObject
         $this->ClassName = false;
         if ( isset( $row['contentclass_name'] ) )
             $this->ClassName = $row['contentclass_name'];
+        if ( isset( $row['serialized_name_list'] ) )
+            $this->ClassName = eZContentClass::nameFromSerializedString( $row['serialized_name_list'] );
+
         $this->CurrentLanguage = false;
         if ( isset( $row['content_translation'] ) )
         {
@@ -773,7 +776,7 @@ class eZContentObject extends eZPersistentObject
         $id = (int) $id;
 
         $fetchSQLString = "SELECT ezcontentobject.*,
-                               ezcontentclass.serialized_name_list as contentclass_serialized_name_list,
+                               ezcontentclass.serialized_name_list as serialized_name_list,
                                ezcontentclass.identifier as contentclass_identifier,
                                ezcontentclass.is_container as is_container
                            FROM
