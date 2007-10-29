@@ -4158,11 +4158,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     static function removeSubtrees( $deleteIDArray, $moveToTrash = true, $infoOnly = false )
     {
-        if ( !$infoOnly )
-        {
-            //include_once( "kernel/classes/ezcontentcachemanager.php" );
-        }
-
         $moveToTrashAllowed = true;
         $deleteResult = array();
         $totalChildCount = 0;
