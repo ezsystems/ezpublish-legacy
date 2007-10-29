@@ -60,3 +60,5 @@ Changes from 3.10.0 to 3.10.1
 - Fixed bug #11529: Datatype ezobjectrelationlist store contentobject-version in attribute
 - Fixed bug: unused parameter in ezobjectrelationlist.tpl.
 - Fixed bug #11644: eZPublish 3.10 doesn't properly clean up the caches
+- Fixed bug #11658: eZURLAliasML relies on md5 function of database implementation, but this function is not 
+  defined in eZDBInterface.

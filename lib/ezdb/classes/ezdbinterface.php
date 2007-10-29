@@ -476,6 +476,33 @@ class eZDBInterface
     }
 
     /*!
+     \pure
+     \retrun a sql-expression(string) to get substring.
+    */
+    function subString( $string, $from, $len = null )
+    {
+        return '';
+    }
+
+    /*!
+     \pure
+     \retrun a sql-expression(string) to concatenate strings.
+    */
+    function concatString( $strings = array() )
+    {
+        return '';
+    }
+
+    /*!
+     \pure
+     \retrun a sql-expression(string) to generate a md5 sum of the string.
+    */
+    function md5( $str )
+    {
+        return '';
+    }
+
+    /*!
      Checks if the version number of the server is equal or larger than \a $minVersion.
      Will also check if the database type is correct if \a $name is set.
 
