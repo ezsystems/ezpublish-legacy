@@ -477,7 +477,7 @@ class eZDBInterface
 
     /*!
      \pure
-     \retrun a sql-expression(string) to get substring.
+     \return a sql-expression(string) to get substring.
     */
     function subString( $string, $from, $len = null )
     {
@@ -486,7 +486,7 @@ class eZDBInterface
 
     /*!
      \pure
-     \retrun a sql-expression(string) to concatenate strings.
+     \return a sql-expression(string) to concatenate strings.
     */
     function concatString( $strings = array() )
     {
@@ -495,7 +495,7 @@ class eZDBInterface
 
     /*!
      \pure
-     \retrun a sql-expression(string) to generate a md5 sum of the string.
+     \return a sql-expression(string) to generate a md5 sum of the string.
     */
     function md5( $str )
     {
