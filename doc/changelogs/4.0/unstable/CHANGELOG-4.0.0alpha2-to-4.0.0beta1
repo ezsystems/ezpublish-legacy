@@ -40,3 +40,4 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed issue #11770: Multiple PHP warnings while editing workflows.
 - Fixed issue #11547: PHP functions behind template fetch functions that are called statically
 - Fixed issue #11552: eZWorkflow::fetchEvents and eZWorkflow::fetchEventCount should be either static or instance methods
+- Fixed issue #11773: Notice: Undefined variable: Module in /home/hovik/dev/trunk/lib/ezutils/classes/ezmodule.php on line 84

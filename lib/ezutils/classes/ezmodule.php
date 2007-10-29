@@ -81,6 +81,12 @@ class eZModule
             {
                 $this->FunctionList = array();
             }
+            if ( empty( $Module ) )
+            {
+                $Module = array( "name" => "null",
+                                 "variable_params" => false,
+                                 "function" => array() );
+            }
             $this->Module = $Module;
             $this->Name = $moduleName;
             $this->Path = $path;
