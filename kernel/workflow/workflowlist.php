@@ -149,8 +149,8 @@ foreach( $tempworkflow_list as $tmpWorkflow )
 {
     foreach ( $templist_in_group as $tmpInGroup )
     {
-        $id =  $tempworkflow_list[$i]->attribute("id");
-        $workflow_id =  $templist_in_group[$j]->attribute("workflow_id");
+        $id =  $tmpWorkflow->attribute("id");
+        $workflow_id =  $tmpInGroup->attribute("workflow_id");
         if ( $tmpWorkflow->attribute( 'id' ) === $tmpWorkflow->attribute( 'workflow_id' ) )
         {
             $temp_list[] = $tmpWorkflow;

@@ -118,14 +118,13 @@ class eZWorkflow extends eZPersistentObject
 
     static function statusName( $status )
     {
-        //include_once( 'kernel/workflow/ezworkflowfunctioncollection.php' );
-        $statusNames = eZWorkflowFunctionCollection::fetchWorkflowStatuses();
-        if ( isset( $statusNames[$status] ) )
-            return $statusNames[$status];
+        $statusNameMap = self::statusNameMap();
+        if ( isset( $statusNameMap[$status] ) )
+            return $statusNameMap[$status];
         return false;
     }
 
-    function create( $user_id )
+    static function create( $user_id )
     {
         $date_time = time();
         $row = array(
@@ -217,28 +216,31 @@ class eZWorkflow extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function removeEvents( $events = false, $id = false, $version = false )
+    static function removeEvents( $events = false, $id = false, $version = false )
     {
         if ( is_array( $events ) )
         {
             $db = eZDB::instance();
             $db->begin();
-            for ( $i = 0; $i < count( $events ); ++$i )
+            foreach( $events as $event )
             {
-                $event =& $events[$i];
                 $event->remove();
             }
             $db->commit();
         }
         else
         {
-            if ( $version === false )
-                $version = $this->Version;
-            if ( $id === false )
-                $id = $this->ID;
+            $condArray = array();
+            if ( $version !== false )
+            {
+                $condArray['version'] = $version;
+            }
+            if ( $id !== false )
+            {
+                $condArray['workflow_id'] = $id;
+            }
             eZPersistentObject::removeObject( eZWorkflowEvent::definition(),
-                                              array( "workflow_id" => $id,
-                                                     "version" => $version ) );
+                                              $condArray );
         }
     }
 
@@ -246,9 +248,10 @@ class eZWorkflow extends eZPersistentObject
     {
         if ( !is_array( $events ) )
             return;
+        $i = 0;
         foreach( $events as $event )
         {
-            $event->setAttribute( "placement", $i + 1 );
+            $event->setAttribute( "placement", ++$i );
         }
     }
 
@@ -264,12 +267,15 @@ class eZWorkflow extends eZPersistentObject
         if ( is_array( $store_childs ) or $store_childs )
         {
             if ( is_array( $store_childs ) )
-                $events =& $store_childs;
-            else
-                $events =& $this->fetchEvents();
-            for ( $i = 0; $i < count( $events ); ++$i )
             {
-                $event =& $events[$i];
+                $events = $store_childs;
+            }
+            else
+            {
+                $events = $this->fetchEvents();
+            }
+            foreach ( $events as $event )
+            {
                 $event->store();
             }
         }
@@ -282,12 +288,15 @@ class eZWorkflow extends eZPersistentObject
         if ( is_array( $set_childs ) or $set_childs )
         {
             if ( is_array( $set_childs ) )
-                $events =& $set_childs;
-            else
-                $events =& $this->fetchEvents();
-            for ( $i = 0; $i < count( $events ); ++$i )
             {
-                $event =& $events[$i];
+                $events = $set_childs;
+            }
+            else
+            {
+                $events = $this->fetchEvents();
+            }
+            foreach( $events as $event )
+            {
                 $event->setAttribute( "version", $version );
             }
         }
@@ -404,38 +413,19 @@ class eZWorkflow extends eZPersistentObject
     {
         if ( $id === false )
         {
-            if ( isset( $this ) and
-                 strtolower( get_class( $this ) ) == "ezworkflow" )
-            {
-                $id = $this->ID;
-                $version = $this->Version;
-            }
-            else
-            {
-                $retValue = null;
-                return $retValue;
-            }
+            $id = $this->ID;
+            $version = $this->Version;
         }
-        $filteredList = eZWorkflowEvent::fetchFilteredList( array( "workflow_id" => $id,
-                                                                    "version" => $version ) );
-        return $filteredList;
+        return eZWorkflowEvent::fetchFilteredList( array( "workflow_id" => $id,
+                                                          "version" => $version ) );
     }
 
     function fetchEventCount( $id = false, $version = 0 )
     {
         if ( $id === false )
         {
-            if ( isset( $this ) and
-                 strtolower( get_class( $this ) ) == "ezworkflow" )
-            {
-                $id = $this->ID;
-                $version = $this->Version;
-            }
-            else
-            {
-                $count = null;
-                return $count;
-            }
+            $id = $this->ID;
+            $version = $this->Version;
         }
         $list = eZPersistentObject::fetchObjectList( eZWorkflowEvent::definition(),
                                                      array(),
@@ -516,13 +506,12 @@ class eZWorkflow extends eZPersistentObject
         {
             $db = eZDB::instance();
             $workflowID = $this->attribute( 'id' );
-            $event_list =& $this->fetchEvents();
+            $event_list = $this->fetchEvents();
             if ( $event_list != null )
             {
                 $existEventIDArray = array();
-                foreach ( array_keys( $event_list ) as $key )
+                foreach ( $event_list as $event )
                 {
-                    $event =& $event_list[$key];
                     $eventID = $event->attribute( 'id' );
                     $existEventIDArray[] = $eventID;
                 }
@@ -537,6 +526,24 @@ class eZWorkflow extends eZPersistentObject
                                    WHERE workflow_id=$workflowID");
             }
         }
+    }
+
+    /**
+     * Get status name map.
+     *
+     * @return array Status name map.
+     */
+    static function statusNameMap()
+    {
+        return array( eZWorkflow::STATUS_NONE => ezi18n( 'kernel/classes', 'No state yet' ),
+                      eZWorkflow::STATUS_BUSY => ezi18n( 'kernel/classes', 'Workflow running' ),
+                      eZWorkflow::STATUS_DONE => ezi18n( 'kernel/classes', 'Workflow done' ),
+                      eZWorkflow::STATUS_FAILED => ezi18n( 'kernel/classes', 'Workflow failed an event' ),
+                      eZWorkflow::STATUS_DEFERRED_TO_CRON => ezi18n( 'kernel/classes', 'Workflow event deferred to cron job' ),
+                      eZWorkflow::STATUS_CANCELLED => ezi18n( 'kernel/classes', 'Workflow was canceled' ),
+                      eZWorkflow::STATUS_FETCH_TEMPLATE => ezi18n( 'kernel/classes', 'Workflow fetches template' ),
+                      eZWorkflow::STATUS_REDIRECT => ezi18n( 'kernel/classes', 'Workflow redirects user view' ),
+                      eZWorkflow::STATUS_RESET => ezi18n( 'kernel/classes', 'Workflow was reset for reuse' ) );
     }
 
     /// \privatesection

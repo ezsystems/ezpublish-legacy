@@ -74,7 +74,7 @@ class eZWorkflowGroupLink extends eZPersistentObject
                       "name" => "ezworkflow_group_link" );
     }
 
-    function create( $workflow_id, $workflow_version, $group_id, $group_name )
+    static function create( $workflow_id, $workflow_version, $group_id, $group_name )
     {
         $row = array("workflow_id" => $workflow_id,
                      "workflow_version" => $workflow_version,
@@ -99,7 +99,7 @@ class eZWorkflowGroupLink extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function removeGroupMembers( $group_id )
+    static function removeGroupMembers( $group_id )
     {
         eZPersistentObject::removeObject( eZWorkflowGroupLink::definition(),
                                           array( "group_id" => $group_id ) );
@@ -109,7 +109,7 @@ class eZWorkflowGroupLink extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function removeWorkflowMembers( $workflow_id, $workflow_version )
+    static function removeWorkflowMembers( $workflow_id, $workflow_version )
     {
         eZPersistentObject::removeObject( eZWorkflowGroupLink::definition(),
                                           array( "workflow_id" =>$workflow_id,

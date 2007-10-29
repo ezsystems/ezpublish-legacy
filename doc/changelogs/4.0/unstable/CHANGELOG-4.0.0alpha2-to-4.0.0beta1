@@ -37,3 +37,6 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
   (Merged from stable/3.10 (3.10.1) rev. 20572)
 - Fixed bug #11747: Warning about unknown sort order on preview.
   (Merged from stable/3.10 (3.10.1) rev. 20577)
+- Fixed issue #11770: Multiple PHP warnings while editing workflows.
+- Fixed issue #11547: PHP functions behind template fetch functions that are called statically
+- Fixed issue #11552: eZWorkflow::fetchEvents and eZWorkflow::fetchEventCount should be either static or instance methods
