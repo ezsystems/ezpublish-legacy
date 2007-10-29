@@ -30,7 +30,6 @@
 */
 //include_once( 'kernel/classes/ezpersistentobject.php' );
 //include_once( 'kernel/classes/ezcontentobjectattribute.php' );
-define( "QUERY_LIMIT", 100 );
 
 require 'autoload.php';
 
@@ -84,8 +83,7 @@ if( !file_exists( 'update/common/scripts' ) || !is_dir( 'update/common/scripts' 
 $cli = eZCLI::instance();
 
 $script = eZScript::instance( array( 'description' => ( "\nDatabase converter for eZ Publish 3.6.\n" .
-                                                        "Updates <link> tags in 'ezxmltext' type attributes.\n" .
-                                                        "Run this script before using database created with eZ Publish version 3.5.* or lower." ),
+                                                        "Converts old ezmultioption attributes to new ezmultioption2 datatype" ),
                                      'use-session' => false,
                                      'use-modules' => false,
                                      'use-extensions' => false ) );
