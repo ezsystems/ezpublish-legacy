@@ -367,6 +367,11 @@ class eZMatrixType extends eZDataType
 
     }
 
+    function preStoreClassAttribute( $classAttribute, $version )
+    {
+        $matrixDefinition = $classAttribute->attribute( 'content' );
+        $classAttribute->setAttribute( 'data_text5', $matrixDefinition->xmlString() );
+    }
 
     /*!
      Returns the content.
