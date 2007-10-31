@@ -48,3 +48,4 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #011776: SQL error with contentclass_serialized_name_list with ezoracle.
   (Merged from stable/3.9 (3.9.5) rev. 20592)
 - Fixed bug #11765: settings_validation.tpl: malformed XML
+- Fixed bug #11785: Template look class missing info in language matrix
