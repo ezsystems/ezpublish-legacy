@@ -49,3 +49,4 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
   (Merged from stable/3.9 (3.9.5) rev. 20592)
 - Fixed bug #11765: settings_validation.tpl: malformed XML
 - Fixed bug #11785: Template look class missing info in language matrix
+- Fixed bug #11774: versionview dosn't work if versionread is asigned with limitation

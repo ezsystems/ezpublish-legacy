@@ -446,9 +446,7 @@ class eZContentObjectVersion extends eZPersistentObject
         }
         else
         {
-            $policies = $accessResult['policies'];
-
-            $limitationList[] = $policies;
+            $limitationList = $accessResult['policies'];
 
             if ( count( $limitationList ) > 0 )
             {
