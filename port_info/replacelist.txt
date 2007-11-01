@@ -1,3 +1,4 @@
+# Reference fixes
 replace "=& \$contentObjectAttribute->contentClassAttribute(" "= \$contentObjectAttribute->contentClassAttribute(" -- `find * -name "*.php"`
 replace "&\$cli" "\$cli" -- `find * -name "*.php"`
 replace "=& eZTextCodec::instance(" "= eZTextCodec::instance(" -- `find * -name "*.php"`
@@ -14,18 +15,8 @@ replace "=& \$contentObject->dataMap(" "= \$contentObject->dataMap(" -- `find * 
 replace "=& \$object->dataMap(" "= \$object->dataMap(" -- `find * -name "*.php"`
 replace "=& \$object->contentClass(" "= \$object->contentClass(" -- `find * -name "*.php"`
 replace "=& \$object->version(" "= \$object->version(" -- `find * -name "*.php"`
-
-
-replace "eZContentObjectTreeNode::remove(" "eZContentObjectTreeNode::removeNode" -- `find * -name "*.php"`
-replace "eZPolicyLimitation::remove(" "eZPolicyLimitation::removeByID(" -- `find * -name "*.php"`
-replace "eZPolicy::remove(" "eZPolicy::removeByID(" -- `find * -name "*.php"`
 replace "function &classAttributeContent( &\$classAttribute )" "function classAttributeContent( \$classAttribute )" -- `find * -name "*.php"`
 replace "function &objectAttributeContent( &\$contentObjectAttribute )" "function objectAttributeContent( \$contentObjectAttribute )" -- `find * -name "*.php"`
-
-replace "eZWorkflowEventType::registerType(" "eZWorkflowEventType::registerEventType(" -- `find * -name "*.php"`
-replace "eZWorkflowGroupType::registerType(" "eZWorkflowGroupType::registerGroupType(" -- `find * -name "*.php"`
-replace "workflow->remove(" "workflow->removeThis(" -- `find * -name "*.php"`
-
 replace "function hasObjectAttributeContent( &\$contentObjectAttribute )" "function hasObjectAttributeContent( \$contentObjectAttribute )" -- `find * -name "*.php"`
 replace "function storeObjectAttribute( &\$attribute )" "function storeObjectAttribute( \$attribute )" -- `find * -name "*.php"`
 replace "function storeClassAttribute( &\$attribute, \$version )" "function storeClassAttribute( \$attribute, \$version )" -- `find * -name "*.php"`
@@ -44,11 +35,7 @@ replace "function &editTemplate( &\$contentobjectAttribute )" "function editTemp
 replace "function &informationTemplate( &\$contentobjectAttribute )" "function informationTemplate( \$contentobjectAttribute )" -- `find * -name "*.php"`
 replace "function objectDisplayInformation( &\$objectAttribute, \$mergeInfo = false )" "function objectDisplayInformation( \$objectAttribute, \$mergeInfo = false )" -- `find * -name "*.php"`
 replace "function onPublish( &\$contentObjectAttribute, &\$contentObject, &\$publishedNodes )" "function onPublish( \$contentObjectAttribute, \$contentObject, \$publishedNodes )" -- `find * -name "*.php"`
-replace "eZContentObjectTreeNode::subTree(" "eZContentObjectTreeNode::subTreeByNodeID(" -- `find * -name "*.php"`
-replace "eZContentObjectTreeNode::subTreeCount(" "eZContentObjectTreeNode::subTreeCountByNodeID(" -- `find * -name "*.php"`
-
 replace "function &operatorList(" "function operatorList(" -- `find * -name "*.php"`
-
 replace "=& eZINI::create(" "= eZINI::create(" -- `find * -name "*.php"`
 replace "=& templateInit(" "= templateInit(" -- `find * -name "*.php"`
 replace "=& \$Params[\"Module\"]" "= \$Params[\"Module\"]" -- `find * -name "*.php"`
@@ -88,6 +75,19 @@ replace "&\$operatorParameters" "\$operatorParameters" -- `find * -name "*.php"`
 replace "=& eZScript::instance(" "= eZScript::instance(" -- `find * -name "*.php"`
 replace "=& eZCLI::instance(" "= eZCLI::instance(" -- `find * -name "*.php"`
 replace "=& eZDB::instance(" "= eZDB::instance(" -- `find * -name "*.php"`
+
+
+# Function name fixes
+replace "eZContentObjectTreeNode::remove(" "eZContentObjectTreeNode::removeNode" -- `find * -name "*.php"`
+replace "eZPolicyLimitation::remove(" "eZPolicyLimitation::removeByID(" -- `find * -name "*.php"`
+replace "eZPolicy::remove(" "eZPolicy::removeByID(" -- `find * -name "*.php"`
+
+replace "eZWorkflowEventType::registerType(" "eZWorkflowEventType::registerEventType(" -- `find * -name "*.php"`
+replace "eZWorkflowGroupType::registerType(" "eZWorkflowGroupType::registerGroupType(" -- `find * -name "*.php"`
+replace "workflow->remove(" "workflow->removeThis(" -- `find * -name "*.php"`
+
+replace "eZContentObjectTreeNode::subTree(" "eZContentObjectTreeNode::subTreeByNodeID(" -- `find * -name "*.php"`
+replace "eZContentObjectTreeNode::subTreeCount(" "eZContentObjectTreeNode::subTreeCountByNodeID(" -- `find * -name "*.php"`
 replace "function definition(" "static function definition(" -- `find * -name "*.php"`
 
 
