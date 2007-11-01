@@ -50,3 +50,4 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #11765: settings_validation.tpl: malformed XML
 - Fixed bug #11785: Template look class missing info in language matrix
 - Fixed bug #11774: versionview dosn't work if versionread is asigned with limitation
+- Fixed issue #11802: Syntax error in ezusersetting.php.
