@@ -2219,7 +2219,6 @@ class eZContentObject extends eZPersistentObject
             {
                 if ( $contentObjectAttribute->fetchInput( $http, $attributeDataBaseName ) )
                 {
-                    $dataMap[$contentObjectAttribute->attribute( 'contentclass_attribute_identifier' )] = $contentObjectAttribute;
                     $attributeInputMap[$contentObjectAttribute->attribute('id')] = true;
                 }
 

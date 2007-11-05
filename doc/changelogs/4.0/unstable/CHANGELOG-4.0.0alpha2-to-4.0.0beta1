@@ -53,3 +53,4 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed issue #11802: Syntax error in ezusersetting.php.
 - Fixed bug #9124: edit language choice form has wrong ui_context
 - Fixed bug #10473: Unable to use 'column' parameter in $db->arrayQuery
+- Fixed bug #11781: draft - object name are not update
