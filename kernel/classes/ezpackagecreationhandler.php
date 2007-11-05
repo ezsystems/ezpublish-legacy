@@ -1003,7 +1003,7 @@ class eZPackageCreationHandler
      \static
      Appends the GPL licence file to the package object \a $package.
     */
-    function appendLicence( $package )
+    static function appendLicence( $package )
     {
         $package->appendDocument( 'LICENCE', false, false, false, true,
                                   "This file is part of the package " . $package->attribute( 'name' ) . ".\n" .

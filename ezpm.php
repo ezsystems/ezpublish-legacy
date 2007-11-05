@@ -877,7 +877,7 @@ foreach ( $commandList as $commandItem )
                 } break;
                 default:
                 {
-                    $handler =& $package->packageHandler( $itemType );
+                    $handler = $package->packageHandler( $itemType );
                     if ( is_object( $handler ) )
                     {
                         $realItemType = $handler->handlerType();
@@ -969,7 +969,7 @@ foreach ( $commandList as $commandItem )
 
         if ( $archiveName )
         {
-            $package =& eZPackage::import( $archiveName, $commandItem['name'], true, $repositoryID );
+            $package = eZPackage::import( $archiveName, $commandItem['name'], true, $repositoryID );
 
             if ( $package == eZPackage::STATUS_ALREADY_EXISTS )
             {
@@ -990,7 +990,7 @@ foreach ( $commandList as $commandItem )
         $package = eZPackage::fetch( $commandItem['name'] );
         if ( $package )
         {
-            $user =& eZUser::currentUser();
+            $user = eZUser::currentUser();
             $installParameters = array( 'site_access_map' => array( '*' => $siteaccess ),
                                         'top_nodes_map' => array( '*' => 2 ),
                                         'design_map' => array( '*' => $siteaccess ),
