@@ -302,7 +302,7 @@ if ( $storingAllowed && $hasObjectInput)
 
     $db =& eZDB::instance();
     $db->begin();
-    $object->setName( $class->contentObjectName( $object ), $version->attribute( 'version' ), $EditLanguage );
+    $object->setName( $class->contentObjectName( $object, $version->attribute( 'version' ), $EditLanguage ), $version->attribute( 'version' ), $EditLanguage );
     $db->commit();
 }
 elseif ( $storingAllowed )
