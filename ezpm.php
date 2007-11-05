@@ -32,6 +32,7 @@
 //include_once( "lib/ezutils/classes/ezmodule.php" );
 //include_once( 'lib/ezutils/classes/ezcli.php' );
 //include_once( 'kernel/classes/ezscript.php' );
+require 'autoload.php';
 
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'debug-message' => '',
