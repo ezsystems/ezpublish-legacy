@@ -505,7 +505,7 @@ class eZMySQLiDB extends eZDBInterface
                 if ( isset( $params["offset"] ) and is_numeric( $params["offset"] ) )
                     $offset = $params["offset"];
 
-                if ( isset( $params["column"] ) and is_numeric( $params["column"] ) )
+                if ( isset( $params["column"] ) and ( is_numeric( $params["column"] ) or is_string( $params["column"] ) ) )
                     $column = $params["column"];
             }
 
