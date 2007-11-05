@@ -261,6 +261,7 @@ $ViewList['action'] = array(
     'functions' => array( 'read' ),
     'default_navigation_part' => 'ezcontentnavigationpart',
     'script' => 'action.php',
+    'ui_context' => 'edit',
     'params' => array(  ),
     'single_post_actions' => array( 'RemoveAssignmentButton' => 'RemoveAssignment',
                                     'AddAssignmentButton' => 'SelectAssignmentLocation',
