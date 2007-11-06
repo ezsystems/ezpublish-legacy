@@ -409,7 +409,17 @@ class eZRSSExport extends eZPersistentObject
             $useURLAlias = false;
         }
 
-        $baseItemURL = $this->attribute( 'url' ).'/'; //.$this->attribute( 'site_access' ).'/';
+        if ( $this->attribute( 'url' ) == '' )
+        {
+            include_once( 'lib/ezutils/classes/ezuri.php' );
+            $baseItemURL = '';
+            eZURI::transformURI( $baseItemURL, false, 'full' );
+            $baseItemURL .= '/';
+        }
+        else
+        {
+            $baseItemURL = $this->attribute( 'url' ).'/'; //.$this->attribute( 'site_access' ).'/';
+        }
 
         $doc = new DOMDocument();
         $root = $doc->createElement( 'rss' );
@@ -580,7 +590,17 @@ class eZRSSExport extends eZPersistentObject
             $useURLAlias = false;
         }
 
-        $baseItemURL = $this->attribute( 'url' ).'/'; //.$this->attribute( 'site_access' ).'/';
+        if ( $this->attribute( 'url' ) == '' )
+        {
+            include_once( 'lib/ezutils/classes/ezuri.php' );
+            $baseItemURL = '';
+            eZURI::transformURI( $baseItemURL, false, 'full' );
+            $baseItemURL .= '/';
+        }
+        else
+        {
+            $baseItemURL = $this->attribute( 'url' ).'/'; //.$this->attribute( 'site_access' ).'/';
+        }
 
         $doc = new DOMDocument();
         $root = $doc->createElementNS( 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'rdf:RDF' );

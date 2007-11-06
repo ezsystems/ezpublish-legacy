@@ -33,3 +33,5 @@ Changes from 3.10.0 to 3.11.0alpha1
 - Fixed bug #11605: Space characters in float attribute input is not correctly handled
 - Fixed bug #11558: Additional site accesses are missing SiteLanguageList[]=main_language.
 - Fixed bug #11628: View Cache for related objects is not properly cleared.
+- Fixed bug #11838: Siteaccess is missing in RSS feed bookmarks
+  (Merged from stable/3.8 (3.8.10) rev. 20619)
