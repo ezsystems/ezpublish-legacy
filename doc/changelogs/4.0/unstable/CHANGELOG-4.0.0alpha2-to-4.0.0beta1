@@ -54,3 +54,4 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #9124: edit language choice form has wrong ui_context
 - Fixed bug #10473: Unable to use 'column' parameter in $db->arrayQuery
 - Fixed bug #11781: draft - object name are not update
+- Fixed bug #11812: Declaration of eZDiscountSubRule::remove should be compatible with eZPersistentObject warnings

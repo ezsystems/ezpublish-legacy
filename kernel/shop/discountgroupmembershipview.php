@@ -64,6 +64,7 @@ if ( $http->hasPostVariable( "RemoveRuleButton" ) )
     $db->begin();
     foreach ( $discountRuleIDList  as $discountRuleID )
     {
+        eZDiscountSubRuleValue::removeBySubRuleID ( $discountRuleID );
         eZDiscountSubRule::remove( $discountRuleID );
     }
     $db->commit();
