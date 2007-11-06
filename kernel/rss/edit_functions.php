@@ -45,14 +45,14 @@ class eZRSSEditFunction
     {
         $valid = true;
         $validationErrors = array();
-        if ( $http->hasPostVariable( 'active' ) && $http->postVariable( 'active' )  == 'on'
+/*        if ( $http->hasPostVariable( 'active' ) && $http->postVariable( 'active' )  == 'on'
              && $http->hasPostVariable( 'Access_URL' ) && strlen( trim( $http->postVariable( 'Access_URL' ) ) ) == 0 )
         {
             $valid = false;
             $publish = false;
             $validationErrors[] =ezi18n( 'design/admin/rss/edit_export',
                                          'If RSS Export is Active then a valid Access URL is required.'  );
-        }
+        }*/
         // VS-DBFILE
 
         /* Kill the RSS cache in all siteaccesses */
