@@ -418,7 +418,17 @@ class eZRSSExport extends eZPersistentObject
             $useURLAlias = false;
         }
 
-        $baseItemURL = $this->attribute( 'url' ).'/'; //.$this->attribute( 'site_access' ).'/';
+        if ( $this->attribute( 'url' ) == '' )
+        {
+            include_once( 'lib/ezutils/classes/ezuri.php' );
+            $baseItemURL = '';
+            eZURI::transformURI( $baseItemURL, false, 'full' );
+            $baseItemURL .= '/';
+        }
+        else
+        {
+            $baseItemURL = $this->attribute( 'url' ).'/'; //.$this->attribute( 'site_access' ).'/';
+        }
 
         $doc = new eZDOMDocument();
         $doc->setName( 'eZ Publish RSS Export' );
@@ -599,7 +609,17 @@ class eZRSSExport extends eZPersistentObject
             $useURLAlias = false;
         }
 
-        $baseItemURL = $this->attribute( 'url' ).'/'; //.$this->attribute( 'site_access' ).'/';
+        if ( $this->attribute( 'url' ) == '' )
+        {
+            include_once( 'lib/ezutils/classes/ezuri.php' );
+            $baseItemURL = '';
+            eZURI::transformURI( $baseItemURL, false, 'full' );
+            $baseItemURL .= '/';
+        }
+        else
+        {
+            $baseItemURL = $this->attribute( 'url' ).'/'; //.$this->attribute( 'site_access' ).'/';
+        }
 
         $doc = new eZDOMDocument();
         $doc->setName( 'eZ Publish RSS Export' );
