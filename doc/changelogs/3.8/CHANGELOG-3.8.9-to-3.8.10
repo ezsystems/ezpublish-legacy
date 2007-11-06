@@ -111,3 +111,4 @@ Changes from 3.8.9 to 3.8.10
   (Merged from trunk (3.10.0) rev. 20196)
 - Fixed bug #11303: Webdav does not use SiteLanguageList properly.
   (Manually merged from trunk (3.10.0) rev. 20202)
+- Fixed bug #11838: Siteaccess is missing in RSS feed bookmarks.
