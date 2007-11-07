@@ -263,7 +263,6 @@ class eZWorkflow extends eZPersistentObject
      */
     function store( $store_childs = false )
     {
-
         $db =& eZDB::instance();
         $db->begin();
         if ( is_array( $store_childs ) or $store_childs )
@@ -276,6 +275,32 @@ class eZWorkflow extends eZPersistentObject
             {
                 $event =& $events[$i];
                 $event->store();
+            }
+        }
+        eZPersistentObject::store();
+        $db->commit();
+    }
+    /*!
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
+     */
+    function storeDefined( $store_childs = false )
+    {
+        $db = eZDB::instance();
+        $db->begin();
+        if ( is_array( $store_childs ) or $store_childs )
+        {
+            if ( is_array( $store_childs ) )
+            {
+                $events = $store_childs;
+            }
+            else
+            {
+                $events = $this->fetchEvents();
+            }
+            foreach ( $events as $event )
+            {
+                $event->storeDefined();
             }
         }
         eZPersistentObject::store();

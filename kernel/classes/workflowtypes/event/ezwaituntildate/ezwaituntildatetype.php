@@ -246,7 +246,15 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
     {
         $waitUntilDate =& $event->content();
         $waitUntilDate->setVersion( $version );
+    }
 
+    function storeDefinedEventData( $event )
+    {
+        $id = $event->attribute( 'id' );
+        $version = 1;
+        $waitUntilDateVersion1 = new eZWaitUntilDate( $id, $version );
+        $waitUntilDateVersion1->setVersion( 0 ); //strange name but we are creating version 0 here
+        eZWaitUntilDate::removeWaitUntilDateEntries( $id, 1 );
     }
 
 }
