@@ -55,6 +55,10 @@ foreach ( $plist as $p )
 {
     $mementoMain = eZOperationMemento::fetchMain( $p->attribute( 'memento_key' ) );
     $mementoChild = eZOperationMemento::fetchChild( $p->attribute( 'memento_key' ) );
+
+    if ( !$mementoMain or !$mementoChild )
+        continue;
+
     $mementoMainData = $mementoMain->data();
     $mementoChildData = $mementoChild->data();
 
