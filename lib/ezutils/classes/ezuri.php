@@ -90,8 +90,12 @@ class eZURI
      */
     function codecURL( $url, $encode )
     {
+        $originalLocale = setlocale( LC_ALL, "" );
+        setlocale( LC_ALL, 'C' );
         // Parse URL and encode the path.
         $data = parse_url( $url );
+        setlocale( LC_ALL, $originalLocale );
+
         if ( isset( $data['path'] ) )
         {
             if ( $encode )
