@@ -137,25 +137,32 @@ class eZWaitUntilDate
 
     function setVersion( $version )
     {
-        eZWaitUntilDateValue::removeAllElements( $this->WorkflowEventID, 0 );
-        foreach( $this->Entries as $entry )
+        if ( $version == 1 && count( $this->Entries ) == 0 )
         {
-            $oldversion = $entry->attribute( "workflow_event_version" );
-            $id = $entry->attribute( "id" );
-            $workflowEventID = $entry->attribute( "workflow_event_id" );
-            $contentClassID = $entry->attribute( "contentclass_id" );
-            $contentClassAttributeID = $entry->attribute( "contentclass_attribute_id" );
-            $entryCopy = eZWaitUntilDateValue::createCopy( $id,
-                                                           $workflowEventID,
-                                                           0,
-                                                           $contentClassID,
-                                                           $contentClassAttributeID );
-
-            $entryCopy->store();
-            if ( $oldversion != $version )
+            $this->Entries = eZWaitUntilDateValue::fetchAllElements( $this->WorkflowEventID, 0 );
+            foreach( $this->Entries as $entry )
             {
-                $entry->setAttribute( 'workflow_event_version', $version );
+                $entry->setAttribute( "workflow_event_version", 1 );
                 $entry->store();
+            }
+        }
+        if ( $version == 0 )
+        {
+            eZWaitUntilDateValue::removeAllElements( $this->WorkflowEventID, 0 );
+            foreach( $this->Entries as $entry )
+            {
+                $oldversion = $entry->attribute( "workflow_event_version" );
+                $id = $entry->attribute( "id" );
+                $workflowEventID = $entry->attribute( "workflow_event_id" );
+                $contentClassID = $entry->attribute( "contentclass_id" );
+                $contentClassAttributeID = $entry->attribute( "contentclass_attribute_id" );
+                $entryCopy = eZWaitUntilDateValue::createCopy( $id,
+                                                               $workflowEventID,
+                                                               0,
+                                                               $contentClassID,
+                                                               $contentClassAttributeID );
+
+                $entryCopy->store();
             }
         }
     }

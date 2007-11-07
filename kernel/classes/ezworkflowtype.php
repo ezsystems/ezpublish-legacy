@@ -355,7 +355,9 @@ class eZWorkflowType
     function storeEventData( $event, $version )
     {
     }
-
+    function storeDefinedEventData( $event )
+    {
+    }
     /*!
      Check if specified trigger is allowed
 
