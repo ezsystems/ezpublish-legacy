@@ -1704,10 +1704,24 @@ class eZContentObject extends eZPersistentObject
         {
             $db = eZDB::instance();
             $db->begin();
-            foreach ( $nodes as $node )
+            $mainNodeKey = false;
+            foreach ( $nodes as $key => $node )
             {
-                $node->removeThis();
+                if ( $node->attribute( 'main_node_id' ) == $node->attribute( 'node_id' ) )
+                {
+                    $mainNodeKey = $key;
+                }
+                else
+                {
+                    $node->removeThis();
+                }
             }
+
+            if ( $mainNodeKey !== false )
+            {
+                $nodes[$mainNodeKey]->removeNodeFromTree( true );
+            }
+
 
             $this->setAttribute( 'status', eZContentObject::STATUS_ARCHIVED );
             eZSearch::removeObject( $this );
@@ -1719,17 +1733,22 @@ class eZContentObject extends eZPersistentObject
         }
         else if ( $nodeID !== null )
         {
-            $node = eZContentObjectTreeNode::fetch( $nodeID , false, false);
-            if ( is_array( $node ) )
+            $node = eZContentObjectTreeNode::fetch( $nodeID , false );
+            if ( is_object( $node ) )
             {
-                if ( $node['main_node_id']  == $nodeID )
+                if ( $node->attribute( 'main_node_id' ) == $nodeID )
                 {
                     $db = eZDB::instance();
                     $db->begin();
-                    foreach ( $nodes as $node )
+                    foreach ( $additionalNodes as $additionalNode )
                     {
-                        $node->removeThis();
+                        if ( $additionalNode->attribute( 'node_id' ) != $node->attribute( 'main_node_id' ) )
+                        {
+                            $additionalNode->remove();
+                        }
                     }
+
+                    $node->removeNodeFromTree( true );
                     $this->setAttribute( 'status', eZContentObject::STATUS_ARCHIVED );
                     eZSearch::removeObject( $this );
                     $this->store();

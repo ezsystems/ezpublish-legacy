@@ -60,3 +60,5 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #11808: Certain multibyte characters might lead to incorrect URL upon redirection
 - Fixed bug #11569: eZExpiryHandler still contains loose functions.
 - Fixed bug #11810: Typo "exectuion" in ezurlaliasfilter doxygen docs
+- Fixed bug #11741: Missing articles after unpublished via cronjobs.
+  (Merged from stable/3.9 (3.9.5) rev. 20634)
