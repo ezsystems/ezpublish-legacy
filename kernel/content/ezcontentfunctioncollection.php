@@ -1433,7 +1433,7 @@ class eZContentFunctionCollection
 
     function fetchContentTreeMenuExpiry()
     {
-        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        eZExpiryHandler::registerShutdownFunction();
 
         $expiryHandler = eZExpiryHandler::instance();
 

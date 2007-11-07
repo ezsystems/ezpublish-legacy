@@ -40,7 +40,7 @@
         if ( $enableCaching )
         {
             $http = eZHTTPTool::instance();
-            include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+            eZExpiryHandler::registerShutdownFunction();
             $handler = eZExpiryHandler::instance();
             $expiredTimeStamp = 0;
             if ( $handler->hasTimestamp( 'user-class-cache' ) )

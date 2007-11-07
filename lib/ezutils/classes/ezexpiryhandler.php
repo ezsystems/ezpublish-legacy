@@ -173,26 +173,36 @@ class eZExpiryHandler
         return $this->IsModified;
     }
 
+    /*!
+     Called at the end of execution and will store the data if it is modified.
+    */
+    static function shutdown()
+    {
+        if ( eZExpiryHandler::hasInstance() )
+        {
+            $instance = eZExpiryHandler::instance();
+            if ( $instance->isModified() )
+            {
+                $instance->store();
+            }
+        }
+    }
+
+    /*!
+     Registers shutdown function to be called at the end of script execution
+    */
+    public static function registerShutdownFunction(){
+        if ( !eZExpiryHandler::$isShutdownFunctionRegistered ) {
+            register_shutdown_function( 'eZExpiryHandler::shutdown' );
+            eZExpiryHandler::$isShutdownFunctionRegistered = true;
+        }
+    }
+
     /// \privatesection
+    private static $isShutdownFunctionRegistered = false;
+
     public $Timestamps;
     public $IsModified;
 }
-
-/*!
- Called at the end of execution and will store the data if it is modified.
-*/
-function eZExpiryHandlerShutdownHandler()
-{
-    if ( eZExpiryHandler::hasInstance() )
-    {
-        $instance = eZExpiryHandler::instance();
-        if ( $instance->isModified() )
-        {
-            $instance->store();
-        }
-    }
-}
-
-register_shutdown_function( 'eZExpiryHandlerShutdownHandler' );
 
 ?>

@@ -352,7 +352,7 @@ class eZContentClass extends eZPersistentObject
         {
             $http = eZHTTPTool::instance();
 
-            //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+            eZExpiryHandler::registerShutdownFunction();
             $handler = eZExpiryHandler::instance();
             $expiredTimeStamp = 0;
             if ( $handler->hasTimestamp( 'user-class-cache' ) )
@@ -426,7 +426,7 @@ class eZContentClass extends eZPersistentObject
         if ( $enableCaching )
         {
             $http = eZHTTPTool::instance();
-            //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+            eZExpiryHandler::registerShutdownFunction();
             $handler = eZExpiryHandler::instance();
             $expiredTimeStamp = 0;
             if ( $handler->hasTimestamp( 'user-class-cache' ) )
@@ -968,7 +968,7 @@ You will need to change the class of the node by using the swap functionality.' 
            }
         }
 
-        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'user-class-cache', time() );
         $handler->store();
@@ -1067,7 +1067,7 @@ You will need to change the class of the node by using the swap functionality.' 
         }
         eZContentClassClassGroup::removeClassMembers( $this->ID, eZContentClass::VERSION_STATUS_TEMPORARY );
 
-        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'user-class-cache', time() );
         $handler->store();

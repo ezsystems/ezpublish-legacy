@@ -5196,7 +5196,7 @@ class eZContentObject extends eZPersistentObject
     */
     static function expireAllViewCache()
     {
-        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'content-view-cache', time() );
         $handler->store();
@@ -5209,7 +5209,7 @@ class eZContentObject extends eZPersistentObject
     */
     static function expireAllCache()
     {
-        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'content-view-cache', time() );
         $handler->setTimestamp( 'template-block-cache', time() );
@@ -5225,7 +5225,7 @@ class eZContentObject extends eZPersistentObject
     */
     static function expireTemplateBlockCache()
     {
-        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'template-block-cache', time() );
         $handler->store();
@@ -5249,7 +5249,7 @@ class eZContentObject extends eZPersistentObject
     */
     static function expireComplexViewModeCache()
     {
-        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'content-complex-viewmode-cache', time() );
         $handler->store();
@@ -5260,7 +5260,7 @@ class eZContentObject extends eZPersistentObject
     */
     static function isCacheExpired( $timestamp )
     {
-        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         if ( !$handler->hasTimestamp( 'content-view-cache' ) )
             return false;
@@ -5287,7 +5287,7 @@ class eZContentObject extends eZPersistentObject
     {
         if ( !eZContentObject::isComplexViewMode( $viewMode ) )
             return false;
-        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         if ( !$handler->hasTimestamp( 'content-complex-viewmode-cache' ) )
             return false;

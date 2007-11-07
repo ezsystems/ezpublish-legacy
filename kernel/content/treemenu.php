@@ -27,10 +27,11 @@
 //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 //include_once( 'lib/ezutils/classes/ezuri.php' );
 //include_once( 'lib/ezutils/classes/ezsys.php' );
-//include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
 //include_once( 'kernel/classes/ezclusterfilehandler.php' );
 //include_once( 'lib/eztemplate/classes/eztemplatecacheblock.php' );
 //include_once( 'kernel/classes/ezclusterfilefailure.php' );
+
+eZExpiryHandler::registerShutdownFunction();
 
 define( 'MAX_AGE', 86400 );
 

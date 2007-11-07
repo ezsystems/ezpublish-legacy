@@ -346,7 +346,7 @@ class eZCache
         if ( isset( $cacheItem['expiry-key'] ) )
         {
             $key = $cacheItem['expiry-key'];
-            //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+            eZExpiryHandler::registerShutdownFunction();
             $expiryHandler = eZExpiryHandler::instance();
             $keyValue = $expiryHandler->getTimestamp( $key );
             if ( $keyValue !== false )
@@ -419,7 +419,7 @@ class eZCache
     */
     static function clearImageAlias( $cacheItem )
     {
-        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        eZExpiryHandler::registerShutdownFunction();
         $expiryHandler = eZExpiryHandler::instance();
         $expiryHandler->setTimestamp( 'image-manager-alias', time() );
         $expiryHandler->store();
@@ -435,7 +435,7 @@ class eZCache
     */
     static function clearContentTreeMenu( $cacheItem )
     {
-        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        eZExpiryHandler::registerShutdownFunction();
         $expiryHandler = eZExpiryHandler::instance();
         $expiryHandler->setTimestamp( 'content-tree-menu', time() );
         $expiryHandler->store();
@@ -448,7 +448,7 @@ class eZCache
     */
     static function clearTemplateBlockCache( $cacheItem )
     {
-        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        eZExpiryHandler::registerShutdownFunction();
         $expiryHandler = eZExpiryHandler::instance();
         $expiryHandler->setTimestamp( 'global-template-block-cache', time() );
         $expiryHandler->store();
@@ -510,7 +510,7 @@ class eZCache
     */
     static function clearUserInfoCache( $cacheItem )
     {
-        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'user-access-cache', time() );
         $handler->store();
@@ -523,7 +523,7 @@ class eZCache
     */
     static function clearContentCache( $cacheItem )
     {
-        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'content-view-cache', time() );
         $handler->store();

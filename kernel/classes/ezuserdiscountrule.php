@@ -82,7 +82,7 @@ class eZUserDiscountRule extends eZPersistentObject
 
     function store( $fieldFilters = null )
     {
-        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'user-discountrules-cache', time() );
         $handler->store();
@@ -112,7 +112,7 @@ class eZUserDiscountRule extends eZPersistentObject
     {
         $http = eZHTTPTool::instance();
 
-        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         $expiredTimeStamp = 0;
         if ( $handler->hasTimestamp( 'user-discountrules-cache' ) )

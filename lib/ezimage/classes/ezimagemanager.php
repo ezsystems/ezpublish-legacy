@@ -298,7 +298,7 @@ class eZImageManager
     */
     function isImageTimestampValid( $timestamp )
     {
-        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        eZExpiryHandler::registerShutdownFunction();
         $expiryHandler = eZExpiryHandler::instance();
         if ( $expiryHandler->hasTimestamp( 'image-manager-alias' ) )
         {

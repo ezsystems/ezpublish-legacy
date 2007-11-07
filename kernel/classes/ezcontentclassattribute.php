@@ -555,7 +555,7 @@ class eZContentClassAttribute extends eZPersistentObject
     static function cachedInfo()
     {
         //include_once( 'lib/ezutils/classes/ezphpcreator.php' );
-        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        eZExpiryHandler::registerShutdownFunction();
 
         $info = array();
         $db = eZDB::instance();

@@ -215,7 +215,7 @@ class eZUser extends eZPersistentObject
     function store( $fieldFilters = null )
     {
         $this->Email = trim( $this->Email );
-        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'user-info-cache', time() );
         $handler->setTimestamp( 'user-groups-cache', time() );
@@ -1051,7 +1051,7 @@ WHERE user_id = '" . $userID . "' AND
         $fetchFromDB = true;
 
         // Check session cache
-        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         $expiredTimeStamp = 0;
         if ( $handler->hasTimestamp( 'user-info-cache' ) )
@@ -1675,7 +1675,7 @@ WHERE user_id = '" . $userID . "' AND
     function userInfoExpiry()
     {
         /* Figure out when the last update was done */
-        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         if ( $handler->hasTimestamp( 'user-access-cache' ) )
         {
@@ -2094,7 +2094,7 @@ WHERE user_id = '" . $userID . "' AND
 
         if ( $useCache )
         {
-            //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+            eZExpiryHandler::registerShutdownFunction();
             $handler = eZExpiryHandler::instance();
             $expiredTimeStamp = 0;
             $roleIDListTimestamp = $http->sessionVariable( 'eZRoleIDList_Timestamp' );
@@ -2155,7 +2155,7 @@ WHERE user_id = '" . $userID . "' AND
 
         if ( $useCache )
         {
-            //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+            eZExpiryHandler::registerShutdownFunction();
             $handler = eZExpiryHandler::instance();
             $expiredTimeStamp = 0;
             $roleLimitationValueListTimeStamp = $http->sessionVariable( 'eZRoleLimitationValueList_Timestamp' );
@@ -2279,7 +2279,7 @@ WHERE user_id = '" . $userID . "' AND
                 {
                     $userGroupTimestamp = $http->sessionVariable( 'eZUserGroupsCache_Timestamp' );
 
-                    //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+                    eZExpiryHandler::registerShutdownFunction();
                     $handler = eZExpiryHandler::instance();
                     $expiredTimeStamp = 0;
                     if ( $handler->hasTimestamp( 'user-info-cache' ) )
@@ -2468,7 +2468,7 @@ WHERE user_id = '" . $userID . "' AND
 
     static function cleanupCache()
     {
-        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'user-access-cache', time() );
         $handler->setTimestamp( 'user-info-cache', time() );

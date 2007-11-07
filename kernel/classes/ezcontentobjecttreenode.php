@@ -273,7 +273,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $cacheDir = eZSys::cacheDirectory();
         $phpCache = new eZPHPCreator( "$cacheDir", "classattributeidentifiers_$dbName.php" );
 
-        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         $expiryTime = 0;
         if ( $handler->hasTimestamp( 'content-view-cache' ) )
@@ -334,7 +334,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                       '',
                                       array( 'clustering' => 'classidentifiers' ) );
 
-        //include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         $expiryTime = 0;
         if ( $handler->hasTimestamp( 'content-view-cache' ) )
