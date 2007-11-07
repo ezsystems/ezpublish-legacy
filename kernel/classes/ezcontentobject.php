@@ -1735,9 +1735,23 @@ class eZContentObject extends eZPersistentObject
         {
             $db =& eZDB::instance();
             $db->begin();
-            foreach ( $nodes as $node )
+            $mainNodeKey = false;
+            foreach ( array_keys( $nodes ) as $key )
             {
-                $node->remove();
+                $node =& $nodes[$key];
+                if ( $node->attribute( 'main_node_id' ) == $node->attribute( 'node_id' ) )
+                {
+                    $mainNodeKey = $key;
+                }
+                else
+                {
+                    $node->remove();
+                }
+            }
+
+            if ( $mainNodeKey !== false )
+            {
+                $nodes[$mainNodeKey]->removeNodeFromTree( true );
             }
 
             $contentobject->setAttribute( 'status', EZ_CONTENT_OBJECT_STATUS_ARCHIVED );
@@ -1750,18 +1764,23 @@ class eZContentObject extends eZPersistentObject
         }
         else if ( $nodeID !== null )
         {
-            $node = eZContentObjectTreeNode::fetch( $nodeID , false, false);
-            if ( is_array( $node ) )
+            $node = eZContentObjectTreeNode::fetch( $nodeID , false );
+            if ( is_object( $node ) )
             {
-                if ( $node['main_node_id']  == $nodeID )
+                if ( $node->attribute( 'main_node_id' ) == $nodeID )
                 {
                     $db =& eZDB::instance();
                     $db->begin();
                     foreach ( array_keys( $nodes ) as $key )
                     {
-                        $node =& $nodes[$key];
-                        $node->remove();
+                        $additionalNode =& $nodes[$key];
+                        if ( $additionalNode->attribute( 'node_id' ) != $node['main_node_id'] )
+                        {
+                            $additionalNode->remove();
+                        }
                     }
+
+                    $node->removeNodeFromTree( true );
                     $contentobject->setAttribute( 'status', EZ_CONTENT_OBJECT_STATUS_ARCHIVED );
                     eZSearch::removeObject( $contentobject );
                     $contentobject->store();
