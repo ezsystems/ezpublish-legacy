@@ -3024,50 +3024,6 @@ INSERT INTO ezcontentclass_classgroup (
   group_id,
   group_name
 ) VALUES (
-  6,
-  0,
-  1,
-  'Content'
-);
-INSERT INTO ezcontentclass_classgroup (
-  contentclass_id,
-  contentclass_version,
-  group_id,
-  group_name
-) VALUES (
-  7,
-  0,
-  1,
-  'Content'
-);
-INSERT INTO ezcontentclass_classgroup (
-  contentclass_id,
-  contentclass_version,
-  group_id,
-  group_name
-) VALUES (
-  8,
-  0,
-  1,
-  'Content'
-);
-INSERT INTO ezcontentclass_classgroup (
-  contentclass_id,
-  contentclass_version,
-  group_id,
-  group_name
-) VALUES (
-  9,
-  0,
-  1,
-  'Content'
-);
-INSERT INTO ezcontentclass_classgroup (
-  contentclass_id,
-  contentclass_version,
-  group_id,
-  group_name
-) VALUES (
   11,
   0,
   1,
