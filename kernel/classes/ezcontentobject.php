@@ -1774,7 +1774,7 @@ class eZContentObject extends eZPersistentObject
                     foreach ( array_keys( $nodes ) as $key )
                     {
                         $additionalNode =& $nodes[$key];
-                        if ( $additionalNode->attribute( 'node_id' ) != $node['main_node_id'] )
+                        if ( $additionalNode->attribute( 'node_id' ) != $node->attribute( 'main_node_id' ) )
                         {
                             $additionalNode->remove();
                         }
