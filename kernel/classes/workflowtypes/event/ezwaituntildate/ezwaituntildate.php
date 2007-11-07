@@ -87,7 +87,7 @@ class eZWaitUntilDate
             }break;
         }
     }
-    function removeWaitUntilDateEntries( $workflowEventID, $workflowEventVersion )
+    static function removeWaitUntilDateEntries( $workflowEventID, $workflowEventVersion )
     {
          eZWaitUntilDateValue::removeAllElements( $workflowEventID, $workflowEventVersion );
     }
@@ -119,8 +119,6 @@ class eZWaitUntilDate
 
     function removeEntry( $workflowEventID, $id, $version )
     {
-        eZDebug::writeDebug( "$workflowEventID - $id - $version ", 'remove params 2' );
-
        eZWaitUntilDateValue::removeByID( $id, $version );
        $this->Entries = eZWaitUntilDateValue::fetchAllElements( $workflowEventID, $version );
     }

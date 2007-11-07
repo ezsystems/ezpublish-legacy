@@ -69,8 +69,6 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
         $waitUntilDateEntryList = $waitUntilDateObject->attribute( 'classattribute_id_list' );
         $modifyPublishDate = $event->attribute( 'data_int1' );
 
-        eZDebug::writeDebug( 'executing publish on time event' );
-
         foreach ( array_keys( $objectAttributes ) as $key )
         {
             $objectAttribute =& $objectAttributes[$key];
@@ -171,7 +169,7 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
         {
             case "new_classelement" :
             {
-                $waitUntilDate =& $workflowEvent->content( );
+                $waitUntilDate = $workflowEvent->content( );
 
                 $classIDList = $http->postVariable( 'WorkflowEvent' . '_event_ezwaituntildate_' . 'class_' . $workflowEvent->attribute( 'id' )  );
                 $classAttributeIDList = $http->postVariable( 'WorkflowEvent' . '_event_ezwaituntildate_' . 'classattribute_' . $workflowEvent->attribute( 'id' )  );
@@ -184,12 +182,11 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
                 $version = $workflowEvent->attribute( "version" );
                 $postvarname = "WorkflowEvent" . "_data_waituntildate_remove_" . $workflowEvent->attribute( "id" );
                 $arrayRemove = $http->postVariable( $postvarname );
-                eZDebug::writeDebug( $arrayRemove, 'remove params 0' );
+                $waitUntilDate = $workflowEvent->content( );
 
                 foreach( $arrayRemove as $entryID )
                 {
-                    eZDebug::writeDebug( "$id - $entryID - $version ", 'remove params' );
-                    eZWaitUntilDate::removeEntry( $id, $entryID, $version );
+                    $waitUntilDate->removeEntry( $id, $entryID, $version );
                 }
             }break;
             case "load_class_attribute_list" :
@@ -198,12 +195,11 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
                 if ( $http->hasPostVariable( $postvarname ) )
                 {
                     $classIDList = $http->postVariable( 'WorkflowEvent' . '_event_ezwaituntildate_' .'class_' . $workflowEvent->attribute( 'id' ) );
-                    eZDebug::writeDebug($classIDList, "classIDLIst" );
                     $GLOBALS['eZWaitUntilDateSelectedClass'] = $classIDList[0];
                 }
                 else
                 {
-                    eZDebug::writeDebug( "no class selected" );
+                    eZDebug::writeError( "no class selected" );
                 }
             }break;
             default :

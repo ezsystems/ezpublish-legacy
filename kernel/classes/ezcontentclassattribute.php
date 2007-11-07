@@ -414,7 +414,8 @@ class eZContentClassAttribute extends eZPersistentObject
         $objects = null;
         if ( $asObject )
         {
-            $objects = $GLOBALS['eZContentClassAttributeCacheList'][$classID][$version];
+            if ( isset( $GLOBALS['eZContentClassAttributeCacheList'][$classID][$version] ) )
+                $objects = $GLOBALS['eZContentClassAttributeCacheList'][$classID][$version];
         }
         if ( !isset( $objects ) or
              $objects === null )

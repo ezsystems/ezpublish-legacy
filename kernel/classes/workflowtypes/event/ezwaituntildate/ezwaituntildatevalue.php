@@ -118,7 +118,7 @@ class eZWaitUntilDateValue extends eZPersistentObject
         unset( $this->ClassAttributeName );
     }
 
-    function create( $workflowEventID, $workflowEventVersion, $contentClassAttributeID, $contentClassID )
+    static function create( $workflowEventID, $workflowEventVersion, $contentClassAttributeID, $contentClassID )
     {
         $row = array( "id" => null,
                       "workflow_event_id" => $workflowEventID,
@@ -129,7 +129,7 @@ class eZWaitUntilDateValue extends eZPersistentObject
         return new eZWaitUntilDateValue( $row );
     }
 
-    function createCopy( $id, $workflowEventID, $workflowEventVersion,  $contentClassID , $contentClassAttributeID )
+    static function createCopy( $id, $workflowEventID, $workflowEventVersion,  $contentClassID , $contentClassAttributeID )
     {
         $row = array( "id" => $id,
                       "workflow_event_id" => $workflowEventID,
@@ -140,7 +140,7 @@ class eZWaitUntilDateValue extends eZPersistentObject
     }
 
 
-    function removeAllElements( $workflowEventID, $version )
+    static function removeAllElements( $workflowEventID, $version )
     {
         eZPersistentObject::removeObject( eZWaitUntilDateValue::definition(),
                                           array( "workflow_event_id" => $workflowEventID,
@@ -163,7 +163,7 @@ class eZWaitUntilDateValue extends eZPersistentObject
                                                 $asObject );
     }
 
-    function fetchAllElements( $workflowEventID, $version, $asObject = true )
+    static function fetchAllElements( $workflowEventID, $version, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZWaitUntilDateValue::definition(),
                                                     null,
