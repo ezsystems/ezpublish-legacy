@@ -59,3 +59,4 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #11826: Invalid entries in ezcontentclass_classgroup table after fresh install
 - Fixed bug #11808: Certain multibyte characters might lead to incorrect URL upon redirection
 - Fixed bug #11569: eZExpiryHandler still contains loose functions.
+- Fixed bug #11810: Typo "exectuion" in ezurlaliasfilter doxygen docs
