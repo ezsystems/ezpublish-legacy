@@ -37,7 +37,7 @@
 
   This class defines the interface for all url alias filters, the filter implementation must implement the process method.
 
-  For exectuion of the configured filters use the static method processFilters.
+  For execution of the configured filters use the static method processFilters.
   Help with configuration is found in settings/site.ini under the group URLTranslator.
 */
 
