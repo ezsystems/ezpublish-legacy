@@ -23780,24 +23780,6 @@ INSERT INTO ezuser_setting (
   10,
   14
 );
-INSERT INTO ezuser_setting (
-  is_enabled,
-  max_login,
-  user_id
-) VALUES (
-  1,
-  0,
-  23
-);
-INSERT INTO ezuser_setting (
-  is_enabled,
-  max_login,
-  user_id
-) VALUES (
-  1,
-  0,
-  40
-);
 
 INSERT INTO ezvattype (
   id,
