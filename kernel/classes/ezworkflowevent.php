@@ -263,6 +263,23 @@ class eZWorkflowEvent extends eZPersistentObject
         return $stored;
     }
 
+    /*!
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
+     */
+    function storeDefined( $fieldFilters = null )
+    {
+        $db = eZDB::instance();
+        $db->begin();
+        $stored = eZPersistentObject::store( $fieldFilters );
+
+        $eventType = $this->eventType();
+        $eventType->storeDefinedEventData( $this );
+        $db->commit();
+
+        return $stored;
+    }
+
     /// \privatesection
     var $ID;
     var $Version;
