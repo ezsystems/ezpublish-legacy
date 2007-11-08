@@ -71,3 +71,4 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed issue #011660: Add mysqli to database selection in setup wizard.
 - Fixed bug #11570: eZMimeType::findByName and eZMimeType::findByURL should be
   either static or instance methods
+- Fixed bug #11546: Non-static method ... should not be called issues

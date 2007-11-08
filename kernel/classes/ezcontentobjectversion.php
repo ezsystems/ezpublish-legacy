@@ -842,8 +842,8 @@ class eZContentObjectVersion extends eZPersistentObject
     */
     function relatedContentObjectArray()
     {
-        $objectID = $this->attribute( 'contentobject_id' );
-        return eZContentObject::relatedContentObjectArray( $this->Version, $objectID );
+        $object = $this->attribute( 'contentobject' );
+        return $object->relatedContentObjectArray( $this->Version );
     }
 
     static function create( $contentobjectID, $userID = false, $version = 1, $initialLanguageCode = false )
@@ -1529,7 +1529,7 @@ class eZContentObjectVersion extends eZPersistentObject
 
         if ( $options['related_objects'] === 'selected' )
         {
-            $relatedObjectArray = eZContentObject::relatedContentObjectList( $this->Version, $contentObject->ID, 0, false,
+            $relatedObjectArray = $contentObject->relatedContentObjectList( $this->Version, $contentObject->ID, 0, false,
                                                                              array( 'AllRelations' => eZContentObject::RELATION_COMMON ) );
             if ( count( $relatedObjectArray ) )
             {

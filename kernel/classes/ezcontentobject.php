@@ -2873,9 +2873,7 @@ class eZContentObject extends eZPersistentObject
                                        $params = false )
     {
         eZDebugSetting::writeDebug( 'kernel-content-object-related-objects', $fromObjectID, "objectID" );
-        return strtolower( get_class( $this ) ) == 'ezcontentobject' ?
-            $this->relatedObjects( $fromObjectVersion, $fromObjectID, $attributeID, $groupByAttribute, $params ) :
-            eZContentObject::relatedObjects( $fromObjectVersion, $fromObjectID, $attributeID, $groupByAttribute, $params );
+        return $this->relatedObjects( $fromObjectVersion, $fromObjectID, $attributeID, $groupByAttribute, $params );
     }
 
     /*!
