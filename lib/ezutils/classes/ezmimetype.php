@@ -212,11 +212,7 @@ class eZMimeType
     */
     static function findByName( $mimeName, $returnDefault = true )
     {
-        if ( isset( $this ) and
-             strtolower( get_class( $this ) ) == 'ezmimetype' )
-            $instance =& $this;
-        else
-            $instance = eZMimeType::instance();
+        $instance = eZMimeType::instance();
         $mimeList =& $instance->MIMEList;
         if ( isset( $mimeList[$mimeName] ) )
         {
@@ -246,11 +242,7 @@ class eZMimeType
     */
     static function findByURL( $url, $returnDefault = true )
     {
-        if ( isset( $this ) and
-             strtolower( get_class( $this ) ) == 'ezmimetype' )
-            $instance =& $this;
-        else
-            $instance = eZMimeType::instance();
+        $instance = eZMimeType::instance();
 
         $file = $url;
         $dirPosition = strrpos( $url, '/' );
