@@ -331,7 +331,7 @@ class eZContentOperationCollection
                     eZContentBrowseRecent::createNew( $user->id(), $parentNode->attribute( 'node_id' ), $parentNode->attribute( 'name' ) );
                     $updateFields = true;
 
-                    $existingNode = $parentNode->addChild( $object->attribute( 'id' ), 0, true );
+                    $existingNode = $parentNode->addChild( $object->attribute( 'id' ), true );
 
                     if ( $fromNodeID == -1 )
                     {
@@ -565,7 +565,7 @@ class eZContentOperationCollection
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function registerSearchObject( $objectID, $versionNum )
+    static function registerSearchObject( $objectID, $versionNum )
     {
         eZDebug::createAccumulatorGroup( 'search_total', 'Search Total' );
 

@@ -3638,7 +3638,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
 //        $parentContentObject = $parentNode->attribute( 'contentobject' );
 
-        $node = eZContentObjectTreeNode::addChild( $object->attribute( "id" ), $parentNodeID, true );
+        $node = eZContentObjectTreeNode::addChildTo( $object->attribute( "id" ), $parentNodeID, true );
 //        $object->setAttribute( "main_node_id", $node->attribute( 'node_id' ) );
         $node->setAttribute( 'main_node_id', $node->attribute( 'node_id' ) );
         $object->store();
@@ -3648,26 +3648,32 @@ class eZContentObjectTreeNode extends eZPersistentObject
     }
 
     /*!
-     Add a child to the object tree.
+     Add a child for this node to the object tree.
      \param $contentobjectID      The ID of the contentobject the child-node should point to.
-     \param $nodeID               The ID of the parent-node to add child-node to, if 0 it uses $this.
      \param $asObject             If true it will return the new child-node as an object, if not it returns the ID.
      \param $contentObjectVersion The version to use on the newly created child-node, if
                                   false it uses the current_version of the specified object.
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function addChild( $contentobjectID, $nodeID = 0, $asObject = false, $contentObjectVersion = false )
+    function addChild( $contentobjectID, $asObject = false, $contentObjectVersion = false )
     {
-        if ( $nodeID == 0 )
-        {
-            $node = $this;
-        }
-        else
-        {
-            $node = eZContentObjectTreeNode::fetch( $nodeID );
-        }
+        return self::addChildTo( $contentobjectID, $this->attribute( 'node_id' ), $asObject, $contentObjectVersion );
+    }
 
+    /*!
+     Add a child to the object tree.
+     \param $contentobjectID      The ID of the contentobject the child-node should point to.
+     \param $nodeID               The ID of the parent-node to add child-node to.
+     \param $asObject             If true it will return the new child-node as an object, if not it returns the ID.
+     \param $contentObjectVersion The version to use on the newly created child-node, if
+                                  false it uses the current_version of the specified object.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
+    */
+    static function addChildTo( $contentobjectID, $nodeID, $asObject = false, $contentObjectVersion = false )
+    {
+        $node = eZContentObjectTreeNode::fetch( $nodeID );
         $contentObject = eZContentObject::fetch( $contentobjectID );
         if ( !$contentObject )
         {

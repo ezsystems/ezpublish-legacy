@@ -2444,7 +2444,7 @@ class eZContentObject extends eZPersistentObject
       */
     function addLocation( $parentNodeID, $asObject = false )
     {
-        $node = eZContentObjectTreeNode::addChild( $this->ID, $parentNodeID, true, $this->CurrentVersion );
+        $node = eZContentObjectTreeNode::addChildTo( $this->ID, $parentNodeID, true, $this->CurrentVersion );
 
         $data = array( 'contentobject_id' => $this->ID,
                        'contentobject_version' => $this->attribute( 'current_version' ),
