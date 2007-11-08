@@ -503,11 +503,7 @@ class eZSys
     */
     static function siteDir()
     {
-        if ( isset( $this ) and strtolower( get_class( $this ) ) == "ezsys" )
-            $instance = $this;
-        else
-            $instance = eZSys::instance();
-        return $instance->SiteDir;
+        return eZSys::instance()->SiteDir;
     }
 
     /*!
@@ -516,11 +512,7 @@ class eZSys
     */
     static function wwwDir()
     {
-        if ( isset( $this ) and strtolower( get_class( $this ) ) == "ezsys" )
-            $instance = $this;
-        else
-            $instance = eZSys::instance();
-        return $instance->WWWDir;
+        return eZSys::instance()->WWWDir;
     }
 
     /*!
@@ -529,13 +521,8 @@ class eZSys
     */
     static function indexDir( $withAccessList = true )
     {
-        if ( isset( $this ) and strtolower( get_class( $this ) ) == "ezsys" )
-            $instance = $this;
-        else
-            $instance = eZSys::instance();
-
-        $indexDir = $instance->wwwDir() . $instance->indexFile( $withAccessList );
-        return $indexDir;
+        $instance = eZSys::instance();
+        return $instance->wwwDir() . $instance->indexFile( $withAccessList );
     }
 
     /*!

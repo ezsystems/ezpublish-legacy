@@ -63,6 +63,6 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #11741: Missing articles after unpublished via cronjobs.
   (Merged from stable/3.9 (3.9.5) rev. 20634)
 - Fixed bug #11822: Entries for workflow event version 0 in ezwaituntildate_value table when still in editing mode.
-- Fixed bug #011819: Strict warnings after adding wait until date event to workflow.
-- Fixed bug #011705: workflow/processlist may crash if memento data is broken.
-
+- Fixed bug #11819: Strict warnings after adding wait until date event to workflow.
+- Fixed bug #11705: workflow/processlist may crash if memento data is broken.
+- Fixed bug #11571: eZSys functions should be either static or dynamic.
