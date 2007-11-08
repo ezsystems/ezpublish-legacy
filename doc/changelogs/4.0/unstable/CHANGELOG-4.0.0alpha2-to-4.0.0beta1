@@ -69,3 +69,5 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #11657: Warning: No template could be loaded for "content/datatype/view/ezxmltags/separator.tpl"
 - Fixed bug #11651: ezp4 Strict warnings.
 - Fixed issue #011660: Add mysqli to database selection in setup wizard.
+- Fixed bug #11570: eZMimeType::findByName and eZMimeType::findByURL should be
+  either static or instance methods
