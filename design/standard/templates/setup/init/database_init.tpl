@@ -108,7 +108,7 @@
   <td class="normal"><label class="textfield">{"Password"|i18n("design/standard/setup/init")}:</label></td>
   <td class="normal"><input type="password" name="eZSetupDatabasePassword" size="16" value="{$database_info.password|wash}" /></td>
 </tr>
-{section show=eq($database_info.info.driver,'ezmysql')}
+{section show=or(eq($database_info.info.driver,'ezmysql'), eq($database_info.info.driver,'ezmysqli'))}
 <tr>
   <td class="normal"><label class="textfield">{"Socket (optional)"|i18n("design/standard/setup/init")}:</label></td>
   <td class="normal"><input type="text" name="eZSetupDatabaseSocket" size="16" value="{$database_info.socket|wash}" /></td>

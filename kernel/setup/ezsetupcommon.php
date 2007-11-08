@@ -64,7 +64,14 @@ function eZSetupDatabaseMap()
                                     'name' => 'PostgreSQL',
                                     'required_version' => '7.3',
                                     'has_demo_data' => false,
-                                    'supports_unicode' => true ) );
+                                    'supports_unicode' => true ),
+                  'mysqli' => array( 'type' => 'mysqli',
+                                     'driver' => 'ezmysqli',
+                                     'name' => 'MySQL Improved',
+                                     'required_version' => '4.1.1',
+                                     'has_demo_data' => true,
+                                     'supports_unicode' => true )
+                   );
 }
 
 function eZSetupFetchPersistenceList()
@@ -196,6 +203,7 @@ function eZSetupLanguageList( &$languageList, &$defaultLanguage, &$defaultExtraL
         foreach ( $acceptLanguages as $acceptLanguage )
         {
             list( $acceptLanguageCode ) = explode( ';', $acceptLanguage );
+            $acceptLanguageCode = strtolower( $acceptLanguageCode );
             $languageCode = false;
             if ( isset( $httpMap[$acceptLanguageCode] ) )
             {

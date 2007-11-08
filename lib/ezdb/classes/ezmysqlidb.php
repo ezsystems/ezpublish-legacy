@@ -195,7 +195,7 @@ class eZMySQLiDB extends eZDBInterface
     */
     function databaseName()
     {
-        return 'mysqli';
+        return 'mysql';
     }
 
     /*!
