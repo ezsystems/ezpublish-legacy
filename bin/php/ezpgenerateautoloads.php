@@ -1,5 +1,5 @@
 #!/usr/bin/env php
-    
+
 <?php
 if ( file_exists( "config.php" ) )
 {
@@ -12,14 +12,6 @@ if ( !@include( 'ezc/Base/base.php' ) )
 {
     require "Base/src/base.php";
 }
-
-
-//Setting this because of some strict warnings in the Structures_Graph package
-error_reporting( E_ALL );
-
-require_once 'Structures/Graph.php';
-require_once 'Structures/Graph/Node.php';
-require_once 'Structures/Graph/Manipulator/TopologicalSorter.php';
 
 define( 'EZP_GENAUTOLOADS_NONE', 0 );
 define( 'EZP_GENAUTOLOADS_KERNEL', 1 << 0 );
@@ -52,20 +44,10 @@ $verboseOption->mandatory = false;
 $verboseOption->shorthelp = "Whether or not to display more information.";
 $params->registerOption( $verboseOption );
 
-$depOption = new ezcConsoleOption( 'd', 'dep', ezcConsoleInput::TYPE_NONE );
-$depOption->mandatory = false;
-$depOption->shorthelp = "Whether or not to display the dependancy data.";
-$params->registerOption( $depOption );
-
 $dryrunOption = new ezcConsoleOption( 'n', 'dry-run', ezcConsoleInput::TYPE_NONE );
 $dryrunOption->mandatory = false;
 $dryrunOption->shorthelp = "Whether a new file autoload file should be written.";
 $params->registerOption( $dryrunOption );
-
-$reverseOption = new ezcConsoleOption( 'r', 'reverse', ezcConsoleInput::TYPE_NONE );
-$reverseOption->mandatory = false;
-$reverseOption->shorthelp = "Whether files without class definition should be reported.";
-$params->registerOption( $reverseOption );
 
 $kernelFilesOption = new ezcConsoleOption( 'k', 'kernel', ezcConsoleInput::TYPE_NONE );
 $kernelFilesOption->mandatory = false;
@@ -100,9 +82,7 @@ if ( $helpOption->value === true )
 
 $targetDir = $targetOption->value;
 $verbose = $verboseOption->value;
-$dep = $depOption->value;
 $dryRun = $dryrunOption->value;
-$reverse = $reverseOption->value;
 //}
 
 // Check the targetDir
@@ -120,33 +100,24 @@ $basePath = getcwd();
 $runMode = runMode( $kernelFilesOption->value, $extensionFilesOption->value );
 $phpFiles = fetchFiles( $basePath, $runMode );
 
-//Gather all class information from the php files
-$depData = generateDependencyData( $phpFiles, $reverse );
-if ( $dep )
-{
-    var_dump( $depData );
+$phpClasses = array();
+foreach ($phpFiles as $mode => $fileList) {
+    $phpClasses[$mode] = getClassFileList( $fileList );
 }
 
-//Only to show the matching files
-if ( $reverse )
-{
-    exit(0);
-}
-
-$maxClassNameLength = checkMaxClassLength( $depData );
-$sorted = sortDependencyData( $depData );
-$autoloadArrays = dumpSortedArray( $sorted, $maxClassNameLength, 2 );
+$maxClassNameLength = checkMaxClassLength( $phpClasses );
+$autoloadArrays = dumpArray( $phpClasses, $maxClassNameLeppngth );
 
 //Write autoload array data into separate files
-if ( !$dryRun )
+foreach( $autoloadArrays as $location => $data )
 {
-    foreach( $autoloadArrays as $location => $data )
+    if ( $verbose )
     {
-        if ( $verbose )
-        {
-            var_dump( dumpArrayStart( $location) . $data . dumpArrayEnd() );
-        }
+        var_dump( dumpArrayStart( $location) . $data . dumpArrayEnd() );
+    }
 
+    if ( !$dryRun )
+    {
         $filename = nameTable( $location );
         $file = fopen( "{$targetDir}/$filename", "w" );
         fwrite( $file, dumpArrayStart( $location ) );
@@ -156,6 +127,13 @@ if ( !$dryRun )
     }
 }
 
+/**
+ * Returns an array indexed by location for classes and their filenames.
+ *
+ * @param string $path The base path to start the search from.
+ * @param string $mask A binary mask which instructs the function whether to fetch kernel-related or extension-related files.
+ * @return array
+ */
 function fetchFiles( $path, $mask )
 {
     // make sure ezcFile::findRecursive and the exclusion filters we pass to it
@@ -204,6 +182,14 @@ function fetchFiles( $path, $mask )
     return $retFiles;
 }
 
+
+/**
+ * Builds a filelist of all PHP files in $path.
+ *
+ * @param string $path 
+ * @param array $extraFilter 
+ * @return array
+ */
 function buildFileList( $path, $extraFilter = null )
 {
     $exclusionFilter = array( "@^{$path}/(var|settings|benchmarks|autoload|port_info|templates|tmp|UnitTest|tests)/@" );
@@ -223,133 +209,40 @@ function buildFileList( $path, $extraFilter = null )
 }
 
 /**
- * Method not used at this point.
+ * Extracts class information from PHP sourcecode.
+ * @return array <className> => <filename> array
  */
-function figureOutPrefix( $className )
+function getClassFileList( $fileList )
 {
-    if ( preg_match( "/^([a-z]*)([A-Z][a-z0-9]*)([A-Z][a-z0-9]*)?/", $className, $matches ) !== false )
+    $retArray = array();
+    foreach( $fileList as $file )
     {
-        return strtolower( $matches[2] );
-    }
-    return '';
-}
-
-function generateDependencyData( $files, $reverse )
-{
-    $fullDepArray = array();
-    foreach ( $files as $location => $fileArray )
-    {
-        $depArray = array();
-        foreach( $fileArray as $file )
+        $tokens = token_get_all( file_get_contents( $file ) );
+        foreach( $tokens as $key => $token )
         {
-            $name = '';
-            $depData = getClassDependencies( $file, $name, $extends, $implements, $functions, $type, $relation );
-            if ( $name and !$reverse )
+            if ( is_array( $token ) )
             {
-                $depArray[$name] = array( 'file' => $file, 'class' =>
-                        $name, 'deps' => $depData, 'functions' => $functions,
-                        'type' => $type, 'extends' => $extends, 'implements' => $implements );
-            }
-            else if ( $reverse and !$name )
-            {
-                $depArray[$file] = array( 'file' => $file,
-                                          'functions' => $functions );
-            }
-        }
-        $fullDepArray[$location] = $depArray;
-    }
-    return $fullDepArray;
-}
-
-function getClassDependencies( $file, &$name, &$extends, &$implements, &$functions, &$type, &$relation )
-{
-    $extends = $implements = array();
-    $info = $functions = array();
-    $visibility = "public";
-
-    $tokens = token_get_all( file_get_contents( $file ) );
-    $lastKeyword = null;
-    foreach( $tokens as $token )
-    {
-        if ( $lastKeyword === null && is_array( $token ) )
-        {
-            switch( $token[0] )
-            {
-                case T_CLASS:
-                case T_INTERFACE:
-                    $type = $token[1];
-                    $lastKeyword = $token[1];
-                    break;
-                case T_EXTENDS:
-                case T_IMPLEMENTS:
-                    $lastKeyword = $token[1];
-                    $relation = $token[1];
-                    break;
-                case T_FUNCTION:
-                    $lastKeyword = $token[1];
-                    break;
-                case T_PROTECTED:
-                    $visibility = "protected";
-                    break;
-                case T_PRIVATE:
-                    $visibility = "private";
-                    break;
-            }
-
-        }
-        else if ( is_array( $token ) && $token[0] == T_WHITESPACE )
-        {
-            continue;
-        }
-        else if ( !is_array( $token ) && $token == ',' )
-        {
-            continue;
-        }
-        else if ( is_array( $token ) && $token[0] == T_STRING )
-        {
-            if ( $lastKeyword === 'extends' )
-            {
-                $extends[] = $token[1];
-                $info[] = $token[1];
-                $lastKeyword = null;
-            }
-            else if ( $lastKeyword === 'implements' )
-            {
-                $implements[] = $token[1];
-                $info[] = $token[1];
-            }
-            else if ( $lastKeyword === 'function' )
-            {
-                switch( $visibility )
+                switch( $token[0] )
                 {
-                    case 'public':
-                        $char = "+";
-                        break;
-                    case 'protected':
-                        $char = "#";
-                        break;
-                    case 'private':
-                        $char = "-";
-                        break;
+                    case T_CLASS:
+                    case T_INTERFACE:
+                    {
+                        $retArray[$tokens[$key+2][1]] = $file;
+                    } break;
                 }
-                $functions[] = $char . $token[1];
-                $visibility = "public";
             }
-            else
-            {
-                $name = $token[1];
-
-                $lastKeyword = null;
-            }
-        }
-        else
-        {
-            $lastKeyword = null;
         }
     }
-    return $info;
+    ksort( $retArray );
+    return $retArray;
 }
 
+/**
+ * Calculates the length of the longest class name present in $depdata
+ *
+ * @param array $depData 
+ * @return mixed
+ */
 function checkMaxClassLength( $depData )
 {
     $max = array();
@@ -360,176 +253,46 @@ function checkMaxClassLength( $depData )
 
     foreach( $depData as $location => $locationBundle )
     {
-        foreach ( $locationBundle as $data )
+        foreach ( $locationBundle as $className => $path )
         {
-            if ( strlen( $data['class'] ) > $max[$location] )
+            if ( strlen( $className ) > $max[$location] )
             {
-                $max[$location] = strlen( $data['class'] );
+                $max[$location] = strlen( $className );
             }
         }
     }
     return $max;
 }
 
-function sortDependencyData( $depDataArray )
-{
-    $return = array();
-
-    foreach ($depDataArray as $location => $locData )
-    {
-        $nodes = array();
-        $graph = new Structures_Graph();
-
-        foreach ( $locData as $className => $depData )
-        {
-            /* Create all nodes and add them to the graph */
-            $nodes[$className] = new Structures_Graph_Node();
-            $nodes[$className]->setData( $depData );
-            $graph->addNode( $nodes[$className] );
-
-            /* Add arcs */
-            if ( array_key_exists( 'deps', $depData ) )
-            {
-                foreach( $depData['deps'] as $dependency )
-                {
-                    if ( array_key_exists( $dependency, $nodes ) )
-                    {
-                        $nodes[$className]->connectTo( $nodes[$dependency] );
-                    }
-                }
-            }
-        }
-        /* Sort */
-        $m = new Structures_Graph_Manipulator_TopologicalSorter();
-        $sorted = $m->sort( $graph );
-        $return[$location] = $sorted;
-    }
-    return $return;
-}
-
-function dumpSortedArray( $sortedArray, $length, $extraOffset )
-{
-    $retArray = array();
-    foreach ( $sortedArray as $location => $sorted )
-    {
-        $ret = '';
-        $offset = $length[$location] + $extraOffset;
-        for ( $i = count( $sorted ) - 1; $i >= 0; $i-- )
-        {
-            usort( $sorted[$i], 'sortByClassName' );
-            foreach( $sorted[$i] as $node )
-            {
-                $data = $node->getData();
-
-                if ( !class_exists( $data['class'], false ) && !interface_exists( $data['class'], false ) )
-                {
-    //                require $data['file'];
-                }
-
-                $file = preg_replace( '@.*trunk/@', '', $data['file'] );
-                $fileParts = explode( '/', $file );
-                // unset($fileParts[1]);
-                $file = implode( '/', $fileParts );
-
-                $ret .= sprintf( "      %-{$offset}s => '%s',\n", "'{$data['class']}'", $file );
-            }
-        }
-        $retArray[$location] = $ret;
-    }
-    return $retArray;
-}
-
-function dumpSortedPreloadArray( $sortedArray, $length )
-{
-    $retArray = array();
-    foreach ( $sortedArray as $location => $sorted )
-    {
-        $ret = '';
-        for ( $i = count( $sorted ) - 1; $i >= 0; $i-- )
-        {
-            usort( $sorted[$i], 'sortByClassName' );
-            foreach( $sorted[$i] as $node )
-            {
-                $data = $node->getData();
-
-                if ( !class_exists( $data['class'], false ) && !interface_exists( $data['class'], false ) )
-                {
-    //                require $data['file'];
-                }
-
-                $fileParts = explode( '/', $data['file'] );
-                unset($fileParts[0]);
-                $file = implode( '/', $fileParts );
-
-                $ret .= "require '{$file}';\n";
-            }
-        }
-        $retArray[$location] = $ret;
-    }
-    return $retArray;
-}
-
-function sortByClassName( $a, $b )
-{
-    $aa = $a->getData();
-    $bb = $b->getData();
-    return strcmp( $aa['class'], $bb['class'] );
-}
-
-function dumpLicense()
-{
-    return <<<ENDL
-<?php
 /**
- * Autoloader definition for eZ Publish
+ * Build string version of the autoload array with correct indenting.
  *
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPL
- * @version //autogentag//
- * @filesource
- *
+ * @param array $sortedArray 
+ * @param int $length 
+ * @return string
  */
-
-ENDL;
-}
-
-function dumpHeader()
+function dumpArray( $sortedArray, $length )
 {
-    return dumpLicense() . <<<END
-
-require 'Base/src/base.php';
-
-function __autoload( \$className )
-{
-
-    static \$ezpClasses = null;
-    if ( is_null( \$ezpClasses ) )
+    $retArray = array();
+    foreach ( $sortedArray as $location => $sorted )
     {
-        \$ezpClasses = array(
-
-END;
+        $ret = '';
+        $offset = $length[$location] + 2;
+        foreach( $sorted as $class => $path )
+        {
+            $ret .= sprintf( "      %-{$offset}s => '%s',\n", "'{$class}'", $path );
+        }
+    }
+    $retArray[$location] = $ret;
+    return $retArray;
 }
 
-function dumpFooter()
-{
-    return <<<END
-        );
-    }
-
-    if ( array_key_exists( \$className, \$ezpClasses ) )
-    {
-        require( \$ezpClasses[\$className] );
-    }
-    else
-    {
-        ezcBase::autoload( \$className );
-    }
-}
-?>
-
-END;
-}
-
+/**
+ * Checks which runmode the script should operate in: kernel-mode, extension-mode or both.
+ *
+ * @param int $mask Bitmask to check for run mode.
+ * @return int
+ */
 function checkMode( $mask )
 {
     $modes = array( EZP_GENAUTOLOADS_KERNEL, EZP_GENAUTOLOADS_EXTENSION, EZP_GENAUTOLOADS_BOTH );
@@ -543,6 +306,14 @@ function checkMode( $mask )
     return false;
 }
 
+/**
+ * Generates the active bitmask for this instance of the autoload generation script
+ * depending on the parameters it sets the corresponding flags.
+ *
+ * @param bool $useKernelFiles Whether kernel files should be checked
+ * @param bool $useExtensionFiles Whether extension files should be checked
+ * @return int
+ */
 function runMode( $useKernelFiles, $useExtensionFiles )
 {
     $mode = EZP_GENAUTOLOADS_NONE;
@@ -564,6 +335,12 @@ function runMode( $useKernelFiles, $useExtensionFiles )
     return $mode;
 }
 
+/**
+ * Table to look up file names to use for different run modes.
+ *
+ * @param string $lookup Mode to look up, can be extension, or kernel.
+ * @return string
+ */
 function nameTable( $lookup )
 {
     $names = array( "extension" => "ezp_extension.php",
@@ -576,6 +353,12 @@ function nameTable( $lookup )
     return false;
 }
 
+/**
+ * Prints generated code used for the autoload files
+ *
+ * @param string $part 
+ * @return string
+ */
 function dumpArrayStart( $part )
 {
     return <<<ENDL
@@ -595,6 +378,12 @@ return array(
 ENDL;
 }
 
+/**
+ * Prints generated code for end of the autoload files
+ *
+ * @return void
+ * @author Ole Marius Smestad
+ */
 function dumpArrayEnd()
 {
     return <<<END
