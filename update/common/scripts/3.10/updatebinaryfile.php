@@ -31,9 +31,9 @@
 
 require 'autoload.php';
 
-$cli = eZCLI::instance();
+$cli =& eZCLI::instance();
 
-$script = eZScript::instance( array( 'description' => ( "\nAdds the file extension suffix to the files stored by the binary file datatype\n" .
+$script =& eZScript::instance( array( 'description' => ( "\nAdds the file extension suffix to the files stored by the binary file datatype\n" .
                                                         "where it is currently missing.\n" ),
                                      'use-session' => false,
                                      'use-modules' => false,
@@ -47,7 +47,7 @@ $script->initialize();
 $limit = 20;
 $offset = 0;
 
-$db = eZDB::instance();
+$db =& eZDB::instance();
 
 while ( $binaryFiles = eZPersistentObject::fetchObjectList( eZBinaryFile::definition(), null, null, null, array( 'offset' => $offset, 'limit' => $limit ) ) )
 {
