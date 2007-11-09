@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
