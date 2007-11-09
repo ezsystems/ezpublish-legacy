@@ -4,8 +4,8 @@
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ publish
-// SOFTWARE RELEASE: 3.10.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2006 eZ systems AS
+// SOFTWARE RELEASE: 4.0.x
+// COPYRIGHT NOTICE: Copyright (C) 1999-2007 eZ systems AS
 // SOFTWARE LICENSE: GNU General Public License v2.0
 // NOTICE: >
 //   This program is free software; you can redistribute it and/or
@@ -28,7 +28,7 @@
 
 $Module = $Params['Module'];
 
-$text = 
+$text =
 ## BEGIN COPYRIGHT INFO ##
 '<p>Copyright (C) 1999-2006 eZ systems as. All rights reserved.</p>
 
