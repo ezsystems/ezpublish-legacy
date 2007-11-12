@@ -405,7 +405,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
      Adds the content class with ID \a $classID to the package.
      If \a $classIdentifier is \c false then it will be fetched from the class.
     */
-    function addClass( $package, $classID, $classIdentifier = false )
+    static function addClass( $package, $classID, $classIdentifier = false )
     {
         $class = false;
         if ( is_numeric( $classID ) )
@@ -517,7 +517,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
      \static
      Creates the DOM tree for the content class \a $class and returns the root node.
     */
-    function classDOMTree( $class )
+    static function classDOMTree( $class )
     {
         if ( !$class )
         {

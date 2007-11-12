@@ -81,3 +81,4 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #11900: Missing include in eZPackage.
 - Fixed bug #11905: Typo in type-hint in parseDOMTree in eZPackage.
 - Fixed bug #11901: Missing pass-by-reference definition.
+- Fixed bug #11902: Static methods in eZContentClassPackageHandler not declared as static.
