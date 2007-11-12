@@ -288,7 +288,7 @@ class eZPackageCreationHandler
      This is usually the function that creates the package and
      adds the proper elements.
     */
-    function finalize( $package, $http, &$persistentData )
+    function finalize( &$package, $http, &$persistentData )
     {
     }
 
@@ -529,7 +529,7 @@ class eZPackageCreationHandler
      \return \c true if the package was created or \c false if it was only re-initialized.
      \sa packageType, packageInitialState and packageInstallType
     */
-    function createPackage( $package, $http, &$persistentData, &$cleanupFiles, $storePackage = true )
+    function createPackage( &$package, $http, &$persistentData, &$cleanupFiles, $storePackage = true )
     {
         $createdPackage = false;
         if ( !( $package instanceof eZPackage ) )

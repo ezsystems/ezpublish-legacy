@@ -69,7 +69,7 @@ class eZStylePackageCreator extends eZPackageCreationHandler
                                          $steps );
     }
 
-    function finalize( $package, $http, &$persistentData )
+    function finalize( &$package, $http, &$persistentData )
     {
         $cleanupFiles = array();
         $this->createPackage( $package, $http, $persistentData, $cleanupFiles, false );

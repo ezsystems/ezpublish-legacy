@@ -71,7 +71,7 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
      \reimp
      Creates the package and adds the selected content classes.
     */
-    function finalize( $package, $http, &$persistentData )
+    function finalize( &$package, $http, &$persistentData )
     {
         $this->createPackage( $package, $http, $persistentData, $cleanupFiles );
 

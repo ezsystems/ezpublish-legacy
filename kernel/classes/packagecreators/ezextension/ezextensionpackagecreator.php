@@ -64,7 +64,7 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
                                          $steps );
     }
 
-    function finalize( $package, $http, &$persistentData )
+    function finalize( &$package, $http, &$persistentData )
     {
         $this->createPackage( $package, $http, $persistentData, $cleanupFiles, false );
 
