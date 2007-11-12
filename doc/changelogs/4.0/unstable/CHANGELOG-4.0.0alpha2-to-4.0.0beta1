@@ -79,3 +79,4 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #11723: wrong link in productsoverview.
 - Fixed bug #11778: Query error after upgrade from 3.8.8 to 3.8.10.
 - Fixed bug #11900: Missing include in eZPackage.
+- Fixed bug #11905: Typo in type-hint in parseDOMTree in eZPackage.

@@ -1927,7 +1927,7 @@ class eZPackage
     /*!
      \private
     */
-    function parseDOMTree( DOMDOcument $dom )
+    function parseDOMTree( DOMDocument $dom )
     {
         $root = $dom->documentElement;
 
