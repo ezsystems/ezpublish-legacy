@@ -816,7 +816,6 @@ class eZSiteInstaller
                             {
                                 $xml .= ' ';
                             }
-                            $xml .= eZLoremIpsum::generateSentence();
                         }
                         $xml .= "</paragraph>\n";
                     }
