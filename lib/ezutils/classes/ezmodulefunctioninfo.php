@@ -131,63 +131,50 @@ class eZModuleFunctionInfo
 
      \return function definition, false if fails.
     */
-    function &preExecute( $functionName )
+    function preExecute( $functionName )
     {
         /* Code copied from this->execute() */
-        $Return = false;
         $moduleName = $this->ModuleName;
         if ( !isset( $this->FunctionList[$functionName] ) )
         {
             eZDebug::writeError( "No such function '$functionName' in module '$moduleName'",
                                  'eZModuleFunctionInfo::execute' );
-            return $Return;
+            return false;
         }
-        $functionDefinition =& $this->FunctionList[$functionName];
+        $functionDefinition = $this->FunctionList[$functionName];
         if ( !isset( $functionName['call_method'] ) )
         {
             eZDebug::writeError( "No call method defined for function '$functionName' in module '$moduleName'",
                                  'eZModuleFunctionInfo::execute' );
-            return $Return;
+            return false;
         }
         if ( !isset( $functionName['parameters'] ) )
         {
             eZDebug::writeError( "No parameters defined for function '$functionName' in module '$moduleName'",
                                  'eZModuleFunctionInfo::execute' );
-            return $Return;
+            return false;
         }
-        $callMethod =& $functionDefinition['call_method'];
-        if ( isset( $callMethod['include_file'] ) and
-             isset( $callMethod['class'] ) and
+        $callMethod = $functionDefinition['call_method'];
+        if ( isset( $callMethod['class'] ) &&
              isset( $callMethod['method'] ) )
         {
-            $extension = false;
-            if ( isset( $callMethod['extension'] ) )
-                $extension = $callMethod['extension'];
-
-            if ( $extension )
-            {
-                //include_once( 'lib/ezutils/classes/ezextension.php' );
-                $extensionDir = eZExtension::baseDirectory();
-                $callMethod['include_file'] = $extensionDir . '/' . $extension . '/modules/' . $callMethod['include_file'];
-            }
-            include_once( $callMethod['include_file'] );
             if ( !class_exists( $callMethod['class'] ) )
             {
-                return $Return;
+                return false;
             }
             $classObject = $this->objectForClass( $callMethod['class'] );
             if ( $classObject === null )
             {
-                return $Return;
+                return false;
             }
             if ( !method_exists( $classObject, $callMethod['method'] ) )
             {
-                return $Return;
+                return false;
             }
 
             return $functionDefinition;
         }
-        return $Return;
+        return false;
     }
 
     function execute( $functionName, $functionParameters )
@@ -199,7 +186,7 @@ class eZModuleFunctionInfo
                                  'eZModuleFunctionInfo::execute' );
             return null;
         }
-        $functionDefinition =& $this->FunctionList[$functionName];
+        $functionDefinition = $this->FunctionList[$functionName];
         if ( !isset( $functionName['call_method'] ) )
         {
             eZDebug::writeError( "No call method defined for function '$functionName' in module '$moduleName'",
@@ -212,15 +199,11 @@ class eZModuleFunctionInfo
                                  'eZModuleFunctionInfo::execute' );
             return null;
         }
-        $callMethod =& $functionDefinition['call_method'];
-        if ( isset( $callMethod['include_file'] ) and
-             isset( $callMethod['class'] ) and
+        $callMethod = $functionDefinition['call_method'];
+        if ( isset( $callMethod['class'] ) &&
              isset( $callMethod['method'] ) )
         {
-            $extension = false;
-            if ( isset( $callMethod['extension'] ) )
-                $extension = $callMethod['extension'];
-            $resultArray = $this->executeClassMethod( $extension, $callMethod['include_file'], $callMethod['class'], $callMethod['method'],
+            $resultArray = $this->executeClassMethod( $callMethod['class'], $callMethod['method'],
                                                       $functionDefinition['parameters'], $functionParameters );
         }
         else
@@ -306,16 +289,9 @@ class eZModuleFunctionInfo
         return $GLOBALS['eZModuleFunctionClassObjectList'][$className] = new $className();
     }
 
-    function executeClassMethod( $extension, $includeFile, $className, $methodName,
+    function executeClassMethod( $className, $methodName,
                                  $functionParameterDefinitions, $functionParameters )
     {
-        if ( $extension )
-        {
-            //include_once( 'lib/ezutils/classes/ezextension.php' );
-            $extensionDir = eZExtension::baseDirectory();
-            $includeFile = $extensionDir . '/' . $extension . '/modules/' . $includeFile;
-        }
-        include_once( $includeFile );
         if ( !class_exists( $className ) )
         {
             return array( 'internal_error' => eZModuleFunctionInfo::ERROR_NO_CLASS,

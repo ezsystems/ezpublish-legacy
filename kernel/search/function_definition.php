@@ -32,15 +32,13 @@
 $FunctionList = array();
 $FunctionList['list_count'] = array( 'name' => 'list_count',
                                      'operation_types' => array( 'read' ),
-                                     'call_method' => array( 'include_file' => 'kernel/search/ezsearchfunctioncollection.php',
-                                                       'class' => 'eZSearchFunctionCollection',
-                                                       'method' => 'fetchSearchListCount' ),
+                                     'call_method' => array( 'class' => 'eZSearchFunctionCollection',
+                                                             'method' => 'fetchSearchListCount' ),
                                       'parameter_type' => 'standard',
                                       'parameters' => array() );
 $FunctionList['list'] = array( 'name' => 'list',
                                'operation_types' => array( 'read' ),
-                               'call_method' => array( 'include_file' => 'kernel/search/ezsearchfunctioncollection.php',
-                                                       'class' => 'eZSearchFunctionCollection',
+                               'call_method' => array( 'class' => 'eZSearchFunctionCollection',
                                                        'method' => 'fetchSearchList' ),
                                       'parameter_type' => 'standard',
                                       'parameters' => array( array( 'name' => 'offset',

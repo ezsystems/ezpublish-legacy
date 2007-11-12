@@ -166,7 +166,7 @@ class eZTemplateExecuteOperator
             return false;
         }
 
-        $functionDefinition =& $moduleFunctionInfo->preExecute( $functionName );
+        $functionDefinition = $moduleFunctionInfo->preExecute( $functionName );
         if ( $functionDefinition === false )
         {
             return false;
@@ -197,7 +197,6 @@ class eZTemplateExecuteOperator
 
         $paramCount = 0;
         $values = array();
-        $code = 'include_once( \'' . $functionDefinition['call_method']['include_file'] . '\' );' . "\n";
         if ( $isVariable )
         {
             $values[] = $fetchParameters;
@@ -302,7 +301,7 @@ class eZTemplateExecuteOperator
             $parametersCode .= ' )';
         }
 
-        $code .= '%output% = ';
+        $code = '%output% = ';
         if ( $moduleFunctionInfo->UseOldCall )
         {
             $code .= 'call_user_method_array( ' . $functionDefinition['call_method']['method'] . ', new ' . $functionDefinition['call_method']['class'] . '(), ' . $parametersCode . ' );';

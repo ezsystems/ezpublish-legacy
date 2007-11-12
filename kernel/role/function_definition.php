@@ -35,8 +35,7 @@
 $FunctionList = array();
 $FunctionList['role'] = array( 'name' => 'role',
                                'operation_types' => array( 'read' ),
-                               'call_method' => array( 'include_file' => 'kernel/role/ezrolefunctioncollection.php',
-                                                       'class' => 'eZRoleFunctionCollection',
+                               'call_method' => array( 'class' => 'eZRoleFunctionCollection',
                                                        'method' => 'fetchRole' ),
                                'parameter_type' => 'standard',
                                'parameters' => array( array( 'name' => 'role_id',

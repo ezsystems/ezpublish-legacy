@@ -3,6 +3,7 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 *Kernel:
 - Implemented enhancement #11596: ez4: compat.php cleanup
 - Implemented enhancement #11792: ezpgenerateautoloads.php requires php-pear Structures/Graph
+- Implemented enhancement #011718: eZModuleFunctionInfo - remove 'include_file' dependency
 
 *Bugs:
 - Fixed bug #11619: ezp4 update scripts not working

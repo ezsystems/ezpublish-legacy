@@ -32,8 +32,7 @@
 $FunctionList = array();
 $FunctionList['list'] = array( 'name' => 'list',
                                'operation_types' => array( 'read' ),
-                               'call_method' => array( 'include_file' => 'kernel/class/ezclassfunctioncollection.php',
-                                                       'class' => 'eZClassFunctionCollection',
+                               'call_method' => array( 'class' => 'eZClassFunctionCollection',
                                                        'method' => 'fetchClassList' ),
                                'parameter_type' => 'standard',
                                'parameters' => array( array( 'name' => 'class_filter',
@@ -46,8 +45,7 @@ $FunctionList['list'] = array( 'name' => 'list',
                                                              'default' => array() ) ) );
 
 $FunctionList['latest_list'] = array( 'operation_types' => array( 'read' ),
-                                      'call_method' => array( 'include_file' => 'kernel/class/ezclassfunctioncollection.php',
-                                                              'class' => 'eZClassFunctionCollection',
+                                      'call_method' => array( 'class' => 'eZClassFunctionCollection',
                                                               'method' => 'fetchLatestClassList' ),
                                       'parameter_type' => 'standard',
                                       'parameters' => array( array( 'name' => 'offset',
@@ -61,8 +59,7 @@ $FunctionList['latest_list'] = array( 'operation_types' => array( 'read' ),
 
 $FunctionList['attribute_list'] = array( 'name' => 'attribute_list',
                                          'operation_types' => array( 'read' ),
-                                         'call_method' => array( 'include_file' => 'kernel/class/ezclassfunctioncollection.php',
-                                                                 'class' => 'eZClassFunctionCollection',
+                                         'call_method' => array( 'class' => 'eZClassFunctionCollection',
                                                                  'method' => 'fetchClassAttributeList' ),
                                          'parameter_type' => 'standard',
                                          'parameters' => array( array( 'name' => 'class_id',
@@ -73,12 +70,11 @@ $FunctionList['attribute_list'] = array( 'name' => 'attribute_list',
 
 $FunctionList['override_template_list'] = array( 'name' => 'override_template_list',
                                                            'operation_types' => array( 'read' ),
-                                                           'call_method' => array( 'include_file' => 'kernel/class/ezclassfunctioncollection.php',
-                                                           'class' => 'eZClassFunctionCollection',
-                                                           'method' => 'fetchOverrideTemplateList' ),
-                                                           'parameter_type' => 'standard',
-                                                           'parameters' => array( array( 'name' => 'class_id',
-                                                                                         'type' => 'integer',
-                                                                                         'required' => true ) ) );
+                                                           'call_method' => array( 'class' => 'eZClassFunctionCollection',
+                                                                                   'method' => 'fetchOverrideTemplateList' ),
+                                                 'parameter_type' => 'standard',
+                                                 'parameters' => array( array( 'name' => 'class_id',
+                                                                               'type' => 'integer',
+                                                                               'required' => true ) ) );
 
 ?>
