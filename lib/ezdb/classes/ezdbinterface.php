@@ -1299,7 +1299,7 @@ class eZDBInterface
      \return A string with the correct IN statement like for example
              "columnName IN ( element1, element2 )"
      */
-    function generateSQLINStatement( $elements, $columnName = '', $not = false )
+    function generateSQLINStatement( $elements, $columnName = '', $not = false, $unique = true )
     {
         $result    = '';
         $statement = $columnName . ' IN';
