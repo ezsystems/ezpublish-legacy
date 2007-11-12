@@ -500,7 +500,8 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                             }
                         }
                     }
-                    $fetchAliasDOMNode->appendChild( eZContentObjectPackageHandler::createElementNodeFromArray( $fetchAlias,  $fetchBlock ) );
+                    $importedNode = $dom->importNode( eZContentObjectPackageHandler::createElementNodeFromArray( $fetchAlias,  $fetchBlock ), true );
+                    $fetchAliasDOMNode->appendChild( $importedNode );
                     $fetchAliasListDOMNode->appendChild( $fetchAliasDOMNode );
                 }
             }
@@ -563,16 +564,17 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     */
     function createDOMNodeFromFile( $filename, $siteAccess, $filetype = false )
     {
-        $fileAttributes = array( 'site-access' => $siteAccess );
-        if ( $filetype !== false )
-        {
-            $fileAttributes['file-type'] = $filetype;
-        }
-
         $path = substr( $filename, strpos( $filename, '/', 7 ) );
 
         $dom = new DOMDocument();
-        $fileDOMNode = $dom->createElement( 'file', $fileAttributes );
+        $fileDOMNode = $dom->createElement( 'file' );
+        $fileDOMNode->setAttribute( 'site-access', $siteAccess );
+        
+        if ( $filetype !== false )
+        {
+            $fileDOMNode->setAttribute( 'file-type', $filetype );
+        }
+        
         $dom->appendChild( $fileDOMNode );
         $originalPathNode = $dom->createElement( 'original-path', $filename );
         $fileDOMNode->appendChild( $originalPathNode );
@@ -812,11 +814,11 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 $blockMatchNode = $dom->createElement( 'block' );
                 $blockMatchNode->setAttribute( 'name', $blockName );
                 $blockMatchNode->setAttribute( 'site-access', $siteAccess );
-                $blockMatchNode->appendChild( eZContentObjectPackageHandler::createElementNodeFromArray( $blockName,  $iniGroup ) );
+                $importedNode = $dom->importNode( eZContentObjectPackageHandler::createElementNodeFromArray( $blockName, $iniGroup ), true );
+                $blockMatchNode->appendChild( $importedNode );
                 $overrideSettingsListDOMNode->appendChild( $blockMatchNode );
             }
         }
-
         return $overrideSettingsListDOMNode;
     }
 
@@ -1719,7 +1721,6 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 $node->setAttribute( $arrayKey, $value );
             }
         }
-
         return $node;
     }
 
