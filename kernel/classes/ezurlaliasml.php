@@ -405,7 +405,7 @@ class eZURLAliasML extends eZPersistentObject
         if ( is_object( $languageName ) )
         {
             $languageObj  = $languageName;
-            $languageID   = $languageName->attribute( 'id' );
+            $languageID   = (int)$languageName->attribute( 'id' );
             $languageName = $languageName->attribute( 'locale' );
         }
         else
@@ -993,7 +993,7 @@ class eZURLAliasML extends eZPersistentObject
                 $selects[] = eZURLAliasML::generateFullSelect( $table );
             else
                 $selects[] = eZURLAliasML::generateSelect( $table, $i, $len );
-            $tables[]  = "ezurlalias_ml AS " . $table;
+            $tables[]  = "ezurlalias_ml " . $table;
             $conds[]   = eZURLAliasML::generateCond( $table, $prevTable, $i, $langMask, $element );
             $prevTable = $table;
             ++$i;
@@ -1005,7 +1005,7 @@ class eZURLAliasML extends eZPersistentObject
             $langMask  = trim( eZContentLanguage::languagesSQLFilter( $table, 'lang_mask' ) );
 
             $selects[] = eZURLAliasML::generateFullSelect( $table, $i, $len );
-            $tables[]  = "ezurlalias_ml AS " . $table;
+            $tables[]  = "ezurlalias_ml " . $table;
             $conds[]   = eZURLAliasML::generateGlobCond( $table, $prevTable, $i, $langMask, $glob );
             $prevTable = $table;
             ++$i;
@@ -1263,13 +1263,13 @@ class eZURLAliasML extends eZPersistentObject
             $table = "e" . $i;
             if ( $i == $len - 1 )
             {
-                $selects[] = "{$table}.id AS {$table}_id, {$table}.link AS {$table}_link, {$table}.text AS {$table}_text, {$table}.text_md5 AS {$table}_text_md5, {$table}.action AS {$table}_action, {$table}.is_alias AS {$table}_is_alias";
+                $selects[] = "{$table}.id {$table}_id, {$table}.link {$table}_link, {$table}.text {$table}_text, {$table}.text_md5 {$table}_text_md5, {$table}.action {$table}_action, {$table}.is_alias {$table}_is_alias";
             }
             else
             {
-                $selects[] = "{$table}.id AS {$table}_id, {$table}.link AS {$table}_link, {$table}.text AS {$table}_text, {$table}.text_md5 AS {$table}_text_md5, {$table}.is_alias AS {$table}_is_alias";
+                $selects[] = "{$table}.id {$table}_id, {$table}.link {$table}_link, {$table}.text {$table}_text, {$table}.text_md5 {$table}_text_md5, {$table}.is_alias {$table}_is_alias";
             }
-            $tables[]  = "ezurlalias_ml AS " . $table;
+            $tables[]  = "ezurlalias_ml " . $table;
             $langMask = trim( eZContentLanguage::languagesSQLFilter( $table, 'lang_mask' ) );
             if ( $i == 0 )
             {
@@ -1782,11 +1782,11 @@ class eZURLAliasML extends eZPersistentObject
     {
         if ( $i == $len - 1 )
         {
-            $select = "{$table}.id AS {$table}_id, {$table}.link AS {$table}_link, {$table}.text AS {$table}_text, {$table}.text_md5 AS {$table}_text_md5, {$table}.action AS {$table}_action";
+            $select = "{$table}.id {$table}_id, {$table}.link {$table}_link, {$table}.text {$table}_text, {$table}.text_md5 {$table}_text_md5, {$table}.action {$table}_action";
         }
         else
         {
-            $select = "{$table}.id AS {$table}_id, {$table}.link AS {$table}_link, {$table}.text AS {$table}_text, {$table}.text_md5 AS {$table}_text_md5";
+            $select = "{$table}.id {$table}_id, {$table}.link {$table}_link, {$table}.text {$table}_text, {$table}.text_md5 {$table}_text_md5";
         }
         return $select;
     }
@@ -1798,7 +1798,7 @@ class eZURLAliasML extends eZPersistentObject
      */
     static private function generateFullSelect( $table )
     {
-        $select = "{$table}.id AS {$table}_id, {$table}.parent AS {$table}_parent, {$table}.lang_mask AS {$table}_lang_mask, {$table}.text AS {$table}_text, {$table}.text_md5 AS {$table}_text_md5, {$table}.action AS {$table}_action, {$table}.link AS {$table}_link";
+        $select = "{$table}.id {$table}_id, {$table}.parent {$table}_parent, {$table}.lang_mask {$table}_lang_mask, {$table}.text {$table}_text, {$table}.text_md5 {$table}_text_md5, {$table}.action {$table}_action, {$table}.link {$table}_link";
         return $select;
     }
 
