@@ -648,6 +648,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                               'sortingFields'       => " path_string ASC",
                               'attributeJoinCount'  => 0,
                               'attributeFromSQL'    => "",
+                              'attributeTargetSQL'  => "",
                               'attributeWhereSQL'   => "" );
 
         if ( $sortList and is_array( $sortList ) and count( $sortList ) > 0 )
@@ -662,6 +663,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $attributeJoinCount = 0;
             $attributeFromSQL   = "";
             $attributeWhereSQL  = "";
+            $datatypeSortingTargetSQL = "";
 
             foreach ( $sortList as $sortBy )
             {
@@ -752,6 +754,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                 $datatypeFromSQL .= ", {$sql['from']}";
                                 $datatypeWhereSQL .= " AND {$sql['where']}";
                                 $datatypeSortingFieldSQL = $sql['sorting_field'];
+                                $datatypeSortingTargetSQL .= ', ' . $sql['sorting_field'];
                             }
                             else
                             {
@@ -772,6 +775,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                 }
 
                                 $datatypeSortingFieldSQL = "a$attributeJoinCount.$sortKey";
+                                $datatypeSortingTargetSQL .= ', ' . $datatypeSortingFieldSQL;
                             }
 
                             $sortingFields .= "$datatypeSortingFieldSQL";
@@ -797,6 +801,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
             $sortingInfo['sortCount']           = $sortCount;
             $sortingInfo['sortingFields']       = $sortingFields;
+            $sortingInfo['attributeTargetSQL'] = $datatypeSortingTargetSQL;
             $sortingInfo['attributeJoinCount']  = $attributeJoinCount;
             $sortingInfo['attributeFromSQL']    = $attributeFromSQL;
             $sortingInfo['attributeWhereSQL']   = $attributeWhereSQL;
@@ -1840,6 +1845,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                        ezcontentclass.is_container as is_container
                        $groupBySelectText
                        $versionNameTargets
+                       $sortingInfo[attributeTargetSQL]
                    FROM
                       ezcontentobject_tree,
                       ezcontentobject,ezcontentclass
@@ -2069,6 +2075,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                        ezcontentclass.identifier as class_identifier
                        $groupBySelectText
                        $versionNameTargets
+                       $sortingInfo[attributeTargetSQL]
                        , ".$nodeParams['ResultID']." AS resultid
                    FROM
                       ezcontentobject_tree,
