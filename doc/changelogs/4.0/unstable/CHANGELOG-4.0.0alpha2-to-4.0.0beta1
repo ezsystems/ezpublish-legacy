@@ -75,3 +75,4 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
   either static or instance methods
 - Fixed bug #11546: Non-static method ... should not be called issues
 - Fixed bug #11434: Successful message for changing password, although password is to short
+- Fixed bug #11795: eZSiteInstaller contains calls to unexisting class eZLoremIpsum.
