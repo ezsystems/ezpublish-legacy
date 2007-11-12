@@ -98,7 +98,7 @@
 
 {foreach $product_list as $product sequence array( bglight, bgdark ) as $bg_class_style}
     <tr class="{$bg_class_style}">
-        <td class="name"><a href={$product.path_identification_string|ezurl}>{$product.object.name|wash()}</a></td>
+        <td class="name"><a href={$product.url_alias|ezurl}>{$product.object.name|wash()}</a></td>
         <td class="class">{$product.data_map[$price_attribute_identifier].content.inc_vat_price|l10n('currency', $locale, $symbol )}</td>
     </tr>
 {/foreach}
