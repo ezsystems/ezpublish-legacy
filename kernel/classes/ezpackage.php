@@ -470,6 +470,7 @@ class eZPackage
 
     static function maintainerRoleName( $roleID )
     {
+        require_once "kernel/common/i18n.php";
         $nameMap = array( 'lead' => ezi18n( 'kernel/package', 'Lead' ),
                           'developer' => ezi18n( 'kernel/package', 'Developer' ),
                           'designer' => ezi18n( 'kernel/package', 'Designer' ),
@@ -1574,6 +1575,7 @@ class eZPackage
     */
     static function packageRepositories( $parameters = array() )
     {
+        require_once "kernel/common/i18n.php";
         if ( isset( $parameters['path'] ) and $parameters['path'] )
         {
             $path = $parameters['path'];
