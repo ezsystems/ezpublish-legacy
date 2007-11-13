@@ -379,14 +379,11 @@ class eZContentFunctionCollection
         {
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => eZError::KERNEL_NOT_FOUND ) );
-        }
-
-        if ( $asObject === null or $asObject )
+        } 
+        else
         {
-            $result = array( 'result' => $children );
+            return array( 'result' => $children );
         }
-
-        return $result;
     }
 
     function fetchObjectTreeCount( $parentNodeID, $onlyTranslated, $language, $class_filter_type, $class_filter_array,
