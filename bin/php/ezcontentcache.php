@@ -1,4 +1,4 @@
-#!/usr/bin/env php
+#!/usr/bin/env php
 <?php
 //
 // Created on: <19-Jul-2004 10:51:17 amos>

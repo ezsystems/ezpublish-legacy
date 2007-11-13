@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 //
 // Created on: <27-Jul-2007 09:29:16 bjorn>

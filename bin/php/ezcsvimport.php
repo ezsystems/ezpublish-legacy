@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 //
 // Definition of eZCsvimport class

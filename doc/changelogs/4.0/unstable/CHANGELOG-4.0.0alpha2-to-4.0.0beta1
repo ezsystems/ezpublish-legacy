@@ -85,3 +85,4 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #011904: Problem with package creation and export of content objects.
 - Fixed bug #11868: BC break: extensions with views with 'functions' => array() do not longer work
   (Merged from stable/3.9 (3.9.5) rev. 20699)
+- Fixed bug #11882: Inconsistent use of svn:executable svn property
