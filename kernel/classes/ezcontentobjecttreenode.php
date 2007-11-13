@@ -4406,13 +4406,18 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \static
      Return reverse related count for specified node
 
-     \param $nodeIDList, array of node id's
+     \param $nodeIDArray, array of node id's
 
      \return reverse related count.
     */
     function reverseRelatedCount( $nodeIDArray )
     {
         // Select count of all elements having reverse relations. And ignore those items that don't relate to objects other than being removed.
+        if ( $nodeIDArray === array() )
+        {
+            return 0;
+        }
+
         foreach( $nodeIDArray as $nodeID )
         {
             $contentObjectTreeNode = eZContentObjectTreeNode::fetch( $nodeID, false, false );
