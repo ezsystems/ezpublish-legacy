@@ -89,3 +89,5 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #11860: Undefined variable: result in ezcontentfunctioncollection.php
   on line 389 when as_object = false.
 - Fixed bug #8770: eZINI problems with external applications
+- Fixed bug #11852: Warnings and errors when ezsubtreeremove.php is used 
+  with an unexisting node id
