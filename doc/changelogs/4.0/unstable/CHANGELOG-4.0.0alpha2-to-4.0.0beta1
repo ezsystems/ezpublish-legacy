@@ -3,7 +3,7 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 *Kernel:
 - Implemented enhancement #11596: ez4: compat.php cleanup
 - Implemented enhancement #11792: ezpgenerateautoloads.php requires php-pear Structures/Graph
-- Implemented enhancement #011718: eZModuleFunctionInfo - remove 'include_file' dependency
+- Implemented enhancement #11718: eZModuleFunctionInfo - remove 'include_file' dependency
 
 *Bugs:
 - Fixed bug #11619: ezp4 update scripts not working
@@ -23,7 +23,7 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #11616: ezfilepasstroughhandler should be ezfilepassthroughandler
 - Fixed bug #11730: 4.0.0alpha2: fatal error on /index.php/ezwebin_site_admin/section/view/3 (<-3, 1 and 6)
 - Fixed bug #11731: Incompatible function declarations of eZUserAccountKey::remove and eZForgotPassword::remove
-- Fixed bug #011712: Enhanced use of fromString function in ezurl datatype.
+- Fixed bug #11712: Enhanced use of fromString function in ezurl datatype.
 - Fixed bug #11568: eZCli::getOptions should be either a static or instance method
 - Fixed bug #11735: Fatal error: Cannot unset string offsets in lib/ezpdf/classes/class.ezpdftable.php on line 1604
 - Fixed bug #11733: Multiple PHP-strict warnings in ezenum datatype.
@@ -43,11 +43,11 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed issue #11547: PHP functions behind template fetch functions that are called statically
 - Fixed issue #11552: eZWorkflow::fetchEvents and eZWorkflow::fetchEventCount should be either static or instance methods
 - Fixed issue #11773: Notice: Undefined variable: Module in /home/hovik/dev/trunk/lib/ezutils/classes/ezmodule.php on line 84
-- Fixed issue #011615: Unused QUERY_LIMIT constant in update/common/scripts/3.10/updatemultioption.php.
-- Fixed issue #011661: updatemultioption.php CLI script has wrong description.
+- Fixed issue #11615: Unused QUERY_LIMIT constant in update/common/scripts/3.10/updatemultioption.php.
+- Fixed issue #11661: updatemultioption.php CLI script has wrong description.
 - Fixed issue #11771: PHP warnings using triggers.
 - Fixed bug #11775: wrong path to ezpopupmenu.js in standard template popup_menu.tpl
-- Fixed bug #011776: SQL error with contentclass_serialized_name_list with ezoracle.
+- Fixed bug #11776: SQL error with contentclass_serialized_name_list with ezoracle.
   (Merged from stable/3.9 (3.9.5) rev. 20592)
 - Fixed bug #11765: settings_validation.tpl: malformed XML
 - Fixed bug #11785: Template look class missing info in language matrix
@@ -70,7 +70,7 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #11571: eZSys functions should be either static or dynamic.
 - Fixed bug #11657: Warning: No template could be loaded for "content/datatype/view/ezxmltags/separator.tpl"
 - Fixed bug #11651: ezp4 Strict warnings.
-- Fixed issue #011660: Add mysqli to database selection in setup wizard.
+- Fixed issue #11660: Add mysqli to database selection in setup wizard.
 - Fixed bug #11570: eZMimeType::findByName and eZMimeType::findByURL should be
   either static or instance methods
 - Fixed bug #11546: Non-static method ... should not be called issues
@@ -82,7 +82,7 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #11905: Typo in type-hint in parseDOMTree in eZPackage.
 - Fixed bug #11901: Missing pass-by-reference definition.
 - Fixed bug #11902: Static methods in eZContentClassPackageHandler not declared as static.
-- Fixed bug #011904: Problem with package creation and export of content objects.
+- Fixed bug #11904: Problem with package creation and export of content objects.
 - Fixed bug #11868: BC break: extensions with views with 'functions' => array() do not longer work
   (Merged from stable/3.9 (3.9.5) rev. 20699)
 - Fixed bug #11882: Inconsistent use of svn:executable svn property
