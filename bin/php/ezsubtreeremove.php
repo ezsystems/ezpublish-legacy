@@ -43,8 +43,7 @@ $script = eZScript::instance( array( 'description' => ( "\n" .
                                                          "This script will make a remove of a content object subtrees.\n" ),
                                       'use-session' => false,
                                       'use-modules' => true,
-                                      'use-extensions' => true,
-                                      'user' => true ) );
+                                      'use-extensions' => true ) );
 $script->startup();
 
 $scriptOptions = $script->getOptions( "[nodes-id:][ignore-trash]",
@@ -52,9 +51,7 @@ $scriptOptions = $script->getOptions( "[nodes-id:][ignore-trash]",
                                       array( 'nodes-id' => "Subtree nodes ID (separated by comma ',').",
                                              'ignore-trash' => "Ignore trash ('move to trash' by default)."
                                              ),
-                                      false,
-                                      array( 'user' => true )
-                                     );
+                                      false );
 $script->initialize();
 $srcNodesID  = $scriptOptions[ 'nodes-id' ] ? trim( $scriptOptions[ 'nodes-id' ] ) : false;
 $moveToTrash = $scriptOptions[ 'ignore-trash' ] ? false : true;
