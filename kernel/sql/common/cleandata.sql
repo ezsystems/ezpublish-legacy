@@ -3214,7 +3214,7 @@ INSERT INTO ezcontentclassgroup (
   name
 ) VALUES (
   1031216928,
-  1,
+  14,
   1,
   1033922106,
   14,
@@ -3229,7 +3229,7 @@ INSERT INTO ezcontentclassgroup (
   name
 ) VALUES (
   1031216941,
-  1,
+  14,
   2,
   1033922113,
   14,
@@ -3244,7 +3244,7 @@ INSERT INTO ezcontentclassgroup (
   name
 ) VALUES (
   1032009743,
-  8,
+  14,
   3,
   1033922120,
   14,
