@@ -199,6 +199,7 @@ function eZSetupLanguageList( &$languageList, &$defaultLanguage, &$defaultExtraL
         foreach ( $acceptLanguages as $acceptLanguage )
         {
             list( $acceptLanguageCode ) = explode( ';', $acceptLanguage );
+            $acceptLanguageCode = strtolower( $acceptLanguageCode );
             $languageCode = false;
             if ( isset( $httpMap[$acceptLanguageCode] ) )
             {
