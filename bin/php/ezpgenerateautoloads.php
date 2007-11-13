@@ -106,7 +106,7 @@ foreach ($phpFiles as $mode => $fileList) {
 }
 
 $maxClassNameLength = checkMaxClassLength( $phpClasses );
-$autoloadArrays = dumpArray( $phpClasses, $maxClassNameLeppngth );
+$autoloadArrays = dumpArray( $phpClasses, $maxClassNameLength );
 
 //Write autoload array data into separate files
 foreach( $autoloadArrays as $location => $data )
