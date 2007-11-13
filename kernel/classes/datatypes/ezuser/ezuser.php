@@ -1923,127 +1923,124 @@ WHERE user_id = '" . $userID . "' AND
         if ( isset( $views[$viewName] ) )
         {
             $view = $views[$viewName];
-            if ( isset( $view['functions'] ) )
+            if ( isset( $view['functions'] ) && !empty( $view['functions'] ) )
             {
-                if ( !empty( $view['functions'] ) )
+                if ( is_array( $view['functions'] ) )
                 {
-                    if ( is_array( $view['functions'] ) )
+                    $funcExpression = false;
+                    $accessAllowed = true;
+                    foreach ( $view['functions'] as $function )
                     {
-                        $funcExpression = false;
-                        $accessAllowed = true;
-                        foreach ( $view['functions'] as $function )
+                        if ( empty( $function ) )
                         {
-                            if ( empty( $function ) )
+                            $funcExpression = false;
+                            $accessAllowed = false;
+                            break;
+                        }
+                        else if ( is_string( $function ) )
+                        {
+                            if ( $funcExpression )
                             {
-                                $funcExpression = false;
-                                $accessAllowed = false;
-                                break;
+                                $funcExpression .= ' and ';
                             }
-                            else if ( is_string( $function ) )
-                            {
-                                if ( $funcExpression )
-                                {
-                                    $funcExpression .= ' and ';
-                                }
-                                $funcExpression .= '( ' . $function . ' )';
-                            }
+                            $funcExpression .= '( ' . $function . ' )';
                         }
                     }
-                    else if ( is_string( $view['functions'] ) )
-                    {
-                        $funcExpression = $view['functions'];
-                    }
-                    else
-                    {
-                        $funcExpression = false;
-                        $accessAllowed = true;
-                    }
+                }
+                else if ( is_string( $view['functions'] ) )
+                {
+                    $funcExpression = $view['functions'];
+                }
+                else
+                {
+                    $funcExpression = false;
+                    $accessAllowed = true;
+                }
 
-                    if ( $funcExpression )
-                    {
-                        // Validate and evaluate functions expression.
-                        // Lets construct functions's expression ready for evaluating first.
-                        $pS = '/(?<=\b)';
-                        $pE = '(?=\b)/';
+                if ( $funcExpression )
+                {
+                    // Validate and evaluate functions expression.
+                    // Lets construct functions's expression ready for evaluating first.
+                    $pS = '/(?<=\b)';
+                    $pE = '(?=\b)/';
 
-                        $moduleName = $module->attribute( 'name' );
-                        $availableFunctions = $module->attribute( 'available_functions' );
-                        if ( is_array( $availableFunctions ) and
-                             count( $availableFunctions ) > 0 )
+                    $moduleName = $module->attribute( 'name' );
+                    $availableFunctions = $module->attribute( 'available_functions' );
+                    if ( is_array( $availableFunctions ) and
+                         count( $availableFunctions ) > 0 )
+                    {
+                        $pattern = $pS . '(' . implode( '|', array_keys( $availableFunctions ) ) . ')' . $pE;
+                        $matches = array();
+                        if ( preg_match_all( $pattern, ' ' . $funcExpression . ' ', $matches ) > 0 )
                         {
-                            $pattern = $pS . '(' . implode( '|', array_keys( $availableFunctions ) ) . ')' . $pE;
-                            $matches = array();
-                            if ( preg_match_all( $pattern, ' ' . $funcExpression . ' ', $matches ) > 0 )
+                            $patterns = array();
+                            $replacements = array();
+                            $matches = array_unique( $matches[1] );
+                            foreach ( $matches as $match )
                             {
-                                $patterns = array();
-                                $replacements = array();
-                                $matches = array_unique( $matches[1] );
-                                foreach ( $matches as $match )
+                                if ( !isset( $replacements[$match] ) )
                                 {
-                                    if ( !isset( $replacements[$match] ) )
+                                    $accessResult = $this->hasAccessTo( $moduleName, $match );
+                                    if ( $accessResult['accessWord'] == 'no' )
                                     {
-                                        $accessResult = $this->hasAccessTo( $moduleName, $match );
-                                        if ( $accessResult['accessWord'] == 'no' )
-                                        {
-                                            $replacements[$match] = 'false';
-                                            $params['accessList'] = $accessResult['accessList'];
-                                        }
-                                        else
-                                        {
-                                            $replacements[$match] = 'true';
-                                            if ( $accessResult['accessWord'] == 'limited' )
-                                            {
-                                                $params['Limitation'] = $accessResult['policies'];
-                                                $GLOBALS['ezpolicylimitation_list'][$moduleName][$match] = $params['Limitation'];
-                                            }
-                                        }
-                                        $patterns[$match] = $pS . $match . $pE;
+                                        $replacements[$match] = 'false';
+                                        $params['accessList'] = $accessResult['accessList'];
                                     }
+                                    else
+                                    {
+                                        $replacements[$match] = 'true';
+                                        if ( $accessResult['accessWord'] == 'limited' )
+                                        {
+                                            $params['Limitation'] = $accessResult['policies'];
+                                            $GLOBALS['ezpolicylimitation_list'][$moduleName][$match] = $params['Limitation'];
+                                        }
+                                    }
+                                    $patterns[$match] = $pS . $match . $pE;
                                 }
-                                $funcExpression = preg_replace( $patterns, $replacements, ' ' . $funcExpression . ' ' );
                             }
+                            $funcExpression = preg_replace( $patterns, $replacements, ' ' . $funcExpression . ' ' );
                         }
-                        $funcExpressionForEval = $funcExpression;
+                    }
+                    $funcExpressionForEval = $funcExpression;
 
-                        // continue to validate expression
-                        $words = array();
-                        $words[] = $pS . 'and' . $pE;
-                        $words[] = $pS . 'or' . $pE;
-                        $words[] = $pS . 'true' . $pE;
-                        $words[] = $pS . 'false' . $pE;
-                        $pS = '/(?<=[^&|])';
-                        $pE = '(?=[^&|])/';
-                        $words[] = $pS . '\|\|' . $pE;
-                        $words[] = $pS . '&&' . $pE;
-                        $words[] = '/[\(\)]/';
+                    // continue to validate expression
+                    $words = array();
+                    $words[] = $pS . 'and' . $pE;
+                    $words[] = $pS . 'or' . $pE;
+                    $words[] = $pS . 'true' . $pE;
+                    $words[] = $pS . 'false' . $pE;
+                    $pS = '/(?<=[^&|])';
+                    $pE = '(?=[^&|])/';
+                    $words[] = $pS . '\|\|' . $pE;
+                    $words[] = $pS . '&&' . $pE;
+                    $words[] = '/[\(\)]/';
 
-                        $replacement = '';
-                        $funcExpression = preg_replace( $words, $replacement, ' ' . $funcExpression . ' ' );
+                    $replacement = '';
+                    $funcExpression = preg_replace( $words, $replacement, ' ' . $funcExpression . ' ' );
 
-                        $funcExpression = trim( $funcExpression );
+                    $funcExpression = trim( $funcExpression );
 
-                        if ( empty( $funcExpression ) )
+                    if ( empty( $funcExpression ) )
+                    {
+                        // if expression is valid then evaluate value of the $functionsToEvaluate string
+                        ob_start();
+                        $ret = eval( "\$accessAllowed = ( bool ) ( $funcExpressionForEval );" );
+                        $buffer = ob_get_contents();
+                        ob_end_clean();
+
+                        // if we get any error while evaluating then set result to false
+                        if ( !empty( $buffer ) or $ret === false )
                         {
-                            // if expression is valid then evaluate value of the $functionsToEvaluate string
-                            ob_start();
-                            $ret = eval( "\$accessAllowed = ( bool ) ( $funcExpressionForEval );" );
-                            $buffer = ob_get_contents();
-                            ob_end_clean();
-
-                            // if we get any error while evaluating then set result to false
-                            if ( !empty( $buffer ) or $ret === false )
-                            {
-                                eZDebug::writeError( "There was error while evaluating the policy functions value of the '$moduleName/$viewName' view. " .
-                                                     "Please check the '$moduleName/module.php' file." );
-                                $accessAllowed = false;
-                            }
-                        }
-                        else
-                        {
-                            eZDebug::writeError( "There is mistake in the functions array data of the '$moduleName/$viewName' view. " .
+                            eZDebug::writeError( "There was error while evaluating the policy functions value of the '$moduleName/$viewName' view. " .
                                                  "Please check the '$moduleName/module.php' file." );
                             $accessAllowed = false;
                         }
+                    }
+                    else
+                    {
+                        eZDebug::writeError( "There is mistake in the functions array data of the '$moduleName/$viewName' view. " .
+                                             "Please check the '$moduleName/module.php' file." );
+                        $accessAllowed = false;
                     }
                 }
             }
