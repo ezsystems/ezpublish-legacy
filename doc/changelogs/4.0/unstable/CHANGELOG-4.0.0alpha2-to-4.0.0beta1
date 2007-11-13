@@ -86,5 +86,6 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #11868: BC break: extensions with views with 'functions' => array() do not longer work
   (Merged from stable/3.9 (3.9.5) rev. 20699)
 - Fixed bug #11882: Inconsistent use of svn:executable svn property
-- Fixed bug #11860: Undefined variable: result in ezcontentfunctioncollection.php 
+- Fixed bug #11860: Undefined variable: result in ezcontentfunctioncollection.php
   on line 389 when as_object = false.
+- Fixed bug #8770: eZINI problems with external applications
