@@ -616,7 +616,7 @@ class eZINI
             }
 
             // check for variable
-            if ( preg_match("#^(\w+)\\[\\]$#", $line, $valueArray ) )
+            if ( preg_match("#^([\w_*@-]+)\\[\\]$#", $line, $valueArray ) )
             {
                 $varName = trim( $valueArray[1] );
 
@@ -644,7 +644,7 @@ class eZINI
                     }
                 }
             }
-            else if ( preg_match("#^([a-zA-Z0-9_-]+)(\\[([^\\]]*)\\])?=(.*)$#", $line, $valueArray ) )
+            else if ( preg_match("#^([\w_*@-]+)(\\[([^\\]]*)\\])?=(.*)$#", $line, $valueArray ) )
             {
                 $varName = trim( $valueArray[1] );
                 $varValue = $valueArray[4];
@@ -709,7 +709,8 @@ class eZINI
       if \a $useOverride is "append" it will append ".append" to the filename.
     */
     function save( $fileName = false, $suffix = false, $useOverride = false,
-                   $onlyModified = false, $useRootDir = true, $resetArrays = false )
+                   $onlyModified = false, $useRootDir = true, $resetArrays = false,
+                   $encapsulateInPHP = true )
     {
         include_once( 'lib/ezfile/classes/ezdir.php' );
         $lineSeparator = eZSys::lineSeparator();
@@ -774,10 +775,16 @@ class eZINI
         $writeOK = true;
         $written = 0;
 
-        if ( $this->Codec )
-            $written = fwrite( $fp, "<?php /* #?ini charset=\"" . $this->Codec->RequestedOutputCharsetCode . "\"?$lineSeparator$lineSeparator" );
+        $charset = $this->Codec ? $this->Codec->RequestedOutputCharsetCode : $this->Charset;
+        if ( $encapsulateInPHP )
+        {
+            $written = fwrite( $fp, "<?php /* #?ini charset=\"$charset\"?$lineSeparator$lineSeparator" );
+        }
         else
-            $written = fwrite( $fp, "<?php /* #?ini charset=\"" . $this->Charset . "\"?$lineSeparator$lineSeparator" );
+        {
+            $written = fwrite( $fp, "#?ini charset=\"$charset\"?$lineSeparator$lineSeparator" );
+        }
+
         if ( $written === false )
             $writeOK = false;
         $i = 0;
@@ -868,9 +875,13 @@ class eZINI
         }
         if ( $writeOK )
         {
-            $written = fwrite( $fp, "*/ ?>" );
-            if ( $written === false )
-                $writeOK = false;
+            if ( $encapsulateInPHP )
+            {
+                $written = fwrite( $fp, "*/ ?>" );
+
+                if ( $written === false )
+                    $writeOK = false;
+            }
         }
         @fclose( $fp );
         if ( !$writeOK )
