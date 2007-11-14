@@ -57,7 +57,7 @@ class eZTemplatesStatisticsReporter
         if ( $as_html )
         {
             $stats .= "<h2>Templates used to render the page:</h2>";
-            $stats .= ( "<table id='templateusage' style='border: 1px dashed black;' cellspacing='0'>" .
+            $stats .= ( "<table id='templateusage' summary='List of used templates' style='border: 1px dashed black;' cellspacing='0'>" .
                    "<tr><th>Usage count</th>" .
                    "<th>Requested template</th>" .
                    "<th>Template</th>" .
