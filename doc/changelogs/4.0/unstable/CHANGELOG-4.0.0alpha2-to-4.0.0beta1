@@ -93,3 +93,6 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #11852: Warnings and errors when ezsubtreeremove.php is used
   with an unexisting node id
 - Fixed bug #11825: Content class groups with invalid creator id after install
+- Fixed bug #11793: Fatal crash in eZContentObjectTreeNode
+- Fixed bug #11911: function pathWithNames cause Fatal error in ezcontentobjecttreenode.php
+- Fixed bug #11751: Call to a member function pathWithNames() on a non-object (notification/settings)

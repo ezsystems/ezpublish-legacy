@@ -3772,10 +3772,25 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 }
 
                 eZDebug::writeError( __CLASS__ . "::" . __FUNCTION__ . "() failed to fetch path of node " . $this->attribute( 'node_id' ) . ", falling back to generated url entries. Run updateniceurls.php to fix the problem." );
-                $paren = $this->fetchParent();
-                $path = $paren->pathWithNames();
-                // Return a perma-link when the path lookup failed, this link will always work
-                $path = 'content/view/full/' . $this->attribute( 'node_id' );
+                $parent = $this->attribute( 'parent' );
+                $path='';
+
+                if ( is_object( $parent ) )
+                {
+                    $path = $parent->pathWithNames();
+                    $obj = $this->attribute( 'object' );
+                    $objClass = $obj->attribute( 'content_class' );
+                    $nodeName = $objClass->urlAliasName( $obj, false, $obj->attribute( 'current_language' ) );
+                    $nodeName = eZURLAliasFilter::processFilters( $nodeName, $obj->attribute( 'current_language_object' ), $this );
+                    $nodeName = eZURLAliasML::convertToAlias( $nodeName, 'node_' . $this->attribute( 'node_id' ) );
+                    $nodeName = $this->adjustPathElement( $nodeName );
+                    $path .= '/' . $nodeName;
+                }
+                else
+                {
+                    // Return a perma-link when the path lookup failed, this link will always work
+                    $path = 'content/view/full/' . $this->attribute( 'node_id' );
+                }
                 return $path;
             }
 
