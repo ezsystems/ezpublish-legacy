@@ -6,6 +6,7 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Implemented enhancement #11718: eZModuleFunctionInfo - remove 'include_file' dependency
 - Implemented enhancement #11809: Optimization of name pattern handling
 - Implemented enhancement #11925: Speed improvements in updateniceurls.php
+- Implemented enhancement #11945: Add bitAnd and bitOr functions to the ezdbinterface.
 
 *Bugs:
 - Fixed bug #11619: ezp4 update scripts not working
