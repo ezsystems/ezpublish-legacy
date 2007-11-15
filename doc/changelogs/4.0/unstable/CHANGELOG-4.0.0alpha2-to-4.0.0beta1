@@ -103,3 +103,4 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #11630: error wile creating/updating objects with oracle db (in ezpersistentobject::store).
 - Fixed bug #011924: updatetypedrelation.php is not compatible with oracle.
   (Merged from stable/3.9 (3.9.5) rev. 20733).
+- Fixed bug #8172: mysql/kernel_schema.sql forces TYPE=MyISAM
