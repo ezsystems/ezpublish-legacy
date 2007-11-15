@@ -100,7 +100,7 @@ class eZPostgreSQLDB extends eZDBInterface
             if ( $this->DBConnection )
                 $this->IsConnected = true;
             // add error checking
-//          eZDebug::writeError( "Error: could not connect to database." . pg_errormessage( $this->DBConnection ), "eZPostgreSQLDB" );
+//          eZDebug::writeError( "Error: could not connect to database." . pg_last_error( $this->DBConnection ), "eZPostgreSQLDB" );
         }
         else if ( function_exists( "pg_connect" ) )
         {
@@ -163,7 +163,7 @@ class eZPostgreSQLDB extends eZDBInterface
                 $this->startTimer();
 
             }
-            $result = pg_exec( $this->DBConnection, $sql );
+            $result = pg_query( $this->DBConnection, $sql );
             if ( $this->OutputSQL )
             {
                 $this->endTimer();
@@ -178,7 +178,7 @@ class eZPostgreSQLDB extends eZDBInterface
 
             if ( !$result )
             {
-                eZDebug::writeError( "Error: error executing query: $sql " . pg_errormessage ( $this->DBConnection ), "eZPostgreSQLDB" );
+                eZDebug::writeError( "Error: error executing query: $sql " . pg_last_error( $this->DBConnection ), "eZPostgreSQLDB" );
                 $this->setError();
 
                 $this->reportError();
@@ -247,19 +247,19 @@ class eZPostgreSQLDB extends eZDBInterface
                 {
                     for($i = 0; $i < pg_numrows($result); $i++)
                     {
-                        $retArray[$i + $offset] = pg_fetch_array ( $result, $i, PGSQL_ASSOC );
+                        $retArray[$i + $offset] = pg_fetch_array( $result, $i, PGSQL_ASSOC );
                     }
                 }
                 else
                 {
                     for ($i = 0; $i < pg_numrows( $result ); $i++ )
                     {
-                        $tmp_row = pg_fetch_array ( $result, $i, PGSQL_ASSOC );
+                        $tmp_row = pg_fetch_array( $result, $i, PGSQL_ASSOC );
                         $retArray[$i + $offset] =& $tmp_row[$column];
                     }
                 }
             }
-            pg_freeresult( $result );
+            pg_free_result( $result );
         }
         return $retArray;
     }
@@ -531,10 +531,10 @@ class eZPostgreSQLDB extends eZDBInterface
         if ( $this->isConnected() )
         {
             $sql = "SELECT currval( '" . $table . "_s')";
-            $result = pg_exec( $this->DBConnection, $sql );
+            $result = pg_query( $this->DBConnection, $sql );
             if ( !$result )
             {
-                eZDebug::writeError( "Error: error executing query: $sql " . pg_errormessage( $this->DBConnection ), "eZPostgreSQLDB" );
+                eZDebug::writeError( "Error: error executing query: $sql " . pg_last_error( $this->DBConnection ), "eZPostgreSQLDB" );
             }
 
             if ( $result )
@@ -554,7 +554,7 @@ class eZPostgreSQLDB extends eZDBInterface
         if ( $this->DBConnection )
         {
 
-            $this->ErrorMessage = pg_errormessage ( $this->DBConnection );
+            $this->ErrorMessage = pg_last_error( $this->DBConnection );
             if ( $this->ErrorMessage != '' )
             {
                 $this->ErrorNumber = 1;
@@ -601,10 +601,10 @@ class eZPostgreSQLDB extends eZDBInterface
         if ( $this->isConnected() )
         {
             $sql = "SELECT version()";
-            $result = pg_exec( $this->DBConnection, $sql );
+            $result = pg_query( $this->DBConnection, $sql );
             if ( !$result )
             {
-                eZDebug::writeError( "Error: error executing query: $sql " . pg_errormessage( $this->DBConnection ), "eZPostgreSQLDB" );
+                eZDebug::writeError( "Error: error executing query: $sql " . pg_last_error( $this->DBConnection ), "eZPostgreSQLDB" );
             }
 
             if ( $result )
