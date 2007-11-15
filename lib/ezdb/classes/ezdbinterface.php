@@ -503,6 +503,24 @@ class eZDBInterface
     }
 
     /*!
+     \pure
+     \return a sql-expression(string) to generate a bit and  of the argument.
+    */
+    function bitAnd( $arg1, $arg2 )
+    {
+        return '(' . $arg1 . ' & ' . $arg2 . ' ) ';
+    }
+
+    /*!
+     \pure
+     \return a sql-expression(string) to generate a bit and  of the argument.
+    */
+    function bitOr( $arg1, $arg2 )
+    {
+        return '( ' . $arg1 . ' | ' . $arg2 . ' ) ';
+    }
+
+    /*!
      Checks if the version number of the server is equal or larger than \a $minVersion.
      Will also check if the database type is correct if \a $name is set.
 
