@@ -104,3 +104,4 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #011924: updatetypedrelation.php is not compatible with oracle.
   (Merged from stable/3.9 (3.9.5) rev. 20733).
 - Fixed bug #8172: mysql/kernel_schema.sql forces TYPE=MyISAM
+- Fixed bug #11912: In non Virtual Host mode url is encoded incorrectly
