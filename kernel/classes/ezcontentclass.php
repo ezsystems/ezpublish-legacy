@@ -1420,29 +1420,12 @@ You will need to change the class of the node by using the swap functionality.' 
     */
     function contentObjectName( $contentObject, $version = false, $translation = false )
     {
-        $namePattern = $this->attribute( 'contentobject_name' );
-        $dataMap = $contentObject->fetchDataMap( $version, $translation );
+        $contentObjectNamePattern = $this->ContentObjectName;
 
-        eZDebugSetting::writeDebug( 'kernel-content-class', $dataMap, "data map" );
-        preg_match_all( "/[<|\|](\(.+\))[\||>]/U",
-                        $namePattern,
-                        $subTagMatchArray );
+        $nameResolver = new eZNamePatternResolver( $contentObjectNamePattern, $contentObject, $version, $translation );
+        $contentObjectName = $nameResolver->resolveNamePattern();
 
-        $i = 0;
-        $tmpTagResultArray = array();
-        $contentObjectName = $namePattern;
-        foreach ( $subTagMatchArray[1] as $subTag )
-        {
-            $tmpTag = 'tmptag' . $i;
-
-            $contentObjectName = str_replace( $subTag, $tmpTag, $contentObjectName );
-
-            $subTag = substr( $subTag, 1,strlen($subTag) - 2 );
-            $tmpTagResultArray[$tmpTag] = eZContentClass::buildContentObjectName( $subTag, $dataMap );
-            $i++;
-        }
-
-        return eZContentClass::buildContentObjectName( $contentObjectName, $dataMap, $tmpTagResultArray );
+        return $contentObjectName;
     }
 
     /*
@@ -1453,33 +1436,16 @@ You will need to change the class of the node by using the swap functionality.' 
     {
         if ( $this->URLAliasName )
         {
-            $urlAliasName = $this->URLAliasName;
+            $urlAliasNamePattern = $this->URLAliasName;
         }
         else
         {
-            $urlAliasName = $this->ContentObjectName;
+            $urlAliasNamePattern = $this->ContentObjectName;
         }
 
-        $dataMap = $contentObject->fetchDataMap( $version, $translation );
+        $nameResolver = new eZNamePatternResolver( $urlAliasNamePattern, $contentObject, $version, $translation );
+        $urlAliasName = $nameResolver->resolveNamePattern();
 
-        eZDebugSetting::writeDebug( 'kernel-content-class', $dataMap, "data map" );
-        preg_match_all( "/[<|\|](\(.+\))[\||>]/U",
-                        $urlAliasName,
-                        $subTagMatchArray );
-
-        $i = 0;
-        $tmpTagResultArray = array();
-        foreach ( $subTagMatchArray[1]  as $subTag )
-        {
-            $tmpTag = 'tmptag' . $i;
-
-            $urlAliasName = str_replace( $subTag, $tmpTag, $urlAliasName );
-
-            $subTag = substr( $subTag, 1,strlen($subTag) - 2 );
-            $tmpTagResultArray[$tmpTag] = eZContentClass::buildContentObjectName( $subTag, $dataMap );
-            $i++;
-        }
-        $urlAliasName = eZContentClass::buildContentObjectName( $urlAliasName, $dataMap, $tmpTagResultArray );
         return $urlAliasName;
     }
 
