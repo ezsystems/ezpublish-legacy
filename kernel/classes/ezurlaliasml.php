@@ -164,8 +164,17 @@ class eZURLAliasML extends eZPersistentObject
      */
     function strtolower( $text )
     {
-        $char = eZCharTransform::instance();
-        return $char->transformByGroup( $text, 'lowercase' );
+        //First try to use mbstring
+        if ( extension_loaded( 'mbstring' ) )
+        {
+            return mb_strtolower( $text, eZTextCodec::internalCharset() );
+        }
+        else
+        {
+            // Fall back if mbstring is not available
+            $char = eZCharTransform::instance();
+            return $char->transformByGroup( $text, 'lowercase' );
+        }
     }
 
     /*!

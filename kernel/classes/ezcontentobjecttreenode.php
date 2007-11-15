@@ -3920,7 +3920,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function updateSubTreePath()
+    function updateSubTreePath( $updateParent = true )
     {
         include_once( 'kernel/classes/ezurlaliasml.php' );
 
@@ -3978,7 +3978,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         // If we have parent element it means the node is already published
         // and we have to see if it has been moved
-        if ( $parentNodeID != 1 )
+        if ( $parentNodeID != 1 and $updateParent )
         {
             $parents = eZURLAliasML::fetchByAction( "eznode", $parentNodeID );
             if ( count( $parents ) == 0 )

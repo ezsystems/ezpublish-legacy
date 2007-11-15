@@ -48,7 +48,7 @@ $script =& eZScript::instance( array( 'description' => ( "eZ Publish nice url up
 
 $script->startup();
 
-$options = $script->getOptions( "[db-user:][db-password:][db-database:][db-type:|db-driver:][sql]",
+$options = $script->getOptions( "[db-user:][db-password:][db-database:][db-type:|db-driver:][sql][fetch-limit:]",
                                 "",
                                 array( 'db-host' => "Database host",
                                        'db-user' => "Database user",
@@ -56,7 +56,8 @@ $options = $script->getOptions( "[db-user:][db-password:][db-database:][db-type:
                                        'db-database' => "Database name",
                                        'db-driver' => "Database driver",
                                        'db-type' => "Database driver, alias for --db-driver",
-                                       'sql' => "Display sql queries"
+                                       'sql' => "Display sql queries",
+                                       'fetch-limit' => "The fetch limit to use when fetching url aliases from the database"
                                        ) );
 $script->initialize();
 
@@ -66,7 +67,8 @@ $dbHost = isset( $options['db-host'] ) && $options['db-host'] ? $options['db-hos
 $dbName = $options['db-database'] ? $options['db-database'] : false;
 $dbImpl = $options['db-driver'] ? $options['db-driver'] : false;
 $showSQL = $options['sql'] ? true : false;
-$siteAccess = $options['siteaccess'] ? $options['siteaccess'] : false;;
+$fetchLimitOption = $options['fetch-limit'] ? $options['fetch-limit'] : 200;
+$siteAccess = $options['siteaccess'] ? $options['siteaccess'] : false;
 if ( $siteAccess )
 {
     changeSiteAccessSetting( $siteaccess, $siteAccess );
@@ -117,7 +119,8 @@ $db->setIsSQLOutputEnabled( $showSQL );
 include_once( 'kernel/classes/ezcontentlanguage.php' );
 eZContentLanguage::setCronjobMode( true );
 
-$fetchLimit = 200;
+$fetchLimit = $fetchLimitOption;
+$cli->notice( "Using fetch limit: $fetchLimit" );
 $percentLength = 6;
 $timeLength = 12;
 $maxColumn = 72 - $percentLength - $timeLength;
@@ -497,7 +500,6 @@ if ( $urlCount > 0 )
     eZCache::clearByID( 'urlalias' );
 
     $cli->output( "Importing completed" );
-//    eZExecution::cleanExit();
 }
 
 // Start updating nodes
@@ -528,7 +530,7 @@ foreach ( array_keys( $topLevelNodesArray ) as $key )
         foreach ( array_keys( $nodeList ) as $key )
         {
             $node =& $nodeList[ $key ];
-            $hasChanged = $node->updateSubTreePath();
+            $hasChanged = $node->updateSubTreePath( false );
             if ( $hasChanged )
             {
                 ++$changedNodes;
