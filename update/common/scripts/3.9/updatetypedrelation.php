@@ -103,12 +103,13 @@ function AddObjectRelation( $fromObjectID, $fromObjectVersion, $toObjectID, $rel
     $relationBaseType = eZContentObject::RELATION_COMMON |
                         eZContentObject::RELATION_EMBED |
                         eZContentObject::RELATION_LINK;
+    $bitAndSQL = $db->bitAnd( 'relation_type', $relationBaseType );
     $query = "SELECT count(*) AS count
               FROM   ezcontentobject_link
               WHERE  from_contentobject_id=$fromObjectID AND
                      from_contentobject_version=$fromObjectVersion AND
                      to_contentobject_id=$toObjectID AND
-                     ( relation_type & $relationBaseType ) != 0  AND
+                     ( $bitAndSQL ) != 0  AND
                      contentclassattribute_id=0 AND
                      op_code='0'";
     $count = $db->arrayQuery( $query );
@@ -120,8 +121,9 @@ function AddObjectRelation( $fromObjectID, $fromObjectVersion, $toObjectID, $rel
     }
     else
     {
+        $bitOrSQL =  $db->bitOr( 'relation_type', $relationType );
         $db->query( "UPDATE ezcontentobject_link
-                     SET    relation_type = ( relation_type | $relationType )
+                     SET    relation_type = ( $bitOrSQL )
                      WHERE  from_contentobject_id=$fromObjectID AND
                             from_contentobject_version=$fromObjectVersion AND
                             to_contentobject_id=$toObjectID AND
