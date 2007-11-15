@@ -300,18 +300,11 @@ class eZURLAliasML extends eZPersistentObject
             $language = eZContentLanguage::fetchByLocale( $language );
         $languageID = (int)$language->attribute( 'id' );
         $db =& eZDB::instance();
-        if ( $db->databaseName() == "oracle" )
-        {
-            $bitDel   = "bitand( lang_mask, " . (~$languageID) . " )";
-            $bitMatch = "bitand( lang_mask, $languageID ) > 0";
-            $bitMask  = "bitand( lang_mask, " . (~1) . " )";
-        }
-        else
-        {
-            $bitDel   = "(lang_mask & ~$languageID)";
-            $bitMatch = "(lang_mask & $languageID) > 0";
-            $bitMask  = "(lang_mask & ~1)";
-        }
+
+        $bitDel   = $db->bitAnd( 'lang_mask' ,  (~$languageID) );
+        $bitMatch = $db->bitAnd( 'lang_mask', $languageID ) . ' > 0';
+        $bitMask  = $db->bitAnd( 'lang_mask', ~1 );
+
 
         // Fetch data for the given entry
         $rows = $db->arrayQuery( "SELECT * FROM ezurlalias_ml WHERE parent = {$parentID} AND text_md5 = '" . $db->escapeString( $textMD5 ) . "' AND $bitMatch" );
@@ -505,14 +498,8 @@ class eZURLAliasML extends eZPersistentObject
             }
 
             // Step 2, remove language from original entries
-            if ( $db->databaseName() == 'oracle' )
-            {
-                $bitDel = "bitand( lang_mask, " . (~$languageID) . " )";
-            }
-            else
-            {
-                $bitDel = "lang_mask & ~{$languageID}";
-            }
+            $bitDel   = $db->bitAnd( 'lang_mask' ,  (~$languageID) );
+
             $query = "UPDATE ezurlalias_ml SET lang_mask = {$bitDel} WHERE action = '{$actionStr}' AND is_original = 1 AND is_alias = 0";
             $db->query( $query );
 
@@ -528,14 +515,7 @@ class eZURLAliasML extends eZPersistentObject
             // TODO: optimize on InnoDB with INSERT ... ON DUPLICATE
             if ( count( $rows ) > 0 )
             {
-                if ( $db->databaseName() == 'oracle' )
-                {
-                    $bitOr = "bitor( lang_mask, {$languageID} )";
-                }
-                else
-                {
-                    $bitOr = "lang_mask | {$languageID}";
-                }
+                $bitOr = $db->bitOr( 'lang_mask', $languageID );
                 $query = "UPDATE ezurlalias_ml SET lang_mask = {$bitOr} WHERE parent = {$parentID} AND text_md5 = {$textMD5} AND is_original = 1 AND is_alias = 0";
                 $db->query( $query );
                 foreach ( $rows as $row )
@@ -567,14 +547,8 @@ class eZURLAliasML extends eZPersistentObject
             }
 
             // Step 5, find all empty lang_mask entries and make them redirections
-            if ( $db->databaseName() == 'oracle' )
-            {
-                $bitNotFirst = "bitand( lang_mask, -2 )";
-            }
-            else
-            {
-                $bitNotFirst = "lang_mask & ~1";
-            }
+            $bitNotFirst = $db->bitAnd( 'lang_mask', -2 );
+
             $query = "SELECT * FROM ezurlalias_ml WHERE action = '{$actionStr}' AND {$bitNotFirst} = 0";
             $rows = $db->arrayQuery( $query );
             $redirectionLanguageID = $languageID;
@@ -1513,10 +1487,7 @@ class eZURLAliasML extends eZPersistentObject
         $languageSQL = "";
         if ( $languageID !== false )
         {
-            if ( $db->databaseName() == 'oracle' )
-                $languageSQL = "AND bitand(lang_mask, $languageID) > 0";
-            else
-                $languageSQL = "AND (lang_mask & $languageID) > 0";
+            $languageSQL = "AND " . $db->bitAnd(  'lang_mask', $languageID ) . ' > 0';
         }
         // Loop until we find a unique name
         while ( true )
@@ -1564,43 +1535,22 @@ class eZURLAliasML extends eZPersistentObject
         if ( $langID !== false )
         {
             // Set the 0 bit for chosen language
-            if ( $db->databaseName() == 'oracle' )
-            {
-                $bitOp = "bitor( lang_mask, 1 )";
-                $langWhere = " AND bitand(lang_mask, " . (int)$langID . ") > 0";
-            }
-            else
-            {
-                $bitOp = "lang_mask | 1";
-                $langWhere = " AND (lang_mask & " . (int)$langID . ") > 0";
-            }
+            $bitOp = $db->bitOr( 'lang_mask', 1 );
+            $langWhere = ' AND ' . $db->bitAnd( 'lang_mask' , (int)$langID ) . ' > 0';
+
             $query = "UPDATE ezurlalias_ml SET lang_mask = $bitOp WHERE $actionSql $langWhere";
             $db->query( $query );
 
             // Clear the 0 bit for all other languages
-            if ( $db->databaseName() == 'oracle' )
-            {
-                $bitOp = "bitor( lang_mask, -2 )";
-                $langWhere = " AND bitand(lang_mask, " . (int)$langID . ") = 0";
-            }
-            else
-            {
-                $bitOp = "lang_mask & ~1";
-                $langWhere = " AND (lang_mask & " . (int)$langID . ") = 0";
-            }
+            $bitOp = $db->bitOr( 'lang_mask', -2 );
+            $langWhere = ' AND ' . $db->bitAnd( 'lang_mask' , (int)$langID ) . ' = 0';
+
             $query = "UPDATE ezurlalias_ml SET lang_mask = $bitOp WHERE $actionSql $langWhere";
             $db->query( $query );
         }
         else
         {
-            if ( $db->databaseName() == 'oracle' )
-            {
-                $bitOp = "bitand( lang_mask, -2 )";
-            }
-            else
-            {
-                $bitOp = "lang_mask & ~1";
-            }
+            $bitOp = $db->bitAnd( 'lang_mask', -2 );
             $query = "UPDATE ezurlalias_ml SET lang_mask = $bitOp WHERE $actionSql";
             $db->query( $query );
         }
