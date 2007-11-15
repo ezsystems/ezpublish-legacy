@@ -5,6 +5,7 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Implemented enhancement #11792: ezpgenerateautoloads.php requires php-pear Structures/Graph
 - Implemented enhancement #11718: eZModuleFunctionInfo - remove 'include_file' dependency
 - Implemented enhancement #11809: Optimization of name pattern handling
+- Implemented enhancement #11925: Speed improvements in updateniceurls.php
 
 *Bugs:
 - Fixed bug #11619: ezp4 update scripts not working

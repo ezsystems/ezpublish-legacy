@@ -92,6 +92,7 @@ class eZURLAliasML extends eZPersistentObject
      Optionally computed path string for this element, used for caching purposes.
      */
     var $Path;
+    private static $charset = null;
 
     /*!
      Initializes a new URL alias from database row.
@@ -164,8 +165,23 @@ class eZURLAliasML extends eZPersistentObject
      */
     static function strtolower( $text )
     {
-        $char = eZCharTransform::instance();
-        return $char->transformByGroup( $text, 'lowercase' );
+        //We need to detect our internal charset
+        if ( is_null( self::$charset ) )
+        {
+            self::$charset = eZTextCodec::internalCharset();
+        }
+        
+        //First try to use mbstring
+        if ( extension_loaded( 'mbstring' ) )
+        {
+            return mb_strtolower( $text, self::$charset );
+        }
+        else
+        {
+            // Fall back if mbstring is not available
+            $char = eZCharTransform::instance();
+            return $char->transformByGroup( $text, 'lowercase' );
+        }
     }
 
     /*!
