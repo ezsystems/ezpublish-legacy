@@ -580,6 +580,79 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
+      Fetch a set of content object attributes by their class identifiers.
+    */
+    function fetchAttributesByIdentifier( $identifierArray, $version = false, $language = false, $asObject = true )
+    {
+        if ( count( $identifierArray ) === 0 )
+        {
+            return null;
+        }
+        
+        $identifierQuotedString = array();
+        foreach ( $identifierArray as $identifier )
+        {
+            $identifierQuotedString[] = "'$identifier'";
+        }
+        
+        $identifierSqlString = implode( ", ", $identifierQuotedString );
+        
+        if ( !$version or !is_numeric( $version ) )
+        {
+            $version = $this->CurrentVersion;
+        }
+        
+        if ( $language !== false )
+        {
+            $languageText = "AND\n\t\t\t ezcontentobject_attribute.language_code = '$language'";
+        }
+        else
+        {
+            $languageText = "AND\n\t\t\t" . eZContentLanguage::sqlFilter( 'ezcontentobject_attribute', 'ezcontentobject_version' );
+        }
+        
+        $versionText = "AND\n\t\t ezcontentobject_attribute.version = '$version'";
+
+        $query = "SELECT\t ezcontentobject_attribute.*, ezcontentclass_attribute.identifier as identifier
+            FROM\t ezcontentobject_attribute, ezcontentclass_attribute, ezcontentobject_version
+            WHERE
+                ezcontentclass_attribute.version = ". EZ_CLASS_VERSION_STATUS_DEFINED . " AND
+                ezcontentclass_attribute.id = ezcontentobject_attribute.contentclassattribute_id AND
+                ezcontentobject_version.contentobject_id = {$this->ID} AND
+                ezcontentobject_version.version = {$version} AND
+                ezcontentobject_attribute.contentobject_id = {$this->ID}
+                
+                {$languageText}
+                
+                {$versionText}
+                
+                AND
+                identifier in ( {$identifierSqlString} )                
+                ";
+
+        $db  = eZDB::instance();
+        $rows = $db->arrayQuery( $query );
+
+        if ( count( $rows ) > 0 )
+        {
+            if ( $asObject )
+            {
+                $returnArray = array();
+                foreach( $rows as $row )
+                {
+                    $returnArray[$row['id']] = new eZContentObjectAttribute( $row );
+                }
+                return $returnArray;
+            }
+            else
+            {
+                return $rows;
+            }
+        }
+        return null;
+    }
+
+    /*!
      Returns the owner of the object as a content object.
     */
     function &owner()
