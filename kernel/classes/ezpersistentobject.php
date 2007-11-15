@@ -413,17 +413,33 @@ class eZPersistentObject
                 $value = $obj->attribute( $key );
                 $field_def = $fields[$key];
 
-                if ( $field_def['datatype'] == 'float' )
+                if ( $field_def['datatype'] == 'float' || $field_def['datatype'] == 'double' )
                 {
-                    $value = ezsprintf( '%F', $value );
+                    if ( is_null( $value ) )
+                    {
+                        $use_values_hash[$key] = 'NULL';
+                    }
+                    else
+                    {
+                        $use_values_hash[$key] = ezsprintf( '%F', $value );
+                    }
                 }
-                if (is_null($value) &&
-                    $key == 'data_int' )
+                else if ( $field_def['datatype'] == 'int' || $field_def['datatype'] == 'integer' )
                 {
-                    $use_values_hash[$key] = 'NULL';
+                    if ( is_null( $value ) )
+                    {
+                        $use_values_hash[$key] = 'NULL';
+                    }
+                    else
+                    {
+                        $use_values_hash[$key] = ezsprintf( '%d', $value );
+                    }
                 }
                 else
                 {
+                    // Note: for more colherence, we might use NULL for sql strings if the php value is NULL and not an empty sring
+                    //       but to keep compatibility with ez db, where most string columns are "not null default ''",
+                    //       and code feeding us a php null value without meaning it, we do not.
                     $use_values_hash[$key] = "'" . $db->escapeString( $value ) . "'";
                 }
             }
@@ -478,14 +494,19 @@ class eZPersistentObject
                 {
                     $value = $obj->attribute( $key );
 
-                    if ( $fields[$key]['datatype'] == 'float' )
+                    if ( $fields[$key]['datatype'] == 'float' || $fields[$key]['datatype'] == 'double' )
                     {
-                        $value = ezsprintf( '%F', $value );
+                        if (is_null($value))
+                            $field_text_entry = $use_field_names[$key] . '=NULL';
+                        else
+                            $field_text_entry = $use_field_names[$key] . "=" . ezsprintf( '%F', $value );
                     }
-
-                    if (is_null($value) && $key == 'data_int' )
+                    else if ($fields[$key]['datatype'] == 'int' || $fields[$key]['datatype'] == 'integer' )
                     {
-                        $field_text_entry = $use_field_names[$key] . '=NULL';
+                        if (is_null($value))
+                            $field_text_entry = $use_field_names[$key] . '=NULL';
+                        else
+                            $field_text_entry = $use_field_names[$key] . "=" . ezsprintf( '%d', $value );
                     }
                     else if ( in_array( $use_field_names[$key], $doNotEscapeFields ) )
                     {
