@@ -1117,7 +1117,7 @@ class eZURLAliasML extends eZPersistentObject
      \static
      Transforms the URI if there exists an alias for it, the new URI is replaced in $uri.
      \return \c true is if successful, \c false otherwise
-     \return The eZURLAliasML object of the new url is returned if the translation was found, but the resource has moved.
+     \return The string with new url is returned if the translation was found, but the resource has moved.
 
      Lets say we have the following elements:
 
@@ -1281,6 +1281,7 @@ class eZURLAliasML extends eZPersistentObject
             $pathRow = $urlAliasArray[0];
             $l   = count( $pathRow );
             $redirectLink = false;
+            $redirectAction = false;
             $lastID = false;
             $action = false;
             $verifiedPath = array();
