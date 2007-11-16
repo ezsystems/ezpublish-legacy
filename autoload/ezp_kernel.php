@@ -3,9 +3,9 @@
  * Autoloader definition for eZ Publish kernel files.
  *
  * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPL
+ * @license http://ez.no/licenses/gnu_gpl GNU GPL v2
  * @version //autogentag//
- * @filesource
+ * @package kernel
  *
  */
 
@@ -21,6 +21,7 @@ return array(
       'eZAuthor'                           => 'kernel/classes/datatypes/ezauthor/ezauthor.php',
       'eZAuthorType'                       => 'kernel/classes/datatypes/ezauthor/ezauthortype.php',
       'eZAutoLinkOperator'                 => 'kernel/common/ezautolinkoperator.php',
+      'eZAutoloadGenerator'                => 'lib/ezutils/classes/ezautoloadgenerator.php',
       'eZBCMath'                           => 'lib/ezmath/classes/mathhandlers/ezbcmath.php',
       'eZBZIP2Handler'                     => 'lib/ezfile/classes/ezbzip2compressionhandler.php',
       'eZBasket'                           => 'kernel/classes/ezbasket.php',
