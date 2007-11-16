@@ -2031,14 +2031,14 @@ WHERE user_id = '" . $userID . "' AND
                         // if we get any error while evaluating then set result to false
                         if ( !empty( $buffer ) or $ret === false )
                         {
-                            eZDebug::writeError( "There was error while evaluating the policy functions value of the '$moduleName/$viewName' view. " .
+                            eZDebug::writeError( "There was an error while evaluating the policy functions value of the '$moduleName/$viewName' view. " .
                                                  "Please check the '$moduleName/module.php' file." );
                             $accessAllowed = false;
                         }
                     }
                     else
                     {
-                        eZDebug::writeError( "There is mistake in the functions array data of the '$moduleName/$viewName' view. " .
+                        eZDebug::writeError( "There is a mistake in the functions array data of the '$moduleName/$viewName' view. " .
                                              "Please check the '$moduleName/module.php' file." );
                         $accessAllowed = false;
                     }
