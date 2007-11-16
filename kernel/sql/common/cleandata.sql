@@ -23762,15 +23762,3 @@ INSERT INTO ezworkflow_group (
   14,
   'Standard'
 );
-
-INSERT INTO ezworkflow_group_link (
-  group_id,
-  group_name,
-  workflow_id,
-  workflow_version
-) VALUES (
-  1,
-  'Standard',
-  1,
-  0
-);

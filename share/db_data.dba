@@ -13858,26 +13858,6 @@ keywords=cms, publish, e-commerce, content management, development framework',
       ),
     ),
   ),
-  'ezworkflow_group_link' => 
-  array (
-    'fields' => 
-    array (
-      0 => 'group_id',
-      1 => 'group_name',
-      2 => 'workflow_id',
-      3 => 'workflow_version',
-    ),
-    'rows' => 
-    array (
-      0 => 
-      array (
-        0 => '1',
-        1 => 'Standard',
-        2 => '1',
-        3 => '0',
-      ),
-    ),
-  ),
   '_info' => 
   array (
     'format' => 'generic',
