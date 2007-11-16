@@ -778,7 +778,7 @@ foreach ( $commandList as $commandItem )
         if ( $repositoryID )
         {
             $fetchParameters['repository_id'] = $repositoryID;
-            $cli->output( "The the of packages in the repository " . $cli->stylize( 'dir', $fetchParameters['repository_id'] ) . ":" );
+            $cli->output( "The list of packages in the repository " . $cli->stylize( 'dir', $fetchParameters['repository_id'] ) . ":" );
         }
         else
              $cli->output( "The list of all packages:" );
