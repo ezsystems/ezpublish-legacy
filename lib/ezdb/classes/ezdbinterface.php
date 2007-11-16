@@ -70,11 +70,13 @@ class eZDBInterface
     function eZDBInterface( $parameters )
     {
         $server = $parameters['server'];
+        $port = $parameters['port'];
         $user = $parameters['user'];
         $password = $parameters['password'];
         $db = $parameters['database'];
         $useSlaveServer = $parameters['use_slave_server'];
         $slaveServer = $parameters['slave_server'];
+        $slavePort = $parameters['slave_port'];
         $slaveUser = $parameters['slave_user'];
         $slavePassword = $parameters['slave_password'];
         $slaveDB =  $parameters['slave_database'];
@@ -91,12 +93,14 @@ class eZDBInterface
 
         $this->DB = $db;
         $this->Server = $server;
+        $this->Port = $port;
         $this->SocketPath = $socketPath;
         $this->User = $user;
         $this->Password = $password;
         $this->UseSlaveServer = $useSlaveServer;
         $this->SlaveDB = $slaveDB;
         $this->SlaveServer = $slaveServer;
+        $this->SlavePort = $slavePort;
         $this->SlaveUser = $slaveUser;
         $this->SlavePassword = $slavePassword;
         $this->Charset = $charset;
@@ -171,11 +175,13 @@ class eZDBInterface
         array(
             'database_name' => 'DB',
             'database_server' => 'Server',
+            'database_port' => 'Port',
             'database_socket_path' => 'SocketPath',
             'database_user' => 'User',
             'use_slave_server' => 'UseSlaveServer',
             'slave_database_name' => 'SlaveDB',
             'slave_database_server' => 'SlaveServer',
+            'slave_database_port' => 'SlavePort',
             'slave_database_user' => 'SlaveUser',
             'charset' => 'Charset',
             'is_internal_charset' => 'IsInternalCharset',
@@ -1339,6 +1345,8 @@ class eZDBInterface
     /// \protectedsection
     /// Contains the current server
     public $Server;
+    /// Contains the current port
+    public $Port;
     /// The socket path, used by MySQL
     public $SocketPath;
     /// The current database name
@@ -1387,6 +1395,8 @@ class eZDBInterface
     public $SlaveDB;
     /// The slave server name
     public $SlaveServer;
+    /// The slave server port
+    public $SlavePort;
     /// The slave database user
     public $SlaveUser;
     /// The slave database user password

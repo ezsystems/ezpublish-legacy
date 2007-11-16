@@ -101,6 +101,10 @@
   <td class="normal"><input type="text" name="eZSetupDatabaseServer" size="16" value="{$database_info.server|wash}" /></td>
 </tr>
 <tr>
+  <td class="normal"><label class="textfield">{"Port"|i18n("design/standard/setup/init")}:</label></td>
+  <td class="normal"><input type="text" name="eZSetupDatabasePort" size="16" value="{$database_info.port|wash}" /></td>
+</tr>
+<tr>
   <td class="normal"><label class="textfield">{"Username"|i18n("design/standard/setup/init")}:</label></td>
   <td class="normal"><input type="text" name="eZSetupDatabaseUser" size="16" value="{$database_info.user|wash}" /></td>
 </tr>

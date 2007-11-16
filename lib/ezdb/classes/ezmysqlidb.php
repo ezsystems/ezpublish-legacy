@@ -114,7 +114,7 @@ class eZMySQLiDB extends eZDBInterface
      \private
      Opens a new connection to a MySQL database and returns the connection
     */
-    function connect( $server, $db, $user, $password, $socketPath, $charset = null )
+    function connect( $server, $db, $user, $password, $socketPath, $charset = null, $port = false )
     {
         $connection = false;
 
@@ -128,7 +128,7 @@ class eZMySQLiDB extends eZDBInterface
             eZDebug::writeWarning( 'mysqli does not support persistent connections', 'eZMySQLiDB::connect' );
         }
 
-        $connection = mysqli_connect( $server, $user, $password );
+        $connection = mysqli_connect( $server, $user, $password, null, $port, $socketPath );
 
         $dbErrorText = mysqli_connect_error();
         $maxAttempts = $this->connectRetryCount();
@@ -142,7 +142,7 @@ class eZMySQLiDB extends eZDBInterface
                 eZDebug::writeWarning( 'mysqli does not support persistent connections', 'eZMySQLiDB::connect' );
             }
 
-            $connection = mysqli_connect( $this->Server, $this->User, $this->Password );
+            $connection = mysqli_connect( $this->Server, $this->User, $this->Password, null, $this->Port, $this->SocketPath );
 
             $numAttempts++;
         }

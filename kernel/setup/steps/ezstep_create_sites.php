@@ -436,6 +436,7 @@ class eZStepCreateSites extends eZStepInstaller
         $databaseInfo['info'] = $databaseMap[$databaseInfo['type']];
 
         $dbServer = $databaseInfo['server'];
+        $dbPort = $databaseInfo['port'];
 //        $dbName = $databaseInfo['dbname'];
         $dbSocket = $databaseInfo['socket'];
         $dbUser = $databaseInfo['user'];
@@ -445,6 +446,7 @@ class eZStepCreateSites extends eZStepInstaller
 
         $dbName = $siteType['database'];
         $dbParameters = array( 'server' => $dbServer,
+                               'port' => $dbPort,
                                'user' => $dbUser,
                                'password' => $dbPwd,
                                'socket' => $dbSocket,
@@ -584,6 +586,7 @@ class eZStepCreateSites extends eZStepInstaller
                                                  'SiteURL' => $url );
         $siteINIChanges['DatabaseSettings'] = array( 'DatabaseImplementation' => $dbDriver,
                                                      'Server' => $dbServer,
+                                                     'Port' => $dbPort,
                                                      'Database' => $dbName,
                                                      'User' => $dbUser,
                                                      'Password' => $dbPwd,

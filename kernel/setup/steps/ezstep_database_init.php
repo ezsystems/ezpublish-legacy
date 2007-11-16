@@ -63,6 +63,8 @@ class eZStepDatabaseInit extends eZStepInstaller
         // Get database parameters from input form.
         if ( $this->Http->hasPostVariable( 'eZSetupDatabaseServer' ) )
             $this->PersistenceList['database_info']['server'] = $this->Http->postVariable( 'eZSetupDatabaseServer' );
+        if ( $this->Http->hasPostVariable( 'eZSetupDatabasePort' ) )
+            $this->PersistenceList['database_info']['port'] = $this->Http->postVariable( 'eZSetupDatabasePort' );
         if ( $this->Http->hasPostVariable( 'eZSetupDatabaseName' ) )
             $this->PersistenceList['database_info']['dbname'] = $this->Http->postVariable( 'eZSetupDatabaseName' );
         if ( $this->Http->hasPostVariable( 'eZSetupDatabaseUser' ) )
@@ -153,6 +155,7 @@ class eZStepDatabaseInit extends eZStepInstaller
             // Fill in database info in persistence list
             // This is needed for db requirement check
             $this->PersistenceList['database_info']['server'] = $data['Server'];
+            $this->PersistenceList['database_info']['port'] = $data['Port'];
             $this->PersistenceList['database_info']['dbname'] = $data['Database'];
             $this->PersistenceList['database_info']['user'] = $data['User'];
             $this->PersistenceList['database_info']['password'] = $data['Password'];
@@ -187,6 +190,9 @@ class eZStepDatabaseInit extends eZStepInstaller
         if ( !isset( $this->PersistenceList['database_info']['server'] ) or
              !$this->PersistenceList['database_info']['server'] )
             $this->PersistenceList['database_info']['server'] = $config->variable( 'DatabaseSettings', 'DefaultServer' );
+        if ( !isset( $this->PersistenceList['database_info']['port'] ) or
+             !$this->PersistenceList['database_info']['port'] )
+            $this->PersistenceList['database_info']['port'] = $config->variable( 'DatabaseSettings', 'DefaultPort' );
         if ( !isset( $this->PersistenceList['database_info']['dbname'] ) or
              !$this->PersistenceList['database_info']['dbname'] )
             $this->PersistenceList['database_info']['dbname'] = $config->variable( 'DatabaseSettings', 'DefaultName' );

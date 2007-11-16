@@ -111,6 +111,8 @@
 ## Server=<hostname>
 ## Which hostname has the database server
 #Server=localhost
+## Which port to connect to the database server
+#Port=
 ## Database=<database>
 ## Which database to use
 #Database=ezp35test

@@ -69,6 +69,7 @@ class eZPostgreSQLDB extends eZDBInterface
         $ini = eZINI::instance();
 
         $server = $this->Server;
+        $port = $this->Port;
         $db = $this->DB;
         $user = $this->User;
         $password = $this->Password;
@@ -82,6 +83,9 @@ class eZPostgreSQLDB extends eZDBInterface
             $connectParams[] = "user='$user'";
         if ( $password !== false and $password !== null )
             $connectParams[] = "password='$password'";
+        if ( $port )
+            $connectParams[] = "port='$port'";
+
         $connectString = implode( " ", $connectParams );
 
         if ( $ini->variable( "DatabaseSettings", "UsePersistentConnection" ) == "enabled" &&  function_exists( "pg_pconnect" ))

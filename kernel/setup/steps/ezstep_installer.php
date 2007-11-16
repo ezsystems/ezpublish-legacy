@@ -351,6 +351,7 @@ class eZStepInstaller
         if ( $dbCharset === false )
             $dbCharset = 'iso-8859-1';
         $dbParameters = array( 'server' => $databaseInfo['server'],
+                               'port' => $databaseInfo['port'],
                                'user' => $databaseInfo['user'],
                                'password' => $databaseInfo['password'],
                                'socket' => trim( $databaseInfo['socket'] ) == '' ? false : $databaseInfo['socket'],

@@ -168,8 +168,8 @@ class eZDB
 
             $server = $user = $pwd = $db = $usePersistentConnection = false;
             if ( $useDefaults )
-                list( $server, $user, $pwd, $db, $usePersistentConnection ) =
-                    $ini->variableMulti( 'DatabaseSettings', array( 'Server', 'User', 'Password', 'Database', 'UsePersistentConnection' ) );
+                list( $server, $port, $user, $pwd, $db, $usePersistentConnection ) =
+                    $ini->variableMulti( 'DatabaseSettings', array( 'Server', 'Port', 'User', 'Password', 'Database', 'UsePersistentConnection', ) );
 
             $socketPath = false;
             if ( $useDefaults )
@@ -183,6 +183,7 @@ class eZDB
 
             // Check slave servers
             $slaveServer = null;
+            $slaveServerPort = null;
             $slaveServerUser = null;
             $slaveServerPassword = null;
             $slaveServerDatabase = null;
@@ -190,6 +191,7 @@ class eZDB
             if ( $useSlave == "enabled" )
             {
                 $slaveServers = $ini->variable( 'DatabaseSettings', 'SlaveServerArray' );
+                $slaveServerPorts = $ini->variable( 'DatabaseSettings', 'SlaveServerPort' );
                 $slaveServerUsers = $ini->variable( 'DatabaseSettings', 'SlaverServerUser' );
                 $slaveServerPasswords = $ini->variable( 'DatabaseSettings', 'SlaverServerPassword' );
                 $slaveServerDatabases = $ini->variable( 'DatabaseSettings', 'SlaverServerDatabase' );
@@ -201,6 +203,7 @@ class eZDB
                 else
                     $index = 0;
                 $slaveServer = $slaveServers[$index];
+                $slaveServerPort = $slaveServerPorts[$index];
                 $slaveServerUser = $slaveServerUsers[$index];
                 $slaveServerPassword = $slaveServerPasswords[$index];
                 $slaveServerDatabase = $slaveServerDatabases[$index];
@@ -226,11 +229,13 @@ class eZDB
             if ( $useSlave == "enabled" )
                 $useSlaveServer = true;
             $defaultDatabaseParameters = array( 'server' => $server,
+                                                'port' => $port,
                                                 'user' => $user,
                                                 'password' => $pwd,
                                                 'database' => $db,
                                                 'use_slave_server' => $useSlaveServer,
                                                 'slave_server' => $slaveServer,
+                                                'slave_port' => $slaveServerPort,
                                                 'slave_user' => $slaveServerUser,
                                                 'slave_password' => $slaveServerPassword,
                                                 'slave_database' => $slaveServerDatabase,
@@ -246,6 +251,8 @@ class eZDB
             $databaseParameters = $defaultDatabaseParameters;
             if ( isset( $b['server'] ) )
                 $databaseParameters['server'] = $b['server'];
+            if ( isset( $b['port'] ) )
+                $databaseParameters['port'] = $b['port'];
             if ( isset( $b['user'] ) )
                 $databaseParameters['user'] = $b['user'];
             if ( isset( $b['password'] ) )
@@ -256,6 +263,8 @@ class eZDB
                 $databaseParameters['use_slave_server'] = $b['use_slave_server'];
             if ( isset( $b['slave_server'] ) )
                 $databaseParameters['slave_server'] = $b['slave_server'];
+            if ( isset( $b['slave_port'] ) )
+                $databaseParameters['slave_port'] = $b['slave_port'];
             if ( isset( $b['slave_user'] ) )
                 $databaseParameters['slave_user'] = $b['slave_user'];
             if ( isset( $b['slave_password'] ) )

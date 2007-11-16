@@ -82,7 +82,7 @@ class eZMySQLDB extends eZDBInterface
         /// Connect to master server
         if ( $this->DBWriteConnection == false )
         {
-            $connection = $this->connect( $this->Server, $this->DB, $this->User, $this->Password, $this->SocketPath, $this->Charset );
+            $connection = $this->connect( $this->Server, $this->DB, $this->User, $this->Password, $this->SocketPath, $this->Charset, $this->Port );
             if ( $this->IsConnected )
             {
                 $this->DBWriteConnection = $connection;
@@ -94,7 +94,7 @@ class eZMySQLDB extends eZDBInterface
         {
             if ( $this->UseSlaveServer === true )
             {
-                $connection = $this->connect( $this->SlaveServer, $this->SlaveDB, $this->SlaveUser, $this->SlavePassword, $this->SocketPath, $this->Charset );
+                $connection = $this->connect( $this->SlaveServer, $this->SlaveDB, $this->SlaveUser, $this->SlavePassword, $this->SocketPath, $this->Charset, $this->SlavePort );
             }
             else
             {
@@ -115,8 +115,14 @@ class eZMySQLDB extends eZDBInterface
      \private
      Opens a new connection to a MySQL database and returns the connection
     */
-    function connect( $server, $db, $user, $password, $socketPath, $charset = null )
+    function connect( $server, $db, $user, $password, $socketPath, $charset = null, $port = false )
     {
+        // if a port is specified, we add it to $server, this is how mysql_(p)connect accepts a port number
+        if ( $port )
+        {
+            $server .= ':' . $port;
+        }
+
         $connection = false;
 
         if ( $socketPath !== false )
