@@ -1247,11 +1247,11 @@ class eZURLAliasML extends eZPersistentObject
             $table = "e" . $i;
             if ( $i == $len - 1 )
             {
-                $selects[] = "{$table}.id {$table}_id, {$table}.link {$table}_link, {$table}.text {$table}_text, {$table}.text_md5 {$table}_text_md5, {$table}.action {$table}_action, {$table}.is_alias {$table}_is_alias";
+                $selects[] = "{$table}.id AS {$table}_id, {$table}.link AS {$table}_link, {$table}.text AS {$table}_text, {$table}.text_md5 AS {$table}_text_md5, {$table}.action AS {$table}_action, {$table}.is_alias AS {$table}_is_alias";
             }
             else
             {
-                $selects[] = "{$table}.id {$table}_id, {$table}.link {$table}_link, {$table}.text {$table}_text, {$table}.text_md5 {$table}_text_md5, {$table}.is_alias {$table}_is_alias";
+                $selects[] = "{$table}.id AS {$table}_id, {$table}.link AS {$table}_link, {$table}.text AS {$table}_text, {$table}.text_md5 AS {$table}_text_md5, {$table}.is_alias AS {$table}_is_alias";
             }
             $tables[]  = "ezurlalias_ml " . $table;
             $langMask = trim( eZContentLanguage::languagesSQLFilter( $table, 'lang_mask' ) );
@@ -1742,11 +1742,11 @@ class eZURLAliasML extends eZPersistentObject
     {
         if ( $i == $len - 1 )
         {
-            $select = "{$table}.id {$table}_id, {$table}.link {$table}_link, {$table}.text {$table}_text, {$table}.text_md5 {$table}_text_md5, {$table}.action {$table}_action";
+            $select = "{$table}.id AS {$table}_id, {$table}.link AS {$table}_link, {$table}.text AS {$table}_text, {$table}.text_md5 AS {$table}_text_md5, {$table}.action AS {$table}_action";
         }
         else
         {
-            $select = "{$table}.id {$table}_id, {$table}.link {$table}_link, {$table}.text {$table}_text, {$table}.text_md5 {$table}_text_md5";
+            $select = "{$table}.id AS {$table}_id, {$table}.link AS {$table}_link, {$table}.text AS {$table}_text, {$table}.text_md5 AS {$table}_text_md5";
         }
         return $select;
     }
@@ -1758,7 +1758,7 @@ class eZURLAliasML extends eZPersistentObject
      */
     function generateFullSelect( $table )
     {
-        $select = "{$table}.id {$table}_id, {$table}.parent {$table}_parent, {$table}.lang_mask {$table}_lang_mask, {$table}.text {$table}_text, {$table}.text_md5 {$table}_text_md5, {$table}.action {$table}_action, {$table}.link {$table}_link";
+        $select = "{$table}.id AS {$table}_id, {$table}.parent AS {$table}_parent, {$table}.lang_mask AS {$table}_lang_mask, {$table}.text AS {$table}_text, {$table}.text_md5 AS {$table}_text_md5, {$table}.action AS {$table}_action, {$table}.link AS {$table}_link";
         return $select;
     }
 
