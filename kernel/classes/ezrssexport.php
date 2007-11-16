@@ -145,7 +145,7 @@ class eZRSSExport extends eZPersistentObject
 
     /*!
      \static
-     Creates a new RSS Export with the new RSS Export
+     Creates a new RSS Export
      \param User ID
 
      \return the URL alias object

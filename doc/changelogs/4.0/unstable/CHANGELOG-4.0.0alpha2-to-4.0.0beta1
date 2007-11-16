@@ -116,3 +116,4 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #11956: Login permissions with empty site access on clean webin install
 - Fixed bug #11909: Incorrect sentences in ezuser.php
 - Fixed bug #11840: Typo "The the" in ezpm.php
+- Fixed bug #11726: eZRSSExport::create() doxygen documentation makes no sense
