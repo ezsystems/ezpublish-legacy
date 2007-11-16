@@ -109,3 +109,4 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #11850: dynamic content structure menu breaks on nodes with numeric name
 - Fixed bug #11949: eZDebug HTML syntax error (has patch)
 - Fixed bug #6291: changed variable in ezsmtptransport.php to support Helo
+- Fixed bug #11934: Wrong debug message from eZContentFunctions::createAndPublishObject() when parent node does not exist
