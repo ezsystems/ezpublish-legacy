@@ -108,3 +108,4 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #11912: In non Virtual Host mode url is encoded incorrectly
 - Fixed bug #11850: dynamic content structure menu breaks on nodes with numeric name
 - Fixed bug #11949: eZDebug HTML syntax error (has patch)
+- Fixed bug #6291: changed variable in ezsmtptransport.php to support Helo
