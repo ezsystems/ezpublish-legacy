@@ -117,3 +117,5 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #11909: Incorrect sentences in ezuser.php
 - Fixed bug #11840: Typo "The the" in ezpm.php
 - Fixed bug #11726: eZRSSExport::create() doxygen documentation makes no sense
+- Fixed bug #11960: Cluster: Content cache is not updated on all nodes.
+  (Merged from stable/3.10 (3.10.1) rev. 20781).
