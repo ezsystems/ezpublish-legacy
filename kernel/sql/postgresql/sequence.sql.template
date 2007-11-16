@@ -74,6 +74,7 @@ SELECT setval('ezworkflow_assign_s', max(id)) , 'ezworkflow_assign' as tablename
 SELECT setval('ezworkflow_event_s', max(id)) , 'ezworkflow_event' as tablename FROM ezworkflow_event;
 SELECT setval('ezworkflow_group_s', max(id)) , 'ezworkflow_group' as tablename FROM ezworkflow_group;
 SELECT setval('ezworkflow_process_s', max(id)) , 'ezworkflow_process' as tablename FROM ezworkflow_process;
+SELECT setval('ezurlwildcard_s', max(id)) , 'ezurlwildcard' as tablename FROM ezwildcard;
 
 --
 -- Sequence preparation end

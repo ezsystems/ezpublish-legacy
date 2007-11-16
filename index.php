@@ -537,13 +537,18 @@ while ( $moduleRunRequired )
         ////include_once( 'kernel/classes/ezurlaliasml.php' );
         $translateResult = eZURLAliasML::translate( $uri );
 
-        // Check if the URL has moved
-        if ( $translateResult instanceof eZURLAliasML )
+        if ( !$translateResult )
         {
-            $objectHasMovedURI = $translateResult->attribute( 'source_url' );
-            $objectHasMovedError = true;
+            $useWildcardTranslation = $ini->variable( 'URLTranslator', 'WildcardTranslation' ) == 'enabled';
+            if ( $useWildcardTranslation )
+            {
+                ////include_once( 'kernel/classes/ezurlwildcard.php' );
+                $translateResult = eZURLWildcard::translate( $uri );
+            }
         }
-        else if ( is_string( $translateResult ) )
+
+        // Check if the URL has moved
+        if ( is_string( $translateResult ) )
         {
             $objectHasMovedURI = $translateResult;
             $objectHasMovedError = true;

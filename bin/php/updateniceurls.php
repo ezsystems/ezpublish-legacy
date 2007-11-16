@@ -436,40 +436,11 @@ if ( $urlCount > 0 )
         $count = count( $rows );
         foreach ( $rows as $key => $row )
         {
-            $wildcardType        = (int)$row['is_wildcard']; // 1 is forward, 2 is direct (alias) for now they are both treated as forwarding/redirect
-            $sourceWildcard      = $row['source_url'];
-            $destinationWildcard = $row['destination_url'];
+            $row['type'] = (int)$row['is_wildcard'];
 
-            // Validate the wildcards
-            if ( !preg_match( "#^(.*)\*$#", $sourceWildcard, $matches ) )
-            {
-                eZDebug::writeError( "Invalid source wildcard '$sourceWildcard', item is skipped, URL entry ID is " . $row['id'] );
-                list( $column, $counter ) = displayProgress( 'S', $urlImportStartTime, $counter, $urlCount, $column );
-                continue;
-            }
-            $fromPath = $matches[1];
-            if ( !preg_match( "#^(.*)\{1\}$#", $destinationWildcard, $matches ) )
-            {
-                eZDebug::writeError( "Invalid destination wildcard '$destinationWildcard', item is skipped, URL entry ID is " . $row['id'] );
-                list( $column, $counter ) = displayProgress( 'D', $urlImportStartTime, $counter, $urlCount, $column );
-                continue;
-            }
-            $toPath = $matches[1];
+            $wildcard = new eZURLWildcard( $row );
+            $wildcard->store();
 
-            $elements = eZURLAliasML::fetchByPath( $toPath );
-            if ( count( $elements ) == 0 )
-            {
-                // Referenced url does not exist
-                eZDebug::writeError( "The referenced path '$toPath' can not be found among the new URL alias entries, url entry ID is " . $row['id'] );
-                list( $column, $counter ) = displayProgress( 'E', $urlImportStartTime, $counter, $urlCount, $column );
-                continue;
-            }
-            // Fetch the ID of the element to redirect to.
-            $linkID = $elements[0]->attribute( 'id' );
-            $action = $elements[0]->attribute( 'action' );
-            $alwaysAvailable = ($elements[0]->attribute( 'lang_mask' ) & 1);
-            eZURLAliasML::storePath( $fromPath, $action,
-                                     false, $linkID, $alwaysAvailable );
             list( $column, $counter ) = displayProgress( '.', $urlImportStartTime, $counter, $urlCount, $column );
         }
         markAsImported( $rows );

@@ -200,6 +200,23 @@ $ViewList['urltranslator'] = array(
     'params' => array( ),
     'unordered_params' => array( 'offset' => 'Offset' ) );
 
+$ViewList['urlwildcards'] = array(
+    'functions' => array( 'urltranslator' ),
+    'default_navigation_part' => 'ezsetupnavigationpart',
+    'script' => 'urlalias_wildcard.php',
+    'ui_context' => 'administration',
+    'single_post_actions' => array( 'NewWildcardButton' => 'NewWildcard',
+                                    'RemoveAllWildcardsButton' => 'RemoveAllWildcards',
+                                    'RemoveWildcardButton' => 'RemoveWildcard' ),
+    'post_action_parameters' => array( 'RemoveWildcard' => array( 'WildcardIDList' => 'WildcardIDList',
+                                                                  'Offset' => 'Offset' ),
+                                       'NewWildcard' => array( 'WildcardType' => 'WildcardType',
+                                                               'WildcardSourceText' => 'WildcardSourceText',
+                                                               'WildcardDestinationText' => 'WildcardDestinationText',
+                                                               'Offset' => 'Offset' ) ),
+    'params' => array( ),
+    'unordered_params' => array( 'offset' => 'Offset' ) );
+
 $ViewList['advancedsearch'] = array(
     'functions' => array( 'read' ),
     'default_navigation_part' => 'ezcontentnavigationpart',

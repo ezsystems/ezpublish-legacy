@@ -893,6 +893,19 @@ CREATE SEQUENCE ezurlalias_s
 
 
 
+CREATE SEQUENCE ezurlwildcard_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+
+
+
+
+
+
 CREATE SEQUENCE ezuser_accountkey_s
     START 1
     INCREMENT 1
@@ -2459,6 +2472,19 @@ CREATE TABLE ezurlalias_ml (
     parent integer DEFAULT 0 NOT NULL,
     text text NOT NULL,
     text_md5 character varying(32) DEFAULT ''::character varying NOT NULL
+);
+
+
+
+
+
+
+
+CREATE TABLE ezurlwildcard (
+    destination_url text NOT NULL,
+    id integer DEFAULT nextval('ezurlwildcard_s'::text) NOT NULL,
+    source_url text NOT NULL,
+    "type" integer DEFAULT 0 NOT NULL
 );
 
 
@@ -4443,6 +4469,15 @@ ALTER TABLE ONLY ezurlalias
 
 ALTER TABLE ONLY ezurlalias_ml
     ADD CONSTRAINT ezurlalias_ml_pkey PRIMARY KEY (parent, text_md5);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezurlwildcard
+    ADD CONSTRAINT ezurlwildcard_pkey PRIMARY KEY (id);
 
 
 

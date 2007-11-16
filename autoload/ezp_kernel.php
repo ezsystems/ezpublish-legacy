@@ -487,6 +487,7 @@ return array(
       'eZURLOperator'                      => 'kernel/common/ezurloperator.php',
       'eZURLTranslator'                    => 'kernel/classes/ezurltranslator.php',
       'eZURLType'                          => 'kernel/classes/datatypes/ezurl/ezurltype.php',
+      'eZURLWildcard'                      => 'kernel/classes/ezurlwildcard.php',
       'eZUTF8Codec'                        => 'lib/ezi18n/classes/ezutf8codec.php',
       'eZUser'                             => 'kernel/classes/datatypes/ezuser/ezuser.php',
       'eZUserAccountKey'                   => 'kernel/classes/datatypes/ezuser/ezuseraccountkey.php',
