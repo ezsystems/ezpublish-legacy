@@ -163,7 +163,7 @@ class eZAutoloadGenerator
                 var_dump( $this->dumpArrayStart( $location) . $data . $this->dumpArrayEnd() );
             }
 
-            if ( !$this->writeFiles )
+            if ( $this->writeFiles )
             {
                 // Check the targetDir
                 if( file_exists( $this->outputDir ) && !is_dir( $this->outputDir ) )
@@ -213,7 +213,7 @@ class eZAutoloadGenerator
         {
             case self::GENAUTOLOADS_EXTENSION:
             {
-                $retFiles = array( "extension" => $this->buildFileList( "$sanitisedBasePath/extension" ) );
+                $retFiles = array( "extension" => $this->buildFileList( "$sanitisedBasePath/extension", $extraExcludeDirs ) );
                 break;
             }
 
@@ -226,9 +226,10 @@ class eZAutoloadGenerator
 
             case self::GENAUTOLOADS_BOTH:
             {
-                $extraExcludeDirs[] = "@^{$sanitisedBasePath}/extension/@";
-                $retFiles = array( "extension"  => $this->buildFileList( "$sanitisedBasePath/extension" ),
-                                   "kernel"     => $this->buildFileList( $sanitisedBasePath, $extraExcludeDirs ) );
+                $extraExcludeKernelDirs = $extraExcludeDirs;
+                $extraExcludeKernelDirs[] = "@^{$sanitisedBasePath}/extension/@";
+                $retFiles = array( "extension"  => $this->buildFileList( "$sanitisedBasePath/extension", $extraExcludeDirs ),
+                                   "kernel"     => $this->buildFileList( $sanitisedBasePath, $extraExcludeKernelDirs ) );
                 break;
             }
         }

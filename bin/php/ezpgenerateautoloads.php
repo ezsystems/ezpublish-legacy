@@ -88,7 +88,7 @@ $autoloadGenerator = new eZAutoloadGenerator( getcwd(),
                                               $kernelFilesOption->value,
                                               $extensionFilesOption->value,
                                               $verboseOption->value,
-                                              $dryrunOption->value,
+                                              !$dryrunOption->value,
                                               $targetOption->value,
                                               $excludeDirsOption->value );
 try {
