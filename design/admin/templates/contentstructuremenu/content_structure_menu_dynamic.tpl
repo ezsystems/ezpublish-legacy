@@ -148,7 +148,7 @@ function ContentStructureMenu()
                 + item.modified_subnode
                 +' )"></a>';
         }
-        
+
         var languages = "[";
         var firstLanguage = true;
         for ( var j = 0; j < item.languages.length; j++ )
@@ -189,7 +189,7 @@ function ContentStructureMenu()
                         classes += "{classID:'"
                             + classList[j]
                             + "',name:'"
-                            + this.classes[classList[j]].name.replace(/'/,"\\'")
+                            + String(this.classes[classList[j]].name).replace(/'/,"\\'")
                             + "'}";
                     }
                 }
@@ -206,7 +206,7 @@ function ContentStructureMenu()
                     classes += "{classID:'"
                         + j
                         + "',name:'"
-                        + this.classes[j].name.replace(/'/,"\\'")
+                        + String(this.classes[j].name).replace(/'/,"\\'")
                         + "'}";
                 }
             }
@@ -226,7 +226,7 @@ function ContentStructureMenu()
                 + ', \'%classList%\':'
                 + classes
                 + ' }, \''
-                + item.name.replace(/'/,"\\'")
+                + String(item.name).replace(/'/,"\\'")
                 + '\', '
                 + item.node_id
                 + ', '
@@ -250,11 +250,11 @@ function ContentStructureMenu()
             + ( ( this.action )? this.action + '/' + item.node_id:
                                  item.url )
             + '"';
-        
+
         if ( this.showTips )
         {
 {/literal}
-            html += ' title="{"Node ID"|i18n('design/admin/contentstructuremenu')}: ' 
+            html += ' title="{"Node ID"|i18n('design/admin/contentstructuremenu')}: '
                 + item.node_id
                 + ' {"Visibility"|i18n('design/admin/contentstructuremenu')}: '
                 + ( ( item.is_hidden )? '{"Hidden"|i18n('design/admin/contentstructuremenu')}':
@@ -263,9 +263,9 @@ function ContentStructureMenu()
                 + '"';
 {literal}
         }
-        
+
         html += '><span class="node-name-'
-            + ( ( item.is_hidden )? 'hidden': 
+            + ( ( item.is_hidden )? 'hidden':
                                     ( item.is_invisible )? 'hiddenbyparent':
                                                            'normal' )
             + '">'
@@ -325,7 +325,7 @@ function ContentStructureMenu()
             }
 
             this.setClosed( nodeID );
-        
+
             return false;
         }
 
@@ -335,7 +335,7 @@ function ContentStructureMenu()
         }
 
 {/literal}
-        var url = "{"content/treemenu"|ezurl(no)}?node_id=" + nodeID 
+        var url = "{"content/treemenu"|ezurl(no)}?node_id=" + nodeID
             + "&modified=" + modifiedSubnode
             + "&expiry=" + this.expiry
             + "&perm=" + this.perm;
@@ -350,7 +350,7 @@ function ContentStructureMenu()
         {
 /*@cc_on
     @if (@_jscript_version >= 5)
-            var xmlObjects = ['Msxml2.XMLHTTP.6.0', 'Msxml2.XMLHTTP.4.0', 'Msxml2.XMLHTTP.3.0', 
+            var xmlObjects = ['Msxml2.XMLHTTP.6.0', 'Msxml2.XMLHTTP.4.0', 'Msxml2.XMLHTTP.3.0',
                               'Msxml2.XMLHTTP', 'Microsoft.XMLHTTP'];
             for ( var i = 0; i < xmlObjects.length; i++ )
             {
@@ -442,14 +442,14 @@ function ContentStructureMenu()
                                 aElement.title = '{"Dynamic tree not allowed for this siteaccess"|i18n('design/admin/contentstructuremenu')}';
 {literal}
                             } break;
-                        
+
                             case 404:
                             {
 {/literal}
                                 aElement.title = '{"Node does not exist"|i18n('design/admin/contentstructuremenu')}';
 {literal}
                             } break;
-                        
+
                             case 500:
                             {
 {/literal}
