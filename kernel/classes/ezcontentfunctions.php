@@ -110,7 +110,7 @@ class eZContentFunctions
         }
         else
         {
-            eZDebug::writeError( "Node with id 'parentNodeID' doesn't exist.", 'eZContentFunctions::createAndPublishObject' );
+            eZDebug::writeError( "Node with id '$parentNodeID' doesn't exist.", 'eZContentFunctions::createAndPublishObject' );
         }
 
         return $contentObject;
