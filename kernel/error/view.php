@@ -93,11 +93,10 @@ eZDebug::writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "er
                     header( "Status: $httpErrorString" );
                     if ( $errorNumber == EZ_ERROR_KERNEL_MOVED )
                     {
-                        $location = eZSys::indexDir() . "/" . $extraErrorParameters['new_location'];
                         // Set moved permanently headers.
                         header( $_SERVER['SERVER_PROTOCOL'] .  " 301 Moved Permanently" );
                         header( "Status: 301 Moved Permanently" );
-                        $location = eZURI::encodeIRI( $location ); // Make sure it is encoded to IRI format
+                        $location = eZSys::indexDir() . "/" . eZURI::encodeIRI( $extraErrorParameters['new_location'] ); // Make sure it is encoded to IRI format
                         header( "Location: " . $location );
                     }
                 }
