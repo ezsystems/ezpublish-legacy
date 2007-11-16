@@ -29,6 +29,7 @@
     <li><div><span class="disabled">{'Triggers'|i18n( 'design/admin/parts/setup/menu' )}</span></div></li>
     <li><div><span class="disabled">{'URL management'|i18n( 'design/admin/parts/setup/menu' )}</span></div></li>
     <li><div><span class="disabled">{'URL translator'|i18n( 'design/admin/parts/setup/menu' )}</span></div></li>
+    <li><div><span class="disabled">{'URL wildcards'|i18n( 'design/admin/parts/setup/menu' )}</span></div></li>
     <li><div><span class="disabled">{'Workflows'|i18n( 'design/admin/parts/setup/menu' )}</span></div></li>
 </ul>
 
@@ -56,6 +57,7 @@
     <li><div><a href={'/trigger/list/'|ezurl}>{'Triggers'|i18n( 'design/admin/parts/setup/menu' )}</a></div></li>
     <li><div><a href={'/url/list/'|ezurl}>{'URL management'|i18n( 'design/admin/parts/setup/menu' )}</a></div></li>
     <li><div><a href={'/content/urltranslator/'|ezurl}>{'URL translator'|i18n( 'design/admin/parts/setup/menu' )}</a></div></li>
+    <li><div><a href={'/content/urlwildcards/'|ezurl}>{'URL wildcards'|i18n( 'design/admin/parts/setup/menu' )}</a></div></li>
     <li><div><a href={'/workflow/grouplist/'|ezurl}>{'Workflows'|i18n( 'design/admin/parts/setup/menu' )}</a></div></li>
     <li><div><a href={'/workflow/processlist/'|ezurl}>{'Workflow processes'|i18n( 'design/admin/parts/setup/menu' )}</a></div></li>
 </ul>

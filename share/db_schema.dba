@@ -6523,6 +6523,48 @@ $schema = array (
       ),
     ),
   ),
+  'ezurlwildcard' => 
+  array (
+    'name' => 'ezurlwildcard',
+    'fields' => 
+    array (
+      'destination_url' => 
+      array (
+        'type' => 'longtext',
+        'not_null' => '1',
+        'default' => false,
+      ),
+      'id' => 
+      array (
+        'type' => 'auto_increment',
+        'default' => false,
+      ),
+      'source_url' => 
+      array (
+        'type' => 'longtext',
+        'not_null' => '1',
+        'default' => false,
+      ),
+      'type' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'id',
+        ),
+      ),
+    ),
+  ),
   'ezuser' => 
   array (
     'name' => 'ezuser',

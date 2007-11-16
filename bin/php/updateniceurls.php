@@ -48,7 +48,7 @@ $script =& eZScript::instance( array( 'description' => ( "eZ Publish nice url up
 
 $script->startup();
 
-$options = $script->getOptions( "[db-user:][db-password:][db-database:][db-type:|db-driver:][sql][fetch-limit:]",
+$options = $script->getOptions( "[db-user:][db-password:][db-database:][db-type:|db-driver:][sql]",
                                 "",
                                 array( 'db-host' => "Database host",
                                        'db-user' => "Database user",
@@ -56,8 +56,7 @@ $options = $script->getOptions( "[db-user:][db-password:][db-database:][db-type:
                                        'db-database' => "Database name",
                                        'db-driver' => "Database driver",
                                        'db-type' => "Database driver, alias for --db-driver",
-                                       'sql' => "Display sql queries",
-                                       'fetch-limit' => "The fetch limit to use when fetching url aliases from the database"
+                                       'sql' => "Display sql queries"
                                        ) );
 $script->initialize();
 
@@ -67,8 +66,7 @@ $dbHost = isset( $options['db-host'] ) && $options['db-host'] ? $options['db-hos
 $dbName = $options['db-database'] ? $options['db-database'] : false;
 $dbImpl = $options['db-driver'] ? $options['db-driver'] : false;
 $showSQL = $options['sql'] ? true : false;
-$fetchLimitOption = $options['fetch-limit'] ? $options['fetch-limit'] : 200;
-$siteAccess = $options['siteaccess'] ? $options['siteaccess'] : false;
+$siteAccess = $options['siteaccess'] ? $options['siteaccess'] : false;;
 if ( $siteAccess )
 {
     changeSiteAccessSetting( $siteaccess, $siteAccess );
@@ -119,8 +117,7 @@ $db->setIsSQLOutputEnabled( $showSQL );
 include_once( 'kernel/classes/ezcontentlanguage.php' );
 eZContentLanguage::setCronjobMode( true );
 
-$fetchLimit = $fetchLimitOption;
-$cli->notice( "Using fetch limit: $fetchLimit" );
+$fetchLimit = 200;
 $percentLength = 6;
 $timeLength = 12;
 $maxColumn = 72 - $percentLength - $timeLength;
@@ -442,40 +439,11 @@ if ( $urlCount > 0 )
         $count = count( $rows );
         foreach ( $rows as $key => $row )
         {
-            $wildcardType        = (int)$row['is_wildcard']; // 1 is forward, 2 is direct (alias) for now they are both treated as forwarding/redirect
-            $sourceWildcard      = $row['source_url'];
-            $destinationWildcard = $row['destination_url'];
+            $row['type'] = (int)$row['is_wildcard'];
 
-            // Validate the wildcards
-            if ( !preg_match( "#^(.*)\*$#", $sourceWildcard, $matches ) )
-            {
-                eZDebug::writeError( "Invalid source wildcard '$sourceWildcard', item is skipped, URL entry ID is " . $row['id'] );
-                list( $column, $counter ) = displayProgress( 'S', $urlImportStartTime, $counter, $urlCount, $column );
-                continue;
-            }
-            $fromPath = $matches[1];
-            if ( !preg_match( "#^(.*)\{1\}$#", $destinationWildcard, $matches ) )
-            {
-                eZDebug::writeError( "Invalid destination wildcard '$destinationWildcard', item is skipped, URL entry ID is " . $row['id'] );
-                list( $column, $counter ) = displayProgress( 'D', $urlImportStartTime, $counter, $urlCount, $column );
-                continue;
-            }
-            $toPath = $matches[1];
+            $wildcard = new eZURLWildcard( $row );
+            $wildcard->store();
 
-            $elements = eZURLAliasML::fetchByPath( $toPath );
-            if ( count( $elements ) == 0 )
-            {
-                // Referenced url does not exist
-                eZDebug::writeError( "The referenced path '$toPath' can not be found among the new URL alias entries, url entry ID is " . $row['id'] );
-                list( $column, $counter ) = displayProgress( 'E', $urlImportStartTime, $counter, $urlCount, $column );
-                continue;
-            }
-            // Fetch the ID of the element to redirect to.
-            $linkID = $elements[0]->attribute( 'id' );
-            $action = $elements[0]->attribute( 'action' );
-            $alwaysAvailable = ($elements[0]->attribute( 'lang_mask' ) & 1);
-            eZURLAliasML::storePath( $fromPath, $action,
-                                     false, $linkID, $alwaysAvailable );
             list( $column, $counter ) = displayProgress( '.', $urlImportStartTime, $counter, $urlCount, $column );
         }
         markAsImported( $rows );
@@ -500,6 +468,7 @@ if ( $urlCount > 0 )
     eZCache::clearByID( 'urlalias' );
 
     $cli->output( "Importing completed" );
+//    eZExecution::cleanExit();
 }
 
 // Start updating nodes
@@ -530,7 +499,7 @@ foreach ( array_keys( $topLevelNodesArray ) as $key )
         foreach ( array_keys( $nodeList ) as $key )
         {
             $node =& $nodeList[ $key ];
-            $hasChanged = $node->updateSubTreePath( false );
+            $hasChanged = $node->updateSubTreePath();
             if ( $hasChanged )
             {
                 ++$changedNodes;

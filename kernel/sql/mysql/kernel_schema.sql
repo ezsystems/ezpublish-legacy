@@ -1438,6 +1438,18 @@ CREATE TABLE ezurlalias_ml (
 
 
 
+CREATE TABLE ezurlwildcard (
+  destination_url longtext NOT NULL,
+  id int(11) NOT NULL auto_increment,
+  source_url longtext NOT NULL,
+  type int(11) NOT NULL default '0',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+
+
+
+
 CREATE TABLE ezuser (
   contentobject_id int(11) NOT NULL default '0',
   email varchar(150) NOT NULL default '',
