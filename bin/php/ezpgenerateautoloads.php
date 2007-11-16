@@ -84,13 +84,23 @@ if ( $helpOption->value === true )
 }
 //}
 
+if ( $excludeDirsOption->value !== false )
+{
+    $excludeDirs = explode( ' ', $excludeDirsOption->value );
+}
+else
+{
+    $excludeDirs = false;
+}
+
+
 $autoloadGenerator = new eZAutoloadGenerator( getcwd(),
                                               $kernelFilesOption->value,
                                               $extensionFilesOption->value,
                                               $verboseOption->value,
                                               !$dryrunOption->value,
                                               $targetOption->value,
-                                              $excludeDirsOption->value );
+                                              $excludeDirs );
 try {
     $autoloadGenerator->buildAutoloadArrays();
 } catch (Exception $e) {

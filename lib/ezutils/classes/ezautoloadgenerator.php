@@ -126,15 +126,9 @@ class eZAutoloadGenerator
         {
             $this->outputDir = $outputDir;
         }
+        
+        $this->excludeDirs = $excludeDirs;
 
-        if ( $excludeDirs !== false )
-        {
-            $this->excludeDirs = explode( ' ', $excludeDirs );
-        }
-        else
-        {
-            $this->excludeDirs = false;
-        }
     }
 
     /**
@@ -176,11 +170,19 @@ class eZAutoloadGenerator
                 }
 
                 $filename = $this->nameTable( $location );
-                $file = fopen( "{$this->outputDir}/$filename", "w" );
-                fwrite( $file, $this->dumpArrayStart( $location ) );
-                fwrite( $file, $data );
-                fwrite( $file, $this->dumpArrayEnd() );
-                fclose( $file );
+                $filePath = "{$this->outputDir}/$filename";
+                if ( is_writable( $filePath ) )
+                {
+                    $file = fopen( $filePath, "w" );
+                    fwrite( $file, $this->dumpArrayStart( $location ) );
+                    fwrite( $file, $data );
+                    fwrite( $file, $this->dumpArrayEnd() );
+                    fclose( $file );
+                }
+                else
+                {
+                    eZDebug::writeError( "The file {$filePath} is not writable by the system.", __CLASS__ . ' : ' . __FUNCTION__ );
+                }
             }
         }
     }
