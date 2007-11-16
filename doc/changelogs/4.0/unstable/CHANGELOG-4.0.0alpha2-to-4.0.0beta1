@@ -111,3 +111,4 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #6291: changed variable in ezsmtptransport.php to support Helo
 - Fixed bug #11934: Wrong debug message from eZContentFunctions::createAndPublishObject() when parent node does not exist
 - Fixed bug #11650: Functionality present in 3.9 is removed for 3.10: manual url redirects.
+- Fixed bug #11663: updatetipafriendpolicy.php does not work on Windows

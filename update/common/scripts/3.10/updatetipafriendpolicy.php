@@ -96,7 +96,7 @@ else
                 $cli->output( "Note: the '$name' group/user is anonymous." );
             $cli->output( "Assign 'Tipafriend Role' to the '$name' group/user? y(yes)/n(no)/a(all)/s(skip all): ", false );
             $userInput = fgets( $stdin );
-            $userInput = trim( $userInput, "\n" );
+            $userInput = trim( $userInput );
         }
         if ( $userInput == 'y' or $userInput == 'a' )
         {
