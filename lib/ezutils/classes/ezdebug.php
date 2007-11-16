@@ -1467,7 +1467,7 @@ td.timingpoint2
                 if ( !$hasLevel[$debug['Level']] )
                 {
                     $hasLevel[$debug['Level']] = true;
-                    $identifierText = 'id="' . $outputData['xhtml-identifier'] . '"';
+                    $identifierText = ' id="' . $outputData['xhtml-identifier'] . '"';
                 }
                 $color = $outputData["color"];
                 $name = $outputData["name"];
