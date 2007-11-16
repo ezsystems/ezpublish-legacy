@@ -320,7 +320,8 @@ class eZDBFileHandler
                         break;
                     }
 
-                    if ( $this->metaData === false || eZDBFileHandler::isExpired( $fname, $mtime, $expiry, $curtime, $ttl ) )
+                    if ( $this->metaData === false || eZDBFileHandler::isExpired( $fname, $mtime, $this->metaData['mtime'], $curtime, $ttl ) )
+//                      if ( $this->metaData === false || eZDBFileHandler::isExpired( $fname, $mtime, $expiry, $curtime, $ttl ) )
                     {
                         eZDebugSetting::writeDebug( 'kernel-clustering', "Local file (mtime=$mtime) is older than DB, check with DB" );
                         $forceDB = true;
