@@ -125,7 +125,8 @@ $ViewList["extensions"] = array(
     "script" => "extensions.php",
     'ui_context' => 'administration',
     "default_navigation_part" => 'ezsetupnavigationpart',
-    'single_post_actions' => array( 'ActivateExtensionsButton' => 'ActivateExtensions' ),
+    'single_post_actions' => array( 'ActivateExtensionsButton' => 'ActivateExtensions',
+                                    'GenerateAutoloadArraysButton' => 'GenerateAutoloadArrays' ),
     "params" => array( ) );
 
 $ViewList['menu'] = array(

@@ -15,4 +15,6 @@
 {/section}
 <br />
 <input type="submit" name="ActivateExtensionsButton" value="{'Activate extensions'|i18n('design/standard/setup')}" />
+<input type="submit" name="GenerateAutoloadArraysButton" value="{'Regenerate autoload arrays for extensions'|i18n( 'design/standard/setup/extensions' )}" title="{'Click this button to regenerate the autoload arrays used by the system for extensions.'|i18n( 'design/standard/setup/extensions' )}" />
+
 </form>

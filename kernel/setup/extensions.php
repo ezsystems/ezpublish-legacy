@@ -37,6 +37,9 @@ require_once( "kernel/common/template.php" );
 
 $tpl = templateInit();
 
+$extensionDir = eZExtension::baseDirectory();
+$availableExtensionArray = eZDir::findSubItems( $extensionDir );
+
 if ( $module->isCurrentAction( 'ActivateExtensions' ) )
 {
     if ( $http->hasPostVariable( "ActiveExtensionList" ) )
@@ -49,6 +52,13 @@ if ( $module->isCurrentAction( 'ActivateExtensions' ) )
     {
         $selectedExtensionArray = array();
     }
+    
+    $inactiveExtensions = array_diff( $availableExtensionArray, $selectedExtensionArray );
+    $excludeArray = array();
+    foreach ( $inactiveExtensions as $ext )
+    {
+        $excludeArray[] = $extensionDir . DIRECTORY_SEPARATOR . $ext;
+    }
 
     // open settings/override/site.ini.append[.php] for writing
     $writeSiteINI = eZINI::instance( 'site.ini.append', 'settings/override', null, null, false, true );
@@ -56,17 +66,53 @@ if ( $module->isCurrentAction( 'ActivateExtensions' ) )
     $writeSiteINI->save( 'site.ini.append', '.php', false, false );
     //include_once( 'kernel/classes/ezcache.php' );
     eZCache::clearByTag( 'ini' );
+    
+    $autoloadGenerator = new eZAutoloadGenerator( getcwd(),
+                                                  false,
+                                                  true,
+                                                  false,
+                                                  true,
+                                                  false,
+                                                  $excludeArray );
+    try {
+        $autoloadGenerator->buildAutoloadArrays();
+    } catch (Exception $e) {
+        eZDebug::writeError( $e->getMessage() );
+    }
+    
 }
+
 // open site.ini for reading
 $siteINI = eZINI::instance();
 $siteINI->loadCache();
-$extensionDir = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' );
-$availableExtensionArray = eZDir::findSubItems( $extensionDir );
-
 $selectedExtensionArray       = $siteINI->variable( 'ExtensionSettings', "ActiveExtensions" );
 $selectedAccessExtensionArray = $siteINI->variable( 'ExtensionSettings', "ActiveAccessExtensions" );
 $selectedExtensions           = array_merge( $selectedExtensionArray, $selectedAccessExtensionArray );
 $selectedExtensions           = array_unique( $selectedExtensions );
+
+if ( $module->isCurrentAction( 'GenerateAutoloadArrays' ) )
+{
+    $inactiveExtensions = array_diff( $availableExtensionArray, $selectedExtensions );
+    $excludeArray = array();
+    foreach ( $inactiveExtensions as $ext )
+    {
+        $excludeArray[] = $extensionDir . DIRECTORY_SEPARATOR . $ext;
+    }
+
+    $autoloadGenerator = new eZAutoloadGenerator( getcwd(),
+                                                  false,
+                                                  true,
+                                                  false,
+                                                  true,
+                                                  false,
+                                                  $excludeArray );
+    try {
+        $autoloadGenerator->buildAutoloadArrays();
+    } catch (Exception $e) {
+        eZDebug::writeError( $e->getMessage() );
+    }
+
+}
 
 $tpl->setVariable( "available_extension_array", $availableExtensionArray );
 $tpl->setVariable( "selected_extension_array", $selectedExtensions );
