@@ -347,7 +347,7 @@ if ( !$options['no-verify-branches'] )
 
 // Figure out the current branch, we do not want to export it
 //include_once( 'lib/version.php' );
-$currentBranch = EZ_SDK_VERSION_MAJOR . '.' . EZ_SDK_VERSION_MINOR;
+$currentBranch = eZPublishSDK::VERSION_MAJOR . '.' . eZPublishSDK::VERSION_MINOR;
 
 foreach ( $dbTypes as $dbType )
 {
