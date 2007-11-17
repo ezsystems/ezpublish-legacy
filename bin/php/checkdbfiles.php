@@ -53,9 +53,10 @@ $script = eZScript::instance( array( 'description' => ( "eZ Publish DB file veri
 
 $script->startup();
 
-$options = $script->getOptions( "[no-verify-branches]",
+$options = $script->getOptions( "[no-verify-branches][export-path:]",
                                 "",
-                                array( 'no-verify-branches' => "Do not verify the content of the files with previous branches (To avoid SVN usage)"
+                                array( 'no-verify-branches' => "Do not verify the content of the files with previous branches (To avoid SVN usage)",
+                                       'export-path' => "Directory to use for doing SVN exports."
                                        ) );
 $script->initialize();
 
@@ -309,7 +310,7 @@ function exportSVNVersion( $version, $exportPath )
     if ( file_exists( $versionPath ) )
         return true;
 
-    $svn = "svn export http://svn.ez.no/svn/ezpublish/stable/$version/update/database '$versionPath'";
+    $svn = "svn export http://svn.ez.no/svn/ezpublish/stable/$version/update/database \"$versionPath\"";
     exec( $svn, $output, $code );
     if ( $code != 0 )
     {
@@ -330,12 +331,20 @@ if ( !function_exists( 'md5_file' ) )
 if ( !$options['no-verify-branches'] )
 {
     // Clean up the export path and/or recreate the directory path
-    $exportPath = '/tmp/';
-    if ( isset( $_SERVER['TMPDIR'] ) )
-        $exportPath = $_SERVER['TMPDIR'] . '/';
-    if ( isset( $_SERVER['USER'] ) )
-        $exportPath .= "ez-" . $_SERVER['USER'];
-    $exportPath .= "/dbupdate-check/";
+    if ( $options['export-path'] )
+    {
+        $exportPath = $options['export-path'];
+    }
+    else
+    {
+        $exportPath = '/tmp/';
+        if ( isset( $_SERVER['TMPDIR'] ) )
+            $exportPath = $_SERVER['TMPDIR'] . '/';
+        if ( isset( $_SERVER['USER'] ) )
+            $exportPath .= "ez-" . $_SERVER['USER'];
+        $exportPath .= "/dbupdate-check/";
+    }
+
     if ( file_exists( $exportPath ) )
     {
         //include_once( 'lib/ezfile/classes/ezdir.php' );
