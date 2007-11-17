@@ -2,6 +2,7 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 
 *Kernel:
 - Implemented enhancement #11596: ez4: compat.php cleanup
+- Implemented enhancement #11660: Add mysqli to database selection in setup wizard.
 - Implemented enhancement #11792: ezpgenerateautoloads.php requires php-pear Structures/Graph
 - Implemented enhancement #11718: eZModuleFunctionInfo - remove 'include_file' dependency
 - Implemented enhancement #11809: Optimization of name pattern handling
@@ -45,20 +46,20 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
   (Merged from stable/3.10 (3.10.1) rev. 20572)
 - Fixed bug #11747: Warning about unknown sort order on preview.
   (Merged from stable/3.10 (3.10.1) rev. 20577)
-- Fixed issue #11770: Multiple PHP warnings while editing workflows.
-- Fixed issue #11547: PHP functions behind template fetch functions that are called statically
-- Fixed issue #11552: eZWorkflow::fetchEvents and eZWorkflow::fetchEventCount should be either static or instance methods
-- Fixed issue #11773: Notice: Undefined variable: Module in /home/hovik/dev/trunk/lib/ezutils/classes/ezmodule.php on line 84
-- Fixed issue #11615: Unused QUERY_LIMIT constant in update/common/scripts/3.10/updatemultioption.php.
-- Fixed issue #11661: updatemultioption.php CLI script has wrong description.
-- Fixed issue #11771: PHP warnings using triggers.
+- Fixed bug #11770: Multiple PHP warnings while editing workflows.
+- Fixed bug #11547: PHP functions behind template fetch functions that are called statically
+- Fixed bug #11552: eZWorkflow::fetchEvents and eZWorkflow::fetchEventCount should be either static or instance methods
+- Fixed bug #11773: Notice: Undefined variable: Module in /home/hovik/dev/trunk/lib/ezutils/classes/ezmodule.php on line 84
+- Fixed bug #11615: Unused QUERY_LIMIT constant in update/common/scripts/3.10/updatemultioption.php.
+- Fixed bug #11661: updatemultioption.php CLI script has wrong description.
+- Fixed bug #11771: PHP warnings using triggers.
 - Fixed bug #11775: wrong path to ezpopupmenu.js in standard template popup_menu.tpl
 - Fixed bug #11776: SQL error with contentclass_serialized_name_list with ezoracle.
   (Merged from stable/3.9 (3.9.5) rev. 20592)
 - Fixed bug #11765: settings_validation.tpl: malformed XML
 - Fixed bug #11785: Template look class missing info in language matrix
 - Fixed bug #11774: versionview dosn't work if versionread is asigned with limitation
-- Fixed issue #11802: Syntax error in ezusersetting.php.
+- Fixed bug #11802: Syntax error in ezusersetting.php.
 - Fixed bug #9124: edit language choice form has wrong ui_context
 - Fixed bug #10473: Unable to use 'column' parameter in $db->arrayQuery
 - Fixed bug #11781: draft - object name are not update
@@ -76,7 +77,6 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #11571: eZSys functions should be either static or dynamic.
 - Fixed bug #11657: Warning: No template could be loaded for "content/datatype/view/ezxmltags/separator.tpl"
 - Fixed bug #11651: ezp4 Strict warnings.
-- Fixed issue #11660: Add mysqli to database selection in setup wizard.
 - Fixed bug #11143: language selection in setup wizard doesn't work correctly with Firefox
 - Fixed bug #11570: eZMimeType::findByName and eZMimeType::findByURL should be
   either static or instance methods
@@ -104,7 +104,7 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #11751: Call to a member function pathWithNames() on a non-object (notification/settings)
 - Fixed bug #11938: Missing summary attribute on templateusage html table
 - Fixed bug #11630: error wile creating/updating objects with oracle db (in ezpersistentobject::store).
-- Fixed bug #011924: updatetypedrelation.php is not compatible with oracle.
+- Fixed bug #11924: updatetypedrelation.php is not compatible with oracle.
   (Merged from stable/3.9 (3.9.5) rev. 20733).
 - Fixed bug #8172: mysql/kernel_schema.sql forces TYPE=MyISAM
 - Fixed bug #11912: In non Virtual Host mode url is encoded incorrectly
