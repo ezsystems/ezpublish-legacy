@@ -865,7 +865,7 @@ class eZContentObjectVersion extends eZPersistentObject
         $row = array(
             "contentobject_id" => $contentobjectID,
             'initial_language_id' => $initialLanguageID,
-            'language_mask' => 0,
+            'language_mask' => $initialLanguageID,
             "version" => $version,
             "created" => $time,
             "modified" => $time,
