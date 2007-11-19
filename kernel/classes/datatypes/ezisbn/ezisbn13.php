@@ -168,7 +168,7 @@ class eZISBN13
         if ( $isbnNr !== false )
         {
             $formatedISBN13 = preg_replace( "/[\s|\-]+/", "-", $isbnNr );
-            $status = $this->extractISBNNumber( $isbnNr, &$error );
+            $status = $this->extractISBNNumber( $isbnNr, $error );
 
             if ( $status === false )
             {
