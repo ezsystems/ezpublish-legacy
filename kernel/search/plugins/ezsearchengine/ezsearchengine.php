@@ -1205,7 +1205,7 @@ class eZSearchEngine
                         } break;
                         case 'class_name':
                         {
-                            include_once( 'kernel/classes/ezcontentobjectname.php' );
+                            include_once( 'kernel/classes/ezcontentclassname.php' );
                             $classNameFilter = eZContentClassName::sqlFilter();
                             $sortingFields .= $classNameFilter['nameField'];
                             $attributeFromSQL .= ", $classNameFilter[from]";
