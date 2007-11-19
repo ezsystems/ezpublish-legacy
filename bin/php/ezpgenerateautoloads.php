@@ -104,7 +104,7 @@ $autoloadGenerator = new eZAutoloadGenerator( getcwd(),
 try {
     $autoloadGenerator->buildAutoloadArrays();
 } catch (Exception $e) {
-    echo $e->getMessage();
+    echo $e->getMessage() . "\n";
 }
 
 ?>

@@ -103,12 +103,16 @@ class eZAutoloadGenerator
      * $outputDir is the directory into which the autoload arrays should be
      * written, defaults to 'autoload'
      *
+     * $excludeDirs are the arrays which should not be included in the search
+     * for PHP classes.
+     *
      * @param string $basePath
      * @param bool $searchKernelFiles
      * @param bool $searchExtensionFiles
      * @param bool $verboseOutput
      * @param bool $writeFiles
      * @param string $outputDir
+     * @param array $excludeDirs
      */
     function __construct( $basePath, $searchKernelFiles, $searchExtensionFiles, $verboseOutput = false, $writeFiles = true, $outputDir = false, $excludeDirs = false )
     {
@@ -134,6 +138,7 @@ class eZAutoloadGenerator
     /**
      * Searches specified directories for classes, and build autoload arrays.
      *
+     * @throws Exception if desired output directory is not a directory, or if the autoload arrays are not writeable by the script.
      * @return void
      */
     public function buildAutoloadArrays()
@@ -162,7 +167,7 @@ class eZAutoloadGenerator
                 // Check the targetDir
                 if( file_exists( $this->outputDir ) && !is_dir( $this->outputDir ) )
                 {
-                    throw new Exception("Specified target: {$this->outputDir} is not a directory.");
+                    throw new Exception( "Specified target: {$this->outputDir} is not a directory." );
                 }
                 elseif ( !file_exists( $this->outputDir ) )
                 {
@@ -181,7 +186,7 @@ class eZAutoloadGenerator
                 }
                 else
                 {
-                    eZDebug::writeError( "The file {$filePath} is not writable by the system.", __CLASS__ . ' : ' . __FUNCTION__ );
+                    throw new Exception( __CLASS__ . ' - ' . __FUNCTION__ . ": The file {$filePath} is not writable by the system." );
                 }
             }
         }
