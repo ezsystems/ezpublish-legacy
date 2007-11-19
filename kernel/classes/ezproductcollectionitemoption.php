@@ -93,7 +93,7 @@ class eZProductCollectionItemOption extends eZPersistentObject
                       "name" => "ezproductcollection_item_opt" );
     }
 
-    function create( $productCollectionItemID, $optionItemID, $optionName, $optionValue, $optionPrice, $attributeID )
+    static function create( $productCollectionItemID, $optionItemID, $optionName, $optionValue, $optionPrice, $attributeID )
     {
         $row = array( 'item_id' => $productCollectionItemID,
                       'option_item_id' => $optionItemID,
