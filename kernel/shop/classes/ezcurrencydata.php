@@ -304,8 +304,8 @@ class eZCurrencyData extends eZPersistentObject
         if ( is_string( $statusString ) )
         {
             $statusString = strtoupper( $statusString );
-            if ( defined( "self::EZ_CURRENCYDATA_STATUS_{$statusString}" ) )
-                $status = constant( "self::EZ_CURRENCYDATA_STATUS_{$statusString}" );
+            if ( defined( "self::STATUS_{$statusString}" ) )
+                $status = constant( "self::STATUS_{$statusString}" );
         }
 
         return $status;
