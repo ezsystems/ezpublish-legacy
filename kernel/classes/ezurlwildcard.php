@@ -266,7 +266,7 @@ class eZURLWildcard extends eZPersistentObject
         if ( $handler->hasTimestamp( eZURLWildcard::EZ_URLWILDCARD_CACHE_SIGNATURE ) )
         {
             $expiryTime = $handler->timestamp( eZURLWildcard::EZ_URLWILDCARD_CACHE_SIGNATURE );
-            if ( $expiryTime > $timestamp )
+            if ( $expiryTime >= $timestamp )
                 $expired = true;
         }
 
