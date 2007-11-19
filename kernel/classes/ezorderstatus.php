@@ -165,7 +165,7 @@ class eZOrderStatus extends eZPersistentObject
      \param $showInactive If \c true it will include status items that are not active, default is \c false.
      \return A list of defined orders which maps from the status ID to the object.
     */
-    function fetchMap( $asObject = true, $showInactive = false )
+    static function fetchMap( $asObject = true, $showInactive = false )
     {
         if ( empty( $GLOBALS['eZOrderStatusMap'][$asObject][$showInactive] ) )
         {
@@ -227,7 +227,7 @@ class eZOrderStatus extends eZPersistentObject
      \param $showInactive If \c true it will include status items that are not active, default is \c false.
      \return A list of defined orders sorted by status ID.
     */
-    function fetchPolicyList( $showInactive = false )
+    static function fetchPolicyList( $showInactive = false )
     {
         $db = eZDB::instance();
 
@@ -264,7 +264,7 @@ class eZOrderStatus extends eZPersistentObject
     /*!
      \return the number of active order statuses
     */
-    function orderStatusCount( $showInactive = false )
+    static function orderStatusCount( $showInactive = false )
     {
         $db = eZDB::instance();
 
@@ -302,7 +302,7 @@ class eZOrderStatus extends eZPersistentObject
      \static
      Creates a new order status and returns it.
     */
-    function create()
+    static function create()
     {
         $row = array(
             'id' => null,
@@ -317,7 +317,7 @@ class eZOrderStatus extends eZPersistentObject
      This can be used whenever code expects a status object to work with.
      \return The newly created status object.
     */
-    function createUndefined()
+    static function createUndefined()
     {
         if ( empty( $GLOBALS['eZOrderStatusUndefined'] ) )
         {
