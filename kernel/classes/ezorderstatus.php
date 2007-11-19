@@ -125,7 +125,7 @@ class eZOrderStatus extends eZPersistentObject
      \static
      Flushes all global caches for the statuses.
     */
-    function flush()
+    static function flush()
     {
         unset( $GLOBALS['eZOrderStatusList'],
                $GLOBALS['eZOrderStatusOList'],
