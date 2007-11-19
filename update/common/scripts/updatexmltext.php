@@ -151,7 +151,7 @@ function findAndReplaceLinks( $doc, $node )
                 {
                     $hrefAttribute = $linkAttribute;
                 }
-                else if ( $linkAttribute->name == 'id' )
+                else if ( $linkAttribute->name == 'url_id' )
                 {
                     $idAttribute = $linkAttribute;
                 }
@@ -183,7 +183,7 @@ function findAndReplaceLinks( $doc, $node )
                     $urlRefMap[$href] = $url;
                     $urlIDMap[$urlID] = $url;
                 }
-                $child->setAttribute( 'id', $url->attribute( 'id' ) );
+                $child->setAttribute( 'url_id', $url->attribute( 'id' ) );
                 $child->removeAttribute( 'href' );
                 $foundLinks = true;
             }
