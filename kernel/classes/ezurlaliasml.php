@@ -446,7 +446,7 @@ class eZURLAliasML extends eZPersistentObject
                 $element = eZURLAliasML::convertToAlias( $element, 'noname' . (count($createdPath)+1) );
             $elementStr = $db->escapeString( eZURLALiasML::strtolower( $element ) );
 
-            $query = "SELECT * FROM ezurlalias_ml WHERE text_md5 = " . $db->md5( "'$elementStr'" ) . " AND parent = {$parentID}";
+            $query = "SELECT * FROM ezurlalias_ml WHERE text_md5 = " . eZURLALiasML::md5( $db, $elementStr, false ) . " AND parent = {$parentID}";
             $rows = $db->arrayQuery( $query );
             if ( count( $rows ) == 0 )
             {
@@ -516,7 +516,7 @@ class eZURLAliasML extends eZPersistentObject
                 $newText = $topElement;
                 if ( $uniqueCounter > 0 )
                     $newText .= ($uniqueCounter + 1);
-                $textMD5 = $db->md5( "'" . $db->escapeString( eZURLAliasML::strtolower( $newText ) ) . "'" );
+                $textMD5 = eZURLALiasML::md5( $db, $newText );
 
                 $query = "SELECT * FROM ezurlalias_ml WHERE parent = $parentID AND text_md5 = {$textMD5}";
                 $rows = $db->arrayQuery( $query );
@@ -614,7 +614,7 @@ class eZURLAliasML extends eZPersistentObject
                     $db->unlock();
                 }
                 $parentIDTmp = (int)$row['parent'];
-                $textMD5Tmp = $db->md5( "'" . $db->escapeString( eZURLAliasML::strtolower( $row['text'] ) ) . "'" );
+                $textMD5Tmp = eZURLALiasML::md5( $db, $row['text'] );
                 $res = $db->query( "UPDATE ezurlalias_ml SET id = {$idtmp}, link = {$newElementID}, lang_mask = 1, is_alias = 0, is_original = 0\n" .
                                    "WHERE parent = {$parentIDTmp} AND text_md5 = {$textMD5Tmp}" );
                 if ( !$res ) return eZURLAliasML::dbError( $db );
@@ -711,7 +711,7 @@ class eZURLAliasML extends eZPersistentObject
                 $newText = $topElement;
                 if ( $uniqueCounter > 0 )
                     $newText .= ($uniqueCounter + 1);
-                $textMD5 = $db->md5( "'" . $db->escapeString( eZURLAliasML::strtolower( $newText ) ) . "'" );
+                $textMD5 = eZURLALiasML::md5( $db, $newText );
 
                 $query = "SELECT * FROM ezurlalias_ml WHERE parent = $parentID AND text_md5 = {$textMD5}";
                 $rows = $db->arrayQuery( $query );
@@ -1411,11 +1411,11 @@ class eZURLAliasML extends eZPersistentObject
             $langMask = trim( eZContentLanguage::languagesSQLFilter( $table, 'lang_mask' ) );
             if ( $i == 0 )
             {
-                $conds[]   = "{$table}.parent = 0 AND ({$langMask}) AND {$table}.text_md5 = " . $db->md5( "'" . $db->escapeString( eZURLALiasML::strtolower( $element ) ) . "'" );
+                $conds[]   = "{$table}.parent = 0 AND ({$langMask}) AND {$table}.text_md5 = " . eZURLALiasML::md5( $db, $element );
             }
             else
             {
-                $conds[]   = "{$table}.parent = {$prevTable}.link AND ({$langMask}) AND {$table}.text_md5 = " . $db->md5( "'" . $db->escapeString( eZURLALiasML::strtolower( $element ) ) . "'" );
+                $conds[]   = "{$table}.parent = {$prevTable}.link AND ({$langMask}) AND {$table}.text_md5 = " . eZURLALiasML::md5( $db, $element );
             }
             $prevTable = $table;
             ++$i;
@@ -1647,7 +1647,7 @@ class eZURLAliasML extends eZPersistentObject
         // Loop until we find a unique name
         while ( true )
         {
-            $textEsc = $db->md5( "'" . $db->escapeString( eZURLALiasML::strtolower( $text . $suffix ) ) . "'" );
+            $textEsc = eZURLALiasML::md5( $db, $text . $suffix );
             $query = "SELECT * FROM ezurlalias_ml WHERE parent = $parentElementID $actionSQL $languageSQL AND text_md5 = $textEsc";
             if ( !$linkCheck )
             {
@@ -1945,11 +1945,11 @@ class eZURLAliasML extends eZPersistentObject
         $db =& eZDB::instance();
         if ( $i == 0 )
         {
-            $cond = "{$table}.parent = 0 AND ({$langMask}) AND {$table}.text_md5 = " . $db->md5( "'" . $db->escapeString( eZURLALiasML::strtolower( $element ) ) . "'" );
+            $cond = "{$table}.parent = 0 AND ({$langMask}) AND {$table}.text_md5 = " . eZURLALiasML::md5( $db, $element );
         }
         else
         {
-            $cond = "{$table}.parent = {$prevTable}.link AND ({$langMask}) AND {$table}.text_md5 = " . $db->md5( "'" . $db->escapeString( eZURLALiasML::strtolower( $element ) ) . "'" );
+            $cond = "{$table}.parent = {$prevTable}.link AND ({$langMask}) AND {$table}.text_md5 = " . eZURLALiasML::md5( $db, $element );
         }
         return $cond;
     }
@@ -2088,6 +2088,25 @@ class eZURLAliasML extends eZPersistentObject
             $nodeID = substr( $action, strlen( 'eznode:' ) );
 
         return $nodeID;
+    }
+
+    /*!
+     \static
+     Wraps a database md5 call around the string $text and returns the new SQL for it.
+
+     \param $escape If true it will lowercase the text and escape it.
+     \note If the database is Oracle and the text is empty the MD5 is computed by PHP
+           and returned.
+     */
+    function md5( &$db, $text, $escape = true )
+    {
+        // Special case for Oracle since it cannot calculate MD5 for empty strings
+        if ( strlen( $text ) == 0 && $db->databaseName() == 'oracle' )
+            return "'" . $db->escapeString( md5( $text ) ) . "'";
+
+        if ( $escape )
+            $text = $db->escapeString( eZURLAliasML::strtolower( $text ) );
+        return $db->md5( "'" . $text . "'" );
     }
 
 }
