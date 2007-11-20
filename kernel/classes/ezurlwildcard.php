@@ -342,7 +342,6 @@ class eZURLWildcard extends eZPersistentObject
                     }
 
                     // try to tranlsate
-                    //$translatedUriString = $uriString;
                     if ( $urlTranslated = eZURLAliasML::translate( $uriString ) )
                     {
                         // success
