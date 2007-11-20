@@ -1,7 +1,7 @@
 <?php /* #?ini charset="iso-8859-1"?
 
 
-# eZ publish configuration file.
+# eZ Publish configuration file.
 #
 # NOTE: It is not recommended to edit this files directly, instead
 #       a new siteacces should be made to suit your needs.
