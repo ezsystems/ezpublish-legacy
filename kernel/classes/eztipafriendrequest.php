@@ -4,7 +4,6 @@
 //
 // Created on: <16-Dec-2004 17:25:49 sp>
 //
-
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ Publish
 // SOFTWARE RELEASE: 4.0.x
