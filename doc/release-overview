@@ -901,3 +901,9 @@ Datatype branch:
 - Revision=20336
 - Version url=http://svn.ez.no/svn/ezpublish/versions/3.10.0
 - Date 02-Oct-2007
+
+4.0.0beta1:
+- From revision=20805
+- Revision=20810
+- Version url=http://svn.ez.no/svn/ezpublish/versions/4.0.0beta1
+- Date 19-Nov-2007
