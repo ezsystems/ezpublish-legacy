@@ -253,8 +253,8 @@ for FILE in $FILES; do
 #     want to process rest of the file.
 # if 'current_line' doesn't start with '//' then it's useful code - output without modifications.
 # if 'current_line' starts with '// ## BEGIN' - remove it
-# if 'SOFTWARE NAME' is 'eZ publish' then we're allowed to change release number
-# if 'SOFTWARE NAME' is 'eZ publish' or 'Online Editor' then we're allowed to change license notes.
+# if 'SOFTWARE NAME' is 'eZ Publish' then we're allowed to change release number
+# if 'SOFTWARE NAME' is 'eZ Publish' or 'Online Editor' then we're allowed to change license notes.
 # if 'current_line' is 'SOFTWARE RELEASE' and we're allowed to change it - change it
 # if 'current_line' is 'SOFTWARE LICENSE' and we're allowed to change it - change it
 # if 'current_line' is 'NOTICE: >' and we're allowed to change it - print new notice and start removing current notice,
@@ -281,7 +281,7 @@ for FILE in $FILES; do
               }
          } \
          /\/\/ ## BEGIN/ {next} \
-         /SOFTWARE NAME: eZ publish/ {can_change_license = 1;
+         /SOFTWARE NAME: eZ Publish/ {can_change_license = 1;
                                       can_change_release = 1;
                                       can_change_revision = 1;
                                       can_change_copyright = 1;
