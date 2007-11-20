@@ -32,7 +32,7 @@
 require 'autoload.php';
 
 $cli = eZCLI::instance();
-$script = eZScript::instance( array( 'description' => ( "eZ publish Cache Handler\n" .
+$script = eZScript::instance( array( 'description' => ( "eZ Publish Cache Handler\n" .
                                                         "Allows for easy clearing of Cache files\n" .
                                                         "\n" .
                                                         "./bin/php/ezcache.php --clear-tag=content" ),

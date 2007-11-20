@@ -397,7 +397,7 @@ function ezdist_db_init_postgresql_from_defaults
 }
 
 # Prepares shell parameters from the current MySQL settings
-# It prepares the various PARAM_EZ_MYSQL_* parameters for eZ publish scripts
+# It prepares the various PARAM_EZ_MYSQL_* parameters for eZ Publish scripts
 # and PARAM_MYSQL_* for mysql commands as well
 # as the handy PARAM_EZ_MYSQL_ALL and PARAM_MYSQL_ALL
 function ezdist_mysql_prepare_params
@@ -539,7 +539,7 @@ function ezdist_db_prepare_params_from_postgresql
 }
 
 # Prepares shell parameters from the current PostgreSQL settings
-# It prepares the various PARAM_EZ_POSTGRESQL_* parameters for eZ publish scripts
+# It prepares the various PARAM_EZ_POSTGRESQL_* parameters for eZ Publish scripts
 # and PARAM_POSTGRESQL_* for psql commands as well
 # as the handy PARAM_EZ_POSTGRESQL_ALL and PARAM_POSTGRESQL_ALL
 function ezdist_postgresql_prepare_params

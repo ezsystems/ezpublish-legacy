@@ -358,9 +358,9 @@ if( downloadPackages( $packageList, $packageURL, $packageDir, $packageRepository
                                                                   'attributes_data' => $templateLookData ) );
 
 
-            $siteInstaller->swapNodes( array( 'src_node' => array( 'name' => "eZ publish" ),
+            $siteInstaller->swapNodes( array( 'src_node' => array( 'name' => "eZ Publish" ),
                                               'dst_node' => array( 'name' => "Home" ) ) );
-            $siteInstaller->removeContentObject( array( 'name' => 'eZ publish' ) );
+            $siteInstaller->removeContentObject( array( 'name' => 'eZ Publish' ) );
 
             $webinInstaller->postInstall();
         }

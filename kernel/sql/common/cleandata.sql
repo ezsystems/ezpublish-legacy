@@ -3308,7 +3308,7 @@ INSERT INTO ezcontentobject (
   0,
   3,
   1101387881,
-  'eZ publish',
+  'eZ Publish',
   14,
   1033917596,
   '9459d3c29e15006e45197295722c7ade',
@@ -3714,7 +3714,7 @@ INSERT INTO ezcontentobject (
   0,
   2,
   1082016652,
-  'eZ publish',
+  'eZ Publish',
   14,
   1082016652,
   '8b8b22fe3c6061ed500fbd2b377b885f',
@@ -5337,7 +5337,7 @@ INSERT INTO ezcontentobject_attribute (
   54,
   0,
   0,
-  'eZ publish',
+  'eZ Publish',
   'ezinisetting',
   170,
   'eng-GB',
@@ -5656,7 +5656,7 @@ INSERT INTO ezcontentobject_attribute (
   1,
   0,
   0,
-  'Welcome to eZ publish',
+  'Welcome to eZ Publish',
   'ezstring',
   1,
   'eng-GB',
@@ -5685,7 +5685,7 @@ INSERT INTO ezcontentobject_attribute (
   1,
   0,
   0,
-  'eZ publish',
+  'eZ Publish',
   'ezstring',
   102,
   'eng-GB',
@@ -5714,7 +5714,7 @@ INSERT INTO ezcontentobject_attribute (
   1,
   0,
   1045487555,
-  '<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<section xmlns:image=\"http://ez.no/namespaces/ezpublish3/image/\"\n         xmlns:xhtml=\"http://ez.no/namespaces/ezpublish3/xhtml/\"\n         xmlns:custom=\"http://ez.no/namespaces/ezpublish3/custom/\">\n  <paragraph>eZ publish is a popular open source content management system and development framework. It allows the development of professional, customized and dynamic web solutions. It can be used to build anything from a personal homepage to a multinational corporate website with role based multiuser access, online shopping, discussion forums and other advanced functionality. In addition, because of its open nature, eZ publish can easily be plugged into, communicate and coexist with existing IT-solutions.</paragraph>\n</section>',
+  '<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<section xmlns:image=\"http://ez.no/namespaces/ezpublish3/image/\"\n         xmlns:xhtml=\"http://ez.no/namespaces/ezpublish3/xhtml/\"\n         xmlns:custom=\"http://ez.no/namespaces/ezpublish3/custom/\">\n  <paragraph>eZ Publish is a popular open source content management system and development framework. It allows the development of professional, customized and dynamic web solutions. It can be used to build anything from a personal homepage to a multinational corporate website with role based multiuser access, online shopping, discussion forums and other advanced functionality. In addition, because of its open nature, eZ Publish can easily be plugged into, communicate and coexist with existing IT-solutions.</paragraph>\n</section>',
   'ezxmltext',
   2,
   'eng-GB',
@@ -5743,7 +5743,7 @@ INSERT INTO ezcontentobject_attribute (
   1,
   0,
   1045487555,
-  '<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<section xmlns:image=\"http://ez.no/namespaces/ezpublish3/image/\"\n         xmlns:xhtml=\"http://ez.no/namespaces/ezpublish3/xhtml/\"\n         xmlns:custom=\"http://ez.no/namespaces/ezpublish3/custom/\">\n  <section>\n    <header>Documentation and guidance</header>\n    <paragraph>The \n      <link target=\"_blank\"\n            url_id=\"1\">eZ publish documentation</link> covers common topics related to the setup and daily use of the eZ publish content management system/framework. In addition, it also covers some advanced topics. People who are unfamiliar with eZ publish should at least read the &quot;eZ publish basics&quot; chapter.</paragraph>\n    <paragraph>If you&apos;re unable to find an answer/solution to a specific question/problem within the documentation pages, you should make use of the official \n      <link target=\"_blank\"\n            url_id=\"4\">eZ publish forum</link>. People who need professional help should purchase \n      <link target=\"_blank\"\n            url_id=\"5\">support</link> or \n      <link target=\"_blank\"\n            url_id=\"6\">consulting</link> services. It is also possible to sign up for various \n      <link target=\"_blank\"\n            url_id=\"7\">training sessions</link>.</paragraph>\n    <paragraph>\n      <line>For more information about eZ publish and other products/services from eZ systems, please visit \n        <link target=\"_blank\"\n              url_id=\"8\">ez.no</link>.</line>\n    </paragraph>\n  </section>\n</section>',
+  '<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<section xmlns:image=\"http://ez.no/namespaces/ezpublish3/image/\"\n         xmlns:xhtml=\"http://ez.no/namespaces/ezpublish3/xhtml/\"\n         xmlns:custom=\"http://ez.no/namespaces/ezpublish3/custom/\">\n  <section>\n    <header>Documentation and guidance</header>\n    <paragraph>The \n      <link target=\"_blank\"\n            url_id=\"1\">eZ Publish documentation</link> covers common topics related to the setup and daily use of the eZ Publish content management system/framework. In addition, it also covers some advanced topics. People who are unfamiliar with eZ Publish should at least read the &quot;eZ Publish basics&quot; chapter.</paragraph>\n    <paragraph>If you&apos;re unable to find an answer/solution to a specific question/problem within the documentation pages, you should make use of the official \n      <link target=\"_blank\"\n            url_id=\"4\">eZ Publish forum</link>. People who need professional help should purchase \n      <link target=\"_blank\"\n            url_id=\"5\">support</link> or \n      <link target=\"_blank\"\n            url_id=\"6\">consulting</link> services. It is also possible to sign up for various \n      <link target=\"_blank\"\n            url_id=\"7\">training sessions</link>.</paragraph>\n    <paragraph>\n      <line>For more information about eZ Publish and other products/services from eZ systems, please visit \n        <link target=\"_blank\"\n              url_id=\"8\">ez.no</link>.</line>\n    </paragraph>\n  </section>\n</section>',
   'ezxmltext',
   104,
   'eng-GB',
@@ -6164,7 +6164,7 @@ INSERT INTO ezcontentobject_name (
   1,
   54,
   2,
-  'eZ publish',
+  'eZ Publish',
   'eng-GB'
 );
 INSERT INTO ezcontentobject_name (
@@ -6179,7 +6179,7 @@ INSERT INTO ezcontentobject_name (
   2,
   1,
   2,
-  'eZ publish',
+  'eZ Publish',
   'eng-GB'
 );
 INSERT INTO ezcontentobject_name (
@@ -6194,7 +6194,7 @@ INSERT INTO ezcontentobject_name (
   3,
   1,
   3,
-  'eZ publish',
+  'eZ Publish',
   'eng-GB'
 );
 INSERT INTO ezcontentobject_name (

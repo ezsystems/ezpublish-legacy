@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Script to find bad PHP files and print them out
 

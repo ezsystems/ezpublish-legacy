@@ -6,7 +6,7 @@
 //
 // Copyright (C) 1999-2005 eZ systems as. All rights reserved.
 //
-// This source file is part of the eZ publish (tm) Open Source Content
+// This source file is part of the eZ Publish (tm) Open Source Content
 // Management System.
 //
 // This file may be distributed and/or modified under the terms of the
@@ -14,15 +14,15 @@
 // Software Foundation and appearing in the file LICENSE included in
 // the packaging of this file.
 //
-// Licencees holding a valid "eZ publish professional licence" version 2
-// may use this file in accordance with the "eZ publish professional licence"
+// Licencees holding a valid "eZ Publish professional licence" version 2
+// may use this file in accordance with the "eZ Publish professional licence"
 // version 2 Agreement provided with the Software.
 //
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING
 // THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE.
 //
-// The "eZ publish professional licence" version 2 is available at
+// The "eZ Publish professional licence" version 2 is available at
 // http://ez.no/ez_publish/licences/professional/ and in the file
 // PROFESSIONAL_LICENCE included in the packaging of this file.
 // For pricing of this licence please contact us via e-mail to licence@ez.no.

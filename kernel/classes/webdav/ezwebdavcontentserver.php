@@ -47,7 +47,7 @@ require_once( 'access.php' );
 class eZWebDAVContentServer extends eZWebDAVServer
 {
     const WEBDAV_INI_FILE = "webdav.ini";
-    const WEBDAV_AUTH_REALM = "eZ publish WebDAV interface";
+    const WEBDAV_AUTH_REALM = "eZ Publish WebDAV interface";
     const WEBDAV_AUTH_FAILED = "Invalid username or password!";
     const WEBDAV_INVALID_SITE = "Invalid site name specified!";
     const WEBDAV_DISABLED = "WebDAV functionality is disabled!";

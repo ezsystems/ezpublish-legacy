@@ -39,12 +39,12 @@
   - Multilevel popupmenu
   - Supports all major browsers
   - All HTML code in template
-  - Supports context sensitivity for eZ publish through:
+  - Supports context sensitivity for eZ Publish through:
      - String substitution in the href attribute of menuitems.
      - Form submital with string substitution.
 
   Currenty not supported but possible if requested:
-  - Dynamic building of menus based on eZ publish content.
+  - Dynamic building of menus based on eZ Publish content.
 
  Public interface:
 ezpopmenu_showTopLevel - This method opens a new top-level popupmenu.
@@ -57,7 +57,7 @@ In order to use the popupmenu javascript you need to provide:
 1. The HTML/CSS structure for you menu(s)
 2. The menuArray javascript array containing the configuration of your popupmenu(s).
 
-eZ publish provides a default template for this purpose. It is located in popupmenu/popup_menu.tpl. You are encouraged to override this file in the siteacess where you want to use the menu.
+eZ Publish provides a default template for this purpose. It is located in popupmenu/popup_menu.tpl. You are encouraged to override this file in the siteacess where you want to use the menu.
 
  1. Setting up the HTML/CSS structure for your popup menu(s).
  Your menu should be set up completely with all elements. The following requirements apply:

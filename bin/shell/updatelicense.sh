@@ -11,7 +11,7 @@ function show_help
     echo "         --license-type=<type>      What license should be used: gpl(default), pul_v1"
     echo "         --licenses-dir=<dir>       Location of licenses files"
     echo "         --target-dir=<dir>         Location of phps to update"
-    #echo "         --name=<name>              Name: eZ publish"
+    #echo "         --name=<name>              Name: eZ Publish"
     echo "         --revision=<rev>           Revision number: 12345"
     echo "         --version=<version>        Version: 3.7.3"
     echo

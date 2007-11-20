@@ -1080,7 +1080,7 @@ class eZLocale
      \static
      Transforms the date/time string \a $fmt into a string that can be
      passed to the PHP function 'date'.
-     \param $fmt An eZ publish locale format, %x means a 'formatting character' from PHPs 'date' function.
+     \param $fmt An eZ Publish locale format, %x means a 'formatting character' from PHPs 'date' function.
      \param $allowed An array with characters that are considered allowed 'formatting characters'
                      Any character not found in this array will be kept intact by escaping it.
      \sa http://www.php.net/manual/en/function.date.php

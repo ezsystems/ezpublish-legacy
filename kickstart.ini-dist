@@ -14,7 +14,7 @@
 # Initialization:
 #
 # Copy this file as kickstart.ini to the root of your
-# eZ publish installation to enable this functionality.
+# eZ Publish installation to enable this functionality.
 #
 # Installation Steps:
 #
@@ -65,7 +65,7 @@
 #
 # Remove all leading whitespaces from uncommented
 # configuration blocks or parameters - otherwise the
-# settings will not be read properly by eZ publish.
+# settings will not be read properly by eZ Publish.
 #
 # Do not mix up optional parameter values and configuration
 # blocks, just because both use squared brackets! Optional
@@ -123,7 +123,7 @@
 ## Which password should be used for user
 #Password=
 ## Socket=<socket-path>
-## Path to socket or empty for no socket 
+## Path to socket or empty for no socket
 #Socket=
 
 #[language_options]

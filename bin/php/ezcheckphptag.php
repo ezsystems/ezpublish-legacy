@@ -33,7 +33,7 @@
 require 'autoload.php';
 
 $cli = eZCLI::instance();
-$script = eZScript::instance( array( 'description' => ( "eZ publish PHP tag checker\n\n" .
+$script = eZScript::instance( array( 'description' => ( "eZ Publish PHP tag checker\n\n" .
                                                          "Checks for characters before the PHP start tag and after the PHP end tag\n" .
                                                          "and sets exit code based on the result\n" .
                                                          "PATH can either be a file or a directory\n" .

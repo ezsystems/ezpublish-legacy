@@ -18,7 +18,7 @@ if [ ! -f "index.php" -a \
      ! -d "lib" -a \
      ! -d "kernel" ] ; then
      echo "You seem to be in the wrong directory"
-     echo "Place yourself in the eZ publish 3 root directory and run ./bin/modfix.sh"
+     echo "Place yourself in the eZ Publish 4 root directory and run ./bin/modfix.sh"
      exit 1
 fi
 
@@ -78,7 +78,7 @@ LOGFILES="error.log warning.log notice.log debug.log"
 for LOGFILE in $LOGFILES; do
     LOGPATH="var/log/$LOGFILE"
     if [ -f $LOGPATH ]; then
-	chmod $FILE_MODE $LOGPATH
+    chmod $FILE_MODE $LOGPATH
     fi
 done
 

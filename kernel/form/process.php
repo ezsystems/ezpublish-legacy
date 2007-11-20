@@ -55,7 +55,7 @@ if ( count( $postVariables ) > 0 )
     $mail = new eZMail();
     $receiver = false;
     $mailBody = "";
-    $mailSubject = "eZ publish form data";
+    $mailSubject = "eZ Publish form data";
     $emailSender = "";
     $redirectURL = false;
     foreach ( array_keys( $postVariables ) as $key )
@@ -63,7 +63,7 @@ if ( count( $postVariables ) > 0 )
         $value = $postVariables[$key];
 
         // Check for special keys
-        // Note: the duplicate checks are because of eZ publish 2.2 compatibility
+        // Note: the duplicate checks are because of eZ Publish 2.2 compatibility
         switch ( $key )
         {
             case "redirectTo":

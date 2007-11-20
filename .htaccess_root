@@ -1,4 +1,4 @@
-# Copy this file to a new file called .htaccess in your eZ publish root
+# Copy this file to a new file called .htaccess in your eZ Publish root
 # to make the site more secure in non-virtualhost mode (index.php used in urls).
 #
 
@@ -17,7 +17,7 @@ allow from all
 # If you see "Forbidden" when trying to access root page of your site
 # without 'index.php' appended, uncomment the following "Files" section.
 # NOTE: replace "ezpublish-3.6.0" with base name of the directory
-# where your eZ publish intallation resides.
+# where your eZ Publish intallation resides.
 # e.g. base name of "/sites/ezpublish/ezpublish-3.6.0" is "ezpublish-3.6.0".
 
 #<Files "ezpublish-3.6.0">

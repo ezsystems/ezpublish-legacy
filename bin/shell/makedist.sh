@@ -51,7 +51,7 @@ fi
 function ezdist_write_cache_file
 {
     echo -n '' > $CACHE
-    echo '# Cache file for eZ publish makedist.sh' >> $CACHE
+    echo '# Cache file for eZ Publish makedist.sh' >> $CACHE
 
     ezdist_is_def "$MYSQL_USER" && echo "MYSQL_USER=\"$MYSQL_USER\"" >> $CACHE
     ezdist_is_def "$MYSQL_PASSWD" && echo "MYSQL_PASSWD=\"$MYSQL_PASSWD\"" >> $CACHE

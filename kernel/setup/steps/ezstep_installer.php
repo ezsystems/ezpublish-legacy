@@ -55,7 +55,7 @@ class eZStepInstaller
     const DB_DATA_CHOOSE = 4;
 
     /*!
-     Default constructor for eZ publish installer classes
+     Default constructor for eZ Publish installer classes
 
     \param template
     \param http object

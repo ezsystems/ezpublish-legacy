@@ -1,4 +1,4 @@
-# This must be set to the directory where eZ publish is installed.
+# This must be set to the directory where eZ Publish is installed.
 EZPUBLISHROOT=/path/to/the/ez/publish/directory
 
 # Location of the PHP Command Line Interface binary.

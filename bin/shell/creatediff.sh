@@ -16,11 +16,11 @@ for arg in $*; do
     case $arg in
 	--help|-h)
 	    echo "Usage: $0 [options] ARCHIVE FROM TO"
-	    echo "Creates a diff and update file between two eZ publish versions"
+	    echo "Creates a diff and update file between two eZ Publish versions"
 	    echo
 	    echo "ARCHIVE: The archive with all previously released versions"
-	    echo "FROM:    The eZ publish version to start from"
-	    echo "TO:      The eZ publish version which want the updates to become"
+	    echo "FROM:    The eZ Publish version to start from"
+	    echo "TO:      The eZ Publish version which want the updates to become"
 	    echo
 	    echo "Options: -h"
 	    echo "         --help                     This message"
