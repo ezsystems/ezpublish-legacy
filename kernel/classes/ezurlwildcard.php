@@ -361,13 +361,9 @@ class eZURLWildcard extends eZPersistentObject
         }
 
         // check translation result
-        // NOTE: 'eZURLAliasML::translate' can return 'true', 'false' or new url(in case of 'error/301').
-        if ( $urlTranslated === false )
-        {
-            eZDebugSetting::writeDebug( 'kernel-urltranslator', "no wildcard is matched input url", 'eZURLWildcard::translate' );
-            return false;
-        }
-        else
+        // NOTE: 'eZURLAliasML::translate'(see above) can return 'true', 'false' or new url(in case of 'error/301').
+        //       $urlTranslated can also be 'false' if no wildcard is matched.
+        if ( $urlTranslated )
         {
             // check wildcard type and set appropriate $result and $uriString
             $wildcardType = $wildcardInfo['type'];
@@ -392,6 +388,16 @@ class eZURLWildcard extends eZPersistentObject
                     // $uriString already has correct value
                     break;
             }
+        }
+        else
+        {
+            // we are here if:
+            // - input url is not matched with any wildcard;
+            // - url is matched with wildcard and:
+            //   - points to module
+            //   - invalide url
+            eZDebugSetting::writeDebug( 'kernel-urltranslator', "wildcard is not translated", 'eZURLWildcard::translate' );
+            $result = false;
         }
 
         // set value back to $uri
