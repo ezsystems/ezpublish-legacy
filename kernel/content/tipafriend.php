@@ -3,7 +3,7 @@
 // Created on: <24-Apr-2002 16:06:53 bf>
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ publish
+// SOFTWARE NAME: eZ Publish
 // SOFTWARE RELEASE: 4.0.x
 // COPYRIGHT NOTICE: Copyright (C) 1999-2007 eZ Systems AS
 // SOFTWARE LICENSE: GNU General Public License v2.0
