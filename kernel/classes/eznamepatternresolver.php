@@ -87,23 +87,23 @@ class eZNamePatternResolver
      */
     private $attributeArray;
 
-    
+
     /**
      * The string to use to signify group tokens.
      *
      * @var string
      */
     private $metaString = 'EZMETAGROUP_';
-    
+
     /**
      * Constructs a object to resolve $namePattern. $contentVersion and
      * $contentTranslation specify which version and translation respectively
      * of the content object to use.
      *
-     * @param string $namePattern 
-     * @param eZContentObject $contentObject 
-     * @param int $contentVersion 
-     * @param string $contentTranslation 
+     * @param string $namePattern
+     * @param eZContentObject $contentObject
+     * @param int $contentVersion
+     * @param string $contentTranslation
      */
     public function __construct( $namePattern, $contentObject, $contentVersion = false, $contentTranslation = false )
     {
@@ -128,10 +128,10 @@ class eZNamePatternResolver
 
         // Replace tokens with real values
         $objectName = $this->translatePattern();
-        
+
         return $objectName;
     }
-    
+
     /**
      * Fetches the list of available class-identifiers in the token, and it
      * will only fetch the attributes which appear amongst the identifiers
@@ -161,7 +161,7 @@ class eZNamePatternResolver
         }
         $this->attributeArray = $returnAttributeArray;
     }
-    
+
 
     /**
      * Replaces tokens in the name pattern with their resolved values.
@@ -181,7 +181,7 @@ class eZNamePatternResolver
 
         return $objectName;
     }
-    
+
     /**
      * Extract all tokens from $namePattern
      *
@@ -190,7 +190,7 @@ class eZNamePatternResolver
      * Text &lt;token&gt; more text ==&gt; &lt;token&gt;
      * </code>
      *
-     * @param string $namePattern 
+     * @param string $namePattern
      * @return array
      */
     private function extractTokens( $namePattern )
@@ -206,21 +206,21 @@ class eZNamePatternResolver
      * a string. Meta strings denothing token groups are automatically
      * inferred.
      *
-     * @param string $token 
+     * @param string $token
      * @return string
      */
     private function resolveToken( $token )
     {
         $replaceString = "";
         $tokenParts = $this->tokenParts( $token );
-        
+
         foreach ( $tokenParts as $tokenPart )
         {
             if ( $this->isTokenGroup( $tokenPart ) )
             {
                 $groupTokenArray = $this->extractTokens( $this->groupLookupTable[$tokenPart] );
                 $replaceString = $this->groupLookupTable[$tokenPart];
-                
+
                 foreach ( $groupTokenArray as $groupToken )
                 {
                     $replaceString = str_replace( $groupToken, $this->resolveToken( $groupToken ), $replaceString );
@@ -243,8 +243,8 @@ class eZNamePatternResolver
         }
         return $replaceString;
     }
-    
-    
+
+
     /**
      * Checks whether $identifier is a placeholder for a token group.
      *
@@ -259,7 +259,7 @@ class eZNamePatternResolver
         }
         return true;
     }
-    
+
     /**
      * Return the different constituents of $token in an array.
      * The normal case here is that the different identifiers within one token
@@ -302,13 +302,13 @@ class eZNamePatternResolver
             {
                 // Create meta-token for group
                 $metaToken = $this->metaString . $i;
-                
+
                 // Insert the group with its placeholder token
                 $retNamePattern = str_replace( $group, $metaToken, $namePattern );
-                
+
                 // Remove the pattern "(" ")" from the tokens
                 $group = str_replace( array( '(', ')' ), '', $group );
-                
+
                 $this->groupLookupTable[$metaToken] = $group;
                 ++$i;
             }
@@ -317,21 +317,21 @@ class eZNamePatternResolver
         return $namePattern;
 
     }
-    
+
     /**
      * Returns all identifiers from all tokens in the name pattern.
      *
-     * @param string $patternString 
+     * @param string $patternString
      * @return array
      */
     private function getIdentifiers( $patternString )
     {
         $allTokens = '#<(.*)>#U';
         $identifiers = '#\W#';
-        
+
         $tmpArray = array();
         preg_match_all( $allTokens, $patternString, $matches );
-        
+
         foreach ( $matches[1] as $match )
         {
             $tmpArray[] = preg_split( $identifiers, $match, -1, PREG_SPLIT_NO_EMPTY );
