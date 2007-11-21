@@ -26,7 +26,6 @@
 //
 //
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-
 //
 
 //include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php' );

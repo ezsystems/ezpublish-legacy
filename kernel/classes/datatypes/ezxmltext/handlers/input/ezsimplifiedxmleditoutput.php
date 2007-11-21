@@ -26,7 +26,6 @@
 //
 //
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-
 //
 
 // if ( !class_exists( 'eZXMLSchema' ) )

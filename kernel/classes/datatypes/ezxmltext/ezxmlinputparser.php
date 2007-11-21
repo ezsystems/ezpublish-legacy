@@ -26,6 +26,7 @@
 //
 //
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
+//
 
 /*
     Base class for the input parser.
