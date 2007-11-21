@@ -47,7 +47,7 @@ class eZContentObjectOperations
      Removes content object and all data associated with it.
      \static
     */
-    function remove( $objectID, $removeSubtrees = true )
+    static function remove( $objectID, $removeSubtrees = true )
     {
         //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
