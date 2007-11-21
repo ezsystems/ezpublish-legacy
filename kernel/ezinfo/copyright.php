@@ -30,7 +30,7 @@ $Module = $Params['Module'];
 
 $text =
 ## BEGIN COPYRIGHT INFO ##
-'<p>Copyright (C) 1999-2006 eZ systems as. All rights reserved.</p>
+'<p>Copyright (C) 1999-2007 eZ Systems AS. All rights reserved.</p>
 
 <p>This file may be distributed and/or modified under the terms of the
 \"GNU General Public License\" version 2 as published by the Free
@@ -54,7 +54,7 @@ Further contact information is available at <a href=\"http://ez.no/company/conta
 <p>The \"GNU General Public License\" (GPL) is available at
 <a href=\"http://www.gnu.org/copyleft/gpl.html\">http://www.gnu.org/copyleft/gpl.html</a>.</p>
 
-<p>Contact eZ system if any conditions of this licencing isn\'t clear to you.</p>';
+<p>Contact eZ Systems if any conditions of this licencing isn\'t clear to you.</p>';
 ## END COPYRIGHT INFO ##
 
 $Result = array();

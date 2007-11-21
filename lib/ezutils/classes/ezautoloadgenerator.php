@@ -2,7 +2,7 @@
 /**
  * File containing the eZAutoloadGenerator class.
  *
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @copyright Copyright (C) 2005-2007 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/gnu_gpl GNU GPL v2
  * @version //autogentag//
  * @package kernel
@@ -24,70 +24,70 @@ class eZAutoloadGenerator
      * @var string
      */
     private $basePath;
-    
+
     /**
      * Flag for searching kernel files.
      *
      * @var bool
      */
     private $searchKernelFiles;
-    
+
     /**
      * Flag for searching in extension files.
      *
      * @var bool
      */
     private $searchExtensionFiles;
-    
+
     /**
      * Flag for verbose output
      *
      * @var bool
      */
     private $verboseOutput;
-    
+
     /**
      * Flag for writing autoload arrays
      *
      * @var bool
      */
     private $writeFiles;
-    
+
     /**
      * Holds the directory into which autoload arrays are written.
      *
      * @var string
      */
     private $outputDir;
-    
+
     /**
      * Holds the directories to exclude from search
      *
      * @var array
      */
     private $excludeDirs;
-    
+
     /**
      * Bitmask for searching in no files.
      */
     const GENAUTOLOADS_NONE = 0;
-    
+
     /**
      * Bitmask for searhing in kernel files
      */
     const GENAUTOLOADS_KERNEL = 1;
-    
+
     /**
      * Bitmask for search in extension files
      */
     const GENAUTOLOADS_EXTENSION = 2;
-    
+
     /**
      * Bitmask for searching in both kernel and extension files
      */
     const GENAUTOLOADS_BOTH = 3;
-    
-    
+
+
     /**
      * Constructs class to generate autoload arrays.
      * File search is rooted in $basePath, and the parameters
@@ -130,7 +130,7 @@ class eZAutoloadGenerator
         {
             $this->outputDir = $outputDir;
         }
-        
+
         $this->excludeDirs = $excludeDirs;
 
     }
@@ -204,7 +204,7 @@ class eZAutoloadGenerator
         // make sure ezcFile::findRecursive and the exclusion filters we pass to it
         // work correctly on systems with another file seperator than the forward slash
         $sanitisedBasePath = DIRECTORY_SEPARATOR == '/' ? $path : strtr( $path, DIRECTORY_SEPARATOR, '/' );
-        
+
         $extraExcludeDirs = array();
         if ( $excludeDirs !== false and is_array( $excludeDirs ) )
         {
@@ -263,8 +263,8 @@ class eZAutoloadGenerator
     /**
      * Builds a filelist of all PHP files in $path.
      *
-     * @param string $path 
-     * @param array $extraFilter 
+     * @param string $path
+     * @param array $extraFilter
      * @return array
      */
     private function buildFileList( $path, $extraFilter = null )
@@ -317,7 +317,7 @@ class eZAutoloadGenerator
     /**
      * Calculates the length of the longest class name present in $depdata
      *
-     * @param array $depData 
+     * @param array $depData
      * @return mixed
      */
     private function checkMaxClassLength( $depData )
@@ -344,8 +344,8 @@ class eZAutoloadGenerator
     /**
      * Build string version of the autoload array with correct indenting.
      *
-     * @param array $sortedArray 
-     * @param int $length 
+     * @param array $sortedArray
+     * @param int $length
      * @return string
      */
     private function dumpArray( $sortedArray, $length )
@@ -433,7 +433,7 @@ class eZAutoloadGenerator
     /**
      * Prints generated code used for the autoload files
      *
-     * @param string $part 
+     * @param string $part
      * @return string
      */
     private function dumpArrayStart( $part )
@@ -443,7 +443,7 @@ class eZAutoloadGenerator
 /**
  * Autoloader definition for eZ Publish $part files.
  *
- * @copyright Copyright (C) 2005-2007 eZ systems as. All rights reserved.
+ * @copyright Copyright (C) 2005-2007 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/gnu_gpl GNU GPL v2
  * @version //autogentag//
  * @package kernel

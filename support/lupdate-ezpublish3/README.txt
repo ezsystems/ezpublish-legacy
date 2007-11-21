@@ -10,7 +10,7 @@ Translation/Internationalization (i18n) of eZ publish 3
 
 Copyrights
 ----------
-"eZ publish" is Copyright (C) 1999-2006 eZ systems as. All rights reserved.
+"eZ publish" is Copyright (C) 1999-2007 eZ Systems AS. All rights reserved.
 "Trolltech", "Qt" and "Qt Linguist" are Copyright (C) 2000-2001 Trolltech AS.
 All rights reserved.
 
@@ -21,7 +21,7 @@ All rights reserved.
 eZ publish 3 requires two programs to create and maintain translations,
 'ezlupdate' and 'linguist'. These programs are based on the same tools from the
 Qt toolkit by Trolltech (www.trolltech.com). The unix version of this toolkit
-is released under the GPL. eZ systems will provide binaries for Windows and
+is released under the GPL. eZ Systems will provide binaries for Windows and
 Mac OS X.
 The linguist is unmodified from the Qt original, so you also can get this from
 other sources, such as RPMs. ezlupdate is modified to make it understand
@@ -38,7 +38,7 @@ Qt library available from Trolltech.
 The following assumes that you are building under unix. If you have a
 commercial licence of Qt for Windows and/or Mac OS X, you can build it in a
 similar way. If you don't have such a licence, you can get binaries from
-eZ systems.
+eZ Systems.
 
 First, make sure that you have the Qt library installed. If you use a package
 system such as RPM, make sure that you also have the qt-devel package.

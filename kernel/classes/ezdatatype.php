@@ -59,7 +59,7 @@
 
   Each datatype initializes itself with a datatype string id (ezstring, ezinteger)
   and a descriptive name. The datatype string id must be unique for the whole
-  system and should have a prefix, for instance we in eZ systems use ez as our prefix.
+  system and should have a prefix, for instance we in eZ Systems use ez as our prefix.
 */
 
 //include_once( "kernel/classes/ezpersistentobject.php" );

@@ -20,7 +20,7 @@ Example:
 Part[ezcustomnavigationpart]=Custom
 
 Note: Make sure your identifier is unique, identifiers starting
-      with ez is reserved for eZ systems.
+      with ez is reserved for eZ Systems.
 
 Translations:
 

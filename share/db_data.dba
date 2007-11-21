@@ -3097,8 +3097,8 @@ $data = array (
         2 => '54',
         3 => '0',
         4 => '0',
-        5 => 'author=eZ systems
-copyright=eZ systems
+        5 => 'author=eZ Systems
+copyright=eZ Systems
 description=Content Management System
 keywords=cms, publish, e-commerce, content management, development framework',
         6 => 'ezinisetting',
@@ -3350,7 +3350,7 @@ keywords=cms, publish, e-commerce, content management, development framework',
       <link target="_blank"
             url_id="7">training sessions</link>.</paragraph>
     <paragraph>
-      <line>For more information about eZ Publish and other products/services from eZ systems, please visit 
+      <line>For more information about eZ Publish and other products/services from eZ Systems, please visit 
         <link target="_blank"
               url_id="8">ez.no</link>.</line>
     </paragraph>

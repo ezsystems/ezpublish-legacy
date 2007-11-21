@@ -74,7 +74,7 @@
 <br />
 <font color="white">
 <center>
-<a href="http://ez.no/developer">eZ Publish&trade;</a> copyright &copy; 1999-{currentdate()|datetime(custom,"%Y")} <a href="http://ez.no">eZ systems as</a>
+<a href="http://ez.no/developer">eZ Publish&trade;</a> copyright &copy; 1999-{currentdate()|datetime(custom,"%Y")} <a href="http://ez.no">eZ Systems AS</a>
 </center>
 </font>
 <br />

@@ -537,7 +537,7 @@ function templateLookObjectData( $params )
                                 "language_settings" => array( "MatrixTitle" => "Language settings",
                                                               "MatrixDefinition" => $languageSettingsMatrixDefinition,
                                                               "MatrixCells" => $siteaccessAliasTable ),
-                                "footer_text" => array( "DataText" => "Copyright &#169; 2007 eZ systems AS. All rights reserved." ),
+                                "footer_text" => array( "DataText" => "Copyright &#169; 2007 eZ Systems AS. All rights reserved." ),
                                 "hide_powered_by" => array( "DataInt" => 0 ),
                                 "footer_script" => array( "DataText" => "" ) );
 

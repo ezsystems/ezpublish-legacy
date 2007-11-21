@@ -7,7 +7,7 @@
 // Gunnstein Lye <gl@ez.no>
 // Created on: <10-Dec-2002 18:46:17 gl>
 //
-// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2007 eZ Systems AS. All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
