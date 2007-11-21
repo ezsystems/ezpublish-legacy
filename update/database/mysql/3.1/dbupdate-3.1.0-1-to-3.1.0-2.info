@@ -1,4 +1,4 @@
-The SQL file dbupdate-3.1.0-1-to-3.1.0-2.sql performs an upgrade from eZ publish 3.1.0-1 to 3.1.0-2.
+The SQL file dbupdate-3.1.0-1-to-3.1.0-2.sql performs an upgrade from eZ Publish 3.1.0-1 to 3.1.0-2.
 
 * The data_text5 in ezcontentclass_attribute was introduced to allow xml storage in class attributes
   and to prepare the release for upcoming datatypes in 3.2.

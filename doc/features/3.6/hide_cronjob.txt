@@ -1,7 +1,7 @@
 *Title: Hide cronjob
 
 *Documentation:
-The hide cronjob feature in eZ publish 3.6 makes it possible to hide objects after they
+The hide cronjob feature in eZ Publish 3.6 makes it possible to hide objects after they
 have been published and visible on the web automaticly. It uses a date, datetime or time
 field in the object to specify when the object should be hidden. 
 

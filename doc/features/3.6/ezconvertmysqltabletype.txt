@@ -54,7 +54,7 @@ specified in the ini-settings.
 ./bin/php/ezconvertmysqltabletype.php 
 </code>
 
-The next example converts all eZ publish tables to InnoDB:
+The next example converts all eZ Publish tables to InnoDB:
 
 <code>
 ./bin/php/ezconvertmysqltabletype.php --host=localhost --user=root

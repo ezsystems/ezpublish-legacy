@@ -6,7 +6,7 @@
 A single sign on(SSO) handler plugin system is introduced.
 This means that you can run a piece of PHP code on every new instance of a
 session. Here you can check if the user is already logged in with another
-system and automatically log the user in to eZ publish - without any typing
+system and automatically log the user in to eZ Publish - without any typing
 of passwords. The security and integration is handled by the specific plugins.
 
 It adds a new setting in site.in under UserSettings:

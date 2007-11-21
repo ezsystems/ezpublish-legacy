@@ -117,7 +117,7 @@ How it works
 ------------
 
 The new alias system follows the same behaviour as the multi-lingual
-support added to eZ publish 3.8.
+support added to eZ Publish 3.8.
 
 Aliases are now created per translation on the object and not just for
 the main translation. 
@@ -279,10 +279,10 @@ possibilities of the modern browsers.
 Dash vs underscore
 ~~~~~~~~~~~~~~~~~~
 
-Previosuly eZ publish used underscores as the separators of
+Previosuly eZ Publish used underscores as the separators of
 words. However more and more people have requested the desire to use
 dashes instead of underscores, often related to the SEO reasons.
-Instead of enforcing this behaviour eZ publish allows the user to
+Instead of enforcing this behaviour eZ Publish allows the user to
 decide which character to use as separator.
 
 Change the INI setting *WordSeparator* in group *URLTranslator* (file
@@ -301,7 +301,7 @@ The previous transformation rules were quite restrictive and only
 allowed a subset of the ASCII character set (ie. a-z, 0-9 and _). This
 causes lots of problems for non-western languages which uses different
 alphabets, some which are quite hard to transliterate.
-In eZ publish 3.10 it is now possible to enable Unicode support for
+In eZ Publish 3.10 it is now possible to enable Unicode support for
 the transformation, the result is that no transliteration is performed
 and most characters are allowed. The only ones which are not allowed
 are:

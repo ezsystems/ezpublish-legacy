@@ -7,7 +7,7 @@ eZ cluster enhancement
 :Version: 1.0
 
 This document describes the end-user documentation for the new cluster
-enhancements added to eZ publish 3.10.
+enhancements added to eZ Publish 3.10.
 
 Note: The cluster functionality in 3.10 no longer supports the
       PostgreSQL and Oracle databases. The code was focused
@@ -42,7 +42,7 @@ Note: Make sure you have enough diskspace on the filesystem before
 Steps in new code-base (3.10)
 -----------------------------
 
-2 - Upgrade to eZ publish 3.10
+2 - Upgrade to eZ Publish 3.10
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Upgrade the code-base + database as mentioned in the general upgrade guide.
@@ -84,7 +84,7 @@ Documentation
 
 While most of the changes to the cluster was done in the backend-code
 there are a couple of changes which affects the behaviour of the
-cluster and the cache systems in eZ publish.
+cluster and the cache systems in eZ Publish.
 The big change is how caches are removed, earlier the caches were
 physically removed from the filesystem or database cluster, an
 operation which can be quite time consuming. The new behaviour is to

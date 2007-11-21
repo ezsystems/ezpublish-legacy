@@ -20,7 +20,7 @@ related_objects_fetch_functions.txt
 
 
 *Upgrade database:
-If you are using database created with the previous version of eZ publish (3.5 or
+If you are using database created with the previous version of eZ Publish (3.5 or
  lower), follow these steps:
 1. Upgrade database structure using SQL script that you can find in update/database
 directory.

@@ -3,7 +3,7 @@
 Incentive:
 Make it easier to inserts files, text and complex xml into any datatype trough a common interface.
 This will reduce code involved and remove a lot of the internal variable handling to the given
-datatype. It will also simplify future updates of eZ publish.
+datatype. It will also simplify future updates of eZ Publish.
 
 
 *Documentation:

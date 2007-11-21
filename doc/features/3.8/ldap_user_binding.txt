@@ -4,6 +4,6 @@
 In order to login using LDAP, we first have to do a bind to the LDAP server. 
 Some server are not set up to allow anonymous bind. In those cases we need to 
 supply a username and password for the bind. (Note: This is not the same 
-username/password that is used when logging in the user into eZ publish!) The 
+username/password that is used when logging in the user into eZ Publish!) The 
 patch simply adds the needed parameters to ldap.ini, and uses them with 
 ldap_bind() in the two files where it is needed.

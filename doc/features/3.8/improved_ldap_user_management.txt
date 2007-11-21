@@ -4,7 +4,7 @@
 
 *Documentation:
 It's possible now keep the user group assignment of users which are synced with
-LDAP. The default behaviour in eZ publish is to move them back to the group
+LDAP. The default behaviour in eZ Publish is to move them back to the group
 they are configured to be placed in. Now you can move LDAP users to a different
 group and they will not be automatically moved back when the user logs in again
 

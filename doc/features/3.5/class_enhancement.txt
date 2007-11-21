@@ -17,7 +17,7 @@ e.g.
 <content-class is-container="true">
 <content-class is-container="false">
 
-Upgrading from previous eZ publish releases (3.4 or lower) will require a script
+Upgrading from previous eZ Publish releases (3.4 or lower) will require a script
 to be run or manual fixation by an administrator.
 
 Note: The admin interface requires this to be set correctly for folders and

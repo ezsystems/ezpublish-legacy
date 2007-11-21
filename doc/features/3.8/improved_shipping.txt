@@ -2,7 +2,7 @@
 
 *Incentive:
 
-eZ publish does not contain any shipping functionality, though many
+eZ Publish does not contain any shipping functionality, though many
 webshops need it.
 
 *Basics:
@@ -12,11 +12,11 @@ cost may depend on properties of a specific product. We provide an
 interface for so-called "shipping handlers" that are used to keep
 shipping options for a product collection (basket or order) and
 calculate shipping cost for it. We don't ship any shipping handlers with
-eZ publish.
+eZ Publish.
 
 *Implementation details:
 
-When eZ publish asks the handler to return shipping info, the following
+When eZ Publish asks the handler to return shipping info, the following
 is returned:
 
 - (text)   Shipping options summary.
@@ -100,7 +100,7 @@ ExtensionDirectories[]
 Let's implement a trivial shipping handler to just see how the whole
 feature works.
 
-1. Go to your eZ publish directory.
+1. Go to your eZ Publish directory.
 2. Create directory "extension/ezvoidshipping" and go there.
 3. Create directories "settings" and "shippinghandlers".
 4. Under "shippinghandlers" directory, create file "ezvoidshippinghandler.php" 

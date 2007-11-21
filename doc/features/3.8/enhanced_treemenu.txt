@@ -2,7 +2,7 @@ Enhanced treemenu operator
 ==========================
 Original author: Jonny Bergkvist
 
-The treemenu operator in eZ publish has been enhanced for 3.8.
+The treemenu operator in eZ Publish has been enhanced for 3.8.
 It now has extra values for each menu entry and has two new parameters.
 
 The new parameters are:

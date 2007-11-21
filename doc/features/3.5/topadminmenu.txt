@@ -9,7 +9,7 @@ top menu in the admin interface as well as new entries.
 Each top menu entry now consists of:
 - Name
     The name of the menu
-    Note: Only the names bundled by eZ publish are translatable
+    Note: Only the names bundled by eZ Publish are translatable
 - Tooltip
     Some text which will be displayed in a tooltip
 - URL

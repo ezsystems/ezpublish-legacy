@@ -4,7 +4,7 @@
 A new setting in template.ini is added - CharsetSettings:AutoConvertOnSave -
 which will automatically convert your templates to the HTTPCharset as set in
 i18n.ini whenever you save a template that you edit in the administration
-interface. This is done so that eZ publish does not need to spend more time
+interface. This is done so that eZ Publish does not need to spend more time
 converting this template to the HTTPCharset every time. The default is
 "enabled".
 

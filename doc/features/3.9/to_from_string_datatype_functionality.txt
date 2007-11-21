@@ -8,7 +8,7 @@ can be changed until the final reliese.
 To simplify writing of import export scripts we have added two functions 
 to the ezcontentobjectattribute class. Aslso related functions with the 
 same name have been added to the datype interfase and to all datatypes in 
-standard eZ publish distribution exept of ezenum which is now deprecated 
+standard eZ Publish distribution exept of ezenum which is now deprecated 
 and ezpackage which is not used.
 To show possibilities of these functionality two scripts have been added 
 under bin/php/. These scripts are very simple CSV import/export scripts:

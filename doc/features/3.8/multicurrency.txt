@@ -269,7 +269,7 @@ With an 'Exchange rates update handlers' it's possible to retrieve exchange
 rate from the external source, like a website, etc.
 Use 'ExchangeRatesUpdateHandler' to specify what handler should be used.
 
-As an example eZ publish has a handler called 'eZECB'. It allows to get rates
+As an example eZ Publish has a handler called 'eZECB'. It allows to get rates
 from the website of the European Central Bank.
 
 For developers.
@@ -327,7 +327,7 @@ To achive this you should:
 |-----------------------+----------------------------+---------------------------------------+
 | ExchangeRatesSettings | ExchangeRatesUpdateHandler | Specifies what handler to use         |
 |                       | RepositoryDirectories      | Where to look for handlers withing    |
-|                       |                            | eZ publish installatio                |
+|                       |                            | eZ Publish installatio                |
 |                       | ExtensionDirectories       | Where to look for handlers withing    |
 |                       |                            | extensions                            |
 |                       | BaseCurrency               | The base currency for the 'auto' rates|

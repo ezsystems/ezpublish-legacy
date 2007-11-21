@@ -2,12 +2,12 @@
 
 *Incentive:
 
-It is now hard to build clusters on eZ publish due to the problem of
+It is now hard to build clusters on eZ Publish due to the problem of
 synchronizing caches, images and binary files between cluster nodes.
 
 *Basics:
 
-The clustering feature makes eZ publish store images, binary files, and
+The clustering feature makes eZ Publish store images, binary files, and
 all content-related caches to database.
 Templates, compiled templates, override cache and other caches not
 related to content are still stored on filesystem.
@@ -28,7 +28,7 @@ Add this to your file.ini.append.php:
     DBPassword=secret
     DBChunkSize=65535
 
-Changing FileHandler to ezdb will force eZ publish to use database for
+Changing FileHandler to ezdb will force eZ Publish to use database for
 storing images, binary files and content-related caches.
 
  2. Create table(s) in database.
@@ -76,7 +76,7 @@ handling images. That script actually contains only settings to use for
 the clustering database and includes index_image.php.
 
 Below you will find typical contents of this file.
-Suppose you name it index_image-common.php and place under eZ publish root
+Suppose you name it index_image-common.php and place under eZ Publish root
 directory:
 
 ###############################################

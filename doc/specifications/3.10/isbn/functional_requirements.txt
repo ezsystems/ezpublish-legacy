@@ -7,7 +7,7 @@ ISBN-13 improvements
 
 
 This spesification addresses certain limitations in the ISBN-13 implemenation
-in eZ publish. Some  improvents could also be applied to the ISBN-10
+in eZ Publish. Some  improvents could also be applied to the ISBN-10
 implemenation but such improvements are not evaluated and addressed in this
 specification since ISBN-10 now is obseleted by the industry.
 
@@ -135,8 +135,8 @@ consistently.
 
 If the script is run on a attribute which is already converted to ISBN-13, it
 should ensure that hyphens are stored at the correct place. Earlier versions of
-eZ publish don't ensure this so running this script would be mandatory when
-users using ISBN-13 are upgrading their eZ publish installation.
+eZ Publish don't ensure this so running this script would be mandatory when
+users using ISBN-13 are upgrading their eZ Publish installation.
 
 If you enable the "ISBN-13 format" on a attribute which contains numbers in
 ISBN-10 format, this scripts needs to be run.

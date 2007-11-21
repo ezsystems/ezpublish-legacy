@@ -23,7 +23,7 @@ FROM     ezsearch_search_phrase,
 WHERE    ezsearch_search_phrase.id = ezsearch_return_count.phrase_id
 GROUP BY lower( ezsearch_search_phrase.phrase );
 
--- ezsearch_return_count is of no (additional) use in a normal eZ publish installation
+-- ezsearch_return_count is of no (additional) use in a normal eZ Publish installation
 -- but perhaps someone built something for himself, then it is not BC
 -- to not break BC apply the CREATE and INSERT statements
 

@@ -1,4 +1,4 @@
-The SQL file dbupdate-2.9-7-to-3.0-1.sql performs an upgrade from eZ publish 2.9-7 to 3.0-1.
+The SQL file dbupdate-2.9-7-to-3.0-1.sql performs an upgrade from eZ Publish 2.9-7 to 3.0-1.
 
 In addition to importing the sql file to your database you should consider running the following scripts.
 The scripts are run with

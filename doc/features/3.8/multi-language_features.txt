@@ -107,7 +107,7 @@ Filtering languages
 ~~~~~~~~~~~~~~~~~~~
 
 To perform proper language filtering and prioritization a new bit-field
-algorithm is introduced. All languages used in an eZ publish instance
+algorithm is introduced. All languages used in an eZ Publish instance
 are identified by powers of 2 to be able to use bitmap *and* for selecting
 rows containing information on objects or attributes in prioritized languages.
 Id 1 (2^0) is reserved for marking objects which are always available.
@@ -295,7 +295,7 @@ When creating objects the objects will copy the current setting in the
 class, any changes to the setting in the class will not affect existing
 objects. This allows this setting to be switched per object at a later time.
 
-By default eZ publish will come with this setting turned on for Folders, Users
+By default eZ Publish will come with this setting turned on for Folders, Users
 and User Groups.
 
 Image datatype

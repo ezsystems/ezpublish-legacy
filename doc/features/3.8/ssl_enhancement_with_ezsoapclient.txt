@@ -11,7 +11,7 @@ eZSOAPClient can transfer data with SSL and without SSL now. If the port is
 mentioned as 443 or just the string 'ssl' then this class will consider that
 transfer using SSL protocol, otherwise the transfer will be consider as a normal
 transfer. Even after enhancement with SSL still it will work with previous
-versions of eZ publish with normal soap transfer of data also.
+versions of eZ Publish with normal soap transfer of data also.
 
 CURL library function is used for SSL transfer so it needs to install curl package
 7.0.2 or above and recompile PHP with option --with-curl='PATH' to use this feature.

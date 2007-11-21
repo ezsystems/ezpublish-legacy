@@ -106,7 +106,7 @@ The number of information collections collected by content object 57, created
 by the user with id 14.
 
 NOTE:
-If you upgrade from a previous version of eZ publish, the user_id field for old
+If you upgrade from a previous version of eZ Publish, the user_id field for old
 information collections are 0. New collections will get the user_id properly
 set when information is submitted.
 

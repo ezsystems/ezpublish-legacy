@@ -2,7 +2,7 @@
 
 *Incentive:
 
-Currently, VAT charging functionality in eZ publish is quite primitive.
+Currently, VAT charging functionality in eZ Publish is quite primitive.
 We can only assign fixed VAT to a product content class. However, VAT
 charging rules may be much more complex, and we should provide support
 for such rules.
@@ -45,7 +45,7 @@ handler specified in ini settings.
 
 2. Default VAT handler
 
-The default VAT handler shipped with eZ publish uses special rules to
+The default VAT handler shipped with eZ Publish uses special rules to
 determine the appropriate VAT for a product. Each rule determines what VAT
 to charge for a given product category and country the customer is from.
 Those rules (stored in an external DB table) can be managed via the
@@ -133,7 +133,7 @@ ExtensionDirectories[]
 
 3. Setting up the default VAT handler
 
-If you want to use the default VAT handler shipped with eZ publish
+If you want to use the default VAT handler shipped with eZ Publish
 then you perform the steps described in this section.
 
  3.1. Creating product categories.
@@ -194,7 +194,7 @@ own one. This section describes how to do that.
 
 For example, we implement a simple VAT handler that determines VAT
 percentage depending on the section a product belongs to. We place the
-handler to an extension since it's not recommended to modify eZ publish
+handler to an extension since it's not recommended to modify eZ Publish
 kernel.
 
  4.1. Creating extension
@@ -251,7 +251,7 @@ RequireUserCountry=false
 DynamicVatTypeName=Section-based
 ###################################
 
-This will tell eZ publish to search for file
+This will tell eZ Publish to search for file
 mysectionbasedvathandler.php in extension/myshop/vathandlers directory.
 We set RequireUserCountry to false to disable error messages about
 missing user country.

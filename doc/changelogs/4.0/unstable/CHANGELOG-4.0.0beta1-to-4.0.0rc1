@@ -8,3 +8,4 @@ Changes from 4.0.0beta1 to 4.0.0rc1
 - Fixed bug #10244: Unused FileType parameter in content/download view definition
 - Fixed bug #10517: Inconsistent license headers
 - Fixed bug #12012: "eZ systems" should be "eZ Systems"
+- Fixed bug #11295: eZ Publish brand name is still used with lowercase p on several places

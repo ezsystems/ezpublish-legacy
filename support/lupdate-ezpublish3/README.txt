@@ -1,4 +1,4 @@
-Translation/Internationalization (i18n) of eZ publish 3
+Translation/Internationalization (i18n) of eZ Publish 3
 -------------------------------------------------------
 
 0. Introduction
@@ -10,7 +10,7 @@ Translation/Internationalization (i18n) of eZ publish 3
 
 Copyrights
 ----------
-"eZ publish" is Copyright (C) 1999-2007 eZ Systems AS. All rights reserved.
+"eZ Publish" is Copyright (C) 1999-2007 eZ Systems AS. All rights reserved.
 "Trolltech", "Qt" and "Qt Linguist" are Copyright (C) 2000-2001 Trolltech AS.
 All rights reserved.
 
@@ -18,21 +18,21 @@ All rights reserved.
 0. Introduction
 ---------------
 
-eZ publish 3 requires two programs to create and maintain translations,
+eZ Publish 3 requires two programs to create and maintain translations,
 'ezlupdate' and 'linguist'. These programs are based on the same tools from the
 Qt toolkit by Trolltech (www.trolltech.com). The unix version of this toolkit
 is released under the GPL. eZ Systems will provide binaries for Windows and
 Mac OS X.
 The linguist is unmodified from the Qt original, so you also can get this from
 other sources, such as RPMs. ezlupdate is modified to make it understand
-eZ publish files.
+eZ Publish files.
 
 
 
 1. Building the program
 -----------------------
 
-The linguist is not provided with eZ publish 3, as this is distributed in the
+The linguist is not provided with eZ Publish 3, as this is distributed in the
 Qt library available from Trolltech.
 
 The following assumes that you are building under unix. If you have a
@@ -44,7 +44,7 @@ First, make sure that you have the Qt library installed. If you use a package
 system such as RPM, make sure that you also have the qt-devel package.
 
 If you build ezlupdate against the Qt/X11 library, it will require X11 to run,
-even though it is a console program. If you have installed eZ publish on a
+even though it is a console program. If you have installed eZ Publish on a
 server without X11 it is recommended that you build ezlupdate against
 Qt/embedded.
 
@@ -55,14 +55,14 @@ qmake ezlupdate.pro
 make
 
 If everything went ok, the binary will be found in bin/linux under the main
-eZ publish directory.
+eZ Publish directory.
 
 
 
 2. Making translations
 ----------------------
 
-First of all, you must decide the locale code of your language. eZ publish 3
+First of all, you must decide the locale code of your language. eZ Publish 3
 uses locale codes on the form aaa-AA, where the 3 first lowercase letters
 describe the language, while the last two uppercase letter describe the country
 in which the language is spoken. For instance, English as it is spoken in Great
@@ -83,7 +83,7 @@ Copy share/locale/eng-GB.ini to share/locale/nor-NO.ini. Edit this file with a
 text editor. Here you set locale details such as time formats, currency and the
 names of the week days.
 
-Now, enter the main eZ publish directory in a terminal and type
+Now, enter the main eZ Publish directory in a terminal and type
 bin/linux/ezlupdate -v nor-NO
 (Provided that nor-NO is your locale, of course. -v is for verbose, showing
 messages about what happens. You can also use -vv for extra verbose output, or

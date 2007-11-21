@@ -1,7 +1,7 @@
 *Title: Template Usage Statistics in debug mode
 
 *Documentation:
-The Template Usage Statistics feature in eZ publish 3.6 makes it possible see 
+The Template Usage Statistics feature in eZ Publish 3.6 makes it possible see 
 the list of templates which were used to render a page.
 
 *Settings:

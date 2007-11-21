@@ -39,7 +39,7 @@
 #include <metatranslator.h>
 
 
-// used in eZ publish mode
+// used in eZ Publish mode
 void traverse( const QDir &dir, MetaTranslator &fetchedTor, bool assumeUTF8 = false );
 
 // defined in fetchtr_php.cpp and fetchtr_tpl.cpp
@@ -50,7 +50,7 @@ extern void fetchtr_tpl( QFileInfo *fi, MetaTranslator *tor, bool mustExist, boo
 extern void merge( MetaTranslator *tor, const MetaTranslator *virginTor, const QString &language, bool verbose );
 
 static int verbose = 0;
-static QString version = "4.0.0rc1"; // eZ publish version plus local version
+static QString version = "4.0.0rc1"; // eZ Publish version plus local version
 static QStringList dirs;          // Additional scan directories
 static bool extension = false;    // Extension mode
 static QDir extension_dir;        // Extension directory
@@ -59,7 +59,7 @@ static bool untranslated = false;    // Untranslated translation is off by defau
 
 static void printUsage()
 {
-    qWarning( "Creates or updates eZ publish 3 translations.\n"
+    qWarning( "Creates or updates eZ Publish 3 translations.\n"
               "Usage: ezlupdate [OPTION]... LANGUAGE\n\n"
               "Options:\n"
               "    -h, --help                Display this information and exit\n"
@@ -205,11 +205,11 @@ int main( int argc, char **argv )
     {
         if ( QDir::current().mkdir( tfdir.path() ) )
         {
-            qWarning( "eZ publish translations directory created: " + tfdir.path() );
+            qWarning( "eZ Publish translations directory created: " + tfdir.path() );
         }
         else
         {
-            qFatal( "ERROR - eZ publish translations directory could not be created: " + tfdir.path() );
+            qFatal( "ERROR - eZ Publish translations directory could not be created: " + tfdir.path() );
         }
     }
 
@@ -222,11 +222,11 @@ int main( int argc, char **argv )
         {
             if ( QDir::current().mkdir( languageDir.path() ) )
             {
-                qWarning( "eZ publish translations directory created: " + languageDir.path() );
+                qWarning( "eZ Publish translations directory created: " + languageDir.path() );
             }
             else
             {
-                qFatal( "ERROR - eZ publish translations directory could not be created: " + languageDir.path() );
+                qFatal( "ERROR - eZ Publish translations directory could not be created: " + languageDir.path() );
             }
         }
     }
@@ -238,14 +238,14 @@ int main( int argc, char **argv )
     if ( extension )
     {
         if ( verbose )
-            qWarning( "Checking eZ publish extension directory: '%s'", extension_dir.absPath().latin1() );
+            qWarning( "Checking eZ Publish extension directory: '%s'", extension_dir.absPath().latin1() );
         dir.setCurrent( extension_dir.absPath() );
         traverse( dir.currentDirPath(), fetchedTor, assumeUTF8 );
     }
     else
     {
         if ( verbose )
-            qWarning( "Checking eZ publish directory: '%s'", dir.absPath().latin1() );
+            qWarning( "Checking eZ Publish directory: '%s'", dir.absPath().latin1() );
 //        traverse( dir.path() + QDir::separator() + "kernel", fetchedTor, assumeUTF8 );
 //        traverse( dir.path() + QDir::separator() + "lib", fetchedTor, assumeUTF8 );
 //        traverse( dir.path() + QDir::separator() + "design", fetchedTor, assumeUTF8 );
@@ -323,7 +323,7 @@ int main( int argc, char **argv )
 }
 
 /**!
-   Recursively traverse an eZ publish directory
+   Recursively traverse an eZ Publish directory
 */
 void traverse( const QDir &dir, MetaTranslator &fetchedTor, bool assumeUTF8 )
 {

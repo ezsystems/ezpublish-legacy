@@ -1,11 +1,11 @@
 *Title: Static Caching of Content
 
 *Documentation:
-The Static Caching feature in eZ publish 3.6 makes it possible to statically
+The Static Caching feature in eZ Publish 3.6 makes it possible to statically
 cache content based on a configuration file.  It uses apache rewrite rules to
 check if a static file exists, and serve it straight away from disk without
 having to go through PHP if this is the case. In case the file does not exist,
-the request is simply put through eZ publish.
+the request is simply put through eZ Publish.
 
 Static cache files are created in two ways:
 1. By publishing an object.
@@ -33,7 +33,7 @@ RewriteRule !\.(gif|css|jpg|png|jar|ico|js)$ /index.php
 </code>
 
 Of course, you will need to change "/dat/ez.no" to the path corresponding with
-the root location of your eZ publish installation.
+the root location of your eZ Publish installation.
 
 
 In settings/override/site.ini.append.php add the following settings to enable
@@ -61,7 +61,7 @@ CachedURLArray[]=/*
   cache feature uses this to retrieve the generated content to store as cache
   file.
 - StaticStorageDir is the directory on where to store the static cache files.
-  It's relative to the root directory of your eZ publish installation. This
+  It's relative to the root directory of your eZ Publish installation. This
   needs to match the part between "/dat/ez.no/" and "$1/index.html" in the
   rewrite rules above.
 - MaxCacheDepth is the maximum number of levels that might be cached as seen
@@ -80,7 +80,7 @@ In this example there are two languages of one site: english and french, where
 the siteaccesses are called news_en and news_fr.
 
 In this case we use the following rewrite rules (which are slightly different),
-the root directory of the eZ publish installation is "/home/httpd/ez-3.6" here:
+the root directory of the eZ Publish installation is "/home/httpd/ez-3.6" here:
 
 <code>
 RewriteEngine On
