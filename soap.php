@@ -25,8 +25,7 @@
 //
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
-    #Header("WWW-Authenticate: Basic realm=\"\"");
-    #Header("HTTP/1.0 401 Unauthorized"); 
+
 /*! \file soap.php
 */
 
