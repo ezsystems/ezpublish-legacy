@@ -25,7 +25,8 @@
 //
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
-
+    #Header("WWW-Authenticate: Basic realm=\"\"");
+    #Header("HTTP/1.0 401 Unauthorized"); 
 /*! \file soap.php
 */
 
@@ -39,10 +40,10 @@ ob_start();
 
 ini_set( "display_errors" , "0" );
 
-require_once( "lib/ezutils/classes/ezdebug.php" );
+//require_once( "lib/ezutils/classes/ezdebug.php" );
 //include_once( "lib/ezutils/classes/ezini.php" );
 //include_once( 'lib/ezutils/classes/ezsys.php' );
-require_once( 'lib/ezutils/classes/ezexecution.php' );
+//require_once( 'lib/ezutils/classes/ezexecution.php' );
 require 'autoload.php';
 
 /*!
@@ -61,11 +62,10 @@ $ini = eZINI::instance();
 
 // Initialize/set the index file.
 eZSys::init( 'soap.php', $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) == 'true' );
-eZSys::initIni( $ini );
 
 
 // include ezsession override implementation
-require_once( "lib/ezutils/classes/ezsession.php" );
+//require_once( "lib/ezutils/classes/ezsession.php" );
 
 // Check for extension
 //include_once( 'lib/ezutils/classes/ezextension.php' );
@@ -120,8 +120,8 @@ if ( $enableSOAP == 'true' )
     //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 
     // Login if we have username and password.
-    if ( isset( $_SERVER['PHP_AUTH_USER'] ) and isset( $_SERVER['PHP_AUTH_PW'] ) )
-        eZUser::loginUser( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] );
+    if ( eZHTTPTool::username() and eZHTTPTool::password() )
+        eZUser::loginUser( eZHTTPTool::username(), eZHTTPTool::password() );
 
     //include_once( 'lib/ezsoap/classes/ezsoapserver.php' );
 

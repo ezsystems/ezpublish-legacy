@@ -165,10 +165,10 @@ if ( $enable === 'true' )
 
             $loginUsername = "";
             // Get the username and the password.
-            if ( isset( $_SERVER['PHP_AUTH_USER'] ) )
-                $loginUsername = $_SERVER['PHP_AUTH_USER'];
-            if ( isset( $_SERVER['PHP_AUTH_PW'] ) )
-                $loginPassword = $_SERVER['PHP_AUTH_PW'];
+            if ( eZHTTPTool::username() )
+                $loginUsername = eZHTTPTool::username();
+            if ( eZHTTPTool::password() )
+                $loginPassword = eZHTTPTool::password();
 
             // Strip away "domainname\" from a possible "domainname\password" string.
             if ( preg_match( "#(.*)\\\\(.*)$#", $loginUsername, $matches ) )

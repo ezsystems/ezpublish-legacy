@@ -410,6 +410,55 @@ class eZHTTPTool
         return false;
     }
 
+    /*!
+     \static
+
+     Returns username from HTTP authentication or false if not logged in.
+     See http://en.php.net/features.http-auth why you can`t safely use $_SERVER['PHP_AUTH_USER'].
+    */
+    static function username()
+    {
+        $ini = eZINI::instance();
+        $AUTHKey = $ini->variable( 'SiteSettings', 'HTTPAUTHServerVariable' );
+        $matches = array();
+        if ( array_key_exists( 'PHP_AUTH_USER', $_SERVER ) )
+        {
+            return $_SERVER['PHP_AUTH_USER'];
+        }
+        elseif ( substr( php_sapi_name(), 0, 3 ) == 'cgi' and 
+                 array_key_exists( $AUTHKey, $_SERVER ) and 
+                 preg_match('/Basic\s+(.*)$/i', $_SERVER[$AUTHKey], $matches ) )
+        {
+            list( $name, $password ) = explode( ':', base64_decode( $matches[1] ) );
+            return $name;
+        }
+        return false;
+    }
+
+    /*!
+     \static
+
+     Returns password from HTTP authentication or false if not logged in.
+     See http://en.php.net/features.http-auth why you can`t safely use $_SERVER['PHP_AUTH_PW'].
+    */
+    static function password()
+    {
+        $ini = eZINI::instance();
+        $AUTHKey = $ini->variable( 'SiteSettings', 'HTTPAUTHServerVariable' );
+        $matches = array();
+        if ( array_key_exists( 'PHP_AUTH_PW', $_SERVER ) )
+        {
+            return $_SERVER['PHP_AUTH_PW'];
+        }
+        elseif ( substr( php_sapi_name(), 0, 3 ) == 'cgi' and 
+                 array_key_exists( $AUTHKey, $_SERVER ) and 
+                 preg_match('/Basic\s+(.*)$/i', $_SERVER[$AUTHKey], $matches ) )
+        {
+            list( $name, $password ) = explode( ':', base64_decode( $matches[1] ) );
+            return $password;
+        }
+        return false;
+    }
 
     /*!
      \static
