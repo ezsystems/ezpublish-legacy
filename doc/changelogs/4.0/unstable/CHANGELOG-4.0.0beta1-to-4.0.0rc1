@@ -1,6 +1,7 @@
 Changes from 4.0.0beta1 to 4.0.0rc1
 
 *Kernel:
+- Implemented enhancement #11849: RSS will consider guid is remote_id in addition.
 
 *Bugs:
 - Fixed bug #12007: wildcard is not working when it points to a module

@@ -216,9 +216,26 @@ function importRSSItem( $item, $rssImport, $cli, $channel )
     $parentContentObject = $parentContentObjectTreeNode->attribute( 'object' ); // Get parent content object
     $titleElement = $item->getElementsByTagName( 'title' )->item( 0 );
     $title = is_object( $titleElement ) ? $titleElement->textContent : '';
+
+    // Test for link or guid as unique identifier
     $link = $item->getElementsByTagName( 'link' )->item( 0 );
-    $linkURL = $link->textContent;
-    $md5Sum = md5( $linkURL );
+    $guid = $item->getElementsByTagName( 'guid' )->item( 0 );
+    if ( $link->textContent )
+    {
+        $md5Sum = md5( $link->textContent );
+    }
+    elseif ( $guid->textContent )
+    {
+        $md5Sum = md5( $guid->textContent );
+    }
+    else
+    {
+        if ( !$isQuiet )
+        {
+            $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Item has no unique identifier. RSS guid or link missing.' );
+        }
+        return 0;
+    }
 
     // Try to fetch RSSImport object with md5 sum matching link.
     $existingObject = eZPersistentObject::fetchObject( eZContentObject::definition(), null,
