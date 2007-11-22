@@ -26,6 +26,29 @@
 
 <p>{'The newly created template file will be placed in'|i18n( 'design/standard/design/templatecreate' )} design/{$site_design}/override/templates/.</p>
 
+{def $extension_list=ezini('ExtensionSettings','DesignExtensions','design.ini' )}
+{if ne($extension_list, array())}
+    <div class="block">
+    <label>{'Extension'|i18n( 'design/standard/visual/templatecreate' )}:</label>
+
+    <select name="DesignExtension">
+        {foreach $extension_list as $extensionName}
+            {if eq($design_extension,$extensionName)}
+                <option value="{$extensionName}" selected="selected">{$extensionName}</option>
+            {else}
+                <option value="{$extensionName}">{$extensionName}</option>
+            {/if}
+        {/foreach}
+
+        {if eq($design_extension,"")}
+            <option value="" selected="selected">No extension</option>
+        {else}
+            <option value="">No extension</option>
+        {/if}
+    </select>
+    </div>
+{/if}
+
 <div class="block">
     <label>{'Filename'|i18n( 'design/standard/design/templatecreate' )}</label>
     <input class="halfbox" type="text" name="TemplateName" value="{$template_name}" />.tpl
