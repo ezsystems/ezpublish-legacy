@@ -82,16 +82,32 @@ else if ( strpos( $template, "pagelayout.tpl" ) )
 
 $error = false;
 $templateName = false;
+$designExtension = '';
+
+$designINI = eZINI::instance( 'design.ini' );
+$designExtensionList = $designINI->variable( 'ExtensionSettings', 'DesignExtensions' );
+if ( $designExtensionList !== array() )
+{
+    $designExtension = $designExtensionList[0];
+}
 
 if ( $module->isCurrentAction( 'CreateOverride' ) )
 {
     $templateName = trim( $http->postVariable( 'TemplateName' ) );
+    if ( $http->hasPostVariable( 'DesignExtension' ) )
+    {
+        $designExtension = trim( $http->postVariable( 'DesignExtension' ) );
+    }
 
     if ( preg_match( "#^[0-9a-z_]+$#", $templateName ) )
     {
         $templateName = trim( $http->postVariable( 'TemplateName' ) );
-        $fileName = "design/$siteDesign/override/templates/" . $templateName . ".tpl";
         $filePath = "design/$siteDesign/override/templates";
+        if ( $designExtension !== '' )
+        {
+            $filePath = eZExtension::baseDirectory() . "/" . $designExtension . "/" . $filePath;
+        }
+        $fileName = $filePath . "/" . $templateName . ".tpl";
 
         $templateCode = "";
         switch ( $templateType )
@@ -163,7 +179,7 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
             $overridePath = "settings/siteaccess/$siteAccess/override.ini.append.php";
             if ( file_exists( $overridePath ) )
             {
-                $s = stat($overridePath); 
+                $s = stat($overridePath);
                 $mode = $s["mode"] & 0777; // get only the last 9 bits.
                 if ($mode & $filePermission != $filePermission ) // filePermission wrong?
                 {
@@ -463,6 +479,7 @@ $tpl->setVariable( 'template_name', $templateName );
 $tpl->setVariable( 'site_base', $siteBase );
 $tpl->setVariable( 'site_design', $siteDesign );
 $tpl->setVariable( 'override_keys', $overrideKeys );
+$tpl->setVariable( 'design_extension', $designExtension );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:visual/templatecreate.tpl" );

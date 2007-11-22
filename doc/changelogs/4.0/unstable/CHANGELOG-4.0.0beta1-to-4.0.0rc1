@@ -9,3 +9,4 @@ Changes from 4.0.0beta1 to 4.0.0rc1
 - Fixed bug #10517: Inconsistent license headers
 - Fixed bug #12012: "eZ systems" should be "eZ Systems"
 - Fixed bug #11295: eZ Publish brand name is still used with lowercase p on several places
+- Fixed bug #11853: Overrides created in admin GUI are stored in design/ instead of extension/
