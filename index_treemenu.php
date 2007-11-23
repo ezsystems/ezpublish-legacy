@@ -91,6 +91,12 @@ $uri =& eZURI::instance( eZSys::requestURI() );
 
 $GLOBALS['eZRequestedURI'] =& $uri;
 
+// Check for extension
+include_once( 'lib/ezutils/classes/ezextension.php' );
+include_once( 'kernel/common/ezincludefunctions.php' );
+eZExtension::activateExtensions( 'default' );
+// Extension check end
+
 include_once( 'pre_check.php' );
 
 include_once( 'access.php' );
