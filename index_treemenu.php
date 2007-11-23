@@ -93,6 +93,12 @@ $GLOBALS['eZRequestedURI'] = $uri;
 
 require_once 'pre_check.php';
 
+// Check for extension
+//include_once( 'lib/ezutils/classes/ezextension.php' );
+require_once( 'kernel/common/ezincludefunctions.php' );
+eZExtension::activateExtensions( 'default' );
+// Extension check end
+
 require_once 'access.php';
 
 $access = accessType( $uri,
