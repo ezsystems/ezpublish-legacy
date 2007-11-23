@@ -205,14 +205,8 @@ class eZVatType extends eZPersistentObject
 
     static function create()
     {
-        /*
         $row = array(
             "id" => null,
-            "name" => ezi18n( 'kernel/shop', 'VAT type' ),
-            "percentage" => null );
-            */
-        $row = array(
-            "id" => 0,
             "name" => ezi18n( 'kernel/shop', 'VAT type' ),
             "percentage" => 0.0 );
         return new eZVatType( $row );
