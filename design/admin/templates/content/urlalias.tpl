@@ -82,17 +82,19 @@
         </td>
 
         <td>
-            /
+            {def $url_alias_path=""}
             {foreach $element.path_array as $el}
-            {if ne( $el.action, "nop:" )}
-            <a href={concat("/",$el.path)|ezurl}>
-            {/if}
-            {$el.text|wash}
-            {if ne( $el.action, "nop:" )}
-            </a>
-            {/if}
-            {delimiter}/{/delimiter}
+                {if ne( $el.action, "nop:" )}
+                    {set $url_alias_path=concat($url_alias_path, '/',
+                                                '<a href=', concat("/",$el.path)|ezurl, ">",
+                                                $el.text|wash,
+                                                '</a>')}
+                {else}
+                    {set $url_alias_path=concat($url_alias_path, '/', $el.text|wash)}
+                {/if}
             {/foreach}
+            {$url_alias_path}
+            {undef $url_alias_path}
         </td>
 
         <td>
@@ -228,9 +230,9 @@
         <td>
             {set $img_title='Edit the contents for language %language.'|i18n( 'design/admin/content/urlalias',, hash( '%language', $language_obj.name ) )}
             {if fetch( content, access, hash( access, 'edit', contentobject, $node, language, $locale ) )}
-    			<a href={concat('/content/edit/', $node.contentobject_id, '/f/', $locale)|ezurl}><img src={'edit.gif'|ezimage} alt="{$img_title}" title="{$img_title}" /></a>
+                <a href={concat('/content/edit/', $node.contentobject_id, '/f/', $locale)|ezurl}><img src={'edit.gif'|ezimage} alt="{$img_title}" title="{$img_title}" /></a>
             {else}
-    			<img src={'edit-disabled.gif'|ezimage} title="{'You cannot edit the contents for language %language because you do not have permission to edit the object.'|i18n( 'design/admin/content/urlalias',, hash( '%language', $language_obj.name ) )}" />
+                <img src={'edit-disabled.gif'|ezimage} title="{'You cannot edit the contents for language %language because you do not have permission to edit the object.'|i18n( 'design/admin/content/urlalias',, hash( '%language', $language_obj.name ) )}" />
             {/if}
         </td>
     </tr>
