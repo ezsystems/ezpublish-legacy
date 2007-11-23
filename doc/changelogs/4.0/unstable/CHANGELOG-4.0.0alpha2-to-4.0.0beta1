@@ -124,3 +124,4 @@ Changes from 4.0.0alpha2 to 4.0.0beta1
 - Fixed bug #11986: eZContentLanguage::SqlFilter() clause does not include drafts in the most prioritised language.
 - Fixed bug #11950: Bug in update/common/scripts/updatexmltext.php script.
 - Fixed bug #12038: kernel-datatype-ezxmltext is on by default.
+- Fixed bug #12011: New debug css rules mess up table styles.
