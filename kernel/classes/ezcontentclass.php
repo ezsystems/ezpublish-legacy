@@ -1370,14 +1370,8 @@ You will need to change the class of the node by using the swap functionality.' 
     {
         if ( $id === false )
         {
-            if ( isset( $this ) and
-                 strtolower( get_class( $this ) ) == "ezcontentclass" )
-            {
-                $id = $this->ID;
-                $version = $this->Version;
-            }
-            else
-                return null;
+            $id = $this->ID;
+            $version = $this->Version;
         }
 
         return eZContentClassAttribute::fetchFilteredList( array( "contentclass_id" => $id,
