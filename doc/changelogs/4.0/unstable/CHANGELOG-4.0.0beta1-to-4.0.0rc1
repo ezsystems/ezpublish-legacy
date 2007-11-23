@@ -17,3 +17,4 @@ Changes from 4.0.0beta1 to 4.0.0rc1
   (Merged from stable/3.10 (3.10.1) rev. 20847)
 - Fixed bug #6544: Template operator: pdf(header_block, ...) and pdf(footer_block, ...) are broken.
   (Merged from stable/3.10 (3.10.1) rev. 20850)
+- Fixed bug #11425: The system shows unneeded (non-existing) spaces in the manual URLs of nodes
