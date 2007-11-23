@@ -411,7 +411,7 @@ class eZPDF
                     $operatorValue .= urlencode( $frameDesc['block_code'] );
                 }
 
-                $operatorValue .= '</ezGroup:callFrame>';
+                $operatorValue .= '</ezGroup:callBlockFrame>';
 
                 eZDebug::writeNotice( 'PDF: Added Block '.$namedParameters['operation'] .': '.$operatorValue, 'eZPDF::modify' );
                 return $operatorValue;
