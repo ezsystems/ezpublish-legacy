@@ -19,3 +19,4 @@ Changes from 4.0.0beta1 to 4.0.0rc1
   (Merged from stable/3.10 (3.10.1) rev. 20850)
 - Fixed bug #11425: The system shows unneeded (non-existing) spaces in the manual URLs of nodes
 - Fixed bug #11983: Strict warnings related to sending e-mail
+- Fixed bug #11553: eZTemplateDesignResource::overrideArray() still contains references to $this

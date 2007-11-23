@@ -62,7 +62,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             return false;
 
         $file = $resourceData['template-name'];
-        $matchFileArray = $this->overrideArray( $this->OverrideSiteAccess );
+        $matchFileArray = eZTemplateDesignResource::overrideArray( $this->OverrideSiteAccess, $this->OnlyStandard );
         $matchList = array();
         foreach ( $matchFileArray as $matchFile )
         {
@@ -350,7 +350,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 //            $matchFileArray = false;
             if ( empty( $GLOBALS['eZTemplateOverrideArray_' . $this->OverrideSiteAccess] ) )
             {
-                $GLOBALS['eZTemplateOverrideArray_' . $this->OverrideSiteAccess] = $this->overrideArray( $this->OverrideSiteAccess );
+                $GLOBALS['eZTemplateOverrideArray_' . $this->OverrideSiteAccess] = eZTemplateDesignResource::overrideArray( $this->OverrideSiteAccess, $this->OnlyStandard );
             }
             $matchFileArray = $GLOBALS['eZTemplateOverrideArray_' . $this->OverrideSiteAccess];
 
@@ -483,7 +483,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         if ( !$useOverrideCache or
              !file_exists( $overrideCacheFile ) )
         {
-            $matchFileArray = $this->overrideArray( $this->OverrideSiteAccess );
+            $matchFileArray = eZTemplateDesignResource::overrideArray( $this->OverrideSiteAccess, $this->OnlyStandard );
 
             // Generate PHP compiled cache file.
             //include_once( 'lib/ezutils/classes/ezphpcreator.php' );
@@ -769,11 +769,6 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     */
     static function overrideArray( $siteAccess = false, $onlyStandard = null )
     {
-        if ( $onlyStandard === null and
-             isset( $this ) and
-             strtolower( get_class( $this ) ) == 'eztemplatedesignresource' )
-            $onlyStandard = $this->OnlyStandard;
-
         // fetch the override array from a specific siteacces
         if ( $siteAccess )
         {
