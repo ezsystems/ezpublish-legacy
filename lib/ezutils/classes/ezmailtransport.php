@@ -60,7 +60,7 @@ class eZMailTransport
      \static
      Sends the contents of the email object \a $mail using the default transport.
     */
-    function send( eZMail $mail )
+    static function send( eZMail $mail )
     {
         $ini = eZINI::instance();
 

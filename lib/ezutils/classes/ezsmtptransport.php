@@ -98,8 +98,9 @@ class eZSMTPTransport extends eZMailTransport
 
         //include_once( "lib/ezutils/classes/ezsmtp.php" );
 
-        $smtp = smtp::connect( $parameters );
-        if ( $smtp )
+        $smtp = new smtp( $parameters );
+        $smtpConnected = $smtp->connect();
+        if ( $smtpConnected )
         {
             $result = $smtp->send( $sendData );
             $mailSent = true;
