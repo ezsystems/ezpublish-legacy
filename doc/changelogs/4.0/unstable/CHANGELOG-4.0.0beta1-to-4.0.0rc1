@@ -3,6 +3,7 @@ Changes from 4.0.0beta1 to 4.0.0rc1
 *Kernel:
 - Implemented enhancement #11849: RSS will consider guid as remote_id in addition.
 - Implemented enhancement #11849: HTTP Authentication for SOAP and WEBDAV under FASTCGI/CGI.
+- Fixed bug #12026: Deprecate kernel/error/errors.php
 
 *Bugs:
 - Fixed bug #12007: wildcard is not working when it points to a module

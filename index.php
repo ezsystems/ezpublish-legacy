@@ -353,7 +353,7 @@ require_once "pre_check.php";
 //if ( $ini->variable( "SiteAccessSettings", "CheckValidity" ) == "true" )
 //    //include_once( "lib/ezsetup/classes/ezsetup.php" );
 
-require_once 'kernel/error/errors.php';
+//require_once 'kernel/error/errors.php';
 
 /*
 print( "<pre>" );

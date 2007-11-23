@@ -28,7 +28,10 @@
 
 /*! \file errors.php
   Contains all the error codes for the shop module.
+  /deprecated Use eZError class constants instead
 */
+
+eZDebug::writeWarning( "All the constants in " . __FILE__ . " are deprecated, use eZError class constants instead" );
 
 /*!
  The object is not a product.

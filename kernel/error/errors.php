@@ -28,7 +28,10 @@
 
 /*! \file errors.php
   Contains all the basic kernel and kernel related error codes.
+  /deprecated Use eZError class constants instead
 */
+
+eZDebug::writeWarning( "All the constants in " . __FILE__ . " are deprecated, use eZError class constants instead" );
 
 /*!
  Access denied to object or module.
