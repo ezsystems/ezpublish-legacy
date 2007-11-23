@@ -603,6 +603,7 @@ function verifyDataInternal( &$result, $error )
     if ( !$performVerification )
         return;
 
+    $db =& eZDB::instance();
     if ( $db->databaseName() != 'mysql' )
     {
         $cli->error( "Can only perform verification on a MySQL database." );
@@ -610,7 +611,6 @@ function verifyDataInternal( &$result, $error )
         return; // We only support MySQL for now
     }
 
-    $db =& eZDB::instance();
     $tmprows = $db->arrayQuery( "SELECT a1.*, a2.link FROM ezurlalias_ml a1 LEFT JOIN ezurlalias_ml a2 ON a1.parent = a2.id WHERE a1.parent != 0 HAVING a2.link is null" );
     if ( count( $tmprows ) > 0 )
     {
