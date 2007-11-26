@@ -328,7 +328,10 @@ class eZCharTransform
             if ( $time >= max( self::CODE_DATE, $timestamp ) )
             {
                 // Execute the PHP file causing $text will be transformed
+                ob_start();
                 include "$filepath";
+                ob_end_clean();
+
                 return $text;
             }
         }
