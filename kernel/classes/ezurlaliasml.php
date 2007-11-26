@@ -87,6 +87,8 @@ class eZURLAliasML extends eZPersistentObject
     const LINK_ID_NOT_FOUND = 1;
     const LINK_ID_WRONG_ACTION = 2;
     const LINK_ALREADY_TAKEN = 3;
+    const ACTION_INVALID = 51;
+    const DB_ERROR = 101;
 
     /*!
      Optionally computed path string for this element, used for caching purposes.
@@ -389,7 +391,7 @@ class eZURLAliasML extends eZPersistentObject
      \static
      Stores the full path $path to point to action $action, any missing parents are created as placeholders (ie. nop:).
 
-     Returns an array containing the entry 'status' which is the status code, is \c true if all went well, a number otherwise (see EZ_URLALIAS_* constants).
+     Returns an array containing the entry 'status' which is the status code, is \c true if all went well, a number otherwise (see class constants).
      Will contain 'path' for succesful creation or if the path already exists.
 
      \param $path String containing full path, leading and trailing slashes are stripped.
@@ -449,7 +451,7 @@ class eZURLAliasML extends eZPersistentObject
                 $element = eZURLAliasML::convertToAlias( $element, 'noname' . (count($createdPath)+1) );
             $elementStr = $db->escapeString( eZURLALiasML::strtolower( $element ) );
 
-            $query = "SELECT * FROM ezurlalias_ml WHERE text_md5 = " . $db->md5( "'$elementStr'" ) . " AND parent = {$parentID}";
+            $query = "SELECT * FROM ezurlalias_ml WHERE text_md5 = " . eZURLALiasML::md5( $db, $elementStr, false ) . " AND parent = {$parentID}";
             $rows = $db->arrayQuery( $query );
             if ( count( $rows ) == 0 )
             {
@@ -482,102 +484,190 @@ class eZURLAliasML extends eZPersistentObject
             }
         }
 
-        preg_match( "#^(.+):(.+)$#", $action, $matches );
+        if ( !preg_match( "#^(.+):(.+)$#", $action, $matches ) )
+        {
+            return array( 'status' => self::ACTION_INVALID,
+                          'error_message' => "The action value " . var_export( $action, true ) . " is invalid",
+                          'error_number' => self::ACTION_INVALID,
+                          'path'    => null,
+                          'element' => null );
+        }
         $actionName  = $matches[1];
         $actionValue = $matches[2];
         $existingElementID = null;
         $alwaysMask = $alwaysAvailable ? 1 : 0;
 
-
         $actionStr = $db->escapeString( $action );
+        $actionTypeStr = $db->escapeString( $actionName );
 
         $createdElement = null;
         if ( $linkID === false )
         {
-            // Step 1, find existing ID
-            $query = "SELECT id FROM ezurlalias_ml WHERE action = '{$actionStr}' AND is_original = 1 AND is_alias= 0";
-            $rows = $db->arrayQuery( $query );
-            if ( count( $rows ) > 0 )
-            {
-                $existingElementID = $rows[0]['id'];
-            }
-
-            // Step 2, remove language from original entries
-            $bitDel   = $db->bitAnd( 'lang_mask' ,  (~$languageID) );
-
-            $query = "UPDATE ezurlalias_ml SET lang_mask = {$bitDel} WHERE action = '{$actionStr}' AND is_original = 1 AND is_alias = 0";
-            $db->query( $query );
-
-            // Step 3, adjust name
             if ( $cleanupElements )
                 $topElement = eZURLAliasML::convertToAlias( $topElement, 'noname' . (count($createdPath)+1) );
-            $topElement = eZURLAliasML::findUniqueText( $parentID, $topElement, $action );
 
-            // Step 4, update | create element
-            $textMD5 = $db->md5( "'" . $db->escapeString( eZURLAliasML::strtolower( $topElement ) ) . "'" );
-            $query = "SELECT * FROM ezurlalias_ml WHERE parent = {$parentID} AND text_md5 = {$textMD5} AND is_original = 1 AND is_alias = 0";
-            $rows = $db->arrayQuery( $query );
-            // TODO: optimize on InnoDB with INSERT ... ON DUPLICATE
-            if ( count( $rows ) > 0 )
+            $adjustName = false;
+            $curElementID = null;
+            $newElementID = null;
+            $newText = $topElement;
+            $uniqueCounter = 0;
+
+            // Loop until we a valid entry point, which means:
+            // 1. The entry does not exist yet, so create a new one
+            // 2. The entry exists but is re-usable (e.g. nop or same action)
+            // 3. The entry exists and cannot be re-used, instead the name is adjusted to be unique.
+            while ( true )
             {
-                $bitOr = $db->bitOr( 'lang_mask', $languageID );
-                $query = "UPDATE ezurlalias_ml SET lang_mask = {$bitOr} WHERE parent = {$parentID} AND text_md5 = {$textMD5} AND is_original = 1 AND is_alias = 0";
-                $db->query( $query );
-                foreach ( $rows as $row )
+                $newText = $topElement;
+                if ( $uniqueCounter > 0 )
+                    $newText .= ($uniqueCounter + 1);
+                $textMD5 = eZURLALiasML::md5( $db, $newText );
+
+                $query = "SELECT * FROM ezurlalias_ml WHERE parent = $parentID AND text_md5 = {$textMD5}";
+                $rows = $db->arrayQuery( $query );
+                if ( count( $rows ) == 0 )
                 {
-                    $rowText = $row['text'];
-                    $rowTextLower = eZURLAliasML::strtolower( $rowText );
-                    $topElementLower = eZURLAliasML::strtolower( $topElement );
-                    if ( strcmp( $topElement, $rowText ) != 0 &&
-                         strcmp( $topElementLower, $rowTextLower ) == 0 )
-                    {
-                        // Only the case differs, so update it
-                        $sqlText = $db->escapeString( $topElement );
-                        $query = "UPDATE ezurlalias_ml SET text = '{$sqlText}' WHERE parent = {$parentID} AND text_md5 = {$textMD5} AND is_original = 1 AND is_alias = 0";
-                        $db->query( $query );
-                    }
+                    // No such entry, create a new one
+                    break;
                 }
+
+                $row = $rows[0];
+                $curID = (int)$row['id'];
+                $curAction = $row['action'];
+                if ( $curAction == 'nop:' || $curAction == $action || $row['is_original'] == 0 )
+                {
+                    // We can reuse the element so record the ID
+                    $curElementID = $curID;
+                    $newElementID = $curID;
+                    break;
+                }
+
+                if ( !$autoAdjustName )
+                {
+                    if ( $reportErrors )
+                        eZDebug::writeError( "Tried to store path '{$path}' but the path already exists (ID: {$curID}) but with action '{$curAction}', the new action was '{$action}'" );
+                    return array( 'status' => self::LINK_ALREADY_TAKEN,
+                                  'path'    => null,
+                                  'element' => null );
+                }
+                // Need to adjust name, re-iterate
+                ++$uniqueCounter;
+            }
+            $textEsc = $db->escapeString( $newText );
+
+            // See if there is already a node in the same level with the same action
+            if ( $newElementID === null )
+            {
+                $query = "SELECT * FROM ezurlalias_ml\n" .
+                         "WHERE parent = $parentID AND action = '{$actionStr}'";
+                $rows = $db->arrayQuery( $query );
+                if ( count( $rows ) > 0 )
+                {
+                    $newElementID = (int)$rows[0]['id'];
+                }
+            }
+
+            // Create or update the element
+            if ( $curElementID !== null )
+            {
+                $bitOr = $db->bitOr( $db->bitAnd( 'lang_mask', ~1 ), $languageMask );
+                // Note: The `text` field is updated too, this ensures case-changes are stored.
+                $query = "UPDATE ezurlalias_ml SET link = id, lang_mask = {$bitOr}, text = '{$textEsc}', action = '{$actionStr}', action_type = '{$actionTypeStr}', is_alias = 0, is_original = 1\n" .
+                         "WHERE parent = $parentID AND text_md5 = {$textMD5}";
+                $res = $db->query( $query );
+                if ( !$res ) return eZURLAliasML::dbError( $db );
+                $newElementID = $curElementID;
             }
             else
             {
-                $element = new eZURLAliasML( array( 'id'=> $existingElementID,
-                                                    'link' => $existingElementID,
+                $element = new eZURLAliasML( array( 'id'=> $newElementID,
+                                                    'link' => null,
                                                     'parent' => $parentID,
-                                                    'text' => $topElement,
+                                                    'text' => $newText,
                                                     'lang_mask' => $languageID | $alwaysMask,
                                                     'action' => $action ) );
                 $element->store();
-                $existingElementID = $element->attribute( 'id' );
+                $newElementID = (int)$element->attribute( 'id' );
                 $createdElement = $element;
             }
+            $createdPath[] = $newText;
 
-            // Step 5, find all empty lang_mask entries and make them redirections
-            $bitNotFirst = $db->bitAnd( 'lang_mask', -2 );
+            // Remove the language ID from other elements which have the same action
+            $bitDel = $db->bitAnd( 'lang_mask', ~$languageID );
+            $query = "UPDATE ezurlalias_ml SET lang_mask = {$bitDel}\n" .
+                     "WHERE action = '{$actionStr}' AND (parent != $parentID OR text_md5 != {$textMD5})";
+            $res = $db->query( $query );
+            if ( !$res ) return eZURLAliasML::dbError( $db );
 
-            $query = "SELECT * FROM ezurlalias_ml WHERE action = '{$actionStr}' AND {$bitNotFirst} = 0";
+            // Look for other nodes with the same action and no languages
+            // if found make then link to the new entry
+            $bitAnd = $db->bitAnd( 'lang_mask', ~1 );
+            $query = "SELECT * FROM ezurlalias_ml\n" .
+                     "WHERE action = '{$actionStr}' AND {$bitAnd} = 0 AND (parent != $parentID OR text_md5 != {$textMD5})";
             $rows = $db->arrayQuery( $query );
-            $redirectionLanguageID = $languageID;
-            if ( !$redirectionLanguageID )
-            {
-                $topLanguage = eZContentLanguage::topPriorityLanguage();
-                $redirectionLanguageID = $topLanguage->attribute( 'id' );
-            }
             foreach ( $rows as $row )
             {
-                $row['id'] = null;
-                $row['link'] = $existingElementID;
-                $row['lang_mask'] = $redirectionLanguageID | $alwaysMask;
-                $element = new eZURLAliasML( $row );
-                $element->store();
+                $idtmp = (int)$row['id'];
+                if ( $idtmp == $newElementID )
+                {
+                    $db->lock( "ezurlalias_ml" );
+                    $query = "SELECT max( id ) + 1 AS id FROM ezurlalias_ml";
+                    $rowstmp = $db->arrayQuery( $query );
+                    $idtmp = (int)$rowstmp[0]['id'];
+                    if ( $idtmp == 0 )
+                        $idtmp = 1;
+                    $db->unlock();
+                }
+                $parentIDTmp = (int)$row['parent'];
+                $textMD5Tmp = eZURLALiasML::md5( $db, $row['text'] );
+                $res = $db->query( "UPDATE ezurlalias_ml SET id = {$idtmp}, link = {$newElementID}, lang_mask = 1, is_alias = 0, is_original = 0\n" .
+                                   "WHERE parent = {$parentIDTmp} AND text_md5 = {$textMD5Tmp}" );
+                if ( !$res ) return eZURLAliasML::dbError( $db );
             }
+            $res = $db->query( $query );
+            if ( !$res ) return eZURLAliasML::dbError( $db );
 
-            // Step 6, update historic elements to contain only bit 1
-            $query = "UPDATE ezurlalias_ml SET lang_mask = 1 WHERE action = '{$actionStr}' AND is_original = 0 AND is_alias = 0";
-            $db->query( $query );
-            $createdPath[] = $topElement;
+            // Look for other nodes which is a link for the current action
+            // if found make then link to the new entry
+            $query = "UPDATE ezurlalias_ml SET link = {$newElementID}, is_alias = 0, is_original = 0\n" .
+                     "WHERE action = '{$actionStr}' AND is_original = 0 AND (parent != $parentID OR text_md5 != {$textMD5})";
+            $res = $db->query( $query );
+            if ( !$res ) return eZURLAliasML::dbError( $db );
+
+
+            // Move children from old node to the new node
+            // Conflicts:
+            // New       |       Old |  Action
+            // -------------------------------
+            // Element   | Link      | Delete old
+            // Element   | Element   | Will not happen, if so delete old
+            // Element   | Other     | Reparent with new name
+            // Element   | nop       | Delete old
+            // Link      | Link      | Delete old
+            // Link      | Element   | Delete new, reparent
+            // Link      | Other     | Delete new, reparent
+            // Link      | nop       | Delete old
+            // nop       | Link      | Delete new, reparent
+            // nop       | Element   | Delete new, reparent
+            // nop       | nop       | Delete old
+
+            // TODO: Handle all conflict cases, for now only the `Delete old, reparent` action is done
+
+            $query = "SELECT id FROM ezurlalias_ml\n" .
+                     "WHERE action = '{$actionStr}' AND (parent != $parentID OR text_md5 != {$textMD5})";
+            $rows = $db->arrayQuery( $query );
+            foreach ( $rows as $row )
+            {
+                $oldParentID = (int)$row['id'];
+                $query = "UPDATE ezurlalias_ml SET parent = {$newElementID}\n" .
+                         "WHERE parent = {$oldParentID}";
+                $res = $db->query( $query );
+                if ( !$res ) return eZURLAliasML::dbError( $db );
+            }
         }
         else
         {
+            // Check the link ID
             if ( $linkID !== true )
             {
                 $linkID = (int)$linkID;
@@ -608,33 +698,79 @@ class eZURLAliasML extends eZPersistentObject
                 $linkID = null;
             }
 
-            // Step 2
             if ( $cleanupElements )
                 $topElement = eZURLAliasML::convertToAlias( $topElement, 'noname' . (count($createdPath)+1) );
-            $originalTopElement = $topElement;
+
+            $adjustName = false;
+            $curElementID  = null;
+            $newText = $topElement;
+            $uniqueCounter = 0;
+            $rows = null; // Will be filled in by the while loop
+
+            // Loop until we a valid entry point, which means:
+            // 1. The entry does not exist yet, so create a new one
+            // 2. The entry exists but is re-usable (e.g. nop or same action)
+            // 3. The entry exists and cannot be re-used, instead the name is adjusted to be unique.
             while ( true )
             {
-                $topElement = eZURLAliasML::findUniqueText( $parentID, $topElement, '', true, $languageID );
-                if ( strcmp( $topElement, $originalTopElement ) == 0 || $autoAdjustName )
+                $newText = $topElement;
+                if ( $uniqueCounter > 0 )
+                    $newText .= ($uniqueCounter + 1);
+                $textMD5 = eZURLALiasML::md5( $db, $newText );
+
+                $query = "SELECT * FROM ezurlalias_ml WHERE parent = $parentID AND text_md5 = {$textMD5}";
+                $rows = $db->arrayQuery( $query );
+                if ( count( $rows ) == 0 )
                 {
-                    break; // Name is unique, use it
+                    // No such entry, create a new one
+                    break;
                 }
-                if ( $reportErrors )
+
+                $row = $rows[0];
+                $curID = (int)$row['id'];
+                $curLink = (int)$row['link'];
+                $curAction = $row['action'];
+                if ( $curAction == $action )
                 {
-                    eZDebug::writeError( "The link name '{$originalTopElement}' for parent ID {$parentID} is already taken, cannot create link", 'eZURLAliasML::storePath' );
+                    // If the current node is the same action and is not a link we
+                    // cannot replace it with a link node.
+                    if ( $curID != $curLink )
+                    {
+                        // We can reuse the element so record the ID
+                        $curElementID = $curID;
+                        break;
+                    }
                 }
-                $createdPath[] = $originalTopElement;
-                return array( 'status' => eZURLAliasML::LINK_ALREADY_TAKEN,
-                              'path' => join( '/', $createdPath ) );
+                else if ( $curAction == 'nop:' || $row['is_original'] == 0 )
+                {
+                    // We can reuse the element so record the ID
+                    $curElementID = $curID;
+                    break;
+                }
+
+                if ( !$autoAdjustName )
+                {
+                    if ( $reportErrors )
+                        eZDebug::writeError( "Tried to store path '{$path}' but the path already exists (ID: {$curID}) but with action '{$curAction}', the new action was '{$action}'" );
+                    return array( 'status' => self::LINK_ALREADY_TAKEN,
+                                  'path'    => null,
+                                  'element' => null );
+                }
+                // Need to adjust name, re-iterate
+                ++$uniqueCounter;
             }
-            $sql = "SELECT * FROM ezurlalias_ml WHERE parent = {$parentID} AND text_md5 = " . $db->md5( "'" . $db->escapeString( eZURLAliasML::strtolower( $topElement ) ) . "'" );
-            $rows = $db->arrayQuery( $sql );
-            if ( count( $rows ) > 0 )
+            $textEsc = $db->escapeString( $newText );
+
+            // Create or update the element
+            if ( $curElementID !== null )
             {
-                $element = new eZURLAliasML( $rows[0] );
+                $element = new eZURLAliasML( $rows[0] ); // $rows is from the while loop
                 $element->LangMask  |= $languageID | $alwaysMask;
                 $element->IsAlias    = 1;
                 $element->Action     = $action;
+                // Note: The `text` field is updated too, this ensures case-changes are stored.
+                $element->Text       = $newText;
+                $element->TextMD5    = null;
                 $element->ActionType = null;
                 $element->Link       = null;
             }
@@ -643,7 +779,7 @@ class eZURLAliasML extends eZPersistentObject
                 $element = new eZURLAliasML( array( 'id'=> null,
                                                     'link' => null,
                                                     'parent' => $parentID,
-                                                    'text' => $topElement,
+                                                    'text' => $newText,
                                                     'lang_mask' => $languageID | $alwaysMask,
                                                     'action' => $action,
                                                     'is_alias' => 1 ) );
@@ -655,6 +791,22 @@ class eZURLAliasML extends eZPersistentObject
         return array( 'status' => true,
                       'path'    => join( "/", $createdPath ),
                       'element' => $createdElement );
+    }
+
+    /*!
+     \static
+     \private
+
+     Returns a structure with the current database error.
+     \note This is used by storePath().
+     */
+    static private function dbError( $db )
+    {
+        return array( 'status' => self::DB_ERROR,
+                      'error_message' => $db->errorMessage(),
+                      'error_number'  => $db->errorNumber(),
+                      'path' => null,
+                      'element' => null );
     }
 
     /*!
@@ -1263,11 +1415,11 @@ class eZURLAliasML extends eZPersistentObject
             $langMask = trim( eZContentLanguage::languagesSQLFilter( $table, 'lang_mask' ) );
             if ( $i == 0 )
             {
-                $conds[]   = "{$table}.parent = 0 AND ({$langMask}) AND {$table}.text_md5 = " . $db->md5( "'" . $db->escapeString( eZURLALiasML::strtolower( $element ) ) . "'" );
+                $conds[]   = "{$table}.parent = 0 AND ({$langMask}) AND {$table}.text_md5 = " . eZURLALiasML::md5( $db, $element );
             }
             else
             {
-                $conds[]   = "{$table}.parent = {$prevTable}.link AND ({$langMask}) AND {$table}.text_md5 = " . $db->md5( "'" . $db->escapeString( eZURLALiasML::strtolower( $element ) ) . "'" );
+                $conds[]   = "{$table}.parent = {$prevTable}.link AND ({$langMask}) AND {$table}.text_md5 = " . eZURLALiasML::md5( $db, $element );
             }
             $prevTable = $table;
             ++$i;
@@ -1499,7 +1651,7 @@ class eZURLAliasML extends eZPersistentObject
         // Loop until we find a unique name
         while ( true )
         {
-            $textEsc = $db->md5( "'" . $db->escapeString( eZURLALiasML::strtolower( $text . $suffix ) ) . "'" );
+            $textEsc = eZURLALiasML::md5( $db, $text . $suffix );
             $query = "SELECT * FROM ezurlalias_ml WHERE parent = $parentElementID $actionSQL $languageSQL AND text_md5 = $textEsc";
             if ( !$linkCheck )
             {
@@ -1741,6 +1893,24 @@ class eZURLAliasML extends eZPersistentObject
     }
 
     /*!
+     \static
+     Transform a semi-valid url into one that can be stored in the url-alias system.
+     Removes leading/trailing slashes and repeated slashes.
+
+     \code
+     echo eZURLAliasML::sanitizeURL( "" ); // Result ""
+     echo eZURLAliasML::sanitizeURL( "users//the_dude" ); // Result "users/the_dude"
+     echo eZURLAliasML::sanitizeURL( "archive/products/" ); // Result "archive/products"
+     \endcode
+     \return the sanitized URL
+    */
+    static public function sanitizeURL( $url )
+    {
+        $url = preg_replace( "#//+#", "/", trim( $url, '/' ) );
+        return $url;
+    }
+
+    /*!
      \private
      \static
      Generates partial SELECT part of SQL based on table $table, counter $i and total length $len.
@@ -1779,11 +1949,11 @@ class eZURLAliasML extends eZPersistentObject
         $db = eZDB::instance();
         if ( $i == 0 )
         {
-            $cond = "{$table}.parent = 0 AND ({$langMask}) AND {$table}.text_md5 = " . $db->md5( "'" . $db->escapeString( eZURLALiasML::strtolower( $element ) ) . "'" );
+            $cond = "{$table}.parent = 0 AND ({$langMask}) AND {$table}.text_md5 = " . eZURLALiasML::md5( $db, $element );
         }
         else
         {
-            $cond = "{$table}.parent = {$prevTable}.link AND ({$langMask}) AND {$table}.text_md5 = " . $db->md5( "'" . $db->escapeString( eZURLALiasML::strtolower( $element ) ) . "'" );
+            $cond = "{$table}.parent = {$prevTable}.link AND ({$langMask}) AND {$table}.text_md5 = " . eZURLALiasML::md5( $db, $element );
         }
         return $cond;
     }
@@ -1922,6 +2092,25 @@ class eZURLAliasML extends eZPersistentObject
             $nodeID = substr( $action, strlen( 'eznode:' ) );
 
         return $nodeID;
+    }
+
+    /*!
+     \static
+     Wraps a database md5 call around the string $text and returns the new SQL for it.
+
+     \param $escape If true it will lowercase the text and escape it.
+     \note If the database is Oracle and the text is empty the MD5 is computed by PHP
+           and returned.
+     */
+    static private function md5( $db, $text, $escape = true )
+    {
+        // Special case for Oracle since it cannot calculate MD5 for empty strings
+        if ( strlen( $text ) == 0 && $db->databaseName() == 'oracle' )
+            return "'" . $db->escapeString( md5( $text ) ) . "'";
+
+        if ( $escape )
+            $text = $db->escapeString( eZURLAliasML::strtolower( $text ) );
+        return $db->md5( "'" . $text . "'" );
     }
 
 }
