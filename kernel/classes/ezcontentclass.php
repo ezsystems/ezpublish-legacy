@@ -944,7 +944,11 @@ You will need to change the class of the node by using the swap functionality.' 
     {
 
         global $eZContentClassObjectCache;
-        unset( $eZContentClassObjectCache[$this->ID] );
+
+        if ( isset( $eZContentClassObjectCache[$this->ID] ) )
+        {
+            unset( $eZContentClassObjectCache[$this->ID] );
+        }
 
         $db = eZDB::instance();
         $db->begin();

@@ -27,3 +27,4 @@ Changes from 4.0.0beta1 to 4.0.0rc1
 - Fixed bug #8969: Char transform cache file is not valid PHP
 - Fixed bug #12038: kernel-datatype-ezxmltext is on by default.
 - Fixed bug #12011: New debug css rules mess up table styles.
+- Fixed bug #12048: Missing check for for ID ezcontetclass - store.
