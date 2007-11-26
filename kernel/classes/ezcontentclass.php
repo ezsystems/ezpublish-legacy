@@ -185,7 +185,7 @@ class eZContentClass extends eZPersistentObject
         unset( $this->AllGroups );
         unset( $this->CanInstantiateLanguages );
         unset( $this->VersionCount );
-        unset( $this->ID );
+        $this->ID = null;
     }
 
     /*!

@@ -173,7 +173,7 @@ class eZContentClassAttribute extends eZPersistentObject
 
     function __clone()
     {
-        unset( $this->ID );
+        $this->ID = null;
     }
 
     /*!
