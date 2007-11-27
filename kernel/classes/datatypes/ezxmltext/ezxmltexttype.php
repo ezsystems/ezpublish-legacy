@@ -529,10 +529,10 @@ class eZXMLTextType extends eZDataType
             }
             elseif ( $nodeID )
             {
-                $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
-                if ( is_array( $node ) )
+                $nodeData = eZContentObjectTreeNode::fetch( $nodeID, false, false );
+                if ( is_array( $nodeData ) )
                 {
-                    $node->setAttribute( 'node_remote_id', $node['remote_id'] );
+                    $node->setAttribute( 'node_remote_id', $nodeData['remote_id'] );
                 }
                 $node->removeAttribute( 'node_id' );
             }
