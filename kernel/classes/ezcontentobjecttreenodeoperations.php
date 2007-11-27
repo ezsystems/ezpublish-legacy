@@ -78,13 +78,13 @@ class eZContentObjectTreeNodeOperations
         if ( !$node )
             return false;
 
-        $object =& $node->object();
+        $object = $node->object();
         if ( !$object )
             return false;
 
         $objectID = $object->attribute( 'id' );
-        $oldParentNode =& $node->fetchParent();
-        $oldParentObject =& $oldParentNode->object();
+        $oldParentNode = $node->fetchParent();
+        $oldParentObject = $oldParentNode->object();
 
         // clear user policy cache if this was a user object
         //include_once( "lib/ezutils/classes/ezini.php" );
@@ -114,8 +114,8 @@ class eZContentObjectTreeNodeOperations
             if ( $newNode->attribute( 'main_node_id' ) == $newNode->attribute( 'node_id' ) )
             {
                 // If the main node is moved we need to check if the section ID must change
-                $newParentNode =& $newNode->fetchParent();
-                $newParentObject =& $newParentNode->object();
+                $newParentNode = $newNode->fetchParent();
+                $newParentObject = $newParentNode->object();
                 if ( $object->attribute( 'section_id' ) != $newParentObject->attribute( 'section_id' ) )
                 {
 
