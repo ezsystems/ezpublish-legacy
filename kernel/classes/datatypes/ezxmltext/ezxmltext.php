@@ -101,7 +101,7 @@ class eZXMLText
             case 'is_empty' :
             {
                 $isEmpty = true;
-                $dom = new DOMDocument();
+                $dom = new DOMDocument( '1.0', 'utf-8' );
                 if ( !$this->XMLData )
                 {
                     return $isEmpty;

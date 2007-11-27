@@ -525,7 +525,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
             return $retValue;
         }
 
-        $dom = new DOMDocument();
+        $dom = new DOMDocument( '1.0', 'utf-8' );
         $classNode = $dom->createElement( 'content-class' );
         $dom->appendChild( $classNode );
         $serializedNameListNode = $dom->createElement( 'serialized-name-list', $class->attribute( 'serialized_name_list' ) );

@@ -127,7 +127,7 @@ class eZRangeOption
 
     function decodeXML( $xmlString )
     {
-        $dom = new DOMDocument();
+        $dom = new DOMDocument( '1.0', 'utf-8' );
         $success = $dom->loadXML( $xmlString );
 
         if ( $xmlString != "" )
@@ -166,7 +166,7 @@ class eZRangeOption
     */
     function xmlString( )
     {
-        $doc = new DOMDocument();
+        $doc = new DOMDocument( '1.0', 'utf-8' );
 
         $root = $doc->createElement( "ezrangeoption" );
         $root->setAttribute( "start_value", $this->StartValue );

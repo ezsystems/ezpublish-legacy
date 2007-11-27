@@ -1435,7 +1435,7 @@ class eZContentObjectVersion extends eZPersistentObject
     */
     function serialize( $package, $options = false, $contentNodeIDArray = false, $topNodeIDArray = false )
     {
-        $dom = new DOMDocument();
+        $dom = new DOMDocument( '1.0', 'utf-8' );
 
         $versionNode = $dom->createElementNS( 'http://ez.no/object/', 'ezobject:version' );
         $dom->appendChild( $versionNode );

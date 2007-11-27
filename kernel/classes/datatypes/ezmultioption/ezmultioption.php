@@ -322,7 +322,7 @@ class eZMultiOption
         $this->Options = array();
         if ( $xmlString != "" )
         {
-            $dom = new DOMDocument();
+            $dom = new DOMDocument( '1.0', 'utf-8' );
             $success = $dom->loadXML( $xmlString );
 
             $root = $dom->documentElement;
@@ -358,7 +358,7 @@ class eZMultiOption
     */
     function xmlString()
     {
-        $doc = new DOMDocument();
+        $doc = new DOMDocument( '1.0', 'utf-8' );
         $root = $doc->createElement( "ezmultioption" );
         $root->setAttribute( 'option_counter', $this->OptionCounter );
         $doc->appendChild( $root );

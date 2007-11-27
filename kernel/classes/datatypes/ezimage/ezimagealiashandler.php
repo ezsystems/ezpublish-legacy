@@ -515,7 +515,7 @@ class eZImageAliasHandler
 
         eZDebug::accumulatorStart('imageparse', 'XML', 'Image XML parsing' );
 
-        $domTree = new DOMDocument();
+        $domTree = new DOMDocument( '1.0', 'utf-8' );
 
         // intentional by reference assignment, do not remove!
         $xmlString = $this->ContentObjectAttributeData['data_text'];
@@ -777,7 +777,7 @@ class eZImageAliasHandler
             }
         }
 
-        $doc = new DOMDocument();
+        $doc = new DOMDocument( '1.0', 'utf-8' );
         $imageNode = $doc->createElement( "ezimage" );
         $doc->appendChild( $imageNode );
 
@@ -882,7 +882,7 @@ class eZImageAliasHandler
     function recreateDOMTree()
     {
         $aliasList = $this->aliasList();
-        $doc = new DOMDocument();
+        $doc = new DOMDocument( '1.0', 'utf-8' );
         $imageNode = $doc->createElement( "ezimage" );
         $doc->appendChild( $imageNode );
 
@@ -959,7 +959,7 @@ class eZImageAliasHandler
             return $contentObjectAttributeData['DataTypeCustom']['dom_tree'];
         }
 
-        $dom = new DOMDocument();
+        $dom = new DOMDocument( '1.0', 'utf-8' );
         $xmlString = $contentObjectAttributeData['data_text'];
         $success = $dom->loadXML( $xmlString );
         if ( !$success )
@@ -1218,7 +1218,7 @@ class eZImageAliasHandler
 
         $imageManager->analyzeImage( $mimeData );
 
-        $doc = new DOMDocument();
+        $doc = new DOMDocument( '1.0', 'utf-8' );
         $imageNode = $doc->createElement( "ezimage" );
         $doc->appendChild( $imageNode );
 
@@ -1617,7 +1617,7 @@ class eZImageAliasHandler
                                                  version=$attributeVersion" );
         }
 
-        $doc = new DOMDocument();
+        $doc = new DOMDocument( '1.0', 'utf-8' );
         $imageNode = $doc->createElement( "ezimage" );
         $doc->appendChild( $imageNode );
 

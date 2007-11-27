@@ -318,7 +318,7 @@ class eZAuthorType extends eZDataType
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
 
-        $dom = new DOMDocument();
+        $dom = new DOMDocument( '1.0', 'utf-8' );
         $success = $dom->loadXML( $objectAttribute->attribute( 'data_text' ) );
 
         $nodeDOM = $node->ownerDocument;

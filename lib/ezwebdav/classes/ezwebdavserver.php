@@ -173,7 +173,7 @@ class eZWebDAVServer
                 $xmlBody = $this->xmlBody();
                 // Find which properties were requested
                 // $this->appendLogEntry( $xmlBody, 'xmlbody' );
-                $dom = new DOMDocument();
+                $dom = new DOMDocument( '1.0', 'utf-8' );
                 $dom->preserveWhiteSpace = false;
                 $ok = $dom->loadXML( $xmlBody );
 
@@ -535,7 +535,7 @@ class eZWebDAVServer
         // Dump the actual XML data containing collection list.
         print( $xmlText );
 
-        $dom = new DOMDocument();
+        $dom = new DOMDocument( '1.0', 'utf-8' );
         $success = $dom->loadXML( $xmlText );
         if ( $success )
             $this->appendLogEntry( "XML was parsed", 'outputCollectionContent' );

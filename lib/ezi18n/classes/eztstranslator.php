@@ -257,7 +257,7 @@ class eZTSTranslator extends eZTranslatorHandler
 
             eZDebug::accumulatorStart( 'tstranslator_load', 'tstranslator', 'TS load' );
 
-            $doc = new DOMDocument();
+            $doc = new DOMDocument( '1.0', 'utf-8' );
             $success = $doc->load( $path );
 
             if ( !$success )

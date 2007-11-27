@@ -620,7 +620,7 @@ class eZMultiOption2
         $this->Options = array();
         if ( $xmlString != "" )
         {
-            $dom = new DOMDocument();
+            $dom = new DOMDocument( '1.0', 'utf-8' );
             $success = $dom->loadXML( $xmlString );
 
             $root = $dom->documentElement;
@@ -770,7 +770,7 @@ class eZMultiOption2
     */
     function xmlString()
     {
-        $doc = new DOMDocument();
+        $doc = new DOMDocument( '1.0', 'utf-8' );
         $root = $doc->createElement( "ezmultioption2" );
         $doc->appendChild( $root );
 

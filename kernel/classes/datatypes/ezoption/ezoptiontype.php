@@ -426,7 +426,7 @@ class eZOptionType extends eZDataType
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
 
-        $domDocument = new DOMDocument();
+        $domDocument = new DOMDocument( '1.0', 'utf-8' );
         $success = $domDocument->loadXML( $objectAttribute->attribute( 'data_text' ) );
 
         $importedRoot = $node->ownerDocument->importNode( $domDocument->documentElement, true );

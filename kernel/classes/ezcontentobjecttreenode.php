@@ -5724,7 +5724,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             return false;
         }
 
-        $dom = new DOMDocument();
+        $dom = new DOMDocument( '1.0', 'utf-8' );
 
         $nodeAssignmentNode = $dom->createElement( 'node-assignment' );
         if ( $this->attribute( 'main_node_id' ) == $this->attribute( 'node_id' ) )

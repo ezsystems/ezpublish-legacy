@@ -84,7 +84,7 @@ class eZTOCOperator
             $content = $dom->attribute( 'content' );
             $xmlData = $content->attribute( 'xml_data' );
 
-            $domTree = new DOMDocument();
+            $domTree = new DOMDocument( '1.0', 'utf-8' );
             $domTree->preserveWhiteSpace = false;
             $success = $domTree->loadXML( $xmlData );
 

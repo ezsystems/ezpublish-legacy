@@ -326,7 +326,7 @@ class eZXMLTextType extends eZDataType
     {
         $metaData = "";
 
-        $dom = new DOMDocument();
+        $dom = new DOMDocument( '1.0', 'utf-8' );
         $text = eZXMLTextType::rawXMLText( $contentObjectAttribute );
         $success = $dom->loadXML( $text );
 
@@ -358,7 +358,7 @@ class eZXMLTextType extends eZDataType
     {
         $text = eZXMLTextType::rawXMLText( $contentObjectAttribute );
 
-        $dom = new DOMDocument();
+        $dom = new DOMDocument( '1.0', 'utf-8' );
         $success = $dom->loadXML( $text );
 
         // Get first text element of xml
@@ -462,7 +462,7 @@ class eZXMLTextType extends eZDataType
 
         if ( $xmlString != '' )
         {
-            $doc = new DOMDocument();
+            $doc = new DOMDocument( '1.0', 'utf-8' );
             $success = $doc->loadXML( $xmlString );
 
             /* For all links found in the XML, do the following:
@@ -593,7 +593,7 @@ class eZXMLTextType extends eZDataType
     function postUnserializeContentObjectAttribute( $package, $objectAttribute )
     {
         $xmlString = $objectAttribute->attribute( 'data_text' );
-        $doc = new DOMDocument();
+        $doc = new DOMDocument( '1.0', 'utf-8' );
         $success = $doc->loadXML( $xmlString );
 
         if ( !$success )

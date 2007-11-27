@@ -421,7 +421,7 @@ class eZRSSExport extends eZPersistentObject
             $baseItemURL = $this->attribute( 'url' ).'/'; //.$this->attribute( 'site_access' ).'/';
         }
 
-        $doc = new DOMDocument();
+        $doc = new DOMDocument( '1.0', 'utf-8' );
         $root = $doc->createElement( 'rss' );
         $root->setAttribute( 'version', '2.0' );
         $doc->appendChild( $root );
@@ -602,7 +602,7 @@ class eZRSSExport extends eZPersistentObject
             $baseItemURL = $this->attribute( 'url' ).'/'; //.$this->attribute( 'site_access' ).'/';
         }
 
-        $doc = new DOMDocument();
+        $doc = new DOMDocument( '1.0', 'utf-8' );
         $root = $doc->createElementNS( 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'rdf:RDF' );
         $doc->appendChild( $root );
 

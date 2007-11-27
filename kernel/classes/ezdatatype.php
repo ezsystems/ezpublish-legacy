@@ -1075,7 +1075,7 @@ class eZDataType
     */
     function serializeContentObjectAttribute( $package, $objectAttribute )
     {
-        $dom = new DOMDocument();
+        $dom = new DOMDocument( '1.0', 'utf-8' );
 
         $node = $dom->createElementNS( 'http://ez.no/object/', 'ezobject:attribute' );
 
@@ -1265,7 +1265,7 @@ class eZDataType
      */
     function createContentObjectAttributeDOMNode( $objectAttribute )
     {
-        $dom = new DOMDocument();
+        $dom = new DOMDocument( '1.0', 'utf-8' );
 
         $node = $dom->createElementNS( 'http://ez.no/object/', 'ezobject:attribute' );
 

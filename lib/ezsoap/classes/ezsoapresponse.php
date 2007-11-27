@@ -246,7 +246,7 @@ TODO: add encoding checks with schema validation.
     */
     function payload( )
     {
-        $doc = new DOMDocument();
+        $doc = new DOMDocument( '1.0', 'utf-8' );
         $doc->name = "eZSOAP message";
 
         $root = $doc->createElementNS( eZSOAPEnvelope::ENV, eZSOAPEnvelope::ENV_PREFIX . ':Envelope' );

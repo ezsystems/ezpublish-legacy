@@ -402,7 +402,7 @@ class eZDateTimeType extends eZDataType
             $classAttribute->setAttribute( self::DEFAULT_FIELD,  $defaultValue );
             if ( $defaultValue == self::DEFAULT_ADJUSTMENT )
             {
-                $doc = new DOMDocument();
+                $doc = new DOMDocument( '1.0', 'utf-8' );
                 $root = $doc->createElement( 'adjustment' );
                 $contentList = eZDateTimeType::contentObjectArrayXMLMap();
                 foreach ( $contentList as $key => $value )
@@ -480,7 +480,7 @@ class eZDateTimeType extends eZDataType
             {
                 $defaultValueNode->setAttribute( 'type', 'adjustment' );
 
-                $adjustDOMValue = new DOMDocument();
+                $adjustDOMValue = new DOMDocument( '1.0', 'utf-8' );
                 $adjustValue = $classAttribute->attribute( self::ADJUSTMENT_FIELD );
                 $success = $adjustDOMValue->loadXML( $adjustValue );
 
@@ -533,7 +533,7 @@ class eZDateTimeType extends eZDataType
                 $adjustmentNode = $defaultNode->getElementsByTagName( 'adjustment' )->item( 0 );
                 if ( $adjustmentNode )
                 {
-                    $adjustmentDOMValue = new DOMDocument();
+                    $adjustmentDOMValue = new DOMDocument( '1.0', 'utf-8' );
                     $importedAdjustmentNode = $adjustmentDOMValue->importNode( $adjustmentNode, true );
                     $adjustmentDOMValue->appendChild( $importedAdjustmentNode );
                     $adjustmentValue = $adjustmentDOMValue->saveXML();

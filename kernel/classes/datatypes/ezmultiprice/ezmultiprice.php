@@ -580,7 +580,7 @@ class eZMultiPrice extends eZSimplePrice
 
     function DOMDocument()
     {
-        $doc = new DOMDocument();
+        $doc = new DOMDocument( '1.0', 'utf-8' );
         $root = $doc->createElement( 'ezmultiprice' );
         $doc->appendChild( $root );
 

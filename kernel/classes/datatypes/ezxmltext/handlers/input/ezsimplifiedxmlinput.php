@@ -158,7 +158,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         }
         else
         {
-            $dom = new DOMDocument();
+            $dom = new DOMDocument( '1.0', 'utf-8' );
             $success = $dom->loadXML( $this->XMLData );
 
             //include_once( 'kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmleditoutput.php' );

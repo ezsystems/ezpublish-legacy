@@ -69,7 +69,7 @@ if ( $module->isCurrentAction( 'Store' ) )
         $basket = eZBasket::currentBasket();
         $order = $basket->createOrder();
 
-        $doc = new DOMDocument();
+        $doc = new DOMDocument( '1.0', 'utf-8' );
 
         $root = $doc->createElement( 'shop_account' );
         $doc->appendChild( $root );

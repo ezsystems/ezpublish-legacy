@@ -931,7 +931,7 @@ class eZPackage
                 {
                     eZDir::mkdir( $path, eZDir::directoryPermission(), true );
                 }
-                $partDOM = new DOMDocument();
+                $partDOM = new DOMDocument( '1.0', 'utf-8' );
                 $contentImport = $partDOM->importNode( $content, true );
                 $partDOM->appendChild( $contentImport );
                 $this->storeDOM( $filePath, $partDOM );
@@ -1283,7 +1283,7 @@ class eZPackage
     {
         if ( file_exists( $filename ) )
         {
-            $dom = new DOMDocument();
+            $dom = new DOMDocument( '1.0', 'utf-8' );
             $dom->load( $filename );
             return $dom;
         }
@@ -2255,7 +2255,7 @@ class eZPackage
     */
     function &domStructure()
     {
-        $dom = new DOMDocument();
+        $dom = new DOMDocument( '1.0', 'utf-8' );
         $root = $dom->createElement( 'package' );
         $root->setAttribute( 'version', eZPackage::VERSION );
         $root->setAttribute( 'development', ( eZPackage::DEVELOPMENT ? 'true' : 'false' ) );

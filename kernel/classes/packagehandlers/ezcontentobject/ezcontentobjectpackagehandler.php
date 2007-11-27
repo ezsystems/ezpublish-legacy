@@ -250,7 +250,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             }
         }
 
-        $dom = new DOMDocument();
+        $dom = new DOMDocument( '1.0', 'utf-8' );
         $packageRoot = $dom->createElement( 'content-object' );
         $dom->appendChild( $packageRoot );
 
@@ -301,7 +301,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     */
     function createTopNodeListDOMNode( $options )
     {
-        $dom = new DOMDocument();
+        $dom = new DOMDocument( '1.0', 'utf-8' );
         $topNodeListDOMNode = $dom->createElement( 'top-node-list' );
         $dom->appendChild( $topNodeListDOMNode );
 
@@ -325,7 +325,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     */
     function createSiteAccessListNode( $options )
     {
-        $dom = new DOMDocument();
+        $dom = new DOMDocument( '1.0', 'utf-8' );
         $siteAccessListDOMNode = $dom->createElement( 'site-access-list' );
         $dom->appendChild( $siteAccessListDOMNode );
 
@@ -360,7 +360,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         if ( !file_exists( $path ) )
                 eZDir::mkdir( $path, eZDir::directoryPermission(), true );
 
-        $dom = new DOMDocument();
+        $dom = new DOMDocument( '1.0', 'utf-8' );
 
         // Store objects to separate files or not
         $storeToMultiple = count( $this->ObjectArray ) >= self::STORE_OBJECTS_TO_SEPARATE_FILES_THRESHOLD ? true : false;
@@ -384,7 +384,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 $objectFileNode->setAttribute( 'filename', $fileName );
                 $objectListNode->appendChild( $objectFileNode );
 
-                $partDOM = new DOMDocument();
+                $partDOM = new DOMDocument( '1.0', 'utf-8' );
                 $importedObjectNode = $partDOM->importNode( $objectNode, true );
                 $partDOM->appendChild( $importedObjectNode );
                 $this->Package->storeDOM( $filePath, $partDOM );
@@ -431,7 +431,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     */
     function &generateFetchAliasArray()
     {
-        $dom = new DOMDocument();
+        $dom = new DOMDocument( '1.0', 'utf-8' );
         $fetchAliasListDOMNode = $dom->createElement( 'fetch-alias-list' );
         $registeredAliases = array();
 
@@ -514,7 +514,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     */
     function &generateTemplateFilenameArray()
     {
-        $dom = new DOMDocument();
+        $dom = new DOMDocument( '1.0', 'utf-8' );
 
         $templateListDOMNode = $dom->createElement( 'template-list' );
         $dom->appendChild( $templateListDOMNode );
@@ -566,7 +566,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     {
         $path = substr( $filename, strpos( $filename, '/', 7 ) );
 
-        $dom = new DOMDocument();
+        $dom = new DOMDocument( '1.0', 'utf-8' );
         $fileDOMNode = $dom->createElement( 'file' );
         $fileDOMNode->setAttribute( 'site-access', $siteAccess );
         
@@ -802,7 +802,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             $this->OverrideSettingsArray[$siteAccess] = $blockMatchArray;
         }
 
-        $dom = new DOMDocument();
+        $dom = new DOMDocument( '1.0', 'utf-8' );
 
         $overrideSettingsListDOMNode = $dom->createElement( 'override-list' );
         $dom->appendChild( $overrideSettingsListDOMNode );
@@ -1687,7 +1687,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     */
     static function createElementNodeFromArray( $name, $array )
     {
-        $dom = new DOMDocument();
+        $dom = new DOMDocument( '1.0', 'utf-8' );
         $node = $dom->createElement( $name );
         $dom->appendChild( $node );
 

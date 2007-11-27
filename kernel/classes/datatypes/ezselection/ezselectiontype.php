@@ -131,7 +131,7 @@ class eZSelectionType extends eZDataType
         {
 
             // Serialize XML
-            $doc = new DOMDocument();
+            $doc = new DOMDocument( '1.0', 'utf-8' );
             $root = $doc->createElement( "ezselection" );
             $doc->appendChild( $root );
 
@@ -250,7 +250,7 @@ class eZSelectionType extends eZDataType
     */
     function classAttributeContent( $classAttribute )
     {
-        $dom = new DOMDocument();
+        $dom = new DOMDocument( '1.0', 'utf-8' );
         $xmlString = $classAttribute->attribute( 'data_text5' );
         $optionArray = array();
         if ( $xmlString != '' )
@@ -418,7 +418,7 @@ class eZSelectionType extends eZDataType
         $isMultipleSelection = $classAttribute->attribute( 'data_int1'  );
         $xmlString = $classAttribute->attribute( 'data_text5' );
 
-        $dom = new DOMDocument();
+        $dom = new DOMDocument( '1.0', 'utf-8' );
         $success = $dom->loadXML( $xmlString );
         $domRoot = $dom->documentElement;
         $options = $domRoot->getElementsByTagName( 'options' )->item( 0 );
@@ -436,7 +436,7 @@ class eZSelectionType extends eZDataType
     {
         $options = $attributeParametersNode->getElementsByTagName( 'options' )->item( 0 );
 
-        $doc = new DOMDocument();
+        $doc = new DOMDocument( '1.0', 'utf-8' );
         $root = $doc->createElement( 'ezselection' );
         $doc->appendChild( $root );
 

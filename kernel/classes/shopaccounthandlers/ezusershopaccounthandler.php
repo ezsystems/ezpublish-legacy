@@ -63,7 +63,7 @@ class eZUserShopAccountHandler
         $xmlString = $order->attribute( 'data_text_1' );
         if ( $xmlString != null )
         {
-            $dom = new DOMDocument();
+            $dom = new DOMDocument( '1.0', 'utf-8' );
             $success = $dom->loadXML( $xmlString );
             $emailNode = $dom->getElementsByTagName( 'email' )->item( 0 );
             if ( $emailNode )
@@ -84,7 +84,7 @@ class eZUserShopAccountHandler
         $xmlString = $order->attribute( 'data_text_1' );
         if ( $xmlString != null )
         {
-            $dom = new DOMDocument();
+            $dom = new DOMDocument( '1.0', 'utf-8' );
             $success = $dom->loadXML( $xmlString );
             $firstNameNode = $dom->getElementsByTagName( 'first-name' )->item( 0 );
             $lastNameNode = $dom->getElementsByTagName( 'last-name' )->item( 0 );
@@ -107,11 +107,11 @@ class eZUserShopAccountHandler
         $comment = '';
         $state = '';
 
-        $dom = new DOMDocument();
+        $dom = new DOMDocument( '1.0', 'utf-8' );
         $xmlString = $order->attribute( 'data_text_1' );
         if ( $xmlString != null )
         {
-            $dom = new DOMDocument();
+            $dom = new DOMDocument( '1.0', 'utf-8' );
             $success = $dom->loadXML( $xmlString );
 
             $firstNameNode = $dom->getElementsByTagName( 'first-name' )->item( 0 );

@@ -298,7 +298,7 @@ if ( $fixAttribute )
                         print( "Invalid XML data: $xmlData\n" );
                     if ( trim( $xmlData ) == '' )
                     {
-                        $doc = new DOMDocument();
+                        $doc = new DOMDocument( '1.0', 'utf-8' );
                         $doc->importNode( $doc->createElement( 'section' ) );
                         $docString = eZXMLTextType::domString( $doc );
                         $objectAttribute->setAttribute( 'data_text', $docString );
@@ -309,7 +309,7 @@ if ( $fixAttribute )
                     else
                     {
                         unset( $doc );
-                        $doc = new DOMDocument();
+                        $doc = new DOMDocument( '1.0', 'utf-8' );
                         $doc->importNode( $doc->createElement( 'section' ) );
                         $docString = eZXMLTextType::domString( $doc );
                         $objectAttribute->setAttribute( 'data_text', $docString );

@@ -105,7 +105,7 @@ class eZECBHandler extends eZExchangeRatesUpdateHandler
                 if ( $header['content-type'] === 'text/xml' )
                 {
                     // parse xml
-                    $dom = new DOMDocument();
+                    $dom = new DOMDocument( '1.0', 'utf-8' );
                     $dom->preserveWhiteSpace = false;
                     $success = $dom->loadXML( $body );
 

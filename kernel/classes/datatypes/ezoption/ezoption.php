@@ -148,7 +148,7 @@ class eZOption
     {
         if ( $xmlString != "" )
         {
-            $dom = new DOMDocument();
+            $dom = new DOMDocument( '1.0', 'utf-8' );
             $success = $dom->loadXML( $xmlString );
 
             // set the name of the node
@@ -176,7 +176,7 @@ class eZOption
     */
     function xmlString( )
     {
-        $doc = new DOMDocument();
+        $doc = new DOMDocument( '1.0', 'utf-8' );
 
         $root = $doc->createElement( "ezoption" );
         $doc->appendChild( $root );

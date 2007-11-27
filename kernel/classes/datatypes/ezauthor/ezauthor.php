@@ -170,7 +170,7 @@ class eZAuthor
     */
     function decodeXML( $xmlString )
     {
-        $dom = new DOMDocument();
+        $dom = new DOMDocument( '1.0', 'utf-8' );
         $success = $dom->loadXML( $xmlString );
 
         if ( $success )
@@ -188,7 +188,7 @@ class eZAuthor
     */
     function xmlString( )
     {
-        $doc = new DOMDocument();
+        $doc = new DOMDocument( '1.0', 'utf-8' );
 
         $root = $doc->createElement( "ezauthor" );
         $doc->appendChild( $root );

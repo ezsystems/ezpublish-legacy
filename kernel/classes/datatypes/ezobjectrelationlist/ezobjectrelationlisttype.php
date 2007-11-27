@@ -725,7 +725,7 @@ class eZObjectRelationListType extends eZDataType
 
     function createClassDOMDocument( $content )
     {
-        $doc = new DOMDocument();
+        $doc = new DOMDocument( '1.0', 'utf-8' );
         $root = $doc->createElement( 'related-objects' );
         $constraints = $doc->createElement( 'constraints' );
         foreach ( $content['class_constraint_list'] as $constraintClassIdentifier )
@@ -758,7 +758,7 @@ class eZObjectRelationListType extends eZDataType
 
     function createObjectDOMDocument( $content )
     {
-        $doc = new DOMDocument();
+        $doc = new DOMDocument( '1.0', 'utf-8' );
         $root = $doc->createElement( 'related-objects' );
         $relationList = $doc->createElement( 'relation-list' );
         $attributeDefinitions = eZObjectRelationListType::contentObjectArrayXMLMap();
@@ -1356,7 +1356,7 @@ class eZObjectRelationListType extends eZDataType
 
     function parseXML( $xmlText )
     {
-        $dom = new DOMDocument();
+        $dom = new DOMDocument( '1.0', 'utf-8' );
         $dom->loadXML( $xmlText );
         return $dom;
     }
@@ -1670,7 +1670,7 @@ class eZObjectRelationListType extends eZDataType
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
 
-        $dom = new DOMDocument();
+        $dom = new DOMDocument( '1.0', 'utf-8' );
         eZDebug::writeDebug( $objectAttribute->attribute( 'data_text' ), 'xml string from data_text field' );
         $success = $dom->loadXML( $objectAttribute->attribute( 'data_text' ) );
         $rootNode = $dom->documentElement;

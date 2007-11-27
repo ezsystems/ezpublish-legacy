@@ -332,7 +332,7 @@ class eZRSSImport extends eZPersistentObject
 
         // Create DomDocument from http data
 
-        $domDocument = new DOMDocument();
+        $domDocument = new DOMDocument( '1.0', 'utf-8' );
         $success = $domDocument->loadXML( $xmlData );
 
         if ( !$success )

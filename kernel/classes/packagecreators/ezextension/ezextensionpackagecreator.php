@@ -80,7 +80,7 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
 
         eZDir::recursiveList( $targetDir, '', $fileList );
 
-        $doc = new DOMDocument();
+        $doc = new DOMDocument( '1.0', 'utf-8' );
 
         $packageRoot = $doc->createElement( 'extension' );
         $packageRoot->setAttribute( 'name', $persistentData['extensionname'] );

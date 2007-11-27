@@ -51,7 +51,7 @@ class eZMatrixDefinition
 
     function decodeClassAttribute( $xmlString )
     {
-        $dom = new DOMDocument();
+        $dom = new DOMDocument( '1.0', 'utf-8' );
         if ( strlen ( $xmlString ) != 0 )
         {
             $success = $dom->loadXML( $xmlString );
@@ -96,7 +96,7 @@ class eZMatrixDefinition
 
     function xmlString( )
     {
-        $doc = new DOMDocument();
+        $doc = new DOMDocument( '1.0', 'utf-8' );
         $root = $doc->createElement( "ezmatrix" );
         $doc->appendChild( $root );
 

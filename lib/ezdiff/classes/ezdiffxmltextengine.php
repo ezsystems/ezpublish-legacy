@@ -70,11 +70,11 @@ class eZDiffXMLTextEngine extends eZDiffEngine
 
         $simplifiedXML = new eZSimplifiedXMLEditOutput();
 
-        $domOld = new DOMDocument();
+        $domOld = new DOMDocument( '1.0', 'utf-8' );
         $domOld->preserveWhiteSpace = false;
         $domOld->loadXML( $oldXML );
 
-        $domNew = new DOMDocument();
+        $domNew = new DOMDocument( '1.0', 'utf-8' );
         $domNew->preserveWhiteSpace = false;
         $domNew->loadXML( $newXML );
 

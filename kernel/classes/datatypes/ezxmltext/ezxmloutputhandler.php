@@ -193,7 +193,7 @@ class eZXMLOutputHandler
             $this->Res->setKeys( array( array( 'attribute_identifier', $this->ContentObjectAttribute->attribute( 'contentclass_attribute_identifier' ) ) ) );
         }
 
-        $this->Document = new DOMDocument();
+        $this->Document = new DOMDocument( '1.0', 'utf-8' );
         $this->Document->preserveWhiteSpace = false;
         $success = $this->Document->loadXML( $this->XMLData );
 
