@@ -75,7 +75,7 @@ class eZURLAliasFilter
 
      Note: The filter list will be cached in memory to improve performance of subsequent calls.
      */
-    static function processFilters( $text, &$languageObject, &$caller )
+    static function processFilters( $text, $languageObject, $caller )
     {
         $filters = array();
         if ( isset( $GLOBALS['eZURLAliasFilters'] ) )
