@@ -322,7 +322,7 @@ class eZRole extends eZPersistentObject
     */
     static function removeRole( $roleID )
     {
-        if ( !isset( $role->ID ) )
+        if ( !isset( $roleID ) )
         {
             return 0;
         }
