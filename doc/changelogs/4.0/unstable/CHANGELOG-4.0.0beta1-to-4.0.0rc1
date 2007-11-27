@@ -32,3 +32,4 @@ Changes from 4.0.0beta1 to 4.0.0rc1
 - Fixed bug #11881: ODF import: importing images' caption.
 - Fixed bug #12054: Can't delete a role
 - Fixed bug #12072: ODF exported documents may contain unicode entities of special characters
+- Fixed bug #12066: Bug in function hasObjectAttributeContent of class eZMultiOption2Type.
