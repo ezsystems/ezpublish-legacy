@@ -1713,7 +1713,11 @@ class eZTemplateArrayOperator
                 case $this->MergeName:
                 {
                     $tmpArray   = array();
-                    $tmpArray[] = $operatorValue;
+                    if ( $operatorValue === null ) {
+                        $tmpArray[] = array(); // set to empty array in case of 
+                    } else {
+                        $tmpArray[] = $operatorValue;
+                    }
 
                     if ( count( $operatorParameters ) < 1 )
                     {
@@ -1724,10 +1728,14 @@ class eZTemplateArrayOperator
 
                     for ( $i = 0; $i < count( $operatorParameters ); ++$i )
                     {
-                        $tmpArray[] = $tpl->elementValue( $operatorParameters[$i],
+                        $tmpVal = $tpl->elementValue( $operatorParameters[$i],
                                                            $rootNamespace,
                                                            $currentNamespace,
                                                            $placement );
+                        if ( $tmpVal !== null )
+                        {
+                            $tmpArray[] = $tmpVal;
+                        }
                     }
                     $operatorValue = call_user_func_array( 'array_merge', $tmpArray );
                 }break;
