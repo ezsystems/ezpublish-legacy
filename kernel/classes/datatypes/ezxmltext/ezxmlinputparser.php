@@ -219,7 +219,7 @@ class eZXMLInputParser
     {
         if ( !$this->Document )
         {
-            $this->Document = new $this->DOMDocumentClass();
+            $this->Document = new $this->DOMDocumentClass( '1.0', 'utf-8' );
         }
 
         // Creating root section with namespaces definitions
@@ -245,7 +245,7 @@ class eZXMLInputParser
             $text = str_replace( "\n", '', $text);
         }
 
-        $this->Document = new $this->DOMDocumentClass();
+        $this->Document = new $this->DOMDocumentClass( '1.0', 'utf-8' );
 
         if ( $createRootNode )
         {

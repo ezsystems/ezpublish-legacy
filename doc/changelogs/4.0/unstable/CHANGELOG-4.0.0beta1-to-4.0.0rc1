@@ -20,7 +20,7 @@ Changes from 4.0.0beta1 to 4.0.0rc1
 - Fixed bug #11425: The system shows unneeded (non-existing) spaces in the manual URLs of nodes
 - Fixed bug #11983: Strict warnings related to sending e-mail
 - Fixed bug #11553: eZTemplateDesignResource::overrideArray() still contains references to $this
-- Fixed bug #11551: eZContentClass::fetchSearchableAttributes should be either 
+- Fixed bug #11551: eZContentClass::fetchSearchableAttributes should be either
   static or instance method
 - Fixed bug #12034: index_treemenu.php doesn't load DatabaseSettings from site.ini in extension.
   (Merged from stable/3.10 (3.10.1) rev. 20858)
@@ -31,3 +31,4 @@ Changes from 4.0.0beta1 to 4.0.0rc1
 - Fixed bug #12070: Notices of undefined properties when copying a content class.
 - Fixed bug #11881: ODF import: importing images' caption.
 - Fixed bug #12054: Can't delete a role
+- Fixed bug #12072: ODF exported documents may contain unicode entities of special characters
