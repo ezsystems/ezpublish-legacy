@@ -526,7 +526,7 @@ class eZMultiOption2Type extends eZDataType
     function hasObjectAttributeContent( &$contentObjectAttribute )
     {
         $groups =& $contentObjectAttribute->content();
-        $grouplist = $multioption->attribute( 'optiongroup_list' );
+        $grouplist = $groups->attribute( 'optiongroup_list' );
         return count( $grouplist ) > 0;
     }
 
