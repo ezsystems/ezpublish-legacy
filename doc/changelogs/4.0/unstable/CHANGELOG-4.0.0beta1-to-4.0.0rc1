@@ -29,3 +29,4 @@ Changes from 4.0.0beta1 to 4.0.0rc1
 - Fixed bug #12011: New debug css rules mess up table styles.
 - Fixed bug #12048: Missing check for for ID ezcontetclass - store.
 - Fixed bug #12070: Notices of undefined properties when copying a content class.
+- Fixed bug #11881: ODF import: importing images' caption.
