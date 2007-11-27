@@ -571,7 +571,7 @@ function ContentStructureMenu()
         *}"url":{$root_node.url|ezurl},{*
         *}"modified_subnode":{$root_node.modified_subnode},{*
         *}"languages":["{$root_node.object.language_codes|implode('", "')}"],{*
-        *}"class_list":[{foreach fetch('content','can_instantiate_class_list',hash('parent_node',$child)) as $class}{$class.id}{delimiter},{/delimiter}{/foreach}]{rdelim};
+        *}"class_list":[{foreach fetch('content','can_instantiate_class_list',hash('parent_node',$root_node.node_id)) as $class}{$class.id}{delimiter},{/delimiter}{/foreach}]{rdelim};
 
     document.writeln( '<ul id="content_tree_menu">' );
     document.writeln( treeMenu.generateEntry( rootNode, false, true ) );

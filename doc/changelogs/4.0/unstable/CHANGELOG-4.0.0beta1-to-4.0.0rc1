@@ -35,3 +35,4 @@ Changes from 4.0.0beta1 to 4.0.0rc1
 - Fixed bug #12066: Bug in function hasObjectAttributeContent of class eZMultiOption2Type.
 - Fixed bug #12025: Warnings in ezobjectrelationlist.
 - Fixed bug #12086: Declaration of processFilters method in ezurlaliasfilter.php is by-ref
+- Fixed bug #12091: Unknown template variable 'child' in namespace '' warning in admin interface
