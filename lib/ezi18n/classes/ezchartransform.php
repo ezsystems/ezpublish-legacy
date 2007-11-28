@@ -106,6 +106,7 @@ class eZCharTransform
 
         // First generate a unicode based mapping table from the rules
         $unicodeTable = $this->Mapper->generateMappingCode( $rule );
+        unset($unicodeTable[0]);
         // Then transform that to a table that works with the current charset
         // Any character not available in the current charset will be removed
         $charsetTable = $this->Mapper->generateCharsetMappingTable( $unicodeTable, $charset );
@@ -181,6 +182,7 @@ class eZCharTransform
 
         // First generate a unicode based mapping table from the rules
         $unicodeTable = $this->Mapper->generateMappingCode( $rules );
+        unset($unicodeTable[0]);
         // Then transform that to a table that works with the current charset
         // Any character not available in the current charset will be removed
         $charsetTable = $this->Mapper->generateCharsetMappingTable( $unicodeTable, $charset );
@@ -328,10 +330,7 @@ class eZCharTransform
             if ( $time >= max( self::CODE_DATE, $timestamp ) )
             {
                 // Execute the PHP file causing $text will be transformed
-                ob_start();
                 include "$filepath";
-                ob_end_clean();
-
                 return $text;
             }
         }
