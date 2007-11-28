@@ -787,7 +787,7 @@ class eZContentFunctionCollection
         return array( 'result' => $objectCount );
     }
 
-    function fetchKeywordCount( $alphabet, $classid, $owner = false, $parentNodeID = false )
+    function fetchKeywordCount( $alphabet, $classid, $owner = false, $parentNodeID = false, $includeDuplicates = true )
     {
         $classIDArray = array();
         if ( is_numeric( $classid ) )
@@ -813,48 +813,39 @@ class eZContentFunctionCollection
         $sqlOwnerString = is_numeric( $owner ) ? "AND ezcontentobject.owner_id = '$owner'" : '';
         $parentNodeIDString = is_numeric( $parentNodeID ) ? "AND ezcontentobject_tree.parent_node_id = '$parentNodeID'" : '';
 
+        $sqlClassIDs = '';
         if ( $classIDArray != null )
         {
-            $classIDString = '(' . $db->implodeWithTypeCast( ',', $classIDArray, 'int' ) . ')';
-            $query = "SELECT count(*) AS count
-                      FROM ezkeyword, ezkeyword_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass, ezcontentobject_attribute
-                           $sqlPermissionChecking[from]
-                      WHERE ezkeyword.keyword LIKE '$alphabet%'
-                      $showInvisibleNodesCond
-                      $sqlPermissionChecking[where]
-                      AND ezkeyword.class_id IN $classIDString
-                      $sqlOwnerString
-                      $parentNodeIDString
-                      AND ezcontentclass.version=0
-                      AND ezcontentobject.status=".EZ_CONTENT_OBJECT_STATUS_PUBLISHED."
-                      AND ezcontentobject_attribute.version=ezcontentobject.current_version
-                      AND ezcontentobject_tree.main_node_id=ezcontentobject_tree.node_id
-                      AND ezcontentobject_attribute.contentobject_id=ezcontentobject.id
-                      AND ezcontentobject_tree.contentobject_id = ezcontentobject.id
-                      AND ezcontentclass.id = ezcontentobject.contentclass_id
-                      AND ezcontentobject_attribute.id=ezkeyword_attribute_link.objectattribute_id
-                      AND ezkeyword_attribute_link.keyword_id = ezkeyword.id";
+            $sqlClassIDs = 'AND ezkeyword.class_id IN (' . $db->implodeWithTypeCast( ',', $classIDArray, 'int' ) . ') ';
         }
-        else
+
+        $sqlToExcludeDuplicates = '';
+        if ( !$includeDuplicates )
         {
-            $query = "SELECT count(*) AS count
-                      FROM ezkeyword, ezkeyword_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass, ezcontentobject_attribute
-                           $sqlPermissionChecking[from]
-                      WHERE ezkeyword.keyword LIKE '$alphabet%'
-                      $showInvisibleNodesCond
-                      $sqlPermissionChecking[where]
-                      $sqlOwnerString
-                      $parentNodeIDString
-                      AND ezcontentclass.version=0
-                      AND ezcontentobject.status=".EZ_CONTENT_OBJECT_STATUS_PUBLISHED."
-                      AND ezcontentobject_attribute.version=ezcontentobject.current_version
-                      AND ezcontentobject_tree.main_node_id=ezcontentobject_tree.node_id
-                      AND ezcontentobject_attribute.contentobject_id=ezcontentobject.id
-                      AND ezcontentobject_tree.contentobject_id = ezcontentobject.id
-                      AND ezcontentclass.id = ezcontentobject.contentclass_id
-                      AND ezcontentobject_attribute.id=ezkeyword_attribute_link.objectattribute_id
-                      AND ezkeyword_attribute_link.keyword_id = ezkeyword.id";
+          //will use SELECT COUNT( DISTINCT ezcontentobject.id ) to count object only once even if it has
+          //several keywords started with $alphabet. 
+          //COUNT( DISTINCT fieldName ) is SQL92 compliant syntax.
+            $sqlToExcludeDuplicates = ' DISTINCT';  
         }
+
+        $query = "SELECT COUNT($sqlToExcludeDuplicates ezcontentobject.id) AS count
+                  FROM ezkeyword, ezkeyword_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass, ezcontentobject_attribute
+                       $sqlPermissionChecking[from]
+                  WHERE ezkeyword.keyword LIKE '$alphabet%'
+                  $showInvisibleNodesCond
+                  $sqlPermissionChecking[where]
+                  $sqlClassIDs
+                  $sqlOwnerString
+                  $parentNodeIDString
+                  AND ezcontentclass.version=0
+                  AND ezcontentobject.status=".EZ_CONTENT_OBJECT_STATUS_PUBLISHED."
+                  AND ezcontentobject_attribute.version=ezcontentobject.current_version
+                  AND ezcontentobject_tree.main_node_id=ezcontentobject_tree.node_id
+                  AND ezcontentobject_attribute.contentobject_id=ezcontentobject.id
+                  AND ezcontentobject_tree.contentobject_id = ezcontentobject.id
+                  AND ezcontentclass.id = ezcontentobject.contentclass_id
+                  AND ezcontentobject_attribute.id=ezkeyword_attribute_link.objectattribute_id
+                  AND ezkeyword_attribute_link.keyword_id = ezkeyword.id";
 
         $keyWords = $db->arrayQuery( $query );
 
@@ -864,7 +855,7 @@ class eZContentFunctionCollection
         return array( 'result' => $keyWords[0]['count'] );
     }
 
-    function fetchKeyword( $alphabet, $classid, $offset, $limit, $owner = false, $sortBy = array(), $parentNodeID = false )
+    function fetchKeyword( $alphabet, $classid, $offset, $limit, $owner = false, $sortBy = array(), $parentNodeID = false, $includeDuplicates = true )
     {
         $classIDArray = array();
         if ( is_numeric( $classid ) )
@@ -885,8 +876,8 @@ class eZContentFunctionCollection
 
 
         $db_params = array();
-        $db_params["offset"] = $offset;
-        $db_params["limit"] = $limit;
+        $db_params['offset'] = $offset;
+        $db_params['limit'] = $limit;
 
         $keywordNodeArray = array();
         $lastKeyword = "";
@@ -917,7 +908,7 @@ class eZContentFunctionCollection
                     $sortOrder = true; // true is ascending
                     if ( isset( $sortBy[1] ) )
                         $sortOrder = $sortBy[1];
-                    $sortingOrder = $sortOrder ? " ASC" : " DESC";
+                    $sortingOrder = $sortOrder ? ' ASC' : ' DESC';
                     $sortingInfo['sortingFields'] = $sortingString . $sortingOrder;
                 } break;
                 default:
@@ -997,11 +988,18 @@ class eZContentFunctionCollection
         include_once( 'lib/ezi18n/classes/ezchartransform.php' );
         $trans =& eZCharTransform::instance();
 
+        $foundNodes = array();
         foreach ( array_keys( $keyWords ) as $key )
         {
             $keywordArray =& $keyWords[$key];
             $keyword = $keywordArray['keyword'];
             $nodeID = $keywordArray['node_id'];
+            //will not add more entries for already existent nodeId
+            if ( !$includeDuplicates && in_array( $nodeID, $foundNodes ) ) 
+            {
+                continue;
+            }
+            $foundNodes[] = $nodeID;
 
             $nodeObject = eZContentObjectTreeNode::fetch( $nodeID );
 
