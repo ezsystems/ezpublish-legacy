@@ -39,3 +39,4 @@ Changes from 4.0.0beta1 to 4.0.0rc1
 - Fixed bug #12089: Strict warnings when moving nodes
 - Fixed bug #12092: Remote id not set correctle when content object is serialized with link eznode://
 - Fixed bug #9595: Order of design resources differs between eZTemplate::fetch and ezdesign/ezimage tpl operators
+- Fixed bug #12056: Invalid URL-Alias (ML) data in cleandata.sql.
