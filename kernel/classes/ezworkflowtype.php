@@ -166,7 +166,7 @@ class eZWorkflowType
     static function registerType( $group, $type, $class_name )
     {
         $typeString = $group . "_" . $type;
-        if ( !is_array( $GLOBALS["eZWorkflowTypes"] ) )
+        if ( !isset( $GLOBALS["eZWorkflowTypes"] ) || !is_array( $GLOBALS["eZWorkflowTypes"] ) )
         {
             $GLOBALS["eZWorkflowTypes"] = array();
         }

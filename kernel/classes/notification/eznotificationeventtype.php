@@ -182,7 +182,7 @@ class eZNotificationEventType
 
     static function register( $notificationTypeString, $className )
     {
-        if ( !is_array( $GLOBALS["eZNotificationEventTypes"] ) )
+        if ( !isset( $GLOBALS["eZNotificationEventTypes"] ) || !is_array( $GLOBALS["eZNotificationEventTypes"] ) )
         {
             $types = array();
         }
