@@ -69,9 +69,16 @@ $overrideArray = eZTemplateDesignResource::overrideArray( $siteAccess );
 $isExistingTemplate = false;
 foreach ( $overrideArray as $overrideSetting )
 {
-    if ( $overrideSetting['base_dir'] . $overrideSetting['template'] == $template )
+    if ( isset( $overrideSetting['custom_match'] ) )
     {
-        $isExistingTemplate = true;
+        foreach ( $overrideSetting['custom_match'] as $customMatch )
+        {
+            if ( $customMatch['match_file'] == $template )
+            {
+                $isExistingTemplate = true;
+                break;
+            }
+        }
     }
 }
 
