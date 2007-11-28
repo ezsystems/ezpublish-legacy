@@ -95,11 +95,16 @@ class eZKeyword
     function initializeKeyword( $keywordString )
     {
         if ( !is_array( $keywordString ) )
-            $keywordArray = explode( ",", $keywordString );
+        {
+            $keywordArray = explode( ',', $keywordString );
+            $keywordArray = array_unique ( $keywordArray );
+        }
         foreach ( array_keys( $keywordArray ) as $key )
         {
-            if ( trim( $keywordArray[$key] ) != "" )
+            if ( trim( $keywordArray[$key] ) != '' )
+            {
                 $this->KeywordArray[$key] = trim( $keywordArray[$key] );
+            }
         }
     }
 
@@ -262,6 +267,7 @@ class eZKeyword
         {
             $this->KeywordArray[] = $wordArray[$wordKey]['keyword'];
         }
+        $this->KeywordArray = array_unique ( $this->KeywordArray );        
     }
 
     /*!
