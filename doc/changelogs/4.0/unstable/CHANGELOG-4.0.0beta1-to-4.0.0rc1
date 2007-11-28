@@ -47,3 +47,4 @@ Changes from 4.0.0beta1 to 4.0.0rc1
 - Fixed bug #11733: Multiple PHP-strict warnings in ezenum datatype.
 - Fixed bug #12021: Bug with new url aliases using case sensitive names and dashes in 3.10.0.
 - Fixed bug #12107: preg_match warnings after enabling extensions
+- Fixed bug #12104: eZLintSchema E_STRICT warnings

@@ -418,16 +418,16 @@ class eZLintSchema extends eZDBSchemaInterface
      \reimp
      Forwards request to data() on the otherSchema() object.
     */
-    function data( $schema = false, $tableNameList = false )
+    function data( $schema = false, $tableNameList = false, $params = array() )
     {
-        return $this->OtherSchema->data( $schema, $tableNameList );
+        return $this->OtherSchema->data( $schema, $tableNameList, $params );
     }
 
     /*!
      \reimp
      Forwards request to generateSchemaFile() on the otherSchema() object.
     */
-    function generateSchemaFile( $schema, $params )
+    function generateSchemaFile( $schema, $params = array() )
     {
         return $this->OtherSchema->generateSchemaFile( $schema, $params );
     }
@@ -436,7 +436,7 @@ class eZLintSchema extends eZDBSchemaInterface
      \reimp
      Forwards request to generateUpgradeFile() on the otherSchema() object.
     */
-    function generateUpgradeFile( $differences, $params )
+    function generateUpgradeFile( $differences, $params = array() )
     {
         return $this->OtherSchema->generateUpgradeFile( $differences, $params );
     }

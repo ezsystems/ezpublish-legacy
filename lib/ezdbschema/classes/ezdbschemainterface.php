@@ -858,7 +858,7 @@ class eZDBSchemaInterface
     /*!
      \private
     */
-    function generateDropFieldSql( $table_name, $field_name )
+    function generateDropFieldSql( $table_name, $field_name, $params )
     {
         $sql = "ALTER TABLE $table_name DROP COLUMN $field_name";
 
