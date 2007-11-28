@@ -23360,29 +23360,6 @@ INSERT INTO ezurlalias_ml (
   text,
   text_md5
 ) VALUES (
-  'eznode:56',
-  'eznode',
-  36,
-  0,
-  0,
-  1,
-  24,
-  23,
-  'ez_publish',
-  '9e08708348b66ed6047eccc802dd1c7e'
-);
-INSERT INTO ezurlalias_ml (
-  action,
-  action_type,
-  id,
-  is_alias,
-  is_original,
-  lang_mask,
-  link,
-  parent,
-  text,
-  text_md5
-) VALUES (
   'eznode:12',
   'eznode',
   4,
