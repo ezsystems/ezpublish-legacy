@@ -340,12 +340,13 @@ class eZEnumType extends eZDataType
             }break;
             case 'remove_selected' :
             {
+                $enum = $contentClassAttribute->content( );
                 $version = $contentClassAttribute->attribute( 'version' );
                 $postvarname = 'ContentClass' . '_data_enumremove_' . $contentClassAttribute->attribute( 'id' );
                 $array_remove = $http->hasPostVariable( $postvarname ) ? $http->postVariable( $postvarname ) : array();
                 foreach( $array_remove as $enumid )
                 {
-                    eZEnum::removeEnumeration( $id, $enumid, $version );
+                    $enum->removeEnumeration( $id, $enumid, $version );
                 }
             }break;
             default :

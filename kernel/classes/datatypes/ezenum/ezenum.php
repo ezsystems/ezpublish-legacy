@@ -112,12 +112,12 @@ class eZEnum
         $this->ObjectEnumerations = eZEnumObjectValue::fetchAllElements( $contentObjectAttributeID, $contentObjectAttributeVersion );
     }
 
-    function removeObjectEnumerations( $contentObjectAttributeID, $contentObjectAttributeVersion )
+    static function removeObjectEnumerations( $contentObjectAttributeID, $contentObjectAttributeVersion )
     {
          eZEnumObjectValue::removeAllElements( $contentObjectAttributeID, $contentObjectAttributeVersion );
     }
 
-    function storeObjectEnumeration( $contentObjectAttributeID, $contentObjectAttributeVersion, $enumID, $enumElement, $enumValue )
+    static function storeObjectEnumeration( $contentObjectAttributeID, $contentObjectAttributeVersion, $enumID, $enumElement, $enumValue )
     {
         $enumobjectvalue = eZEnumObjectValue::create( $contentObjectAttributeID, $contentObjectAttributeVersion, $enumID, $enumElement, $enumValue );
         $enumobjectvalue->store();
@@ -158,9 +158,8 @@ class eZEnum
         $db->begin();
 
         eZEnumValue::removeAllElements( $this->ClassAttributeID, 0 );
-        for ( $i=0;$i<count( $this->Enumerations );$i++ )
+        foreach( $this->Enumerations as $enum )
         {
-            $enum = $this->Enumerations[$i];
             $oldversion = $enum->attribute ( "contentclass_attribute_version" );
             $id = $enum->attribute( "id" );
             $contentClassAttributeID = $enum->attribute( "contentclass_attribute_id" );
@@ -168,11 +167,11 @@ class eZEnum
             $value = $enum->attribute( "enumvalue" );
             $placement = $enum->attribute( "placement" );
             $enumCopy = eZEnumValue::createCopy( $id,
-                                                  $contentClassAttributeID,
-                                                  0,
-                                                  $element,
-                                                  $value,
-                                                  $placement );
+                                                 $contentClassAttributeID,
+                                                 0,
+                                                 $element,
+                                                 $value,
+                                                 $placement );
             $enumCopy->store();
             if ( $oldversion != $version )
             {
@@ -181,10 +180,12 @@ class eZEnum
             }
         }
 
+        $this->Enumerations = eZEnumValue::fetchAllElements( $this->ClassAttributeID, $this->ClassAttributeVersion );
+
         $db->commit();
     }
 
-    function removeOldVersion( $id, $version )
+    static function removeOldVersion( $id, $version )
     {
         eZEnumValue::removeAllElements( $id, $version );
     }
@@ -207,7 +208,7 @@ class eZEnum
         $this->Enumerations[] = $enumValue;
     }
 
-    static function removeEnumeration( $id, $enumid, $version )
+    function removeEnumeration( $id, $enumid, $version )
     {
        eZEnumValue::removeByID( $enumid, $version );
        $this->Enumerations = eZEnumValue::fetchAllElements( $id, $version );

@@ -107,7 +107,7 @@ class eZEnumValue extends eZPersistentObject
         return new eZEnumValue( $row );
     }
 
-    function createCopy( $id, $contentClassAttributeID, $contentClassAttributeVersion, $element, $value, $placement )
+    static function createCopy( $id, $contentClassAttributeID, $contentClassAttributeVersion, $element, $value, $placement )
     {
         $row = array( "id" => $id,
                       "contentclass_attribute_id" => $contentClassAttributeID,
@@ -144,16 +144,17 @@ class eZEnumValue extends eZPersistentObject
     static function fetchAllElements( $classAttributeID, $version, $asObject = true )
     {
         if ( is_null( $classAttributeID ) )
-            $elementList = array();
-        else
-            $elementList = eZPersistentObject::fetchObjectList( eZEnumValue::definition(),
-                                                                null,
-                                                                array( "contentclass_attribute_id" => $classAttributeID,
-                                                                       "contentclass_attribute_version" => $version ),
-                                                                null,
-                                                                null,
-                                                                $asObject );
-        return $elementList;
+        {
+            return array();
+        }
+
+        return eZPersistentObject::fetchObjectList( eZEnumValue::definition(),
+                                                    null,
+                                                    array( "contentclass_attribute_id" => $classAttributeID,
+                                                           "contentclass_attribute_version" => $version ),
+                                                    null,
+                                                    null,
+                                                    $asObject );
     }
 
     public $ID;
