@@ -36,5 +36,6 @@ Changes from 4.0.0beta1 to 4.0.0rc1
 - Fixed bug #12025: Warnings in ezobjectrelationlist.
 - Fixed bug #12086: Declaration of processFilters method in ezurlaliasfilter.php is by-ref
 - Fixed bug #12091: Unknown template variable 'child' in namespace '' warning in admin interface
+- Fixed bug #12089: Strict warnings when moving nodes
 - Fixed bug #12092: Remote id not set correctle when content object is serialized with link eznode://
 - Fixed bug #9595: Order of design resources differs between eZTemplate::fetch and ezdesign/ezimage tpl operators
