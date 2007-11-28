@@ -64,7 +64,7 @@ class eZTextFileUser extends eZUser
      Logs in the user if applied username and password is
      valid. The userID is returned if succesful, false if not.
     */
-    function loginUser( $login, $password, $authenticationMatch = false )
+    static function loginUser( $login, $password, $authenticationMatch = false )
     {
         $http = eZHTTPTool::instance();
         $db = eZDB::instance();
