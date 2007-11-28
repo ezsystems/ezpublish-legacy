@@ -217,7 +217,7 @@ class eZRole extends eZPersistentObject
      $policy2 = $role->appendPolicy( 'content', 'read', array( 'Section' => 1 ) );
      // Access to content/read for class 2 and 5
      $policy3 = $role->appendPolicy( 'content', 'read', array( 'Class' => array( 2, 5 ) ) );
-     \encode
+     \endcode
 
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.

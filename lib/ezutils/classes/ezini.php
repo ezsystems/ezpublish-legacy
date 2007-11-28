@@ -1301,7 +1301,7 @@ class eZINI
      \code
      $ini->setVariables( array( 'SiteSettings' => array( 'SiteName' => 'mysite',
                                                          'SiteURL' => 'http://mysite.com' ) ) );
-     \encode
+     \endcode
      \sa setVariable
     */
     function setVariables( $variables )

@@ -401,7 +401,7 @@ class eZWordToImageOperator
      Example
      \code
      $icon = $this->iconDirectMapping( $ini, $themeINI, 'ClassIcons', 'ClassMap', 'Folder' );
-     \encode
+     \endcode
 
      \sa iconGroupMapping
     */
@@ -450,7 +450,7 @@ class eZWordToImageOperator
      Example
      \code
      $icon = $this->iconGroupMapping( $ini, $themeINI, 'MimeIcons', 'MimeMap', 'image/jpeg' );
-     \encode
+     \endcode
 
      \sa iconDirectMapping
     */

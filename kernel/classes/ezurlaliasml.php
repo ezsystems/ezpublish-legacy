@@ -810,6 +810,7 @@ class eZURLAliasML extends eZPersistentObject
 
      Lets say we have the following elements:
 
+     \code
      === ==== ====== =========== ==========
      id  link parent text        action
      === ==== ====== =========== ==========
@@ -820,6 +821,7 @@ class eZURLAliasML extends eZPersistentObject
      5   5    3      'repairman' 'eznode:42'
      6   6    3      'repoman'   'eznode:55'
      === ==== ====== =========== ==========
+     \endcode
 
      then we try to fetch a specific action:
      \code
@@ -827,12 +829,13 @@ class eZURLAliasML extends eZPersistentObject
      \endcode
 
      it would return:
-
+     \code
      === ==== ====== =========== ==========
      id  link parent text        action
      === ==== ====== =========== ==========
      3   3    0      'bicycle'   'eznode:5'
      === ==== ====== =========== ==========
+     \endcode
 
      Now let's try with an element which is redirecting:
      \code
@@ -840,12 +843,13 @@ class eZURLAliasML extends eZPersistentObject
      \endcode
 
      it would return:
-
+     \code
      === ==== ====== =========== ==========
      id  link parent text        action
      === ==== ====== =========== ==========
      2   6    0      'spam'      'eznode:55'
      === ==== ====== =========== ==========
+     \endcode
      */
     function fetchByAction( $actionName, $actionValue, $maskLanguages = false, $onlyPrioritized = false, $includeRedirections = false )
     {
@@ -893,7 +897,7 @@ class eZURLAliasML extends eZPersistentObject
      \endcode
 
      it would return (ie. no redirections):
-
+     \code
      === ==== ====== =========== ==========
      id  link parent text        action
      === ==== ====== =========== ==========
@@ -901,6 +905,7 @@ class eZURLAliasML extends eZPersistentObject
      3   3    0      'bicycle'   'eznode:5'
      4   4    0      'superman'  'nop:'
      === ==== ====== =========== ==========
+     \endcode
 
      Now let's try with an element which is redirecting:
      \code
@@ -909,7 +914,7 @@ class eZURLAliasML extends eZPersistentObject
      \endcode
 
      it would return:
-
+     \code
      === ==== ====== =========== ==========
      id  link parent text        action
      === ==== ====== =========== ==========
@@ -918,6 +923,7 @@ class eZURLAliasML extends eZPersistentObject
      3   3    0      'bicycle'   'eznode:5'
      4   4    0      'superman'  'nop:'
      === ==== ====== =========== ==========
+     \endcode
     */
     function &fetchByParentID( $id, $maskLanguages = false, $onlyPrioritized = false, $includeRedirections = true )
     {
@@ -948,7 +954,7 @@ class eZURLAliasML extends eZPersistentObject
      the second entry the child of the first path element and so on.
 
      Lets say we have the following elements:
-
+     \code
      === ==== ====== =========== ==========
      id  link parent text        action
      === ==== ====== =========== ==========
@@ -959,6 +965,7 @@ class eZURLAliasML extends eZPersistentObject
      5   5    3      'repairman' 'eznode:42'
      6   6    3      'repoman'   'eznode:55'
      === ==== ====== =========== ==========
+     \endcode
 
      then we try to fetch a specific ID:
      \code
@@ -1069,7 +1076,7 @@ class eZURLAliasML extends eZPersistentObject
      the starting text to match against.
 
      Lets say we have the following elements:
-
+     \code
      === ==== ====== =========== ==========
      id  link parent text        action
      === ==== ====== =========== ==========
@@ -1080,6 +1087,7 @@ class eZURLAliasML extends eZPersistentObject
      5   5    3      'repairman' 'eznode:42'
      6   6    3      'repoman'   'eznode:55'
      === ==== ====== =========== ==========
+     \endcode
 
      Then we try to fetch a specific path:
      \code
@@ -1087,25 +1095,27 @@ class eZURLAliasML extends eZPersistentObject
      \endcode
 
      we would get:
-
+     \code
      === ==== ====== =========== ==========
      id  link parent text        action
      === ==== ====== =========== ==========
      5   5    3      'repairman' 'eznode:42'
      === ==== ====== =========== ==========
+     \endcode
 
      \code
      $elements = eZURLAliasML::fetchByPath( "bicycle", "rep" ); // bicycle/rep*
      \endcode
 
      we would get:
-
+     \code
      === ==== ====== =========== ==========
      id  link parent text        action
      === ==== ====== =========== ==========
      5   5    3      'repairman' 'eznode:42'
      6   6    3      'repoman'   'eznode:55'
      === ==== ====== =========== ==========
+     \endcode
      */
     function fetchByPath( $uriString, $glob = false )
     {
@@ -1268,7 +1278,7 @@ class eZURLAliasML extends eZPersistentObject
      \return The string with new url is returned if the translation was found, but the resource has moved.
 
      Lets say we have the following elements:
-
+     \code
      === ==== ====== =========== ==========
      id  link parent text        action
      === ==== ====== =========== ==========
@@ -1279,6 +1289,7 @@ class eZURLAliasML extends eZPersistentObject
      5   5    3      'repairman' 'eznode:42'
      6   6    3      'repoman'   'eznode:55'
      === ==== ====== =========== ==========
+     \endcode
 
      then we try to translate a path:
      \code
@@ -1289,7 +1300,7 @@ class eZURLAliasML extends eZPersistentObject
          echo $result, "\n";
          echo $uri, "\n";
      }
-     \encode
+     \endcode
 
      we would get:
      \code
@@ -1306,7 +1317,7 @@ class eZURLAliasML extends eZPersistentObject
          echo $result, "\n";
          echo $uri, "\n";
      }
-     \encode
+     \endcode
 
      we would get:
      \code
@@ -1323,7 +1334,7 @@ class eZURLAliasML extends eZPersistentObject
          echo $result, "\n";
          echo $uri, "\n";
      }
-     \encode
+     \endcode
 
      then $result would be empty:
 
@@ -1336,7 +1347,7 @@ class eZURLAliasML extends eZPersistentObject
          echo $result, "\n";
          echo $uri, "\n";
      }
-     \encode
+     \endcode
 
      we would get:
      \code
