@@ -45,12 +45,11 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     /*!
      Initializes with a default resource name "design".
     */
-    function eZTemplateDesignResource( $name = "design", $onlyStandard = false )
+    function eZTemplateDesignResource( $name = "design" )
     {
         $this->eZTemplateFileResource( $name, true );
         $this->Keys = array();
         $this->KeyStack = array();
-        $this->OnlyStandard = $onlyStandard;
     }
 
     /*!
@@ -62,7 +61,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             return false;
 
         $file = $resourceData['template-name'];
-        $matchFileArray = eZTemplateDesignResource::overrideArray( $this->OverrideSiteAccess, $this->OnlyStandard );
+        $matchFileArray = eZTemplateDesignResource::overrideArray( $this->OverrideSiteAccess );
         $matchList = array();
         foreach ( $matchFileArray as $matchFile )
         {
@@ -239,64 +238,26 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     }
 
     /*!
-     \return the rules used for matching design elements. \a $element defines the element type.
+     \static
+
     */
-    static function fileMatchingRules( $element, $path, $onlyStandard = false )
+    static function fileMatch( $bases, $element, $path, &$triedFiles )
     {
-        eZDebug::accumulatorStart( 'matching_rules', 'override', 'Matching rules' );
-
-        $standardBase = eZTemplateDesignResource::designSetting( 'standard' );
-        if ( !$onlyStandard )
-            $siteBase = eZTemplateDesignResource::designSetting( 'site' );
-
-        $ini = eZINI::instance();
-        $additionalSiteDesignList = $ini->variable( "DesignSettings", "AdditionalSiteDesignList" );
-
-        //include_once( 'lib/ezutils/classes/ezextension.php' );
-        $extensionDirectory = eZExtension::baseDirectory();
-
-        $designINI = eZINI::instance( 'design.ini' );
-        $extensions = $designINI->variable( 'ExtensionSettings', 'DesignExtensions' );
-
-        $matches = array();
-
-        $elementText = '';
-        if ( $element !== false )
-            $elementText = $element . '/';
-
-        $designStartPath = eZTemplateDesignResource::designStartPath();
-
-        $designList = $additionalSiteDesignList;
-        array_unshift( $designList, $siteBase );
-        $designList[] = $standardBase;
-
-        if ( $onlyStandard )
-            $designList = array( $standardBase );
-
-
-        foreach ( $designList as $design )
+        foreach ( $bases as $base )
         {
-            foreach ( $extensions as $extension )
+            $resource = $element != '' ? "$base/$element" : $base;
+            $possibleMatchFile = $resource . '/' . $path;
+
+            $triedFiles[] = $possibleMatchFile;
+
+            if ( file_exists( $possibleMatchFile ) )
             {
-                $matches[] = array( 'file' => "$extensionDirectory/$extension/$designStartPath/$design/override/$elementText$path",
-                                    'type' => 'override' );
+                return array( 'resource' => $resource,
+                              'path' => $possibleMatchFile );
             }
-            $matches[] = array( 'file' => "$designStartPath/$design/override/$elementText$path",
-                                'type' => 'override' );
         }
 
-        foreach ( $designList as $design )
-        {
-            foreach ( $extensions as $extension )
-            {
-                $matches[] = array( 'file' => "$extensionDirectory/$extension/$designStartPath/$design/$elementText$path",
-                                    'type' => 'normal' );
-            }
-            $matches[] = array( 'file' => "$designStartPath/$design/$elementText$path",
-                                'type' => 'normal' );
-        }
-        eZDebug::accumulatorStop( 'matching_rules' );
-        return $matches;
+        return false;
     }
 
     /*!
@@ -350,7 +311,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 //            $matchFileArray = false;
             if ( empty( $GLOBALS['eZTemplateOverrideArray_' . $this->OverrideSiteAccess] ) )
             {
-                $GLOBALS['eZTemplateOverrideArray_' . $this->OverrideSiteAccess] = eZTemplateDesignResource::overrideArray( $this->OverrideSiteAccess, $this->OnlyStandard );
+                $GLOBALS['eZTemplateOverrideArray_' . $this->OverrideSiteAccess] = eZTemplateDesignResource::overrideArray( $this->OverrideSiteAccess );
             }
             $matchFileArray = $GLOBALS['eZTemplateOverrideArray_' . $this->OverrideSiteAccess];
 
@@ -468,8 +429,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $useOverrideCache = $ini->variable( 'OverrideSettings', 'Cache' ) == 'enabled';
 
         $standardBase = eZTemplateDesignResource::designSetting( 'standard' );
-        if ( !$this->OnlyStandard )
-            $siteBase = eZTemplateDesignResource::designSetting( 'site' );
+        $siteBase = eZTemplateDesignResource::designSetting( 'site' );
 
         $overrideKeys = $this->overrideKeys();
 
@@ -483,7 +443,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         if ( !$useOverrideCache or
              !file_exists( $overrideCacheFile ) )
         {
-            $matchFileArray = eZTemplateDesignResource::overrideArray( $this->OverrideSiteAccess, $this->OnlyStandard );
+            $matchFileArray = eZTemplateDesignResource::overrideArray( $this->OverrideSiteAccess );
 
             // Generate PHP compiled cache file.
             //include_once( 'lib/ezutils/classes/ezphpcreator.php' );
@@ -576,10 +536,6 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                 else
                 {
                     $phpCode .= "'". $matchFileArray[$matchKey]['base_dir'] . $matchKey . "'";
-                    // Plain matching without custom override
-//                    $phpCode .= "case  \"$matchKey\":\n    {\n
-//                           return '" .
-//                         $matchFileArray[$matchKey]['base_dir'] . $matchKey . "';}\nbreak;\n";
                 }
 
                 if ( $countMatchFiles < $numMatchFiles )
@@ -591,13 +547,6 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                     $phpCode .= ");\n";
                 }
             }
-//            $phpCode .= "default:\n {\n}break;\n}";
-
-//            $phpCode .= "}\n";
-
-//            $phpCode .= "function overrideFile( \$matchFile, \$matchKeys )\n{\n    ";
-//            $phpCode .= '  eval( "\$return = " . $GLOBALS[\'eZOverrideTemplateCacheMap\'][$matchFile] . ";" );' . "\n";
-//            $phpCode .= '  return $return;' . "\n}\n\n";
 
             $phpCache->addCodePiece( $phpCode );
             if ( $useOverrideCache and
@@ -613,7 +562,6 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                 }
                 $eZTemplateOverrideCacheNoPermission = 'nocache';
                 $overrideCacheFile = false;
-
             }
         }
 
@@ -648,11 +596,8 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $standardBase = $ini->variable( "DesignSettings", "StandardDesign" );
             $keys[] = "siteaccess/$siteAccess";
             $keys[] = $standardBase;
-            if ( !$this->OnlyStandard )
-            {
-                $siteBase = $ini->variable( "DesignSettings", "SiteDesign" );
-                $keys[] = $siteBase;
-            }
+            $siteBase = $ini->variable( "DesignSettings", "SiteDesign" );
+            $keys[] = $siteBase;
         }
         else
         {
@@ -676,8 +621,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $standardBase = eZTemplateDesignResource::designSetting( 'standard' );
             $keys[] = $standardBase;
             $siteBase = eZTemplateDesignResource::designSetting( 'site' );
-            if ( !$this->OnlyStandard )
-                $keys[] = $siteBase;
+            $keys[] = $siteBase;
         }
 
 
@@ -704,33 +648,93 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
     /*!
      \static
-     \return Gives all knows bases for avialable sitedesign folders.
+     \return An array containing the names of the design extensions that are
+             currently active
     */
-    static function allDesignBases()
+    static function designExtensions()
     {
-        $ini = eZINI::instance();
-
-        //include_once( 'lib/ezutils/classes/ezextension.php' );
-        $extensionDirectory = eZExtension::baseDirectory();
         $designINI = eZINI::instance( 'design.ini' );
         $extensions = $designINI->variable( 'ExtensionSettings', 'DesignExtensions' );
+        return array_reverse( $extensions );
+    }
+
+    /*!
+     \static
+     \return Gives all knows bases for avialable sitedesign folders.
+    */
+    static function allDesignBases( $siteAccess = false )
+    {
+        if ( $siteAccess )
+        {
+            if ( isset( $GLOBALS['eZTemplateDesignResourceSiteAccessBases'] ) )
+            {
+                if ( isset( $GLOBALS['eZTemplateDesignResourceSiteAccessBases'][$siteAccess] ) )
+                {
+                    return $GLOBALS['eZTemplateDesignResourceSiteAccessBases'][$siteAccess];
+                }
+            }
+            else
+            {
+                $GLOBALS['eZTemplateDesignResourceSiteAccessBases'] = array();
+            }
+
+            $ini = eZINI::instance( 'site.ini', 'settings', null, null, true );
+            $ini->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
+            eZExtension::prependExtensionSiteAccesses( $siteAccess, $ini, false, 'siteaccess' );
+            $ini->loadCache();
+
+            $standardDesign = $ini->variable( "DesignSettings", "StandardDesign" );
+            $siteDesign = $ini->variable( "DesignSettings", "SiteDesign" );
+        }
+        else
+        {
+            if ( isset( $GLOBALS['eZTemplateDesignResourceBases'] ) )
+            {
+                return $GLOBALS['eZTemplateDesignResourceBases'];
+            }
+
+            $ini = eZINI::instance();
+            $standardDesign = eZTemplateDesignResource::designSetting( 'standard' );
+            $siteDesign = eZTemplateDesignResource::designSetting( 'site' );
+        }
+
+        $siteDesignList = $ini->variable( 'DesignSettings', 'AdditionalSiteDesignList' );
+
+        array_unshift( $siteDesignList, $siteDesign );
+        $siteDesignList[] = $standardDesign;
 
         $bases = array();
-
-        $std_base = eZTemplateDesignResource::designSetting( 'standard' );
-        $site_base = eZTemplateDesignResource::designSetting( 'site' );
-        $SiteDesignList = $ini->variable( 'DesignSettings', 'AdditionalSiteDesignList' );
-        array_unshift( $SiteDesignList, $site_base );
-        $SiteDesignList[] = $std_base;
+        $extensionDirectory = eZExtension::baseDirectory();
         $designStartPath = eZTemplateDesignResource::designStartPath();
-        foreach ( $SiteDesignList as $design )
+        $extensions = eZTemplateDesignResource::designExtensions();
+
+        foreach ( $siteDesignList as $design )
         {
-            $bases[] = "$designStartPath/$design";
-            foreach( $extensions as $extension )
+            foreach ( $extensions as $extension )
             {
-               $bases[] = "$extensionDirectory/$extension/$designStartPath/$design";
+                $path = "$extensionDirectory/$extension/$designStartPath/$design";
+                if ( file_exists( $path ) )
+                {
+                    $bases[] = $path;
+                }
+            }
+
+            $path = "$designStartPath/$design";
+            if ( file_exists( $path ) )
+            {
+                $bases[] = $path;
             }
         }
+
+        if ( $siteAccess )
+        {
+            $GLOBALS['eZTemplateDesignResourceSiteAccessBases'][$siteAccess] = $bases;
+        }
+        else
+        {
+            $GLOBALS['eZTemplateDesignResourceBases'] = $bases;
+        }
+
         return $bases;
     }
 
@@ -767,142 +771,88 @@ class eZTemplateDesignResource extends eZTemplateFileResource
      \return an array of all the current templates and overrides for them.
              The current siteaccess is used if none is specified.
     */
-    static function overrideArray( $siteAccess = false, $onlyStandard = null )
+    static function overrideArray( $siteAccess = false )
     {
+        $bases = eZTemplateDesignResource::allDesignBases( $siteAccess );
+
         // fetch the override array from a specific siteacces
         if ( $siteAccess )
         {
-            // Get the design resources
-            $ini = eZINI::instance( 'site.ini', 'settings', null, null, true );
-            $ini->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
-            eZExtension::prependExtensionSiteAccesses( $siteAccess, $ini, false, 'siteaccess' );
-            $ini->loadCache();
-
             $overrideINI = eZINI::instance( 'override.ini', 'settings', null, null, true );
             $overrideINI->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
             eZExtension::prependExtensionSiteAccesses( $siteAccess, $overrideINI, false, 'siteaccess', false );
             $overrideINI->loadCache();
-
-            $standardBase = $ini->variable( "DesignSettings", "StandardDesign" );
-            if ( !$onlyStandard )
-                $siteBase = $ini->variable( "DesignSettings", "SiteDesign" );
         }
         else
         {
-            $ini = eZINI::instance();
             $overrideINI = eZINI::instance( 'override.ini' );
-            $standardBase = eZTemplateDesignResource::designSetting( 'standard' );
-            $siteBase = eZTemplateDesignResource::designSetting( 'site' );
         }
 
         $designStartPath = eZTemplateDesignResource::designStartPath();
 
-        $additionalSiteDesignList = $ini->variable( 'DesignSettings', 'AdditionalSiteDesignList' );
-        // Reverse additionalSiteDesignList so that most prefered design is last
-        $additionalSiteDesignList = array_reverse( $additionalSiteDesignList );
-
         // Generate match cache for all templates
-        //include_once( 'lib/ezfile/classes/ezdir.php' );
 
-        // Build arrays of available files, start with base design and end with most prefered design
+        // Build arrays of available files, start with standard design and end with most prefered design
         $matchFilesArray = array();
 
-        // For each override dir overwrite current default file
-        // TODO: fetch all resource repositories
-        $resourceArray[] = "$designStartPath/$standardBase/templates";
-        $resourceArray[] = "$designStartPath/$standardBase/override/templates";
+        $reverseBases = array_reverse( $bases );
 
-        // Add the additional sitedesigns
-        foreach ( $additionalSiteDesignList as $additionalSiteDesign )
+        foreach ( $reverseBases as $base )
         {
-            $resourceArray[] = "$designStartPath/$additionalSiteDesign/override/templates";
-            $resourceArray[] = "$designStartPath/$additionalSiteDesign/templates";
-        }
-
-        $resourceArray[] = "$designStartPath/$siteBase/override/templates";
-        $resourceArray[] = "$designStartPath/$siteBase/templates";
-
-        // Add extension paths
-        //include_once( 'lib/ezutils/classes/ezextension.php' );
-        $extensionDirectory = eZExtension::baseDirectory();
-
-        $designINI = eZINI::instance( 'design.ini' );
-        $extensions = $designINI->variable( 'ExtensionSettings', 'DesignExtensions' );
-
-        foreach ( $extensions as $extension )
-        {
-            // Look for standard design in extension
-            $resourceArray[] = "$extensionDirectory/$extension/$designStartPath/$standardBase/templates";
-            $resourceArray[] = "$extensionDirectory/$extension/$designStartPath/$standardBase/override/templates";
-
-            // Look for aditional sitedesigns in extension
-            foreach ( $additionalSiteDesignList as $additionalSiteDesign )
+            $templateResource = $base . '/templates';
+            $sourceFileArray = eZDir::recursiveFindRelative( $templateResource, "",  "tpl" );
+            foreach ( $sourceFileArray as $source )
             {
-                $resourceArray[] = "$extensionDirectory/$extension/$designStartPath/$additionalSiteDesign/override/templates";
-                $resourceArray[] = "$extensionDirectory/$extension/$designStartPath/$additionalSiteDesign/templates";
-            }
-
-            // Look for site base in extention
-            $resourceArray[] = "$extensionDirectory/$extension/$designStartPath/$siteBase/override/templates";
-            $resourceArray[] = "$extensionDirectory/$extension/$designStartPath/$siteBase/templates";
-        }
-
-        foreach ( $resourceArray as $resource )
-        {
-            $sourceFileArray = eZDir::recursiveFindRelative( $resource, "",  "tpl" );
-            foreach ( array_keys( $sourceFileArray ) as $sourceKey )
-            {
-                $matchFileArray[$sourceFileArray[$sourceKey]]['base_dir'] = $resource;
-                $matchFileArray[$sourceFileArray[$sourceKey]]['template'] = $sourceFileArray[$sourceKey];
+                $matchFileArray[$source]['base_dir'] = $templateResource;
+                $matchFileArray[$source]['template'] = $source;
             }
         }
 
-
-        // Load complex/custom override templates
-        $overrideSettingGroupArray = $overrideINI->groups();
+        // Load override templates
+        $overrideSettingGroups = $overrideINI->groups();
         if ( isset( $GLOBALS['eZDesignOverrides'] ) )
         {
-            $overrideSettingGroupArray = array_merge( $overrideSettingGroupArray, $GLOBALS['eZDesignOverrides'] );
+            $overrideSettingGroups = array_merge( $overrideSettingGroups, $GLOBALS['eZDesignOverrides'] );
         }
 
-        foreach ( array_keys( $overrideSettingGroupArray ) as $overrideSettingKey )
+        foreach ( $overrideSettingGroups as $overrideName => $overrideSetting )
         {
-            $overrideName = $overrideSettingKey;
-            $overrideSource = "/" . $overrideSettingGroupArray[$overrideSettingKey]['Source'];
+            $overrideSource = "/" . $overrideSetting['Source'];
+            $overrideMatchFile = $overrideSetting['MatchFile'];
 
-            $overrideMatchConditionArray = isset( $overrideSettingGroupArray[$overrideSettingKey]['Match'] ) ?
-                $overrideSettingGroupArray[$overrideSettingKey]['Match'] :
-                null;
-            $overrideMatchFile = $overrideSettingGroupArray[$overrideSettingKey]['MatchFile'];
-
-            $overrideMatchFilePath = false;
             // Find the matching file in the available resources
             $triedFiles = array();
-            $resourceInUse = false;
-            foreach ( $resourceArray as $resource )
-            {
-                if ( file_exists( $resource . "/" . $overrideMatchFile ) )
-                {
-                    $overrideMatchFilePath = $resource . "/" . $overrideMatchFile;
-                    $resourceInUse = $resource;
-                }
-                else
-                    $triedFiles[] = $resource . '/' . $overrideMatchFile;
-            }
+            $fileInfo = eZTemplateDesignResource::fileMatch( $bases, 'override/templates', $overrideMatchFile, $triedFiles );
 
+            $resourceInUse = is_array( $fileInfo ) ? $fileInfo['resource'] : false;
+            $overrideMatchFilePath = is_array( $fileInfo ) ? $fileInfo['path'] : false;
+
+            // if the override template is not found
+            // then we probably shouldn't use it
+            // there should be added a check around the following code
+            // if ( $overrideMatchFilePath )
+            // {
             $customMatchArray = array();
-            $customMatchArray['conditions'] = $overrideMatchConditionArray;
+            $customMatchArray['conditions'] = isset( $overrideSetting['Match'] ) ? $overrideSetting['Match'] : null;
             $customMatchArray['match_file'] = $overrideMatchFilePath;
             $customMatchArray['override_name'] = $overrideName;
+
             $matchFileArray[$overrideSource]['custom_match'][] = $customMatchArray;
-            if( $resourceInUse && !isset($matchFileArray[$overrideSource]['base_dir']))
+            // }
+
+            // if overriding a non-existing template
+            // then we use the override template as main template
+            // this code should probably be removed
+            // because we should not allow an override if the main template is missing
+            if ( $resourceInUse && !isset( $matchFileArray[$overrideSource]['base_dir'] ) )
             {
-                $matchFileArray[$overrideSource]['base_dir'] = $resource;
+                $matchFileArray[$overrideSource]['base_dir'] = $resourceInUse;
                 $matchFileArray[$overrideSource]['template'] = $overrideSource;
             }
+
             if ( ! $overrideMatchFilePath )
             {
-                eZDebug::writeError( "Custom match file: path '$overrideMatchFile' not found in any resource. Check template settings in settings/override.ini",
+                eZDebug::writeError( "Custom match file: path '$overrideMatchFile' not found in any resource. Check the template settings in settings/override.ini",
                                      "eZTemplateDesignResource::overrideArray" );
                 eZDebug::writeError( implode( ', ', $triedFiles ),
                                      "eZTemplateDesignResource::overrideArray, tried files" );
@@ -993,18 +943,6 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     }
 
     /*!
-     \return the unique instance of the standard resource.
-    */
-    static function standardInstance()
-    {
-        if ( !isset( $GLOBALS['eZTemplateStandardResourceInstance'] ) )
-        {
-            $GLOBALS['eZTemplateStandardResourceInstance'] = new eZTemplateDesignResource( 'standard', true );
-        }
-        return $GLOBALS['eZTemplateStandardResourceInstance'];
-    }
-
-    /*!
      Sets the siteaccess which are to be used for loading the override settings.
     */
     function setOverrideAccess( $siteAccess )
@@ -1013,7 +951,6 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     }
 
     public $Keys;
-    public $OnlyStandard;
     public $OverrideSiteAccess = false;
 }
 

@@ -325,153 +325,38 @@ CODEPIECE;
                 {
                     $path = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
 
-                    $matches = eZTemplateDesignResource::fileMatchingRules( false, $path );
-
-                    $designResource = eZTemplateDesignResource::instance();
-                    $matchKeys = $designResource->keys();
-                    $matchedKeys = array();
-
-                    //include_once( 'kernel/common/ezoverride.php' );
-                    $match = eZOverride::selectFile( $matches, $matchKeys, $matchedKeys, "#^(.+)/(.+)(\.[a-zA-Z0-9]+)$#" );
-                    if ( $match === null )
-                    {
-                        $tpl->warning( $operatorName, "Design element $path does not exist in any design" );
-                        $siteDesign = eZTemplateDesignResource::designSetting( 'site' );
-                        $path = "design/$siteDesign/$path";
-                    }
-                    else
-                    {
-                        $path = $match["file"];
-                    }
-
-                    $path = $this->Sys->wwwDir() . '/' . $path;
-                    $path = htmlspecialchars( $path );
-
+                    $path = $this->eZDesign( $tpl, $path, $operatorName );
                     $path = $this->applyQuotes( $path, $parameters[1] );
 
                     return array( eZTemplateNodeTool::createStringElement( $path ) );
                 }
 
-                $code = ( '%tmp1% = eZTemplateDesignResource::instance();' . "\n" .
-                          '//include_once( \'kernel/common/ezoverride.php\' );' . "\n" .
-                          '%tmp2% = array();' . "\n" .
-                          '%tmp3% = eZOverride::selectFile( eZTemplateDesignResource::fileMatchingRules( false, %1% ), %tmp1%->keys(), %tmp2%, "#^(.+)/(.+)(\.[a-zA-Z0-9]+)$#" );' . "\n" .
-                          'if ( %tmp3% === null )' . "\n" .
-                          '{' . "\n" .
-                          '    %tmp3% = array();' . "\n" .
-                          '    $tpl->warning( "' . $operatorName . '", "Design element %1% does not exist in any design" );' . "\n" .
-                          '    %tmp4% = eZTemplateDesignResource::designSetting( "site" );' . "\n" .
-                          '    %1% = "design/%tmp4%/%1%";' . "\n" .
-                          '}' . "\n" .
-                          'else' . "\n" .
-                          '{' . "\n" .
-                          '    %1% = %tmp3%["file"];' . "\n" .
-                          '}' . "\n" .
-                          '%1% = %2% . "/" . %1%;' . "\n" .
-                          '%1% = htmlspecialchars( %1% );' . "\n"
-                        );
+                $code = ( '%1% = eZURLOperator::eZDesign( $tpl, %1%, "' . $operatorName . '" );' . "\n" );
 
                 $values[] = $parameters[0];
-                $values[] = array( eZTemplateNodeTool::createStringElement( $this->Sys->wwwDir() ) );
-                $tmpCount += 4;
                 ++$paramCount;
             } break;
 
             case $this->ImageName:
             {
+                $skipSlash = count( $parameters ) > 2 ? eZTemplateNodeTool::elementStaticValue( $parameters[2] ) == true : false;
+
                 if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
                 {
                     $path = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
-                    $skipSlash = false;
-                    if ( count( $parameters ) > 2 )
-                    {
-                        $skipSlash = eZTemplateNodeTool::elementStaticValue( $parameters[2] );
-                    }
 
-                    $bases = eZTemplateDesignResource::allDesignBases();
-                    $no_slash_prefix = false;
-                    if ( $skipSlash == true && strlen( $this->Sys->wwwDir() ) == 0 )
-                        $no_slash_prefix = true;
-
-                    $imageFound = false;
-                    foreach ( $bases as $base )
-                    {
-                        $possiblePath = $base . '/images/' . $path;
-                        if ( file_exists( $possiblePath ) )
-                        {
-                            if ( $no_slash_prefix == true )
-                                $path = $possiblePath;
-                            else
-                                $path = $this->Sys->wwwDir() . '/' . $possiblePath;
-                            $imageFound = true;
-                            break;
-                        }
-                    }
-
-                    if ( !$imageFound )
-                    {
-                        $tpl->warning( $operatorName, "Image '$path' does not exist in any design" );
-                        $siteDesign = eZTemplateDesignResource::designSetting( 'site' );
-                        $path = "design/$siteDesign/images/$path";
-                    }
-
-                    $path = htmlspecialchars( $path );
+                    $path = eZURLOperator::eZImage( $tpl, $path, $operatorName, $skipSlash );
                     $path = $this->applyQuotes( $path, $parameters[1] );
 
                     return array( eZTemplateNodeTool::createStringElement( $path ) );
                 }
-                else
-                {
-                    $values = array();
-                    $values[] = $parameters[0];
 
-                    $no_slash_prefix = false;
-                    if ( count ( $parameters ) > 2 )
-                    {
-                        if ( eZTemplateNodeTool::elementStaticValue( $parameters[2] ) == true && strlen( $wwwDir ) )
-                        {
-                            $no_slash_prefix = true;
-                        }
-                    }
+                $code = ( '%1% = eZURLOperator::eZImage( $tpl, %1%, "' . $operatorName . '", %2% );' . "\n" );
 
-                    $ini = eZINI::instance();
-                    $values[] = array( eZTemplateNodeTool::createStringElement( $this->Sys->wwwDir() ) );
-                    $values[] = array( eZTemplateNodeTool::createArrayElement( eZTemplateDesignResource::allDesignBases() ) );
+                $values[] = $parameters[0];
+                $values[] = array( eZTemplateNodeTool::createBooleanElement( $skipSlash ) );
 
-                    $code =
-                    '%tmp2% = false;'                                                                   . "\n" .
-                    'foreach ( %3% as %tmp1% )'                                                         . "\n" .
-                    '{'                                                                                 . "\n" .
-                    '    %tmp3% = %tmp1% . "/images/" . %1%;'                                           . "\n" .
-                    '    if ( file_exists( %tmp3% ) )'                                                  . "\n" .
-                    '    {'                                                                             . "\n" ;
-                    if ( $no_slash_prefix == true )
-                        $code .= '        %1% = %tmp3%;';
-                    else
-                        $code .= '        %1% = %2% . "/" . %tmp3%;';
-
-                    $code .= "\n" .
-                    '         %tmp2% = true;'                                                           . "\n" .
-                    '         break;'                                                                   . "\n" .
-                    '    }'                                                                             . "\n" .
-                    '}'                                                                                 . "\n" .
-                    'if ( !%tmp2% )'                                                                    . "\n" .
-                    '{'                                                                                 . "\n" .
-                    '    $tpl->warning( "' . $operatorName .
-                                                   '", "Image %1% does not exist in any design" );'     . "\n" .
-                    '    %tmp3% = eZTemplateDesignResource::designSetting( "site" );'                   . "\n" .
-                    '    %1% = "design/%tmp3%/images/%1%";'                                             . "\n" .
-                    '}'                                                                                 . "\n" .
-                    '%output% = htmlspecialchars( %1% );'                                               . "\n" ;
-
-                    $quote = $this->applyQuotes( '', $parameters[1], true );
-                    if ( $quote )
-                    {
-                        $values[] = array( eZTemplateNodeTool::createStringElement( $quote ) );
-                        $code .= '%output% = %4% . %output% . %4%;'                                     . "\n";
-                    }
-                    return array( eZTemplateNodeTool::createCodePieceElement( $code, $values, false, 3 ) );
-                }
+                ++$paramCount;
             } break;
 
             case $this->ExtName:
@@ -828,39 +713,18 @@ CODEPIECE;
 
             case $this->ImageName:
             {
-                $ini = eZINI::instance();
-                $no_slash_prefix = false;
-                if ( count( $operatorParameters ) == 2 )
+                if ( count( $operatorParameters ) == 2 &&
+                     $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace ) == true &&
+                     strlen( $this->Sys->wwwDir() ) == 0 )
                 {
-                    if ( $operatorParameters[1] == true && strlen( $this->Sys->wwwDir() ) == 0 )
-                        $no_slash_prefix = true;
+                    $skipSlash = true;
+                }
+                else
+                {
+                    $skipSlash = false;
                 }
 
-                $bases = eZTemplateDesignResource::allDesignBases();
-
-                $imageFound = false;
-                foreach ( $bases as $base )
-                {
-                    $possiblePath = $base . '/images/' . $operatorValue;
-                    if ( file_exists( $possiblePath ) )
-                    {
-                        if ( $no_slash_prefix == true )
-                            $operatorValue = $possiblePath;
-                        else
-                            $operatorValue = $this->Sys->wwwDir() . '/' . $possiblePath;
-                        $imageFound = true;
-                        break;
-                    }
-                }
-
-                if ( !$imageFound )
-                {
-                    $tpl->warning( $operatorName, "Image '$operatorValue' does not exist in any design" );
-                    $siteDesign = eZTemplateDesignResource::designSetting( 'site' );
-                    $operatorValue = "design/$siteDesign/images/$operatorValue";
-                }
-
-                $operatorValue = htmlspecialchars( $operatorValue );
+                $operatorValue = $this->eZImage( $tpl, $operatorValue, $operatorName, $skipSlash );
             } break;
 
             case $this->ExtName:
@@ -876,26 +740,7 @@ CODEPIECE;
 
             case $this->DesignName:
             {
-                $matches = eZTemplateDesignResource::fileMatchingRules( false, $operatorValue );
-
-                $designResource = eZTemplateDesignResource::instance();
-                $matchKeys = $designResource->keys();
-                $matchedKeys = array();
-
-                //include_once( 'kernel/common/ezoverride.php' );
-                $match = eZOverride::selectFile( $matches, $matchKeys, $matchedKeys, "#^(.+)/(.+)(\.[a-zA-Z0-9]+)$#" );
-                if ( $match === null )
-                {
-                    $tpl->warning( $operatorName, "Design element $operatorValue does not exist in any design" );
-                    $siteDesign = eZTemplateDesignResource::designSetting( 'site' );
-                    $file = "design/$siteDesign/$operatorValue";
-                }
-                else
-                    $file = $match["file"];
-
-                $operatorValue = $this->Sys->wwwDir() . "/$file";
-                $operatorValue = htmlspecialchars( $operatorValue );
-
+                $operatorValue = $this->eZDesign( $tpl, $operatorValue, $operatorName );
             } break;
         }
         $quote = "\"";
@@ -914,6 +759,68 @@ CODEPIECE;
         }
         if ( $quote !== false )
             $operatorValue = $quote . $operatorValue . $quote;
+    }
+
+    /*!
+
+    */
+    static function eZDesign( $tpl, $operatorValue, $operatorName )
+    {
+        $sys = eZSys::instance();
+
+        $bases = eZTemplateDesignResource::allDesignBases();
+        $triedFiles = array();
+        $fileInfo = eZTemplateDesignResource::fileMatch( $bases, false, $operatorValue, $triedFiles);
+
+        if ( !$fileInfo )
+        {
+            $tpl->warning( $operatorName, "Design element $operatorValue does not exist in any design" );
+            $tpl->warning( $operatorName, "Tried files: " . implode( ', ', $triedFiles ) );
+            $siteDesign = eZTemplateDesignResource::designSetting( 'site' );
+            $filePath = "design/$siteDesign/$operatorValue";
+        }
+        else
+        {
+            $filePath = $fileInfo['path'];
+        }
+
+        $operatorValue = $sys->wwwDir() . '/' . $filePath;
+        $operatorValue = htmlspecialchars( $operatorValue );
+
+        return $operatorValue;
+    }
+
+    /*!
+
+    */
+    static function eZImage( $tpl, $operatorValue, $operatorName, $skipSlash = false )
+    {
+        $sys = eZSys::instance();
+        if ( $skipSlash && strlen( $sys->wwwDir() ) != 0 )
+        {
+            $skipSlash = false;
+        }
+
+        $bases = eZTemplateDesignResource::allDesignBases();
+        $triedFiles = array();
+        $fileInfo = eZTemplateDesignResource::fileMatch( $bases, 'images', $operatorValue, $triedFiles );
+
+        if ( !$fileInfo )
+        {
+            $tpl->warning( $operatorName, "Image '$operatorValue' does not exist in any design" );
+            $tpl->warning( $operatorName, "Tried files: " . implode( ', ', $triedFiles ) );
+            $siteDesign = eZTemplateDesignResource::designSetting( 'site' );
+            $imgPath = "design/$siteDesign/images/$operatorValue";
+        }
+        else
+        {
+            $imgPath = $fileInfo['path'];
+        }
+
+        $operatorValue = $skipSlash ? $imgPath : $sys->wwwDir() . '/' . $imgPath;
+        $operatorValue = htmlspecialchars( $operatorValue );
+
+        return $operatorValue;
     }
 
     public $Operators;
