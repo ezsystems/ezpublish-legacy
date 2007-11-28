@@ -311,11 +311,8 @@ class eZEnumType extends eZDataType
 
     function storeDefinedClassAttribute( &$contentClassAttribute )
     {
-        $id = $contentClassAttribute->attribute( 'id' );
-        $version = 1;
-        $enumVersion1 = new eZEnum( $id, $version );
-        $enumVersion1->setVersion( 0 );
-        eZEnumValue::removeAllElements( $id, 1 );
+        $enum =& $contentClassAttribute->content();
+        $enum->setVersion( EZ_CLASS_VERSION_STATUS_DEFINED );
     }
 
     /*!
