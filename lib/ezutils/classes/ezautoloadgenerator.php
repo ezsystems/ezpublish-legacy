@@ -294,7 +294,7 @@ class eZAutoloadGenerator
         $retArray = array();
         foreach( $fileList as $file )
         {
-            $tokens = token_get_all( file_get_contents( $file ) );
+            $tokens = @token_get_all( file_get_contents( $file ) );
             foreach( $tokens as $key => $token )
             {
                 if ( is_array( $token ) )
