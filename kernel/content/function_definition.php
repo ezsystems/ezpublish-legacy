@@ -923,7 +923,12 @@ $FunctionList['keyword'] = array( 'name' => 'keyword',
                                                          array( 'name' => 'parent_node_id',
                                                                 'type' => 'integer',
                                                                 'required' => false,
-                                                                'default' => false ) ) );
+                                                                'default' => false ),
+                                                        array( 'name' => 'include_duplicates',
+                                                                'type' => 'bool',
+                                                                'required' => false,
+                                                                'default' => true ) ) );
+                                                                
 
 $FunctionList['keyword_count'] = array( 'name' => 'keyword_count',
                                         'operation_types' => array( 'read' ),
@@ -944,7 +949,11 @@ $FunctionList['keyword_count'] = array( 'name' => 'keyword_count',
                                                                array( 'name' => 'parent_node_id',
                                                                       'type' => 'integer',
                                                                       'required' => false,
-                                                                      'default' => false ) ) );
+                                                                      'default' => false ),
+                                                               array( 'name' => 'include_duplicates',
+                                                                      'type' => 'bool',
+                                                                      'required' => false,
+                                                                      'default' => true ) ) );
 
 $FunctionList['access'] = array( 'name' => 'access',
                                  'operation_types' => array( 'read' ),
