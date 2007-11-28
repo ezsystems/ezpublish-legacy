@@ -442,13 +442,11 @@ class eZEnumType extends eZDataType
 
         foreach ( $enumElements as $enumElement )
         {
-            unset( $elementNode );
-            $elementNode = new eZDOMNode();
-            $elementNode->setName( 'enum-element' );
+            $elementNode = $node->ownerDocument->createElement( 'enum-element' );
 
-            $elementNode->appendAttribute( eZDOMDocument::createAttributeNode( 'id', $enumElement->attribute( 'enumid' ) ) );
-            $elementNode->appendAttribute( eZDOMDocument::createAttributeNode( 'value', $enumElement->attribute( 'enumvalue' ) ) );
-            $elementNode->appendAttribute( eZDOMDocument::createAttributeNode( 'element', $enumElement->attribute( 'enumelement' ) ) );
+            $elementNode->setAttribute( 'id', $enumElement->attribute( 'enumid' ) );
+            $elementNode->setAttribute( 'value', $enumElement->attribute( 'enumvalue' ) );
+            $elementNode->setAttribute( 'element', $enumElement->attribute( 'enumelement' ) );
             $node->appendChild( $elementNode );
         }
 
@@ -466,19 +464,17 @@ class eZEnumType extends eZDataType
     */
     function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
-        if ( $attributeNode->hasChildren() )
+        if ( $attributeNode->hasChildNodes() )
         {
             $contentObjectAttributeID = $objectAttribute->attribute( 'id' );
             $contentObjectAttributeVersion = $objectAttribute->attribute( 'version' );
 
-            $enumNodes = $attributeNode->children();
-            foreach ( array_keys( $enumNodes ) as $enumNodeKey )
+            $enumNodes = $attributeNode->childNodes;
+            foreach ( $enumNodes as $enumNode )
             {
-                $enumNode = $enumNodes[$enumNodeKey];
-
-                $eID      = $enumNode->attributeValue( 'id' );
-                $eValue   = $enumNode->attributeValue( 'value' );
-                $eElement = $enumNode->attributeValue( 'element' );
+                $eID      = $enumNode->getAttribute( 'id' );
+                $eValue   = $enumNode->getAttribute( 'value' );
+                $eElement = $enumNode->getAttribute( 'element' );
 
                 eZEnum::storeObjectEnumeration( $contentObjectAttributeID,
                                                 $contentObjectAttributeVersion,
@@ -511,16 +507,17 @@ class eZEnumType extends eZDataType
         $isMultiple = $classAttribute->attribute( self::IS_MULTIPLE_FIELD );
         $content = $classAttribute->attribute( 'content' );
         $enumList = $content->attribute( 'enum_list' );
-        $attributeParametersNode->appendAttribute( eZDOMDocument::createAttributeNode( 'is-option', $isOption ? 'true' : 'false' ) );
-        $attributeParametersNode->appendAttribute( eZDOMDocument::createAttributeNode( 'is-multiple', $isMultiple ? 'true' : 'false' ) );
-        $elementListNode = eZDOMDocument::createElementNode( 'elements' );
+        $attributeParametersNode->setAttribute( 'is-option', $isOption ? 'true' : 'false' );
+        $attributeParametersNode->setAttribute( 'is-multiple', $isMultiple ? 'true' : 'false' );
+
+        $elementListNode = $attributeParametersNode->ownerDocument->createElement( 'elements' );
         $attributeParametersNode->appendChild( $elementListNode );
         foreach( $enumList as $enumElement )
         {
-            $elementNode = eZDOMDocument::createElementNode( 'element',
-                                                              array( 'id' => $enumElement->attribute( 'id' ),
-                                                                     'name' => $enumElement->attribute( 'enumelement' ),
-                                                                     'value' => $enumElement->attribute( 'enumvalue' ) ) );
+            $elementNode = $attributeParametersNode->ownerDocument->createElement( 'element' );
+            $elementNode->setAttribute( 'id', $enumElement->attribute( 'id' ) );
+            $elementNode->setAttribute( 'name', $enumElement->attribute( 'enumelement' ) );
+            $elementNode->setAttribute( 'value', $enumElement->attribute( 'enumvalue' ) );
             $elementListNode->appendChild( $elementNode );
         }
     }
@@ -530,25 +527,28 @@ class eZEnumType extends eZDataType
     */
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $isOption = strtolower( $attributeParametersNode->attributeValue( 'is-option' ) ) == 'true';
-        $isMultiple = strtolower( $attributeParametersNode->attributeValue( 'is-multiple' ) ) == 'true';
+        $isOption = strtolower( $attributeParametersNode->getAttribute( 'is-option' ) ) == 'true';
+        $isMultiple = strtolower( $attributeParametersNode->getAttribute( 'is-multiple' ) ) == 'true';
         $classAttribute->setAttribute( self::IS_OPTION_FIELD, $isOption );
         $classAttribute->setAttribute( self::IS_MULTIPLE_FIELD, $isMultiple );
 
         $enum = new eZEnum( $classAttribute->attribute( 'id' ), $classAttribute->attribute( 'version' ) );
-        $elementListNode = $attributeParametersNode->elementByName( 'elements' );
-        $elementList = $elementListNode->children();
-        foreach ( $elementList as $element )
+        $elementListNode = $attributeParametersNode->getElementsByTagName( 'elements' )->item( 0 );
+        if ( $elementListNode )
         {
-            $elementID = $element->attributeValue( 'id' );
-            $elementName = $element->attributeValue( 'name' );
-            $elementValue = $element->attributeValue( 'value' );
-            $value = eZEnumValue::create( $classAttribute->attribute( 'id' ),
-                                           $classAttribute->attribute( 'version' ),
-                                           $elementName );
-            $value->setAttribute( 'enumvalue', $elementValue );
-            $value->store();
-            $enum->addEnumerationValue( $value );
+            $elementList = $elementListNode->childNodes;
+            foreach ( $elementList as $element )
+            {
+                $elementID = $element->getAttribute( 'id' );
+                $elementName = $element->getAttribute( 'name' );
+                $elementValue = $element->getAttribute( 'value' );
+                $value = eZEnumValue::create( $classAttribute->attribute( 'id' ),
+                                               $classAttribute->attribute( 'version' ),
+                                               $elementName );
+                $value->setAttribute( 'enumvalue', $elementValue );
+                $value->store();
+                $enum->addEnumerationValue( $value );
+            }
         }
     }
 
