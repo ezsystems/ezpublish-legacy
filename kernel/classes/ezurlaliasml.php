@@ -1264,7 +1264,7 @@ class eZURLAliasML extends eZPersistentObject
      Only first entry will be processed if 'fetchByPath' returns multiple result(e.g. $glob is wildcard).
      \return nodeID on success or \c false otherwise.
      */
-    static public fetchNodeIDByPath( $uriString, $glob = false )
+    static public function fetchNodeIDByPath( $uriString, $glob = false )
     {
         $nodeID = false;
 
