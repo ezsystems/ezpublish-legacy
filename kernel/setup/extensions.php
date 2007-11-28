@@ -52,12 +52,12 @@ if ( $module->isCurrentAction( 'ActivateExtensions' ) )
     {
         $selectedExtensionArray = array();
     }
-    
+
     $inactiveExtensions = array_diff( $availableExtensionArray, $selectedExtensionArray );
     $excludeArray = array();
     foreach ( $inactiveExtensions as $ext )
     {
-        $excludeArray[] = $extensionDir . DIRECTORY_SEPARATOR . $ext;
+        $excludeArray[] = $extensionDir . '/' . $ext;
     }
 
     // open settings/override/site.ini.append[.php] for writing
@@ -66,7 +66,7 @@ if ( $module->isCurrentAction( 'ActivateExtensions' ) )
     $writeSiteINI->save( 'site.ini.append', '.php', false, false );
     //include_once( 'kernel/classes/ezcache.php' );
     eZCache::clearByTag( 'ini' );
-    
+
     $autoloadGenerator = new eZAutoloadGenerator( getcwd(),
                                                   false,
                                                   true,
@@ -79,7 +79,7 @@ if ( $module->isCurrentAction( 'ActivateExtensions' ) )
     } catch (Exception $e) {
         eZDebug::writeError( $e->getMessage() );
     }
-    
+
 }
 
 // open site.ini for reading
