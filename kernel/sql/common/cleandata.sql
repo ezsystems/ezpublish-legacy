@@ -5937,39 +5937,9 @@ INSERT INTO ezcontentobject_name (
 ) VALUES (
   'eng-GB',
   1,
-  1,
-  2,
-  'Root folder',
-  'eng-GB'
-);
-INSERT INTO ezcontentobject_name (
-  content_translation,
-  content_version,
-  contentobject_id,
-  language_id,
-  name,
-  real_translation
-) VALUES (
-  'eng-GB',
-  1,
   4,
   3,
   'Users',
-  'eng-GB'
-);
-INSERT INTO ezcontentobject_name (
-  content_translation,
-  content_version,
-  contentobject_id,
-  language_id,
-  name,
-  real_translation
-) VALUES (
-  'eng-GB',
-  1,
-  10,
-  2,
-  'Anonymous User',
   'eng-GB'
 );
 INSERT INTO ezcontentobject_name (
@@ -6163,21 +6133,6 @@ INSERT INTO ezcontentobject_name (
   'eng-GB',
   1,
   54,
-  2,
-  'eZ Publish',
-  'eng-GB'
-);
-INSERT INTO ezcontentobject_name (
-  content_translation,
-  content_version,
-  contentobject_id,
-  language_id,
-  name,
-  real_translation
-) VALUES (
-  'eng-GB',
-  2,
-  1,
   2,
   'eZ Publish',
   'eng-GB'

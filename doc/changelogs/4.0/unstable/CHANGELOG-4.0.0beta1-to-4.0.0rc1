@@ -43,3 +43,4 @@ Changes from 4.0.0beta1 to 4.0.0rc1
 - Fixed bug #11677: Ezenum options aren't saved
 - Fixed bug #8530: eZkeyword attribute can have same keyword several time.
 - Fixed bug #11685: Documentation for eZURLAliasML::translate.
+- Fixed bug #11827: Invalid entry in ezcontentobject_name table after fresh install due to non-existing version
