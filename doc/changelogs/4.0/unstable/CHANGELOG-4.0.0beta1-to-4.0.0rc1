@@ -41,3 +41,4 @@ Changes from 4.0.0beta1 to 4.0.0rc1
 - Fixed bug #9595: Order of design resources differs between eZTemplate::fetch and ezdesign/ezimage tpl operators
 - Fixed bug #12056: Invalid URL-Alias (ML) data in cleandata.sql.
 - Fixed bug #11677: Ezenum options aren't saved
+- Fixed bug #8530: eZkeyword attribute can have same keyword several time.
