@@ -574,7 +574,7 @@ class eZDOMNode
       $def = array( 'name' => 'song_name',
                     'track' => 'track_number' );
       $values = $songNode->attributeValues( $def );
-      \encode
+      \endcode
 
       \a $values will now contain.
       \code
@@ -706,7 +706,7 @@ class eZDOMNode
       $values = array( 'song_name' => 'Shine On You Crazy Diamond',
                        'track_number' => '1' );
       $node->appendAttributes( $values, $definition );
-      \encode
+      \endcode
 
       The node will then look like.
       \code
