@@ -21,6 +21,18 @@
 <div class="block">
 
 <div class="element">
+  <label>{'Ini file location'|i18n( 'design/standard/class/datatype' )}:</label>
+  <p>
+    {let selectedSiteAccess=$class_attribute.data_text4|explode( ';' )}
+      {section name=SiteAccess loop=$class_attribute.data_text5|explode( ';' )}
+      {section-exclude match=true()}
+      {section-include match=$selectedSiteAccess|contains($:key)}
+      {$:item|wash}{delimiter}, {/delimiter}{/section}
+    {/let}
+  </p>
+</div>
+
+<div class="element">
   <label>{'Ini setting type'|i18n( 'design/standard/class/datatype' )}:</label>
     <p>
         {switch match=$class_attribute.data_int1}
