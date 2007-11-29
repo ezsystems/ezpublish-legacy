@@ -108,6 +108,9 @@ class eZMySQLDB extends eZDBInterface
             }
         }
 
+        // Initialize TempTableList
+        $this->TempTableList = array();
+
         eZDebug::createAccumulatorGroup( 'mysql_total', 'Mysql Total' );
     }
 
@@ -323,6 +326,28 @@ class eZMySQLDB extends eZDBInterface
     /*!
      \reimp
     */
+    function createTempTable( $createTableQuery = '' )
+    {
+        if ( $this->UseSlaveServer )
+        {
+            $matches = array();
+            if ( preg_match( "/create\s+temporary\s+table\s+([a-zA-Z0-9_-]+).*/i", $createTableQuery, $matches ) )
+            {
+                $this->TempTableList[] = $matches[1];
+            }
+            else
+            {
+                eZDebug::writeError( 'Could not extract temporary filename: ' . $createTableQuery,
+                                     'eZMySQLDB::createTempTable()' );
+            }
+        }
+        $this->query( $createTableQuery );
+    }
+
+
+    /*!
+     \reimp
+    */
     function query( $sql )
     {
         if ( $this->IsConnected )
@@ -358,7 +383,50 @@ class eZMySQLDB extends eZDBInterface
 
             if ( $isWriteQuery )
             {
-                $connection = $this->DBWriteConnection;
+                $connection = false;
+                // Check if write query is into temporary table.
+                if ( $this->UseSlaveServer && !empty( $this->TempTableList ) )
+                {
+                    $sqlMatch = false;
+                    $matches = array();
+                    // Check update sql for temporary tables
+                    if ( strncasecmp( $sql, 'update', 6 ) === 0 )
+                    {
+                        $queryParts = preg_match( "/(update[\s]*)(low_priority[\s*])?(ignore[\s*])?([\s\w,]*)([\s]set[\s].*)/",
+                                                  strtolower( $sql ),
+                                                  $matches );
+                        $sqlMatch = array_intersect( $this->TempTableList, explode( ",", $matches[4] ) );
+                    }
+                    // Check insert sql for temporary table
+                    else if ( strncasecmp( $sql, 'insert', 6 ) === 0 )
+                    {
+                        $queryParts = preg_match( "/(insert[\s*])(low_priority[\s*])?(delayed[\s*])?(high_priority[\s*])?(ignore[\s*])?(into[\s*])?([\w]*)(\(.*\))?([\s](
+set|values|select).*)?/",
+                                                  strtolower( $sql ),
+                                                  $matches );
+                        $sqlMatch = in_array( $matches[7], $this->TempTableList );
+                    }
+                    // Check delete sql for temporary tables
+                    else if ( strncasecmp( $sql, 'delete', 6 ) === 0 )
+                    {
+                        $queryParts = preg_match( "/(delete[\s]*)(low_priority[\s*])?(quick[\s*])?(ignore[\s*])?(from[\s*])?([\s\w,]*)([\s]where[\s].*)/",
+                                                  strtolower( $sql ),
+                                                  $matches );
+                        $sqlMatch = array_intersect( $this->TempTableList, explode( ",", $matches[6] ) );
+                    }
+
+                    // Check if it is write to temp table.
+                    if ( !empty( $sqlMatch ) )
+                    {
+                        eZDebug::writeNotice( 'Using slave connection for updating temporary table: ' . substr( $sql, 0, 100 ),
+                                              'eZMySQLDB::query()' );
+                        $connection = $this->DBConnection;
+                    }
+                }
+                if ( !$connection )
+                {
+                    $connection = $this->DBWriteConnection;
+                }
             }
             else
             {
@@ -943,6 +1011,7 @@ class eZMySQLDB extends eZDBInterface
     }
 
     var $CharsetMapping;
+    var $TempTableList;
 
     /// \privatesection
 }
