@@ -190,7 +190,7 @@ class eZImageFont
      \return true if the font family \a $fontFamily exists in the path \a $fontPath.
      The path can be specified as a string or an array of strings.
     */
-    function exists( $fontFamily, $fontPath )
+    static function exists( $fontFamily, $fontPath )
     {
         return eZImageFont::fontFile( $fontFamily, $fontPath ) != false;
     }
@@ -211,7 +211,7 @@ class eZImageFont
      with the .ttf suffix, eg. arial.ttf.
      \param fontPath The path to the fonts or an array of paths.
     */
-    function fontFile( $fontFamily, $fontPath )
+    static function fontFile( $fontFamily, $fontPath )
     {
         if ( preg_match( '/\.ttf$/i', $fontFamily ) )
             $family_file = $fontFamily;
