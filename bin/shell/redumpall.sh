@@ -270,7 +270,7 @@ if [ -n "$DUMP_SCHEMA" ]; then
     ezdist_db_prepare_params_from_mysql "1"
     echo -n "Updating MySQL file `ez_color_file $KERNEL_MYSQL_SCHEMA_FILE`"
     # We output InnoDB tables by default, older MySQLs will use MyISAM instead
-    ./bin/php/ezsqldumpschema.php --type=mysql --output-sql --compatible-sql --table-type=myisam $PARAM_EZ_DB_ALL "$KERNEL_GENERIC_SCHEMA_FILE" "$KERNEL_MYSQL_SCHEMA_FILE" 2>.dump.log
+    ./bin/php/ezsqldumpschema.php --type=mysql --output-sql --compatible-sql --table-type=innodb $PARAM_EZ_DB_ALL "$KERNEL_GENERIC_SCHEMA_FILE" "$KERNEL_MYSQL_SCHEMA_FILE" 2>.dump.log
     ez_result_file $? .dump.log || exit 1
 
     # PostgreSQL
