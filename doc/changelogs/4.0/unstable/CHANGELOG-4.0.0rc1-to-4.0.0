@@ -4,3 +4,5 @@ Changes from 4.0.0rc1 to 4.0.0
 - Implemented enhancement #11102: INI setting datatype: value of Ini file location configuration option is not displayed in class attribute view
 
 *Bugs:
+- Fixed issue #11815: create temporary table on slave but insert row over primary.a
+  ( Merged from stable/3.9 rev. 20928, stable/3.10 rev. 20929 )
