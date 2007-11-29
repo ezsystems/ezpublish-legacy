@@ -1,3 +1,6 @@
 Changes from 4.0.0rc1 to 4.0.0
 
+*Kernel:
+- Implemented enhancement #11102: INI setting datatype: value of Ini file location configuration option is not displayed in class attribute view
+
 *Bugs:
