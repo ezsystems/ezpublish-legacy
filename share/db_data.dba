@@ -12870,12 +12870,12 @@ keywords=cms, publish, e-commerce, content management, development framework',
       0 => 
       array (
         0 => 'ezpublish-version',
-        1 => '4.0.0rc1',
+        1 => '4.0.0',
       ),
       1 => 
       array (
         0 => 'ezpublish-release',
-        1 => '4',
+        1 => '5',
       ),
     ),
   ),
