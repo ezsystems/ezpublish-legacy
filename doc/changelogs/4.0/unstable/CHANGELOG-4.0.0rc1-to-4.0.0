@@ -6,3 +6,5 @@ Changes from 4.0.0rc1 to 4.0.0
 *Bugs:
 - Fixed issue #11815: create temporary table on slave but insert row over primary.a
   ( Merged from stable/3.9 rev. 20928, stable/3.10 rev. 20929 )
+- Fixed issue #12125: Reference and declaration problem in collaboration
+- Fixed issue #12127: Reference and declaration problem in image handling
