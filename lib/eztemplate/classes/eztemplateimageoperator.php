@@ -237,7 +237,7 @@ class eZTemplateImageOperator
             if ( is_string( $usecache ) or !$usecache or
                  !$this->hasImage( $this->CacheDir, 'imagetext', $md5Text, $alternativeText, $this->StoreAs ) )
             {
-                $layer =& eZImageTextLayer::createForText( $inputValue, $font,
+                $layer = eZImageTextLayer::createForText( $inputValue, $font,
                                                            $wadj, $hadj, $angle,
                                                            $absoluteWidth, $absoluteHeight );
                 if ( !$layer )
@@ -691,7 +691,7 @@ class eZTemplateImageOperator
         if ( !file_exists( $filePath ) )
             $layer = null;
         else
-            $layer =& eZImageLayer::createForFile( $file, $dirPath, $this->StoreAs );
+            $layer = eZImageLayer::createForFile( $file, $dirPath, $this->StoreAs );
         return $layer;
     }
 
