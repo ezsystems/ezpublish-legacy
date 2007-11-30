@@ -332,10 +332,42 @@ class eZXMLTextType extends eZDataType
 
         if ( $success )
         {
-            $metaData = $dom->documentElement->textContent;
+            $metaData = trim( eZXMLTextType::concatTextContent( $dom->documentElement ) );
         }
         return $metaData;
     }
+    
+    /**
+     * Recursively drills down in the xml tree in $node and
+     * concatenates text content from the DOMNodes with a space
+     * in-between to make sure search words from two different lines
+     * are merged.
+     *
+     * @param DOMNode $node 
+     * @return string
+     */
+    static function concatTextContent( $node )
+    {
+        $retString = '';
+        if ( !( $node instanceof DOMNode ) )
+        {
+            return $retString;
+        }
+        if ( $node->hasChildNodes() )
+        {
+            $childArray = $node->childNodes;
+            foreach ( $childArray as $child )
+            {
+                $retString .= eZXMLTextType::concatTextContent( $child );
+            }
+        }
+        elseif ( $node->nodeType === XML_TEXT_NODE )
+        {
+            return $node->textContent . ' ';
+        }
+        return $retString;
+    }
+
     /*!
      \return string representation of an contentobjectattribute data for simplified export
 
