@@ -701,7 +701,7 @@ class eZObjectRelationListType extends eZDataType
              It will take of care of the necessary charset conversions
              for content storage.
     */
-    function domString( $domDocument )
+    static function domString( $domDocument )
     {
         $ini = eZINI::instance();
         $xmlCharset = $ini->variable( 'RegionalSettings', 'ContentXMLCharset' );
@@ -1354,7 +1354,7 @@ class eZObjectRelationListType extends eZDataType
         return eZObjectRelationListType::createClassContentStructure( $doc );
     }
 
-    function parseXML( $xmlText )
+    static function parseXML( $xmlText )
     {
         $dom = new DOMDocument( '1.0', 'utf-8' );
         $dom->loadXML( $xmlText );

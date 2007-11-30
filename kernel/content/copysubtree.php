@@ -718,12 +718,12 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
         {
             $relationsXmlText = $relationListAttribute->attribute( 'data_text' );
             $relationsDom = eZObjectRelationListType::parseXML( $relationsXmlText );
-            $relationItems = $relationsDom->elementsByName( 'relation-item' ) ? $relationsDom->elementsByName( 'relation-item' ) : array();
+            $relationItems = $relationsDom->getElementsByTagName( 'relation-item' );
             $isRelationModified = false;
 
             foreach ( $relationItems as $relationItem )
             {
-                $originalObjectID = $relationItem->attributeValue( 'contentobject-id' );
+                $originalObjectID = $relationItem->getAttribute( 'contentobject-id' );
 
                 $key = array_search( $originalObjectID, $syncObjectIDListSrc );
                 if ( $key !== false )
@@ -733,7 +733,7 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
                     $isRelationModified = true;
                 }
 
-                $originalNodeID = $relationItem->attributeValue( 'node-id' );
+                $originalNodeID = $relationItem->getAttribute( 'node-id' );
                 if ( $originalNodeID )
                 {
                     $key = array_search( $originalNodeID, $syncNodeIDListSrc );

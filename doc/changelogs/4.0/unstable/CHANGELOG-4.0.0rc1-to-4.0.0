@@ -13,3 +13,4 @@ Changes from 4.0.0rc1 to 4.0.0
 - Fixed bug #11385: xml text datatype: &gt; and &lt; become < and > after storing draft
 - Fixed bug #7419: DB connection errors in error.log after installation.
 - Fixed bug #10886: Mysql root connection warning.
+- Fixed bug #12140: Crash during subtree content copy
