@@ -3885,7 +3885,7 @@ class eZContentObject extends eZPersistentObject
                             if ( $access != 'allowed' )
                             {
                                 $access = 'denied';
-                                $limitationList = array ( 'Limitation' => $key );
+                                $limitationList = array ( 'Limitation' => $key, 'Required' => $limitationArray[$key] );
                             }
                         } break;
 
