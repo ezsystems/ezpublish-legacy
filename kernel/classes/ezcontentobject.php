@@ -592,20 +592,20 @@ class eZContentObject extends eZPersistentObject
         {
             return null;
         }
-        
+
         $identifierQuotedString = array();
         foreach ( $identifierArray as $identifier )
         {
             $identifierQuotedString[] = "'$identifier'";
         }
-        
+
         $identifierSqlString = implode( ", ", $identifierQuotedString );
-        
+
         if ( !$version or !is_numeric( $version ) )
         {
             $version = $this->CurrentVersion;
         }
-        
+
         if ( $language !== false )
         {
             $languageText = "AND\n\t\t\t ezcontentobject_attribute.language_code = '$language'";
@@ -614,7 +614,7 @@ class eZContentObject extends eZPersistentObject
         {
             $languageText = "AND\n\t\t\t" . eZContentLanguage::sqlFilter( 'ezcontentobject_attribute', 'ezcontentobject_version' );
         }
-        
+
         $versionText = "AND\n\t\t ezcontentobject_attribute.version = '$version'";
 
         $query = "SELECT\t ezcontentobject_attribute.*, ezcontentclass_attribute.identifier as identifier
@@ -625,13 +625,13 @@ class eZContentObject extends eZPersistentObject
                 ezcontentobject_version.contentobject_id = {$this->ID} AND
                 ezcontentobject_version.version = {$version} AND
                 ezcontentobject_attribute.contentobject_id = {$this->ID}
-                
+
                 {$languageText}
-                
+
                 {$versionText}
-                
+
                 AND
-                identifier in ( {$identifierSqlString} )                
+                identifier in ( {$identifierSqlString} )
                 ";
 
         $db  = eZDB::instance();
