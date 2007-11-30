@@ -252,7 +252,11 @@ function eZDisplayDebug()
     {
         $as_html = true;
 
-        if ( $ini->variable( "DebugSettings", "DebugToolbar" ) == 'enabled' && $as_html == true && !$GLOBALS['eZRedirection'] )
+        if ( $ini->variable( "DebugSettings", "DebugToolbar" ) == 'enabled' &&
+             $ini->variable( "SiteAccessSettings", "CheckValidity" ) !== 'true' &&
+             $as_html == true &&
+             !$GLOBALS['eZRedirection'] )
+
         {
             require_once( 'kernel/common/template.php' );
             $tpl = templateInit();

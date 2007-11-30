@@ -11,3 +11,5 @@ Changes from 4.0.0rc1 to 4.0.0
 - Fixed bug #12131: eZMySQLiDB driver doesn't ignore the information_schema database
 - Fixed bug #12119: ShowAccessDeniedReason enabled will cause PHP Warning
 - Fixed bug #11385: xml text datatype: &gt; and &lt; become < and > after storing draft
+- Fixed bug #7419: DB connection errors in error.log after installation.
+- Fixed bug #10886: Mysql root connection warning.
