@@ -340,23 +340,9 @@ class eZSimplifiedXMLEditOutput
     {
         $text = $element->textContent;
 
-        if ( $element->parentNode->nodeName == 'literal' )
+        if ( $element->parentNode->nodeName != 'literal' )
         {
-            $text = str_replace("&lt;", "<", $text );
-            $text = str_replace("&gt;", ">", $text );
-            $text = str_replace("&apos;", "'", $text );
-            $text = str_replace("&quot;", '"', $text );
-            $text = str_replace("&amp;", "&", $text );
-        }
-        else
-        {
-            $text = str_replace("&gt;", ">", $text );
-            $text = str_replace("&apos;", "'", $text );
-            $text = str_replace("&quot;", '"', $text );
-
-            // Sequence like '&amp;amp;' should not be converted to '&amp;' ( if not inside a literal tag )
-            $text = preg_replace("#&amp;(?!lt;|gt;|amp;|&apos;|&quot;)#", "&", $text );
-
+            $text = htmlspecialchars( $text );
             $text = preg_replace( "#[\n]+#", "", $text );
         }
         return $text;
