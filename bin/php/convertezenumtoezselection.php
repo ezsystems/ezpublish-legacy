@@ -25,6 +25,8 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
+require 'autoload.php';
+
 include_once( 'kernel/classes/ezscript.php' );
 include_once( 'lib/ezutils/classes/ezcli.php' );
 
