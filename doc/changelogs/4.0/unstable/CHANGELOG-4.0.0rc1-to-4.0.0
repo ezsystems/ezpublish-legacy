@@ -8,3 +8,4 @@ Changes from 4.0.0rc1 to 4.0.0
   ( Merged from stable/3.9 rev. 20928, stable/3.10 rev. 20929 )
 - Fixed issue #12125: Reference and declaration problem in collaboration
 - Fixed issue #12127: Reference and declaration problem in image handling
+- Fixed bug #12131: eZMySQLiDB driver doesn't ignore the information_schema database

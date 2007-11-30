@@ -874,10 +874,12 @@ class eZMySQLiDB extends eZDBInterface
 
         while ( $row = mysqli_fetch_row( $databaseArray ) )
         {
-            // we don't allow "mysql" database to be shown anywhere
+            // we don't allow "mysql" or "information_schema" database to be shown anywhere
             $curDB = $row[0];
-            if ( strcasecmp( $curDB, 'mysql' ) != 0 )
+            if ( strcasecmp( $curDB, 'mysql' ) != 0 && strcasecmp( $curDB, 'information_schema' ) != 0 )
+            {
                 $databases[] = $curDB;
+            }
         }
         return $databases;
     }
