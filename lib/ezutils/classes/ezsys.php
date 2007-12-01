@@ -603,7 +603,7 @@ class eZSys
             if ( count( $instance->AccessPath ) > 0 and $instance->AccessPath[0] == $defaultAccess ){
                 $accessPathArray = $instance->AccessPath;
                 array_shift( $accessPathArray ); //remove first element from accessPath as this is siteaccess name.
-                $accessPath = implode( '/', $accessPathArray );        
+                $accessPath = implode( '/', $accessPathArray );
                 $text .= '/' . $accessPath;
                 return $text;
             }
@@ -1146,6 +1146,21 @@ class eZSys
             $checksum = crc32( $string );
 
         return $checksum;
+    }
+
+    /*!
+     \static
+     Returns the schema of the request.
+     */
+    function protocolSchema()
+    {
+        $schema = '';
+        if( preg_match( "#^([a-zA-Z]+)/.*$#", eZSys::serverVariable( 'SERVER_PROTOCOL' ), $schemaMatches ) )
+        {
+            $schema = strtolower( $schemaMatches[1] ) . '://';
+        }
+
+        return $schema;
     }
 
     /// The line separator used in files
