@@ -15,3 +15,4 @@ Changes from 4.0.0rc1 to 4.0.0
 - Fixed bug #10886: Mysql root connection warning.
 - Fixed bug #12140: Crash during subtree content copy
 - Fixed bug #12068: ezxml and search problem
+- Fixed bug #12118: Log in to administration interface-checkbox in webin produces the wrong url
