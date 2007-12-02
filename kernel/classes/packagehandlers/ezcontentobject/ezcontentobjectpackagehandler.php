@@ -385,6 +385,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 $objectListNode->appendChild( $objectFileNode );
 
                 $partDOM = new DOMDocument( '1.0', 'utf-8' );
+                $partDOM->formatOutput = true;
                 $importedObjectNode = $partDOM->importNode( $objectNode, true );
                 $partDOM->appendChild( $importedObjectNode );
                 $this->Package->storeDOM( $filePath, $partDOM );

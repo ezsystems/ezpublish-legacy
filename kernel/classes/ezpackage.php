@@ -932,6 +932,7 @@ class eZPackage
                     eZDir::mkdir( $path, eZDir::directoryPermission(), true );
                 }
                 $partDOM = new DOMDocument( '1.0', 'utf-8' );
+                $partDOM->formatOutput = true;
                 $contentImport = $partDOM->importNode( $content, true );
                 $partDOM->appendChild( $contentImport );
                 $this->storeDOM( $filePath, $partDOM );
@@ -2256,6 +2257,7 @@ class eZPackage
     function &domStructure()
     {
         $dom = new DOMDocument( '1.0', 'utf-8' );
+        $dom->formatOutput = true;
         $root = $dom->createElement( 'package' );
         $root->setAttribute( 'version', eZPackage::VERSION );
         $root->setAttribute( 'development', ( eZPackage::DEVELOPMENT ? 'true' : 'false' ) );

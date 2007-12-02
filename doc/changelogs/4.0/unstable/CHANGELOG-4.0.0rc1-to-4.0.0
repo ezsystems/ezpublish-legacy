@@ -17,3 +17,4 @@ Changes from 4.0.0rc1 to 4.0.0
 - Fixed bug #12068: ezxml and search problem
 - Fixed bug #12118: Log in to administration interface-checkbox in webin produces the wrong url
 - Fixed bug #12146: Fatal error: Call to undefined method eZContentObjectPackageHandler::attribute()
+- Fixed bug #12147: Missing XML formatting in produced packages
