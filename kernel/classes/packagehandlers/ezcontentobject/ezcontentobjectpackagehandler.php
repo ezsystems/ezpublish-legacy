@@ -206,7 +206,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
         if ( $isSubtree )
         {
-            $nodeArray = eZContentObjectTreeNode::subtree( array( 'AsObject' => false ), $nodeID );
+            $nodeArray = eZContentObjectTreeNode::subTreeByNodeID( array( 'AsObject' => false ), $nodeID );
             foreach( $nodeArray as $node )
             {
                 $this->NodeIDArray[] = $node['node_id'];
@@ -569,12 +569,12 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         $dom = new DOMDocument( '1.0', 'utf-8' );
         $fileDOMNode = $dom->createElement( 'file' );
         $fileDOMNode->setAttribute( 'site-access', $siteAccess );
-        
+
         if ( $filetype !== false )
         {
             $fileDOMNode->setAttribute( 'file-type', $filetype );
         }
-        
+
         $dom->appendChild( $fileDOMNode );
         $originalPathNode = $dom->createElement( 'original-path', $filename );
         $fileDOMNode->appendChild( $originalPathNode );
