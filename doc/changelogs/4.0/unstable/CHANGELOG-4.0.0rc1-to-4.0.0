@@ -2,6 +2,7 @@ Changes from 4.0.0rc1 to 4.0.0
 
 *Kernel:
 - Implemented enhancement #11102: INI setting datatype: value of Ini file location configuration option is not displayed in class attribute view
+- Implemented task #12087: Enum to Selection conversion script
 
 *Bugs:
 - Fixed issue #11815: create temporary table on slave but insert row over primary.a
