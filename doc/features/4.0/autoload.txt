@@ -1,0 +1,49 @@
+eZ Publish 4 autoload generation
+================================
+
+In eZ Publish 4 we use the PHP 5 autoload feature to load classes. This means 
+that when new classes are introduced to the system, the autoload arrays need 
+to be updated.
+
+There are several situations when a user might want to regenerate the 
+autoload-arrays:
+
+1. After upgrading eZ Publish, to recognise new classes in the eZ Publish 
+kernel
+
+2. When adding a new extension to the site, its classes must be made 
+available to eZ Publish.
+
+Generating updated autoload arrays
+----------------------------------
+
+The user has two ways of accessing the autoload generation script, the first 
+which gives full control is via the command-line script (Help output included
+below)
+
+bin/php/ezpgenerateautoloads.php
+::
+
+	Usage: $ bin/php/ezpgenerateautoloads.php [-h] [-t "autoload"] [-v] [-n] [-k] [-e] [--exclude <string>]  [[--] <args>]
+	Autoload file generator.
+
+	-h / --help       Show help information
+	-t / --target     The directory to where the generated autoload file should be
+	                  written.
+	-v / --verbose    Whether or not to display more information.
+	-n / --dry-run    Whether a new file autoload file should be written.
+	-k / --kernel     If an autoload array for the kernel files should be generated.
+	-e / --extension  If an autoload array for the extensions should be generated.
+	--exclude         Folders to exclude from the class search.
+
+The alternate way is in the Admin interface, in the Setup / Extensions view. 
+Which allows the user to regenerate autoload arrays for newly activated 
+extensions.
+
+There is an important difference between the two methods. The former will 
+generate autoload arrays for all classes found in the kernel and/or extension 
+directories. Depending on run-mode. If an extension should not be included in 
+the autoload generation it must be added to the exclude parameter.
+
+The extension view will only generate autoload arrays for activated 
+extensions, as it will check which extensions to include for you.
