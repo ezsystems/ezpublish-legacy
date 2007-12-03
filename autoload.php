@@ -18,10 +18,13 @@ if ( file_exists( "config.php" ) )
 }
 
 // require 'Base/src/base.php';
-if ( !@include( 'ezc/Base/base.php' ) )
+$baseEnabled = @include( 'ezc/Base/base.php' );
+if ( !$baseEnabled )
 {
-    require "Base/src/base.php";
+    $baseEnabled = @include( 'Base/src/base.php' );
 }
+
+define( 'EZCBASE_ENABLED', $baseEnabled );
 
 function __autoload( $className )
 {
@@ -37,7 +40,7 @@ function __autoload( $className )
     {
         require( $ezpClasses[$className] );
     }
-    else
+    elseif ( EZCBASE_ENABLED )
     {
         ezcBase::autoload( $className );
     }
