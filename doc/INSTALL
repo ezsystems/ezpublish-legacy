@@ -1,4 +1,4 @@
-eZ publish 4 INSTALL
+eZ Publish 4 INSTALL
 
 
 Requirements
@@ -15,7 +15,7 @@ o  Apache version:
 
 o  PHP version:
 
-   The latest version of the 5.2 branch is strongly recommended 
+   The latest version of the 5.2 branch is strongly recommended
    (and some extensions require it), however, PHP5.1 should work too
    for a basic installation.
 
@@ -29,7 +29,7 @@ o  Database server:
    MySQL 4.1 or later (UTF-8 is required)
    or
    PostgreSQL 7.3 or later
-   
+
 o  eZ Components:
    The latest stable release of eZ Components is required.
    To install this, you also need PEAR
