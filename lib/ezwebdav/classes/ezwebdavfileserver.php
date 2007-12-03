@@ -457,7 +457,7 @@ class eZWebDAVFileServer extends eZWebDAVServer
      \reimp
      Finds all files and directories in the directory \a $dir and return an element list of it.
     */
-    function getCollectionContent( $dir )
+    function getCollectionContent( $dir, $depth = false, $properties = false )
     {
         $directory = dirname( $_SERVER['SCRIPT_FILENAME'] ) . $dir;
 

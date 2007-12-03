@@ -737,7 +737,7 @@ class eZWebDAVServer
       \param $properties Which properties the client asked for, either an array with DAV
                          property names, \c true for all properties or \c false for only property names.
     */
-    function getCollectionContent( $collection, $depth, $properties )
+    function getCollectionContent( $collection, $depth = false, $properties = false )
     {
     }
 
