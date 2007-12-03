@@ -117,7 +117,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
       we're browsing within the content folder: it gets the content of the
       target/given folder.
     */
-    function getCollectionContent( $collection, $depth, $properties )
+    function getCollectionContent( $collection, $depth = false, $properties = false )
     {
         $fullPath = $collection;
         $collection = $this->splitFirstPathElement( $collection, $currentSite );
