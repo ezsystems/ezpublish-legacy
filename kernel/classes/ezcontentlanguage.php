@@ -229,7 +229,7 @@ class eZContentLanguage extends eZPersistentObject
     function fetchLimitationList( $forceReloading = false )
     {
         $languages = array();
-        foreach ( $this->fetchList( $forceReloading ) as $language )
+        foreach ( eZContentLanguage::fetchList( $forceReloading ) as $language )
         {
             $languages[] = array( 'name' => $language->attribute( 'name' ),
                                   'id' => $language->attribute( 'locale' ) );
