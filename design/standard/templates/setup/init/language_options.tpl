@@ -39,15 +39,6 @@ To fix this problem you must do one of the following:"|i18n('design/standard/set
 
 </fieldset>
 
-<fieldset>
-    <legend>{'Settings'|i18n( 'design/standard/setup/init' )}:</legend>
-    {if $database_info.use_unicode}
-        <label title="{'When selected the wizard sets up the site using Unicode.'|i18n( 'design/standard/setup/init' )|wash}"><input type="checkbox"{if $regional_info.enable_unicode} checked="checked"{/if} name="eZEnableUnicode" value="1" />{'Enable Unicode setup'|i18n( 'design/standard/setup/init' )}</label>
-    {else}
-        <label class="disabled" title="{'This is disabled since the chosen database cannot use Unicode characters.'|i18n( 'design/standard/setup/init' )|wash}"><input type="checkbox" name="eZEnableUnicode" disabled="disabled" value="1" />{'Enable Unicode setup'|i18n( 'design/standard/setup/init' )}</label>
-    {/if}
-</fieldset>
-
 </p>
 
 {include uri="design:setup/persistence.tpl"}

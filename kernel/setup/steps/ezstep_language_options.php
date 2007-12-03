@@ -59,7 +59,6 @@ class eZStepLanguageOptions extends eZStepInstaller
     {
         $primaryLanguage = $this->Http->postVariable( 'eZSetupDefaultLanguage' );
         $languages       = $this->Http->hasPostVariable( 'eZSetupLanguages' ) ? $this->Http->postVariable( 'eZSetupLanguages' ): array();
-        $enableUnicode   = $this->Http->hasPostVariable( 'eZEnableUnicode' );
 
         if ( !in_array( $primaryLanguage, $languages ) )
             $languages[] = $primaryLanguage;
@@ -68,11 +67,9 @@ class eZStepLanguageOptions extends eZStepInstaller
         $regionalInfo['language_type'] = 1 ;
         $regionalInfo['primary_language'] = $primaryLanguage;
         $regionalInfo['languages'] = $languages;
-        $regionalInfo['enable_unicode'] = $enableUnicode;
-        if ( $enableUnicode )
-        {
-            $regionalInfo['site_charset'] = 'utf-8';
-        }
+        $regionalInfo['enable_unicode'] = true;
+        $regionalInfo['site_charset'] = 'utf-8';
+        
         $this->PersistenceList['regional_info'] = $regionalInfo;
         $charset = false;
 
@@ -170,10 +167,8 @@ class eZStepLanguageOptions extends eZStepInstaller
             if ( !in_array( $data['Primary'], $data['Languages'] ) )
                 $data['Languages'][] = $data['Primary'];
             $regionalInfo['languages'] = $data['Languages'];
-            if ( isset( $data['EnableUnicode'] ) )
-            {
-                $regionalInfo['enable_unicode'] = $data['EnableUnicode'] == 'true';
-            }
+            $regionalInfo['enable_unicode'] = true;
+
             $this->PersistenceList['regional_info'] = $regionalInfo;
             $this->storePersistenceData();
 
