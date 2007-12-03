@@ -1,4 +1,4 @@
-eZ publish 3 INSTALL
+eZ publish 4 INSTALL
 
 
 Requirements
@@ -15,20 +15,25 @@ o  Apache version:
 
 o  PHP version:
 
-   The latest version of the 4.4 branch.
-
-   Do not use PHP 5!
+   The latest version of the 5.2 branch is strongly recommended 
+   (and some extensions require it), however, PHP5.1 should work too
+   for a basic installation.
 
    Note that you will have to increase the default "memory_limit" setting
-   which is located in the "php.ini" configuration file to 64 MB. (Don't
+   which is located in the "php.ini" configuration file to 64 MB or larger. (Don't
    forget to restart Apache after editing "php.ini".)
 
 
 o  Database server:
 
-   MySQL 3.23 or later (4.1 or later if you wish to use UTF-8)
+   MySQL 4.1 or later (UTF-8 is required)
    or
    PostgreSQL 7.3 or later
+   
+o  eZ Components:
+   The latest stable release of eZ Components is required.
+   To install this, you also need PEAR
+   See http://ez.no/ezcomponents for mor information
 
 
 Installation guide
