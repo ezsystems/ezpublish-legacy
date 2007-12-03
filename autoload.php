@@ -44,4 +44,3 @@ function __autoload( $className )
 }
 
 ?>
-
