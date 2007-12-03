@@ -20,3 +20,4 @@ Changes from 4.0.0rc1 to 4.0.0
 - Fixed bug #12147: Missing XML formatting in produced packages
 - Fixed bug #12106: eZWebDAVFileServer E_STRICT warning.
 - Fixed bug #12093: Default setting for URL alias generation
+- Fixed bug #12009: Clear requirement of eZ Components
