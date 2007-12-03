@@ -787,7 +787,11 @@ class eZContentFunctionCollection
         return array( 'result' => $objectCount );
     }
 
-    function fetchKeywordCount( $alphabet, $classid, $owner = false, $parentNodeID = false, $includeDuplicates = true )
+    function fetchKeywordCount( $alphabet, 
+                                $classid, 
+                                $owner = false, 
+                                $parentNodeID = false, 
+                                $includeDuplicates = true )
     {
         $classIDArray = array();
         if ( is_numeric( $classid ) )
@@ -854,7 +858,24 @@ class eZContentFunctionCollection
         return array( 'result' => $keyWords[0]['count'] );
     }
 
-    function fetchKeyword( $alphabet, $classid, $offset, $limit, $owner = false, $sortBy = array(), $parentNodeID = false, $includeDuplicates = true )
+    //
+    //Returns an array( 'result' => array( 'keyword' => keyword, 'link_object' => node_id );
+    //By default fetchKeyword gets a list of (not necessary unique) nodes and respective keyword strings
+    //Search keyword provided in $alphabet parameter. 
+    //By default keyword matching implemented by LIKE so all keywords that starts with $alphabet
+    //will successfully match. This means that if some object have attached keywords:
+    //'Skien', 'Skien forests', 'Skien comunity' than fetchKeyword('Skien') will return tree entries
+    //for this object.
+    //Setting $includeDuplicates parameter to false makes fetchKeyword('Skien') to return just 
+    //one entry for such objects.
+    function fetchKeyword( $alphabet, 
+                           $classid, 
+                           $offset, 
+                           $limit, 
+                           $owner = false, 
+                           $sortBy = array(), 
+                           $parentNodeID = false, 
+                           $includeDuplicates = true )
     {
         $classIDArray = array();
         if ( is_numeric( $classid ) )
@@ -879,6 +900,17 @@ class eZContentFunctionCollection
         $keywordNodeArray = array();
         $lastKeyword = '';
 
+        //in SELECT clause below we will use a full keyword value
+        //or just a part of ezkeyword.keyword matched to $alphabet respective to $includeDuplicates parameter.
+        //In the case $includeDuplicates = ture we need only a part 
+        //of ezkeyword.keyword to be fetched in field to allow DISTINCT to remove rows with the same node id's
+        $sqlKeyword = 'ezkeyword.keyword';
+        if ( !$includeDuplicates )
+        {
+            //SUBSTRING( str FROM pos FOR len ) is a SQL92 compliant syntax.
+            $sqlKeyword = 'SUBSTRING(ezkeyword.keyword FROM 1 FOR '.strlen( $alphabet ).') AS keyword ';
+        }
+
         //include_once( 'lib/ezdb/classes/ezdb.php' );
         $db = eZDB::instance();
 
@@ -887,7 +919,7 @@ class eZContentFunctionCollection
         $sortingInfo = array();
         $sortingInfo['attributeFromSQL'] = ', ezcontentobject_attribute a1';
         $sortingInfo['attributeWhereSQL'] = '';
-        $sqlTarget = 'ezkeyword.keyword,ezcontentobject_tree.node_id';
+        $sqlTarget = $sqlKeyword.',ezcontentobject_tree.node_id';
 
         if ( is_array( $sortBy ) && count ( $sortBy ) > 0 )
         {
@@ -917,7 +949,7 @@ class eZContentFunctionCollection
                         // if sort_by is 'attribute' we should add ezcontentobject_name to "FromSQL" and link to ezcontentobject
                         $sortingInfo['attributeFromSQL']  .= ', ezcontentobject_name, ezcontentobject_attribute a1';
                         $sortingInfo['attributeWhereSQL'] .= ' ezcontentobject.id = ezcontentobject_name.contentobject_id AND';
-                        $sqlTarget = 'DISTINCT ezcontentobject_tree.node_id, ezkeyword.keyword';
+                        $sqlTarget = 'DISTINCT ezcontentobject_tree.node_id, '.$sqlKeyword;
                     }
                     else // for unique declaration
                         $sortingInfo['attributeFromSQL']  .= ', ezcontentobject_attribute a1';
@@ -931,6 +963,13 @@ class eZContentFunctionCollection
         }
         $sortingInfo['attributeWhereSQL'] .= " a1.version=ezcontentobject.current_version
                                              AND a1.contentobject_id=ezcontentobject.id AND";
+
+        //Adding DISTINCT to avoid duplicates, 
+        //check if DISTINCT keyword was added before providing clauses for sorting.
+        if ( !$includeDuplicates && substr( $sqlTarget, 0, 9) != 'DISTINCT ' )
+        {
+            $sqlTarget = 'DISTINCT ' . $sqlTarget;
+        }
 
         $sqlOwnerString = is_numeric( $owner ) ? "AND ezcontentobject.owner_id = '$owner'" : '';
         $parentNodeIDString = is_numeric( $parentNodeID ) ? "AND ezcontentobject_tree.parent_node_id = '$parentNodeID'" : '';
@@ -965,19 +1004,10 @@ class eZContentFunctionCollection
         //include_once( 'lib/ezi18n/classes/ezchartransform.php' );
         $trans = eZCharTransform::instance();
 
-        $foundNodes = array();
         foreach ( $keyWords as $keywordArray )
         {
             $keyword = $keywordArray['keyword'];
             $nodeID = $keywordArray['node_id'];
-
-            //will not add more entries for already existent nodeId
-            if ( !$includeDuplicates && in_array( $nodeID, $foundNodes ) ) 
-            {
-                continue;
-            }
-            $foundNodes[] = $nodeID;
-
             $nodeObject = eZContentObjectTreeNode::fetch( $nodeID );
 
             if ( $nodeObject != null )
