@@ -64,7 +64,7 @@ eZSys::init( 'soap.php', $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost
 
 
 // include ezsession override implementation
-//require_once( "lib/ezutils/classes/ezsession.php" );
+require_once( "lib/ezutils/classes/ezsession.php" );
 
 // Check for extension
 //include_once( 'lib/ezutils/classes/ezextension.php' );
