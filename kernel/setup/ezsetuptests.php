@@ -39,6 +39,7 @@ function eZSetupTestTable()
                   'php_session' => array( 'eZSetupTestExtension' ),
                   'directory_permissions' => array( 'eZSetupTestDirectoryPermissions' ),
                   'settings_permission' => array( 'eZSetupTestFilePermissions' ),
+                  'autoload_permission' => array( 'eZSetupTestFilePermissions' ),
                   'database_extensions' => array( 'eZSetupTestExtension' ),
                   'database_all_extensions' => array( 'eZSetupTestExtension' ),
                   'php_magicquotes' => array( 'eZSetupCheckMagicQuotes' ),

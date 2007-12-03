@@ -27,3 +27,4 @@ Changes from 4.0.0rc1 to 4.0.0
 - Fixed bug #11844: Missing autoload inclusion in some of the update scripts
 - Fixed bug #12159: Missing washes for ezselection datatype class edit template
 - Fixed bug #11972: Remove "enable unicode setup" option
+- Fixed bug #12154: Check for write permission to the autoload folder during setup.
