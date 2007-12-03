@@ -1904,25 +1904,6 @@ function eZDebugErrorHandler( $errno, $errstr, $errfile, $errline )
         return;
     }
 
-    if ( preg_match( "/variable(.*?)reference/", $errstr ) || preg_match( "/Non\-static method/", $errstr ) )
-    {
-        $handle = fopen( 'var/ezpublish_php5.csv', 'a' );
-        $errfile = strtolower( $errfile );
-        //include_once( 'lib/ezutils/classes/ezini.php' );
-        $ini = eZINI::instance( 'debug.ini' );
-        if ( $ini->hasVariable( 'DebugSettings', 'RootDirPath' ) )
-        {
-            $rootDirPath = $ini->variable( 'DebugSettings', 'RootDirPath' );
-            if ( substr( $errfile, 0, strlen( $rootDirPath ) ) == $rootDirPath )
-            {
-                $errfile = substr_replace( $errfile, '', 0, strlen( $rootDirPath ) );
-            }
-        }
-        $errfile = str_replace( '\\', '/', $errfile );
-        fputcsv( $handle, array( $errno, $errstr, $errfile, $errline ) );
-        fclose( $handle );
-    }
-
     $GLOBALS['eZDebugRecursionFlag'] = true;
     $debug = eZDebug::instance();
     $result = $debug->errorHandler( $errno, $errstr, $errfile, $errline );
