@@ -10,9 +10,6 @@ o  Apache version:
    or
    Apache 2.x runned in "prefork" mode.
 
-   Do not use Apache 2.x for Windows!
-
-
 o  PHP version:
 
    The latest version of the 5.2 branch is strongly recommended
@@ -22,6 +19,10 @@ o  PHP version:
    Note that you will have to increase the default "memory_limit" setting
    which is located in the "php.ini" configuration file to 64 MB or larger. (Don't
    forget to restart Apache after editing "php.ini".)
+
+   The date.timezone directive must be set in php.ini or in
+   .htaccess. For a list of supported timezones please see
+   http://php.net/manual/en/timezones.php
 
 
 o  Database server:
