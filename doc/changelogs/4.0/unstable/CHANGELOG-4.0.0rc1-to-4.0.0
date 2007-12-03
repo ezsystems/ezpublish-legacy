@@ -23,3 +23,4 @@ Changes from 4.0.0rc1 to 4.0.0
 - Fixed bug #12009: Clear requirement of eZ Components
 - Fixed bug #12109: eZkeyword searches "part of a tag"
 - Fixed bug #11894: INSTALL, README files not updated for 4.0
+- Fixed bug #11844: Missing autoload inclusion in some of the update scripts

@@ -27,6 +27,8 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
+require 'autoload.php';
+
 set_time_limit( 0 );
 
 //include_once( "lib/ezutils/classes/ezextension.php" );
