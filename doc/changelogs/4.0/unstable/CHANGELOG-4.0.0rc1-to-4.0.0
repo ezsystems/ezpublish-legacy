@@ -5,10 +5,10 @@ Changes from 4.0.0rc1 to 4.0.0
 - Implemented task #12087: Enum to Selection conversion script
 
 *Bugs:
-- Fixed issue #11815: create temporary table on slave but insert row over primary.a
+- Fixed bug #11815: create temporary table on slave but insert row over primary.a
   ( Merged from stable/3.9 rev. 20928, stable/3.10 rev. 20929 )
-- Fixed issue #12125: Reference and declaration problem in collaboration
-- Fixed issue #12127: Reference and declaration problem in image handling
+- Fixed bug #12125: Reference and declaration problem in collaboration
+- Fixed bug #12127: Reference and declaration problem in image handling
 - Fixed bug #12131: eZMySQLiDB driver doesn't ignore the information_schema database
 - Fixed bug #12119: ShowAccessDeniedReason enabled will cause PHP Warning
 - Fixed bug #11385: xml text datatype: &gt; and &lt; become < and > after storing draft
