@@ -28,7 +28,7 @@ PACKAGE_DEVELOPMENT="false"
 # Is automatically set to 'true' when $STATE contains some text, do not modify
 DEVELOPMENT="false"
 # Whether the previous release is a development release or not.
-DEVELOPMENT_PREVIOUS="true"
+DEVELOPMENT_PREVIOUS="false"
 # Is only true when the release is a final release (ie. the first of the stable ones)
 # Will be automatically set to true when $RELEASE is 0 and $DEVELOPMENT is false
 FINAL="true"
