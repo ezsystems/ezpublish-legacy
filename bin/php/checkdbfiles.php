@@ -65,16 +65,10 @@ $dbTypes[] = 'mysql';
 $dbTypes[] = 'postgresql';
 
 $branches = array();
-$branches[] = '3.0';
-$branches[] = '3.1';
-$branches[] = '3.2';
-$branches[] = '3.3';
-$branches[] = '3.4';
-$branches[] = '3.5';
-$branches[] = '3.6';
+$branches[] = '4.0';
 
 // Controls the lowest version which will be exported and verified against current data
-$lowestExportVersion = '3.3';
+$lowestExportVersion = '4.0';
 
 /********************************************************
 *** NOTE: The following arrays do not follow the
@@ -84,102 +78,6 @@ $lowestExportVersion = '3.3';
 *********************************************************/
 
 $versions = array();
-$versions30 = array( 'stable' => array( array( '2.9.7', '3.0-1' ),
-                                        array( '3.0-1', '3.0-2' ) ),
-                     'info_files' => true );
-$versions31 = array( 'unstable' => array( array( '3.0-2', '3.1.0-1' ),
-                                          array( '3.1.0-1', '3.1.0-2' ) ),
-                     'stable' => array( array( '3.1.0-2', '3.1-1' ) ),
-                     'info_files' => true );
-$versions32 = array( 'unstable' => array( array( '3.1-1', '3.2.0-1' ),
-                                          array( '3.2.0-1', '3.2.0-2' ),
-                                          array( '3.2.0-2', '3.2-1' ) ),
-                     'unstable_subdir' => 'unstable',
-                     'stable' => array( array( '3.1-1', '3.2-1' )
-                                        ,array( '3.2-1', '3.2-2' )
-                                        ,array( '3.2-2', '3.2-3' )
-                                        ,array( '3.2-3', '3.2-4' )
-                                        ,array( '3.2-4', '3.2-5' )
-                                        ,array( '3.2-5', '3.2-6' )
-                                        ) );
-$versions33 = array( 'unstable' => array( array( '3.2-3', '3.3.0-1' ),
-                                          array( '3.3.0-1', '3.3.0-2' ),
-                                          array( '3.3.0-2', '3.3-1' ) ),
-                     'unstable_subdir' => 'unstable',
-                     'stable' => array( array( '3.2-4', '3.3-1' )
-                                        ,array( '3.3-1', '3.3-2' )
-                                        ,array( '3.3-2', '3.3-3' )
-                                        ,array( '3.3-3', '3.3-4' )
-                                        ,array( '3.3-4', '3.3-5' )
-                                        ,array( '3.3-5', '3.3-6' )
-                                        ,array( '3.3-6', '3.3-7' )
-                                        ) );
-$versions34 = array( 'unstable' => array( array( '3.3-3', '3.4.0alpha1' )
-                                          ,array( '3.4.0alpha1', '3.4.0alpha2' )
-                                          ,array( '3.4.0alpha2', '3.4.0alpha3' )
-                                          ,array( '3.4.0alpha3', '3.4.0alpha4' )
-                                          ,array( '3.4.0alpha4', '3.4.0beta1' )
-                                          ,array( '3.4.0beta1', '3.4.0beta2' )
-                                          ,array( '3.4.0beta2', '3.4.0' )
-                                          ),
-                     'unstable_subdir' => 'unstable',
-                     'stable' => array( array( '3.3-5', '3.4.0' )
-                                        ,array( '3.4.0', '3.4.1' )
-                                        ,array( '3.4.1', '3.4.2' )
-                                        ,array( '3.4.2', '3.4.3' )
-                                        ,array( '3.4.3', '3.4.4' )
-                                        ,array( '3.4.4', '3.4.5' )
-                                        ,array( '3.4.5', '3.4.6' )
-                                        ) );
-$versions35 = array( 'unstable' => array( array( '3.4.2', '3.5.0alpha1' )
-                                          ,array( '3.5.0alpha1', '3.5.0beta1' )
-                                          ,array( '3.5.0beta1', '3.5.0rc1' )
-                                          ,array( '3.5.0rc1', '3.5.0rc2' )
-                                          ,array( '3.5.0rc2', '3.5.0' )
-                                          ),
-                     'unstable_subdir' => 'unstable',
-                     'stable' => array( array( '3.4.4', '3.5.0' )
-                                        ,array( '3.5.0', '3.5.1' )
-                                        ,array( '3.5.1', '3.5.2' )
-                                        ) );
-$versions36 = array( 'unstable' => array( array( '3.5.2', '3.6.0beta1' )
-                                          ,array( '3.6.0beta1', '3.6.0rc1' )
-                                          ,array( '3.6.0rc1', '3.6.0' )
-                                          ),
-                     'unstable_subdir' => 'unstable',
-                     'stable' => array( array( '3.5.2', '3.6.0' ) ) );
-
-$versions37 = array( 'unstable' => array( array( '3.6.0', '3.7.0alpha1' )
-                                          ),
-                     'unstable_subdir' => 'unstable',
-                     'stable' => array( ) );
-$versions38 = array( 'unstable' => array( array( '3.6.0', '3.8.0alpha1' )
-                                          ,array( '3.8.0alpha1', '3.8.0alpha2' )
-                                          ,array( '3.8.0alpha2', '3.8.0beta1' )
-                                          ,array( '3.8.0beta1', '3.8.0beta2' )
-                                          ,array( '3.8.0beta2', '3.8.0rc1' )
-                                          ,array( '3.8.0rc1', '3.8.0' )
-                                          ),
-                     'unstable_subdir' => 'unstable',
-                     'stable' => array( array( '3.6.0', '3.8.0') ) );
-
-$versions39 = array( 'unstable' => array( array( '3.8.0', '3.9.0alpha1' )
-                                          ,array( '3.9.0alpha1', '3.9.0beta1' )
-                                          ,array( '3.9.0beta1', '3.9.0rc1' )
-                                          ,array( '3.9.0rc1', '3.9.0rc2' )
-                                          ,array( '3.9.0rc2', '3.9.0' )
-                                        ),
-                     'unstable_subdir' => 'unstable',
-                     'stable' => array( array( '3.8.0', '3.9.0' ) ) );
-
-$versions310 = array( 'unstable' => array( array( '3.9.0', '3.10.0alpha1' )
-                                           , array( '3.10.0alpha1', '3.10.0beta1' )
-                                           , array( '3.10.0beta1', '3.10.0rc1' )
-                                           , array( '3.10.0rc1', '3.10.0' )
-                                         ),
-                     'unstable_subdir' => 'unstable',
-                     'stable' => array( array( '3.9.0', '3.10.0' ) ) );
-
 $versions40 = array( 'unstable' => array( array( '3.9.0', '4.0.0alpha1' )
                                           , array( '4.0.0alpha1', '4.0.0alpha2' )
                                           , array( '4.0.0alpha2', '4.0.0beta1' )
@@ -189,16 +87,7 @@ $versions40 = array( 'unstable' => array( array( '3.9.0', '4.0.0alpha1' )
                      'unstable_subdir' => 'unstable',
                      'stable' => array( array( '3.9.0', '4.0.0' ) ) );
 
-$versions['3.0'] = $versions30;
-$versions['3.1'] = $versions31;
-$versions['3.2'] = $versions32;
-$versions['3.3'] = $versions33;
-$versions['3.4'] = $versions34;
-$versions['3.5'] = $versions35;
-$versions['3.6'] = $versions36;
-$versions['3.7'] = $versions37;
-$versions['3.8'] = $versions38;
-$versions['3.9'] = $versions39;
+$versions['4.0'] = $versions40;
 
 $fileList = array();
 $missingFileList = array();
