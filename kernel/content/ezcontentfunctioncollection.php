@@ -791,7 +791,8 @@ class eZContentFunctionCollection
                                 $classid, 
                                 $owner = false, 
                                 $parentNodeID = false, 
-                                $includeDuplicates = true )
+                                $includeDuplicates = true,
+                                $strictMatching = false )
     {
         $classIDArray = array();
         if ( is_numeric( $classid ) )
@@ -831,11 +832,17 @@ class eZContentFunctionCollection
           //COUNT( DISTINCT fieldName ) is SQL92 compliant syntax.
             $sqlToExcludeDuplicates = ' DISTINCT';  
         }
+        // composing sql for matching tag word, it could be strict equiality or LIKE clause dependent of $strictMatching parameter.
+        $sqlMatching = "ezkeyword.keyword LIKE '$alphabet%'";
+        if ( $strictMatching )
+        {
+            $sqlMatching = "ezkeyword.keyword = '$alphabet'";
+        }
 
         $query = "SELECT COUNT($sqlToExcludeDuplicates ezcontentobject.id) AS count
                   FROM ezkeyword, ezkeyword_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass, ezcontentobject_attribute
                        $sqlPermissionChecking[from]
-                  WHERE ezkeyword.keyword LIKE '$alphabet%'
+                  WHERE $sqlMatching
                   $showInvisibleNodesCond
                   $sqlPermissionChecking[where]
                   $sqlClassIDs
@@ -875,7 +882,8 @@ class eZContentFunctionCollection
                            $owner = false, 
                            $sortBy = array(), 
                            $parentNodeID = false, 
-                           $includeDuplicates = true )
+                           $includeDuplicates = true,
+                           $strictMatching = false )
     {
         $classIDArray = array();
         if ( is_numeric( $classid ) )
@@ -979,13 +987,22 @@ class eZContentFunctionCollection
         {
             $sqlClassIDString = 'AND ezkeyword.class_id IN (' . $db->implodeWithTypeCast( ',', $classIDArray, 'int' ) . ')';
         }
+
+        // composing sql for matching tag word, it could be strict equiality or LIKE clause 
+        // dependent of $strictMatching parameter.
+        $sqlMatching = "ezkeyword.keyword LIKE '$alphabet%'";
+        if ( $strictMatching )
+        {
+            $sqlMatching = "ezkeyword.keyword = '$alphabet'";
+        }
+
         $query = "SELECT $sqlTarget
                   FROM ezkeyword, ezkeyword_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass
                        $sortingInfo[attributeFromSQL]
                        $sqlPermissionChecking[from]
                   WHERE
                   $sortingInfo[attributeWhereSQL]
-                  ezkeyword.keyword LIKE '$alphabet%'
+                  $sqlMatching
                   $showInvisibleNodesCond
                   $sqlPermissionChecking[where]
                   $sqlClassIDString

@@ -927,7 +927,11 @@ $FunctionList['keyword'] = array( 'name' => 'keyword',
                                                         array( 'name' => 'include_duplicates',
                                                                 'type' => 'bool',
                                                                 'required' => false,
-                                                                'default' => true ) ) );
+                                                                'default' => true ),
+                                                         array( 'name' => 'strict_matching',
+                                                                 'type' => 'bool',
+                                                                 'required' => false,
+                                                                 'default' => false ) ) );
                                                                 
 
 $FunctionList['keyword_count'] = array( 'name' => 'keyword_count',
@@ -953,7 +957,11 @@ $FunctionList['keyword_count'] = array( 'name' => 'keyword_count',
                                                                array( 'name' => 'include_duplicates',
                                                                       'type' => 'bool',
                                                                       'required' => false,
-                                                                      'default' => true ) ) );
+                                                                      'default' => true ),
+                                                               array( 'name' => 'strict_matching',
+                                                                      'type' => 'bool',
+                                                                      'required' => false,
+                                                                      'default' => false ) ) );
 
 $FunctionList['access'] = array( 'name' => 'access',
                                  'operation_types' => array( 'read' ),
