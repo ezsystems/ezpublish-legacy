@@ -78,7 +78,7 @@ class eZImageLayer extends eZImageInterface
      onto the image object \a $image.
      Different kinds of layer classes will merge layers differently.
     */
-    function mergeLayer( &$image, &$layerData, &$lastLayerData )
+    function mergeLayer( $image, $layerData, &$lastLayerData )
     {
         $position = $image->calculatePosition( $layerData['parameters'], $this->width(), $this->height() );
         $x = $position['x'];
@@ -89,7 +89,9 @@ class eZImageLayer extends eZImageInterface
             $destinationImageObject = $image->imageObjectInternal( false );
             if ( $destinationImageObject === null )
             {
-                $image = clone $this;
+                $isTrueColor = $this->isTruecolor();
+                $image->cloneImage( $this->imageObject(), $this->width(), $this->height(),
+                                    $isTrueColor );
             }
             else
             {

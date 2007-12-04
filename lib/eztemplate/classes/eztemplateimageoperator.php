@@ -255,7 +255,7 @@ class eZTemplateImageOperator
             }
             else
             {
-                $layer =& $this->loadImage( $this->CacheDir, 'imagetext', $md5Text, $alternativeText, $this->StoreAs );
+                $layer = $this->loadImage( $this->CacheDir, 'imagetext', $md5Text, $alternativeText, $this->StoreAs );
             }
             $layer->setAlternativeText( $alternativeText );
             $inputValue = $layer;
@@ -296,7 +296,7 @@ class eZTemplateImageOperator
                 $file = $matches[2];
             }
 
-            $layer =& eZImageLayer::createForFile( $file, $dir );
+            $layer = eZImageLayer::createForFile( $file, $dir );
             $alternativeText = $file;
             if ( preg_match( "#(.+)\.([^.]+)$#", $file, $matches ) )
                 $alternativeText = $matches[1];
@@ -636,7 +636,7 @@ class eZTemplateImageOperator
         return file_exists( $filePath );
     }
 
-    function storeImage( &$image, $dirs, $base, $md5Text, $alternativeText, $imageType )
+    function storeImage( $image, $dirs, $base, $md5Text, $alternativeText, $imageType )
     {
         $name = preg_replace( array( "#[^a-zA-Z0-9_-]+#",
                                      "#__+#",
@@ -657,7 +657,7 @@ class eZTemplateImageOperator
         $image->store( $file, $dirPath, $imageType );
     }
 
-    function setLoadImage( &$image, $dirs, $base, $md5Text, $alternativeText, $imageType )
+    function setLoadImage( $image, $dirs, $base, $md5Text, $alternativeText, $imageType )
     {
         $name = preg_replace( array( "#[^a-zA-Z0-9_-]+#",
                                      "#__+#",
@@ -675,7 +675,7 @@ class eZTemplateImageOperator
         $image->setStoredFile( $file, $dirPath, $imageType );
     }
 
-    function &loadImage( $dirs, $base, $md5Text, $alternativeText, $imageType )
+    function loadImage( $dirs, $base, $md5Text, $alternativeText, $imageType )
     {
         $name = preg_replace( array( "#[^a-zA-Z0-9_-]+#",
                                      "#__+#",
@@ -695,7 +695,7 @@ class eZTemplateImageOperator
         return $layer;
     }
 
-    function readImageParameters( $tpl, &$image, $operatorParameters, $rootNamespace, $currentNamespace, &$md5Input, &$alternativeText,
+    function readImageParameters( $tpl, $image, $operatorParameters, $rootNamespace, $currentNamespace, &$md5Input, &$alternativeText,
                                   $placement )
     {
         $imageAlternativeText = false;
@@ -711,7 +711,7 @@ class eZTemplateImageOperator
             }
             else if ( is_array( $operatorParameter ) )
             {
-                $imageLayer =& $operatorParameter[0];
+                $imageLayer = $operatorParameter[0];
                 $imageParameterSource = $operatorParameter[1];
                 if ( isset( $imageParameterSource['transparency'] ) )
                     $imageParameters['transparency'] = $imageParameterSource['transparency'];
@@ -795,7 +795,7 @@ class eZTemplateImageOperator
                 }
             }
             else
-                $imageLayer =& $operatorParameter;
+                $imageLayer = $operatorParameter;
             if ( $imageLayer !== null and
                  $image->appendLayer( $imageLayer, $imageParameters ) )
             {

@@ -296,11 +296,11 @@ class eZImageObject extends eZImageInterface
         {
             $layerID = $this->ImageLayers[$i];
             $layerData =& $this->ImageLayerIndex[$layerID];
-            $layer =& $layerData['image'];
+            $layer = $layerData['image'];
             if ( $layer instanceof eZImageLayer )
             {
-                $firstImageLayerData =& $layerData;
-                $firstImageLayer =& $layer;
+                $firstImageLayerData = $layerData;
+                $firstImageLayer = $layer;
                 $hasFirst = true;
             }
             else
@@ -326,14 +326,14 @@ class eZImageObject extends eZImageInterface
             {
                 $layerID = $this->ImageLayers[$i];
                 $layerData =& $this->ImageLayerIndex[$layerID];
-                $layer =& $layerData['image'];
+                $layer = $layerData['image'];
                 unset( $imageObject );
                 if ( $layer instanceof eZImageLayer )
                 {
                     $layer->mergeLayer( $this,
                                         $layerData,
                                         $lastImageLayerData );
-                    $lastImageLayerData =& $layerData;
+                    $lastImageLayerData = $layerData;
                 }
                 else
                 {
