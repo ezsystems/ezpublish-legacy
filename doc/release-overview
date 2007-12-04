@@ -907,3 +907,12 @@ Datatype branch:
 - Revision=20810
 - Version url=http://svn.ez.no/svn/ezpublish/versions/4.0.0beta1
 - Date 19-Nov-2007
+
+4.0.0:
+- Release branch=release/4.0.0
+- Release branch start=20980
+- Release date 03-Dec-2007
+- From revision=20988
+- Revision=20991
+- Version url=http://svn.ez.no/svn/ezpublish/versions/4.0.0
+- Date 04-Dec-2007
