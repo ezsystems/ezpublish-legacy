@@ -908,6 +908,9 @@ class eZContentFunctionCollection
         $keywordNodeArray = array();
         $lastKeyword = '';
 
+        //include_once( 'lib/ezdb/classes/ezdb.php' );
+        $db = eZDB::instance();
+
         //in SELECT clause below we will use a full keyword value
         //or just a part of ezkeyword.keyword matched to $alphabet respective to $includeDuplicates parameter.
         //In the case $includeDuplicates = ture we need only a part 
@@ -915,12 +918,8 @@ class eZContentFunctionCollection
         $sqlKeyword = 'ezkeyword.keyword';
         if ( !$includeDuplicates )
         {
-            //SUBSTRING( str FROM pos FOR len ) is a SQL92 compliant syntax.
-            $sqlKeyword = 'SUBSTRING(ezkeyword.keyword FROM 1 FOR '.strlen( $alphabet ).') AS keyword ';
+            $sqlKeyword = $db->subString('ezkeyword.keyword', 1, strlen( $alphabet ) ) . ' AS keyword ';
         }
-
-        //include_once( 'lib/ezdb/classes/ezdb.php' );
-        $db = eZDB::instance();
 
         $alphabet = $db->escapeString( $alphabet );
 
