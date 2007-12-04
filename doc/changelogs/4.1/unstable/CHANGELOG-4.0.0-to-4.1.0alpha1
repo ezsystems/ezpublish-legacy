@@ -1,0 +1,17 @@
+Changes from 4.0.0 to 4.1.0alpha1
+
+*Kernel:
+
+*Design:
+
+*eZTemplate:
+
+*Package system:
+
+*Scripts:
+
+*Translations:
+
+*Bugfixes:
+- Fixed bug #12036: Problems with image/imagefile operators
+
