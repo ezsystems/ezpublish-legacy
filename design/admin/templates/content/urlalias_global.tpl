@@ -130,17 +130,19 @@
         </td>
 
         <td>
-            /
+            {def $url_alias_path=""}
             {foreach $element.path_array as $el}
-            {if ne( $el.action, "nop:" )}
-            <a href={concat("/",$el.path)|ezurl}>
-            {/if}
-            {$el.text|wash}
-            {if ne( $el.action, "nop:" )}
-            </a>
-            {/if}
-            {delimiter}/{/delimiter}
+                {if ne( $el.action, "nop:" )}
+                    {set $url_alias_path=concat($url_alias_path, '/',
+                                                '<a href=', concat("/",$el.path)|ezurl, ">",
+                                                $el.text|wash,
+                                                '</a>')}
+                {else}
+                    {set $url_alias_path=concat($url_alias_path, '/', $el.text|wash)}
+                {/if}
             {/foreach}
+            {$url_alias_path}
+            {undef $url_alias_path}
         </td>
 
         <td>
