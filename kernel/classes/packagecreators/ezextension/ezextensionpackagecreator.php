@@ -87,7 +87,7 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
 
         foreach( $fileList as $file )
         {
-            $fileNode =& $doc->createElement( 'file' );
+            $fileNode = $doc->createElement( 'file' );
             $fileNode->setAttribute( 'name', $file['name'] );
 
             if ( $file['path'] )
