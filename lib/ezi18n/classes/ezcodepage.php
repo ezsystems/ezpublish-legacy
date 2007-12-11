@@ -744,7 +744,7 @@ $str
      Gets the permission setting for codepage files & returns it.
      If the permission setting doesnt exists: returns false.
     */
-    function permissionSetting()
+    static function permissionSetting()
     {
 //         eZDebug::writeDebug( "permissionSetting was called..." );
 
@@ -763,7 +763,7 @@ $str
 
      Sets the permission setting for codepagefiles.
     */
-    function setPermissionSetting( $permissionArray )
+    static function setPermissionSetting( $permissionArray )
     {
 //         eZDebug::writeDebug( "setPermissionSetting was called..." );
 
