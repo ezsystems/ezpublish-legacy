@@ -16,4 +16,5 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12036: Problems with image/imagefile operators
 - Fixed bug #12172: Errors when tying to open trash.
 - Fixed bug #12176: eZCodePage::setPermissionSetting strict warning
+- Fixed bug #12178: Strict Non-static method warnings in eZInformationCollection
 

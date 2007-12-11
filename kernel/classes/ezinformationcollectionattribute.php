@@ -111,7 +111,7 @@ class eZInformationCollectionAttribute extends eZPersistentObject
     */
     function classContent()
     {
-        $classAttribute =& $this->contentClassAttribute();
+        $classAttribute = $this->contentClassAttribute();
         if ( is_object( $classAttribute ) )
         {
             return $classAttribute->content();
@@ -210,7 +210,7 @@ class eZInformationCollectionAttribute extends eZPersistentObject
     /*!
      Creates a new eZInformationCollectionAttribute instance.
     */
-    function create( $informationCollectionID )
+    static function create( $informationCollectionID )
     {
         $row = array( 'informationcollection_id' => $informationCollectionID );
         return new eZInformationCollectionAttribute( $row );
@@ -220,7 +220,7 @@ class eZInformationCollectionAttribute extends eZPersistentObject
      \static
       Fetches the information collection by object attribute ID.
     */
-    function fetchByObjectAttributeID( $id, $contentobjectAttributeID, $asObject = true )
+    static function fetchByObjectAttributeID( $id, $contentobjectAttributeID, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZInformationCollectionAttribute::definition(),
                                                 null,
@@ -235,7 +235,7 @@ class eZInformationCollectionAttribute extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function cleanup()
+    static function cleanup()
     {
         $db = eZDB::instance();
         $db->query( "DELETE FROM ezinfocollection_attribute" );
