@@ -1400,7 +1400,7 @@ showDebug();
 
         if ( $as_html )
         {
-            echo "<div id=\"debug\"><table style='border: 1px dashed black;' bgcolor=\"#fefefe\" summary='Layout table for eZ Publish debug output'>";
+            echo "<div id=\"debug\"><table style='border: 1px dashed black; background-color: #fefefe;' summary='Layout table for eZ Publish debug output'>";
             echo "<tr><th><h1>eZ debug</h1></th></tr>";
 
             echo "<tr><td>";
