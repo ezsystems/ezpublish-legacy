@@ -65,13 +65,13 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
 
         $version = $object->version( $parameters['version'] );
         $objectAttributes = $version->attribute( 'contentobject_attributes' );
-        $waitUntilDateObject =& $this->workflowEventContent( $event );
+        $waitUntilDateObject = $this->workflowEventContent( $event );
         $waitUntilDateEntryList = $waitUntilDateObject->attribute( 'classattribute_id_list' );
         $modifyPublishDate = $event->attribute( 'data_int1' );
 
         foreach ( array_keys( $objectAttributes ) as $key )
         {
-            $objectAttribute =& $objectAttributes[$key];
+            $objectAttribute = $objectAttributes[$key];
             $contentClassAttributeID = $objectAttribute->attribute( 'contentclassattribute_id' );
             if ( in_array( $objectAttribute->attribute( 'contentclassattribute_id' ), $waitUntilDateEntryList ) )
             {
