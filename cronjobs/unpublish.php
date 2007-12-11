@@ -72,7 +72,7 @@ foreach( $rootNodeIDList as $nodeID )
             //include_once( 'kernel/classes/ezcontentcachemanager.php' );
             eZContentCacheManager::clearContentCacheIfNeeded( $article->attribute( 'id' ) );
 
-            $article->remove( $article->attribute( 'id' ), $articleNode->attribute( 'node_id' ) );
+            $article->removeThis( $articleNode->attribute( 'node_id' ) );
         }
     }
 }
