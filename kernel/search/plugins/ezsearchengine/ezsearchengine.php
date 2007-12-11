@@ -1597,7 +1597,7 @@ class eZSearchEngine
         $wordIDArrays = $this->prepareWordIDArraysForPattern( $searchText );
         $wordIDArray = $wordIDArrays['wordIDArray'];
         $wordIDHash = $wordIDArrays['wordIDHash'];
-        $wildIDArray = $wordIDArrays['wildIDArray'];
+        $wildIDArray = array();
         $patternWordIDHash = $wordIDArrays['patternWordIDHash'];
 
         $searchWordArray = $this->splitString( $searchText );
