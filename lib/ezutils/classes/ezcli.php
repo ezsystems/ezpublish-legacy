@@ -315,7 +315,7 @@ class eZCLI
      \static
      \returns an ANSI sequence which will store the current position.
     */
-    function storePosition()
+    static function storePosition()
     {
         return "\033[s";
     }
@@ -324,13 +324,12 @@ class eZCLI
      \static
      \returns an ANSI sequence which will restore the current position.
     */
-    function restorePosition()
+    static function restorePosition()
     {
         return "\033[u";
     }
 
     /*!
-     \static
      \return an ANSI sequence which will tell the console go to the specified column.
     */
     function gotoColumn( $column )
@@ -447,7 +446,7 @@ class eZCLI
         return !$this->IsQuiet;
     }
 
-    function parseOptionString( $configString, &$optionConfig )
+    static function parseOptionString( $configString, &$optionConfig )
     {
         $len = strlen( $configString );
         $i = 0;
@@ -714,7 +713,7 @@ class eZCLI
     /*!
      \return \c true if instance of eZCLI already exists otherwise \c false.
     */
-    function hasInstance()
+    static function hasInstance()
     {
         return isset( $GLOBALS['eZCLIInstance'] ) && $GLOBALS['eZCLIInstance'] instanceof eZCLI;
     }
