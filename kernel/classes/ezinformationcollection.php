@@ -303,7 +303,7 @@ class eZInformationCollection extends eZPersistentObject
         return $userData;
     }
 
-    function sendOutEmail( $contentObject )
+    static function sendOutEmail( $contentObject )
     {
         if ( !$contentObject )
             return false;
@@ -336,7 +336,7 @@ class eZInformationCollection extends eZPersistentObject
         return $sendEmail;
     }
 
-    function displayHandling( $contentObject )
+    static function displayHandling( $contentObject )
     {
         if ( !$contentObject )
             return false;
@@ -372,7 +372,7 @@ class eZInformationCollection extends eZPersistentObject
         return $display;
     }
 
-    function redirectURL( $contentObject )
+    static function redirectURL( $contentObject )
     {
         if ( !$contentObject )
             return false;
@@ -432,7 +432,7 @@ class eZInformationCollection extends eZPersistentObject
                                                 $asObject );
     }
 
-    function fetchCountForAttribute( $objectAttributeID, $value )
+    static function fetchCountForAttribute( $objectAttributeID, $value )
     {
         $db = eZDB::instance();
         // Do a count on the value of collected integer info. Useful for e.g. polls
@@ -452,7 +452,7 @@ class eZInformationCollection extends eZPersistentObject
         return $resArray[0]['count'];
     }
 
-    function fetchCollectionCountForObject( $objectID )
+    static function fetchCollectionCountForObject( $objectID )
     {
         if( !is_numeric( $objectID ) )
         {
@@ -592,7 +592,7 @@ class eZInformationCollection extends eZPersistentObject
         return $resultSet[0]['count'];
     }
 
-    function fetchCountList( $objectAttributeID )
+    static function fetchCountList( $objectAttributeID )
     {
         $db = eZDB::instance();
         // Do a count on the value of collected integer info. Useful for e.g. polls
@@ -681,7 +681,7 @@ class eZInformationCollection extends eZPersistentObject
     /*!
      Same as generateUserIdentifier but returns the user identifier for the current user.
     */
-    function currentUserIdentifier()
+    static function currentUserIdentifier()
     {
         $user = null;
         return eZInformationCollection::generateUserIdentifier( $user );
@@ -694,7 +694,7 @@ class eZInformationCollection extends eZPersistentObject
      The user identifier is either calculated from the unique user ID
      or the IP address when the user is anonymous.
     */
-    function generateUserIdentifier( &$user )
+    static function generateUserIdentifier( &$user )
     {
         if ( !$user )
         {
@@ -717,7 +717,7 @@ class eZInformationCollection extends eZPersistentObject
     /*!
      Creates a new eZInformationCollection instance.
     */
-    function create( $contentObjectID, $userIdentifier, $creatorID = false )
+    static function create( $contentObjectID, $userIdentifier, $creatorID = false )
     {
         $timestamp = time();
 
