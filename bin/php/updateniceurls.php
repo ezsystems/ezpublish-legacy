@@ -144,7 +144,6 @@ $db->setIsSQLOutputEnabled( $showSQL );
 eZContentLanguage::setCronjobMode( true );
 
 $fetchLimit = 200;
-$cli->notice( "Using fetch limit: $fetchLimit" );
 if ( $options['fetch-limit'] !== null )
 {
     $fetchLimit = $options['fetch-limit'];
@@ -153,6 +152,8 @@ if ( $options['fetch-limit'] !== null )
         $script->shutdown( 1, "The --fetch-limit must be 1 or higher, tried with $fetchLimit" );
     }
 }
+$cli->notice( "Using fetch limit: $fetchLimit" );
+
 $percentLength = 6;
 $timeLength = 12;
 $columnWidth = 72;
