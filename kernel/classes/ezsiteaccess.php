@@ -51,24 +51,22 @@ class eZSiteAccess
     function siteAccessList()
     {
         include_once( 'lib/ezutils/classes/ezsys.php' );
-
-        $ini =& eZINI::instance();
-        $siteAccessArray = $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
-
         $siteAccessList = array();
-        reset( $siteAccessArray );
-        foreach ( array_keys( $siteAccessArray ) as $key )
+        $ini =& eZINI::instance();
+        $availableSiteAccessList = $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
+        if ( !is_array( $availableSiteAccessList ) )
+            $availableSiteAccessList = array();
+
+        $serverSiteAccess = eZSys::serverVariable( $ini->variable( 'SiteAccessSettings', 'ServerVariableName' ), true );
+        if ( $serverSiteAccess )
+            $availableSiteAccessList[] = $serverSiteAccess;
+
+        $availableSiteAccessList = array_unique( $availableSiteAccessList );
+        foreach ( $availableSiteAccessList as $siteAccessName )
         {
             $siteAccessItem = array();
-            $siteAccessItem['name'] =& $siteAccessArray[$key];
-            $siteAccessItem['id'] = eZSys::ezcrc32( $siteAccessArray[$key] );
-            $siteAccessList[] = $siteAccessItem;
-        }
-        if ( $serversiteaccess = eZSys::serverVariable( $ini->variable( 'SiteAccessSettings', 'ServerVariableName' ), true ) and !in_array( $serversiteaccess, $siteAccessArray ) )
-        {
-            $siteAccessItem = array();
-            $siteAccessItem['name'] =& $serversiteaccess;
-            $siteAccessItem['id'] = eZSys::ezcrc32( $serversiteaccess );
+            $siteAccessItem['name'] = $siteAccessName;
+            $siteAccessItem['id'] = eZSys::ezcrc32( $siteAccessName );
             $siteAccessList[] = $siteAccessItem;
         }
         return $siteAccessList;
