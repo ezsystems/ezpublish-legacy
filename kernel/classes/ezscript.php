@@ -1047,7 +1047,8 @@ class eZScript
         $logMap = array( 'notice' => eZDebug::LEVEL_NOTICE,
                          'warning' => eZDebug::LEVEL_WARNING,
                          'error' => eZDebug::LEVEL_ERROR,
-                         'debug' => eZDebug::LEVEL_DEBUG );
+                         'debug' => eZDebug::LEVEL_DEBUG,
+                         'strict' => eZDebug::LEVEL_STRICT );
         $debugSettings['always-log'] = array();
         foreach ( $logMap as $name => $level )
         {
