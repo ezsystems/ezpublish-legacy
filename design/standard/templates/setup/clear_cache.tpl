@@ -9,9 +9,13 @@
                         array( 'Ini', 'Ini settings'|i18n( 'design/standard/pagelayout' )|wash, false ),
                         array( 'Static', 'Static'|i18n( 'design/standard/pagelayout' )|wash, false ) )}
 
-<form name="clearcache" action={'setup/cachetoolbar'|ezurl} method="post">
+<form id="clearcache" action={'setup/cachetoolbar'|ezurl} method="post">
 {default ui_context=''}
 <div class="block">
+{section show=is_set( $module_result.content_info )}
+  <input type="hidden" name="NodeID" value="{$module_result.content_info.node_id}" />
+  <input type="hidden" name="ObjectID" value="{$module_result.content_info.object_id}" />
+{/section}
 <select{eq( $ui_context, 'edit' )|choose( '', ' disabled="disabled"' )} name="CacheTypeValue">
    {section loop=$caches_list}
       {section show=eq( $:item.2, false )}
@@ -24,10 +28,6 @@
    {/section}
 </select>
 </div>
-    {section show=is_set( $module_result.content_info )}
-      <input type="hidden" name="NodeID" value="{$module_result.content_info.node_id}" />
-      <input type="hidden" name="ObjectID" value="{$module_result.content_info.object_id}" />
-    {/section}
 <div class="block">
     <input {eq( $ui_context, 'edit' )|choose( 'class="button"', 'class="button-disabled"' )}{eq( $ui_context, 'edit' )|choose( '', ' disabled="disabled"' )} type="submit" name="ClearCacheButton" value="{'Clear'|i18n( 'design/standard/pagelayout' )}" />
 </div>

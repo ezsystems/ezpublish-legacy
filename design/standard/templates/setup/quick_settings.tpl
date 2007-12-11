@@ -2,12 +2,13 @@
 
 {let settings_list=ezini( 'DebugSettings', 'QuickSettingsList', 'site.ini' )}
 
-<form name="quicksettings" action={'setup/settingstoolbar'|ezurl} method="post">
-<input type="hidden" name="SiteAccess" value="{$siteaccess|wash}" />
+<form id="quicksettings" action={'setup/settingstoolbar'|ezurl} method="post">
 
 {default ui_context=''}
 
 <div class="block">
+<input type="hidden" name="SiteAccess" value="{$siteaccess|wash}" />
+
 {section show=eq( $siteaccess, 'global_override' )}
    {section loop=$settings_list}
      <input type="hidden" name="AllSettingsList[]" value="{$:item|wash}"/>

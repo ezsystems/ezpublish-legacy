@@ -20,4 +20,5 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12228: site.ini [DebugSettings] AlwaysLog[] does not have strict debug type
 - Fixed bug #12204: Many Strict warnings when using ezscript
 - Fixed bug #12157: eZWaitUntilDateType: Strict standards: Only variables should be assigned by reference
+- Fixed bug #8569: bad html from ezdebug.php
 
