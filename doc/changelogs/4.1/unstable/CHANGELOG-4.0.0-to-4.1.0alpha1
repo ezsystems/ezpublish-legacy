@@ -27,4 +27,5 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #9691: Undefined index: wildIDArray
 - Fixed bug #9931: IE7 unable to receive node to pdf
   (Merged from stable/3.10 (3.10.1) rev. 21041)
+- Fixed bug #12116: The system shows unneeded (non-existing) spaces in the global aliases interface
 
