@@ -119,7 +119,7 @@ div#debug table + h2, table + h3
     margin-top: 1em;
 }
 
-table#templateusage th + th, table#templateusage td + td
+table#templateusage th + th, table#templateusage td + td, table#timeaccumulators th + th, table#timeaccumulators td + td, table#timingpoints th + th, table#timingpoints td + td
 {
 	padding: 0.25em 0.5em 0.25em 0.5em;
 }
