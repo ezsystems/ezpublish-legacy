@@ -24,4 +24,6 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12167: Only variables should be assigned by reference in kernel/classes/packagecreators/ezextension/ezextensionpackagecreator.php
 - Fixed bug #12209: updateniceurls.php: wrong fetch limit is displayed
 - Fixed bug #9691: Undefined index: wildIDArray
+- Fixed bug #9931: IE7 unable to receive node to pdf
+  (Merged from stable/3.10 (3.10.1) rev. 21041)
 
