@@ -164,10 +164,7 @@ eZDebug::writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "er
                 {
                     $accessMessage .= " PolicyID : " . $policy['PolicyID'] . "\n" ;
                     $accessMessage .= "  Limitation : " . $policy['LimitationList']['Limitation'] . "\n" ;
-                    $accessMessage .= "  Required : ";
-                    foreach ( $policy['LimitationList']['Required'] as $required )
-                        $accessMessage .= "$required, ";
-                    $accessMessage .= "\n";
+                    $accessMessage .= "  Required : " . implode( ', ', $policy['LimitationList']['Required'] ) . "\n";
                 }
             }
 
