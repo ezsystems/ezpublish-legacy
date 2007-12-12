@@ -2592,7 +2592,7 @@ class Cpdf
 
         header( 'Pragma: ' );
         header( 'Cache-Control: ' );
-        /* Set cache time out to 10 minutes, this should be good enough to work around an IE bug */
+        /* Set cache time out to 10 seconds, this should be good enough to work around an IE bug */
         header( "Expires: ". gmdate( 'D, d M Y H:i:s', time() + 10 ) . 'GMT' );
         header( 'X-Powered-By: eZ Publish' );
 
