@@ -9,6 +9,7 @@ Changes from 4.0.0 to 4.1.0alpha1
 *Package system:
 
 *Scripts:
+- Implemented enhancement #12242: Add "strict" to scripts --debug option
 
 *Translations:
 
