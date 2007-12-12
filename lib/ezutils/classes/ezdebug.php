@@ -1460,7 +1460,7 @@ td.timingpoint2
             echo "</table>";
 
             echo "<h2>Timing points:</h2>";
-            echo "<table style='border: 1px dashed black;' cellspacing='0'><tr><th>Checkpoint</th><th>Elapsed</th><th>Rel. Elapsed</th><th>Memory</th><th>Rel. Memory</th></tr>";
+            echo "<table id='timingpoints' style='border: 1px dashed black;' cellspacing='0' summary='Tabel of timingpoint stats.'><tr><th>Checkpoint</th><th>Elapsed</th><th>Rel. Elapsed</th><th>Memory</th><th>Rel. Memory</th></tr>";
         }
         $startTime = false;
         $elapsed = 0.00;
@@ -1474,26 +1474,32 @@ td.timingpoint2
                 if ( isset( $this->TimePoints[$i + 1] ) )
                     $nextPoint = $this->TimePoints[$i + 1];
                 $time = $this->timeToFloat( $point["Time"] );
-                $nextTime = false;
-                if ( $nextPoint !== false )
-                    $nextTime = $this->timeToFloat( $nextPoint["Time"] );
+
                 if ( $startTime === false )
                     $startTime = $time;
                 $elapsed = $time - $startTime;
-                $relElapsed = $nextTime - $time;
 
                 $memory = $point["MemoryUsage"];
-                $nextMemory = 0;
-                // Calculate relative memory usage
+                // Calculate relative time and memory usage
                 if ( $nextPoint !== false )
                 {
+                    $nextTime = $this->timeToFloat( $nextPoint["Time"] );
+                    $relElapsed = $nextTime - $time;
+                    $relElapsed = number_format( $relElapsed, $this->TimingAccuracy ) . " sec";
+
                     $nextMemory = $nextPoint["MemoryUsage"];
                     $relMemory = $nextMemory - $memory;
+                    $relMemory = number_format( $relMemory / 1024, $this->TimingAccuracy ) . " KB";
+                }
+                else
+                {
+                    $relElapsed = $as_html ? '&nbsp;' : '';
+                    $relMemory = $as_html ? '&nbsp;' : '';
                 }
 
-                // Convert memeory usage to human readable
-                $memory = number_format( $memory / 1024, $this->TimingAccuracy ) . "KB";
-                $relMemory = number_format( $relMemory / 1024, $this->TimingAccuracy ) . "KB";
+                // Convert memory usage to human readable
+                $memory = number_format( $memory / 1024, $this->TimingAccuracy ) . " KB";
+                $elapsed = number_format( $elapsed, $this->TimingAccuracy ) . " sec";
 
                 if ( $i % 2 == 0 )
                     $class = "timingpoint1";
@@ -1502,16 +1508,13 @@ td.timingpoint2
 
                 if ( $as_html )
                 {
-                    echo "<tr><td class='$class'>" . $point["Description"] . "</td><td class='$class'>" .
-    number_format( ( $elapsed ), $this->TimingAccuracy ) . " sec</td><td class='$class'>".
-    ( empty( $nextPoint ) ? "&nbsp;" : number_format( ( $relElapsed ), $this->TimingAccuracy ) . " sec" ) . "</td>"
-    . "<td class='$class'>" . $memory . "</td><td class='$class'>". $relMemory . "</td></tr>";
+                    echo "<tr><td class='$class'>" . $point["Description"] . "</td>
+                          <td class='$class' align='right'>$elapsed</td><td class='$class' align='right'>$relElapsed</td>
+                          <td class='$class' align='right'>$memory</td><td class='$class' align='right'>$relMemory</td></tr>";
                 }
                 else
                 {
-                    echo $point["Description"] . ' ' .
-    number_format( ( $elapsed ), $this->TimingAccuracy ) . " sec".
-    ( empty( $nextPoint ) ? "" : number_format( ( $relElapsed ), $this->TimingAccuracy ) . " sec" ) . "\n";
+                    echo $point["Description"] . ' ' . $elapsed . $relElapsed . "\n";
                 }
             }
 
@@ -1591,7 +1594,7 @@ td.timingpoint2
         if ( $as_html )
         {
             echo "<h2>Time accumulators:</h2>";
-            echo "<table style='border: 1px dashed black;' cellspacing='0'><tr><th>&nbsp;Accumulator</th><th>&nbsp;Elapsed</th><th>&nbsp;Percent</th><th>&nbsp;Count</th><th>&nbsp;Average</th></tr>";
+            echo "<table id='timeaccumulators' style='border: 1px dashed black;' cellspacing='0' summary='Table with detailed list of time accumulators'><tr><th>&nbsp;Accumulator</th><th>&nbsp;Elapsed</th><th>&nbsp;Percent</th><th>&nbsp;Count</th><th>&nbsp;Average</th></tr>";
             $i = 0;
         }
 
