@@ -1370,7 +1370,9 @@ showDebug();
     function printReportInternal( $as_html = true, $returnReport = true, $allowedDebugLevels = false,
                                   $useAccumulators = true, $useTiming = true, $useIncludedFiles = false )
     {
-        $styles = array( 'warning' => false,
+        $styles = array( 'strict' => false,
+                         'strict-end' => false,
+                         'warning' => false,
                          'warning-end' => false,
                          'error' => false,
                          'error-end' => false,

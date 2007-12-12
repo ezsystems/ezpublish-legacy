@@ -724,7 +724,7 @@ class eZScript
             if ( $useStandardOptions['debug'] )
                 $generalOptionList[] = array( '-d,--debug...', ( "display debug output at end of execution,\n" .
                                                                  "the following debug items can be controlled: \n" .
-                                                                 "all, accumulator, include, timing, error, warning, debug or notice." ) );
+                                                                 "all, accumulator, include, timing, error, warning, debug, notice or strict." ) );
             if ( $useStandardOptions['colors'] )
             {
                 $generalOptionList[] = array( '-c,--colors', 'display output using ANSI colors (default)' );
@@ -969,7 +969,9 @@ class eZScript
                     {
                         $useIncludeFiles = true;
                     }
-                    if ( $level == 'error' )
+                    if ( $level == 'strict' )
+                        $level = eZDebug::LEVEL_STRICT;
+                    else if ( $level == 'error' )
                         $level = eZDebug::LEVEL_ERROR;
                     else if ( $level == 'warning' )
                         $level = eZDebug::LEVEL_WARNING;
