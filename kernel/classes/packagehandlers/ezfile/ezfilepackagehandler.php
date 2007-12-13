@@ -618,7 +618,7 @@ class eZFilePackageHandler extends eZPackageHandler
     /*!
      \reimp
     */
-    function parseInstallNode( $package, $installNode, $installParameters, $isInstall )
+    function parseInstallNode( $package, $installNode, &$installParameters, $isInstall )
     {
         $collection = $installNode->getAttribute( 'collection' );
         $installParameters['collection'] = $collection;

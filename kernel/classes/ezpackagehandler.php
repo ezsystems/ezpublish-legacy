@@ -198,7 +198,7 @@ class eZPackageHandler
      \param $installParameters Reference to an array which must be filled with specific data for the current handler.
      \param $isInstall Is \c true if this is an install node, \c false if it is an uninstall node
     */
-    function parseInstallNode( $package, $installNode, $installParameters, $isInstall )
+    function parseInstallNode( $package, $installNode, &$installParameters, $isInstall )
     {
     }
 

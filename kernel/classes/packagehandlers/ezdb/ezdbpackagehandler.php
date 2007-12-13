@@ -33,7 +33,7 @@
 
 /*!
   \class eZDBPackageHandler ezdbpackagehandler.php
-  \brief Handles content classes in the package system
+  \brief Handles SQL files in the package system
 
 */
 
@@ -54,48 +54,45 @@ class eZDBPackageHandler extends eZPackageHandler
     */
     function install( $package, $installType, $parameters,
                       $name, $os, $filename, $subdirectory,
-                      $content, $installParameters,
+                      $content, &$installParameters,
                       &$installData )
     {
-        if ( $installType == 'sql' )
+        $path = $package->path();
+        $databaseType = false;
+        if ( isset( $parameters['database-type'] ) )
         {
-            $path = $package->path();
-            $databaseType = false;
-            if ( isset( $parameters['database-type'] ) )
+            $databaseType = $parameters['database-type'];
+        }
+        $path .= '/' . eZDBPackageHandler::sqlDirectory();
+        if ( $databaseType )
+        {
+            $path .= '/' . $databaseType;
+        }
+
+        if ( file_exists( $path ) )
+        {
+            $db = eZDB::instance();
+            $canInsert = true;
+            if ( $databaseType and
+                 $databaseType != $db->databaseName() )
             {
-                $databaseType = $parameters['database-type'];
-            }
-            $path .= '/' . eZDBPackageHandler::sqlDirectory();
-            if ( $databaseType )
-            {
-                $path .= '/' . $databaseType;
+                $canInsert = false;
             }
 
-            if ( file_exists( $path ) )
+            if ( $canInsert )
             {
-                $db = eZDB::instance();
-                $canInsert = true;
-                if ( $databaseType and
-                     $databaseType != $db->databaseName() )
-                {
-                    $canInsert = false;
-                }
-
-                if ( $canInsert )
-                {
-                    eZDebug::writeDebug( "Installing SQL file $path/$filename" );
-                    $db->insertFile( $path, $filename, false );
-                    return true;
-                }
-                else
-                {
-                    eZDebug::writeDebug( "Skipping SQL file $path/$filename" );
-                }
+                eZDebug::writeDebug( "Installing SQL file $path/$filename" );
+                $db->insertFile( $path, $filename, false );
+                return true;
             }
             else
             {
-                eZDebug::writeError( "Could not find SQL file $path/$filename" );
+                eZDebug::writeDebug( "Skipping SQL file $path/$filename" );
             }
+        }
+        else
+        {
+            eZDebug::writeError( "Could not find SQL file $path/$filename" );
         }
         return false;
     }
@@ -135,12 +132,8 @@ class eZDBPackageHandler extends eZPackageHandler
     function handleParameters( $packageType, $package, $cli, $type, $arguments )
     {
         $sqlFileList = array();
-        $currentType = false;
         $currentDatabaseType = false;
-        if ( $packageType == 'sql' )
-        {
-            $currentType = 'sql';
-        }
+
         for ( $i = 0; $i < count( $arguments ); ++$i )
         {
             $argument = $arguments[$i];
@@ -173,23 +166,20 @@ class eZDBPackageHandler extends eZPackageHandler
             }
             else
             {
-                if ( $currentType == 'sql' )
+                $sqlFile = $argument;
+                $databaseType = $currentDatabaseType;
+                $realFilePath = $this->sqlFileExists( $sqlFile, $databaseType,
+                                                      $triedFiles );
+                if ( !$realFilePath )
                 {
-                    $sqlFile = $argument;
-                    $databaseType = $currentDatabaseType;
-                    $realFilePath = $this->sqlFileExists( $sqlFile, $databaseType,
-                                                          $triedFiles );
-                    if ( !$realFilePath )
-                    {
-                        $cli->error( "SQL file " . $cli->style( 'file' ) . $sqlFile . $cli->style( 'file-end' ) . " does not exist\n" .
-                                     "The following files were searched for:\n" .
-                                     implode( "\n", $triedFiles ) );
-                        return false;
-                    }
-                    $fileList[] = array( 'file' => $sqlFile,
-                                         'database_type' => $databaseType,
-                                         'path' => $realFilePath );
+                    $cli->error( "SQL file " . $cli->style( 'file' ) . $sqlFile . $cli->style( 'file-end' ) . " does not exist\n" .
+                                 "The following files were searched for:\n" .
+                                 implode( "\n", $triedFiles ) );
+                    return false;
                 }
+                $fileList[] = array( 'file' => $sqlFile,
+                                     'database_type' => $databaseType,
+                                     'path' => $realFilePath );
             }
         }
         if ( count( $fileList ) == 0 )
@@ -233,50 +223,27 @@ class eZDBPackageHandler extends eZPackageHandler
     /*!
      \reimp
     */
-    function createInstallNode( $package, $export, &$installNode, $installItem, $installType )
+    function createInstallNode( $package, $installNode, $installItem, $installType )
     {
-        if ( $installNode->attributeValue( 'type' ) == 'sql' )
-        {
-            if ( !$export )
-                $installNode->setAttribute( 'original-path', $installItem['path'] );
-            $installNode->setAttribute( 'database-type', $installItem['database-type'] );
-            if ( $export )
-            {
-                $originalPath = $package->path() . '/' . eZDBPackageHandler::sqlDirectory();
-                if ( $installItem['database-type'] )
-                    $originalPath .= '/' . $installItem['database-type'];
-                $originalPath .= '/' . $installItem['filename'];
-                $exportPath = $export['path'];
-                $installDirectory = $exportPath . '/' . eZDBPackageHandler::sqlDirectory();
-                if ( $installItem['database-type'] )
-                    $installDirectory .= '/' . $installItem['database-type'];
-                if ( !file_exists(  $installDirectory ) )
-                    eZDir::mkdir( $installDirectory, eZDir::directoryPermission(), true );
-                eZFileHandler::copy( $originalPath, $installDirectory . '/' . $installItem['filename'] );
-            }
-            else if ( isset( $installItem['copy-file'] ) and $installItem['copy-file'] )
-            {
-                $originalPath = $installItem['path'];
-                $installDirectory = $package->path() . '/' . eZDBPackageHandler::sqlDirectory();
-                if ( $installItem['database-type'] )
-                    $installDirectory .= '/' . $installItem['database-type'];
-                if ( !file_exists(  $installDirectory ) )
-                    eZDir::mkdir( $installDirectory, eZDir::directoryPermission(), true );
-                eZFileHandler::copy( $originalPath, $installDirectory . '/' . $installItem['filename'] );
-            }
-        }
+        $installNode->setAttribute( 'original-path', $installItem['path'] );
+        $installNode->setAttribute( 'database-type', $installItem['database-type'] );
+
+        $originalPath = $installItem['path'];
+        $installDirectory = $package->path() . '/' . eZDBPackageHandler::sqlDirectory();
+        if ( $installItem['database-type'] )
+            $installDirectory .= '/' . $installItem['database-type'];
+        if ( !file_exists(  $installDirectory ) )
+            eZDir::mkdir( $installDirectory, eZDir::directoryPermission(), true );
+        eZFileHandler::copy( $originalPath, $installDirectory . '/' . $installItem['filename'] );
     }
 
     /*!
      \reimp
     */
-    function parseInstallNode( $package, &$installNode, &$installParameters, $isInstall )
+    function parseInstallNode( $package, $installNode, &$installParameters, $isInstall )
     {
-        if ( $installNode->getAttribute( 'type' ) == 'sql' )
-        {
-            $installParameters['path'] = $installNode->getAttribute( 'original-path' );
-            $installParameters['database-type'] = $installNode->getAttribute( 'database-type' );
-        }
+        $installParameters['path'] = $installNode->getAttribute( 'original-path' );
+        $installParameters['database-type'] = $installNode->getAttribute( 'database-type' );
     }
 }
 
