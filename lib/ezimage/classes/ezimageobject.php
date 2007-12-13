@@ -309,6 +309,7 @@ class eZImageObject extends eZImageInterface
         }
         if ( $hasFirst )
         {
+            $lastImageLayerData = null;
             $firstImageLayer->imageObject();
             if ( !$this->width() )
             {

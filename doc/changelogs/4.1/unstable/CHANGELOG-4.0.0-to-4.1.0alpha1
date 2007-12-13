@@ -31,4 +31,5 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #11854: warning in ezdebug.php - Undefined variable: relMemory
 - Fixed bug #12136: Trailing comma's in "Insufficient permissions" debug output
 - Fixed bug #12101: eZDBPackageHandler E_STRICT warnings
+- Fixed bug #12199: Declaration of eZImageTextLayer::mergeLayer() incompatible with eZImageLayer::mergeLayer()
 
