@@ -78,7 +78,7 @@ class eZImageLayer extends eZImageInterface
      onto the image object \a $image.
      Different kinds of layer classes will merge layers differently.
     */
-    function mergeLayer( $image, $layerData, &$lastLayerData )
+    function mergeLayer( $image, $layerData, $lastLayerData )
     {
         $position = $image->calculatePosition( $layerData['parameters'], $this->width(), $this->height() );
         $x = $position['x'];

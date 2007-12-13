@@ -80,7 +80,7 @@ class eZImageTextLayer extends eZImageLayer
      using the transparency value. This means that the original image data
      is kept and the actual text will be transparent.
     */
-    function mergeLayer( &$image, &$layerData, &$lastLayerData )
+    function mergeLayer( $image, $layerData, $lastLayerData )
     {
         $position = $image->calculatePosition( $layerData['parameters'], $this->width(), $this->height() );
         $x = $position['x'];
