@@ -683,7 +683,7 @@ class eZSys
      \return the variable named \a $variableName in the global \c $_SERVER variable.
              If the variable is not present an error is shown and \c null is returned.
     */
-    static function &serverVariable( $variableName, $quiet = false )
+    static function serverVariable( $variableName, $quiet = false )
     {
         if ( !isset( $_SERVER[$variableName] ) )
         {
