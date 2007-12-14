@@ -1000,18 +1000,36 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         {
             $realObjectNode = $this->getRealObjectNode( $objectNode );
 
+            //running non interactive and
+            //didn't installed anything yet and 
+            //already have an object with the same remote id
+            //so skip it
+            if ( isset( $installParameters['non-interactive'] ) && $installParameters['non-interactive'] &&
+                 !$firstInstalledID && 
+                 eZContentObject::fetchByRemoteID( $realObjectNode->attributeValue( 'remote_id' ) ) !== null )
+            {
+                continue;
+            }
+
             // Cycle until we reach an element where error has occured.
             // If action has been choosen, try install this item again, else skip it.
             if ( isset( $installParameters['error']['error_code'] ) &&
                  !$this->isErrorElement( $realObjectNode->attributeValue( 'remote_id' ), $installParameters ) )
+            {
                 continue;
+            }
 
+            //we are here, it means we'll try to install some object.
             if ( !$firstInstalledID )
+            {
                 $firstInstalledID = $realObjectNode->attributeValue( 'remote_id' );
+            }
 
             $newObject = eZContentObject::unserialize( $this->Package, $realObjectNode, $installParameters, $userID, $handlerType );
-            if ( !$newObject )
+            if ( !$newObject ) 
+            {
                 return false;
+            }
 
             if ( is_object( $newObject ) )
             {
@@ -1021,7 +1039,9 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             unset( $realObjectNode );
 
             if ( isset( $installParameters['error'] ) && count( $installParameters['error'] ) )
+            {
                 $installParameters['error'] = array();
+            }
         }
 
         $this->installSuspendedNodeAssignment( $installParameters );
@@ -1041,9 +1061,13 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
             // Begin from the object that we started from in the previous cycle
             if ( $firstInstalledID && $remoteID != $firstInstalledID )
+            {
                 continue;
+            }
             else
+            {
                 $firstInstalledID = null;
+            }
 
             $object =& eZContentObject::fetchByRemoteID( $remoteID );
             if ( is_object( $object ) )
