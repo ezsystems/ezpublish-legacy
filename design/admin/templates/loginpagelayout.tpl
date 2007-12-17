@@ -60,7 +60,7 @@ div#leftmenu-design { margin: 0.5em 4px 0.5em 0.5em; }
 <div id="header-design">
 
 <div id="logo">
-<img src={'ezpublish-logo-200x40.gif'|ezimage} width="200" height="40" alt="eZ Publish" border="0" />
+<img src={'ezpublish-logo-4-symbol.gif'|ezimage} width="256" height="40" alt="eZ Publish" border="0" />
 <p>version {fetch(setup,version)}</p>
 </div>
 
