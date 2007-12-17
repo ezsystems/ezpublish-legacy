@@ -1377,10 +1377,11 @@ class eZModule
      additional path.
      \param $moduleName The name of the module to find
      \param $pathList Is either an array with path strings or a single path string
+     \param $showError If true an error will be shown if the module it not found.
     */
-    static function exists( $moduleName, $pathList = null )
+    static function exists( $moduleName, $pathList = null, $showError = false )
     {
-        return eZModule::findModule( $moduleName, $pathList );
+        return eZModule::findModule( $moduleName, $pathList, $showError );
     }
 
     /*!
@@ -1392,8 +1393,9 @@ class eZModule
      additional path.
      \param $moduleName The name of the module to find
      \param $pathList Is either an array with path strings or a single path string
+     \param $showError If true an error will be shown if the module it not found.
     */
-    static function findModule( $moduleName, $pathList = null )
+    static function findModule( $moduleName, $pathList = null, $showError = false )
     {
         if ( $pathList === null )
             $pathList = array();
@@ -1441,7 +1443,8 @@ class eZModule
             if ( count( $triedDirList ) > 0 )
                 $msg.= "\nThese directories were tried but none of them exists:\n" . implode( ", ", $triedDirList );
         }
-        eZDebug::writeWarning( $msg );
+        if ( $showError )
+            eZDebug::writeWarning( $msg );
 
         return null;
     }
