@@ -1129,14 +1129,16 @@ class eZINI
         if ( is_array( $ret ) )
         {
             $arr = array();
-            foreach ( $ret as $retItem )
+            foreach ( $ret as $key => $retItem )
             {
-                $arr[] = explode( ";", $retItem );
+                $arr[$key] = explode( ";", $retItem );
             }
             $ret = $arr;
         }
         else if ( $ret !== false )
-            $ret = explode( ";", $ret );
+        {
+            $ret = trim( $ret ) === '' ? array() : explode( ";", $ret );
+        }
 
         return $ret;
     }
