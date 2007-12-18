@@ -35,3 +35,5 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #11861: treemenu always throw notice
 - Fixed bug #12170: Importing existing content objects with ezpm.php causes additional nodes with same remote id.
 - Fixed bug: strict warning about eZPackageHandler::errorChoosenAction
+- Fixed bug #10507: eZINI::variableArray() destroys array keys
+- Fixed bug #12271: eZINI::variableArray() does return array with one empty string
