@@ -87,7 +87,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
     /*!
      \reimp
     */
-    function title( &$collaborationItem )
+    function title( $collaborationItem )
     {
         return ezi18n( 'kernel/classes', 'Approval' );
     }
@@ -139,7 +139,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
      \reimp
      \return the number of messages for the approve item.
     */
-    function messageCount( &$collaborationItem )
+    function messageCount( $collaborationItem )
     {
         return eZCollaborationItemMessageLink::fetchItemCount( array( 'item_id' => $collaborationItem->attribute( 'id' ) ) );
     }
@@ -148,7 +148,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
      \reimp
      \return the number of unread messages for the approve item.
     */
-    function unreadMessageCount( &$collaborationItem )
+    function unreadMessageCount( $collaborationItem )
     {
         $lastRead = 0;
         $status = $collaborationItem->attribute( 'user_status' );
@@ -239,7 +239,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
      \reimp
      Adds a new comment, approves the item or denies the item.
     */
-    function handleCustomAction( &$module, &$collaborationItem )
+    function handleCustomAction( $module, $collaborationItem )
     {
         $redirectView = 'item';
         $redirectParameters = array( 'full', $collaborationItem->attribute( 'id' ) );
