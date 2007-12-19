@@ -276,7 +276,7 @@ class eZCollaborationItemHandler
     /*!
      \return true if the attribute \a $attribute exists in the content data.
     */
-    function hasContentAttribute( &$collaborationItem, $attribute )
+    function hasContentAttribute( $collaborationItem, $attribute )
     {
         $content = $collaborationItem->content();
         if ( is_array( $content ) )
@@ -289,7 +289,7 @@ class eZCollaborationItemHandler
     /*!
      \return the attribute \a $attribute if it exists in the content data or \c null.
     */
-    function contentAttribute( &$collaborationItem, $attribute )
+    function contentAttribute( $collaborationItem, $attribute )
     {
         $content = $collaborationItem->content();
         if ( is_array( $content ) )
@@ -330,7 +330,7 @@ class eZCollaborationItemHandler
     /*!
      \return the title of the collaboration item.
     */
-    function title( &$collaborationItem )
+    function title( $collaborationItem )
     {
         return $this->Info['type-name'];
     }
@@ -340,7 +340,7 @@ class eZCollaborationItemHandler
      \note The handler can either determine this by passing \a $useMessages to the constructor
            or by reimplementing this function to do it per item.
     */
-    function useMessages( &$collaborationItem )
+    function useMessages( $collaborationItem )
     {
         return $this->Info['use-messages'];
     }
@@ -350,7 +350,7 @@ class eZCollaborationItemHandler
      \note The default implementation returns 0, if you want real counts
            the handler must reimplement this function.
     */
-    function messageCount( &$collaborationItem )
+    function messageCount( $collaborationItem )
     {
         return 0;
     }
@@ -360,7 +360,7 @@ class eZCollaborationItemHandler
      \note The default implementation returns 0, if you want real counts
            the handler must reimplement this function.
     */
-    function unreadMessageCount( &$collaborationItem )
+    function unreadMessageCount( $collaborationItem )
     {
         return 0;
     }
@@ -379,7 +379,7 @@ class eZCollaborationItemHandler
      Reimplementing this function can be used to cleanup external tables
      or other resources.
     */
-    function removeItem( &$collaborationItem )
+    function removeItem( $collaborationItem )
     {
     }
 
@@ -434,7 +434,7 @@ class eZCollaborationItemHandler
      \note The default does nothing, the function must be reimplemented in real handlers.
      \sa isCustomAction
     */
-    function handleCustomAction( &$module, &$collaborationItem )
+    function handleCustomAction( $module, $collaborationItem )
     {
     }
 
