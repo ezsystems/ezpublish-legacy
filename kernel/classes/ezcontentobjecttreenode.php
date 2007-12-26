@@ -3343,7 +3343,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
       Fetches the main nodes for an array of object id's
     */
-    function findMainNodeArray( $objectIDArray, $asObject = true )
+    static function findMainNodeArray( $objectIDArray, $asObject = true )
     {
         if ( count( $objectIDArray ) )
         {
