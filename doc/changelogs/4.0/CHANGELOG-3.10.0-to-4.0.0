@@ -180,7 +180,6 @@ Changes from 3.10.0 to 4.0.0
   static or instance method
 - Fixed bug #12034: index_treemenu.php doesn't load DatabaseSettings from site.ini in extension.
   (Merged from stable/3.10 (3.10.1) rev. 20858)
-- Fixed bug #8969: Char transform cache file is not valid PHP
 - Fixed bug #12038: kernel-datatype-ezxmltext is on by default.
 - Fixed bug #12011: New debug css rules mess up table styles.
 - Fixed bug #12048: Missing check for for ID ezcontetclass - store.
