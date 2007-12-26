@@ -39,3 +39,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #10507: eZINI::variableArray() destroys array keys
 - Fixed bug #12271: eZINI::variableArray() does return array with one empty string
 - Fixed bug: unnecessary passing by reference in eZCollaborationItemHandler and subclasses
+- Fixed bug #12301: Strict standards: Non-static method eZUser::failedLoginAttempts() should not be called statically

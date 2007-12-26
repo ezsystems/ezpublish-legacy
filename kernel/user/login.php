@@ -337,7 +337,7 @@ if ( $loginWarning and isset( $GLOBALS['eZFailedLoginAttemptUserID'] ) )
     $showMessageIfExceeded = $ini->hasVariable( 'UserSettings', 'ShowMessageIfExceeded' ) ? $ini->variable( 'UserSettings', 'ShowMessageIfExceeded' ) == 'true' : false;
 
     $failedUserID = $GLOBALS['eZFailedLoginAttemptUserID'];
-    $failedLoginAttempts = eZUser::failedLoginAttempts( $failedUserID );
+    $failedLoginAttempts = eZUser::failedLoginAttemptsByUserID( $failedUserID );
 
     $canLogin = eZUser::isEnabledAfterFailedLogin( $failedUserID );
     if ( $showMessageIfExceeded and !$canLogin )

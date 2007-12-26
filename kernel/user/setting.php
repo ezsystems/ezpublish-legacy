@@ -87,7 +87,7 @@ if ( $http->hasPostVariable( "ResetFailedLoginButton" ) )
     eZUser::setFailedLoginAttempts( $UserID, 0, true );
 }
 
-$failedLoginAttempts = eZUser::failedLoginAttempts( $UserID );
+$failedLoginAttempts = $user->failedLoginAttempts();
 $maxFailedLoginAttempts = eZUser::maxNumberOfFailedLogin();
 
 $Module->setTitle( "Edit user settings" );
