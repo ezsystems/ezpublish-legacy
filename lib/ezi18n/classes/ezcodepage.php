@@ -427,10 +427,17 @@ class eZCodePage
         while ( ( $key = key( $this->UTF8Map ) ) !== null )
         {
             $item = $this->UTF8Map[$key];
-            $val = str_replace( array( "\\", "'" ),
-                                array( "\\\\", "\\'" ),
-                                $item );
-            $str .= "\$utf8map[$key] = '$val';\n";
+            if ( $item == 0 )
+            {
+                $str .= "\$utf8map[0] = chr(0);\n";
+            }
+            else
+            {
+                $val = str_replace( array( "\\", "'" ),
+                                    array( "\\\\", "\\'" ),
+                                    $item );
+                $str .= "\$utf8map[$key] = '$val';\n";
+            }
             next( $this->UTF8Map );
         }
         reset( $this->CodeMap );
