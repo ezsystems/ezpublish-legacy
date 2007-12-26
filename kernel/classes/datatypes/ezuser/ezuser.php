@@ -1297,29 +1297,23 @@ WHERE user_id = '" . $userID . "' AND
     /*!
       Returns the current user's number of failed login attempts.
     */
-    function failedLoginAttempts( $userID = false )
+    function failedLoginAttempts()
+    {
+        return eZUser::failedLoginAttemptsByUserID( $this->attribute( 'contentobject_id' ) );
+    }
+
+    /*!
+      Returns the current user's number of failed login attempts.
+    */
+    static function failedLoginAttemptsByUserID( $userID )
     {
         $db = eZDB::instance();
-
-        if ( $userID === false )
-        {
-            $contentObjectID = $this->attribute( 'contentobject_id' );
-        }
-        else
-        {
-            $contentObjectID = (int) $userID;
-        }
+        $contentObjectID = (int) $userID;
 
         $userVisitArray = $db->arrayQuery( "SELECT failed_login_attempts FROM ezuservisit WHERE user_id=$contentObjectID" );
-        if ( count( $userVisitArray ) == 1 )
-        {
-            return $userVisitArray[0]['failed_login_attempts'];
-        }
-        else
-        {
-            $retValue = 0;
-            return $retValue;
-        }
+
+        $failedLoginAttempts = count( $userVisitArray ) == 1 ? $userVisitArray[0]['failed_login_attempts'] : 0;
+        return $failedLoginAttempts;
     }
 
     /*!
