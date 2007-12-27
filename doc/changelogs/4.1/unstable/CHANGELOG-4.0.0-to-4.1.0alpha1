@@ -42,3 +42,5 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12301: Strict standards: Non-static method eZUser::failedLoginAttempts() should not be called statically
 - Fixed bug #12283: Non-static method eZContentObjectTreeNode::findMainNodeArray()
 - Fixed bug #8969: Char transform cache file is not valid PHP
+- Fixed bug #12170: Importing existing content objects with ezpm.php causes 
+  additional nodes with same remote id.
