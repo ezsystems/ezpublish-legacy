@@ -1000,17 +1000,6 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         {
             $realObjectNode = $this->getRealObjectNode( $objectNode );
 
-            //running non interactive and
-            //didn't installed anything yet and 
-            //already have an object with the same remote id
-            //so skip it
-            if ( isset( $installParameters['non-interactive'] ) && $installParameters['non-interactive'] &&
-                 !$firstInstalledID && 
-                 eZContentObject::fetchByRemoteID( $realObjectNode->attributeValue( 'remote_id' ) ) !== null )
-            {
-                continue;
-            }
-
             // Cycle until we reach an element where error has occured.
             // If action has been choosen, try install this item again, else skip it.
             if ( isset( $installParameters['error']['error_code'] ) &&

@@ -5640,6 +5640,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $parentNodeID = -1;
 
         $remoteID = $contentNodeDOMNode->attributeValue( 'remote-id' );
+        $parentNodeRemoteID = $contentNodeDOMNode->attributeValue( 'parent-node-remote-id' );
         $node = eZContentObjectTreeNode::fetchByRemoteID( $remoteID );
         if ( is_object( $node ) )
         {
@@ -5649,9 +5650,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $choosenAction = eZPackageHandler::errorChoosenAction( EZ_PACKAGE_CONTENTOBJECT_ERROR_EXISTS,
                                                                    $options, $description, $handlerType, false );
 
-            // In case user have choosen "Keep existing object and create new"
             switch( $choosenAction )
             {
+                // In case user have choosen "Keep existing object and create new"
                 case EZ_PACKAGE_CONTENTOBJECT_NEW:
                 {
                     $newRemoteID = md5( (string)mt_rand() . (string)mktime() );
@@ -5663,30 +5664,38 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     $nodeAssignment = eZPersistentObject::fetchObject( eZNodeAssignment::definition(),
                                                                        null,
                                                                        $nodeInfo );
-                    if( is_object( $nodeAssignment ) )
+                    if ( is_object( $nodeAssignment ) )
                     {
                         $nodeAssignment->setAttribute( 'parent_remote_id', $newRemoteID );
                         $nodeAssignment->store();
                     }
                 } break;
 
+                // When running non-interactively with ezpm.php
                 case EZ_PACKAGE_NON_INTERACTIVE:
                 {
-                    // Keep existing node settigns.
+                    // Update existing node settigns.
+                    if ( !$parentNodeRemoteID )
+                    {
+                        // when top node of subtree export, only update node sort field and sort order
+                        $node->setAttribute( 'sort_field', eZContentObjectTreeNode::sortFieldID( $contentNodeDOMNode->getAttribute( 'sort-field' ) ) );
+                        $node->setAttribute( 'sort_order', $contentNodeDOMNode->getAttribute( 'sort-order' ) );
+                        $node->store();
+                        return true;
+                    }
                 } break;
 
                 default:
                 {
                     // This error may occur only if data integrity is broken
                     $options['error'] = array( 'error_code' => EZ_PACKAGE_CONTENTOBJECT_ERROR_NODE_EXISTS,
-                                           'element_id' => $remoteID,
-                                           'description' => $description );
+                                               'element_id' => $remoteID,
+                                               'description' => $description );
                     return false;
                 } break;
             }
         }
 
-        $parentNodeRemoteID = $contentNodeDOMNode->attributeValue( 'parent-node-remote-id' );
         if ( $parentNodeRemoteID )
         {
             $parentNode = eZContentObjectTreeNode::fetchByRemoteID( $parentNodeRemoteID );
