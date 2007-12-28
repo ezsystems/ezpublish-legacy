@@ -46,3 +46,4 @@ Changes from 4.0.0 to 4.1.0alpha1
   additional nodes with same remote id.
 - Fixed bug #12308: Strict warnings about non-static methods eZMath::rgbToCMYK() and eZMath::rgbToCMYK2()
 - Fixed bug #11898: attribute_view_gui override condition does not work
+- Fixed bug #11976: Error: error executing query: UPDATE ezorder_status
