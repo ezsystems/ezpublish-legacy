@@ -49,7 +49,7 @@ if ( $http->hasPostVariable( "SaveOrderStatusButton" ) or
         // Only check the checkbox value if the has_input variable is set
         if ( $http->hasPostVariable( "orderstatus_active_has_input_" . $id ) )
         {
-            $orderStatus->setAttribute( 'is_active', $http->hasPostVariable( "orderstatus_active_" . $id ) );
+            $orderStatus->setAttribute( 'is_active', $http->hasPostVariable( "orderstatus_active_" . $id ) ? 1: 0 );
         }
         $orderStatus->sync();
     }
