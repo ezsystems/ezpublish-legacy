@@ -56,7 +56,7 @@ class eZMath
 
      \return normalized array
     */
-    function normalizeColorArray( $array )
+    static function normalizeColorArray( $array )
     {
         foreach ( array_keys( $array ) as $key )
         {
@@ -74,7 +74,7 @@ class eZMath
      \param RGB array
      \return CMYK array
     */
-    function rgbToCMYK( $rgbArray )
+    static function rgbToCMYK( $rgbArray )
     {
         $cya = 1 - min( 1, max( (float)$rgbArray['r'], 0 ) );
         $mag = 1 - min( 1, max( (float)$rgbArray['g'], 0 ) );
@@ -106,7 +106,7 @@ class eZMath
 
      \return CMYK return array
     */
-    function rgbToCMYK2( $r, $g, $b )
+    static function rgbToCMYK2( $r, $g, $b )
     {
         return eZMath::rgbToCMYK( array( 'r' => $r,
                                          'g' => $g,
