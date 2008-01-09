@@ -83,7 +83,7 @@ class eZSOAPServer
     }
 
 
-    function showResponse( $functionName, $namespaceURI, &$value )
+    function showResponse( $functionName, $namespaceURI, $value )
     {
         // Convert input data to XML
         $response = new eZSOAPResponse( $functionName, $namespaceURI );
@@ -135,7 +135,7 @@ class eZSOAPServer
     {
         global $HTTP_SERVER_VARS;
 
-        if ( $HTTP_SERVER_VARS["REQUEST_METHOD"] != "POST" )
+        if ( $_SERVER["REQUEST_METHOD"] != "POST" )
         {
             print( "Error: this web page does only understand POST methods" );
             exit();
@@ -159,13 +159,13 @@ class eZSOAPServer
         // get the SOAP body
         $body = $dom->getElementsByTagName( "Body" );
 
-        $children = $body[0]->children();
+        $children = $body->item( 0 )->childNodes;
 
         if ( count( $children ) == 1 )
         {
-            $requestNode = $children[0];
+            $requestNode = $children->item( 0 );
             // get target namespace for request
-            $functionName = $requestNode->name;
+            $functionName = $requestNode->localName;
             $namespaceURI = $requestNode->namespaceURI;
 
             $params = array();
