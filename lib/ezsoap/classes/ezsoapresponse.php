@@ -4,7 +4,7 @@
 //
 // Definition of eZSOAPResponse class
 //
-// Bård Farstad <bf@ez.no>
+// BÃ¥rd Farstad <bf@ez.no>
 // Created on: <19-Feb-2002 16:51:10 bf>
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
@@ -276,12 +276,9 @@ TODO: add encoding checks with schema validation.
         {
             // add the request
             $responseName = $this->Name . "Response";
-            $response = $doc->createElement( $responseName );
-            $response->prefix = "resp";
-            $response->setAttribute( 'xmlns:' . "resp", $this->Namespace );
+            $response = $doc->createElementNS( $this->Namespace, "resp:".$responseName );
 
             $return = $doc->createElement( "return" );
-            $return->prefix = "resp";
 
             $value = eZSOAPCodec::encodeValue( $doc, "return", $this->Value );
 
