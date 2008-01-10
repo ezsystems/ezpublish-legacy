@@ -50,3 +50,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #11160: Javascript error caused by non washed string in the template. (Discard draft)
 - Fixed bug #12343: Calling a SOAP function doesn't work
   (Merged from stable (4.0) rev 21112)
+- Fixed bug #012366: password hash type not imported correctly from content object package
