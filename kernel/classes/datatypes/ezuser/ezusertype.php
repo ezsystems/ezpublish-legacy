@@ -447,7 +447,7 @@ class eZUserType extends eZDataType
             $user->setAttribute( 'login', $userNode->getAttribute( 'login' ) );
             $user->setAttribute( 'email', $userNode->getAttribute( 'email' ) );
             $user->setAttribute( 'password_hash', $userNode->getAttribute( 'password_hash' ) );
-            $user->setAttribute( 'password_hash_type', eZUser::passwordHashTypeID( $userNode->getAttribute( 'passsword_hash_type' ) ) );
+            $user->setAttribute( 'password_hash_type', eZUser::passwordHashTypeID( $userNode->getAttribute( 'password_hash_type' ) ) );
             $user->store();
         }
     }
