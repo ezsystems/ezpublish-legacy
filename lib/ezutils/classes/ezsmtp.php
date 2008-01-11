@@ -66,28 +66,43 @@
         }
 
         /***************************************
-        ** Connect function.
-        ** It will connect to the server and send
+        ** Connect function. This will, when called
+        ** statically, create a new smtp object,
+        ** call the connect function (ie this function)
+        ** and return it. When not called statically,
+        ** it will connect to the server and send
         ** the HELO command.
         ***************************************/
 
         function connect($params = array())
         {
-            $this->connection = fsockopen( $this->host, $this->port, $errno, $errstr, $this->timeout );
-            if ( function_exists( 'socket_set_timeout' ) )
+            if ( !isset( $this->status ) )
             {
-                @socket_set_timeout( $this->connection, 5, 0 );
-            }
-
-            $greeting = $this->get_data();
-            if ( is_resource( $this->connection ) )
-            {
-                return $this->auth ? $this->ehlo() : $this->helo();
+                $obj = new smtp( $params );
+                if( $obj->connect() )
+                {
+                    $obj->status = smtp::STATUS_CONNECTED;
+                }
+                return $obj;
             }
             else
             {
-                $this->errors[] = 'Failed to connect to server: ' . $errstr;
-                return FALSE;
+                $this->connection = fsockopen( $this->host, $this->port, $errno, $errstr, $this->timeout );
+                if ( function_exists( 'socket_set_timeout' ) )
+                {
+                    @socket_set_timeout( $this->connection, 5, 0 );
+                }
+
+                $greeting = $this->get_data();
+                if ( is_resource( $this->connection ) )
+                {
+                    return $this->auth ? $this->ehlo() : $this->helo();
+                }
+                else
+                {
+                    $this->errors[] = 'Failed to connect to server: ' . $errstr;
+                    return FALSE;
+                }
             }
         }
 

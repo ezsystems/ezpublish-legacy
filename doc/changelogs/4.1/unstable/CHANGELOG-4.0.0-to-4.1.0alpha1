@@ -52,3 +52,4 @@ Changes from 4.0.0 to 4.1.0alpha1
   (Merged from stable (4.0) rev 21112)
 - Fixed bug #12366: password hash type not imported correctly from content object package
 - Fixed bug #12304: Wrong message in user/setting view for locked users
+- Fixed bug #12321: Error with sending an email with smtp
