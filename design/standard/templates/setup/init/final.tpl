@@ -13,12 +13,12 @@
 <p>
  <b>{"Note"|i18n("design/standard/setup/init")}:</b>
  {"The first time the user or admin site is accessed it will take some time (30 to 60 seconds). This is because eZ Publish prepares the site for your machine."|i18n("design/standard/setup/init")}
- {if $custom_text}
+</p>
+{if $custom_text}
     {foreach $custom_text as $text}
         <p>{$text.note}</p>
     {/foreach}
 {/if}
-</p>
 </blockquote>
 
 <fieldset>
