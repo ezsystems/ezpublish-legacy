@@ -56,3 +56,6 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12371: Error message during upgade to Webin 1.3
 - Fixed bug #8509: attribute names not working in sort_by for search fetches?
 - Fixed bug #12225: PDF text_block does not display the plus symbol
+- Fixed bug #12307: Special characters in pdf text_block operator are not handled correctly
+    and bug #10952: Problem with PDF and UTF8 in tables
+  (Manually merged from stable/3.10 (3.10.1) rev. 21141)
