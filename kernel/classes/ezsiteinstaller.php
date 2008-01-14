@@ -431,7 +431,7 @@ class eZSiteInstaller
         $classInfo = $params['class'];
         $attributesInfo = $params['attributes'];
 
-        $classID = isset( $classInfo['id'] ) ? $classInfo['id'] : false;;
+        $classID = isset( $classInfo['id'] ) ? $classInfo['id'] : false;
         if( $classID )
         {
             $class = eZContentClass::fetch( $classID );

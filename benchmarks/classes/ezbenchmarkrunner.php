@@ -159,7 +159,7 @@ class eZBenchmarkrunner
                 $function = $entry['function'];
                 if ( function_exists( $function ) )
                 {
-                    $repeatCount = $this->DefaultRepeatCount;;
+                    $repeatCount = $this->DefaultRepeatCount;
                     if ( isset( $entry['repeat_count'] ) )
                         $repeatCount = $entry['repeat_count'];
 

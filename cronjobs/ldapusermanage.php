@@ -303,7 +303,7 @@ foreach ( $LDAPUsers as $LDAPUser )
             $otherNodeArray = array();
             $LDAPNodeArray = array();
             $newLDAPNodeArray = array();
-            $parentNodes = $contentObject->parentNodes( $currentVersion );;
+            $parentNodes = $contentObject->parentNodes( $currentVersion );
             foreach( $parentNodes as $parentNode )
             {
                 $parentNodeID = $parentNode->attribute( 'node_id' );

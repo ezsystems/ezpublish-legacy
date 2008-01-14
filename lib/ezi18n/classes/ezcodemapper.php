@@ -1522,7 +1522,7 @@ class eZCodeMapper
                 }
                 else if ( count( $parameters ) == 2 )
                 {
-                    $rule = $parameters[0] . $divider . $parameters[1];;
+                    $rule = $parameters[0] . $divider . $parameters[1];
                     if ( in_array( $rule, $names ) )
                         $rules[] = $rule;
                 }

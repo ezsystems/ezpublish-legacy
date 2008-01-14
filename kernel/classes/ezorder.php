@@ -1301,7 +1301,7 @@ class eZOrder extends eZPersistentObject
             //include_once( 'kernel/classes/ezorderstatus.php' );
             $this->Status = eZOrderStatus::fetchByStatus( $this->StatusID );
         }
-        return $this->Status->attribute( 'name' );;
+        return $this->Status->attribute( 'name' );
     }
 
     /*!
