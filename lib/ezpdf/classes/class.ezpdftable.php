@@ -2564,7 +2564,7 @@ class eZPDFTable extends Cezpdf
         $marginText .= ':justification:' . ( isset( $params['align'] ) ? $params['align'] : 'left' );
         $marginText .= '>';
 
-        $this->ezText( $marginText . urldecode( $text ) . '</ezCall:callText>' );
+        $this->ezText( $marginText . $text . '</ezCall:callText>' );
 
         $this->popStack();
     }
