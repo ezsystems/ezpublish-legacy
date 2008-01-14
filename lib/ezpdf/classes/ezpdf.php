@@ -169,7 +169,7 @@ class eZPDF
                 $rows = str_replace( array( ' ', "\t", "\r\n", "\n" ),
                                                           '',
                                                           $rows );
-                include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+                //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
                 $httpCharset = eZTextCodec::internalCharset();
                 $outputCharset = $config->hasVariable( 'PDFGeneral', 'OutputCharset' )
                                  ? $config->variable( 'PDFGeneral', 'OutputCharset' )
@@ -421,7 +421,7 @@ class eZPDF
 
                 if ( isset( $frameDesc['block_code'] ) )
                 {
-                    include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+                    //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
                     $httpCharset = eZTextCodec::internalCharset();
                     $outputCharset = $config->hasVariable( 'PDFGeneral', 'OutputCharset' )
                                  ? $config->variable( 'PDFGeneral', 'OutputCharset' )
@@ -497,7 +497,7 @@ class eZPDF
 
                 if ( isset( $frameDesc['text'] ) )
                 {
-                    include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+                    //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
                     $httpCharset = eZTextCodec::internalCharset();
                     $outputCharset = $config->hasVariable( 'PDFGeneral', 'OutputCharset' )
                                  ? $config->variable( 'PDFGeneral', 'OutputCharset' )
@@ -646,7 +646,7 @@ class eZPDF
                 $text = str_replace( array( ' ', "\t", "\r\n", "\n" ),
                                      '',
                                      $text );
-                include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+                //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
                 $httpCharset = eZTextCodec::internalCharset();
                 $outputCharset = $config->hasVariable( 'PDFGeneral', 'OutputCharset' )
                              ? $config->variable( 'PDFGeneral', 'OutputCharset' )
@@ -689,7 +689,7 @@ class eZPDF
                 $text = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
                 $text = str_replace( array( ' ', "\n", "\t" ), '', $text );
-                include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+                //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
                 $httpCharset = eZTextCodec::internalCharset();
                 $outputCharset = $config->hasVariable( 'PDFGeneral', 'OutputCharset' )
                              ? $config->variable( 'PDFGeneral', 'OutputCharset' )
@@ -1016,7 +1016,7 @@ class eZPDF
                     }
                 }
 
-                include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+                //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
                 $httpCharset = eZTextCodec::internalCharset();
                 $outputCharset = $config->hasVariable( 'PDFGeneral', 'OutputCharset' )
                              ? $config->variable( 'PDFGeneral', 'OutputCharset' )
@@ -1076,7 +1076,7 @@ class eZPDF
                             }
                         }
 
-                        include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+                        //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
                         $httpCharset = eZTextCodec::internalCharset();
                         $outputCharset = $config->hasVariable( 'PDFGeneral', 'OutputCharset' )
                                      ? $config->variable( 'PDFGeneral', 'OutputCharset' )
