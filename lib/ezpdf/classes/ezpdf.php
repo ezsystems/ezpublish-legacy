@@ -79,6 +79,8 @@ class eZPDF
     */
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
+        $config =& eZINI::instance( 'pdf.ini' );
+
         switch ( $namedParameters['operation'] )
         {
             case 'toc':
@@ -136,23 +138,26 @@ class eZPDF
                 {
                     $tableSettings = $tpl->elementValue( $operatorParameters[2], $rootNamespace, $currentNamespace );
 
-                    foreach( array_keys( $tableSettings ) as $key )
+                    if ( is_array( $tableSettings ) )
                     {
-                        switch( $key )
+                        foreach( array_keys( $tableSettings ) as $key )
                         {
-                            case 'headerCMYK':
-                            case 'cellCMYK':
-                            case 'textCMYK':
-                            case 'titleCellCMYK':
-                            case 'titleTextCMYK':
+                            switch( $key )
                             {
-                                $operatorValue .= ':' . $key . ':' . implode( ',', $tableSettings[$key] );
-                            } break;
+                                case 'headerCMYK':
+                                case 'cellCMYK':
+                                case 'textCMYK':
+                                case 'titleCellCMYK':
+                                case 'titleTextCMYK':
+                                {
+                                    $operatorValue .= ':' . $key . ':' . implode( ',', $tableSettings[$key] );
+                                } break;
 
-                            default:
-                            {
-                                $operatorValue .= ':' . $key . ':' . $tableSettings[$key];
-                            } break;
+                                default:
+                                {
+                                    $operatorValue .= ':' . $key . ':' . $tableSettings[$key];
+                                } break;
+                            }
                         }
                     }
                 }
@@ -161,9 +166,19 @@ class eZPDF
 
                 $rows = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
-                $operatorValue .= urlencode( str_replace( array( ' ', "\t", "\r\n", "\n" ),
+                $rows = str_replace( array( ' ', "\t", "\r\n", "\n" ),
                                                           '',
-                                                          $rows ) );
+                                                          $rows );
+                include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+                $httpCharset = eZTextCodec::internalCharset();
+                $outputCharset = $config->hasVariable( 'PDFGeneral', 'OutputCharset' )
+                                 ? $config->variable( 'PDFGeneral', 'OutputCharset' )
+                                 : 'iso-8859-1';
+                $codec =& eZTextCodec::instance( $httpCharset, $outputCharset );
+                // Convert current text to $outputCharset (by default iso-8859-1)
+                $rows =& $codec->convertString( $rows );
+
+                $operatorValue .= urlencode( $rows );
 
                 $operatorValue .= '</ezGroup:callTable><C:callNewLine>';
 
@@ -309,8 +324,6 @@ class eZPDF
             /* usage : execute/add text to pdf file, pdf(execute,<text>) */
             case 'execute':
             {
-                $config =& eZINI::instance( 'pdf.ini' );
-
                 $text = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
                 if ( count ( $operatorParameters ) > 2 )
@@ -408,6 +421,14 @@ class eZPDF
 
                 if ( isset( $frameDesc['block_code'] ) )
                 {
+                    include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+                    $httpCharset = eZTextCodec::internalCharset();
+                    $outputCharset = $config->hasVariable( 'PDFGeneral', 'OutputCharset' )
+                                 ? $config->variable( 'PDFGeneral', 'OutputCharset' )
+                                 : 'iso-8859-1';
+                    $codec =& eZTextCodec::instance( $httpCharset, $outputCharset );
+                    // Convert current text to $outputCharset (by default iso-8859-1)
+                    $frameDesc['block_code'] =& $codec->convertString( $frameDesc['block_code'] );
                     $operatorValue .= urlencode( $frameDesc['block_code'] );
                 }
 
@@ -476,6 +497,14 @@ class eZPDF
 
                 if ( isset( $frameDesc['text'] ) )
                 {
+                    include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+                    $httpCharset = eZTextCodec::internalCharset();
+                    $outputCharset = $config->hasVariable( 'PDFGeneral', 'OutputCharset' )
+                                 ? $config->variable( 'PDFGeneral', 'OutputCharset' )
+                                 : 'iso-8859-1';
+                    $codec =& eZTextCodec::instance( $httpCharset, $outputCharset );
+                    // Convert current text to $outputCharset (by default iso-8859-1)
+                    $frameDesc['text'] =& $codec->convertString( $frameDesc['text'] );
                     $operatorValue .= urlencode( $frameDesc['text'] );
                 }
 
@@ -617,6 +646,14 @@ class eZPDF
                 $text = str_replace( array( ' ', "\t", "\r\n", "\n" ),
                                      '',
                                      $text );
+                include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+                $httpCharset = eZTextCodec::internalCharset();
+                $outputCharset = $config->hasVariable( 'PDFGeneral', 'OutputCharset' )
+                             ? $config->variable( 'PDFGeneral', 'OutputCharset' )
+                             : 'iso-8859-1';
+                $codec =& eZTextCodec::instance( $httpCharset, $outputCharset );
+                // Convert current text to $outputCharset (by default iso-8859-1)
+                $text =& $codec->convertString( $text );
 
                 $operatorValue .= '>'. urlencode( $text ) .'</ezGroup:callFrontpage>';
 
@@ -652,6 +689,14 @@ class eZPDF
                 $text = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
                 $text = str_replace( array( ' ', "\n", "\t" ), '', $text );
+                include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+                $httpCharset = eZTextCodec::internalCharset();
+                $outputCharset = $config->hasVariable( 'PDFGeneral', 'OutputCharset' )
+                             ? $config->variable( 'PDFGeneral', 'OutputCharset' )
+                             : 'iso-8859-1';
+                $codec =& eZTextCodec::instance( $httpCharset, $outputCharset );
+                // Convert current text to $outputCharset (by default iso-8859-1)
+                $text =& $codec->convertString( $text );
 
                 $operatorValue = '<C:callKeyword:'. rawurlencode( $text ) .'>';
             } break;
@@ -971,6 +1016,15 @@ class eZPDF
                     }
                 }
 
+                include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+                $httpCharset = eZTextCodec::internalCharset();
+                $outputCharset = $config->hasVariable( 'PDFGeneral', 'OutputCharset' )
+                             ? $config->variable( 'PDFGeneral', 'OutputCharset' )
+                             : 'iso-8859-1';
+                $codec =& eZTextCodec::instance( $httpCharset, $outputCharset );
+                // Convert current text to $outputCharset (by default iso-8859-1)
+                $parameters['text'] =& $codec->convertString( $parameters['text'] );
+
                 $operatorValue .= '>';
                 $operatorValue .= urlencode( $parameters['text'] );
                 $operatorValue .= '</ezGroup:callTextBox>';
@@ -1021,6 +1075,15 @@ class eZPDF
                                 $operatorValue .= ':' . $key . ':' . $textSettings[$key];
                             }
                         }
+
+                        include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+                        $httpCharset = eZTextCodec::internalCharset();
+                        $outputCharset = $config->hasVariable( 'PDFGeneral', 'OutputCharset' )
+                                     ? $config->variable( 'PDFGeneral', 'OutputCharset' )
+                                     : 'iso-8859-1';
+                        $codec =& eZTextCodec::instance( $httpCharset, $outputCharset );
+                        // Convert current text to $outputCharset (by default iso-8859-1)
+                        $text =& $codec->convertString( $text );
 
                         $operatorValue .= '>' . urlencode( $text ) . '</ezGroup::callTextFrame>';
 
