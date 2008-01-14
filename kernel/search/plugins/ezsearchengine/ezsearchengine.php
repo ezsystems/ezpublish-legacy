@@ -1225,7 +1225,12 @@ class eZSearchEngine
                         {
                             $sortClassID = $sortBy[2];
                             // Look up datatype for sorting
-                            $sortDataType = eZContentObjectTreeNode::sortKeyByClassAttributeID( $sortClassID );
+                            if ( !is_numeric( $sortClassID ) )
+                            {
+                                $sortClassID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $sortClassID );
+                            }
+
+                            $sortDataType = $sortClassID === false ? false : eZContentObjectTreeNode::sortKeyByClassAttributeID( $sortClassID );
 
                             $sortKey = false;
                             if ( $sortDataType == 'string' )
