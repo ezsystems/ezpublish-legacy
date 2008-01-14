@@ -1984,8 +1984,8 @@ class eZPackage
             foreach ( $maintainerNodes as $maintainerNode )
             {
                 $maintainerName = $maintainerNode->getElementsByTagName( 'name' )->item( 0 )->textContent;
-                $maintainerEmail = $maintainerNode->getElementsByTagName( 'email' )->item( 0 )->textContent;;
-                $maintainerRole = $maintainerNode->getElementsByTagName( 'role' )->item( 0 )->textContent;;
+                $maintainerEmail = $maintainerNode->getElementsByTagName( 'email' )->item( 0 )->textContent;
+                $maintainerRole = $maintainerNode->getElementsByTagName( 'role' )->item( 0 )->textContent;
                 $this->appendMaintainer( $maintainerName, $maintainerEmail, $maintainerRole );
             }
         }
