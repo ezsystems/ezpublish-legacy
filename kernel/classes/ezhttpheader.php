@@ -104,7 +104,7 @@ class eZHTTPHeader
         }
         else
         {
-            $uriCopy = $uri;
+            $uriCopy = clone $uri;
             eZURLAliasML::translate( $uriCopy );
             if ( strpos( $uriCopy->uriString(), 'content/view' ) === 0 )
             {
