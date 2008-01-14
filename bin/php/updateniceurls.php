@@ -66,7 +66,7 @@ $dbHost = isset( $options['db-host'] ) && $options['db-host'] ? $options['db-hos
 $dbName = $options['db-database'] ? $options['db-database'] : false;
 $dbImpl = $options['db-driver'] ? $options['db-driver'] : false;
 $showSQL = $options['sql'] ? true : false;
-$siteAccess = $options['siteaccess'] ? $options['siteaccess'] : false;;
+$siteAccess = $options['siteaccess'] ? $options['siteaccess'] : false;
 if ( $siteAccess )
 {
     changeSiteAccessSetting( $siteaccess, $siteAccess );

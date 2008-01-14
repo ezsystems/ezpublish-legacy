@@ -116,7 +116,7 @@ class eZScript
         $this->CurrentOptions = false;
         $this->CurrentOptionConfig = false;
         $this->CurrentStandardOptions = false;
-        $this->CurrentExcludeOptions = false;;
+        $this->CurrentExcludeOptions = false;
         $this->CurrentOptionHelp = false;
 
         $this->IterationTrueString = '.';

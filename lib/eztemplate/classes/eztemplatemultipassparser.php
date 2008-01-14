@@ -911,7 +911,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         $lastValStartPos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $toEndPos, $text_len );
 
         // parse last value
-        $args['last_val'] = $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $lastValStartPos, $lastValEndPos, $text_len, $rootNamespace );;
+        $args['last_val'] = $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $lastValStartPos, $lastValEndPos, $text_len, $rootNamespace );
 
         $asStartPos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $lastValEndPos, $text_len );
 
@@ -1024,7 +1024,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
             elseif ( $paramName == 'max' )
             {
                 $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
-                $args['max'] = $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );;
+                $args['max'] = $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
             }
             elseif ( $paramName == 'reverse' )
             {
