@@ -161,9 +161,9 @@ function ContentStructureMenu()
                 }
                 firstLanguage = false;
                 languages += "{locale:'"
-                    + item.languages[j].replace(/'/,"\\'")
+                    + item.languages[j].replace(/'/g,"\\'")
                     + "',name:'"
-                    + this.languages[item.languages[j]].replace(/'/,"\\'")
+                    + this.languages[item.languages[j]].replace(/'/g,"\\'")
                     + "'}";
             }
         }
@@ -189,7 +189,7 @@ function ContentStructureMenu()
                         classes += "{classID:'"
                             + classList[j]
                             + "',name:'"
-                            + String(this.classes[classList[j]].name).replace(/'/,"\\'")
+                            + String(this.classes[classList[j]].name).replace(/'/g,"\\'").replace(/>/g,'&gt;').replace(/"/g,'&quot;')
                             + "'}";
                     }
                 }
@@ -206,7 +206,7 @@ function ContentStructureMenu()
                     classes += "{classID:'"
                         + j
                         + "',name:'"
-                        + String(this.classes[j].name).replace(/'/,"\\'")
+                        + String(this.classes[j].name).replace(/'/g,"\\'").replace(/>/g,'&gt;').replace(/"/g,'&quot;')
                         + "'}";
                 }
             }
@@ -226,7 +226,7 @@ function ContentStructureMenu()
                 + ', \'%classList%\':'
                 + classes
                 + ' }, \''
-                + String(item.name).replace(/'/,"\\'")
+                + String(item.name).replace(/'/g,"\\'").replace(/>/g,'&gt;').replace(/"/g,'&quot;')
                 + '\', '
                 + item.node_id
                 + ', '
@@ -235,9 +235,9 @@ function ContentStructureMenu()
                 + ' ); return false"><img src="'
                 + icon
                 + '" alt="" title="['
-                + this.classes[item.class_id].name
+                + this.classes[item.class_id].name.replace(/>/g,'&gt;').replace(/"/g, '&quot;')
 {/literal}
-                + '] {"Click on the icon to display a context-sensitive menu."|i18n('design/admin/contentstructuremenu')}" /></a>';
+                + '] {"Click on the icon to display a context-sensitive menu."|i18n('design/admin/contentstructuremenu')|wash(xhtml)|wash(javascript)}" /></a>';
 {literal}
         }
         else
@@ -254,12 +254,12 @@ function ContentStructureMenu()
         if ( this.showTips )
         {
 {/literal}
-            html += ' title="{"Node ID"|i18n('design/admin/contentstructuremenu')}: '
+            html += ' title="{"Node ID"|i18n('design/admin/contentstructuremenu')|wash(xhtml)|wash(javascript)}: '
                 + item.node_id
-                + ' {"Visibility"|i18n('design/admin/contentstructuremenu')}: '
-                + ( ( item.is_hidden )? '{"Hidden"|i18n('design/admin/contentstructuremenu')}':
-                                        ( item.is_invisible )? '{"Hidden by superior"|i18n('design/admin/contentstructuremenu')}':
-                                                               '{"Visible"|i18n('design/admin/contentstructuremenu')}' )
+                + ' {"Visibility"|i18n('design/admin/contentstructuremenu')|wash(xhtml)|wash(javascript)}: '
+                + ( ( item.is_hidden )? '{"Hidden"|i18n('design/admin/contentstructuremenu')|wash(xhtml)|wash(javascript)}':
+                                        ( item.is_invisible )? '{"Hidden by superior"|i18n('design/admin/contentstructuremenu')|wash(xhtml)|wash(javascript)}':
+                                                               '{"Visible"|i18n('design/admin/contentstructuremenu')|wash(xhtml)|wash(javascript)}' )
                 + '"';
 {literal}
         }
@@ -275,13 +275,13 @@ function ContentStructureMenu()
         if ( item.is_hidden )
         {
 {/literal}
-            html += '<span class="node-hidden"> ({"Hidden"|i18n('design/admin/contentstructuremenu')})</span>';
+            html += '<span class="node-hidden"> ({"Hidden"|i18n('design/admin/contentstructuremenu')|wash(xhtml)|wash(javascript)})</span>';
 {literal}
         }
         else if ( item.is_invisible )
         {
 {/literal}
-            html += '<span class="node-hiddenbyparent"> ({"Hidden by superior"|i18n('design/admin/contentstructuremenu')})</span>';
+            html += '<span class="node-hiddenbyparent"> ({"Hidden by superior"|i18n('design/admin/contentstructuremenu')|wash(xhtml)|wash(javascript)})</span>';
 {literal}
         }
 
@@ -439,21 +439,21 @@ function ContentStructureMenu()
                             case 403:
                             {
 {/literal}
-                                aElement.title = '{"Dynamic tree not allowed for this siteaccess"|i18n('design/admin/contentstructuremenu')}';
+                                aElement.title = '{"Dynamic tree not allowed for this siteaccess"|i18n('design/admin/contentstructuremenu')|wash(javascript)}';
 {literal}
                             } break;
 
                             case 404:
                             {
 {/literal}
-                                aElement.title = '{"Node does not exist"|i18n('design/admin/contentstructuremenu')}';
+                                aElement.title = '{"Node does not exist"|i18n('design/admin/contentstructuremenu')|wash(javascript)}';
 {literal}
                             } break;
 
                             case 500:
                             {
 {/literal}
-                                aElement.title = '{"Internal error"|i18n('design/admin/contentstructuremenu')}';
+                                aElement.title = '{"Internal error"|i18n('design/admin/contentstructuremenu')|wash(javascript)}';
 {literal}
                             } break;
                         }
