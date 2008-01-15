@@ -82,7 +82,12 @@
             $greeting = $this->get_data();
             if ( is_resource( $this->connection ) )
             {
-                return $this->auth ? $this->ehlo() : $this->helo();
+                $result = $this->auth ? $this->ehlo() : $this->helo();
+                if ( $result )
+                {
+                    $this->status = smtp::STATUS_CONNECTED;
+                }
+                return $result;
             }
             else
             {
