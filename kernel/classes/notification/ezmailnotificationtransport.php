@@ -85,6 +85,8 @@ class eZMailNotificationTransport extends eZNotificationTransport
             $mail->addExtraHeader( 'In-Reply-To', $parameters['reply_to'] );
         if ( isset( $parameters['from'] ) )
             $mail->setSenderText( $parameters['from'] );
+        if ( isset( $parameters['content_type'] ) )
+            $mail->setContentType( $parameters['content_type'] );
         $mailResult = eZMailTransport::send( $mail );
         return $mailResult;
     }

@@ -91,6 +91,8 @@ if ( strlen( $hashKey ) == 32 )
         $subject = ezi18n( 'kernel/user/register', 'Registration info' );
         if ( $tpl->hasVariable( 'subject' ) )
             $subject = $tpl->variable( 'subject' );
+        if ( $tpl->hasVariable( 'content_type' ) )
+            $mail->setContentType( $tpl->variable( 'content_type' ) );
         $mail->setSubject( $subject );
         $mail->setBody( $templateResult );
         $mailResult = eZMailTransport::send( $mail );
@@ -158,6 +160,8 @@ if ( $module->isCurrentAction( "Generate" ) )
             $http = eZHTTPTool::instance();
             $http->UseFullUrl = true;
             $templateResult = $tpl->fetch( 'design:user/forgotpasswordmail.tpl' );
+            if ( $tpl->hasVariable( 'content_type' ) )
+                $mail->setContentType( tpl->variable( 'content_type' ) );
             $http->UseFullUrl = false;
             $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
             if ( !$emailSender )

@@ -78,6 +78,9 @@ class eZDefaultConfirmOrderHandler
             if ( !$emailSender )
                 $emailSender = $ini->variable( "MailSettings", "AdminEmail" );
 
+            if ( $tpl->hasVariable( 'content_type' ) )
+                $mail->setContentType( $tpl->variable( 'content_type' ) );
+
             $mail->setReceiver( $email );
             $mail->setSender( $emailSender );
             $mail->setSubject( $subject );
@@ -87,6 +90,9 @@ class eZDefaultConfirmOrderHandler
             $email = $ini->variable( 'MailSettings', 'AdminEmail' );
 
             $mail = new eZMail();
+
+            if ( $tpl->hasVariable( 'content_type' ) )
+                $mail->setContentType( $tpl->variable( 'content_type' ) );
 
             $mail->setReceiver( $email );
             $mail->setSender( $emailSender );

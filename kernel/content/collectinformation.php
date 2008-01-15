@@ -281,6 +281,9 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
             $ini = eZINI::instance();
             $mail = new eZMail();
 
+            if ( $tpl->hasVariable( 'content_type' ) )
+                $mail->setContentType( $tpl->variable( 'content_type' ) );
+
             if ( !$mail->validate( $receiver ) )
             {
                 $receiver = $ini->variable( "InformationCollectionSettings", "EmailReceiver" );

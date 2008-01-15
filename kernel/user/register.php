@@ -206,6 +206,8 @@ if ( !function_exists( 'checkContentActions' ) )
             }
 
             $templateResult = $tpl->fetch( 'design:user/registrationinfo.tpl' );
+            if ( $tpl->hasVariable( 'content_type' ) )
+                $mail->setContentType( $tpl->variable( 'content_type' ) );
             $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
             if ( !$emailSender )
                 $emailSender = $ini->variable( 'MailSettings', 'AdminEmail' );
@@ -231,6 +233,9 @@ if ( !function_exists( 'checkContentActions' ) )
                         $tpl->setVariable( 'object', $object );
                         $tpl->setVariable( 'hostname', $hostname );
                         $templateResult = $tpl->fetch( 'design:user/registrationfeedback.tpl' );
+
+                        if ( $tpl->hasVariable( 'content_type' ) )
+                            $mail->setContentType( $tpl->variable( 'content_type' ) );
 
                         $feedbackReceiver = $ini->variable( 'UserSettings', 'RegistrationEmail' );
                         if ( !$feedbackReceiver )

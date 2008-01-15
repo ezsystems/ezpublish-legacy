@@ -193,6 +193,8 @@ class eZCollaborationItemHandler
                 $parameters['reply_to'] = $tpl->variable( 'reply_to' );
             if ( $tpl->hasVariable( 'from' ) )
                 $parameters['from'] = $tpl->variable( 'from' );
+            if ( $tpl->hasVariable( 'content_type' ) )
+                $parameters['content_type'] = $tpl->variable( 'content_type' );
 
             $collection = eZNotificationCollection::create( $event->attribute( 'id' ),
                                                             eZCollaborationNotificationHandler::NOTIFICATION_HANDLER_ID,
@@ -246,6 +248,8 @@ class eZCollaborationItemHandler
                     $parameters['reply_to'] = $tpl->variable( 'reply_to' );
                 if ( $tpl->hasVariable( 'from' ) )
                     $parameters['from'] = $tpl->variable( 'from' );
+                if ( $tpl->hasVariable( 'content_type' ) )
+                    $parameters['content_type'] = $tpl->variable( 'content_type' );
 
                 $collection = eZNotificationCollection::create( $event->attribute( 'id' ),
                                                                 eZCollaborationNotificationHandler::NOTIFICATION_HANDLER_ID,

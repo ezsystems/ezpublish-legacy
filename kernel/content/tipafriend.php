@@ -163,6 +163,9 @@ if ( $http->hasPostVariable( 'SendButton' ) )
         $mailtpl->setVariable( 'receivers_email', $receiversEmail );
         $mailtpl->setVariable( 'comment', $comment );
         $mailtext = $mailtpl->fetch( 'design:content/tipafriendmail.tpl' );
+        
+        if ( $mailtpl->hasVariable( 'content_type' ) )
+            $mail->setContentType( $mailtpl->variable( 'content_type' ) );
 
         $mail->setBody( $mailtext );
 
