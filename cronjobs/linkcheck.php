@@ -34,8 +34,6 @@ include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
 include_once( "lib/ezutils/classes/ezini.php" );
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 
-ini_set( 'user_agent', 'eZ Publish Link Validator' );
-
 if ( !$isQuiet )
     $cli->output( "Checking link ..." );
 
@@ -82,7 +80,7 @@ foreach ( array_keys( $linkList ) as $key )
                   preg_match("/^(file:)/i", $url ) or
                   preg_match("/^(ftp:)/i", $url ) )
         {
-            if ( !eZHTTPTool::getDataByURL( $url, true ) )
+            if ( !eZHTTPTool::getDataByURL( $url, true, 'eZ Publish Link Validator' ) )
             {
                 if ( $isValid )
                     eZURL::setIsValid( $linkID, false );
