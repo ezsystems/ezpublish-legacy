@@ -425,8 +425,8 @@ class eZHTTPTool
         {
             return $_SERVER['PHP_AUTH_USER'];
         }
-        elseif ( substr( php_sapi_name(), 0, 3 ) == 'cgi' and 
-                 array_key_exists( $AUTHKey, $_SERVER ) and 
+        elseif ( substr( php_sapi_name(), 0, 3 ) == 'cgi' and
+                 array_key_exists( $AUTHKey, $_SERVER ) and
                  preg_match('/Basic\s+(.*)$/i', $_SERVER[$AUTHKey], $matches ) )
         {
             list( $name, $password ) = explode( ':', base64_decode( $matches[1] ) );
@@ -450,8 +450,8 @@ class eZHTTPTool
         {
             return $_SERVER['PHP_AUTH_PW'];
         }
-        elseif ( substr( php_sapi_name(), 0, 3 ) == 'cgi' and 
-                 array_key_exists( $AUTHKey, $_SERVER ) and 
+        elseif ( substr( php_sapi_name(), 0, 3 ) == 'cgi' and
+                 array_key_exists( $AUTHKey, $_SERVER ) and
                  preg_match('/Basic\s+(.*)$/i', $_SERVER[$AUTHKey], $matches ) )
         {
             list( $name, $password ) = explode( ':', base64_decode( $matches[1] ) );
@@ -738,7 +738,7 @@ class eZHTTPTool
      \param $justCheckURL if true, we should check url only not downloading data.
      \return data from \p $url, false if invalid URL
     */
-    static function getDataByURL( $url, $justCheckURL = false )
+    static function getDataByURL( $url, $justCheckURL = false, $userAgent = false )
     {
         // First try CURL
         if ( extension_loaded( 'curl' ) )
@@ -749,6 +749,11 @@ class eZHTTPTool
                 curl_setopt( $ch, CURLOPT_TIMEOUT, 15 );
                 curl_setopt( $ch, CURLOPT_FAILONERROR, 1 );
                 curl_setopt( $ch, CURLOPT_NOBODY, 1 );
+            }
+
+            if ( $userAgent )
+            {
+                curl_setopt( $ch, CURLOPT_USERAGENT, $userAgent );
             }
 
             $ini = eZINI::instance();
@@ -784,6 +789,12 @@ class eZHTTPTool
 
             return $data;
         }
+
+        if ( $userAgent )
+        {
+            ini_set( 'user_agent', $userAgent );
+        }
+
         // Open and read url
         $fid = fopen( $url, 'r' );
         if ( $fid === false )
