@@ -58,7 +58,7 @@ foreach ( array_keys( $rssImportArray ) as $rssImportKey )
         $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Starting.' );
     }
 
-    $xmlData = eZHTTPTool::getDataByURL( $rssSource );
+    $xmlData = eZHTTPTool::getDataByURL( $rssSource, false, 'eZ Publish RSS Import' );
     if ( $xmlData === false )
     {
         if ( !$isQuiet )

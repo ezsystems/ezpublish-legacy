@@ -685,7 +685,7 @@ class eZHTTPTool
      \param $justCheckURL if true, we should check url only not downloading data.
      \return data from \p $url, false if invalid URL
     */
-    function getDataByURL( $url, $justCheckURL = false )
+    function getDataByURL( $url, $justCheckURL = false, $userAgent = false )
     {
         // First try CURL
         if ( extension_loaded( 'curl' ) )
@@ -696,6 +696,11 @@ class eZHTTPTool
                 curl_setopt( $ch, CURLOPT_TIMEOUT, 15 );
                 curl_setopt( $ch, CURLOPT_FAILONERROR, 1 );
                 curl_setopt( $ch, CURLOPT_NOBODY, 1 );
+            }
+
+            if ( $userAgent )
+            {
+                curl_setopt( $ch, CURLOPT_USERAGENT, $userAgent );
             }
 
             $ini =& eZINI::instance();
@@ -731,6 +736,12 @@ class eZHTTPTool
 
             return $data;
         }
+
+        if ( $userAgent )
+        {
+            ini_set( 'user_agent', $userAgent );
+        }
+
         // Open and read url
         $fid = fopen( $url, 'r' );
         if ( $fid === false )
