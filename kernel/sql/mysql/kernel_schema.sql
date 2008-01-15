@@ -1631,6 +1631,7 @@ CREATE TABLE ezworkflow_event (
   data_text2 varchar(50) default NULL,
   data_text3 varchar(50) default NULL,
   data_text4 varchar(50) default NULL,
+  data_text5 longtext,
   description varchar(50) NOT NULL default '',
   id int(11) NOT NULL auto_increment,
   placement int(11) NOT NULL default '0',

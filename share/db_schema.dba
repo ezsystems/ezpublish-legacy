@@ -7270,6 +7270,11 @@ $schema = array (
         'type' => 'varchar',
         'default' => NULL,
       ),
+      'data_text5' => 
+      array (
+        'type' => 'longtext',
+        'default' => false,
+      ),
       'description' => 
       array (
         'length' => 50,

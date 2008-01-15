@@ -2685,6 +2685,7 @@ CREATE TABLE ezworkflow_event (
     data_text2 character varying(50),
     data_text3 character varying(50),
     data_text4 character varying(50),
+    data_text5 text,
     description character varying(50) DEFAULT ''::character varying NOT NULL,
     id integer DEFAULT nextval('ezworkflow_event_s'::text) NOT NULL,
     placement integer DEFAULT 0 NOT NULL,
