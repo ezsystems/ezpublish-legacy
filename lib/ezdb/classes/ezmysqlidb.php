@@ -663,6 +663,16 @@ set|values|select).*)?/",
         return " MD5( $str ) ";
     }
 
+    function bitAnd( $arg1, $arg2 )
+    {
+        return 'cast(' . $arg1 . ' & ' . $arg2 . ' AS SIGNED ) ';
+    }
+
+    function bitOr( $arg1, $arg2 )
+    {
+        return 'cast( ' . $arg1 . ' | ' . $arg2 . ' AS SIGNED ) ';
+    }
+
     /*!
      \reimp
     */
