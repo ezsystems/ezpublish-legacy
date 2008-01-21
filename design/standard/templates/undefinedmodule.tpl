@@ -39,7 +39,7 @@
   <table width="100%" border="0" cellspacing="0" cellpadding="3">
   <tr>
      <td width="20%" bgcolor="#4987bc">
-     <h1><font color="white">eZ Publish 3<sup>TM</sup></font></h1>
+     <h1><font color="white">eZ Publish 4<sup>TM</sup></font></h1>
      </td>
      <td width="70%" bgcolor="#4987bc">
      {section show=$access_type}<h1><font color="white">({$access_type.name})</font></h1>{/section}
