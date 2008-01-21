@@ -16,18 +16,17 @@
 
 */
 
-include_once( "kernel/classes/ezdatatype.php" );
-
-define( "{$constant_name}", "{$datatype_name}" );
-
 class {$full_class_name} extends eZDataType
 {literal}{{/literal}
+
+    const {$constant_name} = "{$datatype_name}";
+
     /*!
       {'Constructor'|i18n('design/admin/setup/datatypecode')}
     */
     function {$full_class_name}()
     {literal}{{/literal}
-        $this->eZDataType( {$constant_name}, "{$desc_name}" );
+        $this->eZDataType( self::{$constant_name}, "{$desc_name}" );
     {literal}}{/literal}
 
 {section show=$class_input}
@@ -36,7 +35,7 @@ class {$full_class_name} extends eZDataType
      \return EZ_INPUT_VALIDATOR_STATE_ACCEPTED or EZ_INPUT_VALIDATOR_STATE_INVALID if
              the values are accepted or not
     */
-    function validateClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function validateClassAttributeHTTPInput( $http, $base, $classAttribute )
     {literal}{{/literal}
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     {literal}}{/literal}
@@ -45,7 +44,7 @@ class {$full_class_name} extends eZDataType
      Fetches all variables inputed on content class level
      \return true if fetching of class attributes are successfull, false if not
     */
-    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {literal}{{/literal}
         return true;
     {literal}}{/literal}
@@ -56,7 +55,7 @@ class {$full_class_name} extends eZDataType
      \return EZ_INPUT_VALIDATOR_STATE_ACCEPTED or EZ_INPUT_VALIDATOR_STATE_INVALID if
              the values are accepted or not
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {literal}{{/literal}
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     {literal}}{/literal}
@@ -65,7 +64,7 @@ class {$full_class_name} extends eZDataType
      Fetches all variables from the object
      \return true if fetching of class attributes are successfull, false if not
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {literal}{{/literal}
         return true;
     {literal}}{/literal}
@@ -104,5 +103,5 @@ class {$full_class_name} extends eZDataType
 
 {literal}}{/literal}
 
-eZDataType::register( {$constant_name}, "{$full_class_name}" );
+eZDataType::register( {$full_class_name}::{$constant_name}, "{$full_class_name}" );
 ?>

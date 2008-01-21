@@ -158,7 +158,7 @@ function datatypeDescribe( $tpl, &$persistentData, $stepData )
     if ( substr( $datatypeName, -4 ) != "type" )
         $fullClassName .= "type";
 
-    $constantName = "EZ_DATATYPESTRING_" . strtoupper( $datatypeName );
+    $constantName = "DATA_TYPE_STRING";
 
     $tpl->setVariable( 'class_name', $fullClassName );
     $tpl->setVariable( 'datatype_name', $datatypeName );

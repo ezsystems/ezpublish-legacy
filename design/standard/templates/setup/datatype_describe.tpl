@@ -13,7 +13,7 @@
 </div>
 
 <div class="objectheader">
-<h2>{'Constant name'|i18n('design/standard/setup','Datatype')}</h2>
+<h2>{'Class constant name'|i18n('design/standard/setup','Datatype')}</h2>
 </div>
 <div class="object">
 <input type="text" name="ConstantName" value="{$constant_name|wash}" size="40" />

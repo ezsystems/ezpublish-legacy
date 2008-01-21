@@ -18,7 +18,7 @@
 </div>
 
 <div class="block">
-<label>{'Constant name'|i18n( 'design/admin/setup/rad/datatype' )}:</label>
+<label>{'Class constant name'|i18n( 'design/admin/setup/rad/datatype' )}:</label>
 <input class="box" type="text" name="ConstantName" value="{$constant_name|wash}" />
 </div>
 
