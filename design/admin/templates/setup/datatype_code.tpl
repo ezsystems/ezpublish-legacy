@@ -32,12 +32,12 @@ class {$full_class_name} extends eZDataType
 {section show=$class_input}
     /*!
     Validates all variables given on content class level
-     \return EZ_INPUT_VALIDATOR_STATE_ACCEPTED or EZ_INPUT_VALIDATOR_STATE_INVALID if
+     \return eZInputValidator::STATE_ACCEPTED or eZInputValidator::STATE_INVALID if
              the values are accepted or not
     */
     function validateClassAttributeHTTPInput( $http, $base, $classAttribute )
     {literal}{{/literal}
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     {literal}}{/literal}
 
     /*!
@@ -52,12 +52,12 @@ class {$full_class_name} extends eZDataType
 
     /*!
      Validates input on content object level
-     \return EZ_INPUT_VALIDATOR_STATE_ACCEPTED or EZ_INPUT_VALIDATOR_STATE_INVALID if
+     \return eZInputValidator::STATE_ACCEPTED or eZInputValidator::STATE_INVALID if
              the values are accepted or not
     */
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {literal}{{/literal}
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return eZInputValidator::STATE_ACCEPTED;
     {literal}}{/literal}
 
     /*!
