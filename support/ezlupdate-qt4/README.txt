@@ -1,5 +1,5 @@
-Translation/Internationalization (i18n) of eZ Publish 3
--------------------------------------------------------
+Translation/Internationalization (i18n) of eZ Publish
+-----------------------------------------------------
 
 0. Introduction
 
@@ -10,7 +10,7 @@ Translation/Internationalization (i18n) of eZ Publish 3
 
 Copyrights
 ----------
-"eZ Publish" is Copyright (C) 1999-2007 eZ Systems AS. All rights reserved.
+"eZ Publish" is Copyright (C) 1999-2008 eZ Systems AS. All rights reserved.
 "Trolltech", "Qt" and "Qt Linguist" are Copyright (C) 2000-2005 Trolltech AS.
 All rights reserved.
 
@@ -18,7 +18,7 @@ All rights reserved.
 0. Introduction
 ---------------
 
-eZ Publish 3 requires two programs to create and maintain translations,
+eZ Publish requires two programs to create and maintain translations,
 'ezlupdate' and 'linguist'. These programs are based on the same tools from the
 Qt toolkit by Trolltech (www.trolltech.com). The unix version of this toolkit
 is released under the GPL. eZ Systems will provide binaries for Windows and
@@ -32,7 +32,7 @@ eZ Publish files.
 1. Building the program
 -----------------------
 
-The linguist is not provided with eZ Publish 3, as this is distributed in the
+The linguist is not provided with eZ Publish, as this is distributed in the
 Qt library available from Trolltech.
 
 The following assumes that you are building under unix. If you have a
@@ -63,7 +63,7 @@ eZ Publish directory.
 2. Making translations
 ----------------------
 
-First of all, you must decide the locale code of your language. eZ Publish 3
+First of all, you must decide the locale code of your language. eZ Publish
 uses locale codes on the form aaa-AA, where the 3 first lowercase letters
 describe the language, while the last two uppercase letter describe the country
 in which the language is spoken. For instance, English as it is spoken in Great

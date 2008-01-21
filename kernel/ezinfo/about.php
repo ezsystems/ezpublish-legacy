@@ -139,7 +139,7 @@ web-based applications.
 Standard CMS functionality (such as news publishing, e-commerce and
 forums) are already implemented and ready to use. Standalone libraries
 can be used for cross-platform database-independent browser-neutral
-PHP projects. Because eZ Publish 3 is a web-based application, it can
+PHP projects. Because eZ Publish 4 is a web-based application, it can
 be accessed from anywhere you have an internet connection.';
 
 $license =
