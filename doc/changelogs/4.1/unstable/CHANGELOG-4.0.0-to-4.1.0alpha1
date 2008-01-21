@@ -68,3 +68,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12321: Error with sending an email with smtp
 - Fixed bug #10691: Empty user agent string in HTTP requests by link check cronjob
 - Fixed bug #11970: Query error: Out of range value adjusted for column 'lang_mask' at row 1. Fixed for mysqli interfase.
+- Fixed bug #12386: XML Handling of ImageAlias not correct

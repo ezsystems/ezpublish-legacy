@@ -535,13 +535,8 @@ class eZImageAliasHandler
 
         $this->ContentObjectAttributeData['DataTypeCustom']['dom_tree'] = $domTree;
         $imageNodeArray = $domTree->getElementsByTagName( "ezimage" );
-        $imageInfoNodeArray = $domTree->getElementsByTagName( "information" );
-        $imageVariationNodeArray = $domTree->getElementsByTagName( "alias" );
-        $imageOriginalArray = $domTree->getElementsByTagName( "original" );
 
         $aliasList = array();
-
-        $aliasEntry = array();
 
         // I think this is a bug in the plain package or related to the bug I filed
         // about the image datatype serialization
@@ -552,6 +547,13 @@ class eZImageAliasHandler
         }
 
         $imageNode = $imageNodeArray->item( 0 );
+
+        $imageInfoNodeArray = $imageNode->getElementsByTagName( "information" );
+        $imageVariationNodeArray = $imageNode->getElementsByTagName( "alias" );
+        $imageOriginalArray = $imageNode->getElementsByTagName( "original" );
+
+        $aliasEntry = array();
+
         $alternativeText = $imageNode->getAttribute( 'alternative_text' );
         $originalFilename = $imageNode->getAttribute( 'original_filename' );
         $basename = $imageNode->getAttribute( 'basename' );
@@ -622,7 +624,7 @@ class eZImageAliasHandler
 
         $aliasList['original'] = $aliasEntry;
 
-        if ( is_array( $imageVariationNodeArray ) )
+        if ( $imageVariationNodeArray->length > 0 )
         {
             foreach ( $imageVariationNodeArray as $imageVariation )
             {
