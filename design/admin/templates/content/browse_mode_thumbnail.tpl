@@ -34,6 +34,7 @@
                                                                contentclass_id, $browse.permission.contentclass_id ) ),
                                  fetch( content, access, hash( access,          $browse.permission.access,
                                                                contentobject,   $Nodes.item ) ) ) ),
+                           $browse.ignore_nodes_select|contains( $Nodes.item.node_id )|not,
                            eq( $ignore_nodes_merge|count,
                                $ignore_nodes_merge|unique|count ) )}
             {section show=is_array( $browse.class_array )}
@@ -43,7 +44,7 @@
                     <input type="{$select_type}" name="" value="" disabled="disabled" />
                 {/section}
             {section-else}
-                {section show=and( or( eq( $browse.action_name, 'MoveNode' ), eq( $browse.action_name, 'CopyNode' ) ), $Nodes.item.object.content_class.is_container|not )}
+                {section show=and( or( eq( $browse.action_name, 'MoveNode' ), eq( $browse.action_name, 'CopyNode' ), eq( $browse.action_name, 'AddNodeAssignment' ) ), $Nodes.item.object.content_class.is_container|not )}
                     <input type="{$select_type}" name="{$select_name}[]" value="{$Nodes.item[$select_attribute]}" disabled="disabled" />
                 {section-else}
                     <input type="{$select_type}" name="{$select_name}[]" value="{$Nodes.item[$select_attribute]}" />

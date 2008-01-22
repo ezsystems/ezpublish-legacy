@@ -75,3 +75,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12416: Non-static methods called by tip a friend function
 - Fixed bug #12414: flatten.php : db-host not defined
 - Fixed bug #10574: User parameters are not passed when redirecting from an old url alias
+- Fixed bug #12272: Add locations allows non containers if thumbnail mode is selected
