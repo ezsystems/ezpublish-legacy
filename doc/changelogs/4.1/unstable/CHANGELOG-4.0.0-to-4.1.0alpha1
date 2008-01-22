@@ -71,3 +71,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12386: XML Handling of ImageAlias not correct
 - Fixed bug #12407: Output templates from RAD need update
 - Fixed bug #12398: ezpublish 3 still mentioned in a few places
+- Fixed bug #12267: eZSoapClient unable to use SSL with different port than 443
