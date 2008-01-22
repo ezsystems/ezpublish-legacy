@@ -64,14 +64,14 @@ class eZTipafriendRequest extends eZPersistentObject
                       'name' => 'eztipafriend_request' );
     }
 
-    function create( $receiver )
+    static function create( $receiver )
     {
         $row = array( "email_receiver" => $receiver,
                       "created" => time() );
         return new eZTipafriendRequest( $row );
     }
 
-    function checkReceiver( $receiver )
+    static function checkReceiver( $receiver )
     {
         eZTipafriendRequest::cleanup();
         $ini = eZINI::instance();
@@ -101,7 +101,7 @@ class eZTipafriendRequest extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function cleanup()
+    static function cleanup()
     {
         $ini = eZINI::instance();
         $db = eZDB::instance();
