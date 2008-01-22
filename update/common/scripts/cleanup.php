@@ -50,7 +50,7 @@ $script = eZScript::instance( array( 'description' => ( "eZ Publish database cle
 
 $script->startup();
 
-$options = $script->getOptions( "[db-user:][db-password:][db-database:][db-type:|db-driver:][sql]",
+$options = $script->getOptions( "[db-host:][db-user:][db-password:][db-database:][db-type:|db-driver:][sql]",
                                 "[name]",
                                 array( 'db-host' => "Database host",
                                        'db-user' => "Database user",
