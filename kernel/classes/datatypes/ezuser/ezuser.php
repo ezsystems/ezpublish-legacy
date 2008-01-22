@@ -1300,7 +1300,7 @@ WHERE user_id = '" . $userID . "' AND
         }
         $db->commit();
 
-        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearContentCacheIfNeeded( $userID );
         eZContentCacheManager::generateObjectViewCache( $userID );
     }
