@@ -556,6 +556,11 @@ while ( $moduleRunRequired )
         if ( is_string( $translateResult ) )
         {
             $objectHasMovedURI = $translateResult;
+            foreach ( $userParameters as $name => $value )
+            {
+                $objectHasMovedURI .= '/(' . $name . ')/' . $value;
+            }
+
             $objectHasMovedError = true;
         }
     }
