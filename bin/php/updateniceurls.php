@@ -50,7 +50,7 @@ $script =& eZScript::instance( array( 'description' => ( "eZ Publish url-alias i
 
 $script->startup();
 
-$options = $script->getOptions( "[db-user:][db-password:][db-database:][db-type:|db-driver:][sql]" .
+$options = $script->getOptions( "[db-host:][db-user:][db-password:][db-database:][db-type:|db-driver:][sql]" .
                                 "[no-import]" .
                                 "[import][import-nodes][import-aliases][import-redirections][import-wildcards]" .
                                 "[no-update-nodes][update-nodes]" .
