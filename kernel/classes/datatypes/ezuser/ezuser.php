@@ -799,7 +799,7 @@ WHERE user_id = '" . $userID . "' AND
             eZDebugSetting::writeDebug( 'kernel-user', $user, 'user' );
             $userID = $user->attribute( 'contentobject_id' );
 
-            // if audit is enabled logins should be looged
+            // if audit is enabled logins should be logged
             eZAudit::writeAudit( 'user-login', array( 'User id' => $userID, 'User login' => $user->attribute( 'login' ) ) );
 
             eZUser::updateLastVisit( $userID );
@@ -1299,6 +1299,10 @@ WHERE user_id = '" . $userID . "' AND
             $db->query( "INSERT INTO ezuservisit ( failed_login_attempts, user_id ) VALUES ( $failedLoginAttempts, $userID )" );
         }
         $db->commit();
+
+        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        eZContentCacheManager::clearContentCacheIfNeeded( $userID );
+        eZContentCacheManager::generateObjectViewCache( $userID );
     }
 
     /*!
