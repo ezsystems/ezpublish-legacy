@@ -77,3 +77,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #10574: User parameters are not passed when redirecting from an old url alias
 - Fixed bug #12272: Add locations allows non containers if thumbnail mode is selected
 - Fixed bug #12305: User object's view cache not cleared after exceeded failed login attempts
+- Fixed bug #12432: Parser error in design/admin/templates/node/view/sitemap.tpl line 63

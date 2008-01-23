@@ -60,4 +60,3 @@
 
 {/default}
 {/let}
-{/default}
