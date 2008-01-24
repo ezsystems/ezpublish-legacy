@@ -1,12 +1,4 @@
-{default with_children=true()
-         is_standalone=true()}
-{let page_limit=0
-     tree=and( $with_children, fetch( 'content', 'tree',
-                                      hash( parent_node_id, $node.node_id,
-                                            limit, $page_limit,
-                                            offset, $view_parameters.offset ) ) )
-     tree_count=and( $with_children, fetch( 'content', 'tree_count',
-                                            hash( parent_node_id, $node.node_id ) ) )}
+{let page_limit=0}
 {default content_object=$node.object
          content_version=$node.contentobject_version_object
          node_name=$node.name|wash}
@@ -68,4 +60,3 @@
 
 {/default}
 {/let}
-{/default}
