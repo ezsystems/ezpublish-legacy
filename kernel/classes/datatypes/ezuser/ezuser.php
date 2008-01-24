@@ -1266,7 +1266,6 @@ WHERE user_id = '" . $userID . "' AND
         $db->begin();
 
         $userVisitArray = $db->arrayQuery( "SELECT 1 FROM ezuservisit WHERE user_id=$userID" );
-        $time = time();
 
         if ( count( $userVisitArray ) == 1 )
         {
