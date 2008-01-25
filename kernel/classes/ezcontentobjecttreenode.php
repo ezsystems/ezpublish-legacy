@@ -2859,7 +2859,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
       \return The date/time list when object were published
     */
-    function calendar( $params = false, $nodeID = 0 )
+    static function calendar( $params = false, $nodeID = 0 )
     {
         if ( !is_numeric( $nodeID ) and !is_array( $nodeID ) )
         {
