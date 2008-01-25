@@ -940,7 +940,7 @@ class eZWebDAVServer
       \static
       \return \c true if WebDAV logging is enabled.
     */
-    function isLoggingEnabled()
+    static function isLoggingEnabled()
     {
         $useLogging =& $GLOBALS['eZWebDavLogging'];
         if ( !isset( $useLogging ) )

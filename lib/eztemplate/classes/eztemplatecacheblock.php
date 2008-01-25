@@ -113,7 +113,7 @@ class eZTemplateCacheBlock
      Figures out the modification time for the subtree by looking up the database using $nodeID.
      If $nodeID is set to false no lookup is done and it will return -1.
      */
-    function getSubtreeModification( $nodeID )
+    static function getSubtreeModification( $nodeID )
     {
         if ( $nodeID === false )
             return -1;
