@@ -131,7 +131,7 @@ class eZSOAPResponse extends eZSOAPEnvelope
       \static
       Decodes a DOM node and returns the PHP datatype instance of it.
     */
-    function decodeDataTypes( $node, $type="" )
+    static function decodeDataTypes( $node, $type = "" )
     {
         $returnValue = false;
 
