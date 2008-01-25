@@ -82,3 +82,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #11115: ezmultiprice.tpl - paragraph tag too much
 - Fixed bug #12440: updatetipafriendpolicy.php: when logging in with wrong user account, bad message
 - Fixed bug #11383: soap client sends bogus user-agent when in ssl mode
+- Fixed bug #11559: php warning: Non-static method eZTemplateCacheBlock::getSubtreeModification() should not be called statically
