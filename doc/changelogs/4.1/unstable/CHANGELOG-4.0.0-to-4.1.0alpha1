@@ -84,3 +84,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #11383: soap client sends bogus user-agent when in ssl mode
 - Fixed bug #11559: php warning: Non-static method eZTemplateCacheBlock::getSubtreeModification() should not be called statically
 - Fixed bug #11856: ezsoapresponse::decodeDataTypes not declared as static
+- Fixed bug #11955: updatevatcountries.php does not work
