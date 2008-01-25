@@ -38,10 +38,10 @@
             {/if}
             {if eq( $price.type, 2 )}
                 {* Auto price *}
-                <i>{$price_value}</i><p>
+                <p><i>{$price_value}</i></p>
             {else}
                 {* Custom price *}
-                {$price_value}<p>
+                <p>{$price_value}</p>
             {/if}
         {/foreach}
         {undef $price_value}
