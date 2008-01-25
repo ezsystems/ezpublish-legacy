@@ -5,7 +5,7 @@
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ publish
-// SOFTWARE RELEASE: 3.9.x
+// SOFTWARE RELEASE: 3.10.x
 // COPYRIGHT NOTICE: Copyright (C) 1999-2007 eZ systems AS
 // SOFTWARE LICENSE: GNU General Public License v2.0
 // NOTICE: >
@@ -33,8 +33,8 @@ include_once( 'kernel/classes/datatypes/ezcountry/ezcountrytype.php' );
 
 $cli =& eZCLI::instance();
 $script =& eZScript::instance( array( 'description' => ( "eZ Publish Country update script\n\n" .
-                                                         "Upgrades db table in addition with upgrade from 3.8.x to 3.9.x\n" .
-                                                         "Fixes bug with apllying VAT rules" ),
+                                                         "Upgrades db table in addition with upgrade from 3.9.2 to 3.9.3\n" .
+                                                         "Fixes bug with aplying VAT rules" ),
                                       'use-session' => false,
                                       'use-modules' => true,
                                       'use-extensions' => true ) );
@@ -46,19 +46,26 @@ $script->initialize();
 
 $db =& eZDB::instance();
 
-$countries = $db->query( "SELECT country from ezvatrule;" );
+$countries = $db->arrayQuery( "SELECT country_code from ezvatrule;" );
 $iniCountries = eZCountryType::fetchCountryList();
 
-foreach ($countries as $country)
+$updatedRules = 0;
+
+foreach ( $countries as $country )
 {
     foreach ( $iniCountries as $iniCountry )
     {
-        if ( $iniCountry['Name'] == $country ) {
-            $countryCode = $iniCountry['Alpha2'] ;
-            $db->query( "UPDATE TABLE ezvatrule SET country_code=$countryCode WHERE country_code=$country;" );
+        if ( $iniCountry['Name'] == $country['country_code'] )
+        {
+            $countryName = $country['country_code'];
+            $countryCode = $iniCountry['Alpha2'];
+            $db->query( "UPDATE ezvatrule SET country_code='" . $db->escapeString( $countryCode ) . "' WHERE country_code='" . $db->escapeString( $countryName ) . "'" );
+            $updatedRules++;
         }
     }
 }
+
+$cli->output( 'Updated VAT rules: ' . $updatedRules );
 
 $script->shutdown();
 
