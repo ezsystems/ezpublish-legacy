@@ -195,7 +195,7 @@ class eZSOAPClient
                 if ( $ch != 0 )
                 {
                     $HTTPCall = "POST " . $this->Path . " HTTP/1.0\r\n" .
-                        "User-Agent: eZ xmlrpc client\r\n" .
+                        "User-Agent: eZ soap client\r\n" .
                         "Host: " . $this->Server . "\r\n" .
                         "Content-Type: text/xml\r\n" .
                         "SOAPAction: \"" . $request->namespace() . '/' . $request->name() . "\"\r\n" .

@@ -40,9 +40,6 @@
   siteDir(), wwwDir() and indexFile().
   It also detects file and enviroment separators, fetch them with
   fileSeparator() and envSeparator().
-  In addition userIndexFile(), adminIndexFile() and xmlrpcIndexFile()
-  can be used to fetch the index file of the user page, admin page and
-  xmlrpc interface.
 
   Example:
 \code
