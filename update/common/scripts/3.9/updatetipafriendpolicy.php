@@ -5,7 +5,7 @@
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ publish
-// SOFTWARE RELEASE: 3.10.x
+// SOFTWARE RELEASE: 3.9.x
 // COPYRIGHT NOTICE: Copyright (C) 1999-2006 eZ systems AS
 // SOFTWARE LICENSE: GNU General Public License v2.0
 // NOTICE: >
@@ -59,6 +59,7 @@ $userRootNodeID = $contentIni->variable( 'NodeSettings', 'UserRootNode' );
 
 $siteIni =& eZINI::instance( 'site.ini' );
 $anonymousUserID = $siteIni->variable( 'UserSettings', 'AnonymousUserID' );
+include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 $anonymousUser = eZUser::fetch( $anonymousUserID );
 $anonymousUsers = array();
 if ( is_object( $anonymousUser ) )
@@ -71,6 +72,14 @@ include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 include_once( 'kernel/classes/ezrole.php' );
 
 $topUserNodes =& eZContentObjectTreeNode::subTree( array( 'Depth' => 1 ), $userRootNodeID );
+
+if ( count( $topUserNodes ) == 0 )
+{
+    $cli->warning( "Unable to retrieve the user root node. Please make sure\n" .
+                   "you log in to the system with the administrator's user\n" .
+                   "acount by using the -l and -p command line options." );
+    $script->shutdown( 1 );
+}
 
 $roleName = 'Tipafriend Role';
 $role = eZRole::fetchByName( $roleName );
