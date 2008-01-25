@@ -80,3 +80,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12432: Parser error in design/admin/templates/node/view/sitemap.tpl line 63
 - Fixed bug #9843: Unused line in user locking code
 - Fixed bug #11115: ezmultiprice.tpl - paragraph tag too much
+- Fixed bug #12440: updatetipafriendpolicy.php: when logging in with wrong user account, bad message
