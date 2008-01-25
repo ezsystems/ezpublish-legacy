@@ -74,6 +74,14 @@ if ( is_object( $anonymousUser ) )
 
 $topUserNodes = eZContentObjectTreeNode::subTreeByNodeID( array( 'Depth' => 1 ), $userRootNodeID );
 
+if ( count( $topUserNodes ) == 0 )
+{
+    $cli->warning( "Unable to retrieve the user root node. Please make sure\n" .
+                   "you log in to the system with the administrator's user\n" .
+                   "acount by using the -l and -p command line options." );
+    $script->shutdown( 1 );
+}
+
 $roleName = 'Tipafriend Role';
 $role = eZRole::fetchByName( $roleName );
 if ( is_object( $role ) )
