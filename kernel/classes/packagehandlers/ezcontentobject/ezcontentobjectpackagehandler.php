@@ -898,7 +898,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                     if ( $modified > $published )
                     {
                         $choosenAction = $this->errorChoosenAction( eZContentObject::PACKAGE_ERROR_MODIFIED,
-                                                                    $installParameters );
+                                                                    $installParameters, false, $this->HandlerType );
 
                         if ( $choosenAction == eZContentObject::PACKAGE_KEEP )
                         {
@@ -931,7 +931,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                     if ( $childrenCount > 0 )
                     {
                         $choosenAction = $this->errorChoosenAction( eZContentObject::PACKAGE_ERROR_HAS_CHILDREN,
-                                                                    $installParameters );
+                                                                    $installParameters, false, $this->HandlerType );
 
                         if ( $choosenAction == eZContentObject::PACKAGE_KEEP )
                         {

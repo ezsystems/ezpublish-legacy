@@ -230,7 +230,7 @@ class eZPackageHandler
         If $resetError is false, array should be manually reset in handler.
     */
 
-    static function errorChoosenAction( $errorCode, &$installParameters, $description = false, $handlerType = false, $resetError = true )
+    static function errorChoosenAction( $errorCode, &$installParameters, $description, $handlerType, $resetError = true )
     {
         if ( isset( $installParameters['non-interactive'] ) && $installParameters['non-interactive'] )
         {
@@ -240,9 +240,6 @@ class eZPackageHandler
             }
             return eZPackage::NON_INTERACTIVE;
         }
-
-        if ( !$handlerType )
-            $handlerType = $this->HandlerType;
 
         if ( isset( $installParameters['error_default_actions'][$handlerType][$errorCode] ) )
         {

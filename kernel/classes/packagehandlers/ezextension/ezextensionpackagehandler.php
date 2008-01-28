@@ -144,7 +144,7 @@ class eZExtensionPackageHandler extends eZPackageHandler
             $description = ezi18n( 'kernel/package', "Extension '%extensionname' already exists.",
                                    false, array( '%extensionname' => $extensionName ) );
             $choosenAction = $this->errorChoosenAction( self::ERROR_EXISTS,
-                                                        $installParameters, $description );
+                                                        $installParameters, $description, $this->HandlerType );
             switch( $choosenAction )
             {
             case self::ACTION_SKIP:
