@@ -146,7 +146,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
         if ( $class->isRemovable() )
         {
             $choosenAction = $this->errorChoosenAction( self::ERROR_HAS_OBJECTS,
-                                                        $installParameters );
+                                                        $installParameters, false, $this->HandlerType );
             if ( $choosenAction == self::ACTION_SKIP )
             {
                 return true;
@@ -234,7 +234,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
                                    array( '%classname' => $className ) );
 
             $choosenAction = $this->errorChoosenAction( self::ERROR_EXISTS,
-                                                        $installParameters, $description );
+                                                        $installParameters, $description, $this->HandlerType );
             switch( $choosenAction )
             {
             case eZPackage::NON_INTERACTIVE:
