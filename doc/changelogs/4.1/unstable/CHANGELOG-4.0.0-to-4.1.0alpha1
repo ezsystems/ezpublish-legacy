@@ -95,3 +95,5 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12334: Non-static method eZMedia::removeByID()
 - Fixed bug #12428: strtolower() in eZSearchLog::addPhrase gives error for special char for e.g. ≈ÿ∆
 - Fixed bug #11804: Error in integer validation for collected values
+- Fixed bug #12175: cache-block subtree_expiry never expires
+  (Merged from stable/3.10 (3.10.1) rev. 21271)

@@ -283,7 +283,9 @@ class eZTemplateCacheFunction
         {
             $keyArray = array( $keys, $placementString, $accessName );
         }
-        $phpPath = eZTemplateCacheBlock::cachePath( eZTemplateCacheBlock::keyString( $keyArray ), $subtreeExpiry );
+
+        $nodeID = eZTemplateCacheBlock::decodeNodeID( $subtreeExpiry );
+        $phpPath = eZTemplateCacheBlock::cachePath( eZTemplateCacheBlock::keyString( $keyArray ), $nodeID );
 
         // Check if a custom expiry time is defined
         if ( $expiry === null )
