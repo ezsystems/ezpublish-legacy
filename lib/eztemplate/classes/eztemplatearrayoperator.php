@@ -1104,7 +1104,15 @@ class eZTemplateArrayOperator
                 {
                     if ( $isString )
                     {
-                        $result = ( strpos ( $inParam, $compareParams[0] ) === ( strlen( $inParam ) - strlen ( $compareParams[0] ) ) );
+                        $position = strlen( $inParam ) - strlen( $compareParams[0] );
+                        if ( $position < 0 )
+                        {
+                            $result = false;
+                        }
+                        else
+                        {
+                            $result = ( substr( $inParam, $position ) === $compareParams[0] );
+                        }
                     }
                     else if ( $isArray )
                     {
@@ -1128,7 +1136,9 @@ class eZTemplateArrayOperator
 
                 if ( $isString )
                 {
-                    $code = '%output% = ( strpos( ' . $inParamCode . ', ' . $compareParamsCode[0] . ' ) === ( strlen( ' . $inParamCode . ' ) - strlen( ' . $compareParamsCode[0] . ' ) ) );';
+                    $code = "%tmp1% = strlen( $inParamCode ) - strlen( $compareParamsCode[0] );\n" .
+                            "%output% = ( substr( $inParamCode, %tmp1% ) === $compareParamsCode[0] );";
+                    $tmpCount = 1;
                 }
                 else if ( $isArray )
                 {
@@ -1152,7 +1162,8 @@ class eZTemplateArrayOperator
                     $code = '%tmp4% = ' . $inParamCode . ';' . "\n" .
                          'if ( is_string( %tmp4% ) )' . "\n" .
                          '{' . "\n" .
-                         '  %output% = ( strpos( %tmp4%, ' . $compareParamsCode[0] . ' ) === ( strlen( %tmp4% ) - strlen( ' . $compareParamsCode[0] . ' ) ) );' . "\n" .
+                         "  %tmp1% = strlen( %tmp4% ) - strlen( $compareParamsCode[0] );\n" .
+                         "  %output% = ( substr( %tmp4%, %tmp1% ) === $compareParamsCode[0] );\n" .
                          '}' . "\n" .
                          'else if( is_array( %tmp4% ) )' . "\n" .
                          '{' . "\n" .
@@ -2023,13 +2034,22 @@ class eZTemplateArrayOperator
                 // Check if string ends with specified sequence:
                 case $this->EndsWithName:
                 {
-                    if ( strpos( $operatorValue, $namedParameters['match'] ) === ( strlen( $operatorValue ) - strlen ($namedParameters['match'] ) ) )
+                    $position = strlen( $operatorValue ) - strlen( $namedParameters['match'] );
+
+                    if ( $position < 0 )
                     {
-                        $operatorValue = true;
+                        $operatorValue = false;
                     }
                     else
                     {
-                        $operatorValue = false;
+                        if ( substr( $operatorValue, $position ) === $namedParameters['match'] )
+                        {
+                            $operatorValue = true;
+                        }
+                        else
+                        {
+                            $operatorValue = false;
+                        }
                     }
                 }break;
 
