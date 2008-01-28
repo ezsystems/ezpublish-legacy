@@ -39,7 +39,7 @@ if ( $Module->isCurrentAction( 'NewExport' ) )
     return $Module->redirect( 'pdf', 'edit' );
 }
 //Remove existing PDF Export(s)
-else if ( $Module->isCurrentAction( 'RemoveExport' ) )
+else if ( $Module->isCurrentAction( 'RemoveExport' ) && $Module->hasActionParameter( 'DeleteIDArray' ) )
 {
     $deleteArray = $Module->actionParameter( 'DeleteIDArray' );
     foreach ( $deleteArray as $deleteID )
