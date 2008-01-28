@@ -840,7 +840,7 @@ class eZContentCacheManager
      \static
      Clears content cache if needed by \a $sectionID
     */
-    function clearContentCacheIfNeededBySectionID( $sectionID )
+    static function clearContentCacheIfNeededBySectionID( $sectionID )
     {
         // fetch all objects of this section
         $objectList = eZContentObject::fetchList( false, array( 'section_id' => "$sectionID" ) );

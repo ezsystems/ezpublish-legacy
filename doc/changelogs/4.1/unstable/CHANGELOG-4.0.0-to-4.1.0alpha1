@@ -90,3 +90,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12039: Warning in template ( compile test ) checkoutagain.tpl
 - Fixed bug #10660: Template operator "ends_with" doesn't work when the pattern appears several times in the string
 - Fixed bug #12143: Missing washes for enum datatype content edit template
+- Fixed bug #12270: Missing 'static' in eZContentCacheManager
