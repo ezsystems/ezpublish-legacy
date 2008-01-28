@@ -161,13 +161,12 @@ class eZTemplateCacheBlock
 
      See subtreeCacheSubDir() for more details on the $nodeID parameter.
      */
-    function cachePath( $keyString, $nodeID )
+    function cachePath( $keyString, $nodeID = false )
     {
         include_once( 'lib/ezutils/classes/ezsys.php' );
         $filename = eZSys::ezcrc32( $keyString ) . ".cache";
 
         $phpDir = eZTemplateCacheBlock::templateBlockCacheDir();
-        $nodeID = false;
         if ( is_numeric( $nodeID ) )
         {
             $phpDir .= eZTemplateCacheBlock::calculateSubtreeCacheDir( $nodeID, $filename );
