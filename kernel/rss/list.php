@@ -41,7 +41,7 @@ if ( $http->hasPostVariable( 'NewExportButton' ) )
 {
     return $Module->run( 'edit_export', array() );
 }
-else if ( $http->hasPostVariable( 'RemoveExportButton' ) )
+else if ( $http->hasPostVariable( 'RemoveExportButton' ) && $http->hasPostVariable( 'DeleteIDArray' ) )
 {
     $deleteArray = $http->postVariable( 'DeleteIDArray' );
     foreach ( $deleteArray as $deleteID )
@@ -62,7 +62,7 @@ else if ( $http->hasPostVariable( 'NewImportButton' ) )
 {
     return $Module->run( 'edit_import', array() );
 }
-else if ( $http->hasPostVariable( 'RemoveImportButton' ) )
+else if ( $http->hasPostVariable( 'RemoveImportButton' ) && $http->hasPostVariable( 'DeleteIDArrayImport' ) )
 {
     $deleteArray = $http->postVariable( 'DeleteIDArrayImport' );
     foreach ( $deleteArray as $deleteID )
