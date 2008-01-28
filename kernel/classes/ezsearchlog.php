@@ -46,7 +46,10 @@ class eZSearchLog
         $db = eZDB::instance();
         $db->begin();
 
-        $phrase = strtolower( trim( $phrase ) );
+        //include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+        $trans = eZCharTransform::instance();
+        $phrase = $trans->transformByGroup( trim( $phrase ), 'lowercase' );
+
         $phrase = $db->escapeString( $phrase );
 
         // find or store the phrase
