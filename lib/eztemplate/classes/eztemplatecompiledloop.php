@@ -145,6 +145,9 @@ class eZTemplateCompiledLoop
      */
     function processChildren()
     {
+        $fName = $this->Name;
+        $uniqid = $this->UniqID;
+
         // process the loop body
         $children            = eZTemplateNodeTool::extractFunctionNodeChildren( $this->Node );
         $transformedChildren = eZTemplateCompiler::processNodeTransformationNodes( $this->Tpl, $this->Node, $children, $this->PrivateData );
@@ -177,7 +180,7 @@ class eZTemplateCompiledLoop
                     }
                     elseif ( $childFunctionName == 'skip' )
                     {
-                        $childrenNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$skipDelimiter = true;\ncontinue;\n" );
+                        $childrenNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$${fName}_skipDelimiter_${uniqid} = true;\ncontinue;\n" );
                         continue;
                     }
                 }
@@ -235,8 +238,8 @@ class eZTemplateCompiledLoop
                 }
             }
             $delimiterNodes = array();
-            $delimiterNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( \$skipDelimiter )\n" .
-                                                                         "    \$skipDelimiter = false;\n" .
+            $delimiterNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( \$${fName}_skipDelimiter_${uniqid} )\n" .
+                                                                         "    \$${fName}_skipDelimiter_${uniqid} = false;\n" .
                                                                          "else\n" .
                                                                          "{ // delimiter begins" );
             $delimiterNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode();
@@ -285,7 +288,10 @@ class eZTemplateCompiledLoop
     function initVars()
     {
         // initialize delimiter processing
-        $this->NewNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$skipDelimiter = true;" );
+
+        $fName      = $this->Name;
+        $uniqid     = $this->UniqID;
+        $this->NewNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$${fName}_skipDelimiter_${uniqid} = true;" );
 
         // initialize sequence
         $this->createSequenceVars();
