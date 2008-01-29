@@ -208,7 +208,7 @@ class eZISBNType extends eZDataType
       based on an ISBN-10 number as input.
       \return a valid ISBN-13 number.
     */
-    function convertISBN10toISBN13( $isbnNr )
+    static function convertISBN10toISBN13( $isbnNr )
     {
         $isbnNr = 978 . substr( $isbnNr, 0, 9 );
 
