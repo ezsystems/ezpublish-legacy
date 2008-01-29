@@ -537,7 +537,7 @@ class eZEnumType extends eZDataType
         $elementListNode = $attributeParametersNode->getElementsByTagName( 'elements' )->item( 0 );
         if ( $elementListNode )
         {
-            $elementList = $elementListNode->childNodes;
+            $elementList = $elementListNode->getElementsByTagName( 'element' );
             foreach ( $elementList as $element )
             {
                 $elementID = $element->getAttribute( 'id' );
