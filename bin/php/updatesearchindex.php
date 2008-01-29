@@ -58,6 +58,8 @@ $options = $script->getOptions( "[db-host:][db-user:][db-password:][db-database:
                                        ) );
 $script->initialize();
 
+$script->setIterationData( '.', '~' );
+
 $dbUser = $options['db-user'] ? $options['db-user'] : false;
 $dbPassword = $options['db-password'] ? $options['db-password'] : false;
 $dbHost = $options['db-host'] ? $options['db-host'] : false;
@@ -95,7 +97,7 @@ include_once( 'lib/ezutils/classes/ezexecution.php' );
 include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( "kernel/classes/ezsearch.php" );
 
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+include_once( 'kernel/classes/ezcontentobject.php' );
 
 $db =& eZDB::instance();
 
@@ -126,55 +128,50 @@ if ( $cleanupSearch )
     print( "}$endl" );
 }
 
-// Get top node
-$topNodeArray = eZPersistentObject::fetchObjectList( eZContentObjectTreeNode::definition(),
-                                                      null,
-                                                      array( 'parent_node_id' => 1,
-                                                             'depth' => 1 ) );
-$subTreeCount = 0;
-foreach ( array_keys ( $topNodeArray ) as $key  )
+$def = eZContentObject::definition();
+$conds = array(
+    'status' => EZ_CONTENT_OBJECT_STATUS_PUBLISHED
+);
+$limit = null;
+$asObject = false;
+$fieldFilters = array();
+$customFields = array(
+    array( 'operation' => 'COUNT(id)', 'name' => 'object_count' )
+);
+$rows = eZPersistentObject::fetchObjectList( $def, $fieldFilters, $conds, null, $limit, $asObject, false, $customFields );
+$count = $rows[0]['object_count'];
+
+print( "Number of objects to index: $count $endl" );
+
+$length = 50;
+$limit = array( 'offset' => 0 , 'length' => $length );
+
+$fieldFilters = null;
+
+$script->resetIteration( $count );
+
+do
 {
-    $subTreeCount += $topNodeArray[$key]->subTreeCount( array( 'Limitation' => false ) );
-}
+    // clear in-memory object cache
+    eZContentObject::clearCache();
 
-print( "Number of objects to index: $subTreeCount $endl" );
+    $objects = eZPersistentObject::fetchObjectList( $def, $fieldFilters, $conds, null, $limit );
 
-$i = 0;
-$dotMax = 70;
-$dotCount = 0;
-$limit = 50;
-
-foreach ( $topNodeArray as $node  )
-{
-    $offset = 0;
-    $subTree = $node->subTree( array( 'Offset' => $offset, 'Limit' => $limit,
-                                      'Limitation' => array() ) );
-    while ( $subTree != null )
+    foreach ( $objects as $object )
     {
-        foreach ( $subTree as $innerNode )
+        if ( !$cleanupSearch )
         {
-            $object = $innerNode->attribute( 'object' );
-            if ( !$object )
-            {
-                continue;
-            }
             eZSearch::removeObject( $object );
-            eZSearch::addObject( $object );
-            ++$i;
-            ++$dotCount;
-            print( "." );
-            if ( $dotCount >= $dotMax or $i >= $subTreeCount )
-            {
-                $dotCount = 0;
-                $percent = (float)( ($i*100.0) / $subTreeCount );
-                print( " " . $percent . "%" . $endl );
-            }
         }
-        $offset += $limit;
-        $subTree = $node->subTree( array( 'Offset' => $offset, 'Limit' => $limit,
-                                          'Limitation' => array() ) );
+        eZSearch::addObject( $object );
+
+        $script->iterate( $cli, true );
     }
-}
+
+    $limit['offset'] += $length;
+
+} while ( count( $objects ) == $length );
+
 
 print( $endl . "done" . $endl );
 
