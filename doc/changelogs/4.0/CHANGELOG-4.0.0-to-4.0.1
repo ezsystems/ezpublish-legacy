@@ -1,6 +1,8 @@
 Changes from 4.0.0 to 4.0.1
 
 *Kernel:
+- Implemented enhancement #8648: updatesearchindex.php unnecessary reindexes each node - not each object
+  (Merged from trunk (4.1.0alpha1) rev. 21299)
 
 *Design:
 
@@ -169,3 +171,5 @@ Changes from 4.0.0 to 4.0.1
   (Merged from trunk (4.1.0alpha1) rev. 21289)
 - Fixed bug #12023: Delimiter is never executed when using nested loops and template compilation is enabled
   (Merged from trunk (4.1.0alpha1) rev. 21294)
+- Fixed bug #8688: updatesearchindex.php does not (re)index top nodes
+  (Merged from trunk (4.1.0alpha1) rev. 21299)
