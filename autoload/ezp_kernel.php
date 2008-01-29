@@ -179,7 +179,7 @@ return array(
       'eZHTTPTool'                         => 'lib/ezutils/classes/ezhttptool.php',
       'eZINI'                              => 'lib/ezutils/classes/ezini.php',
       'eZINIAddonPackageHandler'           => 'kernel/classes/packagehandlers/eziniaddon/eziniaddonpackagehandler.php',
-      'eZISBN10To13Converter'              => 'bin/php/ezconvert2isbn13.php',
+      'eZISBN10To13Converter'              => 'kernel/classes/datatypes/ezisbn/ezisbn10to13converter.php',
       'eZISBN13'                           => 'kernel/classes/datatypes/ezisbn/ezisbn13.php',
       'eZISBNGroup'                        => 'kernel/classes/datatypes/ezisbn/ezisbngroup.php',
       'eZISBNGroupRange'                   => 'kernel/classes/datatypes/ezisbn/ezisbngrouprange.php',
