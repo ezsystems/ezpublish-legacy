@@ -205,7 +205,7 @@ $FunctionList['calendar'] = array( 'name' => 'calendar',
                                                                  'required' => false,
                                                                  'default' => null ) ) );
 
-$FunctionList['list'] = array( 'name' => 'tree',
+$FunctionList['list'] = array( 'name' => 'list',
                                'operation_types' => array( 'read' ),
                                'call_method' => array( 'class' => 'eZContentFunctionCollection',
                                                        'method' => 'fetchObjectTree' ),
@@ -347,7 +347,7 @@ $FunctionList['list_count'] = array( 'name' => 'list_count',
                                                                    'default' => null ) ) );
 $FunctionList['tree'] = array( 'name' => 'tree',
                                'operation_types' => array( 'read' ),
-                               'call_method' => array( 
+                               'call_method' => array(
                                                        'class' => 'eZContentFunctionCollection',
                                                        'method' => 'fetchObjectTree' ),
                                'parameter_type' => 'standard',
@@ -932,7 +932,7 @@ $FunctionList['keyword'] = array( 'name' => 'keyword',
                                                                  'type' => 'bool',
                                                                  'required' => false,
                                                                  'default' => false ) ) );
-                                                                
+
 
 $FunctionList['keyword_count'] = array( 'name' => 'keyword_count',
                                         'operation_types' => array( 'read' ),
