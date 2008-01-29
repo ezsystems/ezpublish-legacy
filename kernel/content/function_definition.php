@@ -218,7 +218,7 @@ $FunctionList['calendar'] = array( 'name' => 'calendar',
                                                                  'required' => false,
                                                                  'default' => null ) ) );
 
-$FunctionList['list'] = array( 'name' => 'tree',
+$FunctionList['list'] = array( 'name' => 'list',
                                'operation_types' => array( 'read' ),
                                'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
                                                        'class' => 'eZContentFunctionCollection',
@@ -973,7 +973,7 @@ $FunctionList['keyword'] = array( 'name' => 'keyword',
                                                                 'type' => 'bool',
                                                                 'required' => false,
                                                                 'default' => false ) ) );
-                                                                
+
 
 $FunctionList['keyword_count'] = array( 'name' => 'keyword_count',
                                         'operation_types' => array( 'read' ),
