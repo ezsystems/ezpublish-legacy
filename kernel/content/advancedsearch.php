@@ -298,16 +298,26 @@ $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Search' ),
                          array( 'text' => ezi18n( 'kernel/content', 'Advanced' ),
                                 'url' => false ) );
 
+$searchData = false;
 if ( !$useSearchCode )
 {
-    $searchData = $tpl->variable( "search_data" );
+    if ( $tpl->hasVariable( "search_data" ) )
+    {
+        $searchData = $tpl->variable( "search_data" );
+    }
 }
 else
 {
     $searchData = $searchResult;
 }
 
-if ( $logSearchStats and trim( $searchText ) != "" )
-    eZSearchLog::addPhrase( $searchText, $searchData['SearchCount'] );
+if ( $logSearchStats and
+     trim( $searchText ) != "" and
+     is_array( $searchData ) and
+     array_key_exists( 'SearchCount', $searchData ) and
+     is_numeric( $searchData['SearchCount'] ) )
+{
+    eZSearchLog::addPhrase( $searchText, $searchData["SearchCount"] );
+}
 
 ?>
