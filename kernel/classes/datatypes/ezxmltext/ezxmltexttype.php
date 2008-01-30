@@ -328,6 +328,10 @@ class eZXMLTextType extends eZDataType
 
         $dom = new DOMDocument( '1.0', 'utf-8' );
         $text = eZXMLTextType::rawXMLText( $contentObjectAttribute );
+        if ( trim( $text ) == '' )
+        {
+            return $metaData;
+        }
         $success = $dom->loadXML( $text );
 
         if ( $success )
@@ -336,14 +340,14 @@ class eZXMLTextType extends eZDataType
         }
         return $metaData;
     }
-    
+
     /**
      * Recursively drills down in the xml tree in $node and
      * concatenates text content from the DOMNodes with a space
      * in-between to make sure search words from two different lines
      * are merged.
      *
-     * @param DOMNode $node 
+     * @param DOMNode $node
      * @return string
      */
     static function concatTextContent( $node )
