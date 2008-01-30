@@ -249,6 +249,15 @@ class eZWishList extends eZPersistentObject
         $db->query( "DELETE FROM ezwishlist" );
         $db->commit();
     }
+
+    /*!
+     Remove wish list entries belonging to user \a $userID
+    */
+    static function removeByUserID( $userID )
+    {
+        eZPersistentObject::removeObject( eZWishList::definition(),
+                                          array( 'user_id' => $userID ) );
+    }
 }
 
 ?>
