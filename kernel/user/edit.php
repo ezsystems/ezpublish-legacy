@@ -42,6 +42,9 @@ $Module = $Params['Module'];
 if ( isset( $Params["UserID"] ) )
     $UserID = $Params["UserID"];
 
+if ( !$currentUser->isAnonymous() and !isset( $UserID ) )
+    $UserID = $currentUserID;
+
 if ( $Module->isCurrentAction( "ChangePassword" ) )
 {
     $Module->redirectTo( $Module->functionURI( "password" ) . "/" . $UserID  );
