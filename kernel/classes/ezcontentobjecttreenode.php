@@ -2314,28 +2314,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         // $notEqParentString = "node_id != $fromNode AND";
 
-        $limitationList = array();
-        if ( isset( $params['Limitation'] ) )
-        {
-            $limitationList =& $params['Limitation'];
-        }
-        else if ( isset( $GLOBALS['ezpolicylimitation_list']['content']['read'] ) )
-        {
-
-            $limitationList =& $GLOBALS['ezpolicylimitation_list']['content']['read'];
-            eZDebugSetting::writeDebug( 'kernel-content-treenode', $limitationList, "limitation list"  );
-        }
-        else
-        {
-            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-            $currentUser =& eZUser::currentUser();
-            $accessResult = $currentUser->hasAccessTo( 'content', 'read' );
-            if ( $accessResult['accessWord'] == 'limited' )
-            {
-                $limitationList =& $accessResult['policies'];
-                $GLOBALS['ezpolicylimitation_list']['content']['read'] =& $params['Limitation'];
-            }
-        }
+        $limitation = ( isset( $params['Limitation']  ) && is_array( $params['Limitation']  ) ) ? $params['Limitation']: false;
+        $limitationList = eZContentObjectTreeNode::getLimitationList( $limitation );
 
         $ini =& eZINI::instance();
 
