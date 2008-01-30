@@ -540,6 +540,7 @@ WHERE user_id = '" . $userID . "' AND
         include_once( 'kernel/classes/datatypes/ezuser/ezusersetting.php' );
         include_once( 'kernel/classes/datatypes/ezuser/ezuseraccountkey.php' );
         include_once( 'kernel/classes/datatypes/ezuser/ezforgotpassword.php' );
+        include_once( 'kernel/classes/ezwishlist.php' );
 
         $user = eZUser::fetch( $userID );
         if ( $user )
@@ -552,6 +553,7 @@ WHERE user_id = '" . $userID . "' AND
         eZUserSetting::remove( $userID );
         eZUserAccountKey::remove( $userID );
         eZForgotPassword::remove( $userID );
+        eZWishList::removeByUserID( $userID );
 
         eZPersistentObject::removeObject( eZUser::definition(),
                                           array( 'contentobject_id' => $userID ) );
