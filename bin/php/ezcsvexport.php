@@ -38,22 +38,6 @@
 
 */
 
-function fputcsv4( $fh, $arr )
-{
-    $csv = "";
-    while ( list( $key, $val ) = each( $arr ) )
-    {
-        $val = str_replace( '"', '""', $val );
-        $csv .= '"'.$val.'";';
-    }
-    $csv = substr( $csv, 0, -1 );
-    $csv .= "\n";
-    if ( ! $num = @fwrite( $fh, $csv ) )
-        return FALSE;
-    else
-        return $num;
-}
-
 //include_once( 'lib/ezutils/classes/ezcli.php' );
 //include_once( 'kernel/classes/ezscript.php' );
 //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
@@ -61,12 +45,9 @@ function fputcsv4( $fh, $arr )
 require 'autoload.php';
 
 $cli = eZCLI::instance();
-$script = eZScript::instance( array( 'description' => ( "eZ Publish CSV export script\n\n" .
+$script = eZScript::instance( array( 'description' => ( "eZ Publish CSV export script\n" .
                                                         "\n" .
-                                                        "\n" .
-                                                        "\n" .
-                                                        "\n" .
-                                                        "" ),
+                                                        "ezcsvexport.php --storage-dir=export 2" ),
                                      'use-session' => false,
                                      'use-modules' => true,
                                      'use-extensions' => true,
@@ -76,20 +57,24 @@ $script->startup();
 
 $options = $script->getOptions( "[storage-dir:]",
                                 "[node]",
-                                array( 'node' => 'node_id or url_alias of the node to export',
-                                       'storage-dir' => 'directory to place exported files if any'),
+                                array( 'storage-dir' => 'directory to place exported files in' ),
                                 false,
-                                array( 'user' => true ));
+                                array( 'user' => true ) );
 $script->initialize();
 
-if ( !$options['node'] and count( $options['arguments'] ) < 1 )
+if ( count( $options['arguments'] ) < 1 )
 {
-    $cli->error( "Need a node to export and file for output" );
+    $cli->error( 'Specify a node to export' );
     $script->shutdown( 1 );
 }
 
-
 $nodeID = $options['arguments'][0];
+
+if ( !is_numeric( $nodeID ) )
+{
+    $cli->error( 'Specify a numeric node ID' );
+    $script->shutdown( 2 );
+}
 
 if ( $options['storage-dir'] )
 {
@@ -100,101 +85,115 @@ else
     $storageDir = '';
 }
 
-
-$cli->output( "Going to export subtree from node " . $nodeID . " to directory " . $storageDir .  "\n" );
-
-
 $node = eZContentObjectTreeNode::fetch( $nodeID );
 if ( !$node )
 {
-    $cli->error( "No such node" );
-    $script->shutdown( 1 );
+    $cli->error( "No node with ID: $nodeID" );
+    $script->shutdown( 3 );
 }
+
+$cli->output( "Going to export subtree from node $nodeID to directory $storageDir \n" );
+
+$subTreeCount = $node->subTreeCount();
+
+$script->setIterationData( '.', '~' );
+
+$script->resetIteration( $subTreeCount );
 
 $subTree = $node->subTree();
 $openedFPs = array();
 
 while ( list( $key, $childNode ) = each( $subTree ) )
 {
+    $status = true;
+
     $object = $childNode->attribute( 'object' );
 
     $classIdentifier = $object->attribute( 'class_identifier' );
 
     if ( !isset( $openedFPs[$classIdentifier] ) )
     {
-        $tempFP = @fopen( $storageDir . $classIdentifier . '.csv', "w" );
-        if ( !$tempFP )
+        $tempFP = @fopen( $storageDir . '/' . $classIdentifier . '.csv', "w" );
+        if ( $tempFP )
         {
-            $cli->error( "Can not open output file for $classIdentifier class" );
-            $script->shutdown( 1 );
+            $openedFPs[$classIdentifier] = $tempFP;
         }
         else
         {
-            $cli->output( "Created file $classIdentifier.csv " );
-            $openedFPs[$classIdentifier] = $tempFP;
+            $cli->error( "Can not open output file for $classIdentifier class" );
+            $script->shutdown( 4 );
         }
     }
     else
     {
-        if ( ! $openedFPs[$classIdentifier] )
+        if ( !$openedFPs[$classIdentifier] )
         {
             $cli->error( "Can not open output file for $classIdentifier class" );
-            $script->shutdown( 1 );
+            $script->shutdown( 4 );
         }
     }
 
     $fp = $openedFPs[$classIdentifier];
-
-
-
 
     $objectData = array();
     foreach ( $object->attribute( 'contentobject_attributes' ) as $attribute )
     {
         $attributeStringContent = $attribute->toString();
 
-        switch ( $datatypeString = $attribute->attribute( 'data_type_string' ) )
+        if ( $attributeStringContent != '' )
         {
-            case 'ezimage':
+            switch ( $datatypeString = $attribute->attribute( 'data_type_string' ) )
             {
-                $imageFile =  array_pop( explode( '/', $attributeStringContent ) );
-                // here it would be nice to add a check if such file allready exists
-                eZFileHandler::copy( $attributeStringContent, $storageDir . $imageFile );
-                $attributeStringContent = $imageFile;
-                break;
+                case 'ezimage':
+                {
+                    $imagePathParts = explode( '/', $attributeStringContent );
+                    $imageFile = array_pop( $imagePathParts );
+                    // here it would be nice to add a check if such file allready exists
+                    $success = eZFileHandler::copy( $attributeStringContent, $storageDir . '/' . $imageFile );
+                    if ( !$success )
+                    {
+                        $status = false;
+                    }
+                    $attributeStringContent = $imageFile;
+                } break;
+
+                case 'ezbinaryfile':
+                case 'ezmedia':
+                {
+                    $binaryData = explode( '|', $attributeStringContent );
+                    $success = eZFileHandler::copy( $binaryData[0], $storageDir . '/' . $binaryData[1] );
+                    if ( !$success )
+                    {
+                        $status = false;
+                    }
+                    $attributeStringContent = $binaryData[1];
+                } break;
+
+                default:
             }
-            case 'ezbinaryfile':
-            case 'ezmedia':
-            {
-                $binaryData = explode( '|', $attributeStringContent );
-                eZFileHandler::copy( $binaryData[0], $storageDir . $binaryData[1] );
-                $attributeStringContent = $binaryData[1];
-                break;
-            }
-            default:
         }
 
         $objectData[] = $attributeStringContent;
     }
 
-//    $fp = fopen( $outputFileName, "w" );
     if ( !$fp )
     {
         $cli->error( "Can not open output file" );
-        $script->shutdown( 1 );
+        $script->shutdown( 5 );
     }
-    if ( !fputcsv4( $fp, $objectData ) )
+
+    if ( !fputcsv( $fp, $objectData, ';' ) )
     {
         $cli->error( "Can not write to file" );
-        $script->shutdown( 1 );
+        $script->shutdown( 6 );
     }
 
-
+    $script->iterate( $cli, $status );
 }
 
 while ( $fp = each( $openedFPs ) )
 {
-    fclose( $fp );
+    fclose( $fp['value'] );
 }
 
 $script->shutdown();
