@@ -106,3 +106,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12023: Delimiter is never executed when using nested loops and template compilation is enabled
 - Fixed bug #8688: updatesearchindex.php does not (re)index top nodes
 - Fixed bug #12464: PHP Warning: DOMDocument::loadXML(): Empty string supplied as input
+- Fixed bug #12465: PHP Warning: Undefined index: Limitation
