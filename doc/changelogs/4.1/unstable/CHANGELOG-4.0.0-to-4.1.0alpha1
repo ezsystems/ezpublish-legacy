@@ -112,3 +112,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #11823: Wish list not removed when user is removed
 - Fixed bug #12149: Strict warnings on content object package export
 - Fixed bug #12474: PHP Warning: Undefined variable: srcPath
+- Fixed bug #12475: updatebinaryfile.php does not work in db clustering mode

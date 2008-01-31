@@ -49,15 +49,18 @@ $offset = 0;
 
 $db = eZDB::instance();
 
+$script->setIterationData( '.', '~' );
+
 while ( $binaryFiles = eZPersistentObject::fetchObjectList( eZBinaryFile::definition(), null, null, null, array( 'offset' => $offset, 'limit' => $limit ) ) )
 {
     foreach ( $binaryFiles as $binaryFile )
     {
         $fileName = $binaryFile->attribute( 'filename' );
-        $cli->output( $fileName );
 
         if ( strpos( $fileName, '.' ) !== false )
         {
+            $text = "skipping $fileName, it contains a suffix";
+            $script->iterate( $cli, true, $text );
             continue;
         }
 
@@ -76,15 +79,28 @@ while ( $binaryFiles = eZPersistentObject::fetchObjectList( eZBinaryFile::defini
 
             $newFilePath = $binaryFile->attribute( 'filepath' );
 
-            if ( !eZFile::rename( $oldFilePath, $newFilePath ) )
+            $file = eZClusterFileHandler::instance( $oldFilePath );
+            if ( $file->exists() )
             {
-                $cli->output( 'failed renaming file ' . $binaryFile->attribute( 'filepath' ) );
+                $text = "renamed $fileName to $newFileName";
+                $file->move( $newFilePath );
+            }
+            else
+            {
+                $text = "file not found: $oldFilePath";
+                $script->iterate( $cli, false, $text );
                 $db->rollback();
                 continue;
             }
 
             $db->commit();
         }
+        else
+        {
+            $text = "skipping $fileName, original file name does not contain a suffix";
+        }
+
+        $script->iterate( $cli, true, $text );
     }
 
     $offset += $limit;
