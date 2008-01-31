@@ -992,9 +992,10 @@ class eZDBFileHandler
     function move( $dstPath )
     {
         $dstPath = eZDBFileHandler::cleanPath( $dstPath );
+        $srcPath = $this->filePath;
+
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileMove( '$srcPath', '$dstPath' )" );
 
-        $srcPath = $this->filePath;
         $this->backend->_rename( $srcPath, $dstPath );
 
         $this->metaData = false;
