@@ -363,7 +363,9 @@ class eZTemplate
              $this->MaxLevel = $ini->variable( 'ControlSettings', 'MaxLevel' );
         require_once('kernel/common/i18n.php');
         $this->MaxLevelWarning = ezi18n( 'lib/template',
-                                         'The maximum nesting level of 40 has been reached. The execution is stopped to avoid infinite recursion.' );
+                                         'The maximum nesting level of %max has been reached. The execution is stopped to avoid infinite recursion.',
+                                         '',
+                                         array( '%max' => $this->MaxLevel ) );
         eZDebug::createAccumulatorGroup( 'template_total', 'Template Total' );
 
         $this->TemplatesUsageStatistics = array();
