@@ -70,7 +70,7 @@ class eZFilePasstroughHandler extends eZBinaryFileHandler
                 if ( preg_match( "/^bytes=([0-9]+)-$/", $httpRange, $matches ) )
                 {
                     $fileOffset = $matches[1];
-                    header( "Content-Range: bytes $fileOffset-" . $fileSize - 1 . "/$fileSize" );
+                    header( "Content-Range: bytes $fileOffset-" . ( $fileSize - 1 ) . "/$fileSize" );
                     header( "HTTP/1.1 206 Partial content" );
                     $contentLength -= $fileOffset;
                 }
