@@ -4,7 +4,7 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Implemented enhancement #1823: A larger data_text field for workflow events
 - Implemented enhancement #11410: Specify content type of notification e-mails in the mail template
 - Implemented enhancement #8648: updatesearchindex.php unnecessary reindexes each node - not each object
-- Implemented enhancement: The parameter "UserID" of user/edit is optional, if a user is logged in 
+- Implemented enhancement: The parameter "UserID" of user/edit is optional, if a user is logged in
 
 *Design:
 
@@ -114,3 +114,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12474: PHP Warning: Undefined variable: srcPath
 - Fixed bug #12475: updatebinaryfile.php does not work in db clustering mode
 - Fixed bug #12453: hardcoded error message "The maximum nesting level of 40 has..."
+- Fixed bug #7539: Extension action parameter issue
