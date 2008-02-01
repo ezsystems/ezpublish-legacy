@@ -115,3 +115,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12475: updatebinaryfile.php does not work in db clustering mode
 - Fixed bug #12453: hardcoded error message "The maximum nesting level of 40 has..."
 - Fixed bug #7539: Extension action parameter issue
+- Fixed bug #7645: "206 Partial content" not working in ezfilepasstroughhandler.php
