@@ -1265,7 +1265,7 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
                 $actionFunction = $extensionDirectory . '_ContentActionHandler';
                 if ( function_exists( $actionFunction ) )
                 {
-                    $actionResult = $actionFunction( $Module, $http, $objectID );
+                    $actionResult = $actionFunction( $module, $http, $objectID );
                     if ( $actionResult )
                         return $actionResult;
                 }
