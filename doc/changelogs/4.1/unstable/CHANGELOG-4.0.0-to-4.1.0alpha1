@@ -117,3 +117,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #7539: Extension action parameter issue
 - Fixed bug #7645: "206 Partial content" not working in ezfilepasstroughhandler.php
 - Fixed bug #12310: lib/ezimage/classes/ezimageshellhandler.php contains 2 PHP classes
+- Fixed bug #12492: reference warning in access.php if SiteAccessRules group is used
