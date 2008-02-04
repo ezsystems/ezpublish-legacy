@@ -366,7 +366,7 @@ function accessAllowed( $uri )
     $currentAccess = true;
     if ( !$ini->hasGroup( 'SiteAccessRules' ) )
         return $check;
-    $items =& $ini->variableArray( 'SiteAccessRules', 'Rules' );
+    $items = $ini->variableArray( 'SiteAccessRules', 'Rules' );
     foreach( $items as $item )
     {
         $name = strtolower( $item[0] );
