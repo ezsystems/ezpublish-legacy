@@ -297,24 +297,4 @@ class eZImageShellHandler extends eZImageHandler
     public $PostParameters;
 }
 
-class eZImageShellFactory extends eZImageFactory
-{
-    /*!
-     Initializes the factory with the name \c 'shell'
-    */
-    function eZImageShellFactory()
-    {
-        $this->eZImageFactory( 'shell' );
-    }
-
-    /*!
-     \reimp
-     Creates eZImageShellHandler objects and returns them.
-    */
-    static function produceFromINI( $iniGroup, $iniFilename = false )
-    {
-        return eZImageShellHandler::createFromINI( $iniGroup, $iniFilename );
-    }
-}
-
 ?>
