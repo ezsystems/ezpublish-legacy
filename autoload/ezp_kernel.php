@@ -199,7 +199,7 @@ return array(
       'eZImageLayer'                       => 'lib/ezimage/classes/ezimagelayer.php',
       'eZImageManager'                     => 'lib/ezimage/classes/ezimagemanager.php',
       'eZImageObject'                      => 'lib/ezimage/classes/ezimageobject.php',
-      'eZImageShellFactory'                => 'lib/ezimage/classes/ezimageshellhandler.php',
+      'eZImageShellFactory'                => 'lib/ezimage/classes/ezimageshellfactory.php',
       'eZImageShellHandler'                => 'lib/ezimage/classes/ezimageshellhandler.php',
       'eZImageTextLayer'                   => 'lib/ezimage/classes/ezimagetextlayer.php',
       'eZImageType'                        => 'kernel/classes/datatypes/ezimage/ezimagetype.php',
