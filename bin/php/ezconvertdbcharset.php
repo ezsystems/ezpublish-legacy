@@ -499,14 +499,14 @@ function convertXMLData( $tableInfo, $xmlDataSelectSQLFunction, $xmlDataUpdateSQ
 }
 
 
-function changeDBCharset( $charset )
+function changeDBCharset( $charset, $collation )
 {
     $db = eZDB::instance();
 
     $function = "changeDBCharset" . strtoupper( $db->databaseName() );
     if ( function_exists( $function ) )
     {
-        $function( $charset );
+        $function( $charset, $collation );
     }
     else
     {
@@ -515,11 +515,11 @@ function changeDBCharset( $charset )
 
 }
 
-function changeDBCharsetMYSQL( $charset )
+function changeDBCharsetMYSQL( $charset, $collation )
 {
     $db = eZDB::instance();
 
-    $db->query( "ALTER DATABASE " . $db->DB . " CHARACTER SET $charset" );
+    $db->query( "ALTER DATABASE " . $db->DB . " CHARACTER SET $charset COLLATE $collation" );
 
     $tables = $db->arrayQuery( 'SHOW tables' );
     foreach ( $tables as $table )
@@ -528,14 +528,14 @@ function changeDBCharsetMYSQL( $charset )
        if ( $tableName )
        {
            showMessage3( 'Changing table: ' . $tableName );
-           $db->query( 'ALTER TABLE ' . $db->escapeString( $tableName ) . " CONVERT TO CHARACTER SET $charset" );
+           $db->query( 'ALTER TABLE ' . $db->escapeString( $tableName ) . " CONVERT TO CHARACTER SET $charset COLLATE $collation" );
            showMessage3( 'Optimizing table: ' . $tableName );
            $db->query( 'OPTIMIZE TABLE ' . $db->escapeString( $tableName ) );
        }
     }
 }
 
-function changeDBCharsetPOSTGRESQL( $charset )
+function changeDBCharsetPOSTGRESQL( $charset, $collation )
 {
     $db = eZDB::instance();
 
@@ -666,7 +666,7 @@ $script =& eZScript::instance( array( 'description' => ( "Changes your eZ Publis
 
 $script->startup();
 
-$options = $script->getOptions( "[extra-xml-attributes:][extra-xml-data:][skip-class-translations]",
+$options = $script->getOptions( "[extra-xml-attributes:][extra-xml-data:][collation:][skip-class-translations]",
                                 "",
                                 array( 'extra-xml-attributes' => "specify custom attributes which store its data in xml.\n" .
                                                                  "usage: <datatype_string>[.<table>.<field>][,<datatype_string>.<table>.<field>...].\n" .
@@ -675,6 +675,7 @@ $options = $script->getOptions( "[extra-xml-attributes:][extra-xml-data:][skip-c
                                        'extra-xml-data' => "specify custom xml data.\n" .
                                                             "usage: <table>.<field>[,<table>.<field>...].\n" .
                                                             "note: your custom table must have 'id' field.",
+                                       'collation' => "specify collation for converted db. default is 'utf8_general_ci'",
                                        'skip-class-translations' => "Content class translations were added in eZ Publish 3.9. Use this options if upgrading from early version." ),
                                 false,
                                 array( 'user' => true ) );
@@ -697,6 +698,7 @@ switch( strtolower( $dbType ) )
 }
 
 $skipClassTranslations = $options["skip-class-translations"];
+$collation = $options['collation'] ? $options['collation'] : 'utf8_general_ci';
 
 //
 // get info about extra xml attributes
@@ -836,7 +838,7 @@ if ( count( $xmlCustomDataInfo ) > 0 )
 * convert tables                                              *
 ***************************************************************/
 showMessage( "Changing DB charset..." );
-changeDBCharset( 'utf8' );
+changeDBCharset( 'utf8', $collation );
 
 
 /**************************************************************
