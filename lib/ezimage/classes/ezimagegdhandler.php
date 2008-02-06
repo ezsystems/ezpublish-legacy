@@ -780,25 +780,4 @@ class eZImageGDHandler extends eZImageHandler
     public $PostParameters;
 }
 
-class eZImageGDFactory extends eZImageFactory
-{
-    /*!
-     Initializes the factory with the name \c 'shell'
-    */
-    function eZImageGDFactory()
-    {
-        $this->eZImageFactory( 'gd' );
-    }
-
-    /*!
-     \reimp
-     Creates eZImageGDHandler objects and returns them.
-    */
-    static function produceFromINI( $iniGroup, $iniFilename = false )
-    {
-        $convertHandler = eZImageGDHandler::createFromINI( $iniGroup, $iniFilename );
-        return $convertHandler;
-    }
-}
-
 ?>
