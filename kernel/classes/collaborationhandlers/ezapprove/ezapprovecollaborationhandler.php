@@ -254,7 +254,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
                   $this->isCustomAction( 'Defer' ) )
         {
             // check user's rights to approve
-            $user =& eZUser::currentUser();
+            $user = eZUser::currentUser();
             $userID = $user->attribute( 'contentobject_id' );
             $participantList = eZCollaborationItemParticipantLink::fetchParticipantList( array( 'item_id' => $collaborationItem->attribute( 'id' ) ) );
 
