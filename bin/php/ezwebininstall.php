@@ -227,7 +227,7 @@ if( downloadPackages( $packageList, $packageURL, $packageDir, $packageRepository
                          'primary_language' => $primaryLanguage->attribute( 'locale' ),
                          'host' => $siteINI->variable( 'SiteSettings', 'SiteURL' ) );
 
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
 
         $installParameters = array( 'site_access_map' => array( '*' => $userSiteaccess ),
                                     'top_nodes_map' => array( '*' => 2 ),
