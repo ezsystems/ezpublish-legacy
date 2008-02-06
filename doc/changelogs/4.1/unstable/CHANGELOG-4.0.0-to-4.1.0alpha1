@@ -120,3 +120,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12492: reference warning in access.php if SiteAccessRules group is used
 - Fixed bug #12502: autoload for ezimageshellfactory doesn't work
 - Fixed bug #12512: Only variables should be assigned by reference in kernel/classes/collaborationhandlers/ezapprove/ezapprovecollaborationhandler.php on line 258
+- Fixed bug #12495: array_merge warning when using alphabetical navigator template
