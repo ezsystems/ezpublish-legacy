@@ -488,6 +488,7 @@ class eZContentFunctionCollection
 
     function fetchDraftVersionList( $offset, $limit )
     {
+        include_once( 'kernel/classes/ezcontentobjectversion.php' );
         $userID = eZUser::currentUserID();
         $draftVersionList =  eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
                                                                    null, array(  'creator_id' => $userID,
@@ -501,6 +502,7 @@ class eZContentFunctionCollection
 
     function fetchDraftVersionCount()
     {
+        include_once( 'kernel/classes/ezcontentobjectversion.php' );
         $userID = eZUser::currentUserID();
         $draftVersionList = eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
                                                                  array(),
@@ -517,6 +519,7 @@ class eZContentFunctionCollection
 
     function fetchPendingList( $offset, $limit )
     {
+        include_once( 'kernel/classes/ezcontentobjectversion.php' );
         $userID = eZUser::currentUserID();
         $pendingList =  eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
                                                              null, array(  'creator_id' => $userID,
@@ -529,6 +532,7 @@ class eZContentFunctionCollection
 
     function fetchPendingCount()
     {
+        include_once( 'kernel/classes/ezcontentobjectversion.php' );
         $userID = eZUser::currentUserID();
         $pendingList = eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
                                                             array(),
@@ -546,6 +550,7 @@ class eZContentFunctionCollection
 
     function fetchVersionList( $contentObject, $offset, $limit )
     {
+        include_once( 'kernel/classes/ezcontentobjectversion.php' );
         if ( !is_object( $contentObject ) )
             return array( 'result' => null );
         $versionList =  eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
@@ -558,6 +563,7 @@ class eZContentFunctionCollection
 
     function fetchVersionCount( $contentObject )
     {
+        include_once( 'kernel/classes/ezcontentobjectversion.php' );
         if ( !is_object( $contentObject ) )
             return array( 'result' => 0 );
         $versionList = eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
@@ -788,10 +794,10 @@ class eZContentFunctionCollection
         return array( 'result' => $objectCount );
     }
 
-    function fetchKeywordCount( $alphabet, 
-                                $classid, 
-                                $owner = false, 
-                                $parentNodeID = false, 
+    function fetchKeywordCount( $alphabet,
+                                $classid,
+                                $owner = false,
+                                $parentNodeID = false,
                                 $includeDuplicates = true,
                                 $strictMatching = false  )
     {
@@ -829,12 +835,12 @@ class eZContentFunctionCollection
         if ( !$includeDuplicates )
         {
           //will use SELECT COUNT( DISTINCT ezcontentobject.id ) to count object only once even if it has
-          //several keywords started with $alphabet. 
+          //several keywords started with $alphabet.
           //COUNT( DISTINCT fieldName ) is SQL92 compliant syntax.
-            $sqlToExcludeDuplicates = ' DISTINCT';  
+            $sqlToExcludeDuplicates = ' DISTINCT';
         }
 
-        //composing sql for matching tag word, it could be strict equiality or LIKE clause 
+        //composing sql for matching tag word, it could be strict equiality or LIKE clause
         //dependent of $strictMatching parameter.
         $sqlMatching = "ezkeyword.keyword LIKE '$alphabet%'";
         if ( $strictMatching )
@@ -872,20 +878,20 @@ class eZContentFunctionCollection
     //
     //Returns an array( 'result' => array( 'keyword' => keyword, 'link_object' => node_id );
     //By default fetchKeyword gets a list of (not necessary unique) nodes and respective keyword strings
-    //Search keyword provided in $alphabet parameter. 
+    //Search keyword provided in $alphabet parameter.
     //By default keyword matching implemented by LIKE so all keywords that starts with $alphabet
     //will successfully match. This means that if some object have attached keywords:
     //'Skien', 'Skien forests', 'Skien comunity' than fetchKeyword('Skien') will return tree entries
     //for this object.
-    //Setting $includeDuplicates parameter to false makes fetchKeyword('Skien') to return just 
+    //Setting $includeDuplicates parameter to false makes fetchKeyword('Skien') to return just
     //one entry for such objects.
-    function fetchKeyword( $alphabet, 
-                           $classid, 
-                           $offset, 
-                           $limit, 
-                           $owner = false, 
-                           $sortBy = array(), 
-                           $parentNodeID = false, 
+    function fetchKeyword( $alphabet,
+                           $classid,
+                           $offset,
+                           $limit,
+                           $owner = false,
+                           $sortBy = array(),
+                           $parentNodeID = false,
                            $includeDuplicates = true,
                            $strictMatching = false )
     {
@@ -919,7 +925,7 @@ class eZContentFunctionCollection
 
         //in SELECT clause below we will use a full keyword value
         //or just a part of ezkeyword.keyword matched to $alphabet respective to $includeDuplicates parameter.
-        //In the case $includeDuplicates = ture we need only a part 
+        //In the case $includeDuplicates = ture we need only a part
         //of ezkeyword.keyword to be fetched in field to allow DISTINCT to remove rows with the same node id's
         $sqlKeyword = 'ezkeyword.keyword';
         if ( !$includeDuplicates )
@@ -977,7 +983,7 @@ class eZContentFunctionCollection
         $sortingInfo['attributeWhereSQL'] .= " a1.version=ezcontentobject.current_version
                                              AND a1.contentobject_id=ezcontentobject.id AND";
 
-        //Adding DISTINCT to avoid duplicates, 
+        //Adding DISTINCT to avoid duplicates,
         //check if DISTINCT keyword was added before when providing clauses for sorting.
         if ( !$includeDuplicates && substr( $sqlTarget, 0, 9) != 'DISTINCT ' )
         {
@@ -993,7 +999,7 @@ class eZContentFunctionCollection
             $sqlClassIDString = 'AND ezkeyword.class_id IN (' . $db->implodeWithTypeCast( ',', $classIDArray, 'int' ) . ')';
         }
 
-        // composing sql for matching tag word, it could be strict equiality or LIKE clause 
+        // composing sql for matching tag word, it could be strict equiality or LIKE clause
         // dependent of $strictMatching parameter.
         $sqlMatching = "ezkeyword.keyword LIKE '$alphabet%'";
         if ( $strictMatching )
