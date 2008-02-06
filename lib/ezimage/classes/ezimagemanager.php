@@ -744,6 +744,7 @@ class eZImageManager
                 $filepath = $result['found-file-path'];
                 include_once( $filepath );
                 $className = $result['type'] . 'factory';
+                include_once( $result['found-file-dir'] . '/' . $className . '.php' );
                 if ( class_exists( $className ) )
                 {
                     return $this->Factories[$factoryName] = new $className();
