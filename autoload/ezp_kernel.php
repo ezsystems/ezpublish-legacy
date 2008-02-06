@@ -192,7 +192,7 @@ return array(
       'eZImageFactory'                     => 'lib/ezimage/classes/ezimagefactory.php',
       'eZImageFile'                        => 'kernel/classes/datatypes/ezimage/ezimagefile.php',
       'eZImageFont'                        => 'lib/ezimage/classes/ezimagefont.php',
-      'eZImageGDFactory'                   => 'lib/ezimage/classes/ezimagegdhandler.php',
+      'eZImageGDFactory'                   => 'lib/ezimage/classes/ezimagegdfactory.php',
       'eZImageGDHandler'                   => 'lib/ezimage/classes/ezimagegdhandler.php',
       'eZImageHandler'                     => 'lib/ezimage/classes/ezimagehandler.php',
       'eZImageInterface'                   => 'lib/ezimage/classes/ezimageinterface.php',
