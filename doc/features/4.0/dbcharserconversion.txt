@@ -1,0 +1,75 @@
+eZ Publish 4 database charset conversion
+========================================
+Converts db's charset from arbitrary encoding to utf8.
+Supports mysql and postgresql.
+
+Usage:
+$ ./bin/php/ezconvertdbcharset.php -s <your_siteaccess>
+
+Params:
+$ ./bin/php/ezconvertdbcharset.php --help
+
+
+Troubleshooteing
+----------------
+* Problem with collation
+
+  Symptom:
+  the script can fail on MySQL with message like:
+  "Query error: Duplicate entry 'bjÃ¶n' for key 2. 
+   Query: ALTER TABLE ezsearch_search_phrase CONVERT TO CHARACTER SET utf8"
+  
+  Description:
+  - the original collation is 'latin1_swedish_ci';
+  - column 'phrase' of the 'ezsearch_search_phrase' is defined as unique key,
+    thus MySQL creates index for this column during conversion;
+  - the 'latin1_swedish_ci' distinguishes characters 'o', 'ö'('o' with umlaut)
+    and 'ø'('o' with slash). Thus the original 'phrase' column can have values
+    with all 3 characters, like:
+    +-----------+
+    | phrase    |
+    +-----------+
+    | abco      |
+    | abcö      |
+    | abcø      |
+    +-----------+
+  - there is no approprite 'utf8_...' collation which can distinguish those
+    chars. 
+
+  Solution:
+  - use 'GROUP BY' and some collation other then original to remove problem
+    rows. The new collation should behave as wanted "utf8_..." collation.
+    f.ex. 'utf8_general_ci' doesn't distinguish 'ö' and 'ø', the 
+    'latin1_danish_ci' as well. Thus need to do:
+    (1) mysql> create table ezsearch_search_phrase_1 as select min(id) as id,
+                  phrase,
+                  sum(phrase_count) as phrase_count,
+                  sum(result_count) as result_count 
+                from ezsearch_search_phrase
+                group by phrase
+                collate latin1_danish_ci;
+
+    (2) mysql> truncate ezsearch_search_phrase;
+    (3) mysql> insert into ezsearch_search_phrase select * 
+                from ezsearch_search_phrase_1;
+    (4) mysql> drop table ezsearch_search_phrase_1;
+
+  - while playing with grouping and collations it can be useful to check that
+    problem gone without running the script. f.ex. if desired  collation is
+    'utf8_general_ci' and to check whether it's enough to do grouping using 
+    'latin1_danish_ci':
+        mysql> create unique index ezsearch_search_phrase_phrase 
+                on ezsearch_search_phrase_1(phrase);
+    (5) mysql> alter table ezsearch_search_phrase_1
+                convert to character set 'utf8'
+                collate 'utf8_general_ci';
+
+  - if (5) failes the step (1) should be repeated with another collation
+    (latin1_german1_ci, latin1_german2_ci) like:
+        mysql> create table ezsearch_search_phrase_2 as select min(id) as id,
+                    phrase,
+                    sum(phrase_count) as phrase_count,
+                    sum(result_count) as result_count
+                from ezsearch_search_phrase_1
+                group by phrase
+                collate latin1_german1_ci;
