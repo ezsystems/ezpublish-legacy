@@ -357,7 +357,7 @@ class eZExtension
      \return Name of the extension a path belongs to.
      \param $path Path to check.
     */
-    function nameFromPath( $path )
+    static function nameFromPath( $path )
     {
         //include_once( 'lib/ezfile/classes/ezdir.php' );
         $path = eZDir::cleanPath( $path );
@@ -376,7 +376,7 @@ class eZExtension
      \param $path Path to check.
      \note The root of an extension is considered to be in this path too.
     */
-    function isExtension( $path )
+    static function isExtension( $path )
     {
         if ( eZExtension::nameFromPath( $path ) )
             return true;
