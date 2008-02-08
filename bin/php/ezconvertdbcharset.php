@@ -35,7 +35,7 @@ define( 'EZ_CONTENTCLASS_ATTRIBUTE_TMP_TABLE_NAME', 'ezcontentclass_attribute_tm
 
 define( 'EZ_CREATE_CONTENTCLASS_ATTRIBUTE_TMP_TABLE_SQL_MYSQL',
     "
-    CREATE TABLE " . EZ_CONTENTCLASS_ATTRIBUTE_TMP_TABLE_NAME . " (
+    CREATE TEMPORARY TABLE " . EZ_CONTENTCLASS_ATTRIBUTE_TMP_TABLE_NAME . " (
       id int(11) NOT NULL default '0',
       version int(11) NOT NULL default '0',
       is_always_available int(11) NOT NULL default '0',
@@ -44,6 +44,7 @@ define( 'EZ_CREATE_CONTENTCLASS_ATTRIBUTE_TMP_TABLE_SQL_MYSQL',
       PRIMARY KEY  (id,version,language_locale)
     )" );
 
+// create persistent tmp table since this table is needed between connect-sessions.
 define( 'EZ_CREATE_CONTENTCLASS_ATTRIBUTE_TMP_TABLE_SQL_POSTGRESQL',
     "
     CREATE TABLE " . EZ_CONTENTCLASS_ATTRIBUTE_TMP_TABLE_NAME . " (
@@ -252,8 +253,6 @@ function serializeNames( $selectSQL, $storeToTable )
     $offset = 0;
 
     $selectSQL .= "\nLIMIT $limit";
-
-    echo "selectSQL: $selectSQL\n";
 
     while ( $result = $db->arrayQuery( $selectSQL . " OFFSET $offset" ) )
     {
@@ -507,6 +506,9 @@ function changeDBCharset( $charset, $collation )
     if ( function_exists( $function ) )
     {
         $function( $charset, $collation );
+
+        // to avoid on-the-fly recoding.
+        $db->query( "SET NAMES $charset" );
     }
     else
     {
