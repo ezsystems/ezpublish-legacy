@@ -310,6 +310,16 @@ class eZSerializedObjectNameList
         return $this->NameList;
     }
 
+    /*!
+     Same as 'nameList()' but without 'always-available' entry.
+     */
+    function cleanNameList()
+    {
+        $nameList = $this->nameList();
+        unset( $nameList[eZSerializedObjectNameList::ALWAYS_AVAILABLE_STR] );
+        return $nameList;
+    }
+
     function nameListCount()
     {
         return count( $this->nameList );

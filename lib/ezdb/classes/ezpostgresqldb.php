@@ -586,7 +586,7 @@ class eZPostgreSQLDB extends eZDBInterface
     */
     function close()
     {
-        pg_close();
+        pg_close( $this->DBConnection );
     }
 
     /*!
