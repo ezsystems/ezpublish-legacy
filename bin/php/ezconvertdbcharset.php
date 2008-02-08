@@ -659,7 +659,7 @@ function getTestXMLData()
 
 $cli = eZCLI::instance();
 
-$script =& eZScript::instance( array( 'description' => ( "Changes your eZ Publish database tables to use UTF8" ),
+$script = eZScript::instance( array( 'description' => ( "Changes your eZ Publish database tables to use UTF8" ),
                                       'use-session' => false,
                                       'use-modules' => false,
                                       'use-extensions' => true ) );
@@ -787,16 +787,27 @@ if ( $xmlCustomDataOption )
     }
 }
 
-
-$db->begin();
-
-
 //
 // Get db charset
 //
 $dbCharset = $db->charset();
 showMessage( "Detected database charset: $dbCharset" );
 
+switch( strtolower( $dbCharset ) )
+{
+    case 'utf8':
+    case 'UTF8':
+    case 'utf-8':
+    case 'UTF8':
+        {
+            showMessage( "The database is already in utf8." );
+            $script->shutdown( 2 );
+        } break;
+    default:
+        break;
+}
+
+$db->begin();
 
 /**************************************************************
 * backup content class serialized names                               *
