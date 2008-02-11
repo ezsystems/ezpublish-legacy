@@ -1431,7 +1431,7 @@ WHERE user_id = '" . $userID . "' AND
 
      \return true or false
     */
-    function isUserObject( $contentObject )
+    static function isUserObject( $contentObject )
     {
         if ( !$contentObject )
         {
