@@ -170,6 +170,193 @@ function eZExecuteShellCommand( $command, $errMessage = '', $retry = true )
 /**************************************************************
 * helper functions                                            *
 ***************************************************************/
+/*!
+ process xml attributes info
+ \return \c false or an array of table infos.
+*/
+function parseXMLAttributesOption( $xmlAttributesOption )
+{
+    if ( !$xmlAttributesOption )
+    {
+        return false;
+    }
+
+    $xmlAttributesInfo = array();
+
+    $xmlAttributesOption = split( ',', $xmlAttributesOption );
+    foreach ( $xmlAttributesOption as $attributeTableInfoOption )
+    {
+        $attributeTableInfo = split( '\.', $attributeTableInfoOption );
+        switch ( count( $attributeTableInfo ) )
+        {
+            case 1:
+                {
+                    $attributeTableInfo = array( 'datatype' => trim( $attributeTableInfo[0] ),
+                                                 'table' => 'ezcontentobject_attribute',
+                                                 'data_field' => 'data_text' );
+                } break;
+            case 3:
+                {
+                    $attributeTableInfo = array( 'datatype' => trim( $attributeTableInfo[0] ),
+                                                 'table' => trim( $attributeTableInfo[1] ),
+                                                 'data_field' => trim( $attributeTableInfo[2] ) );
+                } break;
+            default:
+                {
+                    showError( "invalid 'extra-xml-attributes' '$attributeTableInfoOption' option" );
+                } break;
+        }
+
+        $xmlAttributesInfo[] = $attributeTableInfo;
+    }
+
+    return $xmlAttributesInfo;
+}
+
+/*!
+  process custom xml data info
+  \retruns \c false of an array of table infos.
+*/
+function parseCustomXMLDataOption( $xmlCustomDataOption )
+{
+    if ( !$xmlCustomDataOption )
+    {
+        return false;
+    }
+
+    $xmlCustomDataInfo = array();
+
+    $xmlCustomDataOption = split( ',', $xmlCustomDataOption );
+    foreach ( $xmlCustomDataOption as $tableInfoOption )
+    {
+        $tableInfo = split( '\.', $tableInfoOption );
+        switch ( count( $tableInfo ) )
+        {
+            case 2:
+                {
+                    $tableInfo = array( 'table' => trim( $tableInfo[0] ),
+                                        'data_field' => trim( $tableInfo[1] ) );
+                } break;
+            default:
+                {
+                    showError( "invalid 'extra-xml-data' '$tableInfoOption' option" );
+                } break;
+        }
+
+        $xmlCustomDataInfo[] = $tableInfo;
+    }
+
+    return $xmlCustomDataInfo;
+}
+
+/*!
+ process custom xml data info
+ \returns \c false or an array of table infos.
+*/
+function parseCustomSerializedDataOption( $serializedCustomDataOption )
+{
+    if ( !$serializedCustomDataOption )
+    {
+        return false;
+    }
+
+    $db = eZDB::instance();
+
+    $serializedDataInfo = array();
+
+    $serializedCustomDataOption = split( ',', $serializedCustomDataOption );
+    foreach ( $serializedCustomDataOption as $tableInfoOption )
+    {
+        $tableInfo = split( '\;', $tableInfoOption );
+        if ( count( $tableInfo ) != 2 )
+        {
+            showError( "invalid 'extra-serialized-data' '$tableInfoOption' option" );
+        }
+
+        $dataInfo = split( '\.', $tableInfo[0] );
+        $keyInfo = split( '\.', $tableInfo[1] );
+
+        switch ( count( $dataInfo ) )
+        {
+            case 2:
+                {
+                    $dataInfo = array( 'table' => trim( $dataInfo[0] ),
+                                       'data_field' => trim( $dataInfo[1] ) );
+                } break;
+            default:
+                {
+                    showError( "invalid 'extra-serialized-data' '$tableInfoOption' option" );
+                } break;
+        }
+
+        foreach ( array_keys( $keyInfo ) as $key => $value )
+        {
+            trim( $keyInfo[$key] );
+            // check column exists
+            $result = $db->query( "SELECT " . $keyInfo[$key] . " from " . $dataInfo['table'] . " limit 1" );
+            if ( $result === false )
+            {
+                showError( "invalid 'extra-serialized-data' '$tableInfoOption' option" );
+            }
+        }
+
+        $serializedDataInfo[] = array( 'table' => $dataInfo['table'],
+                                       'data_field' => $dataInfo['data_field'],
+                                       'blob_field' => $dataInfo['data_field'] . "_blob",
+                                       'keys' => $keyInfo );
+    }
+
+    return $serializedDataInfo;
+}
+
+
+
+/*!
+ Check db driver
+*/
+function checkDBDriver()
+{
+    $db = eZDB::instance();
+    $dbType = $db->databaseName();
+    switch( strtolower( $dbType ) )
+    {
+        case 'mysql':
+        case 'postgresql':
+            break;
+        default:
+            {
+                return false;
+            } break;
+    }
+
+    return true;
+}
+
+/*!
+ Check db charset
+*/
+function checkDBCharset()
+{
+    $db = eZDB::instance();
+    $dbCharset = $db->charset();
+
+    switch( strtolower( $dbCharset ) )
+    {
+        case 'utf8':
+        case 'utf-8':
+            {
+                return false;
+            } break;
+        default:
+            break;
+    }
+
+    return true;
+}
+
+/**************************************************************
+* handle content class / content class attributes             *
+***************************************************************/
 function createContentClassAttributeTempTable()
 {
     $db = eZDB::instance();
@@ -199,7 +386,7 @@ function unserializeContentClassAttriubteNames()
     {
         foreach ( $result as $row )
         {
-            showMessage3( "id: '" . $row['id'] . "' version: '" . $row['version'] . "'" );
+            //showMessage3( "id: '" . $row['id'] . "' version: '" . $row['version'] . "'" );
 
             $attributeName->initFromSerializedList( $row['serialized_name_list'] );
 
@@ -328,7 +515,6 @@ function serializeNames( $selectSQL, $storeToTable )
     }
 }
 
-
 function storeSerializedName( $serializedName, $id, $version, $table )
 {
     if ( $serializedName instanceof eZSerializedObjectNameList )
@@ -345,6 +531,180 @@ function storeSerializedName( $serializedName, $id, $version, $table )
     }
 }
 
+/**************************************************************
+* handle custom serialized data                               *
+***************************************************************/
+
+/*!
+ Logic:
+  - create binary column as temp storage to not loose data when table will be converted
+  - get original data
+  - unseiazlize
+  - convert data to utf-8
+  - serialize
+  - store data in binary column
+ */
+function convertSerializedData( $serializedDataInfo )
+{
+    if ( !is_array( $serializedDataInfo ) )
+    {
+        return;
+    }
+
+    $db = eZDB::instance();
+
+    // create blob column
+    $function = "createBLOBColumn" . strtoupper( $db->databaseName() );
+    if ( function_exists( $function ) )
+    {
+        foreach ( $serializedDataInfo as $tableInfo )
+        {
+            $function( $tableInfo );
+        }
+    }
+    else
+    {
+        showError( "no function to create BLOB column" );
+    }
+
+    // convert data
+    $dbEncoding = strtolower( $db->charset() );
+
+    foreach ( $serializedDataInfo as $tableInfo )
+    {
+        showMessage3( $tableInfo['table'] . '.' . $tableInfo['data_field'] );
+
+        $limit = 100;
+        $offset = 0;
+
+        $keysString = implode( ', ', $tableInfo['keys'] );
+        $dataFieldName = $tableInfo['data_field'];
+        $selectSQL = "SELECT " . $keysString . ', ' . $dataFieldName .
+                     " FROM " . $tableInfo['table'] .
+                     " LIMIT $limit";
+
+        while ( $result = $db->arrayQuery( $selectSQL . " OFFSET $offset" ) )
+        {
+            foreach ( $result as $row )
+            {
+                $data = unserialize( $row[$dataFieldName] );
+                if ( !$data )
+                {
+                    // nothing to do
+                    continue;
+                }
+
+                $data = convertArray( $data, $dbEncoding, 'utf8' );
+                $data = serialize( $data );
+
+                $whereSql = '';
+                foreach ( $tableInfo['keys'] as $key )
+                {
+                    if ( $whereSql != '' )
+                    {
+                        $whereSql .= " AND ";
+                    }
+                    $whereSql .= "$key = " . $row[$key];
+                }
+
+                $updateSql = "UPDATE " . $tableInfo['table'] .
+                             " SET " . $tableInfo['blob_field'] . " = '" . $data . "'" .
+                             " WHERE $whereSql";
+
+                $db->query( $updateSql );
+            }
+            $offset += $limit;
+        }
+
+    }
+}
+
+/*!
+ Restore data from binary column
+ */
+function restoreSerializedData( $serializedDataInfo )
+{
+    if ( !is_array( $serializedDataInfo ) )
+    {
+        return;
+    }
+
+    $db = eZDB::instance();
+
+    foreach ( $serializedDataInfo as $tableInfo )
+    {
+        $sql = "UPDATE " . $tableInfo['table'] .
+               " SET " . $tableInfo['data_field'] . ' = ' . $tableInfo['blob_field'];
+
+        $db->query( $sql );
+    }
+}
+
+function dropBLOBColumns( $serializedDataInfo )
+{
+    if ( !is_array( $serializedDataInfo ) )
+    {
+        return;
+    }
+
+    foreach ( $serializedDataInfo as $tableInfo )
+    {
+        dropBLOBColumn( $tableInfo );
+    }
+}
+
+function convertArray( $array, $inCharset, $outCharset )
+{
+    if ( !is_array( $array ) )
+    {
+        var_dump( $array );
+        showError( "convertArray: not an array was passed" );
+        return;
+    }
+
+    foreach ( array_keys( $array ) as $key )
+    {
+        $value = $array[$key];
+
+        if ( is_string( $value ) )
+        {
+            $array[$key] = iconv( $inCharset, $outCharset, $value );
+        }
+        else if ( is_array( $value ) )
+        {
+            $array[$key] = convertArray( $value, $inCharset, $outCharset );
+        }
+        else
+        {
+            //nothing to do
+        }
+    }
+
+    return $array;
+}
+
+function createBLOBColumnMYSQL( $tableInfo )
+{
+    $db = eZDB::instance();
+    $query = "ALTER TABLE " . $tableInfo['table'] . " ADD COLUMN " . $tableInfo['blob_field'] . " BLOB";
+    $db->query( $query );
+}
+
+function createBLOBColumnPOSTGRESQL( $tableInfo )
+{
+
+}
+
+function dropBLOBColumn( $tableInfo )
+{
+    $db = eZDB::instance();
+    $query = "ALTER TABLE " . $tableInfo['table'] . " DROP COLUMN " . $tableInfo['blob_field'];
+    $db->query( $query );
+}
+
+/**************************************************************
+* handle xml data                                             *
+***************************************************************/
 function convertXMLDatatypes( $tableInfoList )
 {
     foreach ( $tableInfoList as $tableInfo )
@@ -397,7 +757,7 @@ function xmlDatatypeUpdateSQL( $dataTableInfo, $row )
 
 function convertXMLDatatypeProgress( $row )
 {
-    showMessage3( "id: '" . $row['id'] . "' version: '" . $row['version'] . "'" );
+    //showMessage3( "id: '" . $row['id'] . "' version: '" . $row['version'] . "'" );
 }
 
 function xmlCustomDataSelectSQL( $dataTableInfo )
@@ -484,7 +844,7 @@ function convertXMLData( $tableInfo, $xmlDataSelectSQLFunction, $xmlDataUpdateSQ
             }
             else
             {
-                showMessage3( "xml's and db's encodings are equal" );
+                //showMessage3( "xml's and db's encodings are equal" );
                 $row['xml_data'] = ereg_replace( '^(<\?xml[^>]+encoding)="([^"]+)"', "\\1=\"utf-8\"", $xmlString );
             }
 
@@ -498,6 +858,9 @@ function convertXMLData( $tableInfo, $xmlDataSelectSQLFunction, $xmlDataUpdateSQ
 }
 
 
+/**************************************************************
+* handle tables conversion                                    *
+***************************************************************/
 function changeDBCharset( $charset, $collation )
 {
     $db = eZDB::instance();
@@ -586,7 +949,7 @@ function changeDBCharsetPOSTGRESQL( $charset, $collation )
     showMessage3( "re-creating db with charset '$charset'" );
     // drop db
     $command = "$dropdb $dbName";
-    ezExecuteShellCommand( $command, "failed to drop db. tried command '$command'");
+    eZExecuteShellCommand( $command, "failed to drop db. tried command '$command'");
     // create new db in $charset
     $command = "$createdb $dbName --encoding=utf8";
     eZExecuteShellCommand( $command, "failed to create db. tried command '$command'");
@@ -605,55 +968,6 @@ function changeDBCharsetPOSTGRESQL( $charset, $collation )
     $db->begin();
 }
 
-function createTestXMLData()
-{
-    $db = eZDB::instance();
-
-    $files = array( 'rus_koi8_xml.txt',
-                    'rus_utf8_xml.txt',
-                    'rus_cp1251_xml.txt',
-                    'rus_undefined_xml.txt' );
-
-    $datatypes = array( 'ezxmltext',
-                    'ezselection',
-                    'ezmatrix',
-                    'ezxmltext' );
-
-    $id = 0;
-    foreach ( $files as $idx => $file )
-    {
-        ++$id;
-        $fp = fopen( $file, "rb" );
-
-        $dataText = fread( $fp, 200 );
-
-        $query = "INSERT INTO b_tmp(id, version, data_type_string, data_text)\n" .
-                    "VALUES( $id, 0, '" . $datatypes[$idx] . "', '" . $db->escapeString( $dataText ) . "' )";
-
-        $db->query( $query );
-
-        fclose( $fp );
-    }
-
-    $db->commit();
-}
-
-function getTestXMLData()
-{
-    $db = eZDB::instance();
-
-    $db->query( "SET NAMES utf8" );
-
-    $result = $db->arrayQuery( "SELECT data_text FROM b_tmp" );
-
-    $str = var_export( $result, true );
-
-    $fp = fopen( "rus_xml_converted.txt", "wb" );
-
-    fwrite( $fp, $str, 1000 );
-    fclose( $fp );
-}
-
 
 /**************************************************************
 * start script                                                *
@@ -668,7 +982,7 @@ $script = eZScript::instance( array( 'description' => ( "Changes your eZ Publish
 
 $script->startup();
 
-$options = $script->getOptions( "[extra-xml-attributes:][extra-xml-data:][collation:][skip-class-translations]",
+$options = $script->getOptions( "[extra-xml-attributes:][extra-xml-data:][extra-serialized-data:][collation:][skip-class-translations]",
                                 "",
                                 array( 'extra-xml-attributes' => "specify custom attributes which store its data in xml.\n" .
                                                                  "usage: <datatype_string>[.<table>.<field>][,<datatype_string>.<table>.<field>...].\n" .
@@ -677,6 +991,10 @@ $options = $script->getOptions( "[extra-xml-attributes:][extra-xml-data:][collat
                                        'extra-xml-data' => "specify custom xml data.\n" .
                                                             "usage: <table>.<field>[,<table>.<field>...].\n" .
                                                             "note: your custom table must have 'id' field.",
+                                       'extra-serialized-data' => "specify custom serialized data.\n" .
+                                                                  "usage: <table>.<field>;<key_field1>[.<key_field2>....][,<table>.<field>...].\n" .
+                                                                  "ex: mytable.data_text;id.version,mytable2.data;id",
+
                                        'collation' => "specify collation for converted db. default is 'utf8_general_ci'",
                                        'skip-class-translations' => "Content class translations were added in eZ Publish 3.9. Use this options if upgrading from early version." ),
                                 false,
@@ -687,17 +1005,17 @@ $script->initialize();
 
 $db = eZDB::instance();
 
-$dbType = $db->databaseName();
-switch( strtolower( $dbType ) )
+if ( !checkDBDriver() )
 {
-    case 'mysql':
-    case 'postgresql':
-        break;
-    default:
-        {
-            showError( "Unsupported db type '$dbType'");
-        } break;
+    showError( "Unsupported db type '$dbType'");
 }
+
+if ( !checkDBCharset() )
+{
+    showMessage( "The database is already in utf8." );
+    $script->shutdown( 2 );
+}
+
 
 $skipClassTranslations = $options["skip-class-translations"];
 $collation = $options['collation'] ? $options['collation'] : 'utf8_general_ci';
@@ -717,41 +1035,9 @@ $xmlAttributesOption .= ', ezimage';
 $xmlAttributesOption .= ', ezmatrix';
 $xmlAttributesOption .= ', ezselection.ezcontentclass_attribute.data_text5';
 
-//
-// process xml attributes info
-//
-$xmlAttributesInfo = array();
-if ( $xmlAttributesOption )
-{
-    $xmlAttributesOption = split( ',', $xmlAttributesOption );
-    foreach ( $xmlAttributesOption as $attributeTableInfoOption )
-    {
-        $attributeTableInfo = split( '\.', $attributeTableInfoOption );
-        switch ( count( $attributeTableInfo ) )
-        {
-            case 1:
-                {
-                    $attributeTableInfo = array( 'datatype' => trim( $attributeTableInfo[0] ),
-                                                 'table' => 'ezcontentobject_attribute',
-                                                 'data_field' => 'data_text' );
-                } break;
-            case 3:
-                {
-                    $attributeTableInfo = array( 'datatype' => trim( $attributeTableInfo[0] ),
-                                                 'table' => trim( $attributeTableInfo[1] ),
-                                                 'data_field' => trim( $attributeTableInfo[2] ) );
-                } break;
-            default:
-                {
-                    showError( "invalid 'extra-xml-attributes' '$attributeTableInfoOption' option" );
-                } break;
-        }
 
-        $xmlAttributesInfo[] = $attributeTableInfo;
-    }
-}
-
-if ( count( $xmlAttributesInfo ) == 0 )
+$xmlAttributesInfo = parseXMLAttributesOption( $xmlAttributesOption );
+if ( $xmlAttributesInfo && count( $xmlAttributesInfo ) == 0 )
 {
     showWarning( "no xml attributes specified" );
 }
@@ -761,58 +1047,31 @@ if ( count( $xmlAttributesInfo ) == 0 )
 // get info about custom xml data
 //
 $xmlCustomDataOption = $options['extra-xml-data'] ? $options['extra-xml-data'] : '';
+$xmlCustomDataInfo = parseCustomXMLDataOption( $xmlCustomDataOption );
+
 
 //
-// process custom xml data info
+// get info about custom serialized data
 //
-$xmlCustomDataInfo = array();
-if ( $xmlCustomDataOption )
-{
-    $xmlCustomDataOption = split( ',', $xmlCustomDataOption );
-    foreach ( $xmlCustomDataOption as $tableInfo )
-    {
-        $tableInfo = split( '\.', $tableInfo );
-        switch ( count( $tableInfo ) )
-        {
-            case 2:
-                {
-                    $tableInfo = array( 'table' => trim( $tableInfo[0] ),
-                                        'data_field' => trim( $tableInfo[1] ) );
-                } break;
-            default:
-                {
-                    showError( "invalid 'extra-xml-data' '$tableInfo' option" );
-                } break;
-        }
+$serializedCustomDataOption = $options['extra-serialized-data'] ? $options['extra-serialized-data'] : '';
+$serializedDataInfo = parseCustomSerializedDataOption( $serializedCustomDataOption );
 
-        $xmlCustomDataInfo[] = $tableInfo;
-    }
-}
-
-//
-// Get db charset
-//
-$dbCharset = $db->charset();
-showMessage( "Detected database charset: $dbCharset" );
-
-switch( strtolower( $dbCharset ) )
-{
-    case 'utf8':
-    case 'UTF8':
-    case 'utf-8':
-    case 'UTF8':
-        {
-            showMessage( "The database is already in utf8." );
-            $script->shutdown( 2 );
-        } break;
-    default:
-        break;
-}
 
 $db->begin();
 
+
 /**************************************************************
-* backup content class serialized names                               *
+* convert extra serialized data                               *
+***************************************************************/
+if ( is_array( $serializedDataInfo ) )
+{
+    showMessage( "Converting extra serialized data" );
+    convertSerializedData( $serializedDataInfo );
+}
+
+
+/**************************************************************
+* backup content class serialized names                       *
 ***************************************************************/
 
 // do nothing, cause class names are stored in ezcontentclass_name table,
@@ -820,7 +1079,7 @@ $db->begin();
 
 
 /**************************************************************
-* backup content class attribute serialized names                    *
+* backup content class attribute serialized names             *
 ***************************************************************/
 if ( !$skipClassTranslations )
 {
@@ -840,7 +1099,7 @@ convertXMLDatatypes( $xmlAttributesInfo );
 /**************************************************************
 * convert custom xml datat                                    *
 ***************************************************************/
-if ( count( $xmlCustomDataInfo ) > 0 )
+if ( is_array( $xmlCustomDataInfo ) )
 {
     showMessage( "Converting custom xml data..." );
     convertCustomXMLData( $xmlCustomDataInfo );
@@ -875,15 +1134,29 @@ if ( !$skipClassTranslations )
 
 
 /**************************************************************
+* restore extra serialized data                               *
+***************************************************************/
+if ( is_array( $serializedDataInfo ) )
+{
+    showMessage( "Restoring extra serialized data" );
+    restoreSerializedData( $serializedDataInfo );
+}
+
+
+/**************************************************************
 * clean up                                                    *
 ***************************************************************/
-showMessage( "Cleanup..." );
+showMessage( "Cleaning up..." );
 if ( !$skipClassTranslations )
 {
     dropContentClassAttributeTempTable();
 }
+dropBLOBColumns( $serializedDataInfo );
 
 
+/**************************************************************
+* finalize                                                    *
+***************************************************************/
 showMessage( "Commiting..." );
 $db->commit();
 
