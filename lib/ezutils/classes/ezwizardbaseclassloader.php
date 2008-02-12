@@ -43,12 +43,12 @@ class eZWizardBaseClassLoader
      \static
      Create new specified class
     */
-    function createClass( $tpl,
-                          &$module,
-                          $stepArray,
-                          $basePath,
-                          $storageName = false,
-                          $metaData = false )
+    static function createClass( $tpl,
+                                 $module,
+                                 $stepArray,
+                                 $basePath,
+                                 $storageName = false,
+                                 $metaData = false )
     {
         if ( !$storageName )
         {
