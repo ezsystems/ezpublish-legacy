@@ -4171,6 +4171,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         include_once( 'kernel/classes/eztipafriendcounter.php' );
         eZTipafriendCounter::remove( $nodeID );
 
+        // Clean up view counter
+        include_once( 'kernel/classes/ezviewcounter.php' );
+        eZViewCounter::remove( $nodeID );
+
         $db->commit();
     }
 
