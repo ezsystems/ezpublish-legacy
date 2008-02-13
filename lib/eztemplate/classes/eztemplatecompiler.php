@@ -323,7 +323,20 @@ class eZTemplateCompiler
         {
             //include_once( 'lib/ezfile/classes/ezdir.php' );
             //include_once( 'lib/ezutils/classes/ezsys.php' );
-            $compilationDirectory = eZDir::path( array( eZSys::cacheDirectory(), 'template/compiled' ) );
+            $ini = eZINI::instance();
+            $shareTemplates = $ini->hasVariable( 'TemplateSettings', 'ShareCompiledTemplates' ) ?
+                                $ini->variable( 'TemplateSettings', 'ShareCompiledTemplates' ) == 'enabled' :
+                                false;
+            if ( $shareTemplates &&
+                 $ini->hasVariable( 'TemplateSettings', 'SharedCompiledTemplatesDir' ) &&
+                 trim( $ini->variable( 'TemplateSettings', 'SharedCompiledTemplatesDir' ) ) != '' )
+            {
+                $compilationDirectory = eZDir::path( array( $ini->variable( 'TemplateSettings', 'SharedCompiledTemplatesDir' ) ) );
+            }
+            else
+            {
+                $compilationDirectory = eZDir::path( array( eZSys::cacheDirectory(), 'template/compiled' ) );
+            }
         }
         return $compilationDirectory;
     }
@@ -354,7 +367,18 @@ class eZTemplateCompiler
         $pageLayoutVariable = "";
         if ( isset( $GLOBALS['eZCustomPageLayout'] ) )
             $pageLayoutVariable = $GLOBALS['eZCustomPageLayout'];
-        $cacheFileKey = $key . '-' . $internalCharset . '-' . $language . '-' . $useFullUrlText . $accessText . "-" . $pageLayoutVariable . '-' . eZSys::indexFile();
+
+        $ini = eZINI::instance();
+
+        $shareTemplates = $ini->hasVariable( 'TemplateSettings', 'ShareCompiledTemplates' ) ?
+                            $ini->variable( 'TemplateSettings', 'ShareCompiledTemplates' ) == 'enabled' :
+                            false;
+
+        if ( $shareTemplates )
+            $cacheFileKey = $key . '-' . $language;
+        else
+            $cacheFileKey = $key . '-' . $internalCharset . '-' . $language . '-' . $useFullUrlText . $accessText . "-" . $pageLayoutVariable . '-' . eZSys::indexFile();
+
         $cacheFileName = $extraName . md5( $cacheFileKey ) . '.php';
         return $cacheFileName;
     }

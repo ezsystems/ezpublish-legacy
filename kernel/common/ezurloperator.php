@@ -236,6 +236,13 @@ class eZURLOperator
     function urlTransformation( $operatorName, &$node, $tpl, &$resourceData,
                                 $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
+        $ini = eZINI::instance();
+        $shareTemplates = $ini->hasVariable( 'TemplateSettings', 'ShareCompiledTemplates' ) ?
+                            $ini->variable( 'TemplateSettings', 'ShareCompiledTemplates' ) == 'enabled' :
+                            false;
+
+        $useTmp = false;
+
         $newElements = array();
         $values = array();
         $paramCount = 0;
@@ -244,7 +251,7 @@ class eZURLOperator
         {
             case $this->URLName:
             {
-                if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                if ( !$shareTemplates && eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
                 {
                     $url = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
 
@@ -256,21 +263,42 @@ class eZURLOperator
                     $url = $this->applyQuotes( $url, $parameters[1] );
                     return array( eZTemplateNodeTool::createStringElement( $url ) );
                 }
-                $values[] = $parameters[0];
-                $values[] = isset( $parameters[2] ) ? $parameters[2] : array( eZTemplateNodeTool::createStringElement( 'relative' ) );
-                $code = <<<CODEPIECE
+                else if ( $shareTemplates && eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                {
+                    $url = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+
+                    $values[] = array( eZTemplateNodeTool::createStringElement( $url ) );
+                    $values[] = isset( $parameters[2] ) ? $parameters[2] : array( eZTemplateNodeTool::createStringElement( 'relative' ) );
+
+                    $code = <<<CODEPIECE
+
+%tmp1% = %1%;
+eZURI::transformURI( %tmp1%, false, %2% );
+
+CODEPIECE;
+                    $useTmp = true;
+                    ++$tmpCount;
+
+                }
+                else
+                {
+                    $values[] = $parameters[0];
+                    $values[] = isset( $parameters[2] ) ? $parameters[2] : array( eZTemplateNodeTool::createStringElement( 'relative' ) );
+
+                    $code = <<<CODEPIECE
 
 //include_once( 'lib/ezutils/classes/ezuri.php' );
 eZURI::transformURI( %1%, false, %2% );
 
 CODEPIECE;
+                }
 
                 ++$paramCount;
             } break;
 
             case $this->URLRootName:
             {
-                if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                if ( !$shareTemplates && eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
                 {
                     $url = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
 
@@ -290,27 +318,49 @@ CODEPIECE;
                     $url = $this->applyQuotes( $url, $parameters[1] );
                     return array( eZTemplateNodeTool::createStringElement( $url ) );
                 }
+                else if ( $shareTemplates && eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                {
+                    $url = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+
+                    $values[] = array( eZTemplateNodeTool::createStringElement( $url ) );
+                    $values[] = isset( $parameters[2] ) ? $parameters[2] : array( eZTemplateNodeTool::createStringElement( 'relative' ) );
+
+                    $code = '%tmp1% = %1%;';
+                    $code .= 'if ( preg_match( "#^[a-zA-Z0-9]+:#", %tmp1% ) or' . "\n" .
+                             'substr( %tmp1%, 0, 2 ) == \'//\' )' . "\n" .
+                             '  %tmp1% = \'/\';' . "\n" .
+                             'else if ( strlen( %tmp1% ) > 0 and' . "\n" .
+                             '  %tmp1%[0] != \'/\' )' . "\n" .
+                             '%tmp1% = \'/\' . %tmp1%;' . "\n";
+
+                    $code .= '//include_once( \'lib/ezutils/classes/ezuri.php\' );' . "\n" .
+                             'eZURI::transformURI( %tmp1%, true, %2% );' . "\n";
+
+                    $useTmp = true;
+                    ++$tmpCount;
+                }
                 else
                 {
-                    $code ='if ( preg_match( "#^[a-zA-Z0-9]+:#", %1% ) or' . "\n" .
-                         'substr( %1%, 0, 2 ) == \'//\' )' . "\n" .
-                         '  %1% = \'/\';' . "\n" .
-                         'else if ( strlen( %1% ) > 0 and' . "\n" .
-                         '  %1%[0] != \'/\' )' . "\n" .
-                         '%1% = \'/\' . %1%;' . "\n";
                     $values[] = $parameters[0];
+                    $values[] = isset( $parameters[2] ) ? $parameters[2] : array( eZTemplateNodeTool::createStringElement( 'relative' ) );
+
+                    $code = 'if ( preg_match( "#^[a-zA-Z0-9]+:#", %1% ) or' . "\n" .
+                            'substr( %1%, 0, 2 ) == \'//\' )' . "\n" .
+                            '  %1% = \'/\';' . "\n" .
+                            'else if ( strlen( %1% ) > 0 and' . "\n" .
+                            '  %1%[0] != \'/\' )' . "\n" .
+                            '%1% = \'/\' . %1%;' . "\n";
+                    $code .= '//include_once( \'lib/ezutils/classes/ezuri.php\' );' . "\n" .
+                             'eZURI::transformURI( %1%, true, %2% );' . "\n";
+
                 }
-                $values[] = isset( $parameters[2] ) ? $parameters[2] : array( eZTemplateNodeTool::createStringElement( 'relative' ) );
-                $code .= '//include_once( \'lib/ezutils/classes/ezuri.php\' );' . "\n" .
-                         'eZURI::transformURI( %1%, true, %2% );' . "\n";
 
                 ++$paramCount;
-                ++$tmpCount;
             } break;
 
             case $this->SysName:
             {
-                if ( eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
+                if ( !$shareTemplates && eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
                 {
                     $sysAttribute = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
 
@@ -321,7 +371,7 @@ CODEPIECE;
 
             case $this->DesignName:
             {
-                if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                if ( !$shareTemplates && eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
                 {
                     $path = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
 
@@ -330,10 +380,22 @@ CODEPIECE;
 
                     return array( eZTemplateNodeTool::createStringElement( $path ) );
                 }
+                else if ( $shareTemplates && eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                {
+                    $path = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
 
-                $code = ( '%1% = eZURLOperator::eZDesign( $tpl, %1%, "' . $operatorName . '" );' . "\n" );
+                    $values[] = array( eZTemplateNodeTool::createStringElement( $path ) );
+                    $code = ( '%tmp1% = %1%;' . "\n" . '%tmp1% = eZURLOperator::eZDesign( $tpl, %tmp1%, "' . $operatorName . '" );' . "\n" );
 
-                $values[] = $parameters[0];
+                    $useTmp = true;
+                    ++$tmpCount;
+                }
+                else
+                {
+                    $values[] = $parameters[0];
+                    $code = ( '%1% = eZURLOperator::eZDesign( $tpl, %1%, "' . $operatorName . '" );' . "\n" );
+                }
+
                 ++$paramCount;
             } break;
 
@@ -341,7 +403,7 @@ CODEPIECE;
             {
                 $skipSlash = count( $parameters ) > 2 ? eZTemplateNodeTool::elementStaticValue( $parameters[2] ) == true : false;
 
-                if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                if ( !$shareTemplates && eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
                 {
                     $path = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
 
@@ -350,18 +412,32 @@ CODEPIECE;
 
                     return array( eZTemplateNodeTool::createStringElement( $path ) );
                 }
+                else if ( $shareTemplates && eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                {
+                    $path = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
 
-                $code = ( '%1% = eZURLOperator::eZImage( $tpl, %1%, "' . $operatorName . '", %2% );' . "\n" );
+                    $values[] = array( eZTemplateNodeTool::createStringElement( $path ) );
+                    $values[] = array( eZTemplateNodeTool::createBooleanElement( $skipSlash ) );
 
-                $values[] = $parameters[0];
-                $values[] = array( eZTemplateNodeTool::createBooleanElement( $skipSlash ) );
+                    $code = ( '%tmp1% = %1%;' . "\n" . '%tmp1% = eZURLOperator::eZImage( $tpl, %tmp1%, "' . $operatorName . '", %2% );' . "\n" );
+
+                    $useTmp = true;
+                    ++$tmpCount;
+                }
+                else
+                {
+                    $values[] = $parameters[0];
+                    $values[] = array( eZTemplateNodeTool::createBooleanElement( $skipSlash ) );
+
+                    $code = ( '%1% = eZURLOperator::eZImage( $tpl, %1%, "' . $operatorName . '", %2% );' . "\n" );
+                }
 
                 ++$paramCount;
             } break;
 
             case $this->ExtName:
             {
-                if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                if ( !$shareTemplates && eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
                 {
                     $origUrl = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
 
@@ -376,14 +452,35 @@ CODEPIECE;
 
                     return array( eZTemplateNodeTool::createStringElement( $origUrl ) );
                 }
+                else if ( $shareTemplates && eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                {
+                    $origUrl = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
 
-                $code .= '//include_once( \'kernel/classes/datatypes/ezurl/ezurl.php\' );' . "\n" .
-                     '%tmp1% = eZURL::urlByMD5( md5( %1% ) );' . "\n" .
-                     'if ( %tmp1% == false )' . "\n" .
-                     '  eZURL::registerURL( %1% );' . "\n" .
-                     'else' . "\n" .
-                     '  %1% = %tmp1%;' . "\n";
-                $values[] = $parameters[0];
+                    $values[] = array( eZTemplateNodeTool::createStringElement( $origUrl ) );
+
+                    $code .= '//include_once( \'kernel/classes/datatypes/ezurl/ezurl.php\' );' . "\n" .
+                         '%tmp1% = %1%; ' . "\n" .
+                         '%tmp2% = eZURL::urlByMD5( md5( %tmp1% ) );' . "\n" .
+                         'if ( %tmp2% == false )' . "\n" .
+                         '  eZURL::registerURL( %tmp1% );' . "\n" .
+                         'else' . "\n" .
+                         '  %tmp1% = %tmp2%;' . "\n";
+
+                    ++$tmpCount;
+                    $useTmp = true;
+                }
+                else
+                {
+                    $values[] = $parameters[0];
+
+                    $code .= '//include_once( \'kernel/classes/datatypes/ezurl/ezurl.php\' );' . "\n" .
+                         '%tmp1% = eZURL::urlByMD5( md5( %1% ) );' . "\n" .
+                         'if ( %tmp1% == false )' . "\n" .
+                         '  eZURL::registerURL( %1% );' . "\n" .
+                         'else' . "\n" .
+                         '  %1% = %tmp1%;' . "\n";
+                }
+
                 ++$tmpCount;
                 ++$paramCount;
             } break;
@@ -419,32 +516,69 @@ CODEPIECE;
                 if ( $quote !== false )
                 {
                     $values[] = array( eZTemplateNodeTool::createStringElement( $quote ) );
-                    $code .= '%1% = %' . count( $values ) . '% . %1% . %' . count( $values ) . '%;' . "\n";
+                    if ( $useTmp )
+                    {
+                        $code .= '%tmp1% = %' . count( $values ) . '% . %tmp1% . %' . count( $values ) . '%;' . "\n";
+                    }
+                    else
+                    {
+                        $code .= '%1% = %' . count( $values ) . '% . %1% . %' . count( $values ) . '%;' . "\n";
+                    }
                 }
             }
             else
             {
                 $values[] = $parameters[$paramCount];
-                $code .= 'switch (%' . count( $values ) . '%)'          . "\n" .
-                         '{'                                            . "\n" .
-                         '    case \'single\':'                         . "\n" .
-                         '         %1% = \'\\\'\' . %1% . \'\\\'\' ;'   . "\n" .
-                         '         break;'                              . "\n" .
-                         '    case \'no\':'                             . "\n" .
-                         '         break;'                              . "\n" .
-                         '     default:'                                . "\n" .
-                         '         %1% = \'"\' . %1% . \'"\' ;'         . "\n" .
-                         '}'  . "\n";
+                if ( $useTmp )
+                {
+                    $code .= 'switch (%' . count( $values ) . '%)'          . "\n" .
+                             '{'                                            . "\n" .
+                             '    case \'single\':'                         . "\n" .
+                             '         %tmp1% = \'\\\'\' . %tmp1% . \'\\\'\' ;'  . "\n" .
+                             '         break;'                              . "\n" .
+                             '    case \'no\':'                             . "\n" .
+                             '         break;'                              . "\n" .
+                             '     default:'                                . "\n" .
+                             '         %tmp1 = \'"\' . %tmp1% . \'"\' ;'     . "\n" .
+                             '}'  . "\n";
+                }
+                else
+                {
+                    $code .= 'switch (%' . count( $values ) . '%)'          . "\n" .
+                             '{'                                            . "\n" .
+                             '    case \'single\':'                         . "\n" .
+                             '         %1% = \'\\\'\' . %1% . \'\\\'\' ;'   . "\n" .
+                             '         break;'                              . "\n" .
+                             '    case \'no\':'                             . "\n" .
+                             '         break;'                              . "\n" .
+                             '     default:'                                . "\n" .
+                             '         %1% = \'"\' . %1% . \'"\' ;'         . "\n" .
+                             '}'  . "\n";
+                }
             }
         }
         else
         {
             $quote = '"';
             $values[] = array( eZTemplateNodeTool::createStringElement( $quote ) );
-            $code .= '%1% = %' . count( $values ) . '% . %1% . %' . count( $values ) . '%;' . "\n";
+            if ( $useTmp )
+            {
+                $code .= '%tmp1% = %' . count( $values ) . '% . %tmp1% . %' . count( $values ) . '%;' . "\n";
+            }
+            else
+            {
+                $code .= '%1% = %' . count( $values ) . '% . %1% . %' . count( $values ) . '%;' . "\n";
+            }
         }
 
-        $code .= '%output% = %1%;' . "\n";
+        if ( $useTmp )
+        {
+            $code .= '%output% = %tmp1%;' . "\n";
+        }
+        else
+        {
+            $code .= '%output% = %1%;' . "\n";
+        }
 
         $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values, false, $tmpCount );
 

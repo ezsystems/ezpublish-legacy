@@ -9,6 +9,7 @@ Changes from 4.0.0 to 4.1.0alpha1
 *Design:
 
 *eZTemplate:
+- Implemented enhancement #12539: Share compiled templates between site accesses
 
 *Package system:
 
