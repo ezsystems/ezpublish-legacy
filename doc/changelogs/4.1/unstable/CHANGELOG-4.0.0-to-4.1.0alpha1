@@ -5,6 +5,7 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Implemented enhancement #11410: Specify content type of notification e-mails in the mail template
 - Implemented enhancement #8648: updatesearchindex.php unnecessary reindexes each node - not each object
 - Implemented enhancement: The parameter "UserID" of user/edit is optional, if a user is logged in
+- Implemented enhancement #11139: Bypass static cache when user is logged in
 
 *Design:
 
