@@ -125,3 +125,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12495: array_merge warning when using alphabetical navigator template
 - Fixed bug #12509: PHP strict warning: Non-static method eZUser::isUserObject() should not be called statically
 - Fixed bug #12534: eZWizardBaseClassLoader not adapted for PHP 5
+- Fixed bug #12518: Problem with LastPostVars for edit redirection after login
