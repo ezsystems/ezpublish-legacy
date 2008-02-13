@@ -4157,7 +4157,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         // Clean up view counter
         include_once( 'kernel/classes/ezviewcounter.php' );
-        eZViewCounter::removeCounter( $nodeID );
+        eZViewCounter::remove( $nodeID );
 
         $db->commit();
     }
