@@ -172,7 +172,7 @@ class eZURLAliasML extends eZPersistentObject
         {
             self::$charset = eZTextCodec::internalCharset();
         }
-        
+
         //First try to use mbstring
         if ( extension_loaded( 'mbstring' ) )
         {

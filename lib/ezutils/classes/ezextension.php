@@ -349,7 +349,7 @@ class eZExtension
 
         return null;
     }
-    
+
     /*!
      \static
      eZExtension::nameFromPath( __FILE__ ) executed in any file of an extension
@@ -383,7 +383,7 @@ class eZExtension
         else
             return false;
     }
-    
+
 }
 
 ?>
