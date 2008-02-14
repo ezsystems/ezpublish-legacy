@@ -510,7 +510,7 @@ class eZModuleOperationInfo
                             $result = $this->executeClassMethod( $includeFile, $className, $method,
                                                                  $tmpOperationParameterDefinitions, $operationParameters );
                             if ( $result && array_key_exists( 'status', $result ) )
-			    {
+                {
                                 switch( $result['status'] )
                                 {
                                     case EZ_MODULE_OPERATION_CONTINUE:

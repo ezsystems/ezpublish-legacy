@@ -221,13 +221,12 @@ function &eZFetchActiveSessions( $params = array() )
     include_once( 'lib/ezdb/classes/ezdb.php' );
     $db =& eZDB::instance();
     $query = "SELECT ezsession.user_id, $expirationSQL, max(session_key) as session_key  $countField
-FROM ezsession, ezuser, ezcontentobject
-WHERE ezsession.user_id=ezuser.contentobject_id AND
-      ezsession.user_id=ezcontentobject.id
-      $filterSQL
-      $expirationFilterSQL
-$countGroup
-ORDER BY $orderBy";
+              FROM ezsession, ezuser, ezcontentobject
+                    ezsession.user_id=ezcontentobject.id
+                    $filterSQL
+                    $expirationFilterSQL
+                    $countGroup
+              ORDER BY $orderBy";
 
     $rows = $db->arrayQuery( $query, array( 'offset' => $offset, 'limit' => $limit ) );
 
@@ -330,11 +329,11 @@ function &eZFetchActiveSessionCount( $params = array() )
 
     include_once( 'lib/ezdb/classes/ezdb.php' );
     $db =& eZDB::instance();
-    $query = "SELECT count( DISTINCT ezsession.user_id ) AS count 
-FROM ezsession
-$whereSQL
-$filterSQL
-$expirationFilterSQL";
+    $query = "SELECT count( DISTINCT ezsession.user_id ) AS count
+              FROM ezsession
+              $whereSQL
+              $filterSQL
+              $expirationFilterSQL";
 
     $rows = $db->arrayQuery( $query );
 

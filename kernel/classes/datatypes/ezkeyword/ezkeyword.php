@@ -267,7 +267,7 @@ class eZKeyword
         {
             $this->KeywordArray[] = $wordArray[$wordKey]['keyword'];
         }
-        $this->KeywordArray = array_unique ( $this->KeywordArray );        
+        $this->KeywordArray = array_unique ( $this->KeywordArray );
     }
 
     /*!

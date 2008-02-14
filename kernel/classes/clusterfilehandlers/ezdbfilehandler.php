@@ -477,7 +477,7 @@ class eZDBFileHandler
     function move( $dstPath )
     {
         $srcPath = $this->metaData['name'];
-        
+
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileMove( '$srcPath', '$dstPath' )" );
 
         $this->backend->_rename( $srcPath, $dstPath );

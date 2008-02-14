@@ -87,7 +87,7 @@ if ( $http->hasPostVariable( 'DeleteButton' ) and
 
                     eZWorkflowFunctions::removeGroup( $workflowID, 0, array( $groupID ) );
                 }
-            
+
             }
             else
             {

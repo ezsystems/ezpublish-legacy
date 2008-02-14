@@ -46,7 +46,7 @@ $ViewList["toolbar"] = array(
                                     'UpdatePlacementButton' => 'UpdatePlacement',
                                     'BrowseButton' => 'Browse',
                                     'RemoveButton' => 'Remove',
-                                    'StoreButton' => 'Store' ),    
+                                    'StoreButton' => 'Store' ),
     "params" => array( 'SiteAccess', 'Position' ) );
 
 $ViewList["menuconfig"] = array(

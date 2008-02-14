@@ -608,7 +608,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
                                  'windows-1251' => 'cp1251',
                                  'windows-1256' => 'cp1256',
                                  'windows-1257' => 'cp1257',
-                                 'utf-8' => 'utf8',                 
+                                 'utf-8' => 'utf8',
                                  'koi8-r' => 'koi8r',
                                  'koi8-u' => 'koi8u' );
         $charset = strtolower( $charset );

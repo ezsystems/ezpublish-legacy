@@ -65,7 +65,7 @@ class eZDiffXMLTextEngine extends eZDiffEngine
 
         $oldXMLTextObject = $fromData->content();
         $newXMLTextObject = $toData->content();
-        
+
         $oldXML = $oldXMLTextObject->attribute( 'xml_data' );
         $newXML = $newXMLTextObject->attribute( 'xml_data' );
 
@@ -75,7 +75,7 @@ class eZDiffXMLTextEngine extends eZDiffEngine
         $domNew =& $xml->domTree( $newXML, array( 'CharsetConversion' => false, 'ConvertSpecialChars' => false, 'SetParentNode' => true ) );
         $old = $simplifiedXML->performOutput( $domOld );
         $new = $simplifiedXML->performOutput( $domNew );
-        
+
         $domOld->cleanup();
         $domNew->cleanup();
 

@@ -168,7 +168,7 @@ class eZNodeAssignment extends eZPersistentObject
      */
     function &isNopOperation()
     {
-        $isNopOperation = ( $this->OpCode & 1 ) == EZ_NODE_ASSIGNMENT_OP_CODE_NOP;   
+        $isNopOperation = ( $this->OpCode & 1 ) == EZ_NODE_ASSIGNMENT_OP_CODE_NOP;
         return $isNopOperation;
     }
 
@@ -177,7 +177,7 @@ class eZNodeAssignment extends eZPersistentObject
      * \return bool
      */
     function &isCreateOperation()
-    {   
+    {
         $isCreateOperation = $this->OpCode == EZ_NODE_ASSIGNMENT_OP_CODE_CREATE;
         return $isCreateOperation;
     }

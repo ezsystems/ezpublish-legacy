@@ -600,7 +600,7 @@ class eZSys
             if ( count( $instance->AccessPath ) > 0 and $instance->AccessPath[0] == $defaultAccess ){
                 $accessPathArray = $instance->AccessPath;
                 array_shift( $accessPathArray ); //remove first element from accessPath as this is siteaccess name.
-                $accessPath = implode( '/', $accessPathArray );        
+                $accessPath = implode( '/', $accessPathArray );
                 $text .= '/' . $accessPath;
                 return $text;
             }

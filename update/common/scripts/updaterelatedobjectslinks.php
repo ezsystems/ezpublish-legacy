@@ -151,14 +151,14 @@ function updateLinks()
         $fromObjectVersion = $link['fromObjectVersion'];
         $toObjectID = $link['toObjectID'];
         $attributeID = $link['attributeID'];
-    
+
         $result = $db->arrayQuery( "SELECT ( COUNT( ezcontentobject_link.id ) ) AS count
                                FROM ezcontentobject_link
                                WHERE from_contentobject_id=$fromObjectID AND
                                      from_contentobject_version=$fromObjectVersion AND
                                      to_contentobject_id=$toObjectID AND
                                      contentclassattribute_id=$attributeID" );
-    
+
         $count = $result[0]['count'];
         if ( !$count )
         {
@@ -171,9 +171,9 @@ function updateLinks()
     }
 }
 
-$query = "SELECT attr.* 
-                 FROM ezcontentobject_attribute attr
-                 WHERE attr.data_type_string='ezobjectrelation'";
+$query = "SELECT attr.*
+          FROM ezcontentobject_attribute attr
+          WHERE attr.data_type_string='ezobjectrelation'";
 
 $result = $db->arrayQuery( $query, array( "limit" => QUERY_LIMIT ) );
 $pass = 1;
@@ -203,7 +203,7 @@ while( count( $result ) )
     $pass++;
 }
 
-$query = "SELECT attr.* 
+$query = "SELECT attr.*
           FROM ezcontentobject_attribute attr
           WHERE attr.data_type_string='ezobjectrelationlist'";
 

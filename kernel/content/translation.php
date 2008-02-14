@@ -54,7 +54,7 @@ if ( !$module->hasActionParameter( 'ViewMode' ) )
 
 if ( $module->isCurrentAction( 'Cancel' ) )
 {
-    return $module->redirectToView( 'view', array( $viewMode, $nodeID, $languageCode ) );    
+    return $module->redirectToView( 'view', array( $viewMode, $nodeID, $languageCode ) );
 }
 
 if ( !$module->hasActionParameter( 'ObjectID' ) )
@@ -142,7 +142,7 @@ else if ( $module->isCurrentAction( 'RemoveTranslation' ) )
     }
 
     $languageIDArray = $module->actionParameter( 'LanguageID' );
-    
+
     if ( $module->hasActionParameter( 'ConfirmRemoval' ) && $module->actionParameter( 'ConfirmRemoval' ) )
     {
         foreach( $languageIDArray as $languageID )
@@ -182,7 +182,7 @@ else if ( $module->isCurrentAction( 'RemoveTranslation' ) )
     include_once( "kernel/common/template.php" );
 
     $tpl =& templateInit();
-        
+
     $tpl->setVariable( 'object_id', $objectID );
     $tpl->setVariable( 'object', $object );
     $tpl->setVariable( 'node_id', $nodeID );

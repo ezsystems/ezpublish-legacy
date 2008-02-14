@@ -40,7 +40,7 @@ if ( !is_numeric( $offset ) )
 if ( $http->hasVariable( 'filterString' ) )
 {
     $filterString = $http->variable('filterString');
-    if ( ( strlen( trim( $filterString ) ) > 0 ) ) 
+    if ( ( strlen( trim( $filterString ) ) > 0 ) )
         $doFiltration = true;
 }
 

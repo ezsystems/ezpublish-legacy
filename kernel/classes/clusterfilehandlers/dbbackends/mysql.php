@@ -239,7 +239,7 @@ class eZDBFileHandlerMysqlBackend
         mysql_free_result( $res );
         return true;
     }
-    
+
     function _deleteByRegex( $regex )
     {
         $regex = mysql_real_escape_string( $regex );

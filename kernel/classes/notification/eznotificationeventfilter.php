@@ -120,7 +120,7 @@ class eZNotificationEventFilter
         $extensionDirectories = $notificationINI->variable( 'NotificationEventHandlerSettings', 'ExtensionDirectories' );
         foreach ( $extensionDirectories as $extensionDirectory )
         {
-            $extensionPath = "{$baseDirectory}/{$extensionDirectory}/notification/handler/";        
+            $extensionPath = "{$baseDirectory}/{$extensionDirectory}/notification/handler/";
             if ( file_exists( $extensionPath ) )
                 $repositoryDirectories[] = $extensionPath;
         }

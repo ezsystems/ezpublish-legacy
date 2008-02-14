@@ -999,7 +999,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             }
 
             $newObject = eZContentObject::unserialize( $this->Package, $realObjectNode, $installParameters, $userID, $handlerType );
-            if ( !$newObject ) 
+            if ( !$newObject )
             {
                 return false;
             }

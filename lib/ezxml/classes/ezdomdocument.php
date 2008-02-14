@@ -301,7 +301,7 @@ class eZDOMDocument
 
     /*!
       \deprecated not compatible with W3C DOM standard
-    
+
       \static
       Creates DOMNodeElement recursivly from recursive array
     */
@@ -339,7 +339,7 @@ class eZDOMDocument
 
     /*!
       \deprecated not compatible with W3C DOM standard
-    
+
       \static
       Creates recursive array from DOMNodeElement
     */
@@ -379,7 +379,7 @@ class eZDOMDocument
 
     /*!
       \deprecated  Use createElement and setAttribute instead.
-      
+
       \static
       Creates a DOM node of type element and returns it.
 
@@ -425,7 +425,7 @@ class eZDOMDocument
 
     /*!
       \deprecated Not compatible with W3C DOM standard
-    
+
       \static
       Creates a DOM node of type element and returns it.
       It will also create a DOM node of type text and add it as child of the element node.
@@ -459,7 +459,7 @@ class eZDOMDocument
 
     /*!
       \deprecated not compatible with W3C DOM standard
-    
+
       \static
       Creates a DOM node of type element and returns it.
       It will also create a DOM node of type CDATA and add it as child of the element node.
@@ -494,7 +494,7 @@ class eZDOMDocument
     /*!
       \deprecated Not compatible with W3C DOM standard.
                   Use createElementNS instead.
-    
+
       \static
       Creates a DOM node of type element with a namespace and returns it.
 
@@ -525,7 +525,7 @@ class eZDOMDocument
     /*!
       \deprecated Not compatible with W3C DOM standard.
                   Use createAttribute instead.
-    
+
       \static
       Creates a DOM node of type attribute and returns it.
 
@@ -558,7 +558,7 @@ class eZDOMDocument
     /*!
       \deprecated Not compatible with W3C DOM standard.
                   Use createAttributeNS instead.
-    
+
       \static
       Creates a DOM node of type attribute which is used for namespace definitions and returns it.
 
@@ -588,7 +588,7 @@ class eZDOMDocument
     /*!
       \deprecated Not compatible with W3C DOM standard.
                   Use createAttributeNS instead.
-    
+
       \static
       Creates a DOM node of type attribute which is used for namespace definitions and returns it.
 

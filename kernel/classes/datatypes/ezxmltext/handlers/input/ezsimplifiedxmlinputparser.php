@@ -218,7 +218,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         return $ret;
     }
 
-    
+
     /*
         Structure handlers. (called at pass 2)
     */
@@ -422,7 +422,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                        $newParent->insertBefore( $newSection, $element );
                    else
                        $newParent->appendChild( $newSection );
-                   
+
                    $newParent =& $newSection;
                    unset( $newSection );
                 }
@@ -478,7 +478,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     $elementToMove =& $next;
 
                     if ( $elementToMove->nodeName == 'header' &&
-                         $elementToMove->getAttribute( 'level' ) <= $level ) 
+                         $elementToMove->getAttribute( 'level' ) <= $level )
                         break;
                 }
             }
@@ -632,7 +632,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 $newChild =& $line->Children[$key];
                 $line->removeChild( $newChild );
                 $element->appendChild( $newChild );
-            }   
+            }
         }
 
         return $ret;
@@ -735,7 +735,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                             $element->removeAttribute( 'href' );
                             return $ret;
                         }
-                        
+
                     }
                     // Store urlID instead of href
                     $urlID = $this->convertHrefToID( $url );
@@ -775,7 +775,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     function &publishHandlerEmbed( &$element, &$params )
     {
         $ret = null;
-        
+
         $href = $element->getAttribute( 'href' );
         //washing href. single and double quotes replaced with their urlencoded form
         $href = str_replace( array('\'','"'), array('%27','%22'), $href );
@@ -899,9 +899,9 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         {
             $this->urlIDArray[] = $urlID;
         }
-        
+
         $this->convertCustomAttributes( $element );
-        
+
         return $ret;
     }
 
@@ -909,7 +909,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     function &publishHandlerCustom( &$element, &$params )
     {
         $ret = null;
-        
+
         $element->removeAttribute( 'inline' );
         $this->convertCustomAttributes( $element );
 
@@ -920,7 +920,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     {
         $schemaAttrs = $this->XMLSchema->attributes( $element );
         $attributes = $element->attributes();
-    
+
         foreach( $attributes as $attr )
         {
             if ( !$attr->Prefix && !in_array( $attr->LocalName, $schemaAttrs ) )

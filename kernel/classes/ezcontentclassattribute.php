@@ -276,7 +276,7 @@ class eZContentClassAttribute extends eZPersistentObject
         {
             return false;
         }
-        
+
         global $eZContentClassAttributeCacheListFull;
         unset( $eZContentClassAttributeCacheListFull );
         global $eZContentClassAttributeCacheList;
@@ -308,7 +308,7 @@ class eZContentClassAttribute extends eZPersistentObject
         {
             return false;
         }
-        
+
         global $eZContentClassAttributeCacheListFull;
         unset( $eZContentClassAttributeCacheListFull );
         global $eZContentClassAttributeCacheList;
@@ -347,7 +347,7 @@ class eZContentClassAttribute extends eZPersistentObject
             unset( $eZContentClassAttributeCacheList[$this->attribute( 'contentclass_id' )] );
             global $eZContentClassAttributeCache;
             unset( $eZContentClassAttributeCache[$this->ID] );
-            
+
             $db =& eZDB::instance();
             $db->begin();
             $dataType->deleteStoredClassAttribute( $this, $this->Version );

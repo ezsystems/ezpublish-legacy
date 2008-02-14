@@ -155,8 +155,8 @@ if ( get_class( $order ) == 'ezorder' )
                     $Result = array();
                     include_once( "kernel/common/template.php" );
                     $tpl =& templateInit();
-                    $tpl->setVariable ("ErrorCode", "NO_CALLBACK"); 
-                    $tpl->setVariable ("OrderID", $orderID); 
+                    $tpl->setVariable ("ErrorCode", "NO_CALLBACK");
+                    $tpl->setVariable ("OrderID", $orderID);
 
                     $Result['content'] =& $tpl->fetch( "design:shop/cancelcheckout.tpl" ) ;
                     $Result['path'] = array( array( 'url' => false,

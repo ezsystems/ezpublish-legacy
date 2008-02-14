@@ -120,7 +120,7 @@ if ( $http->hasPostVariable( 'RemoveRoleAssignmentButton' ) )
     /* Clean up policy cache */
     include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
     eZUser::cleanupCache();
- 
+
     // Clear role caches.
     eZRole::expireCache();
 

@@ -610,7 +610,7 @@ class eZTemplateStringOperator
                 {
                    $operatorValue = ucfirst( $operatorValue );
                 }
-                
+
             }break;
 
             // Simplify / transform multiple consecutive characters into one.
