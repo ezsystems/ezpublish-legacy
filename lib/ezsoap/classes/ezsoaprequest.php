@@ -141,7 +141,10 @@ class eZSOAPRequest extends eZSOAPEnvelope
             $param = eZSOAPCodec::encodeValue( $parameter->name(), $parameter->value() );
 
             if ( $param == false )
-                eZDebug::writeError( "Error enconding data for payload", "eZSOAPRequest::payload()" );
+            {
+                eZDebug::writeError( "Error encoding data for payload: " . $parameter->name(), "eZSOAPRequest::payload()" );
+                continue;
+            }
             $request->appendChild( $param );
         }
 
