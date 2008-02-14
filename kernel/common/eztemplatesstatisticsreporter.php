@@ -92,14 +92,14 @@ class eZTemplatesStatisticsReporter
         }
 
         $templatesUsageStatistics = eZTemplate::templatesUsageStatistics();
-        
+
         $alreadyListedTemplate = $templateCounts = array();
-        
+
         //Generate usage count for each unique template first.
         foreach( $templatesUsageStatistics as $templateInfo )
         {
             $actualTemplateName = $templateInfo['actual-template-name'];
-            
+
             if ( !array_key_exists( $actualTemplateName, $templateCounts ) )
             {
                 $templateCounts[$actualTemplateName] = 1;
@@ -110,14 +110,14 @@ class eZTemplatesStatisticsReporter
                 ++$templateCounts[$actualTemplateName];
             }
         }
-        
+
         //Then create the actual listing
         foreach ($templatesUsageStatistics as $templateInfo)
         {
             $actualTemplateName = $templateInfo['actual-template-name'];
             $requestedTemplateName = $templateInfo['requested-template-name'];
             $templateFileName = $templateInfo['template-filename'];
-            
+
             if ( !in_array( $actualTemplateName, $alreadyListedTemplate ) )
             {
                 $alreadyListedTemplate[] = $actualTemplateName;
@@ -130,7 +130,7 @@ class eZTemplatesStatisticsReporter
 
                     $templateEditURI = $templateEditFunction . $templateFileName;
                     $templateOverrideURI = $templateOverrideFunction . $actualTemplateName;
-                    
+
                     $actualTemplateNameOutput = ( $actualTemplateName == $requestedTemplateName ) ? "<span style=\"font-style: italic;\">&lt;No override&gt;</span>" : $actualTemplateName;
 
                     $stats .= (

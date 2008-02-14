@@ -69,7 +69,7 @@ class eZStepLanguageOptions extends eZStepInstaller
         $regionalInfo['languages'] = $languages;
         $regionalInfo['enable_unicode'] = true;
         $regionalInfo['site_charset'] = 'utf-8';
-        
+
         $this->PersistenceList['regional_info'] = $regionalInfo;
         $charset = false;
 

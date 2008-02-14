@@ -41,7 +41,7 @@
 class eZPaymentGateway
 {
     /*!
-	Constructor.
+    Constructor.
     */
     function eZPaymentGateway()
     {
@@ -64,13 +64,13 @@ class eZPaymentGateway
     }
 
     /*!
-	Creates short description of order. Usually this string is
-	passed to payment site as describtion of payment.
+    Creates short description of order. Usually this string is
+    passed to payment site as describtion of payment.
     */
     function createShortDescription( $order, $maxDescLen )
     {
         //__DEBUG__
-	    $this->logger->writeTimedString("createShortDescription");
+        $this->logger->writeTimedString("createShortDescription");
         //___end____
 
         $descText       = '';
@@ -90,7 +90,7 @@ class eZPaymentGateway
         }
 
         //__DEBUG__
-	    $this->logger->writeTimedString("descText=$descText");
+        $this->logger->writeTimedString("descText=$descText");
         //___end____
 
         return $descText;

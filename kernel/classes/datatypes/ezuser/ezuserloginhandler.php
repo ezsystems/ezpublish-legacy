@@ -52,7 +52,7 @@ class eZUserLoginHandler
     const STEP_POST_COLLECT_USER_INFO = 2;
     const STEP_CHECK_USER = 3;
     const STEP_LOGIN_USER = 4;
-    
+
     /*!
      Constructor
     */
