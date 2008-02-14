@@ -28,7 +28,7 @@
 
 $Module =& $Params['Module'];
 
-$text = 
+$text =
 ## BEGIN COPYRIGHT INFO ##
 '<p>Copyright (C) 1999-2006 eZ systems as. All rights reserved.</p>
 

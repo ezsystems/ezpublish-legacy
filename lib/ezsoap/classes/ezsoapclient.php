@@ -79,7 +79,7 @@ class eZSOAPClient
 {
     /*!
       Creates a new SOAP client.
-      
+
       \param $server The remote server to connect to
       \param $path The path to the SOAP service on the remote server
       \param $port The port to connect to, 80 by default. You can use 'ssl' as well to specify that you want to use port 443 over SSL,

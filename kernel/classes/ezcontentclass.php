@@ -1474,7 +1474,7 @@ You will need to change the class of the node by using the swap functionality.' 
     function contentObjectName( &$contentObject, $version = false, $translation = false )
     {
         $contentObjectNamePattern = $this->ContentObjectName;
-       
+
         include_once( "kernel/classes/eznamepatternresolver.php" );
         $nameResolver = new eZNamePatternResolver( $contentObjectNamePattern, $contentObject, $version, $translation );
         $contentObjectName = $nameResolver->resolveNamePattern();
@@ -1496,7 +1496,7 @@ You will need to change the class of the node by using the swap functionality.' 
         {
             $urlAliasNamePattern = $this->ContentObjectName;
         }
-        
+
         include_once( "kernel/classes/eznamepatternresolver.php" );
         $nameResolver = new eZNamePatternResolver( $urlAliasNamePattern, $contentObject, $version, $translation );
         $urlAliasName = $nameResolver->resolveNamePattern();
