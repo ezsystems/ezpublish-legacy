@@ -4169,7 +4169,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         // Clean up tip-a-friend counter
         include_once( 'kernel/classes/eztipafriendcounter.php' );
-        eZTipafriendCounter::remove( $nodeID );
+        eZTipafriendCounter::removeForNode( $nodeID );
 
         // Clean up view counter
         include_once( 'kernel/classes/ezviewcounter.php' );
