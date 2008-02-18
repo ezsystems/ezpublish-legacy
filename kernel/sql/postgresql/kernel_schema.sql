@@ -2228,6 +2228,7 @@ CREATE TABLE ezrss_export (
 
 
 CREATE TABLE ezrss_export_item (
+    category character varying(255),
     class_id integer,
     description character varying(255),
     id integer DEFAULT nextval('ezrss_export_item_s'::text) NOT NULL,

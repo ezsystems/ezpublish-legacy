@@ -427,6 +427,7 @@ class eZRSSExport extends eZPersistentObject
         }
 
         $doc = new DOMDocument( '1.0', 'utf-8' );
+        $doc->formatOutput = true;
         $root = $doc->createElement( 'rss' );
         $root->setAttribute( 'version', '2.0' );
         $doc->appendChild( $root );
@@ -503,6 +504,7 @@ class eZRSSExport extends eZPersistentObject
                     // now fetch the attributes
                     $title =  $dataMap[$attributeMapping[0]->attribute( 'title' )];
                     $description =  $dataMap[$attributeMapping[0]->attribute( 'description' )];
+                    $category =  $dataMap[$attributeMapping[0]->attribute( 'category' )];
                     break;
                 }
             }
@@ -514,6 +516,9 @@ class eZRSSExport extends eZPersistentObject
                 $retValue = null;
                 return $retValue;
             }
+
+            unset( $item );
+            $item = $doc->createElement( 'item' );
 
             // title RSS element with respective class attribute content
             unset( $itemTitle );
@@ -530,8 +535,13 @@ class eZRSSExport extends eZPersistentObject
             }
 
             $itemTitle = $doc->createElement( 'title', $itemTitleText );
+            $item->appendChild( $itemTitle );
 
-            // title RSS element with respective class attribute content
+            unset( $itemLink );
+            $itemLink = $doc->createElement( 'link', $nodeURL );
+            $item->appendChild( $itemLink );
+
+            // description RSS element with respective class attribute content
             unset( $itemDescription );
 
             $descriptionContent =  $description->attribute( 'content' );
@@ -546,20 +556,43 @@ class eZRSSExport extends eZPersistentObject
             }
 
             $itemDescription = $doc->createElement( 'description', $itemDescriptionText );
+            $item->appendChild( $itemDescription );
 
-            unset( $itemLink );
-            $itemLink = $doc->createElement( 'link', $nodeURL );
+            // category RSS element with respective class attribute content
+            if ( $category )
+            {
+                unset( $itemCategory );
 
-            unset( $item );
-            $item = $doc->createElement( 'item' );
+                $categoryContent =  $category->attribute( 'content' );
+                if ( $categoryContent instanceof eZXMLText )
+                {
+                    $outputHandler = $categoryContent->attribute( 'output' );
+                    $itemCategoryText = $outputHandler->attribute( 'output_text' );
+
+                    $itemCategory = $doc->createElement( 'category', $itemCategoryText );
+                    $item->appendChild( $itemCategory );
+                }
+                elseif ( $categoryContent instanceof eZKeyword )
+                {
+                    $keywordArray = $categoryContent->keywordArray();
+                    foreach ( $keywordArray as $keyword )
+                    {
+                        $itemCategory = $doc->createElement( 'category', $keyword );
+                        $item->appendChild( $itemCategory );
+                        unset( $itemCategory );
+                    }
+                }
+                else
+                {
+                    $itemCategory = $doc->createElement( 'category', $categoryContent );
+                    $item->appendChild( $itemCategory );
+                }
+            }
 
             unset( $itemPubDate );
             $itemPubDate = $doc->createElement( 'pubDate', gmdate( 'D, d M Y H:i:s', $object->attribute( 'published' ) ) .' GMT' );
 
             $item->appendChild( $itemPubDate );
-            $item->appendChild( $itemTitle );
-            $item->appendChild( $itemLink );
-            $item->appendChild( $itemDescription );
 
             $channel->appendChild( $item );
         }

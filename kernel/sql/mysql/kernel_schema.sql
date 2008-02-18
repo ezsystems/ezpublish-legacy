@@ -1167,6 +1167,7 @@ CREATE TABLE ezrss_export (
 
 
 CREATE TABLE ezrss_export_item (
+  category varchar(255) default NULL,
   class_id int(11) default NULL,
   description varchar(255) default NULL,
   id int(11) NOT NULL auto_increment,

@@ -40,7 +40,7 @@
     <input class="halfbox" type="text" name="url" value="{$rss_export.url|wash}"/>
     <div class="context-attributes">
         <p>{'Use this field to enter the base URL of your site. It is used to produce the URLs in the export, composed by the Site URL (e.g. "http://www.example.com/index.php") and the path to the object (e.g. "/articles/my_article"). The Site URL depends on your web server and eZ Publish configuration.'|i18n( 'design/admin/rss/edit_export')}</p>
-        <p>{'Leave this field emty if you want system automaticaly detect the URL of your site from the URL you access feed with'|i18n( 'design/admin/rss/edit_export')}</p>
+        <p>{'Leave this field empty if you want system automaticaly detect the URL of your site from the URL you access feed with'|i18n( 'design/admin/rss/edit_export')}</p>
     </div>
     </div>
 
@@ -168,6 +168,19 @@
          {section name=ClassAttribute loop=$rss_export.item_list[$Source:index].class_attributes}
          <option value="{$:item.identifier|wash}"
              {section name=ShowSelected show=eq( $Source:item.description, $:item.identifier )}
+                 selected="selected"
+             {/section}>{$:item.name|wash}</option>
+         {/section}
+         </select>
+       </div>
+
+       <div class="block">
+         <label>{'Category'|i18n( 'design/admin/rss/edit_export' )} ({'optional'|i18n( 'design/admin/rss/edit_export' )}):</label>
+         <select name="Item_Class_Attribute_Category_{$Source:index}" title="{'Use this drop-down to select the attribute that should be exported as the category of the RSS export entry.'|i18n('design/admin/rss/edit_export')}" >
+         <option value="">[{'Skip'|i18n('design/admin/rss/edit_export')}]</option>
+         {section name=ClassAttribute loop=$rss_export.item_list[$Source:index].class_attributes}
+         <option value="{$:item.identifier|wash}"
+             {section name=ShowSelected show=eq( $Source:item.category, $:item.identifier )}
                  selected="selected"
              {/section}>{$:item.name|wash}</option>
          {/section}

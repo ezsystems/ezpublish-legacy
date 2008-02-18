@@ -5268,6 +5268,12 @@ $schema = array (
     'name' => 'ezrss_export_item',
     'fields' => 
     array (
+      'category' => 
+      array (
+        'length' => 255,
+        'type' => 'varchar',
+        'default' => NULL,
+      ),
       'class_id' => 
       array (
         'length' => 11,

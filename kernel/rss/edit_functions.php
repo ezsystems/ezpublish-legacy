@@ -98,6 +98,7 @@ class eZRSSEditFunction
 
             $titleClassAttributeIdentifier = $http->postVariable( 'Item_Class_Attribute_Title_'.$itemCount );
             $descriptionClassAttributeIdentifier = $http->postVariable( 'Item_Class_Attribute_Description_'.$itemCount );
+            $categoryClassAttributeIdentifier = $http->postVariable( 'Item_Class_Attribute_Category_'.$itemCount );
 
             if ( !$class )
             {
@@ -122,10 +123,18 @@ class eZRSSEditFunction
                                                   'Invalid selection for description class %1 does not have attribute "%2"', null,
                                                   array( $class->attribute( 'name'), $descriptionClassAttributeIdentifier ) );
                 }
+                if ( $categoryClassAttributeIdentifier != '' && !isset( $dataMap[$categoryClassAttributeIdentifier] ) )
+                {
+                    $valid = false;
+                    $validationErrors[] = ezi18n( 'kernel/rss/edit_export',
+                                                  'Invalid selection for category class %1 does not have attribute "%2"', null,
+                                                  array( $class->attribute( 'name'), $categoryClassAttributeIdentifier ) );
+                }
             }
 
             $rssExportItem->setAttribute( 'title', $http->postVariable( 'Item_Class_Attribute_Title_'.$itemCount ) );
             $rssExportItem->setAttribute( 'description', $http->postVariable( 'Item_Class_Attribute_Description_'.$itemCount ) );
+            $rssExportItem->setAttribute( 'category', $http->postVariable( 'Item_Class_Attribute_Category_'.$itemCount ) );
             if( $publish && $valid )
             {
                 $rssExportItem->setAttribute( 'status', 1 );
