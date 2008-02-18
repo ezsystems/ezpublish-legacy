@@ -64,6 +64,10 @@ class eZRSSExport extends eZPersistentObject
                                                         'datatype' => 'integer',
                                                         'default' => 0,
                                                         'required' => true ),
+                                         'node_id' => array( 'name' => 'NodeID',
+                                                             'datatype' => 'integer',
+                                                             'default' => 0,
+                                                             'required' => false ),
                                          'title' => array( 'name' => 'Title',
                                                            'datatype' => 'string',
                                                            'default' => ezi18n( 'kernel/rss', 'New RSS Export' ),
@@ -155,6 +159,7 @@ class eZRSSExport extends eZPersistentObject
         $config = eZINI::instance( 'site.ini' );
         $dateTime = time();
         $row = array( 'id' => null,
+                      'node_id', '',
                       'title' => ezi18n( 'kernel/classes', 'New RSS Export' ),
                       'site_access' => '',
                       'modifier_id' => $user_id,
