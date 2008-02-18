@@ -5205,6 +5205,12 @@ $schema = array (
         'type' => 'int',
         'default' => NULL,
       ),
+      'node_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'default' => NULL,
+      ),
       'number_of_objects' => 
       array (
         'length' => 11,

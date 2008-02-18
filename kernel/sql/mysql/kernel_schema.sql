@@ -1152,6 +1152,7 @@ CREATE TABLE ezrss_export (
   main_node_only int(11) NOT NULL default '1',
   modified int(11) default NULL,
   modifier_id int(11) default NULL,
+  node_id int(11) default NULL,
   number_of_objects int(11) NOT NULL default '0',
   rss_version varchar(255) default NULL,
   site_access varchar(255) default NULL,
