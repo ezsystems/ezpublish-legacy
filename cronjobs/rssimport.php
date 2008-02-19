@@ -470,6 +470,14 @@ function setObjectAttributeValue( $objectAttribute, $value )
             $objectAttribute->setContent( $keyword );
         } break;
 
+        case 'ezdatetime':
+        case 'ezdate':
+        {
+            $timestamp = strtotime( $value );
+            if ( $timestamp )
+                $objectAttribute->setAttribute( 'data_int', $timestamp );
+        } break;
+
         default:
         {
             $objectAttribute->setAttribute( 'data_text', $value );
