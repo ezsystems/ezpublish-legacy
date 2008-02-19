@@ -568,25 +568,31 @@ class eZRSSExport extends eZPersistentObject
                 {
                     $outputHandler = $categoryContent->attribute( 'output' );
                     $itemCategoryText = $outputHandler->attribute( 'output_text' );
-
-                    $itemCategory = $doc->createElement( 'category', $itemCategoryText );
-                    $item->appendChild( $itemCategory );
                 }
                 elseif ( $categoryContent instanceof eZKeyword )
                 {
                     $keywordArray = $categoryContent->keywordArray();
+                    $keywordCount = count( $keywordArray );
+                    $index = 0;
                     foreach ( $keywordArray as $keyword )
                     {
-                        $itemCategory = $doc->createElement( 'category', $keyword );
-                        $item->appendChild( $itemCategory );
-                        unset( $itemCategory );
+                        if ( $keywordCount == 1 )
+                            $itemCategoryText .= $keyword;
+                        elseif( $keywordCount-1 == $index )
+                            $itemCategoryText .= $keyword;
+                        else
+                            $itemCategoryText .= $keyword . ', ';
+
+                        $index++;
                     }
                 }
                 else
                 {
-                    $itemCategory = $doc->createElement( 'category', $categoryContent );
-                    $item->appendChild( $itemCategory );
+                    $itemCategoryText = $categoryContent;
                 }
+
+                $itemCategory = $doc->createElement( 'category', $itemCategoryText );
+                $item->appendChild( $itemCategory );
             }
 
             unset( $itemPubDate );
