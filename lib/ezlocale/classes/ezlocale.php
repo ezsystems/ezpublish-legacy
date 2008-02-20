@@ -943,6 +943,21 @@ class eZLocale
     }
 
     /*!
+     Returns eZLocale object by HTTP locale code $httpLocaleCode
+    */
+    static function fetchByHttpLocaleCode( $httpLocaleCode )
+    {
+        $locales = self::localeList( true );
+        foreach ( $locales as $locale )
+        {
+            if ( $locale->httpLocaleCode() == $httpLocaleCode )
+                return $locale;
+        }
+        
+        return false;
+    }
+
+    /*!
      Formats the time $time according to locale information and returns it. If $time
      is not specified the current time is used.
     */
