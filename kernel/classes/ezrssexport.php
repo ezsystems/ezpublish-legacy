@@ -574,6 +574,7 @@ class eZRSSExport extends eZPersistentObject
                     $keywordArray = $categoryContent->keywordArray();
                     $keywordCount = count( $keywordArray );
                     $index = 0;
+                    $itemCategoryText = '';
                     foreach ( $keywordArray as $keyword )
                     {
                         if ( $keywordCount == 1 )
