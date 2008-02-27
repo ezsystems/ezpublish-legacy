@@ -1253,18 +1253,18 @@ class eZWebDAVContentServer extends eZWebDAVServer
     */
     function fetchVirtualSiteContent( $site, $depth, $properties )
     {
-        $this->appendLogEntry( "Script URL.." . $_SERVER["SCRIPT_URL"], 'CS:fetchVirtualSiteContent' );
+        $this->appendLogEntry( "Script URL.." . eZSys::instance()->RequestURI, 'CS:fetchVirtualSiteContent' );
         // Location of the info file.
         $infoFile = $_SERVER['DOCUMENT_ROOT'] . '/' . eZWebDAVContentServer::virtualInfoFileName();
 
         // Always add the current collection
         $contentEntry = array();
-        $contentEntry["name"]     = $_SERVER["SCRIPT_URL"];
+        $contentEntry["name"]     = eZSys::instance()->RequestURI;
         $contentEntry["size"]     = 0;
         $contentEntry["mimetype"] = 'httpd/unix-directory';
         $contentEntry["ctime"]    = filectime( 'settings/siteaccess/' . $site );
         $contentEntry["mtime"]    = filemtime( 'settings/siteaccess/' . $site );
-        $contentEntry["href"]     = $_SERVER["SCRIPT_URL"];
+        $contentEntry["href"]     = eZSys::instance()->RequestURI;
         $entries[] = $contentEntry;
 
         $defctime = $contentEntry['ctime'];
@@ -1272,7 +1272,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
 
         if ( $depth > 0 )
         {
-            $scriptURL = $_SERVER["SCRIPT_URL"];
+            $scriptURL = eZSys::instance()->RequestURI;
             if ( $scriptURL{strlen($scriptURL) - 1} != "/" )
                 $scriptURL .= "/";
 
@@ -1330,7 +1330,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
 
         // Set up attributes for the virtual site-list folder:
         $contentEntry["name"]     = '/';
-        $contentEntry["href"]     = $_SERVER['SCRIPT_URL'];
+        $contentEntry["href"]     = eZSys::instance()->RequestURI;
         $contentEntry["size"]     = 0;
         $contentEntry["mimetype"] = 'httpd/unix-directory';
         $contentEntry["ctime"]    = filectime( 'var' );
@@ -1347,19 +1347,19 @@ class eZWebDAVContentServer extends eZWebDAVServer
             foreach ( $sites as $site )
             {
                 // Set up attributes for the virtual site-list folder:
-                $contentEntry["name"]     = $_SERVER['SCRIPT_URL'] . $site;
+                $contentEntry["name"]     = eZSys::instance()->RequestURI . $site;
                 $contentEntry["size"]     = 0;
                 $contentEntry["mimetype"] = 'httpd/unix-directory';
                 $contentEntry["ctime"]    = filectime( 'settings/siteaccess/' . $site );
                 $contentEntry["mtime"]    = filemtime( 'settings/siteaccess/' . $site );
 
-                if ( $_SERVER["SCRIPT_URL"] == '/' )
+                if ( eZSys::instance()->RequestURI == '/' )
                 {
                     $contentEntry["href"] = $contentEntry["name"];
                 }
                 else
                 {
-                    $contentEntry["href"] = $_SERVER["SCRIPT_URL"] . $contentEntry["name"];
+                    $contentEntry["href"] = eZSys::instance()->RequestURI . $contentEntry["name"];
                 }
 
                 $entries[] = $contentEntry;
@@ -1395,7 +1395,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
         // Always include the information about the current level node
         $thisNodeInfo = array();
         $thisNodeInfo = $this->fetchNodeInfo( $node );
-        $thisNodeInfo["href"] = $_SERVER['SCRIPT_URL'];
+        $thisNodeInfo["href"] = eZSys::instance()->RequestURI;
         $entries[] = $thisNodeInfo;
 
         // Return the content of the target.
@@ -1512,7 +1512,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
             }
         }
 
-        $scriptURL = $_SERVER["SCRIPT_URL"];
+        $scriptURL = eZSys::instance()->RequestURI;
         if ( strlen( $scriptURL ) > 0 and $scriptURL[ strlen( $scriptURL ) - 1 ] != "/" )
             $scriptURL .= "/";
 
