@@ -135,3 +135,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #8834: Problems with WEBDAV if $_SERVER["SCRIPT_URL"] does not exist
   (Merged from stable/4.0 (4.0.1) rev. 21406)
 - Fixed bug #12123: eZLDAPUser::loginUser has hardcoded UserGroupClassID in sql
+- Fixed bug #12320: bug in staticcache_cleanup.php makes it run forever (by AR)
