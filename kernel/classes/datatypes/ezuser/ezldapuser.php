@@ -300,6 +300,7 @@ class eZLDAPUser extends eZUser
                 }
 
                 $extraNodeAssignments = array();
+                $userGroupClassID = $ini->variable( "UserSettings", "UserGroupClassID" );
 
                 // default user group assigning
                 if ( $LDAPUserGroupType != null )
@@ -315,7 +316,7 @@ class eZLDAPUser extends eZUser
                                                  FROM ezcontentobject, ezcontentobject_tree
                                                 WHERE ezcontentobject.name like '$groupName'
                                                   AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
-                                                  AND ezcontentobject.contentclass_id=3";
+                                                  AND ezcontentobject.contentclass_id=$userGroupClassID";
                                 $groupObject = $db->arrayQuery( $groupQuery );
                                 if ( count( $groupObject ) > 0 and $key == 0 )
                                 {
@@ -334,7 +335,7 @@ class eZLDAPUser extends eZUser
                                              FROM ezcontentobject, ezcontentobject_tree
                                             WHERE ezcontentobject.name like '$groupName'
                                               AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
-                                              AND ezcontentobject.contentclass_id=3";
+                                              AND ezcontentobject.contentclass_id=$userGroupClassID";
                             $groupObject = $db->arrayQuery( $groupQuery );
 
                             if ( count( $groupObject ) > 0  )
@@ -354,7 +355,7 @@ class eZLDAPUser extends eZUser
                                                  FROM ezcontentobject, ezcontentobject_tree
                                                 WHERE ezcontentobject.id='$groupID'
                                                   AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
-                                                  AND ezcontentobject.contentclass_id=3";
+                                                  AND ezcontentobject.contentclass_id=$userGroupClassID";
                                 $groupObject = $db->arrayQuery( $groupQuery );
                                 if ( count( $groupObject ) > 0 and $key == 0 )
                                 {
@@ -373,7 +374,7 @@ class eZLDAPUser extends eZUser
                                              FROM ezcontentobject, ezcontentobject_tree
                                             WHERE ezcontentobject.id='$groupID'
                                               AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
-                                              AND ezcontentobject.contentclass_id=3";
+                                              AND ezcontentobject.contentclass_id=$userGroupClassID";
                             $groupObject = $db->arrayQuery( $groupQuery );
 
                             if ( count( $groupObject ) > 0  )
@@ -468,7 +469,7 @@ class eZLDAPUser extends eZUser
                                                          FROM ezcontentobject, ezcontentobject_tree
                                                         WHERE ezcontentobject.name like '$remmapedGroupName'
                                                           AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
-                                                          AND ezcontentobject.contentclass_id=3";
+                                                          AND ezcontentobject.contentclass_id=$userGroupClassID";
                                         $groupRow = $db->arrayQuery( $groupQuery );
 
                                         if ( count( $groupRow ) > 0 )
@@ -517,7 +518,7 @@ class eZLDAPUser extends eZUser
                                                      FROM ezcontentobject, ezcontentobject_tree
                                                     WHERE ezcontentobject.name like '$groupName'
                                                       AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
-                                                      AND ezcontentobject.contentclass_id=3";
+                                                      AND ezcontentobject.contentclass_id=$userGroupClassID";
                                     $groupObject = $db->arrayQuery( $groupQuery );
 
                                     if ( count( $groupObject ) > 0 and $i == 0 )
@@ -551,7 +552,7 @@ class eZLDAPUser extends eZUser
                                                      FROM ezcontentobject, ezcontentobject_tree
                                                     WHERE ezcontentobject.name like '$groupName'
                                                       AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
-                                                      AND ezcontentobject.contentclass_id=3";
+                                                      AND ezcontentobject.contentclass_id=$userGroupClassID";
                                     $groupObject = $db->arrayQuery( $groupQuery );
 
                                     if ( count( $groupObject ) > 0 and $i == 0 )
