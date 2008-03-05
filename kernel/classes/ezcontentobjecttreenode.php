@@ -2180,110 +2180,18 @@ class eZContentObjectTreeNode extends eZPersistentObject
             eZContentLanguage::setPrioritizedLanguages( $language );
         }
 
-        if ( !is_numeric( $nodeID ) and !is_array( $nodeID ) )
+        $depth         = isset( $params['Depth'] ) && is_numeric( $params['Depth'] ) ? $params['Depth']              : false;
+        $depthOperator = isset( $params['DepthOperator'] )                           ? $params['DepthOperator']      : false;
+
+        $pathStringCond     = '';
+        $notEqParentString  = '';
+        // If the node(s) doesn't exist we return null.
+        if ( !eZContentObjectTreeNode::createPathConditionAndNotEqParentSQLStrings( $pathStringCond, $notEqParentString, $nodeID, $depth, $depthOperator ) )
         {
-            return 0;
+            return null;
         }
 
-        $depth = false;
-        if ( isset( $params['Depth'] ) && is_numeric( $params['Depth'] ) )
-        {
-            $depth = $params['Depth'];
-
-        }
-
-        //$nodePath = $node->attribute( 'path_string' );
-        //$fromNode = $node->attribute( 'node_id');
-        //$childrensPath = $nodePath ;
         $db = eZDB::instance();
-
-//        $pathString = " path_string like '$childrensPath%' AND ";
-
-        $pathStringCond = '';
-        if ( is_array( $nodeID ) )
-        {
-            $nodeIDList = $nodeID;
-            $nodeList = array();
-            $sqlPartForOneNodeList = array();
-            foreach ( $nodeIDList as $nodeID )
-            {
-                $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
-                // If the node doesn't exist we return null.
-                if ( !is_array( $node ) )
-                {
-                    return null;
-                }
-
-                $nodePath = $node['path_string'];
-                $nodeDepth = $node['depth'];
-                $childrensPath = $nodePath ;
-                $pathString = " ezcontentobject_tree.path_string like '$childrensPath%' ";
-                if ( isset( $params[ 'Depth' ] ) and $params[ 'Depth' ] > 0 )
-                {
-                    $nodeDepth += $params[ 'Depth' ];
-                    $depthCond = ' and ezcontentobject_tree.depth = ' . $nodeDepth . ' ';
-                }
-                else
-                {
-                    $depthCond = '';
-                }
-
-                $notEqParentString = " and ezcontentobject_tree.node_id != $nodeID ";
-
-                $sqlPartForOneNodeList[] = " ( ezcontentobject_tree.path_string like '$childrensPath%'   $depthCond $notEqParentString ) ";
-                $notEqParentString = '';
-            }
-            $pathStringCond = implode( ' or ', $sqlPartForOneNodeList );
-            $pathStringCond = ' (' . $pathStringCond . ') and';
-        }
-        else
-        {
-            $nodePath = null;
-            $nodeDepth = 0;
-
-            if ( is_numeric( $nodeID ) )
-            {
-                $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
-                // If the node doesn't exist we return null.
-                if ( !is_array( $node ) )
-                {
-                    return 0;
-                }
-                $nodePath = $node['path_string'];
-                $nodeDepth = $node['depth'];
-            }
-
-            $fromNode = $nodeID;
-            $childrensPath = $nodePath;
-            $pathLength = strlen( $childrensPath );
-
-            $db = eZDB::instance();
-            $subStringString = $db->subString( 'path_string', 1, $pathLength );
-            $pathString = " ezcontentobject_tree.path_string like '$childrensPath%' and ";
-
-            $notEqParentString = "ezcontentobject_tree.node_id != $fromNode AND";
-            $depthCond = '';
-            if ( $depth )
-            {
-                $nodeDepth += $params[ 'Depth' ];
-                if ( isset( $params[ 'DepthOperator' ] ) && $params[ 'DepthOperator' ] == 'eq' )
-                {
-                    $depthCond = ' ezcontentobject_tree.depth = ' . $nodeDepth . ' and ';
-                    $notEqParentString = '';
-                }
-                else
-                    $depthCond = ' ezcontentobject_tree.depth <= ' . $nodeDepth . ' and ';
-            }
-
-            $pathStringCond = $pathString . $depthCond;
-        }
-
-        $pathString = $pathStringCond;
-
-        //$nodeDepth = $node->attribute( 'depth' );
-        $depthCond = '';
-
-        // $notEqParentString = "node_id != $fromNode AND";
 
         $limitation = ( isset( $params['Limitation']  ) && is_array( $params['Limitation']  ) ) ? $params['Limitation']: false;
         $limitationList = eZContentObjectTreeNode::getLimitationList( $limitation );
@@ -2773,9 +2681,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                            $attributeFilterFromSQL
                            $extendedAttributeFilter[tables]
                            $sqlPermissionChecking[from]
-                      WHERE $pathString
+                      WHERE $pathStringCond
                             $extendedAttributeFilter[joins]
-                            $depthCond
                             $mainNodeOnlyCond
                             $classCondition
                             $attributeFilterWhereSQL
@@ -2802,9 +2709,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                           $attributeFilterFromSQL
                           $extendedAttributeFilter[tables]
                     WHERE
-                           $pathString
+                           $pathStringCond
                            $extendedAttributeFilter[joins]
-                           $depthCond
                            $mainNodeOnlyCond
                            $classCondition
                            $attributeFilterWhereSQL
