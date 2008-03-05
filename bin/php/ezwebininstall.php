@@ -107,7 +107,7 @@ $script->initialize();
 $packageRepository = $scriptOptions['repository'];
 if ( !$packageRepository )
 {
-    $packageRepository = "ez_systems";
+    $packageRepository = repositoryByVendor( defaultVendor() );
 }
 
 

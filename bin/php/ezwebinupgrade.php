@@ -45,23 +45,67 @@
 require 'autoload.php';
 include_once( 'bin/php/ezwebincommon.php' );
 
+
+function execUpdateFunction( $funcName, $toVersion )
+{
+    $funcName = "$funcName" . "_" . preg_replace( "/[.-]/", "_", $toVersion );
+
+    if ( function_exists( $funcName ) )
+    {
+        $funcName();
+    }
+}
+
+function upgradePackageListByWebinVersion( $version )
+{
+    $packageList = false;
+
+    switch ( $version )
+    {
+        case '1.2-0':
+            {
+                $packageList = array(   'ezwebin_classes'
+                                      , 'ezwebin_extension'
+                                      // skipping content for now
+                                      //, 'ezwebin_banners'
+                                      //, 'ezwebin_democontent'
+                                      , 'ezwebin_design'
+                                      , 'ezwebin_site' );
+            } break;
+        case '1.3-0':
+            {
+                $packageList = array(   'ezwebin_classes'
+                                      , 'ezwebin_extension'
+                                      // skipping content for now
+                                      //, 'ezwebin_banners'
+                                      //, 'ezwebin_democontent'
+                                      , 'ezwebin_design_blue'
+                                      , 'ezwebin_design_gray'
+                                      , 'ezwebin_site' );
+            } break;
+        default:
+            break;
+    }
+
+    return $packageList;
+
+}
+
 /*!
  update content classes
 */
-function updateClasses()
+function updateClasses_1_2_0()
 {
-    showMessage2( "Updateting content classes..." );
-
     $installer = new eZWebinInstaller();
 
     $installer->addClassAttributes( array( 'class' => array( 'identifier' => 'folder' ),
                                            'attributes' => array( array( 'identifier' => 'tags',
                                                                          'name' => 'Tags',
                                                                          'data_type_string' => 'ezkeyword' ),
-                                                                   array( 'identifier' => 'publish_date',
-                                                                          'name' => 'Publish date',
-                                                                          'data_type_string' => 'ezdatetime',
-                                                                          'default_value' => 0 ) ) ) );
+                                                                  array( 'identifier' => 'publish_date',
+                                                                         'name' => 'Publish date',
+                                                                         'data_type_string' => 'ezdatetime',
+                                                                         'default_value' => 0 ) ) ) );
 
     $installer->addClassAttributes( array( 'class' => array( 'identifier' => 'template_look' ),
                                            'attributes' => array( array( 'data_type_string' => 'ezurl',
@@ -89,26 +133,22 @@ function updateClasses()
 /*!
  update content objects
 */
-function updateObjects()
+function updateObjects_1_2_0()
 {
-    showMessage2( "Updateting content objects..." );
-
     $installer = new eZWebinInstaller();
 
     $templateLookData = array( "tag_cloud_url" => array( "DataText" => "Tag cloud",
                                                          "Content" => "/content/view/tagcloud/2" ),
                                "footer_text" => array( "DataText" => "Copyright &#169; 2007 eZ Systems AS. All rights reserved." ) );
 
-    $result = $installer->updateContentObjectAttributes( array( 'object_id' => $this->setting( 'template_look_object_id' ),
-                                                                'attributes_data' => $templateLookData ) );
-
-    return $result;
+    $installer->updateContentObjectAttributes( array( 'object_id' => $installer->setting( 'template_look_object_id' ),
+                                                      'attributes_data' => $templateLookData ) );
 }
 
 
 /*!
 */
-function updateINI()
+function updateINI_1_2_0()
 {
     showMessage2( "Updating INI-files..." );
 
@@ -206,22 +246,43 @@ function updateINI()
 }
 
 
+function isValidWebinUpgradeVersion( $version )
+{
+    $isValid = false;
+
+    switch( $version )
+    {
+        case '1.2-0':
+        case '1.3-0':
+            {
+                $isValid = true;
+            } break;
+        default:
+            break;
+    }
+
+    return $isValid;
+}
+
 // script initializing
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "\n" .
-                                                        "This script will upgrade ezwebin 1.1-1 to 1.2-0\n" ),
+                                                        "This script will upgrade ezwebin." ),
                                      'use-session' => false,
                                      'use-modules' => true,
                                      'use-extensions' => false,
                                      'user' => true ) );
 $script->startup();
 
-$scriptOptions = $script->getOptions( "[repository:][package:][package-dir:][url:][auto-mode:]",
+$scriptOptions = $script->getOptions( "[to-version:][repository:][package:][package-dir:][url:][auto-mode:]",
                                       "",
-                                      array( 'repository' => "Path to repository where unpacked(unarchived) packages are \n" .
+                                      array( 'to-version' => "Specify what upgrade path to use. \n" .
+                                                             " available options: '1.2-0' - upgrade 1.1-1 to 1.2-0\n" .
+                                                             "                    '1.3-0' - upgrade 1.2-0 to 1.3-0",
+                                             'repository' => "Path to repository where unpacked(unarchived) packages are \n" .
                                                          "placed. it's relative to 'var/[site.ini].[FileSettings].[StorageDir]/[package.ini].[RepositorySettings].[RepositoryDirectory]' \n".
                                                          "(default is 'var/storage/packages/ez_systems')",
-                                             'package' => "Package(s) to install, f.e. 'ezwebin-classes'",
+                                             'package' => "Package(s) to install, f.e. 'ezwebin_classes'",
                                              'package-dir' => "Path to directory with packed(ezpkg) packages(default is '/tmp/ezwebin') ",
                                              'url' => "URL to download packages, f.e. 'http://packages.ez.no/ezpublish/3.9'.\n" .
                                                       "'package-dir' can be specified to store uploaded packages on local computer.\n" .
@@ -253,9 +314,24 @@ else
 }
 $script->initialize();
 
+
 /**************************************************************
 * process options                                             *
 ***************************************************************/
+
+$toVersion = '1.2-0';
+if ( $scriptOptions['to-version'] )
+{
+    $version = $scriptOptions['to-version'];
+    if ( isValidWebinUpgradeVersion( $version ) )
+    {
+        $toVersion = $version;
+    }
+    else
+    {
+        showError( "invalid '--to-version' option" );
+    }
+}
 
 //
 // 'repository' option
@@ -263,7 +339,7 @@ $script->initialize();
 $packageRepository = $scriptOptions['repository'];
 if ( !$packageRepository )
 {
-    $packageRepository = "ez_systems";
+    $packageRepository = repositoryByVendor( defaultVendor() );
 }
 
 
@@ -273,14 +349,7 @@ if ( !$packageRepository )
 $packageList = $scriptOptions['package'];
 if ( !$packageList )
 {
-    $packageList = array(   'ezwebin_classes'
-                          , 'ezwebin_extension'
-                          // skipping content for now
-                          //, 'ezwebin_banners'
-                          //, 'ezwebin_democontent'
-                          , 'ezwebin_design'
-                          , 'ezwebin_site'
-                        );
+    $packageList = upgradePackageListByWebinVersion( $toVersion );
 }
 else
 {
@@ -337,17 +406,21 @@ if( file_exists( installScriptDir( $packageRepository ) ) )
     include_once( installScriptDir( $packageRepository ) . "/settings/ini-site.php" );
     include_once( installScriptDir( $packageRepository ) . "/settings/ini-common.php" );
 
-    updateClasses();
+    showMessage2( "Updating content classes..." );
+    execUpdateFunction( "updateClasses", $toVersion );
 
-    updateObjects();
+    showMessage2( "Updating content objects..." );
+    execUpdateFunction( "updateObjects", $toVersion );
 
-    updateINI();
+    showMessage2( "Updating INI-files..." );
+    execUpdateFunction( "updateINI", $toVersion );
 }
 else
 {
     showWarning( "no data for updating content classes, objects, roles, ini" );
 }
 
-$script->shutdown( 0, 'Done' );
+showMessage2( "Upgrade complete" );
+$script->shutdown( 0 );
 
 ?>
