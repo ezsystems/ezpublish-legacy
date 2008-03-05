@@ -11,6 +11,8 @@ Changes from 3.10.0 to 3.10.1
   (Merged from trunk (4.0.0) rev. 20919)
 - Implemented enhancement #8648: updatesearchindex.php unnecessary reindexes each node - not each object
   (Merged from trunk (4.1.0alpha1) rev. 21299)
+- Implemented enhancement #11896: sql optimization in ezontentObjectTreeNode::fetch()
+  (Merged from trunk (4.1.0alpha1) rev. 21415)
 
 *Design:
 
@@ -329,5 +331,3 @@ Changes from 3.10.0 to 3.10.1
 - Fixed bug #12123: eZLDAPUser::loginUser has hardcoded UserGroupClassID in sql
   (Merged from trunk (4.1.0alpha1) rev. 21408)
 - Fixed bug #12320: bug in staticcache_cleanup.php makes it run forever (by AR)
-- Implemented enhancement #11896: sql optimization in ezontentObjectTreeNode::fetch()
-  (Merged from trunk (4.1.0alpha1) rev. 21415)
