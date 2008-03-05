@@ -2169,6 +2169,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     static function subTreeCountByNodeID( $params = array(), $nodeID )
     {
+        if ( !is_numeric( $nodeID ) and !is_array( $nodeID ) )
+        {
+            return null;
+        }
+
         $language = ( isset( $params['Language'] ) ) ? $params['Language'] : false;
 
         if ( $language )
