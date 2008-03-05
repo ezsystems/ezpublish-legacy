@@ -3424,7 +3424,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 if ( is_array( $nodeID ) )
                 {
                     if( count( $nodeID ) === 1 )
-                        $sqlCondition = 'node_id IN ( ' . (int) $nodeID[0] . ' ) AND';
+                    {
+                        $sqlCondition = 'node_id = ' . (int) $nodeID[0] . ' AND';
+                    }
                     else
                     {
                         // All elements from $nodeID should be casted to (int)
@@ -3434,7 +3436,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 }
                 else
                 {
-                    $sqlCondition = 'node_id IN ( ' . (int) $nodeID . ' ) AND';
+                    $sqlCondition = 'node_id = ' . (int) $nodeID . ' AND';
                 }
             }
 
