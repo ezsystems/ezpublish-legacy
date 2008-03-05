@@ -186,6 +186,21 @@ function installScriptDir( $packageRepository )
     return ( eZPackage::repositoryPath() . "/$packageRepository/ezwebin_site" );
 }
 
+function defaultVendor()
+{
+    // $vendor is taken from 'ezwebin_site' package.
+    $vendor = 'eZ systems';
+    return $vendor;
+}
+
+function repositoryByVendor( $vendor )
+{
+    // it's copy/paste from eZPackage
+    $trans = eZCharTransform::instance();
+    $repository = $trans->transformByGroup( $vendor, 'urlalias' );
+    return $repository;
+}
+
 /*!
  download packages if neede.
     1. check if packages specified in $packageList exist in $packageRepository(means already downloaded and imported).
@@ -284,9 +299,10 @@ function downloadPackages( $packageList, $packageURL, $packageDir, $packageRepos
         foreach( $downloadPackageList as $packageName )
         {
             showMessage( "$packageName" );
+
             $archiveName = $downloader->downloadFile( "$packageURL/$packageName.ezpkg", $packageDir );
             if ( $archiveName === false )
-                showError( "Error while downloading: " . $downloader->ErrorMsg );
+                showError( "download error - " . $downloader->ErrorMsg );
         }
     }
 
@@ -297,8 +313,8 @@ function downloadPackages( $packageList, $packageURL, $packageDir, $packageRepos
     foreach( $packageList as $packageName )
     {
         showMessage( "$packageName" );
-        $package = eZPackage::import( "$packageDir/$packageName.ezpkg", $packageName, false, $packageRepository );
 
+        $package = eZPackage::import( "$packageDir/$packageName.ezpkg", $packageName, false, $packageRepository );
         if( !is_object( $package ) )
             showError( "Faild to import '$packageName' package: err = $package" );
     }
@@ -315,6 +331,11 @@ function installPackages( $packageList, $params = array() )
 
     showMessage2( "Installing..." );
 
+    // copy/paste from eZPackage
+    if ( !isset( $params['path'] ) )
+        $params['path'] = false;
+
+    // process packages
     $action = false;
     while( ( list( , $packageName ) = each( $packageList ) ) && $action != EZ_INSTALL_PACKAGE_EXTRA_ACTION_QUIT )
     {
@@ -322,20 +343,19 @@ function installPackages( $packageList, $params = array() )
 
         $cli->output( $cli->stylize( 'emphasize', "Installing package '$packageName'" ), true );
 
-        //$params['install_type'] = 'install';
-
         $package = eZPackage::fetch( $packageName );
         if ( !is_object( $package ) )
         {
             showError( "can't fetch package '$packageName'. Aborting..." );
         }
 
-        // skip installing 'site packages'
-        $packageType = $package->attribute( 'type' );
-
-        if ( $packageType == 'site' )
+        // skip package which can not be installed(e.g. which can be imported only, like 'design' and 'site' types)
+        if ( $package->attribute( 'install_type' ) != 'install' )
+        {
             continue;
+        }
 
+        $packageType = $package->attribute( 'type' );
         $packageItems = $package->installItemsList();
 
         while( ( list( , $item ) = each( $packageItems ) ) && $action != EZ_INSTALL_PACKAGE_EXTRA_ACTION_QUIT
@@ -408,29 +428,28 @@ function checkSiteaccess( $siteAccess, $bailOutOnError = false )
     //include_once( 'lib/ezutils/classes/ezextension.php' );
     $extensionBaseDir = eZExtension::baseDirectory();
     $extensionNameArray = eZExtension::activeExtensions();
-    $siteAccessPath = '/settings/siteaccess/';
+    $siteAccessSettingsDir = '/settings/siteaccess/';
     $siteAccessExists = false;
 
-    $path = 'settings/siteaccess/' . $siteAccess;
-
-    $pathMap = false;
-
-    if( file_exists( $path ) )
+    if( file_exists( 'settings/siteaccess/' . $siteAccess ) )
     {
-        $pathMap = array( $siteAccess => $path );
+        $siteAccessExists = true;
     }
     else
     {
         // Not found, check if it exists in extensions
         foreach( $extensionNameArray as $extensionName )
         {
-            $extensionSiteaccessPath = $extensionBaseDir . '/' . $extensionName . $siteAccessPath . $siteAccess;
+            $extensionSiteaccessPath = $extensionBaseDir . '/' . $extensionName . $siteAccessSettingsDir . $siteAccess;
             if( file_exists( $extensionSiteaccessPath ) )
-                $pathMap = array( $siteAccess => $extensionSiteaccessPath );
+            {
+                $siteAccessExists = true;
+                break;
+            }
         }
     }
 
-    if( !$pathMap && $bailOutOnError )
+    if( !$siteAccessExists && $bailOutOnError )
     {
         showError( "Siteaccess '" . $siteAccess . "' does not exist. Exiting..." );
     }
