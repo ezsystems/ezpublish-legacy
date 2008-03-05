@@ -136,8 +136,9 @@ class eZContentStructureTreeOperator
         $sortingInfo = eZContentObjectTreeNode::createSortingSQLStrings( $params['SortBy'] );
 
         // node params
-        $notEqParentString = eZContentObjectTreeNode::createNotEqParentSQLString( $nodeID, 1, false );
-        $pathStringCond    = eZContentObjectTreeNode::createPathConditionSQLString( $params['NodePath'], $params['NodeDepth'], 1, false );
+        $notEqParentString = '';
+        $pathStringCond    = '';
+        eZContentObjectTreeNode::createPathConditionAndNotEqParentSQLStrings( $pathStringCond, $notEqParentString, $nodeID, 1, false );
 
         // class filter
         $classCondition = eZContentObjectTreeNode::createClassFilteringSQLString( $params['ClassFilterType'], $params['ClassFilterArray'] );
