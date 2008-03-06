@@ -1339,7 +1339,7 @@ class eZDBInterface
             $elements = array( $elements );
         }
 
-        $impString = $type ? $this->implodeWithTypeCast( ', ', $elements, 'int' ) : implode( ', ', $elements );
+        $impString = $type ? $this->implodeWithTypeCast( ', ', $elements, $type ) : implode( ', ', $elements );
         $result = $statement . ' ( ' . $impString . ' )';
 
         return $result;
