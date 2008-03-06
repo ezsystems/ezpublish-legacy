@@ -1409,18 +1409,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $nodeDepth  = $node['depth'];
             }
 
-            //$outNotEqParentStr   = eZContentObjectTreeNode::createNotEqParentSQLString( $nodeID, $depth, $depthOperator );
-            //$outPathConditionStr = eZContentObjectTreeNode::createPathConditionSQLString( $nodePath, $nodeDepth, $depth, $depthOperator );
-            if ( $depth == 1 && ( !$depthOperator || $depthOperator == 'le' || $depthOperator == 'eq' ) )
-            {
-                $outNotEqParentStr = '';
-                $outPathConditionStr = ' ezcontentobject_tree.parent_node_id = ' . $nodeID . ' and ';
-            }
-            else
-            {
-                $outNotEqParentStr = eZContentObjectTreeNode::createNotEqParentSQLString( $nodeID, $depth, $depthOperator );
-                $outPathConditionStr = eZContentObjectTreeNode::createPathConditionSQLString( $nodePath, $nodeDepth, $depth, $depthOperator );
-            }
+            $outNotEqParentStr   = eZContentObjectTreeNode::createNotEqParentSQLString( $nodeID, $depth, $depthOperator );
+            $outPathConditionStr = eZContentObjectTreeNode::createPathConditionSQLString( $nodePath, $nodeDepth, $depth, $depthOperator );
         }
 
         return true;
