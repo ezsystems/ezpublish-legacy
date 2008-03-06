@@ -1348,8 +1348,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             if ( $depth === 1 && ( $depthOperator === 'eq' || $depthOperator === 'le' ) )
             {
                 $db = eZDB::instance();
-                $impStr = $db->implodeWithTypeCast( ',', $nodeID, 'int' );
-                $outPathConditionStr = 'ezcontentobject_tree.parent_node_id IN ( ' . $impStr . ' ) and';
+                $outPathConditionStr = $db->generateSQLINStatement( $nodeID, 'ezcontentobject_tree.parent_node_id', false, true, 'int' ) . ' and';
             }
             else
             {
