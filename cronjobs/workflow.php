@@ -76,14 +76,12 @@ foreach( array_keys( $workflowProcessList ) as $key )
 
     if ( $process->attribute( 'status' ) != EZ_WORKFLOW_STATUS_DONE )
     {
-        if ( $process->attribute( 'status' ) == EZ_WORKFLOW_STATUS_CANCELLED )
-        {
-            ++$removedProcessCount;
-            $process->remove();
-            continue;
-        }
-        $process->store();
-        if ( $process->attribute( 'status' ) == EZ_WORKFLOW_STATUS_RESET )
+        if ( $process->attribute( 'status' ) == EZ_WORKFLOW_STATUS_RESET ||
+             $process->attribute( 'status' ) == EZ_WORKFLOW_STATUS_FAILED ||
+             $process->attribute( 'status' ) == EZ_WORKFLOW_STATUS_NONE ||
+             $process->attribute( 'status' ) == EZ_WORKFLOW_STATUS_CANCELLED ||
+             $process->attribute( 'status' ) == EZ_WORKFLOW_STATUS_BUSY
+           )
         {
             $bodyMemento = eZOperationMemento::fetchMain( $process->attribute( 'memento_key' ) );
             $mementoList = eZOperationMemento::fetchList( $process->attribute( 'memento_key' ) );
@@ -93,6 +91,16 @@ foreach( array_keys( $workflowProcessList ) as $key )
                 $memento =& $mementoList[$i];
                 $memento->remove();
             }
+        }
+
+        if ( $process->attribute( 'status' ) == EZ_WORKFLOW_STATUS_CANCELLED )
+        {
+            ++$removedProcessCount;
+            $process->remove();
+        }
+        else
+        {
+            $process->store();
         }
     }
     else
