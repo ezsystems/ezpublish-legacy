@@ -2652,6 +2652,14 @@ CREATE INDEX ezcollab_group_path ON ezcollab_group USING btree (path_string);
 
 
 
+CREATE INDEX ezcontent_language_name ON ezcontent_language USING btree (name);
+
+
+
+
+
+
+
 CREATE INDEX ezcontentbrowsebookmark_user ON ezcontentbrowsebookmark USING btree (user_id);
 
 

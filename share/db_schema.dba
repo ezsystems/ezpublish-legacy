@@ -891,6 +891,14 @@ $schema = array (
           0 => 'id',
         ),
       ),
+      'ezcontent_language_name' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'name',
+        ),
+      ),
     ),
   ),
   'ezcontentbrowsebookmark' => 
