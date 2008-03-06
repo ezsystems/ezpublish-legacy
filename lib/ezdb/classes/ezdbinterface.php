@@ -1319,11 +1319,13 @@ class eZDBInterface
      \param $columnName Column name of the database table the IN statement should be created for
      \param $not        Will generate a "NOT IN" ( if set to \c true ) statement instead of an "IN" ( if set to
                         \c false , default )
+     \param $unique
+     \param $type      The type to cast the array elements to
 
      \return A string with the correct IN statement like for example
              "columnName IN ( element1, element2 )"
      */
-    function generateSQLINStatement( $elements, $columnName = '', $not = false, $unique = true )
+    function generateSQLINStatement( $elements, $columnName = '', $not = false, $unique = true, $type = false )
     {
         $result    = '';
         $statement = $columnName . ' IN';
@@ -1331,14 +1333,15 @@ class eZDBInterface
         {
             $statement = $columnName . ' NOT IN';
         }
-        if ( is_array( $elements ) )
+
+        if ( !is_array( $elements ) )
         {
-            $result = $statement . ' ( ' . implode( ', ', $elements ) . ' )';
+            $elements = array( $elements );
         }
-        else
-        {
-            $result = $statement . ' ( ' . $elements . ' )';
-        }
+
+        $impString = $type ? $this->implodeWithTypeCast( ', ', $elements, 'int' ) : implode( ', ', $elements );
+        $result = $statement . ' ( ' . $impString . ' )';
+
         return $result;
     }
 
