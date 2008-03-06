@@ -8,3 +8,6 @@ CREATE TABLE ezurlwildcard (
   type int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
 );
+
+ALTER TABLE ezcontent_language ADD INDEX ezcontent_language_name(name);
+

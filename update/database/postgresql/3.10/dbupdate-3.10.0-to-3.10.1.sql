@@ -17,3 +17,6 @@ CREATE TABLE ezurlwildcard (
 
 ALTER TABLE ONLY ezurlwildcard
     ADD CONSTRAINT ezurlwildcard_pkey PRIMARY KEY (id);
+
+CREATE INDEX ezcontent_language_name ON ezcontent_language (name);
+

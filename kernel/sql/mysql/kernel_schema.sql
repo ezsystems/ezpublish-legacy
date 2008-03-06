@@ -192,7 +192,8 @@ CREATE TABLE ezcontent_language (
   id int(11) NOT NULL default '0',
   locale varchar(20) NOT NULL default '',
   name varchar(255) NOT NULL default '',
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (id),
+  KEY ezcontent_language_name (name)
 ) TYPE=MyISAM;
 
 
