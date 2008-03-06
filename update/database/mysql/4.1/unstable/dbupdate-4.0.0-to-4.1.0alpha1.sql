@@ -5,3 +5,6 @@ ALTER TABLE ezworkflow_event ADD COLUMN data_text5 LONGTEXT;
 
 ALTER TABLE ezrss_export ADD COLUMN node_id INT NULL;
 ALTER TABLE ezrss_export_item ADD COLUMN category VARCHAR( 255 ) NULL;
+
+ALTER TABLE ezcontent_language ADD INDEX ezcontent_language_name(name);
+

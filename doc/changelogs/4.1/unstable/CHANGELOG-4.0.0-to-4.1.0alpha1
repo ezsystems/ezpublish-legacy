@@ -141,3 +141,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12320: bug in staticcache_cleanup.php makes it run forever (by AR)
 - Fixed bug #12640: depth_operator does not work properly when fetching tree counts
 - Fixed bug #11631: Collaboration system: status of subsequent pending versions incorrectly set to "draft"
+- Fixed bug #12234: ezcontent_language missing index on name field
