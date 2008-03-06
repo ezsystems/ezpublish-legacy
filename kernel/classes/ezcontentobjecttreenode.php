@@ -186,7 +186,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                       'class_name' => 'className',
                                                       'hidden_invisible_string' => 'hiddenInvisibleString',
                                                       'hidden_status_string' => 'hiddenStatusString',
-                                                      'classes_js_array' => 'availableClassesJsArray' ),
+                                                      'classes_js_array' => 'availableClassesJsArray',
+                                                      'is_container' => 'classIsContainer' ),
                       "increment_key" => "node_id",
                       "class_name" => "eZContentObjectTreeNode",
                       "name" => "ezcontentobject_tree" );
@@ -2094,7 +2095,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                        ezcontentobject.*,
                        ezcontentobject_tree.*,
                        ezcontentclass.serialized_name_list as class_serialized_name_list,
-                       ezcontentclass.identifier as class_identifier
+                       ezcontentclass.identifier as class_identifier,
+                       ezcontentclass.is_container as is_container
                        $groupBySelectText
                        $versionNameTargets
                        $sortingInfo[attributeTargetSQL]
@@ -3419,11 +3421,18 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $db = eZDB::instance();
         $contentObjectID =(int) $contentObjectID;
         $parentNodeID =(int) $parentNodeID;
-        $query = "SELECT ezcontentobject_tree.*
-                  FROM ezcontentobject_tree, ezcontentobject
+        $query = "SELECT ezcontentobject_tree.*,
+                         ezcontentclass.serialized_name_list as class_serialized_name_list,
+                         ezcontentclass.identifier as class_identifier,
+                         ezcontentclass.is_container as is_container
+                  FROM ezcontentobject_tree,
+                       ezcontentobject,
+                       ezcontentclass
                   WHERE ezcontentobject_tree.contentobject_id = '$contentObjectID' AND
                         ezcontentobject.id = '$contentObjectID' AND
-                        ezcontentobject_tree.parent_node_id = '$parentNodeID' AND ".
+                        ezcontentobject_tree.parent_node_id = '$parentNodeID' AND
+                        ezcontentclass.version=0 AND
+                        ezcontentclass.id = ezcontentobject.contentclass_id AND ".
                         eZContentLanguage::languagesSQLFilter( 'ezcontentobject' );
 
         $nodeListArray = $db->arrayQuery( $query );
@@ -3491,7 +3500,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $query = "SELECT ezcontentobject.*,
                              ezcontentobject_tree.*,
                              ezcontentclass.serialized_name_list as class_serialized_name_list,
-                             ezcontentclass.identifier as class_identifier
+                             ezcontentclass.identifier as class_identifier,
+                             ezcontentclass.is_container as is_container
                              $versionNameTargets
                       FROM ezcontentobject_tree,
                            ezcontentobject,
@@ -5301,8 +5311,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( !is_array( $array ) )
             return $retNodes;
 
-        $ini = eZINI::instance();
-
         foreach ( $array as $node )
         {
             unset( $object );
@@ -5328,9 +5336,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
             if ( isset( $node['class_identifier'] ) )
                 $object->ClassIdentifier = $node['class_identifier'];
+
+            if ( isset( $node['is_container'] ) )
+                $object->ClassIsContainer = $node['is_container'];
+
             if ( $with_contentobject )
             {
-                if ( array_key_exists( 'class_name', $node ) )
+                if ( isset( $node['class_name'] ) )
                 {
                     unset( $node['remote_id'] );
                     $contentObject = new eZContentObject( $node );
@@ -5817,38 +5829,47 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
 
     /*!
-     \return the cached value of the class identifier if it exists, it not it's fetched dynamically
+     \return the cached value of the class identifier if it exists, if not it's fetched dynamically
     */
-    function classIdentifier()
+    public function classIdentifier()
     {
-        $identifier = '';
-        if ( $this->ClassIdentifier !== null )
-        {
-            $identifier = $this->ClassIdentifier;
-        }
-        else
+        if ( $this->ClassIdentifier === null )
         {
             $object = $this->object();
             $class = $object->contentClass();
-            $identifier = $class->attribute( 'identifier' );
+            $this->ClassIdentifier = $class->attribute( 'identifier' );
         }
 
-        return $identifier;
+        return $this->ClassIdentifier;
     }
 
     /*!
-     \return the cached value of the class name if it exists, it not it's fetched dynamically
+     \return the cached value of the class name if it exists, if not it's fetched dynamically
     */
-    function className()
+    public function className()
     {
-        if ( $this->ClassName !== null )
+        if ( $this->ClassName === null )
         {
-            return $this->ClassName;
+            $object = $this->object();
+            $class = $object->contentClass();
+            $this->ClassName = $class->attribute( 'name' );
         }
 
-        $object = $this->object();
-        $class = $object->contentClass();
-        return $class->attribute( 'name' );
+        return $this->ClassName;
+    }
+
+    /*!
+     \return the cached value of the class is_container flag if it exists, if not it's fetched dynamically
+    */
+    public function classIsContainer()
+    {
+        if ( $this->ClassIsContainer === null )
+        {
+            $object = $this->object();
+            $class = $object->contentClass();
+            $this->ClassIsContainer = $class->attribute( 'is_container' );
+        }
+        return $this->ClassIsContainer;
     }
 
     /*!
@@ -6282,6 +6303,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /// Contains the cached value of the class identifier
     public $ClassIdentifier = null;
     public $ClassName = null;
+    protected $ClassIsContainer = null;
 }
 
 ?>

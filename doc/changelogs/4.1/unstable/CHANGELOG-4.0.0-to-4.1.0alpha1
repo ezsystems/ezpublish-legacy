@@ -10,6 +10,7 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Implemented enhancement #11896: sql optimization in ezontentObjectTreeNode::fetch()
 - Implemented enhancement #11897: fetch content list - mysql query - optimization
 - Implemented enhancement #12656: Add parameter for type casting to eZDBInterface::generateSQLINStatement()
+- Implemented enhancement #12546: is_container attribute on eZContentObjectTreeNode
 
 *Design:
 

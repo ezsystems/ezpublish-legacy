@@ -3427,7 +3427,9 @@ class eZContentObject extends eZPersistentObject
         }
         $query = "SELECT ezcontentobject.*,
              ezcontentobject_tree.*,
-             ezcontentclass.serialized_name_list as class_serialized_name_list
+             ezcontentclass.serialized_name_list as class_serialized_name_list,
+             ezcontentclass.identifier as class_identifier,
+             ezcontentclass.is_container as is_container
           FROM   ezcontentobject_tree,
              ezcontentobject,
              ezcontentclass
