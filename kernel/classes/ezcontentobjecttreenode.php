@@ -4487,8 +4487,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $node = eZContentObjectTreeNode::fetch( $nodeID );
         }
 
-        $oldPath = $node->attribute( 'path_string' ); //$marginsArray[0][2];
-        $oldParentNodeID = $node->attribute( 'parent_node_id' ); //$marginsArray[0][3];
+        $oldPath = $node->attribute( 'path_string' );
+        $oldParentNodeID = $node->attribute( 'parent_node_id' );
         $newParentNodeID =(int) $newParentNodeID;
         if ( $oldParentNodeID != $newParentNodeID )
         {
@@ -4504,11 +4504,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $newParentNode = eZContentObjectTreeNode::fetch( $newParentNodeID );
             $newParentPath = $newParentNode->attribute( 'path_string' );
             $newParentDepth = $newParentNode->attribute( 'depth' );
-            $newPath = $newParentPath;// . $newParentNodeID . '/' ;
+            $newPath = $newParentPath . $nodeID;
             $oldDepth = $node->attribute( 'depth' );
-            $childrensPath = $oldPath;// . $nodeID . '/';
 
-            $oldPathLength = strlen( $oldPath );// + 1;
+            $oldPathLength = strlen( $oldPath );
             $moveQuery = "UPDATE
                                  ezcontentobject_tree
                           SET
@@ -4516,39 +4515,37 @@ class eZContentObjectTreeNode extends eZPersistentObject
                           WHERE
                                  node_id = $nodeID";
             $db = eZDB::instance();
-            $subStringString = $db->subString( 'path_string', 1, $oldPathLength );
-            $subStringString2 =  $db->subString( 'path_string', $oldPathLength );
+            $subStringString = $db->subString( 'path_string', $oldPathLength );
+            $newPathString   = $db->concatString( array( "'$newPath'", $subStringString ) );
             $moveQuery1 = "UPDATE
                                  ezcontentobject_tree
                            SET
-                                 path_string = " . $db->concatString( array( "'$newPath'" , "'$nodeID'",$subStringString2 ) ) . " ,
+                                 path_string = $newPathString,
                                  depth = depth + $newParentDepth - $oldDepth + 1
                            WHERE
-                                 $subStringString = '$childrensPath' OR
-                                 path_string = '$oldPath' ";
+                                 path_string LIKE '$oldPath%'";
             $db->begin();
             $db->query( $moveQuery );
             $db->query( $moveQuery1 );
 
-        /// role system clean up
-        // Clean up policies and limitations
+            /// role system clean up
+            // Clean up policies and limitations
 
             $limitationsToFix = eZPolicyLimitation::findByType( 'SubTree', $node->attribute( 'path_string' ), false );
             if ( count( $limitationsToFix )  > 0 )
             {
                 //include_once( "kernel/classes/ezrole.php" );
                 $limitationIDString = implode( ',', $limitationsToFix );
-                $limitationIDString = " limitation_id in ( $limitationIDString ) ";
-                $subStringString = $db->subString( 'value', 1, $oldPathLength );
-                $subStringString2 =  $db->subString( 'value', $oldPathLength );
+                $limitationIDString = "limitation_id in ( $limitationIDString ) ";
+                $subStringString =  $db->subString( 'value', $oldPathLength );
+                $newValue = $db->concatString( array( "'$newPath'", $subStringString ) );
 
                 $query = "UPDATE
-                                 ezpolicy_limitation_value
+                                ezpolicy_limitation_value
                           SET
-                                 value = " . $db->concatString( array( "'$newPath'" , "'$nodeID'",$subStringString2 ) ) . "
+                                value = $newValue
                           WHERE
-                                ( $subStringString = '$childrensPath' OR
-                                 value = '$oldPath' ) AND  $limitationIDString";
+                                value LIKE '$oldPath%' AND $limitationIDString";
 
                 $db->query( $query );
 
