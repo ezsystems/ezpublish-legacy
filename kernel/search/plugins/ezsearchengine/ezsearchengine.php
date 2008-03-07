@@ -766,10 +766,7 @@ class eZSearchEngine
                     foreach ( $nodeArray as $node )
                     {
                         $pathString = $node['path_string'];
-
-                        $subStringString = $db->subString( 'ezcontentobject_tree.path_string', 1, strlen( $pathString ) );
-
-                        $subTreeSQL .= " $subStringString = '$pathString' ";
+                        $subTreeSQL .= " ezcontentobject_tree.path_string like '$pathString%' ";
 
                         if ( $i < ( count( $nodeArray ) -1 ) )
                             $subTreeSQL .= " OR ";

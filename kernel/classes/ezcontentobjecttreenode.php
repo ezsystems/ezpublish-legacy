@@ -2881,10 +2881,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $nodeDepth = $this->attribute( 'depth' );
 
         $childrensPath = $nodePath ;
-        $pathLength = strlen( $childrensPath );
 
         $db =& eZDB::instance();
-        $subStringString = $db->subString( 'path_string', 1, $pathLength );
         $pathString = " path_string like '$childrensPath%' and ";
         $depthCond = '';
         $nodeDepth = $this->Depth + 1;
@@ -3058,7 +3056,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $nodePath =  $node->attribute( 'path_string' );
 
         $sectionID =(int) $sectionID;
-//        $subStringString = $db->subString( 'path_string', 1, strlen( $nodePath ) );
 
         $pathString = " path_string like '$nodePath%' AND ";
 
@@ -4027,12 +4024,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $nodePath = $node->attribute( 'path_string' );
         $childrensPath = $nodePath ;
-        $pathLength = strlen( $childrensPath );
 
         $pathString = " path_string like '$childrensPath%' ";
-
-
-        $subStringString = $db->subString( 'path_string', 1, $pathLength );
 
         $urlAlias = $node->attribute( 'url_alias' );
 
@@ -4468,10 +4461,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
         $childPath = $nodePath;
-        $pathLength = strlen( $childPath );
 
         $db =& eZDB::instance();
-        $subStringString = $db->subString( 'path_string', 1, $pathLength );
         $pathString = " ezcot.path_string like '$childPath%' and ";
 
         $notEqParentString = "ezcot.node_id != $fromNode";
