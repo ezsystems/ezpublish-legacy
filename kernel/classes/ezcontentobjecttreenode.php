@@ -2143,7 +2143,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $retNodeList;
     }
 
-    function subTreeGroupByDateField( $field, $type )
+    static function subTreeGroupByDateField( $field, $type )
     {
         $divisor = 0;
         switch ( $type )
