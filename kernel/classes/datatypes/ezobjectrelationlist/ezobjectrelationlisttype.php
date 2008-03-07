@@ -1089,7 +1089,7 @@ class eZObjectRelationListType extends eZDataType
             $attributeBase = $attributeDataBaseName . '_ezorl_edit_object_' . $subObjectID;
             if ( eZContentObject::recursionProtect( $subObjectID ) )
             {
-                if ( isset ( $conent['temp'] ) )
+                if ( isset ( $content['temp'] ) )
                     $object = $content['temp'][$subObjectID]['object'];
                 else
                     $object = eZContentObject::fetch( $subObjectID );
