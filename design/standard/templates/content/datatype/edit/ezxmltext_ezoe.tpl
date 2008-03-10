@@ -56,6 +56,7 @@
     eZOeMCE['extension_url']    = {'/ezoe/'|ezurl};
     eZOeMCE['content_css']      = '{ezoecss( $content_css_list, false() )|implode(',')}';
     eZOeMCE['editor_css']       = '{ezoecss( $editor_css_list, false() )|implode(',')}';
+    eZOeMCE['popup_css']        = {concat("stylesheets/skins/", $skin, "/dialog.css")|ezdesign};
     eZOeMCE['contentobject_id'] = {$attribute.contentobject_id};
     eZOeMCE['contentobject_version'] = {$attribute.version};
     eZOeMCE['plugins']       = "-{$plugin_list|implode(',-')}";
@@ -137,6 +138,7 @@ path: "{'Path'|i18n('design/standard/setup')}"
     	tab_focus : ':prev,:next',
     	theme_advanced_editor_css : eZOeMCE['editor_css'],
     	theme_advanced_content_css : eZOeMCE['content_css'],
+    	popup_css : eZOeMCE['popup_css'],
     	gecko_spellcheck : true
     });
     
