@@ -1,0 +1,179 @@
+eZ Online Editor MCE extension 1.0 INSTALL
+
+
+What is the eZ Online Editor MCE extension?
+=======================================
+
+   eZ Publish Online Editor MCE for eZ XML fields.
+
+
+Requirements
+============
+
+The following requirements exists for using eZ Online Editor MCE extension:
+
+o  eZ Publish version:
+
+   Make sure you use eZ Publish version 4.0 or higher.
+
+o  PHP version:
+
+   as indicated in your eZ Publish version requirements
+
+o  Web Browser:
+
+   Make sure you have one of the following web browsers:
+
+   Internet Explorer 6.0 or higher,
+   Mozilla 1.7 or higher,
+   Firefox 1.0 or higher,
+   Netscape 8.0 or higher.
+   Safari 3.0 or higher.
+   Opera 9.2 or higher.
+
+   Make sure that Javascript support is enabled in your web browser.
+
+   Note: Safari and Opera is not well tested at this time, so if you experience
+         problems or unexpected result. Please try again in Firefox or Internet
+         Explorer and report the issue to us so we can fix it!
+
+
+Getting eZ Publish
+==================
+
+You can download a version of eZ Publish from ez.no, you will find the
+various versions at:
+http://ez.no/download/ez_publish
+
+NOTE: You will need eZ Publish 4.0 or higher.
+
+Information on the installation of eZ Publish can be found at:
+http://ez.no/doc
+
+
+Installing eZ Online Editor MCE extension
+=========================================
+
+1. Download the ezoe package.
+
+   Windows users should download the "zip" package. Linux/UNIX/OS X users may
+   download any package format as long as the necessary unpacking tools are
+   available.
+
+2. Copy the downloaded package into the 'extension' directory of your
+   eZ Publish installation.
+
+3. Unpack the files in the distribution.
+
+   Windows users should unzip the files. The 'ezoe' directory will be created
+   inside the 'extension' directory.
+
+   Linux users may use of the following commands depending on the file type:
+   [tar.gz]:
+   $ tar -zxvf ezoe-extension-[ExtensionVersion].tar.gz
+   [bz2]:
+   $ tar -jxvf ezoe-extension-[ExtensionVersion].bz2
+   [zip]:
+   $ unzip ezoe-extension-[ExtensionVersion].zip
+
+4. Enable the ezoe extension in eZ Publish.
+
+   To enable ezoe for all of your siteaccesses, log in to your eZ Publish
+   administration interface, click on the 'Setup' tab, and then click
+   'Extensions' on the left. You will see the list of available extensions.
+   Select the 'ezoe' item and click the 'Apply changes' button.
+   Aternatively, you can also edit the file 'site.ini.append.php' located
+   in the 'settings/override' directory. Add the following line under
+   the [ExtensionSettings] section:
+
+   ActiveExtensions[]=ezoe
+
+   Create the file and/or the section if they do not exist.
+
+   To enable ezoe for only a single siteaccess, open the 'site.ini.append.php'
+   file located in the 'settings/siteaccess/your_siteaccess' directory.
+   Add the following line under the [ExtensionSettings] section:
+
+   ActiveAccessExtensions[]=ezoe
+
+   Create the file and/or the section if they do not exist.
+
+5. Set the Image class
+
+   In eZ Publish, images are usually stored as Image objects. ezoe allows you
+   to insert various objects into XML fields. ezoe uses the IDs of the image
+   classes to determine whether the inserted object is an image or not.
+
+   To check your Image Class ID, log in to your eZ Publish administration
+   interface, access the 'Setup' tab, and then click 'Classes' on the left.
+   You will see the list of class groups. Select the 'Media' group and find
+   the image class. The default ID of this class is 5 in a standard
+   eZ Publish installation. If your Image class ID is not 5, open the
+   'site.ini.append.php' file located in the 'extension/ezoe/settings/'
+   directory. Search for the following line under the [MediaClassSettings]
+   section:
+
+   ImageClassID[]=5
+
+   Replace '5' with the value of the image class that your installation
+   is using.
+
+   If you have created different/additional image class, you can add these
+   by extending the 'ImageClassID[]' configuration array. Add the following
+   line under the [MediaClassSettings] section:
+
+   ImageClassID[]=your_id
+
+   Note: The ImageClassID setting is deprecated. Use the ImageClassIdentifiers
+   setting instead in the same [MediaClassSettings] section.
+
+6. Clear all the eZ Publish caches.
+
+   Log in to your eZ Publish administration interface, select the 'Setup' tab,
+   and then click the 'Clear all caches' button. If you use eZ Publish 3.6
+   or higher, you can also use the developer toolbar (if enabled) located
+   in the right hand side. Simply select 'All caches' from the drop-down list
+   and click the 'Clear' button.
+
+   The other way to clear all caches is to remove the contents of 'var/cache/'
+   and/or 'var/your_siteaccess/cache/' directory. This can either be done
+   manually or by making use of a script.
+
+   Linux users may launch the following script:
+
+   $ ./bin/shell/clearcache.sh --clear-all
+
+   If you have PHP CLI installed, you can also do the following (this script
+   should also work on Windows):
+
+   $ ./bin/php/ezcache.php --clear-all
+
+7. Clear the browser caches
+
+   Browsers usually cache visited pages in a folder somewhere. The next time
+   the same pages are visited, they are loaded faster because some of the
+   information already exists on the local storage device. If you already have
+   ezoe installed and you're upgrading it then you will have to clear the
+   browser's cache.
+
+
+Troubleshooting
+===============
+
+1. Read the FAQ
+   ------------
+
+   Some problems are more common than others. The most common ones are listed
+   in the FAQ file.
+
+2. Documentation
+   ------------
+
+   http://ez.no/doc/extensions/online_editor
+
+3. Support
+   -------
+
+   If you have find any problems not handled by this document, FAQ and online
+   documentation you can contact eZ system trough the support system:
+   http://ez.no/services/support

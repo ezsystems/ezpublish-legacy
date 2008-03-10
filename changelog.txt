@@ -1,0 +1,129 @@
+eZ Online Editor MCE extension Changlog
+
+0.96
+* updated TinyMCE to 3.0.4.1
+
+
+0.95
+* fixed issue with new custom tags not being saved correctly
+* fixed js bug when you edit image
+* Preview align changes while you edit image properties
+* updated TinyMCE to 3.0.3
+* enabled safari plugin in TinyMCE, this 'fixes' bugs in Safari
+* Not Disable fullscreen button when you select a embed tag
+* fixed class disapearing on table on store when border=0
+* Added support for Skin Variants in ezoe.ini
+
+
+0.94
+* Fixed anchor insert
+* Preview of embed object tags while editing / inserting
+* Added th support (in cell properties popup)
+* made merge cell work like old OE (no popup, use ctrl key to select cells)
+* experimental support for indenting / outdenting added on lists
+
+
+0.93
+* Fixed link insert not working
+* Changed text size to 0.8em (same as admin design) and font type
+* Enabled undo support in tag popup's
+* Fixed window size on merge table cell popup
+
+
+0.92
+* Fixed browser resize issue
+* Made upload warning more human readable
+* Made toolbar groupable (some ie7 issues left)
+* Use i18n in editor and popups (some left)
+* added DevelopmentMode setting to ezoe.ini
+
+
+0.91
+* load plugins and buttons from ezoe.ini
+* Load skin from ezoe.ini
+* Make toolbar floating so it wraps on small browser windows / screens
+* Fixed empty paragraphs disappearing in Gecko
+
+
+0.9
+* added table cols / rows size selector when you create new table
+* added setting from ezdhtml/trunk: site.ini [MediaClassSettings]ImageClassIdentifiers
+  and marked ImageClassID as deprecated.
+* Added title attribute on embed tags (image / object) with object name
+* added input fields for specifying cols / rows on a table with keybord instead of mouse
+  (lets you define more then 5x5 tables)
+* added ajax lookup for validation of eznode and ezobject links (when typing in link dialogue window)
+
+
+0.8
+* link and anchor dialogue
+* table and table cell dialogue
+* made custom attributes work on em and strong tags without class
+* generate table xhtml with tbody and <br /> in empty cells to avoid browser bugs
+* skip duplicated custom attributes
+* removed some more unimportant gui buttons to trim editor space (width)
+  and organised the buttons more like old OE
+* added pagebreak and underline buttons, thy will show up if you enable custom tags with the same name!
+
+
+0.7
+* Modified browser support:
+  ie 6+, Opera 9.2+, WebKit 522+ (~ Safari 3+) and Mozilla 1.7+ (~ Firefox 1.0+)
+* added custom and literal buttons and commands
+* added general tag dialogue
+* added new setting 'CustomTagsDescription' on CustomTagSettings group
+  to be able to have better descriptive name on custom tags in the drop down
+* added dialogue for custom tags
+
+
+0.6
+* Changed internal HTML format for:
+  . Literals now use PRE tag instead of table
+  . Custom tags (blocks) now use Span tags instead of table
+  . Embed(-inline) tags (not images) now use Div tags instead of image with paper clip
+* Made view and class list reload when you click 'inline' in relations popup
+* custom attributes support and drop down support for custom attributes see content.ini.append
+* updated TinyMCE to 3.0 final
+* created new theme called ez based on advance theme to override path behaviour and theme
+* moved relations handling to new ez theme
+* made path show eZ xml tags instead of native html tag
+
+
+0.5
+* updated TinyMCE to 3.0rc2
+* added pixel size on size selection
+* Added optional Image filter attributes:
+  . GUIName : If you want to give the filter a more user friendly name in gui
+  . HideFromRelations : If you want to hide a specific filter from dropdown in editor
+* Added support for optional [MediaClassSettings]<content_type>ClassID for setting
+  class id/identifier filter for relation search and browse
+* added existing related images to upload dialogue
+* Added new ini setting for crop size alias [ImageSettings]DefaultCropAlias, uses DefaultEmbedAlias if not set
+* Completed lazy loading of image alias sizes in relations
+* Updated ez_core to 0.91 and added animation and accordion in popups for tabs
+
+
+0.4
+* update TinyMCE to 3.0beta3
+* update ezimage plugin to new TinyMCE api
+* Added support for existing relations
+* Added caption support for images when uploading
+
+
+0.3
+ * Converted code to PHP5
+ * Updated TinyMCE to 2.1.3
+ * cleaned json_content.php -> ezajaxcontent.php
+ * updated ez_core.js to version 0.81
+ * Forked OE's xml handlers so ezoe is standalone
+ * Fixed OE issue #011300
+ * Enabled support for all browsers (only disabled for IE < 6.0 for now)
+
+
+0.2 (only published on ez.no)
+ * Now uses Online editors xml handlers to do the xml -> html and back translation
+   and created a tinymce image extension based on advimage to handle images.
+
+
+0.1 (only published as proof of concept on ez.no)
+* intial testcase using javascript to translate tags to / from ez xml format
