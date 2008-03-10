@@ -4,7 +4,9 @@
 [ExtensionSettings]
 DesignExtensions[]=ezoe
 
-#[StylesheetSettings]
-#EditorCSSFileList[]
+[StylesheetSettings]
+EditorCSSFileList[]
+EditorCSSFileList[]=skins/<skin>/content.css
+
 
 */ ?>

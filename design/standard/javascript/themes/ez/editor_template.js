@@ -89,8 +89,13 @@
             ed.onInit.add(function() {
                 ed.onNodeChange.add(t._nodeChanged, t);
                 if ( s.theme_advanced_content_css )
-                	ed.dom.loadCSS( s.theme_advanced_content_css );
-				ed.dom.loadCSS(ed.baseURI.toAbsolute("themes/ez/skins/" + ed.settings.skin + "/content.css"));
+                {
+                	var css_arr = s.theme_advanced_content_css.split(',');
+                	for ( var ind = 0, len = css_arr.length; ind < len; ind++ )
+                	   ed.dom.loadCSS( css_arr[ind] );
+                }
+                else
+				    ed.dom.loadCSS(ed.baseURI.toAbsolute("themes/ez/skins/" + ed.settings.skin + "/content.css"));
 			});
 
 			ed.onSetProgressState.add(function(ed, b, ti) {
@@ -112,10 +117,19 @@
 				}
 			});
 
-			DOM.loadCSS(ed.baseURI.toAbsolute(s.editor_css || "themes/ez/skins/" + ed.settings.skin + "/ui.css"));
-			
-            if (s.skin_variant)
-                DOM.loadCSS(ed.baseURI.toAbsolute(s.editor_css || "themes/advanced/skins/" + ed.settings.skin + "/ui_" + s.skin_variant + ".css"));
+            if ( s.theme_advanced_editor_css )
+            {
+                var ui_css_arr = s.theme_advanced_editor_css.split(',');
+                for ( var ind2 = 0, len2 = ui_css_arr.length; ind2 < len2; ind2++ )
+                    DOM.loadCSS( ui_css_arr[ind2] );
+            }
+            else
+            {
+				DOM.loadCSS( ed.baseURI.toAbsolute( s.editor_css || "themes/ez/skins/" + ed.settings.skin + "/ui.css"));
+				
+	            if (s.skin_variant && !s.editor_css )
+	                DOM.loadCSS(ed.baseURI.toAbsolute( "themes/ez/skins/" + ed.settings.skin + "/ui_" + s.skin_variant + ".css"));
+            }
 		},
 
 		createControl : function(n, cf) {

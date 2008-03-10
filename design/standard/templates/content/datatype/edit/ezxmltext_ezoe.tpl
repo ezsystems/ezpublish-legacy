@@ -13,7 +13,13 @@
     {def $custom_tags = ezini('CustomTagSettings', 'AvailableCustomTags', 'content.ini',,true() )
          $button_list = ezini('EditorSettings', 'Buttons', 'ezoe.ini',,true()  )|implode(',')
          $plugin_list = ezini('EditorSettings', 'Plugins', 'ezoe.ini',,true()  )
+         $skin        = ezini('EditorSettings', 'Skin', 'ezoe.ini',,true() )
+         $skin_variant = ezini('EditorSettings', 'SkinVariant', 'ezoe.ini',,true() )
          $dev_mode    = ezini('EditorSettings', 'DevelopmentMode', 'ezoe.ini',,true()  )|eq('enabled')
+         $content_css_list_temp = ezini('StylesheetSettings', 'EditorCSSFileList', 'design.ini',,true())
+         $content_css_list = array()
+         $editor_css_list = array( concat('skins/', $skin, '/ui.css') )
+         $plugin_js_list     = array()
     }
 
     {if and( $custom_tags|contains('underline')|not, $button_list|contains(',underline') )}
@@ -23,9 +29,22 @@
     {if and( $custom_tags|contains('pagebreak')|not, $button_list|contains(',pagebreak') )}
         {set $button_list = $button_list|explode(',pagebreak')|implode('')}
     {/if}
+    
+    {if $skin_variant}
+        {set $editor_css_list = $editor_css_list|append( concat('skins/', $skin, '/ui_', $skin_variant, '.css') )}
+    {/if}
+    
+    {foreach $content_css_list_temp as $css}
+        {set $content_css_list = $content_css_list|append( $css|explode( '<skin>' )|implode( $skin ) )}
+    {/foreach}
+
+    {foreach $plugin_list as $js}
+        {set $plugin_js_list = $plugin_js_list|append( concat( 'plugins/', $js, '/editor_plugin.js' ))}
+    {/foreach}
 
     <!-- Load TinyMCE code -->
     <script type="text/javascript" src={"javascript/tiny_mce.js"|ezdesign}></script>
+    {ezoescript( $plugin_js_list )}
     <!-- Init TinyMCE script -->
     <script type="text/javascript">
     <!--
@@ -33,15 +52,16 @@
     if ( window.ez === undefined ) document.write('<script type="text/javascript" src={"javascript/ez_core.js"|ezdesign}><\/script>');
     
     var eZOeMCE = new Object(), ezTinyIdString;
-    eZOeMCE['root']          = {'/'|ezroot};
-    eZOeMCE['extension_url'] = {'/ezoe/'|ezurl};
+    eZOeMCE['root']             = {'/'|ezroot};
+    eZOeMCE['extension_url']    = {'/ezoe/'|ezurl};
+    eZOeMCE['content_css']      = '{ezoecss( $content_css_list, false() )|implode(',')}';
+    eZOeMCE['editor_css']       = '{ezoecss( $editor_css_list, false() )|implode(',')}';
     eZOeMCE['contentobject_id'] = {$attribute.contentobject_id};
     eZOeMCE['contentobject_version'] = {$attribute.version};
-    eZOeMCE['core_css']      = {'stylesheets/core.css'|ezdesign};
-    eZOeMCE['plugins']       = "{$plugin_list|implode(',')}";
+    eZOeMCE['plugins']       = "-{$plugin_list|implode(',-')}";
     eZOeMCE['buttons']       = "{$button_list}";
-    eZOeMCE['skin']          = '{ezini('EditorSettings', 'Skin', 'ezoe.ini',,true() )}';
-    eZOeMCE['skin_variant']  = '{ezini('EditorSettings', 'SkinVariant', 'ezoe.ini',,true() )}';
+    eZOeMCE['skin']          = '{$skin}';
+    eZOeMCE['skin_variant']  = '{$skin_variant}';
     eZOeMCE['i18n']          = {ldelim}
 h1: "{'Heading 1'|i18n('design/standard/ezoe')}",
 h2: "{'Heading 2'|i18n('design/standard/ezoe')}",
@@ -115,8 +135,8 @@ path: "{'Path'|i18n('design/standard/setup')}"
         noneditable_editable_cmd: 'mceObject,mceFullScreen',
         noneditable_active_button: 'object',
     	tab_focus : ':prev,:next',
-    	//popup_css : eZOeMCE['core_css'],
-    	//theme_advanced_content_css : eZOeMCE['core_css'],
+    	theme_advanced_editor_css : eZOeMCE['editor_css'],
+    	theme_advanced_content_css : eZOeMCE['content_css'],
     	gecko_spellcheck : true
     });
     

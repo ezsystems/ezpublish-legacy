@@ -9,14 +9,9 @@ Repports on classification removed on  p / li / ul on publish or when you try to
 
 
 1.0
-Compress theme and plugins for faster download OR
-Look into using ezpacker from ezcore extensions for preloading and packing javascript files togheter
- set theme / plugin name to -<name> to avoid TinyMCE from loading them
- this will also allow plugin loading from external extensions
- Load content.css from [StylesheetSettings]EditorCSSFileList[]
 Override TinyMCE translations and use it for all js strings (fixes fullscreen description text++)
+Setting to disable use of css and js packer in case of 'emergency'
 
 
 1.1
-Let skin be loadable from external extentions
 Custimizable formats selector (custom tags and classes)

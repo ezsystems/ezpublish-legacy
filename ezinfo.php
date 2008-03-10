@@ -28,8 +28,8 @@ class ezoeInfo
 {
     static function info()
     {
-        return array( 'Name'      => 'eZ Online Editor MCE Editor',
-                      'Version'   => '0.96',
+        return array( 'Name'      => 'eZ Online Editor MCE',
+                      'Version'   => '1.0 beta 1',
                       'Copyright' => 'Copyright © 2008 eZ Systems AS',
                       'License'   => 'GNU General Public License v2.0',
                       'Includes the following third-party software' => array( 'Name' => 'TinyMce Javascript HTML WYSIWYG editor',

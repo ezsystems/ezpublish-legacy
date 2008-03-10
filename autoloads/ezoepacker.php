@@ -61,7 +61,7 @@ class eZOEPacker
 
     function operatorList()
     {
-        return array( 'ezscript', 'ezcss' );
+        return array( 'ezoescript', 'ezoecss' );
     }
 
     function namedParameterPerOperator()
@@ -71,9 +71,12 @@ class eZOEPacker
 
     function namedParameterList()
     {
-        return array( 'ezscript' => array( 'script_array' => array( 'type' => 'array',
+        return array( 'ezoescript' => array( 'script_array' => array( 'type' => 'array',
                                               'required' => true,
                                               'default' => array() ),
+                                           'create_html' => array( 'type' => 'bool',
+                                              'required' => false,
+                                              'default' => true ),
                                            'type' => array( 'type' => 'string',
                                               'required' => false,
                                               'default' => 'text/javascript' ),
@@ -83,9 +86,12 @@ class eZOEPacker
                                            'pack_level' => array( 'type' => 'integer',
                                               'required' => false,
                                               'default' => 2 )),
-                      'ezcss' => array( 'css_array' => array( 'type' => 'array',
+                      'ezoecss' => array( 'css_array' => array( 'type' => 'array',
                                               'required' => true,
                                               'default' => array() ),
+                                        'create_html' => array( 'type' => 'bool',
+                                              'required' => false,
+                                              'default' => true ),
                                         'media' => array( 'type' => 'string',
                                               'required' => false,
                                               'default' => 'all' ),
@@ -117,16 +123,18 @@ class eZOEPacker
         
         switch ( $operatorName )
         {
-            case 'ezscript':
+            case 'ezoescript':
                 {                    
                     $ret = eZOEPacker::buildJavascriptTag($namedParameters['script_array'],
+                                                        $namedParameters['create_html'],
                                                         $namedParameters['type'],
                                                         $namedParameters['language'],
                                                         $packLevel );                    
                 } break;
-            case 'ezcss':
+            case 'ezoecss':
                 {                    
                     $ret = eZOEPacker::buildStylesheetTag($namedParameters['css_array'],
+                                                        $namedParameters['create_html'],
                                                         $namedParameters['media'],
                                                         $namedParameters['type'],
                                                         $namedParameters['rel'],
@@ -137,10 +145,11 @@ class eZOEPacker
     }
     
     // static :: Builds the xhtml tag for scripts
-    static function buildJavascriptTag( $scriptFiles, $type, $lang, $packLevel )
+    static function buildJavascriptTag( $scriptFiles, $asHtml, $type, $lang, $packLevel )
     {
         $ret = '';
         $packedFiles = eZOEPacker::packFiles( $scriptFiles, 'javascript/', '.js', $packLevel );
+        if ( !$asHtml ) return $packedFiles;
         foreach ( $packedFiles as $packedFile )
         {
             $ret .=  $packedFile ? "<script language=\"$lang\" type=\"$type\" src=\"$packedFile\"></script>\n" : '';
@@ -149,10 +158,11 @@ class eZOEPacker
     }
     
     // static :: Builds the xhtml tag for stylesheets
-    static function buildStylesheetTag( $cssFiles, $media, $type, $rel, $packLevel )
+    static function buildStylesheetTag( $cssFiles, $asHtml, $media, $type, $rel, $packLevel )
     {
         $ret = '';
         $packedFiles = eZOEPacker::packFiles( $cssFiles, 'stylesheets/', '_' . $media . '.css', $packLevel );
+        if ( !$asHtml ) return $packedFiles;
         foreach ( $packedFiles as $packedFile )
         {
             $ret .= $packedFile ? "<link rel=\"$rel\" type=\"$type\" href=\"$packedFile\" media=\"$media\" />\n" : '';
@@ -240,7 +250,7 @@ class eZOEPacker
 
         if ( !$validFiles )
         {
-            eZDebug::writeWarning( "Could not find any: " . var_export( $fileArray, true ), "eZOEPacker::packFiles()" );
+            eZDebug::writeWarning( "Could not find any files: " . var_export( $fileArray, true ), "eZOEPacker::packFiles()" );
             return array();
         }
 
@@ -267,20 +277,26 @@ class eZOEPacker
                continue;
            }
 
-           // we need to fix image paths if this is css file
-           if ( strpos($fileExtension, '.css') !== false )
+           // we need to fix relative background image paths if this is a css file
+           if ( strpos($fileExtension, '.css') !== false &&
+                preg_match_all("/url\(\s?[\'|\"]?(.+)[\'|\"]?\s?\)/ix", $fileContent, $urlMatches) )
            {
-               $imgPath = explode('/', $file);
-               array_pop( $imgPath );//remove file
-               // replace sub image paths (used in style packages)
-               $imgFullPath = $wwwDir . implode('/',$imgPath) . '/images/';
-               $fileContent = str_replace('(images/', '('.$imgFullPath, $fileContent);
-               $fileContent = str_replace('("images/', '("'.$imgFullPath, $fileContent);
-               $fileContent = str_replace("('images/", "('".$imgFullPath, $fileContent);
-               // replace relative image paths ( used in designs )
-               array_pop( $imgPath );//remove stylesheets path
-               $imgFullPath = $wwwDir . implode('/',$imgPath) . '/images/';
-               $fileContent = str_replace('../images/', $imgFullPath, $fileContent);
+               $urlMatches = array_unique( $urlMatches[1] );
+               $cssPathArray   = explode( '/', $file );
+               // pop the css file name
+               array_pop( $cssPathArray );
+               $cssPathCount   = count( $cssPathArray );
+               foreach( $urlMatches as $match )
+               {
+                   $match = str_replace( array('"', "'"), '', $match );
+                   $relCount = substr_count( $match, '../' );
+                   if ( $match[0] !== '/' and strpos( $match, 'http:' ) === false )
+                   {
+                       $cssPathSlice = $relCount === 0 ? $cssPathArray : array_slice( $cssPathArray  , 0, $cssPathCount - $relCount  );
+                       $newMatchPath = $wwwDir . implode('/', $cssPathSlice) . '/' . str_replace('../', '', $match);
+                       $fileContent = str_replace( $match, $newMatchPath, $fileContent );
+                   }
+               }
            }
 
            $content .= "/* start: $file */\n";
