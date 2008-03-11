@@ -640,7 +640,7 @@ class eZPackageCreationHandler
      Reimplementing this function allows the creator to fill in some default values for the information fields.
      \note The default does nothing.
     */
-    function generatePackageInformation( $packageInformation, $package, $http, $step, &$persistentData )
+    function generatePackageInformation( &$packageInformation, $package, $http, $step, &$persistentData )
     {
     }
 
