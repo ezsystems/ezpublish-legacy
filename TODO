@@ -7,7 +7,7 @@ Repports on classification removed on  p / li / ul on publish or when you try to
 
 1.0
 Override TinyMCE translations and use it for all js strings (fixes fullscreen description text++)
-Setting to disable use of css and js packer in case of 'emergency'
+Setting to disable use of css and js packer in case of regressions
 
 
 1.1

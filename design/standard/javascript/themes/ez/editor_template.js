@@ -797,7 +797,15 @@
             
             if (c = cm.get('indent'))
             {
-                c.setDisabled( !p || p.getElementsByTagName('LI').length < 2 );
+                if ( p )
+                {
+					for (var i = 0, l = p.childNodes.length, count = 0; i < l; i++)
+					{
+					    if (p.childNodes[i].nodeType === 1 && p.childNodes[i].nodeName === 'LI') count++;
+					    if ( count === 2 ) break;					    
+					}
+			    }
+                c.setDisabled( !p || count < 2 );
             }
 
 			p = DOM.getParent(n, 'A');
