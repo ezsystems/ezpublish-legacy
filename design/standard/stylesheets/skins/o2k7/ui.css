@@ -111,16 +111,16 @@
 .o2k7Skin .mcePlaceHolder {border:1px dotted gray}
 
 /* Formats */
-.defaultSkin .mce_formatPreview a {font-size:10px}
-.defaultSkin .mce_p span.mceText {}
-.defaultSkin .mce_address span.mceText {font-style:italic}
-.defaultSkin .mce_pre span.mceText {font-family:monospace}
-.defaultSkin .mce_h1 span.mceText {font-weight: normal; font-size: 1.4em}
-.defaultSkin .mce_h2 span.mceText {font-weight:bold; font-size: 1.3em}
-.defaultSkin .mce_h3 span.mceText {font-weight:bold; font-size: 1.2em}
-.defaultSkin .mce_h4 span.mceText {font-weight:bold; font-size: 1.1em}
-.defaultSkin .mce_h5 span.mceText {font-weight:bold; font-size: 1em}
-.defaultSkin .mce_h6 span.mceText {font-weight: normal; font-size: 1em}
+.o2k7Skin .mce_formatPreview a {font-size:10px}
+.o2k7Skin .mce_p span.mceText {}
+.o2k7Skin .mce_address span.mceText {font-style:italic}
+.o2k7Skin .mce_pre span.mceText {font-family:monospace}
+.o2k7Skin .mce_h1 span.mceText {font-weight: normal; font-size: 1.4em}
+.o2k7Skin .mce_h2 span.mceText {font-weight:bold; font-size: 1.3em}
+.o2k7Skin .mce_h3 span.mceText {font-weight:bold; font-size: 1.2em}
+.o2k7Skin .mce_h4 span.mceText {font-weight:bold; font-size: 1.1em}
+.o2k7Skin .mce_h5 span.mceText {font-weight:bold; font-size: 1em}
+.o2k7Skin .mce_h6 span.mceText {font-weight: normal; font-size: 1em}
 
 /* Theme */
 .o2k7Skin span.mce_bold {background-position:0 0}
