@@ -286,7 +286,7 @@ class eZStylePackageCreator extends eZPackageCreationHandler
      \reimp
      Fetches the selected content classes and generates a name, summary and description from the selection.
     */
-    function generatePackageInformation( $packageInformation, $package, $http, $step, &$persistentData )
+    function generatePackageInformation( &$packageInformation, $package, $http, $step, &$persistentData )
     {
         $cssfile = $persistentData['sitecssfile'];
         if ( $cssfile )

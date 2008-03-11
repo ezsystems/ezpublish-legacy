@@ -148,3 +148,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12633: Typing error in EZPublish kernel classes
 - Fixed bug #12611: $db->subString() used in several places where 'like' would be significant faster
 - Fixed bug #12537: content move - slow mysql query
+- Fixed bug #12683: Package export: name, summary and description no longer auto-generated
