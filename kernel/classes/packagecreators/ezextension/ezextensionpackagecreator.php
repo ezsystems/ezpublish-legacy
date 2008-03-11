@@ -49,8 +49,8 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
     function eZExtensionPackageCreator( $id )
     {
         $steps = array();
-        $steps[] = array( 'id' => 'extensionname',
-                          'name' => ezi18n( 'kernel/package', 'Select an extension to be exported' ),
+        $steps[] = array( 'id' => 'extensionlist',
+                          'name' => ezi18n( 'kernel/package', 'Extensions to include' ),
                           'methods' => array( 'initialize' => 'initializeExtensionName',
                                               'load' => 'loadExtensionName',
                                               'validate' => 'validateExtensionName',
@@ -68,49 +68,13 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
     {
         $this->createPackage( $package, $http, $persistentData, $cleanupFiles, false );
 
-        $siteINI = eZINI::instance();
-        $extensionDir = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' );
+        $extensionHandler = eZPackage::packageHandler( 'ezextension' );
 
-        $fileList = array();
-        $sourceDir = $extensionDir . '/' . $persistentData['extensionname'];
-        $targetDir = $package->path() . '/ezextension';
-
-        eZDir::mkdir( $targetDir, false, true );
-        eZDir::copy( $sourceDir, $targetDir );
-
-        eZDir::recursiveList( $targetDir, '', $fileList );
-
-        $doc = new DOMDocument( '1.0', 'utf-8' );
-
-        $packageRoot = $doc->createElement( 'extension' );
-        $packageRoot->setAttribute( 'name', $persistentData['extensionname'] );
-
-        foreach( $fileList as $file )
+        $extensionList = $persistentData['extensionlist'];
+        foreach ( $extensionList as $extensionName )
         {
-            $fileNode = $doc->createElement( 'file' );
-            $fileNode->setAttribute( 'name', $file['name'] );
-
-            if ( $file['path'] )
-                $fileNode->setAttribute( 'path', $file['path'] );
-
-            $fullPath = $targetDir . $file['path'] . '/' . $file['name'];
-            $fileNode->setAttribute( 'md5sum', $package->md5sum( $fullPath ) );
-
-            if ( $file['type'] == 'dir' )
-                 $fileNode->setAttribute( 'type', 'dir' );
-
-            $packageRoot->appendChild( $fileNode );
-            unset( $fileNode );
+            $extensionHandler->addExtension( $package, $extensionName );
         }
-
-        $filename = 'extension-' . $persistentData['extensionname'];
-
-        $package->appendInstall( 'ezextension', false, false, true,
-                                       $filename, 'ezextension',
-                                       array( 'content' => $packageRoot ) );
-        $package->appendInstall( 'ezextension', false, false, false,
-                                       $filename, 'ezextension',
-                                       array( 'content' => false ) );
 
         $package->setAttribute( 'is_active', true );
         $package->store();
@@ -156,10 +120,13 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
 
     function validateExtensionName( $package, $http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
-        if ( !$http->hasPostVariable( 'PackageExtensionName' ) )
+        $extensionList = array();
+
+        if ( !$http->hasPostVariable( 'PackageExtensionNames' ) ||
+             count( $http->postVariable( 'PackageExtensionNames' ) ) == 0 )
         {
-            $errorList[] = array( 'field' => ezi18n( 'kernel/package', 'Extension:' ),
-                                  'description' => ezi18n( 'kernel/package', 'You must select an extension' ) );
+            $errorList[] = array( 'field' => ezi18n( 'kernel/package', 'Extension list' ),
+                                  'description' => ezi18n( 'kernel/package', 'You must select at least one extension' ) );
             return false;
         }
         return true;
@@ -167,7 +134,7 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
 
     function commitExtensionName( $package, $http, $step, &$persistentData, $tpl )
     {
-        $persistentData['extensionname'] = $http->postVariable( 'PackageExtensionName' );
+        $persistentData['extensionlist'] = $http->postVariable( 'PackageExtensionNames' );
     }
 
     /*!
@@ -176,13 +143,25 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
     */
     function generatePackageInformation( &$packageInformation, $package, $http, $step, &$persistentData )
     {
-        $extensionName = $persistentData['extensionname'];
+        $extensionList = $persistentData['extensionlist'];
+        $extensionCount = count( $extensionList );
 
-        if ( $extensionName )
+        if ( $extensionCount == 1 )
         {
             $packageInformation['name'] = $extensionName;
-            $packageInformation['summary'] = $extensionName . ' extension';
-            $packageInformation['description'] = $extensionName . ' eZ Publish extension';
+            $packageInformation['summary'] = "$extensionName extension";
+            $packageInformation['description'] = "This package contains the $extensionName eZ Publish extension";
+        }
+        else if ( $extensionCount > 1 )
+        {
+            $packageInformation['name'] = "$extensionCount Extensions";
+            $packageInformation['summary'] = "Export of $extensionCount extensions";
+            $description = "This package contains the following eZ Publish extensions: \n";
+            foreach ( $extensionList as $extensionName )
+            {
+                $description .= "- $extensionName\n";
+            }
+            $packageInformation['description'] = $description;
         }
     }
 }

@@ -7,11 +7,11 @@
 
 {include uri="design:package/header.tpl"}
 
-<p>{'Please select an extension to be exported.'|i18n('design/standard/package')}</p>
+<p>{'Please select the extensions to be exported.'|i18n('design/standard/package')}</p>
 
 <ul>
 {foreach $extension_list as $extension}
-    <li><input class="radiobutton" name="PackageExtensionName" type="radio" value="{$extension|wash}" />{$extension|wash}</li>
+    <li style="list-style:none;"><label style="font-weight:normal;"><input name="PackageExtensionNames[]" type="checkbox" value="{$extension|wash}" /> {$extension|wash}</label></li>
 {/foreach}
 </ul>
 

@@ -215,55 +215,58 @@ class eZExtensionPackageHandler extends eZPackageHandler
         //include_once( 'lib/ezutils/classes/ezini.php' );
         //include_once( 'lib/ezfile/classes/ezdir.php' );
 
-        // code taken from eZExtensionPackageCreator
+        foreach ( $parameters as $extensionName )
+        {
+            $cli->output( 'adding extension ' . $cli->stylize( 'dir', $extensionName ) );
+            $this->addExtension( $package, $extensionName );
+        }
+    }
+
+    static function addExtension( $package, $extensionName )
+    {
         $siteINI = eZINI::instance();
         $extensionDir = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' );
 
-        foreach ( $parameters as $extensionName )
+        $fileList = array();
+        $sourceDir = $extensionDir . '/' . $extensionName;
+        $targetDir = $package->path() . '/ezextension';
+
+        eZDir::mkdir( $targetDir, false, true );
+        eZDir::copy( $sourceDir, $targetDir );
+
+        eZDir::recursiveList( $targetDir, '', $fileList );
+
+        $doc = new DOMDocument;
+
+        $packageRoot = $doc->createElement( 'extension' );
+        $packageRoot->setAttribute( 'name', $extensionName );
+
+        foreach( $fileList as $file )
         {
-            $cli->output( 'adding extension ' . $cli->style( 'dir' ) . $extensionName .  $cli->style( 'dir-end' ) );
+            $fileNode = $doc->createElement( 'file' );
+            $fileNode->setAttribute( 'name', $file['name'] );
 
-            $fileList = array();
-            $sourceDir = $extensionDir . '/' . $extensionName;
-            $targetDir = $package->path() . '/ezextension';
+            if ( $file['path'] )
+                $fileNode->setAttribute( 'path', $file['path'] );
 
-            eZDir::mkdir( $targetDir, false, true );
-            eZDir::copy( $sourceDir, $targetDir );
+            $fullPath = $targetDir . $file['path'] . '/' . $file['name'];
+            $fileNode->setAttribute( 'md5sum', $package->md5sum( $fullPath ) );
 
-            eZDir::recursiveList( $targetDir, '', $fileList );
+            if ( $file['type'] == 'dir' )
+                 $fileNode->setAttribute( 'type', 'dir' );
 
-            $doc = new DOMDocument;
-
-            $packageRoot = $doc->createElement( 'extension' );
-            $packageRoot->setAttribute( 'name', $extensionName );
-
-            foreach( $fileList as $file )
-            {
-                $fileNode = $doc->createElement( 'file' );
-                $fileNode->setAttribute( 'name', $file['name'] );
-
-                if ( $file['path'] )
-                    $fileNode->setAttribute( 'path', $file['path'] );
-
-                $fullPath = $targetDir . $file['path'] . '/' . $file['name'];
-                $fileNode->setAttribute( 'md5sum', $package->md5sum( $fullPath ) );
-
-                if ( $file['type'] == 'dir' )
-                     $fileNode->setAttribute( 'type', 'dir' );
-
-                $packageRoot->appendChild( $fileNode );
-                unset( $fileNode );
-            }
-
-            $filename = 'extension-' . $extensionName;
-
-            $package->appendInstall( 'ezextension', false, false, true,
-                                           $filename, 'ezextension',
-                                           array( 'content' => $packageRoot ) );
-            $package->appendInstall( 'ezextension', false, false, false,
-                                           $filename, 'ezextension',
-                                           array( 'content' => false ) );
+            $packageRoot->appendChild( $fileNode );
+            unset( $fileNode );
         }
+
+        $filename = 'extension-' . $extensionName;
+
+        $package->appendInstall( 'ezextension', false, false, true,
+                                 $filename, 'ezextension',
+                                 array( 'content' => $packageRoot ) );
+        $package->appendInstall( 'ezextension', false, false, false,
+                                 $filename, 'ezextension',
+                                 array( 'content' => false ) );
     }
 
     /*!
