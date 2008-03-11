@@ -62,7 +62,7 @@ function insertGeneralTag()
 	    // create new node if none is defined and if tag type is defined in ezXmlToXhtmlHash
 	    else if ( window.specificTagGenerator !== undefined )
 	    {
-	        ed.execCommand('mceInsertContent', false, specificTagGenerator( ezTagName ), {skip_undo : 1} );
+	        ed.execCommand('mceInsertContent', false, specificTagGenerator( ezTagName, selectedTag ), {skip_undo : 1} );
 	        tinyMCEelement = ed.dom.get('__mce_tmp');
 	    }
 	    else if ( ezXmlToXhtmlHash[ezTagName] )
@@ -71,7 +71,7 @@ function insertGeneralTag()
 	        tinyMCEelement = ed.dom.get('__mce_tmp');
 	    }
 	}
-	else if ( window.specificTagEditor !== undefined ) specificTagEditor( tinyMCEelement, ed );
+	else if ( window.specificTagEditor !== undefined ) specificTagEditor( tinyMCEelement, ed, selectedTag );
 
     if ( tinyMCEelement )
     {

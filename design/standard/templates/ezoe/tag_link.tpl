@@ -34,7 +34,7 @@ tinyMCEPopup.onInit.add( function()
     
     var linkTypes = ez.$('link_href_source_types'), linkSource = ez.$('link_href_source');
     linkTypes.addEvent('change', function( e, el ){
-        ez.$('link_href_source').el.value= el.value;
+        ez.$('link_href_source').el.value = el.value;
     });
     
     // add event to href input to lookup name on object or nodes
@@ -64,7 +64,7 @@ var ezajaxLinkTimeOut = null;
 
 function ezajaxLinkPost( url )
 {
-    url = eZOeMCE['extension_url'] + '/load/' + url;
+    var url = eZOeMCE['extension_url'] + '/load/' + url;
     ezajaxObject.load( url, '', ezajaxLinkPostBack);
 }
 

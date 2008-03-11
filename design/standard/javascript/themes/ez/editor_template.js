@@ -789,7 +789,7 @@
                 c.setActive( div );
             }
 
-            p = DOM.getParent(n, 'LI');
+            p = DOM.getParent(n, 'UL,OL');
             if (c = cm.get('outdent'))
             {
                 c.setDisabled( !p && !ed.queryCommandState('Outdent') );
@@ -797,7 +797,7 @@
             
             if (c = cm.get('indent'))
             {
-                c.setDisabled( !p );
+                c.setDisabled( !p || p.getElementsByTagName('LI').length < 2 );
             }
 
 			p = DOM.getParent(n, 'A');

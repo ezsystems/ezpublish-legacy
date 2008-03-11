@@ -2,9 +2,6 @@
 
 0.9 (Community Beta)
 Ajax Browse support for links
-Fix indenting / outdenting 
-    1. BLOCKQUOTE tag is added if you indent first list element
-    2. indeting / outending multiple li's
 Repports on classification removed on  p / li / ul on publish or when you try to edit again
 
 

@@ -44,9 +44,16 @@ tinyMCEPopup.onInit.add( function()
     n.addEvent('change', toggleCustomAttributes);
 });
 
-function specificTagGenerator()
+function specificTagGenerator( ezTag, customTag )
 {
-    return '<span id="__mce_tmp" type="custom"><p></p></span>';
+    var inline = ez.$( customTag + '_inline_source' ).el.checked;
+    return '<span id="__mce_tmp" type="custom" style="display: ' + ( inline ? 'inline' : 'block' ) + '"><p></p></span>';
+}
+
+function specificTagEditor( el, ed, customTag )
+{
+    var inline = ez.$( customTag + '_inline_source' ).el.checked;
+    el.style.display = inline ? 'inline' : 'block';
 }
 
 

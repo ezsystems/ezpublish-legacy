@@ -5,7 +5,8 @@ eZ Online Editor MCE extension Changelog
 * updated TinyMCE to 3.0.4.1
 * added eZOEPacker ('ezoecss' and 'ezoescript' operators), to pack css and js
 * EditorCSSFileList support added, support for css from other locations
-* tinymce plugins from other locations (extensions/designs) now possible 
+* tinymce plugins from other locations (extensions/designs) now possible
+* fixed and enabled indenting / outdenting 
 
 
 0.95
