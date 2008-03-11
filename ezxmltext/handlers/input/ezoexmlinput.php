@@ -1077,6 +1077,11 @@ class eZOEXMLInput extends eZXMLInputHandler
                             $listItemContent .= $this->inputTagXML( $itemChildNode, $currentSectionLevel, $tdSectionLevel );
                         }
                     }
+                    
+                    $LIclassName = $listItemNode->getAttribute( 'class' );
+                    
+                    if ( $LIclassName )
+                        $LIcustomAttributePart .= ' class="' . $LIclassName . '"';
 
                     $listContent .= '<li' . $LIcustomAttributePart . '>' . $listItemContent . '</li>';
                 }
@@ -1100,6 +1105,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 foreach ( $tag->childNodes as $tableRow )
                 {
                     $TRcustomAttributePart = $this->getCustomAttrPart( $tableRow );
+                    $TRclassName = $tableRow->getAttribute( 'class' );
 
                     $tableData = '';
                     foreach ( $tableRow->childNodes as $tableCell )
@@ -1147,6 +1153,9 @@ class eZOEXMLInput extends eZXMLInputHandler
                             $tableData .= '<td' . $cellAttribute . $TDcustomAttributePart . '>' . $cellContent . '</td>';
                         }
                     }
+                    if ( $TRclassName )
+                        $TRcustomAttributePart .= ' class="' . $TRclassName . '"';
+
                     $tableRows .= '<tr' . $TRcustomAttributePart . '>' . $tableData . '</tr>';
                 }
                 //if ( self::$browserType === 'IE' )

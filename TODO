@@ -2,7 +2,6 @@
 
 1.0
 Ajax Browse support for links
-classification is removed on li / tr on publish
 Change class list when td / th is changed
 Override TinyMCE translations and use it for all js strings (fixes fullscreen description text++)
 Setting to disable use of css and js packer in case of regressions
