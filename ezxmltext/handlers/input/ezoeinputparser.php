@@ -51,9 +51,6 @@ class eZOEInputParser extends eZXMLInputParser
         'i'       => array( 'name' => 'emphasize' ),
         'em'      => array( 'name' => 'emphasize' ),
         'pre'     => array( 'name' => 'literal' ),
-        'p'       => array( 'name' => 'paragraph' ),
-        'br'      => array( 'name' => 'br',
-                            'noChildren' => true ),
         'div'     => array( 'nameHandler' => 'tagNameDiv' ),
         'u'       => array( 'nameHandler' => 'tagNameCustomHelper' ),
         'img'     => array( 'nameHandler' => 'tagNameImg',
@@ -64,6 +61,9 @@ class eZOEInputParser extends eZXMLInputParser
         'h4'      => array( 'nameHandler' => 'tagNameHeader' ),
         'h5'      => array( 'nameHandler' => 'tagNameHeader' ),
         'h6'      => array( 'nameHandler' => 'tagNameHeader' ),
+        'p'       => array( 'name' => 'paragraph' ),
+        'br'      => array( 'name' => 'br',
+                            'noChildren' => true ),
         'span'    => array( 'nameHandler' => 'tagNameSpan' ),
         'table'   => array( 'nameHandler' => 'tagNameTable' ),
         'td'      => array( 'name' => 'td' ),
@@ -363,10 +363,10 @@ class eZOEInputParser extends eZXMLInputParser
         {
             $text = $this->entitiesDecode( '&nbsp;' );     
             $textNode = $this->Document->createTextNode( $text );
-             $element->appendChild( $textNode );
+            $element->appendChild( $textNode );
         }
         
-        return false;
+        return true;
     }
 
     function breakInlineFlow( $element, &$param )

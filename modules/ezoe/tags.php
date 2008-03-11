@@ -65,8 +65,10 @@ switch ( $tagName )
     case 'ul':
     case 'tr':
     case 'paragraph':
-    case 'header':
         $templateName = 'tag_general.tpl';
+        break;
+    case 'header':
+        $templateName = 'tag_header.tpl';
         break;
     case 'custom':
         $templateName = 'tag_custom.tpl';
