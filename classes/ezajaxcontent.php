@@ -34,7 +34,7 @@
 class eZAjaxContent
 {
     protected static $instance         = null;
-    protected static $nativeJsonEncode = false;
+    protected static $nativeJsonEncode = null;
     
     // protected __construct, so new instance can only be created with getInstance()
     protected function __construct()
@@ -133,7 +133,7 @@ class eZAjaxContent
         $ret['owner_id']         = (int) $contentObject->attribute( 'owner_id' );
         $ret['class_id']         = (int) $contentObject->attribute( 'contentclass_id' );
         $ret['class_name']       = $contentObject->attribute( 'class_name' );
-        
+
         $class                   = $contentObject->attribute( 'content_class' );
         $ret['class_identifier'] = $class->attribute( 'identifier' );
         $ret['is_container']     = (int) $class->attribute( 'is_container' );
@@ -160,14 +160,14 @@ class eZAjaxContent
         }
 
         $ret['image_attributes']   = array();
-        
+
         if ( is_array( $params['dataMap'] ) && is_array(  $params['dataMapType'] ) )
         {
             $dataMap = $contentObject->attribute( 'data_map' );
             foreach( $dataMap as $key => $atr )
             {
                 $dataTypeString = $atr->attribute( 'data_type_string' );
-                
+
                 if ( !in_array( 'all' ,$params['dataMap'], true )
                    && !in_array( $key ,$params['dataMap'], true )
                    && !in_array( $dataTypeString, $params['dataMapType'], true )
@@ -189,7 +189,7 @@ class eZAjaxContent
                             && $content->hasAttribute( $size ) )
                             $imageArray[ $size ] = $content->attribute( $size );
                     }
-                    
+
                     $imageArray['original']             = array( 'url' => $attrtibuteArray[ $key ]['content'] );
                     $attrtibuteArray[ $key ]['content'] = $imageArray;
                     $ret['image_attributes'][]          = $key;
@@ -206,14 +206,14 @@ class eZAjaxContent
     */
     public static function jsonEncode( $obj )
     {
-        if ( function_exists( 'json_encode' ) === true )
+        if ( self::$nativeJsonEncode === null )
+            self::$nativeJsonEncode = function_exists( 'json_encode' );
+
+        if ( self::$nativeJsonEncode === true )
             return json_encode( $obj );
 
-        if ( self::$instance === null )
-        {
-            self::getInstance();
-        }
-        return self::$instance->phpJsonEncode( $obj );    
+        $inst = self::getInstance();
+        return $inst->phpJsonEncode( $obj );    
     }
     
     
@@ -230,17 +230,17 @@ class eZAjaxContent
         switch (gettype($var)) {
             case 'boolean':
                 return $var ? 'true' : 'false';
-            
+
             case 'NULL':
                 return 'null';
-            
+
             case 'integer':
                 return sprintf('%d', $var);
-                
+
             case 'double':
             case 'float':
                 return sprintf('%f', $var);
-                
+
             case 'string':
                 // STRINGS ARE EXPECTED TO BE IN ASCII OR UTF-8 FORMAT
                 $ascii = '';
@@ -251,9 +251,9 @@ class eZAjaxContent
                 * escaping with a slash or encoding to UTF-8 where necessary
                 */
                 for ($c = 0; $c < $strlen_var; ++$c) {
-                    
+
                     $ord_var_c = ord($var{$c});
-                    
+
                     switch ($ord_var_c) {
                         case 0x08:  $ascii .= '\b';  break;
                         case 0x09:  $ascii .= '\t';  break;
@@ -267,12 +267,12 @@ class eZAjaxContent
                             // double quote, slash, slosh
                             $ascii .= '\\'.$var{$c};
                             break;
-                            
+
                         case (($ord_var_c >= 0x20) && ($ord_var_c <= 0x7F)):
                             // characters U-00000000 - U-0000007F (same as ASCII)
                             $ascii .= $var{$c};
                             break;
-                        
+
                         case (($ord_var_c & 0xE0) == 0xC0):
                             // characters U-00000080 - U-000007FF, mask 110XXXXX
                             // see http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
@@ -281,7 +281,7 @@ class eZAjaxContent
                             $utf16 = mb_convert_encoding($char, 'UTF-16', 'UTF-8');
                             $ascii .= sprintf('\u%04s', bin2hex($utf16));
                             break;
-    
+
                         case (($ord_var_c & 0xF0) == 0xE0):
                             // characters U-00000800 - U-0000FFFF, mask 1110XXXX
                             // see http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
@@ -292,7 +292,7 @@ class eZAjaxContent
                             $utf16 = mb_convert_encoding($char, 'UTF-16', 'UTF-8');
                             $ascii .= sprintf('\u%04s', bin2hex($utf16));
                             break;
-    
+
                         case (($ord_var_c & 0xF8) == 0xF0):
                             // characters U-00010000 - U-001FFFFF, mask 11110XXX
                             // see http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
@@ -304,7 +304,7 @@ class eZAjaxContent
                             $utf16 = mb_convert_encoding($char, 'UTF-16', 'UTF-8');
                             $ascii .= sprintf('\u%04s', bin2hex($utf16));
                             break;
-    
+
                         case (($ord_var_c & 0xFC) == 0xF8):
                             // characters U-00200000 - U-03FFFFFF, mask 111110XX
                             // see http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
@@ -317,7 +317,7 @@ class eZAjaxContent
                             $utf16 = mb_convert_encoding($char, 'UTF-16', 'UTF-8');
                             $ascii .= sprintf('\u%04s', bin2hex($utf16));
                             break;
-    
+
                         case (($ord_var_c & 0xFE) == 0xFC):
                             // characters U-04000000 - U-7FFFFFFF, mask 1111110X
                             // see http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
@@ -335,7 +335,7 @@ class eZAjaxContent
                 }
                 
                 return '"'.$ascii.'"';
-                
+
             case 'array':
                /*
                 * As per JSON spec if any array key is not an integer
@@ -354,7 +354,7 @@ class eZAjaxContent
                 * parameter is only accessible using ECMAScript's
                 * bracket notation.
                 */
-                
+
                 // treat as a JSON object  
                 if (is_array($var) && count($var) && (array_keys($var) !== range(0, sizeof($var) - 1))) {
                     return sprintf('{%s}', join(',', array_map(array($this, 'phpJsonEncodeNameValue'),
@@ -364,7 +364,7 @@ class eZAjaxContent
 
                 // treat it like a regular array
                 return sprintf('[%s]', join(',', array_map(array($this, 'phpJsonEncode'), $var)));
-                
+
             case 'object':
                 $vars = get_object_vars($var);
                 return sprintf('{%s}', join(',', array_map(array($this, 'phpJsonEncodeNameValue'),
@@ -375,7 +375,7 @@ class eZAjaxContent
                 return '';
         }
     }
-    
+
    /** function name_value
     * array-walking function for use in generating JSON-formatted name-value pairs
     *
