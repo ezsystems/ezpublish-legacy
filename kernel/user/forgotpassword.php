@@ -161,7 +161,7 @@ if ( $module->isCurrentAction( "Generate" ) )
             $http->UseFullUrl = true;
             $templateResult = $tpl->fetch( 'design:user/forgotpasswordmail.tpl' );
             if ( $tpl->hasVariable( 'content_type' ) )
-                $mail->setContentType( tpl->variable( 'content_type' ) );
+                $mail->setContentType( $tpl->variable( 'content_type' ) );
             $http->UseFullUrl = false;
             $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
             if ( !$emailSender )
