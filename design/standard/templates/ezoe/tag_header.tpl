@@ -9,7 +9,7 @@
 <script type="text/javascript">
 <!--
 
-var tinyMCEelement = false, ezTagName = '{$tag_name|wash}'; 
+var tinyMCEelement = false, ezTagName = '{$tag_name|wash}', mceTagName = '{$custom_tag_name}'; 
 {literal} 
 
 tinyMCEPopup.onInit.add( function()
@@ -19,6 +19,8 @@ tinyMCEPopup.onInit.add( function()
     if ( el && el.nodeName )
     {
         if ( el.nodeName.indexOf('H') === 0 )
+            tinyMCEelement = el;
+        else if ( el = ed.dom.getParent(el, mceTagName ) )
             tinyMCEelement = el;
     }
 

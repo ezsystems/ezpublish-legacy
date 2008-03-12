@@ -895,6 +895,7 @@
 					switch (na)
 					{
                         case 'tbody':
+                        case 'thead':
                             return false;
 						case 'embed':
 						case 'embed-inline':
@@ -948,8 +949,8 @@
 					na = na.name;
 
 					//u = "javascript:tinymce.EditorManager.get('" + ed.id + "').theme._sel('" + (de++) + "');";
-					pi = DOM.create('a', {'href' : "Javascript:void(0);", onmousedown : "return false;", title : ti, 'class' : 'mcePath_' + (de++)}, na);
-					Event.add(pi, 'click', ez.fn.bind(t.pickTagCommand, t, ed, n, na, v));
+					pi = DOM.create('a', {'href' : "Javascript:void(0);", title : ti, 'class' : 'mcePath_' + (de++)}, na);
+					Event.add( pi, 'click', ez.fn.bind( t.pickTagCommand, t, ed, n, na, v ) );
 
 					if (p.hasChildNodes()) {
 						p.insertBefore(document.createTextNode(' \u00bb '), p.firstChild);
@@ -1032,11 +1033,11 @@
                     break;
 		        default:
 		            var tagName = this.tagsToXml( n );
-                    if ( tagName ) this.generalXmlTagPopup( tagName );
-		    }	    
+                    if ( tagName ) ed.execCommand('generalXmlTagPopup', tagName + '/' + n.nodeName );
+		    }
 		},
 		
-        generalXmlTagPopup : function( eurl, view, width, height  )
+        _generalXmlTagPopup : function( eurl, view, width, height  )
         {
             var ed = this.editor;
             if ( !view ) view = '/tags/';
@@ -1045,6 +1046,7 @@
                 url : eZOeMCE['extension_url'] + view  + eZOeMCE['contentobject_id'] + '/' + eZOeMCE['contentobject_version'] + '/' + eurl,
                 width : width || 400,
                 height : height || 280,
+                resizable : true,
                 inline : true
             }, {
                 theme_url : this.url
@@ -1129,7 +1131,7 @@
                 type = '/relations/';
                 eurl += e.id + '/' + e.getAttribute('inline') + '/' + e.alt;
             }
-            this.generalXmlTagPopup( eurl, type, 480, 450 )
+            this._generalXmlTagPopup( eurl, type, 480, 450 )
 		},
 
         _mceObject : function(ui, val)
@@ -1147,32 +1149,32 @@
                 }
                 e = e.parentNode;
             }
-            this.generalXmlTagPopup( eurl, type, 480, 450 );
+            this._generalXmlTagPopup( eurl, type, 480, 450 );
         },
         
         _mcePageBreak : function( ui, val ) {
             var ed = this.editor;
-            ed.execCommand('mceInsertContent', 0, '<span type="custom" class="pagebreak">&nbsp;</span>');
+            ed.execCommand('mceInsertContent', false, '<span type="custom" class="pagebreak">&nbsp;</span>');
         },
 
         _mceInsertAnchor : function(ui, v)
         {
-            this.generalXmlTagPopup( 'anchor' );
+            this._generalXmlTagPopup( 'anchor' );
         },
         
         _mceCustom : function(ui, v)
         {
-            this.generalXmlTagPopup( 'custom/' + v );
+            this._generalXmlTagPopup( 'custom/' + v );
         },
         
         _mceLiteral : function(ui, v)
         {
-            this.generalXmlTagPopup( 'literal' );
+            this._generalXmlTagPopup( 'literal' );
         },
 
 		_mceLink : function(ui, v)
 		{
-			this.generalXmlTagPopup( 'link' );
+			this._generalXmlTagPopup( 'link' );
 		},
 
 		_mceNewDocument : function() {
