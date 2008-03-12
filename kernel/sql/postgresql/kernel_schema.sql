@@ -2861,6 +2861,14 @@ CREATE INDEX ezcontentobject_pub ON ezcontentobject USING btree (published);
 
 
 
+CREATE UNIQUE INDEX ezcontentobject_remote_id ON ezcontentobject USING btree (remote_id);
+
+
+
+
+
+
+
 CREATE INDEX ezcontentobject_status ON ezcontentobject USING btree (status);
 
 
