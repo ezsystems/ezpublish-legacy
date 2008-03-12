@@ -1,5 +1,5 @@
 /**
- * $Id: Editor.js 676 2008-03-07 10:22:52Z spocke $
+ * $Id: Editor.js 707 2008-03-12 10:02:40Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -9,7 +9,7 @@
 	var DOM = tinymce.DOM, Event = tinymce.dom.Event, extend = tinymce.extend, Dispatcher = tinymce.util.Dispatcher;
 	var each = tinymce.each, isGecko = tinymce.isGecko, isIE = tinymce.isIE, isWebKit = tinymce.isWebKit;
 	var is = tinymce.is, ThemeManager = tinymce.ThemeManager, PluginManager = tinymce.PluginManager, EditorManager = tinymce.EditorManager;
-	var inArray = tinymce.inArray, grep = tinymce.grep;
+	var inArray = tinymce.inArray, grep = tinymce.grep, explode = tinymce.explode;
 
 	/**#@+
 	 * @class This class contains the core logic for a TinyMCE editor.
@@ -228,7 +228,7 @@
 				if (s.theme.charAt(0) != '-' && !ThemeManager.urls[s.theme])
 					ThemeManager.load(s.theme, 'themes/' + s.theme + '/editor_template' + tinymce.suffix + '.js');
 
-				each(s.plugins.split(','), function(p) {
+				each(explode(s.plugins), function(p) {
 					if (p && p.charAt(0) != '-' && !PluginManager.urls[p]) {
 						// Skip safari plugin for other browsers
 						if (!isWebKit && p == 'safari')
@@ -286,7 +286,7 @@
 				t.theme.init(t, ThemeManager.urls[s.theme] || tinymce.documentBaseURL.replace(/\/$/, ''));
 
 			// Create all plugins
-			each(s.plugins.replace(/\-/g, '').split(','), function(p) {
+			each(explode(s.plugins.replace(/\-/g, '')), function(p) {
 				var c = PluginManager.get(p), u = PluginManager.urls[p] || tinymce.documentBaseURL.replace(/\/$/, ''), po;
 
 				if (c) {
@@ -300,10 +300,13 @@
 			});
 
 			// Setup popup CSS path(s)
-			s.popup_css = t.baseURI.toAbsolute(s.popup_css || "themes/" + s.theme + "/skins/" + s.skin + "/dialog.css");
+			if (s.popup_css)
+				s.popup_css = t.documentBaseURI.toAbsolute(s.popup_css);
+			else
+				s.popup_css = t.baseURI.toAbsolute("themes/" + s.theme + "/skins/" + s.skin + "/dialog.css");
 
 			if (s.popup_css_add)
-				s.popup_css += ',' + s.popup_css_add;
+				s.popup_css += ',' + t.documentBaseURI.toAbsolute(s.popup_css_add);
 
 			// Setup control factory
 			t.controlManager = new tinymce.ControlManager(t);
@@ -395,7 +398,7 @@
 			if (h < 100)
 				h = 100;
 
-			t.iframeHTML = s.doctype + '<html><head xmlns="http://www.w3.org/1999/xhtml"><base href="' + t.documentBaseURI.getURI() + '" />';
+			t.iframeHTML = s.doctype + '<html><head xmlns="http://www.w3.org/1999/xhtml"><base href="' + t.documentBaseURI.getURI() + '"></base>';
 			t.iframeHTML += '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
 
 			if (tinymce.relaxedDomain)
@@ -545,7 +548,7 @@
 
 			if (s.custom_elements) {
 				function handleCustom(ed, o) {
-					each(s.custom_elements.split(','), function(v) {
+					each(explode(s.custom_elements), function(v) {
 						var n;
 
 						if (v.indexOf('~') === 0) {
@@ -724,7 +727,7 @@
 
 				// Load specified content CSS last
 				if (s.content_css) {
-					tinymce.each(s.content_css.split(','), function(u) {
+					tinymce.each(explode(s.content_css), function(u) {
 						t.dom.loadCSS(t.documentBaseURI.toAbsolute(u));
 					});
 				}
@@ -761,7 +764,7 @@
 
 			e.contentEditable = true;
 			if (!s.gecko_spellcheck)
-				e.spellcheck = 0;
+				t.getDoc().body.spellcheck = 0;
 
 			// Setup objects
 			t.dom = new tinymce.DOM.DOMUtils(t.getDoc(), {
@@ -834,7 +837,7 @@
 
 			// Load specified content CSS last
 			if (s.content_css) {
-				each(s.content_css.split(','), function(u) {
+				each(explode(s.content_css), function(u) {
 					t.dom.loadCSS(t.documentBaseURI.toAbsolute(u));
 				});
 			}
@@ -1082,7 +1085,7 @@
 				};
 			}
 
-			each(pa.split(','), function(pa) {
+			each(explode(pa), function(pa) {
 				var o = {
 					func : cmd_func,
 					scope : sc || this,
@@ -1092,7 +1095,7 @@
 					shift : false
 				};
 
-				each(pa.split('+'), function(v) {
+				each(explode(pa, '+'), function(v) {
 					switch (v) {
 						case 'alt':
 						case 'ctrl':
@@ -1708,6 +1711,20 @@
 				t.focus(true);
 			});
 
+			// #if contentEditable
+
+			if (s.content_editable && tinymce.isOpera) {
+				// Opera doesn't support focus event for contentEditable elements so we need to fake it
+				function doFocus(e) {
+					t.focus(true);
+				};
+
+				Event.add(t.getBody(), 'click', doFocus);
+				Event.add(t.getBody(), 'keydown', doFocus);
+			}
+
+			// #endif
+
 			// Fixes bug where a specified document_base_uri could result in broken images
 			// This will also fix drag drop of images in Gecko
 			if (tinymce.isGecko) {
@@ -1818,7 +1835,7 @@
 					};
 
 					if (e.keyCode === 9) {
-						v = ed.getParam('tab_focus').split(',');
+						v = explode(ed.getParam('tab_focus'));
 
 						if (v.length == 1) {
 							v[1] = v[0];
@@ -2135,10 +2152,10 @@
 			fzn = ['xx-small', 'x-small','small','medium','large','x-large', 'xx-large'];
 
 			if (sl = s.font_size_style_values)
-				sl = sl.split(',');
+				sl = explode(sl);
 
 			if (cl = s.font_size_classes)
-				cl = cl.split(',');
+				cl = explode(cl);
 
 			function convertToFonts(no) {
 				// Convert spans to fonts on non WebKit browsers
@@ -2154,6 +2171,13 @@
 						face : dom.getStyle(n, 'fontFamily'),
 						style : dom.getAttrib(n, 'style')
 					});
+
+					// Clear color and font family
+					st = f.style;
+					if (st.color || st.fontFamily) {
+						st.color = st.fontFamily = '';
+						dom.setAttrib(f, 'mce_style', ''); // Remove cached style data
+					}
 
 					if (sl) {
 						i = inArray(sl, dom.getStyle(n, 'fontSize'));

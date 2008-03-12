@@ -1,5 +1,5 @@
 /**
- * $Id: ControlManager.js 663 2008-03-03 17:39:17Z spocke $
+ * $Id: ControlManager.js 681 2008-03-08 13:04:00Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -388,6 +388,11 @@
 			id = t.prefix + id;
 			c = new tinymce.ui.ColorSplitButton(id, s);
 			ed.onMouseDown.add(c.hideMenu, c);
+
+			// Remove the menu element when the editor is removed
+			ed.onRemove.add(function() {
+				c.destroy();
+			});
 
 			return t.add(c);
 		},

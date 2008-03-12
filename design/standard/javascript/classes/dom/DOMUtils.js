@@ -1,5 +1,5 @@
 /**
- * $Id: DOMUtils.js 665 2008-03-04 13:26:59Z spocke $
+ * $Id: DOMUtils.js 706 2008-03-11 20:38:31Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -40,6 +40,7 @@
 			t.cssFlicker = false;
 			t.counter = 0;
 			t.boxModel = !tinymce.isIE || d.compatMode == "CSS1Compat"; 
+			t.stdMode = d.documentMode === 8;
 
 			this.settings = s = tinymce.extend({
 				keep_values : false,
@@ -812,17 +813,16 @@
 			while (r) {
 				x += r.offsetLeft || 0;
 				y += r.offsetTop || 0;
-
 				r = r.offsetParent;
 			}
 
 			r = n;
 			while (r) {
-				// Opera 9.25 bug fix, fixed in 9.50 seems to be fixed in Opera 9.26 too
-			/*	if (!tinymce.isOpera || r.nodeName != 'TR') {
+				// Opera 9.25 bug fix, fixed in 9.50
+				if (!/^table-row|inline.*/i.test(t.getStyle(r, "display", 1))) {
 					x -= r.scrollLeft || 0;
 					y -= r.scrollTop || 0;
-				}*/
+				}
 
 				r = r.parentNode;
 
@@ -978,11 +978,7 @@
 					return;
 
 				t.files[u] = true;
-
-				if (!d.createStyleSheet)
-					t.add(t.select('head')[0], 'link', {rel : 'stylesheet', href : u});
-				else
-					d.createStyleSheet(u);
+				t.add(t.select('head')[0], 'link', {rel : 'stylesheet', href : u});
 			});
 		},
 
@@ -1189,8 +1185,16 @@
 
 									// Copy all attributes
 									n.cloneNode(false).outerHTML.replace(/([a-z0-9\-_]+)=/gi, function(a, b) {
-										if (b !== 'mce_tmp')
-											p.setAttribute(b, n.getAttribute(b));
+										var v;
+
+										if (b !== 'mce_tmp') {
+											v = n.getAttribute(b);
+
+											if (!v && b === 'class')
+												v = n.className;
+
+											p.setAttribute(b, v);
+										}
 									});
 
 									// Append all children to new paragraph

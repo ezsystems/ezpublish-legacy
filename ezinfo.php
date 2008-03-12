@@ -33,7 +33,7 @@ class ezoeInfo
                       'Copyright' => 'Copyright © 2008 eZ Systems AS',
                       'License'   => 'GNU General Public License v2.0',
                       'Includes the following third-party software' => array( 'Name' => 'TinyMce Javascript HTML WYSIWYG editor',
-                                                                              'Version' => '3.0.4.1',
+                                                                              'Version' => '3.0.5',
                                                                               'Copyright' => 'Copyright Â© 2004-2008, Moxiecode Systems AB, All rights reserved.',
                                                                               'License' => 'GNU Lesser General Public License v2.1',),
                       'Includes the following library'              => array( 'Name' => 'eZ Core, tiny javascript library for ajax and stuff',

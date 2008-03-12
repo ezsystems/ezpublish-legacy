@@ -1,5 +1,5 @@
 /**
- * $Id: editor_plugin_src.js 677 2008-03-07 13:52:41Z spocke $
+ * $Id: editor_plugin_src.js 697 2008-03-11 10:33:06Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -34,6 +34,7 @@
 
 			t.parent(ed);
 			t.zIndex = 1000;
+			t.count = 0;
 		},
 
 		open : function(f, p) {
@@ -62,6 +63,7 @@
 			p.mce_height = f.height;
 			p.mce_inline = true;
 			p.mce_window_id = id;
+			p.mce_auto_focus = f.auto_focus;
 
 			// Transpose
 //			po = DOM.getPos(ed.getContainer());
@@ -98,7 +100,7 @@
 
 			// Create DOM objects
 			t._addAll(document.body, 
-				['div', {id : id, 'class' : ed.settings.inlinepopups_skin || 'clearlooks2', style : 'width:100px;height:100px'}, 
+				['div', {id : id, 'class' : ed.settings.inlinepopups_skin || 'clearlooks2', dir : 'ltr', style : 'width:100px;height:100px'}, 
 					['div', {id : id + '_wrapper', 'class' : 'mceWrapper' + opt},
 						['div', {id : id + '_top', 'class' : 'mceTop'}, 
 							['div', {'class' : 'mceLeft'}],
@@ -244,12 +246,26 @@
 				t.focus(id);
 			});
 
+			// Setup blocker
+			if (t.count == 0 && t.editor.getParam('dialog_type') == 'modal') {
+				DOM.add(DOM.doc.body, 'div', {
+					id : 'mceModalBlocker',
+					'class' : (t.editor.settings.inlinepopups_skin || 'clearlooks2') + '_modalBlocker',
+					style : {left : vp.x, top : vp.y, width : vp.w, height : vp.h, zIndex : t.zIndex - 1}
+				});
+
+				DOM.show('mceModalBlocker'); // Reduces flicker in IE
+			} else
+				DOM.setStyle('mceModalBlocker', 'z-index', t.zIndex - 1);
+
 			t.focus(id);
 			t._fixIELayout(id, 1);
 
 			// Focus ok button
 			if (DOM.get(id + '_ok'))
 				DOM.get(id + '_ok').focus();
+
+			t.count++;
 
 			return w;
 		},
@@ -288,7 +304,7 @@
 			cp = {x : 0, y : 0};
 			vp = DOM.getViewPort();
 
-			// Reduce viewport size to avoid scrollbars
+			// Reduce viewport size to avoid scrollbars while dragging
 			vp.w -= 2;
 			vp.h -= 2;
 
@@ -326,7 +342,7 @@
 				DOM.add(d.body, 'div', {
 					id : 'mceEventBlocker',
 					'class' : 'mceEventBlocker ' + (t.editor.settings.inlinepopups_skin || 'clearlooks2'),
-					style : {left : vp.x, top : vp.y, width : vp.w - 20, height : vp.h - 20, zIndex : 20001}
+					style : {left : vp.x, top : vp.y, width : vp.w + 2, height : vp.h + 2, zIndex : 20001}
 				});
 				eb = new Element('mceEventBlocker');
 				eb.update();
@@ -444,6 +460,11 @@
 
 		close : function(win, id) {
 			var t = this, w, d = document, ix = 0, fw;
+
+			t.count--;
+
+			if (t.count == 0)
+				DOM.remove('mceModalBlocker');
 
 			// Probably not inline
 			if (!id && win) {

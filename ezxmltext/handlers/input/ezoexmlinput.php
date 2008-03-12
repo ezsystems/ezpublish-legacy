@@ -106,7 +106,6 @@ class eZOEXMLInput extends eZXMLInputHandler
                  $name === 'browser_supports_dhtml_type' or
                  $name === 'is_compatible_version' or
                  $name === 'version' or
-                 $name === 'required_version' or
                  $name === 'ezpublish_version' or
                  eZXMLInputHandler::hasAttribute( $name ) );
     }
@@ -124,8 +123,6 @@ class eZOEXMLInput extends eZXMLInputHandler
             $attr = eZOEXMLInput::isCompatibleVersion();
         else if ( $name === 'version' )
             $attr = eZOEXMLInput::version();
-        else if ( $name === 'required_version' )
-            $attr = eZOEXMLInput::requiredVersion();
         else if ( $name === 'ezpublish_version' )
             $attr = $this->eZPublishVersion;
         else
@@ -190,25 +187,6 @@ class eZOEXMLInput extends eZXMLInputHandler
         $info = ezoeInfo::info();
         $version = $info['version'];
         return $version;
-    }
-
-    /*!
-     This function is deprecated, left for compatibility.
-     \static
-     \return eZ publish required OE version list
-    */
-    static function requiredVersion()
-    {
-        $requiredVersion = false;
-
-        if ( file_exists( 'kernel/common/ezoe.php' ) )
-        {
-            include_once( 'kernel/common/ezoe.php' );
-            $requiredVersionList = eZOE::requiredVersionList();
-            $requiredVersion = implode( "," , $requiredVersionList );
-        }
-
-        return $requiredVersion;
     }
 
     /*!
@@ -1023,7 +1001,6 @@ class eZOEXMLInput extends eZXMLInputHandler
                     {
                         $customTagContent .= $this->inputTdXML( $tagChild, $currentSectionLevel, $tdSectionLevel );
                     }
-                    // remember to define display: block in the editor css (content.css) also
                     $output .= '<'. $nodeType .' class="' . $name . '" type="custom" style="display:block"' . $customAttributePart . '>' . $customTagContent . '</'. $nodeType .'>';
                 }
             }break;

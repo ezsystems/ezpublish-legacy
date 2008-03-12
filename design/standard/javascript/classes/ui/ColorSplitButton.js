@@ -1,5 +1,5 @@
 /**
- * $Id: ColorSplitButton.js 631 2008-02-22 23:51:38Z spocke $
+ * $Id: ColorSplitButton.js 699 2008-03-11 11:57:45Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -90,7 +90,7 @@
 		renderMenu : function() {
 			var t = this, m, i = 0, s = t.settings, n, tb, tr, w;
 
-			w = DOM.add(s.menu_container, 'div', {id : t.id + '_menu', 'class' : s['menu_class'] + ' ' + s['class'], style : 'position:absolute;left:0;top:-1000px;'});
+			w = DOM.add(s.menu_container, 'div', {id : t.id + '_menu', dir : 'ltr', 'class' : s['menu_class'] + ' ' + s['class'], style : 'position:absolute;left:0;top:-1000px;'});
 			m = DOM.add(w, 'div', {'class' : s['class'] + ' mceSplitButtonMenu'});
 			DOM.add(m, 'span', {'class' : 'mceMenuLine'});
 
@@ -155,6 +155,15 @@
 			t.value = c;
 			t.hideMenu();
 			s.onselect(c);
+		},
+
+		/**
+		 * Destroys the control. This means it will be removed from the DOM and any
+		 * events tied to it will also be removed.
+		 */
+		destroy : function() {
+			this.parent();
+			DOM.remove(this.id + '_menu');
 		}
 
 		/**#@-*/

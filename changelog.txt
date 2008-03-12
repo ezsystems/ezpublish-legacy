@@ -2,7 +2,7 @@ eZ Online Editor MCE extension Changelog
 
 1.0 beta
 * this extension is now known as ezoe and not eztinymce
-* updated TinyMCE to 3.0.4.1
+* updated TinyMCE to 3.0.5
 * added eZOEPacker ('ezoecss' and 'ezoescript' operators), to pack css and js
 * EditorCSSFileList support added, support for css from other locations
 * tinymce plugins from other locations (extensions/designs) now possible

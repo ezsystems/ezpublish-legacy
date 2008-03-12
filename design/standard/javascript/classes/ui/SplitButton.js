@@ -1,5 +1,5 @@
 /**
- * $Id: SplitButton.js 631 2008-02-22 23:51:38Z spocke $
+ * $Id: SplitButton.js 699 2008-03-11 11:57:45Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.

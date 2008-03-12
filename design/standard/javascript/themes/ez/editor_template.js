@@ -1,12 +1,12 @@
 /**
- * $Id: editor_template_src.js 677 2008-03-07 13:52:41Z spocke $
+ * $Id: editor_template_src.js 710 2008-03-12 12:37:55Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
 (function() {
-	var DOM = tinymce.DOM, Event = tinymce.dom.Event, extend = tinymce.extend, each = tinymce.each, Cookie = tinymce.util.Cookie, lastExtID;
+	var DOM = tinymce.DOM, Event = tinymce.dom.Event, extend = tinymce.extend, each = tinymce.each, Cookie = tinymce.util.Cookie, lastExtID, explode = tinymce.explode;
 
 	tinymce.create('tinymce.themes.eZTheme', {
 		// Control name lookup, format: title, command
@@ -56,7 +56,7 @@
 		stateControls : ['bold', 'italic', 'underline', 'strikethrough', 'bullist', 'numlist', 'justifyleft', 'justifycenter', 'justifyright', 'justifyfull', 'sub', 'sup', 'blockquote'],
 
 		init : function(ed, url) {
-			var t = this, s;
+			var t = this, s, v;
 
 			t.editor = ed;
 			t.url = url;
@@ -79,7 +79,7 @@
 				theme_advanced_resizing_use_cookie : 1
 			}, ed.settings);
 
-            if (s.theme_advanced_path_location)
+            if ((v = s.theme_advanced_path_location) && v !== 'none')
                 s.theme_advanced_statusbar_location = s.theme_advanced_path_location;
 
             if (s.theme_advanced_statusbar_location === 'none')
@@ -234,7 +234,7 @@
 
 			c = t.editor.controlManager.createListBox('fontsizeselect', {title : 'ez.font_size', cmd : 'FontSize'});
 
-			each(t.settings.theme_advanced_font_sizes.split(','), function(v) {
+			each(explode(t.settings.theme_advanced_font_sizes), function(v) {
                 c.add(lo[parseInt(v) - 1], v, {'style' : 'font-size:' + fz[v - 1] + 'pt', 'class' : 'mceFontSize' + v});
 			});
 
@@ -255,7 +255,7 @@
 
 			c = t.editor.controlManager.createListBox('formatselect', {title : eZOeMCE['i18n']['type'], cmd : 'FormatBlock'});
 
-			each(t.settings.theme_advanced_blockformats.split(','), function(v) {
+			each(explode(t.settings.theme_advanced_blockformats), function(v) {
 				c.add(t.editor.translate(fmts[v]), v, {'class' : 'mce_formatPreview mce_' + v});
 			});
 
@@ -315,14 +315,14 @@
 		},
 
 		renderUI : function(o) {
-			var n, ic, tb, t = this, ed = t.editor, s = t.settings, sc, p, tr;
+			var n, ic, tb, t = this, ed = t.editor, s = t.settings, sc, p, nl;
 
             n = p = DOM.create('span', {id : ed.id + '_parent', 'class' : 'mceEditor ' + ed.settings.skin + 'Skin' + (s.skin_variant ? ' ' + ed.settings.skin + 'Skin' + t._ufirst(s.skin_variant) : '')});
 
 			if (!DOM.boxModel)
 				n = DOM.add(n, 'div', {'class' : 'mceOldBoxModel'});
 
-			n = sc = DOM.add(n, 'table', {id : ed.id + '_tbl', 'class' : 'mceLayout', cellSpacing : 0, cellPadding : 0});
+			n = sc = DOM.add(n, 'table', {id : ed.id + '_tbl', dir : 'ltr', 'class' : 'mceLayout', cellSpacing : 0, cellPadding : 0});
 			n = tb = DOM.add(n, 'tbody');
 
 			switch ((s.theme_advanced_layout_manager || '').toLowerCase()) {
@@ -341,9 +341,9 @@
 			n = o.targetNode;
 
 			// Add classes to first and last TRs
-			tr = DOM.select('tr', tb);
-			DOM.addClass(tr[0], 'mceFirst');
-			DOM.addClass(tr[tr.length - 1], 'mceLast');
+			nl = DOM.stdMode ? DOM.select('tr', tb) : sc.rows; // Quick fix for IE 8
+			DOM.addClass(nl[0], 'mceFirst');
+			DOM.addClass(nl[nl.length - 1], 'mceLast');
 
 			// Add classes to first and last TDs
 			each(DOM.select('tr', tb), function(n) {
@@ -511,7 +511,7 @@
 			dc = s.theme_advanced_containers_default_class || '';
 			da = s.theme_advanced_containers_default_align || 'center';
 
-			each((s.theme_advanced_containers || '').split(','), function(c, i) {
+			each(explode(s.theme_advanced_containers || ''), function(c, i) {
                 var v = s['theme_advanced_container_' + c] || '';
 
                 switch (c.toLowerCase()) {
@@ -548,7 +548,7 @@
 			if (s.theme_advanced_disable && !t._disabled) {
 				di = {};
 
-				each(s.theme_advanced_disable.split(','), function(v) {
+				each(explode(s.theme_advanced_disable), function(v) {
 					di[v] = 1;
 				});
 
@@ -556,7 +556,7 @@
 			} else
 				di = t._disabled;
 
-			each(v.split(','), function(n) {
+			each(explode(v), function(n) {
 				var c;
 
 				if (di && di[n])

@@ -1,5 +1,5 @@
 /**
- * $Id: Popup.js 680 2008-03-08 09:49:37Z spocke $
+ * $Id: Popup.js 707 2008-03-12 10:02:40Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -276,10 +276,11 @@ tinyMCEPopup = {
 		t.restoreSelection();
 		t.resizeToInnerSize();
 
-		if (t.isWindow)
-			window.focus();
-		else
+		// Set inline title
+		if (!t.isWindow)
 			t.editor.windowManager.setTitle(ti, t.id);
+		else
+			window.focus();
 
 		if (!tinymce.isIE && !t.isWindow) {
 			tinymce.dom.Event._add(document, 'focus', function() {
@@ -299,17 +300,19 @@ tinyMCEPopup = {
 		});
 
 		// Move focus to window
-		window.focus();
+		if (t.getWindowArg('mce_auto_focus', true)) {
+			window.focus();
 
-		// Focus element with mceFocus class
-		tinymce.each(document.forms, function(f) {
-			tinymce.each(f.elements, function(e) {
-				if (t.dom.hasClass(e, 'mceFocus')) {
-					e.focus();
-					return false; // Break loop
-				}
+			// Focus element with mceFocus class
+			tinymce.each(document.forms, function(f) {
+				tinymce.each(f.elements, function(e) {
+					if (t.dom.hasClass(e, 'mceFocus')) {
+						e.focus();
+						return false; // Break loop
+					}
+				});
 			});
-		});
+		}
 
 		document.onkeydown = tinyMCEPopup._closeWinKeyHandler;
 	},

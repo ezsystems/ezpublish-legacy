@@ -1,5 +1,5 @@
 /**
- * $Id: WindowManager.js 615 2008-02-20 23:18:01Z spocke $
+ * $Id: WindowManager.js 686 2008-03-09 18:13:49Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -56,6 +56,7 @@
 			p.inline = false;
 			p.mce_width = s.width;
 			p.mce_height = s.height;
+			p.mce_auto_focus = s.auto_focus;
 
 			if (mo) {
 				if (isIE) {

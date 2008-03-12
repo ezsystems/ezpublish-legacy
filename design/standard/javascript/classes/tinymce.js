@@ -1,5 +1,5 @@
 /**
- * $Id: tinymce.js 680 2008-03-08 09:49:37Z spocke $
+ * $Id: tinymce.js 708 2008-03-12 12:10:49Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -12,8 +12,8 @@
  */
 var tinymce = {
 	majorVersion : '3',
-	minorVersion : '0.4.1',
-	releaseDate : '2008-03-08',
+	minorVersion : '0.5',
+	releaseDate : '2008-03-12',
 
 	/**#@+
 	 * @method
@@ -470,6 +470,16 @@ var tinymce = {
 		});
 
 		return r;
+	},
+
+	/**
+	 * Splits a string but removes the whitespace before and after each value.
+	 *
+	 * @param {string} s String to split.
+	 * @param {string} d Delimiter to split by.
+	 */
+	explode : function(s, d) {
+		return tinymce.map(s.split(d || ','), tinymce.trim);
 	}
 
 	/**#@-*/

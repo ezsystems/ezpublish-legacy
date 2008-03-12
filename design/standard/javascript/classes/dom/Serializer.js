@@ -1,5 +1,5 @@
 /**
- * $Id: Serializer.js 660 2008-03-03 13:20:21Z spocke $
+ * $Id: Serializer.js 700 2008-03-11 14:37:28Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -17,7 +17,7 @@
 		if (n.nodeName == 'OBJECT')
 			return n.attributes;
 
-		n.cloneNode(false).outerHTML.replace(/([a-z0-9\-_]+)=/gi, function(a, b) {
+		n.cloneNode(false).outerHTML.replace(/([a-z0-9\:\-_]+)=/gi, function(a, b) {
 			o.push({specified : 1, nodeName : b});
 		});
 

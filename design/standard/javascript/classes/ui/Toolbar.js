@@ -1,5 +1,5 @@
 /**
- * $Id: Toolbar.js 671 2008-03-05 18:02:22Z spocke $
+ * $Id: Toolbar.js 706 2008-03-11 20:38:31Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -53,7 +53,12 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 			}
 
 			// Render control HTML
-			h += '<td>' + co.renderHTML() + '</td>';
+
+			// IE 8 quick fix, needed to propertly generate a hit area for anchors
+			if (dom.stdMode)
+				h += '<td style="position: relative">' + co.renderHTML() + '</td>';
+			else
+				h += '<td>' + co.renderHTML() + '</td>';
 
 			// Add toolbar start after list box and before the next button
 			// This is to fix the o2k7 editor skins
