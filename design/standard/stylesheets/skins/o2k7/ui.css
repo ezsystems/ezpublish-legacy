@@ -44,7 +44,7 @@
 .o2k7Skin .mceButtonDisabled .mceIcon {opacity:0.3; filter:alpha(opacity=30)}
 
 .o2k7Skin div.mceToolbar span.mceToolbarElement { float: left; height: 26px; clear: none; }
-.o2k7Skin div.mceToolbar div.mceToolbarGroupingElement { float: left; height: 26px; }
+.o2k7Skin div.mceToolbar div.mceToolbarGroupingElement { display: inline; height: 26px; white-space: nowrap; }
 
 /* Separator */
 .o2k7Skin .mceSeparator {display:block; background:url(img/button_bg.png) -22px 0; width:5px; height:22px}

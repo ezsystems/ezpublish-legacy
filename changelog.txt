@@ -9,6 +9,7 @@ eZ Online Editor MCE extension Changelog
 * fixed and enabled indenting / outdenting 
 * fixed class not working on p / header / tr / li tags
 * fixed change class list when td / th is changed
+* fixed floating toolbar bug on ie 6 / 7
 
 
 0.95
