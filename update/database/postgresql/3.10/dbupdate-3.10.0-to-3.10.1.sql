@@ -20,3 +20,5 @@ ALTER TABLE ONLY ezurlwildcard
 
 CREATE INDEX ezcontent_language_name ON ezcontent_language (name);
 
+CREATE INDEX ezcontentobject_owner ON ezcontentobject (owner_id);
+

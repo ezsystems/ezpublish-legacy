@@ -11,3 +11,5 @@ CREATE TABLE ezurlwildcard (
 
 ALTER TABLE ezcontent_language ADD INDEX ezcontent_language_name(name);
 
+ALTER TABLE ezcontentobject ADD INDEX ezcontentobject_owner(owner_id);
+
