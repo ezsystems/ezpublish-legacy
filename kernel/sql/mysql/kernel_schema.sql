@@ -343,6 +343,7 @@ CREATE TABLE ezcontentobject (
   KEY ezcontentobject_classid (contentclass_id),
   KEY ezcontentobject_currentversion (current_version),
   KEY ezcontentobject_lmask (language_mask),
+  KEY ezcontentobject_owner (owner_id),
   KEY ezcontentobject_pub (published),
   KEY ezcontentobject_status (status)
 ) TYPE=InnoDB;

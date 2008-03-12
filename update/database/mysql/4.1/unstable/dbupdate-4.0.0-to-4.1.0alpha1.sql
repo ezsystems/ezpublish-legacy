@@ -8,3 +8,5 @@ ALTER TABLE ezrss_export_item ADD COLUMN category VARCHAR( 255 ) NULL;
 
 ALTER TABLE ezcontent_language ADD INDEX ezcontent_language_name(name);
 
+ALTER TABLE ezcontentobject ADD INDEX ezcontentobject_owner(owner_id);
+
