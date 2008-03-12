@@ -145,7 +145,7 @@ class eZContentCacheManager
                 $relationsMask |= EZ_CONTENT_OBJECT_RELATION_EMBED;
 
             if ( in_array( 'linked', $relTypes ) )
-                $relationsMask |= EZ_CONTENT_OBJECT_RELATION_LINKED;
+                $relationsMask |= EZ_CONTENT_OBJECT_RELATION_LINK;
 
             if ( in_array( 'attribute', $relTypes ) )
                 $relationsMask |= EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE;
@@ -175,7 +175,7 @@ class eZContentCacheManager
                 $relationsMask |= EZ_CONTENT_OBJECT_RELATION_EMBED;
 
             if ( in_array( 'reverse_linked', $relTypes ) )
-                $relationsMask |= EZ_CONTENT_OBJECT_RELATION_LINKED;
+                $relationsMask |= EZ_CONTENT_OBJECT_RELATION_LINK;
 
             if ( in_array( 'reverse_attribute', $relTypes ) )
                 $relationsMask |= EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE;
