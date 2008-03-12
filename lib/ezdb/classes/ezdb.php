@@ -166,7 +166,7 @@ class eZDB
             if ( $databaseImplementation === false and $useDefaults )
                 $databaseImplementation = $ini->variable( 'DatabaseSettings', 'DatabaseImplementation' );
 
-            $server = $user = $pwd = $db = $usePersistentConnection = false;
+            $server = $user = $pwd = $db = $usePersistentConnection = $port = false;
             if ( $useDefaults )
                 list( $server, $port, $user, $pwd, $db, $usePersistentConnection ) =
                     $ini->variableMulti( 'DatabaseSettings', array( 'Server', 'Port', 'User', 'Password', 'Database', 'UsePersistentConnection', ) );
