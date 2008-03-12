@@ -315,7 +315,7 @@
 		},
 
 		renderUI : function(o) {
-			var n, ic, tb, t = this, ed = t.editor, s = t.settings, sc, p, nl;
+			var n, ic, tb, t = this, ed = t.editor, s = t.settings, sc, p, tr;
 
             n = p = DOM.create('span', {id : ed.id + '_parent', 'class' : 'mceEditor ' + ed.settings.skin + 'Skin' + (s.skin_variant ? ' ' + ed.settings.skin + 'Skin' + t._ufirst(s.skin_variant) : '')});
 
@@ -341,9 +341,9 @@
 			n = o.targetNode;
 
 			// Add classes to first and last TRs
-			nl = sc.rows;
-			DOM.addClass(nl[0], 'mceFirst');
-			DOM.addClass(nl[nl.length - 1], 'mceLast');
+			tr = DOM.select('tr', tb);
+			DOM.addClass(tr[0], 'mceFirst');
+			DOM.addClass(tr[tr.length - 1], 'mceLast');
 
 			// Add classes to first and last TDs
 			each(DOM.select('tr', tb), function(n) {
