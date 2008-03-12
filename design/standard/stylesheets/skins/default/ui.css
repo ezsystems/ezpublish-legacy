@@ -39,8 +39,13 @@
 .defaultSkin a.mceButtonActive, .defaultSkin a.mceButtonSelected {border:1px solid #0A246A; background-color:#C2CBE0}
 .defaultSkin .mceButtonDisabled .mceIcon {opacity:0.3; filter:alpha(opacity=30)}
 
+.defaultSkin div.mceToolbar div.mceToolbarGroupingElement { float: left; height: 26px; clear: none; }
 .defaultSkin div.mceToolbar span.mceToolbarElement { float: left; height: 26px; clear: none; }
-.defaultSkin div.mceToolbar div.mceToolbarGroupingElement { display: inline; height: 26px; white-space: nowrap; }
+
+/* ie6 and ie7 has some issues with float and grouping, so we disable gouping there */
+.defaultSkin div.mceToolBarFlowIEbug div.mceToolbarGroupingElement { float: none; display: inline; }
+
+
 
 /* Separator */
 .defaultSkin .mceSeparator {display:block; background:url(../../../javascript/themes/ez/img/icons.gif) -180px 0; width:2px; height:20px; margin:2px 2px 0 4px}

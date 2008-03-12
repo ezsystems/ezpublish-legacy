@@ -43,8 +43,12 @@
 .o2k7Skin a.mceButtonActive, .o2k7Skin a.mceButtonSelected {background-position:0 -44px}
 .o2k7Skin .mceButtonDisabled .mceIcon {opacity:0.3; filter:alpha(opacity=30)}
 
+.o2k7Skin div.mceToolbar div.mceToolbarGroupingElement { float: left; height: 26px; clear: none; }
 .o2k7Skin div.mceToolbar span.mceToolbarElement { float: left; height: 26px; clear: none; }
-.o2k7Skin div.mceToolbar div.mceToolbarGroupingElement { display: inline; height: 26px; white-space: nowrap; }
+
+/* ie6 and ie7 has some issues with float and grouping, so we disable gouping there */
+.o2k7Skin div.mceToolBarFlowIEbug div.mceToolbarGroupingElement { float: none; display: inline; }
+
 
 /* Separator */
 .o2k7Skin .mceSeparator {display:block; background:url(img/button_bg.png) -22px 0; width:5px; height:22px}

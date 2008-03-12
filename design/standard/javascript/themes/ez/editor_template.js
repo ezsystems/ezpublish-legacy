@@ -622,7 +622,7 @@
 		// Custom toolbar renderer for ez theme
 	    _toolbarRenderFlowHTML : function()
 	    {
-	        var t = this, h = '<div class="mceToolbarGroupingElement">', c = 'mceToolbarElement mceToolbarEnd', co, s = t.settings;
+	        var t = this, h = '<div class="mceToolbarGroupingElement">', c = 'mceToolbarElement mceToolbarEnd', co, s = t.settings, c2 = 'mceToolbar mceToolBarFlow';
 	        
 	        h += DOM.createHTML('span', {'class' : 'mceToolbarElement mceToolbarStart'}, DOM.createHTML('span', null, '<!-- IE -->'));
 
@@ -648,7 +648,9 @@
 	
 	        h += DOM.createHTML('span', {'class' : c}, DOM.createHTML('span', null, '<!-- IE -->')) + '</div>';
 
-	        return DOM.createHTML('div', {id : t.id, 'class' : 'mceToolbar mceToolBarFlow' + (s['class'] ? ' ' + s['class'] : ''), align : t.settings.align || ''},  h );
+            if ( tinymce.isIE && !DOM.stdMode ) c2 += ' mceToolBarFlowIEbug';
+
+	        return DOM.createHTML('div', {id : t.id, 'class' : c2 + (s['class'] ? ' ' + s['class'] : ''), align : t.settings.align || ''},  h );
 	    },
 
 		_addStatusBar : function(tb, o) {
