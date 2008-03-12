@@ -1602,6 +1602,14 @@ $schema = array (
           0 => 'language_mask',
         ),
       ),
+      'ezcontentobject_owner' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'owner_id',
+        ),
+      ),
       'ezcontentobject_pub' => 
       array (
         'type' => 'non-unique',
