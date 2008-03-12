@@ -935,7 +935,7 @@ class eZModule
                             }
                             else if ( $expandParameters )
                             {
-                                $retVal = call_user_method_array( $functionName, $object, array_merge( array( $this ), $parameters ) );
+                                $retVal = call_user_func_array( array( $object, $functionName ), array_merge( array( $this ), $parameters ) );
                             }
                             else
                             {

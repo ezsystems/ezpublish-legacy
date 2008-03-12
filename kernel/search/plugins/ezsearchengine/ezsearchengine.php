@@ -2222,14 +2222,7 @@ class eZSearchEngine
             return false;
         }
 
-        if ( $this->UseOldCall )
-        {
-            return call_user_method_array( $methodName, $this, $parameterArray );
-        }
-        else
-        {
-            return $this->$methodName($parameterArray[0]);
-        }
+        return call_user_func_array( array( $this, $methodName ), $parameterArray );
     }
 
     /*!
@@ -2324,7 +2317,6 @@ class eZSearchEngine
     }
 
 
-    public $UseOldCall = false;
     public $TempTablesCount = 0;
     public $CreatedTempTablesNames = array();
 }

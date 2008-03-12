@@ -301,16 +301,8 @@ class eZTemplateExecuteOperator
             $parametersCode .= ' )';
         }
 
-        $code = '%output% = ';
-        if ( $moduleFunctionInfo->UseOldCall )
-        {
-            $code .= 'call_user_method_array( ' . $functionDefinition['call_method']['method'] . ', new ' . $functionDefinition['call_method']['class'] . '(), ' . $parametersCode . ' );';
-        }
-        else
-        {
-            $code .= 'call_user_func_array( array( new ' . $functionDefinition['call_method']['class'] . '(), \'' . $functionDefinition['call_method']['method'] . '\' ),' . "\n" .
+        $code = '%output% = call_user_func_array( array( new ' . $functionDefinition['call_method']['class'] . '(), \'' . $functionDefinition['call_method']['method'] . '\' ),' . "\n" .
                  '  ' . $parametersCode . ' );';
-        }
         $code .= "\n";
 
         $code .= '%output% = isset( %output%[\'result\'] ) ? %output%[\'result\'] : null;' . "\n";

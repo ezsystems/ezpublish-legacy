@@ -61,7 +61,6 @@ class eZModuleOperationInfo
         $this->ModuleName = $moduleName;
         $this->IsValid = false;
         $this->OperationList = array();
-        $this->UseOldCall = false;
         $this->Memento = null;
         $this->UseTriggers = $useTriggers;
     }
@@ -736,7 +735,7 @@ class eZModuleOperationInfo
             }
         }
 
-        return $this->callClassMethod( $methodName, $classObject, $parameterArray );
+        return call_user_func_array( array( $classObject, $methodName ), $parameterArray );
     }
 
     function objectForClass( $className )
@@ -753,12 +752,12 @@ class eZModuleOperationInfo
         return $GLOBALS['eZModuleOperationClassObjectList'][$className] = new $className();
     }
 
+    /*!
+     \deprecated use call_user_func_array() instead
+    */
     function callClassMethod( $methodName, $classObject, $parameterArray )
     {
-        if ( $this->UseOldCall )
-            return call_user_method_array( $methodName, $classObject, $parameterArray );
-        else
-            return call_user_func_array( array( $classObject, $methodName ), $parameterArray );
+        return call_user_func_array( array( $classObject, $methodName ), $parameterArray );
     }
 
 
@@ -766,7 +765,6 @@ class eZModuleOperationInfo
     public $ModuleName;
     public $FunctionList;
     public $IsValid;
-    public $UseOldCall;
     public $UseTriggers = false;
 }
 
