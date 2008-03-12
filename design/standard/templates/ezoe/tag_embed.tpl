@@ -72,10 +72,10 @@ tinyMCEPopup.onInit.add( function(){
     
     if ( contentType !== 'image' )
     {
-        inline.addEvent('change', function(){ loadEmbedPreview() });
-        ez.$('embed_align_source').addEvent('change', function(){ loadEmbedPreview() });
-        ez.$('embed_class_source').addEvent('change', function(){ loadEmbedPreview() });
-        ez.$('embed_view_source').addEvent('change', function(){ loadEmbedPreview() });
+        inline.addEvent('change', loadEmbedPreview );
+        ez.$('embed_align_source').addEvent('change', loadEmbedPreview );
+        ez.$('embed_class_source').addEvent('change', loadEmbedPreview );
+        ez.$('embed_view_source').addEvent('change', loadEmbedPreview );
         if ( tinyMCEelement )
             ez.$('embed_preview').el.innerHTML = '<div title="' + tinyMCEelement.title + '" style="float:' + align + ';clear:both;text-align: left;">' + tinyMCEelement.innerHTML + '<\/div>';
         else

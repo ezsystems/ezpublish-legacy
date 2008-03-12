@@ -1,6 +1,6 @@
 eZ Online Editor MCE extension Changelog
 
-0.96
+1.0 beta
 * this extension is now known as ezoe and not eztinymce
 * updated TinyMCE to 3.0.4.1
 * added eZOEPacker ('ezoecss' and 'ezoescript' operators), to pack css and js
@@ -8,6 +8,7 @@ eZ Online Editor MCE extension Changelog
 * tinymce plugins from other locations (extensions/designs) now possible
 * fixed and enabled indenting / outdenting 
 * fixed class not working on p / header / tr / li tags
+* fixed change class list when td / th is changed
 
 
 0.95

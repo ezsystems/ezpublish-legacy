@@ -29,7 +29,7 @@ class ezoeInfo
     static function info()
     {
         return array( 'Name'      => 'eZ Online Editor MCE',
-                      'Version'   => '1.0 beta 1',
+                      'Version'   => '1.0 beta',
                       'Copyright' => 'Copyright © 2008 eZ Systems AS',
                       'License'   => 'GNU General Public License v2.0',
                       'Includes the following third-party software' => array( 'Name' => 'TinyMce Javascript HTML WYSIWYG editor',

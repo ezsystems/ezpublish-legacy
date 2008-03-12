@@ -28,7 +28,7 @@
 
 include_once( 'kernel/common/template.php' );
 //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-//include_once( 'extension/ezoe/classes/ezajaxcontent.php' );
+include_once( 'extension/ezoe/classes/ezajaxcontent.php' );
 
 $objectID      = isset( $Params['ObjectID'] ) ? (int) $Params['ObjectID'] : 0;
 $objectVersion = isset( $Params['ObjectVersion'] ) ? (int) $Params['ObjectVersion'] : 0;
@@ -55,6 +55,8 @@ if ( !$object )
 $templateName = '';
 
 
+// pick template based on tag, tags that have same
+// set of attributes usually share template.
 switch ( $tagName )
 {
     case 'strong':
@@ -86,6 +88,7 @@ switch ( $tagName )
     case 'td':
         $templateName = 'tag_table_cell.tpl';
         break;
+    //case 'embed': this view is not used for embed tags, look in relations.php
 }
 
 
@@ -104,6 +107,8 @@ $contentIni = eZINI::instance( 'content.ini' );
 
 if ( $tagName === 'custom' )
 {
+    // custom tags dosn't have a class, so we use custom tag name as class internally
+    // in the editor to be able to have different styles on differnt custom tags.
     if ( $contentIni->hasVariable( 'CustomTagSettings', 'CustomTagsDescription' ) )
         $customTagDescription = $contentIni->variable( 'CustomTagSettings', 'CustomTagsDescription' );
     else
@@ -122,6 +127,7 @@ if ( $tagName === 'custom' )
 }
 else
 {
+    // class data for normal tags
     if ( $contentIni->hasVariable( $tagName, 'ClassDescription' ) )
         $classListDescription = $contentIni->variable( $tagName, 'ClassDescription' );
     else
@@ -140,6 +146,7 @@ else
     }
 }
 
+
 $tpl = templateInit();
 $tpl->setVariable( 'object', $object );
 $tpl->setVariable( 'object_id', $objectID );
@@ -152,8 +159,35 @@ $tpl->setVariable( 'custom_inline_tags', $customInlineList );
 
 $tpl->setVariable( 'class_list', $classList );
 
+// use persistent_variable like content/view does, sending parameters
+// to pagelayout as a hash.
 $tpl->setVariable( 'persistent_variable', array() );
 
+
+if ( $tagName === 'td' || $tagName === 'th' )
+{
+    // generate javascript data for td / th classes
+    $classListDescription = array();
+    $tagName2 = $tagName === 'td' ? 'th' : 'td';
+    $cellClassList = array( $tagName => $classList, $tagName2 => array('0' => 'None') );
+
+    if ( $contentIni->hasVariable( $tagName2, 'ClassDescription' ) )
+        $classListDescription = $contentIni->variable( $tagName2, 'ClassDescription' );
+
+    if ( $contentIni->hasVariable( $tagName2, 'AvailableClasses' ) )
+    {
+        foreach ( $contentIni->variable( $tagName2, 'AvailableClasses' ) as $class )
+        {
+            if ( isset( $classListDescription[$class] ) )
+                $cellClassList[$tagName2][$class] = $classListDescription[$class];
+            else
+                $cellClassList[$tagName2][$class] = $class;
+        }
+    }
+    $tpl->setVariable( 'cell_class_list', eZAjaxContent::jsonEncode( $cellClassList ) );
+}
+
+// run template and return result
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:ezoe/' . $templateName );
 $Result['pagelayout'] = 'design:ezoe/popup_pagelayout.tpl';

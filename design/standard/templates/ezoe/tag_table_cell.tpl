@@ -9,7 +9,7 @@
 <script type="text/javascript">
 <!--
 
-var tinyMCEelement = false, ezTagName = '{$tag_name|wash}'; 
+var tinyMCEelement = false, ezTagName = '{$tag_name|wash}', cellClassList = {$cell_class_list}; 
 {literal} 
 
 tinyMCEPopup.onInit.add( function()
@@ -31,6 +31,7 @@ tinyMCEPopup.onInit.add( function()
         initGeneralmAttributes( ezTagName + '_attributes', tinyMCEelement )
         initCustomAttributeValue( ezTagName + '_customattributes', tinyMCEelement.getAttribute('customattributes'))
     }
+    ez.$(ezTagName + '_type_source').addEvent('change', toggleCellType);
 });
 
 function specificTagEditor( el, ed )
@@ -50,6 +51,14 @@ function specificTagEditor( el, ed )
         el.parentNode.replaceChild(newCell, el);
         el = newCell;
     }
+}
+
+function toggleCellType( e, el )
+{
+    var node = ez.$(ezTagName + '_class_source').el;
+    removeSelectOptions( node );
+    addSelectOptions( node, cellClassList[el.value] );
+    if ( tinyMCEelement && tinyMCEelement.className ) node.value = tinyMCEelement.className;
 }
 
 {/literal}
