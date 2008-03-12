@@ -55,7 +55,6 @@ class eZModuleFunctionInfo
         $this->ModuleName = $moduleName;
         $this->IsValid = false;
         $this->FunctionList = array();
-        $this->UseOldCall = false;
     }
 
     function isValid()
@@ -335,20 +334,22 @@ class eZModuleFunctionInfo
                 }
             }
         }
-        return $this->callClassMethod( $methodName, $classObject, $parameterArray );
+
+        return call_user_func_array( array( $classObject, $methodName ), $parameterArray );
     }
 
-    function callClassMethod( $methodName, &$classObject, $parameterArray )
+    /*!
+     \deprecated use call_user_func_array() instead
+    */
+    function callClassMethod( $methodName, $classObject, $parameterArray )
     {
 /*        echo "*********** fetching START **************** <br>";
         var_dump( $methodName );
         var_dump( $classObject );
         var_dump( $parameterArray );
         echo "*********** fetching END ******************<br><br><br>";*/
-        if ( $this->UseOldCall )
-            return call_user_method_array( $methodName, $classObject, $parameterArray );
-        else
-            return call_user_func_array( array( $classObject, $methodName ), $parameterArray );
+
+        return call_user_func_array( array( $classObject, $methodName ), $parameterArray );
     }
 
 
@@ -356,7 +357,6 @@ class eZModuleFunctionInfo
     public $ModuleName;
     public $FunctionList;
     public $IsValid;
-    public $UseOldCall;
 }
 
 ?>
