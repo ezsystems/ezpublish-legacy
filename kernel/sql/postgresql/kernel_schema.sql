@@ -2716,6 +2716,14 @@ CREATE INDEX ezcontentobject_lmask ON ezcontentobject USING btree (language_mask
 
 
 
+CREATE INDEX ezcontentobject_owner ON ezcontentobject USING btree (owner_id);
+
+
+
+
+
+
+
 CREATE INDEX ezcontentobject_pub ON ezcontentobject USING btree (published);
 
 
