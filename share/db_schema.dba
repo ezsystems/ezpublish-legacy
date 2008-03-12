@@ -1618,6 +1618,14 @@ $schema = array (
           0 => 'published',
         ),
       ),
+      'ezcontentobject_remote_id' => 
+      array (
+        'type' => 'unique',
+        'fields' => 
+        array (
+          0 => 'remote_id',
+        ),
+      ),
       'ezcontentobject_status' => 
       array (
         'type' => 'non-unique',
