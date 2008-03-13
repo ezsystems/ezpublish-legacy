@@ -86,8 +86,10 @@ class eZDBFileHandler
     /*!
      \public
      Load file meta information.
+
+     \param $force File stats will be refreshed if true
     */
-    function loadMetaData()
+    function loadMetaData( $force = false )
     {
         // Fetch metadata.
         if ( $this->metaData['name'] !== false )

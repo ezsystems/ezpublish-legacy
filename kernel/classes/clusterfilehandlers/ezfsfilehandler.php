@@ -50,11 +50,16 @@ class eZFSFileHandler
     /*!
      \public
      Load file meta information.
+
+     \param $force If true, file stats will be refreshed
     */
-    function loadMetaData()
+    function loadMetaData( $force = false )
     {
         if ( $this->metaData['name'] !== false )
         {
+            if ( $force )
+                clearstatcache();
+
             // fill $this->metaData
             $filePath = $this->metaData['name'];
             eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
