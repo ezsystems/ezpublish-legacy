@@ -5,7 +5,8 @@ eZ Online Editor MCE extension Changelog
 0.98
 * string translations
 * fix for bug when custom attribute or custom tag had a '_' in name
-* switched custom tag to use div tag to work better in TinyMCE
+* switched custom block tag to use div tag to work better in TinyMCE
+  (inline custom tags use span for the same reason)
 
 
 0.97 (internal)
