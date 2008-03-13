@@ -124,6 +124,7 @@ class eZImageManager
 
         $ini = eZINI::instance( 'image.ini' );
         $this->TemporaryImageDirPath = eZSys::cacheDirectory() . '/' . $ini->variable( 'FileSettings', 'TemporaryDir' );
+        $this->lockTimeout = $ini->hasVariable( 'ImageConverterSettings', 'LockTimeout' ) ? $ini->variable( 'ImageConverterSettings', 'LockTimeout' ) : 60;
     }
 
     /*!
@@ -890,7 +891,6 @@ class eZImageManager
 
             // VS-DBFILE
 
-            require_once( 'kernel/classes/ezclusterfilehandler.php' );
             $aliasFile = eZClusterFileHandler::instance( $aliasFilePath );
 
             if ( $aliasFile->exists() )
@@ -904,17 +904,38 @@ class eZImageManager
                     $sourceMimeData['basename'] = $parameters['basename'];
                     eZMimeType::changeBasename( $destinationMimeData, $parameters['basename'] );
                 }
-                $destinationMimeData['is_valid'] = false;
-                if ( !$this->convert( $sourceMimeData, $destinationMimeData, $aliasName, $parameters ) )
+
+                if ( !$this->_exclusiveLock( $aliasFilePath, $aliasName ) )
                 {
-                    $sourceFile = $sourceMimeData['url'];
-                    $destinationDir = $destinationMimeData['dirpath'];
-                    eZDebug::writeError( "Failed converting $sourceFile to alias '$referenceAlias' in directory '$destinationDir'",
-                                         'eZImageManager::createImageAlias' );
-                    // VS-DBFILE
-                    $aliasFile->deleteLocal();
                     return false;
                 }
+
+                $wantImage = $this->imageAliasInfo( $sourceMimeData, $aliasName );
+                $wantImagePath = $wantImage['url'];
+
+                $fileHandler = eZClusterFileHandler::instance( $wantImagePath );
+                $fileHandler->loadMetaData( true );
+
+                if ( $fileHandler->exists() and $this->isImageTimestampValid( $fileHandler->mtime() ) )
+                {
+                    $destinationMimeData = $wantImage;
+                    $wasLocked = true;
+                }
+                else
+                {
+                    $destinationMimeData['is_valid'] = false;
+                    if ( !$this->convert( $sourceMimeData, $destinationMimeData, $aliasName, $parameters ) )
+                    {
+                        $sourceFile = $sourceMimeData['url'];
+                        $destinationDir = $destinationMimeData['dirpath'];
+                        eZDebug::writeError( "Failed converting $sourceFile to alias '$aliasName' in directory '$destinationDir'",
+                                             'eZImageManager::createImageAlias' );
+                        // VS-DBFILE
+                        $aliasFile->deleteLocal();
+                        return false;
+                    }
+                }
+
                 $currentAliasData = array( 'url' => $destinationMimeData['url'],
                                            'dirpath' => $destinationMimeData['dirpath'],
                                            'filename' => $destinationMimeData['filename'],
@@ -954,11 +975,19 @@ class eZImageManager
                             $currentAliasData['width'] = $width;
                             $currentAliasData['height'] = $height;
                         }
+                        else
+                        {
+                            eZDebug::writeError("The size of the generated image " . $destinationMimeData['url'] . " could not be read by getimagesize()", 'eZImageManager::createImageAlias' );
+                        }
 
                         // VS-DBFILE
 
-                        $fileHandler = eZClusterFileHandler::instance( $aliasFilePath );
-                        $fileHandler->fileStore( $destinationMimeData['url'], 'image', true, $destinationMimeData['name'] );
+                        // The file is not written to the database if it was already written due to a lock situation
+                        if ( !isset( $wasLocked ) )
+                        {
+                            $fileHandler = eZClusterFileHandler::instance( $aliasFilePath );
+                            $fileHandler->fileStore( $destinationMimeData['url'], 'image', true, $destinationMimeData['name'] );
+                        }
                     }
                     else
                     {
@@ -970,6 +999,9 @@ class eZImageManager
                 $existingAliasList[$aliasName] = $currentAliasData;
                 // VS-DBFILE
                 $aliasFile->deleteLocal();
+
+                $this->_freeExclusiveLock( $aliasFilePath, $aliasName );
+
                 return true;
             }
         }
@@ -985,6 +1017,7 @@ class eZImageManager
     static function analyzeImage( &$mimeData, $parameters = array() )
     {
         $file = $mimeData['url'];
+
         if ( !file_exists( $file ) )
             return false;
         $analyzer = eZImageAnalyzer::createForMIME( $mimeData );
@@ -1019,6 +1052,7 @@ class eZImageManager
         //include_once( 'lib/ezutils/classes/ezmimetype.php' );
         if ( is_string( $sourceMimeData ) )
             $sourceMimeData = eZMimeType::findByFileContents( $sourceMimeData );
+
         $this->analyzeImage( $sourceMimeData );
         $currentMimeData = $sourceMimeData;
         $handlers = $this->ImageHandlers;
@@ -1028,6 +1062,7 @@ class eZImageManager
             $destinationPath = $destinationMimeData;
             $destinationMimeData = eZMimeType::findByFileContents( $destinationPath );
         }
+
         $filters = array();
         $alias = false;
         if ( $aliasName )
@@ -1273,6 +1308,42 @@ class eZImageManager
         return $result;
     }
 
+    /**
+     * Image information for $aliasName. This is the information which normally
+     * would be provided during generation of aliasName. This so that requests
+     * not holding the lock will provide meaningful information.
+     *
+     * @param mixed $mimeData 
+     * @param string $aliasName 
+     * @return mixed
+     */
+    function imageAliasInfo( $mimeData, $aliasName )
+    {
+        if ( is_string( $mimeData ) )
+            $mimeData = eZMimeType::findByFileContents( $mimeData );
+
+        $this->analyzeImage( $mimeData );
+        if ( $aliasName )
+        {
+            $aliasList = $this->aliasList();
+            if ( isset( $aliasList[$aliasName] ) )
+            {
+                $alias = $aliasList[$aliasName];
+                if ( $alias['mime_type'] )
+                {
+                    eZMimeType::changeMIMEType( $mimeData, $alias['mime_type'] );
+                }
+            }
+        }
+        if ( $aliasName != 'original' )
+        {
+            $mimeData['filename'] = $mimeData['basename'] . '_' . $aliasName . '.' . $mimeData['suffix'];
+            $mimeData['url'] = $mimeData['dirpath'] . '/' . $mimeData['filename'];
+        }
+        // eZDebug::writeDebug( $mimeData, 'return from eZImageManager::imageAliasInfo' );
+        return $mimeData;
+    }
+
     /*!
      \return the path for temporary images.
      \note The default value uses the temporary directory setting from site.ini.
@@ -1294,6 +1365,72 @@ class eZImageManager
         return $GLOBALS["eZImageManager"];
     }
 
+    /*!
+     Acquires an exclusive lock for the currently generated alias
+    */
+    private function _exclusiveLock( $fileName, $aliasName )
+    {
+        // mutex w/ exclusive lock: convert(targetFileName)
+        $mutex = $this->_mutex( "{$fileName}-{$aliasName}" );
+        while( true )
+        {
+            $timestamp  = $mutex->lockTS(); // Note: This does not lock, only checks what the timestamp is.
+            if ( $timestamp === false )
+            {
+                if ( !$mutex->lock() )
+                {
+                    eZDebug::writeWarning( "Failed to acquire lock for file $fileName/$aliasName" );
+                    return false;
+                }
+                $mutex->setMeta( 'pid', getmypid() );
+                return true;
+            }
+            if ( $timestamp >= time() - $this->lockTimeout )
+            {
+                sleep( 1 ); // Sleep 1 second
+                continue;
+            }
+
+            $oldPid = $mutex->meta( 'pid' );
+            if ( is_numeric( $oldPid ) &&
+                 $oldPid != 0 &&
+                 function_exists( 'posix_kill' ) )
+            {
+                posix_kill( $oldPid, 9 );
+            }
+            if ( !$mutex->steal() )
+            {
+                eZDebug::writeWarning( "Failed to steal lock for file $fileName/$aliasName from PID $oldPid" );
+                return false;
+            }
+            $mutex->setMeta( 'pid', getmypid() );
+            return true;
+        } // while
+    }
+
+    /*!
+     Frees the current exclusive lock in use.
+
+     \param $fname Name of the calling code (usually function name).
+     */
+    private function _freeExclusiveLock( $fileName, $aliasName )
+    {
+        $this->_mutex( "{$fileName}-{$aliasName}" )->unlock();
+    }
+
+    /*!
+     Returns the mutex object for the current file.
+     */
+    private function _mutex( $fname = false )
+    {
+        if ( $this->Mutex !== null )
+        {
+            return $this->Mutex;
+        }
+        $this->Mutex = new eZMutex( $fname );
+        return $this->Mutex;
+    }
+
     /// \privatesection
     public $ImageHandlers;
     public $OutputMIME;
@@ -1303,6 +1440,22 @@ class eZImageManager
     public $RuleMap;
     public $MIMETypes;
     public $Types = array();
+
+    /**
+     * Holds the mutex for image alias file.
+     *
+     * @var eZMutex
+     */
+    private $Mutex;
+    
+    /**
+     * The time spent waiting before an existing eZMutex lock is cancelled and reused.
+     * Default value is 60 seconds, which is set in constructor.
+     *
+     * @var int
+     */
+    private $lockTimeout;
+    
 }
 
 ?>
