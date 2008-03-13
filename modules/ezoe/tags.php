@@ -35,7 +35,7 @@ $objectVersion = isset( $Params['ObjectVersion'] ) ? (int) $Params['ObjectVersio
 $tagName       = isset( $Params['TagName'] ) ? strtolower( trim( $Params['TagName'] )) : '';
 $customTagName = isset( $Params['CustomTagName'] ) ? strtolower( trim( $Params['CustomTagName'] )) : '';
 
-
+if ( $customTagName === 'undefined' ) $customTagName = ''; 
 
 if ( $objectID === 0  || $objectVersion === 0 )
 {

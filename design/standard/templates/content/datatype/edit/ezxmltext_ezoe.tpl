@@ -49,7 +49,7 @@
     <script type="text/javascript">
     <!--
     
-    if ( window.ez === undefined ) document.write('<script type="text/javascript" src={"javascript/ez_core.js"|ezdesign}><\/script>');
+    if ( window.ez === undefined ) document.write('<script type="text/javascript" src={"javascript/ezoe/ez_core.js"|ezdesign}><\/script>');
     
     var eZOeMCE = new Object(), ezTinyIdString;
     eZOeMCE['root']             = {'/'|ezroot};

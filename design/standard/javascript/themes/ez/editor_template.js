@@ -841,8 +841,8 @@
                 c.setActive(!!p );
                 
             p = DOM.getParent(n, 'SPAN');
-            if (c = cm.get('custom'))
-                c.setActive(!!p );
+            //if (c = cm.get('custom'))
+                //c.setActive(!!p );
 
             if (c = cm.get('pagebreak'))
                 c.setDisabled(!!p && DOM.hasClass(p, 'pagebreak') );
@@ -1006,7 +1006,7 @@
 		
 		pickTagCommand : function( ed, n, na, v )
 		{
-		    //ed.selection.select( n );
+		    ed.selection.select( n );
 		    switch( n.nodeName )
 		    {
 		        case 'IMG':

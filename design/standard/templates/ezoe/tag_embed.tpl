@@ -1,8 +1,8 @@
 {set scope=global persistent_variable=hash('title', 'Related content'|i18n('design/standard/ezoe'),
-                                           'scripts', array('javascript/ez_core.js',
-                                                            'javascript/ez_core_animation.js',
-                                                            'javascript/ez_core_accordion.js',
-                                                            'javascript/ez_oe_popup.js'),
+                                           'scripts', array('javascript/ezoe/ez_core.js',
+                                                            'javascript/ezoe/ez_core_animation.js',
+                                                            'javascript/ezoe/ez_core_accordion.js',
+                                                            'javascript/ezoe/popup.js'),
                                            'css', array()
                                            )}
 

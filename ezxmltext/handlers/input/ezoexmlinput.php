@@ -984,15 +984,8 @@ class eZOEXMLInput extends eZXMLInputHandler
 
                 if ( $isInline )
                 {
-                    /*if ( !$childTagText )
-                    {
-                        $src = imagePath( 'customtag_insert.gif' );
-                        $output .= "<img src=\"$src\" class=\"$name\" type=\"custom\"$customAttributePart />";
-                    }
-                    else
-                    {*/
+                    if ( !$childTagText ) $childTagText = '&nbsp;';
                     $output .= '<'. $nodeType .' class="' . $name . '" type="custom"' . $customAttributePart . '>' . $childTagText . '</'. $nodeType .'>';
-                    //}
                 }
                 else
                 {
@@ -1001,7 +994,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                     {
                         $customTagContent .= $this->inputTdXML( $tagChild, $currentSectionLevel, $tdSectionLevel );
                     }
-                    $output .= '<'. $nodeType .' class="' . $name . '" type="custom" style="display:block"' . $customAttributePart . '>' . $customTagContent . '</'. $nodeType .'>';
+                    $output .= '<'. $nodeType .' class="' . $name . '" type="custom" style="display: block;"' . $customAttributePart . '>' . $customTagContent . '</'. $nodeType .'>';
                 }
             }break;
 
