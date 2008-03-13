@@ -76,9 +76,12 @@ class eZTemplatesStatisticsReporter
         {
             $iconSizeX = 16;
             $iconSizeY = 16;
-            $templateViewFunction = 'visual/templateview/';
-            $templateEditFunction = 'visual/templateedit/';
-            $templateOverrideFunction = 'visual/templatecreate/';
+            $templateViewFunction = 'visual/templateview';
+            eZURI::transformURI( $templateViewFunction );
+            $templateEditFunction = 'visual/templateedit';
+            eZURI::transformURI( $templateEditFunction );
+            $templateOverrideFunction = 'visual/templatecreate';
+            eZURI::transformURI( $templateOverrideFunction );
 
             $std_base = eZTemplateDesignResource::designSetting( 'standard' );
             $wwwDir = eZSys::wwwDir();
@@ -125,21 +128,21 @@ class eZTemplatesStatisticsReporter
                 {
                     $tdClass = ( $j % 2 == 0 ) ? 'used_templates_stats1' : 'used_templates_stats2';
 
-                    $requestedTemplateViewURI = $templateViewFunction . $requestedTemplateName;
-                    $actualTemplateViewURI = $templateViewFunction . $actualTemplateName;
+                    $requestedTemplateViewURI = $templateViewFunction . '/' . $requestedTemplateName;
+                    $actualTemplateViewURI = $templateViewFunction . '/' . $actualTemplateName;
 
-                    $templateEditURI = $templateEditFunction . $templateFileName;
-                    $templateOverrideURI = $templateOverrideFunction . $actualTemplateName;
+                    $templateEditURI = $templateEditFunction . '/' . $templateFileName;
+                    $templateOverrideURI = $templateOverrideFunction . '/' . $actualTemplateName;
 
                     $actualTemplateNameOutput = ( $actualTemplateName == $requestedTemplateName ) ? "<span style=\"font-style: italic;\">&lt;No override&gt;</span>" : $actualTemplateName;
 
                     $stats .= (
                            "<tr><td class=\"$tdClass\" style=\"text-align: center;\">$templateCounts[$actualTemplateName]</td>" .
-                           "<td class=\"$tdClass\"><a href=\"/$requestedTemplateViewURI\">$requestedTemplateName</a></td>" .
+                           "<td class=\"$tdClass\"><a href=\"$requestedTemplateViewURI\">$requestedTemplateName</a></td>" .
                            "<td class=\"$tdClass\">$actualTemplateNameOutput</td>" .
                            "<td class=\"$tdClass\">$templateFileName</td>" .
-                           "<td class=\"$tdClass\" align=\"center\"><a href=\"/$templateEditURI/(siteAccess)/$currentSiteAccess\"><img src=\"$editIconFile\" width=\"$iconSizeX\" height=\"$iconSizeY\" alt=\"Edit template\" title=\"Edit template\" /></a></td>".
-                           "<td class=\"$tdClass\" align=\"center\"><a href=\"/$templateOverrideURI/(siteAccess)/$currentSiteAccess\"><img src=\"$overrideIconFile\" width=\"$iconSizeX\" height=\"$iconSizeY\" alt=\"Override template\" title=\"Override template\" /></a></td></tr>" );
+                           "<td class=\"$tdClass\" align=\"center\"><a href=\"$templateEditURI/(siteAccess)/$currentSiteAccess\"><img src=\"$editIconFile\" width=\"$iconSizeX\" height=\"$iconSizeY\" alt=\"Edit template\" title=\"Edit template\" /></a></td>".
+                           "<td class=\"$tdClass\" align=\"center\"><a href=\"$templateOverrideURI/(siteAccess)/$currentSiteAccess\"><img src=\"$overrideIconFile\" width=\"$iconSizeX\" height=\"$iconSizeY\" alt=\"Override template\" title=\"Override template\" /></a></td></tr>" );
 
                     $j++;
                 }
