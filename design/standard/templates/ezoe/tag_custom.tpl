@@ -25,12 +25,12 @@ tinyMCEPopup.onInit.add( function()
             // if custom tag is underline, we disable selector to avoid problems (different tag used)
             n.el.disabled = true;
         }
-        else if ( el.nodeName === 'SPAN' && el.className == customTagName )
+        else if ( el.nodeName === 'DIV' && el.className == customTagName )
             tinyMCEelement = el;
         
-        if ( el.nodeName === 'SPAN' && el.style.display !== 'block' )
+        if ( el.nodeName === 'DIV' && el.style.display === 'inline' )
             filterOutCustomBlockTags( ); 
-        else if ( el = ed.dom.getParent(el, 'SPAN' ) && el.style.display && el.style.display !== 'block' )
+        else if ( el = ed.dom.getParent(el, 'DIV' ) && el.style.display && el.style.display === 'inline' )
             filterOutCustomBlockTags( );  
     }
 
@@ -49,9 +49,9 @@ function specificTagGenerator( ezTag, customTag )
 {
     var inline = ez.$( customTag + '_inline_source' ).el.checked;
     if ( inline )
-        return '<span id="__mce_tmp" type="custom">' + customTag + '</span>';
+        return '<div id="__mce_tmp" type="custom" style="display: inline;">' + customTag + '</div>';
     else
-        return '<span id="__mce_tmp" type="custom" style="display: block;"><p>' + customTag + '</p></span>';
+        return '<div id="__mce_tmp" type="custom">' + customTag + '</div>';
 }
 
 function specificTagEditor( el, ed, customTag )
@@ -65,7 +65,7 @@ function filterOutCustomBlockTags( n )
 {
     var inlineTags = ez.$c();
     ez.$$('input[id*=_inline_source]').forEach(function( o ){
-        if ( o.el.checked ) inlineTags.push( o.el.name.split('_')[0] );
+        if ( o.el.checked ) inlineTags.push( o.el.id.split('_inline_')[0] );
     });
     ez.$$('#custom_class_source option').forEach(function( o ){
         if ( inlineTags.indexOf( o.el.value ) === -1 ) o.el.parentNode.removeChild( o.el );

@@ -22,7 +22,6 @@ function safeHtml( value )
 var ezXmlToXhtmlHash = {
     'paragraph': 'P',
     'literal': 'PRE',
-    'custom': 'SPAN',
     'anchor': 'A',
     'link': 'A'
 };
@@ -45,7 +44,7 @@ function insertGeneralTag()
     if (n = ez.$( ezTagName + '_attributes'))
        ez.$$('input,select', n).forEach(function(o){
            if ( o.hasClass('mceItemSkip') ) return; 
-           var name = o.el.id.split('_')[1];
+           var name = o.el.name;
            if ( window.specificAttributeGenerator !== undefined && specificAttributeGenerator[name] !== undefined )
                args[name] = specificAttributeGenerator[name]( o, args );
            else
@@ -220,7 +219,7 @@ function getCustomAttributeValue( node )
     // creates attribure value from form values
     if (node = ez.$( node ))
         return ez.$$('input,select', node).map(function( o ){
-            var name = o.el.id.split('_')[1];
+            var name = o.el.name;
             return name + '|' + o.postData( true );
         }).join('attribute_separation');
      return '';
@@ -237,7 +236,7 @@ function initCustomAttributeValue( node, valueString )
         values[t[0]] = t[1];
     }
     ez.$$('input,select', node).forEach(function( o ){
-        var name = o.el.id.split('_')[1];
+        var name = o.el.name;
         if ( values[name] !== undefined ) o.el.value = values[name];
     });
     
@@ -249,7 +248,7 @@ function initGeneralmAttributes( node, valueElement )
     if (node = ez.$( node ))
        ez.$$('input,select', node).forEach(function(o){
            if ( o.hasClass('mceItemSkip') ) return;
-           var name = o.el.id.split('_')[1];
+           var name = o.el.name;
            var v = name === 'class' ?  ez.string.trim( valueElement.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable)/g, '') ) : valueElement.getAttribute( name );
            if ( v !== null && v !== undefined ) o.el.value = v;
        });

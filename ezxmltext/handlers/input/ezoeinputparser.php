@@ -166,13 +166,7 @@ class eZOEInputParser extends eZXMLInputParser
     function tagNameSpan( $tagName, &$attributes )
     {
         $name = '';
-        if ( isset( $attributes['type'] ) && $attributes['type'] === 'custom' )
-        {
-            $name = 'custom';
-            $attributes['children_required'] = 'true';
-            $attributes['name'] = $attributes['class'];
-        }
-        else if ( isset( $attributes['style'] ) )
+        if ( isset( $attributes['style'] ) )
         {
             if ( strpos( $attributes['style'], 'font-weight: bold' ) !== false )
                 $name = 'strong';
@@ -289,6 +283,13 @@ class eZOEInputParser extends eZXMLInputParser
                     $attributes['align'] = 'center';
                 }
             }
+        }
+        
+        if ( isset( $attributes['type'] ) && $attributes['type'] === 'custom' )
+        {
+            $name = 'custom';
+            $attributes['children_required'] = 'true';
+            $attributes['name'] = $attributes['class'];
         }
 
         return $name;

@@ -92,7 +92,7 @@ class eZOEXMLInput extends eZXMLInputHandler
     /*!
      \static
      \return list of custom tags to native xhtml tags array
-     \span is used by default.
+     \div is used by default.
      \eZOEInputParser::tagNameCustomHelper handles input
     */
     public static $naviteCustomTags = array('underline' => 'u');
@@ -960,7 +960,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
             case 'custom' :
             {
-                $nodeType  = 'span';
+                $nodeType  = 'div';
                 $name = $tag->getAttribute( 'name' );
                 
                 if ( isset( self::$naviteCustomTags[ $name ] ))
@@ -985,7 +985,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 if ( $isInline )
                 {
                     if ( !$childTagText ) $childTagText = '&nbsp;';
-                    $output .= '<'. $nodeType .' class="' . $name . '" type="custom"' . $customAttributePart . '>' . $childTagText . '</'. $nodeType .'>';
+                    $output .= '<'. $nodeType .' class="' . $name . '" type="custom" style="display: inline;"' . $customAttributePart . '>' . $childTagText . '</'. $nodeType .'>';
                 }
                 else
                 {
@@ -994,7 +994,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                     {
                         $customTagContent .= $this->inputTdXML( $tagChild, $currentSectionLevel, $tdSectionLevel );
                     }
-                    $output .= '<'. $nodeType .' class="' . $name . '" type="custom" style="display: block;"' . $customAttributePart . '>' . $customTagContent . '</'. $nodeType .'>';
+                    $output .= '<'. $nodeType .' class="' . $name . '" type="custom"' . $customAttributePart . '>' . $customTagContent . '</'. $nodeType .'>';
                 }
             }break;
 

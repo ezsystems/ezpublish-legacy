@@ -787,9 +787,12 @@
 			p = DOM.getParent(n, 'DIV');
             if (c = cm.get('object'))
             {
-                div = !!p && p.className.indexOf('mceItem') === -1 && p.className.indexOf('mceNonEditable') !== -1;
+                div = !!p && p.className.indexOf('mceNonEditable') !== -1;
                 c.setActive( div );
             }
+            
+            if (c = cm.get('pagebreak'))
+                c.setDisabled(!!p && DOM.hasClass(p, 'pagebreak') );
 
             p = DOM.getParent(n, 'UL,OL');
             if (c = cm.get('outdent'))
@@ -839,13 +842,8 @@
             p = DOM.getParent(n, 'PRE');
             if (c = cm.get('literal'))
                 c.setActive(!!p );
-                
-            p = DOM.getParent(n, 'SPAN');
-            //if (c = cm.get('custom'))
-                //c.setActive(!!p );
 
-            if (c = cm.get('pagebreak'))
-                c.setDisabled(!!p && DOM.hasClass(p, 'pagebreak') );
+
 
 			/*if (c = cm.get('styleselect')) {
 				if (n.className) {
@@ -970,7 +968,6 @@
 		    'EM': 'emphasize',
 		    'B' : 'strong',
 		    'PRE': 'literal',
-		    'SPAN': 'custom',
 		    'U': 'custom',
 		    'H1': 'header',
 		    'H2': 'header',
@@ -995,11 +992,14 @@
             {
                 case 'A':
                     return DOM.getAttrib(n, 'href') ? 'link' : 'anchor';
-                    break;
                 case 'DIV':
-                case 'IMG':
-                    return 'embed' + (DOM.getAttrib(n, 'inline') === 'true' ? '-inline' : '') ;
+                    if ( n.className.indexOf('mceNonEditable') !== -1 )
+                        return 'embed' + (DOM.getAttrib(n, 'inline') === 'true' ? '-inline' : '');
+                    else if ( DOM.getAttrib(n, 'type') === 'custom' )
+                        return 'custom';
                     break;
+                case 'IMG':
+                    return 'embed' + (DOM.getAttrib(n, 'inline') === 'true' ? '-inline' : '');
             }
             return false;
 		},
@@ -1012,16 +1012,19 @@
 		        case 'IMG':
 		            ed.execCommand('mceImage', true, v);
 		            break;
-                case 'DIV':
-                    ed.execCommand('mceObject', true, v);
-                    break;
+
                 case 'PRE':
                     ed.execCommand('mceLiteral', true, v);
                     break;
                 case 'U':
                     v = 'underline';
-                case 'SPAN':
                     ed.execCommand('mceCustom', true, v);
+                    break;
+                case 'DIV':
+                    if ( n.className.indexOf('mceNonEditable') !== -1 )
+                        ed.execCommand('mceObject', true, v);
+                    else if ( DOM.getAttrib(n, 'type') === 'custom' )
+                        ed.execCommand('mceCustom', true, v);
                     break;
                 case 'TABLE':
                     ed.execCommand('mceInsertTable', true, v);
@@ -1156,7 +1159,7 @@
         
         _mcePageBreak : function( ui, val ) {
             var ed = this.editor;
-            ed.execCommand('mceInsertContent', false, '<span type="custom" class="pagebreak">&nbsp;</span>');
+            ed.execCommand('mceInsertContent', false, '<div type="custom" class="pagebreak">&nbsp;</div>');
         },
 
         _mceInsertAnchor : function(ui, v)

@@ -35,13 +35,13 @@
             </label></td>
             <td>
             {if ezini_hasvariable( $:tag_name, $custom_attribute_list_name, 'content.ini' )}
-                <select name="{$custom_attribute_id}_source" id="{$custom_attribute_id}_source">
+                <select name="{$custom_attribute}" id="{$custom_attribute_id}_source">
                 {foreach ezini( $:tag_name, $custom_attribute_list_name, 'content.ini' ) as $custom_value => $custom_name}
                     <option value="{$custom_value|wash}"{if $custom_value|eq( $custom_attribute_default )} selected="selected"{/if}>{$custom_name|wash}</option>
                 {/foreach}
                 </select>
             {else}
-                <input type="text" name="{$custom_attribute_id}_source" id="{$custom_attribute_id}_source" value="{$custom_attribute_default|wash}" />
+                <input type="text" name="{$custom_attribute}" id="{$custom_attribute_id}_source" value="{$custom_attribute_default|wash}" />
             {/if}
             </td>
         </tr>
@@ -52,7 +52,7 @@
             <td class="column1">
                 <label for="{$custom_attribute_id}_source">{$extra_attribute.0|upfirst|wash|i18n('design/standard/ezoe')}</label>
             </td>
-            <td><input type="checkbox" name="{$custom_attribute_id}_source" id="{$custom_attribute_id}_source" value="{$extra_attribute.1|wash}"{if $extra_attribute.2} checked="checked"{/if} disabled="disabled" /></td>
+            <td><input type="checkbox" name="{$extra_attribute.0}" id="{$custom_attribute_id}_source" value="{$extra_attribute.1|wash}"{if $extra_attribute.2} checked="checked"{/if} disabled="disabled" /></td>
         </tr>
     {/if}
     </table>

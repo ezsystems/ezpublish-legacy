@@ -21,7 +21,7 @@
         {set $attribute_default   = first_set( $attribute_defaults[$xml_attribute], '' )}
         {if $attribute_value|eq('hidden')}
         <tr id="{$attribute_id}">
-            <td colspan="2"><input type="hidden" name="{$attribute_id}_source" id="{$attribute_id}_source" value="{$attribute_default|wash}" /></td>
+            <td colspan="2"><input type="hidden" name="{$attribute}" id="{$attribute_id}_source" value="{$attribute_default|wash}" /></td>
         </tr>
         {else}
         <tr id="{$attribute_id}">
@@ -37,13 +37,13 @@
                 {$attribute_content_prepend[$xml_attribute ]}
             {/if}
             {if $attribute_value|is_array()}
-                <select name="{$attribute_id}_source" id="{$attribute_id}_source" class="{first_set( $classes[$xml_attribute], '' )}">
+                <select name="{$attribute}" id="{$attribute_id}_source" class="{first_set( $classes[$xml_attribute], '' )}">
                 {foreach $attribute_value as $value => $name}
                     <option value="{if and( $value, $value|ne('0') )}{$value|wash}{/if}"{if $value|eq( $attribute_default )} selected="selected"{/if}>{$name|wash}</option>
                 {/foreach}
                 </select>
             {else}
-                <input type="text" name="{$attribute_id}_source" id="{$attribute_id}_source" value="{$attribute_default|wash}" class="{first_set( $classes[$xml_attribute], '' )}" />
+                <input type="text" name="{$attribute}" id="{$attribute_id}_source" value="{$attribute_default|wash}" class="{first_set( $classes[$xml_attribute], '' )}" />
             {/if}
             {if is_set( $attribute_content_append[$xml_attribute ] )}
                 {$attribute_content_append[$xml_attribute ]}
