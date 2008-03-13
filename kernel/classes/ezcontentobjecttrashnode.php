@@ -244,7 +244,7 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
                         $versionNameTargets \n";
         }
         $query .= "FROM
-                        ezcontentobject_trash AS ezcot,
+                        ezcontentobject_trash ezcot,
                         ezcontentobject,
                         ezcontentclass
                         $versionNameTables
