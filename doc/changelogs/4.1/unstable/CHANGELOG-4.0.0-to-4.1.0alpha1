@@ -154,3 +154,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #9542: ezcontentobject missing DB index on remote_id field
 - Fixed bug #12688: Function call_user_method_array() is deprecated
 - Fixed bug #12690: PHP warning about undefined variable: port when running bin/php/ezsqldumpschema.php
+- Fixed bug #7904: Use of UseFullUrl in layout.ini breaks mailto: links

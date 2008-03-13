@@ -495,7 +495,8 @@ CODEPIECE;
             ++$tmpCount;
             $code .= '//include_once( \'lib/ezutils/classes/ezhttptool.php\' );' . "\n" .
                  '%tmp' . $tmpCount . '% = eZHTTPTool::instance();' . "\n" .
-                 'if ( isset( %tmp' . $tmpCount . '%->UseFullUrl ) and %tmp' . $tmpCount . '%->UseFullUrl )' . "\n" .
+                 'if ( isset( %tmp' . $tmpCount . '%->UseFullUrl ) and %tmp' . $tmpCount . '%->UseFullUrl ' . "\n" .
+                 '                                                 and strncasecmp( %1%, \'/\' , 1 ) === 0 ) // do not prepend the site path if it\'s not a http url%'. "\n" .
                  '{' . "\n" .
                  ' %1% = %tmp' . $tmpCount . '%->createRedirectUrl( %1%, array( \'pre_url\' => false ) );' . "\n" .
                  '}' . "\n";
@@ -614,7 +615,8 @@ CODEPIECE;
         //include_once( 'lib/ezutils/classes/ezhttptool.php' );
         $http = eZHTTPTool::instance();
 
-        if ( isset( $http->UseFullUrl ) and $http->UseFullUrl )
+        if ( isset( $http->UseFullUrl ) and $http->UseFullUrl
+                                        and strncasecmp( $text, '/' , 1 ) === 0 ) // do not prepend the site path if it's not a http url
         {
             $text = $http->createRedirectUrl( $text, array( 'pre_url' => false ) );
         }
@@ -887,7 +889,8 @@ CODEPIECE;
         //include_once( 'lib/ezutils/classes/ezhttptool.php' );
         $http = eZHTTPTool::instance();
 
-        if ( isset( $http->UseFullUrl ) and $http->UseFullUrl )
+        if ( isset( $http->UseFullUrl ) and $http->UseFullUrl
+                                        and strncasecmp( $operatorValue, '/' , 1 ) === 0 ) // do not prepend the site path if it's not a http url
         {
             $operatorValue = $http->createRedirectUrl( $operatorValue, array( 'pre_url' => false ) );
         }
