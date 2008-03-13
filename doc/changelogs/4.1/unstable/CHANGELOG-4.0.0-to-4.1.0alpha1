@@ -159,3 +159,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #9094: "medium" sized images are shown as "large"
 - Fixed bug #9054: Edit icons in "List of used templates" in debug are broken.
 - Fixed bug #12375: Concurrency issues in images generation in a cluster environnement
+- Fixed bug #9129: Selection datatype
