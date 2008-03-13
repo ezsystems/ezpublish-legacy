@@ -1177,6 +1177,8 @@ class eZDebug
         if ( $newWindow == true )
         {
             $debugFilePath = eZDir::path( array( eZSys::varDirectory(), 'cache', 'debug.html' ) );
+            $debugFileURL = $debugFilePath;
+            eZURI::transformURI( $debugFileURL, true );
             print( "
 <SCRIPT LANGUAGE='JavaScript'>
 <!-- hide this script from old browsers
@@ -1188,7 +1190,7 @@ function showDebug()
     if  (navigator.appName == \"Microsoft Internet Explorer\")
     {
         //Microsoft Internet Explorer
-        debugWindow = window.open( '/$debugFilePath', 'ezdebug', 'width=500,height=550,status,scrollbars,resizable,screenX=0,screenY=20,left=20,top=40');
+        debugWindow = window.open( '$debugFileURL', 'ezdebug', 'width=500,height=550,status,scrollbars,resizable,screenX=0,screenY=20,left=20,top=40');
         debugWindow.document.close();
         debugWindow.location.reload();
     }
@@ -1196,14 +1198,14 @@ function showDebug()
     {
         //Opera
         debugWindow = window.open( '', 'ezdebug', 'width=500,height=550,status,scrollbars,resizable,screenX=0,screenY=20,left=20,top=40');
-        debugWindow.location.href=\"/$debugFilePath\";
-        debugWindow.navigate(\"/$debugFilePath\");
+        debugWindow.location.href=\"$debugFileURL\";
+        debugWindow.navigate(\"$debugFileURL\");
     }
     else
     {
         //Mozilla, Firefox, etc.
         debugWindow = window.open( '', 'ezdebug', 'width=500,height=550,status,scrollbars,resizable,screenX=0,screenY=20,left=20,top=40');
-        debugWindow.document.location.href=\"/$debugFilePath\";
+        debugWindow.document.location.href=\"$debugFileURL\";
     };
 }
 
