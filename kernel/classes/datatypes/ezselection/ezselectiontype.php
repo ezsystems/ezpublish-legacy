@@ -170,10 +170,12 @@ class eZSelectionType extends eZDataType
         if ( $http->hasPostVariable( $base . '_ezselect_selected_array_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
             $data = $http->postVariable( $base . '_ezselect_selected_array_' . $contentObjectAttribute->attribute( 'id' ) );
+            $classAttribute = $contentObjectAttribute->contentClassAttribute();
 
             if ( $data == "" )
             {
-                if ( $contentObjectAttribute->validateIsRequired() )
+                if ( !$classAttribute->attribute( 'is_information_collector' ) &&
+                     $contentObjectAttribute->validateIsRequired() )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'Input required.' ) );
@@ -205,7 +207,24 @@ class eZSelectionType extends eZDataType
     */
     function validateCollectionAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        if ( $http->hasPostVariable( $base . '_ezselect_selected_array_' . $contentObjectAttribute->attribute( 'id' ) ) )
+        {
+            $data = $http->postVariable( $base . '_ezselect_selected_array_' . $contentObjectAttribute->attribute( 'id' ) );
+
+            if ( $data == "" && $contentObjectAttribute->validateIsRequired() )
+            {
+                $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes', 'Input required.' ) );
+                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            }
+            else
+            {
+                return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            }
+        }
+        else
+        {
+            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+        }
     }
 
    /*!
