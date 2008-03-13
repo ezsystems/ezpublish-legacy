@@ -39,7 +39,7 @@ if ( $customTagName === 'undefined' ) $customTagName = '';
 
 if ( $objectID === 0  || $objectVersion === 0 )
 {
-   echo "Missing Object ID or Object version";
+   echo ezi18n( 'design/standard/ezoe', 'Invalid or missing parameter: %parameter', null, array( '%parameter' => 'ObjectID/ObjectVersion' ) );
    eZExecution::cleanExit();
 }
 
@@ -47,7 +47,7 @@ $object = eZContentObject::fetch( $objectID );
 
 if ( !$object )
 {
-   echo "Object fetch returned false! &nbsp; ObjectId: " . $objectID;
+   echo ezi18n( 'design/standard/ezoe', 'Invalid parameter: %parameter = %value', null, array( '%parameter' => 'ObjectId', '%value' => $objectID ) );
    eZExecution::cleanExit();
 }
 
@@ -94,7 +94,7 @@ switch ( $tagName )
 
 if ( !$templateName )
 {
-   echo 'Tag name not supported: "' . $tagName . '"';
+   echo ezi18n( 'design/standard/ezoe', 'Invalid parameter: %parameter = %value', null, array( '%parameter' => 'TagName', '%value' => $tagName ) );
    eZExecution::cleanExit();
 }
 

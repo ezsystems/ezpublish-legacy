@@ -48,7 +48,7 @@ if ( isset( $Params['ContentType'] ) && $Params['ContentType'] !== '' )
 
 if ( $objectID === 0  || $objectVersion === 0 )
 {
-   echo "Missing Object ID or Object version";
+   echo ezi18n( 'design/standard/ezoe', 'Invalid or missing parameter: %parameter', null, array( '%parameter' => 'ObjectID/ObjectVersion' ) );
    eZExecution::cleanExit();
 }
 
@@ -59,7 +59,7 @@ $params    = array('dataMap' => array('image'), 'imagePreGenerateSizes' => array
 
 if ( !$object )
 {
-   echo "Object fetch returned false! &nbsp; ObjectId: " . $objectID;
+   echo ezi18n( 'design/standard/ezoe', 'Invalid parameter: %parameter = %value', null, array( '%parameter' => 'ObjectId', '%value' => $objectID ) );
    eZExecution::cleanExit();
 }
 
@@ -81,7 +81,7 @@ if ( isset( $Params['EmbedID'] )  && $Params['EmbedID'])
 
 if ( !$embedObject )
 {
-   echo "Could not find embed object! " . $Params['EmbedID'];
+   echo ezi18n( 'design/standard/ezoe', 'Invalid parameter: %parameter = %value', null, array( '%parameter' => 'EmbedID', '%value' => $Params['EmbedID'] ) );
    eZExecution::cleanExit();
 }
 

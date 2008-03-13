@@ -38,7 +38,7 @@ $http        = eZHTTPTool::instance();
 if ( !$nodeID )
 {
     header("HTTP/1.0 500 Internal Server Error");
-    echo 'Missing ParentNodeID parameter!';
+    echo ezi18n( 'design/standard/ezoe', 'Invalid or missing parameter: %parameter', null, array( '%parameter' => 'ParentNodeID' ) );
     eZExecution::cleanExit();
 }
 
@@ -47,7 +47,7 @@ $node = eZContentObjectTreeNode::fetch( $nodeID );
 if ( !$node instanceOf eZContentObjectTreeNode )
 {
     header("HTTP/1.0 500 Internal Server Error");
-    echo 'Invalid ParentNodeId parameter: ' . $nodeID;
+    echo ezi18n( 'design/standard/ezoe', 'Invalid parameter: %parameter = %value', null, array( '%parameter' => 'ParentNodeID', '%value' => $nodeID ) );
     eZExecution::cleanExit();
 }
 
