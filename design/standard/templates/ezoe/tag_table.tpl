@@ -18,11 +18,7 @@ tinyMCEPopup.onInit.add( function()
     var ed = tinyMCEPopup.editor, el = ed.selection.getNode(), n;
     if ( el && el.nodeName )
     {
-        if ( el.nodeName === ezXmlToXhtmlHash[ ezTagName ] )
-            tinyMCEelement = el;
-        else if ( ezXmlToXhtmlHash[ ezTagName ] && ( el = ed.dom.getParent(el, ezXmlToXhtmlHash[ ezTagName ] ) ) )
-            tinyMCEelement = el;
-        else if ( el = ed.dom.getParent(el, ezTagName ) )
+        if ( el.nodeName === ezTagName.toUpperCase() )
             tinyMCEelement = el;
     }
 

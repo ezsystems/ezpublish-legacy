@@ -9,7 +9,7 @@ eZ Online Editor MCE extension Changelog
 0.97 (internal)
 * disabled toolbar floating in ie 6 / 7 to work around floating bug
 * moved ez_core scripts to ezoe folder to avoid design override problems
-* Allow custom tags nesting
+* Allow custom tags and table nesting
 
 
 0.96 (internal)
