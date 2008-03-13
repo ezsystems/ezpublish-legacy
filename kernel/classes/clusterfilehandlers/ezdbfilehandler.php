@@ -104,12 +104,17 @@ class eZDBFileHandler
     /*!
      \public
      Load file meta information.
+
+     \param $force File stats will be refreshed if true
     */
-    function loadMetaData()
+    function loadMetaData( $force = false )
     {
         // Fetch metadata.
         if ( $this->filePath === false )
             return;
+
+        if ( $force && isset( $GLOBALS['eZClusterInfo'][$this->filePath] ) )
+            unset( $GLOBALS['eZClusterInfo'][$this->filePath] );
 
         // Checks for metadata stored in memory, useful for repeated access
         // to the same file in one request
