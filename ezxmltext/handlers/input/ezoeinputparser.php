@@ -179,6 +179,12 @@ class eZOEInputParser extends eZXMLInputParser
                 $attributes['children_required'] = 'true';
             }
         }
+        
+        if ( isset( $attributes['type'] ) && $attributes['type'] === 'custom' )
+        {
+            $name = 'custom';
+            $attributes['name'] = $attributes['class'];
+        }
         return $name;
     }
 
@@ -250,17 +256,11 @@ class eZOEInputParser extends eZXMLInputParser
             {
                 // decide if inline or block embed tag
                 if ( isset( $attributes['inline'] ) && $attributes['inline'] === 'true' )
-                {
                     $name = 'embed-inline';
-                }
                 else if ( isset( $attributes['style'] ) && strpos( $attributes['style'], 'inline' ) !== false )
-                {
                     $name = 'embed-inline';
-                }
                 else
-                {
                     $name = 'embed';
-                }
 
                 // remove mceNonEditable class that is used by editor on embed objects
                 if ( isset( $attributes['class'] ) && strpos( $attributes['class'], 'mceNonEditable' ) !== false )
@@ -285,7 +285,7 @@ class eZOEInputParser extends eZXMLInputParser
             }
         }
         
-        if ( isset( $attributes['type'] ) && $attributes['type'] === 'custom' )
+        if ( $name === '' && isset( $attributes['type'] ) && $attributes['type'] === 'custom' )
         {
             $name = 'custom';
             $attributes['children_required'] = 'true';

@@ -69,33 +69,30 @@ pre
 
 /* general custom tag style */
 
-div
-{
-  background-color: #ccffff;
-  border: 1px solid #eeffff;
-}
+div { border: 1px solid #ffffff; }
+div, span { background-color: #ccffff; }
 
 
 /* Visualisation of default inline custom tags */
 
-div.sub
+span.sub
 {
   vertical-align: sub;
   font-size: 0.8em;
 }
 
-div.sup
+span.sup
 {
   vertical-align: super;
   font-size: 0.8em;
 }
 
-div.strike
+span.strike
 {
   text-decoration: line-through;
 }
 
-div.underline
+span.underline
 {
     text-decoration: underline
 }

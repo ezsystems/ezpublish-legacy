@@ -838,15 +838,11 @@ class eZOEXMLInput extends eZXMLInputHandler
                 {
                     $objectAttr .= ' show_path="true"';
                 }
-
+                
                 if ( $tagName === 'embed-inline' )
-                {
                     $objectAttr .= ' inline="true"';
-                }
                 else
-                {
                     $objectAttr .= ' inline="false"';
-                }
 
                 $customAttributePart = $this->getCustomAttrPart( $tag );
                 $object              = false;
@@ -913,6 +909,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                             }
                         }
                     }
+
                     if ( $className != '' )
                         $objectAttr .= ' class="' . $className . '"';
 
@@ -927,9 +924,11 @@ class eZOEXMLInput extends eZXMLInputHandler
                         $objectAttr .= ' class="mceNonEditable ' . $className . '"';
                     else
                         $objectAttr .= ' class="mceNonEditable"';
-                        
+
                     if ( $alignment !== 'center' )
                         $objectAttr .= ' style="float:' . $alignment . ';"';
+                    else if ( $tagName === 'embed-inline' )
+                        $objectAttr .= ' style="display: inline;"';
                     
                     $objectParam = array( 'size' => $size, 'align' => $alignment, 'show_path' => $showPath );
                     if ( $htmlID ) $objectParam['id'] = $htmlID;
@@ -960,7 +959,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
             case 'custom' :
             {
-                $nodeType  = 'div';
+                $nodeType  = 'span';
                 $name = $tag->getAttribute( 'name' );
                 
                 if ( isset( self::$naviteCustomTags[ $name ] ))
@@ -985,7 +984,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 if ( $isInline )
                 {
                     if ( !$childTagText ) $childTagText = '&nbsp;';
-                    $output .= '<'. $nodeType .' class="' . $name . '" type="custom" style="display: inline;"' . $customAttributePart . '>' . $childTagText . '</'. $nodeType .'>';
+                    $output .= '<'. $nodeType .' class="' . $name . '" type="custom"' . $customAttributePart . '>' . $childTagText . '</'. $nodeType .'>';
                 }
                 else
                 {
@@ -994,7 +993,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                     {
                         $customTagContent .= $this->inputTdXML( $tagChild, $currentSectionLevel, $tdSectionLevel );
                     }
-                    $output .= '<'. $nodeType .' class="' . $name . '" type="custom"' . $customAttributePart . '>' . $customTagContent . '</'. $nodeType .'>';
+                    $output .= '<div class="' . $name . '" type="custom"' . $customAttributePart . '>' . $customTagContent . '</div>';
                 }
             }break;
 

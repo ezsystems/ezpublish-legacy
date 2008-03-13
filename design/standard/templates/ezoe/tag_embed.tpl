@@ -22,7 +22,6 @@ function specificTagGenerator()
 {
     if ( contentType === 'image' )
         return '<img id="__mce_tmp" src="javascript:;" />';
-    
     return '<div id="__mce_tmp">' + ez.$$('#embed_preview div')[0].el.innerHTML + '</div>';
 
 }

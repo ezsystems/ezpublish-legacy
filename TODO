@@ -1,6 +1,7 @@
 
 
 1.0
+change internal tag from div -> span if you change from bloc to inline custom tag
 Ajax Browse support for links
 Override TinyMCE translations and use it for all js strings (fixes fullscreen description text++)
 Setting to disable use of css and js packer in case of regressions

@@ -27,11 +27,13 @@ tinyMCEPopup.onInit.add( function()
         }
         else if ( el.nodeName === 'DIV' && el.className == customTagName )
             tinyMCEelement = el;
+        else if ( el.nodeName === 'SPAN' && el.className == customTagName )
+            tinyMCEelement = el;
         
-        if ( el.nodeName === 'DIV' && el.style.display === 'inline' )
-            filterOutCustomBlockTags( ); 
-        else if ( el = ed.dom.getParent(el, 'DIV' ) && el.style.display && el.style.display === 'inline' )
-            filterOutCustomBlockTags( );  
+        if ( el.nodeName === 'SPAN' && tinymce.DOM.getAttrib(el, 'type') === 'custom' )
+            filterOutCustomBlockTags( );
+        else if ( el = ed.dom.getParent(el, 'SPAN' ) && tinymce.DOM.getAttrib(el, 'type') === 'custom' )
+            filterOutCustomBlockTags( );
     }
 
     if ( tinyMCEelement )
@@ -49,7 +51,7 @@ function specificTagGenerator( ezTag, customTag )
 {
     var inline = ez.$( customTag + '_inline_source' ).el.checked;
     if ( inline )
-        return '<div id="__mce_tmp" type="custom" style="display: inline;">' + customTag + '</div>';
+        return '<span id="__mce_tmp" type="custom">' + customTag + '</span>';
     else
         return '<div id="__mce_tmp" type="custom">' + customTag + '</div>';
 }

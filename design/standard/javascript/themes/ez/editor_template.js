@@ -998,6 +998,12 @@
                     else if ( DOM.getAttrib(n, 'type') === 'custom' )
                         return 'custom';
                     break;
+                case 'SPAN':
+                    if ( n.className.indexOf('mceNonEditable') !== -1 )
+                        return 'embed' + (DOM.getAttrib(n, 'inline') === 'true' ? '-inline' : '');
+                    else if ( DOM.getAttrib(n, 'type') === 'custom' )
+                        return 'custom';
+                    break;
                 case 'IMG':
                     return 'embed' + (DOM.getAttrib(n, 'inline') === 'true' ? '-inline' : '');
             }
@@ -1021,6 +1027,12 @@
                     ed.execCommand('mceCustom', true, v);
                     break;
                 case 'DIV':
+                    if ( n.className.indexOf('mceNonEditable') !== -1 )
+                        ed.execCommand('mceObject', true, v);
+                    else if ( DOM.getAttrib(n, 'type') === 'custom' )
+                        ed.execCommand('mceCustom', true, v);
+                    break;
+                case 'SPAN':
                     if ( n.className.indexOf('mceNonEditable') !== -1 )
                         ed.execCommand('mceObject', true, v);
                     else if ( DOM.getAttrib(n, 'type') === 'custom' )
@@ -1145,7 +1157,7 @@
 
             while ( e !== null && e.nodeName !== undefined && e.nodeName !== 'BODY' )
             {
-                if ( e.nodeName === 'DIV' && e.className.indexOf('mceNonEditable') !== -1 )
+                if ( e.nodeName === 'DIV' || e.nodeName === 'SPAN' && e.className.indexOf('mceNonEditable') !== -1 )
                 {
                     type = '/relations/';
                     eurl += e.id + '/' + e.getAttribute('inline') + '/' + e.alt;
