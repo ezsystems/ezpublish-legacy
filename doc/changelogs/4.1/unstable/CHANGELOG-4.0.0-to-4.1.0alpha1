@@ -156,3 +156,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12690: PHP warning about undefined variable: port when running bin/php/ezsqldumpschema.php
 - Fixed bug #7904: Use of UseFullUrl in layout.ini breaks mailto: links
 - Fixed bug #9133: eZ debug in popup doesnt work in subdirs
+- Fixed bug #9094: "medium" sized images are shown as "large"
