@@ -78,9 +78,12 @@ class eZTemplatesStatisticsReporter
         {
             $iconSizeX = 16;
             $iconSizeY = 16;
-            $templateViewFunction = 'visual/templateview/';
-            $templateEditFunction = 'visual/templateedit/';
-            $templateOverrideFunction = 'visual/templatecreate/';
+            $templateViewFunction = 'visual/templateview';
+            eZURI::transformURI( $templateViewFunction );
+            $templateEditFunction = 'visual/templateedit';
+            eZURI::transformURI( $templateEditFunction );
+            $templateOverrideFunction = 'visual/templatecreate';
+            eZURI::transformURI( $templateOverrideFunction );
 
             $std_base = eZTemplateDesignResource::designSetting( 'standard' );
             $wwwDir = eZSys::wwwDir();
@@ -104,11 +107,11 @@ class eZTemplatesStatisticsReporter
             {
                 $tdClass = ( $j % 2 == 0 ) ? 'used_templates_stats1' : 'used_templates_stats2';
 
-                $requestedTemplateViewURI = $templateViewFunction . $requestedTemplateName;
-                $actualTemplateViewURI = $templateViewFunction . $actualTemplateName;
+                $requestedTemplateViewURI = $templateViewFunction . '/' . $requestedTemplateName;
+                $actualTemplateViewURI = $templateViewFunction . '/' . $actualTemplateName;
 
-                $templateEditURI = $templateEditFunction . $templateFileName;
-                $templateOverrideURI = $templateOverrideFunction . $actualTemplateName;
+                $templateEditURI = $templateEditFunction . '/' . $templateFileName;
+                $templateOverrideURI = $templateOverrideFunction . '/' . $actualTemplateName;
 
                 $stats .= ( "<tr><td class=\"$tdClass\"><a href=\"$actualTemplateViewURI\">&nbsp;$actualTemplateName</a></td>" .
                        "<td class=\"$tdClass\"><a href=\"$requestedTemplateViewURI\">&nbsp;$requestedTemplateName</a></td>" .
