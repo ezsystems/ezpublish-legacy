@@ -53,7 +53,7 @@ function specificTagGenerator( ezTag, customTag )
     if ( inline )
         return '<span id="__mce_tmp" type="custom">' + customTag + '</span>';
     else
-        return '<div id="__mce_tmp" type="custom">' + customTag + '</div>';
+        return '<div id="__mce_tmp" type="custom"><p>' + customTag + '</p></div>';
 }
 
 function specificTagEditor( el, ed, customTag )
