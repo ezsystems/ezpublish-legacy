@@ -22,8 +22,9 @@ going wrong.
 A. Make sure you have correct apache rewrite rule. Have you restarted apache
    after changes?
 
-   Example of the rewrite rule for Apache:
+   Example of the rewrite rules for Apache:
    Rewriterule ^/extension/[^/]+/design/[^/]+/(stylesheets|images|javascripts?)/.* - [L]
+   RewriteRule ^/var/[^/]+/cache/(stylesheets|images|javascripts?)/.* - [L]
 
 B. Make sure you are using one of the following web browsers: 
    Internet Explorer 6.0 or higher,

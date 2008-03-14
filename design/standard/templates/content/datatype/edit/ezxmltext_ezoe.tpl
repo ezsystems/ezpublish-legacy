@@ -38,8 +38,8 @@
         {set $content_css_list = $content_css_list|append( $css|explode( '<skin>' )|implode( $skin ) )}
     {/foreach}
 
-    {foreach $plugin_list as $js}
-        {set $plugin_js_list = $plugin_js_list|append( concat( 'plugins/', $js, '/editor_plugin.js' ))}
+    {foreach $plugin_list as $plugin}
+        {set $plugin_js_list = $plugin_js_list|append( concat( 'plugins/', $plugin, '/editor_plugin.js' ))}
     {/foreach}
 
     <!-- Load TinyMCE code -->
