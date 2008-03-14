@@ -645,6 +645,8 @@ class eZWorkflowProcess extends eZPersistentObject
             $cleanupList = $workflowParameters['cleanup_list'];
             foreach ( $cleanupList as $workflowEventID )
             {
+                $workflowEvent = eZWorkflowEvent::fetch( $workflowEventID );
+                $workflowType = $workflowEvent->eventType();                
                 $workflowType->cleanup( $this, eZWorkflowEvent::fetch( $workflowEventID ) );
             }
         }
