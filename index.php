@@ -675,11 +675,11 @@ while ( $moduleRunRequired )
 
             if ( $hasAccessToSite )
             {
-                $moduleAccessAllowed = $currentUser->hasAccessToView( $module, $function_name, $params );
-                if ( isset( $params['accessList'] ) )
+                $accessParams = array();
+                $moduleAccessAllowed = $currentUser->hasAccessToView( $module, $function_name, $accessParams );
+                if ( isset( $accessParams['accessList'] ) )
                 {
-                    $accessList = $params['accessList'];
-                    unset( $params['accessList'] );
+                    $accessList = $accessParams['accessList'];
                 }
             }
             else
