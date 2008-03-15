@@ -161,3 +161,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12375: Concurrency issues in images generation in a cluster environnement
 - Fixed bug #9129: Selection datatype
 - Fixed bug #12373: Trying to call method on not defined object $workflowType.
+- Fixed bug #12711: $Module->ViewParameters contains a key 'Limitation' coming from the policy system
