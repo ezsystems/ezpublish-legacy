@@ -162,3 +162,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #9129: Selection datatype
 - Fixed bug #12373: Trying to call method on not defined object $workflowType.
 - Fixed bug #12711: $Module->ViewParameters contains a key 'Limitation' coming from the policy system
+- Fixed bug #12006: cronjobs/indexcontent.php could fail with oracle
