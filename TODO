@@ -3,7 +3,6 @@
 1.0
 Change internal tag from div -> span if you change from bloc to inline custom tag
 Better handling of clearing float content in block tags ( custom and embed )
-Allow to set td values for a whole table column in td popup
 Ajax Browse support for links
 Override TinyMCE translations and use it for all js strings (fixes fullscreen description text++)
 
