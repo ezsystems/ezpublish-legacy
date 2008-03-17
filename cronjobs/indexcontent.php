@@ -49,7 +49,6 @@ while( true )
     $entries = $db->arrayQuery( "SELECT param FROM ezpending_actions WHERE action = 'index_object'",
                                 array( 'limit' => $limit,
                                        'offset' => $offset ) );
-    $inSQL = '';
 
     if ( is_array( $entries ) && count( $entries ) != 0 )
     {
