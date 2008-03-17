@@ -198,7 +198,7 @@ class eZShippingManager
              false if a handler specified but could not be loaded,
              handler object if handler specified and found.
      */
-    function loadBasketInfoHandler()
+    static function loadBasketInfoHandler()
     {
         $shopINI = eZINI::instance( 'shop.ini' );
 
@@ -296,7 +296,7 @@ class eZShippingManager
      - total_shipping_ex_vat     - contains the sum of all prices (float) ex vat.
      - total_shipping_inc_vat    - contains the sum of all prices (float) inc vat.
      */
-    function vatPriceInfo( $shippingInfo )
+    static function vatPriceInfo( $shippingInfo )
     {
         $totalShippingExVat = 0;
         $totalShippingIncVat = 0;
@@ -439,7 +439,7 @@ class eZShippingManager
                                                                    'total_price_vat' => 26.18 ) ) );
      \endcode
     */
-    function updatePriceInfo( $productCollectionID, &$basketInfo )
+    static function updatePriceInfo( $productCollectionID, &$basketInfo )
     {
         $returnValue = false;
         if ( is_object( $handler = eZShippingManager::loadBasketInfoHandler() ) )
