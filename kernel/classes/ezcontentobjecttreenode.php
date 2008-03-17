@@ -4533,8 +4533,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             if ( count( $limitationsToFix )  > 0 )
             {
                 //include_once( "kernel/classes/ezrole.php" );
-                $limitationIDString = implode( ',', $limitationsToFix );
-                $limitationIDString = "limitation_id in ( $limitationIDString ) ";
+                $limitationIDString = $db->generateSQLInStatement( $limitationsToFix, 'limitation_id' );
                 $subStringString =  $db->subString( 'value', $oldPathLength );
                 $newValue = $db->concatString( array( "'$newPath'", $subStringString ) );
 

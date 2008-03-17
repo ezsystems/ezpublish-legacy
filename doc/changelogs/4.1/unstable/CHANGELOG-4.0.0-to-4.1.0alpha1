@@ -164,3 +164,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12711: $Module->ViewParameters contains a key 'Limitation' coming from the policy system
 - Fixed bug #12006: cronjobs/indexcontent.php could fail with oracle
 - Fixed bug #12657: ezontentObjectTreeNode::fetch does not use db independant IN query
+- Fixed bug #12674: ezontentObjectTreeNode::move does not use db independant IN query
