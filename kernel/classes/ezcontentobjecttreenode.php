@@ -4519,8 +4519,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
             /// role system clean up
             // Clean up policies and limitations
 
+            $expireRoleCache = false;
+
             $limitationsToFix = eZPolicyLimitation::findByType( 'SubTree', $node->attribute( 'path_string' ), false );
-            if ( count( $limitationsToFix )  > 0 )
+            if ( count( $limitationsToFix ) > 0 )
             {
                 //include_once( "kernel/classes/ezrole.php" );
                 $limitationIDString = $db->generateSQLInStatement( $limitationsToFix, 'limitation_id' );
@@ -4536,6 +4538,31 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                 $db->query( $query );
 
+                $expireRoleCache = true;
+            }
+
+            // clean up limitations on role assignment level
+            $countRows = $db->arrayQuery( "SELECT COUNT(*) row_count FROM ezuser_role WHERE limit_identifier='Subtree' AND limit_value LIKE '$oldPath%'" );
+            $assignmentsToFixCount = $countRows[0]['row_count'];
+
+            if ( $assignmentsToFixCount > 0 )
+            {
+                $subStringString =  $db->subString( 'limit_value', $oldPathLength );
+                $newValue = $db->concatString( array( "'$newPath'", $subStringString ) );
+
+                $db->query( "UPDATE
+                                ezuser_role
+                             SET
+                                limit_value = $newValue
+                             WHERE
+                                limit_identifier='Subtree' AND limit_value LIKE '$oldPath%'"
+                          );
+
+               $expireRoleCache = true;
+           }
+
+            if ( $expireRoleCache )
+            {
                 eZRole::expireCache();
             }
 
