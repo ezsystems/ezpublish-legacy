@@ -3363,9 +3363,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     }
                     else
                     {
-                        // All elements from $nodeID should be casted to (int)
-                        $impStr = $db->implodeWithTypeCast( ',', $nodeID, 'int' );
-                        $sqlCondition = 'node_id IN ( ' . $impStr . ' ) AND';
+                        $sqlCondition = $db->generateSQLInStatement( $nodeID, 'node_id', false, true, 'int' ) . ' AND';
                     }
                 }
                 else
