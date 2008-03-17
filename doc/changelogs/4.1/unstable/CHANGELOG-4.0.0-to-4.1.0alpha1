@@ -166,3 +166,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12657: ezontentObjectTreeNode::fetch does not use db independant IN query
 - Fixed bug #12674: ezontentObjectTreeNode::move does not use db independant IN query
 - Fixed bug #12222: Unreadable color for hyperlinks on finetune page
+- Fixed bug #10601: Alphabetical Navigator is in wrong place
