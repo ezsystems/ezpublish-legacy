@@ -137,7 +137,7 @@ td.setup_site_templates
 }
 
 td.setup_progress_left
-{ 
+{
   padding-top: 0px;
   padding-left: 0px;
   padding-bottom: 0px;
@@ -152,7 +152,7 @@ td.setup_progress_left
 }
 
 td.setup_progress_right
-{ 
+{
   padding-top: 0px;
   padding-left: 0px;
   padding-bottom: 0px;
@@ -169,70 +169,70 @@ tt.option
 
 p.enabled
 {
-	text-decoration: none;
-	color: #000000;
+    text-decoration: none;
+    color: #000000;
 }
 
 p.current
 {
-	text-decoration: none;
-	color: #000000;
-	font-weight: bold;
+    text-decoration: none;
+    color: #000000;
+    font-weight: bold;
 }
 
 p.disabled
 {
-	text-decoration: none;
-	color: #cccccc;
+    text-decoration: none;
+    color: #cccccc;
 }
 
-a:link.setup_final
+a:link, a:link.setup_final
 {
   color: #4070ff;
 }
 
-a:visited.setup_final
+a:visited, a:visited.setup_final
 {
   color: #6294ff;
 }
 
-a:link
-{ 
+div.setup_help a:link
+{
   color: #82c4ff;
 }
 
-a:visited
-{  
+div.setup_help a:visited
+{
   color: #d6ecff;
 }
 
 div.setup_help
-{ 
+{
   color: #e0efff;
   font-size: small;
 }
 
 div.setup_progress_bar_text
-{ 
+{
   color: #ffffff;
   font-size: x-small;
 }
 
 div.setup_summary_ok
-{ 
+{
   color: #edf2fa;
   font-size: small;
 }
 
 div.setup_summary_empty
-{ 
+{
   color: #c0d0f0;
   font-size: small;
 }
 
 
 div.setup_help
-{ 
+{
   margin-top: 0px;
   margin-bottom: 0px;
   padding-top: 0px;
@@ -243,12 +243,12 @@ div.setup_help
 }
 
 h1.setup_help_summary
-{ 
-  color: #edf2fa; 
+{
+  color: #edf2fa;
 }
 
 div.setup_summary
-{ 
+{
   margin-top: 0px;
   margin-bottom: 0px;
   padding-top: 10px;
