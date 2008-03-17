@@ -238,34 +238,51 @@ var ez = {
         {
             // CSS2 query function, returns a extended array of extended elements
             // Example: arr = ez.$$('div.my_class, input[type=text], img[alt~=went]');
-            var args = ez.$c(arguments, ','), d = [document], r = [];
-            if ( args.length === 1 && args[0].eztype && args[0].eztype === 'array') return args[0];
-            if (typeof args[args.length -1] === 'object') d = args.pop();
-            args.forEach(function(el){
-                if (typeof el === 'string'){
-                    var par = ez.$c( (d.eztype ? d.el : d) );
+            // does not support pseudo-class selectors like :hover and :first-child
+            var args = ez.$c(arguments, ','), d = [document], r = [], childMode = false;
+            if ( args.length === 1 && args[0].eztype && args[0].eztype === 'array' ) return args[0];
+            if ( typeof args[args.length -1] === 'object' ) d = args.pop();
+            args.forEach(function(el)
+            {
+                if (typeof el === 'string')
+                {
+                    var par = ez.$c( d.eztype === 'element' ? d.el : d );
                     ez.$c( ez.string.trim( el ), /\s+/ ).forEach(function(str)
                     {
-                        var temp = ez.$c(), tag = (str.match(/^(\w+)([.#\[]?)\s?/)) ? RegExp.$1 : '*', id = 0, cn = 0, at = 0;
-                        if (str.match(/([\#])([a-zA-Z0-9_\-]+)([.#\[]?)\s?/)) id = RegExp.$2;
-                        if (str.match(/([\.])([a-zA-Z0-9_\-]+)([.#\[]?)\s?/)) cn = ' ' + RegExp.$2 + ' ';
+                        if ( str === '+' || str === '~' ) return;// sibling selectors not supported
+                        else if (  str === '>' ) return childMode = true;
+                        var temp = ez.$c(), tag = (str.match(/^(\w+)([.#:\[]?)/)) ? RegExp.$1 : '*', id = 0, cn = 0, at = 0, pseudo = '';
+                        if (str.match(/([\#])([a-zA-Z0-9_\-]+)([.#:\[]?)/)) id = RegExp.$2;
+                        if (str.match(/([\.])([a-zA-Z0-9_\-]+)([.#:\[]?)/)) cn = RegExp.$2;
                         if (str.match(/\[(\w+)([~\|\^\$\*]?)=?"?([^\]"]*)"?\]/)) at = [RegExp.$1 , RegExp.$2, RegExp.$3];
-                        par.forEach(function(doc)
+                        if (str.match(/\:([a-z-]+)\(?\s?([-0-9]+)?\s?\)?([.#:\[]?)/)) pseudo = [RegExp.$1 , (RegExp.$1 === 'first-child' ? 0 : RegExp.$2 -1 )];
+                        par.forEach(function( doc )
                         {
-                            ez.$c(doc.getElementsByTagName(tag)).forEach(function(i)
+                            var children = ez.$c( childMode ? doc.childNodes : ( cn && doc.getElementsByClassName ? doc.getElementsByClassName( cn ) : doc.getElementsByTagName( tag ) ) ).filter(function( i )
                             {
-                                if ( i.nodeType !== 1 ) return;
-                                if (id && (!i.getAttribute('id') || i.getAttribute('id')!=id)) return;
+                                return i.nodeType === 1 && ( tag === '*' || i.nodeName === tag.toUpperCase() );
+                            });
+                            if ( pseudo )
+                            {
+                                if ( pseudo[0] === 'last-child') children = children[ children.length -1 ];
+                                else if ( -1 < pseudo[1] < children.length ) children = children[pseudo[1]];
+                                else return;
+                            }
+                            ez.$c( children ).forEach(function(i)
+                            {
+                                if (id && (!i.getAttribute('id') || i.getAttribute('id') !== id)) return;
                                 if (at && !ez.element.hasAttribute( i, at[0], at[2], at[1] )) return;
-                                if (cn && (' '+i.className+' ').indexOf(cn)==-1) return;
-                                temp.push(i); 
+                                if (cn && (' '+i.className+' ').indexOf( ' ' + cn + ' ' ) === -1) return;
+                                temp.push( i ); 
                             });
                         });
                         par = temp;
+                        childMode = false;
                     });
-                    r = r.concat(par);
-                } else r.push(el);
-            }, this);
+                    
+                    r = r.concat( par );
+                } else r.push( el );
+            }, this );
             r = ez.$c(r).map( ez.element.extend );
             return ez.array.extend( r );
         },

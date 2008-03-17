@@ -98,7 +98,7 @@ function specificTagEditor( el )
 
 
 <div style="width: 470px;">
-    <form onsubmit="return insertEmbedTag(  );" action="JavaScript:void(0)" method="POST" name="EditForm" id="EditForm" enctype="multipart/form-data"
+    <form onsubmit="return insertEmbedTag(  );" action="JavaScript:void(0)" method="post" name="EditForm" id="EditForm" enctype="multipart/form-data"
     style="float:left; width: 940px;">
     
     <div id="tabs">

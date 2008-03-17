@@ -40,6 +40,7 @@ tinyMCEPopup.onInit.add( function()
         tableSizeGrid['rows'] = ez.$('table_cell_size_grid_rows');
         tableSizeGrid['cols'].addEvent('keyup', ez.fn.bind(tableSizeGridInput, td, true ));
         tableSizeGrid['rows'].addEvent('keyup', ez.fn.bind(tableSizeGridInput, td, true ));
+        tableSizeGridInput.call( td, true );
     }
 });
 
@@ -116,7 +117,7 @@ function tableSizeGridShowChange( rows, cols, save )
 
 <div>
 
-    <form onsubmit="return insertGeneralTag( this );" action="JavaScript:void(0)" method="POST" name="EditForm" id="EditForm" enctype="multipart/form-data"
+    <form onsubmit="return insertGeneralTag( this );" action="JavaScript:void(0)" method="post" name="EditForm" id="EditForm" enctype="multipart/form-data"
     style="width: 360px;">
     
 
@@ -131,8 +132,8 @@ function tableSizeGridShowChange( rows, cols, save )
             <td>
                 <table id="table_cell_size_grid">
                 <tr>
-                    <td style="background-color: #ccc"></td>
-                    <td style="background-color: #ccc"></td>
+                    <td></td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -166,8 +167,9 @@ function tableSizeGridShowChange( rows, cols, save )
                     <td></td>
                 </tr>
                 </table>
-                Cols: <input id="table_cell_size_grid_cols" type="number" maxlength="3" size="3" value="2" />
-                Rows: <input id="table_cell_size_grid_rows" type="number" maxlength="2" size="3" value="1" />
+                {def $table_default_values = ezini( 'table', 'Defaults', 'content.ini' )}
+                Cols: <input id="table_cell_size_grid_cols" type="number" maxlength="3" size="3" value="{first_set( $table_default_values['cols'], 2 )}" />
+                Rows: <input id="table_cell_size_grid_rows" type="number" maxlength="2" size="3" value="{first_set( $table_default_values['rows'], 1 )}" />
             </td>
         </tr>
         </table>

@@ -18,6 +18,7 @@
     {if ezini_hasvariable( $:tag_name, 'CustomAttributesNames', 'content.ini' )}
         {set $custom_attributes_names = ezini( $:tag_name, 'CustomAttributesNames', 'content.ini' )}
     {/if}
+
     <table class="properties custom_attributes" id="{$:tag_name}_customattributes"{if $:hide} style="display: none;"{/if}>
     {foreach $custom_attributes as $custom_attribute}
         {if $shown_attributes|contains( $custom_attribute )}{continue}{/if}

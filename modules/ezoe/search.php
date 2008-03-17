@@ -33,13 +33,13 @@ include_once( 'extension/ezoe/classes/ezajaxcontent.php' );
 $http = eZHTTPTool::instance();
 if ( $http->hasPostVariable( 'SearchStr' ) )
     $searchStr = trim( $http->postVariable( 'SearchStr' ) );
-elseif ( isSet( $Params['SearchStr'] ) )
+elseif ( $Params['SearchStr'] )
     $searchStr = trim( $Params['SearchStr'] );
 
 $varName = '';
 if ( $http->hasPostVariable( 'VarName' ))
     $varName = trim( $http->postVariable( 'VarName' ) );
-elseif ( isSet( $Params['VarName'] ) )
+elseif ( isset( $Params['VarName'] ) )
     $varName = trim( $Params['VarName'] );
 
 if ( $varName )
@@ -55,7 +55,9 @@ if ( !$searchStr )
 
 function makeStringArray( $str )
 {
-    if( strpos($str, ',') === false )
+    if ( is_array( $str ) )
+        return $str;
+    elseif( strpos($str, ',') === false )
         return array( $str );
     else
         return explode( ',', $str );
@@ -65,7 +67,8 @@ function makeClassID( $arr )
 {
     for( $i = 0, $c = count( $arr ); $i < $c; $i++)
     {
-        $arr[$i] = eZContentObjectTreeNode::classIDByIdentifier( $arr[$i] ) ;
+        if ( !is_numeric( $arr[$i] ) )
+            $arr[$i] = eZContentObjectTreeNode::classIDByIdentifier( $arr[$i] ) ;
     }
     return $arr;
 }
@@ -114,7 +117,7 @@ if ( isSet( $param['SearchTimestamp'][0] ) && !isSet( $param['SearchTimestamp'][
 $searchList = eZSearch::search( $searchStr, $param );
 
 
-if (!$searchList  || count($searchList["SearchResult"]) === 0)
+if (!$searchList  || ( $searchOffset === 0 && count($searchList["SearchResult"]) === 0 ) )
 {
     echo $varName . "false;";
     eZExecution::cleanExit();

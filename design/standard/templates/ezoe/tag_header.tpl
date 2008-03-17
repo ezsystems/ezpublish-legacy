@@ -38,7 +38,7 @@ tinyMCEPopup.onInit.add( function()
 
 <div>
 
-    <form onsubmit="return insertGeneralTag( this );" action="JavaScript:void(0)" method="POST" name="EditForm" id="EditForm" enctype="multipart/form-data"
+    <form onsubmit="return insertGeneralTag( this );" action="JavaScript:void(0)" method="post" name="EditForm" id="EditForm" enctype="multipart/form-data"
     style="width: 360px;">
     
 

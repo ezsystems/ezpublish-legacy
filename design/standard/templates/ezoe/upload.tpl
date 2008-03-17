@@ -7,9 +7,10 @@
                                            )}
 <script type="text/javascript">
 <!--
-var contentType = '{$content_type}', eZtinyMceExpandUrl = {'ezoe/expand/'|ezurl};
-var eZtinyMceRelationUrl = {concat('ezoe/relations/', $object_id, '/', $object_version, '/auto' )|ezurl};
-var eZOeMCE              = new Object();
+var contentType = '{$content_type}', eZOeMCE = new Object();
+eZOeMCE['root']          = {'/'|ezroot};
+eZOeMCE['extension_url'] = {'ezoe/'|ezurl};
+eZOeMCE['relation_url']  = {concat('ezoe/relations/', $object_id, '/', $object_version, '/auto' )|ezurl};
 eZOeMCE['i18n']          = {ldelim}
     previous: "{'Previous'|i18n('design/admin/navigator')}",
     next: "{'Next'|i18n('design/admin/navigator')}",
@@ -27,7 +28,7 @@ tinyMCEPopup.onInit.add( function(){
 
 function ajaxBrowse( nodeId, offset )
 {
-    ezajaxObject.load( eZtinyMceExpandUrl + '/' + nodeId + '/' + (offset || 0), '', ajaxBrowseCallBack  );
+    ezajaxObject.load( eZOeMCE['extension_url'] + '/expand/' + nodeId + '/' + (offset || 0), '', ajaxBrowseCallBack  );
 }
 
 function ajaxBrowseCallBack( r )
@@ -90,7 +91,7 @@ table#browse_box_prev tfoot td { padding-top: 5px; }
 {/literal}
 
 <div style="width: 470px;">
-    <form action={concat('ezoe/upload/', $object_id, '/', $object_version, '/auto/1' )|ezurl} method="POST" target="embed_upload" name="EmbedForm" id="EmbedForm" enctype="multipart/form-data"
+    <form action={concat('ezoe/upload/', $object_id, '/', $object_version, '/auto/1' )|ezurl} method="post" target="embed_upload" name="EmbedForm" id="EmbedForm" enctype="multipart/form-data"
     style="float:left; width: 940px" onsubmit="ez.$('upload_in_progress').show();">
 
         <div id="tabs">

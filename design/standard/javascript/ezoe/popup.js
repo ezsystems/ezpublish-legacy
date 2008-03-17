@@ -29,13 +29,17 @@ var ezXmlToXhtmlHash = {
 function insertGeneralTag()
 {
     var ed = tinyMCEPopup.editor, selectedTag = ezTagName || '', n, arr;
-    
+
     if ( ezTagName === 'custom' && (n = ez.$('custom_class_source')) )
         selectedTag = n.el.value;
-       
+    else if ( ezTagName === 'td' && (n = ez.$('td_type_source')) )
+        selectedTag = n.el.value;
+    else if ( ezTagName === 'th' && (n = ez.$('th_type_source')) )
+        selectedTag = n.el.value;
+
     if ( tinymce.isWebKit )
         ed.getWin().focus();
-    
+
     var args = {
         'customattributes': getCustomAttributeValue( selectedTag + '_customattributes')
     };
@@ -43,7 +47,7 @@ function insertGeneralTag()
     // set general attributes for tag
     if (n = ez.$( ezTagName + '_attributes'))
        ez.$$('input,select', n).forEach(function(o){
-           if ( o.hasClass('mceItemSkip') ) return; 
+           if ( o.hasClass('mceItemSkip') ) return;
            var name = o.el.name;
            if ( window.specificAttributeGenerator !== undefined && specificAttributeGenerator[name] !== undefined )
                args[name] = specificAttributeGenerator[name]( o, args );
@@ -74,7 +78,8 @@ function insertGeneralTag()
 
     if ( tinyMCEelement )
     {
-        ed.dom.setAttribs(tinyMCEelement, args);
+        if ( window.specificTagAttributeEditor !== undefined ) specificTagAttributeEditor( ed, tinyMCEelement, args );
+        else ed.dom.setAttribs(tinyMCEelement, args);
         if ( args['id'] === undefined ) ed.dom.setAttrib(tinyMCEelement, 'id', '');
     }
     ed.execCommand('mceEndUndoLevel');
@@ -236,6 +241,7 @@ function initCustomAttributeValue( node, valueString )
         values[t[0]] = t[1];
     }
     ez.$$('input,select', node).forEach(function( o ){
+        if ( o.hasClass('mceItemSkip') ) return;
         var name = o.el.name;
         if ( values[name] !== undefined ) o.el.value = values[name];
     });
@@ -278,7 +284,7 @@ function selectByEmbedId( searchId )
 {
   if ( ez.val( searchId ) )
   {
-      window.location = eZtinyMceRelationUrl + '/eZObject_' + searchId;
+      window.location = eZOeMCE['relation_url'] + '/eZObject_' + searchId;
   }
 }
 
@@ -294,7 +300,7 @@ function ezajaxSearchEnter( e, isButton )
 function ezajaxSearchPost( offset )
 {
     var postData = ez.$$('#search_box input').callEach('postData').join('&'), o = ( offset || 0 ) * 10;    
-    var url = eZOeMCE['extension_url'] + '/search//'+ o +'/10';
+    var url = eZOeMCE['extension_url'] + '/search/x/'+ o +'/10';
     if ( ez.string.trim( ez.$('SearchText').el.value ) ) ezajaxObject.load( url, postData, ezajaxSearchPostBack);
     return false;
 }
