@@ -191,7 +191,7 @@ class eZImageInterface
      This makes sure that image resources are cleaned up after use.
      \return a reference for the image which can be used in unregisterImage later on. Returns false if resource can't be registered.
     */
-    function registerImage( $image )
+    static function registerImage( $image )
     {
         if ( !is_resource( $image ) or get_resource_type( $image ) != 'gd' )
             return false;
@@ -209,7 +209,7 @@ class eZImageInterface
     /*!
      Tries to unregister the image with reference \a $imageRef
     */
-    function unregisterImage( $imageRef )
+    static function unregisterImage( $imageRef )
     {
         $createdImageArray =& $GLOBALS['eZImageCreatedArray'];
         if ( !is_array( $createdImageArray ) )
@@ -222,7 +222,7 @@ class eZImageInterface
     /*!
      Cleans up all registered images.
     */
-    function cleanupRegisteredImages()
+    static function cleanupRegisteredImages()
     {
         $createdImageArray =& $GLOBALS['eZImageCreatedArray'];
         if ( !is_array( $createdImageArray ) )
@@ -502,7 +502,7 @@ class eZImageInterface
      \private
      Creates an image with size \a $width and \a $height using GD and returns it.
     */
-    function createImage( $width, $height, &$useTruecolor )
+    static function createImage( $width, $height, &$useTruecolor )
     {
         if ( $useTruecolor === null )
         {
