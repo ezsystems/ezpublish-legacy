@@ -92,7 +92,10 @@ class eZUserLoginHandler
         foreach( $handlerList as $handler )
         {
             $loginHandler = eZUserLoginHandler::instance( $handler );
-            $loginHandler->sessionCleanup();
+            if ( $loginHandler )
+            {
+                $loginHandler->sessionCleanup();
+            }
         }
     }
 
@@ -105,6 +108,7 @@ class eZUserLoginHandler
      */
     static function instance( $protocol = "standard" )
     {
+        $triedFiles = array();
         if ( $protocol == "standard" )
         {
             //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
@@ -114,6 +118,7 @@ class eZUserLoginHandler
         else
         {
             $ezuserFile = 'kernel/classes/datatypes/ezuser/ez' . strtolower( $protocol ) . 'user.php';
+            $triedFiles[] = $ezuserFile;
             if ( file_exists( $ezuserFile ) )
             {
                 include_once( $ezuserFile );
@@ -131,6 +136,8 @@ class eZUserLoginHandler
                 foreach( $directoryList as $directory )
                 {
                     $userFile = $directory . '/ez' . strtolower( $protocol ) . 'user.php';
+                    $triedFiles[] = $userFile;
+
                     if ( file_exists( $userFile ) )
                     {
                         include_once( $userFile );
@@ -142,6 +149,7 @@ class eZUserLoginHandler
             }
         }
         // if no one appropriate instance was found
+        eZDebug::writeWarning( "Unable to find user login handler '$protocol', searched for these files: " . implode( ', ', $triedFiles ), 'eZUserLoginHandler::instance()' );
         $impl = null;
         return $impl;
     }
@@ -283,16 +291,19 @@ class eZUserLoginHandler
                     foreach( $handlerList as $handler )
                     {
                         $userObject = eZUserLoginHandler::instance( $handler );
-                        $user = $userObject->loginUser( $userInfoArray['login'], $userInfoArray['password'] );
-                        if ( is_subclass_of( $user, 'eZUser' ) )
+                        if ( $userObject )
                         {
-                            eZUserLoginHandler::sessionCleanup();
-                            return null;
-                        }
-                        else if ( is_array( $user ) )
-                        {
-                            eZUserLoginHandler::sessionCleanup();
-                            return $user;
+                            $user = $userObject->loginUser( $userInfoArray['login'], $userInfoArray['password'] );
+                            if ( is_subclass_of( $user, 'eZUser' ) )
+                            {
+                                eZUserLoginHandler::sessionCleanup();
+                                return null;
+                            }
+                            else if ( is_array( $user ) )
+                            {
+                                eZUserLoginHandler::sessionCleanup();
+                                return $user;
+                            }
                         }
                     }
                 }
