@@ -172,3 +172,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #11914: php warning when override template doesn't exist
 - Fixed bug #11606: php crash if an inexisting login handler class is specified in ini files
 - Fixed bug #12717: Non-static method eZImageInterface::cleanupRegisteredImages() should not be called statically
+- Fixed bug #12715: template: list element has no classification
