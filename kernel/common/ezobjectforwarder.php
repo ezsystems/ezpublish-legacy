@@ -228,6 +228,9 @@ class eZObjectForwarder
         $viewFileMatch = null;
         foreach ( $matchFileArray as $matchFile )
         {
+            if ( !isset( $matchFile['template'] ) )
+                continue;
+
             $path = $matchFile['template'];
             $subPath = substr( $path, 0, $startRootLength );
             if ( $subPath == $startRoot and
