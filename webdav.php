@@ -194,6 +194,11 @@ if ( $enable === 'true' )
                 {
                     $loginHandler = $loginHandlers[$key];
                     $userClass = eZUserLoginHandler::instance( $loginHandler );
+                    if ( !is_object( $userClass ) )
+                    {
+                        continue;
+                    }
+
                     $user = $userClass->loginUser( $loginUsername, $loginPassword );
                     if ( $user instanceof eZUser )
                         break;

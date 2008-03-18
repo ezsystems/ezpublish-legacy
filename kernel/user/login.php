@@ -118,6 +118,10 @@ if ( $Module->isCurrentAction( 'Login' ) and
         {
             $loginHandler = $loginHandlers[$key];
             $userClass = eZUserLoginHandler::instance( $loginHandler );
+            if ( !is_object( $userClass ) )
+            {
+                continue;
+            }
             $user = $userClass->loginUser( $userLogin, $userPassword );
             if ( $user instanceof eZUser )
             {

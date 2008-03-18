@@ -170,3 +170,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #9330: Subtree limited role assignment doesn't change after moving node
 - Fixed bug #12713: strict php warning - shop
 - Fixed bug #11914: php warning when override template doesn't exist
+- Fixed bug #11606: php crash if an inexisting login handler class is specified in ini files
