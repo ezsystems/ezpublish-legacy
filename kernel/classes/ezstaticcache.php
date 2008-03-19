@@ -437,14 +437,7 @@ class eZStaticCache
     */
     function removeURL( $url )
     {
-        if ( $url == "/" )
-        {
-            $dir = $this->StaticStorageDir . $url;
-        }
-        else
-        {
-            $dir = $this->StaticStorageDir . $url . "/";
-        }
+        $dir = eZDir::path( array( $this->StaticStorageDir, $url ) );
 
         @unlink( $dir . "/index.html" );
         @rmdir( $dir );
