@@ -175,3 +175,5 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12717: Non-static method eZImageInterface::cleanupRegisteredImages() should not be called statically
 - Fixed bug #12715: template: list element has no classification
 - Fixed bug #10139: ezstaticcache:removeURL cannot remove URL
+- Fixed bug #12476: Unstable in cluster environmnet: added remainder of provided patch, most was already implemenetd
+
