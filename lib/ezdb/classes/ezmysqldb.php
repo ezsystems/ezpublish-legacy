@@ -370,7 +370,7 @@ class eZMySQLDB extends eZDBInterface
             $sql = trim( $sql );
 
             $isWriteQuery = true;
-            if ( strncasecmp( $sql, 'select', 6 ) === 0 )
+            if ( strncasecmp( $sql, 'select', 6 ) === 0 && $this->TransactionCounter == 0 )
             {
                 $isWriteQuery = false;
             }
