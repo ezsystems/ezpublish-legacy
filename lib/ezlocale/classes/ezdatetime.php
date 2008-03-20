@@ -126,6 +126,7 @@ class eZDateTime
         return array( 'timestamp',
                       'hour',
                       'minute',
+                      'second',
                       'year',
                       'month',
                       'day',
@@ -150,6 +151,10 @@ class eZDateTime
         else if ( $name == 'minute'  )
         {
             return $this->minute();
+        }
+        else if ( $name == 'second' )
+        {
+            return $this->second();
         }
         else if ( $name == 'day'  )
         {

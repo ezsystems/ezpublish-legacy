@@ -123,6 +123,7 @@ class eZTime
                       'time_of_day',
                       'hour',
                       'minute',
+                      'second',
                       'is_valid' );
     }
 
@@ -141,6 +142,8 @@ class eZTime
             return $this->hour();
         else if ( $name == 'minute' )
             return $this->minute();
+        else if ( $name == 'second' )
+            return $this->second();
         else if ( $name == 'is_valid'  )
             return $this->isValid();
 

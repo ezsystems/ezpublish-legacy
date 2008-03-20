@@ -35,6 +35,13 @@
 <input type="text" name="{$attribute_base}_datetime_minute_{$attribute.id}" size="3" value="{section show=$datetime.is_valid}{$datetime.minute}{/section}" />
 </div>
 
+{if $attribute.contentclass_attribute.data_int2|eq(1)}
+<div class="element">
+<label>{'Second'|i18n( 'design/standard/content/datatype' )}:</label>
+<input type="text" name="{$attribute_base}_datetime_second_{$attribute.id}" size="3" value="{section show=$datetime.is_valid}{$datetime.second}{/section}" />
+</div>
+{/if}
+
 </div>
 
 <div class="break"></div>

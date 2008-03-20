@@ -43,6 +43,8 @@ class eZDateTimeType extends eZDataType
 
     const DEFAULT_FIELD = 'data_int1';
 
+    const USE_SECONDS_FIELD = 'data_int2';
+
     const ADJUSTMENT_FIELD = 'data_text5';
 
     const DEFAULT_EMTPY = 0;
@@ -60,7 +62,7 @@ class eZDateTimeType extends eZDataType
     /*!
      Private method only for use inside this class
     */
-    function validateDateTimeHTTPInput( $day, $month, $year, $hour, $minute, $contentObjectAttribute )
+    function validateDateTimeHTTPInput( $day, $month, $year, $hour, $minute, $second, $contentObjectAttribute )
     {
         //include_once( 'lib/ezutils/classes/ezdatetimevalidator.php' );
 
@@ -72,7 +74,8 @@ class eZDateTimeType extends eZDataType
             return eZInputValidator::STATE_INVALID;
         }
 
-        $state = eZDateTimeValidator::validateTime( $hour, $minute );
+        $state = eZDateTimeValidator::validateTime( $hour, $minute, $second );
+
         if ( $state == eZInputValidator::STATE_INVALID )
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
@@ -88,30 +91,36 @@ class eZDateTimeType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
+        $classAttribute = $contentObjectAttribute->contentClassAttribute();
+        $useSeconds = ( $classAttribute->attribute( self::USE_SECONDS_FIELD ) == 1 );
+
         if ( $http->hasPostVariable( $base . '_datetime_year_' . $contentObjectAttribute->attribute( 'id' ) ) and
              $http->hasPostVariable( $base . '_datetime_month_' . $contentObjectAttribute->attribute( 'id' ) ) and
              $http->hasPostVariable( $base . '_datetime_day_' . $contentObjectAttribute->attribute( 'id' ) ) and
              $http->hasPostVariable( $base . '_datetime_hour_' . $contentObjectAttribute->attribute( 'id' ) ) and
-             $http->hasPostVariable( $base . '_datetime_minute_' . $contentObjectAttribute->attribute( 'id' ) ) )
+             $http->hasPostVariable( $base . '_datetime_minute_' . $contentObjectAttribute->attribute( 'id' ) ) and
+             ( !$useSeconds or $http->hasPostVariable( $base . '_datetime_second_' . $contentObjectAttribute->attribute( 'id' ) ) ) )
         {
             $year   = $http->postVariable( $base . '_datetime_year_' . $contentObjectAttribute->attribute( 'id' ) );
             $month  = $http->postVariable( $base . '_datetime_month_' . $contentObjectAttribute->attribute( 'id' ) );
             $day    = $http->postVariable( $base . '_datetime_day_' . $contentObjectAttribute->attribute( 'id' ) );
             $hour   = $http->postVariable( $base . '_datetime_hour_' . $contentObjectAttribute->attribute( 'id' ) );
             $minute = $http->postVariable( $base . '_datetime_minute_' . $contentObjectAttribute->attribute( 'id' ) );
-            $classAttribute = $contentObjectAttribute->contentClassAttribute();
+            $second = $useSeconds ? $http->postVariable( $base . '_datetime_second_' . $contentObjectAttribute->attribute( 'id' ) ) : 0;
 
             if ( $year == '' or
                  $month == '' or
                  $day == '' or
                  $hour == '' or
-                 $minute == '' )
+                 $minute == '' or
+                 ( $useSeconds and $second == '' ) )
             {
                 if ( !( $year == '' and
                         $month == '' and
                         $day == '' and
                         $hour == '' and
-                        $minute == '') or
+                        $minute == '' and
+                        ( !$useSeconds or $second == '' ) ) or
                      ( !$classAttribute->attribute( 'is_information_collector' ) and
                        $contentObjectAttribute->validateIsRequired() ) )
                 {
@@ -124,7 +133,7 @@ class eZDateTimeType extends eZDataType
             }
             else
             {
-                return $this->validateDateTimeHTTPInput( $day, $month, $year, $hour, $minute, $contentObjectAttribute );
+                return $this->validateDateTimeHTTPInput( $day, $month, $year, $hour, $minute, $second, $contentObjectAttribute );
             }
         }
         else
@@ -136,29 +145,34 @@ class eZDateTimeType extends eZDataType
     */
     function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
+        $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
+        $useSeconds = ( $contentClassAttribute->attribute( self::USE_SECONDS_FIELD ) == 1 );
+
         if ( $http->hasPostVariable( $base . '_datetime_year_' . $contentObjectAttribute->attribute( 'id' ) ) and
              $http->hasPostVariable( $base . '_datetime_month_' . $contentObjectAttribute->attribute( 'id' ) ) and
              $http->hasPostVariable( $base . '_datetime_day_' . $contentObjectAttribute->attribute( 'id' ) ) and
              $http->hasPostVariable( $base . '_datetime_hour_' . $contentObjectAttribute->attribute( 'id' ) ) and
-             $http->hasPostVariable( $base . '_datetime_minute_' . $contentObjectAttribute->attribute( 'id' ) ) )
+             $http->hasPostVariable( $base . '_datetime_minute_' . $contentObjectAttribute->attribute( 'id' ) ) and
+             ( !$useSeconds or $http->hasPostVariable( $base . '_datetime_second_' . $contentObjectAttribute->attribute( 'id' ) ) ) )
         {
             $year   = $http->postVariable( $base . '_datetime_year_' . $contentObjectAttribute->attribute( 'id' ) );
             $month  = $http->postVariable( $base . '_datetime_month_' . $contentObjectAttribute->attribute( 'id' ) );
             $day    = $http->postVariable( $base . '_datetime_day_' . $contentObjectAttribute->attribute( 'id' ) );
             $hour   = $http->postVariable( $base . '_datetime_hour_' . $contentObjectAttribute->attribute( 'id' ) );
             $minute = $http->postVariable( $base . '_datetime_minute_' . $contentObjectAttribute->attribute( 'id' ) );
+            $second = $useSeconds ? $http->postVariable( $base . '_datetime_second_' . $contentObjectAttribute->attribute( 'id' ) ) : 0;
 
             $dateTime = new eZDateTime();
-            $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
-            if ( ( $year == '' and $month == ''and $day == '' and
-                   $hour == '' and $minute == '' ) or
+
+            if ( ( $year == '' and $month == '' and $day == '' and
+                   $hour == '' and $minute == '' and ( !$useSeconds or $second == '' ) ) or
                  !checkdate( $month, $day, $year ) or $year < 1970 )
             {
                     $dateTime->setTimeStamp( 0 );
             }
             else
             {
-                $dateTime->setMDYHMS( $month, $day, $year, $hour, $minute, 0 );
+                $dateTime->setMDYHMS( $month, $day, $year, $hour, $minute, $second );
             }
 
             $contentObjectAttribute->setAttribute( 'data_int', $dateTime->timeStamp() );
@@ -172,30 +186,37 @@ class eZDateTimeType extends eZDataType
     */
     function validateCollectionAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
+        $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
+        $useSeconds = ( $contentClassAttribute->attribute( self::USE_SECONDS_FIELD ) == 1 );
+
         if ( $http->hasPostVariable( $base . '_datetime_year_' . $contentObjectAttribute->attribute( 'id' ) ) and
              $http->hasPostVariable( $base . '_datetime_month_' . $contentObjectAttribute->attribute( 'id' ) ) and
              $http->hasPostVariable( $base . '_datetime_day_' . $contentObjectAttribute->attribute( 'id' ) ) and
              $http->hasPostVariable( $base . '_datetime_hour_' . $contentObjectAttribute->attribute( 'id' ) ) and
-             $http->hasPostVariable( $base . '_datetime_minute_' . $contentObjectAttribute->attribute( 'id' ) ) )
+             $http->hasPostVariable( $base . '_datetime_minute_' . $contentObjectAttribute->attribute( 'id' ) ) and
+             ( !$useSeconds or $http->hasPostVariable( $base . '_datetime_second_' . $contentObjectAttribute->attribute( 'id' ) ) ) )
+
         {
             $year   = $http->postVariable( $base . '_datetime_year_' . $contentObjectAttribute->attribute( 'id' ) );
             $month  = $http->postVariable( $base . '_datetime_month_' . $contentObjectAttribute->attribute( 'id' ) );
             $day    = $http->postVariable( $base . '_datetime_day_' . $contentObjectAttribute->attribute( 'id' ) );
             $hour   = $http->postVariable( $base . '_datetime_hour_' . $contentObjectAttribute->attribute( 'id' ) );
             $minute = $http->postVariable( $base . '_datetime_minute_' . $contentObjectAttribute->attribute( 'id' ) );
-            $classAttribute = $contentObjectAttribute->contentClassAttribute();
+            $second = $useSeconds ? $http->postVariable( $base . '_datetime_second_' . $contentObjectAttribute->attribute( 'id' ) ) : 0;
 
             if ( $year == '' or
                  $month == '' or
                  $day == '' or
                  $hour == '' or
-                 $minute == '' )
+                 $minute == '' or
+                 ( $useSeconds and $second == '' ) )
             {
                 if ( !( $year == '' and
                         $month == '' and
                         $day == '' and
                         $hour == '' and
-                        $minute == '') or
+                        $minute == '' and
+                        ( !$useSeconds or $second == '' ) ) or
                      $contentObjectAttribute->validateIsRequired() )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
@@ -207,7 +228,7 @@ class eZDateTimeType extends eZDataType
             }
             else
             {
-                return $this->validateDateTimeHTTPInput( $day, $month, $year, $hour, $minute, $contentObjectAttribute );
+                return $this->validateDateTimeHTTPInput( $day, $month, $year, $hour, $minute, $second, $contentObjectAttribute );
             }
         }
         else
@@ -220,29 +241,34 @@ class eZDateTimeType extends eZDataType
    */
     function fetchCollectionAttributeHTTPInput( $collection, $collectionAttribute, $http, $base, $contentObjectAttribute )
     {
+        $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
+        $useSeconds = ( $contentClassAttribute->attribute( self::USE_SECONDS_FIELD ) == 1 );
+
         if ( $http->hasPostVariable( $base . '_datetime_year_' . $contentObjectAttribute->attribute( 'id' ) ) and
              $http->hasPostVariable( $base . '_datetime_month_' . $contentObjectAttribute->attribute( 'id' ) ) and
              $http->hasPostVariable( $base . '_datetime_day_' . $contentObjectAttribute->attribute( 'id' ) ) and
              $http->hasPostVariable( $base . '_datetime_hour_' . $contentObjectAttribute->attribute( 'id' ) ) and
-             $http->hasPostVariable( $base . '_datetime_minute_' . $contentObjectAttribute->attribute( 'id' ) ) )
+             $http->hasPostVariable( $base . '_datetime_minute_' . $contentObjectAttribute->attribute( 'id' ) ) and
+             ( !$useSeconds or $http->hasPostVariable( $base . '_datetime_second_' . $contentObjectAttribute->attribute( 'id' ) ) ) )
         {
             $year   = $http->postVariable( $base . '_datetime_year_' . $contentObjectAttribute->attribute( 'id' ) );
             $month  = $http->postVariable( $base . '_datetime_month_' . $contentObjectAttribute->attribute( 'id' ) );
             $day    = $http->postVariable( $base . '_datetime_day_' . $contentObjectAttribute->attribute( 'id' ) );
             $hour   = $http->postVariable( $base . '_datetime_hour_' . $contentObjectAttribute->attribute( 'id' ) );
             $minute = $http->postVariable( $base . '_datetime_minute_' . $contentObjectAttribute->attribute( 'id' ) );
+            $second = $useSeconds ? $http->postVariable( $base . '_datetime_second_' . $contentObjectAttribute->attribute( 'id' ) ) : 0;
 
             $dateTime = new eZDateTime();
             $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
             if ( ( $year == '' and $month == ''and $day == '' and
-                   $hour == '' and $minute == '' ) or
+                   $hour == '' and $minute == '' and ( !$useSeconds or $second == '' ) ) or
                  !checkdate( $month, $day, $year ) or $year < 1970 )
             {
                     $dateTime->setTimeStamp( 0 );
             }
             else
             {
-                $dateTime->setMDYHMS( $month, $day, $year, $hour, $minute, 0 );
+                $dateTime->setMDYHMS( $month, $day, $year, $hour, $minute, $second );
             }
 
             $collectionAttribute->setAttribute( 'data_int', $dateTime->timeStamp() );
@@ -351,6 +377,11 @@ class eZDateTimeType extends eZDataType
         {
             $content['minute'] = $type->getAttribute( 'value' );
         }
+        $type = $root->getElementsByTagName( 'second' )->item( 0 );
+        if ( $type )
+        {
+            $content['second'] = $type->getAttribute( 'value' );
+        }
         return $content;
     }
 
@@ -360,7 +391,8 @@ class eZDateTimeType extends eZDataType
                       'month' => '',
                       'day' => '',
                       'hour' => '',
-                      'minute' => '' );
+                      'minute' => '',
+                      'second' => '' );
     }
 
     /*!
@@ -385,7 +417,8 @@ class eZDateTimeType extends eZDataType
             {
                 $adjustments = eZDateTimeType::classAttributeContent( $contentClassAttribute );
                 $value = new eZDateTime();
-                $value->adjustDateTime( $adjustments['hour'], $adjustments['minute'], 0, $adjustments['month'], $adjustments['day'], $adjustments['year'] );
+                $secondAdjustment = $contentClassAttribute->attribute( self::USE_SECONDS_FIELD ) == 1 ? $adjustments['second'] : 0;
+                $value->adjustDateTime( $adjustments['hour'], $adjustments['minute'], $secondAdjustment, $adjustments['month'], $adjustments['day'], $adjustments['year'] );
                 $contentObjectAttribute->setAttribute( "data_int", $value->timeStamp() );
             }
             else
@@ -417,7 +450,11 @@ class eZDateTimeType extends eZDataType
                 $docText = $doc->saveXML();
                 $classAttribute->setAttribute( self::ADJUSTMENT_FIELD , $docText );
             }
+
+            $useSeconds = $base . "_ezdatetime_use_seconds_" . $classAttribute->attribute( 'id' );
+            $classAttribute->setAttribute( self::USE_SECONDS_FIELD, $http->hasPostVariable( $useSeconds ) ? 1 : 0 );
         }
+
         return true;
     }
 
@@ -427,7 +464,8 @@ class eZDateTimeType extends eZDataType
                       'month' => 'month',
                       'day' => 'day',
                       'hour' => 'hour',
-                      'minute' => 'minute' );
+                      'minute' => 'minute',
+                      'second' => 'second' );
     }
 
 
@@ -506,8 +544,11 @@ class eZDateTimeType extends eZDataType
                 $defaultValueNode->setAttribute( 'type', 'empty' );
             } break;
         }
-
         $attributeParametersNode->appendChild( $defaultValueNode );
+
+        $useSeconds = $classAttribute->attribute( self::USE_SECONDS_FIELD );
+        $useSecondsNode = $attributeParametersNode->ownerDocument->createElement( 'use-seconds', $useSeconds );
+        $attributeParametersNode->appendChild( $useSecondsNode );
     }
 
     /*!
@@ -552,6 +593,12 @@ class eZDateTimeType extends eZDataType
                                     'eZDateTimeType::unserializeContentClassAttribute()' );
                 $classAttribute->setAttribute( self::DEFAULT_FIELD, self::DEFAULT_EMTPY );
             } break;
+        }
+
+        $useSecondsNode = $attributeParametersNode->getElementsByTagName( 'use-seconds' )->item( 0 );
+        if ( $useSecondsNode && $useSecondsNode->textContent === '1' )
+        {
+            $classAttribute->setAttribute( self::USE_SECONDS_FIELD, 1 );
         }
     }
 

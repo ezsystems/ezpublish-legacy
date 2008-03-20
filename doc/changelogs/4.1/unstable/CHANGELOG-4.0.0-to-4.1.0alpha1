@@ -12,6 +12,7 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Implemented enhancement #12656: Add parameter for type casting to eZDBInterface::generateSQLINStatement()
 - Implemented enhancement #12546: is_container attribute on eZContentObjectTreeNode
 - Implemented enhancement #12259: allow a package to contain more than one extension
+- Implemented enhancement #12423: Add seconds input to ezdatetime datatype
 
 *Design:
 

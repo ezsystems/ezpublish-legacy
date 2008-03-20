@@ -9,8 +9,15 @@
 
     <div class="element">
         <label>{'Minute'|i18n( 'design/standard/content/datatype' )}:</label>
-        <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_minute" class="ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="text" name="{$attribute_base}_time_minute_{$attribute.id}" size="4" value="{section show=$attribute.content.is_valid}{$attribute.content.minute}{/section}" />
+        <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_minute" class="ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="text" name="{$attribute_base}_time_minute_{$attribute.id}" size="3" value="{section show=$attribute.content.is_valid}{$attribute.content.minute}{/section}" />
     </div>
+
+    {if $attribute.contentclass_attribute.data_int2|eq(1)}
+    <div class="element">
+        <label>{'Second'|i18n( 'design/standard/content/datatype' )}:</label>
+        <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_second" class="ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="text" name="{$attribute_base}_time_second_{$attribute.id}" size="3" value="{section show=$attribute.content.is_valid}{$attribute.content.second}{/section}" />
+    </div>
+    {/if}
 
     <div class="break"></div>
 

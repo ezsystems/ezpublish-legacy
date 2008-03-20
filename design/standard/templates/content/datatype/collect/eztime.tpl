@@ -10,8 +10,15 @@
 
     <div class="element">
         <label>{'Minute'|i18n( 'design/standard/content/datatype' )}:</label>
-        <input type="text" name="{$attribute_base}_time_minute_{$attribute.id}" size="4" value="{section show=$time.is_valid}{$time.minute}{/section}" />
+        <input type="text" name="{$attribute_base}_time_minute_{$attribute.id}" size="3" value="{section show=$time.is_valid}{$time.minute}{/section}" />
     </div>
+
+    {if $attribute.contentclass_attribute.data_int2|eq(1)}
+    <div class="element">
+        <label>{'Second'|i18n( 'design/standard/content/datatype' )}:</label>
+        <input type="text" name="{$attribute_base}_time_second_{$attribute.id}" size="3" value="{section show=$time.is_valid}{$time.second}{/section}" />
+    </div>
+    {/if}
 
     <div class="break"></div>
 
