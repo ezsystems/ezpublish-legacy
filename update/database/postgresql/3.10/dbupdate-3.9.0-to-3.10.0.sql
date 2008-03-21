@@ -1,6 +1,7 @@
 UPDATE ezsite_data SET value='3.10.0' WHERE name='ezpublish-version';
 UPDATE ezsite_data SET value='4' WHERE name='ezpublish-release';
 
+-- START: from 3.9.1
 -- extend length of 'serialized_name_list'
 ALTER TABLE ezcontentclass RENAME COLUMN serialized_name_list TO name_tmp;
 ALTER TABLE ezcontentclass ADD COLUMN serialized_name_list text;
@@ -12,6 +13,7 @@ ALTER TABLE ezcontentclass_attribute ADD COLUMN serialized_name_list text;
 UPDATE ezcontentclass_attribute SET serialized_name_list = name_tmp;
 ALTER TABLE ezcontentclass_attribute ALTER serialized_name_list SET NOT NULL;
 ALTER TABLE ezcontentclass_attribute DROP COLUMN name_tmp;
+-- END: from 3.9.1
 
 -- Add new tables for the isbn datatype. -- START --
 
@@ -110,11 +112,15 @@ CREATE INDEX ezurlalias_imp_wcard_fwd ON ezurlalias USING btree (is_imported, is
 CREATE INDEX ezurlalias_wcard_fwd ON ezurlalias USING btree (is_wildcard, forward_to_id);
 DROP INDEX ezurlalias_is_wildcard;
 
+-- START: from 3.9.3
 ALTER TABLE ezvatrule RENAME country TO country_code;
+-- END: from 3.9.3
 
+-- START: from 3.9.4
 CREATE INDEX  ezsearch_word_obj_count ON ezsearch_word(object_count);
 
 DROP INDEX ezurl_url;
 ALTER TABLE ezurl ALTER url TYPE text;
 CREATE INDEX ezurl_url ON ezurl(url);
+-- END: from 3.9.4
 
