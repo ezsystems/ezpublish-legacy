@@ -5,6 +5,7 @@ DELETE FROM ezuser_setting where user_id not in (SELECT contentobject_id FROM ez
 
 DELETE FROM ezcontentclass_classgroup WHERE NOT EXISTS (SELECT * FROM ezcontentclass c WHERE c.id=contentclass_id AND c.version=contentclass_version);
 
+-- START: from 3.10.1
 CREATE SEQUENCE ezurlwildcard_s
     START 1
     INCREMENT 1
@@ -21,4 +22,5 @@ CREATE TABLE ezurlwildcard (
 
 ALTER TABLE ONLY ezurlwildcard
     ADD CONSTRAINT ezurlwildcard_pkey PRIMARY KEY (id);
+-- END: from 3.10.1
 
