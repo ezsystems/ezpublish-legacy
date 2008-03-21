@@ -74,9 +74,11 @@ ALTER TABLE ezcontentclass_attribute CHANGE COLUMN serialized_name_list serializ
 ALTER TABLE ezvatrule CHANGE country country_code varchar(255) DEFAULT '' NOT NULL;
 -- END: from 3.9.3
 
+-- START: from 3.9.4
 ALTER table ezsearch_word ADD KEY ezsearch_word_obj_count(object_count);
 
 DROP INDEX ezurl_url ON ezurl;
 ALTER TABLE ezurl MODIFY url longtext;
 ALTER table ezurl ADD KEY ezurl_url( url(255) );
+-- END: from 3.9.4
 
