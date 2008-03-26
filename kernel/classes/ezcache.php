@@ -401,7 +401,7 @@ class eZCache
 
             if ( is_file( $cachePath ) )
             {
-                $handler =& eZFileHandler::instance( false );
+                $handler = eZFileHandler::instance( false );
                 $handler->unlink( $cachePath );
             }
             else
