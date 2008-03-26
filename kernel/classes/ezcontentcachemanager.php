@@ -606,9 +606,19 @@ class eZContentCacheManager
         if ( $nodeList === false and !is_array( $additionalNodeList ) )
             return false;
 
+        if ( $nodeList === false )
+        {
+            $nodeList = array();
+        }
+
         if ( is_array( $additionalNodeList ) )
         {
             array_splice( $nodeList, count( $nodeList ), 0, $additionalNodeList );
+        }
+
+        if ( count( $nodeList ) == 0 )
+        {
+            return false;
         }
 
         $nodeList = array_unique( $nodeList );
