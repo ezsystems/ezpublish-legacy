@@ -48,7 +48,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
     /*!
       Updates URL - object links.
     */
-    function updateUrlObjectLinks( $contentObjectAttribute, $urlIDArray )
+    static function updateUrlObjectLinks( $contentObjectAttribute, $urlIDArray )
     {
         $objectAttributeID = $contentObjectAttribute->attribute( 'id' );
         $objectAttributeVersion = $contentObjectAttribute->attribute('version');
