@@ -73,7 +73,6 @@ class eZMailNotificationTransport extends eZNotificationTransport
             $mail->extractEmail( $addressItem, $email, $name );
             $mail->addBcc( $email, $name );
         }
-        $mail->setReceiver( '' );
         $mail->setSender( $emailSender );
         $mail->setSubject( $subject );
         $mail->setBody( $body );
