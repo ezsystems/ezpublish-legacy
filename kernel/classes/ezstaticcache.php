@@ -115,7 +115,7 @@ class eZStaticCache
     */
     function alwaysUpdateURLArray()
     {
-        return $this->AlwaysUpdateArray;
+        return $this->AlwaysUpdate;
     }
 
     /*!
@@ -526,6 +526,8 @@ class eZStaticCache
     public $MaxCacheDepth;
     /// Array of URLs to cache.
     public $CachedURLArray;
+    /// An array with URLs that is to always be updated.
+    public $AlwaysUpdate;
 }
 
 ?>
