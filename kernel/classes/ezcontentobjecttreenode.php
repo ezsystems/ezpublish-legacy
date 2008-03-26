@@ -1641,26 +1641,38 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     /*!
         \a static
+
+        \param $limit maximum number of nodes in the path to use, starting from last node
     */
-    static function createNodesConditionSQLStringFromPath( $nodePath, $includingLastNodeInThePath )
+    static function createNodesConditionSQLStringFromPath( $nodePath, $includingLastNodeInThePath, $limit = false )
     {
         $pathString = false;
-        $pathArray  = explode( '/', trim($nodePath,'/') );
+        $pathArray  = explode( '/', trim( $nodePath, '/' ) );
 
-        if ( $includingLastNodeInThePath == false )
-            $pathArray = array_slice( $pathArray, 0, count($pathArray)-1 );
+        $pathArrayCount = count( $pathArray );
 
-        if ( count( $pathArray ) > 0 )
+        if ( $limit && $includingLastNodeInThePath == false )
         {
-            foreach ( $pathArray as $node )
-            {
-                $pathString .= 'or node_id = ' . $node . ' ';
+            $limit++;
+        }
 
-            }
-            if ( strlen( $pathString) > 0 )
-            {
-                $pathString = '('. substr( $pathString, 2 ) . ') and ';
-            }
+        $sliceOffset = $limit && $pathArrayCount > $limit ? $pathArrayCount - $limit : 0;
+        $sliceLength = $includingLastNodeInThePath ? $pathArrayCount - $sliceOffset : $pathArrayCount - ( $sliceOffset + 1 );
+
+        // only take a slice when necessary
+        if ( ( $sliceOffset + $sliceLength ) < $pathArrayCount )
+        {
+            $pathArray = array_slice( $pathArray, $sliceOffset, $sliceLength );
+        }
+
+        if ( $sliceLength == 1 )
+        {
+            $pathString = ' node_id = ' . implode( '', $pathArray ) . ' and ';
+        }
+        else if ( $sliceLength > 0 )
+        {
+            $db = eZDB::instance();
+            $pathString = ' ' . $db->generateSQLInStatement( $pathArray, 'node_id' ) . ' and ';
         }
 
         return $pathString;
@@ -3480,10 +3492,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                           The last node is the node which the path was fetched from.
      \param $asObjects If \c true then return PHP objects, if not return raw row data.
     */
-    static function fetchNodesByPathString( $nodePath, $withLastNode = false, $asObjects = true )
+    static function fetchNodesByPathString( $nodePath, $withLastNode = false, $asObjects = true, $limit = false )
     {
         $nodesListArray = array();
-        $pathString = eZContentObjectTreeNode::createNodesConditionSQLStringFromPath( $nodePath, $withLastNode );
+        $pathString = eZContentObjectTreeNode::createNodesConditionSQLStringFromPath( $nodePath, $withLastNode, $limit );
 
         if ( $pathString  )
         {
@@ -3535,10 +3547,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
      $list = fetchClassIdentifierListByPathString( '/2/10/', false );
      \endcode
     */
-    static function fetchClassIdentifierListByPathString( $nodePath, $withLastNode )
+    static function fetchClassIdentifierListByPathString( $nodePath, $withLastNode, $limit = false )
     {
         $itemList = array();
-        $nodes = eZContentObjectTreeNode::fetchNodesByPathString( $nodePath, $withLastNode, false );
+        $nodes = eZContentObjectTreeNode::fetchNodesByPathString( $nodePath, $withLastNode, false, $limit );
 
         foreach ( $nodes as $node )
         {
