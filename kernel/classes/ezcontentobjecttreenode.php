@@ -3482,6 +3482,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \param $withLastNode If \c true the last node in the path is included in the list.
                           The last node is the node which the path was fetched from.
      \param $asObjects If \c true then return PHP objects, if not return raw row data.
+     \param $limit maximum number of nodes in the path to use, starting from last node
     */
     static function fetchNodesByPathString( $nodePath, $withLastNode = false, $asObjects = true, $limit = false )
     {
@@ -3530,6 +3531,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       node IDs starting from the root and delimited by / (slash).
      \param $withLastNode If \c true the last node in the path is included in the list.
                           The last node is the node which the path was fetched from.
+     \param $limit maximum number of nodes in the path to use, starting from last node
      \return An array with class identifier and node ID.
 
      Example
