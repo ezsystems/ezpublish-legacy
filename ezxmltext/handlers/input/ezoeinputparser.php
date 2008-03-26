@@ -183,6 +183,7 @@ class eZOEInputParser extends eZXMLInputParser
         if ( isset( $attributes['type'] ) && $attributes['type'] === 'custom' )
         {
             $name = 'custom';
+            $attributes['class'] = trim( str_replace('mceItemCustomTag', '', $attributes['class']) );
             $attributes['name'] = $attributes['class'];
         }
         return $name;
@@ -226,6 +227,7 @@ class eZOEInputParser extends eZXMLInputParser
         if ( isset( $attributes['type'] ) && $attributes['type'] === 'custom' )
         {
             $name = 'custom';
+            $attributes['class'] = trim( str_replace('mceItemCustomTag', '', $attributes['class']) );
             if ( !isset($attributes['name']) ) $attributes['name'] = $attributes['class'];
         }
 
@@ -289,6 +291,7 @@ class eZOEInputParser extends eZXMLInputParser
         {
             $name = 'custom';
             $attributes['children_required'] = 'true';
+            $attributes['class'] = trim( str_replace('mceItemCustomTag', '', $attributes['class']) );
             $attributes['name'] = $attributes['class'];
         }
 

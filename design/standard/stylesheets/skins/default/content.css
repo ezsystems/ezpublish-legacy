@@ -67,14 +67,29 @@ pre
   background-color: #ccccff;
 }
 
-/* general custom tag style */
+/* general block tags (embed and custom) */
 
-div
+div.mceNonEditable:after,
+div.mceItemCustomTag:after
+{
+    content: "-";
+    height: 0;
+    font-size: 0;
+    visibility: hidden;
+    display: block;
+    clear: both;
+}
+
+
+/* custom tag style */
+
+div.mceItemCustomTag
 { 
   padding: 0.5em;
-  border: 2px solid #4B7198;
+  border: 1px solid #5090c0;
 }
-div, span { background-color: #ccffff; }
+
+div.mceItemCustomTag, span.mceItemCustomTag { background-color: #ccffff; }
 
 
 /* Visualisation of default inline custom tags */
@@ -115,11 +130,9 @@ div.pagebreak p { margin: 0; }
 
 /* change the style for embed tags */
 
-div.mceNonEditable, div.mceNonEditable div
+div.mceNonEditable
 {
-  background-color: transparent;
-  border: 0 none;
-  padding: 0;
+
 }
 
 /* core.css ez layout styles for embed tags */

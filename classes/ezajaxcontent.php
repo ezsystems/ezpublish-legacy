@@ -134,16 +134,26 @@ class eZAjaxContent
         $ret['class_id']         = (int) $contentObject->attribute( 'contentclass_id' );
         $ret['class_name']       = $contentObject->attribute( 'class_name' );
 
-        $class                   = $contentObject->attribute( 'content_class' );
-        $ret['class_identifier'] = $class->attribute( 'identifier' );
-        $ret['is_container']     = (int) $class->attribute( 'is_container' );
-
         if ( $node instanceof eZContentObjectTreeNode )
         {
+            // optimization for eZ Publish 4.1 (avoid fetching class)
+            if ( $node->hasAttribute( 'is_container' ) )
+            {
+                $ret['class_identifier'] = $node->attribute( 'class_identifier' );
+                $ret['is_container']     = (int) $node->attribute( 'is_container' );
+            }
+            else
+            {
+                $class                   = $contentObject->attribute( 'content_class' );
+                $ret['class_identifier'] = $class->attribute( 'identifier' );
+                $ret['is_container']     = (int) $class->attribute( 'is_container' );
+            }
+            
             $ret['node_id']        = (int) $node->attribute( 'node_id' );
             $ret['parent_node_id'] = (int) $node->attribute( 'parent_node_id' );
             $ret['url_alias']      = $node->attribute( 'url_alias' );
             $ret['depth']          = (int) $node->attribute( 'depth' );
+
             if ( $params['fetchPath'] )
             {
                 $ret['path'] = array();
@@ -152,10 +162,18 @@ class eZAjaxContent
                     $ret['path'][] = self::simplify( $n );
                 }
             }
-            $ret['children_count'] = 0;
-            if ( $ret['is_container'] && $params['fetchChildrenCount'] )
+            else
             {
-                $ret['children_count'] = (int) $node->attribute( 'children_count' );
+                $ret['path'] = false;
+            }
+
+            if ( $params['fetchChildrenCount'] )
+            {
+                $ret['children_count'] = $ret['is_container'] ? (int) $node->attribute( 'children_count' ) : 0;
+            }
+            else
+            {
+                $ret['children_count'] = false;
             }
         }
 

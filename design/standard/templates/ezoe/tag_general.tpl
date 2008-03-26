@@ -2,38 +2,18 @@
                                            'scripts', array('javascript/ezoe/ez_core.js',
                                                             'javascript/ezoe/ez_core_animation.js',
                                                             'javascript/ezoe/ez_core_accordion.js',
-                                                            'javascript/ezoe/popup.js'),
+                                                            'javascript/ezoe/popup_utils.js'),
                                            'css', array()
                                            )}
 
 <script type="text/javascript">
 <!--
 
-var tinyMCEelement = false, ezTagName = '{$tag_name|wash}'; 
-{literal} 
-
-tinyMCEPopup.onInit.add( function()
-{
-    // Initialize page with default values and tabs
-    var ed = tinyMCEPopup.editor, el = ed.selection.getNode(), n;
-    if ( el && el.nodeName )
-    {
-        if ( el.nodeName === ezXmlToXhtmlHash[ ezTagName ] )
-            tinyMCEelement = el;
-        else if ( ezXmlToXhtmlHash[ ezTagName ] && ( el = ed.dom.getParent(el, ezXmlToXhtmlHash[ ezTagName ] ) ) )
-            tinyMCEelement = el;
-        else if ( el = ed.dom.getParent(el, ezTagName ) )
-            tinyMCEelement = el;
-    }
-
-    if ( tinyMCEelement )
-    {
-        initGeneralmAttributes( ezTagName + '_attributes', tinyMCEelement );
-        initCustomAttributeValue( ezTagName + '_customattributes', tinyMCEelement.getAttribute('customattributes'))
-    }
-});
-
-{/literal}
+tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {ldelim}
+    tagName: '{$tag_name|wash}',
+    form: 'EditForm',
+    cancelButton: 'CancelButton'
+{rdelim} ) );
 
 // -->
 </script>
@@ -41,9 +21,7 @@ tinyMCEPopup.onInit.add( function()
 
 <div>
 
-    <form onsubmit="return insertGeneralTag( this );" action="JavaScript:void(0)" method="post" name="EditForm" id="EditForm" enctype="multipart/form-data"
-    style="width: 360px;">
-    
+    <form action="JavaScript:void(0)" method="post" name="EditForm" id="EditForm" enctype="multipart/form-data" style="width: 360px;">
 
     <div class="slide" style="width: 360px;">
         <div class="attribute-title">
@@ -57,8 +35,7 @@ tinyMCEPopup.onInit.add( function()
         <div class="block"> 
             <div class="left">
                 <input id="SaveButton" name="SaveButton" type="submit" value="{'OK'|i18n('design/standard/ezoe')}" />
-                <input id="CancelButton" name="CancelButton" type="reset" value="{'Cancel'|i18n('design/standard/ezoe')}" onclick="cancelAction();" />
-                <!-- todo: upload new button / link / tab -->
+                <input id="CancelButton" name="CancelButton" type="reset" value="{'Cancel'|i18n('design/standard/ezoe')}" />
             </div> 
         </div>
 

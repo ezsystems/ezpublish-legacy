@@ -133,8 +133,6 @@ path: "{'Path'|i18n('design/standard/setup')}"
     	apply_source_formatting : false,
     	fix_list_elements : true,
     	fix_table_elements : true,
-        noneditable_editable_cmd: 'mceObject,mceFullScreen',
-        noneditable_active_button: 'object',
     	tab_focus : ':prev,:next',
     	theme_advanced_editor_css : eZOeMCE['editor_css'],
     	theme_advanced_content_css : eZOeMCE['content_css'],

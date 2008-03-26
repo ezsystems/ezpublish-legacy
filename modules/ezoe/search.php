@@ -124,11 +124,15 @@ if (!$searchList  || ( $searchOffset === 0 && count($searchList["SearchResult"])
 }
 
 
-$r = eZAjaxContent::encode( $searchList["SearchResult"], array('dataMap' => array('image') ) );
+$list = eZAjaxContent::encode( $searchList["SearchResult"], array('dataMap' => array('image') ) );
 
 
-echo $varName . '{list:' . $r . ',count:' . $searchList['SearchCount'] .
-     ',offset:' . $searchOffset . ',limit:' . $searchLimit . '};';
+echo $varName . '{list:' . $list . 
+     ",\ncount:" . count( $searchList["SearchResult"] ) .
+     ",\ntotal_count:" . $searchList['SearchCount'] .
+     ",\noffset:" . $searchOffset .
+     ",\nlimit:" . $searchLimit .
+     "\n};";
 
 eZExecution::cleanExit();
 //$GLOBALS['show_page_layout'] = false;

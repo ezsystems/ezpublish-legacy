@@ -194,12 +194,12 @@ if ( $contentIni->hasVariable( 'embed-inline', 'Defaults' ) )
 
 // view mode list
 if ( $siteIni->hasVariable( 'EmbedViewModeSettings', 'AvailableViewModes' ) )
-    $viewList = $siteIni->variable( 'EmbedViewModeSettings', 'AvailableViewModes' );
+    $viewList = array_unique( $siteIni->variable( 'EmbedViewModeSettings', 'AvailableViewModes' ) );
 else
     $viewList = array();
 
 if ( $siteIni->hasVariable( 'EmbedViewModeSettings', 'InlineViewModes' ) )
-    $viewListInline = $siteIni->variable( 'EmbedViewModeSettings', 'InlineViewModes' );
+    $viewListInline = array_unique( $siteIni->variable( 'EmbedViewModeSettings', 'InlineViewModes' ) );
 else
     $viewListInline = array();
 
@@ -213,20 +213,15 @@ $tpl->setVariable( 'embed_id', $embedId );
 $tpl->setVariable( 'embed_object', $embedObject );
 $tpl->setVariable( 'embed_data', eZAjaxContent::encode( $embedObject, $params ) );
 $tpl->setVariable( 'content_type', $contentType );
+$tpl->setVariable( 'tag_name', $embedInline ? 'embed-inline' : 'embed' );
 
-$tpl->setVariable( 'view_list', eZAjaxContent::jsonEncode( $viewList ) );
-$tpl->setVariable( 'view_list_inline', eZAjaxContent::jsonEncode( $viewListInline ) );
-
-$tpl->setVariable( 'class_list', eZAjaxContent::jsonEncode( $classList ) );
-$tpl->setVariable( 'class_list_inline', eZAjaxContent::jsonEncode( $classListInline ) );
-
-$tpl->setVariable( 'attribute_defaults', eZAjaxContent::jsonEncode( $attributeDefaults ) );
-$tpl->setVariable( 'attribute_defaults_inline', eZAjaxContent::jsonEncode( $attributeDefaultsInline ) );
+$tpl->setVariable( 'view_list', eZAjaxContent::jsonEncode( array( 'embed' => $viewList, 'embed-inline' => $viewListInline ) ) );
+$tpl->setVariable( 'class_list', eZAjaxContent::jsonEncode( array( 'embed' => $classList, 'embed-inline' => $classListInline ) ) );
+$tpl->setVariable( 'attribute_defaults', eZAjaxContent::jsonEncode( array( 'embed' => $attributeDefaults, 'embed-inline' => $attributeDefaultsInline ) ) );
 
 $tpl->setVariable( 'size_list', $sizeTypeArray );
-$tpl->setVariable( 'embed_inline', $embedInline );
 
-$defaultSize = $contentIni->variable( 'ImageSettings', 'DefaultEmbedAlias' );
+$defaultSize = $attributeDefaults['size'] || $contentIni->variable( 'ImageSettings', 'DefaultEmbedAlias' );
 $tpl->setVariable( 'default_size', $defaultSize );
 
 if ( $contentIni->hasVariable( 'ImageSettings', 'DefaultCropAlias' ) )

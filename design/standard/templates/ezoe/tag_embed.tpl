@@ -2,95 +2,156 @@
                                            'scripts', array('javascript/ezoe/ez_core.js',
                                                             'javascript/ezoe/ez_core_animation.js',
                                                             'javascript/ezoe/ez_core_accordion.js',
-                                                            'javascript/ezoe/popup.js'),
+                                                            'javascript/ezoe/popup_utils.js'),
                                            'css', array()
                                            )}
 
 <script type="text/javascript">
 <!--
-var embedObject = {$embed_data}, defaultEmbedSize = '{$default_size}', selectedSize = defaultEmbedSize;
-var contentType = '{$content_type}';
-var viewListData = {$view_list}, viewListDataInline = {$view_list_inline};
-var classListData = {$class_list}, classListDataInline = {$class_list_inline};
 
-var attributeDefaults = {$attribute_defaults}, attributeDefaultsInline = {$attribute_defaults_inline};
+eZOEPopupUtils.embedObject = {$embed_data};
+var defaultEmbedSize = '{$default_size}', selectedSize = defaultEmbedSize, contentType = '{$content_type}';
+var viewListData = {$view_list}, classListData = {$class_list}, attributeDefaults = {$attribute_defaults};
 
-{literal} 
-var tinyMCEelement = false, embedImageNode;
 
-function specificTagGenerator()
+{literal}
+
+
+tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
+    tagName: 'embed',
+    form: 'EditForm',
+    cancelButton: 'CancelButton',
+    cssClass: contentType !== 'image' ? 'mceNonEditable' : '',
+    onInit: function( el, tag, ed )
+    {        
+	    var selectors = ez.$('embed_alt_source', 'embed_align_source', 'embed_class_source', 'embed_view_source', 'embed_inline_source');
+
+	    inlineSelectorChange.call( selectors[4], false, selectors[4].el  );
+        selectors[4].addEvent('change', inlineSelectorChange );
+
+	    if ( contentType === 'image' )
+	    {
+	        selectors[0].addEvent('change', loadImageSize );
+            loadImageSize( false, selectors[0].el );
+	        selectors[1].addEvent('change', setEmbedAlign );
+	        setEmbedAlign( false, selectors[1].el );
+	    }
+	    else
+	    {
+	        var align = el ? ed.dom.getStyle(el, 'float') || 'center' : defaults['align']  || 'right';
+	        ez.$('embed_preview').addClass('object_preview').setStyles( ez.ie56 ? {'margin': '0 5px 5px 5px'} : {});
+	        selectors[1].el.value = align;
+            selectors.callEach('addEvent', 'change', loadEmbedPreview );
+
+	        if ( el )
+	            ez.$('embed_preview').el.innerHTML = '<div title="' + el.title + '" style="float:' + align + ';clear:both;text-align: left;">' + el.innerHTML + '<\/div>';
+	        else
+	            loadEmbedPreview();        
+	    }
+
+	    var slides = ez.$$('div.slide'), navigation = ez.$$('#tabs div.tab');
+	    slides.accordion( navigation, {duration: 150, transition: ez.fx.sinoidal}, {marginLeft: 480, display: 'none'} );
+    },
+    tagGenerator: function( tag, customTag, text )
+    {
+	    if ( contentType === 'image' )
+	        return '<img id="__mce_tmp" src="javascript:void(0);" />';
+	    return '<div id="__mce_tmp">' + ez.$$('#embed_preview div')[0].el.innerHTML + '</div>';
+    },
+    tagAttributeEditor: function( ed, el, args )
+    {
+        args['id'] = 'eZObject_' + eZOEPopupUtils.embedObject['contentobject_id'];
+        args['inline'] = ez.$('embed_inline_source').el.checked ? 'true' : 'false';
+	    if ( contentType === 'image' )
+	    {
+	        var sizeObj     = eZOEPopupUtils.embedObject['data_map']['image']['content'][ args['alt'] ];
+	        args['src']     = eZOeMCE['root'] + sizeObj['url'];
+	        args['title']   = eZOEPopupUtils.safeHtml( sizeObj['alternative_text'] || eZOEPopupUtils.embedObject['name'] );
+	        args['border']  = 0;
+	    }
+	    else
+	    {
+	        el.innerHTML = ez.$$('#embed_preview div')[0].el.innerHTML;
+	        ed.dom.setStyle(el, 'float', args['align'] === 'middle' ? '' : args['align'])
+	    }
+	    el.style.display = args['inline'] !== 'false' ? 'block' : 'inline';
+        ed.dom.setAttribs( el, args );
+    }
+}));
+
+
+function inlineSelectorChange( e, el )
 {
-    if ( contentType === 'image' )
-        return '<img id="__mce_tmp" src="javascript:;" />';
-    return '<div id="__mce_tmp">' + ez.$$('#embed_preview div')[0].el.innerHTML + '</div>';
+    // toogles data when the user clicks inline, since
+    // embed and embed-inline have different settings
+    var viewList = ez.$('embed_view_source'), classList = ez.$('embed_class_source'), inline = el.checked;
+    var tag = inline ? 'embed-inline' : 'embed', editorEl = eZOEPopupUtils.settings.editorElement, def = attributeDefaults[ tag ];
+    eZOEPopupUtils.settings.selectedTag = tag;
+    eZOEPopupUtils.removeSelectOptions( viewList.el );
+    eZOEPopupUtils.removeSelectOptions( classList.el );
+    eZOEPopupUtils.addSelectOptions( viewList.el, viewListData[ tag ] );
+    eZOEPopupUtils.addSelectOptions( classList.el, classListData[ tag ] );
+    ez.$( inline ? 'embed_customattributes' : 'embed-inline_customattributes' ).hide();
+    ez.$( !inline ? 'embed_customattributes' : 'embed-inline_customattributes' ).show();
 
+    if ( editorEl )
+        viewList.el.value = editorEl.getAttribute('view');
+    else if ( def['view'] !== undefined )
+        viewList.el.value = def['view'];
+
+    if ( editorEl )
+        classList.el.value = ez.string.trim( editorEl.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable)/g, '') );
+    else if ( def['class'] !== undefined )
+        classList.el.value = def['class'];
 }
 
-tinyMCEPopup.onInit.add( function(){
-    // Initialize page with default values and tabs
-    var ed = tinyMCEPopup.editor, el = ed.selection.getNode();
-    var sizeSelector = ez.$('embed_size_source'), inline = ez.$('embed_inline_source'), defaults = inline.el.checked ? attributeDefaultsInline : attributeDefaults;
-    if ( el && (el.nodeName === 'IMG' || (el.nodeName === 'DIV' && el.className.indexOf('mceNonEditable') !== -1 )) )
+
+function setEmbedAlign( e, el )
+{
+    ez.$('embed_preview_image').el.align = el.value;
+}
+
+function loadImageSize( e, el )
+{
+    // Dynamically loads image sizes as they are requested
+    // global objects: ez, eZOeMCE
+    var attribObj = eZOEPopupUtils.embedObject['data_map']['image']['content'] || false, previewImageNode = ez.$('embed_preview_image'), size = el.value;
+    if ( !attribObj || !previewImageNode )
     {
-        tinyMCEelement = el;
-        initCustomAttributeValue( (inline.el.checked ? 'embed-inline_customattributes' : 'embed_customattributes' ), el.getAttribute('customattributes'));
+        // Image attribute or node missing
     }
-    if ( contentType === 'image' )
+    else if ( attribObj[size] )
     {
-        selectedSize = tinyMCEelement.alt || defaultEmbedSize;
-        embedImageNode = document.createElement('img');
-        loadImageSize( selectedSize )
-        embedImageNode.alt = embedObject['name'];
-        ez.$('embed_preview').el.appendChild( embedImageNode );
-        sizeSelector.el.value = selectedSize;
-        sizeSelector.addEvent('change', function(){
-            selectedSize = this.el.value;
-            loadImageSize( selectedSize );
+        previewImageNode.el.src = eZOeMCE['root'] + attribObj[size]['url'];
+        tinyMCEPopup.resizeToInnerSize();
+    }
+    else
+    {
+        var url = eZOeMCE['extension_url'] + '/load/' + eZOEPopupUtils.embedObject['contentobject_id'];
+        eZOEPopupUtils.ajax.load( url, 'imagePreGenerateSizes=' + size, function(r){
+            ez.script( 'eZOEPopupUtils.ajaxLoadResponse=' + r.responseText );
+            if ( eZOEPopupUtils.ajaxLoadResponse )
+            {
+                var size = ez.$('embed_alt_source').el.value;
+                eZOEPopupUtils.embedObject['data_map']['image']['content'][ size ] = eZOEPopupUtils.ajaxLoadResponse['data_map']['image']['content'][ size ];
+                previewImageNode.el.src = eZOeMCE['root'] + eZOEPopupUtils.embedObject['data_map']['image']['content'][ size ]['url'];
+            }
         });
-        var align = tinyMCEelement.align || defaults['align'] || 'right';
-        embedImageNode.align = align;
-        ez.$('embed_align_source').addEvent('change', function(e, el){ embedImageNode.align = el.value; });
     }
-    else
-    {
-        var align = tinyMCEelement ? ed.dom.getStyle(tinyMCEelement, 'float') || 'center' : defaults['align']  || 'right';
-        ez.$('embed_preview').addClass('object_preview').setStyles( ez.ie56 ? {'margin': '0 5px 5px 5px'} : {});
-    }
-    
-    loadInlineDependatSelections( inline.el.checked );
-
-    if ( tinyMCEelement.className )
-        ez.$('embed_class_source').el.value = ez.string.trim( tinyMCEelement.className.replace('mceNonEditable', '') );
-    else
-        ez.$('embed_class_source').el.value = defaults['class'] || '';
-    ez.$('embed_view_source').el.value = tinyMCEelement.view || defaults['view'] ||'embed';
-    ez.$('embed_align_source').el.value = align === 'center' ? 'middle' : align;
-    inline.addEvent('change', function( e, el ){
-        loadInlineDependatSelections( el.checked );
-    });
-    
-    if ( contentType !== 'image' )
-    {
-        inline.addEvent('change', loadEmbedPreview );
-        ez.$('embed_align_source').addEvent('change', loadEmbedPreview );
-        ez.$('embed_class_source').addEvent('change', loadEmbedPreview );
-        ez.$('embed_view_source').addEvent('change', loadEmbedPreview );
-        if ( tinyMCEelement )
-            ez.$('embed_preview').el.innerHTML = '<div title="' + tinyMCEelement.title + '" style="float:' + align + ';clear:both;text-align: left;">' + tinyMCEelement.innerHTML + '<\/div>';
-        else
-            loadEmbedPreview();        
-    }
-    var slides = ez.$$('div.slide'), navigation = ez.$$('#tabs div.tab');
-    slides.accordion( navigation, {duration: 150, transition: ez.fx.sinoidal}, {marginLeft: 480, display: 'none'} );
-
-});
-
-
-function specificTagEditor( el )
-{
-    if ( contentType !== 'image' )
-        el.innerHTML = ez.$$('#embed_preview div')[0].el.innerHTML;
 }
+
+function loadEmbedPreview( )
+{
+    // Dynamically loads embed preview when attributes change
+    // global objects: ez, eZOeMCE          
+    var url = eZOeMCE['extension_url'] + '/embed_view/' + eZOEPopupUtils.embedObject['contentobject_id'];
+    var postData = ez.$$('#embed_attributes input,#embed_attributes select').callEach('postData').join('&');
+    eZOEPopupUtils.ajax.load( url, postData, function(r)
+    {
+        ez.$('embed_preview').el.innerHTML = r.responseText;
+    });
+}
+
 
 {/literal}
 // -->
@@ -98,8 +159,7 @@ function specificTagEditor( el )
 
 
 <div style="width: 470px;">
-    <form onsubmit="return insertEmbedTag(  );" action="JavaScript:void(0)" method="post" name="EditForm" id="EditForm" enctype="multipart/form-data"
-    style="float:left; width: 940px;">
+    <form action="JavaScript:void(0)" method="post" name="EditForm" id="EditForm" enctype="multipart/form-data" style="float:left; width: 940px;">
     
     <div id="tabs">
         <div class="tab"><div>{'Properties'|i18n('design/standard/ezoe')}</div></div>
@@ -114,23 +174,29 @@ function specificTagEditor( el )
         </div>
         <table class="properties" id="embed_attributes">
         {if $content_type|eq( 'image' )}
-            <tr id="embed_size">
-                <td class="column1"><label for="embed_size_source">{'Size'|i18n('design/standard/ezoe')}</label></td>
+            <tr id="embed_alt">
+                <td class="column1"><label for="embed_alt_source">{'Size'|i18n('design/standard/ezoe')}</label></td>
                 <td>
-                    <select name="embed_size_source" id="embed_size_source">
+                    <select name="alt" id="embed_alt_source">
                     {foreach $size_list as $value => $name}
-                        <option value="{$value|wash}">{$name|wash}</option>
+                        <option value="{$value|wash}"{if $default_size|eq( $value )} selected="selected"{/if}>{$name|wash}</option>
                     {/foreach}
                     </select>
-                    <input type="hidden" name="embed_view_source" id="embed_view_source" value="" />
+                </td>
+            </tr>
+            <tr id="embed_view">
+                <td class="column1"><label for="embed_view_source">{'View'|i18n('design/standard/ezoe')}</label></td>
+                <td>
+                    <select name="view" id="embed_view_source">
+                    </select>
                 </td>
             </tr>
         {else}
             <tr id="embed_view">
                 <td class="column1"><label for="embed_view_source">{'View'|i18n('design/standard/ezoe')}</label></td>
                 <td>
-                    <input type="hidden" name="embed_size_source" id="embed_size_source" value="" />
-                    <select name="embed_view_source" id="embed_view_source">
+                    <input type="hidden" name="alt" id="embed_alt_source" value="" />
+                    <select name="view" id="embed_view_source">
                     </select>
                 </td>
             </tr>
@@ -138,14 +204,14 @@ function specificTagEditor( el )
             <tr id="embed_class">
                 <td class="column1"><label for="embed_class_source">{'Class'|i18n('design/standard/ezoe')}</label></td>
                 <td>
-                    <select name="embed_class_source" id="embed_class_source">
+                    <select name="class" id="embed_class_source">
                     </select>
                 </td>
             </tr>
             <tr id="embed_align">
                 <td class="column1"><label for="embed_align_source">{'Align'|i18n('design/standard/ezoe')}</label></td>
                 <td>
-                    <select name="embed_align_source" id="embed_align_source">
+                    <select name="align" id="embed_align_source">
                         <option value="left">{'Left'|i18n('design/standard/ezoe')}</option>
                         <option value="middle">{'Center'|i18n('design/standard/ezoe')}</option>
                         <option value="right">{'Right'|i18n('design/standard/ezoe')}</option>
@@ -155,24 +221,24 @@ function specificTagEditor( el )
             <tr id="embed_inline">
                 <td class="column1"><label for="embed_inline_source">{'Inline'|i18n('design/standard/ezoe')}</label></td>
                 <td>
-                    <input type="checkbox" id="embed_inline_source" name="embed_inline_source" value="true"{if $embed_inline} checked="checked"{/if} />
+                    <input type="checkbox" id="embed_inline_source" name="inline" value="false"{if $tag_name|eq('embed-inline')} checked="checked"{/if} />
                 </td>
             </tr>
         </table>
 
-        {include uri="design:ezoe/customattributes.tpl" tag_name="embed" hide=$embed_inline}
-        {include uri="design:ezoe/customattributes.tpl" tag_name="embed-inline" hide=$embed_inline|not}
+        {include uri="design:ezoe/customattributes.tpl" tag_name="embed" hide=$tag_name|ne('embed')}
+        {include uri="design:ezoe/customattributes.tpl" tag_name="embed-inline" hide=$tag_name|ne('embed-inline')}
 
         <div class="block"> 
             <div class="left">
                 <input id="SaveButton" name="SaveButton" type="submit" value="{'OK'|i18n('design/standard/ezoe')}" />
-                <input id="CancelButton" name="CancelButton" type="reset" value="{'Cancel'|i18n('design/standard/ezoe')}" onclick="cancelAction();" />
-                <!-- todo: upload new button / link / tab -->
+                <input id="CancelButton" name="CancelButton" type="reset" value="{'Cancel'|i18n('design/standard/ezoe')}" />
             </div> 
         </div>
 
         <h4 id="embed_preview_heading">{'Preview'|i18n('design/standard/node/view')}:</h4>
         <div id="embed_preview">
+            {if $content_type|eq( 'image' )}<img id="embed_preview_image" alt="{$embed_object.name|wash}" />{/if}
         </div>
     </div>
 

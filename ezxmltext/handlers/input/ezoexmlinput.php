@@ -915,6 +915,9 @@ class eZOEXMLInput extends eZXMLInputHandler
 
                     if ( $alignment )
                         $objectAttr .= ' align="' . $alignment . '"';
+                        
+                    if ( $tagName === 'embed-inline' )
+                        $objectAttr .= ' style="display: inline;"';
 
                     $output .= '<img id="' . $idString . '" title="' . $objectName . '" src="' . $srcString . '" ' . $objectAttr . $customAttributePart . ' />';
                 }
@@ -978,13 +981,14 @@ class eZOEXMLInput extends eZXMLInputHandler
                     if ( $isInlineTagValue && $name === $key && $isInlineTagValue !== 'false' )
                     {
                         $isInline = true;
+                        break;
                     }
                 }
 
                 if ( $isInline )
                 {
                     if ( !$childTagText ) $childTagText = '&nbsp;';
-                    $output .= '<'. $nodeType .' class="' . $name . '" type="custom"' . $customAttributePart . '>' . $childTagText . '</'. $nodeType .'>';
+                    $output .= '<'. $nodeType .' class="mceItemCustomTag ' . $name . '" type="custom"' . $customAttributePart . '>' . $childTagText . '</'. $nodeType .'>';
                 }
                 else
                 {
@@ -993,7 +997,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                     {
                         $customTagContent .= $this->inputTdXML( $tagChild, $currentSectionLevel, $tdSectionLevel );
                     }
-                    $output .= '<div class="' . $name . '" type="custom"' . $customAttributePart . '>' . $customTagContent . '</div>';
+                    $output .= '<div class="mceItemCustomTag ' . $name . '" type="custom"' . $customAttributePart . '>' . $customTagContent . '</div>';
                 }
             }break;
 

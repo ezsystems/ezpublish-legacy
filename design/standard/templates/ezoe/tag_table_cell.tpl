@@ -2,99 +2,64 @@
                                            'scripts', array('javascript/ezoe/ez_core.js',
                                                             'javascript/ezoe/ez_core_animation.js',
                                                             'javascript/ezoe/ez_core_accordion.js',
-                                                            'javascript/ezoe/popup.js'),
+                                                            'javascript/ezoe/popup_utils.js'),
                                            'css', array()
                                            )}
 
 <script type="text/javascript">
 <!--
 
-var tinyMCEelement = false, ezTagName = '{$tag_name|wash}', cellClassList = {$cell_class_list}; 
+var ezTagName = '{$tag_name|wash}', cellClassList = {$cell_class_list}; 
 {literal} 
 
-tinyMCEPopup.onInit.add( function()
-{
-    // Initialize page with default values and tabs
-    var ed = tinyMCEPopup.editor, el = ed.selection.getNode(), n;
-    if ( el && el.nodeName )
+tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
+    tagName: ezTagName,
+    form: 'EditForm',
+    cancelButton: 'CancelButton',
+    tagAttributeEditor:	function( ed, el, args )
     {
-        if ( el.nodeName === ezXmlToXhtmlHash[ ezTagName ] )
-            tinyMCEelement = el;
-        else if ( ezXmlToXhtmlHash[ ezTagName ] && ( el = ed.dom.getParent(el, ezXmlToXhtmlHash[ ezTagName ] ) ) )
-            tinyMCEelement = el;
-        else if ( el = ed.dom.getParent(el, ezTagName ) )
-            tinyMCEelement = el;
-    }
+	    var mode = ez.$('cell_args_apply_to').el.value, nodes, x = 0, target = this.settings.tagSelector.el.value;
 
-    if ( tinyMCEelement )
-    {
-        initGeneralmAttributes( ezTagName + '_attributes', tinyMCEelement )
-        initCustomAttributeValue( ezTagName + '_customattributes', tinyMCEelement.getAttribute('customattributes'))
-    }
-    ez.$(ezTagName + '_type_source').addEvent('change', toggleCellType);
-});
-
-function switchTagTypeIfNeeded( el, ed, targetTag )
-{
-    var currentTag = el.nodeName.toLowerCase();
-    if ( targetTag !== currentTag )
-    {
-        // changing to a different node type
-        var  doc = ed.getDoc(), newCell = doc.createElement( targetTag );
-
-        for ( var c = 0; c < el.childNodes.length; c++ )
-            newCell.appendChild(el.childNodes[c].cloneNode(1));
-
-        for ( var a = 0; a < el.attributes.length; a++ )
-            ed.dom.setAttrib(newCell, el.attributes[a].name, ed.dom.getAttrib(el, el.attributes[a].name));
-
-        el.parentNode.replaceChild( newCell, el );
-        return newCell;
-    }
-    return el;
-}
-
-function specificTagAttributeEditor( ed, el, args )
-{
-    var mode = ez.$('cell_args_apply_to').el.value, nodes, x = 0, target = ez.$(ezTagName + '_type_source').el.value;
-    if ( mode === 'row' )
-    {
-        nodes = ez.$$('> *', el.parentNode );
-    }
-    else if ( mode === 'column' )
-    {
-	    for (var i = 0, c = el.parentNode.childNodes, l = c.length; i < l; i++ ) 
+	    if ( mode === 'row' )
 	    {
-	        if ( c[i] === el ) x = i + 1;
-	    };
-        nodes = ez.$$('tr > *:nth-child(' + x + ')', el.parentNode.parentNode );
-    }
-    if ( !nodes )
-    {
-        el = switchTagTypeIfNeeded( el, ed, target );
-        ed.dom.setAttribs(el, args);
-    }
-    else nodes.forEach(function( o )
-    {
-        o.el = switchTagTypeIfNeeded( o.el, ed, target );
-        ed.dom.setAttribs( o.el, args );
-    });
-        
-}
+	        // get nodes (cells) in this row
+	        nodes = ez.$$('> *', el.parentNode );
+	    }
+	    else if ( mode === 'column' )
+	    {
+	        // figgure out what column we are in
+	        for (var i = 0, c = el.parentNode.childNodes, l = c.length; i < l; i++ ) 
+	        {
+	            if ( c[i] === el ) x = i + 1;
+	        };
+	        // get nodes (cells) in this column
+	        nodes = ez.$$('tr > *:child(' + x + ')', el.parentNode.parentNode );
+	    }
 
-function toggleCellType( e, el )
-{
-    var node = ez.$(ezTagName + '_class_source').el;
-    removeSelectOptions( node );
-    addSelectOptions( node, cellClassList[el.value] );
-    if ( tinyMCEelement && tinyMCEelement.className ) node.value = tinyMCEelement.className;
-    ez.$$('table.custom_attributes').forEach(function(o){
-        if ( o.el.id === el.value + '_customattributes' )
-            o.show();
-        else
-            o.hide();
-    }, this);
-}
+	    if ( !nodes )
+	    {
+	        el = eZOEPopupUtils.switchTagTypeIfNeeded( el, target );
+	        ed.dom.setAttribs(el, args);
+	    }
+	    else nodes.forEach(function( o )
+	    {
+	        o.el = eZOEPopupUtils.switchTagTypeIfNeeded( o.el, target );
+	        ed.dom.setAttribs( o.el, args );
+	    });
+	},
+    tagSelector: ezTagName + '_type_source',
+    tagSelectorCallBack: function( e, el )
+	{
+	    if ( e === false ) return false;
+	    var classes = ez.$( eZOEPopupUtils.settings.tagName + '_class_source' ).el, editorEl = eZOEPopupUtils.settings.editorElement || false;
+	    eZOEPopupUtils.removeSelectOptions( classes );
+	    eZOEPopupUtils.addSelectOptions( classes, cellClassList[ el.value ] );
+	    if ( editorEl && editorEl.className )
+	        classes.value = editorEl.className;
+	    eZOEPopupUtils.toggleCustomAttributes.call( this );
+	}
+}));
+
 
 {/literal}
 
@@ -104,8 +69,7 @@ function toggleCellType( e, el )
 
 <div>
 
-    <form onsubmit="return insertGeneralTag( this );" action="JavaScript:void(0)" method="post" name="EditForm" id="EditForm" enctype="multipart/form-data"
-    style="width: 360px;">
+    <form action="JavaScript:void(0)" method="post" name="EditForm" id="EditForm" enctype="multipart/form-data" style="width: 360px;">
     
 
     <div class="slide" style="width: 360px;">
@@ -143,12 +107,7 @@ function toggleCellType( e, el )
         <div class="block"> 
             <div class="left">
                 <input id="SaveButton" name="SaveButton" type="submit" value="{'OK'|i18n('design/standard/ezoe')}" />
-                <input id="CancelButton" name="CancelButton" type="reset" value="{'Cancel'|i18n('design/standard/ezoe')}" onclick="cancelAction();" />
-
-                     
-
-
-                <!-- todo: upload new button / link / tab -->
+                <input id="CancelButton" name="CancelButton" type="reset" value="{'Cancel'|i18n('design/standard/ezoe')}" />
             </div> 
         </div>
 

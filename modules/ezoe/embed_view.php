@@ -82,30 +82,30 @@ $view  = 'embed';
 $align = 'right';
 $style = 'text-align: left;';
 
-if ( $http->hasPostVariable('embed_inline_source') &&
-     $http->postVariable('embed_inline_source') === 'true' )
+if ( $http->hasPostVariable('inline') &&
+     $http->postVariable('inline') === 'true' )
 {
     $tagName = 'embed-inline';
 }
 
-if ( $http->hasPostVariable('embed_class_source') )
+if ( $http->hasPostVariable('class') )
 {
-    $className = $http->postVariable('embed_class_source');
+    $className = $http->postVariable('class');
 }
 
-if ( $http->hasPostVariable('embed_size_source') )
+if ( $http->hasPostVariable('size') )
 {
-    $size = $http->postVariable('embed_size_source');
+    $size = $http->postVariable('size');
 }
 
-if ( $http->hasPostVariable('embed_view_source') )
+if ( $http->hasPostVariable('view') )
 {
-    $view = $http->postVariable('embed_view_source');
+    $view = $http->postVariable('view');
 }
 
-if ( $http->hasPostVariable('embed_align_source') )
+if ( $http->hasPostVariable('align') )
 {
-    $align = $http->postVariable('embed_align_source');
+    $align = $http->postVariable('align');
 }
 
 

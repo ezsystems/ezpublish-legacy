@@ -2,65 +2,76 @@
                                            'scripts', array('javascript/ezoe/ez_core.js',
                                                             'javascript/ezoe/ez_core_animation.js',
                                                             'javascript/ezoe/ez_core_accordion.js',
-                                                            'javascript/ezoe/popup.js'),
+                                                            'javascript/ezoe/popup_utils.js'),
                                            'css', array()
                                            )}
 
 <script type="text/javascript">
 <!--
 
-var tinyMCEelement = false, ezTagName = '{$tag_name|wash}', customTagName = '{$custom_tag_name}'; 
+var ezTagName = '{$tag_name|wash}', customTagName = '{$custom_tag_name}'; 
 {literal} 
 
-tinyMCEPopup.onInit.add( function()
-{
-    // Initialize page with default values and tabs
-    var ed = tinyMCEPopup.editor, el = ed.selection.getNode(), n = ez.$('custom_class_source'), arr;
-    if ( el && el.nodeName )
-    {
-        // see if selected tag or one of its parent tags is a custom tag
-        if ( customTagName === 'underline' && el.nodeName === 'U' )
+
+tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
+    tagName: ezTagName,
+    form: 'EditForm',
+    cancelButton: 'CancelButton',
+    cssClass: 'mceItemCustomTag',
+    tagSelector: 'custom_class_source',
+    onInit: function( el, tag, ed )
+    {        
+        if ( customTagName === 'underline' && el && el.nodeName === 'U' )
         {
-            tinyMCEelement = el;
             // if custom tag is underline, we disable selector to avoid problems (different tag used)
-            n.el.disabled = true;
+            this.settings.tagSelector.el.disabled = true;
         }
-        else if ( el.nodeName === 'DIV' && el.className == customTagName )
-            tinyMCEelement = el;
-        else if ( el.nodeName === 'SPAN' && el.className == customTagName )
-            tinyMCEelement = el;
-        
-        if ( el.nodeName === 'SPAN' && tinymce.DOM.getAttrib(el, 'type') === 'custom' )
-            filterOutCustomBlockTags( );
-        else if ( el = ed.dom.getParent(el, 'SPAN' ) && tinymce.DOM.getAttrib(el, 'type') === 'custom' )
-            filterOutCustomBlockTags( );
-    }
 
-    if ( tinyMCEelement )
+        // custom block tags are not allowed inside custom inline tags
+        if ( el )
+        {
+            var parentSpan = ed.dom.getParent(el, 'SPAN' );
+            if ( parentSpan && el !== parentSpan && tinymce.DOM.getAttrib( parentSpan, 'type' ) === 'custom' )
+                filterOutCustomBlockTags( );
+        }
+        else
+        {
+	        var currentNode = ed.selection.getNode(), parentSpan = ed.dom.getParent(currentNode, 'SPAN' );
+	        if ( currentNode && currentNode.nodeName === 'SPAN' && tinymce.DOM.getAttrib( currentNode, 'type' ) === 'custom' )
+	            filterOutCustomBlockTags( );
+	        else if ( parentSpan && tinymce.DOM.getAttrib( parentSpan, 'type' ) === 'custom' )
+	            filterOutCustomBlockTags( );
+        }
+    },
+    tagGenerator: function( tag, customTag, text )
     {
-        if ( tinyMCEelement.className )
-            n.el.value = customTagName = tinyMCEelement.className;
-        initCustomAttributeValue( customTagName + '_customattributes', tinyMCEelement.getAttribute('customattributes'));
+	    if ( customTag === 'underline' )
+            return '<u id="__mce_tmp" type="custom">' + text || customTag + '</u>';
+	    else if ( ez.$( customTag + '_inline_source' ).el.checked )
+	        return '<span id="__mce_tmp" type="custom">' + text || customTag + '</span>';
+	    else
+	        return '<div id="__mce_tmp" type="custom"><p>' + text || customTag + '</p></div>';
+    },
+    tagEditor: function( el, ed, customTag, args )
+    {
+        var target = customTag === 'underline' ? 'u' : ( ez.$( customTag + '_inline_source' ).el.checked ? 'span' : 'div'), origin = el.nodeName;
+        el = eZOEPopupUtils.switchTagTypeIfNeeded( el, target );
+        if ( el.nodeName !== 'DIV' && origin === 'DIV' )
+        {
+            // remove p tag if inline tag
+            var childs = ez.$$('> *', el);
+            if ( childs.length === 1 && childs[0].el.nodeName === 'P' )
+                el.innerHTML = childs[0].el.innerHTML;
+        }
+        else if ( el.nodeName === 'DIV' && origin !== 'DIV' )
+        {
+            // add p tag if block tag and no child tags
+            if ( ez.$$('> *', el).length === 0 )
+                el.innerHTML = '<p>' + el.innerHTML + '</p>';
+        }
+        return el;
     }
-    // toggle custom attributes based on selected custom tag
-    toggleCustomAttributes.call( n );
-    n.addEvent('change', toggleCustomAttributes);
-});
-
-function specificTagGenerator( ezTag, customTag )
-{
-    var inline = ez.$( customTag + '_inline_source' ).el.checked;
-    if ( inline )
-        return '<span id="__mce_tmp" type="custom">' + customTag + '</span>';
-    else
-        return '<div id="__mce_tmp" type="custom"><p>' + customTag + '</p></div>';
-}
-
-function specificTagEditor( el, ed, customTag )
-{
-    var inline = ez.$( customTag + '_inline_source' ).el.checked;
-    el.style.display = inline ? 'inline' : 'block';
-}
+}));
 
 
 function filterOutCustomBlockTags( n )
@@ -72,18 +83,6 @@ function filterOutCustomBlockTags( n )
     ez.$$('#custom_class_source option').forEach(function( o ){
         if ( inlineTags.indexOf( o.el.value ) === -1 ) o.el.parentNode.removeChild( o.el );
     });
-    
-}
-
-function toggleCustomAttributes( )
-{
-    arr = ez.$$('table.custom_attributes');
-    arr.forEach(function(o){
-        if ( o.el.id === this.el.value + '_customattributes' )
-            o.show();
-        else
-            o.hide();
-    }, this);
 }
 
 {/literal}
@@ -94,10 +93,8 @@ function toggleCustomAttributes( )
 
 <div>
 
-    <form onsubmit="return insertGeneralTag( this );" action="JavaScript:void(0)" method="post" name="EditForm" id="EditForm" enctype="multipart/form-data"
-    style="width: 360px;">
+    <form action="JavaScript:void(0)" method="post" name="EditForm" id="EditForm" enctype="multipart/form-data" style="width: 360px;">
     
-
     <div class="slide" style="width: 360px;">
         <div class="attribute-title">
             <h2 style="padding: 0 0 4px 0;">{$tag_name|upfirst|wash} {$custom_tag_name|upfirst|wash}</h2>
@@ -115,8 +112,7 @@ function toggleCustomAttributes( )
         <div class="block"> 
             <div class="left">
                 <input id="SaveButton" name="SaveButton" type="submit" value="{'OK'|i18n('design/standard/ezoe')}" />
-                <input id="CancelButton" name="CancelButton" type="reset" value="{'Cancel'|i18n('design/standard/ezoe')}" onclick="cancelAction();" />
-                <!-- todo: upload new button / link / tab -->
+                <input id="CancelButton" name="CancelButton" type="reset" value="{'Cancel'|i18n('design/standard/ezoe')}" />
             </div> 
         </div>
 

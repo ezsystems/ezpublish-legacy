@@ -21,7 +21,7 @@
         {set $attribute_default   = first_set( $attribute_defaults[$xml_attribute], '' )}
         {if $attribute_value|eq('hidden')}
         <tr id="{$attribute_id}">
-            <td colspan="2"><input type="hidden" name="{$attribute}" id="{$attribute_id}_source" value="{$attribute_default|wash}" /></td>
+            <td colspan="2"><input type="hidden" name="{$attribute}" id="{$attribute_id}_source" value="{$attribute_default|wash}" class="{first_set( $classes[$xml_attribute], '' )}" /></td>
         </tr>
         {else}
         <tr id="{$attribute_id}">

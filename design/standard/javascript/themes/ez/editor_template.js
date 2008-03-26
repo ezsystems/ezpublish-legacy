@@ -779,92 +779,95 @@
 				cm.setActive(c, ed.queryCommandState(t.controls[c][1]));
 			});
 
-			//cm.setActive('visualaid', ed.hasVisual);
 			cm.setDisabled('undo', !ed.undoManager.hasUndo() && !ed.typing);
 			cm.setDisabled('redo', !ed.undoManager.hasRedo());
-			//cm.setDisabled('outdent', !ed.queryCommandState('Outdent'));
 			
 			p = DOM.getParent(n, 'DIV');
             if (c = cm.get('object'))
             {
-                div = !!p && p.className.indexOf('mceNonEditable') !== -1;
+                while (  p && p.nodeName !== undefined && p.nodeName !== 'BODY' )
+                {
+                    if ( p.nodeName === 'DIV' && p.className.indexOf('mceNonEditable') !== -1 )
+                    {
+                        ed.selection.select( p );
+                        div = true;
+                        n = p;
+                        break;
+                    }
+                    p = p.parentNode;
+                }
                 c.setActive( div );
             }
-            
-            if (c = cm.get('pagebreak'))
-                c.setDisabled(!!p && DOM.hasClass(p, 'pagebreak') );
 
-            p = DOM.getParent(n, 'UL,OL');
-            if (c = cm.get('outdent'))
+            if ( div === false )
             {
-                c.setDisabled( !p && !ed.queryCommandState('Outdent') );
-            }
-            
-            if (c = cm.get('indent'))
-            {
-                if ( p )
-                {
-					for (var i = 0, l = p.childNodes.length, count = 0; i < l; i++)
+	            p = DOM.getParent(n, 'DIV');
+	            if (c = cm.get('pagebreak'))
+	                c.setDisabled(!!p && DOM.hasClass(p, 'pagebreak') );
+	
+	            p = DOM.getParent(n, 'UL,OL');
+	            if (c = cm.get('outdent'))
+	            {
+	                c.setDisabled( !p && !ed.queryCommandState('Outdent') );
+	            }
+	            
+	            if (c = cm.get('indent'))
+	            {
+	                if ( p )
+	                {
+						for (var i = 0, l = p.childNodes.length, count = 0; i < l; i++)
+						{
+						    if (p.childNodes[i].nodeType === 1 && p.childNodes[i].nodeName === 'LI') count++;
+						    if ( count === 2 ) break;					    
+						}
+				    }
+	                c.setDisabled( !p || count < 2 );
+	            }
+	
+				p = DOM.getParent(n, 'A');
+				if (c = cm.get('link'))
+				{
+					if (!p || !p.name)
 					{
-					    if (p.childNodes[i].nodeType === 1 && p.childNodes[i].nodeName === 'LI') count++;
-					    if ( count === 2 ) break;					    
+						c.setDisabled(!p && co);
+						c.setActive(!!p);
 					}
-			    }
-                c.setDisabled( !p || count < 2 );
+				}
+
+				if (c = cm.get('unlink'))
+				{
+					c.setDisabled(!p && co || div);
+					c.setActive(!!p && !p.name);
+				}
+
+				if (c = cm.get('anchor'))
+				{
+					c.setActive(!!p && p.name);
+	
+					if (tinymce.isWebKit)
+					{
+						p = DOM.getParent(n, 'IMG');
+						c.setActive(!!p && DOM.getAttrib(p, 'mce_name') === 'a');
+					}
+				}
+
+				p = DOM.getParent(n, 'IMG');
+				if (c = cm.get('image'))
+					c.setActive(!!p && p.className.indexOf('mceItem') === -1);
+
+	            p = DOM.getParent(n, 'PRE');
+	            if (c = cm.get('literal'))
+	                c.setActive(!!p );
+
+				if (c = cm.get('formatselect'))
+				{
+					p = DOM.getParent(n, DOM.isBlock);
+	
+					if (p)
+						c.select(p.nodeName.toLowerCase());
+				}
             }
-
-			p = DOM.getParent(n, 'A');
-			if (c = cm.get('link')) {
-				if (!p || !p.name) {
-					c.setDisabled(!p && co);
-					c.setActive(!!p);
-				}
-			}
-
-			if (c = cm.get('unlink')) {
-				c.setDisabled(!p && co || div);
-				c.setActive(!!p && !p.name);
-			}
-
-			if (c = cm.get('anchor')) {
-				c.setActive(!!p && p.name);
-
-				if (tinymce.isWebKit) {
-					p = DOM.getParent(n, 'IMG');
-					c.setActive(!!p && DOM.getAttrib(p, 'mce_name') === 'a');
-				}
-			}
-
-			p = DOM.getParent(n, 'IMG');
-			if (c = cm.get('image'))
-				c.setActive(!!p && p.className.indexOf('mceItem') === -1);
-				
-            p = DOM.getParent(n, 'PRE');
-            if (c = cm.get('literal'))
-                c.setActive(!!p );
-
-
-
-			/*if (c = cm.get('styleselect')) {
-				if (n.className) {
-					t._importClasses();
-					c.select(n.className);
-				} else
-					c.select();
-			}*/
-
-			if (c = cm.get('formatselect')) {
-				p = DOM.getParent(n, DOM.isBlock);
-
-				if (p)
-					c.select(p.nodeName.toLowerCase());
-			}
-
-			/*if (c = cm.get('fontselect'))
-				c.select(ed.queryCommandValue('FontName'));
-
-			if (c = cm.get('fontsizeselect'))
-				c.select(ed.queryCommandValue('FontSize'));*/
+	        t.__setDisabled( div );
 
 			if (s.theme_advanced_path && s.theme_advanced_statusbar_location) {
 				p = DOM.get(ed.id + '_path') || DOM.add(ed.id + '_path_row', 'span', {id : ed.id + '_path'});
@@ -877,7 +880,7 @@
 					if (n.nodeType !== 1 || (DOM.hasClass(n, 'mceItemHidden') || DOM.hasClass(n, 'mceItemRemoved')))
 						return;
 
-                    if ( v = t.tagsToXml( n ) )
+                    if ( v = t.__tagsToXml( n ) )
                         na = v;
 
 					// Fake name
@@ -950,7 +953,7 @@
 
 					//u = "javascript:tinymce.EditorManager.get('" + ed.id + "').theme._sel('" + (de++) + "');";
 					pi = DOM.create('a', {'href' : "Javascript:void(0);", title : ti, 'class' : 'mcePath_' + (de++)}, na);
-					Event.add( pi, 'click', ez.fn.bind( t.pickTagCommand, t, ed, n, na, v ) );
+					Event.add( pi, 'click', ez.fn.bind( t.__pickTagCommand, t, ed, n, na, v ) );
 
 					if (p.hasChildNodes()) {
 						p.insertBefore(document.createTextNode(' \u00bb '), p.firstChild);
@@ -960,8 +963,42 @@
 				}, ed.getBody());
 			}
 		},
+
+        __block : function(ed, e) {
+            return Event.cancel(e);
+        },
 		
-		simpleTagsToXmlHash:
+        __setDisabled : function( s )
+        {
+            var t = this, ed = t.editor;
+
+            tinymce.each(ed.controlManager.controls, function(c){
+                if ( !c.settings.cmd || ',mceObject,mceFullScreen,'.indexOf( ',' + c.settings.cmd + ',' ) === -1 )
+                    c.setDisabled( s );
+                //c.setActive( false );
+            });
+
+            if ( s != t.__disabled )
+            {
+                if ( s )
+                {
+                    ed.onKeyDown.addToTop(t.__block);
+                    ed.onKeyPress.addToTop(t.__block);
+                    ed.onKeyUp.addToTop(t.__block);
+                    ed.onPaste.addToTop(t._block);
+                }
+                else
+                {
+                    ed.onKeyDown.remove(t.__block);
+                    ed.onKeyPress.remove(t.__block);
+                    ed.onKeyUp.remove(t.__block);
+                    ed.onPaste.remove(t.__block);
+                }
+                t.__disabled = s;
+            }
+        },
+		
+		__simpleTagsToXmlHash:
 		{
 		    'P' : 'paragraph',
 		    'I' : 'emphasize',
@@ -984,10 +1021,10 @@
 		    'LI': 'li'
 		},
 		
-		tagsToXml : function( n )
+		__tagsToXml : function( n )
 		{
-            if ( this.simpleTagsToXmlHash[ n.nodeName ] )
-                return this.simpleTagsToXmlHash[ n.nodeName ];
+            if ( this.__simpleTagsToXmlHash[ n.nodeName ] )
+                return this.__simpleTagsToXmlHash[ n.nodeName ];
             switch( n.nodeName )
             {
                 case 'A':
@@ -1010,54 +1047,54 @@
             return false;
 		},
 		
-		pickTagCommand : function( ed, n, na, v )
+		__pickTagCommand : function( ed, n, na, v )
 		{
-		    ed.selection.select( n );
 		    switch( n.nodeName )
 		    {
 		        case 'IMG':
-		            ed.execCommand('mceImage', true, v);
+		            ed.execCommand('mceImage', n, v);
 		            break;
 
                 case 'PRE':
-                    ed.execCommand('mceLiteral', true, v);
+                    ed.execCommand('mceLiteral', n, v);
                     break;
                 case 'U':
                     v = 'underline';
-                    ed.execCommand('mceCustom', true, v);
+                    ed.execCommand('mceCustom', n, v);
                     break;
                 case 'DIV':
                     if ( n.className.indexOf('mceNonEditable') !== -1 )
-                        ed.execCommand('mceObject', true, v);
+                        ed.execCommand('mceObject', n, v);
                     else if ( DOM.getAttrib(n, 'type') === 'custom' )
-                        ed.execCommand('mceCustom', true, v);
+                        ed.execCommand('mceCustom', n, v);
                     break;
                 case 'SPAN':
                     if ( n.className.indexOf('mceNonEditable') !== -1 )
-                        ed.execCommand('mceObject', true, v);
+                        ed.execCommand('mceObject', n, v);
                     else if ( DOM.getAttrib(n, 'type') === 'custom' )
-                        ed.execCommand('mceCustom', true, v);
+                        ed.execCommand('mceCustom', n, v);
                     break;
                 case 'TABLE':
-                    ed.execCommand('mceInsertTable', true, v);
+                    ed.execCommand('mceInsertTable', n, v);
                     break;
                 case 'TR':
-                    ed.execCommand('mceTableRowProps', true, v);
+                    ed.execCommand('mceTableRowProps', n, v);
                     break;
                 case 'TD':
                 case 'TH':
-                    ed.execCommand('mceTableCellProps', true, v);
+                    ed.execCommand('mceTableCellProps', n, v);
                     break;
 		        default:
-		            var tagName = this.tagsToXml( n );
-                    if ( tagName ) ed.execCommand('generalXmlTagPopup', tagName + '/' + n.nodeName );
+		            var tagName = this.__tagsToXml( n );
+                    if ( tagName ) ed.execCommand('generalXmlTagPopup', tagName + '/' + n.nodeName, n );
 		    }
 		},
 		
-        _generalXmlTagPopup : function( eurl, view, width, height  )
+        _generalXmlTagPopup : function( eurl, view, width, height, node )
         {
             var ed = this.editor;
-            if ( !view ) view = '/tags/';
+            if ( view && view.nodeName ) node = view;
+            if ( !view || view.nodeName ) view = '/tags/';
 
             ed.windowManager.open({
                 url : eZOeMCE['extension_url'] + view  + eZOeMCE['contentobject_id'] + '/' + eZOeMCE['contentobject_version'] + '/' + eurl,
@@ -1066,7 +1103,8 @@
                 resizable : true,
                 inline : true
             }, {
-                theme_url : this.url
+                theme_url : this.url,
+                selected_node : ( node && node.nodeName ? node : false )
             });
         },
 
@@ -1102,7 +1140,7 @@
 			});
 		},
 
-		_mceColorPicker : function(u, v) {
+		_mceColorPicker : function(ui, v) {
 			var ed = this.editor;
 
 			v = v || {};
@@ -1146,9 +1184,9 @@
             if (e !== null && e.nodeName === 'IMG')
             {
                 type = '/relations/';
-                eurl += e.id + '/' + e.getAttribute('inline') + '/' + e.alt;
+                eurl += e.getAttribute('id') + '/' + e.getAttribute('inline') + '/' + e.getAttribute('alt');
             }
-            this._generalXmlTagPopup( eurl, type, 480, 450 )
+            this._generalXmlTagPopup( eurl, type, 480, 450, e )
 		},
 
         _mceObject : function(ui, val)
@@ -1157,16 +1195,16 @@
 
             while ( e !== null && e.nodeName !== undefined && e.nodeName !== 'BODY' )
             {
-                if ( e.nodeName === 'DIV' || e.nodeName === 'SPAN' && e.className.indexOf('mceNonEditable') !== -1 )
+                if ( ( e.nodeName === 'DIV' || e.nodeName === 'SPAN' ) && e.className.indexOf('mceNonEditable') !== -1 )
                 {
                     type = '/relations/';
-                    eurl += e.id + '/' + e.getAttribute('inline') + '/' + e.alt;
-                    ed.selection.select( e );
+                    eurl += e.getAttribute('id') + '/' + e.getAttribute('inline') + '/' + e.getAttribute('alt');
+                    //ed.selection.select( e );
                     break;
                 }
                 e = e.parentNode;
             }
-            this._generalXmlTagPopup( eurl, type, 480, 450 );
+            this._generalXmlTagPopup( eurl, type, 480, 450, e );
         },
         
         _mcePageBreak : function( ui, val ) {
@@ -1176,22 +1214,22 @@
 
         _mceInsertAnchor : function(ui, v)
         {
-            this._generalXmlTagPopup( 'anchor' );
+            this._generalXmlTagPopup( 'anchor', false, 0, 0, ui );
         },
         
         _mceCustom : function(ui, v)
         {
-            this._generalXmlTagPopup( 'custom/' + v );
+            this._generalXmlTagPopup( 'custom/' + v, false, 0, 0, ui );
         },
         
         _mceLiteral : function(ui, v)
         {
-            this._generalXmlTagPopup( 'literal' );
+            this._generalXmlTagPopup( 'literal', false, 0, 0, ui );
         },
 
 		_mceLink : function(ui, v)
 		{
-			this._generalXmlTagPopup( 'link' );
+			this._generalXmlTagPopup( 'link', false, 0, 0, ui );
 		},
 
 		_mceNewDocument : function() {

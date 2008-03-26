@@ -53,7 +53,7 @@
             <td class="column1">
                 <label for="{$custom_attribute_id}_source">{$extra_attribute.0|upfirst|wash|i18n('design/standard/ezoe')}</label>
             </td>
-            <td><input type="checkbox" name="{$extra_attribute.0}" id="{$custom_attribute_id}_source" value="{$extra_attribute.1|wash}"{if $extra_attribute.2} checked="checked"{/if} disabled="disabled" /></td>
+            <td><input type="checkbox" name="{$extra_attribute.0}" id="{$custom_attribute_id}_source" value="{$extra_attribute.1|wash}"{if $extra_attribute.2} checked="checked"{/if} disabled="disabled" class="mceItemSkip" /></td>
         </tr>
     {/if}
     </table>

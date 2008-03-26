@@ -2,79 +2,65 @@
                                            'scripts', array('javascript/ezoe/ez_core.js',
                                                             'javascript/ezoe/ez_core_animation.js',
                                                             'javascript/ezoe/ez_core_accordion.js',
-                                                            'javascript/ezoe/popup.js'),
+                                                            'javascript/ezoe/popup_utils.js'),
                                            'css', array()
                                            )}
 
 <script type="text/javascript">
 <!--
 
-var tinyMCEelement = false, ezTagName = '{$tag_name|wash}'; 
+var ezTagName = '{$tag_name|wash}', ezoeLinkTimeOut = null; 
 {literal} 
 
-tinyMCEPopup.onInit.add( function()
-{
-    // Initialize page with default values and tabs
-    var ed = tinyMCEPopup.editor, el = ed.selection.getNode(), n;
-    if ( el && el.nodeName )
+tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
+    tagName: ezTagName,
+    form: 'EditForm',
+    cancelButton: 'CancelButton',
+    onInit: function()
     {
-        if ( el.nodeName === ezXmlToXhtmlHash[ ezTagName ])
-            tinyMCEelement = el;
-        else if ( ezXmlToXhtmlHash[ ezTagName ] && ( el = ed.dom.getParent(el, ezXmlToXhtmlHash[ ezTagName ] ) ) )
-            tinyMCEelement = el;
-        else if ( el = ed.dom.getParent(el, ezTagName ) )
-            tinyMCEelement = el;
+        var linkTypes = ez.$('link_href_source_types'), linkSource = ez.$('link_href_source');
+        linkTypes.addEvent('change', function( e, el ){
+            ez.$('link_href_source').el.value = el.value;
+        });
+        
+        // add event to href input to lookup name on object or nodes
+        linkSource.addEvent('keyup', function( e, el ){
+            e = e || window.event;
+            var c = e.keyCode || e.which;
+            clearTimeout( ezoeLinkTimeOut );
+        
+            // break if user is pressing arrow keys
+            if ( c > 36 && c < 41 ) return true;
+    
+            ezoeLinkTypeSet( linkSource, linkTypes );
+    
+            if ( el.value.indexOf( '://' ) === -1 ) return true;
+    
+            var url = el.value.split('://'), id = ez.num( url[1], 0, 'int' );
+    
+            if ( id === 0 || ( url[0] !== 'eznode' && url[0] !== 'ezobject' ) ) return true;
+    
+            ezoeLinkTimeOut = setTimeout( ez.fn.bind( ezoeLinkAjaxCheck, this, url.join('_') ), 320 );
+            return true;
+        });
+        ezoeLinkTypeSet( linkSource, linkTypes );
     }
+}));
 
-    if ( tinyMCEelement )
-    {
-        initGeneralmAttributes( ezTagName + '_attributes', tinyMCEelement )
-        initCustomAttributeValue( ezTagName + '_customattributes', tinyMCEelement.getAttribute('customattributes'))
-    }
-    
-    var linkTypes = ez.$('link_href_source_types'), linkSource = ez.$('link_href_source');
-    linkTypes.addEvent('change', function( e, el ){
-        ez.$('link_href_source').el.value = el.value;
-    });
-    
-    // add event to href input to lookup name on object or nodes
-    linkSource.addEvent('keyup', function( e, el ){
-        e = e || window.event;
-        var c = e.keyCode || e.which;
-        clearTimeout( ezajaxLinkTimeOut );
-    
-        // break if user is pressing arrow keys
-        if ( c > 36 && c < 41 ) return true;
 
-        ezLinkTypeSet( linkSource, linkTypes );
-
-        if ( el.value.indexOf( '://' ) === -1 ) return true;
-
-        var url = el.value.split('://'), id = ez.num( url[1], 0, 'int' );
-
-        if ( id === 0 || ( url[0] !== 'eznode' && url[0] !== 'ezobject' ) ) return true;
-
-        ezajaxLinkTimeOut = setTimeout( ez.fn.bind( ezajaxLinkPost, this, url.join('_') ), 320);
-        return true;
-    });
-    ezLinkTypeSet( linkSource, linkTypes );
-});
-
-var ezajaxLinkTimeOut = null;
-
-function ezajaxLinkPost( url )
+function ezoeLinkAjaxCheck( url )
 {
     var url = eZOeMCE['extension_url'] + '/load/' + url;
-    ezajaxObject.load( url, '', ezajaxLinkPostBack);
+    eZOEPopupUtils.ajax.load( url, '', ezoeLinkPostBack );
 }
 
-function ezajaxLinkPostBack( r )
+function ezoeLinkPostBack( r )
 {
-    ez.script( 'ezajaxLoadResponse=' + r.responseText );
+    ez.script( 'eZOEPopupUtils.ajaxLoadResponse=' + r.responseText );
     var info = ez.$('link_href_source_info'), input= ez.$('link_href_source');
-    if ( ezajaxLoadResponse )
+    if ( eZOEPopupUtils.ajaxLoadResponse )
     {
-        info.el.innerHTML = ezajaxLoadResponse.name;
+        info.el.innerHTML = eZOEPopupUtils.ajaxLoadResponse.name;
         info.el.style.border = '1px solid green';
     }
     else
@@ -84,7 +70,7 @@ function ezajaxLinkPostBack( r )
     }
 }
 
-function ezLinkTypeSet( source, types )
+function ezoeLinkTypeSet( source, types )
 {
      if ( source.el.value.indexOf('eznode://') === 0 )
         types.el.value = 'eznode://';
@@ -112,8 +98,7 @@ function ezLinkTypeSet( source, types )
 
 <div>
 
-    <form onsubmit="return insertGeneralTag( this );" action="JavaScript:void(0)" method="post" name="EditForm" id="EditForm" enctype="multipart/form-data"
-    style="width: 360px;">
+    <form action="JavaScript:void(0)" method="post" name="EditForm" id="EditForm" enctype="multipart/form-data" style="width: 360px;">
     
 
     <div class="slide" style="width: 360px;">
@@ -152,8 +137,7 @@ function ezLinkTypeSet( source, types )
         <div class="block"> 
             <div class="left">
                 <input id="SaveButton" name="SaveButton" type="submit" value="{'OK'|i18n('design/standard/ezoe')}" />
-                <input id="CancelButton" name="CancelButton" type="reset" value="{'Cancel'|i18n('design/standard/ezoe')}" onclick="cancelAction();" />
-                <!-- todo: upload new button / link / tab -->
+                <input id="CancelButton" name="CancelButton" type="reset" value="{'Cancel'|i18n('design/standard/ezoe')}" />
             </div> 
         </div>
 

@@ -1,6 +1,14 @@
 eZ Online Editor MCE extension Changelog
 
 
+0.99
+* embed image issues ( 'view' not correct and not changable )
+* paging on embed search added
+* ed.selection.select() not working in Safari and Opera, switched to passing node as window param
+* let theme handle non editable content (embed tags) because of ed.selection.select() issue, removed plugin
+* custom tags now properly switching tags from div to span and back when changed.
+* made all poup dialogs use one unified and extendable javascript api for common funcions
+* clearing float on embed and custom block tags
 
 0.98
 * string translations
@@ -10,7 +18,6 @@ eZ Online Editor MCE extension Changelog
 * fixed search bug
 * apply to whole column and row on table cell dialog
 * fixed custom attributes on table cells not correct if you switch cell type
-
 
 0.97 (internal)
 * disabled toolbar floating in ie 6 / 7 to work around floating bug

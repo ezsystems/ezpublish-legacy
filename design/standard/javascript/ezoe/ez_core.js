@@ -62,6 +62,10 @@ var ez = {
         {
             // Trims leading and ending whitespace
             return s.replace(/^\s+|\s+$/g, '');
+        },
+        cssCompact: function( s )
+        {
+            return s.replace(/^\s+|\s+$/g, '').replace(/\s+/g, ' ').replace(/\(\s/g, '(').replace(/\s\)/g, ')');
         }
     },
     fn: {
@@ -208,13 +212,6 @@ var ez = {
             }
             ez.handlers.push( arguments );
         },
-        removeEvent: function( el, trigger, handler )
-        {
-            // Method for removing element event if w3c or ie event model is supported
-            trigger = trigger.replace(/^on/i,'');
-            if ( el.removeEventListener ) el.removeEventListener( trigger, handler, false );
-            else if ( el.detachEvent ) try {el.detachEvent( trigger, handler )} catch ($i){};
-        },
         clean: function( el )
         {
             // For deleting every function reference before deleting nodes to avoid possible memory leak
@@ -239,35 +236,34 @@ var ez = {
             // CSS2 query function, returns a extended array of extended elements
             // Example: arr = ez.$$('div.my_class, input[type=text], img[alt~=went]');
             // does not support pseudo-class selectors like :hover and :first-child
-            var args = ez.$c(arguments, ','), d = [document], r = [], childMode = false;
+            var args = ez.$c(arguments, ','), doc = [document], r = [], mode = '';
             if ( args.length === 1 && args[0].eztype && args[0].eztype === 'array' ) return args[0];
-            if ( typeof args[args.length -1] === 'object' ) d = args.pop();
+            if ( typeof args[args.length -1] === 'object' ) doc = args.pop();
             args.forEach(function(el)
             {
                 if (typeof el === 'string')
                 {
-                    var par = ez.$c( d.eztype === 'element' ? d.el : d );
-                    ez.$c( ez.string.trim( el ), /\s+/ ).forEach(function(str)
+                    var parent = ez.$c( doc.eztype === 'element' ? doc.el : doc );
+                    ez.$c( ez.string.cssCompact( el ), /\s+/ ).forEach(function(str)
                     {
                         if ( str === '+' || str === '~' ) return;// sibling selectors not supported
-                        else if (  str === '>' ) return childMode = true;
+                        else if (  str === '>' ) return mode = str;
                         var temp = ez.$c(), tag = (str.match(/^(\w+)([.#:\[]?)/)) ? RegExp.$1 : '*', id = 0, cn = 0, at = 0, pseudo = '';
                         if (str.match(/([\#])([a-zA-Z0-9_\-]+)([.#:\[]?)/)) id = RegExp.$2;
                         if (str.match(/([\.])([a-zA-Z0-9_\-]+)([.#:\[]?)/)) cn = RegExp.$2;
                         if (str.match(/\[(\w+)([~\|\^\$\*]?)=?"?([^\]"]*)"?\]/)) at = [RegExp.$1 , RegExp.$2, RegExp.$3];
-                        if (str.match(/\:([a-z-]+)\(?\s?([-0-9]+)?\s?\)?([.#:\[]?)/)) pseudo = [RegExp.$1 , (RegExp.$1 === 'first-child' ? 0 : RegExp.$2 -1 )];
-                        par.forEach(function( doc )
+                        if (str.match(/\:([a-z-]+)\(?([\w+-]+)?\)?([.#:\[]?)/)) pseudo = [RegExp.$1 ,  RegExp.$2 ];
+                        parent.forEach(function( child )
                         {
-                            var children = ez.$c( childMode ? doc.childNodes : ( cn && doc.getElementsByClassName ? doc.getElementsByClassName( cn ) : doc.getElementsByTagName( tag ) ) ).filter(function( i )
+                            var children = ez.$c( mode === '>' ? child.childNodes : ( cn && child.getElementsByClassName ? child.getElementsByClassName( cn ) : child.getElementsByTagName( tag ) ) ).filter(function( i )
                             {
                                 return i.nodeType === 1 && ( tag === '*' || i.nodeName === tag.toUpperCase() );
                             });
-                            if ( pseudo )
-                            {
-                                if ( pseudo[0] === 'last-child') children = children[ children.length -1 ];
-                                else if ( -1 < pseudo[1] < children.length ) children = children[pseudo[1]];
-                                else return;
-                            }
+                            if ( !children ) return;
+
+                            if ( pseudo && ez.element.pseudoFilters[pseudo[0]] )
+                                children = ez.element.pseudoFilters[pseudo[0]]( children, pseudo[1] );
+
                             ez.$c( children ).forEach(function(i)
                             {
                                 if (id && (!i.getAttribute('id') || i.getAttribute('id') !== id)) return;
@@ -276,12 +272,16 @@ var ez = {
                                 temp.push( i ); 
                             });
                         });
-                        par = temp;
-                        childMode = false;
+                        parent = temp;
+                        mode = '';
                     });
                     
-                    r = r.concat( par );
-                } else r.push( el );
+                    r = r.concat( parent );
+                }
+                else if ( el.eztype && el.eztype === 'array' )
+                    r = r.concat( el );
+                else
+                    r.push( el );
             }, this );
             r = ez.$c(r).map( ez.element.extend );
             return ez.array.extend( r );
@@ -306,21 +306,81 @@ var ez = {
             else if ( typeof w.pageYOffset === 'number' ) r = left ? w.pageXOffset : w.pageYOffset;
             return r;
         },
-        hasAttribute: function( element, attribute, value, comparison )
+        hasAttribute: function( element, attribute, value, comp )
         {
+            // CSS 3 Attribute selectors
             var atr = attribute === 'class' ? element.className : ez.fn.strip( element.getAttribute( attribute ) );
             if ( atr )
             {
                 var ati = atr.indexOf( value );
                 if (value == '');
-                else if (comparison == '' && atr == value);
-                else if (comparison === '*' && ati !== -1);
-                else if (comparison === '~' && (' '+atr+' ').indexOf(' '+ value +' ') !== -1);
-                else if (comparison === '^' && ati === 0);
-                else if (comparison === '$' && ati === ( atr.length - value.length ) && ati !== -1);
+                else if (!comp && atr == value);
+                else if (comp === '^' && ati === 0);
+                else if (comp === '*' && ati !== -1);
+                else if (comp === '!' && atr != value);
+                else if (comp === '|' && ('-'+atr+'-').indexOf('-'+ value +'-') !== -1);
+                else if (comp === '~' && (' '+atr+' ').indexOf(' '+ value +' ') !== -1);
+                else if (comp === '$' && ati === ( atr.length - value.length ) && ati !== -1);
                 else return false;
             } else return false;
             return true;
+        },
+        pseudoFilters: {
+            'last-child': function( arr )
+            {
+                return arr.length !== 0 ? arr[ arr.length -1 ] : [];
+            },
+            'first-child': function( arr )
+            {
+                return arr.length !== 0 ? arr[ 0 ] : [];
+            },
+            'child': function( arr, arg )
+            {
+                return ( -1 < arg < arr.length -1 ) ? arr[ arg -1 ] : [];
+            },
+            'nth-child': function( arr, arg )
+            {
+                if ( !arg.match(/^([+-]?\d*)?([a-z]+)?([+-]?\d*)?$/) ) return [];
+                var str = RegExp.$2 || false, inta = RegExp.$1 === '-' ? -1 : parseInt(RegExp.$1);
+
+                if ( str === 'odd' )
+                    var a = 2,  b = 1;
+                else if ( str === 'even' )
+                    var a = 2, b = 0;
+                else if ( !str && !RegExp.$3 )
+                    var a = 0, b = (inta || inta === 0) ? inta : 1
+                else
+                    var a = (inta || inta === 0) ? inta : 1, b = parseInt(RegExp.$3) || 0;
+
+                if (a !== 0)
+                {
+                    b--;
+                    if ( a > 0 )
+                    {
+                        while (b < 1) b += a;
+                        while (b >= a) b -= a;
+                    }
+                    return arr.filter(function( el, i ){
+                        return i % a === b;
+                    });
+                }
+                return ez.element.pseudoFilters.child( arr, b );
+            },
+            'odd': function( arr, arg )
+            {
+                return ez.element.pseudoFilters['nth-child']( arr, 'odd' );
+            },
+            'even': function( arr, arg )
+            {
+                return ez.element.pseudoFilters['nth-child']( arr, 'even' );
+            }
+        },
+        removeEvent: function( el, trigger, handler )
+        {
+            // Method for removing element event if w3c or ie event model is supported
+            trigger = trigger.replace(/^on/i,'');
+            if ( el.removeEventListener ) el.removeEventListener( trigger, handler, false );
+            else if ( el.detachEvent ) try {el.detachEvent( trigger, handler )} catch ($i){};
         },
         nativExtensions: {},
         eZextensions: function( el )

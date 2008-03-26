@@ -1,8 +1,8 @@
 
 
 1.0
-Change internal tag from div -> span if you change from bloc to inline custom tag
-Better handling of clearing float content in block tags ( custom and embed )
+Nested custom inline tags issue
+Style on bowse / search / tabs / editor content (attachment bg on embed tags)
 Ajax Browse support for links
 Override TinyMCE translations and use it for all js strings (fixes fullscreen description text++)
 
@@ -11,3 +11,4 @@ Override TinyMCE translations and use it for all js strings (fixes fullscreen de
 1.1
 Custimizable formats selector (custom tags and classes)
 Disable css and js packer when DevMode is on to make it easier to debug code
+Support for requried values and custom validation functions in popups

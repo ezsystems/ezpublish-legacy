@@ -2,33 +2,24 @@
                                            'scripts', array('javascript/ezoe/ez_core.js',
                                                             'javascript/ezoe/ez_core_animation.js',
                                                             'javascript/ezoe/ez_core_accordion.js',
-                                                            'javascript/ezoe/popup.js'),
+                                                            'javascript/ezoe/popup_utils.js'),
                                            'css', array()
                                            )}
 
 <script type="text/javascript">
 <!--
 
-var tinyMCEelement = false, ezTagName = '{$tag_name|wash}'; 
-{literal} 
+var ezTagName = '{$tag_name|wash}',{literal} tableSizeGrid = {'rows': 0, 'cols': 0};
 
-tinyMCEPopup.onInit.add( function()
-{
-    // Initialize page with default values and tabs
-    var ed = tinyMCEPopup.editor, el = ed.selection.getNode(), n;
-    if ( el && el.nodeName )
-    {
-        if ( el.nodeName === ezTagName.toUpperCase() )
-            tinyMCEelement = el;
-    }
 
-    if ( tinyMCEelement )
+
+tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
+    tagName: ezTagName,
+    form: 'EditForm',
+    cancelButton: 'CancelButton',
+    onInit: function( el, tag )
     {
-        initGeneralmAttributes( ezTagName + '_attributes', tinyMCEelement );
-        initCustomAttributeValue( ezTagName + '_customattributes', tinyMCEelement.getAttribute('customattributes'));
-    }
-    else
-    {
+        if ( el ) return;
         var td = ez.$$('#table_cell_size_grid td'), table = ez.$('table_cell_size_grid');
         td.forEach(function(o, i){
             o.addEvent('mouseover', ez.fn.bind(tableSizeGridMouse, this, o, i, false ) );
@@ -41,28 +32,29 @@ tinyMCEPopup.onInit.add( function()
         tableSizeGrid['cols'].addEvent('keyup', ez.fn.bind(tableSizeGridInput, td, true ));
         tableSizeGrid['rows'].addEvent('keyup', ez.fn.bind(tableSizeGridInput, td, true ));
         tableSizeGridInput.call( td, true );
-    }
-});
+    },
+    tagGenerator: function( tag )
+	{
+	    var html = '<table id="__mce_tmp"><tbody>';
+	    for (var y = 0, yl = ez.num(tableSizeGrid['rows'].el.value, 1, 'int'); y < yl; y++)
+	    {
+	        html += "<tr>";
+	        for (var x = 0, xl = ez.num(tableSizeGrid['cols'].el.value, 2, 'int'); x < xl; x++)
+	            html += '<td><br mce_bogus="1"/></td>';
+	
+	        html += "</tr>";
+	    }
+	    return html + '</tbody></table>';
+	},
+	attributeGenerator: {
+	    'class': function( o, args )
+	    {
+	        args['class'] = ez.string.trim( o.postData(true) + ( args['border'] == 0 ? ' mceItemTable' : ''));
+	        return args;
+	    }
+	}
+}));
 
-function specificTagGenerator( tag )
-{
-    var html = '<table id="__mce_tmp"><tbody>';
-    for (var y = 0, yl = ez.num(tableSizeGrid['rows'].el.value, 1, 'int'); y < yl; y++)
-    {
-        html += "<tr>";
-        for (var x = 0, xl = ez.num(tableSizeGrid['cols'].el.value, 2, 'int'); x < xl; x++)
-            html += '<td><br mce_bogus="1"/></td>';
-
-        html += "</tr>";
-    }
-    return html + '</tbody></table>';
-}
-
-var specificAttributeGenerator = {
-    'class': function( o, args ){
-        return ez.string.trim( o.postData(true) + ( args['border'] == 0 ? ' mceItemTable' : ''));
-    }
-}, tableSizeGrid = {'rows': 0, 'cols': 0};
 
 function tableSizeGridMouse( o, i, save )
 {
@@ -117,8 +109,7 @@ function tableSizeGridShowChange( rows, cols, save )
 
 <div>
 
-    <form onsubmit="return insertGeneralTag( this );" action="JavaScript:void(0)" method="post" name="EditForm" id="EditForm" enctype="multipart/form-data"
-    style="width: 360px;">
+    <form action="JavaScript:void(0)" method="post" name="EditForm" id="EditForm" enctype="multipart/form-data" style="width: 360px;">
     
 
     <div class="slide" style="width: 360px;">
@@ -187,8 +178,7 @@ function tableSizeGridShowChange( rows, cols, save )
         <div class="block"> 
             <div class="left">
                 <input id="SaveButton" name="SaveButton" type="submit" value="{'OK'|i18n('design/standard/ezoe')}" />
-                <input id="CancelButton" name="CancelButton" type="reset" value="{'Cancel'|i18n('design/standard/ezoe')}" onclick="cancelAction();" />
-                <!-- todo: upload new button / link / tab -->
+                <input id="CancelButton" name="CancelButton" type="reset" value="{'Cancel'|i18n('design/standard/ezoe')}" />
             </div> 
         </div>
 

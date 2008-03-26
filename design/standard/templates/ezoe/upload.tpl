@@ -2,14 +2,13 @@
                                            'scripts', array('javascript/ezoe/ez_core.js',
                                                             'javascript/ezoe/ez_core_animation.js',
                                                             'javascript/ezoe/ez_core_accordion.js',
-                                                            'javascript/ezoe/popup.js'),
+                                                            'javascript/ezoe/popup_utils.js'),
                                            'css', array()
                                            )}
 <script type="text/javascript">
 <!--
-var contentType = '{$content_type}', eZOeMCE = new Object();
-eZOeMCE['root']          = {'/'|ezroot};
-eZOeMCE['extension_url'] = {'ezoe/'|ezurl};
+var contentType = '{$content_type}';
+
 eZOeMCE['relation_url']  = {concat('ezoe/relations/', $object_id, '/', $object_version, '/auto' )|ezurl};
 eZOeMCE['i18n']          = {ldelim}
     previous: "{'Previous'|i18n('design/admin/navigator')}",
@@ -24,57 +23,6 @@ tinyMCEPopup.onInit.add( function(){
     var slides = ez.$$('div.slide'), navigation = ez.$$('#tabs div.tab');
     slides.accordion( navigation, {duration: 150, transition: ez.fx.sinoidal, accordionAutoFocusTag: 'input[type=text]'}, {marginLeft: 480, display: 'none'} );
 });
-
-
-function ajaxBrowse( nodeId, offset )
-{
-    ezajaxObject.load( eZOeMCE['extension_url'] + '/expand/' + nodeId + '/' + (offset || 0), '', ajaxBrowseCallBack  );
-}
-
-function ajaxBrowseCallBack( r )
-{
-    ez.script( 'ezajaxLoadResponse=' + r.responseText );
-    var tbody = ez.$$('#browse_box_prev tbody')[0], thead = ez.$$('#browse_box_prev thead')[0], tfoot = ez.$$('#browse_box_prev tfoot')[0];
-    tbody.el.innerHTML = '';
-    thead.el.innerHTML = '';
-    tfoot.el.innerHTML = '';
-    if ( ezajaxLoadResponse )
-    {
-        var node = ezajaxLoadResponse['node'];
-        if ( node['path'].length )
-            thead.el.innerHTML = '<tr><td><\/td><td colspan="2">' + ez.$c( node['path'] ).map( function( n ){
-               return '<a href="JavaScript:ajaxBrowse(' + n.node_id + ');" title="' + eZOeMCE['i18n']['type'] + ': ' + n.class_name + '">' + n.name + '<\/a>';
-            } ).join(' / ') + ' / ' + node.name + '<\/td><\/tr>';
-        else
-            thead.el.innerHTML = '<tr><td><\/td><td colspan="2">' + node.name + '<\/td><\/tr>';
-        
-        
-        if ( ezajaxLoadResponse['list'] )
-           tbody.el.innerHTML = '<tr>' + ez.$c( ezajaxLoadResponse['list'] ).map( function( n ){
-               var html = '<td><a href="JavaScript:selectByEmbedId(' + n.contentobject_id + ')">' + eZOeMCE['i18n']['select'] + '<\/a><\/td>';
-               if ( n.children_count )
-                   return html +'<td><a href="JavaScript:ajaxBrowse(' + n.node_id + ');">' + n.name + '<\/a><\/td><td>' + n.class_name + '<\/td>';
-               else
-                   return html +'<td>' + n.name + '<\/td><td>' + n.class_name + '<\/td>';
-            } ).join('<\/tr><tr>') + '<\/tr>';
-        
-        var html = '<tr><td colspan="2">';
-        if ( ezajaxLoadResponse['offset'] !== 0 )
-        {
-            html += '<a href="JavaScript:ajaxBrowse('+ node['node_id'] +','+ (ezajaxLoadResponse['offset'] - ezajaxLoadResponse['limit'])  +')">&lt;&lt; ' + eZOeMCE['i18n']['previous'] + '<\/a>';
-        }
-        html += '<\/td><td>';
-        if ( (ezajaxLoadResponse['offset'] + ezajaxLoadResponse['limit']) < ezajaxLoadResponse['total_count'] )
-        {
-            html += '<a href="JavaScript:ajaxBrowse('+ node['node_id'] +','+ (ezajaxLoadResponse['offset'] + ezajaxLoadResponse['limit'])  +')">' + eZOeMCE['i18n']['next'] + ' &gt;&gt;<\/a>';
-        }
-        html += '<\/td><\/tr>';
-        tfoot.el.innerHTML = html;
-
-        
-    }
-    return false;
-}
 
 
 -->
@@ -167,7 +115,7 @@ table#browse_box_prev tfoot td { padding-top: 5px; }
                     {foreach $grouped_related_contentobjects.images as $img}
 
                     <div class="image-thumbnail-item">
-                        <a title="{$img.object.name|wash}" href="JavaScript:selectByEmbedId( {$img.object.id} )" class="contenttype_image">
+                        <a title="{$img.object.name|wash}" href="JavaScript:eZOEPopupUtils.selectByEmbedId( {$img.object.id} )" class="contenttype_image">
                         {attribute_view_gui attribute=$img.object.data_map.image image_class=small}
                         </a>
                     </div>
@@ -210,7 +158,7 @@ table#browse_box_prev tfoot td { padding-top: 5px; }
                         </tr>
                         {foreach $grouped_related_contentobjects.objects as $relation sequence array( bglight, bgdark ) as $sequence}
                             <tr class="{$sequence}">
-                                <td class="name">{$relation.object.class_name|class_icon( small, $relation.object.class_name )}&nbsp;<a href="JavaScript:selectByEmbedId( {$relation.object.id} )">{$relation.object.name|wash}</a></td>
+                                <td class="name">{$relation.object.class_name|class_icon( small, $relation.object.class_name )}&nbsp;<a href="JavaScript:eZOEPopupUtils.selectByEmbedId( {$relation.object.id} )">{$relation.object.name|wash}</a></td>
                                 <td class="class">{$relation.object.class_name|wash}</td>
                             </tr>
                         {/foreach}
@@ -230,11 +178,20 @@ table#browse_box_prev tfoot td { padding-top: 5px; }
             {/if}
             <table class="properties">
             <tr>
-                <td><input id="SearchText" name="SearchStr" type="text" value="" onkeypress="return ezajaxSearchEnter(event)" /></td>
-                <td><input type="submit" name="SearchButton" id="SearchButton" value="{'Search'|i18n('design/admin/content/search')}"  onclick="return ezajaxSearchEnter(event, true)" /></td>
+                <td><input id="SearchText" name="SearchStr" type="text" value="" onkeypress="return eZOEPopupUtils.searchEnter(event)" /></td>
+                <td><input type="submit" name="SearchButton" id="SearchButton" value="{'Search'|i18n('design/admin/content/search')}"  onclick="return eZOEPopupUtils.searchEnter(event, true)" /></td>
             </tr>
             <tr>
-                <td colspan="2"><div id="search_box_prev"></div></td>
+                <td colspan="2">
+                <table id="search_box_prev">
+                <thead>
+                </thead>
+                <tbody>
+                </tbody>
+                <tfoot>
+                </tfoot>
+            </table>
+                </td>
             </tr>
             </table>
             <!-- todo: paging support -->
@@ -244,7 +201,7 @@ table#browse_box_prev tfoot td { padding-top: 5px; }
             {def $root_nodes = fetch('content', 'list', hash('parent_node_id', 1))}
             <div style="background-color: #eee; text-align: center">
             {foreach $root_nodes as $n}
-                <a href="JavaScript:ajaxBrowse( {$n.node_id} )" style="font-weight: bold">{$n.name}</a> &nbsp;
+                <a href="JavaScript:eZOEPopupUtils.browse( {$n.node_id} )" style="font-weight: bold">{$n.name}</a> &nbsp;
             {/foreach}
             </div>
             <table id="browse_box_prev">

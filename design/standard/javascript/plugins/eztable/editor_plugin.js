@@ -411,7 +411,7 @@
 				return newTR;
 			}
 			
-			function generalXmlTagPopup( eurl, view, width, height  )
+			function generalXmlTagPopup( eurl, view, width, height, node )
 	        {
 	            //var ed = this.editor;
 	            if ( !view ) view = '/tags/';
@@ -423,7 +423,8 @@
 	                resizable : true,
 	                inline : true
 	            }, {
-	                theme_url : this.url
+	                theme_url : this.url,
+	                selected_node : ( node && node.nodeName ? node : false )
 	            });
 	        }
 			
@@ -437,7 +438,7 @@
 						return true;
 
 					if (user_interface) {
-						generalXmlTagPopup( 'tr' );
+						generalXmlTagPopup( 'tr', false, 0, 0, user_interface );
 					}
 
 					return true;
@@ -447,14 +448,14 @@
 						return true;
 
 					if (user_interface) {
-                        generalXmlTagPopup( tdElm.nodeName.toLowerCase() );
+                        generalXmlTagPopup( tdElm.nodeName.toLowerCase(), false, 0, 0, user_interface  );
 					}
 
 					return true;
 
 				case "mceInsertTable":
 					if (user_interface) {
-                        generalXmlTagPopup( 'table' );
+                        generalXmlTagPopup( 'table', false, 0, 0, user_interface  );
 					}
 
 					return true;
