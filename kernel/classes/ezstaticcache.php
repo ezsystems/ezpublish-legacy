@@ -527,7 +527,7 @@ class eZStaticCache
     /// Array of URLs to cache.
     var $CachedURLArray;
     /// An array with URLs that is to always be updated.
-    public $AlwaysUpdate;
+    var $AlwaysUpdate;
 }
 
 ?>
