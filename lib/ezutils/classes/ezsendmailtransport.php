@@ -85,9 +85,26 @@ class eZSendmailTransport extends eZMailTransport
         if( function_exists( 'mail' ) )
         {
             $message = $mail->body();
-            $extraHeaders = $mail->headerText( array( 'exclude-headers' => array( 'To', 'Subject' ) ) );
+            $sys = eZSys::instance();
+            $excludeHeaders = array( 'Subject' );
+            // If not Windows PHP mail() implementation, we can not specify a To: header in the $additional_headers parameter,
+            // because then there will be 2 To: headers in the resulting e-mail.
+            // However, we can use "undisclosed-recipients:;" in $to.
+            if ( $sys->osType() != 'win32' )
+            {
+                $excludeHeaders[] = 'To';
+                $receiverEmailText = count( $mail->ReceiverElements ) > 0 ? $mail->receiverEmailText() : 'undisclosed-recipients:;';
+            }
+            // If Windows PHP mail() implementation, we can specify a To: header in the $additional_headers parameter,
+            // it will be used as the only To: header.
+            // We can not use "undisclosed-recipients:;" in $to, it will result in a SMTP server response: 501 5.1.3 Bad recipient address syntax
+            else
+            {
+                $receiverEmailText = $mail->receiverEmailText();
+            }
+            $extraHeaders = $mail->headerText( array( 'exclude-headers' => $excludeHeaders ) );
 
-            return mail( $mail->receiverEmailText(), $mail->subject(), $message, $extraHeaders, $sendmailOptions );
+            return mail( $receiverEmailText, $mail->subject(), $message, $extraHeaders, $sendmailOptions );
         }
         else
         {

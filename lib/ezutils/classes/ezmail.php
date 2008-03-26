@@ -662,8 +662,9 @@ class eZMail
         $headerNames = array();
         if ( !in_array( 'to', $excludeHeaders ) )
         {
+            $toHeaderContent = count( $this->ReceiverElements ) > 0 ? $this->composeEmailItems( $this->ReceiverElements ) : 'undisclosed-recipients:;';
             $headers[] = array( 'name' => 'To',
-                                'content' => $this->composeEmailItems( $this->ReceiverElements ) );
+                                'content' => $toHeaderContent );
             $headerNames[] = 'to';
         }
         if ( !in_array( 'date', $excludeHeaders ) )
