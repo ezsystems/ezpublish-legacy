@@ -411,6 +411,31 @@ class eZContentCacheManager
         return $info;
     }
 
+    /*
+     Can be used to debug the \a $handledObjectList parameter of nodeListForObject()
+
+     \static
+    */
+    function writeDebugBits( $handledObjectList, $highestBit )
+    {
+        $bitPadLength = (int)( pow( $highestBit, 0.5 ) + 1 );
+        //$bitPadLength = strlen( decbin( $highestBit ) );
+
+        $objectIDList = array_keys( $handledObjectList );
+        $maxObjectID = max( $objectIDList );
+        $padLength = strlen( $maxObjectID ) + 2;
+
+        $msg = '';
+        foreach ( $handledObjectList as $objectID => $clearCacheType )
+        {
+            $bitString = decbin( $clearCacheType );
+            $msg .= str_pad( $objectID, $padLength, ' ', STR_PAD_RIGHT ) . str_pad( $bitString, $bitPadLength, '0', STR_PAD_LEFT );
+            $msg .= "\r\n";
+        }
+
+        eZDebug::writeDebug( $msg, 'eZContentCacheManager::writeDebugBits()' );
+    }
+
     /*!
      \static
      Use \a $clearCacheType to include different kind of nodes( parent, relating, etc ).
@@ -428,11 +453,25 @@ class eZContentCacheManager
                             - EZ_VCSC_CLEAR_ALL_CACHE - Enables all of the above
                             - EZ_VCSC_CLEAR_NO_CACHE - Do not clear cache for current object.
      \param[out] $nodeList An array with node IDs that are affected by the current object change.
+     \param[out] $handledObjectList An associative array with object IDs and the cache types that were handled for these objects already.
+                                    Used to avoid infinite recursion.
 
      \note This function is recursive.
     */
-    function nodeListForObject( &$contentObject, $versionNum, $clearCacheType, &$nodeList )
+    function nodeListForObject( &$contentObject, $versionNum, $clearCacheType, &$nodeList, &$handledObjectList )
     {
+        $contentObjectID = $contentObject->attribute( 'id' );
+
+        if ( isset( $handledObjectList[$contentObjectID] ) )
+        {
+            $handledObjectList[$contentObjectID] |= $clearCacheType;
+        }
+        else
+        {
+            $handledObjectList[$contentObjectID] = $clearCacheType;
+        }
+        //self::writeDebugBits( $handledObjectList, EZ_VCSC_CLEAR_SIBLINGS_CACHE );
+
         $assignedNodes =& $contentObject->assignedNodes();
 
         // determine if $contentObject has dependent objects for which cache should be cleared too.
@@ -443,6 +482,9 @@ class eZContentCacheManager
         if ( $dependentClassInfo['clear_cache_type'] === EZ_VCSC_CLEAR_NO_CACHE )
         {
             $clearCacheType = $dependentClassInfo['clear_cache_type'];
+            // when recursing we will never have to handle this object again for other cache types
+            // because types of caches to clear will always be set to none
+            $handledObjectList[$contentObjectID] = EZ_VCSC_CLEAR_ALL_CACHE;
         }
 
         if ( $clearCacheType & EZ_VCSC_CLEAR_NODE_CACHE )
@@ -472,7 +514,11 @@ class eZContentCacheManager
 
         if ( $dependentClassInfo['clear_cache_type'] & EZ_VCSC_CLEAR_SIBLINGS_CACHE )
         {
-            eZContentCacheManager::appendSiblingsNodeIDs( $assignedNodes, $nodeList );
+            if ( !( $clearCacheType & EZ_VCSC_CLEAR_SIBLINGS_CACHE ) )
+            {
+                eZContentCacheManager::appendSiblingsNodeIDs( $assignedNodes, $nodeList );
+                $handledObjectList[$contentObjectID] |= EZ_VCSC_CLEAR_SIBLINGS_CACHE;
+            }
 
             // drop 'siblings' bit and process parent nodes.
             // since 'sibling' mode is affected to the current object
@@ -483,9 +529,18 @@ class eZContentCacheManager
         {
             foreach( $dependentClassInfo['additional_objects'] as $objectID )
             {
+                // skip if cache type is already handled for this object
+                if ( isset( $handledObjectList[$objectID] ) && $handledObjectList[$objectID] & EZ_VCSC_CLEAR_NODE_CACHE )
+                {
+                    continue;
+                }
+
                 $object =& eZContentObject::fetch( $objectID );
                 if ( $object )
-                    eZContentCacheManager::nodeListForObject( $object, true, EZ_VCSC_CLEAR_NODE_CACHE, $nodeList );
+                {
+                    //eZDebug::writeDebug( 'adding additional object ' . $objectID, 'eZContentCacheManager::nodeListForObject() for object ' . $contentObjectID );
+                    eZContentCacheManager::nodeListForObject( $object, true, EZ_VCSC_CLEAR_NODE_CACHE, $nodeList, $handledObjectList );
+                }
             }
         }
 
@@ -502,17 +557,8 @@ class eZContentCacheManager
             {
                 $step = 0;
 
-                // getting class identifier and node ID for each node in the $nodePath.
-                $nodeInfoList =& eZContentObjectTreeNode::fetchClassIdentifierListByPathString( $nodePath, false );
-
-                if ( $maxParents > 0 )
-                {
-                    // need to reverse $nodeInfoList if $maxParents is used.
-                    // if offset is zero then we will loop through all elements in $nodeInfoList. So,
-                    // array_reverse is not needed.
-
-                    $nodeInfoList = array_reverse( $nodeInfoList );
-                }
+                // getting class identifier and node ID for each node in the $nodePath, up to $maxParents
+                $nodeInfoList =& eZContentObjectTreeNode::fetchClassIdentifierListByPathString( $nodePath, false, $maxParents );
 
                 // for each node in $nodeInfoList determine if this node belongs to $dependentClassIdentifiers. If
                 // so then clear cache for this node.
@@ -521,32 +567,39 @@ class eZContentCacheManager
                     if ( in_array( $item['class_identifier'], $dependentClassIdentifiers ) )
                     {
                         $object =& eZContentObject::fetchByNodeID( $item['node_id'] );
+                        $objectID = $object->attribute( 'id' );
+
+                        if ( isset( $handledObjectList[$objectID] ) )
+                        {
+                            // remove cache types that were already handled
+                            $smartClearType &= ~$handledObjectList[$objectID];
+
+                            // if there are no cache types remaining, then skip
+                            if ( $smartClearType == EZ_VCSC_CLEAR_NO_CACHE )
+                            {
+                                continue;
+                            }
+                        }
 
                         if ( count( $dependentClassInfo['object_filter'] ) > 0 )
                         {
-                            foreach ( $dependentClassInfo['object_filter'] as $objectIDFilter )
+                            if ( in_array( $objectID, $dependentClassInfo['object_filter'] ) )
                             {
-                                if ( $objectIDFilter == $object->attribute( 'id' ) )
-                                {
-                                    eZContentCacheManager::nodeListForObject( $object, true, $smartClearType, $nodeList );
-                                    break;
-                                }
+                                //eZDebug::writeDebug( 'adding parent ' . $objectID, 'eZContentCacheManager::nodeListForObject() for object ' . $contentObjectID );
+                                eZContentCacheManager::nodeListForObject( $object, true, $smartClearType, $nodeList, $handledObjectList );
                             }
                         }
                         else
                         {
-                            eZContentCacheManager::nodeListForObject( $object, true, $smartClearType, $nodeList );
+                            //eZDebug::writeDebug( 'adding parent ' . $objectID, 'eZContentCacheManager::nodeListForObject() for object ' . $contentObjectID );
+                            eZContentCacheManager::nodeListForObject( $object, true, $smartClearType, $nodeList, $handledObjectList );
                         }
-                    }
-
-                    // if we reached $maxParents then break
-                    if ( ++$step == $maxParents )
-                    {
-                        break;
                     }
                 }
             }
         }
+
+        //self::writeDebugBits( $handledObjectList, EZ_VCSC_CLEAR_SIBLINGS_CACHE );
     }
 
     /*!
@@ -574,7 +627,7 @@ class eZContentCacheManager
             return $nodeList;
         }
 
-        eZContentCacheManager::nodeListForObject( $object, $versionNum, EZ_VCSC_CLEAR_DEFAULT, $nodeList );
+        eZContentCacheManager::nodeListForObject( $object, $versionNum, EZ_VCSC_CLEAR_DEFAULT, $nodeList, $handledObjectList );
 
         return $nodeList;
     }
@@ -601,6 +654,8 @@ class eZContentCacheManager
     */
     function clearObjectViewCache( $objectID, $versionNum = true, $additionalNodeList = false )
     {
+        eZDebug::accumulatorStart( 'node_cleanup_list', '', 'Node cleanup list' );
+
         $nodeList =& eZContentCacheManager::nodeList( $objectID, $versionNum );
 
         if ( $nodeList === false and !is_array( $additionalNodeList ) )
@@ -622,6 +677,8 @@ class eZContentCacheManager
         }
 
         $nodeList = array_unique( $nodeList );
+
+        eZDebug::accumulatorStop( 'node_cleanup_list' );
 
         eZDebugSetting::writeDebug( 'kernel-content-edit', count( $nodeList ), "count in nodeList" );
 
@@ -829,7 +886,7 @@ class eZContentCacheManager
                 $useURLAlias = $ini->variable( 'URLTranslator', 'Translation' ) == 'enabled';
             }
 
-            eZContentCacheManager::nodeListForObject( $object, true, EZ_VCSC_CLEAR_DEFAULT, $nodes );
+            eZContentCacheManager::nodeListForObject( $object, true, EZ_VCSC_CLEAR_DEFAULT, $nodes, $handledObjectList );
 
             // If no nodes returns it means that ClearCacheMethod = EZ_VCSC_CLEAR_NO_CACHE
             if ( count( $nodes ) )
