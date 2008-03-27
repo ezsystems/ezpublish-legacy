@@ -1625,6 +1625,18 @@ class eZObjectRelationListType extends eZDataType
             $classConstraintNode->setAttribute( 'class-identifier', $classConstraintIdentifier );
             $classConstraintsNode->appendChild( $classConstraintNode );
         }
+
+        if ( isset( $content['selection_type'] ) && is_numeric( $content['selection_type'] ) )
+        {
+            $selectionTypeNode = $dom->createElement( 'selection-type', $content['selection_type'] );
+            $attributeParametersNode->appendChild( $selectionTypeNode );
+        }
+
+        if ( isset( $content['object_class'] ) && is_numeric( $content['object_class'] ) )
+        {
+            $objectClassNode = $dom->createElement( 'object-class', $content['object_class'] );
+            $attributeParametersNode->appendChild( $objectClassNode );
+        }
     }
 
     /*!
@@ -1650,6 +1662,19 @@ class eZObjectRelationListType extends eZDataType
             $content['class_constraint_list'][] = $classIdentifier;
         }
 
+        $objectClassNode = $attributeParametersNode->getElementsByTagName( 'object-class' )->item( 0 );
+        if ( $objectClassNode )
+        {
+            $content['object_class'] = $objectClassNode->textContent;
+        }
+
+        $selectionTypeNode = $attributeParametersNode->getElementsByTagName( 'selection-type' )->item( 0 );
+        if ( $selectionTypeNode )
+        {
+            $content['selection_type'] = $selectionTypeNode->textContent;
+        }
+
+        $classAttribute->setContent( $content );
         $this->storeClassAttributeContent( $classAttribute, $content );
     }
 
