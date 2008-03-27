@@ -1470,10 +1470,12 @@ class eZSiteInstaller
     /*!
      Create siteaccess urls for additional user siteacceses using info about access type(host, post, uri)
      Params:
-        'siteaccess_list'   - list of siteaccess names to build urls;
-        'access_type'       - access type: port, hostname, url;
-        'port'              - optional, port number to start with. used if 'access_type' is 'port';
-        'exclude_port_list' - optional, ports to skip. used if 'access_type' is 'port';
+        'siteaccess_list'         - list of siteaccess names to build urls;
+        'access_type'             - access type: port, hostname, url;
+        'port'                    - optional, port number to start with. used if 'access_type' is 'port';
+        'exclude_port_list'       - optional, ports to skip. used if 'access_type' is 'port';
+        'host'                    - host name
+        'host_prepend_siteaccess' - optional, boolean which instructs to prepend the site access name or not to the value of 'host', by default true
     */
     function createSiteaccessUrls( $params )
     {
@@ -1516,7 +1518,7 @@ class eZSiteInstaller
             case 'host':
             case 'hostname':
                 {
-                    $hostMatchMapItems = array();
+                    $prependSiteAccess = isset( $params['host_prepend_siteaccess'] ) && is_bool( $params['host_prepend_siteaccess'] ) ? $params['host_prepend_siteaccess'] : true;
 
                     // grep domain
                     if( preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $host, $matches ) )
@@ -1524,12 +1526,21 @@ class eZSiteInstaller
 
                     foreach( $siteaccessList as $siteaccess )
                     {
-                        // replace undescores with dashes( '_' -> '-' );
-                        $hostPrefix = preg_replace( '/(_)/', '-', $siteaccess);
+                        if ( $prependSiteAccess )
+                        {
+                            // replace undescores with dashes( '_' -> '-' );
+                            $hostPrefix = preg_replace( '/(_)/', '-', $siteaccess);
 
-                        // create url and host
-                        $urlList[$siteaccess]['url'] = $hostPrefix . '.' . $host . $indexFile;
-                        $urlList[$siteaccess]['host'] = $hostPrefix . '.' . $host;
+                            // create url and host
+                            $urlList[$siteaccess]['url'] = $hostPrefix . '.' . $host . $indexFile;
+                            $urlList[$siteaccess]['host'] = $hostPrefix . '.' . $host;
+                        }
+                        else
+                        {
+                            // create url and host
+                            $urlList[$siteaccess]['url'] = $host . $indexFile;
+                            $urlList[$siteaccess]['host'] = $host;
+                        }
                     }
                 }
                 break;
