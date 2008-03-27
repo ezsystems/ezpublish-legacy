@@ -1592,6 +1592,18 @@ class eZObjectRelationListType extends eZDataType
             $classConstraintsNode->appendChild( eZDOMDocument::createElementNode( 'class-constraint',
                                                                                   array( 'class-identifier' => $classConstraintIdentifier ) ) );
         }
+
+        if ( isset( $content['selection_type'] ) && is_numeric( $content['selection_type'] ) )
+        {
+            $selectionTypeNode = eZDOMDocument::createElementTextNode( 'selection-type', $content['selection_type'] );
+            $attributeParametersNode->appendChild( $selectionTypeNode );
+        }
+
+        if ( isset( $content['object_class'] ) && is_numeric( $content['object_class'] ) )
+        {
+            $objectClassNode = eZDOMDocument::createElementTextNode( 'object-class', $content['object_class'] );
+            $attributeParametersNode->appendChild( $objectClassNode );
+        }
     }
 
     /*!
@@ -1603,7 +1615,7 @@ class eZObjectRelationListType extends eZDataType
         $defaultPlacementNode = $attributeParametersNode->elementByName( 'default-placement' );
         $content['default_placement'] = false;
         if ( $defaultPlacementNode )
-            $content['default_placement'] = $defaultPlacementNode->attributeValue( 'node-id' );
+            $content['default_placement'] = array( 'node_id' => $defaultPlacementNode->attributeValue( 'node-id' ) );
         $content['type'] = $attributeParametersNode->elementTextContentByName( 'type' );
         $classConstraintsNode =& $attributeParametersNode->elementByName( 'class-constraints' );
         $classConstraintList = $classConstraintsNode->children();
@@ -1613,6 +1625,19 @@ class eZObjectRelationListType extends eZDataType
             $classIdentifier = $classConstraintNode->attributeValue( 'class-identifier' );
             $content['class_constraint_list'][] = $classIdentifier;
         }
+        $objectClassNode = $attributeParametersNode->elementByName( 'object-class' );
+        if ( $objectClassNode )
+        {
+            $content['object_class'] = $objectClassNode->textContent();
+        }
+
+        $selectionTypeNode = $attributeParametersNode->elementByName( 'selection-type' );
+        if ( $selectionTypeNode )
+        {
+            $content['selection_type'] = $selectionTypeNode->textContent();
+        }
+
+        $classAttribute->setContent( $content );
         $this->storeClassAttributeContent( $classAttribute, $content );
     }
 
