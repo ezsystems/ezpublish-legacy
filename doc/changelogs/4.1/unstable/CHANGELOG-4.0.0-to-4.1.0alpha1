@@ -183,4 +183,5 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #9122: Empty TO mail header part violates RFC when running notifications
 - Fixed bug #12597: Infinitive loop / Segment fault caused by smart viewcache settings
 - Fixed bug #10496: Missing i18n for the admin content structure tooltip in
+- Fixed bug #12672: Package creation adds extra whitespace to XML
 
