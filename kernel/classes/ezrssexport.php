@@ -477,7 +477,7 @@ class eZRSSExport extends eZPersistentObject
             $dataMap = $object->dataMap();
             if ( $useURLAlias === true )
             {
-                $nodeURL = $baseItemURL . $node->urlAlias();
+                $nodeURL = $this->urlEncodePath( $baseItemURL . $node->urlAlias() );
             }
             else
             {
@@ -665,7 +665,7 @@ class eZRSSExport extends eZPersistentObject
             $dataMap =  $object->dataMap();
             if ( $useURLAlias === true )
             {
-                $nodeURL = $baseItemURL.$node->urlAlias();
+                $nodeURL = $this->urlEncodePath( $baseItemURL . $node->urlAlias() );
             }
             else
             {
@@ -790,6 +790,57 @@ class eZRSSExport extends eZPersistentObject
         $url = preg_replace( "#^(//)#", "/", $url );
 
         return 'http://'.$url;
+    }
+
+    /*!
+     \private
+
+     Performs rawurlencode() on the path part of the URL. The rest is not touched.
+
+     \return partially encoded url
+    */
+    function urlEncodePath( $url )
+    {
+        // Raw encode the path part of the URL
+        $urlComponents = parse_url( $url );
+        $pathParts = explode( '/', $urlComponents['path'] );
+        foreach ( $pathParts as $key => $pathPart )
+        {
+            $pathParts[$key] = rawurlencode( $pathPart );
+        }
+        $encodedPath = implode( '/', $pathParts );
+
+        // Rebuild the URL again, like this: scheme://user:pass@host/path?query#fragment
+        $encodedUrl = $urlComponents['scheme'] . '://';
+
+        if ( isset( $urlComponents['user'] ) )
+        {
+            $encodedUrl .= $urlComponents['user'];
+            if ( isset( $urlComponents['pass'] ) )
+            {
+                $encodedUrl .= ':' . $urlComponents['pass'];
+            }
+            $encodedUrl .= '@';
+        }
+
+        $encodedUrl .= $urlComponents['host'];
+        if ( isset( $urlComponents['port'] ) )
+        {
+            $encodedUrl .= ':' . $urlComponents['port'];
+        }
+        $encodedUrl .= $encodedPath;
+
+        if ( isset( $urlComponents['query'] ) )
+        {
+            $encodedUrl .= '?' . $urlComponents['query'];
+        }
+
+        if ( isset( $urlComponents['fragment'] ) )
+        {
+            $encodedUrl .= '#' . $urlComponents['fragment'];
+        }
+
+        return $encodedUrl;
     }
 }
 ?>
