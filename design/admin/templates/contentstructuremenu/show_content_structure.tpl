@@ -7,7 +7,7 @@
          showToolTips   = ezini( 'TreeMenu', 'ToolTips'         , 'contentstructuremenu.ini' )
          translation    = ezini( 'URLTranslator', 'Translation', 'site.ini' )
          toolTip        = ""
-         visibility     = 'Visible'
+         visibility     = 'Visible'|i18n('design/admin/contentstructuremenu')
          isRootNode     = false() }
 
         {default classIconsSize = ezini( 'TreeMenu', 'ClassIconsSize', 'contentstructuremenu.ini' )
@@ -25,7 +25,7 @@
 
             {* Fold/Unfold/Empty: [-]/[+]/[ ] *}
                 {section show=or($:haveChildren, $:isRootNode)}
-                   <a class="openclose" href="#" title="{'Fold/Unfold'|i18n('design/admin/contentstructuremenu')}"
+                   <a class="openclose" href="#" title="{'Fold/Unfold'|i18n('design/admin/contentstructuremenu')|wash}"
                       onclick="ezpopmenu_hideAll(); ezcst_onFoldClicked( this.parentNode ); return false;"></a>
                 {section-else}
                     <span class="openclose"></span>
@@ -41,10 +41,10 @@
                 {* Tooltip *}
                 {section show=$:showToolTips|eq('enabled')}
                     {section show=$:parentNode.node.is_invisible}
-                        {set visibility = 'Hidden by superior'}
+                        {set visibility = 'Hidden by superior'|i18n('design/admin/contentstructuremenu')}
                     {/section}
                     {section show=$:parentNode.node.is_hidden}
-                        {set visibility = 'Hidden'}
+                        {set visibility = 'Hidden'|i18n('design/admin/contentstructuremenu')}
                     {/section}
                     {set toolTip = 'Node ID: %node_id Visibility: %visibility' |
                                     i18n("contentstructuremenu/show_content_structure", , hash( '%node_id'      , $:parentNode.node.node_id,
@@ -58,15 +58,15 @@
                     {section show=$:csm_menu_item_click_action|eq('')}
                         {section show=eq( $:translation, 'enabled' )}
                             {let defaultItemClickAction = $:parentNode.node.path_identification_string|ezurl(no)}
-                                <a class="nodetext" href="{$:defaultItemClickAction}" title="{$:toolTip}">
+                                <a class="nodetext" href="{$:defaultItemClickAction}" title="{$:toolTip|wash}">
                             {/let}
                         {section-else}
                             {let defaultItemClickAction = concat('content/view/full/',$:parentNode.node.node_id)|ezurl(no)}
-                                <a class="nodetext" href="{$:defaultItemClickAction}" title="{$:toolTip}">
+                                <a class="nodetext" href="{$:defaultItemClickAction}" title="{$:toolTip|wash}">
                             {/let}
                         {/section}
                         {* Do not indent this line; otherwise links will contain empty space at the end! *}
-                        {section-else}<a class="nodetext" href="{$:csm_menu_item_click_action}/{$:parentNode.node.node_id}" title="{$:toolTip}">{/section}{section show=$:parentNode.node.is_hidden}<span class="node-name-hidden">{$:parentNode.object.name|wash}</span>{section-else}{section show=$:parentNode.node.is_invisible}<span class="node-name-hiddenbyparent">{$:parentNode.object.name|wash}</span>{section-else}<span class="node-name-normal">{$:parentNode.object.name|wash}</span>{/section}{/section}{section show=$:parentNode.node.is_hidden}<span class="node-hidden">(Hidden)</span></a>{section-else}{section show=$:parentNode.node.is_invisible}<span class="node-hiddenbyparent">(Hidden by parent)</span></a>{section-else}</a>{/section}
+                        {section-else}<a class="nodetext" href="{$:csm_menu_item_click_action}/{$:parentNode.node.node_id}" title="{$:toolTip|wash}">{/section}{section show=$:parentNode.node.is_hidden}<span class="node-name-hidden">{$:parentNode.object.name|wash}</span>{section-else}{section show=$:parentNode.node.is_invisible}<span class="node-name-hiddenbyparent">{$:parentNode.object.name|wash}</span>{section-else}<span class="node-name-normal">{$:parentNode.object.name|wash}</span>{/section}{/section}{section show=$:parentNode.node.is_hidden}<span class="node-hidden">(Hidden)</span></a>{section-else}{section show=$:parentNode.node.is_invisible}<span class="node-hiddenbyparent">(Hidden by parent)</span></a>{section-else}</a>{/section}
                     {/section}
                 {section-else}
                     {section show=$:parentNode.node.is_hidden}
