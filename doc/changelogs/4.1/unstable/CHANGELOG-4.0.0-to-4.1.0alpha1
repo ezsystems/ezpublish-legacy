@@ -186,4 +186,5 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12672: Package creation adds extra whitespace to XML
 - Fixed bug #9126: Static cache uses old cache to create new cache on publishing.
   See doc/features/4.0/static_cache_user_agent.txt
+- Fixed bug #11109: Object relations datatype - content class export and import issues
 
