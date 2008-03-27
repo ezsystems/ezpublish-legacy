@@ -1285,6 +1285,7 @@ class eZPackage
         if ( file_exists( $filename ) )
         {
             $dom = new DOMDocument( '1.0', 'utf-8' );
+            $dom->preserveWhiteSpace = false;
             $dom->load( $filename );
             return $dom;
         }
