@@ -50,6 +50,9 @@
 */
 
 include_once( 'lib/ezutils/classes/ezini.php' );
+include_once( 'lib/ezutils/classes/ezhttptool.php' );
+
+define( 'EZ_STATIC_CACHE_USER_AGENT', 'eZ Publish static cache generator' );
 
 class eZStaticCache
 {
@@ -289,6 +292,7 @@ class eZStaticCache
         {
             $dirs = array ('');
         }
+        $http = eZHTTPTool::instance();
 
         foreach ( $dirs as $dir )
         {
@@ -320,7 +324,7 @@ class eZStaticCache
                         /* Generate content, if required */
                         if ( $content === false )
                         {
-                            $content = @file_get_contents( $fileName );
+                            $content = $http->getDataByURL( $fileName, false, EZ_STATIC_CACHE_USER_AGENT );
                         }
                         if ( $content === false )
                         {
@@ -423,6 +427,8 @@ class eZStaticCache
         $fileContentCache = array();
         $doneDestList = array();
 
+        $http = eZHTTPTool::instance();
+
         foreach ( $GLOBALS['eZStaticCache-ActionList'] as $action )
         {
             list( $action, $parameters ) = $action;
@@ -434,7 +440,7 @@ class eZStaticCache
                     {
                         if ( ! isset( $fileContentCache[$source] ) )
                         {
-                            $fileContentCache[$source] = @file_get_contents( $source );
+                            $fileContentCache[$source] = $http->getDataByURL( $source, false, EZ_STATIC_CACHE_USER_AGENT );
                         }
                         if ( $fileContentCache[$source] === false )
                         {
