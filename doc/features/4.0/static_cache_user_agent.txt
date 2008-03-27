@@ -1,0 +1,22 @@
+Static cache user agent
+=======================
+
+#009126: Static cache uses old cache to create new cache on publishing
+http://issues.ez.no/IssueView.php?Id=9126&ProjectId=3
+
+The fix for issue #9126 is to make the cache generator identify itself as such
+in the request it uses to update the static cache. The user agent string in
+such requests is now "eZ Publish static cache generator".
+
+In order to take advantage of this, you should create a conditional in your
+web server, based on the user agent string. In Apache, use something like
+this, followed by rewrite rules for the static cache:
+
+# If the user agent is not "eZ Publish static cache generator"
+RewriteCond %{HTTP_USER_AGENT} !^eZ\ Publish\ static\ cache\ generator$
+# then rewrite to static cache
+
+NOTE:
+The traditional solution is still valid, i.e. to have different host names for
+the dynamic and the static cached eZ Publish. If you use this solution, you
+don't have change anything.

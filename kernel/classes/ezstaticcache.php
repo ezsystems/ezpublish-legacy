@@ -54,6 +54,8 @@
 
 class eZStaticCache
 {
+    const USER_AGENT = 'eZ Publish static cache generator';
+
     /*!
      Initialises the static cache object with settings from staticcache.ini.
     */
@@ -335,6 +337,7 @@ class eZStaticCache
         {
             $dirs = array ('');
         }
+        $http = eZHTTPTool::instance();
 
         foreach ( $dirs as $dir )
         {
@@ -366,7 +369,7 @@ class eZStaticCache
                         /* Generate content, if required */
                         if ( $content === false )
                         {
-                            $content = @file_get_contents( $fileName );
+                            $content = $http->getDataByURL( $fileName, false, USER_AGENT );
                         }
                         if ( $content === false )
                         {
@@ -478,6 +481,8 @@ class eZStaticCache
             $db = eZDB::instance();
         }
 
+        $http = eZHTTPTool::instance();
+
         foreach ( $GLOBALS['eZStaticCache-ActionList'] as $action )
         {
             list( $action, $parameters ) = $action;
@@ -499,7 +504,7 @@ class eZStaticCache
                     {
                         if ( !isset( $fileContentCache[$source] ) )
                         {
-                            $fileContentCache[$source] = @file_get_contents( $source );
+                            $fileContentCache[$source] = $http->getDataByURL( $source, false, USER_AGENT );
                         }
                         if ( $fileContentCache[$source] === false )
                         {
