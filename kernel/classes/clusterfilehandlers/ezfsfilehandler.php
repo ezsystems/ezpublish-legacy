@@ -63,7 +63,7 @@ class eZFSFileHandler
      */
     function _exclusiveLock( $fname = false )
     {
-        $pid = getmypid();
+        //$pid = getmypid();
         $mutex =& $this->_mutex();
         while ( true )
         {
