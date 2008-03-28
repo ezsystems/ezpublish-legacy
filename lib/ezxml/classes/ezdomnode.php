@@ -886,7 +886,8 @@ class eZDOMNode
     function collectTextContent( &$element )
     {
         $ret = '';
-        if ( $element->Type == EZ_XML_NODE_TEXT )
+        if ( $element->Type == EZ_XML_NODE_TEXT or
+             $element->Type == EZ_XML_NODE_CDATASECTION )
         {
             $ret = $element->content();
         }
