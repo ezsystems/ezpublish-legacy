@@ -1250,6 +1250,11 @@ class eZINI
                     $placement = 'extension:' . $exploded[1];
             }
             break;
+            case 6:
+            {
+                $placement = 'ext-siteaccess:' . $exploded[4];
+            }
+            break;
             default:
                 $placement = 'undefined';
             break;
