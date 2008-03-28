@@ -87,11 +87,39 @@ function changeSiteAccessSetting( &$siteaccess, $optionData )
         if ( !$isQuiet )
             $cli->notice( "Using siteaccess $siteaccess for cronjob" );
     }
+    elseif ( isExtensionSiteaccess( $optionData ) )
+    {
+        $siteaccess = $optionData;
+        if ( !$isQuiet )
+            $cli->notice( "Using extension siteaccess $siteaccess for cronjob" );
+
+        eZExtension::prependExtensionSiteAccesses( $siteaccess );
+    }
     else
     {
         if ( !$isQuiet )
             $cli->notice( "Siteaccess $optionData does not exist, using default siteaccess" );
     }
+}
+
+/*
+    Look in the ActiveExtensions for $siteaccessName
+    We only need to look in ActiveExtensions and not ActiveAccessExtensions
+    Return true if siteaccessName exists in an extension, false if not.
+*/
+function isExtensionSiteaccess( $siteaccessName )
+{
+    $ini = eZINI::instance();
+    $extensionDirectory = $ini->variable( 'ExtensionSettings', 'ExtensionDirectory' );
+    $activeExtensions = $ini->variable( 'ExtensionSettings', 'ActiveExtensions' );
+
+    foreach ( $activeExtensions as $extensionName )
+    {
+        $possibleExtensionPath = $extensionDirectory . '/' . $extensionName . '/settings/siteaccess/' . $siteaccessName;
+        if ( file_exists( $possibleExtensionPath ) )
+            return true;
+    }
+    return false;
 }
 
 $siteaccess = false;
