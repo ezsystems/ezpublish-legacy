@@ -109,7 +109,26 @@ if ( $http->hasPostVariable( 'ChangeINIFile' ) or
      ( $Params['SiteAccess'] and $Params['INIFile'] ) )
 {
     $ini = eZINI::instance( $settingFile, 'settings', null, null, false );
-    $ini->prependOverrideDir( "siteaccess/$currentSiteAccess", false, 'siteaccess' );
+    if ( file_exists( "settings/siteaccess/$currentSiteAccess" ) )
+    {
+        $ini->prependOverrideDir( "siteaccess/$currentSiteAccess", false, 'siteaccess' );
+    }
+    else
+    {
+        $extensionDirectory = $ini->variable( 'ExtensionSettings', 'ExtensionDirectory' );
+        $activeExtensions = $ini->variable( 'ExtensionSettings', 'ActiveExtensions' );
+        foreach ( $activeExtensions as $extensionName )
+        {
+            $possibleExtensionPath = $extensionDirectory . '/' . $extensionName . '/settings/siteaccess/' .
+                                     $currentSiteAccess;
+            if ( file_exists( $possibleExtensionPath ) )
+            {
+                $ini->prependOverrideDir( $extensionDirectory . '/' . $extensionName . '/settings/siteaccess/' .
+                                          $currentSiteAccess, true, 'siteaccess' );
+                break;
+            }
+        }
+    }
     $ini->loadCache();
 
     $blocks = $ini->groups();
