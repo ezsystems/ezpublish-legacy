@@ -771,6 +771,7 @@
 							break;
 
 						case "mceTableSplitCells":
+
 							if (!trElm || !tdElm)
 								return true;
 
@@ -849,7 +850,6 @@
 									//return true;
 							} else {
 								var cells = [];
-								var sel = inst.selection.getSel();
 								var lastTR = null;
 								var curRow = null;
 								var x1 = -1, y1 = -1, x2, y2;
@@ -866,7 +866,7 @@
 									if (!tdElm)
 										break;
 
-									if (tdElm.nodeName == "TD")
+									if (tdElm.nodeName === "TD" || tdElm.nodeName === "TH")
 										cells[cells.length] = tdElm;
 								}
 

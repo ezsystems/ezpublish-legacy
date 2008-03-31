@@ -19,7 +19,7 @@
          $content_css_list_temp = ezini('StylesheetSettings', 'EditorCSSFileList', 'design.ini',,true())
          $content_css_list = array()
          $editor_css_list = array( concat('skins/', $skin, '/ui.css') )
-         $plugin_js_list     = array()
+         $plugin_js_list     = array( 'ezoe::i18n' )
     }
 
     {if and( $custom_tags|contains('underline')|not, $button_list|contains(',underline') )}
@@ -54,7 +54,7 @@
     var eZOeMCE = new Object(), ezTinyIdString;
     eZOeMCE['root']             = {'/'|ezroot};
     eZOeMCE['extension_url']    = {'/ezoe/'|ezurl};
-    eZOeMCE['content_css']      = '{ezoecss( $content_css_list, false() )|implode(',')}';
+    eZOeMCE['content_css']      = '{ezoecss( $content_css_list, false())|implode(',')}';
     eZOeMCE['editor_css']       = '{ezoecss( $editor_css_list, false() )|implode(',')}';
     eZOeMCE['popup_css']        = {concat("stylesheets/skins/", $skin, "/dialog.css")|ezdesign};
     eZOeMCE['contentobject_id'] = {$attribute.contentobject_id};
@@ -137,8 +137,25 @@ path: "{'Path'|i18n('design/standard/setup')}"
     	theme_advanced_editor_css : eZOeMCE['editor_css'],
     	theme_advanced_content_css : eZOeMCE['content_css'],
     	popup_css : eZOeMCE['popup_css'],
-    	gecko_spellcheck : true
+    	gecko_spellcheck : true,
+    	save_callback : "ezMceEditorSave"
     });
+        
+
+    function ezMceEditorSave(element_id, html, body)
+    {
+        ez.$$( 'span.mceItemCustomTag', body ).forEach(function(o){
+            if ( o.el.hasChildNodes() && o.el.childNodes.length === 1 
+              && o.el.childNodes[0].nodeName === 'P' )
+            {
+                while ( o.el.childNodes[0].childNodes.length )
+                    o.el.appendChild( o.el.childNodes[0].childNodes[0] );
+                o.el.removeChild( o.el.childNodes[0] );
+            }
+        });
+        return body.innerHTML;
+    }
+
     
     function ezMceToggleEditor( id )
     {

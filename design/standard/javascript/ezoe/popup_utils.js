@@ -68,6 +68,9 @@ var eZOEPopupUtils = {
 	            s.editorSelectedText = selectedText;
 	    }
 	    
+        if ( s.onInit && s.onInit.call )
+            s.onInit.call( eZOEPopupUtils, s.editorElement, s.tagName, ed );
+	    
 	    if ( s.tagSelector && ( s.tagSelector = ez.$( s.tagSelector ) ) && s.tagSelector.el.value
 	    && ( s.tagSelector.el.checked === undefined || s.tagSelector.el.checked === true ) )
 	        s.selectedTag = s.tagSelector.el.value;
@@ -96,9 +99,6 @@ var eZOEPopupUtils = {
 		        s.tagSelector.addEvent('change', eZOEPopupUtils.toggleCustomAttributes);
 		    }
         }
-
-        if ( s.onInit && s.onInit.call )
-            s.onInit.call( eZOEPopupUtils, s.editorElement, s.tagName, ed );
 	},
 
     save: function()
@@ -154,7 +154,7 @@ var eZOEPopupUtils = {
             }
 		    else if ( eZOEPopupUtils.xmlToXhtmlHash[s.tagName] )
 		    {
-		        ed.execCommand('mceInsertContent', false, '<' + eZOEPopupUtils.xmlToXhtmlHash[s.tagName] + ' id="__mce_tmp">' + ( s.editorSelectedText || '&nbsp;' ) + '</' + eZOEPopupUtils.xmlToXhtmlHash[s.tagName] + '>', {skip_undo : 1} );
+		        ed.execCommand('mceInsertContent', false, '<' + eZOEPopupUtils.xmlToXhtmlHash[s.tagName] + ' id="__mce_tmp">' + ( s.editorSelectedText ? s.editorSelectedText : '&nbsp;' ) + '</' + eZOEPopupUtils.xmlToXhtmlHash[s.tagName] + '>', {skip_undo : 1} );
 		        s.editorElement = ed.dom.get('__mce_tmp');
 		    }
 		}

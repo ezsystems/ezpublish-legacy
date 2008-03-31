@@ -161,7 +161,7 @@ class eZOEInputParser extends eZXMLInputParser
     }
 
     /*
-        Tag Name handlers (called at pass 1)
+        Tag Name handlers (init handlers)
     */
     function tagNameSpan( $tagName, &$attributes )
     {
@@ -314,6 +314,7 @@ class eZOEInputParser extends eZXMLInputParser
     /*
         Parsing Handlers (called at pass 1)
     */
+    
     function parsingHandlerLiteral( $element, &$param )
     {
         $ret = null;

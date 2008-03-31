@@ -30,27 +30,26 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         // custom block tags are not allowed inside custom inline tags
         if ( el )
         {
-            var parentSpan = ed.dom.getParent(el, 'SPAN' );
-            if ( parentSpan && el !== parentSpan && tinymce.DOM.getAttrib( parentSpan, 'type' ) === 'custom' )
+            if ( getParentTag( el, 'span', 'mceItemCustomTag', 'custom' ) )
                 filterOutCustomBlockTags( );
         }
         else
         {
-	        var currentNode = ed.selection.getNode(), parentSpan = ed.dom.getParent(currentNode, 'SPAN' );
+	        var currentNode = ed.selection.getNode(), parentSpan = getParentTag( el, 'span', 'mceItemCustomTag', 'custom' );
 	        if ( currentNode && currentNode.nodeName === 'SPAN' && tinymce.DOM.getAttrib( currentNode, 'type' ) === 'custom' )
 	            filterOutCustomBlockTags( );
-	        else if ( parentSpan && tinymce.DOM.getAttrib( parentSpan, 'type' ) === 'custom' )
+	        else if ( parentSpan )
 	            filterOutCustomBlockTags( );
         }
     },
     tagGenerator: function( tag, customTag, text )
     {
 	    if ( customTag === 'underline' )
-            return '<u id="__mce_tmp" type="custom">' + text || customTag + '</u>';
+            return '<u id="__mce_tmp" type="custom"><p class="mceItemHidden">' + (text ? text : customTag) + '<\/p><\/u>';
 	    else if ( ez.$( customTag + '_inline_source' ).el.checked )
-	        return '<span id="__mce_tmp" type="custom">' + text || customTag + '</span>';
+	        return '<span id="__mce_tmp" type="custom"><p class="mceItemHidden">' + (text ? text : customTag) + '<\/p><\/span>';
 	    else
-	        return '<div id="__mce_tmp" type="custom"><p>' + text || customTag + '</p></div>';
+	        return '<div id="__mce_tmp" type="custom"><p>' + (text ? text : customTag) + '<\/p><\/div>';
     },
     tagEditor: function( el, ed, customTag, args )
     {
@@ -58,16 +57,16 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         el = eZOEPopupUtils.switchTagTypeIfNeeded( el, target );
         if ( el.nodeName !== 'DIV' && origin === 'DIV' )
         {
-            // remove p tag if inline tag
-            var childs = ez.$$('> *', el);
-            if ( childs.length === 1 && childs[0].el.nodeName === 'P' )
-                el.innerHTML = childs[0].el.innerHTML;
+            // hide inline paragraph
+            if ( el.hasChildNodes() && el.childNodes.length === 1 && el.childNodes[0].nodeName === 'P')
+                el.childNodes[0].className = 'mceItemHidden';
         }
         else if ( el.nodeName === 'DIV' && origin !== 'DIV' )
         {
-            // add p tag if block tag and no child tags
-            if ( ez.$$('> *', el).length === 0 )
-                el.innerHTML = '<p>' + el.innerHTML + '</p>';
+            // show inline paragraph           
+            if ( el.hasChildNodes() && el.childNodes.length === 1 && el.childNodes[0].nodeName === 'P'  )
+                el.childNodes[0].className = '';
+
         }
         return el;
     }
@@ -83,6 +82,20 @@ function filterOutCustomBlockTags( n )
     ez.$$('#custom_class_source option').forEach(function( o ){
         if ( inlineTags.indexOf( o.el.value ) === -1 ) o.el.parentNode.removeChild( o.el );
     });
+}
+
+function getParentTag( el, tag, class, type )
+{
+    class = ' ' + class + ' ';
+    tag = tag.toUpperCase();
+    while ( el.nodeName !== 'BODY'  && ( el = el.parentNode ) )
+    {
+        if ( el.nodeName === tag
+        && ( class === undefined || (' ' + el.className + ' ').indexOf( class ) !== -1 )
+        &&  ( type === undefined || el.getAttribute('type') === type ) )
+        return el;
+    }
+    return false;
 }
 
 {/literal}

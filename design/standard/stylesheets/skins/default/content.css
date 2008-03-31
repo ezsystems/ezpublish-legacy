@@ -91,6 +91,7 @@ div.mceItemCustomTag
 
 div.mceItemCustomTag, span.mceItemCustomTag { background-color: #ccffff; }
 
+span.mceItemCustomTag p { display: inline; clear: none; }
 
 /* Visualisation of default inline custom tags */
 
@@ -130,7 +131,7 @@ div.pagebreak p { margin: 0; }
 
 /* change the style for embed tags */
 
-div.mceNonEditable
+div.mceNonEditable, div.mceNonEditable div
 {
 
 }

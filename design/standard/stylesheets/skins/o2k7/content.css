@@ -90,6 +90,7 @@ div.mceItemCustomTag
 
 div.mceItemCustomTag, span.mceItemCustomTag { background-color: #ccffff; }
 
+span.mceItemCustomTag p { display: inline; clear: none; }
 
 /* Visualisation of default inline custom tags */
 

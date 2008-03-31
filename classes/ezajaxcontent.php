@@ -105,7 +105,7 @@ class eZAjaxContent
             
         if (  !isset( $params['imageDataTypes'] ) )
             $params['imageDataTypes'] = array('ezimage');
-        
+
         if ( $obj instanceof eZContentObject)
         {
             $node          = $obj->attribute( 'main_node' );

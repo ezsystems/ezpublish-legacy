@@ -988,7 +988,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 if ( $isInline )
                 {
                     if ( !$childTagText ) $childTagText = '&nbsp;';
-                    $output .= '<'. $nodeType .' class="mceItemCustomTag ' . $name . '" type="custom"' . $customAttributePart . '>' . $childTagText . '</'. $nodeType .'>';
+                    $output .= '<'. $nodeType .' class="mceItemCustomTag ' . $name . '" type="custom"' . $customAttributePart . '><p class="mceItemHidden">' . $childTagText . '</p></'. $nodeType .'>';
                 }
                 else
                 {

@@ -87,7 +87,7 @@
 
             // Init editor
             ed.onInit.add(function() {
-                ed.onNodeChange.add(t._nodeChanged, t);
+                ed.onNodeChange.addToTop(t._nodeChanged, t);
                 if ( s.theme_advanced_content_css )
                 {
                 	var css_arr = s.theme_advanced_content_css.split(',');
@@ -779,9 +779,6 @@
 				cm.setActive(c, ed.queryCommandState(t.controls[c][1]));
 			});
 
-			cm.setDisabled('undo', !ed.undoManager.hasUndo() && !ed.typing);
-			cm.setDisabled('redo', !ed.undoManager.hasRedo());
-			
 			p = DOM.getParent(n, 'DIV');
             if (c = cm.get('object'))
             {
@@ -798,6 +795,11 @@
                 }
                 c.setActive( div );
             }
+
+            t.__setDisabled( div );
+
+            cm.setDisabled('undo', !ed.undoManager.hasUndo() && !ed.typing);
+            cm.setDisabled('redo', !ed.undoManager.hasRedo());
 
             if ( div === false )
             {
@@ -863,11 +865,12 @@
 				{
 					p = DOM.getParent(n, DOM.isBlock);
 	
-					if (p)
+					if ( !p || p.className === 'mceItemHidden' )
+                        c.setDisabled( true );
+					else if ( p )
 						c.select(p.nodeName.toLowerCase());
 				}
             }
-	        t.__setDisabled( div );
 
 			if (s.theme_advanced_path && s.theme_advanced_statusbar_location) {
 				p = DOM.get(ed.id + '_path') || DOM.add(ed.id + '_path_row', 'span', {id : ed.id + '_path'});

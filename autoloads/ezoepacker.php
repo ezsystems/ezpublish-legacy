@@ -110,8 +110,8 @@ class eZOEPacker
     {
         $ret = '';
         // Do not pack files if developmentMode is enabled
-        $ini = eZINI::instance( 'site.ini' );
-        if ($ini->variable('TemplateSettings', 'DevelopmentMode') === 'enabled')
+        $ezoeIni = eZINI::instance( 'ezoe.ini' );
+        if ( $ezoeIni->variable('EditorSettings', 'DevelopmentMode') === 'enabled' )
         {
             $packLevel = 0;
         }
@@ -188,8 +188,10 @@ class eZOEPacker
         $lastmodified = 0;
         $validFiles = array();
         $validWWWFiles = array();
+        $packerFunctions = false;
         $sys = eZSys::instance();
         $wwwDir = $sys->wwwDir() . '/';
+        $ezoeIni = eZINI::instance( 'ezoe.ini' );
         $bases   = eZTemplateDesignResource::allDesignBases();
 
         while( count( $fileArray ) > 0 )
@@ -197,11 +199,37 @@ class eZOEPacker
             $file = array_shift( $fileArray );
             if ( $file && is_array( $file ) )
             {
-                $fileArray = array_merge($fileArray, $file);
+                $fileArray = array_merge( $fileArray, $file );
                 continue;
             }
             else if ( !$file )
             {
+                continue;
+            }
+            else if ( strpos( $file, '::' ) !== false )
+            {
+                //  check modified time for packer function if it has getCacheTime method
+                $args = explode( '::', $file );
+                if ( $ezoeIni->hasSection( 'Packer_' . $args[0] ) )
+                {
+                    if ( $ezoeIni->hasVariable( 'Packer_' . $args[0], 'File' ) )
+                        include_once( $ezoeIni->variable( 'Packer_' . $args[0], 'File' ) );
+                    if ( $ezoeIni->hasVariable( 'Packer_' . $args[0], 'Class' ) )
+                        $args[0] = $ezoeIni->variable( 'Packer_' . $args[0], 'Class' );
+                }
+                if ( method_exists( $args[0], 'getCacheTime' ) )
+                {
+                    $lastmodified  = max( $lastmodified, call_user_func( array( $args[0], 'getCacheTime' ), $args[1] ));
+                }
+                else if ( !method_exists( $args[0], $args[1] ) )
+                {
+                    eZDebug::writeWarning( "Could not find function: $args[0]::$args[1]()", "eZOEPacker::packFiles()" );
+                    continue;
+                }
+
+                $packerFunctions = true;
+                $validFiles[] = $args;
+                $cacheName   .= $file . '_';
                 continue;
             }
 
@@ -246,7 +274,7 @@ class eZOEPacker
             $cacheName   .= $file . '_';
         }
         
-        if ( $packLevel === 0 ) return $validWWWFiles;
+        if ( $packLevel === 0 && $packerFunctions === false ) return $validWWWFiles;
 
         if ( !$validFiles )
         {
@@ -256,10 +284,11 @@ class eZOEPacker
 
         // return cache file path if it exists
         $cacheName = md5( $cacheName . $packLevel ) . $fileExtension;
-        $cacheDir  = $sys->cacheDirectory() . '/' . $path;       
+        $cacheDir  = $sys->cacheDirectory() . '/' . $path;
+
         if ( file_exists( $cacheDir . $cacheName ) )
         {
-            if ( $lastmodified <= @filemtime( $cacheDir . $cacheName ) )
+            if ( $lastmodified <= filemtime( $cacheDir . $cacheName ) )
             {
                 return array( $wwwDir . $cacheDir . $cacheName );
             }
@@ -269,6 +298,15 @@ class eZOEPacker
         $content = '';
         foreach ( $validFiles as $file )
         {
+
+           if ( is_array( $file ) )
+           {
+               $functionClass = array_shift( $file );
+               $functionName = array_shift( $file );
+               $content .= call_user_func( array( $functionClass, $functionName ), $file, $fileExtension );
+               continue;
+           }
+        
            $fileContent = @file_get_contents( $file );
 
            if ( !trim( $fileContent ) )
