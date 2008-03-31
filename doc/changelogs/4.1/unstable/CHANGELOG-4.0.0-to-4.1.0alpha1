@@ -196,4 +196,6 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #11842: runcronjop.php didn't find siteacceses in extension
 - Fixed bug #11841: admin: settings/view display wrong data if siteaccess located in an extension
 - Fixed bug #12489: eZDOMNode#textContent() doesnt return CDATA
+- Fixed bug #11667: Empty window when upload new related object
+- Fixed bug #12605: Custom error action for kernel errors don't work anymore with eZ 4.0
 
