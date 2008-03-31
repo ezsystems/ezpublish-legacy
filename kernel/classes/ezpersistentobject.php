@@ -463,7 +463,9 @@ class eZPersistentObject
             $sql = "INSERT INTO $table ($field_text) VALUES($value_text)";
             $db->query( $sql );
 
-            if ( isset( $def["increment_key"] ) && !($obj->attribute( $def["increment_key"]) > 0) )
+            if ( isset( $def["increment_key"] ) &&
+                 is_string( $def["increment_key"] ) &&
+                 !( $obj->attribute( $def["increment_key"] ) > 0 ) )
             {
                 $inc = $def["increment_key"];
                 $id = $db->lastSerialID( $table, $inc );
