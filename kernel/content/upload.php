@@ -123,7 +123,7 @@ if ( $module->isCurrentAction( 'UploadFile' ) )
             $view = $data[1];
             $parameters = isset( $data[2] ) ? $data[2] : array();
             $userParameters = isset( $data[3] ) ? $data[3] : array();
-            $resultModule = eZModule::findModule( $moduleName );
+            $resultModule = eZModule::findModule( $moduleName, $module );
             $resultModule->setCurrentAction( $upload->attribute( 'result_action_name' ), $view );
             $actionParameters = false;
             if ( $upload->hasAttribute( 'result_action_parameters' ) )

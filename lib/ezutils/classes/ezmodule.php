@@ -309,7 +309,7 @@ class eZModule
             $errorType = 'kernel';
         }
         $errorModule = eZModule::errorModule();
-        $module = eZModule::findModule( $errorModule['module'] );
+        $module = eZModule::findModule( $errorModule['module'], $this );
 
         if ( $module === null )
         {
@@ -1381,21 +1381,24 @@ class eZModule
     */
     static function exists( $moduleName, $pathList = null, $showError = false )
     {
-        return eZModule::findModule( $moduleName, $pathList, $showError );
+        $module = null;
+        return eZModule::findModule( $moduleName, $module, $pathList, $showError );
     }
 
     /*!
      \static
-     Tries to locate the module named \a $moduleName and returns the eZModule object.
+     Tries to locate the module named \a $moduleName, sets the \a $module parameter with the eZModule object
+     and returns the eZModule object. If \a $module is already a module object its contents are overwritten.
      Returns \c null if no module can be found.
 
      It uses the globalPathList() to search for modules, use \a $pathList to add
      additional path.
      \param $moduleName The name of the module to find
+     \param $module
      \param $pathList Is either an array with path strings or a single path string
      \param $showError If true an error will be shown if the module it not found.
     */
-    static function findModule( $moduleName, $pathList = null, $showError = false )
+    static function findModule( $moduleName, $module = null, $pathList = null, $showError = false )
     {
         if ( $pathList === null )
             $pathList = array();
@@ -1414,8 +1417,10 @@ class eZModule
             $file = "$dir/module.php";
             if ( file_exists( $file ) )
             {
-                $module = new eZModule( $path, $file, $moduleName );
-                $module->initialize( $path, $file, $moduleName );
+                if ( $module === null )
+                    $module = new eZModule( $path, $file, $moduleName );
+                else
+                    $module->initialize( $path, $file, $moduleName );
                 return $module;
             }
             else if ( !file_exists( $dir ) )
