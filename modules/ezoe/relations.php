@@ -221,7 +221,7 @@ $tpl->setVariable( 'attribute_defaults', eZAjaxContent::jsonEncode( array( 'embe
 
 $tpl->setVariable( 'size_list', $sizeTypeArray );
 
-$defaultSize = $attributeDefaults['size'] || $contentIni->variable( 'ImageSettings', 'DefaultEmbedAlias' );
+$defaultSize = $contentIni->variable( 'ImageSettings', 'DefaultEmbedAlias' );
 $tpl->setVariable( 'default_size', $defaultSize );
 
 if ( $contentIni->hasVariable( 'ImageSettings', 'DefaultCropAlias' ) )

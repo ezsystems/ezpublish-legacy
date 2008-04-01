@@ -1178,7 +1178,7 @@
 
 		_mceImage : function(ui, val)
 		{
-			var ed = this.editor, e = ed.selection.getNode(), eurl = 'image/', type = '/upload/';
+			var ed = this.editor, e = ed.selection.getNode(), eurl = 'image/', type = '/upload/', el;
 			
 			// Internal image object like a flash placeholder
             if (ed.dom.getAttrib(e, 'class').indexOf('mceItem') !== -1)
@@ -1187,27 +1187,29 @@
             if (e !== null && e.nodeName === 'IMG')
             {
                 type = '/relations/';
+                el = e;
                 eurl += e.getAttribute('id') + '/' + e.getAttribute('inline') + '/' + e.getAttribute('alt');
             }
-            this._generalXmlTagPopup( eurl, type, 480, 450, e )
+            this._generalXmlTagPopup( eurl, type, 480, 450, el )
 		},
 
         _mceObject : function(ui, val)
         {
-            var ed = this.editor, e = ed.selection.getNode(), eurl = 'object/', type = '/upload/';
+            var ed = this.editor, e = ed.selection.getNode(), eurl = 'object/', type = '/upload/', el;
 
             while ( e !== null && e.nodeName !== undefined && e.nodeName !== 'BODY' )
             {
                 if ( ( e.nodeName === 'DIV' || e.nodeName === 'SPAN' ) && e.className.indexOf('mceNonEditable') !== -1 )
                 {
                     type = '/relations/';
+                    el = e;
                     eurl += e.getAttribute('id') + '/' + e.getAttribute('inline') + '/' + e.getAttribute('alt');
                     //ed.selection.select( e );
                     break;
                 }
                 e = e.parentNode;
             }
-            this._generalXmlTagPopup( eurl, type, 480, 450, e );
+            this._generalXmlTagPopup( eurl, type, 480, 450, el );
         },
         
         _mcePageBreak : function( ui, val ) {

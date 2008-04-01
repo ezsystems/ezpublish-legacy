@@ -25,7 +25,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     onInit: function( el, tag, ed )
     {        
 	    var selectors = ez.$('embed_alt_source', 'embed_align_source', 'embed_class_source', 'embed_view_source', 'embed_inline_source');
-
+        var tag = selectors[4].el.checked ? 'embed-inline' : 'embed', def = attributeDefaults[ tag ]
 	    inlineSelectorChange.call( selectors[4], false, selectors[4].el  );
         selectors[4].addEvent('change', inlineSelectorChange );
 
@@ -38,7 +38,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
 	    }
 	    else
 	    {
-	        var align = el ? ed.dom.getStyle(el, 'float') || 'center' : defaults['align']  || 'right';
+	        var align = el ? ed.dom.getStyle(el, 'float') || 'center' : def['align']  || 'right';
 	        ez.$('embed_preview').addClass('object_preview').setStyles( ez.ie56 ? {'margin': '0 5px 5px 5px'} : {});
 	        selectors[1].el.value = align;
             selectors.callEach('addEvent', 'change', loadEmbedPreview );

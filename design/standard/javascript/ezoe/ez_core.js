@@ -13,11 +13,11 @@
 */
 
 
-if ( window.ez === undefined || ez.version < 0.93 )
+if ( window.ez === undefined || ez.version < 0.94 )
 {
 
 var ez = {
-    version: 0.93,
+    version: 0.94,
     handlers: [],
     console: null,
     debug: function( type, caller, text )
@@ -308,7 +308,7 @@ var ez = {
         },
         hasAttribute: function( element, attribute, value, comp )
         {
-            // CSS 3 Attribute selectors
+            // CSS 3 Attribute selectors + !=
             var atr = attribute === 'class' ? element.className : ez.fn.strip( element.getAttribute( attribute ) );
             if ( atr )
             {
@@ -366,11 +366,11 @@ var ez = {
                 }
                 return ez.element.pseudoFilters.child( arr, b );
             },
-            'odd': function( arr, arg )
+            'odd': function( arr )
             {
                 return ez.element.pseudoFilters['nth-child']( arr, 'odd' );
             },
-            'even': function( arr, arg )
+            'even': function( arr )
             {
                 return ez.element.pseudoFilters['nth-child']( arr, 'even' );
             }
@@ -652,22 +652,25 @@ ez.element.eZextensions.prototype = {
             val.push( el.value );
         return ( ommitName ) ? val.join(delimiter) : el.name + '=' + val.join(delimiter + el.name + '=');
     },
-    show: function( )
+    show: function( s, t, onComplete )
     {
         // show display of element
-        this.el.style.display = 'block'
-        return this;
+        // arguments are for animation compatibility
+        return this.toggle( s, t, onComplete, false );
     },
-    hide: function( )
+    hide: function( s, t, onComplete )
     {
         // hide display of element
-        this.el.style.display = 'none';
-        return this;
+        // arguments are for animation compatibility
+        return this.toggle( s, t, onComplete, true );
     },
-    toggle: function( )
+    toggle: function( s, t, onComplete, direction )
     {
         // toggle display of element
-        this.el.style.display = this.getStyle('display') === 'none' ? 'block' : 'none';
+        // arguments are for animation compatibility
+        if ( direction === undefined ) direction = this.getStyle('display') !== 'none';
+        this.el.style.display = direction ? 'none' : 'block';
+        if ( onComplete.call !== undefined ) onComplete(this, this.el, direction);
         return this;
     },
     isChildOfElement: function( parent )
