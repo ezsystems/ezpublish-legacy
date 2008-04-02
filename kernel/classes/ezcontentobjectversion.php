@@ -975,11 +975,12 @@ class eZContentObjectVersion extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function removeVersions( $versionStatus = false, $limit = false, $expiryTime = false, $fetchPortionSize = 50 )
+    static function removeVersions( $versionStatus = false, $limit = false, $expiryTime = false, $fetchPortionSize = 50 )
     {
         $statuses = array( eZContentObjectVersion::STATUS_DRAFT,
                            eZContentObjectVersion::STATUS_PENDING,
                            eZContentObjectVersion::STATUS_REJECTED,
+                           eZContentObjectVersion::STATUS_ARCHIVED,
                            eZContentObjectVersion::STATUS_INTERNAL_DRAFT );
         if ( $versionStatus === false )
         {
@@ -998,7 +999,7 @@ class eZContentObjectVersion extends eZPersistentObject
             return false;
         }
 
-        if ( !is_numeric( $limit ) or $limit < 0 )
+        if ( $limit !== false and ( !is_numeric( $limit ) or $limit < 0 ) )
         {
             eZDebug::writeError( '$limit must be either false or positive numeric value.', 'eZContentObjectVersion::removeVersions()' );
             return false;
