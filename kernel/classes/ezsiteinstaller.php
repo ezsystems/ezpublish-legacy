@@ -1484,8 +1484,6 @@ class eZSiteInstaller
 
         $indexFile = eZSys::wwwDir() . eZSys::indexFileName();
 
-        $protocolSchema = eZSys::protocolSchema();
-
         switch( $accessType )
         {
             case 'port':
@@ -1502,7 +1500,7 @@ class eZSiteInstaller
                         while( in_array( $port, $excludePortList ) )
                             ++$port;
 
-                        $urlList[$siteaccess]['url'] = $protocolSchema . "$host:$port" . $indexFile;
+                        $urlList[$siteaccess]['url'] = "$host:$port" . $indexFile;
                         $urlList[$siteaccess]['port'] = $port;
                         ++$port;
                     }
@@ -1523,7 +1521,7 @@ class eZSiteInstaller
                         $hostPrefix = preg_replace( '/(_)/', '-', $siteaccess);
 
                         // create url and host
-                        $urlList[$siteaccess]['url'] = $protocolSchema . $hostPrefix . '.' . $host . $indexFile;
+                        $urlList[$siteaccess]['url'] = $hostPrefix . '.' . $host . $indexFile;
                         $urlList[$siteaccess]['host'] = $hostPrefix . '.' . $host;
                     }
                 }
@@ -1533,7 +1531,7 @@ class eZSiteInstaller
                 {
                     foreach( $siteaccessList as $siteaccess )
                     {
-                        $urlList[$siteaccess]['url'] = $protocolSchema . $host . $indexFile . '/' . $siteaccess;
+                        $urlList[$siteaccess]['url'] = $host . $indexFile . '/' . $siteaccess;
                     }
                 }
                 break;
