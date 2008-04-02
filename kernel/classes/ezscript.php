@@ -194,6 +194,13 @@ class eZScript
         {
             setlocale( LC_ALL, explode( ',', $phpLocale ) );
         }
+
+        // Set correct site timezone
+        $timezone = $ini->variable( "TimeZoneSettings", "TimeZone" );
+        if ( $timezone )
+        {
+            putenv( "TZ=$timezone" );
+        }
     }
 
     /*!
