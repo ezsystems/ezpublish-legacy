@@ -193,7 +193,7 @@ class eZScript
         }
 
         // Set correct site timezone
-        $timezone = $ini->variable( "TimeZoneSettings", "TimeZone");
+        $timezone = $ini->variable( "TimeZoneSettings", "TimeZone" );
         if ( $timezone )
         {
             putenv( "TZ=$timezone" );
