@@ -1024,6 +1024,7 @@ class eZContentObjectVersion extends eZPersistentObject
     {
         $statuses = array( EZ_VERSION_STATUS_DRAFT,
                            EZ_VERSION_STATUS_PENDING,
+                           EZ_VERSION_STATUS_ARCHIVED,
                            EZ_VERSION_STATUS_REJECTED,
                            EZ_VERSION_STATUS_INTERNAL_DRAFT );
         if ( $versionStatus === false )
@@ -1043,7 +1044,7 @@ class eZContentObjectVersion extends eZPersistentObject
             return false;
         }
 
-        if ( !is_numeric( $limit ) or $limit < 0 )
+        if ( $limit !== false and ( !is_numeric( $limit ) or $limit < 0 ) )
         {
             eZDebug::writeError( '$limit must be either false or positive numeric value.', 'eZContentObjectVersion::removeVersions()' );
             return false;
