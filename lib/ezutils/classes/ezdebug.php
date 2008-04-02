@@ -1586,13 +1586,20 @@ td.timingpoint2
                     echo "No timing points defined\n";
             }
 
-            $peakMemory = memory_get_peak_usage();
-            if ( $as_html )
-                echo "<tr><td><b>Peak memory usage:</b></td><td><b>" .
-                    number_format( $peakMemory / 1024, $this->TimingAccuracy ) . " KB</b></td></tr>";
-            else
-                echo "Peak memory usage: " .
-                    number_format( $peakMemory / 1024, $this->TimingAccuracy ) . " KB\n";
+            if ( function_exists( 'memory_get_peak_usage' ) )
+            {
+                $peakMemory = memory_get_peak_usage();
+                if ( $as_html )
+                {
+                    echo "<tr><td><b>Peak memory usage:</b></td><td><b>" .
+                        number_format( $peakMemory / 1024, $this->TimingAccuracy ) . " KB</b></td></tr>";
+                }
+                else
+                {
+                    echo "Peak memory usage: " .
+                        number_format( $peakMemory / 1024, $this->TimingAccuracy ) . " KB\n";
+                }
+            }
         }
         if ( $as_html )
         {
