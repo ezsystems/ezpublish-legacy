@@ -202,4 +202,5 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12564: ez4.0 stable trunk Call to undefined memory_get_peak_usage() with php 5.1
 - Fixed bug #11002: Timezone setting ignored in runcronjobs.php
 - Fixed bug #12415: eZContentObjectVersion::removeVersions does not work when using flatten.php
+- Fixed bug #12784: PathPrefix setting should NOT be case sensitive
 
