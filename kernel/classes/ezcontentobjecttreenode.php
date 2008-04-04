@@ -5852,7 +5852,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $pathIdenStr = substr( $prepend, strlen( $prepend ) -1 ) == '/'
                                 ? $path . '/'
                                 : $path;
-                if ( strncmp( $pathIdenStr, $prepend, strlen( $prepend ) ) == 0 )
+                if ( strncasecmp( $pathIdenStr, $prepend, strlen( $prepend ) ) == 0 )
                     $cleanURL = eZUrlAliasML::cleanURL( substr( $path, strlen( $prepend ) ) );
                 else
                     $cleanURL = eZUrlAliasML::cleanURL( $path );

@@ -1370,12 +1370,16 @@ class eZURLAliasML extends eZPersistentObject
         $originalURIString = $uriString;
 
         $ini =& eZIni::instance();
-        if ( $ini->hasVariable( 'SiteAccessSettings', 'PathPrefix' ) &&
-             $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) != '' )
+
+        $prefixAdded = false;
+        $prefix = $ini->hasVariable( 'SiteAccessSettings', 'PathPrefix' ) &&
+                      $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) != '' ? eZURLAliasML::cleanURL( $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) ) : false;
+
+        if ( $prefix )
         {
-            $prefix = $ini->variable( 'SiteAccessSettings', 'PathPrefix' );
+            $escapedPrefix = preg_quote( $prefix, '#' );
             // Only prepend the path prefix if it's not already the first element of the url.
-            if ( !preg_match( "#^$prefix(/.*)?$#", $uriString )  )
+            if ( !preg_match( "#^$escapedPrefix(/.*)?$#i", $uriString )  )
             {
                 $exclude = $ini->hasVariable( 'SiteAccessSettings', 'PathPrefixExclude' )
                            ? $ini->variable( 'SiteAccessSettings', 'PathPrefixExclude' )
@@ -1383,7 +1387,8 @@ class eZURLAliasML extends eZPersistentObject
                 $breakInternalURI = false;
                 foreach ( $exclude as $item )
                 {
-                    if ( preg_match( "#^$item(/.*)?$#", $uriString )  )
+                    $escapedItem = preg_quote( $item, '#' );
+                    if ( preg_match( "#^$escapedItem(/.*)?$#i", $uriString )  )
                     {
                         $breakInternalURI = true;
                         break;
@@ -1391,7 +1396,10 @@ class eZURLAliasML extends eZPersistentObject
                 }
 
                 if ( !$breakInternalURI )
-                    $internalURIString = eZUrlAliasML::cleanURL( eZUrlAliasML::cleanURL( $prefix ) . '/' . $uriString );
+                {
+                    $internalURIString = $prefix . '/' . $uriString;
+                    $prefixAdded = true;
+                }
             }
         }
 
@@ -1470,8 +1478,24 @@ class eZURLAliasML extends eZPersistentObject
                 }
                 $lastID = $link;
             }
-            if ( strcmp( join( "/", $verifiedPath ), $internalURIString ) != 0 ) // Check for case difference
-                $doRedirect = true;
+
+            if ( !$doRedirect )
+            {
+                $verifiedPathString = implode( '/', $verifiedPath );
+                // Check for case difference
+                if ( $prefixAdded )
+                {
+                    if ( strcmp( $originalURIString, substr( $verifiedPathString, strlen( $prefix ) + 1 ) ) != 0 )
+                    {
+                        $doRedirect = true;
+                    }
+                }
+                else if ( strcmp( $verifiedPathString, $internalURIString ) != 0 )
+                {
+                    $doRedirect = true;
+                }
+            }
+
             if ( preg_match( "#^module:(.+)$#", $action, $matches ) )
             {
                 $uriString = 'error/301';
@@ -1522,6 +1546,15 @@ class eZURLAliasML extends eZPersistentObject
                     }
                     $uriString = 'error/301';
                     $return = join( "/", $pathData );
+                }
+
+                // Remove prefix of redirect uri if needed
+                if ( $prefix && is_string( $return ) )
+                {
+                    if ( strncasecmp( $return, $prefix . '/', strlen( $prefix ) + 1 ) == 0 )
+                    {
+                        $return = substr( $return, strlen( $prefix ) + 1 );
+                    }
                 }
             }
             else
