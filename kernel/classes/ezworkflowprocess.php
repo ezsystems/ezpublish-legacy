@@ -252,7 +252,7 @@ class eZWorkflowProcess extends eZPersistentObject
                     else if ( time() < $activationDate )
                     {
                         eZDebugSetting::writeDebug( 'workflow-process', "Date failed, not running events" );
-                        $eventType =& $workflowEvent->eventType();
+                        $eventType = $workflowEvent->eventType();
                         $eventLog[] = array( "status" => $currentEventStatus,
                                              "status_text" => eZWorkflowType::statusName( $currentEventStatus ),
                                              "information" => $eventType->attribute( "information" ),
@@ -646,7 +646,7 @@ class eZWorkflowProcess extends eZPersistentObject
             foreach ( $cleanupList as $workflowEventID )
             {
                 $workflowEvent = eZWorkflowEvent::fetch( $workflowEventID );
-                $workflowType = $workflowEvent->eventType();                
+                $workflowType = $workflowEvent->eventType();
                 $workflowType->cleanup( $this, eZWorkflowEvent::fetch( $workflowEventID ) );
             }
         }
