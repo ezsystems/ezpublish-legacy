@@ -1107,7 +1107,7 @@ class eZINI
     */
     function hasSection( $sectionName )
     {
-        return is_array( $this->BlockValues[$sectionName] );
+        return isset( $this->BlockValues[$sectionName] );
     }
 
     /*!
