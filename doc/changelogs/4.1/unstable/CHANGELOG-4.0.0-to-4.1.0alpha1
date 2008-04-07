@@ -204,4 +204,5 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12415: eZContentObjectVersion::removeVersions does not work when using flatten.php
 - Fixed bug #12784: PathPrefix setting should NOT be case sensitive
 - Fixed bug #12802: Strict:PHP Only variables should be assigned by reference in ezworkflowprocess.php on line 255
+- Fixed bug #10096: PHP errors when fetch_alias is not definied
 
