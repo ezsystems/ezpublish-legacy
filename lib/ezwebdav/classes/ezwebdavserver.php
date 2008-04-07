@@ -911,7 +911,7 @@ class eZWebDAVServer
       in the current log directory (usually var/log).
       If logging is disabled, nothing is done.
     */
-    function appendLogEntry( $logString, $label = false )
+    static function appendLogEntry( $logString, $label = false )
     {
         if ( !eZWebDAVServer::isLoggingEnabled() )
             return false;
