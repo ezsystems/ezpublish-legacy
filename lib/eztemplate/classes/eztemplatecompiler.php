@@ -3035,7 +3035,7 @@ else
             {
                 $optimizeNode = true;
                 if ( !isset( $resourceData['node-object-cached'] ) )
-                    $tpl->error( "Attribute node-object-cached of variable \$resourceData was not found but variable node eZTemplate::TYPE_OPTIMIZED_NODE is still present. This should not happen" );
+                    $tpl->error( "eZTemplateCompiler" . ( $resourceData['use-comments'] ? ( ":" . __LINE__ ) : "" ), "Attribute node-object-cached of variable \$resourceData was not found but variable node eZTemplate::TYPE_OPTIMIZED_NODE is still present. This should not happen" );
                 $php->addCodePiece("\$$variableAssignmentName = \$nod_{$resourceData['uniqid']};\n");
 
                 // If optimized node is not set, use unoptimized code.
