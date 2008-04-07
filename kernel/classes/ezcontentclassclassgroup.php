@@ -156,8 +156,6 @@ class eZContentClassClassGroup extends eZPersistentObject
 
     function fetchClassList( $contentclass_version, $group_id, $asObject = true, $orderByArray = array( 'name' ) )
     {
-        include_once( 'kernel/classes/ezcontentclassclassgroup.php' );
-        $classIDList = eZContentClassClassGroup::fetchClassListByGroups( 0, array( 1,3 ) );
         $versionCond = '';
         $orderByClause = '';
         $group_id =(int) $group_id;
