@@ -1439,6 +1439,10 @@ class eZContentObject extends eZPersistentObject
         $contentObject->setAttribute( 'current_version', 1 );
         $contentObject->setAttribute( 'owner_id', $userID );
 
+        // Set new unique remote_id
+        $newRemoteID = md5( (string)mt_rand() . (string)mktime() );
+        $contentObject->setAttribute( 'remote_id', $newRemoteID );
+
         $db =& eZDB::instance();
         $db->begin();
         $contentObject->store();
@@ -1512,9 +1516,6 @@ class eZContentObject extends eZPersistentObject
         if ( $allVersions )
             $contentObject->setAttribute( 'current_version', $this->attribute( 'current_version' ) );
 
-        // Set new unique remote_id
-        $newRemoteID = md5( (string)mt_rand() . (string)mktime() );
-        $contentObject->setAttribute( 'remote_id', $newRemoteID );
         $contentObject->setAttribute( 'status', EZ_CONTENT_OBJECT_STATUS_DRAFT );
 
         $contentObject->store();
