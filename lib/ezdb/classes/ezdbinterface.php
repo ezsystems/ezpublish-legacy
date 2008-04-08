@@ -990,13 +990,12 @@ class eZDBInterface
             $ini =& eZINI::instance();
             $adminEmail = $ini->variable( 'MailSettings', 'AdminEmail' );
             include_once( 'lib/ezutils/classes/ezsys.php' );
-            $site = eZSys::serverVariable( 'HTTP_HOST' );
-            $uri = eZSys::serverVariable( 'REQUEST_URI' );
 
-            $htmlErrors = ini_get( 'html_errors' ) != 0;
-
-            if ( $htmlErrors )
+            if ( !eZSys::isShellExecution() )
             {
+                $site = eZSys::serverVariable( 'HTTP_HOST' );
+                $uri = eZSys::serverVariable( 'REQUEST_URI' );
+
                 print( "<div class=\"fatal-error\" style=\"" );
                 print( 'margin: 0.5em 0 1em 0; ' .
                        'padding: 0.25em 1em 0.75em 1em;' .
@@ -1023,9 +1022,9 @@ class eZDBInterface
                 fputs( STDERR,"Fatal error: A database transaction in eZ publish failed.\n" );
                 fputs( STDERR, "\n" );
                 fputs( STDERR, "The current execution was stopped to prevent further problems.\n" .
-                       "You should contact the System Administrator ($adminEmail) of this site with the information on this page.\n" .
+                       "You should contact the System Administrator ($adminEmail) of this site.\n" .
                        "The current transaction ID is $transID and has been logged.\n" .
-                       "Please include the transaction ID and the current URL when contacting the system administrator.\n" );
+                       "Please include the transaction ID and the name of the current script when contacting the system administrator.\n" );
                 fputs( STDERR, "\n" );
 
                 fputs( STDERR, eZDebug::printReport( false, false, true ) );
