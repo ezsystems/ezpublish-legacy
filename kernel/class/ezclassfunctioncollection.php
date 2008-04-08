@@ -48,6 +48,37 @@ class eZClassFunctionCollection
     {
     }
 
+    function fetchClassListByGroups( $groupFilter, $groupFilterType = 'include' )
+    {
+        $notIn = ( $groupFilterType == 'exclude' );
+
+        if ( is_array( $groupFilter ) && count( $groupFilter ) > 0 )
+        {
+            $db =& eZDB::instance();
+            $groupFilter = $db->generateSQLINStatement( $groupFilter, 'ccg.group_id', $notIn );
+
+            $classNameFilter = eZContentClassName::sqlFilter( 'cc' );
+            $version = eZContentClass::VERSION_STATUS_DEFINED;
+
+            $sql = "SELECT DISTINCT cc.*, $classNameFilter[nameField]\n" .
+                   "FROM ezcontentclass cc, ezcontentclass_classgroup ccg, $classNameFilter[from]\n" .
+                   "WHERE cc.version = $version\n" .
+                   "      AND cc.id = ccg.contentclass_id\n" .
+                   "      AND $groupFilter\n" .
+                   "      AND $classNameFilter[where]\n" .
+                   "ORDER BY $classNameFilter[nameField] ASC";
+
+            $rows = $db->arrayQuery( $sql );
+            $classes = eZPersistentObject::handleRows( $rows, 'eZContentClass', true );
+        }
+        else
+        {
+            $classes = eZContentClass::fetchList( eZContentClass::VERSION_STATUS_DEFINED, true, false, array( 'name' => 'asc' ) );
+        }
+
+        return array( 'result' => $classes );
+    }
+
     function fetchClassList( $classFilter, $sortBy )
     {
         $sorts = null;
