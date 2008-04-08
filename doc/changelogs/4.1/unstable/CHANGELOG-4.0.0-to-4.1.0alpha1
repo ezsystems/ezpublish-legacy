@@ -212,4 +212,5 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #11567: It is possible to create "common ini settings" in content branch
 - Fixed bug #12606: costant MAX_AGE defined twice
 - Fixed bug #12732: Use of undefined constant STDERR in ezdbinterface.php
+- Fixed bug #12828: It's impossible to copy a node
 
