@@ -1,3 +1,14 @@
+{def $root_node_id=ezini('TreeMenu','RootNodeID','contentstructuremenu.ini')}
+{if is_set( $custom_root_node_id )}
+    {set $root_node_id=$custom_root_node_id}
+{/if}
+{def $root_node=fetch('content','node',hash('node_id',$root_node_id))
+     $user_class_group_id=ezini('ClassGroupIDs', 'Users', 'content.ini')
+     $setup_class_group_id=ezini('ClassGroupIDs', 'Setup', 'content.ini')
+     $user_root_node_id=ezini('NodeSettings', 'UserRootNode', 'content.ini')
+     $filter_type=cond($root_node.path_array|contains($user_root_node_id), 'include', 'exclude')
+     $filter_groups=cond($root_node.path_array|contains($user_root_node_id), array( $user_class_group_id ), array($user_class_group_id, $setup_class_group_id))
+    }
 <script language="JavaScript" type="text/javascript" src={"javascript/lib/ezjslibcookiesupport.js"|ezdesign}></script>
 {if ezini('TreeMenu','PreloadClassIcons','contentstructuremenu.ini')|eq('enabled')}
     <script language="JavaScript" type="text/javascript" src={"javascript/lib/ezjslibimagepreloader.js"|ezdesign}></script>
@@ -57,7 +68,7 @@ function ContentStructureMenu()
     this.context = "{$ui_context}";
     this.expiry = "{fetch('content','content_tree_menu_expiry')}";
 
-{cache-block expiry="0" ignore_content_expiry}
+{cache-block keys=array( $filter_type ) expiry="0" ignore_content_expiry}
     this.languages = {*
         *}{ldelim}{*
             *}{foreach fetch('content','translation_list') as $language}{*
@@ -67,7 +78,7 @@ function ContentStructureMenu()
         *}{rdelim};
     this.classes = {*
         *}{ldelim}{*
-            *}{foreach fetch('class','list',hash('sort_by',array('name',true()))) as $class}{*
+            *}{foreach fetch('class','list_by_groups',hash('group_filter',$filter_groups,'group_filter_type',$filter_type)) as $class}{*
                 *}"{$class.id}":{ldelim}name:"{$class.name|wash(javascript)}",identifier:"{$class.identifier|wash(javascript)}"{rdelim}{*
                 *}{delimiter},{/delimiter}{*
             *}{/foreach}{*
@@ -548,11 +559,6 @@ function ContentStructureMenu()
 </script>
 {/literal}
 
-{def $root_node_id=ezini('TreeMenu','RootNodeID','contentstructuremenu.ini')}
-{if is_set( $custom_root_node_id )}
-    {set $root_node_id=$custom_root_node_id}
-{/if}
-
 <script type="text/javascript">
 <!--
     var path = [{foreach $module_result.path as $element}{$element.node_id}{delimiter}, {/delimiter}{/foreach}];
@@ -561,7 +567,7 @@ function ContentStructureMenu()
     var treeMenu = new ContentStructureMenu();
 
 {cache-block keys=$root_node_id expiry="0"}
-{def $root_node=fetch('content','node',hash('node_id',$root_node_id))}
+
     var rootNode = {ldelim}{*
         *}"node_id":{$root_node.node_id},{*
         *}"object_id":{$root_node.object.id},{*
@@ -571,7 +577,7 @@ function ContentStructureMenu()
         *}"url":{$root_node.url|ezurl},{*
         *}"modified_subnode":{$root_node.modified_subnode},{*
         *}"languages":["{$root_node.object.language_codes|implode('", "')}"],{*
-        *}"class_list":[{foreach fetch('content','can_instantiate_class_list',hash('parent_node',$root_node.node_id)) as $class}{$class.id}{delimiter},{/delimiter}{/foreach}]{rdelim};
+        *}"class_list":[{foreach fetch('content','can_instantiate_class_list',hash('parent_node',$root_node.node_id, 'filter_type', $filter_type, 'group_id', $filter_groups)) as $class}{$class.id}{delimiter},{/delimiter}{/foreach}]{rdelim};
 
     document.writeln( '<ul id="content_tree_menu">' );
     document.writeln( treeMenu.generateEntry( rootNode, false, true ) );

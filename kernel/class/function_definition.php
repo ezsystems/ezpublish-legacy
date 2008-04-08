@@ -44,6 +44,20 @@ $FunctionList['list'] = array( 'name' => 'list',
                                                              'required' => false,
                                                              'default' => array() ) ) );
 
+$FunctionList['list_by_groups'] = array( 'name' => 'list_by_groups',
+                                        'operation_types' => array( 'read' ),
+                                        'call_method' => array( 'class' => 'eZClassFunctionCollection',
+                                                                'method' => 'fetchClassListByGroups' ),
+                                        'parameter_type' => 'standard',
+                                        'parameters' => array( array( 'name' => 'group_filter',
+                                                                      'type' => 'array',
+                                                                      'required' => true,
+                                                                      'default' => false ),
+                                                               array( 'name' => 'group_filter_type',
+                                                                      'type' => 'string',
+                                                                      'required' => false,
+                                                                      'default' => 'include' ) ) );
+
 $FunctionList['latest_list'] = array( 'operation_types' => array( 'read' ),
                                       'call_method' => array( 'class' => 'eZClassFunctionCollection',
                                                               'method' => 'fetchLatestClassList' ),
