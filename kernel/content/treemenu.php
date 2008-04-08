@@ -31,7 +31,10 @@ include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
 include_once( 'kernel/classes/ezclusterfilehandler.php' );
 include_once( 'lib/eztemplate/classes/eztemplatecacheblock.php' );
 
-define( 'MAX_AGE', 86400 );
+if ( !defined( 'MAX_AGE' ) )
+{
+    define( 'MAX_AGE', 86400 );
+}
 
 function washJS( $string )
 {
