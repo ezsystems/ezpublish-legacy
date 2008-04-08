@@ -58,7 +58,7 @@ class eZClassFunctionCollection
             $groupFilter = $db->generateSQLINStatement( $groupFilter, 'ccg.group_id', $notIn );
 
             $classNameFilter = eZContentClassName::sqlFilter( 'cc' );
-            $version = eZContentClass::VERSION_STATUS_DEFINED;
+            $version = EZ_CLASS_VERSION_STATUS_DEFINED;
 
             $sql = "SELECT DISTINCT cc.*, $classNameFilter[nameField]\n" .
                    "FROM ezcontentclass cc, ezcontentclass_classgroup ccg, $classNameFilter[from]\n" .
@@ -73,7 +73,7 @@ class eZClassFunctionCollection
         }
         else
         {
-            $classes = eZContentClass::fetchList( eZContentClass::VERSION_STATUS_DEFINED, true, false, array( 'name' => 'asc' ) );
+            $classes = eZContentClass::fetchList( EZ_CLASS_VERSION_STATUS_DEFINED, true, false, array( 'name' => 'asc' ) );
         }
 
         return array( 'result' => $classes );
