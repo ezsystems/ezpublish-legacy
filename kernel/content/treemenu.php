@@ -33,7 +33,10 @@
 
 eZExpiryHandler::registerShutdownFunction();
 
-define( 'MAX_AGE', 86400 );
+if ( !defined( 'MAX_AGE' ) )
+{
+    define( 'MAX_AGE', 86400 );
+}
 
 function washJS( $string )
 {
