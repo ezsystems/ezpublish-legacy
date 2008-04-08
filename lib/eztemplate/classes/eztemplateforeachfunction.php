@@ -279,14 +279,14 @@ class eZTemplateForeachFunction
         $loop->parseParamValue( 'array', $array );
         if ( !is_array( $array ) )
         {
-            $tpl->error( eZTemplateForeachFunction::FUNCTION_NAME, "Missing/malformed array to iterate through." );
+            $tpl->error( eZTemplateForeachFunction::FUNCTION_NAME, "Missing/malformed array to iterate through.", $functionPlacement );
             return;
         }
 
         $loop->parseParamVarName( 'item_var', $itemVarName );
         if ( !$itemVarName )
         {
-            $tpl->error( eZTemplateForeachFunction::FUNCTION_NAME, "Missing/malformed item variable name." );
+            $tpl->error( eZTemplateForeachFunction::FUNCTION_NAME, "Missing/malformed item variable name.", $functionPlacement );
             return;
         }
 
@@ -322,7 +322,7 @@ class eZTemplateForeachFunction
         {
             if ( $nItems || $offset < 0 )
             {
-                $tpl->warning( eZTemplateForeachFunction::FUNCTION_NAME, "Invalid 'offset' parameter specified." );
+                $tpl->warning( eZTemplateForeachFunction::FUNCTION_NAME, "Invalid 'offset' parameter specified.", $functionPlacement );
             }
             $offset = ( $offset < 0 ) ? 0 : $nItems;
         }
@@ -333,7 +333,7 @@ class eZTemplateForeachFunction
         elseif ( $max < 0 || $offset+$max > $nItems )
         {
             if ( $max <0 )
-                $tpl->warning( eZTemplateForeachFunction::FUNCTION_NAME, "Invalid 'max' parameter specified." );
+                $tpl->warning( eZTemplateForeachFunction::FUNCTION_NAME, "Invalid 'max' parameter specified.", $functionPlacement );
             $max = $nItems - $offset;
         }
 
