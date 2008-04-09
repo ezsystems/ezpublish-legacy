@@ -208,6 +208,31 @@ div.mceNonEditable div.split div.three-center
   margin: 0 35% 0 35%;
 }
 
+div.mceNonEditable .float-break
+{
+    height: 1%; /* Fix for IE */
+}
+
+div.mceNonEditable .float-break:after /* Terminate floating elements flow */
+{
+    content: "-";
+    height: 0;
+    font-size: 0;
+    visibility: hidden;
+    display: block;
+    clear: both;
+}
+
+div.mceNonEditable div.break /* Old method for terminating floating elements flow; kept for backwards compatibility */
+{
+    clear: both;
+    font-size: 1px; /* Fix for IE */
+    height: 1px;
+    margin-bottom: -1px;
+}
+
+
+
 /* Example of class visualization for paragraph element:
    red background and center-aligned text. */
 

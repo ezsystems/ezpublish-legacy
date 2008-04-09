@@ -1,5 +1,5 @@
 /**
- * $Id: Serializer.js 700 2008-03-11 14:37:28Z spocke $
+ * $Id: Serializer.js 745 2008-03-25 21:54:30Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -7,7 +7,7 @@
 
 (function() {
 	// Shorten names
-	var extend = tinymce.extend, each = tinymce.each, Dispatcher = tinymce.util.Dispatcher, isIE = tinymce.isIE;
+	var extend = tinymce.extend, each = tinymce.each, Dispatcher = tinymce.util.Dispatcher, isIE = tinymce.isIE, isGecko = tinymce.isGecko;
 
 	// Returns only attribites that have values not all attributes in IE
 	function getIEAtts(n) {
@@ -347,7 +347,7 @@
 
 						// Parse attribute rule
 						s = s.replace(/::/g, '~');
-						s = /^([!\-])?([\w*.?~]+|)([=:<])?(.+)?$/.exec(s);
+						s = /^([!\-])?([\w*.?~_\-]+|)([=:<])?(.+)?$/.exec(s);
 						s[2] = s[2].replace(/~/g, ':');
 
 						// Add required attributes
@@ -475,7 +475,7 @@
 					s += '|';
 
 				if (k != '@')
-				s += k;
+					s += k;
 			});
 			t.validElementsRE = new RegExp('^(' + wildcardToRE(s.toLowerCase()) + ')$');
 
@@ -614,16 +614,20 @@
 				}
 
 				// Use BR instead of &nbsp; padded P elements inside editor and use <p>&nbsp;</p> outside editor
-				if (o.set)
+/*				if (o.set)
 					h = h.replace(/<p>\s+(&nbsp;|&#160;|\u00a0|<br \/>)\s+<\/p>/g, '<p><br /></p>');
 				else
-					h = h.replace(/<p>\s+(&nbsp;|&#160;|\u00a0|<br \/>)\s+<\/p>/g, '<p>$1</p>');
+					h = h.replace(/<p>\s+(&nbsp;|&#160;|\u00a0|<br \/>)\s+<\/p>/g, '<p>$1</p>');*/
 
 				// Since Gecko and Safari keeps whitespace in the DOM we need to
 				// remove it inorder to match other browsers. But I think Gecko and Safari is right.
 				// This process is only done when getting contents out from the editor.
 				if (!o.set) {
+					// We need to replace paragraph whitespace with an nbsp before indentation to keep the \u00a0 char
+					h = h.replace(/<p>\s+<\/p>|<p([^>]+)>\s+<\/p>/g, s.entity_encoding == 'numeric' ? '<p$1>&#160;</p>' : '<p$1>&nbsp;</p>');
+
 					if (s.remove_linebreaks) {
+						h = h.replace(/\r?\n|\r/g, ' ');
 						h = h.replace(/(<[^>]+>)\s+/g, '$1 ');
 						h = h.replace(/\s+(<\/[^>]+>)/g, ' $1');
 						h = h.replace(/<(p|h[1-6]|blockquote|hr|div|table|tbody|tr|td|body|head|html|title|meta|style|pre|script|link|object) ([^>]+)>\s+/g, '<$1 $2>'); // Trim block start
@@ -642,6 +646,10 @@
 				}
 
 				h = t._unprotect(h, p);
+
+				// Restore the \u00a0 character if raw mode is enabled
+				if (s.entity_encoding == 'raw')
+					h = h.replace(/<p>&nbsp;<\/p>|<p([^>]+)>&nbsp;<\/p>/g, '<p$1>\u00a0</p>');
 			}
 
 			o.content = h;
@@ -688,6 +696,10 @@
 							// IE sometimes adds a / infront of the node name
 							if (nn.charAt(0) == '/')
 								nn = nn.substring(1);
+						} else if (isGecko) {
+							// Ignore br elements
+							if (n.nodeName === 'BR' && n.getAttribute('type') == '_moz')
+								return;
 						}
 
 						// Check if valid child

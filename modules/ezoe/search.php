@@ -95,11 +95,23 @@ $param = array( 'SearchOffset' => $searchOffset,
 
 // if no checkbox select class_attr first if valid
 if ( $http->hasPostVariable( 'SearchContentClassAttributeID' ) )
+{
     $param['SearchContentClassAttributeID'] = makeStringArray( $http->postVariable( 'SearchContentClassAttributeID' ) );
+    if ( count($param['SearchContentClassAttributeID']) === 1 && $param['SearchContentClassAttributeID'][0] === ''  )
+        unset( $param['SearchContentClassAttributeID'] );
+}
 else if ( $http->hasPostVariable( 'SearchContentClassID' ) )
+{
     $param['SearchContentClassID'] = makeStringArray( $http->postVariable( 'SearchContentClassID' ) );
+    if ( count($param['SearchContentClassID']) === 1 && $param['SearchContentClassID'][0] === ''  )
+        unset( $param['SearchContentClassID'] );
+}
 else if ( $http->hasPostVariable( 'SearchContentClassIdentifier' ) )
+{
     $param['SearchContentClassID'] = makeClassID( makeStringArray( $http->postVariable( 'SearchContentClassIdentifier' ) ) );
+    if ( count($param['SearchContentClassID']) === 1 && $param['SearchContentClassID'][0] === ''  )
+        unset( $param['SearchContentClassID'] );
+}
 
 if ( $http->hasPostVariable( 'SearchSubTreeArray' ) )
     $param['SearchSubTreeArray'] = makeStringArray( $http->postVariable( 'SearchSubTreeArray' ) );

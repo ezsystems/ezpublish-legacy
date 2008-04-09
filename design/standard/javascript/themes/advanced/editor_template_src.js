@@ -1,5 +1,5 @@
 /**
- * $Id: editor_template_src.js 710 2008-03-12 12:37:55Z spocke $
+ * $Id: editor_template_src.js 766 2008-04-03 20:37:06Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -87,7 +87,9 @@
 			// Init editor
 			ed.onInit.add(function() {
 				ed.onNodeChange.add(t._nodeChanged, t);
-				ed.dom.loadCSS(ed.baseURI.toAbsolute("themes/advanced/skins/" + ed.settings.skin + "/content.css"));
+
+				if (ed.settings.content_css !== false)
+					ed.dom.loadCSS(ed.baseURI.toAbsolute("themes/advanced/skins/" + ed.settings.skin + "/content.css"));
 			});
 
 			ed.onSetProgressState.add(function(ed, b, ti) {
@@ -179,15 +181,17 @@
 				}
 			});
 
-			each(ed.getParam('theme_advanced_styles', '', 'hash'), function(v, k) {
-				if (v)
-					c.add(t.editor.translate(k), v);
-			});
+			if (c) {
+				each(ed.getParam('theme_advanced_styles', '', 'hash'), function(v, k) {
+					if (v)
+						c.add(t.editor.translate(k), v);
+				});
 
-			c.onPostRender.add(function(ed, n) {
-				Event.add(n, 'focus', t._importClasses, t);
-				Event.add(n, 'mousedown', t._importClasses, t);
-			});
+				c.onPostRender.add(function(ed, n) {
+					Event.add(n, 'focus', t._importClasses, t);
+					Event.add(n, 'mousedown', t._importClasses, t);
+				});
+			}
 
 			return c;
 		},
@@ -196,10 +200,11 @@
 			var c, t = this, ed = t.editor;
 
 			c = ed.controlManager.createListBox('fontselect', {title : 'advanced.fontdefault', cmd : 'FontName'});
-
-			each(ed.getParam('theme_advanced_fonts', t.settings.theme_advanced_fonts, 'hash'), function(v, k) {
-				c.add(ed.translate(k), v, {style : v.indexOf('dings') == -1 ? 'font-family:' + v : ''});
-			});
+			if (c) {
+				each(ed.getParam('theme_advanced_fonts', t.settings.theme_advanced_fonts, 'hash'), function(v, k) {
+					c.add(ed.translate(k), v, {style : v.indexOf('dings') == -1 ? 'font-family:' + v : ''});
+				});
+			}
 
 			return c;
 		},
@@ -216,10 +221,11 @@
 			], fz = [8, 10, 12, 14, 18, 24, 36];
 
 			c = t.editor.controlManager.createListBox('fontsizeselect', {title : 'advanced.font_size', cmd : 'FontSize'});
-
-			each(explode(t.settings.theme_advanced_font_sizes), function(v) {
-				c.add(lo[parseInt(v) - 1], v, {'style' : 'font-size:' + fz[v - 1] + 'pt', 'class' : 'mceFontSize' + v});
-			});
+			if (c) {
+				each(explode(t.settings.theme_advanced_font_sizes), function(v) {
+					c.add(lo[parseInt(v) - 1], v, {'style' : 'font-size:' + fz[v - 1] + 'pt', 'class' : 'mceFontSize' + v});
+				});
+			}
 
 			return c;
 		},
@@ -244,10 +250,11 @@
 			}, t = this;
 
 			c = t.editor.controlManager.createListBox('formatselect', {title : 'advanced.block', cmd : 'FormatBlock'});
-
-			each(explode(t.settings.theme_advanced_blockformats), function(v) {
-				c.add(t.editor.translate(fmts[v]), v, {'class' : 'mce_formatPreview mce_' + v});
-			});
+			if (c) {
+				each(t.editor.getParam('theme_advanced_blockformats', t.settings.theme_advanced_blockformats, 'hash'), function(v, k) {
+					c.add(t.editor.translate(k != v ? k : fmts[v]), v, {'class' : 'mce_formatPreview mce_' + v});
+				});
+			}
 
 			return c;
 		},
@@ -312,7 +319,7 @@
 			if (!DOM.boxModel)
 				n = DOM.add(n, 'div', {'class' : 'mceOldBoxModel'});
 
-			n = sc = DOM.add(n, 'table', {id : ed.id + '_tbl', dir : 'ltr', 'class' : 'mceLayout', cellSpacing : 0, cellPadding : 0});
+			n = sc = DOM.add(n, 'table', {id : ed.id + '_tbl', 'class' : 'mceLayout', cellSpacing : 0, cellPadding : 0});
 			n = tb = DOM.add(n, 'tbody');
 
 			switch ((s.theme_advanced_layout_manager || '').toLowerCase()) {
@@ -425,6 +432,14 @@
 			// Resize iframe and container
 			DOM.setStyle(ifr, 'height', h - dh);
 			DOM.setStyles(e, {width : w, height : h});
+		},
+
+		destroy : function() {
+			var id = this.editor.id;
+
+			Event.clear(id + '_resize');
+			Event.clear(id + '_path_row');
+			Event.clear(id + '_external_close');
 		},
 
 		// Internal functions
@@ -625,10 +640,10 @@
 							return;
 
 						if (s.theme_advanced_resize_horizontal)
-							c.style.width = o.cw + 'px';
+							c.style.width = Math.max(10, o.cw) + 'px';
 
-						c.style.height = o.ch + 'px';
-						DOM.get(ed.id + '_ifr').style.height = (parseInt(o.ch) + t.deltaHeight) + 'px';
+						c.style.height = Math.max(10, o.ch) + 'px';
+						DOM.get(ed.id + '_ifr').style.height = Math.max(10, parseInt(o.ch) + t.deltaHeight) + 'px';
 					});
 				}
 
@@ -665,7 +680,7 @@
 						};
 
 						// Start listening
-						mf = Event.add(document, 'mousemove', function(e) {
+						mf = Event.add(DOM.doc, 'mousemove', function(e) {
 							var w, h;
 
 							// Calc delta values
@@ -687,12 +702,12 @@
 							return Event.cancel(e);
 						});
 
-						me = Event.add(document, 'mouseup', function(e) {
+						me = Event.add(DOM.doc, 'mouseup', function(e) {
 							var ifr;
 
 							// Stop listening
-							Event.remove(document, 'mousemove', mf);
-							Event.remove(document, 'mouseup', me);
+							Event.remove(DOM.doc, 'mousemove', mf);
+							Event.remove(DOM.doc, 'mouseup', me);
 
 							c.style.display = '';
 							DOM.remove(p);
@@ -703,10 +718,10 @@
 							ifr = DOM.get(ed.id + '_ifr');
 
 							if (s.theme_advanced_resize_horizontal)
-								c.style.width = (r.w + r.dx) + 'px';
+								c.style.width = Math.max(10, r.w + r.dx) + 'px';
 
-							c.style.height = (r.h + r.dy) + 'px';
-							ifr.style.height = (ifr.clientHeight + r.dy) + 'px';
+							c.style.height = Math.max(10, r.h + r.dy) + 'px';
+							ifr.style.height = Math.max(10, ifr.clientHeight + r.dy) + 'px';
 
 							if (s.theme_advanced_resizing_use_cookie) {
 								Cookie.setHash("TinyMCE_" + ed.id + "_size", {
@@ -879,7 +894,7 @@
 					pi = DOM.create('a', {'href' : "javascript:;", onmousedown : "return false;", title : ti, 'class' : 'mcePath_' + (de++)}, na);
 
 					if (p.hasChildNodes()) {
-						p.insertBefore(document.createTextNode(' \u00bb '), p.firstChild);
+						p.insertBefore(DOM.doc.createTextNode(' \u00bb '), p.firstChild);
 						p.insertBefore(pi, p.firstChild);
 					} else
 						p.appendChild(pi);

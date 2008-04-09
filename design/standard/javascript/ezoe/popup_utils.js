@@ -105,9 +105,7 @@ var eZOEPopupUtils = {
 	{
 	    // save changes from form values to element attributes
 	    var ed = tinyMCEPopup.editor, s = eZOEPopupUtils.settings, n, arr;
-	
 
-	        
         if ( s.tagSelector && s.tagSelector.el.value )
         {
             if ( s.tagSelector.el.checked === undefined || s.tagSelector.el.checked === true )
@@ -383,7 +381,7 @@ var eZOEPopupUtils = {
 	    // call back function for the browse() ajax call, generates the html markup with paging and path header (if defined)
 	    mode = mode || 'browse';
 	    ez.script( 'eZOEPopupUtils.ajaxLoadResponse=' + r.responseText );
-	    var tbody = ez.$$('#' + mode + '_box_prev tbody')[0], thead = ez.$$('#' + mode + '_box_prev thead')[0], tfoot = ez.$$('#' + mode + '_box_prev tfoot')[0];
+	    var ed = tinyMCEPopup.editor, tbody = ez.$$('#' + mode + '_box_prev tbody')[0], thead = ez.$$('#' + mode + '_box_prev thead')[0], tfoot = ez.$$('#' + mode + '_box_prev tfoot')[0];
 	    tbody.el.innerHTML = thead.el.innerHTML = tfoot.el.innerHTML = '';
 	    if ( eZOEPopupUtils.ajaxLoadResponse )
 	    {
@@ -392,7 +390,7 @@ var eZOEPopupUtils = {
 	        {
 		        if ( data['node']['path'].length )
 		            thead.el.innerHTML = '<tr><td><\/td><td colspan="2">' + ez.$c( data['node']['path'] ).map( function( n ){
-		               return '<a href="JavaScript:eZOEPopupUtils.' + mode + '(' + n.node_id + ');" title="' + eZOeMCE['i18n']['type'] + ': ' + n.class_name + '">' + n.name + '<\/a>';
+		               return '<a href="JavaScript:eZOEPopupUtils.' + mode + '(' + n.node_id + ');" title="' + ed.getLang('advanced.type') + ': ' + n.class_name + '">' + n.name + '<\/a>';
 		            } ).join(' / ') + ' / ' + data['node']['name'] + '<\/td><\/tr>';
 		        else if ( data['node']['name'] )
 		            thead.el.innerHTML = '<tr><td><\/td><td colspan="2">' + data['node']['name'] + '<\/td><\/tr>';
@@ -402,7 +400,7 @@ var eZOEPopupUtils = {
 	        {
 	           // TODO: image preview if image popup
 	           tbody.el.innerHTML = '<tr>' + ez.$c( data['list'] ).map( function( n ){
-	               var html = '<td><a href="JavaScript:eZOEPopupUtils.selectByEmbedId(' + n.contentobject_id + ')">' + eZOeMCE['i18n']['select'] + '<\/a><\/td>';
+	               var html = '<td><a href="JavaScript:eZOEPopupUtils.selectByEmbedId(' + n.contentobject_id + ')">' + ed.getLang('advanced.select') + '<\/a><\/td>';
 	               if ( n.children_count )
 	                   return html +'<td><a href="JavaScript:eZOEPopupUtils.' + mode + '(' + n.node_id + ');">' + n.name + '<\/a><\/td><td>' + n.class_name + '<\/td>';
 	               else
@@ -411,11 +409,11 @@ var eZOEPopupUtils = {
 	        }
 
 	        if ( data['offset'] !== 0 )
-	            foot += '<a href="JavaScript:eZOEPopupUtils.' + mode + '('+ node['node_id'] + ',' + (data['offset'] - data['limit']) + ')">&lt;&lt; ' + eZOeMCE['i18n']['previous'] + '<\/a>';
+	            foot += '<a href="JavaScript:eZOEPopupUtils.' + mode + '('+ node['node_id'] + ',' + (data['offset'] - data['limit']) + ')">&lt;&lt; ' + ed.getLang('advanced.previous') + '<\/a>';
 
 	        foot += '<\/td><td>';
 	        if ( (data['offset'] + data['limit']) < data['total_count'] )
-	            foot += '<a href="JavaScript:eZOEPopupUtils.' + mode + '(' + node['node_id'] + ',' + (data['offset'] + data['limit']) + ')">' + eZOeMCE['i18n']['next'] + ' &gt;&gt;<\/a>';
+	            foot += '<a href="JavaScript:eZOEPopupUtils.' + mode + '(' + node['node_id'] + ',' + (data['offset'] + data['limit']) + ')">' + ed.getLang('advanced.next') + ' &gt;&gt;<\/a>';
 
 	        tfoot.el.innerHTML = foot + '<\/td><\/tr>';	        
 	    }

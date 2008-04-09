@@ -169,6 +169,7 @@ tinyMCEPopup = {
 		if (tinymce.isIE)
 			h = h.replace(/ (value|title|alt)=([^"][^\s>]+)/gi, ' $1="$2"')
 
+		document.dir = t.editor.getParam('directionality','');
 		document.body.innerHTML = t.editor.translate(h);
 		document.title = ti = t.editor.translate(ti);
 		document.body.style.display = '';
@@ -210,7 +211,7 @@ tinyMCEPopup = {
 			// Focus element with mceFocus class
 			tinymce.each(document.forms, function(f) {
 				tinymce.each(f.elements, function(e) {
-					if (t.dom.hasClass(e, 'mceFocus')) {
+					if (t.dom.hasClass(e, 'mceFocus') && !e.disabled) {
 						e.focus();
 						return false; // Break loop
 					}
@@ -218,7 +219,7 @@ tinyMCEPopup = {
 			});
 		}
 
-		document.onkeydown = tinyMCEPopup._closeWinKeyHandler;
+		document.onkeyup = tinyMCEPopup._closeWinKeyHandler;
 	},
 
 	_accessHandler : function(e) {

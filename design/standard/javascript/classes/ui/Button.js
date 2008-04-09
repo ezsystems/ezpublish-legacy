@@ -1,5 +1,5 @@
 /**
- * $Id: Button.js 631 2008-02-22 23:51:38Z spocke $
+ * $Id: Button.js 756 2008-03-29 19:53:48Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -37,7 +37,7 @@
 		 * @return {String} HTML for the button control element.
 		 */
 		renderHTML : function() {
-			var s = this.settings, h = '<a id="' + this.id + '" href="javascript:;" class="mceButton mceButtonEnabled ' + s['class'] + '" onmousedown="return false;" onclick="return false;" title="' + DOM.encode(s.title) + '">';
+			var cp = this.classPrefix, s = this.settings, h = '<a id="' + this.id + '" href="javascript:;" class="' + cp + ' ' + cp + 'Enabled ' + s['class'] + '" onmousedown="return false;" onclick="return false;" title="' + DOM.encode(s.title) + '">';
 
 			if (s.image)
 				h += '<img class="mceIcon" src="' + s.image + '" /></a>';

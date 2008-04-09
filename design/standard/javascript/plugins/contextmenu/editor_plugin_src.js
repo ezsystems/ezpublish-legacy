@@ -1,5 +1,5 @@
 /**
- * $Id: editor_plugin_src.js 665 2008-03-04 13:26:59Z spocke $
+ * $Id: editor_plugin_src.js 755 2008-03-29 19:14:42Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -18,6 +18,7 @@
 			ed.onContextMenu.add(function(ed, e) {
 				if (!e.ctrlKey) {
 					t._getMenu(ed).showMenu(e.clientX, e.clientY);
+					Event.add(document, 'click', hide);
 					Event.cancel(e);
 				}
 			});
@@ -26,12 +27,22 @@
 				if (t._menu) {
 					t._menu.removeAll();
 					t._menu.destroy();
+					Event.remove(document, 'click', hide);
 				}
 			};
 
 			ed.onMouseDown.add(hide);
 			ed.onKeyDown.add(hide);
-			Event.add(document, 'click', hide);
+		},
+
+		getInfo : function() {
+			return {
+				longname : 'Contextmenu',
+				author : 'Moxiecode Systems AB',
+				authorurl : 'http://tinymce.moxiecode.com',
+				infourl : 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/contextmenu',
+				version : tinymce.majorVersion + "." + tinymce.minorVersion
+			};
 		},
 
 		_getMenu : function(ed) {

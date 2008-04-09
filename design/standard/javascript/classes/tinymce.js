@@ -1,5 +1,5 @@
 /**
- * $Id: tinymce.js 708 2008-03-12 12:10:49Z spocke $
+ * $Id: tinymce.js 769 2008-04-07 13:30:56Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -12,8 +12,8 @@
  */
 var tinymce = {
 	majorVersion : '3',
-	minorVersion : '0.5',
-	releaseDate : '2008-03-12',
+	minorVersion : '0.6.2',
+	releaseDate : '2008-04-07',
 
 	/**#@+
 	 * @method
@@ -421,7 +421,7 @@ var tinymce = {
 					o = li[n];
 
 					if (o && o.func)
-						o.func.call(o.scope);
+						o.func.call(o.scope, 1); // Send in one arg to distinct unload and user destroy
 				}
 
 				// Detach unload function

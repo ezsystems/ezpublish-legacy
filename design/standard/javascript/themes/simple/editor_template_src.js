@@ -1,5 +1,5 @@
 /**
- * $Id: editor_template_src.js 637 2008-02-25 14:59:07Z spocke $
+ * $Id: editor_template_src.js 752 2008-03-27 21:51:25Z spocke $
  *
  * This file is meant to showcase how to create a simple theme. The advanced
  * theme is more suitable for production use.
@@ -30,7 +30,7 @@
 				ed.dom.loadCSS(url + "/skins/" + s.skin + "/content.css");
 			});
 
-			DOM.loadCSS(url + "/skins/" + s.skin + "/ui.css");
+			DOM.loadCSS((s.editor_css ? ed.baseURI.toAbsolute(s.editor_css) : '') || url + "/skins/" + s.skin + "/ui.css");
 		},
 
 		renderUI : function(o) {

@@ -144,7 +144,7 @@ class eZOEXMLInput extends eZXMLInputHandler
             if ( strpos( $userAgent, 'Opera' ) !== false and
                  eregi('Opera\/([0-9\.]+)', $userAgent, $browserInfo ) )
             {
-                if ( $browserInfo[1] >= 9.2 )
+                if ( $browserInfo[1] >= 9.5 )
                     $supportsDHTMLType = 'Opera';
             }
             else if ( strpos( $userAgent, 'MSIE' ) !== false and
@@ -844,6 +844,9 @@ class eZOEXMLInput extends eZXMLInputHandler
                 else
                     $objectAttr .= ' inline="false"';
 
+                if ( $alignment )
+                    $objectAttr .= ' align="' . $alignment . '"';
+
                 $customAttributePart = $this->getCustomAttrPart( $tag );
                 $object              = false;
 
@@ -912,9 +915,6 @@ class eZOEXMLInput extends eZXMLInputHandler
 
                     if ( $className != '' )
                         $objectAttr .= ' class="' . $className . '"';
-
-                    if ( $alignment )
-                        $objectAttr .= ' align="' . $alignment . '"';
                         
                     if ( $tagName === 'embed-inline' )
                         $objectAttr .= ' style="display: inline;"';
@@ -928,9 +928,9 @@ class eZOEXMLInput extends eZXMLInputHandler
                     else
                         $objectAttr .= ' class="mceNonEditable"';
 
-                    if ( $alignment !== 'center' )
-                        $objectAttr .= ' style="float:' . $alignment . ';"';
-                    else if ( $tagName === 'embed-inline' )
+                    //if ( $alignment !== 'center' )
+                        //$objectAttr .= ' style="float:' . $alignment . ';"';
+                    if ( $tagName === 'embed-inline' )
                         $objectAttr .= ' style="display: inline;"';
                     
                     $objectParam = array( 'size' => $size, 'align' => $alignment, 'show_path' => $showPath );

@@ -10,12 +10,6 @@
 var contentType = '{$content_type}';
 
 eZOeMCE['relation_url']  = {concat('ezoe/relations/', $object_id, '/', $object_version, '/auto' )|ezurl};
-eZOeMCE['i18n']          = {ldelim}
-    previous: "{'Previous'|i18n('design/admin/navigator')}",
-    next: "{'Next'|i18n('design/admin/navigator')}",
-    select: "{'Select'|i18n('design/admin/content/browse')}",
-    type: "{'Type'|i18n('design/standard/ezoe')}"
-{rdelim};
     
 {literal} 
 
@@ -35,10 +29,12 @@ table#browse_box_prev thead td { padding-bottom: 5px; }
 
 table#browse_box_prev tfoot td { padding-top: 5px; }
 
+div.slide { width: 455px; }
+
 </style>
 {/literal}
 
-<div style="width: 470px;">
+<div style="width: 480px;">
     <form action={concat('ezoe/upload/', $object_id, '/', $object_version, '/auto/1' )|ezurl} method="post" target="embed_upload" name="EmbedForm" id="EmbedForm" enctype="multipart/form-data"
     style="float:left; width: 940px" onsubmit="ez.$('upload_in_progress').show();">
 
@@ -173,12 +169,19 @@ table#browse_box_prev tfoot td { padding-top: 5px; }
         </div>
 
         <div class="slide" id="search_box" style="display: none;">
-            {if $class_filter_array}
-              <input type="hidden" name="SearchContentClassIdentifier" value="{$class_filter_array}" />
-            {/if}
             <table class="properties">
             <tr>
-                <td><input id="SearchText" name="SearchStr" type="text" value="" onkeypress="return eZOEPopupUtils.searchEnter(event)" /></td>
+                <td>
+                    <input id="SearchText" name="SearchStr" type="text" value="" onkeypress="return eZOEPopupUtils.searchEnter(event)" />
+                    {def $classes=fetch( 'class', 'list' )}
+
+		            <select name="SearchContentClassID[]" multiple="multiple" size="4" style="vertical-align:middle">
+		                <option value="">{"All"|i18n("design/standard/ezoe")}</option>
+		            {foreach $classes as $class}
+		                <option value="{$class.id|wash}"{if $class_filter_array|contains( $class.identifier )} selected="selected"{/if}>{$class.name|wash}</option>
+		            {/foreach}
+		            </select>
+                </td>
                 <td><input type="submit" name="SearchButton" id="SearchButton" value="{'Search'|i18n('design/admin/content/search')}"  onclick="return eZOEPopupUtils.searchEnter(event, true)" /></td>
             </tr>
             <tr>

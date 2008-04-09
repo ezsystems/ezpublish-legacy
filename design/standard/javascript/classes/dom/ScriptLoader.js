@@ -1,5 +1,5 @@
 /**
- * $Id: ScriptLoader.js 629 2008-02-22 19:44:44Z spocke $
+ * $Id: ScriptLoader.js 718 2008-03-13 17:48:39Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -90,6 +90,14 @@
 		 */
 		load : function(u, cb, s) {
 			var t = this, o;
+
+			if (o = t.lookup[u]) {
+				// Is loaded fire callback
+				if (cb && o.state == 2)
+					cb.call(s || t);
+
+				return o;
+			}
 
 			function loadScript(u) {
 				if (tinymce.dom.Event.domLoaded || t.settings.strict_mode) {

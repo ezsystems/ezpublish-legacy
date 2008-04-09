@@ -28,23 +28,26 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         var tag = selectors[4].el.checked ? 'embed-inline' : 'embed', def = attributeDefaults[ tag ]
 	    inlineSelectorChange.call( selectors[4], false, selectors[4].el  );
         selectors[4].addEvent('change', inlineSelectorChange );
+        var align = el ? el.getAttribute('align') || def['align']  || 'right' : def['align']  || 'right';
+        if ( align === 'center' ) align = 'middle';
 
 	    if ( contentType === 'image' )
 	    {
 	        selectors[0].addEvent('change', loadImageSize );
             loadImageSize( false, selectors[0].el );
+            selectors[1].el.value = align;
 	        selectors[1].addEvent('change', setEmbedAlign );
 	        setEmbedAlign( false, selectors[1].el );
 	    }
 	    else
 	    {
-	        var align = el ? ed.dom.getStyle(el, 'float') || 'center' : def['align']  || 'right';
-	        ez.$('embed_preview').addClass('object_preview').setStyles( ez.ie56 ? {'margin': '0 5px 5px 5px'} : {});
+	        
+	        ez.$('embed_preview').addClass('object_preview float-break').setStyles( ez.ie56 ? {'margin': '0 5px 5px 5px'} : {});
 	        selectors[1].el.value = align;
             selectors.callEach('addEvent', 'change', loadEmbedPreview );
 
 	        if ( el )
-	            ez.$('embed_preview').el.innerHTML = '<div title="' + el.title + '" style="float:' + align + ';clear:both;text-align: left;">' + el.innerHTML + '<\/div>';
+	            ez.$('embed_preview').el.innerHTML = el.innerHTML;
 	        else
 	            loadEmbedPreview();        
 	    }
@@ -72,9 +75,10 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
 	    else
 	    {
 	        el.innerHTML = ez.$$('#embed_preview div')[0].el.innerHTML;
-	        ed.dom.setStyle(el, 'float', args['align'] === 'middle' ? '' : args['align'])
+	        //ed.dom.setStyle(el, 'float', args['align'] === 'middle' ? '' : args['align']);
+	        args['title']   = eZOEPopupUtils.safeHtml( eZOEPopupUtils.embedObject['name'] );
 	    }
-	    el.style.display = args['inline'] !== 'false' ? 'block' : 'inline';
+	    el.style.display = args['inline'] === 'false' ? 'block' : 'inline';
         ed.dom.setAttribs( el, args );
     }
 }));
@@ -152,13 +156,22 @@ function loadEmbedPreview( )
     });
 }
 
-
-{/literal}
 // -->
 </script>
+<style>
 
+table#browse_box_prev { border-collapse: collapse; }
 
-<div style="width: 470px;">
+table#browse_box_prev thead td { padding-bottom: 5px; }
+
+table#browse_box_prev tfoot td { padding-top: 5px; }
+
+div.slide { width: 455px; }
+
+</style>
+{/literal}
+
+<div style="width: 480px;">
     <form action="JavaScript:void(0)" method="post" name="EditForm" id="EditForm" enctype="multipart/form-data" style="float:left; width: 940px;">
     
     <div id="tabs">

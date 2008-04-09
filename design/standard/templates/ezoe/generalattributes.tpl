@@ -1,11 +1,19 @@
 {default tag_name    = ''
          attributes  = false()
-         description = hash()
          classes     = hash()
          attribute_mapping  = hash()
          attribute_defaults = hash()
          attribute_content_prepend = hash()
-         attribute_content_append  = hash()}
+         attribute_content_append  = hash()
+         i18n = hash('align', 'Align'|i18n('design/standard/ezoe'),
+                    'size', 'Size'|i18n('design/standard/ezoe'),
+                    'view', 'View'|i18n('design/standard/ezoe'),
+                    'inline', 'Inline'|i18n('design/standard/ezoe'),
+                    'width', 'Width'|i18n('design/standard/ezoe'),
+                    'border', 'Border'|i18n('design/standard/ezoe'),
+                    'tag', 'Tag'|i18n('design/standard/ezoe'),
+                    'class', 'Class'|i18n('design/standard/ezoe')
+         )}
 {if and( $:tag_name, $:attributes )}
     {def $attribute_default = ''
          $attribute_id      = ''
@@ -26,10 +34,10 @@
         {else}
         <tr id="{$attribute_id}">
             <td class="column1"><label for="{$attribute_id}_source">
-            {if is_set( $description[ $attribute ] )}
-                {$description[ $attribute ]|wash}
+            {if is_set( $i18n[ $attribute ] )}
+                {$i18n[ $attribute ]|wash}
             {else}
-                {$attribute|upfirst|wash|i18n('design/standard/ezoe')}
+                {$attribute|upfirst|wash}**
             {/if}
             </label></td>
             <td>

@@ -30,12 +30,12 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         // custom block tags are not allowed inside custom inline tags
         if ( el )
         {
-            if ( getParentTag( el, 'span', 'mceItemCustomTag', 'custom' ) )
+            if ( customGetParentTag( el, 'span', 'mceItemCustomTag', 'custom' ) )
                 filterOutCustomBlockTags( );
         }
         else
         {
-	        var currentNode = ed.selection.getNode(), parentSpan = getParentTag( el, 'span', 'mceItemCustomTag', 'custom' );
+	        var currentNode = ed.selection.getNode(), parentSpan = customGetParentTag( el, 'span', 'mceItemCustomTag', 'custom' );
 	        if ( currentNode && currentNode.nodeName === 'SPAN' && tinymce.DOM.getAttrib( currentNode, 'type' ) === 'custom' )
 	            filterOutCustomBlockTags( );
 	        else if ( parentSpan )
@@ -84,16 +84,15 @@ function filterOutCustomBlockTags( n )
     });
 }
 
-function getParentTag( el, tag, class, type )
+function customGetParentTag( el, tag, class, type )
 {
     class = ' ' + class + ' ';
     tag = tag.toUpperCase();
-    while ( el.nodeName !== 'BODY'  && ( el = el.parentNode ) )
+    while ( el && el.nodeName !== 'BODY' )
     {
-        if ( el.nodeName === tag
-        && ( class === undefined || (' ' + el.className + ' ').indexOf( class ) !== -1 )
-        &&  ( type === undefined || el.getAttribute('type') === type ) )
-        return el;
+        el = el.parentNode;
+        if ( el && el.nodeName === tag && ( class === undefined || (' ' + el.className + ' ').indexOf( class ) !== -1 ) &&  ( type === undefined || el.getAttribute('type') === type ) )
+            return el;
     }
     return false;
 }
@@ -114,7 +113,7 @@ function getParentTag( el, tag, class, type )
         </div>
 
         {* custom tag name is defined as class internally in the editor even though the xml attribute name is 'name' *}
-        {include uri="design:ezoe/generalattributes.tpl" tag_name=$tag_name attributes=hash('class', $class_list ) description=hash('class', 'Tag') attribute_defaults=hash('class', $custom_tag_name)}
+        {include uri="design:ezoe/generalattributes.tpl" tag_name=$tag_name attributes=hash('class', $class_list ) i18n=hash('class', 'Tag'|i18n('design/standard/ezoe')) attribute_defaults=hash('class', $custom_tag_name)}
 
 {def $tag_is_inline = false()}
 {foreach $class_list as $custom_tag => $text}

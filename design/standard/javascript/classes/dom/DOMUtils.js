@@ -1,5 +1,5 @@
 /**
- * $Id: DOMUtils.js 706 2008-03-11 20:38:31Z spocke $
+ * $Id: DOMUtils.js 766 2008-04-03 20:37:06Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -36,6 +36,7 @@
 			var t = this;
 
 			t.doc = d;
+			t.win = window;
 			t.files = {};
 			t.cssFlicker = false;
 			t.counter = 0;
@@ -57,9 +58,7 @@
 				}
 			}
 
-			tinymce.addUnload(function() {
-				t.doc = t.root = null;
-			});
+			tinymce.addUnload(t.destroy, t);
 		},
 
 		/**#@+
@@ -87,7 +86,7 @@
 		getViewPort : function(w) {
 			var d, b;
 
-			w = !w ? window : w;
+			w = !w ? this.win : w;
 			d = w.document;
 			b = this.boxModel ? d.documentElement : d.body;
 
@@ -195,7 +194,7 @@
 		get : function(e) {
 			var n;
 
-			if (typeof(e) == 'string') {
+			if (this.doc && typeof(e) == 'string') {
 				n = e;
 				e = this.doc.getElementById(e);
 
@@ -238,8 +237,7 @@
 				l = tinymce.grep(s.querySelectorAll(pa));
 
 				// Restore old id
-				if (i)
-					s.id = i;
+				s.id = i;
 
 				return l;
 			}
@@ -468,7 +466,7 @@
 		 */
 		remove : function(n, k) {
 			return this.run(n, function(n) {
-				var p;
+				var p, g;
 
 				p = n.parentNode;
 
@@ -480,6 +478,14 @@
 						p.insertBefore(c.cloneNode(true), n);
 					});
 				}
+
+				// Fix IE psuedo leak
+		/*		if (isIE) {
+					p = n.cloneNode(true);
+					n.outerHTML = '';
+
+					return p;
+				}*/
 
 				return p.removeChild(n);
 			});
@@ -804,7 +810,7 @@
 				e = t.boxModel ? d.documentElement : d.body;
 				x = t.getStyle(t.select('html')[0], 'borderWidth'); // Remove border
 				x = (x == 'medium' || t.boxModel && !t.isIE6) && 2 || x;
-				n.top += window.self != window.top ? 2 : 0; // IE adds some strange extra cord if used in a frameset
+				n.top += t.win.self != t.win.top ? 2 : 0; // IE adds some strange extra cord if used in a frameset
 
 				return {x : n.left + e.scrollLeft - x, y : n.top + e.scrollTop - x};
 			}
@@ -968,7 +974,7 @@
 		 * @param {String} u URL to CSS file to load.
 		 */
 		loadCSS : function(u) {
-			var t = this, d = this.doc;
+			var t = this, d = t.doc;
 
 			if (!u)
 				u = '';
@@ -1460,6 +1466,13 @@
 					});
 				}
 
+				// Fix IE psuedo leak for elements since replacing elements if fairly common
+				if (isIE && o.nodeType === 1) {
+					o.parentNode.insertBefore(n, o);
+					o.outerHTML = '';
+					return n;
+				}
+
 				return o.parentNode.replaceChild(n, o);
 			});
 		},
@@ -1568,7 +1581,7 @@
 		run : function(e, f, s) {
 			var t = this, o;
 
-			if (typeof(e) === 'string')
+			if (t.doc && typeof(e) === 'string')
 				e = t.doc.getElementById(e);
 
 			if (!e)
@@ -1591,6 +1604,48 @@
 			}
 
 			return f.call(s, e);
+		},
+
+		/**
+		 * Returns an NodeList with attributes for the element.
+		 *
+		 * @param {HTMLElement/string} n Element node or string id to get attributes from.
+		 * @return {NodeList} NodeList with attributes.
+		 */
+		getAttribs : function(n) {
+			var o;
+
+			n = this.get(n);
+
+			if (!n)
+				return [];
+
+			if (isIE) {
+				o = [];
+
+				// Object will throw exception in IE
+				if (n.nodeName == 'OBJECT')
+					return n.attributes;
+
+				// It's crazy that this is faster in IE but it's because it returns all attributes all the time
+				n.cloneNode(false).outerHTML.replace(/([a-z0-9\:\-_]+)=/gi, function(a, b) {
+					o.push({specified : 1, nodeName : b});
+				});
+
+				return o;
+			}
+
+			return n.attributes;
+		},
+
+		destroy : function(s) {
+			var t = this;
+
+			t.win = t.doc = t.root = null;
+
+			// Manual destroy then remove unload handler
+			if (!s)
+				tinymce.removeUnload(t.destroy);
 		}
 
 		/*

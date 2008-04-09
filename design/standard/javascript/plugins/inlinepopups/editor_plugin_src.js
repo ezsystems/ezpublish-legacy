@@ -1,5 +1,5 @@
 /**
- * $Id: editor_plugin_src.js 697 2008-03-11 10:33:06Z spocke $
+ * $Id: editor_plugin_src.js 766 2008-04-03 20:37:06Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -33,7 +33,7 @@
 			var t = this;
 
 			t.parent(ed);
-			t.zIndex = 1000;
+			t.zIndex = 300000;
 			t.count = 0;
 		},
 
@@ -47,7 +47,10 @@
 			if (!f.inline)
 				return t.parent(f, p);
 
-			t.bookmark = ed.selection.getBookmark('simple');
+			// Only store selection if the type is a normal window
+			if (!f.type)
+				t.bookmark = ed.selection.getBookmark('simple');
+
 			id = DOM.uniqueId();
 			vp = DOM.getViewPort();
 			f.width = parseInt(f.width || 320);
@@ -99,8 +102,8 @@
 				opt += ' mceMovable';
 
 			// Create DOM objects
-			t._addAll(document.body, 
-				['div', {id : id, 'class' : ed.settings.inlinepopups_skin || 'clearlooks2', dir : 'ltr', style : 'width:100px;height:100px'}, 
+			t._addAll(DOM.doc.body, 
+				['div', {id : id, 'class' : ed.settings.inlinepopups_skin || 'clearlooks2', style : 'width:100px;height:100px'}, 
 					['div', {id : id + '_wrapper', 'class' : 'mceWrapper' + opt},
 						['div', {id : id + '_top', 'class' : 'mceTop'}, 
 							['div', {'class' : 'mceLeft'}],
@@ -157,7 +160,7 @@
 			DOM.setStyles(id, {top : f.top, left : f.left, width : f.width + dw, height : f.height + dh});
 
 			u = f.url || f.file;
-			if (tinymce.relaxedDomain)
+			if (u && tinymce.relaxedDomain)
 				u += (u.indexOf('?') == -1 ? '?' : '&') + 'mce_rdomain=' + tinymce.relaxedDomain;
 
 			if (!f.type) {
@@ -251,7 +254,7 @@
 				DOM.add(DOM.doc.body, 'div', {
 					id : 'mceModalBlocker',
 					'class' : (t.editor.settings.inlinepopups_skin || 'clearlooks2') + '_modalBlocker',
-					style : {left : vp.x, top : vp.y, width : vp.w, height : vp.h, zIndex : t.zIndex - 1}
+					style : {left : vp.x, top : vp.y, zIndex : t.zIndex - 1}
 				});
 
 				DOM.show('mceModalBlocker'); // Reduces flicker in IE
@@ -297,7 +300,7 @@
 		},
 
 		_startDrag : function(id, se, ac) {
-			var t = this, mu, mm, d = document, eb, w = t.windows[id], we = w.element, sp = we.getXY(), p, sz, ph, cp, vp, sx, sy, sex, sey, dx, dy, dw, dh;
+			var t = this, mu, mm, d = DOM.doc, eb, w = t.windows[id], we = w.element, sp = we.getXY(), p, sz, ph, cp, vp, sx, sy, sex, sey, dx, dy, dw, dh;
 
 			// Get positons and sizes
 //			cp = DOM.getPos(t.editor.getContainer());
@@ -342,7 +345,7 @@
 				DOM.add(d.body, 'div', {
 					id : 'mceEventBlocker',
 					'class' : 'mceEventBlocker ' + (t.editor.settings.inlinepopups_skin || 'clearlooks2'),
-					style : {left : vp.x, top : vp.y, width : vp.w + 2, height : vp.h + 2, zIndex : 20001}
+					style : {left : vp.x, top : vp.y, zIndex : t.zIndex + 1}
 				});
 				eb = new Element('mceEventBlocker');
 				eb.update();
@@ -459,7 +462,7 @@
 		},
 
 		close : function(win, id) {
-			var t = this, w, d = document, ix = 0, fw;
+			var t = this, w, d = DOM.doc, ix = 0, fw;
 
 			t.count--;
 
@@ -476,6 +479,8 @@
 				t.onClose.dispatch(t);
 				Event.remove(d, 'mousedown', w.mousedownFunc);
 				Event.remove(d, 'click', w.clickFunc);
+				Event.clear(id);
+				Event.clear(id + '_ifr');
 
 				DOM.setAttrib(id + '_ifr', 'src', 'javascript:""'); // Prevent leak
 				w.element.remove();
@@ -495,7 +500,10 @@
 		},
 
 		setTitle : function(ti, id) {
-			DOM.get(id + '_title').innerHTML = DOM.encode(ti);
+			var e;
+
+			if (e = DOM.get(id + '_title'))
+				e.innerHTML = DOM.encode(ti);
 		},
 
 		alert : function(txt, cb, s) {

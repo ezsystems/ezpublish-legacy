@@ -1,5 +1,5 @@
 /**
- * $Id: Separator.js 520 2008-01-07 16:30:32Z spocke $
+ * $Id: Separator.js 756 2008-03-29 19:53:48Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -11,6 +11,11 @@
  * @base tinymce.ui.Control
  */
 tinymce.create('tinymce.ui.Separator:tinymce.ui.Control', {
+	Separator : function(id, s) {
+		this.parent(id, s);
+		this.classPrefix = 'mceSeparator';
+	},
+
 	/**#@+
 	 * @method
 	 */
@@ -22,7 +27,7 @@ tinymce.create('tinymce.ui.Separator:tinymce.ui.Control', {
 	 * @return {String} HTML for the separator control element.
 	 */
 	renderHTML : function() {
-		return tinymce.DOM.createHTML('span', {'class' : 'mceSeparator'});
+		return tinymce.DOM.createHTML('span', {'class' : this.classPrefix});
 	}
 
 	/**#@-*/

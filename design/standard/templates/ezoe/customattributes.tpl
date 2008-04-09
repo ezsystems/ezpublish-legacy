@@ -1,6 +1,17 @@
 {default tag_name = ''
          hide     = false()
-         extra_attribute = false()}
+         extra_attribute = false()
+         i18n = hash('align', 'Align'|i18n('design/standard/ezoe'),
+                    'size', 'Size'|i18n('design/standard/ezoe'),
+                    'view', 'View'|i18n('design/standard/ezoe'),
+                    'inline', 'Inline'|i18n('design/standard/ezoe'),
+                    'class', 'Class'|i18n('design/standard/ezoe'),
+                    'name', 'Name'|i18n('design/standard/ezoe'),
+                    'author', 'Author'|i18n('design/standard/ezoe'),
+                    'title', 'Title'|i18n('design/standard/ezoe'),
+                    'offset', 'Offset'|i18n('design/standard/ezoe'),
+                    'limit', 'Limit'|i18n('design/standard/ezoe')
+         )}
 {if $:tag_name}
     {def $custom_attributes           = array()
          $custom_attributes_defaults  = array()
@@ -30,8 +41,10 @@
             <td class="column1"><label for="{$custom_attribute_id}_source">
             {if is_set( $custom_attributes_names[$custom_attribute] )}
                 {$custom_attributes_names[$custom_attribute]|wash}
+            {elseif is_set( $i18n[ $custom_attribute ] )}
+                {$i18n[ $custom_attribute ]|wash}
             {else}
-                {$custom_attribute|upfirst|wash|i18n('design/standard/ezoe')}
+                {$custom_attribute|upfirst|wash}*
             {/if}
             </label></td>
             <td>
@@ -51,7 +64,7 @@
         {set $custom_attribute_id  = concat( $:tag_name, '_', $extra_attribute.0)|wash}
         <tr id="{$custom_attribute_id}">
             <td class="column1">
-                <label for="{$custom_attribute_id}_source">{$extra_attribute.0|upfirst|wash|i18n('design/standard/ezoe')}</label>
+                <label for="{$custom_attribute_id}_source">{$extra_attribute.0|upfirst|wash}</label>
             </td>
             <td><input type="checkbox" name="{$extra_attribute.0}" id="{$custom_attribute_id}_source" value="{$extra_attribute.1|wash}"{if $extra_attribute.2} checked="checked"{/if} disabled="disabled" class="mceItemSkip" /></td>
         </tr>

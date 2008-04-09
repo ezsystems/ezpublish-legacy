@@ -1,5 +1,5 @@
 /**
- * $Id: Menu.js 520 2008-01-07 16:30:32Z spocke $
+ * $Id: Menu.js 766 2008-04-03 20:37:06Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -147,6 +147,8 @@
 			walk(t, function(o) {
 				if (o.removeAll)
 					o.removeAll();
+				else
+					o.remove();
 
 				o.destroy();
 			}, 'items', t);

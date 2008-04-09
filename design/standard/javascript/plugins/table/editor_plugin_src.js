@@ -1,5 +1,5 @@
 /**
- * $Id: editor_plugin_src.js 691 2008-03-09 19:58:20Z spocke $
+ * $Id: editor_plugin_src.js 768 2008-04-04 13:52:49Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -36,10 +36,22 @@
 			ed.onInit.add(function() {
 				if (ed && ed.plugins.contextmenu) {
 					ed.plugins.contextmenu.onContextMenu.add(function(th, m, e) {
-						var sm;
+						var sm, se = ed.selection, el = se.getNode() || ed.getBody();
 
 						if (ed.dom.getParent(e, 'td') || ed.dom.getParent(e, 'th')) {
 							m.removeAll();
+
+							if (el.nodeName == 'A' && !ed.dom.getAttrib(el, 'name')) {
+								m.add({title : 'advanced.link_desc', icon : 'link', cmd : ed.plugins.advlink ? 'mceAdvLink' : 'mceLink', ui : true});
+								m.add({title : 'advanced.unlink_desc', icon : 'unlink', cmd : 'UnLink'});
+								m.addSeparator();
+							}
+
+							if (el.nodeName == 'IMG' && el.className.indexOf('mceItem') == -1) {
+								m.add({title : 'advanced.image_desc', icon : 'image', cmd : ed.plugins.advimage ? 'mceAdvImage' : 'mceImage', ui : true});
+								m.addSeparator();
+							}
+
 							m.add({title : 'table.desc', icon : 'table', cmd : 'mceInsertTable', ui : true, value : {action : 'insert'}});
 							m.add({title : 'table.props_desc', icon : 'table_props', cmd : 'mceInsertTable', ui : true});
 							m.add({title : 'table.del', icon : 'delete_table', cmd : 'mceTableDelete', ui : true});
@@ -74,20 +86,6 @@
 				}
 			});
 
-			// Block delete on gecko inside TD:s. Gecko is removing table elements and then produces incorrect tables
-			// The backspace key also removed TD:s but this one can not be blocked
-			if (tinymce.isGecko) {
-				ed.onKeyPress.add(function(ed, e) {
-					var n;
-
-					if (e.keyCode == 46) {
-						n = ed.dom.getParent(ed.selection.getNode(), 'TD,TH');
-						if (n && (!n.hasChildNodes() || (n.childNodes.length == 1 && n.firstChild.nodeName == 'BR')))
-							tinymce.dom.Event.cancel(e);
-					}
-				});
-			}
-
 			// Add undo level when new rows are created using the tab key
 			ed.onKeyDown.add(function(ed, e) {
 				if (e.keyCode == 9 && ed.dom.getParent(ed.selection.getNode(), 'TABLE'))
@@ -114,6 +112,14 @@
 				cm.setDisabled('split_cells', !p || (parseInt(ed.dom.getAttrib(p, 'colspan', '1')) < 2 && parseInt(ed.dom.getAttrib(p, 'rowspan', '1')) < 2));
 				cm.setDisabled('merge_cells', !p);
 			});
+
+			// Padd empty table cells
+			if (!tinymce.isIE) {
+				ed.onBeforeSetContent.add(function(ed, o) {
+					if (o.initial)
+						o.content = o.content.replace(/<(td|th)([^>]+|)>\s*<\/(td|th)>/g, tinymce.isOpera ? '<$1$2>&nbsp;</$1>' : '<$1$2><br mce_bogus="1" /></$1>');
+				});
+			}
 		},
 
 		execCommand : function(cmd, ui, val) {

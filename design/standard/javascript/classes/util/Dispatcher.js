@@ -1,5 +1,5 @@
 /**
- * $Id: Dispatcher.js 360 2007-11-07 17:01:52Z spocke $
+ * $Id: Dispatcher.js 743 2008-03-23 17:47:33Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
@@ -82,11 +82,17 @@ tinymce.create('tinymce.util.Dispatcher', {
 	 * @return {Object} Last observer functions return value.
 	 */
 	dispatch : function() {
-		var s, a = arguments;
+		var s, a = arguments, i, li = this.listeners, c;
 
-		tinymce.each(this.listeners, function(c) {
-			return s = c.cb.apply(c.scope, a);
-		});
+		// Needs to be a real loop since the listener count might change while looping
+		// And this is also more efficient
+		for (i = 0; i<li.length; i++) {
+			c = li[i];
+			s = c.cb.apply(c.scope, a);
+
+			if (s === false)
+				break;
+		}
 
 		return s;
 	}

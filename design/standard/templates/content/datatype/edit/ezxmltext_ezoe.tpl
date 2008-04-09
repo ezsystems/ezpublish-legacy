@@ -18,8 +18,9 @@
          $dev_mode    = ezini('EditorSettings', 'DevelopmentMode', 'ezoe.ini',,true()  )|eq('enabled')
          $content_css_list_temp = ezini('StylesheetSettings', 'EditorCSSFileList', 'design.ini',,true())
          $content_css_list = array()
-         $editor_css_list = array( concat('skins/', $skin, '/ui.css') )
-         $plugin_js_list     = array( 'ezoe::i18n' )
+         $editor_css_list  = array( concat('skins/', $skin, '/ui.css') )
+         $language         = '-'|concat( $attribute.language_code )
+         $plugin_js_list   = array( 'ezoe::i18n::'|concat( $language ) )
     }
 
     {if and( $custom_tags|contains('underline')|not, $button_list|contains(',underline') )}
@@ -63,46 +64,7 @@
     eZOeMCE['buttons']       = "{$button_list}";
     eZOeMCE['skin']          = '{$skin}';
     eZOeMCE['skin_variant']  = '{$skin_variant}';
-    eZOeMCE['i18n']          = {ldelim}
-h1: "{'Heading 1'|i18n('design/standard/ezoe')}",
-h2: "{'Heading 2'|i18n('design/standard/ezoe')}",
-h3: "{'Heading 3'|i18n('design/standard/ezoe')}",
-h4: "{'Heading 4'|i18n('design/standard/ezoe')}",
-h5: "{'Heading 5'|i18n('design/standard/ezoe')}",
-h6: "{'Heading 6'|i18n('design/standard/ezoe')}",
-normal: "{'Normal'|i18n('design/standard/ezoe')}",
-literal: "{'Literal'|i18n('design/standard/ezoe')}",
-bold: "{'Bold'|i18n('design/standard/ezoe')}",
-italic: "{'Italic'|i18n('design/standard/ezoe')}",
-underline: "{'Underline'|i18n('design/standard/ezoe')}",
-numbedred_list: "{'Numbered list'|i18n('design/standard/ezoe')}",
-bullet_list: "{'Bullet list'|i18n('design/standard/ezoe')}",
-outdent: "{'Increase list indent'|i18n('design/standard/ezoe')}",
-indent: "{'Decrease list indent'|i18n('design/standard/ezoe')}",
-insert_literal: "{'Insert literal text'|i18n('design/standard/ezoe')}",
-insert_special: "{'Insert special character'|i18n('design/standard/ezoe')}",
-insert_anchor: "{'Insert anchor'|i18n('design/standard/ezoe')}",
-insert_custom: "{'Insert custom tag'|i18n('design/standard/ezoe')}",
-insert_object: "{'Insert object'|i18n('design/standard/ezoe')}",
-insert_image: "{'Insert image'|i18n('design/standard/ezoe')}",
-insert_pagebreak: "{'Insert pagebreak'|i18n('design/standard/ezoe')}",
-make_link: "{'Make link'|i18n('design/standard/ezoe')}",
-remove_link: "{'Remove link'|i18n('design/standard/ezoe')}",
-redo: "{'Redo'|i18n('design/standard/ezoe')}",
-undo: "{'Undo'|i18n('design/standard/ezoe')}",
-type: "{'Type'|i18n('design/standard/ezoe')}",
-
-insert_table: "{'Insert table'|i18n('design/standard/ezoe')}",
-delete_table: "{'Delete table'|i18n('design/standard/ezoe')}",
-insert_row: "{'Insert row'|i18n('design/standard/ezoe')}",
-insert_column: "{'Insert column'|i18n('design/standard/ezoe')}",
-delete_column: "{'Delete column'|i18n('design/standard/ezoe')}",
-delete_row: "{'Delete row'|i18n('design/standard/ezoe')}",
-merge_cells: "{'Merge Cells'|i18n('design/standard/ezoe')}",
-split_cell: "{'Split Cell'|i18n('design/standard/ezoe')}",
-
-path: "{'Path'|i18n('design/standard/setup')}"
-    {rdelim};
+    eZOeMCE['language']      = '{$language}';
 
     {literal}
 
@@ -110,6 +72,7 @@ path: "{'Path'|i18n('design/standard/setup')}"
     	mode : "none",
     	theme : "ez",
     	width : '100%',
+    	language : eZOeMCE['language'],
     	skin : eZOeMCE['skin'],
     	skin_variant : eZOeMCE['skin_variant'],
     	plugins : eZOeMCE['plugins'],

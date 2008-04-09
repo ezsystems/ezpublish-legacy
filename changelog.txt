@@ -10,7 +10,13 @@ eZ Online Editor MCE extension Changelog
 * made all poup dialogs use one unified and extendable javascript api for common funcions
 * clearing float on embed and custom block tags
 * Fixed nested custom inline tags
-* merging cells when cells where TH type fixed
+* merging cells when cells where cells where TH type fixed
+* removed support for Opera v9.2 ( now only 9.5 and higher is supported )
+* some changes with float / align on embed elements
+* completed i18n translation, using a custom i18n generator (classes/ezoepackerfunctions.php)
+  to generate i18n strings for TinyMCE
+* Updated TinyMCE to 3.0.6.2
+* now possible to disable packer with DevelopmentMode setting in ezoe.ini
 
 0.98
 * string translations

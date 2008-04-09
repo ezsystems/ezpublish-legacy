@@ -1,5 +1,5 @@
 /**
- * $Id: EditorCommands.js 641 2008-02-26 17:01:30Z spocke $
+ * $Id: EditorCommands.js 763 2008-04-03 13:25:45Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -219,6 +219,22 @@
 			return -1;
 		},
 
+		_queryState : function(c) {
+			try {
+				return this.editor.getDoc().queryCommandState(c);
+			} catch (ex) {
+				// Ignore exception
+			}
+		},
+
+		_queryVal : function(c) {
+			try {
+				return this.editor.getDoc().queryCommandValue(c);
+			} catch (ex) {
+				// Ignore exception
+			}
+		},
+
 		queryValueFontSize : function() {
 			var ed = this.editor, v = 0, p;
 
@@ -229,7 +245,7 @@
 				return v;
 			}
 
-			return ed.getDoc().queryCommandValue('FontSize');
+			return this._queryVal('FontSize');
 		},
 
 		queryValueFontName : function() {
@@ -239,7 +255,7 @@
 				v = p.face;
 
 			if (!v)
-				v = ed.getDoc().queryCommandValue('FontName');
+				v = this._queryVal('FontName');
 
 			return v;
 		},
@@ -500,8 +516,6 @@
 			each(dom.select(nn).reverse(), function(n) {
 				var p = n.parentNode;
 
-				dom.setAttrib(n, 'mce_new', '');
-
 				// Check if it's an old span in a new wrapper
 				if (!dom.getAttrib(n, 'mce_new')) {
 					// Find new wrapper
@@ -518,7 +532,7 @@
 			each(dom.select(nn).reverse(), function(n) {
 				var p = n.parentNode;
 
-				if (!p)
+				if (!p || !dom.getAttrib(n, 'mce_new'))
 					return;
 
 				// Has parent of the same type and only child
@@ -534,8 +548,12 @@
 
 			// Remove empty wrappers
 			each(dom.select(nn).reverse(), function(n) {
-				if (!dom.getAttrib(n, 'class') && !dom.getAttrib(n, 'style'))
-					return dom.remove(n, 1);
+				if (dom.getAttrib(n, 'mce_new') || (dom.getAttribs(n).length <= 1 && n.className === '')) {
+					if (!dom.getAttrib(n, 'class') && !dom.getAttrib(n, 'style'))
+						return dom.remove(n, 1);
+
+					dom.setAttrib(n, 'mce_new', ''); // Remove mce_new marker
+				}
 			});
 
 			s.moveToBookmark(b);
@@ -561,7 +579,7 @@
 			if (ed.settings.inline_styles)
 				return (n && n.style.textAlign == v);
 
-			return ed.getDoc().queryCommandState(c);
+			return this._queryState(c);
 		},
 
 		HiliteColor : function(ui, val) {
@@ -696,7 +714,7 @@
 			if (n && n.nodeName == 'A')
 				return false;
 
-			return ed.getDoc().queryCommandState('Underline');
+			return this._queryState('Underline');
 		},
 
 		queryStateOutdent : function() {

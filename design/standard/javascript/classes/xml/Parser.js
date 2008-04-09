@@ -1,5 +1,5 @@
 /**
- * $Id: Parser.js 520 2008-01-07 16:30:32Z spocke $
+ * $Id: Parser.js 736 2008-03-20 12:28:07Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -113,7 +113,7 @@
 				el = el.firstChild;
 
 				do {
-					if (el.nodeType == 3)
+					if (el.nodeType == 3 || el.nodeType == 4)
 						o += el.nodeValue;
 				} while(el = el.nextSibling);
 			}

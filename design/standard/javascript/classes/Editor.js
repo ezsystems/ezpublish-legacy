@@ -1,5 +1,5 @@
 /**
- * $Id: Editor.js 707 2008-03-12 10:02:40Z spocke $
+ * $Id: Editor.js 769 2008-04-07 13:30:56Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -109,7 +109,7 @@
 				apply_source_formatting : 1,
 				directionality : 'ltr',
 				forced_root_block : 'p',
-				valid_elements : '@[id|class|style|title|dir<ltr?rtl|lang|xml::lang|onclick|ondblclick|onmousedown|onmouseup|onmouseover|onmousemove|onmouseout|onkeypress|onkeydown|onkeyup],a[rel|rev|charset|hreflang|tabindex|accesskey|type|name|href|target|title|class|onfocus|onblur],strong/b,em/i,strike,u,#p[align],-ol[type|compact],-ul[type|compact],-li,br,img[longdesc|usemap|src|border|alt=|title|hspace|vspace|width|height|align],-sub,-sup,-blockquote,-table[border=0|cellspacing|cellpadding|width|frame|rules|height|align|summary|bgcolor|background|bordercolor],-tr[rowspan|width|height|align|valign|bgcolor|background|bordercolor],tbody,thead,tfoot,#td[colspan|rowspan|width|height|align|valign|bgcolor|background|bordercolor|scope],#th[colspan|rowspan|width|height|align|valign|scope],caption,-div,-span,-pre,address,-h1,-h2,-h3,-h4,-h5,-h6,hr[size|noshade],-font[face|size|color],dd,dl,dt,cite,abbr,acronym,del[datetime|cite],ins[datetime|cite],object[classid|width|height|codebase|*],param[name|value|_value],embed[type|width|height|src|*],script[src|type],map[name],area[shape|coords|href|alt|target]',
+				valid_elements : '@[id|class|style|title|dir<ltr?rtl|lang|xml::lang|onclick|ondblclick|onmousedown|onmouseup|onmouseover|onmousemove|onmouseout|onkeypress|onkeydown|onkeyup],a[rel|rev|charset|hreflang|tabindex|accesskey|type|name|href|target|title|class|onfocus|onblur],strong/b,em/i,strike,u,#p[align],-ol[type|compact],-ul[type|compact],-li,br,img[longdesc|usemap|src|border|alt=|title|hspace|vspace|width|height|align],-sub,-sup,-blockquote,-table[border=0|cellspacing|cellpadding|width|frame|rules|height|align|summary|bgcolor|background|bordercolor],-tr[rowspan|width|height|align|valign|bgcolor|background|bordercolor],tbody,thead,tfoot,#td[colspan|rowspan|width|height|align|valign|bgcolor|background|bordercolor|scope],#th[colspan|rowspan|width|height|align|valign|scope],caption,-div,-span,-code,-pre,address,-h1,-h2,-h3,-h4,-h5,-h6,hr[size|noshade],-font[face|size|color],dd,dl,dt,cite,abbr,acronym,del[datetime|cite],ins[datetime|cite],object[classid|width|height|codebase|*],param[name|value|_value],embed[type|width|height|src|*],script[src|type],map[name],area[shape|coords|href|alt|target],bdo,button,col[align|char|charoff|span|valign|width],colgroup[align|char|charoff|span|valign|width],dfn,fieldset,form[action|accept|accept-charset|enctype|method],input[accept|alt|checked|disabled|maxlength|name|readonly|size|src|type|value],kbd,label[for],legend,noscript,optgroup[label|disabled],option[disabled|label|selected|value],q[cite],samp,select[disabled|multiple|name|size],small,textarea[cols|rows|disabled|name|readonly],tt,var,big',
 				hidden_input : 1,
 				padd_empty_editor : 1,
 				render_ui : 1,
@@ -184,13 +184,13 @@
 			}
 
 			if (s.add_unload_trigger) {
-				Event.add(document, 'beforeunload', function() {
+				t._beforeUnload = tinyMCE.onBeforeUnload.add(function() {
 					if (t.initialized && !t.destroyed)
 						t.save({format : 'raw', no_events : true});
 				});
 			}
 
-			tinymce.addUnload(t._destroy, t);
+			tinymce.addUnload(t.destroy, t);
 
 			if (s.submit_patch) {
 				t.onBeforeRenderUI.add(function() {
@@ -460,7 +460,7 @@
 		 * This method should not be called directly.
 		 */
 		setupIframe : function() {
-			var t = this, s = t.settings, e = DOM.get(t.id), d = t.getDoc(), h;
+			var t = this, s = t.settings, e = DOM.get(t.id), d = t.getDoc(), h, b;
 
 			// Setup iframe body
 			if (!isIE || !tinymce.relaxedDomain) {
@@ -480,8 +480,13 @@
 			}
 
 			// IE needs to use contentEditable or it will display non secure items for HTTPS
-			if (isIE)
-				t.getBody().contentEditable = true;
+			if (isIE) {
+				// It will not steal focus if we hide it while setting contentEditable
+				b = t.getBody();
+				DOM.hide(b);
+				b.contentEditable = true;
+				DOM.show(b);
+			}
 
 			// Setup objects
 			t.dom = new tinymce.DOM.DOMUtils(t.getDoc(), {
@@ -693,7 +698,7 @@
 			// Remove empty contents
 			if (s.padd_empty_editor) {
 				t.onPostProcess.add(function(ed, o) {
-					o.content = o.content.replace(/^<p>(&nbsp;|#160;|\s)<\/p>$/, '');
+					o.content = o.content.replace(/^<p>(&nbsp;|#160;|\s|\u00a0)<\/p>$/, '');
 				});
 			}
 
@@ -762,7 +767,10 @@
 			// Prevent leak in IE
 			s.content_document = s.content_window = null;
 
+			DOM.hide(e);
 			e.contentEditable = true;
+			DOM.show(e);
+
 			if (!s.gecko_spellcheck)
 				t.getDoc().body.spellcheck = 0;
 
@@ -775,7 +783,8 @@
 				class_filter : s.class_filter,
 				root_element : t.id,
 				strict_root : 1,
-				fix_ie_paragraphs : 1
+				fix_ie_paragraphs : 1,
+				update_styles : 1
 			});
 
 			t.serializer = new tinymce.dom.Serializer({
@@ -844,8 +853,6 @@
 
 			if (isIE) {
 				t.onBeforeExecCommand.add(function(ed, cmd, ui, val, o) {
-					var st;
-
 					if (!DOM.getParent(ed.selection.getStart(), function(n) {return n == ed.getBody();}))
 						o.terminate = 1;
 
@@ -963,7 +970,7 @@
 				o = {};
 
 				if (is(v, 'string')) {
-					each(v.split(/[;,]/), function(v) {
+					each(v.indexOf('=') > 0 ? v.split(/[;,](?![^=;,]*(?:[;,]|$))/) : v.split(','), function(v) {
 						v = v.split('=');
 
 						if (v.length > 1)
@@ -1292,25 +1299,6 @@
 		},
 
 		/**
-		 * Removes the editor from the dom and EditorManager collection.
-		 */
-		remove : function() {
-			var t = this;
-
-			t.removed = 1; // Cancels post remove event execution
-			t.hide();
-			DOM.remove(t.getContainer());
-
-			t.execCallback('remove_instance_callback', t);
-			t.onRemove.dispatch(t);
-
-			// Clear all execCommand listeners this is required to avoid errors if the editor was removed inside another command
-			t.onExecCommand.listeners = [];
-
-			EditorManager.remove(t);
-		},
-
-		/**
 		 * Resizes the editor to the current contents width and height.
 		 */
 		resizeToContent : function() {
@@ -1625,6 +1613,72 @@
 			t.onVisualAid.dispatch(t, e, t.hasVisual);
 		},
 
+		/**
+		 * Removes the editor from the dom and EditorManager collection.
+		 */
+		remove : function() {
+			var t = this, e = t.getContainer();
+
+			t.removed = 1; // Cancels post remove event execution
+			t.hide();
+
+			t.execCallback('remove_instance_callback', t);
+			t.onRemove.dispatch(t);
+
+			// Clear all execCommand listeners this is required to avoid errors if the editor was removed inside another command
+			t.onExecCommand.listeners = [];
+
+			EditorManager.remove(t);
+			DOM.remove(e);
+		},
+
+		/**
+		 * Destroys the editor instance by removing all events, element references or other resources
+		 * that could leak memory. This method will be called automatically when the page is unloaded
+		 * but you can also call it directly if you know what you are doing.
+		 *
+		 * @param {bool} s Optional state if the destroy is an automatic destroy or user called one.
+		 */
+		destroy : function(s) {
+			var t = this;
+
+			// One time is enough
+			if (t.destroyed)
+				return;
+
+			if (!s) {
+				tinymce.removeUnload(t.destroy);
+				tinyMCE.onBeforeUnload.remove(t._beforeUnload);
+
+				// Manual destroy
+				if (t.theme.destroy)
+					t.theme.destroy();
+
+				// Destroy controls, selection and dom
+				t.controlManager.destroy();
+				t.selection.destroy();
+				t.dom.destroy();
+
+				// Remove all events
+				Event.clear(t.getWin());
+				Event.clear(t.getDoc());
+				Event.clear(t.getBody());
+				Event.clear(t.formElement);
+			}
+
+			if (t.formElement) {
+				t.formElement.submit = t.formElement._mceOldSubmit;
+				t.formElement._mceOldSubmit = null;
+			}
+
+			t.contentAreaContainer = t.formElement = t.container = t.settings.content_element = t.bodyElement = t.contentDocument = t.contentWindow = null;
+
+			if (t.selection)
+				t.selection = t.selection.win = t.selection.dom = t.selection.dom.doc = null;
+
+			t.destroyed = 1;
+		},
+
 		// Internal functions
 
 		_addEvents : function() {
@@ -1685,8 +1739,8 @@
 
 							// Get HTML data
 							/*if (tinymce.isIE) {
-								el = DOM.add(document.body, 'div', {style : 'visibility:hidden;overflow:hidden;position:absolute;width:1px;height:1px'});
-								r = document.body.createTextRange();
+								el = DOM.add(DOM.doc.body, 'div', {style : 'visibility:hidden;overflow:hidden;position:absolute;width:1px;height:1px'});
+								r = DOM.doc.body.createTextRange();
 								r.moveToElementText(el);
 								r.execCommand('Paste');
 								h = el.innerHTML;
@@ -1953,6 +2007,11 @@
 					var re = t.resizeInfo, cb;
 
 					e = e.target;
+					e.removeAttribute('mce_style'); // Remove this one since it might change
+
+					// Don't do this action for non image elements
+					if (e.nodeName !== 'IMG')
+						return;
 
 					if (re)
 						Event.remove(re.node, re.ev, re.cb);
@@ -2060,22 +2119,6 @@
 			}
 		},
 
-		_destroy : function() {
-			var t = this;
-
-			if (t.formElement) {
-				t.formElement.submit = t.formElement._mceOldSubmit;
-				t.formElement._mceOldSubmit = null;
-			}
-
-			t.contentAreaContainer = t.formElement = t.container = t.settings.content_element = t.bodyElement = t.contentDocument = t.contentWindow = null;
-
-			if (t.selection)
-				t.selection = t.selection.win = t.selection.dom = t.selection.dom.doc = null;
-
-			t.destroyed = 1;
-		},
-
 		_convertInlineElements : function() {
 			var t = this, s = t.settings, dom = t.dom, v, e, na, st, sp;
 
@@ -2141,7 +2184,7 @@
 		},
 
 		_convertFonts : function() {
-			var t = this, s = t.settings, dom = t.dom, sl, cl, fz, fzn, v, i, st, x, nl, sp, f, n;
+			var t = this, s = t.settings, dom = t.dom, fz, fzn, sl, cl;
 
 			// No need
 			if (!s.inline_styles)
@@ -2158,6 +2201,8 @@
 				cl = explode(cl);
 
 			function convertToFonts(no) {
+				var n, f, nl, x, i, v, st;
+
 				// Convert spans to fonts on non WebKit browsers
 				if (tinymce.isWebKit || !s.inline_styles)
 					return;
@@ -2169,7 +2214,8 @@
 					f = dom.create('font', {
 						color : dom.toHex(dom.getStyle(n, 'color')),
 						face : dom.getStyle(n, 'fontFamily'),
-						style : dom.getAttrib(n, 'style')
+						style : dom.getAttrib(n, 'style'),
+						'class' : dom.getAttrib(n, 'class')
 					});
 
 					// Clear color and font family
@@ -2207,6 +2253,8 @@
 						dom.setAttrib(f, 'mce_style', '');
 						dom.replace(f, n, 1);
 					}
+
+					f = n = null;
 				}
 			};
 
@@ -2217,6 +2265,8 @@
 
 			// Run on cleanup
 			t.onPreProcess.add(function(ed, o) {
+				var n, sp, nl, x;
+
 				// Keep unit tests happy
 				if (!s.inline_styles)
 					return;
@@ -2227,7 +2277,8 @@
 						n = nl[x];
 
 						sp = dom.create('span', {
-							style : dom.getAttrib(n, 'style')
+							style : dom.getAttrib(n, 'style'),
+							'class' : dom.getAttrib(n, 'class')
 						});
 
 						dom.setStyles(sp, {

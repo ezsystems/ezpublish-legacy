@@ -1,5 +1,5 @@
 /**
- * $Id: Popup.js 707 2008-03-12 10:02:40Z spocke $
+ * $Id: Popup.js 770 2008-04-07 13:39:20Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -265,6 +265,7 @@ tinyMCEPopup = {
 		if (tinymce.isIE)
 			h = h.replace(/ (value|title|alt)=([^"][^\s>]+)/gi, ' $1="$2"')
 
+		document.dir = t.editor.getParam('directionality','');
 		document.body.innerHTML = t.editor.translate(h);
 		document.title = ti = t.editor.translate(ti);
 		document.body.style.display = '';
@@ -306,7 +307,7 @@ tinyMCEPopup = {
 			// Focus element with mceFocus class
 			tinymce.each(document.forms, function(f) {
 				tinymce.each(f.elements, function(e) {
-					if (t.dom.hasClass(e, 'mceFocus')) {
+					if (t.dom.hasClass(e, 'mceFocus') && !e.disabled) {
 						e.focus();
 						return false; // Break loop
 					}
@@ -314,7 +315,7 @@ tinyMCEPopup = {
 			});
 		}
 
-		document.onkeydown = tinyMCEPopup._closeWinKeyHandler;
+		document.onkeyup = tinyMCEPopup._closeWinKeyHandler;
 	},
 
 	_accessHandler : function(e) {

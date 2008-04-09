@@ -152,7 +152,11 @@ class eZOEPacker
         if ( !$asHtml ) return $packedFiles;
         foreach ( $packedFiles as $packedFile )
         {
-            $ret .=  $packedFile ? "<script language=\"$lang\" type=\"$type\" src=\"$packedFile\"></script>\n" : '';
+            // Is this a js file or js content?
+            if ( strlen( $packedFile ) > 3 && strripos( $packedFile, '.js' ) === ( strlen( $packedFile ) -3 ) )
+                $ret .=  $packedFile ? "<script language=\"$lang\" type=\"$type\" src=\"$packedFile\"></script>\n" : '';
+            else
+                $ret .=  $packedFile ? "<script language=\"$lang\" type=\"$type\">\n$packedFile\n</script>\n" : '';
         }
         return $ret;
     }
@@ -165,7 +169,11 @@ class eZOEPacker
         if ( !$asHtml ) return $packedFiles;
         foreach ( $packedFiles as $packedFile )
         {
-            $ret .= $packedFile ? "<link rel=\"$rel\" type=\"$type\" href=\"$packedFile\" media=\"$media\" />\n" : '';
+            // Is this a css file or css content?
+            if ( strlen( $packedFile ) > 4 && strripos( $packedFile, '.css' ) === ( strlen( $packedFile ) -4 ) )
+                $ret .= $packedFile ? "<link rel=\"$rel\" type=\"$type\" href=\"$packedFile\" media=\"$media\" />\n" : '';
+            else
+                $ret .= $packedFile ? "<style rel=\"$rel\" type=\"$type\" media=\"$media\">\n$packedFile\n</style>\n" : '';
         }
         return $ret;
     }
@@ -188,7 +196,6 @@ class eZOEPacker
         $lastmodified = 0;
         $validFiles = array();
         $validWWWFiles = array();
-        $packerFunctions = false;
         $sys = eZSys::instance();
         $wwwDir = $sys->wwwDir() . '/';
         $ezoeIni = eZINI::instance( 'ezoe.ini' );
@@ -210,7 +217,7 @@ class eZOEPacker
             {
                 //  check modified time for packer function if it has getCacheTime method
                 $args = explode( '::', $file );
-                if ( $ezoeIni->hasSection( 'Packer_' . $args[0] ) )
+                if ( $ezoeIni->hasGroup( 'Packer_' . $args[0] ) )
                 {
                     if ( $ezoeIni->hasVariable( 'Packer_' . $args[0], 'File' ) )
                         include_once( $ezoeIni->variable( 'Packer_' . $args[0], 'File' ) );
@@ -227,9 +234,15 @@ class eZOEPacker
                     continue;
                 }
 
-                $packerFunctions = true;
                 $validFiles[] = $args;
                 $cacheName   .= $file . '_';
+                if ( $packLevel === 0 )
+                {
+                    // generate content straight away if packing is disabled
+                   $functionClass = array_shift( $args );
+                   $functionName = array_shift( $args );
+                   $validWWWFiles[] = call_user_func( array( $functionClass, $functionName ), $args, $fileExtension );
+                }
                 continue;
             }
 
@@ -274,7 +287,7 @@ class eZOEPacker
             $cacheName   .= $file . '_';
         }
         
-        if ( $packLevel === 0 && $packerFunctions === false ) return $validWWWFiles;
+        if ( $packLevel === 0 ) return $validWWWFiles;
 
         if ( !$validFiles )
         {

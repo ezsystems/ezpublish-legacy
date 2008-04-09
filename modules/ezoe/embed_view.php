@@ -80,7 +80,7 @@ $className = '';
 $size  = 'medium';
 $view  = 'embed';
 $align = 'right';
-$style = 'text-align: left;';
+$style = '';//'text-align: left;';
 
 if ( $http->hasPostVariable('inline') &&
      $http->postVariable('inline') === 'true' )
@@ -108,9 +108,8 @@ if ( $http->hasPostVariable('align') )
     $align = $http->postVariable('align');
 }
 
-
-if ( $align === 'left' || $align === 'right' )
-    $style .= ' float: ' . $align . ';'; 
+//if ( $align === 'left' || $align === 'right' )
+//    $style .= ' float: ' . $align . ';'; 
 
 
 $res = eZTemplateDesignResource::instance();
@@ -124,11 +123,12 @@ $tpl->setVariable( 'classification', $className );
 $tpl->setVariable( 'object_parameters', array( 'size' => $size, 'align' => $align, 'show_path' => true ) );
 if ( isset( $embedNode ) ) $tpl->setVariable( 'node', $embedNode );
 
-if ( $style !== '' )
-    $style = ' style="' . $style . '"';
+//if ( $style !== '' )
+//    $style = ' style="' . $style . '"';
 
 $templateOutput = $tpl->fetch( 'design:content/datatype/view/ezxmltags/' . $tagName . $tplSuffix . '.tpl' );
-echo '<div id="' . $idString . '" title="' . $objectName . '"' . $style . '>' . $templateOutput . '</div>';
+echo $templateOutput;
+//echo '<div id="' . $idString . '" title="' . $objectName . '"' . $style . '>' . $templateOutput . '</div>';
 
 
 

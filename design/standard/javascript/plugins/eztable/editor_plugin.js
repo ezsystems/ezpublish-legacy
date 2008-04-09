@@ -1,5 +1,5 @@
 /**
- * $Id: editor_plugin_src.js 691 2008-03-09 19:58:20Z spocke $
+ * $Id: editor_plugin_src.js 768 2008-04-04 13:52:49Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -21,18 +21,18 @@
 
 			// Register buttons
 			each([
-				['table', eZOeMCE['i18n']['insert_table'], 'mceInsertTable', true],
-				['delete_table', eZOeMCE['i18n']['delete_table'], 'mceTableDelete'],
-				['delete_col', eZOeMCE['i18n']['delete_column'], 'mceTableDeleteCol'],
-				['delete_row', eZOeMCE['i18n']['delete_row'], 'mceTableDeleteRow'],
-				['col_after', eZOeMCE['i18n']['insert_column'], 'mceTableInsertColAfter'],
+				['table', 'table.desc', 'mceInsertTable', true],
+				['delete_table', 'table.del', 'mceTableDelete'],
+				['delete_col', 'table.delete_col_desc', 'mceTableDeleteCol'],
+				['delete_row', 'table.delete_row_desc', 'mceTableDeleteRow'],
+				['col_after', 'table.col_after_desc', 'mceTableInsertColAfter'],
 				['col_before', 'table.col_before_desc', 'mceTableInsertColBefore'],
-				['row_after', eZOeMCE['i18n']['insert_row'], 'mceTableInsertRowAfter'],
+				['row_after', 'table.row_after_desc', 'mceTableInsertRowAfter'],
 				['row_before', 'table.row_before_desc', 'mceTableInsertRowBefore'],
 				['row_props', 'table.row_desc', 'mceTableRowProps', true],
 				['cell_props', 'table.cell_desc', 'mceTableCellProps', true],
-				['split_cells', eZOeMCE['i18n']['split_cell'], 'mceTableSplitCells', true],
-				['merge_cells', eZOeMCE['i18n']['merge_cells'], 'mceTableMergeCells', true]
+				['split_cells', 'table.split_cells_desc', 'mceTableSplitCells', true],
+				['merge_cells', 'table.merge_cells_desc', 'mceTableMergeCells', true]
 			], function(c) {
 				ed.addButton(c[0], {title : c[1], cmd : c[2], ui : c[3]});
 			});
@@ -40,10 +40,22 @@
 			ed.onInit.add(function() {
 				if (ed && ed.plugins.contextmenu) {
 					ed.plugins.contextmenu.onContextMenu.add(function(th, m, e) {
-						var sm;
+						var sm, se = ed.selection, el = se.getNode() || ed.getBody();
 
 						if (ed.dom.getParent(e, 'td') || ed.dom.getParent(e, 'th')) {
 							m.removeAll();
+
+							if (el.nodeName == 'A' && !ed.dom.getAttrib(el, 'name')) {
+								m.add({title : 'advanced.link_desc', icon : 'link', cmd : ed.plugins.advlink ? 'mceAdvLink' : 'mceLink', ui : true});
+								m.add({title : 'advanced.unlink_desc', icon : 'unlink', cmd : 'UnLink'});
+								m.addSeparator();
+							}
+
+							if (el.nodeName == 'IMG' && el.className.indexOf('mceItem') == -1) {
+								m.add({title : 'advanced.image_desc', icon : 'image', cmd : ed.plugins.advimage ? 'mceAdvImage' : 'mceImage', ui : true});
+								m.addSeparator();
+							}
+
 							m.add({title : 'table.desc', icon : 'table', cmd : 'mceInsertTable', ui : true, value : {action : 'insert'}});
 							m.add({title : 'table.props_desc', icon : 'table_props', cmd : 'mceInsertTable', ui : true});
 							m.add({title : 'table.del', icon : 'delete_table', cmd : 'mceTableDelete', ui : true});
@@ -78,7 +90,7 @@
 				}
             });
 
-            // Block delete on gecko inside TD:s. Gecko is removing table elements and then produces incorrect tables
+            /* Block delete on gecko inside TD:s. Gecko is removing table elements and then produces incorrect tables
             // The backspace key also removed TD:s but this one can not be blocked
             if (tinymce.isGecko) {
                 ed.onKeyPress.add(function(ed, e) {
@@ -88,7 +100,7 @@
                             tinymce.dom.Event.cancel(e);
                     }
                 });
-            }
+            }*/
 
             // Add undo level when new rows are created using the tab key
             ed.onKeyDown.add(function(ed, e) {
@@ -116,6 +128,14 @@
 				cm.setDisabled('split_cells', !p || (parseInt(ed.dom.getAttrib(p, 'colspan', '1')) < 2 && parseInt(ed.dom.getAttrib(p, 'rowspan', '1')) < 2));
 				cm.setDisabled('merge_cells', !p);
 			});
+
+            // Padd empty table cells
+            if (!tinymce.isIE) {
+                ed.onBeforeSetContent.add(function(ed, o) {
+                    if (o.initial)
+                        o.content = o.content.replace(/<(td|th)([^>]+|)>\s*<\/(td|th)>/g, tinymce.isOpera ? '<$1$2>&nbsp;</$1>' : '<$1$2><br mce_bogus="1" /></$1>');
+                });
+            }
 		},
 
 		execCommand : function(cmd, ui, val) {

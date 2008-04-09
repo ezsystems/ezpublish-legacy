@@ -224,9 +224,9 @@ $tpl->setVariable( 'content_type', $contentType );
 
 $contentTypeCase = ucfirst( $contentType );
 if ( $siteIni->hasVariable( 'MediaClassSettings', $contentTypeCase . 'ClassIdentifiers' ) )
-    $tpl->setVariable( 'class_filter_array', implode(',', $siteIni->variable( 'MediaClassSettings', $contentTypeCase . 'ClassIdentifiers' ) ) );
+    $tpl->setVariable( 'class_filter_array', $siteIni->variable( 'MediaClassSettings', $contentTypeCase . 'ClassIdentifiers' ) );
 else
-    $tpl->setVariable( 'class_filter_array', false );
+    $tpl->setVariable( 'class_filter_array', array() );
 
 $tpl->setVariable( 'persistent_variable', array() );
 

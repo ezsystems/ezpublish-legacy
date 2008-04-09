@@ -1,5 +1,5 @@
 /**
- * $Id: SplitButton.js 699 2008-03-11 11:57:45Z spocke $
+ * $Id: SplitButton.js 760 2008-04-01 14:13:07Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -43,7 +43,7 @@
 			if (s.image)
 				h1 = DOM.createHTML('img ', {src : s.image, 'class' : 'mceAction ' + s['class']});
 			else
-				h1 = DOM.createHTML('span', {'class' : 'mceAction ' + s['class']});
+				h1 = DOM.createHTML('span', {'class' : 'mceAction ' + s['class']}, '');
 
 			h += '<td>' + DOM.createHTML('a', {id : t.id + '_action', href : 'javascript:;', 'class' : 'mceAction ' + s['class'], onclick : "return false;", onmousedown : 'return false;', title : s.title}, h1) + '</td>';
 	
@@ -70,6 +70,8 @@
 			}
 
 			Event.add(t.id + '_open', 'click', t.showMenu, t);
+			Event.add(t.id + '_open', 'focus', function() {t._focused = 1;});
+			Event.add(t.id + '_open', 'blur', function() {t._focused = 0;});
 
 			// Old IE doesn't have hover on all elements
 			if (tinymce.isIE6 || !DOM.boxModel) {
@@ -83,6 +85,13 @@
 						DOM.removeClass(t.id, 'mceSplitButtonHover');
 				});
 			}
+		},
+
+		destroy : function() {
+			this.parent();
+
+			Event.clear(this.id + '_action');
+			Event.clear(this.id + '_open');
 		}
 
 		/**#@-*/

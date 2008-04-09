@@ -9,6 +9,8 @@ function insertTable() {
 	var html = '', capEl, elm;
 	var cellLimit, rowLimit, colLimit;
 
+	tinyMCEPopup.restoreSelection();
+
 	if (!AutoValidator.validate(formObj)) {
 		alert(inst.getLang('invalid_data'));
 		return false;
@@ -286,12 +288,13 @@ function init() {
 	}
 
 	addClassesToList('class', "table_styles");
+	TinyMCE_EditableSelects.init();
 
 	// Update form
 	selectByValue(formObj, 'align', align);
 	selectByValue(formObj, 'frame', frame);
 	selectByValue(formObj, 'rules', rules);
-	selectByValue(formObj, 'class', className);
+	selectByValue(formObj, 'class', className, true, true);
 	formObj.cols.value = cols;
 	formObj.rows.value = rows;
 	formObj.border.value = border;

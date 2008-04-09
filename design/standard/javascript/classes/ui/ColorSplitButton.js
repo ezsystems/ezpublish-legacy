@@ -1,5 +1,5 @@
 /**
- * $Id: ColorSplitButton.js 699 2008-03-11 11:57:45Z spocke $
+ * $Id: ColorSplitButton.js 766 2008-04-03 20:37:06Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -44,7 +44,7 @@
 		 * and displays a table of colors for the user to pick from.
 		 */
 		showMenu : function() {
-			var t = this, r, p, e;
+			var t = this, r, p, e, p2;
 
 			if (t.isDisabled())
 				return;
@@ -61,11 +61,20 @@
 			DOM.setStyles(t.id + '_menu', {
 				left : p2.x,
 				top : p2.y + e.clientHeight,
-				zIndex : 150
+				zIndex : 200000
 			});
 			e = 0;
 
-			Event.add(document, 'mousedown', t.hideMenu, t);
+			Event.add(DOM.doc, 'mousedown', t.hideMenu, t);
+
+			if (t._focused) {
+				t._keyHandler = Event.add(t.id + '_menu', 'keydown', function(e) {
+					if (e.keyCode == 27)
+						t.hideMenu();
+				});
+
+				DOM.select('a', t.id + '_menu')[0].focus(); // Select first link
+			}
 		},
 
 		/**
@@ -79,7 +88,8 @@
 
 			if (!e || !DOM.getParent(e.target, function(n) {return DOM.hasClass(n, 'mceSplitButtonMenu');})) {
 				DOM.removeClass(t.id, 'mceSplitButtonSelected');
-				Event.remove(document, 'mousedown', t.hideMenu, t);
+				Event.remove(DOM.doc, 'mousedown', t.hideMenu, t);
+				Event.remove(t.id + '_menu', 'keydown', t._keyHandler);
 				DOM.hide(t.id + '_menu');
 			}
 		},
@@ -90,7 +100,7 @@
 		renderMenu : function() {
 			var t = this, m, i = 0, s = t.settings, n, tb, tr, w;
 
-			w = DOM.add(s.menu_container, 'div', {id : t.id + '_menu', dir : 'ltr', 'class' : s['menu_class'] + ' ' + s['class'], style : 'position:absolute;left:0;top:-1000px;'});
+			w = DOM.add(s.menu_container, 'div', {id : t.id + '_menu', 'class' : s['menu_class'] + ' ' + s['class'], style : 'position:absolute;left:0;top:-1000px;'});
 			m = DOM.add(w, 'div', {'class' : s['class'] + ' mceSplitButtonMenu'});
 			DOM.add(m, 'span', {'class' : 'mceMenuLine'});
 
@@ -113,18 +123,15 @@
 					href : 'javascript:;',
 					style : {
 						backgroundColor : '#' + c
-					}
-				});
-
-				Event.add(n, 'mousedown', function() {
-					t.setColor('#' + c);
+					},
+					mce_color : '#' + c
 				});
 			});
 
 			if (s.more_colors_func) {
 				n = DOM.add(tb, 'tr');
 				n = DOM.add(n, 'td', {colspan : s.grid_width, 'class' : 'mceMoreColors'});
-				n = DOM.add(n, 'a', {href : 'javascript:;', onclick : 'return false;', 'class' : 'mceMoreColors'}, s.more_colors_title);
+				n = DOM.add(n, 'a', {id : t.id + '_more', href : 'javascript:;', onclick : 'return false;', 'class' : 'mceMoreColors'}, s.more_colors_title);
 
 				Event.add(n, 'click', function(e) {
 					s.more_colors_func.call(s.more_colors_scope || this);
@@ -133,6 +140,15 @@
 			}
 
 			DOM.addClass(m, 'mceColorSplitMenu');
+
+			Event.add(t.id + '_menu', 'click', function(e) {
+				var c;
+
+				e = e.target;
+
+				if (e.nodeName == 'A' && (c = e.getAttribute('mce_color')))
+					t.setColor(c);
+			});
 
 			return w;
 		},
@@ -143,18 +159,20 @@
 		 * @param {String} c Color code value in hex for example: #FF00FF
 		 */
 		setColor : function(c) {
-			var t = this, p, s = this.settings, co = s.menu_container, po, cp, id = t.id + '_preview';
+			var t = this;
 
-			if (!(p = DOM.get(id))) {
-				DOM.setStyle(t.id + '_action', 'position', 'relative');
-				p = DOM.add(t.id + '_action', 'div', {id : id, 'class' : 'mceColorPreview'});
-			}
-
-			p.style.backgroundColor = c;
+			DOM.setStyle(t.id + '_preview', 'backgroundColor', c);
 
 			t.value = c;
 			t.hideMenu();
-			s.onselect(c);
+			t.settings.onselect(c);
+		},
+
+		postRender : function() {
+			var t = this, id = t.id;
+
+			t.parent();
+			DOM.add(id + '_action', 'div', {id : id + '_preview', 'class' : 'mceColorPreview'});
 		},
 
 		/**
@@ -163,6 +181,9 @@
 		 */
 		destroy : function() {
 			this.parent();
+
+			Event.clear(this.id + '_menu');
+			Event.clear(this.id + '_more');
 			DOM.remove(this.id + '_menu');
 		}
 

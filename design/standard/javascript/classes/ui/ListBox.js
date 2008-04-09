@@ -1,5 +1,5 @@
 /**
- * $Id: ListBox.js 699 2008-03-11 11:57:45Z spocke $
+ * $Id: ListBox.js 766 2008-04-03 20:37:06Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -109,11 +109,11 @@
 		 * @return {String} HTML for the list box control element.
 		 */
 		renderHTML : function() {
-			var h = '', t = this, s = t.settings;
+			var h = '', t = this, s = t.settings, cp = t.classPrefix;
 
-			h = '<table id="' + t.id + '" cellpadding="0" cellspacing="0" class="mceListBox mceListBoxEnabled' + (s['class'] ? (' ' + s['class']) : '') + '"><tbody><tr>';
+			h = '<table id="' + t.id + '" cellpadding="0" cellspacing="0" class="' + cp + ' ' + cp + 'Enabled' + (s['class'] ? (' ' + s['class']) : '') + '"><tbody><tr>';
 			h += '<td>' + DOM.createHTML('a', {id : t.id + '_text', href : 'javascript:;', 'class' : 'mceText', onclick : "return false;", onmousedown : 'return false;'}, DOM.encode(t.settings.title)) + '</td>';
-			h += '<td>' + DOM.createHTML('a', {id : t.id + '_open', href : 'javascript:;', 'class' : 'mceOpen', onclick : "return false;", onmousedown : 'return false;'}, '<span></span>') + '</td>';
+			h += '<td>' + DOM.createHTML('a', {id : t.id + '_open', tabindex : -1, href : 'javascript:;', 'class' : 'mceOpen', onclick : "return false;", onmousedown : 'return false;'}, '<span></span>') + '</td>';
 			h += '</tr></tbody></table>';
 
 			return h;
@@ -139,6 +139,7 @@
 			m = t.menu;
 			m.settings.offset_x = p2.x;
 			m.settings.offset_y = p2.y;
+			m.settings.keyboard_focus = t._focused;
 
 			// Select in menu
 			if (t.oldID)
@@ -153,8 +154,8 @@
 
 			m.showMenu(0, e.clientHeight);
 
-			Event.add(document, 'mousedown', t.hideMenu, t);
-			DOM.addClass(t.id, 'mceListBoxSelected');
+			Event.add(DOM.doc, 'mousedown', t.hideMenu, t);
+			DOM.addClass(t.id, t.classPrefix + 'Selected');
 		},
 
 		/**
@@ -164,8 +165,8 @@
 			var t = this;
 
 			if (!e || !DOM.getParent(e.target, function(n) {return DOM.hasClass(n, 'mceMenu');})) {
-				DOM.removeClass(t.id, 'mceListBoxSelected');
-				Event.remove(document, 'mousedown', t.hideMenu, t);
+				DOM.removeClass(t.id, t.classPrefix + 'Selected');
+				Event.remove(DOM.doc, 'mousedown', t.hideMenu, t);
 
 				if (t.menu)
 					t.menu.hideMenu();
@@ -180,7 +181,7 @@
 
 			m = t.settings.control_manager.createDropMenu(t.id + '_menu', {
 				menu_line : 1,
-				'class' : 'mceListBoxMenu mceNoIcons',
+				'class' : t.classPrefix + 'Menu mceNoIcons',
 				max_width : 150,
 				max_height : 150
 			});
@@ -211,24 +212,32 @@
 		 * set states, add events to the control etc. It's recommended for subclasses of the control to call this method by using this.parent().
 		 */
 		postRender : function() {
-			var t = this;
+			var t = this, cp = t.classPrefix;
 
 			Event.add(t.id, 'click', t.showMenu, t);
+			Event.add(t.id + '_text', 'focus', function() {t._focused = 1;});
+			Event.add(t.id + '_text', 'blur', function() {t._focused = 0;});
 
 			// Old IE doesn't have hover on all elements
 			if (tinymce.isIE6 || !DOM.boxModel) {
 				Event.add(t.id, 'mouseover', function() {
-					if (!DOM.hasClass(t.id, 'mceListBoxDisabled'))
-						DOM.addClass(t.id, 'mceListBoxHover');
+					if (!DOM.hasClass(t.id, cp + 'Disabled'))
+						DOM.addClass(t.id, cp + 'Hover');
 				});
 
 				Event.add(t.id, 'mouseout', function() {
-					if (!DOM.hasClass(t.id, 'mceListBoxDisabled'))
-						DOM.removeClass(t.id, 'mceListBoxHover');
+					if (!DOM.hasClass(t.id, cp + 'Disabled'))
+						DOM.removeClass(t.id, cp + 'Hover');
 				});
 			}
 
 			t.onPostRender.dispatch(t, DOM.get(t.id));
+		},
+
+		destroy : function() {
+			this.parent();
+
+			Event.clear(this.id + '_text');
 		}
 
 		/**#@-*/

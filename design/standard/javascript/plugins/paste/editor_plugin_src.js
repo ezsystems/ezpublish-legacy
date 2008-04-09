@@ -1,5 +1,5 @@
 /**
- * $Id: editor_plugin_src.js 650 2008-02-27 13:41:02Z spocke $
+ * $Id: editor_plugin_src.js 738 2008-03-20 20:00:48Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -17,28 +17,34 @@
 			// Register commands
 			ed.addCommand('mcePasteText', function(ui, v) {
 				if (ui) {
-					ed.windowManager.open({
-						file : url + '/pastetext.htm',
-						width : 450,
-						height : 400,
-						inline : 1
-					}, {
-						plugin_url : url
-					});
+					if ((ed.getParam('paste_use_dialog', true)) || (!tinymce.isIE)) {
+						ed.windowManager.open({
+							file : url + '/pastetext.htm',
+							width : 450,
+							height : 400,
+							inline : 1
+						}, {
+							plugin_url : url
+						});
+					} else
+						t._insertText(clipboardData.getData("Text"), true);
 				} else
 					t._insertText(v.html, v.linebreaks);
 			});
 
 			ed.addCommand('mcePasteWord', function(ui, v) {
 				if (ui) {
-					ed.windowManager.open({
-						file : url + '/pasteword.htm',
-						width : 450,
-						height : 400,
-						inline : 1
-					}, {
-						plugin_url : url
-					});
+					if ((ed.getParam('paste_use_dialog', true)) || (!tinymce.isIE)) {
+						ed.windowManager.open({
+							file : url + '/pasteword.htm',
+							width : 450,
+							height : 400,
+							inline : 1
+						}, {
+							plugin_url : url
+						});
+					} else
+						t._insertText(t._clipboardHTML());
 				} else
 					t._insertWordContent(v);
 			});

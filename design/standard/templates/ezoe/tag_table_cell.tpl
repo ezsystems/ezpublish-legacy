@@ -47,7 +47,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
 	        ed.dom.setAttribs( o.el, args );
 	    });
 	},
-    tagSelector: ezTagName + '_type_source',
+    tagSelector: ezTagName + '_tag_source',
     tagSelectorCallBack: function( e, el )
 	{
 	    if ( e === false ) return false;
@@ -80,12 +80,12 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
 
         {include uri="design:ezoe/generalattributes.tpl"
                  tag_name   = $tag_name
-                 attributes = hash('type', $cell_tag_list,
+                 attributes = hash('tag', $cell_tag_list,
                                    'width', '',
                                    'class', $class_list
                                  )
-                 attribute_defaults = hash('type', $tag_name )
-                 classes    = hash('type', 'mceItemSkip')
+                 attribute_defaults = hash('tag', $tag_name )
+                 classes    = hash('tag', 'mceItemSkip')
         }
 
         
