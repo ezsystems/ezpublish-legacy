@@ -8,6 +8,8 @@
                                                class_filter_type, include,
                                                class_filter_array, ezini( 'MenuContentSettings', 'TopIdentifierList', 'menu.ini' ),
                                                sort_by, $root_node.sort_array ) )}
+
+    {if $menuitems|count|gt(0)}
     <ul>
     {section var=menu loop=$menuitems}
             {let selected=and( count( $module_result.path )|gt(1), eq( $module_result.path[1].node_id, $menu.node_id ) )}
@@ -23,6 +25,7 @@
             {/let}
     {/section}
     </ul>
+    {/if}
     {/let}
 	<div class="break"></div>
     </div>
