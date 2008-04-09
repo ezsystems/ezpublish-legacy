@@ -9,6 +9,7 @@
                     0, 5 )
                     depth=1
                     last_level=0}
+        {if $docs|count|gt(0)}
         <ul>
         {section var=menu loop=$:docs last-value}
             {set last_level=$menu.last|is_array|choose( $menu.level, $menu.last.level )}
@@ -41,6 +42,7 @@
         </li>
         {/section}
         </ul>
+        {/if}
 
 {/let}
 
