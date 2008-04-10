@@ -1991,7 +1991,7 @@ WHERE user_id = '" . $userID . "' AND
                                         if ( $accessResult['accessWord'] == 'limited' )
                                         {
                                             $params['Limitation'] = $accessResult['policies'];
-                                            $GLOBALS['ezpolicylimitation_list'][$moduleName][$match] = $params['Limitation'];
+                                            $GLOBALS['ezpolicylimitation_list'][$this->ContentObjectID][$moduleName][$match] = $params['Limitation'];
                                         }
                                     }
                                     $patterns[$match] = $pS . $match . $pE;
@@ -2058,7 +2058,7 @@ WHERE user_id = '" . $userID . "' AND
                     if ( $accessResult['accessWord'] == 'limited' )
                     {
                         $params['Limitation'] = $accessResult['policies'];
-                        $GLOBALS['ezpolicylimitation_list'][$moduleName]['*'] = $params['Limitation'];
+                        $GLOBALS['ezpolicylimitation_list'][$this->ContentObjectID][$moduleName]['*'] = $params['Limitation'];
                     }
                 }
             }
