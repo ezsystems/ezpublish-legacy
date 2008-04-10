@@ -10,7 +10,10 @@
                     'author', 'Author'|i18n('design/standard/ezoe'),
                     'title', 'Title'|i18n('design/standard/ezoe'),
                     'offset', 'Offset'|i18n('design/standard/ezoe'),
-                    'limit', 'Limit'|i18n('design/standard/ezoe')
+                    'limit', 'Limit'|i18n('design/standard/ezoe'),
+                    'id', 'ID'|i18n('design/standard/ezoe'),
+                    'href', 'Href'|i18n('design/standard/ezoe'),
+                    'target', 'Target'|i18n('design/standard/ezoe')
          )}
 {if $:tag_name}
     {def $custom_attributes           = array()
@@ -44,7 +47,7 @@
             {elseif is_set( $i18n[ $custom_attribute ] )}
                 {$i18n[ $custom_attribute ]|wash}
             {else}
-                {$custom_attribute|upfirst|wash}*
+                {$custom_attribute|upfirst|wash}
             {/if}
             </label></td>
             <td>

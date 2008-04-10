@@ -104,7 +104,7 @@ var eZOEPopupUtils = {
     save: function()
 	{
 	    // save changes from form values to element attributes
-	    var ed = tinyMCEPopup.editor, s = eZOEPopupUtils.settings, n, arr;
+	    var ed = tinyMCEPopup.editor, s = eZOEPopupUtils.settings, n, arr, tmp;
 
         if ( s.tagSelector && s.tagSelector.el.value )
         {
@@ -146,8 +146,9 @@ var eZOEPopupUtils = {
 		    }
             else if ( s.tagName === 'link' )
             {
-                args['id'] = '__mce_tmp';
-                ed.execCommand('mceInsertLink', false, args, {skip_undo : 1} );
+                tmp = args;
+                tmp['id'] = '__mce_tmp';
+                ed.execCommand('mceInsertLink', false, tmp, {skip_undo : 1} );
                 s.editorElement = ed.dom.get('__mce_tmp');
             }
 		    else if ( eZOEPopupUtils.xmlToXhtmlHash[s.tagName] )

@@ -12,7 +12,11 @@
                     'width', 'Width'|i18n('design/standard/ezoe'),
                     'border', 'Border'|i18n('design/standard/ezoe'),
                     'tag', 'Tag'|i18n('design/standard/ezoe'),
-                    'class', 'Class'|i18n('design/standard/ezoe')
+                    'class', 'Class'|i18n('design/standard/ezoe'),
+                    'id', 'ID'|i18n('design/standard/ezoe'),
+                    'href', 'Href'|i18n('design/standard/ezoe'),
+                    'target', 'Target'|i18n('design/standard/ezoe'),
+                    'title', 'Title'|i18n('design/standard/ezoe')
          )}
 {if and( $:tag_name, $:attributes )}
     {def $attribute_default = ''
@@ -37,7 +41,7 @@
             {if is_set( $i18n[ $attribute ] )}
                 {$i18n[ $attribute ]|wash}
             {else}
-                {$attribute|upfirst|wash}**
+                {$attribute|upfirst|wash}
             {/if}
             </label></td>
             <td>
