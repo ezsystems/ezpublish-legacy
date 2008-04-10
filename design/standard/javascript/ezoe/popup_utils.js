@@ -168,7 +168,7 @@ var eZOEPopupUtils = {
 	    {
 	        if ( s.tagAttributeEditor )
 	            s.tagAttributeEditor.call( eZOEPopupUtils, ed, s.editorElement, args );
-	        else if ( s.tagName !== 'link' )
+	        else
 	            ed.dom.setAttribs( s.editorElement, args );
 
 	        if ( args['id'] === undefined )
