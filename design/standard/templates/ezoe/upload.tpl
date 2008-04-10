@@ -10,6 +10,7 @@
 var contentType = '{$content_type}';
 
 eZOeMCE['relation_url']  = {concat('ezoe/relations/', $object_id, '/', $object_version, '/auto' )|ezurl};
+eZOeMCE['img_checkbox'] = {"ezoe/checkbox.gif"|ezimage};
     
 {literal} 
 
@@ -168,54 +169,10 @@ div.slide { width: 455px; }
             {/if}
         </div>
 
-        <div class="slide" id="search_box" style="display: none;">
-            <table class="properties">
-            <tr>
-                <td>
-                    <input id="SearchText" name="SearchStr" type="text" value="" onkeypress="return eZOEPopupUtils.searchEnter(event)" />
-                    {def $classes=fetch( 'class', 'list' )}
+{include uri="design:ezoe/box_search.tpl" embed_mode=false() class_filter_array=$class_filter_array}
 
-		            <select name="SearchContentClassID[]" multiple="multiple" size="4" style="vertical-align:middle">
-		                <option value="">{"All"|i18n("design/standard/ezoe")}</option>
-		            {foreach $classes as $class}
-		                <option value="{$class.id|wash}"{if $class_filter_array|contains( $class.identifier )} selected="selected"{/if}>{$class.name|wash}</option>
-		            {/foreach}
-		            </select>
-                </td>
-                <td><input type="submit" name="SearchButton" id="SearchButton" value="{'Search'|i18n('design/admin/content/search')}"  onclick="return eZOEPopupUtils.searchEnter(event, true)" /></td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                <table id="search_box_prev">
-                <thead>
-                </thead>
-                <tbody>
-                </tbody>
-                <tfoot>
-                </tfoot>
-            </table>
-                </td>
-            </tr>
-            </table>
-            <!-- todo: paging support -->
-        </div>
-        
-        <div class="slide" style="display: none;">
-            {def $root_nodes = fetch('content', 'list', hash('parent_node_id', 1))}
-            <div style="background-color: #eee; text-align: center">
-            {foreach $root_nodes as $n}
-                <a href="JavaScript:eZOEPopupUtils.browse( {$n.node_id} )" style="font-weight: bold">{$n.name}</a> &nbsp;
-            {/foreach}
-            </div>
-            <table id="browse_box_prev">
-                <thead>
-                </thead>
-                <tbody>
-                </tbody>
-                <tfoot>
-                </tfoot>
-            </table>
-        </div>
+{include uri="design:ezoe/box_browse.tpl" embed_mode=false() class_filter_array=$class_filter_array}
+
 
      </form>
 </div>

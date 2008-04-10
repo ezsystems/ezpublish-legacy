@@ -17,6 +17,7 @@ eZ Online Editor MCE extension Changelog
   to generate i18n strings for TinyMCE
 * Updated TinyMCE to 3.0.6.2
 * now possible to disable packer with DevelopmentMode setting in ezoe.ini
+* browse and search in link dialog + icons for selection in search and browse
 
 0.98
 * string translations

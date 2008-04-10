@@ -335,13 +335,13 @@ var eZOEPopupUtils = {
 	    return currentNode;
 	},
 
-    selectByEmbedId: function( searchId )
+    selectByEmbedId: function( id )
     {
         // redirects to embed window of a specific object id
         // global objects: ez, eZOeMCE    
-        if ( ez.val( searchId ) )
+        if ( ez.val( id ) )
         {
-            window.location = eZOeMCE['relation_url'] + '/eZObject_' + searchId;
+            window.location = eZOeMCE['relation_url'] + '/eZObject_' + id;
         }
     },
 
@@ -401,7 +401,7 @@ var eZOEPopupUtils = {
 	        {
 	           // TODO: image preview if image popup
 	           tbody.el.innerHTML = '<tr>' + ez.$c( data['list'] ).map( function( n ){
-	               var html = '<td><a href="JavaScript:eZOEPopupUtils.selectByEmbedId(' + n.contentobject_id + ')">' + ed.getLang('advanced.select') + '<\/a><\/td>';
+	               var html = '<td><a href="JavaScript:eZOEPopupUtils.selectByEmbedId(' + n.contentobject_id + ',' + n.node_id + ',\'' + n.name + '\')" title=' + ed.getLang('advanced.select') + '"><img border="0" width="14" height="13" src="' + eZOeMCE['img_checkbox'] + '" /><\/a>&nbsp;<\/td>';
 	               if ( n.children_count )
 	                   return html +'<td><a href="JavaScript:eZOEPopupUtils.' + mode + '(' + n.node_id + ');">' + n.name + '<\/a><\/td><td>' + n.class_name + '<\/td>';
 	               else

@@ -26,20 +26,24 @@
 
 class ezoeInfo
 {
-    static function info()
+    static function info()//Artistic License/GPLv2
     {
         return array( 'Name'      => 'eZ Online Editor MCE',
-                      'Version'   => '0.98',
+                      'Version'   => '0.99',
                       'Copyright' => 'Copyright © 2008 eZ Systems AS',
                       'License'   => 'GNU General Public License v2.0',
                       'Includes the following third-party software' => array( 'Name' => 'TinyMce Javascript HTML WYSIWYG editor',
                                                                               'Version' => '3.0.5',
-                                                                              'Copyright' => 'Copyright Â© 2004-2008, Moxiecode Systems AB, All rights reserved.',
+                                                                              'Copyright' => 'Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.',
                                                                               'License' => 'GNU Lesser General Public License v2.1',),
                       'Includes the following library'              => array( 'Name' => 'eZ Core, tiny javascript library for ajax and stuff',
                                                                               'Version' => '0.92',
-                                                                              'Copyright' => 'Copyright Â© 2008 eZ Systems AS',
-                                                                              'License' => 'Licensed under the MIT License',)
+                                                                              'Copyright' => 'Copyright © 2008 eZ Systems AS',
+                                                                              'License' => 'Licensed under the MIT License',),
+                      'Includes the following third-party icons'    => array( 'Name' => 'twotiny - icons for websites and web applications',
+                                                                              'Version' => '1.0',
+                                                                              'Copyright' => 'Copyright © 2008 paul jarvis of http://twothirty.com & http://2pt3.com',
+                                                                              'License' => 'Artistic License/GPLv2',)
                     );
     }
 }

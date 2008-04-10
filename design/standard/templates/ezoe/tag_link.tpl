@@ -9,7 +9,8 @@
 <script type="text/javascript">
 <!--
 
-var ezTagName = '{$tag_name|wash}', ezoeLinkTimeOut = null; 
+var ezTagName = '{$tag_name|wash}', ezoeLinkTimeOut = null, slides = 0;
+eZOeMCE['img_checkbox'] = {"ezoe/checkbox.gif"|ezimage};
 {literal} 
 
 tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
@@ -44,9 +45,27 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
             return true;
         });
         ezoeLinkTypeSet( linkSource, linkTypes );
+ 
+        slides = ez.$$('div.slide'), navigation = ez.$('embed_search_go_back_link', 'search_for_link', 'browse_for_link', 'embed_browse_go_back_link' );
+        slides.accordion( navigation, {duration: 150, transition: ez.fx.sinoidal, accordionAutoFocusTag: 'input[type=text]'}, {marginLeft: 360, display: 'none'} );
+        navigation[3].addEvent('click', ez.fn.bind( slides.accordionGoto, slides, 0 ) );
+        navigation[3].addClass('accordion_navigation');
     }
 }));
 
+
+//override 
+eZOEPopupUtils.selectByEmbedId = function( object_id, node_id, name )
+{
+    var link = ez.$('link_href_source_types', 'link_href_source', 'link_href_source_info');
+    if ( link[0].el.value === 'ezobject://' )
+        link[1].el.value = 'ezobject://' + object_id;
+    else
+        link[1].el.value = 'eznode://' + node_id;
+    link[2].el.innerHTML =  name;
+    link[2].el.style.border = '1px solid green';
+    slides.accordionGoto.call( slides, 0 );
+};
 
 function ezoeLinkAjaxCheck( url )
 {
@@ -57,7 +76,7 @@ function ezoeLinkAjaxCheck( url )
 function ezoeLinkPostBack( r )
 {
     ez.script( 'eZOEPopupUtils.ajaxLoadResponse=' + r.responseText );
-    var info = ez.$('link_href_source_info'), input= ez.$('link_href_source');
+    var info = ez.$('link_href_source_info'), input = ez.$('link_href_source');
     if ( eZOEPopupUtils.ajaxLoadResponse )
     {
         info.el.innerHTML = eZOEPopupUtils.ajaxLoadResponse.name;
@@ -90,18 +109,25 @@ function ezoeLinkTypeSet( source, types )
         types.el.value = '';
 }
 
-{/literal}
+
 
 // -->
 </script>
+<style type="text/css">
+<!--
 
+div.slide { width: 360px; }
+
+-->
+</style>
+{/literal}
 
 <div>
 
     <form action="JavaScript:void(0)" method="post" name="EditForm" id="EditForm" enctype="multipart/form-data" style="width: 360px;">
     
 
-    <div class="slide" style="width: 360px;">
+    <div class="slide">
         <div class="attribute-title">
             <h2 style="padding: 0 0 4px 0;">{$tag_name|upfirst|wash}</h2>
         </div>
@@ -117,6 +143,8 @@ function ezoeLinkTypeSet( source, types )
                 <option value="mailto:">Mail</option>
             </select>
             <span id="link_href_source_info"></span>
+            <a id="browse_for_link" href="JavaScript:void(0);" title="Browse"><img width="15" height="11" border="0" src={"ezoe/folder-open.gif"|ezimage} /></a>
+            <a id="search_for_link" href="JavaScript:void(0);" title="Search"><img width="13" height="13" border="0" src={"ezoe/search.gif"|ezimage} /></a>
             <br />
         {/set-block}
         
@@ -142,6 +170,11 @@ function ezoeLinkTypeSet( source, types )
         </div>
 
     </div>
+    
+{include uri="design:ezoe/box_search.tpl"}
+
+{include uri="design:ezoe/box_browse.tpl"}
+
     </form>
 
 </div>
