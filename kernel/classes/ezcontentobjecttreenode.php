@@ -1745,32 +1745,33 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     function getLimitationList( &$limitation )
     {
+        include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+        $currentUser =& eZUser::currentUser();
+        $currentUserID = $currentUser->attribute( 'contentobject_id' );
         $limitationList = array();
 
         if ( $limitation !== false )
         {
             $limitationList = $limitation;
         }
-        else if ( isset( $GLOBALS['ezpolicylimitation_list']['content']['read'] ) )
+        else if ( isset( $GLOBALS['ezpolicylimitation_list'][$currentUserID]['content']['read'] ) )
         {
-            $limitationList =& $GLOBALS['ezpolicylimitation_list']['content']['read'];
+            $limitationList =& $GLOBALS['ezpolicylimitation_list'][$currentUserID]['content']['read'];
             eZDebugSetting::writeDebug( 'kernel-content-treenode', $limitationList, "limitation list"  );
         }
         else
         {
-            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-            $currentUser =& eZUser::currentUser();
             $accessResult = $currentUser->hasAccessTo( 'content', 'read' );
 
             if ( $accessResult['accessWord'] == 'no' )
             {
                 $limitationList = false;
-                $GLOBALS['ezpolicylimitation_list']['content']['read'] = false;
+                $GLOBALS['ezpolicylimitation_list'][$currentUserID]['content']['read'] = false;
             }
             else if ( $accessResult['accessWord'] == 'limited' )
             {
                 $limitationList =& $accessResult['policies'];
-                $GLOBALS['ezpolicylimitation_list']['content']['read'] =& $accessResult['policies'];
+                $GLOBALS['ezpolicylimitation_list'][$currentUserID]['content']['read'] =& $accessResult['policies'];
             }
         }
 
