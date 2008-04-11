@@ -144,6 +144,7 @@ class eZSOAPServer
         $xmlData = $this->stripHTTPHeader( $this->RawPostData );
 
         $dom = new DOMDocument( '1.0', 'utf-8' );
+        $dom->preserveWhiteSpace = false;
         $dom->loadXML( $xmlData );
 
         // Check for non-parsing XML, to avoid call to non-object error.
