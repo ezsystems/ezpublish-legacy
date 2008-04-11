@@ -161,7 +161,7 @@ class eZSOAPServer
 
         $children = $body->item( 0 )->childNodes;
 
-        if ( count( $children ) == 1 )
+        if ( $children->length == 1 )
         {
             $requestNode = $children->item( 0 );
             // get target namespace for request
