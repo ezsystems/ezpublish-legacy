@@ -915,9 +915,6 @@ class eZOEXMLInput extends eZXMLInputHandler
 
                     if ( $className != '' )
                         $objectAttr .= ' class="' . $className . '"';
-                        
-                    if ( $tagName === 'embed-inline' )
-                        $objectAttr .= ' style="display: inline;"';
 
                     $output .= '<img id="' . $idString . '" title="' . $objectName . '" src="' . $srcString . '" ' . $objectAttr . $customAttributePart . ' />';
                 }

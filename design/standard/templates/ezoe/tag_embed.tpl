@@ -77,8 +77,8 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
 	        el.innerHTML = ez.$$('#embed_preview div')[0].el.innerHTML;
 	        //ed.dom.setStyle(el, 'float', args['align'] === 'middle' ? '' : args['align']);
 	        args['title']   = eZOEPopupUtils.safeHtml( eZOEPopupUtils.embedObject['name'] );
+	        el.style.display = args['inline'] === 'false' ? 'block' : 'inline';
 	    }
-	    el.style.display = args['inline'] === 'false' ? 'block' : 'inline';
         ed.dom.setAttribs( el, args );
     }
 }));
