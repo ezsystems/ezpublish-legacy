@@ -371,7 +371,7 @@ var eZOEPopupUtils = {
 	{
 	    // serach for nodes with input and select form elements inside a 'search_box' container element
 	    // global objects: eZOeMCE, ez
-	    var postData = ez.$$('#search_box input, #search_box select').callEach('postData').join('&'), o = ( offset || 0 ) * 10;    
+	    var postData = ez.$$('#search_box input, #search_box select').callEach('postData').join('&'), o = offset || 0;    
 	    var url = eZOeMCE['extension_url'] + '/search/x/'+ o +'/10';
 	    if ( ez.string.trim( ez.$('SearchText').el.value ) )
 	        eZOEPopupUtils.ajax.load( url, postData, eZOEPopupUtils.searchCallBack );
@@ -409,12 +409,13 @@ var eZOEPopupUtils = {
 	            } ).join('<\/tr><tr>') + '<\/tr>';
 	        }
 
+            var fn = mode === 'browse' ? 'browse('+ data['node']['node_id'] + ',' : mode + '(';
 	        if ( data['offset'] !== 0 )
-	            foot += '<a href="JavaScript:eZOEPopupUtils.' + mode + '('+ node['node_id'] + ',' + (data['offset'] - data['limit']) + ')">&lt;&lt; ' + ed.getLang('advanced.previous') + '<\/a>';
+	            foot += '<a href="JavaScript:eZOEPopupUtils.' + fn + (data['offset'] - data['limit']) + ')">&lt;&lt; ' + ed.getLang('advanced.previous') + '<\/a>';
 
 	        foot += '<\/td><td>';
 	        if ( (data['offset'] + data['limit']) < data['total_count'] )
-	            foot += '<a href="JavaScript:eZOEPopupUtils.' + mode + '(' + node['node_id'] + ',' + (data['offset'] + data['limit']) + ')">' + ed.getLang('advanced.next') + ' &gt;&gt;<\/a>';
+	            foot += '<a href="JavaScript:eZOEPopupUtils.' + fn + (data['offset'] + data['limit']) + ')">' + ed.getLang('advanced.next') + ' &gt;&gt;<\/a>';
 
 	        tfoot.el.innerHTML = foot + '<\/td><\/tr>';	        
 	    }

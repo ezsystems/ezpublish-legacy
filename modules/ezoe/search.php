@@ -88,7 +88,7 @@ elseif ( isSet( $Params['SearchLimit'] ) )
 
 //Preper the search params
 $param = array( 'SearchOffset' => $searchOffset,
-                'SearchLimit' => $searchLimit+1,
+                'SearchLimit' => $searchLimit,
                 'SortArray' => array('published', 0)
               );
 

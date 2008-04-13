@@ -113,13 +113,6 @@ function ezoeLinkTypeSet( source, types )
 
 // -->
 </script>
-<style type="text/css">
-<!--
-
-div.slide { width: 360px; }
-
--->
-</style>
 {/literal}
 
 <div>
@@ -132,7 +125,7 @@ div.slide { width: 360px; }
         </div>
 
 
-<div class="panel_wrapper" style="height: 360px;">
+<div class="panel_wrapper" style="height: 290px;">
     <div class="panel">
         <div class="attribute-title">
             <h2 style="padding: 0 0 4px 0;">{$tag_name|upfirst|wash}</h2>
@@ -149,8 +142,8 @@ div.slide { width: 360px; }
                 <option value="mailto:">Mail</option>
             </select>
             <span id="link_href_source_info"></span>
-            <a id="browse_for_link" href="JavaScript:void(0);" title="Browse"><img width="15" height="11" border="0" src={"ezoe/folder-open.gif"|ezimage} /></a>
             <a id="search_for_link" href="JavaScript:void(0);" title="Search"><img width="13" height="13" border="0" src={"ezoe/search.gif"|ezimage} /></a>
+            <a id="browse_for_link" href="JavaScript:void(0);" title="Browse"><img width="15" height="11" border="0" src={"ezoe/folder-open.gif"|ezimage} /></a>
             <br />
         {/set-block}
         

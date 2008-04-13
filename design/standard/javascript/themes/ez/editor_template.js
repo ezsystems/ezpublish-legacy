@@ -1114,6 +1114,10 @@
                 case 'TH':
                     ed.execCommand('mceTableCellProps', n, v);
                     break;
+                case 'A':
+                    if ( DOM.getAttrib(n, 'href') ) ed.execCommand('mceLink', n, v);
+                    else ed.execCommand('mceInsertAnchor', n, v);
+                    break;
 		        default:
 		            var tagName = this.__tagsToXml( n );
                     if ( tagName ) ed.execCommand('generalXmlTagPopup', tagName + '/' + n.nodeName, n );
@@ -1261,7 +1265,7 @@
 
 		_mceLink : function(ui, v)
 		{
-			this._generalXmlTagPopup( 'link', false, 0, 0, ui );
+			this._generalXmlTagPopup( 'link', false, 0, 320, ui );
 		},
 
 		_mceNewDocument : function() {
