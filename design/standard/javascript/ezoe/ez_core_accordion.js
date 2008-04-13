@@ -25,9 +25,9 @@ ez.object.extend( ez.array.eZextensions.prototype, {
             {
                 navs[i].addEvent('click', ez.fn.bind( this.accordionGoto, this, i ) );
                 navs[i].addClass('accordion_navigation');
-                if ( i === 0 ) navs[ i ].addClass('accordion_selected'); 
+                if ( i === 0 ) navs[ i ].addClass('current'); 
             }
-            if ( i === 0 ) o.addClass('accordion_selected');
+            if ( i === 0 ) o.addClass('current');
             else this.settings.accordionDontAnimateInit ? o.hide( this.settings ) : o.hide( this.settings, target );
         }, this);
         this.accordionNavigation = navs;
@@ -40,8 +40,8 @@ ez.object.extend( ez.array.eZextensions.prototype, {
             if ( tag ) i = ez.$$( tag, this[ i ].el );
             if ( i.length ) i[0].el.focus();
         }, this, i, this.settings.accordionAutoFocusTag || '' );
-        this[ this.accordionIndex ].removeClass('accordion_selected');
-        if ( this.accordionNavigation && this.accordionNavigation[ this.accordionIndex ] ) this.accordionNavigation[ this.accordionIndex ].removeClass('accordion_selected');
+        this[ this.accordionIndex ].removeClass('current');
+        if ( this.accordionNavigation && this.accordionNavigation[ this.accordionIndex ] ) this.accordionNavigation[ this.accordionIndex ].removeClass('current');
         if ( this.settings.accordionHideDirectly )
         {
             this[ this.accordionIndex ].hide( this.settings, this.accordionTarget );
@@ -51,8 +51,8 @@ ez.object.extend( ez.array.eZextensions.prototype, {
         {
             this[ this.accordionIndex ].hide( this.settings, this.accordionTarget, ez.fn.bind( this[ i ].show, this[ i ], this.settings, this.accordionTarget, fn ) );
         }
-        this[ i ].addClass('accordion_selected');
-        if ( this.accordionNavigation && this.accordionNavigation[ i ] ) this.accordionNavigation[ i ].addClass('accordion_selected');
+        this[ i ].addClass('current');
+        if ( this.accordionNavigation && this.accordionNavigation[ i ] ) this.accordionNavigation[ i ].addClass('current');
         this.accordionIndex = i;
         return false;
     },

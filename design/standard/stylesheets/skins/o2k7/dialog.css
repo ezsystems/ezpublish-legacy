@@ -112,6 +112,8 @@ h3 {font-size:14px;}
 #colorpicker #namedcolors {width:150px;}
 #colorpicker #namedcolors a {display:block; float:left; width:10px; height:10px; margin:1px 1px 0 0; overflow:hidden;}
 #colorpicker #colornamecontainer {margin-top:5px;}
+#colorpicker #picker_panel fieldset {margin:auto;width:325px;}
+
 
 /* core.css ez layout styles */
 
@@ -187,7 +189,6 @@ div.split div.three-center
 {
     margin: 0 35% 0 35%;
 }
-
 
 .float-break
 {

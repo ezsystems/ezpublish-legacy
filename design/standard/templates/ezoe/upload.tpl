@@ -15,37 +15,28 @@ eZOeMCE['img_checkbox'] = {"ezoe/checkbox.gif"|ezimage};
 {literal} 
 
 tinyMCEPopup.onInit.add( function(){
-    var slides = ez.$$('div.slide'), navigation = ez.$$('#tabs div.tab');
-    slides.accordion( navigation, {duration: 150, transition: ez.fx.sinoidal, accordionAutoFocusTag: 'input[type=text]'}, {marginLeft: 480, display: 'none'} );
+    var slides = ez.$$('div.panel'), navigation = ez.$$('#tabs li.tab');
+    slides.accordion( navigation, {duration: 150, transition: ez.fx.sinoidal, accordionAutoFocusTag: 'input[type=text]'}, {opacity: 0, display: 'none'} );
 });
 
 
 -->
 </script>
-<style>
-
-table#browse_box_prev { border-collapse: collapse; }
-
-table#browse_box_prev thead td { padding-bottom: 5px; }
-
-table#browse_box_prev tfoot td { padding-top: 5px; }
-
-div.slide { width: 455px; }
-
-</style>
 {/literal}
 
-<div style="width: 480px;">
-    <form action={concat('ezoe/upload/', $object_id, '/', $object_version, '/auto/1' )|ezurl} method="post" target="embed_upload" name="EmbedForm" id="EmbedForm" enctype="multipart/form-data"
-    style="float:left; width: 940px" onsubmit="ez.$('upload_in_progress').show();">
+<div>
+    <form action={concat('ezoe/upload/', $object_id, '/', $object_version, '/auto/1' )|ezurl} method="post" target="embed_upload" name="EmbedForm" id="EmbedForm" enctype="multipart/form-data" onsubmit="ez.$('upload_in_progress').show();">
 
-        <div id="tabs">
-            <div class="tab"><div>{'Upload'|i18n('design/admin/content/upload')}</div></div>
-            <div class="tab"><div>{'Search'|i18n('design/admin/content/search')}</div></div>
-            <div class="tab"><div>{'Browse'|i18n('design/standard/ezoe')}</div></div>
+        <div id="tabs" class="tabs">
+        <ul>
+            <li class="tab"><span><a href="JavaScript:void(0);">{'Upload'|i18n('design/admin/content/upload')}</a></span></li>
+            <li class="tab"><span><a href="JavaScript:void(0);">{'Search'|i18n('design/admin/content/search')}</a></span></li>
+            <li class="tab"><span><a href="JavaScript:void(0);">{'Browse'|i18n('design/standard/ezoe')}</a></span></li>
+        </ul>
         </div>
 
-        <div class="slide">
+<div class="panel_wrapper" style="height: 360px;">
+        <div class="panel">
             <table class="properties">
                 <tr>
                     <td class="column1"><label id="srclabel" for="src">{'File'|i18n('design/standard/ezoe')}</label></td>
@@ -173,6 +164,6 @@ div.slide { width: 455px; }
 
 {include uri="design:ezoe/box_browse.tpl" embed_mode=false() class_filter_array=$class_filter_array}
 
-
+</div>
      </form>
 </div>

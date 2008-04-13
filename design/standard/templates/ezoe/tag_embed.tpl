@@ -52,8 +52,8 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
 	            loadEmbedPreview();        
 	    }
 
-	    var slides = ez.$$('div.slide'), navigation = ez.$$('#tabs div.tab');
-	    slides.accordion( navigation, {duration: 150, transition: ez.fx.sinoidal}, {marginLeft: 480, display: 'none'} );
+        var slides = ez.$$('div.panel'), navigation = ez.$$('#tabs li.tab');
+        slides.accordion( navigation, {duration: 150, transition: ez.fx.sinoidal, accordionAutoFocusTag: 'input[type=text]'}, {opacity: 0, display: 'none'} );
     },
     tagGenerator: function( tag, customTag, text )
     {
@@ -158,30 +158,22 @@ function loadEmbedPreview( )
 
 // -->
 </script>
-<style>
-
-table#browse_box_prev { border-collapse: collapse; }
-
-table#browse_box_prev thead td { padding-bottom: 5px; }
-
-table#browse_box_prev tfoot td { padding-top: 5px; }
-
-div.slide { width: 455px; }
-
-</style>
 {/literal}
 
-<div style="width: 480px;">
-    <form action="JavaScript:void(0)" method="post" name="EditForm" id="EditForm" enctype="multipart/form-data" style="float:left; width: 940px;">
-    
-    <div id="tabs">
-        <div class="tab"><div>{'Properties'|i18n('design/standard/ezoe')}</div></div>
-    {*if $content_type|eq( 'image' )}
-        <div class="tab"><div>Crop</div></div>
-    {/if*}
-    </div>
+<div>
+    <form action="JavaScript:void(0)" method="post" name="EditForm" id="EditForm" enctype="multipart/form-data">
 
-    <div class="slide">
+        <div id="tabs" class="tabs">
+        <ul>
+            <li class="tab"><span><a href="JavaScript:void(0);">{'Properties'|i18n('design/standard/ezoe')}</a></span></li>
+            {*if $content_type|eq( 'image' )}
+            <li class="tab"><span><a href="JavaScript:void(0);">{'Crop'|i18n('design/standard/ezoe')}</a></span></li>
+            {/if*}
+        </ul>
+        </div>
+
+<div class="panel_wrapper" style="height: 360px;">
+    <div class="panel">
         <div class="attribute-title">
             <h2 style="padding: 0 0 4px 0;">{$embed_object.name|wash}</h2>
         </div>
@@ -255,8 +247,8 @@ div.slide { width: 455px; }
         </div>
     </div>
 
-    <!-- div class="slide" id="crop_container" style="display: none;">
+    <!-- div class="panel" id="crop_container" style="display: none;">
     </div -->
-
+</div>
     </form>
 </div>

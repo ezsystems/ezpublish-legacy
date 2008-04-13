@@ -69,10 +69,16 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
 
 <div>
 
-    <form action="JavaScript:void(0)" method="post" name="EditForm" id="EditForm" enctype="multipart/form-data" style="width: 360px;">
-    
+    <form action="JavaScript:void(0)" method="post" name="EditForm" id="EditForm" enctype="multipart/form-data">
 
-    <div class="slide" style="width: 360px;">
+        <div id="tabs" class="tabs">
+        <ul>
+            <li class="tab current"><span><a href="JavaScript:void(0);">{'Properties'|i18n('design/standard/ezoe')}</a></span></li>
+        </ul>
+        </div>
+
+<div class="panel_wrapper">
+    <div class="panel current">
         <div class="attribute-title">
             <h2 style="padding: 0 0 4px 0;">{$tag_name|upfirst|wash}</h2>
         </div>
@@ -112,6 +118,8 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         </div>
 
     </div>
+</div>
+
     </form>
 
 </div>
