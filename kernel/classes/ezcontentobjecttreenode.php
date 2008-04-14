@@ -277,9 +277,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler =& eZExpiryHandler::instance();
         $expiryTime = 0;
-        if ( $handler->hasTimestamp( 'content-view-cache' ) )
+        if ( $handler->hasTimestamp( 'class-identifier-cache' ) )
         {
-            $expiryTime = $handler->timestamp( 'content-view-cache' );
+            $expiryTime = $handler->timestamp( 'class-identifier-cache' );
         }
 
         if ( $phpCache->canRestore( $expiryTime ) )
@@ -335,9 +335,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler =& eZExpiryHandler::instance();
         $expiryTime = 0;
-        if ( $handler->hasTimestamp( 'content-view-cache' ) )
+        if ( $handler->hasTimestamp( 'class-identifier-cache' ) )
         {
-            $expiryTime = $handler->timestamp( 'content-view-cache' );
+            $expiryTime = $handler->timestamp( 'class-identifier-cache' );
         }
 
         if ( $phpCache->canRestore( $expiryTime ) )
