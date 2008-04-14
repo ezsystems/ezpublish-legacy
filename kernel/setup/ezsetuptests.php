@@ -47,6 +47,7 @@ function eZSetupTestTable()
                   'php_register_globals' => array( 'eZSetupCheckRegisterGlobals' ),
                   'mbstring_extension' => array( 'eZSetupMBStringExtension' ),
                   'zlib_extension' => array( 'eZSetupTestExtension' ),
+                  'dom_extension' => array( 'eZSetupTestExtension' ),
                   'file_upload' => array( 'eZSetupTestFileUpload' ),
                   'open_basedir' => array( 'eZSetupTestOpenBasedir' ),
                   'safe_mode' => array( 'eZSetupTestSafeMode' ),
