@@ -567,9 +567,9 @@ class eZContentClassAttribute extends eZPersistentObject
         $handler = eZExpiryHandler::instance();
         $expiryTime = 0;
 
-        if ( $handler->hasTimestamp( 'content-view-cache' ) )
+        if ( $handler->hasTimestamp( 'sort-key-cache' ) )
         {
-            $expiryTime = $handler->timestamp( 'content-view-cache' );
+            $expiryTime = $handler->timestamp( 'sort-key-cache' );
         }
 
         if ( $phpCache->canRestore( $expiryTime ) )

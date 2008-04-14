@@ -1073,7 +1073,10 @@ You will need to change the class of the node by using the swap functionality.' 
 
         eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
-        $handler->setTimestamp( 'user-class-cache', time() );
+        $time = time();
+        $handler->setTimestamp( 'user-class-cache', $time );
+        $handler->setTimestamp( 'class-identifier-cache', $time );
+        $handler->setTimestamp( 'sort-key-cache', $time );
         $handler->store();
 
         //include_once( 'kernel/classes/ezcontentcachemanager.php' );

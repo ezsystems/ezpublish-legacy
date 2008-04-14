@@ -103,6 +103,7 @@ class eZCache
                                 array( 'name' => ezi18n( 'kernel/cache', 'Sort key cache' ),
                                        'id' => 'sortkey',
                                        'tag' => array( 'content' ),
+                                       'expiry-key' => 'sort-key-cache',
                                        'enabled' => true,
                                        'path' => false,
                                        'function' => array( 'eZCache', 'clearSortKey' ) ),
