@@ -96,6 +96,7 @@ class eZCache
                                 array( 'name' => ezi18n( 'kernel/cache', 'Class identifier cache' ),
                                        'id' => 'classid',
                                        'tag' => array( 'content' ),
+                                       'expiry-key' => 'class-identifier-cache',
                                        'enabled' => true,
                                        'path' => false,
                                        'function' => array( 'eZCache', 'clearClassID' ) ),
