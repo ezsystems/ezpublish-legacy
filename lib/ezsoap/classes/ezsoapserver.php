@@ -145,10 +145,10 @@ class eZSOAPServer
 
         $dom = new DOMDocument( '1.0', 'utf-8' );
         $dom->preserveWhiteSpace = false;
-        $dom->loadXML( $xmlData );
+        $success = $dom->loadXML( $xmlData );
 
         // Check for non-parsing XML, to avoid call to non-object error.
-        if ( empty( $dom ) )
+        if ( !$success )
         {
             $this->showResponse( 'unknown_function_name', 'unknown_namespace_uri',
                                  new eZSOAPFault( 'Server Error',
