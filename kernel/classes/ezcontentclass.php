@@ -1113,7 +1113,10 @@ You will need to change the class of the node by using the swap functionality.' 
 
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler =& eZExpiryHandler::instance();
-        $handler->setTimestamp( 'user-class-cache', mktime() );
+        $time = time();
+        $handler->setTimestamp( 'user-class-cache', $time );
+        $handler->setTimestamp( 'class-identifier-cache', $time );
+        $handler->setTimestamp( 'sort-key-cache', $time );
         $handler->store();
 
         include_once( 'kernel/classes/ezcontentcachemanager.php' );
