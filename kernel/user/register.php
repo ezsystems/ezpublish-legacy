@@ -163,7 +163,6 @@ if ( !function_exists( 'checkContentActions' ) )
             // Check if user should be enabled and logged in
             unset($user);
             $user = eZUser::fetch( $object->attribute( 'id' ) );
-            $user->loginCurrent();
 
             $receiver = $user->attribute( 'email' );
             $mail = new eZMail();
@@ -193,9 +192,6 @@ if ( !function_exists( 'checkContentActions' ) )
                 $userSetting->setAttribute( 'is_enabled', 0 );
                 $userSetting->store();
 
-                // Log out current user
-                eZUser::logoutCurrent();
-
                 // Create enable account hash and send it to the newly registered user
                 $hash = md5( mktime( ) . $user->attribute( 'contentobject_id' ) );
                 include_once( "kernel/classes/datatypes/ezuser/ezuseraccountkey.php" );
@@ -203,6 +199,10 @@ if ( !function_exists( 'checkContentActions' ) )
                 $accountKey->store();
 
                 $tpl->setVariable( 'hash', $hash );
+            }
+            else
+            {
+                $user->loginCurrent();
             }
 
             $templateResult =& $tpl->fetch( 'design:user/registrationinfo.tpl' );
