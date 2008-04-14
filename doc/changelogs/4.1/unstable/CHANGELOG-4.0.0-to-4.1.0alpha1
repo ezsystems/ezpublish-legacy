@@ -217,4 +217,5 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #8388: Cache for content/read limitation list isn't cleared after switching users
 - Fixed bug #12847: count() on DOMNodeList instance in ezsoapserver.php
 - Fixed bug #12849: empty() check on DOMDocument instance in ezsoapserver.php
+- Fixed bug #12429: Login restricted to a site access doesn't work
 

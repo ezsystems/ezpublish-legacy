@@ -125,16 +125,13 @@ if ( $Module->isCurrentAction( 'Login' ) and
             $user = $userClass->loginUser( $userLogin, $userPassword );
             if ( $user instanceof eZUser )
             {
-                $uri = eZURI::instance( eZSys::requestURI() );
-                $access = accessType( $uri,
-                                      eZSys::hostname(),
-                                      eZSys::serverPort(),
-                                      eZSys::indexFile() );
+                $access = $GLOBALS['eZCurrentAccess'];
                 $siteAccessResult = $user->hasAccessTo( 'user', 'login' );
                 $hasAccessToSite = false;
                 // A check that the user has rights to access current siteaccess.
                 if ( $siteAccessResult[ 'accessWord' ] == 'limited' )
                 {
+                    $siteNameCRC = eZSys::ezcrc32( $access[ 'name' ] );
                     //include_once( 'lib/ezutils/classes/ezsys.php' );
 
                     $policyChecked = false;
@@ -143,7 +140,7 @@ if ( $Module->isCurrentAction( 'Login' ) and
                         if ( isset( $policy['SiteAccess'] ) )
                         {
                             $policyChecked = true;
-                            if ( in_array( eZSys::ezcrc32( $access[ 'name' ] ), $policy['SiteAccess'] ) )
+                            if ( in_array( $siteNameCRC, $policy['SiteAccess'] ) )
                             {
                                 $hasAccessToSite = true;
                                 break;
