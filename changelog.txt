@@ -20,6 +20,8 @@ eZ Online Editor MCE extension Changelog
 * browse and search in link dialog + icons for selection in search and browse
 * don't add display:block on embed images
 * use TinyMce styles in dialogs
+* Not able to delete embed tags with backspace / del button
+* inline selector on embed tags dialog not working in IE
 
 0.98
 * string translations

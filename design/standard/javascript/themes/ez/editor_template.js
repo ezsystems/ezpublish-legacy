@@ -995,6 +995,9 @@
             // Don't block arrow keys, pg up/down, and F1-F12
             if ((k > 32 && k < 41) || (k > 111 && k < 124))
                 return;
+            // Don't block del and backspace keys
+            if ( k === 8 || k === 46 )
+                return;
             return Event.cancel(e);
         },
 		
@@ -1115,7 +1118,7 @@
                     ed.execCommand('mceTableCellProps', n, v);
                     break;
                 case 'A':
-                    if ( DOM.getAttrib(n, 'href') ) ed.execCommand('mceLink', n, v);
+                    if ( n.href ) ed.execCommand('mceLink', n, v);
                     else ed.execCommand('mceInsertAnchor', n, v);
                     break;
 		        default:
@@ -1265,7 +1268,7 @@
 
 		_mceLink : function(ui, v)
 		{
-			this._generalXmlTagPopup( 'link', false, 0, 320, ui );
+			this._generalXmlTagPopup( 'link', false, 0, 310, ui );
 		},
 
 		_mceNewDocument : function() {

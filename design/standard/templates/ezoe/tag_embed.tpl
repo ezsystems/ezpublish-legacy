@@ -11,7 +11,7 @@
 
 eZOEPopupUtils.embedObject = {$embed_data};
 var defaultEmbedSize = '{$default_size}', selectedSize = defaultEmbedSize, contentType = '{$content_type}';
-var viewListData = {$view_list}, classListData = {$class_list}, attributeDefaults = {$attribute_defaults};
+var viewListData = {$view_list}, classListData = {$class_list}, attributeDefaults = {$attribute_defaults}, selectedTagName = '';
 
 
 {literal}
@@ -27,7 +27,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
 	    var selectors = ez.$('embed_alt_source', 'embed_align_source', 'embed_class_source', 'embed_view_source', 'embed_inline_source');
         var tag = selectors[4].el.checked ? 'embed-inline' : 'embed', def = attributeDefaults[ tag ]
 	    inlineSelectorChange.call( selectors[4], false, selectors[4].el  );
-        selectors[4].addEvent('change', inlineSelectorChange );
+        selectors[4].addEvent('click', inlineSelectorChange );
         var align = el ? el.getAttribute('align') || def['align']  || 'right' : def['align']  || 'right';
         if ( align === 'center' ) align = 'middle';
 
@@ -90,6 +90,8 @@ function inlineSelectorChange( e, el )
     // embed and embed-inline have different settings
     var viewList = ez.$('embed_view_source'), classList = ez.$('embed_class_source'), inline = el.checked;
     var tag = inline ? 'embed-inline' : 'embed', editorEl = eZOEPopupUtils.settings.editorElement, def = attributeDefaults[ tag ];
+    if ( tag === selectedTagName ) return;
+    selectedTagName = tag;
     eZOEPopupUtils.settings.selectedTag = tag;
     eZOEPopupUtils.removeSelectOptions( viewList.el );
     eZOEPopupUtils.removeSelectOptions( classList.el );
@@ -99,12 +101,18 @@ function inlineSelectorChange( e, el )
     ez.$( !inline ? 'embed_customattributes' : 'embed-inline_customattributes' ).show();
 
     if ( editorEl )
-        viewList.el.value = editorEl.getAttribute('view');
+    {
+        var viewValue = editorEl.getAttribute('view');
+        var classValue = ez.string.trim( editorEl.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable)/g, '') );
+    }
+
+    if ( viewValue && (' ' + viewListData[ tag ].join(' ') + ' ').indexOf( ' ' + viewValue + ' ' ) !== -1 )
+        viewList.el.value = viewValue;
     else if ( def['view'] !== undefined )
         viewList.el.value = def['view'];
 
-    if ( editorEl )
-        classList.el.value = ez.string.trim( editorEl.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable)/g, '') );
+    if ( classValue && classListData[ tag ][ classValue ] !== undefined )
+        classList.el.value = classValue;
     else if ( def['class'] !== undefined )
         classList.el.value = def['class'];
 }
