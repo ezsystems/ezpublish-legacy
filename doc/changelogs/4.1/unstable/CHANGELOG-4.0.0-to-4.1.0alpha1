@@ -228,3 +228,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #10243: Second event not seen in workflow with PostgreSQL
 - Fixed bug #12869: php warning: Only variables should be assigned by reference in /var/www/mood.fr/ez/kernel/classes/workflowtypes/event/ezapprove/ezapprovetype.php on line 278
 - Fixed bug #12871: eZUser::fetchUserGroupClassNames() and eZUser::fetchUserClassList() are static but not defined as static
+- Fixed bug #10497: Fatal error when edit workflow with "Event / Wait until date" with length of Description more than 50 chars.
