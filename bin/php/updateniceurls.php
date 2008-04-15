@@ -406,7 +406,7 @@ function fetchHistoricWildcardCount()
 {
     $db = eZDB::instance();
     $sql = 'SELECT count(*) AS count FROM ezurlalias
-            WHERE is_imported = 0 AND is_wildcard = 1';
+            WHERE is_imported = 0 AND is_wildcard != 0';
     $rows = $db->arrayQuery( $sql );
     return $rows[0]['count'];
 }
@@ -437,7 +437,7 @@ function fetchHistoricWildcardChunk( $offset, $fetchLimit )
 {
     $db = eZDB::instance();
     $sql = 'SELECT id, is_wildcard, is_internal, source_url, destination_url
-            FROM ezurlalias WHERE is_imported = 0 AND is_wildcard = 1';
+            FROM ezurlalias WHERE is_imported = 0 AND is_wildcard != 0';
     $rows = $db->arrayQuery( $sql,
                              array( 'offset' => $offset,
                                     'limit' => $fetchLimit ) );
