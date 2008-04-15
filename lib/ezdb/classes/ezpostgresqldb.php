@@ -243,8 +243,6 @@ class eZPostgreSQLDB extends eZDBInterface
                 return false;
             }
 
-            $offset = count( $retArray );
-
             if ( pg_numrows( $result ) > 0 )
             {
                 if ( !is_string( $column ) )
