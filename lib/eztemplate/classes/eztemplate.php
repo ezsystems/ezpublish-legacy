@@ -1726,7 +1726,7 @@ class eZTemplate
                 }
             }
             if ( !$hasTemplateData )
-                $textElements[] = 'Object(' . get_class( $item ) . ')';
+                $textElements[] = method_exists( $item, '__toString' ) ? (string)$item : 'Object(' . get_class( $item ) . ')';
         }
         else
             $textElements[] = "$item";
