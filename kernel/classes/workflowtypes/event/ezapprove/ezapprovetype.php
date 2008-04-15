@@ -275,9 +275,9 @@ class eZApproveType extends eZWorkflowEventType
                     if ( isset( $approveUserGroup ) )
                         foreach( $approveUserGroup->attribute( 'assigned_nodes' ) as $assignedNode )
                         {
-                            $userNodeArray =& $assignedNode->subTree( array( 'ClassFilterType' => 'include',
-                                                                             'ClassFilterArray' => $userClassIDArray,
-                                                                             'Limitation' => array() ) );
+                            $userNodeArray = $assignedNode->subTree( array( 'ClassFilterType' => 'include',
+                                                                            'ClassFilterArray' => $userClassIDArray,
+                                                                            'Limitation' => array() ) );
                             foreach( $userNodeArray as $userNode )
                             {
                                 $approveUserIDArray[] = $userNode->attribute( 'contentobject_id' );
