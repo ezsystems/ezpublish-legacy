@@ -1034,7 +1034,7 @@ class eZModule
                                defined parameters.
      \return null if function could not be run or no return value was found.
     */
-    function &run( $functionName, $parameters, $overrideParameters = false, $userParameters = false )
+    function &run( $functionName, $parameters = array(), $overrideParameters = false, $userParameters = false )
     {
         if ( count( $this->Functions ) > 0 and
              !isset( $this->Functions[$functionName] ) )
