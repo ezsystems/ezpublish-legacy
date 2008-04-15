@@ -2498,7 +2498,7 @@ WHERE user_id = '" . $userID . "' AND
         return false;
     }
 
-    function fetchUserClassList( $asObject = false, $fields = false )
+    static function fetchUserClassList( $asObject = false, $fields = false )
     {
         // Get names of user classes
         if ( !$asObject and
@@ -2530,7 +2530,7 @@ WHERE user_id = '" . $userID . "' AND
         return eZPersistentObject::handleRows( $userClasses, "eZContentClass", $asObject );
     }
 
-    function fetchUserClassNames()
+    static function fetchUserClassNames()
     {
         $userClassNames = array();
         $userClasses = eZUser::fetchUserClassList( false, array( 'identifier' ) );
@@ -2541,7 +2541,7 @@ WHERE user_id = '" . $userID . "' AND
         return $userClassNames;
     }
 
-    function fetchUserGroupClassNames()
+    static function fetchUserGroupClassNames()
     {
         // Get names of user classes
         $userClassNames = array();
