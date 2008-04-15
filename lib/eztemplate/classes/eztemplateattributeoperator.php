@@ -136,15 +136,17 @@ class eZTemplateAttributeOperator
                 $type = gettype( $item );
                 if ( is_object( $item ) )
                     $type .= "[" . get_class( $item ) . "]";
-                $itemValue = $item;
+
                 if ( is_bool( $item ) )
                     $itemValue = $item ? "true" : "false";
                 else if ( is_array( $item ) )
                     $itemValue = 'Array(' . count( $item ) . ')';
-                else if ( is_numeric( $item ) )
-                    $itemValue = $item;
                 else if ( is_string( $item ) )
                     $itemValue = "'" . $item . "'";
+                else if ( is_object( $item ) )
+                    $itemValue = method_exists( $item, '__toString' ) ? (string)$item : 'Object';
+                else
+                    $itemValue = $item;
                 if ( $as_html )
                 {
                     $spacing = str_repeat( ">", $cur_level );
@@ -176,7 +178,7 @@ class eZTemplateAttributeOperator
                 $type = gettype( $item );
                 if ( is_object( $item ) )
                     $type .= "[" . get_class( $item ) . "]";
-                $itemValue = $item;
+
                 if ( is_bool( $item ) )
                     $itemValue = $item ? "true" : "false";
                 else if ( is_array( $item ) )
@@ -185,6 +187,10 @@ class eZTemplateAttributeOperator
                     $itemValue = $item;
                 else if ( is_string( $item ) )
                     $itemValue = "'" . $item . "'";
+                else if ( is_object( $item ) )
+                    $itemValue = method_exists( $item, '__toString' ) ? (string)$item : 'Object';
+                else
+                    $itemValue = $item;
                 if ( $as_html )
                 {
                     $spacing = str_repeat( ">", $cur_level );
