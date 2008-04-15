@@ -220,4 +220,5 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12849: empty() check on DOMDocument instance in ezsoapserver.php
 - Fixed bug #12429: Login restricted to a site access doesn't work
 - Fixed bug #11871: Class identifier cache not cleared when view caching and template cache are disabled
+- Fixed bug #12830: PHP Warning: array_key_exists ... The second argument should be either an array or an object in /lib/ezutils/classes/ezmodule.php on line 1116
 
