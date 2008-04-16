@@ -28,7 +28,7 @@ if ( !( $metaData = pg_fetch_array( $res, null, PGSQL_ASSOC ) ) )
 <TITLE>404 Not Found</TITLE>
 </HEAD><BODY>
 <H1>Not Found</H1>
-The requested URL <?=htmlspecialchars( $filename )?> was not found on this server.<P>
+The requested URL <?php echo htmlspecialchars( $filename ); ?> was not found on this server.<P>
 </BODY></HTML>
 <?php
     pg_free_result( $res );
