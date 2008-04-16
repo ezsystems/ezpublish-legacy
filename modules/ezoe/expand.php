@@ -82,12 +82,12 @@ if ( $nodeArray )
 
 
 echo '{list:' . $list . 
-     ",\ncount:" . count( $nodeArray ) .
-     ",\ntotal_count:" . $count .
-     ",\nnode:" . eZAjaxContent::encode( $node, array('fetchPath' => true ) ) .
-     ",\noffset:" . $offset .
-     ",\nlimit:" . $limit .
-     "\n};";
+     ",\r\ncount:" . count( $nodeArray ) .
+     ",\r\ntotal_count:" . $count .
+     ",\r\nnode:" . eZAjaxContent::encode( $node, array('fetchPath' => true ) ) .
+     ",\r\noffset:" . $offset .
+     ",\r\nlimit:" . $limit .
+     "\r\n};";
 
 
 eZExecution::cleanExit();

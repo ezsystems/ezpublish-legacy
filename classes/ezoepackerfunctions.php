@@ -41,6 +41,7 @@ class eZOEPackerFunctions
         if ( $fileExtension !== '.js' ) return '';
 
         $lang = '-en';
+        $locale = eZLocale::instance();
         if ( $args && $args[0] )
             $lang = $args[0];
 
@@ -73,10 +74,10 @@ class eZOEPackerFunctions
                 'time_fmt' => ezi18n( 'design/standard/ezoe', "%H:%M:%S"),
                 'insertdate_desc' => ezi18n( 'design/standard/ezoe', "Insert date"),
                 'inserttime_desc' => ezi18n( 'design/standard/ezoe', "Insert time"),
-                'months_long' => ezi18n( 'design/standard/ezoe', "January,February,March,April,May,June,July,August,September,October,November,December"),
-                'months_short' => ezi18n( 'design/standard/ezoe', "Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec"),
-                'day_long' => ezi18n( 'design/standard/ezoe', "Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday"),
-                'day_short' => ezi18n( 'design/standard/ezoe', "Sun,Mon,Tue,Wed,Thu,Fri,Sat,Sun")
+                'months_long' => ezi18n( 'design/standard/ezoe', implode(',', $locale->LongMonthNames ) ),
+                'months_short' => ezi18n( 'design/standard/ezoe', implode(',', $locale->ShortMonthNames ) ),
+                'day_long' => ezi18n( 'design/standard/ezoe', implode( ',', $locale->LongDayNames ) . ',' . $locale->longDayName(0) ),
+                'day_short' => ezi18n( 'design/standard/ezoe', implode( ',', $locale->ShortDayNames ) . ',' . $locale->shortDayName(0) )
             ),
             'print' => array(
                 'print_desc' => ezi18n( 'design/standard/ezoe', "Print")
@@ -328,7 +329,7 @@ class eZOEPackerFunctions
     public static function getCacheTime( $functionName )
     {
         // this translation data only expires when this timestamp is increased
-        return 1207643268;
+        return 1208348951;
     }
 }
 

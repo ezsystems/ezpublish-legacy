@@ -140,11 +140,11 @@ $list = eZAjaxContent::encode( $searchList["SearchResult"], array('dataMap' => a
 
 
 echo $varName . '{list:' . $list . 
-     ",\ncount:" . count( $searchList["SearchResult"] ) .
-     ",\ntotal_count:" . $searchList['SearchCount'] .
-     ",\noffset:" . $searchOffset .
-     ",\nlimit:" . $searchLimit .
-     "\n};";
+     ",\r\ncount:" . count( $searchList["SearchResult"] ) .
+     ",\r\ntotal_count:" . $searchList['SearchCount'] .
+     ",\r\noffset:" . $searchOffset .
+     ",\r\nlimit:" . $searchLimit .
+     "\r\n};";
 
 eZExecution::cleanExit();
 //$GLOBALS['show_page_layout'] = false;

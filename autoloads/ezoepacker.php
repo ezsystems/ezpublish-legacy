@@ -154,9 +154,9 @@ class eZOEPacker
         {
             // Is this a js file or js content?
             if ( strlen( $packedFile ) > 3 && strripos( $packedFile, '.js' ) === ( strlen( $packedFile ) -3 ) )
-                $ret .=  $packedFile ? "<script language=\"$lang\" type=\"$type\" src=\"$packedFile\"></script>\n" : '';
+                $ret .=  $packedFile ? "<script language=\"$lang\" type=\"$type\" src=\"$packedFile\"></script>\r\n" : '';
             else
-                $ret .=  $packedFile ? "<script language=\"$lang\" type=\"$type\">\n$packedFile\n</script>\n" : '';
+                $ret .=  $packedFile ? "<script language=\"$lang\" type=\"$type\">\r\n$packedFile\r\n</script>\r\n" : '';
         }
         return $ret;
     }
@@ -171,9 +171,9 @@ class eZOEPacker
         {
             // Is this a css file or css content?
             if ( strlen( $packedFile ) > 4 && strripos( $packedFile, '.css' ) === ( strlen( $packedFile ) -4 ) )
-                $ret .= $packedFile ? "<link rel=\"$rel\" type=\"$type\" href=\"$packedFile\" media=\"$media\" />\n" : '';
+                $ret .= $packedFile ? "<link rel=\"$rel\" type=\"$type\" href=\"$packedFile\" media=\"$media\" />\r\n" : '';
             else
-                $ret .= $packedFile ? "<style rel=\"$rel\" type=\"$type\" media=\"$media\">\n$packedFile\n</style>\n" : '';
+                $ret .= $packedFile ? "<style rel=\"$rel\" type=\"$type\" media=\"$media\">\r\n$packedFile\r\n</style>\r\n" : '';
         }
         return $ret;
     }
@@ -324,7 +324,7 @@ class eZOEPacker
 
            if ( !trim( $fileContent ) )
            {
-               $content .= "/* empty: $file */\n";
+               $content .= "/* empty: $file */\r\n";
                continue;
            }
 
@@ -350,9 +350,9 @@ class eZOEPacker
                }
            }
 
-           $content .= "/* start: $file */\n";
+           $content .= "/* start: $file */\r\n";
            $content .= $fileContent;
-           $content .= "\n/* end: $file */\n\n";
+           $content .= "\r\n/* end: $file */\r\n\r\n";
         }
 
         // Pack the file when development mode is turned off to save bandwidth
