@@ -24,6 +24,7 @@ eZ Online Editor MCE extension Changelog
 * inline selector on embed tags dialog not working in IE
 * supported old style attachment icon on embed tags by defining classes that don't have a image attribute
   as image in ImageClassIdentifiers (site.ini)
+* disable list buttons inside headings
 
 
 0.98

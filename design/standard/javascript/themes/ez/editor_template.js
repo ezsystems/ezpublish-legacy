@@ -827,7 +827,14 @@
 	            p = DOM.getParent(n, 'DIV');
 	            if (c = cm.get('pagebreak'))
 	                c.setDisabled(!!p && DOM.hasClass(p, 'pagebreak') );
-	
+
+                p = DOM.getParent(n, 'H1,H2,H3,H4,H5,H6');
+                if (p && (c = cm.get('bullist')))
+                    c.setDisabled( p );
+
+                if (p && (c = cm.get('numlist')))
+                    c.setDisabled( p );
+
 	            p = DOM.getParent(n, 'UL,OL');
 	            if (c = cm.get('outdent'))
 	            {
