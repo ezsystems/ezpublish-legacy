@@ -55,7 +55,7 @@ if ( $objectID === 0  || $objectVersion === 0 )
 
 $object    = eZContentObject::fetch( $objectID );
 $imageIni  = eZINI::instance( 'image.ini' );
-$params    = array('dataMap' => array('image'), 'imagePreGenerateSizes' => array('small') );
+$params    = array('loadImages' => true, 'imagePreGenerateSizes' => array('small') );
 
 if ( !$object )
 {

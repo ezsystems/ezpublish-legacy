@@ -99,6 +99,8 @@ var eZOEPopupUtils = {
 		        s.tagSelector.addEvent('change', eZOEPopupUtils.toggleCustomAttributes);
 		    }
         }
+        if ( s.onInitDone && s.onInitDone.call )
+            s.onInitDone.call( eZOEPopupUtils, s.editorElement, s.tagName, ed );
 	},
 
     save: function()

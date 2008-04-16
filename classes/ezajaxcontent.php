@@ -85,12 +85,14 @@ class eZAjaxContent
     public static function simplify( $obj, $params = array() )
     {
         if ( !$obj ) return array();
-        
+
+        $ini = eZINI::instance( 'site.ini' );
         $params = array_merge( array(
                             'dataMap' => array(), // collection of identifiers you want to load, load all with array('all')
                             'fetchPath' => false, // fetch node path
                             'fetchChildrenCount' => false,
                             'dataMapType' => array(), //if you want to filter datamap by type
+                            'loadImages' => false,
                             'imagePreGenerateSizes' => array('small') //Pre generated images, loading all can be quite time consuming
         ), $params );
 
@@ -104,7 +106,7 @@ class eZAjaxContent
             $params['imageSizes'] = array();
             
         if (  !isset( $params['imageDataTypes'] ) )
-            $params['imageDataTypes'] = array('ezimage');
+            $params['imageDataTypes'] = $ini->variable( 'ImageDataTypeSettings', 'AvailableImageDataTypes' );
 
         if ( $obj instanceof eZContentObject)
         {
@@ -176,8 +178,14 @@ class eZAjaxContent
                 $ret['children_count'] = false;
             }
         }
+        else
+        {
+            $class                   = $contentObject->attribute( 'content_class' );
+            $ret['class_identifier'] = $class->attribute( 'identifier' );
+            $ret['is_container']     = (int) $class->attribute( 'is_container' );
+        }
 
-        $ret['image_attributes']   = array();
+        $ret['image_attributes'] = array();
 
         if ( is_array( $params['dataMap'] ) && is_array(  $params['dataMapType'] ) )
         {
@@ -185,10 +193,12 @@ class eZAjaxContent
             foreach( $dataMap as $key => $atr )
             {
                 $dataTypeString = $atr->attribute( 'data_type_string' );
+                //if ( in_array( $dataTypeString, $params['imageDataTypes'], true) !== false )
 
                 if ( !in_array( 'all' ,$params['dataMap'], true )
                    && !in_array( $key ,$params['dataMap'], true )
                    && !in_array( $dataTypeString, $params['dataMapType'], true )
+                   && !( $params['loadImages'] && in_array( $dataTypeString, $params['imageDataTypes'], true ) )
                    ) continue;
                 $attrtibuteArray[ $key ]['id']         = $atr->attribute( 'id' );
                 $attrtibuteArray[ $key ]['type']       = $dataTypeString;

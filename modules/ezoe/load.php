@@ -55,7 +55,7 @@ if ( !$embedObject )
 }
 
 $imageIni  = eZINI::instance( 'image.ini' );
-$params    = array('dataMap' => array('image'));
+$params    = array('loadImages' => true);
 $params['imagePreGenerateSizes'] = array('small');
 
 if ( isset( $Params['DataMap'] )  && $Params['DataMap'])

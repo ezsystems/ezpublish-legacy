@@ -136,7 +136,7 @@ if (!$searchList  || ( $searchOffset === 0 && count($searchList["SearchResult"])
 }
 
 
-$list = eZAjaxContent::encode( $searchList["SearchResult"], array('dataMap' => array('image') ) );
+$list = eZAjaxContent::encode( $searchList["SearchResult"], array('loadImages' => true ) );
 
 
 echo $varName . '{list:' . $list . 

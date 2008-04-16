@@ -22,6 +22,9 @@ eZ Online Editor MCE extension Changelog
 * use TinyMce styles in dialogs
 * Not able to delete embed tags with backspace / del button
 * inline selector on embed tags dialog not working in IE
+* supported old style attachment icon on embed tags by defining classes that don't have a image attribute
+  as image in ImageClassIdentifiers (site.ini)
+
 
 0.98
 * string translations

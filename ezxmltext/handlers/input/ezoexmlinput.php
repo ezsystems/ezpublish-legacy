@@ -892,6 +892,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 {
                     $contentObjectAttributes = $object->contentObjectAttributes();
                     $imageDatatypeArray = $ini->variable( 'ImageDataTypeSettings', 'AvailableImageDataTypes' );
+                    $srcString = $URL . '/extension/ezoe/design/standard/images/tango/mail-attachment32.png" style="border: 1px solid #888;';
                     foreach ( $contentObjectAttributes as $contentObjectAttribute )
                     {
                         $classAttribute = $contentObjectAttribute->contentClassAttribute();
@@ -905,10 +906,6 @@ class eZOEXMLInput extends eZXMLInputHandler
                             {
                                 $imageAlias = $content->imageAlias( $size );
                                 $srcString = $URL . '/' . $imageAlias['url'];
-                            }
-                            else
-                            {
-                                $srcString = '';
                             }
                         }
                     }

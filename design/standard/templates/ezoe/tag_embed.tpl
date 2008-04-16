@@ -10,7 +10,7 @@
 <!--
 
 eZOEPopupUtils.embedObject = {$embed_data};
-var defaultEmbedSize = '{$default_size}', selectedSize = defaultEmbedSize, contentType = '{$content_type}';
+var defaultEmbedSize = '{$default_size}', selectedSize = defaultEmbedSize, contentType = '{$content_type}', attachmentIcon = {"tango/mail-attachment32.png"|ezimage};
 var viewListData = {$view_list}, classListData = {$class_list}, attributeDefaults = {$attribute_defaults}, selectedTagName = '';
 
 
@@ -22,7 +22,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     form: 'EditForm',
     cancelButton: 'CancelButton',
     cssClass: contentType !== 'image' ? 'mceNonEditable' : '',
-    onInit: function( el, tag, ed )
+    onInitDone: function( el, tag, ed )
     {        
 	    var selectors = ez.$('embed_alt_source', 'embed_align_source', 'embed_class_source', 'embed_view_source', 'embed_inline_source');
         var tag = selectors[4].el.checked ? 'embed-inline' : 'embed', def = attributeDefaults[ tag ]
@@ -67,10 +67,20 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         args['inline'] = ez.$('embed_inline_source').el.checked ? 'true' : 'false';
 	    if ( contentType === 'image' )
 	    {
-	        var sizeObj     = eZOEPopupUtils.embedObject['data_map']['image']['content'][ args['alt'] ];
-	        args['src']     = eZOeMCE['root'] + sizeObj['url'];
-	        args['title']   = eZOEPopupUtils.safeHtml( sizeObj['alternative_text'] || eZOEPopupUtils.embedObject['name'] );
-	        args['border']  = 0;
+	        var imageAttributes = eZOEPopupUtils.embedObject['image_attributes'];
+		    if ( !imageAttributes || !eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ] )
+		    {
+		        args['src'] = attachmentIcon;
+		        args['title']   = eZOEPopupUtils.safeHtml( eZOEPopupUtils.embedObject['name'] );
+		        el.style.border = '1px solid #888';
+		    }
+		    else
+		    {
+	           var sizeObj     = eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'][ args['alt'] ];
+	           args['src']     = eZOeMCE['root'] + sizeObj['url'];
+	           args['title']   = eZOEPopupUtils.safeHtml( sizeObj['alternative_text'] || eZOEPopupUtils.embedObject['name'] );
+	           args['border']  = 0;
+	        }
 	    }
 	    else
 	    {
@@ -127,7 +137,13 @@ function loadImageSize( e, el )
 {
     // Dynamically loads image sizes as they are requested
     // global objects: ez, eZOeMCE
-    var attribObj = eZOEPopupUtils.embedObject['data_map']['image']['content'] || false, previewImageNode = ez.$('embed_preview_image'), size = el.value;
+    var imageAttributes = eZOEPopupUtils.embedObject['image_attributes'], previewImageNode = ez.$('embed_preview_image');
+    if ( !imageAttributes || !eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ] )
+    {
+        previewImageNode.el.src = attachmentIcon;
+        return;
+    }
+    var attribObj = eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'] || false, size = el.value;
     if ( !attribObj || !previewImageNode )
     {
         // Image attribute or node missing
@@ -144,9 +160,9 @@ function loadImageSize( e, el )
             ez.script( 'eZOEPopupUtils.ajaxLoadResponse=' + r.responseText );
             if ( eZOEPopupUtils.ajaxLoadResponse )
             {
-                var size = ez.$('embed_alt_source').el.value;
-                eZOEPopupUtils.embedObject['data_map']['image']['content'][ size ] = eZOEPopupUtils.ajaxLoadResponse['data_map']['image']['content'][ size ];
-                previewImageNode.el.src = eZOeMCE['root'] + eZOEPopupUtils.embedObject['data_map']['image']['content'][ size ]['url'];
+                var size = ez.$('embed_alt_source').el.value, imageAttributes = eZOEPopupUtils.embedObject['image_attributes'];
+                eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'][ size ] = eZOEPopupUtils.ajaxLoadResponse['data_map'][ imageAttributes[0] ]['content'][ size ];
+                previewImageNode.el.src = eZOeMCE['root'] + eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'][ size ]['url'];
             }
         });
     }
