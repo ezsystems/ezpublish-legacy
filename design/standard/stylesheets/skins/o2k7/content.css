@@ -129,10 +129,12 @@ div.pagebreak p { margin: 0; }
 
 /* change the style for embed tags */
 
-div.mceNonEditable, div.mceNonEditable div
+div.mceNonEditable
 {
+    background: transparent url('../../../images/tango/mail-attachment.png') no-repeat 0 2px scroll;
+    min-height: 18px;
+    padding-left: 16px;
 }
-
 /* core.css ez layout styles for embed tags */
 
 div.mceNonEditable div.block /* Used around groups of objects which are connected in some way, and requires extra margins to the surroundings */

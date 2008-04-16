@@ -40,10 +40,10 @@ class ezoeInfo
                                                                               'Version' => '0.92',
                                                                               'Copyright' => 'Copyright © 2008 eZ Systems AS',
                                                                               'License' => 'Licensed under the MIT License',),
-                      'Includes the following third-party icons'    => array( 'Name' => 'twotiny - icons for websites and web applications',
-                                                                              'Version' => '1.0',
-                                                                              'Copyright' => 'Copyright © 2008 paul jarvis of http://twothirty.com & http://2pt3.com',
-                                                                              'License' => 'Artistic License/GPLv2',)
+                      'Includes the following third-party icons'    => array( 'Name' => 'Tango Icon theme',
+                                                                              'Version' => '0.8.1',
+                                                                              'Copyright' => 'Copyright © 2008 http://tango-project.org',
+                                                                              'License' => 'Creative Commons Attribution-ShareAlike 2.5',)
                     );
     }
 }

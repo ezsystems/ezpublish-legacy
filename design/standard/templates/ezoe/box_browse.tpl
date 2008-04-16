@@ -4,7 +4,7 @@
 	<div class="panel" style="display: none;">
 	    <div style="background-color: #eee; text-align: center">
 	    {if $embed_mode}
-	        <a id="embed_browse_go_back_link" title="Go back" href="JavaScript:void(0);" style="float: left;"><img width="13" height="11" border="0" src={"ezoe/arrow-left.gif"|ezimage} /></a>
+	        <a id="embed_browse_go_back_link" title="Go back" href="JavaScript:void(0);" style="float: right;"><img width="16" height="16" border="0" src={"tango/emblem-unreadable.png"|ezimage} /></a>
 	    {/if}
 	    {foreach $root_nodes as $n}
 	        <a href="JavaScript:eZOEPopupUtils.browse( {$n.node_id} )" style="font-weight: bold">{$n.name}</a> &nbsp;

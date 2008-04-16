@@ -10,7 +10,6 @@
 <!--
 
 var ezTagName = '{$tag_name|wash}', ezoeLinkTimeOut = null, slides = 0;
-eZOeMCE['img_checkbox'] = {"ezoe/checkbox.gif"|ezimage};
 {literal} 
 
 tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
@@ -142,8 +141,8 @@ function ezoeLinkTypeSet( source, types )
                 <option value="mailto:">Mail</option>
             </select>
             <span id="link_href_source_info"></span>
-            <a id="search_for_link" href="JavaScript:void(0);" title="Search"><img width="13" height="13" border="0" src={"ezoe/search.gif"|ezimage} /></a>
-            <a id="browse_for_link" href="JavaScript:void(0);" title="Browse"><img width="15" height="11" border="0" src={"ezoe/folder-open.gif"|ezimage} /></a>
+            <a id="search_for_link" href="JavaScript:void(0);" title="Search"><img width="16" height="16" border="0" src={"tango/system-search.png"|ezimage} /></a>
+            <a id="browse_for_link" href="JavaScript:void(0);" title="Browse"><img width="16" height="16" border="0" src={"tango/folder.png"|ezimage} /></a>
             <br />
         {/set-block}
         

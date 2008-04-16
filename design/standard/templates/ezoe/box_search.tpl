@@ -3,7 +3,7 @@
          classes            = fetch( 'class', 'list' )}
 	<div class="panel" id="search_box" style="display: none; position: relative;">
 	    {if $embed_mode}
-	        <a id="embed_search_go_back_link" title="Go back" href="JavaScript:void(0);" style="position: absolute; top: 5px; left: 5px;"><img width="13" height="11" border="0" src={"ezoe/arrow-left.gif"|ezimage} /></a>
+	        <a id="embed_search_go_back_link" title="Go back" href="JavaScript:void(0);" style="position: absolute; top: 0px; right: -5px;"><img width="16" height="16" border="0" src={"tango/emblem-unreadable.png"|ezimage} /></a>
 	    {/if}
 	    <table class="properties">
 	    <tr>

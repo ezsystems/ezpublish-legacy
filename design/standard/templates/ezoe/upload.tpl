@@ -10,7 +10,6 @@
 var contentType = '{$content_type}';
 
 eZOeMCE['relation_url']  = {concat('ezoe/relations/', $object_id, '/', $object_version, '/auto' )|ezurl};
-eZOeMCE['img_checkbox'] = {"ezoe/checkbox.gif"|ezimage};
     
 {literal} 
 
@@ -88,7 +87,7 @@ tinyMCEPopup.onInit.add( function(){
                 <tr> 
                     <td colspan="3">
                     <input id="uploadButton" name="uploadButton" type="submit" value="{'Upload local file'|i18n('design/standard/ezoe')}" />
-                    <span id="upload_in_progress" style="display: none; color: #666">{'Upload is in progress, it may take a few seconds ...'|i18n('design/standard/ezoe')}</span>
+                    <span id="upload_in_progress" style="display: none; color: #666; background: #fff url({"stylesheets/skins/default/img/progress.gif"|ezdesign('single')}) no-repeat top left scroll; padding-left: 32px;">{'Upload is in progress, it may take a few seconds...'|i18n('design/standard/ezoe')}</span>
                     </td> 
                 </tr>
             </table>
