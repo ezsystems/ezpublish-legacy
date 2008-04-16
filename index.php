@@ -784,22 +784,25 @@ while ( $moduleRunRequired )
     }
 }
 
-$currentUser = eZUser::currentUser();
-$ini = eZINI::instance();
-
-$wwwDir = eZSys::wwwDir();
-// On host based site accesses this can be empty, causing the cookie to be set for the current dir,
-// but we want it to be set for the whole eZ publish site
-$cookiePath = $wwwDir != '' ? $wwwDir : '/';
-
-if ( $currentUser->isLoggedIn() )
+if ( $ini->variable( "SiteAccessSettings", "CheckValidity" ) !== 'true' )
 {
-    setcookie( 'is_logged_in', 'true', 0, $cookiePath );
-    header( 'Etag: ' . $currentUser->attribute( 'contentobject_id' ) );
-}
-else
-{
-    setcookie( 'is_logged_in', false, 0, $cookiePath );
+    $currentUser = eZUser::currentUser();
+    $ini = eZINI::instance();
+
+    $wwwDir = eZSys::wwwDir();
+    // On host based site accesses this can be empty, causing the cookie to be set for the current dir,
+    // but we want it to be set for the whole eZ publish site
+    $cookiePath = $wwwDir != '' ? $wwwDir : '/';
+
+    if ( $currentUser->isLoggedIn() )
+    {
+        setcookie( 'is_logged_in', 'true', 0, $cookiePath );
+        header( 'Etag: ' . $currentUser->attribute( 'contentobject_id' ) );
+    }
+    else
+    {
+        setcookie( 'is_logged_in', false, 0, $cookiePath );
+    }
 }
 
 if ( $module->exitStatus() == eZModule::STATUS_REDIRECT )
