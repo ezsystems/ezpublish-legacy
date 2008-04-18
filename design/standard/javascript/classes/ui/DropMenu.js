@@ -1,5 +1,5 @@
 /**
- * $Id: DropMenu.js 766 2008-04-03 20:37:06Z spocke $
+ * $Id: DropMenu.js 796 2008-04-14 13:18:25Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -161,12 +161,16 @@
 
 					dm = t;
 
-					while (dm) {
-						if (dm.hideMenu)
-							dm.hideMenu();
+					// Wait a while to fix IE bug where it looses the selection if the user clicks on a menu
+					// item when the editor is placed within an frame or iframe
+					DOM.win.setTimeout(function() {
+						while (dm) {
+							if (dm.hideMenu)
+								dm.hideMenu();
 
-						dm = dm.settings.parent;
-					}
+							dm = dm.settings.parent;
+						}
+					}, 0);
 
 					if (m.settings.onclick)
 						m.settings.onclick(e);

@@ -1,5 +1,5 @@
 /**
- * $Id: Editor.js 769 2008-04-07 13:30:56Z spocke $
+ * $Id: Editor.js 802 2008-04-14 14:36:33Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -185,7 +185,7 @@
 
 			if (s.add_unload_trigger) {
 				t._beforeUnload = tinyMCE.onBeforeUnload.add(function() {
-					if (t.initialized && !t.destroyed)
+					if (t.initialized && !t.destroyed && !t.isHidden())
 						t.save({format : 'raw', no_events : true});
 				});
 			}
@@ -1135,7 +1135,7 @@
 		 * @return {bool} True/false if the command was executed or not.
 		 */
 		execCommand : function(cmd, ui, val, a) {
-			var t = this, s = 0, o;
+			var t = this, s = 0, o, st;
 
 			if (!/^(mceAddUndoLevel|mceEndUndoLevel|mceBeginUndoLevel|mceRepaint|SelectAll)$/.test(cmd) && (!a || !a.skip_focus))
 				t.focus();
@@ -1153,9 +1153,13 @@
 
 			// Registred commands
 			if (o = t.execCommands[cmd]) {
-				s = o.func.call(o.scope, ui, val);
-				t.onExecCommand.dispatch(t, cmd, ui, val, a);
-				return s;
+				st = o.func.call(o.scope, ui, val);
+
+				// Fall through on true
+				if (st !== true) {
+					t.onExecCommand.dispatch(t, cmd, ui, val, a);
+					return st;
+				}
 			}
 
 			// Plugin commands
@@ -1194,15 +1198,20 @@
 		 * @return {bool} Command specific state, for example if bold is enabled or not.
 		 */
 		queryCommandState : function(c) {
-			var t = this, o;
+			var t = this, o, s;
 
 			// Is hidden then return undefined
 			if (t._isHidden())
 				return;
 
 			// Registred commands
-			if (o = t.queryStateCommands[c])
-				return o.func.call(o.scope);
+			if (o = t.queryStateCommands[c]) {
+				s = o.func.call(o.scope);
+
+				// Fall though on true
+				if (s !== true)
+					return s;
+			}
 
 			// Registred commands
 			o = t.editorCommands.queryCommandState(c);
@@ -1224,15 +1233,20 @@
 		 * @return {Object} Command specific value, for example the current font size.
 		 */
 		queryCommandValue : function(c) {
-			var t = this, o;
+			var t = this, o, s;
 
 			// Is hidden then return undefined
 			if (t._isHidden())
 				return;
 
 			// Registred commands
-			if (o = t.queryValueCommands[c])
-				return o.func.call(o.scope);
+			if (o = t.queryValueCommands[c]) {
+				s = o.func.call(o.scope);
+
+				// Fall though on true
+				if (s !== true)
+					return s;
+			}
 
 			// Registred commands
 			o = t.editorCommands.queryCommandValue(c);
@@ -1660,8 +1674,14 @@
 				t.dom.destroy();
 
 				// Remove all events
-				Event.clear(t.getWin());
-				Event.clear(t.getDoc());
+
+				// Don't clear the window or document if content editable
+				// is enabled since other instances might still be present
+				if (!t.settings.content_editable) {
+					Event.clear(t.getWin());
+					Event.clear(t.getDoc());
+				}
+
 				Event.clear(t.getBody());
 				Event.clear(t.formElement);
 			}
@@ -2007,7 +2027,6 @@
 					var re = t.resizeInfo, cb;
 
 					e = e.target;
-					e.removeAttribute('mce_style'); // Remove this one since it might change
 
 					// Don't do this action for non image elements
 					if (e.nodeName !== 'IMG')
@@ -2138,15 +2157,15 @@
 
 							case 'U':
 							case 'STRIKE':
-								sp = dom.create('span', {style : dom.getAttrib(n, 'style')});
-								sp.style.textDecoration = n.nodeName == 'U' ? 'underline' : 'line-through';
-								dom.setAttrib(sp, 'mce_style', '');
-								dom.replace(sp, n, 1);
+								//sp = dom.create('span', {style : dom.getAttrib(n, 'style')});
+								n.style.textDecoration = n.nodeName == 'U' ? 'underline' : 'line-through';
+								dom.setAttrib(n, 'mce_style', '');
+								dom.setAttrib(n, 'mce_name', 'span');
 								break;
 						}
 					});
 				} else if (o.set) {
-					each(t.dom.select('table,span', o.node), function(n) {
+					each(t.dom.select('table,span', o.node).reverse(), function(n) {
 						if (n.nodeName == 'TABLE') {
 							if (v = dom.getStyle(n, 'height'))
 								dom.setAttrib(n, 'height', v.replace(/[^0-9%]+/g, ''));
@@ -2177,8 +2196,9 @@
 			t.onPreProcess.add(convert);
 
 			if (!s.cleanup_on_startup) {
-				t.onInit.add(function() {
-					convert(t, {node : t.getBody(), set : 1});
+				t.onSetContent.add(function(ed, o) {
+					if (o.initial)
+						convert(t, {node : t.getBody(), set : 1});
 				});
 			}
 		},

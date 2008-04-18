@@ -1,5 +1,5 @@
 /**
- * $Id: EditorCommands.js 763 2008-04-03 13:25:45Z spocke $
+ * $Id: EditorCommands.js 791 2008-04-10 16:02:30Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -144,7 +144,7 @@
 		},
 
 		mceInsertLink : function(u, v) {
-			var ed = this.editor, e = ed.dom.getParent(ed.selection.getNode(), 'A');
+			var ed = this.editor, s = ed.selection, e = ed.dom.getParent(s.getNode(), 'A');
 
 			if (tinymce.is(v, 'string'))
 				v = {href : v};
@@ -709,7 +709,7 @@
 		},
 
 		queryStateUnderline : function() {
-			var ed = this.editor, n;
+			var ed = this.editor, n = ed.selection.getNode();
 
 			if (n && n.nodeName == 'A')
 				return false;

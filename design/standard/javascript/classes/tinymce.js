@@ -1,5 +1,5 @@
 /**
- * $Id: tinymce.js 769 2008-04-07 13:30:56Z spocke $
+ * $Id: tinymce.js 799 2008-04-14 13:41:58Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -12,8 +12,8 @@
  */
 var tinymce = {
 	majorVersion : '3',
-	minorVersion : '0.6.2',
-	releaseDate : '2008-04-07',
+	minorVersion : '0.7',
+	releaseDate : '2008-04-14',
 
 	/**#@+
 	 * @method
@@ -23,19 +23,19 @@ var tinymce = {
 	 * Initializes the TinyMCE global namespace this will setup browser detection and figure out where TinyMCE is running from.
 	 */
 	_init : function() {
-		var t = this, ua = navigator.userAgent, i, nl, n, base;
+		var t = this, d = document, w = window, na = navigator, ua = na.userAgent, i, nl, n, base;
 
 		// Browser checks
-		t.isOpera = window.opera && opera.buildNumber;
+		t.isOpera = w.opera && opera.buildNumber;
 		t.isWebKit = /WebKit/.test(ua);
-		t.isOldWebKit = t.isWebKit && !window.getSelection().getRangeAt;
-		t.isIE = !t.isWebKit && !t.isOpera && (/MSIE/gi).test(ua) && (/Explorer/gi).test(navigator.appName);
+		t.isOldWebKit = t.isWebKit && !w.getSelection().getRangeAt;
+		t.isIE = !t.isWebKit && !t.isOpera && (/MSIE/gi).test(ua) && (/Explorer/gi).test(na.appName);
 		t.isIE6 = t.isIE && /MSIE [56]/.test(ua);
 		t.isGecko = !t.isWebKit && /Gecko/.test(ua);
 		t.isMac = ua.indexOf('Mac') != -1;
 
 		// TinyMCE .NET webcontrol might be setting the values for TinyMCE
-		if (window.tinyMCEPreInit) {
+		if (w.tinyMCEPreInit) {
 			t.suffix = tinyMCEPreInit.suffix;
 			t.baseURL = tinyMCEPreInit.base;
 			return;
@@ -45,7 +45,7 @@ var tinymce = {
 		t.suffix = '';
 
 		// If base element found, add that infront of baseURL
-		nl = document.getElementsByTagName('base');
+		nl = d.getElementsByTagName('base');
 		for (i=0; i<nl.length; i++) {
 			if (nl[i].href)
 				base = nl[i].href;
@@ -69,14 +69,14 @@ var tinymce = {
 		};
 
 		// Check document
-		nl = document.getElementsByTagName('script');
+		nl = d.getElementsByTagName('script');
 		for (i=0; i<nl.length; i++) {
 			if (getBase(nl[i]))
 				return;
 		}
 
 		// Check head
-		n = document.getElementsByTagName('head')[0];
+		n = d.getElementsByTagName('head')[0];
 		if (n) {
 			nl = n.getElementsByTagName('script');
 			for (i=0; i<nl.length; i++) {
@@ -408,40 +408,71 @@ var tinymce = {
 	 * @return {function} Returns the specified unload handler function.
 	 */
 	addUnload : function(f, s) {
-		var t = this, w = window, unload;
+		var t = this, w = window;
 
 		f = {func : f, scope : s || this};
 
 		if (!t.unloads) {
-			unload = function() {
+			function unload() {
 				var li = t.unloads, o, n;
 
-				// Call unload handlers
-				for (n in li) {
-					o = li[n];
+				if (li) {
+					// Call unload handlers
+					for (n in li) {
+						o = li[n];
 
-					if (o && o.func)
-						o.func.call(o.scope, 1); // Send in one arg to distinct unload and user destroy
+						if (o && o.func)
+							o.func.call(o.scope, 1); // Send in one arg to distinct unload and user destroy
+					}
+
+					// Detach unload function
+					if (w.detachEvent) {
+						w.detachEvent('onbeforeunload', fakeUnload);
+						w.detachEvent('onunload', unload);
+					} else if (w.removeEventListener)
+						w.removeEventListener('unload', unload, false);
+
+					// Destroy references
+					t.unloads = o = li = w = unload = null;
+
+					// Run garbarge collector on IE
+					if (window.CollectGarbage)
+						window.CollectGarbage();
 				}
+			};
 
-				// Detach unload function
-				if (w.detachEvent)
-					w.detachEvent('onunload', unload);
-				else if (w.removeEventListener)
-					w.removeEventListener('unload', unload, false);
+			function fakeUnload() {
+				var d = document;
 
-				// Destroy references
-				o = li = w = unload = null;
+				// Is there things still loading, then do some magic
+				if (d.readyState == 'interactive') {
+					function stop() {
+						// Prevent memory leak
+						d.detachEvent('onstop', stop);
 
-				// Run garbarge collector on IE
-				if (window.CollectGarbage)
-					window.CollectGarbage();
+						// Call unload handler
+						unload();
+
+						d = null;
+					};
+
+					// Fire unload when the currently loading page is stopped
+					d.attachEvent('onstop', stop);
+
+					// Remove onstop listener after a while to prevent the unload function
+					// to execute if the user presses cancel in an onbeforeunload
+					// confirm dialog and then presses the browser stop button
+					window.setTimeout(function() {
+						d.detachEvent('onstop', stop);
+					}, 0);
+				}
 			};
 
 			// Attach unload handler
-			if (w.attachEvent)
+			if (w.attachEvent) {
 				w.attachEvent('onunload', unload);
-			else if (w.addEventListener)
+				w.attachEvent('onbeforeunload', fakeUnload);
+			} else if (w.addEventListener)
 				w.addEventListener('unload', unload, false);
 
 			// Setup initial unload handler array
@@ -480,6 +511,10 @@ var tinymce = {
 	 */
 	explode : function(s, d) {
 		return tinymce.map(s.split(d || ','), tinymce.trim);
+	},
+
+	_addVer : function(u, s) {
+		return u + (u.indexOf('?') == -1 ? '?' : '&') + 'v=' + (tinymce.majorVersion + tinymce.minorVersion).replace(/[^0-9]/g, '');
 	}
 
 	/**#@-*/

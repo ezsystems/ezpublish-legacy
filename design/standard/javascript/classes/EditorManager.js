@@ -1,5 +1,5 @@
 /**
- * $Id: EditorManager.js 766 2008-04-03 20:37:06Z spocke $
+ * $Id: EditorManager.js 794 2008-04-12 11:02:58Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -59,7 +59,7 @@
 		 * @param {Object} s Settings object to be passed to each editor instance.
 		 */
 		init : function(s) {
-			var t = this, pl, sl = tinymce.ScriptLoader, c;
+			var t = this, pl, sl = tinymce.ScriptLoader, c, e;
 
 			function execCallback(se, n, s) {
 				var f = se[n];
@@ -195,7 +195,10 @@
 								return;
 
 							if (!s.editor_selector || hasClass(v, s.editor_selector)) {
-								v.id = v.id || v.name;
+								// Can we use the name
+								e = DOM.get(v.name);
+								if (!v.id && !e)
+									v.id = v.name;
 
 								// Generate unique name if missing or already exists
 								if (!v.id || t.get(v.id))
@@ -314,7 +317,9 @@
 
 				case "mceAddEditor":
 				case "mceAddControl":
-					new tinymce.Editor(v, t.settings).render();
+					if (!t.get(v))
+						new tinymce.Editor(v, t.settings).render();
+
 					return true;
 
 				case "mceAddFrameControl":

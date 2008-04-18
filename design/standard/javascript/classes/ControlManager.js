@@ -1,5 +1,5 @@
 /**
- * $Id: ControlManager.js 760 2008-04-01 14:13:07Z spocke $
+ * $Id: ControlManager.js 793 2008-04-10 17:32:40Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -273,6 +273,7 @@
 				return null;
 
 			s.title = ed.translate(s.title);
+			s.label = ed.translate(s.label);
 			s.scope = s.scope || ed;
 
 			if (!s.onclick && !s.menu_button) {

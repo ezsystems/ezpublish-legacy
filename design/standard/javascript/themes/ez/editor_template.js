@@ -1,5 +1,5 @@
 /**
- * $Id: editor_template_src.js 766 2008-04-03 20:37:06Z spocke $
+ * $Id: editor_template_src.js 793 2008-04-10 17:32:40Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -1286,25 +1286,29 @@
 			});
 		},
 
-		_mceForeColor : function() {
-			var t = this;
+        _mceForeColor : function() {
+            var t = this;
 
-			this._mceColorPicker(0, {
-				func : function(co) {
-					t.editor.execCommand('ForeColor', false, co);
-				}
-			});
-		},
+            this._mceColorPicker(0, {
+                color: t.fgColor,
+                func : function(co) {
+                    t.fgColor = co;
+                    t.editor.execCommand('ForeColor', false, co);
+                }
+            });
+        },
 
-		_mceBackColor : function() {
-			var t = this;
+        _mceBackColor : function() {
+            var t = this;
 
-			this._mceColorPicker(0, {
-				func : function(co) {
-					t.editor.execCommand('HiliteColor', false, co);
-				}
-			});
-		},
+            this._mceColorPicker(0, {
+                color: t.bgColor,
+                func : function(co) {
+                    t.bgColor = co;
+                    t.editor.execCommand('HiliteColor', false, co);
+                }
+            });
+        },
 
         _ufirst : function(s) {
             return s.substring(0, 1).toUpperCase() + s.substring(1);

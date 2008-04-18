@@ -2,6 +2,7 @@ eZ Online Editor MCE extension Changelog
 
 5.0beta
 * clicking search buttons does not work (hides link dialog)
+* updated TinyMCE to 3.0.7
 
 0.99
 * embed image issues ( 'view' not correct and not changable )

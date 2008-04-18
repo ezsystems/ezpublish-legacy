@@ -1,5 +1,5 @@
 /**
- * $Id: Popup.js 770 2008-04-07 13:39:20Z spocke $
+ * $Id: Popup.js 786 2008-04-10 11:25:05Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -179,7 +179,7 @@ tinyMCEPopup = {
 			u += '/langs/' + this.editor.settings.language + '_dlg.js';
 
 			if (!tinymce.ScriptLoader.isDone(u)) {
-				document.write('<script type="text/javascript" src="' + u + '"></script>');
+				document.write('<script type="text/javascript" src="' + tinymce._addVer(u) + '"></script>');
 				tinymce.ScriptLoader.markDone(u);
 			}
 		}

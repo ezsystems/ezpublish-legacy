@@ -1,5 +1,5 @@
 /**
- * $Id: editor_plugin_src.js 768 2008-04-04 13:52:49Z spocke $
+ * $Id: editor_plugin_src.js 792 2008-04-10 16:37:29Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -92,10 +92,22 @@
 					ed.undoManager.add();
 			});
 
+			// Select whole table is a table border is clicked
+			if (!tinymce.isIE) {
+				if (ed.getParam('table_selection', true)) {
+					ed.onClick.add(function(ed, e) {
+						e = e.target;
+
+						if (e.nodeName === 'TABLE')
+							ed.selection.select(e);
+					});
+				}
+			}
+
 			ed.onNodeChange.add(function(ed, cm, n) {
 				var p = ed.dom.getParent(n, 'td,th,caption');
 
-				cm.setActive('table', !!p);
+				cm.setActive('table', n.nodeName === 'TABLE' || !!p);
 				if (p && p.nodeName === 'CAPTION')
 					p = null;
 
@@ -892,7 +904,7 @@
 									if (!tdElm)
 										break;
 
-									if (tdElm.nodeName == "TD")
+									if (tdElm.nodeName == "TD" || tdElm.nodeName == "TH")
 										cells[cells.length] = tdElm;
 								}
 

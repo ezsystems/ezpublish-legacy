@@ -1,5 +1,5 @@
 /**
- * $Id: UndoManager.js 641 2008-02-26 17:01:30Z spocke $
+ * $Id: UndoManager.js 787 2008-04-10 11:40:57Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -68,6 +68,11 @@ tinymce.create('tinymce.UndoManager', {
 
 		if (t.index < t.data.length && t.data[t.index].initial)
 			t.index++;
+
+		// Only initial marked undo levels should be allowed as first item
+		// This to workaround a bug with Firefox and the blur event
+		if (t.data.length === 0 && !l.initial)
+			return null;
 
 		// Add level
 		t.data.length = t.index + 1;

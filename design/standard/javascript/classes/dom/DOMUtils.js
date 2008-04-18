@@ -1,5 +1,5 @@
 /**
- * $Id: DOMUtils.js 766 2008-04-03 20:37:06Z spocke $
+ * $Id: DOMUtils.js 800 2008-04-14 13:50:22Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -631,7 +631,8 @@
 
 				switch (n) {
 					case "style":
-						if (s.keep_values) {
+						// No mce_style for elements with these since they might get resized by the user
+						if (s.keep_values && /^(| )(top|left|bottom|right|width|height)/i.test(v)) {
 							if (v)
 								e.setAttribute('mce_style', v, 2);
 							else
@@ -695,7 +696,7 @@
 
 			e = t.get(e);
 
-			if (!e)
+			if (!e || e.nodeType !== 1)
 				return false;
 
 			if (!is(dv))
@@ -736,7 +737,7 @@
 					if (v) {
 						v = t.serializeStyle(t.parseStyle(v));
 
-						if (t.settings.keep_values)
+						if (t.settings.keep_values && /^(| )(top|left|bottom|right|width|height)/i.test(v))
 							e.setAttribute('mce_style', v);
 					}
 
@@ -984,7 +985,7 @@
 					return;
 
 				t.files[u] = true;
-				t.add(t.select('head')[0], 'link', {rel : 'stylesheet', href : u});
+				t.add(t.select('head')[0], 'link', {rel : 'stylesheet', href : tinymce._addVer(u)});
 			});
 		},
 
@@ -1238,7 +1239,8 @@
 			if (tinymce.isGecko) {
 				h = h.replace(/<(\/?)strong>|<strong( [^>]+)>/gi, '<$1b$2>');
 				h = h.replace(/<(\/?)em>|<em( [^>]+)>/gi, '<$1i$2>');
-			}
+			} else if (isIE)
+				h = h.replace(/&apos;/g, '&#39;'); // IE can't handle apos
 
 			// Fix some issues
 			h = h.replace(/<a( )([^>]+)\/>|<a\/>/gi, '<a$1$2></a>'); // Force open
@@ -1266,6 +1268,10 @@
 							// Why did I need this one?
 							//if (isIE)
 							//	u = t.serializeStyle(t.parseStyle(u));
+
+							// No mce_style for elements with these since they might get resized by the user
+							if (/^(| )(top|left|bottom|right|width|height)/i.test(c))
+								return m;
 
 							if (s.hex_colors) {
 								u = u.replace(/rgb\([^\)]+\)/g, function(v) {
@@ -1467,11 +1473,12 @@
 				}
 
 				// Fix IE psuedo leak for elements since replacing elements if fairly common
-				if (isIE && o.nodeType === 1) {
+				// Will break parentNode for some unknown reason
+	/*			if (isIE && o.nodeType === 1) {
 					o.parentNode.insertBefore(n, o);
 					o.outerHTML = '';
 					return n;
-				}
+				}*/
 
 				return o.parentNode.replaceChild(n, o);
 			});

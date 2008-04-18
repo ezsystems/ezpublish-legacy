@@ -1,5 +1,5 @@
 /**
- * $Id: XMLWriter.js 590 2008-02-12 15:21:54Z spocke $
+ * $Id: XMLWriter.js 796 2008-04-14 13:18:25Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -125,7 +125,7 @@
 		 * @param {String} v Value of the comment.
 		 */
 		writeComment : function(v) {
-			this.node.appendChild(this.doc.createComment(v));
+			this.node.appendChild(this.doc.createComment(v.replace(/\-\-/g, ' ')));
 		},
 
 		/**
