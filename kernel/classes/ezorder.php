@@ -1585,7 +1585,7 @@ class eZOrder extends eZPersistentObject
         }
         else
         {
-            if ( $collection instanceof eZProductCollection )
+            if ( ( $collection instanceof eZProductCollection ) === false )
             {
                 $collection = eZProductCollection::fetch( $this->attribute( 'productcollection_id' ) );
             }
