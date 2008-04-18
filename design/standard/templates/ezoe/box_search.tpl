@@ -16,7 +16,7 @@
 	            {/foreach}
 	            </select>
 	        </td>
-	        <td><input type="submit" name="SearchButton" id="SearchButton" value="{'Search'|i18n('design/admin/content/search')}"  onclick="return eZOEPopupUtils.searchEnter(event, true)" /></td>
+	        <td><input type="submit" name="SearchButton" id="SearchButton" value="{'Search'|i18n('design/admin/content/search')}" onclick="return eZOEPopupUtils.searchEnter(event, true)" /></td>
 	    </tr>
 	    <tr>
 	        <td colspan="2">

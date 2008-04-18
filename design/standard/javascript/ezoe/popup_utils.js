@@ -351,7 +351,10 @@ var eZOEPopupUtils = {
 	{
 	    // post search form if enter key is pressed or isButton = true
 	    if ( isButton )
-	        return eZOEPopupUtils.search();
+	    {
+	        eZOEPopupUtils.search();
+	        return false;
+	    }
 	    e = e || window.event;
 	    key = e.which || e.keyCode;
         if ( key == 13)
