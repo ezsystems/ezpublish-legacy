@@ -231,3 +231,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #10497: Fatal error when edit workflow with "Event / Wait until date" with length of Description more than 50 chars.
 - Fixed bug #12892: Fatal error: Call to a member function attribute() on a non-object in ezorder.php
 - Fixed bug #12896: Price datatype fromString takes VAT id as flag wether VAT is included in the price or not
+- Fixed bug #12902: eZForgotPassword::createNew strict warning
