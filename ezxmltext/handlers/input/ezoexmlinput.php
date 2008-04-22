@@ -882,7 +882,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                     $tplSuffix = '_denied';
                 }
 
-                $URL = $this->getServerURL();
+                $URL = self::getServerURL();
                 $ini = eZINI::instance( 'site.ini' );
                 $imageClassIDArray = $ini->variable('MediaClassSettings', 'ImageClassID' );
                 $imageClassIdentifiers = $ini->variable( 'MediaClassSettings', 'ImageClassIdentifiers' );
@@ -892,7 +892,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 {
                     $contentObjectAttributes = $object->contentObjectAttributes();
                     $imageDatatypeArray = $ini->variable( 'ImageDataTypeSettings', 'AvailableImageDataTypes' );
-                    $srcString = $URL . '/extension/ezoe/design/standard/images/tango/mail-attachment32.png" style="border: 1px solid #888;';
+                    $srcString = self::getDesignFile('images/tango/mail-attachment32.png') . '" style="border: 1px solid #888;';
                     foreach ( $contentObjectAttributes as $contentObjectAttribute )
                     {
                         $classAttribute = $contentObjectAttribute->contentClassAttribute();
@@ -1273,7 +1273,7 @@ class eZOEXMLInput extends eZXMLInputHandler
         return $output;
     }
     
-    public function getServerURL()
+    static public function getServerURL()
     {
         if ( self::$serverURL === null  )
         {
@@ -1305,9 +1305,27 @@ class eZOEXMLInput extends eZXMLInputHandler
         }
         return self::$serverURL;
     }
-    
-    static private $serverURL = null;
+
+    static public function getDesignFile( $file, $triedFiles = array() )
+    {
+        if ( self::$designBases === null )
+        {
+            self::$designBases = eZTemplateDesignResource::allDesignBases();
+        }
+
+        $match = eZTemplateDesignResource::fileMatch( self::$designBases, '', $file, $triedFiles );
+
+        if ( $match === false )
+        {
+            eZDebug::writeWarning( "Could not find: $file", "eZOEXMLInput::getDesignFile()" );
+            return $file;
+        }
+        return htmlspecialchars( self::getServerURL() . '/' . $match['path'] );
+    }
+
+    static private $serverURL   = null;
     static private $browserType = null;
+    static private $designBases = null;
 
     public $LineTagArray = array( 'emphasize', 'strong', 'link', 'a', 'em', 'i', 'b', 'bold', 'anchor' );
     /// Contains the XML data
