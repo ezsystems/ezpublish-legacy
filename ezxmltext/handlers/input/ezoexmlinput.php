@@ -972,7 +972,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 $isInlineTagList = $ini->variable( 'CustomTagSettings', 'IsInline' );
                 foreach ( $isInlineTagList as $key => $isInlineTagValue )
                 {
-                    if ( $isInlineTagValue && $name === $key && $isInlineTagValue !== 'false' )
+                    if ( $isInlineTagValue === 'true' && $name === $key && )
                     {
                         $isInline = true;
                         break;
@@ -1281,7 +1281,9 @@ class eZOEXMLInput extends eZXMLInputHandler
             if ( $OEini->hasVariable( 'SystemSettings', 'RelativeURL' ) &&
                  $OEini->variable( 'SystemSettings', 'RelativeURL' ) === 'enabled' )
             {
-                self::$serverURL = '';
+                self::$serverURL = eZSys::wwwDir();
+                if ( self::$serverURL === '/'  )
+                    self::$serverURL = '';
             }
             else
             {

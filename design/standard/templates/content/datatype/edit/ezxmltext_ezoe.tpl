@@ -97,8 +97,8 @@
     	fix_list_elements : true,
     	fix_table_elements : true,
     	tab_focus : ':prev,:next',
-    	theme_advanced_editor_css : eZOeMCE['editor_css'],
-    	theme_advanced_content_css : eZOeMCE['content_css'],
+    	theme_ez_editor_css : eZOeMCE['editor_css'],
+    	theme_ez_content_css : eZOeMCE['content_css'],
     	popup_css : eZOeMCE['popup_css'],
     	gecko_spellcheck : true,
     	save_callback : "ezMceEditorSave"

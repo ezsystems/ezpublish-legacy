@@ -88,9 +88,9 @@
             // Init editor
             ed.onInit.add(function() {
                 ed.onNodeChange.addToTop(t._nodeChanged, t);
-                if ( s.theme_advanced_content_css )
+                if ( s.theme_ez_content_css )
                 {
-                	var css_arr = s.theme_advanced_content_css.split(',');
+                	var css_arr = s.theme_ez_content_css.split(',');
                 	for ( var ind = 0, len = css_arr.length; ind < len; ind++ )
                 	   ed.dom.loadCSS( css_arr[ind] );
                 }
@@ -117,9 +117,9 @@
 				}
 			});
 
-            if ( s.theme_advanced_editor_css )
+            if ( s.theme_ez_editor_css )
             {
-                var ui_css_arr = s.theme_advanced_editor_css.split(',');
+                var ui_css_arr = s.theme_ez_editor_css.split(',');
                 for ( var ind2 = 0, len2 = ui_css_arr.length; ind2 < len2; ind2++ )
                     DOM.loadCSS( ui_css_arr[ind2] );
             }
