@@ -254,7 +254,7 @@ class eZPriceType extends eZDataType
         if ( count( $priceData ) != 3 )
             return false;
 
-        $dataText = $priceData[1] . ',' . $priceData[1];
+        $dataText = $priceData[1] . ',' . $priceData[2];
         $price = $priceData[0];
 
         $contentObjectAttribute->setAttribute( "data_float", $price );
