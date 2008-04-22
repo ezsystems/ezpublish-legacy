@@ -18,6 +18,7 @@ Changes from 4.0.0 to 4.1.0alpha1
   See issue: #12519: settings/view for extension siteaccesses doesn't work + Placement for array starts every time with 'default'
 - Implemented enhancement #12824: Mention template file and line number for "Missing/malformed array to iterate through." errors
 - Implemented enhancement #12212: Setup wizard doesn't confirm existence of DOMDocument
+- Implemented enhancement #11062: Missing test for curl in setup wizard
 
 *Design:
 

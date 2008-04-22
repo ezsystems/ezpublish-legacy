@@ -46,6 +46,7 @@ function eZSetupTestTable()
                   'magic_quotes_runtime' => array( 'eZSetupCheckMagicQuotesRuntime' ),
                   'php_register_globals' => array( 'eZSetupCheckRegisterGlobals' ),
                   'mbstring_extension' => array( 'eZSetupMBStringExtension' ),
+                  'curl_extension' => array( 'eZSetupTestExtension' ),
                   'zlib_extension' => array( 'eZSetupTestExtension' ),
                   'dom_extension' => array( 'eZSetupTestExtension' ),
                   'file_upload' => array( 'eZSetupTestFileUpload' ),
