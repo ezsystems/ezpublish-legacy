@@ -175,7 +175,7 @@ var ez = {
             // Set cookie value by name
             // Days will default to 'end of session' and path to '/'
             var date = new Date();
-            date.setTime( date.getTime() + ( ( days || 0 ) * 86400 ) );
+            date.setTime( date.getTime() + ( ( days || 0 ) * 86400000 ) );
             document.cookie = name + '=' + value + (ez.set(days) ? '; expires=' + date.toUTCString(): '') + '; path='+ (path || '/');
         },
         get: function ( name )
