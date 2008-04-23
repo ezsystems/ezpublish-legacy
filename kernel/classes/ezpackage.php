@@ -2677,9 +2677,7 @@ class eZPackage
             $installItemNode = $dom->createElement( 'item' );
             $installItemNode->setAttribute( 'type', $type );
             $installNode->appendChild( $installItemNode );
-            $content = false;
-            if ( isset( $installItem['content'] ) )
-                $content = $installItem['content'];
+
             if ( $installItem['os'] )
                 $installItemNode->setAttribute( 'os', $installIItem['os'] );
 
@@ -2693,9 +2691,10 @@ class eZPackage
                 if ( $installItem['sub-directory'] )
                     $installItemNode->setAttribute( 'sub-directory', $installItem['sub-directory'] );
             }
-            else
+            else if ( isset( $installItem['content'] ) && $installItem['content'] instanceof DOMElement )
             {
-                $installItemNode->appendChild( $content );
+                $importedContentNode = $installItemNode->ownerDocument->importNode( $installItem['content'], true );
+                $installItemNode->appendChild( $importedContentNode );
             }
 
             $handler = $this->packageHandler( $type );
