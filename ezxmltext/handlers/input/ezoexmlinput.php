@@ -823,7 +823,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 $tplSuffix = '';
 
                 if ( !$size ) $size = 'medium';
-                if ( !$view ) $view = 'embed';
+                if ( !$view ) $view = $tagName;
                 if ( !$alignment ) $alignment = 'right';
 
                 $objectAttr = '';                
