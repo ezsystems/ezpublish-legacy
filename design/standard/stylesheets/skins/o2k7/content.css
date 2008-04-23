@@ -49,8 +49,8 @@ img {border:0;}
 table {cursor:default}
 table td, table th {cursor:text}
 
-/* IE */
-* html body {
+/* Scrollbar */
+html body {
 scrollbar-3dlight-color:#F0F0EE;
 scrollbar-arrow-color:#676662;
 scrollbar-base-color:#F0F0EE;
@@ -69,6 +69,9 @@ pre
 }
 
 /* general block tags (embed and custom) */
+
+* html div.mceNonEditable,
+* html div.mceItemCustomTag { height: 1%; }
 
 div.mceNonEditable:after,
 div.mceItemCustomTag:after

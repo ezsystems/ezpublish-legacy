@@ -972,7 +972,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 $isInlineTagList = $ini->variable( 'CustomTagSettings', 'IsInline' );
                 foreach ( $isInlineTagList as $key => $isInlineTagValue )
                 {
-                    if ( $isInlineTagValue === 'true' && $name === $key && )
+                    if ( $isInlineTagValue === 'true' && $name === $key )
                     {
                         $isInline = true;
                         break;
