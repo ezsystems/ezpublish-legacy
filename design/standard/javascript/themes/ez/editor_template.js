@@ -1255,7 +1255,7 @@
         
         _mcePageBreak : function( ui, val ) {
             var ed = this.editor;
-            ed.execCommand('mceInsertContent', false, '<div type="custom" class="pagebreak">&nbsp;</div>');
+            ed.execCommand('mceInsertContent', false, '<div type="custom" class="mceItemCustomTag pagebreak">&nbsp;</div>');
         },
 
         _mceInsertAnchor : function(ui, v)
