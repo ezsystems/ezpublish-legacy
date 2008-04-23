@@ -234,3 +234,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12896: Price datatype fromString takes VAT id as flag wether VAT is included in the price or not
 - Fixed bug #12902: eZForgotPassword::createNew strict warning
 - Fixed bug #12817: PHP warning DOMNode::appendChild() expects parameter 1 to be DOMNode, boolean given
+- Fixed bug #12609: Collaboration notification: last item is repeated if multiple
