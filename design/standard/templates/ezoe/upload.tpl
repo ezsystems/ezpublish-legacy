@@ -92,7 +92,7 @@ tinyMCEPopup.onInit.add( function(){
                 </tr>
             </table>
 
-            <iframe id="embed_upload" name="embed_upload" style="border: 0; width: 99%; height: 30px; margin: 0; overflow-x: hidden;"></iframe>
+            <iframe id="embed_upload" name="embed_upload" frameborder="0" scrolling="auto" style="border: 0; width: 99%; height: 30px; margin: 0; overflow-x: hidden;"></iframe>
 
             {if $related_contentobjects|count|gt( 0 )}
                 {* Related images *}
