@@ -30,12 +30,12 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         // custom block tags are not allowed inside custom inline tags
         if ( el )
         {
-            if ( customGetParentTag( el, 'span', 'mceItemCustomTag', 'custom' ) )
+            if ( eZOEPopupUtils.getParentByTag( el, 'span', 'mceItemCustomTag', 'custom' ) )
                 filterOutCustomBlockTags( );
         }
         else
         {
-	        var currentNode = ed.selection.getNode(), parentSpan = customGetParentTag( el, 'span', 'mceItemCustomTag', 'custom' );
+	        var currentNode = ed.selection.getNode(), parentSpan = eZOEPopupUtils.getParentByTag( el, 'span', 'mceItemCustomTag', 'custom' );
 	        if ( currentNode && currentNode.nodeName === 'SPAN' && tinymce.DOM.getAttrib( currentNode, 'type' ) === 'custom' )
 	            filterOutCustomBlockTags( );
 	        else if ( parentSpan )
@@ -82,19 +82,6 @@ function filterOutCustomBlockTags( n )
     ez.$$('#custom_class_source option').forEach(function( o ){
         if ( inlineTags.indexOf( o.el.value ) === -1 ) o.el.parentNode.removeChild( o.el );
     });
-}
-
-function customGetParentTag( el, tag, className, type )
-{
-    className = ' ' + className + ' ';
-    tag = tag.toUpperCase();
-    while ( el && el.nodeName !== 'BODY' )
-    {
-        el = el.parentNode;
-        if ( el && el.nodeName === tag && ( className === undefined || (' ' + el.className + ' ').indexOf( className ) !== -1 ) &&  ( type === undefined || el.getAttribute('type') === type ) )
-            return el;
-    }
-    return false;
 }
 
 {/literal}

@@ -892,7 +892,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 {
                     $contentObjectAttributes = $object->contentObjectAttributes();
                     $imageDatatypeArray = $ini->variable( 'ImageDataTypeSettings', 'AvailableImageDataTypes' );
-                    $srcString = self::getDesignFile('images/tango/mail-attachment32.png') . '" style="border: 1px solid #888;';
+                    $srcString = self::getDesignFile('images/tango/mail-attachment32.png');// . '" style="border: 1px solid #888;';
                     foreach ( $contentObjectAttributes as $contentObjectAttribute )
                     {
                         $classAttribute = $contentObjectAttribute->contentClassAttribute();

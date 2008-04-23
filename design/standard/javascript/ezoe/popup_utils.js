@@ -150,10 +150,21 @@ var eZOEPopupUtils = {
 		    }
             else if ( s.tagName === 'link' )
             {
-                tmp = args;
-                tmp['id'] = '__mce_tmp';
-                ed.execCommand('mceInsertLink', false, tmp, {skip_undo : 1} );
+                var tempid = args['id'];
+                args['id'] = '__mce_tmp';
+                ed.execCommand('mceInsertLink', false, args, {skip_undo : 1} );
                 s.editorElement = ed.dom.get('__mce_tmp');
+                // fixup if we are inside embed tag
+                if ( tmp = eZOEPopupUtils.getParentByTag( s.editorElement, 'div', 'mceNonEditable' ) )
+                {
+                    var span = document.createElement("span");
+                    span.innerHTML = s.editorElement.innerHTML;
+                    s.editorElement.parentNode.replaceChild(span, s.editorElement);
+                    s.editorElement.innerHTML = '';
+                    tmp.parentNode.insertBefore(s.editorElement, tmp);
+                    s.editorElement.appendChild( tmp );
+                }
+                args['id'] = tempid;
             }
 		    else if ( eZOEPopupUtils.xmlToXhtmlHash[s.tagName] )
 		    {
@@ -259,6 +270,19 @@ var eZOEPopupUtils = {
 	        }).join('attribute_separation');
 	     }
 	     return '';
+	},
+
+	getParentByTag: function( el, tag, className, type )
+	{
+	    className = ' ' + className + ' ';
+	    tag = tag.toUpperCase();
+	    while ( el && el.nodeName !== undefined && el.nodeName !== 'BODY' )
+	    {
+	        el = el.parentNode;
+	        if ( el && el.nodeName === tag && ( className === undefined || (' ' + el.className + ' ').indexOf( className ) !== -1 ) &&  ( type === undefined || el.getAttribute('type') === type ) )
+	            return el;
+	    }
+	    return false;
 	},
 
 	initCustomAttributeValue: function( node, valueString )
