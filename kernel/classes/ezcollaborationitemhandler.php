@@ -551,7 +551,7 @@ class eZCollaborationItemHandler
                 {
                     $foundHandler = true;
                     $handlerInstance = new $handlerClass();
-                    $objectCache[$handler] =& $handlerInstance;
+                    $objectCache[$handler] = $handlerInstance;
                     $handlerClasses = $handlerInstance->classes();
                     foreach ( $handlerClasses as $handlerClass )
                     {
@@ -587,7 +587,7 @@ class eZCollaborationItemHandler
         {
             $handlerInstance = eZCollaborationItemHandler::instantiate( $handler, $repositories );
             if ( $handlerInstance !== null )
-                $list[] =& $handlerInstance;
+                $list[] = $handlerInstance;
         }
         return $list;
     }
