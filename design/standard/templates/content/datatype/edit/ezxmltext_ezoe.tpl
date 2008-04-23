@@ -15,7 +15,7 @@
          $plugin_list = ezini('EditorSettings', 'Plugins', 'ezoe.ini',,true()  )
          $skin        = ezini('EditorSettings', 'Skin', 'ezoe.ini',,true() )
          $skin_variant = ezini('EditorSettings', 'SkinVariant', 'ezoe.ini',,true() )
-         $dev_mode    = ezini('EditorSettings', 'DevelopmentMode', 'ezoe.ini',,true()  )|eq('enabled')
+         $dev_mode     = ezini('EditorSettings', 'DevelopmentMode', 'ezoe.ini',,true()  )|eq('enabled')
          $content_css_list_temp = ezini('StylesheetSettings', 'EditorCSSFileList', 'design.ini',,true())
          $content_css_list = array()
          $editor_css_list  = array( concat('skins/', $skin, '/ui.css') )
@@ -65,6 +65,7 @@
     eZOeMCE['skin']          = '{$skin}';
     eZOeMCE['skin_variant']  = '{$skin_variant}';
     eZOeMCE['language']      = '{$language}';
+    eZOeMCE['dev_mode']      = '{$dev_mode|cond( 'true', 'false' )}';
 
     {literal}
 
@@ -151,9 +152,8 @@
         // comment out this if you don't want the editor to toggle on by default
         ezMceToggleEditor( ezTinyIdString );
         
-        {if $dev_mode}
-        document.write(' &nbsp; <a href="JavaScript:ezMceToggleEditor(\'' + ezTinyIdString + '\');">Toggle editor<\/a>');
-        {/if}
+        if ( eZOeMCE['dev_mode'] )
+            document.write(' &nbsp; <a href="JavaScript:ezMceToggleEditor(\'' + ezTinyIdString + '\');">Toggle editor<\/a>');
         
         -->
         </script>
