@@ -103,8 +103,8 @@ function inlineSelectorChange( e, el )
     if ( tag === selectedTagName ) return;
     selectedTagName = tag;
     eZOEPopupUtils.settings.selectedTag = tag;
-    eZOEPopupUtils.removeSelectOptions( viewList.el );
-    eZOEPopupUtils.removeSelectOptions( classList.el );
+    eZOEPopupUtils.removeChildren( viewList.el );
+    eZOEPopupUtils.removeChildren( classList.el );
     eZOEPopupUtils.addSelectOptions( viewList.el, viewListData[ tag ] );
     eZOEPopupUtils.addSelectOptions( classList.el, classListData[ tag ] );
     ez.$( inline ? 'embed_customattributes' : 'embed-inline_customattributes' ).hide();

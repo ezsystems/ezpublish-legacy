@@ -122,9 +122,10 @@ var eZOEPopupUtils = {
 	    var args = {
 	        'customattributes': eZOEPopupUtils.getCustomAttributeValue( s.selectedTag + '_customattributes')
 	    };
-	
+
 	    // set general attributes for tag
 	    if (n = ez.$( s.tagName + '_attributes'))
+	    {
 	       ez.$$('input,select', n).forEach(function(o){
 	           if ( o.hasClass('mceItemSkip') ) return;
 	           var name = o.el.name;
@@ -133,6 +134,7 @@ var eZOEPopupUtils = {
 	           else
 	               args[name] = o.postData( true );
 	       });
+	   }
 
 	    if ( s.cssClass )
 	       args['class'] = s.cssClass + ( args['class'] ? ' ' + args['class'] : '');
@@ -206,15 +208,15 @@ var eZOEPopupUtils = {
 	    tinyMCEPopup.close();
 	},
 
-	removeSelectOptions: function( node )
+	removeChildren: function( node )
 	{
-	    // removes all options in a selection
-	    if ( !node || node.nodeName !== 'SELECT'  ) return;
+	    // removes all children of a node
+	    if ( !node  ) return;
 	    while ( node.hasChildNodes() )
 	    {
 	        node.removeChild( node.firstChild );
 	    }
-	    node.disabled = true;
+	    if ( node.nodeName === 'SELECT' ) node.disabled = true;
 	},
 
 	addSelectOptions: function( node, o )
@@ -387,42 +389,99 @@ var eZOEPopupUtils = {
 	    // call back function for the browse() ajax call, generates the html markup with paging and path header (if defined)
 	    mode = mode || 'browse';
 	    ez.script( 'eZOEPopupUtils.ajaxLoadResponse=' + r.responseText );
-	    var ed = tinyMCEPopup.editor, tbody = ez.$$('#' + mode + '_box_prev tbody')[0], thead = ez.$$('#' + mode + '_box_prev thead')[0], tfoot = ez.$$('#' + mode + '_box_prev tfoot')[0];
-	    tbody.el.innerHTML = thead.el.innerHTML = tfoot.el.innerHTML = '';
+	    var ed = tinyMCEPopup.editor, tbody = ez.$$('#' + mode + '_box_prev tbody')[0], thead = ez.$$('#' + mode + '_box_prev thead')[0], tfoot = ez.$$('#' + mode + '_box_prev tfoot')[0], tr, td, a;
+		eZOEPopupUtils.removeChildren( tbody.el );
+		eZOEPopupUtils.removeChildren( thead.el );
+		eZOEPopupUtils.removeChildren( tfoot.el );
 	    if ( eZOEPopupUtils.ajaxLoadResponse )
 	    {
-	        var data = eZOEPopupUtils.ajaxLoadResponse, foot = '<tr><td colspan="2">';
-	        if ( data['node'] )
+	        var data = eZOEPopupUtils.ajaxLoadResponse, fn = mode === 'browse' ? 'browse('+ data['node']['node_id'] + ',' : mode + '(';;
+	        if ( data['node'] && data['node']['name'] )
 	        {
+                tr = document.createElement("tr"), td = document.createElement("td");
+                tr.appendChild( document.createElement("td") );
+                td.setAttribute('colspan', '2');
 		        if ( data['node']['path'].length )
-		            thead.el.innerHTML = '<tr><td><\/td><td colspan="2">' + ez.$c( data['node']['path'] ).map( function( n ){
-		               return '<a href="JavaScript:eZOEPopupUtils.' + mode + '(' + n.node_id + ');" title="' + ed.getLang('advanced.type') + ': ' + n.class_name + '">' + n.name + '<\/a>';
-		            } ).join(' / ') + ' / ' + data['node']['name'] + '<\/td><\/tr>';
-		        else if ( data['node']['name'] )
-		            thead.el.innerHTML = '<tr><td><\/td><td colspan="2">' + data['node']['name'] + '<\/td><\/tr>';
+		        {
+		            ez.$c( data['node']['path'] ).forEach( function( n )
+		            {
+		                a = document.createElement("a");
+		                a.setAttribute('href', 'JavaScript:eZOEPopupUtils.' + mode + '(' + n.node_id + ');');
+		                a.setAttribute('title', ed.getLang('advanced.type') + ': ' + n.class_name );
+		                a.innerHTML = n.name;
+		                td.appendChild( a );
+		                a = document.createElement("span");
+                        a.innerHTML = ' / ';
+                        td.appendChild( a );
+		                
+		            });
+		        }
+
+                a = document.createElement("span");
+                a.innerHTML = data['node']['name'];
+                td.appendChild( a );
+
+		        tr.appendChild( td );
+		        thead.el.appendChild( tr );
 	        }
 
 	        if ( data['list'] )
 	        {
 	           // TODO: image preview if image popup
-	           tbody.el.innerHTML = '<tr>' + ez.$c( data['list'] ).map( function( n ){
-	               var html = '<td><input type="radio" name="selectembedobject" value="' + n.contentobject_id + '" onclick="eZOEPopupUtils.selectByEmbedId(' + n.contentobject_id + ',' + n.node_id + ',\'' + n.name + '\')" title="' + ed.getLang('advanced.select') + '" \/><\/td>';
+	           ez.$c( data['list'] ).forEach( function( n )
+	           {
+	               tr = document.createElement("tr"), td = document.createElement("td"), a = document.createElement("input");
+	               a.setAttribute('type', 'radio');
+	               a.setAttribute('name', 'selectembedobject');
+	               a.setAttribute('value', n.contentobject_id);
+	               a.setAttribute('title', ed.getLang('advanced.select') );
+	               a.onclick = ez.fn.bind( eZOEPopupUtils.selectByEmbedId, eZOEPopupUtils, n.contentobject_id, n.node_id, n.name );
+	               td.appendChild( a );
+	               tr.appendChild( td );
+
+	               td = document.createElement("td");
 	               if ( n.children_count )
-	                   return html +'<td><a href="JavaScript:eZOEPopupUtils.' + mode + '(' + n.node_id + ');">' + n.name + '<\/a><\/td><td>' + n.class_name + '<\/td>';
+	               {
+	                   a = document.createElement("a");
+	                   a.setAttribute('href', 'JavaScript:eZOEPopupUtils.' + mode + '(' + n.node_id + ');');
+	               }
 	               else
-	                   return html +'<td>' + n.name + '<\/td><td>' + n.class_name + '<\/td>';
-	            } ).join('<\/tr><tr>') + '<\/tr>';
+	               {
+	                   a = document.createElement("span");
+	               }
+	               a.innerHTML = n.name;
+                   td.appendChild( a );
+                   tr.appendChild( td );
+
+                   td = document.createElement("td");
+                   a = document.createElement("span");
+                   a.innerHTML = n.class_name;
+                   td.appendChild( a );
+                   tr.appendChild( td );
+
+	               tbody.el.appendChild( tr );
+	            } );
 	        }
-
-            var fn = mode === 'browse' ? 'browse('+ data['node']['node_id'] + ',' : mode + '(';
+            tr = document.createElement("tr"), td = document.createElement("td");
+            tr.appendChild( document.createElement("td") );
 	        if ( data['offset'] !== 0 )
-	            foot += '<a href="JavaScript:eZOEPopupUtils.' + fn + (data['offset'] - data['limit']) + ')">&lt;&lt; ' + ed.getLang('advanced.previous') + '<\/a>';
-
-	        foot += '<\/td><td>';
+	        {
+	            a = document.createElement("a");
+	            a.setAttribute('href', 'JavaScript:eZOEPopupUtils.' + fn + (data['offset'] - data['limit']) + ');');
+	            a.innerHTML = '&lt;&lt; ' + ed.getLang('advanced.previous');
+	            td.appendChild( a );
+	        }
+	        tr.appendChild( td );
+	        td = document.createElement("td")
 	        if ( (data['offset'] + data['limit']) < data['total_count'] )
-	            foot += '<a href="JavaScript:eZOEPopupUtils.' + fn + (data['offset'] + data['limit']) + ')">' + ed.getLang('advanced.next') + ' &gt;&gt;<\/a>';
-
-	        tfoot.el.innerHTML = foot + '<\/td><\/tr>';	        
+	        {
+	            a = document.createElement("a");
+                a.setAttribute('href', 'JavaScript:eZOEPopupUtils.' + fn + (data['offset'] + data['limit']) + ');');
+                a.innerHTML = ed.getLang('advanced.next') + ' &gt;&gt;';
+                td.appendChild( a );
+            }
+            tr.appendChild( td );
+	        tfoot.el.appendChild( tr );
 	    }
 	    return false;
 	},

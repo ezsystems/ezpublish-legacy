@@ -52,7 +52,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
 	{
 	    if ( e === false ) return false;
 	    var classes = ez.$( eZOEPopupUtils.settings.tagName + '_class_source' ).el, editorEl = eZOEPopupUtils.settings.editorElement || false;
-	    eZOEPopupUtils.removeSelectOptions( classes );
+	    eZOEPopupUtils.removeChildren( classes );
 	    eZOEPopupUtils.addSelectOptions( classes, cellClassList[ el.value ] );
 	    if ( editorEl && editorEl.className )
 	        classes.value = editorEl.className;
