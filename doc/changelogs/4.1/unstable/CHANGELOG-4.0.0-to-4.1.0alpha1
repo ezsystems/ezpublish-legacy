@@ -235,3 +235,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12902: eZForgotPassword::createNew strict warning
 - Fixed bug #12817: PHP warning DOMNode::appendChild() expects parameter 1 to be DOMNode, boolean given
 - Fixed bug #12609: Collaboration notification: last item is repeated if multiple
+- Fixed bug #10060: memory limit set to 42Mb in index.php but 64Mb required?
