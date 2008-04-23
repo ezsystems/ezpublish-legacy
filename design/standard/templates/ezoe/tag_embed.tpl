@@ -84,7 +84,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
 	    }
 	    else
 	    {
-	        el.innerHTML = ez.$$('#embed_preview div')[0].el.innerHTML;
+	        el.innerHTML = ez.$('embed_preview').el.innerHTML;
 	        //ed.dom.setStyle(el, 'float', args['align'] === 'middle' ? '' : args['align']);
 	        args['title']   = eZOEPopupUtils.safeHtml( eZOEPopupUtils.embedObject['name'] );
 	        el.style.display = args['inline'] === 'false' ? 'block' : 'inline';
