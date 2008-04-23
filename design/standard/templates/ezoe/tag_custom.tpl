@@ -84,14 +84,14 @@ function filterOutCustomBlockTags( n )
     });
 }
 
-function customGetParentTag( el, tag, class, type )
+function customGetParentTag( el, tag, className, type )
 {
-    class = ' ' + class + ' ';
+    className = ' ' + className + ' ';
     tag = tag.toUpperCase();
     while ( el && el.nodeName !== 'BODY' )
     {
         el = el.parentNode;
-        if ( el && el.nodeName === tag && ( class === undefined || (' ' + el.className + ' ').indexOf( class ) !== -1 ) &&  ( type === undefined || el.getAttribute('type') === type ) )
+        if ( el && el.nodeName === tag && ( className === undefined || (' ' + el.className + ' ').indexOf( className ) !== -1 ) &&  ( type === undefined || el.getAttribute('type') === type ) )
             return el;
     }
     return false;
