@@ -1010,25 +1010,23 @@ class eZXMLInputParser
     }
 
     // Remove only nodes that don't match schema (recursively)
-    function fixSubtree( $element, &$mainChild )
+    function fixSubtree( $element, $mainChild )
     {
         $parent = $element->parentNode;
         $mainParent = $mainChild->parentNode;
-        if ( $element->hasChildNodes() )
+        while ( $element->hasChildNodes() )
         {
-            foreach( $element->childNodes as $child )
+            $child = $element->firstChild;
+
+            $child = $element->removeChild( $child );
+            $child = $mainParent->insertBefore( $child, $mainChild );
+
+            if ( !$this->XMLSchema->check( $mainParent, $child ) )
             {
-                $child = $element->removeChild( $child );
-
-                $child = $mainParent->insertBefore( $child, $mainChild );
-
-                if ( !$this->XMLSchema->check( $mainParent, $child ) )
-                {
-                    $this->fixSubtree( $child, $mainChild );
-                }
+                $this->fixSubtree( $child, $mainChild );
             }
         }
-        $element = $parent->removeChild( $element );
+        $parent->removeChild( $element );
     }
 
     function processAttributesBySchema( $element )
