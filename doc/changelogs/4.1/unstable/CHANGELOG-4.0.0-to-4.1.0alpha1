@@ -238,3 +238,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #10060: memory limit set to 42Mb in index.php but 64Mb required?
 - Fixed bug #12913: Memory limit check in setup wizard currently uses 12M
 - Fixed bug #11727: When a user is removed, its general digest settings are not removed
+- Fixed bug #12914: HTML Error: there is no attribute "disabled"
