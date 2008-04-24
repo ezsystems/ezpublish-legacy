@@ -105,6 +105,12 @@ class eZGeneralDigestUserSettings extends eZPersistentObject
                                                 $asObject );
     }
 
+    static function removeByAddress( $address )
+    {
+        $db = eZDB::instance();
+        $db->query( "DELETE FROM ezgeneral_digest_user_settings WHERE address='" . $db->escapeString( $address ) . "'" );
+    }
+
     /*!
      \static
      Removes all general digest settings for all users.

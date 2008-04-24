@@ -14,3 +14,6 @@ CREATE INDEX ezcontentobject_owner ON ezcontentobject (owner_id);
 CREATE UNIQUE INDEX ezcontentobject_remote_id ON ezcontentobject (remote_id);
 -- END: from 4.0.1
 
+CREATE UNIQUE INDEX ezgeneral_digest_user_settings_address ON ezgeneral_digest_user_settings (address);
+DELETE FROM ezgeneral_digest_user_settings WHERE address not in (SELECT email FROM ezuser);
+

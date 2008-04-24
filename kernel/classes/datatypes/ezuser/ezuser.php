@@ -560,6 +560,14 @@ WHERE user_id = '" . $userID . "' AND
         eZForgotPassword::removeByUserID( $userID );
         eZWishList::removeByUserID( $userID );
 
+        // only remove general digest setting if there are no other users with the same e-mail
+        $email = $user->attribute( 'email' );
+        $usersWithEmailCount = eZPersistentObject::count( eZUser::definition(), array( 'email' => $email ) );
+        if ( $usersWithEmailCount == 1 )
+        {
+            eZGeneralDigestUserSettings::removeByAddress( $email );
+        }
+
         eZPersistentObject::removeObject( eZUser::definition(),
                                           array( 'contentobject_id' => $userID ) );
     }

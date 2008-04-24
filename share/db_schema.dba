@@ -2846,6 +2846,14 @@ $schema = array (
           0 => 'id',
         ),
       ),
+      'ezgeneral_digest_user_settings_address' => 
+      array (
+        'type' => 'unique',
+        'fields' => 
+        array (
+          0 => 'address',
+        ),
+      ),
     ),
   ),
   'ezimage' => 

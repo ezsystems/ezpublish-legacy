@@ -14,3 +14,6 @@ ALTER TABLE ezcontentobject ADD INDEX ezcontentobject_owner(owner_id);
 ALTER TABLE ezcontentobject ADD UNIQUE INDEX ezcontentobject_remote_id(remote_id);
 -- END: from 4.0.1
 
+ALTER TABLE ezgeneral_digest_user_settings ADD UNIQUE INDEX ezgeneral_digest_user_settings_address(address);
+DELETE FROM ezgeneral_digest_user_settings WHERE address not in (SELECT email FROM ezuser);
+

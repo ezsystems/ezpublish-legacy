@@ -3120,6 +3120,14 @@ CREATE INDEX ezenumvalue_co_cl_attr_id_co_class_att_ver ON ezenumvalue USING btr
 
 
 
+CREATE UNIQUE INDEX ezgeneral_digest_user_settings_address ON ezgeneral_digest_user_settings USING btree (address);
+
+
+
+
+
+
+
 CREATE INDEX ezimagefile_coid ON ezimagefile USING btree (contentobject_attribute_id);
 
 

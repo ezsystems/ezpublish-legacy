@@ -595,7 +595,8 @@ CREATE TABLE ezgeneral_digest_user_settings (
   id int(11) NOT NULL auto_increment,
   receive_digest int(11) NOT NULL default '0',
   time varchar(255) NOT NULL default '',
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (id),
+  UNIQUE KEY ezgeneral_digest_user_settings_address (address)
 ) TYPE=InnoDB;
 
 
