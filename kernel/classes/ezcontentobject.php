@@ -2451,29 +2451,6 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
-      Returns the parent objects.
-    */
-    function &parents( )
-    {
-        $objectID = $this->ID;
-
-        $parents = array();
-
-        $parentID = $this->ParentID;
-
-        $parent =& eZContentObject::fetch( $parentID );
-
-        if ( $parentID > 0 )
-            while ( ( $parentID > 0 ) )
-            {
-                $parents = array_merge( array( $parent ), $parents );
-                $parentID = $parent->attribute( "parent_id" );
-                $parent =& eZContentObject::fetch( $parentID );
-            }
-        return $parents;
-    }
-
-    /*!
      Returns the next available version number for this object.
     */
     function nextVersion()
