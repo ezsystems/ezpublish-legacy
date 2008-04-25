@@ -121,6 +121,11 @@ class eZSearchEngine
                     {
                         if ( trim( $word ) != "" )
                         {
+                            // words stored in search index are limited to 150 characters
+                            if ( strlen( $word ) > 150 )
+                            {
+                                $word = substr( $word, 0, 150 );
+                            }
                             $indexArray[] = array( 'Word' => $word,
                                                    'ContentClassAttributeID' => $attribute->attribute( 'contentclassattribute_id' ),
                                                    'identifier' => $metaDataPart['id'],
