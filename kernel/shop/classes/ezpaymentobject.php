@@ -58,7 +58,7 @@ class eZPaymentObject extends eZPersistentObject
      \static
     Creates new object.
     */
-    function createNew( $workflowprocessID, $orderID, $paymentType )
+    static function createNew( $workflowprocessID, $orderID, $paymentType )
     {
         return new eZPaymentObject( array( 'workflowprocess_id'  => $workflowprocessID,
                                            'order_id'            => $orderID,
@@ -150,7 +150,7 @@ class eZPaymentObject extends eZPersistentObject
      \static
     Continues workflow after approvement.
     */
-    function continueWorkflow( $workflowProcessID )
+    static function continueWorkflow( $workflowProcessID )
     {
         //include_once( 'kernel/classes/ezworkflowprocess.php' );
         //include_once( 'lib/ezutils/classes/ezoperationmemento.php' );

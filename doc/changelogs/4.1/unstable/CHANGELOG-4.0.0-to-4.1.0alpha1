@@ -244,3 +244,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12069: Fatal error when word longer than 150 characters
 - Fixed bug #12927: "Remove" in js menu in admin interface delivers wrong object id
 - Fixed bug #10616: Fixing Information-Collection Code
+- Fixed bug #12931: eZPaymentObject's createNew(..) should be static
