@@ -762,12 +762,12 @@ class eZContentFunctionCollection
     function fetchCollectionsList( $objectID = false, $creatorID = false, $userIdentifier = false, $limit = false, $offset = false, $sortBy = false )
     {
         include_once( 'kernel/infocollector/ezinfocollectorfunctioncollection.php' );
-        return eZInfocollectorFunctionCollection::fetchCollectionsList( $objectID = false,
-                                                                        $creatorID = false,
-                                                                        $userIdentifier = false,
-                                                                        $limit = false,
-                                                                        $offset = false,
-                                                                        $sortBy = false );
+        return eZInfocollectorFunctionCollection::fetchCollectionsList( $objectID,
+                                                                        $creatorID,
+                                                                        $userIdentifier,
+                                                                        $limit,
+                                                                        $offset,
+                                                                        $sortBy );
      }
 
     function fetchObjectByAttribute( $identifier )
