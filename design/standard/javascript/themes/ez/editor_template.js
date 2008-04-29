@@ -803,16 +803,12 @@
 			p = DOM.getParent(n, 'DIV');
             if (c = cm.get('object'))
             {
-                while (  p && p.nodeName !== undefined && p.nodeName !== 'BODY' )
+                if ( ( p && p.nodeName === 'DIV' && p.className.indexOf('mceNonEditable') !== -1 )
+                   || (p = t.__getParentByTag( n, 'div', 'mceNonEditable') ) )
                 {
-                    if ( p.nodeName === 'DIV' && p.className.indexOf('mceNonEditable') !== -1 )
-                    {
-                        ed.selection.select( p );
-                        div = true;
-                        n = p;
-                        break;
-                    }
-                    p = p.parentNode;
+	                ed.selection.select( p );
+	                div = true;
+	                n = p;
                 }
                 c.setActive( div );
             }
@@ -822,8 +818,35 @@
             cm.setDisabled('undo', !ed.undoManager.hasUndo() && !ed.typing);
             cm.setDisabled('redo', !ed.undoManager.hasRedo());
 
+            p = DOM.getParent(n, 'A');
+            if (c = cm.get('link'))
+            {
+                if (!p || !p.name)
+                {
+                    c.setDisabled(!p && co);
+                    c.setActive(!!p);
+                }
+            }
+
+            if (c = cm.get('unlink'))
+            {
+                c.setDisabled(!p || !DOM.getAttrib(p, 'href') );
+                c.setActive(!!p && !p.name);
+            }
+
             if ( div === false )
             {
+	            if (c = cm.get('anchor'))
+                {
+                    c.setActive(!!p && p.name);
+    
+                    if (tinymce.isWebKit)
+                    {
+                        p = DOM.getParent(n, 'IMG');
+                        c.setActive(!!p && DOM.getAttrib(p, 'mce_name') === 'a');
+                    }
+                }
+	            
 	            p = DOM.getParent(n, 'DIV');
 	            if (c = cm.get('pagebreak'))
 	                c.setDisabled(!!p && DOM.hasClass(p, 'pagebreak') );
@@ -853,33 +876,6 @@
 				    }
 	                c.setDisabled( !p || count < 2 );
 	            }
-	
-				p = DOM.getParent(n, 'A');
-				if (c = cm.get('link'))
-				{
-					if (!p || !p.name)
-					{
-						c.setDisabled(!p && co);
-						c.setActive(!!p);
-					}
-				}
-
-				if (c = cm.get('unlink'))
-				{
-					c.setDisabled(!p && co || div);
-					c.setActive(!!p && !p.name);
-				}
-
-				if (c = cm.get('anchor'))
-				{
-					c.setActive(!!p && p.name);
-	
-					if (tinymce.isWebKit)
-					{
-						p = DOM.getParent(n, 'IMG');
-						c.setActive(!!p && DOM.getAttrib(p, 'mce_name') === 'a');
-					}
-				}
 
 				p = DOM.getParent(n, 'IMG');
 				if (c = cm.get('image'))
@@ -908,8 +904,11 @@
 					var na = n.nodeName.toLowerCase(), u, pi, ti = '';
 
 					// Ignore non element and hidden elements
-					if (n.nodeType !== 1 || (DOM.hasClass(n, 'mceItemHidden') || DOM.hasClass(n, 'mceItemRemoved')))
+					if ( n.nodeType !== 1 || DOM.hasClass(n, 'mceItemHidden') || DOM.hasClass(n, 'mceItemRemoved') )
 						return;
+			       // seems like hasClass has some issues in ie..
+			       if ( DOM.getAttrib( n, 'class').indexOf('mceItemHidden') !== -1 )
+			           return;
 
                     if ( v = t.__tagsToXml( n ) )
                         na = v;
@@ -995,6 +994,25 @@
 			}
 		},
 
+		__getParentByTag: function( n, tag, className, type, checkElement )
+	    {
+	        if ( className ) className = ' ' + className + ' ';
+	        tag = tag.toUpperCase();
+	        while ( n !== undefined && n.nodeName !== undefined && n.nodeName !== 'BODY' )
+	        {
+	            
+	            if ( checkElement && n.nodeName === tag 
+	            && ( !className || (' ' + n.className + ' ').indexOf( className ) !== -1 ) 
+	            &&  ( !type || n.getAttribute('type') === type ) )
+	            {
+	                return n;
+	            }
+	            n = n.parentNode;
+	            checkElement = true;
+	        }
+	        return false;
+	    },
+
         __block : function(ed, e) {
             e = e || window.event;
             var k = e.which || e.keyCode;
@@ -1013,7 +1031,7 @@
             var t = this, ed = t.editor;
 
             tinymce.each(ed.controlManager.controls, function(c){
-                if ( !c.settings.cmd || ',mceObject,mceFullScreen,'.indexOf( ',' + c.settings.cmd + ',' ) === -1 )
+                if ( !c.settings.cmd || ',mceObject,mceFullScreen,mceLink,unlink'.indexOf( ',' + c.settings.cmd + ',' ) === -1 )
                     c.setDisabled( s );
                 //c.setActive( false );
             });
@@ -1125,7 +1143,7 @@
                     ed.execCommand('mceTableCellProps', n, v);
                     break;
                 case 'A':
-                    if ( n.href ) ed.execCommand('mceLink', n, v);
+                    if ( DOM.getAttrib(n, 'href') ) ed.execCommand('mceLink', n, v);
                     else ed.execCommand('mceInsertAnchor', n, v);
                     break;
 		        default:
@@ -1238,28 +1256,31 @@
         {
             var ed = this.editor, e = ed.selection.getNode(), eurl = 'object/', type = '/upload/', el;
 
-            while ( e !== null && e.nodeName !== undefined && e.nodeName !== 'BODY' )
-            {
-                if ( ( e.nodeName === 'DIV' || e.nodeName === 'SPAN' ) && e.className.indexOf('mceNonEditable') !== -1 )
-                {
-                    type = '/relations/';
-                    el = e;
-                    eurl += e.getAttribute('id') + '/' + e.getAttribute('inline') + '/' + e.getAttribute('alt');
-                    //ed.selection.select( e );
-                    break;
-                }
-                e = e.parentNode;
-            }
+           if ( e = this.__getParentByTag( e, 'div', 'mceNonEditable', '', true ) )
+           {
+               type = '/relations/';
+               el = e;
+               eurl += e.getAttribute('id') + '/' + e.getAttribute('inline') + '/' + e.getAttribute('alt');
+               //ed.selection.select( e );
+           }
             this._generalXmlTagPopup( eurl, type, 500, 480, el );
         },
         
-        _mcePageBreak : function( ui, val ) {
+        _mcePageBreak : function( ui, val )
+        {
             var ed = this.editor;
             ed.execCommand('mceInsertContent', false, '<div type="custom" class="mceItemCustomTag pagebreak">&nbsp;</div>');
         },
 
         _mceInsertAnchor : function(ui, v)
         {
+            var ed = this.editor, n = ed.selection.getNode();
+            if ( (n = this.__getParentByTag( n, 'a', '', '', true )) && !DOM.getAttrib(n, 'href') )
+            {
+                ui = n;
+                //ed.selection.select( n );
+            }
+            
             this._generalXmlTagPopup( 'anchor', false, 0, 0, ui );
         },
         
@@ -1275,6 +1296,13 @@
 
 		_mceLink : function(ui, v)
 		{
+			var ed = this.editor, n = ed.selection.getNode();
+            if ( (n = this.__getParentByTag( n, 'a', '', '', true )) && DOM.getAttrib(n, 'href') )
+            {
+                ui = n;
+                //ed.selection.select( n );
+            }
+
 			this._generalXmlTagPopup( 'link', false, 0, 310, ui );
 		},
 

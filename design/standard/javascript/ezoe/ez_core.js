@@ -516,6 +516,7 @@ ez.element.eZextensions.prototype = {
     {
         // Add c (string) to element className list
         // removes the class first so it's not set twice
+        c = c || '';
         this.removeClass( c );
         this.el.className += this.el.className.length > 0 ? ' ' + c : c;
         return this;

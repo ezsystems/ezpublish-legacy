@@ -4,6 +4,7 @@ eZ Online Editor MCE extension Changelog
 * clicking search buttons does not work (hides link dialog)
 * updated TinyMCE to 3.0.7
 * fixed some ie6 issues in browse / search and custom tag popup
+* let link / anchor buttons edit currently selected link / anchor
 
 0.99
 * embed image issues ( 'view' not correct and not changable )
