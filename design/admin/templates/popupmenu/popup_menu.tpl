@@ -346,7 +346,7 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
 <form id="menu-form-remove" method="post" action={"/content/action"|ezurl}>
   <input type="hidden" name="TopLevelNode" value="%nodeID%" />
   <input type="hidden" name="ContentNodeID" value="%nodeID%" />
-  <input type="hidden" name="ContentObjectID" value="%objectID" />
+  <input type="hidden" name="ContentObjectID" value="%objectID%" />
   <input type="hidden" name="ActionRemove" value="x" />
 </form>
 
@@ -354,7 +354,7 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
 <form id="menu-form-move" method="post" action={"/content/action"|ezurl}>
   <input type="hidden" name="TopLevelNode" value="%nodeID%" />
   <input type="hidden" name="ContentNodeID" value="%nodeID%" />
-  <input type="hidden" name="ContentObjectID" value="%objectID" />
+  <input type="hidden" name="ContentObjectID" value="%objectID%" />
   <input type="hidden" name="MoveNodeButton" value="x" />
 </form>
 
@@ -362,7 +362,7 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
 <form id="menu-form-swap" method="post" action={"/content/action"|ezurl}>
   <input type="hidden" name="TopLevelNode" value="%nodeID%" />
   <input type="hidden" name="ContentNodeID" value="%nodeID%" />
-  <input type="hidden" name="ContentObjectID" value="%objectID" />
+  <input type="hidden" name="ContentObjectID" value="%objectID%" />
   <input type="hidden" name="SwapNodeButton" value="x" />
 </form>
 
