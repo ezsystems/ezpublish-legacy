@@ -550,7 +550,7 @@ class eZImageInterface
     */
     function __clone()
     {
-        $this->cloneImage( $this->imageObject(), $this->width(), $this>height(),
+        $this->cloneImage( $this->imageObject(), $this->width(), $this->height(),
                            $this->isTruecolor() );
     }
 
