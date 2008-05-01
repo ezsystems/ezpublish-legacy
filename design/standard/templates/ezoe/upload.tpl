@@ -15,7 +15,7 @@ eZOeMCE['relation_url']  = {concat('ezoe/relations/', $object_id, '/', $object_v
 
 tinyMCEPopup.onInit.add( function(){
     var slides = ez.$$('div.panel'), navigation = ez.$$('#tabs li.tab');
-    slides.accordion( navigation, {duration: 150, transition: ez.fx.sinoidal, accordionAutoFocusTag: 'input[type=text]'}, {opacity: 0, display: 'none'} );
+    slides.accordion( navigation, {duration: 100, transition: ez.fx.sinoidal, accordionAutoFocusTag: 'input[type=text]'}, {opacity: 0, display: 'none'} );
 });
 
 

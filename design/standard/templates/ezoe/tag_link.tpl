@@ -46,7 +46,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         ezoeLinkTypeSet( linkSource, linkTypes );
  
         slides = ez.$$('div.panel'), navigation = ez.$('embed_search_go_back_link', 'search_for_link', 'browse_for_link', 'embed_browse_go_back_link' );
-        slides.accordion( navigation, {duration: 150, transition: ez.fx.sinoidal, accordionAutoFocusTag: 'input[type=text]'}, {opacity: 0, display: 'none'} );
+        slides.accordion( navigation, {duration: 100, transition: ez.fx.sinoidal, accordionAutoFocusTag: 'input[type=text]'}, {opacity: 0, display: 'none'} );
         navigation[3].addEvent('click', ez.fn.bind( slides.accordionGoto, slides, 0 ) );
         navigation[3].addClass('accordion_navigation');
     }
