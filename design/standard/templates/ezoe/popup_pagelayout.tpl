@@ -40,6 +40,8 @@ table#browse_box_prev tfoot td { padding-top: 5px; }
 #embed_preview.object_preview { margin: 0 10px 10px 10px; border: 1px solid #ddd; padding: 5px; clear: both; float: left; height: auto;}
 #embed_preview img { margin: auto; }
 
+#table_cell_size_grid { border-spacing: 1px; }
+#table_cell_size_grid td { width: 12px; height: 12px; border: 1px solid #aaa; }
 
 -->
 </style>

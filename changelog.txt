@@ -5,6 +5,11 @@ eZ Online Editor MCE extension Changelog
 * updated TinyMCE to 3.0.7
 * fixed some ie6 issues in browse / search and custom tag popup
 * let link / anchor buttons edit currently selected link / anchor
+* Fixed table size selector styling bug in Opera
+* Allow limiting AvailableClasses list based on embed class type
+ (see bottom of content.ini for more info)
+ * Made it easier to remove embed tags (node is now removed if you use del / backspace)
+ * Made it possible to select root nodes & content node is now pre browsed for convinience
 
 0.99
 * embed image issues ( 'view' not correct and not changable )

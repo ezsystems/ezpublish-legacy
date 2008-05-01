@@ -86,5 +86,20 @@ ClassDescription[]
 [embed-inline]
 ClassDescription[]
 
+# If you want to limit the amount of AvailableClasses selections
+# on relations pr eZ Publish Content Class you can do the folloowing:
+#
+## This examples demonstrates limiting AvailableClasses list in editor
+## when editing embed tags with a realtion to a object of type image.
+## These classes also needs to be defined in [embed] for eZ Publish.
+#[embed_image]
+#AvailableClasses[]
+#AvailableClasses[]=blue_border
+#AvailableClasses[]=dropp_down_shadow
+#
+## This example removes class list on embed-inline flash objects
+#[embed-inline_flash]
+#AvailableClasses[]
+#
 
 */ ?>

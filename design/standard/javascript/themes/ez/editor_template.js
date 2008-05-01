@@ -1014,15 +1014,33 @@
 	    },
 
         __block : function(ed, e) {
-            e = e || window.event;
+
+            if ( this.__disabled === false )
+                return;
+            
+            e = e || window.event;            
             var k = e.which || e.keyCode;
 
             // Don't block arrow keys, pg up/down, and F1-F12
             if ((k > 32 && k < 41) || (k > 111 && k < 124))
                 return;
-            // Don't block del and backspace keys
+
+            // Remove embed tag if user clicks del or backspace
             if ( k === 8 || k === 46 )
-                return;
+            {
+                var n = this.__getParentByTag( ed.selection.getNode(), 'DIV', 'mceNonEditable', '', true );
+                if ( n !== undefined && n.parentNode && n.parentNode.removeNode !== undefined )
+                {
+                    // Avoid that several embed tags are removed at once if they are placed side by side
+                    if ( !this.__recursion )
+                    {
+                        this.__recursion = true;
+                        n.parentNode.removeChild( n );
+                        setTimeout(ez.fn.bind( function(){ this.__recursion = false; }, this ), 50);
+                    }
+                }
+                else return;
+            }
             return Event.cancel(e);
         },
 		
@@ -1036,21 +1054,14 @@
                 //c.setActive( false );
             });
 
-            if ( s != t.__disabled )
+            if ( s !== t.__disabled )
             {
-                if ( s )
+                if ( t.__disabled === undefined )
                 {
-                    ed.onKeyDown.addToTop(t.__block);
-                    ed.onKeyPress.addToTop(t.__block);
-                    ed.onKeyUp.addToTop(t.__block);
-                    ed.onPaste.addToTop(t._block);
-                }
-                else
-                {
-                    ed.onKeyDown.remove(t.__block);
-                    ed.onKeyPress.remove(t.__block);
-                    ed.onKeyUp.remove(t.__block);
-                    ed.onPaste.remove(t.__block);
+                    ed.onKeyDown.addToTop( ez.fn.bind( t.__block, t ) );
+                    ed.onKeyPress.addToTop( ez.fn.bind( t.__block, t ) );
+                    ed.onKeyUp.addToTop( ez.fn.bind( t.__block, t ) );
+                    ed.onPaste.addToTop( ez.fn.bind( t.__block, t ) );
                 }
                 t.__disabled = s;
             }

@@ -86,20 +86,20 @@ if ( !$embedObject )
 }
 
 
-$imageSizeArray = $imageIni->variable( 'AliasSettings', 'AliasList' );
-$siteIni        = eZINI::instance( 'site.ini' );
-$contentIni     = eZINI::instance( 'content.ini' );
-$sizeTypeArray  = array();
+$imageSizeArray  = $imageIni->variable( 'AliasSettings', 'AliasList' );
+$siteIni         = eZINI::instance( 'site.ini' );
+$contentIni      = eZINI::instance( 'content.ini' );
+$embedClassIdentifier = $embedObject->attribute( 'class_identifier' );
+$sizeTypeArray   = array();
 
 
 if ( $contentType === 'auto' )
 {
     $imageClassIDArray     = $siteIni->variable('MediaClassSettings', 'ImageClassID' );
     $imageClassIdentifiers = $siteIni->variable( 'MediaClassSettings', 'ImageClassIdentifiers' );
-    $classIdentifier       = $embedObject->attribute( 'class_identifier' );
     $classID               = $embedObject->attribute( 'contentclass_id' );
 
-    if ( in_array( $classID, $imageClassIDArray ) || in_array( $classIdentifier, $imageClassIdentifiers ) )
+    if ( in_array( $classID, $imageClassIDArray ) || in_array( $embedClassIdentifier, $imageClassIdentifiers ) )
         $contentType = 'image';
     else
         $contentType = 'object';
@@ -128,7 +128,7 @@ foreach( $imageSizeArray as $size )
             $filter = $filter[1];
             $filter = explode( ';', $filter );
             // Only support scale and crop that uses both width and height for now
-            if ( isset( $filter[1] ) ) $imagePixelSize   = $filter[0] . 'x' . $filter[1];
+            if ( isset( $filter[1] ) ) $imagePixelSize = $filter[0] . 'x' . $filter[1];
             else $imagePixelSize = '';
         }
     }
@@ -138,22 +138,26 @@ foreach( $imageSizeArray as $size )
 $sizeTypeArray['original'] = 'Original';
 
 
-// class list with description
-$classList = array();
-$classListInline = array();
-
-if ( $contentIni->hasVariable( 'embed', 'AvailableClasses' ) )
+// Get list of classes for embed and embed inline tags
+// use specific class list this embed class type if it exists
+if ( $contentIni->hasVariable( 'embed_' . $embedClassIdentifier, 'AvailableClasses' ) )
+    $classListData = $contentIni->variable( 'embed_' . $embedClassIdentifier, 'AvailableClasses' );
+else if ( $contentIni->hasVariable( 'embed', 'AvailableClasses' ) )
     $classListData = $contentIni->variable( 'embed', 'AvailableClasses' );
 
-if ( $contentIni->hasVariable( 'embed-inline', 'AvailableClasses' ) )
+if ( $contentIni->hasVariable( 'embed-inline_' . $embedClassIdentifier, 'AvailableClasses' ) )
+    $classListInlineData = $contentIni->variable( 'embed-inline_' . $embedClassIdentifier, 'AvailableClasses' );
+else if ( $contentIni->hasVariable( 'embed-inline', 'AvailableClasses' ) )
     $classListInlineData = $contentIni->variable( 'embed-inline', 'AvailableClasses' );
 
+// Get human readable class names
 if ( $contentIni->hasVariable( 'embed', 'ClassDescription' ) )
     $classListDescription = $contentIni->variable( 'embed', 'ClassDescription' );
     
 if ( $contentIni->hasVariable( 'embed-inline', 'ClassDescription' ) )
     $classListDescriptionInline = $contentIni->variable( 'embed-inline', 'ClassDescription' );
 
+$classList = array();
 if ( $classListData )
 {
     $classList['0'] = 'None';
@@ -166,6 +170,7 @@ if ( $classListData )
     }
 }
 
+$classListInline = array();
 if ( $classListInlineData )
 {
     $classListInline['0'] = 'None';
@@ -181,15 +186,15 @@ if ( $classListInlineData )
 
 
 // attribute defaults
-$attributeDefaults = array();
-$attributeDefaultsInline = array();
-
 if ( $contentIni->hasVariable( 'embed', 'Defaults' ) )
     $attributeDefaults = $contentIni->variable( 'embed', 'Defaults' );
+else
+    $attributeDefaults = array();
 
 if ( $contentIni->hasVariable( 'embed-inline', 'Defaults' ) )
     $attributeDefaultsInline = $contentIni->variable( 'embed-inline', 'Defaults' );
-
+else
+    $attributeDefaultsInline = array();
 
 
 // view mode list

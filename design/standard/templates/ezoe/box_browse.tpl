@@ -20,3 +20,12 @@
 	    </table>
 	</div>
 {/default}
+<script type="text/javascript">
+<!--
+
+eZOeMCE['root_node_name'] = "{'Top Level Nodes'|i18n('kernel/content')}";
+eZOEPopupUtils.browse( {ezini( 'NodeSettings', 'RootNode', 'content.ini' )} );
+// UserRootNode MediaRootNode
+
+//-->
+</script>

@@ -425,8 +425,10 @@ var eZOEPopupUtils = {
                 tr = document.createElement("tr"), td = document.createElement("td");
                 tr.appendChild( document.createElement("td") );
                 td.setAttribute('colspan', '2');
-		        if ( data['node']['path'].length )
+		        if ( data['node']['path'] !== false && data['node']['node_id'] != 1 )
 		        {
+		            // Prepend root node so you can browse to the root of the installation
+		            data['node']['path'].splice(0,0,{'node_id':1, 'name': eZOeMCE['root_node_name'], 'class_name': 'Folder'});
 		            ez.$c( data['node']['path'] ).forEach( function( n )
 		            {
 		                a = document.createElement("a");

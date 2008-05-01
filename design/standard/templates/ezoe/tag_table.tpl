@@ -99,12 +99,6 @@ function tableSizeGridShowChange( rows, cols, save )
 
 // -->
 </script>
-<style>
-
-#table_cell_size_grid { border-spacing: 1px; }
-#table_cell_size_grid td { width: 12px; height: 12px; border: 1px solid #aaa; }
-
-</style>
 {/literal}
 
 <div>
@@ -165,8 +159,8 @@ function tableSizeGridShowChange( rows, cols, save )
                 </tr>
                 </table>
                 {def $table_default_values = ezini( 'table', 'Defaults', 'content.ini' )}
-                Cols: <input id="table_cell_size_grid_cols" type="number" maxlength="3" size="3" value="{first_set( $table_default_values['cols'], 2 )}" />
-                Rows: <input id="table_cell_size_grid_rows" type="number" maxlength="2" size="3" value="{first_set( $table_default_values['rows'], 1 )}" />
+                Cols: <input id="table_cell_size_grid_cols" type="text" maxlength="3" size="3" value="{first_set( $table_default_values['cols'], 2 )}" />
+                Rows: <input id="table_cell_size_grid_rows" type="text" maxlength="2" size="3" value="{first_set( $table_default_values['rows'], 1 )}" />
             </td>
         </tr>
         </table>
