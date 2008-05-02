@@ -875,11 +875,11 @@ class eZContentCacheManager
                 {
                     if ( $useURLAlias )
                     {
-                        $aNode = eZContentObjectTreeNode::fetch( $nodeID, false, false );
-                        if ( !isset( $aNode ) )
+                        $oNode = eZContentObjectTreeNode::fetch( $nodeID, false, true );
+                        if ( !isset( $oNode ) )
                             continue;
 
-                        $urlAlias = $aNode['path_identification_string'];
+                        $urlAlias = $oNode->urlAlias();
                         if ( $pathPrefix != '' )
                         {
                             $tempAlias = substr( $pathPrefix, strlen( $pathPrefix ) -1 ) == '/'
