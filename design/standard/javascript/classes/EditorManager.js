@@ -1,5 +1,5 @@
 /**
- * $Id: EditorManager.js 794 2008-04-12 11:02:58Z spocke $
+ * $Id: EditorManager.js 813 2008-04-23 14:56:38Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -187,7 +187,7 @@
 					case "textareas":
 					case "specific_textareas":
 						function hasClass(n, c) {
-							return new RegExp('\\b' + c + '\\b', 'g').test(n.className);
+							return c.constructor === RegExp ? c.test(n.className) : DOM.hasClass(n, c);
 						};
 
 						each(DOM.select('textarea'), function(v) {

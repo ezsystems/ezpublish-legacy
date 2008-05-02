@@ -1,5 +1,5 @@
 /**
- * $Id: ColorSplitButton.js 784 2008-04-09 20:56:11Z spocke $
+ * $Id: ColorSplitButton.js 819 2008-04-28 13:11:51Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -159,6 +159,8 @@
 
 				if (e.nodeName == 'A' && (c = e.getAttribute('mce_color')))
 					t.setColor(c);
+
+				return Event.cancel(e); // Prevent IE auto save warning
 			});
 
 			return w;

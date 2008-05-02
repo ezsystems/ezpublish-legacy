@@ -1,5 +1,5 @@
 /**
- * $Id: ForceBlocks.js 778 2008-04-08 21:16:25Z spocke $
+ * $Id: ForceBlocks.js 819 2008-04-28 13:11:51Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -475,9 +475,13 @@
 			aft.normalize();
 			bef.normalize();
 
+			function first(n) {
+				return d.createTreeWalker(n, NodeFilter.SHOW_TEXT, null, false).nextNode() || n;
+			};
+
 			// Move cursor and scroll into view
 			r = d.createRange();
-			r.selectNodeContents(aft);
+			r.selectNodeContents(isGecko ? first(aft) : aft);
 			r.collapse(1);
 			s.removeAllRanges();
 			s.addRange(r);

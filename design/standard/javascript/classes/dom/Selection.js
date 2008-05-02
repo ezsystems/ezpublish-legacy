@@ -1,11 +1,15 @@
 /**
- * $Id: Selection.js 760 2008-04-01 14:13:07Z spocke $
+ * $Id: Selection.js 827 2008-04-29 15:02:42Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
 (function() {
+	function trimNl(s) {
+		return s.replace(/[\n\r]+/g, '');
+	};
+
 	// Shorten names
 	var is = tinymce.is, isIE = tinymce.isIE, each = tinymce.each;
 
@@ -140,7 +144,7 @@
 				r.collapse(1);
 				e = r.parentElement();
 
-				if (e.nodeName == 'BODY')
+				if (e && e.nodeName == 'BODY')
 					return e.firstChild;
 
 				return e;
@@ -171,7 +175,7 @@
 				r.collapse(0);
 				e = r.parentElement();
 
-				if (e.nodeName == 'BODY')
+				if (e && e.nodeName == 'BODY')
 					return e.lastChild;
 
 				return e;
@@ -273,7 +277,7 @@
 						return d;
 					}
 
-					p += tinymce.trim(n.nodeValue || '').length;
+					p += (n.nodeValue || '').length;
 				}
 
 				return null;
@@ -287,7 +291,7 @@
 					return {scrollX : sx, scrollY : sy};
 
 				// Count whitespace before
-				(s.anchorNode.nodeValue || '').replace(/^\s+/, function(a) {wb = a.length;});
+				trimNl(s.anchorNode.nodeValue || '').replace(/^\s+/, function(a) {wb = a.length;});
 
 				return {
 					start : Math.max(e.start + s.anchorOffset - wb, 0),
@@ -300,8 +304,8 @@
 				e = getPos(ro, r.startContainer, r.endContainer);
 
 				// Count whitespace before start and end container
-				(r.startContainer.nodeValue || '').replace(/^\s+/, function(a) {wb = a.length;});
-				(r.endContainer.nodeValue || '').replace(/^\s+/, function(a) {wa = a.length;});
+				//(r.startContainer.nodeValue || '').replace(/^\s+/, function(a) {wb = a.length;});
+				//(r.endContainer.nodeValue || '').replace(/^\s+/, function(a) {wa = a.length;});
 
 				if (!e)
 					return {scrollX : sx, scrollY : sy};
@@ -332,10 +336,10 @@
 					wa = wb = 0;
 
 					nv = n.nodeValue || '';
-					nv.replace(/^\s+[^\s]/, function(a) {wb = a.length - 1;});
-					nv.replace(/[^\s]\s+$/, function(a) {wa = a.length - 1;});
+					//nv.replace(/^\s+[^\s]/, function(a) {wb = a.length - 1;});
+					//nv.replace(/[^\s]\s+$/, function(a) {wa = a.length - 1;});
 
-					nvl = tinymce.trim(nv).length;
+					nvl = trimNl(nv).length;
 					p += nvl;
 
 					if (p >= sp && !d.startNode) {

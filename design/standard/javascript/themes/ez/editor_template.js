@@ -1,9 +1,13 @@
 /**
- * $Id: editor_template_src.js 793 2008-04-10 17:32:40Z spocke $
+ * $Id: editor_template_src.js 829 2008-04-30 14:35:32Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
+
+/* 
+ * ez theme is a fork of advance theme modified for eZ Online Editor MCE integration
+*/
 
 (function() {
 	var DOM = tinymce.DOM, Event = tinymce.dom.Event, extend = tinymce.extend, each = tinymce.each, Cookie = tinymce.util.Cookie, lastExtID, explode = tinymce.explode;
@@ -224,26 +228,26 @@
 			return c;
 		},
 
-		_createFontSizeSelect : function() {
-			var c, t = this, lo = [
-				"1 (8 pt)",
-				"2 (10 pt)",
-				"3 (12 pt)",
-				"4 (14 pt)",
-				"5 (18 pt)",
-				"6 (24 pt)",
-				"7 (36 pt)"
-			], fz = [8, 10, 12, 14, 18, 24, 36];
+        _createFontSizeSelect : function() {
+            var t = this, ed = t.editor, c, lo = [
+                "1 (8 pt)",
+                "2 (10 pt)",
+                "3 (12 pt)",
+                "4 (14 pt)",
+                "5 (18 pt)",
+                "6 (24 pt)",
+                "7 (36 pt)"
+            ], fz = [8, 10, 12, 14, 18, 24, 36];
 
-			c = t.editor.controlManager.createListBox('fontsizeselect', {title : 'advanced.font_size', cmd : 'FontSize'});
-            if ( c ) {
-				each(explode(t.settings.theme_advanced_font_sizes), function(v) {
-	                c.add(lo[parseInt(v) - 1], v, {'style' : 'font-size:' + fz[v - 1] + 'pt', 'class' : 'mceFontSize' + v});
-				});
-			}
+            c = ed.controlManager.createListBox('fontsizeselect', {title : 'advanced.font_size', cmd : 'FontSize'});
+            if (c) {
+                each(ed.getParam('theme_advanced_font_sizes', t.settings.theme_advanced_font_sizes, 'hash'), function(v, k) {
+                    c.add(k != v ? k : lo[parseInt(v) - 1], v, {'style' : 'font-size:' + fz[v - 1] + 'pt', 'class' : 'mceFontSize' + v});
+                });
+            }
 
-			return c;
-		},
+            return c;
+        },
 
 		_createBlockFormats : function() {
 			var c, fmts = {
@@ -534,7 +538,7 @@
 			each(explode(s.theme_advanced_containers || ''), function(c, i) {
                 var v = s['theme_advanced_container_' + c] || '';
 
-                switch (c.toLowerCase()) {
+                switch (v.toLowerCase()) {
 					case 'mceeditor':
 						n = DOM.add(tb, 'tr');
 						n = ic = DOM.add(n, 'td', {'class' : 'mceIframeContainer'});
@@ -545,7 +549,7 @@
 						break;
 
 					default:
-                        a = s['theme_advanced_container_' + c + '_align'].toLowerCase();
+                        a = (s['theme_advanced_container_' + c + '_align'] || da).toLowerCase();
                         a = 'mce' + t._ufirst(a);
 
                         n = DOM.add(DOM.add(tb, 'tr'), 'td', {

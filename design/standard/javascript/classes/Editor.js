@@ -1,5 +1,5 @@
 /**
- * $Id: Editor.js 802 2008-04-14 14:36:33Z spocke $
+ * $Id: Editor.js 829 2008-04-30 14:35:32Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -314,7 +314,8 @@
 
 			// Pass through
 			t.undoManager.onAdd.add(function(um, l) {
-				return t.onChange.dispatch(t, l, um);
+				if (!l.initial)
+					return t.onChange.dispatch(t, l, um);
 			});
 
 			t.undoManager.onUndo.add(function(um, l) {
@@ -355,8 +356,8 @@
 
 			// Measure box
 			if (s.render_ui) {
-				w = s.width || e.style.width || e.clientWidth;
-				h = s.height || e.style.height || e.clientHeight;
+				w = s.width || e.style.width || e.offsetWidth;
+				h = s.height || e.style.height || e.offsetHeight;
 				t.orgDisplay = e.style.display;
 				re = /^[0-9\.]+(|px)$/i;
 
@@ -698,7 +699,7 @@
 			// Remove empty contents
 			if (s.padd_empty_editor) {
 				t.onPostProcess.add(function(ed, o) {
-					o.content = o.content.replace(/^<p>(&nbsp;|#160;|\s|\u00a0)<\/p>$/, '');
+					o.content = o.content.replace(/^(<p>(&nbsp;|&#160;|\s|\u00a0|)<\/p>[\r\n]*|<br \/>[\r\n]*)$/, '');
 				});
 			}
 
@@ -2250,7 +2251,7 @@
 
 						if (i != -1) {
 							dom.setAttrib(f, 'size', '' + (i + 1 || 1));
-							f.style.fontSize = '';
+							//f.style.fontSize = '';
 						}
 					} else if (cl) {
 						i = inArray(cl, dom.getAttrib(n, 'class'));

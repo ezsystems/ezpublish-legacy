@@ -1,5 +1,5 @@
 /**
- * $Id: Popup.js 786 2008-04-10 11:25:05Z spocke $
+ * $Id: Popup.js 809 2008-04-17 14:41:31Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -228,7 +228,7 @@ tinyMCEPopup = {
 
 		// To avoid domain relaxing issue in Opera
 		function close() {
-			t.editor.windowManager.close(window, t.id);
+			t.editor.windowManager.close(window);
 			tinymce = tinyMCE = t.editor = t.params = t.dom = t.dom.doc = null; // Cleanup
 		};
 
@@ -279,7 +279,7 @@ tinyMCEPopup = {
 
 		// Set inline title
 		if (!t.isWindow)
-			t.editor.windowManager.setTitle(ti, t.id);
+			t.editor.windowManager.setTitle(window, ti);
 		else
 			window.focus();
 

@@ -3,11 +3,11 @@
 
 var tinymce = {
 	majorVersion : '3',
-	minorVersion : '0.7',
-	releaseDate : '2008-04-14',
+	minorVersion : '0.8',
+	releaseDate : '2008-04-30',
 
 	_init : function() {
-		var t = this, d = document, w = window, na = navigator, ua = na.userAgent, i, nl, n, base;
+		var t = this, d = document, w = window, na = navigator, ua = na.userAgent, i, nl, n, base, p;
 
 		// Browser checks
 		t.isOpera = w.opera && opera.buildNumber;
@@ -22,6 +22,7 @@ var tinymce = {
 		if (w.tinyMCEPreInit) {
 			t.suffix = tinyMCEPreInit.suffix;
 			t.baseURL = tinyMCEPreInit.base;
+			t.query = tinyMCEPreInit.query;
 			return;
 		}
 
@@ -39,6 +40,9 @@ var tinymce = {
 			if (n.src && /tiny_mce(|_dev|_src|_gzip|_jquery|_prototype).js/.test(n.src)) {
 				if (/_(src|dev)\.js/g.test(n.src))
 					t.suffix = '_src';
+
+				if ((p = n.src.indexOf('?')) != -1)
+					t.query = n.src.substring(p + 1);
 
 				t.baseURL = n.src.substring(0, n.src.lastIndexOf('/'));
 
@@ -393,11 +397,21 @@ var tinymce = {
 	},
 
 	explode : function(s, d) {
-		return tinymce.map(s.split(d || ','), tinymce.trim);
+		return s ? tinymce.map(s.split(d || ','), tinymce.trim) : s;
 	},
 
-	_addVer : function(u, s) {
-		return u + (u.indexOf('?') == -1 ? '?' : '&') + 'v=' + (tinymce.majorVersion + tinymce.minorVersion).replace(/[^0-9]/g, '');
+	_addVer : function(u) {
+		var v;
+
+		if (!this.query)
+			return u;
+
+		v = (u.indexOf('?') == -1 ? '?' : '&') + this.query;
+
+		if (u.indexOf('#') == -1)
+			return u + v;
+
+		return u.replace('#', v + '#');
 	}
 
 	};
@@ -1077,7 +1091,7 @@ tinymce.create('static tinymce.util.XHR', {
 		get : function(e) {
 			var n;
 
-			if (this.doc && typeof(e) == 'string') {
+			if (e && this.doc && typeof(e) == 'string') {
 				n = e;
 				e = this.doc.getElementById(e);
 
@@ -1444,8 +1458,8 @@ tinymce.create('static tinymce.util.XHR', {
 				switch (n) {
 					case "style":
 						// No mce_style for elements with these since they might get resized by the user
-						if (s.keep_values && /^(| )(top|left|bottom|right|width|height)/i.test(v)) {
-							if (v)
+						if (s.keep_values) {
+							if (v && !t._isRes(v))
 								e.setAttribute('mce_style', v, 2);
 							else
 								e.removeAttribute('mce_style', 2);
@@ -1535,7 +1549,7 @@ tinymce.create('static tinymce.util.XHR', {
 					if (v) {
 						v = t.serializeStyle(t.parseStyle(v));
 
-						if (t.settings.keep_values && /^(| )(top|left|bottom|right|width|height)/i.test(v))
+						if (t.settings.keep_values && !t._isRes(v))
 							e.setAttribute('mce_style', v);
 					}
 
@@ -1984,7 +1998,7 @@ tinymce.create('static tinymce.util.XHR', {
 							//	u = t.serializeStyle(t.parseStyle(u));
 
 							// No mce_style for elements with these since they might get resized by the user
-							if (/^(| )(top|left|bottom|right|width|height)/i.test(c))
+							if (t._isRes(c))
 								return m;
 
 							if (s.hex_colors) {
@@ -2295,6 +2309,12 @@ tinymce.create('static tinymce.util.XHR', {
 			// Manual destroy then remove unload handler
 			if (!s)
 				tinymce.removeUnload(t.destroy);
+		},
+
+		_isRes : function(c) {
+			// Is live resizble element
+
+			return /^(top|left|bottom|right|width|height)/i.test(c) || /^[;\s](top|left|bottom|right|width|height)/i.test(c);
 		}
 
 		/*
@@ -2711,6 +2731,10 @@ tinymce.create('static tinymce.util.XHR', {
 /* file:jscripts/tiny_mce/classes/dom/Selection.js */
 
 (function() {
+	function trimNl(s) {
+		return s.replace(/[\n\r]+/g, '');
+	};
+
 	// Shorten names
 	var is = tinymce.is, isIE = tinymce.isIE, each = tinymce.each;
 
@@ -2808,7 +2832,7 @@ tinymce.create('static tinymce.util.XHR', {
 				r.collapse(1);
 				e = r.parentElement();
 
-				if (e.nodeName == 'BODY')
+				if (e && e.nodeName == 'BODY')
 					return e.firstChild;
 
 				return e;
@@ -2833,7 +2857,7 @@ tinymce.create('static tinymce.util.XHR', {
 				r.collapse(0);
 				e = r.parentElement();
 
-				if (e.nodeName == 'BODY')
+				if (e && e.nodeName == 'BODY')
 					return e.lastChild;
 
 				return e;
@@ -2928,7 +2952,7 @@ tinymce.create('static tinymce.util.XHR', {
 						return d;
 					}
 
-					p += tinymce.trim(n.nodeValue || '').length;
+					p += (n.nodeValue || '').length;
 				}
 
 				return null;
@@ -2942,7 +2966,7 @@ tinymce.create('static tinymce.util.XHR', {
 					return {scrollX : sx, scrollY : sy};
 
 				// Count whitespace before
-				(s.anchorNode.nodeValue || '').replace(/^\s+/, function(a) {wb = a.length;});
+				trimNl(s.anchorNode.nodeValue || '').replace(/^\s+/, function(a) {wb = a.length;});
 
 				return {
 					start : Math.max(e.start + s.anchorOffset - wb, 0),
@@ -2955,8 +2979,8 @@ tinymce.create('static tinymce.util.XHR', {
 				e = getPos(ro, r.startContainer, r.endContainer);
 
 				// Count whitespace before start and end container
-				(r.startContainer.nodeValue || '').replace(/^\s+/, function(a) {wb = a.length;});
-				(r.endContainer.nodeValue || '').replace(/^\s+/, function(a) {wa = a.length;});
+				//(r.startContainer.nodeValue || '').replace(/^\s+/, function(a) {wb = a.length;});
+				//(r.endContainer.nodeValue || '').replace(/^\s+/, function(a) {wa = a.length;});
 
 				if (!e)
 					return {scrollX : sx, scrollY : sy};
@@ -2981,10 +3005,10 @@ tinymce.create('static tinymce.util.XHR', {
 					wa = wb = 0;
 
 					nv = n.nodeValue || '';
-					nv.replace(/^\s+[^\s]/, function(a) {wb = a.length - 1;});
-					nv.replace(/[^\s]\s+$/, function(a) {wa = a.length - 1;});
+					//nv.replace(/^\s+[^\s]/, function(a) {wb = a.length - 1;});
+					//nv.replace(/[^\s]\s+$/, function(a) {wa = a.length - 1;});
 
-					nvl = tinymce.trim(nv).length;
+					nvl = trimNl(nv).length;
 					p += nvl;
 
 					if (p >= sp && !d.startNode) {
@@ -4902,8 +4926,8 @@ tinymce.create('tinymce.ui.Separator:tinymce.ui.Control', {
 			this.onHideMenu = new tinymce.util.Dispatcher(this);
 			this.classPrefix = 'mceMenu';
 
-			// Fix for odd IE bug: #1903622
-			this.fixIE = tinymce.isIE && DOM.win.top != DOM.win;
+			// Fix for odd IE bug: #1903622 (Frames selection)
+			this.fixIE = tinymce.isIE && (DOM.win.top != DOM.win);
 		},
 
 		createMenu : function(s) {
@@ -5017,8 +5041,11 @@ tinymce.create('tinymce.ui.Separator:tinymce.ui.Control', {
 						}
 					}, 0);
 
-					if (m.settings.onclick)
-						m.settings.onclick(e);
+					// Yield on IE to prevent loosing image focus when context menu is used
+					window.setTimeout(function() {
+						if (m.settings.onclick)
+							m.settings.onclick(e);
+					}, 0);
 
 					return Event.cancel(e); // Cancel to fix onbeforeunload problem
 				}
@@ -5814,6 +5841,8 @@ tinymce.create('tinymce.ui.Separator:tinymce.ui.Control', {
 
 				if (e.nodeName == 'A' && (c = e.getAttribute('mce_color')))
 					t.setColor(c);
+
+				return Event.cancel(e); // Prevent IE auto save warning
 			});
 
 			return w;
@@ -6137,7 +6166,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 					case "textareas":
 					case "specific_textareas":
 						function hasClass(n, c) {
-							return new RegExp('\\b' + c + '\\b', 'g').test(n.className);
+							return c.constructor === RegExp ? c.test(n.className) : DOM.hasClass(n, c);
 						};
 
 						each(DOM.select('textarea'), function(v) {
@@ -6631,7 +6660,8 @@ var tinyMCE = window.tinyMCE = tinymce.EditorManager;
 
 			// Pass through
 			t.undoManager.onAdd.add(function(um, l) {
-				return t.onChange.dispatch(t, l, um);
+				if (!l.initial)
+					return t.onChange.dispatch(t, l, um);
 			});
 
 			t.undoManager.onUndo.add(function(um, l) {
@@ -6672,8 +6702,8 @@ var tinyMCE = window.tinyMCE = tinymce.EditorManager;
 
 			// Measure box
 			if (s.render_ui) {
-				w = s.width || e.style.width || e.clientWidth;
-				h = s.height || e.style.height || e.clientHeight;
+				w = s.width || e.style.width || e.offsetWidth;
+				h = s.height || e.style.height || e.offsetHeight;
 				t.orgDisplay = e.style.display;
 				re = /^[0-9\.]+(|px)$/i;
 
@@ -7001,7 +7031,7 @@ var tinyMCE = window.tinyMCE = tinymce.EditorManager;
 			// Remove empty contents
 			if (s.padd_empty_editor) {
 				t.onPostProcess.add(function(ed, o) {
-					o.content = o.content.replace(/^<p>(&nbsp;|#160;|\s|\u00a0)<\/p>$/, '');
+					o.content = o.content.replace(/^(<p>(&nbsp;|&#160;|\s|\u00a0|)<\/p>[\r\n]*|<br \/>[\r\n]*)$/, '');
 				});
 			}
 
@@ -8199,7 +8229,7 @@ var tinyMCE = window.tinyMCE = tinymce.EditorManager;
 
 						if (i != -1) {
 							dom.setAttrib(f, 'size', '' + (i + 1 || 1));
-							f.style.fontSize = '';
+							//f.style.fontSize = '';
 						}
 					} else if (cl) {
 						i = inArray(cl, dom.getAttrib(n, 'class'));
@@ -8518,6 +8548,24 @@ var tinyMCE = window.tinyMCE = tinymce.EditorManager;
 				t.RemoveFormat();
 			} else
 				ed.getDoc().execCommand('FontName', false, v);
+		},
+
+		FontSize : function(u, v) {
+			var ed = this.editor, s = ed.settings, fz = tinymce.explode(s.font_size_style_values), fzc = tinymce.explode(s.font_size_classes);
+
+			ed.getDoc().execCommand('FontSize', false, v);
+
+			// Add style values
+			if (s.inline_styles) {
+				each(ed.dom.select('font'), function(e) {
+					if (e.size === v) {
+						if (fzc && fzc.length > 0)
+							ed.dom.setAttrib(e, 'class', fzc[parseInt(v) - 1]);
+						else
+							ed.dom.setStyle(e, 'fontSize', fz[parseInt(v) - 1]);
+					}
+				});
+			}
 		},
 
 		queryCommandValue : function(c) {
@@ -9307,7 +9355,7 @@ tinymce.create('tinymce.UndoManager', {
 
 		// Add undo level if needed
 		l.content = l.content.replace(/^\s*|\s*$/g, '');
-		la = t.data[t.index > 0 ? t.index - 1 : 0];
+		la = t.data[t.index > 0 && (t.index == 0 || t.index == t.data.length) ? t.index - 1 : t.index];
 		if (!l.initial && la && l.content == la.content)
 			return null;
 
@@ -9325,7 +9373,7 @@ tinymce.create('tinymce.UndoManager', {
 		if (s.custom_undo_redo_restore_selection && !l.initial)
 			l.bookmark = b = l.bookmark || ed.selection.getBookmark();
 
-		if (t.index < t.data.length && t.data[t.index].initial)
+		if (t.index < t.data.length)
 			t.index++;
 
 		// Only initial marked undo levels should be allowed as first item
@@ -9883,9 +9931,13 @@ tinymce.create('tinymce.UndoManager', {
 			aft.normalize();
 			bef.normalize();
 
+			function first(n) {
+				return d.createTreeWalker(n, NodeFilter.SHOW_TEXT, null, false).nextNode() || n;
+			};
+
 			// Move cursor and scroll into view
 			r = d.createRange();
-			r.selectNodeContents(aft);
+			r.selectNodeContents(isGecko ? first(aft) : aft);
 			r.collapse(1);
 			s.removeAllRanges();
 			s.addRange(r);
