@@ -270,7 +270,7 @@ class eZOEPackerFunctions
                 'type' => ezi18n( 'design/standard/ezoe', "Type")
             ),
             'advanced_dlg' => array(
-                'about_title' => ezi18n( 'design/standard/ezoe', "About TinyMCE"),
+                //'about_title' => ezi18n( 'design/standard/ezoe', "About TinyMCE"),
                 'about_general' => ezi18n( 'design/standard/ezoe', "About"),
                 'about_help' => ezi18n( 'design/standard/ezoe', "Help"),
                 'about_license' => ezi18n( 'design/standard/ezoe', "License"),

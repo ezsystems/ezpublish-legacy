@@ -1204,17 +1204,9 @@
 			});
 		},
 
-		_mceHelp : function() {
-			var ed = this.editor;
-
-			ed.windowManager.open({
-				url : tinymce.baseURL + '/themes/ez/about.htm',
-				width : 480,
-				height : 380,
-				inline : true
-			}, {
-				theme_url : this.url
-			});
+		_mceHelp : function()
+		{
+			this._generalXmlTagPopup( '', '/help/', 480, 380 );
 		},
 
 		_mceColorPicker : function(ui, v) {

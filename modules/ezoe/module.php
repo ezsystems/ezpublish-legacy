@@ -5,7 +5,7 @@
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ Online Editor MCE extension for eZ Publish
 // SOFTWARE RELEASE: 5.0
-// COPYRIGHT NOTICE: Copyright (C) 2008 eZ systems AS
+// COPYRIGHT NOTICE: Copyright (C) 2008 eZ Systems AS
 // SOFTWARE LICENSE: GNU General Public License v2.0
 // NOTICE: >
 //   This program is free software; you can redistribute it and/or
@@ -51,6 +51,11 @@ $ViewList["tags"] = array(
 $ViewList["load"] = array(
     "script" => 'load.php',
     "params" => array( 'EmbedID','DataMap', 'ImagePreGenerateSizes' )
+    );
+
+$ViewList["help"] = array(
+    "script" => 'help.php',
+    "params" => array( 'ObjectID', 'ObjectVersion' )
     );
 
 $ViewList["embed_view"] = array(

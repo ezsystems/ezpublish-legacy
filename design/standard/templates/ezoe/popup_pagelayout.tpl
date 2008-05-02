@@ -46,6 +46,12 @@ table#browse_box_prev tfoot td { padding-top: 5px; }
 -->
 </style>
 {/literal}
+{if $module_result.persistent_variable.css}
+{foreach $module_result.persistent_variable.css as $css}
+    <link type="text/css" rel="stylesheet" href={$css|ezdesign} />
+
+{/foreach}
+{/if}
 </head>
 <body>
 

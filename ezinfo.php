@@ -26,7 +26,7 @@
 
 class ezoeInfo
 {
-    static function info()//Artistic License/GPLv2
+    static function info()
     {
         return array( 'Name'      => 'eZ Online Editor MCE',
                       'Version'   => '5.0.0beta',

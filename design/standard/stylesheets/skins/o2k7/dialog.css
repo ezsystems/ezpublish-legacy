@@ -115,6 +115,34 @@ h3 {font-size:14px;}
 #colorpicker #picker_panel fieldset {margin:auto;width:325px;}
 
 
+/* help dialog */
+
+dl
+{
+    margin:0.25em 0pt;
+    padding:0em;
+}
+
+dt, dd
+{
+    margin:0pt 0pt 0.25em;
+}
+
+dt
+{
+    height:16px;
+    width: 16px;
+    margin-bottom:-16px;
+}
+
+dd
+{
+    margin:0pt 1em 0.5em 2.5em;
+}
+
+
+
+
 /* core.css ez layout styles */
 
 div.block /* Used around groups of objects which are connected in some way, and requires extra margins to the surroundings */

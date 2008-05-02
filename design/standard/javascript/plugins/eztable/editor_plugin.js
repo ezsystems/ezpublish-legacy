@@ -191,7 +191,7 @@
 
 		getInfo : function() {
 			return {
-				longname : 'Tables',
+				longname : 'Tables (eZ Online Editor version)',
 				author : 'Moxiecode Systems AB',
 				authorurl : 'http://tinymce.moxiecode.com',
 				infourl : 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/table',

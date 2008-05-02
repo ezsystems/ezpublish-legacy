@@ -10,6 +10,7 @@ eZ Online Editor MCE extension Changelog
  * Made it easier to remove embed tags (node is now removed if you use del / backspace)
  * Made it possible to select root nodes & content node is now pre browsed for convinience
  * updated TinyMCE to 3.0.8
+ * Added a help/about dialog, enabled help button.
 
 0.99
 * embed image issues ( 'view' not correct and not changable )

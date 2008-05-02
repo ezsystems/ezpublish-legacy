@@ -1,4 +1,4 @@
-tinyMCEPopup.requireLangPack();
+//tinyMCEPopup.requireLangPack();
 
 function init() {
 	var ed, tcont;
@@ -10,7 +10,7 @@ function init() {
 	window.setTimeout('insertHelpIFrame();', 10);
 
 	tcont = document.getElementById('plugintablecontainer');
-	document.getElementById('plugins_tab').style.display = 'none';
+	//document.getElementById('plugins_tab').style.display = 'none';
 
 	var html = "";
 	html += '<table id="plugintable">';
@@ -46,7 +46,7 @@ function init() {
 		html += '<td width="15%">' + info.version + '</td>';
 		html += '</tr>';
 
-		document.getElementById('plugins_tab').style.display = '';
+		//document.getElementById('plugins_tab').style.display = '';
 
 	});
 
