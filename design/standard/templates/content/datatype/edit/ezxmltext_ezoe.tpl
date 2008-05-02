@@ -65,7 +65,7 @@
     eZOeMCE['skin']          = '{$skin}';
     eZOeMCE['skin_variant']  = '{$skin_variant}';
     eZOeMCE['language']      = '{$language}';
-    eZOeMCE['dev_mode']      = '{$dev_mode|cond( 'true', 'false' )}';
+    eZOeMCE['dev_mode']      = {$dev_mode|cond( 'true', 'false' )};
 
     {literal}
 
