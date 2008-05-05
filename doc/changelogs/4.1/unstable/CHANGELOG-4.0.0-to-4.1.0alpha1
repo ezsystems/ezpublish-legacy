@@ -249,3 +249,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12946: Static cache doesn't support url with capital letters
   (Merged from stable/4.0 (4.0.1) rev. 21819.)
 - Fixed bug #12710: datatype ezimage:remove image works only the second time
+- Fixed bug #12954: eZImageInterface::hasGD2 is static but not defined as static

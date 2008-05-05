@@ -481,7 +481,7 @@ class eZImageInterface
      \static
      \return true if GD2 is installed.
     */
-    function hasGD2()
+    static function hasGD2()
     {
         $imageINI = eZINI::instance( 'image.ini' );
         return $imageINI->variable( 'GDSettings', 'HasGD2' ) == 'true';
