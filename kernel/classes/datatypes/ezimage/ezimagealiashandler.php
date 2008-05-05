@@ -798,8 +798,8 @@ class eZImageAliasHandler
         $imageNode->setAttribute( 'alias_key', false );
         $imageNode->setAttribute( 'timestamp', false );
 
-        $contentObjectAttributeData['DataTypeCustom']['dom_tree'] = $doc;
-        unset( $contentObjectAttributeData['DataTypeCustom']['alias_list'] );
+        $this->ContentObjectAttributeData['DataTypeCustom']['dom_tree'] = $doc;
+        unset( $this->ContentObjectAttributeData['DataTypeCustom']['alias_list'] );
 
         $this->storeDOMTree( $doc, true, $contentObjectAttribute );
     }
