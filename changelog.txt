@@ -4,10 +4,11 @@ eZ Online Editor MCE extension Changelog
 * Added debug as text comment in ajax view's (embed_view, expand, load and search)
 * Fixed bug #012950: Popup windows sizes are too small
 * Fixed bug #012947: Cannot click search button in link properties until a filter is selected
-* Fixed bug #012978 Strange symbol in Help popup
+* Fixed bug #012978: Strange symbol in Help popup
 * Fixed bug #012951: Help Popup should have Help Tab content highlighted first
 * Fixed bug #012948: Null result set in link dialog search tab should provide feedback
 * Made ez_core only do POST ajax calls if post actually has a value
+* Fixed bug #011618: Table in header tag
 
 5.0beta
 * clicking search buttons does not work (hides link dialog)

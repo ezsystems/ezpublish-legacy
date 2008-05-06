@@ -798,12 +798,13 @@
 		},
 
 		_nodeChanged : function(ed, cm, n, co) {
-			var t = this, p, de = 0, v, c, s = t.settings, div = false;
+			var t = this, p, de = 0, v, c, s = t.settings, div = false, header;
 
 			tinymce.each(t.stateControls, function(c) {
 				cm.setActive(c, ed.queryCommandState(t.controls[c][1]));
 			});
 
+            header = DOM.getParent(n, 'H1,H2,H3,H4,H5,H6');
 			p = DOM.getParent(n, 'DIV');
             if (c = cm.get('object'))
             {
@@ -815,6 +816,7 @@
 	                n = p;
                 }
                 c.setActive( div );
+                c.setDisabled( header );
             }
 
             t.__setDisabled( div );
@@ -851,16 +853,18 @@
                     }
                 }
 	            
-	            p = DOM.getParent(n, 'DIV');
-	            if (c = cm.get('pagebreak'))
-	                c.setDisabled(!!p && DOM.hasClass(p, 'pagebreak') );
+	            p = header || DOM.getParent(n, 'DIV');
+	            if (p && (c = cm.get('pagebreak')))
+	                c.setDisabled( !!p && DOM.hasClass(p, 'pagebreak') );
 
-                p = DOM.getParent(n, 'H1,H2,H3,H4,H5,H6');
-                if (p && (c = cm.get('bullist')))
-                    c.setDisabled( p );
+                if (header && (c = cm.get('custom')))
+                    c.setDisabled( header );
 
-                if (p && (c = cm.get('numlist')))
-                    c.setDisabled( p );
+                if (header && (c = cm.get('bullist')))
+                    c.setDisabled( header );
+
+                if (header && (c = cm.get('numlist')))
+                    c.setDisabled( header );
 
 	            p = DOM.getParent(n, 'UL,OL');
 	            if (c = cm.get('outdent'))
@@ -883,11 +887,17 @@
 
 				p = DOM.getParent(n, 'IMG');
 				if (c = cm.get('image'))
+				{
 					c.setActive(!!p && p.className.indexOf('mceItem') === -1);
+					c.setDisabled( header );
+		        }
 
 	            p = DOM.getParent(n, 'PRE');
 	            if (c = cm.get('literal'))
+	            {
 	                c.setActive(!!p );
+	                c.setDisabled( header );
+	            }
 
 				if (c = cm.get('formatselect'))
 				{

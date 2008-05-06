@@ -127,12 +127,13 @@
             }
 
             ed.onNodeChange.add(function(ed, cm, n) {
-                var p = ed.dom.getParent(n, 'td,th,caption');
+                var p = ed.dom.getParent(n, 'td,th,caption'), header = ed.dom.getParent(n, 'H1,H2,H3,H4,H5,H6');;
 
                 cm.setActive('table', n.nodeName === 'TABLE' || !!p);
 				if (p && p.nodeName === 'CAPTION')
 					p = null;
 
+                cm.setDisabled('table', header);
 				cm.setDisabled('delete_table', !p);
 				cm.setDisabled('delete_col', !p);
 				cm.setDisabled('delete_table', !p);
