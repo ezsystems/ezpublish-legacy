@@ -404,9 +404,9 @@ var ez = {
                     return ez.array.filter( arr, function( el, i ){
                         return i % a === b;
                     });
-                    
                 }
-                return ( -1 < b < arr.length -1 ) ? [arr[ b -1 ]] : [];
+                b--;
+                return ( -1 < b && b < arr.length ) ? [arr[ b ]] : [];
             }
         },
         removeEvent: function( el, trigger, handler )
