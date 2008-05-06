@@ -34,7 +34,7 @@ include_once( 'extension/ezoe/classes/ezajaxcontent.php' );
 $embedId         = 0;
 $http            = eZHTTPTool::instance();
 
-if ( isset( $Params['EmbedID'] )  && $Params['EmbedID'])
+if ( isset( $Params['EmbedID'] ) && $Params['EmbedID'])
 {
     $embedType = 'ezobject';
     if (  is_numeric( $Params['EmbedID'] ) )
@@ -54,20 +54,27 @@ if ( !$embedObject )
    eZExecution::cleanExit();
 }
 
-$imageIni  = eZINI::instance( 'image.ini' );
+// Params for node to json encoder
 $params    = array('loadImages' => true);
 $params['imagePreGenerateSizes'] = array('small');
 
+// look for datamap parameter ( what datamap attribute we should load )
 if ( isset( $Params['DataMap'] )  && $Params['DataMap'])
     $params['dataMap'] = array($Params['DataMap']);
 
+// what image sizes we want returned with full data ( url++ )
 if ( $http->hasPostVariable( 'imagePreGenerateSizes' ) )
     $params['imagePreGenerateSizes'][] = $http->postVariable( 'imagePreGenerateSizes' );
 else if ( isset( $Params['ImagePreGenerateSizes'] )  && $Params['ImagePreGenerateSizes'])
     $params['imagePreGenerateSizes'][] = $Params['ImagePreGenerateSizes'];
 
+// encode embed object as a json response
+$json = eZAjaxContent::encode( $embedObject, $params );
 
-echo eZAjaxContent::encode( $embedObject, $params );
+// display debug as a js comment
+echo "/*\r\n";
+eZDebug::printReport( false, false );
+echo "*/\r\n" . $json;
 
 
 eZExecution::cleanExit();

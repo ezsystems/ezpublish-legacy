@@ -413,7 +413,7 @@ var eZOEPopupUtils = {
 	    // call back function for the browse() ajax call, generates the html markup with paging and path header (if defined)
 	    mode = mode || 'browse';
 	    ez.script( 'eZOEPopupUtils.ajaxLoadResponse=' + r.responseText );
-	    var ed = tinyMCEPopup.editor, tbody = ez.$$('#' + mode + '_box_prev tbody')[0], thead = ez.$$('#' + mode + '_box_prev thead')[0], tfoot = ez.$$('#' + mode + '_box_prev tfoot')[0], tr, td, a;
+	    var ed = tinyMCEPopup.editor, tbody = ez.$$('#' + mode + '_box_prev tbody')[0], thead = ez.$$('#' + mode + '_box_prev thead')[0], tfoot = ez.$$('#' + mode + '_box_prev tfoot')[0], tr, td, tag;
 		eZOEPopupUtils.removeChildren( tbody.el );
 		eZOEPopupUtils.removeChildren( thead.el );
 		eZOEPopupUtils.removeChildren( tfoot.el );
@@ -431,21 +431,21 @@ var eZOEPopupUtils = {
 		            data['node']['path'].splice(0,0,{'node_id':1, 'name': eZOeMCE['root_node_name'], 'class_name': 'Folder'});
 		            ez.$c( data['node']['path'] ).forEach( function( n )
 		            {
-		                a = document.createElement("a");
-		                a.setAttribute('href', 'JavaScript:eZOEPopupUtils.' + mode + '(' + n.node_id + ');');
-		                a.setAttribute('title', ed.getLang('advanced.type') + ': ' + n.class_name );
-		                a.innerHTML = n.name;
-		                td.appendChild( a );
-		                a = document.createElement("span");
-                        a.innerHTML = ' / ';
-                        td.appendChild( a );
+		                tag = document.createElement("a");
+		                tag.setAttribute('href', 'JavaScript:eZOEPopupUtils.' + mode + '(' + n.node_id + ');');
+		                tag.setAttribute('title', ed.getLang('advanced.type') + ': ' + n.class_name );
+		                tag.innerHTML = n.name;
+		                td.appendChild( tag );
+		                tag = document.createElement("span");
+                        tag.innerHTML = ' / ';
+                        td.appendChild( tag );
 		                
 		            });
 		        }
 
-                a = document.createElement("span");
-                a.innerHTML = data['node']['name'];
-                td.appendChild( a );
+                tag = document.createElement("span");
+                tag.innerHTML = data['node']['name'];
+                td.appendChild( tag );
 
 		        tr.appendChild( td );
 		        thead.el.appendChild( tr );
@@ -456,59 +456,70 @@ var eZOEPopupUtils = {
 	           // TODO: image preview if image popup
 	           ez.$c( data['list'] ).forEach( function( n )
 	           {
-	               tr = document.createElement("tr"), td = document.createElement("td"), a = document.createElement("input");
-	               a.setAttribute('type', 'radio');
-	               a.setAttribute('name', 'selectembedobject');
-	               a.setAttribute('value', n.contentobject_id);
-	               a.setAttribute('title', ed.getLang('advanced.select') );
-	               a.onclick = ez.fn.bind( eZOEPopupUtils.selectByEmbedId, eZOEPopupUtils, n.contentobject_id, n.node_id, n.name );
-	               td.appendChild( a );
+	               tr = document.createElement("tr"), td = document.createElement("td"), tag = document.createElement("input");
+	               tag.setAttribute('type', 'radio');
+	               tag.setAttribute('name', 'selectembedobject');
+	               tag.setAttribute('value', n.contentobject_id);
+	               tag.setAttribute('title', ed.getLang('advanced.select') );
+	               tag.onclick = ez.fn.bind( eZOEPopupUtils.selectByEmbedId, eZOEPopupUtils, n.contentobject_id, n.node_id, n.name );
+	               td.appendChild( tag );
 	               tr.appendChild( td );
 
 	               td = document.createElement("td");
 	               if ( n.children_count )
 	               {
-	                   a = document.createElement("a");
-	                   a.setAttribute('href', 'JavaScript:eZOEPopupUtils.' + mode + '(' + n.node_id + ');');
+	                   tag = document.createElement("a");
+	                   tag.setAttribute('href', 'JavaScript:eZOEPopupUtils.' + mode + '(' + n.node_id + ');');
 	               }
 	               else
 	               {
-	                   a = document.createElement("span");
+	                   tag = document.createElement("span");
 	               }
-	               a.innerHTML = n.name;
-                   td.appendChild( a );
+	               tag.innerHTML = n.name;
+                   td.appendChild( tag );
                    tr.appendChild( td );
 
                    td = document.createElement("td");
-                   a = document.createElement("span");
-                   a.innerHTML = n.class_name;
-                   td.appendChild( a );
+                   tag = document.createElement("span");
+                   tag.innerHTML = n.class_name;
+                   td.appendChild( tag );
                    tr.appendChild( td );
 
 	               tbody.el.appendChild( tr );
 	            } );
 	        }
+
             tr = document.createElement("tr"), td = document.createElement("td");
             tr.appendChild( document.createElement("td") );
 	        if ( data['offset'] !== 0 )
 	        {
-	            a = document.createElement("a");
-	            a.setAttribute('href', 'JavaScript:eZOEPopupUtils.' + fn + (data['offset'] - data['limit']) + ');');
-	            a.innerHTML = '&lt;&lt; ' + ed.getLang('advanced.previous');
-	            td.appendChild( a );
+	            tag = document.createElement("a");
+	            tag.setAttribute('href', 'JavaScript:eZOEPopupUtils.' + fn + (data['offset'] - data['limit']) + ');');
+	            tag.innerHTML = '&lt;&lt; ' + ed.getLang('advanced.previous');
+	            td.appendChild( tag );
 	        }
 	        tr.appendChild( td );
 	        td = document.createElement("td")
 	        if ( (data['offset'] + data['limit']) < data['total_count'] )
 	        {
-	            a = document.createElement("a");
-                a.setAttribute('href', 'JavaScript:eZOEPopupUtils.' + fn + (data['offset'] + data['limit']) + ');');
-                a.innerHTML = ed.getLang('advanced.next') + ' &gt;&gt;';
-                td.appendChild( a );
+	            tag = document.createElement("a");
+                tag.setAttribute('href', 'JavaScript:eZOEPopupUtils.' + fn + (data['offset'] + data['limit']) + ');');
+                tag.innerHTML = ed.getLang('advanced.next') + ' &gt;&gt;';
+                td.appendChild( tag );
             }
             tr.appendChild( td );
 	        tfoot.el.appendChild( tr );
 	    }
+        else if ( mode === 'search' )
+        {
+	        tr = document.createElement("tr"), td = document.createElement("td"), tag = document.createElement("span");
+	        tr.appendChild( document.createElement("td") );
+	        td.setAttribute('colspan', '2');
+	        tag.innerHTML = eZOeMCE['empty_result_string'].replace('<search_string>', ez.$('SearchText').el.value );
+	        td.appendChild( tag );
+	        tr.appendChild( td );
+	        tbody.el.appendChild( tr );
+        }
 	    return false;
 	},
 

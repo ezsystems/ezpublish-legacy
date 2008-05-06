@@ -26,8 +26,11 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
+/*
+ * Display the embed view of a object with params for class/inline/view/align/size
+ * TODO: support for custom attributes
+ */
 
-/* For embed preview */
 include_once( 'kernel/common/template.php' );
 
 $embedId         = 0;
@@ -127,10 +130,11 @@ if ( isset( $embedNode ) ) $tpl->setVariable( 'node', $embedNode );
 //    $style = ' style="' . $style . '"';
 
 $templateOutput = $tpl->fetch( 'design:content/datatype/view/ezxmltags/' . $tagName . $tplSuffix . '.tpl' );
-echo $templateOutput;
 //echo '<div id="' . $idString . '" title="' . $objectName . '"' . $style . '>' . $templateOutput . '</div>';
 
-
+echo "<!--\r\n";
+eZDebug::printReport( false, false );
+echo "-->\r\n" . $templateOutput;
 
 
 

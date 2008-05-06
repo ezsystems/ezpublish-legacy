@@ -26,24 +26,41 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
+/*
+ * Search for nodes based on post / view parameters
+ * returns response in json for use in javascript
+ */
+
 //include_once( 'kernel/classes/ezsearch.php' );
 include_once( 'extension/ezoe/classes/ezajaxcontent.php' );
 
 
 $http = eZHTTPTool::instance();
+// get the search string, it can be passed on as POST string or view parameter
 if ( $http->hasPostVariable( 'SearchStr' ) )
+{
     $searchStr = trim( $http->postVariable( 'SearchStr' ) );
+}
 elseif ( $Params['SearchStr'] )
+{
     $searchStr = trim( $Params['SearchStr'] );
+}
 
 $varName = '';
+// optional var name for javascript variable the should be set to the search result
 if ( $http->hasPostVariable( 'VarName' ))
+{
     $varName = trim( $http->postVariable( 'VarName' ) );
+}
 elseif ( isset( $Params['VarName'] ) )
+{
     $varName = trim( $Params['VarName'] );
+}
 
 if ( $varName )
+{
     $varName .= ' = ';
+}
     
 
 if ( !$searchStr )
@@ -52,7 +69,34 @@ if ( !$searchStr )
     eZExecution::cleanExit();
 }
 
+$searchOffset = 0;
+if ( $http->hasPostVariable( 'SearchOffset' ))
+{
+    $searchOffset = (int) $http->postVariable( 'SearchOffset' );
+}
+elseif ( isset( $Params['SearchOffset'] ) )
+{
+    $searchOffset = (int) $Params['SearchOffset'];
+}
 
+$searchLimit = 10;
+if ( $http->hasPostVariable( 'SearchLimit' ))
+{
+    $searchLimit = (int) $http->postVariable( 'SearchLimit' );
+}
+elseif ( isset( $Params['SearchLimit'] ) )
+{
+    $searchLimit = (int) $Params['SearchLimit'];
+}
+
+
+// Preper the search params
+$param = array( 'SearchOffset' => $searchOffset,
+                'SearchLimit' => $searchLimit,
+                'SortArray' => array('published', 0)
+              );
+
+// Function to deal with post date that needs to be an array
 function makeStringArray( $str )
 {
     if ( is_array( $str ) )
@@ -63,6 +107,7 @@ function makeStringArray( $str )
         return explode( ',', $str );
 }
 
+// Transform an array with class_identifier's to class_id's
 function makeClassID( $arr )
 {
     for( $i = 0, $c = count( $arr ); $i < $c; $i++)
@@ -73,27 +118,7 @@ function makeClassID( $arr )
     return $arr;
 }
 
-$searchOffset = 0;
-if ( $http->hasPostVariable( 'SearchOffset' ))
-    $searchOffset = (int) $http->postVariable( 'SearchOffset' );
-elseif ( isSet( $Params['SearchOffset'] ) )
-    $searchOffset = (int) $Params['SearchOffset'];
-
-$searchLimit = 10;
-if ( $http->hasPostVariable( 'SearchLimit' ))
-    $searchLimit = (int) $http->postVariable( 'SearchLimit' );
-elseif ( isSet( $Params['SearchLimit'] ) )
-    $searchLimit = (int) $Params['SearchLimit'];
-
-
-//Preper the search params
-$param = array( 'SearchOffset' => $searchOffset,
-                'SearchLimit' => $searchLimit,
-                'SortArray' => array('published', 0)
-              );
-
-
-// if no checkbox select class_attr first if valid
+// Look after post params for some common search params
 if ( $http->hasPostVariable( 'SearchContentClassAttributeID' ) )
 {
     $param['SearchContentClassAttributeID'] = makeStringArray( $http->postVariable( 'SearchContentClassAttributeID' ) );
@@ -114,18 +139,26 @@ else if ( $http->hasPostVariable( 'SearchContentClassIdentifier' ) )
 }
 
 if ( $http->hasPostVariable( 'SearchSubTreeArray' ) )
+{
     $param['SearchSubTreeArray'] = makeStringArray( $http->postVariable( 'SearchSubTreeArray' ) );
+}
 
 if ( $http->hasPostVariable( 'SearchSectionID' ) )
+{
     $param['SearchSectionID'] = makeStringArray(  $http->postVariable( 'SearchSectionID' ) );
+}
 
 if ( $http->hasPostVariable( 'SearchTimestamp' ) )
+{
     $param['SearchTimestamp'] = makeStringArray( $http->postVariable( 'SearchTimestamp' ) );
+}
 
-if ( isSet( $param['SearchTimestamp'][0] ) && !isSet( $param['SearchTimestamp'][1] ) )
+if ( isset( $param['SearchTimestamp'][0] ) && !isset( $param['SearchTimestamp'][1] ) )
+{
     $param['SearchTimestamp'] = $param['SearchTimestamp'][0];
+}
 
- 
+// search
 $searchList = eZSearch::search( $searchStr, $param );
 
 
@@ -135,16 +168,21 @@ if (!$searchList  || ( $searchOffset === 0 && count($searchList["SearchResult"])
     eZExecution::cleanExit();
 }
 
-
+// encode nodes to a json response
 $list = eZAjaxContent::encode( $searchList["SearchResult"], array('loadImages' => true ) );
 
 
-echo $varName . '{list:' . $list . 
+$json =  $varName . '{list:' . $list . 
      ",\r\ncount:" . count( $searchList["SearchResult"] ) .
      ",\r\ntotal_count:" . $searchList['SearchCount'] .
      ",\r\noffset:" . $searchOffset .
      ",\r\nlimit:" . $searchLimit .
      "\r\n};";
+
+echo "/*\r\n";
+eZDebug::printReport( false, false );
+echo "*/\r\n" . $json;
+
 
 eZExecution::cleanExit();
 //$GLOBALS['show_page_layout'] = false;

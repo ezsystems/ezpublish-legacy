@@ -2,7 +2,7 @@
     eZ Core : tiny javascript library for ajax and stuff
     Created on: <28-Feb-2007 00:00:00 ar>
     
-    Copyright (c) 2007-2008 eZ Systems AS
+    Copyright (c) 2007-2008 eZ Systems AS & André Rømcke
     Licensed under the MIT License:
     http://www.opensource.org/licenses/mit-license.php
 
@@ -13,11 +13,11 @@
 */
 
 
-if ( window.ez === undefined || ez.version < 0.94 )
+if ( window.ez === undefined || ez.version < 0.95 )
 {
 
 var ez = {
-    version: 0.94,
+    version: 0.95,
     handlers: [],
     console: null,
     debug: function( type, caller, text )
@@ -65,7 +65,7 @@ var ez = {
         },
         cssCompact: function( s )
         {
-            return s.replace(/^\s+|\s+$/g, '').replace(/\s+/g, ' ').replace(/\(\s/g, '(').replace(/\s\)/g, ')');
+            return s.replace(/^\s+|\s+$/g, '').replace(/>/g, ' > ').replace(/\s+/g, ' ');
         }
     },
     fn: {
@@ -91,6 +91,33 @@ var ez = {
         }
     },
     array: {
+        extend: function( arr )
+        {
+            // function for extending array with extensions defined in ez.array.nativExtensions and ez.array.ezExtensions
+            if ( arr.eztype ) return arr;
+            arr = ez.array.nativeExtend( arr );
+            arr = ez.object.extend( arr, new ez.array.eZextensions );
+            return arr;
+        },
+		filter: function( arr, fn, t )
+		{
+		    // javascript 1.6: filter return values of fn that evaluates to true, t optionally overrides 'this'
+		    for (var i = 0, r = ez.$c(), l = arr.length; i < l; i++) if ( fn.call(t,arr[i],i,arr) ) r.push( arr[i] );
+		    return r;
+		},
+        forEach: function( arr, fn, t )
+        {
+            // javascript 1.6: iterate true an array and calls fn on each iteration, t optionally overrides 'this'
+            for (var i = 0, l = arr.length; i < l; i++) fn.call(t,arr[i],i,arr);
+            return arr;
+        },
+
+		indexOf: function( arr, o, s )
+		{
+		    // javascript 1.6: finds the first index that is like object o, s is optional start index
+		    for (var i=s || 0, l = arr.length; i < l; i++) if (arr[i]===o) return i;
+		    return -1;
+		},
         make: function( obj, s )
         {
             // Makes a array out of anything or nothing, split strings by s if present
@@ -102,7 +129,7 @@ var ez = {
                 {
                     if (typeof obj !== 'object' && obj.constructor != Object) obj = [obj];
                     else if ( obj && obj.tagName !== undefined ) obj = [obj];
-                    for (var i=0; ez.set(el = obj[i]); i++){
+                    for (var i = 0; ez.set(el = obj[i]); i++){
                         ( s !== undefined && typeof el === 'string' ) ? r = r.concat( el.split( s ) ) : r.push( el );
                     }
                     r = (r.length !== 0 || obj.length === 0) ? r : [obj];
@@ -110,13 +137,11 @@ var ez = {
             }
             return ez.array.nativeExtend( r );
         },
-        extend: function( arr )
+        map: function( arr, fn, t )
         {
-            // function for extending array with extensions defined in ez.array.nativExtensions and ez.array.ezExtensions
-            if ( arr.eztype ) return arr;
-            arr = ez.array.nativeExtend( arr );
-            arr = ez.object.extend( arr, new ez.array.eZextensions );
-            return arr;
+            // javascript 1.6: maps the return value of a callback function fn, t optionally overrides 'this'
+            for(var i = 0, r = ez.$c(), l = arr.length; i < l; i++) r[i] = fn.call(t,arr[i],i,arr);
+            return r;
         },
         nativeExtend: function( arr )
         {
@@ -125,27 +150,17 @@ var ez = {
             return arr;
         },
         nativExtensions: {
-            indexOf: function(o, s){
-                // javascript 1.6: finds the first index that is like object o, s is optional start index
-                for (var i=s || 0, l = this.length; i < l; i++) if (this[i]===o) return i;
-                return -1;
-            },
             forEach: function(fn, t){
-                // javascript 1.6: iterate true an array and calls fn on each iteration, t optionally overrides 'this'
-                for (var i = 0, l = this.length; i < l; i++) fn.call(t,this[i],i,this);
+                return ez.array.forEach( this, fn, t );
             },
-            filter: function(fn, t)
-            {
-                // javascript 1.6: filter return values of fn that evaluates to true, t optionally overrides 'this'
-                var r = ez.$c();
-                this.forEach(function( val, i, arr ){ if ( fn.call(t, val, i, arr) ) r.push( val ); });
-                return r;
+            filter: function(fn, t){
+                return ez.array.filter( this, fn, t );
             },
-            map: function(fn, t)
-            {
-                // javascript 1.6: maps the return value of a callback function fn, t optionally overrides 'this'
-                for(var i = 0, r = ez.$c(), l = this.length; i < l; i++) r[i] = fn.call(t,this[i],i,this);
-                return r;
+            indexOf: function(o, s){
+                return ez.array.indexOf( this, o, s );
+            },
+            map: function(fn, t){
+                return ez.array.map( this, fn, t );
             }
         },
         eZextensions: function()
@@ -236,54 +251,63 @@ var ez = {
             // CSS2 query function, returns a extended array of extended elements
             // Example: arr = ez.$$('div.my_class, input[type=text], img[alt~=went]');
             // does not support pseudo-class selectors like :hover and :first-child
-            var args = ez.$c(arguments, ','), doc = [document], r = [], mode = '';
-            if ( args.length === 1 && args[0].eztype && args[0].eztype === 'array' ) return args[0];
-            if ( typeof args[args.length -1] === 'object' ) doc = args.pop();
-            args.forEach(function(el)
+            var args = ez.$c(arguments, ','), doc = (typeof args[args.length -1] === 'object' ? args.pop() : document), r = [], mode = '';
+            if ( args.length === 1 && args[0].eztype && args[0].eztype === 'array' )
             {
-                if (typeof el === 'string')
-                {
-                    var parent = ez.$c( doc.eztype === 'element' ? doc.el : doc );
-                    ez.$c( ez.string.cssCompact( el ), /\s+/ ).forEach(function(str)
-                    {
-                        if ( str === '+' || str === '~' ) return;// sibling selectors not supported
-                        else if (  str === '>' ) return mode = str;
-                        var temp = ez.$c(), tag = (str.match(/^(\w+)([.#:\[]?)/)) ? RegExp.$1 : '*', id = 0, cn = 0, at = 0, pseudo = '';
-                        if (str.match(/([\#])([a-zA-Z0-9_\-]+)([.#:\[]?)/)) id = RegExp.$2;
-                        if (str.match(/([\.])([a-zA-Z0-9_\-]+)([.#:\[]?)/)) cn = RegExp.$2;
-                        if (str.match(/\[(\w+)([~\|\^\$\*]?)=?"?([^\]"]*)"?\]/)) at = [RegExp.$1 , RegExp.$2, RegExp.$3];
-                        if (str.match(/\:([a-z-]+)\(?([\w+-]+)?\)?([.#:\[]?)/)) pseudo = [RegExp.$1 ,  RegExp.$2 ];
-                        parent.forEach(function( child )
-                        {
-                            var children = ez.$c( mode === '>' ? child.childNodes : ( cn && child.getElementsByClassName ? child.getElementsByClassName( cn ) : child.getElementsByTagName( tag ) ) ).filter(function( i )
-                            {
-                                return i.nodeType === 1 && ( tag === '*' || i.nodeName === tag.toUpperCase() );
-                            });
-                            if ( !children ) return;
+                return args[0];
+            }
+            // Use querySelectorAll if browsers supports it and doc is a root element (fails in ie8 beta since it dosn't return a proper node list)
+            if ( doc.querySelectorAll !== undefined && ( doc.parentNode === null || doc.parentNode === undefined ) )
+            {
+                try {
+				    r = doc.querySelectorAll( args.join(',') );
+				} catch(e) {
+				    r = [];
+				}
+		    }
+            else
+            {            
+	            args.forEach(function(arg)
+	            {
+	                if (typeof arg === 'string')
+	                {
+	                    var parent = ez.$c( doc.eztype === 'element' ? doc.el : doc );
+	                    ez.array.forEach( ez.string.cssCompact( arg ).split(/\s+/), function(str)
+	                    {
+	                        if ( str === '+' || str === '~' ) return;// sibling selectors not supported
+	                        else if (  str === '>' ) return mode = str;
+	                        var temp = ez.$c(), tag = (str.match(/^(\w+)([.#:\[]?)/)) ? RegExp.$1.toUpperCase() : '*', id = 0, cn = 0, at = 0, pseudo = '';
+	                        if (str.match(/([\#])([a-zA-Z0-9_\-]+)([.#:\[]?)/)) id = RegExp.$2;
+	                        if (str.match(/([\.])([a-zA-Z0-9_\-]+)([.#:\[]?)/)) cn = RegExp.$2;
+	                        if (str.match(/\[(\w+)([~\|\^\$\*]?)=?"?([^\]"]*)"?\]/)) at = [RegExp.$1 , RegExp.$2, RegExp.$3];
+	                        if (str.match(/\:([a-z-]+)\(?([\w+-]+)?\)?([.#:\[]?)/)) pseudo = [RegExp.$1 ,  RegExp.$2 ];
+	                        parent.forEach(function( child )
+	                        {
+	                            var nodes = ( pseudo !== '' || mode === '>' ) ? ez.element.getChildren( child, tag, mode !== '>', pseudo ) : child.getElementsByTagName( tag );
 
-                            if ( pseudo && ez.element.pseudoFilters[pseudo[0]] )
-                                children = ez.element.pseudoFilters[pseudo[0]]( children, pseudo[1] );
+	                            if ( !nodes ) return;
 
-                            ez.$c( children ).forEach(function(i)
-                            {
-                                if (id && (!i.getAttribute('id') || i.getAttribute('id') !== id)) return;
-                                if (at && !ez.element.hasAttribute( i, at[0], at[2], at[1] )) return;
-                                if (cn && (' '+i.className+' ').indexOf( ' ' + cn + ' ' ) === -1) return;
-                                temp.push( i ); 
-                            });
-                        });
-                        parent = temp;
-                        mode = '';
-                    });
-                    
-                    r = r.concat( parent );
-                }
-                else if ( el.eztype && el.eztype === 'array' )
-                    r = r.concat( el );
-                else
-                    r.push( el );
-            }, this );
-            r = ez.$c(r).map( ez.element.extend );
+	                            ez.array.forEach( nodes, function(i)
+	                            {
+	                                if (id && (!i.getAttribute('id') || i.getAttribute('id') !== id)) return;
+	                                if (at && !ez.element.hasAttribute( i, at[0], at[2], at[1] )) return;
+	                                if (cn && (' '+i.className+' ').indexOf( ' ' + cn + ' ' ) === -1) return;
+	                                temp.push( i ); 
+	                            });
+	                        });
+	                        parent = temp;
+	                        mode = '';
+	                    });
+	                    
+	                    r = r.concat( parent );
+	                }
+	                else if ( arg.eztype && arg.eztype === 'array' )
+	                    r = r.concat( arg );
+	                else
+	                    r.push( arg );
+	            }, this );
+            }
+            r = r === undefined ? [] : ez.array.map( r, ez.element.extend );
             return ez.array.extend( r );
         },
         getById: function( a )
@@ -298,6 +322,28 @@ var ez = {
             });
             return r.length > 1  ? ez.array.extend( r ) : r[0] || false;
         },
+        getChildren: function( node, tag, recursively, pseudo )
+        {
+            var list = [], filtered = ez.array.filter(  node.childNodes, function( c )
+            {
+                return c.nodeType === 1;
+            });
+            if ( pseudo && ez.element.pseudoFilters[pseudo[0]] )
+            {
+                filtered = ez.element.pseudoFilters[pseudo[0]]( filtered, pseudo[1] );
+            }
+            if ( !recursively ) return filtered;
+            ez.array.forEach( node.childNodes, function( n )
+            {
+                if ( ez.array.indexOf( filtered, n ) !== -1 && ( tag === '*' || n.nodeName === tag ) )
+                {
+                    list.push( n );
+                }
+                list = list.concat( ez.element.getChildren( n, tag, recursively, pseudo ) );
+            });
+
+            return list;
+        },
         getScroll: function( side, el ) 
         {
             // Get element scroll, and fallback to document if el is not passed
@@ -308,7 +354,7 @@ var ez = {
         },
         hasAttribute: function( element, attribute, value, comp )
         {
-            // CSS 3 Attribute selectors + !=
+            // CSS 2 & 3 Attribute selectors
             var atr = attribute === 'class' ? element.className : ez.fn.strip( element.getAttribute( attribute ) );
             if ( atr )
             {
@@ -317,7 +363,6 @@ var ez = {
                 else if (!comp && atr == value);
                 else if (comp === '^' && ati === 0);
                 else if (comp === '*' && ati !== -1);
-                else if (comp === '!' && atr != value);
                 else if (comp === '|' && ('-'+atr+'-').indexOf('-'+ value +'-') !== -1);
                 else if (comp === '~' && (' '+atr+' ').indexOf(' '+ value +' ') !== -1);
                 else if (comp === '$' && ati === ( atr.length - value.length ) && ati !== -1);
@@ -328,15 +373,11 @@ var ez = {
         pseudoFilters: {
             'last-child': function( arr )
             {
-                return arr.length !== 0 ? arr[ arr.length -1 ] : [];
+                return arr.length !== 0 ? [arr[ arr.length -1 ]] : [];
             },
             'first-child': function( arr )
             {
-                return arr.length !== 0 ? arr[ 0 ] : [];
-            },
-            'child': function( arr, arg )
-            {
-                return ( -1 < arg < arr.length -1 ) ? arr[ arg -1 ] : [];
+                return arr.length !== 0 ? [arr[ 0 ]] : [];
             },
             'nth-child': function( arr, arg )
             {
@@ -360,19 +401,12 @@ var ez = {
                         while (b < 1) b += a;
                         while (b >= a) b -= a;
                     }
-                    return arr.filter(function( el, i ){
+                    return ez.array.filter( arr, function( el, i ){
                         return i % a === b;
                     });
+                    
                 }
-                return ez.element.pseudoFilters.child( arr, b );
-            },
-            'odd': function( arr )
-            {
-                return ez.element.pseudoFilters['nth-child']( arr, 'odd' );
-            },
-            'even': function( arr )
-            {
-                return ez.element.pseudoFilters['nth-child']( arr, 'even' );
+                return ( -1 < b < arr.length -1 ) ? [arr[ b -1 ]] : [];
             }
         },
         removeEvent: function( el, trigger, handler )
@@ -692,20 +726,24 @@ ez.ajax.prototype = {
     load: function( uri, post, pB )
     {
         // Function for re calling same ajax object with different url (string) and post(string) values
-        if (!this.xhr) this.xhr = new XMLHttpRequest();
+        if ( !this.xhr ) this.xhr = new XMLHttpRequest();
         this.pb = pB || this.o.postBack;
         if ( this.running ) this.cancel();
         this.running = true;
-        this.xhr.open( (ez.set( post ) ? 'POST' : 'GET'), uri, true);
+        this.xhr.open( (ez.val( post ) ? 'POST' : 'GET'), uri, true);
         this.xhr.onreadystatechange = ez.fn.bind( this.onStateChange, this );
-        if ( ez.set( post ) )
+        this.onSend( post );
+        this.xhr.send( ez.val( post ) ? post : null );
+    },
+    onSend: function( post )
+    {
+        if ( ez.val( post ) )
         {
-            this.xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded; charset=' + this.o.charset);
-            if (this.xhr.overrideMimeType) this.xhr.setRequestHeader('Connection', 'close');
+            this.xhr.setRequestHeader( 'Content-type', 'application/x-www-form-urlencoded; charset=' + this.o.charset );
+            if ( this.xhr.overrideMimeType ) this.xhr.setRequestHeader( 'Connection', 'close' );
         }
-        this.xhr.setRequestHeader('X-Requested-With', this.o.requestedWith);
-        this.xhr.setRequestHeader('Accept', this.o.accept);
-        this.xhr.send( post || null );
+        this.xhr.setRequestHeader( 'X-Requested-With', this.o.requestedWith );
+        this.xhr.setRequestHeader( 'Accept', this.o.accept );
     },
     onStateChange: function()
     {
@@ -725,9 +763,9 @@ ez.ajax.prototype = {
     done: function()
     {
         // Private function called when ajax call is done. Optional update element, preUpdate and onLoad callBacks.
-        var r = this.xhr, o = this.o, el = ((o.update) ? ez.$(o.update) : 0);
-        if (el) el.el.innerHTML = (o.preUpdate)? o.preUpdate(r): r.responseText;
-        if (this.pb) el ? this.pb(r, el): this.pb(r);
+        var r = this.xhr, o = this.o, el = (( o.update ) ? ez.$( o.update ) : 0);
+        if ( el ) el.el.innerHTML = ( o.preUpdate ) ? o.preUpdate( r ) : r.responseText;
+        if ( this.pb ) el ? this.pb( r, el ): this.pb( r );
     }
 };//ez.ajax.prototype
 

@@ -1176,7 +1176,7 @@
             ed.windowManager.open({
                 url : eZOeMCE['extension_url'] + view  + eZOeMCE['contentobject_id'] + '/' + eZOeMCE['contentobject_version'] + '/' + eurl,
                 width : width || 400,
-                height : height || 280,
+                height : height || 300,
                 resizable : true,
                 inline : true
             }, {
@@ -1310,7 +1310,7 @@
                 //ed.selection.select( n );
             }
 
-			this._generalXmlTagPopup( 'link', false, 0, 310, ui );
+			this._generalXmlTagPopup( 'link', false, 0, 360, ui );
 		},
 
 		_mceNewDocument : function() {

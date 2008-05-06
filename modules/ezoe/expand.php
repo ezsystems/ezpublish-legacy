@@ -26,6 +26,11 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
+/*
+ * Expand the children of a node with offset and limit as a json response for use in javascript
+ */
+
+
 //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 include_once( 'extension/ezoe/classes/ezajaxcontent.php' );
 
@@ -59,6 +64,7 @@ $params = array( 'Depth' => 1,
         'AsObject'         => true
 );
 
+// Look for some (class filter and sort by) post params to use as fetch params
 if ( $http->hasPostVariable( 'ClassFilterArray' ) && $http->postVariable( 'ClassFilterArray' ) !== '' )
 {
     $params['ClassFilterType']  = 'include';
@@ -70,24 +76,30 @@ if ( $http->hasPostVariable( 'SortBy' ) && $http->postVariable( 'SortBy' ) !== '
     $params['SortBy'] = $http->postVariable( 'SortBy' );
 }
 
-
+// fetch nodes and total node count
 $nodeArray  = $node->subTree( $params );
 $count      = $node->subTreeCount( $params );
 $list       = '[]';
 
+// generate json response from node list
 if ( $nodeArray )
 {
 	$list = eZAjaxContent::encode( $nodeArray, array( 'fetchChildrenCount' => true ) );
 }
 
 
-echo '{list:' . $list . 
+$result = '{list:' . $list . 
      ",\r\ncount:" . count( $nodeArray ) .
      ",\r\ntotal_count:" . $count .
      ",\r\nnode:" . eZAjaxContent::encode( $node, array('fetchPath' => true ) ) .
      ",\r\noffset:" . $offset .
      ",\r\nlimit:" . $limit .
      "\r\n};";
+
+// Output debug info as js comment
+echo "/*\r\n";
+eZDebug::printReport( false, false );
+echo "*/\r\n" . $result;
 
 
 eZExecution::cleanExit();

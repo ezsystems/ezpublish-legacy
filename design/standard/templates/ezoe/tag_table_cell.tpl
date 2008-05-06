@@ -33,7 +33,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
 	            if ( c[i] === el ) x = i + 1;
 	        };
 	        // get nodes (cells) in this column
-	        nodes = ez.$$('tr > *:child(' + x + ')', el.parentNode.parentNode );
+	        nodes = ez.$$('tr > *:nth-child(' + x + ')', el.parentNode.parentNode );
 	    }
 
 	    if ( !nodes )
