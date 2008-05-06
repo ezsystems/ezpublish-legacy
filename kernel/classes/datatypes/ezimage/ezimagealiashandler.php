@@ -1597,172 +1597,40 @@ class eZImageAliasHandler
     }
 
     /*!
-     Fetches image information from the old 3.2 image system and creates new information.
+     Creates default information.
     */
     function generateXMLData()
     {
-        // VS-DBFILE
-        // VS: I feel we don't need clustering support for the old image system.
-
-        //include_once( "lib/ezdb/classes/ezdb.php" );
-
-        $db = eZDB::instance();
-
-        $contentObjectAttributeData = $this->ContentObjectAttributeData;
-        $attributeID = $contentObjectAttributeData['id'];
-        $attributeVersion = $contentObjectAttributeData['version'];
-
-        if ( is_numeric( $attributeID ) )
-        {
-            $imageRow = $db->arrayQuery( "SELECT * FROM ezimage
-                                           WHERE contentobject_attribute_id=$attributeID AND
-                                                 version=$attributeVersion" );
-        }
-
         $doc = new DOMDocument( '1.0', 'utf-8' );
         $imageNode = $doc->createElement( "ezimage" );
         $doc->appendChild( $imageNode );
 
-        $isValid = false;
         $fileName = false;
-        $suffix = false;
-        $baseName = false;
-        $dirPath = false;
-        $filePath = false;
-        $originalFileName = false;
-        $mimeType = false;
-        $width = false;
-        $height = false;
-        $altText = false;
 
-        //include_once( 'lib/ezutils/classes/ezmimetype.php' );
-        if ( count( $imageRow ) == 1 )
-        {
-            require_once( 'kernel/classes/ezclusterfilehandler.php' );
-            $fileHandler = eZClusterFileHandler::instance();
-
-            $fileName = $imageRow[0]['filename'];
-            $originalFileName = $imageRow[0]['original_filename'];
-            $mimeType = $imageRow[0]['mime_type'];
-            $altText = $imageRow[0]['alternative_text'];
-
-            $dirPath = eZSys::storageDirectory() . '/original/image';
-            $filePath = $dirPath . '/' . $fileName;
-
-            // VS-DBFILE : TODO checked
-
-            $baseName = $fileName;
-            $dotPosition = strrpos( $fileName, '.' );
-            if ( $dotPosition !== false )
-            {
-                $baseName = substr( $fileName, 0, $dotPosition );
-                $suffix = substr( $fileName, $dotPosition + 1 );
-            }
-
-            $width = false;
-            $height = false;
-            if ( !file_exists( $filePath ) )
-            {
-                $referenceDirPath = eZSys::storageDirectory() . '/reference/image';
-                $suffixList = array( 'jpg', 'png', 'gif' );
-                foreach ( $suffixList as $suffix )
-                {
-                    // VS-DBFILE : TODO checked
-
-                    $referenceFilePath = $referenceDirPath . '/' . $baseName . '.' . $suffix;
-                    if ( file_exists( $referenceFilePath ) )
-                    {
-                        $filePath = $referenceFilePath;
-                        $dirPath = $referenceDirPath;
-                        break;
-                    }
-                }
-            }
-
-            // VS-DBFILE : TODO checked
-
-            if ( file_exists( $filePath ) )
-            {
-                $isValid = true;
-                $info = getimagesize( $filePath );
-                if ( $info )
-                {
-                    $width = $info[0];
-                    $height = $info[1];
-                }
-                $mimeInfo = eZMimeType::findByFileContents( $filePath );
-                $mimeType = $mimeInfo['name'];
-
-                $newFilePath = $filePath;
-                $newSuffix = $suffix;
-                $contentVersion = eZContentObjectVersion::fetchVersion( $contentObjectAttributeData['version'],
-                                                                        $contentObjectAttributeData['contentobject_id'] );
-                if ( $contentVersion )
-                {
-                    $objectName = $this->imageName( $contentObjectAttributeData, $contentVersion );
-                    $objectPathString = $this->imagePath( $contentObjectAttributeData, $contentVersion );
-
-                    $newDirPath =  $objectPathString;
-                    $newFileName = $objectName . '.' . $mimeInfo['suffix'];
-                    $newSuffix = $mimeInfo['suffix'];
-                    $newFilePath = $newDirPath . '/' . $newFileName;
-                    $newBaseName = $objectName;
-                }
-
-                // VS-DBFILE : TODO checked
-
-                if ( $newFilePath != $filePath )
-                {
-                    if ( !file_exists( $newDirPath ) )
-                    {
-                        //include_once( 'lib/ezfile/classes/ezdir.php' );
-                        eZDir::mkdir( $newDirPath, eZDir::directoryPermission(), true );
-                    }
-                    eZFileHandler::copy( $filePath, $newFilePath );
-
-                    // VS-DBFILE : TODO checked
-
-                    //require_once( 'kernel/classes/ezclusterfilehandler.php' );
-                    //$fileHandler = eZClusterFileHandler::instance();
-                    //$fileHandler->fileCopy( $filePath, $newFilePath );
-
-                    $filePath = $newFilePath;
-                    $fileName = $newFileName;
-                    $suffix = $newSuffix;
-                    $dirPath = $newDirPath;
-                    $baseName = $newBaseName;
-                }
-            }
-        }
         require_once( 'kernel/common/image.php' );
         $imageManager = imageInit();
 
         $mimeData = eZMimeType::findByFileContents( $fileName );
-
         $imageManager->analyzeImage( $mimeData );
 
         $imageNode->setAttribute( 'serial_number', false );
-        $imageNode->setAttribute( 'is_valid', $isValid );
+        $imageNode->setAttribute( 'is_valid', false );
         $imageNode->setAttribute( 'filename', $fileName );
-        $imageNode->setAttribute( 'suffix', $suffix );
-        $imageNode->setAttribute( 'basename', $baseName );
-        $imageNode->setAttribute( 'dirpath', $dirPath );
-        $imageNode->setAttribute( 'url', $filePath );
-        $imageNode->setAttribute( 'original_filename', $originalFileName );
-        $imageNode->setAttribute( 'mime_type', $mimeType );
-        $imageNode->setAttribute( 'width', $width );
-        $imageNode->setAttribute( 'height', $height );
-        $imageNode->setAttribute( 'alternative_text', $altText );
+        $imageNode->setAttribute( 'suffix', false );
+        $imageNode->setAttribute( 'basename', false );
+        $imageNode->setAttribute( 'dirpath', false );
+        $imageNode->setAttribute( 'url', false );
+        $imageNode->setAttribute( 'original_filename', false );
+        $imageNode->setAttribute( 'mime_type', false );
+        $imageNode->setAttribute( 'width', false );
+        $imageNode->setAttribute( 'height', false );
+        $imageNode->setAttribute( 'alternative_text', false );
         $imageNode->setAttribute( 'alias_key', $imageManager->createImageAliasKey( $imageManager->alias( 'original' ) ) );
         $imageNode->setAttribute( 'timestamp', time() );
 
         $this->createImageInformationNode( $imageNode, $mimeData );
 
-        $attr = false;
-        $this->storeDOMTree( $doc, true, $attr );
-
-
-        eZImageFile::appendFilepath( $contentObjectAttributeData['id'], $filePath );
+        $this->storeDOMTree( $doc, true, false );
     }
 
     /// \privatesection

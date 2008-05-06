@@ -603,20 +603,6 @@ CREATE TABLE ezgeneral_digest_user_settings (
 
 
 
-CREATE TABLE ezimage (
-  alternative_text varchar(255) NOT NULL default '',
-  contentobject_attribute_id int(11) NOT NULL default '0',
-  filename varchar(255) NOT NULL default '',
-  mime_type varchar(50) NOT NULL default '',
-  original_filename varchar(255) NOT NULL default '',
-  version int(11) NOT NULL default '0',
-  PRIMARY KEY  (contentobject_attribute_id,version)
-) TYPE=InnoDB;
-
-
-
-
-
 CREATE TABLE ezimagefile (
   contentobject_attribute_id int(11) NOT NULL default '0',
   filepath longtext NOT NULL,
@@ -624,22 +610,6 @@ CREATE TABLE ezimagefile (
   PRIMARY KEY  (id),
   KEY ezimagefile_coid (contentobject_attribute_id),
   KEY ezimagefile_file (filepath(200))
-) TYPE=InnoDB;
-
-
-
-
-
-CREATE TABLE ezimagevariation (
-  additional_path varchar(255) default NULL,
-  contentobject_attribute_id int(11) NOT NULL default '0',
-  filename varchar(255) NOT NULL default '',
-  height int(11) NOT NULL default '0',
-  requested_height int(11) NOT NULL default '0',
-  requested_width int(11) NOT NULL default '0',
-  version int(11) NOT NULL default '0',
-  width int(11) NOT NULL default '0',
-  PRIMARY KEY  (contentobject_attribute_id,version,requested_width,requested_height)
 ) TYPE=InnoDB;
 
 

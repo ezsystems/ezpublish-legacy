@@ -1656,42 +1656,10 @@ CREATE TABLE ezgeneral_digest_user_settings (
 
 
 
-CREATE TABLE ezimage (
-    alternative_text character varying(255) DEFAULT ''::character varying NOT NULL,
-    contentobject_attribute_id integer DEFAULT 0 NOT NULL,
-    filename character varying(255) DEFAULT ''::character varying NOT NULL,
-    mime_type character varying(50) DEFAULT ''::character varying NOT NULL,
-    original_filename character varying(255) DEFAULT ''::character varying NOT NULL,
-    "version" integer DEFAULT 0 NOT NULL
-);
-
-
-
-
-
-
-
 CREATE TABLE ezimagefile (
     contentobject_attribute_id integer DEFAULT 0 NOT NULL,
     filepath text NOT NULL,
     id integer DEFAULT nextval('ezimagefile_s'::text) NOT NULL
-);
-
-
-
-
-
-
-
-CREATE TABLE ezimagevariation (
-    additional_path character varying(255),
-    contentobject_attribute_id integer DEFAULT 0 NOT NULL,
-    filename character varying(255) DEFAULT ''::character varying NOT NULL,
-    height integer DEFAULT 0 NOT NULL,
-    requested_height integer DEFAULT 0 NOT NULL,
-    requested_width integer DEFAULT 0 NOT NULL,
-    "version" integer DEFAULT 0 NOT NULL,
-    width integer DEFAULT 0 NOT NULL
 );
 
 
@@ -4052,26 +4020,8 @@ ALTER TABLE ONLY ezgeneral_digest_user_settings
 
 
 
-ALTER TABLE ONLY ezimage
-    ADD CONSTRAINT ezimage_pkey PRIMARY KEY (contentobject_attribute_id, "version");
-
-
-
-
-
-
-
 ALTER TABLE ONLY ezimagefile
     ADD CONSTRAINT ezimagefile_pkey PRIMARY KEY (id);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezimagevariation
-    ADD CONSTRAINT ezimagevariation_pkey PRIMARY KEY (contentobject_attribute_id, "version", requested_width, requested_height);
 
 
 
