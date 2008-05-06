@@ -517,7 +517,6 @@ class eZImageAliasHandler
 
         $domTree = new DOMDocument( '1.0', 'utf-8' );
 
-        // intentional by reference assignment, do not remove!
         $xmlString = $this->ContentObjectAttributeData['data_text'];
 
         $success = false;
@@ -963,10 +962,11 @@ class eZImageAliasHandler
 
         $dom = new DOMDocument( '1.0', 'utf-8' );
         $xmlString = $contentObjectAttributeData['data_text'];
-        $success = $dom->loadXML( $xmlString );
+        $success = $xmlString == '' ? false : $dom->loadXML( $xmlString );
         if ( !$success )
         {
             $this->generateXMLData();
+            $xmlString = $this->ContentObjectAttributeData['data_text'];
             $success = $dom->loadXML( $xmlString );
         }
 
