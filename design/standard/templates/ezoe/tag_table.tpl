@@ -20,7 +20,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     onInit: function( el, tag )
     {
         if ( el ) return;
-        var td = ez.$$('#table_cell_size_grid td'), table = ez.$('table_cell_size_grid');
+        var td = ez.$$('#table_cell_size_grid td div'), table = ez.$('table_cell_size_grid');
         td.forEach(function(o, i){
             o.addEvent('mouseover', ez.fn.bind(tableSizeGridMouse, this, o, i, false ) );
             o.addEvent('click', ez.fn.bind(tableSizeGridMouse, this, o, i, true ) );
@@ -58,7 +58,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
 
 function tableSizeGridMouse( o, i, save )
 {
-    var cell = i +1, rows = Math.floor( i / 5) +1, cols = cell - (rows -1) * 5;
+    var cell = i +1, rows = Math.floor( i / 6) +1, cols = cell - (rows -1) * 6;
 
     tableSizeGridShowChange.call( this, rows, cols, save );
 
@@ -78,20 +78,20 @@ function tableSizeGridInput( save )
 function tableSizeGridShowChange( rows, cols, save )
 {
     this.forEach(function(o2, i2){
-        var cell2 = i2 +1, rows2 = Math.floor( i2 / 5) +1, cols2 = cell2 - (rows2 -1) * 5;
+        var cell2 = i2 +1, rows2 = Math.floor( i2 / 6) +1, cols2 = cell2 - (rows2 -1) * 6;
         if ( rows2 <= rows && cols2 <= cols )
         {
             if ( save )
-                o2.el.style.backgroundColor = '#ccc';
+                o2.el.style.backgroundColor = '#cccccc';
             else
-                o2.el.style.borderColor = '#000';
+                o2.el.style.borderColor = '#aaa';
         }
         else
         {
             if ( save )
-                o2.el.style.backgroundColor = '';
+                o2.el.style.backgroundColor = '#fff';
             else
-                o2.el.style.borderColor = '';
+                o2.el.style.borderColor = '#fff';
         }
     });
 }
@@ -123,44 +123,49 @@ function tableSizeGridShowChange( rows, cols, save )
             <td>
                 <table id="table_cell_size_grid">
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td><div></div></td>
+                    <td><div></div></td>
+                    <td><div></div></td>
+                    <td><div></div></td>
+                    <td><div></div></td>
+                    <td><div></div></td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td><div></div></td>
+                    <td><div></div></td>
+                    <td><div></div></td>
+                    <td><div></div></td>
+                    <td><div></div></td>
+                    <td><div></div></td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td><div></div></td>
+                    <td><div></div></td>
+                    <td><div></div></td>
+                    <td><div></div></td>
+                    <td><div></div></td>
+                    <td><div></div></td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td><div></div></td>
+                    <td><div></div></td>
+                    <td><div></div></td>
+                    <td><div></div></td>
+                    <td><div></div></td>
+                    <td><div></div></td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td><div></div></td>
+                    <td><div></div></td>
+                    <td><div></div></td>
+                    <td><div></div></td>
+                    <td><div></div></td>
+                    <td><div></div></td>
                 </tr>
                 </table>
                 {def $table_default_values = ezini( 'table', 'Defaults', 'content.ini' )}
-                Cols: <input id="table_cell_size_grid_cols" type="text" maxlength="3" size="3" value="{first_set( $table_default_values['cols'], 2 )}" />
-                Rows: <input id="table_cell_size_grid_rows" type="text" maxlength="2" size="3" value="{first_set( $table_default_values['rows'], 1 )}" />
+                Cols: <input id="table_cell_size_grid_cols" type="text" maxlength="2" size="3" value="{first_set( $table_default_values['cols'], 2 )}" />
+                Rows: <input id="table_cell_size_grid_rows" type="text" maxlength="3" size="3" value="{first_set( $table_default_values['rows'], 1 )}" />
             </td>
         </tr>
         </table>

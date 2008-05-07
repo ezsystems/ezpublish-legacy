@@ -12,6 +12,7 @@ eZ Online Editor MCE extension Changelog
 * Fixed bug #012953: Unable to transform column into table header column
 * Fixed bug #012987: eZOE: Insert image popup, JS error in IE7 on Vista
 * Fixed bug #012986: Link Properties/Browse shows 20 items per page causing overflow
+* Fixed bug #012988: eZOE: Insert table size grid does not work in IE7, Vista
 
 5.0beta
 * clicking search buttons does not work (hides link dialog)
