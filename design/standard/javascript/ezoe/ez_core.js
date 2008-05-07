@@ -65,7 +65,7 @@ var ez = {
         },
         cssCompact: function( s )
         {
-            return s.replace(/^\s+|\s+$/g, '').replace(/>/g, ' > ').replace(/\s+/g, ' ');
+            return s.replace(/^\s+|\s+$/g, '').replace(/>/g, ' > ').replace(/\~(?!=)/g, ' ~ ').replace(/\+(?!=|\d)/g, ' + ').replace(/\s+/g, ' ');
         }
     },
     fn: {
@@ -274,22 +274,30 @@ var ez = {
 	                    var parent = ez.$c( doc.eztype === 'element' ? doc.el : doc );
 	                    ez.array.forEach( ez.string.cssCompact( arg ).split(/\s+/), function(str)
 	                    {
-	                        if ( str === '+' || str === '~' ) return;// sibling selectors not supported
-	                        else if (  str === '>' ) return mode = str;
+	                        if (  str === '>' || str === '+' || str === '~' ) return mode = str;
 	                        var temp = ez.$c(), tag = (str.match(/^(\w+)([.#:\[]?)/)) ? RegExp.$1.toUpperCase() : '*', id = 0, cn = 0, at = 0, pseudo = '';
 	                        if (str.match(/([\#])([a-zA-Z0-9_\-]+)([.#:\[]?)/)) id = RegExp.$2;
 	                        if (str.match(/([\.])([a-zA-Z0-9_\-]+)([.#:\[]?)/)) cn = RegExp.$2;
 	                        if (str.match(/\[(\w+)([~\|\^\$\*]?)=?"?([^\]"]*)"?\]/)) at = [RegExp.$1 , RegExp.$2, RegExp.$3];
-	                        if (str.match(/\:([a-z-]+)\(?([\w+-]+)?\)?([.#:\[]?)/)) pseudo = [RegExp.$1 ,  RegExp.$2 ];
+	                        if (str.match(/\:([a-z-]+)\(?([\w+-]+)?\)?([.#:\[]?)/)) pseudo = [RegExp.$1 ,  RegExp.$2];
 	                        parent.forEach(function( child )
 	                        {
-	                            var nodes = ( pseudo !== '' || mode === '>' ) ? ez.element.getChildren( child, tag, mode !== '>', pseudo ) : child.getElementsByTagName( tag );
+	                            var nodes = false;
+	                            if ( pseudo !== '' || mode !== '' )
+	                               nodes = ez.element.getChildren( child, tag, mode, pseudo )
+	                            else if ( tag === '*' && cn && child.getElementsByClassName )
+	                               nodes = child.getElementsByClassName( cn );
+                                else if ( id && child.getElementById )
+                                    nodes = [ child.getElementById( id ) ];
+	                            else if ( child.getElementsByTagName )
+				                    nodes = ez.array.filter( child.getElementsByTagName( tag ), function(n){ return n.nodeType === 1; });
 
 	                            if ( !nodes ) return;
 
 	                            ez.array.forEach( nodes, function(i)
 	                            {
 	                                if (id && (!i.getAttribute('id') || i.getAttribute('id') !== id)) return;
+	                                if (tag !== '*' && i.nodeName !== tag ) return;
 	                                if (at && !ez.element.hasAttribute( i, at[0], at[2], at[1] )) return;
 	                                if (cn && (' '+i.className+' ').indexOf( ' ' + cn + ' ' ) === -1) return;
 	                                temp.push( i ); 
@@ -322,24 +330,41 @@ var ez = {
             });
             return r.length > 1  ? ez.array.extend( r ) : r[0] || false;
         },
-        getChildren: function( node, tag, recursively, pseudo )
+        getChildren: function( node, tag, mode, pseudo )
         {
-            var list = [], filtered = ez.array.filter(  node.childNodes, function( c )
+            var list = [], filtered = [], sib = node;
+            if (  mode === '+' || mode === '~' )
+            {		        
+		        while ( sib = sib.nextSibling )
+		        {
+                    if ( sib.nodeType === 1 )
+                    {
+                        if ( tag === '*' || sib.nodeName === tag )
+                            filtered.push( sib );
+                        if ( mode === '+' )
+                            break;
+                    }
+		        }
+            }
+            else
             {
-                return c.nodeType === 1;
-            });
+                filtered = ez.array.filter(  node.childNodes, function( c )
+                {
+                    return c.nodeType === 1;
+                });
+            }
             if ( pseudo && ez.element.pseudoFilters[pseudo[0]] )
             {
                 filtered = ez.element.pseudoFilters[pseudo[0]]( filtered, pseudo[1] );
             }
-            if ( !recursively ) return filtered;
+            if ( mode ) return filtered;
             ez.array.forEach( node.childNodes, function( n )
             {
                 if ( ez.array.indexOf( filtered, n ) !== -1 && ( tag === '*' || n.nodeName === tag ) )
                 {
                     list.push( n );
                 }
-                list = list.concat( ez.element.getChildren( n, tag, recursively, pseudo ) );
+                list = list.concat( ez.element.getChildren( n, tag, mode, pseudo ) );
             });
 
             return list;

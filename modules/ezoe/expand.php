@@ -36,7 +36,7 @@ include_once( 'extension/ezoe/classes/ezajaxcontent.php' );
 
 
 $nodeID      = (int) $Params['NodeID'];
-$limit       = isset( $Params['Limit'] ) ? $Params['Limit'] : 20;
+$limit       = isset( $Params['Limit'] ) ? $Params['Limit'] : 10;
 $offset      = (int) $Params['Offset'];
 $http        = eZHTTPTool::instance();
 

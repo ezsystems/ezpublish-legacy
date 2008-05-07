@@ -10,6 +10,8 @@ eZ Online Editor MCE extension Changelog
 * Made ez_core only do POST ajax calls if post actually has a value
 * Fixed bug #011618: Table in header tag
 * Fixed bug #012953: Unable to transform column into table header column
+* Fixed bug #012987: eZOE: Insert image popup, JS error in IE7 on Vista
+* Fixed bug #012986: Link Properties/Browse shows 20 items per page causing overflow
 
 5.0beta
 * clicking search buttons does not work (hides link dialog)
