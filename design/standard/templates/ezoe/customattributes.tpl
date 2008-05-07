@@ -1,19 +1,20 @@
 {default tag_name = ''
          hide     = false()
          extra_attribute = false()
-         i18n = hash('align', 'Align'|i18n('design/standard/ezoe'),
-                    'size', 'Size'|i18n('design/standard/ezoe'),
-                    'view', 'View'|i18n('design/standard/ezoe'),
-                    'inline', 'Inline'|i18n('design/standard/ezoe'),
-                    'class', 'Class'|i18n('design/standard/ezoe'),
-                    'name', 'Name'|i18n('design/standard/ezoe'),
-                    'author', 'Author'|i18n('design/standard/ezoe'),
-                    'title', 'Title'|i18n('design/standard/ezoe'),
-                    'offset', 'Offset'|i18n('design/standard/ezoe'),
-                    'limit', 'Limit'|i18n('design/standard/ezoe'),
-                    'id', 'ID'|i18n('design/standard/ezoe'),
-                    'href', 'Href'|i18n('design/standard/ezoe'),
-                    'target', 'Target'|i18n('design/standard/ezoe')
+         i18n = hash('align',     'Align'|i18n('design/standard/ezoe'),
+                     'alignment', 'Alignment'|i18n('design/standard/ezoe'),
+                     'size',      'Size'|i18n('design/standard/ezoe'),
+                     'view',      'View'|i18n('design/standard/ezoe'),
+                     'inline',    'Inline'|i18n('design/standard/ezoe'),
+                     'class',     'Class'|i18n('design/standard/ezoe'),
+                     'name',      'Name'|i18n('design/standard/ezoe'),
+                     'author',    'Author'|i18n('design/standard/ezoe'),
+                     'title',     'Title'|i18n('design/standard/ezoe'),
+                     'offset',    'Offset'|i18n('design/standard/ezoe'),
+                     'limit',     'Limit'|i18n('design/standard/ezoe'),
+                     'id',        'ID'|i18n('design/standard/ezoe'),
+                     'href',      'Href'|i18n('design/standard/ezoe'),
+                     'target',    'Target'|i18n('design/standard/ezoe')
          )}
 {if $:tag_name}
     {def $custom_attributes           = array()
