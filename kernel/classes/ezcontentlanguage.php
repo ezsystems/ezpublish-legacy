@@ -643,8 +643,8 @@ class eZContentLanguage extends eZPersistentObject
      * Returns the SQL where-condition for selecting the rows (with object names, attributes etc.) in the correct language,
      * i. e. in the most prioritized language from those in which an object exists.
      *
-     * \param languageTable Name of the table containing the attribute with bitmaps.
-     * \param languageListTable Name of the table containing the attribute with language id.
+     * \param languageTable Name of the table containing the attribute with the language id.
+     * \param languageListTable Name of the table containing the attribute with the available languages bitmap.
      * \param languageAttributeName Optional. Name of the attribute in $languageTable which contains
      *                               the language id. 'language_id' by default.
      * \param languageListAttributeName Optional. Name of the attribute in $languageListTable which contains
