@@ -707,7 +707,7 @@ ez.element.eZextensions.prototype = {
         else if (ty === 'select-one')
             val.push( ( el.selectedIndex != -1 ) ? el.options[el.selectedIndex].value : '' );
         else if (ty === 'select-multiple')
-            ez.$c( el.options ).forEach(function(o){ if ( o.selected ) val.push( o.value ) });
+            ez.array.forEach( el.options, function(o){ if ( o.selected ) val.push( o.value ) });
         else if ( el.value !== undefined )
             val.push( el.value );
         return ( ommitName ) ? val.join(delimiter) : el.name + '=' + val.join(delimiter + el.name + '=');
