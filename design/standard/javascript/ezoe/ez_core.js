@@ -237,7 +237,7 @@ var ez = {
                 n = a[i].name;
                 if (el[n] && el[n].test && el[n].test(/^on/i)) el[n] = null;
             }
-            ez.$c( el.childNodes ).forEach( ez.element.clean );
+            ez.array.forEach( el.childNodes, ez.element.clean );
         },
         extend: function( el )
         {
@@ -271,7 +271,7 @@ var ez = {
 	            {
 	                if (typeof arg === 'string')
 	                {
-	                    var parent = ez.$c( doc.eztype === 'element' ? doc.el : doc );
+	                    var parent = [doc.eztype === 'element' ? doc.el : doc];
 	                    ez.array.forEach( ez.string.cssCompact( arg ).split(/\s+/), function(str)
 	                    {
 	                        if (  str === '>' || str === '+' || str === '~' ) return mode = str;
@@ -280,7 +280,7 @@ var ez = {
 	                        if (str.match(/([\.])([a-zA-Z0-9_\-]+)([.#:\[]?)/)) cn = RegExp.$2;
 	                        if (str.match(/\[(\w+)([~\|\^\$\*]?)=?"?([^\]"]*)"?\]/)) at = [RegExp.$1 , RegExp.$2, RegExp.$3];
 	                        if (str.match(/\:([a-z-]+)\(?([\w+-]+)?\)?([.#:\[]?)/)) pseudo = [RegExp.$1 ,  RegExp.$2];
-	                        parent.forEach(function( child )
+	                        ez.array.forEach( parent, function( child )
 	                        {
 	                            var nodes = false;
 	                            if ( pseudo !== '' || mode !== '' )
@@ -624,9 +624,14 @@ ez.element.eZextensions.prototype = {
        // Has multiple fallbacks for various browser differences
        // Example: ez.$('my_el').getStyle('margin');
        s = s === 'float' ? 'cssFloat' : ez.string.jsCase( s );
-       var el = this.el, r = (document.defaultView) ? document.defaultView.getComputedStyle(el, null) : el.currentStyle;
-       r = (r === null) ? el.style[s] : r[s];
-       if (!ez.val( r ) || r === 'auto')
+       var el = this.el, r;
+	   if ( el.currentStyle )
+	       r = el.currentStyle[s];
+	   else if ( window.getComputedStyle )
+           r = document.defaultView.getComputedStyle( el, null ).getPropertyValue( s );
+       if ( r === null )
+           r = el.style[s];
+       if ( !ez.val( r ) || r === 'auto' )
        {
           switch ( s )
           {
