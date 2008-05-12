@@ -75,6 +75,18 @@ class eZContentObjectEditHandler
     }
 
     /*!
+     \abstract
+
+     Override this function in the extension to handle input validation.
+    */
+    function validateInput( $http, &$module, &$class, $object, &$version, $contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage, $validationParameters )
+    {
+        $result = array( 'is_valid' => true, 'warnings' => array() );
+        
+        return $result;
+    }
+
+    /*!
      \static
      Initialize all extension input handler.
     */
@@ -103,11 +115,11 @@ class eZContentObjectEditHandler
 
     /*!
      \static
-     Calls all extension object edit input handler, and executes this the fetchInput function
+     Execute handler $functionName function with given $params parameters
     */
-    static function executeInputHandlers( &$module, &$class, $object, &$version, $contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage )
+    static function executeHandlerFunction( $functionName, $params )
     {
-        $http = eZHTTPTool::instance();
+        $result = array();
         $contentINI = eZINI::instance( 'content.ini' );
         foreach( array_unique( $contentINI->variable( 'EditSettings', 'ExtensionDirectories' ) ) as $extensionDirectory )
         {
@@ -117,10 +129,34 @@ class eZContentObjectEditHandler
                 include_once( $fileName );
                 $className = $extensionDirectory . 'Handler';
                 $inputHandler = new $className();
-                call_user_func_array( array( $inputHandler, 'fetchInput' ),
-                                      array( $http, &$module, &$class, $object, &$version, $contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage ) );
+                $functionResult = call_user_func_array( array( $inputHandler, $functionName ), $params );
+                $result[] = array( 'handler' => $className,
+                                   'function' => array( 'name' => $functionName, 'value' => $functionResult ) );
             }
         }
+        
+        return $result;
+    }
+
+    /*!
+     \static
+     Calls all extension object edit input handler, and executes this the fetchInput function
+    */
+    static function executeInputHandlers( &$module, &$class, $object, &$version, $contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage )
+    {
+        $http = eZHTTPTool::instance();
+        $functionName = 'fetchInput';
+        $params = array( $http, 
+                         &$module, 
+                         &$class, 
+                         $object, 
+                         &$version, 
+                         $contentObjectAttributes, 
+                         $editVersion, 
+                         $editLanguage, 
+                         $fromLanguage );
+
+       self::executeHandlerFunction( $functionName, $params );
     }
 
     /*!
@@ -129,19 +165,52 @@ class eZContentObjectEditHandler
     */
     static function executePublish( $contentObjectID, $contentObjectVersion )
     {
-        $contentINI = eZINI::instance( 'content.ini' );
-        foreach( array_unique( $contentINI->variable( 'EditSettings', 'ExtensionDirectories' ) ) as $extensionDirectory )
+        $functionName = 'publish';
+        $params = array( $contentObjectID, $contentObjectVersion );
+
+        self::executeHandlerFunction( $functionName, $params );
+    }
+
+    /*!
+     \static
+     Calls all input validation functions.
+    */
+    static function validateInputHandlers( &$module, &$class, $object, &$version, $contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage, $validationParameters )
+    {
+        $result = array( 'validated' => true, 'warnings' => array() );
+        $validated =& $result['validated'];
+        $warnings =& $result['warnings'];
+        
+        $http = eZHTTPTool::instance();
+
+        $functionName = 'validateInput';
+        $params = array( $http, 
+                         &$module, 
+                         &$class, 
+                         $object, 
+                         &$version, 
+                         $contentObjectAttributes, 
+                         $editVersion, 
+                         $editLanguage, 
+                         $fromLanguage, 
+                         $validationParameters );
+        
+        $validationResults = self::executeHandlerFunction( $functionName, $params );
+        
+        foreach( $validationResults as $validationResult )
         {
-            $fileName = eZExtension::baseDirectory() . '/' . $extensionDirectory . '/content/' . $extensionDirectory . 'handler.php';
-            if ( file_exists( $fileName ) )
+            $value = $validationResult['function']['value'];
+
+            if ( $value['is_valid'] == false )
             {
-                include_once( $fileName );
-                $className = $extensionDirectory . 'Handler';
-                $inputHandler = new $className();
-                call_user_func_array( array( $inputHandler, 'publish' ),
-                                      array( $contentObjectID, $contentObjectVersion ) );
+                if ( $value['warnings'] )
+                    $warnings = array_merge( $warnings, $value['warnings'] );
+                    
+                $validated = false;
             }
         }
+        
+        return $result;
     }
 
     /*!

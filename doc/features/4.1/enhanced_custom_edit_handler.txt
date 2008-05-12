@@ -1,0 +1,21 @@
+*Enhanced custom edit handler*
+
+The custom edit handler enables you to implement the validation method eZContentObjectEditHandler::validateInput().
+This method can be used for additional validation at the content object level. It must return an array in the following format:
+
+array( 'is_valid' => false, 'warnings' => array() );
+
+When the is_valid flag is set to false, the warnings will be displayed to the user.
+The warnings array should contain items as follows:
+
+array( 'text' => 'Warning text displayed to user.' );
+
+Example:
+
+function validateInput( $http, &$module, &$class, $object, &$version, $contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage, $validationParameters )
+{
+   $result = array( 'is_valid' => false, 'warnings' => array() );
+   $result['warnings'][] = array( 'text' => 'Warning text displayed to user.' );
+
+   return $result;
+}

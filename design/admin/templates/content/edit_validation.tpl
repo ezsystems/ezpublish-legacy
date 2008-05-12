@@ -1,5 +1,5 @@
 {section show=$validation.processed}
-    {section show=or( $validation.attributes, $validation.placement )}
+    {section show=or( $validation.attributes, $validation.placement, $validation.custom_rules )}
         <div class="message-warning">
             <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The draft could not be stored.'|i18n( 'design/admin/content/edit' )}</h2>
 
@@ -17,6 +17,15 @@
                 <ul>
                     {section var=UnvalidatedPlacements loop=$validation.placement}
                         <li>{$UnvalidatedPlacements.item.text}</li>
+                    {/section}
+                </ul>
+            {/section}
+
+            {section show=$validation.custom_rules}
+                <p>{'The following data is invalid according to the custom validation rules'|i18n( 'design/admin/content/edit' )}:</p>
+                <ul>
+                    {section var=UnvalidatedCustomRules loop=$validation.custom_rules}
+                        <li>{$UnvalidatedCustomRules.item.text}</li>
                     {/section}
                 </ul>
             {/section}

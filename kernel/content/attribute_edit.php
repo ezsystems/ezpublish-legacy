@@ -235,6 +235,13 @@ $hasObjectInput = true;
 if ( $http->hasPostVariable( 'HasObjectInput' ) )
     $hasObjectInput =  $http->postVariable( 'HasObjectInput' );
 
+$contentObjectDataMap = array();
+foreach ( $contentObjectAttributes as $contentObjectAttribute )
+{
+    $contentObjectAttributeIdentifier = $contentObjectAttribute->attribute( 'contentclass_attribute_identifier' );
+    $contentObjectDataMap[$contentObjectAttributeIdentifier] = $contentObjectAttribute;
+}
+
 // These variables will be modified according to validation
 $inputValidated = true;
 $requireFixup = false;
@@ -261,6 +268,13 @@ if ( $storingAllowed && $hasObjectInput)
     if ( $validationResult['require-fixup'] )
         $object->fixupInput( $contentObjectAttributes, $attributeDataBaseName );
 
+    $validation['custom_rules'] = array();
+    $customValidationResult = eZContentObjectEditHandler::validateInputHandlers( $Module, $class, $object, $version, $contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage, $validationParameters );
+    if ( $customValidationResult['warnings'] )
+        $validation['custom_rules'] = $customValidationResult['warnings'];
+
+    $inputValidated = ( $inputValidated && $customValidationResult['validated'] );
+
     // Check extension input handlers
     eZContentObjectEditHandler::executeInputHandlers( $Module, $class, $object, $version, $contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage );
 
@@ -280,6 +294,7 @@ if ( $storingAllowed && $hasObjectInput)
     if ( !$inputValidated && $Module->exitStatus() == eZModule::STATUS_REDIRECT )
         $Module->setExitStatus( eZModule::STATUS_OK );
 
+    $db = eZDB::instance();
     if ( $inputValidated and count( $attributeInputMap ) > 0 )
     {
         if ( $Module->runHooks( 'pre_commit', array( $class, $object, $version, $contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage ) ) )
@@ -287,7 +302,6 @@ if ( $storingAllowed && $hasObjectInput)
         $version->setAttribute( 'modified', time() );
         $version->setAttribute( 'status', eZContentObjectVersion::STATUS_DRAFT );
 
-        $db = eZDB::instance();
         $db->begin();
         $version->store();
 //         print( "storing<br/>" );
@@ -430,13 +444,6 @@ if ( $OmitSectionSetting !== true )
 {
     //include_once( 'kernel/classes/ezsection.php' );
     eZSection::setGlobalID( $object->attribute( 'section_id' ) );
-}
-
-$contentObjectDataMap = array();
-foreach ( $contentObjectAttributes as $contentObjectAttribute )
-{
-    $contentObjectAttributeIdentifier = $contentObjectAttribute->attribute( 'contentclass_attribute_identifier' );
-    $contentObjectDataMap[$contentObjectAttributeIdentifier] = $contentObjectAttribute;
 }
 
 $object->setCurrentLanguage( $EditLanguage );
