@@ -82,13 +82,16 @@ class eZContentFunctionCollection
         return $result;
     }
 
-    function fetchContentNode( $nodeID, $nodePath )
+    function fetchContentNode( $nodeID, $nodePath, $languageCode )
     {
         //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
         $contentNode = null;
         if ( $nodeID )
         {
-            $contentNode = eZContentObjectTreeNode::fetch( $nodeID );
+            if ( !$languageCode )
+                $languageCode = false;
+
+            $contentNode = eZContentObjectTreeNode::fetch( $nodeID, $languageCode );
         }
         else if ( $nodePath )
         {
