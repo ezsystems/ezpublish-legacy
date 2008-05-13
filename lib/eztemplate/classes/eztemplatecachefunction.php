@@ -154,7 +154,7 @@ class eZTemplateCacheFunction
         }
         else
         {
-            $nodeID = eZTemplateCacheBlock::decodeNodeID( $subtreeValue );
+            $nodeID = $subtreeValue ? eZTemplateCacheBlock::decodeNodeID( $subtreeValue ) : false;
             $cachePath = eZTemplateCacheBlock::cachePath( eZTemplateCacheBlock::keyString( array( $placementKeyString, $accessName ) ), $nodeID );
             $code = ( "include_once( 'lib/eztemplate/classes/eztemplatecacheblock.php' );\n" );
             $cachePathText = eZPHPCreator::variableText( $cachePath, 0, 0, false );
@@ -289,7 +289,7 @@ class eZTemplateCacheFunction
             $keyArray = array( $keys, $placementString, $accessName );
         }
 
-        $nodeID = eZTemplateCacheBlock::decodeNodeID( $subtreeExpiry );
+        $nodeID = $subtreeExpiry ? eZTemplateCacheBlock::decodeNodeID( $subtreeExpiry ) : false;
         $phpPath = eZTemplateCacheBlock::cachePath( eZTemplateCacheBlock::keyString( $keyArray ), $nodeID );
 
         // Check if a custom expiry time is defined
@@ -299,14 +299,13 @@ class eZTemplateCacheFunction
             $expiry = 60*60*2;
         }
 
-        $ignoreContentExpiry = false;
-        if ( $ignoreContentExpiry === null )
-        {
-            $ignoreContentExpiry = false;
-        }
         if ( $subtreeExpiry !== null )
         {
             $ignoreContentExpiry = true;
+        }
+        else if ( $ignoreContentExpiry === null )
+        {
+            $ignoreContentExpiry = false;
         }
 
         $globalExpiryTime = -1;
