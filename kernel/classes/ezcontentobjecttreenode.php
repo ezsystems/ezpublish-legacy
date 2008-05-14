@@ -952,14 +952,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
         \a static
     */
-    static function createAttributeFilterSQLStrings( &$attributeFilter, &$sortingInfo )
+    static function createAttributeFilterSQLStrings( $attributeFilter, $sortingInfo = array( 'sortCount' => 0, 'attributeJoinCount' => 0 ) )
     {
         // Check for attribute filtering
 
         $filterSQL = array( 'from'    => '',
                             'where'   => '' );
 
-        $invalidFilterSQL = false;
         $totalAttributesFiltersCount = 0;
         $invalidAttributesFiltersCount = 0;
 
@@ -1110,30 +1109,23 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                 if ( $filterCount >= $sortingInfo['attributeJoinCount'] )
                                 {
                                     $filterSQL['from']  .= ", ezcontentobject_attribute a$filterCount ";
-                                    $filterSQL['where'] .= "
-                                       a$filterCount.contentobject_id = ezcontentobject.id AND
-                                       a$filterCount.contentclassattribute_id = $filterAttributeID AND
-                                       a$filterCount.version = ezcontentobject_name.content_version AND ";
-                                    $filterSQL['where'] .= eZContentLanguage::sqlFilter( "a$filterCount", 'ezcontentobject' ).' AND ';
                                 }
-                                else
-                                {
-                                    $filterSQL['where'] .= "
-                                      a$filterCount.contentobject_id = ezcontentobject.id AND
-                                      a$filterCount.contentclassattribute_id = $filterAttributeID AND
-                                      a$filterCount.version = ezcontentobject_name.content_version AND ";
-                                    $filterSQL['where'] .= eZContentLanguage::sqlFilter( "a$filterCount", 'ezcontentobject' ). ' AND ';
-                                }
+
+                                $filterSQL['where'] .= "
+                                  a$filterCount.contentobject_id = ezcontentobject.id AND
+                                  a$filterCount.contentclassattribute_id = $filterAttributeID AND
+                                  a$filterCount.version = ezcontentobject_name.content_version AND ";
+                                $filterSQL['where'] .= eZContentLanguage::sqlFilter( "a$filterCount", 'ezcontentobject' ). ' AND ';
                             }
                         }
                     }
 
-                    if( $isFilterValid )
+                    if ( $isFilterValid )
                     {
                         $hasFilterOperator = true;
                         // Controls quotes around filter value, some filters do this manually
                         $noQuotes = false;
-                        // Controls if $filterValue or $folder[2] is used, $filterValue is already escaped
+                        // Controls if $filterValue or $filter[2] is used, $filterValue is already escaped
                         $unEscape = false;
 
                         switch ( $filterType )
@@ -1250,7 +1242,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $filterValue = $unEscape ? $filter[2] : $filterValue;
 
                             $attibuteFilterJoinSQL .= "$filterField $filterOperator ";
-                            $attibuteFilterJoinSQL .= $noQuotes ? "$filterValue " : "'" . $filterValue . "' ";
+                            $attibuteFilterJoinSQL .= $noQuotes ? "$filterValue " : "'$filterValue' ";
 
                             $filterCount++;
                             $justFilterCount++;
@@ -1258,17 +1250,17 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     }
                 } // end of 'foreach ( $filterArray as $filter )'
 
-                if( $totalAttributesFiltersCount == $invalidAttributesFiltersCount )
+                if ( $totalAttributesFiltersCount == $invalidAttributesFiltersCount )
                 {
                     eZDebug::writeNotice( "Attribute filter returned false" );
-                    $filterSQL = $invalidFilterSQL;
+                    $filterSQL = false;
                 }
                 else
                 {
                     if ( $justFilterCount > 0 )
                         $filterSQL['where'] .= "\n                            ( " . $attibuteFilterJoinSQL . " ) AND ";
                 }
-            } // endif 'if ( is_array( $filterArray ) )'
+            } // end of 'if ( is_array( $filterArray ) )'
         }
 
         return $filterSQL;
@@ -1545,7 +1537,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $sqlPartPartPart = array();
                 $sqlPlacementPart = array();
 
-                $count = 1;
                 foreach ( array_keys( $limitationArray ) as $ident )
                 {
                     switch( $ident )
@@ -1563,7 +1554,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                         case 'Owner':
                         {
-                            $user   = eZUser::currentUser();
+                            $user = eZUser::currentUser();
                             $userID = $user->attribute( 'contentobject_id' );
                             $sqlPartPart[] = "ezcontentobject.owner_id = '" . $db->escapeString( $userID ) . "'";
                         } break;
@@ -1585,7 +1576,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                     FROM     ezcontentobject_tree
                                                     WHERE    parent_node_id IN ("  . implode( ', ', $parentList ) . ')' );
 
-                                $sqlPermissionCheckingFrom = ', ' . $groupPermTempTable;
+                                $sqlPermissionCheckingFrom .= ', ' . $groupPermTempTable;
                             }
                             $sqlPartPart[] = "ezcontentobject.owner_id = $groupPermTempTable.user_id";
                         } break;
@@ -1615,8 +1606,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $sqlPartPart[] = implode( ' OR ', $sqlPartUserSubtree );
                         }
                     }
-
-                    $count++;
                 }
                 if ( $sqlPlacementPart )
                 {
@@ -2234,10 +2223,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
         $db = eZDB::instance();
-
-        $limitation = ( isset( $params['Limitation']  ) && is_array( $params['Limitation']  ) ) ? $params['Limitation']: false;
-        $limitationList = eZContentObjectTreeNode::getLimitationList( $limitation );
-
         $ini = eZINI::instance();
 
         // Check for class filtering
@@ -2289,312 +2274,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $mainNodeOnlyCond = 'ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id AND';
         }
 
-        // Attribute filtering
-        // Check for attribute filtering
-        $attributeFilterFromSQL = "";
-        $attributeFilterWhereSQL = "";
-
-        $totalAttributesFiltersCount = 0;
-        $invalidAttributesFiltersCount = 0;
-
-        if ( isset( $params['AttributeFilter'] ) )
+        $attributeFilterParam = isset( $params['AttributeFilter'] ) ? $params['AttributeFilter'] : false;
+        $attributeFilter = eZContentObjectTreeNode::createAttributeFilterSQLStrings( $attributeFilterParam );
+        if ( $attributeFilter === false )
         {
-            $filterArray = $params['AttributeFilter'];
-
-            // Check if first value of array is a string.
-            // To check for and/or filtering
-            $filterJoinType = 'AND';
-            if ( is_string( $filterArray[0] ) )
-            {
-                if ( strtolower( $filterArray[0] ) == 'or' )
-                {
-                    $filterJoinType = 'OR';
-                }
-                else if ( strtolower( $filterArray[0] ) == 'and' )
-                {
-                    $filterJoinType = 'AND';
-                }
-                unset( $filterArray[0] );
-            }
-
-            $attibuteFilterJoinSQL = "";
-            $filterCount = 0;
-
-            if ( is_array( $filterArray ) )
-            {
-                // Handle attribute filters and generate SQL
-                $totalAttributesFiltersCount = count( $filterArray );
-
-                foreach ( $filterArray as $filter )
-                {
-                    $isFilterValid = true; // by default assumes that filter is valid
-
-                    $filterAttributeID = $filter[0];
-                    $filterType = $filter[1];
-                    $filterValue = is_array( $filter[2] ) ? '' : $db->escapeString( $filter[2] );
-
-                    $useAttributeFilter = false;
-                    switch ( $filterAttributeID )
-                    {
-                        case 'path':
-                        {
-                            $filterField = 'path_string';
-                        } break;
-                        case 'published':
-                        {
-                            $filterField = 'ezcontentobject.published';
-                        } break;
-                        case 'modified':
-                        {
-                            $filterField = 'ezcontentobject.modified';
-                        } break;
-                        case 'modified_subnode':
-                        {
-                            $filterField = 'modified_subnode';
-                        } break;
-                        case 'section':
-                        {
-                            $filterField = 'ezcontentobject.section_id';
-                        } break;
-                        case 'depth':
-                        {
-                            $filterField = 'depth';
-                        } break;
-                        case 'class_identifier':
-                        {
-                            $filterField = 'ezcontentclass.identifier';
-                        } break;
-                        case 'class_name':
-                        {
-                            $classNameFilter = eZContentClassName::sqlFilter();
-                            $filterField .= $classNameFilter['nameField'];
-                            $attributeFromSQL .= ", $classNameFilter[from]";
-                            $attributeWhereSQL .= "$classNameFilter[where] AND ";
-                        } break;
-                        case 'priority':
-                        {
-                            $filterField = 'ezcontentobject_tree.priority';
-                        } break;
-                        case 'name':
-                        {
-                            $filterField = 'ezcontentobject_name.name';
-                        } break;
-                        case 'owner':
-                        {
-                            $filterField = 'ezcontentobject.owner_id';
-                        } break;
-                        default:
-                        {
-                            $useAttributeFilter = true;
-                        } break;
-                    }
-
-                    if ( $useAttributeFilter )
-                    {
-                        if ( !is_numeric( $filterAttributeID ) )
-                            $filterAttributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $filterAttributeID );
-
-                        if ( $filterAttributeID === false )
-                        {
-                            $isFilterValid = false;
-                            if( $filterJoinType === 'AND' )
-                            {
-                                // go out
-                                $invalidAttributesFiltersCount = $totalAttributesFiltersCount;
-                                break;
-                            }
-
-                            // check next filter
-                            ++$invalidAttributesFiltersCount;
-                        }
-                        else
-                        {
-                            // Check datatype for filtering
-                            $filterDataType = eZContentObjectTreeNode::sortKeyByClassAttributeID( $filterAttributeID );
-                            if ( $filterDataType === false )
-                            {
-                                $isFilterValid = false;
-                                if( $filterJoinType === 'AND' )
-                                {
-                                    // go out
-                                    $invalidAttributesFiltersCount = $totalAttributesFiltersCount;
-                                    break;
-                                }
-
-                                // check next filter
-                                ++$invalidAttributesFiltersCount;
-                            }
-                            else
-                            {
-                                $sortKey = false;
-                                if ( $filterDataType == 'string' )
-                                {
-                                    $sortKey = 'sort_key_string';
-                                }
-                                else
-                                {
-                                    $sortKey = 'sort_key_int';
-                                }
-
-                                $filterField = "a$filterCount.$sortKey";
-
-                                // Use the same joins as we do when sorting,
-                                // if more attributes are filtered by we will append them
-                                $attributeFilterFromSQL .= ", ezcontentobject_attribute a$filterCount ";
-                                $attributeFilterWhereSQL .= "
-                                    a$filterCount.contentobject_id = ezcontentobject.id AND
-                                       a$filterCount.version = ezcontentobject.current_version AND
-                                       a$filterCount.contentclassattribute_id = $filterAttributeID AND ";
-                                $attributeFilterWhereSQL .= eZContentLanguage::sqlFilter( "a$filterCount", 'ezcontentobject' );
-                                $attributeFilterWhereSQL .= ' AND ';
-                            }
-
-                        }
-                    }
-
-                    if ( $isFilterValid )
-                    {
-                        $hasFilterOperator = true;
-                        // Controls quotes around filter value, some filters do this manually
-                        $noQuotes = false;
-                        // Controls if $filterValue or $folder[2] is used, $filterValue is already escaped
-                        $unEscape = false;
-
-                        switch ( $filterType )
-                        {
-                            case '=' :
-                            {
-                                $filterOperator = '=';
-                            }break;
-
-                            case '!=' :
-                            {
-                                $filterOperator = '<>';
-                            }break;
-
-                            case '>' :
-                            {
-                                $filterOperator = '>';
-                            }break;
-
-                            case '<' :
-                            {
-                                $filterOperator = '<';
-                            }break;
-
-                            case '<=' :
-                            {
-                                $filterOperator = '<=';
-                            }break;
-
-                            case '>=' :
-                            {
-                                $filterOperator = '>=';
-                            }break;
-
-                            case 'like':
-                            case 'not_like':
-                            {
-                                $filterOperator = ( $filterType == 'like' ? 'LIKE' : 'NOT LIKE' );
-                                // We escape the string ourselves, this MUST be done before wildcard replace
-                                $filter[2] = $db->escapeString( $filter[2] );
-                                $unEscape = true;
-                                // Since * is used as wildcard we need to transform the string to
-                                // use % as wildcard. The following rules apply:
-                                // - % -> \%
-                                // - * -> %
-                                // - \* -> *
-                                // - \\ -> \
-
-                                $filter[2] = preg_replace( array( '#%#m',
-                                                                  '#(?<!\\\\)\\*#m',
-                                                                  '#(?<!\\\\)\\\\\\*#m',
-                                                                  '#\\\\\\\\#m' ),
-                                                           array( '\\%',
-                                                                  '%',
-                                                                  '*',
-                                                                  '\\\\' ),
-                                                           $filter[2] );
-                            } break;
-
-                            case 'in':
-                            case 'not_in' :
-                            {
-                                $filterOperator = ( $filterType == 'in' ? 'IN' : 'NOT IN' );
-                                // Turn off quotes for value, we do this ourselves
-                                $noQuotes = true;
-                                if ( is_array( $filter[2] ) )
-                                {
-                                    reset( $filter[2] );
-                                    while ( list( $key, $value ) = each( $filter[2] ) )
-                                    {
-                                        // Non-numerics must be escaped to avoid SQL injection
-                                        $filter[2][$key] = is_numeric( $value ) ? $value : "'" . $db->escapeString( $value ) . "'";
-                                    }
-                                    $filterValue = '(' .  implode( ",", $filter[2] ) . ')';
-                                }
-                                else
-                                {
-                                    $hasFilterOperator = false;
-                                }
-                            } break;
-
-                            case 'between':
-                            case 'not_between' :
-                            {
-                                $filterOperator = ( $filterType == 'between' ? 'BETWEEN' : 'NOT BETWEEN' );
-                                // Turn off quotes for value, we do this ourselves
-                                $noQuotes = true;
-                                if ( is_array( $filter[2] ) )
-                                {
-                                    // Check for non-numerics to avoid SQL injection
-                                    if ( !is_numeric( $filter[2][0] ) )
-                                        $filter[2][0] = "'" . $db->escapeString( $filter[2][0] ) . "'";
-                                    if ( !is_numeric( $filter[2][1] ) )
-                                        $filter[2][1] = "'" . $db->escapeString( $filter[2][1] ) . "'";
-
-                                    $filterValue = $filter[2][0] . ' AND ' . $filter[2][1];
-                                }
-                            } break;
-
-                            default :
-                            {
-                                $hasFilterOperator = false;
-                                eZDebug::writeError( "Unknown attribute filter type: $filterType", "eZContentObjectTreeNode::subTree()" );
-                            }break;
-
-                        }
-                        if ( $hasFilterOperator )
-                        {
-                            if ( $filterCount > 0 )
-                                $attibuteFilterJoinSQL .= " $filterJoinType ";
-
-                            // If $unEscape is true we get the filter value from the 2nd element instead
-                            // which must have been escaped by filter type
-                            $filterValue = $unEscape ? $filter[2] : $filterValue;
-
-                            $attibuteFilterJoinSQL .= "$filterField $filterOperator ";
-                            $attibuteFilterJoinSQL .= $noQuotes ? "$filterValue " : "'$filterValue' ";
-
-                            $filterCount++;
-                        }
-                    }
-                } // end of 'foreach ( $filterArray as $filter )'
-
-                if ( $totalAttributesFiltersCount == $invalidAttributesFiltersCount )
-                {
-                    $attributeFilterFromSQL = "";
-                    $attributeFilterWhereSQL = "";
-
-                    eZDebug::writeNotice( "Attribute filter returned false" );
-                    return 0;
-                }
-                else
-                {
-                    if ( $filterCount > 0 )
-                        $attributeFilterWhereSQL .= "\n                            ( " . $attibuteFilterJoinSQL . " ) AND ";
-                }
-            } // end of 'if ( is_array( $filterArray ) )'
+            return null;
         }
 
         //$onlyTranslated   = ( isset( $params['OnlyTranslated'] ) ) ? $params['OnlyTranslated']     : false;
@@ -2620,156 +2304,38 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $ignoreVisibility = isset( $params['IgnoreVisibility'] ) ? $params['IgnoreVisibility'] : false;
         $showInvisibleNodesCond = eZContentObjectTreeNode::createShowInvisibleSQLString( !$ignoreVisibility );
 
-        $sqlPermissionCheckingFrom = '';
-        $sqlPermissionCheckingWhere = '';
-        $sqlPermissionTempTables = array();
-        $groupPermTempTable = false;
+        $limitation = ( isset( $params['Limitation']  ) && is_array( $params['Limitation']  ) ) ? $params['Limitation']: false;
+        $limitationList = eZContentObjectTreeNode::getLimitationList( $limitation );
+        $sqlPermissionChecking = eZContentObjectTreeNode::createPermissionCheckingSQL( $limitationList );
 
-        if ( $limitationList !== false && count( $limitationList ) > 0 )
-        {
-            $sqlParts = array();
-
-            foreach( $limitationList as $limitationArray )
-            {
-                $sqlPartPart = array();
-                $sqlPartPartPart = array();
-
-                foreach ( array_keys( $limitationArray ) as $ident )
-                {
-                    switch( $ident )
-                    {
-                        case 'Class':
-                        {
-                            $sqlPartPart[] = 'ezcontentobject.contentclass_id in (' . implode( ', ', $limitationArray[$ident] ) . ')';
-                        } break;
-
-                        case 'Section':
-                        case 'User_Section':
-                        {
-                            $sqlPartPart[] = 'ezcontentobject.section_id in (' . implode( ', ', $limitationArray[$ident] ) . ')';
-                        } break;
-
-                        case 'Owner':
-                        {
-                            $user = eZUser::currentUser();
-                            $userID = $user->attribute( 'contentobject_id' );
-                            $sqlPartPart[] = "ezcontentobject.owner_id = '" . $db->escapeString( $userID ) . "'";
-                        } break;
-
-                        case 'Group':
-                        {
-                            if ( !$groupPermTempTable )
-                            {
-                                $user = eZUser::currentUser();
-                                $userContentObject = $user->attribute( 'contentobject' );
-                                $parentList = $userContentObject->attribute( 'parent_nodes' );
-
-                                $groupPermTempTable = $db->generateUniqueTempTableName( 'ezgroup_perm_tmp_%' );
-                                $sqlPermissionTempTables[] = $groupPermTempTable;
-
-                                $db->createTempTable( "CREATE TEMPORARY TABLE $groupPermTempTable ( user_id int )" );
-                                $db->query( "INSERT INTO $groupPermTempTable
-                                                    SELECT DISTINCT contentobject_id AS user_id
-                                                    FROM     ezcontentobject_tree
-                                                    WHERE    parent_node_id IN ("  . implode( ', ', $parentList ) . ')' );
-
-                                $sqlPermissionCheckingFrom = ', ' . $groupPermTempTable;
-                            }
-                            $sqlPartPart[] = "ezcontentobject.owner_id = $groupPermTempTable.user_id";
-                        } break;
-
-                        case 'Node':
-                        {
-                            $sqlPartPartPart[] = 'ezcontentobject_tree.node_id in (' . implode( ', ', $limitationArray[$ident] ) . ')';
-                        } break;
-
-                        case 'Subtree':
-                        {
-                            foreach ( $limitationArray[$ident] as $limitationPathString )
-                            {
-                                $sqlPartPartPart[] = "ezcontentobject_tree.path_string like '$limitationPathString%'";
-                            }
-                        } break;
-
-                        case 'User_Subtree':
-                        {
-                            $pathArray = $limitationArray[$ident];
-                            $sqlPartUserSubtree = array();
-                            foreach ( $pathArray as $limitationPathString )
-                            {
-                                $sqlPartUserSubtree[] = "ezcontentobject_tree.path_string like '$limitationPathString%'";
-                            }
-                            $sqlPartPart[] = implode( ' OR ', $sqlPartUserSubtree );
-                        }
-                    }
-                }
-                if ( $sqlPartPartPart )
-                {
-                    $sqlPartPart[] = '( ' . implode( ' ) OR ( ', $sqlPartPartPart ). ' )';
-                }
-                $sqlParts[] = implode( ' AND ', $sqlPartPart );
-            }
-
-            $sqlPermissionCheckingWhere = ' AND ((' . implode( ') or (', $sqlParts ) . ')) ';
-            $sqlPermissionChecking = array( 'from' => $sqlPermissionCheckingFrom,
-                                            'where' => $sqlPermissionCheckingWhere );
-
-            $query = "SELECT
-                            count( DISTINCT ezcontentobject_tree.node_id ) as count
-                      FROM
-                           ezcontentobject_tree,
-                           ezcontentobject,ezcontentclass
-                           $versionNameTables
-                           $attributeFilterFromSQL
-                           $extendedAttributeFilter[tables]
-                           $sqlPermissionChecking[from]
-                      WHERE $pathStringCond
-                            $extendedAttributeFilter[joins]
-                            $mainNodeOnlyCond
-                            $classCondition
-                            $attributeFilterWhereSQL
-                            ezcontentclass.version=0 AND
-                            $notEqParentString
-                            ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
-                            ezcontentclass.id = ezcontentobject.contentclass_id AND
-                            $versionNameJoins
-                            $showInvisibleNodesCond
-                            $sqlPermissionChecking[where]
-                            $objectNameFilterSQL
-                            $languageFilter ";
-
-        }
-        else
-        {
-            $query="SELECT
-                          count( DISTINCT ezcontentobject_tree.node_id ) as count
-                    FROM
-                          ezcontentobject_tree,
-                          ezcontentobject,
-                          ezcontentclass
-                          $versionNameTables
-                          $attributeFilterFromSQL
-                          $extendedAttributeFilter[tables]
-                    WHERE
-                           $pathStringCond
-                           $extendedAttributeFilter[joins]
-                           $mainNodeOnlyCond
-                           $classCondition
-                           $attributeFilterWhereSQL
-                           ezcontentclass.version=0 AND
-                           $notEqParentString
-                           ezcontentobject_tree.contentobject_id = ezcontentobject.id AND
-                           ezcontentclass.id = ezcontentobject.contentclass_id AND
-                           $versionNameJoins
-                           $showInvisibleNodesCond
-                           $objectNameFilterSQL
-                           $languageFilter ";
-        }
+        $query = "SELECT
+                        count( DISTINCT ezcontentobject_tree.node_id ) as count
+                  FROM
+                       ezcontentobject_tree,
+                       ezcontentobject,ezcontentclass
+                       $versionNameTables
+                       $attributeFilter[from]
+                       $extendedAttributeFilter[tables]
+                       $sqlPermissionChecking[from]
+                  WHERE $pathStringCond
+                        $extendedAttributeFilter[joins]
+                        $mainNodeOnlyCond
+                        $classCondition
+                        $attributeFilter[where]
+                        ezcontentclass.version=0 AND
+                        $notEqParentString
+                        ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
+                        ezcontentclass.id = ezcontentobject.contentclass_id AND
+                        $versionNameJoins
+                        $showInvisibleNodesCond
+                        $sqlPermissionChecking[where]
+                        $objectNameFilterSQL
+                        $languageFilter ";
 
         $nodeListArray = $db->arrayQuery( $query );
 
         // cleanup temp tables
-        $db->dropTempTableList( $sqlPermissionTempTables );
+        $db->dropTempTableList( $sqlPermissionChecking['temp_tables'] );
 
         return $nodeListArray[0]['count'];
     }
