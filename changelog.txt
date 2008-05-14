@@ -14,6 +14,9 @@ eZ Online Editor MCE extension Changelog
 * Fixed bug #012986: Link Properties/Browse shows 20 items per page causing overflow
 * Fixed bug #012988: eZOE: Insert table size grid does not work in IE7, Vista
 * search did not filter on class id in Ie caused by .postData bug in ez_core.js
+* Fixed bug #010780: It's hard to add items to ClassDescription[] from content.ini.append in extensions
+* Fixed bug #009558: [EmbedViewModeSettings] and [ImageDataTypeSettings] in site.ini
+* cleaned up custom attribute type ini settings and added support for hidden and checkbox types
 
 5.0beta
 * clicking search buttons does not work (hides link dialog)

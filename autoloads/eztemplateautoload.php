@@ -4,6 +4,10 @@ $eZTemplateOperatorArray[] = array( 'script' => 'extension/ezoe/autoloads/ezoepa
                                     'class' => 'eZOEPacker',
                                     'operator_names' => array( 'ezoescript', 'ezoecss' ) );
 
+$eZTemplateOperatorArray[] = array( 'script' => 'extension/ezoe/autoloads/ezoetemplateutils.php',
+                                    'class' => 'eZOETemplateUtils',
+                                    'operator_names' => array( 'ezoe_ini_section' ) );
+
 
 
 ?>

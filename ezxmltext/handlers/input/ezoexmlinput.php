@@ -884,7 +884,10 @@ class eZOEXMLInput extends eZXMLInputHandler
 
                 $URL = self::getServerURL();
                 $ini = eZINI::instance( 'site.ini' );
-                $imageClassIDArray = $ini->variable('MediaClassSettings', 'ImageClassID' );
+                if ( $ini->hasVariable('MediaClassSettings', 'ImageClassID' ) )
+                    $imageClassIDArray = $ini->variable('MediaClassSettings', 'ImageClassID' );
+                else
+                    $imageClassIDArray = array();
                 $imageClassIdentifiers = $ini->variable( 'MediaClassSettings', 'ImageClassIdentifiers' );
 
                 if ( in_array( $classID, $imageClassIDArray ) or

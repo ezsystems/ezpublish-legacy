@@ -145,6 +145,7 @@ if ( $contentIni->hasVariable( 'embed_' . $embedClassIdentifier, 'AvailableClass
 else if ( $contentIni->hasVariable( 'embed', 'AvailableClasses' ) )
     $classListData = $contentIni->variable( 'embed', 'AvailableClasses' );
 
+// same for embed-inline
 if ( $contentIni->hasVariable( 'embed-inline_' . $embedClassIdentifier, 'AvailableClasses' ) )
     $classListInlineData = $contentIni->variable( 'embed-inline_' . $embedClassIdentifier, 'AvailableClasses' );
 else if ( $contentIni->hasVariable( 'embed-inline', 'AvailableClasses' ) )
@@ -153,9 +154,13 @@ else if ( $contentIni->hasVariable( 'embed-inline', 'AvailableClasses' ) )
 // Get human readable class names
 if ( $contentIni->hasVariable( 'embed', 'ClassDescription' ) )
     $classListDescription = $contentIni->variable( 'embed', 'ClassDescription' );
+else
+    $classListDescription = array();
     
 if ( $contentIni->hasVariable( 'embed-inline', 'ClassDescription' ) )
     $classListDescriptionInline = $contentIni->variable( 'embed-inline', 'ClassDescription' );
+else
+    $classListDescriptionInline = array();
 
 $classList = array();
 if ( $classListData )
@@ -198,13 +203,13 @@ else
 
 
 // view mode list
-if ( $siteIni->hasVariable( 'EmbedViewModeSettings', 'AvailableViewModes' ) )
-    $viewList = array_unique( $siteIni->variable( 'EmbedViewModeSettings', 'AvailableViewModes' ) );
+if ( $contentIni->hasVariable( 'embed', 'AvailableViewModes' ) )
+    $viewList = array_unique( $contentIni->variable( 'embed', 'AvailableViewModes' ) );
 else
     $viewList = array();
 
-if ( $siteIni->hasVariable( 'EmbedViewModeSettings', 'InlineViewModes' ) )
-    $viewListInline = array_unique( $siteIni->variable( 'EmbedViewModeSettings', 'InlineViewModes' ) );
+if ( $contentIni->hasVariable( 'embed-inline', 'AvailableViewModes' ) )
+    $viewListInline = array_unique( $contentIni->variable( 'embed-inline', 'AvailableViewModes' ) );
 else
     $viewListInline = array();
 

@@ -149,7 +149,7 @@ function ezoeLinkTypeSet( source, types )
         {include uri="design:ezoe/generalattributes.tpl"
                  tag_name=$tag_name
                  attributes=hash('href', '',
-                                  'view', ezini( 'LinkViewModeSettings', 'AvailableViewModes', 'site.ini' ),
+                                  'view', ezini( 'link', 'AvailableViewModes', 'content.ini' ),
                                   'target', hash('0', 'None', '_blank', 'New Window'),
                                   'class', $class_list,
                                   'title', '',

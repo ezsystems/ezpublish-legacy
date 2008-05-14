@@ -7,9 +7,6 @@ ExtensionAutoloadPath[]=ezoe
 
 
 [MediaClassSettings]
-# Deprecated, use ImageClassIdentifiers instead
-ImageClassID[]
-ImageClassID[]=5
 ImageClassIdentifiers[]
 ImageClassIdentifiers[]=image
 
@@ -18,19 +15,8 @@ ImageClassIdentifiers[]=image
 AvailableImageDataTypes[]
 AvailableImageDataTypes[]=ezimage
 
-[EmbedViewModeSettings]
-AvailableViewModes[]
-AvailableViewModes[]=embed
-AvailableViewModes[]=embed-inline
-AvailableViewModes[]=full
-AvailableViewModes[]=line
-InlineViewModes[]
-InlineViewModes[]=embed-inline
-
-[LinkViewModeSettings]
-AvailableViewModes[]
-AvailableViewModes[]=full
-AvailableViewModes[]=line
+# Looking for AvailableViewModes[] settings?
+# they are moved to content.ini as part of the tag settings.
 
 [RegionalSettings]
 TranslationExtensions[]=ezoe

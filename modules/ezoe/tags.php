@@ -167,12 +167,13 @@ $tpl->setVariable( 'persistent_variable', array() );
 if ( $tagName === 'td' || $tagName === 'th' )
 {
     // generate javascript data for td / th classes
-    $classListDescription = array();
     $tagName2 = $tagName === 'td' ? 'th' : 'td';
     $cellClassList = array( $tagName => $classList, $tagName2 => array('0' => 'None') );
 
     if ( $contentIni->hasVariable( $tagName2, 'ClassDescription' ) )
         $classListDescription = $contentIni->variable( $tagName2, 'ClassDescription' );
+    else 
+        $classListDescription = array();
 
     if ( $contentIni->hasVariable( $tagName2, 'AvailableClasses' ) )
     {

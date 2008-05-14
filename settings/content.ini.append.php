@@ -17,48 +17,55 @@
 # 'CustomAttributesDefaults' setting defines custom attributes default values
 # that appear in the dialog window for a newly created element.
 #
-# 'CustomAttributeMyattrSelections' lets you define drop down boxes instead of
-#  simple text inputs with value / Name pairs for the selction like this:
-# 'CustomAttributeMyattrSelections[value]=Name' where value must correspond
-#  to default value in 'CustomAttributesDefaults' if set.
+# 'CustomAttributeTypes' lets you specify what kind of html type to use, valid:
+#   text (default)
+#   select (drop down box with selectable values )
+#   hidden (hide the control)
+#  The selections are defined in the customattribute settings like in the example bellow.
 #
 # 'CustomAttributesNames' lets you specify the human readable name of the attribute
 #
-# Example for a custom tag:
+## Example for a custom tag:
 #
 #[factbox]
 #CustomAttributesDefaults[align]=right
 #CustomAttributesDefaults[myattr]=default
 #CustomAttributesNames[align]=Alignment
-#CustomAttributeAlignSelections[left]=Left
-#CustomAttributeAlignSelections[right]=Right
-#CustomAttributeAlignSelections[center]=Center
+#CustomAttributesType[align]=select
+#
+## CustomAttribute settings for align attribute on factbox tag!
+## You can also define global align cusom attribute setting with
+## this pattern [CustomAttribute_align], but this is only used if 
+## there is no tag specific settings like this one:
+#
+#[CustomAttribute_factbox_align]
+## Optional, lets you disable the html control so users can't change the value
+#Disabled=true
+## Selection is needed if type is set to select
+#Selection[]
+#Selection[left]=Left
+#Selection[right]=Right
+#Selection[center]=Center
 
 
 [paragraph]
 # Human-readable aliases for a class names that will be displayed
 # in the "Class" dropdowns of dialog windows.
 #ClassDescription[pRed]=Red bar
-ClassDescription[]
 
 [header]
-ClassDescription[]
 
 [strong]
-ClassDescription[]
 
 [emphasize]
-ClassDescription[]
 
 [link]
-ClassDescription[]
+AvailableViewModes[]=full
+AvailableViewModes[]=line
 
 [literal]
-ClassDescription[] 
 
 [table]
-ClassDescription[]
-Defaults[]
 Defaults[rows]=2
 Defaults[cols]=2
 Defaults[width]=100%
@@ -66,25 +73,23 @@ Defaults[border]=0
 #Defaults[class]=myclass
 
 [tr]
-ClassDescription[]
 
 [th]
-ClassDescription[]
 
 [td]
-ClassDescription[]
 
 [ol]
-ClassDescription[]
 
 [ul]
-ClassDescription[]
 
 [embed]
-ClassDescription[]
+AvailableViewModes[]=embed
+AvailableViewModes[]=embed-inline
+AvailableViewModes[]=full
+AvailableViewModes[]=line
 
 [embed-inline]
-ClassDescription[]
+AvailableViewModes[]=embed-inline
 
 # If you want to limit the amount of AvailableClasses selections
 # on relations pr eZ Publish Content Class you can do the folloowing:
