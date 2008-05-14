@@ -7,12 +7,10 @@ ExtensionAutoloadPath[]=ezoe
 
 
 [MediaClassSettings]
-ImageClassIdentifiers[]
 ImageClassIdentifiers[]=image
 
 
 [ImageDataTypeSettings]
-AvailableImageDataTypes[]
 AvailableImageDataTypes[]=ezimage
 
 # Looking for AvailableViewModes[] settings?
