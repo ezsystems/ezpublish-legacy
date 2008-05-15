@@ -164,6 +164,8 @@ class eZOEPackerFunctions
                 'del' => ezi18n( 'design/standard/ezoe', "Delete table"),
                 'row' => ezi18n( 'design/standard/ezoe', "Row"),
                 'col' => ezi18n( 'design/standard/ezoe', "Column"),
+                'rows' => ezi18n( 'design/standard/ezoe', "Rows"),
+                'cols' => ezi18n( 'design/standard/ezoe', "Columns"),
                 'cell' => ezi18n( 'design/standard/ezoe', "Cell")
             ),
             'autosave' => array(

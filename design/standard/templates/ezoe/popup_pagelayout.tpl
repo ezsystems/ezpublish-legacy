@@ -12,7 +12,7 @@ eZOeMCE['extension_url'] = {'/ezoe/'|ezurl};
 
 // -->
 </script>
-    <script type="text/javascript" src={"javascript/tiny_mce_popup.js"|ezdesign}></script>
+<script type="text/javascript" src={"javascript/tiny_mce_popup.js"|ezdesign}></script>
 
 {if $module_result.persistent_variable.scripts}
 {foreach $module_result.persistent_variable.scripts as $script}

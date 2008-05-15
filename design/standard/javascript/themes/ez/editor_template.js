@@ -1216,7 +1216,7 @@
 
 		_mceHelp : function()
 		{
-			this._generalXmlTagPopup( '', '/help/', 480, 380 );
+			this._generalXmlTagPopup( 'help', '/dialog/', 480, 380 );
 		},
 
 		_mceColorPicker : function(ui, v) {

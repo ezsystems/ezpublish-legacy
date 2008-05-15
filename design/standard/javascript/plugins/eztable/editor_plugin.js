@@ -88,52 +88,40 @@
 							m.add({title : 'table.desc', icon : 'table', cmd : 'mceInsertTable', ui : true});
 					});
 				}
-            });
+			});
 
-            /* Block delete on gecko inside TD:s. Gecko is removing table elements and then produces incorrect tables
-            // The backspace key also removed TD:s but this one can not be blocked
-            if (tinymce.isGecko) {
-                ed.onKeyPress.add(function(ed, e) {
-                    if (e.keyCode == 46) {
-                        var n = ed.dom.getParent(ed.selection.getNode(), 'TD,TH');
-                        if (n && (!n.hasChildNodes() || (n.childNodes.length === 1 && n.firstChild.nodeName === 'BR')))
-                            tinymce.dom.Event.cancel(e);
-                    }
-                });
-            }*/
+			// Add undo level when new rows are created using the tab key
+			ed.onKeyDown.add(function(ed, e) {
+				if (e.keyCode == 9 && ed.dom.getParent(ed.selection.getNode(), 'TABLE')) {
+					if (!tinymce.isGecko && !tinymce.isOpera) {
+						tinyMCE.execInstanceCommand(ed.editorId, "mceTableMoveToNextRow", true);
+						return tinymce.dom.Event.cancel(e);
+					}
 
-            // Add undo level when new rows are created using the tab key
-            ed.onKeyDown.add(function(ed, e) {
-                if (e.keyCode == 9 && ed.dom.getParent(ed.selection.getNode(), 'TABLE')) {
-                    if (!tinymce.isGecko && !tinymce.isOpera) {
-                        tinyMCE.execInstanceCommand(ed.editorId, "mceTableMoveToNextRow", true);
-                        return tinymce.dom.Event.cancel(e);
-                    }
+					ed.undoManager.add();
+				}
+			});
 
-                    ed.undoManager.add();
-                }
-            });
+			// Select whole table is a table border is clicked
+			if (!tinymce.isIE) {
+				if (ed.getParam('table_selection', true)) {
+					ed.onClick.add(function(ed, e) {
+						e = e.target;
 
-            // Select whole table is a table border is clicked
-            if (!tinymce.isIE) {
-                if (ed.getParam('table_selection', true)) {
-                    ed.onClick.add(function(ed, e) {
-                        e = e.target;
+						if (e.nodeName === 'TABLE')
+							ed.selection.select(e);
+					});
+				}
+			}
 
-                        if (e.nodeName === 'TABLE')
-                            ed.selection.select(e);
-                    });
-                }
-            }
+			ed.onNodeChange.add(function(ed, cm, n) {
+				var p = ed.dom.getParent(n, 'td,th,caption'), header = ed.dom.getParent(n, 'H1,H2,H3,H4,H5,H6');
 
-            ed.onNodeChange.add(function(ed, cm, n) {
-                var p = ed.dom.getParent(n, 'td,th,caption'), header = ed.dom.getParent(n, 'H1,H2,H3,H4,H5,H6');;
-
-                cm.setActive('table', n.nodeName === 'TABLE' || !!p);
+				cm.setActive('table', n.nodeName === 'TABLE' || !!p);
 				if (p && p.nodeName === 'CAPTION')
 					p = null;
 
-                cm.setDisabled('table', header);
+				cm.setDisabled('table', header);
 				cm.setDisabled('delete_table', !p);
 				cm.setDisabled('delete_col', !p);
 				cm.setDisabled('delete_table', !p);
@@ -145,16 +133,16 @@
 				cm.setDisabled('row_props', !p);
 				cm.setDisabled('cell_props', !p);
 				cm.setDisabled('split_cells', !p || (parseInt(ed.dom.getAttrib(p, 'colspan', '1')) < 2 && parseInt(ed.dom.getAttrib(p, 'rowspan', '1')) < 2));
-				cm.setDisabled('merge_cells', !p);
+				cm.setDisabled('merge_cells', !p );
 			});
 
-            // Padd empty table cells
-            if (!tinymce.isIE) {
-                ed.onBeforeSetContent.add(function(ed, o) {
-                    if (o.initial)
-                        o.content = o.content.replace(/<(td|th)([^>]+|)>\s*<\/(td|th)>/g, tinymce.isOpera ? '<$1$2>&nbsp;</$1>' : '<$1$2><br mce_bogus="1" /></$1>');
-                });
-            }
+			// Padd empty table cells
+			if (!tinymce.isIE) {
+				ed.onBeforeSetContent.add(function(ed, o) {
+					if (o.initial)
+						o.content = o.content.replace(/<(td|th)([^>]+|)>\s*<\/(td|th)>/g, tinymce.isOpera ? '<$1$2>&nbsp;</$1>' : '<$1$2><br mce_bogus="1" /></$1>');
+				});
+			}
 		},
 
 		execCommand : function(cmd, ui, val) {
@@ -162,7 +150,7 @@
 
 			// Is table command
 			switch (cmd) {
-			    case "mceTableMoveToNextRow":
+				case "mceTableMoveToNextRow":
 				case "mceInsertTable":
 				case "mceTableRowProps":
 				case "mceTableCellProps":
@@ -288,18 +276,18 @@
 				return null;
 			}
 
-            function getNextCell(table, cell) {
-                var cells = [], x = 0, i, j, cell, nextCell;
+			function getNextCell(table, cell) {
+				var cells = [], x = 0, i, j, cell, nextCell;
 
-                for (i = 0; i < table.rows.length; i++)
-                    for (j = 0; j < table.rows[i].cells.length; j++, x++)
-                        cells[x] = table.rows[i].cells[j];
+				for (i = 0; i < table.rows.length; i++)
+					for (j = 0; j < table.rows[i].cells.length; j++, x++)
+						cells[x] = table.rows[i].cells[j];
 
-                for (i = 0; i < cells.length; i++)
-                    if (cells[i] == cell)
-                        if (nextCell = cells[i+1])
-                            return nextCell;
-            }
+				for (i = 0; i < cells.length; i++)
+					if (cells[i] == cell)
+						if (nextCell = cells[i+1])
+							return nextCell;
+			}
 
 			function getTableGrid(table) {
 				var grid = [], rows = table.rows, x, y, td, sd, xstart, x2, y2;
@@ -468,6 +456,7 @@
 	        {
 	            //var ed = this.editor;
 	            if ( !view ) view = '/tags/';
+	            var sp = getColRowSpan( node );
 	
 	            inst.windowManager.open({
 	                url : eZOeMCE['extension_url'] + view  + eZOeMCE['contentobject_id'] + '/' + eZOeMCE['contentobject_version'] + '/' + eurl,
@@ -477,6 +466,8 @@
 	                inline : true
 	            }, {
 	                theme_url : this.url,
+	                numcols : sp.colspan,
+                    numrows : sp.rowspan,
 	                selected_node : ( node && node.nodeName ? node : false )
 	            });
 	        }
@@ -486,18 +477,18 @@
 
 			// Handle commands
 			switch (command) {
-                case "mceTableMoveToNextRow":
-                    var nextCell = getNextCell(tableElm, tdElm);
+				case "mceTableMoveToNextRow":
+					var nextCell = getNextCell(tableElm, tdElm);
 
-                    if (!nextCell) {
-                        inst.execCommand("mceTableInsertRowAfter", tdElm);
-                        nextCell = getNextCell(tableElm, tdElm);
-                    }
+					if (!nextCell) {
+						inst.execCommand("mceTableInsertRowAfter", tdElm);
+						nextCell = getNextCell(tableElm, tdElm);
+					}
 
-                    inst.selection.select(nextCell);
-                    inst.selection.collapse(true);
+					inst.selection.select(nextCell);
+					inst.selection.collapse(true);
 
-                    return true;
+					return true;
 
 				case "mceTableRowProps":
 					if (trElm == null)
@@ -837,7 +828,6 @@
 							break;
 
 						case "mceTableSplitCells":
-
 							if (!trElm || !tdElm)
 								return true;
 
@@ -874,10 +864,15 @@
 							var sel = inst.selection.getSel();
 							var grid = getTableGrid(tableElm);
 
-							if (tinymce.isIE || sel.rangeCount == 1)
-							{
-									var numRows = value ? parseInt(value['numrows']) : 1;
-									var numCols = value ? parseInt(value['numcols']) : 1;
+							if (tinymce.isIE || sel.rangeCount == 1) {
+								if (user_interface) {
+									// Setup template
+									generalXmlTagPopup( 'merge_cells', '/dialog/', 310, 140, tdElm );
+
+									return true;
+								} else {
+									var numRows = parseInt(value['numrows']);
+									var numCols = parseInt(value['numcols']);
 									var cpos = getCellPos(grid, tdElm);
 
 									if (("" + numRows) == "NaN")
@@ -914,8 +909,10 @@
 									}
 
 									//return true;
+								}
 							} else {
 								var cells = [];
+								var sel = inst.selection.getSel();
 								var lastTR = null;
 								var curRow = null;
 								var x1 = -1, y1 = -1, x2, y2;
@@ -932,7 +929,7 @@
 									if (!tdElm)
 										break;
 
-									if (tdElm.nodeName === "TD" || tdElm.nodeName === "TH")
+									if (tdElm.nodeName == "TD" || tdElm.nodeName == "TH")
 										cells[cells.length] = tdElm;
 								}
 

@@ -48,12 +48,12 @@ tinyMCEPopup.onInit.add( function(){
                         <option value="auto">{'Automatic'|i18n('design/standard/ezoe')}</option>
 
                         {if $object.published}
-                         <option value="{$object.main_node_id}">{$object.name} (this)</option>
+                            <option value="{$object.main_node_id}">{$object.name} (this)</option>
                         {/if}
 
                         {def $root_node_value = ezini( 'LocationSettings', 'RootNode', 'upload.ini' )
-                             $root_node = cond( $root_node_value|is_numeric, fetch( content, node, hash( node_id, $root_node_value ) ),
-                                             fetch( content, node, hash( node_path, $root_node_value ) ) )
+                             $root_node = cond( $root_node_value|is_numeric, fetch( 'content', 'node', hash( 'node_id', $root_node_value ) ),
+                                             fetch( 'content', 'node', hash( 'node_path', $root_node_value ) ) )
                              $selection_list = fetch( 'content', 'tree',
                                                      hash( 'parent_node_id', $root_node.node_id,
                                                            'class_filter_type', include,
@@ -64,7 +64,7 @@ tinyMCEPopup.onInit.add( function(){
                                                            'limit', ezini( 'LocationSettings', 'MaxItems', 'upload.ini' ) ) )}
                         {foreach $selection_list as $item}
                         {if $item.can_create}
-                         <option value="{$item.node_id}">{'&nbsp;'|repeat( sub( $item.depth, $root_node.depth, 1 ) )}{$item.name|wash}</option>
+                            <option value="{$item.node_id}">{'&nbsp;'|repeat( sub( $item.depth, $root_node.depth, 1 ) )}{$item.name|wash}</option>
                         {/if}
                         {/foreach}
 

@@ -17,6 +17,7 @@ eZ Online Editor MCE extension Changelog
 * Fixed bug #010780: It's hard to add items to ClassDescription[] from content.ini.append in extensions
 * Fixed bug #009558: [EmbedViewModeSettings] and [ImageDataTypeSettings] in site.ini
 * cleaned up custom attribute type ini settings and added support for hidden and checkbox types
+* Fixed bug #012956: Selecting of table cells doesn't work in some browsers
 
 5.0beta
 * clicking search buttons does not work (hides link dialog)

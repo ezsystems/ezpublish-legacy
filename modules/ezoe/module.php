@@ -53,9 +53,9 @@ $ViewList["load"] = array(
     "params" => array( 'EmbedID','DataMap', 'ImagePreGenerateSizes' )
     );
 
-$ViewList["help"] = array(
-    "script" => 'help.php',
-    "params" => array( 'ObjectID', 'ObjectVersion' )
+$ViewList["dialog"] = array(
+    "script" => 'dialog.php',
+    "params" => array( 'ObjectID', 'ObjectVersion', 'Dialog' )
     );
 
 $ViewList["embed_view"] = array(

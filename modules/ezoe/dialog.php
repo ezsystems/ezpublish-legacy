@@ -26,12 +26,16 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
+// General popup dialog
+// used for things like help and merge cells dialogs
+
 include_once( 'kernel/common/template.php' );
 include_once( 'extension/ezoe/ezinfo.php' );
 //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
 $objectID      = isset( $Params['ObjectID'] ) ? (int) $Params['ObjectID'] : 0;
 $objectVersion = isset( $Params['ObjectVersion'] ) ? (int) $Params['ObjectVersion'] : 0;
+$dialog        = isset( $Params['Dialog'] ) ? trim( $Params['Dialog'] ) : '';
 
 if ( $objectID === 0  || $objectVersion === 0 )
 {
@@ -46,6 +50,16 @@ if ( !$object )
    echo ezi18n( 'design/standard/ezoe', 'Invalid parameter: %parameter = %value', null, array( '%parameter' => 'ObjectId', '%value' => $objectID ) );
    eZExecution::cleanExit();
 }
+
+
+if ( $dialog === '' )
+{
+   echo ezi18n( 'design/standard/ezoe', 'Invalid or missing parameter: %parameter', null, array( '%parameter' => 'Dialog' ) );
+   eZExecution::cleanExit();
+}
+
+
+
 
 
 $ezoeInfo = ezoeInfo::info();
@@ -69,7 +83,7 @@ $tpl->setVariable( 'persistent_variable', array() );
 
 // run template and return result
 $Result = array();
-$Result['content'] = $tpl->fetch( 'design:ezoe/help.tpl' );
+$Result['content'] = $tpl->fetch( 'design:ezoe/' . $dialog . '.tpl' );
 $Result['pagelayout'] = 'design:ezoe/popup_pagelayout.tpl';
 $Result['persistent_variable'] = $tpl->variable( 'persistent_variable' );
 return $Result;
