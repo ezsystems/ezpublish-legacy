@@ -96,7 +96,7 @@ $sizeTypeArray   = array();
 if ( $contentType === 'auto' )
 {
     if ( $siteIni->hasVariable('MediaClassSettings', 'ImageClassID' ) )
-        $imageClassIDArray     = $siteIni->variable('MediaClassSettings', 'ImageClassID' );
+        $imageClassIDArray = $siteIni->variable('MediaClassSettings', 'ImageClassID' );
     else
         $imageClassIDArray = array();
     $imageClassIdentifiers = $siteIni->variable( 'MediaClassSettings', 'ImageClassIdentifiers' );
