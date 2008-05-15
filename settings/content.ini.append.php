@@ -17,10 +17,11 @@
 # 'CustomAttributesDefaults' setting defines custom attributes default values
 # that appear in the dialog window for a newly created element.
 #
-# 'CustomAttributeTypes' lets you specify what kind of html type to use, valid:
+# 'CustomAttributesType' lets you specify what html form input element (type) to use, valid:
 #   text (default)
 #   select (drop down box with selectable values )
 #   hidden (hide the control)
+#   checkbox
 #  The selections are defined in the customattribute settings like in the example bellow.
 #
 # 'CustomAttributesNames' lets you specify the human readable name of the attribute
@@ -49,21 +50,13 @@
 
 
 [paragraph]
-# Human-readable aliases for a class names that will be displayed
+# Human-readable aliases for class names that will be displayed
 # in the "Class" dropdowns of dialog windows.
 #ClassDescription[pRed]=Red bar
-
-[header]
-
-[strong]
-
-[emphasize]
 
 [link]
 AvailableViewModes[]=full
 AvailableViewModes[]=line
-
-[literal]
 
 [table]
 Defaults[rows]=2
@@ -71,16 +64,6 @@ Defaults[cols]=2
 Defaults[width]=100%
 Defaults[border]=0
 #Defaults[class]=myclass
-
-[tr]
-
-[th]
-
-[td]
-
-[ol]
-
-[ul]
 
 [embed]
 AvailableViewModes[]=embed
@@ -92,11 +75,11 @@ AvailableViewModes[]=line
 AvailableViewModes[]=embed-inline
 
 # If you want to limit the amount of AvailableClasses selections
-# on relations pr eZ Publish Content Class you can do the folloowing:
+# on relations per eZ Publish Content Class you can do the following:
 #
 ## This examples demonstrates limiting AvailableClasses list in editor
-## when editing embed tags with a realtion to a object of type image.
-## These classes also needs to be defined in [embed] for eZ Publish.
+## when editing embed tags with a relation to a object of type image.
+## These classes also need to be defined in [embed] for eZ Publish.
 #[embed_image]
 #AvailableClasses[]
 #AvailableClasses[]=blue_border
