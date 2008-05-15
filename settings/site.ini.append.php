@@ -7,6 +7,8 @@ ExtensionAutoloadPath[]=ezoe
 
 
 [MediaClassSettings]
+# Deprecated, use ImageClassIdentifiers instead
+#ImageClassID[]=5
 ImageClassIdentifiers[]=image
 
 
