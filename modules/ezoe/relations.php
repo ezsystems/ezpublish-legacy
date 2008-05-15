@@ -95,7 +95,10 @@ $sizeTypeArray   = array();
 
 if ( $contentType === 'auto' )
 {
-    $imageClassIDArray     = $siteIni->variable('MediaClassSettings', 'ImageClassID' );
+    if ( $siteIni->hasVariable('MediaClassSettings', 'ImageClassID' ) )
+        $imageClassIDArray     = $siteIni->variable('MediaClassSettings', 'ImageClassID' );
+    else
+        $imageClassIDArray = array();
     $imageClassIdentifiers = $siteIni->variable( 'MediaClassSettings', 'ImageClassIdentifiers' );
     $classID               = $embedObject->attribute( 'contentclass_id' );
 
