@@ -3539,7 +3539,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             return;
         }
 
-        return $node->removeThis;
+        return $node->removeThis();
     }
 
     /*!
