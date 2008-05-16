@@ -143,6 +143,7 @@ span.image_preview a
    height: 19px;
    overflow: hidden;
    display: block;
+   cursor: default;
 }
 
 span.image_preview a:hover
@@ -152,6 +153,7 @@ span.image_preview a:hover
    overflow: visible;
 }
 
+span.image_preview a img { border: 0px none; }
 
 /* help dialog */
 
