@@ -17,7 +17,7 @@
 {* Name. *}
 <div class="block">
 <label>{'Name'|i18n( 'design/admin/section/edit' )}:</label>
-<input class="box" id="sectionName" type="text" name="Name" value="{$section.name}" />
+<input class="box" id="sectionName" type="text" name="Name" value="{$section.name|wash}" />
 </div>
 
 {* Navigation part. *}

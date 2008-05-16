@@ -9,7 +9,7 @@
 
 <div class="block">
 <label>{"Name"|i18n("design/standard/section")}</label><div class="labelbreak"></div>
-<input class="box" type="text" name="Name" value="{$section.name}" />
+<input class="box" type="text" name="Name" value="{$section.name|wash}" />
 </div>
 
 <div class="block">
