@@ -114,6 +114,18 @@ h3 {font-size:14px;}
 #colorpicker #colornamecontainer {margin-top:5px;}
 #colorpicker #picker_panel fieldset {margin:auto;width:325px;}
 
+/* search and browse styles */
+
+div.progress-indicator
+{
+	position: absolute;
+	top: 0px;
+	right: 5px;
+	width: 32px;
+	height: 16px;
+	background: transparent url('img/progress.gif') no-repeat bottom left scroll;
+}
+
 
 /* help dialog */
 

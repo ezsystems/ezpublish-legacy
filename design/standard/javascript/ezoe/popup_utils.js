@@ -396,6 +396,7 @@ var eZOEPopupUtils = {
 	    // browse for a specific node id and a offset on the child elements
 	    // global objects: eZOeMCE   
 	    eZOEPopupUtils.ajax.load( eZOeMCE['extension_url'] + '/expand/' + nodeId + '/' + (offset || 0), '', eZOEPopupUtils.browseCallBack  );
+	    ez.$('browse_progress' ).show();
 	},
 
 	search: function( offset )
@@ -405,13 +406,17 @@ var eZOEPopupUtils = {
 	    var postData = ez.$$('#search_box input, #search_box select').callEach('postData').join('&'), o = offset || 0;    
 	    var url = eZOeMCE['extension_url'] + '/search/x/'+ o +'/10';
 	    if ( ez.string.trim( ez.$('SearchText').el.value ) )
+	    {
 	        eZOEPopupUtils.ajax.load( url, postData, eZOEPopupUtils.searchCallBack );
+	        ez.$('search_progress' ).show();
+	    }
 	},
 
 	browseCallBack: function( r, mode )
 	{
 	    // call back function for the browse() ajax call, generates the html markup with paging and path header (if defined)
 	    mode = mode || 'browse';
+	    ez.$( mode + '_progress' ).hide();
 	    ez.script( 'eZOEPopupUtils.ajaxLoadResponse=' + r.responseText );
 	    var ed = tinyMCEPopup.editor, tbody = ez.$$('#' + mode + '_box_prev tbody')[0], thead = ez.$$('#' + mode + '_box_prev thead')[0], tfoot = ez.$$('#' + mode + '_box_prev tfoot')[0], tr, td, tag;
 		eZOEPopupUtils.removeChildren( tbody.el );

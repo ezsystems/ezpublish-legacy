@@ -1,5 +1,8 @@
 eZ Online Editor MCE extension Changelog
 
+5.0Beta3
+* Fixed bug #012989: Add a loading icon while system is searching (Insert image popup)
+
 5.0Beta2
 * Added debug as text comment in ajax view's (embed_view, expand, load and search)
 * Fixed bug #012950: Popup windows sizes are too small

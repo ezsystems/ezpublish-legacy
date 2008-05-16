@@ -29,7 +29,7 @@ class ezoeInfo
     static function info()
     {
         return array( 'Name'      => 'eZ Online Editor MCE',
-                      'Version'   => '5.0.0beta',
+                      'Version'   => '5.0.0beta2',
                       'Copyright' => 'Copyright (C) 2008 eZ Systems AS',
                       'License'   => 'GNU General Public License v2.0',
                       'Includes the following third-party software' => array( 'Name' => 'TinyMce Javascript HTML WYSIWYG editor',
@@ -37,7 +37,7 @@ class ezoeInfo
                                                                               'Copyright' => 'Copyright (C) 2004-2008, Moxiecode Systems AB, All rights reserved.',
                                                                               'License' => 'GNU Lesser General Public License v2.1',),
                       'Includes the following library'              => array( 'Name' => 'eZ Core, tiny javascript library for ajax and stuff',
-                                                                              'Version' => '0.94',
+                                                                              'Version' => '0.95',
                                                                               'Copyright' => 'Copyright (C) 2008 eZ Systems AS',
                                                                               'License' => 'Licensed under the MIT License',),
                       'Includes the following third-party icons'    => array( 'Name' => 'Tango Icon theme',

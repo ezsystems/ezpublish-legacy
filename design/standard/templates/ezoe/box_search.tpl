@@ -13,6 +13,7 @@ eZOeMCE['empty_result_string'] = "{"No results were found when searching for &qu
 	    {if $embed_mode}
 	        <a id="embed_search_go_back_link" title="Go back" href="JavaScript:void(0);" style="position: absolute; top: 0px; right: -5px;"><img width="16" height="16" border="0" src={"tango/emblem-unreadable.png"|ezimage} /></a>
 	    {/if}
+	    <div id="search_progress" class="progress-indicator" style="display: none;"></div>
 	    <table class="properties">
 	    <tr>
 	        <td>
