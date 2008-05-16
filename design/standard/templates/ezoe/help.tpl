@@ -133,7 +133,7 @@ tinyMCEPopup.onInit.add( function(){
                         <dd>{'Search for a node / object.'|i18n("design/standard/ezoe/help")}</dd>
                     </dl>
                     
-                    <h3>{'Tips &amp; Trics'|i18n("design/standard/ezoe/help")}</h3>
+                    <h3>{'Tips &amp; Tricks'|i18n("design/standard/ezoe/help")}</h3>
                     <ul>
                         <li>{'You can adjust the height of the editor by draging the bottom right corner of the editor.'|i18n("design/standard/ezoe/help")}</li>
                         <li>{'You can create a new line by holding the Shift key down and pressing Enter key.'|i18n("design/standard/ezoe/help")}</li>
@@ -141,7 +141,7 @@ tinyMCEPopup.onInit.add( function(){
                         <li>{'The status bar will show the current tag name and all its parent tags. You can view more information about the tags by hovering over them.'|i18n("design/standard/ezoe/help")}</li>
                         <li>{'You can make an image-link by selecting the image first and clicking the link button in the toolbar.'|i18n("design/standard/ezoe/help")}</li>
                         <li>{'You can edit wordmatch.ini to make text copied from MS Word directly assigned to a desired class.'|i18n("design/standard/ezoe/help")}</li>
-                        <li>{'You can find more documentation in the doc folder of this extension and online on ez.no/doc.'|i18n("design/standard/ezoe/help")}</li>
+                        <li>{'You can find more documentation in the doc folder of this extension and online on %link.'|i18n("design/standard/ezoe/help", '', hash( '%link', '<a href="http://ez.no/doc/extensions/online_editor/5_x" target="_blank">ez.no/doc</a>' ))}</li>
                     </ul>
                 </div>
             </div>
