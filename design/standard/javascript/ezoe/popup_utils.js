@@ -412,75 +412,76 @@ var eZOEPopupUtils = {
 	    }
 	},
 
-	browseCallBack: function( r, mode )
-	{
-	    // call back function for the browse() ajax call, generates the html markup with paging and path header (if defined)
-	    mode = mode || 'browse';
-	    ez.$( mode + '_progress' ).hide();
-	    ez.script( 'eZOEPopupUtils.ajaxLoadResponse=' + r.responseText );
-	    var ed = tinyMCEPopup.editor, tbody = ez.$$('#' + mode + '_box_prev tbody')[0], thead = ez.$$('#' + mode + '_box_prev thead')[0], tfoot = ez.$$('#' + mode + '_box_prev tfoot')[0], tr, td, tag;
-		eZOEPopupUtils.removeChildren( tbody.el );
-		eZOEPopupUtils.removeChildren( thead.el );
-		eZOEPopupUtils.removeChildren( tfoot.el );
-	    if ( eZOEPopupUtils.ajaxLoadResponse )
-	    {
-	        var data = eZOEPopupUtils.ajaxLoadResponse, fn = mode === 'browse' ? 'browse('+ data['node']['node_id'] + ',' : mode + '(';;
-	        if ( data['node'] && data['node']['name'] )
-	        {
+    browseCallBack: function( r, mode )
+    {
+        // call back function for the browse() ajax call, generates the html markup with paging and path header (if defined)
+        mode = mode || 'browse';
+        ez.$( mode + '_progress' ).hide();
+        ez.script( 'eZOEPopupUtils.ajaxLoadResponse=' + r.responseText );
+        var ed = tinyMCEPopup.editor, tbody = ez.$$('#' + mode + '_box_prev tbody')[0], thead = ez.$$('#' + mode + '_box_prev thead')[0], tfoot = ez.$$('#' + mode + '_box_prev tfoot')[0], tr, td, tag;
+        eZOEPopupUtils.removeChildren( tbody.el );
+        eZOEPopupUtils.removeChildren( thead.el );
+        eZOEPopupUtils.removeChildren( tfoot.el );
+        if ( eZOEPopupUtils.ajaxLoadResponse )
+        {
+            var data = eZOEPopupUtils.ajaxLoadResponse, fn = mode === 'browse' ? 'browse('+ data['node']['node_id'] + ',' : mode + '(';
+            if ( data['node'] && data['node']['name'] )
+            {
                 tr = document.createElement("tr"), td = document.createElement("td");
-                tr.appendChild( document.createElement("td") );
-                td.setAttribute('colspan', '2');
-		        if ( data['node']['path'] !== false && data['node']['node_id'] != 1 )
-		        {
-		            // Prepend root node so you can browse to the root of the installation
-		            data['node']['path'].splice(0,0,{'node_id':1, 'name': eZOeMCE['root_node_name'], 'class_name': 'Folder'});
-		            ez.$c( data['node']['path'] ).forEach( function( n )
-		            {
-		                tag = document.createElement("a");
-		                tag.setAttribute('href', 'JavaScript:eZOEPopupUtils.' + mode + '(' + n.node_id + ');');
-		                tag.setAttribute('title', ed.getLang('advanced.type') + ': ' + n.class_name );
-		                tag.innerHTML = n.name;
-		                td.appendChild( tag );
-		                tag = document.createElement("span");
+                td.className = 'thight';
+                tr.appendChild( td );
+                td = document.createElement("td")
+                td.setAttribute('colspan', '3');
+                if ( data['node']['path'] !== false && data['node']['node_id'] != 1 )
+                {
+                    // Prepend root node so you can browse to the root of the installation
+                    data['node']['path'].splice(0,0,{'node_id':1, 'name': eZOeMCE['root_node_name'], 'class_name': 'Folder'});
+                    ez.$c( data['node']['path'] ).forEach( function( n )
+                    {
+                        tag = document.createElement("a");
+                        tag.setAttribute('href', 'JavaScript:eZOEPopupUtils.' + mode + '(' + n.node_id + ');');
+                        tag.setAttribute('title', ed.getLang('advanced.type') + ': ' + n.class_name );
+                        tag.innerHTML = n.name;
+                        td.appendChild( tag );
+                        tag = document.createElement("span");
                         tag.innerHTML = ' / ';
                         td.appendChild( tag );
-		                
-		            });
-		        }
+                    });
+                }
 
                 tag = document.createElement("span");
                 tag.innerHTML = data['node']['name'];
                 td.appendChild( tag );
 
-		        tr.appendChild( td );
-		        thead.el.appendChild( tr );
-	        }
+                tr.appendChild( td );
+                thead.el.appendChild( tr );
+            }
 
-	        if ( data['list'] )
-	        {
-	           // TODO: image preview if image popup
-	           ez.$c( data['list'] ).forEach( function( n )
-	           {
-	               tr = document.createElement("tr"), td = document.createElement("td"), tag = document.createElement("input");
-	               tag.setAttribute('type', 'radio');
-	               tag.setAttribute('name', 'selectembedobject');
-	               tag.setAttribute('value', n.contentobject_id);
-	               tag.setAttribute('title', ed.getLang('advanced.select') );
-	               tag.onclick = ez.fn.bind( eZOEPopupUtils.selectByEmbedId, eZOEPopupUtils, n.contentobject_id, n.node_id, n.name );
-	               td.appendChild( tag );
-	               tr.appendChild( td );
+            if ( data['list'] )
+            {
+               ez.$c( data['list'] ).forEach( function( n )
+               {
+                   tr = document.createElement("tr"), td = document.createElement("td"), tag = document.createElement("input");
+                   tag.setAttribute('type', 'radio');
+                   tag.setAttribute('name', 'selectembedobject');
+                   tag.setAttribute('value', n.contentobject_id);
+                   tag.setAttribute('title', ed.getLang('advanced.select') );
+                   tag.onclick = ez.fn.bind( eZOEPopupUtils.selectByEmbedId, eZOEPopupUtils, n.contentobject_id, n.node_id, n.name );
+                   td.appendChild( tag );
+                   td.className = 'thight';
+                   tr.appendChild( td );
 
-	               td = document.createElement("td");
-	               if ( n.children_count )
-	               {
-	                   tag = document.createElement("a");
-	                   tag.setAttribute('href', 'JavaScript:eZOEPopupUtils.' + mode + '(' + n.node_id + ');');
-	               }
-	               else
-	               {
-	                   tag = document.createElement("span");
-	               }
-	               tag.innerHTML = n.name;
+                   td = document.createElement("td");
+                   if ( n.children_count )
+                   {
+                       tag = document.createElement("a");
+                       tag.setAttribute('href', 'JavaScript:eZOEPopupUtils.' + mode + '(' + n.node_id + ');');
+                   }
+                   else
+                   {
+                       tag = document.createElement("span");
+                   }
+                   tag.innerHTML = n.name;
                    td.appendChild( tag );
                    tr.appendChild( td );
 
@@ -489,44 +490,55 @@ var eZOEPopupUtils = {
                    tag.innerHTML = n.class_name;
                    td.appendChild( tag );
                    tr.appendChild( td );
+                   
+                   td = document.createElement("td");
+                   if ( n.image_attributes && n.data_map[ n.image_attributes[0] ] && n.data_map[ n.image_attributes[0] ].content['small'] )
+                   {
+                       tag = document.createElement("span");
+                       tag.className = 'image_preview';
+                       tag.innerHTML += ' <a><img src="' + eZOeMCE['root'] + n.data_map[ n.image_attributes[0] ].content['small'].url + '" /></a>';
+                       td.appendChild( tag );
+                   }
+                   tr.appendChild( td );
 
-	               tbody.el.appendChild( tr );
-	            } );
-	        }
+                   tbody.el.appendChild( tr );
+                } );
+            }
 
             tr = document.createElement("tr"), td = document.createElement("td");
             tr.appendChild( document.createElement("td") );
-	        if ( data['offset'] !== 0 )
-	        {
-	            tag = document.createElement("a");
-	            tag.setAttribute('href', 'JavaScript:eZOEPopupUtils.' + fn + (data['offset'] - data['limit']) + ');');
-	            tag.innerHTML = '&lt;&lt; ' + ed.getLang('advanced.previous');
-	            td.appendChild( tag );
-	        }
-	        tr.appendChild( td );
-	        td = document.createElement("td")
-	        if ( (data['offset'] + data['limit']) < data['total_count'] )
-	        {
-	            tag = document.createElement("a");
+            if ( data['offset'] !== 0 )
+            {
+                tag = document.createElement("a");
+                tag.setAttribute('href', 'JavaScript:eZOEPopupUtils.' + fn + (data['offset'] - data['limit']) + ');');
+                tag.innerHTML = '&lt;&lt; ' + ed.getLang('advanced.previous');
+                td.appendChild( tag );
+            }
+            tr.appendChild( td );
+            td = document.createElement("td");
+            td.setAttribute('colspan', '2');
+            if ( (data['offset'] + data['limit']) < data['total_count'] )
+            {
+                tag = document.createElement("a");
                 tag.setAttribute('href', 'JavaScript:eZOEPopupUtils.' + fn + (data['offset'] + data['limit']) + ');');
                 tag.innerHTML = ed.getLang('advanced.next') + ' &gt;&gt;';
                 td.appendChild( tag );
             }
             tr.appendChild( td );
-	        tfoot.el.appendChild( tr );
-	    }
+            tfoot.el.appendChild( tr );
+        }
         else if ( mode === 'search' )
         {
-	        tr = document.createElement("tr"), td = document.createElement("td"), tag = document.createElement("span");
-	        tr.appendChild( document.createElement("td") );
-	        td.setAttribute('colspan', '2');
-	        tag.innerHTML = eZOeMCE['empty_result_string'].replace('<search_string>', ez.$('SearchText').el.value );
-	        td.appendChild( tag );
-	        tr.appendChild( td );
-	        tbody.el.appendChild( tr );
+            tr = document.createElement("tr"), td = document.createElement("td"), tag = document.createElement("span");
+            tr.appendChild( document.createElement("td") );
+            td.setAttribute('colspan', '3');
+            tag.innerHTML = eZOeMCE['empty_result_string'].replace('<search_string>', ez.$('SearchText').el.value );
+            td.appendChild( tag );
+            tr.appendChild( td );
+            tbody.el.appendChild( tr );
         }
-	    return false;
-	},
+        return false;
+    },
 
 	searchCallBack : function( r )
 	{

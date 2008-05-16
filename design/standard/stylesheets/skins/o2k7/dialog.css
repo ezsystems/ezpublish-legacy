@@ -127,6 +127,32 @@ div.progress-indicator
     background: transparent url('../default/img/progress.gif') no-repeat bottom left scroll;
 }
 
+table#browse_box_prev, table#search_box_prev
+{
+	width: 99%;
+}
+
+table#browse_box_prev td.thight, table#search_box_prev td.thight
+{
+    width: 22px;
+}
+
+span.image_preview { text-align: right; }
+
+span.image_preview a
+{
+   height: 19px;
+   overflow: hidden;
+   display: block;
+}
+
+span.image_preview a:hover
+{
+   position: relative;
+   z-index: 200;
+   overflow: visible;
+}
+
 /* help dialog */
 
 dl
