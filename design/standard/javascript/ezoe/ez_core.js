@@ -19,12 +19,6 @@ if ( window.ez === undefined || ez.version < 0.95 )
 var ez = {
     version: 0.95,
     handlers: [],
-    console: null,
-    debug: function( type, caller, text )
-    {
-        if ( ez.console )
-        ez.console.el.innerHTML += '<div class="debug debug_'+ type +'"><h6>'+ caller +'<\/h6><span>'+ text +'<\/span><\/div>';
-    },
     string: {
         cssStyle: function( s )
         {
@@ -35,10 +29,12 @@ var ez = {
         },
         htmlEntities: function ( s )
         {
+           // remove start and end tags + transform & to &amp;
            return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
         },
         is: function( s )
         {
+            // is it a string ?
             return typeof s === 'string';
         },
         jsCase: function( s )
@@ -65,20 +61,22 @@ var ez = {
         },
         cssCompact: function( s )
         {
+            // Compact and clean a css string so it is 'proper'
             return s.replace(/^\s+|\s+$/g, '').replace(/>/g, ' > ').replace(/\~(?!=)/g, ' ~ ').replace(/\+(?!=|\d)/g, ' + ').replace(/\s+/g, ' ');
         }
     },
     fn: {
         bind: function()
         {
-            // Binds arguments to a function, so when you call the returned wrapper function
+            // Binds arguments to a function, so when you call the returned wrapper function,
+            // arguments are intact and arguments passed to the wrapper function is appended.
             // first argument is function, second is 'this' and the rest is arguments
             var args = ez.$c(arguments), __fn = args.shift(), __object = args.shift();
             return function(){ return __fn.apply(__object, args.concat( ez.$c(arguments) ))};
         },
         bindEvent: function()
         {
-            // Same as above, but includes the arguments to the wrapper function first(ie events)
+            // Same as above, but includes the arguments to the wrapper function first(ie events) (prepended)
             var args = ez.$c(arguments), __fn = args.shift(), __object = args.shift();
             return function(){ return __fn.apply(__object, ez.$c(arguments).concat( args ))};
         },
@@ -122,6 +120,7 @@ var ez = {
         {
             // Makes a array out of anything or nothing, split strings by s if present
             // and extends the array with native javascript 1.6 methods
+            // Note: Not safe to use direcly on some node objects
             var r = [], el;
             if ( ez.val(obj) || obj === false )
             {
@@ -248,9 +247,10 @@ var ez = {
         },
         getByCSS: function()
         {
-            // CSS2 query function, returns a extended array of extended elements
+            // CSS2.1 query function, returns a extended array of extended elements
             // Example: arr = ez.$$('div.my_class, input[type=text], img[alt~=went]');
-            // does not support pseudo-class selectors like :hover and :first-child
+            // Currently only supports on attribute/class/pseudo filter pr tag
+            // only children related pseudo filters are supporte (first|last|nth-child)
             var args = ez.$c(arguments, ','), doc = (typeof args[args.length -1] === 'object' ? args.pop() : document), r = [], mode = '';
             if ( args.length === 1 && args[0].eztype && args[0].eztype === 'array' )
             {
@@ -284,11 +284,11 @@ var ez = {
 	                        {
 	                            var nodes = false;
 	                            if ( pseudo !== '' || mode !== '' )
-	                               nodes = ez.element.getChildren( child, tag, mode, pseudo )
+	                               nodes = ez.element.getChildren( child, tag, mode, pseudo );
+	                            else if ( tag === '*' && id && child.getElementById )
+                                    nodes = [ child.getElementById( id ) ];
 	                            else if ( tag === '*' && cn && child.getElementsByClassName )
 	                               nodes = child.getElementsByClassName( cn );
-                                else if ( id && child.getElementById )
-                                    nodes = [ child.getElementById( id ) ];
 	                            else if ( child.getElementsByTagName )
 				                    nodes = ez.array.filter( child.getElementsByTagName( tag ), function(n){ return n.nodeType === 1; });
 
