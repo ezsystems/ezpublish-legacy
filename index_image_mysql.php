@@ -34,9 +34,9 @@ $filename = ltrim( $_SERVER['SCRIPT_URL'], "/");
 
 // Fetch file metadata.
 $filePathHash = mysql_real_escape_string( $filename );
-$sql = "SELECT * FROM " . TABLE_METADATA . "  WHERE name_hash=MD5('$filePathHash')" ;
+$sql = "SELECT * FROM " . TABLE_METADATA . " WHERE name_hash=MD5('$filePathHash')" ;
 if ( !$res = mysql_query( $sql, $db ) )
-    _die( "Failed to retrieve file metadata: $filePath.\n" );
+    _die( "Failed to retrieve file metadata\n" );
 
 if ( !( $metaData = mysql_fetch_array( $res, MYSQL_ASSOC ) ) ||
      $metaData['mtime'] < 0 )
@@ -48,7 +48,7 @@ if ( !( $metaData = mysql_fetch_array( $res, MYSQL_ASSOC ) ) ||
 <TITLE>404 Not Found</TITLE>
 </HEAD><BODY>
 <H1>Not Found</H1>
-The requested URL <?=htmlspecialchars( $filename )?> was not found on this server.<P>
+The requested URL <?php echo htmlspecialchars( $filename ); ?> was not found on this server.<P>
 </BODY></HTML>
 <?php
     mysql_free_result( $res );
