@@ -34,9 +34,9 @@ $filename = ltrim( $_SERVER['SCRIPT_URL'], "/");
 
 // Fetch file metadata.
 $filePathHash = mysql_real_escape_string( $filename );
-$sql = "SELECT * FROM " . TABLE_METADATA . "  WHERE name_hash=MD5('$filePathHash')" ;
+$sql = "SELECT * FROM " . TABLE_METADATA . " WHERE name_hash=MD5('$filePathHash')" ;
 if ( !$res = mysql_query( $sql, $db ) )
-    _die( "Failed to retrieve file metadata: $filePath.\n" );
+    _die( "Failed to retrieve file metadata\n" );
 
 if ( !( $metaData = mysql_fetch_array( $res, MYSQL_ASSOC ) ) ||
      $metaData['mtime'] < 0 )
