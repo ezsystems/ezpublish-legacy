@@ -82,7 +82,7 @@ if ( $res = mysql_query( $sql, $db ) )
     $size     = $metaData['size'];
     $mimeType = $metaData['datatype'];
     $mtime    = $metaData['mtime'];
-    $mdate    = gmdate( 'D, d M Y H:i:s T', $mtime ) . ' GMT';
+    $mdate    = gmdate( 'D, d M Y H:i:s', $mtime ) . ' GMT';
 
     header( "Content-Length: $size" );
     header( "Content-Type: $mimeType" );
