@@ -5584,6 +5584,38 @@ class eZContentObject extends eZPersistentObject
                          WHERE contentobject_id='$objectID'" );
         }
 
+        $urlElementfilter = new eZURLAliasQuery();
+        $urlElementfilter->type = 'name';
+        // We want all languages present here, so we are turning off
+        // language filtering
+        $urlElementfilter->languages = false;
+        $urlElementfilter->limit = false;
+
+        $nodes = $this->assignedNodes();
+
+        foreach ( $nodes as $node )
+        {
+            $parent = null;
+            $textMD5 = null;
+
+            $urlElementfilter->actions = array( 'eznode:' . $node->attribute( 'node_id' ) );
+            $urlElementfilter->prepare();
+            $urlElements = $urlElementfilter->fetchAll();
+
+            foreach ($urlElements as $url )
+            {
+                if ( $url->attribute( 'lang_mask' ) === (int)$languageID or
+                     $url->attribute( 'lang_mask') === (int)$altLanguageID )
+                {
+                    $parent = $url->attribute( 'parent');
+                    $textMD5 = $url->attribute( 'text_md5' );
+                    break;
+                }
+            }
+
+            if ( $parent !== null and $textMD5 !== null )
+                eZURLAliasML::removeSingleEntry( $parent, $textMD5, $language );
+        }
         $db->commit();
 
         return true;

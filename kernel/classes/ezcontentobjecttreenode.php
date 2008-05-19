@@ -3339,18 +3339,24 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
      The adjusted path element is returned.
 
+     \param $element The desired url element name
+     \param $useParentFromNodeObject Use the parent from node object as a base
+                                     for checking name collisions. This is needed
+                                     when moving nodes, and the url entries are
+                                     not updated yet.
+
      \code
      echo $node->adjustPathElement( 'Content' ); // outputs Content1
      \endcode
      */
-    function adjustPathElement( $element )
+    function adjustPathElement( $element, $useParentFromNodeObject = false )
     {
         $nodeID       = (int)$this->attribute( 'node_id' );
         $parentNodeID = (int)$this->attribute( 'parent_node_id' );
         $action       = "eznode:" . $nodeID;
 
         $elements = eZURLAliasML::fetchByAction( 'eznode', $nodeID );
-        if ( count( $elements ) > 0 )
+        if ( count( $elements ) > 0 and !$useParentFromNodeObject )
         {
             $parentElementID = (int)$elements[0]->attribute( 'parent' );
             return eZURLAliasML::findUniqueText( $parentElementID, $element, $action );
@@ -3383,7 +3389,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function updateSubTreePath( $updateParent = true )
+    function updateSubTreePath( $updateParent = true, $nodeMove = false )
     {
         //include_once( 'kernel/classes/ezurlaliasml.php' );
 
@@ -3412,7 +3418,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 //include_once( 'kernel/classes/ezurlaliasfilter.php' );
                 $nodeName = eZURLAliasFilter::processFilters( $nodeName, $language, $this );
                 $nodeName = eZURLAliasML::convertToAlias( $nodeName, 'node_' . $nodeID );
-                $nodeName = $this->adjustPathElement( $nodeName );
+                $nodeName = $this->adjustPathElement( $nodeName, $nodeMove );
 
                 // Compatability mode:
                 // Store name for the 'path_identification_string' column.
