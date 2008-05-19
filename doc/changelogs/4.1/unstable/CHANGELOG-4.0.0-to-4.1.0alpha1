@@ -258,3 +258,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13028: Typo in eZContentObject::removeNode()
 - Fixed bug #13042: Section name not escaped in section/edit.tpl
 - Fixed bug #12926: "Strict: PHP" error using feedback form
+- Fixed bug #13055: eZURLAliasML::setLangMaskAlwaysAvailable() has incorrect bit-logic
