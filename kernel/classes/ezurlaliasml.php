@@ -1741,7 +1741,7 @@ class eZURLAliasML extends eZPersistentObject
             $db->query( $query );
 
             // Clear the 0 bit for all other languages
-            $bitOp = $db->bitOr( 'lang_mask', -2 );
+            $bitOp = $db->bitAnd( 'lang_mask', ~1 );
             $langWhere = ' AND ' . $db->bitAnd( 'lang_mask' , (int)$langID ) . ' = 0';
 
             $query = "UPDATE ezurlalias_ml SET lang_mask = $bitOp WHERE $actionSql $langWhere";
@@ -1749,7 +1749,7 @@ class eZURLAliasML extends eZPersistentObject
         }
         else
         {
-            $bitOp = $db->bitAnd( 'lang_mask', -2 );
+            $bitOp = $db->bitAnd( 'lang_mask', ~1 );
             $query = "UPDATE ezurlalias_ml SET lang_mask = $bitOp WHERE $actionSql";
             $db->query( $query );
         }
