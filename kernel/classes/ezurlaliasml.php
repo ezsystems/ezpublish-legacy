@@ -592,18 +592,26 @@ class eZURLAliasML extends eZPersistentObject
             }
             $createdPath[] = $newText;
 
+            // OMS-urlalias-fix: We want to retain the lang_mask of url entries, but mark others as history elements is_original = 0
             // Remove the language ID from other elements which have the same action
-            $bitDel = $db->bitAnd( 'lang_mask', ~$languageID );
-            $query = "UPDATE ezurlalias_ml SET lang_mask = {$bitDel}\n" .
-                     "WHERE action = '{$actionStr}' AND (parent != $parentID OR text_md5 != {$textMD5})";
+            // $bitDel = $db->bitAnd( 'lang_mask', ~$languageID );
+            // $query = "UPDATE ezurlalias_ml SET lang_mask = {$bitDel}\n" .
+            //          "WHERE action = '{$actionStr}' AND (parent != $parentID OR text_md5 != {$textMD5})";
+            $bitAnd = $db->bitAnd( 'lang_mask', $languageID );
+            $query = "UPDATE ezurlalias_ml SET is_original = 0\n" .
+                     "WHERE action = '{$actionStr}' AND (${bitAnd} > 0) AND is_original = 1 AND (parent != $parentID OR text_md5 != {$textMD5})";
             $res = $db->query( $query );
             if ( !$res ) return eZURLAliasML::dbError( $db );
 
             // Look for other nodes with the same action and no languages
             // if found make then link to the new entry
-            $bitAnd = $db->bitAnd( 'lang_mask', ~1 );
+            // OMS-urlalias-fix: instead entries without language we look at history elements with same action (and language)
+            // $bitAnd = $db->bitAnd( 'lang_mask', ~1 );
+            // $query = "SELECT * FROM ezurlalias_ml\n" .
+            //          "WHERE action = '{$actionStr}' AND {$bitAnd} = 0 AND (parent != $parentID OR text_md5 != {$textMD5})";
+            $bitAnd = $db->bitAnd( 'lang_mask', $languageID );
             $query = "SELECT * FROM ezurlalias_ml\n" .
-                     "WHERE action = '{$actionStr}' AND {$bitAnd} = 0 AND (parent != $parentID OR text_md5 != {$textMD5})";
+                     "WHERE action = '{$actionStr}' AND (${bitAnd} > 0) AND is_original = 0 AND (parent != $parentID OR text_md5 != {$textMD5})";
             $rows = $db->arrayQuery( $query );
             foreach ( $rows as $row )
             {
@@ -620,7 +628,10 @@ class eZURLAliasML extends eZPersistentObject
                 }
                 $parentIDTmp = (int)$row['parent'];
                 $textMD5Tmp = eZURLALiasML::md5( $db, $row['text'] );
-                $res = $db->query( "UPDATE ezurlalias_ml SET id = {$idtmp}, link = {$newElementID}, lang_mask = 1, is_alias = 0, is_original = 0\n" .
+                // OMS-urlalias-fix: We do not touch the lang_mask here
+                // $res = $db->query( "UPDATE ezurlalias_ml SET id = {$idtmp}, link = {$newElementID}, lang_mask = 1, is_alias = 0, is_original = 0\n" .
+                //                    "WHERE parent = {$parentIDTmp} AND text_md5 = {$textMD5Tmp}" );
+                $res = $db->query( "UPDATE ezurlalias_ml SET id = {$idtmp}, link = {$newElementID}, is_alias = 0, is_original = 0\n" .
                                    "WHERE parent = {$parentIDTmp} AND text_md5 = {$textMD5Tmp}" );
                 if ( !$res ) return eZURLAliasML::dbError( $db );
             }
@@ -629,8 +640,12 @@ class eZURLAliasML extends eZPersistentObject
 
             // Look for other nodes which is a link for the current action
             // if found make then link to the new entry
+            // OMS-urlalias-fix: We only want to update the links of entries within the same language.
+            // $query = "UPDATE ezurlalias_ml SET link = {$newElementID}, is_alias = 0, is_original = 0\n" .
+            //          "WHERE action = '{$actionStr}' AND is_original = 0 AND (parent != $parentID OR text_md5 != {$textMD5})";
+            $bitAnd = $db->bitAnd( 'lang_mask', $languageID );
             $query = "UPDATE ezurlalias_ml SET link = {$newElementID}, is_alias = 0, is_original = 0\n" .
-                     "WHERE action = '{$actionStr}' AND is_original = 0 AND (parent != $parentID OR text_md5 != {$textMD5})";
+                     "WHERE action = '{$actionStr}' AND is_original = 0 AND (${bitAnd} > 0) AND (parent != $parentID OR text_md5 != {$textMD5})";
             $res = $db->query( $query );
             if ( !$res ) return eZURLAliasML::dbError( $db );
 
@@ -653,8 +668,12 @@ class eZURLAliasML extends eZPersistentObject
 
             // TODO: Handle all conflict cases, for now only the `Delete old, reparent` action is done
 
+            // OMS-urlalias-fix: We are only updating child nodes within the same language
+            // $query = "SELECT id FROM ezurlalias_ml\n" .
+            //          "WHERE action = '{$actionStr}' AND (parent != $parentID OR text_md5 != {$textMD5})";
+            $bitAnd = $db->bitAnd( 'lang_mask', $languageID );
             $query = "SELECT id FROM ezurlalias_ml\n" .
-                     "WHERE action = '{$actionStr}' AND (parent != $parentID OR text_md5 != {$textMD5})";
+                     "WHERE action = '{$actionStr}' AND (${bitAnd} > 0) AND (parent != $parentID OR text_md5 != {$textMD5})";
             $rows = $db->arrayQuery( $query );
             foreach ( $rows as $row )
             {

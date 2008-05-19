@@ -110,7 +110,7 @@ class eZContentObjectTreeNodeOperations
 
         if ( $newNode )
         {
-            $newNode->updateSubTreePath();
+            $newNode->updateSubTreePath( true, true );
             if ( $newNode->attribute( 'main_node_id' ) == $newNode->attribute( 'node_id' ) )
             {
                 // If the main node is moved we need to check if the section ID must change
