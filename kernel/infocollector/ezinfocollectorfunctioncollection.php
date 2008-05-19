@@ -46,7 +46,7 @@ class eZInfocollectorFunctionCollection
     {
     }
 
-    function fetchCollectedInfoCount( $objectAttributeID, $objectID, $value, $creatorID = false, $userIdentifier = false )
+    static function fetchCollectedInfoCount( $objectAttributeID, $objectID, $value, $creatorID = false, $userIdentifier = false )
     {
         //include_once( 'kernel/classes/ezinformationcollection.php' );
         if ( $objectAttributeID )
@@ -56,14 +56,14 @@ class eZInfocollectorFunctionCollection
         return array( 'result' => $count );
     }
 
-    function fetchCollectedInfoCountList( $objectAttributeID )
+    static function fetchCollectedInfoCountList( $objectAttributeID )
     {
         //include_once( 'kernel/classes/ezinformationcollection.php' );
         $count = eZInformationCollection::fetchCountList( $objectAttributeID );
         return array( 'result' => $count );
     }
 
-    function fetchCollectedInfoCollection( $collectionID, $contentObjectID )
+    static function fetchCollectedInfoCollection( $collectionID, $contentObjectID )
     {
         //include_once( 'kernel/classes/ezinformationcollection.php' );
         $collection = false;
@@ -77,7 +77,7 @@ class eZInfocollectorFunctionCollection
         return array( 'result' => $collection );
     }
 
-    function fetchCollectionsList( $objectID = false, $creatorID = false, $userIdentifier = false, $limit = false, $offset = false, $sortBy = false )
+    static function fetchCollectionsList( $objectID = false, $creatorID = false, $userIdentifier = false, $limit = false, $offset = false, $sortBy = false )
     {
         //include_once( 'kernel/classes/ezinformationcollection.php' );
 
