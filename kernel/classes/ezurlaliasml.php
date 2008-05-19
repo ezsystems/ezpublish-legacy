@@ -301,7 +301,7 @@ class eZURLAliasML extends eZPersistentObject
      \param $textMD5  MD5 of the lowercase version of the text, see eZURLAliasML::strtolower().
      \param $language The language entry to remove, can be a string with the locale or a language object (eZContentLanguage).
      */
-    function removeSingleEntry( $parentID, $textMD5, $language )
+    public static function removeSingleEntry( $parentID, $textMD5, $language )
     {
         $parentID = (int)$parentID;
         if ( !is_object( $language ) )
