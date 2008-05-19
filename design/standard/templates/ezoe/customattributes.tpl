@@ -20,12 +20,13 @@
     {def $custom_attributes           = array()
          $custom_attributes_defaults  = array()
          $custom_attributes_names     = array()
-         $custom_attributes_type      = array()
+         $custom_attributes_types     = array()
          $custom_attribute_default    = 0
          $custom_attribute_settings   = ''
          $custom_attribute_id         = ''
          $custom_attribute_type       = ''
          $custom_attribute_disabled   = false()
+         $custom_attribute_classes    = array()
          $shown_attributes            = array()}
     {if ezini_hasvariable( $:tag_name, 'CustomAttributes', 'content.ini' )}
         {set $custom_attributes = ezini( $:tag_name, 'CustomAttributes', 'content.ini' )}
@@ -37,7 +38,7 @@
         {set $custom_attributes_names = ezini( $:tag_name, 'CustomAttributesNames', 'content.ini' )}
     {/if}
     {if ezini_hasvariable( $:tag_name, 'CustomAttributesType', 'content.ini' )}
-        {set $custom_attributes_type = ezini( $:tag_name, 'CustomAttributesType', 'content.ini' )}
+        {set $custom_attributes_types = ezini( $:tag_name, 'CustomAttributesType', 'content.ini' )}
     {/if}
 
     <table class="properties custom_attributes" id="{$:tag_name}_customattributes"{if $:hide} style="display: none;"{/if}>
@@ -55,12 +56,9 @@
 	    {else}
             {set $custom_attribute_disabled = false()}
 	    {/if}
-	    {if is_set( $custom_attributes_type[ $custom_attribute ] )}
-	       {set $custom_attribute_type = $custom_attributes_type[ $custom_attribute ]}
-	    {else}
-	       {set $custom_attribute_type = 'text'}
-	    {/if}
-        {set $custom_attribute_default   = first_set( $custom_attributes_defaults[$custom_attribute], '' )}
+
+	    {set $custom_attribute_type    = first_set( $custom_attributes_types[$custom_attribute], 'text' )}
+        {set $custom_attribute_default = first_set( $custom_attributes_defaults[$custom_attribute], '' )}
         <tr id="{$custom_attribute_id}">
             <td class="column1"><label for="{$custom_attribute_id}_source">
             {if is_set( $custom_attributes_names[$custom_attribute] )}
@@ -72,7 +70,7 @@
             {/if}
             </label></td>
             <td>
-            
+
             {if $custom_attribute_type|eq('select')}
                 <select name="{$custom_attribute}" id="{$custom_attribute_id}_source"{if $custom_attribute_disabled} disabled="disabled"{/if}>
                 {foreach ezini( $custom_attribute_settings, 'Selection', 'content.ini' ) as $custom_value => $custom_name}
@@ -84,7 +82,21 @@
 			{elseif $custom_attribute_type|eq('checkbox')}
                 <input type="checkbox" name="{$custom_attribute}" id="{$custom_attribute_id}_source" value="{$custom_attribute_default|wash}"{if $custom_attribute_disabled} disabled="disabled"{/if} />
             {else}
-                <input type="text" name="{$custom_attribute}" id="{$custom_attribute_id}_source" value="{$custom_attribute_default|wash}"{if $custom_attribute_disabled} disabled="disabled"{/if} />
+                {if $custom_attribute_type|eq('email')}
+                    {set $custom_attribute_classes = $custom_attribute_classes|append('email')}
+                {elseif or( $custom_attribute_type|eq('int'), $custom_attribute_type|eq('number') )}
+                    {set $custom_attribute_classes = $custom_attribute_classes|append( $custom_attribute_type )}
+                    {if ezini_hasvariable( $custom_attribute_settings, 'Minimum', 'content.ini' )}
+                        {set $custom_attribute_classes = $custom_attribute_classes|append( concat('min', ezini($custom_attribute_settings, 'Minimum', 'content.ini') ) )}
+                    {/if}
+                    {if ezini_hasvariable( $custom_attribute_settings, 'Maximum', 'content.ini' )}
+                        {set $custom_attribute_classes = $custom_attribute_classes|append( concat('max', ezini($custom_attribute_settings, 'Maximum', 'content.ini') ) )}
+                    {/if}
+                {/if}
+                {if and( ezini_hasvariable( $custom_attribute_settings, 'Required', 'content.ini' ), ezini( $custom_attribute_settings, 'Required', 'content.ini' )|eq('true') )}
+                    {set $custom_attribute_classes = $custom_attribute_classes|append( 'required' )}
+                {/if}
+                <input type="text" name="{$custom_attribute}" id="{$custom_attribute_id}_source" value="{$custom_attribute_default|wash}"{if $custom_attribute_disabled} disabled="disabled"{/if} class="{$custom_attribute_classes|implode(' ')}" />
             {/if}
             </td>
         </tr>

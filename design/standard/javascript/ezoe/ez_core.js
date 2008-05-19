@@ -249,7 +249,7 @@ var ez = {
         {
             // CSS2.1 query function, returns a extended array of extended elements
             // Example: arr = ez.$$('div.my_class, input[type=text], img[alt~=went]');
-            // Currently only supports on attribute/class/pseudo filter pr tag
+            // Currently only supports one attribute/class/pseudo filter pr tag
             // only children related pseudo filters are supporte (first|last|nth-child)
             var args = ez.$c(arguments, ','), doc = (typeof args[args.length -1] === 'object' ? args.pop() : document), r = [], mode = '';
             if ( args.length === 1 && args[0].eztype && args[0].eztype === 'array' )
@@ -506,18 +506,14 @@ var ez = {
                if (ez.set( a[i] )) return a[i];
        return null;
     },
-    script: function( str, onComplete )
+    script: function( str )
     {
         // Script loading function
         // str (string) handles both script url and script string
-        // if str is url, onComplete (function) is added as onload event
         var scr = document.createElement('script');
         scr.type = 'text/javascript';
-        if (str.indexOf('.js') !== -1)
-        {
-            scr.src = str;
-            if (onComplete) ez.element.addEvent(scr, 'load', onComplete);
-        } else scr.text = str;
+        if (str.indexOf('.js') !== -1) scr.src = str;
+        else scr.text = str;
         document.getElementsByTagName('head')[0].appendChild(scr);
     },
     set: function(o)

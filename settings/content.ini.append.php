@@ -18,8 +18,11 @@
 # that appear in the dialog window for a newly created element.
 #
 # 'CustomAttributesType' lets you specify what html form input element (type) to use, valid:
-#   text (default)
-#   select (drop down box with selectable values )
+#   text (default, supports validation)
+#   int (supports validation)
+#   number (supports validation)
+#   email (supports validation)
+#   select (drop down box with selectable values)
 #   hidden (hide the control)
 #   checkbox
 #  The selections are defined in the customattribute settings like in the example bellow.
@@ -42,11 +45,27 @@
 #[CustomAttribute_factbox_align]
 ## Optional, lets you disable the html control so users can't change the value
 #Disabled=true
+## Optional, forces user to fill out the html form element
+#Required=true
+## Optional, for validation when type is int or number (inclusive)
+#Minimum=1
+## Optional, for validation when type is int or number (inclusive)
+#Maximum=99
 ## Selection is needed if type is set to select
 #Selection[]
 #Selection[left]=Left
 #Selection[right]=Right
 #Selection[center]=Center
+
+
+# Complete custom attributes example for enabling and forcing users
+# to fill out table summary for WAI conformance
+#
+#[table]
+#CustomAttributes[]=summary
+#
+#[CustomAttribute_table_summary]
+#Required=true
 
 
 [paragraph]

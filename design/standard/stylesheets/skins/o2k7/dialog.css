@@ -154,7 +154,7 @@ span.image_preview a:hover
    overflow: visible;
 }
 
-span.image_preview a img { border: 0px none; }
+span.image_preview a img { border: 1px solid #ccc; }
 
 /* help dialog */
 

@@ -106,7 +106,14 @@ var eZOEPopupUtils = {
     save: function()
 	{
 	    // save changes from form values to element attributes
-	    var ed = tinyMCEPopup.editor, s = eZOEPopupUtils.settings, n, arr, tmp;
+	    var ed = tinyMCEPopup.editor, s = eZOEPopupUtils.settings, n, arr, tmp, f = document.forms[0];
+	    
+	    
+	    if (!AutoValidator.validate(f))
+	    {
+	        alert(tinyMCEPopup.getLang('invalid_data'));
+	        return false;
+	    }
 
         if ( s.tagSelector && s.tagSelector.el.value )
         {
