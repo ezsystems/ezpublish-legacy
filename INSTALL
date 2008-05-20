@@ -134,7 +134,14 @@ Installing eZ Online Editor MCE extension
    Note: The ImageClassID setting is deprecated. Use the ImageClassIdentifiers
    setting instead in the same [MediaClassSettings] section.
 
-6. Clear all the eZ Publish caches.
+6. Add permission to Editor users (optional)
+
+   Some parts of the editor have possibility to limit rights pr user,
+   this means you need to give editors access to all or parts of the 
+   'ezoe' module so they can use the editor.
+
+
+7. Clear all the eZ Publish caches.
 
    Log in to your eZ Publish administration interface, select the 'Setup' tab,
    and then click the 'Clear all caches' button. If you use eZ Publish 3.6
@@ -155,7 +162,7 @@ Installing eZ Online Editor MCE extension
 
    $ ./bin/php/ezcache.php --clear-all
 
-7. Clear the browser caches
+8. Clear the browser caches
 
    Browsers usually cache visited pages in a folder somewhere. The next time
    the same pages are visited, they are loaded faster because some of the
