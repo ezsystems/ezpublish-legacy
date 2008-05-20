@@ -1097,7 +1097,7 @@ if ( $updateNodeAlias )
             foreach ( array_keys( $nodeList ) as $key )
             {
                 $node =& $nodeList[ $key ];
-                $hasChanged = $node->updateSubTreePath( false );
+                $hasChanged = $node->updateSubTreePath();
                 if ( $hasChanged )
                 {
                     ++$changedNodes;
