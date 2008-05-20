@@ -952,7 +952,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
         \a static
     */
-    static function createAttributeFilterSQLStrings( $attributeFilter, $sortingInfo = array( 'sortCount' => 0, 'attributeJoinCount' => 0 ) )
+    static function createAttributeFilterSQLStrings( &$attributeFilter, &$sortingInfo = array( 'sortCount' => 0, 'attributeJoinCount' => 0 ) )
     {
         // Check for attribute filtering
 
