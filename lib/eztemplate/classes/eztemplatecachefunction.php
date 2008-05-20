@@ -39,6 +39,8 @@
 
 class eZTemplateCacheFunction
 {
+    const DEFAULT_TTL = 7200; // 2 hours = 60*60*2
+
     /*!
      Initializes the object with names.
     */
@@ -79,34 +81,24 @@ class eZTemplateCacheFunction
         $placementKeyString = eZTemplateCacheBlock::placementString( $functionPlacement );
 
         $newNodes = array();
-        $ignoreExpiry = false;
         $ignoreContentExpiry = false;
 
-        $expiry = 60*60*2;
         if ( isset( $parameters['expiry'] ) )
         {
             if ( eZTemplateNodeTool::isStaticElement( $parameters['expiry'] ) )
             {
                 $expiryValue = eZTemplateNodeTool::elementStaticValue( $parameters['expiry'] );
-
-                if ( $expiryValue )
-                {
-                    $expiryText = eZPHPCreator::variableText( $expiryValue , 0, 0, false );
-                }
-                else
-                {
-                    $ignoreExpiry = true;
-                }
+                $ttlCode = $expiryValue > 0 ? eZPHPCreator::variableText( $expiryValue , 0, 0, false ) : 'null';
             }
             else
             {
                 $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['expiry'], false, array(), 'localExpiry' );
-                $expiryText = "\$localExpiry";
+                $ttlCode = "( \$localExpiry > 0 ? \$localExpiry : null )";
             }
         }
         else
         {
-            $expiryText = eZPHPCreator::variableText( $expiry , 0, 0, false );
+            $ttlCode = eZPHPCreator::variableText( self::DEFAULT_TTL, 0, 0, false );
         }
 
         if ( isset( $parameters['ignore_content_expiry'] ) )
@@ -159,11 +151,6 @@ class eZTemplateCacheFunction
 
         $code = '';
 
-        $ttlCode = 'null';
-        if ( !$ignoreExpiry )
-        {
-            $ttlCode = "$expiryText";
-        }
         $codePlacementHash = md5( $placementKeyString );
         if ( $hasKeys )
         {
@@ -236,7 +223,7 @@ class eZTemplateCacheFunction
     {
         $keys                = null;
         $subtreeExpiry       = null;
-        $expiry              = null;
+        $expiry              = self::DEFAULT_TTL;
         $ignoreContentExpiry = null;
         $subtreeExpiry       = null;
 
@@ -287,12 +274,7 @@ class eZTemplateCacheFunction
         $nodeID = $subtreeExpiry ? eZTemplateCacheBlock::decodeNodeID( $subtreeExpiry ) : false;
         $phpPath = eZTemplateCacheBlock::cachePath( eZTemplateCacheBlock::keyString( $keyArray ), $nodeID );
 
-        // Check if a custom expiry time is defined
-        if ( $expiry === null )
-        {
-            // Default expiry time is set to two hours
-            $expiry = 60*60*2;
-        }
+        $ttl = $expiry > 0 ? $expiry : null;
 
         if ( $subtreeExpiry !== null )
         {
@@ -321,7 +303,7 @@ class eZTemplateCacheFunction
                        "currentNamespace" => $currentNamespace );
         return $cacheFile->processCache( array( 'eZTemplateCacheBlock', 'retrieveContent' ),
                                          array( $this, 'generateProcessedContent' ),
-                                         $expiry,
+                                         $ttl,
                                          $globalExpiryTime,
                                          $args );
     }
