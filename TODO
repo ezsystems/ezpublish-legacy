@@ -5,6 +5,7 @@ KNOWN ISSUES:
 * Links on embed object tags ( not possible on div tags, needs to change it )
 * IE7 and possibly also ie6 feaks out on inline customtags (when you inser or update html)
 * update translations
+* Images inside custom block tags are buggy (Mitsue-links)
 
 
 
@@ -13,7 +14,7 @@ KNOWN ISSUES:
 KNOWN ENHANCEMENT REQUESTS:
 
 * Custimizable formats selector (custom tags and classes)
-* Support for requried values and custom validation functions in tag dialogs (on custom attributes)
 * Be able to have differnt button layout on differnt content attributes
   Preferably with selectable presets on XML Block attributes in class/edit.
   (button presetes should be custimizable from ini settings).
+* Better feedback on custom attribute validation ( fork TinyMCE validation and enhance it? )
