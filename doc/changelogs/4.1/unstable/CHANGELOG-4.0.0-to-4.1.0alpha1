@@ -260,4 +260,5 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12926: "Strict: PHP" error using feedback form
 - Fixed bug #13055: eZURLAliasML::setLangMaskAlwaysAvailable() has incorrect bit-logic
 - Fixed bug #12918: Non-static method eZURLAliasML::removeSingleEntry()
--Fixed bug #12785: Multilingual url aliases
+- Fixed bug #12785: Multilingual url aliases
+- Fixed bug #13058: eZContentObjectTreenode - pathWithNames() should fallback to perma-links when lookup of path fails
