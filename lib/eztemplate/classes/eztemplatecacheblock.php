@@ -69,7 +69,7 @@ class eZTemplateCacheBlock
      */
     function retrieve( $keys, $subtreeExpiry, $ttl, $useGlobalExpiry = true )
     {
-        $nodeID = eZTemplateCacheBlock::decodeNodeID( $subtreeExpiry );
+        $nodeID = $subtreeExpiry ? eZTemplateCacheBlock::decodeNodeID( $subtreeExpiry ) : false;
         $cachePath = eZTemplateCacheBlock::cachePath( eZTemplateCacheBlock::keyString( $keys ), $nodeID );
         return eZTemplateCacheBlock::handle( $cachePath, $nodeID, $ttl, $useGlobalExpiry );
     }
