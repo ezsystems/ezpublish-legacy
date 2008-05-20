@@ -18,7 +18,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {ldelim}
 // -->
 </script>
 
-<div>
+<div class="tag-view tag-type-{$tag_name}">
 
     <form action="JavaScript:void(0)" method="post" name="EditForm" id="EditForm" enctype="multipart/form-data">
 

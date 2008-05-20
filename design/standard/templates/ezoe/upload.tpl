@@ -23,7 +23,7 @@ tinyMCEPopup.onInit.add( function(){
 </script>
 {/literal}
 
-<div>
+<div class="upload-view">
     <form action={concat('ezoe/upload/', $object_id, '/', $object_version, '/auto/1' )|ezurl} method="post" target="embed_upload" name="EmbedForm" id="EmbedForm" enctype="multipart/form-data" onsubmit="ez.$('upload_in_progress').show();">
 
         <div id="tabs" class="tabs">

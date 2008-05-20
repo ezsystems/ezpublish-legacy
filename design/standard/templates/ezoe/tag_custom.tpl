@@ -90,7 +90,7 @@ function filterOutCustomBlockTags( n )
 </script>
 
 
-<div>
+<div class="tag-view tag-type-{$tag_name} custom-tag-type-{$custom_tag_name}">
 
     <form action="JavaScript:void(0)" method="post" name="EditForm" id="EditForm" enctype="multipart/form-data">
 

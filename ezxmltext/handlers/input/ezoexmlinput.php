@@ -484,7 +484,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
         eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $output, 'eZOEXMLInput::inputXML xml output to return' );
 
-        $output = htmlspecialchars( $output );
+        $output = htmlspecialchars( $output, ENT_COMPAT, 'UTF-8' );
 
         return $output;
     }
@@ -1219,12 +1219,16 @@ class eZOEXMLInput extends eZXMLInputHandler
                 {
                     $href = eZURL::url( $linkID );
                 }
+                else if ( $anchorName != null && !$tag->getAttribute( 'href' ) )
+                {
+                    $href = '#'.$anchorName;
+                } 
                 else
                 {
                     $href = $tag->getAttribute( 'href' );
                 }
 
-                if ( $anchorName != null )
+                if ( $anchorName != null && $href !== '#'.$anchorName )
                 {
                     $attributes[] = 'name="' . $anchorName . '"';
                 }

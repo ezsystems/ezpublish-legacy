@@ -10,7 +10,6 @@ DesignExtensions[]=ezoe
 # generated html content or use a debug tool like firebug!
 # You can use a variable <skin> anywhere in the path / filename
 # this [optional]variable is taken from ezoe.ini
-EditorCSSFileList[]
 EditorCSSFileList[]=skins/<skin>/content.css
 
 
@@ -19,6 +18,13 @@ EditorCSSFileList[]=skins/<skin>/content.css
 ## one of your active eZ Publish designs.
 #[StylesheetSettings]
 #EditorCSSFileList[]=my_custom_editor_styles.css
+
+
+# EditorDialogCSSFileList is just like EditorCSSFileList exept it
+# is used in the popup dialogs in the editor and it is loaded after
+# the dialog.css file from the selected skin.
+#[StylesheetSettings]
+#EditorDialogCSSFileList[]=my_custom_editor_dialog_styles.css
 
 
 */ ?>

@@ -21,7 +21,7 @@ tinyMCEPopup.onInit.add( function(){
 </script>
 {/literal}
 
-<div>
+<div class="help-view">
     <div id="tabs" class="tabs">
         <ul>
             <li class="tab"><span><a href="JavaScript:void(0);">{'Help'|i18n('design/standard/ezoe')}</a></span></li>

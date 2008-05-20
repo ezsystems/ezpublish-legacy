@@ -18,3 +18,4 @@ KNOWN ENHANCEMENT REQUESTS:
   Preferably with selectable presets on XML Block attributes in class/edit.
   (button presetes should be custimizable from ini settings).
 * Better feedback on custom attribute validation ( fork TinyMCE validation and enhance it? )
+* Re add bookmarks when selecting images / objects

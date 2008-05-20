@@ -114,7 +114,7 @@ function ezoeLinkTypeSet( source, types )
 </script>
 {/literal}
 
-<div>
+<div class="tag-view tag-type-{$tag_name}">
 
     <form action="JavaScript:void(0)" method="post" name="EditForm" id="EditForm" enctype="multipart/form-data">
         <div id="tabs" class="tabs">
@@ -146,10 +146,16 @@ function ezoeLinkTypeSet( source, types )
             <br />
         {/set-block}
         
+        {def $viewModes = hash()}
+        {foreach ezini( 'link', 'AvailableViewModes', 'content.ini')  as $viewMode}
+            {set $viewModes = $viewModes|merge(  hash( $viewMode, $viewMode|upfirst ) )}
+        {/foreach} 
+        
+        
         {include uri="design:ezoe/generalattributes.tpl"
                  tag_name=$tag_name
                  attributes=hash('href', '',
-                                  'view', ezini( 'link', 'AvailableViewModes', 'content.ini' ),
+                                  'view', $viewModes,
                                   'target', hash('0', 'None', '_blank', 'New Window'),
                                   'class', $class_list,
                                   'title', '',

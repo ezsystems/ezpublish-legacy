@@ -970,7 +970,7 @@
 							break;
                         case 'header':
                             if (v = n.nodeName)
-                                na += ' ' + v[1];
+                                na += ' ' + v.charAt(1);
 
                             break;
 					}
@@ -1255,10 +1255,9 @@
 		_mceImage : function(ui, val)
 		{
 			var ed = this.editor, e = ed.selection.getNode(), eurl = 'image/', type = '/upload/', el;
-			
-			// Internal image object like a flash placeholder
-            if (ed.dom.getAttrib(e, 'class').indexOf('mceItem') !== -1)
-                return;
+
+            if ( ui.nodeName === 'IMG' )
+                e = ui;
 
             if (e !== null && e.nodeName === 'IMG')
             {
@@ -1272,14 +1271,17 @@
         _mceObject : function(ui, val)
         {
             var ed = this.editor, e = ed.selection.getNode(), eurl = 'object/', type = '/upload/', el;
+            
+            if ( ui.nodeName === 'DIV' && ui.className.indexOf('mceNonEditable') !== -1 )
+                e = ui;
 
-           if ( e = this.__getParentByTag( e, 'div', 'mceNonEditable', '', true ) )
-           {
-               type = '/relations/';
-               el = e;
-               eurl += e.getAttribute('id') + '/' + e.getAttribute('inline') + '/' + e.getAttribute('alt');
-               //ed.selection.select( e );
-           }
+            if ( e = this.__getParentByTag( e, 'div', 'mceNonEditable', '', true ) )
+            {
+                type = '/relations/';
+                el = e;
+                eurl += e.getAttribute('id') + '/' + e.getAttribute('inline') + '/' + e.getAttribute('alt');
+                //ed.selection.select( e );
+            }
             this._generalXmlTagPopup( eurl, type, 500, 480, el );
         },
         
@@ -1292,12 +1294,8 @@
         _mceInsertAnchor : function(ui, v)
         {
             var ed = this.editor, n = ed.selection.getNode();
-            if ( (n = this.__getParentByTag( n, 'a', '', '', true )) && !DOM.getAttrib(n, 'href') )
-            {
+            if ( ui.nodeName !== 'A' && (n = this.__getParentByTag( n, 'a', '', '', true )) && !DOM.getAttrib(n, 'href') )
                 ui = n;
-                //ed.selection.select( n );
-            }
-            
             this._generalXmlTagPopup( 'anchor', false, 0, 0, ui );
         },
         
@@ -1314,12 +1312,8 @@
 		_mceLink : function(ui, v)
 		{
 			var ed = this.editor, n = ed.selection.getNode();
-            if ( (n = this.__getParentByTag( n, 'a', '', '', true )) && DOM.getAttrib(n, 'href') )
-            {
+            if ( ui.nodeName !== 'A' && (n = this.__getParentByTag( n, 'a', '', '', true )) && DOM.getAttrib(n, 'href') )
                 ui = n;
-                //ed.selection.select( n );
-            }
-
 			this._generalXmlTagPopup( 'link', false, 0, 360, ui );
 		},
 

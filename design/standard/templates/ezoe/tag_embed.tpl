@@ -184,7 +184,8 @@ function loadEmbedPreview( )
 </script>
 {/literal}
 
-<div>
+<div class="tag-view tag-type-{$tag_name} embed-view embed-class-{$embed_object.class_identifier}  embed-content-type-{$content_type}">
+
     <form action="JavaScript:void(0)" method="post" name="EditForm" id="EditForm" enctype="multipart/form-data">
 
         <div id="tabs" class="tabs">

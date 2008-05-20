@@ -54,6 +54,12 @@ table#browse_box_prev tfoot td { padding-top: 5px; }
 
 {/foreach}
 {/if}
+{if ezini_hasvariable('StylesheetSettings', 'EditorDialogCSSFileList', 'design.ini')}
+{foreach ezini('StylesheetSettings', 'EditorDialogCSSFileList', 'design.ini') as $css}
+    <link type="text/css" rel="stylesheet" href={$css|ezdesign} />
+
+{/foreach}
+{/if}
 </head>
 <body>
 

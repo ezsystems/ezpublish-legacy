@@ -37,6 +37,8 @@ tinyMCEPopup.onInit.add(function()
 -->
 </script>
 
+<div class="merge-cell-view">
+
 <form onsubmit="mergeCells();return false;" action="#" style="width: 220px;">
     <fieldset>
         <legend>{"Merge table cells"|i18n('design/standard/ezoe')}</legend>
@@ -62,3 +64,5 @@ tinyMCEPopup.onInit.add(function()
         </div>
     </div>
 </form>
+
+</div>
