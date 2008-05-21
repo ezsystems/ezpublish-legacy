@@ -22,6 +22,7 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Implemented enhancement #12979: Old eZ Publish 3.2 image system data might still exist and needs cleanup
 - Implemented enhancement #13009: Add validation method to custom edit handler (patch included)
 - Implemented enhancement #13017: Add node_by_locale or node_by_content_translation fetch function
+- Implemented enhancement #13068: eZContentObject::contentClassIdentifier doesn't use classidentifier cache
 
 *Design:
 

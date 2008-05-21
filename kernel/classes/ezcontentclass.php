@@ -1752,6 +1752,86 @@ You will need to change the class of the node by using the swap functionality.' 
         return true;
     }
 
+   /*!
+     Resolves the literal class identifier \a $identifier to its numeric value
+    */
+    public static function classIDByIdentifier( $identifier )
+    {
+        $identifierHash = self::classIdentifiersHash();
+
+        if ( isset( $identifierHash[$identifier] ) )
+            return $identifierHash[$identifier];
+        else
+            return false;
+    }
+
+    /*!
+     Resolves the numeric class identifier \a $id to its literal value
+    */
+    public static function classIdentifierByID( $id )
+    {
+        $identifierHash = array_flip( self::classIdentifiersHash() );
+
+        if ( isset( $identifierHash[$id] ) )
+            return $identifierHash[$id];
+        else
+            return false;
+    }
+
+    /*!
+     Returns the class identifier hash for the current database.
+     If it is outdated or non-existent, the method updates/generates the file
+     \return array of classidentifier => classid
+     \private
+    */
+    private static function classIdentifiersHash()
+    {
+        static $identifierHash = null;
+
+        if ( $identifierHash === null )
+        {
+            $db = eZDB::instance();
+            $dbName = $db->DB;
+    
+            $cacheDir = eZSys::cacheDirectory();
+            $phpCache = new eZPHPCreator( $cacheDir,
+                                          'classidentifiers_' . $dbName . '.php',
+                                          '',
+                                          array( 'clustering' => 'classidentifiers' ) );
+    
+            eZExpiryHandler::registerShutdownFunction();
+            $handler = eZExpiryHandler::instance();
+            $expiryTime = 0;
+            if ( $handler->hasTimestamp( 'content-view-cache' ) )
+            {
+                $expiryTime = $handler->timestamp( 'content-view-cache' );
+            }
+    
+            if ( $phpCache->canRestore( $expiryTime ) )
+            {
+                $var = $phpCache->restore( array( 'identifierHash' => 'identifier_hash' ) );
+                $identifierHash = $var['identifierHash'];
+            }
+            else
+            {
+                // Fetch identifier/id pair from db
+                $query = "SELECT id, identifier FROM ezcontentclass where version=0";
+                $identifierArray = $db->arrayQuery( $query );
+    
+                $identifierHash = array();
+                foreach ( $identifierArray as $identifierRow )
+                {
+                    $identifierHash[$identifierRow['identifier']] = $identifierRow['id'];
+                }
+    
+                // Store identifier list to cache file
+                $phpCache->addVariable( 'identifier_hash', $identifierHash );
+                $phpCache->store();
+            }
+        }
+        return $identifierHash;
+    }
+
     /// \privatesection
     public $ID;
     // serialized array of translated class names

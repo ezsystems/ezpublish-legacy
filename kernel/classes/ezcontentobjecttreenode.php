@@ -830,7 +830,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 // Check if classes are recerenced by identifier
                 if ( is_string( $classID ) && !is_numeric( $classID ) )
                 {
-                    $classID = eZContentObjectTreeNode::classIDByIdentifier( $classID );
+                    $classID = eZContentClass::classIDByIdentifier( $classID );
                 }
                 if ( is_numeric( $classID ) )
                 {
@@ -2242,7 +2242,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 // Check if classes are recerenced by identifier
                 if ( is_string( $classID ) && !is_numeric( $classID ) )
                 {
-                    $classID = eZContentObjectTreeNode::classIDByIdentifier( $classID );
+                    $classID = eZContentClass::classIDByIdentifier( $classID );
                 }
                 if ( is_numeric( $classID ) )
                 {
