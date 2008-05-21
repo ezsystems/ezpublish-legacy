@@ -302,7 +302,7 @@ Changes from 3.10.0 to 3.10.1
   (Merged from trunk (4.1.0alpha1) rev. 21251)
 - Fixed bug #12197: Error in pdf export page
   (Merged from trunk (4.1.0alpha1) rev. 21257)
-- Fixed bug #12428: strtolower() in eZSearchLog::addPhrase gives error for special char for e.g. ÅØÆ
+- Fixed bug #12428: strtolower() in eZSearchLog::addPhrase gives error for special char for e.g. ï¿½ï¿½ï¿½
   (Manually merged from trunk (4.1.0alpha1) rev. 21263)
 - Fixed bug #11804: Error in integer validation for collected values
   (Merged from trunk (4.1.0alpha1) rev. 21267)
@@ -483,3 +483,5 @@ Changes from 3.10.0 to 3.10.1
   (Manually merged from trunk (4.1.0alpha1) rev. 21865)
 - Fixed bug #12462: updateniceurls.php erroneous on equal node titles
   (Merged from trunk (4.1.0alpha1) rev. 21872,21873)
+- Fixed bug #13064: eZContentObject::fetchIDArray uses $eZContentObjectContentObjectCache but doesn't globalize it
+  (Merged from trunk (4.1.0alpha1) rev. 21876)

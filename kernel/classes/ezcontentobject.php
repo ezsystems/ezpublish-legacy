@@ -929,6 +929,8 @@ class eZContentObject extends eZPersistentObject
     */
     function &fetchIDArray( $idArray, $asObject = true )
     {
+        global $eZContentObjectContentObjectCache;
+
         $uniqueIDArray = array_unique( $idArray );
 
         $useVersionName = true;
