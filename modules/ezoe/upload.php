@@ -148,6 +148,7 @@ if ( $http->hasPostVariable( 'uploadButton' ) || $forcedUpload )
             echo '<p style="margin: 0; padding: 3px; color: red">' . $err['description'] . '</p>';
         echo '</div></body></html>';
     }
+    eZDB::checkTransactionCounter();
     eZExecution::cleanExit();
 }
 
@@ -236,9 +237,5 @@ $Result['pagelayout'] = 'design:ezoe/popup_pagelayout.tpl';
 $Result['persistent_variable'] = $tpl->variable( 'persistent_variable' );
 
 return $Result;
-
-
-eZExecution::cleanExit();
-//$GLOBALS['show_page_layout'] = false;
 
 ?>

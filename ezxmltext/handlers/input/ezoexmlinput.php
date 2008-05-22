@@ -95,7 +95,7 @@ class eZOEXMLInput extends eZXMLInputHandler
      \div is used by default.
      \eZOEInputParser::tagNameCustomHelper handles input
     */
-    public static $naviteCustomTags = array('underline' => 'u');
+    public static $nativeCustomTags = array('underline' => 'u');
 
     /*!
      \reimp
@@ -962,9 +962,9 @@ class eZOEXMLInput extends eZXMLInputHandler
                 $nodeType  = 'span';
                 $name = $tag->getAttribute( 'name' );
                 
-                if ( isset( self::$naviteCustomTags[ $name ] ))
+                if ( isset( self::$nativeCustomTags[ $name ] ))
                 {
-                    $nodeType = self::$naviteCustomTags[ $name ];
+                    $nodeType = self::$nativeCustomTags[ $name ];
                 }
 
                 $customAttributePart = $this->getCustomAttrPart( $tag );

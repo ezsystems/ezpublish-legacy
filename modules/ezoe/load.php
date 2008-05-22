@@ -76,7 +76,7 @@ echo "/*\r\n";
 eZDebug::printReport( false, false );
 echo "*/\r\n" . $json;
 
-
+eZDB::checkTransactionCounter();
 eZExecution::cleanExit();
 
 ?>

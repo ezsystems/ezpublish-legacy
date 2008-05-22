@@ -138,6 +138,7 @@ echo "-->\r\n" . $templateOutput;
 
 
 
+eZDB::checkTransactionCounter();
 eZExecution::cleanExit();
 
 ?>

@@ -102,6 +102,7 @@ eZDebug::printReport( false, false );
 echo "*/\r\n" . $result;
 
 
+eZDB::checkTransactionCounter();
 eZExecution::cleanExit();
 //$GLOBALS['show_page_layout'] = false;
 
