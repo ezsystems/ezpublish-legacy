@@ -38,8 +38,7 @@
  1 = merge files
  2 = 1 + remove whitespace
  3 = 2 + remove more whitespace 
- Will be forced off when template DevelopmentMode is enabled 
- for developer productivity.
+ Will be forced off when ezoe.ini DevelopmentMode is enabled.
  
  Recomended settings are 3 for css and 2 for javascript,
  basicly since the optimizer isn't string safe.
