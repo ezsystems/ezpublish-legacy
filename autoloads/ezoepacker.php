@@ -56,6 +56,10 @@
 
  Both template operators have a as_html parameter, if false they will return
  an array of file urls / content (from generators).
+ 
+ Example of use in pagelayout:
+    {ezcss( array('core.css', 'pagelayout.css', 'content.css', ezini( 'StylesheetSettings', 'CSSFileList', 'design.ini' ) ))}
+    {ezscript( ezini( 'JavaScriptSettings', 'JavaScriptList', 'design.ini' ) )}
 */
 
 //include_once( 'lib/ezfile/classes/ezfile.php' );
@@ -191,6 +195,7 @@ class eZOEPacker
     /* static ::
      Merges a collection of files togheter and returns array of paths to the files.
      js /css content is returned as string if packlevel is 0 and you use a js/ css generator.
+     $fileArray can also be array of array of files, like array(  'file.js', 'file2.js', array( 'file5.js' ) )
      The name of the cached file is a md5 hash consistant of the file paths
      of the valid files in $file_array and the packlevel. 
      The whole argument is used instead of file path on js/ css generators in the cache hash.
