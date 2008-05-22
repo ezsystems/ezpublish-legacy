@@ -58,8 +58,8 @@
  an array of file urls / content (from generators).
  
  Example of use in pagelayout:
-    {ezcss( array('core.css', 'pagelayout.css', 'content.css', ezini( 'StylesheetSettings', 'CSSFileList', 'design.ini' ) ))}
-    {ezscript( ezini( 'JavaScriptSettings', 'JavaScriptList', 'design.ini' ) )}
+    {ezoecss( array('core.css', 'pagelayout.css', 'content.css', ezini( 'StylesheetSettings', 'CSSFileList', 'design.ini' ) ))}
+    {ezoescript( ezini( 'JavaScriptSettings', 'JavaScriptList', 'design.ini' ) )}
 */
 
 //include_once( 'lib/ezfile/classes/ezfile.php' );
