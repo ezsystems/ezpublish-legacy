@@ -27,55 +27,119 @@
 //
 
 
-$Module = array( "name" => 'eZtinymce Module and views for the poor and week!' );
+$Module = array( 'name' => 'eZtinymce Module and views for the poor and week!' );
 
 $ViewList = array();
-$ViewList["relations"] = array(
-    "ui_context" => 'edit',
-    "script" => 'relations.php',
-    "params" => array( 'ObjectID', 'ObjectVersion', 'ContentType', 'EmbedID', 'EmbedInline', 'EmbedSize' )
+$ViewList['relations'] = array(
+    'functions' => array( 'editor' ),
+    'script' => 'relations.php',
+    'params' => array( 'ObjectID', 'ObjectVersion', 'ContentType', 'EmbedID', 'EmbedInline', 'EmbedSize' )
     );
 
-$ViewList["upload"] = array(
-    "ui_context" => 'edit',
-    "script" => 'upload.php',
-    "params" => array( 'ObjectID', 'ObjectVersion', 'ContentType', 'ForcedUpload' )
+$ViewList['upload'] = array(
+    'functions' => array( 'editor' ),
+    'script' => 'upload.php',
+    'params' => array( 'ObjectID', 'ObjectVersion', 'ContentType', 'ForcedUpload' )
     );
 
-$ViewList["tags"] = array(
-    "ui_context" => 'edit',
-    "script" => 'tags.php',
-    "params" => array( 'ObjectID', 'ObjectVersion', 'TagName', 'CustomTagName' )
+$ViewList['tags'] = array(
+    'functions' => array( 'editor' ),
+    'script' => 'tags.php',
+    'params' => array( 'ObjectID', 'ObjectVersion', 'TagName', 'CustomTagName' )
     );
     
-$ViewList["load"] = array(
-    "script" => 'load.php',
-    "params" => array( 'EmbedID','DataMap', 'ImagePreGenerateSizes' )
+$ViewList['load'] = array(
+    'functions' => array( 'editor' ),
+    'script' => 'load.php',
+    'params' => array( 'EmbedID','DataMap', 'ImagePreGenerateSizes' )
     );
 
-$ViewList["dialog"] = array(
-    "script" => 'dialog.php',
-    "params" => array( 'ObjectID', 'ObjectVersion', 'Dialog' )
+$ViewList['dialog'] = array(
+    'functions' => array( 'editor' ),
+    'script' => 'dialog.php',
+    'params' => array( 'ObjectID', 'ObjectVersion', 'Dialog' )
     );
 
-$ViewList["embed_view"] = array(
-    "script" => 'embed_view.php',
-    "params" => array( 'EmbedID' )
+$ViewList['embed_view'] = array(
+    'functions' => array( 'editor' ),
+    'script' => 'embed_view.php',
+    'params' => array( 'EmbedID' )
     );
     
-$ViewList["search"] = array(
-    "script" => "search.php",
+$ViewList['search'] = array(
+    'functions' => array( 'editor' ),
+    'script' => 'search.php',
     'params' => array( 'SearchStr', 'SearchOffset', 'SearchLimit', 'VarName')
     );
 
-$ViewList["expand"] = array(
-    "script" => "expand.php",
+$ViewList['expand'] = array(
+    'functions' => array( 'editor' ),
+    'script' => 'expand.php',
     'params' => array('NodeID', 'Offset', 'Limit')
     );
-    
+
+
+/*
+$ClassID = array(
+    'name'=> 'Class',
+    'values'=> array(),
+    'path' => 'classes/',
+    'file' => 'ezcontentclass.php',
+    'class' => 'eZContentClass',
+    'function' => 'fetchList',
+    'parameter' => array( 0, false, false, array( 'name' => 'asc' ) )
+    );
+
+$SectionID = array(
+    'name'=> 'Section',
+    'values'=> array(),
+    'path' => 'classes/',
+    'file' => 'ezsection.php',
+    'class' => 'eZSection',
+    'function' => 'fetchList',
+    'parameter' => array( false )
+    );
+
+$Assigned = array(
+    'name'=> 'Owner',
+    'values'=> array(
+        array(
+            'Name' => 'Self',
+            'value' => '1')
+        )
+    );
+
+$Node = array(
+    'name'=> 'Node',
+    'values'=> array()
+    );
+
+$Subtree = array(
+    'name'=> 'Subtree',
+    'values'=> array()
+    );
+
+
+$FunctionList = array();
+$FunctionList['relations'] = array( 'Class' => $ClassID,
+                               'Section' => $SectionID,
+                               'Owner' => $Assigned,
+                               'Node' => $Node,
+                               'Subtree' => $Subtree);
+
+$FunctionList['editor'] = array( 'Class' => $ClassID,
+                               'Section' => $SectionID,
+                               'Owner' => $Assigned,
+                               'Node' => $Node,
+                               'Subtree' => $Subtree);
+*/
+
 $FunctionList = array();
 $FunctionList['relations'] = array();
+$FunctionList['editor'] = array();
 $FunctionList['search'] = array();
-$FunctionList['expand'] = array();
+$FunctionList['browse'] = array();
+
+
 
 ?>

@@ -214,15 +214,34 @@ class eZOEXMLInput extends eZXMLInputHandler
 
     /*!
      \static
-     \return true if the editor can be used. This is determinded by whether the browser supports DHTML and that
-             the editor is enabled.
+     \return true if the editor can be used. This is determinded by whether the browser supports DHTML
+            , user has access to editor and if the editor is enabled.
     */
     static function isEditorActive()
     {
         if ( !eZOEXMLInput::browserSupportsDHTMLType() )
             return false;
 
-        return eZOEXMLInput::isEditorEnabled();
+       if ( !eZOEXMLInput::isEditorEnabled() )
+            return false;
+
+        return eZOEXMLInput::currentUserHasAccess();
+    }
+    
+    /*!
+     \static
+     \return if user has access to editor 
+     */
+    static function currentUserHasAccess()
+    {
+        $user = eZUser::currentUser();
+        if ( !$user instanceOf eZUser )
+            return false;
+
+        $result = $user->hasAccessTo( 'ezoe', 'editor' );
+        if ( $result['accessWord'] === 'no'  )
+            return false;
+        return true;
     }
 
     /*!
@@ -230,7 +249,10 @@ class eZOEXMLInput extends eZXMLInputHandler
     */
     function isValid()
     {
-        return eZOEXMLInput::browserSupportsDHTMLType();
+        if ( !eZOEXMLInput::browserSupportsDHTMLType() )
+            return false;
+
+        return eZOEXMLInput::currentUserHasAccess();
     }
 
     /*!

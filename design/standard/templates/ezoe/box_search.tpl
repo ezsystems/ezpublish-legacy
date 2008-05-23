@@ -1,6 +1,8 @@
 {default embed_mode         = true()
          class_filter_array = array()
-         classes            = fetch( 'class', 'list' )}
+         classes            = fetch( 'class', 'list' )
+         has_access         = fetch( 'user', 'has_access_to', hash( 'module', 'ezoe',
+                                                                    'function', 'search' ) )}
 <script type="text/javascript">
 <!--
 
@@ -10,9 +12,10 @@ eZOeMCE['empty_result_string'] = "{"No results were found when searching for &qu
 //-->
 </script>
 	<div class="panel" id="search_box" style="display: none; position: relative;">
-	    {if $embed_mode}
-	        <a id="embed_search_go_back_link" title="Go back" href="JavaScript:void(0);" style="position: absolute; top: 0px; right: -5px;"><img width="16" height="16" border="0" src={"tango/emblem-unreadable.png"|ezimage} /></a>
-	    {/if}
+    {if $embed_mode}
+        <a id="embed_search_go_back_link" title="Go back" href="JavaScript:void(0);" style="position: absolute; top: 0px; right: -5px;"><img width="16" height="16" border="0" src={"tango/emblem-unreadable.png"|ezimage} /></a>
+    {/if}
+	{if $has_access}
 	    <div id="search_progress" class="progress-indicator" style="display: none;"></div>
 	    <table class="properties">
 	    <tr>
@@ -40,5 +43,8 @@ eZOeMCE['empty_result_string'] = "{"No results were found when searching for &qu
 	        </td>
 	    </tr>
 	    </table>
+	{else}
+	    <p>{"Your current user does not have the proper privileges to access this page."|i18n('design/standard/error/kernel')}</p>
+	{/if}
 	</div>
 {/default}

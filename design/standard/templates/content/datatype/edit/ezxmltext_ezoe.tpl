@@ -23,12 +23,24 @@
          $plugin_js_list   = array( 'ezoe::i18n::'|concat( $language ) )
     }
 
+    {* remove underline and pagebreak buttons if they are not activated *}
     {if and( $custom_tags|contains('underline')|not, $button_list|contains(',underline') )}
         {set $button_list = $button_list|explode(',underline')|implode('')}
     {/if}
 
     {if and( $custom_tags|contains('pagebreak')|not, $button_list|contains(',pagebreak') )}
         {set $button_list = $button_list|explode(',pagebreak')|implode('')}
+    {/if}
+
+    {* remove image and object buttons if user dosn't have access to relations *}
+    {if fetch( 'user', 'has_access_to', hash( 'module', 'ezoe', 'function', 'relations' ) )|not()}
+	    {if $button_list|contains(',image')}
+	        {set $button_list = $button_list|explode(',image')|implode('')}
+	    {/if}
+	
+	    {if $button_list|contains(',object')}
+	        {set $button_list = $button_list|explode(',object')|implode('')}
+	    {/if}
     {/if}
     
     {if $skin_variant}

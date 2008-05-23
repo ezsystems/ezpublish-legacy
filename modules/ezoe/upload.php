@@ -49,6 +49,23 @@ if ( $objectID === 0  || $objectVersion === 0 )
 }
 
 
+$user = eZUser::currentUser();
+if ( $user instanceOf eZUser )
+{
+    $result = $user->hasAccessTo( 'ezoe', 'relations' );
+}
+else
+{
+    $result = array('accessWord' => 'no');
+}
+
+if ( $result['accessWord'] === 'no' )
+{
+   echo ezi18n( 'design/standard/error/kernel', 'Your current user does not have the proper privileges to access this page.' );
+   eZExecution::cleanExit();
+}
+
+
 
 $object    = eZContentObject::fetch( $objectID );
 $http      = eZHTTPTool::instance();
