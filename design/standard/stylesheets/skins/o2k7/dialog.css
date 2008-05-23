@@ -141,20 +141,23 @@ span.image_preview { text-align: right; }
 
 span.image_preview a
 {
-   height: 19px;
-   overflow: hidden;
-   display: block;
-   cursor: default;
+    position: relative;
 }
 
-span.image_preview a:hover
+span.image_preview a img
 {
-   position: relative;
-   z-index: 200;
-   overflow: visible;
+    display: none;
+    border: 2px solid #ddd;
 }
 
-span.image_preview a img { border: 1px solid #ccc; }
+span.image_preview a:hover img
+{
+   position: absolute;
+   z-index: 200;
+   display: block;
+   top: -2px;
+   right: 50px;
+}
 
 /* help dialog */
 

@@ -503,7 +503,7 @@ var eZOEPopupUtils = {
                    {
                        tag = document.createElement("span");
                        tag.className = 'image_preview';
-                       tag.innerHTML += ' <a href="#"><img src="' + eZOeMCE['root'] + n.data_map[ n.image_attributes[0] ].content['small'].url + '" /></a>';
+                       tag.innerHTML += ' <a href="#">' + ed.getLang('preview.preview_desc')  + '<img src="' + eZOeMCE['root'] + n.data_map[ n.image_attributes[0] ].content['small'].url + '" /></a>';
                        td.appendChild( tag );
                    }
                    tr.appendChild( td );
