@@ -48,7 +48,7 @@
  In case of css files, relative image paths will be replaced
  by absolute paths.
 
- You can aslo use css / js generators to generate content dynamically.
+ You can also use css / js generators to generate content dynamically.
  This is better explained in ezoe.ini[Packer_<function>]
  
  Functions packFiles, buildJavascriptTag and buildStylesheetTag can be used

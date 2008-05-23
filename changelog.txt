@@ -8,8 +8,8 @@ eZ Online Editor MCE extension Changelog
 * added support for custom attribute validation (on email, text, int and number)
 * Fixed bug #007384: Incomplete instructions for enabling OE
 * Added EditorDialogCSSFileList and html classes in dialogs markup to make them easier to customize
-* header level showed 'undefined' in IE
-* Fixed bug #013062:   IE specific, editting an embedded image in a custom tag doesn´t work
+* header level showed as 'undefined' in IE
+* Fixed bug #013062: IE specific, editting an embedded image in a custom tag doesn´t work
 * viewModes on links didn't work correctly (saved array key index instead of string value)
 * Fixed bug #013013: Link with anchor removed on re-edit
 

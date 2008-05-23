@@ -116,7 +116,7 @@ function inlineSelectorChange( e, el )
         var classValue = ez.string.trim( editorEl.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable)/g, '') );
     }
 
-    if ( viewValue && (' ' + viewListData[ tag ].join(' ') + ' ').indexOf( ' ' + viewValue + ' ' ) !== -1 )
+    if ( viewValue && viewListData[ tag ].join !== undefined && (' ' + viewListData[ tag ].join(' ') + ' ').indexOf( ' ' + viewValue + ' ' ) !== -1 )
         viewList.el.value = viewValue;
     else if ( def['view'] !== undefined )
         viewList.el.value = def['view'];
