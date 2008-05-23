@@ -238,10 +238,16 @@ class eZOEPackerFunctions
                 'link_desc' => ezi18n( 'design/standard/ezoe', "Insert/edit link"),
                 'unlink_desc' => ezi18n( 'design/standard/ezoe', "Unlink"),
                 'image_desc' => ezi18n( 'design/standard/ezoe', "Insert/edit image"),
+
                 'object_desc' => ezi18n( 'design/standard/ezoe', "Insert/edit object"),
                 'custom_desc' => ezi18n( 'design/standard/ezoe', "Insert custom tag"),
                 'literal_desc' => ezi18n( 'design/standard/ezoe', "Insert literal text"),
                 'pagebreak_desc' => ezi18n( 'design/standard/ezoe', "Insert pagebreak"),
+                'disable_desc' => ezi18n( 'design/standard/content/datatype', "Disable editor"),
+                'store_desc' => ezi18n( 'design/standard/content/edit', "Store draft"),
+                'publish_desc' => ezi18n( 'design/standard/content/edit', "Send for publishing"),
+                'discard_desc' => ezi18n( 'design/standard/content/edit', "Discard"),
+
                 'cleanup_desc' => ezi18n( 'design/standard/ezoe', "Cleanup messy code"),
                 'code_desc' => ezi18n( 'design/standard/ezoe', "Edit HTML Source"),
                 'sub_desc' => ezi18n( 'design/standard/ezoe', "Subscript"),
@@ -331,7 +337,7 @@ class eZOEPackerFunctions
     public static function getCacheTime( $functionName )
     {
         // this translation data only expires when this timestamp is increased
-        return 1208348951;
+        return 1211555036;
     }
 }
 

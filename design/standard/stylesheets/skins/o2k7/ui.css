@@ -170,6 +170,10 @@
 .o2k7Skin span.mce_object {background-position:-380px -40px}
 .o2k7Skin span.mce_custom {background-position:-400px -40px}
 .o2k7Skin span.mce_literal {background-position:-420px -40px}
+.o2k7Skin span.mce_disable {background-position:-460px -40px}
+.o2k7Skin span.mce_discard {background-position:-460px -20px}
+.o2k7Skin span.mce_store,
+.o2k7Skin span.mce_publish {background-position:-480px -20px}
 
 /* Plugins */
 .o2k7Skin span.mce_advhr {background-position:-0px -20px}

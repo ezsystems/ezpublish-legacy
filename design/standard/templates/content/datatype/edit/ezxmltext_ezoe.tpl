@@ -8,10 +8,13 @@
 
 {if $input_handler.is_editor_enabled}
 <!-- Start editor -->
+
+    {def $button_list = $input_handler.editor_button_list}
+
     {run-once}
+    {* code that only run once (common for all xml blocks) *}
 
     {def $custom_tags = ezini('CustomTagSettings', 'AvailableCustomTags', 'content.ini',,true() )
-         $button_list = ezini('EditorSettings', 'Buttons', 'ezoe.ini',,true()  )|implode(',')
          $plugin_list = ezini('EditorSettings', 'Plugins', 'ezoe.ini',,true()  )
          $skin        = ezini('EditorSettings', 'Skin', 'ezoe.ini',,true() )
          $skin_variant = ezini('EditorSettings', 'SkinVariant', 'ezoe.ini',,true() )
@@ -23,26 +26,6 @@
          $plugin_js_list   = array( 'ezoe::i18n::'|concat( $language ) )
     }
 
-    {* remove underline and pagebreak buttons if they are not activated *}
-    {if and( $custom_tags|contains('underline')|not, $button_list|contains(',underline') )}
-        {set $button_list = $button_list|explode(',underline')|implode('')}
-    {/if}
-
-    {if and( $custom_tags|contains('pagebreak')|not, $button_list|contains(',pagebreak') )}
-        {set $button_list = $button_list|explode(',pagebreak')|implode('')}
-    {/if}
-
-    {* remove image and object buttons if user dosn't have access to relations *}
-    {if fetch( 'user', 'has_access_to', hash( 'module', 'ezoe', 'function', 'relations' ) )|not()}
-	    {if $button_list|contains(',image')}
-	        {set $button_list = $button_list|explode(',image')|implode('')}
-	    {/if}
-	
-	    {if $button_list|contains(',object')}
-	        {set $button_list = $button_list|explode(',object')|implode('')}
-	    {/if}
-    {/if}
-    
     {if $skin_variant}
         {set $editor_css_list = $editor_css_list|append( concat('skins/', $skin, '/ui_', $skin_variant, '.css') )}
     {/if}
@@ -73,10 +56,11 @@
     eZOeMCE['contentobject_id'] = {$attribute.contentobject_id};
     eZOeMCE['contentobject_version'] = {$attribute.version};
     eZOeMCE['plugins']       = "-{$plugin_list|implode(',-')}";
-    eZOeMCE['buttons']       = "{$button_list}";
+    eZOeMCE['buttons']       = "{$button_list|implode(',')}";
     eZOeMCE['skin']          = '{$skin}';
     eZOeMCE['skin_variant']  = '{$skin_variant}';
     eZOeMCE['language']      = '{$language}';
+    eZOeMCE['disable_editor_id'] = {$attribute.id};
     eZOeMCE['dev_mode']      = {$dev_mode|cond( 'true', 'false' )};
 
     {literal}
@@ -114,6 +98,7 @@
     	theme_ez_content_css : eZOeMCE['content_css'],
     	popup_css : eZOeMCE['popup_css'],
     	gecko_spellcheck : true,
+    	save_enablewhendirty : true,
     	save_callback : "ezMceEditorSave"
     });
         
@@ -156,7 +141,7 @@
     </div>
     
     <div class="block">
-        <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_disable_editor]" value="{'Disable editor'|i18n('design/standard/content/datatype')}" />
+        <input class="button{if $button_list|contains('disable')} hide{/if}" type="submit" name="CustomActionButton[{$attribute.id}_disable_editor]" value="{'Disable editor'|i18n('design/standard/content/datatype')}" />
         <script type="text/javascript">
         <!--
         

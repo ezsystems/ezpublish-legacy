@@ -103,6 +103,7 @@ class eZOEXMLInput extends eZXMLInputHandler
     function hasAttribute( $name )
     {
         return ( $name === 'is_editor_enabled' or
+                 $name === 'editor_button_list' or
                  $name === 'browser_supports_dhtml_type' or
                  $name === 'is_compatible_version' or
                  $name === 'version' or
@@ -117,6 +118,8 @@ class eZOEXMLInput extends eZXMLInputHandler
     {
         if ( $name === 'is_editor_enabled' )
             $attr = eZOEXMLInput::isEditorEnabled();
+        else if ( $name === 'editor_button_list' )
+            $attr = $this->getEditorButtonList();
         else if ( $name === 'browser_supports_dhtml_type' )
             $attr = eZOEXMLInput::browserSupportsDHTMLType();
         else if ( $name === 'is_compatible_version' )
@@ -130,7 +133,7 @@ class eZOEXMLInput extends eZXMLInputHandler
         return $attr;
     }
 
-    /*!
+    /*! 
      \static
      \return true if the browser supports DHTML editing.
     */
@@ -232,16 +235,63 @@ class eZOEXMLInput extends eZXMLInputHandler
      \static
      \return if user has access to editor 
      */
-    static function currentUserHasAccess()
+    static function currentUserHasAccess( $view = 'editor' )
     {
-        $user = eZUser::currentUser();
-        if ( !$user instanceOf eZUser )
-            return false;
+        if ( !isset( self::$userAccessHash[ $view ] ) )
+        {
+            self::$userAccessHash[ $view ] = false;
+            $user = eZUser::currentUser();
+            if ( $user instanceOf eZUser )
+            {
+                $result = $user->hasAccessTo( 'ezoe', $view );
+                if ( $result['accessWord'] !== 'no'  )
+                    self::$userAccessHash[ $view ] = true;
+            }
+        }
+        return self::$userAccessHash[ $view ];
+    }
 
-        $result = $user->hasAccessTo( 'ezoe', 'editor' );
-        if ( $result['accessWord'] === 'no'  )
-            return false;
-        return true;
+    /*!
+     \static
+     \return list of buttons to use for editor
+     */
+    function getEditorButtonList()
+    {
+        if ( $this->editorButtonList === null )
+        {
+            $oeini = eZINI::instance( 'ezoe.ini' );
+            $buttonList = $oeini->variable('EditorSettings', 'Buttons' );
+            // TODO: Differnt button layouts schemes pr class attribute identifier support
+
+            $contentini = eZINI::instance( 'content.ini' );
+            $tags = $contentini->variable('CustomTagSettings', 'AvailableCustomTags' );
+            $hideButtons = array();
+            $showButtons = array();
+
+            // filter out underline if custom underline tag is not enabled
+            if ( !in_array('underline', $tags ) )
+                $hideButtons[] = 'underline';
+
+            // filter out pagebreak if custom pagebreak tag is not enabled
+            if ( !in_array('pagebreak', $tags ) )
+                $hideButtons[] = 'pagebreak';
+
+            // filter out relations buttons if user dosn't have access to relations
+            if ( !eZOEXMLInput::currentUserHasAccess( 'relations' ) )
+            {
+                $hideButtons[] = 'image';
+                $hideButtons[] = 'objects';
+            }
+             
+            foreach( $buttonList as $button )
+            {
+                if ( !in_array( $button, $hideButtons ) )
+                    $showButtons[] = $button;
+            }
+
+            $this->editorButtonList = $showButtons;
+        }
+        return $this->editorButtonList;
     }
 
     /*!
@@ -1353,9 +1403,12 @@ class eZOEXMLInput extends eZXMLInputHandler
         return htmlspecialchars( self::getServerURL() . '/' . $match['path'] );
     }
 
-    static private $serverURL   = null;
-    static private $browserType = null;
-    static private $designBases = null;
+    static protected $serverURL   = null;
+    static protected $browserType = null;
+    static protected $designBases = null;
+    static protected $userAccessHash = array();
+    
+    protected $editorButtonList = null;
 
     public $LineTagArray = array( 'emphasize', 'strong', 'link', 'a', 'em', 'i', 'b', 'bold', 'anchor' );
     /// Contains the XML data

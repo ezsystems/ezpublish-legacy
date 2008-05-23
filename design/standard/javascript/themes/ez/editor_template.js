@@ -39,6 +39,10 @@
 			custom : ['custom_desc', 'mceCustom'],
 			literal : ['literal_desc', 'mceLiteral'],
             pagebreak : ['pagebreak_desc', 'mcePageBreak'],
+            disable : ['disable_desc', 'mceDisableEditor'],
+            store : ['store_desc', 'mceStoreDraft'],
+            publish : ['publish_desc', 'mcePublishDraft'],
+            discard : ['discard_desc', 'mceDiscard'],
 			cleanup : ['cleanup_desc', 'mceCleanup'],
 			help : ['help_desc', 'mceHelp'],
 			code : ['code_desc', 'mceCodeEditor'],
@@ -134,6 +138,8 @@
 	            if (s.skin_variant && !s.editor_css )
 	                DOM.loadCSS(ed.baseURI.toAbsolute( "themes/ez/skins/" + ed.settings.skin + "/ui_" + s.skin_variant + ".css"));
             }
+
+            ed.addShortcut('ctrl+s', ed.getLang('save.save_desc'), 'mceStoreDraft');
 		},
 
 		createControl : function(n, cf) {
@@ -1347,6 +1353,55 @@
                     t.editor.execCommand('HiliteColor', false, co);
                 }
             });
+        },
+
+        _mceDisableEditor : function()
+        {
+            var ed = this.editor;
+            tinyMCE.triggerSave();
+            ed.isNotDirty = true;
+            this.__appendHiddenInputAndSubmit( 'CustomActionButton[' + eZOeMCE['disable_editor_id'] + '_disable_editor]' );
+        },
+
+        _mceDiscard : function()
+        {
+            this.__appendHiddenInputAndSubmit( 'DiscardButton' );
+        },
+
+        _mceStoreDraft : function()
+        {
+            var ed = this.editor;
+            tinyMCE.triggerSave();
+            ed.isNotDirty = true;
+            this.__appendHiddenInputAndSubmit( 'StoreButton' );
+        },
+
+        _mcePublishDraft : function()
+        {
+            var ed = this.editor;
+            tinyMCE.triggerSave();
+            ed.isNotDirty = true;
+            this.__appendHiddenInputAndSubmit( 'PublishButton' );
+        },
+
+        __appendHiddenInputAndSubmit : function( name, value )
+        {
+            var ed = this.editor, inp, formObj = tinymce.DOM.get(ed.id).form || tinymce.DOM.getParent(ed.id, 'form');
+
+            if ( formObj )
+            {
+                inp = document.createElement('input');
+                inp.type = 'hidden';
+                inp.name = name;
+                inp.value = value || 'hidden value';
+                formObj.appendChild( inp );
+
+                if (formObj.onsubmit == null || formObj.onsubmit() != false)
+                    formObj.submit();
+
+                ed.nodeChanged();
+            } else
+                ed.windowManager.alert("Error: No form element found.");
         },
 
         _ufirst : function(s) {

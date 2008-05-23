@@ -122,6 +122,18 @@ tinyMCEPopup.onInit.add( function(){
 
                         <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_help"></span></dt>
                         <dd>{'Open this help window.'|i18n("design/standard/ezoe/help")}</dd>
+
+                        <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_disable"></span></dt>
+                        <dd>{'Disable editor'|i18n("design/standard/content/datatype")}</dd>
+
+                        <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_publish"></span></dt>
+                        <dd>{'Send for publishing'|i18n("design/standard/content/edit")}</dd>
+
+                        <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_store"></span></dt>
+                        <dd>{'Store draft'|i18n("design/standard/content/edit")}</dd>
+
+                        <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_discard"></span></dt>
+                        <dd>{'Discard'|i18n("design/standard/content/edit")}</dd>
                     </dl>
                     
                     <h3>{'Icons in dialog windows'|i18n("design/standard/ezoe/help")}</h3>

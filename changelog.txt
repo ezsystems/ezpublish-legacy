@@ -16,6 +16,8 @@ eZ Online Editor MCE extension Changelog
 * Implemented #006730: Online Editor 3.0 does not obey permissions
   Now possible to limit access to editor / relations(upload and embed properties) / search / browse
 * Implemented #013076: Browse popup: improve image preview
+* Implemented #013019: Move "Enable/Disable Editor" button to OE toolbar
+* Implemented #009397: Missing OE Toolbar Buttons - #1 - save and #2 - publish
 
 5.0Beta2
 * Added debug as text comment in ajax view's (embed_view, expand, load and search)
