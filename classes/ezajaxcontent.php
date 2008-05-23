@@ -210,17 +210,20 @@ class eZAjaxContent
                 {
                     $content    = $atr->attribute( 'content' );
                     $imageArray = array();
-                    foreach( $params['imageSizes'] as $size )
+                    if ( $content != null )
                     {
-                        $imageArray[ $size ] = false;
-                        if ( in_array( $size, $params['imagePreGenerateSizes'] )
-                            && $content->hasAttribute( $size ) )
-                            $imageArray[ $size ] = $content->attribute( $size );
+                        foreach( $params['imageSizes'] as $size )
+                        {
+                            $imageArray[ $size ] = false;
+                            if ( in_array( $size, $params['imagePreGenerateSizes'] )
+                                && $content->hasAttribute( $size ) )
+                                $imageArray[ $size ] = $content->attribute( $size );
+                        }
+                        $ret['image_attributes'][] = $key;
                     }
 
                     $imageArray['original']             = array( 'url' => $attrtibuteArray[ $key ]['content'] );
                     $attrtibuteArray[ $key ]['content'] = $imageArray;
-                    $ret['image_attributes'][]          = $key;
                 }
             }
         }

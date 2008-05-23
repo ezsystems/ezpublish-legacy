@@ -90,6 +90,7 @@ $imageSizeArray  = $imageIni->variable( 'AliasSettings', 'AliasList' );
 $siteIni         = eZINI::instance( 'site.ini' );
 $contentIni      = eZINI::instance( 'content.ini' );
 $embedClassIdentifier = $embedObject->attribute( 'class_identifier' );
+$embedClassID         = $embedObject->attribute( 'contentclass_id' );
 $sizeTypeArray   = array();
 
 
@@ -100,9 +101,8 @@ if ( $contentType === 'auto' )
     else
         $imageClassIDArray = array();
     $imageClassIdentifiers = $siteIni->variable( 'MediaClassSettings', 'ImageClassIdentifiers' );
-    $classID               = $embedObject->attribute( 'contentclass_id' );
 
-    if ( in_array( $classID, $imageClassIDArray ) || in_array( $embedClassIdentifier, $imageClassIdentifiers ) )
+    if ( in_array( $embedClassID, $imageClassIDArray ) || in_array( $embedClassIdentifier, $imageClassIdentifiers ) )
         $contentType = 'image';
     else
         $contentType = 'object';

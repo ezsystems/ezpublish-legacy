@@ -896,7 +896,8 @@ class eZOEXMLInput extends eZXMLInputHandler
                     $contentObjectAttributes = $object->contentObjectAttributes();
                     $imageDatatypeArray = $ini->variable( 'ImageDataTypeSettings', 'AvailableImageDataTypes' );
                     $srcString = self::getDesignFile('images/tango/mail-attachment32.png');// . '" style="border: 1px solid #888;';
-                    foreach ( $contentObjectAttributes as $contentObjectAttribute )
+                    // reverse the array so we are sure we get the first valid image
+                    foreach ( array_reverse( $contentObjectAttributes, true ) as $contentObjectAttribute )
                     {
                         $classAttribute = $contentObjectAttribute->contentClassAttribute();
                         $dataTypeString = $classAttribute->attribute( 'data_type_string' );
@@ -905,7 +906,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                             $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
                             $contentObjectAttributeVersion = $contentObjectAttribute->attribute( 'version' );
                             $content = $contentObjectAttribute->content();
-                            if ( $content != null )
+                            if ( $content != null && $content->hasAttribute( $size ) )
                             {
                                 $imageAlias = $content->imageAlias( $size );
                                 $srcString = $URL . '/' . $imageAlias['url'];
