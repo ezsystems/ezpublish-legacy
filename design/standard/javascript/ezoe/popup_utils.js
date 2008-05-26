@@ -356,8 +356,11 @@ var eZOEPopupUtils = {
 	        var ed = tinyMCEPopup.editor, doc = ed.getDoc(), newNode = doc.createElement( targetTag );
 
 	        // copy children
-	        for ( var c = 0; c < currentNode.childNodes.length; c++ )
-	            newNode.appendChild( currentNode.childNodes[c].cloneNode(1) );
+	        if ( newNode.nodeName !== 'IMG' )
+	        {
+	           for ( var c = 0; c < currentNode.childNodes.length; c++ )
+	               newNode.appendChild( currentNode.childNodes[c].cloneNode(1) );
+	        }
 
 	        // copy attributes
 	        for ( var a = 0; a < currentNode.attributes.length; a++ )

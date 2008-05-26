@@ -13,9 +13,7 @@ eZOEPopupUtils.embedObject = {$embed_data};
 var defaultEmbedSize = '{$default_size}', selectedSize = defaultEmbedSize, contentType = '{$content_type}', attachmentIcon = {"tango/mail-attachment32.png"|ezimage};
 var viewListData = {$view_list}, classListData = {$class_list}, attributeDefaults = {$attribute_defaults}, selectedTagName = '';
 
-
 {literal}
-
 
 tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     tagName: 'embed',
@@ -46,7 +44,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
 	        selectors[1].el.value = align;
             selectors.callEach('addEvent', 'change', loadEmbedPreview );
 
-	        if ( el )
+	        if ( el && el.nodeName !== 'IMG' && el.id.split('_')[1] == eZOEPopupUtils.embedObject.id )
 	            ez.$('embed_preview').el.innerHTML = el.innerHTML;
 	        else
 	            loadEmbedPreview();        
@@ -263,12 +261,23 @@ function loadEmbedPreview( )
             <div class="left">
                 <input id="SaveButton" name="SaveButton" type="submit" value="{'OK'|i18n('design/standard/ezoe')}" />
                 <input id="CancelButton" name="CancelButton" type="reset" value="{'Cancel'|i18n('design/standard/ezoe')}" />
-            </div> 
+            </div>
+            <div class="right" style="text-align: right;">
+                <a id="embed_switch_link" href={concat( 'ezoe/upload/', $object_id,'/', $object_version,'/', $content_type )|ezurl}>
+                {if $content_type|eq('image')}
+                    {'Switch embed image'|i18n('design/standard/ezoe')}
+                {else}
+                    {'Switch embed object'|i18n('design/standard/ezoe')}
+                {/if}
+                </a>
+            </div>
         </div>
 
-        <h4 id="embed_preview_heading">{'Preview'|i18n('design/standard/node/view')}:</h4>
-        <div id="embed_preview">
-            {if $content_type|eq( 'image' )}<img id="embed_preview_image" alt="{$embed_object.name|wash}" />{/if}
+        <div class="block">
+            <h4 id="embed_preview_heading">{'Preview'|i18n('design/standard/node/view')}:</h4>
+            <div id="embed_preview">
+                {if $content_type|eq( 'image' )}<img id="embed_preview_image" alt="{$embed_object.name|wash}" />{/if}
+            </div>
         </div>
     </div>
 

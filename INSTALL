@@ -108,37 +108,29 @@ Installing eZ Online Editor MCE extension
 5. Set the Image class
 
    In eZ Publish, images are usually stored as Image objects. ezoe allows you
-   to insert various objects into XML fields. ezoe uses the IDs of the image
-   classes to determine whether the inserted object is an image or not.
+   to insert various objects into XML fields. ezoe uses the identifier of the
+   image classes to determine whether the inserted object is an image or not.
 
-   To check your Image Class ID, log in to your eZ Publish administration
+   To check your Image Class identifier, log in to your eZ Publish administration
    interface, access the 'Setup' tab, and then click 'Classes' on the left.
    You will see the list of class groups. Select the 'Media' group and find
-   the image class. The default ID of this class is 5 in a standard
-   eZ Publish installation. If your Image class ID is not 5, open the
-   'site.ini.append.php' file located in the 'extension/ezoe/settings/'
-   directory. Search for the following line under the [MediaClassSettings]
-   section:
+   the image class. The default identifier of this class is 'image' in a standard
+   eZ Publish installation. If your Image class identifier is not 'image', open the
+   'site.ini.append.php' file in settings/overrides/ or in one of you siteaccess 
+   settings. Look for the [MediaClassSettings] section, or add a new one like this:
 
-   ImageClassID[]=5
+   [MediaClassSettings]
+   ImageClassIdentifiers[]=image
 
-   Replace '5' with the value of the image class that your installation
-   is using.
-
-   If you have created different/additional image class, you can add these
-   by extending the 'ImageClassID[]' configuration array. Add the following
-   line under the [MediaClassSettings] section:
-
-   ImageClassID[]=your_id
-
-   Note: The ImageClassID setting is deprecated. Use the ImageClassIdentifiers
-   setting instead in the same [MediaClassSettings] section.
+   Replace 'image' with the value of the image class that your installation
+   is using, and add more entries if you have several image classes.
 
 6. Add permission to Editor users (optional)
 
    Some parts of the editor have possibility to limit rights pr user,
    this means you need to give editors access to all or parts of the 
    'ezoe' module so they can use the editor.
+   The function 'editor' in the 'ezoe' module defines access to the editor.
 
 
 7. Clear all the eZ Publish caches.
