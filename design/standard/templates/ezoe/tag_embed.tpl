@@ -57,12 +57,15 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     {
 	    if ( contentType === 'image' )
 	        return '<img id="__mce_tmp" src="javascript:void(0);" />';
+	    //if ( ez.$('embed_inline_source').el.checked )
+	       //return '<span id="__mce_tmp">' + ez.$$('#embed_preview div')[0].el.innerHTML + '</span>';
 	    return '<div id="__mce_tmp">' + ez.$$('#embed_preview div')[0].el.innerHTML + '</div>';
     },
     tagAttributeEditor: function( ed, el, args )
     {
         args['id'] = 'eZObject_' + eZOEPopupUtils.embedObject['contentobject_id'];
         args['inline'] = ez.$('embed_inline_source').el.checked ? 'true' : 'false';
+        el = eZOEPopupUtils.switchTagTypeIfNeeded( el, (contentType === 'image' ? 'img' : 'div') );//(args['inline'] === 'true' ? 'span' : 'div') ) );
 	    if ( contentType === 'image' )
 	    {
 	        var imageAttributes = eZOEPopupUtils.embedObject['image_attributes'];
