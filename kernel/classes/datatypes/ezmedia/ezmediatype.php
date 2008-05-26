@@ -232,6 +232,9 @@ class eZMediaType extends eZDataType
             case 'real_player' :
                 $pluginPage = "http://www.real.com/";
             break;
+            case 'silverlight':
+                $pluginPage = "http://go.microsoft.com/fwlink/?LinkID=108182";
+            break;
             case 'windows_media_player' :
                 $pluginPage = "http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=6,4,7,1112" ;
             break;

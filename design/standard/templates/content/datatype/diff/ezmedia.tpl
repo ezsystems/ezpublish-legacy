@@ -10,6 +10,7 @@
             {case match=flash}{'Flash'|i18n( 'design/standard/content/datatype' )}{/case}
             {case match=quick_time}{'QuickTime'|i18n( 'design/standard/content/datatype' )}{/case}
             {case match=real_player}{'RealPlayer'|i18n( 'design/standard/content/datatype' )}{/case}
+            {case match=silverlight}{'Silverlight'|i18n( 'design/standard/content/datatype' )}{/case}
             {case match=windows_media_player}{'Windows Media Player'|i18n( 'design/standard/content/datatype' )}{/case}
             {case}{'Unknown'|i18n( 'design/standard/content/datatype' )}{/case}
             {/switch}
@@ -108,6 +109,36 @@
         {/case}
 
         {case match=real_player}
+        <div class="block">
+            <label>{'Current file'|i18n( 'design/standard/content/datatype' )}:</label>
+            <table class="list" cellspacing="0">
+            <tr>
+                <th>{'Filename'|i18n( 'design/standard/content/datatype' )}</th>
+                <th>{'MIME type'|i18n( 'design/standard/content/datatype' )}</th>
+                <th>{'Size'|i18n( 'design/standard/content/datatype' )}</th>
+                <th>{'Width'|i18n( 'design/standard/content/datatype' )}</th>
+                <th>{'Height'|i18n( 'design/standard/content/datatype' )}</th>
+                <th>{'Quality'|i18n( 'design/standard/content/datatype' )}</th>
+                <th>{'Autoplay'|i18n( 'design/standard/content/datatype' )}</th>
+                <th>{'Loop'|i18n( 'design/standard/content/datatype' )}</th>
+                <th>{'Controls'|i18n( 'design/standard/content/datatype' )}</th>
+            </tr>
+            <tr>
+                <td>{$attr.content.original_filename}</td>
+                <td>{$attr.content.mime_type}</td>
+                <td>{$attr.content.filesize|si( byte )}</td>
+                <td>{if $attr.content.width|gt( 0 )}{$attr.content.width}{/if}</td>
+                <td>{if $attr.content.height|gt( 0 )}{$attr.content.height}{/if}</td>
+                <td>{$attr.content.quality}</td>
+                <td>{if $attr.content.is_autoplay}True{else}False{/if}</td>
+                <td>{if $attr.content.is_loop}True{else}False{/if}</td>
+                <td>{$attr.content.controls}</td>
+            </tr>
+            </table>
+        </div>
+        {/case}
+
+        {case match=silverlight}
         <div class="block">
             <label>{'Current file'|i18n( 'design/standard/content/datatype' )}:</label>
             <table class="list" cellspacing="0">

@@ -9,6 +9,7 @@
     {case match=flash}{'Flash'|i18n( 'design/standard/content/datatype' )}{/case}
     {case match=quick_time}{'QuickTime'|i18n( 'design/standard/content/datatype' )}{/case}
     {case match=real_player}{'RealPlayer'|i18n( 'design/standard/content/datatype' )}{/case}
+    {case match=silverlight}{'Silverlight'|i18n( 'design/standard/content/datatype' )}{/case}
     {case match=windows_media_player}{'Windows Media Player'|i18n( 'design/standard/content/datatype' )}{/case}
     {case}{'Unknown'|i18n( 'design/standard/content/datatype' )}{/case}
     {/switch}
@@ -269,8 +270,30 @@
 </div>
 {/case}
 
+{* Silverlight media. *}
+{case match=silverlight}
+<div class="block">
+    <input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1|mul( 1024, 1024 )}" />
+    <label>{'New file for upload'|i18n( 'design/standard/content/datatype' )}:</label>
+    <input class="box" name="{$attribute_base}_data_mediafilename_{$attribute.id}" type="file" />
+</div>
 
+<div class="block">
 
+<div class="element">
+    <label>{'Width'|i18n( 'design/standard/content/datatype' )}:</label>
+    <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_width" type="text" name="{$attribute_base}_data_media_width_{$attribute.id}" size="5" value="{$attribute.content.width}" />
+</div>
+
+<div class="element">
+    <label>{'Height'|i18n( 'design/standard/content/datatype' )}:</label>
+    <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_height" type="text" name="{$attribute_base}_data_media_height_{$attribute.id}" size="5" value="{$attribute.content.height}" />
+</div>
+
+<div class="break"></div>
+
+</div>
+{/case}
 
 {* Windows media. *}
 {case match=windows_media_player}

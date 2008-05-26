@@ -53,4 +53,25 @@ width="{$attribute.content.width}" height="{$attribute.content.height}">
  controls="{$attribute.content.controls}" >
 </embed> </object>
 {/case}
+    {case match=silverlight}
+    {literal}
+    <script type="text/javascript">
+        function onErrorHandler(sender, args) { }
+        function onResizeHandler(sender, args) { }
+    </script>
+    {/literal}
+
+    <div id="silverlightControlHost">
+      <!-- Silverlight plug-in control -->
+        <object data="data:application/x-silverlight," type="application/x-silverlight-2-b1" {if $attribute.content.width|gt( 0 )}width="{$attribute.content.width}"{/if} {if $attribute.content.height|gt( 0 )}height="{$attribute.content.height}"{/if}>
+            <param name="source" value="{concat( "content/download/", $attribute.contentobject_id, "/", $attribute.content.contentobject_attribute_id, "/", $attribute.content.original_filename)|ezurl( 'no' )}" />
+            <param name="onError" value="onErrorHandler" />
+            <param name="onResize" value="onResizeHandler" />
+            <a href="http://go.microsoft.com/fwlink/?LinkID=108182" style="text-decoration: none;">
+                <img src="http://go.microsoft.com/fwlink/?LinkId=108181" alt="Get Microsoft Silverlight" style="border-style: none;" />
+            </a>
+        </object>
+        <iframe style="visibility: hidden; height: 0; width: 0; border: 0px;"></iframe>
+    </div>
+    {/case}
 {/switch}
