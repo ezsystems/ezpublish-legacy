@@ -628,7 +628,8 @@ class eZMimeType
         array( 'otp', 'application/vnd.oasis.opendocument.presentation-template' ),
         array( 'otg', 'application/vnd.oasis.opendocument.graphics-template' ),
         array( 'asf', 'video/x-ms-asf' ),
-        array( 'wmv', 'video/x-ms-wmv' )
+        array( 'wmv', 'video/x-ms-wmv' ),
+	array( 'xap', 'application/x-silverlight-app' )
         );
 }
 ?>
