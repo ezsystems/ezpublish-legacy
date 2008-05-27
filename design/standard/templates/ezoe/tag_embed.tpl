@@ -57,15 +57,15 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     {
 	    if ( contentType === 'image' )
 	        return '<img id="__mce_tmp" src="javascript:void(0);" />';
-	    //if ( ez.$('embed_inline_source').el.checked )
-	       //return '<span id="__mce_tmp">' + ez.$$('#embed_preview div')[0].el.innerHTML + '</span>';
+	    if ( ez.$('embed_inline_source').el.checked )
+	       return '<span id="__mce_tmp">' + ez.$$('#embed_preview div')[0].el.innerHTML + '</span>';
 	    return '<div id="__mce_tmp">' + ez.$$('#embed_preview div')[0].el.innerHTML + '</div>';
     },
     tagAttributeEditor: function( ed, el, args )
     {
         args['id'] = 'eZObject_' + eZOEPopupUtils.embedObject['contentobject_id'];
         args['inline'] = ez.$('embed_inline_source').el.checked ? 'true' : 'false';
-        el = eZOEPopupUtils.switchTagTypeIfNeeded( el, (contentType === 'image' ? 'img' : 'div') );//(args['inline'] === 'true' ? 'span' : 'div') ) );
+        el = eZOEPopupUtils.switchTagTypeIfNeeded( el, (contentType === 'image' ? 'img' : (args['inline'] === 'true' ? 'span' : 'div') ) );
 	    if ( contentType === 'image' )
 	    {
 	        var imageAttributes = eZOEPopupUtils.embedObject['image_attributes'];
@@ -88,7 +88,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
 	        el.innerHTML = ez.$('embed_preview').el.innerHTML;
 	        //ed.dom.setStyle(el, 'float', args['align'] === 'middle' ? '' : args['align']);
 	        args['title']   = eZOEPopupUtils.safeHtml( eZOEPopupUtils.embedObject['name'] );
-	        el.style.display = args['inline'] === 'false' ? 'block' : 'inline';
+	        //el.style.display = args['inline'] === 'false' ? 'block' : 'inline';
 	    }
         ed.dom.setAttribs( el, args );
     }
@@ -252,7 +252,7 @@ function loadEmbedPreview( )
             <tr id="embed_inline">
                 <td class="column1"><label for="embed_inline_source">{'Inline'|i18n('design/standard/ezoe')}</label></td>
                 <td>
-                    <input type="checkbox" id="embed_inline_source" name="inline" value="false"{if $tag_name|eq('embed-inline')} checked="checked"{/if} />
+                    <input type="checkbox" id="embed_inline_source" name="inline" value="true"{*if $tag_name|eq('embed-inline')} checked="checked"{/if*} />
                 </td>
             </tr>
         </table>

@@ -814,8 +814,8 @@
 			p = DOM.getParent(n, 'DIV');
             if (c = cm.get('object'))
             {
-                if ( ( p && p.nodeName === 'DIV' && p.className.indexOf('mceNonEditable') !== -1 )
-                   || (p = t.__getParentByTag( n, 'div', 'mceNonEditable') ) )
+                if ( ( p && (p.nodeName === 'DIV' || p.nodeName === 'SPAN') && p.className.indexOf('mceNonEditable') !== -1 )
+                   || (p = t.__getParentByTag( n, 'div,span', 'mceNonEditable') ) )
                 {
 	                ed.selection.select( p );
 	                div = true;
@@ -1016,20 +1016,19 @@
 
 		__getParentByTag: function( n, tag, className, type, checkElement )
 	    {
-	        if ( className ) className = ' ' + className + ' ';
-	        tag = tag.toUpperCase();
-	        while ( n !== undefined && n.nodeName !== undefined && n.nodeName !== 'BODY' )
-	        {
-	            
-	            if ( checkElement && n.nodeName === tag 
-	            && ( !className || (' ' + n.className + ' ').indexOf( className ) !== -1 ) 
-	            &&  ( !type || n.getAttribute('type') === type ) )
-	            {
-	                return n;
-	            }
-	            n = n.parentNode;
-	            checkElement = true;
-	        }
+            if ( className ) className = ' ' + className + ' ';
+            tag = ',' + tag.toUpperCase() + ',';
+            while ( n !== undefined && n.nodeName !== undefined && n.nodeName !== 'BODY' )
+            {
+                if ( checkElement && tag.indexOf( ',' + n.nodeName + ',' ) !== -1
+                && ( !className || (' ' + n.className + ' ').indexOf( className ) !== -1 ) 
+                && ( !type || n.getAttribute('type') === type ) )
+                {
+                    return n;
+                }
+                n = n.parentNode;
+                checkElement = true;
+            }
 	        return false;
 	    },
 
@@ -1048,7 +1047,7 @@
             // Remove embed tag if user clicks del or backspace
             if ( k === 8 || k === 46 )
             {
-                var n = this.__getParentByTag( ed.selection.getNode(), 'DIV', 'mceNonEditable', '', true );
+                var n = this.__getParentByTag( ed.selection.getNode(), 'DIV,SPAN', 'mceNonEditable', '', true );
                 if ( n !== undefined && n.parentNode && n.parentNode.removeNode !== undefined )
                 {
                     // Avoid that several embed tags are removed at once if they are placed side by side
@@ -1278,10 +1277,10 @@
         {
             var ed = this.editor, e = ed.selection.getNode(), eurl = 'object/', type = '/upload/', el;
             
-            if ( ui.nodeName === 'DIV' && ui.className.indexOf('mceNonEditable') !== -1 )
+            if ( (ui.nodeName === 'DIV' || ui.nodeName === 'SPAN') && ui.className.indexOf('mceNonEditable') !== -1 )
                 e = ui;
 
-            if ( e = this.__getParentByTag( e, 'div', 'mceNonEditable', '', true ) )
+            if ( e = this.__getParentByTag( e, 'div,span', 'mceNonEditable', '', true ) )
             {
                 type = '/relations/';
                 el = e;

@@ -142,7 +142,7 @@ div.pagebreak p { margin: 0; }
 
 /* change the style for embed tags */
 
-div.mceNonEditable
+div.mceNonEditable, span.mceNonEditable
 {
     background: transparent url('../../../images/tango/mail-attachment.png') no-repeat 0 2px scroll;
     min-height: 18px;

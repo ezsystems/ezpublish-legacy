@@ -109,6 +109,8 @@ if ( $http->hasPostVariable('view') )
 if ( $http->hasPostVariable('align') )
 {
     $align = $http->postVariable('align');
+    if ( $align === 'middle' )
+        $align = 'center';
 }
 
 //if ( $align === 'left' || $align === 'right' )

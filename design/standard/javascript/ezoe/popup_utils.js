@@ -162,7 +162,7 @@ var eZOEPopupUtils = {
                 ed.execCommand('mceInsertLink', false, args, {skip_undo : 1} );
                 s.editorElement = ed.dom.get('__mce_tmp');
                 // fixup if we are inside embed tag
-                if ( tmp = eZOEPopupUtils.getParentByTag( s.editorElement, 'div', 'mceNonEditable' ) )
+                if ( tmp = eZOEPopupUtils.getParentByTag( s.editorElement, 'div,span', 'mceNonEditable' ) )
                 {
                     var span = document.createElement("span");
                     span.innerHTML = s.editorElement.innerHTML;
@@ -279,16 +279,21 @@ var eZOEPopupUtils = {
 	     return '';
 	},
 
-	getParentByTag: function( el, tag, className, type )
+	getParentByTag: function( n, tag, className, type, checkElement )
 	{
-	    className = ' ' + className + ' ';
-	    tag = tag.toUpperCase();
-	    while ( el && el.nodeName !== undefined && el.nodeName !== 'BODY' )
-	    {
-	        el = el.parentNode;
-	        if ( el && el.nodeName === tag && ( className === undefined || (' ' + el.className + ' ').indexOf( className ) !== -1 ) &&  ( type === undefined || el.getAttribute('type') === type ) )
-	            return el;
-	    }
+        if ( className ) className = ' ' + className + ' ';
+        tag = ',' + tag.toUpperCase() + ',';
+        while ( n !== undefined && n.nodeName !== undefined && n.nodeName !== 'BODY' )
+        {
+            if ( checkElement && tag.indexOf( ',' + n.nodeName + ',' ) !== -1
+            && ( !className || (' ' + n.className + ' ').indexOf( className ) !== -1 ) 
+            && ( !type || n.getAttribute('type') === type ) )
+            {
+                return n;
+            }
+            n = n.parentNode;
+            checkElement = true;
+        }
 	    return false;
 	},
 
@@ -309,7 +314,12 @@ var eZOEPopupUtils = {
 	            return;
 	        var name = o.el.name;
 	        if ( values[name] !== undefined )
-	            o.el.value = values[name];
+	        {
+	            if ( o.el.type === 'checkbox' )
+	               o.el.checked = values[name] == o.el.value;
+	            else
+	               o.el.value = values[name];
+	        }
 	    });
 	},
 
@@ -341,7 +351,13 @@ var eZOEPopupUtils = {
 	                var v = ez.string.trim( editorElement.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable)/g, '').replace( eZOEPopupUtils.settings.cssClass, '' ) );
                 else 
                     var v = tinyMCEPopup.editor.dom.getAttrib( editorElement, name );//editorElement.getAttribute( name );
-                if ( v !== false && v !== null && v !== undefined ) o.el.value = v;
+                if ( v !== false && v !== null && v !== undefined )
+                {
+                    if ( o.el.type === 'checkbox' )
+                        o.el.checked = v == o.el.value;
+                    else
+                        o.el.value = v;
+                }
 	        });
 	    }
 	},

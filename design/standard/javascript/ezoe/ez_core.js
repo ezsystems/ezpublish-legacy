@@ -649,7 +649,7 @@ ez.element.eZextensions.prototype = {
                 break;
             case 'top':
             case 'left':
-                r = this.getStyle('position') === 'relative' ? 0 : this.getPos( s );
+                r = this.getStyle('position') === 'relative' ? 0 : this.getPosition( s );
           }
        }
        return r;

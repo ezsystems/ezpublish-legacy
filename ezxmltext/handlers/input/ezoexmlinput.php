@@ -123,7 +123,7 @@ class eZOEXMLInput extends eZXMLInputHandler
         else if ( $name === 'browser_supports_dhtml_type' )
             $attr = eZOEXMLInput::browserSupportsDHTMLType();
         else if ( $name === 'is_compatible_version' )
-            $attr = eZOEXMLInput::isCompatibleVersion();
+            $attr = $this->isCompatibleVersion();
         else if ( $name === 'version' )
             $attr = eZOEXMLInput::version();
         else if ( $name === 'ezpublish_version' )
@@ -252,7 +252,6 @@ class eZOEXMLInput extends eZXMLInputHandler
     }
 
     /*!
-     \static
      \return list of buttons to use for editor
      */
     function getEditorButtonList()
@@ -916,7 +915,9 @@ class eZOEXMLInput extends eZXMLInputHandler
                 else
                     $objectAttr .= ' inline="false"';
 
-                if ( $alignment )
+                if ( $alignment === 'center' )
+                    $objectAttr .= ' align="middle"';
+                else if ( $alignment )
                     $objectAttr .= ' align="' . $alignment . '"';
 
                 $customAttributePart = $this->getCustomAttrPart( $tag );
@@ -1001,7 +1002,10 @@ class eZOEXMLInput extends eZXMLInputHandler
                     //if ( $alignment !== 'center' )
                         //$objectAttr .= ' style="float:' . $alignment . ';"';
                     if ( $tagName === 'embed-inline' )
-                        $objectAttr .= ' style="display: inline;"';
+                        $htmlTagName = 'span';
+                    else
+                        $htmlTagName = 'div';    
+                        //$objectAttr .= ' style="display: inline;"';
                     
                     $objectParam = array( 'size' => $size, 'align' => $alignment, 'show_path' => $showPath );
                     if ( $htmlID ) $objectParam['id'] = $htmlID;
@@ -1017,7 +1021,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                     $tpl->setVariable( 'object_parameters', $objectParam );
                     if ( isset( $node ) ) $tpl->setVariable( 'node', $node );
                     $templateOutput = $tpl->fetch( 'design:content/datatype/view/ezxmltags/' . $tagName . $tplSuffix . '.tpl' );
-                    $output .= '<div id="' . $idString . '" title="' . $objectName . '"' . $objectAttr . $customAttributePart . '>' . $templateOutput . '</div>';
+                    $output .= '<' . $htmlTagName . ' id="' . $idString . '" title="' . $objectName . '"' . $objectAttr . $customAttributePart . '>' . $templateOutput . '</' . $htmlTagName . '>';
                 }
             }break;
 

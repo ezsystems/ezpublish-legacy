@@ -186,6 +186,12 @@ class eZOEInputParser extends eZXMLInputParser
             $attributes['class'] = trim( str_replace('mceItemCustomTag', '', $attributes['class']) );
             $attributes['name'] = $attributes['class'];
         }
+
+        if ( $name === '' && isset( $attributes['id'] ) )
+        {
+            $name = $this->tagNameDiv( $tagName, $attributes );
+        }
+
         return $name;
     }
 
@@ -258,8 +264,6 @@ class eZOEInputParser extends eZXMLInputParser
             {
                 // decide if inline or block embed tag
                 if ( isset( $attributes['inline'] ) && $attributes['inline'] === 'true' )
-                    $name = 'embed-inline';
-                else if ( isset( $attributes['style'] ) && strpos( $attributes['style'], 'inline' ) !== false )
                     $name = 'embed-inline';
                 else
                     $name = 'embed';
