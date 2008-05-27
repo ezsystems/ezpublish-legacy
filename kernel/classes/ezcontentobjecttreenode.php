@@ -1687,7 +1687,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         else if ( $sliceLength > 0 )
         {
             $db = eZDB::instance();
-            $pathString = ' ' . $db->generateSQLInStatement( $pathArray, 'node_id' ) . ' and ';
+            $pathString = ' node_id IN ( ' . implode( ', ', $pathArray  ) . ') and ';
         }
 
         return $pathString;
