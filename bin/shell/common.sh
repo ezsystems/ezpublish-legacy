@@ -83,54 +83,54 @@ function ezdist_check_ezlupdate
     check="$1"
 
     if [ ! -f bin/linux/ezlupdate ]; then
-	[ "x$check" == "x1" ] && return 1
-	echo "You do not have the ezlupdate program compiled"
-	echo "this is required to create a distribution"
-	echo
-	echo "(cd support/lupdate-ezpublish3; qmake; make)"
-	echo
-	echo "NOTE: qmake may in some cases not be in PATH, provide the full path in those cases"
-	echo
+    [ "x$check" == "x1" ] && return 1
+    echo "You do not have the ezlupdate program compiled"
+    echo "this is required to create a distribution"
+    echo
+    echo "(cd support/lupdate-ezpublish3; qmake; make)"
+    echo
+    echo "NOTE: qmake may in some cases not be in PATH, provide the full path in those cases"
+    echo
 
-	while [ 1 ]; do
-	    echo -n "Do you wish updatetranslation.sh to compile ezlupdate for you? [Yes|no] "
-	    read make_it
-	    make_it=`echo $make_it | tr A-Z a-z`
-	    [ -z "$make_it" ] && make_it="y"
-	    case "$make_it" in
-		y|yes)
-		    make_it="1"
-		    ;;
-		n|no|q|quit)
-		    exit 1
-		    ;;
-		*)
-		    echo "Invalid answer $make_it, use y|yes|n|no"
-		    make_it=""
-		    ;;
-	    esac
-	    if [ -n "$make_it" ]; then
-		echo
-		echo "Building ezlupdate"
-		echo
-		(cd support/lupdate-ezpublish3 &&
-		    qmake &&
-		    make)
-		if [ $? -ne 0 ]; then
-		    echo "Failed to build ezlupdate automatically"
-		    exit 1
-		fi
-		break
-	    fi
-	done
-	if [ ! -f bin/linux/ezlupdate ]; then
-	    echo
-	    echo "The compilation process for ezlupdate was successful but the executable"
-	    echo "bin/linux/ezlupdate could not be found"
-	    echo
-	    echo "Try building the executable yourself"
-	    exit 1
-	fi
+    while [ 1 ]; do
+        echo -n "Do you wish updatetranslation.sh to compile ezlupdate for you? [Yes|no] "
+        read make_it
+        make_it=`echo $make_it | tr A-Z a-z`
+        [ -z "$make_it" ] && make_it="y"
+        case "$make_it" in
+        y|yes)
+            make_it="1"
+            ;;
+        n|no|q|quit)
+            exit 1
+            ;;
+        *)
+            echo "Invalid answer $make_it, use y|yes|n|no"
+            make_it=""
+            ;;
+        esac
+        if [ -n "$make_it" ]; then
+        echo
+        echo "Building ezlupdate"
+        echo
+        (cd support/ezlupdate &&
+            qmake &&
+            make)
+        if [ $? -ne 0 ]; then
+            echo "Failed to build ezlupdate automatically"
+            exit 1
+        fi
+        break
+        fi
+    done
+    if [ ! -f bin/linux/ezlupdate ]; then
+        echo
+        echo "The compilation process for ezlupdate was successful but the executable"
+        echo "bin/linux/ezlupdate could not be found"
+        echo
+        echo "Try building the executable yourself"
+        exit 1
+    fi
     fi
     return 0
 }
@@ -141,20 +141,20 @@ function ezdist_update_ezlupdate
 {
     echo "Building ezlupdate executable"
     echo
-    (cd support/lupdate-ezpublish3 &&
-	qmake &&
-	make)
+    (cd support/ezlupdate &&
+    qmake &&
+    make)
     if [ $? -ne 0 ]; then
-	echo "Failed to build ezlupdate automatically"
-	return 1
+    echo "Failed to build ezlupdate automatically"
+    return 1
     fi
     if [ ! -f bin/linux/ezlupdate ]; then
-	echo
-	echo "The compilation process for ezlupdate was successful but the executable"
-	echo "bin/linux/ezlupdate could not be found"
-	echo
-	echo "Try building the executable yourself"
-	return 1
+    echo
+    echo "The compilation process for ezlupdate was successful but the executable"
+    echo "bin/linux/ezlupdate could not be found"
+    echo
+    echo "Try building the executable yourself"
+    return 1
     fi
     return 0
 }
@@ -171,9 +171,9 @@ function ez_move_to_col
 {
     local col
     if [ $# -gt 0 ]; then
-	col=$1
+    col=$1
     else
-	col=$RES_COL
+    col=$RES_COL
     fi
     echo -en "\\033[${col}G"
 }
@@ -318,9 +318,9 @@ function ez_color_h1
 function ez_result_output
 {
     if [ $1 -ne 0 ]; then
-	echo "`ez_move_to_col``ez_color_fail '[ Failure ]'`"
-	echo "$2"
-	return 1
+    echo "`ez_move_to_col``ez_color_fail '[ Failure ]'`"
+    echo "$2"
+    return 1
     fi
     echo "`ez_move_to_col``ez_color_ok '[ Success ]'`"
     return 0
@@ -345,9 +345,9 @@ function ez_result_output_skipped
 function ez_result_file
 {
     if [ $1 -ne 0 ]; then
-	echo "`ez_move_to_col``ez_color_fail '[ Failure ]'`"
-	cat "$2"
-	return 1
+    echo "`ez_move_to_col``ez_color_fail '[ Failure ]'`"
+    cat "$2"
+    return 1
     fi
     echo "`ez_move_to_col``ez_color_ok '[ Success ]'`"
     return 0
@@ -359,7 +359,7 @@ function ez_result_file
 function ezdist_is_undef
 {
     if [ "$1" == "undef" ]; then
-	return 0
+    return 0
     fi
     return 1
 }
@@ -369,7 +369,7 @@ function ezdist_is_undef
 function ezdist_is_def
 {
     if [ "$1" == "undef" ]; then
-	return 1
+    return 1
     fi
     return 0
 }
@@ -380,7 +380,7 @@ function ezdist_is_empty
 {
     ezdist_is_undef "$1" && return 0
     if [ "$1" == "none" -o "$1" == "undef" ]; then
-	return 0
+    return 0
     fi
     return 1
 }
@@ -391,7 +391,7 @@ function ezdist_is_nonempty
 {
     ezdist_is_undef "$1" && return 1
     if [ "$1" == "none" -o "$1" == "undef" ]; then
-	return 1
+    return 1
     fi
     return 0
 }
