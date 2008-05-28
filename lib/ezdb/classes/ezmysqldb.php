@@ -907,7 +907,14 @@ set|values|select).*)?/",
     */
     function escapeString( $str )
     {
-        return mysql_real_escape_string( $str );
+        if ( $this->IsConnected )
+        {
+            return mysql_real_escape_string( $str, $this->DBConnection );
+        }
+        else
+        {
+            return mysql_escape_string( $str );
+        }
     }
 
     /*!
