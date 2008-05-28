@@ -20,7 +20,7 @@
                 used if you want caching to work.
 <END:code-template::group-filter>
     */
-    static function /*START:code-template::name-create*/canCreateClassList/*END:code-template::name-create*/
+    /*START:code-template::static-method*/static /*END:code-template::static-method*/function /*START:code-template::name-create*/canCreateClassList/*END:code-template::name-create*/
 /*START:code-template::name-instantiate*/canInstantiateClassList/*END:code-template::name-instantiate*/
 ( /*START:code-template::object-creation*/$asObject = false/*END:code-template::object-creation*/
 /*START:code-template::object-creation&group-filter*/, /*END:code-template::object-creation&group-filter*/
@@ -179,7 +179,7 @@
         {
             $classList = array();
             $db = eZDB::instance();
-            // If $asObject is true we fetch all fields in class	
+            // If $asObject is true we fetch all fields in class
             $fields = $asObject ? "cc.*, $classNameFilter[nameField]" : "cc.id, $classNameFilter[nameField]";
 /*START:code-template::class-sql-creation*/
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
@@ -193,7 +193,7 @@
                                      "WHERE cc.version = " . eZContentClass::VERSION_STATUS_DEFINED . " $filterSQL AND $classNameFilter[where]\n" .
                                      "ORDER BY $classNameFilter[nameField] ASC" );
 /*END:code-template::object-sql-creation*/
-            $classList = eZPersistentObject::handleRows( $rows, 'eZContentClass', $asObject );	
+            $classList = eZPersistentObject::handleRows( $rows, 'eZContentClass', $asObject );
         }
         else
         {
