@@ -1205,13 +1205,13 @@ if [ -f $DEST/kernel/sql/postgresql/doc.sql ]; then
     fi
 fi
 
-if [ -f $DEST/support/lupdate-ezpublish3/Makefile ]; then
-    (cd "$DEST/support/lupdate-ezpublish3" && \
+if [ -f $DEST/support/ezlupdate/Makefile ]; then
+    (cd "$DEST/support/ezlupdate" && \
         qmake &>/dev/null && \
         make clean &>/dev/null && \
         rm -rf Makefile moc obj)
     if [ $? -ne 0 ]; then
-        ez_result_output 1 "Failed to cleanup ezlupdate temporary files in `ez_color_dir $DEST/support/lupdate-ezpublish3`"
+        ez_result_output 1 "Failed to cleanup ezlupdate temporary files in `ez_color_dir $DEST/support/ezlupdate`"
         exit 1
     fi
 fi
