@@ -540,7 +540,7 @@ class eZSys
                 $accessPathArray = $instance->AccessPath;
                 array_shift( $accessPathArray ); //remove first element from accessPath as this is siteaccess name.
                 $accessPath = implode( '/', $accessPathArray );
-                $text .= '/' . $accessPath;
+                $text .= $accessPath;
                 return $text;
             }
         }
