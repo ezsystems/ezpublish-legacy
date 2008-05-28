@@ -20,8 +20,8 @@
                 used if you want caching to work.
 <END:code-template::group-filter>
     */
-    function /*START:code-template::name-create*/&canCreateClassList/*END:code-template::name-create*/
-/*START:code-template::name-instantiate*/&canInstantiateClassList/*END:code-template::name-instantiate*/
+    static function /*START:code-template::name-create*/canCreateClassList/*END:code-template::name-create*/
+/*START:code-template::name-instantiate*/canInstantiateClassList/*END:code-template::name-instantiate*/
 ( /*START:code-template::object-creation*/$asObject = false/*END:code-template::object-creation*/
 /*START:code-template::object-creation&group-filter*/, /*END:code-template::object-creation&group-filter*/
 /*START:code-template::group-filter*/$includeFilter = true, $groupList = false, $fetchID = false/*END:code-template::group-filter*/ )
@@ -79,7 +79,7 @@
             else
             {
                 $http->setSessionVariable( 'ClassesCachedForUser' , $userID );
-                $http->setSessionVariable( 'ClassesCachedTimestamp', mktime() );
+                $http->setSessionVariable( 'ClassesCachedTimestamp', time() );
             }
         }
 
@@ -178,22 +178,22 @@
         if ( $fetchAll )
         {
             $classList = array();
-            $db = eZDb::instance();
+            $db = eZDB::instance();
             // If $asObject is true we fetch all fields in class	
             $fields = $asObject ? "cc.*, $classNameFilter[nameField]" : "cc.id, $classNameFilter[nameField]";
 /*START:code-template::class-sql-creation*/
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
                                      "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from]\n" .
-                                     "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . " $filterSQL\n" .
+                                     "WHERE cc.version = " . eZContentClass::VERSION_STATUS_DEFINED . " $filterSQL\n" .
                                      "ORDER BY $classNameFilter[nameField] ASC" );
 /*END:code-template::class-sql-creation*/
 /*START:code-template::object-sql-creation*/
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
                                      "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from]\n" .
-                                     "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . " $filterSQL AND $classNameFilter[where]\n" .
+                                     "WHERE cc.version = " . eZContentClass::VERSION_STATUS_DEFINED . " $filterSQL AND $classNameFilter[where]\n" .
                                      "ORDER BY $classNameFilter[nameField] ASC" );
 /*END:code-template::object-sql-creation*/
-            $classList = eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );	
+            $classList = eZPersistentObject::handleRows( $rows, 'eZContentClass', $asObject );	
         }
         else
         {
@@ -205,7 +205,7 @@
             }
 
             $classList = array();
-            $db = eZDb::instance();
+            $db = eZDB::instance();
             $classString = implode( ',', $classIDArray );
             // If $asObject is true we fetch all fields in class
             $fields = $asObject ? "cc.*, $classNameFilter[nameField]" : "cc.id, $classNameFilter[nameField]";
@@ -213,17 +213,17 @@
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
                                      "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from]\n" .
                                      "WHERE cc.id IN ( $classString  ) AND\n" .
-                                     "      cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . " $filterSQL\n" .
+                                     "      cc.version = " . eZContentClass::VERSION_STATUS_DEFINED . " $filterSQL\n" .
                                      "ORDER BY $classNameFilter[nameField] ASC" );
 /*END:code-template::class-sql-creation*/
 /*START:code-template::object-sql-creation*/
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
                                      "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from]\n" .
                                      "WHERE cc.id IN ( $classString  ) AND\n" .
-                                     "      cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . " $filterSQL AND $classNameFilter[where]\n" .
+                                     "      cc.version = " . eZContentClass::VERSION_STATUS_DEFINED . " $filterSQL AND $classNameFilter[where]\n" .
                                      "ORDER BY $classNameFilter[nameField] ASC" );
 /*END:code-template::object-sql-creation*/
-            $classList = eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
+            $classList = eZPersistentObject::handleRows( $rows, 'eZContentClass', $asObject );
         }
 
 /*START:code-template::object-creation*/
