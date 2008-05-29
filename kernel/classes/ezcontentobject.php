@@ -2280,13 +2280,16 @@ class eZContentObject extends eZPersistentObject
     function fetchInput( $contentObjectAttributes, $attributeDataBaseName,
                          $customActionAttributeArray, $customActionParameters )
     {
+        // Global variable to cache datamaps
+        global $eZContentObjectDataMapCache;
+
         $result = array( 'attribute-input-map' => array() );
         $attributeInputMap =& $result['attribute-input-map'];
         $http = eZHTTPTool::instance();
 
         $defaultLanguage = $this->initialLanguageCode();
 
-        $dataMap = $this->attribute( 'data_map' );
+        $this->fetchDataMap();
         foreach ( $contentObjectAttributes as $contentObjectAttribute )
         {
             $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
@@ -2315,6 +2318,13 @@ class eZContentObject extends eZPersistentObject
                 if ( $contentObjectAttribute->fetchInput( $http, $attributeDataBaseName ) )
                 {
                     $attributeInputMap[$contentObjectAttribute->attribute('id')] = true;
+
+                    // we fill the internal data map cache for the current version here with the attributes of the new version
+                    // this will make the data map cache inconsistent, but this is required to make it possible to use $object.data_map
+                    // in content/edit templates
+                    $attributeIdentifier = $contentObjectAttribute->attribute( 'contentclass_attribute_identifier' );
+                    $eZContentObjectDataMapCache[$this->ID][$this->CurrentVersion][$currentLanguage][$attributeIdentifier] = $contentObjectAttribute;
+                    $this->DataMap[$this->CurrentVersion][$currentLanguage][$attributeIdentifier] = $contentObjectAttribute;
                 }
 
                 // Custom Action Code
