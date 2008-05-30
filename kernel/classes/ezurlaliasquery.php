@@ -59,64 +59,64 @@ class eZURLAliasQuery
      Array of action values to include, set to null to fetch all kinds.
      e.g. eznode:60
      */
-    var $actions;
+    public $actions;
     /*!
      Array of action types to include, set to null to fetch all kinds.
      e.g. eznode
      */
-    var $actionTypes;
+    public $actionTypes;
     /*!
      Array of action types to exclude, set to null to disable.
      e.g. eznode
      */
-    var $actionTypesEx;
+    public $actionTypesEx;
     /*!
      If non-null it forces only elements with this parent to be considered.
      */
-    var $paren;
+    public $paren;
     /*!
      If non-null it forces only elements with this text to be considered.
      */
-    var $text;
+    public $text;
     /*!
      Type of elements to count, use 'name' for only real names for actions, 'alias' for only aliases to the actions or 'all' for real and aliases.
      */
-    var $type      = 'alias';
+    public $type      = 'alias';
     /*!
      If true languages are filtered, otherwise all languages are fetched.
      */
-    var $languages = true;
+    public $languages = true;
     /*!
      The offset to start the fetch.
      \note It only applies to fetchAll()
      */
-    var $offset    = 0;
+    public $offset    = 0;
     /*!
      The max limit of the fetch.
      \note It only applies to fetchAll()
      */
-    var $limit     = 15;
+    public $limit     = 15;
     /*!
      The order in which elements are fetched, refers the the DB column of the table.
      \note It only applies to fetchAll()
      */
-    var $order     = 'text';
+    public $order     = 'text';
 
     /*!
      \private
      Cached value of partial query, used for both count() and fetchAll().
      */
-    var $query;
+    public $query;
     /*!
      \private
      Cached value of the total count.
      */
-    var $count;
+    public $count;
     /*!
      \private
      Cached value of the fetch items.
      */
-    var $items;
+    public $items;
 
     function eZURLAliasQuery()
     {

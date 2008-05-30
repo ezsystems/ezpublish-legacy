@@ -235,7 +235,7 @@ class eZPathElement extends eZPersistentObject
         return $this->AlwaysAvailable;
     }
 
-    var $AlwaysAvailable;
+    public $AlwaysAvailable;
 }
 
 ?>

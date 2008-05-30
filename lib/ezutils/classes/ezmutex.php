@@ -252,8 +252,8 @@ class eZMutex
         return false;
     }
 
-    var $Name;
-    var $FileName;
+    public $Name;
+    public $FileName;
 }
 
 ?>

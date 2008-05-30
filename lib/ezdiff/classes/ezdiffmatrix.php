@@ -97,10 +97,10 @@ class eZDiffMatrix
     public $Matrix = array();
 
     /// Internal variable, width of the matrix.
-    var $Cols;
+    public $Cols;
 
     /// Internal variable, height of the matrix.
-    var $Rows;
+    public $Rows;
 }
 
 ?>

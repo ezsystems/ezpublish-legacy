@@ -363,9 +363,9 @@ class eZISBN10To13Converter
         $db->query( $sql );
     }
 
-    var $Cli;
-    var $Script;
-    var $AttributeArray;
+    public $Cli;
+    public $Script;
+    public $AttributeArray;
 }
 
 ?>

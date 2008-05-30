@@ -183,7 +183,7 @@ class eZStepPackageLanguageOptions extends eZStepInstaller
         return $result;
     }
 
-    var $MissedPackageLanguageList;
-    var $SiteLanguageList;
+    public $MissedPackageLanguageList;
+    public $SiteLanguageList;
 }
 ?>

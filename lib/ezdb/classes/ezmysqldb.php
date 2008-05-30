@@ -1041,7 +1041,7 @@ set|values|select).*)?/",
     }
 
     public $CharsetMapping;
-    var $TempTableList;
+    public $TempTableList;
 
     /// \privatesection
 }

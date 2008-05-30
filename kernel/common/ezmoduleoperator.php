@@ -76,7 +76,7 @@ class eZModuleOperator
     }
 
     /// \privatesection
-    var $Operators;
+    public $Operators;
 }
 
 

@@ -878,17 +878,17 @@ class eZMultiOption2
     }
     /// \privatesection
     /// Contains the Option name
-    var $Name;
-    var $GroupID;
+    public $Name;
+    public $GroupID;
     /// Contains the Options
-    var $Options;
+    public $Options;
     /// Contains the multioption counter value
-    var $MultiOptionIDCounter;
-    var $GroupIDCounter;
+    public $MultiOptionIDCounter;
+    public $GroupIDCounter;
     /// Contains the option counter value
-    var $OptionCounter;
-    var $ChildGroupList;
-    var $MultioptionIDList = array();
-    var $OptionIDList = array();
+    public $OptionCounter;
+    public $ChildGroupList;
+    public $MultioptionIDList = array();
+    public $OptionIDList = array();
 }
 ?>

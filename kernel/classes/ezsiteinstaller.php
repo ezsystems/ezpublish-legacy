@@ -1746,11 +1746,11 @@ class eZSiteInstaller
     }
 
     // store data to use in your steps.
-    var $Settings;
+    public $Settings;
     // define an order of functions to execute.
-    var $Steps;
+    public $Steps;
     // hold an error code of last executed step.
-    var $LastErrorCode;
+    public $LastErrorCode;
 }
 
 ?>

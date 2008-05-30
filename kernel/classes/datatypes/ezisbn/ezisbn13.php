@@ -413,11 +413,11 @@ class eZISBN13
         return true;
     }
 
-    var $Prefix;
-    var $RegistrationGroup;
-    var $RegistrantElement;
-    var $PublicationElement;
-    var $CheckDigit;
+    public $Prefix;
+    public $RegistrationGroup;
+    public $RegistrantElement;
+    public $PublicationElement;
+    public $CheckDigit;
 }
 
 ?>

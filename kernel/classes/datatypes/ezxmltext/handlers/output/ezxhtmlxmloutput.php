@@ -37,7 +37,7 @@
 class eZXHTMLXMLOutput extends eZXMLOutputHandler
 {
 
-    var $OutputTags = array(
+    public $OutputTags = array(
 
     'section'      => array( 'quickRender' => true,
                              'initHandler' => 'initHandlerSection',
