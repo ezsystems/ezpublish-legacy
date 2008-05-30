@@ -139,6 +139,15 @@ div.pagebreak
 
 div.pagebreak p { margin: 0; }
 
+div.separator
+{
+    padding: 0;
+    margin: 0.5em 0;
+    clear: both;
+}
+
+div.separator p { margin: 2px; }
+
 
 /* change the style for embed tags */
 

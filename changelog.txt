@@ -21,6 +21,7 @@ eZ Online Editor MCE extension Changelog
 * Implemented #012949: Cannot change the node of an embedded object once it has been added
 * use span tags internally for embed-inline tags so they are truly inline
 * properly serialize from checkbox form values to attribute values and back
+* Fixed bug #013116: malformatted separator tag
 
 5.0Beta2
 * Added debug as text comment in ajax view's (embed_view, expand, load and search)
