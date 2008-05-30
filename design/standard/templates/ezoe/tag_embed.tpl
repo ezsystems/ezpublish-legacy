@@ -61,6 +61,19 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
 	       return '<span id="__mce_tmp">' + ez.$$('#embed_preview div')[0].el.innerHTML + '</span>';
 	    return '<div id="__mce_tmp">' + ez.$$('#embed_preview div')[0].el.innerHTML + '</div>';
     },
+    onTagGenerated:  function( el, ed, args )
+    {
+        // append a paragraph if user just inserted a custom tag in a empty editor
+        var edBody = el.parentNode, doc = ed.getDoc();
+        if ( edBody.nodeName !== 'BODY' )
+            edBody = edBody.parentNode
+        if ( edBody.nodeName === 'BODY' && edBody.childNodes.length < 2 )
+        {
+            var p = doc.createElement('p');
+            p.innerHTML = ed.isIE ? '&nbsp;' : '<br />';
+            edBody.appendChild( p );
+        }
+    },
     tagAttributeEditor: function( ed, el, args )
     {
         args['id'] = 'eZObject_' + eZOEPopupUtils.embedObject['contentobject_id'];

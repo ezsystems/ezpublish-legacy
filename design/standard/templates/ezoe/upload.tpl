@@ -117,15 +117,13 @@ tinyMCEPopup.onInit.add( function(){
                 <h2>{'Related files'|i18n('design/standard/ezoe')}</h2>
                         <table class="list" cellspacing="0">
                         <tr>
-                            <th class="tight">&nbsp;</th>
                             <th class="name">{'Name'|i18n( 'design/admin/content/edit' )}</th>
                             <th class="class">{'File type'|i18n( 'design/admin/content/edit' )}</th>
                             <th class="filesize">{'Size'|i18n( 'design/admin/content/edit' )}</th>
                         </tr>
                         {foreach $grouped_related_contentobjects.files as $file sequence array( bglight, bgdark ) as $sequence}
                             <tr class="{$sequence}">
-                                <td><input type="radio" {section show=$file.selected}class="selected"{/section} name="ContentObjectIDString" value="{$file.id}" {section show=$file.selected}checked{/section} /></td>
-                                <td class="name">{$file.object.class_name|class_icon( small, $file.object.class_name )}&nbsp;{$file.object.name|wash}</td>
+                                <td class="name">{$file.object.class_name|class_icon( small, $file.object.class_name )}&nbsp;<a href="JavaScript:eZOEPopupUtils.selectByEmbedId( {$file.object.id} )">{$file.object.name|wash}</a></td>
                                 <td class="filetype">{$file.object.data_map.file.content.mime_type|wash}</td>
                                 <td class="filesize">{$file.object.data_map.file.content.filesize|si( byte )}</td>
                             </tr>

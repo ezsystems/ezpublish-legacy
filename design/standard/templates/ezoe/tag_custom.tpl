@@ -51,6 +51,19 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
 	    else
 	        return '<div id="__mce_tmp" type="custom"><p>' + (text ? text : customTag) + '<\/p><\/div>';
     },
+    onTagGenerated:  function( el, ed, args )
+    {
+        // append a paragraph if user just inserted a custom tag in a empty editor
+        var edBody = el.parentNode, doc = ed.getDoc();
+        if ( edBody.nodeName !== 'BODY' )
+            edBody = edBody.parentNode
+        if ( edBody.nodeName === 'BODY' && edBody.childNodes.length < 2 )
+        {
+            var p = doc.createElement('p');
+            p.innerHTML = ed.isIE ? '&nbsp;' : '<br />';
+            edBody.appendChild( p );
+        }
+    },
     tagEditor: function( el, ed, customTag, args )
     {
         var target = customTag === 'underline' ? 'u' : ( ez.$( customTag + '_inline_source' ).el.checked ? 'span' : 'div'), origin = el.nodeName;

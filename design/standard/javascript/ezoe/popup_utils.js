@@ -24,6 +24,8 @@ var eZOEPopupUtils = {
         tagSelectorCallBack: false,
         // optional a function to generate the html for the tag ( on create in save() )
         tagGenerator: false,
+        // optional a function to do cleanup after tag has been created ( after create in save() )
+        onTagGenerated: false,
         // optional  function to edit the tag ( on edit in save() )
         tagEditor: false,
         // optional function to generate attribute
@@ -177,6 +179,10 @@ var eZOEPopupUtils = {
 		    {
 		        ed.execCommand('mceInsertContent', false, '<' + eZOEPopupUtils.xmlToXhtmlHash[s.tagName] + ' id="__mce_tmp">' + ( s.editorSelectedText ? s.editorSelectedText : '&nbsp;' ) + '</' + eZOEPopupUtils.xmlToXhtmlHash[s.tagName] + '>', {skip_undo : 1} );
 		        s.editorElement = ed.dom.get('__mce_tmp');
+		    }
+		    if ( s.onTagGenerated )
+		    {
+		        s.onTagGenerated.call( eZOEPopupUtils, s.editorElement, ed, args );
 		    }
 		}
 		else if ( s.tagEditor )
