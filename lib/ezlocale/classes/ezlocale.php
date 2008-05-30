@@ -1702,7 +1702,7 @@ class eZLocale
     public $LanguageName;
     /// Internationalized name of the language
     public $IntlLanguageName;
-    var $CountryNames;
+    public $CountryNames;
     //@}
 };
 

@@ -93,7 +93,7 @@ class eZURLAliasML extends eZPersistentObject
     /*!
      Optionally computed path string for this element, used for caching purposes.
      */
-    var $Path;
+    public $Path;
     private static $charset = null;
 
     /*!

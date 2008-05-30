@@ -143,8 +143,8 @@ class eZAlphabetOperator
     }
 
     /// \privatesection
-    var $Operators;
-    var $Alphabet;
+    public $Operators;
+    public $Alphabet;
 };
 
 ?>

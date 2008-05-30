@@ -317,7 +317,7 @@ class eZClassTemplate
     }
 
     /// \privatesection
-    var $Templates;
+    public $Templates;
 }
 
 ?>

@@ -1317,9 +1317,9 @@ class eZDBFileHandlerMysqlBackend
         eZDebug::writeNotice( "$query", "cluster::mysql::{$fname}[{$rowText}" . number_format( $timeTaken, 3 ) . " ms] query number per page:" . $numQueries++, $backgroundClass );
     }
 
-    var $db   = null;
-    var $numQueries = 0;
-    var $transactionCount = 0;
+    public $db   = null;
+    public $numQueries = 0;
+    public $transactionCount = 0;
 }
 
 ?>
