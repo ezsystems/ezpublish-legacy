@@ -536,11 +536,17 @@ class eZSys
         if ( $ini->variable( 'SiteAccessSettings', 'RemoveSiteAccessIfDefaultAccess' ) == 'enabled' )
         {
             $defaultAccess = $ini->variable( 'SiteSettings', 'DefaultAccess' );
-            if ( count( $instance->AccessPath ) > 0 and $instance->AccessPath[0] == $defaultAccess ){
+            if ( count( $instance->AccessPath ) > 0 and $instance->AccessPath[0] == $defaultAccess )
+            {
                 $accessPathArray = $instance->AccessPath;
                 array_shift( $accessPathArray ); //remove first element from accessPath as this is siteaccess name.
                 $accessPath = implode( '/', $accessPathArray );
-                $text .= $accessPath;
+                $text .= '/' . $accessPath;
+
+                // Make sure we never return just a single '/'. 
+                if ( $text == "/" )
+                    return $text = "";
+
                 return $text;
             }
         }
