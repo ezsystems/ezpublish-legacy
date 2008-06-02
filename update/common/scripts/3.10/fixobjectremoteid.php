@@ -43,9 +43,9 @@ $cli =& eZCLI::instance();
 
 $scriptSettings = array();
 $scriptSettings['description'] = 'Fix non-unique usage of content object remote ID\'s';
-$scriptSettings['use-session'] = true;
-$scriptSettings['use-modules'] = true;
-$scriptSettings['use-extensions'] = true;
+$scriptSettings['use-session'] = false;
+$scriptSettings['use-modules'] = false;
+$scriptSettings['use-extensions'] = false;
 
 $script =& eZScript::instance( $scriptSettings );
 $script->startup();
