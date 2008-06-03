@@ -852,7 +852,7 @@ if [ -z "$SKIPTRANSLATION" ]; then
     echo -n "Validating"
     diff -U3 -r $DEST/share/translations.org $DEST/share/translations &>/dev/null
     ez_result_output $? "The translations are not up to date
-You must update the translations in the repository using the ezlupdate program" || exit 1
+You must update the translations in the repository using the ezlupdate program or with bin/shell/updatetranslations.sh" || exit 1
 
     rm -rf $DEST/share/translations.org
 
