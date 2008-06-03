@@ -2,9 +2,9 @@
 # eZ publish configuration file for content and ez xml tags
 #
 
-# Some custom tags ads special features to the editor if enabled:
-# underline: ads underline button in edtor (use this instead of custom tag to make the text appear underlined)
-# pagebreak: ads a button to add pagebreaks
+# Some custom tags add special features to the editor if enabled:
+# underline: adds underline button in edtor (use this instead of custom tag to make the text appear underlined)
+# pagebreak: adds a button to add pagebreaks
 # NOTE: view template is not included for these tags, so you need to implement them yourself
 #
 #[CustomTagSettings]
@@ -39,7 +39,7 @@
 #
 ## CustomAttribute settings for align attribute on factbox tag!
 ## You can also define global align cusom attribute setting with
-## this pattern [CustomAttribute_align], but this is only used if 
+## this pattern [CustomAttribute_align], but this is only used if
 ## there is no tag specific settings like this one:
 #
 #[CustomAttribute_factbox_align]
