@@ -38,7 +38,7 @@
 
 <h3>{'Copyright Notice'|i18n( 'design/admin/ezinfo/about' )}</h3>
 <p>
-    Copyright &copy; 1999-2007 <a href="http://ez.no/">eZ Systems AS</a>, with portions copyright by other parties. A complete list of all contributors and third-party
+    Copyright &copy; 1999-2008 <a href="http://ez.no/">eZ Systems AS</a>, with portions copyright by other parties. A complete list of all contributors and third-party
     software follows.
 </p>
 
