@@ -1,4 +1,3 @@
-#!/usr/bin/env php
 <?php
 //
 // Created on: <26-Jun-2007 15:00:00 dl>
