@@ -660,10 +660,11 @@ class eZURLAliasML extends eZPersistentObject
 
             // TODO: Handle all conflict cases, for now only the `Delete old, reparent` action is done
 
-            // OMS-urlalias-fix: We are only updating child nodes within the same language
+            // OMS-urlalias-fix: We are only updating child nodes within the same language,
+            // and only for real system-generated url aliases. Custom aliases are left alone.
             $bitAnd = $db->bitAnd( 'lang_mask', $languageID );
             $query = "SELECT id FROM ezurlalias_ml\n" .
-                     "WHERE action = '{$actionStr}' AND (${bitAnd} > 0) AND (parent != $parentID OR text_md5 != {$textMD5})";
+                     "WHERE action = '{$actionStr}' AND (${bitAnd} > 0) AND is_alias = 0 AND (parent != $parentID OR text_md5 != {$textMD5})";
             $rows = $db->arrayQuery( $query );
             foreach ( $rows as $row )
             {
