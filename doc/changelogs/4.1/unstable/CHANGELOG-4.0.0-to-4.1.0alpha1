@@ -270,3 +270,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12493: Input lost when creating forum topic with missing attributes
 - Fixed bug #11903: use of deprecated declaration of variable
 - Fixed bug #13139: Publishing a node for which there is a custom url alias inadvertently mark the alias as not being original.
+- Fixed bug #13140: eZURLAliasML::storePath() can cause incorrect url entries to be reparented
