@@ -545,7 +545,7 @@ class eZSys
 
                 // Make sure we never return just a single '/'. 
                 if ( $text == "/" )
-                    return $text = "";
+                    $text = "";
 
                 return $text;
             }
