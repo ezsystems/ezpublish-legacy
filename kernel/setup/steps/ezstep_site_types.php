@@ -405,61 +405,61 @@ class eZStepSiteTypes extends eZStepInstaller
         if ( $this->hasKickstartData() )
         {
             $data = $this->kickstartData();
-			$remoteSitePackages = $this->retrieveRemoteSitePackagesList();
-			$importedSitePackages = $this->fetchAvailableSitePackages();
-			$dependenciesStatus = array();
+            $remoteSitePackages = $this->retrieveRemoteSitePackagesList();
+            $importedSitePackages = $this->fetchAvailableSitePackages();
+            $dependenciesStatus = array();
 
-			// check site package dependencies to show their status in the template
-			foreach ( $importedSitePackages as $sitePackage )
-			{
-				$sitePackageName = $sitePackage->attribute( 'name' );
-				$dependencies = $sitePackage->attribute( 'dependencies' );
-				$requirements = $dependencies['requires'];
+            // check site package dependencies to show their status in the template
+            foreach ( $importedSitePackages as $sitePackage )
+            {
+                $sitePackageName = $sitePackage->attribute( 'name' );
+                $dependencies = $sitePackage->attribute( 'dependencies' );
+                $requirements = $dependencies['requires'];
 
-				foreach ( $requirements as $req )
-				{
-					$requiredPackageName    = $req['name'];
-					$requiredPackageVersion = $req['min-version'];
-					$packageOK = false;
+                foreach ( $requirements as $req )
+                {
+                    $requiredPackageName    = $req['name'];
+                    $requiredPackageVersion = $req['min-version'];
+                    $packageOK = false;
 
-					$package = eZPackage::fetch( $requiredPackageName, false, false, false );
-					if ( is_object( $package ) )
-					{
-						$currentPackageVersion = $package->getVersion();
-						if ( version_compare( $currentPackageVersion, $requiredPackageVersion ) >= 0 )
-							$packageOK = true;
-					}
+                    $package = eZPackage::fetch( $requiredPackageName, false, false, false );
+                    if ( is_object( $package ) )
+                    {
+                        $currentPackageVersion = $package->getVersion();
+                        if ( version_compare( $currentPackageVersion, $requiredPackageVersion ) >= 0 )
+                            $packageOK = true;
+                    }
 
-					$dependenciesStatus[$sitePackageName][$requiredPackageName] = array( 'version' => $requiredPackageVersion,
+                    $dependenciesStatus[$sitePackageName][$requiredPackageName] = array( 'version' => $requiredPackageVersion,
                                                                                      'status'  => $packageOK );
-				}
-			}
+                }
+            }
 
-			$sitePackages = $this->createSitePackagesList( $remoteSitePackages, $importedSitePackages, $dependenciesStatus );
+            $sitePackages = $this->createSitePackagesList( $remoteSitePackages, $importedSitePackages, $dependenciesStatus );
             $chosenSitePackage = $data['Site_package'];
-			$downloaded = false;
-			foreach( $sitePackages as $sitePackagesInfo )
-			{
-				if( $sitePackagesInfo['name'] == $chosenSitePackage )
-				{
-					$sitePackagesInfoChoosen = $sitePackagesInfo;
-				}
-			}
-			if ( isset( $sitePackagesInfoChoosen ) and array_key_exists( 'url', $sitePackagesInfoChoosen ) )
-			{
-				// we already know that we should download the package anyway as it has newer version
-				// so use force download mode
-				$package = $this->downloadAndImportPackage( $chosenSitePackage, $sitePackagesInfoChoosen['url'], true );
-				if ( is_object( $package ) )
-				{
-					
-					$downloadDependandPackagesResult = $this->downloadDependantPackages( $package );
-					if ( $downloadDependandPackagesResult != false )
-					{
-						$downloaded = true;
-					}
-				}
-			}
+            $downloaded = false;
+            foreach( $sitePackages as $sitePackagesInfo )
+            {
+                if( $sitePackagesInfo['name'] == $chosenSitePackage )
+                {
+                    $sitePackagesInfoChoosen = $sitePackagesInfo;
+                }
+            }
+            if ( isset( $sitePackagesInfoChoosen ) and array_key_exists( 'url', $sitePackagesInfoChoosen ) )
+            {
+                // we already know that we should download the package anyway as it has newer version
+                // so use force download mode
+                $package = $this->downloadAndImportPackage( $chosenSitePackage, $sitePackagesInfoChoosen['url'], true );
+                if ( is_object( $package ) )
+                {
+                    
+                    $downloadDependandPackagesResult = $this->downloadDependantPackages( $package );
+                    if ( $downloadDependandPackagesResult != false )
+                    {
+                        $downloaded = true;
+                    }
+                }
+            }
 
             if ( $downloaded and $this->selectSiteType( $chosenSitePackage ) )
             {
