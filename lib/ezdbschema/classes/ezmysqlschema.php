@@ -681,8 +681,8 @@ class eZMysqlSchema extends eZDBSchemaInterface
     {
         // We use the mysql function if it exists
         // if not we use a custom replace method that should sufficient
-        if ( function_exists( 'mysql_real_escape_string' ) )
-            return mysql_real_escape_string( $value );
+        if ( function_exists( 'mysql_escape_string' ) )
+            return mysql_escape_string( $value );
         else
             str_replace( array( "\\",
                                 "'",
