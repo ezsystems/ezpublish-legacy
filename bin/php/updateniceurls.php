@@ -749,7 +749,7 @@ if ( $urlCount > 0 )
                 list( $actionType, $actionValue ) = explode( ":", $action, 2 );
                 $aliases = eZURLAliasML::fetchByAction( $actionType, $actionValue );
 
-                if ( $aliases && $actionType = 'eznode' )
+                if ( $aliases && $actionType == 'eznode' )
                 {
                     // This is a user-entered URL so lets make it an alias of the found dupe.
                     $linkID = (int)$aliases[0]->attribute( 'id' );
