@@ -748,7 +748,8 @@ if ( $urlCount > 0 )
                 list( $action, $alwaysAvailable ) = decodeAction( $destination );
                 list( $actionType, $actionValue ) = explode( ":", $action, 2 );
                 $aliases = eZURLAliasML::fetchByAction( $actionType, $actionValue );
-                if ( $aliases )
+
+                if ( $aliases && $actionType = 'eznode' )
                 {
                     // This is a user-entered URL so lets make it an alias of the found dupe.
                     $linkID = (int)$aliases[0]->attribute( 'id' );
@@ -771,6 +772,11 @@ if ( $urlCount > 0 )
                     }
                     $linkID = false;
                 }
+        		else if ( $actionType == 'module' )
+        		{
+        		    $linkID = true;
+        		}
+
                 $aliases = eZURLAliasML::fetchByPath( $source );
                 if ( $aliases )
                 {
