@@ -547,7 +547,7 @@ class eZURLAliasML extends eZPersistentObject
                     if ( $reportErrors )
                         eZDebug::writeError( "Tried to store path '{$path}' but the path already exists (ID: {$curID}) but with action '{$curAction}', the new action was '{$action}'" );
                     return array( 'status' => self::LINK_ALREADY_TAKEN,
-                                  'path'    => null,
+                                  'path'    => $path,
                                   'element' => null );
                 }
                 // Need to adjust name, re-iterate
@@ -763,7 +763,7 @@ class eZURLAliasML extends eZPersistentObject
                     if ( $reportErrors )
                         eZDebug::writeError( "Tried to store path '{$path}' but the path already exists (ID: {$curID}) but with action '{$curAction}', the new action was '{$action}'" );
                     return array( 'status' => self::LINK_ALREADY_TAKEN,
-                                  'path'    => null,
+                                  'path'    => $path,
                                   'element' => null );
                 }
                 // Need to adjust name, re-iterate
