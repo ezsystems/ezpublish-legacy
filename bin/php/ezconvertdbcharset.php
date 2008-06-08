@@ -50,7 +50,7 @@ define( 'EZ_CREATE_CONTENTCLASS_ATTRIBUTE_TMP_TABLE_SQL_POSTGRESQL',
     CREATE TABLE " . EZ_CONTENTCLASS_ATTRIBUTE_TMP_TABLE_NAME . " (
         id integer DEFAULT 0 NOT NULL,
         version integer DEFAULT 0 NOT NULL,
-        is_always_available  DEFAULT 0 NOT NULL,
+        is_always_available integer DEFAULT 0 NOT NULL,
         language_locale character varying(20) DEFAULT ''::character varying NOT NULL,
         name character varying(255) DEFAULT ''::character varying NOT NULL
     )" );
