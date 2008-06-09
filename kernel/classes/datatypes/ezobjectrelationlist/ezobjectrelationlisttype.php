@@ -1748,8 +1748,8 @@ class eZObjectRelationListType extends eZDataType
     */
     function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
-        $rootNode = $attributeNode->getElementsByTagName( 'ezobjectrelationlist' )->item( 0 );
-        $xmlString = $rootNode ? $rootNode->textContent : '';
+        $rootNode = $attributeNode->getElementsByTagName( 'related-objects' )->item( 0 );
+        $xmlString = $rootNode ? $rootNode->ownerDocument->saveXML( $rootNode ) : '';
         $objectAttribute->setAttribute( 'data_text', $xmlString );
     }
 
@@ -1765,8 +1765,9 @@ class eZObjectRelationListType extends eZDataType
 
         require_once( 'kernel/classes/ezcontentobject.php' );
         $relationItems = $relationList->getElementsByTagName( 'relation-item' );
-        foreach ( $relationItems as $i => $relationItem )
+        for ( $i = $relationItems->length - 1; $i >= 0; $i-- )
         {
+            $relationItem = $relationItems->item( $i );
             $relatedObjectRemoteID = $relationItem->getAttribute( 'contentobject-remote-id' );
             $object = eZContentObject::fetchByRemoteID( $relatedObjectRemoteID );
 
@@ -1774,16 +1775,16 @@ class eZObjectRelationListType extends eZDataType
             {
                 eZDebug::writeWarning( "Object with remote id '$relatedObjectRemoteID' not found: removing the link.",
                                        'eZObjectRelationListType::unserializeContentObjectAttribute()' );
-                unset( $relationItems[$i] );
+                $relationItem->parentNode->removeChild( $relationItem );
                 continue;
             }
 
-            $relationItems[$i]->setAttribute( 'contentobject-id',        $object->attribute( 'id' ) );
-            $relationItems[$i]->setAttribute( 'contentobject-version',   $object->attribute( 'current_version' ) );
-            $relationItems[$i]->setAttribute( 'node-id',                 $object->attribute( 'main_node_id' ) );
-            $relationItems[$i]->setAttribute( 'parent-node-id',          $object->attribute( 'main_parent_node_id' ) );
-            $relationItems[$i]->setAttribute( 'contentclass-id',         $object->attribute( 'contentclass_id' ) );
-            $relationItems[$i]->setAttribute( 'contentclass-identifier', $object->attribute( 'class_identifier' ) );
+            $relationItem->setAttribute( 'contentobject-id',        $object->attribute( 'id' ) );
+            $relationItem->setAttribute( 'contentobject-version',   $object->attribute( 'current_version' ) );
+            $relationItem->setAttribute( 'node-id',                 $object->attribute( 'main_node_id' ) );
+            $relationItem->setAttribute( 'parent-node-id',          $object->attribute( 'main_parent_node_id' ) );
+            $relationItem->setAttribute( 'contentclass-id',         $object->attribute( 'contentclass_id' ) );
+            $relationItem->setAttribute( 'contentclass-identifier', $object->attribute( 'class_identifier' ) );
         }
 
         $newXmlString = $doc->saveXML( $rootNode );
