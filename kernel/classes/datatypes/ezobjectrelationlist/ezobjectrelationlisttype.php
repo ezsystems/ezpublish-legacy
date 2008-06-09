@@ -1515,7 +1515,8 @@ class eZObjectRelationListType extends eZDataType
                 }
             }
 
-            $metaDataArray = array_merge( $metaDataArray, eZContentObjectAttribute::metaDataArray( $attributes ) );
+            $attributeMetaDataArray = eZContentObjectAttribute::metaDataArray( $attributes );
+            $metaDataArray = array_merge( $metaDataArray, $attributeMetaDataArray );
         }
 
         return $metaDataArray;
