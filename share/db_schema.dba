@@ -6269,7 +6269,7 @@ $schema = array (
       'alias_redirects' => 
       array (
         'length' => 1,
-        'type' => 'tinyint',
+        'type' => 'int',
         'not_null' => '1',
         'default' => '1',
       ),
