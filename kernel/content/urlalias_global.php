@@ -103,6 +103,8 @@ else if ( $Module->isCurrentAction( 'NewAlias' ) )
     $isAlwaysAvailable = $http->hasPostVariable( 'AllLanguages' ) && strlen( trim( $http->postVariable( 'AllLanguages' ) ) ) > 0;
     $languageCode = $Module->actionParameter( 'LanguageCode' );
     $language = eZContentLanguage::fetchByLocale( $languageCode );
+    $aliasRedirects  = $http->hasPostVariable( 'AliasRedirects' ) && $http->postVariable( 'AliasRedirects' );
+
     if ( !$language )
     {
         $infoCode = "error-invalid-language";
@@ -146,7 +148,7 @@ else if ( $Module->isCurrentAction( 'NewAlias' ) )
                 $linkID = true;
             $result = eZURLAliasML::storePath( $aliasText, $action,
                                                $language, $linkID, $isAlwaysAvailable, $parentID,
-                                               true, false, false );
+                                               true, false, false, $aliasRedirects );
             if ( $result['status'] === eZURLAliasML::LINK_ALREADY_TAKEN )
             {
                 $lastElements = eZURLAliasML::fetchByPath( $result['path'] );
@@ -220,7 +222,6 @@ $filter->limit = $limitValues[$limitID];
 // Prime the internal data for the template, for PHP5 this is no longer needed since objects will not be copied anymore in the template code.
 $count = $filter->count();
 $aliasList = $filter->fetchAll();
-
 $path = array();
 $path[] = array( 'url'  => false,
                  'text' => ezi18n( 'kernel/content/urlalias_global', 'Global URL aliases' ) );

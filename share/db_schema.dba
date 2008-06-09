@@ -6266,6 +6266,13 @@ $schema = array (
         'not_null' => '1',
         'default' => '',
       ),
+      'alias_redirects' => 
+      array (
+        'length' => 1,
+        'type' => 'tinyint',
+        'not_null' => '1',
+        'default' => '1',
+      ),
       'id' => 
       array (
         'length' => 11,
