@@ -153,7 +153,11 @@ class eZURLAliasML extends eZPersistentObject
                                          "is_original" => array( 'name' => 'IsOriginal',
                                                                  'datatype' => 'integer',
                                                                  'default' => 0,
-                                                                 'required' => true ) ),
+                                                                 'required' => true ),
+                                         "alias_redirects" => array( 'name' => 'AliasRedirects',
+                                                                     'datatype' => 'integer',
+                                                                     'default' => 1,
+                                                                     'required' => true ) ),
                       "keys" => array( "parent", "text_md5" ),
                       "function_attributes" => array( "children" => "getChildren",
                                                       "path" => "getPath" ),
@@ -398,10 +402,11 @@ class eZURLAliasML extends eZPersistentObject
      \param $cleanupElements If true each element in the path will be cleaned up according to the current URL transformation rules.
      \param $autoAdjustName If true it will adjust the name until it is unique in the path. Used together with $linkID.
      \param $reportErrors If true it will report found errors using eZDebug, if \c false errors are only return in 'status'.
+     \param $aliasRedirects If true and an alias is being stored it will redirect (using HTTP 301) to it's destination.
      */
     function storePath( $path, $action,
                         $languageName = false, $linkID = false, $alwaysAvailable = false, $rootID = false,
-                        $cleanupElements = true, $autoAdjustName = false, $reportErrors = true )
+                        $cleanupElements = true, $autoAdjustName = false, $reportErrors = true, $aliasRedirects = true )
     {
         $path = eZURLAliasML::cleanURL( $path );
         if ( $languageName === false )
@@ -775,7 +780,7 @@ class eZURLAliasML extends eZPersistentObject
                 $element->Action     = $action;
                 // Note: The `text` field is updated too, this ensures case-changes are stored.
                 $element->Text       = $newText;
-                $element->TextMD5    = null;
+                $element->TextMD5    = null; 
                 $element->ActionType = null;
                 $element->Link       = null;
             }
@@ -789,6 +794,7 @@ class eZURLAliasML extends eZPersistentObject
                                                     'action' => $action,
                                                     'is_alias' => 1 ) );
             }
+            $element->AliasRedirects = $aliasRedirects ? 1 : 0;
             $element->store();
             $createdPath[]  = $topElement;
             $createdElement = $element;
@@ -1428,14 +1434,19 @@ class eZURLAliasML extends eZPersistentObject
         foreach ( $elements as $element )
         {
             $table = "e" . $i;
+
+            $selectString = "{$table}.id AS {$table}_id, ";
+            $selectString .= "{$table}.link AS {$table}_link, ";
+            $selectString .= "{$table}.text AS {$table}_text, ";
+            $selectString .= "{$table}.text_md5 AS {$table}_text_md5, ";
+            $selectString .= "{$table}.is_alias AS {$table}_is_alias, ";
+
             if ( $i == $len - 1 )
-            {
-                $selects[] = "{$table}.id AS {$table}_id, {$table}.link AS {$table}_link, {$table}.text AS {$table}_text, {$table}.text_md5 AS {$table}_text_md5, {$table}.action AS {$table}_action, {$table}.is_alias AS {$table}_is_alias";
-            }
-            else
-            {
-                $selects[] = "{$table}.id AS {$table}_id, {$table}.link AS {$table}_link, {$table}.text AS {$table}_text, {$table}.text_md5 AS {$table}_text_md5, {$table}.is_alias AS {$table}_is_alias";
-            }
+                $selectString .= "{$table}.action AS {$table}_action, ";
+
+            $selectString .= "{$table}.alias_redirects AS {$table}_alias_redirects";
+            $selects[] = $selectString;
+
             $tables[]  = "ezurlalias_ml " . $table;
             $langMask = trim( eZContentLanguage::languagesSQLFilter( $table, 'lang_mask' ) );
             if ( $i == 0 )
@@ -1449,8 +1460,8 @@ class eZURLAliasML extends eZPersistentObject
             $prevTable = $table;
             ++$i;
         }
-        $query = "SELECT " . join( ", ", $selects ) . "\nFROM " . join( ", ", $tables ) . "\nWHERE " . join( "\nAND ", $conds );
 
+        $query = "SELECT " . join( ", ", $selects ) . "\nFROM " . join( ", ", $tables ) . "\nWHERE " . join( "\nAND ", $conds );
         $return = false;
         $urlAliasArray = $db->arrayQuery( $query, array( 'limit' => 1 ) );
         if ( count( $urlAliasArray ) > 0 )
@@ -1463,6 +1474,7 @@ class eZURLAliasML extends eZPersistentObject
             $action = false;
             $verifiedPath = array();
             $doRedirect = false;
+
             for ( $i = 0; $i < $len; ++$i )
             {
                 $table = "e" . $i;
@@ -1470,6 +1482,7 @@ class eZURLAliasML extends eZPersistentObject
                 $link = $pathRow[$table . "_link"];
                 $text = $pathRow[$table . "_text"];
                 $isAlias = $pathRow[$table . '_is_alias'];
+                $aliasRedirects = $pathRow[$table . '_alias_redirects'];
                 $verifiedPath[] = $text;
                 if ( $i == $len - 1 )
                 {
@@ -1481,10 +1494,13 @@ class eZURLAliasML extends eZPersistentObject
                 }
                 else if ( $isAlias && $action !== false )
                 {
-                    // If the entry is an alias and we have an action we redirect to the original
-                    // url of that action.
-                    $redirectAction = $action;
-                    $doRedirect = true;
+                    if ( $aliasRedirects )
+                    {
+                        // If the entry is an alias and we have an action we redirect to the original
+                        // url of that action.
+                        $redirectAction = $action;
+                        $doRedirect = true;
+                    }
                 }
                 $lastID = $link;
             }
@@ -1506,7 +1522,7 @@ class eZURLAliasML extends eZPersistentObject
                 }
             }
 
-            if ( preg_match( "#^module:(.+)$#", $action, $matches ) )
+            if ( preg_match( "#^module:(.+)$#", $action, $matches ) and $doRedirect )
             {
                 $uriString = 'error/301';
                 $return = $matches[1];
@@ -1538,6 +1554,7 @@ class eZURLAliasML extends eZPersistentObject
                     $pathData = array();
                     // Figure out the correct path by iterating down the parents until we have all
                     // elements figured out.
+
                     while ( $id != 0 )
                     {
                         $query = "SELECT parent, lang_mask, text FROM ezurlalias_ml WHERE id={$id}";
