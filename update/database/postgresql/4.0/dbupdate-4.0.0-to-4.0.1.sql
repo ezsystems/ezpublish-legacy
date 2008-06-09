@@ -8,3 +8,5 @@ CREATE INDEX ezcontentobject_owner ON ezcontentobject (owner_id);
 
 CREATE UNIQUE INDEX ezcontentobject_remote_id ON ezcontentobject (remote_id);
 -- END: from 3.10.1
+
+ALTER TABLE ezurlalias_ml ADD COLUMN alias_redirects INT NOT NULL default 1;

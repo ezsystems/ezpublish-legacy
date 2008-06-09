@@ -2,75 +2,77 @@
 
 {switch match=$info_code}
 {case match='feedback-removed'}
-<div class="message-feedback">
-<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The selected aliases were successfully removed.'|i18n( 'design/admin/content/urlalias_global' )}</h2>
-</div>
+    <div class="message-feedback">
+        <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The selected aliases were successfully removed.'|i18n( 'design/admin/content/urlalias_global' )}</h2>
+    </div>
 {/case}
 {case match='feedback-removed-all'}
-<div class="message-feedback">
-<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'All global aliases were successfully removed.'|i18n( 'design/admin/content/urlalias_global' )}</h2>
-</div>
+    <div class="message-feedback">
+        <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'All global aliases were successfully removed.'|i18n( 'design/admin/content/urlalias_global' )}</h2>
+    </div>
 {/case}
 {case match='error-invalid-language'}
-<div class="message-warning">
-<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The specified language code <%language> is not valid.'|i18n( 'design/admin/content/urlalias_global',, hash('%language', $info_data['language']) )|wash}</h2>
-</div>
+    <div class="message-warning">
+        <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The specified language code <%language> is not valid.'|i18n( 'design/admin/content/urlalias_global',, hash('%language', $info_data['language']) )|wash}</h2>
+    </div>
 {/case}
 {case match='error-no-alias-text'}
-<div class="message-warning">
-<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Text is missing for the URL alias'|i18n( 'design/admin/content/urlalias_global' )}</h2>
-<ul>
-    <li>{'Enter text in the input box to create a new alias.'|i18n( 'design/admin/content/urlalias_global' )}</li>
-</ul>
-</div>
+    <div class="message-warning">
+        <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Text is missing for the URL alias'|i18n( 'design/admin/content/urlalias_global' )}</h2>
+    <ul>
+        <li>{'Enter text in the input box to create a new alias.'|i18n( 'design/admin/content/urlalias_global' )}</li>
+    </ul>
+    </div>
 {/case}
 {case match='error-no-alias-destination-text'}
-<div class="message-warning">
-<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Text is missing for the URL alias destination'|i18n( 'design/admin/content/urlalias_global' )}</h2>
-<ul>
-    <li>{'Enter some text in the destination input box to create a new alias.'|i18n( 'design/admin/content/urlalias_global' )}</li>
-</ul>
-</div>
+    <div class="message-warning">
+        <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Text is missing for the URL alias destination'|i18n( 'design/admin/content/urlalias_global' )}</h2>
+    <ul>
+        <li>{'Enter some text in the destination input box to create a new alias.'|i18n( 'design/admin/content/urlalias_global' )}</li>
+    </ul>
+    </div>
 {/case}
 {case match=error-action-invalid}
-<div class="message-error">
-<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The specified destination URL %url does not exist in the system, cannot create alias for it'|i18n( 'design/admin/content/urlalias_global',, hash('%url', concat( "<", $info_data['aliasText'], ">" ) ) )|wash}</h2>
-<p>{'Ensure that the destination points to a valid entry, one of:'|i18n( 'design/admin/content/urlalias_global' )}</li>
-<ul>
-    <li>{'Built-in functionality, e.g. %example.'|i18n( 'design/admin/content/urlalias_global',, hash( '%example', '<i>user/login</i>' ) )}</li>
-    <li>{'Existing aliases for the content structure.'|i18n( 'design/admin/content/urlalias_global' )}</li>
-</ul>
-</div>
+    <div class="message-error">
+        <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The specified destination URL %url does not exist in the system, cannot create alias for it'|i18n( 'design/admin/content/urlalias_global',, hash('%url', concat( "<", $info_data['aliasText'], ">" ) ) )|wash}</h2>
+        <p>{'Ensure that the destination points to a valid entry, one of:'|i18n( 'design/admin/content/urlalias_global' )}</p>
+    <ul>
+        <li>{'Built-in functionality, e.g. %example.'|i18n( 'design/admin/content/urlalias_global',, hash( '%example', '<i>user/login</i>' ) )}</li>
+        <li>{'Existing aliases for the content structure.'|i18n( 'design/admin/content/urlalias_global' )}</li>
+    </ul>
+    </div>
 {/case}
 {case match='feedback-alias-cleanup'}
-<div class="message-warning">
-<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The URL alias was successfully created, but was modified by the system to <%new_alias>'|i18n( 'design/admin/content/urlalias_global',, hash('%new_alias', $info_data['new_alias'] ) )|wash}</h2>
-<ul>
-{if $info_data['node_id']}
-    <li>{'Note that the new alias points to a node and will not be displayed in the global list. It can be examined on the URL-Alias page of the node, %node_link.'|i18n( 'design/admin/content/urlalias_global',, hash( '%node_link', concat( '<a href=', concat( 'content/urlalias/', $info_data['node_id'] )|ezurl, '>', concat( 'content/urlalias/', $info_data['node_id'] ), '</a>' ) ) )}</li>
-{/if}
-    <li>{'Invalid characters will be removed or transformed to valid characters.'|i18n( 'design/admin/content/urlalias_global' )}</li>
-    <li>{'Existing objects or functionality with the same name take precedence on the name.'|i18n( 'design/admin/content/urlalias_global' )}</li>
-</ul>
-</div>
+    <div class="message-feedback">
+        <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The URL alias was successfully created, but was modified by the system to <%new_alias>'|i18n( 'design/admin/content/urlalias_global',, hash('%new_alias', $info_data['new_alias'] ) )|wash}</h2>
+        <ul>
+            {if $info_data['node_id']}
+                <li>{'Note that the new alias points to a node and will not be displayed in the global list. It can be examined on the URL-Alias page of the node, %node_link.'|i18n( 'design/admin/content/urlalias_global',, hash( '%node_link', concat( '<a href=', concat( 'content/urlalias/', $info_data['node_id'] )|ezurl, '>', concat( 'content/urlalias/', $info_data['node_id'] ), '</a>' ) ) )}</li>
+            {/if}
+            <li>{'Invalid characters will be removed or transformed to valid characters.'|i18n( 'design/admin/content/urlalias_global' )}</li>
+            <li>{'Existing objects or functionality with the same name take precedence on the name.'|i18n( 'design/admin/content/urlalias_global' )}</li>
+        </ul>
+    </div>
 {/case}
 {case match='feedback-alias-created'}
-<div class="message-feedback">
-<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The URL alias <%new_alias> was successfully created'|i18n( 'design/admin/content/urlalias_global',, hash('%new_alias', $info_data['new_alias'] ) )|wash}</h2>
-{if $info_data['node_id']}
-<ul>
-    <li>{'Note that the new alias points to a node and will not be displayed in the global list. It can be examined on the URL-Alias page of the node, %node_link.'|i18n( 'design/admin/content/urlalias_global',, hash( '%node_link', concat( '<a href=', concat( 'content/urlalias/', $info_data['node_id'] )|ezurl, '>', concat( 'content/urlalias/', $info_data['node_id'] ), '</a>' ) ) )}</li>
-</ul>
-{/if}
+    <div class="message-feedback">
+        <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The URL alias <%new_alias> was successfully created'|i18n( 'design/admin/content/urlalias_global',, hash('%new_alias', $info_data['new_alias'] ) )|wash}</h2>
+    {if $info_data['node_id']}
+        <ul>
+            <li>{'Note that the new alias points to a node and will not be displayed in the global list. It can be examined on the URL-Alias page of the node, %node_link.'|i18n( 'design/admin/content/urlalias_global',, hash( '%node_link', concat( '<a href=', concat( 'content/urlalias/', $info_data['node_id'] )|ezurl, '>', concat( 'content/urlalias/', $info_data['node_id'] ), '</a>' ) ) )}</li>
+        </ul>
+    {/if}
 </div>
 {/case}
 {case match='feedback-alias-exists'}
-<div class="message-warning">
-<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The URL alias &lt;%new_alias&gt; already exists, and it points to &lt;%action_url&gt;'|i18n( 'design/admin/content/urlalias_global',, hash( '%new_alias', concat( "<"|wash, '<a href=', $info_data['url']|ezurl, '>', $info_data['new_alias'], '</a>', ">"|wash ), '%action_url', concat( "<"|wash, '<a href=', $info_data['action_url']|ezurl, '>', $info_data['action_url']|wash, '</a>', ">"|wash ) ) )}</h2>
-</div>
+    <div class="message-warning">
+        <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The URL alias &lt;%new_alias&gt; already exists, and it points to &lt;%action_url&gt;'|i18n( 'design/admin/content/urlalias_global',, hash( '%new_alias', concat( "<"|wash, '<a href=', $info_data['url']|ezurl, '>', $info_data['new_alias'], '</a>', ">"|wash ), '%action_url', concat( "<"|wash, '<a href=', $info_data['action_url']|ezurl, '>', $info_data['action_url']|wash, '</a>', ">"|wash ) ) )}</h2>
+    </div>
 {/case}
+
 {case}
 {/case}
+
 {/switch}
 
 {* Errors END *}
@@ -121,6 +123,7 @@
     <th>{'Destination'|i18n( 'design/admin/content/urlalias_global' )}</th>
     <th>{'Language'|i18n( 'design/admin/content/urlalias_global' )}</th>
     <th>{'Always available'|i18n( 'design/admin/content/urlalias_global' )}</th>
+    <th>{'Type'|i18n( 'design/admin/content/urlalias_global' )}</th>
 </tr>
 {foreach $aliasList as $element sequence array('bglight', 'bgdark') as $seq}
     <tr class="{$seq}">
@@ -159,6 +162,13 @@
                 yes
             {else}
                 no
+            {/if}
+        </td>
+        <td>
+            {if $element.alias_redirects}
+                {'Redirect'|i18n( 'design/admin/content/urlalias_global' )}
+            {else}
+                {'Direct'|i18n( 'design/admin/content/urlalias_global' )}
             {/if}
         </td>
     </tr>
@@ -245,6 +255,14 @@
 </div>
 </fieldset>
 </div>
+
+{* Alias should redirect *}
+<div class="block">
+    <input type="checkbox" name="AliasRedirects" id="alias_redirects" value="alias_redirects" checked="checked" />
+    <label class="radio" for="alias_redirects" title="{'Alias should redirect to its destination'|i18n( 'design/admin/content/urlalias_global' )}">{'Alias should redirect to its destination'|i18n( 'design/admin/content/urlalias' )}</label>
+    <p>With <em>Alias should redirect to its destination</em> checked eZ Publish will redirect to the destination using a HTTP 301 response. Un-check it and the URL will stay the same &#8212; no redirection will be performed.</p>
+</div>
+
 
 {* DESIGN: Content END *}</div></div></div>
 

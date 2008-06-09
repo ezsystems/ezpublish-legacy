@@ -376,10 +376,15 @@ div.block /* Use this style around groups of objects which are connected in some
     clear: both;
 }
 
-div.block div.element, div.buttonblock div.element /* Use this style if several objects are to be stacked horizontally within the same block */
+div.block div.element, div.buttonblock div.element, div.block div.halfelement /* Use this style if several objects are to be stacked horizontally within the same block */
 {
     padding-right: 1em !important;
     float: left;
+}
+
+div.halfelement
+{
+    width: 48%;
 }
 
 div.block div.left, div.viewbar div.left
