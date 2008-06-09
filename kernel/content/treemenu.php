@@ -99,7 +99,7 @@ if ( isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) )
     eZExecution::cleanExit();
 }
 
-$nodeID = (int) $_GET['node_id'];
+$nodeID = (int) $Params['NodeID'];
 
 $siteINI = eZINI::instance();
 $contentstructuremenuINI = eZINI::instance( 'contentstructuremenu.ini' );
@@ -140,7 +140,7 @@ if ( $contentstructuremenuINI->variable( 'TreeMenu', 'UseCache' ) == 'enabled' a
     {
         header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', time() + MAX_AGE ) . ' GMT' );
         header( 'Cache-Control: max-age=' . MAX_AGE );
-        header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s', $_GET['modified'] ) . ' GMT' );
+        header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s', $Params['Modified'] ) . ' GMT' );
         header( 'Pragma: ' );
         header( 'Content-Type: application/json' );
         header( 'Content-Length: ' . strlen( $cacheFileContent ) );

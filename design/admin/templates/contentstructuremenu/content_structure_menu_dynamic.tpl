@@ -346,10 +346,10 @@ function ContentStructureMenu()
         }
 
 {/literal}
-        var url = "{"content/treemenu"|ezurl(no)}?node_id=" + nodeID
-            + "&modified=" + modifiedSubnode
-            + "&expiry=" + this.expiry
-            + "&perm=" + this.perm;
+        var url = "{"content/treemenu"|ezurl(no)}/" + nodeID
+            + "/" + modifiedSubnode
+            + "/" + this.expiry
+            + "/" + this.perm;
 {literal}
         var request = false;
 

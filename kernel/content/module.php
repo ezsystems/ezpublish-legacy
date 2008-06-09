@@ -514,7 +514,7 @@ $ViewList['treemenu'] = array(
     'functions' => array( 'read' ),
     'script' => 'treemenu.php',
     'default_navigation_part' => 'ezmynavigationpart',
-    'params' => array() );
+    'params' => array( 'NodeID', 'Modified', 'Expiry', 'Perm' ) );
 
 $ClassID = array(
     'name'=> 'Class',
