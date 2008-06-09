@@ -168,10 +168,8 @@ if ( is_file( $logFilePath ) )
                                 $pathIdentificationString = $db->escapeString( $firstElement );
 
                                 //check in database, if fount, add to contentArray, else add to nonContentArray.
-                                $query = "SELECT node_id FROM ezcontentobject_tree \n" .
-                                         "WHERE path_identification_string='$pathIdentificationString'";
-                                $result = $db->arrayQuery( $query );
-                                if ( count($result) != 0 )
+                                $result = eZURLAliasML::fetchNodeIDByPath( $pathIdentificationString );
+                                if ( $result )
                                 {
                                     $contentArray[] = $firstElement;
                                     $pathArray[] = $url;
@@ -217,13 +215,10 @@ foreach ( $nodeIDArray as $nodeID )
 
 foreach ( $pathArray as $path )
 {
-    $pathIdentification = $db->escapeString( $path );
-    $nodeIDList = $db->arrayQuery( "SELECT node_id FROM ezcontentobject_tree \n" .
-                                   "WHERE path_identification_string='$pathIdentification'" );
+    $nodeID = eZURLAliasML::fetchNodeIDByPath( $path );
 
-    if ( $nodeIDList != null )
+    if ( $nodeID )
     {
-        $nodeID = $nodeIDList[0]['node_id'];
         $counter = eZViewCounter::fetch( $nodeID );
         if ( $counter == null )
             $counter = eZViewCounter::create( $nodeID );
