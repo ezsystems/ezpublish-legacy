@@ -2464,6 +2464,7 @@ CREATE TABLE ezurlalias (
 CREATE TABLE ezurlalias_ml (
     "action" text NOT NULL,
     action_type character varying(32) DEFAULT ''::character varying NOT NULL,
+    alias_redirects integer DEFAULT 1 NOT NULL,
     id integer DEFAULT 0 NOT NULL,
     is_alias integer DEFAULT 0 NOT NULL,
     is_original integer DEFAULT 0 NOT NULL,

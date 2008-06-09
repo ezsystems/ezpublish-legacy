@@ -745,6 +745,8 @@ if ( $urlCount > 0 )
                 $linkID = false;
                 $source = eZURLAliasML::sanitizeURL( $source, true );
                 $destination = $row['destination_url'];
+                $aliasRedirects = true;
+
                 list( $action, $alwaysAvailable ) = decodeAction( $destination );
                 list( $actionType, $actionValue ) = explode( ":", $action, 2 );
                 $aliases = eZURLAliasML::fetchByAction( $actionType, $actionValue );
@@ -775,6 +777,10 @@ if ( $urlCount > 0 )
         		else if ( $actionType == 'module' )
         		{
         		    $linkID = true;
+
+        		    // Links that pointed to modules in the old system does not 
+        		    // redirect. Make sure they won't redirect in the new system either.
+                    $aliasRedirects = false;
         		}
 
                 $aliases = eZURLAliasML::fetchByPath( $source );
@@ -792,14 +798,14 @@ if ( $urlCount > 0 )
                 }
                 $res = eZURLAliasML::storePath( $source, $action,
                                                 false, $linkID, $alwaysAvailable, false,
-                                                false );
+                                                false, false, true, $aliasRedirects );
                 if ( !$res || $res['status'] !== true )
                 {
-                    logStoreError( $res, "eZURLAliasML::storePath", array( $source, $action, false, $linkID, $alwaysAvailable, false, false ) );
+                    logStoreError( $res, "eZURLAliasML::storePath", array( $source, $action, false, $linkID, $alwaysAvailable, false, false, false, true, $aliasRedirects ) );
                     list( $column, $counter ) = displayProgress( 'E', $urlImportStartTime, $counter, $urlCount, $column );
                     continue;
                 }
-                logStore( $res, "eZURLAliasML::storePath", array( $source, $action, false, $linkID, $alwaysAvailable, false, false ) );
+                logStore( $res, "eZURLAliasML::storePath", array( $source, $action, false, $linkID, $alwaysAvailable, false, false, false, true, $aliasRedirects ) );
                 $result = '.';
                 verifyData( $result, $source, $row['id'] );
                 list( $column, $counter ) = displayProgress( $result, $urlImportStartTime, $counter, $urlCount, $column );
@@ -899,11 +905,11 @@ if ( $urlCount > 0 )
                                                 true, true );
                 if ( !$res || $res['status'] !== true )
                 {
-                    logStoreError( $res, "eZURLAliasML::storePath", array( $source, $action, false, $linkID, $alwaysAvailable, false, false ) );
+                    logStoreError( $res, "eZURLAliasML::storePath", array( $source, $action, false, $linkID, $alwaysAvailable, false, true, true ) );
                     list( $column, $counter ) = displayProgress( 'E', $urlImportStartTime, $counter, $urlCount, $column );
                     continue;
                 }
-                logStore( $res, "eZURLAliasML::storePath", array( $source, $action, false, $linkID, $alwaysAvailable, false, false ) );
+                logStore( $res, "eZURLAliasML::storePath", array( $source, $action, false, $linkID, $alwaysAvailable, false, true, true ) );
                 $result = '.';
                 verifyData( $result, $source, $row['id'] );
                 list( $column, $counter ) = displayProgress( $result, $urlImportStartTime, $counter, $urlCount, $column );

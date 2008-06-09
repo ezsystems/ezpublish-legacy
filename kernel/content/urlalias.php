@@ -107,6 +107,8 @@ else if ( $Module->isCurrentAction( 'NewAlias' ) )
     $isRelative = $http->hasPostVariable( 'RelativeAlias' ) && strlen( trim( $http->postVariable( 'RelativeAlias' ) ) ) > 0;
     $languageCode = $Module->actionParameter( 'LanguageCode' );
     $language = eZContentLanguage::fetchByLocale( $languageCode );
+    $aliasRedirects  = $http->hasPostVariable( 'AliasRedirects' ) && $http->postVariable( 'AliasRedirects' );
+
     if ( !$language )
     {
         $infoCode = "error-invalid-language";
@@ -144,7 +146,7 @@ else if ( $Module->isCurrentAction( 'NewAlias' ) )
         $origAliasText = $aliasText;
         $result = eZURLAliasML::storePath( $aliasText, 'eznode:' . $node->attribute( 'node_id' ),
                                            $language, $linkID, $alwaysMask, $parentID,
-                                           true, false, false );
+                                           true, false, false, $aliasRedirects );
         if ( $result['status'] === EZ_URLALIAS_LINK_ALREADY_TAKEN )
         {
             $lastElements = eZURLAliasML::fetchByPath( $result['path'] );
