@@ -146,7 +146,7 @@ function ezoeLinkTypeSet( source, types )
             <br />
         {/set-block}
         
-        {def $viewModes = hash()}
+        {def $viewModes = hash('0', '[default]')}
         {foreach ezini( 'link', 'AvailableViewModes', 'content.ini')  as $viewMode}
             {set $viewModes = $viewModes|merge(  hash( $viewMode, $viewMode|upfirst ) )}
         {/foreach} 
