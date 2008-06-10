@@ -120,30 +120,8 @@ if ( !function_exists( 'checkContentActions' ) )
             //include_once( 'kernel/classes/ezredirectmanager.php' );
             eZRedirectManager::redirectTo( $module, '/' );
 
-            $EditVersion = (int)$EditVersion;
-            $objectID = $object->attribute( 'id' );
-            $versionCount= $object->getVersionCount();
-            $db = eZDB::instance();
-            $db->begin();
-            $db->query( "DELETE FROM ezcontentobject_link
-                         WHERE from_contentobject_id=$objectID AND from_contentobject_version=$EditVersion" );
-            $db->query( "DELETE FROM eznode_assignment
-                         WHERE contentobject_id=$objectID AND contentobject_version=$EditVersion" );
             $version->removeThis();
-            foreach ( $contentObjectAttributes as $contentObjectAttribute )
-            {
-                $objectAttributeID = $contentObjectAttribute->attribute( 'id' );
-                $version = $contentObjectAttribute->attribute( 'version' );
-                if ( $version == $EditVersion )
-                {
-                    $contentObjectAttribute->removeThis( $objectAttributeID, $version );
-                }
-            }
-            if ( $versionCount == 1 )
-            {
-                $object->purge();
-            }
-            $db->commit();
+
             $http = eZHTTPTool::instance();
             $http->removeSessionVariable( "RegisterUserID" );
             return eZModule::HOOK_STATUS_CANCEL_RUN;

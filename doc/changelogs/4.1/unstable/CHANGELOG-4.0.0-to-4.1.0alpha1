@@ -278,3 +278,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13161: Relations in an attribute of the datatype ezobjectrelationlist are not imported
 - Fixed bug #12842: updateviewcount.php uses path_identification_string instead of url_alias
 - Fixed bug #13163: URLs upgraded from 3.9 and below which points to modules should not redirect
+- Fixed bug #13121: Canceling a user signup produces a fatal error

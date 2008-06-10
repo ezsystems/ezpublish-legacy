@@ -548,10 +548,13 @@ WHERE user_id = '" . $userID . "' AND
         //include_once( 'kernel/classes/ezwishlist.php' );
 
         $user = eZUser::fetch( $userID );
-        if ( $user )
+        if ( !$user )
         {
-            eZUser::removeSessionData( $userID );
+            eZDebug::writeError( "unable to find user with ID $userID", 'eZUser::removeUser()' );
+            return false;
         }
+
+        eZUser::removeSessionData( $userID );
 
         eZSubtreeNotificationRule::removeByUserID( $userID );
         eZCollaborationNotificationRule::removeByUserID( $userID );
@@ -570,6 +573,7 @@ WHERE user_id = '" . $userID . "' AND
 
         eZPersistentObject::removeObject( eZUser::definition(),
                                           array( 'contentobject_id' => $userID ) );
+        return true;
     }
 
     /*!
