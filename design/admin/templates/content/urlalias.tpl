@@ -274,11 +274,11 @@
 {* Relative flag. *}
 <div class="block">
     {if $node.parent.parent.node_id|eq(1)}
-        <input type="checkbox" name="RelativeAlias" id="relative-alias" value="{$node.node_id}" checked="checked" disabled="disabled" />
+        <input type="checkbox" name="ParentIsRoot" id="parent-is-root" value="{$node.node_id}" checked="checked" disabled="disabled" />
     {else}
-        <input type="checkbox" name="RelativeAlias" id="relative-alias" value="{$node.node_id}" checked="checked"/>
+        <input type="checkbox" name="ParentIsRoot" id="parent-is-root" value="{$node.node_id}" checked="checked"/>
     {/if}
-    <label class="radio" for="relative-alias" title="{'If checked the alias will start from the parent of the current node. If un-checked the aliases will start from the root of the site.'|i18n( 'design/admin/content/urlalias' )}">{'Place alias on the site root'|i18n( 'design/admin/content/urlalias' )}</label>
+    <label class="radio" for="parent-is-root" title="{'If checked the alias will start from the parent of the current node. If un-checked the aliases will start from the root of the site.'|i18n( 'design/admin/content/urlalias' )}">{'Place alias on the site root'|i18n( 'design/admin/content/urlalias' )}</label>
 
     {if $node.parent.parent.node_id|eq(1)}
         <p>{"The new alias be placed under %link"|i18n( 'design/admin/content/urlalias', '', hash( '%link', concat( '<em><a href=', $node.parent.url_alias|ezurl, '>', $node.parent.name|wash, '</a></em>' ) ) )}.</p>
