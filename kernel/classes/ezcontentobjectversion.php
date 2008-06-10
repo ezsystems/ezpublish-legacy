@@ -917,22 +917,24 @@ class eZContentObjectVersion extends eZPersistentObject
             {
                 $contentobject->purge();
             }
-
-            $version = $contentobject->CurrentVersion;
-            if ( $contentobject->CurrentVersion == $versionNum ) //will assign another current_version in contetnObject.
+            else
             {
-               //search for version that will be current after removing of this one.
-               $candidateToBeCurrent = $db->arrayQuery( "SELECT version
-                                                 FROM ezcontentobject_version
-                                                 WHERE contentobject_id={$contentobject->ID} AND
-                                                       version!={$contentobject->CurrentVersion}
-                                                 ORDER BY modified DESC",
-                                             array( 'offset' => 0, 'limit' => 1 ) );
+                $version = $contentobject->CurrentVersion;
+                if ( $contentobject->CurrentVersion == $versionNum ) //will assign another current_version in contentObject.
+                {
+                   //search for version that will be current after removing of this one.
+                   $candidateToBeCurrent = $db->arrayQuery( "SELECT version
+                                                     FROM ezcontentobject_version
+                                                     WHERE contentobject_id={$contentobject->ID} AND
+                                                           version!={$contentobject->CurrentVersion}
+                                                     ORDER BY modified DESC",
+                                                 array( 'offset' => 0, 'limit' => 1 ) );
 
-               if ( isset($candidateToBeCurrent[0]['version']) && is_numeric($candidateToBeCurrent[0]['version']) )
-               {
-                   $contentobject->CurrentVersion = $candidateToBeCurrent[0]['version'];
-                   $contentobject->store();
+                   if ( isset($candidateToBeCurrent[0]['version']) && is_numeric($candidateToBeCurrent[0]['version']) )
+                   {
+                       $contentobject->CurrentVersion = $candidateToBeCurrent[0]['version'];
+                       $contentobject->store();
+                   }
                }
             }
         }

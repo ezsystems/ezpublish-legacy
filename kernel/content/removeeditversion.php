@@ -75,33 +75,9 @@ if ( $isConfirmed )
                 return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $object->accessList( 'edit' ) ) );
         }
 
-        $db = eZDB::instance();
-        $db->begin();
-
-        $contentObjectAttributes = $versionObject->contentObjectAttributes( $editLanguage );
-        foreach ( $contentObjectAttributes as $contentObjectAttribute )
-        {
-            $objectAttributeID = $contentObjectAttribute->attribute( 'id' );
-            $contentObjectAttribute->removeThis( $objectAttributeID, $version );
-        }
         $versionCount= $object->getVersionCount();
-        if ( $versionCount == 1 )
-        {
-            $nodeID = $versionObject->attribute( 'main_parent_node_id' );
-            $object->purge();
-        }
-        else
-        {
-            $nodeID = $object->attribute( 'main_node_id' );
-            $versionObject->remove();
-        }
-
-        $db->query( "DELETE FROM ezcontentobject_link
-                     WHERE from_contentobject_id=$objectID AND from_contentobject_version=$version" );
-        $db->query( "DELETE FROM eznode_assignment
-                     WHERE contentobject_id=$objectID AND contentobject_version=$version" );
-
-        $db->commit();
+        $nodeID = $versionCount == 1 ? $versionObject->attribute( 'main_parent_node_id' ) : $object->attribute( 'main_node_id' );
+        $versionObject->removeThis();
     }
     $hasRedirected = false;
     if ( $http->hasSessionVariable( 'RedirectIfDiscarded' ) )
