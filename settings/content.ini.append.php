@@ -15,34 +15,34 @@
 
 
 # 'CustomAttributesDefaults' setting defines custom attributes default values
-# that appear in the dialog window for a newly created element.
-#
-# 'CustomAttributesType' lets you specify what html form input element (type) to use, valid:
-#   text (default, supports validation)
-#   int (supports validation)
-#   number (supports validation)
-#   email (supports validation)
-#   select (drop down box with selectable values)
-#   hidden (hide the control)
-#   checkbox
-#  The selections are defined in the customattribute settings like in the example bellow.
-#
-# 'CustomAttributesNames' lets you specify the human readable name of the attribute
+#  that appear in the dialog window for a newly created element.
+#  Deprecate: use 'Default' on the custom attribute settings block instead (explained bellow)
 #
 ## Example for a custom tag:
 #
 #[factbox]
 #CustomAttributesDefaults[align]=right
 #CustomAttributesDefaults[myattr]=default
-#CustomAttributesNames[align]=Alignment
-#CustomAttributesType[align]=select
 #
-## CustomAttribute settings for align attribute on factbox tag!
+## CustomAttribute settings block for align attribute on factbox tag!
 ## You can also define global align cusom attribute setting with
 ## this pattern [CustomAttribute_align], but this is only used if
 ## there is no tag specific settings like this one:
 #
 #[CustomAttribute_factbox_align]
+## Optional, lets you specify the label name on the html control
+#Name=Align
+## Optional, lets you specify the default value on the html control
+#Default=right
+## Optional, lets you specify what html form input element (type) to use, valid:
+## text (default, supports validation)
+## int (supports validation)
+## number (supports validation)
+## email (supports validation)
+## select (drop down box with selectable values)
+## hidden (hide the control)
+## checkbox
+#Type=select
 ## Optional, lets you disable the html control so users can't change the value
 #Disabled=true
 ## Optional, forces user to fill out the html form element
@@ -65,6 +65,7 @@
 #CustomAttributes[]=summary
 #
 #[CustomAttribute_table_summary]
+#Name=Summary (WAI)
 #Required=true
 
 

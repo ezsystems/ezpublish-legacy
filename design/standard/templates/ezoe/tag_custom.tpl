@@ -53,11 +53,15 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     },
     onTagGenerated:  function( el, ed, args )
     {
-        // append a paragraph if user just inserted a custom tag in a empty editor
+        // append a paragraph if user just inserted a custom tag in editor and it's the last tag
         var edBody = el.parentNode, doc = ed.getDoc();
         if ( edBody.nodeName !== 'BODY' )
+        {
+            el = edBody;
             edBody = edBody.parentNode
-        if ( edBody.nodeName === 'BODY' && edBody.childNodes.length < 2 )
+        }
+        if ( edBody.nodeName === 'BODY'
+        && edBody.childNodes.length <= (ez.array.indexOf( edBody.childNodes, el ) +1) )
         {
             var p = doc.createElement('p');
             p.innerHTML = ed.isIE ? '&nbsp;' : '<br />';

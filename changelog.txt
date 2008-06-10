@@ -1,5 +1,11 @@
 eZ Online Editor MCE extension Changelog
 
+5.0Beta4
+* Fixed bug #013151: No nice URLs with ezoe
+* Append paragraph if custom / embed tag is inserted as last tag in editor
+* reworked custom attribute settings in content.ini to be more streamlined.
+
+
 5.0Beta3
 * Fixed bug #012989: Add a loading icon while system is searching (Insert image popup)
 * added image preview in search and browse view
