@@ -11,39 +11,41 @@
 
 // config.php can set the components path like:
 // ini_set( 'include_path', ini_get( 'include_path' ). ':../ezcomponents/trunk' );
+// or it can include it`s own autoload mechanism
 
 if ( file_exists( "config.php" ) )
 {
     require "config.php";
 }
-
-// require 'Base/src/base.php';
-$baseEnabled = @include( 'ezc/Base/base.php' );
-if ( !$baseEnabled )
+if ( !function_exists( '__autoload' ) )
 {
-    $baseEnabled = @include( 'Base/src/base.php' );
+    // require 'Base/src/base.php';
+    $baseEnabled = @include( 'ezc/Base/base.php' );
+    if ( !$baseEnabled )
+    {
+        $baseEnabled = @include( 'Base/src/base.php' );
+    }
+
+    define( 'EZCBASE_ENABLED', $baseEnabled );
+
+    function __autoload( $className )
+    {
+        static $ezpClasses = null;
+        if ( is_null( $ezpClasses ) )
+        {
+            $ezpKernelClasses = require 'autoload/ezp_kernel.php';
+            $ezpExtensionClasses = require 'autoload/ezp_extension.php';
+            $ezpClasses = array_merge( $ezpKernelClasses, $ezpExtensionClasses );
+        }
+
+        if ( array_key_exists( $className, $ezpClasses ) )
+        {
+            require( $ezpClasses[$className] );
+        }
+        elseif ( EZCBASE_ENABLED )
+        {
+            ezcBase::autoload( $className );
+        }
+    }
 }
-
-define( 'EZCBASE_ENABLED', $baseEnabled );
-
-function __autoload( $className )
-{
-    static $ezpClasses = null;
-    if ( is_null( $ezpClasses ) )
-    {
-        $ezpKernelClasses = require 'autoload/ezp_kernel.php';
-        $ezpExtensionClasses = require 'autoload/ezp_extension.php';
-        $ezpClasses = array_merge( $ezpKernelClasses, $ezpExtensionClasses );
-    }
-
-    if ( array_key_exists( $className, $ezpClasses ) )
-    {
-        require( $ezpClasses[$className] );
-    }
-    elseif ( EZCBASE_ENABLED )
-    {
-        ezcBase::autoload( $className );
-    }
-}
-
 ?>

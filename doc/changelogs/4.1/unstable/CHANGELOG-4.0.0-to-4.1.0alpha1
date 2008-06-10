@@ -25,6 +25,8 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Implemented enhancement #13068: eZContentObject::contentClassIdentifier doesn't use classidentifier cache
 - Implemented enhancement #13082: MS Silverlight support in eZ Publish/Website Interface (inc patch)
 - Implemented enhancement #013141: Kickstart support for site type during installation
+- Implemented enhancement: config.php may come with it`s own autoload mechanism to support
+  autoloading of other third party libraries
 
 *Design:
 
