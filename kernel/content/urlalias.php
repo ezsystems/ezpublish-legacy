@@ -104,7 +104,10 @@ else if ( $Module->isCurrentAction( 'RemoveAlias' ) )
 else if ( $Module->isCurrentAction( 'NewAlias' ) )
 {
     $aliasText = trim( $Module->actionParameter( 'AliasText' ) );
-    $isRelative = $http->hasPostVariable( 'RelativeAlias' ) && strlen( trim( $http->postVariable( 'RelativeAlias' ) ) ) > 0;
+    $parentIsRoot = false;
+    if ( $http->hasPostVariable( 'ParentIsRoot' ) && strlen( trim( $http->postVariable( 'ParentIsRoot' ) ) ) > 0 )
+        $parentIsRoot = true;
+
     $languageCode = $Module->actionParameter( 'LanguageCode' );
     $language = eZContentLanguage::fetchByLocale( $languageCode );
     $aliasRedirects  = $http->hasPostVariable( 'AliasRedirects' ) && $http->postVariable( 'AliasRedirects' );
@@ -134,7 +137,7 @@ else if ( $Module->isCurrentAction( 'NewAlias' ) )
             $parentID = (int)$existingElements[0]->attribute( 'parent' );
             $linkID   = (int)$existingElements[0]->attribute( 'id' );
         }
-        if ( !$isRelative )
+        if ( $parentIsRoot )
         {
             $parentID = 0; // Start from the top
         }
