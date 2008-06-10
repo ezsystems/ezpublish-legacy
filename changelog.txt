@@ -4,6 +4,7 @@ eZ Online Editor MCE extension Changelog
 * Fixed bug #013151: No nice URLs with ezoe
 * Append paragraph if custom / embed tag is inserted as last tag in editor
 * reworked custom attribute settings in content.ini to be more streamlined.
+* tags in description / caption field didn't work as intended (strip tags used)
 
 
 5.0Beta3

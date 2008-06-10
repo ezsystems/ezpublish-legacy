@@ -139,7 +139,7 @@ if ( $http->hasPostVariable( 'uploadButton' ) || $forcedUpload )
                         $newObjectDataMap[$key]->store();
                         break;
                     case 'ezxmltext':
-                        $text = strip_tags( trim( $http->postVariable( $base ) ) );
+                        $text = trim( $http->postVariable( $base ) );
                         include_once( 'extension/ezoe/ezxmltext/handlers/input/ezoeinputparser.php' );
                         $parser = new eZOEInputParser();
                         $document = $parser->process( $text );
