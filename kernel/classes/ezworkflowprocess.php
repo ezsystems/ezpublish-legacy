@@ -457,10 +457,12 @@ class eZWorkflowProcess extends eZPersistentObject
                                                 $asObject );
     }
 
-    static function fetchList( $conds = null, $asObject = true )
+    static function fetchList( $conds = null, $asObject = true, $offset = false, $limit = false )
     {
+        $limitation = array( 'offset' => $offset,
+                             'length' => $limit );
         return eZPersistentObject::fetchObjectList( eZWorkflowProcess::definition(),
-                                                    null, $conds, null, null,
+                                                    null, $conds, null, $limitation,
                                                     $asObject );
     }
 

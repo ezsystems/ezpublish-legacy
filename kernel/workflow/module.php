@@ -74,6 +74,7 @@ $ViewList["event"] = array(
 $ViewList["processlist"] = array(
     "script" => "processlist.php",
     "default_navigation_part" => 'ezsetupnavigationpart',
+    'unordered_params' => array( 'offset' => 'Offset' ),
     "params" => array( ) );
 
 ?>
