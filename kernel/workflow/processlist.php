@@ -46,7 +46,29 @@ if ( $db->databaseName() == 'oracle' )
 else
     $conds['memento_key'] = array( '!=', '' );
 
-$plist = eZWorkflowProcess::fetchList( $conds );
+
+$offset = $Params['Offset'];
+if ( !is_numeric( $offset ) )
+{
+    $offset = 0;
+}
+
+$limitList = array( 1 => 10,
+                    2 => 25,
+                    3 => 50,
+                    4 => 100 );
+$limit = 10;
+$limitId = eZPreferences::value( 'admin_workflow_processlist_limit' );
+
+if ( $limitId and isset( $limitList[$limitId] ) )
+{
+    $limit = $limitList[$limitId];
+}
+
+$viewParameters = array( 'offset' => $offset );
+
+$plist = eZWorkflowProcess::fetchList( $conds, true, $offset, $limit );
+$plistCount = eZWorkflowProcess::fetchListCount( $conds );
 
 $totalProcessCount = 0;
 $outList2 = array();
@@ -90,6 +112,9 @@ $tpl = templateInit();
 $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "trigger_list", $outList2 );
 $tpl->setVariable( "total_process_count", $totalProcessCount );
+$tpl->setVariable( 'page_limit', $limit );
+$tpl->setVariable( 'list_count', $plistCount );
+$tpl->setVariable( 'view_parameters', $viewParameters );
 
 $Module->setTitle( "Workflow processes list" );
 $Result = array();
