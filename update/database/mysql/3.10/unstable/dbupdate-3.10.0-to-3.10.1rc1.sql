@@ -17,4 +17,4 @@ ALTER TABLE ezcontentobject ADD INDEX ezcontentobject_owner(owner_id);
 ALTER TABLE ezcontentobject ADD UNIQUE INDEX ezcontentobject_remote_id(remote_id);
 -- END: from 3.9.5
 
-ALTER TABLE ezurlalias_ml ADD COLUMN alias_redirects int(1) NOT NULL default 1;
+ALTER TABLE ezurlalias_ml ADD COLUMN alias_redirects int(11) NOT NULL default 1;
