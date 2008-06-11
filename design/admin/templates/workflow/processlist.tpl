@@ -11,6 +11,37 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
+<div class="context-toolbar">
+<div class="block">
+<div class="left">
+    <p>
+    {switch match=$page_limit}
+    {case match=25}
+        <a href={'/user/preferences/set/admin_workflow_processlist_limit/1'|ezurl} title="{'Show 10 items per page.'|i18n( 'design/admin/node/view/full' )}">10</a>
+        <span class="current">25</span>
+        <a href={'/user/preferences/set/admin_workflow_processlist_limit/3'|ezurl} title="{'Show 50 items per page.'|i18n( 'design/admin/node/view/full' )}">50</a>
+
+        {/case}
+
+        {case match=50}
+        <a href={'/user/preferences/set/admin_workflow_processlist_limit/1'|ezurl} title="{'Show 10 items per page.'|i18n( 'design/admin/node/view/full' )}">10</a>
+        <a href={'/user/preferences/set/admin_workflow_processlist_limit/2'|ezurl} title="{'Show 25 items per page.'|i18n( 'design/admin/node/view/full' )}">25</a>
+        <span class="current">50</span>
+        {/case}
+
+        {case}
+        <span class="current">10</span>
+        <a href={'/user/preferences/set/admin_workflow_processlist_limit/2'|ezurl} title="{'Show 25 items per page.'|i18n( 'design/admin/node/view/full' )}">25</a>
+        <a href={'/user/preferences/set/admin_workflow_processlist_limit/3'|ezurl} title="{'Show 50 items per page.'|i18n( 'design/admin/node/view/full' )}">50</a>
+        {/case}
+
+        {/switch}
+    </p>
+</div>
+<div class="block"></div>
+</div>
+</div>
+
 {if $trigger_list}
 {foreach $trigger_list as $keyt => $tentry}
 {if and( $tentry.trigger, $tentry.process_list )}
@@ -68,6 +99,15 @@
 <p>{'There are no workflow processes in progress.'|i18n( 'design/admin/workflow/proccesslist' )}</p>
 </div>
 {/if}
+
+<div class="context-toolbar">
+{include name=navigator
+         uri='design:navigator/google.tpl'
+         page_uri=concat( '/workflow/processlist' )
+         item_count=$list_count
+         view_parameters=$view_parameters
+         item_limit=$page_limit}
+</div>
 
 {* DESIGN: Content END *}</div></div></div>
 
