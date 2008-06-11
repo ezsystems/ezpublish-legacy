@@ -804,36 +804,36 @@ Datatype branch:
 - Version url=http://svn.ez.no/svn/ezpublish/versions/3.9.1rc1
 - Date 22-Feb-2007
 
-3.6.12: 
+3.6.12:
 - Release branch=release/3.6.12
 - Release branch start=18307
 - Release date 7-March-2007
 - Revision=18393
-- Version url=http://svn.ez.no/svn/ezpublish/versions/3.6.12 
-- Date 7-March-2007 
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.6.12
+- Date 7-March-2007
 
-3.7.10: 
-- Release branch=release/3.7.10 
+3.7.10:
+- Release branch=release/3.7.10
 - Release branch start=18302
-- Release date 7-March-2007 
+- Release date 7-March-2007
 - Revision=18384
-- Version url=http://svn.ez.no/svn/ezpublish/versions/3.7.10 
-- Date 7-March-2007 
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.7.10
+- Date 7-March-2007
 
-3.8.7: 
-- Release branch=release/3.8.7 
+3.8.7:
+- Release branch=release/3.8.7
 - Release branch start=18287
-- Release date 7-March-2007 
+- Release date 7-March-2007
 - Revision=18384
-- Version url=http://svn.ez.no/svn/ezpublish/versions/3.8.7 
-- Date 7-March-2007 
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.8.7
+- Date 7-March-2007
 
-3.9.1: 
-- Release branch=release/3.9.1 
+3.9.1:
+- Release branch=release/3.9.1
 - Release branch start=18287
-- Release date 7-March-2007 
+- Release date 7-March-2007
 - Revision=18384
-- Version url=http://svn.ez.no/svn/ezpublish/versions/3.9.1 
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.9.1
 - Date 7-March-2007
 
 3.8.8:
@@ -916,3 +916,18 @@ Datatype branch:
 - Revision=20991
 - Version url=http://svn.ez.no/svn/ezpublish/versions/4.0.0
 - Date 04-Dec-2007
+
+3.10.1rc1:
+- Release branch=release/3.10.1
+- Release branch start=21980
+- From revision=22001
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.10.1rc1
+- Date 11-Jun-2008
+
+4.0.1rc1:
+- Release branch=release/4.0.1
+- Release branch start=21981
+- From revision=21995
+- Version url=http://svn.ez.no/svn/ezpublish/versions/4.0.1rc1
+- Date 11-Jun-2008
+
