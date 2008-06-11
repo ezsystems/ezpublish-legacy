@@ -457,11 +457,30 @@ class eZWorkflowProcess extends eZPersistentObject
                                                 $asObject );
     }
 
-    static function fetchList( $conds = null, $asObject = true )
+    static function fetchList( $conds = null, $asObject = true, $offset = false, $limit = false )
     {
+        $limitation = array( 'offset' => $offset,
+                             'length' => $limit );
         return eZPersistentObject::fetchObjectList( eZWorkflowProcess::definition(),
-                                                    null, $conds, null, null,
+                                                    null, $conds, null, $limitation,
                                                     $asObject );
+    }
+
+    /*!
+     \return The number of workflow processes in the database. Optionally \a $conditions can be used to limit the list count.
+     \sa fetchList
+    */
+    static function fetchListCount( $conditions = null )
+    {
+        $rows =  eZPersistentObject::fetchObjectList( eZWorkflowProcess::definition(),
+                                                      array(),
+                                                      $conditions,
+                                                      false,
+                                                      null,
+                                                      false, false,
+                                                      array( array( 'operation' => 'count( * )',
+                                                                    'name' => 'count' ) ) );
+        return $rows[0]['count'];
     }
 
     static function createKey( $parameters, $keys = null )
