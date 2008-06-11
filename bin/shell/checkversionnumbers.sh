@@ -18,7 +18,7 @@ MINOR=10
 RELEASE=1
 # Starts at 1 for the first release in a branch and increases with one
 REAL_RELEASE=5
-STATE=""
+STATE="rc1"
 VERSION=$MAJOR"."$MINOR"."$RELEASE""$STATE
 VERSION_ONLY=$MAJOR"."$MINOR
 BRANCH_VERSION=$MAJOR"."$MINOR
@@ -276,7 +276,7 @@ function check_dbfiles_update
     if ! grep "array(  *'$LAST_STABLE',  *'$VERSION'  *)" bin/php/checkdbfiles.php &>/dev/null; then
 	if [ -z "$1" ]; then
 	    echo "`$SETCOLOR_FAILURE`DB update missing`$SETCOLOR_NORMAL`"
-	    echo "Missing database update entry in `$SETCOLOR_EXE`bin/php/checkdbfiles.sh`$SETCOLOR_NORMAL`"
+	    echo "Missing database update entry in `$SETCOLOR_EXE`bin/php/checkdbfiles.php`$SETCOLOR_NORMAL`"
 	    echo "The \$versions""$MAJOR""$MINOR"" should contain:"
 	    echo ",array( '$LAST_STABLE', '$VERSION' )"
 	    echo

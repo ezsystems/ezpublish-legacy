@@ -1,4 +1,4 @@
-Changes from 3.10.0 to 3.10.1
+Changes from 3.10.0 to 3.10.1rc1
 
 *Kernel:
 - Implemented enhancement #11809: Optimization of name pattern handling

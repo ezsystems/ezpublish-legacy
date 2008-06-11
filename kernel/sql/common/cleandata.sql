@@ -22282,7 +22282,7 @@ INSERT INTO ezsite_data (
   value
 ) VALUES (
   'ezpublish-version',
-  '3.10.1'
+  '3.10.1rc1'
 );
 INSERT INTO ezsite_data (
   name,
@@ -22777,6 +22777,7 @@ INSERT INTO ezurlalias (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -22789,6 +22790,7 @@ INSERT INTO ezurlalias_ml (
   'eznode:2',
   'eznode',
   1,
+  1,
   0,
   1,
   3,
@@ -22800,6 +22802,7 @@ INSERT INTO ezurlalias_ml (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -22811,6 +22814,7 @@ INSERT INTO ezurlalias_ml (
 ) VALUES (
   'eznode:5',
   'eznode',
+  1,
   2,
   0,
   1,
@@ -22823,6 +22827,7 @@ INSERT INTO ezurlalias_ml (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -22834,6 +22839,7 @@ INSERT INTO ezurlalias_ml (
 ) VALUES (
   'nop:',
   'nop',
+  1,
   3,
   0,
   0,
@@ -22846,6 +22852,7 @@ INSERT INTO ezurlalias_ml (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -22857,6 +22864,7 @@ INSERT INTO ezurlalias_ml (
 ) VALUES (
   'eznode:12',
   'eznode',
+  1,
   26,
   0,
   0,
@@ -22869,6 +22877,7 @@ INSERT INTO ezurlalias_ml (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -22880,6 +22889,7 @@ INSERT INTO ezurlalias_ml (
 ) VALUES (
   'eznode:13',
   'eznode',
+  1,
   27,
   0,
   0,
@@ -22892,6 +22902,7 @@ INSERT INTO ezurlalias_ml (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -22903,6 +22914,7 @@ INSERT INTO ezurlalias_ml (
 ) VALUES (
   'eznode:14',
   'eznode',
+  1,
   29,
   0,
   0,
@@ -22915,6 +22927,7 @@ INSERT INTO ezurlalias_ml (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -22926,6 +22939,7 @@ INSERT INTO ezurlalias_ml (
 ) VALUES (
   'nop:',
   'nop',
+  1,
   7,
   0,
   0,
@@ -22938,6 +22952,7 @@ INSERT INTO ezurlalias_ml (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -22949,6 +22964,7 @@ INSERT INTO ezurlalias_ml (
 ) VALUES (
   'eznode:15',
   'eznode',
+  1,
   28,
   0,
   0,
@@ -22961,6 +22977,7 @@ INSERT INTO ezurlalias_ml (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -22972,6 +22989,7 @@ INSERT INTO ezurlalias_ml (
 ) VALUES (
   'eznode:43',
   'eznode',
+  1,
   9,
   0,
   1,
@@ -22984,6 +23002,7 @@ INSERT INTO ezurlalias_ml (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -22995,6 +23014,7 @@ INSERT INTO ezurlalias_ml (
 ) VALUES (
   'eznode:44',
   'eznode',
+  1,
   30,
   0,
   0,
@@ -23007,6 +23027,7 @@ INSERT INTO ezurlalias_ml (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -23018,6 +23039,7 @@ INSERT INTO ezurlalias_ml (
 ) VALUES (
   'nop:',
   'nop',
+  1,
   11,
   0,
   0,
@@ -23030,6 +23052,7 @@ INSERT INTO ezurlalias_ml (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -23041,6 +23064,7 @@ INSERT INTO ezurlalias_ml (
 ) VALUES (
   'eznode:45',
   'eznode',
+  1,
   31,
   0,
   0,
@@ -23053,6 +23077,7 @@ INSERT INTO ezurlalias_ml (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -23064,6 +23089,7 @@ INSERT INTO ezurlalias_ml (
 ) VALUES (
   'eznode:48',
   'eznode',
+  1,
   13,
   0,
   1,
@@ -23076,6 +23102,7 @@ INSERT INTO ezurlalias_ml (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -23087,6 +23114,7 @@ INSERT INTO ezurlalias_ml (
 ) VALUES (
   'nop:',
   'nop',
+  1,
   14,
   0,
   0,
@@ -23099,6 +23127,7 @@ INSERT INTO ezurlalias_ml (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -23110,6 +23139,7 @@ INSERT INTO ezurlalias_ml (
 ) VALUES (
   'nop:',
   'nop',
+  1,
   15,
   0,
   0,
@@ -23122,6 +23152,7 @@ INSERT INTO ezurlalias_ml (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -23133,6 +23164,7 @@ INSERT INTO ezurlalias_ml (
 ) VALUES (
   'eznode:50',
   'eznode',
+  1,
   16,
   0,
   1,
@@ -23145,6 +23177,7 @@ INSERT INTO ezurlalias_ml (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -23156,6 +23189,7 @@ INSERT INTO ezurlalias_ml (
 ) VALUES (
   'nop:',
   'nop',
+  1,
   17,
   0,
   0,
@@ -23168,6 +23202,7 @@ INSERT INTO ezurlalias_ml (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -23179,6 +23214,7 @@ INSERT INTO ezurlalias_ml (
 ) VALUES (
   'eznode:51',
   'eznode',
+  1,
   32,
   0,
   0,
@@ -23191,6 +23227,7 @@ INSERT INTO ezurlalias_ml (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -23202,6 +23239,7 @@ INSERT INTO ezurlalias_ml (
 ) VALUES (
   'eznode:52',
   'eznode',
+  1,
   33,
   0,
   0,
@@ -23214,6 +23252,7 @@ INSERT INTO ezurlalias_ml (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -23225,6 +23264,7 @@ INSERT INTO ezurlalias_ml (
 ) VALUES (
   'eznode:53',
   'eznode',
+  1,
   34,
   0,
   0,
@@ -23237,6 +23277,7 @@ INSERT INTO ezurlalias_ml (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -23248,6 +23289,7 @@ INSERT INTO ezurlalias_ml (
 ) VALUES (
   'nop:',
   'nop',
+  1,
   21,
   0,
   0,
@@ -23260,6 +23302,7 @@ INSERT INTO ezurlalias_ml (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -23271,6 +23314,7 @@ INSERT INTO ezurlalias_ml (
 ) VALUES (
   'eznode:54',
   'eznode',
+  1,
   35,
   0,
   0,
@@ -23283,6 +23327,7 @@ INSERT INTO ezurlalias_ml (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -23294,6 +23339,7 @@ INSERT INTO ezurlalias_ml (
 ) VALUES (
   'eznode:58',
   'eznode',
+  1,
   25,
   0,
   1,
@@ -23306,6 +23352,7 @@ INSERT INTO ezurlalias_ml (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -23317,6 +23364,7 @@ INSERT INTO ezurlalias_ml (
 ) VALUES (
   'eznode:12',
   'eznode',
+  1,
   4,
   0,
   1,
@@ -23329,6 +23377,7 @@ INSERT INTO ezurlalias_ml (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -23340,6 +23389,7 @@ INSERT INTO ezurlalias_ml (
 ) VALUES (
   'eznode:13',
   'eznode',
+  1,
   5,
   0,
   1,
@@ -23352,6 +23402,7 @@ INSERT INTO ezurlalias_ml (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -23363,6 +23414,7 @@ INSERT INTO ezurlalias_ml (
 ) VALUES (
   'eznode:15',
   'eznode',
+  1,
   8,
   0,
   1,
@@ -23375,6 +23427,7 @@ INSERT INTO ezurlalias_ml (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -23386,6 +23439,7 @@ INSERT INTO ezurlalias_ml (
 ) VALUES (
   'eznode:14',
   'eznode',
+  1,
   6,
   0,
   1,
@@ -23398,6 +23452,7 @@ INSERT INTO ezurlalias_ml (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -23409,6 +23464,7 @@ INSERT INTO ezurlalias_ml (
 ) VALUES (
   'eznode:44',
   'eznode',
+  1,
   10,
   0,
   1,
@@ -23421,6 +23477,7 @@ INSERT INTO ezurlalias_ml (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -23432,6 +23489,7 @@ INSERT INTO ezurlalias_ml (
 ) VALUES (
   'eznode:45',
   'eznode',
+  1,
   12,
   0,
   1,
@@ -23444,6 +23502,7 @@ INSERT INTO ezurlalias_ml (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -23455,6 +23514,7 @@ INSERT INTO ezurlalias_ml (
 ) VALUES (
   'eznode:51',
   'eznode',
+  1,
   18,
   0,
   1,
@@ -23467,6 +23527,7 @@ INSERT INTO ezurlalias_ml (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -23478,6 +23539,7 @@ INSERT INTO ezurlalias_ml (
 ) VALUES (
   'eznode:52',
   'eznode',
+  1,
   19,
   0,
   1,
@@ -23490,6 +23552,7 @@ INSERT INTO ezurlalias_ml (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -23501,6 +23564,7 @@ INSERT INTO ezurlalias_ml (
 ) VALUES (
   'eznode:53',
   'eznode',
+  1,
   20,
   0,
   1,
@@ -23513,6 +23577,7 @@ INSERT INTO ezurlalias_ml (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -23524,6 +23589,7 @@ INSERT INTO ezurlalias_ml (
 ) VALUES (
   'eznode:54',
   'eznode',
+  1,
   22,
   0,
   1,
@@ -23536,6 +23602,7 @@ INSERT INTO ezurlalias_ml (
 INSERT INTO ezurlalias_ml (
   action,
   action_type,
+  alias_redirects,
   id,
   is_alias,
   is_original,
@@ -23547,6 +23614,7 @@ INSERT INTO ezurlalias_ml (
 ) VALUES (
   'eznode:56',
   'eznode',
+  1,
   24,
   0,
   1,
