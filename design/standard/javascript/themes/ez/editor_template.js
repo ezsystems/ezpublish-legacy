@@ -804,7 +804,7 @@
 		},
 
 		_nodeChanged : function(ed, cm, n, co) {
-			var t = this, p, de = 0, v, c, s = t.settings, div = false, header, className;
+			var t = this, p, de = 0, v, c, s = t.settings, div = false, header;
 
 			tinymce.each(t.stateControls, function(c) {
 				cm.setActive(c, ed.queryCommandState(t.controls[c][1]));
@@ -921,7 +921,7 @@
 				DOM.setHTML(p, '');
 
 				ed.dom.getParent(n, function(n) {
-					var na = n.nodeName.toLowerCase(), u, pi, ti = '';
+					var na = n.nodeName.toLowerCase(), u, pi, ti = '', className = false;
 
 					// Ignore non element and hidden elements
 					if ( n.nodeType !== 1 || DOM.hasClass(n, 'mceItemHidden') || DOM.hasClass(n, 'mceItemRemoved') )
