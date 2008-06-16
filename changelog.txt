@@ -5,6 +5,8 @@ eZ Online Editor MCE extension Changelog
 * Append paragraph if custom / embed tag is inserted as last tag in editor
 * reworked custom attribute settings in content.ini to be more streamlined.
 * tags in description / caption field didn't work as intended (strip tags used)
+* Bumped required Mozilla version to 1.8 ( Firefox 1.5 and Netscape 9.x )
+* Fixed #013165: Underline custom tag into a new paragraph
 
 
 5.0Beta3

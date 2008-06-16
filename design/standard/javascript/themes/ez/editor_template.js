@@ -804,7 +804,7 @@
 		},
 
 		_nodeChanged : function(ed, cm, n, co) {
-			var t = this, p, de = 0, v, c, s = t.settings, div = false, header;
+			var t = this, p, de = 0, v, c, s = t.settings, div = false, header, className;
 
 			tinymce.each(t.stateControls, function(c) {
 				cm.setActive(c, ed.queryCommandState(t.controls[c][1]));
@@ -971,7 +971,7 @@
 							if (v = DOM.getAttrib(n, 'style'))
 								ti += 'style: ' + v + ' ';
 						    if ( n.nodeName === 'U' && n.className === '' )
-						        n.className = 'underline';
+						        className = 'underline';
 
 							break;
                         case 'header':
@@ -984,7 +984,7 @@
 					if (v = DOM.getAttrib(n, 'id'))
 						ti = ti + 'id: ' + v + ' ';
 
-					if (v = n.className) {
+					if (v = className || n.className) {
 						v = v.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable)/g, '');
 
 						if ( v = ez.string.trim( v ) )
@@ -1192,6 +1192,7 @@
                 url : eZOeMCE['extension_url'] + view  + eZOeMCE['contentobject_id'] + '/' + eZOeMCE['contentobject_version'] + '/' + eurl,
                 width : width || 400,
                 height : height || 300,
+                scrollbars : true,
                 resizable : true,
                 inline : true
             }, {
@@ -1293,7 +1294,7 @@
         _mcePageBreak : function( ui, val )
         {
             var ed = this.editor;
-            ed.execCommand('mceInsertContent', false, '<div type="custom" class="mceItemCustomTag pagebreak">&nbsp;</div>');
+            ed.execCommand('mceInsertContent', false, '<div type="custom" class="mceItemCustomTag pagebreak"><p>&nbsp;</p></div>');
         },
 
         _mceInsertAnchor : function(ui, v)

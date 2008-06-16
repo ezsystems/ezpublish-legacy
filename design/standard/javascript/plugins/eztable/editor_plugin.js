@@ -462,6 +462,7 @@
 	                url : eZOeMCE['extension_url'] + view  + eZOeMCE['contentobject_id'] + '/' + eZOeMCE['contentobject_version'] + '/' + eurl,
 	                width : width || 380,
 	                height : height || 280,
+	                scrollbars : true,
 	                resizable : true,
 	                inline : true
 	            }, {

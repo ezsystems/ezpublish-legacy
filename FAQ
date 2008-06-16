@@ -24,13 +24,13 @@ A. Make sure you have correct apache rewrite rule. Have you restarted apache
 
    Example of the rewrite rules for Apache:
    Rewriterule ^/extension/[^/]+/design/[^/]+/(stylesheets|images|javascripts?)/.* - [L]
-   RewriteRule ^/var/[^/]+/cache/(stylesheets|images|javascripts?)/.* - [L]
+   RewriteRule ^/var/[^/]+/cache/(stylesheets|javascripts?)/.* - [L]
 
 B. Make sure you are using one of the following web browsers: 
    Internet Explorer 6.0 or higher,
-   Mozilla 1.7 or higher,
-   Firefox 1.0 or higher,
-   Netscape 8.0 or higher.
+   Mozilla 1.8 or higher,
+   Firefox 1.5 or higher,
+   Netscape 9.0 or higher.
    Safari 3.0 or higher.
    Opera 9.5 or higher.
      

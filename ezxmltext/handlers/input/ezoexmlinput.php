@@ -159,7 +159,7 @@ class eZOEXMLInput extends eZXMLInputHandler
             elseif ( strpos( $userAgent, 'Gecko' ) !== false and
                      eregi('rv:([0-9\.]+)', $userAgent, $browserInfo ) )
             {
-                if ( $browserInfo[1] >= 1.7 )
+                if ( $browserInfo[1] >= 1.8 )
                     $supportsDHTMLType = 'Gecko';
             }
             elseif ( strpos( $userAgent, 'WebKit' ) !== false and
@@ -1036,14 +1036,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
             case 'custom' :
             {
-                $nodeType  = 'span';
                 $name = $tag->getAttribute( 'name' );
-                
-                if ( isset( self::$nativeCustomTags[ $name ] ))
-                {
-                    $nodeType = self::$nativeCustomTags[ $name ];
-                }
-
                 $customAttributePart = $this->getCustomAttrPart( $tag );
 
                 $isInline = false;
@@ -1059,10 +1052,15 @@ class eZOEXMLInput extends eZXMLInputHandler
                     }
                 }
 
-                if ( $isInline )
+                if ( isset( self::$nativeCustomTags[ $name ] ))
                 {
                     if ( !$childTagText ) $childTagText = '&nbsp;';
-                    $output .= '<'. $nodeType .' class="mceItemCustomTag ' . $name . '" type="custom"' . $customAttributePart . '><p class="mceItemHidden">' . $childTagText . '</p></'. $nodeType .'>';
+                    $output .= '<' . self::$nativeCustomTags[ $name ] . $customAttributePart . '>' . $childTagText . '</' . self::$nativeCustomTags[ $name ] . '>';
+                }
+                else if ( $isInline )
+                {
+                    if ( !$childTagText ) $childTagText = '&nbsp;';
+                    $output .= '<span class="mceItemCustomTag ' . $name . '" type="custom"' . $customAttributePart . '><p class="mceItemHidden">' . $childTagText . '</p></span>';
                 }
                 else
                 {

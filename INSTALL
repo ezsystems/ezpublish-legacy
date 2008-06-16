@@ -25,9 +25,9 @@ o  Web Browser:
    Make sure you have one of the following web browsers:
 
    Internet Explorer 6.0 or higher,
-   Mozilla 1.7 or higher,
-   Firefox 1.0 or higher,
-   Netscape 8.0 or higher.
+   Mozilla 1.8 or higher,
+   Firefox 1.5 or higher,
+   Netscape 9.0 or higher.
    Safari 3.0 or higher.
    Opera 9.5 or higher.
 
@@ -42,7 +42,7 @@ o  Web Server:
    If you are using rewrite rules, you need to allow stylesheets and javascript
    files from your var folder, add this rewrite rule if you are running apache:
 
-   RewriteRule ^/var/[^/]+/cache/(stylesheets|images|javascripts?)/.* - [L]
+   RewriteRule ^/var/[^/]+/cache/(stylesheets|javascripts?)/.* - [L]
 
 
 Getting eZ Publish
