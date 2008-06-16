@@ -17,4 +17,6 @@ CREATE UNIQUE INDEX ezcontentobject_remote_id ON ezcontentobject (remote_id);
 CREATE UNIQUE INDEX ezgeneral_digest_user_settings_address ON ezgeneral_digest_user_settings (address);
 DELETE FROM ezgeneral_digest_user_settings WHERE address not in (SELECT email FROM ezuser);
 
-ALTER TABLE ezurlalias_ml ADD COLUMN alias_redirects INT NOT NULL default 1;
+ALTER TABLE ezurlalias_ml ADD COLUMN alias_redirects INT;
+ALTER TABLE ezurlalias_ml ALTER COLUMN alias_redirects SET default 1;
+ALTER TABLE ezurlalias_ml ALTER COLUMN alias_redirects SET NOT NULL;
