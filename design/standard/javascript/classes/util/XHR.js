@@ -1,5 +1,5 @@
 /**
- * $Id: XHR.js 388 2007-11-14 22:52:59Z spocke $
+ * $Id: XHR.js 832 2008-05-02 11:01:57Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
@@ -55,19 +55,24 @@ tinymce.create('static tinymce.util.XHR', {
 
 			x.send(o.data);
 
-			// Wait for response, onReadyStateChange can not be used since it leaks memory in IE
-			t = w.setInterval(function() {
-				if (x.readyState == 4 || c++ > 10000) {
-					w.clearInterval(t);
-
+			function ready() {
+				if (!o.async || x.readyState == 4 || c++ > 10000) {
 					if (o.success && c < 10000 && x.status == 200)
 						o.success.call(o.success_scope, '' + x.responseText, x, o);
 					else if (o.error)
 						o.error.call(o.error_scope, c > 10000 ? 'TIMED_OUT' : 'GENERAL', x, o);
 
 					x = null;
-				}
-			}, 10);
+				} else
+					w.setTimeout(ready, 10);
+			};
+
+			// Syncronous request
+			if (!o.async)
+				return ready();
+
+			// Wait for response, onReadyStateChange can not be used since it leaks memory in IE
+			t = w.setTimeout(ready, 10);
 		}
 
 		/**#@-*/

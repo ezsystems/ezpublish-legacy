@@ -1,5 +1,5 @@
 /**
- * $Id: Serializer.js 797 2008-04-14 13:33:05Z spocke $
+ * $Id: Serializer.js 838 2008-05-06 15:16:15Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -891,7 +891,7 @@
 			t.addValidChildRules(s.valid_child_elements);
 
 			if (s.invalid_elements)
-				t.invalidElementsRE = new RegExp('^(' + wildcardToRE(s.invalid_elements.replace(',', '|').toLowerCase()) + ')$');
+				t.invalidElementsRE = new RegExp('^(' + wildcardToRE(s.invalid_elements.replace(/,/g, '|').toLowerCase()) + ')$');
 
 			if (s.attrib_value_filter)
 				t.attribValueFilter = s.attribValueFilter;

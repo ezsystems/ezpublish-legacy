@@ -1,5 +1,5 @@
 /**
- * $Id: DropMenu.js 829 2008-04-30 14:35:32Z spocke $
+ * $Id: DropMenu.js 852 2008-05-27 05:52:09Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -36,9 +36,6 @@
 			this.onShowMenu = new tinymce.util.Dispatcher(this);
 			this.onHideMenu = new tinymce.util.Dispatcher(this);
 			this.classPrefix = 'mceMenu';
-
-			// Fix for odd IE bug: #1903622 (Frames selection)
-			this.fixIE = tinymce.isIE && (DOM.win.top != DOM.win);
 		},
 
 		/**#@+
@@ -148,7 +145,7 @@
 			t.element.update();
 
 			t.isMenuVisible = 1;
-			t.mouseClickFunc = Event.add(co, t.fixIE ? 'mousedown' : 'click', function(e) {
+			t.mouseClickFunc = Event.add(co, 'click', function(e) {
 				var m;
 
 				e = e.target;
@@ -161,22 +158,15 @@
 
 					dm = t;
 
-					// Wait a while to fix IE bug where it looses the selection if the user clicks on a menu
-					// item when the editor is placed within an frame or iframe
-					DOM.win.setTimeout(function() {
-						while (dm) {
-							if (dm.hideMenu)
-								dm.hideMenu();
+					while (dm) {
+						if (dm.hideMenu)
+							dm.hideMenu();
 
-							dm = dm.settings.parent;
-						}
-					}, 0);
+						dm = dm.settings.parent;
+					}
 
-					// Yield on IE to prevent loosing image focus when context menu is used
-					window.setTimeout(function() {
-						if (m.settings.onclick)
-							m.settings.onclick(e);
-					}, 0);
+					if (m.settings.onclick)
+						m.settings.onclick(e);
 
 					return Event.cancel(e); // Cancel to fix onbeforeunload problem
 				}
@@ -212,6 +202,7 @@
 			if (s.keyboard_focus) {
 				Event.add(co, 'keydown', t._keyHandler, t);
 				DOM.select('a', 'menu_' + t.id)[0].focus(); // Select first link
+				t._focusIdx = 0;
 			}
 		},
 
@@ -225,7 +216,7 @@
 				return;
 
 			Event.remove(co, 'mouseover', t.mouseOverFunc);
-			Event.remove(co, t.fixIE ? 'mousedown' : 'click', t.mouseClickFunc);
+			Event.remove(co, 'click', t.mouseClickFunc);
 			Event.remove(co, 'keydown', t._keyHandler);
 			DOM.hide(co);
 			t.isMenuVisible = 0;
@@ -328,9 +319,32 @@
 		// Internal functions
 
 		_keyHandler : function(e) {
-			// Accessibility feature
-			if (e.keyCode == 27)
-				this.hideMenu();
+			var t = this, kc = e.keyCode;
+
+			function focus(d) {
+				var i = t._focusIdx + d, e = DOM.select('a', 'menu_' + t.id)[i];
+
+				if (e) {
+					t._focusIdx = i;
+					e.focus();
+				}
+			};
+
+			switch (kc) {
+				case 38:
+					focus(-1); // Select first link
+					return;
+
+				case 40:
+					focus(1);
+					return;
+
+				case 13:
+					return;
+
+				case 27:
+					return this.hideMenu();
+			}
 		},
 
 		_add : function(tb, o) {

@@ -1,5 +1,5 @@
 /**
- * $Id: ForceBlocks.js 819 2008-04-28 13:11:51Z spocke $
+ * $Id: ForceBlocks.js 874 2008-06-17 10:51:51Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -200,10 +200,13 @@
 							// Store selection
 							if (si == -2 && r) {
 								if (!isIE) {
-									so = r.startOffset;
-									eo = r.endOffset;
-									si = t.find(b, 0, r.startContainer);
-									ei = t.find(b, 0, r.endContainer);
+									// If element is inside body, might not be the case in contentEdiable mode
+									if (ed.dom.getParent(r.startContainer, function(e) {return e === b;})) {
+										so = r.startOffset;
+										eo = r.endOffset;
+										si = t.find(b, 0, r.startContainer);
+										ei = t.find(b, 0, r.endContainer);
+									}
 								} else {
 									tr = d.body.createTextRange();
 									tr.moveToElementText(b);
@@ -240,7 +243,7 @@
 			// Restore selection
 			if (si != -2) {
 				if (!isIE) {
-					bl = d.getElementsByTagName(ed.settings.element)[0];
+					bl = b.getElementsByTagName(ed.settings.element)[0];
 					r = d.createRange();
 
 					// Select last location or generated block
@@ -462,8 +465,8 @@
 			if (isEmpty(aft))
 				aft.innerHTML = isOpera ? '&nbsp;' : '<br />'; // Extra space for Opera so that the caret can move there
 
-			// Opera needs this one backwards
-			if (isOpera) {
+			// Opera needs this one backwards for older versions
+			if (isOpera && opera.buildNumber() < 10063) {
 				r.insertNode(bef);
 				r.insertNode(aft);
 			} else {

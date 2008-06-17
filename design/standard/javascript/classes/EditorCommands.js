@@ -1,5 +1,5 @@
 /**
- * $Id: EditorCommands.js 812 2008-04-23 13:58:07Z spocke $
+ * $Id: EditorCommands.js 868 2008-06-11 12:33:24Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -192,14 +192,30 @@
 		},
 
 		FontSize : function(u, v) {
-			var ed = this.editor, s = ed.settings, fz = tinymce.explode(s.font_size_style_values), fzc = tinymce.explode(s.font_size_classes);
+			var ed = this.editor, s = ed.settings, fz = tinymce.explode(s.font_size_style_values), fzc = tinymce.explode(s.font_size_classes), h, bm;
 
+			// Remove style sizes
+			each(ed.dom.select('font'), function(e) {
+				e.style.fontSize = '';
+			});
+
+			// Let the browser add new size it will remove unneded ones in some browsers
 			ed.getDoc().execCommand('FontSize', false, v);
 
 			// Add style values
 			if (s.inline_styles) {
 				each(ed.dom.select('font'), function(e) {
-					if (e.size === v) {
+					// Try remove redundant font elements
+					if (e.parentNode.nodeName == 'FONT' && e.size == e.parentNode.size) {
+						if (!bm)
+							bm = ed.selection.getBookmark();
+
+						ed.dom.remove(e, 1);
+						return;
+					}
+
+					// Setup font size based on font size value
+					if (v = e.size) {
 						if (fzc && fzc.length > 0)
 							ed.dom.setAttrib(e, 'class', fzc[parseInt(v) - 1]);
 						else
@@ -207,6 +223,8 @@
 					}
 				});
 			}
+
+			ed.selection.moveToBookmark(bm);
 		},
 
 		queryCommandValue : function(c) {
@@ -645,12 +663,36 @@
 		},
 
 		FormatBlock : function(ui, val) {
-			var t = this, ed = t.editor;
+			var t = this, ed = t.editor, s = ed.selection, dom = ed.dom, bl, nb, b;
+
+			function isBlock(n) {
+				return /^(P|DIV|H[1-6]|ADDRESS|BLOCKQUOTE|PRE)$/.test(n.nodeName);
+			};
+
+			bl = dom.getParent(s.getNode(), function(n) {
+				return isBlock(n);
+			});
+
+			// IE has an issue where it removes the parent div if you change format on the paragrah in <div><p>Content</p></div>
+			// FF and Opera doesn't change parent DIV elements if you switch format
+			if (bl) {
+				if ((isIE && isBlock(bl.parentNode)) || bl.nodeName == 'DIV') {
+					// Rename block element
+					nb = ed.dom.create(val);
+
+					each(dom.getAttribs(bl), function(v) {
+						dom.setAttrib(nb, v.nodeName, dom.getAttrib(bl, v.nodeName));
+					});
+
+					b = s.getBookmark();
+					dom.replace(nb, bl, 1);
+					s.moveToBookmark(b);
+					ed.nodeChanged();
+					return;
+				}
+			}
 
 			val = ed.settings.forced_root_block ? (val || '<p>') : val;
-
-			if (/^(P|DIV|H[1-6]|ADDRESS|BLOCKQUOTE|PRE)$/.test(ed.selection.getNode().nodeName))
-				t.mceRemoveNode();
 
 			if (val.indexOf('<') == -1)
 				val = '<' + val + '>';

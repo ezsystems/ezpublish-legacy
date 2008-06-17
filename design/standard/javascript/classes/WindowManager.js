@@ -1,5 +1,5 @@
 /**
- * $Id: WindowManager.js 775 2008-04-08 13:37:29Z spocke $
+ * $Id: WindowManager.js 840 2008-05-06 17:18:25Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -65,8 +65,7 @@
 					s.dialogWidth = s.width + 'px';
 					s.dialogHeight = s.height + 'px';
 					s.scroll = s.scrollbars || false;
-				} else
-					s.modal = s.alwaysRaised = s.dialog = s.centerscreen = s.dependent = true;
+				}
 			}
 
 			// Build features string

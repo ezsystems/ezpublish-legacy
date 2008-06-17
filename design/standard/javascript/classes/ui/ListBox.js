@@ -1,5 +1,5 @@
 /**
- * $Id: ListBox.js 784 2008-04-09 20:56:11Z spocke $
+ * $Id: ListBox.js 871 2008-06-16 16:57:45Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -142,7 +142,7 @@
 			m = t.menu;
 			m.settings.offset_x = p2.x;
 			m.settings.offset_y = p2.y;
-			m.settings.keyboard_focus = t._focused;
+			m.settings.keyboard_focus = !tinymce.isOpera; // Opera is buggy when it comes to auto focus
 
 			// Select in menu
 			if (t.oldID)
@@ -159,6 +159,8 @@
 
 			Event.add(DOM.doc, 'mousedown', t.hideMenu, t);
 			DOM.addClass(t.id, t.classPrefix + 'Selected');
+
+			//DOM.get(t.id + '_text').focus();
 		},
 
 		/**
@@ -197,8 +199,12 @@
 
 			m.add({
 				title : t.settings.title,
-				'class' : 'mceMenuItemTitle'
-			}).setDisabled(1);
+				'class' : 'mceMenuItemTitle',
+				onclick : function() {
+					if (t.settings.onselect('') !== false)
+						t.select(''); // Must be runned after
+				}
+			});
 
 			each(t.items, function(o) {
 				o.id = DOM.uniqueId();
@@ -222,8 +228,40 @@
 			var t = this, cp = t.classPrefix;
 
 			Event.add(t.id, 'click', t.showMenu, t);
-			Event.add(t.id + '_text', 'focus', function() {t._focused = 1;});
-			Event.add(t.id + '_text', 'blur', function() {t._focused = 0;});
+			Event.add(t.id + '_text', 'focus', function(e) {
+				if (!t._focused) {
+					t.keyDownHandler = Event.add(t.id + '_text', 'keydown', function(e) {
+						var idx = -1, v, kc = e.keyCode;
+
+						// Find current index
+						each(t.items, function(v, i) {
+							if (t.selectedValue == v.value)
+								idx = i;
+						});
+
+						// Move up/down
+						if (kc == 38)
+							v = t.items[idx - 1];
+						else if (kc == 40)
+							v = t.items[idx + 1];
+						else if (kc == 13) {
+							// Fake select on enter
+							v = t.selectedValue;
+							t.selectedValue = null; // Needs to be null to fake change
+							t.settings.onselect(v);
+							return Event.cancel(e);
+						}
+
+						if (v) {
+							t.hideMenu();
+							t.select(v.value);
+						}
+					});
+				}
+
+				t._focused = 1;
+			});
+			Event.add(t.id + '_text', 'blur', function() {Event.remove(t.id + '_text', 'keydown', t.keyDownHandler); t._focused = 0;});
 
 			// Old IE doesn't have hover on all elements
 			if (tinymce.isIE6 || !DOM.boxModel) {

@@ -1,5 +1,5 @@
 /**
- * $Id: Event.js 769 2008-04-07 13:30:56Z spocke $
+ * $Id: Event.js 843 2008-05-08 10:28:16Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
@@ -255,8 +255,10 @@
 			var t;
 
 			// No need since the document is already loaded
-			if (window.tinyMCE_GZ && tinyMCE_GZ.loaded)
+			if (window.tinyMCE_GZ && tinyMCE_GZ.loaded) {
+				Event.domLoaded = 1;
 				return;
+			}
 
 			if (isIE && document.location.protocol != 'https:') {
 				// Fake DOMContentLoaded on IE

@@ -1,5 +1,5 @@
 /**
- * $Id: DOMUtils.js 821 2008-04-28 13:37:34Z spocke $
+ * $Id: DOMUtils.js 868 2008-06-11 12:33:24Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -162,7 +162,7 @@
 					}
 
 					each(na.split(','), function(v) {
-						if (n.nodeType == 1 && ((se.strict && n.nodeName.toUpperCase() == v) || n.nodeName == v)) {
+						if (n.nodeType == 1 && ((se.strict && n.nodeName.toUpperCase() == v) || n.nodeName.toUpperCase() == v)) {
 							s = true;
 							return false; // Break loop
 						}
@@ -656,6 +656,10 @@
 						}
 
 						break;
+					
+					case "shape":
+						e.setAttribute('mce_style', v);
+						break;
 				}
 
 				if (is(v) && v !== null && v.length !== 0)
@@ -703,7 +707,7 @@
 				dv = "";
 
 			// Try the mce variant for these
-			if (/^(src|href|style|coords)$/.test(n)) {
+			if (/^(src|href|style|coords|shape)$/.test(n)) {
 				v = e.getAttribute("mce_" + n);
 
 				if (v)
@@ -904,10 +908,13 @@
 				delete o[c];
 			};
 
+			st = st.replace(/&(#?[a-z0-9]+);/g, '&$1_MCE_SEMI_'); // Protect entities
+
 			each(st.split(';'), function(v) {
 				var sv, ur = [];
 
 				if (v) {
+					v = v.replace(/_MCE_SEMI_/g, ';'); // Restore entities
 					v = v.replace(/url\([^\)]+\)/g, function(v) {ur.push(v);return 'url(' + ur.length + ')';});
 					v = v.split(':');
 					sv = tinymce.trim(v[1]);
@@ -919,7 +926,7 @@
 
 					if (s.url_converter) {
 						sv = sv.replace(/url\([\'\"]?([^\)\'\"]+)[\'\"]?\)/g, function(x, c) {
-							return 'url(' + t.encode(s.url_converter.call(s.url_converter_scope || t, t.decode(c), 'style', null)) + ')';
+							return 'url(' + s.url_converter.call(s.url_converter_scope || t, t.decode(c), 'style', null) + ')';
 						});
 					}
 
@@ -955,6 +962,9 @@
 
 			each(o, function(v, k) {
 				if (k && v) {
+					if (tinymce.isGecko && k.indexOf('-moz-') === 0)
+						return;
+
 					switch (k) {
 						case 'color':
 						case 'background-color':
@@ -1247,16 +1257,43 @@
 
 			// Store away src and href in mce_src and mce_href since browsers mess them up
 			if (s.keep_values) {
-				// Wrap scripts in comments for serialization purposes
-				if (h.indexOf('<script') !== -1) {
-					h = h.replace(/<script>/g, '<script type="text/javascript">');
-					h = h.replace(/<script(|[^>]+)>(\s*<!--|\/\/\s*<\[CDATA\[)?[\r\n]*/g, '<mce:script$1><!--\n');
-					h = h.replace(/\s*(\/\/\s*-->|\/\/\s*]]>)?<\/script>/g, '\n// --></mce:script>');
-					h = h.replace(/<mce:script(|[^>]+)><!--\n\/\/ --><\/mce:script>/g, '<mce:script$1></mce:script>');
+				// Wrap scripts and styles in comments for serialization purposes
+				if (/<script|style/.test(h)) {
+					function trim(s) {
+						// Remove prefix and suffix code for element
+						s = s.replace(/^[\r\n]*|[\r\n]*$/g, '');
+						s = s.replace(/^\s*(\/\/\s*<!--|\/\/\s*<\[CDATA\[|<!--|<\[CDATA\[)[\r\n]*/g, '');
+						s = s.replace(/\s*(\/\/\s*\]\]>|\/\/\s*-->|\]\]>|-->)\s*$/g, '');
+
+						return s;
+					};
+
+					// Preserve script elements
+					h = h.replace(/<script([^>]+|)>([\s\S]*?)<\/script>/g, function(v, a, b) {
+						// Remove prefix and suffix code for script element
+						b = trim(b);
+
+						// Force type attribute
+						if (!a)
+							a = ' type="text/javascript"';
+
+						// Wrap contents in a comment
+						if (b)
+							b = '<!--\n' + b + '\n// -->';
+
+						// Output fake element
+						return '<mce:script' + a + '>' + b + '</mce:script>';
+					});
+
+					// Preserve style elements
+					h = h.replace(/<style([^>]+|)>([\s\S]*?)<\/style>/g, function(v, a, b) {
+						b = trim(b);
+						return '<mce:style' + a + '><!--\n' + b + '\n--></mce:style><style' + a + ' mce_bogus="1">' + b + '</style>';
+					});
 				}
 
 				// Process all tags with src, href or style
-				h = h.replace(/<([\w:]+) [^>]*(src|href|style|coords)[^>]*>/gi, function(a, n) {
+				h = h.replace(/<([\w:]+) [^>]*(src|href|style|shape|coords)[^>]*>/gi, function(a, n) {
 					function handle(m, b, c) {
 						var u = c;
 
@@ -1284,7 +1321,7 @@
 									return 'url(' + t.encode(s.url_converter.call(s.url_converter_scope || t, t.decode(c), b, n)) + ')';
 								});
 							}
-						} else if (b != 'coords') {
+						} else if (b != 'coords' && b != 'shape') {
 							if (s.url_converter)
 								u = t.encode(s.url_converter.call(s.url_converter_scope || t, t.decode(c), b, n));
 						}
@@ -1292,10 +1329,10 @@
 						return ' ' + b + '="' + c + '" mce_' + b + '="' + u + '"';
 					};
 
-					a = a.replace(/ (src|href|style|coords)=[\"]([^\"]+)[\"]/gi, handle); // W3C
-					a = a.replace(/ (src|href|style|coords)=[\']([^\']+)[\']/gi, handle); // W3C
+					a = a.replace(/ (src|href|style|coords|shape)=[\"]([^\"]+)[\"]/gi, handle); // W3C
+					a = a.replace(/ (src|href|style|coords|shape)=[\']([^\']+)[\']/gi, handle); // W3C
 
-					return a.replace(/ (src|href|style|coords)=([^\s\"\'>]+)/gi, handle); // IE
+					return a.replace(/ (src|href|style|coords|shape)=([^\s\"\'>]+)/gi, handle); // IE
 				});
 			}
 
@@ -1448,7 +1485,7 @@
 
 			n = n.nodeName || n;
 
-			return /^(H[1-6]|HR|P|DIV|ADDRESS|PRE|FORM|TABLE|LI|OL|UL|TD|CAPTION|BLOCKQUOTE|CENTER|DL|DT|DD|DIR|FIELDSET|FORM|NOSCRIPT|NOFRAMES|MENU|ISINDEX|SAMP)$/.test(n);
+			return /^(H[1-6]|HR|P|DIV|ADDRESS|PRE|FORM|TABLE|LI|OL|UL|TD|CAPTION|BLOCKQUOTE|CENTER|DL|DT|DD|DIR|FIELDSET|NOSCRIPT|NOFRAMES|MENU|ISINDEX|SAMP)$/.test(n);
 		},
 
 		// #if !jquery
@@ -1657,8 +1694,7 @@
 
 		_isRes : function(c) {
 			// Is live resizble element
-
-			return /^(top|left|bottom|right|width|height)/i.test(c) || /^[;\s](top|left|bottom|right|width|height)/i.test(c);
+			return /^(top|left|bottom|right|width|height)/i.test(c) || /;\s*(top|left|bottom|right|width|height)/i.test(c);
 		}
 
 		/*

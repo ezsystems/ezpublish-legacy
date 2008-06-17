@@ -1,5 +1,5 @@
 /**
- * $Id: ControlManager.js 793 2008-04-10 17:32:40Z spocke $
+ * $Id: ControlManager.js 872 2008-06-16 19:50:39Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -177,12 +177,7 @@
 			// Fix for bug #1897785, #1898007
 			if (tinymce.isIE) {
 				c.onShowMenu.add(function() {
-					var s = ed.selection, n = s.getNode();
-
-					if (n.nodeName == 'IMG')
-						bm = s.getBookmark();
-					else
-						bm = 0;
+					bm = ed.selection.getBookmark(1);
 				});
 
 				c.onHideMenu.add(function() {
@@ -372,7 +367,7 @@
 		 * @return {tinymce.ui.Control} Control instance that got created and added.
 		 */
 		createColorSplitButton : function(id, s, cc) {
-			var t = this, ed = t.editor, cmd, c, cls;
+			var t = this, ed = t.editor, cmd, c, cls, bm;
 
 			if (t.get(id))
 				return null;
@@ -409,6 +404,20 @@
 			ed.onRemove.add(function() {
 				c.destroy();
 			});
+
+			// Fix for bug #1897785, #1898007
+			if (tinymce.isIE) {
+				c.onShowMenu.add(function() {
+					bm = ed.selection.getBookmark(1);
+				});
+
+				c.onHideMenu.add(function() {
+					if (bm) {
+						ed.selection.moveToBookmark(bm);
+						bm = 0;
+					}
+				});
+			}
 
 			return t.add(c);
 		},

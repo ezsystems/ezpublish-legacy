@@ -1,5 +1,5 @@
 /**
- * $Id: ColorSplitButton.js 819 2008-04-28 13:11:51Z spocke $
+ * $Id: ColorSplitButton.js 840 2008-05-06 17:18:25Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -31,6 +31,9 @@
 				grid_width : 8,
 				default_color : '#888888'
 			}, t.settings);
+
+			t.onShowMenu = new tinymce.util.Dispatcher(t);
+			t.onHideMenu = new tinymce.util.Dispatcher(t);
 
 			t.value = s.default_color;
 		},
@@ -79,6 +82,8 @@
 				DOM.select('a', t.id + '_menu')[0].focus(); // Select first link
 			}
 
+			t.onShowMenu.dispatch(t);
+
 			t.isMenuVisible = 1;
 		},
 
@@ -101,6 +106,8 @@
 				Event.remove(t.id + '_menu', 'keydown', t._keyHandler);
 				DOM.hide(t.id + '_menu');
 			}
+
+			t.onHideMenu.dispatch(t);
 
 			t.isMenuVisible = 0;
 		},

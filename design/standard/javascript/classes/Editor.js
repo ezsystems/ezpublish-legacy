@@ -1,5 +1,5 @@
 /**
- * $Id: Editor.js 829 2008-04-30 14:35:32Z spocke $
+ * $Id: Editor.js 871 2008-06-16 16:57:45Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -109,7 +109,7 @@
 				apply_source_formatting : 1,
 				directionality : 'ltr',
 				forced_root_block : 'p',
-				valid_elements : '@[id|class|style|title|dir<ltr?rtl|lang|xml::lang|onclick|ondblclick|onmousedown|onmouseup|onmouseover|onmousemove|onmouseout|onkeypress|onkeydown|onkeyup],a[rel|rev|charset|hreflang|tabindex|accesskey|type|name|href|target|title|class|onfocus|onblur],strong/b,em/i,strike,u,#p[align],-ol[type|compact],-ul[type|compact],-li,br,img[longdesc|usemap|src|border|alt=|title|hspace|vspace|width|height|align],-sub,-sup,-blockquote,-table[border=0|cellspacing|cellpadding|width|frame|rules|height|align|summary|bgcolor|background|bordercolor],-tr[rowspan|width|height|align|valign|bgcolor|background|bordercolor],tbody,thead,tfoot,#td[colspan|rowspan|width|height|align|valign|bgcolor|background|bordercolor|scope],#th[colspan|rowspan|width|height|align|valign|scope],caption,-div,-span,-code,-pre,address,-h1,-h2,-h3,-h4,-h5,-h6,hr[size|noshade],-font[face|size|color],dd,dl,dt,cite,abbr,acronym,del[datetime|cite],ins[datetime|cite],object[classid|width|height|codebase|*],param[name|value|_value],embed[type|width|height|src|*],script[src|type],map[name],area[shape|coords|href|alt|target],bdo,button,col[align|char|charoff|span|valign|width],colgroup[align|char|charoff|span|valign|width],dfn,fieldset,form[action|accept|accept-charset|enctype|method],input[accept|alt|checked|disabled|maxlength|name|readonly|size|src|type|value],kbd,label[for],legend,noscript,optgroup[label|disabled],option[disabled|label|selected|value],q[cite],samp,select[disabled|multiple|name|size],small,textarea[cols|rows|disabled|name|readonly],tt,var,big',
+				valid_elements : '@[id|class|style|title|dir<ltr?rtl|lang|xml::lang|onclick|ondblclick|onmousedown|onmouseup|onmouseover|onmousemove|onmouseout|onkeypress|onkeydown|onkeyup],a[rel|rev|charset|hreflang|tabindex|accesskey|type|name|href|target|title|class|onfocus|onblur],strong/b,em/i,strike,u,#p[align],-ol[type|compact],-ul[type|compact],-li,br,img[longdesc|usemap|src|border|alt=|title|hspace|vspace|width|height|align],-sub,-sup,-blockquote[cite],-table[border=0|cellspacing|cellpadding|width|frame|rules|height|align|summary|bgcolor|background|bordercolor],-tr[rowspan|width|height|align|valign|bgcolor|background|bordercolor],tbody,thead,tfoot,#td[colspan|rowspan|width|height|align|valign|bgcolor|background|bordercolor|scope],#th[colspan|rowspan|width|height|align|valign|scope],caption,-div,-span,-code,-pre,address,-h1,-h2,-h3,-h4,-h5,-h6,hr[size|noshade],-font[face|size|color],dd,dl,dt,cite,abbr,acronym,del[datetime|cite],ins[datetime|cite],object[classid|width|height|codebase|*],param[name|value],embed[type|width|height|src|*],script[src|type],map[name],area[shape|coords|href|alt|target],bdo,button,col[align|char|charoff|span|valign|width],colgroup[align|char|charoff|span|valign|width],dfn,fieldset,form[action|accept|accept-charset|enctype|method],input[accept|alt|checked|disabled|maxlength|name|readonly|size|src|type|value],kbd,label[for],legend,noscript,optgroup[label|disabled],option[disabled|label|selected|value],q[cite],samp,select[disabled|multiple|name|size],small,textarea[cols|rows|disabled|name|readonly],tt,var,big',
 				hidden_input : 1,
 				padd_empty_editor : 1,
 				render_ui : 1,
@@ -169,7 +169,7 @@
 
 			if (s.encoding == 'xml') {
 				t.onGetContent.add(function(ed, o) {
-					if (o.get)
+					if (o.save)
 						o.content = DOM.encode(o.content);
 				});
 			}
@@ -183,7 +183,7 @@
 				});
 			}
 
-			if (s.add_unload_trigger) {
+			if (s.add_unload_trigger && !s.ask) {
 				t._beforeUnload = tinyMCE.onBeforeUnload.add(function() {
 					if (t.initialized && !t.destroyed && !t.isHidden())
 						t.save({format : 'raw', no_events : true});
@@ -242,12 +242,15 @@
 				sl.loadQueue(function() {
 					if (s.ask) {
 						function ask() {
-							t.windowManager.confirm(t.getLang('edit_confirm'), function(s) {
-								if (s)
-									t.init();
-								else
-									Event.remove(t.id, 'focus', ask);
-							});
+							// Yield for awhile to avoid focus bug on FF 3 when cancel is pressed
+							window.setTimeout(function() {
+								Event.remove(t.id, 'focus', ask);
+
+								t.windowManager.confirm(t.getLang('edit_confirm'), function(s) {
+									if (s)
+										t.init();
+								});
+							}, 0);
 						};
 
 						Event.add(t.id, 'focus', ask);
@@ -399,7 +402,7 @@
 			if (h < 100)
 				h = 100;
 
-			t.iframeHTML = s.doctype + '<html><head xmlns="http://www.w3.org/1999/xhtml"><base href="' + t.documentBaseURI.getURI() + '"></base>';
+			t.iframeHTML = s.doctype + '<html><head xmlns="http://www.w3.org/1999/xhtml"><base href="' + t.documentBaseURI.getURI() + '" />';
 			t.iframeHTML += '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
 
 			if (tinymce.relaxedDomain)
@@ -874,15 +877,19 @@
 		 * @param {bool} sf Skip DOM focus. Just set is as the active editor.
 		 */
 		focus : function(sf) {
-			var oed, t = this;
+			var oed, t = this, ce = t.settings.content_editable;
 
 			if (!sf) {
-				t.getWin().focus();
+				// Is not content editable or the selection is outside the area in IE
+				// the IE statement is needed to avoid bluring if element selections inside layers since
+				// the layer is like it's own document in IE
+				if (!ce && (!isIE || t.selection.getNode().ownerDocument != t.getDoc()))
+					t.getWin().focus();
 
 				// #if contentEditable
 
 				// Content editable mode ends here
-				if (tinymce.isIE && t.settings.content_editable)
+				if (tinymce.isIE && ce)
 					t.getElement().focus();
 
 				// #endif
@@ -1146,7 +1153,7 @@
 			if (o.terminate)
 				return false;
 
-			// Comamnd callback
+			// Command callback
 			if (t.execCallback('execcommand_callback', t.id, t.selection.getNode(), cmd, ui, val)) {
 				t.onExecCommand.dispatch(t, cmd, ui, val, a);
 				return true;
@@ -1364,6 +1371,12 @@
 			o = o || {};
 			o.save = true;
 
+			// Add undo level will trigger onchange event
+			if (!o.no_events) {
+				t.undoManager.typing = 0;
+				t.undoManager.add();
+			}
+
 			o.element = e;
 			h = o.content = t.getContent(o);
 
@@ -1414,7 +1427,7 @@
 			// Padd empty content in Gecko and Safari. Commands will otherwise fail on the content
 			// It will also be impossible to place the caret in the editor unless there is a BR element present
 			if (!tinymce.isIE && (h.length === 0 || /^\s+$/.test(h))) {
-				o.content = t.dom.setHTML(t.getBody(), '<br mce_bogus="1" />', 1);
+				o.content = t.dom.setHTML(t.getBody(), '<br mce_bogus="1" />');
 				o.format = 'raw';
 			}
 
@@ -1455,8 +1468,10 @@
 				h = t.getBody().innerHTML;
 
 			h = h.replace(/^\s*|\s*$/g, '');
-			o = {content : h};
-			t.onGetContent.dispatch(t, o);
+			o.content = h;
+
+			if (!o.no_events)
+				t.onGetContent.dispatch(t, o);
 
 			return o.content;
 		},
@@ -1738,14 +1753,14 @@
 					case 'contextmenu':
 						if (tinymce.isOpera) {
 							// Fake contextmenu on Opera
-							Event.add(t.getDoc(), 'mousedown', function(e) {
+							Event.add(t.getBody(), 'mousedown', function(e) {
 								if (e.ctrlKey) {
 									e.fakeType = 'contextmenu';
 									eventHandler(e);
 								}
 							});
 						} else
-							Event.add(t.getDoc(), k, eventHandler);
+							Event.add(t.getBody(), k, eventHandler);
 						break;
 
 					case 'paste':
@@ -1844,7 +1859,7 @@
 						} catch (ex) {
 							// Use old method
 							if (!t._isHidden())
-								d.execCommand("useCSS", 0, true);
+								try {d.execCommand("useCSS", 0, true);} catch (ex) {}
 						}
 
 						if (!s.table_inline_editing)

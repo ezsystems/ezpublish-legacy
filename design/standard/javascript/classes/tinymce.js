@@ -1,5 +1,5 @@
 /**
- * $Id: tinymce.js 829 2008-04-30 14:35:32Z spocke $
+ * $Id: tinymce.js 875 2008-06-17 11:50:31Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -12,8 +12,8 @@
  */
 var tinymce = {
 	majorVersion : '3',
-	minorVersion : '0.8',
-	releaseDate : '2008-04-30',
+	minorVersion : '1.0',
+	releaseDate : '2008-06-17',
 
 	/**#@+
 	 * @method
@@ -23,7 +23,7 @@ var tinymce = {
 	 * Initializes the TinyMCE global namespace this will setup browser detection and figure out where TinyMCE is running from.
 	 */
 	_init : function() {
-		var t = this, d = document, w = window, na = navigator, ua = na.userAgent, i, nl, n, base, p;
+		var t = this, d = document, w = window, na = navigator, ua = na.userAgent, i, nl, n, base, p, v;
 
 		// Browser checks
 		t.isOpera = w.opera && opera.buildNumber;
@@ -48,8 +48,13 @@ var tinymce = {
 		// If base element found, add that infront of baseURL
 		nl = d.getElementsByTagName('base');
 		for (i=0; i<nl.length; i++) {
-			if (nl[i].href)
-				base = nl[i].href;
+			if (v = nl[i].href) {
+				// Host only value like http://site.com or http://site.com:8008
+				if (/^https?:\/\/[^\/]+$/.test(v))
+					v += '/';
+
+				base = v ? v.match(/.*\//)[0] : ''; // Get only directory
+			}
 		}
 
 		function getBase(n) {
