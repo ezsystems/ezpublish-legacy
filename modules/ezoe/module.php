@@ -32,18 +32,21 @@ $Module = array( 'name' => 'eZtinymce Module and views for the poor and week!' )
 $ViewList = array();
 $ViewList['relations'] = array(
     'functions' => array( 'editor' ),
+    'ui_context' => 'edit',
     'script' => 'relations.php',
     'params' => array( 'ObjectID', 'ObjectVersion', 'ContentType', 'EmbedID', 'EmbedInline', 'EmbedSize' )
     );
 
 $ViewList['upload'] = array(
     'functions' => array( 'editor' ),
+    'ui_context' => 'edit',
     'script' => 'upload.php',
     'params' => array( 'ObjectID', 'ObjectVersion', 'ContentType', 'ForcedUpload' )
     );
 
 $ViewList['tags'] = array(
     'functions' => array( 'editor' ),
+    'ui_context' => 'edit',
     'script' => 'tags.php',
     'params' => array( 'ObjectID', 'ObjectVersion', 'TagName', 'CustomTagName' )
     );
@@ -56,6 +59,7 @@ $ViewList['load'] = array(
 
 $ViewList['dialog'] = array(
     'functions' => array( 'editor' ),
+    'ui_context' => 'edit',
     'script' => 'dialog.php',
     'params' => array( 'ObjectID', 'ObjectVersion', 'Dialog' )
     );
