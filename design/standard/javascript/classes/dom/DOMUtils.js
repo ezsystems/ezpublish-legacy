@@ -1,5 +1,5 @@
 /**
- * $Id: DOMUtils.js 868 2008-06-11 12:33:24Z spocke $
+ * $Id: DOMUtils.js 877 2008-06-17 14:08:05Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -778,8 +778,15 @@
 						break;
 
 					case 'tabindex':
-						// IE returns 32768 as default value
+						// IE returns default value
 						if (v === 32768)
+							v = '';
+
+						break;
+
+					case 'maxlength':
+						// IE returns  default value
+						if (v === 2147483647)
 							v = '';
 
 						break;

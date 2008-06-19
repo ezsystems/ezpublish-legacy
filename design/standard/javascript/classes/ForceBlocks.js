@@ -1,5 +1,5 @@
 /**
- * $Id: ForceBlocks.js 874 2008-06-17 10:51:51Z spocke $
+ * $Id: ForceBlocks.js 878 2008-06-18 11:11:05Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -466,7 +466,7 @@
 				aft.innerHTML = isOpera ? '&nbsp;' : '<br />'; // Extra space for Opera so that the caret can move there
 
 			// Opera needs this one backwards for older versions
-			if (isOpera && opera.buildNumber() < 10063) {
+			if (isOpera && parseFloat(opera.version()) < 9.5) {
 				r.insertNode(bef);
 				r.insertNode(aft);
 			} else {
