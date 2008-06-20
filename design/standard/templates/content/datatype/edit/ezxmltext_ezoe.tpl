@@ -98,6 +98,7 @@
     	theme_ez_content_css : eZOeMCE['content_css'],
     	popup_css : eZOeMCE['popup_css'],
     	gecko_spellcheck : true,
+        dialog_type : 'modal',
     	save_enablewhendirty : true,
     	save_callback : "ezMceEditorSave"
     });
