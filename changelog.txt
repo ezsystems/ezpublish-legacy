@@ -11,7 +11,8 @@ eZ Online Editor MCE extension Changelog
 * moved custom attribute datatypes handling to independant templates in ezoe/customattributes/*.tpl
   So you can add your own and customize exising ones( as proposed to @kc at #ezconf ).
 * added color custom attribute datatype with color picker and preview
-* Fixed bug #013199: New paragraph when publish with Opera
+* Partly fixed bug #013199: New paragraph when publish with Opera
+* Fixed bug #013201: Can't identify which page a link is currently pointing to
 
 
 5.0Beta3

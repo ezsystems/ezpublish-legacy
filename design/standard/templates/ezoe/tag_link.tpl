@@ -16,15 +16,15 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     tagName: ezTagName,
     form: 'EditForm',
     cancelButton: 'CancelButton',
-    onInit: function()
+    onInit: function( editorElement )
     {
-        var linkTypes = ez.$('link_href_source_types'), linkSource = ez.$('link_href_source');
-        linkTypes.addEvent('change', function( e, el ){
+        var link = ez.$('link_href_source_types', 'link_href_source')
+        link[0].addEvent('change', function( e, el ){
             ez.$('link_href_source').el.value = el.value;
         });
         
         // add event to href input to lookup name on object or nodes
-        linkSource.addEvent('keyup', function( e, el ){
+        link[1].addEvent('keyup', function( e, el ){
             e = e || window.event;
             var c = e.keyCode || e.which;
             clearTimeout( ezoeLinkTimeOut );
@@ -32,7 +32,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
             // break if user is pressing arrow keys
             if ( c > 36 && c < 41 ) return true;
     
-            ezoeLinkTypeSet( linkSource, linkTypes );
+            ezoeLinkTypeSet( link[1], link[0] );
     
             if ( el.value.indexOf( '://' ) === -1 ) return true;
     
@@ -43,9 +43,16 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
             ezoeLinkTimeOut = setTimeout( ez.fn.bind( ezoeLinkAjaxCheck, this, url.join('_') ), 320 );
             return true;
         });
-        ezoeLinkTypeSet( linkSource, linkTypes );
+        ezoeLinkTypeSet( link[1], link[0] );
+        
+        if ( editorElement && editorElement.href.indexOf( '://' ) !== -1 )
+        {
+            var url = editorElement.href.split('://'), id = ez.num( url[1], 0, 'int' );
+            if ( id !== 0 && ( url[0] === 'eznode' || url[0] === 'ezobject' ) )
+                ezoeLinkAjaxCheck( url.join('_') );
+        }
  
-        slides = ez.$$('div.panel'), navigation = ez.$('embed_search_go_back_link', 'search_for_link', 'browse_for_link', 'embed_browse_go_back_link' );
+        var slides = ez.$$('div.panel'), navigation = ez.$('embed_search_go_back_link', 'search_for_link', 'browse_for_link', 'embed_browse_go_back_link' );
         slides.accordion( navigation, {duration: 100, transition: ez.fx.sinoidal, accordionAutoFocusTag: 'input[type=text]'}, {opacity: 0, display: 'none'} );
         navigation[3].addEvent('click', ez.fn.bind( slides.accordionGoto, slides, 0 ) );
         navigation[3].addClass('accordion_navigation');
@@ -140,9 +147,9 @@ function ezoeLinkTypeSet( source, types )
                 <option value="https://">Https</option>
                 <option value="mailto:">Mail</option>
             </select>
+            <a id="search_for_link" href="JavaScript:void(0);" title="Search"><img width="16" height="16" border="0" alt="Search" src={"tango/system-search.png"|ezimage} /></a>
+            <a id="browse_for_link" href="JavaScript:void(0);" title="Browse"><img width="16" height="16" border="0" alt="Browse" src={"tango/folder.png"|ezimage} /></a>
             <span id="link_href_source_info"></span>
-            <a id="search_for_link" href="JavaScript:void(0);" title="Search"><img width="16" height="16" border="0" src={"tango/system-search.png"|ezimage} /></a>
-            <a id="browse_for_link" href="JavaScript:void(0);" title="Browse"><img width="16" height="16" border="0" src={"tango/folder.png"|ezimage} /></a>
             <br />
         {/set-block}
         

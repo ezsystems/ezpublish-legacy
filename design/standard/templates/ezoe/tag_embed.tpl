@@ -260,6 +260,7 @@ function loadEmbedPreview( )
                 <td class="column1"><label for="embed_align_source">{'Align'|i18n('design/standard/ezoe')}</label></td>
                 <td>
                     <select name="align" id="embed_align_source">
+                        <!-- option value="">{'None'|i18n('design/standard/ezoe')}</option -->
                         <option value="left">{'Left'|i18n('design/standard/ezoe')}</option>
                         <option value="middle">{'Center'|i18n('design/standard/ezoe')}</option>
                         <option value="right">{'Right'|i18n('design/standard/ezoe')}</option>
