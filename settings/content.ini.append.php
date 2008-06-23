@@ -44,7 +44,7 @@
 ## email (supports validation)
 ## select (drop down box with selectable values)
 ## hidden (hide the control)
-## color ( with color picker and preview of color )
+## color ( with color picker and preview of color, needs rewrite rules to allow html files from design folders if in virtualhost mode )
 ## checkbox
 #Type=select
 ## Optional, lets you disable the html control so users can't change the value
