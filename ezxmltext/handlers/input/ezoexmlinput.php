@@ -548,6 +548,11 @@ class eZOEXMLInput extends eZXMLInputHandler
         {
             $output .= '<p>&nbsp;</p>';
         }
+        else if ( self::$browserType === 'Opera' )
+        {
+            // opera has some issues with extra paragraphs being added for some reason
+            // so we avoid adding extra ones (in other browsers they will be stripped away)
+        }
         else
         {
             $output .= '<p><br /></p>';
