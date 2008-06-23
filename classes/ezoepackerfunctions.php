@@ -291,15 +291,15 @@ class eZOEPackerFunctions
                 'anchor_name' => ezi18n( 'design/standard/ezoe', "Anchor name"),*/
                 'code_title' => ezi18n( 'design/standard/ezoe', "HTML Source Editor"),
                 'code_wordwrap' => ezi18n( 'design/standard/ezoe', "Word wrap"),
-                /*'colorpicker_title' => ezi18n( 'design/standard/ezoe', "Select a color"),
+                'colorpicker_title' => ezi18n( 'design/standard/ezoe', "Select a color"),
                 'colorpicker_picker_tab' => ezi18n( 'design/standard/ezoe', "Picker"),
                 'colorpicker_picker_title' => ezi18n( 'design/standard/ezoe', "Color picker"),
                 'colorpicker_palette_tab' => ezi18n( 'design/standard/ezoe', "Palette"),
                 'colorpicker_palette_title' => ezi18n( 'design/standard/ezoe', "Palette colors"),
                 'colorpicker_named_tab' => ezi18n( 'design/standard/ezoe', "Named"),
                 'colorpicker_named_title' => ezi18n( 'design/standard/ezoe', "Named colors"),
-                'colorpicker_color' => ezi18n( 'design/standard/ezoe', "Color' => ezi18n( 'design/standard/ezoe', "),
-                'colorpicker_name' => ezi18n( 'design/standard/ezoe', "Name' => ezi18n( 'design/standard/ezoe', "),*/
+                'colorpicker_color' => ezi18n( 'design/standard/ezoe', "Color"),
+                'colorpicker_name' => ezi18n( 'design/standard/ezoe', "Name"),
                 'charmap_title' => ezi18n( 'design/standard/ezoe', "Select custom character")/*,
                 'image_title' => ezi18n( 'design/standard/ezoe', "Insert/edit image"),
                 'image_src' => ezi18n( 'design/standard/ezoe', "Image URL"),
@@ -337,7 +337,7 @@ class eZOEPackerFunctions
     public static function getCacheTime( $functionName )
     {
         // this translation data only expires when this timestamp is increased
-        return 1211555036;
+        return 1214230802;
     }
 }
 

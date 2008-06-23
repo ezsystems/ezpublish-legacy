@@ -7,7 +7,10 @@ eZ Online Editor MCE extension Changelog
 * tags in description / caption field didn't work as intended (strip tags used)
 * Bumped required Mozilla version to 1.8 ( Firefox 1.5 and Netscape 9.x )
 * Fixed #013165: Underline custom tag into a new paragraph
-* updated TinyMCE to 3.1.0
+* updated TinyMCE to 3.1.0.1
+* moved custom attribute datatypes handling to independant templates in ezoe/customattributes/*.tpl
+  So you can add your own and customize exising ones( as proposed to @kc at #ezconf ).
+* added color custom attribute datatype with color picker and preview
 
 
 5.0Beta3

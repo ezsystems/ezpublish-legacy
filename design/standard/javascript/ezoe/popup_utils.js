@@ -325,6 +325,12 @@ var eZOEPopupUtils = {
 	               o.el.checked = values[name] == o.el.value;
 	            else
 	               o.el.value = values[name];
+
+	            try {
+                    o.el.onchange();
+                } catch (ex) {
+                    // Try fire event, ignore errors
+                }
 	        }
 	    });
 	},
@@ -363,6 +369,12 @@ var eZOEPopupUtils = {
                         o.el.checked = v == o.el.value;
                     else
                         o.el.value = v;
+
+	                try {
+	                    o.el.onchange();
+	                } catch (ex) {
+	                    // Try fire event, ignore errors
+	                }
                 }
 	        });
 	    }

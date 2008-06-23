@@ -13,7 +13,8 @@
 #IsInline[underline]=true
 
 
-
+# Custom attribute settings, these can be used on all tags (also custom tags)
+# 'CustomAttributes', defines the list of custom attributtes to use on current tag (defined by [block])
 # 'CustomAttributesDefaults' setting defines custom attributes default values
 #  that appear in the dialog window for a newly created element.
 #  Deprecate: use 'Default' on the custom attribute settings block instead (explained bellow)
@@ -21,6 +22,8 @@
 ## Example for a custom tag:
 #
 #[factbox]
+#CustomAttributes[]=align
+#CustomAttributes[]=myattr
 #CustomAttributesDefaults[align]=right
 #CustomAttributesDefaults[myattr]=default
 #
@@ -41,6 +44,7 @@
 ## email (supports validation)
 ## select (drop down box with selectable values)
 ## hidden (hide the control)
+## color ( with color picker and preview of color )
 ## checkbox
 #Type=select
 ## Optional, lets you disable the html control so users can't change the value
