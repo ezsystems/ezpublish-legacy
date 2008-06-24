@@ -14,8 +14,7 @@
     {run-once}
     {* code that only run once (common for all xml blocks) *}
 
-    {def $custom_tags = ezini('CustomTagSettings', 'AvailableCustomTags', 'content.ini',,true() )
-         $plugin_list = ezini('EditorSettings', 'Plugins', 'ezoe.ini',,true()  )
+    {def $plugin_list = ezini('EditorSettings', 'Plugins', 'ezoe.ini',,true()  )
          $skin        = ezini('EditorSettings', 'Skin', 'ezoe.ini',,true() )
          $skin_variant = ezini('EditorSettings', 'SkinVariant', 'ezoe.ini',,true() )
          $dev_mode     = ezini('EditorSettings', 'DevelopmentMode', 'ezoe.ini',,true()  )|eq('enabled')
@@ -47,7 +46,7 @@
     
     if ( window.ez === undefined ) document.write('<script type="text/javascript" src={"javascript/ezoe/ez_core.js"|ezdesign}><\/script>');
     
-    var eZOeMCE = new Object(), ezTinyIdString;
+    var eZOeMCE = new Object(), ezOeIdString, ezOeTempSettings;
     eZOeMCE['root']             = {'/'|ezroot};
     eZOeMCE['extension_url']    = {'/ezoe/'|ezurl};
     eZOeMCE['content_css']      = '{ezoecss( $content_css_list, false())|implode(',')}';
@@ -65,7 +64,7 @@
 
     {literal}
 
-    tinyMCE.init({
+    eZOeMCE['tiny_mce_init_object'] = {
     	mode : "none",
     	theme : "ez",
     	width : '100%',
@@ -101,11 +100,12 @@
         dialog_type : 'modal',
     	save_enablewhendirty : true,
     	save_callback : "ezMceEditorSave"
-    });
-        
+    };
+    tinyMCE.init(eZOeMCE['tiny_mce_init_object']);
 
     function ezMceEditorSave(element_id, html, body)
     {
+        // Remove paragraphs in custom inline tags since they create troubles in parser.
         ez.$$( 'span.mceItemCustomTag', body ).forEach(function(o){
             if ( o.el.hasChildNodes() && o.el.childNodes.length === 1 
               && o.el.childNodes[0].nodeName === 'P' )
@@ -118,24 +118,25 @@
         return body.innerHTML;
     }
 
-    
-    function ezMceToggleEditor( id )
+    function ezMceToggleEditor( id, settings )
     {
         var el = document.getElementById( id );
     	if ( el )
     	{
     		if ( tinyMCE.getInstanceById(id) == null )
-    			tinyMCE.execCommand('mceAddControl', false, id);
+    		    //tinyMCE.execCommand('mceAddControl', false, id);
+    			new tinymce.Editor(id, settings).render();
     		else
     			tinyMCE.execCommand('mceRemoveControl', false, id);
     	}
     }
-    
+
     {/literal}
-    
     //-->
     </script>
     {/run-once}
+    
+    
     
     <div class="oe-window">
         <textarea class="box" id="{$attribute_base}_data_text_{$attribute.id}" name="{$attribute_base}_data_text_{$attribute.id}" cols="88" rows="{$editorRow}">{$input_handler.input_xml}</textarea>
@@ -146,12 +147,15 @@
         <script type="text/javascript">
         <!--
         
-        ezTinyIdString = '{$attribute_base}_data_text_{$attribute.id}';
-        // comment out this if you don't want the editor to toggle on by default
-        ezMceToggleEditor( ezTinyIdString );
+        ezOeTempSettings = eZOeMCE['tiny_mce_init_object'];
+        ezOeTempSettings['theme_advanced_buttons1'] = "{$button_list|implode(',')}";
         
-        if ( eZOeMCE['dev_mode'] )
-            document.write(' &nbsp; <a href="JavaScript:ezMceToggleEditor(\'' + ezTinyIdString + '\');">Toggle editor<\/a>');
+        ezOeIdString = '{$attribute_base}_data_text_{$attribute.id}';
+        // comment out this if you don't want the editor to toggle on by default
+        ezMceToggleEditor( ezOeIdString, ezOeTempSettings );
+        
+        //if ( eZOeMCE['dev_mode'] )
+        //    document.write(' &nbsp; <a href="JavaScript:ezMceToggleEditor(\'' + ezOeIdString + '\');">Toggle editor<\/a>');
         
         -->
         </script>

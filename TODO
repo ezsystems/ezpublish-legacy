@@ -2,8 +2,8 @@
 
 KNOWN ISSUES:
 
-* Links on embed object tags ( not possible on div tags, needs to change it )
-* IE7 and possibly also ie6 feaks out on inline customtags (when you inser or update html)
+* Links on embed object tags ( not possible on div tags, needs to change it or document that it won't work unless you define class as image )
+* IE / Opera freaks out on inline customtags (when you inser or update html)
 * update translations
 
 
