@@ -13,6 +13,7 @@ eZ Online Editor MCE extension Changelog
 * added color custom attribute datatype with color picker and preview
 * Partly fixed bug #013199: New paragraph when publish with Opera
 * Fixed bug #013201: Can't identify which page a link is currently pointing to
+* Fixed regression #013243: Selecting a node from the search or browse in link properties is broken
 
 
 5.0Beta3

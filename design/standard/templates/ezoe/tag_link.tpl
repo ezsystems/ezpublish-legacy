@@ -49,10 +49,11 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         {
             var url = editorElement.href.split('://'), id = ez.num( url[1], 0, 'int' );
             if ( id !== 0 && ( url[0] === 'eznode' || url[0] === 'ezobject' ) )
-                ezoeLinkAjaxCheck( url.join('_') );
+                ezoeLinkTimeOut = setTimeout( ez.fn.bind( ezoeLinkAjaxCheck, this, url.join('_') ), 320 );
         }
  
-        var slides = ez.$$('div.panel'), navigation = ez.$('embed_search_go_back_link', 'search_for_link', 'browse_for_link', 'embed_browse_go_back_link' );
+        slides = ez.$$('div.panel');//slides is global object used by custom selectByEmbedId function
+        var navigation = ez.$('embed_search_go_back_link', 'search_for_link', 'browse_for_link', 'embed_browse_go_back_link' );
         slides.accordion( navigation, {duration: 100, transition: ez.fx.sinoidal, accordionAutoFocusTag: 'input[type=text]'}, {opacity: 0, display: 'none'} );
         navigation[3].addEvent('click', ez.fn.bind( slides.accordionGoto, slides, 0 ) );
         navigation[3].addClass('accordion_navigation');
