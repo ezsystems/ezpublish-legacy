@@ -9,7 +9,8 @@
 <script type="text/javascript">
 <!--
 
-var ezTagName = '{$tag_name|wash}', customTagName = '{$custom_tag_name}'; 
+var ezTagName = '{$tag_name|wash}', customTagName = '{$custom_tag_name}';
+eZOEPopupUtils.settings.customAttributeStyleMap = {$custom_attribute_style_map};
 {literal} 
 
 

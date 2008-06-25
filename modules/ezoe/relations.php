@@ -232,7 +232,7 @@ if ( $contentIni->hasVariable( 'embed-inline', 'AvailableViewModes' ) )
     $viewListInline = array_unique( $contentIni->variable( 'embed-inline', 'AvailableViewModes' ) );
 else
     $viewListInline = array();
-
+    
 
 $tpl = templateInit();
 $tpl->setVariable( 'object', $object );
@@ -258,8 +258,10 @@ if ( $contentIni->hasVariable( 'ImageSettings', 'DefaultCropAlias' ) )
     $tpl->setVariable( 'default_crop_size', $contentIni->variable( 'ImageSettings', 'DefaultCropAlias' ) );
 else
     $tpl->setVariable( 'default_crop_size', $defaultSize );
-
     
+$oeini = eZINI::instance( 'ezoe.ini' );
+$tpl->setVariable( 'custom_attribute_style_map', eZAjaxContent::jsonEncode( $oeini->variable('EditorSettings', 'CustomAttributStyleMap' ) ) );
+
 $tpl->setVariable( 'persistent_variable', array() );
 
 $Result = array();

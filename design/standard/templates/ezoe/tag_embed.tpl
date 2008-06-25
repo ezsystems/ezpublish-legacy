@@ -10,6 +10,7 @@
 <!--
 
 eZOEPopupUtils.embedObject = {$embed_data};
+eZOEPopupUtils.settings.customAttributeStyleMap = {$custom_attribute_style_map};
 var defaultEmbedSize = '{$default_size}', selectedSize = defaultEmbedSize, contentType = '{$content_type}', attachmentIcon = {"tango/mail-attachment32.png"|ezimage};
 var viewListData = {$view_list}, classListData = {$class_list}, attributeDefaults = {$attribute_defaults}, selectedTagName = '';
 
@@ -90,7 +91,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
 		    {
 		        args['src'] = attachmentIcon;
 		        args['title']   = eZOEPopupUtils.safeHtml( eZOEPopupUtils.embedObject['name'] );
-		        el.style.border = '1px solid #888';
+		        //el.style.border = '1px solid #888';
 		    }
 		    else
 		    {

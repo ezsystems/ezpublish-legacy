@@ -42,6 +42,8 @@ var eZOEPopupUtils = {
         editorElement: false,
         // event to call on init
         onInit: false,
+        // custom attribute to style map to be able to preview style changes
+        customAttributeStyleMap: false,
         // set on init if no editorElement is present and selected text is without newlines
         editorSelectedText: false
     },
@@ -128,9 +130,7 @@ var eZOEPopupUtils = {
 	    if ( tinymce.isWebKit )
 	        ed.getWin().focus();
 	
-	    var args = {
-	        'customattributes': eZOEPopupUtils.getCustomAttributeValue( s.selectedTag + '_customattributes')
-	    };
+	    var args = eZOEPopupUtils.getCustomAttributeArgs( s.selectedTag + '_customattributes');
 
 	    // set general attributes for tag
 	    if (n = ez.$( s.tagName + '_attributes'))
@@ -271,18 +271,27 @@ var eZOEPopupUtils = {
 	    node.disabled = c === 0;
 	},
 
-	getCustomAttributeValue: function( node )
+	getCustomAttributeArgs: function( node )
 	{
 	    // creates custom attribute value from form values
-	    // global objects: ez   
+	    // global objects: ez
+	    var args = {
+	        'customattributes': '',
+	        'style': ''
+	    }, s = eZOEPopupUtils.settings;
 	    if (node = ez.$( node ))
 	    {
-	        return ez.$$('input,select', node).map(function( o ){
-	            var name = o.el.name;
-	            return name + '|' + o.postData( true );
+	        args['customattributes'] = ez.$$('input,select', node).map(function( o ){
+	            var name = o.el.name, value = o.postData( true );
+	            // add to styles if custom attibute is defined in customAttributeStyleMap
+	            if ( s.customAttributeStyleMap && s.customAttributeStyleMap[name] !== undefined  )
+	            {
+	                args['style'] += s.customAttributeStyleMap[name] + ': ' + value + '; ';
+	            }
+	            return name + '|' + value;
 	        }).join('attribute_separation');
 	     }
-	     return '';
+	     return args;
 	},
 
 	getParentByTag: function( n, tag, className, type, checkElement )

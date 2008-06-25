@@ -9,7 +9,8 @@
 <script type="text/javascript">
 <!--
 
-var ezTagName = '{$tag_name|wash}', cellClassList = {$cell_class_list}; 
+var ezTagName = '{$tag_name|wash}', cellClassList = {$cell_class_list};
+eZOEPopupUtils.settings.customAttributeStyleMap = {$custom_attribute_style_map};
 {literal} 
 
 tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {

@@ -9,7 +9,7 @@
 {if $input_handler.is_editor_enabled}
 <!-- Start editor -->
 
-    {def $button_list = $input_handler.editor_button_list}
+    {def $layout_settings = $input_handler.editor_layout_settings}
 
     {run-once}
     {* code that only run once (common for all xml blocks) *}
@@ -55,7 +55,6 @@
     eZOeMCE['contentobject_id'] = {$attribute.contentobject_id};
     eZOeMCE['contentobject_version'] = {$attribute.version};
     eZOeMCE['plugins']       = "-{$plugin_list|implode(',-')}";
-    eZOeMCE['buttons']       = "{$button_list|implode(',')}";
     eZOeMCE['skin']          = '{$skin}';
     eZOeMCE['skin_variant']  = '{$skin_variant}';
     eZOeMCE['language']      = '{$language}';
@@ -72,14 +71,13 @@
     	skin : eZOeMCE['skin'],
     	skin_variant : eZOeMCE['skin_variant'],
     	plugins : eZOeMCE['plugins'],
-    	theme_advanced_buttons1 : eZOeMCE['buttons'],
     	theme_advanced_buttons2 : "",
     	theme_advanced_buttons3 : "",
     	theme_advanced_blockformats : "p,pre,h1,h2,h3,h4,h5,h6",
     	theme_advanced_path_location : "bottom",
     	theme_advanced_statusbar_location: "bottom",
     	theme_advanced_toolbar_location : "top",
-    	theme_advanced_toolbar_align : 'left',
+    	theme_advanced_toolbar_align : "left",
         theme_advanced_toolbar_floating : true,
     	theme_advanced_resize_horizontal : false,
     	theme_advanced_resizing : true,
@@ -143,12 +141,15 @@
     </div>
     
     <div class="block">
-        <input class="button{if $button_list|contains('disable')} hide{/if}" type="submit" name="CustomActionButton[{$attribute.id}_disable_editor]" value="{'Disable editor'|i18n('design/standard/content/datatype')}" />
+        <input class="button{if $layout_settings['buttons']|contains('disable')} hide{/if}" type="submit" name="CustomActionButton[{$attribute.id}_disable_editor]" value="{'Disable editor'|i18n('design/standard/content/datatype')}" />
         <script type="text/javascript">
         <!--
         
         ezOeTempSettings = eZOeMCE['tiny_mce_init_object'];
-        ezOeTempSettings['theme_advanced_buttons1'] = "{$button_list|implode(',')}";
+        ezOeTempSettings['theme_advanced_buttons1'] = "{$layout_settings['buttons']|implode(',')}";
+        ezOeTempSettings['theme_advanced_path_location'] = "{$layout_settings['path_location']}";
+        ezOeTempSettings['theme_advanced_statusbar_location'] = "{$layout_settings['path_location']}";
+        ezOeTempSettings['theme_advanced_toolbar_location'] = "{$layout_settings['toolbar_location']}";
         
         ezOeIdString = '{$attribute_base}_data_text_{$attribute.id}';
         // comment out this if you don't want the editor to toggle on by default

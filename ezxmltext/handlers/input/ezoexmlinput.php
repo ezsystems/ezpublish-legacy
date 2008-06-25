@@ -103,7 +103,7 @@ class eZOEXMLInput extends eZXMLInputHandler
     function hasAttribute( $name )
     {
         return ( $name === 'is_editor_enabled' or
-                 $name === 'editor_button_list' or
+                 $name === 'editor_layout_settings' or
                  $name === 'browser_supports_dhtml_type' or
                  $name === 'is_compatible_version' or
                  $name === 'version' or
@@ -118,8 +118,8 @@ class eZOEXMLInput extends eZXMLInputHandler
     {
         if ( $name === 'is_editor_enabled' )
             $attr = eZOEXMLInput::isEditorEnabled();
-        else if ( $name === 'editor_button_list' )
-            $attr = $this->getEditorButtonList();
+        else if ( $name === 'editor_layout_settings' )
+            $attr = $this->getEditorLayoutSettings();
         else if ( $name === 'browser_supports_dhtml_type' )
             $attr = eZOEXMLInput::browserSupportsDHTMLType();
         else if ( $name === 'is_compatible_version' )
@@ -252,15 +252,58 @@ class eZOEXMLInput extends eZXMLInputHandler
     }
 
     /*!
-     \return list of buttons to use for editor
+     \return global layout to use for editor
      */
-    function getEditorButtonList()
-    {
-        if ( $this->editorButtonList === null )
+    static function getEditorGlobalLayoutSettings()
+    {    
+        if ( self::$editorGlobalLayoutSettings === null )
         {
             $oeini = eZINI::instance( 'ezoe.ini' );
-            $buttonList = $oeini->variable('EditorSettings', 'Buttons' );
-            // TODO: Differnt button layouts schemes pr class attribute identifier support
+            self::$editorGlobalLayoutSettings = array(
+                'buttons' => $oeini->variable('EditorLayout', 'Buttons' ),
+                'toolbar_location' => $oeini->variable('EditorLayout', 'ToolbarLocation' ),
+                'path_location' => $oeini->variable('EditorLayout', 'PathLocation' ),
+            );
+        }
+        return self::$editorGlobalLayoutSettings;
+    }
+
+    /*!
+     \return layout to use for editor
+     */
+    function getEditorLayoutSettings()
+    {    
+        if ( $this->editorLayoutSettings === null )
+        {
+            $oeini = eZINI::instance( 'ezoe.ini' );
+            $xmlini = eZINI::instance( 'ezxml.ini' );
+
+            // get global layout settings
+            $editorLayoutSettings = self::getEditorGlobalLayoutSettings();
+
+            // get custom layout features, works only in eZ Publish 4.1 and higher
+            $contentClassAttribute = $this->ContentObjectAttribute->attribute('contentclass_attribute');
+            $buttonPreset = $contentClassAttribute->attribute('data_text2');
+            $buttonPresets = $xmlini->hasVariable( 'TagSettings', 'TagPresets' ) ? $xmlini->variable( 'TagSettings', 'TagPresets' ) : array();
+
+            if( $buttonPreset && in_array( $buttonPreset, $buttonPresets ) )
+            {
+                if ( $oeini->hasSection( 'EditorLayout_' . $buttonPreset ) )
+                {
+                    if ( $oeini->hasVariable( 'EditorLayout_' . $buttonPreset , 'Buttons' ) )
+                        $editorLayoutSettings['buttons'] = $oeini->variable( 'EditorLayout_' . $buttonPreset , 'Buttons' );
+
+                    if ( $oeini->hasVariable( 'EditorLayout_' . $buttonPreset , 'ToolbarLocation' ) )
+                        $editorLayoutSettings['toolbar_location'] = $oeini->variable( 'EditorLayout_' . $buttonPreset , 'ToolbarLocation' );
+
+                    if ( $oeini->hasVariable( 'EditorLayout_' . $buttonPreset , 'PathLocation' ) )
+                        $editorLayoutSettings['path_location'] = $oeini->variable( 'EditorLayout_' . $buttonPreset , 'PathLocation' );
+                }
+                else
+                {
+                    eZDebug::writeWarning( 'Undefined EditorLayout : EditorLayout_' . $buttonPreset, 'eZOEXMLInput' );
+                }
+            }
 
             $contentini = eZINI::instance( 'content.ini' );
             $tags = $contentini->variable('CustomTagSettings', 'AvailableCustomTags' );
@@ -282,15 +325,16 @@ class eZOEXMLInput extends eZXMLInputHandler
                 $hideButtons[] = 'objects';
             }
              
-            foreach( $buttonList as $button )
+            foreach( $editorLayoutSettings['buttons'] as $button )
             {
                 if ( !in_array( $button, $hideButtons ) )
                     $showButtons[] = $button;
             }
 
-            $this->editorButtonList = $showButtons;
+            $editorLayoutSettings['buttons'] = $showButtons;
+            $this->editorLayoutSettings = $editorLayoutSettings;
         }
-        return $this->editorButtonList;
+        return $this->editorLayoutSettings;
     }
 
     /*!
@@ -756,15 +800,15 @@ class eZOEXMLInput extends eZXMLInputHandler
 
         $paragraphClassName = $paragraph->getAttribute( 'class' );
 
-        $customAttributePart = $this->getCustomAttrPart( $paragraph );
+        $customAttributePart = $this->getCustomAttrPart( $paragraph, $styleString );
 
         if ( $paragraphClassName != null )
         {
-            $openPara = "<p class='$paragraphClassName'$customAttributePart>";
+            $openPara = "<p class='$paragraphClassName'$customAttributePart$styleString>";
         }
         else
         {
-            $openPara = "<p$customAttributePart>";
+            $openPara = "<p$customAttributePart$styleString>";
         }
         $closePara = '</p>';
 
@@ -806,10 +850,16 @@ class eZOEXMLInput extends eZXMLInputHandler
         return $output;
     }
 
-    function getCustomAttrPart( $tag )
+    function getCustomAttrPart( $tag, &$styleString )
     {
         $customAttributePart = '';
-        $customAttributes = array();
+        $styleString         = '';
+        
+        if ( self::$customAttributStyleMap === null )
+        {
+            $oeini = eZINI::instance( 'ezoe.ini' );
+            self::$customAttributStyleMap = $oeini->variable('EditorSettings', 'CustomAttributStyleMap' );
+        }
 
         foreach ( $tag->attributes as $attribute )
         {
@@ -824,12 +874,20 @@ class eZOEXMLInput extends eZXMLInputHandler
                 {
                    $customAttributePart .= 'attribute_separation' . $attribute->name . '|' . $attribute->value;
                 }
+                if ( isset( self::$customAttributStyleMap[$attribute->name] ) )
+                {
+                    $styleString .= self::$customAttributStyleMap[$attribute->name] . ': ' . $attribute->value . '; ';
+                }
             }
         }
 
         if ( $customAttributePart !== '' )
         {
             $customAttributePart .= '"';
+        }
+        if ( $styleString !== '' )
+        {
+            $styleString = ' style="' . $styleString . '"';
         }
         return $customAttributePart;
     }
@@ -925,7 +983,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 else if ( $alignment )
                     $objectAttr .= ' align="' . $alignment . '"';
 
-                $customAttributePart = $this->getCustomAttrPart( $tag );
+                $customAttributePart = $this->getCustomAttrPart( $tag, $styleString );
                 $object              = false;
 
                 if ( is_numeric( $objectID ) )
@@ -973,7 +1031,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 {
                     $contentObjectAttributes = $object->contentObjectAttributes();
                     $imageDatatypeArray = $ini->variable( 'ImageDataTypeSettings', 'AvailableImageDataTypes' );
-                    $srcString = self::getDesignFile('images/tango/mail-attachment32.png');// . '" style="border: 1px solid #888;';
+                    $srcString = self::getDesignFile('images/tango/mail-attachment32.png');
                     // reverse the array so we are sure we get the first valid image
                     foreach ( array_reverse( $contentObjectAttributes, true ) as $contentObjectAttribute )
                     {
@@ -995,7 +1053,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                     if ( $className != '' )
                         $objectAttr .= ' class="' . $className . '"';
 
-                    $output .= '<img id="' . $idString . '" title="' . $objectName . '" src="' . $srcString . '" ' . $objectAttr . $customAttributePart . ' />';
+                    $output .= '<img id="' . $idString . '" title="' . $objectName . '" src="' . $srcString . '" ' . $objectAttr . $customAttributePart . $styleString . ' />';
                 }
                 else
                 {
@@ -1004,13 +1062,10 @@ class eZOEXMLInput extends eZXMLInputHandler
                     else
                         $objectAttr .= ' class="mceNonEditable"';
 
-                    //if ( $alignment !== 'center' )
-                        //$objectAttr .= ' style="float:' . $alignment . ';"';
                     if ( $tagName === 'embed-inline' )
                         $htmlTagName = 'span';
                     else
-                        $htmlTagName = 'div';    
-                        //$objectAttr .= ' style="display: inline;"';
+                        $htmlTagName = 'div';
                     
                     $objectParam = array( 'size' => $size, 'align' => $alignment, 'show_path' => $showPath );
                     if ( $htmlID ) $objectParam['id'] = $htmlID;
@@ -1026,7 +1081,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                     $tpl->setVariable( 'object_parameters', $objectParam );
                     if ( isset( $node ) ) $tpl->setVariable( 'node', $node );
                     $templateOutput = $tpl->fetch( 'design:content/datatype/view/ezxmltags/' . $tagName . $tplSuffix . '.tpl' );
-                    $output .= '<' . $htmlTagName . ' id="' . $idString . '" title="' . $objectName . '"' . $objectAttr . $customAttributePart . '>' . $templateOutput . '</' . $htmlTagName . '>';
+                    $output .= '<' . $htmlTagName . ' id="' . $idString . '" title="' . $objectName . '"' . $objectAttr . $customAttributePart . $styleString . '>' . $templateOutput . '</' . $htmlTagName . '>';
                 }
             }break;
 
@@ -1034,15 +1089,15 @@ class eZOEXMLInput extends eZXMLInputHandler
             {
                 $name = $tag->getAttribute( 'name' );
 
-                $customAttributePart = $this->getCustomAttrPart( $tag );
+                $customAttributePart = $this->getCustomAttrPart( $tag, $styleString );
 
-                $output .= '<a name="' . $name . '" class="mceItemAnchor"' . $customAttributePart . '>&nbsp;</a>';
+                $output .= '<a name="' . $name . '" class="mceItemAnchor"' . $customAttributePart . $styleString . '>&nbsp;</a>';
             }break;
 
             case 'custom' :
             {
                 $name = $tag->getAttribute( 'name' );
-                $customAttributePart = $this->getCustomAttrPart( $tag );
+                $customAttributePart = $this->getCustomAttrPart( $tag, $styleString );
 
                 $isInline = false;
                 $ini = eZINI::instance( 'content.ini' );
@@ -1060,12 +1115,12 @@ class eZOEXMLInput extends eZXMLInputHandler
                 if ( isset( self::$nativeCustomTags[ $name ] ))
                 {
                     if ( !$childTagText ) $childTagText = '&nbsp;';
-                    $output .= '<' . self::$nativeCustomTags[ $name ] . $customAttributePart . '>' . $childTagText . '</' . self::$nativeCustomTags[ $name ] . '>';
+                    $output .= '<' . self::$nativeCustomTags[ $name ] . $customAttributePart . $styleString . '>' . $childTagText . '</' . self::$nativeCustomTags[ $name ] . '>';
                 }
                 else if ( $isInline )
                 {
                     if ( !$childTagText ) $childTagText = '&nbsp;';
-                    $output .= '<span class="mceItemCustomTag ' . $name . '" type="custom"' . $customAttributePart . '><p class="mceItemHidden">' . $childTagText . '</p></span>';
+                    $output .= '<span class="mceItemCustomTag ' . $name . '" type="custom"' . $customAttributePart . $styleString . '><p class="mceItemHidden">' . $childTagText . '</p></span>';
                 }
                 else
                 {
@@ -1087,7 +1142,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 }
                 $className = $tag->getAttribute( 'class' );
 
-                $customAttributePart = $this->getCustomAttrPart( $tag );
+                $customAttributePart = $this->getCustomAttrPart( $tag, $styleString );
 
                 $literalText = htmlspecialchars( $literalText );
                 $literalText = str_replace( '  ', ' &nbsp;', $literalText );
@@ -1097,7 +1152,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 if ( $className != '' )
                     $customAttributePart .= ' class="' . $className . '"';
 
-                $output .= '<pre' . $customAttributePart . '>' . $literalText . '</pre>';
+                $output .= '<pre' . $customAttributePart . $styleString . '>' . $literalText . '</pre>';
 
             }break;
 
@@ -1106,12 +1161,12 @@ class eZOEXMLInput extends eZXMLInputHandler
             {
                 $listContent = '';
 
-                $customAttributePart = $this->getCustomAttrPart( $tag );
+                $customAttributePart = $this->getCustomAttrPart( $tag, $styleString );
 
                 // find all list elements
                 foreach ( $tag->childNodes as $listItemNode )
                 {
-                    $LIcustomAttributePart = $this->getCustomAttrPart( $listItemNode );
+                    $LIcustomAttributePart = $this->getCustomAttrPart( $listItemNode, $listItemStyleString );
 
                     $noParagraphs = $listItemNode->childNodes->length <= 1;
                     $listItemContent = '';
@@ -1133,13 +1188,13 @@ class eZOEXMLInput extends eZXMLInputHandler
                     if ( $LIclassName )
                         $LIcustomAttributePart .= ' class="' . $LIclassName . '"';
 
-                    $listContent .= '<li' . $LIcustomAttributePart . '>' . $listItemContent . '</li>';
+                    $listContent .= '<li' . $LIcustomAttributePart . $listItemStyleString . '>' . $listItemContent . '</li>';
                 }
                 $className = $tag->getAttribute( 'class' );
                 if ( $className != '' )
                     $customAttributePart .= ' class="' . $className . '"';
 
-                $output .= '<' . $tagName . $customAttributePart . '>' . $listContent . '</' . $tagName . '>';
+                $output .= '<' . $tagName . $customAttributePart . $styleString . '>' . $listContent . '</' . $tagName . '>';
             }break;
 
             case 'table' :
@@ -1149,18 +1204,18 @@ class eZOEXMLInput extends eZXMLInputHandler
                 $width = $tag->getAttribute( 'width' );
                 $tableClassName = $tag->getAttribute( 'class' );
 
-                $customAttributePart = $this->getCustomAttrPart( $tag );
+                $customAttributePart = $this->getCustomAttrPart( $tag, $styleString );
 
                 // find all table rows
                 foreach ( $tag->childNodes as $tableRow )
                 {
-                    $TRcustomAttributePart = $this->getCustomAttrPart( $tableRow );
+                    $TRcustomAttributePart = $this->getCustomAttrPart( $tableRow, $tableRowStyleString );
                     $TRclassName = $tableRow->getAttribute( 'class' );
 
                     $tableData = '';
                     foreach ( $tableRow->childNodes as $tableCell )
                     {
-                        $TDcustomAttributePart = $this->getCustomAttrPart( $tableCell );
+                        $TDcustomAttributePart = $this->getCustomAttrPart( $tableCell, $tableCellStyleString );
 
                         $cellAttribute = '';
                         $className = $tableCell->getAttribute( 'class' );
@@ -1196,17 +1251,17 @@ class eZOEXMLInput extends eZXMLInputHandler
                         }
                         if ( $tableCell->nodeName === 'th' )
                         {
-                            $tableData .= '<th' . $cellAttribute . $TDcustomAttributePart . '>' . $cellContent . '</th>';
+                            $tableData .= '<th' . $cellAttribute . $TDcustomAttributePart . $tableCellStyleString . '>' . $cellContent . '</th>';
                         }
                         else
                         {
-                            $tableData .= '<td' . $cellAttribute . $TDcustomAttributePart . '>' . $cellContent . '</td>';
+                            $tableData .= '<td' . $cellAttribute . $TDcustomAttributePart . $tableCellStyleString . '>' . $cellContent . '</td>';
                         }
                     }
                     if ( $TRclassName )
                         $TRcustomAttributePart .= ' class="' . $TRclassName . '"';
 
-                    $tableRows .= '<tr' . $TRcustomAttributePart . '>' . $tableData . '</tr>';
+                    $tableRows .= '<tr' . $TRcustomAttributePart . $tableRowStyleString . '>' . $tableData . '</tr>';
                 }
                 //if ( self::$browserType === 'IE' )
                 //{
@@ -1214,16 +1269,12 @@ class eZOEXMLInput extends eZXMLInputHandler
                 /*}
                 else
                 {
-                    $customAttributePart .= ' style="width:' . $width . ';"';
+                    $customAttributePart .= ' style="width:' . $width . ';"';// if this is reenabled merge it with $styleString
                 }*/
 
                 if ( is_string( $border ) )
                 {
-                    $customAttributePart .= ' border="' . $border . '"';//ezborder in ezdhtml
-                    /*if ( $border == 0 )
-                        $customAttributePart .= " border='0' bordercolor='red'";
-                    else
-                        $customAttributePart .= ' border="' . $border . '"';*/
+                    $customAttributePart .= ' border="' . $border . '"';
                 }
 
                 if ( $tableClassName )
@@ -1231,32 +1282,32 @@ class eZOEXMLInput extends eZXMLInputHandler
                     $customAttributePart .= ' class="' . $tableClassName . '"';
                 }
 
-                $output .= '<table' . $customAttributePart . '><tbody>' . $tableRows . '</tbody></table>';
+                $output .= '<table' . $customAttributePart . $styleString . '><tbody>' . $tableRows . '</tbody></table>';
             }break;
 
             // normal content tags
             case 'emphasize' :
             {
-                $customAttributePart = $this->getCustomAttrPart( $tag );
+                $customAttributePart = $this->getCustomAttrPart( $tag, $styleString );
 
                 $className = $tag->getAttribute( 'class' );
                 if ( $className )
                 {
                     $customAttributePart .= ' class="' . $className . '"';
                 }
-                $output .= '<i' . $customAttributePart . '>' . $childTagText  . '</i>';
+                $output .= '<i' . $customAttributePart . $styleString . '>' . $childTagText  . '</i>';
             }break;
 
             case 'strong' :
             {
-                $customAttributePart = $this->getCustomAttrPart( $tag );
+                $customAttributePart = $this->getCustomAttrPart( $tag, $styleString );
 
                 $className = $tag->getAttribute( 'class' );
                 if ( $className  )
                 {
                     $customAttributePart .= ' class="' . $className . '"';
                 }
-                $output .= '<b' . $customAttributePart . '>' . $childTagText  . '</b>';
+                $output .= '<b' . $customAttributePart . $styleString . '>' . $childTagText  . '</b>';
             }break;
 
             case 'line' :
@@ -1266,7 +1317,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
             case 'link' :
             {
-                $customAttributePart = $this->getCustomAttrPart( $tag );
+                $customAttributePart = $this->getCustomAttrPart( $tag, $styleString );
 
                 $linkID = $tag->getAttribute( 'url_id' );
                 $target = $tag->getAttribute( 'target' );
@@ -1343,7 +1394,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 {
                     $attributeText = ' ' .implode( ' ', $attributes );
                 }
-                $output .= '<a' . $attributeText . $customAttributePart . '>' . $childTagText . '</a>';
+                $output .= '<a' . $attributeText . $customAttributePart . $styleString . '>' . $childTagText . '</a>';
             }break;
             case 'tr' :
             case 'td' :
@@ -1414,8 +1465,10 @@ class eZOEXMLInput extends eZXMLInputHandler
     static protected $browserType = null;
     static protected $designBases = null;
     static protected $userAccessHash = array();
+    static protected $customAttributStyleMap = null;
     
-    protected $editorButtonList = null;
+    protected $editorLayoutSettings = null;
+    static protected $editorGlobalLayoutSettings = null;
 
     public $LineTagArray = array( 'emphasize', 'strong', 'link', 'a', 'em', 'i', 'b', 'bold', 'anchor' );
     /// Contains the XML data

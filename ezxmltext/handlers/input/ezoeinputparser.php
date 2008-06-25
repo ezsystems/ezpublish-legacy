@@ -275,7 +275,7 @@ class eZOEInputParser extends eZXMLInputParser
                 }
 
                 // rewrite float style to align
-                if ( isset( $attributes['style'] ) && strpos( $attributes['style'], 'float' ) !== false )
+                /*if ( isset( $attributes['style'] ) && strpos( $attributes['style'], 'float' ) !== false )
                 {
                     if ( strpos( $attributes['style'], 'left' ) !== false )    
                         $attributes['align'] = 'left';
@@ -284,7 +284,8 @@ class eZOEInputParser extends eZXMLInputParser
                     else
                         $attributes['align'] = 'center';
                 }
-                else if ( !isset( $attributes['align'] )  )
+                else*/ 
+                if ( !isset( $attributes['align'] )  )
                 {
                     $attributes['align'] = 'center';
                 }

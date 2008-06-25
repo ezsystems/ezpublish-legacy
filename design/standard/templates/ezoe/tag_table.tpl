@@ -9,6 +9,7 @@
 <script type="text/javascript">
 <!--
 
+eZOEPopupUtils.settings.customAttributeStyleMap = {$custom_attribute_style_map};
 var ezTagName = '{$tag_name|wash}',{literal} tableSizeGrid = {'rows': 0, 'cols': 0};
 
 

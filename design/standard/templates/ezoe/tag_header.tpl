@@ -12,6 +12,7 @@
 tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {ldelim}
     tagName: '{$tag_name|wash}',
     form: 'EditForm',
+    customAttributeStyleMap: {$custom_attribute_style_map},
     cancelButton: 'CancelButton'
 {rdelim} ) );
 

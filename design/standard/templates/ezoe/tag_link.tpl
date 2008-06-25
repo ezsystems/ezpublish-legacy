@@ -10,6 +10,7 @@
 <!--
 
 var ezTagName = '{$tag_name|wash}', ezoeLinkTimeOut = null, slides = 0;
+eZOEPopupUtils.settings.customAttributeStyleMap = {$custom_attribute_style_map};
 {literal} 
 
 tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
