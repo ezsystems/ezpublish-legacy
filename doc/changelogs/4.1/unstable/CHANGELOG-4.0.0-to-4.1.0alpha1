@@ -285,4 +285,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13121: Canceling a user signup produces a fatal error
 - Fixed bug #12934: workflow/processlist - Add pagination.
   (Merged from stable/4.0 (4.0.1) rev. 21990)
-
+- Fixed bug #11748: Insufficient installation documentation for PostgreSQL.
