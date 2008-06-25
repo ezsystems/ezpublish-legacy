@@ -325,7 +325,7 @@ class eZShopOperationCollection
     /*!
      Operation entry: Adds the object \a $objectID with options \a $optionList to the current basket.
     */
-    function addToBasket( $objectID, $optionList )
+    function addToBasket( $objectID, $optionList, $quantity )
     {
         //include_once( 'kernel/shop/classes/ezshopfunctions.php' );
 
@@ -460,7 +460,7 @@ class eZShopOperationCollection
             {
                 /* If found in the basket, just increment number of that items: */
                 $item = eZProductCollectionItem::fetch( $itemID );
-                $item->setAttribute( 'item_count', 1 + $item->attribute( 'item_count' ) );
+                $item->setAttribute( 'item_count', $quantity + $item->attribute( 'item_count' ) );
                 $item->store();
             }
             else
@@ -469,7 +469,7 @@ class eZShopOperationCollection
 
                 $item->setAttribute( 'name', $object->attribute( 'name' ) );
                 $item->setAttribute( "contentobject_id", $objectID );
-                $item->setAttribute( "item_count", 1 );
+                $item->setAttribute( "item_count", $quantity );
                 $item->setAttribute( "price", $price );
                 if ( $priceObj->attribute( 'is_vat_included' ) )
                 {

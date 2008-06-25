@@ -49,6 +49,19 @@ if ( $http->hasPostVariable( "ActionAddToBasket" ) )
 {
     $objectID = $http->postVariable( "ContentObjectID" );
 
+    if ( $http->hasPostVariable( "Quantity" ) )
+    {
+        $quantity = (int)$http->postVariable( "Quantity" );
+        if ( $quantity <= 0 )
+        {
+            $quantity = 1;
+        }
+    }
+    else
+    {
+        $quantity = 1;
+    }
+
     if ( $http->hasPostVariable( 'eZOption' ) )
         $optionList = $http->postVariable( 'eZOption' );
     else
@@ -57,7 +70,7 @@ if ( $http->hasPostVariable( "ActionAddToBasket" ) )
     $http->setSessionVariable( "FromPage", $_SERVER['HTTP_REFERER'] );
     $http->setSessionVariable( "AddToBasket_OptionList_" . $objectID, $optionList );
 
-    $module->redirectTo( "/shop/add/" . $objectID );
+    $module->redirectTo( "/shop/add/" . $objectID . "/" . $quantity );
     return;
 }
 
@@ -211,6 +224,19 @@ if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
     if ( $http->hasPostVariable( "ProductItemIDList" ) )
     {
         $itemCountList = $http->postVariable( "ProductItemCountList" );
+
+        $counteditems = 0;
+        foreach ($itemCountList as $itemCount)
+        {
+            $counteditems = $counteditems + $itemCount;
+        }
+        $zeroproduct = false;
+        if ( $counteditems == 0 )
+        {
+            $zeroproduct = true;
+            return $module->redirectTo( $module->functionURI( "basket" ) );
+        }
+
         $itemIDList = $http->postVariable( "ProductItemIDList" );
 
         if ( is_array( $itemCountList ) && is_array( $itemIDList ) && count( $itemCountList ) == count( $itemIDList ) && is_object( $basket ) )

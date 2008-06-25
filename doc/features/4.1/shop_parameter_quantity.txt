@@ -1,0 +1,16 @@
+*Title: Adding a product to the basket with new parameter 'Quantity'.
+
+*Documentation:
+The new paramter 'Quantity' can be used when adding a product to a basket. 
+In earlier versions of eZ publish the shop did only add one product at a time.
+With this feature you can add as many products of the same kind at once to the basket.
+
+Example(node view template):
+
+<form method="post" action={"content/action"|ezurl}>
+	<label for="Quantity">Quantity</label><input type="input" id="Quantity" name="Quantity" value="" />
+    <input type="submit" class="defaultbutton" name="ActionAddToBasket" value="Add to basket" />
+    <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
+	<input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
+    <input type="hidden" name="ViewMode" value="full" />
+</form>

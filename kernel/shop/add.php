@@ -33,6 +33,11 @@ $http = eZHTTPTool::instance();
 $basket = eZBasket::currentBasket();
 $module = $Params['Module'];
 
+$quantity = (int)$module->NamedParameters["Quantity"];
+if ( !is_numeric( $quantity ) or $quantity <= 0 )
+{
+    $quantity = 1;
+}
 // Verify the ObjectID input
 if ( !is_numeric( $ObjectID ) )
     return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
@@ -55,6 +60,7 @@ $OptionList = $http->sessionVariable( "AddToBasket_OptionList_" . $ObjectID );
 
 $operationResult = eZOperationHandler::execute( 'shop', 'addtobasket', array( 'basket_id' => $basket->attribute( 'id' ),
                                                                               'object_id' => $ObjectID,
+                                                                              'quantity' => $quantity,
                                                                               'option_list' => $OptionList ) );
 
 switch( $operationResult['status'] )
