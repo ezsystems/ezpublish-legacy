@@ -287,3 +287,4 @@ Changes from 4.0.0 to 4.1.0alpha1
   (Merged from stable/4.0 (4.0.1) rev. 21990)
 - Fixed bug #11748: Insufficient installation documentation for PostgreSQL.
 - Fixed bug #12099: eZRunCronjobs class is defined in a CLI script.
+- Fixed bug #12586: ezconvertdbcharset.php script fails while Changing DB charset.
