@@ -855,10 +855,10 @@ class eZOEXMLInput extends eZXMLInputHandler
         $customAttributePart = '';
         $styleString         = '';
         
-        if ( self::$customAttributStyleMap === null )
+        if ( self::$customAttributeStyleMap === null )
         {
             $oeini = eZINI::instance( 'ezoe.ini' );
-            self::$customAttributStyleMap = $oeini->variable('EditorSettings', 'CustomAttributStyleMap' );
+            self::$customAttributeStyleMap = $oeini->variable('EditorSettings', 'CustomAttributeStyleMap' );
         }
 
         foreach ( $tag->attributes as $attribute )
@@ -874,9 +874,9 @@ class eZOEXMLInput extends eZXMLInputHandler
                 {
                    $customAttributePart .= 'attribute_separation' . $attribute->name . '|' . $attribute->value;
                 }
-                if ( isset( self::$customAttributStyleMap[$attribute->name] ) )
+                if ( isset( self::$customAttributeStyleMap[$attribute->name] ) )
                 {
-                    $styleString .= self::$customAttributStyleMap[$attribute->name] . ': ' . $attribute->value . '; ';
+                    $styleString .= self::$customAttributeStyleMap[$attribute->name] . ': ' . $attribute->value . '; ';
                 }
             }
         }
@@ -1465,7 +1465,7 @@ class eZOEXMLInput extends eZXMLInputHandler
     static protected $browserType = null;
     static protected $designBases = null;
     static protected $userAccessHash = array();
-    static protected $customAttributStyleMap = null;
+    static protected $customAttributeStyleMap = null;
     
     protected $editorLayoutSettings = null;
     static protected $editorGlobalLayoutSettings = null;

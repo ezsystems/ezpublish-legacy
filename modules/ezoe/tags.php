@@ -160,7 +160,7 @@ $tpl->setVariable( 'custom_inline_tags', $customInlineList );
 $tpl->setVariable( 'class_list', $classList );
 
 $oeini = eZINI::instance( 'ezoe.ini' );
-$tpl->setVariable( 'custom_attribute_style_map', eZAjaxContent::jsonEncode( $oeini->variable('EditorSettings', 'CustomAttributStyleMap' ) ) );
+$tpl->setVariable( 'custom_attribute_style_map', eZAjaxContent::jsonEncode( $oeini->variable('EditorSettings', 'CustomAttributeStyleMap' ) ) );
 
 // use persistent_variable like content/view does, sending parameters
 // to pagelayout as a hash.

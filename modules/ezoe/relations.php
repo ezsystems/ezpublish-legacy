@@ -260,7 +260,7 @@ else
     $tpl->setVariable( 'default_crop_size', $defaultSize );
     
 $oeini = eZINI::instance( 'ezoe.ini' );
-$tpl->setVariable( 'custom_attribute_style_map', eZAjaxContent::jsonEncode( $oeini->variable('EditorSettings', 'CustomAttributStyleMap' ) ) );
+$tpl->setVariable( 'custom_attribute_style_map', eZAjaxContent::jsonEncode( $oeini->variable('EditorSettings', 'CustomAttributeStyleMap' ) ) );
 
 $tpl->setVariable( 'persistent_variable', array() );
 
