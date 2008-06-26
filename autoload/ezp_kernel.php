@@ -331,7 +331,7 @@ return array(
       'eZRegExpValidator'                  => 'lib/ezutils/classes/ezregexpvalidator.php',
       'eZRole'                             => 'kernel/classes/ezrole.php',
       'eZRoleFunctionCollection'           => 'kernel/role/ezrolefunctioncollection.php',
-      'eZRunCronjobs'                      => 'runcronjobs.php',
+      'eZRunCronjobs'                      => 'kernel/classes/ezruncronjobs.php',
       'eZSMTPTransport'                    => 'lib/ezutils/classes/ezsmtptransport.php',
       'eZSOAPBody'                         => 'lib/ezsoap/classes/ezsoapbody.php',
       'eZSOAPClient'                       => 'lib/ezsoap/classes/ezsoapclient.php',
