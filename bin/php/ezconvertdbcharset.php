@@ -1016,21 +1016,6 @@ if ( !checkDBCharset() )
     $script->shutdown( 2 );
 }
 
-// Display big fat warning that this script it might leave your database in an 
-// inconsistent state
-showMessage2( "WARNING: BACK UP YOUR DATABASE!" );
-showMessage3( "Please make sure you have backed up your database before proceeding!");
-showMessage3( "If this script, for some reasons fails, your database may be left in an inconsistent state.\n" );
-showMessage3( "This script will continue in 25 seconds. Press ctrl+c to abort." );
-sleep( 10 );
-echo "Continuing in: ";
-for ( $i = 15; $i > 0; $i-- )
-{
-    echo "$i ";
-    sleep(1);
-}
-echo "\n";
-
 
 $skipClassTranslations = $options["skip-class-translations"];
 $collation = $options['collation'] ? $options['collation'] : 'utf8_general_ci';
@@ -1121,16 +1106,12 @@ if ( is_array( $xmlCustomDataInfo ) )
 }
 
 
-showMessage( "Commiting..." );
-$db->commit();
-
 /**************************************************************
 * convert tables                                              *
 ***************************************************************/
 showMessage( "Changing DB charset..." );
 changeDBCharset( 'utf8', $collation );
 
-$db->begin();
 
 /**************************************************************
 * restore class serialized names                              *
@@ -1161,8 +1142,6 @@ if ( is_array( $serializedDataInfo ) )
     restoreSerializedData( $serializedDataInfo );
 }
 
-showMessage( "Commiting..." );
-$db->commit();
 
 /**************************************************************
 * clean up                                                    *
@@ -1178,6 +1157,8 @@ dropBLOBColumns( $serializedDataInfo );
 /**************************************************************
 * finalize                                                    *
 ***************************************************************/
+showMessage( "Commiting..." );
+$db->commit();
 
 showMessage( "DB has been converted successfully." );
 $script->shutdown();
