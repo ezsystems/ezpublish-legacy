@@ -551,7 +551,7 @@ class eZStepInstaller
             case EZ_SETUP_DB_ERROR_NO_DIGEST_PROC:
             {
                 $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
-                                                    "The 'digest' function is not available in your database, you cannot run eZ Publish without this. See the documentation for more information." ),
+                                                    "The 'digest' function is not available in your database, you cannot run eZ Publish without this. Visit the FAQ for more information." ),
                                   'url' => array( 'href' => 'http://ez.no/doc/ez_publish/technical_manual/current/installation/normal_installation/requirements_for_doing_a_normal_installation#digest_function',
                                                   'text' => 'PostgreSQL digest FAQ' ),
                                   'number' => EZ_SETUP_DB_ERROR_NO_DATABASES );
