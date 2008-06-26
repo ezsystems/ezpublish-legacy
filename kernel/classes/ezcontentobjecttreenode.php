@@ -4585,7 +4585,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
 
             // clean up limitations on role assignment level
-            $countRows = $db->arrayQuery( "SELECT COUNT(*) row_count FROM ezuser_role WHERE limit_identifier='Subtree' AND limit_value LIKE '$oldPath%'" );
+            $countRows = $db->arrayQuery( "SELECT COUNT(*) AS row_count FROM ezuser_role WHERE limit_identifier='Subtree' AND limit_value LIKE '$oldPath%'" );
             $assignmentsToFixCount = $countRows[0]['row_count'];
 
             if ( $assignmentsToFixCount > 0 )
