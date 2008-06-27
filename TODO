@@ -13,8 +13,5 @@ KNOWN ISSUES:
 KNOWN ENHANCEMENT REQUESTS:
 
 * Custimizable formats selector (custom tags and classes)
-* Be able to have differnt button layout on differnt content attributes
-  Preferably with selectable presets on XML Block attributes in class/edit.
-  (button presetes should be custimizable from ini settings).
 * Better feedback on custom attribute validation ( fork TinyMCE validation and enhance it? )
 * Re add bookmarks when selecting images / objects
