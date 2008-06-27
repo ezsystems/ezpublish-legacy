@@ -1083,21 +1083,24 @@ class eZObjectRelationListType extends eZDataType
         $content = $contentObjectAttribute->content();
         foreach( $content['relation_list'] as $relationItem )
         {
-            $subObjectID = $relationItem['contentobject_id'];
-            $subObjectVersion = $relationItem['contentobject_version'];
-
-            $attributeBase = $attributeDataBaseName . '_ezorl_edit_object_' . $subObjectID;
-            if ( eZContentObject::recursionProtect( $subObjectID ) )
+            if ( $relationItem['is_modified'] )
             {
-                if ( isset ( $content['temp'] ) )
-                    $object = $content['temp'][$subObjectID]['object'];
-                else
-                    $object = eZContentObject::fetch( $subObjectID );
-                if ( $object )
-                    $object->handleAllCustomHTTPActions( $attributeBase,
-                                                         $customActionAttributeArray,
-                                                         $customActionParameters,
-                                                         $subObjectVersion );
+                $subObjectID = $relationItem['contentobject_id'];
+                $subObjectVersion = $relationItem['contentobject_version'];
+
+                $attributeBase = $attributeDataBaseName . '_ezorl_edit_object_' . $subObjectID;
+                if ( eZContentObject::recursionProtect( $subObjectID ) )
+                {
+                    if ( isset ( $content['temp'] ) )
+                        $object = $content['temp'][$subObjectID]['object'];
+                    else
+                        $object = eZContentObject::fetch( $subObjectID );
+                    if ( $object )
+                        $object->handleAllCustomHTTPActions( $attributeBase,
+                                                             $customActionAttributeArray,
+                                                             $customActionParameters,
+                                                             $subObjectVersion );
+                }
             }
         }
     }
