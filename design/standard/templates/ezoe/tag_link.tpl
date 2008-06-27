@@ -11,7 +11,10 @@
 
 var ezTagName = '{$tag_name|wash}', ezoeLinkTimeOut = null, slides = 0;
 eZOEPopupUtils.settings.customAttributeStyleMap = {$custom_attribute_style_map};
-{literal} 
+{literal}
+
+eZOEPopupUtils.ajaxLink = ez.ajax( { 'charset': 'UTF-8' } );
+eZOEPopupUtils.ajaxLinkLoadResponse = '';
 
 tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     tagName: ezTagName,
@@ -50,7 +53,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         {
             var url = editorElement.href.split('://'), id = ez.num( url[1], 0, 'int' );
             if ( id !== 0 && ( url[0] === 'eznode' || url[0] === 'ezobject' ) )
-                ezoeLinkTimeOut = setTimeout( ez.fn.bind( ezoeLinkAjaxCheck, this, url.join('_') ), 320 );
+                ezoeLinkAjaxCheck( url.join('_') );
         }
  
         slides = ez.$$('div.panel');//slides is global object used by custom selectByEmbedId function
@@ -78,16 +81,16 @@ eZOEPopupUtils.selectByEmbedId = function( object_id, node_id, name )
 function ezoeLinkAjaxCheck( url )
 {
     var url = eZOeMCE['extension_url'] + '/load/' + url;
-    eZOEPopupUtils.ajax.load( url, '', ezoeLinkPostBack );
+    eZOEPopupUtils.ajaxLink.load( url, '', ezoeLinkPostBack );
 }
 
 function ezoeLinkPostBack( r )
 {
-    ez.script( 'eZOEPopupUtils.ajaxLoadResponse=' + r.responseText );
+    ez.script( 'eZOEPopupUtils.ajaxLinkLoadResponse=' + r.responseText );
     var info = ez.$('link_href_source_info'), input = ez.$('link_href_source');
-    if ( eZOEPopupUtils.ajaxLoadResponse )
+    if ( eZOEPopupUtils.ajaxLinkLoadResponse )
     {
-        info.el.innerHTML = eZOEPopupUtils.ajaxLoadResponse.name;
+        info.el.innerHTML = eZOEPopupUtils.ajaxLinkLoadResponse.name;
         info.el.style.border = '1px solid green';
     }
     else
