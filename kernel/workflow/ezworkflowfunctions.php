@@ -31,7 +31,7 @@
 
 class eZWorkflowFunctions
 {
-    function addGroup( $workflowID, $workflowVersion, $selectedGroup )
+    static function addGroup( $workflowID, $workflowVersion, $selectedGroup )
     {
         //include_once( "kernel/classes/ezworkflowgrouplink.php" );
 
@@ -41,7 +41,7 @@ class eZWorkflowFunctions
         return true;
     }
 
-    function removeGroup( $workflowID, $workflowVersion, $selectedGroup )
+    static function removeGroup( $workflowID, $workflowVersion, $selectedGroup )
     {
         //include_once( "kernel/classes/ezworkflow.php" );
         //include_once( "kernel/classes/ezworkflowgrouplink.php" );
