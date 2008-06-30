@@ -142,10 +142,8 @@ class eZWorkflow extends eZPersistentObject
         return new eZWorkflow( $row );
     }
 
-    function setIsEnabled( $enabled, $id = false, $version = 0 )
+    static function setIsEnabled( $enabled, $id, $version = 0 )
     {
-        if ( $id === false )
-            $id = $this->attribute( "id" );
         eZPersistentObject::updateObjectList( array(
                                                   "definition" => eZWorkflow::definition(),
                                                   "update_fields" => array( "is_enabled" => ( $enabled ? 1 : 0 ) ),
@@ -159,11 +157,11 @@ class eZWorkflow extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function removeWorkflow( $id, $version )
+    static function removeWorkflow( $id, $version )
     {
         eZPersistentObject::removeObject( eZWorkflow::definition(),
-                                          array("id" => $id,
-                                                "version" => $version ) );
+                                          array( "id" => $id,
+                                                 "version" => $version ) );
     }
 
     /*!
@@ -198,7 +196,7 @@ class eZWorkflow extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function removeTemporary()
+    static function removeTemporary()
     {
         $version = 1;
         $temporaryWorkflows = eZWorkflow::fetchList( $version, null, true );
@@ -246,7 +244,7 @@ class eZWorkflow extends eZPersistentObject
         }
     }
 
-    function adjustEventPlacements( $events )
+    static function adjustEventPlacements( $events )
     {
         if ( !is_array( $events ) )
             return;
@@ -436,24 +434,45 @@ class eZWorkflow extends eZPersistentObject
         return null;
     }
 
-    function fetchEvents( $id = false, $asObject = true, $version = 0 )
+    function fetchEvents( $asObject = true, $version = false )
     {
-        if ( $id === false )
+        if ( $version === false )
         {
-            $id = $this->ID;
             $version = $this->Version;
         }
-        return eZWorkflowEvent::fetchFilteredList( array( "workflow_id" => $id,
-                                                          "version" => $version ) );
+        return eZWorkflowEvent::fetchFilteredList( array( "workflow_id" => $this->ID,
+                                                          "version" => $version ),
+                                                   $asObject );
     }
 
-    function fetchEventCount( $id = false, $version = 0 )
+    static function fetchEventsByWorkflowID( $id, $asObject = true, $version = 0 )
     {
-        if ( $id === false )
+        return eZWorkflowEvent::fetchFilteredList( array( "workflow_id" => $id,
+                                                          "version" => $version ),
+                                                   $asObject );
+    }
+
+    function fetchEventCount( $version = false )
+    {
+        if ( $version === false )
         {
-            $id = $this->ID;
             $version = $this->Version;
         }
+        $list = eZPersistentObject::fetchObjectList( eZWorkflowEvent::definition(),
+                                                     array(),
+                                                     array( 'version' => $version,
+                                                            'workflow_id' => $id ),
+                                                     false,
+                                                     null,
+                                                     false,
+                                                     false,
+                                                     array( array( 'operation' => 'count( id )',
+                                                                   'name' => 'count' ) ) );
+        return $list[0]["count"];
+    }
+
+    static function fetchEventCountByWorkflowID( $id, $version = 0 )
+    {
         $list = eZPersistentObject::fetchObjectList( eZWorkflowEvent::definition(),
                                                      array(),
                                                      array( 'version' => $version,
@@ -529,29 +548,25 @@ class eZWorkflow extends eZPersistentObject
      */
     function cleanupWorkFlowProcess()
     {
-        if ( isset( $this ) )
+        $db = eZDB::instance();
+        $workflowID = $this->attribute( 'id' );
+        $event_list = $this->fetchEvents();
+        if ( $event_list != null )
         {
-            $db = eZDB::instance();
-            $workflowID = $this->attribute( 'id' );
-            $event_list = $this->fetchEvents();
-            if ( $event_list != null )
+            $existEventIDArray = array();
+            foreach ( $event_list as $event )
             {
-                $existEventIDArray = array();
-                foreach ( $event_list as $event )
-                {
-                    $eventID = $event->attribute( 'id' );
-                    $existEventIDArray[] = $eventID;
-                }
-                $existEventIDString = implode( ',', $existEventIDArray );
-                $db->query( "DELETE FROM ezworkflow_process
-                                   WHERE workflow_id=$workflowID
-                                     AND event_id not in ( $existEventIDString )" );
+                $eventID = $event->attribute( 'id' );
+                $existEventIDArray[] = $eventID;
             }
-            else
-            {
-                $db->query( "DELETE FROM ezworkflow_process
-                                   WHERE workflow_id=$workflowID");
-            }
+            $existEventIDString = implode( ',', $existEventIDArray );
+            $db->query( "DELETE FROM ezworkflow_process
+                               WHERE workflow_id=$workflowID
+                                 AND event_id not in ( $existEventIDString )" );
+        }
+        else
+        {
+            $db->query( "DELETE FROM ezworkflow_process WHERE workflow_id=$workflowID" );
         }
     }
 
