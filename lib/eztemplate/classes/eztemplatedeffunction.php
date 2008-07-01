@@ -174,7 +174,11 @@ class eZTemplateDefFunction
                 if ( $tpl->hasVariable( $varName, $rootNamespace ) ) // if the variable already exists
                 {
                     // we don't create new variable but just assign value to the existing one.
-                    $tpl->warning( eZTemplateDefFunction::DEF_FUNCTION_NAME, "Variable '$varName' is already defined." );
+                    $tpl->warning( eZTemplateDefFunction::DEF_FUNCTION_NAME
+                                   . ' in ' . $functionPlacement[2]
+                                   . '[' . $functionPlacement[1][0] . ']'
+                                   . ':' . $functionPlacement[1][1],
+                                   "Variable '$varName' is already defined." );
                     $tpl->setVariable( $varName, $varValue, $rootNamespace );
                 }
                 else
