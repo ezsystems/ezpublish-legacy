@@ -77,20 +77,28 @@
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 <div class="context-attributes">
 
+{* show ini override location list *}
+<h2>{'IniOverrideDirList - parsing order of ini locations'|i18n('admin/settings/view')}</h2>
+<ol>
+<li><b>settings (default *.ini)</b></li>
+{foreach $ini_override_dir_list as $ini_location}
+    <li>{$ini_location}</li>
+{/foreach}
+</ol>
 
     <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 {section var=Blocks loop=$settings}
         <tr>
-	    <th class="tight">&nbsp;</th>
+        <th class="tight">&nbsp;</th>
             <th width="50%">
             {$Blocks.key} ({$Blocks.item.count})&nbsp;&nbsp;&nbsp;
             {section show=$Blocks.item.editable}
-	             <a href={concat( '/settings/edit/', $current_siteaccess, '/', $ini_file, '/', $Blocks.key)|ezurl}>{'[add setting]'|i18n('design/admin/settings')}</a>
+                 <a href={concat( '/settings/edit/', $current_siteaccess, '/', $ini_file, '/', $Blocks.key)|ezurl}>{'[add setting]'|i18n('design/admin/settings')}</a>
             {/section}
             </th>
-	    <th class="tight">
-	        {'Placement'|i18n( 'design/admin/settings' )}
-	    </th>
+        <th class="tight">
+            {'Placement'|i18n( 'design/admin/settings' )}
+        </th>
             <th width="50%">
                 {'Value'|i18n( 'design/admin/settings' )}
             </th>
@@ -121,7 +129,7 @@
                 {switch match=$Settings.item.type}
                 {case match='array'}
                     {section show=ne($Settings.item.placement,'undefined')}
-	                {section var=Placements loop=$Settings.item.content}
+                    {section var=Placements loop=$Settings.item.content}
                         <div class="array">[{$Placements.key}] {$Placements.item.content|wash}</div>
                     {/section}
                     {/section}
@@ -149,7 +157,7 @@
                 {section show=$Settings.item.editable}
                 {switch match=$Settings.item.type}
                     {case match='array'}
-	                    <a href={concat('settings/edit/', $current_siteaccess, '/', $ini_file, '/', $Blocks.key, '/', $Settings.key, '/', 'siteaccess')|ezurl}>
+                        <a href={concat('settings/edit/', $current_siteaccess, '/', $ini_file, '/', $Blocks.key, '/', $Settings.key, '/', 'siteaccess')|ezurl}>
                         <img src={"edit.gif"|ezimage} alt="{'Edit'|i18n('design/admin/settings')}" /></a>
                     {/case}
                     {case}
