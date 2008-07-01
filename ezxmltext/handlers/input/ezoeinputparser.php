@@ -915,7 +915,7 @@ class eZOEInputParser extends eZXMLInputParser
                 if ( isset( $matches[2] ) )
                     $anchorName = substr( $matches[2], 1 );
 
-                if ( ereg( "^[0-9]+$", $nodePath ) )
+                if ( is_numeric( $nodePath ) )
                 {
                     $nodeID = $nodePath;
                     $node = eZContentObjectTreeNode::fetch( $nodeID );
@@ -947,7 +947,7 @@ class eZOEInputParser extends eZXMLInputParser
                         $objectID = $node->attribute( 'contentobject_id' );
                 }
             }
-            elseif ( ereg( "^#.*$" , $href ) )
+            elseif ( strpos( $href, '#' ) === 0 );
             {
                 $anchorName = substr( $href, 1 );
             }

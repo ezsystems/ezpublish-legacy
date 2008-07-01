@@ -143,27 +143,26 @@ class eZOEXMLInput extends eZXMLInputHandler
         {
             $supportsDHTMLType = false;
             $userAgent = eZSys::serverVariable( 'HTTP_USER_AGENT' );
-
             if ( strpos( $userAgent, 'Opera' ) !== false and
-                 eregi('Opera\/([0-9\.]+)', $userAgent, $browserInfo ) )
+                 preg_match('/Opera\/([0-9\.]+)/i', $userAgent, $browserInfo ) )
             {
                 if ( $browserInfo[1] >= 9.5 )
                     $supportsDHTMLType = 'Opera';
             }
             else if ( strpos( $userAgent, 'MSIE' ) !== false and
-                      eregi('MSIE[ \/]([0-9\.]+)', $userAgent, $browserInfo ) )
+                      preg_match('/MSIE[ \/]([0-9\.]+)/i', $userAgent, $browserInfo ) )
             {
                 if ( $browserInfo[1] >= 6.0 )
                     $supportsDHTMLType = 'IE';
             }
             elseif ( strpos( $userAgent, 'Gecko' ) !== false and
-                     eregi('rv:([0-9\.]+)', $userAgent, $browserInfo ) )
+                     preg_match('/rv:([0-9\.]+)/i', $userAgent, $browserInfo ) )
             {
                 if ( $browserInfo[1] >= 1.8 )
                     $supportsDHTMLType = 'Gecko';
             }
             elseif ( strpos( $userAgent, 'WebKit' ) !== false and
-                     eregi('WebKit\/([0-9\.]+)', $userAgent, $browserInfo ) )
+                     preg_match('/WebKit\/([0-9\.]+)/i', $userAgent, $browserInfo ) )
             {
                 if ( $browserInfo[1] >= 522.0 )
                     $supportsDHTMLType = 'WebKit';
