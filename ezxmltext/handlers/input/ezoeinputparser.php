@@ -947,7 +947,7 @@ class eZOEInputParser extends eZXMLInputParser
                         $objectID = $node->attribute( 'contentobject_id' );
                 }
             }
-            elseif ( strpos( $href, '#' ) === 0 );
+            elseif ( strpos( $href, '#' ) === 0 )
             {
                 $anchorName = substr( $href, 1 );
             }
