@@ -337,7 +337,7 @@ class eZOEPackerFunctions
     public static function getCacheTime( $functionName )
     {
         // this translation data only expires when this timestamp is increased
-        return 1214230802;
+        return 1214909149;
     }
 }
 
