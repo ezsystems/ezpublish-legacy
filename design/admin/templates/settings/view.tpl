@@ -77,15 +77,6 @@
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 <div class="context-attributes">
 
-{* show ini override location list *}
-<h2>{'IniOverrideDirList - parsing order of ini locations'|i18n('admin/settings/view')}</h2>
-<ol>
-<li><b>settings (default *.ini)</b></li>
-{foreach $ini_override_dir_list as $ini_location}
-    <li>{$ini_location}</li>
-{/foreach}
-</ol>
-
     <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 {section var=Blocks loop=$settings}
         <tr>

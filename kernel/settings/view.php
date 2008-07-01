@@ -124,7 +124,6 @@ if ( $http->hasPostVariable( 'ChangeINIFile' ) or
             $path = $dir[0];
             if ( strpos( $path, 'siteaccess' ) !== false )
             {
-                var_dump( $path );
                 break;
             }
             else
@@ -283,14 +282,6 @@ foreach ( $GLOBALS['eZINIOverrideDirList'] as $iniDataSet )
 // extract all .ini files without path
 $iniFiles = preg_replace('%.*/%', '', $iniFiles );
 sort( $iniFiles );
-
-$eZIniOverrideDirList = array();
-foreach ( $GLOBALS['eZINIOverrideDirList'] as $iniLocation )
-{
-    $eZIniOverrideDirList[] = $iniLocation[0];
-}
-
-$tpl->setVariable( 'ini_override_dir_list' , $eZIniOverrideDirList );
 
 $tpl->setVariable( 'ini_files', $iniFiles );
 $tpl->setVariable( 'siteaccess_list', $siteAccessList );
