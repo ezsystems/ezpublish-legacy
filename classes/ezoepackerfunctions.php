@@ -300,7 +300,7 @@ class eZOEPackerFunctions
                 'colorpicker_named_title' => ezi18n( 'design/standard/ezoe', "Named colors"),
                 'colorpicker_color' => ezi18n( 'design/standard/ezoe', "Color"),
                 'colorpicker_name' => ezi18n( 'design/standard/ezoe', "Name"),
-                'charmap_title' => ezi18n( 'design/standard/ezoe', "Select custom character")/*,
+                'charmap_title' => ezi18n( 'design/standard/ezoe', "Select special character")/*,
                 'image_title' => ezi18n( 'design/standard/ezoe', "Insert/edit image"),
                 'image_src' => ezi18n( 'design/standard/ezoe', "Image URL"),
                 'image_alt' => ezi18n( 'design/standard/ezoe', "Image description"),
