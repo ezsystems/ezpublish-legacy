@@ -257,7 +257,7 @@ class eZOEPackerFunctions
                 'custom1_desc' => ezi18n( 'design/standard/ezoe', "Your custom description here"),
                 //'forecolor_desc' => ezi18n( 'design/standard/ezoe', "Select text color"),
                 //'backcolor_desc' => ezi18n( 'design/standard/ezoe', "Select background color"),
-                'charmap_desc' => ezi18n( 'design/standard/ezoe', "Insert custom character"),
+                'charmap_desc' => ezi18n( 'design/standard/ezoe', "Insert special character"),
                 'visualaid_desc' => ezi18n( 'design/standard/ezoe', "Toggle guidelines/invisible elements"),
                 'anchor_desc' => ezi18n( 'design/standard/ezoe', "Insert/edit anchor"),
                 'cut_desc' => ezi18n( 'design/standard/ezoe', "Cut"),
