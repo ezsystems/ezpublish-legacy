@@ -181,6 +181,8 @@ class eZImageAnalyzer
                 eZDebug::writeWarning( "INI group $iniGroup does not exist in image.ini",
                                        'eZImageAnalyzer::readAnalyzerSettingsFromINI' );
         }
+
+        $GLOBALS['eZImageAnalyzer'] = $analyzerData;
     }
 
     /// \privatesection
