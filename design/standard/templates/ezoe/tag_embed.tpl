@@ -59,8 +59,8 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
 	    if ( contentType === 'image' )
 	        return '<img id="__mce_tmp" src="javascript:void(0);" />';
 	    if ( ez.$('embed_inline_source').el.checked )
-	       return '<span id="__mce_tmp">' + ez.$$('#embed_preview div')[0].el.innerHTML + '</span>';
-	    return '<div id="__mce_tmp">' + ez.$$('#embed_preview div')[0].el.innerHTML + '</div>';
+	       return '<span id="__mce_tmp">' + ez.$('embed_preview').el.innerHTML + '</span>';
+	    return '<div id="__mce_tmp">' + ez.$('embed_preview').el.innerHTML + '</div>';
     },
     onTagGenerated:  function( el, ed, args )
     {
