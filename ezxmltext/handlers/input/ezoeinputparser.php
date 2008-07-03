@@ -38,8 +38,8 @@
 
 */
 
-include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlschema.php' );
-include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlinputparser.php' );
+//include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlschema.php' );
+//include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlinputparser.php' );
 
 class eZOEInputParser extends eZXMLInputParser
 {
@@ -974,7 +974,7 @@ class eZOEInputParser extends eZXMLInputParser
                     // Check mail address validity
                     if ( preg_match( "/^mailto:(.*)/i" , $url, $mailAddr ) )
                     {
-                        include_once( 'lib/ezutils/classes/ezmail.php' );
+                        //include_once( 'lib/ezutils/classes/ezmail.php' );
                         if ( !eZMail::validate( $mailAddr[1] ) )
                         {
                             $this->isInputValid = false;

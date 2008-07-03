@@ -111,13 +111,6 @@ var eZOEPopupUtils = {
     {
         // save changes from form values to element attributes
         var ed = tinyMCEPopup.editor, s = eZOEPopupUtils.settings, n, arr, tmp, f = document.forms[0];
-        
-        
-        if (!AutoValidator.validate(f))
-        {
-            alert(tinyMCEPopup.getLang('invalid_data'));
-            return false;
-        }
 
         if ( s.tagSelector && s.tagSelector.el.value )
         {
@@ -125,6 +118,20 @@ var eZOEPopupUtils = {
                 s.selectedTag = s.tagSelector.el.value;
             else if ( s.tagSelector.el.checked === false )
                 s.selectedTag = s.tagName;
+        }
+
+        // validate the general attributes
+        if ( !AutoValidator.validate( ez.$( s.tagName + '_attributes' ).el ) )
+        {
+            alert( tinyMCEPopup.getLang('invalid_data') );
+            return false;
+        }
+
+        // validate the custom attributes
+        if ( !AutoValidator.validate( ez.$( s.selectedTag + '_customattributes').el ) )
+        {
+            alert( tinyMCEPopup.getLang('invalid_data') );
+            return false;
         }
 
         if ( tinymce.isWebKit )

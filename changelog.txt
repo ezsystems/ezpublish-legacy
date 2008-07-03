@@ -21,6 +21,7 @@ eZ Online Editor MCE extension Changelog
 * Fixed bug #013254: Selecting node from browse fails in ie
 * Fixed bug #013012: Inline custom tags doesn't work properly in Opera and IE
   ( removed need to have a hidden paragraph inside the custom tag, this fixes many issues concerning inline custom tags )
+* Fixed bug #013279: Error when trying to insert a custom tag when a required attribute is set in another one
 
 
 5.0Beta3

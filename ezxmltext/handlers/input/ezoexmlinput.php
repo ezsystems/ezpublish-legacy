@@ -426,7 +426,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 $text = preg_replace( "/[\n\t]/", ' ', $text);
             }
 
-            //eZDebug::writeDebug( $text, 'eZOnline Editor MCE HTML input' );
+            //eZDebug::writeDebug( $text, 'eZ Online Editor HTML input' );
 
             include_once( 'extension/ezoe/ezxmltext/handlers/input/ezoeinputparser.php' );
 
