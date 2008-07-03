@@ -46,7 +46,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     tagCreator: function( ed, tag, customTag, text )
     {
         if ( customTag === 'underline' )
-            ed.execCommand('mceInsertContent', false, '<u id="__mce_tmp" type="custom">' + (text ? text : customTag) + '<\/u>', {skip_undo : 1} );
+            ed.execCommand('mceInsertLink', false, {'id': '__mce_tmp', 'type': 'custom'}, {skip_undo : 1} );
         else if ( ez.$( customTag + '_inline_source' ).el.checked )
             // use link to avoid tinyMCE blocking us from creating nested tags
             ed.execCommand('mceInsertLink', false, {'id': '__mce_tmp', 'type': 'custom'}, {skip_undo : 1} );
@@ -56,9 +56,9 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         var el = ed.dom.get('__mce_tmp');
 
         // now switch from link to span
-        if ( el.nodeName === 'A' )
+        if ( el && el.nodeName === 'A' )
         {
-            el = eZOEPopupUtils.switchTagTypeIfNeeded( el, 'span' );
+            el = eZOEPopupUtils.switchTagTypeIfNeeded( el, customTag === 'underline' ? 'u' : 'span' );
             el.innerHTML = text ? text : customTag;
             ed.dom.setAttrib( el, 'href', '' );
         }

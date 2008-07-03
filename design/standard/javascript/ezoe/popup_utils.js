@@ -288,6 +288,7 @@ var eZOEPopupUtils = {
         if (node = ez.$( node ))
         {
             args['customattributes'] = ez.$$('input,select', node).map(function( o ){
+                if ( o.hasClass('mceItemSkip') ) return;
                 var name = o.el.name, value = o.postData( true );
                 // add to styles if custom attibute is defined in customAttributeStyleMap
                 if ( s.customAttributeStyleMap && s.customAttributeStyleMap[name] !== undefined  )
