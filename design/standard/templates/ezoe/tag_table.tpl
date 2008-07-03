@@ -35,25 +35,25 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         tableSizeGridInput.call( td, true );
     },
     tagGenerator: function( tag )
-	{
-	    var html = '<table id="__mce_tmp"><tbody>';
-	    for (var y = 0, yl = ez.num(tableSizeGrid['rows'].el.value, 1, 'int'); y < yl; y++)
-	    {
-	        html += "<tr>";
-	        for (var x = 0, xl = ez.num(tableSizeGrid['cols'].el.value, 2, 'int'); x < xl; x++)
-	            html += '<td><br mce_bogus="1"/></td>';
-	
-	        html += "</tr>";
-	    }
-	    return html + '</tbody></table>';
-	},
-	attributeGenerator: {
-	    'class': function( o, args )
-	    {
-	        args['class'] = ez.string.trim( o.postData(true) + ( args['border'] == 0 ? ' mceItemTable' : ''));
-	        return args;
-	    }
-	}
+    {
+        var html = '<table id="__mce_tmp"><tbody>';
+        for (var y = 0, yl = ez.num(tableSizeGrid['rows'].el.value, 1, 'int'); y < yl; y++)
+        {
+            html += "<tr>";
+            for (var x = 0, xl = ez.num(tableSizeGrid['cols'].el.value, 2, 'int'); x < xl; x++)
+                html += '<td><br mce_bogus="1"/></td>';
+    
+            html += "</tr>";
+        }
+        return html + '</tbody></table>';
+    },
+    attributeGenerator: {
+        'class': function( o, args )
+        {
+            args['class'] = ez.string.trim( o.postData(true) + ( args['border'] == 0 ? ' mceItemTable' : ''));
+            return args;
+        }
+    }
 }));
 
 

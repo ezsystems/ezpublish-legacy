@@ -2,7 +2,7 @@
     eZ Core : tiny javascript library for ajax and stuff
     Created on: <28-Feb-2007 00:00:00 ar>
     
-    Copyright (c) 2007-2008 eZ Systems AS & André Rømcke
+    Copyright (c) 2007-2008 eZ Systems AS & Andrï¿½ Rï¿½mcke
     Licensed under the MIT License:
     http://www.opensource.org/licenses/mit-license.php
 
@@ -97,12 +97,12 @@ var ez = {
             arr = ez.object.extend( arr, new ez.array.eZextensions );
             return arr;
         },
-		filter: function( arr, fn, t )
-		{
-		    // javascript 1.6: filter return values of fn that evaluates to true, t optionally overrides 'this'
-		    for (var i = 0, r = ez.$c(), l = arr.length; i < l; i++) if ( fn.call(t,arr[i],i,arr) ) r.push( arr[i] );
-		    return r;
-		},
+        filter: function( arr, fn, t )
+        {
+            // javascript 1.6: filter return values of fn that evaluates to true, t optionally overrides 'this'
+            for (var i = 0, r = ez.$c(), l = arr.length; i < l; i++) if ( fn.call(t,arr[i],i,arr) ) r.push( arr[i] );
+            return r;
+        },
         forEach: function( arr, fn, t )
         {
             // javascript 1.6: iterate true an array and calls fn on each iteration, t optionally overrides 'this'
@@ -110,12 +110,12 @@ var ez = {
             return arr;
         },
 
-		indexOf: function( arr, o, s )
-		{
-		    // javascript 1.6: finds the first index that is like object o, s is optional start index
-		    for (var i=s || 0, l = arr.length; i < l; i++) if (arr[i]===o) return i;
-		    return -1;
-		},
+        indexOf: function( arr, o, s )
+        {
+            // javascript 1.6: finds the first index that is like object o, s is optional start index
+            for (var i=s || 0, l = arr.length; i < l; i++) if (arr[i]===o) return i;
+            return -1;
+        },
         make: function( obj, s )
         {
             // Makes a array out of anything or nothing, split strings by s if present
@@ -260,60 +260,60 @@ var ez = {
             if ( doc.querySelectorAll !== undefined && ( doc.parentNode === null || doc.parentNode === undefined ) )
             {
                 try {
-				    r = doc.querySelectorAll( args.join(',') );
-				} catch(e) {
-				    r = [];
-				}
-		    }
+                    r = doc.querySelectorAll( args.join(',') );
+                } catch(e) {
+                    r = [];
+                }
+            }
             else
             {            
-	            args.forEach(function(arg)
-	            {
-	                if (typeof arg === 'string')
-	                {
-	                    var parent = [doc.eztype === 'element' ? doc.el : doc];
-	                    ez.array.forEach( ez.string.cssCompact( arg ).split(/\s+/), function(str)
-	                    {
-	                        if (  str === '>' || str === '+' || str === '~' ) return mode = str;
-	                        var temp = ez.$c(), tag = (str.match(/^(\w+)([.#:\[]?)/)) ? RegExp.$1.toUpperCase() : '*', id = 0, cn = 0, at = 0, pseudo = '';
-	                        if (str.match(/([\#])([a-zA-Z0-9_\-]+)([.#:\[]?)/)) id = RegExp.$2;
-	                        if (str.match(/([\.])([a-zA-Z0-9_\-]+)([.#:\[]?)/)) cn = RegExp.$2;
-	                        if (str.match(/\[(\w+)([~\|\^\$\*]?)=?"?([^\]"]*)"?\]/)) at = [RegExp.$1 , RegExp.$2, RegExp.$3];
-	                        if (str.match(/\:([a-z-]+)\(?([\w+-]+)?\)?([.#:\[]?)/)) pseudo = [RegExp.$1 ,  RegExp.$2];
-	                        ez.array.forEach( parent, function( child )
-	                        {
-	                            var nodes = false;
-	                            if ( pseudo !== '' || mode !== '' )
-	                               nodes = ez.element.getChildren( child, tag, mode, pseudo );
-	                            else if ( tag === '*' && id && child.getElementById )
+                args.forEach(function(arg)
+                {
+                    if (typeof arg === 'string')
+                    {
+                        var parent = [doc.eztype === 'element' ? doc.el : doc];
+                        ez.array.forEach( ez.string.cssCompact( arg ).split(/\s+/), function(str)
+                        {
+                            if (  str === '>' || str === '+' || str === '~' ) return mode = str;
+                            var temp = ez.$c(), tag = (str.match(/^(\w+)([.#:\[]?)/)) ? RegExp.$1.toUpperCase() : '*', id = 0, cn = 0, at = 0, pseudo = '';
+                            if (str.match(/([\#])([a-zA-Z0-9_\-]+)([.#:\[]?)/)) id = RegExp.$2;
+                            if (str.match(/([\.])([a-zA-Z0-9_\-]+)([.#:\[]?)/)) cn = RegExp.$2;
+                            if (str.match(/\[(\w+)([~\|\^\$\*]?)=?"?([^\]"]*)"?\]/)) at = [RegExp.$1 , RegExp.$2, RegExp.$3];
+                            if (str.match(/\:([a-z-]+)\(?([\w+-]+)?\)?([.#:\[]?)/)) pseudo = [RegExp.$1 ,  RegExp.$2];
+                            ez.array.forEach( parent, function( child )
+                            {
+                                var nodes = false;
+                                if ( pseudo !== '' || mode !== '' )
+                                   nodes = ez.element.getChildren( child, tag, mode, pseudo );
+                                else if ( tag === '*' && id && child.getElementById )
                                     nodes = [ child.getElementById( id ) ];
-	                            else if ( tag === '*' && cn && child.getElementsByClassName )
-	                               nodes = child.getElementsByClassName( cn );
-	                            else if ( child.getElementsByTagName )
-				                    nodes = ez.array.filter( child.getElementsByTagName( tag ), function(n){ return n.nodeType === 1; });
+                                else if ( tag === '*' && cn && child.getElementsByClassName )
+                                   nodes = child.getElementsByClassName( cn );
+                                else if ( child.getElementsByTagName )
+                                    nodes = ez.array.filter( child.getElementsByTagName( tag ), function(n){ return n.nodeType === 1; });
 
-	                            if ( !nodes ) return;
+                                if ( !nodes ) return;
 
-	                            ez.array.forEach( nodes, function(i)
-	                            {
-	                                if (id && (!i.getAttribute('id') || i.getAttribute('id') !== id)) return;
-	                                if (tag !== '*' && i.nodeName !== tag ) return;
-	                                if (at && !ez.element.hasAttribute( i, at[0], at[2], at[1] )) return;
-	                                if (cn && (' '+i.className+' ').indexOf( ' ' + cn + ' ' ) === -1) return;
-	                                temp.push( i ); 
-	                            });
-	                        });
-	                        parent = temp;
-	                        mode = '';
-	                    });
-	                    
-	                    r = r.concat( parent );
-	                }
-	                else if ( arg.eztype && arg.eztype === 'array' )
-	                    r = r.concat( arg );
-	                else
-	                    r.push( arg );
-	            }, this );
+                                ez.array.forEach( nodes, function(i)
+                                {
+                                    if (id && (!i.getAttribute('id') || i.getAttribute('id') !== id)) return;
+                                    if (tag !== '*' && i.nodeName !== tag ) return;
+                                    if (at && !ez.element.hasAttribute( i, at[0], at[2], at[1] )) return;
+                                    if (cn && (' '+i.className+' ').indexOf( ' ' + cn + ' ' ) === -1) return;
+                                    temp.push( i ); 
+                                });
+                            });
+                            parent = temp;
+                            mode = '';
+                        });
+                        
+                        r = r.concat( parent );
+                    }
+                    else if ( arg.eztype && arg.eztype === 'array' )
+                        r = r.concat( arg );
+                    else
+                        r.push( arg );
+                }, this );
             }
             r = r === undefined ? [] : ez.array.map( r, ez.element.extend );
             return ez.array.extend( r );
@@ -334,9 +334,9 @@ var ez = {
         {
             var list = [], filtered = [], sib = node;
             if (  mode === '+' || mode === '~' )
-            {		        
-		        while ( sib = sib.nextSibling )
-		        {
+            {                
+                while ( sib = sib.nextSibling )
+                {
                     if ( sib.nodeType === 1 )
                     {
                         if ( tag === '*' || sib.nodeName === tag )
@@ -344,7 +344,7 @@ var ez = {
                         if ( mode === '+' )
                             break;
                     }
-		        }
+                }
             }
             else
             {
@@ -621,9 +621,9 @@ ez.element.eZextensions.prototype = {
        // Example: ez.$('my_el').getStyle('margin');
        s = s === 'float' ? 'cssFloat' : ez.string.jsCase( s );
        var el = this.el, r;
-	   if ( el.currentStyle )
-	       r = el.currentStyle[s];
-	   else if ( window.getComputedStyle )
+       if ( el.currentStyle )
+           r = el.currentStyle[s];
+       else if ( window.getComputedStyle )
            r = document.defaultView.getComputedStyle( el, null ).getPropertyValue( s );
        if ( r === null )
            r = el.style[s];

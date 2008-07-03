@@ -17,48 +17,48 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     tagName: ezTagName,
     form: 'EditForm',
     cancelButton: 'CancelButton',
-    tagAttributeEditor:	function( ed, el, args )
+    tagAttributeEditor:    function( ed, el, args )
     {
-	    var mode = ez.$('cell_args_apply_to').el.value, nodes, x = 0, target = this.settings.tagSelector.el.value;
+        var mode = ez.$('cell_args_apply_to').el.value, nodes, x = 0, target = this.settings.tagSelector.el.value;
 
-	    if ( mode === 'row' )
-	    {
-	        // get nodes (cells) in this row
-	        nodes = ez.$$('> *', el.parentNode );
-	    }
-	    else if ( mode === 'column' )
-	    {
-	        // figgure out what column we are in
-	        for (var i = 0, c = el.parentNode.childNodes, l = c.length; i < l; i++ ) 
-	        {
-	            if ( c[i] === el ) x = i + 1;
-	        };
-	        // get nodes (cells) in this column
-	        nodes = ez.$$('tr > *:nth-child(' + x + ')', el.parentNode.parentNode );
-	    }
+        if ( mode === 'row' )
+        {
+            // get nodes (cells) in this row
+            nodes = ez.$$('> *', el.parentNode );
+        }
+        else if ( mode === 'column' )
+        {
+            // figgure out what column we are in
+            for (var i = 0, c = el.parentNode.childNodes, l = c.length; i < l; i++ ) 
+            {
+                if ( c[i] === el ) x = i + 1;
+            };
+            // get nodes (cells) in this column
+            nodes = ez.$$('tr > *:nth-child(' + x + ')', el.parentNode.parentNode );
+        }
 
-	    if ( !nodes )
-	    {
-	        el = eZOEPopupUtils.switchTagTypeIfNeeded( el, target );
-	        ed.dom.setAttribs(el, args);
-	    }
-	    else nodes.forEach(function( o )
-	    {
-	        o.el = eZOEPopupUtils.switchTagTypeIfNeeded( o.el, target );
-	        ed.dom.setAttribs( o.el, args );
-	    });
-	},
+        if ( !nodes )
+        {
+            el = eZOEPopupUtils.switchTagTypeIfNeeded( el, target );
+            ed.dom.setAttribs(el, args);
+        }
+        else nodes.forEach(function( o )
+        {
+            o.el = eZOEPopupUtils.switchTagTypeIfNeeded( o.el, target );
+            ed.dom.setAttribs( o.el, args );
+        });
+    },
     tagSelector: ezTagName + '_tag_source',
     tagSelectorCallBack: function( e, el )
-	{
-	    if ( e === false ) return false;
-	    var classes = ez.$( eZOEPopupUtils.settings.tagName + '_class_source' ).el, editorEl = eZOEPopupUtils.settings.editorElement || false;
-	    eZOEPopupUtils.removeChildren( classes );
-	    eZOEPopupUtils.addSelectOptions( classes, cellClassList[ el.value ] );
-	    if ( editorEl && editorEl.className )
-	        classes.value = editorEl.className;
-	    eZOEPopupUtils.toggleCustomAttributes.call( this );
-	}
+    {
+        if ( e === false ) return false;
+        var classes = ez.$( eZOEPopupUtils.settings.tagName + '_class_source' ).el, editorEl = eZOEPopupUtils.settings.editorElement || false;
+        eZOEPopupUtils.removeChildren( classes );
+        eZOEPopupUtils.addSelectOptions( classes, cellClassList[ el.value ] );
+        if ( editorEl && editorEl.className )
+            classes.value = editorEl.className;
+        eZOEPopupUtils.toggleCustomAttributes.call( this );
+    }
 }));
 
 
@@ -96,9 +96,9 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         }
 
         
-		{foreach $cell_tag_list as $cell_tag => $text}
-		    {include uri="design:ezoe/customattributes.tpl" hide=$tag_name|ne( $cell_tag ) tag_name=$cell_tag}
-		{/foreach}
+        {foreach $cell_tag_list as $cell_tag => $text}
+            {include uri="design:ezoe/customattributes.tpl" hide=$tag_name|ne( $cell_tag ) tag_name=$cell_tag}
+        {/foreach}
 
         <table class="properties">
         <tr>

@@ -84,7 +84,7 @@ $list       = '[]';
 // generate json response from node list
 if ( $nodeArray )
 {
-	$list = eZAjaxContent::encode( $nodeArray, array( 'fetchChildrenCount' => true, 'loadImages' => true ) );
+    $list = eZAjaxContent::encode( $nodeArray, array( 'fetchChildrenCount' => true, 'loadImages' => true ) );
 }
 
 

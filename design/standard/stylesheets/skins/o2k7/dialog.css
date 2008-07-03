@@ -129,7 +129,7 @@ div.progress-indicator
 
 table#browse_box_prev, table#search_box_prev
 {
-	width: 99%;
+    width: 99%;
 }
 
 table#browse_box_prev td.thight, table#search_box_prev td.thight

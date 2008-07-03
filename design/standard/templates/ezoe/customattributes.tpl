@@ -48,13 +48,13 @@
             {set $custom_attribute_settings = concat('CustomAttribute_', $custom_attribute)}
         {/if}
 
-	    {if ezini_hasvariable( $custom_attribute_settings, 'Disabled', 'content.ini' )}
-	        {set $custom_attribute_disabled = ezini( $custom_attribute_settings, 'Disabled', 'content.ini' )|eq('true')}
-	    {else}
+        {if ezini_hasvariable( $custom_attribute_settings, 'Disabled', 'content.ini' )}
+            {set $custom_attribute_disabled = ezini( $custom_attribute_settings, 'Disabled', 'content.ini' )|eq('true')}
+        {else}
             {set $custom_attribute_disabled = false()}
-	    {/if}
+        {/if}
 
-	    {if ezini_hasvariable( $custom_attribute_settings, 'Type', 'content.ini' )}
+        {if ezini_hasvariable( $custom_attribute_settings, 'Type', 'content.ini' )}
             {set $custom_attribute_type = ezini( $custom_attribute_settings, 'Type', 'content.ini' )}
         {else}
             {set $custom_attribute_type = 'text'}

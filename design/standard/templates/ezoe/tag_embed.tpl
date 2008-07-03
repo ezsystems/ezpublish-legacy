@@ -23,44 +23,44 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     cssClass: contentType !== 'image' ? 'mceNonEditable' : '',
     onInitDone: function( el, tag, ed )
     {        
-	    var selectors = ez.$('embed_alt_source', 'embed_align_source', 'embed_class_source', 'embed_view_source', 'embed_inline_source');
+        var selectors = ez.$('embed_alt_source', 'embed_align_source', 'embed_class_source', 'embed_view_source', 'embed_inline_source');
         var tag = selectors[4].el.checked ? 'embed-inline' : 'embed', def = attributeDefaults[ tag ]
-	    inlineSelectorChange.call( selectors[4], false, selectors[4].el  );
+        inlineSelectorChange.call( selectors[4], false, selectors[4].el  );
         selectors[4].addEvent('click', inlineSelectorChange );
         var align = el ? el.getAttribute('align') || def['align']  || 'right' : def['align']  || 'right';
         if ( align === 'center' ) align = 'middle';
 
-	    if ( contentType === 'image' )
-	    {
-	        selectors[0].addEvent('change', loadImageSize );
+        if ( contentType === 'image' )
+        {
+            selectors[0].addEvent('change', loadImageSize );
             loadImageSize( false, selectors[0].el );
             selectors[1].el.value = align;
-	        selectors[1].addEvent('change', setEmbedAlign );
-	        setEmbedAlign( false, selectors[1].el );
-	    }
-	    else
-	    {
-	        
-	        ez.$('embed_preview').addClass('object_preview float-break').setStyles( ez.ie56 ? {'margin': '0 5px 5px 5px'} : {});
-	        selectors[1].el.value = align;
+            selectors[1].addEvent('change', setEmbedAlign );
+            setEmbedAlign( false, selectors[1].el );
+        }
+        else
+        {
+            
+            ez.$('embed_preview').addClass('object_preview float-break').setStyles( ez.ie56 ? {'margin': '0 5px 5px 5px'} : {});
+            selectors[1].el.value = align;
             selectors.callEach('addEvent', 'change', loadEmbedPreview );
 
-	        if ( el && el.nodeName !== 'IMG' && el.id.split('_')[1] == eZOEPopupUtils.embedObject.id )
-	            ez.$('embed_preview').el.innerHTML = el.innerHTML;
-	        else
-	            loadEmbedPreview();        
-	    }
+            if ( el && el.nodeName !== 'IMG' && el.id.split('_')[1] == eZOEPopupUtils.embedObject.id )
+                ez.$('embed_preview').el.innerHTML = el.innerHTML;
+            else
+                loadEmbedPreview();        
+        }
 
         var slides = ez.$$('div.panel'), navigation = ez.$$('#tabs li.tab');
         slides.accordion( navigation, {duration: 100, transition: ez.fx.sinoidal, accordionAutoFocusTag: 'input[type=text]'}, {opacity: 0, display: 'none'} );
     },
     tagGenerator: function( tag, customTag, text )
     {
-	    if ( contentType === 'image' )
-	        return '<img id="__mce_tmp" src="javascript:void(0);" />';
-	    if ( ez.$('embed_inline_source').el.checked )
-	       return '<span id="__mce_tmp">' + ez.$('embed_preview').el.innerHTML + '</span>';
-	    return '<div id="__mce_tmp">' + ez.$('embed_preview').el.innerHTML + '</div>';
+        if ( contentType === 'image' )
+            return '<img id="__mce_tmp" src="javascript:void(0);" />';
+        if ( ez.$('embed_inline_source').el.checked )
+           return '<span id="__mce_tmp">' + ez.$('embed_preview').el.innerHTML + '</span>';
+        return '<div id="__mce_tmp">' + ez.$('embed_preview').el.innerHTML + '</div>';
     },
     onTagGenerated:  function( el, ed, args )
     {
@@ -84,30 +84,30 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         args['id'] = 'eZObject_' + eZOEPopupUtils.embedObject['contentobject_id'];
         args['inline'] = ez.$('embed_inline_source').el.checked ? 'true' : 'false';
         el = eZOEPopupUtils.switchTagTypeIfNeeded( el, (contentType === 'image' ? 'img' : (args['inline'] === 'true' ? 'span' : 'div') ) );
-	    if ( contentType === 'image' )
-	    {
-	        var imageAttributes = eZOEPopupUtils.embedObject['image_attributes'];
-		    if ( !imageAttributes || !eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ] )
-		    {
-		        args['src'] = attachmentIcon;
-		        args['title']   = eZOEPopupUtils.safeHtml( eZOEPopupUtils.embedObject['name'] );
-		        //el.style.border = '1px solid #888';
-		    }
-		    else
-		    {
-	           var sizeObj     = eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'][ args['alt'] ];
-	           args['src']     = eZOeMCE['root'] + sizeObj['url'];
-	           args['title']   = eZOEPopupUtils.safeHtml( sizeObj['alternative_text'] || eZOEPopupUtils.embedObject['name'] );
-	           args['border']  = 0;
-	        }
-	    }
-	    else
-	    {
-	        el.innerHTML = ez.$('embed_preview').el.innerHTML;
-	        //ed.dom.setStyle(el, 'float', args['align'] === 'middle' ? '' : args['align']);
-	        args['title']   = eZOEPopupUtils.safeHtml( eZOEPopupUtils.embedObject['name'] );
-	        //el.style.display = args['inline'] === 'false' ? 'block' : 'inline';
-	    }
+        if ( contentType === 'image' )
+        {
+            var imageAttributes = eZOEPopupUtils.embedObject['image_attributes'];
+            if ( !imageAttributes || !eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ] )
+            {
+                args['src'] = attachmentIcon;
+                args['title']   = eZOEPopupUtils.safeHtml( eZOEPopupUtils.embedObject['name'] );
+                //el.style.border = '1px solid #888';
+            }
+            else
+            {
+               var sizeObj     = eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'][ args['alt'] ];
+               args['src']     = eZOeMCE['root'] + sizeObj['url'];
+               args['title']   = eZOEPopupUtils.safeHtml( sizeObj['alternative_text'] || eZOEPopupUtils.embedObject['name'] );
+               args['border']  = 0;
+            }
+        }
+        else
+        {
+            el.innerHTML = ez.$('embed_preview').el.innerHTML;
+            //ed.dom.setStyle(el, 'float', args['align'] === 'middle' ? '' : args['align']);
+            args['title']   = eZOEPopupUtils.safeHtml( eZOEPopupUtils.embedObject['name'] );
+            //el.style.display = args['inline'] === 'false' ? 'block' : 'inline';
+        }
         ed.dom.setAttribs( el, args );
     }
 }));

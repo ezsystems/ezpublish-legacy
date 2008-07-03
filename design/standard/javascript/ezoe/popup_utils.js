@@ -48,76 +48,76 @@ var eZOEPopupUtils = {
         editorSelectedText: false
     },
     
-	init: function( settings )
-	{
-	    // Initialize page with default values and settings
-	    ez.object.extend( eZOEPopupUtils.settings, settings, true );
+    init: function( settings )
+    {
+        // Initialize page with default values and settings
+        ez.object.extend( eZOEPopupUtils.settings, settings, true );
 
-	    var ed = tinyMCEPopup.editor, el = tinyMCEPopup.getWindowArg('selected_node'), s = eZOEPopupUtils.settings;
+        var ed = tinyMCEPopup.editor, el = tinyMCEPopup.getWindowArg('selected_node'), s = eZOEPopupUtils.settings;
 
         if ( !s.selectedTag ) s.selectedTag = s.tagName;
 
-	    if ( s.form && (s.form = ez.$( s.form )) )
-	        s.form.addEvent('submit', eZOEPopupUtils.save );
+        if ( s.form && (s.form = ez.$( s.form )) )
+            s.form.addEvent('submit', eZOEPopupUtils.save );
 
         if ( s.cancelButton && (s.cancelButton = ez.$( s.cancelButton )) )
             s.cancelButton.addEvent('click', eZOEPopupUtils.cancel );
 
-	    if ( el && el.nodeName )
-	        s.editorElement = el;
-	    else
-	    {
-	        var selectedText = ed.selection.getContent( {format:'text'} );
-	        if ( !/\n/.test( selectedText ) && ez.string.trim( selectedText ) !== '' )
-	            s.editorSelectedText = selectedText;
-	    }
-	    
+        if ( el && el.nodeName )
+            s.editorElement = el;
+        else
+        {
+            var selectedText = ed.selection.getContent( {format:'text'} );
+            if ( !/\n/.test( selectedText ) && ez.string.trim( selectedText ) !== '' )
+                s.editorSelectedText = selectedText;
+        }
+        
         if ( s.onInit && s.onInit.call )
             s.onInit.call( eZOEPopupUtils, s.editorElement, s.tagName, ed );
-	    
-	    if ( s.tagSelector && ( s.tagSelector = ez.$( s.tagSelector ) ) && s.tagSelector.el.value
-	    && ( s.tagSelector.el.checked === undefined || s.tagSelector.el.checked === true ) )
-	        s.selectedTag = s.tagSelector.el.value;
-	    
-	    if ( s.editorElement )
+        
+        if ( s.tagSelector && ( s.tagSelector = ez.$( s.tagSelector ) ) && s.tagSelector.el.value
+        && ( s.tagSelector.el.checked === undefined || s.tagSelector.el.checked === true ) )
+            s.selectedTag = s.tagSelector.el.value;
+        
+        if ( s.editorElement )
         {
             eZOEPopupUtils.initGeneralmAttributes( s.tagName + '_attributes', s.editorElement );
             eZOEPopupUtils.initCustomAttributeValue( s.selectedTag + '_customattributes', s.editorElement.getAttribute('customattributes'))
         }
-	    
-	    if ( s.tagSelector )
-	    {
-	        // toggle custom attributes based on selected custom tag
-	        if ( s.tagSelectorCallBack && s.tagSelectorCallBack.call )
-	        {
-	            // custom function to call when tag selector change
-	            // 'this' is ez.element object of selector
-	            // first param is event/false and second is element of selector
-	            s.tagSelectorCallBack.call( s.tagSelector, false, s.tagSelector.el  );
+        
+        if ( s.tagSelector )
+        {
+            // toggle custom attributes based on selected custom tag
+            if ( s.tagSelectorCallBack && s.tagSelectorCallBack.call )
+            {
+                // custom function to call when tag selector change
+                // 'this' is ez.element object of selector
+                // first param is event/false and second is element of selector
+                s.tagSelectorCallBack.call( s.tagSelector, false, s.tagSelector.el  );
                 s.tagSelector.addEvent('change', s.tagSelectorCallBack );
-	        }
-	        else
-	        {
-		        // by default tag selector refreshes custom attribute values
-		        eZOEPopupUtils.toggleCustomAttributes.call( s.tagSelector );
-		        s.tagSelector.addEvent('change', eZOEPopupUtils.toggleCustomAttributes);
-		    }
+            }
+            else
+            {
+                // by default tag selector refreshes custom attribute values
+                eZOEPopupUtils.toggleCustomAttributes.call( s.tagSelector );
+                s.tagSelector.addEvent('change', eZOEPopupUtils.toggleCustomAttributes);
+            }
         }
         if ( s.onInitDone && s.onInitDone.call )
             s.onInitDone.call( eZOEPopupUtils, s.editorElement, s.tagName, ed );
-	},
+    },
 
     save: function()
-	{
-	    // save changes from form values to element attributes
-	    var ed = tinyMCEPopup.editor, s = eZOEPopupUtils.settings, n, arr, tmp, f = document.forms[0];
-	    
-	    
-	    if (!AutoValidator.validate(f))
-	    {
-	        alert(tinyMCEPopup.getLang('invalid_data'));
-	        return false;
-	    }
+    {
+        // save changes from form values to element attributes
+        var ed = tinyMCEPopup.editor, s = eZOEPopupUtils.settings, n, arr, tmp, f = document.forms[0];
+        
+        
+        if (!AutoValidator.validate(f))
+        {
+            alert(tinyMCEPopup.getLang('invalid_data'));
+            return false;
+        }
 
         if ( s.tagSelector && s.tagSelector.el.value )
         {
@@ -127,36 +127,40 @@ var eZOEPopupUtils = {
                 s.selectedTag = s.tagName;
         }
 
-	    if ( tinymce.isWebKit )
-	        ed.getWin().focus();
-	
-	    var args = eZOEPopupUtils.getCustomAttributeArgs( s.selectedTag + '_customattributes');
+        if ( tinymce.isWebKit )
+            ed.getWin().focus();
+    
+        var args = eZOEPopupUtils.getCustomAttributeArgs( s.selectedTag + '_customattributes');
 
-	    // set general attributes for tag
-	    if (n = ez.$( s.tagName + '_attributes'))
-	    {
-	       ez.$$('input,select', n).forEach(function(o){
-	           if ( o.hasClass('mceItemSkip') ) return;
-	           var name = o.el.name;
-	           if ( s.attributeGenerator && s.attributeGenerator[name] !== undefined )
-	               args = s.attributeGenerator[name].call( eZOEPopupUtils, o, args, name );
-	           else
-	               args[name] = o.postData( true );
-	       });
-	   }
+        // set general attributes for tag
+        if (n = ez.$( s.tagName + '_attributes'))
+        {
+           ez.$$('input,select', n).forEach(function(o){
+               if ( o.hasClass('mceItemSkip') ) return;
+               var name = o.el.name;
+               if ( s.attributeGenerator && s.attributeGenerator[name] !== undefined )
+                   args = s.attributeGenerator[name].call( eZOEPopupUtils, o, args, name );
+               else
+                   args[name] = o.postData( true );
+           });
+       }
 
-	    if ( s.cssClass )
-	       args['class'] = s.cssClass + ( args['class'] ? ' ' + args['class'] : '');
+        if ( s.cssClass )
+           args['class'] = s.cssClass + ( args['class'] ? ' ' + args['class'] : '');
 
-	    ed.execCommand('mceBeginUndoLevel');
-	    if ( !s.editorElement  )
-	    {
-		    // create new node if none is defined and if tag type is defined in ezXmlToXhtmlHash or tagGenerator is defined
-		    if ( s.tagGenerator )
-		    {
-		        ed.execCommand('mceInsertContent', false, s.tagGenerator.call( eZOEPopupUtils, s.tagName, s.selectedTag, s.editorSelectedText ), {skip_undo : 1} );
-		        s.editorElement = ed.dom.get('__mce_tmp');
-		    }
+        ed.execCommand('mceBeginUndoLevel');
+        if ( !s.editorElement  )
+        {
+            // create new node if none is defined and if tag type is defined in ezXmlToXhtmlHash or tagGenerator is defined
+            if ( s.tagGenerator )
+            {
+                ed.execCommand('mceInsertContent', false, s.tagGenerator.call( eZOEPopupUtils, s.tagName, s.selectedTag, s.editorSelectedText ), {skip_undo : 1} );
+                s.editorElement = ed.dom.get('__mce_tmp');
+            }
+            else if ( s.tagCreator )
+            {
+                s.editorElement = s.tagCreator.call( eZOEPopupUtils, ed, s.tagName, s.selectedTag, s.editorSelectedText )
+            }
             else if ( s.tagName === 'link' )
             {
                 var tempid = args['id'];
@@ -175,40 +179,42 @@ var eZOEPopupUtils = {
                 }
                 args['id'] = tempid;
             }
-		    else if ( eZOEPopupUtils.xmlToXhtmlHash[s.tagName] )
-		    {
-		        ed.execCommand('mceInsertContent', false, '<' + eZOEPopupUtils.xmlToXhtmlHash[s.tagName] + ' id="__mce_tmp">' + ( s.editorSelectedText ? s.editorSelectedText : '&nbsp;' ) + '</' + eZOEPopupUtils.xmlToXhtmlHash[s.tagName] + '>', {skip_undo : 1} );
-		        s.editorElement = ed.dom.get('__mce_tmp');
-		    }
-		    if ( s.onTagGenerated )
-		    {
-		        s.onTagGenerated.call( eZOEPopupUtils, s.editorElement, ed, args );
-		    }
-		}
-		else if ( s.tagEditor )
-		{
-		    // we already have a element, if custom tagEditor function is defined it can edit it
-		    n = s.tagEditor.call( eZOEPopupUtils, s.editorElement, ed, s.selectedTag, args );
-		    if ( n && n.nodeName )
-		        s.editorElement = n;
-		}
-	
-	    if ( s.editorElement )
-	    {
-	        if ( s.tagAttributeEditor )
-	            s.tagAttributeEditor.call( eZOEPopupUtils, ed, s.editorElement, args );
-	        else
-	            ed.dom.setAttribs( s.editorElement, args );
+            else if ( eZOEPopupUtils.xmlToXhtmlHash[s.tagName] )
+            {
+                ed.execCommand('mceInsertContent', false, '<' + eZOEPopupUtils.xmlToXhtmlHash[s.tagName] + ' id="__mce_tmp">' + ( s.editorSelectedText ? s.editorSelectedText : '&nbsp;' ) + '</' + eZOEPopupUtils.xmlToXhtmlHash[s.tagName] + '>', {skip_undo : 1} );
+                s.editorElement = ed.dom.get('__mce_tmp');
+            }
+            if ( s.onTagGenerated )
+            {
+                n = s.onTagGenerated.call( eZOEPopupUtils, s.editorElement, ed, args );
+                if ( n && n.nodeName )
+                    s.editorElement = n;
+            }
+        }
+        else if ( s.tagEditor )
+        {
+            // we already have a element, if custom tagEditor function is defined it can edit it
+            n = s.tagEditor.call( eZOEPopupUtils, s.editorElement, ed, s.selectedTag, args );
+            if ( n && n.nodeName )
+                s.editorElement = n;
+        }
+    
+        if ( s.editorElement )
+        {
+            if ( s.tagAttributeEditor )
+                s.tagAttributeEditor.call( eZOEPopupUtils, ed, s.editorElement, args );
+            else
+                ed.dom.setAttribs( s.editorElement, args );
 
-	        if ( args['id'] === undefined )
-	            ed.dom.setAttrib( s.editorElement, 'id', '' );
-	    }
-	    ed.execCommand('mceEndUndoLevel');
-	
-	    ed.execCommand('mceRepaint');
-	    tinyMCEPopup.close();
-	    return false;
-	},
+            if ( args['id'] === undefined )
+                ed.dom.setAttrib( s.editorElement, 'id', '' );
+        }
+        ed.execCommand('mceEndUndoLevel');
+    
+        ed.execCommand('mceRepaint');
+        tinyMCEPopup.close();
+        return false;
+    },
 
     safeHtml: function( value )
     {
@@ -227,75 +233,75 @@ var eZOEPopupUtils = {
         'link': 'A'
     },
 
-	cancel: function()
-	{
-	    tinyMCEPopup.close();
-	},
+    cancel: function()
+    {
+        tinyMCEPopup.close();
+    },
 
-	removeChildren: function( node )
-	{
-	    // removes all children of a node
-	    if ( !node  ) return;
-	    while ( node.hasChildNodes() )
-	    {
-	        node.removeChild( node.firstChild );
-	    }
-	    if ( node.nodeName === 'SELECT' ) node.disabled = true;
-	},
+    removeChildren: function( node )
+    {
+        // removes all children of a node
+        if ( !node  ) return;
+        while ( node.hasChildNodes() )
+        {
+            node.removeChild( node.firstChild );
+        }
+        if ( node.nodeName === 'SELECT' ) node.disabled = true;
+    },
 
-	addSelectOptions: function( node, o )
-	{
-	    // ads options to a selection based on object with name / value pairs or array
-	    if ( !node || node.nodeName !== 'SELECT'  ) return;
-	    var opt, c = 0, i;
-	    if (  o.constructor.toString().indexOf('Array') === -1 )
-	    {
-		    for ( key in o )
-		    {
-		        opt = document.createElement("option");
-		        opt.value = key === '0' ? '' : key;
-		        opt.innerHTML = o[key]
-		        node.appendChild( opt );
-		        c++;
-		    }
-		}
-		else
-		{
-			for ( i = 0, c = o.length; i<c; i++ )
-			{
-			    opt = document.createElement("option");
-	            opt.value = opt.innerHTML = o[i];
-	            node.appendChild( opt );
-			}
-		}
-	    node.disabled = c === 0;
-	},
+    addSelectOptions: function( node, o )
+    {
+        // ads options to a selection based on object with name / value pairs or array
+        if ( !node || node.nodeName !== 'SELECT'  ) return;
+        var opt, c = 0, i;
+        if (  o.constructor.toString().indexOf('Array') === -1 )
+        {
+            for ( key in o )
+            {
+                opt = document.createElement("option");
+                opt.value = key === '0' ? '' : key;
+                opt.innerHTML = o[key]
+                node.appendChild( opt );
+                c++;
+            }
+        }
+        else
+        {
+            for ( i = 0, c = o.length; i<c; i++ )
+            {
+                opt = document.createElement("option");
+                opt.value = opt.innerHTML = o[i];
+                node.appendChild( opt );
+            }
+        }
+        node.disabled = c === 0;
+    },
 
-	getCustomAttributeArgs: function( node )
-	{
-	    // creates custom attribute value from form values
-	    // global objects: ez
-	    var args = {
-	        'customattributes': '',
-	        'style': ''
-	    }, s = eZOEPopupUtils.settings;
-	    if (node = ez.$( node ))
-	    {
-	        args['customattributes'] = ez.$$('input,select', node).map(function( o ){
-	            var name = o.el.name, value = o.postData( true );
-	            // add to styles if custom attibute is defined in customAttributeStyleMap
-	            if ( s.customAttributeStyleMap && s.customAttributeStyleMap[name] !== undefined  )
-	            {
-	                args['style'] += s.customAttributeStyleMap[name] + ': ' + value + '; ';
-	            }
-	            return name + '|' + value;
-	        }).join('attribute_separation');
-	     }
-	     return args;
-	},
+    getCustomAttributeArgs: function( node )
+    {
+        // creates custom attribute value from form values
+        // global objects: ez
+        var args = {
+            'customattributes': '',
+            'style': ''
+        }, s = eZOEPopupUtils.settings;
+        if (node = ez.$( node ))
+        {
+            args['customattributes'] = ez.$$('input,select', node).map(function( o ){
+                var name = o.el.name, value = o.postData( true );
+                // add to styles if custom attibute is defined in customAttributeStyleMap
+                if ( s.customAttributeStyleMap && s.customAttributeStyleMap[name] !== undefined  )
+                {
+                    args['style'] += s.customAttributeStyleMap[name] + ': ' + value + '; ';
+                }
+                return name + '|' + value;
+            }).join('attribute_separation');
+         }
+         return args;
+    },
 
-	getParentByTag: function( n, tag, className, type, checkElement )
-	{
+    getParentByTag: function( n, tag, className, type, checkElement )
+    {
         if ( className ) className = ' ' + className + ' ';
         tag = ',' + tag.toUpperCase() + ',';
         while ( n !== undefined && n.nodeName !== undefined && n.nodeName !== 'BODY' )
@@ -309,67 +315,67 @@ var eZOEPopupUtils = {
             n = n.parentNode;
             checkElement = true;
         }
-	    return false;
-	},
+        return false;
+    },
 
-	initCustomAttributeValue: function( node, valueString )
-	{
-	    // sets deafult values for based on custom attribute value
-	    // global objects: ez     
-	    if ( valueString === null || !(node = ez.$( node )) )
-	        return;
-	    var arr = valueString.split('attribute_separation'), values = {}, t;
-	    for(var i = 0, l = arr.length; i < l; i++)
-	    {
-	        t = arr[i].split('|');
-	        values[t[0]] = t[1];
-	    }
-	    ez.$$('input,select', node).forEach(function( o ){
-	        if ( o.hasClass('mceItemSkip') )
-	            return;
-	        var name = o.el.name;
-	        if ( values[name] !== undefined )
-	        {
-	            if ( o.el.type === 'checkbox' )
-	               o.el.checked = values[name] == o.el.value;
-	            else
-	               o.el.value = values[name];
+    initCustomAttributeValue: function( node, valueString )
+    {
+        // sets deafult values for based on custom attribute value
+        // global objects: ez     
+        if ( valueString === null || !(node = ez.$( node )) )
+            return;
+        var arr = valueString.split('attribute_separation'), values = {}, t;
+        for(var i = 0, l = arr.length; i < l; i++)
+        {
+            t = arr[i].split('|');
+            values[t[0]] = t[1];
+        }
+        ez.$$('input,select', node).forEach(function( o ){
+            if ( o.hasClass('mceItemSkip') )
+                return;
+            var name = o.el.name;
+            if ( values[name] !== undefined )
+            {
+                if ( o.el.type === 'checkbox' )
+                   o.el.checked = values[name] == o.el.value;
+                else
+                   o.el.value = values[name];
 
-	            try {
+                try {
                     o.el.onchange();
                 } catch (ex) {
                     // Try fire event, ignore errors
                 }
-	        }
-	    });
-	},
+            }
+        });
+    },
 
-	toggleCustomAttributes: function( node )
-	{
-	    if ( this.eztype && this.eztype === 'element' )
-	        node = this;
-	    else
-	        node = ez.$( node );
+    toggleCustomAttributes: function( node )
+    {
+        if ( this.eztype && this.eztype === 'element' )
+            node = this;
+        else
+            node = ez.$( node );
 
-	    ez.$$('table.custom_attributes').forEach(function(o){
-	        if ( o.el.id === node.el.value + '_customattributes' )
-	            o.show();
-	        else
-	            o.hide();
-	    });
-	},
+        ez.$$('table.custom_attributes').forEach(function(o){
+            if ( o.el.id === node.el.value + '_customattributes' )
+                o.show();
+            else
+                o.hide();
+        });
+    },
 
-	initGeneralmAttributes: function( parentNode, editorElement )
-	{
-	    // init general attributes form values from tinymce element values
-	    // global objects: ez    
-	    if (parentNode = ez.$( parentNode ))
-	    {
-	        ez.$$('input,select', parentNode).forEach(function(o){
-	            if ( o.hasClass('mceItemSkip') ) return;
-	            var name = o.el.name;
-	            if ( name === 'class' )
-	                var v = ez.string.trim( editorElement.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable)/g, '').replace( eZOEPopupUtils.settings.cssClass, '' ) );
+    initGeneralmAttributes: function( parentNode, editorElement )
+    {
+        // init general attributes form values from tinymce element values
+        // global objects: ez    
+        if (parentNode = ez.$( parentNode ))
+        {
+            ez.$$('input,select', parentNode).forEach(function(o){
+                if ( o.hasClass('mceItemSkip') ) return;
+                var name = o.el.name;
+                if ( name === 'class' )
+                    var v = ez.string.trim( editorElement.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable)/g, '').replace( eZOEPopupUtils.settings.cssClass, '' ) );
                 else 
                     var v = tinyMCEPopup.editor.dom.getAttrib( editorElement, name );//editorElement.getAttribute( name );
                 if ( v !== false && v !== null && v !== undefined )
@@ -379,42 +385,42 @@ var eZOEPopupUtils = {
                     else
                         o.el.value = v;
 
-	                try {
-	                    o.el.onchange();
-	                } catch (ex) {
-	                    // Try fire event, ignore errors
-	                }
+                    try {
+                        o.el.onchange();
+                    } catch (ex) {
+                        // Try fire event, ignore errors
+                    }
                 }
-	        });
-	    }
-	},
+            });
+        }
+    },
 
-	switchTagTypeIfNeeded: function ( currentNode, targetTag )
-	{
-	    var s = eZOEPopupUtils.settings;
+    switchTagTypeIfNeeded: function ( currentNode, targetTag )
+    {
+        var s = eZOEPopupUtils.settings;
 
-	    if ( currentNode && currentNode.nodeName && targetTag !== currentNode.nodeName.toLowerCase() )
-	    {
-	        // changing to a different node type
-	        var ed = tinyMCEPopup.editor, doc = ed.getDoc(), newNode = doc.createElement( targetTag );
+        if ( currentNode && currentNode.nodeName && targetTag !== currentNode.nodeName.toLowerCase() )
+        {
+            // changing to a different node type
+            var ed = tinyMCEPopup.editor, doc = ed.getDoc(), newNode = doc.createElement( targetTag );
 
-	        // copy children
-	        if ( newNode.nodeName !== 'IMG' )
-	        {
-	           for ( var c = 0; c < currentNode.childNodes.length; c++ )
-	               newNode.appendChild( currentNode.childNodes[c].cloneNode(1) );
-	        }
+            // copy children
+            if ( newNode.nodeName !== 'IMG' )
+            {
+               for ( var c = 0; c < currentNode.childNodes.length; c++ )
+                   newNode.appendChild( currentNode.childNodes[c].cloneNode(1) );
+            }
 
-	        // copy attributes
-	        for ( var a = 0; a < currentNode.attributes.length; a++ )
-	            ed.dom.setAttrib(newNode, currentNode.attributes[a].name, ed.dom.getAttrib( currentNode, currentNode.attributes[a].name ) );
+            // copy attributes
+            for ( var a = 0; a < currentNode.attributes.length; a++ )
+                ed.dom.setAttrib(newNode, currentNode.attributes[a].name, ed.dom.getAttrib( currentNode, currentNode.attributes[a].name ) );
 
-	        // replace node
-	        currentNode.parentNode.replaceChild( newNode, currentNode );
-	        return newNode;
-	    }
-	    return currentNode;
-	},
+            // replace node
+            currentNode.parentNode.replaceChild( newNode, currentNode );
+            return newNode;
+        }
+        return currentNode;
+    },
 
     selectByEmbedId: function( id )
     {
@@ -426,44 +432,44 @@ var eZOEPopupUtils = {
         }
     },
 
-	searchEnter: function( e, isButton )
-	{
-	    // post search form if enter key is pressed or isButton = true
-	    if ( isButton )
-	    {
-	        eZOEPopupUtils.search();
-	        return false;
-	    }
-	    e = e || window.event;
-	    key = e.which || e.keyCode;
+    searchEnter: function( e, isButton )
+    {
+        // post search form if enter key is pressed or isButton = true
+        if ( isButton )
+        {
+            eZOEPopupUtils.search();
+            return false;
+        }
+        e = e || window.event;
+        key = e.which || e.keyCode;
         if ( key == 13)
         {
             eZOEPopupUtils.search(); // enter key
             return false;
         }
-	    return true;
-	},
+        return true;
+    },
 
-	browse: function( nodeId, offset )
-	{
-	    // browse for a specific node id and a offset on the child elements
-	    // global objects: eZOeMCE   
-	    eZOEPopupUtils.ajax.load( eZOeMCE['extension_url'] + '/expand/' + nodeId + '/' + (offset || 0), '', eZOEPopupUtils.browseCallBack  );
-	    ez.$('browse_progress' ).show();
-	},
+    browse: function( nodeId, offset )
+    {
+        // browse for a specific node id and a offset on the child elements
+        // global objects: eZOeMCE   
+        eZOEPopupUtils.ajax.load( eZOeMCE['extension_url'] + '/expand/' + nodeId + '/' + (offset || 0), '', eZOEPopupUtils.browseCallBack  );
+        ez.$('browse_progress' ).show();
+    },
 
-	search: function( offset )
-	{
-	    // serach for nodes with input and select form elements inside a 'search_box' container element
-	    // global objects: eZOeMCE, ez
-	    var postData = ez.$$('#search_box input, #search_box select').callEach('postData').join('&'), o = offset || 0;    
-	    var url = eZOeMCE['extension_url'] + '/search/x/'+ o +'/10';
-	    if ( ez.string.trim( ez.$('SearchText').el.value ) )
-	    {
-	        eZOEPopupUtils.ajax.load( url, postData, eZOEPopupUtils.searchCallBack );
-	        ez.$('search_progress' ).show();
-	    }
-	},
+    search: function( offset )
+    {
+        // serach for nodes with input and select form elements inside a 'search_box' container element
+        // global objects: eZOeMCE, ez
+        var postData = ez.$$('#search_box input, #search_box select').callEach('postData').join('&'), o = offset || 0;    
+        var url = eZOeMCE['extension_url'] + '/search/x/'+ o +'/10';
+        if ( ez.string.trim( ez.$('SearchText').el.value ) )
+        {
+            eZOEPopupUtils.ajax.load( url, postData, eZOEPopupUtils.searchCallBack );
+            ez.$('search_progress' ).show();
+        }
+    },
 
     browseCallBack: function( r, mode )
     {
@@ -593,9 +599,9 @@ var eZOEPopupUtils = {
         return false;
     },
 
-	searchCallBack : function( r )
-	{
-	    // wrapper function for browseCallBack, called by ajax call in search()
-	    return eZOEPopupUtils.browseCallBack( r, 'search' );
-	}
+    searchCallBack : function( r )
+    {
+        // wrapper function for browseCallBack, called by ajax call in search()
+        return eZOEPopupUtils.browseCallBack( r, 'search' );
+    }
 };

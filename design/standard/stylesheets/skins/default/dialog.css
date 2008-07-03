@@ -118,12 +118,12 @@ h3 {font-size:14px;}
 
 div.progress-indicator
 {
-	position: absolute;
-	top: 0px;
-	right: 5px;
-	width: 32px;
-	height: 16px;
-	background: transparent url('img/progress.gif') no-repeat bottom left scroll;
+    position: absolute;
+    top: 0px;
+    right: 5px;
+    width: 32px;
+    height: 16px;
+    background: transparent url('img/progress.gif') no-repeat bottom left scroll;
 }
 
 table#browse_box_prev, table#search_box_prev

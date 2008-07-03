@@ -64,68 +64,52 @@
     {literal}
 
     eZOeMCE['tiny_mce_init_object'] = {
-    	mode : "none",
-    	theme : "ez",
-    	width : '100%',
-    	language : eZOeMCE['language'],
-    	skin : eZOeMCE['skin'],
-    	skin_variant : eZOeMCE['skin_variant'],
-    	plugins : eZOeMCE['plugins'],
-    	theme_advanced_buttons2 : "",
-    	theme_advanced_buttons3 : "",
-    	theme_advanced_blockformats : "p,pre,h1,h2,h3,h4,h5,h6",
-    	theme_advanced_path_location : "bottom",
-    	theme_advanced_statusbar_location: "bottom",
-    	theme_advanced_toolbar_location : "top",
-    	theme_advanced_toolbar_align : "left",
+        mode : "none",
+        theme : "ez",
+        width : '100%',
+        language : eZOeMCE['language'],
+        skin : eZOeMCE['skin'],
+        skin_variant : eZOeMCE['skin_variant'],
+        plugins : eZOeMCE['plugins'],
+        theme_advanced_buttons2 : "",
+        theme_advanced_buttons3 : "",
+        theme_advanced_blockformats : "p,pre,h1,h2,h3,h4,h5,h6",
+        theme_advanced_path_location : "bottom",
+        theme_advanced_statusbar_location: "bottom",
+        theme_advanced_toolbar_location : "top",
+        theme_advanced_toolbar_align : "left",
         theme_advanced_toolbar_floating : true,
-    	theme_advanced_resize_horizontal : false,
-    	theme_advanced_resizing : true,
-    	valid_elements: "-strong/-b/-bold[class|customattributes],-em/-i/-emphasize[class|customattributes],span[type|class|title|customattributes],pre[class|title|customattributes],ol[class|customattributes],ul[class|customattributes],li,a[href|name|target|title|class|id|customattributes],p[class|customattributes],img[src|class|alt|align|inline|id|customattributes],table[class|border|width|id|title|customattributes|ezborder|bordercolor],tr,th[class|width|rowspan|colspan|customattributes],td[class|width|rowspan|colspan|customattributes],h1,h2,h3,h4,h5,h6,br",
-    	valid_child_elements: "a[%itrans_na],table[tr],tr[td|th],h1/h2/h3/h4/h5/h6/pre/strong/b/p/em/i/u[%itrans|#text]span/div/pre/td/th[%btrans|%itrans|#text]",
-    	cleanup : false,
-    	cleanup_serializer : 'xml',	
-    	entity_encoding : 'raw',
-    	remove_linebreaks : false,
-    	apply_source_formatting : false,
-    	fix_list_elements : true,
-    	fix_table_elements : true,
-    	tab_focus : ':prev,:next',
-    	theme_ez_editor_css : eZOeMCE['editor_css'],
-    	theme_ez_content_css : eZOeMCE['content_css'],
-    	popup_css : eZOeMCE['popup_css'],
-    	gecko_spellcheck : true,
-    	save_enablewhendirty : true,
-    	save_callback : "ezMceEditorSave"
+        theme_advanced_resize_horizontal : false,
+        theme_advanced_resizing : true,
+        valid_elements: "-strong/-b/-bold[class|customattributes],-em/-i/-emphasize[class|customattributes],span[type|class|title|customattributes],pre[class|title|customattributes],ol[class|customattributes],ul[class|customattributes],li,a[href|name|target|title|class|id|customattributes],p[class|customattributes],img[src|class|alt|align|inline|id|customattributes],table[class|border|width|id|title|customattributes|ezborder|bordercolor],tr,th[class|width|rowspan|colspan|customattributes],td[class|width|rowspan|colspan|customattributes],h1,h2,h3,h4,h5,h6,br",
+        valid_child_elements: "a[%itrans_na],table[tr],tr[td|th],h1/h2/h3/h4/h5/h6/pre/strong/b/p/em/i/u[%itrans|#text]span/div/pre/td/th[%btrans|%itrans|#text]",
+        cleanup : false,
+        cleanup_serializer : 'xml',    
+        entity_encoding : 'raw',
+        remove_linebreaks : false,
+        apply_source_formatting : false,
+        fix_list_elements : true,
+        fix_table_elements : true,
+        tab_focus : ':prev,:next',
+        theme_ez_editor_css : eZOeMCE['editor_css'],
+        theme_ez_content_css : eZOeMCE['content_css'],
+        popup_css : eZOeMCE['popup_css'],
+        gecko_spellcheck : true,
+        save_enablewhendirty : true
     };
     tinyMCE.init(eZOeMCE['tiny_mce_init_object']);
-
-    function ezMceEditorSave(element_id, html, body)
-    {
-        // Remove paragraphs in custom inline tags since they create troubles in parser.
-        ez.$$( 'span.mceItemCustomTag', body ).forEach(function(o){
-            if ( o.el.hasChildNodes() && o.el.childNodes.length === 1 
-              && o.el.childNodes[0].nodeName === 'P' )
-            {
-                while ( o.el.childNodes[0].childNodes.length )
-                    o.el.appendChild( o.el.childNodes[0].childNodes[0] );
-                o.el.removeChild( o.el.childNodes[0] );
-            }
-        });
-        return body.innerHTML;
-    }
 
     function ezMceToggleEditor( id, settings )
     {
         var el = document.getElementById( id );
-    	if ( el )
-    	{
-    		if ( tinyMCE.getInstanceById(id) == null )
-    		    //tinyMCE.execCommand('mceAddControl', false, id);
-    			new tinymce.Editor(id, settings).render();
-    		else
-    			tinyMCE.execCommand('mceRemoveControl', false, id);
-    	}
+        if ( el )
+        {
+            if ( tinyMCE.getInstanceById(id) == null )
+                //tinyMCE.execCommand('mceAddControl', false, id);
+                new tinymce.Editor(id, settings).render();
+            else
+                tinyMCE.execCommand('mceRemoveControl', false, id);
+        }
     }
 
     {/literal}

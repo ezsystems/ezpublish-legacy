@@ -36,33 +36,46 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         }
         else
         {
-	        var currentNode = ed.selection.getNode(), parentSpan = eZOEPopupUtils.getParentByTag( el, 'span', 'mceItemCustomTag', 'custom' );
-	        if ( currentNode && currentNode.nodeName === 'SPAN' && tinymce.DOM.getAttrib( currentNode, 'type' ) === 'custom' )
-	            filterOutCustomBlockTags( );
-	        else if ( parentSpan )
-	            filterOutCustomBlockTags( );
+            var currentNode = ed.selection.getNode(), parentSpan = eZOEPopupUtils.getParentByTag( el, 'span', 'mceItemCustomTag', 'custom' );
+            if ( currentNode && currentNode.nodeName === 'SPAN' && tinymce.DOM.getAttrib( currentNode, 'type' ) === 'custom' )
+                filterOutCustomBlockTags( );
+            else if ( parentSpan )
+                filterOutCustomBlockTags( );
         }
     },
-    tagGenerator: function( tag, customTag, text )
+    tagCreator: function( ed, tag, customTag, text )
     {
-	    if ( customTag === 'underline' )
-            return '<u id="__mce_tmp" type="custom"><p class="mceItemHidden">' + (text ? text : customTag) + '<\/p><\/u>';
-	    else if ( ez.$( customTag + '_inline_source' ).el.checked )
-	        return '<span id="__mce_tmp" type="custom"><p class="mceItemHidden">' + (text ? text : customTag) + '<\/p><\/span>';
-	    else
-	        return '<div id="__mce_tmp" type="custom"><p>' + (text ? text : customTag) + '<\/p><\/div>';
+        if ( customTag === 'underline' )
+            ed.execCommand('mceInsertContent', false, '<u id="__mce_tmp" type="custom">' + (text ? text : customTag) + '<\/u>', {skip_undo : 1} );
+        else if ( ez.$( customTag + '_inline_source' ).el.checked )
+            // use link to avoid tinyMCE blocking us from creating nested tags
+            ed.execCommand('mceInsertLink', false, {'id': '__mce_tmp', 'type': 'custom'}, {skip_undo : 1} );
+        else
+            ed.execCommand('mceInsertContent', false, '<div id="__mce_tmp" type="custom"><p>' + (text ? text : customTag) + '<\/p><\/div>', {skip_undo : 1} );
+
+        var el = ed.dom.get('__mce_tmp');
+
+        // now switch from link to span
+        if ( el.nodeName === 'A' )
+        {
+            el = eZOEPopupUtils.switchTagTypeIfNeeded( el, 'span' );
+            el.innerHTML = text ? text : customTag;
+            ed.dom.setAttrib( el, 'href', '' );
+        }
+        return el;
     },
     onTagGenerated:  function( el, ed, args )
     {
         // append a paragraph if user just inserted a custom tag in editor and it's the last tag
-        var edBody = el.parentNode, doc = ed.getDoc();
+        
+        var edBody = el.parentNode, doc = ed.getDoc(), temp = el;
         if ( edBody.nodeName !== 'BODY' )
         {
-            el = edBody;
+            temp = edBody;
             edBody = edBody.parentNode
         }
         if ( edBody.nodeName === 'BODY'
-        && edBody.childNodes.length <= (ez.array.indexOf( edBody.childNodes, el ) +1) )
+        && edBody.childNodes.length <= (ez.array.indexOf( edBody.childNodes, temp ) +1) )
         {
             var p = doc.createElement('p');
             p.innerHTML = ed.isIE ? '&nbsp;' : '<br />';
@@ -75,16 +88,17 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         el = eZOEPopupUtils.switchTagTypeIfNeeded( el, target );
         if ( el.nodeName !== 'DIV' && origin === 'DIV' )
         {
-            // hide inline paragraph
-            if ( el.hasChildNodes() && el.childNodes.length === 1 && el.childNodes[0].nodeName === 'P')
-                el.childNodes[0].className = 'mceItemHidden';
+            // remove p tag if inline tag
+            var childs = ez.$$('> *', el);
+            if ( childs.length === 1 && childs[0].el.nodeName === 'P' )
+                el.innerHTML = childs[0].el.innerHTML;
         }
         else if ( el.nodeName === 'DIV' && origin !== 'DIV' )
         {
-            // show inline paragraph           
-            if ( el.hasChildNodes() && el.childNodes.length === 1 && el.childNodes[0].nodeName === 'P'  )
-                el.childNodes[0].className = '';
-
+            // add p tag if block tag and no child tags
+            var childs = ez.$$('> *', el);
+            if ( childs.length === 0 || childs[0].el.nodeName !== 'P' )
+                el.innerHTML = '<p>' + el.innerHTML + '</p>';
         }
         return el;
     }
