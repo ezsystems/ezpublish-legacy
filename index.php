@@ -414,6 +414,11 @@ if ( !$useCronjob )
     $GLOBALS['eZSessionFunctions']['empty_pre'][] = 'eZSessionBasketEmpty';
 }
 
+// Initialize module loading
+////include_once( "lib/ezutils/classes/ezmodule.php" );
+$moduleRepositories = eZModule::activeModuleRepositories();
+eZModule::setGlobalPathList( $moduleRepositories );
+
 $check = eZHandlePreChecks( $siteBasics, $uri );
 
 require_once( 'kernel/common/i18n.php' );
@@ -496,12 +501,6 @@ foreach ( $policyCheckOmitList as $omitItem )
     }
 }
 
-// Initialize module loading
-////include_once( "lib/ezutils/classes/ezmodule.php" );
-$moduleRepositories = eZModule::activeModuleRepositories();
-eZModule::setGlobalPathList( $moduleRepositories );
-
-////include_once( 'kernel/classes/eznavigationpart.php' );
 
 // Start the module loop
 while ( $moduleRunRequired )
