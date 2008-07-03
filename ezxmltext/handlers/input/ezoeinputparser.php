@@ -1091,8 +1091,11 @@ class eZOEInputParser extends eZXMLInputParser
             $attrArray = explode( 'attribute_separation', $attr );
             foreach( $attrArray as $attr )
             {
-                list( $attrName, $attrValue ) = explode( '|', $attr );
-                $element->setAttributeNS( 'http://ez.no/namespaces/ezpublish3/custom/', 'custom:' . $attrName, $attrValue );
+                if ( $attr !== '' && strpos( $attr, '|' ) !== false )
+                {
+                    list( $attrName, $attrValue ) = explode( '|', $attr );
+                    $element->setAttributeNS( 'http://ez.no/namespaces/ezpublish3/custom/', 'custom:' . $attrName, $attrValue );
+                }
             }
         }
 

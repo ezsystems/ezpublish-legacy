@@ -294,7 +294,8 @@ var eZOEPopupUtils = {
         }, s = eZOEPopupUtils.settings;
         if (node = ez.$( node ))
         {
-            args['customattributes'] = ez.$$('input,select', node).map(function( o ){
+            var customArr = [];
+            ez.$$('input,select', node).forEach(function( o ){
                 if ( o.hasClass('mceItemSkip') ) return;
                 var name = o.el.name, value = o.postData( true );
                 // add to styles if custom attibute is defined in customAttributeStyleMap
@@ -302,8 +303,9 @@ var eZOEPopupUtils = {
                 {
                     args['style'] += s.customAttributeStyleMap[name] + ': ' + value + '; ';
                 }
-                return name + '|' + value;
-            }).join('attribute_separation');
+                customArr.push( name + '|' + value );
+            });
+            args['customattributes'] = customArr.join('attribute_separation');
          }
          return args;
     },
