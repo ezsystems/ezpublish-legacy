@@ -161,7 +161,7 @@ var eZOEPopupUtils = {
             // create new node if none is defined and if tag type is defined in ezXmlToXhtmlHash or tagGenerator is defined
             if ( s.tagGenerator )
             {
-                ed.execCommand('mceInsertContent', false, s.tagGenerator.call( eZOEPopupUtils, s.tagName, s.selectedTag, s.editorSelectedText ), {skip_undo : 1} );
+                ed.execCommand('mceInsertRawHTML', false, s.tagGenerator.call( eZOEPopupUtils, s.tagName, s.selectedTag, s.editorSelectedText ), {skip_undo : 1} );
                 s.editorElement = ed.dom.get('__mce_tmp');
             }
             else if ( s.tagCreator )
@@ -188,7 +188,7 @@ var eZOEPopupUtils = {
             }
             else if ( eZOEPopupUtils.xmlToXhtmlHash[s.tagName] )
             {
-                ed.execCommand('mceInsertContent', false, '<' + eZOEPopupUtils.xmlToXhtmlHash[s.tagName] + ' id="__mce_tmp">' + ( s.editorSelectedText ? s.editorSelectedText : '&nbsp;' ) + '</' + eZOEPopupUtils.xmlToXhtmlHash[s.tagName] + '>', {skip_undo : 1} );
+                ed.execCommand('mceInsertRawHTML', false, '<' + eZOEPopupUtils.xmlToXhtmlHash[s.tagName] + ' id="__mce_tmp">' + ( s.editorSelectedText ? s.editorSelectedText : '&nbsp;' ) + '</' + eZOEPopupUtils.xmlToXhtmlHash[s.tagName] + '>', {skip_undo : 1} );
                 s.editorElement = ed.dom.get('__mce_tmp');
             }
             if ( s.onTagGenerated )
@@ -215,6 +215,7 @@ var eZOEPopupUtils = {
 
             if ( args['id'] === undefined )
                 ed.dom.setAttrib( s.editorElement, 'id', '' );
+            ed.selection.select( s.editorElement );
         }
         ed.execCommand('mceEndUndoLevel');
     
@@ -232,6 +233,34 @@ var eZOEPopupUtils = {
         value = value.replace(/>/g, '&gt;');
         return value;
     },
+
+    insertInlineTagCleanly: function( ed, tag, customTag, text )
+    {
+        // insert tag without the editor / browser messing it up
+        var el;
+        if ( window.opera )
+        {
+            // work around for opera
+            if ( !text )
+            {
+                // create temporarly text range if no selection
+                var r = ed.selection.getRng(), t = ed.getDoc().createTextNode("tiny_mce_marker");
+                r.insertNode( t );
+                ed.selection.select( t );
+            }
+            ed.execCommand('mceInsertLink', false, {'id': '__mce_tmp'}, {skip_undo : 1} );
+            el = ed.dom.get('__mce_tmp');
+            el = eZOEPopupUtils.switchTagTypeIfNeeded( el, tag );
+            el.innerHTML = (text ? text : customTag);
+            ed.dom.setAttrib( el, 'href', '' );
+        }
+        else
+        {
+            ed.execCommand('mceInsertRawHTML', false, '<' + tag + ' id="__mce_tmp">' + (text ? text : customTag) + '<\/' + tag + '>', {skip_undo : 1} );
+            el = ed.dom.get('__mce_tmp');  
+        }
+        return el;
+	},
 
     xmlToXhtmlHash: {
         'paragraph': 'P',
