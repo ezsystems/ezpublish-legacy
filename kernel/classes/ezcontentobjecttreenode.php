@@ -3733,7 +3733,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 eZDebug::writeError( __CLASS__ . "::" . __FUNCTION__ . "() failed to fetch path of node " . $node->attribute( 'node_id' ) . ", falling back to generated url entries. Run updateniceurls.php to fix the problem." );
 
                 // Return a perma-link when the path lookup failed, this link will always work
-                $path = 'content/view/full/' . $this->attribute( 'node_id' );
+                $path = 'content/view/full/' . $node->attribute( 'node_id' );
                 return $path;
             }
 
