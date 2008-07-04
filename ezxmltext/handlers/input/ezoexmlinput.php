@@ -823,7 +823,8 @@ class eZOEXMLInput extends eZXMLInputHandler
         {
             $childOutput = $this->inputTagXML( $child, $currentSectionLevel, $tdSectionLevel );
 
-            $inline = !( $child->nodeName === 'ul' || $child->nodeName === 'ol');
+            // Some tags in xhtml aren't allowed as child of paragraph
+            $inline = !( $child->nodeName === 'ul' || $child->nodeName === 'ol' ||  $child->nodeName === 'literal');
             if ( $inline )
             {
                 $innerContent .= $childOutput;
