@@ -31,7 +31,7 @@
 // higher or fallback to php version if not present
 
 
-class eZAjaxContent
+class eZOEAjaxContent
 {
     protected static $instance         = null;
     protected static $nativeJsonEncode = null;
@@ -53,7 +53,7 @@ class eZAjaxContent
     {
         if ( self::$instance === null )
         {
-            self::$instance = new eZAjaxContent();
+            self::$instance = new eZOEAjaxContent();
         }
         return self::$instance;
     }

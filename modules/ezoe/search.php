@@ -32,7 +32,7 @@
  */
 
 //include_once( 'kernel/classes/ezsearch.php' );
-include_once( 'extension/ezoe/classes/ezajaxcontent.php' );
+include_once( 'extension/ezoe/classes/ezoeajaxcontent.php' );
 
 
 $http = eZHTTPTool::instance();
@@ -169,7 +169,7 @@ if (!$searchList  || ( $searchOffset === 0 && count($searchList["SearchResult"])
 }
 
 // encode nodes to a json response
-$list = eZAjaxContent::encode( $searchList["SearchResult"], array('loadImages' => true ) );
+$list = eZOEAjaxContent::encode( $searchList["SearchResult"], array('loadImages' => true ) );
 
 
 $json =  $varName . '{list:' . $list . 

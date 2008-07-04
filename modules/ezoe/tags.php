@@ -28,7 +28,7 @@
 
 include_once( 'kernel/common/template.php' );
 //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'extension/ezoe/classes/ezajaxcontent.php' );
+include_once( 'extension/ezoe/classes/ezoeajaxcontent.php' );
 
 $objectID      = isset( $Params['ObjectID'] ) ? (int) $Params['ObjectID'] : 0;
 $objectVersion = isset( $Params['ObjectVersion'] ) ? (int) $Params['ObjectVersion'] : 0;
@@ -160,7 +160,7 @@ $tpl->setVariable( 'custom_inline_tags', $customInlineList );
 $tpl->setVariable( 'class_list', $classList );
 
 $oeini = eZINI::instance( 'ezoe.ini' );
-$tpl->setVariable( 'custom_attribute_style_map', eZAjaxContent::jsonEncode( $oeini->variable('EditorSettings', 'CustomAttributeStyleMap' ) ) );
+$tpl->setVariable( 'custom_attribute_style_map', eZOEAjaxContent::jsonEncode( $oeini->variable('EditorSettings', 'CustomAttributeStyleMap' ) ) );
 
 // use persistent_variable like content/view does, sending parameters
 // to pagelayout as a hash.
@@ -188,7 +188,7 @@ if ( $tagName === 'td' || $tagName === 'th' )
                 $cellClassList[$tagName2][$class] = $class;
         }
     }
-    $tpl->setVariable( 'cell_class_list', eZAjaxContent::jsonEncode( $cellClassList ) );
+    $tpl->setVariable( 'cell_class_list', eZOEAjaxContent::jsonEncode( $cellClassList ) );
 }
 
 // run template and return result

@@ -243,7 +243,7 @@ eZ Online Editor MCE extension Changelog
 0.3
  * Converted code to PHP5
  * Updated TinyMCE to 2.1.3
- * cleaned json_content.php -> ezajaxcontent.php
+ * cleaned json_content.php -> ezoeajaxcontent.php
  * updated ez_core.js to version 0.81
  * Forked OE's xml handlers so ezoe is standalone
  * Fixed OE issue #011300

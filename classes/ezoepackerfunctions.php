@@ -32,7 +32,7 @@
  * translations.
  */
 
-include_once( 'extension/ezoe/classes/ezajaxcontent.php' );
+include_once( 'extension/ezoe/classes/ezoeajaxcontent.php' );
 
 class eZOEPackerFunctions
 {
@@ -329,7 +329,7 @@ class eZOEPackerFunctions
                 'link_list' => ezi18n( 'design/standard/ezoe', "Link list")*/
             ),
         ));
-        $i18nString = eZAjaxContent::jsonEncode( $i18nArray );
+        $i18nString = eZOEAjaxContent::jsonEncode( $i18nArray );
 
         return 'tinyMCE.addI18n( ' . $i18nString . ' );';
     }

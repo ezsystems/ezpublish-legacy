@@ -32,7 +32,7 @@
 
 
 //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'extension/ezoe/classes/ezajaxcontent.php' );
+include_once( 'extension/ezoe/classes/ezoeajaxcontent.php' );
 
 
 $nodeID      = (int) $Params['NodeID'];
@@ -84,14 +84,14 @@ $list       = '[]';
 // generate json response from node list
 if ( $nodeArray )
 {
-    $list = eZAjaxContent::encode( $nodeArray, array( 'fetchChildrenCount' => true, 'loadImages' => true ) );
+    $list = eZOEAjaxContent::encode( $nodeArray, array( 'fetchChildrenCount' => true, 'loadImages' => true ) );
 }
 
 
 $result = '{list:' . $list . 
      ",\r\ncount:" . count( $nodeArray ) .
      ",\r\ntotal_count:" . $count .
-     ",\r\nnode:" . eZAjaxContent::encode( $node, array('fetchPath' => true ) ) .
+     ",\r\nnode:" . eZOEAjaxContent::encode( $node, array('fetchPath' => true ) ) .
      ",\r\noffset:" . $offset .
      ",\r\nlimit:" . $limit .
      "\r\n};";

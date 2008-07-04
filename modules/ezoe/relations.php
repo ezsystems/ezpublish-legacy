@@ -28,7 +28,7 @@
 
 include_once( 'kernel/common/template.php' );
 //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'extension/ezoe/classes/ezajaxcontent.php' );
+include_once( 'extension/ezoe/classes/ezoeajaxcontent.php' );
 
 $objectID        = isset( $Params['ObjectID'] ) ? (int) $Params['ObjectID'] : 0;
 $objectVersion   = isset( $Params['ObjectVersion'] ) ? (int) $Params['ObjectVersion'] : 0;
@@ -241,13 +241,13 @@ $tpl->setVariable( 'object_version', $objectVersion );
 
 $tpl->setVariable( 'embed_id', $embedId );
 $tpl->setVariable( 'embed_object', $embedObject );
-$tpl->setVariable( 'embed_data', eZAjaxContent::encode( $embedObject, $params ) );
+$tpl->setVariable( 'embed_data', eZOEAjaxContent::encode( $embedObject, $params ) );
 $tpl->setVariable( 'content_type', $contentType );
 $tpl->setVariable( 'tag_name', $embedInline ? 'embed-inline' : 'embed' );
 
-$tpl->setVariable( 'view_list', eZAjaxContent::jsonEncode( array( 'embed' => $viewList, 'embed-inline' => $viewListInline ) ) );
-$tpl->setVariable( 'class_list', eZAjaxContent::jsonEncode( array( 'embed' => $classList, 'embed-inline' => $classListInline ) ) );
-$tpl->setVariable( 'attribute_defaults', eZAjaxContent::jsonEncode( array( 'embed' => $attributeDefaults, 'embed-inline' => $attributeDefaultsInline ) ) );
+$tpl->setVariable( 'view_list', eZOEAjaxContent::jsonEncode( array( 'embed' => $viewList, 'embed-inline' => $viewListInline ) ) );
+$tpl->setVariable( 'class_list', eZOEAjaxContent::jsonEncode( array( 'embed' => $classList, 'embed-inline' => $classListInline ) ) );
+$tpl->setVariable( 'attribute_defaults', eZOEAjaxContent::jsonEncode( array( 'embed' => $attributeDefaults, 'embed-inline' => $attributeDefaultsInline ) ) );
 
 $tpl->setVariable( 'size_list', $sizeTypeArray );
 
@@ -260,7 +260,7 @@ else
     $tpl->setVariable( 'default_crop_size', $defaultSize );
     
 $oeini = eZINI::instance( 'ezoe.ini' );
-$tpl->setVariable( 'custom_attribute_style_map', eZAjaxContent::jsonEncode( $oeini->variable('EditorSettings', 'CustomAttributeStyleMap' ) ) );
+$tpl->setVariable( 'custom_attribute_style_map', eZOEAjaxContent::jsonEncode( $oeini->variable('EditorSettings', 'CustomAttributeStyleMap' ) ) );
 
 $tpl->setVariable( 'persistent_variable', array() );
 
