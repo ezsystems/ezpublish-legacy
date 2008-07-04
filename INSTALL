@@ -42,7 +42,7 @@ o  Web Server:
    If you are using rewrite rules, you need to allow stylesheets and javascript
    files from your var folder, add this rewrite rule if you are running apache:
 
-   RewriteRule ^/var/[^/]+/cache/(stylesheets|javascripts?)/.* - [L]
+   RewriteRule ^/var/[^/]+/cache/(stylesheets|javascript)/.* - [L]
 
 
 Getting eZ Publish
@@ -82,8 +82,26 @@ Installing eZ Online Editor MCE extension
    $ tar -jxvf ezoe-extension-[ExtensionVersion].bz2
    [zip]:
    $ unzip ezoe-extension-[ExtensionVersion].zip
+   
+4. Add the Apache rewrite rules
 
-4. Enable the ezoe extension in eZ Publish.
+   As mentioned in the Requirements part, you'll need to add rewrite rules to
+   enable css and javascript to be loaded from your cache folder.
+   (OE packs several css / js files together and caches the result)
+
+   So if you have:
+   RewriteRule ^/var/[^/]+/cache/texttoimage/.* - [L]
+
+   Modify it like this:
+   RewriteRule ^/var/[^/]+/cache/(texttoimage|stylesheets|javascript)/.* - [L]
+   
+   Or add a rewrite rule like this:
+   RewriteRule ^/var/[^/]+/cache/(stylesheets|javascript)/.* - [L]
+   
+   Alternatively you can set ezoe.ini [EditorSettings] DevelopmentMode = enabled
+   and OE will stop using this cache technique.
+
+5. Enable the ezoe extension in eZ Publish.
 
    To enable ezoe for all of your siteaccesses, log in to your eZ Publish
    administration interface, click on the 'Setup' tab, and then click
@@ -105,7 +123,7 @@ Installing eZ Online Editor MCE extension
 
    Create the file and/or the section if they do not exist.
 
-5. Set the Image class
+6. Set the Image class
 
    In eZ Publish, images are usually stored as Image objects. ezoe allows you
    to insert various objects into XML fields. ezoe uses the identifier of the
@@ -125,7 +143,7 @@ Installing eZ Online Editor MCE extension
    Replace 'image' with the value of the image class that your installation
    is using, and add more entries if you have several image classes.
 
-6. Add permission to Editor users (optional)
+7. Add permission to Editor users (optional)
 
    Some parts of the editor have possibility to limit rights pr user,
    this means you need to give editors access to all or parts of the 
@@ -133,7 +151,7 @@ Installing eZ Online Editor MCE extension
    The function 'editor' in the 'ezoe' module defines access to the editor.
 
 
-7. Clear all the eZ Publish caches.
+8. Clear all the eZ Publish caches.
 
    Log in to your eZ Publish administration interface, select the 'Setup' tab,
    and then click the 'Clear all caches' button. If you use eZ Publish 3.6
@@ -154,7 +172,7 @@ Installing eZ Online Editor MCE extension
 
    $ ./bin/php/ezcache.php --clear-all
 
-8. Clear the browser caches
+9. Clear the browser caches
 
    Browsers usually cache visited pages in a folder somewhere. The next time
    the same pages are visited, they are loaded faster because some of the
