@@ -29,6 +29,7 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Implemented enhancement: Added function 'remove' to persistent object 'eZOrderItem'
 - Implemented enhancement: config.php may come with it`s own autoload mechanism to support
   autoloading of other third party libraries
+- Implemented enhancement: #13039: ez4: setup/extensions enhancement - sort + only show dirs + links.
 
 *Design:
 
