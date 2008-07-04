@@ -38,7 +38,8 @@ require_once( "kernel/common/template.php" );
 $tpl = templateInit();
 
 $extensionDir = eZExtension::baseDirectory();
-$availableExtensionArray = eZDir::findSubItems( $extensionDir );
+$availableExtensionArray = eZDir::findSubItems( $extensionDir, 'dl' );
+sort( $availableExtensionArray );
 
 if ( $module->isCurrentAction( 'ActivateExtensions' ) )
 {
