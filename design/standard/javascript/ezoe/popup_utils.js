@@ -215,7 +215,7 @@ var eZOEPopupUtils = {
 
             if ( args['id'] === undefined )
                 ed.dom.setAttrib( s.editorElement, 'id', '' );
-            ed.selection.select( s.editorElement );
+            //ed.selection.select( s.editorElement );
         }
         ed.execCommand('mceEndUndoLevel');
     
@@ -454,8 +454,21 @@ var eZOEPopupUtils = {
             for ( var a = 0; a < currentNode.attributes.length; a++ )
                 ed.dom.setAttrib(newNode, currentNode.attributes[a].name, ed.dom.getAttrib( currentNode, currentNode.attributes[a].name ) );
 
-            // replace node
-            currentNode.parentNode.replaceChild( newNode, currentNode );
+             if ( currentNode.parentNode.nodeName === 'BODY'
+               && newNode.nodeName === 'SPAN' 
+                )
+             {
+                 // replace node but wrap inside a paragraph first
+                 var p = doc.createElement('p');
+                 p.appendChild( newNode );
+                 currentNode.parentNode.replaceChild( p, currentNode );
+             }
+             else
+             {
+                // replace node
+                currentNode.parentNode.replaceChild( newNode, currentNode ); 
+             }
+
             return newNode;
         }
         return currentNode;

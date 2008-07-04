@@ -824,7 +824,12 @@ class eZOEXMLInput extends eZXMLInputHandler
             $childOutput = $this->inputTagXML( $child, $currentSectionLevel, $tdSectionLevel );
 
             // Some tags in xhtml aren't allowed as child of paragraph
-            $inline = !( $child->nodeName === 'ul' || $child->nodeName === 'ol' ||  $child->nodeName === 'literal');
+            $inline = !( $child->nodeName === 'ul'
+                      || $child->nodeName === 'ol'
+                      || $child->nodeName === 'literal'
+                      || ( $child->nodeName === 'custom' && !self::customTagIsInline( $child->getAttribute( 'name' ) ) )
+                      || ( $child->nodeName === 'embed' && !self::embedTagIsImageByNode( $child ) )
+                      );
             if ( $inline )
             {
                 $innerContent .= $childOutput;
@@ -1018,17 +1023,10 @@ class eZOEXMLInput extends eZXMLInputHandler
                     $tplSuffix = '_denied';
                 }
 
-                $URL = self::getServerURL();
-                $ini = eZINI::instance( 'site.ini' );
-                if ( $ini->hasVariable('MediaClassSettings', 'ImageClassID' ) )
-                    $imageClassIDArray = $ini->variable('MediaClassSettings', 'ImageClassID' );
-                else
-                    $imageClassIDArray = array();
-                $imageClassIdentifiers = $ini->variable( 'MediaClassSettings', 'ImageClassIdentifiers' );
-
-                if ( in_array( $classID, $imageClassIDArray ) or
-                     in_array( $classIdentifier, $imageClassIdentifiers ) )
+                if ( self::embedTagIsImage( $classIdentifier, $classID ) )
                 {
+                    $ini = eZINI::instance();
+                    $URL = self::getServerURL();
                     $contentObjectAttributes = $object->contentObjectAttributes();
                     $imageDatatypeArray = $ini->variable( 'ImageDataTypeSettings', 'AvailableImageDataTypes' );
                     $srcString = self::getDesignFile('images/tango/mail-attachment32.png');
@@ -1099,25 +1097,12 @@ class eZOEXMLInput extends eZXMLInputHandler
                 $name = $tag->getAttribute( 'name' );
                 $customAttributePart = $this->getCustomAttrPart( $tag, $styleString );
 
-                $isInline = false;
-                $ini = eZINI::instance( 'content.ini' );
-
-                $isInlineTagList = $ini->variable( 'CustomTagSettings', 'IsInline' );
-                foreach ( $isInlineTagList as $key => $isInlineTagValue )
-                {
-                    if ( $isInlineTagValue === 'true' && $name === $key )
-                    {
-                        $isInline = true;
-                        break;
-                    }
-                }
-
                 if ( isset( self::$nativeCustomTags[ $name ] ))
                 {
                     if ( !$childTagText ) $childTagText = '&nbsp;';
                     $output .= '<' . self::$nativeCustomTags[ $name ] . $customAttributePart . $styleString . '>' . $childTagText . '</' . self::$nativeCustomTags[ $name ] . '>';
                 }
-                else if ( $isInline )
+                else if ( self::customTagIsInline( $name ) )
                 {
                     if ( !$childTagText ) $childTagText = '&nbsp;';
                     $output .= '<span class="mceItemCustomTag ' . $name . '" type="custom"' . $customAttributePart . $styleString . '>' . $childTagText . '</span>';
@@ -1461,10 +1446,73 @@ class eZOEXMLInput extends eZXMLInputHandler
         return htmlspecialchars( self::getServerURL() . '/' . $match['path'] );
     }
 
+    static public function customTagIsInline( $name )
+    {
+        if ( self::$customInlineTagList === null )
+        {
+            $ini = eZINI::instance( 'content.ini' );
+            self::$customInlineTagList = $ini->variable( 'CustomTagSettings', 'IsInline' );   
+        }
+
+        foreach ( self::$customInlineTagList as $key => $isInlineTagValue )
+        {
+            if ( $name === $key && $isInlineTagValue === 'true' )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    static public function embedTagIsImageByNode( $node )
+    {
+        $objectID  = $node->getAttribute( 'object_id' );
+        $nodeID    = $node->getAttribute( 'node_id' );
+        $object    = false;
+        $classID   = 0;
+        $classIdentifier = false;
+        
+        if ( is_numeric( $objectID ) )
+        {
+            $object = eZContentObject::fetch( $objectID );
+        }
+        elseif ( is_numeric( $nodeID ) )
+        {
+            $node      = eZContentObjectTreeNode::fetch( $nodeID );
+            $object    = $node->object();
+        }
+        
+        if ( $object instanceof eZContentObject )
+        {
+            $classID = $object->attribute( 'contentclass_id' );
+            $classIdentifier = $object->attribute( 'class_identifier' );
+        }
+
+        return self::embedTagIsImage( $classIdentifier, $classID );
+    }
+
+    static public function embedTagIsImage( $classIdentifier, $classId = 0  )
+    {
+        if ( self::$embedImageClassIdentifiers === null )
+        {
+            $ini = eZINI::instance();
+            if ( $ini->hasVariable('MediaClassSettings', 'ImageClassID' ) )
+                self::$embedImageClassIds = $ini->variable('MediaClassSettings', 'ImageClassID' );
+            else
+                self::$embedImageClassIds = array();
+            self::$embedImageClassIdentifiers = $ini->variable( 'MediaClassSettings', 'ImageClassIdentifiers' );   
+        }
+
+        return in_array( $classId, self::$embedImageClassIds ) or in_array( $classIdentifier, self::$embedImageClassIdentifiers );
+    }
+
     static protected $serverURL   = null;
     static protected $browserType = null;
     static protected $designBases = null;
     static protected $userAccessHash = array();
+    static protected $customInlineTagList = null;
+    static protected $embedImageClassIds = null;
+    static protected $embedImageClassIdentifiers = null;
     static protected $customAttributeStyleMap = null;
     
     protected $editorLayoutSettings = null;

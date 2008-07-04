@@ -2,7 +2,7 @@
  * $Id: editor_template_src.js 852 2008-05-27 05:52:09Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright ï¿½ 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
 /* 
@@ -804,28 +804,29 @@
 		},
 
 		_nodeChanged : function(ed, cm, n, co) {
-			var t = this, p, de = 0, v, c, s = t.settings, div = false, header;
+			var t = this, p, de = 0, v, c, s = t.settings, mceNonEditable = false, div = false, header;
 
 			tinymce.each(t.stateControls, function(c) {
 				cm.setActive(c, ed.queryCommandState(t.controls[c][1]));
 			});
 
             header = DOM.getParent(n, 'H1,H2,H3,H4,H5,H6');
-			p = DOM.getParent(n, 'DIV');
+			p = DOM.getParent(n, 'DIV,SPAN');
             if (c = cm.get('object'))
             {
                 if ( ( p && (p.nodeName === 'DIV' || p.nodeName === 'SPAN') && p.className.indexOf('mceNonEditable') !== -1 )
                    || (p = t.__getParentByTag( n, 'div,span', 'mceNonEditable') ) )
                 {
 	                ed.selection.select( p );
-	                div = true;
+	                mceNonEditable = true;
+                    div = p.nodeName === 'DIV';
 	                n = p;
                 }
-                c.setActive( div );
+                c.setActive( mceNonEditable );
                 c.setDisabled( header );
             }
 
-            t.__setDisabled( div );
+            t.__setDisabled( mceNonEditable );
 
             cm.setDisabled('undo', !ed.undoManager.hasUndo() && !ed.typing);
             cm.setDisabled('redo', !ed.undoManager.hasRedo());
@@ -835,7 +836,7 @@
             {
                 if (!p || !p.name)
                 {
-                    c.setDisabled(!p && co);
+                    c.setDisabled( div || !p && co);
                     c.setActive(!!p);
                 }
             }
@@ -846,7 +847,7 @@
                 c.setActive(!!p && !p.name);
             }
 
-            if ( div === false )
+            if ( mceNonEditable === false )
             {
 	            if (c = cm.get('anchor'))
                 {

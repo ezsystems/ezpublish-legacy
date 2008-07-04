@@ -23,6 +23,9 @@ eZ Online Editor MCE extension Changelog
   ( removed need to have a hidden paragraph inside the custom tag, this fixes many issues concerning inline custom tags )
 * Fixed bug #013279: Error when trying to insert a custom tag when a required attribute is set in another one
 * Fixed bug #013295: Literal HTML is lost when editing in IE6
+* Disabled possibility to add link on embed object tags (since it dosn't work becuase it is a block tag)
+* Changed so blocktags are redered before a paragraph instead of inside to avoid lots of empty paragraphs
+  Will hopefully fix reports on empty paragraphs
 
 
 5.0Beta3
