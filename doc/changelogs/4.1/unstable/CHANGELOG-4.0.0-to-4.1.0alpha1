@@ -299,3 +299,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13285: Logging done in updateniceurls.php should be controlled by options to the script.
 - Fixed bug #12782: Invalid argument supplied for foreach() in ezmoduleoperationinfo.php.
 - Fixed bug #12227: Write permission check to autoload directory should be done in earlier step in Setup wizard.
+- Fixed bug #13302: eZTemplateCacheBlock::decodeNodeID(...) must be updated to use new multilingual urlalias api
