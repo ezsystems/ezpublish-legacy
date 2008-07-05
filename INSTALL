@@ -100,6 +100,8 @@ Installing eZ Online Editor MCE extension
    
    Alternatively you can set ezoe.ini [EditorSettings] DevelopmentMode = enabled
    and OE will stop using this cache technique.
+   Please override the setting in settings/override/ instead of changing
+   the files in the extension.
 
 5. Enable the ezoe extension in eZ Publish.
 
@@ -149,6 +151,8 @@ Installing eZ Online Editor MCE extension
    this means you need to give editors access to all or parts of the 
    'ezoe' module so they can use the editor.
    The function 'editor' in the 'ezoe' module defines access to the editor.
+   While 'relations' is to control if the user should have access to adding and
+   changing embed objects/images while the editor is enabled.
 
 
 8. Clear all the eZ Publish caches.
@@ -159,16 +163,7 @@ Installing eZ Online Editor MCE extension
    in the right hand side. Simply select 'All caches' from the drop-down list
    and click the 'Clear' button.
 
-   The other way to clear all caches is to remove the contents of 'var/cache/'
-   and/or 'var/your_siteaccess/cache/' directory. This can either be done
-   manually or by making use of a script.
-
-   Linux users may launch the following script:
-
-   $ ./bin/shell/clearcache.sh --clear-all
-
-   If you have PHP CLI installed, you can also do the following (this script
-   should also work on Windows):
+   Alternativly if you have PHP CLI installed, you can also do the following:
 
    $ ./bin/php/ezcache.php --clear-all
 
