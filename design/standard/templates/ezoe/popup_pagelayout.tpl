@@ -15,6 +15,8 @@ eZOeMCE['extension_url'] = {'/ezoe/'|ezurl};
 <script type="text/javascript" src={"javascript/tiny_mce_popup.js"|ezdesign}></script>
 <script type="text/javascript" src={"javascript/utils/validate.js"|ezdesign}></script>
 
+{def $skin = ezini('EditorSettings', 'Skin', 'ezoe.ini',,true() )}
+
 {if $module_result.persistent_variable.scripts}
 {foreach $module_result.persistent_variable.scripts as $script}
     <script type="text/javascript" src={$script|ezdesign}></script>
@@ -50,13 +52,13 @@ table#browse_box_prev tfoot td { padding-top: 5px; }
 {/literal}
 {if $module_result.persistent_variable.css}
 {foreach $module_result.persistent_variable.css as $css}
-    <link type="text/css" rel="stylesheet" href={$css|ezdesign} />
+    <link type="text/css" rel="stylesheet" href={$css|explode( '<skin>' )|implode( $skin )|ezdesign} />
 
 {/foreach}
 {/if}
 {if ezini_hasvariable('StylesheetSettings', 'EditorDialogCSSFileList', 'design.ini')}
-{foreach ezini('StylesheetSettings', 'EditorDialogCSSFileList', 'design.ini') as $css}
-    <link type="text/css" rel="stylesheet" href={$css|ezdesign} />
+{foreach ezini('StylesheetSettings', 'EditorDialogCSSFileList', 'design.ini',,true()) as $css}
+    <link type="text/css" rel="stylesheet" href={$css|explode( '<skin>' )|implode( $skin )|ezdesign} />
 
 {/foreach}
 {/if}
