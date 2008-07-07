@@ -1,0 +1,37 @@
+*Title: Adding a output filter over all rendered HTML.
+
+*Documentation:
+The new functionality can be used to modify HTML before it send to the client/browser. 
+Cases where you might want ot use it are for example for content acceleration.
+With certain filters you point static files to get served from different servers in order 
+to speed up the devlivery of a global website. For example you can point the user to 
+static files that are close to his location. Using this technique can imensivly increase
+ the user experience. In a test case sencario we have improved the load time of the website by over 80%.
+
+You can configure a new output filter by setting site.ini[OutputSettings].OutputFilterName.
+
+
+Example (Serving static files from a differnet host):
+
+edit in site.ini
+[OutputSettings]
+OutputFilterName=myFilter
+
+<?php
+class myFilter
+{     
+	static function filter( $output )
+	{
+        $patterns = array();
+        $patterns[0] = '/((\/extension\/.*|)\/design\/[a-z0-9_-]*\/(stylesheets|images|javascript)\/.*\.(gif|jpg|png|js|css))/isU';
+        $replacements = array();
+        $replacements[0] = 'http://static.example.com\1';
+        return preg_replace($patterns, $replacements, $output );
+	}
+}
+?>
+
+Further thinking about content acceleration you can also implement a mechanism
+ where static content is deliver from host closest to a users location.
+A user from the united states could get static files served from the host
+ static.us.example.com and one from china could get files served from static.cn.example.com.
