@@ -114,6 +114,12 @@ h3 {font-size:14px;}
 #colorpicker #colornamecontainer {margin-top:5px;}
 #colorpicker #picker_panel fieldset {margin:auto;width:325px;}
 
+
+/* extra input styles */
+
+.link_href_input { width: 225px; padding: 1px; margin-top: 1px; }
+
+
 /* search and browse styles */
 
 div.progress-indicator

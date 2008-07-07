@@ -908,6 +908,10 @@ class eZOEInputParser extends eZXMLInputParser
                 if ( isset( $matches[2] ) )
                     $anchorName = substr( $matches[2], 1 );
                 $element->setAttribute( 'object_id', $objectID );
+                if ( !eZContentObject::exists( $objectID ))
+                {
+                    $this->Messages[] = ezx18n( 'extension/ezoe', 'handlers/input', 'Object %1 does not exist.', false, array( $objectID ) );
+                }
             }
             elseif ( preg_match( "@^eznode://([^/#]+)/?(#[^/]*)?/?@i", $href, $matches ) )
             {
@@ -919,7 +923,7 @@ class eZOEInputParser extends eZXMLInputParser
                 {
                     $nodeID = $nodePath;
                     $node = eZContentObjectTreeNode::fetch( $nodeID );
-                    if ( !$node )
+                    if ( !$node instanceOf eZContentObjectTreeNode )
                     {
                         $this->Messages[] = ezx18n( 'extension/ezoe', 'handlers/input', 'Node %1 does not exist.', false, array( $nodeID ) );
                     }
@@ -927,7 +931,7 @@ class eZOEInputParser extends eZXMLInputParser
                 else
                 {
                     $node = eZContentObjectTreeNode::fetchByURLPath( $nodePath );
-                    if ( !$node )
+                    if ( !$node instanceOf eZContentObjectTreeNode )
                     {
                         $this->Messages[] = ezx18n( 'extension/ezoe', 'handlers/input', 'Node \'%1\' does not exist.', false, array( $nodePath ) );
                     }
@@ -941,10 +945,11 @@ class eZOEInputParser extends eZXMLInputParser
                 if ( isset( $nodeID ) && $nodeID )
                 {
                     $element->setAttribute( 'node_id', $nodeID );
+                }
 
-                    $node = eZContentObjectTreeNode::fetch( $nodeID );
-                    if ($node)
-                        $objectID = $node->attribute( 'contentobject_id' );
+                if ( isset( $node ) && $node instanceOf eZContentObjectTreeNode )
+                {
+                    $objectID = $node->attribute( 'contentobject_id' );
                 }
             }
             elseif ( strpos( $href, '#' ) === 0 )
@@ -990,8 +995,7 @@ class eZOEInputParser extends eZXMLInputParser
                     $urlID = $this->convertHrefToID( $url );
                     if ( $urlID )
                     {
-                        $urlIDAttributeName = 'url_id';
-                        $element->setAttribute( $urlIDAttributeName, $urlID );
+                        $element->setAttribute( 'url_id', $urlID );
                     }
                 }
             }
@@ -1000,14 +1004,14 @@ class eZOEInputParser extends eZXMLInputParser
                 $this->linkedObjectIDArray[] = $objectID;
 
             if ( isset( $anchorName ) && $anchorName )
-                    $element->setAttribute( 'anchor_name', $anchorName );
+            	$element->setAttribute( 'anchor_name', $anchorName );
         }
         return $ret;
     }
 
     function convertHrefToID( $href )
     {
-        $href = str_replace('&amp;', '&', $href );
+        $href = str_replace(array('&amp;', '%28', '%29'), array('&', '(', ')'), $href );
 
         $urlID = eZURL::registerURL( $href );
 

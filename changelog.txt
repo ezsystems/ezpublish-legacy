@@ -26,6 +26,8 @@ eZ Online Editor MCE extension Changelog
 * Disabled possibility to add link on embed object tags (since it dosn't work becuase it is a block tag)
 * Changed so blocktags are redered before a paragraph instead of inside to avoid lots of empty paragraphs
   Will hopefully fix reports on empty paragraphs
+* Fixed issue #013142: (Link URLs are rewritten) 
+* Give warning if object id is invalid just like if node id / path is invalid
 
 
 5.0Beta3

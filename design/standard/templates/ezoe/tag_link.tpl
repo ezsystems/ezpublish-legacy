@@ -174,6 +174,7 @@ function ezoeLinkTypeSet( source, types )
                                   'id', ''
                                  )
                  attribute_content_prepend=hash('href', $link_href_types)
+                 classes=hash('href', 'link_href_input')
         }
 
         {include uri="design:ezoe/customattributes.tpl" tag_name=$tag_name}
