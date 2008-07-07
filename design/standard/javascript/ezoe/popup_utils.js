@@ -243,7 +243,7 @@ var eZOEPopupUtils = {
             // work around for opera
             if ( !text )
             {
-                // create temporarly text range if no selection
+                // create temporary text range if no selection
                 var r = ed.selection.getRng(), t = ed.getDoc().createTextNode("tiny_mce_marker");
                 r.insertNode( t );
                 ed.selection.select( t );

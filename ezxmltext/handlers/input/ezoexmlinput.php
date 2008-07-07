@@ -446,10 +446,11 @@ class eZOEXMLInput extends eZXMLInputHandler
             if ( $lastChild && $lastChild->nodeName === 'paragraph' )
             {
                 $textChild = $lastChild->lastChild;
+                // $textChild->textContent == " " : string(2) whitespace in Opera
                 if ( !$textChild ||
                      ( $lastChild->childNodes->length == 1 &&
                        $textChild->nodeType == XML_TEXT_NODE &&
-                       ( $textChild->textContent == ' ' || $textChild->textContent == '' ) ) )
+                       ( $textChild->textContent == " " || $textChild->textContent == ' ' ||$textChild->textContent == '' ) ) )
                 {
                     $parent->removeChild( $lastChild );
                 }
@@ -590,11 +591,6 @@ class eZOEXMLInput extends eZXMLInputHandler
         if ( self::$browserType === 'IE' )
         {
             $output .= '<p>&nbsp;</p>';
-        }
-        else if ( self::$browserType === 'Opera' )
-        {
-            // opera has some issues with extra paragraphs being added for some reason
-            // so we avoid adding extra ones (in other browsers they will be stripped away)
         }
         else
         {
