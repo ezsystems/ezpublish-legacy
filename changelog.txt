@@ -1,5 +1,9 @@
 eZ Online Editor MCE extension Changelog
 
+5.0rc
+* Fixed bug #013320: (Development mode doesn't work fully)
+
+
 5.0Beta4
 * Fixed bug #013151: No nice URLs with ezoe
 * Append paragraph if custom / embed tag is inserted as last tag in editor
