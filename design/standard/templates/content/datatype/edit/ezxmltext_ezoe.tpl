@@ -45,7 +45,7 @@
     
     if ( window.ez === undefined ) document.write('<script type="text/javascript" src={"javascript/ezoe/ez_core.js"|ezdesign}><\/script>');
     
-    var eZOeMCE = new Object(), ezOeIdString, ezOeTempSettings;
+    var eZOeMCE = new Object(), ezOeTempSettings;
     eZOeMCE['root']             = {'/'|ezroot};
     eZOeMCE['extension_url']    = {'/ezoe/'|ezurl};
     eZOeMCE['content_css']      = '{ezoecss( $content_css_list, false())|implode(',')}';
@@ -61,7 +61,7 @@
 
     {literal}
 
-    eZOeMCE['tiny_mce_init_object'] = {
+    eZOeMCE['tiny_mce_init_settings'] = {
         mode : "none",
         theme : "ez",
         width : '100%',
@@ -92,10 +92,11 @@
         theme_ez_editor_css : eZOeMCE['editor_css'],
         theme_ez_content_css : eZOeMCE['content_css'],
         popup_css : eZOeMCE['popup_css'],
+        //setupcontent_callback : "oeStyleFixSetupContent",
         gecko_spellcheck : true,
         save_enablewhendirty : true
     };
-    tinyMCE.init(eZOeMCE['tiny_mce_init_object']);
+    tinyMCE.init(eZOeMCE['tiny_mce_init_settings']);
 
     function ezMceToggleEditor( id, settings )
     {
@@ -109,6 +110,15 @@
                 tinyMCE.execCommand('mceRemoveControl', false, id);
         }
     }
+
+    /*function oeStyleFixSetupContent( editor_id, body, doc )
+    {
+    	ez.array.forEach( body.getElementsByTagName('*'), function( node ){
+            if ( node.nodeType === 1 && node.getAttribute('mce_style') )
+                node.style.cssText = node.getAttribute('mce_style');
+        });
+    }*/
+
 
     {/literal}
     //-->
@@ -126,7 +136,7 @@
         <script type="text/javascript">
         <!--
         
-        ezOeTempSettings = eZOeMCE['tiny_mce_init_object'];
+        ezOeTempSettings = eZOeMCE['tiny_mce_init_settings'];
         ezOeTempSettings['theme_advanced_buttons1'] = "{$layout_settings['buttons']|implode(',')}";
         ezOeTempSettings['theme_advanced_path_location'] = "{$layout_settings['path_location']}";
         ezOeTempSettings['theme_advanced_statusbar_location'] = "{$layout_settings['path_location']}";

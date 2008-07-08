@@ -819,7 +819,6 @@
                 {
 	                ed.selection.select( p );
 	                mceNonEditable = true;
-                    div = p.nodeName === 'DIV';
 	                n = p;
                 }
                 c.setActive( mceNonEditable );
@@ -836,7 +835,7 @@
             {
                 if (!p || !p.name)
                 {
-                    c.setDisabled( div || !p && co);
+                    c.setDisabled( !p && co);
                     c.setActive(!!p);
                 }
             }
@@ -986,7 +985,7 @@
 						ti = ti + 'id: ' + v + ' ';
 
 					if (v = className || n.className) {
-						v = v.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable)/g, '');
+						v = v.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable|mceEmbedBlockTag)/g, '');
 
 						if ( v = ez.string.trim( v ) )
 						{

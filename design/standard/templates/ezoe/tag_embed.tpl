@@ -58,9 +58,9 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     {
         if ( contentType === 'image' )
             return '<img id="__mce_tmp" src="javascript:void(0);" />';
-        if ( ez.$('embed_inline_source').el.checked )
-           return '<span id="__mce_tmp">' + ez.$('embed_preview').el.innerHTML + '</span>';
-        return '<div id="__mce_tmp">' + ez.$('embed_preview').el.innerHTML + '</div>';
+        //if ( ez.$('embed_inline_source').el.checked )
+        return '<span id="__mce_tmp">' + ez.$('embed_preview').el.innerHTML + '</span>';
+        //return '<div id="__mce_tmp">' + ez.$('embed_preview').el.innerHTML + '</div>';
     },
     onTagGenerated:  function( el, ed, args )
     {
@@ -83,7 +83,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     {
         args['id'] = 'eZObject_' + eZOEPopupUtils.embedObject['contentobject_id'];
         args['inline'] = ez.$('embed_inline_source').el.checked ? 'true' : 'false';
-        el = eZOEPopupUtils.switchTagTypeIfNeeded( el, (contentType === 'image' ? 'img' : (args['inline'] === 'true' ? 'span' : 'div') ) );
+        el = eZOEPopupUtils.switchTagTypeIfNeeded( el, (contentType === 'image' ? 'img' : 'span' ) );
         if ( contentType === 'image' )
         {
             var imageAttributes = eZOEPopupUtils.embedObject['image_attributes'];
@@ -107,6 +107,8 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
             //ed.dom.setStyle(el, 'float', args['align'] === 'middle' ? '' : args['align']);
             args['title']   = eZOEPopupUtils.safeHtml( eZOEPopupUtils.embedObject['name'] );
             //el.style.display = args['inline'] === 'false' ? 'block' : 'inline';
+            if ( args['inline'] === 'false' )
+                args['class'] += ' mceEmbedBlockTag';
         }
         ed.dom.setAttribs( el, args );
     }
@@ -132,7 +134,7 @@ function inlineSelectorChange( e, el )
     if ( editorEl )
     {
         var viewValue = editorEl.getAttribute('view');
-        var classValue = ez.string.trim( editorEl.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable)/g, '') );
+        var classValue = ez.string.trim( editorEl.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable|mceEmbedBlockTag)/g, '') );
     }
 
     if ( viewValue && viewListData[ tag ].join !== undefined && (' ' + viewListData[ tag ].join(' ') + ' ').indexOf( ' ' + viewValue + ' ' ) !== -1 )

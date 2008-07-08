@@ -330,7 +330,8 @@ var eZOEPopupUtils = {
                 // add to styles if custom attibute is defined in customAttributeStyleMap
                 if ( s.customAttributeStyleMap && s.customAttributeStyleMap[name] !== undefined  )
                 {
-                    args['style'] += s.customAttributeStyleMap[name] + ': ' + value + '; ';
+                    // disabled because the browser (ie,ff&opera) convert the tag to font tag in certain circumstances
+                    //args['style'] += s.customAttributeStyleMap[name] + ': ' + value + '; ';
                 }
                 customArr.push( name + '|' + value );
             });
@@ -414,7 +415,7 @@ var eZOEPopupUtils = {
                 if ( o.hasClass('mceItemSkip') ) return;
                 var name = o.el.name;
                 if ( name === 'class' )
-                    var v = ez.string.trim( editorElement.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable)/g, '').replace( eZOEPopupUtils.settings.cssClass, '' ) );
+                    var v = ez.string.trim( editorElement.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable|mceEmbedBlockTag)/g, '').replace( eZOEPopupUtils.settings.cssClass, '' ) );
                 else 
                     var v = tinyMCEPopup.editor.dom.getAttrib( editorElement, name );//editorElement.getAttribute( name );
                 if ( v !== false && v !== null && v !== undefined )

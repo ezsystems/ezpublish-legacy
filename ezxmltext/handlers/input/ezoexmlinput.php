@@ -824,7 +824,6 @@ class eZOEXMLInput extends eZXMLInputHandler
                       || $child->nodeName === 'ol'
                       || $child->nodeName === 'literal'
                       || ( $child->nodeName === 'custom' && !self::customTagIsInline( $child->getAttribute( 'name' ) ) )
-                      || ( $child->nodeName === 'embed' && !self::embedTagIsImageByNode( $child ) )
                       );
             if ( $inline )
             {
@@ -858,8 +857,9 @@ class eZOEXMLInput extends eZXMLInputHandler
         
         if ( self::$customAttributeStyleMap === null )
         {
-            $oeini = eZINI::instance( 'ezoe.ini' );
-            self::$customAttributeStyleMap = $oeini->variable('EditorSettings', 'CustomAttributeStyleMap' );
+            // disabled because the browser (ie,ff&opera) convert the tag to font tag in certain circumstances
+            //$oeini = eZINI::instance( 'ezoe.ini' );
+            self::$customAttributeStyleMap = array();//$oeini->variable('EditorSettings', 'CustomAttributeStyleMap' );
         }
 
         foreach ( $tag->attributes as $attribute )
@@ -1051,15 +1051,15 @@ class eZOEXMLInput extends eZXMLInputHandler
                 }
                 else
                 {
-                    if ( $className )
-                        $objectAttr .= ' class="mceNonEditable ' . $className . '"';
-                    else
-                        $objectAttr .= ' class="mceNonEditable"';
+                    $classNames = array('mceNonEditable');
 
-                    if ( $tagName === 'embed-inline' )
-                        $htmlTagName = 'span';
-                    else
-                        $htmlTagName = 'div';
+                    if ( $className )
+                        $classNames[] = $className;
+
+                    if ( $tagName === 'embed' )
+                        $classNames[] = 'mceEmbedBlockTag';
+
+                    $objectAttr .= ' class="' . implode( ' ', $classNames ) . '"';
                     
                     $objectParam = array( 'size' => $size, 'align' => $alignment, 'show_path' => $showPath );
                     if ( $htmlID ) $objectParam['id'] = $htmlID;
@@ -1075,7 +1075,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                     $tpl->setVariable( 'object_parameters', $objectParam );
                     if ( isset( $node ) ) $tpl->setVariable( 'node', $node );
                     $templateOutput = $tpl->fetch( 'design:content/datatype/view/ezxmltags/' . $tagName . $tplSuffix . '.tpl' );
-                    $output .= '<' . $htmlTagName . ' id="' . $idString . '" title="' . $objectName . '"' . $objectAttr . $customAttributePart . $styleString . '>' . $templateOutput . '</' . $htmlTagName . '>';
+                    $output .= '<span id="' . $idString . '" title="' . $objectName . '"' . $objectAttr . $customAttributePart . $styleString . '>' . $templateOutput . '</span>';
                 }
             }break;
 
