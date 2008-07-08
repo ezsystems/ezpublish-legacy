@@ -59,7 +59,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         if ( contentType === 'image' )
             return '<img id="__mce_tmp" src="javascript:void(0);" />';
         //if ( ez.$('embed_inline_source').el.checked )
-        return '<span id="__mce_tmp">' + ez.$('embed_preview').el.innerHTML + '</span>';
+        return '<span id="__mce_tmp"></span>';
         //return '<div id="__mce_tmp">' + ez.$('embed_preview').el.innerHTML + '</div>';
     },
     onTagGenerated:  function( el, ed, args )
@@ -103,10 +103,9 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         }
         else
         {
-            el.innerHTML = ez.$('embed_preview').el.innerHTML;
+            ed.dom.setHTML( el, ez.$('embed_preview').el.innerHTML );
             //ed.dom.setStyle(el, 'float', args['align'] === 'middle' ? '' : args['align']);
             args['title']   = eZOEPopupUtils.safeHtml( eZOEPopupUtils.embedObject['name'] );
-            //el.style.display = args['inline'] === 'false' ? 'block' : 'inline';
             if ( args['inline'] === 'false' )
                 args['class'] += ' mceEmbedBlockTag';
         }
