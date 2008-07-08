@@ -58,7 +58,8 @@ function eZSetupTestTable()
                   'memory_limit' => array( 'eZSetupTestMemLimit' ),
                   'execution_time' => array( 'eZSetupTestExecutionTime' ),
                   'allow_url_fopen' => array( 'eZSetupTestAllowURLFOpen' ),
-                  'accept_path_info' => array( 'eZSetupTestAcceptPathInfo' ) );
+                  'accept_path_info' => array( 'eZSetupTestAcceptPathInfo' ),
+                  'timezone' => array( 'eZSetupTestTimeZone' ) );
 }
 
 function eZSetupConfigVariable( $type, $name )
@@ -975,6 +976,17 @@ function eZSetupPrvtAreDirAndFilesWritable( $dir )
    }
 
    return TRUE;
+}
+
+function eZSetupTestTimeZone( $something )
+{
+    $result = true;
+    if ( date_default_timezone_get() == "UTC" )
+    {
+        $result = false;
+    }
+
+    return array( 'result' => $result );
 }
 
 ?>

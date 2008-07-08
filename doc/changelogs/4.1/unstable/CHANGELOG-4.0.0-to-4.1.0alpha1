@@ -31,6 +31,7 @@ Changes from 4.0.0 to 4.1.0alpha1
   autoloading of other third party libraries
 - Implemented enhancement: Ability to filter all rendered output
 - Implemented enhancement: #13039: ez4: setup/extensions enhancement - sort + only show dirs + links.
+- Implemented enhancement: #12027: Improve how timezones are set.
 
 *Design:
 
