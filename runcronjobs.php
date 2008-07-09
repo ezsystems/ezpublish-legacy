@@ -35,6 +35,14 @@
 
 // Define maximum script execution time to 12 hours
 define( 'eZRunCronjobs_MaxScriptExecutionTime', 12*3600 );
+
+// Set a default time zone if none is given. The time zone can be overriden
+// in config.php or php.ini.
+if ( !ini_get( "date.timezone" ) )
+{
+    date_default_timezone_set( "UTC" );
+}
+
 require 'autoload.php';
 
 //include_once( "lib/ezutils/classes/ezextension.php" );
