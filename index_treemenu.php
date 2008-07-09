@@ -24,6 +24,13 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
+// Set a default time zone if none is given. The time zone can be overriden
+// in config.php or php.ini.
+if ( !ini_get( "date.timezone" ) )
+{
+    date_default_timezone_set( "UTC" );
+}
+
 define( 'MAX_AGE', 86400 );
 
 if ( isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) )
