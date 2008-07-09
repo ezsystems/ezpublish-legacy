@@ -61,7 +61,7 @@ $script->initialize();
 
 $db =& eZDB::instance();
 
-$nonUniqueRemoteIDDataList = $db->arrayQuery( 'SELECT remote_id, COUNT(*) cnt FROM ezcontentobject GROUP BY remote_id HAVING cnt > 1;' );
+$nonUniqueRemoteIDDataList = $db->arrayQuery( 'SELECT remote_id, COUNT(*) AS cnt FROM ezcontentobject GROUP BY remote_id HAVING COUNT(*) > 1' );
 
 $nonUniqueRemoteIDDataListCount = count( $nonUniqueRemoteIDDataList );
 
