@@ -166,19 +166,6 @@ class eZOEInputParser extends eZXMLInputParser
     function tagNameSpan( $tagName, &$attributes )
     {
         $name = '';
-        if ( isset( $attributes['style'] ) )
-        {
-            if ( strpos( $attributes['style'], 'font-weight: bold' ) !== false )
-                $name = 'strong';
-            elseif ( strpos( $attributes['style'], 'font-style: italic' ) !== false )
-                $name = 'emphasize';
-            elseif ( strpos( $attributes['style'], 'text-decoration: underline' ) !== false )
-            {
-                $name = 'custom';
-                $attributes['name'] = $attributes['class'] = 'underline';
-                $attributes['children_required'] = 'true';
-            }
-        }
         
         if ( isset( $attributes['type'] ) && $attributes['type'] === 'custom' )
         {
@@ -190,6 +177,20 @@ class eZOEInputParser extends eZXMLInputParser
         if ( $name === '' && isset( $attributes['id'] ) )
         {
             $name = $this->tagNameDiv( $tagName, $attributes );
+        }
+
+        if ( $name === '' && isset( $attributes['style'] ) )
+        {
+            if ( strpos( $attributes['style'], 'font-weight: bold' ) !== false )
+                $name = 'strong';
+            elseif ( strpos( $attributes['style'], 'font-style: italic' ) !== false )
+                $name = 'emphasize';
+            elseif ( strpos( $attributes['style'], 'text-decoration: underline' ) !== false )
+            {
+                $name = 'custom';
+                $attributes['name'] = $attributes['class'] = 'underline';
+                $attributes['children_required'] = 'true';
+            }
         }
 
         return $name;
