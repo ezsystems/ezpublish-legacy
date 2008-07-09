@@ -302,6 +302,6 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12782: Invalid argument supplied for foreach() in ezmoduleoperationinfo.php.
 - Fixed bug #12227: Write permission check to autoload directory should be done in earlier step in Setup wizard.
 - Fixed bug #13302: eZTemplateCacheBlock::decodeNodeID(...) must be updated to use new multilingual urlalias api
-- Fixed bug #12129: New sql upgrade scripts should create tables using InnoDB, not MyISAM.>>>>>>> .r22070
+- Fixed bug #12129: New sql upgrade scripts should create tables using InnoDB, not MyISAM.
 - Fixed bug #11808: Certain multibyte characters might lead to incorrect URL upon redirection
 - Fixed bug #13189: Webdav - content not browsable, media works ok
