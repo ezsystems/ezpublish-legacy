@@ -12,7 +12,7 @@
 eZOEPopupUtils.embedObject = {$embed_data};
 eZOEPopupUtils.settings.customAttributeStyleMap = {$custom_attribute_style_map};
 var defaultEmbedSize = '{$default_size}', selectedSize = defaultEmbedSize, contentType = '{$content_type}', attachmentIcon = {"tango/mail-attachment32.png"|ezimage};
-var viewListData = {$view_list}, classListData = {$class_list}, attributeDefaults = {$attribute_defaults}, selectedTagName = '';
+var viewListData = {$view_list}, classListData = {$class_list}, attributeDefaults = {$attribute_defaults}, selectedTagName = '', compatibilityMode = '{$compatibility_mode}';
 
 {literal}
 
@@ -20,7 +20,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     tagName: 'embed',
     form: 'EditForm',
     cancelButton: 'CancelButton',
-    cssClass: contentType !== 'image' ? 'mceNonEditable' : '',
+    cssClass: contentType !== 'image' && compatibilityMode !== 'enabled' ? 'mceNonEditable' : '',
     onInitDone: function( el, tag, ed )
     {        
         var selectors = ez.$('embed_alt_source', 'embed_align_source', 'embed_class_source', 'embed_view_source', 'embed_inline_source');
@@ -56,11 +56,11 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     },
     tagGenerator: function( tag, customTag, text )
     {
-        if ( contentType === 'image' )
+        if ( contentType === 'image' || compatibilityMode === 'enabled' )
             return '<img id="__mce_tmp" src="javascript:void(0);" />';
-        //if ( ez.$('embed_inline_source').el.checked )
-        return '<span id="__mce_tmp"></span>';
-        //return '<div id="__mce_tmp">' + ez.$('embed_preview').el.innerHTML + '</div>';
+        if ( ez.$('embed_inline_source').el.checked )
+           return '<span id="__mce_tmp"></span>';
+        return '<div id="__mce_tmp"></div>';
     },
     onTagGenerated:  function( el, ed, args )
     {
@@ -83,7 +83,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     {
         args['id'] = 'eZObject_' + eZOEPopupUtils.embedObject['contentobject_id'];
         args['inline'] = ez.$('embed_inline_source').el.checked ? 'true' : 'false';
-        el = eZOEPopupUtils.switchTagTypeIfNeeded( el, (contentType === 'image' ? 'img' : 'span' ) );
+        el = eZOEPopupUtils.switchTagTypeIfNeeded( el, (contentType === 'image' || compatibilityMode === 'enabled' ? 'img' : (args['inline'] === 'true' ? 'span' : 'div') ) );
         if ( contentType === 'image' )
         {
             var imageAttributes = eZOEPopupUtils.embedObject['image_attributes'];
@@ -103,11 +103,12 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         }
         else
         {
-            ed.dom.setHTML( el, ez.$('embed_preview').el.innerHTML );
+            if ( compatibilityMode === 'enabled' )
+                args['src'] = attachmentIcon;
+            else
+                ed.dom.setHTML( el, ez.$('embed_preview').el.innerHTML );
             //ed.dom.setStyle(el, 'float', args['align'] === 'middle' ? '' : args['align']);
             args['title']   = eZOEPopupUtils.safeHtml( eZOEPopupUtils.embedObject['name'] );
-            if ( args['inline'] === 'false' )
-                args['class'] += ' mceEmbedBlockTag';
         }
         ed.dom.setAttribs( el, args );
     }
@@ -133,7 +134,7 @@ function inlineSelectorChange( e, el )
     if ( editorEl )
     {
         var viewValue = editorEl.getAttribute('view');
-        var classValue = ez.string.trim( editorEl.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable|mceEmbedBlockTag)/g, '') );
+        var classValue = ez.string.trim( editorEl.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable)/g, '') );
     }
 
     if ( viewValue && viewListData[ tag ].join !== undefined && (' ' + viewListData[ tag ].join(' ') + ' ').indexOf( ' ' + viewValue + ' ' ) !== -1 )

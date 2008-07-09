@@ -166,20 +166,7 @@ class eZOEInputParser extends eZXMLInputParser
     function tagNameSpan( $tagName, &$attributes )
     {
         $name = '';
-        
-        if ( isset( $attributes['type'] ) && $attributes['type'] === 'custom' )
-        {
-            $name = 'custom';
-            $attributes['class'] = trim( str_replace('mceItemCustomTag', '', $attributes['class']) );
-            $attributes['name'] = $attributes['class'];
-        }
-
-        if ( $name === '' && isset( $attributes['id'] ) )
-        {
-            $name = $this->tagNameDiv( $tagName, $attributes );
-        }
-
-        if ( $name === '' && isset( $attributes['style'] ) )
+        if ( isset( $attributes['style'] ) )
         {
             if ( strpos( $attributes['style'], 'font-weight: bold' ) !== false )
                 $name = 'strong';
@@ -191,6 +178,18 @@ class eZOEInputParser extends eZXMLInputParser
                 $attributes['name'] = $attributes['class'] = 'underline';
                 $attributes['children_required'] = 'true';
             }
+        }
+        
+        if ( isset( $attributes['type'] ) && $attributes['type'] === 'custom' )
+        {
+            $name = 'custom';
+            $attributes['class'] = trim( str_replace('mceItemCustomTag', '', $attributes['class']) );
+            $attributes['name'] = $attributes['class'];
+        }
+
+        if ( $name === '' && isset( $attributes['id'] ) )
+        {
+            $name = $this->tagNameDiv( $tagName, $attributes );
         }
 
         return $name;
@@ -269,10 +268,10 @@ class eZOEInputParser extends eZXMLInputParser
                 else
                     $name = 'embed';
 
-                // remove internal classes that is used by editor on embed objects
-                if ( isset( $attributes['class'] ) )
+                // remove mceNonEditable class that is used by editor on embed objects
+                if ( isset( $attributes['class'] ) && strpos( $attributes['class'], 'mceNonEditable' ) !== false )
                 {
-                    $attributes['class'] = trim( str_replace( array('mceNonEditable', 'mceEmbedBlockTag'), '', $attributes['class'] ) );
+                    $attributes['class'] = trim( str_replace( 'mceNonEditable', '', $attributes['class'] ) );
                 }
 
                 // rewrite float style to align

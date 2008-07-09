@@ -106,6 +106,7 @@ if ( !$embedObject )
 $imageSizeArray  = $imageIni->variable( 'AliasSettings', 'AliasList' );
 $siteIni         = eZINI::instance( 'site.ini' );
 $contentIni      = eZINI::instance( 'content.ini' );
+$ezoeIni         = eZINI::instance( 'ezoe.ini' );
 $embedClassIdentifier = $embedObject->attribute( 'class_identifier' );
 $embedClassID         = $embedObject->attribute( 'contentclass_id' );
 $sizeTypeArray   = array();
@@ -243,6 +244,8 @@ $tpl->setVariable( 'embed_id', $embedId );
 $tpl->setVariable( 'embed_object', $embedObject );
 $tpl->setVariable( 'embed_data', eZOEAjaxContent::encode( $embedObject, $params ) );
 $tpl->setVariable( 'content_type', $contentType );
+$tpl->setVariable( 'compatibility_mode', $ezoeIni->variable('EditorSettings', 'CompatibilityMode' ) );
+
 $tpl->setVariable( 'tag_name', $embedInline ? 'embed-inline' : 'embed' );
 
 $tpl->setVariable( 'view_list', eZOEAjaxContent::jsonEncode( array( 'embed' => $viewList, 'embed-inline' => $viewListInline ) ) );
@@ -259,8 +262,7 @@ if ( $contentIni->hasVariable( 'ImageSettings', 'DefaultCropAlias' ) )
 else
     $tpl->setVariable( 'default_crop_size', $defaultSize );
     
-//$oeini = eZINI::instance( 'ezoe.ini' );
-//eZOEAjaxContent::jsonEncode( $oeini->variable('EditorSettings', 'CustomAttributeStyleMap' ) )
+//eZOEAjaxContent::jsonEncode( $ezoeIni->variable('EditorSettings', 'CustomAttributeStyleMap' ) )
 $tpl->setVariable( 'custom_attribute_style_map', '{}' );
 
 $tpl->setVariable( 'persistent_variable', array() );

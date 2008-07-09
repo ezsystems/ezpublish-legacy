@@ -819,6 +819,7 @@
                 {
 	                ed.selection.select( p );
 	                mceNonEditable = true;
+                    div = p.nodeName === 'DIV';
 	                n = p;
                 }
                 c.setActive( mceNonEditable );
@@ -835,7 +836,7 @@
             {
                 if (!p || !p.name)
                 {
-                    c.setDisabled( !p && co);
+                    c.setDisabled( div || !p && co);
                     c.setActive(!!p);
                 }
             }
@@ -952,8 +953,8 @@
                             return false;
 						case 'embed':
 						case 'embed-inline':
-							if (v = DOM.getAttrib(n, 'src'))
-								ti += 'src: ' + v + ' ';
+							//if (v = DOM.getAttrib(n, 'src'))
+								//ti += 'src: ' + v + ' ';
 
 							break;
 						case 'anchor':
@@ -985,7 +986,7 @@
 						ti = ti + 'id: ' + v + ' ';
 
 					if (v = className || n.className) {
-						v = v.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable|mceEmbedBlockTag)/g, '');
+						v = v.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable)/g, '');
 
 						if ( v = ez.string.trim( v ) )
 						{
@@ -1260,7 +1261,7 @@
 
 		_mceImage : function(ui, val)
 		{
-			var ed = this.editor, e = ed.selection.getNode(), eurl = 'image/', type = '/upload/', el;
+			var ed = this.editor, e = ed.selection.getNode(), eurl = 'auto/', type = '/upload/', el;
 
             if ( ui.nodeName === 'IMG' )
                 e = ui;

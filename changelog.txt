@@ -2,10 +2,12 @@ eZ Online Editor MCE extension Changelog
 
 5.0rc
 * Fixed bug #013320: (Development mode doesn't work fully)
-* Made embed tag use span instead of div internally to be able to add link around it
 * Removed CustomAttributeStyleMap since it caused embed / embed-inline tags to be converted 
  to a font tag by the browser if you for instance used 'color' style for text-color.
 * Added background color to embed / embed-inline objects to make them more visable
+* Added CompatibilityMode in ezoe.ini to make editor behave like OE 4.x in respect to embed tags
+  (attachment icons)
+
 
 5.0Beta4
 * Fixed bug #013151: No nice URLs with ezoe

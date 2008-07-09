@@ -824,6 +824,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                       || $child->nodeName === 'ol'
                       || $child->nodeName === 'literal'
                       || ( $child->nodeName === 'custom' && !self::customTagIsInline( $child->getAttribute( 'name' ) ) )
+                      || ( $child->nodeName === 'embed' && !self::embedTagIsCompatibilityMode() && !self::embedTagIsImageByNode( $child ) )
                       );
             if ( $inline )
             {
@@ -1049,17 +1050,25 @@ class eZOEXMLInput extends eZXMLInputHandler
 
                     $output .= '<img id="' . $idString . '" title="' . $objectName . '" src="' . $srcString . '" ' . $objectAttr . $customAttributePart . $styleString . ' />';
                 }
+                else if ( self::embedTagIsCompatibilityMode() )
+                {
+                    $srcString = self::getDesignFile('images/tango/mail-attachment32.png');
+                    if ( $className != '' )
+                        $objectAttr .= ' class="' . $className . '"';
+
+                    $output .= '<img id="' . $idString . '" title="' . $objectName . '" src="' . $srcString . '" ' . $objectAttr . $customAttributePart . $styleString . ' />';
+                }
                 else
                 {
-                    $classNames = array('mceNonEditable');
-
                     if ( $className )
-                        $classNames[] = $className;
+                        $objectAttr .= ' class="mceNonEditable ' . $className . '"';
+                    else
+                        $objectAttr .= ' class="mceNonEditable"';
 
-                    if ( $tagName === 'embed' )
-                        $classNames[] = 'mceEmbedBlockTag';
-
-                    $objectAttr .= ' class="' . implode( ' ', $classNames ) . '"';
+                    if ( $tagName === 'embed-inline' )
+                        $htmlTagName = 'span';
+                    else
+                        $htmlTagName = 'div';
                     
                     $objectParam = array( 'size' => $size, 'align' => $alignment, 'show_path' => $showPath );
                     if ( $htmlID ) $objectParam['id'] = $htmlID;
@@ -1075,7 +1084,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                     $tpl->setVariable( 'object_parameters', $objectParam );
                     if ( isset( $node ) ) $tpl->setVariable( 'node', $node );
                     $templateOutput = $tpl->fetch( 'design:content/datatype/view/ezxmltags/' . $tagName . $tplSuffix . '.tpl' );
-                    $output .= '<span id="' . $idString . '" title="' . $objectName . '"' . $objectAttr . $customAttributePart . $styleString . '>' . $templateOutput . '</span>';
+                    $output .= '<' . $htmlTagName . ' id="' . $idString . '" title="' . $objectName . '"' . $objectAttr . $customAttributePart . $styleString . '>' . $templateOutput . '</' . $htmlTagName . '>';
                 }
             }break;
 
@@ -1502,6 +1511,16 @@ class eZOEXMLInput extends eZXMLInputHandler
         return in_array( $classId, self::$embedImageClassIds ) or in_array( $classIdentifier, self::$embedImageClassIdentifiers );
     }
 
+    static public function embedTagIsCompatibilityMode()
+    {
+        if ( self::$embedIsCompatibilityMode === null )
+        {
+            $ezoeIni = eZINI::instance('ezoe.ini');
+            self::$embedIsCompatibilityMode = $ezoeIni->variable('EditorSettings', 'CompatibilityMode' ) === 'enabled';
+        }
+        return self::$embedIsCompatibilityMode;
+    }
+
     static protected $serverURL   = null;
     static protected $browserType = null;
     static protected $designBases = null;
@@ -1510,6 +1529,7 @@ class eZOEXMLInput extends eZXMLInputHandler
     static protected $embedImageClassIds = null;
     static protected $embedImageClassIdentifiers = null;
     static protected $customAttributeStyleMap = null;
+    static protected $embedIsCompatibilityMode = null;
     
     protected $editorLayoutSettings = null;
     static protected $editorGlobalLayoutSettings = null;

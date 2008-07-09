@@ -415,7 +415,7 @@ var eZOEPopupUtils = {
                 if ( o.hasClass('mceItemSkip') ) return;
                 var name = o.el.name;
                 if ( name === 'class' )
-                    var v = ez.string.trim( editorElement.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable|mceEmbedBlockTag)/g, '').replace( eZOEPopupUtils.settings.cssClass, '' ) );
+                    var v = ez.string.trim( editorElement.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable)/g, '').replace( eZOEPopupUtils.settings.cssClass, '' ) );
                 else 
                     var v = tinyMCEPopup.editor.dom.getAttrib( editorElement, name );//editorElement.getAttribute( name );
                 if ( v !== false && v !== null && v !== undefined )

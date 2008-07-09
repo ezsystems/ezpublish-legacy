@@ -81,10 +81,10 @@ pre
 
 /* general block tags (embed and custom) */
 
-* html span.mceEmbedBlockTag,
+* html div.mceNonEditable,
 * html div.mceItemCustomTag { height: 1%; }
 
-span.mceEmbedBlockTag:after,
+div.mceNonEditable:after,
 div.mceItemCustomTag:after
 {
     content: "-";
@@ -153,7 +153,7 @@ div.mceItemCustomTag.separator p { margin: 2px; }
 
 /* change the style for embed tags */
 
-span.mceNonEditable
+div.mceNonEditable, span.mceNonEditable
 {
     background: #d6fedd url('../../../images/tango/mail-attachment.png') no-repeat 0 2px scroll;
     min-height: 18px;
@@ -161,55 +161,53 @@ span.mceNonEditable
 }
 /* core.css ez layout styles for embed tags */
 
-span.mceEmbedBlockTag { display: block; }
-
-span.mceEmbedBlockTag div.block /* Used around groups of objects which are connected in some way, and requires extra margins to the surroundings */
+div.mceNonEditable div.block /* Used around groups of objects which are connected in some way, and requires extra margins to the surroundings */
 {
   margin: 0.5em 0 0.5em 0;
   padding: 0;
   clear: both;
 }
 
-span.mceEmbedBlockTag div.block div.element /* Used if several objects are to be stacked horizontally within the same block */
+div.mceNonEditable div.block div.element /* Used if several objects are to be stacked horizontally within the same block */
 {
   padding-right: 1em;
   float: left;
 }
 
-span.mceEmbedBlockTag div.block div.left /* Floats elements to the left in a block */
+div.mceNonEditable div.block div.left /* Floats elements to the left in a block */
 {
   width: 48%;
   float: left;
   clear: left;
 }
 
-span.mceEmbedBlockTag div.block div.right /* Floats elements to the right in a block */
+div.mceNonEditable div.block div.right /* Floats elements to the right in a block */
 {
   width: 48%;
   float: right;
   clear: right;
 }
 
-span.mceEmbedBlockTag div.object-left /* Used for floating images and other content elements to the left inside other content */
+div.mceNonEditable div.object-left /* Used for floating images and other content elements to the left inside other content */
 {
   margin: 0.25em 0.25em 0.25em 0;
   float: left;
   clear: left;
 }
 
-span.mceEmbedBlockTag div.object-right /* Used for floating images and other content elements to the right inside other content */
+div.mceNonEditable div.object-right /* Used for floating images and other content elements to the right inside other content */
 {
   margin: 0.25em 0 0.25em 0.25em;
   float: right;
   clear: right;
 }
 
-span.mceEmbedBlockTag div.split
+div.mceNonEditable div.split
 {
   clear: both;
 }
 
-span.mceEmbedBlockTag div.split:after /* Terminate floating elements flow */
+div.mceNonEditable div.split:after /* Terminate floating elements flow */
 {
   content: "-";
   height: 0;
@@ -219,29 +217,29 @@ span.mceEmbedBlockTag div.split:after /* Terminate floating elements flow */
   clear: both;
 }
 
-span.mceEmbedBlockTag div.split div.three-left
+div.mceNonEditable div.split div.three-left
 {
   width: 31%;
   float: left;
 }
 
-span.mceEmbedBlockTag div.split div.three-right
+div.mceNonEditable div.split div.three-right
 {
   width: 31%;
   float: right;
 }
 
-span.mceEmbedBlockTag div.split div.three-center
+div.mceNonEditable div.split div.three-center
 {
   margin: 0 35% 0 35%;
 }
 
-span.mceEmbedBlockTag .float-break
+div.mceNonEditable .float-break
 {
     height: 1%; /* Fix for IE */
 }
 
-span.mceEmbedBlockTag .float-break:after /* Terminate floating elements flow */
+div.mceNonEditable .float-break:after /* Terminate floating elements flow */
 {
     content: "-";
     height: 0;
@@ -251,7 +249,7 @@ span.mceEmbedBlockTag .float-break:after /* Terminate floating elements flow */
     clear: both;
 }
 
-span.mceEmbedBlockTag div.break /* Old method for terminating floating elements flow; kept for backwards compatibility */
+div.mceNonEditable div.break /* Old method for terminating floating elements flow; kept for backwards compatibility */
 {
     clear: both;
     font-size: 1px; /* Fix for IE */
