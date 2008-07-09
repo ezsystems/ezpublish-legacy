@@ -1530,7 +1530,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
 
             // only when the virtual folder is Content we need to add its path to the start URL
             // the paths of other top level folders (like Media) are included in URL aliases of their descending nodes
-            if ( $virtualFolder == VIRTUAL_CONTENT_FOLDER_NAME )
+            if ( $virtualFolder == eZWebDAVContentServer::virtualContentFolderName() )
             {
                 $startURL = '/' . $siteAccess . '/' . $virtualFolder . '/';
             }
