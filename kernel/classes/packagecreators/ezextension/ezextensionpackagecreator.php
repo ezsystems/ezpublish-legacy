@@ -148,6 +148,7 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
 
         if ( $extensionCount == 1 )
         {
+            $extensionName = $extensionList[0];
             $packageInformation['name'] = $extensionName;
             $packageInformation['summary'] = "$extensionName extension";
             $packageInformation['description'] = "This package contains the $extensionName eZ Publish extension";
