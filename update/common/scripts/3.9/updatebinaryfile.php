@@ -3,7 +3,7 @@
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ publish
-// SOFTWARE RELEASE: 3.9.x
+// SOFTWARE RELEASE: 3.10.x
 // COPYRIGHT NOTICE: Copyright (C) 1999-2006 eZ Systems AS
 // SOFTWARE LICENSE: GNU General Public License v2.0
 // NOTICE: >
@@ -29,7 +29,10 @@
  \file updatebinaryfile.php
 */
 
-require 'autoload.php';
+include_once( 'kernel/classes/ezscript.php' );
+include_once( 'lib/ezutils/classes/ezcli.php' );
+include_once( 'kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php' );
+include_once( 'lib/ezfile/classes/ezfile.php' );
 
 $cli =& eZCLI::instance();
 
