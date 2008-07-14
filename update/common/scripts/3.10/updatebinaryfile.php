@@ -29,7 +29,10 @@
  \file updatebinaryfile.php
 */
 
-require 'autoload.php';
+include_once( 'kernel/classes/ezscript.php' );
+include_once( 'lib/ezutils/classes/ezcli.php' );
+include_once( 'kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php' );
+include_once( 'lib/ezfile/classes/ezfile.php' );
 
 $cli =& eZCLI::instance();
 
