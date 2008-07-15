@@ -4,9 +4,12 @@ eZ Online Editor MCE extension Changelog
 * Fixed bug #013320: (Development mode doesn't work fully)
 * Removed CustomAttributeStyleMap since it caused embed / embed-inline tags to be converted 
  to a font tag by the browser if you for instance used 'color' style for text-color.
-* Added background color to embed / embed-inline objects to make them more visable
 * Added CompatibilityMode in ezoe.ini to make editor behave like OE 4.x in respect to embed tags
   (attachment icons)
+* Added bookmarks tab in upload dialog
+* Stop tinyMCE from triyng to load i18n script a second time (unvanted 404).
+* Fixed: Extra paragraphs in literal tags if double line feeds where used.
+* Updated TInyMCE to 3.1.1 (trunk), fixes serveral issues in Opera
 
 
 5.0Beta4

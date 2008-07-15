@@ -234,34 +234,6 @@ var eZOEPopupUtils = {
         return value;
     },
 
-    insertInlineTagCleanly: function( ed, tag, customTag, text )
-    {
-        // insert tag without the editor / browser messing it up
-        var el;
-        if ( window.opera )
-        {
-            // work around for opera
-            if ( !text )
-            {
-                // create temporary text range if no selection
-                var r = ed.selection.getRng(), t = ed.getDoc().createTextNode("tiny_mce_marker");
-                r.insertNode( t );
-                ed.selection.select( t );
-            }
-            ed.execCommand('mceInsertLink', false, {'id': '__mce_tmp'}, {skip_undo : 1} );
-            el = ed.dom.get('__mce_tmp');
-            el = eZOEPopupUtils.switchTagTypeIfNeeded( el, tag );
-            el.innerHTML = (text ? text : customTag);
-            ed.dom.setAttrib( el, 'href', '' );
-        }
-        else
-        {
-            ed.execCommand('mceInsertRawHTML', false, '<' + tag + ' id="__mce_tmp">' + (text ? text : customTag) + '<\/' + tag + '>', {skip_undo : 1} );
-            el = ed.dom.get('__mce_tmp');  
-        }
-        return el;
-	},
-
     xmlToXhtmlHash: {
         'paragraph': 'P',
         'literal': 'PRE',
@@ -536,7 +508,7 @@ var eZOEPopupUtils = {
         eZOEPopupUtils.removeChildren( tfoot.el );
         if ( eZOEPopupUtils.ajaxLoadResponse )
         {
-            var data = eZOEPopupUtils.ajaxLoadResponse, fn = mode === 'browse' ? 'browse('+ data['node']['node_id'] + ',' : mode + '(';
+            var data = eZOEPopupUtils.ajaxLoadResponse, fn = mode + ( mode === 'browse' ? '('+ data['node']['node_id'] + ',' : '(' );
             if ( data['node'] && data['node']['name'] )
             {
                 tr = document.createElement("tr"), td = document.createElement("td");

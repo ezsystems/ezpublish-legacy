@@ -2,7 +2,7 @@
  * $Id: Selection.js 842 2008-05-07 15:56:39Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright Â© 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
 (function() {
@@ -90,33 +90,31 @@
 		 * @param {Object} s Optional settings object with for example data format.
 		 */
 		setContent : function(h, s) {
-			var t = this, r = t.getRng(), d = t.win.document;
+			var t = this, r = t.getRng(), c, d = t.win.document;
 
 			s = s || {format : 'html'};
 			s.set = true;
 			h = t.dom.processHTML(h);
 
 			if (r.insertNode) {
-				// Gecko has a bug where if you insert &nbsp; using InsertHTML it will insert a space instead
-				// So we simply check if the input is HTML or text and then insert text using the insertNode method
-				if (tinymce.isGecko && h.indexOf('<') == -1) {
-					r.deleteContents();
-					r.insertNode(t.getRng().createContextualFragment(h + '<span id="__caret">_</span>'));
-					t.select(t.dom.get('__caret'));
-					t.getRng().deleteContents();
-					return;
-				}
+				// Make caret marker since insertNode places the caret in the beginning of text after insert
+				h += '<span id="__caret">_</span>';
 
-				// Use insert HTML if it exists (places cursor after content)
-				try {
-					// This might fail with an exception see bug #1893736
-					if (d.queryCommandEnabled('InsertHTML'))
-						return d.execCommand('InsertHTML', false, h);
-				} catch (ex) {
-					// Use old school method
-					r.deleteContents();
-					r.insertNode(t.getRng().createContextualFragment(h));
-				}
+				// Delete and insert new node
+				r.deleteContents();
+				r.insertNode(t.getRng().createContextualFragment(h));
+
+				// Move to caret marker
+				c = t.dom.get('__caret');
+
+				// Make sure we wrap it compleatly, Opera fails with a simple select call
+				r = d.createRange();
+				r.setStartBefore(c);
+				r.setEndAfter(c);
+				t.setRng(r);
+
+				// Delete the marker, and hopefully the caret gets placed in the right location
+				d.execCommand('Delete', false, null);
 			} else {
 				if (r.item) {
 					// Delete content and get caret text selection
@@ -523,7 +521,7 @@
 			if (!r || r.item)
 				return false;
 
-			return !s || r.boundingWidth == 0 || s.isCollapsed;
+			return !s || r.boundingWidth == 0 || r.collapsed;
 		},
 
 		/**
@@ -635,8 +633,12 @@
 
 				// Handle selection a image or other control like element such as anchors
 				if (!r.collapsed) {
-					if (r.startContainer == r.endContainer || (tinymce.isWebKit && r.startContainer == r.endContainer.parentNode)) {
-						if (r.startOffset - r.endOffset < 2 || tinymce.isWebKit) {
+					// If the anchor node is a element instead of a text node then return this element
+					if (tinymce.isWebKit && s.anchorNode && s.anchorNode.nodeType == 1) 
+						return s.anchorNode.childNodes[s.anchorOffset]; 
+
+					if (r.startContainer == r.endContainer) {
+						if (r.startOffset - r.endOffset < 2) {
 							if (r.startContainer.hasChildNodes())
 								e = r.startContainer.childNodes[r.startOffset];
 						}

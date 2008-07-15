@@ -1,8 +1,6 @@
 
 
 KNOWN ISSUES:
-
-* Links on embed object tags ( not possible on div tags, needs to change it or document that it won't work unless you define class as image )
 * update translations
 
 
@@ -11,6 +9,5 @@ KNOWN ISSUES:
 
 KNOWN ENHANCEMENT REQUESTS:
 
-* Custimizable formats selector (custom tags and classes)
+* Custimizable formats selector w/ classes (needs support for classes in the editors FormatBlock call)
 * Better feedback on custom attribute validation ( fork TinyMCE validation and enhance it? )
-* Re add bookmarks when selecting images / objects

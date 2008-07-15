@@ -1136,7 +1136,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
                 $literalText = htmlspecialchars( $literalText );
                 $literalText = str_replace( '  ', ' &nbsp;', $literalText );
-                $literalText = str_replace( "\n\n", '</p><p>', $literalText );
+                //$literalText = str_replace( "\n\n", '</p><p>', $literalText );
                 $literalText = str_replace( "\n", '<br />', $literalText );
 
                 if ( $className != '' )

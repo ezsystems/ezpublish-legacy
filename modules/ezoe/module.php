@@ -50,12 +50,6 @@ $ViewList['tags'] = array(
     'script' => 'tags.php',
     'params' => array( 'ObjectID', 'ObjectVersion', 'TagName', 'CustomTagName' )
     );
-    
-$ViewList['load'] = array(
-    'functions' => array( 'editor' ),
-    'script' => 'load.php',
-    'params' => array( 'EmbedID','DataMap', 'ImagePreGenerateSizes' )
-    );
 
 $ViewList['dialog'] = array(
     'functions' => array( 'editor' ),
@@ -69,7 +63,13 @@ $ViewList['embed_view'] = array(
     'script' => 'embed_view.php',
     'params' => array( 'EmbedID' )
     );
-    
+
+$ViewList['load'] = array(
+    'functions' => array( 'editor' ),
+    'script' => 'load.php',
+    'params' => array( 'EmbedID','DataMap', 'ImagePreGenerateSizes' )
+    );
+
 $ViewList['search'] = array(
     'functions' => array( 'editor' ),
     'script' => 'search.php',
@@ -80,6 +80,12 @@ $ViewList['expand'] = array(
     'functions' => array( 'editor' ),
     'script' => 'expand.php',
     'params' => array('NodeID', 'Offset', 'Limit')
+    );
+
+$ViewList['bookmarks'] = array(
+    'functions' => array( 'editor' ),
+    'script' => 'bookmarks.php',
+    'params' => array('Offset', 'Limit')
     );
 
 

@@ -37,7 +37,7 @@
     {/foreach}
 
     <!-- Load TinyMCE code -->
-    <script type="text/javascript" src={"javascript/tiny_mce.js"|ezdesign}></script>
+    <script id="tinymce_script_loader" type="text/javascript" src={"javascript/tiny_mce.js"|ezdesign}></script>
     {ezoescript( $plugin_js_list )}
     <!-- Init TinyMCE script -->
     <script type="text/javascript">
@@ -96,6 +96,12 @@
         gecko_spellcheck : true,
         save_enablewhendirty : true
     };
+
+    (function(){
+        var uri = document.getElementById('tinymce_script_loader').src;
+        tinymce.ScriptLoader.markDone( uri.replace( 'tiny_mce', 'langs/' + eZOeMCE['language'] ) );
+    }())
+
     tinyMCE.init(eZOeMCE['tiny_mce_init_settings']);
 
     function ezMceToggleEditor( id, settings )

@@ -164,7 +164,7 @@ div.mceItemCustomTag.separator p { margin: 2px; }
 
 div.mceNonEditable, span.mceNonEditable
 {
-    background: #d6fedd url('../../../images/tango/mail-attachment.png') no-repeat 0 2px scroll;
+    background: transparent url('../../../images/tango/mail-attachment.png') no-repeat 0 2px scroll;
     min-height: 18px;
     padding-left: 16px;
 }
@@ -244,7 +244,7 @@ div.mceNonEditable div.split div.three-center
   margin: 0 35% 0 35%;
 }
 
-div.mceNonEditable .float-break
+* html div.mceNonEditable .float-break
 {
     height: 1%; /* Fix for IE */
 }

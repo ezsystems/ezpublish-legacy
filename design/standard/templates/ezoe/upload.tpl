@@ -31,6 +31,7 @@ tinyMCEPopup.onInit.add( function(){
             <li class="tab"><span><a href="JavaScript:void(0);">{'Upload'|i18n('design/admin/content/upload')}</a></span></li>
             <li class="tab"><span><a href="JavaScript:void(0);">{'Search'|i18n('design/admin/content/search')}</a></span></li>
             <li class="tab"><span><a href="JavaScript:void(0);">{'Browse'|i18n('design/standard/ezoe')}</a></span></li>
+            <li class="tab"><span><a href="JavaScript:void(0);">{'Bookmarks'|i18n( 'design/admin/content/browse' )}</a></span></li>
         </ul>
         </div>
 
@@ -160,6 +161,8 @@ tinyMCEPopup.onInit.add( function(){
 {include uri="design:ezoe/box_search.tpl" embed_mode=false() class_filter_array=$class_filter_array}
 
 {include uri="design:ezoe/box_browse.tpl" embed_mode=false() class_filter_array=$class_filter_array}
+
+{include uri="design:ezoe/box_bookmarks.tpl" embed_mode=false()}
 
 </div>
      </form>

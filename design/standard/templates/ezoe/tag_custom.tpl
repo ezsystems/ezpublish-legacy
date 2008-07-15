@@ -43,25 +43,14 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
                 filterOutCustomBlockTags( );
         }
     },
-    tagCreator: function( ed, tag, customTag, text )
+    tagGenerator: function( tag, customTag, text )
     {
         if ( customTag === 'underline' )
-        {
-            var el = eZOEPopupUtils.insertInlineTagCleanly( ed, 'u', customTag, text );
-            ed.dom.setAttrib( el, 'type', 'custom' );
-        }
+            return '<u id="__mce_tmp" type="custom">' + (text ? text : customTag) + '<\/u>';
         else if ( ez.$( customTag + '_inline_source' ).el.checked )
-        {
-            var el = eZOEPopupUtils.insertInlineTagCleanly( ed, 'span', customTag, text );
-            ed.dom.setAttrib( el, 'type', 'custom' );
-        }
+	        return '<span id="__mce_tmp" type="custom">' + (text ? text : customTag) + '<\/span>';
         else
-        {
-            ed.execCommand('mceInsertContent', false, '<div id="__mce_tmp" type="custom"><p>' + (text ? text : customTag) + '<\/p><\/div>', {skip_undo : 1} );
-            var el = ed.dom.get('__mce_tmp');
-        }
-
-        return el;
+	        return '<div id="__mce_tmp" type="custom"><p>' + (text ? text : customTag) + '<\/p><\/div>';
     },
     onTagGenerated:  function( el, ed, args )
     {

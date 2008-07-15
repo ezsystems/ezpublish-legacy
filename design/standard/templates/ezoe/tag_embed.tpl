@@ -146,6 +146,9 @@ function inlineSelectorChange( e, el )
         classList.el.value = classValue;
     else if ( def['class'] !== undefined )
         classList.el.value = def['class'];
+    
+    if ( tinymce.isIE && contentType !== 'image' && e !== false )
+        loadEmbedPreview();
 }
 
 
@@ -218,7 +221,7 @@ function loadEmbedPreview( )
         </ul>
         </div>
 
-<div class="panel_wrapper" style="height: 360px;">
+<div class="panel_wrapper" style="height: auto;">
     <div class="panel">
         <div class="attribute-title">
             <h2 style="padding: 0 0 4px 0;">{$embed_object.name|wash}</h2>

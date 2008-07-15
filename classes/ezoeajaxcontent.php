@@ -4,7 +4,7 @@
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ Online Editor MCE extension for eZ Publish
-// SOFTWARE RELEASE: 1.x
+// SOFTWARE RELEASE: 5.x
 // COPYRIGHT NOTICE: Copyright (C) 2008 eZ Systems AS
 // SOFTWARE LICENSE: GNU General Public License v2.0
 // NOTICE: >
@@ -36,18 +36,28 @@ class eZOEAjaxContent
     protected static $instance         = null;
     protected static $nativeJsonEncode = null;
     
-    // protected __construct, so new instance can only be created with getInstance()
+    /**
+     * Constructor
+     *
+     * @access private
+     */
     protected function __construct()
     {
     }
 
-    // protected __clone, prevents cloning of object
+    /**
+     * Clone
+     *
+     * @access private
+     */
     protected function __clone()
     {
     }
 
-    /*
-     Static Singleton function to get a instance of this class
+    /**
+     * getInstance
+     *
+     * @return eZOEAjaxContent
     */
     public static function getInstance()
     {
@@ -58,9 +68,14 @@ class eZOEAjaxContent
         return self::$instance;
     }
     
-    /*
-     Function for encoding content object(s) or node(s) to simplified json objects
-     TODO: add xml support
+    /**
+     * Function for encoding content object(s) or node(s) to simplified
+     * json objects, xml or array hash
+     * 
+     * @param mixed $obj
+     * @param array $params
+     * @param string $type
+     * @return mixed
     */
     public static function encode( $obj, $params = array(), $type = 'json' )
     {
@@ -76,15 +91,62 @@ class eZOEAjaxContent
         {
             $ret = self::simplify( $obj, $params );
         }
+
+        if ( $type === 'xml' )
+            return self::xmlEncode( $ret );
+        else if ( $type === 'json' )
         return self::jsonEncode( $ret );
+        else
+            return $ret;
+        
     }
     
-    /*
-      Function for simplifying a content object or node 
+    /**
+     * Function for simplifying a content object or node
+     *
+     * @param mixed $obj
+     * @param array $params
+     * @return array
     */
     public static function simplify( $obj, $params = array() )
     {
-        if ( !$obj ) return array();
+        if ( !$obj )
+        {
+            return array();
+        }
+        else if ( $obj instanceof eZContentObject)
+        {
+            $node          = $obj->attribute( 'main_node' );
+            $contentObject = $obj;
+        }
+        else if ( $obj instanceof eZContentObjectTreeNode ) 
+        {
+            $node          = $obj;
+            $contentObject = $obj->attribute( 'object' );
+        }
+        else if ( $obj instanceof eZFindResultNode ) 
+        {
+            $node          = $obj;
+            $contentObject = $obj->attribute( 'object' );
+        }
+        else if( isset( $params['fetchNodeFunction'] ) && method_exists( $obj, $params['fetchNodeFunction'] ) )
+        {
+            // You can supply fetchNodeFunction parameter to be able to support other node related classes 
+            $node = call_user_func( array( $obj, $params['fetchNodeFunction'] ) );
+            if ( !$node instanceof eZContentObjectTreeNode )
+            {
+                return '';
+            }
+            $contentObject = $node->attribute( 'object' );
+        }
+        else if ( is_array( $obj ) )
+        {
+            return $obj; // Array is returned as is
+        }
+        else
+        {
+            return ''; // Other passed objects are not supported
+        }
 
         $ini = eZINI::instance( 'site.ini' );
         $params = array_merge( array(
@@ -107,21 +169,6 @@ class eZOEAjaxContent
             
         if (  !isset( $params['imageDataTypes'] ) )
             $params['imageDataTypes'] = $ini->variable( 'ImageDataTypeSettings', 'AvailableImageDataTypes' );
-
-        if ( $obj instanceof eZContentObject)
-        {
-            $node          = $obj->attribute( 'main_node' );
-            $contentObject = $obj;
-        }
-        elseif ( $obj instanceof eZContentObjectTreeNode ) 
-        {
-            $node          = $obj;
-            $contentObject = $obj->attribute( 'object' );
-        }
-        else
-        {
-            return ''; // Other passed objects are not supported
-        }
 
         $ret                     = array();
         $attrtibuteArray         = array();
@@ -231,9 +278,63 @@ class eZOEAjaxContent
         return $ret;
     }
 
-    /*
-     Wrapper function for encoding to json with native or php version
-     depending on what the system supports
+    /**
+     * Encodes simple multilevel array and hash values to valid xml string
+     * 
+     * @param mixed $hash
+     * @param string $childName
+     * @return string
+    */
+    public static function xmlEncode( $hash, $childName = 'child' )
+    {
+        $xml = new XmlWriter();
+        $xml->openMemory();
+        $xml->startDocument('1.0', 'UTF-8');
+        $xml->startElement('root');
+        
+        self::xmlWrite( $xml, $hash, $childName );
+        
+        $xml->endElement();
+        return $xml->outputMemory( true );
+    
+    }
+
+    /**
+     * Recursive xmlWriter function called by xmlEncode
+     * 
+     * @param XMLWriter $xml
+     * @param mixed $hash
+     * @param string $childName
+     * @access private
+    */
+    protected static function xmlWrite( XMLWriter $xml, $hash, $childName = 'child' )
+    {
+        foreach( $hash as $key => $value )
+        {
+            if( is_array( $value ) )
+            {
+                $xml->startElement( $key );
+                self::xmlWrite( $xml, $value );
+                $xml->endElement();
+                continue;
+            }
+            if ( is_numeric( $key ) )
+            {
+                $xml->writeElement( $childName, $value );
+            }
+            else
+            {
+                $xml->writeElement( $key, $value );
+            }
+        }
+    }
+
+    /**
+     * Wrapper function for encoding to json with native or php version
+     * depending on what the system supports
+     * 
+     * @param mixed $obj
+     * @return string
     */
     public static function jsonEncode( $obj )
     {
@@ -248,13 +349,18 @@ class eZOEAjaxContent
     }
     
     
-    /*
+    /**
+     * Returns the JSON representation of a value using php code
+     * 
+     * @param mixed $var
      * @author      Michal Migurski <mike-json@teczno.com>
      * @author      Matt Knapp <mdknapp[at]gmail[dot]com>
      * @author      Brett Stimmerman <brettstimmerman[at]gmail[dot]com>
      * @copyright   2005 Michal Migurski
      * @license     http://www.freebsd.org/copyright/freebsd-license.html
      * @link        http://pear.php.net/pepr/pepr-proposal-show.php?id=198
+     * @access private
+     * @return string
     */
     protected function phpJsonEncode( $var )
     {       
@@ -407,14 +513,13 @@ class eZOEAjaxContent
         }
     }
 
-   /** function name_value
+   /**
     * array-walking function for use in generating JSON-formatted name-value pairs
     *
-    * @param    string  $name   name of key to use
-    * @param    mixed   $value  reference to an array element to be encoded
-    *
-    * @return   string  JSON-formatted name-value pair, like '"name":value'
+    * @param string $name
+    * @param mixed $value
     * @access   private
+    * @return string
     */
     protected function phpJsonEncodeNameValue($name, $value)
     {
