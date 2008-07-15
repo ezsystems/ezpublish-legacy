@@ -3376,7 +3376,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     }
                     else
                     {
-                        $sqlCondition = $db->generateSQLInStatement( $nodeID, 'node_id', false, true, 'int' ) . ' AND';
+                        $sqlCondition = $db->generateSQLInStatement( $nodeID, 'node_id', false, 'int' ) . ' AND';
                     }
                 }
                 else
