@@ -174,6 +174,7 @@ $versions310 = array( 'unstable' => array( array( '3.9.0', '3.10.0alpha1' )
                                            , array( '3.10.0beta1', '3.10.0rc1' )
                                            , array( '3.10.0rc1', '3.10.0' )
 					   , array( '3.10.0', '3.10.1rc1' )
+					   , array( '3.10.1rc1', '3.10.1rc2' )
                                          ),
                      'unstable_subdir' => 'unstable',
                      'stable' => array( array( '3.9.0', '3.10.0' )
