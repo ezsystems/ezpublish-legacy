@@ -745,7 +745,7 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
             // Give other search engines that the default one a chance to reindex
             // when adding locations.
             include_once( 'kernel/classes/ezsearch.php' );
-            if ( !eZSearch::getEngine() instanceof eZSearchEngine )
+            if ( get_class( eZSearch::getEngine() ) != "ezsearchengine" )
             {
                 include_once( 'kernel/content/ezcontentoperationcollection.php' );
                 eZContentOperationCollection::registerSearchObject( $objectID, $node->attribute( 'contentobject_version' ) );
@@ -932,7 +932,7 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
         // Give other search engines that the default one a chance to reindex
         // when removing locations.
         include_once( 'kernel/classes/ezsearch.php' );
-        if ( !eZSearch::getEngine() instanceof eZSearchEngine )
+        if ( get_class( eZSearch::getEngine() ) != "ezsearchengine" )
         {
             include_once( 'kernel/content/ezcontentoperationcollection.php' );
             eZContentOperationCollection::registerSearchObject( $objectID, $object->attribute( 'current_version' ) );
