@@ -1,7 +1,7 @@
 eZ Online Editor MCE extension Changelog
 
 5.0rc
-* Fixed bug #013320: (Development mode doesn't work fully)
+* Fixed #013320: (Development mode doesn't work fully)
 * Removed CustomAttributeStyleMap since it caused embed / embed-inline tags to be converted 
  to a font tag by the browser if you for instance used 'color' style for text-color.
 * Added CompatibilityMode in ezoe.ini to make editor behave like OE 4.x in respect to embed tags
@@ -12,6 +12,7 @@ eZ Online Editor MCE extension Changelog
 * Updated TinyMCE to 3.1.1 (trunk), fixes serveral issues in Opera
 * Fixed bug #013011: Opera doesn't allow to make embedded object as link
 * Added Norwegian translation
+* Fixed #013178: Duplicate embed object when I change "paragraph" to "title"
 
 
 5.0Beta4

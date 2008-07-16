@@ -93,6 +93,7 @@
         theme_ez_content_css : eZOeMCE['content_css'],
         popup_css : eZOeMCE['popup_css'],
         //setupcontent_callback : "oeStyleFixSetupContent",
+        save_callback : "ezMceCleanUpEmbedTags",
         gecko_spellcheck : true,
         save_enablewhendirty : true
     };
@@ -117,13 +118,21 @@
         }
     }
 
-    /*function oeStyleFixSetupContent( editor_id, body, doc )
+    function ezMceCleanUpEmbedTags(element_id, html, body)
     {
-    	ez.array.forEach( body.getElementsByTagName('*'), function( node ){
-            if ( node.nodeType === 1 && node.getAttribute('mce_style') )
-                node.style.cssText = node.getAttribute('mce_style');
+    	// remove the content of the embed tags that are just there for oe preview
+        // purpose, this is to avoid that the ez xml parsers in some cases 
+        // duplicates the embed tag
+        ez.array.forEach( body.getElementsByTagName('div'), function( node ){
+            if ( node && node.className.indexOf('mceNonEditable') !== -1 )
+                node.innerHTML = '';
         });
-    }*/
+        ez.array.forEach( body.getElementsByTagName('span'), function( node ){
+            if ( node && node.className.indexOf('mceNonEditable') !== -1 )
+                node.innerHTML = '';
+        });
+        return body.innerHTML;
+    }
 
 
     {/literal}
