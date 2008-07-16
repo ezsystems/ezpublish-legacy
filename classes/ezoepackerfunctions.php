@@ -56,7 +56,7 @@ class eZOEPackerFunctions
                 'browse' => ezi18n( 'design/standard/ezoe', "Browse"),
                 'class_name' => ezi18n( 'design/standard/ezoe', "Class"),
                 'not_set' => ezi18n( 'design/standard/ezoe', "-- Not set --"),
-                'clipboard_msg' => ezi18n( 'design/standard/ezoe', "Copy/Cut/Paste is not available in Mozilla and Firefox.\r\nDo you want more information about this issue?"),
+                'clipboard_msg' => ezi18n( 'design/standard/ezoe', "Copy/Cut/Paste is not available in Mozilla and Firefox.\nDo you want more information about this issue?"),
                 'clipboard_no_support' => ezi18n( 'design/standard/ezoe', "Currently not supported by your browser, use keyboard shortcuts instead."),
                 'popup_blocked' => ezi18n( 'design/standard/ezoe', "Sorry, but we have noticed that your popup-blocker has disabled a window that provides application functionality. You will need to disable popup blocking on this site in order to fully utilize this tool."),
                 'invalid_data' => ezi18n( 'design/standard/ezoe', "Error: Invalid values entered, these are marked in red."),
@@ -74,10 +74,10 @@ class eZOEPackerFunctions
                 'time_fmt' => ezi18n( 'design/standard/ezoe', "%H:%M:%S"),
                 'insertdate_desc' => ezi18n( 'design/standard/ezoe', "Insert date"),
                 'inserttime_desc' => ezi18n( 'design/standard/ezoe', "Insert time"),
-                'months_long' => ezi18n( 'design/standard/ezoe', implode(',', $locale->LongMonthNames ) ),
-                'months_short' => ezi18n( 'design/standard/ezoe', implode(',', $locale->ShortMonthNames ) ),
-                'day_long' => ezi18n( 'design/standard/ezoe', implode( ',', $locale->LongDayNames ) . ',' . $locale->longDayName(0) ),
-                'day_short' => ezi18n( 'design/standard/ezoe', implode( ',', $locale->ShortDayNames ) . ',' . $locale->shortDayName(0) )
+                'months_long' => implode(',', $locale->LongMonthNames ),
+                'months_short' => implode(',', $locale->ShortMonthNames ),
+                'day_long' => implode( ',', $locale->LongDayNames ) . ',' . $locale->longDayName(0),
+                'day_short' => implode( ',', $locale->ShortDayNames ) . ',' . $locale->shortDayName(0)
             ),
             'print' => array(
                 'print_desc' => ezi18n( 'design/standard/ezoe', "Print")
@@ -267,7 +267,7 @@ class eZOEPackerFunctions
                 'newdocument_desc' => ezi18n( 'design/standard/ezoe', "New document"),
                 'help_desc' => ezi18n( 'design/standard/ezoe', "Help"),
                 //'blockquote_desc' => ezi18n( 'design/standard/ezoe', "Blockquote"),
-                'clipboard_msg' => ezi18n( 'design/standard/ezoe', "Copy/Cut/Paste is not available in Mozilla and Firefox.\r\nDo you want more information about this issue?"),
+                'clipboard_msg' => ezi18n( 'design/standard/ezoe', "Copy/Cut/Paste is not available in Mozilla and Firefox.\nDo you want more information about this issue?"),
                 'path' => ezi18n( 'design/standard/ezoe', "Path"),
                 'newdocument' => ezi18n( 'design/standard/ezoe', "Are you sure you want clear all contents?"),
                 'toolbar_focus' => ezi18n( 'design/standard/ezoe', "Jump to tool buttons - Alt+Q, Jump to editor - Alt-Z, Jump to element path - Alt-X"),

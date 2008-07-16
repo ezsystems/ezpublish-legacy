@@ -409,8 +409,6 @@ var eZOEPopupUtils = {
 
     switchTagTypeIfNeeded: function ( currentNode, targetTag )
     {
-        var s = eZOEPopupUtils.settings;
-
         if ( currentNode && currentNode.nodeName && targetTag !== currentNode.nodeName.toLowerCase() )
         {
             // changing to a different node type
@@ -428,7 +426,7 @@ var eZOEPopupUtils = {
                 ed.dom.setAttrib(newNode, currentNode.attributes[a].name, ed.dom.getAttrib( currentNode, currentNode.attributes[a].name ) );
 
              if ( currentNode.parentNode.nodeName === 'BODY'
-               && newNode.nodeName === 'SPAN' 
+               && ( newNode.nodeName === 'SPAN' || newNode.nodeName === 'IMG' )
                 )
              {
                  // replace node but wrap inside a paragraph first
