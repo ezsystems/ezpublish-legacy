@@ -1,0 +1,39 @@
+Changes from 3.10.1rc1 to 3.10.1rc2
+
+*Kernel:
+- Implemented enhancement: #13039: ez4: setup/extensions enhancement - sort + only show dirs + links.
+  (Merged from trunk (4.1.0alpha1) rev. 22062)
+
+*Design:
+
+*eZTemplate:
+
+*Package system:
+
+*Scripts:
+
+*Cronjobs:
+
+*Translations:
+
+*Bugfixes:
+- Fixed bug #12734: Search engine not triggered when adding / removing a location.
+  (Merged from trunk (4.1.0alpha1) rev. 22028)
+- Fixed bug #13224: ORL: handleCustomObjectHTTPActions loads whole database into memory
+  (Merged from trunk (4.1.0alpha1) rev. 22031)
+- Fixed bug #9005: GLOB_BRACE with non GNU glibc.
+  (Merged from trunk (4.1.0alpha1) rev. 22035)
+- Fixed bug #12519: settings/view for extension siteaccesses doesn't work + Placement for array starts every time with 'default'.
+  (Merged from trunk (4.1.0alpha1) rev. 22045)
+- Fixed bug #13285: Logging done in updateniceurls.php should be controlled by options to the script.
+  (Merged from trunk (4.1.0alpha1) rev. 22052)
+- Fixed bug #12782: Invalid argument supplied for foreach() in ezmoduleoperationinfo.php.
+  (Merged from trunk (4.1.0alpha1) rev. 22055)
+- Fixed bug #13303: Update pathWithNames() for 3.10.1 to use $node rather than $this
+- Fixed bug #13302: eZTemplateCacheBlock::decodeNodeID(...) must be updated to use new multilingual urlalias api
+  (Merged manually from trunk (4.1.0alpha1) rev. 22066)
+- Fixed bug #11808: Certain multibyte characters might lead to incorrect URL upon redirection
+  (Merged from trunk (4.1.0alpha1) rev. 22071)
+- Fixed bug #13275: Spelling typo wilrdcard-cache-index gives trouble in cluster mode.
+  (Merged from trunk (4.1.0alpha1) rev. 22083)
+- Fixed bug #13297: Wrong Translation code in por-MZ locale.
