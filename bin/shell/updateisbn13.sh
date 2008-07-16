@@ -36,7 +36,7 @@ for arg in $*; do
             ;;
         --db-password=*)
             if echo $arg | grep -e "--db-password=" >/dev/null; then
-                DB_USER=`echo $arg | sed 's/--db-password=//'`
+                DB_PASSWORD=`echo $arg | sed 's/--db-password=//'`
             fi
             ;;
         --db-driver=*)
