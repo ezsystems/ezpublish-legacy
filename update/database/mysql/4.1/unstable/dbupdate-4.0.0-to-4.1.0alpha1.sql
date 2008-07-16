@@ -17,4 +17,6 @@ ALTER TABLE ezcontentobject ADD UNIQUE INDEX ezcontentobject_remote_id(remote_id
 ALTER TABLE ezgeneral_digest_user_settings ADD UNIQUE INDEX ezgeneral_digest_user_settings_address(address);
 DELETE FROM ezgeneral_digest_user_settings WHERE address not in (SELECT email FROM ezuser);
 
+-- START: from 3.10.1
 ALTER TABLE ezurlalias_ml ADD alias_redirects int(11) NOT NULL default 1;
+-- END: from 3.10.1
