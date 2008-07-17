@@ -89,25 +89,31 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
             var imageAttributes = eZOEPopupUtils.embedObject['image_attributes'];
             if ( !imageAttributes || !eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ] )
             {
-                args['src'] = attachmentIcon;
-                args['title']   = eZOEPopupUtils.safeHtml( eZOEPopupUtils.embedObject['name'] );
-                //el.style.border = '1px solid #888';
+                args['src']   = attachmentIcon;
+                args['title'] = eZOEPopupUtils.safeHtml( eZOEPopupUtils.embedObject['name'] );
+                args['width'] = args['height'] = 32;
             }
             else
             {
-               var sizeObj     = eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'][ args['alt'] ];
-               args['src']     = eZOeMCE['root'] + sizeObj['url'];
-               args['title']   = eZOEPopupUtils.safeHtml( sizeObj['alternative_text'] || eZOEPopupUtils.embedObject['name'] );
-               args['border']  = 0;
+               var sizeObj    = eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'][ args['alt'] ];
+               args['src']    = eZOeMCE['root'] + sizeObj['url'];
+               args['title']  = eZOEPopupUtils.safeHtml( sizeObj['alternative_text'] || eZOEPopupUtils.embedObject['name'] );
+               args['width']  = sizeObj['width'];
+               args['height'] = sizeObj['height'];
             }
         }
         else
         {
             if ( compatibilityMode === 'enabled' )
+            {
                 args['src'] = attachmentIcon;
+                args['width'] = args['height'] = 32;
+            }
             else
+            {
                 ed.dom.setHTML( el, ez.$('embed_preview').el.innerHTML );
-            //ed.dom.setStyle(el, 'float', args['align'] === 'middle' ? '' : args['align']);
+                //ed.dom.setStyle(el, 'float', args['align'] === 'middle' ? '' : args['align']);
+            }
             args['title']   = eZOEPopupUtils.safeHtml( eZOEPopupUtils.embedObject['name'] );
         }
         ed.dom.setAttribs( el, args );

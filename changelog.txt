@@ -13,6 +13,7 @@ eZ Online Editor MCE extension Changelog
 * Fixed bug #013011: Opera doesn't allow to make embedded object as link
 * Added Norwegian translation
 * Fixed #013178: Duplicate embed object when I change "paragraph" to "title"
+* Implemented #013368: Include image size attributes in the editor-created image tags
 
 
 5.0Beta4

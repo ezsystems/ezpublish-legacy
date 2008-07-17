@@ -1027,6 +1027,8 @@ class eZOEXMLInput extends eZXMLInputHandler
                     $contentObjectAttributes = $object->contentObjectAttributes();
                     $imageDatatypeArray = $ini->variable( 'ImageDataTypeSettings', 'AvailableImageDataTypes' );
                     $srcString = self::getDesignFile('images/tango/mail-attachment32.png');
+                    $imageWidth = 32;
+                    $imageHeight = 32;
                     // reverse the array so we are sure we get the first valid image
                     foreach ( array_reverse( $contentObjectAttributes, true ) as $contentObjectAttribute )
                     {
@@ -1039,8 +1041,10 @@ class eZOEXMLInput extends eZXMLInputHandler
                             $content = $contentObjectAttribute->content();
                             if ( $content != null && $content->hasAttribute( $size ) )
                             {
-                                $imageAlias = $content->imageAlias( $size );
-                                $srcString = $URL . '/' . $imageAlias['url'];
+                                $imageAlias  = $content->imageAlias( $size );
+                                $srcString   = $URL . '/' . $imageAlias['url'];
+                                $imageWidth  = $imageAlias['width'];
+                                $imageHeight = $imageAlias['height'];
                             }
                         }
                     }
@@ -1048,7 +1052,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                     if ( $className != '' )
                         $objectAttr .= ' class="' . $className . '"';
 
-                    $output .= '<img id="' . $idString . '" title="' . $objectName . '" src="' . $srcString . '" ' . $objectAttr . $customAttributePart . $styleString . ' />';
+                    $output .= '<img id="' . $idString . '" title="' . $objectName . '" src="' . $srcString . '" width="' . $imageWidth . '" height="' . $imageHeight . '" ' . $objectAttr . $customAttributePart . $styleString . ' />';
                 }
                 else if ( self::embedTagIsCompatibilityMode() )
                 {
@@ -1056,7 +1060,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                     if ( $className != '' )
                         $objectAttr .= ' class="' . $className . '"';
 
-                    $output .= '<img id="' . $idString . '" title="' . $objectName . '" src="' . $srcString . '" ' . $objectAttr . $customAttributePart . $styleString . ' />';
+                    $output .= '<img id="' . $idString . '" title="' . $objectName . '" src="' . $srcString . '" width="32" height="32" ' . $objectAttr . $customAttributePart . $styleString . ' />';
                 }
                 else
                 {

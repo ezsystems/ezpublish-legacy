@@ -32,7 +32,7 @@ B. Make sure you are using one of the following web browsers:
    Safari 3.0 or higher.
    Opera 9.5 or higher.
      
-   (It is always recommended to use the latest available version of the browser)
+   (It is always recommended to use the latest stable version of the browser)
    
    Make sure that Javascript support is enabled in your web browser.
 
@@ -68,12 +68,9 @@ C. Make sure you have cleared all the caches (both eZ Publish and browser).
 
 Check the 'extension/ezoe/settings/site.ini.append.php' file, find line
 
-ImageClassID[]=your_image_class_id
+ImageClassIdentifiers[]=your_image_class_identifier
 
-under [MediaClassSettings]. Is the image class id correct?
-
-Note: The ImageClassID setting is deprecated. Use the ImageClassIdentifiers
-setting instead in the same [MediaClassSettings] section.
+under [MediaClassSettings]. Is the image class identifier correct?
 
 
 5. When I insert an image into the editor, it disappears after storing.
@@ -82,7 +79,7 @@ setting instead in the same [MediaClassSettings] section.
 Are you trying to insert image right before or after heading?
 Note that images/objects can't be saved in the same line as heading.
 
-Make sure you have permission to store the image in the placment you choose!
+Make sure you have permission to store the image in the placement you choose!
 Make sure the upload limit of the image size is set high enough both in php settings,
 apache settings and on the image class in eZ Publish ( it is 2Mb by default )
 
@@ -91,5 +88,14 @@ apache settings and on the image class in eZ Publish ( it is 2Mb by default )
 ==============================================================================
 
 This feature is removed to allow users to use the browsers built in spell checker.
-Click on the tag name in the 'Path:' to edit the tag properties!
+Click on the tag name in the 'Path:' to edit the tag properties or on the glowing
+button (if there is a button specifically for the tag you have selected)!
+
+
+7. Some popup dialogs does not work (merge cells / html source / color picker )
+==============================================================================
+
+These popup dialogs requires that html/htm files are allowed to be loaded from design
+folder. ( more specifically design/javscript/ )
+Take a look at you apache rewrite rules to make sure they are not rewritten by apache.
 
