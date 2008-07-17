@@ -80,6 +80,8 @@ $cli->output( '' );
 $cli->output( "Found $nonUniqueRemoteIDDataListCount non-unique content object remote IDs." );
 $cli->output( '' );
 
+$totalCount = 0;
+
 foreach ( $nonUniqueRemoteIDDataList as $nonUniqueRemoteIDData )
 {
     if ( $mode )
@@ -158,6 +160,8 @@ foreach ( $nonUniqueRemoteIDDataList as $nonUniqueRemoteIDData )
             $skip = 0;
         }
     }
+    
+    $cli->output( 'Fixing...' );
 
     foreach ( $contentObjects as $i => $contentObject )
     {
@@ -170,10 +174,14 @@ foreach ( $nonUniqueRemoteIDDataList as $nonUniqueRemoteIDData )
         $contentObject->setAttribute( 'remote_id', $newRemoteID );
         $contentObject->store();
     }
+    
+    $totalCount += $nonUniqueRemoteIDData['cnt'] - 1;
 
     $cli->output( '' );
     $cli->output( '' );
 }
+
+$cli->output( "Number of content objects that received a new remote ID : $totalCount" );
 
 $script->shutdown( 0 );
 
