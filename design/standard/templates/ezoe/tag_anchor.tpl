@@ -14,7 +14,19 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {ldelim}
     form: 'EditForm',
     cancelButton: 'CancelButton',
     customAttributeStyleMap: {$custom_attribute_style_map},
-    cssClass: 'mceItemAnchor'    
+    cssClass: 'mceItemAnchor',
+{literal}
+    onInit: function( el, tag, ed )
+    {
+        if ( el === false && this.settings.editorSelectedText !== false )
+            ez.$('anchor_name_source').el.value = this.settings.editorSelectedText;
+    },
+    tagAttributeEditor: function( ed, el, args )
+    {
+        el.innerHTML = '';
+        ed.dom.setAttribs( el, args );
+    }
+{/literal}
 {rdelim} ) );
 
 // -->

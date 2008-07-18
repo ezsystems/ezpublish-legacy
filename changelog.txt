@@ -14,6 +14,7 @@ eZ Online Editor MCE extension Changelog
 * Added Norwegian translation
 * Fixed #013178: Duplicate embed object when I change "paragraph" to "title"
 * Implemented #013368: Include image size attributes in the editor-created image tags
+* Made it more clear that anchors are content less, and set anchor name to slected text on init
 
 
 5.0Beta4

@@ -1098,7 +1098,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
                 $customAttributePart = $this->getCustomAttrPart( $tag, $styleString );
 
-                $output .= '<a name="' . $name . '" class="mceItemAnchor"' . $customAttributePart . $styleString . '>&nbsp;</a>';
+                $output .= '<a name="' . $name . '" class="mceItemAnchor"' . $customAttributePart . $styleString . '></a>';
             }break;
 
             case 'custom' :
