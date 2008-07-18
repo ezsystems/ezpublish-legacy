@@ -1,18 +1,19 @@
-eZ Online Editor MCE extension 5.0 FAQ
+eZ Online Editor 5.0 extension FAQ
 
-1. eZ Online Editor MCE is not activated in eZ Publish
-==================================================
+1. eZ Online Editor 5.0 is not activated in eZ Publish
+======================================================
 
-You will need to check if the extension is properly activated in site.ini.
-Open 'settings/override/site.ini.append(.php)' and find the 'ExtensionSettings'
-section. Under it you should have an entry that says:
+	You will need to check if the extension is properly activated in site.ini.
+	Open 'settings/override/site.ini.append(.php)' and find the 'ExtensionSettings'
+	section. Under it you should have an entry that says:
+	
+	ActiveExtensions[]=ezoe
+	
+	Make sure there are no spaces before or after the name.
+	And make sure the old Online Editor (ezdhtml) is not also enabled.
 
-ActiveExtensions[]=ezoe
-
-Make sure there are no spaces before or after the name.
-
-You should also consider checking the debug output of eZ Publish to see what is
-going wrong.
+	You should also consider checking the debug output of eZ Publish to see what is
+	going wrong.
 
 
 2. After installation, I only get Disable editor/Enable editor button when

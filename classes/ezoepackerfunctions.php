@@ -3,7 +3,7 @@
 // Created on: <28-Mar-2008 00:00:00 ar>
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Online Editor MCE extension for eZ Publish
+// SOFTWARE NAME: eZ Online Editor extension for eZ Publish
 // SOFTWARE RELEASE: 1.x
 // COPYRIGHT NOTICE: Copyright (C) 2008 eZ Systems AS
 // SOFTWARE LICENSE: GNU General Public License v2.0

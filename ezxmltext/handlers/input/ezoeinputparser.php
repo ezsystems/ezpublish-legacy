@@ -4,7 +4,7 @@
 // Forked on: <20-Des-2007 13:02:06 ar> from eZDHTMLInputParser class
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Online Editor MCE extension for eZ Publish
+// SOFTWARE NAME: eZ Online Editor extension for eZ Publish
 // SOFTWARE RELEASE: 5.0
 // COPYRIGHT NOTICE: Copyright (C) 2008 eZ Systems AS
 // SOFTWARE LICENSE: GNU General Public License v2.0

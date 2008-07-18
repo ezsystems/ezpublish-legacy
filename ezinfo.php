@@ -1,8 +1,8 @@
 <?php
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Online Editor MCE
-// SOFTWARE RELEASE: 1.x
+// SOFTWARE NAME: eZ Online Editor
+// SOFTWARE RELEASE: 5.x
 // COPYRIGHT NOTICE: Copyright (C) 1999-2008 eZ Systems AS
 // SOFTWARE LICENSE: GNU General Public License v2.0
 // NOTICE: >

@@ -1,4 +1,4 @@
-eZ Online Editor MCE extension Changelog
+eZ Online Editor 5.0 extension Changelog
 
 5.0rc
 * Fixed #013320: (Development mode doesn't work fully)

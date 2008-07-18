@@ -1,16 +1,16 @@
-eZ Online Editor MCE extension 5.0 INSTALL
+eZ Online Editor 5.0 extension INSTALL
 
 
-What is the eZ Online Editor MCE extension?
-=======================================
+What is the eZ Online Editor 5.0 extension?
+===========================================
 
-   eZ Publish Online Editor MCE for eZ XML datatype.
+   eZ Publish Online Editor 5.0 for eZ XML datatype.
 
 
 Requirements
 ============
 
-The following requirements exists for using eZ Online Editor MCE extension:
+The following requirements exists for using eZ Online Editor 5.0 extension:
 
 o  eZ Publish version:
 
@@ -58,7 +58,7 @@ Information on the installation of eZ Publish can be found at:
 http://ez.no/doc
 
 
-Installing eZ Online Editor MCE extension
+Installing eZ Online Editor 5.0 extension
 =========================================
 
 1. Download the ezoe package.
@@ -124,6 +124,8 @@ Installing eZ Online Editor MCE extension
    ActiveAccessExtensions[]=ezoe
 
    Create the file and/or the section if they do not exist.
+   
+   NOTE: Make sure you disable the old editor also (ezdhtml)
 
 6. Set the Image class
 
