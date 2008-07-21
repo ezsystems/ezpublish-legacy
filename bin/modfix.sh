@@ -1,15 +1,7 @@
 #!/bin/sh
 
-CWD=`pwd`
-DIR=`echo $0 | awk -F'modfix.sh' '{print $1}'`
-
-DIR_MODE=777 ##!
-##!DIR_MODE=777
-FILE_MODE=666 ##!
-##!FILE_MODE=666
-
-
-#cd $DIR
+DIR_MODE=777
+FILE_MODE=666
 
 if [ ! -f "index.php" -a \
      ! -f "access.php" -a \
@@ -22,7 +14,7 @@ if [ ! -f "index.php" -a \
      exit 1
 fi
 
-chmod $DIR_MODE var/cache/
+
 if [ ! -d var/cache/ini ]; then
     mkdir var/cache/ini
     echo "Created var/cache/ini"
@@ -32,48 +24,37 @@ if [ ! -d var/cache/texttoimage ]; then
     mkdir var/cache/texttoimage
     echo "Created var/cache/texttoimage"
 fi
-chmod $DIR_MODE var/cache/texttoimage
 
 if [ ! -d var/cache/codepages ]; then
     mkdir var/cache/codepages
     echo "Created var/cache/codepages"
 fi
-chmod $DIR_MODE var/cache/codepages
 
 if [ ! -d var/cache/translation ]; then
     mkdir var/cache/translation
     echo "Created var/cache/translation"
 fi
-chmod $DIR_MODE var/cache/translation
 
 if [ ! -d var/storage/packages ]; then
     mkdir var/storage/packages
     echo "Created var/storage/packages"
 fi
-chmod $DIR_MODE var/storage/packages
-
-
-chmod $DIR_MODE var/cache/ini
-chmod -R $DIR_MODE var/storage
-chmod -R $DIR_MODE var/webdav
-
-chmod -R $DIR_MODE settings
 
 if [ ! -d var/cache/template/tree ]; then
     mkdir -p var/cache/template/tree
     echo "Created var/cache/template/tree"
 fi
+
 if [ ! -d var/cache/template/process ]; then
     mkdir -p var/cache/template/process
     echo "Created var/cache/template/process"
 fi
-chmod -R $DIR_MODE var/cache/template
 
 if [ ! -d var/log ]; then
     mkdir var/log
     echo "Created var/log"
 fi
-chmod $DIR_MODE var/log
+
 LOGFILES="error.log warning.log notice.log debug.log"
 for LOGFILE in $LOGFILES; do
     LOGPATH="var/log/$LOGFILE"
@@ -82,26 +63,35 @@ for LOGFILE in $LOGFILES; do
     fi
 done
 
-if [ -d design ]; then
-    chmod $DIR_MODE design
-fi
-
-
 chmod $DIR_MODE var
+chmod $DIR_MODE design
+chmod $DIR_MODE var/log
+chmod $DIR_MODE var/cache/
+chmod $DIR_MODE var/cache/ini
+chmod $DIR_MODE var/cache/codepages
+chmod $DIR_MODE var/cache/translation
+chmod $DIR_MODE var/cache/texttoimage
+chmod $DIR_MODE var/storage/packages
 
-#cd $CWD
+chmod -R $DIR_MODE settings
+chmod -R $DIR_MODE autoload
+chmod -R $DIR_MODE var/webdav
+chmod -R $DIR_MODE var/storage
+chmod -R $DIR_MODE var/cache/template
 
-#cd $CWD
+
 echo "
 *** WARNING WARNING WARNING WARNING ***
-This script sets 777 as permissions in var/
+This script sets ${DIR_MODE} as permissions in var/, design/, settings/ and autoload/.
+
 THIS IS NOT SECURE!
-Find the user and group for your web server and make them owner of all files in var/
-You should be able to find this information in the configuration file for your web server.
+
+Find the user and group for your web server and make them owner of all files 
+in all of the above directories. You should be able to find this information 
+in the configuration file for your web server.
 
 For example:
 If your web server user is apache and the group is apache, then run the following commands:
-# chown -R apache.apache var/
-# chmod -R 770 var/
+# chown -R apache.apache var design settings autoload
+# chmod -R 770 var design settings autoload
 "
-
