@@ -1,5 +1,10 @@
 eZ Online Editor 5.0 extension Changelog
 
+5.0rc2
+* Cleaned up i18n use and Nor-NO and synced it with the untranslated.ts file.
+* Language for TinyMCE now uses Locale from site ini instead of locale from xml attribute.
+
+
 5.0rc
 * Fixed #013320: (Development mode doesn't work fully)
 * Removed CustomAttributeStyleMap since it caused embed / embed-inline tags to be converted 
@@ -9,7 +14,7 @@ eZ Online Editor 5.0 extension Changelog
 * Added bookmarks tab in upload dialog
 * Stop tinyMCE from triyng to load i18n script a second time (unvanted 404).
 * Fixed: Extra paragraphs in literal tags if double line feeds where used.
-* Updated TinyMCE to 3.1.1 (trunk), fixes serveral issues in Opera
+* Updated TinyMCE to 3.1.1 (trunk), fixes several issues in Opera
 * Fixed bug #013011: Opera doesn't allow to make embedded object as link
 * Added Norwegian translation
 * Fixed #013178: Duplicate embed object when I change "paragraph" to "title"

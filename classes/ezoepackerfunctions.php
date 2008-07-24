@@ -219,7 +219,7 @@ class eZOEPackerFunctions
                 //'blockquote' => ezi18n( 'design/standard/ezoe', "Blockquote"),
                 'code' => ezi18n( 'design/standard/ezoe', "Code"),
                 'samp' => ezi18n( 'design/standard/ezoe', "Code sample"),
-                'dt' => ezi18n( 'design/standard/ezoe', "Definition term "),
+                'dt' => ezi18n( 'design/standard/ezoe', "Definition term"),
                 'dd' => ezi18n( 'design/standard/ezoe', "Definition description"),
                 'bold_desc' => ezi18n( 'design/standard/ezoe', "Bold (Ctrl+B)"),
                 'italic_desc' => ezi18n( 'design/standard/ezoe', "Italic (Ctrl+I)"),

@@ -911,7 +911,7 @@ class eZOEInputParser extends eZXMLInputParser
                 $element->setAttribute( 'object_id', $objectID );
                 if ( !eZContentObject::exists( $objectID ))
                 {
-                    $this->Messages[] = ezx18n( 'extension/ezoe', 'handlers/input', 'Object %1 does not exist.', false, array( $objectID ) );
+                    $this->Messages[] = ezi18n( 'design/standard/ezoe/handler', 'Object %1 does not exist.', false, array( $objectID ) );
                 }
             }
             elseif ( preg_match( "@^eznode://([^/#]+)/?(#[^/]*)?/?@i", $href, $matches ) )
@@ -926,7 +926,7 @@ class eZOEInputParser extends eZXMLInputParser
                     $node = eZContentObjectTreeNode::fetch( $nodeID );
                     if ( !$node instanceOf eZContentObjectTreeNode )
                     {
-                        $this->Messages[] = ezx18n( 'extension/ezoe', 'handlers/input', 'Node %1 does not exist.', false, array( $nodeID ) );
+                        $this->Messages[] = ezi18n( 'design/standard/ezoe/handler', 'Node %1 does not exist.', false, array( $nodeID ) );
                     }
                 }
                 else
@@ -934,7 +934,7 @@ class eZOEInputParser extends eZXMLInputParser
                     $node = eZContentObjectTreeNode::fetchByURLPath( $nodePath );
                     if ( !$node instanceOf eZContentObjectTreeNode )
                     {
-                        $this->Messages[] = ezx18n( 'extension/ezoe', 'handlers/input', 'Node \'%1\' does not exist.', false, array( $nodePath ) );
+                        $this->Messages[] = ezi18n( 'design/standard/ezoe/handler', 'Node &apos;%1&apos; does not exist.', false, array( $nodePath ) );
                     }
                     else
                     {
@@ -985,7 +985,7 @@ class eZOEInputParser extends eZXMLInputParser
                         {
                             $this->isInputValid = false;
                             if ( $this->errorLevel >= 0 )
-                                $this->Messages[] = ezi18n( 'kernel/classes/datatypes', "Invalid e-mail address: '%1'",
+                                $this->Messages[] = ezi18n( 'kernel/classes/datatypes/ezxmltext', "Invalid e-mail address: '%1'",
                                                             false, array( $mailAddr[1] ) );
                             $element->removeAttribute( 'href' );
                             return $ret;

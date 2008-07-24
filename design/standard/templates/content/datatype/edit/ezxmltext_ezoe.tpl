@@ -20,7 +20,7 @@
          $content_css_list_temp = ezini('StylesheetSettings', 'EditorCSSFileList', 'design.ini',,true())
          $content_css_list = array()
          $editor_css_list  = array( concat('skins/', $skin, '/ui.css') )
-         $language         = '-'|concat( $attribute.language_code )
+         $language         = '-'|concat( ezini( 'RegionalSettings', 'Locale', 'site.ini') )
          $plugin_js_list   = array( 'ezoe::i18n::'|concat( $language ) )
     }
 

@@ -95,10 +95,9 @@ class eZOEAjaxContent
         if ( $type === 'xml' )
             return self::xmlEncode( $ret );
         else if ( $type === 'json' )
-        return self::jsonEncode( $ret );
+            return self::jsonEncode( $ret );
         else
             return $ret;
-        
     }
     
     /**
@@ -119,12 +118,7 @@ class eZOEAjaxContent
             $node          = $obj->attribute( 'main_node' );
             $contentObject = $obj;
         }
-        else if ( $obj instanceof eZContentObjectTreeNode ) 
-        {
-            $node          = $obj;
-            $contentObject = $obj->attribute( 'object' );
-        }
-        else if ( $obj instanceof eZFindResultNode ) 
+        else if ( $obj instanceof eZContentObjectTreeNode || $obj instanceof eZFindResultNode ) 
         {
             $node          = $obj;
             $contentObject = $obj->attribute( 'object' );
@@ -353,12 +347,12 @@ class eZOEAjaxContent
      * Returns the JSON representation of a value using php code
      * 
      * @param mixed $var
-     * @author      Michal Migurski <mike-json@teczno.com>
-     * @author      Matt Knapp <mdknapp[at]gmail[dot]com>
-     * @author      Brett Stimmerman <brettstimmerman[at]gmail[dot]com>
-     * @copyright   2005 Michal Migurski
-     * @license     http://www.freebsd.org/copyright/freebsd-license.html
-     * @link        http://pear.php.net/pepr/pepr-proposal-show.php?id=198
+     * @author Michal Migurski <mike-json@teczno.com>
+     * @author Matt Knapp <mdknapp[at]gmail[dot]com>
+     * @author Brett Stimmerman <brettstimmerman[at]gmail[dot]com>
+     * @copyright 2005 Michal Migurski
+     * @license http://www.freebsd.org/copyright/freebsd-license.html
+     * @link http://pear.php.net/pepr/pepr-proposal-show.php?id=198
      * @access private
      * @return string
     */
@@ -515,10 +509,10 @@ class eZOEAjaxContent
 
    /**
     * array-walking function for use in generating JSON-formatted name-value pairs
-    *
+    * 
     * @param string $name
     * @param mixed $value
-    * @access   private
+    * @access private
     * @return string
     */
     protected function phpJsonEncodeNameValue($name, $value)

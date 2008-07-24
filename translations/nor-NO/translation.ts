@@ -1,38 +1,5 @@
 <!DOCTYPE TS><TS>
 <context>
-    <name>design/admin/content/edit</name>
-    <message>
-        <source>Name</source>
-        <translation>Navn</translation>
-    </message>
-    <message>
-        <source>File type</source>
-        <translation>Filtype</translation>
-    </message>
-    <message>
-        <source>Size</source>
-        <translation>Størrelse</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation>Type</translation>
-    </message>
-</context>
-<context>
-    <name>design/admin/content/search</name>
-    <message>
-        <source>Search</source>
-        <translation>Søk</translation>
-    </message>
-</context>
-<context>
-    <name>design/admin/content/upload</name>
-    <message>
-        <source>Upload</source>
-        <translation>Last opp</translation>
-    </message>
-</context>
-<context>
     <name>design/standard/content/datatype</name>
     <message>
         <source>Disable editor</source>
@@ -41,35 +8,6 @@
     <message>
         <source>Enable editor</source>
         <translation>Aktiver redigeringsverktøy</translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/content/edit</name>
-    <message>
-        <source>Store draft</source>
-        <translation>Lagre utkast</translation>
-    </message>
-    <message>
-        <source>Send for publishing</source>
-        <translation>Send til publisering</translation>
-    </message>
-    <message>
-        <source>Discard</source>
-        <translation>Forkast</translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/content/search</name>
-    <message>
-        <source>No results were found when searching for &amp;quot;%1&amp;quot;</source>
-        <translation>Ingen resultater funnet ved søk etter &amp;quot;%1&amp;quot;</translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/error/kernel</name>
-    <message>
-        <source>Your current user does not have the proper privileges to access this page.</source>
-        <translation>Du har ikke tilgang til denne siden.</translation>
     </message>
 </context>
 <context>
@@ -397,8 +335,8 @@ Vil du vite mer om dette?</translation>
         <translation>Kodeeksempel</translation>
     </message>
     <message>
-        <source>Definition term </source>
-        <translation>Definisjon, begrep </translation>
+        <source>Definition term</source>
+        <translation>Definisjon, begrep</translation>
     </message>
     <message>
         <source>Definition description</source>
@@ -981,18 +919,15 @@ Vil du vite mer om dette?</translation>
     </message>
     <message>
         <source>You can find more documentation in the doc folder of this extension and online on %link.</source>
-        <translation></translation>
+        <translation>Du kan finne mer dokumentasjon i doc mappen i denne utvidelsen og på nett %link.</translation>
     </message>
 </context>
 <context>
-    <name>design/standard/node/view</name>
+    <name>design/standard/ezoe/handler</name>
     <message>
-        <source>Preview</source>
-        <translation>Forhåndsvisning</translation>
+        <source>Object %1 does not exist.</source>
+        <translation>Node %1 finnes ikke.</translation>
     </message>
-</context>
-<context>
-    <name>handlers/input</name>
     <message>
         <source>Node %1 does not exist.</source>
         <translation>Node %1 finnes ikke.</translation>
@@ -1000,24 +935,6 @@ Vil du vite mer om dette?</translation>
     <message>
         <source>Node &apos;%1&apos; does not exist.</source>
         <translation>Node &apos;%1&apos; finnes ikke.</translation>
-    </message>
-</context>
-<context>
-    <name>kernel/classes/datatypes</name>
-    <message>
-        <source>Content required</source>
-        <translation>Innhold er påkrevd</translation>
-    </message>
-    <message>
-        <source>Invalid e-mail address: &apos;%1&apos;</source>
-        <translation>Ugyldig e-postadresse: &apos;%1&apos;</translation>
-    </message>
-</context>
-<context>
-    <name>kernel/content</name>
-    <message>
-        <source>Top Level Nodes</source>
-        <translation>Toppnivånoder</translation>
     </message>
 </context>
 </TS>
