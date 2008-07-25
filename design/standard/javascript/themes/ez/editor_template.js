@@ -1102,12 +1102,12 @@
 		    'H5': 'header',
 		    'H6': 'header',
 		    'TABLE': 'table',
-		    'TH': 'th',
-		    'TD': 'td',
-		    'TR': 'tr',
-		    'UL': 'ul',
-		    'OL': 'ol',
-		    'LI': 'li'
+		    'TH': 'table header',
+		    'TD': 'table cell',
+		    'TR': 'table row',
+		    'UL': 'unordered list',
+		    'OL': 'ordered list',
+		    'LI': 'list item'
 		},
 		
 		__tagsToXml : function( n )

@@ -35,6 +35,9 @@
 .o2k7Skin td.mceCenter table {margin:0 auto; text-align:left;}
 .o2k7Skin td.mceRight table {margin:0 0 0 auto;}
 
+/* OE fixes layout */
+.o2k7Skin table.mceLayout tr.mceLast td.mceStatusbar * { white-space: normal !important; }
+
 /* Button */
 .o2k7Skin .mceButton {display:block; background:url(img/button_bg.png); width:22px; height:22px}
 .o2k7Skin a.mceButton span, .o2k7Skin a.mceButton img {margin-left:1px}
