@@ -120,7 +120,7 @@ function tableSizeGridShowChange( rows, cols, save )
         
         <table class="properties" id="table_cell_size" summary="Click to select table size" style="display: none">
         <tr>
-            <td class="column1">Size:</td>
+            <td class="column1">{'Size'|i18n('design/standard/ezoe')}:</td>
             <td>
                 <table id="table_cell_size_grid">
                 <tr>
@@ -165,8 +165,8 @@ function tableSizeGridShowChange( rows, cols, save )
                 </tr>
                 </table>
                 {def $table_default_values = ezini( 'table', 'Defaults', 'content.ini' )}
-                Cols: <input id="table_cell_size_grid_cols" type="text" maxlength="2" size="3" value="{first_set( $table_default_values['cols'], 2 )}" />
-                Rows: <input id="table_cell_size_grid_rows" type="text" maxlength="3" size="3" value="{first_set( $table_default_values['rows'], 1 )}" />
+                {'Columns'|i18n('design/standard/ezoe')}: <input id="table_cell_size_grid_cols" type="text" maxlength="2" size="3" value="{first_set( $table_default_values['cols'], 2 )}" />
+                {'Rows'|i18n('design/standard/ezoe')}: <input id="table_cell_size_grid_rows" type="text" maxlength="3" size="3" value="{first_set( $table_default_values['rows'], 1 )}" />
             </td>
         </tr>
         </table>

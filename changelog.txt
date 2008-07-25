@@ -1,9 +1,9 @@
 eZ Online Editor 5.0 extension Changelog
 
 5.0rc2
-* Cleaned up i18n use and Nor-NO and synced it with the untranslated.ts file.
+* Cleaned up i18n use and Nor-NO, and synced untranslated.ts with the Nor-NO file.
 * Language for TinyMCE now uses Locale from site ini instead of locale from xml attribute.
-
+* Fixed: Some strings in table dialog where not using i18n().
 
 5.0rc
 * Fixed #013320: (Development mode doesn't work fully)
