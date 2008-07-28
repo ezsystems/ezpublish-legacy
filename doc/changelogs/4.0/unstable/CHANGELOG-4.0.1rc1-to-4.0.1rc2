@@ -54,3 +54,5 @@ Changes from 4.0.1rc1 to 4.0.1rc2
   (Merged from trunk (4.1.0alpha1) rev. 22129)
 - Fixed bug #13367: bin/modfix.sh doesn't affect the "autoload" directory.
   (Merged from trunk (4.1.0alpha1) rev. 22126)
+- Fixed bug #12610: Create new package - Uncaught exception 'DOMException'
+  (Merged from trunk (4.1.0alpha1) rev. 22136)
