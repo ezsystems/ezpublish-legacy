@@ -88,7 +88,7 @@ class eZContentFunctionCollection
         $contentNode = null;
         if ( $nodeID )
         {
-            if ( !$languageCode )
+            if ( !isset( $languageCode ) )
                 $languageCode = false;
 
             $contentNode = eZContentObjectTreeNode::fetch( $nodeID, $languageCode );
