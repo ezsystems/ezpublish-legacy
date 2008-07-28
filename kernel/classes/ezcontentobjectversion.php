@@ -1536,7 +1536,7 @@ class eZContentObjectVersion extends eZPersistentObject
                                                                              array( 'AllRelations' => eZContentObject::RELATION_COMMON ) );
             if ( count( $relatedObjectArray ) )
             {
-                $relationListNode = $dom->createElement( 'http://ez.no/object/', 'ezobject:object-relation-list' );
+                $relationListNode = $dom->createElementNS( 'http://ez.no/object/', 'ezobject:object-relation-list' );
 
                 foreach( $relatedObjectArray as $relatedObject )
                 {
