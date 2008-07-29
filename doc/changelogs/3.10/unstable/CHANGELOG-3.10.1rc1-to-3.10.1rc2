@@ -41,3 +41,11 @@ Changes from 3.10.1rc1 to 3.10.1rc2
   (Merged from trunk (4.1.0alpha1) rev. 22129)
 - Fixed bug #13367: bin/modfix.sh doesn't affect the "autoload" directory.
   (Merged from trunk (4.1.0alpha1) rev. 22126)
+- Fixed bug #11799: Slave DB: a database transaction in eZ Publish failed
+  (Merged from trunk (4.1.0alpha1) rev. 22142)
+- Fixed bug #13384: Insert queries that contain "create temporary" in values are executed on MySQL slave
+  (Merged from trunk (4.1.0alpha1) rev. 22142)
+- Fixed bug #13380: DROP table for temporary tables created on a slave executed on master?
+  (Merged from trunk (4.1.0alpha1) rev. 22142)
+- Fixed bug #13411: Setting status of a new version is outside of the database transaction
+  (Merged from trunk (4.1.0alpha1) rev. 22142)

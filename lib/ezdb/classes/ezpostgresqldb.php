@@ -151,7 +151,7 @@ class eZPostgreSQLDB extends eZDBInterface
     /*!
      \reimp
     */
-    function query( $sql )
+    function query( $sql, $server = false )
     {
         if ( $this->isConnected() )
         {
@@ -190,7 +190,7 @@ class eZPostgreSQLDB extends eZDBInterface
     /*!
      \reimp
     */
-    function arrayQuery( $sql, $params = array() )
+    function arrayQuery( $sql, $params = array(), $server = false )
     {
         $retArray = array();
         if ( $this->isConnected() )
@@ -408,7 +408,7 @@ class eZPostgreSQLDB extends eZDBInterface
     /*!
      \reimp
     */
-    function eZTableList()
+    function eZTableList( $server = EZ_DB_SERVER_MASTER )
     {
         $array = array();
         if ( $this->isConnected() )
