@@ -188,7 +188,8 @@ class eZShopFunctionCollection
         $db->query( "INSERT INTO $tmpTableName SELECT ezorder.productcollection_id
                                                            FROM ezorder, ezproductcollection_item
                                                           WHERE ezorder.productcollection_id=ezproductcollection_item.productcollection_id
-                                                            AND ezproductcollection_item.contentobject_id=$contentObjectID" );
+                                                            AND ezproductcollection_item.contentobject_id=$contentObjectID",
+                    eZDBInterface::SERVER_SLAVE );
 
         $query="SELECT sum(ezproductcollection_item.item_count) as count, contentobject_id FROM ezproductcollection_item, $tmpTableName
                  WHERE ezproductcollection_item.productcollection_id=$tmpTableName.productcollection_id
@@ -196,8 +197,7 @@ class eZShopFunctionCollection
               GROUP BY ezproductcollection_item.contentobject_id
               ORDER BY count desc";
 
-        $db = eZDB::instance();
-        $objectList = $db->arrayQuery( $query, array( 'limit' => $limit ) );
+        $objectList = $db->arrayQuery( $query, array( 'limit' => $limit ), eZDBInterface::SERVER_SLAVE );
 
         $db->dropTempTable( "DROP TABLE $tmpTableName" );
         $contentObjectList = array();

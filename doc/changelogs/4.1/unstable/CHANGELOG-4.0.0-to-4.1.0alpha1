@@ -310,4 +310,8 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13367: bin/modfix.sh doesn't affect the "autoload" directory.
 - Fixed bug #13374: WebDav fails to open folders in Media tree with url translator transformation group urlalias_compat
 - Fixed bug #12610: Create new package - Uncaught exception 'DOMException'
+- Fixed bug #11799: Slave DB: a database transaction in eZ Publish failed
+- Fixed bug #13384: Insert queries that contain "create temporary" in values are executed on MySQL slave
+- Fixed bug #13380: DROP table for temporary tables created on a slave executed on master?
+- Fixed bug #13411: Setting status of a new version is outside of the database transaction
 

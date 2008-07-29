@@ -61,7 +61,7 @@ class eZNullDB extends eZDBInterface
     /*!
       Returns false.
     */
-    function query( $sql )
+    function query( $sql, $server = false )
     {
         return false;
     }
@@ -69,7 +69,7 @@ class eZNullDB extends eZDBInterface
     /*!
       Returns false.
     */
-    function arrayQuery( $sql, $params = array() )
+    function arrayQuery( $sql, $params = array(), $server = false )
     {
         return false;
     }

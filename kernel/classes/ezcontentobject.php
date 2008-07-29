@@ -1134,9 +1134,9 @@ class eZContentObject extends eZPersistentObject
         return eZContentObjectVersion::create( $this->attribute( "id" ), $userID, 1, $initialLanguageCode );
     }
 
-    function createNewVersionIn( $languageCode, $copyFromLanguageCode = false, $copyFromVersion = false, $versionCheck = true )
+    function createNewVersionIn( $languageCode, $copyFromLanguageCode = false, $copyFromVersion = false, $versionCheck = true, $status = eZContentObjectVersion::STATUS_DRAFT )
     {
-        return $this->createNewVersion( $copyFromVersion, $versionCheck, $languageCode, $copyFromLanguageCode );
+        return $this->createNewVersion( $copyFromVersion, $versionCheck, $languageCode, $copyFromLanguageCode, $status );
     }
 
     /*!
@@ -1148,7 +1148,7 @@ class eZContentObject extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function createNewVersion( $copyFromVersion = false, $versionCheck = true, $languageCode = false, $copyFromLanguageCode = false )
+    function createNewVersion( $copyFromVersion = false, $versionCheck = true, $languageCode = false, $copyFromLanguageCode = false, $status = eZContentObjectVersion::STATUS_DRAFT )
     {
         $db = eZDB::instance();
         $db->begin();
@@ -1220,7 +1220,7 @@ class eZContentObject extends eZPersistentObject
             }
         }
 
-        $copiedVersion = $this->copyVersion( $this, $version, $nextVersionNumber, false, eZContentObjectVersion::STATUS_DRAFT, $languageCode, $copyFromLanguageCode );
+        $copiedVersion = $this->copyVersion( $this, $version, $nextVersionNumber, false, $status, $languageCode, $copyFromLanguageCode );
 
         // We need to make sure the copied version contains node-assignment for the existing nodes.
         // This is required for BC since scripts might traverse the node-assignments and mark

@@ -157,12 +157,7 @@ if ( $http->hasPostVariable( 'NewDraftButton' ) )
     $versionCount = $obj->getVersionCount();
     if ( $versionCount < $versionlimit )
     {
-        $db = eZDB::instance();
-        $db->begin();
-        $version = $obj->createNewVersionIn( $EditLanguage, $FromLanguage );
-        $version->setAttribute( 'status', eZContentObjectVersion::STATUS_INTERNAL_DRAFT );
-        $version->store();
-        $db->commit();
+        $version = $obj->createNewVersionIn( $EditLanguage, $FromLanguage, false, true, eZContentObjectVersion::STATUS_INTERNAL_DRAFT );
         if ( !$http->hasPostVariable( 'DoNotEditAfterNewDraft' ) )
         {
             return $Module->redirectToView( 'edit', array( $ObjectID, $version->attribute( 'version' ), $EditLanguage ) );
@@ -193,9 +188,7 @@ if ( $http->hasPostVariable( 'NewDraftButton' ) )
             $db = eZDB::instance();
             $db->begin();
             $removeVersion->removeThis();
-            $version = $obj->createNewVersionIn( $EditLanguage );
-            $version->setAttribute( 'status', eZContentObjectVersion::STATUS_INTERNAL_DRAFT );
-            $version->store();
+            $version = $obj->createNewVersionIn( $EditLanguage, false, false, true, eZContentObjectVersion::STATUS_INTERNAL_DRAFT );
             $db->commit();
 
             if( !$http->hasPostVariable( 'DoNotEditAfterNewDraft' ) )
@@ -268,10 +261,8 @@ if ( $http->hasPostVariable( 'LanguageSelection' ) )
     }
     $isAccessChecked = true;
 
-    $version = $obj->createNewVersionIn( $selectedEditLanguage, $selectedFromLanguage );
-    $version->setAttribute( 'status', eZContentObjectVersion::STATUS_INTERNAL_DRAFT );
+    $version = $obj->createNewVersionIn( $selectedEditLanguage, $selectedFromLanguage, false, true, eZContentObjectVersion::STATUS_INTERNAL_DRAFT );
 
-    $version->store();
     return $Module->redirectToView( 'edit', array( $ObjectID, $version->attribute( 'version' ), $selectedEditLanguage, $selectedFromLanguage ) );
 }
 
@@ -381,9 +372,7 @@ if ( !is_numeric( $EditVersion ) )
         $isAccessChecked = true;
 
         $obj->cleanupInternalDrafts();
-        $version = $obj->createNewVersionIn( $EditLanguage );
-        $version->setAttribute( 'status', eZContentObjectVersion::STATUS_INTERNAL_DRAFT );
-        $version->store();
+        $version = $obj->createNewVersionIn( $EditLanguage, false, false, true, eZContentObjectVersion::STATUS_INTERNAL_DRAFT );
         return $Module->redirectToView( "edit", array( $ObjectID, $version->attribute( "version" ), $EditLanguage ) );
     }
     else
@@ -472,9 +461,7 @@ if ( !is_numeric( $EditVersion ) )
             }
             $isAccessChecked = true;
 
-            $version = $obj->createNewVersionIn( $EditLanguage );
-            $version->setAttribute( 'status', eZContentObjectVersion::STATUS_INTERNAL_DRAFT );
-            $version->store();
+            $version = $obj->createNewVersionIn( $EditLanguage, false, false, true, eZContentObjectVersion::STATUS_INTERNAL_DRAFT );
             return $Module->redirectToView( "edit", array( $ObjectID, $version->attribute( "version" ), $EditLanguage ) );
         }
     }
