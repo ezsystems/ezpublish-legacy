@@ -14,6 +14,10 @@ if [ ! -f "index.php" -a \
      exit 1
 fi
 
+if [ ! -d extension ]; then
+    mkdir extension
+    echo "Created extension"
+fi
 
 if [ ! -d var/cache/ini ]; then
     mkdir var/cache/ini
