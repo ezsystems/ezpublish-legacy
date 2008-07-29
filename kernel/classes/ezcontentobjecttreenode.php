@@ -1595,7 +1595,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                 $db->query( "INSERT INTO $groupPermTempTable
                                                     SELECT DISTINCT contentobject_id AS user_id
                                                     FROM     ezcontentobject_tree
-                                                    WHERE    parent_node_id IN ("  . implode( ', ', $parentList ) . ')' );
+                                                    WHERE    parent_node_id IN ("  . implode( ', ', $parentList ) . ')',
+                                            EZ_DB_SERVER_SLAVE );
 
                                 $sqlPermissionCheckingFrom = ', ' . $groupPermTempTable;
                             }
@@ -1918,14 +1919,17 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $db =& eZDB::instance();
 
+        $server = count( $sqlPermissionChecking['temp_tables'] ) > 0 ? EZ_DB_SERVER_SLAVE : false;
+
         if ( !$offset && !$limit )
         {
-            $nodeListArray = $db->arrayQuery( $query );
+            $nodeListArray = $db->arrayQuery( $query, array(), $server );
         }
         else
         {
             $nodeListArray = $db->arrayQuery( $query, array( 'offset' => $offset,
-                                                             'limit'  => $limit ) );
+                                                             'limit'  => $limit ),
+                                                      $server );
         }
 
         if ( $asObject )
@@ -2137,14 +2141,17 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $db =& eZDB::instance();
 
+        $server = count( $sqlPermissionChecking['temp_tables'] ) > 0 ? EZ_DB_SERVER_SLAVE : false;
+
         if ( !$offset && !$limit )
         {
-            $nodeListArray = $db->arrayQuery( $query );
+            $nodeListArray = $db->arrayQuery( $query, array(), $server );
         }
         else
         {
             $nodeListArray = $db->arrayQuery( $query, array( 'offset' => $offset,
-                                                              'limit'  => $limit ) );
+                                                              'limit'  => $limit ),
+                                                      $server );
         }
 
         if ( $asObject )
@@ -2776,7 +2783,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
                            $languageFilter ";
         }
 
-        $nodeListArray = $db->arrayQuery( $query );
+        $server = count( $sqlPermissionTempTables ) > 0 ? EZ_DB_SERVER_SLAVE : false;
+
+        $nodeListArray = $db->arrayQuery( $query, array(), $server );
 
         // cleanup temp tables
         $db->dropTempTableList( $sqlPermissionTempTables );
@@ -2863,14 +2872,17 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $db =& eZDB::instance();
 
+        $server = count( $sqlPermissionChecking['temp_tables'] ) > 0 ? EZ_DB_SERVER_SLAVE : false;
+
         if ( !$offset && !$limit )
         {
-            $nodeListArray = $db->arrayQuery( $query );
+            $nodeListArray = $db->arrayQuery( $query, array(), $server );
         }
         else
         {
             $nodeListArray = $db->arrayQuery( $query, array( 'offset' => $offset,
-                                                              'limit'  => $limit ) );
+                                                              'limit'  => $limit ),
+                                                      $server );
         }
 
         $retNodeList =& $nodeListArray;
@@ -4511,11 +4523,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     GROUP BY ezcot_all.main_node_id
                     HAVING count( ezcot.main_node_id ) <= 1";
 
-        $db->query( $query );
+        $db->query( $query, EZ_DB_SERVER_SLAVE );
         $query = "SELECT count( * ) AS count
                   FROM $tmpTableName";
 
-        $rows = $db->arrayQuery( $query );
+        $rows = $db->arrayQuery( $query, array(), EZ_DB_SERVER_SLAVE );
         $db->dropTempTable( "DROP TABLE $tmpTableName" );
         return $rows[0]['count'];
     }
