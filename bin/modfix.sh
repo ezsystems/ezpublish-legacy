@@ -74,6 +74,7 @@ chmod $DIR_MODE var/cache/texttoimage
 chmod $DIR_MODE var/storage/packages
 
 chmod -R $DIR_MODE settings
+chmod -R $DIR_MODE extension
 chmod -R $DIR_MODE var/webdav
 chmod -R $DIR_MODE var/storage
 chmod -R $DIR_MODE var/cache/template
@@ -81,7 +82,7 @@ chmod -R $DIR_MODE var/cache/template
 
 echo "
 *** WARNING WARNING WARNING WARNING ***
-This script sets ${DIR_MODE} as permissions in var/, design/ and settings/.
+This script sets ${DIR_MODE} as permissions in var/, design/, settings/ and extension/.
 
 THIS IS NOT SECURE!
 
@@ -91,6 +92,6 @@ in the configuration file for your web server.
 
 For example:
 If your web server user is apache and the group is apache, then run the following commands:
-# chown -R apache.apache var design settings
-# chmod -R 770 var design settings
+# chown -R apache.apache var design settings extension
+# chmod -R 770 var design settings extension
 "
