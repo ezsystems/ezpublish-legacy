@@ -456,8 +456,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 }
             }
 
-            $classAttribute = $contentObjectAttribute->contentClassAttribute();
-            if ( $classAttribute->attribute( 'is_required' ) == true )
+            if ( $contentObjectAttribute->validateIsRequired() )
             {
                 $root = $document->documentElement;
                 if ( $root->childNodes->length == 0 )

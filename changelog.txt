@@ -5,6 +5,7 @@ eZ Online Editor 5.0 extension Changelog
 * Language for TinyMCE now uses Locale from site ini instead of locale from xml attribute.
 * Fixed: Some strings in table dialog where not using i18n().
 * Show more editor frindly names on xml tags in path ( tr -> table row )
+* Fixed #013402: OE problem if ezxmlfield is required /empty andAdd object (objectrelation) is clicked
 
 
 5.0rc
