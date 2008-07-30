@@ -1080,7 +1080,7 @@ class eZDBInterface
      \pure
      \return existing ez publish tables in database
     */
-    function eZTableList( $server = self::SERVER_MASTER )
+    function eZTableList( $server = EZ_DB_SERVER_MASTER )
     {
     }
 
@@ -1211,7 +1211,7 @@ class eZDBInterface
     /*!
       Create a new temporary table
     */
-    function createTempTable( $createTableQuery = '', $server = self::SERVER_SLAVE )
+    function createTempTable( $createTableQuery = '', $server = EZ_DB_SERVER_SLAVE )
     {
         $this->query( $createTableQuery, $server );
     }
@@ -1219,7 +1219,7 @@ class eZDBInterface
     /*!
       Drop temporary table
     */
-    function dropTempTable( $dropTableQuery = '', $server = self::SERVER_SLAVE )
+    function dropTempTable( $dropTableQuery = '', $server = EZ_DB_SERVER_SLAVE )
     {
         $this->query( $dropTableQuery, $server );
     }
@@ -1227,7 +1227,7 @@ class eZDBInterface
     /*!
       Drop temporary table list
     */
-    function dropTempTableList( $tableList, $server = self::SERVER_SLAVE )
+    function dropTempTableList( $tableList, $server = EZ_DB_SERVER_SLAVE )
     {
         foreach( $tableList as $tableName )
             $this->dropTempTable( "DROP TABLE $tableName", $server );
@@ -1274,7 +1274,7 @@ class eZDBInterface
      If the pattern contains a (%) character then the character
      is replaced with a part providing uniqueness (e.g. random number).
     */
-    function generateUniqueTempTableName( $pattern, $randomizeIndex = false, $server = self::SERVER_SLAVE )
+    function generateUniqueTempTableName( $pattern, $randomizeIndex = false, $server = EZ_DB_SERVER_SLAVE )
     {
         $tableList = array_keys( $this->eZTableList( $server ) );
         if ( $randomizeIndex === false )
