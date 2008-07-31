@@ -7,17 +7,31 @@
                                            )}
 <script type="text/javascript">
 <!--
-var contentType = '{$content_type}';
+var contentType = '{$content_type}', classFilter = ez.$c();
+
+{foreach $class_filter_array as $class_filter}
+    classFilter.push('{$class_filter}');
+{/foreach}
 
 eZOeMCE['relation_url']  = {concat('ezoe/relations/', $object_id, '/', $object_version, '/auto' )|ezurl};
     
-{literal} 
+{literal}
 
 tinyMCEPopup.onInit.add( function(){
     var slides = ez.$$('div.panel'), navigation = ez.$$('#tabs li.tab');
     slides.accordion( navigation, {duration: 100, transition: ez.fx.sinoidal, accordionAutoFocusTag: 'input[type=text]'}, {opacity: 0, display: 'none'} );
 });
 
+if ( contentType === 'image' )
+{
+    eZOEPopupUtils.settings.browseClassGenerator = function( n, hasImage ){
+        if ( hasImage && classFilter.indexOf( n.class_identifier ) !== -1 )
+            return '';
+        if ( n.children_count )
+            return 'node_not_image';
+        return 'node_not_image node_fadeout';
+    };
+}
 
 -->
 </script>

@@ -129,7 +129,7 @@ h3 {font-size:14px;}
 .link_href_input { width: 225px; padding: 1px; margin-top: 1px; }
 
 
-/* search and browse styles */
+/* node data lists (used in search, browse and bookmark) styles */
 
 div.progress-indicator
 {
@@ -141,30 +141,40 @@ div.progress-indicator
     background: transparent url('../default/img/progress.gif') no-repeat bottom left scroll;
 }
 
-table#browse_box_prev, table#search_box_prev
+table.node_datalist
 {
     width: 99%;
 }
 
-table#browse_box_prev td.thight, table#search_box_prev td.thight
+table.node_datalist td.thight
 {
     width: 22px;
 }
 
-span.image_preview { text-align: right; }
+table.node_datalist tr.node_not_image input
+{
+    visibility: hidden;
+}
 
-span.image_preview a
+table.node_datalist tr.node_fadeout
+{
+    opacity: 0.6;
+}
+
+table.node_datalist span.image_preview { text-align: right; }
+
+table.node_datalist span.image_preview a
 {
     position: relative;
 }
 
-span.image_preview a img
+table.node_datalist span.image_preview a img
 {
     display: none;
     border: 2px solid #ddd;
 }
 
-span.image_preview a:hover img
+table.node_datalist span.image_preview a:hover img
 {
    position: absolute;
    z-index: 200;

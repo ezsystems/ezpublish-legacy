@@ -14,7 +14,7 @@
         {/foreach}
         </div>
         <div id="browse_progress" class="progress-indicator" style="display: none;"></div>
-        <table id="browse_box_prev">
+        <table class="node_datalist" id="browse_box_prev">
             <thead>
             </thead>
             <tbody>

@@ -9,7 +9,7 @@
     {if $has_access}
         </div>
         <div id="bookmarks_progress" class="progress-indicator" style="display: none;"></div>
-        <table id="bookmarks_box_prev">
+        <table class="node_datalist" id="bookmarks_box_prev">
             <thead>
             </thead>
             <tbody>

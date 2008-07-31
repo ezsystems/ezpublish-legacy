@@ -1261,7 +1261,7 @@
 
 		_mceImage : function(ui, val)
 		{
-			var ed = this.editor, e = ed.selection.getNode(), eurl = 'auto/', type = '/upload/', el;
+			var ed = this.editor, e = ed.selection.getNode(), eurl = 'image/', type = '/upload/', el;
 
             if ( ui.nodeName === 'IMG' )
                 e = ui;
@@ -1269,6 +1269,7 @@
             if (e !== null && e.nodeName === 'IMG')
             {
                 type = '/relations/';
+                eurl = 'auto/'; // need to set to auto in case this is attachment icon
                 el = e;
                 eurl += e.getAttribute('id') + '/' + e.getAttribute('inline') + '/' + e.getAttribute('alt');
             }
@@ -1287,15 +1288,19 @@
                 type = '/relations/';
                 el = e;
                 eurl += e.getAttribute('id') + '/' + e.getAttribute('inline') + '/' + e.getAttribute('alt');
-                //ed.selection.select( e );
             }
             this._generalXmlTagPopup( eurl, type, 500, 480, el );
         },
         
         _mcePageBreak : function( ui, val )
         {
-            var ed = this.editor;
-            ed.execCommand('mceInsertContent', false, '<div type="custom" class="mceItemCustomTag pagebreak"><p>&nbsp;</p></div>');
+            var ed = this.editor, n = ed.selection.getNode();
+            if ( n.nodeName === 'P' && n.parentNode.nodeName === 'BODY' )
+                ed.execCommand('mceInsertRawHTML', false, '</p><div type="custom" class="mceItemCustomTag pagebreak"><p>&nbsp;</p></div><p>');
+            else if ( n.nodeName === 'BODY' )
+                ed.execCommand ('mceInsertRawHTML', false, '<div type="custom" class="mceItemCustomTag pagebreak"><p>&nbsp;</p></div>');
+            else
+                alert( 'Not a suported location for a pagebreak, place it in the root of your document!' );
         },
 
         _mceInsertAnchor : function(ui, v)

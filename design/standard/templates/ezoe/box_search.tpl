@@ -32,7 +32,7 @@ eZOeMCE['empty_result_string'] = "{"No results were found when searching for &qu
         </tr>
         <tr>
             <td colspan="2">
-            <table id="search_box_prev">
+            <table class="node_datalist" id="search_box_prev">
             <thead>
             </thead>
             <tbody>

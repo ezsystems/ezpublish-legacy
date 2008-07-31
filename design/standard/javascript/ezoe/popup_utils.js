@@ -45,7 +45,9 @@ var eZOEPopupUtils = {
         // custom attribute to style map to be able to preview style changes
         customAttributeStyleMap: false,
         // set on init if no editorElement is present and selected text is without newlines
-        editorSelectedText: false
+        editorSelectedText: false,
+        // generates class name for tr elements in browse / search / bookmark list
+        browseClassGenerator: function(){ return ''; }
     },
     
     init: function( settings )
@@ -161,7 +163,7 @@ var eZOEPopupUtils = {
             // create new node if none is defined and if tag type is defined in ezXmlToXhtmlHash or tagGenerator is defined
             if ( s.tagGenerator )
             {
-                ed.execCommand('mceInsertRawHTML', false, s.tagGenerator.call( eZOEPopupUtils, s.tagName, s.selectedTag, s.editorSelectedText ), {skip_undo : 1} );
+                ed.execCommand('mceInsertContent', false, s.tagGenerator.call( eZOEPopupUtils, s.tagName, s.selectedTag, s.editorSelectedText ), {skip_undo : 1} );
                 s.editorElement = ed.dom.get('__mce_tmp');
             }
             else if ( s.tagCreator )
@@ -188,7 +190,7 @@ var eZOEPopupUtils = {
             }
             else if ( eZOEPopupUtils.xmlToXhtmlHash[s.tagName] )
             {
-                ed.execCommand('mceInsertRawHTML', false, '<' + eZOEPopupUtils.xmlToXhtmlHash[s.tagName] + ' id="__mce_tmp">' + ( s.editorSelectedText ? s.editorSelectedText : '&nbsp;' ) + '</' + eZOEPopupUtils.xmlToXhtmlHash[s.tagName] + '>', {skip_undo : 1} );
+                ed.execCommand('mceInsertContent', false, '<' + eZOEPopupUtils.xmlToXhtmlHash[s.tagName] + ' id="__mce_tmp">' + ( s.editorSelectedText ? s.editorSelectedText : '&nbsp;' ) + '</' + eZOEPopupUtils.xmlToXhtmlHash[s.tagName] + '>', {skip_undo : 1} );
                 s.editorElement = ed.dom.get('__mce_tmp');
             }
             if ( s.onTagGenerated )
@@ -500,13 +502,13 @@ var eZOEPopupUtils = {
         mode = mode || 'browse';
         ez.$( mode + '_progress' ).hide();
         ez.script( 'eZOEPopupUtils.ajaxLoadResponse=' + r.responseText );
-        var ed = tinyMCEPopup.editor, tbody = ez.$$('#' + mode + '_box_prev tbody')[0], thead = ez.$$('#' + mode + '_box_prev thead')[0], tfoot = ez.$$('#' + mode + '_box_prev tfoot')[0], tr, td, tag;
+        var ed = tinyMCEPopup.editor, tbody = ez.$$('#' + mode + '_box_prev tbody')[0], thead = ez.$$('#' + mode + '_box_prev thead')[0], tfoot = ez.$$('#' + mode + '_box_prev tfoot')[0], tr, td, tag, hasImage;
         eZOEPopupUtils.removeChildren( tbody.el );
         eZOEPopupUtils.removeChildren( thead.el );
         eZOEPopupUtils.removeChildren( tfoot.el );
         if ( eZOEPopupUtils.ajaxLoadResponse )
         {
-            var data = eZOEPopupUtils.ajaxLoadResponse, fn = mode + ( mode === 'browse' ? '('+ data['node']['node_id'] + ',' : '(' );
+            var data = eZOEPopupUtils.ajaxLoadResponse, fn = mode + ( mode === 'browse' ? '('+ data['node']['node_id'] + ',' : '(' ), classGenerator = eZOEPopupUtils.settings.browseClassGenerator;
             if ( data['node'] && data['node']['name'] )
             {
                 tr = document.createElement("tr"), td = document.createElement("td");
@@ -543,7 +545,7 @@ var eZOEPopupUtils = {
             {
                ez.$c( data['list'] ).forEach( function( n )
                {
-                   tr = document.createElement("tr"), td = document.createElement("td"), tag = document.createElement("input");
+                   tr = document.createElement("tr"), td = document.createElement("td"), tag = document.createElement("input"), isImage = false;
                    tag.setAttribute('type', 'radio');
                    tag.setAttribute('name', 'selectembedobject');
                    tag.setAttribute('value', n.contentobject_id);
@@ -580,8 +582,10 @@ var eZOEPopupUtils = {
                        tag.className = 'image_preview';
                        tag.innerHTML += ' <a href="#">' + ed.getLang('preview.preview_desc')  + '<img src="' + eZOeMCE['root'] + n.data_map[ n.image_attributes[0] ].content['small'].url + '" /></a>';
                        td.appendChild( tag );
+                       hasImage = true;
                    }
                    tr.appendChild( td );
+                   tr.className = classGenerator.call( this, n, hasImage );
 
                    tbody.el.appendChild( tr );
                 } );
