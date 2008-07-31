@@ -74,8 +74,9 @@ class eZMySQLiDB extends eZDBInterface
                                                               'number' => eZDBInterface::ERROR_MISSING_EXTENSION ),
                                             'text' => 'MySQLi extension was not found, the DB handler will not be initialized.' ) );
                 $this->IsConnected = false;
-                return;
             }
+            eZDebug::writeWarning( 'MySQLi extension was not found, the DB handler will not be initialized.', 'eZMySQLiDB' );
+            return;
         }
 
         /// Connect to master server
