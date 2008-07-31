@@ -51,4 +51,6 @@ Changes from 3.10.1rc1 to 3.10.1rc2
   (Merged from trunk (4.1.0alpha1) rev. 22142)
 - Fixed bug #12216: query error in eZContentObjectTreeNode::calendar
   (Merged from trunk (4.1.0alpha1) rev. 22154)
+- Fixed bug #13434: Problem if xmlblock is required /empty and Add object in objectrelation(s) is clicked
+  (Merged from trunk (4.1.0alpha1) rev. 22158)
 
