@@ -2404,6 +2404,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $groupByText        = '';
         eZContentObjectTreeNode::createGroupBySQLStrings( $groupBySelectText, $groupByText, $groupBy );
 
+        $useVersionName     = true;
+        $versionNameTables  = eZContentObjectTreeNode::createVersionNameTablesSQLString( $useVersionName );
+        $versionNameJoins   = eZContentObjectTreeNode::createVersionNameJoinsSQLString( $useVersionName, false );
+
         $limitation = ( isset( $params['Limitation']  ) && is_array( $params['Limitation']  ) ) ? $params['Limitation']: false;
         $limitationList = eZContentObjectTreeNode::getLimitationList( $limitation );
         $sqlPermissionChecking = eZContentObjectTreeNode::createPermissionCheckingSQL( $limitationList );
@@ -2417,6 +2421,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                    FROM
                       ezcontentobject_tree,
                       ezcontentobject,ezcontentclass
+                      $versionNameTables
                       $attributeFilter[from]
                       $extendedAttributeFilter[tables]
                       $sqlPermissionChecking[from]
@@ -2428,9 +2433,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       AND
                       $notEqParentString
                       $mainNodeOnlyCond
+                      ezcontentobject_tree.contentobject_id = ezcontentobject.id AND
+                      ezcontentclass.id = ezcontentobject.contentclass_id AND
                       $classCondition
-                      ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
-                      ezcontentclass.id = ezcontentobject.contentclass_id
+                      $versionNameJoins
                       $showInvisibleNodesCond
                       $sqlPermissionChecking[where]
                 $groupByText ";
