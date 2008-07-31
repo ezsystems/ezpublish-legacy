@@ -64,3 +64,5 @@ Changes from 4.0.1rc1 to 4.0.1rc2
   (Merged from trunk (4.1.0alpha1) rev. 22142)
 - Fixed bug #13411: Setting status of a new version is outside of the database transaction
   (Merged from trunk (4.1.0alpha1) rev. 22142)
+- Fixed bug #12216: query error in eZContentObjectTreeNode::calendar
+  (Merged from trunk (4.1.0alpha1) rev. 22154)
