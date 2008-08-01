@@ -226,7 +226,7 @@ class eZURLAliasQuery
      \private
      Generates the common part of the SQL using the properties as filters and returns it.
      */
-    private function generateSQL()
+    protected function generateSQL()
     {
         if ( !in_array( $this->type, array( 'name', 'alias', 'all' ) ) )
         {

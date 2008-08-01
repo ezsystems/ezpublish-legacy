@@ -318,4 +318,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13434: Problem if xmlblock is required /empty and Add object in objectrelation(s) is clicked
 - Fixed bug #13413: eZMySQLiDB constructor does not exit always if mysqli extension is not available
 - Fixed bug #13150: Tree menu in admin hangs when it gets too deep
-
+- Fixed bug #13444: Function visibility should be changed on eZURLAliasQuery - generateSQL
