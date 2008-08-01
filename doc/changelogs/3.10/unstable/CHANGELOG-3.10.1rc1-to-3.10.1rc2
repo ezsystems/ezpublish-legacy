@@ -53,4 +53,5 @@ Changes from 3.10.1rc1 to 3.10.1rc2
   (Merged from trunk (4.1.0alpha1) rev. 22154)
 - Fixed bug #13434: Problem if xmlblock is required /empty and Add object in objectrelation(s) is clicked
   (Merged from trunk (4.1.0alpha1) rev. 22158)
-
+- Fixed bug #13444: Function visibility should be changed on eZURLAliasQuery - generateSQL
+  (Manually merged from trunk (4.1.0alpha1) rev. 22166)

@@ -220,7 +220,6 @@ class eZURLAliasQuery
     }
 
     /*!
-     \private
      Generates the common part of the SQL using the properties as filters and returns it.
      */
     function generateSQL()
