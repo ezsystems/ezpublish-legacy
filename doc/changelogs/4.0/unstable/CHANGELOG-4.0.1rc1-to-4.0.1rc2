@@ -70,4 +70,5 @@ Changes from 4.0.1rc1 to 4.0.1rc2
   (Merged from trunk (4.1.0alpha1) rev. 22158)
 - Fixed bug #13413: eZMySQLiDB constructor does not exit always if mysqli extension is not available
   (Merged from trunk (4.1.0alpha1) rev. 22162)
-
+- Fixed bug #13444: Function visibility should be changed on eZURLAliasQuery - generateSQL
+  (Merged from trunk (4.1.0alpha1) rev. 22166)
