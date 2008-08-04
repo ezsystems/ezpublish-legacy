@@ -5,6 +5,8 @@ Changes from 4.0.1rc1 to 4.0.1rc2
   (Merged from trunk (4.1.0alpha1) rev. 22062)
 - Implemented enhancement: #12027: Improve how timezones are set.
   (Merged from trunk (4.1.0alpha1) rev. 22076)
+- Implemented enhancement #12548: static count() function in eZPersistentObject
+  (Merged from trunk (4.1.0alpha1) rev. 21397, 21398)
 
 *Design:
 - Implemented enhancement #12771: Extra informations in case of multiple defs.

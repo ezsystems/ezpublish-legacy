@@ -161,17 +161,6 @@ class eZProductCollection extends eZPersistentObject
 
     /*!
      \static
-     \return a count of the number of product collections that exists.
-    */
-    static function count()
-    {
-        $db = eZDB::instance();
-        $rows = $db->arrayQuery( "SELECT count( id ) as count FROM ezproductcollection_item" );
-        return $rows[0]['count'];
-    }
-
-    /*!
-     \static
      Removes all product collections which are specified in the array \a $productCollectionIDList.
      Will also remove the product collection items.
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
