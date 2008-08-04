@@ -79,15 +79,20 @@ while ( $binaryFiles = eZPersistentObject::fetchObjectList( eZBinaryFile::defini
 
             $newFilePath = $binaryFile->attribute( 'filepath' );
 
-            $file = eZClusterFileHandler::instance( $oldFilePath );
-            if ( $file->exists() )
+            $fh = eZClusterFileHandler::instance();
+
+            if ( $fh->fileExists( $oldFilePath ) )
             {
                 $text = "renamed $fileName to $newFileName";
-                $file->move( $newFilePath );
+                $fh->fileMove( $oldFilePath, $newFilePath );
+            }
+            else if ( $fh->fileExists( $newFilePath ) )
+            {
+                $text = "$fileName was renamed before, changed path in db to $newFileName";
             }
             else
             {
-                $text = "file not found: $oldFilePath";
+                $text = "ERROR, file not found: $oldFilePath";
                 $script->iterate( $cli, false, $text );
                 $db->rollback();
                 continue;

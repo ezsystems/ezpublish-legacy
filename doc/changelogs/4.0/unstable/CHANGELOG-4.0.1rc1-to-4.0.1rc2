@@ -72,3 +72,5 @@ Changes from 4.0.1rc1 to 4.0.1rc2
   (Merged from trunk (4.1.0alpha1) rev. 22162)
 - Fixed bug #13444: Function visibility should be changed on eZURLAliasQuery - generateSQL
   (Merged from trunk (4.1.0alpha1) rev. 22166)
+- Fixed bug #13451: updatebinaryfile.php fails on multiple content versions pointing to the same file
+
