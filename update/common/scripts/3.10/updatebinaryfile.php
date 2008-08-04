@@ -33,6 +33,7 @@ include_once( 'kernel/classes/ezscript.php' );
 include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php' );
 include_once( 'lib/ezfile/classes/ezfile.php' );
+include_once( 'kernel/classes/ezclusterfilehandler.php' );
 
 $cli =& eZCLI::instance();
 
@@ -52,15 +53,18 @@ $offset = 0;
 
 $db =& eZDB::instance();
 
+$script->setIterationData( '.', '~' );
+
 while ( $binaryFiles = eZPersistentObject::fetchObjectList( eZBinaryFile::definition(), null, null, null, array( 'offset' => $offset, 'limit' => $limit ) ) )
 {
     foreach ( $binaryFiles as $binaryFile )
     {
         $fileName = $binaryFile->attribute( 'filename' );
-        $cli->output( $fileName );
 
         if ( strpos( $fileName, '.' ) !== false )
         {
+            $text = "skipping $fileName, it contains a suffix";
+            $script->iterate( $cli, true, $text );
             continue;
         }
 
@@ -79,15 +83,33 @@ while ( $binaryFiles = eZPersistentObject::fetchObjectList( eZBinaryFile::defini
 
             $newFilePath = $binaryFile->attribute( 'filepath' );
 
-            if ( !eZFile::rename( $oldFilePath, $newFilePath ) )
+            $fh =& eZClusterFileHandler::instance();
+
+            if ( $fh->fileExists( $oldFilePath ) )
             {
-                $cli->output( 'failed renaming file ' . $binaryFile->attribute( 'filepath' ) );
+                $text = "renamed $fileName to $newFileName";
+                $fh->fileMove( $oldFilePath, $newFilePath );
+                $db->commit();
+            }
+            else if ( $fh->fileExists( $newFilePath ) )
+            {
+                $text = "$fileName was renamed before, changed path in db to $newFileName";
+                $db->commit();
+            }
+            else
+            {
+                $text = "ERROR, file not found: $oldFilePath";
+                $script->iterate( $cli, false, $text );
                 $db->rollback();
                 continue;
             }
-
-            $db->commit();
         }
+        else
+        {
+            $text = "skipping $fileName, original file name does not contain a suffix";
+        }
+
+        $script->iterate( $cli, true, $text );
     }
 
     $offset += $limit;
