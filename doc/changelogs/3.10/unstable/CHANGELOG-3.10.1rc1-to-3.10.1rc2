@@ -3,6 +3,8 @@ Changes from 3.10.1rc1 to 3.10.1rc2
 *Kernel:
 - Implemented enhancement: #13039: ez4: setup/extensions enhancement - sort + only show dirs + links.
   (Merged from trunk (4.1.0alpha1) rev. 22062)
+- Implemented enhancement #12548: static count() function in eZPersistentObject
+  (Merged from trunk (4.1.0alpha1) rev. 21397, 21398)
 
 *Design:
 
