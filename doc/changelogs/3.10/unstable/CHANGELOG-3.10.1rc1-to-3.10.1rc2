@@ -55,6 +55,8 @@ Changes from 3.10.1rc1 to 3.10.1rc2
   (Merged from trunk (4.1.0alpha1) rev. 22158)
 - Fixed bug #13444: Function visibility should be changed on eZURLAliasQuery - generateSQL
   (Manually merged from trunk (4.1.0alpha1) rev. 22166)
+- Fixed bug #13150: Tree menu in admin hangs when it gets too deep
+  (Merged from trunk (4.1.0alpha1) rev. 22165)
 - Fixed bug #12475: updatebinaryfile.php does not work in db clustering mode
 - Fixed bug #13451: updatebinaryfile.php fails on multiple content versions pointing to the same file
 
