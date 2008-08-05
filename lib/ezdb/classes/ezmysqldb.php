@@ -688,15 +688,15 @@ class eZMySQLDB extends eZDBInterface
         $tables = array();
         if ( $this->IsConnected )
         {
-            if ( $server == EZ_DB_SERVER_MASTER )
-            {
-                $connection = $this->DBWriteConnection;
-                $db = $this->DB;
-            }
-            else
+            if ( $this->UseSlaveServer && $server == EZ_DB_SERVER_SLAVE )
             {
                 $connection = $this->DBConnection;
                 $db = $this->SlaveDB;
+            }
+            else
+            {
+                $connection = $this->DBWriteConnection;
+                $db = $this->DB;
             }
 
             $result = mysql_list_tables( $db, $connection );
