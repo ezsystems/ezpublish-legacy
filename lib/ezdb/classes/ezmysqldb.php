@@ -699,15 +699,15 @@ class eZMySQLDB extends eZDBInterface
         $tables = array();
         if ( $this->IsConnected )
         {
-            if ( $server == eZDBInterface::SERVER_MASTER )
-            {
-                $connection = $this->DBWriteConnection;
-                $db = $this->DB;
-            }
-            else
+            if ( $this->UseSlaveServer && $server == eZDBInterface::SERVER_SLAVE )
             {
                 $connection = $this->DBConnection;
                 $db = $this->SlaveDB;
+            }
+            else
+            {
+                $connection = $this->DBWriteConnection;
+                $db = $this->DB;
             }
 
             $query = "SHOW TABLES FROM `" . $db . "`";
