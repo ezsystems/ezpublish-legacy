@@ -1149,7 +1149,6 @@ class eZSearchEngine
                           "SearchCount" => 0,
                           "StopWordArray" => array() );
         }
-        ini_set(  "OCI_COMMIT_ON_SUCCESS", 1 );
     }
 
     /*!
