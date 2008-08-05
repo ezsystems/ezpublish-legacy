@@ -9,6 +9,7 @@
 {let item_type=ezpreference( 'admin_list_limit' )
      number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )
      can_remove=false()
+     can_move=false()
      can_edit=false()
      can_create=false()
      can_copy=false()
@@ -99,6 +100,9 @@
         {section show=$Children.item.can_remove}
             {set can_remove=true()}
         {/section}
+        {if $Children.item.can_move}
+            {set $can_move=true()}
+        {/if}
         {section show=$Children.item.can_edit}
             {set can_edit=true()}
         {/section}
@@ -152,13 +156,18 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 
 <div class="block">
-    {* Remove button *}
+    {* Remove and move button *}
     <div class="left">
-    {section show=$can_remove}
-        <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title="{'Remove the selected items from the list above.'|i18n( 'design/admin/node/view/full' )}" />
-    {section-else}
-        <input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permission to remove any of the items from the list above.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
-    {/section}
+        {section show=$can_remove}
+            <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title="{'Remove the selected items from the list above.'|i18n( 'design/admin/node/view/full' )}" />
+        {section-else}
+            <input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permission to remove any of the items from the list above.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
+        {/section}
+        {if $can_move}
+            <input class="button" type="submit" name="MoveButton" value="{'Move selected'|i18n( 'design/admin/node/view/full' )}" title="{'Move the selected items from the list above.'|i18n( 'design/admin/node/view/full' )}" />
+        {else}
+            <input class="button-disabled" type="submit" name="MoveButton" value="{'Move selected'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permission to move any of the items from the list above.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
+        {/if}
     </div>
 
     <div class="right">

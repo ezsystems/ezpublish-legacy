@@ -25,14 +25,28 @@
              In the future this should be replaced with a  new template operator that checks
              one array against another and returns true if elements in the first
              exists in the other *}
-     {let ignore_nodes_merge=merge( $browse.ignore_nodes_select_subtree, $Nodes.item.path_array )}
-     {section show=and( or( $browse.permission|not,
-                           cond( is_set( $browse.permission.contentclass_id ),
-                                 fetch( content, access, hash( access,          $browse.permission.access,
-                                                               contentobject,   $Nodes.item,
-                                                               contentclass_id, $browse.permission.contentclass_id ) ),
-                                 fetch( content, access, hash( access,          $browse.permission.access,
-                                                               contentobject,   $Nodes.item ) ) ) ),
+     {let ignore_nodes_merge=merge( $browse.ignore_nodes_select_subtree, $Nodes.item.path_array )
+          browse_permission = true()}
+     {if $browse.permission}
+        {if $browse.permission.contentclass_id}
+            {if is_array( $browse.permission.contentclass_id )}
+                {foreach $browse.permission.contentclass_id as $contentclass_id}
+		            {set $browse_permission = fetch( 'content', 'access', hash( 'access', $browse.permission.access,
+		                                                               'contentobject',   $Nodes.item,
+		                                                               'contentclass_id', $contentclass_id ) )}
+		            {if $browse_permission|not}{break}{/if}
+		        {/foreach}
+            {else}
+	            {set $browse_permission = fetch( 'content', 'access', hash( 'access', $browse.permission.access,
+	                                                               'contentobject',   $Nodes.item,
+	                                                               'contentclass_id', $browse.permission.contentclass_id ) )}
+            {/if}
+        {else}
+            {set $browse_permission = fetch( 'content', 'access', hash( 'access', $browse.permission.access,
+                                                               'contentobject',   $Nodes.item ) )}
+        {/if}
+     {/if}
+     {section show=and( $browse_permission,
                            $browse.ignore_nodes_select|contains( $Nodes.item.node_id )|not,
                            eq( $ignore_nodes_merge|count,
                                $ignore_nodes_merge|unique|count ) )}
