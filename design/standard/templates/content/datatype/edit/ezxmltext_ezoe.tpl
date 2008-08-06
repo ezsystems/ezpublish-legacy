@@ -131,6 +131,15 @@
             if ( node && node.className.indexOf('mceNonEditable') !== -1 )
                 node.innerHTML = '';
         });
+        // fix anchor only urls on IE (it adds the current url before the anchor)
+        ez.array.forEach( body.getElementsByTagName('a'), function( node ){
+            if ( node && node.href.indexOf('#') > 0 )
+            {
+                var links = node.href.split('#'), loc = document.location;
+                if ( (links[0].length >= loc.length - 7) && loc.indexOf( links[0] ) === 0 )
+                    node.href = '#' + links[1];
+            }
+        });
         return body.innerHTML;
     }
 

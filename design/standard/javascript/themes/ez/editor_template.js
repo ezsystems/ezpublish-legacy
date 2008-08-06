@@ -1291,7 +1291,7 @@
             }
             this._generalXmlTagPopup( eurl, type, 500, 480, el );
         },
-        
+
         _mcePageBreak : function( ui, val )
         {
             var ed = this.editor, n = ed.selection.getNode();
@@ -1310,12 +1310,12 @@
                 ui = n;
             this._generalXmlTagPopup( 'anchor', false, 0, 0, ui );
         },
-        
+
         _mceCustom : function(ui, v)
         {
             this._generalXmlTagPopup( 'custom/' + v, false, 0, 0, ui );
         },
-        
+
         _mceLiteral : function(ui, v)
         {
             this._generalXmlTagPopup( 'literal', false, 0, 0, ui );

@@ -8,7 +8,7 @@ eZ Online Editor 5.0 extension Changelog
 * Fixed #013402: OE problem if ezxmlfield is required /empty andAdd object (objectrelation) is clicked
 * Only allow image selections in browse and bookmark node lists when image button is pressed
 * Fixed regression in image popup: search did not filter on image classes
-
+* Added workaround for #013013 (Link with anchor removed on re-edit) in Internet Explorer
 
 5.0rc
 * Fixed #013320: (Development mode doesn't work fully)
