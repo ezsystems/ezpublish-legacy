@@ -135,7 +135,7 @@
         ez.array.forEach( body.getElementsByTagName('a'), function( node ){
             if ( node && node.href.indexOf('#') > 0 )
             {
-                var links = node.href.split('#'), loc = document.location;
+                var links = node.href.split('#'), loc = document.location.href;
                 if ( (links[0].length >= loc.length - 7) && loc.indexOf( links[0] ) === 0 )
                     node.href = '#' + links[1];
             }
