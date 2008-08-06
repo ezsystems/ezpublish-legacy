@@ -44,7 +44,7 @@ return array(
       'ezpUrlAliasMigrateTool'         => 'extension/ezurlaliasmigration/classes/ezpurlaliasmigratetool.php',
       'ezpUrlAliasMigrationController' => 'extension/ezurlaliasmigration/classes/ezpurlaliasmigrationcontroller.php',
       'ezpUrlAliasPathWalker'          => 'extension/ezurlaliasmigration/classes/ezpurlaliaspathwalker.php',
-      'ezpUrlAliasQueryStrict'         => 'extension/ezurlaliasmigration/classes/ezurlaliasquerystrict.php',
+      'ezpUrlAliasQueryStrict'         => 'extension/ezurlaliasmigration/classes/ezpurlaliasquerystrict.php',
       'ezurlaliasInfo'                 => 'extension/ezurlaliasmigration/ezinfo.php',
       'ezwebinInfo'                    => 'extension/ezwebin/ezinfo.php',
     );
