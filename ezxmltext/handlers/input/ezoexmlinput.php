@@ -1022,7 +1022,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                     }
                     else if ( $object->attribute( 'status' ) == eZContentObject::STATUS_ARCHIVED )
                     {
-                        $className .= ' mceObjectInTrash';
+                        $className .= ' mceItemObjectInTrash';
                     }
                 }
                 else
@@ -1031,10 +1031,10 @@ class eZOEXMLInput extends eZXMLInputHandler
                     $classID = 0;
                     $classIdentifier = false;
                     $tplSuffix = '_denied';
-                    $className .= ' mceObjectDeleted';
+                    $className .= ' mceItemObjectDeleted';
                     if ( self::$showEmbedValidationErrors )
                     {
-                        $className .= ' mceValidationError';
+                        $className .= ' mceItemValidationError';
                     }
                 }
 
