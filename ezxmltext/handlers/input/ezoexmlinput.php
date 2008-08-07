@@ -1020,6 +1020,10 @@ class eZOEXMLInput extends eZXMLInputHandler
                     {
                         $tplSuffix = '_denied';
                     }
+                    else if ( $object->attribute( 'status' ) == eZContentObject::STATUS_ARCHIVED )
+                    {
+                        $className .= ' mceObjectInTrash';
+                    }
                 }
                 else
                 {
@@ -1027,8 +1031,11 @@ class eZOEXMLInput extends eZXMLInputHandler
                     $classID = 0;
                     $classIdentifier = false;
                     $tplSuffix = '_denied';
+                    $className .= ' mceObjectDeleted';
                     if ( self::$showEmbedValidationErrors )
+                    {
                         $className .= ' mceValidationError';
+                    }
                 }
 
                 if ( self::embedTagIsImage( $classIdentifier, $classID ) )
