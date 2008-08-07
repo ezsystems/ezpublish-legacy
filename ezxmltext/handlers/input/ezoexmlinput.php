@@ -456,6 +456,16 @@ class eZOEXMLInput extends eZXMLInputHandler
                 }
             }
 
+            $validationParameters = $contentObjectAttribute->validationParameters();
+            if ( !( isset( $validationParameters['skip-isRequired'] ) && $validationParameters['skip-isRequired'] === true )
+              && $parser->getDeletedEmbedIDArray() )
+            {
+                self::$showEmbedValidationErrors = true;
+                $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                 'Some objects used in embed(-inline) tags have been deleted and are no longer available.' ) );
+                return eZInputValidator::STATE_INVALID;
+            }
+
             if ( $contentObjectAttribute->validateIsRequired() )
             {
                 $root = $document->documentElement;
@@ -1017,6 +1027,8 @@ class eZOEXMLInput extends eZXMLInputHandler
                     $classID = 0;
                     $classIdentifier = false;
                     $tplSuffix = '_denied';
+                    if ( self::$showEmbedValidationErrors )
+                        $className .= ' mceValidationError';
                 }
 
                 if ( self::embedTagIsImage( $classIdentifier, $classID ) )
@@ -1536,6 +1548,8 @@ class eZOEXMLInput extends eZXMLInputHandler
     
     protected $editorLayoutSettings = null;
     static protected $editorGlobalLayoutSettings = null;
+
+    static protected $showEmbedValidationErrors = null;
 
     public $LineTagArray = array( 'emphasize', 'strong', 'link', 'a', 'em', 'i', 'b', 'bold', 'anchor' );
     /// Contains the XML data

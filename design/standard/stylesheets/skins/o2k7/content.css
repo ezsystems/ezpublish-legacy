@@ -258,6 +258,10 @@ div.mceNonEditable div.break /* Old method for terminating floating elements flo
 }
 
 
+/* Validation error, currently used when you try to publish with a embed tag linking to a deleted object */
+
+.mceValidationError { border: 1px solid red; }
+
 
 /* Example of class visualization for paragraph element:
    red background and center-aligned text. */

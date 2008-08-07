@@ -1064,6 +1064,9 @@ class eZOEInputParser extends eZXMLInputParser
             {
                 $objectID = substr( $ID, strpos( $ID, '_' ) + 1 );
                 $element->setAttribute( 'object_id', $objectID );
+                if ( !eZContentObject::exists( $objectID )
+                  && !in_array( $objectID, $this->deletedEmbeddedObjectIDArray ) )
+                    $this->deletedEmbeddedObjectIDArray[] = $objectID;
             }
             else if ( strpos( $ID, 'eZNode_' ) !== false )
             {
@@ -1073,6 +1076,8 @@ class eZOEInputParser extends eZXMLInputParser
                 $node = eZContentObjectTreeNode::fetch( $nodeID );
                 if ( $node )
                     $objectID = $node->attribute( 'contentobject_id' );
+                else if ( !in_array( $nodeID, $this->deletedEmbeddedNodeIDArray ) )
+                    $this->deletedEmbeddedNodeIDArray[] = $nodeID;
             }
 
             if ( $objectID && !in_array( $objectID, $this->embeddedObjectIDArray ) )
@@ -1122,13 +1127,23 @@ class eZOEInputParser extends eZXMLInputParser
         return $this->linkedObjectIDArray;
     }
 
-    var $urlIDArray = array();
-    var $embeddedObjectIDArray = array();
-    var $linkedObjectIDArray = array();
+    function getDeletedEmbedIDArray()
+    {
+        $arr = array();
+        if ( $this->deletedEmbeddedNodeIDArray )
+            $arr['nodes'] = $this->deletedEmbeddedNodeIDArray;
+        if ( $this->deletedEmbeddedObjectIDArray )
+            $arr['objects'] = $this->deletedEmbeddedObjectIDArray;
+        return $arr;
+    }
 
-    var $anchorAsAttribute = false;
+    protected $urlIDArray = array();
+    protected $linkedObjectIDArray = array();
+    protected $embeddedObjectIDArray = array();
+    protected $deletedEmbeddedNodeIDArray = array();
+    protected $deletedEmbeddedObjectIDArray = array();
 
-    var $convertUnknownAttrsToCustom = false;
+    protected $anchorAsAttribute = false;
 }
 
 ?>
