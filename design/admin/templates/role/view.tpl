@@ -124,11 +124,14 @@
          {section show=$Users.item.limit_value|begins_with( '/' )}
               {let  limit_location_array=$Users.item.limit_value|explode( '/' )
                     limit_location_pinpoint=$limit_location_array|count|sub(2)
-                    limit_node_id=$limit_location_array[$limit_location_pinpoint]}
-              <a href={concat( '/content/view/full/', $limit_node_id )|ezurl}>{$Users.item.limit_ident|wash}&nbsp;({$Users.item.limit_value|wash})</a>
+                    limit_node_id=$limit_location_array[$limit_location_pinpoint]
+                    limit_node=fetch('content','node', hash('node_id', $limit_node_id ))}
+              <a href={concat( '/content/view/full/', $limit_node_id )|ezurl}>{$Users.item.limit_ident|wash}:&nbsp;"{$limit_node.name}"&nbsp;({$Users.item.limit_value|wash})</a>
               {/let}
           {section-else}
-              <a href={concat( '/section/view/', $Users.item.limit_value )|ezurl}>{$Users.item.limit_ident|wash}&nbsp;({$Users.item.limit_value|wash})</a>
+              {let limit_section=fetch( 'section', 'object', hash( 'section_id', $Users.item.limit_value ) )}
+              <a href={concat( '/section/view/', $Users.item.limit_value )|ezurl}>{$Users.item.limit_ident|wash}:&nbsp;"{$limit_section.name}"&nbsp;({$Users.item.limit_value|wash})</a>
+              {/let}
           {/section}
         {section-else}
         <i>{'No limitations'|i18n( 'design/admin/role/view' )}</i>
