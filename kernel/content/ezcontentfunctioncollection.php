@@ -458,22 +458,22 @@ class eZContentFunctionCollection
         return array( 'result' => $searchResult );
     }
 
-    function fetchTrashObjectCount( $objectNameFilter )
+    function fetchTrashObjectCount( $objectNameFilter, $attributeFilter = false )
     {
         //include_once( 'kernel/classes/ezcontentobjecttrashnode.php' );
+        $params = array();
         if ( $objectNameFilter !== false )
         {
-            $params = array();
             $params['ObjectNameFilter'] = $objectNameFilter;
         }
-        else
-            $params = false;
+            
+        $params[ 'AttributeFilter' ] = $attributeFilter;
 
         $trashCount = eZContentObjectTrashNode::trashListCount( $params );
         return array( 'result' => $trashCount );
     }
 
-    function fetchTrashObjectList( $offset, $limit, $objectNameFilter )
+    function fetchTrashObjectList( $offset, $limit, $objectNameFilter, $attributeFilter = false, $sortBy = false, $asObject = true )
     {
         //include_once( 'kernel/classes/ezcontentobjecttrashnode.php' );
         $params = array();
@@ -483,6 +483,9 @@ class eZContentFunctionCollection
         }
         $params[ 'Limit' ] = $limit;
         $params[ 'Offset' ] = $offset;
+        $params[ 'AttributeFilter' ] = $attributeFilter;
+        $params[ 'SortBy' ] = $sortBy;
+        $params[ 'AsObject' ] = $asObject;
 
         $trashNodesList = eZContentObjectTrashNode::trashList( $params, false );
         return array( 'result' => $trashNodesList );

@@ -553,7 +553,11 @@ $FunctionList['trash_count'] = array( 'name' => 'trash_count',
                                       'parameters' => array( array( 'name' => 'objectname_filter',
                                                                     'type' => 'string',
                                                                     'required' => false,
-                                                                    'default' => null ) ) );
+                                                                    'default' => null ),
+                                                            array( 'name' => 'attribute_filter',
+                                                                    'type' => 'mixed',
+                                                                    'required' => false,
+                                                                    'default' => false ) ) );
 
 $FunctionList['trash_object_list'] = array( 'name' => 'trash_object_list',
                                             'operation_types' => array( 'read' ),
@@ -571,7 +575,19 @@ $FunctionList['trash_object_list'] = array( 'name' => 'trash_object_list',
                                                                    array( 'name' => 'objectname_filter',
                                                                           'type' => 'string',
                                                                           'required' => false,
-                                                                           'default' => null ) ) );
+                                                                          'default' => null ),
+                                                                   array( 'name' => 'attribute_filter',
+                                                                          'type' => 'mixed',
+                                                                          'required' => false,
+                                                                          'default' => false ),
+                                                                   array( 'name' => 'sort_by',
+                                                                          'type' => 'mixed',
+                                                                          'required' => false,
+                                                                          'default' => false ),
+                                                                   array( 'name' => 'as_object',
+                                                                          'type' => 'bool',
+                                                                          'required' => false,
+                                                                          'default' => true ) ) );
 
 $FunctionList['draft_count'] = array( 'name' => 'draft_count',
                                       'operation_types' => array( 'read' ),

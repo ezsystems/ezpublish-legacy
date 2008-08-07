@@ -202,21 +202,23 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
         $limit            = ( isset( $params['Limit']  ) && is_numeric( $params['Limit']  ) ) ? $params['Limit']              : false;
         $asObject         = ( isset( $params['AsObject']          ) )                         ? $params['AsObject']           : true;
         $objectNameFilter = ( isset( $params['ObjectNameFilter']  ) )                         ? $params['ObjectNameFilter']   : false;
-
+        $sortBy           = ( isset( $params['SortBy']  ) && is_array( $params['SortBy']  ) ) ? $params['SortBy']              : array( array( 'name' ) );
+        
         if ( $asCount )
         {
-            $sqlSorting = '';
+            $sortingInfo = eZContentObjectTreeNode::createSortingSQLStrings( false );
         }
         else
         {
-            // default sorting by the object name, but it probably should be optional in future
-            $params[ 'SortBy' ] = array( array( 'name' ) );
-            $sortingInfo = eZContentObjectTreeNode::createSortingSQLStrings( $params['SortBy'], 'ezcot' );
-            if ( $sortingInfo['sortingFields'] )
-                $sqlSorting = " ORDER BY $sortingInfo[sortingFields]";
-            else
-                $sqlSorting = '';
+            $sortingInfo = eZContentObjectTreeNode::createSortingSQLStrings( $sortBy, 'ezcot' );
         }
+
+        $attributeFilter         = eZContentObjectTreeNode::createAttributeFilterSQLStrings( $params['AttributeFilter'], $sortingInfo );
+        if ( $attributeFilter === false )
+        {
+            return null;
+        }
+
         $useVersionName     = true;
         $versionNameTables  = eZContentObjectTreeNode::createVersionNameTablesSQLString ( $useVersionName );
         $versionNameTargets = eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
@@ -241,24 +243,30 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
                         ezcot.*,
                         ezcontentclass.serialized_name_list as class_serialized_name_list,
                         ezcontentclass.identifier as class_identifier
-                        $versionNameTargets \n";
+                        $versionNameTargets
+                        $sortingInfo[attributeTargetSQL] \n";
         }
         $query .= "FROM
                         ezcontentobject_trash ezcot,
                         ezcontentobject,
                         ezcontentclass
                         $versionNameTables
+                        $sortingInfo[attributeFromSQL]
+                        $attributeFilter[from]
                         $sqlPermissionChecking[from]
                    WHERE
                         ezcontentclass.version=0 AND
                         ezcot.contentobject_id = ezcontentobject.id  AND
                         ezcontentclass.id = ezcontentobject.contentclass_id AND
+                        $sortingInfo[attributeWhereSQL]
+                        $attributeFilter[where]
                         $versionNameJoins
                         $sqlPermissionChecking[where]
                         $objectNameFilterSQL
                         $languageFilter
-                        $sqlSorting
                         ";
+        if ( $sortingInfo['sortingFields'] && strlen( $sortingInfo['sortingFields'] ) > 5  )
+            $query .= " ORDER BY $sortingInfo[sortingFields]";
 
         $db = eZDB::instance();
         if ( !$offset && !$limit )

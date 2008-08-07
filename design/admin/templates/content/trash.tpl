@@ -1,9 +1,12 @@
-{let item_type=ezpreference( 'admin_list_limit' )
-     number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )
-     trash_list=fetch( content, trash_object_list, hash( limit,  $number_of_items,
-                                                         offset, $view_parameters.offset,
-                                                         objectname_filter, $view_parameters.namefilter ) )
-     list_count=fetch( content, trash_count, hash( objectname_filter, $view_parameters.namefilter ) ) }
+{let item_type = ezpreference( 'admin_list_limit' )
+     number_of_items = min( $item_type, 3)|choose( 10, 10, 25, 50 )
+     trash_sort_field = first_set(  $view_parameters.sort_field, 'name' )
+     trash_sort_order = first_set(  $view_parameters.sort_order, '1' )
+     trash_list = fetch( 'content', 'trash_object_list', hash( 'limit',  $number_of_items,
+                                                         'offset', $view_parameters.offset,
+                                                         'sort_by', array( $trash_sort_field, $trash_sort_order ),
+                                                         'objectname_filter', $view_parameters.namefilter ) )
+     list_count = fetch( 'content', 'trash_count', hash( 'objectname_filter', $view_parameters.namefilter ) ) }
 
 <form name="trashform" action={'content/trash/'|ezurl} method="post" >
 
@@ -113,17 +116,64 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-{section show=$trash_list}
-    <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/trash' )}"  title="{'Permanently remove the selected items.'|i18n( 'design/admin/content/trash' )}" />
-    <input class="button" type="submit" name="EmptyButton"  value="{'Empty trash'|i18n( 'design/admin/content/trash' )}" title="{'Permanently remove all items from the trash.'|i18n( 'design/admin/content/trash' )}" />
-{section-else}
-    <input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/trash' )}" disabled="disabled" />
-    <input class="button-disabled" type="submit" name="EmptyButton"  value="{'Empty trash'|i18n( 'design/admin/content/trash' )}" disabled="disabled" />
-{/section}
+<div class="left">
+    {if $trash_list}
+        <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/trash' )}"  title="{'Permanently remove the selected items.'|i18n( 'design/admin/content/trash' )}" />
+        <input class="button" type="submit" name="EmptyButton"  value="{'Empty trash'|i18n( 'design/admin/content/trash' )}" title="{'Permanently remove all items from the trash.'|i18n( 'design/admin/content/trash' )}" />
+    {else}
+        <input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/trash' )}" disabled="disabled" />
+        <input class="button-disabled" type="submit" name="EmptyButton"  value="{'Empty trash'|i18n( 'design/admin/content/trash' )}" disabled="disabled" />
+    {/if}
+</div>
+{* Sorting *}
+<div class="right" id="trash-list-sort-control" style="display:none;">
+<label>{'Sorting'|i18n( 'design/admin/node/view/full' )}:</label>
+
+{def $sort_fields = hash( 'class_identifier', 'Class identifier'|i18n( 'design/admin/node/view/full' ),
+                       'class_name', 'Class name'|i18n( 'design/admin/node/view/full' ),
+                       'modified', 'Modified'|i18n( 'design/admin/node/view/full' ),
+                       'name', 'Name'|i18n( 'design/admin/node/view/full' ),
+                       'published', 'Published'|i18n( 'design/admin/node/view/full' ),
+                       'section', 'Section'|i18n( 'design/admin/node/view/full' ) )
+    $sort_title = 'Use these controls to set the sorting method for the sub items of the current location.'|i18n( 'design/admin/node/view/full' )}
+
+<select id="trash_sort_field" title="{$sort_title}">
+{foreach $sort_fields as $key => $item}
+    <option value="{$key}" {section show=eq( $key, $trash_sort_field )}selected="selected"{/section}>{$item}</option>
+{/foreach}
+</select>
+
+<select id="trash_sort_order" title="{$sort_title}">
+    <option value="0"{section show=eq($trash_sort_order, '0')} selected="selected"{/section}>{'Descending'|i18n( 'design/admin/node/view/full' )}</option>
+    <option value="1"{section show=eq($trash_sort_order, '1')} selected="selected"{/section}>{'Ascending'|i18n( 'design/admin/node/view/full' )}</option>
+</select>
+
+<input class="button" type="submit" onclick="return trashSortingSelection({'content/trash'|ezurl('single')})" name="SetSorting" value="{'Set'|i18n( 'design/admin/node/view/full' )}" title="{$sort_title}" />
+
+</div>
+{literal}
+<script type="text/javascript">
+<!--
+
+document.getElementById('trash-list-sort-control').style.display = '';
+
+function trashSortingSelection( trashUrl )
+{
+	trashUrl += '/(sort_field)/' + document.getElementById('trash_sort_field').value;
+	trashUrl += '/(sort_order)/' + document.getElementById('trash_sort_order').value;
+	document.location = trashUrl;
+	return false;
+}
+
+-->
+</script>
+{/literal}
+<div class="break"></div>
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
 </div>
 </form>
+{undef $sort_fields $sort_title}
 {/let}
 
