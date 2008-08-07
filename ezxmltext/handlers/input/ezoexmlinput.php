@@ -285,7 +285,7 @@ class eZOEXMLInput extends eZXMLInputHandler
             $buttonPreset = $contentClassAttribute->attribute('data_text2');
             $buttonPresets = $xmlini->hasVariable( 'TagSettings', 'TagPresets' ) ? $xmlini->variable( 'TagSettings', 'TagPresets' ) : array();
 
-            if( $buttonPreset && in_array( $buttonPreset, $buttonPresets ) )
+            if( $buttonPreset && isset( $buttonPresets[$buttonPreset] ) )
             {
                 if ( $oeini->hasSection( 'EditorLayout_' . $buttonPreset ) )
                 {
