@@ -44,6 +44,12 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         'br'      => array( 'name' => 'br',
                             'noChildren' => true ),
         'a'       => array( 'name' => 'link' ),
+        'h1'     => array( 'nameHandler' => 'tagNameHeader' ),
+        'h2'     => array( 'nameHandler' => 'tagNameHeader' ),
+        'h3'     => array( 'nameHandler' => 'tagNameHeader' ),
+        'h4'     => array( 'nameHandler' => 'tagNameHeader' ),
+        'h5'     => array( 'nameHandler' => 'tagNameHeader' ),
+        'h6'     => array( 'nameHandler' => 'tagNameHeader' ),
         );
 
     public $OutputTags = array(
@@ -128,6 +134,45 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     {
         $this->contentObjectID = $contentObjectID;
         $this->eZXMLInputParser( $validateErrorLevel, $detectErrorLevel, $parseLineBreaks, $removeDefaultAttrs );
+    }
+
+    /*
+        Tag Name handlers (init handlers)
+    */
+    function tagNameHeader( $tagName, &$attributes )
+    {
+        switch ( $tagName )
+        {
+            case 'h1':
+            {
+                $attributes['level'] = '1';
+            } break;
+            case 'h2':
+            {
+                $attributes['level'] = '2';
+            } break;
+            case 'h3':
+            {
+                $attributes['level'] = '3';
+            } break;
+            case 'h4':
+            {
+                $attributes['level'] = '4';
+            } break;
+            case 'h5':
+            {
+                $attributes['level'] = '5';
+            } break;
+            case 'h6':
+            {
+                $attributes['level'] = '6';
+            } break;
+            default :
+            {
+                return '';
+            } break;
+        }
+        return 'header';
     }
 
     /*

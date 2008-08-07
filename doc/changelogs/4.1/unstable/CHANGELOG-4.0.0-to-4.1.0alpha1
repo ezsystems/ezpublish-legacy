@@ -34,6 +34,7 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Implemented enhancement #12027: Improve how timezones are set.
 - Implemented enhancement #12806: Multiple object move in admin
 - Implemented enhancement #12921: Usability enhancements for role assignments (multiple user/group select & assignment limitation name)
+- Implemented enhancement #8910: map <h1>, <h2>, <h3> to <header>
 
 *Design:
 
