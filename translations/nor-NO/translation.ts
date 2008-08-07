@@ -925,6 +925,10 @@ Vil du vite mer om dette?</translation>
 <context>
     <name>design/standard/ezoe/handler</name>
     <message>
+        <source>Some objects used in embed(-inline) tags have been deleted and are no longer available.</source>
+        <translation>Ett eller flere objecter brukt i embed(-inline) tagger har blitt slettet og er ikke lenger tilgjengelig.</translation>
+    </message>
+    <message>
         <source>Object %1 does not exist.</source>
         <translation>Node %1 finnes ikke.</translation>
     </message>

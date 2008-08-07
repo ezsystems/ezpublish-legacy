@@ -924,6 +924,10 @@ Do you want more information about this issue?</source>
 <context>
     <name>design/standard/ezoe/handler</name>
     <message>
+        <source>Some objects used in embed(-inline) tags have been deleted and are no longer available.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Object %1 does not exist.</source>
         <translation type="unfinished"></translation>
     </message>

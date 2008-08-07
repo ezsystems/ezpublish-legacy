@@ -461,7 +461,7 @@ class eZOEXMLInput extends eZXMLInputHandler
               && $parser->getDeletedEmbedIDArray() )
             {
                 self::$showEmbedValidationErrors = true;
-                $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                $contentObjectAttribute->setValidationError( ezi18n( 'design/standard/ezoe/handler',
                                                  'Some objects used in embed(-inline) tags have been deleted and are no longer available.' ) );
                 return eZInputValidator::STATE_INVALID;
             }
