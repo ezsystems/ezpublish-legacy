@@ -1224,7 +1224,7 @@ class eZContentFunctionCollection
     }
 
     // Fetches reverse related objects
-    function fetchRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy )
+    function fetchRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy, $limit = false, $offset = false, $asObject = true, $loadDataMap = false )
     {
         if ( !$objectID )
         {
@@ -1232,6 +1232,11 @@ class eZContentFunctionCollection
             return false;
         }
         $params = array();
+        $params['Limit'] = $limit;
+        $params['Offset'] = $offset;
+        $params['AsObject'] = $asObject;
+        $params['LoadDataMap'] = $loadDataMap;
+
         if ( $sortBy )
         {
             if ( is_array( $sortBy ) )
@@ -1331,9 +1336,14 @@ class eZContentFunctionCollection
         return array( 'result' => $object->relatedContentObjectCount( false, $attributeID, $params ) );
     }
 
-    function fetchReverseRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy, $ignoreVisibility )
+    function fetchReverseRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy, $ignoreVisibility,  $limit = false, $offset = false, $asObject = true, $loadDataMap = false  )
     {
         $params = array();
+        $params['Limit'] = $limit;
+        $params['Offset'] = $offset;
+        $params['AsObject'] = $asObject;
+        $params['LoadDataMap'] = $loadDataMap;
+
         if ( $sortBy )
         {
             if ( is_array( $sortBy ) )

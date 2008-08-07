@@ -2025,31 +2025,35 @@ class eZContentObject extends eZPersistentObject
 
     /*!
       \static
-      Fetches the attributes for an array of objects. The objectList parameter
-      contains an array of object id's , versions and language to fetch attributes from.
+      Fetches the attributes for an array of objects. The objList parameter
+      contains an array of objects ( instanceOf eZContentObject or a object that is or 
+      extends eZContentObjectTreeNode ) to fetch attributes from.
     */
-    static function fillNodeListAttributes( $nodeList, $asObject = true )
+    static function fillNodeListAttributes( $objList, $asObject = true )
     {
         $db = eZDB::instance();
 
-        if ( count( $nodeList ) > 0 )
+        if ( count( $objList ) > 0 )
         {
             $objectArray = array();
             $tmpLanguageObjectList = array();
             $whereSQL = '';
-            $count = count( $nodeList );
+            $count = count( $objList );
             $i = 0;
-            foreach ( $nodeList as $node )
+            foreach ( $objList as $obj )
             {
-                $object = $node->attribute( 'object' );
+                if ( $obj instanceOf eZContentObject )
+                    $object = $obj;
+                else
+                    $object = $obj->attribute( 'object' );
 
                 $language = $object->currentLanguage();
                 $tmpLanguageObjectList[$object->attribute( 'id' )] = $language;
                 $objectArray = array( 'id' => $object->attribute( 'id' ),
                                       'language' => $language,
-                                      'version' => $node->attribute( 'contentobject_version' ) );
+                                      'version' => $object->attribute( 'current_version' ) );
 
-                $whereSQL .= "( ezcontentobject_attribute.version = '" . $node->attribute( 'contentobject_version' ) . "' AND
+                $whereSQL .= "( ezcontentobject_attribute.version = '" . $object->attribute( 'current_version' ) . "' AND
                     ezcontentobject_attribute.contentobject_id = '" . $object->attribute( 'id' ) . "' AND
                     ezcontentobject_attribute.language_code = '" . $language . "' ) ";
 
@@ -2079,13 +2083,22 @@ class eZContentObject extends eZPersistentObject
                 $tmpAttributeObjectList[$attr->attribute( 'contentobject_id' )][] = $attr;
             }
 
-            foreach ( $nodeList as $node )
+            foreach ( $objList as $obj )
             {
-                $object = $node->attribute( 'object' );
-                $object->setContentObjectAttributes( $tmpAttributeObjectList[$object->attribute( 'id' )],
-                                                     $node->attribute( 'contentobject_version' ),
-                                                     $tmpLanguageObjectList[$object->attribute( 'id' )] );
-                $node->setContentObject( $object );
+                if ( $obj instanceOf eZContentObject )
+                {
+                    $obj->setContentObjectAttributes( $tmpAttributeObjectList[$obj->attribute( 'id' )],
+                                         $obj->attribute( 'current_version' ),
+                                         $tmpLanguageObjectList[$obj->attribute( 'id' )] );
+                }
+                else
+                {
+                    $object = $obj->attribute( 'object' );
+                    $object->setContentObjectAttributes( $tmpAttributeObjectList[$object->attribute( 'id' )],
+                                                         $object->attribute( 'current_version' ),
+                                                         $tmpLanguageObjectList[$object->attribute( 'id' )] );
+                    $obj->setContentObject( $object );
+                }
             }
         }
     }
@@ -2789,6 +2802,12 @@ class eZContentObject extends eZPersistentObject
         if( !$objectID )
             $objectID = $this->ID;
         $objectID =(int) $objectID;
+        
+        $limit            = ( isset( $params['Limit']  ) && is_numeric( $params['Limit']  ) ) ? $params['Limit']              : false;
+        $offset           = ( isset( $params['Offset'] ) && is_numeric( $params['Offset'] ) ) ? $params['Offset']             : false;
+        $asObject         = ( isset( $params['AsObject']          ) )                         ? $params['AsObject']           : true;
+        $loadDataMap      = ( isset( $params['LoadDataMap'] ) )                               ? $params['LoadDataMap']        : false;
+        
 
         $db = eZDB::instance();
         $sortingString = '';
@@ -2884,13 +2903,31 @@ class eZContentObject extends eZPersistentObject
                         $showInvisibleNodesCond
                         $versionNameJoins
                         $sortingString";
-        $relatedObjects = $db->arrayQuery( $query );
+        if ( !$offset && !$limit )
+        {
+            $relatedObjects = $db->arrayQuery( $query );
+        }
+        else
+        {
+            $relatedObjects = $db->arrayQuery( $query, array( 'offset' => $offset,
+                                                             'limit'  => $limit ) );
+        }
 
         $ret = array();
+        $tmp = array();
         foreach ( $relatedObjects as $object )
         {
-            $obj = new eZContentObject( $object );
-            $obj->ClassName = eZContentClass::nameFromSerializedString( $object['class_serialized_name_list'] );
+            if ( $asObject )
+            {
+                $obj = new eZContentObject( $object );
+                $obj->ClassName = eZContentClass::nameFromSerializedString( $object['class_serialized_name_list'] );
+            }
+            else
+            {
+                $obj = $object;
+            }
+            
+            $tmp[] = $obj;
 
             if ( !$groupByAttribute )
             {
@@ -2906,6 +2943,8 @@ class eZContentObject extends eZPersistentObject
                 $ret[$classAttrID][] = $obj;
             }
         }
+        if ( $loadDataMap && $asObject )
+            eZContentObject::fillNodeListAttributes( $tmp );
         return $ret;
     }
 
