@@ -96,6 +96,8 @@
             // Init editor
             ed.onInit.add(function() {
                 ed.onNodeChange.addToTop(t._nodeChanged, t);
+                ed.addShortcut('ctrl+8', '', ['FormatBlock', false, '<pre>']);
+                ed.addShortcut('ctrl+9', '', ['FormatBlock', false, '<pre>']);
                 if ( s.theme_ez_content_css )
                 {
                 	var css_arr = s.theme_ez_content_css.split(',');
