@@ -112,6 +112,10 @@ class eZXMLTextType extends eZDataType
     const COLS_FIELD = 'data_int1';
     const COLS_VARIABLE = '_ezxmltext_cols_';
 
+    // Tag support preset
+    const TAG_PRESET_FIELD = 'data_text2';
+    const TAG_PRESET_VARIABLE = '_ezxmltext_tagpreset_';
+
     // The timestamp of the format for eZ Publish 3.0.
     const VERSION_30_TIMESTAMP = 1045487555;
     // Contains the timestamp of the current xml format, if the stored
@@ -172,10 +176,16 @@ class eZXMLTextType extends eZDataType
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $column = $base . self::COLS_VARIABLE . $classAttribute->attribute( 'id' );
+        $tagPreset = $base . self::TAG_PRESET_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $column ) )
         {
             $columnValue = $http->postVariable( $column );
             $classAttribute->setAttribute( self::COLS_FIELD,  $columnValue );
+            if ( $http->hasPostVariable( $tagPreset ) )
+            {
+                $tagPresetValue = $http->postVariable( $tagPreset );
+                $classAttribute->setAttribute( self::TAG_PRESET_FIELD, $tagPresetValue );
+            }
             return true;
         }
         return false;

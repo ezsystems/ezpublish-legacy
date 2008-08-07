@@ -3,3 +3,15 @@
     <label>{'Preferred number of rows'|i18n( 'design/standard/class/datatype' )}:</label>
     <p>{$class_attribute.data_int1}</p>
 </div>
+
+<div class="block">
+    <label>{'Tag preset'|i18n( 'design/standard/class/datatype' )}:</label>
+    {def $tag_preset_list = ezini( 'TagSettings', 'TagPresets', 'ezxml.ini' )}
+    {if and( $class_attribute.data_text2, is_set( $tag_preset_list[$class_attribute.data_text2] ))}
+        <p>{$tag_preset_list[$class_attribute.data_text2]}</p>
+    {else}
+        <p>{'Default'|i18n( 'design/standard/content/datatype' )}</p>
+    {/if}
+    {undef $tag_preset_list}
+</div>
+

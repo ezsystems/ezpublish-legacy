@@ -37,6 +37,7 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Implemented enhancement #8910: map <h1>, <h2>, <h3> to <header>
 - Implemented enhancement #10793: trash_object_list does not give access to all params of eZContentObjectTrashNode::trashList
 - Implemented enhancement #12651: add limit, offset, as_object and load_data_map to [reverse_]related_objects fetches w/patch
+- Implemented enhancement #013249: 4.1: Tag Preset support for ezxml datatype (Neede by OE 5.0 for different editor layouts)
 
 *Design:
 
