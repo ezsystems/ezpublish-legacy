@@ -256,6 +256,10 @@ var ez = {
             {
                 return args[0];
             }
+            else if ( args.length === 0 && doc !== document  )
+            {
+                return ez.$( doc );
+            }
             // Use querySelectorAll if browsers supports it and doc is a root element (fails in ie8 beta since it dosn't return a proper node list)
             if ( doc.querySelectorAll !== undefined && ( doc.parentNode === null || doc.parentNode === undefined ) )
             {
@@ -300,7 +304,7 @@ var ez = {
                                     if (tag !== '*' && i.nodeName !== tag ) return;
                                     if (at && !ez.element.hasAttribute( i, at[0], at[2], at[1] )) return;
                                     if (cn && (' '+i.className+' ').indexOf( ' ' + cn + ' ' ) === -1) return;
-                                    temp.push( i ); 
+                                    temp.push( i );
                                 });
                             });
                             parent = temp;
@@ -334,7 +338,7 @@ var ez = {
         {
             var list = [], filtered = [], sib = node;
             if (  mode === '+' || mode === '~' )
-            {                
+            {
                 while ( sib = sib.nextSibling )
                 {
                     if ( sib.nodeType === 1 )
@@ -736,7 +740,7 @@ ez.element.eZextensions.prototype = {
     },
     isChildOfElement: function( parent )
     {
-        // returns truer if this is a decendant of parent
+        // returns true if this is a decendant of parent
         c = this.el.parentNode;
         do {
             if ( c === parent) return true;

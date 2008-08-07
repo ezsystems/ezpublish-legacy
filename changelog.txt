@@ -11,6 +11,7 @@ eZ Online Editor 5.0 extension Changelog
 * Added workaround for #013013 (Link with anchor removed on re-edit) in Internet Explorer
 * Added Validation for deleted embed objects on publish
   partly fixing #013391: ezoe handles removed images incorrect
+* make ctrl+8|9 set pre tag instead of unsupported div|address tags
 
 5.0rc
 * Fixed #013320: (Development mode doesn't work fully)
@@ -19,7 +20,7 @@ eZ Online Editor 5.0 extension Changelog
 * Added CompatibilityMode in ezoe.ini to make editor behave like OE 4.x in respect to embed tags
   (attachment icons)
 * Added bookmarks tab in upload dialog
-* Stop tinyMCE from triyng to load i18n script a second time (unvanted 404).
+* Stop tinyMCE from trying to load i18n script a second time (unwanted 404).
 * Fixed: Extra paragraphs in literal tags if double line feeds where used.
 * Updated TinyMCE to 3.1.1 (trunk), fixes several issues in Opera
 * Fixed bug #013011: Opera doesn't allow to make embedded object as link

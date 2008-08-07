@@ -29,11 +29,11 @@ class ezoeInfo
     static function info()
     {
         return array( 'Name'      => 'eZ Online Editor MCE',
-                      'Version'   => '5.0.0rc',
+                      'Version'   => '5.0.0rc2',
                       'Copyright' => 'Copyright (C) 2008 eZ Systems AS',
                       'License'   => 'GNU General Public License v2.0',
                       'Includes the following third-party software' => array( 'Name' => 'TinyMce Javascript HTML WYSIWYG editor',
-                                                                              'Version' => '3.1.0.1',
+                                                                              'Version' => '3.1.0.2',
                                                                               'Copyright' => 'Copyright (C) 2004-2008, Moxiecode Systems AB, All rights reserved.',
                                                                               'License' => 'GNU Lesser General Public License v2.1',),
                       'Includes the following library'              => array( 'Name' => 'eZ Core, tiny javascript library for ajax and stuff',
