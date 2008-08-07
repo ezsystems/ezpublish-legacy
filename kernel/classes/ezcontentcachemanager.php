@@ -216,7 +216,7 @@ class eZContentCacheManager
         $attributes = $object->contentObjectAttributes( true, $versionNum );
         foreach ( array_keys( $attributes ) as $key )  // Looking for ezkeyword attributes
         {
-            if ( get_class( $attributes[$key] ) == 'ezcontentobjectattribute' and
+            if ( $attributes[$key] instanceof eZContentObjectAttribute and
                  $attributes[$key]->attribute( 'data_type_string' ) == 'ezkeyword' )  // Found one
             {
                 $keywordObject = $attributes[$key]->content();
