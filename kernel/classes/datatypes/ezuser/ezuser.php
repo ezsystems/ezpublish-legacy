@@ -819,7 +819,7 @@ WHERE user_id = '" . $userID . "' AND
         }
         else
         {
-            // Failed login attempts should be looged
+            // Failed login attempts should be logged
             $userIDAudit = isset( $userID ) ? $userID : 'null';
             eZAudit::writeAudit( 'user-failed-login', array( 'User id' => $userIDAudit, 'User login' => $loginEscaped,
                                                              'Comment' => 'Failed login attempt: eZUser::loginUser()' ) );
