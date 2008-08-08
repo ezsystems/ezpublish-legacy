@@ -328,3 +328,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13444: Function visibility should be changed on eZURLAliasQuery - generateSQL
 - Fixed bug #13450: Oracle specific code in ezsearchengine.php
 - Fixed bug #13449: SmartCacheClear ClearCacheMethod "keyword" doesn't work
+- Fixed bug #13309: eZmatrix datatype doesn't store text content properly when containing some special characters
