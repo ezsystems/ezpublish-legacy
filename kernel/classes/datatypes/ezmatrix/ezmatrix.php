@@ -878,7 +878,8 @@ class eZMatrix
                 if( $column != null && $column['identifier'] != 'col_'. $i+1 )
                 {
                     unset( $columnNode );
-                    $columnNode = $doc->createElement( 'column', $column['name'] );
+                    $columnNode = $doc->createElement( 'column' );
+                    $columnNode->appendChild( $doc->createTextNode( $column['name'] ) );
                     $columnNode->setAttribute( 'num', $i );
                     $columnNode->setAttribute( 'id', $column['identifier'] );
 
@@ -898,7 +899,8 @@ class eZMatrix
         foreach ( $this->Cells as $cell )
         {
             unset( $cellNode );
-            $cellNode = $doc->createElement( 'c', $cell );
+            $cellNode = $doc->createElement( 'c' );
+            $cellNode->appendChild( $doc->createTextNode( $cell ) );
 
             $root->appendChild( $cellNode );
         }
