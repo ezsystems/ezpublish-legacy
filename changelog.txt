@@ -1,5 +1,10 @@
 eZ Online Editor 5.0 extension Changelog
 
+5.0rc3
+* regression in rc2 caused inserting embed tags not to work in some browsers
+* updated doc/ezoe_intro.odt with new screenshoots and text.
+
+
 5.0rc2
 * Cleaned up i18n use and Nor-NO, and synced untranslated.ts with the Nor-NO file.
 * Language for TinyMCE now uses Locale from site ini instead of locale from xml attribute.
