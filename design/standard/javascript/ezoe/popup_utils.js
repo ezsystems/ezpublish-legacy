@@ -163,7 +163,7 @@ var eZOEPopupUtils = {
             // create new node if none is defined and if tag type is defined in ezXmlToXhtmlHash or tagGenerator is defined
             if ( s.tagGenerator )
             {
-                ed.execCommand('mceInsertContent', false, s.tagGenerator.call( eZOEPopupUtils, s.tagName, s.selectedTag, s.editorSelectedText ), {skip_undo : 1} );
+                ed.execCommand('mceInsertRawHTML', false, s.tagGenerator.call( eZOEPopupUtils, s.tagName, s.selectedTag, s.editorSelectedText ), {skip_undo : 1} );
                 s.editorElement = ed.dom.get('__mce_tmp');
             }
             else if ( s.tagCreator )
@@ -190,7 +190,7 @@ var eZOEPopupUtils = {
             }
             else if ( eZOEPopupUtils.xmlToXhtmlHash[s.tagName] )
             {
-                ed.execCommand('mceInsertContent', false, '<' + eZOEPopupUtils.xmlToXhtmlHash[s.tagName] + ' id="__mce_tmp">' + ( s.editorSelectedText ? s.editorSelectedText : '&nbsp;' ) + '</' + eZOEPopupUtils.xmlToXhtmlHash[s.tagName] + '>', {skip_undo : 1} );
+                ed.execCommand('mceInsertRawHTML', false, '<' + eZOEPopupUtils.xmlToXhtmlHash[s.tagName] + ' id="__mce_tmp">' + ( s.editorSelectedText ? s.editorSelectedText : '&nbsp;' ) + '</' + eZOEPopupUtils.xmlToXhtmlHash[s.tagName] + '>', {skip_undo : 1} );
                 s.editorElement = ed.dom.get('__mce_tmp');
             }
             if ( s.onTagGenerated )
