@@ -137,6 +137,8 @@ class eZObjectRelationListType extends eZDataType
                 }
             }
         }
+
+        $contentObjectAttribute->setContent( $content );
         return $status;
     }
 
@@ -401,7 +403,7 @@ class eZObjectRelationListType extends eZDataType
 
             eZContentObject::fetch( $contentObjectID )->addContentObjectRelation( $subObjectID, $contentObjectVersion, $contentClassAttributeID, eZContentObject::RELATION_ATTRIBUTE );
 
-            if ( $relationItem['is_modified'] )
+            if ( $relationItem['is_modified'] && isset( $content['temp'][$subObjectID]['object' ] ) )
             {
                 // handling sub-objects
                 $object = $content['temp'][$subObjectID]['object'];
