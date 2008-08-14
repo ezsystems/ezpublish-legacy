@@ -23,6 +23,7 @@ EditorCSSFileList[]=skins/<skin>/content.css
 # EditorDialogCSSFileList is just like EditorCSSFileList exept it
 # is used in the popup dialogs in the editor and it is loaded after
 # the dialog.css file from the selected skin.
+# example for stylesheet/my_custom_editor_dialog_styles in some design:
 #[StylesheetSettings]
 #EditorDialogCSSFileList[]=my_custom_editor_dialog_styles.css
 
