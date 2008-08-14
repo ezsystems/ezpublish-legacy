@@ -221,7 +221,7 @@ class eZOEPacker
             $file = array_shift( $fileArray );
             if ( $file && is_array( $file ) )
             {
-                $fileArray = array_merge( $fileArray, $file );
+                $fileArray = array_merge( $file, $fileArray );
                 continue;
             }
             else if ( !$file )
