@@ -951,7 +951,7 @@ fi
 
 if [ -z "$SKIP_SQL_GENERATION" ]; then
     echo -n "Updating MySQL SQL schema"
-    ./bin/php/ezsqldumpschema.php --type=mysql --compatible-sql --output-sql --format=local "share/db_schema.dba" "$DEST/kernel/sql/mysql/kernel_schema.sql" 2>.dump.log
+    ./bin/php/ezsqldumpschema.php --type=mysql --compatible-sql --table-type=innodb --output-sql --format=local "share/db_schema.dba" "$DEST/kernel/sql/mysql/kernel_schema.sql" 2>.dump.log
     ez_result_file $? .dump.log || exit 1
 
     echo -n "Updating PostgreSQL SQL schema"
