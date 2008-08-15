@@ -186,6 +186,7 @@ for arg in $*; do
             echo "         --with-release=NAME        Checkout a previous release, default is trunk"
             echo "         --license-type=TYPE        What license to use: gpl(default), pul_v1, pl_v2"
             echo "         --skip-license-update      Do not update license and php-headers."
+	    echo "         --skip-isbn13-check        Do not check last update of ISBN13 data"
     #       echo "         --skip-site-creation       Do not build sites*"
             echo "         --skip-version-check       Do not check version numbers*"
             echo "         --skip-php-check           Do not check PHP for syntax correctnes*"
@@ -262,6 +263,10 @@ for arg in $*; do
                 TMP_DB_NAME=`echo $arg | sed 's/--mysql-db=//'`
             fi
             ;;
+
+	--skip-isbn13-check)
+	    SKIPISBN13CHECK="1"
+	    ;;
 
         --skip-site-creation)
             SKIPSITECREATION="1"
@@ -425,7 +430,9 @@ function ezdist_check_isbn13_data
     fi
 }
 
-ezdist_check_isbn13_data
+if [ -z $SKIPISBN13CHECK ]; then
+    ezdist_check_isbn13_data
+fi
 
 ezdist_svn_read_info
 ezdist_dbname_read_info
