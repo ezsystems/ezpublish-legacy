@@ -1,5 +1,5 @@
 /**
- * $Id: EditorCommands.js 868 2008-06-11 12:33:24Z spocke $
+ * $Id: EditorCommands.js 887 2008-06-26 19:33:11Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -310,7 +310,7 @@
 
 				if (rm) {
 					if (v == 'center')
-						dom.setStyle(n.parentNode, 'textAlign', '');
+						dom.setStyle(bl || n.parentNode, 'textAlign', '');
 
 					dom.setStyle(n, 'float', '');
 					this.mceRepaint();
@@ -319,7 +319,7 @@
 
 				if (v == 'center') {
 					// Do not change table elements
-					if (/^(TD|TH)$/.test(bl.nodeName))
+					if (bl && /^(TD|TH)$/.test(bl.nodeName))
 						bl = 0;
 
 					if (!bl || bl.childNodes.length > 1) {
@@ -340,7 +340,7 @@
 					dom.setStyle(n, 'float', '');
 				} else {
 					dom.setStyle(n, 'float', v);
-					dom.setStyle(n.parentNode, 'textAlign', '');
+					dom.setStyle(bl || n.parentNode, 'textAlign', '');
 				}
 
 				this.mceRepaint();
@@ -526,7 +526,7 @@
 				re = new RegExp(re, 'i');
 
 			// Set style info on selected element
-			if (e = t.getSelectedElement())
+			if ((e = t.getSelectedElement()) && !ed.settings.force_span_wrappers)
 				set(e, 1);
 			else {
 				// Generate wrappers and set styles on them
@@ -569,6 +569,9 @@
 				var p = n.parentNode;
 
 				if (!p || !dom.getAttrib(n, 'mce_new'))
+					return;
+
+				if (ed.settings.force_span_wrappers && p.nodeName != 'SPAN')
 					return;
 
 				// Has parent of the same type and only child

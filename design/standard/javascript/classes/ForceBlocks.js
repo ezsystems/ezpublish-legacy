@@ -1,5 +1,5 @@
 /**
- * $Id: ForceBlocks.js 878 2008-06-18 11:11:05Z spocke $
+ * $Id: ForceBlocks.js 890 2008-07-09 10:40:52Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -495,7 +495,7 @@
 
 			// Is element within viewport
 			if (y < vp.y || y + ch > vp.y + vp.h) {
-				ed.getWin().scrollTo(0, y < vp.y ? y : y - vp.h + ch);
+				ed.getWin().scrollTo(0, y < vp.y ? y : y - vp.h + 25); // Needs to be hardcoded to roughly one line of text if a huge text block is broken into two blocks
 				//console.debug('SCROLL!', 'vp.y: ' + vp.y, 'y' + y, 'vp.h' + vp.h, 'clientHeight' + aft.clientHeight, 'yyy: ' + (y < vp.y ? y : y - vp.h + aft.clientHeight));
 			}
 
@@ -537,11 +537,20 @@
 
 			// Gecko generates BR elements here and there, we don't like those so lets remove them
 			function handler(e) {
+				var pr;
+
 				e = e.target;
 
 				// A new BR was created in a block element, remove it
 				if (e && e.parentNode && e.nodeName == 'BR' && (n = t.getParentBlock(e))) {
+					pr = e.previousSibling;
+
 					Event.remove(b, 'DOMNodeInserted', handler);
+
+					// Is there whitespace at the end of the node before then we might need the pesky BR
+					// to place the caret at a correct location see bug: #2013943
+					if (pr && pr.nodeType == 3 && /\s+$/.test(pr.nodeValue))
+						return;
 
 					// Only remove BR elements that got inserted in the middle of the text
 					if (e.previousSibling || e.nextSibling)

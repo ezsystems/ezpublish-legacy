@@ -1,5 +1,5 @@
 /**
- * $Id: WindowManager.js 840 2008-05-06 17:18:25Z spocke $
+ * $Id: WindowManager.js 890 2008-07-09 10:40:52Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -137,8 +137,10 @@
 		 * @param {function} cb Callback function to be executed after the user has selected ok or cancel.
 		 * @param {Object} s Optional scope to execute the callback in.
 		 */
-		confirm : function(t, cb, s) {
-			cb.call(s || this, confirm(this._decode(this.editor.getLang(t, t))));
+		confirm : function(t, cb, s, w) {
+			w = w || window;
+
+			cb.call(s || this, w.confirm(this._decode(this.editor.getLang(t, t))));
 		},
 
 		/**
@@ -149,10 +151,11 @@
 		 * @param {function} cb Callback function to be executed after the user has selected ok.
 		 * @param {Object} s Optional scope to execute the callback in.
 		 */
-		alert : function(tx, cb, s) {
+		alert : function(tx, cb, s, w) {
 			var t = this;
-	
-			alert(t._decode(t.editor.getLang(tx, tx)));
+
+			w = w || window;
+			w.alert(t._decode(t.editor.getLang(tx, tx)));
 
 			if (cb)
 				cb.call(s || t);

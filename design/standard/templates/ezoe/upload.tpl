@@ -90,15 +90,21 @@ if ( contentType === 'image' )
                     <td class="column1"><label id="titlelabel" for="title">{'Name'|i18n('design/standard/ezoe')}</label></td> 
                     <td colspan="2"><input id="objectName" name="objectName" type="text" value="" /></td> 
                 </tr>
-                <tr>
                 {if $content_type|eq('image')}
-                    <td class="column1"><label id="titlelabel" for="title">{'Caption'|i18n('design/standard/ezoe')}</label></td> 
-                    <td colspan="2"><input id="objectText" name="ContentObjectAttribute_caption" type="text" value="" size="32" /></td>
-                {else}
-                    <td class="column1"><label id="titlelabel" for="title">{'Description'|i18n('design/standard/ezoe')}</label></td> 
-                    <td colspan="2"><input id="objectText" name="ContentObjectAttribute_description" type="text" value="" size="32" /></td>
-                {/if} 
+                <tr>
+                    <td class="column1"><label id="alttextlabel" for="objectAltText">{'Alternative text'|i18n('design/standard/ezoe')}</label></td> 
+                    <td colspan="2"><input id="objectAltText" name="ContentObjectAttribute_image" type="text" value="" size="32" /></td>
                 </tr>
+                <tr>
+                    <td class="column1"><label id="captionlabel" for="objectCaption">{'Caption'|i18n('design/standard/ezoe')}</label></td> 
+                    <td colspan="2"><input id="objectCaption" name="ContentObjectAttribute_caption" type="text" value="" size="32" /></td>
+                </tr>
+                {else}
+                <tr>
+                    <td class="column1"><label id="descriptionlabel" for="objectDescription">{'Description'|i18n('design/standard/ezoe')}</label></td> 
+                    <td colspan="2"><input id="objectDescription" name="ContentObjectAttribute_description" type="text" value="" size="32" /></td> 
+                </tr>
+                {/if}
                 <tr> 
                     <td colspan="3">
                     <input id="uploadButton" name="uploadButton" type="submit" value="{'Upload local file'|i18n('design/standard/ezoe')}" />

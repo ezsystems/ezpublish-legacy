@@ -108,11 +108,11 @@ if ( $http->hasPostVariable( 'uploadButton' ) || $forcedUpload )
     {
         $newObject = $result['contentobject'];
         $newObjectID = $newObject->attribute( 'id' );
-        
+
         // edit attributes
         $newVersionObject  = $newObject->attribute( 'current' );
         $newObjectDataMap  = $newVersionObject->attribute('data_map');
-        
+
         foreach ( array_keys( $newObjectDataMap ) as $key )
         {
             //post pattern: ContentObjectAttribute_attribute-identifier
@@ -124,19 +124,24 @@ if ( $http->hasPostVariable( 'uploadButton' ) || $forcedUpload )
                     case 'eztext':
                     case 'ezstring':
                         // TODO: Validate input ( max lenght )
-                        $newObjectDataMap[$key]->setAttribute("data_text", trim( $http->postVariable( $base ) ) );
+                        $newObjectDataMap[$key]->setAttribute('data_text', trim( $http->postVariable( $base ) ) );
                         $newObjectDataMap[$key]->store();
                         break;
                     case 'ezfloat':
                         // TODO: Validate input ( max / min values )
-                        $newObjectDataMap[$key]->setAttribute("data_float", (float) str_replace(',', '.', $http->postVariable( $base ) ) );
+                        $newObjectDataMap[$key]->setAttribute('data_float', (float) str_replace(',', '.', $http->postVariable( $base ) ) );
                         $newObjectDataMap[$key]->store();
                         break;
                     case 'ezinteger':
                         // TODO: Validate input ( max / min values )
                     case 'ezboolean':
-                        $newObjectDataMap[$key]->setAttribute("data_int", (int) $http->postVariable( $base ) );
+                        $newObjectDataMap[$key]->setAttribute('data_int', (int) $http->postVariable( $base ) );
                         $newObjectDataMap[$key]->store();
+                        break;
+                    case 'ezimage':
+                        $content = $newObjectDataMap[$key]->attribute('content');
+                        $content->setAttribute( 'alternative_text', trim( $http->postVariable( $base ) ) );
+                        $content->store();
                         break;
                     case 'ezxmltext':
                         $text = trim( $http->postVariable( $base ) );

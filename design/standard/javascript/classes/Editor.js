@@ -1,5 +1,5 @@
 /**
- * $Id: Editor.js 871 2008-06-16 16:57:45Z spocke $
+ * $Id: Editor.js 901 2008-08-18 11:44:21Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -109,7 +109,7 @@
 				apply_source_formatting : 1,
 				directionality : 'ltr',
 				forced_root_block : 'p',
-				valid_elements : '@[id|class|style|title|dir<ltr?rtl|lang|xml::lang|onclick|ondblclick|onmousedown|onmouseup|onmouseover|onmousemove|onmouseout|onkeypress|onkeydown|onkeyup],a[rel|rev|charset|hreflang|tabindex|accesskey|type|name|href|target|title|class|onfocus|onblur],strong/b,em/i,strike,u,#p[align],-ol[type|compact],-ul[type|compact],-li,br,img[longdesc|usemap|src|border|alt=|title|hspace|vspace|width|height|align],-sub,-sup,-blockquote[cite],-table[border=0|cellspacing|cellpadding|width|frame|rules|height|align|summary|bgcolor|background|bordercolor],-tr[rowspan|width|height|align|valign|bgcolor|background|bordercolor],tbody,thead,tfoot,#td[colspan|rowspan|width|height|align|valign|bgcolor|background|bordercolor|scope],#th[colspan|rowspan|width|height|align|valign|scope],caption,-div,-span,-code,-pre,address,-h1,-h2,-h3,-h4,-h5,-h6,hr[size|noshade],-font[face|size|color],dd,dl,dt,cite,abbr,acronym,del[datetime|cite],ins[datetime|cite],object[classid|width|height|codebase|*],param[name|value],embed[type|width|height|src|*],script[src|type],map[name],area[shape|coords|href|alt|target],bdo,button,col[align|char|charoff|span|valign|width],colgroup[align|char|charoff|span|valign|width],dfn,fieldset,form[action|accept|accept-charset|enctype|method],input[accept|alt|checked|disabled|maxlength|name|readonly|size|src|type|value],kbd,label[for],legend,noscript,optgroup[label|disabled],option[disabled|label|selected|value],q[cite],samp,select[disabled|multiple|name|size],small,textarea[cols|rows|disabled|name|readonly],tt,var,big',
+				valid_elements : '@[id|class|style|title|dir<ltr?rtl|lang|xml::lang|onclick|ondblclick|onmousedown|onmouseup|onmouseover|onmousemove|onmouseout|onkeypress|onkeydown|onkeyup],a[rel|rev|charset|hreflang|tabindex|accesskey|type|name|href|target|title|class|onfocus|onblur],strong/b,em/i,strike,u,#p[align],-ol[type|compact],-ul[type|compact],-li,br,img[longdesc|usemap|src|border|alt=|title|hspace|vspace|width|height|align],-sub,-sup,-blockquote[cite],-table[border=0|cellspacing|cellpadding|width|frame|rules|height|align|summary|bgcolor|background|bordercolor],-tr[rowspan|width|height|align|valign|bgcolor|background|bordercolor],tbody,thead,tfoot,#td[colspan|rowspan|width|height|align|valign|bgcolor|background|bordercolor|scope],#th[colspan|rowspan|width|height|align|valign|scope],caption,-div,-span,-code,-pre,address,-h1,-h2,-h3,-h4,-h5,-h6,hr[size|noshade],-font[face|size|color],dd,dl,dt,cite,abbr,acronym,del[datetime|cite],ins[datetime|cite],object[classid|width|height|codebase|*],param[name|value],embed[type|width|height|src|*],script[src|type],map[name],area[shape|coords|href|alt|target],bdo,button,col[align|char|charoff|span|valign|width],colgroup[align|char|charoff|span|valign|width],dfn,fieldset,form[action|accept|accept-charset|enctype|method],input[accept|alt|checked|disabled|maxlength|name|readonly|size|src|type|value|tabindex|accesskey],kbd,label[for],legend,noscript,optgroup[label|disabled],option[disabled|label|selected|value],q[cite],samp,select[disabled|multiple|name|size],small,textarea[cols|rows|disabled|name|readonly],tt,var,big',
 				hidden_input : 1,
 				padd_empty_editor : 1,
 				render_ui : 1,
@@ -425,7 +425,7 @@
 			// Domain relaxing enabled, then set document domain
 			if (tinymce.relaxedDomain) {
 				// We need to write the contents here in IE since multiple writes messes up refresh button and back button
-				if (isIE)
+				if (isIE || (tinymce.isOpera && parseFloat(opera.version()) >= 9.5))
 					u = 'javascript:(function(){document.open();document.domain="' + document.domain + '";var ed = window.parent.tinyMCE.get("' + t.id + '");document.write(ed.iframeHTML);document.close();ed.setupIframe();})()';
 				else if (tinymce.isOpera)
 					u = 'javascript:(function(){document.open();document.domain="' + document.domain + '";document.close();ed.setupIframe();})()';					
@@ -476,7 +476,8 @@
 			// Design mode needs to be added here Ctrl+A will fail otherwise
 			if (!isIE) {
 				try {
-					d.designMode = 'On';
+					if (!s.readonly)
+						d.designMode = 'On';
 				} catch (ex) {
 					// Will fail on Gecko if the editor is placed in an hidden container element
 					// The design mode will be set ones the editor is focused
@@ -488,7 +489,10 @@
 				// It will not steal focus if we hide it while setting contentEditable
 				b = t.getBody();
 				DOM.hide(b);
-				b.contentEditable = true;
+
+				if (!s.readonly)
+					b.contentEditable = true;
+
 				DOM.show(b);
 			}
 
@@ -541,7 +545,8 @@
 			if (!s.gecko_spellcheck)
 				t.getBody().spellcheck = 0;
 
-			t._addEvents();
+			if (!s.readonly)
+				t._addEvents();
 
 			t.controlManager.onPostRender.dispatch(t, t.controlManager);
 			t.onPostRender.dispatch(t);
@@ -706,7 +711,7 @@
 				});
 			}
 
-			if (isGecko) {
+			if (isGecko && !s.readonly) {
 				try {
 					// Design mode must be set here once again to fix a bug where
 					// Ctrl+A/Delete/Backspace didn't work if the editor was added using mceAddControl then removed then added again
@@ -943,7 +948,7 @@
 		 * @return {String} Translated string.
 		 */
 		translate : function(s) {
-			var c = this.settings.language, i18n = EditorManager.i18n;
+			var c = this.settings.language || 'en', i18n = EditorManager.i18n;
 
 			if (!s)
 				return '';
@@ -960,7 +965,7 @@
 		 * @param {String} dv Optional default value to retrive.
 		 */
 		getLang : function(n, dv) {
-			return EditorManager.i18n[this.settings.language + '.' + n] || (is(dv) ? dv : '{#' + n + '}');
+			return EditorManager.i18n[(this.settings.language || 'en') + '.' + n] || (is(dv) ? dv : '{#' + n + '}');
 		},
 
 		/**
@@ -1843,7 +1848,7 @@
 				function setOpts() {
 					var t = this, d = t.getDoc(), s = t.settings;
 
-					if (isGecko) {
+					if (isGecko && !s.readonly) {
 						if (t._isHidden()) {
 							try {
 								if (!s.content_editable)
@@ -1878,7 +1883,9 @@
 			t.onMouseUp.add(t.nodeChanged);
 			t.onClick.add(t.nodeChanged);
 			t.onKeyUp.add(function(ed, e) {
-				if ((e.keyCode >= 33 && e.keyCode <= 36) || (e.keyCode >= 37 && e.keyCode <= 40) || e.keyCode == 13 || e.keyCode == 45 || e.keyCode == 46 || e.keyCode == 8 || e.ctrlKey)
+				var c = e.keyCode;
+
+				if ((c >= 33 && c <= 36) || (c >= 37 && c <= 40) || c == 13 || c == 45 || c == 46 || c == 8 || (tinymce.isMac && c >= 91 && c <= 93) || e.ctrlKey)
 					t.nodeChanged();
 			});
 

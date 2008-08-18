@@ -1,5 +1,5 @@
 /**
- * $Id: DOMUtils.js 877 2008-06-17 14:08:05Z spocke $
+ * $Id: DOMUtils.js 902 2008-08-18 12:04:34Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -24,6 +24,17 @@
 		idPattern : /^#[\w]+$/,
 		elmPattern : /^[\w_*]+$/,
 		elmClassPattern : /^([\w_]*)\.([\w_]+)$/,
+		props : {
+			"for" : "htmlFor",
+			"class" : "className",
+			className : "className",
+			checked : "checked",
+			disabled : "disabled",
+			maxlength : "maxLength",
+			readonly : "readOnly",
+			selected : "selected",
+			value : "value"
+		},
 
 		/**
 		 * Constructs a new DOMUtils instance. Consult the Wiki for more details on settings etc for this class.
@@ -106,10 +117,30 @@
 		 * @return {object} Rectange for specified element object with x, y, w, h fields.
 		 */
 		getRect : function(e) {
-			var p, t = this, w, h;
+			var p, t = this, sr;
 
 			e = t.get(e);
 			p = t.getPos(e);
+			sr = t.getSize(e);
+
+			return {
+				x : p.x,
+				y : p.y,
+				w : sr.w,
+				h : sr.h
+			};
+		},
+
+		/**
+		 * Returns the size dimensions of the specified element.
+		 *
+		 * @param {Element/String} e Element object or element ID to get rectange from.
+		 * @return {object} Rectange for specified element object with w, h fields.
+		 */
+		getSize : function(e) {
+			var t = this, w, h;
+
+			e = t.get(e);
 			w = t.getStyle(e, 'width');
 			h = t.getStyle(e, 'height');
 
@@ -122,8 +153,6 @@
 				h = 0;
 
 			return {
-				x : p.x,
-				y : p.y,
 				w : parseInt(w) || e.offsetWidth || e.clientWidth,
 				h : parseInt(h) || e.offsetHeight || e.clientHeight
 			};
@@ -622,6 +651,10 @@
 		setAttrib : function(e, n, v) {
 			var t = this;
 
+			// Whats the point
+			if (!e || !n)
+				return;
+
 			// Strict XML mode
 			if (t.settings.strict)
 				n = n.toLowerCase();
@@ -704,7 +737,7 @@
 				return false;
 
 			if (!is(dv))
-				dv = "";
+				dv = '';
 
 			// Try the mce variant for these
 			if (/^(src|href|style|coords|shape)$/.test(n)) {
@@ -714,38 +747,23 @@
 					return v;
 			}
 
-			v = e.getAttribute(n, 2);
-
-			if (!v) {
-				switch (n) {
-					case 'class':
-						v = e.className;
-						break;
-
-					default:
-						// Fix for IE crash Bug: #1884376 probably due to invalid DOM structure
-						if (isIE && n === 'name' && e.nodeName === 'A') {
-							v = e.name;
-							break;
-						}
-
-						v = e.attributes[n];
-						v = v && is(v.nodeValue) ? v.nodeValue : v;
-				}
+			if (isIE && t.props[n]) {
+				v = e[t.props[n]];
+				v = v && v.nodeValue ? v.nodeValue : v;
 			}
 
-			switch (n) {
-				case 'style':
-					v = v || e.style.cssText;
+			if (!v)
+				v = e.getAttribute(n, 2);
 
-					if (v) {
-						v = t.serializeStyle(t.parseStyle(v));
+			if (n === 'style') {
+				v = v || e.style.cssText;
 
-						if (t.settings.keep_values && !t._isRes(v))
-							e.setAttribute('mce_style', v);
-					}
+				if (v) {
+					v = t.serializeStyle(t.parseStyle(v));
 
-					break;
+					if (t.settings.keep_values && !t._isRes(v))
+						e.setAttribute('mce_style', v);
+				}
 			}
 
 			// Remove Apple and WebKit stuff
@@ -765,7 +783,15 @@
 
 					case 'size':
 						// IE returns +0 as default value for size
-						if (v === '+0')
+						if (v === '+0' || v === 20)
+							v = '';
+
+						break;
+
+					case 'width':
+					case 'height':
+					case 'vspace':
+						if (v === 0)
 							v = '';
 
 						break;
@@ -777,19 +803,20 @@
 
 						break;
 
+					case 'maxlength':
 					case 'tabindex':
 						// IE returns default value
-						if (v === 32768)
+						if (v === 32768 || v === 2147483647)
 							v = '';
 
 						break;
 
-					case 'maxlength':
-						// IE returns  default value
-						if (v === 2147483647)
-							v = '';
+					case 'compact':
+					case 'noshade':
+						if (v === 65535)
+							return n;
 
-						break;
+						return dv;
 
 					case 'shape':
 						v = v.toLowerCase();
@@ -802,7 +829,7 @@
 				}
 			}
 
-			return (v && v != '') ? '' + v : dv;
+			return (v !== undefined && v !== null && v !== '') ? '' + v : dv;
 		},
 
 		/**
@@ -1264,6 +1291,8 @@
 
 			// Store away src and href in mce_src and mce_href since browsers mess them up
 			if (s.keep_values) {
+				h = h.replace(/<!\[CDATA\[([\s\S]+)\]\]>/g, '<!--[CDATA[$1]]-->');
+
 				// Wrap scripts and styles in comments for serialization purposes
 				if (/<script|style/.test(h)) {
 					function trim(s) {

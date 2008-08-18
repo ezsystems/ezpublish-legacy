@@ -1,5 +1,5 @@
 /**
- * $Id: editor_template_src.js 852 2008-05-27 05:52:09Z spocke $
+ * $Id: editor_template_src.js 901 2008-08-18 11:44:21Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright � 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -84,7 +84,8 @@
                 theme_advanced_more_colors : 1,
                 theme_advanced_row_height : 23,
                 theme_advanced_resize_horizontal : 1,
-                theme_advanced_resizing_use_cookie : 1
+                theme_advanced_resizing_use_cookie : 1,
+                readonly : ed.settings.readonly
             }, ed.settings);
 
             if ((v = s.theme_advanced_path_location) && v !== 'none')
@@ -474,6 +475,12 @@
         _simpleLayout : function(s, tb, o, p) {
             var t = this, ed = t.editor, lo = s.theme_advanced_toolbar_location, sl = s.theme_advanced_statusbar_location, n, ic, etb, c;
 
+            if (s.readonly) {
+                n = DOM.add(tb, 'tr');
+                n = ic = DOM.add(n, 'td', {'class' : 'mceIframeContainer'});
+                return ic;
+            }
+
             // Create toolbar container at top
             if (lo === 'top')
                 t._addToolbars(tb, o);
@@ -807,6 +814,9 @@
 
         _nodeChanged : function(ed, cm, n, co) {
             var t = this, p, de = 0, v, c, s = t.settings, mceNonEditable = false, div = false, header;
+
+            if (s.readonly)
+                return;
 
             tinymce.each(t.stateControls, function(c) {
                 cm.setActive(c, ed.queryCommandState(t.controls[c][1]));

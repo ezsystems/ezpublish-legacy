@@ -722,6 +722,10 @@ Do you want more information about this issue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Alternative text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Description</source>
         <translation type="unfinished"></translation>
     </message>

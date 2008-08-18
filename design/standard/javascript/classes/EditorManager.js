@@ -1,5 +1,5 @@
 /**
- * $Id: EditorManager.js 813 2008-04-23 14:56:38Z spocke $
+ * $Id: EditorManager.js 900 2008-07-18 09:55:05Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -38,8 +38,12 @@
 			tinymce.baseURL = new tinymce.util.URI(tinymce.documentBaseURL).toAbsolute(tinymce.baseURL);
 			tinymce.EditorManager.baseURI = new tinymce.util.URI(tinymce.baseURL);
 
-			// Setup document domain
-			if (tinymce.EditorManager.baseURI.host != lo.hostname && lo.hostname)
+			// User already specified a document.domain value
+			if (document.domain && lo.hostname != document.domain)
+				tinymce.relaxedDomain = document.domain;
+
+			// Setup document domain if tinymce is loaded from other domain
+			if (!tinymce.relaxedDomain && tinymce.EditorManager.baseURI.host != lo.hostname && lo.hostname)
 				document.domain = tinymce.relaxedDomain = lo.hostname.replace(/.*\.(.+\..+)$/, '$1');
 
 			// Add before unload listener
@@ -59,7 +63,7 @@
 		 * @param {Object} s Settings object to be passed to each editor instance.
 		 */
 		init : function(s) {
-			var t = this, pl, sl = tinymce.ScriptLoader, c, e;
+			var t = this, pl, sl = tinymce.ScriptLoader, c, e, el = [], ed;
 
 			function execCallback(se, n, s) {
 				var f = se[n];
@@ -165,9 +169,11 @@
 
 						if(l.length > 0) {
 							each(explode(l), function(v) {
-								if (DOM.get(v))
-									new tinymce.Editor(v, s).render(1);
-								else {
+								if (DOM.get(v)) {
+									ed = new tinymce.Editor(v, s);
+									el.push(ed);
+									ed.render(1);
+								} else {
 									c = 0;
 
 									each(document.forms, function(f) {
@@ -175,7 +181,10 @@
 											if (e.name === v) {
 												v = 'mce_editor_' + c;
 												DOM.setAttrib(e, 'id', v);
-												new tinymce.Editor(v, s).render(1);
+
+												ed = new tinymce.Editor(v, s);
+												el.push(ed);
+												ed.render(1);
 											}
 										});
 									});
@@ -204,7 +213,9 @@
 								if (!v.id || t.get(v.id))
 									v.id = DOM.uniqueId();
 
-								new tinymce.Editor(v.id, s).render(1);
+								ed = new tinymce.Editor(v.id, s);
+								el.push(ed);
+								ed.render(1);
 							}
 						});
 						break;
@@ -214,7 +225,7 @@
 				if (s.oninit) {
 					l = co = 0;
 
-					each (t.editors, function(ed) {
+					each (el, function(ed) {
 						co++;
 
 						if (!ed.initialized) {

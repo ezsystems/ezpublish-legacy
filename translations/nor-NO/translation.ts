@@ -720,7 +720,11 @@ Vil du vite mer om dette?</translation>
     </message>
     <message>
         <source>Caption</source>
-        <translation>Tekst</translation>
+        <translation>Undertittel</translation>
+    </message>
+    <message>
+        <source>Alternative text</source>
+        <translation>Alternativ tekst</translation>
     </message>
     <message>
         <source>Description</source>

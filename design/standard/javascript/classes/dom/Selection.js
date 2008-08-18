@@ -1,8 +1,8 @@
 /**
- * $Id: Selection.js 842 2008-05-07 15:56:39Z spocke $
+ * $Id: Selection.js 898 2008-07-12 15:01:39Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright Â© 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
 (function() {
@@ -115,6 +115,9 @@
 
 				// Delete the marker, and hopefully the caret gets placed in the right location
 				d.execCommand('Delete', false, null);
+
+				// In case it's still there
+				t.dom.remove('__caret');
 			} else {
 				if (r.item) {
 					// Delete content and get caret text selection

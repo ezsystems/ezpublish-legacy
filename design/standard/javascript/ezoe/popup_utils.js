@@ -125,14 +125,14 @@ var eZOEPopupUtils = {
         // validate the general attributes
         if ( !AutoValidator.validate( ez.$( s.tagName + '_attributes' ).el ) )
         {
-            alert( tinyMCEPopup.getLang('invalid_data') );
+            tinyMCEPopup.alert(tinyMCEPopup.getLang('invalid_data'));
             return false;
         }
 
         // validate the custom attributes
         if ( !AutoValidator.validate( ez.$( s.selectedTag + '_customattributes').el ) )
         {
-            alert( tinyMCEPopup.getLang('invalid_data') );
+            tinyMCEPopup.alert(tinyMCEPopup.getLang('invalid_data'));
             return false;
         }
 

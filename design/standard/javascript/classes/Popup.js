@@ -1,5 +1,5 @@
 /**
- * $Id: Popup.js 809 2008-04-17 14:41:31Z spocke $
+ * $Id: Popup.js 895 2008-07-10 14:34:23Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -43,10 +43,11 @@ tinyMCEPopup = {
 		tinyMCE = w.tinyMCE;
 		t.editor = tinymce.EditorManager.activeEditor;
 		t.params = t.editor.windowManager.params;
+		t.features = t.editor.windowManager.features;
 
 		// Setup local DOM
 		t.dom = t.editor.windowManager.createInstance('tinymce.dom.DOMUtils', document);
-		t.dom.loadCSS(t.editor.settings.popup_css);
+		t.dom.loadCSS(t.features.popup_css || t.editor.settings.popup_css);
 
 		// Setup on init listeners
 		t.listeners = [];
@@ -218,6 +219,30 @@ tinyMCEPopup = {
 	openBrowser : function(element_id, type, option) {
 		tinyMCEPopup.restoreSelection();
 		this.editor.execCallback('file_browser_callback', element_id, document.getElementById(element_id).value, type, window);
+	},
+
+	/**
+	 * Creates a confirm dialog. Please don't use the blocking behavior of this
+	 * native version use the callback method instead then it can be extended.
+	 *
+	 * @param {String} t Title for the new confirm dialog.
+	 * @param {function} cb Callback function to be executed after the user has selected ok or cancel.
+	 * @param {Object} s Optional scope to execute the callback in.
+	 */
+	confirm : function(t, cb, s) {
+		this.editor.windowManager.confirm(t, cb, s, window);
+	},
+
+	/**
+	 * Creates a alert dialog. Please don't use the blocking behavior of this
+	 * native version use the callback method instead then it can be extended.
+	 *
+	 * @param {String} t Title for the new alert dialog.
+	 * @param {function} cb Callback function to be executed after the user has selected ok.
+	 * @param {Object} s Optional scope to execute the callback in.
+	 */
+	alert : function(tx, cb, s) {
+		this.editor.windowManager.alert(tx, cb, s, window);
 	},
 
 	/**

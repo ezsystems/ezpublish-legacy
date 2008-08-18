@@ -1,5 +1,5 @@
 /**
- * $Id: Serializer.js 838 2008-05-06 15:16:15Z spocke $
+ * $Id: Serializer.js 901 2008-08-18 11:44:21Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -83,10 +83,18 @@
 				indent_mode : 'simple',
 				indent_char : '\t',
 				indent_levels : 1,
-				remove_linebreaks : 1
+				remove_linebreaks : 1,
+				remove_redundant_brs : 1
 			}, s);
 
 			t.dom = s.dom;
+
+			if (s.remove_redundant_brs) {
+				t.onPostProcess.add(function(se, o) {
+					// Remove BR elements at end of list elements since they get rendered in IE
+					o.content = o.content.replace(/<br \/>(\s*<\/li>)/g, '$1');
+				});
+			}
 
 			if (s.fix_list_elements) {
 				t.onPreProcess.add(function(se, o) {
@@ -584,7 +592,8 @@
 					patterns : [
 						{pattern : /(<script[^>]*>)(.*?)(<\/script>)/g},
 						{pattern : /(<style[^>]*>)(.*?)(<\/style>)/g},
-						{pattern : /(<pre[^>]*>)(.*?)(<\/pre>)/g, encode : 1}
+						{pattern : /(<pre[^>]*>)(.*?)(<\/pre>)/g, encode : 1},
+						{pattern : /(<!--\[CDATA\[)(.*?)(\]\]-->)/g}
 					]
 				});
 
@@ -627,6 +636,9 @@
 				}
 
 				h = t._unprotect(h, p);
+
+				// Restore CDATA sections
+				h = h.replace(/<!--\[CDATA\[([\s\S]+)\]\]-->/g, '<![CDATA[$1]]>');
 
 				// Restore the \u00a0 character if raw mode is enabled
 				if (s.entity_encoding == 'raw')
