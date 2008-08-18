@@ -4,6 +4,7 @@ eZ Online Editor 5.0 extension Changelog
 * Fixed ezoescript and ezoecss to load files in correct order when arrays are used
 * EditorDialogCSSFileList should prepend 'stylesheets/' folder automatically like
   other css ini settings.
+ * Fixed #013505: Anchor in links are lost
 
 5.0rc4
 * Fixed regression #013486: Can't change properties of OL, LI or UL

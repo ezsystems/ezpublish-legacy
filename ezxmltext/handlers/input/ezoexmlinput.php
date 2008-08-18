@@ -1341,6 +1341,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 $showPath = $tag->getAttribute( 'show_path' );
                 $htmlID = $tag->getAttributeNS( 'http://ez.no/namespaces/ezpublish3/xhtml/', 'id' );
                 $htmlTitle = $tag->getAttributeNS( 'http://ez.no/namespaces/ezpublish3/xhtml/', 'title' );
+                $attributes = array();
 
                 if ( $objectID != null )
                 {
@@ -1376,7 +1377,6 @@ class eZOEXMLInput extends eZXMLInputHandler
                     $attributes[] = 'name="' . $anchorName . '"';
                 }
 
-                $attributes = array();
                 if ( $className != '' )
                 {
                     $attributes[] = 'class="' . $className . '"';
