@@ -65,13 +65,23 @@ $objectList = eZPersistentObject::fetchObjectList( eZContentBrowseBookmark::defi
                                                     true );
 
 // eZPersistentObject::count was added in eZ Publish 4.0.1, so we need to check that we have it
-if ( method_exists('eZPersistentObject','count') )
+if ( method_exists( 'eZPersistentObject', 'count' ) )
 {
     $count = eZPersistentObject::count( eZContentBrowseBookmark::definition(), array( 'user_id' => $userID ) );
 }
 else
 {
-    $count = count( $objectList );
+    $custom = array( array( 'operation' => 'count( id )',
+                            'name' => 'count' ) );
+    $rows = eZPersistentObject::fetchObjectList( eZContentBrowseBookmark::definition(),
+                                                  array(),
+                                                  array( 'user_id' => $userID ),
+                                                  null,
+                                                  null,
+                                                  false,
+                                                  false,
+                                                  $custom );
+     $count = (int) $rows[0]['count'];
 }
 
 // generate json response from bookmarks list
