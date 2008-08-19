@@ -57,13 +57,22 @@ if ( $http->hasPostVariable( 'SortBy' ) && $http->postVariable( 'SortBy' ) !== '
 
 // fetch bookmarks
 $list       = '[]';
-$count      = eZPersistentObject::count( eZContentBrowseBookmark::definition(), array( 'user_id' => $userID ) );
 $objectList = eZPersistentObject::fetchObjectList( eZContentBrowseBookmark::definition(),
                                                     null,
                                                     array( 'user_id' => $userID ),
                                                     array( 'id' => $sort ),
                                                     array( 'offset' => $offset, 'length' => $limit ),
                                                     true );
+
+// eZPersistentObject::count was added in eZ Publish 4.0.1, so we need to check that we have it
+if ( method_exists('eZPersistentObject','count') )
+{
+    $count = eZPersistentObject::count( eZContentBrowseBookmark::definition(), array( 'user_id' => $userID ) );
+}
+else
+{
+    $count = count( $objectList );
+}
 
 // generate json response from bookmarks list
 if ( $objectList )

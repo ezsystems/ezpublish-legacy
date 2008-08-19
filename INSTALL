@@ -14,7 +14,11 @@ The following requirements exists for using eZ Online Editor 5.0 extension:
 
 o  eZ Publish version:
 
-   Make sure you use eZ Publish version 4.0 or higher.
+   Make sure you use eZ Publish version 4.1 or higher.
+
+   Version 4.0.x will also work but will have some reduced functionality:
+   * Paging on the bookmarks tab requires 4.0.1 and higher
+   * Editor layouts pr attribute requires 4.1 and higher
 
 o  PHP version:
 
