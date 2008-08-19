@@ -40,7 +40,7 @@ if ( !defined( 'MAX_AGE' ) )
 
 function washJS( $string )
 {
-    return str_replace( array( "\\", "\"", "'"), array( "\\\\", "\\042", "\\047" ), $string );
+    return str_replace( array( "\\", "/", "\n", "\t", "\r", "\b", "\f", '"' ), array( '\\\\', '\\/', '\\n', '\\t', '\\r', '\\b', '\\f', '\"' ), $string );
 }
 
 function arrayToJSON( $array )
