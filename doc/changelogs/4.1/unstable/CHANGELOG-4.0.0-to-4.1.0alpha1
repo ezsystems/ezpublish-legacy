@@ -331,4 +331,5 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13309: eZmatrix datatype doesn't store text content properly when containing some special characters
 - Fixed bug #13435: PHP Notice: Undefined property: eZAuthor::$Name in kernel\classes\datatypes\ezauthor\ezauthor.php on line 124
 - Fixed bug #13056: Objectrelationlist datatype does not store filled in data when editing the objects in the list.
+- Fixed bug #13415: user/register adding node assignment for DefaultUserPlacement outside database transaction
 
