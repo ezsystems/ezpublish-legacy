@@ -1287,10 +1287,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
         \a static
     */
-    function createNotEqParentSQLString( $nodeID, $depth, $depthOperator )
+    function createNotEqParentSQLString( $nodeID, $depth = false, $depthOperator = 'le' )
     {
         $notEqParentString  = '';
-        if( !$depth || !$depthOperator || $depthOperator != 'eq' )
+        if( !$depth || $depthOperator == 'le' || $depthOperator == 'lt' )
         {
             $notEqParentString  = "ezcontentobject_tree.node_id != $nodeID AND";
         }
@@ -1301,7 +1301,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
         \a static
     */
-    function createPathConditionSQLString( $nodePath, $nodeDepth, $depth, $depthOperator )
+    function createPathConditionSQLString( $nodePath, $nodeDepth, $depth = false, $depthOperator = 'le' )
     {
         $pathCondition  = '';
         $depthCondition = '';
@@ -1344,8 +1344,19 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
         \a static
     */
-    function createPathConditionAndNotEqParentSQLStrings( &$outPathConditionStr, &$outNotEqParentStr, &$treeNode, $nodeID, $depth, $depthOperator )
+    function createPathConditionAndNotEqParentSQLStrings( &$outPathConditionStr, &$outNotEqParentStr, &$treeNode, $nodeID, $depth = false, $depthOperator = 'le' )
     {
+        if ( !$depthOperator )
+        {
+            $depthOperator = 'le';
+        }
+
+        // check if we are only fetching children
+        // - depth (lower than or) eqaul to 1
+        // - depth lower than 2 = depth equal to 1
+        $onlyChildren = ( $depth === 1 && ( $depthOperator === 'le' || $depthOperator === 'eq'  ) ) ||
+                        ( $depth === 2 && $depthOperator === 'lt' );
+
         if ( is_array( $nodeID ) && count( $nodeID ) == 1 )
         {
             $nodeID = $nodeID[0];
@@ -1356,7 +1367,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $outNotEqParentStr = '';
 
             // a parent_node_id condition suffits when only fetching children
-            if ( $depth === 1 && ( $depthOperator === 'eq' || $depthOperator === 'le' ) )
+            if ( $onlyChildren )
             {
                 $db = eZDB::instance();
                 $outPathConditionStr = $db->generateSQLINStatement( $nodeID, 'ezcontentobject_tree.parent_node_id', false, 'int' ) . ' and';
@@ -1405,7 +1416,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         $depthCond = ' and ezcontentobject_tree.depth '. $sqlDepthOperator . ' ' . $nodeDepth . ' ';
                     }
 
-                    $notEqParentStr          = " and ezcontentobject_tree.node_id != $nodeID ";
+                    $requireNotEqParentStr      = !$depth || $depthOperator == 'le' || $depthOperator == 'lt';
+                    $notEqParentStr             = $requireNotEqParentStr ? " and ezcontentobject_tree.node_id != $nodeID " : '';
                     $sqlPartForOneNodeList[]    = " ( ezcontentobject_tree.path_string like '$nodePath%'   $depthCond $notEqParentStr ) ";
                 }
                 $outPathConditionStr = implode( ' or ', $sqlPartForOneNodeList );
@@ -1428,7 +1440,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
 
             // a parent_node_id condition suffits when only fetching children
-            if ( $depth === 1 && ( $depthOperator === 'eq' || $depthOperator === 'le' ) )
+            if ( $onlyChildren )
             {
                 $outNotEqParentStr = '';
                 $outPathConditionStr = 'ezcontentobject_tree.parent_node_id = ' . (int) $nodeID . ' and';
