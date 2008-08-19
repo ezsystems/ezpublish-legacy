@@ -57,6 +57,9 @@ $Params['TemplateObject'] = $tpl;
 
 // $http->removeSessionVariable( "RegisterUserID" );
 
+$db = eZDB::instance();
+$db->begin();
+
 // Create new user object if user is not logged in
 if ( !$http->hasSessionVariable( "RegisterUserID" ) and !$http->hasPostVariable( "UserID" ) )
 {
@@ -66,7 +69,6 @@ if ( !$http->hasSessionVariable( "RegisterUserID" ) and !$http->hasPostVariable(
 
     $defaultUserPlacement = (int)$ini->variable( "UserSettings", "DefaultUserPlacement" );
 
-    $db = eZDB::instance();
     $sql = "SELECT count(*) as count FROM ezcontentobject_tree WHERE node_id = $defaultUserPlacement";
     $rows = $db->arrayQuery( $sql );
     $count = $rows[0]['count'];
@@ -259,6 +261,9 @@ $Module->addHook( 'action_check', 'checkContentActions' );
 $OmitSectionSetting = true;
 
 $includeResult = include( 'kernel/content/attribute_edit.php' );
+
+$db->commit();
+
 if ( $includeResult != 1 )
 {
     return $includeResult;
