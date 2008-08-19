@@ -53,7 +53,7 @@ if ( contentType === 'image' )
         <div class="panel">
             <table class="properties">
                 <tr>
-                    <td class="column1"><label id="srclabel" for="src">{'File'|i18n('design/standard/ezoe')}</label></td>
+                    <td class="column1"><label id="srclabel" for="fileName">{'File'|i18n('design/standard/ezoe')}</label></td>
                     <td colspan="2"><input name="fileName" type="file" id="fileName" value="" /></td>
                 </tr>
                 <tr id="embedlistsrcrow">
@@ -87,7 +87,7 @@ if ( contentType === 'image' )
                     </td>
                 </tr>
                 <tr> 
-                    <td class="column1"><label id="titlelabel" for="title">{'Name'|i18n('design/standard/ezoe')}</label></td> 
+                    <td class="column1"><label id="titlelabel" for="objectName">{'Name'|i18n('design/standard/ezoe')}</label></td> 
                     <td colspan="2"><input id="objectName" name="objectName" type="text" value="" /></td> 
                 </tr>
                 {if $content_type|eq('image')}

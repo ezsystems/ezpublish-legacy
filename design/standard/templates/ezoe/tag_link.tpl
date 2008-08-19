@@ -57,10 +57,10 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         }
  
         slides = ez.$$('div.panel');//slides is global object used by custom selectByEmbedId function
-        var navigation = ez.$('embed_search_go_back_link', 'search_for_link', 'browse_for_link', 'embed_browse_go_back_link' );
+        var navigation = ez.$('embed_search_go_back_link', 'search_for_link', 'browse_for_link', 'bookmarks_for_link', 'embed_browse_go_back_link', 'embed_bookmarks_go_back_link' );
         slides.accordion( navigation, {duration: 100, transition: ez.fx.sinoidal, accordionAutoFocusTag: 'input[type=text]'}, {opacity: 0, display: 'none'} );
-        navigation[3].addEvent('click', ez.fn.bind( slides.accordionGoto, slides, 0 ) );
-        navigation[3].addClass('accordion_navigation');
+        navigation[4].addEvent('click', ez.fn.bind( slides.accordionGoto, slides, 0 ) ).addClass('accordion_navigation');
+        navigation[5].addEvent('click', ez.fn.bind( slides.accordionGoto, slides, 0 ) ).addClass('accordion_navigation');
     }
 }));
 
@@ -152,8 +152,9 @@ function ezoeLinkTypeSet( source, types )
                 <option value="https://">Https</option>
                 <option value="mailto:">Mail</option>
             </select>
-            <a id="search_for_link" href="JavaScript:void(0);" title="Search"><img width="16" height="16" border="0" alt="Search" src={"tango/system-search.png"|ezimage} /></a>
-            <a id="browse_for_link" href="JavaScript:void(0);" title="Browse"><img width="16" height="16" border="0" alt="Browse" src={"tango/folder.png"|ezimage} /></a>
+            <a id="search_for_link" href="JavaScript:void(0);" title="{'Search'|i18n('design/admin/content/search')}"><img width="16" height="16" border="0" alt="{'Search'|i18n('design/admin/content/search')}" src={"tango/system-search.png"|ezimage} /></a>
+            <a id="browse_for_link" href="JavaScript:void(0);" title="{'Browse'|i18n('design/standard/ezoe')}"><img width="16" height="16" border="0" alt="{'Browse'|i18n('design/standard/ezoe')}" src={"tango/folder.png"|ezimage} /></a>
+            <a id="bookmarks_for_link" href="JavaScript:void(0);" title="{'Bookmarks'|i18n( 'design/admin/content/browse' )}"><img width="16" height="16" border="0" alt="{'Bookmarks'|i18n( 'design/admin/content/browse' )}" src={"tango/bookmark-new.png"|ezimage} /></a>
             <span id="link_href_source_info"></span>
             <br />
         {/set-block}
@@ -191,6 +192,8 @@ function ezoeLinkTypeSet( source, types )
 {include uri="design:ezoe/box_search.tpl"}
 
 {include uri="design:ezoe/box_browse.tpl"}
+
+{include uri="design:ezoe/box_bookmarks.tpl"}
 
 </div>
     </form>
