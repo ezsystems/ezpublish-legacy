@@ -1,0 +1,34 @@
+Changes from 3.10.1rc1 to 3.10.1
+
+*Kernel:
+
+*Design:
+
+*eZTemplate:
+
+*Package system:
+
+*Scripts:
+
+*Cronjobs:
+
+*Translations:
+
+*Bugfixes:
+- Fixed bug #13488: Reference error in eZPathElement
+- Fixed bug #13415: user/register adding node assignment for DefaultUserPlacement outside database transaction
+  (Merged from trunk (4.1.0alpha1) rev. 22217)
+- Fixed bug #13491: Dynamic content structure menu hangs when content name contains quote
+  (Manually merged from trunk (4.1.0alpha1) rev. 22221)
+- Fixed bug #13489: subTreeByNodeID - missing depthOperator -> generate slow mysql query
+  (Manually merged from trunk (4.1.0alpha1) rev. 22225)
+- Fixed bug #13144: Author could modify pending versions.
+  (Manually merged from trunk (4.1.0alpha1) rev. 22232)
+- Fixed bug #13219: Empty passwords were possible with legacy users using PASSWORD_HASH_MYSQL
+  (Merged from trunk (4.1.0alpha1) rev. 22237)
+- Fixed bug #12436: Insufficient form handling made privilege escalation possible.
+  (Merged from trunk (4.1.0alpha1) rev. 22241)
+- Fixed bug #12438: Crash in LDAP login process could lead to privilege escalation.
+  (Manually merged from trunk (4.1.0alpha1) rev. 22245)
+- Fixed bug #011924: updatetypedrelation.php is not compatible with oracle.
+  (Merged from trunk (4.1.0alpha1) rev. 22250)
