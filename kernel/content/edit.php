@@ -479,8 +479,7 @@ elseif ( is_numeric( $EditVersion ) )
     // Check if $user can edit the current version.
     // We should not allow to edit content without creating a new version.
     if ( ( $version->attribute( 'status' ) != EZ_VERSION_STATUS_INTERNAL_DRAFT and
-           $version->attribute( 'status' ) != EZ_VERSION_STATUS_DRAFT and
-           $version->attribute( 'status' ) != EZ_VERSION_STATUS_PENDING ) or
+           $version->attribute( 'status' ) != EZ_VERSION_STATUS_DRAFT ) or
            $version->attribute( 'creator_id' ) != $user->id() )
     {
         return $Module->redirectToView( 'history', array( $ObjectID, $version->attribute( "version" ), $EditLanguage ) );
