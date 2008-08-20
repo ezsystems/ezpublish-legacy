@@ -47,7 +47,9 @@ var eZOEPopupUtils = {
         // set on init if no editorElement is present and selected text is without newlines
         editorSelectedText: false,
         // generates class name for tr elements in browse / search / bookmark list
-        browseClassGenerator: function(){ return ''; }
+        browseClassGenerator: function(){ return ''; },
+        // generates browse link for a specific mode
+        browseLinkGenerator: false
     },
     
     init: function( settings )
@@ -496,7 +498,7 @@ var eZOEPopupUtils = {
         }
     },
 
-    browseCallBack: function( r, mode )
+    browseCallBack: function( r, mode, emptyCallBack )
     {
         // call back function for the browse() ajax call, generates the html markup with paging and path header (if defined)
         mode = mode || 'browse';
@@ -508,7 +510,8 @@ var eZOEPopupUtils = {
         eZOEPopupUtils.removeChildren( tfoot.el );
         if ( eZOEPopupUtils.ajaxLoadResponse )
         {
-            var data = eZOEPopupUtils.ajaxLoadResponse, fn = mode + ( mode === 'browse' ? '('+ data['node']['node_id'] + ',' : '(' ), classGenerator = eZOEPopupUtils.settings.browseClassGenerator;
+            var data = eZOEPopupUtils.ajaxLoadResponse, fn = mode + ( mode === 'browse' ? '('+ data['node']['node_id'] + ',' : '(' );
+            var classGenerator = eZOEPopupUtils.settings.browseClassGenerator, linkGenerator = eZOEPopupUtils.settings.browseLinkGenerator;
             if ( data['node'] && data['node']['name'] )
             {
                 tr = document.createElement("tr"), td = document.createElement("td");
@@ -556,7 +559,11 @@ var eZOEPopupUtils = {
                    tr.appendChild( td );
 
                    td = document.createElement("td");
-                   if ( n.children_count )
+                   if ( linkGenerator.call !== undefined )
+                   {
+                       tag = linkGenerator.call( this, n, mode );
+                   }
+                   else if ( n.children_count )
                    {
                        tag = document.createElement("a");
                        tag.setAttribute('href', 'JavaScript:eZOEPopupUtils.' + mode + '(' + n.node_id + ');');
@@ -613,15 +620,9 @@ var eZOEPopupUtils = {
             tr.appendChild( td );
             tfoot.el.appendChild( tr );
         }
-        else if ( mode === 'search' )
+        else if ( emptyCallBack.call !== undefined )
         {
-            tr = document.createElement("tr"), td = document.createElement("td"), tag = document.createElement("span");
-            tr.appendChild( document.createElement("td") );
-            td.setAttribute('colspan', '3');
-            tag.innerHTML = eZOeMCE['empty_result_string'].replace('<search_string>', ez.$('SearchText').el.value );
-            td.appendChild( tag );
-            tr.appendChild( td );
-            tbody.el.appendChild( tr );
+            emptyCallBack.call( this, tbody, mode );
         }
         return false;
     },
@@ -629,6 +630,14 @@ var eZOEPopupUtils = {
     searchCallBack : function( r )
     {
         // wrapper function for browseCallBack, called by ajax call in search()
-        return eZOEPopupUtils.browseCallBack( r, 'search' );
+        return eZOEPopupUtils.browseCallBack( r, 'search', function( tbody ){
+            var tr = document.createElement("tr"), td = document.createElement("td"), tag = document.createElement("span");
+            tr.appendChild( document.createElement("td") );
+            td.setAttribute('colspan', '3');
+            tag.innerHTML = eZOeMCE['empty_result_string'].replace('<search_string>', ez.$('SearchText').el.value );
+            td.appendChild( tag );
+            tr.appendChild( td );
+            tbody.el.appendChild( tr );
+        } );
     }
 };

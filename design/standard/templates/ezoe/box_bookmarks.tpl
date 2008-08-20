@@ -25,6 +25,9 @@
 {/default}
 <script type="text/javascript">
 <!--
+
+eZOeMCE['empty_bookmarks_result_string'] = "{'You have no bookmarks'|i18n('design/standard/content/view')}";
+
 {literal}
 
 eZOEPopupUtils.bookmarksAjax = ez.ajax( { 'charset': 'UTF-8' } );
@@ -40,7 +43,15 @@ eZOEPopupUtils.bookmarks = function( offset )
 eZOEPopupUtils.bookmarksCallBack = function( r )
 {
     // wrapper function for browseCallBack, called by ajax call in bookmarks()
-    return eZOEPopupUtils.browseCallBack( r, 'bookmarks' );
+    return eZOEPopupUtils.browseCallBack( r, 'bookmarks', function( tbody ){
+            var tr = document.createElement("tr"), td = document.createElement("td"), tag = document.createElement("span");
+            tr.appendChild( document.createElement("td") );
+            td.setAttribute('colspan', '3');
+            tag.innerHTML = eZOeMCE['empty_bookmarks_result_string'];
+            td.appendChild( tag );
+            tr.appendChild( td );
+            tbody.el.appendChild( tr );
+    });
 };
 
 eZOEPopupUtils.bookmarks();

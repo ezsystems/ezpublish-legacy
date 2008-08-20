@@ -20,6 +20,18 @@ eZOeMCE['relation_url']  = {concat('ezoe/relations/', $object_id, '/', $object_v
 tinyMCEPopup.onInit.add( function(){
     var slides = ez.$$('div.panel'), navigation = ez.$$('#tabs li.tab');
     slides.accordion( navigation, {duration: 100, transition: ez.fx.sinoidal, accordionAutoFocusTag: 'input[type=text]'}, {opacity: 0, display: 'none'} );
+    // custom link generator, to redirect links to browse view if not in browse view
+    eZOEPopupUtils.settings.browseLinkGenerator = function( n, mode )
+    {
+        if ( n.children_count )
+        {
+           tag = document.createElement("a");
+           tag.setAttribute('href', 'JavaScript:eZOEPopupUtils.browse(' + n.node_id + ');');
+           if ( mode !== 'browse' ) ez.$( tag ).addEvent('click', function(){ slides.accordionGoto( 2 ); });
+           return tag;
+        }
+        return document.createElement("span");
+    };
 });
 
 if ( contentType === 'image' )
@@ -38,7 +50,7 @@ if ( contentType === 'image' )
 {/literal}
 
 <div class="upload-view">
-    <form action={concat('ezoe/upload/', $object_id, '/', $object_version, '/auto/1' )|ezurl} method="post" target="embed_upload" name="EmbedForm" id="EmbedForm" enctype="multipart/form-data" onsubmit="ez.$('upload_in_progress').show();">
+    <form action={concat('ezoe/upload/', $object_id, '/', $object_version, '/auto/1' )|ezurl} method="post" target="embed_upload" name="EmbedForm" id="EmbedForm" enctype="multipart/form-data" onsubmit="document.getElementById('upload_in_progress').style.display = '';">
 
         <div id="tabs" class="tabs">
         <ul>

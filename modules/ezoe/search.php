@@ -169,7 +169,7 @@ if (!$searchList  || ( $searchOffset === 0 && count($searchList["SearchResult"])
 }
 
 // encode nodes to a json response
-$list = eZOEAjaxContent::encode( $searchList["SearchResult"], array('loadImages' => true ) );
+$list = eZOEAjaxContent::encode( $searchList["SearchResult"], array( 'loadImages' => true, 'fetchChildrenCount' => true ) );
 
 
 $json =  $varName . '{list:' . $list . 

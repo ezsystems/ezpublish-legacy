@@ -87,7 +87,7 @@ else
 // generate json response from bookmarks list
 if ( $objectList )
 {
-    $list = eZOEAjaxContent::encode( $objectList, array( 'loadImages' => true, 'fetchNodeFunction' => 'fetchNode' ) );
+    $list = eZOEAjaxContent::encode( $objectList, array( 'loadImages' => true, 'fetchNodeFunction' => 'fetchNode', 'fetchChildrenCount' => true ) );
 }
 
 

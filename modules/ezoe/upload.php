@@ -164,7 +164,7 @@ if ( $http->hasPostVariable( 'uploadButton' ) || $forcedUpload )
     else
     {
         echo '<html><head><title>HiddenUploadFrame</title><script type="text/javascript">';
-        echo 'window.parent.ez.$("upload_in_progress").hide();';
+        echo 'window.parent.document.getElementById("upload_in_progress").style.display = "none";';
         echo '</script></head><body><div style="position:absolute; top: 0px; left: 0px;background-color: white; width: 100%;">';
         foreach( $result['errors'] as $err )
             echo '<p style="margin: 0; padding: 3px; color: red">' . $err['description'] . '</p>';
