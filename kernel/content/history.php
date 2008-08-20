@@ -404,5 +404,11 @@ $Result = array();
 $Result['content'] = $tpl->fetch( 'design:content/history.tpl' );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'History' ),
                                 'url' => false ) );
+$section = eZSection::fetch( $object->attribute( 'section_id' ) );
+if ( $section )
+{
+    $Result['navigation_part'] = $section->attribute( 'navigation_part_identifier' );
+    $Result['section_id'] = $section->attribute( 'id' );
+}
 
 ?>

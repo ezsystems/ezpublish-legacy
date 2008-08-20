@@ -158,6 +158,7 @@ $Result = array();
 $section = eZSection::fetch( $contentObject->attribute( 'section_id' ) );
 if ( $section )
 {
+    $Result['section_id'] = $section->attribute( 'id' );
     $navigationPartIdentifier = $section->attribute( 'navigation_part_identifier' );
     if ( $navigationPartIdentifier )
     {

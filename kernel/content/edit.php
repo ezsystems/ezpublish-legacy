@@ -349,7 +349,12 @@ if ( $EditLanguage == false )
                                  'url' => false ),
                           array( 'text' => ezi18n( 'kernel/content', 'Edit' ),
                                  'url' => false ) );
-
+        $section = eZSection::fetch( $obj->attribute( 'section_id' ) );
+        if ( $section )
+        {
+            $Result['navigation_part'] = $section->attribute( 'navigation_part_identifier' );
+            $Result['section_id'] = $section->attribute( 'id' );
+        }
         return $Result;
     }
 }
@@ -412,6 +417,12 @@ if ( !is_numeric( $EditVersion ) )
 
             $Result = array();
             $Result['content'] = $tpl->fetch( 'design:content/edit_draft.tpl' );
+            $section = eZSection::fetch( $obj->attribute( 'section_id' ) );
+            if ( $section )
+            {
+                $Result['navigation_part'] = $section->attribute( 'navigation_part_identifier' );
+                $Result['section_id'] = $section->attribute( 'id' );
+            }
             return $Result;
         }
         elseif ( count( $draftVersions ) == 1 )
@@ -449,6 +460,12 @@ if ( !is_numeric( $EditVersion ) )
 
             $Result = array();
             $Result['content'] = $tpl->fetch( 'design:content/edit_draft.tpl' );
+            $section = eZSection::fetch( $obj->attribute( 'section_id' ) );
+            if ( $section )
+            {
+                $Result['navigation_part'] = $section->attribute( 'navigation_part_identifier' );
+                $Result['section_id'] = $section->attribute( 'id' );
+            }
             return $Result;
         }
         else

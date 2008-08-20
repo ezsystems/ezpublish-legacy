@@ -72,6 +72,12 @@ if ( $Module->isCurrentAction( 'Publish' ) and
 
         $Result = array();
         $Result['content'] = $tpl->fetch( 'design:content/edit_conflict.tpl' );
+        $section = eZSection::fetch( $contentObject->attribute( 'section_id' ) );
+        if ( $section )
+        {
+            $Result['navigation_part'] = $section->attribute( 'navigation_part_identifier' );
+            $Result['section_id'] = $section->attribute( 'id' );
+        }
         $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Version preview' ),
                                         'url' => false ) );
         return $Result;
@@ -139,7 +145,12 @@ $Result['content'] = $tpl->fetch( 'design:content/view/versionview.tpl' );
 $Result['node_id'] = $node->attribute( 'node_id' );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Version preview' ),
                                 'url' => false ) );
-
+$section = eZSection::fetch( $contentObject->attribute( 'section_id' ) );
+if ( $section )
+{
+    $Result['navigation_part'] = $section->attribute( 'navigation_part_identifier' );
+    $Result['section_id'] = $section->attribute( 'id' );
+}
 if ( $LanguageCode )
 {
     $node->setCurrentLanguage( $oldLanguageCode );

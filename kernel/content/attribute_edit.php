@@ -493,6 +493,7 @@ $tpl->setVariable( 'view_parameters', $viewParameters );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( $templateName );
+$Result['view_parameters'] = $viewParameters;
 // $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Content' ),
 //                                 'url' => false ),
 //                          array( 'text' => ezi18n( 'kernel/content', 'Edit' ),
@@ -575,6 +576,9 @@ $Result['path'] = $path;
 //include_once( 'kernel/classes/ezsection.php' );
 $section = eZSection::fetch( $object->attribute( 'section_id' ) );
 if ( $section )
+{
     $Result['navigation_part'] = $section->attribute( 'navigation_part_identifier' );
+    $Result['section_id'] = $section->attribute( 'id' );
+}
 
 ?>
