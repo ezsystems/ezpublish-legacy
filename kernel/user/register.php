@@ -61,7 +61,7 @@ $db = eZDB::instance();
 $db->begin();
 
 // Create new user object if user is not logged in
-if ( !$http->hasSessionVariable( "RegisterUserID" ) and !$http->hasPostVariable( "UserID" ) )
+if ( !$http->hasSessionVariable( "RegisterUserID" ) )
 {
     $ini = eZINI::instance();
     $errMsg = '';
@@ -103,10 +103,6 @@ if ( !$http->hasSessionVariable( "RegisterUserID" ) and !$http->hasPostVariable(
 else if ( $http->hasSessionVariable( "RegisterUserID" ) )
 {
     $userID = $http->sessionVariable( "RegisterUserID" );
-}
-else if ( $http->hasPostVariable( "UserID" ) )
-{
-    $userID = $http->postVariable( "UserID" );
 }
 
 $Params['ObjectID'] = $userID;

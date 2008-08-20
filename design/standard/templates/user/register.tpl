@@ -37,8 +37,11 @@
     </div>
     {/section}
 
+    <div class="block">
+        <p>{"Please note that your browser must use and support cookies to register a new user."|i18n("design/standard/user")}</p>
+    </div>
+
     <div class="buttonblock">
-        <input class="button" type="hidden" name="UserID" value="{$content_attributes[0].contentobject_id}" />
     {section show=and( is_set( $checkErrNodeId ), $checkErrNodeId )|not()}
         <input class="button" type="submit" name="PublishButton" value="{'Register'|i18n('design/standard/user')}" />
     {section-else}
