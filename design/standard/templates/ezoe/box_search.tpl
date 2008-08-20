@@ -1,6 +1,6 @@
 {default embed_mode         = true()
          class_filter_array = array()
-         classes            = fetch( 'class', 'list' )
+         classes            = fetch( 'class', 'list', hash( 'sort_by', array( 'name', true() ) ) )
          has_access         = fetch( 'user', 'has_access_to', hash( 'module', 'ezoe',
                                                                     'function', 'search' ) )}
 <script type="text/javascript">
