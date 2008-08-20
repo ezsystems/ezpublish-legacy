@@ -569,13 +569,22 @@ class eZLDAPUser extends eZUser
                 }
 
                 $userAttributes = array( 'login'      => $login,
-                                         'first_name' => $userData[ $LDAPFirstNameAttribute ][0],
-                                         'last_name'  => $userData[ $LDAPLastNameAttribute ][0],
-                                         'email'      => $userData[ $LDAPEmailAttribute ][0] );
+                                         'first_name' => isset( $userData[ $LDAPFirstNameAttribute ] ) ? $userData[ $LDAPFirstNameAttribute ][0] : false,
+                                         'last_name'  => isset( $userData[ $LDAPLastNameAttribute ] ) ? $userData[ $LDAPLastNameAttribute ][0] : false,
+                                         'email'      => isset( $userData[ $LDAPEmailAttribute ] ) ? $userData[ $LDAPEmailAttribute ][0] : false );
 
+                $oldUser = clone eZUser::currentUser();
                 eZUser::setCurrentlyLoggedInUser( $adminUser, $adminUserContentObjectID );
                 $existingUser = eZLDAPUser::publishUpdateUser( $extraNodeAssignments, $defaultUserPlacement, $userAttributes, $isUtf8Encoding );
-                eZUser::setCurrentlyLoggedInUser( $existingUser, $existingUser->attribute( 'contentobject_id' ) );
+
+                if ( is_object( $existingUser ) )
+                {
+                    eZUser::setCurrentlyLoggedInUser( $existingUser, $existingUser->attribute( 'contentobject_id' ) );
+                }
+                else
+                {
+                    eZUser::setCurrentlyLoggedInUser( $oldUser, $oldUser->attribute( 'contentobject_id' ) );
+                }
 
                 ldap_close( $ds );
                 return $existingUser;
