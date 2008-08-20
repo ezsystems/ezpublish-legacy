@@ -1506,7 +1506,12 @@ WHERE user_id = '" . $userID . "' AND
         }
         else if ( $type == self::PASSWORD_HASH_MYSQL )
         {
-            // Do some MySQL stuff here
+            $db = eZDB::instance();
+            $hash = $db->escapeString( $password );
+
+            $str = $db->arrayQuery( "SELECT PASSWORD( '$hash' )" );
+            $hashes = array_values( $str[0] );
+            $str = $hashes[0];
         }
         else if ( $type == self::PASSWORD_HASH_PLAINTEXT )
         {
