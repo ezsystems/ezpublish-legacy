@@ -336,3 +336,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13489: subTreeByNodeID - missing depthOperator -> generate slow mysql query
 - Fixed bug #13144: Author could modify pending versions
 - Fixed bug #13219: Empty passwords were possible with legacy users using PASSWORD_HASH_MYSQL
+- Fixed bug #12436: Insufficient form handling made privilege escalation possible.
