@@ -33,14 +33,23 @@
 //include_once( 'kernel/classes/datatypes/ezuser/ezuseraccountkey.php' );
 
 $Module = $Params['Module'];
-//$http = eZHTTPTool::instance();
-$hash = $Params['Hash'];
-$mainNodeID = $Params['MainNodeID'];
+$http = eZHTTPTool::instance();
+
+$hash = trim( $http->hasPostVariable( 'Hash' ) ? $http->postVariable( 'Hash' ) : $Params['Hash'] );
+$mainNodeID = (int) $http->hasPostVariable( 'MainNodeID' ) ? $http->postVariable( 'MainNodeID' ) : $Params['MainNodeID'];
+
+// Prepend or append the hash string with a salt, and md5 the resulting hash
+// Example: use is login name as salt, and a 'secret password' as hash sent to the user
+if ( $http->hasPostVariable( 'HashSaltPrepend' ) )
+    $hash =  md5( trim( $http->postVariable( 'HashSaltPrepend' ) ) . $hash );
+else if ( $http->hasPostVariable( 'HashSaltAppend' ) )
+    $hash =  md5( $hash . trim( $http->postVariable( 'HashSaltAppend' ) ) );
+
 
 // Check if key exists
 $accountActivated = false;
 $alreadyActive = false;
-$accountKey = eZUserAccountKey::fetchByKey( $hash );
+$accountKey = $hash ? eZUserAccountKey::fetchByKey( $hash ) : false;
 
 if ( $accountKey )
 {
