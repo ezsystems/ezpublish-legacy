@@ -168,12 +168,21 @@ class eZApproveType extends eZWorkflowEventType
         eZDebugSetting::writeDebug( 'kernel-workflow-approve', $process, 'eZApproveType::execute' );
         eZDebugSetting::writeDebug( 'kernel-workflow-approve', $event, 'eZApproveType::execute' );
         $parameters = $process->attribute( 'parameter_list' );
-        $versionID =& $parameters['version'];
-        $object = eZContentObject::fetch( $parameters['object_id'] );
+        $versionID = $parameters['version'];
+        $objectID = $parameters['object_id'];
+        $object = eZContentObject::fetch( $objectID );
 
         if ( !$object )
         {
-            eZDebugSetting::writeError( 'kernel-workflow-approve', $parameters['object_id'], 'eZApproveType::execute' );
+            eZDebugSetting::writeError( 'kernel-workflow-approve', "No object with ID $objectID", 'eZApproveType::execute' );
+            return eZWorkflowType::STATUS_WORKFLOW_CANCELLED;
+        }
+
+        $version = $object->version( $versionID );
+
+        if ( !$version )
+        {
+            eZDebugSetting::writeError( 'kernel-workflow-approve', "No version $versionID for object with ID $objectID", 'eZApproveType::execute' );
             return eZWorkflowType::STATUS_WORKFLOW_CANCELLED;
         }
 
@@ -251,7 +260,6 @@ class eZApproveType extends eZWorkflowEventType
         {
             // Examine if the published version contains one of the languages we
             // match for.
-            $version = $object->version( $versionID );
             // If the language ID is part of the mask the result is non-zero.
             $languageID = (int)$version->attribute( 'initial_language_id' );
             $hasLanguageMatch = (bool)( $languageMask & $languageID );

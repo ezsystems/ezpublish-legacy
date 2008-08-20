@@ -56,7 +56,8 @@ if ( $isConfirmed )
         return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
     $versionObject = $object->version( $version );
-    if ( is_object( $versionObject ) and $versionObject->attribute('status') != eZContentObjectVersion::STATUS_PUBLISHED )
+    if ( is_object( $versionObject ) and
+         in_array( $versionObject->attribute( 'status' ), array( eZContentObjectVersion::STATUS_DRAFT, eZContentObjectVersion::STATUS_INTERNAL_DRAFT ) ) )
     {
         if ( !$object->attribute( 'can_edit' ) )
         {
