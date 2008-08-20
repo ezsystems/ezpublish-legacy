@@ -136,7 +136,7 @@ function ezoeLinkTypeSet( source, types )
         </div>
 
 
-<div class="panel_wrapper" style="height: 300px;">
+<div class="panel_wrapper" style="min-height: 300px;">
     <div class="panel">
         <div class="attribute-title">
             <h2 style="padding: 0 0 4px 0;">{$tag_name|upfirst|wash}</h2>

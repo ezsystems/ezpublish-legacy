@@ -30,7 +30,7 @@ tinyMCEPopup.onInit.add( function(){
         </ul>
     </div>
 
-    <div class="panel_wrapper" style="height: 350px;">
+    <div class="panel_wrapper" style="min-height: 350px;">
 
             <div id="help_panel" class="panel" style="overflow: auto">
                 <div id="iframecontainer">

@@ -49,7 +49,7 @@ if ( contentType === 'image' )
         </ul>
         </div>
 
-<div class="panel_wrapper" style="height: 360px;">
+<div class="panel_wrapper" style="min-height: 360px;">
         <div class="panel">
             <table class="properties">
                 <tr>
