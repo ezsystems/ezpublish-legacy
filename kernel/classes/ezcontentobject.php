@@ -2605,12 +2605,13 @@ class eZContentObject extends eZPersistentObject
         $relationBaseType = ( $relationType & EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE ) ?
                                 EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE :
                                 EZ_CONTENT_OBJECT_RELATION_COMMON | EZ_CONTENT_OBJECT_RELATION_EMBED | EZ_CONTENT_OBJECT_RELATION_LINK;
+        $relationTypeMatch = $db->bitAnd( 'relation_type', $relationBaseType );
         $query = "SELECT count(*) AS count
                   FROM   ezcontentobject_link
                   WHERE  from_contentobject_id=$fromObjectID AND
                          from_contentobject_version=$fromObjectVersion AND
                          to_contentobject_id=$toObjectID AND
-                         ( relation_type & $relationBaseType ) != 0  AND
+                         $relationTypeMatch != 0 AND
                          contentclassattribute_id=$attributeID AND
                          op_code='0'";
         $count = $db->arrayQuery( $query );
@@ -2634,8 +2635,9 @@ class eZContentObject extends eZPersistentObject
                  (EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE & $relationType) == 0 )
         {
             $db->begin();
+            $newRelationType = $db->bitOr( 'relation_type', $relationType );
             $db->query( "UPDATE ezcontentobject_link
-                         SET    relation_type = ( relation_type | $relationType )
+                         SET    relation_type = $newRelationType
                          WHERE  from_contentobject_id=$fromObjectID AND
                                 from_contentobject_version=$fromObjectVersion AND
                                 to_contentobject_id=$toObjectID AND
@@ -2719,11 +2721,23 @@ class eZContentObject extends eZPersistentObject
         }
         else
         {
-            $db->query( "UPDATE ezcontentobject_link
-                         SET    relation_type = ( relation_type & ".(~$relationType)." )
-                         WHERE  from_contentobject_id=$fromObjectID AND
-                                from_contentobject_version=$fromObjectVersion $classAttributeCondition $toObjectCondition AND
-                                op_code='0'" );
+            if ( $db->databaseName() == 'oracle' )
+            {
+                $notRelationType = - ( $relationType + 1 );
+                $db->query( "UPDATE ezcontentobject_link
+                             SET    relation_type = " . $db->bitAnd( 'relation_type', $notRelationType ) . "
+                             WHERE  from_contentobject_id=$fromObjectID AND
+                                    from_contentobject_version=$fromObjectVersion $classAttributeCondition $toObjectCondition AND
+                                    op_code='0'" );
+            }
+            else
+            {
+                $db->query( "UPDATE ezcontentobject_link
+                             SET    relation_type = ( relation_type & ".(~$relationType)." )
+                             WHERE  from_contentobject_id=$fromObjectID AND
+                                    from_contentobject_version=$fromObjectVersion $classAttributeCondition $toObjectCondition AND
+                                    op_code='0'" );
+            }
         }
 
         $db->commit();
