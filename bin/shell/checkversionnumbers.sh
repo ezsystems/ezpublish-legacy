@@ -6,19 +6,19 @@
 # The last version which changelogs and db updates are related to
 # For the first development release this should be empty, in
 # wich case $LAST_STABLE is used.
-PREVIOUS_VERSION="4.0.1rc1"
+PREVIOUS_VERSION="4.0.0"
 # The last version of the newest stable branch
 LAST_STABLE="4.0.0"
 # Set this to true if the LAST_STABLE has been modified from the last release
 # This will be set to true automatically if the release is a final release
-LAST_STABLE_CHANGED="true"
+LAST_STABLE_CHANGED="false"
 
 MAJOR=4
 MINOR=0
 RELEASE=1
 # Starts at 1 for the first release in a branch and increases with one
 REAL_RELEASE=1
-STATE="rc2"
+STATE=""
 VERSION=$MAJOR"."$MINOR"."$RELEASE""$STATE
 VERSION_ONLY=$MAJOR"."$MINOR
 BRANCH_VERSION=$MAJOR"."$MINOR
