@@ -93,7 +93,7 @@ eZOEPopupUtils.selectByEmbedId = function( object_id, node_id, name )
 
 function ezoeLinkAjaxCheck( url )
 {
-    var url = eZOeMCE['extension_url'] + '/load/' + url;
+    var url = tinyMCEPopup.editor.settings.ez_extension_url + '/load/' + url;
     eZOEPopupUtils.ajaxLink.load( url, '', ezoeLinkPostBack );
 }
 

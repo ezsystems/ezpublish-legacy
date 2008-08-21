@@ -3,14 +3,6 @@
          classes            = fetch( 'class', 'list', hash( 'sort_by', array( 'name', true() ) ) )
          has_access         = fetch( 'user', 'has_access_to', hash( 'module', 'ezoe',
                                                                     'function', 'search' ) )}
-<script type="text/javascript">
-<!--
-
-eZOeMCE['empty_result_string'] = "{"No results were found when searching for &quot;%1&quot;"|i18n("design/standard/content/search",,hash( '%1', '<search_string>' ))}"
-
-
-//-->
-</script>
     <div class="panel" id="search_box" style="display: none; position: relative;">
     {if $embed_mode}
         <a id="embed_search_go_back_link" title="Go back" href="JavaScript:void(0);" style="position: absolute; top: 0px; right: -5px;"><img width="16" height="16" border="0" src={"tango/emblem-unreadable.png"|ezimage} /></a>

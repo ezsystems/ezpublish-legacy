@@ -11,6 +11,7 @@ eZ Online Editor 5.0 extension Changelog
 * Fixed #013509: Layout on help or others "long text" pages
 * Implemented #013512: Class list in search form should be alphabetical sorted
 * Made mini editor layout enabled by default (uncommented it)
+* code cleanup (removed dependency on global js variable eZOeMCE, use tinyMCE settings and translations instead)
 
 
 5.0rc4

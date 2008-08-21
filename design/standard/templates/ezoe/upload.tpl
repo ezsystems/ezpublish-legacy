@@ -12,8 +12,6 @@ var contentType = '{$content_type}', classFilter = ez.$c();
 {foreach $class_filter_array as $class_filter}
     classFilter.push('{$class_filter}');
 {/foreach}
-
-eZOeMCE['relation_url']  = {concat('ezoe/relations/', $object_id, '/', $object_version, '/auto' )|ezurl};
     
 {literal}
 

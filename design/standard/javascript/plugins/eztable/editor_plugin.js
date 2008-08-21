@@ -456,10 +456,10 @@
 	        {
 	            //var ed = this.editor;
 	            if ( !view ) view = '/tags/';
-	            var sp = getColRowSpan( node );
+	            var sp = getColRowSpan( node ), s = inst.settings;
 	
 	            inst.windowManager.open({
-	                url : eZOeMCE['extension_url'] + view  + eZOeMCE['contentobject_id'] + '/' + eZOeMCE['contentobject_version'] + '/' + eurl,
+	                url : s.ez_extension_url + view  + s.ez_contentobject_id + '/' + s.ez_contentobject_version + '/' + eurl,
 	                width : width || 380,
 	                height : height || 280,
 	                scrollbars : true,

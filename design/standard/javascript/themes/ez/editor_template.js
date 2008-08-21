@@ -1202,12 +1202,12 @@
         
         _generalXmlTagPopup : function( eurl, view, width, height, node )
         {
-            var ed = this.editor;
+            var ed = this.editor, s = ed.settings;
             if ( view && view.nodeName ) node = view;
             if ( !view || view.nodeName ) view = '/tags/';
 
             ed.windowManager.open({
-                url : eZOeMCE['extension_url'] + view  + eZOeMCE['contentobject_id'] + '/' + eZOeMCE['contentobject_version'] + '/' + eurl,
+                url : s.ez_extension_url + view  + s.ez_contentobject_id + '/' + s.ez_contentobject_version + '/' + eurl,
                 width : width || 400,
                 height : height || 300,
                 scrollbars : true,
@@ -1383,7 +1383,7 @@
             var ed = this.editor;
             tinyMCE.triggerSave();
             ed.isNotDirty = true;
-            this.__appendHiddenInputAndSubmit( 'CustomActionButton[' + eZOeMCE['disable_editor_id'] + '_disable_editor]' );
+            this.__appendHiddenInputAndSubmit( 'CustomActionButton[' + ed.settings.ez_attribute_id + '_disable_editor]' );
         },
 
         _mceDiscard : function()

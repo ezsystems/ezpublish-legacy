@@ -96,7 +96,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
             else
             {
                var sizeObj    = eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'][ args['alt'] ];
-               args['src']    = eZOeMCE['root'] + sizeObj['url'];
+               args['src']    = ed.settings.ez_root_url + sizeObj['url'];
                args['title']  = eZOEPopupUtils.safeHtml( sizeObj['alternative_text'] || eZOEPopupUtils.embedObject['name'] );
                args['width']  = sizeObj['width'];
                args['height'] = sizeObj['height'];
@@ -166,8 +166,8 @@ function setEmbedAlign( e, el )
 function loadImageSize( e, el )
 {
     // Dynamically loads image sizes as they are requested
-    // global objects: ez, eZOeMCE
-    var imageAttributes = eZOEPopupUtils.embedObject['image_attributes'], previewImageNode = ez.$('embed_preview_image');
+    // global objects: ez
+    var imageAttributes = eZOEPopupUtils.embedObject['image_attributes'], previewImageNode = ez.$('embed_preview_image'), eds = tinyMCEPopup.editor.settings;
     if ( !imageAttributes || !eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ] )
     {
         previewImageNode.el.src = attachmentIcon;
@@ -180,19 +180,19 @@ function loadImageSize( e, el )
     }
     else if ( attribObj[size] )
     {
-        previewImageNode.el.src = eZOeMCE['root'] + attribObj[size]['url'];
+        previewImageNode.el.src = eds.ez_root_url + attribObj[size]['url'];
         tinyMCEPopup.resizeToInnerSize();
     }
     else
     {
-        var url = eZOeMCE['extension_url'] + '/load/' + eZOEPopupUtils.embedObject['contentobject_id'];
+        var url = eds.ez_extension_url + '/load/' + eZOEPopupUtils.embedObject['contentobject_id'];
         eZOEPopupUtils.ajax.load( url, 'imagePreGenerateSizes=' + size, function(r){
             ez.script( 'eZOEPopupUtils.ajaxLoadResponse=' + r.responseText );
             if ( eZOEPopupUtils.ajaxLoadResponse )
             {
                 var size = ez.$('embed_alt_source').el.value, imageAttributes = eZOEPopupUtils.embedObject['image_attributes'];
                 eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'][ size ] = eZOEPopupUtils.ajaxLoadResponse['data_map'][ imageAttributes[0] ]['content'][ size ];
-                previewImageNode.el.src = eZOeMCE['root'] + eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'][ size ]['url'];
+                previewImageNode.el.src = eds.ez_root_url + eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'][ size ]['url'];
             }
         });
     }
@@ -201,8 +201,8 @@ function loadImageSize( e, el )
 function loadEmbedPreview( )
 {
     // Dynamically loads embed preview when attributes change
-    // global objects: ez, eZOeMCE          
-    var url = eZOeMCE['extension_url'] + '/embed_view/' + eZOEPopupUtils.embedObject['contentobject_id'];
+    // global objects: ez         
+    var url = tinyMCEPopup.editor.settings.ez_extension_url + '/embed_view/' + eZOEPopupUtils.embedObject['contentobject_id'];
     var postData = ez.$$('#embed_attributes input,#embed_attributes select').callEach('postData').join('&');
     eZOEPopupUtils.ajax.load( url, postData, function(r)
     {

@@ -328,6 +328,11 @@ class eZOEPackerFunctions
                 'link_is_external' => ezi18n( 'design/standard/ezoe', "The URL you entered seems to external link, do you want to add the required http:// prefix?"),
                 'link_list' => ezi18n( 'design/standard/ezoe', "Link list")*/
             ),
+            'ez' => array(
+                'root_node_name' => ezi18n( 'kernel/content', 'Top Level Nodes'),
+                'empty_search_result' => ezi18n( 'design/standard/content/search', 'No results were found when searching for &quot;%1&quot;', null, array( '%1' => '<search_string>' )),
+                'empty_bookmarks_result' => ezi18n( 'design/standard/content/view', 'You have no bookmarks')
+            ),
         ));
         $i18nString = eZOEAjaxContent::jsonEncode( $i18nArray );
 
@@ -337,7 +342,7 @@ class eZOEPackerFunctions
     public static function getCacheTime( $functionName )
     {
         // this translation data only expires when this timestamp is increased
-        return 1216213368;
+        return 1219310954;
     }
 }
 

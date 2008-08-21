@@ -44,31 +44,15 @@
     <!--
     
     if ( window.ez === undefined ) document.write('<script type="text/javascript" src={"javascript/ezoe/ez_core.js"|ezdesign}><\/script>');
-    
-    var eZOeMCE = new Object(), ezOeTempSettings;
-    eZOeMCE['root']             = {'/'|ezroot};
-    eZOeMCE['extension_url']    = {'/ezoe/'|ezurl};
-    eZOeMCE['content_css']      = '{ezoecss( $content_css_list, false())|implode(',')}';
-    eZOeMCE['editor_css']       = '{ezoecss( $editor_css_list, false() )|implode(',')}';
-    eZOeMCE['popup_css']        = {concat("stylesheets/skins/", $skin, "/dialog.css")|ezdesign};
-    eZOeMCE['contentobject_id'] = {$attribute.contentobject_id};
-    eZOeMCE['contentobject_version'] = {$attribute.version};
-    eZOeMCE['plugins']       = "-{$plugin_list|implode(',-')}";
-    eZOeMCE['skin']          = '{$skin}';
-    eZOeMCE['skin_variant']  = '{$skin_variant}';
-    eZOeMCE['language']      = '{$language}';
-    eZOeMCE['disable_editor_id'] = {$attribute.id};
 
-    {literal}
-
-    eZOeMCE['tiny_mce_init_settings'] = {
+    var eZOeAttributeSettings, eZOeGlobalSettings = {ldelim}
         mode : "none",
         theme : "ez",
         width : '100%',
-        language : eZOeMCE['language'],
-        skin : eZOeMCE['skin'],
-        skin_variant : eZOeMCE['skin_variant'],
-        plugins : eZOeMCE['plugins'],
+        language : '{$language}',
+        skin : '{$skin}',
+        skin_variant : '{$skin_variant}',
+        plugins : "-{$plugin_list|implode(',-')}",
         theme_advanced_buttons2 : "",
         theme_advanced_buttons3 : "",
         theme_advanced_blockformats : "p,pre,h1,h2,h3,h4,h5,h6",
@@ -89,36 +73,41 @@
         fix_list_elements : true,
         fix_table_elements : true,
         tab_focus : ':prev,:next',
-        theme_ez_editor_css : eZOeMCE['editor_css'],
-        theme_ez_content_css : eZOeMCE['content_css'],
-        popup_css : eZOeMCE['popup_css'],
-        //setupcontent_callback : "oeStyleFixSetupContent",
-        save_callback : "ezMceCleanUpEmbedTags",
+        theme_ez_editor_css : '{ezoecss( $editor_css_list, false() )|implode(',')}',
+        theme_ez_content_css : '{ezoecss( $content_css_list, false())|implode(',')}',
+        popup_css : {concat("stylesheets/skins/", $skin, "/dialog.css")|ezdesign},
+        save_callback : "eZOeCleanUpEmbedTags",
         gecko_spellcheck : true,
-        save_enablewhendirty : true
-    };
+        save_enablewhendirty : true,
+        ez_root_url : {'/'|ezroot},
+        ez_extension_url : {'/ezoe/'|ezurl},
+        ez_contentobject_id : {$attribute.contentobject_id},
+        ez_contentobject_version : {$attribute.version}
+    {rdelim};
+    
+    {literal}
 
     (function(){
         var uri = document.getElementById('tinymce_script_loader').src;
-        tinymce.ScriptLoader.markDone( uri.replace( 'tiny_mce', 'langs/' + eZOeMCE['language'] ) );
+        tinymce.ScriptLoader.markDone( uri.replace( 'tiny_mce', 'langs/' + eZOeGlobalSettings.language ) );
     }())
 
-    tinyMCE.init(eZOeMCE['tiny_mce_init_settings']);
+    tinyMCE.init( eZOeGlobalSettings );
 
-    function ezMceToggleEditor( id, settings )
+    function eZOeToggleEditor( id, settings )
     {
         var el = document.getElementById( id );
         if ( el )
         {
-            if ( tinyMCE.getInstanceById(id) == null )
+            if ( tinyMCE.getInstanceById( id ) == null )
                 //tinyMCE.execCommand('mceAddControl', false, id);
                 new tinymce.Editor(id, settings).render();
             else
-                tinyMCE.execCommand('mceRemoveControl', false, id);
+                tinyMCE.execCommand( 'mceRemoveControl', false, id );
         }
     }
 
-    function ezMceCleanUpEmbedTags(element_id, html, body)
+    function eZOeCleanUpEmbedTags( element_id, html, body )
     {
     	// remove the content of the embed tags that are just there for oe preview
         // purpose, this is to avoid that the ez xml parsers in some cases 
@@ -131,6 +120,7 @@
             if ( node && node.className.indexOf('mceNonEditable') !== -1 )
                 node.innerHTML = '';
         });
+
         // fix anchor only urls on IE (it adds the current url before the anchor)
         ez.array.forEach( body.getElementsByTagName('a'), function( node ){
             if ( node && node.href.indexOf('#') > 0 )
@@ -160,13 +150,14 @@
         <script type="text/javascript">
         <!--
         
-        ezOeTempSettings = eZOeMCE['tiny_mce_init_settings'];
-        ezOeTempSettings['theme_advanced_buttons1'] = "{$layout_settings['buttons']|implode(',')}";
-        ezOeTempSettings['theme_advanced_path_location'] = "{$layout_settings['path_location']}";
-        ezOeTempSettings['theme_advanced_statusbar_location'] = "{$layout_settings['path_location']}";
-        ezOeTempSettings['theme_advanced_toolbar_location'] = "{$layout_settings['toolbar_location']}";
+        eZOeAttributeSettings = eZOeGlobalSettings;
+        eZOeAttributeSettings['ez_attribute_id'] = {$attribute.id};
+        eZOeAttributeSettings['theme_advanced_buttons1'] = "{$layout_settings['buttons']|implode(',')}";
+        eZOeAttributeSettings['theme_advanced_path_location'] = "{$layout_settings['path_location']}";
+        eZOeAttributeSettings['theme_advanced_statusbar_location'] = "{$layout_settings['path_location']}";
+        eZOeAttributeSettings['theme_advanced_toolbar_location'] = "{$layout_settings['toolbar_location']}";
 
-        ezMceToggleEditor( '{$attribute_base}_data_text_{$attribute.id}', ezOeTempSettings );
+        eZOeToggleEditor( '{$attribute_base}_data_text_{$attribute.id}', eZOeAttributeSettings );
 
         -->
         </script>

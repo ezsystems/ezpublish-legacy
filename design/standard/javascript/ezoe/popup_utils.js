@@ -452,10 +452,11 @@ var eZOEPopupUtils = {
     selectByEmbedId: function( id )
     {
         // redirects to embed window of a specific object id
-        // global objects: ez, eZOeMCE    
+        // global objects: ez 
         if ( ez.val( id ) )
         {
-            window.location = eZOeMCE['relation_url'] + '/eZObject_' + id;
+            var s = tinyMCEPopup.editor.settings;
+            window.location = s.ez_extension_url + '/relations/' + s.ez_contentobject_id + '/' + s.ez_contentobject_version + '/auto/eZObject_' + id;
         }
     },
 
@@ -480,17 +481,16 @@ var eZOEPopupUtils = {
     browse: function( nodeId, offset )
     {
         // browse for a specific node id and a offset on the child elements
-        // global objects: eZOeMCE   
-        eZOEPopupUtils.ajax.load( eZOeMCE['extension_url'] + '/expand/' + nodeId + '/' + (offset || 0), '', eZOEPopupUtils.browseCallBack  );
+        eZOEPopupUtils.ajax.load( tinyMCEPopup.editor.settings.ez_extension_url + '/expand/' + nodeId + '/' + (offset || 0), '', eZOEPopupUtils.browseCallBack  );
         ez.$('browse_progress' ).show();
     },
 
     search: function( offset )
     {
         // serach for nodes with input and select form elements inside a 'search_box' container element
-        // global objects: eZOeMCE, ez
+        // global objects: ez
         var postData = ez.$$('#search_box input, #search_box select').callEach('postData').join('&'), o = offset || 0;    
-        var url = eZOeMCE['extension_url'] + '/search/x/'+ o +'/10';
+        var url = tinyMCEPopup.editor.settings.ez_extension_url + '/search/x/'+ o +'/10';
         if ( ez.string.trim( ez.$('SearchText').el.value ) )
         {
             eZOEPopupUtils.ajax.load( url, postData, eZOEPopupUtils.searchCallBack );
@@ -522,7 +522,7 @@ var eZOEPopupUtils = {
                 if ( data['node']['path'] !== false && data['node']['node_id'] != 1 )
                 {
                     // Prepend root node so you can browse to the root of the installation
-                    data['node']['path'].splice(0,0,{'node_id':1, 'name': eZOeMCE['root_node_name'], 'class_name': 'Folder'});
+                    data['node']['path'].splice(0,0,{'node_id':1, 'name': ed.getLang('ez.root_node_name'), 'class_name': 'Folder'});
                     ez.$c( data['node']['path'] ).forEach( function( n )
                     {
                         tag = document.createElement("a");
@@ -587,7 +587,7 @@ var eZOEPopupUtils = {
                    {
                        tag = document.createElement("span");
                        tag.className = 'image_preview';
-                       tag.innerHTML += ' <a href="#">' + ed.getLang('preview.preview_desc')  + '<img src="' + eZOeMCE['root'] + n.data_map[ n.image_attributes[0] ].content['small'].url + '" /></a>';
+                       tag.innerHTML += ' <a href="#">' + ed.getLang('preview.preview_desc')  + '<img src="' + ed.settings.ez_root_url + n.data_map[ n.image_attributes[0] ].content['small'].url + '" /></a>';
                        td.appendChild( tag );
                        hasImage = true;
                    }
@@ -631,10 +631,10 @@ var eZOEPopupUtils = {
     {
         // wrapper function for browseCallBack, called by ajax call in search()
         return eZOEPopupUtils.browseCallBack( r, 'search', function( tbody ){
-            var tr = document.createElement("tr"), td = document.createElement("td"), tag = document.createElement("span");
+            var tr = document.createElement("tr"), td = document.createElement("td"), tag = document.createElement("span"), ed = tinyMCEPopup.editor;
             tr.appendChild( document.createElement("td") );
             td.setAttribute('colspan', '3');
-            tag.innerHTML = eZOeMCE['empty_result_string'].replace('<search_string>', ez.$('SearchText').el.value );
+            tag.innerHTML = ed.getLang('ez.empty_search_result').replace('<search_string>', ez.$('SearchText').el.value );
             td.appendChild( tag );
             tr.appendChild( td );
             tbody.el.appendChild( tr );

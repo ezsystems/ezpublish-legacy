@@ -3,15 +3,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <title>{$module_result.persistent_variable.title}</title>
-<script type="text/javascript">
-<!--
-
-var eZOeMCE = new Object();
-eZOeMCE['root'] = {'/'|ezroot};
-eZOeMCE['extension_url'] = {'/ezoe/'|ezurl};
-
-// -->
-</script>
 <script type="text/javascript" src={"javascript/tiny_mce_popup.js"|ezdesign}></script>
 <script type="text/javascript" src={"javascript/utils/validate.js"|ezdesign}></script>
 

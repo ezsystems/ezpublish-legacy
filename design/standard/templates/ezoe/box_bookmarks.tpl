@@ -26,8 +26,6 @@
 <script type="text/javascript">
 <!--
 
-eZOeMCE['empty_bookmarks_result_string'] = "{'You have no bookmarks'|i18n('design/standard/content/view')}";
-
 {literal}
 
 eZOEPopupUtils.bookmarksAjax = ez.ajax( { 'charset': 'UTF-8' } );
@@ -35,8 +33,7 @@ eZOEPopupUtils.bookmarksAjax = ez.ajax( { 'charset': 'UTF-8' } );
 eZOEPopupUtils.bookmarks = function( offset )
 {
     // browse personal bookmarks by offset
-    // global objects: eZOeMCE   
-    eZOEPopupUtils.bookmarksAjax.load( eZOeMCE['extension_url'] + '/bookmarks/' + (offset || 0), '', eZOEPopupUtils.bookmarksCallBack  );
+    eZOEPopupUtils.bookmarksAjax.load( tinyMCEPopup.editor.settings.ez_extension_url + '/bookmarks/' + (offset || 0), '', eZOEPopupUtils.bookmarksCallBack  );
     ez.$('bookmarks_progress' ).show();
 };
 
@@ -44,10 +41,10 @@ eZOEPopupUtils.bookmarksCallBack = function( r )
 {
     // wrapper function for browseCallBack, called by ajax call in bookmarks()
     return eZOEPopupUtils.browseCallBack( r, 'bookmarks', function( tbody ){
-            var tr = document.createElement("tr"), td = document.createElement("td"), tag = document.createElement("span");
+            var tr = document.createElement("tr"), td = document.createElement("td"), tag = document.createElement("span"), ed = tinyMCEPopup.editor;
             tr.appendChild( document.createElement("td") );
             td.setAttribute('colspan', '3');
-            tag.innerHTML = eZOeMCE['empty_bookmarks_result_string'];
+            tag.innerHTML = ed.getLang('ez.empty_bookmarks_result');
             td.appendChild( tag );
             tr.appendChild( td );
             tbody.el.appendChild( tr );
