@@ -561,12 +561,13 @@ var eZOEPopupUtils = {
                    td = document.createElement("td");
                    if ( linkGenerator.call !== undefined )
                    {
-                       tag = linkGenerator.call( this, n, mode );
+                       tag = linkGenerator.call( this, n, mode, ed );
                    }
                    else if ( n.children_count )
                    {
                        tag = document.createElement("a");
                        tag.setAttribute('href', 'JavaScript:eZOEPopupUtils.' + mode + '(' + n.node_id + ');');
+                       tag.setAttribute('title', ed.getLang('browse') );
                    }
                    else
                    {
@@ -592,7 +593,7 @@ var eZOEPopupUtils = {
                        hasImage = true;
                    }
                    tr.appendChild( td );
-                   tr.className = classGenerator.call( this, n, hasImage );
+                   tr.className = classGenerator.call( this, n, hasImage, ed );
 
                    tbody.el.appendChild( tr );
                 } );
@@ -622,7 +623,7 @@ var eZOEPopupUtils = {
         }
         else if ( emptyCallBack.call !== undefined )
         {
-            emptyCallBack.call( this, tbody, mode );
+            emptyCallBack.call( this, tbody, mode, ed );
         }
         return false;
     },
@@ -630,8 +631,8 @@ var eZOEPopupUtils = {
     searchCallBack : function( r )
     {
         // wrapper function for browseCallBack, called by ajax call in search()
-        return eZOEPopupUtils.browseCallBack( r, 'search', function( tbody ){
-            var tr = document.createElement("tr"), td = document.createElement("td"), tag = document.createElement("span"), ed = tinyMCEPopup.editor;
+        return eZOEPopupUtils.browseCallBack( r, 'search', function( tbody, mode, ed ){
+            var tr = document.createElement("tr"), td = document.createElement("td"), tag = document.createElement("span");
             tr.appendChild( document.createElement("td") );
             td.setAttribute('colspan', '3');
             tag.innerHTML = ed.getLang('ez.empty_search_result').replace('<search_string>', ez.$('SearchText').el.value );

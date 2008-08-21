@@ -65,12 +65,13 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
 }));
 
 // custom link generator, to redirect links to browse view if not in browse view
-eZOEPopupUtils.settings.browseLinkGenerator = function( n, mode )
+eZOEPopupUtils.settings.browseLinkGenerator = function( n, mode, ed )
 {
     if ( n.children_count )
     {
        tag = document.createElement("a");
        tag.setAttribute('href', 'JavaScript:eZOEPopupUtils.browse(' + n.node_id + ');');
+       tag.setAttribute('title', ed.getLang('browse') );
        if ( mode !== 'browse' ) ez.$( tag ).addEvent('click', function(){ slides.accordionGoto( 2 ); });
        return tag;
     }

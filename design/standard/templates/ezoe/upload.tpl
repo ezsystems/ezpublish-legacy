@@ -19,12 +19,13 @@ tinyMCEPopup.onInit.add( function(){
     var slides = ez.$$('div.panel'), navigation = ez.$$('#tabs li.tab');
     slides.accordion( navigation, {duration: 100, transition: ez.fx.sinoidal, accordionAutoFocusTag: 'input[type=text]'}, {opacity: 0, display: 'none'} );
     // custom link generator, to redirect links to browse view if not in browse view
-    eZOEPopupUtils.settings.browseLinkGenerator = function( n, mode )
+    eZOEPopupUtils.settings.browseLinkGenerator = function( n, mode, ed )
     {
         if ( n.children_count )
         {
            tag = document.createElement("a");
            tag.setAttribute('href', 'JavaScript:eZOEPopupUtils.browse(' + n.node_id + ');');
+           tag.setAttribute('title', ed.getLang('browse') );
            if ( mode !== 'browse' ) ez.$( tag ).addEvent('click', function(){ slides.accordionGoto( 2 ); });
            return tag;
         }
