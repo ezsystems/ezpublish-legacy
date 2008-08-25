@@ -150,6 +150,23 @@ class eZPersistentObject
     }
 
     /*!
+     Fetches the number of rows by using the object definition.
+     Uses fetchObjectList for the actual SQL handling.
+
+     See fetchObjectList() for a full description of the input parameters.
+    */
+    static function count( $def, $conds = null, $field = null )
+    {
+        if ( !isset( $field ) )
+        {
+            $field = '*';
+        }
+        $customFields = array( array( 'operation' => 'COUNT( ' . $field . ' )', 'name' => 'row_count' ) );
+        $rows = eZPersistentObject::fetchObjectList( $def, array(), $conds, null, null, false, false, $customFields );
+        return $rows[0]['row_count'];
+    }
+
+    /*!
      Creates an SQL query out of the different parameters and returns an object with the result.
      If \a $asObject is true the returned item is an object otherwise a db row.
      Uses fetchObjectList for the actual SQL handling and just returns the first row item.

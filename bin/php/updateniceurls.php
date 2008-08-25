@@ -152,7 +152,6 @@ if ( $options['fetch-limit'] !== null )
         $script->shutdown( 1, "The --fetch-limit must be 1 or higher, tried with $fetchLimit" );
     }
 }
-$cli->notice( "Using fetch limit: $fetchLimit" );
 
 $percentLength = 6;
 $timeLength = 12;
@@ -348,6 +347,10 @@ function logError( $msg )
 
 function logStore( $res, $func, $args )
 {
+    global $options;
+    if ( !isset( $options['debug'] ) )
+        return;
+
     $logFile = fopen( 'urlalias_store.log', "a" );
     if ( $logFile )
     {
@@ -644,6 +647,10 @@ function backupTables( $stage )
         $db->query( "INSERT INTO $newTable SELECT * FROM $table" );
     }
 }
+
+
+$cli->notice( "Note: any errors encountered will be logged to urlalias_error.log" );
+$cli->notice( "Using fetch limit: $fetchLimit" );
 
 resetErrorLog();
 resetStorageLog();

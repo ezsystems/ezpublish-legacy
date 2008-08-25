@@ -186,6 +186,7 @@ for arg in $*; do
             echo "         --with-release=NAME        Checkout a previous release, default is trunk"
             echo "         --license-type=TYPE        What license to use: gpl(default), pul_v1, pl_v2"
             echo "         --skip-license-update      Do not update license and php-headers."
+	    echo "         --skip-isbn13-check        Do not check last update of ISBN13 data"
     #       echo "         --skip-site-creation       Do not build sites*"
             echo "         --skip-version-check       Do not check version numbers*"
             echo "         --skip-php-check           Do not check PHP for syntax correctnes*"
@@ -262,6 +263,10 @@ for arg in $*; do
                 TMP_DB_NAME=`echo $arg | sed 's/--mysql-db=//'`
             fi
             ;;
+
+	--skip-isbn13-check)
+	    SKIPISBN13CHECK="1"
+	    ;;
 
         --skip-site-creation)
             SKIPSITECREATION="1"
@@ -425,7 +430,9 @@ function ezdist_check_isbn13_data
     fi
 }
 
-ezdist_check_isbn13_data
+if [ -z $SKIPISBN13CHECK ]; then
+    ezdist_check_isbn13_data
+fi
 
 ezdist_svn_read_info
 ezdist_dbname_read_info
@@ -852,7 +859,7 @@ if [ -z "$SKIPTRANSLATION" ]; then
     echo -n "Validating"
     diff -U3 -r $DEST/share/translations.org $DEST/share/translations &>/dev/null
     ez_result_output $? "The translations are not up to date
-You must update the translations in the repository using the ezlupdate program" || exit 1
+You must update the translations in the repository using the ezlupdate program or with bin/shell/updatetranslations.sh" || exit 1
 
     rm -rf $DEST/share/translations.org
 
@@ -944,7 +951,7 @@ fi
 
 if [ -z "$SKIP_SQL_GENERATION" ]; then
     echo -n "Updating MySQL SQL schema"
-    ./bin/php/ezsqldumpschema.php --type=mysql --compatible-sql --output-sql --format=local "share/db_schema.dba" "$DEST/kernel/sql/mysql/kernel_schema.sql" 2>.dump.log
+    ./bin/php/ezsqldumpschema.php --type=mysql --compatible-sql --table-type=innodb --output-sql --format=local "share/db_schema.dba" "$DEST/kernel/sql/mysql/kernel_schema.sql" 2>.dump.log
     ez_result_file $? .dump.log || exit 1
 
     echo -n "Updating PostgreSQL SQL schema"

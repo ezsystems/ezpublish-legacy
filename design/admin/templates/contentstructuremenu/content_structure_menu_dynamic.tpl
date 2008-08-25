@@ -23,6 +23,8 @@
     {set $click_action=$click_action|ezurl(no)}
 {/if}
 
+<script type="text/javascript" src={"javascript/yui/2.5.2/build/utilities/utilities.js"|ezdesign}></script>
+<script type="text/javascript" src={"javascript/yui/2.5.2/build/json/json-min.js"|ezdesign}></script>
 {literal}
 <script type="text/javascript">
 <!--
@@ -307,7 +309,7 @@ function ContentStructureMenu()
 
     this.load = function( aElement, nodeID, modifiedSubnode )
     {
-        var divElement = document.getElementById( 'c' + nodeID );
+        var divElement = document.getElementById('c' + nodeID);
 
         if ( !divElement )
         {
@@ -351,39 +353,6 @@ function ContentStructureMenu()
             + "/" + this.expiry
             + "/" + this.perm;
 {literal}
-        var request = false;
-
-        if ( window.XMLHttpRequest )
-        {
-            request = new XMLHttpRequest();
-        }
-        else
-        {
-/*@cc_on
-    @if (@_jscript_version >= 5)
-            var xmlObjects = ['Msxml2.XMLHTTP.6.0', 'Msxml2.XMLHTTP.4.0', 'Msxml2.XMLHTTP.3.0',
-                              'Msxml2.XMLHTTP', 'Microsoft.XMLHTTP'];
-            for ( var i = 0; i < xmlObjects.length; i++ )
-            {
-                try
-                {
-                    if ( request = new ActiveXObject( xmlObjects[i] ) )
-                    {
-                        break;
-                    }
-                }
-                catch( e )
-                {
-                }
-            }
-    @end
-@*/
-        }
-
-        if ( !request )
-        {
-            return;
-        }
 
         divElement.className = 'busy';
         if ( aElement )
@@ -391,83 +360,71 @@ function ContentStructureMenu()
             aElement.className = "openclose-busy";
         }
 
-        request.open( 'GET', url, true );
-
         var thisThis = this;
 
-        request.onreadystatechange = function()
-        {
-            if ( request.readyState == 4 )
+        var callbacks = {
+
+            result: false,
+
+            success: function(o)
             {
-                var result = false;
-
-                if ( request.status == 200 ) // the following does not work in Konqueror with cached documents: && request.getResponseHeader( 'Content-Type' ).substr( 0, 16 ) == 'application/json' )
+                try 
                 {
-                    try
-                    {
-                        result = eval( '(' + request.responseText + ')' );
-                    }
-                    catch ( err )
-                    {
-                        result = false;
-                    }
+                    result = YAHOO.lang.JSON.parse(o.responseText);
+                }
+                catch (x) 
+                {
+                    return false;
+                }
+                
+                var html = '<ul>';
+                for ( var i = 0; i < result.children.length; i++ )
+                {
+                    var item = result.children[i];
+                    html += thisThis.generateEntry( item, i == result.children.length - 1, false );
+                }
+                html += '</ul>';
 
-                    if ( result && result.error_code == 0 )
-                    {
-                        var html = '<ul>';
-                        for ( var i = 0; i < result.children.length; i++ )
-                        {
-                            var item = result.children[i];
-                            html += thisThis.generateEntry( item, i == result.children.length - 1, false );
-                        }
-                        html += '</ul>';
-
-                        divElement.innerHTML += html;
-                        divElement.className = 'loaded';
-                        if ( aElement )
-                        {
-                            aElement.className = 'openclose-close';
-                        }
-
-                        thisThis.setOpen( nodeID );
-                        thisThis.openUnder( nodeID );
-
-                        return;
-                    }
+                divElement.innerHTML += html;
+                divElement.className = 'loaded';
+                if ( aElement )
+                {
+                    aElement.className = 'openclose-close';
                 }
 
+                thisThis.setOpen( nodeID );
+                thisThis.openUnder( nodeID );
+                
+                return;
+            },
+
+            failure: function(o) {
                 if ( aElement )
                 {
                     aElement.className = 'openclose-error';
-                    if ( result && result.error_code != 0 )
+
+                    switch( o.status )
                     {
-                        aElement.title = result.error_message;
-                    }
-                    else
-                    {
-                        switch( request.status )
+                        case 403:
                         {
-                            case 403:
-                            {
 {/literal}
-                                aElement.title = '{"Dynamic tree not allowed for this siteaccess"|i18n('design/admin/contentstructuremenu')|wash(javascript)}';
+                            aElement.title = '{"Dynamic tree not allowed for this siteaccess"|i18n('design/admin/contentstructuremenu')|wash(javascript)}';
 {literal}
-                            } break;
+                        } break;
 
-                            case 404:
-                            {
+                        case 404:
+                        {
 {/literal}
-                                aElement.title = '{"Node does not exist"|i18n('design/admin/contentstructuremenu')|wash(javascript)}';
+                            aElement.title = '{"Node does not exist"|i18n('design/admin/contentstructuremenu')|wash(javascript)}';
 {literal}
-                            } break;
+                        } break;
 
-                            case 500:
-                            {
+                        case 500:
+                        {
 {/literal}
-                                aElement.title = '{"Internal error"|i18n('design/admin/contentstructuremenu')|wash(javascript)}';
+                            aElement.title = '{"Internal error"|i18n('design/admin/contentstructuremenu')|wash(javascript)}';
 {literal}
-                            } break;
-                        }
+                        } break;
                     }
                     aElement.onclick = function()
                     {
@@ -475,11 +432,10 @@ function ContentStructureMenu()
                     }
                 }
             }
-        };
+        }
 
-        request.send( null );
+        var request = YAHOO.util.Connect.asyncRequest('GET', url, callbacks);
 
-        return false;
     }
 
     this.openUnder = function( parentNodeID )

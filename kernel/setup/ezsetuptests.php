@@ -39,7 +39,6 @@ function eZSetupTestTable()
                   'php_session' => array( 'eZSetupTestExtension' ),
                   'directory_permissions' => array( 'eZSetupTestDirectoryPermissions' ),
                   'settings_permission' => array( 'eZSetupTestFilePermissions' ),
-                  'autoload_permission' => array( 'eZSetupTestFilePermissions' ),
                   'database_extensions' => array( 'eZSetupTestExtension' ),
                   'database_all_extensions' => array( 'eZSetupTestExtension' ),
                   'php_magicquotes' => array( 'eZSetupCheckMagicQuotes' ),
@@ -58,7 +57,8 @@ function eZSetupTestTable()
                   'memory_limit' => array( 'eZSetupTestMemLimit' ),
                   'execution_time' => array( 'eZSetupTestExecutionTime' ),
                   'allow_url_fopen' => array( 'eZSetupTestAllowURLFOpen' ),
-                  'accept_path_info' => array( 'eZSetupTestAcceptPathInfo' ) );
+                  'accept_path_info' => array( 'eZSetupTestAcceptPathInfo' ),
+                  'timezone' => array( 'eZSetupTestTimeZone' ) );
 }
 
 function eZSetupConfigVariable( $type, $name )
@@ -975,6 +975,17 @@ function eZSetupPrvtAreDirAndFilesWritable( $dir )
    }
 
    return TRUE;
+}
+
+function eZSetupTestTimeZone( $something )
+{
+    $result = true;
+    if ( date_default_timezone_get() == "UTC" )
+    {
+        $result = false;
+    }
+
+    return array( 'result' => $result );
 }
 
 ?>

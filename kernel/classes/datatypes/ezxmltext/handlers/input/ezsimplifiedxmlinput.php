@@ -108,8 +108,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 return eZInputValidator::STATE_INVALID;
             }
 
-            $classAttribute = $contentObjectAttribute->contentClassAttribute();
-            if ( $classAttribute->attribute( 'is_required' ) == true )
+            if ( $contentObjectAttribute->validateIsRequired() )
             {
                 $root = $document->documentElement;
                 if ( !$root->hasChildNodes() )

@@ -1519,38 +1519,26 @@ class eZWebDAVContentServer extends eZWebDAVServer
         $trimmedScriptURL = trim( $scriptURL, '/' );
         $scriptURLParts = explode( '/', $trimmedScriptURL );
 
-        $urlPartCount = count( $scriptURLParts );
+        $siteAccess = $scriptURLParts[0];
+        $virtualFolder = $scriptURLParts[1];
 
-        if ( $urlPartCount >= 2 )
-        {
-            // one of the virtual folders
-            // or inside one of the virtual folders
-            $siteAccess = $scriptURLParts[0];
-            $virtualFolder = $scriptURLParts[1];
-
-            // only when the virtual folder is Content we need to add its path to the start URL
-            // the paths of other top level folders (like Media) are included in URL aliases of their descending nodes
-            if ( $virtualFolder == VIRTUAL_CONTENT_FOLDER_NAME )
-            {
-                $startURL = '/' . $siteAccess . '/' . $virtualFolder . '/';
-            }
-            else
-            {
-                $startURL = '/' . $siteAccess . '/';
-            }
-        }
-        else
-        {
-            // site access level
-            $startURL = $scriptURL;
-        }
+        $startURL = '/' . $siteAccess . '/' . $virtualFolder . '/';
 
         // Set the href attribute (note that it doesn't just equal the name).
         if ( !isset( $entry['href'] ) )
         {
             if ( strlen( $suffix ) > 0 )
-                    $suffix = '.' . $suffix;
-            $entry["href"] = $startURL . $node->urlAlias() . $suffix;
+                $suffix = '.' . $suffix;
+
+            $alias = $node->urlAlias();
+            if ( $virtualFolder == eZWebDAVContentServer::virtualMediaFolderName() )
+            {
+                // remove the real media node url alias, the virtual media folder is already in $startURL
+                $aliasParts = explode( '/', $alias );
+                array_shift( $aliasParts );
+                $alias = implode( '/', $aliasParts );
+            }
+            $entry["href"] = $startURL . $alias . $suffix;
         }
         // Return array of attributes/properties (name, size, mime, times, etc.).
         return $entry;

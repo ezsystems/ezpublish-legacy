@@ -901,7 +901,8 @@ class eZSearchEngine
                                          ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                                          ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
                                          $showInvisibleNodesCond
-                                         $sqlPermissionChecking[where]" );
+                                         $sqlPermissionChecking[where]",
+                                    eZDBInterface::SERVER_SLAVE );
                     }
                     else
                     {
@@ -933,7 +934,8 @@ class eZSearchEngine
                                           ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                                           ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
                                           $showInvisibleNodesCond
-                                          $sqlPermissionChecking[where]" );
+                                          $sqlPermissionChecking[where]",
+                                    eZDBInterface::SERVER_SLAVE );
                     }
                     $i++;
                 }
@@ -967,7 +969,8 @@ class eZSearchEngine
                                           ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                                           ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
                                           $showInvisibleNodesCond
-                                          $sqlPermissionChecking[where]" );
+                                          $sqlPermissionChecking[where]",
+                             eZDBInterface::SERVER_SLAVE );
                  $this->TempTablesCount = 1;
                  $i = $this->TempTablesCount;
             }
@@ -1123,9 +1126,9 @@ class eZSearchEngine
             if ( $nonExistingWordCount <= 0 )
             {
                 // execute search query
-                $objectResArray = $db->arrayQuery( $searchQuery, array( "limit" => $searchLimit, "offset" => $searchOffset ) );
+                $objectResArray = $db->arrayQuery( $searchQuery, array( "limit" => $searchLimit, "offset" => $searchOffset ), eZDBInterface::SERVER_SLAVE );
                 // execute search count query
-                $objectCountRes = $db->arrayQuery( $searchCountQuery );
+                $objectCountRes = $db->arrayQuery( $searchCountQuery, array(), eZDBInterface::SERVER_SLAVE );
                 $objectRes = eZContentObjectTreeNode::makeObjectsArray( $objectResArray );
                 $searchCount = $objectCountRes[0]['count'];
             }
@@ -1146,7 +1149,6 @@ class eZSearchEngine
                           "SearchCount" => 0,
                           "StopWordArray" => array() );
         }
-        ini_set(  "OCI_COMMIT_ON_SUCCESS", 1 );
     }
 
     /*!
@@ -1714,7 +1716,8 @@ class eZSearchEngine
                     ezcontentclass.version = '0' and
                     ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
-                    $sqlPermissionChecking[where]" );
+                    $sqlPermissionChecking[where]",
+                    eZDBInterface::SERVER_SLAVE );
         }
         else
         {
@@ -1744,7 +1747,8 @@ class eZSearchEngine
                     ezcontentclass.version = '0' and
                     ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
-                    $sqlPermissionChecking[where]" );
+                    $sqlPermissionChecking[where]",
+                    eZDBInterface::SERVER_SLAVE );
         }
 
         $tmpTableI = $this->getSavedTempTableName( $i );
@@ -1858,7 +1862,8 @@ class eZSearchEngine
                     ezcontentclass.version = '0' and
                     ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
-                    $sqlPermissionChecking[where]" );
+                    $sqlPermissionChecking[where]",
+                    eZDBInterface::SERVER_SLAVE );
                 }
                 else
                 {
@@ -1888,7 +1893,8 @@ class eZSearchEngine
                     ezcontentclass.version = '0' and
                     ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
-                    $sqlPermissionChecking[where]" );
+                    $sqlPermissionChecking[where]",
+                    eZDBInterface::SERVER_SLAVE );
                 }
                 $i++;
             }

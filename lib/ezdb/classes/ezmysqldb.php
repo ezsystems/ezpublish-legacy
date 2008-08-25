@@ -332,29 +332,7 @@ class eZMySQLDB extends eZDBInterface
     /*!
      \reimp
     */
-    function createTempTable( $createTableQuery = '' )
-    {
-        if ( $this->UseSlaveServer )
-        {
-            $matches = array();
-            if ( preg_match( "/create\s+temporary\s+table\s+([a-zA-Z0-9_-]+).*/i", $createTableQuery, $matches ) )
-            {
-                $this->TempTableList[] = $matches[1];
-            }
-            else
-            {
-                eZDebug::writeError( 'Could not extract temporary filename: ' . $createTableQuery,
-                                     'eZMySQLDB::createTempTable()' );
-            }
-        }
-        $this->query( $createTableQuery );
-    }
-
-
-    /*!
-     \reimp
-    */
-    function query( $sql )
+    function query( $sql, $server = false )
     {
         if ( $this->IsConnected )
         {
@@ -372,72 +350,17 @@ class eZMySQLDB extends eZDBInterface
             {
                 $this->startTimer();
             }
-            // Check if it's a write or read sql query
+
             $sql = trim( $sql );
 
-            $isWriteQuery = true;
-            if ( strncasecmp( $sql, 'select', 6 ) === 0 && $this->TransactionCounter == 0 )
+            // Check if we need to use the master or slave server by default
+            if ( $server === false )
             {
-                $isWriteQuery = false;
+                $server = strncasecmp( $sql, 'select', 6 ) === 0 && $this->TransactionCounter == 0 ?
+                    eZDBInterface::SERVER_SLAVE : eZDBInterface::SERVER_MASTER;
             }
 
-            // Send temporary create queries to slave server
-            if ( preg_match( "/create\s+temporary/i", $sql ) )
-            {
-                $isWriteQuery = false;
-            }
-
-            if ( $isWriteQuery )
-            {
-                $connection = false;
-                // Check if write query is into temporary table.
-                if ( $this->UseSlaveServer && !empty( $this->TempTableList ) )
-                {
-                    $sqlMatch = false;
-                    $matches = array();
-                    // Check update sql for temporary tables
-                    if ( strncasecmp( $sql, 'update', 6 ) === 0 )
-                    {
-                        $queryParts = preg_match( "/(update[\s]*)(low_priority[\s*])?(ignore[\s*])?([\s\w,]*)([\s]set[\s].*)/",
-                                                  strtolower( $sql ),
-                                                  $matches );
-                        $sqlMatch = array_intersect( $this->TempTableList, explode( ",", $matches[4] ) );
-                    }
-                    // Check insert sql for temporary table
-                    else if ( strncasecmp( $sql, 'insert', 6 ) === 0 )
-                    {
-                        $queryParts = preg_match( "/(insert[\s*])(low_priority[\s*])?(delayed[\s*])?(high_priority[\s*])?(ignore[\s*])?(into[\s*])?([\w]*)(\(.*\))?([\s](
-set|values|select).*)?/",
-                                                  strtolower( $sql ),
-                                                  $matches );
-                        $sqlMatch = in_array( $matches[7], $this->TempTableList );
-                    }
-                    // Check delete sql for temporary tables
-                    else if ( strncasecmp( $sql, 'delete', 6 ) === 0 )
-                    {
-                        $queryParts = preg_match( "/(delete[\s]*)(low_priority[\s*])?(quick[\s*])?(ignore[\s*])?(from[\s*])?([\s\w,]*)([\s]where[\s].*)/",
-                                                  strtolower( $sql ),
-                                                  $matches );
-                        $sqlMatch = array_intersect( $this->TempTableList, explode( ",", $matches[6] ) );
-                    }
-
-                    // Check if it is write to temp table.
-                    if ( !empty( $sqlMatch ) )
-                    {
-                        eZDebug::writeNotice( 'Using slave connection for updating temporary table: ' . substr( $sql, 0, 100 ),
-                                              'eZMySQLDB::query()' );
-                        $connection = $this->DBConnection;
-                    }
-                }
-                if ( !$connection )
-                {
-                    $connection = $this->DBWriteConnection;
-                }
-            }
-            else
-            {
-                $connection = $this->DBConnection;
-            }
+            $connection = ( $server == eZDBInterface::SERVER_SLAVE ) ? $this->DBConnection : $this->DBWriteConnection;
 
             $analysisText = false;
             // If query analysis is enable we need to run the query
@@ -542,7 +465,7 @@ set|values|select).*)?/",
                     if ( $analysisText !== false )
                         $text = "EXPLAIN\n" . $text . "\n\nANALYSIS:\n" . $analysisText;
 
-                    $this->reportQuery( 'eZMySQLDB', $text, $num_rows, $this->timeTaken() );
+                    $this->reportQuery( ( $server == eZDBInterface::SERVER_MASTER ? 'on master : ' : '' ) . 'eZMySQLDB', $text, $num_rows, $this->timeTaken() );
                 }
             }
             eZDebug::accumulatorStop( 'mysql_query' );
@@ -575,7 +498,7 @@ set|values|select).*)?/",
     /*!
      \reimp
     */
-    function arrayQuery( $sql, $params = array() )
+    function arrayQuery( $sql, $params = array(), $server = false )
     {
         $retArray = array();
         if ( $this->IsConnected )
@@ -604,7 +527,7 @@ set|values|select).*)?/",
             {
                 $sql .= "\nLIMIT $offset, 18446744073709551615"; // 2^64-1
             }
-            $result = $this->query( $sql );
+            $result = $this->query( $sql, $server );
 
             if ( $result == false )
             {
@@ -771,13 +694,24 @@ set|values|select).*)?/",
     /*!
      \reimp
     */
-    function eZTableList()
+    function eZTableList( $server = eZDBInterface::SERVER_MASTER )
     {
         $tables = array();
         if ( $this->IsConnected )
         {
-            $query = "SHOW TABLES FROM `" . $this->DB . "`";
-            $result = @mysql_query( $query, $this->DBConnection );
+            if ( $this->UseSlaveServer && $server == eZDBInterface::SERVER_SLAVE )
+            {
+                $connection = $this->DBConnection;
+                $db = $this->SlaveDB;
+            }
+            else
+            {
+                $connection = $this->DBWriteConnection;
+                $db = $this->DB;
+            }
+
+            $query = "SHOW TABLES FROM `" . $db . "`";
+            $result = @mysql_query( $query, $connection );
             $this->reportQuery( 'eZMySQLDB', $query, false, false );
             $count = mysql_num_rows( $result );
             for ( $i = 0; $i < $count; ++ $i )

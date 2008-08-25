@@ -18,12 +18,20 @@ Changes from 4.0.0 to 4.0.1
   (Merged from trunk (4.1.0alpha1) rev. 21703)
 - Implemented enhancement #12212: Setup wizard doesn't confirm existence of DOMDocument
   (Merged from trunk (4.1.0alpha1) rev. 21741)
+- Implemented enhancement: #13039: ez4: setup/extensions enhancement - sort + only show dirs + links.
+  (Merged from trunk (4.1.0alpha1) rev. 22062)
+- Implemented enhancement: #12027: Improve how timezones are set.
+  (Merged from trunk (4.1.0alpha1) rev. 22076)
+- Implemented enhancement #12548: static count() function in eZPersistentObject
+  (Merged from trunk (4.1.0alpha1) rev. 21397, 21398)
 
 *Design:
 
 *eZTemplate:
 - Implemented enhancement #12867: Make template language use __toString magic method for objects
   (Merged from trunk (4.1.0alpha1) rev. 21751)
+- Implemented enhancement #12771: Extra informations in case of multiple defs.
+  (Merged from trunk (4.1.0alpha1) rev. 22050)
 
 *Package system:
 
@@ -170,7 +178,7 @@ Changes from 4.0.0 to 4.0.1
   (Merged from trunk (4.1.0alpha1) rev. 21257)
 - Fixed bug #12334: Non-static method eZMedia::removeByID()
   (Merged from trunk (4.1.0alpha1) rev. 21261)
-- Fixed bug #12428: strtolower() in eZSearchLog::addPhrase gives error for special char for e.g. ÅØÆ
+- Fixed bug #12428: strtolower() in eZSearchLog::addPhrase gives error for special char for e.g. ï¿½ï¿½ï¿½
   (Merged from trunk (4.1.0alpha1) rev. 21263)
 - Fixed bug #11804: Error in integer validation for collected values
   (Merged from trunk (4.1.0alpha1) rev. 21267)
@@ -478,9 +486,85 @@ Changes from 4.0.0 to 4.0.1
   (Merged from trunk (4.1.0alpha1) rev. 21974)
 - Fixed bug #12934: workflow/processlist - Add pagination.
   (Merged from (3.9.5) rev. 21986)
-- Fixed bug #11748: Insufficient installation documentation for PostgreSQL.
-  (Merged from trunk (4.1.0alpha1) rev. 22009)
-- Fixed bug #12099: eZRunCronjobs class is defined in a CLI script.
-  (Merged from trunk (4.1.0alpha1) rev. 22012)
+- Fixed bug #12586: ezconvertdbcharset.php script fails while Changing DB charset.
+  (Merged from trunk (4.1.0alpha1) rev. 22018)
+- Fixed bug #12734: Search engine not triggered when adding / removing a location.
+  (Merged from trunk (4.1.0alpha1) rev. 22028)
+- Fixed bug #13224: ORL: handleCustomObjectHTTPActions loads whole database into memory
+  (Merged from trunk (4.1.0alpha1) rev. 22031)
+- Fixed bug #9005: GLOB_BRACE with non GNU glibc.
+  (Merged from trunk (4.1.0alpha1) rev. 22035)
+- Fixed bug #13256: 4.0.1rc1 strict warning eZTrigger::removeTriggerForWorkflow(), eZWorkflow::setIsEnabled()
+  (Merged from trunk (4.1.0alpha1) rev. 22040)
+- Fixed bug #13277: Image analyzer settings are not loaded properly
+  (Merged from trunk (4.1.0alpha1) rev. 22042)
+- Fixed bug #12519: settings/view for extension siteaccesses doesn't work + Placement for array starts every time with 'default'.
+  (Merged from trunk (4.1.0alpha1) rev. 22044)
+- Fixed bug #13285: Logging done in updateniceurls.php should be controlled by options to the script.
+  (Merged from trunk (4.1.0alpha1) rev. 22052)
+- Fixed bug #12782: Invalid argument supplied for foreach() in ezmoduleoperationinfo.php.
+  (Merged from trunk (4.1.0alpha1) rev. 22055)
+- Fixed bug #12227: Write permission check to autoload directory should be done in earlier step in Setup wizard.
+  (Merged from trunk (4.1.0alpha1) rev. 22059)
+- Fixed bug #13302: eZTemplateCacheBlock::decodeNodeID(...) must be updated to use new multilingual urlalias api
+  (Merged from trunk (4.1.0alpha1) rev. 22066)
+- Fixed bug #12129: New sql upgrade scripts should create tables using InnoDB, not MyISAM.
+  (Merged from trunk (4.1.0alpha1) rev. 22069)
+- Fixed bug #11808: Certain multibyte characters might lead to incorrect URL upon redirection
+  (Merged from trunk (4.1.0alpha1) rev. 22071)
+- Fixed bug #13189: Webdav - content not browsable, media works ok
+  (Merged from trunk (4.1.0alpha1) rev. 22078)
+- Fixed bug #13275: Spelling typo wilrdcard-cache-index gives trouble in cluster mode.
+  (Merged from trunk (4.1.0alpha1) rev. 22083)
+- Fixed bug #13297: Wrong Translation code in por-MZ locale.
+- Fixed bug #13367: bin/modfix.sh doesn't affect the "autoload" directory.
+  (Merged from trunk (4.1.0alpha1) rev. 22126)
+- Fixed bug #13374: WebDav fails to open folders in Media tree with url translator transformation group urlalias_compat
+  (Merged from trunk (4.1.0alpha1) rev. 22129)
+- Fixed bug #12610: Create new package - Uncaught exception 'DOMException'
+  (Merged from trunk (4.1.0alpha1) rev. 22136)
+- Fixed bug #11799: Slave DB: a database transaction in eZ Publish failed
+  (Merged from trunk (4.1.0alpha1) rev. 22142)
+- Fixed bug #13384: Insert queries that contain "create temporary" in values are executed on MySQL slave
+  (Merged from trunk (4.1.0alpha1) rev. 22142)
+- Fixed bug #13380: DROP table for temporary tables created on a slave executed on master?
+  (Merged from trunk (4.1.0alpha1) rev. 22142)
+- Fixed bug #13411: Setting status of a new version is outside of the database transaction
+  (Merged from trunk (4.1.0alpha1) rev. 22142)
+- Fixed bug #12216: query error in eZContentObjectTreeNode::calendar
+  (Merged from trunk (4.1.0alpha1) rev. 22154)
+- Fixed bug #13434: Problem if xmlblock is required /empty and Add object in objectrelation(s) is clicked
+  (Merged from trunk (4.1.0alpha1) rev. 22158)
+- Fixed bug #13413: eZMySQLiDB constructor does not exit always if mysqli extension is not available
+  (Merged from trunk (4.1.0alpha1) rev. 22162)
+- Fixed bug #13444: Function visibility should be changed on eZURLAliasQuery - generateSQL
+  (Merged from trunk (4.1.0alpha1) rev. 22166)
+- Fixed bug #13150: Tree menu in admin hangs when it gets too deep
+  (Merged from trunk (4.1.0alpha1) rev. 22165)
+- Fixed bug #13451: updatebinaryfile.php fails on multiple content versions pointing to the same file
+- Fixed bug #13450: Oracle specific code in ezsearchengine.php
+  (Merged from trunk (4.1.0alpha1) rev. 22178)
+- Fixed bug #13449: SmartCacheClear ClearCacheMethod "keyword" doesn't work
+  (Merged from trunk (4.1.0alpha1) rev. 22189)
+- Fixed bug #13309: eZmatrix datatype doesn't store text content properly when containing some special characters
+  (Merged from trunk (4.1.0alpha1) rev. 22199)
+- Fixed bug #13435: PHP Notice: Undefined property: eZAuthor::$Name in kernel\classes\datatypes\ezauthor\ezauthor.php on line 124
+  (Merged from trunk (4.1.0alpha1) rev. 22201)
+- Fixed bug #13056: Objectrelationlist datatype does not store filled in data when editing the objects in the list.
+  (Merged from trunk (4.1.0alpha1) rev. 22207)
+- Fixed bug #13415: user/register adding node assignment for DefaultUserPlacement outside database transaction
+  (Merged from trunk (4.1.0alpha1) rev. 22217)
 - Fixed bug #13491: Dynamic content structure menu hangs when content name contains quote
   (Manually merged from trunk (4.1.0alpha1) rev. 22221)
+- Fixed bug #13489: subTreeByNodeID - missing depthOperator -> generate slow mysql query
+  (Merged from trunk (4.1.0alpha1) rev. 22225)
+- Fixed bug #13144: Author could modify pending versions.
+  (Merged from trunk (4.1.0alpha1) rev. 22232)
+- Fixed bug #13219: Empty passwords were possible with legacy users using PASSWORD_HASH_MYSQL
+  (Merged from trunk (4.1.0alpha1) rev. 22237)
+- Fixed bug #12436: Insufficient form handling made privilege escalation possible.
+  (Merged from trunk (4.1.0alpha1) rev. 22241)
+- Fixed bug #12438: Crash in LDAP login process could lead to privilege escalation.
+  (Merged from trunk (4.1.0alpha1) rev. 22245)
+- Fixed bug #11924: updatetypedrelation.php is not compatible with oracle
+  (Merged from trunk (4.1.0alpha1) rev. 22250)

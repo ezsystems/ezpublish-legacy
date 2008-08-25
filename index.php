@@ -33,6 +33,14 @@ if ( version_compare( phpversion(), '5.1' ) < 0 )
     exit;
 }
 
+// Set a default time zone if none is given to avoid "It is not safe to rely 
+// on the system's timezone settings" warnings. The time zone can be overriden
+// in config.php or php.ini.
+if ( !ini_get( "date.timezone" ) )
+{
+    date_default_timezone_set( "UTC" );
+}
+
 require 'autoload.php';
 
 ignore_user_abort( true );
@@ -414,6 +422,11 @@ if ( !$useCronjob )
     $GLOBALS['eZSessionFunctions']['empty_pre'][] = 'eZSessionBasketEmpty';
 }
 
+// Initialize module loading
+////include_once( "lib/ezutils/classes/ezmodule.php" );
+$moduleRepositories = eZModule::activeModuleRepositories();
+eZModule::setGlobalPathList( $moduleRepositories );
+
 $check = eZHandlePreChecks( $siteBasics, $uri );
 
 require_once( 'kernel/common/i18n.php' );
@@ -496,12 +509,6 @@ foreach ( $policyCheckOmitList as $omitItem )
     }
 }
 
-// Initialize module loading
-////include_once( "lib/ezutils/classes/ezmodule.php" );
-$moduleRepositories = eZModule::activeModuleRepositories();
-eZModule::setGlobalPathList( $moduleRepositories );
-
-////include_once( 'kernel/classes/eznavigationpart.php' );
 
 // Start the module loop
 while ( $moduleRunRequired )

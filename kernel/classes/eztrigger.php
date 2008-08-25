@@ -377,7 +377,7 @@ class eZTrigger extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function removeTriggerForWorkflow( $workFlowID )
+    static function removeTriggerForWorkflow( $workFlowID )
     {
         $db = eZDB::instance();
         $workFlowID = (int)$workFlowID;

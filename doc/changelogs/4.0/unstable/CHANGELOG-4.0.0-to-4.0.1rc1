@@ -1,0 +1,481 @@
+Changes from 4.0.0 to 4.0.1rc1
+
+*Kernel:
+- Implemented enhancement #8648: updatesearchindex.php unnecessary reindexes each node - not each object
+  (Merged from trunk (4.1.0alpha1) rev. 21299)
+- Implemented enhancement #11896: sql optimization in ezontentObjectTreeNode::fetch()
+  (Merged from trunk (4.1.0alpha1) rev. 21415)
+- Implemented enhancement #11897: fetch content list - mysql query - optimization
+  (Merged from trunk (4.1.0alpha1) rev. 21432, 21446)
+- Implemented enhancement #12656: Add parameter for type casting to eZDBInterface::generateSQLINStatement()
+  (Merged from trunk (4.1.0alpha1) rev. 21441, 21443)
+- Implemented enhancement #12757: Make eZSimplifiedXMLInput::updateUrlObjectLinks() static
+  (Merged from trunk (4.1.0alpha1) rev. 21594)
+- Implemented enhancement: Show source of extension siteaccess settings in settings/view
+  See issue: #12519: settings/view for extension siteaccesses doesn't work + Placement for array starts every time with 'default'
+  (Merged from trunk (4.1.0alpha1) rev. 21650)
+- Implemented enhancement #12824: Mention template file and line number for "Missing/malformed array to iterate through." errors
+  (Merged from trunk (4.1.0alpha1) rev. 21703)
+- Implemented enhancement #12212: Setup wizard doesn't confirm existence of DOMDocument
+  (Merged from trunk (4.1.0alpha1) rev. 21741)
+
+*Design:
+
+*eZTemplate:
+- Implemented enhancement #12867: Make template language use __toString magic method for objects
+  (Merged from trunk (4.1.0alpha1) rev. 21751)
+
+*Package system:
+
+*Scripts:
+- Implemented enhancement #12242: Add "strict" to scripts --debug option
+  (Merged from trunk (4.1.0alpha1) rev. 21045)
+
+*Translations:
+
+*Bugfixes:
+- Fixed bug #12036: Problems with image/imagefile operators
+- Fixed bug #12176: eZCodePage::setPermissionSetting strict warning
+  (Merged from trunk (4.1.0alpha1) rev. 21011)
+- Fixed bug #12178: Strict Non-static method warnings in eZInformationCollection
+  (Merged from trunk (4.1.0alpha1) rev. 21012)
+- Fixed bug #12228: site.ini [DebugSettings] AlwaysLog[] does not have strict debug type
+  (Merged from trunk (4.1.0alpha1) rev. 21013)
+- Fixed bug #12204: Many Strict warnings when using ezscript
+  (Merged from trunk (4.1.0alpha1) rev. 21019)
+- Fixed bug #12157: eZWaitUntilDateType: Strict standards: Only variables should be assigned by reference
+  (Merged from trunk (4.1.0alpha1) rev. 21021)
+- Fixed bug #8569: bad html from ezdebug.php
+  (Merged from trunk (4.1.0alpha1) rev. 21023)
+- Fixed bug #12167: Only variables should be assigned by reference in kernel/classes/packagecreators/ezextension/ezextensionpackagecreator.php
+  (Merged from trunk (4.1.0alpha1) rev. 21025)
+- Fixed bug #12209: updateniceurls.php: wrong fetch limit is displayed
+  (Merged from trunk (4.1.0alpha1) rev. 21027)
+- Fixed bug #9691: Undefined index: wildIDArray
+  (Merged from trunk (4.1.0alpha1) rev. 21032)
+- Fixed bug #9931: IE7 unable to receive node to pdf
+  (Merged from stable/3.10 (3.10.1) rev. 21041)
+- Fixed bug #12116: The system shows unneeded (non-existing) spaces in the global aliases interface
+  (Merged from trunk (4.1.0alpha1) rev. 21010)
+- Fixed bug #11854: warning in ezdebug.php - Undefined variable: relMemory
+  (Merged from trunk (4.1.0alpha1) rev. 21050)
+- Fixed bug #12136: Trailing comma's in "Insufficient permissions" debug output
+  (Merged from trunk (4.1.0alpha1) rev. 21054)
+- Fixed bug #12101: eZDBPackageHandler E_STRICT warnings
+  (Merged from trunk (4.1.0alpha1) rev. 21058)
+- Fixed bug #12199: Declaration of eZImageTextLayer::mergeLayer() incompatible with eZImageLayer::mergeLayer()
+  (Merged from trunk (4.1.0alpha1) rev. 21060)
+- Fixed bug #11861: treemenu always throw notice
+  (Merged from trunk (4.1.0alpha1) rev. 21062)
+- Fixed bug: strict warning about eZPackageHandler::errorChoosenAction
+  (Merged from trunk (4.1.0alpha1) rev. 21077)
+- Fixed bug #10507: eZINI::variableArray() destroys array keys
+  (Merged from trunk (4.1.0alpha1) rev. 21079)
+- Fixed bug #12271: eZINI::variableArray() does return array with one empty string
+  (Merged from trunk (4.1.0alpha1) rev. 21079)
+- Fixed bug: unnecessary passing by reference in eZCollaborationItemHandler and subclasses
+  (Merged from trunk (4.1.0alpha1) rev. 21085)
+- Fixed bug #12301: Strict standards: Non-static method eZUser::failedLoginAttempts() should not be called statically
+  (Merged from trunk (4.1.0alpha1) rev. 21088)
+- Fixed bug #12283: Non-static method eZContentObjectTreeNode::findMainNodeArray()
+  (Merged from trunk (4.1.0alpha1) rev. 21090)
+- Fixed bug #8969: Char transform cache file is not valid PHP
+  (Merged from trunk (4.1.0alpha1) rev. 21092)
+- Fixed bug #12308: Strict warnings about non-static methods eZMath::rgbToCMYK() and eZMath::rgbToCMYK2()
+  (Merged from trunk (4.1.0alpha1) rev. 21097)
+- Fixed bug #11898: attribute_view_gui override condition does not work
+  (Merged from trunk (4.1.0alpha1) rev. 21100)
+- Fixed bug #11976: Error: error executing query: UPDATE ezorder_status
+  (Merged from trunk (4.1.0alpha1) rev. 21104)
+- Fixed bug #12170: Importing existing content objects with ezpm.php
+  causes additional nodes with same remote id.
+  (Merged from trunk (4.1.0alpha1) rev. 21094)
+- Fixed bug #11160: Javascript error caused by non washed string in the template. (Discard draft)
+  (Merged from trunk (4.1.0alpha1) rev. 21109)
+- Fixed bug #12343: Calling a SOAP function doesn't work
+- Fixed bug #12366: password hash type not imported correctly from content object package
+  (Merged from trunk (4.1.0alpha1) rev. 21118)
+- Fixed bug #12304: Wrong message in user/setting view for locked users
+  (Merged from trunk (4.1.0alpha1) rev. 21123)
+- Fixed bug #12381: $key in "Accumulator $key does not exists, run eZDebug::accumulatorStart first" debug message
+  (Merged from trunk (4.1.0alpha1) rev. 21129, 21130)
+- Fixed bug #12371: Error message during upgade to Webin 1.3
+  (Merged from trunk (4.1.0alpha1) rev. 21134)
+- Fixed bug #12225: PDF text_block does not display the plus symbol
+  (Merged from trunk (4.1.0alpha1) rev. 21137)
+- Fixed bug #12307: Special characters in pdf text_block operator are not handled correctly
+    and bug #10952: Problem with PDF and UTF8 in tables
+  (Merged from trunk (4.1.0alpha1) rev. 21143, 21144)
+- Fixed bug #12380: Nested p elements in setup/init/final.tpl
+  (Merged from trunk (4.1.0alpha1) rev. 21146)
+- Fixed bug #11666: Typo in ezorder.php
+  (Merged from trunk (4.1.0alpha1) rev. 21150)
+- Fixed bug #12387: PHP object is not copied correct in ezhttpheader.php
+  (Merged from trunk (4.1.0alpha1) rev. 21154)
+- Fixed bug #11744: Dynamic tree menu not displaying, javascript error in content_structure_menu_dynamic.tpl
+  (Merged from trunk (4.1.0alpha1) rev. 21159)
+- Fixed bug #12321: Error with sending an email with smtp
+  (Merged from trunk (4.1.0alpha1) rev. 21162)
+- Fixed bug #10691: Empty user agent string in HTTP requests by link check cronjob
+  (Merged from trunk (4.1.0alpha1) rev. 21164)
+- Fixed bug #11970: Query error: Out of range value adjusted for column 'lang_mask' at row 1. Fixed for mysqli interfase.
+  (Merged from trunk (4.1.0alpha1) rev. 21168)
+- Fixed bug #12386: XML Handling of ImageAlias not correct
+  (Merged from trunk (4.1.0alpha1) rev. 21172)
+- Fixed bug #12407: Output templates from RAD need update
+  (Merged from trunk (4.1.0alpha1) rev. 21174)
+- Fixed bug #12398: ezpublish 3 still mentioned in a few places
+  (Merged from trunk (4.1.0alpha1) rev. 21180)
+- Fixed bug #12267: eZSoapClient unable to use SSL with different port than 443
+  (Merged from trunk (4.1.0alpha1) rev. 21183)
+- Fixed bug #12416: Non-static methods called by tip a friend function
+  (Merged from trunk (4.1.0alpha1) rev. 21187)
+- Fixed bug #12414: flatten.php : db-host not defined
+  (Merged from trunk (4.1.0alpha1) rev. 21189)
+- Fixed bug #10574: User parameters are not passed when redirecting from an old url alias
+  (Merged from trunk (4.1.0alpha1) rev. 21193)
+- Fixed bug #12272: Add locations allows non containers if thumbnail mode is selected
+  (Merged from trunk (4.1.0alpha1) rev. 21197)
+- Fixed bug #12305: User object's view cache not cleared after exceeded failed login attempts
+  (Merged from trunk (4.1.0alpha1) rev. 21201)
+- Fixed bug #9843: Unused line in user locking code
+  (Merged from trunk (4.1.0alpha1) rev. 21210)
+- Fixed bug #12278: The default admin sitemap template generates huge overhead
+  (Merged from trunk (4.1.0alpha1) rev. 21083, 21209)
+- Fixed bug #11115: ezmultiprice.tpl - paragraph tag too much
+  (Merged from trunk (4.1.0alpha1) rev. 21219)
+- Fixed bug #12440: updatetipafriendpolicy.php: when logging in with wrong user account, bad message
+  (Merged from trunk (4.1.0alpha1) rev. 21223)
+- Fixed bug #11383: soap client sends bogus user-agent when in ssl mode
+  (Merged from trunk (4.1.0alpha1) rev. 21227)
+- Fixed bug #11559: php warning: Non-static method eZTemplateCacheBlock::getSubtreeModification() should not be called statically
+  (Merged from trunk (4.1.0alpha1) rev. 21231)
+- Fixed bug #11856: ezsoapresponse::decodeDataTypes not declared as static
+  (Merged from trunk (4.1.0alpha1) rev. 21233)
+- Fixed bug #11955: updatevatcountries.php does not work
+  (Merged from trunk (4.1.0alpha1) rev. 21237)
+- Fixed bug #12074: eZContentObjectTreeNode::calendar() should be static
+  (Merged from trunk (4.1.0alpha1) rev. 21239)
+- Fixed bug #12443: eZRedirectManager methods still take $module by reference
+  (Merged from trunk (4.1.0alpha1) rev. 21241)
+- Fixed bug #12039: Warning in template ( compile test ) checkoutagain.tpl
+  (Merged from trunk (4.1.0alpha1) rev. 21243)
+- Fixed bug #10660: Template operator "ends_with" doesn't work when the pattern appears several times in the string
+  (Merged from trunk (4.1.0alpha1) rev. 21247)
+- Fixed bug #12143: Missing washes for enum datatype content edit template
+  (Merged from trunk (4.1.0alpha1) rev. 21251)
+- Fixed bug #12270: Missing 'static' in eZContentCacheManager
+  (Merged from trunk (4.1.0alpha1) rev. 21255)
+- Fixed bug #12197: Error in pdf export page
+  (Merged from trunk (4.1.0alpha1) rev. 21257)
+- Fixed bug #12334: Non-static method eZMedia::removeByID()
+  (Merged from trunk (4.1.0alpha1) rev. 21261)
+- Fixed bug #12428: strtolower() in eZSearchLog::addPhrase gives error for special char for e.g. ÅØÆ
+  (Merged from trunk (4.1.0alpha1) rev. 21263)
+- Fixed bug #11804: Error in integer validation for collected values
+  (Merged from trunk (4.1.0alpha1) rev. 21267)
+- Fixed bug #12175: cache-block subtree_expiry never expires
+  (Merged from trunk (4.1.0alpha1) rev. 21272, 21838, 21868)
+- Fixed bug #12452: Error with \kernel\classes\datatypes\ezenum\ezenumtype.php
+  (Merged from trunk (4.1.0alpha1) rev. 21276)
+- Fixed bug #12189: eZSearchLog::addPhrase transaction error
+  (Merged from trunk (4.1.0alpha1) rev. 21278)
+- Fixed bug #12457: ISBN-13 format checkbox is not there when ranges are imported
+  (Merged from trunk (4.1.0alpha1) rev. 21282)
+- Fixed bug #12098: Class eZISBN10To13Converter is defined in a CLI script
+  (Merged from trunk (4.1.0alpha1) rev. 21285)
+- Fixed bug #12441: Wrong name of "list" fetch function in "kernel/content/function_definition.php"
+  (Merged from trunk (4.1.0alpha1) rev. 21289)
+- Fixed bug #12023: Delimiter is never executed when using nested loops and template compilation is enabled
+  (Merged from trunk (4.1.0alpha1) rev. 21294, 21970)
+- Fixed bug #8688: updatesearchindex.php does not (re)index top nodes
+  (Merged from trunk (4.1.0alpha1) rev. 21299)
+- Fixed bug #12464: PHP Warning: DOMDocument::loadXML(): Empty string supplied as input
+  (Merged from trunk (4.1.0alpha1) rev. 21303)
+- Fixed bug #12465: PHP Warning: Undefined index: Limitation
+  (Merged from trunk (4.1.0alpha1) rev. 21305)
+- Fixed bug #12233: bin/php/ezcsvexport.php: various issues
+  (Merged from trunk (4.1.0alpha1) rev. 21309)
+- Fixed bug #11823: Wish list not removed when user is removed
+  (Merged from trunk (4.1.0alpha1) rev. 21313)
+- Fixed bug #12149: Strict warnings on content object package export
+  (Merged from trunk (4.1.0alpha1) rev. 21077, 21274)
+- Fixed bug #12474: PHP Warning: Undefined variable: srcPath
+  (Merged from trunk (4.1.0alpha1) rev. 21320)
+- Fixed bug #12475: updatebinaryfile.php does not work in db clustering mode
+  (Merged from trunk (4.1.0alpha1) rev. 21324)
+- Fixed bug #12453: hardcoded error message "The maximum nesting level of 40 has..."
+  (Merged from trunk (4.1.0alpha1) rev. 21326)
+- Fixed bug #7539: Extension action parameter issue
+  (Merged from trunk (4.1.0alpha1) rev. 21330)
+- Fixed bug #7645: "206 Partial content" not working in ezfilepasstroughhandler.php
+  (Merged from trunk (4.1.0alpha1) rev. 21334)
+- Fixed bug #12310: lib/ezimage/classes/ezimageshellhandler.php contains 2 PHP classes
+  (Merged from trunk (4.1.0alpha1) rev. 21338)
+- Fixed bug #12492: reference warning in access.php if SiteAccessRules group is used
+  (Merged from trunk (4.1.0alpha1) rev. 21342)
+- Fixed bug #12502: autoload for ezimageshellfactory doesn't work
+  (Merged from trunk (4.1.0alpha1) rev. 21348)
+- Fixed bug #12512: Only variables should be assigned by reference in kernel/classes/collaborationhandlers/ezapprove/ezapprovecollaborationhandler.php on line 258
+  (Merged from trunk (4.1.0alpha1) rev. 21352)
+- Fixed bug #12495: array_merge warning when using alphabetical navigator template
+  (Merged from trunk (4.1.0alpha1) rev. 21354)
+- Fixed bug #12509: PHP strict warning: Non-static method eZUser::isUserObject() should not be called statically
+  (Merged from trunk (4.1.0alpha1) rev. 21369)
+- Fixed bug #12534: eZWizardBaseClassLoader not adapted for PHP 5
+  (Merged from trunk (4.1.0alpha1) rev. 21374)
+- Fixed bug #12518: Problem with LastPostVars for edit redirection after login
+  (Merged from trunk (4.1.0alpha1) rev. 21378)
+- Fixed bug #11205: Node gets deleted, matching ezview_counter row doesn't
+  (Merged from trunk (4.1.0alpha1) rev. 21380)
+- Fixed bug #12535: typo "enconding" in ezsoaprequest
+  (Merged from trunk (4.1.0alpha1) rev. 21385)
+- Fixed bug #8834: Problems with WEBDAV if $_SERVER["SCRIPT_URL"] does not exist
+- Fixed bug #12123: eZLDAPUser::loginUser has hardcoded UserGroupClassID in sql
+  (Merged from trunk (4.1.0alpha1) rev. 21408)
+- Fixed bug #12320: bug in staticcache_cleanup.php makes it run forever (by AR)
+- Fixed bug #12640: depth_operator does not work properly when fetching tree counts
+  (Merged from trunk (4.1.0alpha1) rev. 21422)
+- Fixed bug #11631: Collaboration system: status of subsequent pending versions incorrectly set to "draft"
+  (Merged from trunk (4.1.0alpha1) rev. 21434)
+- Fixed bug #12234: ezcontent_language missing index on name field
+  (Merged from trunk (4.1.0alpha1) rev. 21449)
+- Fixed bug #12654: Non-static method eZContentObjectTreeNode::subTreeGroupByDateField() should not be called statically
+  (Merged from trunk (4.1.0alpha1) rev. 21454)
+- Fixed bug #12664: Strict PHP warning when using maketime template operator without parameters
+  (Merged from trunk (4.1.0alpha1) rev. 21456)
+- Fixed bug #12633: Typing error in EZPublish kernel classes
+  (Merged from trunk (4.1.0alpha1) rev. 21458)
+- Fixed bug #12611: $db->subString() used in several places where 'like' would be significant faster
+  (Merged from trunk (4.1.0alpha1) rev. 21460)
+- Fixed bug #12537: content move - slow mysql query
+  (Merged from trunk (4.1.0alpha1) rev. 21464)
+- Fixed bug #12683: Package export: name, summary and description no longer auto-generated
+  (Merged from trunk (4.1.0alpha1) rev. 21468)
+- Fixed bug #12687: missing index table ezcontentobject
+  (Merged from trunk (4.1.0alpha1) rev. 21473, 21477)
+- Fixed bug #9542: ezcontentobject missing DB index on remote_id field
+  (Merged from trunk (4.1.0alpha1) rev. 21481)
+- Fixed bug #12688: Function call_user_method_array() is deprecated
+  (Merged from trunk (4.1.0alpha1) rev. 21485)
+- Fixed bug #12690: PHP warning about undefined variable: port when running bin/php/ezsqldumpschema.php
+  (Merged from trunk (4.1.0alpha1) rev. 21488)
+- Fixed bug #7904: Use of UseFullUrl in layout.ini breaks mailto: links
+  (Merged from trunk (4.1.0alpha1) rev. 21490)
+- Fixed bug #9133: eZ debug in popup doesnt work in subdirs
+  (Merged from trunk (4.1.0alpha1) rev. 21494)
+- Fixed bug #9094: "medium" sized images are shown as "large"
+  (Merged from trunk (4.1.0alpha1) rev. 21498)
+- Fixed bug #9054: Edit icons in "List of used templates" in debug are broken.
+  (Merged from trunk (4.1.0alpha1) rev. 21502)
+- Fixed bug #12375: Concurrency issues in images generation in a cluster environnement
+  (Merged from trunk (4.1.0alpha1) rev. 21504)
+- Fixed bug #9129: Selection datatype
+  (Merged from trunk (4.1.0alpha1) rev. 21511)
+- Fixed bug #12373: Trying to call method on not defined object $workflowType.
+  (Merged from trunk (4.1.0alpha1) rev. 21517)
+- Fixed bug #12172: Errors when tying to open trash
+  (Merged from trunk (4.1.0alpha1) rev. 21003)
+- Fixed bug #12711: $Module->ViewParameters contains a key 'Limitation' coming from the policy system
+  (Merged from trunk (4.1.0alpha1) rev. 21522)
+- Fixed bug #12006: cronjobs/indexcontent.php could fail with oracle
+  (Merged from trunk (4.1.0alpha1) rev. 21526, 21527)
+- Fixed bug #12657: ezontentObjectTreeNode::fetch does not use db independant IN query
+  (Merged from trunk (4.1.0alpha1) rev. 21531)
+- Fixed bug #12674: ezontentObjectTreeNode::move does not use db independant IN query
+  (Merged from trunk (4.1.0alpha1) rev. 21535)
+- Fixed bug #12222: Unreadable color for hyperlinks on finetune page
+  (Merged from trunk (4.1.0alpha1) rev. 21538)
+- Fixed bug #10601: Alphabetical Navigator is in wrong place
+  (Merged from trunk (4.1.0alpha1) rev. 21542)
+- Fixed bug #9330: Subtree limited role assignment doesn't change after moving node
+  (Merged from trunk (4.1.0alpha1) rev. 21546)
+- Fixed bug #12713: strict php warning - shop
+  (Merged from trunk (4.1.0alpha1) rev. 21550)
+- Fixed bug #11914: php warning when override template doesn't exist
+  (Merged from trunk (4.1.0alpha1) rev. 21553)
+- Fixed bug #11606: php crash if an inexisting login handler class is specified in ini files
+  (Merged from trunk (4.1.0alpha1) rev. 21557)
+- Fixed bug #12717: Non-static method eZImageInterface::cleanupRegisteredImages() should not be called statically
+  (Merged from trunk (4.1.0alpha1) rev. 21561)
+- Fixed bug #12715: template: list element has no classification
+  (Merged from trunk (4.1.0alpha1) rev. 21563)
+- Fixed bug #10139: ezstaticcache:removeURL cannot remove URL
+  (Merged from trunk (4.1.0alpha1) rev. 21571)
+- Fixed bug #12476 Unstable in cluster environmnet
+  Merged from trunk (4.1.0alpha1) rev.  21576)
+- Fixed bug #12750: Certain variables are not replaced in simplified xml input parser errors
+  (Merged from trunk (4.1.0alpha1) rev. 21587)
+- Fixed bug #11446: eZContentCacheManager::clearObjectViewCache not protected against custom calls
+  (Merged from trunk (4.1.0alpha1) rev. 21590)
+- Fixed bug #12758: eZFileHandler::instance() called by reference in eZCache
+  (Merged from trunk (4.1.0alpha1) rev. 21596)
+- Fixed bug #9122: Empty TO mail header part violates RFC when running notifications
+  (Merged from trunk (4.1.0alpha1) rev. 21598)
+- Fixed bug #12597: Infinitive loop / Segment fault caused by smart viewcache settings
+  (Merged from trunk (4.1.0alpha1) rev. 21602, 21608)
+- Fixed bug #10496: Missing i18n for the admin content structure tooltip in
+  (Merged from trunk (4.1.0alpha1) rev. 21614)
+- Fixed bug #12672: Package creation adds extra whitespace to XML
+  (Merged from trunk (4.1.0alpha1) rev. 21618)
+- Fixed bug #9126: Static cache uses old cache to create new cache on publishing.
+  See doc/features/4.0/static_cache_user_agent.txt
+  (Merged from trunk (4.1.0alpha1) rev. 21620)
+- Fixed bug #11109: Object relations datatype - content class export and import issues
+  (Merged from trunk (4.1.0alpha1) rev. 21625)
+- Fixed bug #12754: eZRSSExport: Wrong conversion of Norwegian characters in URL
+  (Merged from trunk (4.1.0alpha1) rev. 21629)
+- Fixed bug #12162: HostMatchMapItems is not set correctly after installation
+  (Merged from trunk (4.1.0alpha1) rev. 21631)
+- Fixed bug #12442: Fatal error: Call to undefined function: ezi18n in ezselectiontype.php
+  (Merged from trunk (4.1.0alpha1) rev. 21633)
+- Fixed bug #8974: setYear(), setMonth() and setDay() methods in ezdate sets wrong member variable
+  (Merged from trunk (4.1.0alpha1) rev. 21638)
+- Fixed bug #11842: runcronjop.php didn't find siteacceses in extension
+  (Merged from trunk (4.1.0alpha1) rev. 21642)
+- Fixed bug #11841: admin: settings/view display wrong data if siteaccess located in an extension
+  (Merged from trunk (4.1.0alpha1) rev. 21646)
+- Fixed bug #12489: eZDOMNode#textContent() doesnt return CDATA
+  (Merged from trunk (4.1.0alpha1) rev. 21654)
+- Fixed bug #11667: Empty window when upload new related object
+  (Merged from trunk (4.1.0alpha1) rev. 21660)
+- Fixed bug #12605: Custom error action for kernel errors don't work anymore with eZ 4.0
+  (Merged from trunk (4.1.0alpha1) rev. 21660)
+- Fixed bug #12076: eZPersistentObject tries to set increment key when 'increment_key' => false
+  (Merged from trunk (4.1.0alpha1) rev. 21662)
+- Fixed bug #12564: ez4.0 stable trunk Call to undefined memory_get_peak_usage() with php 5.1
+  (Merged from trunk (4.1.0alpha1) rev. 21666)
+- Fixed bug #11002: Timezone setting ignored in runcronjobs.php
+  (Merged from trunk (4.1.0alpha1) rev. 21668)
+- Fixed bug #12415: eZContentObjectVersion::removeVersions does not work when using flatten.php
+  (Merged from trunk (4.1.0alpha1) rev. 21673)
+- Fixed bug #12784: PathPrefix setting should NOT be case sensitive
+  (Merged from trunk (4.1.0alpha1) rev. 21681)
+- Fixed bug #12802: Strict:PHP Only variables should be assigned by reference in ezworkflowprocess.php on line 255
+  (Merged from trunk (4.1.0alpha1) rev. 21684)
+- Fixed bug #10096: PHP errors when fetch_alias is not definied
+  (Merged from trunk (4.1.0alpha1) rev. 21686)
+- Fixed bug #12525: Strict: Non-static method eZWebDAVServer::appendLogEntry() should not be called statically
+  (Merged from trunk (4.1.0alpha1) rev. 21690)
+- Fixed bug #12741: eztemplatecompiler.php // Missing argument // line 3036
+  (Merged from trunk (4.1.0alpha1) rev. 21692)
+- Fixed bug #12820: Unnecessary code in eZContentClassClassGroup::fetchClassList
+  (Merged from trunk (4.1.0alpha1) rev. 21696)
+- Fixed bug #11567: It is possible to create "common ini settings" in content branch
+  (Merged from trunk (4.1.0alpha1) rev. 21700)
+- Fixed bug #12606: costant MAX_AGE defined twice
+  (Merged from trunk (4.1.0alpha1) rev. 21707)
+- Fixed bug #12732: Use of undefined constant STDERR in ezdbinterface.php
+  (Merged from trunk (4.1.0alpha1) rev. 21710)
+- Fixed bug #12828: It's impossible to copy a node
+  (Merged from trunk (4.1.0alpha1) rev. 21714)
+- Fixed bug #12716: invalid XHTML
+  (Merged from trunk (4.1.0alpha1) rev. 21719)
+- Fixed bug #8388: Cache for content/read limitation list isn't cleared after switching users
+  (Merged from trunk (4.1.0alpha1) rev. 21723)
+- Fixed bug #12847: count() on DOMNodeList instance in ezsoapserver.php
+  (Merged from trunk (4.1.0alpha1) rev. 21727, 21729)
+- Fixed bug #12849: empty() check on DOMDocument instance in ezsoapserver.php
+  (Merged from trunk (4.1.0alpha1) rev. 21731)
+- Fixed bug #12429: Login restricted to a site access doesn't work
+  (Merged from trunk (4.1.0alpha1) rev. 21733)
+- Fixed bug #11871: Class identifier cache not cleared when view caching and template cache are disabled
+  (Merged from trunk (4.1.0alpha1) rev. 21736, 21737)
+- Fixed bug #12531: updateniceurls.php does not import all wildcard urls
+  (Merged from stable/3.10 (3.10.1) rev. 21744)
+- Fixed bug #12830: PHP Warning: array_key_exists ... The second argument should be either an array or an object in /lib/ezutils/classes/ezmodule.php on line 1116
+  (Merged from trunk (4.1.0alpha1) rev. 21743)
+- Fixed bug #11084: $node|attribute(show) throws catchable fatal error
+  (Merged from trunk (4.1.0alpha1) rev. 21749)
+- Fixed bug #10243: Second event not seen in workflow with PostgreSQL
+  (Merged from trunk (4.1.0alpha1) rev. 21753)
+- Fixed bug #12869: php warning: Only variables should be assigned by reference in /var/www/mood.fr/ez/kernel/classes/workflowtypes/event/ezapprove/ezapprovetype.php on line 278
+  (Merged from trunk (4.1.0alpha1) rev. 21753)
+- Fixed bug #12871: eZUser::fetchUserGroupClassNames() and eZUser::fetchUserClassList() are static but not defined as static
+  (Merged from trunk (4.1.0alpha1) rev. 21759)
+- Fixed bug #10497: Fatal error when edit workflow with "Event / Wait until date" with length of Description more than 50 chars.
+  (Merged from trunk (4.1.0alpha1) rev. 21761)
+- Fixed bug #12892: Fatal error: Call to a member function attribute() on a non-object in ezorder.php
+  (Merged from trunk (4.1.0alpha1) rev. 21770)
+- Fixed bug #12896: Price datatype fromString takes VAT id as flag wether VAT is included in the price or not
+  (Merged from trunk (4.1.0alpha1) rev. 21775)
+- Fixed bug #12902: eZForgotPassword::createNew strict warning
+  (Merged from trunk (4.1.0alpha1) rev. 21779)
+- Fixed bug #12817: PHP warning DOMNode::appendChild() expects parameter 1 to be DOMNode, boolean given
+  (Merged from trunk (4.1.0alpha1) rev. 21782)
+- Fixed bug #12609: Collaboration notification: last item is repeated if multiple
+  (Merged from trunk (4.1.0alpha1) rev. 21784)
+- Fixed bug #10060: memory limit set to 42Mb in index.php but 64Mb required?
+  (Merged from trunk (4.1.0alpha1) rev. 21786)
+- Fixed bug #12913: Memory limit check in setup wizard currently uses 12M
+  (Merged from trunk (4.1.0alpha1) rev. 21788)
+- Fixed bug #12914: HTML Error: there is no attribute "disabled"
+  (Merged from trunk (4.1.0alpha1) rev. 21793)
+- Fixed bug #12362: Fatal error DOM
+  (Merged from trunk (4.1.0alpha1) rev. 21797)
+- Fixed bug #12919: error in ezcontentobject->parents()
+  (Merged from trunk (4.1.0alpha1) rev. 21799)
+- Fixed bug #12069: Fatal error when word longer than 150 characters
+  (Merged from trunk (4.1.0alpha1) rev. 21803)
+- Fixed bug #12927: "Remove" in js menu in admin interface delivers wrong object id
+  (Merged from trunk (4.1.0alpha1) rev. 21807)
+- Fixed bug #10616: Fixing Information-Collection Code
+  (Merged from trunk (4.1.0alpha1) rev. 21811)
+- Fixed bug #12931: eZPaymentObject's createNew(..) should be static
+  (Merged from trunk (4.1.0alpha1) rev. 21815)
+- Fixed bug #12938: Syntax error in ezimageinterface.php
+  (Merged from trunk (4.1.0alpha1) rev. 21817)
+- Fixed bug #12946: Static cache doesn't support url with capital letters
+- Fixed bug #12710: datatype ezimage:remove image works only the second time
+  (Merged from trunk (4.1.0alpha1) rev. 21824)
+- Fixed bug #12954: eZImageInterface::hasGD2 is static but not defined as static
+  (Merged from trunk (4.1.0alpha1) rev. 21826)
+- Fixed bug #12983: PHP Warning: DOMDocument::loadXML(): Empty string supplied as input in ezimagealiashandler
+  (Merged from trunk (4.1.0alpha1) rev. 21828)
+- Fixed bug #12990: Wrong API documentation for eZContentLanguage::sqlFilter()
+  (Merged from trunk (4.1.0alpha1) rev. 21832)
+- Fixed bug #13028: Typo in eZContentObject::removeNode()
+  (Merged from trunk (4.1.0alpha1) rev. 21843)
+- Fixed bug #13042: Section name not escaped in section/edit.tpl
+  (Merged from trunk (4.1.0alpha1) rev. 21845)
+- Fixed bug #12926: "Strict: PHP" error using feedback form
+  (Merged from trunk (4.1.0alpha1) rev. 21855)
+- Fixed bug #13055: eZURLAliasML::setLangMaskAlwaysAvailable() has incorrect bit-logic
+  (Merged from trunk (4.1.0alpha1) rev. 21857)
+- Fixed bug #12918: Non-static method eZURLAliasML::removeSingleEntry()
+  (Merged from trunk (4.1.0alpha1) rev. 21860)
+- Fixed bug #12785: Multilingual url aliases
+  (Merged from trunk (4.1.0alpha1) rev. 21862)
+- Fixed bug #13058: eZContentObjectTreenode - pathWithNames() should fallback to perma-links when lookup of path fails
+  (Merged from trunk (4.1.0alpha1) rev. 21865)
+- Fixed bug #12462: updateniceurls.php erroneous on equal node titles
+  (Merged from trunk (4.1.0alpha1) rev. 21872,21873)
+- Fixed bug #13064: eZContentObject::fetchIDArray uses $eZContentObjectContentObjectCache but doesn't globalize it
+  (Merged from trunk (4.1.0alpha1) rev. 21876)
+- Fixed bug #12493: Input lost when creating forum topic with missing attributes
+  (Merged from trunk (4.1.0alpha1) rev. 21901)
+- Fixed bug #11903: use of deprecated declaration of variable
+  (Merged from trunk (4.1.0alpha1) rev. 21906)
+- Fixed bug #13139: Publishing a node for which there is a custom url alias inadvertently mark the alias as not being original.
+  (Merged from trunk (4.1.0alpha1) rev. 21923)
+- Fixed bug #13140: eZURLAliasML::storePath() can cause incorrect url entries to be reparented
+  (Merged from trunk (4.1.0alpha1) rev. 21929)
+- Fixed bug #12843: Wrong warning when trying to add a global url alias which is already taken
+  (Merged from trunk (4.1.0alpha1) rev. 21937)
+- Fixed bug #13148: Importing url aliases whose action_type = 'module' will not become aliases (is_alias = 0)
+  (Merged from trunk (4.1.0alpha1) rev. 21939)
+- Fixed bug #11806: content/treemenu dosn't work in fastcgi mode
+  (Merged from trunk (4.1.0alpha1) rev. 21950)
+- Fixed bug #12811: Warning:PHP array_merge(): Argument #2 is not an array in ezobjectrelationlisttype.php on line 1518
+  (Merged from trunk (4.1.0alpha1) rev. 21953)
+- Fixed bug #13161: Relations in an attribute of the datatype ezobjectrelationlist are not imported
+  (Merged from trunk (4.1.0alpha1) rev. 21957)
+- Fixed bug #12842: updateviewcount.php uses path_identification_string instead of url_alias
+  (Merged from trunk (4.1.0alpha1) rev. 21959)
+- Fixed bug #13163: URLs upgraded from 3.9 and below which points to modules should not redirect=======
+  (Merged from trunk (4.1.0alpha1) rev. 21962)
+- Fixed bug #13121: Canceling a user signup produces a fatal error
+  (Merged from trunk (4.1.0alpha1) rev. 21974)
+- Fixed bug #12934: workflow/processlist - Add pagination.
+  (Merged from (3.9.5) rev. 21986)
+

@@ -1,0 +1,39 @@
+Changes from 4.0.1rc2 to 4.0.1
+
+*Kernel:
+
+*Design:
+
+*eZTemplate:
+
+*Package system:
+
+*Scripts:
+
+*Translations:
+
+*Bugfixes:
+- Fixed bug #13449: SmartCacheClear ClearCacheMethod "keyword" doesn't work
+  (Merged from trunk (4.1.0alpha1) rev. 22189)
+- Fixed bug #13309: eZmatrix datatype doesn't store text content properly when containing some special characters
+  (Merged from trunk (4.1.0alpha1) rev. 22199)
+- Fixed bug #13435: PHP Notice: Undefined property: eZAuthor::$Name in kernel\classes\datatypes\ezauthor\ezauthor.php on line 124
+  (Merged from trunk (4.1.0alpha1) rev. 22201)
+- Fixed bug #13056: Objectrelationlist datatype does not store filled in data when editing the objects in the list.
+  (Merged from trunk (4.1.0alpha1) rev. 22207)
+- Fixed bug #13415: user/register adding node assignment for DefaultUserPlacement outside database transaction
+  (Merged from trunk (4.1.0alpha1) rev. 22217)
+- Fixed bug #13491: Dynamic content structure menu hangs when content name contains quote
+  (Manually merged from trunk (4.1.0alpha1) rev. 22221)
+- Fixed bug #13489: subTreeByNodeID - missing depthOperator -> generate slow mysql query
+  (Merged from trunk (4.1.0alpha1) rev. 22225)
+- Fixed bug #13144: Author could modify pending versions.
+  (Merged from trunk (4.1.0alpha1) rev. 22232)
+- Fixed bug #13219: Empty passwords were possible with legacy users using PASSWORD_HASH_MYSQL
+  (Merged from trunk (4.1.0alpha1) rev. 22237)
+- Fixed bug #12436: Insufficient form handling made privilege escalation possible.
+  (Merged from trunk (4.1.0alpha1) rev. 22241)
+- Fixed bug #12438: Crash in LDAP login process could lead to privilege escalation.
+  (Merged from trunk (4.1.0alpha1) rev. 22245)
+- Fixed bug #11924: updatetypedrelation.php is not compatible with oracle
+  (Merged from trunk (4.1.0alpha1) rev. 22250)

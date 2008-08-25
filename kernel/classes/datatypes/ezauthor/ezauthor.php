@@ -221,6 +221,8 @@ class eZAuthor
 
     /// Contains the author counter value
     public $AuthorCount;
+
+    public $Name;
 }
 
 ?>
