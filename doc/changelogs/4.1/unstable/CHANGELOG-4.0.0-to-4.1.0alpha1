@@ -344,3 +344,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #10096: PHP errors when fetch_alias is not definied
 - Fixed bug #13316: Wrong debug message code in eZContentObject::copy()
 - Fixed bug #13441: small grammatical error in installation instructions
+- Fixed bug #11451: Few typo bugs in translation file 3.10.0rc1

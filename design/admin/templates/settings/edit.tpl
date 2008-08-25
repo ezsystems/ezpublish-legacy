@@ -29,7 +29,7 @@
         <p><strong>{'Setting: <new setting>'|i18n( 'design/admin/settings' )|wash}</strong></p>
     {/section}
     <p><strong>{'Siteaccess'|i18n( 'design/admin/settings' )}:</strong> {$current_siteaccess}</p>
-    <p>{'Values for each location setting are shown. The first values are lowest priority; the values toward the end have higher priority than the first ones.'|i18n( 'design/admin/settings' )|wash}</p>
+    <p>{'Values for each location setting are shown. The first values have lowest priority; the values toward the end have higher priority than the first ones.'|i18n( 'design/admin/settings' )|wash}</p>
     <p><strong>{'Tip'|i18n( 'design/admin/settings' )}:</strong>{'To create an empty array leave the first line empty'|i18n( 'design/admin/settings' )} </p>
     <div class="block">
         <div class="element">
