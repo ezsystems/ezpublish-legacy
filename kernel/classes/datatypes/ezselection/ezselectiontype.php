@@ -471,28 +471,6 @@ class eZSelectionType extends eZDataType
             $classAttribute->setAttribute( 'data_int1', 1 );
     }
 }
-    /*!
-     \reimp
-    */
-    function serializeContentObjectAttribute( $package, $objectAttribute )
-    {
-       $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
-       $idString = $objectAttribute->attribute( 'data_text' );
-
-       $idStringNode = $node->ownerDocument->createElement( 'idstring', $idString );
-       $node->appendChild( $idStringNode );
-       return $node;
-    }
-
-    /*!
-     \reimp
-    */
-    function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
-    {
-        $idStringNode = $attributeNode->getElementsByTagName( 'idstring' )->item( 0 );
-        $idString = $idStringNode ? $idStringNode->textContent : '';
-        $objectAttribute->setAttribute( 'data_text', $idString );
-    }
 
 eZDataType::register( eZSelectionType::DATA_TYPE_STRING, "eZSelectionType" );
 ?>
