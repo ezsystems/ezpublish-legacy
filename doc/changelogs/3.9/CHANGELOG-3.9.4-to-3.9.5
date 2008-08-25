@@ -111,7 +111,8 @@ Changes from 3.9.4 to 3.9.5
 - Fixed bug #11143: language selection in setup wizard doesn't work correctly with Firefox
 - Fixed bug #11630: error wile creating/updating objects with oracle db (in ezpersistentobject::store).
   (Merged from trunk (4.0.0beta1) rev. 20723)
-- Fixed bug #011924: updatetypedrelation.php is not compatible with oracle.
+- Fixed bug #11924: updatetypedrelation.php is not compatible with oracle.
+  (Merged from trunk (4.1.0alpha1) rev. 22250)
 - Fixed bug #11949: eZDebug HTML syntax error (has patch)
   (Merged from trunk (4.0.0beta1) rev. 20743)
 - Fixed bug #6291: changed variable in ezsmtptransport.php to support Helo
@@ -391,19 +392,33 @@ Changes from 3.9.4 to 3.9.5
 - Fixed bug #13064: eZContentObject::fetchIDArray uses $eZContentObjectContentObjectCache but doesn't globalize it
   (Merged from trunk (4.1.0alpha1) rev. 21876)
 - Fixed bug #12934: workflow/processlist - Add pagination
-- Fixed bug #9005: GLOB_BRACE with non GNU glibc.
-  (Merged from trunk (4.1.0alpha1) rev. 22035)
-- Fixed bug #12519: settings/view for extension siteaccesses doesn't work + Placement for array starts every time with 'default'.
-  (Merged from trunk (4.1.0alpha1) rev. 22045)
-- Fixed bug #12782: Invalid argument supplied for foreach() in ezmoduleoperationinfo.php.
-  (Merged from trunk (4.1.0alpha1) rev. 22055)
-- Fixed bug #13367: bin/modfix.sh doesn't affect the "autoload" directory.
-  (Merged from trunk (4.1.0alpha1) rev. 22126)
-- Fixed bug #13144: Author could modify pending versions.
-  (Manually merged from trunk (4.1.0alpha1) rev. 22232)
-- Fixed bug #13219: Empty passwords were possible with legacy users using PASSWORD_HASH_MYSQL
-  (Merged from trunk (4.1.0alpha1) rev. 22237)
+- Fixed bug #13224: ORL: handleCustomObjectHTTPActions loads whole database into memory
+  (Merged from trunk (4.1.0alpha1) rev. 22031)
+- Fixed bug #13297: Wrong Translation code in por-MZ locale.
+- Fixed bug #11799: Slave DB: a database transaction in eZ Publish failed
+  (Merged from release/3.10.1 (3.10.1rc2) rev. 22150)
+- Fixed bug #13384: Insert queries that contain "create temporary" in values are executed on MySQL slave
+  (Merged from release/3.10.1 (3.10.1rc2) rev. 22150)
+- Fixed bug #13380: DROP table for temporary tables created on a slave executed on master?
+  (Merged from release/3.10.1 (3.10.1rc2) rev. 22150)
+- Fixed bug #13411: Setting status of a new version is outside of the database transaction
+  (Merged from release/3.10.1 (3.10.1rc2) rev. 22150)
+- Fixed bug #12216: query error in eZContentObjectTreeNode::calendar
+  (Merged from trunk (4.1.0alpha1) rev. 22154)
+- Fixed bug #13434: Problem if xmlblock is required /empty and Add object in objectrelation(s) is clicked
+  (Merged from release/3.10.1 (3.10.1rc2) rev. 22160)
+- Fixed bug #12475: updatebinaryfile.php does not work in db clustering mode
+- Fixed bug #13451: updatebinaryfile.php fails on multiple content versions pointing to the same file
+- Fixed bug #13345: File content is fetched without spesifying the order
+- Fixed bug #13415: user/register adding node assignment for DefaultUserPlacement outside database transaction
+  (Merged from release/3.10.1 rev. 22219)
+- Fixed bug #13489: subTreeByNodeID - missing depthOperator -> generate slow mysql query
+  (Merged from release/3.10.1 rev. 22228)
 - Fixed bug #12436: Insufficient form handling made privilege escalation possible.
   (Merged from trunk (4.1.0alpha1) rev. 22241)
 - Fixed bug #12438: Crash in LDAP login process could lead to privilege escalation.
   (Manually merged from trunk (4.1.0alpha1) rev. 22245)
+- Fixed bug #13144: Author could modify pending versions.
+  (Manually merged from trunk (4.1.0alpha1) rev. 22232)
+- Fixed bug #13219: Empty passwords were possible with legacy users using PASSWORD_HASH_MYSQL
+  (Merged from trunk (4.1.0alpha1) rev. 22237)

@@ -388,7 +388,7 @@ class eZDBFileHandlerMysqlBackend
         }
 
         $fileID = $metaData['id'];
-        $sql = "SELECT filedata FROM " . TABLE_DATA . " WHERE masterid=$fileID";
+        $sql = "SELECT filedata FROM " . TABLE_DATA . " WHERE masterid=$fileID ORDER BY id";
         if ( !$res = mysql_query( $sql, $this->db ) )
         {
             eZDebug::writeError( $srcFilePath, "Failed to fetch file data." );
@@ -444,7 +444,7 @@ class eZDBFileHandlerMysqlBackend
         }
 
         $fileID = $metaData['id'];
-        $sql = "SELECT filedata FROM " . TABLE_DATA . " WHERE masterid=$fileID";
+        $sql = "SELECT filedata FROM " . TABLE_DATA . " WHERE masterid=$fileID ORDER BY id";
         if ( !$res = mysql_query( $sql, $this->db ) )
         {
             eZDebug::writeError( $srcFilePath, "Failed to fetch file data." );

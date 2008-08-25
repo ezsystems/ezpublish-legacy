@@ -66,6 +66,9 @@ define( 'EZ_DB_RELATION_MASK', ( EZ_DB_RELATION_TABLE_BIT |
 
 define( 'EZ_DB_ERROR_MISSING_EXTENSION', 1 );
 
+define( 'EZ_DB_SERVER_MASTER', 1 );
+define( 'EZ_DB_SERVER_SLAVE', 2 );
+
 class eZDBInterface
 {
     /*!
@@ -605,7 +608,7 @@ class eZDBInterface
 
       \param $sql SQL query to execute.
     */
-    function query( $sql )
+    function query( $sql, $server = false )
     {
     }
 
@@ -618,13 +621,14 @@ class eZDBInterface
              - offset - The offset of the query.
              - limit - The limit of the query.
              - column - Limit returned row arrays to only contain this column.
+      \param $server Which server to execute the query on, either EZ_DB_SERVER_MASTER or EZ_DB_SERVER_SLAVE
 
       An example would be:
       \code
       $db->arrayQuery( 'SELECT * FROM eztable', array( 'limit' => 10, 'offset' => 5 ) );
       \endcode
     */
-    function arrayQuery( $sql, $params = array() )
+    function arrayQuery( $sql, $params = array(), $server = false )
     {
     }
 
@@ -1076,7 +1080,7 @@ class eZDBInterface
      \pure
      \return existing ez publish tables in database
     */
-    function eZTableList()
+    function eZTableList( $server = EZ_DB_SERVER_MASTER )
     {
     }
 
@@ -1207,26 +1211,26 @@ class eZDBInterface
     /*!
       Create a new temporary table
     */
-    function createTempTable( $createTableQuery = '' )
+    function createTempTable( $createTableQuery = '', $server = EZ_DB_SERVER_SLAVE )
     {
-        $this->query( $createTableQuery );
+        $this->query( $createTableQuery, $server );
     }
 
     /*!
       Drop temporary table
     */
-    function dropTempTable( $dropTableQuery = '' )
+    function dropTempTable( $dropTableQuery = '', $server = EZ_DB_SERVER_SLAVE )
     {
-        $this->query( $dropTableQuery );
+        $this->query( $dropTableQuery, $server );
     }
 
     /*!
       Drop temporary table list
     */
-    function dropTempTableList( $tableList )
+    function dropTempTableList( $tableList, $server = EZ_DB_SERVER_SLAVE )
     {
         foreach( $tableList as $tableName )
-            $this->dropTempTable( "DROP TABLE $tableName" );
+            $this->dropTempTable( "DROP TABLE $tableName", $server );
     }
 
     /*!
@@ -1270,9 +1274,9 @@ class eZDBInterface
      If the pattern contains a (%) character then the character
      is replaced with a part providing uniqueness (e.g. random number).
     */
-    function generateUniqueTempTableName( $pattern, $randomizeIndex = false )
+    function generateUniqueTempTableName( $pattern, $randomizeIndex = false, $server = EZ_DB_SERVER_SLAVE )
     {
-        $tableList = array_keys( $this->eZTableList() );
+        $tableList = array_keys( $this->eZTableList( $server ) );
         if ( $randomizeIndex === false )
         {
             $randomizeIndex = rand( 10, 1000 );

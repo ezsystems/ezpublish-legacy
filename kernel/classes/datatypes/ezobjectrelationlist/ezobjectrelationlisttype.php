@@ -1076,20 +1076,23 @@ class eZObjectRelationListType extends eZDataType
         for ( $i = 0; $i < count( $content['relation_list'] ); ++$i )
         {
             $relationItem = $content['relation_list'][$i];
-            $subObjectID = $relationItem['contentobject_id'];
-            $subObjectVersion = $relationItem['contentobject_version'];
-
-            $attributeBase = $attributeDataBaseName . '_ezorl_edit_object_' . $subObjectID;
-            $object =& $content['temp'][$subObjectID]['object'];
-            if ( eZContentObject::recursionProtect( $subObjectID ) )
+            if ( $relationItem['is_modified'] )
             {
-                if ( !$object )
-                    $object =& eZContentObject::fetch( $subObjectID );
-                if ( $object )
-                    $object->handleAllCustomHTTPActions( $attributeBase,
-                                                         $customActionAttributeArray,
-                                                         $customActionParameters,
-                                                         $subObjectVersion );
+                $subObjectID = $relationItem['contentobject_id'];
+                $subObjectVersion = $relationItem['contentobject_version'];
+
+                $attributeBase = $attributeDataBaseName . '_ezorl_edit_object_' . $subObjectID;
+                $object =& $content['temp'][$subObjectID]['object'];
+                if ( eZContentObject::recursionProtect( $subObjectID ) )
+                {
+                    if ( !$object )
+                        $object =& eZContentObject::fetch( $subObjectID );
+                    if ( $object )
+                        $object->handleAllCustomHTTPActions( $attributeBase,
+                                                             $customActionAttributeArray,
+                                                             $customActionParameters,
+                                                             $subObjectVersion );
+                }
             }
         }
     }

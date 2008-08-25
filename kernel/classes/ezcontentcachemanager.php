@@ -560,7 +560,7 @@ class eZContentCacheManager
                             $smartClearType &= ~$handledObjectList[$objectID];
 
                             // if there are no cache types remaining, then skip
-                            if ( $smartClearType == EZ_VCSC_CLEAR_NO_CACHE )
+                            if ( $smartClearType == 0 )
                             {
                                 continue;
                             }
