@@ -157,6 +157,13 @@ class eZTemplateExecuteOperator
                     }
                 }
             }
+            else
+            {
+                $placement = eZTemplateNodeTool::extractFunctionNodePlacement( $node );
+                $tpl->warning( 'fetch_alias', "Fetch alias '$aliasFunctionName' is not defined in fetchalias.ini", $placement );
+                return array();
+            }
+
             $fetchParameters = array();
             if ( isset( $parameters[1] ) )
                 $fetchParameters = $parameters[1];
