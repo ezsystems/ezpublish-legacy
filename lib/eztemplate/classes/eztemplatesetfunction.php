@@ -232,6 +232,10 @@ class eZTemplateSetFunction
                 if ( $functionName == $this->LetName or $functionName == $this->DefaultName )
                 {
                     $childNodes = eZTemplateNodeTool::extractFunctionNodeChildren( $node );
+                    if ( !is_array( $childNodes ) )
+                    {
+                        $childNodes = array();
+                    }
                 }
                 else
                 {
