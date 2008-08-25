@@ -341,3 +341,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12436: Insufficient form handling made privilege escalation possible.
 - Fixed bug #12438: Crash in LDAP login process could lead to privilege escalation.
 - Fixed bug #13542: PHP warning array_merge(): Argument #2 is not an array in eztemplatesetfunction.php
+- Fixed bug #10096: PHP errors when fetch_alias is not definied
