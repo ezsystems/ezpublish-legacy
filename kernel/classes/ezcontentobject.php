@@ -1477,7 +1477,7 @@ class eZContentObject extends eZPersistentObject
             {
                 $parentMap = array();
                 $copiedNodeAssignmentList = $contentObjectVersion->attribute( 'node_assignments' );
-                foreach ( $copiedNodeAssignmentList as $$copiedNodeAssignment )
+                foreach ( $copiedNodeAssignmentList as $copiedNodeAssignment )
                 {
                     $parentMap[$copiedNodeAssignment->attribute( 'parent_node' )] = $copiedNodeAssignment;
                 }
