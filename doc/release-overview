@@ -931,3 +931,32 @@ Datatype branch:
 - Version url=http://svn.ez.no/svn/ezpublish/versions/4.0.1rc1
 - Date 11-Jun-2008
 
+4.0.1rc2:
+- From revision=22188
+- Version url=http://svn.ez.no/svn/ezpublish/versions/4.0.1rc2
+- Date  6-Aug-2008
+- Revision=22267
+
+3.10.1rc2:
+- From revision=22188
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.10.1rc2
+- Date  6-Aug-2008
+- Revision=22268
+
+4.0.1:
+- From revision=22260
+- Version url=http://svn.ez.no/svn/ezpublish/versions/4.0.1
+- Date 20-Aug-2008
+- Revision=22269
+
+3.10.1:
+- From revision=22261
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.10.1
+- Date 20-Aug-2008
+- Revision=22270
+
+3.9.5:
+- From revision=22261
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.9.5
+- Date 20-Aug-2008
+- Revision=22271
