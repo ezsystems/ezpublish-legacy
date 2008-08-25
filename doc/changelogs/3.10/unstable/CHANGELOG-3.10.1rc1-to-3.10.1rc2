@@ -1,0 +1,64 @@
+Changes from 3.10.1rc1 to 3.10.1rc2
+
+*Kernel:
+- Implemented enhancement: #13039: ez4: setup/extensions enhancement - sort + only show dirs + links.
+  (Merged from trunk (4.1.0alpha1) rev. 22062)
+- Implemented enhancement #12548: static count() function in eZPersistentObject
+  (Merged from trunk (4.1.0alpha1) rev. 21397, 21398)
+
+*Design:
+
+*eZTemplate:
+
+*Package system:
+
+*Scripts:
+
+*Cronjobs:
+
+*Translations:
+
+*Bugfixes:
+- Fixed bug #12734: Search engine not triggered when adding / removing a location.
+  (Merged from trunk (4.1.0alpha1) rev. 22028)
+- Fixed bug #13224: ORL: handleCustomObjectHTTPActions loads whole database into memory
+  (Merged from trunk (4.1.0alpha1) rev. 22031)
+- Fixed bug #9005: GLOB_BRACE with non GNU glibc.
+  (Merged from trunk (4.1.0alpha1) rev. 22035)
+- Fixed bug #12519: settings/view for extension siteaccesses doesn't work + Placement for array starts every time with 'default'.
+  (Merged from trunk (4.1.0alpha1) rev. 22045)
+- Fixed bug #13285: Logging done in updateniceurls.php should be controlled by options to the script.
+  (Merged from trunk (4.1.0alpha1) rev. 22052)
+- Fixed bug #12782: Invalid argument supplied for foreach() in ezmoduleoperationinfo.php.
+  (Merged from trunk (4.1.0alpha1) rev. 22055)
+- Fixed bug #13303: Update pathWithNames() for 3.10.1 to use $node rather than $this
+- Fixed bug #13302: eZTemplateCacheBlock::decodeNodeID(...) must be updated to use new multilingual urlalias api
+  (Merged manually from trunk (4.1.0alpha1) rev. 22066)
+- Fixed bug #11808: Certain multibyte characters might lead to incorrect URL upon redirection
+  (Merged from trunk (4.1.0alpha1) rev. 22071)
+- Fixed bug #13275: Spelling typo wilrdcard-cache-index gives trouble in cluster mode.
+  (Merged from trunk (4.1.0alpha1) rev. 22083)
+- Fixed bug #13297: Wrong Translation code in por-MZ locale.
+- Fixed bug #13374: WebDav fails to open folders in Media tree with url translator transformation group urlalias_compat
+  (Merged from trunk (4.1.0alpha1) rev. 22129)
+- Fixed bug #13367: bin/modfix.sh doesn't affect the "autoload" directory.
+  (Merged from trunk (4.1.0alpha1) rev. 22126)
+- Fixed bug #11799: Slave DB: a database transaction in eZ Publish failed
+  (Merged from trunk (4.1.0alpha1) rev. 22142)
+- Fixed bug #13384: Insert queries that contain "create temporary" in values are executed on MySQL slave
+  (Merged from trunk (4.1.0alpha1) rev. 22142)
+- Fixed bug #13380: DROP table for temporary tables created on a slave executed on master?
+  (Merged from trunk (4.1.0alpha1) rev. 22142)
+- Fixed bug #13411: Setting status of a new version is outside of the database transaction
+  (Merged from trunk (4.1.0alpha1) rev. 22142)
+- Fixed bug #12216: query error in eZContentObjectTreeNode::calendar
+  (Merged from trunk (4.1.0alpha1) rev. 22154)
+- Fixed bug #13434: Problem if xmlblock is required /empty and Add object in objectrelation(s) is clicked
+  (Merged from trunk (4.1.0alpha1) rev. 22158)
+- Fixed bug #13444: Function visibility should be changed on eZURLAliasQuery - generateSQL
+  (Manually merged from trunk (4.1.0alpha1) rev. 22166)
+- Fixed bug #13150: Tree menu in admin hangs when it gets too deep
+  (Merged from trunk (4.1.0alpha1) rev. 22165)
+- Fixed bug #12475: updatebinaryfile.php does not work in db clustering mode
+- Fixed bug #13451: updatebinaryfile.php fails on multiple content versions pointing to the same file
+

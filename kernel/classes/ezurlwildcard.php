@@ -496,7 +496,7 @@ class eZURLWildcard extends eZPersistentObject
         // VS-DBFILE
 
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
-        $phpCacheIndex = new eZPHPCreator( $wildcardCacheDir, $wildcardCacheFile . "_index.php", '', array( 'clustering' => 'wirldcard-cache-index' ) );
+        $phpCacheIndex = new eZPHPCreator( $wildcardCacheDir, $wildcardCacheFile . "_index.php", '', array( 'clustering' => 'wildcard-cache-index' ) );
 
         foreach ( $wildcardKeys as $wildcardKey => $wildcardKeyValue )
         {
@@ -522,7 +522,7 @@ class eZURLWildcard extends eZPersistentObject
             }
 
             // VS-DBFILE
-            $phpCache = new eZPHPCreator( $wildcardCacheDir, $wildcardCacheFile . "_$cacheFilesCount.php", '', array( 'clustering' => 'wirldcard-cache-' . $cacheFilesCount ) );
+            $phpCache = new eZPHPCreator( $wildcardCacheDir, $wildcardCacheFile . "_$cacheFilesCount.php", '', array( 'clustering' => 'wildcard-cache-' . $cacheFilesCount ) );
 
             foreach ( $wildcardKeys as $wildcardKey => $wildcardKeyValue )
             {

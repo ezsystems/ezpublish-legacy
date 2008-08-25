@@ -1166,6 +1166,75 @@ class eZSys
         return $schema;
     }
 
+    /*!
+     Wraps around the built-in glob() function to provide same functionality
+     for systems (e.g Solaris) that does not support GLOB_BRACE.
+     
+     \static
+    */
+    function globBrace( $pattern, $flags = 0 )
+    {
+        if ( defined( 'GLOB_BRACE' ) )
+        {
+            $flags = $flags | GLOB_BRACE;
+            return glob( $pattern, $flags );
+        }
+        else
+        {
+            $result = array();
+            $files = eZSys::simulateGlobBrace( array( $pattern ) );
+            foreach( $files as $file )
+            {
+                $result = array_merge( $result, glob( $file, $flags ) );
+            }
+            return $result;
+        }
+    }
+
+    /*! 
+     Expands a list of filenames like GLOB_BRACE does.
+     
+     GLOB_BRACE is non POSIX and only available in GNU glibc. This is needed to
+     support operating systems like Solars. 
+     
+     \static
+     \protected
+     */
+    function simulateGlobBrace( $filenames )
+    {
+       $result = array();
+
+       foreach ( $filenames as $filename )
+       {
+           if ( strpos( $filename, '{' ) === false )
+           {
+               $result[] = $filename;
+               continue;
+           }
+
+           if ( preg_match( '/^(.*)\{(.*?)(?<!\\\\)\}(.*)$/', $filename, $match ) )
+           {
+               $variants = preg_split( '/(?<!\\\\),/', $match[2] );
+
+               $newFilenames = array();
+               foreach ( $variants as $variant )
+               {
+                   $newFilenames[] = $match[1] . $variant . $match[3];
+               }
+
+               $newFilenames = eZSys::simulateGlobBrace( $newFilenames );
+               $result = array_merge( $result, $newFilenames );
+           }
+           else
+           {
+               $result[] = $filename;
+           }
+       }
+
+       return $result;
+    }
+
+
     /// The line separator used in files
     var $LineSeparator;
     /// The directory separator used for files

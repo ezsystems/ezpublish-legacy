@@ -228,18 +228,16 @@ class eZTemplateCacheBlock
                 }
                 else
                 {
-                    include_once( 'lib/ezdb/classes/ezdb.php' );
-                    $db =& eZDB::instance();
                     // 'subtree_expiry' is url_alias
-                    $nodePathStringSQL = "SELECT node_id FROM ezcontentobject_tree WHERE path_identification_string='" . $db->escapeString( $subtree ) . "'";
-                    $nodes = $db->arrayQuery( $nodePathStringSQL );
-                    if ( count( $nodes ) != 1 )
+                    include_once( 'kernel/classes/ezurlaliasml.php' );
+                    $nodeID = eZURLAliasML::fetchNodeIDByPath( $subtree );
+                    if ( !$nodeID )
                     {
                         eZDebug::writeError( "Could not find path_string '$subtree' for 'subtree_expiry' node.", 'eZTemplateCacheBlock::subtreeExpiryCacheDir()' );
                     }
                     else
                     {
-                        $nodeID = (int)$nodes[0]['node_id'];
+                        $nodeID = (int)$nodeID;
                     }
                 }
             }

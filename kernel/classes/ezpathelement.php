@@ -236,7 +236,7 @@ class eZPathElement extends eZPersistentObject
     }
 
     // Calculates always_available attribute from language mask
-    function alwaysAvailable()
+    function &alwaysAvailable()
     {
         return $this->AlwaysAvailable;
     }

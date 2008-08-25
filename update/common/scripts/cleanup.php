@@ -213,7 +213,7 @@ if ( $clean['shop'] )
     include_once( 'kernel/classes/ezorder.php' );
     $cli->output( "Removing all orders" );
     eZOrder::cleanup();
-    $productCount = eZProductCollection::count();
+    $productCount = eZPersistentObject::count( eZProductCollection::definition() );
     if ( $productCount > 0 )
     {
         $cli->warning( "$productCount product collections still exists, must be a leak" );

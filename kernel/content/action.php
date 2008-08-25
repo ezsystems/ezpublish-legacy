@@ -741,6 +741,15 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
             {
                 eZUser::cleanupCache();
             }
+
+            // Give other search engines that the default one a chance to reindex
+            // when adding locations.
+            include_once( 'kernel/classes/ezsearch.php' );
+            if ( get_class( eZSearch::getEngine() ) != "ezsearchengine" )
+            {
+                include_once( 'kernel/content/ezcontentoperationcollection.php' );
+                eZContentOperationCollection::registerSearchObject( $objectID, $node->attribute( 'contentobject_version' ) );
+            }
         }
         $db->commit();
 
@@ -919,6 +928,16 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
                 $mainNodeChanged = true;
             $node->remove();
         }
+
+        // Give other search engines that the default one a chance to reindex
+        // when removing locations.
+        include_once( 'kernel/classes/ezsearch.php' );
+        if ( get_class( eZSearch::getEngine() ) != "ezsearchengine" )
+        {
+            include_once( 'kernel/content/ezcontentoperationcollection.php' );
+            eZContentOperationCollection::registerSearchObject( $objectID, $object->attribute( 'current_version' ) );
+        }
+
         eZNodeAssignment::purgeByID( array_unique( $nodeAssignmentIDList ) );
 
         if ( $mainNodeChanged )

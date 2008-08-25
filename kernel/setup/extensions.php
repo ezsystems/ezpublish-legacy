@@ -61,7 +61,8 @@ if ( $module->isCurrentAction( 'ActivateExtensions' ) )
 $siteINI = eZINI::instance();
 $siteINI->loadCache();
 $extensionDir = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' );
-$availableExtensionArray = eZDir::findSubItems( $extensionDir );
+$availableExtensionArray = eZDir::findSubItems( $extensionDir, 'dl' );
+sort( $availableExtensionArray );
 
 $selectedExtensionArray       = $siteINI->variable( 'ExtensionSettings', "ActiveExtensions" );
 $selectedAccessExtensionArray = $siteINI->variable( 'ExtensionSettings', "ActiveAccessExtensions" );

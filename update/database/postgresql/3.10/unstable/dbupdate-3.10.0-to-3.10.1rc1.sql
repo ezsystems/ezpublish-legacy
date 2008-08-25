@@ -1,4 +1,4 @@
-UPDATE ezsite_data SET value='3.10.1' WHERE name='ezpublish-version';
+UPDATE ezsite_data SET value='3.10.1rc1' WHERE name='ezpublish-version';
 UPDATE ezsite_data SET value='5' WHERE name='ezpublish-release';
 
 CREATE SEQUENCE ezurlwildcard_s

@@ -1416,7 +1416,7 @@ CREATE TABLE ezurlalias (
 CREATE TABLE ezurlalias_ml (
   action longtext NOT NULL,
   action_type varchar(32) NOT NULL default '',
-  alias_redirects int(1) NOT NULL default '1',
+  alias_redirects int(11) NOT NULL default '1',
   id int(11) NOT NULL default '0',
   is_alias int(11) NOT NULL default '0',
   is_original int(11) NOT NULL default '0',
