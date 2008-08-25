@@ -346,3 +346,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13441: small grammatical error in installation instructions
 - Fixed bug #11451: Few typo bugs in translation file 3.10.0rc1
 - Fixed bug #13314: typo in ezcontentobject.php - $$copiedNodeAssignment
+- Fixed bug #13307: Wrongly placed class-closing curly bracket in ezselectiontype.php
