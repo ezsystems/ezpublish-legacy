@@ -1426,7 +1426,7 @@ class eZContentObject extends eZPersistentObject
     */
     function copy( $allVersions = true )
     {
-        eZDebugSetting::writeDebug( 'kernel-content-object-copy', 'Copy start, all versions=' . $allVersions ? 'true' : 'false', 'copy' );
+        eZDebugSetting::writeDebug( 'kernel-content-object-copy', 'Copy start, all versions=' . ( $allVersions ? 'true' : 'false' ), 'copy' );
         $user = eZUser::currentUser();
         $userID = $user->attribute( 'contentobject_id' );
 
