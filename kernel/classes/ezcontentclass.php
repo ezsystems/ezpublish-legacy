@@ -186,6 +186,7 @@ class eZContentClass extends eZPersistentObject
         unset( $this->CanInstantiateLanguages );
         unset( $this->VersionCount );
         $this->ID = null;
+        $this->RemoteID = md5( (string)mt_rand() . (string)time() );
     }
 
     /*!
