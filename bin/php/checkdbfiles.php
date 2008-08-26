@@ -83,14 +83,14 @@ $versions40 = array( 'unstable' => array( array( '3.10.0', '4.0.0alpha1' )
                                           , array( '4.0.0alpha2', '4.0.0beta1' )
                                           , array( '4.0.0beta1', '4.0.0rc1' )
                                           , array( '4.0.0rc1', '4.0.0' )
-					  , array( '4.0.0', '4.0.1rc1' )
-					  , array( '4.0.1rc1', '4.0.1rc2' )
-					  , array( '4.0.1rc2', '4.0.1' )
+                      , array( '4.0.0', '4.0.1rc1' )
+                      , array( '4.0.1rc1', '4.0.1rc2' )
+                      , array( '4.0.1rc2', '4.0.1' )
                                          ),
                      'unstable_subdir' => 'unstable',
                      'stable' => array( array( '3.10.0', '4.0.0' )
-		                        , array( '4.0.0', '4.0.1' ) )
-		   );
+                                , array( '4.0.0', '4.0.1' ) )
+           );
 
 $versions['4.0'] = $versions40;
 
