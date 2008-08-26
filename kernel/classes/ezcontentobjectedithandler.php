@@ -82,7 +82,7 @@ class eZContentObjectEditHandler
     function validateInput( $http, &$module, &$class, $object, &$version, $contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage, $validationParameters )
     {
         $result = array( 'is_valid' => true, 'warnings' => array() );
-        
+
         return $result;
     }
 
@@ -134,7 +134,7 @@ class eZContentObjectEditHandler
                                    'function' => array( 'name' => $functionName, 'value' => $functionResult ) );
             }
         }
-        
+
         return $result;
     }
 
@@ -146,14 +146,14 @@ class eZContentObjectEditHandler
     {
         $http = eZHTTPTool::instance();
         $functionName = 'fetchInput';
-        $params = array( $http, 
-                         &$module, 
-                         &$class, 
-                         $object, 
-                         &$version, 
-                         $contentObjectAttributes, 
-                         $editVersion, 
-                         $editLanguage, 
+        $params = array( $http,
+                         &$module,
+                         &$class,
+                         $object,
+                         &$version,
+                         $contentObjectAttributes,
+                         $editVersion,
+                         $editLanguage,
                          $fromLanguage );
 
        self::executeHandlerFunction( $functionName, $params );
@@ -180,23 +180,23 @@ class eZContentObjectEditHandler
         $result = array( 'validated' => true, 'warnings' => array() );
         $validated =& $result['validated'];
         $warnings =& $result['warnings'];
-        
+
         $http = eZHTTPTool::instance();
 
         $functionName = 'validateInput';
-        $params = array( $http, 
-                         &$module, 
-                         &$class, 
-                         $object, 
-                         &$version, 
-                         $contentObjectAttributes, 
-                         $editVersion, 
-                         $editLanguage, 
-                         $fromLanguage, 
+        $params = array( $http,
+                         &$module,
+                         &$class,
+                         $object,
+                         &$version,
+                         $contentObjectAttributes,
+                         $editVersion,
+                         $editLanguage,
+                         $fromLanguage,
                          $validationParameters );
-        
+
         $validationResults = self::executeHandlerFunction( $functionName, $params );
-        
+
         foreach( $validationResults as $validationResult )
         {
             $value = $validationResult['function']['value'];
@@ -205,11 +205,11 @@ class eZContentObjectEditHandler
             {
                 if ( $value['warnings'] )
                     $warnings = array_merge( $warnings, $value['warnings'] );
-                    
+
                 $validated = false;
             }
         }
-        
+
         return $result;
     }
 

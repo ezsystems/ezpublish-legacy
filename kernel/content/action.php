@@ -306,7 +306,7 @@ else if ( $module->isCurrentAction( 'MoveNode' ) )
         }
         $object = eZContentObject::fetchByNodeID( $nodeID );
         $objectID = $object->attribute( 'id' );
-    
+
         eZContentObject::fixReverseRelations( $objectID, 'move' );
     }
 
@@ -1138,10 +1138,10 @@ else if ( $http->hasPostVariable( 'MoveButton' ) )
                 $node = eZContentObjectTreeNode::fetch( $nodeID );
                 if ( !$node )
                     return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel', array() );
-            
+
                 if ( !$node->canMoveFrom() )
                     return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel', array() );
-            
+
                 $object = $node->object();
                 if ( !$object )
                     return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel', array() );
@@ -1163,11 +1163,11 @@ else if ( $http->hasPostVariable( 'MoveButton' ) )
                     $ignoreNodesSelect[] = $element['parent_node_id'];
                 }
             }
-            
+
             $parentNode = eZContentObjectTreeNode::fetch( $parentNodeID );
             if ( !$parentNode )
                 return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel', array() );
-        
+
             $parentObject = $parentNode->object();
             if ( !$parentObject )
                 return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel', array() );
@@ -1177,12 +1177,12 @@ else if ( $http->hasPostVariable( 'MoveButton' ) )
             $ignoreNodesSelect = array_unique( $ignoreNodesSelect );
             $ignoreNodesSelectSubtree = array_unique( $ignoreNodesSelectSubtree );
             $ignoreNodesClick = array_unique( $ignoreNodesClick );
-            
+
             $classIDArray = array_unique( $classIDArray );
             $classIdentifierArray = array_unique( $classIdentifierArray );
             $classGroupArray = array_unique( $classGroupArray );
             $sectionIDArray = array_unique( $sectionIDArray );
-            
+
             eZContentBrowse::browse( array( 'action_name' => 'MoveNode',
                                             'description_template' => 'design:content/browse_move_node.tpl',
                                             'keys' => array( 'class' => $classIDArray,

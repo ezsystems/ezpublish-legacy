@@ -452,7 +452,7 @@ class eZStepSiteTypes extends eZStepInstaller
                 $package = $this->downloadAndImportPackage( $chosenSitePackage, $sitePackagesInfoChoosen['url'], true );
                 if ( is_object( $package ) )
                 {
-                    
+
                     $downloadDependandPackagesResult = $this->downloadDependantPackages( $package );
                     if ( $downloadDependandPackagesResult != false )
                     {

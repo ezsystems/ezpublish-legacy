@@ -953,7 +953,7 @@ class eZLocale
             if ( $locale->httpLocaleCode() == $httpLocaleCode )
                 return $locale;
         }
-        
+
         return false;
     }
 

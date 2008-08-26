@@ -466,7 +466,7 @@ class eZContentFunctionCollection
         {
             $params['ObjectNameFilter'] = $objectNameFilter;
         }
-            
+
         $params[ 'AttributeFilter' ] = $attributeFilter;
 
         $trashCount = eZContentObjectTrashNode::trashListCount( $params );

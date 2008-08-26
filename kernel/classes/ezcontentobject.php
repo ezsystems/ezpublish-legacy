@@ -2026,7 +2026,7 @@ class eZContentObject extends eZPersistentObject
     /*!
       \static
       Fetches the attributes for an array of objects. The objList parameter
-      contains an array of objects ( instanceOf eZContentObject or a object that is or 
+      contains an array of objects ( instanceOf eZContentObject or a object that is or
       extends eZContentObjectTreeNode ) to fetch attributes from.
     */
     static function fillNodeListAttributes( $objList, $asObject = true )
@@ -2816,12 +2816,12 @@ class eZContentObject extends eZPersistentObject
         if( !$objectID )
             $objectID = $this->ID;
         $objectID =(int) $objectID;
-        
+
         $limit            = ( isset( $params['Limit']  ) && is_numeric( $params['Limit']  ) ) ? $params['Limit']              : false;
         $offset           = ( isset( $params['Offset'] ) && is_numeric( $params['Offset'] ) ) ? $params['Offset']             : false;
         $asObject         = ( isset( $params['AsObject']          ) )                         ? $params['AsObject']           : true;
         $loadDataMap      = ( isset( $params['LoadDataMap'] ) )                               ? $params['LoadDataMap']        : false;
-        
+
 
         $db = eZDB::instance();
         $sortingString = '';
@@ -2940,7 +2940,7 @@ class eZContentObject extends eZPersistentObject
             {
                 $obj = $object;
             }
-            
+
             $tmp[] = $obj;
 
             if ( !$groupByAttribute )

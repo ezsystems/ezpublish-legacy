@@ -1792,13 +1792,13 @@ You will need to change the class of the node by using the swap functionality.' 
         {
             $db = eZDB::instance();
             $dbName = $db->DB;
-    
+
             $cacheDir = eZSys::cacheDirectory();
             $phpCache = new eZPHPCreator( $cacheDir,
                                           'classidentifiers_' . $dbName . '.php',
                                           '',
                                           array( 'clustering' => 'classidentifiers' ) );
-    
+
             eZExpiryHandler::registerShutdownFunction();
             $handler = eZExpiryHandler::instance();
             $expiryTime = 0;
@@ -1806,7 +1806,7 @@ You will need to change the class of the node by using the swap functionality.' 
             {
                 $expiryTime = $handler->timestamp( 'content-view-cache' );
             }
-    
+
             if ( $phpCache->canRestore( $expiryTime ) )
             {
                 $var = $phpCache->restore( array( 'identifierHash' => 'identifier_hash' ) );
@@ -1817,13 +1817,13 @@ You will need to change the class of the node by using the swap functionality.' 
                 // Fetch identifier/id pair from db
                 $query = "SELECT id, identifier FROM ezcontentclass where version=0";
                 $identifierArray = $db->arrayQuery( $query );
-    
+
                 $identifierHash = array();
                 foreach ( $identifierArray as $identifierRow )
                 {
                     $identifierHash[$identifierRow['identifier']] = $identifierRow['id'];
                 }
-    
+
                 // Store identifier list to cache file
                 $phpCache->addVariable( 'identifier_hash', $identifierHash );
                 $phpCache->store();

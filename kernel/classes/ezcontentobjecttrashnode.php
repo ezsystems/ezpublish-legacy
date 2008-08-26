@@ -203,7 +203,7 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
         $asObject         = ( isset( $params['AsObject']          ) )                         ? $params['AsObject']           : true;
         $objectNameFilter = ( isset( $params['ObjectNameFilter']  ) )                         ? $params['ObjectNameFilter']   : false;
         $sortBy           = ( isset( $params['SortBy']  ) && is_array( $params['SortBy']  ) ) ? $params['SortBy']              : array( array( 'name' ) );
-        
+
         if ( $asCount )
         {
             $sortingInfo = eZContentObjectTreeNode::createSortingSQLStrings( false );
