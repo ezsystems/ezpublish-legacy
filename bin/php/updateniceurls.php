@@ -774,14 +774,14 @@ if ( $urlCount > 0 )
                     }
                     $linkID = false;
                 }
-        		else if ( $actionType == 'module' )
-        		{
-        		    $linkID = true;
+                else if ( $actionType == 'module' )
+                {
+                    $linkID = true;
 
-        		    // Links that pointed to modules in the old system does not
-        		    // redirect. Make sure they won't redirect in the new system either.
+                    // Links that pointed to modules in the old system does not
+                    // redirect. Make sure they won't redirect in the new system either.
                     $aliasRedirects = false;
-        		}
+                }
 
                 $aliases = eZURLAliasML::fetchByPath( $source );
                 if ( $aliases )
