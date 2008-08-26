@@ -772,7 +772,7 @@ WHERE user_id = '" . $userID . "' AND
                 }
 
                 eZDebugSetting::writeDebug( 'kernel-user', eZUser::createHash( $userRow['login'], $password, eZUser::site(),
-                                                                               $hashType ), "check hash" );
+                                                                               $hashType, $hash ), "check hash" );
                 eZDebugSetting::writeDebug( 'kernel-user', $hash, "stored hash" );
                  // If current user has been disabled after a few failed login attempts.
                 $canLogin = eZUser::isEnabledAfterFailedLogin( $userID );
