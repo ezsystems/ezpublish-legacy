@@ -1313,8 +1313,8 @@ class eZImageManager
      * would be provided during generation of aliasName. This so that requests
      * not holding the lock will provide meaningful information.
      *
-     * @param mixed $mimeData 
-     * @param string $aliasName 
+     * @param mixed $mimeData
+     * @param string $aliasName
      * @return mixed
      */
     function imageAliasInfo( $mimeData, $aliasName )
@@ -1447,7 +1447,7 @@ class eZImageManager
      * @var eZMutex
      */
     private $Mutex;
-    
+
     /**
      * The time spent waiting before an existing eZMutex lock is cancelled and reused.
      * Default value is 60 seconds, which is set in constructor.
@@ -1455,7 +1455,7 @@ class eZImageManager
      * @var int
      */
     private $lockTimeout;
-    
+
 }
 
 ?>

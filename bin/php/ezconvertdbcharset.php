@@ -1016,7 +1016,7 @@ if ( !checkDBCharset() )
     $script->shutdown( 2 );
 }
 
-// Display big fat warning that this script it might leave your database in an 
+// Display big fat warning that this script it might leave your database in an
 // inconsistent state
 showMessage2( "WARNING: BACK UP YOUR DATABASE!" );
 showMessage3( "Please make sure you have backed up your database before proceeding!");

@@ -543,7 +543,7 @@ class eZSys
                 $accessPath = implode( '/', $accessPathArray );
                 $text .= '/' . $accessPath;
 
-                // Make sure we never return just a single '/'. 
+                // Make sure we never return just a single '/'.
                 if ( $text == "/" )
                     $text = "";
 
@@ -1080,7 +1080,7 @@ class eZSys
     /*!
      Wraps around the built-in glob() function to provide same functionality
      for systems (e.g Solaris) that does not support GLOB_BRACE.
-     
+
      \static
     */
     static function globBrace( $pattern, $flags = 0 )
@@ -1102,12 +1102,12 @@ class eZSys
         }
     }
 
-    /*! 
+    /*!
      Expands a list of filenames like GLOB_BRACE does.
-     
+
      GLOB_BRACE is non POSIX and only available in GNU glibc. This is needed to
-     support operating systems like Solars. 
-     
+     support operating systems like Solars.
+
      \static
      \protected
      */

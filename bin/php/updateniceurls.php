@@ -778,7 +778,7 @@ if ( $urlCount > 0 )
         		{
         		    $linkID = true;
 
-        		    // Links that pointed to modules in the old system does not 
+        		    // Links that pointed to modules in the old system does not
         		    // redirect. Make sure they won't redirect in the new system either.
                     $aliasRedirects = false;
         		}

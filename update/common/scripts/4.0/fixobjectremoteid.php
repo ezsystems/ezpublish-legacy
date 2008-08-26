@@ -160,7 +160,7 @@ foreach ( $nonUniqueRemoteIDDataList as $nonUniqueRemoteIDData )
             $skip = 0;
         }
     }
-    
+
     $cli->output( 'Fixing...' );
 
     foreach ( $contentObjects as $i => $contentObject )
@@ -174,7 +174,7 @@ foreach ( $nonUniqueRemoteIDDataList as $nonUniqueRemoteIDData )
         $contentObject->setAttribute( 'remote_id', $newRemoteID );
         $contentObject->store();
     }
-    
+
     $totalCount += $nonUniqueRemoteIDData['cnt'] - 1;
 
     $cli->output( '' );

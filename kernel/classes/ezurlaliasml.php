@@ -785,7 +785,7 @@ class eZURLAliasML extends eZPersistentObject
                 $element->Action     = $action;
                 // Note: The `text` field is updated too, this ensures case-changes are stored.
                 $element->Text       = $newText;
-                $element->TextMD5    = null; 
+                $element->TextMD5    = null;
                 $element->ActionType = null;
                 $element->Link       = null;
             }
