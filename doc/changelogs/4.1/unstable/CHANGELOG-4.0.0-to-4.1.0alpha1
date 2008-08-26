@@ -41,6 +41,7 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Implemented enhancement #10424: Move file extension to MIME type mapping to an INI file
 - Implemented enhancement #13494: Patch to set module_result.section_id in content/edit, diff, versionview and history
 - Implemented enhancement #12835: Custom VerifyUser and RegistrationFeedback support w/patch
+- Implemented enhancement #13506: "Enlarge your mime_type" : the field in the ezbinaryfile database table
 
 *Design:
 

@@ -26,7 +26,7 @@ CREATE TABLE ezbinaryfile (
   contentobject_attribute_id int(11) NOT NULL default '0',
   download_count int(11) NOT NULL default '0',
   filename varchar(255) NOT NULL default '',
-  mime_type varchar(50) NOT NULL default '',
+  mime_type varchar(255) NOT NULL default '',
   original_filename varchar(255) NOT NULL default '',
   version int(11) NOT NULL default '0',
   PRIMARY KEY  (contentobject_attribute_id,version)

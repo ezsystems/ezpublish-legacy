@@ -1091,7 +1091,7 @@ CREATE TABLE ezbinaryfile (
     contentobject_attribute_id integer DEFAULT 0 NOT NULL,
     download_count integer DEFAULT 0 NOT NULL,
     filename character varying(255) DEFAULT ''::character varying NOT NULL,
-    mime_type character varying(50) DEFAULT ''::character varying NOT NULL,
+    mime_type character varying(255) DEFAULT ''::character varying NOT NULL,
     original_filename character varying(255) DEFAULT ''::character varying NOT NULL,
     "version" integer DEFAULT 0 NOT NULL
 );
