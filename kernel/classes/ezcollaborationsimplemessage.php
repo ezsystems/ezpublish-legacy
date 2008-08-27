@@ -117,7 +117,7 @@ class eZCollaborationSimpleMessage extends eZPersistentObject
                       'name' => 'ezcollab_simple_message' );
     }
 
-    function create( $type, $text = false, $creatorID = false )
+    static function create( $type, $text = false, $creatorID = false )
     {
         $date_time = time();
         if ( $creatorID === false )
@@ -133,7 +133,7 @@ class eZCollaborationSimpleMessage extends eZPersistentObject
                                                         'modified' => $date_time ) );
     }
 
-    function fetch( $id, $asObject = true )
+    static function fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZCollaborationSimpleMessage::definition(),
                                                 null,
