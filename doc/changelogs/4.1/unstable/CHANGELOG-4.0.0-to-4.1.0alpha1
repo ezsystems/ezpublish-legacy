@@ -351,3 +351,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13496: Wrong debug message from eZUser::loginUser when using crypt hashing
 - Fixed bug #13060: class/copy doesn't generate new remote id
 - Fixed bug #10593: MatchOrder=uri;host does not work.
+- Fixed bug #13315: eZCollaborationSimpleMessage::* not defined static
