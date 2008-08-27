@@ -59,11 +59,19 @@ function accessType( $uri, $host, $port, $file )
     $access = array( 'name' => $ini->variable( 'SiteSettings', 'DefaultAccess' ),
                      'type' => EZ_ACCESS_TYPE_DEFAULT );
 
-
     if ( $order == 'none' )
         return $access;
 
     $order = $ini->variableArray( 'SiteAccessSettings', 'MatchOrder' );
+
+    // Change the default type to EZ_ACCESS_TYPE_URI if we're using URI MatchOrder.
+    // This is to keep backward compatiblity with the ezurl operator. ezurl has since
+    // rev 4949 added default siteaccess to generated URLs, even when there is 
+    // no siteaccess in the current URL.
+    if ( in_array( 'uri', $order ) )
+    {
+        $access['type'] = EZ_ACCESS_TYPE_URI;
+    }
 
     foreach ( $order as $matchprobe )
     {
