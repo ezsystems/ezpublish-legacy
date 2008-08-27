@@ -118,7 +118,7 @@ $schema = array (
       ),
       'mime_type' => 
       array (
-        'length' => 50,
+        'length' => 255,
         'type' => 'varchar',
         'not_null' => '1',
         'default' => '',
@@ -6271,7 +6271,7 @@ $schema = array (
         'length' => 11,
         'type' => 'int',
         'not_null' => '1',
-        'default' => '1',
+        'default' => 1,
       ),
       'id' => 
       array (
