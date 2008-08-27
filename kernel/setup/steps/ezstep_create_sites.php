@@ -1026,40 +1026,33 @@ language_locale='eng-GB'";
                                            'settings' => array( 'RegionalSettings' => array( 'ShowUntranslatedObjects' => 'enabled' ) ) );
         }
 
-        // Enable OE by default
-        $oeEnableSettingAdded = false;
-        foreach ( $extraCommonSettings as $key => $extraCommonSetting )
+        // Enable OE and ODF extensions by default
+        $extensionsToEnable = array();
+        foreach ( array( 'ezoe', 'ezodf' ) as $extension )
         {
-            if ( $extraCommonSetting['name'] == 'site.ini' &&
-                 isset( $extraCommonSettings[$key]['settings']['ExtensionSettings']['ActiveExtensions'] ) )
+            if ( file_exists( "extension/$extension" ) )
             {
-                $oeEnableSettingAdded = true;
-                $extraCommonSettings[$key]['settings']['ExtensionSettings']['ActiveExtensions'][] = 'ezdhtml';
-                break;
+                $extensionsToEnable[] = $extension;
             }
-        }
-        if ( !$oeEnableSettingAdded )
-        {
-            $extraCommonSettings[] = array( 'name' => 'site.ini',
-                                            'settings' => array( 'ExtensionSettings' => array( 'ActiveExtensions' => array( 'ezdhtml' ) ) ) );
         }
 
-        // Enable OO by default
-        $ooEnableSettingAdded = false;
+        $settingAdded = false;
         foreach ( $extraCommonSettings as $key => $extraCommonSetting )
         {
             if ( $extraCommonSetting['name'] == 'site.ini' &&
                  isset( $extraCommonSettings[$key]['settings']['ExtensionSettings']['ActiveExtensions'] ) )
             {
-                $ooEnableSettingAdded = true;
-                $extraCommonSettings[$key]['settings']['ExtensionSettings']['ActiveExtensions'][] = 'ezodf';
+                $settingAdded = true;
+                $extraCommonSettings[$key]['settings']['ExtensionSettings']['ActiveExtensions'] =
+                    array_merge( $extraCommonSettings[$key]['settings']['ExtensionSettings']['ActiveExtensions'], $extensionsToEnable );
                 break;
             }
         }
-        if ( !$ooEnableSettingAdded )
+
+        if ( !$settingAdded )
         {
             $extraCommonSettings[] = array( 'name' => 'site.ini',
-                                            'settings' => array( 'ExtensionSettings' => array( 'ActiveExtensions' => array( 'ezodf' ) ) ) );
+                                            'settings' => array( 'ExtensionSettings' => array( 'ActiveExtensions' => $extensionsToEnable ) ) );
         }
 
         // Enable dynamic tree menu for the admin interface by default
