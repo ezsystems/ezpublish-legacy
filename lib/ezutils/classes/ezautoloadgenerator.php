@@ -304,6 +304,13 @@ class eZAutoloadGenerator
                         case T_CLASS:
                         case T_INTERFACE:
                         {
+                            // make sure we store cross-platform file system paths,
+                            // using a forward slash as directory separator
+                            if ( DIRECTORY_SEPARATOR != '/' )
+                            {
+                                $file = str_replace( DIRECTORY_SEPARATOR, '/', $file );
+                            }
+
                             $retArray[$tokens[$key+2][1]] = $file;
                         } break;
                     }
@@ -357,7 +364,7 @@ class eZAutoloadGenerator
             $offset = $length[$location] + 2;
             foreach( $sorted as $class => $path )
             {
-                $ret .= sprintf( "      %-{$offset}s => '%s',\n", "'{$class}'", $path );
+                $ret .= sprintf( "      %-{$offset}s => '%s'," . PHP_EOL, "'{$class}'", $path );
             }
             $retArray[$location] = $ret;
         }

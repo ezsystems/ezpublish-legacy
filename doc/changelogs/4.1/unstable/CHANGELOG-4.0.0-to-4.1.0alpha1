@@ -353,3 +353,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #10593: MatchOrder=uri;host does not work.
 - Fixed bug #13315: eZCollaborationSimpleMessage::* not defined static
 - Fixed bug #13412: Stupid query when creating new version of content object with an empty ezkeyword attribute
+- Fixed bug #13554: Autoload files generated on Windows use backslash as directory separator
