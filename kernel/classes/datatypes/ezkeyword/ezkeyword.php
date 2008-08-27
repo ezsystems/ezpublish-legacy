@@ -108,7 +108,7 @@ class eZKeyword
     /*!
      Stores the keyword index to database
     */
-    function store( &$attribute )
+    function store( $attribute )
     {
         $db = eZDB::instance();
 
@@ -116,15 +116,21 @@ class eZKeyword
         $classID = $object->attribute( 'contentclass_id' );
 
         // Get already existing keywords
-        $wordArray = array();
-        $escapedKeywordArray = array();
-        foreach( $this->KeywordArray as $keyword )
+        if ( count( $this->KeywordArray ) > 0 )
         {
-            $keyword = $db->escapeString( $keyword );
-            $escapedKeywordArray[] = $keyword;
+            $escapedKeywordArray = array();
+            foreach( $this->KeywordArray as $keyword )
+            {
+                $keyword = $db->escapeString( $keyword );
+                $escapedKeywordArray[] = $keyword;
+            }
+            $wordsString = implode( '\',\'', $escapedKeywordArray );
+            $existingWords = $db->arrayQuery( "SELECT * FROM ezkeyword WHERE keyword IN ( '$wordsString' ) AND class_id='$classID' " );
         }
-        $wordsString = implode( '\',\'', $escapedKeywordArray );
-        $existingWords = $db->arrayQuery( "SELECT * FROM ezkeyword WHERE keyword IN ( '$wordsString' ) AND class_id='$classID' " );
+        else
+        {
+            $existingWords = array();
+        }
 
         $newWordArray = array();
         $existingWordArray = array();
