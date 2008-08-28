@@ -181,7 +181,7 @@ if ( !$hasAccessToSite )
 }
 
 $GLOBALS['eZRequestedModule'] = $module;
-$moduleResult = $module->run( $function_name );
+$moduleResult = $module->run( $function_name, $uri->elements( false ) );
 
 eZExecution::cleanup();
 eZExecution::setCleanExit();
