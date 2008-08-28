@@ -633,7 +633,9 @@ class eZTemplateImageOperator
         $file = "$name.$imageType";
         $splitMD5Path = eZDir::getPathFromFilename( $md5Text );
         $filePath = eZDir::path( array( $dirs, $base, $splitMD5Path, $md5Text, $file ) );
-        return file_exists( $filePath );
+
+        $fileHandler = eZClusterFileHandler::instance( $filePath );
+        return $fileHandler->exists();
     }
 
     function storeImage( $image, $dirs, $base, $md5Text, $alternativeText, $imageType )
@@ -648,13 +650,12 @@ class eZTemplateImageOperator
         $file = "$name.$imageType";
         $splitMD5Path = eZDir::getPathFromFilename( $md5Text );
         $dirPath = eZDir::path( array( $dirs, $base, $splitMD5Path, $md5Text ) );
-        if ( !file_exists( $dirPath ) )
-        {
-            $ini = eZINI::instance();
-            $mod = $ini->variable( 'FileSettings', 'StorageDirPermissions' );
-            eZDir::mkdir( $dirPath, octdec( $mod ), true );
-        }
         $image->store( $file, $dirPath, $imageType );
+
+        $fileHandler = eZClusterFileHandler::instance();
+        $filePath = eZDir::path( array( $dirPath, $file ) );
+        $mimeData = eZMimeType::findByURL( $filePath, true );
+        $fileHandler->fileStore( $filePath, 'texttoimage', false, $mimeData['name'] );
     }
 
     function setLoadImage( $image, $dirs, $base, $md5Text, $alternativeText, $imageType )
@@ -670,8 +671,14 @@ class eZTemplateImageOperator
         $splitMD5Path = eZDir::getPathFromFilename( $md5Text );
         $dirPath = eZDir::path( array( $dirs, $base, $splitMD5Path, $md5Text ) );
         $filePath = eZDir::path( array( $dirPath, $file ) );
-        if ( !file_exists( $filePath ) )
+        $fileHandler = eZClusterFileHandler::instance( $filePath );
+        if ( !$fileHandler->exists() )
+        {
             return null;
+        }
+
+        // we use a local cache of the file, because the eZImage library only works on files on the file system
+        $fileHandler->fetch( true );
         $image->setStoredFile( $file, $dirPath, $imageType );
     }
 
@@ -688,11 +695,16 @@ class eZTemplateImageOperator
         $splitMD5Path = eZDir::getPathFromFilename( $md5Text );
         $dirPath = eZDir::path( array( $dirs, $base, $splitMD5Path, $md5Text ) );
         $filePath = eZDir::path( array( $dirPath, $file ) );
-        if ( !file_exists( $filePath ) )
-            $layer = null;
-        else
-            $layer = eZImageLayer::createForFile( $file, $dirPath, $this->StoreAs );
-        return $layer;
+
+        $fileHandler = eZClusterFileHandler::instance( $filePath );
+        if ( !$fileHandler->exists() )
+        {
+            return null;
+        }
+
+        // we use a local cache of the file, because the eZImage library only works on files on the file system
+        $fileHandler->fetch( true );
+        return eZImageLayer::createForFile( $file, $dirPath, $this->StoreAs );
     }
 
     function readImageParameters( $tpl, $image, $operatorParameters, $rootNamespace, $currentNamespace, &$md5Input, &$alternativeText,
