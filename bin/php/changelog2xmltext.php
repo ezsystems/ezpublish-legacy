@@ -115,6 +115,23 @@ function addListItem( &$listLines, $changeText )
         }
         $changeText = implode( '', $newElements );
 
+        $elements = preg_split( "/enhancements? *# *([0-9]+)/im",
+                                $changeText,
+                                false,
+                                PREG_SPLIT_DELIM_CAPTURE );
+        $newElements = array();
+        $i = 0;
+        foreach ( $elements as $element )
+        {
+            if ( ( $i % 2 ) == 1 )
+            {
+                $element = "<link href=\"/bugs/view/$element\">enhancement #$element</link>";
+            }
+            $newElements[] = $element;
+            ++$i;
+        }
+        $changeText = implode( '', $newElements );
+
         $changeText = preg_replace( "# *\( *?(:?manually +)?merged +from +[a-z0-9.-]+(?:/[a-z0-9.-]+)*[,/]? +(\([0-9](?:[.-][0-9a-z]+)*\))? *(?:rev|erv)(?:ision|\.)? *[0-9]+ *\)#i", '', $changeText );
 
         $listLines[] = array( 'type' => 'li',
@@ -146,6 +163,8 @@ $currentListEntry = false;
 $lastSection = null;
 foreach ( $lines as $line )
 {
+    $line = trim( $line, "\r" );
+
     ++$lineNumber;
     if ( $lineNumber == 1 )
     {
