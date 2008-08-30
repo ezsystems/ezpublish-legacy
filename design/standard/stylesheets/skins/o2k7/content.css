@@ -1,4 +1,4 @@
-body, td, pre { color:#000; font-family: Arial, Helvetica, sans-serif; font-size:0.8em; margin:8px;}
+body, td { color:#000; font-family: Arial, Helvetica, sans-serif; font-size:0.8em; margin:8px;}
 body {background:#FFF;}
 body.mceForceColors {background:#FFF; color:#000;}
 h1, h2, h3, h4, h5, h6 /* Set general styles for all headings; some may be overridden later */
@@ -77,6 +77,9 @@ a span.mceNonEditable a { color: #0000ff!important; text-decoration: underline!i
 pre
 {
   background-color: #ccccff;
+  color: #000;
+  margin: 8px;
+  font-size: 1.1em;
 }
 
 /* general block tags (embed and custom) */

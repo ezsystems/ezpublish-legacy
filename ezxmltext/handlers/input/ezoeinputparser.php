@@ -151,7 +151,7 @@ class eZOEInputParser extends eZXMLInputParser
         );
 
     function eZOEInputParser( $validate = false, $errorLevel = eZXMLInputParser::ERROR_NONE,
-                                 $parseLineBreaks = false, $removeDefaultAttrs = true )
+                                 $parseLineBreaks = false, $removeDefaultAttrs = false )
     {
         $this->eZXMLInputParser( $validate, $errorLevel, $parseLineBreaks, $removeDefaultAttrs );
 
@@ -535,7 +535,6 @@ class eZOEInputParser extends eZXMLInputParser
             $ret['result'] = $newParent->parentNode;
         }
         return $ret;
-
     }
 
     // Structure handler for in-paragraph nodes.
@@ -648,12 +647,14 @@ class eZOEInputParser extends eZXMLInputParser
             // Check if it is the first element in line
             do
             {
-                $prev = $currentElement->previousSibling;
-                if ( $prev )
+                if ( $currentElement->previousSibling )
+                {
                     break;
+                }
 
                 $currentElement = $currentElement->parentNode;
-                if ( $currentElement &&
+
+                if ( $currentElement instanceof DOMElement &&
                      ( $currentElement->nodeName === 'line' ||
                        $currentElement->nodeName === 'paragraph' ) )
                 {
@@ -661,9 +662,9 @@ class eZOEInputParser extends eZXMLInputParser
                     break;
                 }
 
-            } while( $currentElement );
+            } while ( $currentElement instanceof DOMElement );
 
-            if ( $trim === true )
+            if ( $trim )
             {
                 // Trim and remove if empty
                 $element->textContent = ltrim( $element->textContent );

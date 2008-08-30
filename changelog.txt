@@ -12,6 +12,8 @@ eZ Online Editor 5.0 extension Changelog
 * Implemented #013512: Class list in search form should be alphabetical sorted
 * Made mini editor layout enabled by default (uncommented it)
 * code cleanup (removed dependency on global js variable eZOeMCE, use tinyMCE settings and translations instead)
+* do not remove attribute value if default value (same behavour as simple xml handler)
+* Fixed #013535: Litteral should use a bigger and a monospace font family
 
 
 5.0rc4
