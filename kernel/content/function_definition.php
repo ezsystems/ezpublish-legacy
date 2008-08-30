@@ -655,7 +655,11 @@ $FunctionList['version_list'] = array( 'name' => 'version_list',
                                                                     array( 'name' => 'limit',
                                                                            'type' => 'integer',
                                                                            'required' => false,
-                                                                           'default' => false ) ) );
+                                                                           'default' => false ),
+                                                                    array( 'name' => 'sorts',
+                                                                           'type' => 'array',
+                                                                           'required' => false,
+                                                                           'default' => null ) ) );
 
 
 
