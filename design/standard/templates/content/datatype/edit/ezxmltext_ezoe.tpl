@@ -81,6 +81,7 @@
         save_enablewhendirty : true,
         ez_root_url : {'/'|ezroot},
         ez_extension_url : {'/ezoe/'|ezurl},
+        ez_js_url : {'/extension/ezoe/design/standard/javascript/'|ezroot},
         ez_contentobject_id : {$attribute.contentobject_id},
         ez_contentobject_version : {$attribute.version}
     {rdelim};

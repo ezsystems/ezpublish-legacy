@@ -1015,8 +1015,11 @@
                     na = na.name;
 
                     //u = "javascript:tinymce.EditorManager.get('" + ed.id + "').theme._sel('" + (de++) + "');";
-                    pi = DOM.create('a', {'href' : "Javascript:void(0);", title : ti, 'class' : 'mcePath_' + (de++)}, na);
-                    Event.add( pi, 'click', ez.fn.bind( t.__pickTagCommand, t, ed, n, na, v ) );
+                    pi = DOM.create('a', {'href' : "javascript:;", title : ti, 'class' : 'mcePath_' + (de++), 'onclick' : 'return false;', 'onmousedown' : 'return false;'}, na);
+                    Event.add( pi, 'click', function(e){
+                        var x = t.__getTagCommand( n, v );
+                        if (x) ed.execCommand( x.cmd, n || false, x.v );
+                    });
 
                     if (p.hasChildNodes()) {
                         p.insertBefore(DOM.doc.createTextNode(' \u00bb '), p.firstChild);
@@ -1149,54 +1152,43 @@
             return false;
         },
         
-        __pickTagCommand : function( ed, n, na, v )
+        __getTagCommand : function( n, v )
         {
             switch( n.nodeName )
             {
                 case 'IMG':
-                    ed.execCommand('mceImage', n, v);
-                    break;
+                    return {'cmd':'mceImage', 'c': v};
                 case 'PRE':
-                    ed.execCommand('mceLiteral', n, v);
-                    break;
+                    return {'cmd':'mceLiteral', 'c': v};
                 case 'U':
-                    v = 'underline';
-                    ed.execCommand('mceCustom', n, v);
-                    break;
+                    return {'cmd':'mceCustom', 'c': 'underline'};
                 case 'DIV':
                     if ( n.className.indexOf('mceNonEditable') !== -1 )
-                        ed.execCommand('mceObject', n, v);
+                        return {'cmd':'mceObject', 'c': v};
                     else if ( DOM.getAttrib(n, 'type') === 'custom' )
-                        ed.execCommand('mceCustom', n, v);
-                    break;
+                        return {'cmd':'mceCustom', 'c': v};
                 case 'SPAN':
                     if ( n.className.indexOf('mceNonEditable') !== -1 )
-                        ed.execCommand('mceObject', n, v);
+                        return {'cmd':'mceObject', 'c': v};
                     else if ( DOM.getAttrib(n, 'type') === 'custom' )
-                        ed.execCommand('mceCustom', n, v);
-                    break;
+                        return {'cmd':'mceCustom', 'c': v};
                 case 'TABLE':
-                    ed.execCommand('mceInsertTable', n, v);
-                    break;
+                    return {'cmd':'mceInsertTable', 'c': v};
                 case 'TR':
-                    ed.execCommand('mceTableRowProps', n, v);
-                    break;
+                    return {'cmd':'mceTableRowProps', 'c': v};
                 case 'TD':
                 case 'TH':
-                    ed.execCommand('mceTableCellProps', n, v);
-                    break;
+                    return {'cmd':'mceTableCellProps', 'c': v};
                 case 'A':
-                    if ( DOM.getAttrib(n, 'href') ) ed.execCommand('mceLink', n, v);
-                    else ed.execCommand('mceInsertAnchor', n, v);
-                    break;
+                    if ( DOM.getAttrib(n, 'href') ) return {'cmd':'mceLink', 'c': v};
+                    else return {'cmd':'mceInsertAnchor', 'c': v};
                 case 'LI':
                 case 'OL':
                 case 'UL':
-                    ed.execCommand('generalXmlTagPopup', n.nodeName.toLowerCase() + '/' + n.nodeName, n);
-                    break;
+                    return {'cmd':'generalXmlTagPopup', 'c': n.nodeName.toLowerCase() + '/' + n.nodeName};
                 default:
                     var tagName = this.__tagsToXml( n );
-                    if ( tagName ) ed.execCommand('generalXmlTagPopup', tagName + '/' + n.nodeName, n );
+                    if ( tagName ) return {'cmd':'generalXmlTagPopup', 'c': tagName + '/' + n.nodeName};
             }
         },
         
@@ -1296,7 +1288,7 @@
         _mceObject : function(ui, val)
         {
             var ed = this.editor, e = ed.selection.getNode(), eurl = 'object/', type = '/upload/', el;
-            
+
             if ( (ui.nodeName === 'DIV' || ui.nodeName === 'SPAN') && ui.className.indexOf('mceNonEditable') !== -1 )
                 e = ui;
 
