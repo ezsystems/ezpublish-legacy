@@ -588,7 +588,6 @@ class eZObjectRelationType extends eZDataType
 
         if ( !is_null( $relatedObjectID ) )
         {
-            require_once( 'kernel/classes/ezcontentobject.php' );
             $relatedObject = eZContentObject::fetch( $relatedObjectID );
             if ( !$relatedObject )
             {

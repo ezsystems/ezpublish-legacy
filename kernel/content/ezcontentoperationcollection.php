@@ -37,8 +37,6 @@
 
 */
 
-require_once( 'kernel/classes/ezcontentlanguage.php' );
-
 class eZContentOperationCollection
 {
     /*!

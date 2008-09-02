@@ -36,7 +36,6 @@
   \brief
 */
 
-require_once( 'kernel/classes/ezcontentlanguage.php' );
 //include_once( 'kernel/classes/ezcontentclassnamelist.php' );
 
 class eZContentStructureTreeOperator

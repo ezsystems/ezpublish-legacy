@@ -2800,7 +2800,6 @@ class eZPackage
         eZDir::mkdir( eZDir::dirpath( $destinationPath ), false, true );
 
        //SP DBfile
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $fileHandler = eZClusterFileHandler::instance();
         $fileHandler->fileFetch( $filepath );
 

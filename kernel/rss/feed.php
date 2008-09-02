@@ -77,7 +77,6 @@ else
 
     // VS-DBFILE
 
-    require_once( 'kernel/classes/ezclusterfilehandler.php' );
     $cacheFile = eZClusterFileHandler::instance( $cacheFilePath );
 
     if ( !$cacheFile->exists() or ( time() - $cacheFile->mtime() > $cacheTime ) )

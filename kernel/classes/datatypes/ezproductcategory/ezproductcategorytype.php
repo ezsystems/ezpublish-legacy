@@ -35,9 +35,6 @@
 
 */
 
-require_once( 'kernel/classes/ezdatatype.php' );
-require_once( 'kernel/classes/ezproductcategory.php' );
-
 class eZProductCategoryType extends eZDataType
 {
     const DATA_TYPE_STRING = "ezproductcategory";
@@ -170,7 +167,6 @@ class eZProductCategoryType extends eZDataType
     */
     function objectAttributeContent( $contentObjectAttribute )
     {
-        require_once( 'kernel/classes/ezproductcategory.php' );
         $category = eZProductCategory::fetch( $contentObjectAttribute->attribute( 'data_int' ) );
         return $category;
     }

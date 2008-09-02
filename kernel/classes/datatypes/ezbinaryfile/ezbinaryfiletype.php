@@ -143,7 +143,6 @@ class eZBinaryFileType extends eZDataType
         $sys = eZSys::instance();
         $storage_dir = $sys->storageDirectory();
 
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
         if ( $version == null )
         {
             $binaryFiles = eZBinaryFile::fetch( $contentObjectAttributeID );
@@ -312,8 +311,6 @@ class eZBinaryFileType extends eZDataType
             $binary->store();
 
             // VS-DBFILE
-
-            require_once( 'kernel/classes/ezclusterfilehandler.php' );
             $filePath = $binaryFile->attribute( 'filename' );
             $fileHandler = eZClusterFileHandler::instance();
             $fileHandler->fileStore( $filePath, 'binaryfile', true, $mime );
@@ -400,8 +397,6 @@ class eZBinaryFileType extends eZDataType
         $binary->store();
 
         // SP-DBFILE
-
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $filePath = $httpFile->attribute( 'filename' );
         $fileHandler = eZClusterFileHandler::instance();
         $fileHandler->fileStore( $filePath, 'binaryfile', true, $mimeData['name'] );
@@ -459,7 +454,6 @@ class eZBinaryFileType extends eZDataType
         copy( $filePath, $destination );
 
         // SP-DBFILE
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $fileHandler = eZClusterFileHandler::instance();
         $fileHandler->fileStore( $destination, 'binaryfile', true, $mimeData['name'] );
 
@@ -734,8 +728,6 @@ class eZBinaryFileType extends eZDataType
         $binaryFile->store();
 
         // VS-DBFILE + SP DBFile fix
-
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $fileHandler = eZClusterFileHandler::instance();
         $fileHandler->fileStore( $destinationPath . $basename, 'binaryfile', true );
     }

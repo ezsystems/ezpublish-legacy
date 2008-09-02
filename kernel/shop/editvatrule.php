@@ -30,10 +30,6 @@
 
 $module = $Params['Module'];
 
-require_once( 'kernel/classes/ezvatrule.php' );
-require_once( 'kernel/classes/ezproductcategory.php' );
-require_once( 'kernel/classes/ezvattype.php' );
-
 $errors = false;
 $errorHeader = false;
 $productCategories = eZProductCategory::fetchList();

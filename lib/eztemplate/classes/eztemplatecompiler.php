@@ -601,7 +601,6 @@ class eZTemplateCompiler
 
         if ( $ini->variable( 'TemplateSettings', 'TemplateOptimization' ) == 'enabled' )
         {
-            require_once ('lib/eztemplate/classes/eztemplateoptimizer.php');
             /* Retrieve class information for the attribute lookup table */
             if ( isset( $resourceData['handler']->Keys ) and isset( $resourceData['handler']->Keys['class'] ) ) {
                 $resourceData['class-info'] = eZTemplateOptimizer::fetchClassDeclaration( $resourceData['handler']->Keys['class'] );

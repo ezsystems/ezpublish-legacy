@@ -43,7 +43,6 @@ class eZClusterFileHandler
         // Determine handler to use and cache its name in a global variable.
         if ( !isset( $GLOBALS['eZClusterFileHandler_chosen_handler_class'] ) )
         {
-            require_once( 'lib/ezutils/classes/ezini.php' );
             $fileINI = eZINI::instance( 'file.ini' );
             $handlerName = 'ezfs';
             if ( $fileINI->hasVariable( 'ClusteringSettings', 'FileHandler' ) )
@@ -109,7 +108,6 @@ class eZClusterFileHandler
             if ( $fileINI->hasVariable( 'ClusteringSettings', 'ExtensionDirectories' ) )
             {
                 $extensionDirectories = $fileINI->variable( 'ClusteringSettings', 'ExtensionDirectories' );
-                require_once( 'lib/ezutils/classes/ezextension.php' );
                 $baseDirectory = eZExtension::baseDirectory();
                 foreach ( $extensionDirectories as $extensionDirectory )
                 {

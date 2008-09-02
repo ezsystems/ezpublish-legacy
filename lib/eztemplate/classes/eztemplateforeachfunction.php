@@ -120,7 +120,6 @@ class eZTemplateForeachFunction
         $nodePlacement       = eZTemplateNodeTool::extractFunctionNodePlacement( $node );
         $uniqid              =  md5( $nodePlacement[2] ) . "_" . $tpl->ForeachCounter;
 
-        require_once( 'lib/eztemplate/classes/eztemplatecompiledloop.php' );
         $loop = new eZTemplateCompiledLoop( eZTemplateForeachFunction::FUNCTION_NAME,
                                             $newNodes, $parameters, $nodePlacement, $uniqid,
                                             $node, $tpl, $privateData );
@@ -268,7 +267,6 @@ class eZTemplateForeachFunction
 
         //eZDebug::writeDebug( $functionParameters, '$functionParameters' );
 
-        require_once( 'lib/eztemplate/classes/eztemplateloop.php' );
         $loop = new eZTemplateLoop( eZTemplateForeachFunction::FUNCTION_NAME,
                                     $functionParameters, $functionChildren, $functionPlacement,
                                     $tpl, $textElements, $rootNamespace, $currentNamespace );

@@ -183,7 +183,6 @@ class eZSubtreeCache
     */
     static function removeExpiryCacheFromDisk( $expiryCachePath )
     {
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $fileHandler = eZClusterFileHandler::instance();
         if ( $fileHandler instanceof eZFSFileHandler )
         {

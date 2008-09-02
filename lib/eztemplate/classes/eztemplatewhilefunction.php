@@ -102,7 +102,6 @@ class eZTemplateWhileFunction
         $nodePlacement = eZTemplateNodeTool::extractFunctionNodePlacement( $node );
         $uniqid        =  md5( $nodePlacement[2] ) . "_" . $tpl->WhileCounter;
 
-        require_once( 'lib/eztemplate/classes/eztemplatecompiledloop.php' );
         $loop = new eZTemplateCompiledLoop( eZTemplateWhileFunction::FUNCTION_NAME,
                                             $newNodes, $parameters, $nodePlacement, $uniqid,
                                             $node, $tpl, $privateData );
@@ -139,7 +138,6 @@ class eZTemplateWhileFunction
             return;
         }
 
-        require_once( 'lib/eztemplate/classes/eztemplateloop.php' );
         $loop = new eZTemplateLoop( eZTemplateWhileFunction::FUNCTION_NAME,
                                     $functionParameters, $functionChildren, $functionPlacement,
                                     $tpl, $textElements, $rootNamespace, $currentNamespace );

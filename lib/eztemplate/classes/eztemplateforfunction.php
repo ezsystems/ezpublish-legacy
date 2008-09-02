@@ -106,7 +106,6 @@ class eZTemplateForFunction
         $nodePlacement = eZTemplateNodeTool::extractFunctionNodePlacement( $node );
         $uniqid        =  md5( $nodePlacement[2] ) . "_" . $tpl->ForCounter;
 
-        require_once( 'lib/eztemplate/classes/eztemplatecompiledloop.php' );
         $loop = new eZTemplateCompiledLoop( eZTemplateForFunction::FUNCTION_NAME,
                                             $newNodes, $parameters, $nodePlacement, $uniqid,
                                             $node, $tpl, $privateData );
@@ -166,7 +165,6 @@ class eZTemplateForFunction
          * Check function parameters
          */
 
-        require_once( 'lib/eztemplate/classes/eztemplateloop.php' );
         $loop = new eZTemplateLoop( eZTemplateForFunction::FUNCTION_NAME,
                                     $functionParameters, $functionChildren, $functionPlacement,
                                     $tpl, $textElements, $rootNamespace, $currentNamespace );

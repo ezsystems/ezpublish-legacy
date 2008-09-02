@@ -320,14 +320,12 @@ class eZShopFunctionCollection
 
     function fetchProductCategory( $categoryID )
     {
-        require_once( 'kernel/classes/ezproductcategory.php' );
         return array( 'result' => eZProductCategory::fetch( $categoryID ) );
     }
 
 
     function fetchProductCategoryList()
     {
-        require_once( 'kernel/classes/ezproductcategory.php' );
         return array( 'result' => eZProductCategory::fetchList() );
     }
 }

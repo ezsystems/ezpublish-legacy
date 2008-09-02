@@ -286,8 +286,6 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function store( $fieldFilters = null )
     {
-        require_once( 'kernel/classes/ezcontentlanguage.php' );
-
         // Unset the cache
         global $eZContentObjectContentObjectCache;
         unset( $eZContentObjectContentObjectCache[$this->ContentObjectID] );
@@ -324,8 +322,6 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function storeData()
     {
-        require_once( 'kernel/classes/ezcontentlanguage.php' );
-
         // Unset the cache
         global $eZContentObjectContentObjectCache;
         unset( $eZContentObjectContentObjectCache[$this->ContentObjectID] );

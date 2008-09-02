@@ -853,7 +853,6 @@ class eZImageManager
         {
             // VS-DBFILE
 
-            require_once( 'kernel/classes/ezclusterfilehandler.php' );
             $fileHandler = eZClusterFileHandler::instance();
             if ( $fileHandler->fileExists( $existingAliasList[$referenceAlias]['url'] ) )
             {
@@ -1045,7 +1044,6 @@ class eZImageManager
     {
         // VS-DBFILE
 
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $sourceFile = eZClusterFileHandler::instance( $sourceMimeData['url'] );
         $sourceFile->fetch();
 
@@ -1297,7 +1295,6 @@ class eZImageManager
             if ( $result )
             {
                 $destinationFilePath = $destinationMimeData['url'];
-                require_once( 'kernel/classes/ezclusterfilehandler.php' );
                 $fileHandler = eZClusterFileHandler::instance();
                 $fileHandler->fileStore( $destinationFilePath, 'image', true, $destinationMimeData['name'] );
             }

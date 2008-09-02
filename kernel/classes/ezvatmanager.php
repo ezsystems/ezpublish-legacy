@@ -153,7 +153,6 @@ class eZVATManager
 
         if ( $user === false )
         {
-            require_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
             $user = eZUser::currentUser();
         }
 
@@ -236,7 +235,6 @@ class eZVATManager
     {
         $userObject = $user->attribute( 'contentobject' );
         $requireUserCountry = eZVATManager::isUserCountryRequired();
-        require_once( 'kernel/classes/ezvatmanager.php' );
         $countryAttributeName = eZVATManager::getUserCountryAttributeName( $requireUserCountry );
         if ( $countryAttributeName === null )
         {

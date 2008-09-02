@@ -95,7 +95,6 @@ class eZProductCategory extends eZPersistentObject
              !$categoryAttrName = $ini->variable( 'VATSettings', 'ProductCategoryAttribute' ) )
             return 0;
 
-        require_once( 'lib/ezdb/classes/ezdb.php' );
         $db = eZDB::instance();
         $categoryID =(int) $categoryID;
         $categoryAttrName = $db->escapeString( $categoryAttrName );
@@ -134,7 +133,6 @@ class eZProductCategory extends eZPersistentObject
         $db->begin();
 
         // Delete references to the category from VAT charging rules.
-        require_once( 'kernel/classes/ezvatrule.php' );
         eZVatRule::removeReferencesToProductCategory( $id );
 
         // Reset product category attribute for all products

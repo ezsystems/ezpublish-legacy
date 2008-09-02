@@ -58,7 +58,6 @@ class eZShopOperationCollection
     function handleUserCountry( $orderID )
     {
         // If user country is not required to calculate VAT then do nothing.
-        require_once( 'kernel/classes/ezvatmanager.php' );
         if ( !eZVATManager::isDynamicVatChargingEnabled() || !eZVATManager::isUserCountryRequired() )
             return array( 'status' => eZModuleOperationInfo::STATUS_CONTINUE );
 
@@ -123,7 +122,6 @@ class eZShopOperationCollection
             return array( 'status' => eZModuleOperationInfo::STATUS_CONTINUE );
         }
 
-        require_once( 'kernel/classes/ezproductcollectionitem.php' );
         $items = eZProductCollectionItem::fetchList( array( 'productcollection_id' => $productCollection->attribute( 'id' ) ) );
         $vatIsKnown = true;
         $db = eZDB::instance();
@@ -220,7 +218,6 @@ class eZShopOperationCollection
                 break;
             $productCollectionID = $order->attribute( 'productcollection_id' );
 
-            require_once( 'kernel/classes/ezshippingmanager.php' );
             $shippingInfo = eZShippingManager::getShippingInfo( $productCollectionID );
             if ( !isset( $shippingInfo ) )
                 break;
@@ -286,7 +283,6 @@ class eZShopOperationCollection
     function updateShippingInfo( $objectID, $optionList )
     {
         $basket = eZBasket::currentBasket();
-        require_once( 'kernel/classes/ezshippingmanager.php' );
         $shippingInfo = eZShippingManager::updateShippingInfo( $basket->attribute( 'productcollection_id' ) );
         return array( 'status' => eZModuleOperationInfo::STATUS_CONTINUE );
     }

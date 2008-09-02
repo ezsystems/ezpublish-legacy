@@ -307,7 +307,6 @@ class eZPDF
 
                 // VS-DBFILE
 
-                require_once( 'kernel/classes/ezclusterfilehandler.php' );
                 $file = eZClusterFileHandler::instance( $filename );
                 $file->storeContents( $this->PDF->ezOutput(), 'viewcache', 'pdf' );
 

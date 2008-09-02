@@ -1636,7 +1636,6 @@ WHERE user_id = '" . $userID . "' AND
                     $cacheFilePath = eZUser::getCacheFilename( $userID );
                     if ( $cacheFilePath )
                     {
-                        require_once( 'kernel/classes/ezclusterfilehandler.php' );
                         $cacheFile = eZClusterFileHandler::instance( $cacheFilePath );
                         $accessArray = $cacheFile->processCache( array( $this, 'retrieveAccessArrayFromCache' ),
                                                                  array( $this, 'generateAccessArrayForCache' ),

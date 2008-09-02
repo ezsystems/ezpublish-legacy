@@ -87,7 +87,6 @@ class eZTemplateCacheBlock
             $globalExpiryTime = eZExpiryHandler::getTimestamp( 'template-block-cache', -1 );
         }
 
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $cacheHandler = eZClusterFileHandler::instance( $cachePath );
 
         $subtreeExpiry = -1;

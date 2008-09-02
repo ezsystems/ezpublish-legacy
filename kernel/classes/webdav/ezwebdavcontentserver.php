@@ -86,7 +86,6 @@ class eZWebDAVContentServer extends eZWebDAVServer
         if ( $output["file"] )
         {
             $realPath = $output["file"];
-            require_once( 'kernel/classes/ezclusterfilehandler.php' );
             $file = eZClusterFileHandler::instance( $realPath );
             $file->fetch();
         }

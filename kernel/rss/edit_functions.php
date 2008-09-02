@@ -63,7 +63,6 @@ class eZRSSEditFunction
         foreach ( $availableSiteAccessList as $siteAccess )
         {
             $cacheFilePath = $cacheDir . '/rss/' . md5( $siteAccess . $http->postVariable( 'Access_URL' ) ) . '.xml';
-            require_once( 'kernel/classes/ezclusterfilehandler.php' );
             $cacheFile = eZClusterFileHandler::instance( $cacheFilePath );
             if ( $cacheFile->exists() )
             {

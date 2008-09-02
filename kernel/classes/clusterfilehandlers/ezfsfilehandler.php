@@ -905,7 +905,6 @@ class eZFSFileHandler
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileCopy( '$srcPath', '$dstPath' )" );
 
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
-        require_once( 'lib/ezfile/classes/ezfilehandler.php' );
         eZFileHandler::copy( $srcPath, $dstPath );
         eZDebug::accumulatorStop( 'dbfile', false, 'dbfile' );
     }
@@ -921,7 +920,6 @@ class eZFSFileHandler
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileLinkCopy( '$srcPath', '$dstPath' )" );
 
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
-        require_once( 'lib/ezfile/classes/ezfilehandler.php' );
         eZFileHandler::linkCopy( $srcPath, $dstPath, $symLink );
         eZDebug::accumulatorStop( 'dbfile', false, 'dbfile' );
     }
@@ -937,7 +935,6 @@ class eZFSFileHandler
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileMove( '$srcPath', '$dstPath' )" );
 
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
-        require_once( 'lib/ezfile/classes/ezfilehandler.php' );
         eZFileHandler::move( $srcPath, $dstPath );
         eZDebug::accumulatorStop( 'dbfile' );
     }
@@ -954,7 +951,6 @@ class eZFSFileHandler
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::move( '$srcPath', '$dstPath' )" );
 
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
-        require_once( 'lib/ezfile/classes/ezfilehandler.php' );
         eZFileHandler::move( $srcPath, $dstPath );
         eZDebug::accumulatorStop( 'dbfile' );
     }

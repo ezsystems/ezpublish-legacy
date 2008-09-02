@@ -88,7 +88,6 @@ class eZContentCache
                                                         $layout, false, $parameters );
         // VS-DBFILE
 
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $cacheFile = eZClusterFileHandler::instance( $cachePathInfo['path'] );
 
         if ( $cacheFile->exists() )
@@ -127,7 +126,6 @@ class eZContentCache
 
         // VS-DBFILE
 
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $cacheFile = eZClusterFileHandler::instance( $cachePath );
 
         if ( $cacheFile->exists() )
@@ -278,7 +276,6 @@ class eZContentCache
         //             FIXME: use permissions provided in FileSettings:StorageFilePermissions.
 
 
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $file = eZClusterFileHandler::instance( "$cacheDir/$uniqid" );
         $file->storeContents( $serializeString, 'viewcache', 'pdf' );
         $file->move( $path );
@@ -306,7 +303,6 @@ class eZContentCache
         $ini = eZINI::instance();
         $cacheBaseDir = eZDir::path( array( eZSys::cacheDirectory(), $ini->variable( 'ContentSettings', 'CacheDir' ) ) );
 
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $fileHandler = eZClusterFileHandler::instance();
 
         // Figure out the siteaccess which are related, first using the new

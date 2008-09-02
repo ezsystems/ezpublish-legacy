@@ -198,7 +198,6 @@ else
 
         $cacheFilePath = $cacheFileArray['cache_path'];
 
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $cacheFile = eZClusterFileHandler::instance( $cacheFilePath );
         $args = compact( $localVars );
         $Result = $cacheFile->processCache( array( 'eZNodeviewfunctions', 'contentViewRetrieve' ),

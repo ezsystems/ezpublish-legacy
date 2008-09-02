@@ -172,7 +172,6 @@ class eZProductCollection extends eZPersistentObject
         $db->begin();
 
         // Purge shipping information associated with product collections being removed.
-        require_once( 'kernel/classes/ezshippingmanager.php' );
         foreach ( $productCollectionIDList as $productCollectionID )
             eZShippingManager::purgeShippingInfo( $productCollectionID );
 

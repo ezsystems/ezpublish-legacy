@@ -124,7 +124,6 @@ if ( $http->hasPostVariable( "RemoveProductItemButton" ) )
         }
 
         // Update shipping info after removing an item from the basket.
-        require_once( 'kernel/classes/ezshippingmanager.php' );
         eZShippingManager::updateShippingInfo( $basket->attribute( 'productcollection_id' ) );
 
         $db->commit();
@@ -337,7 +336,6 @@ $tpl->setVariable( "vat_is_known", $basket->isVATKnown() );
 
 
 // Add shipping cost to the total items price and store the sum to corresponding template vars.
-require_once( 'kernel/classes/ezshippingmanager.php' );
 $shippingInfo = eZShippingManager::getShippingInfo( $basket->attribute( 'productcollection_id' ) );
 if ( $shippingInfo !== null )
 {

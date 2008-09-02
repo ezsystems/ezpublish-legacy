@@ -1708,7 +1708,6 @@ class eZObjectRelationListType extends eZDataType
         $relationList = $rootNode->getElementsByTagName( 'relation-list' )->item( 0 );
         if ( $relationList )
         {
-            require_once( 'kernel/classes/ezcontentobject.php' );
             $relationItems = $relationList->getElementsByTagName( 'relation-item' );
             for ( $i = 0; $i < $relationItems->length; $i++ )
             {
@@ -1768,7 +1767,6 @@ class eZObjectRelationListType extends eZDataType
         if ( !$relationList )
             return false;
 
-        require_once( 'kernel/classes/ezcontentobject.php' );
         $relationItems = $relationList->getElementsByTagName( 'relation-item' );
         for ( $i = $relationItems->length - 1; $i >= 0; $i-- )
         {

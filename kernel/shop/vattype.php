@@ -119,7 +119,6 @@ function generateUniqueVatTypeName( $vatTypes )
 function findDependencies( $vatTypeIDList, &$deps, &$haveDeps, &$canRemove )
 {
     // Find dependencies (products and/or VAT rules).
-    require_once( 'kernel/classes/ezvatrule.php' );
     $deps = array();
     $haveDeps = false;
     $canRemove = true;

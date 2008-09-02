@@ -664,7 +664,6 @@ class eZURLWildcard extends eZPersistentObject
 
         // VS-DBFILE
 
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $cacheFile = eZClusterFileHandler::instance( $info['path'] . "_index.php" );
 
         return $cacheFile;
@@ -680,7 +679,6 @@ class eZURLWildcard extends eZPersistentObject
 
         // VS-DBFILE
 
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $cacheFile = eZClusterFileHandler::instance( $info['path'] . "_index.php" );
 
         if ( !$cacheFile->exists() )
@@ -716,7 +714,6 @@ function eZURLWildcardTranslateWithCache( $wildcardNum, &$uri, &$wildcardInfo, $
     $cacheFileName = $info['path'] . "_$cacheFileNum" . ".php";
 
     // VS-DBFILE
-    require_once( 'kernel/classes/ezclusterfilehandler.php' );
     $cacheFile = eZClusterFileHandler::instance( $cacheFileName );
 
     if ( !$cacheFile->exists() )

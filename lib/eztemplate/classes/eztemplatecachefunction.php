@@ -295,7 +295,6 @@ class eZTemplateCacheFunction
                                  $globalExpiryTime );
 
         // Check if we can restore
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $cacheFile = eZClusterFileHandler::instance( $phpPath );
         $args = array( "tpl" => $tpl,
                        "functionChildren" => $functionChildren,

@@ -844,7 +844,6 @@ $php->addInclude( 'lib/ezutils/classes/ezphpcreator.php' );
 
         if ( !$this->ClusterHandler )
         {
-            require_once( 'kernel/classes/ezclusterfilehandler.php' );
             $this->ClusterHandler = eZClusterFileHandler::instance();
         }
         return $this->ClusterHandler->fileExists( $path );
@@ -865,7 +864,6 @@ $php->addInclude( 'lib/ezutils/classes/ezphpcreator.php' );
         {
             if ( !$this->ClusterHandler )
             {
-                require_once( 'kernel/classes/ezclusterfilehandler.php' );
                 $this->ClusterHandler = eZClusterFileHandler::instance( $path );
             }
             $canRestore= $this->ClusterHandler->exists();
@@ -920,7 +918,6 @@ print( $values['MyValue'] );
         {
             if ( !$this->ClusterHandler )
             {
-                require_once( 'kernel/classes/ezclusterfilehandler.php' );
                 $this->ClusterHandler = eZClusterFileHandler::instance( $path );
             }
             $returnVariables = $this->ClusterHandler->processFile( array( $this, '_restoreCall' ), null, $variableDefinitions );
@@ -1033,7 +1030,6 @@ print( $values['MyValue'] );
 
             if ( !$this->ClusterHandler )
             {
-                require_once( 'kernel/classes/ezclusterfilehandler.php' );
                 $this->ClusterHandler = eZClusterFileHandler::instance();
             }
             $this->ClusterHandler->fileStoreContents( $filePath, $text, $this->ClusterFileScope, 'php' );

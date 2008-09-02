@@ -63,13 +63,11 @@ class eZDBFileHandler
         // Init backend.
         if ( !isset( $GLOBALS['eZDBFileHandler_chosen_backend_class'] ) )
         {
-            require_once( 'lib/ezutils/classes/ezini.php' );
             $fileINI = eZINI::instance( 'file.ini' );
             $backendName = 'mysql';
             if ( $fileINI->hasVariable( 'ClusteringSettings', 'DBBackend' ) )
                 $backendName = $fileINI->variable( 'ClusteringSettings', 'DBBackend' );
 
-            require_once( 'kernel/classes/ezclusterfilehandler.php' );
             $searchPathArray = eZClusterFileHandler::searchPathArray();
 
             foreach ( $searchPathArray as $searchPath )

@@ -392,7 +392,6 @@ class eZCache
 
             if ( $isContentRelated )
             {
-                require_once( 'kernel/classes/ezclusterfilehandler.php' );
                 $fileHandler = eZClusterFileHandler::instance( $cachePath );
                 if ( $purge )
                     $fileHandler->purge( $reporter, $iterationSleep, $iterationMax, $expiry );
@@ -467,7 +466,6 @@ class eZCache
 
         // VS-DBFILE
 
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $fileHandler = eZClusterFileHandler::instance();
         $fileHandler->fileDelete( $cachePath, 'classidentifiers_' );
         $fileHandler->fileDelete( $cachePath, 'classattributeidentifiers_' );
@@ -484,7 +482,6 @@ class eZCache
 
         // VS-DBFILE
 
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $fileHandler = eZClusterFileHandler::instance();
         $fileHandler->fileDelete( $cachePath, 'sortkey_' );
     }

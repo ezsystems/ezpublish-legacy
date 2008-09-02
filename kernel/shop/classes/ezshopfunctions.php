@@ -220,7 +220,6 @@ class eZShopFunctions
     */
     static function getUserCountry()
     {
-        require_once( 'kernel/classes/ezvatmanager.php' );
         return eZVATManager::getUserCountry( false, false );
     }
 

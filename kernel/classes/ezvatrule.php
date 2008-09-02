@@ -34,9 +34,6 @@
   \ingroup eZKernel
 */
 
-require_once( 'kernel/classes/ezpersistentobject.php' );
-require_once( 'lib/ezdb/classes/ezdb.php' );
-
 class eZVatRule extends eZPersistentObject
 {
     function eZVatRule( $row )
@@ -310,7 +307,6 @@ class eZVatRule extends eZPersistentObject
      */
     function vatTypeName()
     {
-        require_once( 'kernel/classes/ezvattype.php' );
         $vatType = eZVatType::fetch( $this->attribute( 'vat_type' ) );
         return $vatType->attribute( 'name' );
     }
@@ -320,7 +316,6 @@ class eZVatRule extends eZPersistentObject
      */
     function vatTypeObject()
     {
-        require_once( 'kernel/classes/ezvattype.php' );
         return eZVatType::fetch( $this->attribute( 'vat_type' ) );
     }
 

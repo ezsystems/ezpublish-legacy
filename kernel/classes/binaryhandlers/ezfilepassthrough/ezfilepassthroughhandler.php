@@ -52,8 +52,6 @@ class eZFilePassthroughHandler extends eZBinaryFileHandler
         $fileName = $fileInfo['filepath'];
 
         // VS-DBFILE
-
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $file = eZClusterFileHandler::instance( $fileName );
 
         if ( $fileName != "" and $file->exists() )

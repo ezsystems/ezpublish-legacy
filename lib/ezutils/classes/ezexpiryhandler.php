@@ -50,7 +50,6 @@ class eZExpiryHandler
         $this->IsModified = false;
 
         $cacheDirectory = eZSys::cacheDirectory();
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $this->CacheFile = eZClusterFileHandler::instance( $cacheDirectory . '/' . 'expiry.php' );
         $this->restore();
     }

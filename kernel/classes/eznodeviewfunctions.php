@@ -42,7 +42,6 @@ class eZNodeviewfunctions
                                       $viewParameters = array( 'offset' => 0, 'year' => false, 'month' => false, 'day' => false ),
                                       $collectionAttributes = false, $validation = false )
     {
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $cacheFile = eZClusterFileHandler::instance( $cachePath );
         $args = compact( "tpl", "node", "object", "languageCode", "viewMode", "offset",
                          "viewCacheEnabled",

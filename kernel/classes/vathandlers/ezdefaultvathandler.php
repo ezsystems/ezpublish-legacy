@@ -53,8 +53,6 @@ class eZDefaultVATHandler
         // If product category is not specified
         if ( $productCategory === null )
         {
-            require_once( 'kernel/classes/ezproductcategory.php' );
-
             // Default to a fake product category (*) that will produce
             // weak match on category for any VAT rule.
             $productCategory = new eZProductCategory( array( 'id' => -1,
@@ -158,8 +156,6 @@ class eZDefaultVATHandler
      */
     function chooseVatType( $productCategory, $country )
     {
-        require_once( 'kernel/classes/ezvatrule.php' );
-
         $vatRules = eZVatRule::fetchList();
 
         $catID = $productCategory->attribute( 'id' );

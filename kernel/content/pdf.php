@@ -247,7 +247,6 @@ switch( $operationResult['status'] )
 */
 function contentPDFPassthrough( $cacheFile )
 {
-    require_once( 'kernel/classes/ezclusterfilehandler.php' );
     $file = eZClusterFileHandler::instance( $cacheFile );
 
     if( !$file->exists() )
