@@ -115,7 +115,6 @@ if ( $module->isCurrentAction( 'Remove' ) )
         // Find dependencies for the categories being removed.
 
         $deps = array();
-        require_once( 'kernel/classes/ezvatrule.php' );
         foreach ( $catIDList as $catID )
         {
             $category = eZProductCategory::fetch( $catID );

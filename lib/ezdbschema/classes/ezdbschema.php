@@ -67,7 +67,6 @@ class eZDbSchema
         $dbname = $params['type'];
 
         /* Load the database schema handler INI stuff */
-        require_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance( 'dbschema.ini' );
         $schemaPaths = $ini->variable( 'SchemaSettings', 'SchemaPaths' );
         $schemaHandlerClasses = $ini->variable( 'SchemaSettings', 'SchemaHandlerClasses' );

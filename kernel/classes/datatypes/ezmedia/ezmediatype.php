@@ -113,7 +113,6 @@ class eZMediaType extends eZDataType
 
                 // VS-DBFILE
 
-                require_once( 'kernel/classes/ezclusterfilehandler.php' );
                 $file = eZClusterFileHandler::instance( $orig_dir . "/" . $fileName );
                 if ( $file->exists() )
                     $file->delete();
@@ -140,7 +139,6 @@ class eZMediaType extends eZDataType
                 {
                     // VS-DBFILE
 
-                    require_once( 'kernel/classes/ezclusterfilehandler.php' );
                     $file = eZClusterFileHandler::instance( $orig_dir . "/" . $currentFileName );
                     if ( $file->exists() )
                         $file->delete();
@@ -325,7 +323,6 @@ class eZMediaType extends eZDataType
 
             // VS-DBFILE
 
-            require_once( 'kernel/classes/ezclusterfilehandler.php' );
             //$filePath = $media->attribute( 'original_filename' );
             $filePath = $mediaFile->attribute( 'filename' );
             $fileHandler = eZClusterFileHandler::instance();
@@ -431,7 +428,6 @@ class eZMediaType extends eZDataType
 
         // SP-DBFILE
 
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $filePath = $httpFile->attribute( 'filename' );
         $fileHandler = eZClusterFileHandler::instance();
         $fileHandler->fileStore( $filePath, 'mediafile', true, $mimeData['name'] );
@@ -488,7 +484,6 @@ class eZMediaType extends eZDataType
         copy( $filePath, $destination );
 
         // SP-DBFILE
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $fileHandler = eZClusterFileHandler::instance();
         $fileHandler->fileStore( $destination, 'mediafile', true, $mimeData['name'] );
 
@@ -809,7 +804,6 @@ class eZMediaType extends eZDataType
 
         // VS-DBFILE
 
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $fileHandler = eZClusterFileHandler::instance();
         $fileHandler->fileStore( $destinationPath . $basename, 'mediafile', true );
 
