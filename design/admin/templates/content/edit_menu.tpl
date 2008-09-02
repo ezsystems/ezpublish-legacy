@@ -134,3 +134,9 @@
 {include uri='design:content/edit_sections.tpl'}
 </div>
 
+
+{* Edit states *}
+<div class="states">
+{include uri='design:content/edit_states.tpl'}
+</div>
+

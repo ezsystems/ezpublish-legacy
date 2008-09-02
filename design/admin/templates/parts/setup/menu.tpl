@@ -23,6 +23,7 @@
     <li><div><span class="disabled">{'RSS'|i18n( 'design/admin/parts/setup/menu' )}</span></div></li>
     <li><div><span class="disabled">{'Search statistics'|i18n( 'design/admin/parts/setup/menu' )}</span></div></li>
     <li><div><span class="disabled">{'Sections'|i18n( 'design/admin/parts/setup/menu' )}</span></div></li>
+    <li><div><span class="disabled">{'States'|i18n( 'design/admin/parts/setup/menu' )}</span></div></li>
     <li><div><span class="disabled">{'Sessions'|i18n( 'design/admin/parts/setup/menu' )}</span></div></li>
     <li><div><span class="disabled">{'System information'|i18n( 'design/admin/parts/setup/menu' )}</span></div></li>
     <li><div><span class="disabled">{'Upgrade check'|i18n( 'design/admin/parts/setup/menu' )}</span></div></li>
@@ -51,6 +52,7 @@
     <li><div><a href={'/rss/list'|ezurl}>{'RSS'|i18n( 'design/admin/parts/setup/menu' )}</a></div></li>
     <li><div><a href={'/search/stats/'|ezurl}>{'Search statistics'|i18n( 'design/admin/parts/setup/menu' )}</a></div></li>
     <li><div><a href={'/section/list/'|ezurl}>{'Sections'|i18n( 'design/admin/parts/setup/menu' )}</a></div></li>
+    <li><div><a href={'/state/groups/'|ezurl}>{'States'|i18n( 'design/admin/parts/setup/menu' )}</a></div></li>
     <li><div><a href={'/setup/session'|ezurl}>{'Sessions'|i18n( 'design/admin/parts/setup/menu' )}</a></div></li>
     <li><div><a href={'/setup/info/'|ezurl}>{'System information'|i18n( 'design/admin/parts/setup/menu' )}</a></div></li>
     <li><div><a href={'/setup/systemupgrade'|ezurl}>{'Upgrade check'|i18n( 'design/admin/parts/setup/menu' )}</a></div></li>

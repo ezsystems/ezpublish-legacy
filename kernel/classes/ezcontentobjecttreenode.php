@@ -652,6 +652,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $sortingFields      = '';
             $sortCount          = 0;
             $attributeJoinCount = 0;
+            $stateJoinCount     = 0;
             $attributeFromSQL   = "";
             $attributeWhereSQL  = "";
             $datatypeSortingTargetSQL = "";
@@ -775,6 +776,33 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                             $attributeJoinCount++;
                         }break;
+
+                        case 'state':
+                        {
+                            $stateGroupID = $sortBy[2];
+                            if ( !is_numeric( $stateGroupID ) )
+                            {
+                                $stateGroup = eZContentObjectStateGroup::fetchByIdentifier( $stateGroupID );
+                                if ( $stateGroup )
+                                {
+                                    $stateGroupID = $stateGroup->attribute( 'id' );
+                                }
+                                else
+                                {
+                                    eZDebug::writeError( "Unknown content object state group '$stateGroupID'" );
+                                    continue 2;
+                                }
+                            }
+
+                            $stateAlias = "s$stateJoinCount";
+                            $stateLinkAlias = "sl$stateJoinCount";
+                            $sortingFields .= "$stateAlias.priority";
+                            $datatypeSortingTargetSQL .= ", $stateAlias.priority";
+                            $attributeFromSQL .= ", ezcontentobject_state $stateAlias, ezcontentobject_state_link $stateLinkAlias";
+                            $attributeWhereSQL .= "$stateLinkAlias.contentobject_id=$treeTableName.contentobject_id AND
+                                                   $stateLinkAlias.contentobject_state_id=$stateAlias.id AND
+                                                   $stateAlias.group_id=$stateGroupID AND ";
+                        } break;
 
                         default:
                         {
@@ -1022,6 +1050,55 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         case 'section':
                         {
                             $filterField = 'ezcontentobject.section_id';
+                        } break;
+                        case 'state':
+                        {
+                            // state only supports =, !=, in, and not_in
+                            // other operators do not make any sense in this context
+                            $hasFilterOperator = true;
+
+                            switch ( $filterType )
+                            {
+                                case '=' :
+                                case '!=':
+                                {
+                                    $subQueryCondition = 'contentobject_state_id = ' . (int) $filter[2];
+                                    $filterOperator = ( $filterType == '=' ? 'IN' : 'NOT IN' );
+                                } break;
+
+                                case 'in':
+                                case 'not_in' :
+                                {
+                                    if ( is_array( $filter[2] ) )
+                                    {
+                                        $subQueryCondition = $db->generateSQLINStatement( $filter[2], 'contentobject_state_id', false, false, 'int' );
+                                        $filterOperator = ( $filterType == 'in' ? 'IN' : 'NOT IN' );
+                                    }
+                                    else
+                                    {
+                                        $hasFilterOperator = false;
+                                    }
+                                } break;
+
+                                default :
+                                {
+                                    $hasFilterOperator = false;
+                                    eZDebug::writeError( "Unknown attribute filter type for state: $filterType", "eZContentObjectTreeNode::subTree()" );
+                                } break;
+                            }
+
+                            if ( $hasFilterOperator )
+                            {
+                                if ( ( $filterCount - $sortingInfo['sortCount'] ) > 0 )
+                                    $attibuteFilterJoinSQL .= " $filterJoinType ";
+
+                                $attibuteFilterJoinSQL .= "ezcontentobject.id $filterOperator (SELECT contentobject_id FROM ezcontentobject_state_link WHERE $subQueryCondition)";
+
+                                $filterCount++;
+                                $justFilterCount++;
+                            }
+
+                            continue 2;
                         } break;
                         case 'depth':
                         {
@@ -1539,6 +1616,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $sqlPermissionCheckingWhere = '';
         $sqlPermissionTempTables = array();
         $groupPermTempTable = false;
+        $statePermTempTables = array();
 
         if ( is_array( $limitationList ) && count( $limitationList ) > 0 )
         {
@@ -1592,6 +1670,35 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                 $sqlPermissionCheckingFrom .= ', ' . $groupPermTempTable;
                             }
                             $sqlPartPart[] = "ezcontentobject.owner_id = $groupPermTempTable.user_id";
+                        } break;
+
+                        case 'State':
+                        {
+                            sort( $limitationArray[$ident] );
+                            $key = md5( implode( '_', $limitationArray[$ident] ) );
+                            if ( array_key_exists( $key, $statePermTempTables ) )
+                            {
+                                $statePermTempTable = $statePermTempTables[$key];
+                            }
+                            else
+                            {
+                                $statePermTempTable = $db->generateUniqueTempTableName( 'ezcontentobject_state_perm_tmp_%' );
+                                $statePermTempTables[$key] = $statePermTempTable;
+                                $sqlPermissionTempTables[] = $statePermTempTable;
+
+                                $db->createTempTable( "CREATE TEMPORARY TABLE $statePermTempTable ( contentobject_id int )" );
+
+                                $condition = $db->generateSQLINStatement( $limitationArray[$ident], 'contentobject_state_id' );
+                                $db->query( "INSERT INTO $statePermTempTable
+                                                 SELECT DISTINCT contentobject_id
+                                                 FROM ezcontentobject_state_link
+                                                 WHERE $condition",
+                                            eZDBInterface::SERVER_SLAVE );
+
+                                $sqlPermissionCheckingFrom .= ', ' . $statePermTempTable;
+                            }
+
+                            $sqlPartPart[] = "ezcontentobject.id = $statePermTempTable.contentobject_id";
                         } break;
 
                         case 'Node':
@@ -4490,6 +4597,20 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                 $access = 'denied';
                                 $limitationList = array ( 'Limitation' => $key,
                                                           'Required' => $valueList );
+                            }
+                        } break;
+
+                        case 'State':
+                        {
+                            if ( count( array_intersect( $valueList, $contentObject->attribute( 'state_id_array' ) ) ) == 0 )
+                            {
+                                $access = 'denied';
+                                $limitationList = array ( 'Limitation' => $key,
+                                                          'Required' => $valueList );
+                            }
+                            else
+                            {
+                                $access = 'allowed';
                             }
                         } break;
 

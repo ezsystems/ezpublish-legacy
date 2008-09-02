@@ -225,7 +225,10 @@ class eZContentObject extends eZPersistentObject
                                                       'can_edit_languages' => 'canEditLanguages',
                                                       'can_create_languages' => 'canCreateLanguages',
                                                       'always_available' => 'isAlwaysAvailable',
-                                                      'allowed_assign_section_list' => 'allowedAssignSectionList' ),
+                                                      'allowed_assign_section_list' => 'allowedAssignSectionList',
+                                                      'allowed_assign_state_id_list' => 'allowedAssignStateIDList',
+                                                      'allowed_assign_state_list' => 'allowedAssignStateList',
+                                                      'state_id_array' => 'stateIDArray' ),
                       "increment_key" => "id",
                       "class_name" => "eZContentObject",
                       "sort" => array( "id" => "asc" ),
@@ -1675,6 +1678,8 @@ class eZContentObject extends eZPersistentObject
 
         $db->query( "DELETE FROM ezcontentobject_name
              WHERE contentobject_id='$delID'" );
+
+        $db->query( "DELETE FROM ezcontentobject_state_link WHERE contentobject_id=$delID" );
 
         $db->query( "DELETE FROM ezcontentobject
              WHERE id='$delID'" );
@@ -3944,6 +3949,20 @@ class eZContentObject extends eZPersistentObject
                             }
                         } break;
 
+                        case 'State':
+                        {
+                            if ( count( array_intersect( $limitationArray[$key], $this->attribute( 'state_id_array' ) ) ) == 0 )
+                            {
+                                $access = 'denied';
+                                $limitationList = array ( 'Limitation' => $key,
+                                                          'Required' => $limitationArray[$key] );
+                            }
+                            else
+                            {
+                                $access = 'allowed';
+                            }
+                        } break;
+
                         case 'Node':
                         {
                             $accessNode = false;
@@ -5764,6 +5783,136 @@ class eZContentObject extends eZPersistentObject
             $sectionList = eZSection::fetchFilteredList( array( 'id' => array( $sectionIDList ) ), false, false, false );
         }
         return $sectionList;
+    }
+
+    function allowedAssignStateIDList()
+    {
+        $currentUser = eZUser::currentUser();
+
+        $access = $currentUser->hasAccessTo( 'state', 'assign' );
+
+        $db = eZDB::instance();
+        if ( $access['accessWord'] == 'yes' )
+        {
+            $allowedStateIDList = $db->arrayQuery( 'SELECT id from ezcontentobject_state', array( 'column' => 'id' ) );
+        }
+        else if ( $access['accessWord'] == 'limited' )
+        {
+            $userID = $currentUser->attribute( 'contentobject_id' );
+            $classID = $this->attribute( 'contentclass_id' );
+            $ownerID = $this->attribute( 'owner_id' );
+            $sectionID = $this->attribute( 'section_id' );
+            $stateIDArray = $this->attribute( 'state_id_array' );
+
+            $allowedStateIDList = array();
+            foreach ( $access['policies'] as $policy )
+            {
+                if ( ( isset( $policy['Class'] ) and !in_array( $classID, $policy['Class'] ) ) or
+                     ( isset( $policy['Owner']  ) and in_array( 1, $policy['Owner'] ) and $userID != $ownerID ) or
+                     ( isset( $policy['Group'] ) and $this->checkGroupLimitationAccess( $policy['Group'], $userID ) != 'allowed' ) or
+                     ( isset( $policy['Section'] ) and !in_array( $sectionID, $policy['Section'] ) ) or
+                     ( isset( $policy['User_Section'] ) and !in_array( $sectionID, $policy['User_Section'] ) ) or
+                     ( isset( $policy['State'] ) and count( array_intersect( $policy['State'], $stateIDArray ) ) == 0 ) )
+                {
+                    continue;
+                }
+
+                if ( isset( $policy['NewState'] ) and count( $policy['NewState'] > 0 ) )
+                {
+                    $allowedStateIDList = array_merge( $allowedStateIDList, $policy['NewState'] );
+                }
+                else
+                {
+                    $allowedStateIDList = $db->arrayQuery( 'SELECT id from ezcontentobject_state', array( 'column' => id ) );
+                    break;
+                }
+            }
+
+            $allowedStateIDList = array_merge( $allowedStateIDList, $stateIDArray );
+        }
+
+        $allowedStateIDList = array_unique( $allowedStateIDList );
+
+        return $allowedStateIDList;
+    }
+
+    function allowedAssignStateList()
+    {
+        $allowedStateIDList = $this->allowedAssignStateIDList();
+
+        // retrieve state groups, and for each state group the allowed states (including the current state)
+        $groups = eZContentObjectStateGroup::fetchByOffset( false, false );
+
+        $allowedAssignList = array();
+        foreach ( $groups as $group )
+        {
+            $states = array();
+            $groupStates = $group->attribute( 'states' );
+
+            $currentStateIDArray = $this->attribute( 'state_id_array' );
+
+            $current = false;
+            foreach ( $groupStates as $groupState )
+            {
+                $stateID = $groupState->attribute( 'id' );
+                if ( in_array( $stateID, $allowedStateIDList ) )
+                {
+                    $states[] = $groupState;
+                }
+
+                if ( in_array( $stateID, $currentStateIDArray ) )
+                {
+                    $current = $groupState;
+                }
+            }
+
+            $allowedAssignList[] = array( 'group' => $group, 'states' => $states, 'current' => $current );
+        }
+        return $allowedAssignList;
+    }
+
+    function stateIDArray()
+    {
+        $return = array();
+        $sql = "SELECT contentobject_state_id FROM ezcontentobject_state_link WHERE contentobject_id=" . $this->ID;
+        $db = eZDB::instance();
+        $rows = $db->arrayQuery( $sql );
+        foreach ( $rows as $row )
+        {
+            $return[] = $row['contentobject_state_id'];
+        }
+        return $return;
+    }
+
+    function assignState( $state )
+    {
+        $groupID = $state->attribute( 'group_id' );
+        $contentObjectID = $this->ID;
+
+        $db = eZDB::instance();
+        $db->begin();
+        // remove existing state of this object that is in the same state group as the new state
+        $db->query( "DELETE FROM ezcontentobject_state_link
+                     WHERE contentobject_id=$contentObjectID
+                     AND contentobject_state_id IN( SELECT id FROM ezcontentobject_state WHERE group_id=$groupID )"  );
+
+        // add new state
+        $stateID = $state->attribute( 'id' );
+        $sql = "INSERT INTO ezcontentobject_state_link(contentobject_id, contentobject_state_id) VALUES($contentObjectID, $stateID)";
+        $db->query( $sql );
+        $db->commit();
+    }
+
+    function assignDefaultStates()
+    {
+        $db = eZDB::instance();
+        $db->begin();
+        $defaultStates = eZContentObjectState::defaults();
+        foreach ( $defaultStates as $state )
+        {
+            $this->assignState( $state );
+        }
+        $db->commit();
     }
 
     public $ID;

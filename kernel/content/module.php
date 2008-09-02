@@ -53,7 +53,8 @@ $ViewList['edit'] = array(
                                     'MoveNodeID' => 'MoveNode',
                                     'RemoveNodeID' => 'DeleteNode',
                                     'ConfirmButton' => 'ConfirmAssignmentDelete',
-                                    'SectionEditButton' => 'SectionEdit'
+                                    'SectionEditButton' => 'SectionEdit',
+                                    'StateEditButton' => 'StateEdit',
                                     ),
     'post_action_parameters' => array( 'EditLanguage' => array( 'SelectedLanguage' => 'EditSelectedLanguage' ),
                                        'FromLanguage' => array( 'FromLanguage' => 'FromLanguage' ),
@@ -621,6 +622,16 @@ $Subtree = array(
     'values'=> array()
     );
 
+$State = array(
+    'name' => 'State',
+    'values' => array(),
+    'path' => 'classes/',
+    'file' => 'ezcontentobjectstate.php',
+    'class' => 'eZContentObjectState',
+    'function' => 'limitationList',
+    'parameter' => array()
+);
+
 
 $FunctionList = array();
 $FunctionList['bookmark'] = array();
@@ -631,6 +642,7 @@ $FunctionList['read'] = array( 'Class' => $ClassID,
                                'Section' => $SectionID,
                                'Owner' => $Assigned,
                                'Group' => $AssignedGroup,
+                               'State' => $State,
                                'Node' => $Node,
                                'Subtree' => $Subtree);
 $FunctionList['diff'] = array( 'Class' => $ClassID,
@@ -655,6 +667,7 @@ $FunctionList['edit'] = array( 'Class' => $ClassID,
                                'Section' => $SectionID,
                                'Owner' => $AssignedEdit,
                                'Group' => $AssignedGroup,
+                               'State' => $State,
                                'Node' => $Node,
                                'Subtree' => $Subtree,
                                'Language' => $Language);

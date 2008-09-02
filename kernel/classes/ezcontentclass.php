@@ -302,6 +302,7 @@ class eZContentClass extends eZPersistentObject
         $db->begin();
 
         $object->store();
+        $object->assignDefaultStates();
         $object->setName( ezi18n( "kernel/contentclass", "New %1", null, array( $this->name( $languageCode ) ) ), false, $languageCode );
 
         if ( !$versionNumber )

@@ -36,6 +36,8 @@ require 'kernel/content/relation_edit.php';
 initializeRelationEdit( $Module );
 require 'kernel/content/section_edit.php';
 initializeSectionEdit( $Module );
+require 'kernel/content/state_edit.php';
+initializeStateEdit( $Module );
 $obj = eZContentObject::fetch( $ObjectID );
 
 if ( !$obj )
