@@ -77,7 +77,6 @@ if ( $dataTypeName !== null and
         }
         else
         {
-            include_once( 'lib/ezutils/classes/ezextension.php' );
             $activeExtensions = eZExtension::activeExtensions();
             $errorString = "Failed importing datatype related data into database: \n" .
                            '  datatype - ' . $dataType->DataTypeString . ", \n" .

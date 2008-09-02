@@ -27,9 +27,6 @@
 
 require 'autoload.php';
 
-include_once( 'kernel/classes/ezscript.php' );
-include_once( 'lib/ezutils/classes/ezcli.php' );
-
 $cli = eZCLI::instance();
 
 $scriptSettings = array();
@@ -58,9 +55,6 @@ if ( count( $options['arguments'] ) != 1 )
 $preview = !is_null( $options['preview'] );
 
 $attributeID = $options['arguments'][0];
-
-include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'kernel/classes/ezcontentclassattribute.php' );
 
 if ( !is_numeric( $attributeID ) )
 {
@@ -122,7 +116,6 @@ foreach ( $oldOptions as $enumValueID => $name )
 
 $xml = $doc->saveXML();
 
-include_once( 'lib/ezdb/classes/ezdb.php' );
 $db = eZDB::instance();
 $db->begin();
 
@@ -130,7 +123,6 @@ $classAttribute->setAttribute( 'data_text5', $xml );
 $classAttribute->setAttribute( 'data_type_string', 'ezselection' );
 $classAttribute->store();
 
-include_once( 'kernel/classes/ezcontentobjectattribute.php' );
 $attributes = eZContentObjectAttribute::fetchSameClassAttributeIDList( $classAttribute->attribute( 'id' ) );
 
 $count = count( $attributes );
