@@ -347,7 +347,6 @@ class eZTextCodec
 
     function convertUTF8ToUnicode( $str )
     {
-        include_once ( 'lib/ezi18n/classes/ezutf8codec.php' );
         eZDebug::accumulatorStart( 'textcodec_utf8_unicode', false, 'String conversion w/ UTF-8 to Unicode' );
         $tmp = eZUTF8Codec::convertStringToUnicode( $str );
         eZDebug::accumulatorStop( 'textcodec_utf8_unicode' );
@@ -364,7 +363,6 @@ class eZTextCodec
 
     function convertUnicodeToUTF8( $unicodeValues )
     {
-        include_once ( 'lib/ezi18n/classes/ezutf8codec.php' );
         eZDebug::accumulatorStart( 'textcodec_unicode_utf8', false, 'String conversion w/ Unicode to UTF8' );
         $tmp = eZUTF8Codec::convertUnicodeToString( $unicodeValues );
         eZDebug::accumulatorStop( 'textcodec_unicode_utf8' );

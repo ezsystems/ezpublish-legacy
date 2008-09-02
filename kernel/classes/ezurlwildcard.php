@@ -260,7 +260,6 @@ class eZURLWildcard extends eZPersistentObject
     {
         $expired = false;
 
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler = eZExpiryHandler::instance();
 
         if ( $handler->hasTimestamp( eZURLWildcard::EZ_URLWILDCARD_CACHE_SIGNATURE ) )
@@ -280,7 +279,6 @@ class eZURLWildcard extends eZPersistentObject
     */
     static function expireCache()
     {
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( eZURLWildcard::EZ_URLWILDCARD_CACHE_SIGNATURE, time() );
         $handler->store();
@@ -495,8 +493,6 @@ class eZURLWildcard extends eZPersistentObject
         }
 
         // VS-DBFILE
-
-        include_once( 'lib/ezutils/classes/ezphpcreator.php' );
         $phpCacheIndex = new eZPHPCreator( $wildcardCacheDir, $wildcardCacheFile . "_index.php", '', array( 'clustering' => 'wildcard-cache-index' ) );
 
         foreach ( $wildcardKeys as $wildcardKey => $wildcardKeyValue )

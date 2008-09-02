@@ -232,9 +232,7 @@ class eZSection extends eZPersistentObject
 
         $objects = eZPersistentObject::fetchObjectList( eZContentObject::definition(), null,
                                                         array( 'section_id' => $sectionID ) );
-        include_once( 'kernel/classes/ezpolicylimitation.php' );
         $limitations = eZPolicyLimitation::findByType( 'Section', $sectionID, true, false );
-        include_once( 'kernel/classes/ezrole.php' );
         $userRoles = eZRole::fetchRolesByLimitation( 'section', $sectionID );
 
         if ( count( $objects ) > 0 or

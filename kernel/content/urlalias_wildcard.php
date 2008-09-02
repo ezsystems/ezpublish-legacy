@@ -28,8 +28,7 @@
 
 /*! \file urlalias_wildcard.php
 */
-include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezurlwildcard.php' );
+require_once( 'kernel/common/template.php' );
 
 $Module =& $Params['Module'];
 $http = eZHTTPTool::instance();
@@ -127,7 +126,6 @@ $limitList = array( array( 'id'    => 1,
                            'value' => 50 ),
                     array( 'id'    => 4,
                            'value' => 100 ) );
-include_once( 'kernel/classes/ezpreferences.php' );
 $limitID = eZPreferences::value( 'admin_urlwildcard_list_limit' );
 foreach ( $limitList as $limitEntry )
 {

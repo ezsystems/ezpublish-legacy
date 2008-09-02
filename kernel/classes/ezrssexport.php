@@ -416,7 +416,6 @@ class eZRSSExport extends eZPersistentObject
 
         if ( $this->attribute( 'url' ) == '' )
         {
-            include_once( 'lib/ezutils/classes/ezuri.php' );
             $baseItemURL = '';
             eZURI::transformURI( $baseItemURL, false, 'full' );
             $baseItemURL .= '/';
@@ -637,7 +636,6 @@ class eZRSSExport extends eZPersistentObject
 
         if ( $this->attribute( 'url' ) == '' )
         {
-            include_once( 'lib/ezutils/classes/ezuri.php' );
             $baseItemURL = '';
             eZURI::transformURI( $baseItemURL, false, 'full' );
             $baseItemURL .= '/';

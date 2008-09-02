@@ -1320,8 +1320,6 @@ class eZDataType
     */
     function getDBAExtensionFilePath()
     {
-        include_once( 'lib/ezutils/classes/ezextension.php' );
-
         $activeExtensions = eZExtension::activeExtensions();
         $dataTypeString = $this->DataTypeString;
         $dbaFileName = $this->getDBAFileName();

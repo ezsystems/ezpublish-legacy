@@ -1582,7 +1582,6 @@ class eZContentObject extends eZPersistentObject
                                           link.to_contentobject_id=$objectID" );
         if ( count( $result ) > 0 )
         {
-            include_once( "kernel/classes/ezcontentcachemanager.php" );
             foreach( $result as $row )
             {
                 $attr = new eZContentObjectAttribute( $row );
@@ -3440,7 +3439,6 @@ class eZContentObject extends eZPersistentObject
             // Set section of the newly created object to the section's value of it's parent object
             $sectionID = $parentObject->attribute( 'section_id' );
 
-            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
             $userID = eZUser::currentUserID();
 
             $db = eZDB::instance();
