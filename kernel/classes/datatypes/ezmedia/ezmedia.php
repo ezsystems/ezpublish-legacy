@@ -121,7 +121,6 @@ class eZMedia extends eZPersistentObject
         $fileInfo = $this->storedFileInfo();
 
         // VS-DBFILE
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $file = eZClusterFileHandler::instance( $fileInfo['filepath'] );
 
         if ( $file->exists() )
