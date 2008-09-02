@@ -1048,7 +1048,6 @@ foreach ( $commandList as $commandItem )
                                       array( 'summary' => $commandItem['summary'] ),
                                       false, $repositoryID );
 
-        require_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
         $user = eZUser::currentUser();
         $userObject = $user->attribute( 'contentobject' );
 
