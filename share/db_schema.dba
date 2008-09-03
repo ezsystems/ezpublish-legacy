@@ -1968,6 +1968,256 @@ $schema = array (
       ),
     ),
   ),
+  'ezcontentobject_state' => 
+  array (
+    'name' => 'ezcontentobject_state',
+    'fields' => 
+    array (
+      'default_language_id' => 
+      array (
+        'length' => 10,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'group_id' => 
+      array (
+        'length' => 10,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'id' => 
+      array (
+        'type' => 'auto_increment',
+        'default' => false,
+      ),
+      'identifier' => 
+      array (
+        'length' => 45,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'language_mask' => 
+      array (
+        'length' => 10,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'priority' => 
+      array (
+        'length' => 10,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'id',
+        ),
+      ),
+      'ezcontentobject_state_identifier' => 
+      array (
+        'type' => 'unique',
+        'fields' => 
+        array (
+          0 => 'group_id',
+          1 => 'identifier',
+        ),
+      ),
+    ),
+  ),
+  'ezcontentobject_state_group' => 
+  array (
+    'name' => 'ezcontentobject_state_group',
+    'fields' => 
+    array (
+      'default_language_id' => 
+      array (
+        'length' => 10,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'id' => 
+      array (
+        'type' => 'auto_increment',
+        'default' => false,
+      ),
+      'identifier' => 
+      array (
+        'length' => 45,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'language_mask' => 
+      array (
+        'length' => 10,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'id',
+        ),
+      ),
+      'ezcontentobject_state_group_identifier' => 
+      array (
+        'type' => 'unique',
+        'fields' => 
+        array (
+          0 => 'identifier',
+        ),
+      ),
+    ),
+  ),
+  'ezcontentobject_state_group_language' => 
+  array (
+    'name' => 'ezcontentobject_state_group_language',
+    'fields' => 
+    array (
+      'contentobject_state_group_id' => 
+      array (
+        'length' => 10,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'description' => 
+      array (
+        'type' => 'longtext',
+        'not_null' => '1',
+        'default' => false,
+      ),
+      'language_id' => 
+      array (
+        'length' => 10,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'name' => 
+      array (
+        'length' => 45,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'language_id',
+          1 => 'contentobject_state_group_id',
+        ),
+      ),
+    ),
+  ),
+  'ezcontentobject_state_language' => 
+  array (
+    'name' => 'ezcontentobject_state_language',
+    'fields' => 
+    array (
+      'contentobject_state_id' => 
+      array (
+        'length' => 10,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'default' => 
+      array (
+        'length' => 10,
+        'type' => 'int',
+        'default' => NULL,
+      ),
+      'description' => 
+      array (
+        'type' => 'longtext',
+        'not_null' => '1',
+        'default' => false,
+      ),
+      'language_id' => 
+      array (
+        'length' => 10,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'name' => 
+      array (
+        'length' => 45,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'contentobject_state_id',
+          1 => 'language_id',
+        ),
+      ),
+    ),
+  ),
+  'ezcontentobject_state_link' => 
+  array (
+    'name' => 'ezcontentobject_state_link',
+    'fields' => 
+    array (
+      'contentobject_id' => 
+      array (
+        'length' => 10,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'contentobject_state_id' => 
+      array (
+        'length' => 10,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'contentobject_id',
+          1 => 'contentobject_state_id',
+        ),
+      ),
+    ),
+  ),
   'ezcontentobject_trash' => 
   array (
     'name' => 'ezcontentobject_trash',

@@ -217,6 +217,32 @@ CREATE SEQUENCE ezcontentobject_link_s
 
 
 
+CREATE SEQUENCE ezcontentobject_state_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+
+
+
+
+
+
+CREATE SEQUENCE ezcontentobject_state_group_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+
+
+
+
+
+
 CREATE SEQUENCE ezcontentobject_tree_s
     START 1
     INCREMENT 1
@@ -1468,6 +1494,72 @@ CREATE TABLE ezcontentobject_name (
     language_id integer DEFAULT 0 NOT NULL,
     name character varying(255),
     real_translation character varying(20)
+);
+
+
+
+
+
+
+
+CREATE TABLE ezcontentobject_state (
+    default_language_id integer DEFAULT 0 NOT NULL,
+    group_id integer DEFAULT 0 NOT NULL,
+    id integer DEFAULT nextval('ezcontentobject_state_s'::text) NOT NULL,
+    identifier character varying(45) DEFAULT ''::character varying NOT NULL,
+    language_mask integer DEFAULT 0 NOT NULL,
+    priority integer DEFAULT 0 NOT NULL
+);
+
+
+
+
+
+
+
+CREATE TABLE ezcontentobject_state_group (
+    default_language_id integer DEFAULT 0 NOT NULL,
+    id integer DEFAULT nextval('ezcontentobject_state_group_s'::text) NOT NULL,
+    identifier character varying(45) DEFAULT ''::character varying NOT NULL,
+    language_mask integer DEFAULT 0 NOT NULL
+);
+
+
+
+
+
+
+
+CREATE TABLE ezcontentobject_state_group_language (
+    contentobject_state_group_id integer DEFAULT 0 NOT NULL,
+    description text NOT NULL,
+    language_id integer DEFAULT 0 NOT NULL,
+    name character varying(45) DEFAULT ''::character varying NOT NULL
+);
+
+
+
+
+
+
+
+CREATE TABLE ezcontentobject_state_language (
+    contentobject_state_id integer DEFAULT 0 NOT NULL,
+    "default" integer,
+    description text NOT NULL,
+    language_id integer DEFAULT 0 NOT NULL,
+    name character varying(45) DEFAULT ''::character varying NOT NULL
+);
+
+
+
+
+
+
+
+CREATE TABLE ezcontentobject_state_link (
+    contentobject_id integer DEFAULT 0 NOT NULL,
+    contentobject_state_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -2945,6 +3037,22 @@ CREATE INDEX ezcontentobject_name_name ON ezcontentobject_name USING btree (name
 
 
 
+CREATE UNIQUE INDEX ezcontentobject_state_identifier ON ezcontentobject_state USING btree (group_id, identifier);
+
+
+
+
+
+
+
+CREATE UNIQUE INDEX ezcontentobject_state_group_identifier ON ezcontentobject_state_group USING btree (identifier);
+
+
+
+
+
+
+
 CREATE INDEX ezcobj_trash_co_id ON ezcontentobject_trash USING btree (contentobject_id);
 
 
@@ -3915,6 +4023,51 @@ ALTER TABLE ONLY ezcontentobject_link
 
 ALTER TABLE ONLY ezcontentobject_name
     ADD CONSTRAINT ezcontentobject_name_pkey PRIMARY KEY (contentobject_id, content_version, content_translation);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezcontentobject_state
+    ADD CONSTRAINT ezcontentobject_state_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezcontentobject_state_group
+    ADD CONSTRAINT ezcontentobject_state_group_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezcontentobject_state_group_language
+    ADD CONSTRAINT ezcontentobject_state_group_language_pkey PRIMARY KEY (language_id, contentobject_state_group_id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezcontentobject_state_language
+    ADD CONSTRAINT ezcontentobject_state_language_pkey PRIMARY KEY (contentobject_state_id, language_id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezcontentobject_state_link
+    ADD CONSTRAINT ezcontentobject_state_link_pkey PRIMARY KEY (contentobject_id, contentobject_state_id);
 
 
 
