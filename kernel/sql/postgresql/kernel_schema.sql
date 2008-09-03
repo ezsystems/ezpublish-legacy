@@ -1545,7 +1545,6 @@ CREATE TABLE ezcontentobject_state_group_language (
 
 CREATE TABLE ezcontentobject_state_language (
     contentobject_state_id integer DEFAULT 0 NOT NULL,
-    "default" integer,
     description text NOT NULL,
     language_id integer DEFAULT 0 NOT NULL,
     name character varying(45) DEFAULT ''::character varying NOT NULL

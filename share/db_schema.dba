@@ -2145,12 +2145,6 @@ $schema = array (
         'not_null' => '1',
         'default' => 0,
       ),
-      'default' => 
-      array (
-        'length' => 10,
-        'type' => 'int',
-        'default' => NULL,
-      ),
       'description' => 
       array (
         'type' => 'longtext',

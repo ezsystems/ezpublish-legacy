@@ -24,6 +24,17 @@ ALTER TABLE ezurlalias_ml ADD alias_redirects int(11) NOT NULL default 1;
 
 ALTER TABLE ezbinaryfile MODIFY COLUMN mime_type VARCHAR(255) NOT NULL;
 
+CREATE TABLE ezcontentobject_state (
+  default_language_id int(10) NOT NULL default '0',
+  group_id int(10) NOT NULL default '0',
+  id int(11) NOT NULL auto_increment,
+  identifier varchar(45) NOT NULL default '',
+  language_mask int(10) NOT NULL default '0',
+  priority int(10) NOT NULL default '0',
+  PRIMARY KEY  (id),
+  UNIQUE KEY ezcontentobject_state_identifier (group_id,identifier)
+);
+
 CREATE TABLE ezcontentobject_state_group (
   default_language_id int(10) NOT NULL default '0',
   id int(11) NOT NULL auto_increment,
@@ -43,7 +54,6 @@ CREATE TABLE ezcontentobject_state_group_language (
 
 CREATE TABLE ezcontentobject_state_language (
   contentobject_state_id int(10) NOT NULL default '0',
-  default int(10) default NULL,
   description longtext NOT NULL,
   language_id int(10) NOT NULL default '0',
   name varchar(45) NOT NULL default '',

@@ -457,7 +457,6 @@ CREATE TABLE ezcontentobject_state_group_language (
 
 CREATE TABLE ezcontentobject_state_language (
   contentobject_state_id int(10) NOT NULL default '0',
-  default int(10) default NULL,
   description longtext NOT NULL,
   language_id int(10) NOT NULL default '0',
   name varchar(45) NOT NULL default '',
