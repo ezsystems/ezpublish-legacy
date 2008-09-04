@@ -99,7 +99,9 @@ class eZNodeviewfunctions
                            array( 'navigation_part_identifier', $navigationPartIdentifier ),
                            array( 'depth', $node->attribute( 'depth' ) ),
                            array( 'url_alias', $node->attribute( 'url_alias' ) ),
-                           array( 'class_group', $object->attribute( 'match_ingroup_id_list' ) ) );
+                           array( 'class_group', $object->attribute( 'match_ingroup_id_list' ) ),
+                           array( 'state', $object->attribute( 'state_id_array' ) ),
+                           array( 'state_identifier', $object->attribute( 'state_identifier_array' ) ) );
 
         $parentClassID = false;
         $parentClassIdentifier = false;
@@ -190,6 +192,8 @@ class eZNodeviewfunctions
             $res->setKeys( $keyArray );
         }
         $contentInfoArray['class_group'] = $object->attribute( 'match_ingroup_id_list' );
+        $contentInfoArray['state'] = $object->attribute( 'state_id_array' );
+        $contentInfoArray['state_identifier'] = $object->attribute( 'state_identifier_array' );
         $contentInfoArray['parent_class_id'] = $parentClassID;
         $contentInfoArray['parent_class_identifier'] = $parentClassIdentifier;
 
@@ -389,7 +393,9 @@ class eZNodeviewfunctions
                                    array( 'persistent_variable', $Result['content_info']['persistent_variable'] ),
                                    array( 'class_group', $Result['content_info']['class_group'] ),
                                    array( 'parent_class_id', $Result['content_info']['parent_class_id'] ),
-                                   array( 'parent_class_identifier', $Result['content_info']['parent_class_identifier'] ) );
+                                   array( 'parent_class_identifier', $Result['content_info']['parent_class_identifier'] ),
+                                   array( 'state', $Result['content_info']['state'] ),
+                                   array( 'state_identifier', $Result['content_info']['state_identifier'] ) );
 
                 if ( isset( $Result['content_info']['class_identifier'] ) )
                     $keyArray[] = array( 'class_identifier', $Result['content_info']['class_identifier'] );

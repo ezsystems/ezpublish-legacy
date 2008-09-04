@@ -228,7 +228,8 @@ class eZContentObject extends eZPersistentObject
                                                       'allowed_assign_section_list' => 'allowedAssignSectionList',
                                                       'allowed_assign_state_id_list' => 'allowedAssignStateIDList',
                                                       'allowed_assign_state_list' => 'allowedAssignStateList',
-                                                      'state_id_array' => 'stateIDArray' ),
+                                                      'state_id_array' => 'stateIDArray',
+                                                      'state_identifier_array' => 'stateIdentifierArray' ),
                       "increment_key" => "id",
                       "class_name" => "eZContentObject",
                       "sort" => array( "id" => "asc" ),
@@ -5880,6 +5881,23 @@ class eZContentObject extends eZPersistentObject
         foreach ( $rows as $row )
         {
             $return[] = $row['contentobject_state_id'];
+        }
+        return $return;
+    }
+
+    function stateIdentifierArray()
+    {
+        $return = array();
+        $sql = "SELECT l.contentobject_state_id, s.identifier AS state_identifier, g.identifier AS state_group_identifier
+                FROM ezcontentobject_state_link l, ezcontentobject_state s, ezcontentobject_state_group g
+                WHERE l.contentobject_id={$this->ID} AND
+                      s.id=l.contentobject_state_id AND
+                      g.id=s.group_id";
+        $db = eZDB::instance();
+        $rows = $db->arrayQuery( $sql );
+        foreach ( $rows as $row )
+        {
+            $return[] = $row['state_group_identifier'] . '/' . $row['state_identifier'];
         }
         return $return;
     }
