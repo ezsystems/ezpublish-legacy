@@ -269,7 +269,7 @@ class eZAutoloadGenerator
      */
     private function buildFileList( $path, $extraFilter = null )
     {
-        $exclusionFilter = array( "@^{$path}/(var|settings|benchmarks|autoload|port_info|templates|tmp|UnitTest|tests)/@" );
+        $exclusionFilter = array( "@^{$path}/(var|settings|benchmarks|autoload|port_info|templates|tmp|UnitTest)/@" );
         if ( !empty( $extraFilter ) and is_array( $extraFilter ) )
         {
             foreach( $extraFilter as $filter )
