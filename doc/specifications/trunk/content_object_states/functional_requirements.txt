@@ -1,0 +1,38 @@
+=====================
+Content Object States
+=====================
+
+:Authors: Kristof Coomans
+
+
+
+Preface
+-------
+Experience with customer projects has proven that using the current workflow
+system is often too complex to handle simple state transitions of content. There
+needs to be an alternative for this, which we will call "content object states".
+
+
+
+Features
+-----------------
+We want to relate content objects to one or multiple "content object states".
+These states will also be connected to the system of roles and policies, in
+order to allow certain users to read, edit or remove content in certain states
+and to disallow this in other states. Separate policies will also be provided
+which allows users to assign a specific state to an object, and to perform the
+transition of one content object state to another.
+
+Each content object state belongs to one "content object state group", in order
+to group them logically. Object states can be ordered inside their group,
+mostly for displaying purposes. The first object state in the group is the default
+one.
+
+A content object can have only one object state of the same group at the same
+time. State transitions are only allowed between states of the same group.
+
+It should also be possible to define new template overrides for content objects
+in a specific state.
+
+The names and descriptions of the object states should be translatable in the
+administration interface.
