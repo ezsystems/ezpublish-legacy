@@ -867,9 +867,19 @@ class eZOEXMLInput extends eZXMLInputHandler
         
         if ( self::$customAttributeStyleMap === null )
         {
-            // disabled because the browser (ie,ff&opera) convert the tag to font tag in certain circumstances
-            //$oeini = eZINI::instance( 'ezoe.ini' );
-            self::$customAttributeStyleMap = array();//$oeini->variable('EditorSettings', 'CustomAttributeStyleMap' );
+            // filtered because the browser (ie,ff&opera) convert the tag to font tag in certain circumstances
+            $oeini = eZINI::instance( 'ezoe.ini' );
+            $styles = $oeini->variable('EditorSettings', 'CustomAttributeStyleMap' );
+            $customAttributeStyleMap = array();
+            foreach( $styles as $name => $style )
+            {
+                if ( strpos( $style, 'margin' ) === 0 ||
+                     strpos( $style, 'border' ) === 0 ||
+                     strpos( $style, 'padding' ) === 0 )
+                {
+                    self::$customAttributeStyleMap[$name] = $style;
+                }
+            }
         }
 
         foreach ( $tag->attributes as $attribute )

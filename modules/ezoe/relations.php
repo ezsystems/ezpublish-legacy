@@ -261,9 +261,8 @@ if ( $contentIni->hasVariable( 'ImageSettings', 'DefaultCropAlias' ) )
     $tpl->setVariable( 'default_crop_size', $contentIni->variable( 'ImageSettings', 'DefaultCropAlias' ) );
 else
     $tpl->setVariable( 'default_crop_size', $defaultSize );
-    
-//eZOEAjaxContent::jsonEncode( $ezoeIni->variable('EditorSettings', 'CustomAttributeStyleMap' ) )
-$tpl->setVariable( 'custom_attribute_style_map', '{}' );
+
+$tpl->setVariable( 'custom_attribute_style_map', eZOEAjaxContent::jsonEncode( $ezoeIni->variable('EditorSettings', 'CustomAttributeStyleMap' ) ) );
 
 $tpl->setVariable( 'persistent_variable', array() );
 

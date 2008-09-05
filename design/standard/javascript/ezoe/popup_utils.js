@@ -302,12 +302,14 @@ var eZOEPopupUtils = {
             var customArr = [];
             ez.$$('input,select', node).forEach(function( o ){
                 if ( o.hasClass('mceItemSkip') ) return;
-                var name = o.el.name, value = o.postData( true );
+                var name = o.el.name, value = o.postData( true ), style;
                 // add to styles if custom attibute is defined in customAttributeStyleMap
                 if ( s.customAttributeStyleMap && s.customAttributeStyleMap[name] !== undefined  )
                 {
-                    // disabled because the browser (ie,ff&opera) convert the tag to font tag in certain circumstances
-                    //args['style'] += s.customAttributeStyleMap[name] + ': ' + value + '; ';
+                    // filtered because the browser (ie,ff&opera) convert the tag to font tag in certain circumstances
+                    style = s.customAttributeStyleMap[name];
+                    if ( style.indexOf('padding') === 0 || style.indexOf('margin') === 0 || style.indexOf('border') === 0)
+                        args['style'] += style + ': ' + value + '; ';
                 }
                 customArr.push( name + '|' + value );
             });
