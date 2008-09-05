@@ -258,6 +258,14 @@ class eZPackageInstallationHandler
 
     /*!
      \virtual
+     Used to reset the instalation handler if needed
+    */
+    function reset( )
+    {
+    }
+
+    /*!
+     \virtual
      Finalizes the creation process with the gathered information.
      This is usually the function that creates the package and
      adds the proper elements.
