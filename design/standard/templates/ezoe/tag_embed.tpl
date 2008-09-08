@@ -174,7 +174,7 @@ function loadImageSize( e, el )
         return;
     }
     var attribObj = eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'] || false, size = el.value;
-    if ( !attribObj || !previewImageNode )
+    if ( !attribObj || !previewImageNode || !attribObj['original']['url'] )
     {
         // Image attribute or node missing
     }

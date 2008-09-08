@@ -1,5 +1,8 @@
 eZ Online Editor 5.0 extension Changelog
 
+5.0rc6
+* Fixed #013548: Javascript error, when embedding video objects with empty ezimage attribute
+
 5.0rc5
 * Fixed ezoescript and ezoecss to load files in correct order when arrays are used
 * EditorDialogCSSFileList should prepend 'stylesheets/' folder automatically like
