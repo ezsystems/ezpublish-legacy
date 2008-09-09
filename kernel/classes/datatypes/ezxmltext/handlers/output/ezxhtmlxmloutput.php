@@ -217,7 +217,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         if ( $element->getAttribute( 'url_id' ) != null )
         {
             $linkID = $element->getAttribute( 'url_id' );
-            $href = $this->LinkArray[$linkID];
+            if ( isset( $this->LinkArray[$linkID] ) )
+                $href = $this->LinkArray[$linkID];
         }
         elseif ( $element->getAttribute( 'node_id' ) != null )
         {
