@@ -13,11 +13,11 @@
 */
 
 
-if ( window.ez === undefined || ez.version < 0.95 )
+if ( window.ez === undefined || ez.version < 0.96 )
 {
 
 var ez = {
-    version: 0.95,
+    version: 0.96,
     handlers: [],
     string: {
         cssStyle: function( s )
@@ -251,7 +251,7 @@ var ez = {
             // Example: arr = ez.$$('div.my_class, input[type=text], img[alt~=went]');
             // Currently only supports one attribute/class/pseudo filter pr tag
             // only children related pseudo filters are supporte (first|last|nth-child)
-            var args = ez.$c(arguments, ','), doc = (typeof args[args.length -1] === 'object' ? args.pop() : document), r = [], mode = '';
+            var args = ez.$c(arguments, ','), doc = (typeof args[args.length -1] === 'object' ? args.pop() : document), r = [], mode = '', css = args.join(',');
             if ( args.length === 1 && args[0].eztype && args[0].eztype === 'array' )
             {
                 return args[0];
@@ -260,11 +260,15 @@ var ez = {
             {
                 return ez.$( doc );
             }
-            // Use querySelectorAll if browsers supports it and doc is a root element (fails in ie8 beta since it dosn't return a proper node list)
-            if ( doc.querySelectorAll !== undefined && ( doc.parentNode === null || doc.parentNode === undefined ) )
+            // Use querySelectorAll if browsers supports it and doc is a root element
+            if ( doc.querySelectorAll !== undefined &&
+               ( doc.parentNode === null || doc.parentNode === undefined ) &&
+                 css.indexOf('nth-') === -1 && // ie 8 doesn't support nth-child
+                 css.indexOf('last-') === -1   // ie8 doesn't support last-child
+                  ) 
             {
                 try {
-                    r = doc.querySelectorAll( args.join(',') );
+                    r = doc.querySelectorAll( css );
                 } catch(e) {
                     r = [];
                 }
