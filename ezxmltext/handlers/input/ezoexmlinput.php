@@ -717,7 +717,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 default :
                 {
                     $debug = eZDebug::instance();
-                    $debug->writeError( "Unsupported tag at this level: $tagName", "eZXMLTextType::inputSectionXML()" );
+                    $debug->writeError( "Unsupported tag at this level: $tagName", "eZOEXMLInput::inputSectionXML()" );
                 }break;
             }
         }
@@ -749,7 +749,7 @@ class eZOEXMLInput extends eZXMLInputHandler
             default :
             {
                 $debug = eZDebug::instance();
-                $debug->writeError( "Unsupported tag at this level: $tagName", "eZXMLTextType::inputListXML()" );
+                $debug->writeError( "Unsupported tag at this level: $tagName", "eZOEXMLInput::inputListXML()" );
             }break;
         }
         return $output;
@@ -780,7 +780,7 @@ class eZOEXMLInput extends eZXMLInputHandler
             default :
             {
                 $debug = eZDebug::instance();
-                $debug->writeError( "Unsupported tag at this level: $tagName", "eZXMLTextType::inputTdXML()" );
+                $debug->writeError( "Unsupported tag at this level: $tagName", "eZOEXMLInput::inputTdXML()" );
             }break;
         }
         return $output;

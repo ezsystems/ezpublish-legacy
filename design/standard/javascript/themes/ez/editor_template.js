@@ -1018,7 +1018,7 @@
                     pi = DOM.create('a', {'href' : "javascript:;", title : ti, 'class' : 'mcePath_' + (de++), 'onclick' : 'return false;', 'onmousedown' : 'return false;'}, na);
                     Event.add( pi, 'click', function(e){
                         var x = t.__getTagCommand( n, v );
-                        if (x) ed.execCommand( x.cmd, n || false, x.v );
+                        if (x) ed.execCommand( x.cmd, n || false, x.c );
                     });
 
                     if (p.hasChildNodes()) {
@@ -1192,7 +1192,7 @@
             }
         },
         
-        _generalXmlTagPopup : function( eurl, view, width, height, node )
+        _generalXmlTagPopup : function( view, eurl, width, height, node )
         {
             var ed = this.editor, s = ed.settings;
             if ( view && view.nodeName ) node = view;
@@ -1232,7 +1232,7 @@
 
         _mceHelp : function()
         {
-            this._generalXmlTagPopup( 'help', '/dialog/', 480, 380 );
+            this._generalXmlTagPopup( '/dialog/', 'help', 480, 380 );
         },
 
         _mceColorPicker : function(ui, v) {
@@ -1282,7 +1282,7 @@
                 el = e;
                 eurl += e.getAttribute('id') + '/' + e.getAttribute('inline') + '/' + e.getAttribute('alt');
             }
-            this._generalXmlTagPopup( eurl, type, 500, 480, el )
+            this._generalXmlTagPopup( type, eurl, 500, 480, el )
         },
 
         _mceObject : function(ui, val)
@@ -1298,7 +1298,7 @@
                 el = e;
                 eurl += e.getAttribute('id') + '/' + e.getAttribute('inline') + '/' + e.getAttribute('alt');
             }
-            this._generalXmlTagPopup( eurl, type, 500, 480, el );
+            this._generalXmlTagPopup( type, eurl, 500, 480, el );
         },
 
         _mcePageBreak : function( ui, val )
@@ -1317,17 +1317,17 @@
             var ed = this.editor, n = ed.selection.getNode();
             if ( ui.nodeName !== 'A' && (n = this.__getParentByTag( n, 'a', '', '', true )) && !DOM.getAttrib(n, 'href') )
                 ui = n;
-            this._generalXmlTagPopup( 'anchor', false, 0, 0, ui );
+            this._generalXmlTagPopup( false, 'anchor', 0, 0, ui );
         },
 
         _mceCustom : function(ui, v)
         {
-            this._generalXmlTagPopup( 'custom/' + v, false, 0, 0, ui );
+            this._generalXmlTagPopup( false, 'custom/' + v, 0, 0, ui );
         },
 
         _mceLiteral : function(ui, v)
         {
-            this._generalXmlTagPopup( 'literal', false, 0, 0, ui );
+            this._generalXmlTagPopup( false, 'literal', 0, 0, ui );
         },
 
         _mceLink : function(ui, v)
@@ -1335,7 +1335,7 @@
             var ed = this.editor, n = ed.selection.getNode();
             if ( ui.nodeName !== 'A' && (n = this.__getParentByTag( n, 'a', '', '', true )) && DOM.getAttrib(n, 'href') )
                 ui = n;
-            this._generalXmlTagPopup( 'link', false, 0, 360, ui );
+            this._generalXmlTagPopup( false, 'link', 0, 360, ui );
         },
 
         _mceNewDocument : function() {

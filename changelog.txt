@@ -1,7 +1,8 @@
 eZ Online Editor 5.0 extension Changelog
 
 5.0rc6
-* Fixed #013548: Javascript error, when embedding video objects with empty ezimage attribute
+* Fixed #13548: Javascript error, when embedding video objects with empty ezimage attribute
+* Regression #13486: Can't change properties of OL, LI or UL
 
 5.0rc5
 * Fixed ezoescript and ezoecss to load files in correct order when arrays are used
