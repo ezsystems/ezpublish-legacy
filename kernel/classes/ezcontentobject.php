@@ -583,6 +583,7 @@ class eZContentObject extends eZPersistentObject
     function resetDataMap()
     {
         $this->ContentObjectAttributeArray = array();
+        $this->ContentObjectAttributes = array();
         $this->DataMap = array();
         return $this->DataMap;
     }
@@ -1421,6 +1422,7 @@ class eZContentObject extends eZPersistentObject
         $this->setAttribute( 'id', null );
         $this->setAttribute( 'published', time() );
         $this->setAttribute( 'modified', time() );
+        $this->resetDataMap();
     }
 
     /*!
