@@ -358,4 +358,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13528: Treemenu broken
 - Fixed bug #13515: changelog2xmltext issues
 - Fixed bug #11637: Texttoimage in clustering mode not in the database
--Fixed bug #13552: Broken datamap caching when copying content objects
+- Fixed bug #13552: Broken datamap caching when copying content objects
