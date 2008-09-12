@@ -3,6 +3,8 @@ eZ Online Editor 5.0 extension Changelog
 5.0rc6
 * Fixed #13548: Javascript error, when embedding video objects with empty ezimage attribute
 * Regression #13486: Can't change properties of OL, LI or UL
+* Fixed #13599: Header removed from custom tags
+
 
 5.0rc5
 * Fixed ezoescript and ezoecss to load files in correct order when arrays are used
@@ -21,6 +23,7 @@ eZ Online Editor 5.0 extension Changelog
 * Added ezinlinepopups plugin as possible workaround for issue 13549 & modal dialogs
 * Reintroduced CustomAttributeStyleMap, but only for limited type of styles (see ezoe.ini)
 * Fixed: absolute urls to same domain where converted to relative urls by TinyMCE
+
 
 5.0rc4
 * Fixed regression #013486: Can't change properties of OL, LI or UL

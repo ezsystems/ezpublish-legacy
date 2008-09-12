@@ -364,8 +364,7 @@ class eZOEXMLInput extends eZXMLInputHandler
             } break;
             default :
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( 'Unknown custom HTTP action: ' . $action, 'eZOEXMLInput' );
+                eZDebug::writeError( 'Unknown custom HTTP action: ' . $action, 'eZOEXMLInput' );
             } break;
         }
     }
@@ -630,7 +629,6 @@ class eZOEXMLInput extends eZXMLInputHandler
             else
             {
                 $sectionLevel = $tdSectionLevel;
-                $currentSectionLevel = $currentSectionLevel;
             }
 
             $tagName = $sectionNode instanceof DOMNode ? $sectionNode->nodeName : '';
@@ -639,9 +637,7 @@ class eZOEXMLInput extends eZXMLInputHandler
             {
                 case 'header' :
                 {
-                    $level = $sectionLevel;
                     $headerClassName = $sectionNode->getAttribute( 'class' );
-
                     $headerClassString = $headerClassName != null ? " class='$headerClassName'" : '';
 
                     $tagContent = '';
@@ -654,7 +650,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
                     }
 
-                    switch ( $level )
+                    switch ( $sectionLevel )
                     {
                         case '2':
                         case '3':
@@ -662,29 +658,21 @@ class eZOEXMLInput extends eZXMLInputHandler
                         case '5':
                         case '6':
                         {
-                            $archorName = $sectionNode->getAttribute( 'anchor_name' );
-                            if ( $archorName != null )
-                            {
-                                $output .= "<h$level$headerClassString><a name=\"$archorName\" class=\"mceItemAnchor\"></a>" . $sectionNode->textContent. "</h$level>";
-                            }
-                            else
-                            {
-                                $output .= "<h$level$headerClassString>" . $tagContent . "</h$level>";
-                            }
+                            $level = $sectionLevel;
                         }break;
-
                         default:
                         {
-                            $archorName = $sectionNode->getAttribute( 'anchor_name' );
-                            if ( $archorName != null )
-                            {
-                                $output .= "<h1$headerClassString><a name=\"$archorName\" class=\"mceItemAnchor\"></a>" . $sectionNode->textContent. "</h1>";
-                            }
-                            else
-                            {
-                                $output .= "<h1$headerClassString>" . $tagContent . "</h1>";
-                            }
+                            $level = 1;
                         }break;
+                    }
+                    $archorName = $sectionNode->getAttribute( 'anchor_name' );
+                    if ( $archorName != null )
+                    {
+                        $output .= "<h$level$headerClassString><a name=\"$archorName\" class=\"mceItemAnchor\"></a>" . $sectionNode->textContent. "</h$level>";
+                    }
+                    else
+                    {
+                        $output .= "<h$level$headerClassString>" . $tagContent . "</h$level>";
                     }
 
                 }break;
@@ -716,8 +704,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
                 default :
                 {
-                    $debug = eZDebug::instance();
-                    $debug->writeError( "Unsupported tag at this level: $tagName", "eZOEXMLInput::inputSectionXML()" );
+                    eZDebug::writeError( "Unsupported tag at this level: $tagName", "eZOEXMLInput::inputSectionXML()" );
                 }break;
             }
         }
@@ -748,8 +735,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
             default :
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Unsupported tag at this level: $tagName", "eZOEXMLInput::inputListXML()" );
+                eZDebug::writeError( "Unsupported tag at this level: $tagName", "eZOEXMLInput::inputListXML()" );
             }break;
         }
         return $output;
@@ -779,8 +765,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
             default :
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Unsupported tag at this level: $tagName", "eZOEXMLInput::inputTdXML()" );
+                eZDebug::writeError( "Unsupported tag at this level: $tagName", "eZOEXMLInput::inputTdXML()" );
             }break;
         }
         return $output;
@@ -1146,11 +1131,11 @@ class eZOEXMLInput extends eZXMLInputHandler
                 }
                 else
                 {
-                    $customTagContent = '';
-                    foreach ( $tag->childNodes as $tagChild )
+                    $customTagContent = $this->inputSectionXML( $tag, $currentSectionLevel, 1 );
+                    /*foreach ( $tag->childNodes as $tagChild )
                     {
-                        $customTagContent .= $this->inputTdXML( $tagChild, $currentSectionLevel, $tdSectionLevel );
-                    }
+                        $customTagContent .= $this->inputTdXML( $tagChild, $currentSectionLevel, 1 );
+                    }*/
                     $output .= '<div class="mceItemCustomTag ' . $name . '" type="custom"' . $customAttributePart . '>' . $customTagContent . '</div>';
                 }
             }break;

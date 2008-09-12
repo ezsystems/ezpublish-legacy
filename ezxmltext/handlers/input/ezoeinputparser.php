@@ -703,13 +703,10 @@ class eZOEInputParser extends eZXMLInputParser
                 {
                     $sectionLevel++;
                 }
-                else
+                elseif ( $current->nodeName === 'td' )
                 {
-                    if ( $current->nodeName === 'td' )
-                    {
-                        $sectionLevel++;
-                        break;
-                    }
+                    $sectionLevel++;
+                    break;
                 }
             }
             if ( $level > $sectionLevel )
@@ -769,8 +766,9 @@ class eZOEInputParser extends eZXMLInputParser
                     $current->appendChild( $elementToMove );
                     $elementToMove = $next;
 
-                    if ( $elementToMove->nodeName === 'header' &&
-                         $elementToMove->getAttribute( 'level' ) <= $level )
+                    if ( !$elementToMove || 
+                         ( $elementToMove->nodeName === 'header' &&
+                         $elementToMove->getAttribute( 'level' ) <= $level ) )
                         break;
                 }
             }
