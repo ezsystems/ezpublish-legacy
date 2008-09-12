@@ -68,12 +68,9 @@ class eZContentCacheManager
     */
     static function appendParentNodeIDs( $object, $versionNum, &$nodeIDList )
     {
-        foreach ( $object->parentNodes( $versionNum ) as $parentNode )
+        foreach ( $object->parentNodeIDArray() as $parentNodeID )
         {
-            if ( is_object ( $parentNode ) )
-            {
-                $nodeIDList[] = $parentNode->attribute( 'node_id' );
-            }
+            $nodeIDList[] = $parentNodeID;
         }
     }
 

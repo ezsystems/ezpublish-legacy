@@ -4564,6 +4564,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         } break;
 
                         case 'Owner':
+                        case 'ParentOwner':
                         {
                             // if limitation value == 2, anonymous limited to current session.
                             if ( in_array( 2, $valueList ) &&
@@ -4589,6 +4590,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         } break;
 
                         case 'Group':
+                        case 'ParentGroup':
                         {
                             $access = $contentObject->checkGroupLimitationAccess( $valueList, $userID );
 
@@ -4739,7 +4741,38 @@ class eZContentObjectTreeNode extends eZPersistentObject
     {
         $canCreateClassIDListPart = array();
         $hasClassIDLimitation = false;
-        $object = false;
+        $user = eZUser::currentUser();
+        $userID = $user->attribute( 'contentobject_id' );
+        $object = $this->attribute( 'object' );
+
+        if ( isset( $policy['ParentOwner'] ) )
+        {
+            // if limitation value == 2, anonymous limited to current session.
+            if ( in_array( 2, $policy['ParentOwner'] ) && $user->isAnonymous() )
+            {
+                //include_once( 'kernel/classes/ezpreferences.php' );
+                $createdObjectIDList = eZPreferences::value( 'ObjectCreationIDList' );
+                if ( !$createdObjectIDList ||
+                     !in_array( $object->ID, unserialize( $createdObjectIDList ) ) )
+                {
+                    return array();
+                }
+            }
+            else if ( $object->attribute( 'owner_id' ) != $userID && $object->ID != $userID )
+            {
+                return array();
+            }
+        }
+
+        if ( isset( $policy['ParentGroup'] ) )
+        {
+            $access = $object->checkGroupLimitationAccess( $policy['ParentGroup'], $userID );
+            if ( $access !== 'allowed' )
+            {
+                return array();
+            }
+        }
+
         if ( isset( $policy['Class'] ) )
         {
             $canCreateClassIDListPart = $policy['Class'];
@@ -4748,8 +4781,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( isset( $policy['User_Section'] ) )
         {
-            if ( $object === false )
-                $object = $this->attribute( 'object' );
             if ( !in_array( $object->attribute( 'section_id' ), $policy['User_Section']  ) )
             {
                 return array();
@@ -4759,8 +4790,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( isset( $policy['User_Subtree'] ) )
         {
             $allowed = false;
-            if ( $object === false )
-                $object = $this->attribute( 'object' );
             $assignedNodes = $object->attribute( 'assigned_nodes' );
             foreach ( $assignedNodes as $assignedNode )
             {
@@ -4782,8 +4811,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( isset( $policy['Section'] ) )
         {
-            if ( $object === false )
-                $object = $this->attribute( 'object' );
             if ( !in_array( $object->attribute( 'section_id' ), $policy['Section']  ) )
             {
                 return array();
@@ -4792,8 +4819,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( isset( $policy['ParentClass'] ) )
         {
-            if ( $object === false )
-                $object = $this->attribute( 'object' );
             if ( !in_array( $object->attribute( 'contentclass_id' ), $policy['ParentClass']  ) )
             {
                 return array();
@@ -4811,9 +4836,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( isset( $policy['Assigned'] ) )
         {
-            if ( $object === false )
-                $object = $this->attribute( 'object' );
-            if ( $object->attribute( 'owner_id' ) != $user->attribute( 'contentobject_id' )  )
+            if ( $object->attribute( 'owner_id' ) != $userID  )
             {
                 return array();
             }
@@ -4843,8 +4866,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( isset( $policy['Subtree'] ) )
         {
             $allowed = false;
-            if ( $object === false )
-                $object = $this->attribute( 'object' );
             $assignedNodes = $object->attribute( 'assigned_nodes' );
             foreach ( $assignedNodes as $assignedNode )
             {
@@ -5114,6 +5135,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $retNodes;
     }
 
+    /*!
+     Get parnet node id by node id
+     \param $nodeID the node id you want parent node id for.
+     */
     static function getParentNodeId( $nodeID )
     {
         if ( !isset( $nodeID ) )
@@ -5127,6 +5152,58 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                        WHERE
                                               node_id = $nodeID");
         return $parentArr[0]['parent_node_id'];
+    }
+
+    /*!
+     Get parent node id's by content object id's.
+     \param $objectIDs id / Array of object id's to fetch parent node id's for.
+     \param $groupByObjectId If true then the returned parent node id's will be grouped by object
+                             id of the passed object id's, aka the childs object id's.
+     \param $onlyMainNode Fetches only the parent node id's of the main node of the objects if true.
+     \return the parnet node id's for specified object id's.
+    */
+    static function getParentNodeIdListByContentObjectID( $objectIDs, $groupByObjectId = false, $onlyMainNode = false )
+    {
+        if ( !$objectIDs )
+            return null;
+        if ( !is_array( $objectIDs ) )
+          $objectIDs = array( $objectIDs );
+
+        $db = eZDB::instance();
+        $query = 'SELECT
+                    parent_node_id, contentobject_id
+                  FROM
+                    ezcontentobject_tree
+                  WHERE
+                    contentobject_id in (' . $db->implodeWithTypeCast( ', ', $objectIDs, 'int' ) . ')';
+
+        if ( $onlyMainNode )
+        {
+            $query .= ' AND node_id = main_node_id';
+        }
+
+        $list = $db->arrayQuery( $query );
+        $parentNodeIDs = array();
+        if ( $groupByObjectId )
+        {
+            foreach( $list as $item )
+            {
+                $objectID = $item['contentobject_id'];
+                if ( !isset( $parentNodeIDs[$objectID] ) )
+                {
+                    $parentNodeIDs[$objectID] = array();
+                }
+                $parentNodeIDs[$objectID][] = $item['parent_node_id'];
+            }
+        }
+        else
+        {
+            foreach( $list as $item )
+            {
+                $parentNodeIDs[] = $item['parent_node_id'];
+            }
+        }
+        return $parentNodeIDs;
     }
 
     /*!

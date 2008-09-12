@@ -755,7 +755,8 @@ class eZContentObject extends eZPersistentObject
 
     function mainParentNodeID()
     {
-        return eZContentObjectTreeNode::getParentNodeId( $this->attribute( 'main_node_id' ) );
+        $list = eZContentObjectTreeNode::getParentNodeIdListByContentObjectID( $this->ID, false, true );
+        return isset( $list[0] ) ? $list[0] : null;
     }
 
     /*!
@@ -3386,21 +3387,22 @@ class eZContentObject extends eZPersistentObject
         // the 'published' tree structure.
         $retNodes = array();
 
-        $nodes =  $this->assignedNodes();
+        $parentNodeIDs = eZContentObjectTreeNode::getParentNodeIdListByContentObjectID( $this->ID );
+        if ( !$parentNodeIDs )
+        {
+          return $retNodes;
+        }
         if ( $asObject )
         {
-            foreach ( $nodes as $node )
+            $retNodes = eZContentObjectTreeNode::fetch( $parentNodeIDs );
+            if ( !is_array( $retNodes ) )
             {
-                $retNodes[] = $node->fetchParent();
+                $retNodes = array( $retNodes );
             }
         }
         else
         {
-            foreach ( $nodes as $node )
-            {
-                $parentNode = $node->fetchParent();
-                $retNodes[] = $parentNode->attribute( 'node_id' );
-            }
+        	$retNodes = $parentNodeIDs;
         }
 
         return $retNodes;
@@ -3597,19 +3599,11 @@ class eZContentObject extends eZPersistentObject
                     }
                     else
                     {
-                        // get contentobjects for 'user' and 'owner'
-                        $userList = eZContentObject::fetchIDArray( array( $userID, $ownerID ) );
-
-                        // get parents for each location for 'user' and 'owner'.
-                        $groupList = array();
-                        foreach ( array_keys( $userList ) as $key )
-                        {
-                            $groupList[] = $userList[$key]->attribute( 'parent_nodes' );
-                        }
+                        // get parent node ids for 'user' and 'owner'
+                        $groupList = eZContentObjectTreeNode::getParentNodeIdListByContentObjectID( array( $userID, $ownerID ), true );
 
                         // find group(s) which is common for 'user' and 'owner'
-                        // note: $groupList should contain 2 items only: parents for 'user' and parents for 'owner'.
-                        $commonGroup = array_intersect( $groupList[0], $groupList[1] );
+                        $commonGroup = array_intersect( $groupList[$userID], $groupList[$ownerID] );
 
                         if ( count( $commonGroup ) > 0 )
                         {
@@ -3916,6 +3910,7 @@ class eZContentObject extends eZPersistentObject
                         } break;
 
                         case 'Owner':
+                        case 'ParentOwner':
                         {
                             // if limitation value == 2, anonymous limited to current session.
                             if ( in_array( 2, $limitationArray[$key] ) &&
@@ -3941,6 +3936,7 @@ class eZContentObject extends eZPersistentObject
                         } break;
 
                         case 'Group':
+                        case 'ParentGroup':
                         {
                             $access = $this->checkGroupLimitationAccess( $limitationArray[$key], $userID );
 
@@ -4177,6 +4173,37 @@ class eZContentObject extends eZPersistentObject
     {
         $canCreateClassIDListPart = array();
         $hasClassIDLimitation = false;
+        $user = eZUser::currentUser();
+        $userID = $user->attribute( 'contentobject_id' );
+
+        if ( isset( $policy['ParentOwner'] ) )
+        {
+            // if limitation value == 2, anonymous limited to current session.
+            if ( in_array( 2, $policy['ParentOwner'] ) && $user->isAnonymous() )
+            {
+                //include_once( 'kernel/classes/ezpreferences.php' );
+                $createdObjectIDList = eZPreferences::value( 'ObjectCreationIDList' );
+                if ( !$createdObjectIDList ||
+                     !in_array( $this->ID, unserialize( $createdObjectIDList ) ) )
+                {
+                    return array();
+                }
+            }
+            else if ( $this->attribute( 'owner_id' ) != $userID && $this->ID != $userID )
+            {
+                return array();
+            }
+        }
+
+        if ( isset( $policy['ParentGroup'] ) )
+        {
+            $access = $this->checkGroupLimitationAccess( $policy['ParentGroup'], $userID );
+            if ( $access !== 'allowed' )
+            {
+                return array();
+            }
+        }
+
         if ( isset( $policy['Class'] ) )
         {
             $canCreateClassIDListPart = $policy['Class'];
@@ -4231,7 +4258,7 @@ class eZContentObject extends eZPersistentObject
 
         if ( isset( $policy['Assigned'] ) )
         {
-            if ( $this->attribute( 'owner_id' ) != $user->attribute( 'contentobject_id' )  )
+            if ( $this->attribute( 'owner_id' ) != $userID )
             {
                 return array();
             }

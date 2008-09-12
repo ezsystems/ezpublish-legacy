@@ -595,8 +595,25 @@ $AssignedEdit = array(
         array( 'Name' => 'Self or anonymous users per HTTP session',
                'value' => '2' ) ) );
 
+$ParentAssignedEdit = array(
+    'name'=> 'ParentOwner',
+    'single_select' => true,
+    'values'=> array(
+        array( 'Name' => 'Self',
+               'value' => '1'),
+        array( 'Name' => 'Self or anonymous users per HTTP session',
+               'value' => '2' ) ) );
+
+
 $AssignedGroup = array(
     'name'=> 'Group',
+    'single_select' => true,
+    'values'=> array(
+        array( 'Name' => 'Self',
+               'value' => '1') ) );
+
+$ParentAssignedGroup = array(
+    'name'=> 'ParentGroup',
     'single_select' => true,
     'values'=> array(
         array( 'Name' => 'Self',
@@ -657,6 +674,8 @@ $FunctionList['view_embed'] = array( 'Class' => $ClassID,
                                      'Subtree' => $Subtree);
 $FunctionList['create'] = array( 'Class' => $ClassID,
                                  'Section' => $SectionID,
+                                 'ParentOwner' => $ParentAssignedEdit,
+                                 'ParentGroup' => $ParentAssignedGroup,
                                  'ParentClass' => $ParentClassID,
                                  'ParentDepth' => $ParentDepth,
                                  'Node' => array_merge(  $Node, array( 'DropList' => array( 'ParentClass', 'Section' ) ) ),
