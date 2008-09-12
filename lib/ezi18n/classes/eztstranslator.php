@@ -124,17 +124,18 @@ class eZTSTranslator extends eZTranslatorHandler
         // First try for current charset
         $charset = eZTextCodec::internalCharset();
         $tsTimeStamp = false;
+        $ini = eZINI::instance();
+        $checkMTime = $ini->variable( 'RegionalSettings', 'TranslationCheckMTime' ) === 'enabled';
 
         if ( !$this->RootCache )
         {
-            $ini = eZINI::instance();
             $roots = array( $ini->variable( 'RegionalSettings', 'TranslationRepository' ) );
             $extensionBase = eZExtension::baseDirectory();
             $translationExtensions = $ini->variable( 'RegionalSettings', 'TranslationExtensions' );
             foreach ( $translationExtensions as $translationExtension )
             {
                 $extensionPath = $extensionBase . '/' . $translationExtension . '/translations';
-                if ( file_exists( $extensionPath ) )
+                if ( !$checkMTime || file_exists( $extensionPath ) )
                 {
                     $roots[] = $extensionPath;
                 }
@@ -152,7 +153,7 @@ class eZTSTranslator extends eZTranslatorHandler
         // Load cached translations if possible
         if ( $this->UseCache == true )
         {
-            if ( !$tsTimeStamp )
+            if ( !$tsTimeStamp && $checkMTime )
             {
                 foreach ( $roots as $root )
                 {
@@ -233,6 +234,10 @@ class eZTSTranslator extends eZTranslatorHandler
         $status = false;
         foreach ( $roots as $root )
         {
+            if ( !file_exists( $root ) )
+            {
+                continue;
+            }
             $path = eZDir::path( array( $root, $locale, $charset, $filename ) );
             if ( !file_exists( $path ) )
             {
