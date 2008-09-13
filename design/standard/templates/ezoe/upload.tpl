@@ -23,13 +23,15 @@ tinyMCEPopup.onInit.add( function(){
     {
         if ( n.children_count )
         {
-           tag = document.createElement("a");
+           var tag = document.createElement("a");
            tag.setAttribute('href', 'JavaScript:eZOEPopupUtils.browse(' + n.node_id + ');');
-           tag.setAttribute('title', ed.getLang('browse') );
+           tag.setAttribute('title', ed.getLang('browse') + ': ' + n.url_alias );
            if ( mode !== 'browse' ) ez.$( tag ).addEvent('click', function(){ slides.accordionGoto( 2 ); });
            return tag;
         }
-        return document.createElement("span");
+        var tag = document.createElement("span");
+        tag.setAttribute('title', n.url_alias );
+        return tag;
     };
 });
 

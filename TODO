@@ -2,14 +2,15 @@
 
 KNOWN ISSUES:
 * update translations
-* Empty bookmarks view doesn't show text as expected (regression)
 
 
 KNOWN ENHANCEMENT REQUESTS:
-* Show path somehow on search(/ bookmark) to be able to know seperate similar content
- (same name for instance)
+
 
 
 KNOWN ENHANCEMENT REQUESTS Postponed to 5.1:
 * Custimizable formats selector w/ classes (needs support for classes in the editors FormatBlock call)
 * Better feedback on custom attribute validation ( fork TinyMCE validation and enhance it? )
+* Improve support for flash and video (look into using the support for it in TinyMCE)
+* Improve Browse view (also used in search and bookmarks), look at MCFileMangager & MCImageManager
+ plugins demo for tinymce (on their website) for alternative view.

@@ -569,11 +569,12 @@ var eZOEPopupUtils = {
                    {
                        tag = document.createElement("a");
                        tag.setAttribute('href', 'JavaScript:eZOEPopupUtils.' + mode + '(' + n.node_id + ');');
-                       tag.setAttribute('title', ed.getLang('browse') );
+                       tag.setAttribute('title', ed.getLang('browse') + ': ' + n.url_alias );
                    }
                    else
                    {
                        tag = document.createElement("span");
+                       tag.setAttribute('title', n.url_alias );
                    }
                    tag.innerHTML = n.name;
                    td.appendChild( tag );
