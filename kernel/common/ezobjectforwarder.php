@@ -623,7 +623,7 @@ class eZObjectForwarder
         $input_var = $tpl->elementValue( $params[$input_name], $rootNamespace, $currentNamespace, $functionPlacement );
         if ( !is_object( $input_var ) )
         {
-            $tpl->warning( $functionName, "Parameter $input_name is not an object" );
+            $tpl->warning( $functionName, "Parameter $input_name is not an object", $functionPlacement );
             return;
         }
 
