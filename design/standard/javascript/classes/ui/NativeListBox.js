@@ -1,5 +1,5 @@
 /**
- * $Id: NativeListBox.js 520 2008-01-07 16:30:32Z spocke $
+ * $Id: NativeListBox.js 925 2008-09-11 11:25:26Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -54,20 +54,48 @@
 		 * Selects a item/option by value. This will both add a visual selection to the
 		 * item and change the title of the control to the title of the option.
 		 *
-		 * @param {String} v Value to look for inside the list box.
+		  * @param {String/function} va Value to look for inside the list box or a function selector.
 		 */
-		select : function(v) {
-			var e = DOM.get(this.id), ol = e.options;
+		select : function(va) {
+			var t = this, fv, f;
 
-			v = '' + (v || '');
+			if (va == undefined)
+				return;
 
-			e.selectedIndex = 0;
-			each(ol, function(o, i) {
-				if (o.value == v) {
-					e.selectedIndex = i;
-					return false;
-				}
-			});
+			// Is string or number make function selector
+			if (va && va.call)
+				f = va;
+			else {
+				f = function(v) {
+					return v == va;
+				};
+			}
+
+			// Do we need to do something?
+			if (va != t.selectedValue) {
+				// Find item
+				each(t.items, function(o, i) {
+					if (f(o.value)) {
+						fv = 1;
+						t.selectByIndex(i);
+						return false;
+					}
+				});
+
+				if (!fv)
+					t.selectByIndex(-1);
+			}
+		},
+
+		/**
+		 * Selects a item/option by index. This will both add a visual selection to the
+		 * item and change the title of the control to the title of the option.
+		 *
+		 * @param {String} idx Index to select, pass -1 to select menu/title of select box.
+		 */
+		selectByIndex : function(idx) {
+			DOM.get(this.id).selectedIndex = idx + 1;
+			this.selectedValue = this.items[idx] ? this.items[idx].value : null;
 		},
 
 		/**
@@ -133,12 +161,14 @@
 			t.rendered = true;
 
 			function onChange(e) {
-				var v = e.target.options[e.target.selectedIndex].value;
+				var v = t.items[e.target.selectedIndex - 1];
 
-				t.onChange.dispatch(t, v);
+				if (v = v.value) {
+					t.onChange.dispatch(t, v);
 
-				if (t.settings.onselect)
-					t.settings.onselect(v);
+					if (t.settings.onselect)
+						t.settings.onselect(v);
+				}
 			};
 
 			Event.add(t.id, 'change', onChange);

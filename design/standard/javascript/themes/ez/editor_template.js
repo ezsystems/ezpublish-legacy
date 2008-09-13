@@ -1,5 +1,5 @@
 /**
- * $Id: editor_template_src.js 901 2008-08-18 11:44:21Z spocke $
+ * $Id: editor_template_src.js 925 2008-09-11 11:25:26Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright � 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -13,6 +13,8 @@
     var DOM = tinymce.DOM, Event = tinymce.dom.Event, extend = tinymce.extend, each = tinymce.each, Cookie = tinymce.util.Cookie, lastExtID, explode = tinymce.explode;
 
     tinymce.create('tinymce.themes.eZTheme', {
+        sizes : [8, 10, 12, 14, 18, 24, 36],
+
         // Control name lookup, format: title, command
         controls : {
             bold : ['bold_desc', 'Bold'],
@@ -64,7 +66,7 @@
         stateControls : ['bold', 'italic', 'underline', 'strikethrough', 'bullist', 'numlist', 'justifyleft', 'justifycenter', 'justifyright', 'justifyfull', 'sub', 'sup', 'blockquote'],
 
         init : function(ed, url) {
-            var t = this, s, v;
+            var t = this, s, v, o;
     
             t.editor = ed;
             t.url = url;
@@ -80,13 +82,45 @@
                 theme_advanced_blockformats : "p,pre,h1,h2,h3,h4,h5,h6",
                 theme_advanced_toolbar_align : "center",
                 theme_advanced_fonts : "Andale Mono=andale mono,times;Arial=arial,helvetica,sans-serif;Arial Black=arial black,avant garde;Book Antiqua=book antiqua,palatino;Comic Sans MS=comic sans ms,sans-serif;Courier New=courier new,courier;Georgia=georgia,palatino;Helvetica=helvetica;Impact=impact,chicago;Symbol=symbol;Tahoma=tahoma,arial,helvetica,sans-serif;Terminal=terminal,monaco;Times New Roman=times new roman,times;Trebuchet MS=trebuchet ms,geneva;Verdana=verdana,geneva;Webdings=webdings;Wingdings=wingdings,zapf dingbats",
-                theme_advanced_font_sizes : "1,2,3,4,5,6,7",
                 theme_advanced_more_colors : 1,
                 theme_advanced_row_height : 23,
                 theme_advanced_resize_horizontal : 1,
                 theme_advanced_resizing_use_cookie : 1,
+                theme_advanced_font_sizes : "1,2,3,4,5,6,7",
                 readonly : ed.settings.readonly
             }, ed.settings);
+
+            // Setup default font_size_style_values
+            if (!s.font_size_style_values)
+                s.font_size_style_values = "8pt,10pt,12pt,14pt,18pt,24pt,36pt";
+
+            if (tinymce.is(s.theme_advanced_font_sizes, 'string')) {
+                s.font_size_style_values = tinymce.explode(s.font_size_style_values);
+                s.font_size_classes = tinymce.explode(s.font_size_classes || '');
+
+                // Parse string value
+                o = {};
+                ed.settings.theme_advanced_font_sizes = s.theme_advanced_font_sizes;
+                each(ed.getParam('theme_advanced_font_sizes', '', 'hash'), function(v, k) {
+                    var cl;
+
+                    if (k == v && v >= 1 && v <= 7) {
+                        k = v + ' (' + t.sizes[v - 1] + 'pt)';
+
+                        if (ed.settings.convert_fonts_to_spans) {
+                            cl = s.font_size_classes[v - 1];
+                            v = s.font_size_style_values[v - 1] || (t.sizes[v - 1] + 'pt');
+                        }
+                    }
+
+                    if (/\s*\./.test(v))
+                        cl = v.replace(/\./g, '');
+
+                    o[k] = cl ? {'class' : cl} : {fontSize : v};
+                });
+
+                s.theme_advanced_font_sizes = o;
+            }
 
             if ((v = s.theme_advanced_path_location) && v !== 'none')
                 s.theme_advanced_statusbar_location = s.theme_advanced_path_location;
@@ -136,10 +170,10 @@
             }
             else
             {
-                DOM.loadCSS( ed.baseURI.toAbsolute( s.editor_css || "themes/ez/skins/" + ed.settings.skin + "/ui.css"));
-                
-                if (s.skin_variant && !s.editor_css )
-                    DOM.loadCSS(ed.baseURI.toAbsolute( "themes/ez/skins/" + ed.settings.skin + "/ui_" + s.skin_variant + ".css"));
+                DOM.loadCSS(s.editor_css ? ed.documentBaseURI.toAbsolute(s.editor_css) : url + "/skins/" + ed.settings.skin + "/ui.css");
+
+                if (s.skin_variant)
+                    DOM.loadCSS(url + "/skins/" + ed.settings.skin + "/ui_" + s.skin_variant + ".css");
             }
 
             ed.addShortcut('ctrl+s', ed.getLang('save.save_desc'), 'mceStoreDraft');
@@ -216,8 +250,13 @@
                 });
     
                 c.onPostRender.add(function(ed, n) {
-                    Event.add(n.id + '_text', 'focus', t._importClasses, t);
-                    Event.add(n.id + '_text', 'mousedown', t._importClasses, t);
+                    if (!c.NativeListBox) {
+                        Event.add(n.id + '_text', 'focus', t._importClasses, t);
+                        Event.add(n.id + '_text', 'mousedown', t._importClasses, t);
+                        Event.add(n.id + '_open', 'focus', t._importClasses, t);
+                        Event.add(n.id + '_open', 'mousedown', t._importClasses, t);
+                    } else
+                        Event.add(n.id, 'focus', t._importClasses, t);
                 });
             }
 
@@ -238,20 +277,29 @@
         },
 
         _createFontSizeSelect : function() {
-            var t = this, ed = t.editor, c, lo = [
-                "1 (8 pt)",
-                "2 (10 pt)",
-                "3 (12 pt)",
-                "4 (14 pt)",
-                "5 (18 pt)",
-                "6 (24 pt)",
-                "7 (36 pt)"
-            ], fz = [8, 10, 12, 14, 18, 24, 36];
+            var t = this, ed = t.editor, c, i = 0, cl = [];
 
-            c = ed.controlManager.createListBox('fontsizeselect', {title : 'advanced.font_size', cmd : 'FontSize'});
+            c = ed.controlManager.createListBox('fontsizeselect', {title : 'advanced.font_size', onselect : function(v) {
+                if (v.fontSize)
+                    ed.execCommand('FontSize', false, v.fontSize);
+                else {
+                    each(t.settings.theme_advanced_font_sizes, function(v, k) {
+                        if (v['class'])
+                            cl.push(v['class']);
+                    });
+
+                    ed.editorCommands._applyInlineStyle('span', {'class' : v['class']}, {check_classes : cl});
+                }
+            }});
+
             if (c) {
-                each(ed.getParam('theme_advanced_font_sizes', t.settings.theme_advanced_font_sizes, 'hash'), function(v, k) {
-                    c.add(k != v ? k : lo[parseInt(v) - 1], v, {'style' : 'font-size:' + fz[v - 1] + 'pt', 'class' : 'mceFontSize' + v});
+                each(t.settings.theme_advanced_font_sizes, function(v, k) {
+                    var fz = v.fontSize;
+
+                    if (fz >= 1 && fz <= 7)
+                        fz = t.sizes[parseInt(fz) - 1] + 'pt';
+
+                    c.add(k, v, {'style' : 'font-size:' + fz, 'class' : 'mceFontSize' + (i++) + (' ' + (v['class'] || ''))});
                 });
             }
 
@@ -937,7 +985,7 @@
                     var na = n.nodeName.toLowerCase(), u, pi, ti = '', className = false;
 
                     // Ignore non element and hidden elements
-                    if ( n.nodeType !== 1 || DOM.hasClass(n, 'mceItemHidden') || DOM.hasClass(n, 'mceItemRemoved') )
+                    if ( n.nodeType !== 1 || n.nodeName === 'BR' || DOM.hasClass(n, 'mceItemHidden') || DOM.hasClass(n, 'mceItemRemoved') )
                         return;
                    // seems like hasClass has some issues in ie..
                    if ( DOM.getAttrib( n, 'class').indexOf('mceItemHidden') !== -1 )

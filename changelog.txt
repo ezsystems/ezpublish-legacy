@@ -4,6 +4,7 @@ eZ Online Editor 5.0 extension Changelog
 * Fixed #13548: Javascript error, when embedding video objects with empty ezimage attribute
 * Regression #13486: Can't change properties of OL, LI or UL
 * Fixed #13599: Header removed from custom tags
+* updated to TinyMCE 3.2 and enabled (ez)inlinepopup by default
 
 
 5.0rc5

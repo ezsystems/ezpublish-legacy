@@ -1,5 +1,5 @@
 /**
- * $Id: EditorManager.js 900 2008-07-18 09:55:05Z spocke $
+ * $Id: EditorManager.js 920 2008-09-09 14:05:33Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -363,7 +363,9 @@
 
 				case "mceRemoveEditor":
 				case "mceRemoveControl":
-					ed.remove();
+					if (ed)
+						ed.remove();
+
 					return true;
 
 				case 'mceToggleEditor':

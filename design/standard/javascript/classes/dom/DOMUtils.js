@@ -1,5 +1,5 @@
 /**
- * $Id: DOMUtils.js 902 2008-08-18 12:04:34Z spocke $
+ * $Id: DOMUtils.js 920 2008-09-09 14:05:33Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -425,19 +425,7 @@
 				var e, k;
 
 				e = is(n, 'string') ? t.doc.createElement(n) : n;
-
-				if (a) {
-					for (k in a) {
-						if (a.hasOwnProperty(k) && !is(a[k], 'object'))
-							t.setAttrib(e, k, '' + a[k]);
-					}
-
-					if (a.style && !is(a.style, 'string')) {
-						each(a.style, function(v, n) {
-							t.setStyle(e, n, v);
-						});
-					}
-				}
+				t.setAttribs(e, a);
 
 				if (h) {
 					if (h.nodeType)
@@ -664,6 +652,14 @@
 
 				switch (n) {
 					case "style":
+						if (!is(v, 'string')) {
+							each(v, function(v, n) {
+								t.setStyle(e, n, v);
+							});
+
+							return;
+						}
+
 						// No mce_style for elements with these since they might get resized by the user
 						if (s.keep_values) {
 							if (v && !t._isRes(v))
@@ -1662,7 +1658,7 @@
 			var t = this, o;
 
 			if (t.doc && typeof(e) === 'string')
-				e = t.doc.getElementById(e);
+				e = t.get(e);
 
 			if (!e)
 				return false;

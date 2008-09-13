@@ -1,5 +1,5 @@
 /**
- * $Id: ForceBlocks.js 890 2008-07-09 10:40:52Z spocke $
+ * $Id: ForceBlocks.js 924 2008-09-10 14:33:51Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -182,11 +182,11 @@
 
 		forceRoots : function(ed, e) {
 			var t = this, ed = t.editor, b = ed.getBody(), d = ed.getDoc(), se = ed.selection, s = se.getSel(), r = se.getRng(), si = -2, ei, so, eo, tr, c = -0xFFFFFF;
-			var nx, bl, bp, sp, le, nl = b.childNodes, i;
+			var nx, bl, bp, sp, le, nl = b.childNodes, i, n;
 
 			// Fix for bug #1863847
-			if (e && e.keyCode == 13)
-				return true;
+			//if (e && e.keyCode == 13)
+			//	return true;
 
 			// Wrap non blocks into blocks
 			for (i = nl.length - 1; i >= 0; i--) {
@@ -200,12 +200,17 @@
 							// Store selection
 							if (si == -2 && r) {
 								if (!isIE) {
-									// If element is inside body, might not be the case in contentEdiable mode
-									if (ed.dom.getParent(r.startContainer, function(e) {return e === b;})) {
-										so = r.startOffset;
-										eo = r.endOffset;
-										si = t.find(b, 0, r.startContainer);
-										ei = t.find(b, 0, r.endContainer);
+									// If selection is element then mark it
+									if (r.startContainer.nodeType == 1 && (n = r.startContainer.childNodes[r.startOffset]) && n.nodeType == 1) {
+										n.setAttribute("id", "__mce");
+									} else {
+										// If element is inside body, might not be the case in contentEdiable mode
+										if (ed.dom.getParent(r.startContainer, function(e) {return e === b;})) {
+											so = r.startOffset;
+											eo = r.endOffset;
+											si = t.find(b, 0, r.startContainer);
+											ei = t.find(b, 0, r.endContainer);
+										}
 									}
 								} else {
 									tr = d.body.createTextRange();
@@ -274,6 +279,13 @@
 						// Ignore
 					}
 				}
+			} else if (!isIE && (n = ed.dom.get('__mce'))) {
+				// Move caret before selected element
+				n.removeAttribute('id');
+				r = d.createRange();
+				r.setStartBefore(n);
+				r.setEndBefore(n);
+				se.setRng(r);
 			}
 		},
 
@@ -285,7 +297,7 @@
 
 		insertPara : function(e) {
 			var t = this, ed = t.editor, dom = ed.dom, d = ed.getDoc(), se = ed.settings, s = ed.selection.getSel(), r = s.getRangeAt(0), b = d.body;
-			var rb, ra, dir, sn, so, en, eo, sb, eb, bn, bef, aft, sc, ec, n, vp = dom.getViewPort(ed.getWin()), y, ch;
+			var rb, ra, dir, sn, so, en, eo, sb, eb, bn, bef, aft, sc, ec, n, vp = dom.getViewPort(ed.getWin()), y, ch, car;
 
 			function isEmpty(n) {
 				n = n.innerHTML;
@@ -462,8 +474,39 @@
 			if (isEmpty(bef))
 				bef.innerHTML = '<br />';
 
+			function appendStyles(e, en) {
+				var nl = [], nn, n, i;
+
+				e.innerHTML = '';
+
+				// Make clones of style elements
+				if (se.keep_styles) {
+					n = en;
+					do {
+						// We only want style specific elements
+						if (/^(SPAN|STRONG|B|EM|I|FONT|STRIKE|U)$/.test(n.nodeName)) {
+							nn = n.cloneNode(false);
+							dom.setAttrib(nn, 'id', ''); // Remove ID since it needs to be unique
+							nl.push(nn);
+						}
+					} while (n = n.parentNode);
+				}
+
+				// Append style elements to aft
+				if (nl.length > 0) {
+					for (i = nl.length - 1, nn = e; i >= 0; i--)
+						nn = nn.appendChild(nl[i]);
+
+					// Padd most inner style element
+					nl[0].innerHTML = isOpera ? '&nbsp;' : '<br />'; // Extra space for Opera so that the caret can move there
+					return nl[0]; // Move caret to most inner element
+				} else
+					e.innerHTML = isOpera ? '&nbsp;' : '<br />'; // Extra space for Opera so that the caret can move there
+			};
+
+			// Fill empty afterblook with current style
 			if (isEmpty(aft))
-				aft.innerHTML = isOpera ? '&nbsp;' : '<br />'; // Extra space for Opera so that the caret can move there
+				car = appendStyles(aft, en);
 
 			// Opera needs this one backwards for older versions
 			if (isOpera && parseFloat(opera.version()) < 9.5) {
@@ -484,7 +527,7 @@
 
 			// Move cursor and scroll into view
 			r = d.createRange();
-			r.selectNodeContents(isGecko ? first(aft) : aft);
+			r.selectNodeContents(isGecko ? first(car || aft) : car || aft);
 			r.collapse(1);
 			s.removeAllRanges();
 			s.addRange(r);

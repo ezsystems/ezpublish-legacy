@@ -1,5 +1,5 @@
 /**
- * $Id: XMLWriter.js 796 2008-04-14 13:18:25Z spocke $
+ * $Id: XMLWriter.js 906 2008-08-24 16:47:29Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -125,6 +125,10 @@
 		 * @param {String} v Value of the comment.
 		 */
 		writeComment : function(v) {
+			// Fix for bug #2035694
+			if (tinymce.isIE)
+				v = v.replace(/^\-|\-$/g, ' ');
+
 			this.node.appendChild(this.doc.createComment(v.replace(/\-\-/g, ' ')));
 		},
 

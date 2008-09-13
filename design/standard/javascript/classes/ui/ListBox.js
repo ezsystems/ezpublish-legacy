@@ -1,5 +1,5 @@
 /**
- * $Id: ListBox.js 871 2008-06-16 16:57:45Z spocke $
+ * $Id: ListBox.js 925 2008-09-11 11:25:26Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -41,36 +41,66 @@
 		 * Selects a item/option by value. This will both add a visual selection to the
 		 * item and change the title of the control to the title of the option.
 		 *
-		 * @param {String} v Value to look for inside the list box.
+		 * @param {String/function} va Value to look for inside the list box or a function selector.
 		 */
-		select : function(v) {
-			var t = this, e, fv;
+		select : function(va) {
+			var t = this, fv, f;
+
+			if (va == undefined)
+				return;
+
+			// Is string or number make function selector
+			if (va && va.call)
+				f = va;
+			else {
+				f = function(v) {
+					return v == va;
+				};
+			}
 
 			// Do we need to do something?
-			if (v != t.selectedValue) {
-				e = DOM.get(t.id + '_text');
-				t.selectedValue = v;
-
+			if (va != t.selectedValue) {
 				// Find item
-				each(t.items, function(o) {
-					if (o.value == v) {
-						DOM.setHTML(e, DOM.encode(o.title));
+				each(t.items, function(o, i) {
+					if (f(o.value)) {
 						fv = 1;
+						t.selectByIndex(i);
 						return false;
 					}
 				});
 
-				// If no item was found then present title
-				if (!fv) {
+				if (!fv)
+					t.selectByIndex(-1);
+			}
+		},
+
+		/**
+		 * Selects a item/option by index. This will both add a visual selection to the
+		 * item and change the title of the control to the title of the option.
+		 *
+		 * @param {String} idx Index to select, pass -1 to select menu/title of select box.
+		 */
+		selectByIndex : function(idx) {
+			var t = this, e, o;
+
+			if (idx != t.selectedIndex) {
+				e = DOM.get(t.id + '_text');
+				o = t.items[idx];
+
+				if (o) {
+					t.selectedValue = o.value;
+					t.selectedIndex = idx;
+					DOM.setHTML(e, DOM.encode(o.title));
+					DOM.removeClass(e, 'mceTitle');
+				} else {
 					DOM.setHTML(e, DOM.encode(t.settings.title));
 					DOM.addClass(e, 'mceTitle');
-					e = 0;
-					return;
-				} else
-					DOM.removeClass(e, 'mceTitle');
-			}
+					t.selectedValue = t.selectedIndex = null;
+				}
 
-			e = 0;
+				e = 0;
+			} else
+				t.selectedValue = t.selectedIndex = null;
 		},
 
 		/**

@@ -1,5 +1,5 @@
 /**
- * $Id: Popup.js 895 2008-07-10 14:34:23Z spocke $
+ * $Id: Popup.js 920 2008-09-09 14:05:33Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -47,7 +47,10 @@ tinyMCEPopup = {
 
 		// Setup local DOM
 		t.dom = t.editor.windowManager.createInstance('tinymce.dom.DOMUtils', document);
-		t.dom.loadCSS(t.features.popup_css || t.editor.settings.popup_css);
+
+		// Enables you to skip loading the default css
+		if (t.features.popup_css !== false)
+			t.dom.loadCSS(t.features.popup_css || t.editor.settings.popup_css);
 
 		// Setup on init listeners
 		t.listeners = [];
@@ -281,18 +284,25 @@ tinyMCEPopup = {
 	},*/
 
 	_onDOMLoaded : function() {
-		var t = this, ti = document.title, bm, h;
+		var t = this, ti = document.title, bm, h, nv;
 
 		// Translate page
-		h = document.body.innerHTML;
+		if (t.features.translate_i18n !== false) {
+			h = document.body.innerHTML;
 
-		// Replace a=x with a="x" in IE
-		if (tinymce.isIE)
-			h = h.replace(/ (value|title|alt)=([^"][^\s>]+)/gi, ' $1="$2"')
+			// Replace a=x with a="x" in IE
+			if (tinymce.isIE)
+				h = h.replace(/ (value|title|alt)=([^"][^\s>]+)/gi, ' $1="$2"')
 
-		document.dir = t.editor.getParam('directionality','');
-		document.body.innerHTML = t.editor.translate(h);
-		document.title = ti = t.editor.translate(ti);
+			document.dir = t.editor.getParam('directionality','');
+
+			if ((nv = t.editor.translate(h)) && nv != h)
+				document.body.innerHTML = nv;
+
+			if ((nv = t.editor.translate(ti)) && nv != ti)
+				document.title = ti = nv;
+		}
+
 		document.body.style.display = '';
 
 		// Restore selection in IE when focus is placed on a non textarea or input element of the type text

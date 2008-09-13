@@ -1,5 +1,5 @@
 /**
- * $Id: JSON.js 360 2007-11-07 17:01:52Z spocke $
+ * $Id: JSON.js 920 2008-09-09 14:05:33Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
@@ -32,7 +32,7 @@ tinymce.create('static tinymce.util.JSON', {
 		if (t == 'string') {
 			v = '\bb\tt\nn\ff\rr\""\'\'\\\\';
 
-			return '"' + o.replace(/([\u0080-\uFFFF\x00-\x1f\"\'])/g, function(a, b) {
+			return '"' + o.replace(/([\u0080-\uFFFF\x00-\x1f\"])/g, function(a, b) {
 				i = v.indexOf(b);
 
 				if (i + 1)

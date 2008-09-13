@@ -1,5 +1,5 @@
 /**
- * $Id: Editor.js 901 2008-08-18 11:44:21Z spocke $
+ * $Id: Editor.js 921 2008-09-09 14:54:41Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -115,7 +115,8 @@
 				render_ui : 1,
 				init_theme : 1,
 				force_p_newlines : 1,
-				indentation : '30px'
+				indentation : '30px',
+				keep_styles : 1
 			}, s);
 
 			// Setup URIs
@@ -522,6 +523,7 @@
 				font_size_style_values : s.font_size_style_values,
 				apply_source_formatting : s.apply_source_formatting,
 				remove_linebreaks : s.remove_linebreaks,
+				element_format : s.element_format,
 				dom : t.dom
 			});
 
@@ -1885,7 +1887,7 @@
 			t.onKeyUp.add(function(ed, e) {
 				var c = e.keyCode;
 
-				if ((c >= 33 && c <= 36) || (c >= 37 && c <= 40) || c == 13 || c == 45 || c == 46 || c == 8 || (tinymce.isMac && c >= 91 && c <= 93) || e.ctrlKey)
+				if ((c >= 33 && c <= 36) || (c >= 37 && c <= 40) || c == 13 || c == 45 || c == 46 || c == 8 || (tinymce.isMac && (c == 91 || c == 93)) || e.ctrlKey)
 					t.nodeChanged();
 			});
 
@@ -2242,7 +2244,7 @@
 
 			if (cl = s.font_size_classes)
 				cl = explode(cl);
-
+/*
 			function convertToFonts(no) {
 				var n, f, nl, x, i, v, st;
 
@@ -2305,7 +2307,7 @@
 			t.onSetContent.add(function(ed, o) {
 				convertToFonts(ed.getBody());
 			});
-
+*/
 			// Run on cleanup
 			t.onPreProcess.add(function(ed, o) {
 				var n, sp, nl, x;
