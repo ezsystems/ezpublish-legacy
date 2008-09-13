@@ -506,7 +506,7 @@ var eZOEPopupUtils = {
         mode = mode || 'browse';
         ez.$( mode + '_progress' ).hide();
         ez.script( 'eZOEPopupUtils.ajaxLoadResponse=' + r.responseText );
-        var ed = tinyMCEPopup.editor, tbody = ez.$$('#' + mode + '_box_prev tbody')[0], thead = ez.$$('#' + mode + '_box_prev thead')[0], tfoot = ez.$$('#' + mode + '_box_prev tfoot')[0], tr, td, tag, hasImage;
+        var ed = tinyMCEPopup.editor, tbody = ez.$$('#' + mode + '_box_prev tbody')[0], thead = ez.$$('#' + mode + '_box_prev thead')[0], tfoot = ez.$$('#' + mode + '_box_prev tfoot')[0], tr, td, tag, hasImage, emptyList = true;
         eZOEPopupUtils.removeChildren( tbody.el );
         eZOEPopupUtils.removeChildren( thead.el );
         eZOEPopupUtils.removeChildren( tfoot.el );
@@ -598,6 +598,7 @@ var eZOEPopupUtils = {
                    tr.className = classGenerator.call( this, n, hasImage, ed );
 
                    tbody.el.appendChild( tr );
+                   emptyList = false;
                 } );
             }
 
@@ -623,7 +624,7 @@ var eZOEPopupUtils = {
             tr.appendChild( td );
             tfoot.el.appendChild( tr );
         }
-        else if ( emptyCallBack.call !== undefined )
+        if ( emptyList && emptyCallBack.call !== undefined )
         {
             emptyCallBack.call( this, tbody, mode, ed );
         }
