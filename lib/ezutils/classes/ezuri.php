@@ -497,11 +497,17 @@ class eZURI
     */
     static function instance( $uri = false )
     {
-        if ( !isset( $GLOBALS['eZURIInstance'][$uri] ) )
+        // If $uri is false we assume the caller wants eZSys::requestURI()
+        if ( $uri === false or $uri == eZSys::requestURI() )
         {
-            $GLOBALS['eZURIInstance'][$uri] = new eZURI( $uri );
+            if ( !isset( $GLOBALS['eZURIRequestInstance'] ) )
+            {
+                $GLOBALS['eZURIRequestInstance'] = new eZURI( eZSys::requestURI() );
+            }
+            return $GLOBALS['eZURIRequestInstance'];
         }
-        return $GLOBALS['eZURIInstance'][$uri];
+
+        return new eZURI( $uri );
     }
 
     /*!
