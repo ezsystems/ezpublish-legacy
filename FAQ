@@ -28,7 +28,7 @@ A. Make sure you have correct apache rewrite rule. Have you restarted apache
 B. Make sure you are using one of the following web browsers: 
    Internet Explorer 6.0 or higher,
    Mozilla 1.8 or higher,
-   Firefox 1.5 or higher,
+   Firefox 2.0 or higher,
    Netscape 9.0 or higher.
    Safari 3.0 or higher.
    Opera 9.5 or higher.
@@ -37,10 +37,9 @@ B. Make sure you are using one of the following web browsers:
    
    Make sure that Javascript support is enabled in your web browser.
 
-   Note: Safari and Opera is not well tested at this time, so if you experience
-         problems or unexpected result. Please try again in Firefox or Internet
-         Explorer and report the issue to us so we can fix it!
-
+   Note: Safari, Opera and Google Chrome is not well tested at this time, so if
+         you experience problems or unexpected result. Please try again in
+         Firefox or Internet Explorer and report the issue to us so we can fix it!
 
 
 3. After installation, I see nothing have been changed when editing an article.

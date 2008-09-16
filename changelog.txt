@@ -1,5 +1,10 @@
 eZ Online Editor 5.0 extension Changelog
 
+5.0rc7
+* Changed javascript / stylesheet cache to use 'public/' path
+  NOTE: Rewrite rules changed, see INSTALL for the new rewrite rule
+
+
 5.0rc6
 * Fixed #13548: Javascript error, when embedding video objects with empty ezimage attribute
 * Regression #13486: Can't change properties of OL, LI or UL

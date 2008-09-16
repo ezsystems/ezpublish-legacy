@@ -319,7 +319,7 @@ class eZOEPacker
 
         // generate cache file name and path
         $cacheName = md5( $cacheName . $packLevel ) . $fileExtension;
-        $cacheDir  = $sys->cacheDirectory() . '/' . $path;
+        $cacheDir  = $sys->cacheDirectory() . '/public/' . $path;
 
         if ( file_exists( $cacheDir . $cacheName ) )
         {

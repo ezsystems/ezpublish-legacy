@@ -29,23 +29,23 @@ o  Web Browser:
 
    Internet Explorer 6.0 or higher,
    Mozilla 1.8 or higher,
-   Firefox 1.5 or higher,
+   Firefox 2.0 or higher,
    Netscape 9.0 or higher.
    Safari 3.0 or higher.
    Opera 9.5 or higher.
 
    Make sure that Javascript support is enabled in your web browser.
 
-   Note: Safari and Opera is not well tested at this time, so if you experience
-         problems or unexpected result. Please try again in Firefox or Internet
-         Explorer and report the issue to us so we can fix it!
+   Note: Safari, Opera and Google Chrome is not well tested at this time, so if
+         you experience problems or unexpected result. Please try again in
+         Firefox or Internet Explorer and report the issue to us so we can fix it!
 
 o  Web Server:
    
    If you are using rewrite rules, you need to allow stylesheets and javascript
    files from your var folder, add this rewrite rule if you are running apache:
 
-   RewriteRule ^/var/[^/]+/cache/(stylesheets|javascript)/.* - [L]
+   RewriteRule ^/var/[^/]+/cache/public/.* - [L]
 
 
 Getting eZ Publish
@@ -96,10 +96,10 @@ Installing eZ Online Editor 5.0 extension
    RewriteRule ^/var/[^/]+/cache/texttoimage/.* - [L]
 
    Modify it like this:
-   RewriteRule ^/var/[^/]+/cache/(texttoimage|stylesheets|javascript)/.* - [L]
+   RewriteRule ^/var/[^/]+/cache/(texttoimage|public)/.* - [L]
    
    Or add a rewrite rule like this:
-   RewriteRule ^/var/[^/]+/cache/(stylesheets|javascript)/.* - [L]
+   RewriteRule ^/var/[^/]+/cache/public/.* - [L]
    
    Alternatively you can set ezoe.ini [EditorSettings] DevelopmentMode = enabled
    and OE will stop using this cache technique.
