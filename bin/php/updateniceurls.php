@@ -537,7 +537,7 @@ function createURLListCondition( $rows, $sqlField = 'id', $fieldKey = 'id' )
     {
         if ( $cond != "" )
              $cond .= " OR ";
-        $cond .= "{$sqlField} IN (" . join( ",", $singleIDs ) . ")";
+        $cond .= eZDB::instance()->generateSQLINStatement( $singleIDs, $sqlField );
     }
     return $cond;
 }
