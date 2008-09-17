@@ -365,3 +365,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13552: Broken datamap caching when copying content objects
 - Fixed bug #13186: UserParameters works differently in 4.0 compared to 3.10
 - Fixed bug #13604: url's are not encoded properly while serializing object of eZURL datatype
+- Fixed bug #13605: updateniceurls.php does not make use of generateSQLINStatement()
