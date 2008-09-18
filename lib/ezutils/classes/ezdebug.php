@@ -886,7 +886,7 @@ class eZDebug
             @fwrite( $logFile, $notice );
             @fclose( $logFile );
             if ( !$fileExisted )
-                @chmod( $fileName, 0664 );
+                @chmod( $fileName, 0666 );
             @umask( $oldumask );
         }
         else
