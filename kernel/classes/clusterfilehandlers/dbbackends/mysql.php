@@ -52,7 +52,7 @@ CREATE TABLE ezdbfile (
 
 CREATE TABLE ezdbfile_data (
   name_hash VARCHAR(34)   NOT NULL DEFAULT '',
-  offset    MEDIUMINT(11) UNSIGNED NOT NULL,
+  offset    INT(11) UNSIGNED NOT NULL,
   filedata  BLOB          NOT NULL,
   PRIMARY KEY (name_hash, offset),
   CONSTRAINT ezdbfile_fk1 FOREIGN KEY (name_hash) REFERENCES ezdbfile (name_hash) ON DELETE CASCADE
