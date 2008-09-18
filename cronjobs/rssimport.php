@@ -322,8 +322,8 @@ function importRSSItem( $item, $rssImport, $cli, $channel )
     $contentObject->store();
     $db->commit();
 
-    //publish new object. The user id is sent to make sure any workflow 
-    // requireing the user id has access to it.
+    // Publish new object. The user id is sent to make sure any workflow 
+    // requiring the user id has access to it.
     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObject->attribute( 'id' ),
                                                                                  'version' => 1,
                                                                                  'user_id' => $rssOwnerID ) );
