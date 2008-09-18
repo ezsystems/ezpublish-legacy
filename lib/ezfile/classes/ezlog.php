@@ -82,7 +82,11 @@ class eZLog
             @fwrite( $logFile, $logMessage );
             @fclose( $logFile );
             if ( !$fileExisted )
-                @chmod( $fileName, 0666 );
+            {
+                $ini = eZINI::instance();
+                $permissions = octdec( $ini->variable( 'FileSettings', 'LogFilePermissions' ) );
+                @chmod( $fileName, $permissions );
+            }
             @umask( $oldumask );
         }
     }
@@ -131,7 +135,11 @@ class eZLog
             @fwrite( $logFile, $logMessage );
             @fclose( $logFile );
             if ( !$fileExisted )
-                @chmod( $fileName, 0666 );
+            {
+                $ini = eZINI::instance();
+                $permissions = octdec( $ini->variable( 'FileSettings', 'LogFilePermissions' ) );
+                @chmod( $fileName, $permissions );
+            }
             @umask( $oldumask );
         }
     }
