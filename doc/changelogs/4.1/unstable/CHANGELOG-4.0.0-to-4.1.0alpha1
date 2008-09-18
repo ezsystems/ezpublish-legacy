@@ -367,3 +367,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13604: url's are not encoded properly while serializing object of eZURL datatype
 - Fixed bug #13605: updateniceurls.php does not make use of generateSQLINStatement()
 - Fixed bug #13627: Files larger than 16MB does not get stored when using clustering.
+- Fixed bug #13628: RSS import publish objects as anonymous
