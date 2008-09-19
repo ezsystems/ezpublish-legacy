@@ -530,8 +530,7 @@ while ( $moduleRunRequired )
 
     // Check for URL translation
     if ( $urlTranslatorAllowed and
-         $ini->variable( 'URLTranslator', 'Translation' ) == 'enabled' and
-         !$uri->isEmpty() )
+         eZURLAliasML::urlTranslationEnabledByUri( $uri ) )
     {
         ////include_once( 'kernel/classes/ezurlaliasml.php' );
         $translateResult = eZURLAliasML::translate( $uri );

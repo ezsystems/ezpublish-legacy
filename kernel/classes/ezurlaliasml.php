@@ -1677,6 +1677,33 @@ class eZURLAliasML extends eZPersistentObject
 
     /*!
      \static
+     Checks if url translation should be used on the current url.
+
+     \param $uri The current eZUri object
+     */
+    static public function urlTranslationEnabledByUri( eZURI $uri )
+    {
+        if ( $uri->isEmpty() )
+            return false;
+
+        $ini = eZINI::instance();
+        if ( $ini->variable( 'URLTranslator', 'Translation' ) === 'enabled' )
+        {
+            if ( $ini->variable( 'URLTranslator', 'TranslatableSystemUrls' ) === 'disabled' )
+            {
+                $moduleName = $uri->element( 0 );
+                $moduleINI  = eZINI::instance( 'module.ini' );
+                $moduleList = $moduleINI->variable( 'ModuleSettings', 'ModuleList' );
+                if ( in_array( $moduleName, $moduleList, true ) )
+                  return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /*!
+     \static
      Checks if the text entry $text is unique on the current level in the URL path.
      If not the name is adjusted with a number at the end until it becomes unique.
      The unique text string is returned.

@@ -45,6 +45,7 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Implemented enhancement #13565: Add sort parameter to content/version_list fetch function
 - Implemented enhancement #13581: Optimize .ts loading by not checking filemtime
 - Implemented enhancement #11091: option to allow create, only if owner of parent node is "self"
+- Implemented enhancement #13612: Option to skip url_alias db lookup on system urls
 
 *Design:
 
