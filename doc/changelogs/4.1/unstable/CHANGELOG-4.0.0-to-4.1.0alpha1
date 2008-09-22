@@ -47,6 +47,7 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Implemented enhancement #11091: option to allow create, only if owner of parent node is "self"
 - Implemented enhancement #13612: Option to skip url_alias db lookup on system urls
 - Implemented enhancement #12137: eZIni 10-50% performance patch
+- Implemented enhancement #13054: eZ Publish/ Webin does not support table summary and caption as required by WAI
 
 *Design:
 

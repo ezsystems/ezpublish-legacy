@@ -18,19 +18,23 @@ Input:
          href=false()
          target=false()
          hspace=false()
-         border_size=0}
+         border_size=0
+         border_color=''
+         border_style=''
+         margin_size=''
+         alt_text=''
+         title=''}
 
-{let image_content=$attribute.content}
+{let image_content = $attribute.content}
 
-{section show=$image_content.is_valid}
+{if $image_content.is_valid}
 
-    {let image=$image_content[$image_class]}
+    {let image        = $image_content[$image_class]
+         inline_style = ''}
 
-    {section show=$link_to_image}
-        {let image_original=$image_content['original']}
-        {set href=$image_original.url|ezroot}
-        {/let}
-    {/section}
+    {if $link_to_image}
+        {set href = $image_content['original'].url|ezroot}
+    {/if}
     {switch match=$alignment}
     {case match='left'}
         <div class="imageleft">
@@ -41,19 +45,35 @@ Input:
     {case/}
     {/switch}
 
-    {section show=$css_class}
+    {if $css_class}
         <div class="{$css_class|wash}">
-    {/section}
+    {/if}
 
-    {section show=and( is_set( $image ), $image )}
-        {section show=$href}<a href={$href}{section show=and( is_set( $link_class ), $link_class )} class="{$link_class}"{/section}{section show=and( is_set( $link_id ), $link_id )} id="{$link_id}"{/section}{section show=$target} target="{$target}"{/section}>{/section}
-        <img src={$image.url|ezroot} width="{$image.width}" height="{$image.height}" {section show=$hspace}hspace="{$hspace}"{/section} style="border: {$border_size}px;" alt="{$image.text|wash(xhtml)}" title="{$image.text|wash(xhtml)}" />
-        {section show=$href}</a>{/section}
-    {/section}
+    {if and( is_set( $image ), $image )}
+        {if $alt_text|not}
+            {if $image.text}
+                {set $alt_text = $image.text}
+            {else}
+                {set $alt_text = $attribute.object.name}
+            {/if}
+        {/if}
+        {if $title|not}
+            {set $title = $alt_text}
+        {/if}
+        {if $border_size|trim|ne('')}
+            {set $inline_style = concat( $inline_style, 'border: ', $border_size, 'px ', $border_style, ' ', $border_color, ';' )}
+        {/if}
+        {if $margin_size|trim|ne('')}
+            {set $inline_style = concat( $inline_style, 'margin: ', $margin_size, 'px;' )}
+        {/if}
+        {if $href}<a href={$href}{if and( is_set( $link_class ), $link_class )} class="{$link_class}"{/if}{if and( is_set( $link_id ), $link_id )} id="{$link_id}"{/if}{if $target} target="{$target}"{/if}>{/if}
+        <img src={$image.url|ezroot} width="{$image.width}" height="{$image.height}" {if $hspace}hspace="{$hspace}"{/if} style="{$inline_style}" alt="{$alt_text|wash(xhtml)}" title="{$title|wash(xhtml)}" />
+        {if $href}</a>{/if}
+    {/if}
 
-    {section show=$css_class}
+    {if $css_class}
         </div>
-    {/section}
+    {/if}
 
     {switch match=$alignment}
     {case match='left'}
@@ -67,7 +87,7 @@ Input:
 
     {/let}
 
-{/section}
+{/if}
 
 {/let}
 
