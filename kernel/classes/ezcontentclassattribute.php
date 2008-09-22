@@ -659,9 +659,9 @@ class eZContentClassAttribute extends eZPersistentObject
     /*!
      \static
     */
-    static function nameFromSerializedString( $serailizedNameList, $languageLocale = false )
+    static function nameFromSerializedString( $serializedNameList, $languageLocale = false )
     {
-        return eZContentClassAttributeNameList::nameFromSerializedString( $serailizedNameList, $languageLocale );
+        return eZContentClassAttributeNameList::nameFromSerializedString( $serializedNameList, $languageLocale );
     }
 
     function name( $languageLocale = false )

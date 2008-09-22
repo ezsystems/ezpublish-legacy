@@ -1116,7 +1116,7 @@ class eZDataType
     }
 
     /*!
-     Unserailize contentobject attribute
+     Unserialize contentobject attribute
 
      \param package
      \param contentobject attribute object

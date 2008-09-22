@@ -1540,9 +1540,9 @@ You will need to change the class of the node by using the swap functionality.' 
 
      \return string with contentclass name.
     */
-    static function nameFromSerializedString( $serailizedNameList )
+    static function nameFromSerializedString( $serializedNameList )
     {
-        return eZContentClassNameList::nameFromSerializedString( $serailizedNameList );
+        return eZContentClassNameList::nameFromSerializedString( $serializedNameList );
     }
 
     function hasNameInLanguage( $languageLocale )
