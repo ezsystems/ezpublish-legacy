@@ -79,6 +79,12 @@ class eZINI
     const CACHE_CODE_DATE = 1043407542;
     const DEBUG_INTERNALS = false;
 
+    // set EZP_INI_FILEMTIME_CHECK constant to false to improve performance by
+    // not checking modified time on ini files. You can also set it to a string, the name
+    // of a ini file you still want to check modified time on, best example would be to
+    // set it to 'site.ini' to make the system still check that but not the rest.
+    static protected $checkFileMtime = null;
+
     /*!
       Initialization of object;
     */
@@ -106,6 +112,14 @@ class eZINI
         $this->DirectAccess = $directAccess;
         $this->UseLocalOverrides = $useLocalOverrides;
         $this->AddArrayDefinition = $addArrayDefinition;
+
+        if ( self::$checkFileMtime === null )
+        {
+            if ( defined('EZP_INI_FILEMTIME_CHECK') )
+                self::$checkFileMtime = EZP_INI_FILEMTIME_CHECK;
+            else
+                self::$checkFileMtime = true;
+        }
 
         if ( $this->UseLocalOverrides == true )
         {
@@ -234,9 +248,9 @@ class eZINI
             $rootDir = "settings";
         if ( file_exists( $rootDir . '/' . $fileName ) )
             return true;
-        else if ( file_exists( $rootDir . '/' . $fileName . '.append' ) )
-            return true;
         else if ( file_exists( $rootDir . '/' . $fileName . '.append.php' ) )
+            return true;
+        else if ( file_exists( $rootDir . '/' . $fileName . '.append' ) )
             return true;
         return false;
     }
@@ -290,7 +304,7 @@ class eZINI
 
         $inputFiles = array();
 
-        if ( $this->FileName == 'override.ini' )
+        if ( $this->FileName === 'override.ini' )
         {
             eZExtension::prependExtensionSiteAccesses( false, $this, true, false, false );
         }
@@ -299,10 +313,10 @@ class eZINI
             $inputFiles[] = $iniFile;
 
         // try the same file name with '.append.php' replace with '.append'
-        if ( preg_match('/^(.+.append).php$/i', $iniFile, $matches ) && file_exists( $matches[1] ) )
+        if ( strpos($iniFile, '.append.php') !== false && preg_match('/^(.+.append).php$/i', $iniFile, $matches ) && file_exists( $matches[1] ) )
             $inputFiles[] = $matches[1];
 
-        if ( file_exists ( $iniFile . '.php' ) )
+        if ( strpos($iniFile, '.php') === false && file_exists ( $iniFile . '.php' ) )
             $inputFiles[] = $iniFile . '.php';
 
         if ( $this->DirectAccess )
@@ -316,33 +330,61 @@ class eZINI
         else
         {
             $overrideDirs = $this->overrideDirs();
+            $fileName = $this->FileName;
+            $rootDir = $this->RootDir;
             foreach ( $overrideDirs as $overrideDirItem )
             {
                 $overrideDir = $overrideDirItem[0];
                 $isGlobal = $overrideDirItem[1];
                 if ( $isGlobal )
-                    $overrideFile = eZDir::path( array( $overrideDir, $this->FileName ) );
-                else
-                    $overrideFile = eZDir::path( array( $this->RootDir, $overrideDir, $this->FileName ) );
-                if ( file_exists( $overrideFile . '.php' ) )
-                {
-                    $inputFiles[] = $overrideFile . '.php';
-                }
-                if ( file_exists( $overrideFile ) )
-                    $inputFiles[] = $overrideFile;
+                    $overrideFile = eZDir::path( array( $overrideDir, $fileName ) );
+                 else
+                    $overrideFile = eZDir::path( array( $rootDir, $overrideDir, $fileName ) );
 
-                if ( $isGlobal )
-                    $overrideFile = eZDir::path( array( $overrideDir, $this->FileName . '.append' ) );
-                else
-                    $overrideFile = eZDir::path( array( $this->RootDir, $overrideDir, $this->FileName . '.append' ) );
                 if ( file_exists( $overrideFile . '.php' ) )
                 {
                     $inputFiles[] = $overrideFile . '.php';
                 }
+
                 if ( file_exists( $overrideFile ) )
+                {
                     $inputFiles[] = $overrideFile;
+                }
+
+                if ( file_exists( $overrideFile . '.append.php' ) )
+                {
+                    $inputFiles[] = $overrideFile . '.append.php';
+                }
+
+                if ( file_exists( $overrideFile . '.append' ) )
+                {
+                    $inputFiles[] = $overrideFile . '.append';
+                }
             }
         }
+    }
+
+    /*!
+      \protected
+      Generates cache name for loadCache
+    */
+    protected function cacheFileName( $placement = false )
+    {
+        $cacheFileName = $this->FileName . '-' . $this->RootDir . '-' . $this->DirectAccess;
+
+        if ( !$this->DirectAccess )
+        {
+            $cacheFileName .= '-' . serialize( $this->overrideDirs() );
+        }
+        if ( $this->UseTextCodec )
+        {
+            $cacheFileName .= '-' . eZTextCodec::internalCharset();
+        }
+        if ( $placement )
+        {
+            $cacheFileName .= '-placement:' . $placement;
+        }
+        return md5( $cacheFileName ) . '.php';
     }
 
     /*!
@@ -356,36 +398,29 @@ class eZINI
         if ( $reset )
             $this->reset();
         $cachedDir = "var/cache/ini/";
+        $inputFileTime = 0;
 
-        eZDebug::accumulatorStart( 'ini_find_files', 'ini_load', 'FindInputFiles' );
-        $this->findInputFiles( $inputFiles, $iniFile );
-        eZDebug::accumulatorStop( 'ini_find_files' );
-        if ( count( $inputFiles ) == 0 )
+        if ( self::$checkFileMtime === true or self::$checkFileMtime === $this->FileName )
         {
-            eZDebug::accumulatorStop( 'ini' );
-            return false;
+            eZDebug::accumulatorStart( 'ini_find_files', 'ini_load', 'FindInputFiles' );
+            $this->findInputFiles( $inputFiles, $iniFile );
+            eZDebug::accumulatorStop( 'ini_find_files' );
+            if ( count( $inputFiles ) === 0 )
+            {
+                eZDebug::accumulatorStop( 'ini' );
+                return false;
+            }
+
+            foreach ( $inputFiles as $inputFile )
+            {
+                $fileTime = filemtime( $inputFile );
+                if ( $inputFileTime === 0 or
+                     $fileTime > $inputFileTime )
+                    $inputFileTime = $fileTime;
+            }
         }
 
-/*        if ( strstr( end( $inputFiles ), 'settings/override/' ) )
-        {
-            $overrideINIFile = array_pop( $inputFiles );
-        }*/
-
-        $md5_input = '';
-        foreach ( $inputFiles as $inputFile )
-        {
-            $md5_input .= $inputFile. "\n";
-        }
-        if ( $this->UseTextCodec )
-        {
-            //include_once( "lib/ezi18n/classes/eztextcodec.php" );
-            $md5_input .= '-' . eZTextCodec::internalCharset();
-        }
-        if ( $placement )
-        {
-            $md5_input .= '-placement';
-        }
-        $fileName = md5( $md5_input ) . ".php";
+        $fileName = $this->cacheFileName( $placement );
         $cachedFile = $cachedDir . $fileName;
         if ( $placement )
         {
@@ -396,26 +431,15 @@ class eZINI
             $this->CacheFile = $cachedFile;
         }
 
-        $inputTime = false;
-        // check for modifications
-        foreach ( $inputFiles as $inputFile )
-        {
-            $fileTime = filemtime( $inputFile );
-            if ( $inputTime === false or
-                 $fileTime > $inputTime )
-                $inputTime = $fileTime;
-        }
-
         $loadCache = false;
         $cacheTime = false;
         if ( file_exists( $cachedFile ) )
         {
-            $fileInfo = @stat( $cachedFile );
-            if ( $fileInfo )
+            $loadCache = true;
+            if ( self::$checkFileMtime === true or self::$checkFileMtime === $this->FileName  )
             {
-                $cacheTime = $fileInfo['mtime'];
-                $loadCache = true;
-                if ( $cacheTime < $inputTime )
+                $cacheTime = filemtime( $cachedFile );
+                if ( $cacheTime < $inputFileTime )
                 {
                     $loadCache = false;
                 }
@@ -457,6 +481,18 @@ class eZINI
         }
         if ( !$useCache )
         {
+            if ( !isset( $inputFiles ) )
+            {
+                eZDebug::accumulatorStart( 'ini_find_files', 'ini_load', 'FindInputFiles' );
+                $this->findInputFiles( $inputFiles, $iniFile );
+                eZDebug::accumulatorStop( 'ini_find_files' );
+                if ( count( $inputFiles ) === 0 )
+                {
+                    eZDebug::accumulatorStop( 'ini' );
+                    return false;
+                }
+            }
+
             eZDebug::accumulatorStart( 'ini_files_1', 'ini_load', 'Parse' );
             $this->parse( $inputFiles, $iniFile, false, $placement );
             eZDebug::accumulatorStop( 'ini_files_1' );
@@ -733,9 +769,8 @@ class eZINI
             $pathArray[] = 'override';
             $dirArray[] = 'override';
         }
-        if ( is_string( $useOverride ) and
-             $useOverride == "append" )
-            $fileName .= ".append";
+        if ( $useOverride === 'append' )
+            $fileName .= '.append';
         if ( $suffix !== false )
             $fileName .= $suffix;
 
