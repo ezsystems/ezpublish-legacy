@@ -281,7 +281,7 @@ $script->setUseSiteAccess( $siteaccess );
 
 $script->initialize();
 
-print( "Starting object re-indexing\n" );
+print( "Updating content object names\n" );
 
 //eZDebug::setHandleType( eZDebug::HANDLE_FROM_PHP );
 
@@ -325,7 +325,7 @@ foreach ( array_keys ( $topNodeArray ) as $key  )
     $subTreeCount += $topNodeArray[$key]->subTreeCount( array( 'Limitation' => false ) );
 }
 
-print( "Number of objects to index: $subTreeCount $endl" );
+print( "Number of objects to update: $subTreeCount $endl" );
 
 $i = 0;
 $dotMax = 70;
