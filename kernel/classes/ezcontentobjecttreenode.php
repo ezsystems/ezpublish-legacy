@@ -374,8 +374,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
      \return \c true if the node can be read by the current user.
      \sa checkAccess().
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function canRead( )
     {
@@ -388,8 +386,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     /*!
      \return \c true if the current user can create a pdf of this content object.
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function canPdf( )
     {
@@ -404,8 +400,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
      \return \c true if the node can be viewed as embeded object by the current user.
      \sa checkAccess().
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function canViewEmbed( )
     {
@@ -419,8 +413,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
      \return \c true if the node can be edited by the current user.
      \sa checkAccess().
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function canEdit( )
     {
@@ -446,8 +438,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
      \return \c true if the node can be hidden by the current user.
      \sa checkAccess().
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function canHide( )
     {
@@ -461,8 +451,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
      \return \c true if the current user can create a new node as child of this node.
      \sa checkAccess().
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function canCreate( )
     {
@@ -476,8 +464,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
      \return \c true if the node can be removed by the current user.
      \sa checkAccess().
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function canRemove( )
     {
@@ -492,8 +478,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
      Check if the node can be moved. (actually checks 'edit' and 'remove' permissions)
      \return \c true if the node can be moved by the current user.
      \sa checkAccess().
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
      \deprecated The function canMove() is preferred since its naming is clearer.
     */
     function canMove()
@@ -505,8 +489,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
      Check if the node can be moved. (actually checks 'edit' and 'remove' permissions)
      \return \c true if the node can be moved by the current user.
      \sa checkAccess().
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function canMoveFrom( )
     {
@@ -520,8 +502,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
      \return \c true if a node of class \a $classID can be moved to the current node by the current user.
      \sa checkAccess().
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function canMoveTo( $classID = false )
     {
@@ -535,8 +515,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
      \return \c true if a node can be swaped by the current user.
      \sa checkAccess().
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function canSwap()
     {
@@ -3156,8 +3134,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     }
 
     /*!
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function fetchParent()
     {
@@ -3165,8 +3141,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     }
 
     /*!
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function pathArray()
     {
@@ -5565,8 +5539,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     /*!
      \return the creator of the version published in the node.
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function creator()
     {

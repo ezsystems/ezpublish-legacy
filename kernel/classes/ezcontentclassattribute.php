@@ -235,8 +235,6 @@ class eZContentClassAttribute extends eZPersistentObject
     }
 
     /*!
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function instantiateTemporary( $contentobjectID = false )
     {
@@ -493,8 +491,6 @@ class eZContentClassAttribute extends eZPersistentObject
 
     /*!
      \return The content for this attribute.
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function content()
     {

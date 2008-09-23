@@ -337,8 +337,6 @@ class eZContentObjectVersion extends eZPersistentObject
 
     /*!
      \return \c true if the current user can read this version of the object.
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function canVersionRead( )
     {
@@ -351,8 +349,6 @@ class eZContentObjectVersion extends eZPersistentObject
 
     /*!
      \return \c true if the current user can remove this version of the object.
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function canVersionRemove( )
     {
@@ -724,8 +720,6 @@ class eZContentObjectVersion extends eZPersistentObject
     }
 
     /*!
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function mainParentNodeID()
     {
@@ -874,8 +868,6 @@ class eZContentObjectVersion extends eZPersistentObject
     }
 
     /*!
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function reverseRelatedObjectList()
     {
@@ -1059,8 +1051,6 @@ class eZContentObjectVersion extends eZPersistentObject
 
     /*!
      \return An array with all the translations for the current version.
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function translations( $asObject = true )
     {
@@ -1069,8 +1059,6 @@ class eZContentObjectVersion extends eZPersistentObject
 
     /*!
      \return An array with all the translations for the current version.
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
      \deprecated
     */
     function translation( $asObject = true )
@@ -1080,8 +1068,6 @@ class eZContentObjectVersion extends eZPersistentObject
 
     /*!
      \return An array with all the translations for the current version.
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
 
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
            the calls within a db transaction; thus within db->begin and db->commit.
@@ -1126,8 +1112,6 @@ class eZContentObjectVersion extends eZPersistentObject
 
     /*!
      \return An array with all translations except default language for the this version.
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
 
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
            the calls within a db transaction; thus within db->begin and db->commit.

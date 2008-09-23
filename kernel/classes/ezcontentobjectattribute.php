@@ -475,8 +475,6 @@ class eZContentObjectAttribute extends eZPersistentObject
 
     /*!
      \returns the cached value of the IsRequired value
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function contentClassAttributeIsRequired()
     {
@@ -494,8 +492,6 @@ class eZContentObjectAttribute extends eZPersistentObject
 
     /*!
      \returns the cached value of the is_informationcollector value
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function contentClassAttributeIsInformationCollector()
     {
@@ -513,8 +509,6 @@ class eZContentObjectAttribute extends eZPersistentObject
 
     /*!
      \returns the cached value of the class attribute name
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function contentClassAttributeName()
     {
@@ -532,8 +526,6 @@ class eZContentObjectAttribute extends eZPersistentObject
 
     /*!
      \returns the cached value if the attribute can be translated or not
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function contentClassAttributeCanTranslate()
     {
@@ -559,8 +551,6 @@ class eZContentObjectAttribute extends eZPersistentObject
 
     /*!
      \return the idenfifier for the content class attribute
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function contentClassAttributeIdentifier()
     {
@@ -1086,8 +1076,6 @@ class eZContentObjectAttribute extends eZPersistentObject
 
     /*!
      \return the content for the contentclass attribute which defines this contentobject attribute.
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function classContent()
     {
@@ -1116,8 +1104,6 @@ class eZContentObjectAttribute extends eZPersistentObject
 
     /*!
      \return \c true if the attribute has relavant value(s) submitted in HTTP form.
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function hasHTTPValue()
     {
@@ -1146,8 +1132,6 @@ class eZContentObjectAttribute extends eZPersistentObject
      \return \c true if the attribute is considered to have any content at all (ie. non-empty).
 
      It will call the hasObjectAttributeContent() for the current datatype to figure this out.
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function hasContent()
     {
@@ -1303,8 +1287,6 @@ class eZContentObjectAttribute extends eZPersistentObject
     }
 
     /*!
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function hasValidationError()
     {
@@ -1341,8 +1323,6 @@ class eZContentObjectAttribute extends eZPersistentObject
     }
 
     /*!
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function validationError()
     {
@@ -1350,8 +1330,6 @@ class eZContentObjectAttribute extends eZPersistentObject
     }
 
     /*!
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function validationLog()
     {

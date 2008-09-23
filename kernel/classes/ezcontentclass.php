@@ -622,8 +622,6 @@ class eZContentClass extends eZPersistentObject
 
     /*!
      \return The creator of the class as an eZUser object by using the $CreatorID as user ID.
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function creator()
     {
@@ -637,8 +635,6 @@ class eZContentClass extends eZPersistentObject
 
     /*!
      \return The modifier of the class as an eZUser object by using the $ModifierID as user ID.
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function modifier()
     {
@@ -654,8 +650,6 @@ class eZContentClass extends eZPersistentObject
      Find all groups the current class is placed in and returns a list of group objects.
      \return An array with eZContentClassGroup objects.
      \sa fetchGroupIDList()
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function fetchGroupList()
     {
@@ -669,8 +663,6 @@ class eZContentClass extends eZPersistentObject
      Find all groups the current class is placed in and returns a list of group IDs.
      \return An array with integers (ids).
      \sa fetchGroupList()
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function fetchGroupIDList()
     {
@@ -691,8 +683,6 @@ class eZContentClass extends eZPersistentObject
      \return An array with eZContentClassGroup objects or \c false if disabled.
      \note \c EnableClassGroupOverride in group \c ContentOverrideSettings from INI file content.ini
            controls this behaviour.
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function fetchMatchGroupIDList()
     {
@@ -709,8 +699,6 @@ class eZContentClass extends eZPersistentObject
     /*!
      Finds all Classes in the system and returns them.
      \return An array with eZContentClass objects.
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     static function fetchAllClasses( $asObject = true, $includeFilter = true, $groupList = false )
     {
@@ -748,8 +736,6 @@ class eZContentClass extends eZPersistentObject
      Finds all Class groups in the system and returns them.
      \return An array with eZContentClassGroup objects.
      \sa fetchGroupList(), fetchGroupIDList()
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function fetchAllGroups()
     {
@@ -1389,8 +1375,6 @@ You will need to change the class of the node by using the swap functionality.' 
     }
 
     /*!
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function versionStatus()
     {
@@ -1409,8 +1393,6 @@ You will need to change the class of the node by using the swap functionality.' 
     /*!
      \deprecated
      \return The version count for the class if has been determined.
-     \note The reference for the return value is required to workaround
-           a bug with PHP references.
     */
     function versionCount()
     {
