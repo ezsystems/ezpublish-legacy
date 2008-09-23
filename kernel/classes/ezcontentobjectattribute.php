@@ -391,7 +391,7 @@ class eZContentObjectAttribute extends eZPersistentObject
         return eZPersistentObject::store();
     }
 
-    /**
+    /*!
      * Fetch a node by identifier (unique data_text )
 
      \param identifier
