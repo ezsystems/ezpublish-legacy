@@ -219,7 +219,6 @@ class eZURLWildcard extends eZPersistentObject
      - file - The base filename for the caches
      - path - The entire path (including filename) for the cache
      - keys - Array with key values which is used to uniquely identify the cache
-     \deprecated This class has been deprecated and disabled in eZ Publish 3.10, please use eZURLAliasML for future alias handling.
     */
     static function cacheInfo()
     {
