@@ -373,3 +373,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13627: Files larger than 16MB does not get stored when using clustering.
 - Fixed bug #13628: RSS import publish objects as anonymous
 - Fixed bug #13630: eZDebug sets 0664 as file permissions when creating new log file
+- Fixed bug #13364: Wrong examples in title attribute of "New URL wildcard" and "Destination" text fields
