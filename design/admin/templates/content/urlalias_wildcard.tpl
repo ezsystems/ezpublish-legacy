@@ -172,13 +172,13 @@
 <div class="block">
 {* Wildcard pattern. *}
     <label>{'New URL wildcard'|i18n( 'design/admin/content/urlalias_wildcard' )}:</label>
-    <input class="box" type="text" name="WildcardSourceText" value="{$wildcardSourceText|wash}" title="{'Enter the URL for the new wildcard. Example: /developer/*'|i18n( 'design/admin/content/urlalias_wildcard' )}" />
+    <input class="box" type="text" name="WildcardSourceText" value="{$wildcardSourceText|wash}" title="{'Enter the URL for the new wildcard. Example: developer/*'|i18n( 'design/admin/content/urlalias_wildcard' )}" />
 </div>
 
 <div class="block">
 {* Destination field. *}
     <label>{'Destination'|i18n( 'design/admin/content/urlalias_wildcard' )}:</label>
-    <input class="box" type="text" name="WildcardDestinationText" value="{$wildcardDestinationText|wash}" title="{'Enter the destination URL for the new wildcard. Example: /dev/{1\}'|i18n( 'design/admin/content/urlalias_wildcard' )}" />
+    <input class="box" type="text" name="WildcardDestinationText" value="{$wildcardDestinationText|wash}" title="{'Enter the destination URL for the new wildcard. Example: dev/{1\}'|i18n( 'design/admin/content/urlalias_wildcard' )}" />
 </div>
 
 <div class="block">
