@@ -4,6 +4,8 @@ eZ Online Editor 5.0 extension Changelog
 * Changed javascript / stylesheet cache to use 'public/' path
   NOTE: Rewrite rules changed, see INSTALL for the new rewrite rule
 * Added Italian translation contributed by Sandra Parente
+* Added setting to give validation warning if embed objects is in trash
+  for issue #13391: ezoe handles removed images incorrect
 
 
 5.0rc6

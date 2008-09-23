@@ -1063,9 +1063,14 @@ class eZOEInputParser extends eZXMLInputParser
             {
                 $objectID = substr( $ID, strpos( $ID, '_' ) + 1 );
                 $element->setAttribute( 'object_id', $objectID );
-                if ( !eZContentObject::exists( $objectID )
-                  && !in_array( $objectID, $this->deletedEmbeddedObjectIDArray ) )
-                    $this->deletedEmbeddedObjectIDArray[] = $objectID;
+                $object = eZContentObject::fetch( $objectID );
+                if ( !$object )
+                {
+                    if ( !in_array( $objectID, $this->deletedEmbeddedObjectIDArray ) )
+                        $this->deletedEmbeddedObjectIDArray[] = $objectID;
+                }
+                else if ( $object->attribute('status') == eZContentObject::STATUS_ARCHIVED )
+                    $this->thrashedEmbeddedObjectIDArray[] = $objectID;
             }
             else if ( strpos( $ID, 'eZNode_' ) !== false )
             {
@@ -1126,13 +1131,15 @@ class eZOEInputParser extends eZXMLInputParser
         return $this->linkedObjectIDArray;
     }
 
-    function getDeletedEmbedIDArray()
+    function getDeletedEmbedIDArray( $includeTrash = false )
     {
         $arr = array();
         if ( $this->deletedEmbeddedNodeIDArray )
             $arr['nodes'] = $this->deletedEmbeddedNodeIDArray;
         if ( $this->deletedEmbeddedObjectIDArray )
             $arr['objects'] = $this->deletedEmbeddedObjectIDArray;
+        if ( $includeTrash && $this->thrashedEmbeddedObjectIDArray )
+            $arr['trash'] = $this->thrashedEmbeddedObjectIDArray;
         return $arr;
     }
 
@@ -1141,6 +1148,7 @@ class eZOEInputParser extends eZXMLInputParser
     protected $embeddedObjectIDArray = array();
     protected $deletedEmbeddedNodeIDArray = array();
     protected $deletedEmbeddedObjectIDArray = array();
+    protected $thrashedEmbeddedObjectIDArray = array();
 
     protected $anchorAsAttribute = false;
 }

@@ -455,9 +455,10 @@ class eZOEXMLInput extends eZXMLInputHandler
                 }
             }
 
+            $oeini = eZINI::instance( 'ezoe.ini' );
             $validationParameters = $contentObjectAttribute->validationParameters();
             if ( !( isset( $validationParameters['skip-isRequired'] ) && $validationParameters['skip-isRequired'] === true )
-              && $parser->getDeletedEmbedIDArray() )
+              && $parser->getDeletedEmbedIDArray( $oeini->variable('EditorSettings', 'ValidateEmbedObjects' ) === 'enabled' ) )
             {
                 self::$showEmbedValidationErrors = true;
                 $contentObjectAttribute->setValidationError( ezi18n( 'design/standard/ezoe/handler',
@@ -1018,6 +1019,12 @@ class eZOEXMLInput extends eZXMLInputHandler
                     else if ( $object->attribute( 'status' ) == eZContentObject::STATUS_ARCHIVED )
                     {
                         $className .= ' mceItemObjectInTrash';
+                        if ( self::$showEmbedValidationErrors )
+                        {
+                            $oeini = eZINI::instance( 'ezoe.ini' );
+                            if ( $oeini->variable('EditorSettings', 'ValidateEmbedObjects' ) === 'enabled' )
+                                $className .= ' mceItemValidationError';
+                        }
                     }
                 }
                 else
@@ -1422,9 +1429,9 @@ class eZOEXMLInput extends eZXMLInputHandler
     {
         if ( self::$serverURL === null  )
         {
-            $OEini = eZINI::instance( 'ezoe.ini' );
-            if ( $OEini->hasVariable( 'SystemSettings', 'RelativeURL' ) &&
-                 $OEini->variable( 'SystemSettings', 'RelativeURL' ) === 'enabled' )
+            $oeini = eZINI::instance( 'ezoe.ini' );
+            if ( $oeini->hasVariable( 'SystemSettings', 'RelativeURL' ) &&
+                 $oeini->variable( 'SystemSettings', 'RelativeURL' ) === 'enabled' )
             {
                 self::$serverURL = eZSys::wwwDir();
                 if ( self::$serverURL === '/'  )
