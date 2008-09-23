@@ -70,17 +70,21 @@ class eZHTTPTool
     }
 
     /*!
-     \return a reference to the HTTP post variable $var, or null if it does not exist.
+     \return the HTTP post variable $var, or $fallbackValue if the post variable does not exist , or null if $fallbackValue is omitted.
      \sa variable
     */
-    function postVariable( $var )
+   function postVariable( $var, $fallbackValue = null )
     {
-        $ret = null;
+        $ret = $fallbackValue;
         if ( isset( $_POST[$var] ) )
+        {
             $ret = $_POST[$var];
-        else
+        }
+        else if ( $ret === null )
+        {
             eZDebug::writeWarning( "Undefined post variable: $var",
                                    "eZHTTPTool" );
+        }
         return $ret;
     }
 
@@ -103,17 +107,21 @@ class eZHTTPTool
     }
 
     /*!
-     \return a reference to the HTTP get variable $var, or null if it does not exist.
+     \return the HTTP get variable $var, or $fallbackValue if the get variable does not exist, or null if $fallbackValue is omitted.
      \sa variable
     */
-    function getVariable( $var )
+    function getVariable( $var, $fallbackValue = null )
     {
-        $ret = null;
+        $ret = $fallbackValue;
         if ( isset( $_GET[$var] ) )
+        {
             $ret = $_GET[$var];
-        else
+        }
+        else if ( $ret === null )
+        {
             eZDebug::writeWarning( "Undefined get variable: $var",
                                    "eZHTTPTool" );
+        }
         return $ret;
     }
 
@@ -144,10 +152,10 @@ class eZHTTPTool
     }
 
     /*!
-     \return a reference to the HTTP post/get variable $var, or null if it does not exist.
+     \return the HTTP post/get variable $var, or $fallbackValue if the post/get variable does not exist , or null if $fallbackValue is omitted.
      \sa postVariable
     */
-    function variable( $var )
+    function variable( $var, $fallbackValue = null )
     {
         if ( isset( $_POST[$var] ) )
         {
@@ -157,7 +165,12 @@ class eZHTTPTool
         {
             return $_GET[$var];
         }
-        $ret = false;
+        $ret = $fallbackValue;
+        if ( $ret === null )
+        {
+            eZDebug::writeWarning( "Undefined post/get variable: $var",
+                                   "eZHTTPTool" );
+        }
         return $ret;
     }
 

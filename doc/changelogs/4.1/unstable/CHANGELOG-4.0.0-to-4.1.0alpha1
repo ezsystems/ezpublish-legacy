@@ -48,6 +48,7 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Implemented enhancement #13612: Option to skip url_alias db lookup on system urls
 - Implemented enhancement #12137: eZIni 10-50% performance patch
 - Implemented enhancement #13054: eZ Publish/ Webin does not support table summary and caption as required by WAI
+- Implemented enhancement #10514: FallBack value for post and getValues in ezhttptool
 
 *Design:
 
@@ -55,7 +56,7 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Implemented enhancement #12539: Share compiled templates between site accesses
 - Implemented enhancement #12867: Make template language use __toString magic method for objects
 - Implemented enhancement #12771: Extra informations in case of multiple defs.
-- Implemented enhancement #08743: Changed message for missing translation from warning to debug message. 
+- Implemented enhancement #08743: Changed message for missing translation from warning to debug message.
 - Implemented enhancement #13602: template name and line number on "Parameter % is not an object" warnings
 
 *eZLocale:
