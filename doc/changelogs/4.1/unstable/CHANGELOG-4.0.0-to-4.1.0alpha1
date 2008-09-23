@@ -375,3 +375,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13630: eZDebug sets 0664 as file permissions when creating new log file
 - Fixed bug #13364: Wrong examples in title attribute of "New URL wildcard" and "Destination" text fields
 - Fixed bug #12411: Doxygen comment \deprecated for eZURLWildcard::cacheInfo()
+- Fixed bug #13041: design/admin/edit_sections.tpl bugs

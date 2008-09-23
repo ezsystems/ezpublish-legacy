@@ -16,7 +16,7 @@
     {/if}
 {/foreach}
 
-<h2 class="context-title">Section: {$currentSectionName} [{count($sections)}]</h2>
+<h2 class="context-title">{"Section"|i18n( 'design/admin/node/view/full' )}: {$currentSectionName|wash} [{count($sections)}]</h2>
 {undef $currentSectionName}
 
 {* DESIGN: Header END *}
@@ -31,9 +31,9 @@
     <select name="SelectedSectionId">
     {foreach $sections as $section}
         {if eq( $section.id, $object.section_id )}
-        <option value="{$section.id}" selected="selected">{$section.name}</option>
+        <option value="{$section.id}" selected="selected">{$section.name|wash}</option>
         {else}
-        <option value="{$section.id}">{$section.name}</option>
+        <option value="{$section.id}">{$section.name|wash}</option>
         {/if}
     {/foreach}
     </select>
