@@ -1,8 +1,16 @@
 <?php
 
+$Module = $Params['Module'];
 $StateID = $Params['StateID'];
 
 $state = eZContentObjectState::fetchByID( $StateID );
+
+$currentAction = $Module->currentAction();
+
+if ( $currentAction =='Edit' )
+{
+    return $Module->redirectTo( 'state/edit/' . $StateID );
+}
 
 require_once 'kernel/common/template.php';
 

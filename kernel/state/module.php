@@ -39,14 +39,13 @@ $ViewList['group_edit'] = array(
                                     'CancelButton' => 'Cancel' )
 );
 
-/*
 $ViewList['view'] = array(
     'default_navigation_part' => 'ezsetupnavigationpart',
     'script' => 'view.php',
     'params' => array( 'StateID' ),
-    'functions' => array( 'administrate' ),¨
+    'functions' => array( 'administrate' ),
+    'single_post_actions' => array( 'EditButton' => 'Edit' )
 );
-*/
 
 $ViewList['edit'] = array(
     'default_navigation_part' => 'ezsetupnavigationpart',

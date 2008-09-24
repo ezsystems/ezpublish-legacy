@@ -59,6 +59,43 @@
 
 </div>{* class="context-block" *}
 
+
+
+<div class="context-block">
+
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
+<h2 class="context-title">{'Translations [%translations]'|i18n( 'design/admin/node/view/full',, hash( '%translations', $state_group.languages|count ) )}</h2>
+
+{* DESIGN: Subline *}<div class="header-subline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+
+<table class="list" cellspacing="0">
+<tr>
+    <th>{'Language'|i18n( 'design/admin/node/view/full' )}</th>
+    <th>{'Locale'|i18n( 'design/admin/node/view/full' )}</th>
+    <th class="tight">{'Main'|i18n( 'design/admin/node/view/full' )}</th>
+</tr>
+
+{foreach $state_group.languages as $language sequence array( 'bglight', 'bgdark' ) as $sequence}
+<tr class="{$sequence}">
+    <td>{$language.name|wash}</td>
+    <td>{$language.locale|wash}</td>
+    <td>{if $language.id|eq($state_group.default_language_id)}Yes{/if}</td>
+</tr>
+{/foreach}
+
+</table>
+
+{* DESIGN: Content END *}</div></div></div></div></div></div>
+
+</div>{* class="context-block" *}
+
+
+
 <div class="context-block">
 
 
@@ -85,8 +122,8 @@
 <tr class="{$sequence}">
     <td><input type="checkbox" name="RemoveIDList[]" value="{$state.id}" title="{'Select content object state group for removal.'|i18n( 'design/admin/state/group' )|wash}" /></td>
     <td class="number">{$state.id}</td>
-    <td>{*<a href={concat("/state/view/",$state.id)|ezurl}>*}{$state.identifier|wash}{*</a>*}</td>
-    <td>{$state.current_translation.name|wash}</td>
+    <td><a href={concat("/state/view/",$state.id)|ezurl}>{$state.identifier|wash}</a></td>
+    <td><a href={concat("state/view/", $state.id)|ezurl}>{$state.current_translation.name|wash}</a></td>
     <td>
         <input type="text" name="Order[{$state.id}]" size="3" value="{$state.priority}" />
     </td>
