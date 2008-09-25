@@ -101,6 +101,22 @@ class eZContentObjectStateGroup extends eZPersistentObject
         return $this->LanguageObject;
     }
 
+    public function setCurrentLanguage( $locale )
+    {
+        $lang = eZContentLanguage::fetchByLocale( $locale );
+        $langID = $lang->attribute( 'id' );
+        foreach ( $this->translations() as $translation )
+        {
+            if ( $translation->attribute( 'language_id' ) == $langID )
+            {
+                $this->setLanguageObject( $translation );
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /*!
      \return an array of eZContentObjectStateGroupLanguage objects, representing all possible translations
     */

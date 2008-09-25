@@ -2,8 +2,14 @@
 
 $Module = $Params['Module'];
 $StateID = $Params['StateID'];
+$LanguageCode = $Params['Language'];
 
 $state = eZContentObjectState::fetchByID( $StateID );
+
+if ( $LanguageCode )
+{
+    $state->setCurrentLanguage( $LanguageCode );
+}
 
 $currentAction = $Module->currentAction();
 

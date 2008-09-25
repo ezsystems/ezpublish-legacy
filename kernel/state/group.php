@@ -2,6 +2,7 @@
 
 $Module = $Params['Module'];
 $GroupID = $Params['GroupID'];
+$LanguageCode = $Params['Language'];
 
 $stateGroup = eZContentObjectStateGroup::fetchById( $GroupID );
 
@@ -57,6 +58,11 @@ else if ( $currentAction == 'UpdateOrder' && $Module->hasActionParameter( 'Order
         $i++;
     }
     $db->commit();
+}
+
+if ( $LanguageCode )
+{
+    $stateGroup->setCurrentLanguage( $LanguageCode );
 }
 
 $tpl->setVariable( 'state_group', $stateGroup );

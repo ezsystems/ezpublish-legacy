@@ -19,7 +19,7 @@ $ViewList['groups'] = array(
 $ViewList['group'] = array(
     'default_navigation_part' => 'ezsetupnavigationpart',
     'script' => 'group.php',
-    'params' => array( 'GroupID' ),
+    'params' => array( 'GroupID', 'Language' ),
     'functions' => array( 'administrate' ),
     'single_post_actions' => array( 'CreateButton' => 'Create',
                                     'UpdateOrderButton' => 'UpdateOrder',
@@ -42,7 +42,7 @@ $ViewList['group_edit'] = array(
 $ViewList['view'] = array(
     'default_navigation_part' => 'ezsetupnavigationpart',
     'script' => 'view.php',
-    'params' => array( 'StateID' ),
+    'params' => array( 'StateID', 'Language' ),
     'functions' => array( 'administrate' ),
     'single_post_actions' => array( 'EditButton' => 'Edit' )
 );
