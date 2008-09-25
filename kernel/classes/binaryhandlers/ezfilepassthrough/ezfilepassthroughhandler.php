@@ -83,8 +83,8 @@ class eZFilePassthroughHandler extends eZBinaryFileHandler
             header( "Pragma: " );
             header( "Cache-Control: " );
             /* Set cache time out to 10 minutes, this should be good enough to work around an IE bug */
-            header( "Expires: ". gmdate('D, d M Y H:i:s T', time() + 600) . ' GMT' );
-            header( "Last-Modified: ". gmdate( 'D, d M Y H:i:s T', $fileModificationTime ) . ' GMT' );
+            header( "Expires: ". gmdate('D, d M Y H:i:s', time() + 600) . ' GMT' );
+            header( "Last-Modified: ". gmdate( 'D, d M Y H:i:s', $fileModificationTime ) . ' GMT' );
             header( "Content-Length: $contentLength" );
             header( "Content-Type: $mimeType" );
             header( "X-Powered-By: eZ Publish" );
