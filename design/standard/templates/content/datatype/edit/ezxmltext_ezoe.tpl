@@ -90,12 +90,15 @@
     {literal}
 
     // make sure tinyMCE doesn't try to load language pack
-    // and set urls for some plugins so their dialogs work correctly
+    // and set urls for plugins so their dialogs work correctly
     (function(){
-        var uri = document.getElementById('tinymce_script_loader').src;
+        var uri = document.getElementById('tinymce_script_loader').src, tps = eZOeGlobalSettings.plugins.split(','), pm = tinymce.PluginManager, tp;
         tinymce.ScriptLoader.markDone( uri.replace( 'tiny_mce', 'langs/' + eZOeGlobalSettings.language ) );
-        tinymce.PluginManager.urls['paste'] = uri.replace( 'tiny_mce.js', 'plugins/paste' );
-        tinymce.PluginManager.urls['inlinepopups'] = uri.replace( 'tiny_mce.js', 'plugins/inlinepopups' );
+        for (var i = 0, l = tps.length; i < l; i++)
+        {
+            tp = tps[i].slice(1);
+            pm.urls[ tp ] = uri.replace( 'tiny_mce.js', 'plugins/' + tp );
+        }
     }())
 
     tinyMCE.init( eZOeGlobalSettings );
