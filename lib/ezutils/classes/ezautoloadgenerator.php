@@ -83,12 +83,12 @@ class eZAutoloadGenerator
     const GENAUTOLOADS_EXTENSION = 2;
 
     /**
-     * Bitmask for searching in both kernel and extension files
+     * Bitmask for searching in test files
      */
     const GENAUTOLOADS_TESTS = 3;
 
     /**
-     * Bitmask for searching in both kernel and extension files
+     * Bitmask for searching in kernel, extension and test files
      */
     const GENAUTOLOADS_ALL = 6;
 
