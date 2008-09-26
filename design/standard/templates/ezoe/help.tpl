@@ -90,6 +90,9 @@ tinyMCEPopup.onInit.add( function(){
                         <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_pagebreak"></span></dt>
                         <dd>{'Insert a pagebreak. This button is only enabled if you have a custom tag named pagebreak, template code to handle pagebreaks is not included in Online Editor.'|i18n("design/standard/ezoe/help")}</dd>
 
+                        <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_pasteword"></span></dt>
+                        <dd>{'Dialog to paste text from word, the dialog will handle cleaning the content from word.'|i18n("design/standard/ezoe/help")}</dd>
+
                         <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_table"></span></dt>
                         <dd>{'Insert a table at the selected position. Tables with their border set to 0 are displayed with a grey border color in the editor.'|i18n("design/standard/ezoe/help")}</dd>
 
@@ -143,6 +146,9 @@ tinyMCEPopup.onInit.add( function(){
 
                         <dt><img width="16" height="16" border="0" src={"tango/system-search.png"|ezimage} /></dt>
                         <dd>{'Search for a node / object.'|i18n("design/standard/ezoe/help")}</dd>
+
+                        <dt><img width="16" height="16" border="0" src={"tango/bookmark-new.png"|ezimage} /></dt>
+                        <dd>{'Browse for a node / object in your bookmarks.'|i18n("design/standard/ezoe/help")}</dd>
                     </dl>
                     
                     <h3>{'Tips &amp; Tricks'|i18n("design/standard/ezoe/help")}</h3>

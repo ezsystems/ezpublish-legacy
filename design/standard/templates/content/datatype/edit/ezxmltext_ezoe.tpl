@@ -89,9 +89,13 @@
     
     {literal}
 
+    // make sure tinyMCE doesn't try to load language pack
+    // and set urls for some plugins so their dialogs work correctly
     (function(){
         var uri = document.getElementById('tinymce_script_loader').src;
         tinymce.ScriptLoader.markDone( uri.replace( 'tiny_mce', 'langs/' + eZOeGlobalSettings.language ) );
+        tinymce.PluginManager.urls['paste'] = uri.replace( 'tiny_mce.js', 'plugins/paste' );
+        tinymce.PluginManager.urls['inlinepopups'] = uri.replace( 'tiny_mce.js', 'plugins/inlinepopups' );
     }())
 
     tinyMCE.init( eZOeGlobalSettings );

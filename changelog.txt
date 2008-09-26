@@ -6,6 +6,7 @@ eZ Online Editor 5.0 extension Changelog
 * Added Italian translation contributed by Sandra Parente
 * Added setting to give validation warning if embed objects is in trash
   for issue #13391: ezoe handles removed images incorrect
+# Added support for paste plugin dialogs (buttons: paste from word and text)
 
 
 5.0rc6
