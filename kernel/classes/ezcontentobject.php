@@ -589,12 +589,14 @@ class eZContentObject extends eZPersistentObject
     /*!
       Fetch a set of content object attributes by their class identifiers.
     */
-    function fetchAttributesByIdentifier( $identifierArray, $version = false, $language = false, $asObject = true )
+    function fetchAttributesByIdentifier( $identifierArray, $version = false, $languageArray = false, $asObject = true )
     {
         if ( count( $identifierArray ) === 0 )
         {
             return null;
         }
+
+        $db  = eZDB::instance();
 
         $identifierQuotedString = array();
         foreach ( $identifierArray as $identifier )
@@ -602,16 +604,21 @@ class eZContentObject extends eZPersistentObject
             $identifierQuotedString[] = "'$identifier'";
         }
 
-        $identifierSqlString = implode( ", ", $identifierQuotedString );
-
         if ( !$version or !is_numeric( $version ) )
         {
             $version = $this->CurrentVersion;
         }
 
-        if ( $language !== false )
+        if ( $languageArray !== false and is_array( $languageArray ) )
         {
-            $languageText = "AND\n\t\t\t ezcontentobject_attribute.language_code = '$language'";
+            $langCodeQuotedString = array();
+            foreach ( $languageArray as $langCode )
+            {
+                $langCodeQuotedString[] = "'$langCode'";
+            }
+
+            $languageText = "AND\n\t\t";
+            $languageText .= $db->generateSQLINStatement( $langCodeQuotedString, 'ezcontentobject_attribute.language_code' );
         }
         else
         {
@@ -634,10 +641,10 @@ class eZContentObject extends eZPersistentObject
                 {$versionText}
 
                 AND
-                identifier in ( {$identifierSqlString} )
                 ";
 
-        $db  = eZDB::instance();
+        $query .= $db->generateSQLINStatement( $identifierQuotedString, 'identifier' );
+
         $rows = $db->arrayQuery( $query );
 
         if ( count( $rows ) > 0 )

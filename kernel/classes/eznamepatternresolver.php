@@ -145,7 +145,7 @@ class eZNamePatternResolver
 
         $identifierArray = $this->getIdentifiers( $this->origNamePattern );
 
-        $attributes = $this->contentObject->fetchAttributesByIdentifier( $identifierArray, $this->version, $this->translation );
+        $attributes = $this->contentObject->fetchAttributesByIdentifier( $identifierArray, $this->version, array( $this->translation ) );
 
         if ( is_array( $attributes ) )
         {
