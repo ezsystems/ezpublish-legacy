@@ -70,12 +70,11 @@ $options = $script->getOptions( "[class:][creator:][storage-dir:]",
                                 array( 'user' => true ));
 $script->initialize();
 
-if ( !$options['node'] and count( $options['arguments'] ) < 2 )
+if ( count( $options['arguments'] ) < 2 )
 {
-    $cli->error( "Need a parenrt node to place object under and file to read data from" );
+    $cli->error( "Need a parent node to place object under and file to read data from" );
     $script->shutdown( 1 );
 }
-
 
 $nodeID = $options['arguments'][0];
 $inputFileName = $options['arguments'][1];
@@ -92,9 +91,7 @@ else
 
 $csvLineLength = 100000;
 
-
-$cli->output( "Going to import objects of class " . $createClass . " under  node " . $nodeID . " from file " . $inputFileName .  "\n" );
-
+$cli->output( "Going to import objects of class $createClass under node $nodeID from file $inputFileName\n" );
 
 $node = eZContentObjectTreeNode::fetch( $nodeID );
 if ( !$node )
@@ -103,8 +100,6 @@ if ( !$node )
     $script->shutdown( 1 );
 }
 $parentObject = $node->attribute( 'object' );
-
-
 
 $class = eZContentClass::fetchByIdentifier( $createClass );
 
@@ -141,13 +136,9 @@ while ( $objectData = fgetcsv( $fp, $csvLineLength , ';', '"' ) )
     $version->setAttribute( 'status', eZContentObjectVersion::STATUS_DRAFT );
     $version->store();
 
-
     $contentObjectID = $contentObject->attribute( 'id' );
 
     $attributes = $contentObject->attribute( 'contentobject_attributes' );
-
-
-
 
     while ( list( $key, $attribute ) = each( $attributes ) )
     {
@@ -158,7 +149,7 @@ while ( $objectData = fgetcsv( $fp, $csvLineLength , ';', '"' ) )
             case 'ezbinaryfile':
             case 'ezmedia':
             {
-                $dataString = $storageDir . $dataString;
+                $dataString = eZDir::path( array( $storageDir, $dataString ) );
                 break;
             }
             default:
@@ -175,7 +166,5 @@ while ( $objectData = fgetcsv( $fp, $csvLineLength , ';', '"' ) )
 fclose( $fp );
 
 $script->shutdown();
-
-
 
 ?>
