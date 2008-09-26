@@ -27,7 +27,6 @@ if ( !function_exists( '__autoload' ) )
     }
 
     define( 'EZCBASE_ENABLED', $baseEnabled );
-
     function __autoload( $className )
     {
         static $ezpClasses = null;
@@ -35,7 +34,15 @@ if ( !function_exists( '__autoload' ) )
         {
             $ezpKernelClasses = require 'autoload/ezp_kernel.php';
             $ezpExtensionClasses = require 'autoload/ezp_extension.php';
-            $ezpClasses = array_merge( $ezpKernelClasses, $ezpExtensionClasses );
+            $ezpTestClasses = @include_once 'autoload/ezp_tests.php';
+            if ( $ezpTestClasses )
+            {
+                $ezpClasses = array_merge( $ezpKernelClasses, $ezpExtensionClasses, $ezpTestClasses );
+            }
+            else
+            {
+                $ezpClasses = array_merge( $ezpKernelClasses, $ezpExtensionClasses );
+            }
         }
 
         if ( array_key_exists( $className, $ezpClasses ) )

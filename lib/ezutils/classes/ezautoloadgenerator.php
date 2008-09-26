@@ -85,7 +85,12 @@ class eZAutoloadGenerator
     /**
      * Bitmask for searching in both kernel and extension files
      */
-    const GENAUTOLOADS_BOTH = 3;
+    const GENAUTOLOADS_TESTS = 3;
+
+    /**
+     * Bitmask for searching in both kernel and extension files
+     */
+    const GENAUTOLOADS_ALL = 6;
 
 
     /**
@@ -114,11 +119,12 @@ class eZAutoloadGenerator
      * @param string $outputDir
      * @param array $excludeDirs
      */
-    function __construct( $basePath, $searchKernelFiles, $searchExtensionFiles, $verboseOutput = false, $writeFiles = true, $outputDir = false, $excludeDirs = false )
+    function __construct( $basePath, $searchKernelFiles, $searchExtensionFiles, $searchTestFiles, $verboseOutput = false, $writeFiles = true, $outputDir = false, $excludeDirs = false )
     {
         $this->basePath = $basePath;
         $this->searchKernelFiles = $searchKernelFiles;
         $this->searchExtensionFiles = $searchExtensionFiles;
+        $this->searchTestFiles = $searchTestFiles;
         $this->verboseOutput = $verboseOutput;
         $this->writeFiles = $writeFiles;
 
@@ -143,7 +149,7 @@ class eZAutoloadGenerator
      */
     public function buildAutoloadArrays()
     {
-        $runMode = $this->runMode( $this->searchKernelFiles, $this->searchExtensionFiles );
+        $runMode = $this->runMode( $this->searchKernelFiles, $this->searchExtensionFiles, $this->searchTestFiles );
         $phpFiles = $this->fetchFiles( $this->basePath, $runMode, $this->excludeDirs );
 
         $phpClasses = array();
@@ -176,9 +182,9 @@ class eZAutoloadGenerator
 
                 $filename = $this->nameTable( $location );
                 $filePath = "{$this->outputDir}/$filename";
-                if ( is_writable( $filePath ) )
+                $file = fopen( $filePath, "w+" );
+                if ( $file )
                 {
-                    $file = fopen( $filePath, "w" );
                     fwrite( $file, $this->dumpArrayStart( $location ) );
                     fwrite( $file, $data );
                     fwrite( $file, $this->dumpArrayEnd() );
@@ -216,22 +222,29 @@ class eZAutoloadGenerator
 
         $retFiles = array();
 
-        switch( $this->checkMode( $mask) )
+        switch( $this->checkMode( $mask ) )
         {
+            case self::GENAUTOLOADS_KERNEL:
+            {
+                $extraExcludeDirs[] = "@^{$sanitisedBasePath}/extension/@";
+                $extraExcludeDirs[] = "@^{$sanitisedBasePath}/tests/@";
+                $retFiles = array( "kernel" => $this->buildFileList( $sanitisedBasePath, $extraExcludeDirs ) );
+                break;
+            }
+
             case self::GENAUTOLOADS_EXTENSION:
             {
                 $retFiles = array( "extension" => $this->buildFileList( "$sanitisedBasePath/extension", $extraExcludeDirs ) );
                 break;
             }
 
-            case self::GENAUTOLOADS_KERNEL:
+            case self::GENAUTOLOADS_TESTS:
             {
-                $extraExcludeDirs[] = "@^{$sanitisedBasePath}/extension/@";
-                $retFiles = array( "kernel" => $this->buildFileList( $sanitisedBasePath, $extraExcludeDirs ) );
+                $retFiles = array( "tests" => $this->buildFileList( "$sanitisedBasePath/tests", $extraExcludeDirs ) );
                 break;
             }
 
-            case self::GENAUTOLOADS_BOTH:
+            case self::GENAUTOLOADS_ALL:
             {
                 $extraExcludeKernelDirs = $extraExcludeDirs;
                 $extraExcludeKernelDirs[] = "@^{$sanitisedBasePath}/extension/@";
@@ -379,10 +392,11 @@ class eZAutoloadGenerator
      */
     private function checkMode( $mask )
     {
-        $modes = array( self::GENAUTOLOADS_KERNEL, self::GENAUTOLOADS_EXTENSION, self::GENAUTOLOADS_BOTH );
+        $modes = array( self::GENAUTOLOADS_KERNEL, self::GENAUTOLOADS_EXTENSION, 
+                        self::GENAUTOLOADS_TESTS, self::GENAUTOLOADS_ALL );
         foreach( $modes as $mode )
         {
-            if ( ($mask & $mode)==$mask )
+            if ( ( $mask & $mode ) == $mask )
             {
                 return $mode;
             }
@@ -398,11 +412,11 @@ class eZAutoloadGenerator
      * @param bool $useExtensionFiles Whether extension files should be checked
      * @return int
      */
-    private function runMode( $useKernelFiles, $useExtensionFiles )
+    private function runMode( $useKernelFiles, $useExtensionFiles, $useTestFiles )
     {
         $mode = self::GENAUTOLOADS_NONE;
-        //If no file selectors are chosen we will default to extension files.
-        if ( !$useKernelFiles and !$useExtensionFiles )
+        // If no file selectors are chosen we will default to extension files.
+        if ( !$useKernelFiles and !$useExtensionFiles and !$useTestFiles )
         {
             $mode |= self::GENAUTOLOADS_EXTENSION;
         }
@@ -416,6 +430,12 @@ class eZAutoloadGenerator
         {
             $mode |= self::GENAUTOLOADS_EXTENSION;
         }
+
+        if ( $useTestFiles )
+        {
+            $mode |= self::GENAUTOLOADS_TESTS;
+        }
+
         return $mode;
     }
 
@@ -428,7 +448,8 @@ class eZAutoloadGenerator
     private function nameTable( $lookup )
     {
         $names = array( "extension" => "ezp_extension.php",
-                        "kernel"    => "ezp_kernel.php" );
+                        "kernel"    => "ezp_kernel.php",
+                        "tests"     => "ezp_tests.php" );
 
         if ( array_key_exists( $lookup, $names ) )
         {

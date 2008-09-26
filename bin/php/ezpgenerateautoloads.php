@@ -30,7 +30,7 @@ if ( file_exists( "config.php" ) )
     require "config.php";
 }
 
-//Setup, includes
+// Setup, includes
 //{
 if ( !@include( 'ezc/Base/base.php' ) )
 {
@@ -80,6 +80,11 @@ $extensionFilesOption->mandatory = false;
 $extensionFilesOption->shorthelp = "If an autoload array for the extensions should be generated.";
 $params->registerOption( $extensionFilesOption );
 
+$testFilesOption = new ezcConsoleOption( 's', 'tests', ezcConsoleInput::TYPE_NONE );
+$testFilesOption->mandatory = false;
+$testFilesOption->shorthelp = "If an autoload array for the tests should be generated.";
+$params->registerOption( $testFilesOption );
+
 $excludeDirsOption = new ezcConsoleOption( '', 'exclude', ezcConsoleInput::TYPE_STRING );
 $excludeDirsOption->mandatory = false;
 $excludeDirsOption->shorthelp = "Folders to exclude from the class search.";
@@ -121,6 +126,7 @@ else
 $autoloadGenerator = new eZAutoloadGenerator( getcwd(),
                                               $kernelFilesOption->value,
                                               $extensionFilesOption->value,
+                                              $testFilesOption->value,
                                               $verboseOption->value,
                                               !$dryrunOption->value,
                                               $targetOption->value,
