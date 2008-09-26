@@ -154,6 +154,64 @@ class eZXMLTextType extends eZDataType
         }
     }
 
+    /**
+     * Method triggered on publish for xml text datatype
+     * 
+     * This method makes sure that links from all translations of an xml text
+     * is registered in the ezurl_object_link table, and thus retained, if
+     * previous versions of an object is removed. 
+     *
+     * @param eZContentObjectAttribute $contentObjectAttribute 
+     * @param eZContentObject $object 
+     * @param array $publishedNodes     
+     * @return boolean
+     */
+    function onPublish( $contentObjectAttribute, $object, $publishedNodes )
+    {
+        $currentVersion = $object->currentVersion();
+        $langMask = $currentVersion->attribute( 'language_mask' );
+
+        // We find all translations present in the current version. Wec calculate
+        // this from the language mask already present in the fetched version,
+        // so no further round-trip is required to the DB.
+        $languageList = eZContentLanguage::decodeLanguageMask( $langMask, true );
+        $languageList = $languageList['language_list'];
+
+        // We want to have the class attribute identifier of the of the attribute
+        // containing the current ezxmltext, as we then can use the more efficient
+        // eZContentObject->fetchAttributesByIdentifier() to get the data
+        $identifier = $contentObjectAttribute->attribute( 'contentclass_attribute_identifier' );
+
+        $attributeArray = $object->fetchAttributesByIdentifier( array( $identifier ),
+                                                                $currentVersion->attribute( 'version' ),
+                                                                $languageList );
+
+        foreach( $attributeArray as $attr )
+        {
+            $xmlText = eZXMLTextType::rawXMLText( $attr );
+            $dom = new DOMDocument( '1.0', 'utf-8' );
+            $success = $dom->loadXML( $xmlText );
+
+            if ( !$success )
+            {
+                continue;
+            }
+
+            $linkNodes = $dom->getElementsByTagName( 'link' );
+            $urlIdArray = array();
+
+            foreach ( $linkNodes as $link )
+            {
+                $urlIdArray[] = $link->getAttribute( 'url_id' );
+            }
+
+            if ( count( $urlIdArray ) > 0 )
+            {
+                eZSimplifiedXMLInput::updateUrlObjectLinks( $attr, $urlIdArray );
+            }
+        }
+    }
+
     /*!
      Validates the input and returns true if the input was
      valid for this datatype.

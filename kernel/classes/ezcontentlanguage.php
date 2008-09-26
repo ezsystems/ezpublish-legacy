@@ -591,6 +591,60 @@ class eZContentLanguage extends eZPersistentObject
     }
 
     /**
+     * Decodes $langMask into all languages it comprises and whether or not
+     * the language mask signifies always available or not.
+     * 
+     * The constituent languages are returned as an array of language ids. If
+     * the second parameter, $returnLanguageLocale is set to TRUE, locale-codes
+     * are used instead of language ids.
+     *
+     * @param int $langMask 
+     * @param boolean $returnLanguageLocale
+     * @return array
+     */
+    public static function decodeLanguageMask( $langMask, $returnLanguageLocale = false )
+    {
+        $maxNumberOfLanguges = eZContentLanguage::MAX_COUNT;
+        $maxInteger = pow( 2, $maxNumberOfLanguges );
+
+        $list = array();
+
+        // Applying this bit-logic on negative numbers, or numbers out of bounds
+        // will have unexpected results.
+        if ( $langMask < 0 or $langMask > $maxInteger or $langMask == 1 )
+        {
+            // We use the default language if the situation above occurs
+            $defaultLanguage = eZContentLanguage::topPriorityLanguage();
+            $langMask = $defaultLanguage->attribute( 'id' );
+        }
+
+        $alwaysAvailable = $langMask % 2;
+        $mask = $langMask & ~1;
+
+        // Calculating which translations are present in the current version
+        for ( $i = 1; $i < $maxNumberOfLanguges; ++$i )
+        {
+            $newMask = 1 << $i;
+            if ( ($newMask & $mask) > 0 )
+            {
+                if ( $returnLanguageLocale )
+                {
+                    $list[] = eZContentLanguage::fetch( $newMask )->attribute( 'locale' );
+                }
+                else
+                {
+                    $list[] = $newMask;
+                }
+            }
+        }
+
+        return array(
+                      'always_available' => $alwaysAvailable,
+                      'language_list'    => $list
+                    );
+    }
+
+    /**
      * \static
      * Returns id of the language specified.
      *
