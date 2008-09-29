@@ -292,7 +292,7 @@ class eZOEInputParser extends eZXMLInputParser
                 }
             }
         }
-        
+
         if ( $name === '' && isset( $attributes['type'] ) && $attributes['type'] === 'custom' )
         {
             $name = 'custom';
@@ -307,7 +307,7 @@ class eZOEInputParser extends eZXMLInputParser
     function tagNameCustomHelper( $tagName, &$attributes )
     {
         $name = '';
-        if ( $tagName === 'u' )
+        if ( $tagName === 'u' && self::customTagIsEnabled('underline') )
         {
             $name = 'custom';
             $attributes['name'] = $attributes['class'] = 'underline';
@@ -1142,6 +1142,16 @@ class eZOEInputParser extends eZXMLInputParser
             $arr['trash'] = $this->thrashedEmbeddedObjectIDArray;
         return $arr;
     }
+    
+    static function customTagIsEnabled( $name )
+    {
+        if ( self::$customTagList === null )
+        {
+            $ini = eZINI::instance( 'content.ini' );
+            self::$customTagList = $ini->variable( 'CustomTagSettings', 'AvailableCustomTags' );
+        }
+        return in_array( $name, self::$customTagList );
+    }
 
     protected $urlIDArray = array();
     protected $linkedObjectIDArray = array();
@@ -1149,8 +1159,11 @@ class eZOEInputParser extends eZXMLInputParser
     protected $deletedEmbeddedNodeIDArray = array();
     protected $deletedEmbeddedObjectIDArray = array();
     protected $thrashedEmbeddedObjectIDArray = array();
+    
 
     protected $anchorAsAttribute = false;
+
+    protected static $customTagList = null;
 }
 
 ?>
