@@ -1,0 +1,8 @@
+About ezpKernelWrapper
+======================
+
+KernelWrapper is small library with convenience methods to allow for easy 
+creation and maniuplation of content objects, nodes and node assignments.
+
+KernelWrapper is meant to be run inside an eZ Publish context. In order to 
+get proper autoloading support up and running.
