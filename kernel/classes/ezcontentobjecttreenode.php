@@ -3889,6 +3889,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
             if ( count( $parents ) == 0 )
             {
                 $parentNode = $this->fetchParent();
+
+                if ( !$parentNode )
+                {
+                    return false;
+                }
+
                 $result = $parentNode->updateSubTreePath();
                 if ( !$result )
                 {
