@@ -1,6 +1,6 @@
 <?php
 
-class eZXMLTextRegression extends ezpTestCase
+class eZXMLTextRegression extends ezpDatabaseTestCase
 {
     public function __construct()
     {
@@ -15,7 +15,7 @@ class eZXMLTextRegression extends ezpTestCase
 
     public function setUp()
     {
-        eZDB::setInstance( $this->sharedFixture );
+        parent::setUp();
         $this->language = eZContentLanguage::addLanguage( "nor-NO", "Norsk" );
     }
 

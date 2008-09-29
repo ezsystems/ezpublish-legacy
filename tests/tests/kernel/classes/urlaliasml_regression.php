@@ -1,6 +1,6 @@
 <?php
 
-class eZURLAliasMlRegression extends ezpTestCase
+class eZURLAliasMlRegression extends ezpDatabaseTestCase
 {
     protected $backupGlobals = FALSE;
 
@@ -17,7 +17,7 @@ class eZURLAliasMlRegression extends ezpTestCase
 
     public function setUp()
     {
-        eZDB::setInstance( $this->sharedFixture );
+        parent::setUp();
         $this->language = eZContentLanguage::addLanguage( "nor-NO", "Norsk" );
     }
 

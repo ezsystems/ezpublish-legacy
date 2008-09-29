@@ -183,6 +183,12 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
         $dsn->longhelp .= "mysql://root@mypass@localhost/unittests";
         $consoleInput->registerOption( $dsn );
 
+        // Database-per-test option
+        $dbPerTest = new ezcConsoleOption( '', 'db-per-test', ezcConsoleInput::TYPE_NONE );
+        $dbPerTest->shorthelp = "Use a clean database per test";
+        $dbPerTest->addDependency( new ezcConsoleOptionRule( $dsn ) );
+        $consoleInput->registerOption( $dbPerTest );
+
         // Code Coverage Report directory option
         $report = new ezcConsoleOption( 'c', 'report-dir', ezcConsoleInput::TYPE_STRING );
         $report->shorthelp = "Directory to store test reports and code coverage reports in.";
@@ -211,7 +217,6 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
         // Groups option
         $groups = new ezcConsoleOption( 'g', 'group', ezcConsoleInput::TYPE_STRING );
         $groups->shorthelp = "Only runs tests from the specified group(s).";
-        $groups->addDependency( new ezcConsoleOptionRule( $dsn ) );
         $consoleInput->registerOption( $groups );
 
         // List groups option

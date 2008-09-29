@@ -1,6 +1,6 @@
 <?php
 
-class eZContentObjectRegression extends ezpTestCase
+class eZContentObjectRegression extends ezpDatabaseTestCase
 {
     protected $backupGlobals = false;
 
@@ -13,11 +13,6 @@ class eZContentObjectRegression extends ezpTestCase
     public static function suite()
     {
         return new ezpTestSuite( __CLASS__ );
-    }
-
-    public function setUp()
-    {
-        eZDB::setInstance( $this->sharedFixture );
     }
 
     /**

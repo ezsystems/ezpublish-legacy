@@ -15,6 +15,7 @@ class eZURIRegression extends ezpTestCase
 
     public function setUp()
     {
+        parent::setUp();
         // Set the RequestURI to a known value so that eZSys::requestURI()
         // returns something known and useful.
         $ezsys = eZSys::instance();

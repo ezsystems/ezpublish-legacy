@@ -1,6 +1,6 @@
 <?php
 
-class eZURLAliasMlTest extends ezpTestCase
+class eZURLAliasMlTest extends ezpDatabaseTestCase
 {
     public function __construct()
     {
@@ -17,7 +17,7 @@ class eZURLAliasMlTest extends ezpTestCase
 
     public function setUp()
     {
-        eZDB::setInstance( $this->sharedFixture );
+        parent::setUp();
         $this->language = eZContentLanguage::addLanguage( "nor-NO", "Norsk" );
 
         // Make sure all tests are done using utf-8 as charset

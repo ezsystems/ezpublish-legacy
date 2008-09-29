@@ -1,12 +1,7 @@
-<?php
+<?php 
 
-class ezpDatabaseTestSuite extends ezpTestSuite
+class ezpDatabaseTestCase extends PHPUnit_Framework_TestCase
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * Sets up a test database
      *
@@ -14,7 +9,7 @@ class ezpDatabaseTestSuite extends ezpTestSuite
      */
     protected function setUp()
     {
-        if ( !ezpTestRunner::$consoleInput->getOption( 'db-per-test' )->value )
+        if ( ezpTestRunner::$consoleInput->getOption( 'db-per-test' )->value )
         {
             $dsnOption = ezpTestRunner::$consoleInput->getOption( 'dsn' );
 
@@ -29,6 +24,8 @@ class ezpDatabaseTestSuite extends ezpTestSuite
 
             $this->sharedFixture = ezpTestDatabaseHelper::create( $dsn );
         }
+        eZDB::setInstance( $this->sharedFixture );
     }
 }
+
 ?>

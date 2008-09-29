@@ -1,6 +1,6 @@
 <?php
 
-class eZURLTypeRegression extends ezpTestCase
+class eZURLTypeRegression extends ezpDatabaseTestCase
 {
     protected $backupGlobals = FALSE;
 
@@ -8,11 +8,6 @@ class eZURLTypeRegression extends ezpTestCase
     {
         parent::__construct();
         $this->setName( "eZURLType Regression Tests" );
-    }
-
-    public function setUp()
-    {
-        eZDB::setInstance( $this->sharedFixture );
     }
 
     public static function suite()
