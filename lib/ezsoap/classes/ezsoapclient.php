@@ -83,7 +83,8 @@ class eZSOAPClient
       \param $server The remote server to connect to
       \param $path The path to the SOAP service on the remote server
       \param $port The port to connect to, 80 by default. You can use 'ssl' as well to specify that you want to use port 443 over SSL,
-                   but omit the last parameter $useSSL of this method then or set it to true.
+                   but omit the last parameter $useSSL of this method then or set it to true. When $port equals 443, SSL will also be
+                   used if $useSSL is omitted or set to true.
       \param $useSSL If we need to connect to the remote server with (https://) or without (http://) SSL
     */
     function eZSOAPClient( $server, $path = '/', $port = 80, $useSSL = null )
@@ -96,6 +97,11 @@ class eZSOAPClient
         if ( is_numeric( $port ) )
         {
             $this->Port = $port;
+
+            if ( $port == 443 )
+            {
+                $this->UseSSL = true;
+            }
         }
         elseif ( strtolower( $port ) == 'ssl' )
         {
