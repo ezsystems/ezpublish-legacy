@@ -2,9 +2,9 @@
 
 class eZKernelTestSuite extends ezpDatabaseTestSuite
 {
-    public function __construct( $params = false )
+    public function __construct()
     {
-        parent::__construct( $params );
+        parent::__construct();
 
         $this->setName( "eZ Publish Kernel Test Suite" );
         $this->addTest( eZContentObjectRegression::suite() );
@@ -14,9 +14,9 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         $this->addTest( eZXMLTextRegression::suite() );
     }
 
-    public static function suite( $params = false )
+    public static function suite()
     {
-        return new self( $params );
+        return new self();
     }
 }
 

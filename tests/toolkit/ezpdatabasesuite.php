@@ -2,11 +2,9 @@
 
 class ezpDatabaseTestSuite extends ezpTestSuite
 {
-    public function __construct( $params )
+    public function __construct()
     {
         parent::__construct();
-
-        $this->params = $params;
 
         $this->schemaFile = array( "kernel/sql/", "kernel_schema.sql" );
         $this->dataFile = array( "kernel/sql/common/", "cleandata.sql" );
@@ -21,13 +19,15 @@ class ezpDatabaseTestSuite extends ezpTestSuite
      */
     protected function setUp()
     {
-        if ( isset( $this->params['dsn'] ) ) 
+        $dsnOption = ezpTestRunner::$consoleInput->getOption( 'dsn' );
+
+        if ( $dsnOption->value ) 
         {
-            $this->dsn = new ezpDsn( $this->params['dsn'] );
+            $this->dsn = new ezpDsn( $dsnOption->value );
         }
         else
         {
-            die(  __CLASS__ . " expects a DSN (-D) parameter. See --help for more information.\n" );
+            throw new ezcConsoleOptionMandatoryViolationException( $dsnOption );
         }
 
         $db = ezpDatabaseHelper::dbAsRootInstance( $this->dsn );

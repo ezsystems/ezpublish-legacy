@@ -1,19 +1,19 @@
 <?php
 
-class eZUtilsTestSuite extends ezpDatabaseTestSuite
+class eZUtilsTestSuite extends ezpTestSuite
 {
-    public function __construct( $params = false )
+    public function __construct()
     {
-        parent::__construct( $params );
+        parent::__construct();
         $this->setName( "eZUtils Test Suite" );
         $this->addTest( eZSysTest::suite() );
         $this->addTest( eZURITest::suite() );
         $this->addTest( eZURIRegression::suite() );
     }
 
-    public static function suite( $params = false )
+    public static function suite()
     {
-        return new self( $params );
+        return new self();
     }
 }
 

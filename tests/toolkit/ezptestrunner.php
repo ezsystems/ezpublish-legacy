@@ -14,16 +14,18 @@ PHPUnit_Util_Filter::addFileToFilter( __FILE__ );
 
 class ezpTestRunner extends PHPUnit_TextUI_TestRunner
 {
+    static $consoleInput;
+
     public static function main()
     {
         $testRunner = new ezpTestRunner();
         $testRunner->runFromArguments();
     }
 
-    public static function suite( $params = false )
+    public static function suite()
     {
         $suite = new ezpTestSuite( 'eZ Publish' );
-        $suite->addTest( eZTestSuite::suite( $params ) );
+        $suite->addTest( eZTestSuite::suite() );
 
         // Add suites from extensions.
         $extensions = eZDir::findSubitems( eZExtension::baseDirectory(), 'd', true );
@@ -35,7 +37,7 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
             if ( file_exists( $suiteFile ) )
             {
                 $class = self::getClassName( $suiteFile );
-                $suite->addTest( call_user_func( array( $class, 'suite' ), $params ) );
+                $suite->addTest( call_user_func( array( $class, 'suite' ) ) );
             }
         }
 
@@ -49,30 +51,31 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
 
     public function runFromArguments()
     {
-        $consoleInput = new ezcConsoleInput();
-        self::registerConsoleArguments( $consoleInput );
-        self::processConsoleArguments( $consoleInput );
+        self::$consoleInput = new ezcConsoleInput();
 
-        if ( $consoleInput->getOption( "help" )->value )
+        self::registerConsoleArguments( self::$consoleInput );
+        self::processConsoleArguments( self::$consoleInput );
+
+        if ( self::$consoleInput->getOption( "help" )->value )
         {
-            self::displayHelp( $consoleInput );
+            self::displayHelp( self::$consoleInput );
             return;
         }
 
         $params = array();
 
-        $config    = $consoleInput->getOption( 'configuration' )->value;
-        $logfile   = $consoleInput->getOption( 'log-xml' )->value;
-        $coverage  = $consoleInput->getOption( 'coverage-xml' )->value;
-        $metrics   = $consoleInput->getOption( 'log-metrics' )->value;
-        $pmd       = $consoleInput->getOption( 'log-pmd' )->value;
-        $reportDir = $consoleInput->getOption( 'report-dir' )->value;
-        $ansi = $consoleInput->getOption( 'ansi' )->value;
-        $dsn = $consoleInput->getOption( 'dsn' )->value;
-        $groups = $consoleInput->getOption( 'group' )->value;
-        $listGroups = $consoleInput->getOption( 'list-groups' )->value;
-        $listTests = $consoleInput->getOption( 'list-tests' )->value;
-        $filter = $consoleInput->getOption( 'filter' )->value;
+        $config    = self::$consoleInput->getOption( 'configuration' )->value;
+        $logfile   = self::$consoleInput->getOption( 'log-xml' )->value;
+        $coverage  = self::$consoleInput->getOption( 'coverage-xml' )->value;
+        $metrics   = self::$consoleInput->getOption( 'log-metrics' )->value;
+        $pmd       = self::$consoleInput->getOption( 'log-pmd' )->value;
+        $reportDir = self::$consoleInput->getOption( 'report-dir' )->value;
+        $ansi = self::$consoleInput->getOption( 'ansi' )->value;
+        $dsn = self::$consoleInput->getOption( 'dsn' )->value;
+        $groups = self::$consoleInput->getOption( 'group' )->value;
+        $listGroups = self::$consoleInput->getOption( 'list-groups' )->value;
+        $listTests = self::$consoleInput->getOption( 'list-tests' )->value;
+        $filter = self::$consoleInput->getOption( 'filter' )->value;
 
         if ( $config )
         {
@@ -124,7 +127,7 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
             $params['filter'] = $filter;
         }
 
-        if ( $consoleInput->getOption( "verbose" )->value )
+        if ( self::$consoleInput->getOption( "verbose" )->value )
         {
             $params['verbose'] = true;
         }
@@ -133,7 +136,7 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
             $params['verbose'] = false;
         }
 
-        $allSuites = $this->prepareTests( $consoleInput->getArguments(), $params );
+        $allSuites = $this->prepareTests( self::$consoleInput->getArguments(), $params );
 
         if ( $listTests )
         {
@@ -147,7 +150,14 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
             exit( PHPUnit_TextUI_TestRunner::SUCCESS_EXIT );
         }
 
-        $result = $this->doRun( $allSuites, $params );
+        try
+        {
+            $result = $this->doRun( $allSuites, $params );
+        }
+        catch ( ezcConsoleOptionException $e )
+        {
+            die ( $e->getMessage() . "\n" );
+        }
     }
 
     /** 
@@ -255,7 +265,7 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
     protected function prepareTests( $directories, $params )
     {
         if ( count( $directories ) <= 0 ) 
-            return self::suite( $params );
+            return self::suite();
 
         $suites = new ezpTestSuite;
         $suites->setName( "eZ Publish" );
@@ -278,7 +288,7 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
             {
                 require_once( $file );
                 $class = self::getClassName( $file );
-                $suites->addTest( call_user_func( array( $class, 'suite' ), $params ) );
+                $suites->addTest( call_user_func( array( $class, 'suite' ) ) );
             }
             else
             {
