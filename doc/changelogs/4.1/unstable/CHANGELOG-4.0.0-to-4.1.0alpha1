@@ -382,3 +382,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13616: ezcsvimport.php does not import files/images
 - Fixed bug #13667: ezcsvimport.php small issues
 - Fixed bug #13492: http link's are lost from content after deleting older version's of multi lingual content object.
+- Fixed bug #13682: eZContentObjectTreenode - updateSubTreePath() might fail, if node does not have a parent node.
