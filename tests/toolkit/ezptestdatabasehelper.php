@@ -5,14 +5,14 @@ class ezpTestDatabaseHelper
     public static $schemaFile = array( "kernel/sql/", "kernel_schema.sql" );
     public static $dataFile = array( "kernel/sql/common/", "cleandata.sql" );
 
-    public function create( ezpDsn $dsn, $removeExists = true )
+    public function create( ezpDsn $dsn, $removeExisting = true )
     {
         $db = ezpDatabaseHelper::dbAsRootInstance( $dsn );
 
         if ( $db and $db->isConnected() )
         {
             // Try to remove existing database
-            if ( $removeExists )
+            if ( $removeExisting )
                 self::remove( $dsn );
 
             $createDbQuery = ezpDatabaseHelper::generateCreateDatabaseSQL( $dsn->database );
