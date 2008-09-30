@@ -1,28 +1,28 @@
 <?php 
 
+/**
+ * Database backed test case class.
+ *
+ * Inherit from this class if you want your test case to interact with a database.
+ */
 class ezpDatabaseTestCase extends PHPUnit_Framework_TestCase
 {
     /**
-     * Sets up a test database
+     * Holds paths to custom sql files
      *
-     * @return void
+     * @var array( array( string => string ) )
+     */
+    protected $sqlFiles = array();
+
+    /**
+     * Sets up the database enviroment
      */
     protected function setUp()
     {
-        if ( ezpTestRunner::$consoleInput->getOption( 'db-per-test' )->value )
+        if ( ezpTestRunner::dbPerTest() )
         {
-            $dsnOption = ezpTestRunner::$consoleInput->getOption( 'dsn' );
-
-            if ( $dsnOption->value ) 
-            {
-                $dsn = new ezpDsn( $dsnOption->value );
-            }
-            else
-            {
-                throw new ezcConsoleOptionMandatoryViolationException( $dsnOption );
-            }
-
-            $this->sharedFixture = ezpTestDatabaseHelper::create( $dsn );
+            $dsn = ezpTestRunner::dsn();
+            $this->sharedFixture = ezpTestDatabaseHelper::create( $dsn, $this->sqlFiles );
         }
         eZDB::setInstance( $this->sharedFixture );
     }

@@ -1,33 +1,30 @@
 <?php
 
+/**
+ * Database backed test suite class.
+ *
+ * Inherit from this class if you want your test suite and all tests in the 
+ * suite to interact with a database.
+ */
 class ezpDatabaseTestSuite extends ezpTestSuite
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
+    /**
+     * Holds paths to custom sql files
+     *
+     * @var array( array( string => string ) )
+     */
+    protected $sqlFiles = array();
 
     /**
-     * Sets up a test database
-     *
-     * @return void
+     * Sets up the database enviroment
      */
     protected function setUp()
     {
-        if ( !ezpTestRunner::$consoleInput->getOption( 'db-per-test' )->value )
+        if ( !ezpTestRunner::dbPerTest() )
         {
-            $dsnOption = ezpTestRunner::$consoleInput->getOption( 'dsn' );
-
-            if ( $dsnOption->value ) 
-            {
-                $dsn = new ezpDsn( $dsnOption->value );
-            }
-            else
-            {
-                throw new ezcConsoleOptionMandatoryViolationException( $dsnOption );
-            }
-
-            $this->sharedFixture = ezpTestDatabaseHelper::create( $dsn );
+            $dsn = ezpTestRunner::dsn();
+            $this->sharedFixture = ezpTestDatabaseHelper::create( $dsn, $this->sqlFiles );
+            eZDB::setInstance( $this->sharedFixture );
         }
     }
 }

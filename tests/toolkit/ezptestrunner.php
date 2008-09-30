@@ -364,6 +364,42 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
             }
         }
     }
+
+    /**
+     * Returns a ezpDsn object created from the dsn console input
+     *
+     * @throws ezcConsoleOptionMandatoryViolationException if no dsn input option is found
+     * @return ezpDsn dsn
+     */
+    static public function dsn()
+    {
+        $dsnOption = self::$consoleInput->getOption( 'dsn' );
+        if ( $dsnOption->value ) 
+        {
+            $dsn = new ezpDsn( $dsnOption->value );
+        }
+        else
+        {
+            throw new ezcConsoleOptionMandatoryViolationException( $dsnOption );
+        }
+
+        return $dsn;
+    }
+
+    /**
+     * Returns true/false if the database should be created per database
+     *
+     * @return bool
+     */
+    static public function dbPerTest()
+    {
+        if ( ezpTestRunner::$consoleInput->getOption( 'db-per-test' )->value ) 
+        {
+            return true;
+        }
+
+        return false;
+    }
 }
 
 ?>
