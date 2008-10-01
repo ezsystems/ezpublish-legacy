@@ -77,19 +77,19 @@ class eZURLAliasMlRegression extends ezpDatabaseTestCase
     {
         // Create a new folder node
         $folder = new ezpObject( "folder", 2 );
-        $parentName = ezpLoremIpsum::generateString();
+        $parentName = __FUNCTION__ . " folder";
         $folder->name = $parentName;
-        $folder->short_description = ezpLoremIpsum::generateSentence();
+        $folder->short_description = __FUNCTION__ . " short description";
         $parentObjId = $folder->publish();
 
         $parentNodeId = $folder->mainNode->node_id;
 
         // Add a child to the newly created node.
         $newArticle = new ezpObject( "article", (int)$parentNodeId );
-        $newArticleName = ezpLoremIpsum::generateString();
+        $newArticleName = __FUNCTION__ . " article";
         $newArticle->title = $newArticleName;
-        $newArticle->intro = ezpLoremIpsum::generateSentence();
-        $newArticle->body = ezpLoremIpsum::generateSentence();
+        $newArticle->intro = __FUNCTION__ . " intro";
+        $newArticle->body = __FUNCTION__ . " body";
         $newArticleObjId = $newArticle->publish();
 
         $newArticleNodeId = $newArticle->mainNode->node_id;
@@ -98,7 +98,7 @@ class eZURLAliasMlRegression extends ezpDatabaseTestCase
         // @TODO: Use a plain site as default, then add translation to the site,
         // if not nor-NO needs to be added to the site by hand.
         $newLanguageCode = "nor-NO";
-        $newTranslationName = 'Norsk ' . ezpLoremIpsum::generateString();
+        $newTranslationName = 'Norsk ' . __FUNCTION__ . " folder";
         $trData = array( "name" => $newTranslationName );
         $folder->addTranslation( $newLanguageCode, $trData );
 
@@ -134,30 +134,30 @@ class eZURLAliasMlRegression extends ezpDatabaseTestCase
     public function testURLAliasTranslatedRenamedFolderWithChildren()
     {
         $folder = new ezpObject( "folder", 2 );
-        $parentName = ezpLoremIpsum::generateString();
+        $parentName = __FUNCTION__ . " folder";
         $folder->name = $parentName;
-        $folder->short_description = ezpLoremIpsum::generateSentence();
+        $folder->short_description = __FUNCTION__ . " short description";
         $parentObjId = $folder->publish();
 
         $parentNodeId = $folder->mainNode->node_id;
 
         // Add a child to the newly created node.
         $newArticle = new ezpObject( "article", (int)$parentNodeId );
-        $newArticleName = ezpLoremIpsum::generateString();
+        $newArticleName = __FUNCTION__ . " article";
         $newArticle->title = $newArticleName;
-        $newArticle->intro = ezpLoremIpsum::generateSentence();
-        $newArticle->body = ezpLoremIpsum::generateSentence();
+        $newArticle->intro = __FUNCTION__ . " intro";
+        $newArticle->body = __FUNCTION__ . " body";
         $newArticleObjId = $newArticle->publish();
 
         $newArticleNodeId = $newArticle->mainNode->node_id;
 
         // Rename parent node
-        $folder->name = "Renamed " . ezpLoremIpsum::generateString();
+        $folder->name = "Renamed " . __FUNCTION__ . " folder";
         $folder->publish();
 
         // Add translation of parent node
         $newLanguageCode = "nor-NO";
-        $newTranslationName = 'Norsk ' . ezpLoremIpsum::generateString();
+        $newTranslationName = 'Norsk ' . __FUNCTION__ . " folder";
         $trData = array( "name" => $newTranslationName );
         $folder->addTranslation( $newLanguageCode, $trData );
 
