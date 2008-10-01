@@ -607,16 +607,24 @@ class eZContentObject extends eZPersistentObject
             $version = $this->CurrentVersion;
         }
 
-        if ( $languageArray !== false and is_array( $languageArray ) )
+        if ( $languageArray !== false )
         {
-            $langCodeQuotedString = array();
-            foreach ( $languageArray as $langCode )
+            if ( is_array( $languageArray ) )
             {
-                $langCodeQuotedString[] = "'$langCode'";
-            }
+                $langCodeQuotedString = array();
+                foreach ( $languageArray as $langCode )
+                {
+                    $langCodeQuotedString[] = "'$langCode'";
+                }
 
-            $languageText = "AND\n\t\t";
-            $languageText .= $db->generateSQLINStatement( $langCodeQuotedString, 'ezcontentobject_attribute.language_code' );
+                $languageText = "AND\n\t\t";
+                $languageText .= $db->generateSQLINStatement( $langCodeQuotedString, 'ezcontentobject_attribute.language_code' );
+            }
+            // Adding support for the old language parameter <= 4.0.1 here, where only one string for locale code was provided.
+            else if ( is_string( $languageArray ) )
+            {
+                $languageText = "AND\n\t\t\t ezcontentobject_attribute.language_code = '$languageArray'";
+            }
         }
         else
         {
