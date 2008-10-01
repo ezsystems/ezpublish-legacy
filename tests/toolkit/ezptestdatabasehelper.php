@@ -12,8 +12,8 @@
  */
 class ezpTestDatabaseHelper
 {
-    public static $schemaFile = array( "kernel/sql/", "kernel_schema.sql" );
-    public static $dataFile = array( "kernel/sql/common/", "cleandata.sql" );
+    public static $schemaFile = 'share/db_schema.dba';
+    public static $dataFile = 'share/db_data.dba';
 
     /**
      * Creates a new test database
@@ -109,15 +109,14 @@ class ezpTestDatabaseHelper
      */
     public static function insertDefaultData( $db )
     {
-        $schemaSuccess = $db->insertFile( self::$schemaFile[0], self::$schemaFile[1] );
-        $dataSuccess = $db->insertFile( self::$dataFile[0], self::$dataFile[1], false );
+        $schemaArray = eZDbSchema::read( self::$schemaFile, true );
+        $dataArray = eZDbSchema::read( self::$dataFile, true );
+        $schemaArray = array_merge( $schemaArray, $dataArray );
 
-        if ( $schemaSuccess && $dataSuccess )
-        {
-            return true;
-        }
+        $dbSchema = eZDbSchema::instance( $schemaArray );
+        $success = $dbSchema->insertSchema( array( 'schema' => true, 'data' => true ) );
 
-        return false;
+        return $success;
     }
 }
 
