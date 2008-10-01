@@ -62,7 +62,7 @@ var ez = {
         cssCompact: function( s )
         {
             // Compact and clean a css string so it is 'proper'
-            return s.replace(/^\s+|\s+$/g, '').replace(/>/g, ' > ').replace(/\~(?!=)/g, ' ~ ').replace(/\+(?!=|\d)/g, ' + ').replace(/\s+/g, ' ');
+            return ez.string.trim( s.replace(/^\s+|\s+$/g, '').replace(/>/g, ' > ').replace(/\~(?!=)/g, ' ~ ').replace(/\+(?!=|\d)/g, ' + ').replace(/\s+/g, ' ') );
         }
     },
     fn: {
