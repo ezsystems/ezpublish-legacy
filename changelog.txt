@@ -10,6 +10,7 @@ eZ Online Editor 5.0 extension Changelog
 * Do not convert u tag to custom:underline tag if underline custom tag isn't enabled
   To make sure only tag is removed and not content of the tag as well.
 * Fixed #13694: Change td to th for "row" doesn't work with Firefox
+* Fixed #13692: Checkboxes and radio buttons have a border with IE7
 
 
 5.0rc6

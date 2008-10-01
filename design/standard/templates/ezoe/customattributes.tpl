@@ -89,7 +89,7 @@
             <td class="column1">
                 <label for="{$custom_attribute_id}_source">{$extra_attribute.0|upfirst|wash}</label>
             </td>
-            <td><input type="checkbox" name="{$extra_attribute.0}" id="{$custom_attribute_id}_source" value="{$extra_attribute.1|wash}"{if $extra_attribute.2} checked="checked"{/if} disabled="disabled" class="mceItemSkip" /></td>
+            <td><input type="checkbox" class="input_noborder" name="{$extra_attribute.0}" id="{$custom_attribute_id}_source" value="{$extra_attribute.1|wash}"{if $extra_attribute.2} checked="checked"{/if} disabled="disabled" class="mceItemSkip" /></td>
         </tr>
     {/if}
     </table>

@@ -282,7 +282,7 @@ function loadEmbedPreview( )
             <tr id="embed_inline">
                 <td class="column1"><label for="embed_inline_source">{'Inline'|i18n('design/standard/ezoe')}</label></td>
                 <td>
-                    <input type="checkbox" id="embed_inline_source" name="inline" value="true"{*if $tag_name|eq('embed-inline')} checked="checked"{/if*} />
+                    <input type="checkbox" class="input_noborder" id="embed_inline_source" name="inline" value="true"{*if $tag_name|eq('embed-inline')} checked="checked"{/if*} />
                 </td>
             </tr>
         </table>

@@ -553,6 +553,7 @@ var eZOEPopupUtils = {
                    tr = document.createElement("tr"), td = document.createElement("td"), tag = document.createElement("input"), isImage = false;
                    tag.setAttribute('type', 'radio');
                    tag.setAttribute('name', 'selectembedobject');
+                   tag.className = 'input_noborder';
                    tag.setAttribute('value', n.contentobject_id);
                    tag.setAttribute('title', ed.getLang('advanced.select') );
                    tag.onclick = ez.fn.bind( eZOEPopupUtils.selectByEmbedId, eZOEPopupUtils, n.contentobject_id, n.node_id, n.name );
