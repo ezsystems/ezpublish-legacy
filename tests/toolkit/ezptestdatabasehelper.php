@@ -23,7 +23,7 @@ class ezpTestDatabaseHelper
      * @param bool $removeExisting
      * @return mixed
      */
-    public static function create( ezpDsn $dsn, $sqlFiles = false, $removeExisting = true )
+    public static function create( ezpDsn $dsn, $removeExisting = true )
     {
         $db = ezpDatabaseHelper::dbAsRootInstance( $dsn );
 
@@ -42,15 +42,6 @@ class ezpTestDatabaseHelper
         {
             $errorMessage = $db->errorMessage();
             die( $errorMessage );
-        }
-
-        $result = self::insertData( $db, $sqlFiles );
-
-        if ( !$result )
-        {
-            $errorMessage = $db->errorMessage() . ":" . $db->errorNumber();
-            print( $errorMessage );
-            return false;
         }
 
         return $db;
@@ -76,10 +67,10 @@ class ezpTestDatabaseHelper
      * @param array $sqlFiles array( array( string => string ) )
      * @return bool
      */
-    public static function insertData( $db, $sqlFiles = false )
+    public static function insertSqlData( $db, $sqlFiles )
     {
         if ( !is_array( $sqlFiles ) or count( $sqlFiles ) <= 0 )
-            return self::insertDefaultData( $db );
+            return false;
 
         foreach( $sqlFiles as $sqlFile )
         {

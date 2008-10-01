@@ -23,6 +23,13 @@ class ezpDatabaseTestSuite extends ezpTestSuite
     protected $sqlFiles = array();
 
     /**
+     * Controls if the database should be initialized with default data
+     *
+     * @var bool
+     */
+    protected $insertDefaultData = true;
+
+    /**
      * Sets up the database enviroment
      */
     protected function setUp()
@@ -30,7 +37,14 @@ class ezpDatabaseTestSuite extends ezpTestSuite
         if ( !ezpTestRunner::dbPerTest() )
         {
             $dsn = ezpTestRunner::dsn();
-            $this->sharedFixture = ezpTestDatabaseHelper::create( $dsn, $this->sqlFiles );
+            $this->sharedFixture = ezpTestDatabaseHelper::create( $dsn );
+
+            if ( $this->insertDefaultData === true )
+                ezpTestDatabaseHelper::insertDefaultData( $this->sharedFixture );
+
+            if ( count( $this->sqlFiles > 0 ) )
+                ezpTestDatabaseHelper::insertSqlData( $this->sharedFixture, $this->sqlFiles );
+
             eZDB::setInstance( $this->sharedFixture );
         }
     }
