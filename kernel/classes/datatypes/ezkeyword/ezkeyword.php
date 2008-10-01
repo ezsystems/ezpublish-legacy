@@ -167,7 +167,7 @@ class eZKeyword
             $keyword = $db->escapeString( $keyword );
             $db->query( "INSERT INTO ezkeyword ( keyword, class_id ) VALUES ( '$keyword', '$classID' )" );
 
-            $keywordID = $db->lastSerialID( 'ezkeyword' );
+            $keywordID = $db->lastSerialID( 'ezkeyword', 'id' );
             $addRelationWordArray[] = array( 'keyword' => $keywordID, 'id' => $keywordID );
         }
 
