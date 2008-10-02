@@ -384,3 +384,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13492: http link's are lost from content after deleting older version's of multi lingual content object.
 - Fixed bug #13682: eZContentObjectTreenode - updateSubTreePath() might fail, if node does not have a parent node.
 - Fixed bug #13697: eZKeyword doesn't pass column parameter to $db->lastSerialID
+- Fixed bug #10903: select count in reversereverserelatedlist.php line 114
