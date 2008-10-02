@@ -613,6 +613,18 @@ class eZPostgreSQLDB extends eZDBInterface
     /*!
      \reimp
     */
+    function createDatabase( $dbName )
+    {
+        if ( $this->DBConnection != false )
+        {
+            $this->query( "CREATE DATABASE $dbName" );
+            $this->setError();
+        }
+    }
+
+    /*!
+     \reimp
+    */
     function removeDatabase( $dbName )
     {
         if ( $this->DBConnection != false )

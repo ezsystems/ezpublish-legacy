@@ -870,7 +870,7 @@ class eZMySQLDB extends eZDBInterface
     {
         if ( $this->DBConnection != false )
         {
-            mysql_create_db( $dbName, $this->DBConnection );
+            $this->query( "CREATE DATABASE $dbName" );
             $this->setError();
         }
     }
