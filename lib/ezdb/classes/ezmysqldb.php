@@ -878,6 +878,18 @@ class eZMySQLDB extends eZDBInterface
     /*!
      \reimp
     */
+    function removeDatabase( $dbName )
+    {
+        if ( $this->DBConnection != false )
+        {
+            $this->query( "DROP DATABASE $dbName" );
+            $this->setError();
+        }
+    }
+
+    /*!
+     \reimp
+    */
     function setError()
     {
         if ( $this->DBConnection )

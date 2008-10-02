@@ -1209,6 +1209,14 @@ class eZDBInterface
     }
 
     /*!
+      \pure
+      Removes a database
+    */
+    function removeDatabase( $dbName )
+    {
+    }
+
+    /*!
       Create a new temporary table
     */
     function createTempTable( $createTableQuery = '', $server = self::SERVER_SLAVE )
