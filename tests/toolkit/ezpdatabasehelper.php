@@ -60,7 +60,6 @@ class ezpDatabaseHelper
         }
     }
 
-
     /**
      * Returns a database handler which uses database $database
      *
@@ -111,111 +110,6 @@ class ezpDatabaseHelper
         eZDB::setInstance( $this->DefaultDB );
 
         return $this->DefaultDB;
-    }
-
-    /**
-     * Generates database name
-     *
-     * @param string @domain
-     * @return string
-     */
-    static function generateDatabaseName( $domain )
-    {
-        $dbName = $domain . "_db";
-
-        // Normalize database name.
-        // Reference: http://dev.mysql.com/doc/refman/5.0/en/identifiers.html
-        $reserved = ' !&\/:*?"<>|.,\-\\\\';
-        $dbName = preg_replace( "#([{$reserved}])#", '_', $dbName );
-
-        // MySQL supports database names up to 64 chars long
-        if ( strlen( $dbName ) >= 65 )
-        {
-            $dbName = substr( $dbName, 0, 57 );
-            $dbName .= mt_rand( 0, 9999999 );
-        }
-
-        return $dbName;
-    }
-
-    /**
-     * Generates delete database SQL statement
-     *
-     * @param string $database
-     * @return string
-     */
-    static function generateRemoveDatabaseSQL( $database )
-    {
-        return "DROP DATABASE $database";
-    }
-
-    /**
-     * Generates database username
-     *
-     * @param string $domain
-     * @return string
-     */
-    static function generateUsername( $domain )
-    {
-        $username = $domain;
-
-        // Make sure the username doesn't contain any illegal characters
-        $reserved = ' !&\/:*?"<>|.,\-\\\\';
-        $username = preg_replace( "#([{$reserved}])#", '_', $username );
-
-        // MySQL only supports usernames 16 chars long
-        if ( strlen( $username ) >= 17 )
-        {
-            // strip 7 characters from the username
-            $username = substr( $username, 0, 9 );
-            // Add a random number with up to 7 digits to the username
-            $username .= mt_rand( 0, 9999999 );
-        }
-
-        return $username;
-    }
-
-    /**
-     * Generates database password
-     *
-     * @param string $domain
-     * @return string
-     */
-    static function generatePassword( $domain )
-    {
-        $password = md5( $domain . "_password_" . mt_rand() );
-        return $password;
-    }
-
-    /**
-     * Generates a 'create database' SQL statement
-     *
-     * @param string $databaseName
-     * @return string
-     */
-    static function generateCreateDatabaseSQL( $databaseName )
-    {
-       return "CREATE DATABASE $databaseName";
-    }
-
-    /**
-     * Generates SQL statement which grants all privileges to a database
-     *
-     * @param string $database
-     * @param string $username
-     * @param string $password
-     * @return string
-     */
-    static function generateGrantPermissionSQL( $database, $username, $password )
-    {
-        $ini = eZINI::instance( 'sitefactory.ini' );
-        $serverName = $ini->variable( 'WebServerSettings', 'IP' );
-
-        $SQL = "GRANT ALL PRIVILEGES ON $database.* ";
-        $SQL .= "TO $username@$serverName ";
-        $SQL .= "IDENTIFIED BY '$password'";
-
-        return $SQL;
     }
 }
 
