@@ -133,6 +133,29 @@ class eZPostgreSQLDB extends eZDBInterface
     /*!
      \reimp
     */
+    function availableDatabases()
+    {
+        $query = "SELECT datname FROM pg_database";
+        $result = $this->query( $query );
+
+        $databases = array();
+        $counter = pg_num_rows( $result ) - 1;
+
+        while ( $counter > 0 )
+        {
+            $row = pg_fetch_result( $result, $counter, "datname" );
+            $databases[] = $row;
+            $counter--;
+        }
+
+        pg_free_result( $result );
+
+        return $databases;
+    }
+
+    /*!
+     \reimp
+    */
     function databaseName()
     {
         return 'postgresql';
