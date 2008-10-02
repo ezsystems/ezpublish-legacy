@@ -34,8 +34,7 @@ class ezpTestDatabaseHelper
                 self::remove( $dsn );
 
             // Create new database
-            $createDbQuery = ezpDatabaseHelper::generateCreateDatabaseSQL( $dsn->database );
-            $db->query( $createDbQuery );
+            $db->createDatabase( $dsn->database );
             $db = ezpDatabaseHelper::useDatabase( $dsn );
         }
         else
@@ -56,8 +55,10 @@ class ezpTestDatabaseHelper
     public static function remove( ezpDsn $dsn )
     {
         $db = ezpDatabaseHelper::dbAsRootInstance( $dsn );
-        $removeDbQuery = ezpDatabaseHelper::generateRemoveDatabaseSQL( $dsn->database );
-        $db->query( $removeDbQuery );
+        if ( in_array( $dsn->database, $db->availableDatabases() ) )
+        {
+            $db->removeDatabase( $dsn->database );
+        }
     }
 
     /**
