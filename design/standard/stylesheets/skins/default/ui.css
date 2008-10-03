@@ -26,7 +26,8 @@
 .defaultSkin .mceStatusbar {font-family:'MS Sans Serif',sans-serif,Verdana,Arial; font-size:9pt; line-height:16px; overflow:visible; color:#000; display:block; height:20px}
 .defaultSkin .mceStatusbar div {float:left; margin:2px}
 .defaultSkin .mceStatusbar a.mceResize {display:block; float:right; background:url(../../../javascript/themes/ez/img/icons.gif) -800px 0; width:20px; height:20px; cursor:se-resize}
-.defaultSkin .mceStatusbar a:hover {text-decoration:underline}
+.defaultSkin .mceStatusbar a {text-decoration:underline}
+.defaultSkin .mceStatusbar a:hover {cursor: pointer;}
 .defaultSkin table.mceToolbar, .defaultSkin div.mceToolbar {margin-left:2px; margin-top:1px}
 .defaultSkin span.mceIcon, .defaultSkin img.mceIcon {display:block; width:20px; height:20px}
 .defaultSkin .mceIcon {background:url(../../../javascript/themes/ez/img/icons.gif) no-repeat 20px 20px}

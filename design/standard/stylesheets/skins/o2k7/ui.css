@@ -23,7 +23,8 @@
 .o2k7Skin .mceStatusbar {display:block; font-family:'MS Sans Serif',sans-serif,Verdana,Arial; font-size:9pt; line-height:16px; overflow:visible; color:#000; height:20px;}
 .o2k7Skin .mceStatusbar div {float:left; padding:2px;}
 .o2k7Skin .mceStatusbar a.mceResize {display:block; float:right; background:url(../../../javascript/themes/ez/img/icons.gif) -800px 0; width:20px; height:20px; cursor:se-resize}
-.o2k7Skin .mceStatusbar a:hover {text-decoration:underline}
+.o2k7Skin .mceStatusbar a {text-decoration: underline; padding: 0 1px 1px 1px; }
+.o2k7Skin .mceStatusbar a:hover { cursor: pointer; /*background: url(img/button_bg.png) 0 -81px;*/ }
 .o2k7Skin table.mceToolbar, .o2k7Skin div.mceToolbar { margin-left:1px; margin-top:1px }
 .o2k7Skin .mceToolbar .mceToolbarStart span {display:block;  background:url(img/button_bg.png) -22px 0; width:1px; height:22px;  }
 .o2k7Skin .mceToolbar td.mceFirst span {margin:0}
@@ -55,7 +56,6 @@
 
 /* ie6 and ie7 has some issues with float and grouping, so we disable gouping there */
 .o2k7Skin div.mceToolBarFlowIEbug div.mceToolbarGroupingElement { float: none; display: inline; }
-
 
 /* Separator */
 .o2k7Skin .mceSeparator {display:block; background:url(img/button_bg.png) -22px 0; width:5px; height:22px}
