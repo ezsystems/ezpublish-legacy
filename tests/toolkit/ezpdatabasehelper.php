@@ -66,16 +66,15 @@ class ezpDatabaseHelper
      * @param ezpDsn $database
      * @return eZDB Instance of eZDB
      */
-    static function useDatabase( ezpDsn $dsn )
+    static function useDatabase( ezpDsn $dsn, $makeDefaultInstance = true )
     {
         $dbParams = $dsn->parts;
         $dbParams['use_defaults'] = false;
 
         $db = eZDB::instance( $dsn->phptype, $dbParams, true );
 
-        eZDB::setInstance( $db );
-
-        $db = eZDB::instance();
+        if ( $makeDefaultInstance )
+            eZDB::setInstance( $db );
 
         return $db;
     }

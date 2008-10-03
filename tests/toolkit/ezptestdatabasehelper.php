@@ -23,42 +23,53 @@ class ezpTestDatabaseHelper
      * @param bool $removeExisting
      * @return mixed
      */
-    public static function create( ezpDsn $dsn, $removeExisting = true )
+    public static function create( ezpDsn $dsn )
     {
-        $db = ezpDatabaseHelper::dbAsRootInstance( $dsn );
+        $dbRoot = ezpDatabaseHelper::dbAsRootInstance( $dsn );
 
-        if ( $db and $db->isConnected() )
+        if ( self::exists( $dbRoot, $dsn->database ) )
         {
-            // Try to remove existing database
-            if ( $removeExisting )
-                self::remove( $dsn );
-
-            // Create new database
-            $db->createDatabase( $dsn->database );
             $db = ezpDatabaseHelper::useDatabase( $dsn );
+            self::clean( $db );
         }
         else
         {
-            $errorMessage = $db->errorMessage();
-            die( $errorMessage );
+            $dbRoot->createDatabase( $dsn->database );
+            $db = ezpDatabaseHelper::useDatabase( $dsn );
         }
 
         return $db;
     }
 
     /**
-     * Removes a database
+     * Removes everything inside a database
      *
      * @param ezpDsn $dsn 
      * @return void
      */
-    public static function remove( ezpDsn $dsn )
+    public static function clean( $db )
     {
-        $db = ezpDatabaseHelper::dbAsRootInstance( $dsn );
-        if ( in_array( $dsn->database, $db->availableDatabases() ) )
+        $supportedRelationTypes = $db->supportedRelationTypes();
+        foreach( $supportedRelationTypes as $type )
         {
-            $db->removeDatabase( $dsn->database );
+            $relations = $db->relationList( $type );
+            foreach( $relations as $relation )
+            {
+                $db->removeRelation( $relation, $type );
+            }
         }
+    }
+
+    /**
+     * Checks if a database exists or not
+     *
+     * @param eZDB $db 
+     * @param string $database 
+     */
+    public static function exists( $db, $database )
+    {
+        $databases = $db->availableDatabases();
+        return ( is_array( $databases ) and in_array( $database, $databases ) );
     }
 
     /**
