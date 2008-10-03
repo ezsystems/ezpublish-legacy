@@ -1,21 +1,19 @@
 <?php
 /**
- * File containing the eZTestSuite class
+ * File containing the eZDBTestSuite class
  *
  * @copyright Copyright (C) 1999-2008 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
  * @package tests
  */
 
-class eZTestSuite extends ezpTestSuite
+class eZDBTestSuite extends ezpDatabaseTestSuite
 {
     public function __construct()
     {
         parent::__construct();
-        $this->setName( "eZ Publish Test Suite" );
-        $this->addTest( eZKernelTestSuite::suite() );
-        $this->addTest( eZUtilsTestSuite::suite() );
-        $this->addTest( eZDBTestSuite::suite() );
+        $this->setName( "eZDBTestSuite Test Suite" );
+        $this->addTest( eZPostgreSQLDBTest::suite() );
     }
 
     public static function suite()
@@ -23,4 +21,5 @@ class eZTestSuite extends ezpTestSuite
         return new self();
     }
 }
+
 ?>
