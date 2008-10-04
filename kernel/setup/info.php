@@ -66,7 +66,7 @@ if ( extension_loaded( "eAccelerator" ) )
     $phpAcceleratorInfo['url'] = "http://sourceforge.net/projects/eaccelerator/";
     $phpAcceleratorInfo['enabled'] = true;
     $phpAcceleratorInfo['version_integer'] = false;
-    $phpAcceleratorInfo['version_string'] = phpversion('eAccelerator');
+    $phpAcceleratorInfo['version_string'] = phpversion( 'eAccelerator' );
 }
 if ( extension_loaded( "apc" ) )
 {
@@ -85,6 +85,15 @@ if ( extension_loaded( "Zend Performance Suite" ) )
     $phpAcceleratorInfo['enabled'] = true;
     $phpAcceleratorInfo['version_integer'] = false;
     $phpAcceleratorInfo['version_string'] = false;
+}
+if ( extension_loaded( "xcache" ) )
+{
+    $phpAcceleratorInfo = array();
+    $phpAcceleratorInfo['name'] = "XCache";
+    $phpAcceleratorInfo['url'] = "http://xcache.lighttpd.net/";
+    $phpAcceleratorInfo['enabled'] = ini_get( 'xcache.cacher' ) != false;
+    $phpAcceleratorInfo['version_integer'] = false;
+    $phpAcceleratorInfo['version_string'] = phpversion( 'xcache' );
 }
 
 $webserverInfo = false;
