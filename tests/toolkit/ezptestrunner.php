@@ -35,6 +35,7 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
 
             if ( file_exists( $suiteFile ) )
             {
+                var_dump( $suiteFile );
                 $suite->addTestFile( $suiteFile );
             }
         }
@@ -284,7 +285,9 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
 
             if ( file_exists( $file ) )
             {
-                $suite->addTestFile( $file );
+                require_once( $file );
+                $class = self::getClassName( $file );
+                $suite->addTest( new $class );
             }
             else
             {
