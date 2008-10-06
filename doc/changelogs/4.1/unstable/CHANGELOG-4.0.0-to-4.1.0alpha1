@@ -388,3 +388,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13704: Fetching/counting relations in PosgtreSQL includes non visible relations
 - Fixed bug #13622: mutex - windows file are not remove
 - Fixed bug #13712: Multiprice datatype shows wrong price after multiple calls in template
+- Fixed bug #13713: Content Structure Tree Menu doesn't work properly.
