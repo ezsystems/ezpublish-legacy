@@ -317,7 +317,8 @@ class eZMultiPrice extends eZSimplePrice
     {
         $priceList = $this->priceList( $priceType );
 
-        foreach ( $priceList as $price )
+        $calculatedPriceList = array();
+        foreach ( $priceList as $key => $price )
         {
             switch ( $calculationType )
             {
@@ -346,11 +347,13 @@ class eZMultiPrice extends eZSimplePrice
                     // do nothing
                 } break;
             }
-
-            $price->setAttribute( 'value', $value );
+            
+            $calculatedPrice = clone $price;
+            $calculatedPrice->setAttribute( 'value', $value );
+            $calculatedPriceList[$key] = $calculatedPrice;
         }
 
-        return $priceList;
+        return $calculatedPriceList;
     }
 
     static function removeByID( $objectAttributeID, $objectAttributeVersion = null )
