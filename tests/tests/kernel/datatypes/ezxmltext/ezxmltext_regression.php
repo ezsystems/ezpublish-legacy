@@ -15,11 +15,6 @@ class eZXMLTextRegression extends ezpDatabaseTestCase
         $this->setName( "eZXMLText Datatype Regression Tests" );
     }
 
-    public static function suite()
-    {
-        return new ezpTestSuite( __CLASS__ );
-    }
-
     public function setUp()
     {
         parent::setUp();

@@ -17,11 +17,6 @@ class eZURLAliasMlTest extends ezpDatabaseTestCase
         $this->siteIni = eZINI::instance();
     }
 
-    public static function suite()
-    {
-        return new ezpTestSuite( __CLASS__ );
-    }
-
     public function setUp()
     {
         parent::setUp();

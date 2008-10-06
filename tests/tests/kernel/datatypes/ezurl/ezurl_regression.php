@@ -17,11 +17,6 @@ class eZURLTypeRegression extends ezpDatabaseTestCase
         $this->setName( "eZURLType Regression Tests" );
     }
 
-    public static function suite()
-    {
-        return new ezpTestSuite( __CLASS__ );
-    }
-
     /**
      * Test scenario for issue #13604: url's are not encoded properly while serializing object of eZURL datatype.
      *

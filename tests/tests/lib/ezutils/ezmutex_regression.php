@@ -1,12 +1,7 @@
 <?php
 
-class eZMutexRegression extends PHPUnit_Framework_TestCase
+class eZMutexRegression extends ezpTestCase
 {
-    public static function suite()
-    {
-        return new PHPUnit_Framework_TestSuite( __CLASS__ );
-    }
-    
     /**
      * Test scenario for issue #13622: mutex - windows file are not remove
      *
@@ -25,7 +20,7 @@ class eZMutexRegression extends PHPUnit_Framework_TestCase
         $scriptMutex = new eZMutex( 'test.txt' );
 
         $lockTS = $scriptMutex->lockTS();
-        
+
         $lockFileName = $this->readAttribute( $scriptMutex, 'FileName' );
 
         if ( $lockTS === false && $scriptMutex->lock() )

@@ -13,10 +13,11 @@ class eZUtilsTestSuite extends ezpTestSuite
     {
         parent::__construct();
         $this->setName( "eZUtils Test Suite" );
-        $this->addTest( eZSysTest::suite() );
-        $this->addTest( eZURITest::suite() );
-        $this->addTest( eZURIRegression::suite() );
-        $this->addTest( eZMutexRegression::suite() );
+
+        $this->addTestSuite( 'eZSysTest' );
+        $this->addTestSuite( 'eZURITest' );
+        $this->addTestSuite( 'eZURIRegression' );
+        $this->addTestSuite( 'eZMutexRegression' );
     }
 
     public static function suite()

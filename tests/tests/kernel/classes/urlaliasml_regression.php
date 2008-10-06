@@ -17,11 +17,6 @@ class eZURLAliasMlRegression extends ezpDatabaseTestCase
         $this->setName( "URL Alias ML Regressions" );
     }
 
-    public static function suite()
-    {
-        return new ezpTestSuite( __CLASS__ );
-    }
-
     public function setUp()
     {
         parent::setUp();

@@ -17,11 +17,6 @@ class eZContentObjectRegression extends ezpDatabaseTestCase
         $this->setName( "eZContentObject Regression Tests" );
     }
 
-    public static function suite()
-    {
-        return new ezpTestSuite( __CLASS__ );
-    }
-
     /**
      * Test scenario for issue #13552: Broken datamap caching when copying
      * content objects

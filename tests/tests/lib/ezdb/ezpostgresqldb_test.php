@@ -10,11 +10,6 @@ class eZPostgreSQLDBTest extends ezpDatabaseTestCase
         $this->setName( "eZPostgreSQLDB Unit Tests" );
     }
 
-    public static function suite()
-    {
-        return new ezpTestSuite( __CLASS__ );
-    }
-
     protected function setUp()
     {
         parent::setUp();

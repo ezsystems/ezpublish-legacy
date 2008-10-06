@@ -15,11 +15,6 @@ class eZURITest extends ezpTestCase
         $this->setName( "eZURI Unit Tests" );
     }
 
-    public static function suite()
-    {
-        return new ezpTestSuite( __CLASS__ );
-    }
-
     public function setUp()
     {
         parent::setUp();

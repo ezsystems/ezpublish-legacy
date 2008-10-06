@@ -15,11 +15,6 @@ class eZSysTest extends ezpTestCase
         $this->setName( "eZSysTest" );
     }
 
-    public static function suite()
-    {
-        return new ezpTestSuite( __CLASS__ );
-    }
-
     public function testIndexFileRemoveSiteAccessIfDefaultAccessEnabled()
     {
         // TEST SETUP --------------------------------------------------------

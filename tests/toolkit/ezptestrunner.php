@@ -24,8 +24,7 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
 
     public static function suite()
     {
-        $suite = new ezpTestSuite( 'eZ Publish' );
-        $suite->addTest( eZTestSuite::suite() );
+        $suite = new eZTestSuite;
 
         // Add suites from extensions.
         $extensions = eZDir::findSubitems( eZExtension::baseDirectory(), 'd', true );
@@ -36,17 +35,11 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
 
             if ( file_exists( $suiteFile ) )
             {
-                $class = self::getClassName( $suiteFile );
-                $suite->addTest( call_user_func( array( $class, 'suite' ) ) );
+                $suite->addTestFile( $suiteFile );
             }
         }
 
         return $suite;
-    }
-
-    public function runTests()
-    {
-        $this->doRun( self::suite() );
     }
 
     public function runFromArguments()
@@ -272,8 +265,8 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
         if ( count( $directories ) <= 0 ) 
             return self::suite();
 
-        $suites = new ezpTestSuite;
-        $suites->setName( "eZ Publish" );
+        $suite = new ezpTestSuite;
+        $suite->setName( "eZ Publish Test Suite" );
 
         foreach ( $directories as $dir )
         {
@@ -291,9 +284,7 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
 
             if ( file_exists( $file ) )
             {
-                require_once( $file );
-                $class = self::getClassName( $file );
-                $suites->addTest( call_user_func( array( $class, 'suite' ) ) );
+                $suite->addTestFile( $file );
             }
             else
             {
@@ -301,7 +292,7 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
             }
         }
 
-        return $suites;
+        return $suite;
     }
 
     protected function listGroups( $allSuites )

@@ -13,7 +13,8 @@ class eZDBTestSuite extends ezpDatabaseTestSuite
     {
         parent::__construct();
         $this->setName( "eZDBTestSuite Test Suite" );
-        $this->addTest( eZPostgreSQLDBTest::suite() );
+
+        $this->addTestSuite( 'eZPostgreSQLDBTest' );
     }
 
     public static function suite()

@@ -13,9 +13,10 @@ class eZTestSuite extends ezpTestSuite
     {
         parent::__construct();
         $this->setName( "eZ Publish Test Suite" );
-        $this->addTest( eZKernelTestSuite::suite() );
-        $this->addTest( eZUtilsTestSuite::suite() );
-        $this->addTest( eZDBTestSuite::suite() );
+
+        $this->addTestSuite( 'eZKernelTestSuite' );
+        $this->addTestSuite( 'eZUtilsTestSuite' );
+        $this->addTestSuite( 'eZDBTestSuite' );
     }
 
     public static function suite()

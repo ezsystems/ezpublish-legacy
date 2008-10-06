@@ -9,8 +9,6 @@
  */
 
 require_once 'autoload.php';
-require_once 'PHPUnit/TextUI/TestRunner.php';
-require_once 'tests/toolkit/ezptestrunner.php';
 
 
 class ezpGenerateTestCaseFromClass
@@ -56,7 +54,6 @@ class ezpGenerateTestCaseFromClass
         $generator->indentLevel++;
 
         $this->insertConstructor( $generator );
-        $this->insertSuite( $generator );
         $this->insertMethods( $generator );
 
         $generator->indentLevel--;
@@ -72,17 +69,6 @@ class ezpGenerateTestCaseFromClass
         $generator->indentLevel++;
         $generator->appendCustomCode( 'parent::__construct();' );
         $generator->appendCustomCode( '$this->setName( "' . $this->class . ' Unit Tests" );' );
-        $generator->indentLevel--;
-        $generator->appendCustomCode( '}' );
-    }
-
-    protected function insertSuite( ezcPhpGenerator $generator )
-    {
-        $generator->appendEmptyLines();
-        $generator->appendCustomCode( 'public static function suite()' );
-        $generator->appendCustomCode( '{' );
-        $generator->indentLevel++;
-        $generator->appendCustomCode( 'return new ezpTestSuite( __CLASS__ );' );
         $generator->indentLevel--;
         $generator->appendCustomCode( '}' );
     }
@@ -151,7 +137,7 @@ if ( $helpOption->value === true )
     echo $input->getSynopsis() . "\n";
     foreach ( $input->getOptions() as $option )
     {
-        echo "\t -{$option->short}, --{$option->long}\t {$option->shorthelp}\n";
+        echo " -{$option->short}, --{$option->long}\t {$option->shorthelp}\n";
     }
     die();
 }
