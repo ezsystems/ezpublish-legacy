@@ -386,3 +386,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13697: eZKeyword doesn't pass column parameter to $db->lastSerialID
 - Fixed bug #10903: select count in reversereverserelatedlist.php line 114
 - Fixed bug #13704: Fetching/counting relations in PosgtreSQL includes non visible relations
+- Fixed bug #13622: mutex - windows file are not remove
