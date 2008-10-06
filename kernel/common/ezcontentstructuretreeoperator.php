@@ -355,9 +355,9 @@ class eZContentStructureTreeOperator
             --$depthLeft;
             if ( $depthLeft != 0 )
             {
-                $children = $contentTree['children'];
+                $children =& $contentTree['children'];
 
-                foreach( $children as $child )
+                foreach( $children as &$child )
                 {
                     $currentDepth = $depthLeft;
 
