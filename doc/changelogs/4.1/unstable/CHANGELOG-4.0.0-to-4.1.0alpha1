@@ -392,3 +392,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13713: Content Structure Tree Menu doesn't work properly.
 - Fixed bug #13715: typo in ezserializedobjectnamelist.php
 - Fixed bug #13669: ezobjectrelationtype fromString() code is not right
+- Fixed bug #11991: Using quotes in object titles breaks image conversion
