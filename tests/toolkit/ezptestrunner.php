@@ -22,26 +22,6 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
         $testRunner->runFromArguments();
     }
 
-    public static function suite()
-    {
-        $suite = new eZTestSuite;
-
-        // Add suites from extensions.
-        $extensions = eZDir::findSubitems( eZExtension::baseDirectory(), 'd', true );
-
-        foreach( $extensions as $extension )
-        {
-            $suiteFile = eZDir::path( array( $extension, "tests", "suite.php" ) );
-
-            if ( file_exists( $suiteFile ) )
-            {
-                $suite->addTestFile( $suiteFile );
-            }
-        }
-
-        return $suite;
-    }
-
     public function runFromArguments()
     {
         self::$consoleInput = new ezcConsoleInput();
@@ -49,103 +29,24 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
         self::registerConsoleArguments( self::$consoleInput );
         self::processConsoleArguments( self::$consoleInput );
 
-        if ( self::$consoleInput->getOption( "help" )->value )
+        $options = self::getSpecifiedConsoleOptions( self::$consoleInput );
+        $suite = $this->prepareTests( self::$consoleInput->getArguments(), $options );
+
+        if ( self::$consoleInput->getOption( 'list-tests' )->value )
         {
-            self::displayHelp( self::$consoleInput );
-            return;
-        }
-
-        $params = array();
-
-        $config    = self::$consoleInput->getOption( 'configuration' )->value;
-        $logfile   = self::$consoleInput->getOption( 'log-xml' )->value;
-        $coverage  = self::$consoleInput->getOption( 'coverage-xml' )->value;
-        $metrics   = self::$consoleInput->getOption( 'log-metrics' )->value;
-        $pmd       = self::$consoleInput->getOption( 'log-pmd' )->value;
-        $reportDir = self::$consoleInput->getOption( 'report-dir' )->value;
-        $ansi = self::$consoleInput->getOption( 'ansi' )->value;
-        $dsn = self::$consoleInput->getOption( 'dsn' )->value;
-        $groups = self::$consoleInput->getOption( 'group' )->value;
-        $listGroups = self::$consoleInput->getOption( 'list-groups' )->value;
-        $listTests = self::$consoleInput->getOption( 'list-tests' )->value;
-        $filter = self::$consoleInput->getOption( 'filter' )->value;
-
-        if ( $config )
-        {
-            $params['configuration'] = $config;
-        }
-
-        if ( $logfile )
-        {
-            $params['xmlLogfile'] = $logfile;
-        }
-
-        if ( $coverage )
-        {
-            $params['coverageXML'] = $coverage;
-        }
-
-        if ( $metrics )
-        {
-            $params['metricsXML'] = $metrics;
-        }
-
-        if ( $pmd )
-        {
-            $params['pmdXML'] = $pmd;
-        }
-
-        if ( $reportDir )
-        {
-            $params['reportDirectory'] = $reportDir;
-        }
-
-        if ( $dsn )
-        {
-            $params['dsn'] = $dsn;
-        }
-
-        if ( $ansi )
-        {
-            $params['ansi'] = True;
-        }
-
-        if ( $groups )
-        {
-            $params['groups'] = explode(',', $groups );
-        }
-
-        if ( $filter )
-        {
-            $params['filter'] = $filter;
-        }
-
-        if ( self::$consoleInput->getOption( "verbose" )->value )
-        {
-            $params['verbose'] = true;
-        }
-        else
-        {
-            $params['verbose'] = false;
-        }
-
-        $allSuites = $this->prepareTests( self::$consoleInput->getArguments(), $params );
-
-        if ( $listTests )
-        {
-            $this->listTests( $allSuites );
+            $this->listTests( $suite );
             exit( PHPUnit_TextUI_TestRunner::SUCCESS_EXIT );
         }
 
-        if ( $listGroups )
+        if ( self::$consoleInput->getOption( 'list-groups' )->value )
         {
-            $this->listGroups( $allSuites );
+            $this->listGroups( $suite );
             exit( PHPUnit_TextUI_TestRunner::SUCCESS_EXIT );
         }
 
         try
         {
-            $result = $this->doRun( $allSuites, $params );
+            $result = $this->doRun( $suite, $options );
         }
         catch ( ezcConsoleOptionException $e )
         {
@@ -159,15 +60,23 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
      * The options and arguments are registered in the given $consoleInput object.
      *
      * @param ezcConsoleInput $consoleInput
-     * @return void
      */
     protected static function registerConsoleArguments( $consoleInput )
     {
-        // Help option
-        $help = new ezcConsoleOption( 'h', 'help', ezcConsoleInput::TYPE_NONE );
-        $help->shorthelp = "Show this help";
-        $help->isHelpOption = true;
-        $consoleInput->registerOption( $help );
+        // Ansi option
+        $ansi = new ezcConsoleOption( 'a', 'ansi', ezcConsoleInput::TYPE_NONE );
+        $ansi->shorthelp = "Use ANSI colors in output. Needs PHPUnit 3.3 or newer.";
+        $consoleInput->registerOption( $ansi );
+
+        // Configuration XML File option
+        $configuration = new ezcConsoleOption( '', 'configuration', ezcConsoleInput::TYPE_STRING );
+        $configuration->shorthelp = "Read configuration from XML file.";
+        $consoleInput->registerOption( $configuration );
+
+        // Database-per-test option
+        $dbPerTest = new ezcConsoleOption( '', 'db-per-test', ezcConsoleInput::TYPE_NONE );
+        $dbPerTest->shorthelp = "Use a clean database per test";
+        $consoleInput->registerOption( $dbPerTest );
 
         // DSN option
         $dsn = new ezcConsoleOption( 'D', 'dsn', ezcConsoleInput::TYPE_STRING );
@@ -176,41 +85,26 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
         $dsn->longhelp .= "mysql://root@mypass@localhost/unittests";
         $consoleInput->registerOption( $dsn );
 
-        // Database-per-test option
-        $dbPerTest = new ezcConsoleOption( '', 'db-per-test', ezcConsoleInput::TYPE_NONE );
-        $dbPerTest->shorthelp = "Use a clean database per test";
-        $dbPerTest->addDependency( new ezcConsoleOptionRule( $dsn ) );
-        $consoleInput->registerOption( $dbPerTest );
-
-        // Code Coverage Report directory option
-        $report = new ezcConsoleOption( 'c', 'report-dir', ezcConsoleInput::TYPE_STRING );
-        $report->shorthelp = "Directory to store test reports and code coverage reports in.";
-        $consoleInput->registerOption( $report );
-
-        // Logfile XML option
-        $xml = new ezcConsoleOption( 'x', 'log-xml', ezcConsoleInput::TYPE_STRING );
-        $xml->shorthelp = "Log test execution in XML format to file.";
-        $consoleInput->registerOption( $xml );
-
         // Coverage XML option
         $coverage = new ezcConsoleOption( '', 'coverage-xml', ezcConsoleInput::TYPE_STRING );
         $coverage->shorthelp = "Write code coverage information in XML format.";
         $consoleInput->registerOption( $coverage );
 
-        // Metrics XML option
-        $metrics = new ezcConsoleOption( '', 'log-metrics', ezcConsoleInput::TYPE_STRING );
-        $metrics->shorthelp = "Write metrics report in XML format.";
-        $consoleInput->registerOption( $metrics );
-
-        // Project Mess Detector (PMD) XML option
-        $pmd = new ezcConsoleOption( '', 'log-pmd', ezcConsoleInput::TYPE_STRING );
-        $pmd->shorthelp = "Write violations report in PMD XML format.";
-        $consoleInput->registerOption( $pmd );
+        // Filter option
+        $filter = new ezcConsoleOption( 'f', 'filter', ezcConsoleInput::TYPE_STRING );
+        $filter->shorthelp = "Filter which tests to run.";
+        $consoleInput->registerOption( $filter );
 
         // Groups option
         $groups = new ezcConsoleOption( 'g', 'group', ezcConsoleInput::TYPE_STRING );
         $groups->shorthelp = "Only runs tests from the specified group(s).";
         $consoleInput->registerOption( $groups );
+
+        // Help option
+        $help = new ezcConsoleOption( 'h', 'help', ezcConsoleInput::TYPE_NONE );
+        $help->shorthelp = "Show this help";
+        $help->isHelpOption = true;
+        $consoleInput->registerOption( $help );
 
         // List groups option
         $listGroups = new ezcConsoleOption( '', 'list-groups', ezcConsoleInput::TYPE_NONE );
@@ -222,27 +116,77 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
         $listTests->shorthelp = "Lists all tests";
         $consoleInput->registerOption( $listTests );
 
-        // Filter option
-        $filter = new ezcConsoleOption( 'f', 'filter', ezcConsoleInput::TYPE_STRING );
-        $filter->shorthelp = "Filter which tests to run.";
-        $consoleInput->registerOption( $filter );
+        // Metrics XML option
+        $metrics = new ezcConsoleOption( '', 'log-metrics', ezcConsoleInput::TYPE_STRING );
+        $metrics->shorthelp = "Write metrics report in XML format.";
+        $consoleInput->registerOption( $metrics );
 
-        // XML Configuration File option
-        $configuration = new ezcConsoleOption( '', 'configuration', ezcConsoleInput::TYPE_STRING );
-        $configuration->shorthelp = "Read configuration from XML file.";
-        $consoleInput->registerOption( $configuration );
+        // Project Mess Detector (PMD) XML option
+        $pmd = new ezcConsoleOption( '', 'log-pmd', ezcConsoleInput::TYPE_STRING );
+        $pmd->shorthelp = "Write violations report in PMD XML format.";
+        $consoleInput->registerOption( $pmd );
+
+        // Code Coverage Report directory option
+        $report = new ezcConsoleOption( 'c', 'report-dir', ezcConsoleInput::TYPE_STRING );
+        $report->shorthelp = "Directory to store test reports and code coverage reports in.";
+        $consoleInput->registerOption( $report );
 
         // Verbose option
         $verbose = new ezcConsoleOption( 'v', 'verbose', ezcConsoleInput::TYPE_NONE );
         $verbose->shorthelp = "Output more verbose information.";
         $consoleInput->registerOption( $verbose );
 
-        // Ansi option
-        $ansi = new ezcConsoleOption( 'a', 'ansi', ezcConsoleInput::TYPE_NONE );
-        $ansi->shorthelp = "Use ANSI colors in output. Needs PHPUnit 3.3 or newer.";
-        $consoleInput->registerOption( $ansi );
+        // XML logfile option
+        $xml = new ezcConsoleOption( 'x', 'log-xml', ezcConsoleInput::TYPE_STRING );
+        $xml->shorthelp = "Log test execution in XML format to file.";
+        $consoleInput->registerOption( $xml );
+
+        // Set up dependencies 
+        $dbPerTest->addDependency( new ezcConsoleOptionRule( $dsn ) );
     }
 
+    /**
+     * Returns an array of all the specified console options
+     *
+     * @param ezcConsoleInput $consoleInput
+     */
+    protected static function getSpecifiedConsoleOptions( $consoleInput )
+    {
+        $ansi = $consoleInput->getOption( 'ansi' )->value;
+        $config = $consoleInput->getOption( 'configuration' )->value;
+        $coverage = $consoleInput->getOption( 'coverage-xml' )->value;
+        $dsn = $consoleInput->getOption( 'dsn' )->value;
+        $filter = $consoleInput->getOption( 'filter' )->value;
+        $groups = $consoleInput->getOption( 'group' )->value;
+        $logfile = $consoleInput->getOption( 'log-xml' )->value;
+        $metrics = $consoleInput->getOption( 'log-metrics' )->value;
+        $pmd = $consoleInput->getOption( 'log-pmd' )->value;
+        $reportDir = $consoleInput->getOption( 'report-dir' )->value;
+        $verbose = $consoleInput->getOption( "verbose" )->value;
+
+        $options = array();
+        $options['ansi'] = $ansi ? True : null;
+        $options['configuration'] = $config ? $config : null;
+        $options['dsn'] = $dsn ? $dsn : null;
+        $options['groups'] = $groups ? explode(',', $groups ): null;
+        $options['filter'] = $filter ? $filter : null;
+        $options['metricsXML'] = $metrics ? $metrics : null;
+        $options['pmdXML'] = $pmd ? $pmd : null;
+        $options['reportDirectory'] = $reportDir ? $reportDir : null;
+        $options['verbose'] = $verbose ? true : false;
+        $options['xmlLogfile'] = $logfile ? $coverage : null;
+
+        return $options;
+    }
+
+    /**
+     * Processes all console options
+     *
+     * If the help option is specified by the user the help text will be 
+     * displayed and the program will exit.
+     *
+     * @param ezcConsoleInput $consoleInput
+     */
     protected static function processConsoleArguments( $consoleInput )
     {
         try
@@ -253,13 +197,31 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
         {
             die ( $e->getMessage() . "\n" );
         }
+
+        if ( $consoleInput->getOption( "help" )->value )
+        {
+            self::displayHelp( self::$consoleInput );
+            exit();
+        }
     }
 
+    /**
+     * Displays the help text
+     *
+     * @param ezcConsoleInput $consoleInput
+     */
     protected static function displayHelp( $consoleInput )
     {
         echo $consoleInput->getHelpText( 'eZ Publish Test Runner' );
     }
 
+    /**
+     * Scans a set of directories looking for suite.php to add to include.
+     *
+     * @param string $directories 
+     * @param string $params 
+     * @return ezpTestSuite $suite
+     */
     protected function prepareTests( $directories, $params )
     {
         if ( count( $directories ) <= 0 ) 
@@ -297,11 +259,41 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
         return $suite;
     }
 
-    protected function listGroups( $allSuites )
+    /**
+     * Returns the default test suite including all tests in all extensions.
+     *
+     * @return ezpTestSuite $suite
+     */
+    public static function suite()
+    {
+        $suite = new eZTestSuite;
+
+        // Add suites from extensions.
+        $extensions = eZDir::findSubitems( eZExtension::baseDirectory(), 'd', true );
+
+        foreach( $extensions as $extension )
+        {
+            $suiteFile = eZDir::path( array( $extension, "tests", "suite.php" ) );
+
+            if ( file_exists( $suiteFile ) )
+            {
+                $suite->addTestFile( $suiteFile );
+            }
+        }
+
+        return $suite;
+    }
+
+    /**
+     * Prints all groups (@group annotation) found in $suite
+     *
+     * @param ezpTestCase $suite 
+     */
+    protected function listGroups( $suite )
     {
         print "Available test group(s):\n";
 
-        $groups = $allSuites->getGroups();
+        $groups = $suite->getGroups();
         sort( $groups );
 
         foreach ( $groups as $group ) 
@@ -310,9 +302,14 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
         }
     }
 
-    protected function listTests( $allSuites )
+    /**
+     * Prints all tests found in $suite
+     *
+     * @param ezpTestCase $suite 
+     */
+    protected function listTests( $suite )
     {
-        $iterator = $allSuites->getIterator();
+        $iterator = $suite->getIterator();
         print "Available test(s):\n";
 
         foreach ( $iterator as $test )
@@ -323,6 +320,11 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
         }
     }
 
+    /**
+     * Prepends the extension path to $path if not already in $path
+     *
+     * @param string $path 
+     */
     protected function normalizeExtensionPath( $path )
     {
         if ( strpos( $path, eZExtension::baseDirectory() ) === false )
@@ -331,6 +333,11 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
         return $path;
     }
 
+    /**
+     * Returns the first class name found inside of $file
+     *
+     * @param string $file
+     */
     static public function getClassName( $file )
     {
         // $file argument has / directory seperator, but the getFileName() method of ReflectionClass
