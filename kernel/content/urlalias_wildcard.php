@@ -98,7 +98,7 @@ else if ( $Module->isCurrentAction( 'NewWildcard' ) )
             $row = array(
                 'source_url' => $wildcardSrcText,
                 'destination_url' => $wildcardDstText,
-                'type' => $wildcardType ? eZURLWildcard::EZ_URLWILDCARD_TYPE_FORWARD : eZURLWildcard::EZ_URLWILDCARD_TYPE_DIRECT );
+                'type' => $wildcardType ? eZURLWildcard::TYPE_FORWARD : eZURLWildcard::TYPE_DIRECT );
 
             $wildcard = new eZURLWildcard( $row );
             $wildcard->store();

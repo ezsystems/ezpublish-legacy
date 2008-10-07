@@ -43,17 +43,17 @@
 
 class eZURLWildcard extends eZPersistentObject
 {
-    const EZURLWILDCARD_REGEXP_ARRAY_CALLBACK = 'eZURLWilcardCachedReqexpArray';
-    const EZURLWILDCARD_TRANSLATE_CALLBACK = 'eZURLWildcardTranslateWithCache';
-    const EZURLWILDCARD_CACHED_TRANSLATE = 'eZURLWilcardCachedTranslate';
+    const REGEXP_ARRAY_CALLBACK = 'eZURLWilcardCachedReqexpArray';
+    const TRANSLATE_CALLBACK = 'eZURLWildcardTranslateWithCache';
+    const CACHED_TRANSLATE = 'eZURLWilcardCachedTranslate';
 
-    const EZURLWILDCARD_WILDCARDS_PER_CACHE_FILE = 100;
+    const WILDCARDS_PER_CACHE_FILE = 100;
 
-    const EZ_URLWILDCARD_TYPE_NONE = 0;
-    const EZ_URLWILDCARD_TYPE_FORWARD = 1;
-    const EZ_URLWILDCARD_TYPE_DIRECT = 2;
+    const TYPE_NONE = 0;
+    const TYPE_FORWARD = 1;
+    const TYPE_DIRECT = 2;
 
-    const EZ_URLWILDCARD_CACHE_SIGNATURE = 'urlalias-wildcard';
+    const CACHE_SIGNATURE = 'urlalias-wildcard';
 
     /*!
      Initializes a new URL alias.
@@ -261,9 +261,9 @@ class eZURLWildcard extends eZPersistentObject
 
         $handler = eZExpiryHandler::instance();
 
-        if ( $handler->hasTimestamp( eZURLWildcard::EZ_URLWILDCARD_CACHE_SIGNATURE ) )
+        if ( $handler->hasTimestamp( eZURLWildcard::CACHE_SIGNATURE ) )
         {
-            $expiryTime = $handler->timestamp( eZURLWildcard::EZ_URLWILDCARD_CACHE_SIGNATURE );
+            $expiryTime = $handler->timestamp( eZURLWildcard::CACHE_SIGNATURE );
             if ( $expiryTime >= $timestamp )
                 $expired = true;
         }
@@ -279,7 +279,7 @@ class eZURLWildcard extends eZPersistentObject
     static function expireCache()
     {
         $handler = eZExpiryHandler::instance();
-        $handler->setTimestamp( eZURLWildcard::EZ_URLWILDCARD_CACHE_SIGNATURE, time() );
+        $handler->setTimestamp( eZURLWildcard::CACHE_SIGNATURE, time() );
         $handler->store();
     }
 
@@ -332,7 +332,7 @@ class eZURLWildcard extends eZPersistentObject
                     eZDebugSetting::writeDebug( 'kernel-urltranslator', "new uri string: '$uriString'", 'eZURLWildcard::translate' );
 
                     // optimization: don't try further translation if wildcard type is 'forward'
-                    if ( $wildcardInfo['type'] == eZURLWildcard::EZ_URLWILDCARD_TYPE_FORWARD )
+                    if ( $wildcardInfo['type'] == eZURLWildcard::TYPE_FORWARD )
                     {
                         $urlTranslated = true;
                         break;
@@ -370,7 +370,7 @@ class eZURLWildcard extends eZPersistentObject
 
             switch ( $wildcardType )
             {
-                case eZURLWildcard::EZ_URLWILDCARD_TYPE_FORWARD:
+                case eZURLWildcard::TYPE_FORWARD:
                     {
                         // do redirect => set $result to untranslated uri
                         $result = $uriString;
@@ -381,7 +381,7 @@ class eZURLWildcard extends eZPersistentObject
                 default:
                     eZDebug::writeError( 'Invalid wildcard type.', 'eZURLWildcard::translate()' );
                     // no break, using 'EZ_URLALIAS_WILDCARD_TYPE_DIRECT' as fallback
-                case eZURLWildcard::EZ_URLWILDCARD_TYPE_DIRECT:
+                case eZURLWildcard::TYPE_DIRECT:
                     $result = $urlTranslated;
                     // $uriString already has correct value
                     break;
@@ -436,10 +436,10 @@ class eZURLWildcard extends eZPersistentObject
 
             eZURLWildcard::loadCacheIndex();
 
-            if ( function_exists( eZURLWildcard::EZURLWILDCARD_REGEXP_ARRAY_CALLBACK ) )
+            if ( function_exists( eZURLWildcard::REGEXP_ARRAY_CALLBACK ) )
             {
-                $regexpArrayCallback = eZURLWildcard::EZURLWILDCARD_REGEXP_ARRAY_CALLBACK;
-                $translateCallback = eZURLWildcard::EZURLWILDCARD_TRANSLATE_CALLBACK;
+                $regexpArrayCallback = eZURLWildcard::REGEXP_ARRAY_CALLBACK;
+                $translateCallback = eZURLWildcard::TRANSLATE_CALLBACK;
             }
             else
             {
@@ -500,12 +500,12 @@ class eZURLWildcard extends eZPersistentObject
         }
         $phpCacheIndex->addSpace();
 
-        $phpCodeIndex = "function " . eZURLWildcard::EZURLWILDCARD_REGEXP_ARRAY_CALLBACK . "()\n{\n";
+        $phpCodeIndex = "function " . eZURLWildcard::REGEXP_ARRAY_CALLBACK . "()\n{\n";
 
         $phpCodeIndex .= "    ";
         $phpCodeIndex .= "\$wildcards = array(\n";
 
-        $limit = eZURLWildcard::EZURLWILDCARD_WILDCARDS_PER_CACHE_FILE;
+        $limit = eZURLWildcard::WILDCARDS_PER_CACHE_FILE;
         $offset = 0;
         $cacheFilesCount = 0;
         $wildcardNum = 0;
@@ -526,7 +526,7 @@ class eZURLWildcard extends eZPersistentObject
             }
             $phpCache->addSpace();
 
-            $phpCode = "function " . eZURLWildcard::EZURLWILDCARD_CACHED_TRANSLATE . "( \$wildcardNum, &\$uri, &\$wildcardInfo, \$matches )\n{\n";
+            $phpCode = "function " . eZURLWildcard::CACHED_TRANSLATE . "( \$wildcardNum, &\$uri, &\$wildcardInfo, \$matches )\n{\n";
 
             $phpCode .= "    switch ( \$wildcardNum )\n";
             $phpCode .= "    {\n";
@@ -705,7 +705,7 @@ function eZURLWildcardTranslateWithCache( $wildcardNum, &$uri, &$wildcardInfo, $
 {
     eZDebugSetting::writeDebug( 'kernel-urltranslator', "eZURLWildcardTranslateWithCache:: wildcardNum = $wildcardNum, uri = $uri", 'eZURLWildcardTranslateWithCache' );
 
-    $cacheFileNum = (int) ( $wildcardNum / eZURLWildcard::EZURLWILDCARD_WILDCARDS_PER_CACHE_FILE );
+    $cacheFileNum = (int) ( $wildcardNum / eZURLWildcard::WILDCARDS_PER_CACHE_FILE );
 
     eZDebugSetting::writeDebug( 'kernel-urltranslator', "eZURLWildcardTranslateWithCache:: cacheFileNum = $cacheFileNum", 'eZURLWildcardTranslateWithCache' );
 
@@ -727,13 +727,13 @@ function eZURLWildcardTranslateWithCache( $wildcardNum, &$uri, &$wildcardInfo, $
     include_once( $fetchedFilePath );
     $cacheFile->fileDeleteLocal( $fetchedFilePath );
 
-    if ( !function_exists( eZURLWildcard::EZURLWILDCARD_CACHED_TRANSLATE ) )
+    if ( !function_exists( eZURLWildcard::CACHED_TRANSLATE ) )
     {
         eZDebugSetting::writeDebug( 'kernel-urltranslator', "eZURLWildcardTranslateWithCache:: no function in cache file", 'eZURLWildcardTranslateWithCache' );
         return false;
     }
 
-    $function = eZURLWildcard::EZURLWILDCARD_CACHED_TRANSLATE;
+    $function = eZURLWildcard::CACHED_TRANSLATE;
     $wildcards = $function( $wildcardNum, $uri, $wildcardInfo, $matches );
 
     eZDebugSetting::writeDebug( 'kernel-urltranslator', "eZURLWildcardTranslateWithCache:: found wildcard: " . var_export( $wildcardInfo, true ), 'eZURLWildcardTranslateWithCache' );
