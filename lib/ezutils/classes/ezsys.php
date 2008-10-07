@@ -253,7 +253,14 @@ class eZSys
     {
         $escapeChar = eZSys::instance()->ShellEscapeCharacter;
         $argument = str_replace( "\\", "\\\\", $argument );
-        $argument = str_replace( $escapeChar, "\\" . $escapeChar, $argument );
+        if ( $escapeChar == "'" )
+        {
+            $argument = str_replace( $escapeChar, $escapeChar . "\\" . $escapeChar . $escapeChar, $argument );
+        }
+        else
+        {
+            $argument = str_replace( $escapeChar, "\\" . $escapeChar, $argument );
+        }
         $argument = $escapeChar . $argument . $escapeChar;
         return $argument;
     }
