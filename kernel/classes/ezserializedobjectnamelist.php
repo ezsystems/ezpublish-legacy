@@ -371,7 +371,7 @@ class eZSerializedObjectNameList
 
     function setDefaultLanguage( $language )
     {
-        $this->DefualtLanguage = $language;
+        $this->DefaultLanguage = $language;
     }
 
     function setDefaultLanguageByLocale( $languageLocale, $createIfNotExist = true )
