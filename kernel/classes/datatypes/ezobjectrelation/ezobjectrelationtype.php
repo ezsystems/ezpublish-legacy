@@ -500,12 +500,11 @@ class eZObjectRelationType extends eZDataType
 
     function fromString( $contentObjectAttribute, $string )
     {
-        if ( is_numeric( $string ) && ! eZContentObject::fetch( $string ) )
+        if ( !is_numeric( $string ) || !eZContentObject::fetch( $string ) )
             return false;
 
         $contentObjectAttribute->setAttribute( 'data_int', $string );
         return true;
-
     }
 
     function isIndexable()
