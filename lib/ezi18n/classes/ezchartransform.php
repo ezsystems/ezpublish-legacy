@@ -341,37 +341,26 @@ class eZCharTransform
      \private
      Stores the mapping table \a $table in the cache file \a $filepath.
     */
-    function storeCacheFile( $filepath, $transformationData,
-                             $extraCode, $type, $charsetName )
+    function storeCacheFile( $filepath, $transformationData,$extraCode, $type, $charsetName )
     {
-        $fd = @fopen( $filepath, 'wb' );
-        if ( $fd )
+        $file = basename( $filepath );
+        $dir = dirname( $filepath );
+        $php = new eZPHPCreator( $dir, $file );
+
+        $php->addComment( "Cached transformation data" );
+        $php->addComment( "Type: $type" );
+        $php->addComment( "Charset: $charsetName" );
+        $php->addComment( "Cached transformation data" );
+       
+        $php->addCodePiece( '$data = ' . eZCharTransform::varExport( $transformationData ) . ";\n" );
+        $php->addCodePiece( "\$text = strtr( \$text, \$data['table'] );\n" );
+
+        if ( $extraCode )
         {
-            @fwrite( $fd, "<?" . "php\n" );
-            @fwrite( $fd, "// Cached transformation data\n" );
-            @fwrite( $fd, "// Type: $type\n" );
-            @fwrite( $fd, "// Charset: $charsetName\n" );
-            @fwrite( $fd, "// Cached transformation data\n" );
-
-            // The code that does the transformation
-            // http://ez.no/community/bugs/char_transform_cache_file_is_not_valid_php
-            // the following line makes the cache file outputting to the browser with PHP5
-            @fwrite( $fd, '$data = ' . eZCharTransform::varExport( $transformationData ) . ";\n" );
-            @fwrite( $fd, "\$text = strtr( \$text, \$data['table'] );\n" );
-
-            if ( $extraCode )
-            {
-                @fwrite( $fd, $extraCode );
-            }
-
-            fwrite( $fd, '?' );
-            fwrite( $fd, '>' );
-            @fclose( $fd );
+            $php->addCodePiece( $extraCode );
         }
-        else
-        {
-            eZDebug::writeError( "Failed to store transformation table $filepath" );
-        }
+
+        return $php->store( true );
     }
 
     /*!
