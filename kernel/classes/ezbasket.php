@@ -126,7 +126,7 @@ class eZBasket extends eZPersistentObject
                 $count = $productItem->attribute( 'item_count' );
                 $discountPercent = $productItem->attribute( 'discount' );
                 $nodeID = $contentObject->attribute( 'main_node_id' );
-                $objectName = $contentObject->attribute( 'name' );
+                $objectName = $contentObject->name( false, $contentObject->currentLanguage() );
 
                 $isVATIncluded = $productItem->attribute( 'is_vat_inc' );
                 $price = $productItem->attribute( 'price' );
