@@ -69,6 +69,7 @@ if ( $http->hasPostVariable( "CancelButton" ) )
     $http->removeSessionVariable( 'ContentObjectID' );
     $http->removeSessionVariable( 'ContentNodeID' );
     $http->removeSessionVariable( 'userRedirectURIReverseRelatedList' );
+    $http->removeSessionVariable( 'HideRemoveConfirmation' );
     return $Module->redirectToView( 'view', array( $viewMode, $contentNodeID, $contentLanguage ) );
 }
 
@@ -90,8 +91,8 @@ if ( $http->hasPostVariable( 'SupportsMoveToTrash' ) )
 
 $hideRemoveConfirm = $contentINI->hasVariable( 'RemoveSettings', 'HideRemoveConfirmation' ) ?
                      (( $contentINI->variable( 'RemoveSettings', 'HideRemoveConfirmation' ) == 'true' ) ? true : false ) : false;
-if ( $http->hasPostVariable( 'HideRemoveConfirmation' ) )
-    $hideRemoveConfirm = $http->postVariable( 'HideRemoveConfirmation' ) ? true : false;
+if ( $http->hasSessionVariable( 'HideRemoveConfirmation' ) )
+    $hideRemoveConfirm = $http->sessionVariable( 'HideRemoveConfirmation' );
 
 if ( $http->hasPostVariable( "ConfirmButton" ) or
      $hideRemoveConfirm )

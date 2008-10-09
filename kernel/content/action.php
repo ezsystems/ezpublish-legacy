@@ -1047,6 +1047,10 @@ else if ( $http->hasPostVariable( 'RemoveButton' ) )
     if ( $http->hasPostVariable( 'ContentObjectID' ) )
         $contentObjectID = $http->postVariable( 'ContentObjectID' );
 
+    $hideRemoveConfirm = false;
+    if ( $http->hasPostVariable( 'HideRemoveConfirmation' ) )
+        $hideRemoveConfirm = $http->postVariable( 'HideRemoveConfirmation' ) ? true : false;
+
     if ( $http->hasPostVariable( 'DeleteIDArray' ) )
     {
         $deleteIDArray = $http->postVariable( 'DeleteIDArray' );
@@ -1055,6 +1059,7 @@ else if ( $http->hasPostVariable( 'RemoveButton' ) )
             $http->setSessionVariable( 'CurrentViewMode', $viewMode );
             $http->setSessionVariable( 'ContentNodeID', $contentNodeID );
             $http->setSessionVariable( 'ContentObjectID', $contentObjectID );
+            $http->setSessionVariable( 'HideRemoveConfirmation', $hideRemoveConfirm );
             $http->setSessionVariable( 'DeleteIDArray', $deleteIDArray );
             //include_once( 'kernel/classes/ezsection.php' );
             $object = eZContentObject::fetch( $contentObjectID );
@@ -1238,11 +1243,16 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
         if ( $http->hasPostVariable( 'ContentObjectID' ) )
             $contentObjectID = $http->postVariable( 'ContentObjectID' );
 
+        $hideRemoveConfirm = false;
+        if ( $http->hasPostVariable( 'HideRemoveConfirmation' ) )
+            $hideRemoveConfirm = $http->postVariable( 'HideRemoveConfirmation' ) ? true : false;
+
         if ( $contentNodeID != null )
         {
             $http->setSessionVariable( 'CurrentViewMode', $viewMode );
             $http->setSessionVariable( 'ContentNodeID', $parentNodeID );
             $http->setSessionVariable( 'ContentObjectID', $contentObjectID );
+            $http->setSessionVariable( 'HideRemoveConfirmation', $hideRemoveConfirm );
             $http->setSessionVariable( 'DeleteIDArray', array( $contentNodeID ) );
             $object = eZContentObject::fetchByNodeID( $contentNodeID);
             //include_once( 'kernel/classes/ezsection.php' );
