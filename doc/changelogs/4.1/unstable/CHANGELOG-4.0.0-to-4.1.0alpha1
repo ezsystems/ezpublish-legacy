@@ -396,3 +396,5 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13337: Shopping basket is not translation aware on the product name
 - Fixed bug #13655: Writing of eZCharTransform cache is not atomic
 - Fixed bug #11984: Use eZ Components system information
+- Fixed bug #13737: Post Variable HideRemoveConfirmation will be lost
+  (Merged from stable/4.0 (4.0.1) rev. 22460)
