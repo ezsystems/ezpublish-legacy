@@ -11,28 +11,27 @@
 
 // config.php can set the components path like:
 // ini_set( 'include_path', ini_get( 'include_path' ). ':../ezcomponents/trunk' );
+// It is also possible to push a custom autoload method to the autoload
+// function stack. Remember to check for class prefixes in such a method, if it
+// will not serve classes from eZ Publish and eZ Components
 
-if ( file_exists( "config.php" ) )
-{
-    require "config.php";
-}
+@include "config.php";
 
-// require 'Base/src/base.php';
 $baseEnabled = @include( 'ezc/Base/base.php' );
 if ( !$baseEnabled )
 {
     $baseEnabled = @include( 'Base/src/base.php' );
 }
-
 define( 'EZCBASE_ENABLED', $baseEnabled );
-function __autoload( $className )
+
+function ezpAutoload( $className )
 {
     static $ezpClasses = null;
     if ( is_null( $ezpClasses ) )
     {
         $ezpKernelClasses = require 'autoload/ezp_kernel.php';
         $ezpExtensionClasses = require 'autoload/ezp_extension.php';
-        $ezpTestClasses = @include_once 'autoload/ezp_tests.php';
+        $ezpTestClasses = @include 'autoload/ezp_tests.php';
         if ( $ezpTestClasses )
         {
             $ezpClasses = array_merge( $ezpKernelClasses, $ezpExtensionClasses, $ezpTestClasses );
@@ -47,9 +46,13 @@ function __autoload( $className )
     {
         require( $ezpClasses[$className] );
     }
-    elseif ( EZCBASE_ENABLED )
-    {
-        ezcBase::autoload( $className );
-    }
 }
+
+spl_autoload_register( 'ezpAutoload' );
+
+if ( EZCBASE_ENABLED )
+{
+    spl_autoload_register( 'ezcBase::autoload' );
+}
+
 ?>
