@@ -139,6 +139,26 @@
 
 <table class="list" cellspacing="0">
 <tr>
+<th><label>{'PHP autoload functions'|i18n( 'design/admin/setup/info' )}</label></th>
+</tr>
+<tr>
+<td>
+{if $autoload_functions}
+    <ol>
+    {foreach $autoload_functions as $key => $function}
+        {if is_array( $function )}
+            {set $function=$function|implode( '::' )}
+        {/if}
+        <li>{$function}</li>
+    {/foreach}
+    </ol>
+{/if}
+</td>
+</tr>
+</table>
+
+<table class="list" cellspacing="0">
+<tr>
     <th><label>{'Web server (software)'|i18n( 'design/admin/setup/info', 'Web server title' )}</label></th>
 </tr>
 <tr>
