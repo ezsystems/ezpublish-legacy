@@ -1,13 +1,14 @@
 System information
 ==================
 
-The system information module have received an update in this version. The
-SystemInformation component is now used to serve retrieve the data. This means
-that Mac OS X systems will now be detected by.
+The system information module received an update in this version. The
+SystemInformation component is now used to inspect the system. This means
+that Mac OS X systems will be detected correctly by eZ Publish.
 
 phpinfo()
 ---------
 
 The system information page, has also been extended to show the full details
-from phpinfo(), this is accessible under the "Details" link in the PHP section
-of the page. Use the browser's back-button to go back to the normal page.
+from phpinfo(). This information is accessible under the "Details" link in the
+PHP section of the page. Use the browser's back-button to go back to the
+normal page.
