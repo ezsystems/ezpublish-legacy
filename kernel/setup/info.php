@@ -28,6 +28,7 @@
 
 $http = eZHTTPTool::instance();
 $module = $Params['Module'];
+$mode = $Params['Mode'];
 
 require_once( "kernel/common/template.php" );
 //include_once( 'lib/ezutils/classes/ezhttptool.php' );
@@ -39,6 +40,12 @@ $ini = eZINI::instance();
 $tpl = templateInit();
 $info = ezcSystemInfo::getInstance();
 $db = eZDB::instance();
+
+if ( $mode and $mode === 'php' )
+{
+    phpinfo();
+    eZExecution::cleanExit();
+}
 
 // Workaround until ezcTemplate will be used, as properties can not be accessed
 // directly yet.

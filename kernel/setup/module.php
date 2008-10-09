@@ -93,7 +93,7 @@ $ViewList["info"] = array(
     'functions' => array( 'system_info' ),
     "script" => "info.php",
     "default_navigation_part" => 'ezsetupnavigationpart',
-    "params" => array( ) );
+    "params" => array( 'Mode' ) );
 
 $ViewList["rad"] = array(
     'functions' => array( 'setup' ),

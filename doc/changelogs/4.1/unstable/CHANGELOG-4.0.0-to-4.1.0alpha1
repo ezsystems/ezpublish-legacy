@@ -50,6 +50,7 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Implemented enhancement #13171: Remove API documentation note about reference in return value
 - Implemented enhancement #13668: Improvement to eZContentObject->fetchAttributesByIdentifier()
 - Implemented enhancement #13664: remove old prefix from eZURLWildcard class constants
+- Implemented enhancement #6546: Add phpinfo call to setup/info
 
 *Design:
 

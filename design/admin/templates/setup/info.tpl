@@ -55,7 +55,7 @@
 <td>
     <div class="block">
         <label>{'Version'|i18n( 'design/admin/setup/info', 'PHP version' )}:</label>
-        {$php_version}
+        {$php_version} (<a href={'/setup/info/php'|ezurl}>{'Details'|i18n( 'design/admin/setup/info', 'Detailed PHP information' )}</a>)
     </div>
 
     <div class="block">
