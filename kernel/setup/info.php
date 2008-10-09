@@ -50,9 +50,9 @@ if ( $mode and $mode === 'php' )
 // Workaround until ezcTemplate will be used, as properties can not be accessed
 // directly yet.
 
+$phpAcceleratorInfo = array();
 if ( !is_null( $info->phpAccelerator ) )
 {
-    $phpAcceleratorInfo = array();
     $phpAcceleratorInfo['name'] = $info->phpAccelerator->name;
     $phpAcceleratorInfo['url'] = $info->phpAccelerator->url;
     $phpAcceleratorInfo['enabled'] = $info->phpAccelerator->isEnabled;
