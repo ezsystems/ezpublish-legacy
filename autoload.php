@@ -52,7 +52,7 @@ spl_autoload_register( 'ezpAutoload' );
 
 if ( EZCBASE_ENABLED )
 {
-    spl_autoload_register( 'ezcBase::autoload' );
+    spl_autoload_register( array( 'ezcBase', 'autoload' ) );
 }
 
 ?>
