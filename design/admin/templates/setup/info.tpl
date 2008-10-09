@@ -136,7 +136,6 @@
 </td>
 </tr>
 </table>
-</table>
 
 <table class="list" cellspacing="0">
 <tr>
