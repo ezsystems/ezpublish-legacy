@@ -68,13 +68,15 @@ if ( $module->isCurrentAction( 'ActivateExtensions' ) )
     //include_once( 'kernel/classes/ezcache.php' );
     eZCache::clearByTag( 'ini' );
 
-    $autoloadGenerator = new eZAutoloadGenerator( getcwd(),
-                                                  false,
-                                                  true,
-                                                  false,
-                                                  true,
-                                                  false,
-                                                  $excludeArray );
+    $autoloadGenerator = new eZAutoloadGenerator( getcwd(),         // $basePath
+                                                  false,            // $searchKernelFiles
+                                                  true,             // $searchExtensionFiles
+                                                  false,            // $searchTestFiles
+                                                  false,            // $verboseOutput
+                                                  true,             // $writeFiles
+                                                  false,            // $outputDir
+                                                  $excludeArray     // $excludeDirs
+                                                );
     try {
         $autoloadGenerator->buildAutoloadArrays();
     } catch (Exception $e) {
@@ -100,13 +102,15 @@ if ( $module->isCurrentAction( 'GenerateAutoloadArrays' ) )
         $excludeArray[] = $extensionDir . DIRECTORY_SEPARATOR . $ext;
     }
 
-    $autoloadGenerator = new eZAutoloadGenerator( getcwd(),
-                                                  false,
-                                                  true,
-                                                  false,
-                                                  true,
-                                                  false,
-                                                  $excludeArray );
+    $autoloadGenerator = new eZAutoloadGenerator( getcwd(),         // $basePath
+                                                  false,            // $searchKernelFiles
+                                                  true,             // $searchExtensionFiles
+                                                  false,            // $searchTestFiles
+                                                  false,            // $verboseOutput
+                                                  true,             // $writeFiles
+                                                  false,            // $outputDir
+                                                  $excludeArray     // $excludeDirs
+                                                );
     try {
         $autoloadGenerator->buildAutoloadArrays();
     } catch (Exception $e) {
