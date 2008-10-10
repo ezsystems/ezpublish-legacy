@@ -135,9 +135,7 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
 
         if ( !file_exists( $filePath ) )
         {
-            $dirPermission = $ini->variable( 'FileSettings', 'StorageDirPermissions' );
-
-            eZDir::mkdir( $filePath, eZDir::directoryPermission(), true );
+            eZDir::mkdir( $filePath, false, true );
         }
 
 

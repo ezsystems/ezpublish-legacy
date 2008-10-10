@@ -62,7 +62,7 @@ class eZLog
         if ( !file_exists( $dir ) )
         {
             //include_once( 'lib/ezfile/classes/ezdir.php' );
-            eZDir::mkdir( $dir, 0775, true );
+            eZDir::mkdir( $dir, false, true );
         }
         $oldumask = @umask( 0 );
 
@@ -105,9 +105,8 @@ class eZLog
         if ( !file_exists( $varDir . '/' . $logDir ) )
         {
             //include_once( 'lib/ezfile/classes/ezdir.php' );
-            eZDir::mkdir( $varDir . '/' . $logDir, 0775, true );
+            eZDir::mkdir( $varDir . '/' . $logDir, false, true );
         }
-        $oldumask = @umask( 0 );
 
         $fileExisted = @file_exists( $fileName );
         if ( $fileExisted and

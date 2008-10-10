@@ -211,7 +211,7 @@ class eZTranslationCache
 
         if ( file_exists( eZTranslationCache::cacheDirectory() ) )
         {
-            eZDir::mkdir( eZTranslationCache::cacheDirectory(), eZDir::directoryPermission(), true );
+            eZDir::mkdir( eZTranslationCache::cacheDirectory(), false, true );
         }
         $php = new eZPHPCreator( eZTranslationCache::cacheDirectory(), $cacheFileName );
         $php->addRawVariable( 'eZTranslationCacheCodeDate', self::CODE_DATE );

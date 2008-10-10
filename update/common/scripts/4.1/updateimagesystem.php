@@ -173,7 +173,7 @@ foreach ( $contentObjectAttributes as $contentObjectAttribute )
                 {
                     if ( !file_exists( $newDirPath ) )
                     {
-                        eZDir::mkdir( $newDirPath, eZDir::directoryPermission(), true );
+                        eZDir::mkdir( $newDirPath, false, true );
                     }
                     eZFileHandler::copy( $filePath, $newFilePath );
 

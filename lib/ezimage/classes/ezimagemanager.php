@@ -1215,7 +1215,7 @@ class eZImageManager
 
                 if ( $nextMimeData['dirpath'] and
                      !file_exists( $nextMimeData['dirpath'] ) )
-                    eZDir::mkdir( $nextMimeData['dirpath'], eZDir::directoryPermission(), true );
+                    eZDir::mkdir( $nextMimeData['dirpath'], false, true );
                 if ( $currentMimeData['name'] == $nextMimeData['name'] and
                      count( $handlerFilters ) == 0 )
                 {

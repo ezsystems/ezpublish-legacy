@@ -233,7 +233,7 @@ class eZDBPackageHandler extends eZPackageHandler
         if ( $installItem['database-type'] )
             $installDirectory .= '/' . $installItem['database-type'];
         if ( !file_exists(  $installDirectory ) )
-            eZDir::mkdir( $installDirectory, eZDir::directoryPermission(), true );
+            eZDir::mkdir( $installDirectory, false, true );
         eZFileHandler::copy( $originalPath, $installDirectory . '/' . $installItem['filename'] );
     }
 

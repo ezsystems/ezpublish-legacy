@@ -113,7 +113,7 @@ class eZHTTPFile
 
         if ( !file_exists( $dir ) )
         {
-            if ( !eZDir::mkdir( $dir, eZDir::directoryPermission(), true ) )
+            if ( !eZDir::mkdir( $dir, false, true ) )
             {
                 return false;
             }

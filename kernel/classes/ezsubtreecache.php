@@ -156,9 +156,7 @@ class eZSubtreeCache
 
             if ( !file_exists( $expiryCacheDir ) )
             {
-                $ini = eZINI::instance();
-                $perm = octdec( $ini->variable( 'FileSettings', 'StorageDirPermissions' ) );
-                eZDir::mkdir( $expiryCacheDir, $perm, true );
+                eZDir::mkdir( $expiryCacheDir, false, true );
             }
             eZFile::rename( $dir, $expiryCacheDir );
         }

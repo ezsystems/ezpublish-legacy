@@ -173,7 +173,7 @@ function checkDir( $dirName )
         if( strpos( $action, 'n' ) === 0 )
             showError( "Unable to continue. Aborting..." );
 
-        if( !eZDir::mkdir( $dirName, eZDir::directoryPermission(), true ) )
+        if( !eZDir::mkdir( $dirName, false, true ) )
             showError( "Unable to create dir '$dirName'. Aborting..." );
     }
 

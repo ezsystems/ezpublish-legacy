@@ -187,8 +187,7 @@ class eZDir
     */
     static function directoryPermission()
     {
-        $ini = eZINI::instance();
-        return octdec( $ini->variable( 'FileSettings', 'StorageDirPermissions' ) );
+        return octdec( eZINI::instance()->variable( 'FileSettings', 'StorageDirPermissions' ) );
     }
 
     /*!

@@ -164,11 +164,15 @@ class eZSSLZone
                 {
                     eZDir::mkdir( $cacheDirName, false, true );
                 }
+
                 $fh = fopen( $cacheFileName, 'w' );
                 if ( $fh )
                 {
                     fwrite( $fh, "<?php\n\$pathStringsArray = " . var_export( $pathStringsArray, true ) . ";\n?>" );
                     fclose( $fh );
+
+                    $perm = eZINI::instance()->variable( 'FileSettings', 'StorageFilePermissions' );
+                    chmod( $cacheFileName, octdec( $perm ) );
                 }
 
                 return $GLOBALS['eZSSLZonesCachedPathStrings'] = $pathStringsArray;

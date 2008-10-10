@@ -177,7 +177,7 @@ class eZAutoloadGenerator
                 }
                 elseif ( !file_exists( $this->outputDir ) )
                 {
-                    mkdir( $this->outputDir );
+                    eZDir::mkdir( $this->outputDir );
                 }
 
                 $filename = $this->nameTable( $location );

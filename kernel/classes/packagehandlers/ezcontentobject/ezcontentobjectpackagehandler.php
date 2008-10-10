@@ -358,7 +358,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
         $path = $this->Package->path() . '/' . $this->contentObjectDirectory();
         if ( !file_exists( $path ) )
-                eZDir::mkdir( $path, eZDir::directoryPermission(), true );
+                eZDir::mkdir( $path, false, true );
 
         $dom = new DOMDocument( '1.0', 'utf-8' );
 
@@ -583,7 +583,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         $fileDOMNode->appendChild( $pathNode );
 
         $destinationPath = $this->Package->path() . '/' .  eZContentObjectPackageHandler::contentObjectDirectory() . '/' . $path;
-        eZDir::mkdir( eZDir::dirpath( $destinationPath ),  eZDir::directoryPermission(),  true );
+        eZDir::mkdir( eZDir::dirpath( $destinationPath ),  false,  true );
         eZFileHandler::copy( $filename, $destinationPath );
 
         return $fileDOMNode;

@@ -85,6 +85,10 @@ class eZINI
     // set it to 'site.ini' to make the system still check that but not the rest.
     static protected $checkFileMtime = null;
 
+    // set EZP_INI_FILE_PERMISSION constant to the permissions you want saved 
+    // ini and cache files to have.
+    static protected $filePermission = 0666;
+
     /*!
       Initialization of object;
     */
@@ -125,6 +129,9 @@ class eZINI
         {
             $this->LocalOverrideDirArray = $GLOBALS["eZINIOverrideDirList"];
         }
+
+        if ( defined( 'EZP_INI_FILE_PERMISSION' ) )
+            self::$filePermission = EZP_INI_FILE_PERMISSION;
 
         $this->load();
     }
@@ -547,6 +554,8 @@ class eZINI
         //include_once( 'lib/ezfile/classes/ezfile.php' );
         eZFile::rename( $tmpCacheFile, $cachedFile );
 
+        chmod( $cachedFile, self::$filePermission );
+
         if ( eZINI::isDebugEnabled() )
             eZDebug::writeNotice( "Wrote cache file '$cachedFile'", "eZINI" );
 
@@ -925,9 +934,7 @@ class eZINI
             return false;
         }
 
-        $siteConfig = eZINI::instance( 'site.ini' );
-        $filePermissions = $siteConfig->variable( 'FileSettings', 'StorageFilePermissions');
-        @chmod( $filePath, octdec( $filePermissions ) );
+        chmod( $filePath, self::$filePermission );
 
         if ( file_exists( $backupFilePath ) )
             unlink( $backupFilePath );

@@ -488,7 +488,7 @@ class eZURLWildcard extends eZPersistentObject
         eZURLWildcard::cacheInfoDirectories( $wildcardCacheDir, $wildcardCacheFile, $wildcardCachePath, $wildcardKeys );
         if ( !file_exists( $wildcardCacheDir ) )
         {
-            eZDir::mkdir( $wildcardCacheDir, eZDir::directoryPermission(), true );
+            eZDir::mkdir( $wildcardCacheDir, false, true );
         }
 
         // VS-DBFILE

@@ -77,7 +77,7 @@ class eZFile
         {
             if ( !file_exists( $directory ) )
             {
-                eZDir::mkdir( $directory, eZDir::directoryPermission(), true );
+                eZDir::mkdir( $directory, false, true );
 //                 eZDebugSetting::writeNotice( 'ezfile-create', "Created directory $directory", 'eZFile::create' );
             }
             $filepath = $directory . '/' . $filename;

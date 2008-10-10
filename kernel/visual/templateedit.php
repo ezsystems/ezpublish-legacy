@@ -178,7 +178,7 @@ if ( $module->isCurrentAction( 'Save' ) )
 
         $siteConfig = eZINI::instance( 'site.ini' );
         $filePermissions = $siteConfig->variable( 'FileSettings', 'StorageFilePermissions');
-        @chmod( $template, octdec( $filePermissions ) );
+        chmod( $template, octdec( $filePermissions ) );
 
         // Expire content view cache
         //include_once( 'kernel/classes/ezcontentcachemanager.php' );

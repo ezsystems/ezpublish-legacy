@@ -402,3 +402,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13740: RSS export may fail due to special characters in text (title, description)
 - Fixed bug #13738: PHP Notice in eZRSSExport::ImagePath()
 - Fixed bug #13603: warning when using ezkeyword
+- Fixed bug #13271: File permissions on shared environments

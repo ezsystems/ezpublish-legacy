@@ -463,7 +463,7 @@ class eZMediaType extends eZDataType
 
         if ( !file_exists( $destination ) )
         {
-            if ( !eZDir::mkdir( $destination, eZDir::directoryPermission(), true ) )
+            if ( !eZDir::mkdir( $destination, false, true ) )
             {
                 return false;
             }
@@ -771,7 +771,7 @@ class eZMediaType extends eZDataType
         $destinationPath = eZSys::storageDirectory() . '/original/' . $mimeTypeCategory . '/';
         if ( !file_exists( $destinationPath ) )
         {
-            if ( !eZDir::mkdir( $destinationPath, eZDir::directoryPermission(), true ) )
+            if ( !eZDir::mkdir( $destinationPath, false, true ) )
             {
                 return false;
             }
