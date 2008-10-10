@@ -47,7 +47,7 @@ class eZWordParser
         $handle = fopen( $tmpName, "w" );
         fclose( $handle );
 
-        $perm = octdec( $ini->variable( 'FileSettings', 'StorageFilePermissions' ) );
+        $perm = octdec( eZINI::instance()->variable( 'FileSettings', 'StorageFilePermissions' ) );
         chmod( $tmpName, $perm );
 
         exec( "$textExtractionTool $fileName > $tmpName", $ret );

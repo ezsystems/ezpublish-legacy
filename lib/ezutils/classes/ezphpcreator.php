@@ -977,7 +977,7 @@ print( $values['MyValue'] );
             $this->flushChunks();
             $this->close();
 
-            $perm = octdec( $ini->variable( 'FileSettings', 'StorageFilePermissions' ) );
+            $perm = octdec( eZINI::instance()->variable( 'FileSettings', 'StorageFilePermissions' ) );
             chmod( eZDir::path( array( $this->PHPDir, $this->PHPFile ) ), $perm );
 
             // Write log message to storage.log
