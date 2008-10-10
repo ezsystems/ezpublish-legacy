@@ -438,7 +438,7 @@ class eZBinaryFileType extends eZDataType
 
         if ( !file_exists( $destination ) )
         {
-            if ( !eZDir::mkdir( $destination, eZDir::directoryPermission(), true ) )
+            if ( !eZDir::mkdir( $destination, false, true ) )
             {
                 return false;
             }
@@ -707,7 +707,7 @@ class eZBinaryFileType extends eZDataType
         if ( !file_exists( $destinationPath ) )
         {
             $oldumask = umask( 0 );
-            if ( !eZDir::mkdir( $destinationPath, eZDir::directoryPermission(), true ) )
+            if ( !eZDir::mkdir( $destinationPath, false, true ) )
             {
                 umask( $oldumask );
                 return false;

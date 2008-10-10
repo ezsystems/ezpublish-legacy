@@ -75,7 +75,7 @@ class eZStepSiteTypes extends eZStepInstaller
 
         // Create the out directory if not exists.
         if ( !file_exists( $outDir ) )
-            eZDir::mkdir( $outDir, eZDir::directoryPermission(), true );
+            eZDir::mkdir( $outDir, false, true );
 
         // First try CURL
         if ( extension_loaded( 'curl' ) )

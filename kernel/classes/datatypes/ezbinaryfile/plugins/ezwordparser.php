@@ -46,7 +46,9 @@ class eZWordParser
         $tmpName = "var/cache/" . md5( time() ) . '.txt';
         $handle = fopen( $tmpName, "w" );
         fclose( $handle );
-        chmod( $tmpName, 0777 );
+
+        $perm = octdec( $ini->variable( 'FileSettings', 'StorageFilePermissions' ) );
+        chmod( $tmpName, $perm );
 
         exec( "$textExtractionTool $fileName > $tmpName", $ret );
 

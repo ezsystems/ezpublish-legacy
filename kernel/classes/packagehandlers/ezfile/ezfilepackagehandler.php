@@ -76,14 +76,14 @@ class eZFilePackageHandler extends eZPackageHandler
                     if ( is_dir( $filePath ) )
                     {
                         $newFilePath = $package->fileStorePath( $fileItem, $collectionName, $installParameters['path'], $installVariables );
-                        eZDir::mkdir( $newFilePath, eZDir::directoryPermission(), true );
+                        eZDir::mkdir( $newFilePath, false, true );
                     }
                     else
                     {
                         $newFilePath = $package->fileStorePath( $fileItem, $collectionName, $installParameters['path'], $installVariables );
                         if ( preg_match( "#^(.+)/[^/]+$#", $newFilePath, $matches ) )
                         {
-                            eZDir::mkdir( $matches[1], eZDir::directoryPermission(), true );
+                            eZDir::mkdir( $matches[1], false, true );
                         }
                         eZFileHandler::copy( $filePath, $newFilePath );
                     }

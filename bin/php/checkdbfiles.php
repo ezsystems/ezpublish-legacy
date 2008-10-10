@@ -247,7 +247,7 @@ if ( !$options['no-verify-branches'] )
         eZDir::recursiveDelete( $exportPath );
     }
     //include_once( 'lib/ezfile/classes/ezdir.php' );
-    eZDir::mkdir( $exportPath, octdec( "777" ), true );
+    eZDir::mkdir( $exportPath, false, true );
 }
 
 // Figure out the current branch, we do not want to export it

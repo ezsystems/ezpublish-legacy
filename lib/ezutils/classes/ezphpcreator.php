@@ -780,9 +780,7 @@ $php->addInclude( 'lib/ezutils/classes/ezphpcreator.php' );
             if ( !file_exists( $this->PHPDir ) )
             {
                 //include_once( 'lib/ezfile/classes/ezdir.php' );
-                $ini = eZINI::instance();
-                $perm = octdec( $ini->variable( 'FileSettings', 'StorageDirPermissions' ) );
-                eZDir::mkdir( $this->PHPDir, $perm, true );
+                eZDir::mkdir( $this->PHPDir, false, true );
             }
             $path = $this->PHPDir . '/' . $this->PHPFile;
             $oldumask = umask( 0 );
@@ -981,6 +979,9 @@ print( $values['MyValue'] );
             $this->writeChunks();
             $this->flushChunks();
             $this->close();
+
+            $perm = octdec( $ini->variable( 'FileSettings', 'StorageFilePermissions' ) );
+            chmod( eZDir::path( array( $this->PHPDir, $this->PHPFile ) ), $perm );
 
             // Write log message to storage.log
             //include_once( 'lib/ezfile/classes/ezlog.php' );

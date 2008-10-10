@@ -812,7 +812,7 @@ class eZImageAliasHandler
     {
         if ( !file_exists( $dirpath ) )
         {
-            eZDir::mkdir( $dirpath, eZDir::directoryPermission(), true );
+            eZDir::mkdir( $dirpath, false, true );
         }
         //include_once( 'lib/ezutils/classes/ezmimetype.php' );
         $aliasList = $this->aliasList();

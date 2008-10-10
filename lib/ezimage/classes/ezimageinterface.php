@@ -441,9 +441,7 @@ class eZImageInterface
                 //include_once( 'lib/ezfile/classes/ezdir.php' );
                 if ( !file_exists( $filePath ) )
                 {
-                    $ini = eZINI::instance();
-                    $perm = $ini->variable( 'FileSettings', 'StorageDirPermissions' );
-                    eZDir::mkdir( $filePath, octdec( $perm ), true );
+                    eZDir::mkdir( $filePath, false, true );
                 }
                 $fileFullPath = eZDir::path( array( $filePath, $fileName ) );
                 ImagePNG( $imageObject, $fileFullPath );
@@ -458,9 +456,7 @@ class eZImageInterface
                 //include_once( 'lib/ezfile/classes/ezdir.php' );
                 if ( !file_exists( $filePath ) )
                 {
-                    $ini = eZINI::instance();
-                    $perm = $ini->variable( 'FileSettings', 'StorageDirPermissions' );
-                    eZDir::mkdir( $filePath, octdec( $perm ), true );
+                    eZDir::mkdir( $filePath, false, true );
                 }
                 ImageJPEG( $imageObject, eZDir::path( array( $filePath, $fileName ) ) );
                 $this->StoredPath = $filePath;

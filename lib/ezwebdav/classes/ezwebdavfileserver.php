@@ -77,7 +77,7 @@ function getDirEntries( $targetPath )
 function copyDir( $source, $destination )
 {
     // Attempt to create destination dir.
-    $status = mkdir( $destination );
+    $status = eZDir::mkdir( $destination );
 
     // If no success: bail out.
     if ( !$status )

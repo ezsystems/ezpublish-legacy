@@ -165,7 +165,7 @@ class eZExtensionPackageHandler extends eZPackageHandler
             }
         }
 
-        eZDir::mkdir( $extensionDir, eZDir::directoryPermission(), true );
+        eZDir::mkdir( $extensionDir, false, true );
 
         //include_once( 'lib/ezfile/classes/ezfilehandler.php' );
 
@@ -177,7 +177,7 @@ class eZExtensionPackageHandler extends eZPackageHandler
 
             if ( $file->getAttribute( 'type' ) == 'dir' )
             {
-                eZDir::mkdir( $destPath, eZDir::directoryPermission() );
+                eZDir::mkdir( $destPath, false );
             }
             else
             {

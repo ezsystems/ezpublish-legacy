@@ -744,7 +744,7 @@ class eZPackage
             if ( $subDirectory )
                 $path .= '/' . $subDirectory;
             if ( !file_exists( $path ) )
-                eZDir::mkdir( $path, eZDir::directoryPermission(), true );
+                eZDir::mkdir( $path, false, true );
 
             if ( is_dir( $fileItem['path'] ) )
             {
@@ -929,7 +929,7 @@ class eZPackage
                 $filePath = $path . '/' . $installEntry['filename'] . '.xml';
                 if ( !file_exists( $path ) )
                 {
-                    eZDir::mkdir( $path, eZDir::directoryPermission(), true );
+                    eZDir::mkdir( $path, false, true );
                 }
                 $partDOM = new DOMDocument( '1.0', 'utf-8' );
                 $partDOM->formatOutput = true;
@@ -1010,7 +1010,7 @@ class eZPackage
     function storeCache( $directory = false )
     {
         if ( !file_exists( $directory ) )
-            eZDir::mkdir( $directory, eZDir::directoryPermission(), true );
+            eZDir::mkdir( $directory, false, true );
         //include_once( 'lib/ezutils/classes/ezphpcreator.php' );
         $php = new eZPHPCreator( $directory, 'package.php' );
         $php->addComment( "Automatically created cache file for the package format\n" .
@@ -1042,7 +1042,7 @@ class eZPackage
     {
         if ( !file_exists( $path ) )
         {
-            eZDir::mkdir( $path, eZDir::directoryPermission(), true );
+            eZDir::mkdir( $path, false, true );
         }
         $filePath = $path . '/' . eZPackage::definitionFilename();
 
@@ -1129,7 +1129,7 @@ class eZPackage
             eZPackage::removeFiles( $archivePath );
             if ( !file_exists( $archivePath ) )
             {
-                eZDir::mkdir( $archivePath, eZDir::directoryPermission(), true );
+                eZDir::mkdir( $archivePath, false, true );
             }
             //include_once( 'lib/ezfile/classes/ezarchivehandler.php' );
 
@@ -1166,7 +1166,7 @@ class eZPackage
                 $packagePath = $fullRepositoryPath . '/' . $packageName;
                 if ( !file_exists( $packagePath ) )
                 {
-                    eZDir::mkdir( $packagePath, eZDir::directoryPermission(), true );
+                    eZDir::mkdir( $packagePath, false, true );
                 }
                 $archive = eZArchiveHandler::instance( 'tar', 'gzip', $archiveName );
                 $archive->extractModify( $packagePath, '' );

@@ -230,6 +230,9 @@ class eZFSFileHandler
 
         fclose( $fh );
 
+        $perm = eZINI::instance()->variable( 'FileSettings', 'StorageFilePermissions' );
+        chmod( $filePath, octdec( $perm ) );
+
         eZDebug::accumulatorStop( 'dbfile' );
     }
 
@@ -251,6 +254,9 @@ class eZFSFileHandler
 
         //include_once( 'lib/ezfile/classes/ezfile.php' );
         eZFile::create( basename( $filePath ), dirname( $filePath ), $contents, true );
+
+        $perm = eZINI::instance()->variable( 'FileSettings', 'StorageFilePermissions' );
+        chmod( $filePath, octdec( $perm ) );
 
         eZDebug::accumulatorStop( 'dbfile' );
     }

@@ -62,17 +62,9 @@ else
     $currentSiteAccessName = $GLOBALS['eZCurrentAccess']['name'];
     $cacheFilePath = $cacheDir . '/rss/' . md5( $currentSiteAccessName . $feedName ) . '.xml';
 
-    // If cache directory does not exist, create it. Get permissions settings from site.ini
-    if ( !is_dir( $cacheDir.'/rss' ) )
+    if ( !is_dir( dirname( $cacheFilePath ) ) )
     {
-        $mode = $config->variable( 'FileSettings', 'TemporaryPermissions' );
-        if ( !is_dir( $cacheDir ) )
-        {
-            mkdir( $cacheDir );
-            chmod( $cacheDir, octdec( $mode ) );
-        }
-        mkdir( $cacheDir.'/rss' );
-        chmod( $cacheDir.'/rss', octdec( $mode ) );
+        eZDir::mkdir( dirname( $cacheFilePath ), false, true );
     }
 
     // VS-DBFILE

@@ -481,7 +481,7 @@ function eZSetupTestDirectoryPermissions( $type )
                 $dirPath = './' . $dir;
             else
                 $dirPath = $rootDir . '/' . $dir;
-            $res = @mkdir( $dirPath, $dirPermOctal );
+            $res = eZDir::mkdir( $dirPath, $dirPermOctal );
             if ( $res )
             {
                 $resultElement['permission'] = $dirPermission;

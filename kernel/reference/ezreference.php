@@ -43,6 +43,10 @@ function referenceReadFile( $file, $htmlRoot, $base )
     $fd = fopen( $file, "rb" );
     $data = fread( $fd, filesize( $file ) );
     fclose( $fd );
+
+    $perm = eZINI::instance()->variable( 'FileSettings', 'StorageFilePermissions' );
+    chmod( $file, octdec( $perm ) );
+
     $pos = strpos( $data, "<hr>" );
     if ( $pos !== false )
     {

@@ -266,9 +266,7 @@ class eZContentCache
         if ( !file_exists( $cacheDir ) )
         {
             //include_once( 'lib/ezfile/classes/ezdir.php' );
-            $ini = eZINI::instance();
-            $perm = octdec( $ini->variable( 'FileSettings', 'StorageDirPermissions' ) );
-            eZDir::mkdir( $cacheDir, $perm, true );
+            eZDir::mkdir( $cacheDir, false, true );
         }
 
         $path = $cacheDir . '/' . $cacheFile;

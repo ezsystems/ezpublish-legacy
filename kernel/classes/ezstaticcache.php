@@ -344,7 +344,7 @@ class eZStaticCache
             $cacheFiles = array();
             if ( !is_dir( $staticStorageDir . $dir ) )
             {
-                eZDir::mkdir( $staticStorageDir . $dir, 0777, true );
+                eZDir::mkdir( $staticStorageDir . $dir, false, true );
             }
 
             $cacheFiles[] = $this->buildCacheFilename( $staticStorageDir, $dir . $url );
@@ -410,7 +410,7 @@ class eZStaticCache
         $dir = dirname( $file );
         if ( !is_dir( $dir ) )
         {
-            eZDir::mkdir( $dir, 0777, true );
+            eZDir::mkdir( $dir, false, true );
         }
 
         $oldumask = umask( 0 );
@@ -426,8 +426,10 @@ class eZStaticCache
         {
             fwrite( $fp, $content . '<!-- Generated: '. date( 'Y-m-d H:i:s' ). " -->\n\n" );
             fclose( $fp );
-            //include_once( 'lib/ezfile/classes/ezfile.php' );
             eZFile::rename( $tmpFileName, $file );
+
+            $perm = eZINI::instance()->variable( 'FileSettings', 'StorageFilePermissions' );
+            chmod( $file, octdec( $perm ) );
         }
 
         umask( $oldumask );
