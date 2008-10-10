@@ -398,3 +398,6 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #11984: Use eZ Components system information
 - Fixed bug #13737: Post Variable HideRemoveConfirmation will be lost
   (Merged from stable/4.0 (4.0.1) rev. 22460)
+- Fixed bug #13736: RSS export error
+- Fixed bug #13740: RSS export may fail due to special characters in text (title, description)
+- Fixed bug #13738: PHP Notice in eZRSSExport::ImagePath()
