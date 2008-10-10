@@ -298,18 +298,22 @@ class eZKeyword
     }
 
     /*!
-     Returns the objects which has atleast one of the same keywords
+     Returns the objects which have at least one keyword in common
+
+     \return an array of eZContentObjectTreeNode instances, or null if the attribute is not stored yet
     */
     function relatedObjects()
     {
         $return = false;
         if ( $this->ObjectAttributeID )
         {
+            $return = array();
+
             // Fetch words
             $db = eZDB::instance();
 
             $wordArray = $db->arrayQuery( "SELECT * FROM ezkeyword_attribute_link
-                                    WHERE objectattribute_id='" . $this->ObjectAttributeID ."' " );
+                                           WHERE objectattribute_id='" . $this->ObjectAttributeID ."' " );
 
             $keywordIDArray = array();
             // Fetch the objects which have one of these words
@@ -318,12 +322,12 @@ class eZKeyword
                 $keywordIDArray[] = $word['keyword_id'];
             }
 
-            $keywordString = implode( ", ", $keywordIDArray );
+            $keywordCondition = $db->generateSQLINStatement( $keywordIDArray, 'keyword_id' );
 
             if ( count( $keywordIDArray ) > 0 )
             {
                 $objectArray = $db->arrayQuery( "SELECT DISTINCT ezcontentobject_attribute.contentobject_id FROM ezkeyword_attribute_link, ezcontentobject_attribute
-                                                  WHERE keyword_id IN ( $keywordString ) AND
+                                                  WHERE $keywordCondition AND
                                                         ezcontentobject_attribute.id = ezkeyword_attribute_link.objectattribute_id
                                                         AND  objectattribute_id <> '" . $this->ObjectAttributeID ."' " );
 
@@ -333,13 +337,17 @@ class eZKeyword
                     $objectIDArray[] = $object['contentobject_id'];
                 }
 
-                $aNodes = eZContentObjectTreeNode::findMainNodeArray( $objectIDArray );
-                foreach ( $aNodes as $key => $node )
+                if ( count( $objectIDArray ) > 0 )
                 {
-                    $theObject = $node->object();
-                    if ( $theObject->canRead() )
+                    $aNodes = eZContentObjectTreeNode::findMainNodeArray( $objectIDArray );
+
+                    foreach ( $aNodes as $key => $node )
                     {
-                        $return[] = $node;
+                        $theObject = $node->object();
+                        if ( $theObject->canRead() )
+                        {
+                            $return[] = $node;
+                        }
                     }
                 }
             }
