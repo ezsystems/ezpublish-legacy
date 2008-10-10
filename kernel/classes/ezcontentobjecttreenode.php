@@ -2948,6 +2948,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     /*!
       Fetches the main nodes for an array of object id's
+
+      \param $objectIDArray an array of object IDs
+      \param $asObject if the list of content object tree nodes needs to be returned as an object (default, true) or as an array (false)
+      \return an array of content object tree nodes, or null if $objectIDArray is empty
     */
     static function findMainNodeArray( $objectIDArray, $asObject = true )
     {
