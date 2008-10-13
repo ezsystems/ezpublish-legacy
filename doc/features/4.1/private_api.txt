@@ -1,0 +1,32 @@
+Private APIs
+============
+
+eZ Publish 4.1 will introduce the concept of private APIs. This should not be 
+confused with the object oriented 'private' visibility declaration.
+
+Description
+-----------
+
+What is a private API? Simply put, it is an API for which we don't guarantee 
+backwards compatibility. That means that this API will be fully accessible to 
+use as any other API, but it might change between releases. That is, any 
+release, not just major releases.
+
+Typically private APIs will consist of new code, where we want to make sure 
+that the API works well for that piece of functionality, before releasing it 
+as a public API.
+
+Private APIs might also contain code that will be kept private indefinitely, 
+which would be the case for features we intend only to be used within the 
+kernel, and which may change more often than other code.
+
+Which APIs are private
+----------------------
+
+Functionality which is deemed private, will be put into a 'private' folder,
+underneath its respective placement. One example of such a location could be::
+
+    <ezp-root>/kernel/private/classes/someclass.php
+
+Everything which is placed inside the private folder, is to be considered just
+that, private.
