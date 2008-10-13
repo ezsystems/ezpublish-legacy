@@ -1,6 +1,6 @@
 <?php
 
-class eZSOAPClientTest extends PHPUnit_Framework_TestCase
+class eZSOAPClientTest extends ezpTestCase
 {
     public static function providerTestSoapClientConstructorUseSSL()
     {

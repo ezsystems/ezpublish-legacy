@@ -1,6 +1,6 @@
 <?php
 
-class eZSOAPTestSuite extends PHPUnit_Framework_TestSuite
+class eZSOAPTestSuite extends ezpTestSuite
 {
     public function __construct( $params = false )
     {
