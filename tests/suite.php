@@ -17,6 +17,7 @@ class eZTestSuite extends ezpTestSuite
         $this->addTestSuite( 'eZKernelTestSuite' );
         $this->addTestSuite( 'eZUtilsTestSuite' );
         $this->addTestSuite( 'eZDBTestSuite' );
+        $this->addTestSuite( 'eZSOAPTestSuite' );
     }
 
     public static function suite()
