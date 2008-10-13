@@ -44,7 +44,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     
             if ( id === 0 || ( url[0] !== 'eznode' && url[0] !== 'ezobject' ) ) return true;
     
-            ezoeLinkTimeOut = setTimeout( ez.fn.bind( ezoeLinkAjaxCheck, this, url.join('_') ), 320 );
+            ezoeLinkTimeOut = setTimeout( ez.fn.bind( ezoeLinkAjaxCheck, this, url[0] + '_' + id  ), 320 );
             return true;
         });
         ezoeLinkTypeSet( link[1], link[0] );
@@ -53,7 +53,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         {
             var url = editorElement.href.split('://'), id = ez.num( url[1], 0, 'int' );
             if ( id !== 0 && ( url[0] === 'eznode' || url[0] === 'ezobject' ) )
-                ezoeLinkAjaxCheck( url.join('_') );
+                ezoeLinkAjaxCheck( url[0] + '_' + id );
         }
  
         slides = ez.$$('div.panel');//slides is global object used by custom selectByEmbedId function

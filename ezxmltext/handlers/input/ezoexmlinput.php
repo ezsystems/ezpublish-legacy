@@ -1112,15 +1112,6 @@ class eZOEXMLInput extends eZXMLInputHandler
                 }
             }break;
 
-            case 'anchor' :
-            {
-                $name = $tag->getAttribute( 'name' );
-
-                $customAttributePart = $this->getCustomAttrPart( $tag, $styleString );
-
-                $output .= '<a name="' . $name . '" class="mceItemAnchor"' . $customAttributePart . $styleString . '></a>';
-            }break;
-
             case 'custom' :
             {
                 $name = $tag->getAttribute( 'name' );
@@ -1329,6 +1320,15 @@ class eZOEXMLInput extends eZXMLInputHandler
                 $output .= $childTagText . '<br />';
             }break;
 
+            case 'anchor' :
+            {
+                $name = $tag->getAttribute( 'name' );
+
+                $customAttributePart = $this->getCustomAttrPart( $tag, $styleString );
+
+                $output .= '<a name="' . $name . '" class="mceItemAnchor"' . $customAttributePart . $styleString . '></a>';
+            }break;
+
             case 'link' :
             {
                 $customAttributePart = $this->getCustomAttrPart( $tag, $styleString );
@@ -1365,18 +1365,14 @@ class eZOEXMLInput extends eZXMLInputHandler
                 {
                     $href = eZURL::url( $linkID );
                 }
-                else if ( $anchorName != null && !$tag->getAttribute( 'href' ) )
-                {
-                    $href = '#'.$anchorName;
-                } 
                 else
                 {
                     $href = $tag->getAttribute( 'href' );
                 }
 
-                if ( $anchorName != null && $href !== '#'.$anchorName )
+                if ( $anchorName != null )
                 {
-                    $attributes[] = 'name="' . $anchorName . '"';
+                    $href .= '#' . $anchorName;
                 }
 
                 if ( $className != '' )
