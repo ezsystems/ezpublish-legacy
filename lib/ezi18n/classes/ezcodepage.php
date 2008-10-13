@@ -410,102 +410,81 @@ class eZCodePage
     */
     function storeCacheObject( $filename, $permissionArray )
     {
-        //
-        $cache_dir = $permissionArray['var_directory'] . "/codepages/";
+        $dir = dirname( $filename );
+        $file = basename( $filename );
+        $php = new eZPHPCreator( $dir, $file );
 
-//         eZDebug::writeDebug("storeCacheObject is called... filname is: $filename ","");
+        $php->addVariable( "umap", array() );
+        $php->addVariable( "utf8map", array() );
+        $php->addVariable( "cmap", array() );
+        $php->addVariable( "utf8cmap", array() );
 
-        $str = "\$umap = array();\n\$utf8map = array();\n\$cmap = array();\n\$utf8cmap = array();\n";
         reset( $this->UnicodeMap );
         while ( ( $key = key( $this->UnicodeMap ) ) !== null )
         {
             $item = $this->UnicodeMap[$key];
-            $str .= "\$umap[$key] = $item;\n";
+            $php->addVariable( "umap[$key]", $item );
             next( $this->UnicodeMap );
         }
+
         reset( $this->UTF8Map );
         while ( ( $key = key( $this->UTF8Map ) ) !== null )
         {
             $item = $this->UTF8Map[$key];
             if ( $item == 0 )
             {
-                $str .= "\$utf8map[0] = chr(0);\n";
+                $php->addCodePiece( "\$utf8map[0] = chr(0);\n" );
             }
             else
             {
                 $val = str_replace( array( "\\", "'" ),
                                     array( "\\\\", "\\'" ),
                                     $item );
-                $str .= "\$utf8map[$key] = '$val';\n";
+                $php->addVariable( "utf8map[$key]", $val );
             }
             next( $this->UTF8Map );
         }
+
         reset( $this->CodeMap );
         while ( ( $key = key( $this->CodeMap ) ) !== null )
         {
             $item = $this->CodeMap[$key];
-            $str .= "\$cmap[$key] = $item;\n";
+            $php->addVariable( "cmap[$key]", $item );
             next( $this->CodeMap );
         }
+
         reset( $this->UTF8CodeMap );
         while ( ( $key = key( $this->UTF8CodeMap ) ) !== null )
         {
             $item = $this->UTF8CodeMap[$key];
             if ( $item == 0 )
             {
-                $str .= "\$utf8cmap[chr(0)] = 0;\n";
+                $php->addVariable( "utf8cmap[chr(0)]", 0 );
             }
             else
             {
                 $val = str_replace( array( "\\", "'" ),
                                     array( "\\\\", "\\'" ),
                                     $key );
-                $str .= "\$utf8cmap['$val'] = $item;\n";
+                $php->addVariable( "utf8cmap['$val']", $item );
             }
             next( $this->UTF8CodeMap );
         }
+
         reset( $this->ReadExtraMap );
         while ( ( $key = key( $this->ReadExtraMap ) ) !== null )
         {
             $item = $this->ReadExtraMap[$key];
-            $str .= "\$read_extra[$key] = $item;\n";
+            $php->addVariable( "read_extra[$key]", $item );
             next( $this->ReadExtraMap );
         }
 
-        $str = "<?" . "php
-$str
-\$eZCodePageCacheCodeDate = " . self::CACHE_CODE_DATE . ";
-\$min_char = " . $this->MinCharValue . ";
-\$max_char = " . $this->MaxCharValue . ";
-?" . ">";
+        $php->addVariable( "eZCodePageCacheCodeDate", self::CACHE_CODE_DATE );
+        $php->addVariable( "min_char", $this->MinCharValue );
+        $php->addVariable( "max_char", $this->MaxCharValue );
+        $php->store( true );
 
-        if ( !file_exists( $cache_dir ) )
-        {
-//             eZDebug::writeDebug( "Cache dir doesn't exist, attempting to create it with perm.:".$permissionArray['dir_permission'], "");
-
-            // Store the old umask and set a new one.
-            $oldPermissionSetting = umask( 0 );
-
-            //include_once( 'lib/ezfile/classes/ezdir.php' );
-            if ( ! eZDir::mkdir( $cache_dir, $permissionArray['dir_permission'], true ) )
-                eZDebug::writeError( "Couldn't create cache directory $cache_dir, perhaps wrong permissions", "eZCodePage" );
-
-            // Restore the old umask.
-            umask( $oldPermissionSetting );
-
-        }
-        $fd = @fopen( $filename, "w+" );
-        if ( ! $fd )
-        {
-            eZDebug::writeError( "Couldn't write cache file $filename, perhaps wrong permissions or leading directories not created", "eZCodePage" );
-        }
-        else
-        {
-            fwrite( $fd, $str );
-            fclose( $fd );
-        }
-
-        if ( file_exists( $filename) )
+        if ( file_exists( $filename ) )
         {
             // Store the old umask and set a new one.
             $oldPermissionSetting = umask( 0 );
