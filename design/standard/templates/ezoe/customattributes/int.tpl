@@ -1,12 +1,12 @@
 {set $custom_attribute_classes = $custom_attribute_classes|append( 'int' )}
-{if ezini_hasvariable( $custom_attribute_settings, 'Minimum', 'content.ini' )}
-    {set $custom_attribute_classes = $custom_attribute_classes|append( concat('min', ezini($custom_attribute_settings, 'Minimum', 'content.ini') ) )}
+{if ezini_hasvariable( $custom_attribute_settings, 'Minimum', 'ezoe_customattributes.ini' )}
+    {set $custom_attribute_classes = $custom_attribute_classes|append( concat('min', ezini($custom_attribute_settings, 'Minimum', 'ezoe_customattributes.ini') ) )}
 {/if}
-{if ezini_hasvariable( $custom_attribute_settings, 'Maximum', 'content.ini' )}
-    {set $custom_attribute_classes = $custom_attribute_classes|append( concat('max', ezini($custom_attribute_settings, 'Maximum', 'content.ini') ) )}
+{if ezini_hasvariable( $custom_attribute_settings, 'Maximum', 'ezoe_customattributes.ini' )}
+    {set $custom_attribute_classes = $custom_attribute_classes|append( concat('max', ezini($custom_attribute_settings, 'Maximum', 'ezoe_customattributes.ini') ) )}
 {/if}
-{if ezini_hasvariable( $custom_attribute_settings, 'Required', 'content.ini' )}
-    {if ezini( $custom_attribute_settings, 'Required', 'content.ini' )|eq('true')}
+{if ezini_hasvariable( $custom_attribute_settings, 'Required', 'ezoe_customattributes.ini' )}
+    {if ezini( $custom_attribute_settings, 'Required', 'ezoe_customattributes.ini' )|eq('true')}
         {set $custom_attribute_classes = $custom_attribute_classes|append( 'required' )}
     {/if}
 {/if}

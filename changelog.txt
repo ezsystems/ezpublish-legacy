@@ -12,6 +12,7 @@ eZ Online Editor 5.0 extension Changelog
 * Fixed #13694: Change td to th for "row" doesn't work with Firefox
 * Fixed #13692: Checkboxes and radio buttons have a border with IE7
 * Additional fixes for #013505: Anchor in links are lost
+* Moved custom attribute settings to ezoe_customattributes.ini from content.ini
 
 
 5.0rc6

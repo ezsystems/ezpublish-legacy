@@ -42,32 +42,32 @@
         {set $custom_attribute_id        = concat( $:tag_name, '_', $custom_attribute)|wash}
         {set $custom_attribute_classes    = array()}
 
-        {if ezoe_ini_section( concat('CustomAttribute_', $:tag_name, '_', $custom_attribute), 'content.ini' )}
+        {if ezoe_ini_section( concat('CustomAttribute_', $:tag_name, '_', $custom_attribute), 'ezoe_customattributes.ini' )}
             {set $custom_attribute_settings = concat('CustomAttribute_', $:tag_name, '_', $custom_attribute)}
         {else}
             {set $custom_attribute_settings = concat('CustomAttribute_', $custom_attribute)}
         {/if}
 
-        {if ezini_hasvariable( $custom_attribute_settings, 'Disabled', 'content.ini' )}
-            {set $custom_attribute_disabled = ezini( $custom_attribute_settings, 'Disabled', 'content.ini' )|eq('true')}
+        {if ezini_hasvariable( $custom_attribute_settings, 'Disabled', 'ezoe_customattributes.ini' )}
+            {set $custom_attribute_disabled = ezini( $custom_attribute_settings, 'Disabled', 'ezoe_customattributes.ini' )|eq('true')}
         {else}
             {set $custom_attribute_disabled = false()}
         {/if}
 
-        {if ezini_hasvariable( $custom_attribute_settings, 'Type', 'content.ini' )}
-            {set $custom_attribute_type = ezini( $custom_attribute_settings, 'Type', 'content.ini' )}
+        {if ezini_hasvariable( $custom_attribute_settings, 'Type', 'ezoe_customattributes.ini' )}
+            {set $custom_attribute_type = ezini( $custom_attribute_settings, 'Type', 'ezoe_customattributes.ini' )}
         {else}
             {set $custom_attribute_type = 'text'}
         {/if}
         
-        {if ezini_hasvariable( $custom_attribute_settings, 'Default', 'content.ini' )}
-            {set $custom_attribute_default = ezini( $custom_attribute_settings, 'Default', 'content.ini' )}
+        {if ezini_hasvariable( $custom_attribute_settings, 'Default', 'ezoe_customattributes.ini' )}
+            {set $custom_attribute_default = ezini( $custom_attribute_settings, 'Default', 'ezoe_customattributes.ini' )}
         {else}
             {set $custom_attribute_default = first_set( $custom_attributes_defaults[$custom_attribute], '' )}
         {/if}
 
-        {if ezini_hasvariable( $custom_attribute_settings, 'Name', 'content.ini' )}
-            {set $custom_attribute_name = ezini( $custom_attribute_settings, 'Name', 'content.ini' )}
+        {if ezini_hasvariable( $custom_attribute_settings, 'Name', 'ezoe_customattributes.ini' )}
+            {set $custom_attribute_name = ezini( $custom_attribute_settings, 'Name', 'ezoe_customattributes.ini' )}
         {elseif is_set( $i18n[ $custom_attribute ] )}
             {set $custom_attribute_name = $i18n[ $custom_attribute ]}
         {else}

@@ -1,5 +1,5 @@
-{if ezini_hasvariable( $custom_attribute_settings, 'Required', 'content.ini' )}
-    {if ezini( $custom_attribute_settings, 'Required', 'content.ini' )|eq('true')}
+{if ezini_hasvariable( $custom_attribute_settings, 'Required', 'ezoe_customattributes.ini' )}
+    {if ezini( $custom_attribute_settings, 'Required', 'ezoe_customattributes.ini' )|eq('true')}
         {set $custom_attribute_classes = $custom_attribute_classes|append( 'required' )}
     {/if}
 {/if}
