@@ -131,7 +131,7 @@ if ( contentType === 'image' )
             {if $related_contentobjects|count|gt( 0 )}
                 {* Related images *}
                 {if and( $content_type|eq('image'), $grouped_related_contentobjects.images|count|gt( 0 ))}
-                <div class="block">
+                <div class="block contenttype_image">
                 <h2>{'Related images'|i18n('design/standard/ezoe')}</h2>
                     {foreach $grouped_related_contentobjects.images as $img}
 
@@ -147,7 +147,7 @@ if ( contentType === 'image' )
                 {* Related files *}
                 {*if and( $content_type|eq('file'), $grouped_related_contentobjects.files|count|gt( 0 ))*}
                 {if and( $content_type|eq('object'), $grouped_related_contentobjects.files|count|gt( 0 ))}
-                <div class="block">
+                <div class="block contenttype_file">
                 <h2>{'Related files'|i18n('design/standard/ezoe')}</h2>
                         <table class="list" cellspacing="0">
                         <tr>
@@ -168,7 +168,7 @@ if ( contentType === 'image' )
             
                 {* Related objects *}
                 {if and( $content_type|eq('object'), $grouped_related_contentobjects.objects|count|gt( 0 ))}
-                <div class="block">
+                <div class="block contenttype_object">
                 <h2>{'Related content'|i18n('design/standard/ezoe')}</h2>
                         <table class="list" cellspacing="0">
                         <tr>

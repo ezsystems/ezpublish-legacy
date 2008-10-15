@@ -118,6 +118,7 @@ if ( $contentType === 'auto' )
     $imageClassIDs = $ini->hasVariable('MediaClassSettings', 'ImageClassID' ) ? $ini->variable('MediaClassSettings', 'ImageClassID' ) : array();
 
     // Only image used out of the box, the rest is for extendebility
+    // Should we have used content.ini [RelationGroupSettings]FilesClassList instead?
     $imageClassIdentifiers = $ini->variable( 'MediaClassSettings', 'ImageClassIdentifiers' );
     $fileClassIdentifiers  = $ini->hasVariable('MediaClassSettings', 'FileClassIdentifiers' ) ? $ini->variable('MediaClassSettings', 'FileClassIdentifiers' ) : array();
     $flashClassIdentifiers = $ini->hasVariable('MediaClassSettings', 'FlashClassIdentifiers' ) ? $ini->variable('MediaClassSettings', 'FlashClassIdentifiers' ) : array();
