@@ -104,24 +104,33 @@ if ( !$embedObject )
 
 
 $imageSizeArray  = $imageIni->variable( 'AliasSettings', 'AliasList' );
-$siteIni         = eZINI::instance( 'site.ini' );
+$ini             = eZINI::instance( 'site.ini' );
 $contentIni      = eZINI::instance( 'content.ini' );
 $ezoeIni         = eZINI::instance( 'ezoe.ini' );
 $embedClassIdentifier = $embedObject->attribute( 'class_identifier' );
-$embedClassID         = $embedObject->attribute( 'contentclass_id' );
+$embedClassID    = $embedObject->attribute( 'contentclass_id' );
 $sizeTypeArray   = array();
 
 
 if ( $contentType === 'auto' )
 {
-    if ( $siteIni->hasVariable('MediaClassSettings', 'ImageClassID' ) )
-        $imageClassIDArray = $siteIni->variable('MediaClassSettings', 'ImageClassID' );
-    else
-        $imageClassIDArray = array();
-    $imageClassIdentifiers = $siteIni->variable( 'MediaClassSettings', 'ImageClassIdentifiers' );
+    // Depricated:
+    $imageClassIDs = $ini->hasVariable('MediaClassSettings', 'ImageClassID' ) ? $ini->variable('MediaClassSettings', 'ImageClassID' ) : array();
 
-    if ( in_array( $embedClassID, $imageClassIDArray ) || in_array( $embedClassIdentifier, $imageClassIdentifiers ) )
+    // Only image used out of the box, the rest is for extendebility
+    $imageClassIdentifiers = $ini->variable( 'MediaClassSettings', 'ImageClassIdentifiers' );
+    $fileClassIdentifiers  = $ini->hasVariable('MediaClassSettings', 'FileClassIdentifiers' ) ? $ini->variable('MediaClassSettings', 'FileClassIdentifiers' ) : array();
+    $flashClassIdentifiers = $ini->hasVariable('MediaClassSettings', 'FlashClassIdentifiers' ) ? $ini->variable('MediaClassSettings', 'FlashClassIdentifiers' ) : array();
+    $videoClassIdentifiers = $ini->hasVariable('MediaClassSettings', 'VideoClassIdentifiers' ) ? $ini->variable('MediaClassSettings', 'VideoClassIdentifiers' ) : array();
+
+    if ( in_array( $embedClassID, $imageClassIDs ) || in_array( $embedClassIdentifier, $imageClassIdentifiers ) )
         $contentType = 'image';
+    else if ( in_array( $embedClassIdentifier, $fileClassIdentifiers ) )
+        $contentType = 'file';
+    else if ( in_array( $embedClassIdentifier, $flashClassIdentifiers ) )
+        $contentType = 'flash';
+    else if ( in_array( $embedClassIdentifier, $videoClassIdentifiers ) )
+        $contentType = 'video';
     else
         $contentType = 'object';
 }
