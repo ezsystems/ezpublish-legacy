@@ -99,7 +99,7 @@ $db = eZDB::instance();
 $objects = $db->arrayQuery( 'SELECT DISTINCT ezinfocollection.contentobject_id,
                                     ezcontentobject.name,
                                     ezcontentobject_tree.main_node_id,
-                                    ezcontentclass.*,
+                                    ezcontentclass.serialized_name_list,
                                     ezcontentclass.identifier AS class_identifier
                              FROM   ezinfocollection,
                                     ezcontentobject,
@@ -107,6 +107,7 @@ $objects = $db->arrayQuery( 'SELECT DISTINCT ezinfocollection.contentobject_id,
                                     ezcontentclass
                              WHERE  ezinfocollection.contentobject_id=ezcontentobject.id
                                     AND ezcontentobject.contentclass_id=ezcontentclass.id
+                                    AND ezcontentclass.version = ' . eZContentClass::VERSION_STATUS_DEFINED . '
                                     AND ezinfocollection.contentobject_id=ezcontentobject_tree.contentobject_id',
                              array( 'limit'  => (int)$limit,
                                     'offset' => (int)$offset ) );
