@@ -37,16 +37,16 @@ define( 'TABLE_DATA',         'ezdbfile_data' );
 /*
 CREATE TABLE ezdbfile (
   datatype  VARCHAR(60)   NOT NULL DEFAULT 'application/octet-stream',
-  name      VARCHAR(255)  NOT NULL DEFAULT '',
+  name      TEXT          NOT NULL DEFAULT '',
   name_hash VARCHAR(34)   NOT NULL DEFAULT '',
   scope     VARCHAR(20)   NOT NULL DEFAULT '',
   size      BIGINT(20)    UNSIGNED NOT NULL,
   mtime     INT(11)       NOT NULL DEFAULT '0',
   expired   BOOL          NOT NULL DEFAULT '0',
   PRIMARY KEY (name_hash),
-  UNIQUE INDEX ezdbfile_name (name),
+  INDEX ezdbfile_name (name(250)),
   INDEX ezdbfile_mtime (mtime),
-  UNIQUE INDEX ezdbfile_expired_name (expired, name)
+  INDEX ezdbfile_expired_name (expired, name(250))
 ) ENGINE=InnoDB;
 
 
