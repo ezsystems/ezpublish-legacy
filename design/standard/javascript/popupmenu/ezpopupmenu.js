@@ -291,7 +291,7 @@ function ezpopmenu_doItemSubstitution( menuID, menuHeader )
                 var partialContent = menuArray[menuID]['elements'][i]['content'];
                 for ( var substItem in CurrentSubstituteValues )
                 {
-                    if ( typeof CurrentSubstituteValues[substItem] != 'object' )
+                    if ( typeof CurrentSubstituteValues[substItem] != 'object' && typeof CurrentSubstituteValues[substItem] != 'function' )
                     {
                         partialContent = partialContent.replace( substItem, CurrentSubstituteValues[substItem] );
                     }
@@ -347,7 +347,7 @@ function ezpopup_substituteString( replaceString, substituteValues )
     // loop though substitute values and substitute for each of them
     for ( var substItem in substituteValues )
     {
-        if ( typeof substituteValues[substItem] != 'object' )
+        if ( typeof substituteValues[substItem] != 'object' && typeof substituteValues[substItem] != 'function' )
         {
             replaceString = replaceString.replace( substItem, substituteValues[substItem] );
         }
