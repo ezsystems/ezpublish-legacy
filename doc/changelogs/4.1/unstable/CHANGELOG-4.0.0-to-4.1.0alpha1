@@ -405,3 +405,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13271: File permissions on shared environments
 - Fixed bug #13655: Writing of eZCharTransform cache is not atomic
 - Fixed bug #11476: Problem with information collection sql query
+- Fixed bug #13759: Problem with long image paths in clustered setups
