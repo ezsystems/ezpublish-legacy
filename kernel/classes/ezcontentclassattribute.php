@@ -715,7 +715,10 @@ class eZContentClassAttribute extends eZPersistentObject
         $identifierHash = array_flip( self::classAttributeIdentifiersHash() );
 
         if ( isset( $identifierHash[$id] ) )
-            return $identifierHash[$id];
+        {
+            $classAndClassAttributeIdentifier = explode( '/', $identifierHash[$id] );
+            return $classAndClassAttributeIdentifier[1];
+        }
         else
             return false;
     }
