@@ -708,7 +708,7 @@ class eZContentClassAttribute extends eZPersistentObject
 
     /*!
      Resolves the numeric class attribute identifier \a $id to its literal value
-     literal format: classidentifier/classattributeidentifier
+     literal format: classattributeidentifier
     */
     public static function classAttributeIdentifierByID( $id )
     {
