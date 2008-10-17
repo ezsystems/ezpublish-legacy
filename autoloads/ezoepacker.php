@@ -409,7 +409,7 @@ class eZOEPacker
                     // optimize css
                     $content = str_replace(array(' 0em', ' 0px',' 0pt', ' 0pc'), ' 0', $content);
                     $content = str_replace(array(':0em', ':0px',':0pt', ':0pc'), ':0', $content);
-                    $content = str_replace('0 0 0 0', '0', $content);
+                    $content = str_replace('0 0 0 0;', '0;', $content);
 
                     // these should use regex to work on all colors
                     $content = str_replace(array('#ffffff','#FFFFFF'), '#fff', $content);
