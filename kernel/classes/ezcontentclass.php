@@ -1786,9 +1786,9 @@ You will need to change the class of the node by using the swap functionality.' 
             eZExpiryHandler::registerShutdownFunction();
             $handler = eZExpiryHandler::instance();
             $expiryTime = 0;
-            if ( $handler->hasTimestamp( 'content-view-cache' ) )
+            if ( $handler->hasTimestamp( 'class-identifier-cache' ) )
             {
-                $expiryTime = $handler->timestamp( 'content-view-cache' );
+                $expiryTime = $handler->timestamp( 'class-identifier-cache' );
             }
 
             if ( $phpCache->canRestore( $expiryTime ) )

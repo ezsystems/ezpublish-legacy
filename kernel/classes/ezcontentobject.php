@@ -703,14 +703,8 @@ class eZContentObject extends eZPersistentObject
         if ( $this->ClassIdentifier !== false )
             return $this->ClassIdentifier;
 
-        $db = eZDB::instance();
-        $id = (int)$this->ClassID;
-        $sql = "SELECT identifier FROM ezcontentclass WHERE id=$id and version=0";
-        $rows = $db->arrayQuery( $sql );
-        if ( count( $rows ) > 0 )
-        {
-            $this->ClassIdentifier = $rows[0]['identifier'];
-        }
+        $this->ClassIdentifier = eZContentClass::classIdentifierByID( $this->ClassID );
+
         return $this->ClassIdentifier;
     }
 

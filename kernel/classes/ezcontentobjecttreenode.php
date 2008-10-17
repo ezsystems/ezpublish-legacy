@@ -267,53 +267,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     static function classAttributeIDByIdentifier( $identifier )
     {
-        $db = eZDB::instance();
-        $dbName = $db->DB;
-
-        //include_once( 'lib/ezutils/classes/ezphpcreator.php' );
-        $cacheDir = eZSys::cacheDirectory();
-        $phpCache = new eZPHPCreator( "$cacheDir", "classattributeidentifiers_$dbName.php" );
-
-        eZExpiryHandler::registerShutdownFunction();
-        $handler = eZExpiryHandler::instance();
-        $expiryTime = 0;
-        if ( $handler->hasTimestamp( 'class-identifier-cache' ) )
-        {
-            $expiryTime = $handler->timestamp( 'class-identifier-cache' );
-        }
-
-        if ( $phpCache->canRestore( $expiryTime ) )
-        {
-            $var = $phpCache->restore( array( 'identifierHash' => 'identifier_hash' ) );
-            $identifierHash = $var['identifierHash'];
-        }
-        else
-        {
-            // Fetch identifier/id pair from db
-            $query = "SELECT ezcontentclass_attribute.id as attribute_id, ezcontentclass_attribute.identifier as attribute_identifier, ezcontentclass.identifier as class_identifier
-                      FROM ezcontentclass_attribute, ezcontentclass
-                      WHERE ezcontentclass.id=ezcontentclass_attribute.contentclass_id";
-            $identifierArray = $db->arrayQuery( $query );
-
-            $identifierHash = array();
-            foreach ( $identifierArray as $identifierRow )
-            {
-                $classIdentifier = $identifierRow['class_identifier'];
-                $attributeIdentifier = $identifierRow['attribute_identifier'];
-                $attributeID = $identifierRow['attribute_id'];
-                $combinedIdentifier = $classIdentifier . '/' . $attributeIdentifier;
-                $identifierHash[$combinedIdentifier] = (int)$attributeID;
-            }
-
-            // Store identifier list to cache file
-            $phpCache->addVariable( 'identifier_hash', $identifierHash );
-            $phpCache->store();
-        }
-        $return = false;
-        if ( isset( $identifierHash[$identifier] ) )
-            $return = $identifierHash[$identifier];
-
-        return $return;
+        return eZContentClassAttribute::classAttributeIDByIdentifier( $identifier );
     }
 
     /*!
@@ -323,52 +277,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     static function classIDByIdentifier( $identifier )
     {
-        $db = eZDB::instance();
-        $dbName = $db->DB;
-
-        // VS-DBFILE
-
-        //include_once( 'lib/ezutils/classes/ezphpcreator.php' );
-        $cacheDir = eZSys::cacheDirectory();
-        $phpCache = new eZPHPCreator( $cacheDir,
-                                      'classidentifiers_' . $dbName . '.php',
-                                      '',
-                                      array( 'clustering' => 'classidentifiers' ) );
-
-        eZExpiryHandler::registerShutdownFunction();
-        $handler = eZExpiryHandler::instance();
-        $expiryTime = 0;
-        if ( $handler->hasTimestamp( 'class-identifier-cache' ) )
-        {
-            $expiryTime = $handler->timestamp( 'class-identifier-cache' );
-        }
-
-        if ( $phpCache->canRestore( $expiryTime ) )
-        {
-            $var = $phpCache->restore( array( 'identifierHash' => 'identifier_hash' ) );
-            $identifierHash = $var['identifierHash'];
-        }
-        else
-        {
-            // Fetch identifier/id pair from db
-            $query = "SELECT id, identifier FROM ezcontentclass where version=0";
-            $identifierArray = $db->arrayQuery( $query );
-
-            $identifierHash = array();
-            foreach ( $identifierArray as $identifierRow )
-            {
-                $identifierHash[$identifierRow['identifier']] = $identifierRow['id'];
-            }
-
-            // Store identifier list to cache file
-            $phpCache->addVariable( 'identifier_hash', $identifierHash );
-            $phpCache->store();
-        }
-        $return = false;
-        if ( isset( $identifierHash[$identifier] ) )
-            $return = $identifierHash[$identifier];
-
-        return $return;
+        return eZContentClass::classIDByIdentifier( $identifier );
     }
 
     /*!

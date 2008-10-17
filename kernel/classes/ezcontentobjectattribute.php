@@ -556,11 +556,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     {
         if ( $this->ContentClassAttributeIdentifier === null )
         {
-            eZDebug::accumulatorStart( 'class_a_id', 'Sytem overhead', 'Fetch class attribute identifier' );
-
-            $classAttribute = eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
-            $this->ContentClassAttributeIdentifier = $classAttribute->attribute( 'identifier' );
-            eZDebug::accumulatorStop( 'class_a_id' );
+            $this->ContentClassAttributeIdentifier = eZContentClassAttribute::classAttributeIdentifierByID( $this->ContentClassAttributeID );
         }
 
         return $this->ContentClassAttributeIdentifier;

@@ -692,6 +692,91 @@ class eZContentClassAttribute extends eZPersistentObject
         $this->NameList->removeName( $languageLocale );
     }
 
+   /*!
+     Resolves the literal class attribute identifier \a $identifier to its numeric value
+     literal format: classidentifier/classattributeidentifier
+    */
+    public static function classAttributeIDByIdentifier( $identifier )
+    {
+        $identifierHash = self::classAttributeIdentifiersHash();
+
+        if ( isset( $identifierHash[$identifier] ) )
+            return $identifierHash[$identifier];
+        else
+            return false;
+    }
+
+    /*!
+     Resolves the numeric class attribute identifier \a $id to its literal value
+     literal format: classidentifier/classattributeidentifier
+    */
+    public static function classAttributeIdentifierByID( $id )
+    {
+        $identifierHash = array_flip( self::classAttributeIdentifiersHash() );
+
+        if ( isset( $identifierHash[$id] ) )
+            return $identifierHash[$id];
+        else
+            return false;
+    }
+
+    /*!
+     Returns the class attribute identifier hash for the current database.
+     If it is outdated or non-existent, the method updates/generates the file
+     \return array of classattributeidentifier => classattributeid
+     \private
+    */
+    private static function classAttributeIdentifiersHash()
+    {
+        static $identifierHash = null;
+
+        if ( $identifierHash === null )
+        {
+            $db = eZDB::instance();
+            $dbName = $db->DB;
+
+            //include_once( 'lib/ezutils/classes/ezphpcreator.php' );
+            $cacheDir = eZSys::cacheDirectory();
+            $phpCache = new eZPHPCreator( $cacheDir,
+                                          'classattributeidentifiers_' . $dbName . '.php',
+                                          '',
+                                          array( 'clustering' => 'classattributeidentifiers' ) );
+
+            eZExpiryHandler::registerShutdownFunction();
+            $handler = eZExpiryHandler::instance();
+            $expiryTime = 0;
+            if ( $handler->hasTimestamp( 'class-identifier-cache' ) )
+            {
+                $expiryTime = $handler->timestamp( 'class-identifier-cache' );
+            }
+
+            if ( $phpCache->canRestore( $expiryTime ) )
+            {
+                $var = $phpCache->restore( array( 'identifierHash' => 'identifier_hash' ) );
+                $identifierHash = $var['identifierHash'];
+            }
+            else
+            {
+                // Fetch identifier/id pair from db
+                $query = "SELECT ezcontentclass_attribute.id as attribute_id, ezcontentclass_attribute.identifier as attribute_identifier, ezcontentclass.identifier as class_identifier
+                          FROM ezcontentclass_attribute, ezcontentclass
+                          WHERE ezcontentclass.id=ezcontentclass_attribute.contentclass_id";
+                $identifierArray = $db->arrayQuery( $query );
+
+                $identifierHash = array();
+                foreach ( $identifierArray as $identifierRow )
+                {
+                    $combinedIdentifier = $identifierRow['class_identifier'] . '/' . $identifierRow['attribute_identifier'];
+                    $identifierHash[$combinedIdentifier] = (int) $identifierRow['attribute_id'];
+                }
+
+                // Store identifier list to cache file
+                $phpCache->addVariable( 'identifier_hash', $identifierHash );
+                $phpCache->store();
+            }
+        }
+        return $identifierHash;
+    }
 
     /// \privatesection
     /// Contains the content for this attribute
