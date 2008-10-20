@@ -970,15 +970,18 @@ foreach ( $commandList as $commandItem )
         {
             $package = eZPackage::import( $archiveName, $commandItem['name'], true, $repositoryID );
 
-            if ( $package == eZPackage::STATUS_ALREADY_EXISTS )
+            if ( is_object( $package ) )
+            {
+                $cli->notice( "Package " . $cli->stylize( 'emphasize', $package->attribute( 'name' ) ) . " sucessfully imported" );
+            }
+            else if ( $package == eZPackage::STATUS_ALREADY_EXISTS )
             {
                 $cli->notice( "Package " . $cli->stylize( 'emphasize', $archiveName ) . " is already imported " );
                 $package = false;
             }
-
-            if ( $package )
+            else
             {
-                $cli->notice( "Package " . $cli->stylize( 'emphasize', $package->attribute( 'name' ) ) . " sucessfully imported" );
+                $cli->error( "Failed importing package " . $cli->stylize( 'emphasize', $archiveName ) );
             }
         }
         else
