@@ -164,7 +164,6 @@ return array(
       'eZFileHandler'                      => 'lib/ezfile/classes/ezfilehandler.php',
       'eZFilePackageHandler'               => 'kernel/classes/packagehandlers/ezfile/ezfilepackagehandler.php',
       'eZFilePassthroughHandler'           => 'kernel/classes/binaryhandlers/ezfilepassthrough/ezfilepassthroughhandler.php',
-      'eZFilePasstroughHandler'            => 'kernel/classes/binaryhandlers/ezfilepasstrough/ezfilepasstroughhandler.php',
       'eZFileTransport'                    => 'lib/ezutils/classes/ezfiletransport.php',
       'eZFloatType'                        => 'kernel/classes/datatypes/ezfloat/ezfloattype.php',
       'eZFloatValidator'                   => 'lib/ezutils/classes/ezfloatvalidator.php',
