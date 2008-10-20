@@ -407,3 +407,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #11476: Problem with information collection sql query
 - Fixed bug #13759: Problem with long image paths in clustered setups
 - Fixed bug #13598: ezpopupmenu.js doesn't play nice with Prototype library, or Safari
+- Fixed bug #13780: Cannot add image to root node in clustered DB

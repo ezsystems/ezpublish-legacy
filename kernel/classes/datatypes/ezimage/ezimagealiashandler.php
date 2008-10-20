@@ -399,7 +399,13 @@ class eZImageAliasHandler
         $attributeID = $attributeData['attribute_id'];
         $attributeVersion = $attributeData['attribute_version'];
         $attributeLanguage = $attributeData['attribute_language'];
-        $imagePath = eZSys::storageDirectory() . '/' . $contentImageSubtree . '/' . $pathString . '/' . $attributeID . '-' . $attributeVersion . '-' . $attributeLanguage;
+        $pathParts = array( eZSys::storageDirectory(), $contentImageSubtree );
+        if ( $pathString != '' )
+        {
+            $pathParts[] = $pathString;
+        }
+        $pathParts[] = $attributeID . '-' . $attributeVersion . '-' . $attributeLanguage;
+        $imagePath = implode( '/', $pathParts );
         return $imagePath;
     }
 
