@@ -529,7 +529,6 @@ return array(
       'eZXML'                              => 'lib/ezxml/classes/ezxml.php',
       'eZXMLInputHandler'                  => 'kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php',
       'eZXMLInputParser'                   => 'kernel/classes/datatypes/ezxmltext/ezxmlinputparser.php',
-      'eZXMLInputType'                     => 'kernel/classes/datatypes/ezxmltext/ezxmlinputtype.php',
       'eZXMLOutputHandler'                 => 'kernel/classes/datatypes/ezxmltext/ezxmloutputhandler.php',
       'eZXMLSchema'                        => 'kernel/classes/datatypes/ezxmltext/ezxmlschema.php',
       'eZXMLText'                          => 'kernel/classes/datatypes/ezxmltext/ezxmltext.php',
