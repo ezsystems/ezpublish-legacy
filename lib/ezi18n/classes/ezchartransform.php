@@ -57,7 +57,6 @@ class eZCharTransform
     */
     function eZCharTransform()
     {
-        $this->Mapper = false;
     }
 
     /*!
@@ -96,20 +95,16 @@ class eZCharTransform
         }
 
         // Make sure we have a mapper
-        if ( $this->Mapper === false )
-        {
-            //include_once( 'lib/ezi18n/classes/ezcodemapper.php' );
-            $this->Mapper = new eZCodeMapper();
-        }
+        $mapper = new eZCodeMapper();
 
-        $this->Mapper->loadTransformationFiles( $charsetName, false );
+        $mapper->loadTransformationFiles( $charsetName, false );
 
         // First generate a unicode based mapping table from the rules
-        $unicodeTable = $this->Mapper->generateMappingCode( $rule );
+        $unicodeTable = $mapper->generateMappingCode( $rule );
         unset($unicodeTable[0]);
         // Then transform that to a table that works with the current charset
         // Any character not available in the current charset will be removed
-        $charsetTable = $this->Mapper->generateCharsetMappingTable( $unicodeTable, $charset );
+        $charsetTable = $mapper->generateCharsetMappingTable( $unicodeTable, $charset );
         $transformationData = array( 'table' => $charsetTable );
         unset( $unicodeTable );
 
@@ -164,28 +159,23 @@ class eZCharTransform
         if ( $commands === false )
             return false;
 
-        // Make sure we have a mapper
-        if ( $this->Mapper === false )
-        {
-            //include_once( 'lib/ezi18n/classes/ezcodemapper.php' );
-            $this->Mapper = new eZCodeMapper();
-        }
+        $mapper = new eZCodeMapper();
 
-        $this->Mapper->loadTransformationFiles( $charsetName, $group );
+        $mapper->loadTransformationFiles( $charsetName, $group );
 
         $rules = array();
         foreach ( $commands as $command )
         {
             $rules = array_merge( $rules,
-                                  $this->Mapper->decodeCommand( $command['command'], $command['parameters'] ) );
+                                  $mapper->decodeCommand( $command['command'], $command['parameters'] ) );
         }
 
         // First generate a unicode based mapping table from the rules
-        $unicodeTable = $this->Mapper->generateMappingCode( $rules );
+        $unicodeTable = $mapper->generateMappingCode( $rules );
         unset($unicodeTable[0]);
         // Then transform that to a table that works with the current charset
         // Any character not available in the current charset will be removed
-        $charsetTable = $this->Mapper->generateCharsetMappingTable( $unicodeTable, $charset );
+        $charsetTable = $mapper->generateCharsetMappingTable( $unicodeTable, $charset );
         $transformationData = array( 'table' => $charsetTable );
         unset( $unicodeTable );
 
@@ -194,7 +184,7 @@ class eZCharTransform
             $extraCode = '';
             foreach ( $commands as $command )
             {
-                $code = $this->Mapper->generateCommandCode( $command, $charsetName );
+                $code = $mapper->generateCommandCode( $command, $charsetName );
                 if ( $code !== false )
                 {
                     $extraCode .= $code . "\n";
@@ -211,7 +201,7 @@ class eZCharTransform
         // Execute custom code
         foreach ( $commands as $command )
         {
-            $this->Mapper->executeCommandCode( $text, $command, $charsetName );
+            $mapper->executeCommandCode( $text, $command, $charsetName );
         }
 
         return $text;
