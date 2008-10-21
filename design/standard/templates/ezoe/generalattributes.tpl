@@ -17,7 +17,13 @@
                     'href', 'Href'|i18n('design/standard/ezoe'),
                     'target', 'Target'|i18n('design/standard/ezoe'),
                     'title', 'Title'|i18n('design/standard/ezoe')
-         )}
+         )
+         attribute_titles = hash( 
+                    'class', 'Class are often used to give different design or appearance, either by using a different template, style or both.'|i18n('design/standard/ezoe'),
+                    'target', 'Lets you specify the target window for the link, if any.'|i18n('design/standard/ezoe'),
+                    'title', 'The title on the (x)html tag, used by screen readers, and to give better explanation like this one.'|i18n('design/standard/ezoe'),
+                    'width', 'To set the width of the tag, either as percentage by appending % or as pixel size by just using a number.'|i18n('design/standard/ezoe'),
+                    )}
 {if and( $:tag_name, $:attributes )}
     {def $attribute_default = ''
          $attribute_id      = ''
@@ -49,13 +55,13 @@
                 {$attribute_content_prepend[$xml_attribute ]}
             {/if}
             {if $attribute_value|is_array()}
-                <select name="{$attribute}" id="{$attribute_id}_source" class="{first_set( $classes[$xml_attribute], '' )}">
+                <select name="{$attribute}" id="{$attribute_id}_source" class="{first_set( $classes[$xml_attribute], '' )}" title="{first_set( $attribute_titles[$xml_attribute], '' )}">
                 {foreach $attribute_value as $value => $name}
                     <option value="{if and( $value, $value|ne('0') )}{$value|wash}{/if}"{if $value|eq( $attribute_default )} selected="selected"{/if}>{$name|wash}</option>
                 {/foreach}
                 </select>
             {else}
-                <input type="text" name="{$attribute}" id="{$attribute_id}_source" value="{$attribute_default|wash}" class="{first_set( $classes[$xml_attribute], '' )}" />
+                <input type="text" name="{$attribute}" id="{$attribute_id}_source" value="{$attribute_default|wash}" class="{first_set( $classes[$xml_attribute], '' )}" title="{first_set( $attribute_titles[$xml_attribute], '' )}" />
             {/if}
             {if is_set( $attribute_content_append[$xml_attribute ] )}
                 {$attribute_content_append[$xml_attribute ]}

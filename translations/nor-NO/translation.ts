@@ -472,7 +472,7 @@ Vil du vite mer om dette?</translation>
     </message>
     <message>
         <source>Paste</source>
-        <translation>Lim</translation>
+        <translation>Lim inn</translation>
     </message>
     <message>
         <source>Image properties</source>
@@ -757,6 +757,96 @@ Vil du vite mer om dette?</translation>
     <message>
         <source>Invalid parameter: %parameter = %value</source>
         <translation>Ugyldig parameter: %parameter = %value</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/wai</name>
+    <message>
+        <source>Upload file from your local machine.</source>
+        <translation>Last opp fil fra din lokale maskin.</translation>
+    </message>
+    <message>
+        <source>Search for content already in eZ Publish.</source>
+        <translation>Søk etter innhold som allerede ekisterer i eZ Publish.</translation>
+    </message>
+    <message>
+        <source>Browse the content tree in eZ Publish.</source>
+        <translation>Naviger deg igjennom innholds treet til eZ Publish</translation>
+    </message>
+    <message>
+        <source>Select or browse content among your personal eZ Publish bookmarks.</source>
+        <translation>Velg eller naviger deg igjennom dine personlige eZ Publish bokmerker.</translation>
+    </message>
+    <message>
+        <source>Name for the uploaded object, filename is used if none is specified.</source>
+        <translation>Navn til objektet du laster opp, fil navn blir brukt om dette feltet er tomt.</translation>
+    </message>
+    <message>
+        <source>Choose file to upload from your local machine.</source>
+        <translation>Velg fil du vil laste opp fra din lokale maskin.</translation>
+    </message>
+    <message>
+        <source>Lets you specify where in eZ Publish to store the uploaded object.</source>
+        <translation>Lar deg velge hvor i eZ Publish du vil lagre filen du laster opp.</translation>
+    </message>
+    <message>
+        <source>Alternative text for the image, lets internet clients know what kind of image this is without dowloading it or actually seeing it.</source>
+        <translation>Alternativ tekst for bilde, lar internett brukere lese om bildet uten å måtte laste det ned eller se det først.</translation>
+    </message>
+    <message>
+        <source>Caption for a image is usually shown bellow it as a description to the image.</source>
+        <translation>Undertittel for bildet blir vanligvis vist under bildet som en beskrivelse.</translation>
+    </message>
+    <message>
+        <source>Description to the file your uploading, so internet clients can read more about it before they decide to download it.</source>
+        <translation>Beskrivels av filen du laster opp, så internett brukere kan lese mer om filen før de velger å laste den ned.</translation>
+    </message>
+    <message>
+        <source>Enter the word you want to search for here, for instance the name of the content you are looking for.</source>
+        <translation>Skriv inn ordet du ønsker å søke etter her, foreksempel navnet på innholdet du leter etter.</translation>
+    </message>
+    <message>
+        <source>Lets you limit the content type your searching for, by limiting the eZ Publish content classes that are returned in the search result.</source>
+        <translation>Lar deg begrense innholds typene du søker etter, ved å spesifisere eZ Publish innholds klassene som returneres i søke resultatet.</translation>
+    </message>
+    <message>
+        <source>Class are often used to give different design or appearance, either by using a different template, style or both.</source>
+        <translation>Klasse blir ofte brukt til å gi forskjellig design eller visning, enten ved bruk av annen mal, stil eller begge.</translation>
+    </message>
+    <message>
+        <source>Lets you specify the target window for the link, if any.</source>
+        <translation>Lar deg spesifisere mål vindu for lenken.</translation>
+    </message>
+    <message>
+        <source>The title on the (x)html tag, used by screen readers, and to give better explanation like this one.</source>
+        <translation>Tittelen på (x)html tagger, brukt av skjerm lesere, og for å gi en bedre forklaring som denne.</translation>
+    </message>
+    <message>
+        <source>To set the width of the tag, either as percentage by appending % or as pixel size by just using a number.</source>
+        <translation>For å sette bredden på en tag, enten som prosent ved å avslutte med % eller som pixel(punktstørrelse) ved å bare bruke ett nummer.</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/contenttype</name>
+    <message>
+        <source>Image</source>
+        <translation>Bilde</translation>
+    </message>
+    <message>
+        <source>File</source>
+        <translation>Fil</translation>
+    </message>
+    <message>
+        <source>Object</source>
+        <translation>Objekt</translation>
+    </message>
+    <message>
+        <source>Flash</source>
+        <translation>Flash</translation>
+    </message>
+    <message>
+        <source>Video</source>
+        <translation>Video</translation>
     </message>
 </context>
 <context>

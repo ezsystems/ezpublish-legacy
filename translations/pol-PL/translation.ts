@@ -153,6 +153,10 @@
         <translation>Podpis</translation>
     </message>
     <message>
+        <source>Alternative text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Description</source>
         <translation>Opis</translation>
     </message>
@@ -914,6 +918,25 @@
     <message>
         <source>You can find more documentation in the doc folder of this extension and online on %link.</source>
         <translation>Bardziej wyczerpującą dokumentację znajdziesz w podkatalogu "doc" tego rozszerzenia oraz online pod adresem %link.</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/handler</name>
+    <message>
+        <source>Some objects used in embed(-inline) tags have been deleted and are no longer available.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object %1 does not exist.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node %1 does not exist.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node &apos;%1&apos; does not exist.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

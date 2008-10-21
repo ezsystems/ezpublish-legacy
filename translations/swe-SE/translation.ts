@@ -1,38 +1,5 @@
 <!DOCTYPE TS><TS>
 <context>
-    <name>design/admin/content/edit</name>
-    <message>
-        <source>Name</source>
-        <translation>Namn</translation>
-    </message>
-    <message>
-        <source>File type</source>
-        <translation>Filtyp</translation>
-    </message>
-    <message>
-        <source>Size</source>
-        <translation>Storlek</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation>Typ</translation>
-    </message>
-</context>
-<context>
-    <name>design/admin/content/search</name>
-    <message>
-        <source>Search</source>
-        <translation>Sök</translation>
-    </message>
-</context>
-<context>
-    <name>design/admin/content/upload</name>
-    <message>
-        <source>Upload</source>
-        <translation>Ladda upp</translation>
-    </message>
-</context>
-<context>
     <name>design/standard/content/datatype</name>
     <message>
         <source>Disable editor</source>
@@ -41,35 +8,6 @@
     <message>
         <source>Enable editor</source>
         <translation>Aktivera editor</translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/content/edit</name>
-    <message>
-        <source>Store draft</source>
-        <translation>Spara utkast</translation>
-    </message>
-    <message>
-        <source>Send for publishing</source>
-        <translation>Skicka till publicering</translation>
-    </message>
-    <message>
-        <source>Discard</source>
-        <translation>Ta bort</translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/content/search</name>
-    <message>
-        <source>No results were found when searching for &amp;quot;%1&amp;quot;</source>
-        <translation>Inga resultat hittades vid sökning efter &amp;quot;%1&amp;quot;</translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/error/kernel</name>
-    <message>
-        <source>Your current user does not have the proper privileges to access this page.</source>
-        <translation>Din användare är inte behörig att få tillgång till denna sida.</translation>
     </message>
 </context>
 <context>
@@ -785,6 +723,10 @@ Vill du har mer information om detta?</translation>
         <translation>Rubrik</translation>
     </message>
     <message>
+        <source>Alternative text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Description</source>
         <translation>Beskrivning</translation>
     </message>
@@ -815,6 +757,96 @@ Vill du har mer information om detta?</translation>
     <message>
         <source>Invalid parameter: %parameter = %value</source>
         <translation>Ogiltig parameter: %parameter = %value</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/wai</name>
+    <message>
+        <source>Upload file from your local machine.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search for content already in eZ Publish.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse the content tree in eZ Publish.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select or browse content among your personal eZ Publish bookmarks.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name for the uploaded object, filename is used if none is specified.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose file to upload from your local machine.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lets you specify where in eZ Publish to store the uploaded object.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alternative text for the image, lets internet clients know what kind of image this is without dowloading it or actually seeing it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Caption for a image is usually shown bellow it as a description to the image.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Description to the file your uploading, so internet clients can read more about it before they decide to download it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the word you want to search for here, for instance the name of the content you are looking for.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lets you limit the content type your searching for, by limiting the eZ Publish content classes that are returned in the search result.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Class are often used to give different design or appearance, either by using a different template, style or both.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lets you specify the target window for the link, if any.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The title on the (x)html tag, used by screen readers, and to give better explanation like this one.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To set the width of the tag, either as percentage by appending % or as pixel size by just using a number.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/contenttype</name>
+    <message>
+        <source>Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Flash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1000,24 +1032,6 @@ Vill du har mer information om detta?</translation>
     <message>
         <source>Node &apos;%1&apos; does not exist.</source>
         <translation>Nod &apos;%1&apos; finns inte.</translation>
-    </message>
-</context>
-<context>
-    <name>kernel/classes/datatypes</name>
-    <message>
-        <source>Invalid e-mail address: &apos;%1&apos;</source>
-        <translation>Ogiltig e-postadress: &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Content required</source>
-        <translation>Innehåll krävs</translation>
-    </message>
-</context>
-<context>
-    <name>kernel/content</name>
-    <message>
-        <source>Top Level Nodes</source>
-        <translation>Toppnivånoder</translation>
     </message>
 </context>
 </TS>

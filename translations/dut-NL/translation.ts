@@ -1,38 +1,5 @@
 <!DOCTYPE TS><TS>
 <context>
-    <name>design/admin/content/edit</name>
-    <message>
-        <source>Name</source>
-        <translation>Naam</translation>
-    </message>
-    <message>
-        <source>File type</source>
-        <translation>Bestandstype</translation>
-    </message>
-    <message>
-        <source>Size</source>
-        <translation>Grootte</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation>Type</translation>
-    </message>
-</context>
-<context>
-    <name>design/admin/content/search</name>
-    <message>
-        <source>Search</source>
-        <translation>Zoeken</translation>
-    </message>
-</context>
-<context>
-    <name>design/admin/content/upload</name>
-    <message>
-        <source>Upload</source>
-        <translation>Uploaden</translation>
-    </message>
-</context>
-<context>
     <name>design/standard/content/datatype</name>
     <message>
         <source>Disable editor</source>
@@ -41,35 +8,6 @@
     <message>
         <source>Enable editor</source>
         <translation>Editor inschakelen</translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/content/edit</name>
-    <message>
-        <source>Store draft</source>
-        <translation>Concept opslaan</translation>
-    </message>
-    <message>
-        <source>Send for publishing</source>
-        <translation>Voor publicatie verzenden</translation>
-    </message>
-    <message>
-        <source>Discard</source>
-        <translation>Verwerpen</translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/content/search</name>
-    <message>
-        <source>No results were found when searching for &amp;quot;%1&amp;quot;</source>
-        <translation>Geen resultaten gevonden bij het zoeken naar &amp;quot;%1&amp;quot;</translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/error/kernel</name>
-    <message>
-        <source>Your current user does not have the proper privileges to access this page.</source>
-        <translation>Uw huidige gebruiker heeft niet de nodige rechten voor toegang tot deze pagina.</translation>
     </message>
 </context>
 <context>
@@ -785,6 +723,10 @@ Wenst u hierover meer informatie?</translation>
         <translation>Bijschrift</translation>
     </message>
     <message>
+        <source>Alternative text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Description</source>
         <translation>Omschrijving</translation>
     </message>
@@ -815,6 +757,96 @@ Wenst u hierover meer informatie?</translation>
     <message>
         <source>Invalid parameter: %parameter = %value</source>
         <translation>Ongeldige parameter: %parameter = %value</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/wai</name>
+    <message>
+        <source>Upload file from your local machine.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search for content already in eZ Publish.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse the content tree in eZ Publish.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select or browse content among your personal eZ Publish bookmarks.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name for the uploaded object, filename is used if none is specified.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose file to upload from your local machine.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lets you specify where in eZ Publish to store the uploaded object.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alternative text for the image, lets internet clients know what kind of image this is without dowloading it or actually seeing it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Caption for a image is usually shown bellow it as a description to the image.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Description to the file your uploading, so internet clients can read more about it before they decide to download it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the word you want to search for here, for instance the name of the content you are looking for.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lets you limit the content type your searching for, by limiting the eZ Publish content classes that are returned in the search result.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Class are often used to give different design or appearance, either by using a different template, style or both.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lets you specify the target window for the link, if any.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The title on the (x)html tag, used by screen readers, and to give better explanation like this one.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To set the width of the tag, either as percentage by appending % or as pixel size by just using a number.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/contenttype</name>
+    <message>
+        <source>Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Flash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -885,8 +917,7 @@ Wenst u hierover meer informatie?</translation>
     </message>
     <message>
         <source>Insert literal text. Text written in this field will be rendered literally in the final output.</source>
-        <translation>Letterlijke waardetekst invoegen. Deze tekst ingevoerd in dit veld zal letterlijk in de uiteindelijke output weergegeven worden.
-</translation>
+        <translation>Letterlijke waardetekst invoegen. Deze tekst ingevoerd in dit veld zal letterlijk in de uiteindelijke output weergegeven worden.</translation>
     </message>
     <message>
         <source>Insert a special character. Click the button to open the special character window. Click on a character to insert it.</source>
@@ -986,14 +1017,15 @@ Wenst u hierover meer informatie?</translation>
     </message>
 </context>
 <context>
-    <name>design/standard/node/view</name>
+    <name>design/standard/ezoe/handler</name>
     <message>
-        <source>Preview</source>
-        <translation>Voorbeeld</translation>
+        <source>Some objects used in embed(-inline) tags have been deleted and are no longer available.</source>
+        <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>handlers/input</name>
+    <message>
+        <source>Object %1 does not exist.</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <source>Node %1 does not exist.</source>
         <translation>Knooppunt %1 bestaat niet.</translation>
@@ -1001,24 +1033,6 @@ Wenst u hierover meer informatie?</translation>
     <message>
         <source>Node &apos;%1&apos; does not exist.</source>
         <translation>Knooppunt &apos;%1&apos; bestaat niet.</translation>
-    </message>
-</context>
-<context>
-    <name>kernel/classes/datatypes</name>
-    <message>
-        <source>Invalid e-mail address: &apos;%1&apos;</source>
-        <translation>Ongeldig e-mailadres: &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Content required</source>
-        <translation>Inhoud vereist</translation>
-    </message>
-</context>
-<context>
-    <name>kernel/content</name>
-    <message>
-        <source>Top Level Nodes</source>
-        <translation>Toplevel knooppunten</translation>
     </message>
 </context>
 </TS>

@@ -1,4 +1,4 @@
-{set scope=global persistent_variable=hash('title', 'Upload new'|i18n('design/standard/ezoe'),
+{set scope=global persistent_variable=hash('title', concat('Upload new'|i18n('design/standard/ezoe'), ' ', $content_type|upfirst|i18n('design/standard/ezoe/contenttype')),
                                            'scripts', array('javascript/ezoe/ez_core.js',
                                                             'javascript/ezoe/ez_core_animation.js',
                                                             'javascript/ezoe/ez_core_accordion.js',
@@ -55,24 +55,28 @@ if ( contentType === 'image' )
 
         <div id="tabs" class="tabs">
         <ul>
-            <li class="tab"><span><a href="JavaScript:void(0);">{'Upload'|i18n('design/admin/content/upload')}</a></span></li>
-            <li class="tab"><span><a href="JavaScript:void(0);">{'Search'|i18n('design/admin/content/search')}</a></span></li>
-            <li class="tab"><span><a href="JavaScript:void(0);">{'Browse'|i18n('design/standard/ezoe')}</a></span></li>
-            <li class="tab"><span><a href="JavaScript:void(0);">{'Bookmarks'|i18n( 'design/admin/content/browse' )}</a></span></li>
+            <li class="tab" title="{'Upload file from your local machine.'|i18n('design/standard/ezoe/wai')}"><span><a href="JavaScript:void(0);">{'Upload'|i18n('design/admin/content/upload')}</a></span></li>
+            <li class="tab" title="{'Search for content already in eZ Publish.'|i18n('design/standard/ezoe/wai')}"><span><a href="JavaScript:void(0);">{'Search'|i18n('design/admin/content/search')}</a></span></li>
+            <li class="tab" title="{'Browse the content tree in eZ Publish.'|i18n('design/standard/ezoe/wai')}"><span><a href="JavaScript:void(0);">{'Browse'|i18n('design/standard/ezoe')}</a></span></li>
+            <li class="tab" title="{'Select or browse content among your personal eZ Publish bookmarks.'|i18n('design/standard/ezoe/wai')}"><span><a href="JavaScript:void(0);">{'Bookmarks'|i18n( 'design/admin/content/browse' )}</a></span></li>
         </ul>
         </div>
 
 <div class="panel_wrapper" style="min-height: 360px;">
         <div class="panel">
             <table class="properties">
+                <tr> 
+                    <td class="column1"><label id="titlelabel" for="objectName">{'Name'|i18n('design/standard/ezoe')}</label></td> 
+                    <td colspan="2"><input id="objectName" name="objectName" type="text" value="" title="{'Name for the uploaded object, filename is used if none is specified.'|i18n('design/standard/ezoe/wai')}" /></td> 
+                </tr>
                 <tr>
                     <td class="column1"><label id="srclabel" for="fileName">{'File'|i18n('design/standard/ezoe')}</label></td>
-                    <td colspan="2"><input name="fileName" type="file" id="fileName" value="" /></td>
+                    <td colspan="2"><input name="fileName" type="file" id="fileName" value="" title="{'Choose file to upload from your local machine.'|i18n('design/standard/ezoe/wai')}" /></td>
                 </tr>
                 <tr id="embedlistsrcrow">
                     <td class="column1"><label for="location">{'Location'|i18n('design/standard/ezoe')}</label></td>
                     <td colspan="2" id="embedlistsrccontainer">
-                      <select name="location" id="location">
+                      <select name="location" id="location" title="{'Lets you specify where in eZ Publish to store the uploaded object.'|i18n('design/standard/ezoe/wai')}">
                         <option value="auto">{'Automatic'|i18n('design/standard/ezoe')}</option>
 
                         {if $object.published}
@@ -99,23 +103,19 @@ if ( contentType === 'image' )
                       </select>
                     </td>
                 </tr>
-                <tr> 
-                    <td class="column1"><label id="titlelabel" for="objectName">{'Name'|i18n('design/standard/ezoe')}</label></td> 
-                    <td colspan="2"><input id="objectName" name="objectName" type="text" value="" /></td> 
-                </tr>
                 {if $content_type|eq('image')}
                 <tr>
                     <td class="column1"><label id="alttextlabel" for="objectAltText">{'Alternative text'|i18n('design/standard/ezoe')}</label></td> 
-                    <td colspan="2"><input id="objectAltText" name="ContentObjectAttribute_image" type="text" value="" size="32" /></td>
+                    <td colspan="2"><input id="objectAltText" name="ContentObjectAttribute_image" type="text" value="" size="32" title="{'Alternative text for the image, lets internet clients know what kind of image this is without dowloading it or actually seeing it.'|i18n('design/standard/ezoe/wai')}" /></td>
                 </tr>
                 <tr>
                     <td class="column1"><label id="captionlabel" for="objectCaption">{'Caption'|i18n('design/standard/ezoe')}</label></td> 
-                    <td colspan="2"><input id="objectCaption" name="ContentObjectAttribute_caption" type="text" value="" size="32" /></td>
+                    <td colspan="2"><input id="objectCaption" name="ContentObjectAttribute_caption" type="text" value="" size="32" title="{'Caption for a image is usually shown bellow it as a description to the image.'|i18n('design/standard/ezoe/wai')}" /></td>
                 </tr>
                 {else}
                 <tr>
                     <td class="column1"><label id="descriptionlabel" for="objectDescription">{'Description'|i18n('design/standard/ezoe')}</label></td> 
-                    <td colspan="2"><input id="objectDescription" name="ContentObjectAttribute_description" type="text" value="" size="32" /></td> 
+                    <td colspan="2"><input id="objectDescription" name="ContentObjectAttribute_description" type="text" value="" size="32" title="{'Description to the file your uploading, so internet clients can read more about it before they decide to download it.'|i18n('design/standard/ezoe/wai')}" /></td> 
                 </tr>
                 {/if}
                 <tr> 

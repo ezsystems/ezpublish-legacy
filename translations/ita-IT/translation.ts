@@ -762,22 +762,93 @@ Vuoi maggiori informazioni sull&apos;argomento?</translation>
     </message>
 </context>
 <context>
-    <name>design/standard/ezoe/handler</name>
+    <name>design/standard/ezoe/wai</name>
     <message>
-        <source>Some objects used in embed(-inline) tags have been deleted and are no longer available.</source>
-        <translation>Alcuni oggetti usati in stringhe incluse(-in linea) sono state cancellati e non sono più disponibili.</translation>
+        <source>Upload file from your local machine.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Object %1 does not exist.</source>
-        <translation>L&apos;oggetto %1 non esiste.</translation>
+        <source>Search for content already in eZ Publish.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Node %1 does not exist.</source>
-        <translation>Il nodo %1 non esiste.</translation>
+        <source>Browse the content tree in eZ Publish.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Node &apos;%1&apos; does not exist.</source>
-        <translation>Il nodo &apos;%1&apos; non esiste.</translation>
+        <source>Select or browse content among your personal eZ Publish bookmarks.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name for the uploaded object, filename is used if none is specified.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose file to upload from your local machine.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lets you specify where in eZ Publish to store the uploaded object.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alternative text for the image, lets internet clients know what kind of image this is without dowloading it or actually seeing it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Caption for a image is usually shown bellow it as a description to the image.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Description to the file your uploading, so internet clients can read more about it before they decide to download it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the word you want to search for here, for instance the name of the content you are looking for.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lets you limit the content type your searching for, by limiting the eZ Publish content classes that are returned in the search result.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Class are often used to give different design or appearance, either by using a different template, style or both.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lets you specify the target window for the link, if any.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The title on the (x)html tag, used by screen readers, and to give better explanation like this one.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To set the width of the tag, either as percentage by appending % or as pixel size by just using a number.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/contenttype</name>
+    <message>
+        <source>Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Flash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -945,6 +1016,25 @@ Vuoi maggiori informazioni sull&apos;argomento?</translation>
     <message>
         <source>You can find more documentation in the doc folder of this extension and online on %link.</source>
         <translation>Troverai maggiore documentazione nella cartella doc di questa estensione e online su %link.</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/handler</name>
+    <message>
+        <source>Some objects used in embed(-inline) tags have been deleted and are no longer available.</source>
+        <translation>Alcuni oggetti usati in stringhe incluse(-in linea) sono state cancellati e non sono più disponibili.</translation>
+    </message>
+    <message>
+        <source>Object %1 does not exist.</source>
+        <translation>L&apos;oggetto %1 non esiste.</translation>
+    </message>
+    <message>
+        <source>Node %1 does not exist.</source>
+        <translation>Il nodo %1 non esiste.</translation>
+    </message>
+    <message>
+        <source>Node &apos;%1&apos; does not exist.</source>
+        <translation>Il nodo &apos;%1&apos; non esiste.</translation>
     </message>
 </context>
 </TS>

@@ -1,38 +1,5 @@
 <!DOCTYPE TS><TS>
 <context>
-    <name>design/admin/content/edit</name>
-    <message>
-        <source>Name</source>
-        <translation>Nombre</translation>
-    </message>
-    <message>
-        <source>File type</source>
-        <translation>Tipo de archivo</translation>
-    </message>
-    <message>
-        <source>Size</source>
-        <translation>Tamaño</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation>Tipo</translation>
-    </message>
-</context>
-<context>
-    <name>design/admin/content/search</name>
-    <message>
-        <source>Search</source>
-        <translation>Buscar</translation>
-    </message>
-</context>
-<context>
-    <name>design/admin/content/upload</name>
-    <message>
-        <source>Upload</source>
-        <translation>Cargar</translation>
-    </message>
-</context>
-<context>
     <name>design/standard/content/datatype</name>
     <message>
         <source>Disable editor</source>
@@ -41,35 +8,6 @@
     <message>
         <source>Enable editor</source>
         <translation>Habilitar editor</translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/content/edit</name>
-    <message>
-        <source>Store draft</source>
-        <translation>Guardar borrador</translation>
-    </message>
-    <message>
-        <source>Send for publishing</source>
-        <translation>Enviar a publicación</translation>
-    </message>
-    <message>
-        <source>Discard</source>
-        <translation>Descartar</translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/content/search</name>
-    <message>
-        <source>No results were found when searching for &amp;quot;%1&amp;quot;</source>
-        <translation>No se han encontrado resultados al buscar por &amp;quot;%1&amp;quot;</translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/error/kernel</name>
-    <message>
-        <source>Your current user does not have the proper privileges to access this page.</source>
-        <translation>El usuario actual no cuenta con los privilegios adecuados para acceder a esta página. </translation>
     </message>
 </context>
 <context>
@@ -785,6 +723,10 @@ Do you want more information about this issue?</source>
         <translation>Subtítulo</translation>
     </message>
     <message>
+        <source>Alternative text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Description</source>
         <translation>Descripción</translation>
     </message>
@@ -815,6 +757,96 @@ Do you want more information about this issue?</source>
     <message>
         <source>Invalid parameter: %parameter = %value</source>
         <translation>Parámetro no válido: %parameter = %value</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/wai</name>
+    <message>
+        <source>Upload file from your local machine.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search for content already in eZ Publish.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse the content tree in eZ Publish.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select or browse content among your personal eZ Publish bookmarks.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name for the uploaded object, filename is used if none is specified.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose file to upload from your local machine.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lets you specify where in eZ Publish to store the uploaded object.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alternative text for the image, lets internet clients know what kind of image this is without dowloading it or actually seeing it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Caption for a image is usually shown bellow it as a description to the image.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Description to the file your uploading, so internet clients can read more about it before they decide to download it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the word you want to search for here, for instance the name of the content you are looking for.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lets you limit the content type your searching for, by limiting the eZ Publish content classes that are returned in the search result.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Class are often used to give different design or appearance, either by using a different template, style or both.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lets you specify the target window for the link, if any.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The title on the (x)html tag, used by screen readers, and to give better explanation like this one.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To set the width of the tag, either as percentage by appending % or as pixel size by just using a number.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/contenttype</name>
+    <message>
+        <source>Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Flash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -985,14 +1017,15 @@ Do you want more information about this issue?</source>
     </message>
 </context>
 <context>
-    <name>design/standard/node/view</name>
+    <name>design/standard/ezoe/handler</name>
     <message>
-        <source>Preview</source>
-        <translation>Vista previa</translation>
+        <source>Some objects used in embed(-inline) tags have been deleted and are no longer available.</source>
+        <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>handlers/input</name>
+    <message>
+        <source>Object %1 does not exist.</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <source>Node %1 does not exist.</source>
         <translation>El nodo %1 no existe.</translation>
@@ -1000,24 +1033,6 @@ Do you want more information about this issue?</source>
     <message>
         <source>Node &apos;%1&apos; does not exist.</source>
         <translation>El nodo &apos;%1&apos; no existe.</translation>
-    </message>
-</context>
-<context>
-    <name>kernel/classes/datatypes</name>
-    <message>
-        <source>Content required</source>
-        <translation>Contenido obligatorio</translation>
-    </message>
-    <message>
-        <source>Invalid e-mail address: &apos;%1&apos;</source>
-        <translation>Dirección de correo electrónico no válido: &apos;%1&apos;</translation>
-    </message>
-</context>
-<context>
-    <name>kernel/content</name>
-    <message>
-        <source>Top Level Nodes</source>
-        <translation>Nodos del nivel superior</translation>
     </message>
 </context>
 </TS>
