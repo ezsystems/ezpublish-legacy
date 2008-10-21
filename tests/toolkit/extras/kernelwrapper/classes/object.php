@@ -235,7 +235,11 @@ class ezpObject
         $adminUser->loginCurrent();
 
         $language = eZContentLanguage::fetchByLocale( $languageCode, false );
-        $this->object->removeTranslation( $language->attribute( 'id' ) );
+        $success = $this->object->removeTranslation( $language->attribute( 'id' ) );
+        if ( !$success )
+        {
+            throw new Exception( "Unable to remove translation $languageCode" );
+        }
 
         // $this->publish();
     }

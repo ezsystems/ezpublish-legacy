@@ -61,7 +61,7 @@ class eZURLAliasMlRegression extends ezpDatabaseTestCase
             }
         }
 
-        $query = "$columns $fromDb $conditions";
+        $query = "$columns $fromDb $conditions ORDER BY id";
         return $query;
     }
 
