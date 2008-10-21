@@ -98,4 +98,6 @@ button (if there is a button specifically for the tag you have selected)!
 These popup dialogs requires that html/htm files are allowed to be loaded from design
 folder. ( more specifically design/javscript/ )
 Take a look at you apache rewrite rules to make sure they are not rewritten by apache.
+See INSTALL if your running a .htaccess setup for how to make sure your rewrite rules
+work.
 
