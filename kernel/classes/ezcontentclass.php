@@ -529,20 +529,23 @@ class eZContentClass extends eZPersistentObject
             }
         }
 
+        $db = eZDB::instance();
+
         $filterTableSQL = '';
         $filterSQL = '';
         // Create extra SQL statements for the class group filters.
         if ( is_array( $groupList ) )
         {
+            if ( count( $groupList ) == 0 )
+            {
+                return $classList;
+            }
+
             $filterTableSQL = ', ezcontentclass_classgroup ccg';
             $filterSQL = ( " AND\n" .
                            "      cc.id = ccg.contentclass_id AND\n" .
-                           "      ccg.group_id " );
-            $groupText = implode( ', ', $groupList );
-            if ( $includeFilter )
-                $filterSQL .= "IN ( $groupText )";
-            else
-                $filterSQL .= "NOT IN ( $groupText )";
+                           "      " );
+            $filterSQL .= $db->generateSQLINStatement( $groupList, 'ccg.group_id', !$includeFilter, true, 'int' );
         }
 
         $classNameFilter = eZContentClassName::sqlFilter( 'cc' );
@@ -550,8 +553,6 @@ class eZContentClass extends eZPersistentObject
 
         if ( $fetchAll )
         {
-            $classList = array();
-            $db = eZDB::instance();
             // If $asObject is true we fetch all fields in class
             $fields = $asObject ? "cc.*, $classNameFilter[nameField]" : "cc.id, $classNameFilter[nameField]";
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
@@ -565,18 +566,15 @@ class eZContentClass extends eZPersistentObject
             // If the constrained class list is empty we are not allowed to create any class
             if ( count( $classIDArray ) == 0 )
             {
-                $classList = array();
                 return $classList;
             }
 
-            $classList = array();
-            $db = eZDB::instance();
-            $classString = implode( ',', $classIDArray );
+            $classIDCondition = $db->generateSQLInStatement( $classIDArray, 'cc.id' );
             // If $asObject is true we fetch all fields in class
             $fields = $asObject ? "cc.*, $classNameFilter[nameField]" : "cc.id, $classNameFilter[nameField]";
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
                                      "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from]\n" .
-                                     "WHERE cc.id IN ( $classString  ) AND\n" .
+                                     "WHERE $classIDCondition AND\n" .
                                      "      cc.version = " . eZContentClass::VERSION_STATUS_DEFINED . " $filterSQL\n" .
                                      "ORDER BY $classNameFilter[nameField] ASC" );
             $classList = eZPersistentObject::handleRows( $rows, 'eZContentClass', $asObject );
