@@ -414,3 +414,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13790: Transformation cache files differ sometimes
 - Fixed bug #13769: A redirecting URL alias to the main node results in a kernel(1) error
 - Fixed bug #13771: MYSQL Syntax error
+- Fixed bug #13799: Wrong destination URL used in warning message when trying to add an existing alias
