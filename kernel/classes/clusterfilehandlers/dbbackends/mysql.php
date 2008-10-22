@@ -37,7 +37,7 @@ define( 'TABLE_DATA',         'ezdbfile_data' );
 /*
 CREATE TABLE ezdbfile (
   datatype  VARCHAR(60)   NOT NULL DEFAULT 'application/octet-stream',
-  name      TEXT          NOT NULL DEFAULT '',
+  name      TEXT          NOT NULL,
   name_hash VARCHAR(34)   NOT NULL DEFAULT '',
   scope     VARCHAR(20)   NOT NULL DEFAULT '',
   size      BIGINT(20)    UNSIGNED NOT NULL,
