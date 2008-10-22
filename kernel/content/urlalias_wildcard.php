@@ -92,7 +92,7 @@ else if ( $Module->isCurrentAction( 'NewWildcard' ) )
             $infoCode = "feedback-wildcard-exists";
 
             $infoData['wildcard_src_url'] = $wildcardSrcText;
-            $infoData['wildcard_dst_url'] = $wildcardDstText;
+            $infoData['wildcard_dst_url'] = $wildcard['destination_url'];
         }
         else
         {
