@@ -535,7 +535,7 @@ while ( $moduleRunRequired )
         ////include_once( 'kernel/classes/ezurlaliasml.php' );
         $translateResult = eZURLAliasML::translate( $uri );
 
-        if ( !$translateResult )
+        if ( !is_string( $translateResult ) )
         {
             $useWildcardTranslation = $ini->variable( 'URLTranslator', 'WildcardTranslation' ) == 'enabled';
             if ( $useWildcardTranslation )
