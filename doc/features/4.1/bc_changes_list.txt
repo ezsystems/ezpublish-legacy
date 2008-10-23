@@ -1,0 +1,12 @@
+Changes to backwards-compatibility and behaviour
+================================================
+
+Starting with eZ Publish 4.1 we will be tracking changes relating to BC and
+behaviour more closely. There will be a dedicated file with information about
+changes which fall into this category.
+
+The file will be targeted at developers. There will be one file for every
+released version, if necessary.
+
+The file can be found at::
+    <ezp-root>/doc/bc/4.1/changes-4.1.0.txt

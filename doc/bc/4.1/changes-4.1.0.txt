@@ -1,0 +1,34 @@
+Changes to BC and behaviour in version 4.1.0
+============================================
+
+Requirement changes
+-------------------
+
+- New eZ Components being used:
+  - SystemInformation
+
+Deprecated features
+-------------------
+
+Removed features
+----------------
+
+New constants in config.php
+---------------------------
+
+EZP_INI_FILEMTIME_CHECK
+    This new setting controls whether eZINI should check if the settings have
+    been updated in the *.ini-files*. If this check is disabled eZ Publish
+    will always used the cached values, lowering the amount of stat-calls to
+    the file system, and thus increasing performance.
+
+Changes to method signatures
+----------------------------
+
+- eZContentObject - fetchAttributesByIdentifier
+
+  Parameter 3 is changed to be an array of locale codes, rather than a string
+  with locale code.
+
+Change of behaviour
+-------------------
