@@ -88,7 +88,10 @@ class eZFilePassthroughHandler extends eZBinaryFileHandler
             header( "Content-Length: $contentLength" );
             header( "Content-Type: $mimeType" );
             header( "X-Powered-By: eZ Publish" );
-            header( "Content-disposition: attachment; filename=\"$originalFileName\"" );
+
+            $dispositionType = self::dispositionType( $mimeType );
+            header( "Content-disposition: $dispositionType; filename=\"$originalFileName\"" );
+
             header( "Content-Transfer-Encoding: binary" );
             header( "Accept-Ranges: bytes" );
 
@@ -105,6 +108,28 @@ class eZFilePassthroughHandler extends eZBinaryFileHandler
             eZExecution::cleanExit();
         }
         return eZBinaryFileHandler::RESULT_UNAVAILABLE;
+    }
+
+    /**
+     * Checks if a file should be downloaded to disk or displayed inline in
+     * the browser.
+     *
+     * This method returns "attachment" if no setting for the mime type is found.
+     *
+     * @param string $mimetype 
+     * @return string "attachment" or "inline"
+     */
+    protected static function dispositionType( $mimeType )
+    {
+        $ini = eZINI::instance( 'file.ini' );
+
+        $mimeTypes = $ini->variable( 'PassThroughSettings', 'InlineMimeType', array() );
+        if ( isset( $mimeTypes[$mimeType] ) )
+        {
+            return $mimeTypes[$mimeType];
+        }
+
+        return "attachment";
     }
 }
 
