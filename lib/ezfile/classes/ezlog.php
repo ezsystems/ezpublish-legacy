@@ -59,11 +59,6 @@ class eZLog
     {
         $ini = eZINI::instance();
         $fileName = $dir . '/' . $logName;
-        if ( !file_exists( $dir ) )
-        {
-            //include_once( 'lib/ezfile/classes/ezdir.php' );
-            eZDir::mkdir( $dir, false, true );
-        }
         $oldumask = @umask( 0 );
 
         $fileExisted = @file_exists( $fileName );
@@ -72,6 +67,11 @@ class eZLog
         {
             if ( eZLog::rotateLog( $fileName ) )
                 $fileExisted = false;
+        }
+        else if ( !$fileExisted and !file_exists( $dir ) )
+        {
+            //include_once( 'lib/ezfile/classes/ezdir.php' );
+            eZDir::mkdir( $dir, false, true );
         }
 
         $logFile = @fopen( $fileName, "a" );
@@ -89,6 +89,10 @@ class eZLog
             }
             @umask( $oldumask );
         }
+        else
+        {
+        	eZDebug::writeError( 'Couldn\'t create the log file "' . $fileName . '"', 'eZLog::write()' );
+        }
     }
 
     /*!
@@ -102,11 +106,7 @@ class eZLog
         $logDir = $ini->variable( 'FileSettings', 'LogDir' );
         $logName = 'storage.log';
         $fileName = $varDir . '/' . $logDir . '/' . $logName;
-        if ( !file_exists( $varDir . '/' . $logDir ) )
-        {
-            //include_once( 'lib/ezfile/classes/ezdir.php' );
-            eZDir::mkdir( $varDir . '/' . $logDir, false, true );
-        }
+        $oldumask = @umask( 0 );
 
         $fileExisted = @file_exists( $fileName );
         if ( $fileExisted and
@@ -114,6 +114,11 @@ class eZLog
         {
             if ( eZLog::rotateLog( $fileName ) )
                 $fileExisted = false;
+        }
+        else if ( !$fileExisted and !file_exists( $varDir . '/' . $logDir ) )
+        {
+            //include_once( 'lib/ezfile/classes/ezdir.php' );
+            eZDir::mkdir( $varDir . '/' . $logDir, false, true );
         }
 
         if ( $dir !== false )
@@ -140,6 +145,10 @@ class eZLog
                 @chmod( $fileName, $permissions );
             }
             @umask( $oldumask );
+        }
+        else
+        {
+        	eZDebug::writeError( 'Couldn\'t create the log file "' . $fileName . '"', 'eZLog::writeStorageLog()' );
         }
     }
 

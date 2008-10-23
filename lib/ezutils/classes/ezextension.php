@@ -105,10 +105,6 @@ class eZExtension
         $ini = eZINI::instance();
         foreach ( $activeExtensions as $activeExtension )
         {
-            if ( !file_exists( $extensionDirectory . '/' . $activeExtension ) )
-            {
-                eZDebug::writeWarning( "Extension '$activeExtension' does not exist, looked for directory '" . $extensionDirectory . '/' . $activeExtension . "'" );
-            }
             $extensionSettingsPath = $extensionDirectory . '/' . $activeExtension . '/settings';
             if ( file_exists( $extensionSettingsPath ) )
             {
@@ -119,6 +115,10 @@ class eZExtension
                     eZExtension::prependSiteAccess( $activeExtension );
                 }
                 $hasExtensions = true;
+            }
+            else if ( !file_exists( $extensionDirectory . '/' . $activeExtension ) )
+            {
+                eZDebug::writeWarning( "Extension '$activeExtension' does not exist, looked for directory '" . $extensionDirectory . '/' . $activeExtension . "'" );
             }
         }
         if ( $hasExtensions )

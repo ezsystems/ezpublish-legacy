@@ -349,13 +349,16 @@ class eZDBInterface
      \private
      Writes a debug notice with query information.
     */
-    function reportQuery( $class, $sql, $numRows, $timeTaken )
+    function reportQuery( $class, $sql, $numRows, $timeTaken, $asDebug = false )
     {
         $rowText = '';
         if ( $numRows !== false ) $rowText = "$numRows rows, ";
 
-        $backgroundClass = ($this->TransactionCounter > 0  ? "debugtransaction transactionlevel-$this->TransactionCounter" : "");
-        eZDebug::writeNotice( "$sql", "$class::query($rowText" . number_format( $timeTaken, 3 ) . " ms) query number per page:" . $this->NumQueries++, $backgroundClass );
+        $backgroundClass = ($this->TransactionCounter > 0  ? "debugtransaction transactionlevel-$this->TransactionCounter" : '');
+        if ( $asDebug )
+        	eZDebug::writeDebug( "$sql", "$class::query($rowText" . number_format( $timeTaken, 3 ) . ' ms) query number per page:' . $this->NumQueries++, $backgroundClass );
+        else
+        	eZDebug::writeNotice( "$sql", "$class::query($rowText" . number_format( $timeTaken, 3 ) . ' ms) query number per page:' . $this->NumQueries++, $backgroundClass );
     }
 
     /*!

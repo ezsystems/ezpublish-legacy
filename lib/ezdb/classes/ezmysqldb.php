@@ -200,7 +200,7 @@ class eZMySQLDB extends eZDBInterface
             {
                 $query = "SET NAMES '" . $charset . "'";
                 $status = mysql_query( $query, $connection );
-                $this->reportQuery( 'eZMySQLDB', $query, false, false );
+                $this->reportQuery( 'eZMySQLDB', $query, false, false, true );
                 if ( !$status )
                 {
                     $this->setError();

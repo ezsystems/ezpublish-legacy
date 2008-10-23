@@ -54,6 +54,7 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Implemented enhancement #13735: Add overview of the SPL autoload function stack in system information
 - Implemented enhancement #13784: Remove deprecated ezfilepasstroughhandler
 - Implemented enhancement #13574: Remove legacy class eZXMLInputType
+- Implemented enhancement #13355: Small file_exists optimization to extension loading
 
 *Design:
 

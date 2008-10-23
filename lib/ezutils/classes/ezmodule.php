@@ -49,9 +49,9 @@ class eZModule
     const HOOK_STATUS_CANCEL_RUN = 1;
     const HOOK_STATUS_FAILED = 2;
 
-    function eZModule( $path, $file, $moduleName )
+    function eZModule( $path, $file, $moduleName, $checkFileExistence = true )
     {
-        $this->initialize( $path, $file, $moduleName );
+        $this->initialize( $path, $file, $moduleName, $checkFileExistence);
     }
 
     /*!
@@ -61,9 +61,9 @@ class eZModule
      of that file, it will then assume that some variables were set
      which defines the module and it's view/functions.
     */
-    function initialize( $path, $file, $moduleName )
+    function initialize( $path, $file, $moduleName, $checkFileExistence = true )
     {
-        if ( file_exists( $file ) )
+        if ( $checkFileExistence === false || file_exists( $file ) )
         {
             unset( $FunctionList );
             unset( $Module );
@@ -502,7 +502,6 @@ class eZModule
             return $viewData['params'];
         }
         return null;
-        return $retValue;
     }
 
     /*!
@@ -1306,7 +1305,13 @@ class eZModule
             {
                 $extPath = $extensionDirectory . '/' . $extensionRepository;
                 $modulePath = $extPath . '/modules';
-                if ( file_exists( $modulePath ) )
+                if ( !in_array( $extensionRepository, $activeExtensions ) )
+                {
+                    eZDebug::writeWarning( "Extension '$extensionRepository' was reported to have modules but has not yet been activated.\n" .
+                                           "Check the setting ModuleSettings/ExtensionRepositories in module.ini for your extensions\n" .
+                                           "or make sure it is activated in the setting ExtensionSettings/ActiveExtensions in site.ini." );
+                }
+                else if ( file_exists( $modulePath ) )
                 {
                     $globalExtensionRepositories[] = $modulePath;
                 }
@@ -1315,12 +1320,6 @@ class eZModule
                     eZDebug::writeWarning( "Extension '$extensionRepository' was reported to have modules but the extension itself does not exist.\n" .
                                            "Check the setting ModuleSettings/ExtensionRepositories in module.ini for your extensions.\n" .
                                            "You should probably remove this extension from the list." );
-                }
-                else if ( !in_array( $extensionRepository, $activeExtensions ) )
-                {
-                    eZDebug::writeWarning( "Extension '$extensionRepository' was reported to have modules but has not yet been activated.\n" .
-                                           "Check the setting ModuleSettings/ExtensionRepositories in module.ini for your extensions\n" .
-                                           "or make sure it is activated in the setting ExtensionSettings/ActiveExtensions in site.ini." );
                 }
                 else
                 {
@@ -1418,9 +1417,9 @@ class eZModule
             if ( file_exists( $file ) )
             {
                 if ( $module === null )
-                    $module = new eZModule( $path, $file, $moduleName );
+                    $module = new eZModule( $path, $file, $moduleName, false );
                 else
-                    $module->initialize( $path, $file, $moduleName );
+                    $module->initialize( $path, $file, $moduleName, false );
                 return $module;
             }
             else if ( !file_exists( $dir ) )

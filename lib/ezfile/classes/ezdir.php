@@ -112,7 +112,7 @@ class eZDir
                 return true;
             $currentDir = $dirElements[0];
             $result = true;
-            if ( !file_exists( $currentDir ) and $currentDir != "" )
+            if ( $currentDir != '' && !file_exists( $currentDir )  )
                 $result = eZDir::doMkdir( $currentDir, $perm );
             if ( !$result )
                 return false;

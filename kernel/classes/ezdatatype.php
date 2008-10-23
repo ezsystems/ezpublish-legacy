@@ -1307,7 +1307,7 @@ class eZDataType
     function getDBAFilePath( $checkExtensions = true )
     {
          $fileName = 'kernel/classes/datatypes/' . $this->DataTypeString . '/' . $this->getDBAFileName();
-         if ( !file_exists( $fileName ) and $checkExtensions === true )
+         if ( $checkExtensions === true && !file_exists( $fileName ) )
          {
              $fileName = $this->getDBAExtensionFilePath();
          }
