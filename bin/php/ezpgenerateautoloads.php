@@ -37,7 +37,7 @@ if ( !@include( 'ezc/Base/base.php' ) )
     require "Base/src/base.php";
 }
 
-require 'lib/ezutils/classes/ezautoloadgenerator.php';
+require 'kernel/private/classes/ezautoloadgenerator.php';
 
 function __autoload( $className )
 {

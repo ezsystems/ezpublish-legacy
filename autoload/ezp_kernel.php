@@ -21,7 +21,7 @@ return array(
       'eZAuthor'                           => 'kernel/classes/datatypes/ezauthor/ezauthor.php',
       'eZAuthorType'                       => 'kernel/classes/datatypes/ezauthor/ezauthortype.php',
       'eZAutoLinkOperator'                 => 'kernel/common/ezautolinkoperator.php',
-      'eZAutoloadGenerator'                => 'lib/ezutils/classes/ezautoloadgenerator.php',
+      'eZAutoloadGenerator'                => 'kernel/private/classes/ezautoloadgenerator.php',
       'eZBCMath'                           => 'lib/ezmath/classes/mathhandlers/ezbcmath.php',
       'eZBZIP2Handler'                     => 'lib/ezfile/classes/ezbzip2compressionhandler.php',
       'eZBasket'                           => 'kernel/classes/ezbasket.php',
