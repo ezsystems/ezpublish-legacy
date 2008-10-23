@@ -123,7 +123,7 @@ class eZFilePassthroughHandler extends eZBinaryFileHandler
     {
         $ini = eZINI::instance( 'file.ini' );
 
-        $mimeTypes = $ini->variable( 'PassThroughSettings', 'InlineMimeType', array() );
+        $mimeTypes = $ini->variable( 'PassThroughSettings', 'ContentDisposition', array() );
         if ( isset( $mimeTypes[$mimeType] ) )
         {
             return $mimeTypes[$mimeType];

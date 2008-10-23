@@ -1,0 +1,22 @@
+Content Disposition
+===================
+
+Added to file.ini there is a setting that can control, per mime type, which 
+files should be downloaded or viewed inline in the browser. This setting 
+controls how the "Content-disposition" header is set. The two valid values, 
+"inline" or "attachment" tells the browser how to handle the file. 
+
+Two use cases where controlling this is handy is:
+
+1. Starting from Flash Player 10 the flash will no longer be loaded if the
+header "Content-disposition: attachment;" is sent. 
+
+2. It's often the case that users wants to view PDFs in their browser instead
+of having to download to disk and then opening it. PDFs are by default downloaded.
+To change PDFs to be viewed inline set the following setting in file.ini:
+
+file.ini:
+::
+
+    [PassThroughSettings]
+    ContentDisposition[application/pdf]=inline
