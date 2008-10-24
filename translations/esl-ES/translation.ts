@@ -49,7 +49,7 @@
         <translation>-- Sin establecer --</translation>
     </message>
     <message>
-        <source>Copy/Cut/Paste is not available in Mozilla and Firefox.<byte value="xd"/>
+        <source>Copy/Cut/Paste is not available in Mozilla and Firefox.
 Do you want more information about this issue?</source>
         <translation>Copiar/Cortar/Pegar no están disponibles en Mozilla y Firefox.
 ¿Desea más información sobre este tema?</translation>

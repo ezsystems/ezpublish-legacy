@@ -49,7 +49,7 @@
         <translation>--- nicht zugewiesen --</translation>
     </message>
     <message>
-        <source>Copy/Cut/Paste is not available in Mozilla and Firefox.<byte value="xd"/>
+        <source>Copy/Cut/Paste is not available in Mozilla and Firefox.
 Do you want more information about this issue?</source>
         <translation>Kopieren/Ausschneiden/Einfügen ist für Mozilla und Firefox nicht verfügbar.
 Benötigen Sie hierzu weitere Informationen?</translation>

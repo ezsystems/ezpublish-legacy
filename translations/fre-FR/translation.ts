@@ -113,7 +113,7 @@
         <translation>-- Non défini --</translation>
     </message>
     <message>
-        <source>Copy/Cut/Paste is not available in Mozilla and Firefox.<byte value="xd"/>
+        <source>Copy/Cut/Paste is not available in Mozilla and Firefox.
 Do you want more information about this issue?</source>
         <translation>Copier/Couper/Coller n&apos;est pas disponible pour Mozilla et Firefox.
 Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>

@@ -111,7 +111,7 @@
         <translation>-- No establert --</translation>
     </message>
     <message>
-        <source>Copy/Cut/Paste is not available in Mozilla and Firefox.<byte value="xd"/>
+        <source>Copy/Cut/Paste is not available in Mozilla and Firefox.
 Do you want more information about this issue?</source>
         <translation>Copia/Retalla/Enganxa no està disponible a Mozilla i Firefox.
 Vols rebre més informació al respecte?</translation>

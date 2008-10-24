@@ -49,7 +49,7 @@
         <translation>-- Ikke angivet --</translation>
     </message>
     <message>
-        <source>Copy/Cut/Paste is not available in Mozilla and Firefox.<byte value="xd"/>
+        <source>Copy/Cut/Paste is not available in Mozilla and Firefox.
 Do you want more information about this issue?</source>
         <translation>Kopier/Klip/Indsæt er ikke tilgængelig i Mozilla og Firefox
 Vil du have flere oplysninger om dette problem?</translation>
