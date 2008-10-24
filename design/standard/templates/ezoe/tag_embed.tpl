@@ -45,7 +45,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
             selectors[1].el.value = align;
             selectors.callEach('addEvent', 'change', loadEmbedPreview );
 
-            if ( el && el.nodeName !== 'IMG' && el.id.split('_')[1] == eZOEPopupUtils.embedObject.id )
+            if ( el && el.nodeName !== 'IMG' )//&& el.id.split('_')[1] == eZOEPopupUtils.embedObject.id )
                 ez.$('embed_preview').el.innerHTML = el.innerHTML;
             else
                 loadEmbedPreview();        
@@ -81,7 +81,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     },
     tagAttributeEditor: function( ed, el, args )
     {
-        args['id'] = 'eZObject_' + eZOEPopupUtils.embedObject['contentobject_id'];
+        //args['id'] = 'eZObject_' + eZOEPopupUtils.embedObject['contentobject_id'];
         args['inline'] = ez.$('embed_inline_source').el.checked ? 'true' : 'false';
         el = eZOEPopupUtils.switchTagTypeIfNeeded( el, (contentType === 'image' || compatibilityMode === 'enabled' ? 'img' : (args['inline'] === 'true' ? 'span' : 'div') ) );
         if ( contentType === 'image' )
@@ -233,6 +233,21 @@ function loadEmbedPreview( )
             <h2 style="padding: 0 0 4px 0;">{$embed_object.name|wash}</h2>
         </div>
         <table class="properties" id="embed_attributes">
+            <tr id="embed_id">
+                <td class="column1"><label for="embed_alt_source">{'Relation'|i18n('design/standard/ezoe')}</label></td>
+                <td>
+                    <select name="id" id="embed_id_source">
+                    <option value="eZObject_{$embed_object.id}"{if $embed_type|eq( 'eZObject' )} selected="selected"{/if}>
+                        {'Object'|i18n('design/standard/ezoe')}: {$embed_object.name|wash}
+                    </option>
+                    {foreach $embed_object.assigned_nodes as $assigned_node}
+                    <option value="eZNode_{$assigned_node.node_id}"{if and($embed_type|eq( 'eZNode' ), $assigned_node.node_id|eq( $embed_id ))} selected="selected"{/if}>
+                        {'Node'|i18n('design/standard/ezoe')}: {$assigned_node.path_identification_string}
+                    </option>
+                    {/foreach}
+                    </select>
+                </td>
+            </tr>
         {if $content_type|eq( 'image' )}
             <tr id="embed_alt">
                 <td class="column1"><label for="embed_alt_source">{'Size'|i18n('design/standard/ezoe')}</label></td>

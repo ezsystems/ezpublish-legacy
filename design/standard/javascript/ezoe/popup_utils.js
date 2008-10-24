@@ -451,14 +451,14 @@ var eZOEPopupUtils = {
         return currentNode;
     },
 
-    selectByEmbedId: function( id )
+    selectByEmbedId: function( id, node_id, name, useNode )
     {
         // redirects to embed window of a specific object id
         // global objects: ez 
         if ( ez.val( id ) )
         {
-            var s = tinyMCEPopup.editor.settings;
-            window.location = s.ez_extension_url + '/relations/' + s.ez_contentobject_id + '/' + s.ez_contentobject_version + '/auto/eZObject_' + id;
+            var s = tinyMCEPopup.editor.settings, type = useNode === true ? 'eZNode_' + node_id : 'eZObject_' + id ;
+            window.location = s.ez_extension_url + '/relations/' + s.ez_contentobject_id + '/' + s.ez_contentobject_version + '/auto/' + type;
         }
     },
 

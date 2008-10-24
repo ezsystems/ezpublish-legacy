@@ -84,7 +84,7 @@ if ( !$object )
 if ( isset( $Params['EmbedID'] )  && $Params['EmbedID'])
 {
     $embedType = 'eZObject';
-    if (  is_numeric( $Params['EmbedID'] ) )
+    if ( is_numeric( $Params['EmbedID'] ) )
         $embedId = $Params['EmbedID'];
     else
         list($embedType, $embedId) = explode('_', $Params['EmbedID']);
@@ -251,6 +251,7 @@ $tpl->setVariable( 'object_id', $objectID );
 $tpl->setVariable( 'object_version', $objectVersion );
 
 $tpl->setVariable( 'embed_id', $embedId );
+$tpl->setVariable( 'embed_type', $embedType );
 $tpl->setVariable( 'embed_object', $embedObject );
 $tpl->setVariable( 'embed_data', eZOEAjaxContent::encode( $embedObject, $params ) );
 $tpl->setVariable( 'content_type', $contentType );

@@ -1,5 +1,9 @@
 eZ Online Editor 5.0 extension Changelog
 
+5.0rc8
+* Added support for node relations
+
+
 5.0rc7
 * Changed javascript / stylesheet cache to use 'public/' path
   NOTE: Rewrite rules changed, see INSTALL for the new rewrite rule
@@ -14,6 +18,7 @@ eZ Online Editor 5.0 extension Changelog
 * Additional fixes for #013505: Anchor in links are lost
 * Moved custom attribute settings to ezoe_customattributes.ini from content.ini
 * Misc WAI and usability improvments to the dialogs reported by customers
+  NOTE: This introduced several new strings, see .ts files for type="unfinished"
 
 
 5.0rc6
