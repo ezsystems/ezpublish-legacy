@@ -607,26 +607,28 @@ class eZContentObject extends eZPersistentObject
             $version = $this->CurrentVersion;
         }
 
-        if ( $languageArray !== false )
+        if ( is_array( $languageArray ) )
         {
-            if ( is_array( $languageArray ) )
+            $langCodeQuotedString = array();
+            foreach ( $languageArray as $langCode )
             {
-                $langCodeQuotedString = array();
-                foreach ( $languageArray as $langCode )
-                {
+                if ( is_string( $langCode ) )
                     $langCodeQuotedString[] = "'$langCode'";
-                }
+            }
 
+            if ( !empty( $langCodeQuotedString ) )
+            {
                 $languageText = "AND\n\t\t";
                 $languageText .= $db->generateSQLINStatement( $langCodeQuotedString, 'ezcontentobject_attribute.language_code' );
             }
-            // Adding support for the old language parameter <= 4.0.1 here, where only one string for locale code was provided.
-            else if ( is_string( $languageArray ) )
-            {
-                $languageText = "AND\n\t\t\t ezcontentobject_attribute.language_code = '$languageArray'";
-            }
         }
-        else
+        // Adding support for the old language parameter <= 4.0.1 here, where only one string for locale code was provided.
+        else if ( is_string( $languageArray ) )
+        {
+            $languageText = "AND\n\t\t\t ezcontentobject_attribute.language_code = '$languageArray'";
+        }
+
+        if ( !isset( $languageText ) )
         {
             $languageText = "AND\n\t\t\t" . eZContentLanguage::sqlFilter( 'ezcontentobject_attribute', 'ezcontentobject_version' );
         }
