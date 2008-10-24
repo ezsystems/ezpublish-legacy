@@ -1,942 +1,1271 @@
-<!DOCTYPE TS><TS>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS><TS version="1.1" language="pl_PL">
+<defaultcodec></defaultcodec>
+<context>
+    <name>design/admin/content/edit</name>
+    <message>
+        <location filename="" line="0"/>
+        <source>Name</source>
+        <translation>Nazwa</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>File type</source>
+        <translation>Typ pliku</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Size</source>
+        <translation>Rozmiar</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Type</source>
+        <translation>Typ</translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/content/search</name>
+    <message>
+        <location filename="" line="0"/>
+        <source>Search</source>
+        <translation>Szukaj</translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/content/upload</name>
+    <message>
+        <location filename="" line="0"/>
+        <source>Upload</source>
+        <translation>Wczytaj</translation>
+    </message>
+</context>
 <context>
     <name>design/standard/content/datatype</name>
     <message>
+        <location filename="" line="0"/>
         <source>Disable editor</source>
         <translation>Wyłącz edytor</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Enable editor</source>
         <translation>Włącz edytor</translation>
     </message>
 </context>
 <context>
+    <name>design/standard/content/edit</name>
+    <message>
+        <location filename="" line="0"/>
+        <source>Store draft</source>
+        <translation>Zachowaj szkic</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Send for publishing</source>
+        <translation>Wyślij do publikacji</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Discard</source>
+        <translation>Odrzuć</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/search</name>
+    <message>
+        <location filename="" line="0"/>
+        <source>No results were found when searching for &amp;quot;%1&amp;quot;</source>
+        <translation>Brak rezultatu wyszukiwania dla &amp;quot;%1&amp;quot;</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/error/kernel</name>
+    <message>
+        <location filename="" line="0"/>
+        <source>Your current user does not have the proper privileges to access this page.</source>
+        <translation>Twój obecny użytkownik nie ma ustawionych właściwych praw dostępu do strony.</translation>
+    </message>
+</context>
+<context>
     <name>design/standard/ezoe</name>
     <message>
-        <source>Insert special character</source>
-        <translation>Wstaw znak specjalny</translation>
-    </message>
-    <message>
-        <source>Insert literal text</source>
-        <translation>Wstaw literał</translation>
-    </message>
-    <message>
-        <source>Insert custom tag</source>
-        <translation>Wstaw własny tag</translation>
-    </message>
-    <message>
-        <source>Insert pagebreak</source>
-        <translation>Wstaw znak podziału strony</translation>
-    </message>
-    <message>
-        <source>Delete table</source>
-        <translation>Usuń tabelę</translation>
-    </message>
-    <message>
-        <source>Delete row</source>
-        <translation>Usuń wiersz</translation>
-    </message>
-    <message>
-        <source>Find</source>
-        <translation>Znajdź</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>Pomoc</translation>
-    </message>
-    <message>
-        <source>Heading 1</source>
-        <translation>Nagłówek 1</translation>
-    </message>
-    <message>
-        <source>Heading 2</source>
-        <translation>Nagłówek 2</translation>
-    </message>
-    <message>
-        <source>Heading 3</source>
-        <translation>Nagłówek 3</translation>
-    </message>
-    <message>
-        <source>Heading 4</source>
-        <translation>Nagłówek 4</translation>
-    </message>
-    <message>
-        <source>Heading 5</source>
-        <translation>Nagłówek 5</translation>
-    </message>
-    <message>
-        <source>Heading 6</source>
-        <translation>Nagłówek 6</translation>
-    </message>
-    <message>
-        <source>Literal</source>
-        <translation>Literał</translation>
-    </message>
-    <message>
-        <source>Properties</source>
-        <translation>Właściwości</translation>
-    </message>
-    <message>
-        <source>Link Properties</source>
-        <translation>Właściwości linku</translation>
-    </message>
-    <message>
-        <source>Cut</source>
-        <translation>Wytnij</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Kopiuj</translation>
-    </message>
-    <message>
-        <source>Paste</source>
-        <translation>Wklej</translation>
-    </message>
-    <message>
-        <source>Select All</source>
-        <translation>Zaznacz wszystkie</translation>
-    </message>
-    <message>
-        <source>Table Properties</source>
-        <translation>Właściwości tabeli</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>OK</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation>Nazwa</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Anuluj</translation>
-    </message>
-    <message>
-        <source>Class</source>
-        <translation>Klasa</translation>
-    </message>
-    <message>
-        <source>none</source>
-        <translation>brak</translation>
-    </message>
-    <message>
-        <source>Inline</source>
-        <translation>W linii</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation>Typ</translation>
-    </message>
-    <message>
-        <source>Browse</source>
-        <translation>Przeglądaj</translation>
-    </message>
-    <message>
-        <source>Upload local file</source>
-        <translation>Wgraj plik z dysku</translation>
-    </message>
-    <message>
-        <source>Location</source>
-        <translation>Lokalizacja</translation>
-    </message>
-    <message>
-        <source>Automatic</source>
-        <translation>Automatyczne</translation>
-    </message>
-    <message>
-        <source>File</source>
-        <translation>Plik</translation>
-    </message>
-    <message>
-        <source>Caption</source>
-        <translation>Podpis</translation>
-    </message>
-    <message>
-        <source>Alternative text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Description</source>
-        <translation>Opis</translation>
-    </message>
-    <message>
-        <source>Related images</source>
-        <translation>Powiązane obrazy</translation>
-    </message>
-    <message>
-        <source>Related files</source>
-        <translation>Powiązane pliki</translation>
-    </message>
-    <message>
-        <source>Related content</source>
-        <translation>Powiązane treści</translation>
-    </message>
-    <message>
-        <source>There are no related objects.</source>
-        <translation>Brak powiązanych obiektów.</translation>
-    </message>
-    <message>
-        <source>Upload new</source>
-        <translation>Wgraj nowy</translation>
-    </message>
-    <message>
-        <source>Center</source>
-        <translation>Do środka</translation>
-    </message>
-    <message>
-        <source>Left</source>
-        <translation>Do lewej</translation>
-    </message>
-    <message>
-        <source>Right</source>
-        <translation>Do prawej</translation>
-    </message>
-    <message>
-        <source>Rows</source>
-        <translation>Rzędów</translation>
-    </message>
-    <message>
-        <source>Columns</source>
-        <translation>Kolumn</translation>
-    </message>
-    <message>
-        <source>Size</source>
-        <translation>Rozmiar</translation>
-    </message>
-    <message>
-        <source>Border</source>
-        <translation>Ramka</translation>
-    </message>
-    <message>
-        <source>Width</source>
-        <translation>Szerokość</translation>
-    </message>
-    <message>
-        <source>Apply to</source>
-        <translation>Zastosuj</translation>
-    </message>
-    <message>
-        <source>Cell</source>
-        <translation>Komórka</translation>
-    </message>
-    <message>
-        <source>Row</source>
-        <translation>Wiersz</translation>
-    </message>
-    <message>
-        <source>Column</source>
-        <translation>Kolumna</translation>
-    </message>
-    <message>
-        <source>Cell Properties</source>
-        <translation>Właściwości komórki</translation>
-    </message>
-    <message>
-        <source>Custom tag properties</source>
-        <translation>Właściwości własnych tagów</translation>
-    </message>
-    <message>
-        <source>Anchor properties</source>
-        <translation>Właściwości kotwicy</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>Podgląd</translation>
-    </message>
-    <message>
-        <source>Align</source>
-        <translation>Wyrównanie</translation>
-    </message>
-    <message>
+        <location filename="" line="0"/>
         <source>Do you want to use the WYSIWYG mode for this textarea?</source>
-        <translation>Czy chcesz skorzystać z trybu WYSIWYG dla tego pola?</translation>
+        <translation>Czy chcesz użyć edytora WYSIWYG dla pól texterea?</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Apply</source>
-        <translation>Zastosuj</translation>
+        <translation>Zatwierdź</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Insert</source>
         <translation>Wstaw</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Update</source>
-        <translation>Aktualizuj</translation>
+        <translation>Wgraj</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
+        <source>Cancel</source>
+        <translation>Anuluj</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
         <source>Close</source>
         <translation>Zamknij</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
+        <source>Browse</source>
+        <translation>Przeglądaj</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Class</source>
+        <translation>Klasa</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
         <source>-- Not set --</source>
-        <translation>-- Nie ustawiono --</translation>
+        <translation>-- Brak--</translation>
     </message>
     <message>
-        <source>Copy/Cut/Paste is not available in Mozilla and Firefox. Do you want more information about this issue?</source>
-        <translation>Kopiuj/Wytnij/Wklej nie jest dostępne w przeglądarkach Mozilla i Firefox. Czy chcesz dowiedzieć się więcej o tym problemie?</translation>
+        <location filename="" line="0"/>
+        <source>Copy/Cut/Paste is not available in Mozilla and Firefox.<byte value="xd"/>
+Do you want more information about this issue?</source>
+        <translation>Kopiuj/Wytnij/Wklej jest niedostępne w Mozilli i Firefoxie.(powrót karetki) (nowa linia)
+Czy chcesz uzyskać więcej informacji?</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Currently not supported by your browser, use keyboard shortcuts instead.</source>
-        <translation>Obecnie brak wsparcia dla tej funkcji w Twojej przeglądarce, użyj skrótów klawiszowych.</translation>
+        <translation>Na chwilę obecną nie jest obługiwane przez twoją przeglądarkę, użyj w zamian skrótów klawiatury.</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Sorry, but we have noticed that your popup-blocker has disabled a window that provides application functionality. You will need to disable popup blocking on this site in order to fully utilize this tool.</source>
-        <translation>Wykryto, że aplikacja blokująca okna popup uniemożliwia dostęp do podstawowych funkcjonalności edytora. Skorzystanie z jego pełnych możliwości będzie możliwe dopiero po wyłączeniu blokady dla tej witryny (domeny).</translation>
+        <translation>Przepraszamy, ale wykryliśmy, że twoja przeglądarka blokuje wyskaiwanie nowych okien. Wyłącz blokowanie nowych okien w celu wykorzstania pełnej funkcjonaloności tego narzędzia.</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Error: Invalid values entered, these are marked in red.</source>
-        <translation>Błąd: Wprowadzono nieprawidłowe wartości (zaznaczone na czerwono).</translation>
+        <translation>Błąd: Wprowadzone niepoprawne dane, które są zaznaczone czerwonym kolorem.</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>More colors</source>
         <translation>Więcej kolorów</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Alignment</source>
         <translation>Wyrównanie</translation>
     </message>
     <message>
-        <source>Full</source>
-        <translation>Pełny</translation>
+        <location filename="" line="0"/>
+        <source>Left</source>
+        <translation>Do lewej</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
+        <source>Center</source>
+        <translation>Do środka</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Right</source>
+        <translation>Do prawej</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Full</source>
+        <translation>Do lewej i prawej</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
         <source>%Y-%m-%d</source>
         <translation>%Y-%m-%d</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>%H:%M:%S</source>
         <translation>%H:%M:%S</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Insert date</source>
-        <translation>Wstaw datę</translation>
+        <translation>Wprowadź datę</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Insert time</source>
-        <translation>Wstaw godzinę</translation>
+        <translation>Wprowadź godzinę</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Print</source>
         <translation>Drukuj</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Preview</source>
         <translation>Podgląd</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Direction left to right</source>
-        <translation>Od lewej do prawej</translation>
+        <translation>Kierunek - od lewej do prawej</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Direction right to left</source>
-        <translation>Od prawej do lewej</translation>
+        <translation>Kierunek - do prawej do lewej</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Cancel all changes</source>
-        <translation>Anuluj wszystkie</translation>
+        <translation>Anuluj wszystkie zmiany</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Insert non-breaking space character</source>
-        <translation>Wstaw twardą spację</translation>
+        <translation>Dodaj znak twardej spacji</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
+        <source>Find</source>
+        <translation>Znajdź</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
         <source>Find/Replace</source>
-        <translation>Znajdź/zamień</translation>
+        <translation>Znajdź/Zastąp</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Paste as Plain Text</source>
-        <translation>Wklej jako tekst nieformatowany</translation>
+        <translation>Wklej jako czysty tekst</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Paste from Word</source>
-        <translation>Wklej z edytora Word</translation>
+        <translation>Wklej z Worda</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
+        <source>Select All</source>
+        <translation>Zaznacz wszystko</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
         <source>Use CTRL+V on your keyboard to paste the text into the window.</source>
-        <translation>Użyj skrótu klawiszowego Ctrl+V aby wkleić tekst w okno.</translation>
+        <translation>Użyj CTRL+V w celu wklejenia teksu w okno.</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Keep linebreaks</source>
-        <translation>Zachowaj znaki końca linii</translation>
+        <translation>Zachowaj łamanie linii</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Inserts a new table</source>
-        <translation>Wstaw nową tabelę</translation>
+        <translation>Dodaj nową tabelę</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Insert row before</source>
-        <translation>Wstaw wiersz przed</translation>
+        <translation>Dodaj nowy wiersz przed</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Insert row after</source>
-        <translation>Wstaw wiersz po</translation>
+        <translation>Dodaj nowy wiersz po</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
+        <source>Delete row</source>
+        <translation>Usuń wiersz</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
         <source>Insert column before</source>
-        <translation>Wstaw kolumnę przed</translation>
+        <translation>Dodaj kolumnę przed</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Insert column after</source>
-        <translation>Wstaw kolumnę po</translation>
+        <translation>Dodaj kolumnę za</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Remove column</source>
         <translation>Usuń kolumnę</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Split merged table cells</source>
         <translation>Podziel połączone komórki tabeli</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Merge table cells</source>
         <translation>Połącz komórki tabeli</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Table row properties</source>
-        <translation>Właściwości wiersza tabeli</translation>
+        <translation>Właściwości wierszy tabeli</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Table cell properties</source>
-        <translation>Właściwości komórki tabeli</translation>
+        <translation>Właściwości komórek tabeli</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
+        <source>Table properties</source>
+        <translation>Właścicwości tabeli</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
         <source>Paste table row before</source>
         <translation>Wklej wiersz tabeli przed</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Paste table row after</source>
         <translation>Wklej wiersz tabeli po</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Cut table row</source>
         <translation>Wytnij wiersz tabeli</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Copy table row</source>
         <translation>Kopiuj wiersz tabeli</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
+        <source>Delete table</source>
+        <translation>Usuń tabelę</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Row</source>
+        <translation>Wiersz</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Column</source>
+        <translation>Kolumna</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Rows</source>
+        <translation>Wiersze</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Columns</source>
+        <translation>Kolumny</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Cell</source>
+        <translation>Komórka</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
         <source>The changes you made will be lost if you navigate away from this page.</source>
-        <translation>Zmiany, które wprowadziłeś, zostaną utracone jeżeli przejdziesz do innej strony.</translation>
+        <translation>Zmiany, które wprowadziłeś, zostną utracone, jeżeli przejdziesz na inną stronę.</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Toggle fullscreen mode</source>
-        <translation>Przejdź w tryb pełnoekranowy</translation>
+        <translation>Uruchom tryb pełno ekranowy</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Insert / edit embedded media</source>
         <translation>Wstaw / edytuj osadzone media</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Edit embedded media</source>
         <translation>Edytuj osadzone media</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Document properties</source>
         <translation>Właściwości dokumentu</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Insert predefined template content</source>
-        <translation>Wstaw predefiniowaną szablon treści</translation>
+        <translation>Wprowadź predefiniowaną zawartość szablonu</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Visual control characters on/off.</source>
-        <translation>Wizualna kontrola znaków wł/wył.</translation>
+        <translation>Wizualna kontrola znaków wł./wył.</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Insert page break.</source>
-        <translation>Wstaw znak końca strony.</translation>
+        <translation>Wprowaðź koniec strony.</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Styles</source>
         <translation>Style</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Format</source>
-        <translation>Formatuj</translation>
+        <translation>Format</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Paragraph</source>
         <translation>Akapit</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Div</source>
         <translation>Div</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
+        <source>Literal</source>
+        <translation>Niesformatowany</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Heading 1</source>
+        <translation>Nagłówek 1</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Heading 2</source>
+        <translation>Nagłówek 2</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Heading 3</source>
+        <translation>Nagłówek 3</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Heading 4</source>
+        <translation>Nagłówek 4</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Heading 5</source>
+        <translation>Nagłówek 5</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Heading 6</source>
+        <translation>Nagłówek 6</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
         <source>Code</source>
         <translation>Kod</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Code sample</source>
-        <translation>Próbka kodu</translation>
+        <translation>Przykład kodu</translation>
     </message>
     <message>
-        <source>Definition term</source>
-        <translation>Pojęcie</translation>
+        <location filename="" line="0"/>
+        <source>Definition term </source>
+        <translation>Definicja warunku</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Definition description</source>
-        <translation>Definicja</translation>
+        <translation>Definicja opisu</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Bold (Ctrl+B)</source>
-        <translation>Pogrubienie (Ctrl+B)</translation>
+        <translation>Pogrubiony (Ctrl+B)</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Italic (Ctrl+I)</source>
         <translation>Kursywa (Ctrl+I)</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Underline (Ctrl+U)</source>
         <translation>Podkreślenie (Ctrl+U)</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Strikethrough</source>
         <translation>Przekreślenie</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Align left</source>
         <translation>Wyrównanie do lewej</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Align center</source>
-        <translation>Wyśrodkowanie</translation>
+        <translation>Wyrównanie do środka</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Align right</source>
         <translation>Wyrównanie do prawej</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Align full</source>
-        <translation>Wyrównanie pełne???</translation>
+        <translation>Wyrównanie do lewej i prawej</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Unordered list</source>
-        <translation>Lista nieuporządkowana</translation>
+        <translation>Nieposortowana lista</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Ordered list</source>
-        <translation>Lista uporządkowana</translation>
+        <translation>Posortowana lista</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Outdent</source>
-        <translation>Zmniejsz wcięcie</translation>
+        <translation>Outdent</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Indent</source>
-        <translation>Zwiększ wcięcie</translation>
+        <translation> Wcięcie</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Undo (Ctrl+Z)</source>
         <translation>Cofnij (Ctrl+Z)</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Redo (Ctrl+Y)</source>
-        <translation>Ponów (Ctrl+Y)</translation>
+        <translation>Cofnij cofnięcie (Ctrl+Y)</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Insert/edit link</source>
         <translation>Wstaw/edytuj link</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Unlink</source>
-        <translation>Usuń link</translation>
+        <translation>Odlinkuj</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Insert/edit image</source>
         <translation>Wstaw/edytuj obraz</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Insert/edit object</source>
         <translation>Wstaw/edytuj obiekt</translation>
     </message>
     <message>
-        <source>Cleanup messy code</source>
-        <translation>Oczyść kod</translation>
+        <location filename="" line="0"/>
+        <source>Insert custom tag</source>
+        <translation>Wstaw zdefiniowany znacznik</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
+        <source>Insert literal text</source>
+        <translation>Wstaw niesformatowany tekst </translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Insert pagebreak</source>
+        <translation>Wstaw koniec strony</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Cleanup messy code</source>
+        <translation>Wyczyść błędny kod</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
         <source>Edit HTML Source</source>
         <translation>Edytuj źródło HTML</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Subscript</source>
-        <translation>Indeks dolny</translation>
+        <translation>Subskrybuj</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Superscript</source>
-        <translation>Indeks górny</translation>
+        <translation>Syperscript</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Remove formatting</source>
         <translation>Usuń formatowanie</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Your custom description here</source>
-        <translation>Twój własny opis tutaj</translation>
+        <translation>Twój własny opis</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
+        <source>Insert special character</source>
+        <translation>Wstaw znak specjalny</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
         <source>Toggle guidelines/invisible elements</source>
-        <translation>Włącz podpowiedzi/ukryte elementy</translation>
+        <translation>Przełącz wskazówki/niewidoczne elementy</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Insert/edit anchor</source>
-        <translation>Wstaw/edytuj kotwicę</translation>
+        <translation>Dodaj/ edytuj zakotwiczenie</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
+        <source>Cut</source>
+        <translation>Wytnij</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Copy</source>
+        <translation>Kopiuj</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Paste</source>
+        <translation>Wklej</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
         <source>Image properties</source>
-        <translation>Właściwości obrazu</translation>
+        <translation>Właściwości obrazka</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>New document</source>
         <translation>Nowy dokument</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
+        <source>Help</source>
+        <translation>Pomoc</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
         <source>Path</source>
         <translation>Ścieżka</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Are you sure you want clear all contents?</source>
-        <translation>Czy na pewno chcesz wyczyścić całą zawartość?</translation>
+        <translation>Czy chcesz wyczyścić całą zawartośc?</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Jump to tool buttons - Alt+Q, Jump to editor - Alt-Z, Jump to element path - Alt-X</source>
-        <translation>Przejdź do przycisków narzędzi - Alt+Q, Przejdź do edytora - Alt-Z, Przejdź do ścieżki - Alt-X</translation>
+        <translation>Przejdź do przycisków narzędzi - Alt+Q, przejðź do edytora - Alt+Z, przejdź do ścieżki elmentu - Alt+X</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Next</source>
-        <translation>Następne</translation>
+        <translation>Naśtępny</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Previous</source>
-        <translation>Poprzednie</translation>
+        <translation>Poprzedni</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Select</source>
         <translation>Wybierz</translation>
     </message>
     <message>
-        <source>About</source>
-        <translation>O projekcie</translation>
+        <location filename="" line="0"/>
+        <source>Type</source>
+        <translation>Typ</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
+        <source>About</source>
+        <translation>O</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
         <source>License</source>
         <translation>Licencja</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Plugins</source>
         <translation>Wtyczki</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Plugin</source>
         <translation>Wtyczka</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Author</source>
         <translation>Autor</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Version</source>
         <translation>Wersja</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Loaded plugins</source>
-        <translation>Aktywne wtyczki</translation>
+        <translation>Załadowane wtyczki</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>HTML Source Editor</source>
-        <translation>Edytor źródła HTML</translation>
+        <translation>Edyto kodu HTML</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Word wrap</source>
-        <translation>Zawijanie wierszy</translation>
+        <translation>Zawijanie tekstu</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Select a color</source>
         <translation>Wybierz kolor</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Picker</source>
-        <translation>Próbnik</translation>
+        <translation>Picker</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Color picker</source>
-        <translation>Próbnik koloru</translation>
+        <translation>Kolor picker</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Palette</source>
         <translation>Paleta</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Palette colors</source>
-        <translation>Kolory z palety</translation>
+        <translation>Paleta kolorów</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Named</source>
-        <translation>Nazwane</translation>
+        <translation>Nazwany</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Named colors</source>
-        <translation>Nazwane kolory</translation>
+        <translation>Nazwany kolor</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Color</source>
         <translation>Kolor</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
+        <source>Name</source>
+        <translation>Nazwa</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
         <source>Select special character</source>
-        <translation>Wybierz znak specjalny</translation>
+        <translation>Wybierz specjalny znak</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>All</source>
-        <translation>Wszystkie</translation>
+        <translation>Wszystko</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
+        <source>Align</source>
+        <translation>Wyrównanie</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Size</source>
+        <translation>Rozmiar</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>View</source>
+        <translation>Widok</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Inline</source>
+        <translation>W linii</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
         <source>Title</source>
         <translation>Tytuł</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Offset</source>
-        <translation>Od</translation>
+        <translation>Offset</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Limit</source>
         <translation>Limit</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>ID</source>
         <translation>ID</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Href</source>
         <translation>Href</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Target</source>
-        <translation>Target</translation>
+        <translation>Cel</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
+        <source>Width</source>
+        <translation>Szerokość</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Border</source>
+        <translation>Obramowanie</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
         <source>Tag</source>
-        <translation>Tag</translation>
+        <translation>Znacznik</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Anchor properties</source>
+        <translation>Właściwości zakotwiczenia</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Properties</source>
+        <translation>Właściwości</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Custom tag properties</source>
+        <translation>Właściwości zdefiniowanego znacznika </translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Related content</source>
+        <translation>Zawartość powiązana</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
         <source>Crop</source>
-        <translation>Kadruj</translation>
+        <translation>Przytnij</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
+        <source>None</source>
+        <translation>Brak</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
         <source>Switch embed image</source>
-        <translation>Wymień osadzony obraz</translation>
+        <translation>Zmień osadzony obrazek</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Switch embed object</source>
-        <translation>Wymień osadzony obiekt</translation>
+        <translation>Zmień osadzony obiekt</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Heading Properties</source>
         <translation>Właściwości nagłówka</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
+        <source>Link properties</source>
+        <translation>Właściwości odnośnika</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Table Properties</source>
+        <translation>Właściwości tabeli</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Cell Properties</source>
+        <translation>Ustawienia komórki</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Apply to</source>
+        <translation>Zastosuj do</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Upload new</source>
+        <translation>Załaduj nowy</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>File</source>
+        <translation>Plik</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Location</source>
+        <translation>Lokalizacja</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Automatic</source>
+        <translation>Automatycznie</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Caption</source>
+        <translation>Podpis</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Description</source>
+        <translation>Opis</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Upload local file</source>
+        <translation>Załaduj plik z dysku</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
         <source>Upload is in progress, it may take a few seconds...</source>
-        <translation>Wgrywanie trwa, może to potrwać parę sekund...</translation>
+        <translation>Ładowanie w toku, może potrwać kilka sekund...</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
+        <source>Related images</source>
+        <translation>Obrazy powiązane</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Related files</source>
+        <translation>Pliki powiązane</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>There are no related objects.</source>
+        <translation>Brak powiązanych obiektów.</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
         <source>Invalid or missing parameter: %parameter</source>
-        <translation>Nieprawidłowy lub brakujący parametr: %parameter</translation>
+        <translation>Błędny lub brakujący parametr: %parameter</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Invalid parameter: %parameter = %value</source>
-        <translation>Nieprawidłowy parametr: %parameter = %value</translation>
+        <translation>Błędny parametr: %parameter = %value</translation>
     </message>
 </context>
 <context>
     <name>design/standard/ezoe/help</name>
     <message>
+        <location filename="" line="0"/>
         <source>Using the toolbar</source>
-        <translation>Pasek narzędzi</translation>
+        <translation>Używanie paska narzędzi</translation>
     </message>
     <message>
-        <source>Undo the last operation in the editor. To undo more than one operation, keep clicking the button.</source>
-        <translation>Cofnij ostatnią operację wykonaną w edytorze. Wciśnij przycisk wielokrotnie aby cofnąć o więcej niż jedną operację.</translation>
-    </message>
-    <message>
-        <source>Reverse the "Undo" command.</source>
-        <translation>Odwróć komendę "Cofnij".</translation>
-    </message>
-    <message>
+        <location filename="" line="0"/>
         <source>Make the selected text &lt;b&gt;bold&lt;/b&gt;. If the selected text is &lt;b&gt;bold&lt;/b&gt; already, this button will remove the formating.</source>
-        <translation>&lt;b&gt;Pogrub&lt;/b&gt; zaznaczony tekst. Jeżeli zaznaczony tekst był wcześniej &lt;b&gt;pogrubiony&lt;/b&gt;, wciśnięcie przycisku usunie to formatowanie.</translation>
+        <translation>&lt;b&gt;Pogrub&lt;/b&gt; zaznaczony tekst. Jeżeli zaznaczony tekst jest już &lt;b&gt;pogrubiony&lt;/b&gt;, przycisk usunie formatowanie.</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Make the selected text &lt;i&gt;italic&lt;/i&gt;. If the selected text is &lt;i&gt;italic&lt;/i&gt; already, this button will remove the formating.</source>
-        <translation>&lt;i&gt;Pochyl&lt;/i&gt; zaznaczony tekst (kursywa). Jeżeli zaznaczony tekst był wcześniej &lt;i&gt;pochylony&lt;/i&gt;, wciśnięcie przycisku usunie to formatowanie.</translation>
+        <translation>&lt;i&gt;Pochyl&lt;/i&gt; zaznaczony tekst. Jeżeli zaznaczony tekst jest już &lt;i&gt;pochylony&lt;/i&gt;, przycisk usunie to formatowanie.</translation>
     </message>
     <message>
-        <source>Decrease list indent. Use this button to change the level of a list item in a nested list.</source>
-        <translation>Zmniejsz wcięcie listy. Użyj tego przycisku aby zmienić poziom elementów w zagnieżdżonej liście.</translation>
-    </message>
-    <message>
-        <source>Increase list indent. Use this button to change the level of a list item in a nested list.</source>
-        <translation>Zwiększ wcięcie listy. Użyj tego przycisku aby zmienić poziom elementów w zagnieżdżonej liście.</translation>
-    </message>
-    <message>
-        <source>Create a hyperlink. You can select text first and then click this button to make the text a link. If the checkbox "Open in new window" is checked, the link will be displayed in a new browser window.</source>
-        <translation>Stwórz link (hiperłącze). Możesz najpierw zaznaczyć tekst, a dopiero potem wcisnąć ten przycisk, aby zamienić ten tekst w link. Jeżeli zaznaczona zostanie opcja "Otwórz w nowym oknie", uruchomienie linku otworzy nowe okno przeglądarki.</translation>
-    </message>
-    <message>
-        <source>Insert a special character. Click the button to open the special character window. Click on a character to insert it.</source>
-        <translation>Wstaw znak specjalny. Kliknij przycisk aby otworzyć okno ze znakami specjalnymi, następnie kliknij w wybrany znak aby go wstawić.</translation>
-    </message>
-    <message>
-        <source>Create a numbered list. To create a new list item, press "Enter". To end a list, press "Enter" key on an empty list item. If you click this button when the cursor is on a list item, the formatting will be removed.</source>
-        <translation>Stwórz listę numerowaną. Aby stworzyć nowy element listy, wciśnij Enter. Aby zakończyć listę, wciśnij Enter na pustym elemencie listy. Jeżeli wciśniesz ten guzik kiedy kursor znajduje się na elemencie listy, formatowanie listy zostanie usunięte.</translation>
-    </message>
-    <message>
-        <source>Create a bullet list. To create a new list item, press "Enter". To end a list, press "Enter" key on an empty list item. If you click this button when the cursor is on a list item, the formatting will be removed.</source>
-        <translation>Stwórz wypunktowanie (listę). Aby stworzyć nowy element listy, wciśnij Enter. Aby zakończyć listę, wciśnij Enter na pustym elemencie listy. Jeżeli wciśniesz ten guzik kiedy kursor znajduje się na elemencie listy, formatowanie listy zostanie usunięte.</translation>
-    </message>
-    <message>
-        <source>Insert a column to the left of the current cell.</source>
-        <translation>Wstaw kolumnę na lewo od bieżącej komórki.</translation>
-    </message>
-    <message>
-        <source>Delete the current row.</source>
-        <translation>Usuń bieżący wiersz.</translation>
-    </message>
-    <message>
-        <source>Delete the current column.</source>
-        <translation>Usuń bieżącą kolumnę.</translation>
-    </message>
-    <message>
-        <source>You can create a new paragraph by pressing the Enter key.</source>
-        <translation>Możesz stworzyć nowy akapit wciskając klawisz Enter.</translation>
-    </message>
-    <message>
+        <location filename="" line="0"/>
         <source>Make the selected text &lt;u&gt;underline&lt;/u&gt;. This button is only enabled if you have a custom tag named underline, template code to handle underline custom tags is not included in Online Editor.</source>
-        <translation>&lt;u&gt;Podkreśl&lt;/u&gt; zaznaczony tekst. Ten przycisk będzie dostępny tylko wtedy, gdy posiadasz własny tag o nazwie "underline", szablon do obsługi którego nie jest dołączony do edytora.</translation>
+        <translation>&lt;u&gt;Pokreśl&lt;/u&gt; zazanczony tekst. Jeżeli zaznaczony tekst jest już &lt;i&gt;podkreślony&lt;/i&gt;, przycisk usunie to formatowanie.</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
+        <source>Create a bullet list. To create a new list item, press &quot;Enter&quot;. To end a list, press &quot;Enter&quot; key on an empty list item. If you click this button when the cursor is on a list item, the formatting will be removed.</source>
+        <translation>Stwórz listę punktowaną. Aby stworzyć nowy element, wciśnij &quot;Enter&quot;. Aby zakończyć listę, wciśnij &quot;Enter&quot; na pustym elemencie listy. Jeżeli klikniesz ten przycisk, gdy kursor jest przy elemencie listy, formatowanie zostanie usunięte.</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Create a numbered list. To create a new list item, press &quot;Enter&quot;. To end a list, press &quot;Enter&quot; key on an empty list item. If you click this button when the cursor is on a list item, the formatting will be removed.</source>
+        <translation>Stwórz listę numerowaną. Aby stworzyć nowy element, wciśnij &quot;Enter&quot;. Aby zakończyć listę, wciśnij &quot;Enter&quot; na pustym elemencie listy. Jeśli klikniesz ten przycisk, kiedy kursor jest przy elemencie listy, formatowanie zostanie usunięte.</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Increase list indent. Use this button to change the level of a list item in a nested list.</source>
+        <translation>Zwiększ wcięcie listy. Użyj tego przycisku, aby zmienić poziom elementu w liście zagnieżdżonej.</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Decrease list indent. Use this button to change the level of a list item in a nested list.</source>
+        <translation>Zmniejsz wcięcie listy. Użyj tego przycisku, aby zmienić poziom elementu w liście zagnieżdżonej.</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Undo the last operation in the editor. To undo more than one operation, keep clicking the button.</source>
+        <translation>Cofnij ostatnią operację w edytorze. Aby cofnąć więcej niż jedną operację - kliknij przycisk ponownie.</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Reverse the &quot;Undo&quot; command.</source>
+        <translation>Cofnij komendę &quot;Cofnij&quot;.</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Create a hyperlink. You can select text first and then click this button to make the text a link. If the checkbox &quot;Open in new window&quot; is checked, the link will be displayed in a new browser window.</source>
+        <translation>Stwórz odnośnik. Można najpierw zaznaczyć tekst, a następnie kliknąć ten przycisk, aby stworzyć z tekstu odnośnik. Jeżeli pole wyboru &quot;Otwórz w nowym oknie&quot; zostanie zaznaczone, element docelowy zostanie wyświetlony w nowym oknie.</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
         <source>Removes a hyperlink. Select a link first and then click this button to remove the link (but not the content of the link).</source>
-        <translation>Usuń link (hiperłącze). W pierwszej kolejności zaznacz link, następnie kliknij ten przycisk, aby usunąć łącze (usunięcie łącza nie spowoduje usunięcia jego treści).</translation>
+        <translation>Usuń hyperlink. Zaznacz go najpierw i następnie kilknij w ten przycisk w celu jego usunięcia (zawartość odnośnka nie zostanie usunięta).</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Create a named anchor. An anchor-like icon will appear in the editor.</source>
-        <translation>Stwórz nazwaną kotwicę. Ikona z symbolem kotwicy pojawi się w edytorze.</translation>
+        <translation>Utwórz nazwane zakotwiczenie. Ikona kotwicy pojawi się w edytorze.</translation>
     </message>
     <message>
-        <source>Insert an image from the related images list, upload a new image, search for an existing images or browse for it. To upload a local image choose the local file, specify the name of the new object, choose placement from list, optionally write some caption text (You can use simple html formating here) and then click "Upload" button.</source>
-        <translation>Wstaw obraz z listy obrazów powiązanych, wgraj nowy obraz, wyszukaj istniejący obraz lub przeglądaj zawartość w jego poszukiwaniu. Aby wgrać nowy obraz z dysku, podaj nazwę nowego obiektu, wybierz lokalizację docelową z listy, opcjonalnie wypełnij tekst nagłówka (możesz tu użyć prostego HTML'a), a następnie wciśnij przycisk "upload".</translation>
+        <location filename="" line="0"/>
+        <source>Insert an image from the related images list, upload a new image, search for an existing images or browse for it. To upload a local image choose the local file, specify the name of the new object, choose placement from list, optionally write some caption text (You can use simple html formating here) and then click &quot;Upload&quot; button.</source>
+        <translation>Wstaw zdjęcie z listy, wgraj nowe zdjęcie, wyszukaj istniejące zdjęcie lub przeglądaj je. W celu wgrania zdjęcia z komputera, wybierz lokalny plik, nadaj nazwę dla nwego obiektu, wybierz umiejscowienie  z  listy, opcjonalnie podaj opis (możesz użyć prostego formatowania html) i następnie kliknij w przycisk &quot;Wgraj&quot;.
+</translation>
     </message>
     <message>
-        <source>Insert an object from the related objects list, upload a new object, search for an existing object or browse for it. To upload a local file, click "Upload new" button choose the local file, specify the name of the new object, choose placement from list and then click "Upload" button. Note that embedded object will begin on a new line when displayed in the resulting XHTML.</source>
-        <translation>Wstaw obiekt z listy obiektów powiązanych, wgraj nowy obiekt, wyszukaj istniejący obiekt lub przeglądaj zawartość w jego poszukiwaniu. Aby wgrać nowy plik z dysku, kliknij przycisk "Wgraj nowy", wybierz plik lokalny, podaj nazwę nowego obiektu, wybierz lokalizację docelową z listy, i zatwierdź wciskając przycisk "upload". Pamiętaj, że w wynikowym kodzie XHTML (interfejs użytkownika) osadzony obiekt będzie się rozpoczynał od nowej linii.</translation>
+        <location filename="" line="0"/>
+        <source>Insert an object from the related objects list, upload a new object, search for an existing object or browse for it. To upload a local file, click &quot;Upload new&quot; button choose the local file, specify the name of the new object, choose placement from list and then click &quot;Upload&quot; button. Note that embedded object will begin on a new line when displayed in the resulting XHTML.</source>
+        <translation>Wstaw obiekt z listy obiektów, wgraj nowy obiekt, poszukaj w już istniejących lub przeglądaj je.  W celu wgrania pliku z komputera, wybierz lokalny plik, nadaj nazwę dla nowego obiektu, wybierz umiejscowienie  z  listy i następnie kliknij w przycisk &quot;Wgraj&quot;. Pamiętaj, że osadzony obiekt będzie zaczynał się od nowej linii.</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Create a custom tag. Optionally select the text you want to transform to a custom tag and click the button to open the insert custom tag window. Select the name of the custom tag you want to insert from the list, edit the attributes and click OK to insert it.</source>
-        <translation>Wstaw własny tag. Opcjonalnie, zaznacz tekst, który chcesz zamknąć we własnym tagu, a następnie wciśnij ten przycisk aby otworzyć okno wstawiania własnych tagów. W oknie, wybierz nazwę taga do wstawienia, wyedytuj jego atrybuty i kliknij OK, aby go wstawić.</translation>
+        <translation>Stwórz swój znacznik Opcjonalnie wybierz tekst, który chcesz przekształcić za pomocą znacznika i kliknij na przycisk, w celu wstawienia  swojego znacznika. Wybierz nazwę znacznika z listy, edytuj atrybuty i kliknij na OK, w celu jego wstawienia. </translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Insert literal text. Text written in this field will be rendered literally in the final output.</source>
-        <translation>Wstaw literał (tekst dosłowny). Tekst wpisany w tym polu zostanie wyświetlony bez zmian.</translation>
+        <translation>Wprowadź niesformatowany tekst. Tekst wprowadzony w to pole będzie wyglądał tak samo po jego przetworzeniu. </translation>
     </message>
     <message>
+        <location filename="" line="0"/>
+        <source>Insert a special character. Click the button to open the special character window. Click on a character to insert it.</source>
+        <translation>Wstaw znak specjalny. Wciśnij ten przycisk, aby otworzyć okno z listą znaków. Kliknij znak, aby go wstawić.</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
         <source>Insert a pagebreak. This button is only enabled if you have a custom tag named pagebreak, template code to handle pagebreaks is not included in Online Editor.</source>
-        <translation>Wstaw znacznik końca strony. Ten przycisk jest dostępny wyłącznie wtedy, gdy dostępny jest własny tag o nazwie "pagebreak", szablon obsługujący ten tag nie jest dołączony do edytora.</translation>
+        <translation>Wstaw łamanie strony. Ten przycisk jest aktywny tlko w przypadku zdefiniowania znacznika o nazwie &quot;pagebreak&quot;, kod szablonu dla łamania strony, nie jest zawarty w Edytorze Online.</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Insert a table at the selected position. Tables with their border set to 0 are displayed with a grey border color in the editor.</source>
-        <translation>Wstaw tabelę w wybranej lokalizacji. Tabele o grubości ramki równej 0 wyświetlane są w edytorze z szarą ramką.</translation>
+        <translation>Wstaw tabelę w zazanczonym miejscu. Tabele o bokach ustawionych na 0, są wyświetlane na szaro w edytorze.</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Delete the currently selected table.</source>
-        <translation>Usuń zaznaczoną tabelę.</translation>
+        <translation>Skasuj zaznaczoną tabelę.</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
+        <source>Delete the current column.</source>
+        <translation>Usuń tę kolumnę.</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Insert a column to the left of the current cell.</source>
+        <translation>Wstaw kolumnę na lewo od aktualnej komórki.</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Delete the current row.</source>
+        <translation>Usuń ten wiersz.</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
         <source>Insert a row bellow the current row.</source>
-        <translation>Wstaw wiersz poniżej bieżącego wiersza.</translation>
+        <translation>Wstaw wiersz pod aktualnym wierszem.</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Split the current table cell into two cells.</source>
-        <translation>Podziel bieżącą komórkę tabeli na dwie komórki.</translation>
+        <translation>Podziel zaznaczoną komórkę na na dwie komórki.</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Merge the selected table cells into one cell. (Select several cells with shift+click or Ctrl+click)</source>
-        <translation>Połącz zaznaczone komórki tabeli w jedną komórkę. (Zaznaczanie wielu komórek możliwe jest używając kombinacji: Shift+Click lub Ctrl+Click)</translation>
+        <translation>Scal zanaczone komórki w jedną komórkę. (Zazanczenie kliku komórek wykonaj za pomocą shift+klik lub Ctrl+klik)</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Open Online Editor xhtml source code editor. This button is not enabled by default, and is only intended for experienced users.</source>
-        <translation>Otwórz edytor źródłowego kodu XHTML. Przycisk ten nie jest domyślnie dostępny, i jest przeznaczony wyłącznie dla doświadczonych użytkowników.</translation>
+        <translation>Otwórz Online Edytor kodu xhtml. Przycisk ten jest niekatywny domyślnie i jest przeznaczony tylko dla doświadczonych użytkowników.</translation>
     </message>
     <message>
-        <source>Edit the current content attribute in the whole browser window("Fullscreen"). Click second time to go back to normal editing.</source>
-        <translation>Edytuj treść atrybutu z wykorzystaniem całego ekranu przeglądarki (tryb pełnoekranowy). Ponowne kliknięcie umożliwia powrót do normalnej edycji.</translation>
+        <location filename="" line="0"/>
+        <source>Edit the current content attribute in the whole browser window(&quot;Fullscreen&quot;). Click second time to go back to normal editing.</source>
+        <translation>Edytuj wybraną zawartość atrybutu w całym oknie przeglądarki (tryb pełnoekranowy). Kliknij drugi raz, w celu powrotu do normalnej edycji.</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Open this help window.</source>
-        <translation>Otwórz to okno pomocy.</translation>
+        <translation>Otwórz okono pomocy.</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Icons in dialog windows</source>
         <translation>Ikony w oknie dialogowym</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Browse for a node / object.</source>
-        <translation>Przeglądaj w poszukiwaniu węzła / obiektu.</translation>
+        <translation>Przeglądaj węzeł / obiekt.</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Search for a node / object.</source>
         <translation>Szukaj węzła / obiektu.</translation>
     </message>
     <message>
-        <source>Tips &amp; Tricks</source>
-        <translation>Tips &amp; Tricks</translation>
+        <location filename="" line="0"/>
+        <source>Tips &amp;amp; Tricks</source>
+        <translation>Wskazówki &amp;amp;  Porady</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>You can adjust the height of the editor by draging the bottom right corner of the editor.</source>
-        <translation>Możesz dostosować wysokość edytora poprzez przeciągnięcie jego dolnego prawego narożnika.</translation>
+        <translation>Możesz dostosować wysokość edytora, przez pociągnięcie jego prawego dolnego rogu.</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>You can create a new line by holding the Shift key down and pressing Enter key.</source>
-        <translation>Możesz stworzyć nową linię poprzez wciśnięcie Shift+Enter.</translation>
+        <translation>Możez utowrzyć nową linię, przez przetrzymanie klawisza Shift i wciśnięcie klawisza Enter.</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
+        <source>You can create a new paragraph by pressing the Enter key.</source>
+        <translation>Możesz stworzyć nowy akapit, przez wciśnięcie klawisza Enter.</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
         <source>The status bar will show the current tag name and all its parent tags. You can view more information about the tags by hovering over them.</source>
-        <translation>Pasek statusu wyświetla nazwę bieżącego taga oraz tagów nadrzędnych. Więcej informacji na temat poszczególnych tagów możesz uzyskać, umieszczając kursor myszki nad każdym z nich.</translation>
+        <translation>Pasek stanu pokazuje nazwę aktualnego tagu oraz nadrzędnych znaczników. Możesz uzyskać więcej informacji o nich, po najechaniu na znaczniki.</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>You can make an image-link by selecting the image first and clicking the link button in the toolbar.</source>
-        <translation>Aby stworzyć grafikę będącą linkiem, zaznacz obraz, a następnie kliknij przycisk tworzenia linku w pasku narzędzi.</translation>
+        <translation>Możesz utworzyć podlinkowany obraz, przez zazanczenie zdjęcia i wybranie przycisku link z paska narzędzi.</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>You can edit wordmatch.ini to make text copied from MS Word directly assigned to a desired class.</source>
-        <translation>Możesz wyedytować plik konfiguracyjny wordmatch.ini aby tekst kopiowany z edytora MS Word był automatycznie przypisany do określonej klasy.</translation>
+        <translation>Możesz edytować plik wordmatch.ini w celu przypisania dokładnej klasy dla tekstu wstawionego z MS Word.</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>You can find more documentation in the doc folder of this extension and online on %link.</source>
-        <translation>Bardziej wyczerpującą dokumentację znajdziesz w podkatalogu "doc" tego rozszerzenia oraz online pod adresem %link.</translation>
+        <translation>Możesz znaleźć więcej dokumentacjiw katalogu doc w tym rozszerzeniu oraz na stronie %link.</translation>
     </message>
 </context>
 <context>
-    <name>design/standard/ezoe/handler</name>
+    <name>design/standard/node/view</name>
     <message>
-        <source>Some objects used in embed(-inline) tags have been deleted and are no longer available.</source>
-        <translation type="unfinished"></translation>
+        <location filename="" line="0"/>
+        <source>Preview</source>
+        <translation>Poprzedni</translation>
     </message>
+</context>
+<context>
+    <name>handlers/input</name>
     <message>
-        <source>Object %1 does not exist.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
+        <location filename="" line="0"/>
         <source>Node %1 does not exist.</source>
-        <translation type="unfinished"></translation>
+        <translation>Węzeł %1 nie istnieje.</translation>
     </message>
     <message>
+        <location filename="" line="0"/>
         <source>Node &apos;%1&apos; does not exist.</source>
-        <translation type="unfinished"></translation>
+        <translation>Węzeł &apos;%1&apos; nie istnieje.</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/classes/datatypes</name>
+    <message>
+        <location filename="" line="0"/>
+        <source>Content required</source>
+        <translation>Wymagana zawartość</translation>
+    </message>
+    <message>
+        <location filename="" line="0"/>
+        <source>Invalid e-mail address: &apos;%1&apos;</source>
+        <translation>Błędny adres e-mail: &apos;%1&apos;</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/content</name>
+    <message>
+        <location filename="" line="0"/>
+        <source>Top Level Nodes</source>
+        <translation>Węzły najwyższego poziomu</translation>
     </message>
 </context>
 </TS>
