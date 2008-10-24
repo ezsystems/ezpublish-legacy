@@ -35,7 +35,7 @@ class eZURLAliasMlTest extends ezpDatabaseTestCase
 
     public function testStrtolower()
     {
-    	$testString = "ÂLL WORK AND NO PLAY MAKES ウーラ A DULL BOY.";
+        $testString = "ÂLL WORK AND NO PLAY MAKES ウーラ A DULL BOY.";
         $testStringLowerCase = "âll work and no play makes ウーラ a dull boy.";
         $resultString = eZURLAliasML::strtolower( $testString );
 

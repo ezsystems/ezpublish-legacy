@@ -91,7 +91,7 @@ class eZLog
         }
         else
         {
-        	eZDebug::writeError( 'Couldn\'t create the log file "' . $fileName . '"', 'eZLog::write()' );
+            eZDebug::writeError( 'Couldn\'t create the log file "' . $fileName . '"', 'eZLog::write()' );
         }
     }
 
@@ -148,7 +148,7 @@ class eZLog
         }
         else
         {
-        	eZDebug::writeError( 'Couldn\'t create the log file "' . $fileName . '"', 'eZLog::writeStorageLog()' );
+            eZDebug::writeError( 'Couldn\'t create the log file "' . $fileName . '"', 'eZLog::writeStorageLog()' );
         }
     }
 
