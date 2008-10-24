@@ -23,49 +23,49 @@ class eZAutoloadGenerator
      *
      * @var string
      */
-    private $basePath;
+    protected $basePath;
 
     /**
      * Flag for searching kernel files.
      *
      * @var bool
      */
-    private $searchKernelFiles;
+    protected $searchKernelFiles;
 
     /**
      * Flag for searching in extension files.
      *
      * @var bool
      */
-    private $searchExtensionFiles;
+    protected $searchExtensionFiles;
 
     /**
      * Flag for verbose output
      *
      * @var bool
      */
-    private $verboseOutput;
+    protected $verboseOutput;
 
     /**
      * Flag for writing autoload arrays
      *
      * @var bool
      */
-    private $writeFiles;
+    protected $writeFiles;
 
     /**
      * Holds the directory into which autoload arrays are written.
      *
      * @var string
      */
-    private $outputDir;
+    protected $outputDir;
 
     /**
      * Holds the directories to exclude from search
      *
      * @var array
      */
-    private $excludeDirs;
+    protected $excludeDirs;
 
     /**
      * Bitmask for searching in no files.
@@ -205,7 +205,7 @@ class eZAutoloadGenerator
      * @param string $mask A binary mask which instructs the function whether to fetch kernel-related or extension-related files.
      * @return array
      */
-    private function fetchFiles( $path, $mask, $excludeDirs = false )
+    protected function fetchFiles( $path, $mask, $excludeDirs = false )
     {
         // make sure ezcFile::findRecursive and the exclusion filters we pass to it
         // work correctly on systems with another file seperator than the forward slash
@@ -280,7 +280,7 @@ class eZAutoloadGenerator
      * @param array $extraFilter
      * @return array
      */
-    private function buildFileList( $path, $extraFilter = null )
+    protected function buildFileList( $path, $extraFilter = null )
     {
         $exclusionFilter = array( "@^{$path}/(var|settings|benchmarks|autoload|port_info|templates|tmp|UnitTest)/@" );
         if ( !empty( $extraFilter ) and is_array( $extraFilter ) )
@@ -302,7 +302,7 @@ class eZAutoloadGenerator
      * Extracts class information from PHP sourcecode.
      * @return array (className=>filename)
      */
-    private function getClassFileList( $fileList )
+    protected function getClassFileList( $fileList )
     {
         $retArray = array();
         foreach( $fileList as $file )
@@ -340,7 +340,7 @@ class eZAutoloadGenerator
      * @param array $depData
      * @return mixed
      */
-    private function checkMaxClassLength( $depData )
+    protected function checkMaxClassLength( $depData )
     {
         $max = array();
         foreach( array_keys( $depData) as $key )
@@ -368,7 +368,7 @@ class eZAutoloadGenerator
      * @param int $length
      * @return string
      */
-    private function dumpArray( $sortedArray, $length )
+    protected function dumpArray( $sortedArray, $length )
     {
         $retArray = array();
         foreach ( $sortedArray as $location => $sorted )
@@ -390,7 +390,7 @@ class eZAutoloadGenerator
      * @param int $mask Bitmask to check for run mode.
      * @return int
      */
-    private function checkMode( $mask )
+    protected function checkMode( $mask )
     {
         $modes = array( self::GENAUTOLOADS_KERNEL, self::GENAUTOLOADS_EXTENSION, 
                         self::GENAUTOLOADS_TESTS, self::GENAUTOLOADS_ALL );
@@ -412,7 +412,7 @@ class eZAutoloadGenerator
      * @param bool $useExtensionFiles Whether extension files should be checked
      * @return int
      */
-    private function runMode( $useKernelFiles, $useExtensionFiles, $useTestFiles )
+    protected function runMode( $useKernelFiles, $useExtensionFiles, $useTestFiles )
     {
         $mode = self::GENAUTOLOADS_NONE;
         // If no file selectors are chosen we will default to extension files.
@@ -445,7 +445,7 @@ class eZAutoloadGenerator
      * @param string $lookup Mode to look up, can be extension, or kernel.
      * @return string
      */
-    private function nameTable( $lookup )
+    protected function nameTable( $lookup )
     {
         $names = array( "extension" => "ezp_extension.php",
                         "kernel"    => "ezp_kernel.php",
@@ -464,7 +464,7 @@ class eZAutoloadGenerator
      * @param string $part
      * @return string
      */
-    private function dumpArrayStart( $part )
+    protected function dumpArrayStart( $part )
     {
         return <<<ENDL
 <?php
@@ -488,7 +488,7 @@ ENDL;
      *
      * @return void
      */
-    private function dumpArrayEnd()
+    protected function dumpArrayEnd()
     {
         return <<<END
     );
