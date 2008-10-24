@@ -293,15 +293,20 @@ class eZContentCache
         return ( $value < $threshold );
     }
 
-    static function cleanup( $nodeList )
+    static function cleanup( $nodeList, $userId = false )
     {
         // The view-cache has a different storage structure than before:
         // var/cache/content/<siteaccess>/<extra-path>/<nodeID>-<hash>.cache
         // Also it uses the cluster file handler to delete files using a wildcard (glob style).
         $ini = eZINI::instance();
+        $extraCacheName = '';
         $cacheBaseDir = eZDir::path( array( eZSys::cacheDirectory(), $ini->variable( 'ContentSettings', 'CacheDir' ) ) );
-
         $fileHandler = eZClusterFileHandler::instance();
+
+        if ( $userId !== false && is_numeric( $userId ) )
+        {
+            $extraCacheName = $userId . '-';
+        }
 
         // Figure out the siteaccess which are related, first using the new
         // INI setting RelatedSiteAccessList then the old existing one
@@ -328,7 +333,7 @@ class eZContentCache
         foreach ( $nodeList as $nodeID )
         {
             $extraPath = eZDir::filenamePath( $nodeID );
-            $fileHandler->fileDeleteByDirList( $siteAccesses, $cacheBaseDir, "$extraPath$nodeID-" );
+            $fileHandler->fileDeleteByDirList( $siteAccesses, $cacheBaseDir, "$extraPath$nodeID-$extraCacheName" );
         }
     }
 }

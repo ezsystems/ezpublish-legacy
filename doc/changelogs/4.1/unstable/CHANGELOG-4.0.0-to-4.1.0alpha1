@@ -57,6 +57,7 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Implemented enhancement #13355: Small file_exists optimization to extension loading
 - Implemented enhancement #13761: allow oracle "easy naming" connect strings to work
 - Implemented enhancement #13429: viewcache can't define specific rules when a object is publish.
+- Implemented enhancement #13274: Cache file locking in view cache with cache_ttl=0 causes performance issues
 
 *Design:
 

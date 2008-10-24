@@ -77,6 +77,7 @@ if ( !is_numeric( $Offset ) )
     $Offset = 0;
 
 $ini = eZINI::instance();
+$viewCacheSetting = false;
 $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
 
 if ( isset( $Params['ViewCache'] ) )
@@ -86,6 +87,19 @@ if ( isset( $Params['ViewCache'] ) )
 elseif ( $viewCacheEnabled && !in_array( $ViewMode, $ini->variableArray( 'ContentSettings', 'CachedViewModes' ) ) )
 {
     $viewCacheEnabled = false;
+}
+
+if ( $ini->hasVariable( 'ContentSettings', 'ViewCacheSettings' ) )
+{
+    $viewCacheSettings = $ini->variable( 'ContentSettings', 'ViewCacheSettings' );
+    if ( isset( $viewCacheSettings[$NodeID] ) )
+    {
+        $viewCacheSetting = $viewCacheSettings[$NodeID];
+        if ( $viewCacheSetting === 'disabled' )
+        {
+            $viewCacheEnabled = false;
+        }
+    }
 }
 
 $collectionAttributes = false;
@@ -194,7 +208,7 @@ else
     {
         $user = eZUser::currentUser();
 
-        $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $user, $NodeID, $Offset, $layout, $LanguageCode, $ViewMode, $viewParameters );
+        $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $user, $NodeID, $Offset, $layout, $LanguageCode, $ViewMode, $viewParameters, false, $viewCacheSetting );
 
         $cacheFilePath = $cacheFileArray['cache_path'];
 

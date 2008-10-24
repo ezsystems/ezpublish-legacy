@@ -252,7 +252,7 @@ class eZNodeviewfunctions
         return $Result;
     }
 
-    static function generateViewCacheFile( $user, $nodeID, $offset, $layout, $language, $viewMode, $viewParameters = false, $cachedViewPreferences = false )
+    static function generateViewCacheFile( $user, $nodeID, $offset, $layout, $language, $viewMode, $viewParameters = false, $cachedViewPreferences = false, $cachedViewSetting = false )
     {
         //include_once( 'kernel/classes/ezuserdiscountrule.php' );
         //include_once( 'kernel/classes/ezpreferences.php' );
@@ -265,6 +265,8 @@ class eZNodeviewfunctions
         {
             $language = false;
         }
+        $cacheNameExtra = '';
+        $ini = eZINI::instance();
         $currentSiteAccess = $GLOBALS['eZCurrentAccess']['name'];
 
         $cacheHashArray = array( $nodeID,
@@ -276,6 +278,12 @@ class eZNodeviewfunctions
                                  implode( '.', $limitedAssignmentValueList),
                                  implode( '.', $discountList ),
                                  eZSys::indexFile() );
+
+        // Make the cache unique for every logged in user
+        if ( $cachedViewSetting === 'pr_user' and !$user->isAnonymous() )
+        {
+            $cacheNameExtra = $user->attribute( 'contentobject_id' ) . '-';
+        }
 
         // Make the cache unique for every case of view parameters
         if ( $viewParameters )
@@ -294,8 +302,7 @@ class eZNodeviewfunctions
         // Make the cache unique for every case of the preferences
         if ( $cachedViewPreferences === false )
         {
-            $siteIni = eZINI::instance( );
-            $depPreferences = $siteIni->variable( 'ContentSettings', 'CachedViewPreferences' );
+            $depPreferences = $ini->variable( 'ContentSettings', 'CachedViewPreferences' );
         }
         else
         {
@@ -321,9 +328,7 @@ class eZNodeviewfunctions
             $cacheHashArray[] = $pString;
         }
 
-        $ini = eZINI::instance();
-
-        $cacheFile = $nodeID . '-' . md5( implode( '-', $cacheHashArray ) ) . '.cache';
+        $cacheFile = $nodeID . '-' . $cacheNameExtra . md5( implode( '-', $cacheHashArray ) ) . '.cache';
         $extraPath = eZDir::filenamePath( $nodeID );
         $cacheDir = eZDir::path( array( eZSys::cacheDirectory(), $ini->variable( 'ContentSettings', 'CacheDir' ), $currentSiteAccess, $extraPath ) );
         $cachePath = eZDir::path( array( $cacheDir, $cacheFile ) );
