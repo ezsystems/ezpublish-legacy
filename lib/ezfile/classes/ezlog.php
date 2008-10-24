@@ -57,7 +57,6 @@ class eZLog
     */
     static function write( $message, $logName = 'common.log', $dir = 'var/log' )
     {
-        $ini = eZINI::instance();
         $fileName = $dir . '/' . $logName;
         $oldumask = @umask( 0 );
 
@@ -140,7 +139,6 @@ class eZLog
             @fclose( $logFile );
             if ( !$fileExisted )
             {
-                $ini = eZINI::instance();
                 $permissions = octdec( $ini->variable( 'FileSettings', 'LogFilePermissions' ) );
                 @chmod( $fileName, $permissions );
             }
