@@ -556,7 +556,7 @@ class eZContentClassAttribute extends eZPersistentObject
 
         $info = array();
         $db = eZDB::instance();
-        $dbName = $db->DB;
+        $dbName = md5( $db->DB );
 
         $cacheDir = eZSys::cacheDirectory();
         $phpCache = new eZPHPCreator( "$cacheDir", "sortkey_$dbName.php", '', array( 'clustering' => 'sortkey' ) );
@@ -736,7 +736,7 @@ class eZContentClassAttribute extends eZPersistentObject
         if ( $identifierHash === null )
         {
             $db = eZDB::instance();
-            $dbName = $db->DB;
+            $dbName = md5( $db->DB );
 
             //include_once( 'lib/ezutils/classes/ezphpcreator.php' );
             $cacheDir = eZSys::cacheDirectory();

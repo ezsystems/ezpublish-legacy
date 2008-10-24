@@ -55,6 +55,7 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Implemented enhancement #13784: Remove deprecated ezfilepasstroughhandler
 - Implemented enhancement #13574: Remove legacy class eZXMLInputType
 - Implemented enhancement #13355: Small file_exists optimization to extension loading
+- Implemented enhancement #13761: allow oracle "easy naming" connect strings to work
 
 *Design:
 

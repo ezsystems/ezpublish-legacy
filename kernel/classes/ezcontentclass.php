@@ -1773,7 +1773,7 @@ You will need to change the class of the node by using the swap functionality.' 
         if ( $identifierHash === null )
         {
             $db = eZDB::instance();
-            $dbName = $db->DB;
+            $dbName = md5( $db->DB );
 
             $cacheDir = eZSys::cacheDirectory();
             $phpCache = new eZPHPCreator( $cacheDir,
