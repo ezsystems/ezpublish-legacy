@@ -138,7 +138,7 @@
         <location filename="" line="0"/>
         <source>Copy/Cut/Paste is not available in Mozilla and Firefox.
 Do you want more information about this issue?</source>
-        <translation>Kopiuj/Wytnij/Wklej jest niedostępne w Mozilli i Firefoxie.(powrót karetki)
+        <translation>Kopiuj/Wytnij/Wklej jest niedostępne w Mozilli i Firefoxie.
 Czy chcesz uzyskać więcej informacji?</translation>
     </message>
     <message>
