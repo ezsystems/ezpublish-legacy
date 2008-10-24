@@ -157,13 +157,13 @@ Installing eZ Online Editor 5.0 extension
    You will see the list of class groups. Select the 'Media' group and find
    the image class. The default identifier of this class is 'image' in a standard
    eZ Publish installation. If your Image class identifier is not 'image', open the
-   'site.ini.append.php' file in settings/overrides/ or in one of you siteaccess 
-   settings. Look for the [MediaClassSettings] section, or add a new one like this:
+   'content.ini.append.php' file in settings/overrides/ or in one of you siteaccess 
+   settings. Look for the [RelationGroupSettings] section, or add a new one like this:
 
-   [MediaClassSettings]
-   ImageClassIdentifiers[]=image
+   [RelationGroupSettings]
+   ImagesClassList[]=image
 
-   Replace 'image' with the value of the image class that your installation
+   Replace 'image' with the identifier of the image class that your installation
    is using, and add more entries if you have several image classes.
 
 7. Add permission to Editor users (optional)

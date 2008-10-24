@@ -35,7 +35,7 @@ tinyMCEPopup.onInit.add( function(){
     };
 });
 
-if ( contentType === 'image' )
+if ( contentType === 'images' )
 {
     eZOEPopupUtils.settings.browseClassGenerator = function( n, hasImage ){
         if ( hasImage && classFilter.indexOf( n.class_identifier ) !== -1 )
@@ -103,7 +103,7 @@ if ( contentType === 'image' )
                       </select>
                     </td>
                 </tr>
-                {if $content_type|eq('image')}
+                {if $content_type|eq('images')}
                 <tr>
                     <td class="column1"><label id="alttextlabel" for="objectAltText">{'Alternative text'|i18n('design/standard/ezoe')}</label></td> 
                     <td colspan="2"><input id="objectAltText" name="ContentObjectAttribute_image" type="text" value="" size="32" title="{'Alternative text for the image, lets internet clients know what kind of image this is without dowloading it or actually seeing it.'|i18n('design/standard/ezoe/wai')}" /></td>
@@ -130,7 +130,7 @@ if ( contentType === 'image' )
 
             {if $related_contentobjects|count|gt( 0 )}
                 {* Related images *}
-                {if and( $content_type|eq('image'), $grouped_related_contentobjects.images|count|gt( 0 ))}
+                {if and( $content_type|eq('images'), $grouped_related_contentobjects.images|count|gt( 0 ))}
                 <div class="block contenttype_image">
                 <h2>{'Related images'|i18n('design/standard/ezoe')}</h2>
                     {foreach $grouped_related_contentobjects.images as $img}
@@ -145,8 +145,8 @@ if ( contentType === 'image' )
                 {/if}
             
                 {* Related files *}
-                {*if and( $content_type|eq('file'), $grouped_related_contentobjects.files|count|gt( 0 ))*}
-                {if and( $content_type|eq('object'), $grouped_related_contentobjects.files|count|gt( 0 ))}
+                {*if and( $content_type|eq('files'), $grouped_related_contentobjects.files|count|gt( 0 ))*}
+                {if and( $content_type|eq('objects'), $grouped_related_contentobjects.files|count|gt( 0 ))}
                 <div class="block contenttype_file">
                 <h2>{'Related files'|i18n('design/standard/ezoe')}</h2>
                         <table class="list" cellspacing="0">
@@ -167,7 +167,7 @@ if ( contentType === 'image' )
                 {/if}
             
                 {* Related objects *}
-                {if and( $content_type|eq('object'), $grouped_related_contentobjects.objects|count|gt( 0 ))}
+                {if and( $content_type|eq('objects'), $grouped_related_contentobjects.objects|count|gt( 0 ))}
                 <div class="block contenttype_object">
                 <h2>{'Related content'|i18n('design/standard/ezoe')}</h2>
                         <table class="list" cellspacing="0">

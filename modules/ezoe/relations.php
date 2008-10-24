@@ -39,7 +39,7 @@ $embedId         = 0;
 
 // Supported content types: image, file, object and auto
 // file is not used, auto will decide according to site.ini rules
-$contentType   = 'object';
+$contentType   = 'objects';
 if ( isset( $Params['ContentType'] ) && $Params['ContentType'] !== '' )
 {
     $contentType = $Params['ContentType'];
@@ -117,27 +117,33 @@ if ( $contentType === 'auto' )
     // Depricated:
     $imageClassIDs = $ini->hasVariable('MediaClassSettings', 'ImageClassID' ) ? $ini->variable('MediaClassSettings', 'ImageClassID' ) : array();
 
-    // Only image used out of the box, the rest is for extendebility
-    // Should we have used content.ini [RelationGroupSettings]FilesClassList instead?
-    $imageClassIdentifiers = $ini->variable( 'MediaClassSettings', 'ImageClassIdentifiers' );
-    $fileClassIdentifiers  = $ini->hasVariable('MediaClassSettings', 'FileClassIdentifiers' ) ? $ini->variable('MediaClassSettings', 'FileClassIdentifiers' ) : array();
-    $flashClassIdentifiers = $ini->hasVariable('MediaClassSettings', 'FlashClassIdentifiers' ) ? $ini->variable('MediaClassSettings', 'FlashClassIdentifiers' ) : array();
-    $videoClassIdentifiers = $ini->hasVariable('MediaClassSettings', 'VideoClassIdentifiers' ) ? $ini->variable('MediaClassSettings', 'VideoClassIdentifiers' ) : array();
-
-    if ( in_array( $embedClassID, $imageClassIDs ) || in_array( $embedClassIdentifier, $imageClassIdentifiers ) )
-        $contentType = 'image';
-    else if ( in_array( $embedClassIdentifier, $fileClassIdentifiers ) )
-        $contentType = 'file';
-    else if ( in_array( $embedClassIdentifier, $flashClassIdentifiers ) )
-        $contentType = 'flash';
-    else if ( in_array( $embedClassIdentifier, $videoClassIdentifiers ) )
-        $contentType = 'video';
+    // figgure out what content type group this class is in
+    if ( in_array( $embedClassID, $imageClassIDs ) )
+    {
+        $contentType = 'images';
+    }
     else
-        $contentType = 'object';
+    {
+        foreach ( $contentIni->variable( 'RelationGroupSettings', 'Groups' ) as $group )
+        {
+            $settingName = ucfirst( $group ) . 'ClassList';
+            if ( $contentIni->hasVariable( 'RelationGroupSettings', $settingName ) and
+                 in_array( $embedClassIdentifier, $contentIni->variable( 'RelationGroupSettings', $settingName ) ))
+            {
+                $contentType = $group;
+                break;
+            }
+        }
+        // fallback to default if still auto
+        if ( $contentType === 'auto' )
+        {
+            $contentType = $contentIni->variable( 'RelationGroupSettings', 'DefaultGroup' );
+        }
+    }
 }
 
 
-if ( $embedSize && $contentType === 'image' )
+if ( $embedSize && $contentType === 'images' )
 {
     $params['imagePreGenerateSizes'][] = $embedSize;
 }

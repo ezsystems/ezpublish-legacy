@@ -1518,17 +1518,23 @@ class eZOEXMLInput extends eZXMLInputHandler
 
     static public function embedTagIsImage( $classIdentifier, $classId = 0  )
     {
-        if ( self::$embedImageClassIdentifiers === null )
+        if ( self::$embedImagesClassList === null )
         {
             $ini = eZINI::instance();
+            $contentIni = eZINI::instance('content.ini');
+
             if ( $ini->hasVariable('MediaClassSettings', 'ImageClassID' ) )
                 self::$embedImageClassIds = $ini->variable('MediaClassSettings', 'ImageClassID' );
             else
                 self::$embedImageClassIds = array();
-            self::$embedImageClassIdentifiers = $ini->variable( 'MediaClassSettings', 'ImageClassIdentifiers' );   
+
+            if ( $contentIni->hasVariable('RelationGroupSettings', 'ImagesClassList' ) )
+                self::$embedImagesClassList = $contentIni->variable('RelationGroupSettings', 'ImagesClassList' );
+            else
+                self::$embedImagesClassList = array();
         }
 
-        return in_array( $classId, self::$embedImageClassIds ) or in_array( $classIdentifier, self::$embedImageClassIdentifiers );
+        return in_array( $classId, self::$embedImageClassIds ) or in_array( $classIdentifier, self::$embedImagesClassList );
     }
 
     static public function embedTagIsCompatibilityMode()
@@ -1547,7 +1553,7 @@ class eZOEXMLInput extends eZXMLInputHandler
     static protected $userAccessHash = array();
     static protected $customInlineTagList = null;
     static protected $embedImageClassIds = null;
-    static protected $embedImageClassIdentifiers = null;
+    static protected $embedImagesClassList = null;
     static protected $customAttributeStyleMap = null;
     static protected $embedIsCompatibilityMode = null;
     

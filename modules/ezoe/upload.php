@@ -34,7 +34,7 @@ $forcedUpload    = isset( $Params['ForcedUpload'] ) ? (int) $Params['ForcedUploa
 
 // Supported content types: image, media and file
 // Media is threated as file for now
-$contentType   = 'object';
+$contentType   = 'objects';
 
 if ( isset( $Params['ContentType'] ) && $Params['ContentType'] !== '' )
 {

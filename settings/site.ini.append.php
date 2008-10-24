@@ -7,9 +7,8 @@ ExtensionAutoloadPath[]=ezoe
 
 
 [MediaClassSettings]
-# Deprecated, use ImageClassIdentifiers instead
+# Deprecated, use [RelationGroupSettings]ImagesClassList[] in content.ini
 #ImageClassID[]=5
-ImageClassIdentifiers[]=image
 
 
 [ImageDataTypeSettings]

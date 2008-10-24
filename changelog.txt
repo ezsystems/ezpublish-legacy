@@ -2,6 +2,9 @@ eZ Online Editor 5.0 extension Changelog
 
 5.0rc8
 * Added support for node relations
+* Switched from using site.ini [MediaClassSettings]ImageClassIdentifiers[] to
+  the setting already used by eZ Publish: content.ini [RelationGroupSettings]ImagesClassList[]
+  Note: You need to change your settings as a result from this
 
 
 5.0rc7

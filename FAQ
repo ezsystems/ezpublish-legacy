@@ -66,11 +66,12 @@ C. Make sure you have cleared all the caches (both eZ Publish and browser).
 4. When I insert an image into the editor, it does not show the image.
 ===============================================================================
 
-Check the 'extension/ezoe/settings/site.ini.append.php' file, find line
+Check the 'extension/ezoe/settings/content.ini.append.php' file, find line
 
-ImageClassIdentifiers[]=your_image_class_identifier
+ImagesClassList[]=your_image_class_identifier
 
-under [MediaClassSettings]. Is the image class identifier correct?
+under [RelationGroupSettings]. Is the image class identifier correct?
+(or add file / line if it's not there)
 
 
 5. When I insert an image into the editor, it disappears after storing.

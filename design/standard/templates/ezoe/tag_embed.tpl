@@ -20,7 +20,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     tagName: 'embed',
     form: 'EditForm',
     cancelButton: 'CancelButton',
-    cssClass: contentType !== 'image' && compatibilityMode !== 'enabled' ? 'mceNonEditable' : '',
+    cssClass: contentType !== 'images' && compatibilityMode !== 'enabled' ? 'mceNonEditable' : '',
     onInitDone: function( el, tag, ed )
     {        
         var selectors = ez.$('embed_alt_source', 'embed_align_source', 'embed_class_source', 'embed_view_source', 'embed_inline_source');
@@ -30,7 +30,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         var align = el ? el.getAttribute('align') || def['align']  || 'right' : def['align']  || 'right';
         if ( align === 'center' ) align = 'middle';
 
-        if ( contentType === 'image' )
+        if ( contentType === 'images' )
         {
             selectors[0].addEvent('change', loadImageSize );
             loadImageSize( false, selectors[0].el );
@@ -56,7 +56,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     },
     tagGenerator: function( tag, customTag, text )
     {
-        if ( contentType === 'image' || compatibilityMode === 'enabled' )
+        if ( contentType === 'images' || compatibilityMode === 'enabled' )
             return '<img id="__mce_tmp" src="javascript:void(0);" />';
         if ( ez.$('embed_inline_source').el.checked )
            return '<span id="__mce_tmp"></span>';
@@ -83,8 +83,8 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     {
         //args['id'] = 'eZObject_' + eZOEPopupUtils.embedObject['contentobject_id'];
         args['inline'] = ez.$('embed_inline_source').el.checked ? 'true' : 'false';
-        el = eZOEPopupUtils.switchTagTypeIfNeeded( el, (contentType === 'image' || compatibilityMode === 'enabled' ? 'img' : (args['inline'] === 'true' ? 'span' : 'div') ) );
-        if ( contentType === 'image' )
+        el = eZOEPopupUtils.switchTagTypeIfNeeded( el, (contentType === 'images' || compatibilityMode === 'enabled' ? 'img' : (args['inline'] === 'true' ? 'span' : 'div') ) );
+        if ( contentType === 'images' )
         {
             var imageAttributes = eZOEPopupUtils.embedObject['image_attributes'];
             if ( !imageAttributes || !eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ] )
@@ -153,7 +153,7 @@ function inlineSelectorChange( e, el )
     else if ( def['class'] !== undefined )
         classList.el.value = def['class'];
     
-    if ( tinymce.isIE && contentType !== 'image' && e !== false )
+    if ( tinymce.isIE && contentType !== 'images' && e !== false )
         loadEmbedPreview();
 }
 
@@ -221,7 +221,7 @@ function loadEmbedPreview( )
         <div id="tabs" class="tabs">
         <ul>
             <li class="tab"><span><a href="JavaScript:void(0);">{'Properties'|i18n('design/standard/ezoe')}</a></span></li>
-            {*if $content_type|eq( 'image' )}
+            {*if $content_type|eq( 'images' )}
             <li class="tab"><span><a href="JavaScript:void(0);">{'Crop'|i18n('design/standard/ezoe')}</a></span></li>
             {/if*}
         </ul>
@@ -248,7 +248,7 @@ function loadEmbedPreview( )
                     </select>
                 </td>
             </tr>
-        {if $content_type|eq( 'image' )}
+        {if $content_type|eq( 'images' )}
             <tr id="embed_alt">
                 <td class="column1"><label for="embed_alt_source">{'Size'|i18n('design/standard/ezoe')}</label></td>
                 <td>
@@ -312,7 +312,7 @@ function loadEmbedPreview( )
             </div>
             <div class="right" style="text-align: right;">
                 <a id="embed_switch_link" href={concat( 'ezoe/upload/', $object_id,'/', $object_version,'/', $content_type )|ezurl}>
-                {if $content_type|eq('image')}
+                {if $content_type|eq('images')}
                     {'Switch embed image'|i18n('design/standard/ezoe')}
                 {else}
                     {'Switch embed object'|i18n('design/standard/ezoe')}
@@ -324,7 +324,7 @@ function loadEmbedPreview( )
         <div class="block">
             <h4 id="embed_preview_heading">{'Preview'|i18n('design/standard/node/view')}:</h4>
             <div id="embed_preview">
-                {if $content_type|eq( 'image' )}<img id="embed_preview_image" alt="{$embed_object.name|wash}" />{/if}
+                {if $content_type|eq( 'images' )}<img id="embed_preview_image" alt="{$embed_object.name|wash}" />{/if}
             </div>
         </div>
     </div>
