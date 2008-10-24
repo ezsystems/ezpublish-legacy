@@ -1318,7 +1318,7 @@
 
         _mceImage : function(ui, val)
         {
-            var ed = this.editor, e = ed.selection.getNode(), eurl = 'image/', type = '/upload/', el;
+            var ed = this.editor, e = ed.selection.getNode(), eurl = 'images/', type = '/upload/', el;
 
             if ( ui.nodeName === 'IMG' )
                 e = ui;
@@ -1335,7 +1335,7 @@
 
         _mceObject : function(ui, val)
         {
-            var ed = this.editor, e = ed.selection.getNode(), eurl = 'object/', type = '/upload/', el;
+            var ed = this.editor, e = ed.selection.getNode(), eurl = 'objects/', type = '/upload/', el;
 
             if ( (ui.nodeName === 'DIV' || ui.nodeName === 'SPAN') && ui.className.indexOf('mceNonEditable') !== -1 )
                 e = ui;
