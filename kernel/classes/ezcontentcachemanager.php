@@ -236,7 +236,7 @@ class eZContentCacheManager
             //include_once( 'lib/ezdb/classes/ezdb.php' );
             $db = eZDB::instance();
             $keywordString = "'".$db->escapeString( $keyword )."'";
-            $params = $limit ? array( 'offset' => 0, 'limit'  => $limit ) : array();            
+            $params = $limit ? array( 'offset' => 0, 'limit'  => $limit ) : array();
             $rows = $db->arrayQuery( "SELECT DISTINCT ezcontentobject_tree.node_id
                                        FROM
                                          ezcontentobject_tree,
