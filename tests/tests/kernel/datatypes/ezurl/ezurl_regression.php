@@ -72,7 +72,7 @@ class eZURLTypeRegression extends ezpDatabaseTestCase
         $link = $this->createNewLinkObject( $url );
         $ezurl = $link->dataMap['location'];
 
-        // Step 2: Serialize 
+        // Step 2: Serialize
         $domNode = $ezurl->dataType()->serializeContentObjectAttribute( null, $ezurl );
 
         // Step 3: Create another link object
@@ -82,7 +82,7 @@ class eZURLTypeRegression extends ezpDatabaseTestCase
         // Step 4: Unserialize data
         $ezurl2->unserialize( null, $domNode );
 
-        // ezcontentobjectattribute caches the content, so we ask for the 
+        // ezcontentobjectattribute caches the content, so we ask for the
         // content directly from the datatype.
         $unserializedUrl = $ezurl2->dataType()->objectAttributeContent( $ezurl2 );
 

@@ -20,7 +20,7 @@ class eZContentObjectRegression extends ezpDatabaseTestCase
     /**
      * Test scenario for issue #13552: Broken datamap caching when copying
      * content objects
-     * 
+     *
      * This test verifies that the content object attributes are fresh and not
      * cached versions of the original object. We can achieve this by comparing
      * the content object attribute ids, and make sure they are not the same.
@@ -48,13 +48,13 @@ class eZContentObjectRegression extends ezpDatabaseTestCase
 
     /**
      * Create a copy of an object.
-     * 
+     *
      * The basis for this method is taken from kernel/content/copy.php
-     * 
+     *
      * @todo Merge this method into kernel wrapper's object class.
      *
      * @param eZContentObject $object
-     * @param int $newParentNodeID 
+     * @param int $newParentNodeID
      * @return eZContentObject
      */
     public static function copyObject( $object, $newParentNodeID )

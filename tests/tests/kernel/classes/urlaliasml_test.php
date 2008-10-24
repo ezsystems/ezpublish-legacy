@@ -99,7 +99,7 @@ class eZURLAliasMlTest extends ezpDatabaseTestCase
 
         $children = $parent->getChildren();
 
-        // Number of children should be 2 (child3 has different language and 
+        // Number of children should be 2 (child3 has different language and
         // should not be included in getChildren()).
         self::assertEquals( 2, count( $children ) );
 
@@ -143,20 +143,20 @@ class eZURLAliasMlTest extends ezpDatabaseTestCase
         $uniqueText = eZURLAliasML::findUniqueText( 0, $childName, "" );
         self::assertEquals( $childName . "4", $uniqueText );
 
-        // By specifing action it should not check URLs which has the same 
+        // By specifing action it should not check URLs which has the same
         // action. This means we get the the name back, without any changes to it.
         $uniqueText = eZURLAliasML::findUniqueText( 0, $childName, $action );
         self::assertEquals( $childName, $uniqueText );
 
-        // Specify language of ezurlalias_ml entries we should check the text 
-        // uniqeness against. 
+        // Specify language of ezurlalias_ml entries we should check the text
+        // uniqeness against.
         $uniqueText = eZURLAliasML::findUniqueText( 0, $childName . "3", "", false, 4 );
         self::assertEquals( $childName . "32", $uniqueText );
     }
 
     public function testFindUniqueText_ReservedWords()
     {
-        // Make sure a text with the same name as the "content" module will be 
+        // Make sure a text with the same name as the "content" module will be
         // changed to "content2"
         $uniqueText = eZURLAliasML::findUniqueText( 0, "content", "" );
         self::assertEquals( "content2", $uniqueText );
@@ -185,7 +185,7 @@ class eZURLAliasMlTest extends ezpDatabaseTestCase
         self::assertEquals( 2, (int) $urls[0]->attribute( 'lang_mask' ) );
     }
 
-    // 
+    //
     public function testChoosePrioritizedRow()
     {
         // TEST SETUP --------------------------------------------------------
@@ -217,7 +217,7 @@ class eZURLAliasMlTest extends ezpDatabaseTestCase
 
 
         // TEST PART 1 - NORMAL PRIORITIZATION -------------------------------
-        // The order of the language array also determines the prioritization. 
+        // The order of the language array also determines the prioritization.
         // In this case 'eng-GB' should be prioritized before 'nor-NO'.
         $languageList = array( "eng-GB", "nor-NO" );
         $ini->setVariable( 'RegionalSettings', 'SiteLanguageList', $languageList );
@@ -350,7 +350,7 @@ class eZURLAliasMlTest extends ezpDatabaseTestCase
         $e3 = "ウңҏѫあギᄍㄇᠢ⻲㆞ญ฿";
         $e3Result = $e3;
 
-        // Make sure multiple dots are turned into a seperator (-) 
+        // Make sure multiple dots are turned into a seperator (-)
         $e4 = "..a...........b..";
         $e4Result = "a-b";
 

@@ -347,7 +347,7 @@ class eZMultiPrice extends eZSimplePrice
                     // do nothing
                 } break;
             }
-            
+
             $calculatedPrice = clone $price;
             $calculatedPrice->setAttribute( 'value', $value );
             $calculatedPriceList[$key] = $calculatedPrice;

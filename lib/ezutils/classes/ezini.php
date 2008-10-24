@@ -85,7 +85,7 @@ class eZINI
     // set it to 'site.ini' to make the system still check that but not the rest.
     static protected $checkFileMtime = null;
 
-    // set EZP_INI_FILE_PERMISSION constant to the permissions you want saved 
+    // set EZP_INI_FILE_PERMISSION constant to the permissions you want saved
     // ini and cache files to have.
     static protected $filePermission = 0666;
 

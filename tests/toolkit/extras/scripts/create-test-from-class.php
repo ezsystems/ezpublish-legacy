@@ -111,7 +111,7 @@ $destinationFileOption->type = ezcConsoleInput::TYPE_STRING;
 
 
 // Set ouput formatting
-// ---------------------------------------------------------------------------    
+// ---------------------------------------------------------------------------
 $out = new ezcConsoleOutput();
 $out->formats->count->style = array( 'bold' );
 $out->formats->source->color = 'green';

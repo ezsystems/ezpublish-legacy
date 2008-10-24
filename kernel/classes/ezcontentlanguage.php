@@ -593,12 +593,12 @@ class eZContentLanguage extends eZPersistentObject
     /**
      * Decodes $langMask into all languages it comprises and whether or not
      * the language mask signifies always available or not.
-     * 
+     *
      * The constituent languages are returned as an array of language ids. If
      * the second parameter, $returnLanguageLocale is set to TRUE, locale-codes
      * are used instead of language ids.
      *
-     * @param int $langMask 
+     * @param int $langMask
      * @param boolean $returnLanguageLocale
      * @return array
      */

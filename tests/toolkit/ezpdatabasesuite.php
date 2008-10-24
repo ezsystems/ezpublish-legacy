@@ -10,7 +10,7 @@
 /**
  * Database backed test suite class.
  *
- * Inherit from this class if you want your test suite and all tests in the 
+ * Inherit from this class if you want your test suite and all tests in the
  * suite to interact with a database.
  */
 class ezpDatabaseTestSuite extends ezpTestSuite

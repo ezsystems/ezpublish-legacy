@@ -392,7 +392,7 @@ class eZAutoloadGenerator
      */
     protected function checkMode( $mask )
     {
-        $modes = array( self::GENAUTOLOADS_KERNEL, self::GENAUTOLOADS_EXTENSION, 
+        $modes = array( self::GENAUTOLOADS_KERNEL, self::GENAUTOLOADS_EXTENSION,
                         self::GENAUTOLOADS_TESTS, self::GENAUTOLOADS_ALL );
         foreach( $modes as $mode )
         {

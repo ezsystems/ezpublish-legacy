@@ -5,7 +5,7 @@
  * @copyright Copyright (C) 1999-2008 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
  * @package tests
- */ 
+ */
 
 /**
  * Helper class to deal with common tasks related to the test database.
@@ -18,7 +18,7 @@ class ezpTestDatabaseHelper
     /**
      * Creates a new test database
      *
-     * @param ezpDsn $dsn 
+     * @param ezpDsn $dsn
      * @param array $sqlFiles array( array( string => string ) )
      * @param bool $removeExisting
      * @return mixed
@@ -44,7 +44,7 @@ class ezpTestDatabaseHelper
     /**
      * Removes everything inside a database
      *
-     * @param ezpDsn $dsn 
+     * @param ezpDsn $dsn
      * @return void
      */
     public static function clean( $db )
@@ -63,8 +63,8 @@ class ezpTestDatabaseHelper
     /**
      * Checks if a database exists or not
      *
-     * @param eZDB $db 
-     * @param string $database 
+     * @param eZDB $db
+     * @param string $database
      */
     public static function exists( $db, $database )
     {
@@ -75,7 +75,7 @@ class ezpTestDatabaseHelper
     /**
      * Inserts one or more sql files into the test database
      *
-     * @param eZDB $db 
+     * @param eZDB $db
      * @param array $sqlFiles array( array( string => string ) )
      * @return bool
      */
@@ -107,7 +107,7 @@ class ezpTestDatabaseHelper
     /**
      * Inserts the default eZ Publish schema and clean data
      *
-     * @param eZDB $db 
+     * @param eZDB $db
      * @return bool
      */
     public static function insertDefaultData( $db )

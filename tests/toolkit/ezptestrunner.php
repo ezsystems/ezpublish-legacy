@@ -54,7 +54,7 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
         }
     }
 
-    /** 
+    /**
      * Registers the consoleInput options and arguments.
      *
      * The options and arguments are registered in the given $consoleInput object.
@@ -141,7 +141,7 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
         $xml->shorthelp = "Log test execution in XML format to file.";
         $consoleInput->registerOption( $xml );
 
-        // Set up dependencies 
+        // Set up dependencies
         $dbPerTest->addDependency( new ezcConsoleOptionRule( $dsn ) );
     }
 
@@ -182,7 +182,7 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
     /**
      * Processes all console options
      *
-     * If the help option is specified by the user the help text will be 
+     * If the help option is specified by the user the help text will be
      * displayed and the program will exit.
      *
      * @param ezcConsoleInput $consoleInput
@@ -218,13 +218,13 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
     /**
      * Scans a set of directories looking for suite.php to add to include.
      *
-     * @param string $directories 
-     * @param string $params 
+     * @param string $directories
+     * @param string $params
      * @return ezpTestSuite $suite
      */
     protected function prepareTests( $directories, $params )
     {
-        if ( count( $directories ) <= 0 ) 
+        if ( count( $directories ) <= 0 )
             return self::suite();
 
         $suite = new ezpTestSuite;
@@ -287,7 +287,7 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
     /**
      * Prints all groups (@group annotation) found in $suite
      *
-     * @param ezpTestCase $suite 
+     * @param ezpTestCase $suite
      */
     protected function listGroups( $suite )
     {
@@ -296,7 +296,7 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
         $groups = $suite->getGroups();
         sort( $groups );
 
-        foreach ( $groups as $group ) 
+        foreach ( $groups as $group )
         {
             print " - $group\n";
         }
@@ -305,7 +305,7 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
     /**
      * Prints all tests found in $suite
      *
-     * @param ezpTestCase $suite 
+     * @param ezpTestCase $suite
      */
     protected function listTests( $suite )
     {
@@ -323,7 +323,7 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
     /**
      * Prepends the extension path to $path if not already in $path
      *
-     * @param string $path 
+     * @param string $path
      */
     protected function normalizeExtensionPath( $path )
     {
@@ -374,7 +374,7 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
     static public function dsn()
     {
         $dsnOption = self::$consoleInput->getOption( 'dsn' );
-        if ( $dsnOption->value ) 
+        if ( $dsnOption->value )
         {
             $dsn = new ezpDsn( $dsnOption->value );
         }
@@ -393,7 +393,7 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
      */
     static public function dbPerTest()
     {
-        if ( ezpTestRunner::$consoleInput->getOption( 'db-per-test' )->value ) 
+        if ( ezpTestRunner::$consoleInput->getOption( 'db-per-test' )->value )
         {
             return true;
         }

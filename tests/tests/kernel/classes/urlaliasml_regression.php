@@ -860,17 +860,17 @@ class eZURLAliasMlRegression extends ezpDatabaseTestCase
         $realFolderAlias = eZURLAliasML::storePath( $realFolderAliasPath, $action, false, $realFolderUrlId );
         $realFolderAliasId = $realFolderAlias['element']->attribute( 'id' );
 
-        /* 
+        /*
            We create a custom url alias for MyNode, which is located underneath
            the alias for real folder, in the url path
-           
+
            \
            |-- TheRealFolder                (node a)
            |   `-- MyNode                   (node b)
            `-- VirtualPath                  (nop:)
                `-- AliasToTheRealFolder     (node a)
                    `-- AliasToMyNode        (node b)
-           
+
         */
         // $myNodeAliasPath = "{$realFolderAliasPath}/AliasToMyNode{$r}";
         $myNodeAliasPath = "AliasToMyNode{$r}";
