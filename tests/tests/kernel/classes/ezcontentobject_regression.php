@@ -18,6 +18,30 @@ class eZContentObjectRegression extends ezpDatabaseTestCase
     }
 
     /**
+     * Test regression for #13815: eZContentObject->fetchAttributesByIdentifier 
+     * fails if $languageArray contains non string values
+     *
+     * This tests verifies that eZContentObject->fetchAttributesByIdentifier
+     * can handle non string values inside the $languageArray parameter.
+     *
+     * @link http://issues.ez.no/13815
+     */
+    public function testfetchAttributesByIdentifier()
+    {
+        $folder = new ezpObject( "folder", 2 );
+        $folder->name = __FUNCTION__;
+        $folder->short_description = "123";
+        $folder->publish();
+
+        $identifiers = array( 'name' );
+
+        $objects = $folder->fetchAttributesByIdentifier( $identifiers, false, false );
+        $objects2 = $folder->fetchAttributesByIdentifier( $identifiers, false, array( false ) );
+
+        self::assertEquals( $objects, $objects2 );
+    }
+
+    /**
      * Test scenario for issue #13552: Broken datamap caching when copying
      * content objects
      *

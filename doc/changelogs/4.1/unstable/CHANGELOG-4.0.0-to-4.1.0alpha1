@@ -419,3 +419,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13771: MYSQL Syntax error
 - Fixed bug #13799: Wrong destination URL used in warning message when trying to add an existing alias
 - Fixed bug #13783: Flash Player 10 & SWF problems
+- Fixed bug #13815: eZContentObject->fetchAttributesByIdentifier fails if $languageArray contains non string values
