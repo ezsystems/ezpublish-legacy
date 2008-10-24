@@ -205,8 +205,10 @@ class eZContentCacheManager
      \param $versionNum The version of the object to use or \c true for current version
      \param[out] $nodeIDList Array with node IDs
     */
-    static function appendKeywordNodeIDs( $object, $versionNum, &$nodeIDList )
+    static function appendKeywordNodeIDs( $object, $versionNum, &$nodeIDList, $limit = null )
     {
+        if ( $limit === 0 )
+            return;
         if ( $versionNum === true )
             $versionNum = false;
         $keywordArray = array();
@@ -234,6 +236,7 @@ class eZContentCacheManager
             //include_once( 'lib/ezdb/classes/ezdb.php' );
             $db = eZDB::instance();
             $keywordString = "'".$db->escapeString( $keyword )."'";
+            $params = $limit ? array( 'offset' => 0, 'limit'  => $limit ) : array();            
             $rows = $db->arrayQuery( "SELECT DISTINCT ezcontentobject_tree.node_id
                                        FROM
                                          ezcontentobject_tree,
@@ -244,7 +247,8 @@ class eZContentCacheManager
                                          ezcontentobject_tree.contentobject_id = ezcontentobject_attribute.contentobject_id AND
                                          ezcontentobject_attribute.id = ezkeyword_attribute_link.objectattribute_id AND
                                          ezkeyword_attribute_link.keyword_id = ezkeyword.id AND
-                                         ezkeyword.keyword IN ( $keywordString )" );
+                                         ezkeyword.keyword IN ( $keywordString )",
+                                        $params );
 
             foreach ( $rows as $row )
             {
@@ -292,11 +296,13 @@ class eZContentCacheManager
         $ini = eZINI::instance( 'viewcache.ini' );
         $info = false;
 
-        if ( $ignoreINISettings || $ini->variable( 'ViewCacheSettings', 'SmartCacheClear' ) == 'enabled' )
+        if ( $ignoreINISettings || $ini->variable( 'ViewCacheSettings', 'SmartCacheClear' ) !== 'disabled' )
         {
             if ( $ini->hasGroup( $classID ) )
             {
                 $info = array();
+                $info['clear_cache_exclusive'] = $ini->variable( 'ViewCacheSettings', 'SmartCacheClear' ) === 'exclusive';
+
                 if ( $ini->hasVariable( $classID, 'DependentClassIdentifier' ) )
                     $info['dependent_class_identifier'] = $ini->variable( $classID, 'DependentClassIdentifier' );
 
@@ -459,10 +465,19 @@ class eZContentCacheManager
         $objectClassIdentifier = $contentObject->attribute( 'class_identifier' );
         $dependentClassInfo = eZContentCacheManager::dependencyInfo( $objectClassIdentifier );
 
-        //Check if clear_cache_type on class type is none before we begin
         if ( $dependentClassInfo['clear_cache_type'] === self::CLEAR_NO_CACHE )
         {
+            // BC: Allow smart cache clear setting to specify no caching setting
+            $clearCacheType = self::CLEAR_NO_CACHE;
+        }
+        else if ( $dependentClassInfo['clear_cache_exclusive'] === true )
+        {
+            // use class specific smart cache rules exclusivly
             $clearCacheType = $dependentClassInfo['clear_cache_type'];
+        }
+
+        if ( $clearCacheType === self::CLEAR_NO_CACHE )
+        {
             // when recursing we will never have to handle this object again for other cache types
             // because types of caches to clear will always be set to none
             $handledObjectList[$contentObjectID] = self::CLEAR_ALL_CACHE;
@@ -485,7 +500,12 @@ class eZContentCacheManager
 
         if ( $clearCacheType & self::CLEAR_KEYWORD_CACHE )
         {
-            eZContentCacheManager::appendKeywordNodeIDs( $contentObject, $versionNum, $nodeList );
+            $keywordClearLimit = null;
+            $viewcacheini = eZINI::instance( 'viewcache.ini' );
+            if ( is_numeric( $viewcacheini->variable( 'ViewCacheSettings', 'KeywordNodesCacheClearLimit' ) ) )
+                $keywordClearLimit = (int) $viewcacheini->variable( 'ViewCacheSettings', 'KeywordNodesCacheClearLimit' );
+
+            eZContentCacheManager::appendKeywordNodeIDs( $contentObject, $versionNum, $nodeList, $keywordClearLimit );
         }
 
         if ( $clearCacheType & self::CLEAR_SIBLINGS_CACHE )
