@@ -71,7 +71,7 @@ class eZNotificationEventType
             $className = $types[$notificationEventTypeString];
             $def =& $GLOBALS["eZNotificationEventTypeObjects"][$notificationEventTypeString];
 
-            if ( strtolower( get_class( $def ) ) != $className )
+            if ( !is_object( $def ) || strtolower( get_class( $def ) ) != $className )
             {
                 $def = new $className();
             }
