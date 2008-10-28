@@ -185,24 +185,35 @@ class eZObjectForwarder
                 {
                     $rootMatchValue = $rootMatch[0];
                     $templateRoot = $rootMatch[1];
-                    $rootMatchValueText = eZPHPCreator::variableText( $rootMatchValue, 0, 0, false );
-                    $code = '';
-                    if ( $rootMatchCounter > 0 )
-                        $code .= "else " . ( $resourceData['use-comments'] ? ( "/*OF:" . __LINE__ . "*/" ) : "" ) . "";
-                    $code .= "if " . ( $resourceData['use-comments'] ? ( "/*OF:" . __LINE__ . "*/" ) : "" ) . "( \$templateRootMatch == $rootMatchValueText )\n{";
-                    $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code );
 
                     $resourceNodes = $this->resourceAcquisitionTransformation( $functionName, $node, $rule, $inputData,
                                                                                $outputName, $namespaceValue,
                                                                                $templateRoot, $viewDir, $viewValue,
                                                                                $matchFileArray, 4, $resourceData );
-                    // If the transformation failed we return false to invoke interpreted mode
+
+                    // If this transformation failed we continue to the next root match
                     if ( $resourceNodes === false )
-                        return false;
+                        continue;
+
+                    $rootMatchValueText = eZPHPCreator::variableText( $rootMatchValue, 0, 0, false );
+                    $code = '';
+                    if ( $rootMatchCounter > 0 )
+                    {
+                        $code .= "else " . ( $resourceData['use-comments'] ? ( "/*OF:" . __LINE__ . "*/" ) : "" ) . "";
+                    }
+                    $code .= "if " . ( $resourceData['use-comments'] ? ( "/*OF:" . __LINE__ . "*/" ) : "" ) . "( \$templateRootMatch == $rootMatchValueText )\n{";
+                    $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code );
                     $newNodes = array_merge( $newNodes, $resourceNodes );
                     $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}" );
                     ++$rootMatchCounter;
                 }
+
+                // If the transformation failed we invoke interpreted mode
+                if ( $rootMatchCounter == 0 )
+                {
+                    return false;
+                }
+
                 $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( 'templateRootMatch' );
             }
         }
