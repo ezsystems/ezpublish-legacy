@@ -26,9 +26,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'kernel/classes/ezcontentobject.php' );
-//include_once( "lib/ezdb/classes/ezdb.php" );
-
 $Module = $Params['Module'];
 $NodeID = $Params['NodeID'];
 
@@ -252,7 +249,6 @@ function copyPublishContentObject( $sourceObject,
     }
 
     // publish the newly created object
-    //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
     $result = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $newObject->attribute( 'id' ),
                                                                         'version'   => $curVersion ) );
     // Refetch the object data since it might change in the database.
@@ -801,7 +797,6 @@ function browse( $Module, $srcNode )
     if ( $Module->hasActionParameter( 'ViewMode' ) )
         $viewMode = $module->actionParameter( 'ViewMode' );
 
-    //include_once( 'kernel/classes/ezcontentbrowse.php' );
     eZContentBrowse::browse(
          array( 'action_name'          => 'CopySubtree',
                 'description_template' => 'design:content/browse_copy_subtree.tpl',
@@ -828,7 +823,6 @@ either all version or the current one.
 */
 function chooseOptionsToCopy( $Module, &$Result, $srcNode, $chooseVersions, $chooseCreator, $chooseTime )
 {
-        //include_once( 'kernel/classes/ezcontentbrowse.php' );
         $selectedNodeIDArray = eZContentBrowse::result( $Module->currentAction() );
 
         require_once( 'kernel/common/template.php' );
@@ -967,7 +961,6 @@ else if ( $Module->isCurrentAction( 'CopySubtree' ) )
     else
     {
         // actually do copying of the pre-configured object version(s)
-        //include_once( 'kernel/classes/ezcontentbrowse.php' );
         $selectedNodeIDArray = eZContentBrowse::result( $Module->currentAction() );
         $newParentNodeID = $selectedNodeIDArray[0];
         copySubtree( $NodeID, $newParentNodeID, $notifications, $allVersions, $keepCreator, $keepTime );

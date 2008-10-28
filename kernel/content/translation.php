@@ -84,7 +84,6 @@ if ( $module->isCurrentAction( 'UpdateInitialLanguage' ) )
             return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel', array() );
         }
 
-        //include_once( 'kernel/classes/ezcontentlanguage.php' );
         $language = eZContentLanguage::fetch( $newInitialLanguageID );
         if ( $language && !$language->attribute( 'disabled' ) )
         {
@@ -104,7 +103,6 @@ if ( $module->isCurrentAction( 'UpdateInitialLanguage' ) )
                 $node->updateSubTreePath();
             }
 
-            //include_once( 'kernel/classes/ezcontentcachemanager.php' );
             eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
         }
     }
@@ -119,8 +117,6 @@ else if ( $module->isCurrentAction( 'UpdateAlwaysAvailable' ) )
     }
 
     $newAlwaysAvailable = $module->hasActionParameter( 'AlwaysAvailable' );
-
-    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
 
     if ( $object->isAlwaysAvailable() & $newAlwaysAvailable == false )
     {
@@ -155,16 +151,12 @@ else if ( $module->isCurrentAction( 'RemoveTranslation' ) )
             }
         }
 
-        //include_once( 'kernel/content/ezcontentoperationcollection.php' );
         eZContentOperationCollection::registerSearchObject( $object->attribute( 'id' ), $object->attribute( 'current_version' ) );
 
-        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
 
         return $module->redirectToView( 'view', array( $viewMode, $nodeID, $languageCode ) );
     }
-
-    //include_once( 'kernel/classes/ezcontentlanguage.php' );
 
     $languages = array();
     foreach( $languageIDArray as $languageID )

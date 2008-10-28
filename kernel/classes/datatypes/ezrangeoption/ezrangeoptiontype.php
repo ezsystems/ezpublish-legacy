@@ -37,9 +37,6 @@
   \brief The class eZRangeOptionType does
 
 */
-//include_once( "kernel/classes/ezdatatype.php" );
-//include_once( "kernel/classes/datatypes/ezrangeoption/ezrangeoption.php" );
-
 class eZRangeOptionType extends eZDataType
 {
     const DEFAULT_NAME_VARIABLE = "_ezrangeoption_default_name_";

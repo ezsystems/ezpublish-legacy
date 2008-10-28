@@ -26,10 +26,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( "kernel/classes/ezcontentclass.php" );
-//include_once( "kernel/classes/ezcontentclassattribute.php" );
-//include_once( "kernel/classes/ezcontentclassclassgroup.php" );
-
 $Module = $Params['Module'];
 $LanguageCode = $Params['Language'];
 $http = eZHTTPTool::instance();
@@ -54,13 +50,11 @@ if ( !$LanguageCode)
 
 if ( $http->hasPostVariable( 'AddGroupButton' ) && $http->hasPostVariable( 'ContentClass_group' ) )
 {
-    //include_once( "kernel/class/ezclassfunctions.php" );
     eZClassFunctions::addGroup( $ClassID, $ClassVersion, $http->postVariable( 'ContentClass_group' ) );
 }
 
 if ( $http->hasPostVariable( 'RemoveGroupButton' ) && $http->hasPostVariable( 'group_id_checked' ) )
 {
-    //include_once( "kernel/class/ezclassfunctions.php" );
     if ( !eZClassFunctions::removeGroup( $ClassID, $ClassVersion, $http->postVariable( 'group_id_checked' ) ) )
     {
         $validation['groups'][] = array( 'text' => ezi18n( 'kernel/class', 'You have to have at least one group that the class belongs to!' ) );
@@ -87,7 +81,6 @@ else if ( $http->hasPostVariable( 'SetSorting' ) &&
 }
 
 $attributes = $class->fetchAttributes();
-//include_once( "kernel/classes/ezdatatype.php" );
 $datatypes = eZDataType::registeredDataTypes();
 
 $mainGroupID = false;

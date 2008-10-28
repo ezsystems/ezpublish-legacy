@@ -360,7 +360,6 @@ class eZFileHandler
         {
             $isLink = true;
         }
-        //include_once( 'lib/ezfile/classes/ezfile.php' );
         if ( !$isLink and
              eZFile::rename( $sourceFilename, $destinationFilename ) )
         {
@@ -1006,7 +1005,6 @@ class eZFileHandler
     */
     static function doRename( $destinationFilename, $sourceFilename )
     {
-        //include_once( 'lib/ezfile/classes/ezfile.php' );
         return eZFile::rename( $sourceFilename, $destinationFilename );
     }
 
@@ -1059,7 +1057,6 @@ class eZFileHandler
     */
     static function instance( $identifier, $filename = false, $mode = false, $binaryFile = true )
     {
-        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance( 'file.ini' );
         $handlers = $ini->variable( 'FileSettings', 'Handlers' );
         $instance = false;

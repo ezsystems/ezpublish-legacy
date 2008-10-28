@@ -31,9 +31,6 @@
 /*! \file list.php
 */
 require_once( 'kernel/common/template.php' );
-//include_once( 'kernel/classes/ezcontentobjectversion.php' );
-//include_once( "lib/ezdb/classes/ezdb.php" );
-
 $Module = $Params['Module'];
 $http = eZHTTPTool::instance();
 

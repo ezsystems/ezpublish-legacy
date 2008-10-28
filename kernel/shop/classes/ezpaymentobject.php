@@ -152,10 +152,6 @@ class eZPaymentObject extends eZPersistentObject
     */
     static function continueWorkflow( $workflowProcessID )
     {
-        //include_once( 'kernel/classes/ezworkflowprocess.php' );
-        //include_once( 'lib/ezutils/classes/ezoperationmemento.php' );
-        //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
-
         $operationResult =  null;
         $theProcess      = eZWorkflowProcess::fetch( $workflowProcessID );
         if ( $theProcess != null )

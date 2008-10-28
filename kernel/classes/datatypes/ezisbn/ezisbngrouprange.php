@@ -43,8 +43,6 @@
 
 */
 
-//include_once( 'kernel/classes/ezpersistentobject.php' );
-
 class eZISBNGroupRange extends eZPersistentObject
 {
     /*!

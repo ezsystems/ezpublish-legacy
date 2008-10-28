@@ -36,10 +36,6 @@
  The name of the resource is "file:".
 */
 
-//include_once( "lib/ezi18n/classes/eztextcodec.php" );
-//include_once( "lib/eztemplate/classes/eztemplatetreecache.php" );
-//include_once( "lib/eztemplate/classes/eztemplatecompiler.php" );
-
 class eZTemplateFileResource
 {
     /*!

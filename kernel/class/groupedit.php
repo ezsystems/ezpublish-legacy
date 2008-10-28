@@ -26,12 +26,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( "kernel/classes/ezcontentclass.php" );
-//include_once( "kernel/classes/ezcontentclassattribute.php" );
-//include_once( "kernel/classes/ezcontentclassgroup.php" );
-//include_once( "kernel/classes/ezcontentclassclassgroup.php" );
-//include_once( "lib/ezutils/classes/ezhttptool.php" );
-
 $Module = $Params['Module'];
 $GroupID = null;
 if ( isset( $Params["GroupID"] ) )
@@ -43,7 +37,6 @@ if ( is_numeric( $GroupID ) )
 }
 else
 {
-    //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
     $user = eZUser::currentUser();
     $user_id = $user->attribute( "contentobject_id" );
     $classgroup = eZContentClassGroup::create( $user_id );
@@ -71,7 +64,6 @@ if ( $http->hasPostVariable( "StoreButton" ) )
     // Set new modification date
     $date_time = time();
     $classgroup->setAttribute( "modified", $date_time );
-    //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
     $user = eZUser::currentUser();
     $user_id = $user->attribute( "contentobject_id" );
     $classgroup->setAttribute( "modifier_id", $user_id );

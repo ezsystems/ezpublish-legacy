@@ -222,8 +222,6 @@ class eZBinaryFileHandler
 
     function handleDownload( $contentObject, $contentObjectAttribute, $type )
     {
-        //include_once( 'lib/ezutils/classes/ezmimetype.php' );
-        //include_once( 'kernel/classes/datatypes/ezimage/ezimagealiashandler.php' );
         $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
         $version = $contentObject->attribute( 'current_version' );
 

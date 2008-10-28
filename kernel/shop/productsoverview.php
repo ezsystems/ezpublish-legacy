@@ -30,9 +30,6 @@
 */
 
 require_once( 'kernel/common/template.php' );
-//include_once( 'kernel/classes/ezpreferences.php' );
-//include_once( 'kernel/shop/classes/ezshopfunctions.php' );
-
 $module = $Params['Module'];
 $offset = $Params['Offset'];
 $productClassIdentifier = $Params['ProductClass'];

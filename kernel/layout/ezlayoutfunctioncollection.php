@@ -37,8 +37,6 @@
 
 */
 
-//include_once( 'kernel/error/errors.php' );
-
 class eZLayoutFunctionCollection
 {
     /*!
@@ -50,7 +48,6 @@ class eZLayoutFunctionCollection
 
     function fetchSitedesignList()
     {
-        //include_once( 'lib/ezutils/classes/ezini.php' );
         $contentINI = eZINI::instance( 'content.ini' );
         if ( $contentINI->hasVariable( 'VersionView', 'AvailableSiteDesigns' ) )
         {

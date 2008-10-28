@@ -26,11 +26,8 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( "lib/ezutils/classes/ezhttptool.php" );
 $http = eZHTTPTool::instance();
 $Module = $Params['Module'];
-
-//include_once( "kernel/classes/eztrigger.php" );
 
 //////////////////////
 //$userID = eZUser::currentUserID();
@@ -72,7 +69,6 @@ $plistCount = eZWorkflowProcess::count( eZWorkflowProcess::definition(), $conds 
 
 $totalProcessCount = 0;
 $outList2 = array();
-//include_once( 'lib/ezutils/classes/ezoperationmemento.php' );
 foreach ( $plist as $p )
 {
     $mementoMain = eZOperationMemento::fetchMain( $p->attribute( 'memento_key' ) );

@@ -37,9 +37,6 @@
 
 */
 
-//include_once( 'kernel/classes/notification/eznotificationeventtype.php' );
-//include_once( 'kernel/classes/ezcollaborationitem.php' );
-
 class eZCollaborationEventType extends eZNotificationEventType
 {
     const NOTIFICATION_TYPE_STRING = 'ezcollaboration';

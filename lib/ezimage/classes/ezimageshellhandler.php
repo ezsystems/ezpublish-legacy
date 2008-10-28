@@ -38,8 +38,6 @@
 
 */
 
-//include_once( 'lib/ezimage/classes/ezimagehandler.php' );
-
 class eZImageShellHandler extends eZImageHandler
 {
     /*!
@@ -157,7 +155,6 @@ class eZImageShellHandler extends eZImageHandler
             $iniFilename = 'image.ini';
 
         $handler = false;
-        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance( $iniFilename );
         if ( !$ini )
         {

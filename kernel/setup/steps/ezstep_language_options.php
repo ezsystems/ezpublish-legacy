@@ -30,8 +30,6 @@
 
 /*! \file ezstep_language_options.php
 */
-//include_once( 'kernel/setup/steps/ezstep_installer.php' );
-//include_once( 'kernel/setup/ezsetupcommon.php' );
 require_once( "kernel/common/i18n.php" );
 
 /*!
@@ -86,7 +84,6 @@ class eZStepLanguageOptions extends eZStepInstaller
             }
             else
             {
-                //include_once( 'lib/ezlocale/classes/ezlocale.php' );
                 $primaryLanguage     = null;
                 $allLanguages        = array();
                 $allLanguageCodes    = array();

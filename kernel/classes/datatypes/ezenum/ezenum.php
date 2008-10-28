@@ -31,10 +31,6 @@
 /*! \file ezenum.php
 */
 
-//include_once( "lib/ezdb/classes/ezdb.php" );
-//include_once( "kernel/classes/datatypes/ezenum/ezenumvalue.php" );
-//include_once( "kernel/classes/datatypes/ezenum/ezenumobjectvalue.php" );
-
 /*!
   \class eZEnum ezenum.php
   \ingroup eZDatatype

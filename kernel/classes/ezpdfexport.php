@@ -38,8 +38,6 @@
   eZPDFExport is used to create PDF exports from published content. See kernel/pdf for more files.
 */
 
-//include_once( 'kernel/classes/ezpersistentobject.php' );
-
 class eZPDFExport extends eZPersistentObject
 {
     const VERSION_VALID = 0;
@@ -180,8 +178,6 @@ class eZPDFExport extends eZPersistentObject
     */
     function store( $publish = false )
     {
-        //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-
         if ( $publish )
         {
             $originalVersion = $this->attribute( 'version' );
@@ -257,7 +253,6 @@ class eZPDFExport extends eZPersistentObject
     {
         if ( isset( $this->ModifierID ) and $this->ModifierID )
         {
-            //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
             return eZUser::fetch( $this->ModifierID );
         }
 
@@ -268,7 +263,6 @@ class eZPDFExport extends eZPersistentObject
     {
         if ( isset( $this->SourceNodeID ) and $this->SourceNodeID )
         {
-            //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
             return eZContentObjectTreeNode::fetch( $this->SourceNodeID );
         }
 

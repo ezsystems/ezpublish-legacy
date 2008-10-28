@@ -38,11 +38,6 @@
 
 */
 
-//include_once( 'kernel/classes/ezdatatype.php' );
-//include_once( 'kernel/classes/datatypes/ezmatrix/ezmatrix.php' );
-//include_once( 'kernel/classes/datatypes/ezmatrix/ezmatrixdefinition.php' );
-//include_once( 'lib/ezutils/classes/ezstringutils.php' );
-
 class eZMatrixType extends eZDataType
 {
     const DEFAULT_NAME_VARIABLE = '_ezmatrix_default_name_';
@@ -340,7 +335,6 @@ class eZMatrixType extends eZDataType
                     {
                         $columnID = $name;
                         // Initialize transformation system
-                        //include_once( 'lib/ezi18n/classes/ezchartransform.php' );
                         $trans = eZCharTransform::instance();
                         $columnID = $trans->transformByGroup( $columnID, 'identifier' );
                     }

@@ -37,8 +37,6 @@
 
 */
 
-////include_once( 'lib/ezutils/classes/ezphpcreator.php' );
-
 class eZExpiryHandler
 {
     /*!

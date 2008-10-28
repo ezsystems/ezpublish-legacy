@@ -111,7 +111,6 @@ class eZUserLoginHandler
         $triedFiles = array();
         if ( $protocol == "standard" )
         {
-            //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
             $impl = new eZUser( 0 );
             return $impl;
         }
@@ -128,7 +127,6 @@ class eZUserLoginHandler
             }
             else // check in extensions
             {
-                //include_once( 'lib/ezutils/classes/ezextension.php' );
                 $ini = eZINI::instance();
                 $extensionDirectories = $ini->variable( 'UserSettings', 'ExtensionDirectory' );
                 $directoryList = eZExtension::expandedPathList( $extensionDirectories, 'login_handler' );

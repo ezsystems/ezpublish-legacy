@@ -33,10 +33,6 @@
 
 */
 
-//include_once( "lib/ezdb/classes/ezdb.php" );
-//include_once( "kernel/classes/ezpersistentobject.php" );
-//include_once( "kernel/classes/ezworkflowgroup.php" );
-
 class eZWorkflowGroupLink extends eZPersistentObject
 {
     function eZWorkflowGroupLink( $row )

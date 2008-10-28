@@ -29,16 +29,6 @@
 /*! \file rssimport.php
 */
 
-//include_once( 'kernel/classes/ezrssimport.php' );
-//include_once( 'kernel/classes/ezcontentclass.php' );
-//include_once( 'kernel/classes/ezcontentobject.php' );
-//include_once( 'kernel/classes/ezpersistentobject.php' );
-//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-//include_once( 'kernel/classes/ezcontentobjectversion.php' );
-//include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
-//include_once( "lib/ezdb/classes/ezdb.php" );
-//include_once( "lib/ezutils/classes/ezhttptool.php" );
-
 //For ezUser, we would make this the ezUser class id but otherwise just pick and choose.
 
 //fetch this class
@@ -125,7 +115,6 @@ foreach ( $rssImportArray as $rssImport )
 
 }
 
-//include_once( 'kernel/classes/ezstaticcache.php' );
 eZStaticCache::executeActions();
 
 /*!
@@ -466,7 +455,6 @@ function setObjectAttributeValue( $objectAttribute, $value )
 
         case 'ezkeyword':
         {
-            //include_once( 'kernel/classes/datatypes/ezkeyword/ezkeyword.php' );
             $keyword = new eZKeyword();
             $keyword->initializeKeyword( $value );
             $objectAttribute->setContent( $keyword );
@@ -491,7 +479,6 @@ function setObjectAttributeValue( $objectAttribute, $value )
 
 function setEZXMLAttribute( $attribute, $attributeValue, $link = false )
 {
-    //include_once( 'kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmlinputparser.php' );
     $contentObjectID = $attribute->attribute( "contentobject_id" );
     $parser = new eZSimplifiedXMLInputParser( $contentObjectID, false, 0, false );
 

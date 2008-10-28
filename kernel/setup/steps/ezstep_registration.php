@@ -30,8 +30,6 @@
 
 /*! \file ezstep_registration.php
 */
-//include_once( 'kernel/setup/steps/ezstep_installer.php');
-//include_once( "kernel/setup/ezsetuptests.php" );
 require_once( "kernel/common/i18n.php" );
 
 /*!
@@ -109,7 +107,6 @@ class eZStepRegistration extends eZStepInstaller
         {
             $webserverInfo = array( 'version' => apache_get_version() );
         }
-        //include_once( 'lib/ezutils/classes/ezsysinfo.php' );
         $systemInfo = new eZSysInfo();
         $systemInfo->scan();
 
@@ -138,7 +135,6 @@ class eZStepRegistration extends eZStepInstaller
         $mailTpl->setVariable( 'system', $systemInfo );
         $mailTpl->setVariable( 'os', array( 'name' => php_uname() ) );
         $mailTpl->setVariable( 'optional_tests', $testResults );
-        //include_once( 'lib/version.php' );
         $mailTpl->setVariable( "version", array( "text" => eZPublishSDK::version(),
                                                  "major" => eZPublishSDK::majorVersion(),
                                                  "minor" => eZPublishSDK::minorVersion(),
@@ -168,8 +164,6 @@ class eZStepRegistration extends eZStepInstaller
         $subject = $mailTpl->variable( 'subject' );
 
         // Fill in E-Mail data and send it
-        //include_once( 'lib/ezutils/classes/ezmail.php' );
-        //include_once( 'lib/ezutils/classes/ezmailtransport.php' );
         $mail = new eZMail();
         $mail->setReceiver( 'registerezsite@ez.no', 'eZ Site Registration' );
         $mail->setSender( 'registerezsite@ez.no' );
@@ -205,8 +199,6 @@ class eZStepRegistration extends eZStepInstaller
                     $subject = $mailTpl->variable( 'subject' );
 
                     // Fill in E-Mail data and send it
-                    //include_once( 'lib/ezutils/classes/ezmail.php' );
-                    //include_once( 'lib/ezutils/classes/ezmailtransport.php' );
                     $mail = new eZMail();
                     $mail->setReceiver( 'registerezsite@ez.no', 'eZ Site Registration' );
                     $mail->setSender( 'registerezsite@ez.no' );

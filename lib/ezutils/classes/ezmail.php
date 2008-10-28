@@ -44,9 +44,6 @@
 
 */
 
-//include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-//include_once( 'lib/ezutils/classes/ezini.php' );
-
 class eZMail
 {
     const REGEXP = '([0-9a-zA-Z]([-+.\w]*[0-9a-zA-Z_])*@(((([0-9a-zA-Z])+([-\w]*[0-9a-zA-Z])*\.)+[a-zA-Z]{2,9})|(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)))';
@@ -68,7 +65,6 @@ class eZMail
         $this->MessageID = false;
 
         // Sets some default values
-        //include_once( 'lib/version.php' );
         $version = eZPublishSDK::version();
 
         $this->MIMEVersion = '1.0';
@@ -858,7 +854,6 @@ class eZMail
     */
     function isAllowedCharset( $charset )
     {
-        //include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
         $realCharset = eZCharsetInfo::realCharsetCode( $charset );
         $charsets = $this->allowedCharsets();
         foreach ( $charsets as $charsetName )

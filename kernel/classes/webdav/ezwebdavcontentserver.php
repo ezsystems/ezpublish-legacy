@@ -35,13 +35,6 @@
 
 */
 
-//include_once( 'lib/ezwebdav/classes/ezwebdavserver.php' );
-//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-//include_once( "kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php" );
-//include_once( "lib/ezutils/classes/ezmimetype.php" );
-//include_once( 'lib/ezfile/classes/ezdir.php' );
-//include_once( "kernel/classes/ezurlaliasml.php" );
-//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 require_once( 'access.php' );
 
 class eZWebDAVContentServer extends eZWebDAVServer
@@ -309,7 +302,6 @@ class eZWebDAVContentServer extends eZWebDAVServer
 
         $object = $node->attribute( 'object' );
 
-        //include_once( 'kernel/classes/ezcontentupload.php' );
         $upload = new eZContentUpload();
         $info = $upload->objectFileInfo( $object );
         if ( $info )
@@ -428,8 +420,6 @@ class eZWebDAVContentServer extends eZWebDAVServer
         $defaultObjectType = $webdavINI->variable( 'PutSettings', 'DefaultClass' );
 
         $existingNode = $this->fetchNodeByTranslation( $nodePath );
-        //include_once( 'kernel/classes/ezcontentupload.php' );
-
         $upload = new eZContentUpload();
         if ( !$upload->handleLocalFile( $result, $tempFile, $parentNodeID, $existingNode ) )
         {
@@ -816,7 +806,6 @@ class eZWebDAVContentServer extends eZWebDAVServer
         }
         else
         {
-            //include_once( 'kernel/classes/ezcontentobjecttreenodeoperations.php' );
             if( !eZContentObjectTreeNodeOperations::move( $sourceNode->attribute( 'node_id' ), $destinationNode->attribute( 'node_id' ) ) )
             {
                 $this->appendLogEntry( "Unable to move the node '$sourceSite':'$nodePath' to '$destinationSite':'$destinationNodePath'", 'CS:moveContent' );
@@ -871,8 +860,6 @@ class eZWebDAVContentServer extends eZWebDAVServer
 
         if ( $accessWord == 'limited' )
         {
-            //include_once( 'lib/ezutils/classes/ezsys.php' );
-
             $hasAccess = false;
             $policyChecked = false;
             foreach ( array_keys( $result['policies'] ) as $key )
@@ -1445,7 +1432,6 @@ class eZWebDAVContentServer extends eZWebDAVServer
         $entry["ctime"] = $object->attribute( 'published' );
         $entry["mtime"] = $object->attribute( 'modified' );
 
-        //include_once( 'kernel/classes/ezcontentupload.php' );
         $upload = new eZContentUpload();
         $info = $upload->objectFileInfo( $object );
         $suffix = '';
@@ -1573,7 +1559,6 @@ class eZWebDAVContentServer extends eZWebDAVServer
             $contentObjectAttributes[0]->store();
             $db->commit();
 
-            //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
             $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID,
                                                                                          'version' => 1 ) );
             return eZWebDAVServer::OK_CREATED;

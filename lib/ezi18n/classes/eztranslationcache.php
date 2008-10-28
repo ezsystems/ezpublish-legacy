@@ -107,7 +107,6 @@ class eZTranslationCache
         $cacheDirectory =& $GLOBALS['eZTranslationCacheDirectory'];
         if ( !isset( $cacheDirectory ) )
         {
-            //include_once( 'lib/ezutils/classes/ezini.php' );
             $ini = eZINI::instance();
             $locale = $ini->variable( 'RegionalSettings', 'Locale' );
 
@@ -123,9 +122,6 @@ class eZTranslationCache
     */
     static function rootCacheDirectory()
     {
-        //include_once( 'lib/ezfile/classes/ezdir.php' );
-        //include_once( 'lib/ezutils/classes/ezsys.php' );
-
         $internalCharset = eZTextCodec::internalCharset();
         $rootName = 'root-' . md5( $internalCharset );
         $rootCacheDirectory = eZDir::path( array( eZSys::cacheDirectory(), 'translation', $rootName ) );
@@ -151,8 +147,6 @@ class eZTranslationCache
         $cacheFileKey = $key;
         $cacheFileName = md5( $cacheFileKey ) . '.php';
 
-        //include_once( 'lib/ezutils/classes/ezphpcreator.php' );
-
         $php = new eZPHPCreator( eZTranslationCache::cacheDirectory(), $cacheFileName );
         return $php->canRestore( $timestamp );
     }
@@ -174,8 +168,6 @@ class eZTranslationCache
 //         $cacheFileKey = "$key-$internalCharset";
         $cacheFileKey = $key;
         $cacheFileName = md5( $cacheFileKey ) . '.php';
-
-        //include_once( 'lib/ezutils/classes/ezphpcreator.php' );
 
         $php = new eZPHPCreator( eZTranslationCache::cacheDirectory(), $cacheFileName );
         $variables = $php->restore( array( 'info' => 'TranslationInfo',
@@ -206,8 +198,6 @@ class eZTranslationCache
         $cacheFileName = md5( $cacheFileKey ) . '.php';
 
         $cache =& $translationCache[$key];
-
-        //include_once( 'lib/ezutils/classes/ezphpcreator.php' );
 
         if ( file_exists( eZTranslationCache::cacheDirectory() ) )
         {

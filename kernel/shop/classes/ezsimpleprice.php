@@ -55,11 +55,6 @@ The available attributes are:
   - price
 */
 
-//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-//include_once( 'kernel/classes/ezvattype.php' );
-//include_once( 'kernel/classes/ezdiscount.php' );
-
 
 class eZSimplePrice
 {

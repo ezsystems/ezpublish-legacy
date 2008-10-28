@@ -928,7 +928,6 @@ class eZDBSchemaInterface
      */
     function loadSchemaTransformationRules( $schemaType )
     {
-        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance( 'dbschema.ini' );
 
         if ( !$ini )

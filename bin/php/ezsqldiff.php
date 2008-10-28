@@ -27,9 +27,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'lib/ezutils/classes/ezcli.php' );
-//include_once( 'kernel/classes/ezscript.php' );
-
 require 'autoload.php';
 
 $cli = eZCLI::instance();
@@ -127,15 +124,12 @@ function loadDatabaseSchema( $type, $host, $user, $password, $socket, $db, $cli 
     $dbSchema = false;
     if ( file_exists( $db ) and is_file( $db ) )
     {
-        //include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
         $dbSchema = eZDbSchema::instance( array( 'type' => $type,
                                                  'schema' => eZDbSchema::read( $db ) ) );
         return $dbSchema;
     }
     else
     {
-        //include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
-        //include_once( 'lib/ezdb/classes/ezdb.php' );
         $parameters = array( 'use_defaults' => false,
                              'server' => $host,
                              'user' => $user,
@@ -192,7 +186,6 @@ function loadDatabaseSchema( $type, $host, $user, $password, $socket, $db, $cli 
 
 function loadLintSchema( $dbSchema, $cli )
 {
-    //include_once( 'lib/ezdbschema/classes/ezlintschema.php' );
     return new eZLintSchema( false, $dbSchema );
 }
 
@@ -219,8 +212,6 @@ else
         $script->shutdown( 1 );
     }
 }
-
-//include_once( 'lib/ezdbschema/classes/ezdbschemachecker.php' );
 
 if ( $options['reverse'] )
 {

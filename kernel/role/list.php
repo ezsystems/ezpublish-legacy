@@ -26,14 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'kernel/classes/ezcontentobject.php' );
-//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-//include_once( 'kernel/classes/ezcontentclass.php' );
-//include_once( 'kernel/classes/ezcontentbrowse.php' );
 require_once( 'kernel/common/template.php' );
-//include_once( 'kernel/classes/ezrole.php' );
-//include_once( 'kernel/classes/ezpreferences.php' );
-
 $http = eZHTTPTool::instance();
 
 
@@ -70,7 +63,6 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
         eZRole::expireCache();
 
         // Clear all content cache.
-        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearAllContentCache();
 
         $db->commit();
@@ -90,7 +82,6 @@ if ( $Module->isCurrentAction( 'AssignRole' ) )
     eZRole::expireCache();
 
     // Clear all content cache.
-    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearAllContentCache();
 }
 

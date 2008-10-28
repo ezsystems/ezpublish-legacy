@@ -110,7 +110,6 @@ class eZKernelOperator
         {
             case 'ezpreference':
             {
-                //include_once( 'kernel/classes/ezpreferences.php' );
                 $name = $namedParameters['name'];
                 $value = eZPreferences::value( $name );
                 $operatorValue = $value;

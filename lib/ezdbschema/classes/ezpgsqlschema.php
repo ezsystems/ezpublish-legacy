@@ -33,8 +33,6 @@
 
 */
 
-//include_once( 'lib/ezdbschema/classes/ezdbschemainterface.php' );
-
 class eZPgsqlSchema extends eZDBSchemaInterface
 {
     const SHOW_TABLES_QUERY = '

@@ -37,8 +37,6 @@
 
 */
 
-////include_once( 'kernel/error/errors.php' );
-
 class eZWorkflowFunctionCollection
 {
     /*!

@@ -26,10 +26,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-//include_once( "lib/ezutils/classes/ezhttptool.php" );
-//include_once( "kernel/classes/datatypes/ezuser/ezusersetting.php" );
-
 $Module = $Params['Module'];
 if ( isset( $Params["UserID"] ) )
     $UserID = $Params["UserID"];
@@ -60,7 +56,6 @@ if ( $http->hasPostVariable( "UpdateSettingButton" ) )
 
     if ( $userSetting->attribute( 'is_enabled' ) != $isEnabled )
     {
-        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearContentCacheIfNeeded( $UserID );
         eZContentCacheManager::generateObjectViewCache( $UserID );
     }

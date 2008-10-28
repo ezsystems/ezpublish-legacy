@@ -29,8 +29,6 @@
 /*! \file copy.php
 */
 
-//include_once( 'kernel/classes/ezrole.php' );
-
 $Module = $Params['Module'];
 $roleID = $Params['RoleID'];
 

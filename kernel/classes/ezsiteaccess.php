@@ -37,8 +37,6 @@
 
 */
 
-//include_once( 'lib/ezutils/classes/ezsys.php' );
-
 class eZSiteAccess
 {
     /*!
@@ -50,7 +48,6 @@ class eZSiteAccess
 
     static function siteAccessList()
     {
-        //include_once( 'lib/ezutils/classes/ezsys.php' );
         $siteAccessList = array();
         $ini = eZINI::instance();
         $availableSiteAccessList = $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
@@ -77,7 +74,6 @@ class eZSiteAccess
     */
     static function findPathToSiteAccess( $siteAccess )
     {
-        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
         $siteAccessList = $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
         if ( !in_array( $siteAccess, $siteAccessList )  )
@@ -87,7 +83,6 @@ class eZSiteAccess
         if ( file_exists( $currentPath ) )
             return $currentPath;
 
-        //include_once( 'lib/ezutils/classes/ezextension.php' );
         $activeExtensions = eZExtension::activeExtensions();
         $baseDir = eZExtension::baseDirectory();
         foreach ( $activeExtensions as $extension )

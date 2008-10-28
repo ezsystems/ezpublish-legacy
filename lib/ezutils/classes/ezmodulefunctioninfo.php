@@ -37,7 +37,6 @@
 
 */
 
-//include_once( 'lib/ezutils/classes/ezmodule.php' );
 require_once( 'lib/ezutils/classes/ezdebug.php' );
 
 class eZModuleFunctionInfo

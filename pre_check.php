@@ -24,8 +24,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( "lib/ezutils/classes/ezhttptool.php" );
-
 /*!
  Checks if the installation is valid and returns a module redirect if required.
  If CheckValidity in SiteAccessSettings is false then no check is done.
@@ -55,7 +53,6 @@ function eZCheckValidity( &$siteBasics, &$uri )
                          'type' => EZ_ACCESS_TYPE_URI );
         $access = changeAccess( $access );
 
-        //include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
         eZTranslatorManager::enableDynamicTranslations();
     }
     return $check;

@@ -27,10 +27,6 @@
 //
 
 
-//include_once( 'kernel/classes/ezworkflow.php' );
-//include_once( 'kernel/classes/ezworkflowgroup.php' );
-//include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
-
 $Module = $Params['Module'];
 
 // //include_once( 'lib/ezutils/classes/ezexecutionstack.php' );

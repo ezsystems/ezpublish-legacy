@@ -26,13 +26,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'kernel/classes/ezcontentobject.php' );
-//include_once( 'kernel/classes/ezcontentclass.php' );
-//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-//include_once( 'kernel/classes/eznodeviewfunctions.php' );
-
-//include_once( 'lib/ezutils/classes/ezhttptool.php' );
-
 require_once( 'kernel/common/template.php' );
 
 $http = eZHTTPTool::instance();
@@ -49,7 +42,6 @@ $Month = $Params['Month'];
 $Day = $Params['Day'];
 
 // Check if we should switch access mode (http/https) for this node.
-//include_once( 'kernel/classes/ezsslzone.php' );
 eZSSLZone::checkNodeID( 'content', 'view', $NodeID );
 
 if ( isset( $Params['UserParameters'] ) )
@@ -143,15 +135,10 @@ $user = eZUser::currentUser();
 eZDebugSetting::addTimingPoint( 'kernel-content-view', 'Operation start' );
 
 
-//include_once( 'lib/ezutils/classes/ezmoduleoperationdefinition.php' );
-
 $operationResult = array();
 
 if ( $useTriggers == true )
 {
-    //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
-    //include_once( 'kernel/classes/eztrigger.php' );
-
     $operationResult = eZOperationHandler::execute( 'content', 'read', array( 'node_id' => $NodeID,
                                                                               'user_id' => $user->id(),
                                                                               'language_code' => $LanguageCode ), null, $useTriggers );

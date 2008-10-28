@@ -26,8 +26,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( "kernel/classes/ezpackage.php" );
-
 $module = $Params['Module'];
 
 $packageName = $Params['PackageName'];

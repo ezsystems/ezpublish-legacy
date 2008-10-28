@@ -46,10 +46,6 @@ class eZDiscount
     */
     static function discountPercent( $user, $params )
     {
-        //include_once( 'lib/ezdb/classes/ezdb.php' );
-        //include_once( 'kernel/classes/ezuserdiscountrule.php' );
-        //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-
         $bestMatch = 0.0;
 
         if ( is_object( $user ) )

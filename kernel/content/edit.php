@@ -26,9 +26,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'kernel/classes/eztrigger.php' );
-//include_once( "lib/ezdb/classes/ezdb.php" );
-//include_once( "lib/ezutils/classes/ezini.php" );
 $Module = $Params['Module'];
 require 'kernel/content/node_edit.php';
 initializeNodeEdit( $Module );
@@ -51,7 +48,6 @@ if ( $obj->attribute( 'status' ) == eZContentObject::STATUS_ARCHIVED )
 }
 
 // Check if we should switch access mode (http/https) for this object.
-//include_once( 'kernel/classes/ezsslzone.php' );
 eZSSLZone::checkObject( 'content', 'edit', $obj );
 
 // This controls if the final access check is done.
@@ -317,7 +313,6 @@ if ( $EditLanguage == false )
         $obj->cleanupInternalDrafts();
 
         // Check number of languages
-        //include_once( 'kernel/classes/ezcontentlanguage.php' );
         $languages = eZContentLanguage::fetchList();
         // If there is only one language we choose it for the user and goes to version choice screen.
         if ( count( $languages ) == 1 )
@@ -694,7 +689,6 @@ if ( !function_exists( 'checkContentActions' ) )
                 }
             }
 
-            //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
             eZDebug::accumulatorStart( 'publish', '', 'publish' );
             $oldObjectName = $object->name();
             $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),

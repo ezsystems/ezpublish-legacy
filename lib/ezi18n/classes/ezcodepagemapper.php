@@ -38,8 +38,6 @@
 */
 
 require_once( "lib/ezutils/classes/ezdebug.php" );
-//include_once( "lib/ezi18n/classes/ezcodepage.php" );
-
 class eZCodePageMapper
 {
     const CACHE_CODE_DATE = 1026316422;

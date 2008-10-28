@@ -37,8 +37,6 @@
 
 */
 
-//include_once( 'kernel/error/errors.php' );
-
 class eZClassFunctionCollection
 {
     /*!
@@ -97,7 +95,6 @@ class eZClassFunctionCollection
         if ( !is_array( $classFilter ) or
              count( $classFilter ) > 0 )
         {
-            //include_once( 'kernel/classes/ezcontentclass.php' );
             $contentClassList = eZContentClass::fetchList( 0, true, false,
                                                             $sorts, null,
                                                             $classFilter );
@@ -111,7 +108,6 @@ class eZClassFunctionCollection
     function fetchLatestClassList( $offset, $limit )
     {
         $contentClassList = array();
-        //include_once( 'kernel/classes/ezcontentclass.php' );
         $limitData = null;
         if ( $limit )
             $limitData = array( 'offset' => $offset,
@@ -124,7 +120,6 @@ class eZClassFunctionCollection
 
     function fetchClassAttributeList( $classID )
     {
-        //include_once( 'kernel/classes/ezcontentclass.php' );
         $contentClassAttributeList = array();
         if ( $contentClass = eZContentClass::fetch( $classID ) )
         {

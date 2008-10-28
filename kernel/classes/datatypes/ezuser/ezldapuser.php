@@ -37,10 +37,6 @@
   \brief The class eZLDAPUser does
 
 */
-//include_once( "kernel/classes/datatypes/ezuser/ezusersetting.php" );
-//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-//include_once( 'lib/ezutils/classes/ezini.php' );
-
 class eZLDAPUser extends eZUser
 {
     /*!
@@ -747,7 +743,6 @@ class eZLDAPUser extends eZUser
             //$adminUser = eZUser::fetchByName( 'admin' );
             //eZUser::setCurrentlyLoggedInUser( $adminUser, $adminUser->attribute( 'contentobject_id' ) );
 
-            //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
             $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID,
                                                                                          'version' => 1 ) );
         }
@@ -812,7 +807,6 @@ class eZLDAPUser extends eZUser
                         }
                         else
                         {
-                            //include_once( 'kernel/classes/ezcontentobjecttreenodeoperations.php' );
                             if ( !eZContentObjectTreeNodeOperations::move( $mainNodeID, $defaultUserPlacement ) )
                             {
                                 eZDebug::writeError( "Failed to move node $mainNodeID as child of parent node $defaultUserPlacement",
@@ -931,7 +925,6 @@ class eZLDAPUser extends eZUser
             $descContentAttribute->store();
         }
 
-        //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
         $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID,
                                                                                      'version' => 1 ) );
         $newNodes = eZContentObjectTreeNode::fetchByContentObjectID( $contentObjectID, true, 1 );

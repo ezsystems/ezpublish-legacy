@@ -35,12 +35,7 @@
 
 */
 
-//include_once( 'kernel/classes/ezdatatype.php' );
-//include_once( 'lib/ezutils/classes/ezintegervalidator.php' );
 require_once( 'kernel/common/i18n.php' );
-//include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
-//include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
-
 class eZURLType extends eZDataType
 {
     const DATA_TYPE_STRING = 'ezurl';

@@ -39,11 +39,6 @@
 */
 
 
-//include_once( 'lib/ezutils/classes/ezcli.php' );
-//include_once( 'kernel/classes/ezscript.php' );
-//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-//include_once( "lib/ezlocale/classes/ezdatetime.php" );
-
 require 'autoload.php';
 
 $cli = eZCLI::instance();
@@ -158,7 +153,6 @@ while ( $objectData = fgetcsv( $fp, $csvLineLength , ';', '"' ) )
         $attribute->store();
     }
 
-    //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID,
                                                                                  'version' => 1 ) );
 }

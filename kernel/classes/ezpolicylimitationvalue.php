@@ -37,8 +37,6 @@
   \brief Defines a limitation value for a policy in the permission system
 
 */
-//include_once( "kernel/classes/ezpersistentobject.php" );
-
 class eZPolicyLimitationValue extends eZPersistentObject
 {
     /*!

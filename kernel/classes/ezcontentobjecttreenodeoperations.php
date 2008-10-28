@@ -72,8 +72,6 @@ class eZContentObjectTreeNodeOperations
         if ( !is_numeric( $nodeID ) || !is_numeric( $newParentNodeID ) )
             return false;
 
-        //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-
         $node = eZContentObjectTreeNode::fetch( $nodeID );
         if ( !$node )
             return false;
@@ -87,20 +85,16 @@ class eZContentObjectTreeNodeOperations
         $oldParentObject = $oldParentNode->object();
 
         // clear user policy cache if this was a user object
-        //include_once( "lib/ezutils/classes/ezini.php" );
         $ini = eZINI::instance();
         $userClassID = $ini->variable( "UserSettings", "UserClassID" );
         if ( $object->attribute( 'contentclass_id' ) == $userClassID )
         {
-            //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
             eZUser::cleanupCache();
         }
 
         // clear cache for old placement.
-        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
 
-        //include_once( "lib/ezdb/classes/ezdb.php" );
         $db = eZDB::instance();
         $db->begin();
 
@@ -126,7 +120,6 @@ class eZContentObjectTreeNodeOperations
             }
 
             // modify assignment
-            //include_once( "kernel/classes/eznodeassignment.php" );
             $curVersion     = $object->attribute( 'current_version' );
             $nodeAssignment = eZNodeAssignment::fetch( $objectID, $curVersion, $oldParentNode->attribute( 'node_id' ) );
 

@@ -35,14 +35,6 @@
 
 */
 
-//include_once( "kernel/classes/ezdatatype.php" );
-//include_once( "kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php" );
-//include_once( "kernel/classes/ezbinaryfilehandler.php" );
-//include_once( "lib/ezfile/classes/ezfile.php" );
-//include_once( "lib/ezutils/classes/ezsys.php" );
-//include_once( "lib/ezutils/classes/ezmimetype.php" );
-//include_once( "lib/ezutils/classes/ezhttpfile.php" );
-
 class eZBinaryFileType extends eZDataType
 {
     const MAX_FILESIZE_FIELD = 'data_int1';
@@ -693,7 +685,6 @@ class eZBinaryFileType extends eZDataType
             return false;
         }
 
-        //include_once( 'lib/ezfile/classes/ezdir.php' );
         $ini = eZINI::instance();
         $mimeType = $fileNode->getAttribute( 'mime-type' );
         list( $mimeTypeCategory, $mimeTypeName ) = explode( '/', $mimeType );
@@ -715,7 +706,6 @@ class eZBinaryFileType extends eZDataType
             $basename = substr( md5( mt_rand() ), 0, 8 ) . '.' . eZFile::suffix( $fileNode->getAttribute( 'filename' ) );
         }
 
-        //include_once( 'lib/ezfile/classes/ezfilehandler.php' );
         eZFileHandler::copy( $sourcePath, $destinationPath . $basename );
         eZDebug::writeNotice( 'Copied: ' . $sourcePath . ' to: ' . $destinationPath . $basename,
                               'eZBinaryFileType::unserializeContentObjectAttribute()' );

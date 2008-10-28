@@ -28,9 +28,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'lib/ezutils/classes/ezini.php' );
-//include_once( "lib/ezfile/classes/ezlog.php" );
-
 class eZAudit
 {
     const DEFAULT_LOG_DIR = 'var/log/audit';
@@ -86,7 +83,6 @@ class eZAudit
         if ( !$ip )
             $ip = eZSys::serverVariable( 'HOSTNAME', true );
 
-        //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
         $user = eZUser::currentUser();
         $userID = $user->attribute( 'contentobject_id' );
         $userLogin = $user->attribute( 'login' );

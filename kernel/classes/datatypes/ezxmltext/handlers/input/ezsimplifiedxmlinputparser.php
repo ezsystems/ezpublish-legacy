@@ -29,8 +29,6 @@
 //
 
 // if ( !class_exists( 'eZXMLInputParser' ) )
-    //include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlinputparser.php' );
-
 class eZSimplifiedXMLInputParser extends eZXMLInputParser
 {
     public $InputTags = array(
@@ -813,7 +811,6 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
 
                     }
                     // Check mail address validity
-                    //include_once( 'lib/ezutils/classes/ezmail.php' );
                     if ( preg_match( "/^mailto:(.*)/i" , $url, $mailAddr ) &&
                          !eZMail::validate( $mailAddr[1] ) )
                     {

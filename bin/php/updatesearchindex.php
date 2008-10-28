@@ -29,9 +29,6 @@
 
 set_time_limit( 0 );
 
-//include_once( 'lib/ezutils/classes/ezcli.php' );
-//include_once( 'kernel/classes/ezscript.php' );
-
 require 'autoload.php';
 
 $cli = eZCLI::instance();
@@ -96,10 +93,6 @@ print( "Starting object re-indexing\n" );
 
 require_once( 'lib/ezutils/classes/ezexecution.php' );
 require_once( "lib/ezutils/classes/ezdebug.php" );
-//include_once( "kernel/classes/ezsearch.php" );
-
-//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-
 $db = eZDB::instance();
 
 if ( $dbHost or $dbName or $dbUser or $dbImpl )

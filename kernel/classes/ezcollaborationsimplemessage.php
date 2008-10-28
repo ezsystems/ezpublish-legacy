@@ -37,8 +37,6 @@
 
 */
 
-//include_once( 'kernel/classes/ezpersistentobject.php' );
-
 class eZCollaborationSimpleMessage extends eZPersistentObject
 {
     /*!
@@ -122,7 +120,6 @@ class eZCollaborationSimpleMessage extends eZPersistentObject
         $date_time = time();
         if ( $creatorID === false )
         {
-            //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
             $user = eZUser::currentUser();
             $creatorID = $user->attribute( 'contentobject_id' );
         }

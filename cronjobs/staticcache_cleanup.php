@@ -29,9 +29,6 @@
 /*! \file staticcache_cleanup.php
 */
 
-//include_once( 'lib/ezdb/classes/ezdb.php' );
-//include_once( 'kernel/classes/ezstaticcache.php' );
-
 if ( !$isQuiet )
 {
     $cli->output( "Starting processing pending static cache cleanups" );

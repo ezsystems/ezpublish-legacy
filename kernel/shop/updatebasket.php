@@ -26,9 +26,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'kernel/classes/ezbasket.php' );
-//include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
-
 $http = eZHTTPTool::instance();
 $basket = eZBasket::currentBasket();
 $module = $Params['Module'];

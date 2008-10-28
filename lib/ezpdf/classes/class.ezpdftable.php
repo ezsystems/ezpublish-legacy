@@ -30,8 +30,6 @@
 /*! \file ezpdftable.php
 */
 
-//include_once( 'lib/ezpdf/classes/class.ezpdf.php' );
-
 /*!
   \class eZPDFTable class.ezpdftable.php
   \ingroup eZPDF
@@ -175,8 +173,6 @@ class eZPDFTable extends Cezpdf
      */
     function ezTable(&$data,$cols='',$title='',$options='')
     {
-        //include_once( 'lib/ezutils/classes/ezmath.php' );
-
         if (!is_array($data)){
             return;
         }
@@ -1162,7 +1158,6 @@ class eZPDFTable extends Cezpdf
 
         $filename = rawurldecode( $params['src'] );
 
-        //include_once( 'lib/ezutils/classes/ezmimetype.php' );
         $mimetype = eZMimeType::findByFileContents( $filename );
 
         $this->transaction( 'start' );
@@ -2740,7 +2735,6 @@ class eZPDFTable extends Cezpdf
     */
     function pushStack( $continous = true)
     {
-        //include_once( 'lib/ezutils/classes/ezmath.php' );
         $docSpecArray = array( 'DocSpec' => $this->DocSpecification,
                                'PreStack' => $this->PreStack,
                                'LeftMarginArray' => $this->LeftMarginArray,

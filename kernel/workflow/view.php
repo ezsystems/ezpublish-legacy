@@ -26,8 +26,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( "kernel/classes/ezworkflow.php" );
-//include_once( "kernel/classes/ezworkflowgrouplink.php" );
 require_once( "kernel/common/template.php" );
 
 $Module = $Params['Module'];
@@ -46,15 +44,11 @@ if ( !$workflow )
 
 if ( $http->hasPostVariable( "AddGroupButton" ) && $http->hasPostVariable( "Workflow_group") )
 {
-    //include_once( "kernel/workflow/ezworkflowfunctions.php" );
-
     $selectedGroup = $http->postVariable( "Workflow_group" );
     eZWorkflowFunctions::addGroup( $WorkflowID, 0, $selectedGroup );
 }
 if ( $http->hasPostVariable( "DeleteGroupButton" ) && $http->hasPostVariable( "group_id_checked" ) )
 {
-    //include_once( "kernel/workflow/ezworkflowfunctions.php" );
-
     $selectedGroup = $http->postVariable( "group_id_checked" );
     if ( !eZWorkflowFunctions::removeGroup( $WorkflowID, 0, $selectedGroup ) )
     {

@@ -27,9 +27,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'lib/ezutils/classes/ezcli.php' );
-//include_once( 'kernel/classes/ezscript.php' );
-
 require 'autoload.php';
 
 $cli = eZCLI::instance();
@@ -121,8 +118,6 @@ function checkParameters( $cli, $script, $options, $host, $user, $password, $dat
 **/
 function connectToDatabase( $cli, $script, $host, $user, $password, $database )
 {
-    //include_once( 'lib/ezdb/classes/ezdb.php' );
-
     if ( $user )
     {
         $db = eZDB::instance( "mysql",

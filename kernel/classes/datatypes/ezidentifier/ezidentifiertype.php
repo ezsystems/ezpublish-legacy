@@ -38,9 +38,6 @@
 
 */
 
-//include_once( "kernel/classes/ezdatatype.php" );
-//include_once( "lib/ezutils/classes/ezintegervalidator.php" );
-
 class eZIdentifierType extends eZDataType
 {
     const PRETEXT_FIELD = "data_text1";
@@ -327,7 +324,6 @@ class eZIdentifierType extends eZDataType
                 $dataText = $db->escapeString( $contentObjectAttribute->attribute( 'data_text' ) );
                 $dataInt = (int)$contentObjectAttribute->attribute( 'data_int' );
 
-                //include_once( 'lib/ezi18n/classes/ezchartransform.php' );
                 $trans = eZCharTransform::instance();
                 $sortText = $db->escapeString( $trans->transformByGroup( $contentObjectAttribute->attribute( 'data_text' ),
                                                                          'lowercase' ) );
@@ -358,7 +354,6 @@ class eZIdentifierType extends eZDataType
     */
     function sortKey( $contentObjectAttribute )
     {
-        //include_once( 'lib/ezi18n/classes/ezchartransform.php' );
         $trans = eZCharTransform::instance();
         return $trans->transformByGroup( $contentObjectAttribute->attribute( 'data_text' ), 'lowercase' );
     }

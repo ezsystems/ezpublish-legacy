@@ -28,9 +28,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'kernel/classes/ezpersistentobject.php' );
-//include_once( 'lib/ezlocale/classes/ezlocale.php' );
-
 class eZContentLanguage extends eZPersistentObject
 {
     const MAX_COUNT = 30;
@@ -140,7 +137,6 @@ class eZContentLanguage extends eZPersistentObject
         eZContentLanguage::fetchList( true );
 
         // clear the cache
-        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearAllContentCache();
 
         return $newLanguage;
@@ -180,7 +176,6 @@ class eZContentLanguage extends eZPersistentObject
 
         eZPersistentObject::remove();
 
-        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearAllContentCache();
 
         eZContentLanguage::fetchList( true );
@@ -434,8 +429,6 @@ class eZContentLanguage extends eZPersistentObject
      */
     function localeObject()
     {
-        //include_once( 'lib/ezlocale/classes/ezlocale.php' );
-
         $locale = eZLocale::instance( $this->Locale );
         return $locale;
     }

@@ -126,7 +126,6 @@ class eZMatrixDefinition
         if ( $id == false )
         {
             // Initialize transformation system
-            //include_once( 'lib/ezi18n/classes/ezchartransform.php' );
             $trans = eZCharTransform::instance();
             $id = $trans->transformByGroup( $name, 'identifier' );
         }

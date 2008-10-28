@@ -29,14 +29,8 @@
 /*! \file removenode.php
 */
 
-//include_once( 'lib/ezutils/classes/ezhttptool.php' );
 require_once( 'kernel/common/template.php' );
 require_once( 'kernel/common/i18n.php' );
-//include_once( 'kernel/classes/ezcontentobject.php' );
-//include_once( 'kernel/classes/ezcontentobjectversion.php' );
-//include_once( 'kernel/classes/ezcontentobjectattribute.php' );
-//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-
 $http = eZHTTPTool::instance();
 
 $tpl = templateInit();

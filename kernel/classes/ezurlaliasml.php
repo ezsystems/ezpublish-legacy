@@ -77,10 +77,6 @@
 
 */
 
-//include_once( "kernel/classes/ezpersistentobject.php" );
-//include_once( "kernel/classes/ezcontentlanguage.php" );
-//include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-
 class eZURLAliasML extends eZPersistentObject
 {
     // Return values from storePath()
@@ -2097,7 +2093,6 @@ class eZURLAliasML extends eZPersistentObject
     */
     static public function convertToAlias( $urlElement, $defaultValue = false )
     {
-        //include_once( 'lib/ezi18n/classes/ezchartransform.php' );
         $trans = eZCharTransform::instance();
 
         $ini = eZINI::instance();
@@ -2138,7 +2133,6 @@ class eZURLAliasML extends eZPersistentObject
     */
     static public function convertToAliasCompat( $urlElement, $defaultValue = false )
     {
-        //include_once( 'lib/ezi18n/classes/ezchartransform.php' );
         $trans = eZCharTransform::instance();
 
         $urlElement = $trans->transformByGroup( $urlElement, "urlalias_compat" );

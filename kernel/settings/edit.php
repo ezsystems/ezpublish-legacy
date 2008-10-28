@@ -26,9 +26,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 require_once( "kernel/common/template.php" );
-//include_once( "lib/ezutils/classes/ezhttptool.php" );
-//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-
 $settingTypeArray = array( 'array' => 'Array',
                            'true/false' => 'True/False',
                            'enable/disable' => 'Enabled/Disabled',

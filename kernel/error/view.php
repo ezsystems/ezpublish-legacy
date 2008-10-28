@@ -46,8 +46,6 @@ $ini = eZINI::instance();
 if ( $userObjectRequired )
 {
     // include user class
-    //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-
     $currentUser = eZUser::currentUser();
     $tpl->setVariable( "current_user", $currentUser );
     $tpl->setVariable( "anonymous_user_id", $ini->variable( 'UserSettings', 'AnonymousUserID' ) );

@@ -88,7 +88,6 @@ class eZURLAliasFilter
 
             $ini = eZINI::instance();
             $extensionList = $ini->variable( 'URLTranslator', 'Extensions' );
-            //include_once( 'lib/ezutils/classes/ezextension.php' );
             $pathList = eZExtension::expandedPathList( $extensionList, 'urlfilters' );
             $filterNames = $ini->variable( 'URLTranslator', 'Filters' );
             foreach ( $filterNames as $filterName )

@@ -41,8 +41,6 @@
 */
 
 // if ( !class_exists( 'eZXMLSchema' ) ) // AS 21-09-2007: commented out because of include_once being commented out
-    //include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlschema.php' );
-
 class eZXMLInputParser
 {
     /// \deprecated (back-compatibility)
@@ -169,7 +167,6 @@ class eZXMLInputParser
 
         $this->XMLSchema = eZXMLSchema::instance();
 
-        //include_once( 'lib/version.php' );
         $this->eZPublishVersion = eZPublishSDK::majorVersion() + eZPublishSDK::minorVersion() * 0.1;
 
         $ini = eZINI::instance( 'ezxml.ini' );
@@ -740,7 +737,6 @@ class eZXMLInputParser
             return $text;
         }
         // Convert other HTML entities to the current charset characters.
-        //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
         $codec = eZTextCodec::instance( 'unicode', false );
         $pos = 0;
         $domString = "";

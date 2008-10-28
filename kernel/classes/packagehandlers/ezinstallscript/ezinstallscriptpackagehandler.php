@@ -37,8 +37,6 @@
 
 */
 
-//include_once( 'kernel/classes/ezpackagehandler.php' );
-
 
 class eZInstallScriptPackageHandler extends eZPackageHandler
 {
@@ -103,9 +101,6 @@ class eZInstallScriptPackageHandler extends eZPackageHandler
     */
     function add( $packageType, $package, $cli, $parameters )
     {
-        //include_once( 'lib/ezutils/classes/ezini.php' );
-        //include_once( 'lib/ezfile/classes/ezdir.php' );
-
         $siteINI = eZINI::instance();
         $extensionDir = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' );
 

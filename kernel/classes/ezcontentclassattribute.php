@@ -35,10 +35,6 @@
 
 */
 
-//include_once( "lib/ezdb/classes/ezdb.php" );
-//include_once( "kernel/classes/ezpersistentobject.php" );
-//include_once( 'kernel/classes/ezcontentclassattributenamelist.php' );
-
 class eZContentClassAttribute extends eZPersistentObject
 {
     function eZContentClassAttribute( $row )
@@ -485,7 +481,6 @@ class eZContentClassAttribute extends eZPersistentObject
 
     function dataType()
     {
-        //include_once( 'kernel/classes/ezdatatype.php' );
         return eZDataType::create( $this->DataTypeString );
     }
 
@@ -551,7 +546,6 @@ class eZContentClassAttribute extends eZPersistentObject
 
     static function cachedInfo()
     {
-        //include_once( 'lib/ezutils/classes/ezphpcreator.php' );
         eZExpiryHandler::registerShutdownFunction();
 
         $info = array();
@@ -586,8 +580,6 @@ class eZContentClassAttribute extends eZPersistentObject
                 $attributeTypeArray[$attribute['id']] = $attribute['data_type_string'];
                 $sortKeyTypeArray[$attribute['data_type_string']] = 0;
             }
-
-            //include_once( 'kernel/classes/ezdatatype.php' );
 
             // Fetch datatype for every unique datatype
             foreach ( array_keys( $sortKeyTypeArray ) as $key )
@@ -738,7 +730,6 @@ class eZContentClassAttribute extends eZPersistentObject
             $db = eZDB::instance();
             $dbName = md5( $db->DB );
 
-            //include_once( 'lib/ezutils/classes/ezphpcreator.php' );
             $cacheDir = eZSys::cacheDirectory();
             $phpCache = new eZPHPCreator( $cacheDir,
                                           'classattributeidentifiers_' . $dbName . '.php',

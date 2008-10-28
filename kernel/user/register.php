@@ -26,12 +26,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( "lib/ezutils/classes/ezhttptool.php" );
-//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-//include_once( "lib/ezutils/classes/ezmail.php" );
-//include_once( "kernel/classes/ezcontentclassattribute.php" );
-//include_once( "kernel/classes/ezcontentclass.php" );
-
 $http = eZHTTPTool::instance();
 $Module = $Params['Module'];
 
@@ -115,7 +109,6 @@ if ( !function_exists( 'checkContentActions' ) )
     {
         if ( $module->isCurrentAction( 'Cancel' ) )
         {
-            //include_once( 'kernel/classes/ezredirectmanager.php' );
             eZRedirectManager::redirectTo( $module, '/' );
 
             $version->removeThis();
@@ -130,7 +123,6 @@ if ( !function_exists( 'checkContentActions' ) )
             $http = eZHTTPTool::instance();
 
             $user = eZUser::currentUser();
-            //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
             $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
                                                                                          'version' => $version->attribute( 'version') ) );
 
@@ -147,8 +139,6 @@ if ( !function_exists( 'checkContentActions' ) )
             {
             }
             require_once( "kernel/common/template.php" );
-            //include_once( 'lib/ezutils/classes/ezmail.php' );
-            //include_once( 'lib/ezutils/classes/ezmailtransport.php' );
             $ini = eZINI::instance();
             $tpl = templateInit();
             $tpl->setVariable( 'user', $user );
@@ -182,7 +172,6 @@ if ( !function_exists( 'checkContentActions' ) )
 
                 // Create enable account hash and send it to the newly registered user
                 $hash = md5( time() . $user->attribute( 'contentobject_id' ) );
-                //include_once( "kernel/classes/datatypes/ezuser/ezuseraccountkey.php" );
                 $accountKey = eZUserAccountKey::createNew( $user->attribute( 'contentobject_id' ), $hash, time() );
                 $accountKey->store();
 

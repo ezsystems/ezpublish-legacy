@@ -54,10 +54,6 @@
   Remove roles with remove() and its policies with removePolicies().
 
 */
-//include_once( 'kernel/classes/ezpersistentobject.php' );
-//include_once( 'lib/ezutils/classes/ezini.php' );
-//include_once( "lib/ezdb/classes/ezdb.php" );
-
 class eZRole extends eZPersistentObject
 {
     /*!
@@ -223,7 +219,6 @@ class eZRole extends eZPersistentObject
     */
     function appendPolicy( $module, $function, $limitations = array() )
     {
-        //include_once( 'kernel/classes/ezpolicy.php' );
         $policy = eZPolicy::create( $this->ID, $module, $function );
 
         $db = eZDB::instance();
@@ -629,7 +624,6 @@ class eZRole extends eZPersistentObject
     {
         if ( !isset( $this->Policies ) )
         {
-            //include_once( "kernel/classes/ezpolicy.php" );
             $policies = eZPersistentObject::fetchObjectList( eZPolicy::definition(),
                                                               null, array( 'role_id' => $this->attribute( 'id') ), null, null,
                                                               true );
@@ -688,7 +682,6 @@ class eZRole extends eZPersistentObject
         $object = eZContentObject::fetch( $userID );
         $objectName = $object ? $object->attribute( 'name' ) : 'null';
 
-        //include_once( "kernel/classes/ezaudit.php" );
         eZAudit::writeAudit( 'role-assign', array( 'Role ID' => $this->ID, 'Role name' => $this->attribute( 'name' ),
                                                    'Assign to content object ID' => $userID,
                                                    'Content object name' => $objectName,
@@ -698,8 +691,6 @@ class eZRole extends eZPersistentObject
         {
             case 'subtree':
             {
-                //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-
                 $node = eZContentObjectTreeNode::fetch( $limitValue, false, false );
                 if ( $node )
                 {

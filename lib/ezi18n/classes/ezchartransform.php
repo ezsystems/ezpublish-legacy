@@ -39,9 +39,6 @@
   \sa eZCodeMapper
 */
 
-//include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-//include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
-
 class eZCharTransform
 {
     /// The timestamp for when the format of the cache files were
@@ -77,7 +74,6 @@ class eZCharTransform
         if ( $useCache )
         {
             // CRC32 is used for speed, MD5 would be more unique but is slower
-            //include_once( 'lib/ezutils/classes/ezsys.php' );
             $key = eZSys::ezcrc32( 'Rule: ' . ( is_array( $rule ) ? implode( ',', $rule ) : $rule ) . '-' . $charset );
             $filepath = $this->cacheFilePath( 'rule-',
                                               '-' . $charsetName,
@@ -138,8 +134,6 @@ class eZCharTransform
         if ( $useCache )
         {
             // CRC32 is used for speed, MD5 would be more unique but is slower
-            //include_once( 'lib/ezutils/classes/ezsys.php' );
-
             $keyText = 'Group:' . $group;
             $key = eZSys::ezcrc32( $keyText . '-' . $charset );
             $filepath = $this->cacheFilePath( 'g-' . $group . '-',
@@ -218,7 +212,6 @@ class eZCharTransform
         if ( isset( $dir ) )
             return $dir;
 
-        //include_once( 'lib/ezutils/classes/ezsys.php' );
         $sys = eZSys::instance();
         $dir = $sys->cacheDirectory() . '/trans';
         return $dir;
@@ -290,7 +283,6 @@ class eZCharTransform
         $path = eZCharTransform::cachedTransformationPath();
         if ( !file_exists( $path ) )
         {
-            //include_once( 'lib/ezfile/classes/ezdir.php' );
             eZDir::mkdir( $path, false, true );
         }
         return $path . '/' . $prefix . sprintf( "%u", $key ) . $suffix . '.ctt.php'; // ctt=charset transform table

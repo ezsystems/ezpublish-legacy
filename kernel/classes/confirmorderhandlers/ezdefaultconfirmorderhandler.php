@@ -70,8 +70,6 @@ class eZDefaultConfirmOrderHandler
 
             $subject = $tpl->variable( 'subject' );
 
-            //include_once( 'lib/ezutils/classes/ezmail.php' );
-            //include_once( 'lib/ezutils/classes/ezmailtransport.php' );
             $mail = new eZMail();
 
             $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );

@@ -31,10 +31,6 @@ class eZContentFunctions
 {
     static function createAndPublishObject( $params )
     {
-        //include_once( 'kernel/classes/ezcontentobject.php' );
-        //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-        //include_once( 'lib/ezlocale/classes/ezdatetime.php' );
-
         $parentNodeID = $params['parent_node_id'];
         $classIdentifier = $params['class_identifier'];
         $creatorID = isset( $params['creator_id'] ) ? $params['creator_id'] : false;
@@ -99,7 +95,6 @@ class eZContentFunctions
 
                 $db->commit();
 
-                //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
                 $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObject->attribute( 'id' ),
                                                                                              'version' => 1 ) );
             }

@@ -72,7 +72,6 @@ else
 
 */
 
-//include_once( "lib/ezsoap/classes/ezsoapresponse.php" );
 require_once( "lib/ezutils/classes/ezdebug.php" );
 
 class eZSOAPClient

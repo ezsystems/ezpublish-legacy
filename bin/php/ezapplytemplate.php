@@ -27,9 +27,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'lib/ezutils/classes/ezcli.php' );
-//include_once( 'kernel/classes/ezscript.php' );
-
 require 'autoload.php';
 
 $cli = eZCLI::instance();
@@ -56,8 +53,6 @@ if ( !$options['all'] and count( $options['arguments'] ) < 1 )
     $cli->error( "Need at least one file" );
     $script->shutdown( 1 );
 }
-
-//include_once( 'kernel/classes/ezcodetemplate.php' );
 
 $hasErrors = false;
 $hasModified = false;

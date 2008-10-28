@@ -69,8 +69,6 @@ $script->shutdown(); // Finish execution
 
 */
 
-//include_once( 'lib/ezutils/classes/ezcli.php' );
-//include_once( 'lib/ezdb/classes/ezdb.php' );
 require_once( 'access.php' );
 
 class eZScript
@@ -135,7 +133,6 @@ class eZScript
     */
     function validateVersion()
     {
-        //include_once( 'lib/version.php' );
         $versionValidated = false;
         $ezversion = eZPublishSDK::version();
         if ( $this->MinVersion !== false )
@@ -184,7 +181,6 @@ class eZScript
             exit( 1 );
         }
 
-        //include_once( "lib/ezutils/classes/ezini.php" );
         $ini = eZINI::instance();
         $phpLocale = trim( $ini->variable( 'RegionalSettings', 'SystemLocale' ) );
         if ( $phpLocale != '' )
@@ -211,8 +207,6 @@ class eZScript
     {
         if( ob_get_length() != 0 )
             ob_end_clean();
-        //include_once( "lib/ezutils/classes/ezdebugsetting.php" );
-
         $debugINI = eZINI::instance( 'debug.ini' );
         eZDebugSetting::setDebugINI( $debugINI );
 
@@ -223,7 +217,6 @@ class eZScript
         $this->updateDebugSettings( $this->UseDebugOutput );
 
         // Set the different permissions/settings.
-        //include_once( 'lib/ezi18n/classes/ezcodepage.php' );
         $ini = eZINI::instance();
         $iniFilePermission = $ini->variable( 'FileSettings', 'StorageFilePermissions' );
         $iniDirPermission = $ini->variable( 'FileSettings', 'StorageDirPermissions' );
@@ -243,7 +236,6 @@ class eZScript
         if ( $this->UseExtensions )
         {
             // Check for extension
-            //include_once( 'lib/ezutils/classes/ezextension.php' );
             require_once( 'kernel/common/ezincludefunctions.php' );
             eZExtension::activateExtensions( 'default' );
             // Extension check end
@@ -281,7 +273,6 @@ class eZScript
         {
             // include ezsession override implementation
             require_once( "lib/ezutils/classes/ezsession.php" );
-            //include_once( 'lib/ezdb/classes/ezdb.php' );
             $db = eZDB::instance();
             if ( $db->isConnected() )
             {
@@ -299,8 +290,6 @@ class eZScript
         {
             $userLogin = $this->User['login'];
             $userPassword = $this->User['password'];
-            //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-
             if ( $userLogin and $userPassword )
             {
                 $userID = eZUser::loginUser( $userLogin, $userPassword );
@@ -319,7 +308,6 @@ class eZScript
         // Initialize module handling
         if ( $this->UseModules )
         {
-            //include_once( 'lib/ezutils/classes/ezmodule.php' );
             $moduleRepositories = eZModule::activeModuleRepositories( $this->UseExtensions );
             eZModule::setGlobalPathList( $moduleRepositories );
         }
@@ -361,7 +349,6 @@ class eZScript
             if ( $this->UseSession and
                  $db->isConnected() )
             {
-                //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
                 eZUser::logoutCurrent();
                 eZSessionRemove();
             }
@@ -1078,7 +1065,6 @@ class eZScript
         $i18nSettings['internal-charset'] = $ini->variable( 'CharacterSettings', 'Charset' );
         $i18nSettings['http-charset'] = $ini->variable( 'CharacterSettings', 'HTTPCharset' );
         $i18nSettings['mbstring-extension'] = $ini->variable( 'CharacterSettings', 'MBStringExtension' ) == 'enabled';
-        //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
         eZTextCodec::updateSettings( $i18nSettings );
     }
 

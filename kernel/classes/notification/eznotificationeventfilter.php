@@ -36,7 +36,6 @@
   \brief The class eZNotificationEventFilter does
 
 */
-//include_once( 'kernel/classes/notification/eznotificationevent.php' );
 class eZNotificationEventFilter
 {
     /*!
@@ -83,7 +82,6 @@ class eZNotificationEventFilter
 
     static function availableHandlers()
     {
-        //include_once( 'lib/ezutils/classes/ezextension.php' );
         $baseDirectory = eZExtension::baseDirectory();
         $notificationINI = eZINI::instance( 'notification.ini' );
         $availableHandlers = $notificationINI->variable( 'NotificationEventHandlerSettings', 'AvailableNotificationEventTypes' );
@@ -110,7 +108,6 @@ class eZNotificationEventFilter
         $foundHandler = false;
         $includeFile = '';
 
-        //include_once( 'lib/ezutils/classes/ezextension.php' );
         $baseDirectory = eZExtension::baseDirectory();
         $notificationINI = eZINI::instance( 'notification.ini' );
         $repositoryDirectories = $notificationINI->variable( 'NotificationEventHandlerSettings', 'RepositoryDirectories' );

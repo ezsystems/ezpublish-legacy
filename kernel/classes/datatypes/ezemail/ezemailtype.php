@@ -34,8 +34,6 @@
 
 */
 
-//include_once( "kernel/classes/ezdatatype.php" );
-
 class eZEmailType extends eZDataType
 {
     const DATA_TYPE_STRING = "ezemail";
@@ -64,7 +62,6 @@ class eZEmailType extends eZDataType
     */
     function validateEMailHTTPInput( $email, $contentObjectAttribute )
     {
-        //include_once( "lib/ezutils/classes/ezmail.php" );
         if ( !eZMail::validate( $email ) )
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',

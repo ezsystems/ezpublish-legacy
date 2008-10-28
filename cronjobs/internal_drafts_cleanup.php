@@ -29,9 +29,6 @@
 /*! \file internal_drafts_cleanup.php
 */
 
-//include_once( 'lib/ezutils/classes/ezini.php' );
-//include_once( 'kernel/classes/ezcontentobjectversion.php' );
-
 if ( !$isQuiet )
     $cli->output( "Cleaning up internal drafts..." );
 

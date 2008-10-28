@@ -37,8 +37,6 @@
 
 */
 
-//include_once( 'lib/ezutils/classes/ezmoduleoperationinfo.php' );
-
 class eZOperationHandler
 {
     /*!

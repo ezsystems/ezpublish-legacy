@@ -42,8 +42,6 @@
 
 require_once( "lib/ezutils/classes/ezdebug.php" );
 require_once( "lib/ezutils/classes/ezsession.php" );
-//include_once( "lib/ezutils/classes/ezsys.php" );
-
 class eZHTTPTool
 {
     /*!

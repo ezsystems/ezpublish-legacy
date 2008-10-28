@@ -38,9 +38,6 @@
 
 */
 
-//include_once( 'kernel/classes/ezpolicylimitation.php' );
-//include_once( 'kernel/classes/ezrole.php' );
-
 class eZPolicy extends eZPersistentObject
 {
     /*!
@@ -190,8 +187,6 @@ class eZPolicy extends eZPersistentObject
     */
     function appendLimitation( $identifier, $values )
     {
-        //include_once( 'kernel/classes/ezpolicylimitation.php' );
-        //include_once( 'kernel/classes/ezpolicylimitationvalue.php' );
         $limitation = eZPolicyLimitation::create( $this->ID, $identifier );
 
         $db = eZDB::instance();
@@ -256,7 +251,6 @@ class eZPolicy extends eZPersistentObject
      */
     function removeThis( $id = false )
     {
-        //include_once( 'lib/ezdb/classes/ezdb.php' );
         $db = eZDB::instance();
         $db->begin();
         foreach ( $this->attribute( 'limitations' ) as $limitation )

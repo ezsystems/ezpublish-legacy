@@ -31,8 +31,6 @@
 /*! \file ezcurrencydata.php
 */
 
-//include_once( "kernel/classes/ezpersistentobject.php" );
-
 class eZCurrencyData extends eZPersistentObject
 {
     const DEFAULT_AUTO_RATE_VALUE = '0.0000';

@@ -74,8 +74,6 @@
   \endcode
 */
 
-//include_once( "lib/ezutils/classes/ezsys.php" );
-
 class eZDebug
 {
     const LEVEL_NOTICE = 1;
@@ -830,7 +828,6 @@ class eZDebug
                 else
                 {
                     $newLogRotateName = $fileName . '.' . ($i + 1);
-                    //include_once( 'lib/ezfile/classes/ezfile.php' );
                     eZFile::rename( $logRotateName, $newLogRotateName );
 //                     print( "@rename( $logRotateName, $newLogRotateName )<br/>" );
                 }
@@ -839,7 +836,6 @@ class eZDebug
         if ( @file_exists( $fileName ) )
         {
             $newLogRotateName = $fileName . '.' . 1;
-            //include_once( 'lib/ezfile/classes/ezfile.php' );
             eZFile::rename( $fileName, $newLogRotateName );
 //             print( "@rename( $fileName, $newLogRotateName )<br/>" );
             return true;
@@ -864,7 +860,6 @@ class eZDebug
         $fileName = $logDir . $logName;
         if ( !file_exists( $logDir ) )
         {
-            //include_once( 'lib/ezfile/classes/ezdir.php' );
             eZDir::mkdir( $logDir, false, true );
         }
         $oldumask = @umask( 0 );

@@ -83,7 +83,6 @@ function accessType( $uri, $host, $port, $file )
         {
             case 'servervar':
             {
-                //include_once( 'lib/ezutils/classes/ezsys.php' );
                 if ( $serversiteaccess = eZSys::serverVariable( $ini->variable( 'SiteAccessSettings', 'ServerVariableName' ), true ) )
                 {
                     $access['name'] = $serversiteaccess;
@@ -295,7 +294,6 @@ function changeAccess( $access )
     if ( isset( $access['type'] ) &&
          $access['type'] == EZ_ACCESS_TYPE_URI )
     {
-        //include_once( 'lib/ezutils/classes/ezsys.php' );
         eZSys::addAccessPath( $name );
     }
 
@@ -305,7 +303,6 @@ function changeAccess( $access )
     }
 
     /* Make sure extension siteaccesses are prepended */
-    //include_once( 'lib/ezutils/classes/ezextension.php' );
     eZExtension::prependExtensionSiteAccesses( $name );
 
     $ini->loadCache();

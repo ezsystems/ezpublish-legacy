@@ -61,8 +61,6 @@ class eZExchangeRatesUpdateHandler
     */
     static function create( $handlerName = false )
     {
-        //include_once( 'lib/ezutils/classes/ezini.php' );
-
         $shopINI = eZINI::instance( 'shop.ini' );
         if ( $handlerName === false)
         {

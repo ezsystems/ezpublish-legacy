@@ -199,8 +199,6 @@ class eZURLOperator
                     return array( eZTemplateNodeTool::createCodePieceElement( $code, $values, false, 1 ) );
                 }
             }
-            //include_once( 'lib/ezutils/classes/ezini.php' );
-
             if ( $iniPath !== false )
                 $ini = eZINI::instance( $iniName, $iniPath, null, null, null, true );
             elseif ( $iniName !== false )
@@ -257,7 +255,6 @@ class eZURLOperator
 
                     $serverURL = isset( $parameters[2] ) ? eZTemplateNodeTool::elementStaticValue( $parameters[2] ) : 'relative';
 
-                    //include_once( 'lib/ezutils/classes/ezuri.php' );
                     eZURI::transformURI( $url, false, $serverURL );
 
                     $url = $this->applyQuotes( $url, $parameters[1] );
@@ -312,7 +309,6 @@ CODEPIECE;
                     $serverURL = isset( $parameters[2] ) ? eZTemplateNodeTool::elementStaticValue( $parameters[2] ) : 'relative';
 
                     // Same as "ezurl" without "index.php" and the siteaccess name in the returned address.
-                    //include_once( 'lib/ezutils/classes/ezuri.php' );
                     eZURI::transformURI( $url, true, $serverURL );
 
                     $url = $this->applyQuotes( $url, $parameters[1] );
@@ -441,7 +437,6 @@ CODEPIECE;
                 {
                     $origUrl = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
 
-                    //include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
                     $url = eZURL::urlByMD5( md5( $origUrl ) );
                     if ( $url == false )
                         eZURL::registerURL( $origUrl );
@@ -487,7 +482,6 @@ CODEPIECE;
 
         }
 
-        //include_once( 'lib/ezutils/classes/ezhttptool.php' );
         $http = eZHTTPTool::instance();
 
         if ( isset( $http->UseFullUrl ) and $http->UseFullUrl )
@@ -612,7 +606,6 @@ CODEPIECE;
             return $quote;
         }
 
-        //include_once( 'lib/ezutils/classes/ezhttptool.php' );
         $http = eZHTTPTool::instance();
 
         if ( isset( $http->UseFullUrl ) and $http->UseFullUrl
@@ -680,8 +673,6 @@ CODEPIECE;
                                               $tpl->elementValue( $operatorParameters[5], $rootNamespace, $currentNamespace ) == 'hasVariable' ) ? true : false
                                           : false;
                     }
-                    //include_once( 'lib/ezutils/classes/ezini.php' );
-
                     if ( $iniPath !== false )
                         $ini = eZINI::instance( $iniName, $iniPath, null, null, null, true );
                     elseif ( $iniName !== false )
@@ -722,7 +713,6 @@ CODEPIECE;
             case $this->HTTPNameHasVariable:
             case $this->HTTPName:
             {
-                //include_once( 'lib/ezutils/classes/ezhttptool.php' );
                 $http = eZHTTPTool::instance();
                 if ( count( $operatorParameters ) > 0 )
                 {
@@ -812,7 +802,6 @@ CODEPIECE;
 
             case $this->URLName:
             {
-                //include_once( 'lib/ezutils/classes/ezuri.php' );
                 eZURI::transformURI( $operatorValue, false, $namedParameters['server_url'] );
 
             } break;
@@ -827,7 +816,6 @@ CODEPIECE;
                     $operatorValue = '/' . $operatorValue;
 
                 // Same as "ezurl" without "index.php" and the siteaccess name in the returned address.
-                //include_once( 'lib/ezutils/classes/ezuri.php' );
                 eZURI::transformURI( $operatorValue, true, $namedParameters['server_url'] );
 
             } break;
@@ -865,7 +853,6 @@ CODEPIECE;
 
             case $this->ExtName:
             {
-                //include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
                 $urlMD5 = md5( $operatorValue );
                 $url = eZURL::urlByMD5( $urlMD5 );
                 if ( $url === false )
@@ -886,7 +873,6 @@ CODEPIECE;
         else if ( $val == 'no' )
             $quote = false;
 
-        //include_once( 'lib/ezutils/classes/ezhttptool.php' );
         $http = eZHTTPTool::instance();
 
         if ( isset( $http->UseFullUrl ) and $http->UseFullUrl

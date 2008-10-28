@@ -35,16 +35,6 @@
 
 */
 
-//include_once( "lib/ezdb/classes/ezdb.php" );
-//include_once( "kernel/classes/ezpersistentobject.php" );
-//include_once( "kernel/classes/eznodeassignment.php" );
-//include_once( "kernel/classes/ezcontentobject.php" );
-
-//include_once( "kernel/classes/ezcontentobjectattribute.php" );
-//include_once( "kernel/classes/ezcontentobjecttranslation.php" );
-//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-//include_once( "kernel/classes/ezcontentclassattribute.php" );
-
 class eZContentObjectVersion extends eZPersistentObject
 {
     const STATUS_DRAFT = 0;
@@ -373,7 +363,6 @@ class eZContentObjectVersion extends eZPersistentObject
             $classID = $objectClassID;
         }
 
-        //include_once( 'kernel/classes/ezcontentlanguage.php' );
         // Fetch the ID of the language if we get a string with a language code
         // e.g. 'eng-GB'
         $originalLanguage = $language;
@@ -1267,7 +1256,6 @@ class eZContentObjectVersion extends eZPersistentObject
             $contentObjectVersion = $contentObject->createNewVersionIn( $initialLanguage );
         }
 
-        //include_once( 'lib/ezlocale/classes/ezdateutils.php' );
         $created = eZDateUtils::textToDate( $domNode->getAttributeNS( 'http://ez.no/ezobject', 'created' ) );
         $modified = eZDateUtils::textToDate( $domNode->getAttributeNS( 'http://ez.no/ezobject', 'modified' ) );
         $contentObjectVersion->setAttribute( 'created', $created );
@@ -1427,8 +1415,6 @@ class eZContentObjectVersion extends eZPersistentObject
         $versionNode = $dom->createElementNS( 'http://ez.no/object/', 'ezobject:version' );
         $dom->appendChild( $versionNode );
 
-        //include_once( 'lib/ezlocale/classes/ezdateutils.php' );
-
         $versionNode->setAttributeNS( 'http://ez.no/ezobject', 'ezremote:version', $this->Version );
         $versionNode->setAttributeNS( 'http://ez.no/ezobject', 'ezremote:status', $this->Status );
         $versionNode->setAttributeNS( 'http://ez.no/ezobject', 'ezremote:created', eZDateUtils::rfc1123Date( $this->attribute( 'created' ) ) );
@@ -1546,7 +1532,6 @@ class eZContentObjectVersion extends eZPersistentObject
     {
         if ( isset( $this->CreatorID ) and $this->CreatorID )
         {
-            //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
             return eZContentObject::fetch( $this->CreatorID );
         }
         return null;

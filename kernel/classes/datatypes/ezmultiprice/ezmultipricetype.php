@@ -35,10 +35,6 @@
 
 */
 
-//include_once( 'kernel/classes/ezdatatype.php' );
-//include_once( 'kernel/classes/datatypes/ezmultiprice/ezmultiprice.php' );
-//include_once( 'lib/ezutils/classes/ezstringutils.php' );
-
 class eZMultiPriceType extends eZDataType
 {
     const DATA_TYPE_STRING = 'ezmultiprice';
@@ -508,7 +504,6 @@ class eZMultiPriceType extends eZDataType
 
         if ( !isset( $params['currency_code'] ) )
         {
-            //include_once( 'kernel/shop/classes/ezshopfunctions.php' );
             $params['currency_code'] = eZShopFunctions::preferredCurrencyCode();
         }
 

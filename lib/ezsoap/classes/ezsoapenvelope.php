@@ -37,11 +37,6 @@
 
 */
 
-//include_once( "lib/ezxml/classes/ezxml.php" );
-
-//include_once( "lib/ezsoap/classes/ezsoapheader.php" );
-//include_once( "lib/ezsoap/classes/ezsoapbody.php" );
-
 class eZSOAPEnvelope
 {
     const ENV = "http://schemas.xmlsoap.org/soap/envelope/";

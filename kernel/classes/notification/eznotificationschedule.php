@@ -36,8 +36,6 @@
   \brief The class eZNotificationSchedule does
 
 */
-//include_once( "lib/ezlocale/classes/ezdate.php" );
-
 
 class eZNotificationSchedule
 {

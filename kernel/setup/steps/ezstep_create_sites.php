@@ -30,14 +30,7 @@
 
 /*! \file ezstep_create_sites.php
 */
-//include_once( 'kernel/setup/steps/ezstep_installer.php');
 require_once( "kernel/common/i18n.php" );
-//include_once( 'lib/ezdb/classes/ezdb.php' );
-//include_once( 'kernel/classes/ezcontentobject.php' );
-//include_once( 'kernel/classes/ezpolicy.php' );
-//include_once( 'lib/ezutils/classes/ezini.php' );
-//include_once( 'lib/ezlocale/classes/ezlocale.php' );
-
 /*!
   Error codes:
 
@@ -105,13 +98,11 @@ class eZStepCreateSites extends eZStepInstaller
 
         //$ini = eZINI::create();
 
-        //include_once( 'kernel/classes/ezpackage.php' );
         $accessMap = array( 'url' => array(),
                             'hostname' => array(),
                             'port' => array(),
                             'accesses' => array() );
 
-        //include_once( 'lib/ezlocale/classes/ezlocale.php' );
         $primaryLanguage     = null;
         $allLanguages        = array();
         $allLanguageCodes    = array();
@@ -472,13 +463,11 @@ class eZStepCreateSites extends eZStepInstaller
         }
         if ( $siteType['existing_database'] == eZStepInstaller::DB_DATA_REMOVE )
         {
-            //include_once( 'lib/ezdb/classes/ezdbtool.php' );
             eZDBTool::cleanup( $db );
         }
 
         if ( $siteType['existing_database'] != eZStepInstaller::DB_DATA_KEEP )
         {
-            //include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
             $result = true;
             $schemaArray = eZDbSchema::read( 'share/db_schema.dba', true );
             if ( !$schemaArray )
@@ -543,7 +532,6 @@ class eZStepCreateSites extends eZStepInstaller
             if ( $result )
             {
                 // Inserting data from the dba-data files of the datatypes
-                //include_once( 'kernel/classes/ezdatatype.php' );
                 eZDataType::loadAndRegisterAllTypes();
                 $registeredDataTypes = eZDataType::registeredDataTypes();
                 foreach ( $registeredDataTypes as $dataType )
@@ -672,8 +660,6 @@ class eZStepCreateSites extends eZStepInstaller
         if ( function_exists( 'eZSitePreInstall' ) )
             eZSitePreInstall();
 
-
-        //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 
         // Make sure objects use the selected main language instead of eng-GB
         if ( $primaryLanguageLocaleCode != 'eng-GB' )
@@ -1216,7 +1202,6 @@ language_locale='eng-GB'";
             return true;
         }
 
-        //include_once( 'kernel/classes/ezrole.php' );
         // Try and remove user/login without limitation from the anonymous user
         $anonRole = eZRole::fetchByName( 'Anonymous' );
         if ( is_object( $anonRole ) )
@@ -1286,8 +1271,6 @@ language_locale='eng-GB'";
         }
 
         // Setup user preferences based on the site chosen and addons
-        //include_once( 'kernel/classes/ezpreferences.php' );
-
         if ( function_exists( 'eZSitePreferences' ) )
         {
             $prefs = eZSitePreferences( $parameters );
@@ -1311,7 +1294,6 @@ language_locale='eng-GB'";
         }
 
         $publishAdmin = false;
-        //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
         $userAccount = eZUser::fetch( 14 );
         if ( !is_object( $userAccount ) )
         {
@@ -1371,7 +1353,6 @@ language_locale='eng-GB'";
 
         if ( $publishAdmin )
         {
-            //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
             $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $newUserObject->attribute( 'contentobject_id' ),
                                                                                          'version' => $newUserObject->attribute( 'version' ) ) );
             if ( $operationResult['status'] != eZModuleOperationInfo::STATUS_CONTINUE )

@@ -34,8 +34,6 @@ require_once( 'kernel/common/template.php' );
 */
 function referenceReadFile( $file, $htmlRoot, $base )
 {
-    //include_once( "lib/ezutils/classes/ezsys.php" );
-
     // Settings for NVH setup
     $pathPrepend = eZSys::wwwDir();
     $indexPathPrepend = eZSys::indexDir();

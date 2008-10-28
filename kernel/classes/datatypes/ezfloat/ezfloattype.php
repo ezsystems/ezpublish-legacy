@@ -35,9 +35,6 @@
 
 */
 
-//include_once( "kernel/classes/ezdatatype.php" );
-//include_once( "lib/ezutils/classes/ezfloatvalidator.php" );
-
 class eZFloatType extends eZDataType
 {
     const DATA_TYPE_STRING = "ezfloat";
@@ -95,7 +92,6 @@ class eZFloatType extends eZDataType
             $data = $http->postVariable( $base . "_data_float_" . $contentObjectAttribute->attribute( "id" ) );
             $contentObjectAttribute->setHTTPValue( $data );
 
-            //include_once( 'lib/ezlocale/classes/ezlocale.php' );
             $locale = eZLocale::instance();
             $data = $locale->internalNumber( $data );
 
@@ -127,7 +123,6 @@ class eZFloatType extends eZDataType
                 return eZInputValidator::STATE_ACCEPTED;
             }
 
-            //include_once( 'lib/ezlocale/classes/ezlocale.php' );
             $locale = eZLocale::instance();
             $data = $locale->internalNumber( $data );
 
@@ -198,7 +193,6 @@ class eZFloatType extends eZDataType
              $http->hasPostVariable( $maxValueName ) and
              $http->hasPostVariable( $defaultValueName ) )
         {
-            //include_once( 'lib/ezlocale/classes/ezlocale.php' );
             $locale = eZLocale::instance();
 
             $minValueValue = $http->postVariable( $minValueName );
@@ -249,7 +243,6 @@ class eZFloatType extends eZDataType
              $http->hasPostVariable( $maxValueName ) and
              $http->hasPostVariable( $defaultValueName ) )
         {
-            //include_once( 'lib/ezlocale/classes/ezlocale.php' );
             $locale = eZLocale::instance();
 
             $minValueValue = $http->postVariable( $minValueName );
@@ -308,7 +301,6 @@ class eZFloatType extends eZDataType
         $maxValueName = $base . self::MAX_VARIABLE . $classAttribute->attribute( "id" );
         if ( $http->hasPostVariable( $minValueName ) and $http->hasPostVariable( $maxValueName ) )
         {
-            //include_once( 'lib/ezlocale/classes/ezlocale.php' );
             $locale = eZLocale::instance();
 
             $minValueValue = $http->postVariable( $minValueName );

@@ -32,8 +32,6 @@ $function = $Params['Function'];
 $key = $Params['Key'];
 $value = $Params['Value'];
 
-//include_once( 'kernel/classes/ezpreferences.php' );
-
 eZPreferences::setValue( $key, $value );
 
 // Extract URL to redirect to from user parameters.
@@ -58,9 +56,6 @@ if ( $url )
 }
 else
 {
-    //include_once( 'kernel/classes/ezredirectmanager.php' );
-    //include_once( 'lib/ezutils/classes/ezuri.php' );
-
     $preferredRedirectionURI = isset( $_SERVER['HTTP_REFERER'] ) ? eZURI::decodeURL( $_SERVER['HTTP_REFERER'] ) : false;
 
     // We should exclude OFFSET from $preferredRedirectionURI

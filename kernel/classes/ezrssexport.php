@@ -38,10 +38,6 @@
   RSSExport is used to create RSS feeds from published content. See kernel/rss for more files.
 */
 
-//include_once( 'kernel/classes/ezpersistentobject.php' );
-//include_once( 'kernel/classes/ezrssexportitem.php' );
-//include_once( "lib/ezdb/classes/ezdb.php" );
-
 class eZRSSExport extends eZPersistentObject
 {
     const STATUS_VALID = 1;
@@ -182,7 +178,6 @@ class eZRSSExport extends eZPersistentObject
     */
     function store( $storeAsValid = false )
     {
-        //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
         $dateTime = time();
         $user = eZUser::currentUser();
         if (  $this->ID == null )
@@ -278,7 +273,6 @@ class eZRSSExport extends eZPersistentObject
     {
         if ( isset( $this->ImageID ) and $this->ImageID )
         {
-            //include_once( "kernel/classes/ezcontentobjecttreenode.php" );
             return eZContentObjectTreeNode::fetch( $this->ImageID );
         }
         return null;
@@ -288,7 +282,6 @@ class eZRSSExport extends eZPersistentObject
     {
         if ( isset( $this->ImageID ) and $this->ImageID )
         {
-            //include_once( "kernel/classes/ezcontentobjecttreenode.php" );
             $objectNode = eZContentObjectTreeNode::fetch( $this->ImageID );
             if ( isset( $objectNode ) )
             {
@@ -316,7 +309,6 @@ class eZRSSExport extends eZPersistentObject
     {
         if ( isset( $this->ModifierID ) and $this->ModifierID )
         {
-            //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
             return eZUser::fetch( $this->ModifierID );
         }
         return null;

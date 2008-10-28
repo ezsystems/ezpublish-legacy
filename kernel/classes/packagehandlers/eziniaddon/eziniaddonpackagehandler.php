@@ -37,8 +37,6 @@
 
 */
 
-//include_once( 'kernel/classes/ezpackagehandler.php' );
-
 class eZINIAddonPackageHandler extends eZPackageHandler
 {
     /*!
@@ -62,7 +60,6 @@ class eZINIAddonPackageHandler extends eZPackageHandler
                       $content, $installParameters,
                       &$installData )
     {
-        //include_once( 'lib/ezdb/classes/ezdb.php' );
         $db = eZDB::instance();
 
         $siteAccess = $content->getAttribute( 'site-access' );
@@ -74,7 +71,6 @@ class eZINIAddonPackageHandler extends eZPackageHandler
 
         $filename = $content->getAttribute( 'filename' );
 
-        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance( $filename, 'settings', null, null, true );
         $ini->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
         $ini->loadCache();

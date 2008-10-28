@@ -45,7 +45,6 @@ class eZTextCodec
                           $realInputCharsetCode, $realOutputCharsetCode,
                           $inputEncoding, $outputEncoding )
     {
-        //include_once( "lib/ezi18n/classes/ezcharsetinfo.php" );
         $this->RequestedInputCharsetCode = $inputCharsetCode;
         $this->RequestedOutputCharsetCode = $outputCharsetCode;
         $this->InputCharsetCode = $realInputCharsetCode;
@@ -203,7 +202,6 @@ class eZTextCodec
                 $strlenFunction = $encodingStrlenMap[$inpenc];
                 if ( $inpenc == 'utf-8')
                 {
-                    //include_once( "lib/ezi18n/classes/ezutf8codec.php" );
                 }
             }
         }
@@ -255,20 +253,17 @@ class eZTextCodec
 
     function initializeCodepageMapper()
     {
-        //include_once( 'lib/ezi18n/classes/ezcodepagemapper.php' );
         $this->CodepageMapper = eZCodePageMapper::instance( $this->InputCharsetCode,
                                                              $this->OutputCharsetCode );
     }
 
     function initializeInputCodepage()
     {
-        //include_once( 'lib/ezi18n/classes/ezcodepage.php' );
         $this->Codepage = eZCodePage::instance( $this->InputCharsetCode );
     }
 
     function initializeOutputCodepage()
     {
-        //include_once( 'lib/ezi18n/classes/ezcodepage.php' );
         $this->Codepage = eZCodePage::instance( $this->OutputCharsetCode );
     }
 
@@ -502,12 +497,10 @@ class eZTextCodec
 
         if ( !$realInputCharsetCode )
         {
-            //include_once( "lib/ezi18n/classes/ezcharsetinfo.php" );
             $realInputCharsetCode = eZCharsetInfo::realCharsetCode( $inputCharsetCode );
         }
         if ( !$realOutputCharsetCode )
         {
-            //include_once( "lib/ezi18n/classes/ezcharsetinfo.php" );
             $realOutputCharsetCode = eZCharsetInfo::realCharsetCode( $outputCharsetCode );
         }
         $inputEncoding = eZCharsetInfo::characterEncodingScheme( $realInputCharsetCode, true );
@@ -571,7 +564,6 @@ class eZTextCodec
             }
             else
                 $charsetCode = $GLOBALS['eZTextCodecInternalCharset'];
-            //include_once( "lib/ezi18n/classes/ezcharsetinfo.php" );
             $realCharset = eZCharsetInfo::realCharsetCode( $charsetCode );
         }
         return $realCharset;
@@ -599,7 +591,6 @@ class eZTextCodec
             }
             else
             {
-                //include_once( "lib/ezi18n/classes/ezcharsetinfo.php" );
                 $realCharset = eZCharsetInfo::realCharsetCode( $charset );
             }
         }

@@ -31,8 +31,6 @@
 /*! \file ezecbhandler.php
 */
 
-//include_once( 'kernel/shop/classes/exchangeratehandlers/ezexchangeratesupdatehandler.php' );
-
 class eZECBHandler extends eZExchangeRatesUpdateHandler
 {
     function eZECBHandler()
@@ -93,7 +91,6 @@ class eZECBHandler extends eZExchangeRatesUpdateHandler
 
         $ratesList = array();
 
-        //include_once( 'lib/ezutils/classes/ezhttptool.php' );
         $buf = eZHTTPTool::sendHTTPRequest( "{$serverName}/{$ratesURI}", $serverPort,  false, 'eZ Publish', false );
         if ( $buf )
         {

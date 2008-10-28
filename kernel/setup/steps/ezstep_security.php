@@ -30,7 +30,6 @@
 
 /*! \file ezstep_security.php
 */
-//include_once( 'kernel/setup/steps/ezstep_installer.php');
 require_once( "kernel/common/i18n.php" );
 
 /*!
@@ -74,7 +73,6 @@ class eZStepSecurity extends eZStepInstaller
         {
             return true;
         }
-        //include_once( 'lib/ezutils/classes/ezsys.php' );
         return eZSys::indexFileName() == '' ; // If in virtual host mode, continue (return true)
     }
 

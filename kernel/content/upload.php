@@ -26,13 +26,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'kernel/classes/ezcontentobject.php' );
-//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-
-//include_once( 'kernel/classes/ezcontentupload.php' );
-
-//include_once( 'lib/ezutils/classes/ezhttptool.php' );
-
 require_once( 'kernel/common/template.php' );
 
 $tpl = templateInit();

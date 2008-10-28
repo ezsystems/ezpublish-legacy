@@ -36,9 +36,6 @@
   \brief The class eZDir does
 
 */
-//include_once( "lib/ezutils/classes/ezini.php" );
-//include_once( "lib/ezutils/classes/ezsys.php" );
-
 class eZDir
 {
     const SEPARATOR_LOCAL = 1;
@@ -197,8 +194,6 @@ class eZDir
     */
     static function doMkdir( $dir, $perm )
     {
-        //include_once( "lib/ezutils/classes/ezdebugsetting.php" );
-
         $oldumask = umask( 0 );
         if ( ! @mkdir( $dir, $perm ) )
         {
@@ -599,7 +594,6 @@ class eZDir
         }
         $items = eZDir::findSubitems( $sourceDirectory, 'df', false, $includeHidden, $excludeItems );
         $totalItems = $items;
-        //include_once( 'lib/ezfile/classes/ezfilehandler.php' );
         while ( count( $items ) > 0 )
         {
             $currentItems = $items;

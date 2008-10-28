@@ -36,15 +36,6 @@
   \sa eZProductCollection
 */
 
-//include_once( "kernel/classes/ezpersistentobject.php" );
-//include_once( "kernel/classes/ezproductcollection.php" );
-//include_once( "kernel/classes/ezproductcollectionitem.php" );
-//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-//include_once( "kernel/classes/ezuserdiscountrule.php" );
-//include_once( "kernel/classes/ezcontentobjecttreenode.php" );
-//include_once( "kernel/classes/ezshippingmanager.php" );
-//include_once( "kernel/classes/ezorder.php" );
-
 class eZBasket extends eZPersistentObject
 {
     /*!
@@ -365,7 +356,6 @@ class eZBasket extends eZPersistentObject
         $user = eZUser::currentUser();
         $userID = $user->attribute( 'contentobject_id' );
 
-        //include_once( 'kernel/classes/ezorderstatus.php' );
         $time = time();
         $order = new eZOrder( array( 'productcollection_id' => $productCollectionID,
                                      'user_id' => $userID,
@@ -397,8 +387,6 @@ class eZBasket extends eZPersistentObject
         $productCollection = $this->attribute( 'productcollection' );
         if ( $productCollection )
         {
-            //include_once( 'kernel/shop/classes/ezshopfunctions.php' );
-
             $currencyCode = '';
             $items = $this->items();
 
@@ -562,7 +550,6 @@ WHERE ezbasket.session_id = ezsession.session_key AND
             $product = $productCollectionItemList[0]->attribute( 'contentobject' );
             if ( is_object( $product ) )
             {
-                //include_once( 'kernel/shop/classes/ezshopfunctions.php' );
                 $type = eZShopFunctions::productTypeByObject( $product );
             }
         }
@@ -572,9 +559,6 @@ WHERE ezbasket.session_id = ezsession.session_key AND
 
     function canAddProduct( $contentObject )
     {
-        //include_once( 'kernel/shop/classes/ezshopfunctions.php' );
-        //include_once( 'kernel/shop/errors.php' );
-
         $error = eZError::SHOP_OK;
 
         $productType = eZShopFunctions::productTypeByObject( $contentObject );

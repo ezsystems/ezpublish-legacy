@@ -25,12 +25,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( "kernel/classes/ezcontentclass.php" );
-//include_once( "lib/ezutils/classes/ezhttppersistence.php" );
-//include_once( "kernel/classes/ezcontentclassclassgroup.php" );
-//include_once( "lib/ezutils/classes/ezini.php" );
-//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-
 $Module = $Params['Module'];
 $GroupID = null;
 if ( isset( $Params["GroupID"] ) )
@@ -56,7 +50,6 @@ if ( !$http->hasPostVariable( 'ConfirmButton' ) && !$http->hasPostVariable( 'Can
             if ( count( $classInGroups ) != 1 )
             {
                 // remove class - group relation:
-                //include_once( "kernel/class/ezclassfunctions.php" );
                 eZClassFunctions::removeGroup( $classID, null, array( $GroupID ) );
                 $alreadyRemoved[] = array( 'id' => $classID,
                                            'name' => $class->attribute( 'name' ) );
@@ -81,7 +74,6 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
 {
     foreach ( $deleteIDArray as $deleteID )
     {
-        //include_once( 'kernel/classes/ezcontentclassoperations.php' );
         eZContentClassOperations::remove( $deleteID );
     }
     return $Module->redirectTo( '/class/classlist/' . $GroupID );

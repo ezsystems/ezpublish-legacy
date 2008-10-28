@@ -38,8 +38,6 @@
 
 */
 
-//include_once( "lib/ezi18n/classes/eztranslatorhandler.php" );
-
 class eZShuffleTranslator extends eZTranslatorHandler
 {
     /*!

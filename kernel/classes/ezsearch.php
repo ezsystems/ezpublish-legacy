@@ -35,8 +35,6 @@
 
 */
 
-//include_once( 'lib/ezutils/classes/ezini.php' );
-
 class eZSearch
 {
     /*!
@@ -421,7 +419,6 @@ class eZSearch
             return $GLOBALS[$instanceName];
         }
 
-        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
 
         $searchEngineString = 'ezsearch';
@@ -431,7 +428,6 @@ class eZSearch
         }
 
         $directoryList = array();
-        //include_once( 'lib/ezutils/classes/ezextension.php' );
         if ( $ini->hasVariable( 'SearchSettings', 'ExtensionDirectories' ) )
         {
             $extensionDirectories = $ini->variable( 'SearchSettings', 'ExtensionDirectories' );

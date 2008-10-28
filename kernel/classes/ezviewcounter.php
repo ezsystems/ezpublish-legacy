@@ -33,10 +33,6 @@
 
 */
 
-//include_once( "lib/ezdb/classes/ezdb.php" );
-//include_once( "kernel/classes/ezpersistentobject.php" );
-//include_once( "kernel/classes/ezcontentclassgroup.php" );
-
 class eZViewCounter extends eZPersistentObject
 {
     function eZViewCounter( $row )

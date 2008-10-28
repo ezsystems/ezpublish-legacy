@@ -34,9 +34,6 @@
 
 */
 
-//include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
-//include_once( 'lib/ezi18n/classes/eztstranslator.php' );
-
 class eZi18nOperator
 {
     /*!

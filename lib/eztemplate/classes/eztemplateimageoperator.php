@@ -40,13 +40,6 @@
   If fontDir() is an empty string the font will be looked for in the system.
 */
 
-//include_once( "lib/eztemplate/classes/eztemplate.php" );
-//include_once( "lib/ezimage/classes/ezimageobject.php" );
-//include_once( "lib/ezimage/classes/ezimagelayer.php" );
-//include_once( "lib/ezimage/classes/ezimagetextlayer.php" );
-//include_once( 'lib/ezimage/classes/ezimagefont.php' );
-//include_once( "lib/ezutils/classes/ezini.php" );
-
 class eZTemplateImageOperator
 {
     /*!
@@ -60,7 +53,6 @@ class eZTemplateImageOperator
                                   $imageName,
                                   $imagefileName );
 
-        //include_once( "lib/ezutils/classes/ezsys.php" );
         $ini = eZINI::instance( 'texttoimage.ini' );
         $fontDirs = $ini->variable( "PathSettings", "FontDir" );
         $this->FontDir = array();

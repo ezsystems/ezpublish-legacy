@@ -29,8 +29,6 @@
 //
 
 // if ( !class_exists( 'eZXMLSchema' ) )
-    //include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlschema.php' );
-
 class eZSimplifiedXMLEditOutput
 {
     public $OutputTags = array(
@@ -482,7 +480,6 @@ class eZSimplifiedXMLEditOutput
     {
         if ( $showPath == 'true' )
         {
-            //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
             $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
             $href = $node ? 'eznode://' . $node['path_identification_string'] : 'eznode://' . $nodeID;
         }

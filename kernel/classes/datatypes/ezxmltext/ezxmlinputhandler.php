@@ -38,8 +38,6 @@
 
 */
 
-//include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
-
 class eZXMLInputHandler
 {
     /*!

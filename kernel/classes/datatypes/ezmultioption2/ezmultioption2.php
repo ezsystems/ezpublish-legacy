@@ -33,8 +33,6 @@
   \ingroup eZDatatype
   \brief Encapsulates multiple options in one datatype.
 */
-//include_once( "lib/ezxml/classes/ezxml.php" );
-
 class eZMultiOption2
 {
     /*!

@@ -26,10 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'kernel/classes/ezsection.php' );
 require_once( 'kernel/common/template.php' );
-//include_once( 'kernel/classes/ezpreferences.php' );
-
 $http = eZHTTPTool::instance();
 $Module = $Params['Module'];
 $tpl = templateInit();
@@ -59,7 +56,6 @@ if ( $http->hasPostVariable( 'CreateSectionButton' ) )
 
 if ( $http->hasPostVariable( 'RemoveSectionButton' ) )
 {
-    //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
     $currentUser = eZUser::currentUser();
     $accessResult = $currentUser->hasAccessTo( 'section', 'edit' );
     if ( $accessResult['accessWord'] == 'yes' )
@@ -112,7 +108,6 @@ if ( $http->hasPostVariable( 'RemoveSectionButton' ) )
 
 if ( $http->hasPostVariable( 'ConfirmRemoveSectionButton' ) )
 {
-    //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
     $currentUser = eZUser::currentUser();
     $accessResult = $currentUser->hasAccessTo( 'section', 'edit' );
     if ( $accessResult['accessWord'] == 'yes' )
@@ -123,7 +118,6 @@ if ( $http->hasPostVariable( 'ConfirmRemoveSectionButton' ) )
 
             $db = eZDB::instance();
             $db->begin();
-            //include_once( 'kernel/classes/ezcontentcachemanager.php' );
             foreach ( $sectionIDArray as $sectionID )
             {
                 $section = eZSection::fetch( $sectionID );
@@ -148,7 +142,6 @@ $viewParameters = array( 'offset' => $offset );
 $sectionArray = eZSection::fetchByOffset( $offset, $limit );
 $sectionCount = eZSection::sectionCount();
 
-//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 $currentUser = eZUser::currentUser();
 $allowedAssignSectionList = $currentUser->canAssignSectionList();
 

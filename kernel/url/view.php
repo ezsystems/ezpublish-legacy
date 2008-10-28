@@ -32,11 +32,6 @@
 $Module = $Params['Module'];
 $urlID = $Params['ID'];
 
-//include_once( "lib/ezutils/classes/ezhttptool.php" );
-//include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
-//include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
-//include_once( 'kernel/classes/ezpreferences.php' );
-
 if( eZPreferences::value( 'admin_url_view_limit' ) )
 {
     switch( eZPreferences::value( 'admin_url_view_limit' ) )
@@ -72,8 +67,6 @@ if ( preg_match("/^(http:)/i", $link ) or
 }
 else
 {
-    //include_once( "lib/ezutils/classes/ezini.php" );
-    //include_once( "lib/ezutils/classes/ezsys.php" );
     $domain = getenv( 'HTTP_HOST' );
     $protocol = 'http';
 

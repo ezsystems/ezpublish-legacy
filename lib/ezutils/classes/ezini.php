@@ -67,8 +67,6 @@
 */
 
 include_once 'lib/ezutils/classes/ezdebug.php';
-//include_once( 'lib/ezfile/classes/ezdir.php' );
-
 /*!
  Has the date of the current cache code implementation as a timestamp,
  if this changes(increases) the cache files will need to be recreated.
@@ -510,7 +508,6 @@ class eZINI
             if ( $cacheSaved )
             {
                 // Write log message to storage.log
-                //include_once( 'lib/ezfile/classes/ezlog.php' );
                 eZLog::writeStorageLog( $fileName, $cachedDir );
             }
         }
@@ -526,7 +523,6 @@ class eZINI
     {
         if ( !file_exists( $cachedDir ) )
         {
-            //include_once( 'lib/ezfile/classes/ezdir.php' );
             if ( !eZDir::mkdir( $cachedDir, 0777, true ) )
             {
                 eZDebug::writeError( "Couldn't create cache directory $cachedDir, perhaps wrong permissions", "eZINI" );
@@ -551,7 +547,6 @@ class eZINI
         fwrite( $fp, "\$val = " . preg_replace( "@\n[\s]+@", '', var_export( $data, true ) ) . ";" );
         fwrite( $fp, "\n?>" );
         fclose( $fp );
-        //include_once( 'lib/ezfile/classes/ezfile.php' );
         eZFile::rename( $tmpCacheFile, $cachedFile );
 
         chmod( $cachedFile, self::$filePermission );
@@ -593,7 +588,6 @@ class eZINI
         if ( eZINI::isDebugEnabled() )
             eZDebug::writeNotice( "Parsing file '$file'", 'eZINI' );
 
-        //include_once( "lib/ezfile/classes/ezfile.php" );
         $contents = eZFile::getContents( $file );
         if ( $contents === false )
         {
@@ -631,7 +625,6 @@ class eZINI
         unset( $this->Codec );
         if ( $this->UseTextCodec )
         {
-            //include_once( "lib/ezi18n/classes/eztextcodec.php" );
             $this->Codec = eZTextCodec::instance( $this->Charset, false, false );
 
             if ( $this->Codec )
@@ -757,7 +750,6 @@ class eZINI
                    $onlyModified = false, $useRootDir = true, $resetArrays = false,
                    $encapsulateInPHP = true )
     {
-        //include_once( 'lib/ezfile/classes/ezdir.php' );
         $lineSeparator = eZSys::lineSeparator();
         $pathArray = array();
         $dirArray = array();
@@ -805,7 +797,6 @@ class eZINI
         if ( !file_exists( $dirPath ) )
             eZDir::mkdir( $dirPath, octdec( '777' ), true );
 
-        //include_once( 'lib/ezfile/classes/ezdir.php' );
         $filePath = eZDir::path( array_merge( $pathArray, array( $fileName ) ) );
         $originalFilePath = eZDir::path( array_merge( $pathArray, array( $originalFileName ) ) );
         $backupFilePath = eZDir::path( array_merge( $pathArray, array( $backupFileName ) ) );

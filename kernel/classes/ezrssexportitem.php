@@ -38,9 +38,6 @@
   RSSExportItem is used to create RSS feeds from published content. See kernel/rss for more files.
 */
 
-//include_once( 'kernel/classes/ezpersistentobject.php' );
-//include_once( 'kernel/classes/ezrssexport.php' );
-
 class eZRSSExportItem extends eZPersistentObject
 {
 
@@ -136,7 +133,6 @@ class eZRSSExportItem extends eZPersistentObject
     {
         if ( isset( $this->ClassID ) and $this->ClassID )
         {
-            //include_once( 'kernel/classes/ezcontentclass.php' );
             $contentClass = eZContentClass::fetch( $this->ClassID );
             if ( $contentClass )
                 $attributes = $contentClass->fetchAttributes();
@@ -153,7 +149,6 @@ class eZRSSExportItem extends eZPersistentObject
         $retValue = null;
         if ( isset( $this->SourceNodeID ) and $this->SourceNodeID )
         {
-            //include_once( "kernel/classes/ezcontentobjecttreenode.php" );
             $objectNode = eZContentObjectTreeNode::fetch( $this->SourceNodeID );
             if ( isset( $objectNode ) )
             {
@@ -183,7 +178,6 @@ class eZRSSExportItem extends eZPersistentObject
     {
         if ( isset( $this->SourceNodeID ) and $this->SourceNodeID )
         {
-            //include_once( "kernel/classes/ezcontentobjecttreenode.php" );
             $sourceNode = eZContentObjectTreeNode::fetch( $this->SourceNodeID );
         }
         else
@@ -286,7 +280,6 @@ class eZRSSExportItem extends eZPersistentObject
                                  'SortBy' => array( 'published', false )
                                 );
 
-            //include_once( "kernel/classes/ezcontentobjecttreenode.php" );
             $nodeList = eZContentObjectTreeNode::subTreeMultiPaths( $nodesParams, $listParams );
         }
         else

@@ -91,9 +91,6 @@ error_reporting ( E_ALL | E_STRICT );
 
 // include standard libs
 require_once( "lib/ezutils/classes/ezdebug.php" );
-////include_once( "lib/ezutils/classes/ezini.php" );
-////include_once( "lib/ezutils/classes/ezdebugsetting.php" );
-
 $debugINI = eZINI::instance( 'debug.ini' );
 eZDebugSetting::setDebugINI( $debugINI );
 
@@ -133,7 +130,6 @@ function eZUpdateTextCodecSettings()
     list( $i18nSettings['internal-charset'], $i18nSettings['http-charset'], $i18nSettings['mbstring-extension'] ) =
         $ini->variableMulti( 'CharacterSettings', array( 'Charset', 'HTTPCharset', 'MBStringExtension' ), array( false, false, 'enabled' ) );
 
-    ////include_once( 'lib/ezi18n/classes/eztextcodec.php' );
     eZTextCodec::updateSettings( $i18nSettings );
 }
 
@@ -255,7 +251,6 @@ function eZDisplayDebug()
             eZDebug::appendTopReport( "Debug toolbar", $result );
         }
 
-        ////include_once( 'kernel/common/eztemplatesstatisticsreporter.php' );
         eZDebug::appendBottomReport( 'Template Usage Statistics', eZTemplatesStatisticsReporter::generateStatistics( $as_html ) );
 
         return eZDebug::printReport( $type == "popup", $as_html, true );
@@ -323,14 +318,10 @@ function fetchModule( $uri, $check, &$module, &$module_name, &$function_name, &$
     return true;
 }
 
-////include_once( 'lib/ezi18n/classes/eztextcodec.php' );
 $httpCharset = eZTextCodec::httpCharset();
-////include_once( 'lib/ezlocale/classes/ezlocale.php' );
 $ini = eZINI::instance();
 if ( $ini->variable( 'RegionalSettings', 'Debug' ) == 'enabled' )
     eZLocale::setIsDebugEnabled( true );
-
-////include_once( "lib/ezutils/classes/ezsys.php" );
 
 
 eZDebug::setHandleType( eZDebug::HANDLE_FROM_PHP );
@@ -342,8 +333,6 @@ $GLOBALS['eZGlobalRequestURI'] = eZSys::serverVariable( 'REQUEST_URI' );
 eZSys::init( 'index.php', $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) == 'true' );
 
 eZDebug::addTimingPoint( "Script start" );
-
-////include_once( "lib/ezutils/classes/ezuri.php" );
 
 $uri = eZURI::instance( eZSys::requestURI() );
 $GLOBALS['eZRequestedURI'] = $uri;
@@ -368,7 +357,6 @@ require_once( "lib/ezutils/classes/ezsession.php" );
 
 
 // Check for extension
-//include_once( 'lib/ezutils/classes/ezextension.php' );
 require_once( 'kernel/common/ezincludefunctions.php' );
 eZExtension::activateExtensions( 'default' );
 // Extension check end
@@ -403,7 +391,6 @@ if ( !$useCronjob )
     // Functions for session to make sure baskets are cleaned up
     function eZSessionBasketDestroy( $db, $key, $escapedKey )
     {
-        ////include_once( 'kernel/classes/ezbasket.php' );
         $basket = eZBasket::fetch( $key );
         if ( is_object( $basket ) )
             $basket->remove();
@@ -411,13 +398,11 @@ if ( !$useCronjob )
 
     function eZSessionBasketGarbageCollector( $db, $time )
     {
-        ////include_once( 'kernel/classes/ezbasket.php' );
         eZBasket::cleanupExpired( $time );
     }
 
     function eZSessionBasketEmpty( $db )
     {
-        ////include_once( 'kernel/classes/ezbasket.php' );
         eZBasket::cleanup();
     }
 
@@ -428,7 +413,6 @@ if ( !$useCronjob )
 }
 
 // Initialize module loading
-////include_once( "lib/ezutils/classes/ezmodule.php" );
 $moduleRepositories = eZModule::activeModuleRepositories();
 eZModule::setGlobalPathList( $moduleRepositories );
 
@@ -444,7 +428,6 @@ if ( $sessionRequired )
 $db = false;
 if ( $dbRequired )
 {
-    ////include_once( 'lib/ezdb/classes/ezdb.php' );
     $db = eZDB::instance();
     if ( $sessionRequired and
          $db->isConnected() )
@@ -459,7 +442,6 @@ if ( $dbRequired )
 }
 
 // Initialize with locale settings
-////include_once( "lib/ezlocale/classes/ezlocale.php" );
 $locale = eZLocale::instance();
 $languageCode = $locale->httpLocaleCode();
 $phpLocale = trim( $ini->variable( 'RegionalSettings', 'SystemLocale' ) );
@@ -484,7 +466,6 @@ $site = array( 'title' => $ini->variable( 'SiteSettings', 'SiteName' ),
                                       'Content-language' => $languageCode ) );
 
 
-////include_once( 'kernel/classes/ezhttpheader.php' );
 $headerOverrideArray = eZHTTPHeader::headerOverrideArray( $uri );
 
 $headerList = array_merge( $headerList, $headerOverrideArray );
@@ -494,7 +475,6 @@ foreach( $headerList as $key => $value )
     header( $key . ': ' . $value );
 }
 
-////include_once( 'kernel/classes/ezsection.php' );
 eZSection::initGlobalID();
 
 // Read role settings
@@ -532,7 +512,6 @@ while ( $moduleRunRequired )
     if ( $urlTranslatorAllowed and
          eZURLAliasML::urlTranslationEnabledByUri( $uri ) )
     {
-        ////include_once( 'kernel/classes/ezurlaliasml.php' );
         $translateResult = eZURLAliasML::translate( $uri );
 
         if ( !is_string( $translateResult ) )
@@ -540,7 +519,6 @@ while ( $moduleRunRequired )
             $useWildcardTranslation = $ini->variable( 'URLTranslator', 'WildcardTranslation' ) == 'enabled';
             if ( $useWildcardTranslation )
             {
-                ////include_once( 'kernel/classes/ezurlwildcard.php' );
                 $translateResult = eZURLWildcard::translate( $uri );
             }
         }
@@ -578,7 +556,6 @@ while ( $moduleRunRequired )
         }
     }
 
-    ////include_once( "lib/ezutils/classes/ezhttptool.php" );
     $http = eZHTTPTool::instance();
 
     $displayMissingModule = false;
@@ -724,7 +701,6 @@ while ( $moduleRunRequired )
                 }
 
                 // Check if we should switch access mode (http/https) for this module view.
-                ////include_once( 'kernel/classes/ezsslzone.php' );
                 eZSSLZone::checkModuleView( $module->attribute( 'name' ), $function_name );
 
                 $moduleResult = $module->run( $function_name, $params, false, $userParameters );
@@ -876,7 +852,6 @@ if ( $module->exitStatus() == eZModule::STATUS_REDIRECT )
     $translatedModuleRedirectUri = $moduleRedirectUri;
     if ( $ini->variable( 'URLTranslator', 'Translation' ) == 'enabled' )
     {
-        ////include_once( 'kernel/classes/ezurlaliasml.php' );
         if ( eZURLAliasML::translate( $translatedModuleRedirectUri, true ) )
         {
             $moduleRedirectUri = $translatedModuleRedirectUri;
@@ -908,7 +883,6 @@ if ( $module->exitStatus() == eZModule::STATUS_REDIRECT )
         $redirectURI .= $moduleRedirectUri;
     }
 
-    ////include_once( 'kernel/classes/ezstaticcache.php' );
     eZStaticCache::executeActions();
 
     eZDB::checkTransactionCounter();
@@ -1045,7 +1019,6 @@ if ( $show_page_layout )
         $meta['description'] = $metaDescription;
     }
 
-    ////include_once( 'lib/version.php' );
     $site['uri'] = $oldURI;
     $site['redirect'] = false;
     $site['meta'] = $meta;
@@ -1054,7 +1027,6 @@ if ( $show_page_layout )
 
     $tpl->setVariable( "site", $site );
 
-    ////include_once( 'lib/version.php' );
     $ezinfo = array( 'version' => eZPublishSDK::version( true ),
                      'version_alias' => eZPublishSDK::version( true, true ),
                      'revision' => eZPublishSDK::revision() );

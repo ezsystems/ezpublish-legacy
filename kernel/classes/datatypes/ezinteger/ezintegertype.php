@@ -38,9 +38,6 @@
   the attribute data.
 */
 
-//include_once( "kernel/classes/ezdatatype.php" );
-//include_once( "lib/ezutils/classes/ezintegervalidator.php" );
-
 class eZIntegerType extends eZDataType
 {
     const DATA_TYPE_STRING = "ezinteger";

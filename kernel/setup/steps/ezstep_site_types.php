@@ -28,7 +28,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'kernel/setup/steps/ezstep_installer.php');
 require_once( "kernel/common/i18n.php" );
 
 /*!
@@ -129,9 +128,6 @@ class eZStepSiteTypes extends eZStepInstaller
             // Note: Could be blocked by not allowing remote calls.
             if ( !copy( $url, $fileName ) )
             {
-                //include_once( 'lib/ezutils/classes/ezhttptool.php' );
-                //include_once( 'lib/ezfile/classes/ezfile.php' );
-
                 $buf = eZHTTPTool::sendHTTPRequest( $url, 80, false, 'eZ Publish', false );
 
                 $header = false;
@@ -164,7 +160,6 @@ class eZStepSiteTypes extends eZStepInstaller
      */
     function downloadAndImportPackage( $packageName, $packageUrl, $forceDownload = false )
     {
-        //include_once( 'kernel/classes/ezpackage.php' );
         $package = eZPackage::fetch( $packageName, false, false, false );
 
         if ( is_object( $package ) )
@@ -194,7 +189,6 @@ class eZStepSiteTypes extends eZStepInstaller
         $package = eZPackage::import( $archiveName, $packageName, false );
 
         // Remove downloaded ezpkg file
-        //include_once( 'lib/ezfile/classes/ezfilehandler.php' );
         eZFileHandler::unlink( $archiveName );
 
         if ( !is_object( $package ) )
@@ -294,9 +288,6 @@ class eZStepSiteTypes extends eZStepInstaller
      */
     function uploadPackage()
     {
-        //include_once( "lib/ezutils/classes/ezhttpfile.php" );
-        //include_once( "kernel/classes/ezpackage.php" );
-
 
         if ( !eZHTTPFile::canFetch( 'PackageBinaryFile' ) )
         {
@@ -383,7 +374,6 @@ class eZStepSiteTypes extends eZStepInstaller
             // local (already imported) site package chosen: just fetch it.
             $sitePackageName = $sitePackageInfo;
 
-            //include_once( 'kernel/classes/ezpackage.php' );
             $package = eZPackage::fetch( $sitePackageName, false, false, false );
             $this->ErrorMsg = ezi18n( 'design/standard/setup/init', 'Invalid package' ) . '.';
         }
@@ -604,7 +594,6 @@ class eZStepSiteTypes extends eZStepInstaller
      */
     function fetchAvailableSitePackages()
     {
-        //include_once( 'kernel/classes/ezpackage.php' );
         $packageList = eZPackage::fetchPackages( array( 'db_available' => false ), array( 'type' => 'site' ) );
 
         return $packageList;
@@ -621,7 +610,6 @@ class eZStepSiteTypes extends eZStepInstaller
         if ( $type )
             $typeArray['type'] = $type;
 
-        //include_once( 'kernel/classes/ezpackage.php' );
         $packageList = eZPackage::fetchPackages( array( 'db_available' => false ), $typeArray );
 
         return $packageList;
@@ -656,8 +644,6 @@ class eZStepSiteTypes extends eZStepInstaller
         }
 
         // Parse it.
-        //include_once( 'lib/ezfile/classes/ezfile.php' );
-
         $xmlString = eZFile::getContents( $idxFileName );
         @unlink( $idxFileName );
         $dom = new DOMDocument( '1.0', 'utf-8' );

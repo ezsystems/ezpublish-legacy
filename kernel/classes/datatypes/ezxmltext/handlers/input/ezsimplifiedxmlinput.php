@@ -28,11 +28,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php' );
-//include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
-//include_once( 'lib/ezutils/classes/ezhttptool.php' );
-//include_once( 'lib/ezutils/classes/ezini.php' );
-
 class eZSimplifiedXMLInput extends eZXMLInputHandler
 {
     function eZSimplifiedXMLInput( &$xmlData, $aliasedType, $contentObjectAttribute )
@@ -84,8 +79,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             // Set input valid true to a global variable
             $isInputValid = 'isInputValid_' . $contentObjectAttributeID;
             $GLOBALS[$isInputValid] = true;
-
-            //include_once( 'kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmlinputparser.php' );
 
             $text = $data;
 
@@ -159,8 +152,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         {
             $dom = new DOMDocument( '1.0', 'utf-8' );
             $success = $dom->loadXML( $this->XMLData );
-
-            //include_once( 'kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmleditoutput.php' );
 
             $editOutput = new eZSimplifiedXMLEditOutput();
             $dom->formatOutput = true;

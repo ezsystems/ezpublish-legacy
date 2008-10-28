@@ -27,8 +27,6 @@
 //
 
 require_once( "kernel/common/template.php" );
-//include_once( "kernel/classes/ezpackage.php" );
-
 $http = eZHTTPTool::instance();
 
 $module = $Params['Module'];

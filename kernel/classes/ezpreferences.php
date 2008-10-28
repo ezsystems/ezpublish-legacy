@@ -40,9 +40,6 @@
 
 */
 
-//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-//include_once( "lib/ezdb/classes/ezdb.php" );
-
 
 class eZPreferences
 {

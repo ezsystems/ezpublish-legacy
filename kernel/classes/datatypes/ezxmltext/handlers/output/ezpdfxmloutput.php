@@ -31,8 +31,6 @@
 /*!
 */
 
-//include_once( 'kernel/classes/datatypes/ezxmltext/handlers/output/ezxhtmlxmloutput.php' );
-
 class eZPDFXMLOutput extends eZXHTMLXMLOutput
 {
 

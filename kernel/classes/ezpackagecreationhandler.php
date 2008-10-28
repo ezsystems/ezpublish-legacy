@@ -38,9 +38,6 @@
 
 */
 
-//include_once( 'kernel/classes/ezpackage.php' );
-//include_once( 'lib/ezutils/classes/ezextension.php' );
-
 class eZPackageCreationHandler
 {
     /*!
@@ -316,7 +313,6 @@ class eZPackageCreationHandler
     {
         $allowedCreators = false;
 
-        //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
         $currentUser = eZUser::currentUser();
         $accessResult = $currentUser->hasAccessTo( 'package', 'create' );
         $limitationList = array();
@@ -669,7 +665,6 @@ class eZPackageCreationHandler
         $this->generatePackageInformation( $persistentData, $package, $http, $step, $persistentData );
 
         // Make sure the package name contains only valid characters
-        //include_once( 'lib/ezi18n/classes/ezchartransform.php' );
         $trans = eZCharTransform::instance();
         $persistentData['name'] = $trans->transformByGroup( $persistentData['name'], 'urlalias' );
     }
@@ -732,7 +727,6 @@ class eZPackageCreationHandler
             else
             {
                 // Make sure the package name contains only valid characters
-                //include_once( 'lib/ezi18n/classes/ezchartransform.php' );
                 $trans = eZCharTransform::instance();
                 $validPackageName = $trans->transformByGroup( $packageName, 'urlalias' );
                 if ( strcmp( $validPackageName, $packageName ) != 0 )
@@ -972,7 +966,6 @@ class eZPackageCreationHandler
     */
     function validatePackageThumbnail( $package, $http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
-        //include_once( 'lib/ezutils/classes/ezhttpfile.php' );
         // If we don't have an image we continue as normal
         if ( !eZHTTPFile::canFetch( 'PackageThumbnail' ) )
             return true;
@@ -982,7 +975,6 @@ class eZPackageCreationHandler
         $result = true;
         if ( $file )
         {
-            //include_once( 'lib/ezutils/classes/ezmimetype.php' );
             $mimeData = eZMimeType::findByFileContents( $file->attribute( 'original_filename' ) );
             $dir = eZSys::storageDirectory() . '/temp';
             eZMimeType::changeDirectoryPath( $mimeData, $dir );

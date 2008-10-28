@@ -35,8 +35,6 @@
 
 */
 
-//include_once( 'lib/eztemplate/classes/eztemplatecacheblock.php' );
-
 class eZTemplateCacheFunction
 {
     const DEFAULT_TTL = 7200; // 2 hours = 60*60*2
@@ -365,7 +363,6 @@ class eZTemplateCacheFunction
     */
     static function expiryTemplateBlockCacheDir()
     {
-        //include_once( 'lib/ezutils/classes/ezsys.php' );
         $expiryCacheDir = eZSys::cacheDirectory() . '/' . 'template-block-expiry';
         return $expiryCacheDir;
     }

@@ -36,8 +36,6 @@
   \brief Handles calculation using bcmath library.
 */
 
-//include_once( 'lib/ezmath/classes/mathhandlers/ezphpmath.php' );
-
 class eZBCMath extends eZPHPMath
 {
     const DEFAULT_SCALE = 10;

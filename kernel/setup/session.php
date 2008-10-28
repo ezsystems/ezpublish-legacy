@@ -26,7 +26,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 require_once( 'kernel/common/template.php' );
-//include_once( 'lib/ezutils/classes/ezhttptool.php' );
 require_once( 'lib/ezutils/classes/ezsession.php' );
 
 $tpl = templateInit();
@@ -99,7 +98,6 @@ else if ( $module->isCurrentAction( 'RemoveSelectedSessions' ) )
             $userIDArray = $http->postVariable( 'UserIDArray' );
             if ( count( $userIDArray ) > 0 )
             {
-                //include_once( 'lib/ezdb/classes/ezdb.php' );
                 $db = eZDB::instance();
                 $userIDArrayString = $db->implodeWithTypeCast( ',', $userIDArray, 'int' );
                 $rows = $db->arrayQuery( "SELECT session_key FROM ezsession WHERE user_id IN ( " . $userIDArrayString . " )" );
@@ -218,7 +216,6 @@ function eZFetchActiveSessions( $params = array() )
         $expirationSQL = 'max( ezsession.expiration_time ) as expiration_time';
     }
 
-    //include_once( 'lib/ezdb/classes/ezdb.php' );
     $db = eZDB::instance();
     $query = "SELECT ezsession.user_id, $expirationSQL, max(session_key) as session_key  $countField
 FROM ezsession, ezuser, ezcontentobject
@@ -328,7 +325,6 @@ function eZFetchActiveSessionCount( $params = array() )
     if ( ( strlen( $filterSQL ) + strlen( $expirationFilterSQL ) ) > 0 )
         $whereSQL = 'WHERE';
 
-    //include_once( 'lib/ezdb/classes/ezdb.php' );
     $db = eZDB::instance();
     $query = "SELECT count( DISTINCT ezsession.user_id ) AS count
               FROM ezsession

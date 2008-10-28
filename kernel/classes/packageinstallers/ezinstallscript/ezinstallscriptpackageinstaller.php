@@ -36,8 +36,6 @@
   \class eZInstallScriptPackageInstaller ezcontentclasspackageinstaller.php
 */
 
-//include_once( 'kernel/classes/ezpackageinstallationhandler.php' );
-
 class eZInstallScriptPackageInstaller extends eZPackageInstallationHandler
 {
      /*

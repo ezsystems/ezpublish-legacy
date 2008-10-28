@@ -30,7 +30,6 @@
 
 /*! \file ezstep_site_access.php
 */
-//include_once( 'kernel/setup/steps/ezstep_installer.php');
 require_once( "kernel/common/i18n.php" );
 
 /*!
@@ -99,7 +98,6 @@ class eZStepSiteAccess extends eZStepInstaller
         $siteType = $this->chosenSiteType();
 
         // If windows installer, install using url site access
-        //include_once( "kernel/setup/ezsetuptests.php" );
         if ( eZSetupTestInstaller() == 'windows' )
         {
             $siteType['access_type'] = 'url';

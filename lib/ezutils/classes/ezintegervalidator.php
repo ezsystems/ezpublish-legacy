@@ -37,8 +37,6 @@
 
 */
 
-//include_once( "lib/ezutils/classes/ezregexpvalidator.php" );
-
 class eZIntegerValidator extends eZRegExpValidator
 {
     /*!

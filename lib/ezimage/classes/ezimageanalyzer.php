@@ -95,7 +95,6 @@ class eZImageAnalyzer
         $analyzerData = eZImageAnalyzer::analyzerData();
         if ( !isset( $analyzerData['handlers'][$analyzerName] ) )
         {
-            //include_once( 'lib/ezutils/classes/ezextension.php' );
             if ( eZExtension::findExtensionType( array( 'ini-name' => 'image.ini',
                                                         'repository-group' => 'AnalyzerSettings',
                                                         'repository-variable' => 'RepositoryList',

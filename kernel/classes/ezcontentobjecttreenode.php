@@ -61,12 +61,6 @@ Enter node_id,new_parent_id
 
 */
 
-//include_once( "lib/ezutils/classes/ezini.php" );
-//include_once( "lib/ezutils/classes/ezhttptool.php" );
-//include_once( "lib/ezutils/classes/ezdebugsetting.php" );
-//include_once( "kernel/classes/ezcontentobject.php" );
-//include_once( "kernel/classes/ezurlaliasml.php" );
-
 class eZContentObjectTreeNode extends eZPersistentObject
 {
     /*!
@@ -466,7 +460,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     static function sortKeyByClassAttributeID( $classAttributeID )
     {
-        //include_once( 'kernel/classes/ezcontentclassattribute.php' );
         return eZContentClassAttribute::sortKeyTypeByID( $classAttributeID );
     }
 
@@ -475,7 +468,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     static function dataTypeByClassAttributeID( $classAttributeID )
     {
-        //include_once( 'kernel/classes/ezcontentclassattribute.php' );
         return eZContentClassAttribute::dataTypeByID( $classAttributeID );
     }
 
@@ -605,8 +597,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         } break;
                         case 'attribute':
                         {
-                            //include_once( 'kernel/classes/ezdatatype.php' );
-
                             $classAttributeID = $sortBy[2];
                             if ( !is_numeric( $classAttributeID ) )
                                 $classAttributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $classAttributeID );
@@ -801,7 +791,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
             if ( $filterINI->hasVariable( $extendedAttributeFilterID, 'ExtensionName' ) )
             {
-                //include_once( 'lib/ezutils/classes/ezextension.php' );
                 $extensionName = $filterINI->variable( $extendedAttributeFilterID, 'ExtensionName' );
                 ext_activate( $extensionName, $filterFile );
             }
@@ -850,7 +839,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $db = eZDB::instance();
         if ( $filter == 'others' )
         {
-            //include_once('kernel/common/ezalphabetoperator.php');
             $alphabet = eZAlphabetOperator::fetchAlphabet();
             $sql = '';
             foreach ( $alphabet as $letter )
@@ -1717,7 +1705,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     static function getLimitationList( &$limitation )
     {
-        //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
         $currentUser = eZUser::currentUser();
         $currentUserID = $currentUser->attribute( 'contentobject_id' );
         $limitationList = array();
@@ -2542,7 +2529,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     function viewCount()
     {
-        //include_once( 'kernel/classes/ezviewcounter.php' );
         $count = eZViewCounter::fetch( $this->attribute( 'node_id' ), false );
         return (int) $count['count'];
     }
@@ -2666,10 +2652,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
             return;
 
         // Who assigns which section at which node should be logged.
-        //include_once( 'kernel/classes/ezsection.php' );
         $section = eZSection::fetch( $sectionID );
         $object = $node->object();
-        //include_once( "kernel/classes/ezaudit.php" );
         eZAudit::writeAudit( 'section-assign', array( 'Section ID' => $sectionID, 'Section name' => $section->attribute( 'name' ),
                                                       'Node ID' => $nodeID,
                                                       'Content object ID' => $object->attribute( 'id' ),
@@ -3282,7 +3266,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
             else
             {
-                //include_once( 'kernel/classes/ezurlaliasml.php' );
                 $path = eZURLAliasML::fetchPathByActionList( "eznode", $pathArray );
             }
 
@@ -3399,8 +3382,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
      */
     function updateSubTreePath( $updateParent = true, $nodeMove = false )
     {
-        //include_once( 'kernel/classes/ezurlaliasml.php' );
-
         $changeCount = 0;
 
         $nodeID       = $this->attribute( 'node_id' );
@@ -3423,7 +3404,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
             {
                 $objClass = $obj->attribute( 'content_class' );
                 $nodeName = $objClass->urlAliasName( $obj, false, $language->attribute( 'locale' ) );
-                //include_once( 'kernel/classes/ezurlaliasfilter.php' );
                 $nodeName = eZURLAliasFilter::processFilters( $nodeName, $language, $this );
                 $nodeName = eZURLAliasML::convertToAlias( $nodeName, 'node_' . $nodeID );
                 $nodeName = $this->adjustPathElement( $nodeName, $nodeMove );
@@ -3570,13 +3550,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     function removeThis( )
     {
-        //include_once( "kernel/classes/ezrole.php" );
-        //include_once( "kernel/classes/ezpolicy.php" );
-        //include_once( "kernel/classes/ezpolicylimitation.php" );
-
         $ini = eZINI::instance();
 
-        //include_once( "kernel/classes/ezaudit.php" );
         if ( eZAudit::isAuditEnabled() )
         {
             // Set audit params.
@@ -3602,7 +3577,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         // Remove static cache
         if ( $ini->variable( 'ContentSettings', 'StaticCache' ) == 'enabled' )
         {
-            //include_once( 'kernel/classes/ezstaticcache.php' );
             $staticCache = new eZStaticCache();
             $staticCache->removeURL( "/" . $urlAlias );
             $staticCache->generateAlwaysUpdatedCache();
@@ -3627,7 +3601,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         eZURLAliasML::removeByAction( 'eznode', $this->attribute( 'node_id' ) );
 
         // Clean up content cache
-        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearContentCacheIfNeeded( $this->attribute( 'contentobject_id' ) );
 
         $parentNode = $this->attribute( 'parent' );
@@ -3642,19 +3615,15 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         // Clean up recent items
         $nodeID = $this->attribute( 'node_id' );
-        //include_once( 'kernel/classes/ezcontentbrowserecent.php' );
         eZContentBrowseRecent::removeRecentByNodeID( $nodeID );
 
         // Clean up bookmarks
-        //include_once( 'kernel/classes/ezcontentbrowsebookmark.php' );
         eZContentBrowseBookmark::removeByNodeID( $nodeID );
 
         // Clean up tip-a-friend counter
-        //include_once( 'kernel/classes/eztipafriendcounter.php' );
         eZTipafriendCounter::removeForNode( $nodeID );
 
         // Clean up view counter
-        //include_once( 'kernel/classes/ezviewcounter.php' );
         eZViewCounter::removeCounter( $nodeID );
 
         $db->commit();
@@ -3787,7 +3756,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     // if this differs from the total count it means we have items we cannot remove
                     // We do this by fetching the limitation list for content/remove
                     // and passing it to the subtree count function.
-                    //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
                     $currentUser = eZUser::currentUser();
                     $accessResult = $currentUser->hasAccessTo( 'content', 'remove' );
                     if ( $accessResult['accessWord'] == 'limited' )
@@ -3934,7 +3902,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     function removeNodeFromTree( $moveToTrash = true )
     {
-        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         $nodeID = $this->attribute( 'node_id' );
         if ( $nodeID == $this->attribute( 'main_node_id' ) )
         {
@@ -3976,7 +3943,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 if ( $moveToTrash )
                 {
                     // saving information about this node in ..trash_node table
-                    //include_once( 'kernel/classes/ezcontentobjecttrashnode.php' );
                     $trashNode = eZContentObjectTrashNode::createFromNode( $this );
                     $db = eZDB::instance();
                     $db->begin();
@@ -4075,7 +4041,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     function move( $newParentNodeID, $nodeID = 0 )
     {
-        //include_once( "kernel/classes/ezpolicylimitation.php" );
         if ( $nodeID == 0 )
         {
             $node = $this;
@@ -4093,7 +4058,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $node->updateAndStoreModified();
             // Who moves which content should be logged.
-            //include_once( "kernel/classes/ezaudit.php" );
             $object = $node->object();
             eZAudit::writeAudit( 'content-move', array( 'Node ID' => $node->attribute( 'node_id' ),
                                                         'Old parent node ID' => $oldParentNodeID, 'New parent node ID' => $newParentNodeID,
@@ -4135,7 +4099,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $limitationsToFix = eZPolicyLimitation::findByType( 'SubTree', $node->attribute( 'path_string' ), false );
             if ( count( $limitationsToFix ) > 0 )
             {
-                //include_once( "kernel/classes/ezrole.php" );
                 $limitationIDString = $db->generateSQLInStatement( $limitationsToFix, 'limitation_id' );
                 $subStringString =  $db->subString( 'value', $oldPathLength );
                 $newValue = $db->concatString( array( "'$newPath'", $subStringString ) );
@@ -4190,7 +4153,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $user = eZUser::currentUser();
         $userID = $user->attribute( 'contentobject_id' );
 
-        //include_once( 'kernel/classes/ezcontentlanguage.php' );
         // Fetch the ID of the language if we get a string with a language code
         // e.g. 'eng-GB'
         $originalLanguage = $language;
@@ -4463,7 +4425,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             if ( in_array( 2, $valueList ) &&
                                  $user->isAnonymous() )
                             {
-                                //include_once( 'kernel/classes/ezpreferences.php' );
                                 $createdObjectIDList = eZPreferences::value( 'ObjectCreationIDList' );
                                 if ( $createdObjectIDList &&
                                      in_array( $contentObject->attribute( 'id' ), unserialize( $createdObjectIDList ) ) )
@@ -4643,7 +4604,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
             // if limitation value == 2, anonymous limited to current session.
             if ( in_array( 2, $policy['ParentOwner'] ) && $user->isAnonymous() )
             {
-                //include_once( 'kernel/classes/ezpreferences.php' );
                 $createdObjectIDList = eZPreferences::value( 'ObjectCreationIDList' );
                 if ( !$createdObjectIDList ||
                      !in_array( $object->ID, unserialize( $createdObjectIDList ) ) )
@@ -5766,8 +5726,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     static function clearViewCacheForSubtree( &$node, $clearForRootNode = true )
     {
-        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
-
         // Max nodes to fetch at a time
         static $limit = 50;
 
@@ -5943,7 +5901,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( $createHereMenu == 'simplified' )
         {
-            //include_once( "kernel/classes/ezcontentclass.php" );
             $classes = eZContentClass::fetchAllClasses( false, $filterType == 'include', $groupIDs );
             return eZContentObjectTreeNode::getClassesJsArray( false, $filterType == 'include', $groupIDs, false, $classes );
         }
@@ -5957,7 +5914,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     static function getClassesJsArray( $node = false, $includeFilter = true, $groupList = false, $fetchID = false, $classes = false )
     {
-        //include_once( 'kernel/classes/ezcontentclass.php' );
         $falseValue = "''";
         // If $classes is false we should check $node and fetch class list
         if ( $classes === false )

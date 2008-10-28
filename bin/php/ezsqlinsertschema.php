@@ -27,8 +27,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'lib/ezutils/classes/ezcli.php' );
-//include_once( 'kernel/classes/ezscript.php' );
 require 'autoload.php';
 
 $cli = eZCLI::instance();
@@ -198,7 +196,6 @@ function eZTriedDatabaseString( $database, $host, $user, $password, $socket )
 
 // Connect to database
 
-//include_once( 'lib/ezdb/classes/ezdb.php' );
 $parameters = array( 'server' => $host,
                      'user' => $user,
                      'password' => $password,
@@ -237,7 +234,6 @@ if ( !$db or !$db->isConnected() )
 
 // Load in schema/data files
 
-//include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
 $schemaArray = eZDbSchema::read( $filename, true );
 if ( $includeData and !$options['schema-file'] )
 {
@@ -276,7 +272,6 @@ $schemaArray['type'] = $type;
 
 if ( $options['clean-existing'] )
 {
-    //include_once( 'lib/ezdb/classes/ezdbtool.php' );
     $status = eZDBTool::cleanup( $db );
     if ( !$status )
     {

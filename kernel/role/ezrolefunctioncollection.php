@@ -48,7 +48,6 @@ class eZRoleFunctionCollection
 
     function fetchRole( $roleID )
     {
-        //include_once( 'kernel/classes/ezrole.php' );
         $role = eZRole::fetch( $roleID );
         return array( 'result' => $role );
     }

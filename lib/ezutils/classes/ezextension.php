@@ -37,8 +37,6 @@
 
 */
 
-//include_once( 'lib/ezutils/classes/ezini.php' );
-
 class eZExtension
 {
     /*!
@@ -331,7 +329,6 @@ class eZExtension
     */
     static function extensionInfo( $extension )
     {
-        //include_once( 'lib/ezfile/classes/ezdir.php' );
         $infoFileName = eZDir::path( array( eZExtension::baseDirectory(), $extension, 'ezinfo.php' ) );
         if ( file_exists( $infoFileName ) )
         {
@@ -359,7 +356,6 @@ class eZExtension
     */
     static function nameFromPath( $path )
     {
-        //include_once( 'lib/ezfile/classes/ezdir.php' );
         $path = eZDir::cleanPath( $path );
         $base = eZExtension::baseDirectory() . '/';
         $base = preg_quote( $base, '/' );

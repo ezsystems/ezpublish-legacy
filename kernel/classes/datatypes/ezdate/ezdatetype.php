@@ -35,10 +35,6 @@
 
 */
 
-//include_once( "kernel/classes/ezdatatype.php" );
-
-//include_once( "lib/ezlocale/classes/ezdate.php" );
-
 class eZDateType extends eZDataType
 {
     const DATA_TYPE_STRING = "ezdate";
@@ -58,7 +54,6 @@ class eZDateType extends eZDataType
 
     function validateDateTimeHTTPInput( $day, $month, $year, $contentObjectAttribute )
     {
-        //include_once( 'lib/ezutils/classes/ezdatetimevalidator.php' );
         $state = eZDateTimeValidator::validateDate( $day, $month, $year );
         if ( $state == eZInputValidator::STATE_INVALID )
         {
@@ -382,7 +377,6 @@ class eZDateType extends eZDataType
 
         if ( !is_null( $stamp ) )
         {
-            //include_once( 'lib/ezlocale/classes/ezdateutils.php' );
             $dateNode = $node->ownerDocument->createElement( 'date', eZDateUtils::rfc1123Date( $stamp ) );
             $node->appendChild( $dateNode );
         }
@@ -400,7 +394,6 @@ class eZDateType extends eZDataType
         $dateNode = $attributeNode->getElementsByTagName( 'date' )->item( 0 );
         if ( is_object( $dateNode ) )
         {
-            //include_once( 'lib/ezlocale/classes/ezdateutils.php' );
             $timestamp = eZDateUtils::textToDate( $dateNode->textContent );
             $objectAttribute->setAttribute( 'data_int', $timestamp );
         }

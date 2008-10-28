@@ -42,9 +42,6 @@
   \todo Add support for propall and propname
 */
 
-//include_once( "lib/ezutils/classes/ezmimetype.php" );
-//include_once( 'lib/ezfile/classes/ezdir.php' );
-
 /*!
   \return \c true if logging is enabled.
   \deprecated Use eZWebDAVServer::isLoggingEnabled() instead.
@@ -254,7 +251,6 @@ class eZWebDAVServer
                     $status = $this->put( $target, $tempFile );
 
                     unlink( $tempFile );
-                    //include_once( 'lib/ezfile/classes/ezdir.php' );
                     eZDir::cleanupEmptyDirectories( dirname( $tempFile ) );
                 }
                 // Else: something went wrong...
@@ -656,7 +652,6 @@ class eZWebDAVServer
 
         if ( !file_exists( $dir ) )
         {
-            //include_once( 'lib/ezfile/classes/ezdir.php' );
             eZDir::mkdir( $dir, false, true );
         }
 
@@ -923,7 +918,6 @@ class eZWebDAVServer
         $fileName = $varDir . '/' . $logDir . '/' . $logName;
         if ( !file_exists( $varDir . '/' . $logDir ) )
         {
-            //include_once( 'lib/ezfile/classes/ezdir.php' );
             eZDir::mkdir( $varDir . '/' . $logDir, false, true );
         }
 
@@ -1046,7 +1040,6 @@ class eZWebDAVServer
     */
     function recode( $string, $fromCharset, $toCharset, $stop = false )
     {
-        //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
         $codec = eZTextCodec::instance( $fromCharset, $toCharset, false );
         if ( $codec )
             $string = $codec->convertString( $string );

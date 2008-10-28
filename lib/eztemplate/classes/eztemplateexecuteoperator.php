@@ -37,8 +37,6 @@
 
 */
 
-//include_once( 'lib/eztemplate/classes/eztemplate.php' );
-
 class eZTemplateExecuteOperator
 {
     /*!
@@ -101,7 +99,6 @@ class eZTemplateExecuteOperator
             $moduleName = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
             $functionName = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
 
-            //include_once( 'lib/ezutils/classes/ezfunctionhandler.php' );
             $moduleFunctionInfo = eZFunctionHandler::moduleFunctionInfo( $moduleName );
             if ( !$moduleFunctionInfo->isValid() )
             {
@@ -125,7 +122,6 @@ class eZTemplateExecuteOperator
             $aliasSettings = eZINI::instance( 'fetchalias.ini' );
             if ( $aliasSettings->hasSection( $aliasFunctionName ) )
             {
-                //include_once( 'lib/ezutils/classes/ezfunctionhandler.php' );
                 $moduleFunctionInfo = eZFunctionHandler::moduleFunctionInfo( $aliasSettings->variable( $aliasFunctionName, 'Module' ) );
                 if ( !$moduleFunctionInfo->isValid() )
                 {
@@ -347,8 +343,6 @@ class eZTemplateExecuteOperator
     {
         $functionName = $namedParameters['function_name'];
         $functionParameters = $namedParameters['function_parameters'];
-
-        //include_once( 'lib/ezutils/classes/ezfunctionhandler.php' );
 
         if ( $operatorName == $this->Fetch )
         {

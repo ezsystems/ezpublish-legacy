@@ -36,8 +36,6 @@
   \brief The class eZSimpleShippingType handles adding shipping cost to an order
 
 */
-//include_once( 'kernel/classes/ezorder.php' );
-
 class eZSimpleShippingType extends eZWorkflowEventType
 {
     const WORKFLOW_TYPE_STRING = 'ezsimpleshipping';
@@ -80,7 +78,6 @@ class eZSimpleShippingType extends eZWorkflowEventType
                 $productCollection = $order->attribute( 'productcollection' );
                 $orderCurrency = $productCollection->attribute( 'currency_code' );
 
-                //include_once( 'kernel/shop/classes/ezshopfunctions.php' );
                 $cost = eZShopFunctions::convertAdditionalPrice( $orderCurrency, $cost );
 
                 $orderItem = new eZOrderItem( array( 'order_id' => $orderID,

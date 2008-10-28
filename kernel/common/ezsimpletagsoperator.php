@@ -70,7 +70,6 @@ class eZSimpleTagsOperator
         $GLOBALS['eZSimpleTagsInit'] = true;
         $ini = eZINI::instance( 'template.ini' );
         $extensions = $ini->variable( 'SimpleTagsOperator', 'Extensions' );
-        //include_once( 'lib/ezutils/classes/ezextension.php' );
         $pathList = eZExtension::expandedPathList( $extensions, 'simpletags' );
         $includeList = $ini->variable( 'SimpleTagsOperator', 'IncludeList' );
 

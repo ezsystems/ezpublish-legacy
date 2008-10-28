@@ -27,9 +27,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'lib/ezutils/classes/ezcli.php' );
-//include_once( 'kernel/classes/ezscript.php' );
-
 require 'autoload.php';
 
 $cli = eZCLI::instance();
@@ -57,9 +54,6 @@ $options = $script->getOptions( "[clear-node:][clear-subtree:]",
 $sys = eZSys::instance();
 
 $script->initialize();
-
-//include_once( 'kernel/classes/ezcontentcachemanager.php' );
-//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
 // Max nodes to fetch at a time
 $limit = 50;

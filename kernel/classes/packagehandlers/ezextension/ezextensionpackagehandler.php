@@ -37,9 +37,6 @@
 
 */
 
-//include_once( 'kernel/classes/ezcontentobject.php' );
-//include_once( 'kernel/classes/ezpackagehandler.php' );
-
 class eZExtensionPackageHandler extends eZPackageHandler
 {
     const ERROR_EXISTS = 1;
@@ -167,8 +164,6 @@ class eZExtensionPackageHandler extends eZPackageHandler
 
         eZDir::mkdir( $extensionDir, false, true );
 
-        //include_once( 'lib/ezfile/classes/ezfilehandler.php' );
-
         $files = $content->getElementsByTagName( 'file' );
         foreach ( $files as $file )
         {
@@ -212,9 +207,6 @@ class eZExtensionPackageHandler extends eZPackageHandler
     */
     function add( $packageType, $package, $cli, $parameters )
     {
-        //include_once( 'lib/ezutils/classes/ezini.php' );
-        //include_once( 'lib/ezfile/classes/ezdir.php' );
-
         foreach ( $parameters as $extensionName )
         {
             $cli->output( 'adding extension ' . $cli->stylize( 'dir', $extensionName ) );
@@ -277,8 +269,6 @@ class eZExtensionPackageHandler extends eZPackageHandler
         $arguments = array_unique( $arguments );
         $extensionsToAdd = array();
 
-        //include_once( 'lib/ezutils/classes/ezini.php' );
-        //include_once( 'lib/ezfile/classes/ezdir.php' );
         $siteINI = eZINI::instance();
         $extensionDir = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' );
         $extensionList = eZDir::findSubItems( $extensionDir );

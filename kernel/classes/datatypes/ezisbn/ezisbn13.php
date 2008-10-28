@@ -38,10 +38,6 @@
   and Registration elements. The Publication element will get the space left available.
 */
 
-//include_once( 'kernel/classes/datatypes/ezisbn/ezisbngroup.php' );
-//include_once( 'kernel/classes/datatypes/ezisbn/ezisbngrouprange.php' );
-//include_once( 'kernel/classes/datatypes/ezisbn/ezisbnregistrantrange.php' );
-
 class eZISBN13
 {
     const PREFIX_LENGTH = 3;

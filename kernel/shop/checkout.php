@@ -28,11 +28,6 @@
 
 /*! \file checkout.php
 */
-//include_once( 'kernel/classes/ezorder.php' );
-//include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
-
-//include_once( 'kernel/shop/classes/ezpaymentobject.php' );
-
 $http = eZHTTPTool::instance();
 $module = $Params['Module'];
 
@@ -68,7 +63,6 @@ if ( $order instanceof eZOrder )
             $order->setAttribute( 'email', $email );
             $order->store();
 
-            //include_once( "lib/ezutils/classes/ezhttptool.php" );
             $http->setSessionVariable( "UserOrderID", $order->attribute( 'id' ) );
 
             $operationResult = eZOperationHandler::execute( 'shop', 'checkout', array( 'order_id' => $order->attribute( 'id' ) ) );

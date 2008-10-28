@@ -27,8 +27,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( "lib/ezdb/classes/ezdb.php" );
-//include_once( "lib/ezutils/classes/ezhttptool.php" );
 require_once( "kernel/common/template.php" );
 
 $module = $Params['Module'];
@@ -106,7 +104,6 @@ foreach ( $assignmentsToRemove as $assignment )
     // if this differs from the total count it means we have items we cannot remove
     // We do this by fetching the limitation list for content/remove
     // and passing it to the subtre count function.
-    //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
     $currentUser = eZUser::currentUser();
     $accessResult = $currentUser->hasAccessTo( 'content', 'remove' );
     $canRemoveSubtree = true;

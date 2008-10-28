@@ -26,10 +26,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-//include_once( "lib/ezutils/classes/ezhttptool.php" );
-//include_once( 'lib/ezutils/classes/ezini.php' );
-
 $ini = eZINI::instance();
 $currentUser = eZUser::currentUser();
 $currentUserID = $currentUser->attribute( "contentobject_id" );
@@ -135,7 +131,6 @@ if ( $http->hasPostVariable( "CancelButton" ) )
     {
         return $Module->redirectTo( $http->postVariable( "RedirectOnCancel" ) );
     }
-    //include_once( 'kernel/classes/ezredirectmanager.php' );
     eZRedirectManager::redirectTo( $Module, $redirectionURI );
     return;
 }

@@ -31,18 +31,13 @@
 /*! \file settings.php
 */
 
-//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 require_once( 'kernel/common/template.php' );
-//include_once( "lib/ezutils/classes/ezhttptool.php" );
-//include_once( "lib/ezdb/classes/ezdb.php" );
-
 $http = eZHTTPTool::instance();
 
 $Module = $Params['Module'];
 
 $user = eZUser::currentUser();
 
-//include_once( 'kernel/classes/notification/eznotificationeventfilter.php' );
 $availableHandlers = eZNotificationEventFilter::availableHandlers();
 
 

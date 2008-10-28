@@ -39,10 +39,6 @@
 
 */
 
-//include_once( 'lib/ezfile/classes/ezfile.php' );
-//include_once( 'lib/ezfile/classes/ezdir.php' );
-//include_once( 'lib/ezfile/classes/ezfilehandler.php' );
-
 class eZPackage
 {
     const VERSION = '3.5.2';
@@ -94,7 +90,6 @@ class eZPackage
         $packaging = array( 'timestamp' => $timestamp,
                             'host' => $host,
                             'packager' => false );
-        //include_once( 'lib/version.php' );
         $ezpublishVersion = eZPublishSDK::version( true );
         $ezpublishNamedVersion = eZPublishSDK::version( false, false, true );
         $ezpublish = array( 'version' => $ezpublishVersion,
@@ -317,7 +312,6 @@ class eZPackage
 
     static function canUsePolicyFunction( $functionName )
     {
-        //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
         $currentUser = eZUser::currentUser();
         $accessResult = $currentUser->hasAccessTo( 'package', $functionName );
         if ( in_array( $accessResult['accessWord'], array( 'yes', 'limited' ) ) )
@@ -351,7 +345,6 @@ class eZPackage
     {
         if ( !isset( $this->PolicyCache[$functionName] ) )
         {
-            //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
             $currentUser = eZUser::currentUser();
             $accessResult = $currentUser->hasAccessTo( 'package', $functionName );
             $limitationList = array();
@@ -395,7 +388,6 @@ class eZPackage
         $allRoles = false;
         if ( $checkRoles )
         {
-            //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
             $currentUser = eZUser::currentUser();
             $accessResult = $currentUser->hasAccessTo( 'package', 'create' );
             $limitationList = array();
@@ -1011,7 +1003,6 @@ class eZPackage
     {
         if ( !file_exists( $directory ) )
             eZDir::mkdir( $directory, false, true );
-        //include_once( 'lib/ezutils/classes/ezphpcreator.php' );
         $php = new eZPHPCreator( $directory, 'package.php' );
         $php->addComment( "Automatically created cache file for the package format\n" .
                           "Do not modify this file" );
@@ -1097,8 +1088,6 @@ class eZPackage
                 eZDir::copy( $dir, $destDir );
         }
 
-        //include_once( 'lib/ezfile/classes/ezarchivehandler.php' );
-
         $archive = eZArchiveHandler::instance( 'tar', 'gzip', $archivePath );
 
         $packageBaseDirectory = $tempPath;
@@ -1131,8 +1120,6 @@ class eZPackage
             {
                 eZDir::mkdir( $archivePath, false, true );
             }
-            //include_once( 'lib/ezfile/classes/ezarchivehandler.php' );
-
             $archive = eZArchiveHandler::instance( 'tar', 'gzip', $archiveName );
             $fileList = array();
             $fileList[] = eZPackage::definitionFilename();
@@ -1950,7 +1937,6 @@ class eZPackage
         if ( $parameters['vendor'] )
         {
            // Creating nice vendor directory name
-           //include_once( 'lib/ezi18n/classes/ezchartransform.php' );
            $trans = eZCharTransform::instance();
            $parameters['vendor-dir'] = $trans->transformByGroup( $parameters['vendor'], 'urlalias' );
         }

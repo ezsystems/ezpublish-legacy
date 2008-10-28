@@ -131,7 +131,6 @@ class eZPublishSDK
     */
     static function databaseVersion( $withRelease = true )
     {
-        //include_once( 'lib/ezdb/classes/ezdb.php' );
         $db = eZDB::instance();
         $rows = $db->arrayQuery( "SELECT value as version FROM ezsite_data WHERE name='ezpublish-version'" );
         $version = false;
@@ -152,7 +151,6 @@ class eZPublishSDK
     */
     static function databaseRelease()
     {
-        //include_once( 'lib/ezdb/classes/ezdb.php' );
         $db = eZDB::instance();
         $rows = $db->arrayQuery( "SELECT value as release FROM ezsite_data WHERE name='ezpublish-release'" );
         $release = false;

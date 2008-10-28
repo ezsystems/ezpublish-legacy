@@ -37,8 +37,6 @@
   \brief The class eZPackageType does
 
 */
-//include_once( 'kernel/classes/ezdatatype.php' );
-//include_once( 'kernel/classes/ezpackage.php' );
 require_once( 'kernel/common/i18n.php' );
 
 class eZPackageType extends eZDataType
@@ -163,7 +161,6 @@ class eZPackageType extends eZDataType
         eZDir::unlinkWildcard( $compiledTemplateDir . "/", "*pagelayout*.*" );
 
         // Expire template block cache
-        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearTemplateBlockCacheIfNeeded( false );
     }
 

@@ -29,10 +29,6 @@
 /*! \file indexcontent.php
 */
 
-//include_once( 'kernel/classes/ezsearch.php' );
-//include_once( 'kernel/classes/ezcontentobject.php' );
-//include_once( 'lib/ezdb/classes/ezdb.php' );
-
 if ( !$isQuiet )
 {
     $cli->output( "Starting processing pending search engine modifications" );

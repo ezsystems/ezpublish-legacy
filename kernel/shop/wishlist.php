@@ -26,8 +26,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( "kernel/classes/ezwishlist.php" );
-
 $http = eZHTTPTool::instance();
 $module = $Params['Module'];
 $offset = $Params['Offset'];

@@ -207,7 +207,6 @@ class eZDBFileHandler
         $this->backend->_storeContents( $filePath, $contents, $scope, $datatype );
         if ( $storeLocally )
         {
-            //include_once( 'lib/ezfile/classes/ezfile.php' );
             eZFile::create( basename( $filePath ), dirname( $filePath ), $contents, true );
         }
     }
@@ -273,7 +272,6 @@ class eZDBFileHandler
      */
     function processCache( $retrieveCallback, $generateCallback = null, $ttl = null, $expiry = null, $extraData = null )
     {
-        //include_once( 'kernel/classes/ezclusterfilefailure.php' );
         $forceDB = false;
         $fname = $this->filePath;
         $args = array( $fname );
@@ -578,7 +576,6 @@ class eZDBFileHandler
         {
             // Store content also locally
             eZDebugSetting::writeDebug( 'kernel-clustering', "Writing new file content to local file $fname" );
-            //include_once( 'lib/ezfile/classes/ezfile.php' );
             eZFile::create( basename( $fname ), dirname( $fname ), $binaryData, true );
             $mtime = @filemtime( $fname );
         }
@@ -877,7 +874,6 @@ class eZDBFileHandler
         }
         else if ( is_dir( $file ) )
         {
-            //include_once( 'lib/ezfile/classes/ezdir.php' );
             eZDir::recursiveDelete( $file );
         }
     }

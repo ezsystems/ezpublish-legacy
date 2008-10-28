@@ -37,8 +37,6 @@
 
 */
 
-//include_once( "kernel/classes/ezpersistentobject.php" );
-
 class eZDiscountRule extends eZPersistentObject
 {
     /*!

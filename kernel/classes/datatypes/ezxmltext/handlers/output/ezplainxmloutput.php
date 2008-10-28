@@ -31,8 +31,6 @@
 /*!
 */
 
-//include_once( 'kernel/classes/datatypes/ezxmltext/ezxmloutputhandler.php' );
-
 class eZPlainXMLOutput extends eZXMLOutputHandler
 {
     function eZPlainXMLOutput( &$xmlData, $aliasedType )

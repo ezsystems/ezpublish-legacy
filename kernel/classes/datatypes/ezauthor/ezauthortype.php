@@ -35,11 +35,6 @@
 
 */
 
-//include_once( "kernel/classes/ezdatatype.php" );
-//include_once( "kernel/classes/datatypes/ezauthor/ezauthor.php" );
-//include_once( "lib/ezutils/classes/ezmail.php" );
-//include_once( 'lib/ezutils/classes/ezstringutils.php' );
-
 class eZAuthorType extends eZDataType
 {
     const DATA_TYPE_STRING = "ezauthor";

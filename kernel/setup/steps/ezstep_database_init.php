@@ -30,11 +30,7 @@
 
 /*! \file ezstep_database_init.php
 */
-//include_once( 'kernel/setup/steps/ezstep_installer.php');
-//include_once( 'lib/ezdb/classes/ezdbtool.php' );
 require_once( 'kernel/common/i18n.php' );
-//include_once( "kernel/setup/ezsetuptests.php" );
-
 /*!
   \class eZStepDatabaseInit ezstep_database_init.php
   \brief The class eZStepDatabaseInit does

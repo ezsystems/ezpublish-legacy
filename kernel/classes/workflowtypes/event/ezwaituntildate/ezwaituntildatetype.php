@@ -36,8 +36,6 @@
   \brief The class eZWaitUntilDateType does
 
 */
-//include_once( 'kernel/classes/workflowtypes/event/ezwaituntildate/ezwaituntildate.php' );
-
 class eZWaitUntilDateType  extends eZWorkflowEventType
 {
     const WORKFLOW_TYPE_STRING = "ezwaituntildate";

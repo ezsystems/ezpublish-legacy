@@ -26,11 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( "lib/ezutils/classes/ezhttptool.php" );
 require_once( "kernel/common/template.php" );
-//include_once( "kernel/classes/ezsearchlog.php" );
-//include_once( "kernel/classes/ezpreferences.php" );
-
 if ( eZPreferences::value( 'admin_search_stats_limit' ) )
 {
     switch ( eZPreferences::value( 'admin_search_stats_limit' ) )

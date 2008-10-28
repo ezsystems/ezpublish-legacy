@@ -37,8 +37,6 @@
 
 */
 
-//include_once( 'lib/ezdb/classes/ezdb.php' );
-
 class eZDBTool
 {
     /*!

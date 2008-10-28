@@ -39,8 +39,6 @@
 */
 
 require_once( "lib/ezutils/classes/ezdebug.php" );
-//include_once( 'lib/ezfile/classes/ezdir.php' );
-
 class eZFile
 {
     /*!
@@ -159,8 +157,6 @@ class eZFile
     */
     static function isWriteable( $filename )
     {
-        //include_once( 'lib/ezutils/classes/ezsys.php' );
-
         if ( eZSys::osType() != 'win32' )
             return is_writable( $filename );
 
@@ -208,7 +204,6 @@ class eZFile
     {
         if ( file_exists( $file ) )
         {
-            //include_once( 'lib/ezutils/classes/ezmimetype.php' );
             $mimeinfo = eZMimeType::findByURL( $file );
 
             ob_clean();

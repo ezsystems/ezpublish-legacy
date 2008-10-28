@@ -36,8 +36,6 @@
   Enable editing and versioning of ini files from the admin interface
 */
 
-//include_once( 'kernel/classes/ezdatatype.php' );
-//include_once( 'lib/ezutils/classes/ezintegervalidator.php' );
 require_once( 'kernel/common/i18n.php' );
 
 class eZIniSettingType extends eZDataType

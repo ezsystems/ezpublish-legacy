@@ -29,7 +29,6 @@
 /*! \file setusercountry.php
 */
 
-//include_once( 'kernel/shop/classes/ezshopfunctions.php' );
 $module = $Params['Module'];
 
 if ( $module->isCurrentAction( 'Set' ) && $module->hasActionParameter( 'Country' ) )
@@ -55,7 +54,6 @@ else
     eZDebug::writeWarning( "No country chosen to set." );
 }
 
-//include_once( 'kernel/classes/ezredirectmanager.php' );
 eZRedirectManager::redirectTo( $module, false );
 
 ?>

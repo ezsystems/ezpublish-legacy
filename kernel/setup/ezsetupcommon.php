@@ -30,8 +30,6 @@
 
 // This file holds shared functions for the ezsetup files
 
-//include_once( 'lib/ezutils/classes/ezini.php' );
-
 /*!
  \return an array with tests that need to be run
          and succeed for the setup to continue.
@@ -77,7 +75,6 @@ function eZSetupDatabaseMap()
 function eZSetupFetchPersistenceList()
 {
     $persistenceList = array();
-    //include_once( 'lib/ezutils/classes/ezhttptool.php' );
     $http = eZHTTPTool::instance();
     $postVariables = $http->attribute( 'post' );
 
@@ -96,7 +93,6 @@ function eZSetupFetchPersistenceList()
 
 function eZSetupSetPersistencePostVariable( $var, $value )
 {
-    //include_once( 'lib/ezutils/classes/ezhttptool.php' );
     $http = eZHTTPTool::instance();
     if ( is_array( $value ) )
     {

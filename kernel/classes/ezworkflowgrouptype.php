@@ -34,7 +34,6 @@
 
 */
 
-//include_once( "kernel/classes/ezworkflow.php" );
 require_once( "kernel/common/i18n.php" );
 require_once( "lib/ezutils/classes/ezdebug.php" );
 

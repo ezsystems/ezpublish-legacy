@@ -79,7 +79,6 @@ class eZHTTPHeader
 
         $contentView = false;
 
-        //include_once( 'kernel/classes/ezurlaliasml.php' );
         $uriString = eZURLAliasML::cleanURL( $uri->uriString() );
 
         // If content/view used, get url alias for node
@@ -92,7 +91,6 @@ class eZHTTPHeader
                 return $headerArray;
             }
 
-            //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
             $node = eZContentObjectTreeNode::fetch( $nodeID );
             if ( !$node )
             {

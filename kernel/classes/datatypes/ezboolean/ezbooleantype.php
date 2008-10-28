@@ -35,8 +35,6 @@
 
 */
 
-//include_once( "kernel/classes/ezdatatype.php" );
-
 class eZBooleanType extends eZDataType
 {
     const DATA_TYPE_STRING = "ezboolean";

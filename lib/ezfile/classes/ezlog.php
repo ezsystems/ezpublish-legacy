@@ -36,8 +36,6 @@
 */
 
 
-//include_once( "lib/ezutils/classes/ezsys.php" );
-
 class eZLog
 {
     const MAX_LOGROTATE_FILES = 3;
@@ -69,7 +67,6 @@ class eZLog
         }
         else if ( !$fileExisted and !file_exists( $dir ) )
         {
-            //include_once( 'lib/ezfile/classes/ezdir.php' );
             eZDir::mkdir( $dir, false, true );
         }
 
@@ -116,7 +113,6 @@ class eZLog
         }
         else if ( !$fileExisted and !file_exists( $varDir . '/' . $logDir ) )
         {
-            //include_once( 'lib/ezfile/classes/ezdir.php' );
             eZDir::mkdir( $varDir . '/' . $logDir, false, true );
         }
 
@@ -192,7 +188,6 @@ class eZLog
     */
     static function rotateLog( $fileName )
     {
-        //include_once( 'lib/ezfile/classes/ezfile.php' );
         $maxLogrotateFiles = eZLog::maxLogrotateFiles();
         for ( $i = $maxLogrotateFiles; $i > 0; --$i )
         {

@@ -26,15 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'kernel/classes/ezcontentobject.php' );
-//include_once( 'kernel/classes/ezcontentclass.php' );
-//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-//include_once( 'kernel/classes/eztrigger.php' );
-//include_once( 'kernel/common/eztemplatedesignresource.php' );
-//include_once( 'kernel/classes/ezcontentcache.php' );
 require_once( 'kernel/common/template.php' );
-//include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
-
 $NodeID = $Params['NodeID'];
 $Module = $Params['Module'];
 $LanguageCode = $Params['Language'];
@@ -112,7 +104,6 @@ $viewParameters = array_merge( $viewParameters, $UserParameters );
 if ( $viewCacheEnabled && ( $useTriggers == false ) )
 {
     // Note: this code is duplicate, see about 100 lines down
-    //include_once( 'kernel/classes/ezcontentcache.php' );
     $cacheInfo = eZContentObject::cacheInfo( $Params );
     $language = $cacheInfo['language'];
     $roleList = $cacheInfo['role_list'];
@@ -128,7 +119,6 @@ if ( $viewCacheEnabled && ( $useTriggers == false ) )
     }
 }
 
-//include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
 $user = eZUser::currentUser();
 
 eZDebugSetting::addTimingPoint( 'kernel-content-pdf', 'Operation start' );
@@ -152,7 +142,6 @@ switch( $operationResult['status'] )
             if ( $viewCacheEnabled )
             {
                 // Note: this code is duplicate, see about 100 lines up
-                //include_once( 'kernel/classes/ezcontentcache.php' );
                 $cacheInfo = eZContentObject::cacheInfo( $Params );
                 $language = $cacheInfo['language'];
                 $roleList = $cacheInfo['role_list'];

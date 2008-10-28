@@ -38,8 +38,6 @@
 
 
 
-//include_once( 'kernel/shop/classes/ezsimpleprice.php' );
-
 class eZPrice extends eZSimplePrice
 {
     /*!

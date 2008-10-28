@@ -41,9 +41,6 @@
   \deprecated This class is deprecated and not in use.
 */
 
-//include_once( 'lib/ezutils/classes/ezini.php' );
-//include_once( 'kernel/classes/ezurlaliasml.php' );
-
 class eZURLTranslator
 {
     /*!
@@ -96,8 +93,6 @@ class eZURLTranslator
         $nodePathString = preg_replace( "/\.\w*$/", "", $nodePathString );
         $nodePathString = preg_replace( "#\/$#", "", $nodePathString );
         print( "try to translate: $nodePathString<br>" );
-
-        //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
         $node = eZContentObjectTreeNode::fetchByCRC( $nodePathString );
 

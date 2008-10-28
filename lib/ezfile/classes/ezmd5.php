@@ -49,7 +49,6 @@ class eZMD5
     */
     static function checkMD5Sums( $file )
     {
-        //include_once( 'lib/ezfile/classes/ezfile.php' );
         $lines = eZFile::splitLines( $file );
         $result = array();
 

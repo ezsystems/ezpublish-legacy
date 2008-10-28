@@ -31,10 +31,6 @@
 /*! \file ezenumobjectvalue.php
 */
 
-//include_once( "lib/ezdb/classes/ezdb.php" );
-//include_once( "kernel/classes/ezpersistentobject.php" );
-//include_once( "kernel/classes/ezcontentclassattribute.php" );
-
 /*!
   \class eZEnumObjectValue ezenumobjectvalue.php
   \brief The class eZEnumObjectValue stores chosen enum values of an object attribute

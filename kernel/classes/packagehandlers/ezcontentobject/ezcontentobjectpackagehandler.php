@@ -37,9 +37,6 @@
 
 */
 
-//include_once( 'kernel/classes/ezcontentobject.php' );
-//include_once( 'kernel/classes/ezpackagehandler.php' );
-
 class eZContentObjectPackageHandler extends eZPackageHandler
 {
     const MAX_LISTED_OBJECTS = 30;
@@ -200,7 +197,6 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     */
     function addNode( $nodeID, $isSubtree = true )
     {
-        //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
         $this->RootNodeIDArray[] = $nodeID;
         $this->NodeIDArray[] = $nodeID;
 
@@ -243,7 +239,6 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             $remoteIDArray['class'] = array();
             $classIDArray = $this->generateClassIDArray();
 
-            //include_once( 'kernel/classes/packagehandlers/ezcontentclass/ezcontentclasspackagehandler.php' );
             foreach ( $classIDArray as $classID )
             {
                 eZContentClassPackageHandler::addClass( $package, $classID );
@@ -520,8 +515,6 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         $templateListDOMNode = $dom->createElement( 'template-list' );
         $dom->appendChild( $templateListDOMNode );
 
-        //include_once( 'kernel/common/eztemplatedesignresource.php' );
-
         foreach( array_keys( $this->OverrideSettingsArray ) as $siteAccess )
         {
             $this->TemplateFileArray[$siteAccess] = array();
@@ -623,7 +616,6 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                     $datatypeList[] = $attribute['data_type_string'];
                     if ( !isset( $datatypeHash[$attribute['data_type_string']] ) )
                     {
-                        //include_once( 'kernel/classes/ezdatatype.php' );
                         $datatype = eZDataType::create( $attribute['data_type_string'] );
                         $datatypeHash[$attribute['data_type_string']] = $datatype;
                         if ( !method_exists( $datatype, 'templateList' ) )
@@ -953,8 +945,6 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
                     eZContentObjectTreeNode::removeSubtrees( $assignedNodeIDArray, false );
 
-                    ////include_once( 'kernel/classes/ezcontentobjectoperations.php' );
-
                     //eZContentObjectOperations::remove( $object->attribute( 'id' ) );
                 }
                 else
@@ -1035,7 +1025,6 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     */
     function installContentObjects( $objectNodes, $topNodeListNode, &$installParameters )
     {
-        //include_once( 'kernel/classes/ezcontentobject.php' );
         if ( isset( $installParameters['user_id'] ) )
             $userID = $installParameters['user_id'];
         else
@@ -1150,7 +1139,6 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 $contentObject = eZContentObject::fetch( $nodeInfo['contentobject_id'] );
                 if ( is_object( $contentObject ) && $contentObject->attribute( 'current_version' ) == $nodeInfo['contentobject_version'] )
                 {
-                    //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
                    eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $nodeInfo['contentobject_id'],
                                                                               'version' =>  $nodeInfo['contentobject_version'] ) );
                 }
@@ -1228,8 +1216,6 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         {
             return true;
         }
-        //include_once( 'kernel/common/eztemplatedesignresource.php' );
-
         $siteAccessDesignPathArray = array();
         $templateRootPath = $package->path() . '/' . $subdirectory;
         foreach( $templateList->getElementsByTagName( 'file' ) as $fileNode )
@@ -1669,7 +1655,6 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         if ( count( $languageList ) == 0 )
         {
             // The default is to fetch all languages
-            //include_once( 'kernel/classes/ezcontentlanguage.php' );
             $languageList = eZContentLanguage::fetchLocaleList();
         }
         if ( count( $siteAccessList ) == 0 )

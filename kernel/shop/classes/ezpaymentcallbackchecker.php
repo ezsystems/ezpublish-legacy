@@ -37,10 +37,6 @@
   payment gateways.
 */
 
-//include_once( 'kernel/classes/workflowtypes/event/ezpaymentgateway/ezpaymentlogger.php' );
-//include_once( 'kernel/shop/classes/ezpaymentobject.php' );
-//include_once( 'kernel/classes/ezorder.php' );
-
 
 class eZPaymentCallbackChecker
 {

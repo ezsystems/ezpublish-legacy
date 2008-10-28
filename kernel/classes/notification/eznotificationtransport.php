@@ -36,7 +36,6 @@
   \brief The class eZNotificationTransport does
 
 */
-//include_once( 'kernel/classes/notification/ezmailnotificationtransport.php' );
 class eZNotificationTransport
 {
     /*!

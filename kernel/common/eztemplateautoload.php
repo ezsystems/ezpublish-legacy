@@ -127,7 +127,6 @@ if ( !function_exists( 'eZPHPOperatorInit' ) )
 {
     function eZPHPOperatorInit()
         {
-            //include_once( 'lib/eztemplate/classes/eztemplatephpoperator.php' );
             $ini = eZINI::instance( 'template.ini' );
             $operatorList = $ini->variable( 'PHP', 'PHPOperatorList' );
             return new eZTemplatePHPOperator( $operatorList );
@@ -148,7 +147,6 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
 {
     function eZObjectForwardInit()
         {
-            //include_once( 'kernel/common/ezobjectforwarder.php' );
             $forward_rules = array(
                 'attribute_edit_gui' => array( 'template_root' => 'content/datatype/edit',
                                                'input_name' => 'attribute',

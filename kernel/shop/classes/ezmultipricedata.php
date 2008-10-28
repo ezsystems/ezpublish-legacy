@@ -31,8 +31,6 @@
 /*! \file ezmultipricedata.php
 */
 
-//include_once( 'kernel/classes/ezpersistentobject.php' );
-
 class eZMultiPriceData extends eZPersistentObject
 {
     const VALUE_TYPE_CUSTOM = 1;
@@ -346,7 +344,6 @@ class eZMultiPriceData extends eZPersistentObject
     {
         // use direct sql-queries to speed up the process.
 
-        //include_once( 'kernel/shop/classes/ezcurrencyconverter.php' );
         $converter = eZCurrencyConverter::instance();
         $currencyList = $converter->currencyList();
         $currencyListCount = count( $currencyList );

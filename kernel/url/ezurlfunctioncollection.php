@@ -37,8 +37,6 @@
 
 */
 
-//include_once( 'kernel/error/errors.php' );
-
 class eZURLFunctionCollection
 {
     /*!
@@ -50,7 +48,6 @@ class eZURLFunctionCollection
 
     function fetchList( $isValid, $offset, $limit, $onlyPublished )
     {
-        //include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
         $parameters = array( 'is_valid' => $isValid,
                              'offset' => $offset,
                              'limit' => $limit,
@@ -66,7 +63,6 @@ class eZURLFunctionCollection
 
     function fetchListCount( $isValid, $onlyPublished )
     {
-        //include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
         $parameters = array( 'is_valid' => $isValid,
                              'only_published' => $onlyPublished );
         $listCount = eZURL::fetchListCount( $parameters );

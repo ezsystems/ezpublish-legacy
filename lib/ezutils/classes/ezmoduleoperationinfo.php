@@ -37,11 +37,7 @@
 
 */
 
-//include_once( 'lib/ezutils/classes/ezmodule.php' );
 require_once( 'lib/ezutils/classes/ezdebug.php' );
-//include_once( 'lib/ezutils/classes/ezoperationmemento.php' );
-//include_once( 'kernel/classes/eztrigger.php' );
-
 class eZModuleOperationInfo
 {
     const ERROR_NO_CLASS = 5;

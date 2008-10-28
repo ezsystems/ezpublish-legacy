@@ -50,8 +50,6 @@
 
 */
 
-//include_once( "lib/ezi18n/classes/eztranslatorhandler.php" );
-
 class eZTranslatorManager
 {
     const DYNAMIC_TRANSLATIONS_ENABLED = 'eZTMDynamicTranslationsEnabled';
@@ -207,7 +205,6 @@ class eZTranslatorManager
     */
     static function resetTranslations()
     {
-        //include_once( 'lib/ezi18n/classes/eztstranslator.php' );
         eZTranslatorManager::resetGlobals();
         eZTSTranslator::resetGlobals();
         eZLocale::resetGlobals();

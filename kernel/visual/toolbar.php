@@ -38,10 +38,6 @@ $currentSiteAccess = ( $Params['SiteAccess'] ) ? $Params['SiteAccess'] : false;
 $toolbarPosition = ( $Params['Position'] ) ? $Params['Position'] : false;
 
 require_once( "kernel/common/template.php" );
-//include_once( 'lib/ezutils/classes/ezhttptool.php' );
-//include_once( 'kernel/classes/ezcontentbrowse.php' );
-//include_once( "kernel/classes/ezsiteaccess.php" );
-
 $http = eZHTTPTool::instance();
 
 $siteini = eZINI::instance();
@@ -418,11 +414,9 @@ function removeRelatedCache( $siteAccess )
     }
     $compiledTemplateDir = $cacheDir . "/template/compiled";
     eZDir::unlinkWildcard( $compiledTemplateDir . "/", "*pagelayout*.*" );
-    //include_once( 'kernel/classes/ezcache.php' );
     eZCache::clearByTag( 'template-block' );
 
     // Expire content view cache
-    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearAllContentCache();
 }
 

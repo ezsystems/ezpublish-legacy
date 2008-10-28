@@ -36,9 +36,6 @@
 
 */
 
-//include_once( 'kernel/classes/ezinformationcollectionattribute.php' );
-//include_once( 'lib/ezutils/classes/ezsys.php' );
-
 class eZInformationCollection extends eZPersistentObject
 {
     function eZInformationCollection( $row )

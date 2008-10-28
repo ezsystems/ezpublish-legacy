@@ -55,8 +55,6 @@
 \endcode
 */
 
-//include_once( "lib/ezutils/classes/ezini.php" );
-
 class eZTemplateUnitOperator
 {
     /*!
@@ -110,7 +108,6 @@ class eZTemplateUnitOperator
              !eZTemplateNodeTool::isStaticElement( $parameters[5] ) )
             return false;
 
-        //include_once( 'lib/ezlocale/classes/ezlocale.php' );
         $locale = eZLocale::instance();
         $decimalCount = $locale->decimalCount();
         $decimalSymbol = $locale->decimalSymbol();
@@ -391,7 +388,6 @@ class eZTemplateUnitOperator
         $unit = $namedParameters["unit"];
         $prefix = $namedParameters["prefix"];
 
-        //include_once( 'lib/ezlocale/classes/ezlocale.php' );
         $locale = eZLocale::instance();
         $decimalCount = $locale->decimalCount();
         $decimalSymbol = $locale->decimalSymbol();

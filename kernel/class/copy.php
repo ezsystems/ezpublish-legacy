@@ -26,10 +26,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( "kernel/classes/ezcontentclass.php" );
-//include_once( "kernel/classes/ezcontentclassattribute.php" );
-//include_once( "kernel/classes/ezcontentclassclassgroup.php" );
-
 $Module = $Params['Module'];
 $ClassID = null;
 if ( isset( $Params["ClassID"] ) )

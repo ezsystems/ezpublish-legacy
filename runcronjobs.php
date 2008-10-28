@@ -45,13 +45,6 @@ if ( !ini_get( "date.timezone" ) )
 
 require 'autoload.php';
 
-//include_once( "lib/ezutils/classes/ezextension.php" );
-//include_once( "lib/ezutils/classes/ezmodule.php" );
-//include_once( 'lib/ezutils/classes/ezmutex.php' );
-//include_once( 'lib/ezutils/classes/ezcli.php' );
-//include_once( 'kernel/classes/ezscript.php' );
-//include_once( 'kernel/classes/ezcontentlanguage.php' );
-
 eZContentLanguage::setCronjobMode();
 
 $cli = eZCLI::instance();
@@ -321,7 +314,6 @@ $ini = eZINI::instance( 'cronjob.ini' );
 $scriptDirectories = $ini->variable( 'CronjobSettings', 'ScriptDirectories' );
 
 /* Include extension directories */
-//include_once( 'lib/ezutils/classes/ezextension.php' );
 $extensionDirectories = $ini->variable( 'CronjobSettings', 'ExtensionDirectories' );
 $scriptDirectories = array_merge( $scriptDirectories, eZExtension::expandedPathList( $extensionDirectories, 'cronjobs' ) );
 

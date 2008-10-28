@@ -31,9 +31,6 @@ require 'autoload.php';
 
 set_time_limit( 0 );
 
-//include_once( 'lib/ezutils/classes/ezcli.php' );
-//include_once( 'kernel/classes/ezscript.php' );
-
 $cli = eZCLI::instance();
 $endl = $cli->endlineString();
 
@@ -164,8 +161,6 @@ if ( $dbHost or $dbName or $dbUser or $dbImpl )
 
 $db->setIsSQLOutputEnabled( $showSQL );
 
-//include_once( 'kernel/classes/ezpersistentobject.php' );
-
 require_once( 'lib/ezutils/classes/ezsession.php' );
 if ( $clean['session'] )
 {
@@ -183,15 +178,12 @@ if ( $clean['expired_session'] )
 
 if ( $clean['preferences'] )
 {
-    //include_once( 'kernel/classes/ezpreferences.php' );
     $cli->output( "Removing all preferences" );
     eZPreferences::cleanup();
 }
 
 if ( $clean['browse'] )
 {
-    //include_once( 'kernel/classes/ezcontentbrowserecent.php' );
-    //include_once( 'kernel/classes/ezcontentbrowsebookmark.php' );
     $cli->output( "Removing all recent items and bookmarks for browse page" );
     eZContentBrowseRecent::cleanup();
     eZContentBrowseBookmark::cleanup();
@@ -199,20 +191,16 @@ if ( $clean['browse'] )
 
 if ( $clean['tipafriend'] )
 {
-    //include_once( 'kernel/classes/eztipafriendcounter.php' );
     $cli->output( "Removing all counters for tip-a-friend" );
     eZTipafriendCounter::cleanup();
 }
 
 if ( $clean['shop'] )
 {
-    //include_once( 'kernel/classes/ezbasket.php' );
     $cli->output( "Removing all baskets" );
     eZBasket::cleanup();
-    //include_once( 'kernel/classes/ezwishlist.php' );
     $cli->output( "Removing all wishlists" );
     eZWishList::cleanup();
-    //include_once( 'kernel/classes/ezorder.php' );
     $cli->output( "Removing all orders" );
     eZOrder::cleanup();
     $productCount = eZPersistentObject::count( eZProductCollection::definition() );
@@ -224,15 +212,12 @@ if ( $clean['shop'] )
 
 if ( $clean['forgotpassword'] )
 {
-    //include_once( 'kernel/classes/datatypes/ezuser/ezforgotpassword.php' );
     $cli->output( "Removing all forgot password requests" );
     eZForgotPassword::cleanup();
 }
 
 if ( $clean['workflow'] )
 {
-    //include_once( 'lib/ezutils/classes/ezoperationmemento.php' );
-    //include_once( 'kernel/classes/ezworkflowprocess.php' );
     $cli->output( "Removing all workflow processes and operation mementos" );
     eZOperationMemento::cleanup();
     eZWorkflowProcess::cleanup();
@@ -240,23 +225,18 @@ if ( $clean['workflow'] )
 
 if ( $clean['collaboration'] )
 {
-    //include_once( 'kernel/classes/ezcollaborationitem.php' );
     $cli->output( "Removing all collaboration elements" );
     eZCollaborationItem::cleanup();
 }
 
 if ( $clean['collectedinformation'] )
 {
-    //include_once( 'kernel/classes/ezinformationcollection.php' );
     $cli->output( "Removing all collected information" );
     eZInformationCollection::cleanup();
 }
 
 if ( $clean['notification'] )
 {
-    //include_once( 'kernel/classes/notification/eznotificationevent.php' );
-    //include_once( 'kernel/classes/notification/eznotificationcollection.php' );
-    //include_once( 'kernel/classes/notification/eznotificationeventfilter.php' );
     $cli->output( "Removing all notifications events" );
     eZNotificationEvent::cleanup();
     eZNotificationCollection::cleanup();
@@ -265,7 +245,6 @@ if ( $clean['notification'] )
 
 if ( $clean['searchstats'] )
 {
-    //include_once( 'kernel/classes/ezsearchlog.php' );
     $cli->output( "Removing all search statistics" );
     eZSearchLog::removeStatistics();
 }

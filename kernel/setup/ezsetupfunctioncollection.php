@@ -37,9 +37,6 @@
 
 */
 
-//include_once( 'kernel/error/errors.php' );
-//include_once( 'lib/version.php' );
-
 class eZSetupFunctionCollection
 {
     /*!

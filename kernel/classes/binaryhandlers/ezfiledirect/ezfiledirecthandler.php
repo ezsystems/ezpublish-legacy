@@ -34,9 +34,6 @@
   \brief Handles file downloading by passing an URL directly to the file.
 
 */
-//include_once( "kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php" );
-//include_once( "kernel/classes/ezbinaryfilehandler.php" );
-
 class eZFileDirectHandler extends eZBinaryFileHandler
 {
     const HANDLER_ID = 'ezfiledirect';

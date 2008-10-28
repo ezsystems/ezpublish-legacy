@@ -51,9 +51,6 @@
   - price
 */
 
-//include_once( "kernel/shop/classes/ezsimpleprice.php" );
-//include_once( 'kernel/shop/classes/ezmultipricedata.php' );
-
 class eZMultiPrice extends eZSimplePrice
 {
     const CALCULATION_TYPE_VAT_INCLUDE = 1;
@@ -208,7 +205,6 @@ class eZMultiPrice extends eZSimplePrice
 
     function preferredCurrencyCode()
     {
-        //include_once( 'kernel/shop/classes/ezshopfunctions.php' );
         return eZShopFunctions::preferredCurrencyCode();
     }
 
@@ -216,7 +212,6 @@ class eZMultiPrice extends eZSimplePrice
     {
         if ( !isset( $this->CurrencyList ) )
         {
-            //include_once( 'kernel/shop/classes/ezcurrencydata.php' );
             $this->CurrencyList = eZCurrencyData::fetchList();
         }
 
@@ -400,7 +395,6 @@ class eZMultiPrice extends eZSimplePrice
 
     function updateAutoPriceList()
     {
-        //include_once( 'kernel/shop/classes/ezcurrencyconverter.php' );
         $converter = eZCurrencyConverter::instance();
 
         $basePrice = $this->basePrice();

@@ -33,8 +33,6 @@
 
 require_once( "kernel/common/template.php" );
 
-//include_once( "kernel/classes/ezorder.php" );
-
 $module = $Params["Module"];
 
 $offset = $Params['Offset'];

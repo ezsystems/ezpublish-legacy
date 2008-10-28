@@ -44,15 +44,6 @@
 
 */
 
-//include_once( 'kernel/classes/ezcollaborationitemhandler.php' );
-//include_once( 'kernel/classes/ezcollaborationitem.php' );
-//include_once( 'kernel/classes/ezcollaborationitemmessagelink.php' );
-//include_once( 'kernel/classes/ezcollaborationitemparticipantlink.php' );
-//include_once( 'kernel/classes/ezcollaborationitemgrouplink.php' );
-//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-//include_once( 'kernel/classes/ezcollaborationprofile.php' );
-//include_once( 'kernel/classes/ezcollaborationsimplemessage.php' );
-//include_once( 'kernel/classes/ezcontentobjectversion.php' );
 require_once( 'kernel/common/i18n.php' );
 
 class eZApproveCollaborationHandler extends eZCollaborationItemHandler

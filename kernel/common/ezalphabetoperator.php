@@ -82,7 +82,6 @@ class eZAlphabetOperator
     */
     static function fetchAlphabet()
     {
-        //include_once( "lib/ezutils/classes/ezini.php" );
         $contentINI = eZINI::instance( 'content.ini' );
 
         $alphabetRangeList = $contentINI->hasVariable( 'AlphabeticalFilterSettings', 'AlphabetList' )
@@ -127,10 +126,8 @@ class eZAlphabetOperator
         $i18nINI = eZINI::instance( 'i18n.ini' );
         $charset = $i18nINI->variable( 'CharacterSettings', 'Charset' );
 
-        //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
         $codec = eZTextCodec::instance( 'utf-8', $charset );
 
-        //include_once( "lib/ezi18n/classes/ezutf8codec.php" );
         $utf8_codec = eZUTF8Codec::instance();
         // Convert all letters of alphabet from unicode to utf-8 and from utf-8 to current locale
         foreach ( $alphabet as $item )

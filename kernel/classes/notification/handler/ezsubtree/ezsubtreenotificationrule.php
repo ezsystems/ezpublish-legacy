@@ -36,8 +36,6 @@
   \brief The class eZSubtreeNotificationRule does
 
 */
-//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-
 class eZSubtreeNotificationRule extends eZPersistentObject
 {
     /*!
@@ -192,7 +190,6 @@ class eZSubtreeNotificationRule extends eZPersistentObject
             }
         }
 
-        //include_once( 'kernel/classes/ezpolicy.php' );
         $acceptedUserArray = array();
         foreach( array_keys( $policyIDArray ) as $policyID )
         {

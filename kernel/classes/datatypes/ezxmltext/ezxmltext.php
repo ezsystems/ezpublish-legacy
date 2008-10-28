@@ -155,7 +155,6 @@ class eZXMLText
                                                   $contentObjectAttribute );
         if ( $inputHandler === null )
         {
-            //include_once( 'kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmlinput.php' );
             $inputHandler = new eZSimplifiedXMLInput( $xmlData, false, $contentObjectAttribute );
         }
         return $inputHandler;
@@ -188,7 +187,6 @@ class eZXMLText
                                                   $contentObjectAttribute );
         if ( $outputHandler === null )
         {
-            //include_once( 'kernel/classes/datatypes/ezxmltext/handlers/output/ezxhtmlxmloutput.php' );
             $outputHandler = new eZXHTMLXMLOutput( $xmlData, false, $contentObjectAttribute );
         }
         return $outputHandler;

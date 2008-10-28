@@ -31,12 +31,6 @@
 /*! \file ldapusermanage.php
 */
 
-//include_once( "lib/ezdb/classes/ezdb.php" );
-//include_once( 'lib/ezutils/classes/ezini.php' );
-//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-//include_once( 'kernel/classes/datatypes/ezuser/ezusersetting.php' );
-//include_once( 'kernel/classes/ezcontentobject.php' );
-
 if ( !$isQuiet )
     $cli->output( "Checking LDAP users ..."  );
 
@@ -534,7 +528,6 @@ foreach ( $LDAPUsers as $LDAPUser )
                         $newVersion->assignToNode( $defaultUserPlacement, 1 );
                     }
                 }
-                //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
                 $adminUser = eZUser::fetchByName( 'admin' );
                 $adminUserContentObjectID = $adminUser->attribute( 'contentobject_id' );
                 eZUser::setCurrentlyLoggedInUser( $adminUser, $adminUserContentObjectID );

@@ -37,9 +37,6 @@
 
 */
 
-//include_once( 'lib/ezutils/classes/ezini.php' );
-//include_once( "lib/ezfile/classes/ezdir.php" );
-
 class eZCollaborationItemHandler
 {
     /*
@@ -139,7 +136,6 @@ class eZCollaborationItemHandler
     */
     static function handleCollaborationEvent( $event, $item, &$parameters )
     {
-        //include_once( 'kernel/classes/ezcollaborationitemparticipantlink.php' );
         $participantList = eZCollaborationItemParticipantLink::fetchParticipantList( array( 'item_id' => $item->attribute( 'id' ),
                                                                                              'participant_type' => eZCollaborationItemParticipantLink::TYPE_USER,
                                                                                              'as_object' => false ) );
@@ -178,7 +174,6 @@ class eZCollaborationItemHandler
         $db->begin();
         if ( $collectionHandling == self::NOTIFICATION_COLLECTION_ONE_FOR_ALL )
         {
-            //include_once( 'kernel/classes/notification/eznotificationcollection.php' );
             require_once( 'kernel/common/template.php' );
             $tpl = templateInit();
             $tpl->resetVariables();
@@ -235,7 +230,6 @@ class eZCollaborationItemHandler
 
                 $itemInfo = $itemHandler->attribute( 'info' );
                 $typeIdentifier = $itemInfo['type-identifier'];
-                //include_once( 'kernel/classes/notification/eznotificationcollection.php' );
                 $tpl->setVariable( 'collaboration_item', $item );
                 $tpl->setVariable( 'collaboration_participant_role', $participantRole );
                 $result = $tpl->fetch( 'design:notification/handler/ezcollaboration/view/' . $typeIdentifier . '/' . $templateName );

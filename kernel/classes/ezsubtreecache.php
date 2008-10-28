@@ -37,8 +37,6 @@
 
 */
 
-//include_once( 'lib/eztemplate/classes/eztemplatecachefunction.php' );
-
 class eZSubtreeCache
 {
     /*!
@@ -62,7 +60,6 @@ class eZSubtreeCache
         }
         else
         {
-            //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
             $nodeList = eZContentObjectTreeNode::fetch( $nodeIDList );
             if ( $nodeList )
             {
@@ -119,7 +116,6 @@ class eZSubtreeCache
     {
         if ( file_exists( $cacheDir ) )
         {
-            //include_once( 'lib/ezutils/classes/ezini.php' );
             $ini = eZINI::instance();
             if ( $ini->variable( 'TemplateSettings', 'DelayedCacheBlockCleanup' ) === 'enabled' )
             {
@@ -148,7 +144,6 @@ class eZSubtreeCache
 
         if ( $dir )
         {
-            //include_once( 'lib/ezfile/classes/ezfile.php' );
             $expiryCacheDir = eZTemplateCacheFunction::expiryTemplateBlockCacheDir();
 
             $uniqid = md5( uniqid( 'ezpsubtreecache'. getmypid(), true ) );

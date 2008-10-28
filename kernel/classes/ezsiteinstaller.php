@@ -40,10 +40,6 @@
 
 */
 
-//include_once( 'kernel/classes/ezcontentobjectattribute.php' );
-//include_once( 'kernel/classes/ezcontentclassattribute.php' );
-//include_once( 'kernel/classes/ezrole.php' );
-
 class eZSiteInstaller
 {
     const ERR_OK = 0;
@@ -334,8 +330,6 @@ class eZSiteInstaller
     */
     function classByIdentifier( $params )
     {
-        //include_once( 'kernel/classes/ezcontentclass.php' );
-
         $classIdentifier = $params['identifier'];
 
         $contentClass = eZContentClass::fetchByIdentifier( $classIdentifier );
@@ -363,8 +357,6 @@ class eZSiteInstaller
     */
     function removeClassAttribute( $params )
     {
-        //include_once( 'kernel/classes/ezcontentclassattribute.php' );
-
         $contentClassID = $params['class_id'];
         $classAttributeIdentifier = $params['attribute_identifier'];
 
@@ -426,8 +418,6 @@ class eZSiteInstaller
     */
     function addClassAttributes( $params )
     {
-        //include_once( 'kernel/classes/ezcontentclassattribute.php' );
-
         $classInfo = $params['class'];
         $attributesInfo = $params['attributes'];
 
@@ -616,8 +606,6 @@ class eZSiteInstaller
     */
     function createContentObject( $params )
     {
-        //include_once( 'kernel/classes/ezcontentfunctions.php' );
-
         $objectID = false;
 
         $classIdentifier = $params['class_identifier'];
@@ -649,7 +637,6 @@ class eZSiteInstaller
     */
     function renameContentObject( $params )
     {
-        //include_once( 'kernel/classes/ezcontentobject.php' );
         $contentObjectID = $params['contentobject_id'];
         $newName = $params['name'];
         $object = eZContentObject::fetch( $contentObjectID );
@@ -932,8 +919,6 @@ class eZSiteInstaller
     */
     function nodePathStringByURL( $params )
     {
-        //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-
         $pathString = '';
 
         $node = $this->nodeByUrl( $params );
@@ -953,8 +938,6 @@ class eZSiteInstaller
     */
     function nodeByUrl( $params )
     {
-        //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-
         $path_identification_string = $params['location'];
 
         $node = eZContentObjectTreeNode::fetchByURLPath( $path_identification_string );
@@ -1078,7 +1061,6 @@ class eZSiteInstaller
         }
 
         // clear cache.
-        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
 
         $selectedObject = $selectedNode->object();
@@ -1187,8 +1169,6 @@ class eZSiteInstaller
     */
     function assignUserToRole( $params )
     {
-        //include_once( 'kernel/classes/ezrole.php' );
-
         $location = $params['location'];
         $roleName = $params['role_name'];
 
@@ -1214,8 +1194,6 @@ class eZSiteInstaller
     */
     function addPoliciesForRole( $params )
     {
-        //include_once( 'kernel/classes/ezrole.php' );
-
         $roleName = $params['role_name'];
         $policiesDefinition = $params['policies'];
         $createRoleIfNotExists = isset( $params['create_role'] ) ? $params['create_role'] : true;
@@ -1263,8 +1241,6 @@ class eZSiteInstaller
     */
     function removePoliciesForRole( $params )
     {
-        //include_once( 'kernel/classes/ezrole.php' );
-
         $roleName = $params['role_name'];
         $policiesDefinition = $params['policies'];
         $removeRoleIfEmpty = isset( $params['remove_role'] ) ? $params['remove_role'] : true;
@@ -1303,8 +1279,6 @@ class eZSiteInstaller
     */
     function sectionIDbyName( $params )
     {
-        //include_once( 'kernel/classes/ezsection.php' );
-
         $sectionID = false;
         $sectionName = $params['section_name'];
 
@@ -1330,8 +1304,6 @@ class eZSiteInstaller
     */
     function createContentSection( $params )
     {
-        //include_once( 'kernel/classes/ezsection.php' );
-
         $section = false;
 
         $sectionName = $params['name'];
@@ -1379,8 +1351,6 @@ class eZSiteInstaller
     */
     function setRSSExport( $params )
     {
-        //include_once( 'kernel/classes/ezrssexport.php' );
-        //include_once( 'kernel/classes/ezrssexportitem.php' );
         require_once( 'kernel/common/i18n.php' );
 
         // Create default rssExport object to use

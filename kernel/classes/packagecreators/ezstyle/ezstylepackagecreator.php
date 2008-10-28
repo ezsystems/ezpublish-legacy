@@ -38,8 +38,6 @@
 
 */
 
-//include_once( 'kernel/classes/ezpackagecreationhandler.php' );
-
 class eZStylePackageCreator extends eZPackageCreationHandler
 {
     /*!
@@ -205,7 +203,6 @@ class eZStylePackageCreator extends eZPackageCreationHandler
     */
     function validateCSSFile( $package, $http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
-        //include_once( 'lib/ezutils/classes/ezhttpfile.php' );
         $hasSiteFile = eZHTTPFile::canFetch( 'PackageSiteCSSFile' );
         $hasClassesFile = eZHTTPFile::canFetch( 'PackageClassesCSSFile' );
 
@@ -231,10 +228,8 @@ class eZStylePackageCreator extends eZPackageCreationHandler
 
     function commitCSSFile( $package, $http, $step, &$persistentData, $tpl )
     {
-        //include_once( 'lib/ezutils/classes/ezhttpfile.php' );
         $siteFile = eZHTTPFile::fetch( 'PackageSiteCSSFile' );
         $classesFile = eZHTTPFile::fetch( 'PackageClassesCSSFile' );
-        //include_once( 'lib/ezutils/classes/ezmimetype.php' );
         $siteMimeData = eZMimeType::findByFileContents( $siteFile->attribute( 'original_filename' ) );
         $dir = eZSys::storageDirectory() . '/temp';
         eZMimeType::changeDirectoryPath( $siteMimeData, $dir );
@@ -257,7 +252,6 @@ class eZStylePackageCreator extends eZPackageCreationHandler
     */
     function validateImageFiles( $package, $http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
-        //include_once( 'lib/ezutils/classes/ezhttpfile.php' );
         // If we don't have an image we continue as normal
         if ( !eZHTTPFile::canFetch( 'PackageImageFile' ) )
             return true;
@@ -267,7 +261,6 @@ class eZStylePackageCreator extends eZPackageCreationHandler
         $result = true;
         if ( $file )
         {
-            //include_once( 'lib/ezutils/classes/ezmimetype.php' );
             $mimeData = eZMimeType::findByFileContents( $file->attribute( 'original_filename' ) );
             $dir = eZSys::storageDirectory() .  '/temp';
             eZMimeType::changeDirectoryPath( $mimeData, $dir );

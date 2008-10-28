@@ -31,11 +31,6 @@ require 'autoload.php';
 
 set_time_limit( 0 );
 
-//include_once( "lib/ezutils/classes/ezextension.php" );
-//include_once( "lib/ezutils/classes/ezmodule.php" );
-//include_once( 'lib/ezutils/classes/ezcli.php' );
-//include_once( 'kernel/classes/ezscript.php' );
-
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'debug-message' => '',
                                       'use-session' => true,
@@ -285,12 +280,9 @@ print( "Updating content object names\n" );
 
 //eZDebug::setHandleType( eZDebug::HANDLE_FROM_PHP );
 
-//include_once( "lib/ezutils/classes/ezmodule.php" );
 // eZModule::setGlobalPathList( array( "kernel" ) );
 require_once( 'lib/ezutils/classes/ezexecution.php' );
 require_once( "lib/ezutils/classes/ezdebug.php" );
-
-//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
 $db = eZDB::instance();
 

@@ -30,10 +30,6 @@ $http = eZHTTPTool::instance();
 $module = $Params['Module'];
 
 require_once( "kernel/common/template.php" );
-//include_once( "kernel/classes/ezcache.php" );
-//include_once( 'lib/ezutils/classes/ezhttptool.php' );
-//include_once( 'lib/ezfile/classes/ezdir.php' );
-
 $ini = eZINI::instance( );
 $tpl = templateInit();
 
@@ -107,8 +103,6 @@ if ( $module->isCurrentAction( 'ClearCache' ) && $module->hasActionParameter( 'C
 
 if ( $module->isCurrentAction( 'RegenerateStaticCache' ) )
 {
-    //include_once( 'kernel/classes/ezstaticcache.php' );
-
     $staticCache = new eZStaticCache();
     $staticCache->generateCache( true, true );
     eZStaticCache::executeActions();

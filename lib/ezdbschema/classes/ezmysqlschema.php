@@ -33,8 +33,6 @@
 
 */
 
-//include_once( 'lib/ezdbschema/classes/ezdbschemainterface.php' );
-
 class eZMysqlSchema extends eZDBSchemaInterface
 {
 
@@ -600,7 +598,6 @@ class eZMysqlSchema extends eZDBSchemaInterface
     */
     function tableCharsetName( $charset )
     {
-        //include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
         $charset = eZCharsetInfo::realCharsetCode( $charset );
         // Convert charset names into something MySQL will understand
         $charsetMapping = array( 'iso-8859-1' => 'latin1',

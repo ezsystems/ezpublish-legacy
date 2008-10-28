@@ -30,13 +30,6 @@
 
 /*! \file updateviewcount.php
 */
-//include_once( "lib/ezutils/classes/ezsys.php" );
-//include_once( "lib/ezdb/classes/ezdb.php" );
-//include_once( "lib/ezutils/classes/ezini.php" );
-//include_once( "kernel/classes/ezviewcounter.php" );
-//include_once( "kernel/classes/ezcontentobjecttreenode.php" );
-//include_once( 'lib/ezlocale/classes/ezdatetime.php' );
-
 set_time_limit( 0 );
 
 if ( !$isQuiet )

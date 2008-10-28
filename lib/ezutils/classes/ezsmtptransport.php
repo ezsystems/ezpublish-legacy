@@ -37,8 +37,6 @@
 
 */
 
-//include_once( 'lib/ezutils/classes/ezmailtransport.php' );
-
 class eZSMTPTransport extends eZMailTransport
 {
     /*!
@@ -95,8 +93,6 @@ class eZSMTPTransport extends eZMailTransport
         $sendData['BccRecipients'] = $mail->bccReceiverTextList();
         $sendData['headers'] = $mail->headerTextList();
         $sendData['body'] = $mail->body();
-
-        //include_once( "lib/ezutils/classes/ezsmtp.php" );
 
         $smtp = new smtp( $parameters );
         $smtpConnected = $smtp->connect();

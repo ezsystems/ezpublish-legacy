@@ -33,8 +33,6 @@ class eZWorkflowFunctions
 {
     static function addGroup( $workflowID, $workflowVersion, $selectedGroup )
     {
-        //include_once( "kernel/classes/ezworkflowgrouplink.php" );
-
         list ( $groupID, $groupName ) = split( "/", $selectedGroup );
         $ingroup = eZWorkflowGroupLink::create( $workflowID, $workflowVersion, $groupID, $groupName );
         $ingroup->store();
@@ -43,9 +41,6 @@ class eZWorkflowFunctions
 
     static function removeGroup( $workflowID, $workflowVersion, $selectedGroup )
     {
-        //include_once( "kernel/classes/ezworkflow.php" );
-        //include_once( "kernel/classes/ezworkflowgrouplink.php" );
-
         $workflow = eZWorkflow::fetch( $workflowID );
         if ( !$workflow )
             return false;

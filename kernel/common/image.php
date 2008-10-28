@@ -30,9 +30,6 @@
 
 function imageInit()
 {
-    //include_once( 'lib/ezimage/classes/ezimagemanager.php' );
-    //include_once( 'lib/ezimage/classes/ezimageanalyzer.php' );
-
     if ( isset( $GLOBALS['eZPublishImageManager'] ) )
     {
         return $GLOBALS['eZPublishImageManager'];

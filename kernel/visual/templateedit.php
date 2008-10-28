@@ -27,10 +27,6 @@
 //
 
 require_once( "kernel/common/template.php" );
-//include_once( "kernel/common/eztemplatedesignresource.php" );
-//include_once( 'lib/ezutils/classes/ezhttptool.php' );
-//include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-
 $http = eZHTTPTool::instance();
 $module = $Params['Module'];
 $parameters = $Params["Parameters"];
@@ -131,7 +127,6 @@ if ( $module->isCurrentAction( 'Save' ) )
 
         if ( $templateConfig->variable( 'CharsetSettings', 'AutoConvertOnSave') == 'enabled' )
         {
-            //include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
             $outputCharset = eZCharsetInfo::realCharsetCode( $outputCharset );
             if ( preg_match( '|{\*\?template.*charset=([a-zA-Z0-9-]*).*\?\*}|', $templateContent, $matches ) )
             {
@@ -181,7 +176,6 @@ if ( $module->isCurrentAction( 'Save' ) )
         chmod( $template, octdec( $filePermissions ) );
 
         // Expire content view cache
-        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearAllContentCache();
 
         $module->redirectTo( '/visual/templateview'. $originalTemplate );

@@ -29,10 +29,6 @@
 /*! \file forgotpassword.php
 */
 
-//include_once( "lib/ezutils/classes/ezhttptool.php" );
-//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-//include_once( "kernel/classes/datatypes/ezuser/ezforgotpassword.php" );
-
 
 require_once( "kernel/common/template.php" );
 $tpl = templateInit();
@@ -68,9 +64,6 @@ if ( strlen( $hashKey ) == 32 )
         $user->store();
 
         require_once( "kernel/common/template.php" );
-        //include_once( 'lib/ezutils/classes/ezmail.php' );
-        //include_once( 'lib/ezutils/classes/ezmailtransport.php' );
-
         $receiver = $email;
         $mail = new eZMail();
         if ( !$mail->validate( $receiver ) )
@@ -142,8 +135,6 @@ if ( $module->isCurrentAction( "Generate" ) )
 
             $userToSendEmail = $user;
             require_once( "kernel/common/template.php" );
-            //include_once( 'lib/ezutils/classes/ezmail.php' );
-            //include_once( 'lib/ezutils/classes/ezmailtransport.php' );
             $receiver = $email;
 
             $mail = new eZMail();
@@ -156,7 +147,6 @@ if ( $module->isCurrentAction( "Generate" ) )
             $tpl->setVariable( 'password', $password );
             $tpl->setVariable( 'link', true );
             $tpl->setVariable( 'hash_key', $hashKey );
-            //include_once( 'lib/ezutils/classes/ezhttptool.php' );
             $http = eZHTTPTool::instance();
             $http->UseFullUrl = true;
             $templateResult = $tpl->fetch( 'design:user/forgotpasswordmail.tpl' );

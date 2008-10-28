@@ -37,9 +37,6 @@
 
 */
 
-//include_once( "lib/eztemplate/classes/eztemplatefileresource.php" );
-//include_once( "lib/ezutils/classes/ezini.php" );
-
 class eZTemplateDesignResource extends eZTemplateFileResource
 {
     /*!
@@ -446,7 +443,6 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $matchFileArray = eZTemplateDesignResource::overrideArray( $this->OverrideSiteAccess );
 
             // Generate PHP compiled cache file.
-            //include_once( 'lib/ezutils/classes/ezphpcreator.php' );
             $phpCache = new eZPHPCreator( "$cacheDir/override", "override_$overrideKey.php" );
 
             $phpCode = "\$GLOBALS['eZOverrideTemplateCacheMap'] = array (\n";
@@ -629,7 +625,6 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         $keys = array_merge( $keys, $additionalSiteDesignList );
 
         // Add extension paths
-        //include_once( 'lib/ezutils/classes/ezextension.php' );
         $extensionDirectory = eZExtension::baseDirectory();
 
         $designINI = eZINI::instance( 'design.ini' );

@@ -38,8 +38,6 @@
 
 */
 
-//include_once( "kernel/classes/ezpersistentobject.php" );
-
 class eZUserAccountKey extends eZPersistentObject
 {
     /*!

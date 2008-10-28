@@ -26,19 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'kernel/classes/ezcontentclass.php' );
-//include_once( 'kernel/classes/ezcontentclassattribute.php' );
-
-//include_once( 'kernel/classes/ezcontentobject.php' );
-//include_once( 'kernel/classes/ezcontentobjectversion.php' );
-//include_once( 'kernel/classes/ezcontentobjectattribute.php' );
-
 require_once( 'kernel/common/template.php' );
-//include_once( "lib/ezutils/classes/ezini.php" );
-//include_once( "lib/ezdb/classes/ezdb.php" );
-
-//include_once( 'lib/ezdiff/classes/ezdiff.php' );
-
 $tpl = templateInit();
 $http = eZHTTPTool::instance();
 
@@ -368,7 +356,6 @@ $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object I
                       array( 'section_id', $object->attribute( 'section_id' ) ) // Section ID
                       ) ); // Section ID, 0 so far
 
-//include_once( 'kernel/classes/ezsection.php' );
 eZSection::setGlobalID( $object->attribute( 'section_id' ) );
 $versionArray =( isset( $versionArray ) and is_array( $versionArray ) ) ? array_unique( $versionArray ) : array();
 $LastAccessesVersionURI = $http->hasSessionVariable( 'LastAccessesVersionURI' ) ? $http->sessionVariable( 'LastAccessesVersionURI' ) : null;

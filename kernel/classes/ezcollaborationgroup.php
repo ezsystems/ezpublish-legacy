@@ -37,9 +37,6 @@
 
 */
 
-//include_once( 'kernel/classes/ezpersistentobject.php' );
-//include_once( 'kernel/classes/ezcollaborationitem.php' );
-
 class eZCollaborationGroup extends eZPersistentObject
 {
     /*!
@@ -337,7 +334,6 @@ class eZCollaborationGroup extends eZPersistentObject
     {
         if ( isset( $this->UserID ) and $this->UserID )
         {
-            //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
             return eZUser::fetch( $this->UserID );
         }
         return null;

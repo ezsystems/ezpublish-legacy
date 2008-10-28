@@ -30,7 +30,6 @@
 
 /*! \file ezstep_site_templates.php
 */
-//include_once( 'kernel/setup/steps/ezstep_installer.php');
 require_once( "kernel/common/i18n.php" );
 
 /*!
@@ -112,8 +111,6 @@ class eZStepSiteTemplates extends eZStepInstaller
         $thumbnailExtension = $config->variable( 'SiteTemplates', 'ThumbnailExtension' );
 
         $site_templates = array();
-
-        //include_once( 'kernel/classes/ezpackage.php' );
 
         $packages = eZPackage::fetchPackages( array( 'path' => 'kernel/setup/packages' ) );
         foreach( $packages as $key => $packages )

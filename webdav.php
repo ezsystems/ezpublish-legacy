@@ -48,10 +48,6 @@ error_reporting ( E_ALL );
 $GLOBALS['eZSiteBasics']['session-required'] = false;
 
 require_once( "lib/ezutils/classes/ezdebug.php" );
-//include_once( "lib/ezutils/classes/ezsys.php" );
-//include_once( "lib/ezutils/classes/ezini.php" );
-//include_once( "kernel/classes/webdav/ezwebdavcontentserver.php" );
-
 /*! Reads settings from site.ini and passes them to eZDebug.
  */
 function eZUpdateDebugSettings()
@@ -74,7 +70,6 @@ function eZUpdateTextCodecSettings()
     list( $i18nSettings['internal-charset'], $i18nSettings['http-charset'], $i18nSettings['mbstring-extension'] ) =
         $ini->variableMulti( 'CharacterSettings', array( 'Charset', 'HTTPCharset', 'MBStringExtension' ), array( false, false, 'enabled' ) );
 
-    //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
     eZTextCodec::updateSettings( $i18nSettings );
 }
 
@@ -82,7 +77,6 @@ function eZUpdateTextCodecSettings()
 eZUpdateTextCodecSettings();
 
 // Check for extension
-//include_once( 'lib/ezutils/classes/ezextension.php' );
 require_once( 'kernel/common/ezincludefunctions.php' );
 eZExtension::activateExtensions( 'default' );
 // Extension check end
@@ -134,7 +128,6 @@ if ( $enable === 'true' )
         // e.g. if run from the shell
         eZExecution::cleanExit();
     }
-    //include_once( "lib/ezutils/classes/ezmodule.php" );
     require_once( 'lib/ezutils/classes/ezexecution.php' );
     require_once( "lib/ezutils/classes/ezsession.php" );
     require_once( "access.php" );
@@ -186,8 +179,6 @@ if ( $enable === 'true' )
             $user = false;
             if ( isset( $loginUsername ) && isset( $loginPassword ) )
             {
-                //include_once( 'kernel/classes/datatypes/ezuser/ezuserloginhandler.php' );
-
                 if ( $ini->hasVariable( 'UserSettings', 'LoginHandler' ) )
                 {
                     $loginHandlers = $ini->variable( 'UserSettings', 'LoginHandler' );

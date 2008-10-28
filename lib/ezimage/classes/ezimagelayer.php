@@ -38,8 +38,6 @@
 
 */
 
-//include_once( 'lib/ezimage/classes/ezimageinterface.php' );
-
 class eZImageLayer extends eZImageInterface
 {
     /*!

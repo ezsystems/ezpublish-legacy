@@ -34,8 +34,6 @@
 
 */
 
-//include_once( 'lib/ezdb/classes/ezdb.php' );
-
 class eZSearchLog
 {
     /*!
@@ -46,7 +44,6 @@ class eZSearchLog
         $db = eZDB::instance();
         $db->begin();
 
-        //include_once( 'lib/ezi18n/classes/ezchartransform.php' );
         $trans = eZCharTransform::instance();
         $phrase = $trans->transformByGroup( trim( $phrase ), 'lowercase' );
 

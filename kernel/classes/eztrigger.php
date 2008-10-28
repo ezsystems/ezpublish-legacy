@@ -36,9 +36,6 @@
   \brief The class eZTrigger does
 
 */
-//include_once( 'kernel/classes/ezworkflowprocess.php' );
-//include_once( 'kernel/classes/ezworkflow.php' );
-
 class eZTrigger extends eZPersistentObject
 {
     const STATUS_CRON_JOB = 0;

@@ -91,7 +91,6 @@ class eZMultiplexerType extends eZWorkflowEventType
                 $attributeValue = $event->attribute( 'data_int2' );
                 if ( $attributeValue != 0 )
                 {
-                    //include_once( 'kernel/classes/ezcontentlanguage.php' );
                     $languages = eZContentLanguage::languagesByMask( $attributeValue );
                     foreach ( $languages as $language )
                     {
@@ -142,7 +141,6 @@ class eZMultiplexerType extends eZWorkflowEventType
         {
             case 'sections':
             {
-                //include_once( 'kernel/classes/ezsection.php' );
                 $sections = eZSection::fetchList( false );
                 foreach ( $sections as $key => $section )
                 {
@@ -155,7 +153,6 @@ class eZMultiplexerType extends eZWorkflowEventType
 
             case 'languages':
             {
-                //include_once( 'kernel/classes/ezcontentlanguage.php' );
                 return eZContentLanguage::fetchList();
             }break;
 

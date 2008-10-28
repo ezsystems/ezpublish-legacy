@@ -779,7 +779,6 @@ $php->addInclude( 'lib/ezutils/classes/ezphpcreator.php' );
         {
             if ( !file_exists( $this->PHPDir ) )
             {
-                //include_once( 'lib/ezfile/classes/ezdir.php' );
                 eZDir::mkdir( $this->PHPDir, false, true );
             }
             $path = $this->PHPDir . '/' . $this->PHPFile;
@@ -823,7 +822,6 @@ $php->addInclude( 'lib/ezutils/classes/ezphpcreator.php' );
 
             if ( $this->isAtomic )
             {
-                //include_once( 'lib/ezfile/classes/ezfile.php' );
                 eZFile::rename( $this->tmpFilename, $this->requestedFilename );
             }
             $this->FileResource = false;
@@ -981,7 +979,6 @@ print( $values['MyValue'] );
             chmod( eZDir::path( array( $this->PHPDir, $this->PHPFile ) ), $perm );
 
             // Write log message to storage.log
-            //include_once( 'lib/ezfile/classes/ezlog.php' );
             eZLog::writeStorageLog( $this->PHPFile, $this->PHPDir . '/' );
             return true;
         }

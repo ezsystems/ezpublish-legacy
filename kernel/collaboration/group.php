@@ -37,13 +37,9 @@ $Offset = $Params['Offset'];
 if ( !is_numeric( $Offset ) )
     $Offset = 0;
 
-//include_once( 'kernel/classes/ezcollaborationgroup.php' );
-
 $collabGroup = eZCollaborationGroup::fetch( $GroupID );
 if ( $collabGroup === null )
     return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
-
-//include_once( 'kernel/classes/ezcollaborationviewhandler.php' );
 
 if ( !eZCollaborationViewHandler::groupExists( $ViewMode ) )
     return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
@@ -53,8 +49,6 @@ $view = eZCollaborationViewHandler::instance( $ViewMode, eZCollaborationViewHand
 $template = $view->template();
 
 $collabGroupTitle = $collabGroup->attribute( 'title' );
-
-//include_once( 'kernel/classes/ezcollaborationitemhandler.php' );
 
 $viewParameters = array( 'offset' => $Offset );
 

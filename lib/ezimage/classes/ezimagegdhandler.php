@@ -43,8 +43,6 @@
   - height - The height
 */
 
-//include_once( 'lib/ezimage/classes/ezimagehandler.php' );
-
 class eZImageGDHandler extends eZImageHandler
 {
     /*!
@@ -734,7 +732,6 @@ class eZImageGDHandler extends eZImageHandler
             $iniFilename = 'image.ini';
 
         $handler = false;
-        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance( $iniFilename );
         if ( !$ini )
         {

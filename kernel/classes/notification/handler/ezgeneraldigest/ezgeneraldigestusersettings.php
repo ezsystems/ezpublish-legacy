@@ -37,8 +37,6 @@
 
 */
 
-//include_once( 'kernel/classes/ezpersistentobject.php' );
-
 class eZGeneralDigestUserSettings extends eZPersistentObject
 {
     const TYPE_NONE = 0;

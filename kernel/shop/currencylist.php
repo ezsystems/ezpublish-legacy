@@ -30,10 +30,6 @@
 */
 
 require_once( 'kernel/common/template.php' );
-//include_once( 'kernel/classes/ezpreferences.php' );
-//include_once( 'kernel/shop/classes/ezcurrencydata.php' );
-//include_once( 'kernel/shop/classes/ezshopfunctions.php' );
-
 $module = $Params['Module'];
 $offset = $Params['Offset'];
 
@@ -54,7 +50,6 @@ else if ( $module->isCurrentAction( 'RemoveCurrency' ) )
 
     eZShopFunctions::removeCurrency( $currencyList );
 
-    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearAllContentCache();
 }
 else if ( $module->isCurrentAction( 'ApplyChanges' ) )
@@ -96,7 +91,6 @@ else if ( $module->isCurrentAction( 'UpdateAutoprices' ) )
 {
     $error = eZShopFunctions::updateAutoprices();
 
-    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearAllContentCache();
 }
 else if ( $module->isCurrentAction( 'UpdateAutoRates' ) )

@@ -39,10 +39,6 @@
   \sa eZDB
 */
 
-//require_once( "lib/ezutils/classes/ezdebug.php" );
-////include_once( "lib/ezutils/classes/ezini.php" );
-//include_once( "lib/ezdb/classes/ezdbinterface.php" );
-
 class eZMySQLiDB extends eZDBInterface
 {
     /*!
@@ -174,7 +170,6 @@ class eZMySQLiDB extends eZDBInterface
         if ( $charset !== null )
         {
             $originalCharset = $charset;
-            ////include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
             $charset = eZCharsetInfo::realCharsetCode( $charset );
             // Convert charset names into something MySQL will understand
             if ( isset( $this->CharsetMapping[ $charset ] ) )
@@ -244,8 +239,6 @@ class eZMySQLiDB extends eZDBInterface
         if ( version_compare( $versionInfo['string'], '4.1.1' ) < 0 )
             return true;
 
-        ////include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
-
         if ( is_array( $charset ) )
         {
             foreach ( $charset as $charsetItem )
@@ -285,7 +278,6 @@ class eZMySQLiDB extends eZDBInterface
                 if ( preg_match( '#DEFAULT CHARACTER SET ([a-zA-Z0-9_-]+)#', $createText, $matches ) )
                 {
                     $currentCharset = $matches[1];
-                    ////include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
                     $currentCharset = eZCharsetInfo::realCharsetCode( $currentCharset );
                     // Convert charset names into something MySQL will understand
 

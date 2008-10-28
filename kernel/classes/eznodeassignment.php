@@ -37,8 +37,6 @@
 
 */
 require_once( "lib/ezutils/classes/ezdebug.php" );
-//include_once( "kernel/classes/ezpersistentobject.php" );
-
 class eZNodeAssignment extends eZPersistentObject
 {
     // Bit 0 is used to mark if the action is to be performed or not

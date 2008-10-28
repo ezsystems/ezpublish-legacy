@@ -27,9 +27,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'lib/ezutils/classes/ezcli.php' );
-//include_once( 'kernel/classes/ezscript.php' );
-
 require 'autoload.php';
 
 $cli = eZCLI::instance();
@@ -51,10 +48,6 @@ $force = $options['force'];
 $script->initialize();
 
 require_once( 'lib/ezutils/classes/ezdebug.php' );
-//include_once( 'lib/ezfile/classes/ezdir.php' );
-//include_once( 'lib/ezutils/classes/ezini.php' );
-//include_once( 'kernel/classes/ezstaticcache.php' );
-
 $staticCache = new eZStaticCache();
 $staticCache->generateCache( $force, false, $cli, false );
 

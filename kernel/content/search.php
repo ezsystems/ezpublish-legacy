@@ -26,12 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( "lib/ezutils/classes/ezhttptool.php" );
-
 require_once( "kernel/common/template.php" );
-
-//include_once( "kernel/classes/ezsearch.php" );
-//include_once( "kernel/classes/ezsearchlog.php" );
 
 /*!
  Get search limit
@@ -138,7 +133,6 @@ if ( $useSearchCode )
 
 if ( $searchSectionID != -1 )
 {
-    //include_once( 'kernel/common/eztemplatedesignresource.php' );
     $res = eZTemplateDesignResource::instance();
     $res->setKeys( array( array( 'section', $searchSectionID ) ) );
 }

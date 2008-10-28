@@ -39,8 +39,6 @@
   which is not directly related to content classes (e.g. clearing caches, etc).
 */
 
-//include_once( 'kernel/classes/ezcontentclass.php' );
-
 class eZContentClassOperations
 {
     /*!
@@ -56,7 +54,6 @@ class eZContentClassOperations
 
         // Remove all objects
         $contentObjects = eZContentObject::fetchSameClassList( $classID );
-        //include_once( 'kernel/classes/ezcontentobjectoperations.php' );
         foreach ( $contentObjects as $contentObject )
         {
             eZContentObjectOperations::remove( $contentObject->attribute( 'id' ) );

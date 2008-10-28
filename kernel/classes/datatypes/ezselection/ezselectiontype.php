@@ -37,9 +37,6 @@
 
 */
 
-//include_once( "kernel/classes/ezdatatype.php" );
-//include_once( 'lib/ezutils/classes/ezstringutils.php' );
-
 class eZSelectionType extends eZDataType
 {
     const DATA_TYPE_STRING = "ezselection";

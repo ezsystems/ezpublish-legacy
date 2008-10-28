@@ -140,7 +140,6 @@ class eZVATManager
         if ( $considerPreferedCountry )
         {
             // return it
-            //include_once( 'kernel/shop/classes/ezshopfunctions.php' );
             $country = eZShopFunctions::getPreferredUserCountry();
             if ( $country )
             {

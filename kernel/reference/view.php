@@ -37,7 +37,6 @@ switch ( $referenceType )
 {
     case 'ez':
     {
-        //include_once( 'kernel/reference/ezreference.php' );
         $referenceResult = eZReferenceDocument( $module, '/reference/view/ez', $referenceType, array_slice( $Params['Parameters'], 1 ) );
     } break;
     default:

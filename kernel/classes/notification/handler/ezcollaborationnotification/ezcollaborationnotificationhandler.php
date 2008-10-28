@@ -37,13 +37,6 @@
 
 */
 
-//include_once( 'kernel/classes/notification/eznotificationeventhandler.php' );
-//include_once( 'kernel/classes/ezcollaborationitemhandler.php' );
-//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-//include_once( 'kernel/classes/notification/eznotificationcollection.php' );
-//include_once( 'kernel/classes/notification/eznotificationschedule.php' );
-//include_once( 'kernel/classes/notification/handler/ezcollaborationnotification/ezcollaborationnotificationrule.php' );
-
 class eZCollaborationNotificationHandler extends eZNotificationEventHandler
 {
     const NOTIFICATION_HANDLER_ID = 'ezcollaboration';

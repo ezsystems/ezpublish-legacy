@@ -37,8 +37,6 @@
 
 */
 
-//include_once( 'kernel/error/errors.php' );
-
 class eZSectionFunctionCollection
 {
     /*!
@@ -50,7 +48,6 @@ class eZSectionFunctionCollection
 
     function fetchSectionObject( $sectionID )
     {
-        //include_once( 'kernel/classes/ezsection.php' );
         $sectionObject = eZSection::fetch( $sectionID );
         if ( $sectionObject === null )
             return array( 'error' => array( 'error_type' => 'kernel',
@@ -60,15 +57,12 @@ class eZSectionFunctionCollection
 
     function fetchSectionList()
     {
-        //include_once( 'kernel/classes/ezsection.php' );
         $sectionObjects = eZSection::fetchList( );
         return array( 'result' => $sectionObjects );
     }
 
     function fetchObjectList( $sectionID, $offset = false, $limit = false, $sortOrder = false, $status = false )
     {
-        //include_once( "kernel/classes/ezcontentobject.php" );
-
         if ( $sortOrder === false )
         {
             $sortOrder = array( 'id' => 'desc' );
@@ -88,8 +82,6 @@ class eZSectionFunctionCollection
 
     function fetchObjectListCount( $sectionID, $status = false )
     {
-        //include_once( "kernel/classes/ezcontentobject.php" );
-
         if ( $status == 'archived' )
             $status = eZContentObject::STATUS_ARCHIVED;
         else
@@ -109,9 +101,6 @@ class eZSectionFunctionCollection
 
     function fetchRoles( $sectionID )
     {
-        //include_once( 'kernel/classes/ezpolicylimitation.php' );
-        //include_once( 'kernel/classes/ezrole.php' );
-
         $policies = $roleIDs = $usedRoleIDs = $roles = $roleLimitations = array();
 
         $limitations = eZPolicyLimitation::findByType( 'Section', $sectionID, true, false );
@@ -144,8 +133,6 @@ class eZSectionFunctionCollection
 
     function fetchUserRoles( $sectionID )
     {
-        //include_once( 'kernel/classes/ezrole.php' );
-
         $userRoles = eZRole::fetchRolesByLimitation( 'section', $sectionID );
         return array( 'result' => $userRoles );
     }

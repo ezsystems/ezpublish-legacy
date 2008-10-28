@@ -33,12 +33,6 @@
          calculate the length of Registration group, Registrant and Publication element.
  */
 
-//include_once( 'lib/ezutils/classes/ezcli.php' );
-//include_once( 'kernel/classes/ezscript.php' );
-
-//include_once( 'kernel/classes/datatypes/ezisbn/ezisbngroup.php' );
-//include_once( 'kernel/classes/datatypes/ezisbn/ezisbngrouprange.php' );
-//include_once( 'kernel/classes/datatypes/ezisbn/ezisbnregistrantrange.php' );
 require 'autoload.php';
 
 

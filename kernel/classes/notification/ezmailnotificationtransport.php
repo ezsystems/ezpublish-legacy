@@ -49,8 +49,6 @@ class eZMailNotificationTransport extends eZNotificationTransport
 
     function send( $addressList = array(), $subject, $body, $transportData = null, $parameters = array() )
     {
-        //include_once( 'lib/ezutils/classes/ezmail.php' );
-        //include_once( 'lib/ezutils/classes/ezmailtransport.php' );
         $ini = eZINI::instance();
         $mail = new eZMail();
         $addressList = $this->prepareAddressString( $addressList, $mail );

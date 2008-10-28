@@ -35,9 +35,6 @@
 
 */
 
-//include_once( "kernel/classes/ezpersistentobject.php" );
-//include_once( "lib/ezdb/classes/ezdb.php" );
-
 class eZProductCollection extends eZPersistentObject
 {
     function eZProductCollection( $row )
@@ -175,7 +172,6 @@ class eZProductCollection extends eZPersistentObject
         foreach ( $productCollectionIDList as $productCollectionID )
             eZShippingManager::purgeShippingInfo( $productCollectionID );
 
-        //include_once( 'kernel/classes/ezproductcollectionitem.php' );
         eZProductCollectionItem::cleanupList( $productCollectionIDList );
         $idText = $db->implodeWithTypeCast( ', ', $productCollectionIDList, 'int' );
         $db->query( "DELETE FROM ezproductcollection WHERE id IN ( $idText )" );

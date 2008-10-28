@@ -36,12 +36,6 @@
   \sa eZContentObject
 */
 
-//include_once( "lib/ezdb/classes/ezdb.php" );
-//include_once( "kernel/classes/ezpersistentobject.php" );
-//include_once( "kernel/classes/ezcontentobject.php" );
-//include_once( "kernel/classes/ezcontentclassattribute.php" );
-//include_once( "kernel/classes/ezcontentclassclassgroup.php" );
-//include_once( "kernel/classes/ezcontentclassnamelist.php" );
 require_once( "kernel/common/i18n.php" );
 
 class eZContentClass extends eZPersistentObject
@@ -327,7 +321,6 @@ class eZContentClass extends eZPersistentObject
 
         if ( $user->isAnonymous() )
         {
-            //include_once( 'kernel/classes/ezpreferences.php' );
             $createdObjectIDList = eZPreferences::value( 'ObjectCreationIDList' );
             if ( !$createdObjectIDList )
             {
@@ -625,7 +618,6 @@ class eZContentClass extends eZPersistentObject
     {
         if ( isset( $this->CreatorID ) and $this->CreatorID )
         {
-            //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
             return eZUser::fetch( $this->CreatorID );
         }
         return null;
@@ -638,7 +630,6 @@ class eZContentClass extends eZPersistentObject
     {
         if ( isset( $this->ModifierID ) and $this->ModifierID )
         {
-            //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
             return eZUser::fetch( $this->ModifierID );
         }
         return null;
@@ -684,7 +675,6 @@ class eZContentClass extends eZPersistentObject
     */
     function fetchMatchGroupIDList()
     {
-        //include_once( 'lib/ezutils/classes/ezini.php' );
         $contentINI = eZINI::instance( 'content.ini' );
         if( $contentINI->variable( 'ContentOverrideSettings', 'EnableClassGroupOverride' ) == 'true' )
         {
@@ -1005,7 +995,6 @@ You will need to change the class of the node by using the swap functionality.' 
         $this->setName( $name );
         $this->setAttribute( 'identifier', $identifier );
         $this->setAttribute( 'created', time() );
-        //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
         $user = eZUser::currentUser();
         $userID = $user->attribute( "contentobject_id" );
         $this->setAttribute( 'creator_id', $userID );
@@ -1065,7 +1054,6 @@ You will need to change the class of the node by using the swap functionality.' 
         $handler->setTimestamp( 'sort-key-cache', $time );
         $handler->store();
 
-        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearAllContentCache();
 
         $this->setAttribute( 'serialized_name_list', $this->NameList->serializeNames() );

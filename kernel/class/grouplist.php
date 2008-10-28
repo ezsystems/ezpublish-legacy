@@ -27,11 +27,6 @@
 //
 
 
-//include_once( "kernel/classes/ezcontentclass.php" );
-//include_once( "kernel/classes/ezcontentclassgroup.php" );
-//include_once( "kernel/classes/ezcontentclassclassgroup.php" );
-//include_once( "lib/ezutils/classes/ezhttppersistence.php" );
-
 $Module = $Params['Module'];
 
 $http = eZHTTPTool::instance();
@@ -86,7 +81,6 @@ $Module->setTitle( ezi18n( 'kernel/class', 'Class group list' ) );
 require_once( "kernel/common/template.php" );
 $tpl = templateInit();
 
-//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 $user = eZUser::currentUser();
 foreach( $TemplateData as $tpldata )
 {

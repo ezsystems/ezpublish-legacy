@@ -27,9 +27,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'lib/ezutils/classes/ezcli.php' );
-//include_once( 'kernel/classes/ezscript.php' );
-
 require 'autoload.php';
 
 $cli = eZCLI::instance();
@@ -75,7 +72,6 @@ $tree = new DOMDOcument();
 $success = $tree->loadXML( $transXML );
 
 $cli->output( " validating", false );
-//include_once( 'lib/ezi18n/classes/eztstranslator.php' );
 if ( !eZTSTranslator::validateDOMTree( $tree ) )
     $script->shutdown( 1, "XML text for file $translationFile did not validate" );
 

@@ -38,9 +38,6 @@
   \private
 */
 
-//include_once( "kernel/classes/ezpersistentobject.php" );
-//include_once( "kernel/classes/ezurlaliasml.php" );
-
 class eZURLWildcard extends eZPersistentObject
 {
     const REGEXP_ARRAY_CALLBACK = 'eZURLWilcardCachedReqexpArray';

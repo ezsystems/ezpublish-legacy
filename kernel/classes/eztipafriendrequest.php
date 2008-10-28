@@ -36,8 +36,6 @@
   \brief The class eZTipafriendRequest does
 
 */
-//include_once( "lib/ezdb/classes/ezdb.php" );
-
 class eZTipafriendRequest extends eZPersistentObject
 {
     /*!

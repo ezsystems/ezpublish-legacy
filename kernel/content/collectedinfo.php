@@ -26,8 +26,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'kernel/classes/ezinformationcollection.php' );
-//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 require_once( 'kernel/common/template.php' );
 
 $module = $Params['Module'];

@@ -42,7 +42,6 @@ else
     eZContentObjectTreeNode::hideSubTree( $curNode );
 
 
-//include_once( 'kernel/classes/ezredirectmanager.php' );
 $hasRedirect = eZRedirectManager::redirectTo( $Module, false );
 if ( !$hasRedirect )
 {

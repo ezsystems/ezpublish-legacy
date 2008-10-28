@@ -26,16 +26,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'kernel/classes/ezcontentobject.php' );
-//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-//include_once( 'kernel/classes/ezcontentbrowse.php' );
-//include_once( 'kernel/classes/ezcontentbrowsebookmark.php' );
-//include_once( 'kernel/classes/ezcontentclass.php' );
-//include_once( "lib/ezdb/classes/ezdb.php" );
-//include_once( "lib/ezutils/classes/ezhttptool.php" );
-//include_once( "lib/ezutils/classes/ezini.php" );
-//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-
 $http = eZHTTPTool::instance();
 $module = $Params['Module'];
 
@@ -110,7 +100,6 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
 
     if ( $http->hasPostVariable( 'ContentLanguageCode' ) )
     {
-        //include_once( 'kernel/classes/ezcontentlanguage.php' );
         $languageCode = $http->postVariable( 'ContentLanguageCode' );
         $languageID = eZContentLanguage::idByLocale( $languageCode );
         if ( $languageID === false )
@@ -121,7 +110,6 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
     }
     else
     {
-        //include_once( 'kernel/classes/ezcontentlanguage.php' );
         $allLanguages = eZContentLanguage::prioritizedLanguages();
         // Only show language selection if there are more than 1 languages.
         if ( count( $allLanguages ) > 1 &&
@@ -217,7 +205,6 @@ else if ( $http->hasPostVariable( 'SetSorting' ) &&
     $db->commit();
 
     // invalidate node view cache
-    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearContentCache( $contentObjectID );
 
     return $module->redirectToView( 'view', array( 'full', $nodeID, $languageCode ) );
@@ -298,7 +285,6 @@ else if ( $module->isCurrentAction( 'MoveNode' ) )
     // move selected nodes, this should probably be inside a transaction
     foreach( $nodeIDlist as $nodeID )
     {
-        //include_once( 'kernel/classes/ezcontentobjecttreenodeoperations.php' );
         if( !eZContentObjectTreeNodeOperations::move( $nodeID, $selectedNodeID ) )
         {
             eZDebug::writeError( "Failed to move node $nodeID as child of parent node $selectedNodeID",
@@ -436,7 +422,6 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
     }
 
     // clear cache.
-    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
 
     $selectedObject = $selectedNode->object();
@@ -644,7 +629,6 @@ else if ( $module->isCurrentAction( 'UpdateMainAssignment' ) )
             eZContentObjectTreeNode::updateMainNodeID( $mainAssignmentID, $objectID, false,
                                                        $newMainNode->attribute( 'parent_node_id' ) );
 
-            //include_once( 'kernel/classes/ezcontentcachemanager.php' );
             eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
         }
     }
@@ -780,7 +764,6 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
         }
         $db->commit();
 
-        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
     }
     else if ( $module->isCurrentAction( 'SelectAssignmentLocation' ) )
@@ -973,7 +956,6 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
         $db->commit();
     }
 
-    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearObjectViewCacheIfNeeded( $objectID );
     // clear user policy cache if this was a user object
     if ( $object->attribute( 'contentclass_id' ) == $userClassID )
@@ -1074,7 +1056,6 @@ else if ( $http->hasPostVariable( 'RemoveButton' ) )
             $http->setSessionVariable( 'ContentObjectID', $contentObjectID );
             $http->setSessionVariable( 'HideRemoveConfirmation', $hideRemoveConfirm );
             $http->setSessionVariable( 'DeleteIDArray', $deleteIDArray );
-            //include_once( 'kernel/classes/ezsection.php' );
             $object = eZContentObject::fetch( $contentObjectID );
             eZSection::setGlobalID( $object->attribute( 'section_id' ) );
             $section = eZSection::fetch( $object->attribute( 'section_id' ) );
@@ -1225,7 +1206,6 @@ else if ( $http->hasPostVariable( 'MoveButton' ) )
 }
 else if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
 {
-    //include_once( 'kernel/classes/ezcontentcache.php' );
     if ( $http->hasPostVariable( 'ViewMode' ) )
     {
         $viewMode = $http->postVariable( 'ViewMode' );
@@ -1272,7 +1252,6 @@ else if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
     if ( $http->hasPostVariable( 'ContentObjectID' ) )
     {
         $objectID = $http->postVariable( 'ContentObjectID' );
-        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearContentCache( $objectID );
     }
 
@@ -1386,7 +1365,6 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
             $http->setSessionVariable( 'HideRemoveConfirmation', $hideRemoveConfirm );
             $http->setSessionVariable( 'DeleteIDArray', array( $contentNodeID ) );
             $object = eZContentObject::fetchByNodeID( $contentNodeID);
-            //include_once( 'kernel/classes/ezsection.php' );
             eZSection::setGlobalID( $object->attribute( 'section_id' ) );
             $section = eZSection::fetch( $object->attribute( 'section_id' ) );
             if ( $section )
@@ -1415,7 +1393,6 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
     }
     else
     {
-        //include_once( 'lib/ezutils/classes/ezextension.php' );
         $baseDirectory = eZExtension::baseDirectory();
         $contentINI = eZINI::instance( 'content.ini' );
         $extensionDirectories = $contentINI->variable( 'ActionSettings', 'ExtensionDirectories' );
@@ -1503,7 +1480,6 @@ else if ( $module->isCurrentAction( 'ClearViewCache' ) or
         return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
     }
 
-    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
     if ( $module->isCurrentAction( 'ClearViewCache' ) )
     {
         eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
@@ -1558,7 +1534,6 @@ else if ( $module->isCurrentAction( 'UploadFile' ) )
     {
         eZDebug::writeError( "Missing UploadActionName parameter for action " . $module->currentAction(),
                              'content/action' );
-        //include_once( 'kernel/classes/ezredirectmanager.php' );
         eZRedirectManager::redirectTo( $module, 'content/view/full/2', true );
         return;
     }
@@ -1604,12 +1579,10 @@ else if ( $module->isCurrentAction( 'UploadFile' ) )
     {
         if ( $module->actionParameter( 'UploadRedirectBack' ) == 1 )
         {
-            //include_once( 'kernel/classes/ezredirectmanager.php' );
             $parameters['result_uri'] = eZRedirectManager::redirectURI( $module, 'content/view/full/2', true );
         }
         else if ( $module->actionParameter( 'UploadRedirectBack' ) == 2 )
         {
-            //include_once( 'kernel/classes/ezredirectmanager.php' );
             $parameters['result_uri'] = eZRedirectManager::redirectURI( $module, 'content/view/full/2', false );
         }
     }
@@ -1620,7 +1593,6 @@ else if ( $module->isCurrentAction( 'UploadFile' ) )
         $parameters['result_uri'] = $module->actionParameter( 'UploadRedirectURI' );
     }
 
-    //include_once( 'kernel/classes/ezcontentupload.php' );
     eZContentUpload::upload( $parameters, $module );
     return;
 }

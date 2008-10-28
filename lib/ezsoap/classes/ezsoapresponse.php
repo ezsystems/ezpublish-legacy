@@ -39,9 +39,6 @@
 */
 
 require_once( "lib/ezutils/classes/ezdebug.php" );
-//include_once( 'lib/ezsoap/classes/ezsoapcodec.php' );
-//include_once( "lib/ezsoap/classes/ezsoapenvelope.php" );
-
 class eZSOAPResponse extends eZSOAPEnvelope
 {
     /*!

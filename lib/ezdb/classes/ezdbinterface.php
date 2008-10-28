@@ -39,8 +39,6 @@
 */
 
 require_once( "lib/ezutils/classes/ezdebug.php" );
-//include_once( "lib/ezutils/classes/ezini.php" );
-
 class eZDBInterface
 {
     const BINDING_NO = 0;
@@ -128,7 +126,6 @@ class eZDBInterface
         else
 */
         {
-            //include_once( "lib/ezi18n/classes/eztextcodec.php" );
             $tmpOutputTextCodec = eZTextCodec::instance( $charset, false, false );
             $tmpInputTextCodec = eZTextCodec::instance( false, $charset, false );
             unset( $this->OutputTextCodec );
@@ -304,7 +301,6 @@ class eZDBInterface
     {
         $type = $this->databaseName();
 
-        //include_once( 'lib/ezfile/classes/ezdir.php' );
         if ( $usePathType )
             $sqlFileName = eZDir::path( array( $path, $type, $sqlFile ) );
         else
@@ -996,8 +992,6 @@ class eZDBInterface
 
             $ini = eZINI::instance();
             $adminEmail = $ini->variable( 'MailSettings', 'AdminEmail' );
-            //include_once( 'lib/ezutils/classes/ezsys.php' );
-
             if ( !eZSys::isShellExecution() )
             {
                 $site = eZSys::serverVariable( 'HTTP_HOST' );

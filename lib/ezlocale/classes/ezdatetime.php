@@ -80,10 +80,6 @@ print( $dt1->isEqualTo( $dt3 ) ? 'true' : 'false' ); // Prints 'true'
   \sa eZDate, eZTime, eZLocale
 */
 
-//include_once( 'lib/ezlocale/classes/ezlocale.php' );
-//include_once( 'lib/ezlocale/classes/ezdate.php' );
-//include_once( 'lib/ezlocale/classes/eztime.php' );
-
 class eZDateTime
 {
     /*!

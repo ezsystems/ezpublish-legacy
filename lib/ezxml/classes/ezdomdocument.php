@@ -103,8 +103,6 @@
   \endcode
 */
 
-//include_once( "lib/ezxml/classes/ezdomnode.php" );
-
 class eZDOMDocument
 {
     /*!
@@ -699,7 +697,6 @@ class eZDOMDocument
 
         if ( $charsetConversion )
         {
-            //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
             $codec = eZTextCodec::instance( false, $charset, false );
             if ( $codec )
             {

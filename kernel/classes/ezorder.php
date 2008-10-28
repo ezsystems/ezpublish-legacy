@@ -36,14 +36,6 @@
   \sa eZProductCollection eZBasket
 */
 
-//include_once( "kernel/classes/ezpersistentobject.php" );
-//include_once( "kernel/classes/ezproductcollection.php" );
-//include_once( "kernel/classes/ezproductcollectionitem.php" );
-//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-//include_once( "kernel/classes/ezuserdiscountrule.php" );
-//include_once( "kernel/classes/ezcontentobjecttreenode.php" );
-//include_once( "kernel/classes/ezorderitem.php" );
-
 class eZOrder extends eZPersistentObject
 {
     const SHOW_NORMAL = 0;
@@ -791,8 +783,6 @@ class eZOrder extends eZPersistentObject
     */
     static function discount( $userID, $object )
     {
-        //include_once( 'kernel/classes/ezdiscount.php' );
-
         $user = eZUser::fetch( $userID );
         $bestMatch = eZDiscount::discountPersent( $user, array( 'contentclass_id' => $object->attribute( 'contentclass_id'),
                                                                 'contentobject_id' => $object->attribute( 'id' ),
@@ -1040,7 +1030,6 @@ class eZOrder extends eZPersistentObject
     function accountInformation()
     {
         // Fetch the shop account handler
-        //include_once( 'kernel/classes/ezshopaccounthandler.php' );
         $accountHandler = eZShopAccountHandler::instance();
         return $accountHandler->accountInformation( $this );
     }
@@ -1053,7 +1042,6 @@ class eZOrder extends eZPersistentObject
     function accountName()
     {
         // Fetch the shop account handler
-        //include_once( 'kernel/classes/ezshopaccounthandler.php' );
         $accountHandler = eZShopAccountHandler::instance();
 
         return $accountHandler->accountName( $this );
@@ -1066,7 +1054,6 @@ class eZOrder extends eZPersistentObject
     function accountEmail()
     {
         // Fetch the shop account handler
-        //include_once( 'kernel/classes/ezshopaccounthandler.php' );
         $accountHandler = eZShopAccountHandler::instance();
 
         return $accountHandler->email( $this );
@@ -1165,7 +1152,6 @@ class eZOrder extends eZPersistentObject
         if ( $accessWord == 'yes' )
         {
             // We have full access so we return all of them
-            //include_once( 'kernel/classes/ezorderstatus.php' );
             $statusList = eZOrderStatus::fetchOrderedList( true, false );
             return $statusList;
         }
@@ -1198,7 +1184,6 @@ class eZOrder extends eZPersistentObject
                     else
                     {
                         // We have full access for the current status so we return all of them
-                        //include_once( 'kernel/classes/ezorderstatus.php' );
                         $statusList = eZOrderStatus::fetchOrderedList( true, false );
                         return $statusList;
                     }
@@ -1207,7 +1192,6 @@ class eZOrder extends eZPersistentObject
             if ( count( $accessList ) > 0 )
             {
                 $accessList = array_unique( array_merge( $accessList, array( $currentStatusID ) ) );
-                //include_once( 'kernel/classes/ezorderstatus.php' );
                 $statuses = eZOrderStatus::fetchOrderedList( true, false );
                 foreach ( $statuses as $status )
                 {
@@ -1237,7 +1221,6 @@ class eZOrder extends eZPersistentObject
         if ( $userID === false )
             $userID = eZUser::currentUserID();
 
-        //include_once( 'kernel/classes/ezorderstatushistory.php' );
         $history = eZOrderStatusHistory::create( $this->OrderNr, $statusID, $userID, $time );
         $history->store();
 
@@ -1259,7 +1242,6 @@ class eZOrder extends eZPersistentObject
     */
     function createStatusHistory()
     {
-        //include_once( 'kernel/classes/ezorderstatushistory.php' );
         $history = eZOrderStatusHistory::create( $this->OrderNr, // Note: Use the order nr, not id
                                                  $this->StatusID,
                                                  $this->StatusModifierID,
@@ -1298,7 +1280,6 @@ class eZOrder extends eZPersistentObject
     {
         if ( $this->Status === null )
         {
-            //include_once( 'kernel/classes/ezorderstatus.php' );
             $this->Status = eZOrderStatus::fetchByStatus( $this->StatusID );
         }
         return $this->Status->attribute( 'name' );
@@ -1313,7 +1294,6 @@ class eZOrder extends eZPersistentObject
     {
         if ( $this->Status === null )
         {
-            //include_once( 'kernel/classes/ezorderstatus.php' );
             $this->Status = eZOrderStatus::fetchByStatus( $this->StatusID );
         }
         return $this->Status;
@@ -1380,7 +1360,6 @@ class eZOrder extends eZPersistentObject
         if ( count( $rows ) > 0 )
         {
             // Who deletes which order in shop should be logged.
-            //include_once( "kernel/classes/ezaudit.php" );
             eZAudit::writeAudit( 'order-delete', array( 'Order ID' => $orderID,
                                                         'Comment' => 'Removed the order and its related data from the database: eZOrder::cleanupOrder()' ) );
 
@@ -1445,10 +1424,8 @@ class eZOrder extends eZPersistentObject
             eZProductCollection::cleanupList( $productCollectionIDList );
         }
         // Who deletes which order in shop should be logged.
-        //include_once( "kernel/classes/ezaudit.php" );
         eZAudit::writeAudit( 'order-delete', array( 'Comment' => 'Removed all orders from the database: eZOrder::cleanup()' ) );
 
-        //include_once( 'kernel/classes/ezorderitem.php' );
         eZOrderItem::cleanup();
         $db->query( "DELETE FROM ezorder_status_history" );
         $db->query( "DELETE FROM ezorder" );

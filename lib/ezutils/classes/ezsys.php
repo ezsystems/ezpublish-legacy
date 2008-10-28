@@ -434,9 +434,7 @@ class eZSys
     */
     static function varDirectory()
     {
-        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
-        //include_once( 'lib/ezfile/classes/ezdir.php' );
         return eZDir::path( array( $ini->variable( 'FileSettings', 'VarDir' ) ) );
     }
 
@@ -447,8 +445,6 @@ class eZSys
     */
     static function storageDirectory()
     {
-        //include_once( 'lib/ezutils/classes/ezini.php' );
-        //include_once( 'lib/ezfile/classes/ezdir.php' );
         $ini = eZINI::instance();
         $varDir = eZSys::varDirectory();
         $storageDir = $ini->variable( 'FileSettings', 'StorageDir' );
@@ -462,11 +458,9 @@ class eZSys
     */
     static function cacheDirectory()
     {
-        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
         $cacheDir = $ini->variable( 'FileSettings', 'CacheDir' );
 
-        //include_once( 'lib/ezfile/classes/ezdir.php' );
         if ( $cacheDir[0] == "/" )
         {
             return eZDir::path( array( $cacheDir ) );
@@ -1059,7 +1053,6 @@ class eZSys
     */
     static function ezcrc32( $string )
     {
-        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
 
         if ( $ini->variable( 'SiteSettings', '64bitCompatibilityMode' ) === 'enabled' )

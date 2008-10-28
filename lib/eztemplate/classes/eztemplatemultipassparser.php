@@ -37,10 +37,6 @@
 
 */
 
-//include_once( 'lib/eztemplate/classes/eztemplateparser.php' );
-//include_once( 'lib/eztemplate/classes/eztemplateelementparser.php' );
-//include_once( 'lib/eztemplate/classes/eztemplate.php' );
-
 class eZTemplateMultiPassParser extends eZTemplateParser
 {
     /*!
@@ -776,7 +772,6 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                         {
                             unset( $oldTag );
                             unset( $oldTagName );
-                            //include_once( "lib/ezutils/classes/ezphpcreator.php" );
                             $oldTag = array_pop( $tagStack );
                             $oldTagName = $oldTag["Tag"];
                             unset( $currentRoot );

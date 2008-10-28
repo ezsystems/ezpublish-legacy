@@ -27,9 +27,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'lib/ezutils/classes/ezcli.php' );
-//include_once( 'kernel/classes/ezscript.php' );
-
 require 'autoload.php';
 
 $cli = eZCLI::instance();
@@ -83,7 +80,6 @@ if ( $options['no-full-url'] )
 
 $script->initialize();
 
-//include_once( 'lib/ezutils/classes/ezhttptool.php' );
 $http = eZHTTPTool::instance();
 $http->UseFullUrl = $useFullURL;
 
@@ -93,7 +89,6 @@ if ( count( $options['arguments'] ) > 0 )
     $ini = eZINI::instance();
 
     require_once( 'kernel/common/template.php' );
-    //include_once( 'lib/eztemplate/classes/eztemplatecompiler.php' );
     $tpl = templateInit();
 
     $fileList = $options['arguments'];
@@ -141,7 +136,6 @@ else
     $designList = array_merge( array( $standardDesign ), $additionalSiteDesignList, array( $siteDesign ) );
 
     require_once( 'kernel/common/template.php' );
-    //include_once( 'lib/eztemplate/classes/eztemplatecompiler.php' );
     $tpl = templateInit();
 
     $script->setIterationData( '.', '~' );

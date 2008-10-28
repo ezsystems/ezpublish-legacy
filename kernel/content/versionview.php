@@ -27,12 +27,6 @@
 //
 
 
-//include_once( 'kernel/classes/ezcontentobject.php' );
-//include_once( 'kernel/classes/ezcontentclass.php' );
-//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-
-//include_once( 'lib/ezutils/classes/ezhttptool.php' );
-
 require_once( 'kernel/common/template.php' );
 require_once( 'access.php' );
 
@@ -180,7 +174,6 @@ $navigationPartIdentifier = false;
 if ( $sectionID !== false )
 {
     $designKeys[] = array( 'section', $sectionID ); // Section ID
-    //include_once( 'kernel/classes/ezsection.php' );
     eZSection::setGlobalID( $sectionID );
 
     $section = eZSection::fetch( $sectionID );
@@ -294,8 +287,6 @@ if ( $assignment )
 
 
 $res->setKeys( $designKeys );
-
-//include_once( 'kernel/classes/eznodeviewfunctions.php' );
 
 unset( $contentObject );
 $contentObject = $node->attribute( 'object' ); // do not remove &

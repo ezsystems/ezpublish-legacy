@@ -31,8 +31,6 @@
 $Module = $Params['Module'];
 
 require_once( 'kernel/common/template.php' );
-//include_once( 'kernel/classes/ezpdfexport.php' );
-
 // Create new PDF Export
 if ( $Module->isCurrentAction( 'NewExport' ) )
 {

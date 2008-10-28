@@ -83,7 +83,6 @@ if ( $Module->isCurrentAction( 'Publish' ) and
         return $Result;
     }
 
-    //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $ObjectID,
                                                                                  'version' => $EditVersion ) );
     $object = eZContentObject::fetch( $ObjectID );

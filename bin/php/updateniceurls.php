@@ -34,9 +34,6 @@
 
 set_time_limit ( 0 );
 
-//include_once( 'lib/ezutils/classes/ezcli.php' );
-//include_once( 'kernel/classes/ezscript.php' );
-
 require 'autoload.php';
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "eZ Publish url-alias imported and updater.\n\n" .
@@ -114,10 +111,6 @@ function changeSiteAccessSetting( $siteAccess )
     }
 }
 
-//include_once( 'lib/ezdb/classes/ezdb.php' );
-//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-//include_once( 'kernel/classes/ezurlwildcard.php' );
-
 $db = eZDb::instance();
 
 if ( $dbHost or $dbName or $dbUser or $dbImpl )
@@ -140,7 +133,6 @@ if ( $dbHost or $dbName or $dbUser or $dbImpl )
 
 $db->setIsSQLOutputEnabled( $showSQL );
 
-//include_once( 'kernel/classes/ezcontentlanguage.php' );
 eZContentLanguage::setCronjobMode( true );
 
 $fetchLimit = 200;
@@ -1069,7 +1061,6 @@ if ( $urlCount > 0 )
     if ( $importOldAliasWildcard )
     {
         $cli->output( "Removing old wildcard caches" );
-        //include_once( 'kernel/classes/ezcache.php' );
         eZCache::clearByID( 'urlalias' );
     }
 

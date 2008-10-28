@@ -35,8 +35,6 @@
 
 */
 
-//include_once( "kernel/classes/ezdatatype.php" );
-
 class eZTextType extends eZDataType
 {
     const DATA_TYPE_STRING = "eztext";
@@ -281,7 +279,6 @@ class eZTextType extends eZDataType
     */
     function diff( $old, $new, $options = false )
     {
-        //include_once( 'lib/ezdiff/classes/ezdiff.php' );
         $diff = new eZDiff();
         $diff->setDiffEngineType( $diff->engineType( 'text' ) );
         $diff->initDiffEngine();

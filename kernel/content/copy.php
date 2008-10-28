@@ -29,9 +29,6 @@
 $Module = $Params['Module'];
 $ObjectID = $Params['ObjectID'];
 
-//include_once( 'kernel/classes/ezcontentobject.php' );
-//include_once( "lib/ezdb/classes/ezdb.php" );
-
 $http = eZHTTPTool::instance();
 
 if ( $http->hasPostVariable( 'BrowseCancelButton' ) )
@@ -116,7 +113,6 @@ function copyObject( $Module, $object, $allVersions, $newParentNodeID )
     $nodeAssignment->store();
 
     // publish the newly created object
-    //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
     eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $newObject->attribute( 'id' ),
                                                               'version'   => $curVersion ) );
     // Update "is_invisible" attribute for the newly created node.
@@ -158,7 +154,6 @@ function browse( $Module, $object )
         $viewMode = $module->actionParameter( 'ViewMode' );
 
 
-    //include_once( 'kernel/classes/ezcontentbrowse.php' );
     $sourceParentNodeID = $node->attribute( 'parent_node_id' );
     eZContentBrowse::browse( array( 'action_name' => 'CopyNode',
                                     'description_template' => 'design:content/browse_copy_node.tpl',
@@ -186,7 +181,6 @@ either all version or the current one.
 */
 function chooseObjectVersionsToCopy( $Module, &$Result, $object )
 {
-        //include_once( 'kernel/classes/ezcontentbrowse.php' );
         $selectedNodeIDArray = eZContentBrowse::result( $Module->currentAction() );
         require_once( 'kernel/common/template.php' );
         $tpl = templateInit();
@@ -240,7 +234,6 @@ else if ( $Module->isCurrentAction( 'CopyNode' ) )
     else
     {
         // actually do copying of the pre-configured object version(s)
-        //include_once( 'kernel/classes/ezcontentbrowse.php' );
         $selectedNodeIDArray = eZContentBrowse::result( $Module->currentAction() );
         $newParentNodeID = $selectedNodeIDArray[0];
         return copyObject( $Module, $object, $allVersions, $newParentNodeID );

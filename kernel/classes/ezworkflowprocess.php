@@ -34,10 +34,6 @@
 
 */
 
-//include_once( 'lib/ezdb/classes/ezdb.php' );
-//include_once( 'kernel/classes/ezpersistentobject.php' );
-//include_once( 'kernel/classes/ezworkflowevent.php' );
-
 class eZWorkflowProcess extends eZPersistentObject
 {
     function eZWorkflowProcess( $row )
@@ -566,7 +562,6 @@ class eZWorkflowProcess extends eZPersistentObject
     {
         if ( isset( $this->UserID ) and $this->UserID )
         {
-            //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
             return eZUser::instance( $this->UserID );
         }
         return null;
@@ -576,7 +571,6 @@ class eZWorkflowProcess extends eZPersistentObject
     {
         if ( isset( $this->ContentID ) and $this->ContentID )
         {
-            //include_once( 'kernel/classes/ezcontentobject.php' );
             return eZContentObject::fetch( $this->ContentID );
         }
         return null;
@@ -586,7 +580,6 @@ class eZWorkflowProcess extends eZPersistentObject
     {
         if ( isset( $this->NodeID ) and $this->NodeID )
         {
-            //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
             return eZContentObjectTreeNode::fetch( $this->NodeID );
         }
         return null;
@@ -596,7 +589,6 @@ class eZWorkflowProcess extends eZPersistentObject
     {
         if ( isset( $this->WorkflowID ) and $this->WorkflowID )
         {
-            //include_once( 'kernel/classes/ezworkflow.php' );
             return eZWorkflow::fetch( $this->WorkflowID );
         }
         return null;
@@ -606,7 +598,6 @@ class eZWorkflowProcess extends eZPersistentObject
     {
         if ( isset( $this->EventID ) and $this->EventID )
         {
-            //include_once( 'kernel/classes/ezworkflowevent.php' );
             return eZWorkflowEvent::fetch( $this->EventID );
         }
         return null;
@@ -616,7 +607,6 @@ class eZWorkflowProcess extends eZPersistentObject
     {
         if ( isset( $this->LastEventID ) and $this->LastEventID )
         {
-            //include_once( 'kernel/classes/ezworkflowevent.php' );
             return eZWorkflowEvent::fetch( $this->LastEventID );
         }
         return null;

@@ -31,9 +31,6 @@ $module = $Params['Module'];
 $parameters = $Params["Parameters"];
 
 require_once( "kernel/common/template.php" );
-//include_once( "kernel/common/eztemplatedesignresource.php" );
-//include_once( 'lib/ezutils/classes/ezhttptool.php' );
-
 $ini = eZINI::instance();
 $tpl = templateInit();
 
@@ -147,7 +144,6 @@ if ( $module->isCurrentAction( 'RemoveOverride' ) )
         }
 
         // Expire content view cache
-        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearAllContentCache();
 
         // Clear override cache

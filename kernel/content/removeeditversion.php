@@ -29,9 +29,6 @@
 
 /*! \file removeobject.php
 */
-//include_once( "kernel/classes/ezcontentobject.php" );
-//include_once( "lib/ezutils/classes/ezhttppersistence.php" );
-//include_once( "lib/ezdb/classes/ezdb.php" );
 $Module = $Params['Module'];
 $http = eZHTTPTool::instance();
 $objectID = (int) $http->sessionVariable( "DiscardObjectID" );
@@ -104,7 +101,6 @@ if ( $isConfirmed )
         if ( isset( $nodeID ) && $nodeID )
             return $Module->redirectTo( '/content/view/full/' . $nodeID .'/' );
 
-        //include_once( 'kernel/classes/ezredirectmanager.php' );
         return eZRedirectManager::redirectTo( $Module, '/', true, array( 'content/edit' ) );
     }
 }

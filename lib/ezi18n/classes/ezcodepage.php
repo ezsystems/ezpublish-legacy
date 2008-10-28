@@ -34,9 +34,6 @@
 */
 
 require_once( "lib/ezutils/classes/ezdebug.php" );
-//include_once( "lib/ezi18n/classes/ezutf8codec.php" );
-//include_once( "lib/ezi18n/classes/ezcharsetinfo.php" );
-
 class eZCodePage
 {
     const CACHE_CODE_DATE = 1028204478;

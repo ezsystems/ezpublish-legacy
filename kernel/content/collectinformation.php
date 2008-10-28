@@ -26,11 +26,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'kernel/classes/ezinformationcollection.php' );
-//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-//include_once( "lib/ezdb/classes/ezdb.php" );
-//include_once( 'lib/ezutils/classes/ezmail.php' );
-//include_once( 'lib/ezutils/classes/ezmailtransport.php' );
 require_once( 'kernel/common/template.php' );
 
 $Module = $Params['Module'];

@@ -36,13 +36,7 @@ function makeTriggerArray( $triggerList )
     return $triggerArray;
 }
 
-//include_once( 'kernel/classes/ezcontentobject.php' );
-//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-//include_once( 'kernel/classes/ezcontentclass.php' );
 require_once( 'kernel/common/template.php' );
-//include_once( 'kernel/classes/eztrigger.php' );
-//include_once( "kernel/classes/ezmodulemanager.php" );
-
 $http = eZHTTPTool::instance();
 
 $Module = $Params['Module'];

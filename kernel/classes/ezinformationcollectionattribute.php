@@ -33,8 +33,6 @@
 
 */
 
-//include_once( 'kernel/classes/ezpersistentobject.php' );
-
 class eZInformationCollectionAttribute extends eZPersistentObject
 {
     function eZInformationCollectionAttribute( $row )

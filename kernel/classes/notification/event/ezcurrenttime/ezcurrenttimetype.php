@@ -36,9 +36,6 @@
   \brief The class eZCurrentTimeType does
 
 */
-//include_once( 'kernel/classes/notification/eznotificationeventtype.php' );
-//include_once( "lib/ezlocale/classes/ezdate.php" );
-
 class eZCurrentTimeType extends eZNotificationEventType
 {
     const NOTIFICATION_TYPE_STRING = 'ezcurrenttime';

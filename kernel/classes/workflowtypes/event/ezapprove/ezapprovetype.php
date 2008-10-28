@@ -40,9 +40,6 @@
                                  data_int3  - content object version option
 */
 
-//include_once( "kernel/classes/ezworkflowtype.php" );
-//include_once( 'kernel/classes/collaborationhandlers/ezapprove/ezapprovecollaborationhandler.php' );
-
 class eZApproveType extends eZWorkflowEventType
 {
     const WORKFLOW_TYPE_STRING = "ezapprove";
@@ -94,7 +91,6 @@ class eZApproveType extends eZWorkflowEventType
                 $attributeValue = $event->attribute( 'data_int2' );
                 if ( $attributeValue != 0 )
                 {
-                    //include_once( 'kernel/classes/ezcontentlanguage.php' );
                     $languages = eZContentLanguage::languagesByMask( $attributeValue );
                     foreach ( $languages as $language )
                     {
@@ -145,7 +141,6 @@ class eZApproveType extends eZWorkflowEventType
         {
             case 'sections':
             {
-                //include_once( 'kernel/classes/ezsection.php' );
                 $sections = eZSection::fetchList( false );
                 foreach ( $sections as $key => $section )
                 {
@@ -156,7 +151,6 @@ class eZApproveType extends eZWorkflowEventType
             }break;
             case 'languages':
             {
-                //include_once( 'kernel/classes/ezcontentlanguage.php' );
                 return eZContentLanguage::fetchList();
             }break;
         }
@@ -616,8 +610,6 @@ class eZApproveType extends eZWorkflowEventType
         $eventID = $workflowEvent->attribute( "id" );
         $module =& $GLOBALS['eZRequestedModule'];
         //$siteIni = eZINI::instance();
-        //include_once( 'kernel/classes/ezcontentclass.php' );
-
         switch ( $action )
         {
             case 'AddApproveUsers' :
@@ -625,7 +617,6 @@ class eZApproveType extends eZWorkflowEventType
                 $userClassNames = eZUser::fetchUserClassNames();
                 if ( count( $userClassNames ) > 0 )
                 {
-                    //include_once( 'kernel/classes/ezcontentbrowse.php' );
                     eZContentBrowse::browse( array( 'action_name' => 'SelectMultipleUsers',
                                                     'from_page' => '/workflow/edit/' . $workflowEvent->attribute( 'workflow_id' ),
                                                     'custom_action_data' => array( 'event_id' => $eventID,
@@ -650,7 +641,6 @@ class eZApproveType extends eZWorkflowEventType
                 $groupClassNames = eZUser::fetchUserGroupClassNames();
                 if ( count( $groupClassNames ) > 0 )
                 {
-                    //include_once( 'kernel/classes/ezcontentbrowse.php' );
                     eZContentBrowse::browse( array( 'action_name' => 'SelectMultipleUsers',
                                                     'from_page' => '/workflow/edit/' . $workflowEvent->attribute( 'workflow_id' ),
                                                     'custom_action_data' => array( 'event_id' => $eventID,

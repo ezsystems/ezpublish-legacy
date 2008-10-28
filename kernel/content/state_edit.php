@@ -26,9 +26,6 @@
 //
 
 require_once('lib/ezutils/classes/ezdebug.php');
-//include_once('lib/ezutils/classes/ezhttptool.php');
-//include_once('lib/ezdb/classes/ezdb.php');
-
 function stateEditPostFetch( $module, $class, $object, $version, $contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage, &$validation )
 {
 }

@@ -37,8 +37,6 @@
   \brief A package creator for content objects
 */
 
-//include_once( 'kernel/classes/ezpackagecreationhandler.php' );
-
 class eZContentObjectPackageCreator extends eZPackageCreationHandler
 {
     /*!
@@ -115,7 +113,6 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
     {
         if ( $http->hasPostVariable( 'AddSubtree' ) )
         {
-            //include_once( 'kernel/classes/ezcontentbrowse.php' );
             eZContentBrowse::browse( array( 'action_name' => 'FindLimitationSubtree',
                                             'description_template' => 'design:package/creators/ezcontentobject/browse_subtree.tpl',
                                             'from_page' => '/package/create',
@@ -127,7 +124,6 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
         }
         else if ( $http->hasPostVariable( 'AddNode' ) )
         {
-            //include_once( 'kernel/classes/ezcontentbrowse.php' );
             eZContentBrowse::browse( array( 'action_name' => 'FindLimitationNode',
                                             'description_template' => 'design:package/creators/ezcontentobject/browse_node.tpl',
                                             'from_page' => '/package/create',
@@ -198,11 +194,9 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
                                                    'related_objects' => 'selected',
                                                    'embed_objects' => 'selected' );
 
-        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
         $persistentData['object_options']['site_access_array'] = array( $ini->variable( 'SiteSettings', 'DefaultAccess' ) );
 
-        //include_once( 'kernel/classes/ezcontentobject.php' );
         $availableLanguages = eZContentObject::translationList();
         foreach ( $availableLanguages as $language )
         {
@@ -212,11 +206,9 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
 
     function loadObjectLimits( $package, $http, $step, &$persistentData, $tpl, &$module )
     {
-        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
         $availableSiteAccesses = $ini->variable( 'SiteAccessSettings', 'RelatedSiteAccessList' );
 
-        //include_once( 'kernel/classes/ezcontentobject.php' );
         $availableLanguages = eZContentObject::translationList();
         $availableLanguageArray = array();
         foreach ( $availableLanguages as $language )

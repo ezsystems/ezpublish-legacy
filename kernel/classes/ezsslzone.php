@@ -44,9 +44,6 @@
  For more details pleaase see doc/feautures/3.8/ssl_zones.txt
 */
 
-//include_once( 'lib/ezutils/classes/ezini.php' );
-//include_once( 'lib/ezutils/classes/ezsys.php' );
-
 class eZSSLZone
 {
     const DEFAULT_SSL_PORT = 443;
@@ -76,8 +73,6 @@ class eZSSLZone
      */
     static function cacheFileName()
     {
-        //include_once( 'lib/ezutils/classes/ezsys.php' );
-        //include_once( 'lib/ezfile/classes/ezdir.php' );
         return eZDir::path( array( eZSys::cacheDirectory(), 'ssl_zones_cache.php' ) );
     }
 
@@ -135,7 +130,6 @@ class eZSSLZone
                 $pathStringsArray = array();
                 foreach ( $sslSubtrees as $uri )
                 {
-                    //include_once( 'kernel/classes/ezurlaliasml.php' );
                     $elements = eZURLAliasML::fetchByPath( $uri );
                     if ( count( $elements ) == 0 )
                     {
@@ -341,7 +335,6 @@ class eZSSLZone
         if ( !$redirect && !eZSSLZone::isKeepModeView( $module, $view ) )
             return;
 
-        //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
         $pathString = $node->attribute( 'path_string' );
 
         return eZSSLZone::checkNodePath( $module, $view, $pathString, $redirect );

@@ -26,8 +26,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
-//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 require_once( 'kernel/common/template.php' );
 
 $Module = $Params['Module'];

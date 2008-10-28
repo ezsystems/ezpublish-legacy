@@ -36,7 +36,6 @@
   \brief The class eZDiscountSubRuleValue does
 
 */
-//include_once( "kernel/classes/ezpersistentobject.php" );
 class eZDiscountSubRuleValue extends eZPersistentObject
 {
     /*!

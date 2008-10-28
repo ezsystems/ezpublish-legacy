@@ -27,9 +27,6 @@
 //
 
 require_once( "kernel/common/template.php" );
-//include_once( "lib/ezutils/classes/ezhttppersistence.php" );
-//include_once( "kernel/classes/ezvatrule.php" );
-
 /**
  * Find errors in VAT charging rules.
  *

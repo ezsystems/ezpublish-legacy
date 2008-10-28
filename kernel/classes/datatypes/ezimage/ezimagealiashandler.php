@@ -44,10 +44,6 @@
         This was required to get the new multi-language features to work.
 */
 
-//include_once( 'lib/ezdb/classes/ezdb.php' );
-//include_once( 'lib/ezfile/classes/ezfilehandler.php' );
-//include_once( "kernel/classes/datatypes/ezimage/ezimagefile.php" );
-
 class eZImageAliasHandler
 {
     /*!
@@ -815,7 +811,6 @@ class eZImageAliasHandler
         {
             eZDir::mkdir( $dirpath, false, true );
         }
-        //include_once( 'lib/ezutils/classes/ezmimetype.php' );
         $aliasList = $this->aliasList();
         $this->resetImageSerialNumber();
 
@@ -922,7 +917,6 @@ class eZImageAliasHandler
             $fetchedFilePath = $imageFile->fetchUnique();
 
             //(Cluster) Get mime data of real file, and fetch info by image analizer.
-            //include_once( 'lib/ezutils/classes/ezmimetype.php' );
             $mimeDataTemp = eZMimeType::findByFileContents( $fetchedFilePath );
             $imageManager->analyzeImage( $mimeDataTemp );
 
@@ -1048,7 +1042,6 @@ class eZImageAliasHandler
     function normalizeImageName( $imageName )
     {
         // Initialize transformation system
-        //include_once( 'lib/ezi18n/classes/ezchartransform.php' );
         $trans = eZCharTransform::instance();
 
         $imageName = eZURLAliasML::convertToAlias( $imageName );
@@ -1092,7 +1085,6 @@ class eZImageAliasHandler
     {
         $this->increaseImageSerialNumber();
 
-        //include_once( 'lib/ezutils/classes/ezmimetype.php' );
         $mimeData = eZMimeType::findByFileContents( $httpFile->attribute( 'filename' ) );
         if ( !$mimeData['is_valid'] )
         {
@@ -1139,7 +1131,6 @@ class eZImageAliasHandler
 
         if ( !$originalFilename )
             $originalFilename = basename( $filename );
-        //include_once( 'lib/ezutils/classes/ezmimetype.php' );
         $mimeData = eZMimeType::findByFileContents( $filename );
         if ( !$mimeData['is_valid'] and
              $originalFilename != $filename )

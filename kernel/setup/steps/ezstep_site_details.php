@@ -30,7 +30,6 @@
 
 /*! \file ezstep_site_details.php
 */
-//include_once( 'kernel/setup/steps/ezstep_installer.php');
 require_once( "kernel/common/i18n.php" );
 
 /*!
@@ -61,7 +60,6 @@ class eZStepSiteDetails extends eZStepInstaller
     */
     function processPostData()
     {
-        //include_once( 'lib/ezdb/classes/ezdbtool.php' );
         $databaseMap = eZSetupDatabaseMap();
 
         $databaseInfo = $this->PersistenceList['database_info'];
@@ -309,8 +307,6 @@ class eZStepSiteDetails extends eZStepInstaller
 
             return $this->kickstartContinueNextStep();
         }
-
-        //include_once( 'lib/ezdb/classes/ezdbtool.php' );
 
         // Get available databases
         $databaseMap = eZSetupDatabaseMap();

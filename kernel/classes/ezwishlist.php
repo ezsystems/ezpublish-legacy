@@ -37,13 +37,6 @@
   \sa eZProductCollection
 */
 
-//include_once( "kernel/classes/ezpersistentobject.php" );
-//include_once( "kernel/classes/ezproductcollection.php" );
-//include_once( "kernel/classes/ezproductcollectionitem.php" );
-//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-//include_once( "kernel/classes/ezuserdiscountrule.php" );
-//include_once( "kernel/classes/ezcontentobjecttreenode.php" );
-
 class eZWishList extends eZPersistentObject
 {
     /*!

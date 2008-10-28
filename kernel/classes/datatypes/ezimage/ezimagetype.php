@@ -37,10 +37,6 @@
         storage technique removes the need to have it.
 */
 
-//include_once( "kernel/classes/ezdatatype.php" );
-//include_once( "lib/ezfile/classes/ezdir.php" );
-//include_once( "lib/ezutils/classes/ezhttpfile.php" );
-
 class eZImageType extends eZDataType
 {
     const FILESIZE_FIELD = 'data_int1';
@@ -72,7 +68,6 @@ class eZImageType extends eZDataType
     {
         if ( $version === null )
         {
-            //include_once( "kernel/classes/datatypes/ezimage/ezimagealiashandler.php" );
             eZImageAliasHandler::removeAllAliases( $contentObjectAttribute );
         }
         else
@@ -125,7 +120,6 @@ class eZImageType extends eZDataType
              }
              else
              {
-                 //include_once( 'lib/ezutils/classes/ezmimetype.php' );
                  $mimeType = eZMimeType::findByURL( $_FILES[$httpFileName]['name'] );
                  $nameMimeType = $mimeType['name'];
                  $nameMimeTypes = explode("/", $nameMimeType);
@@ -423,7 +417,6 @@ class eZImageType extends eZDataType
     */
     function objectAttributeContent( $contentObjectAttribute )
     {
-        //include_once( "kernel/classes/datatypes/ezimage/ezimagealiashandler.php" );
         $imageHandler = new eZImageAliasHandler( $contentObjectAttribute );
 
         return $imageHandler;

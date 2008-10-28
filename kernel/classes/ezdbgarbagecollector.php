@@ -52,8 +52,6 @@
 
 */
 
-//include_once( 'kernel/classes/ezpersistentobject.php' );
-
 class eZDBGarbageCollector
 {
     /*!
@@ -124,8 +122,6 @@ WHERE ezsession.session_key IS NULL";
         $end = false;
         if ( is_numeric( $maxTime ) )
             $end = time() + $maxTime;
-
-        //include_once( 'kernel/classes/ezproductcollection.php' );
 
         do
         {
@@ -241,8 +237,6 @@ WHERE ezproductcollection_used.id IS NULL";
         if ( is_numeric( $maxTime ) )
             $end = time() + $maxTime;
 
-        //include_once( 'kernel/classes/ezproductcollectionitem.php' );
-
         do
         {
             $rows = $db->arrayQuery( $sql, array( 'offset' => 0, 'limit' => $limit ) );
@@ -333,8 +327,6 @@ WHERE ezproductcollection.id IS NULL";
         $end = false;
         if ( is_numeric( $maxTime ) )
             $end = time() + $maxTime;
-
-        //include_once( 'kernel/classes/ezproductcollectionitemoption.php' );
 
         do
         {

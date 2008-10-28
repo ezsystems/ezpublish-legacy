@@ -86,7 +86,6 @@ class eZCodeMapper
         $str .= $text;
         if ( class_exists( 'ezcli' ) )
         {
-            //include_once( 'lib/ezutils/classes/ezcli.php' );
             $cli = eZCLI::instance();
             $cli->error( $str );
         }
@@ -111,7 +110,6 @@ class eZCodeMapper
         $str .= $text;
         if ( class_exists( 'ezcli' ) )
         {
-            //include_once( 'lib/ezutils/classes/ezcli.php' );
             $cli = eZCLI::instance();
             $cli->warning( $str );
         }
@@ -142,7 +140,6 @@ class eZCodeMapper
         $ini = eZINI::instance( 'transform.ini' );
         $repositoryList = array( $ini->variable( 'Transformation', 'Repository' ) );
         $files = $ini->variable( 'Transformation', 'Files' );
-        //include_once( 'lib/ezutils/classes/ezextension.php' );
         $extensions = $ini->variable( 'Transformation', 'Extensions' );
         $repositoryList = array_merge( $repositoryList,
                                        eZExtension::expandedPathList( $extensions, 'transformations' ) );
@@ -216,8 +213,6 @@ class eZCodeMapper
 
         $this->TransformationFiles[] = $name;
 
-        //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-        //include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
         $this->ISOUnicodeCodec = eZTextCodec::instance( 'iso-8859-1', 'unicode' );
 
         $buffer = '';
@@ -1426,8 +1421,6 @@ class eZCodeMapper
     */
     function generateCharsetMappingTable( $unicodeTable, $charset )
     {
-        //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-
         $codec = eZTextCodec::instance( 'unicode', $charset );
         if ( !$codec )
         {
@@ -1731,7 +1724,6 @@ class eZCodeMapper
             if ( !in_array( $charsetName, $nonCJKCharsets ) )
             {
                 // 4 Add spaces after chinese / japanese / korean multibyte characters
-                //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
                 $codec = eZTextCodec::instance( false, 'unicode' );
 
                 $unicodeValueArray = $codec->convertString( $text );

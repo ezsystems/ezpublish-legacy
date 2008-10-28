@@ -180,7 +180,6 @@ class eZURI
             $this->OriginalURI = $uri;
             $this->UserArray = array();
 
-            //include_once( 'lib/ezutils/classes/ezini.php' );
             $ini = eZINI::instance( 'template.ini' );
 
             if ( $ini->variable( 'ControlSettings', 'OldStyleUserVariables' ) == 'enabled' )
@@ -237,7 +236,6 @@ class eZURI
             // Remake the URI without any user parameters
             $this->URI = implode( '/', $this->URIArray );
 
-            //include_once( 'lib/ezutils/classes/ezini.php' );
             $ini = eZINI::instance( 'template.ini' );
             if ( $ini->variable( 'ControlSettings', 'AllowUserVariables' ) == 'false' )
             {
@@ -326,7 +324,6 @@ class eZURI
                 $char = $this->UserArray[$paramKey];
                 $char = urldecode( $char );
 
-                //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
                 $codec = eZTextCodec::instance( 'utf-8', false );
                 if ( $codec )
                     $char = $codec->convertString( $char );
@@ -531,7 +528,6 @@ class eZURI
             $href = '/' . $href;
         }
 
-        //include_once( 'lib/ezutils/classes/ezsys.php' );
         $sys = eZSys::instance();
         $dir = !$ignoreIndexDir ? $sys->indexDir() : $sys->wwwDir();
         $serverURL = $serverURL === 'full' ? $sys->serverURL() : '' ;

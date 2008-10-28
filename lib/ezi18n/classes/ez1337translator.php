@@ -49,8 +49,6 @@
 
 */
 
-//include_once( "lib/ezi18n/classes/eztranslatorhandler.php" );
-
 class eZ1337Translator extends eZTranslatorHandler
 {
     /*!

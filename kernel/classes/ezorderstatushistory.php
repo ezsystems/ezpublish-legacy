@@ -54,8 +54,6 @@
 
 */
 
-//include_once( "kernel/classes/ezpersistentobject.php" );
-
 class eZOrderStatusHistory extends eZPersistentObject
 {
     /*!
@@ -123,7 +121,6 @@ class eZOrderStatusHistory extends eZPersistentObject
     {
         if ( $this->Modifier === null )
         {
-            //include_once( 'kernel/classes/ezcontentobject.php' );
             $this->Modifier = eZContentObject::fetch( $this->ModifierID );
         }
         return $this->Modifier;
@@ -135,7 +132,6 @@ class eZOrderStatusHistory extends eZPersistentObject
     */
     function fetchOrderStatus()
     {
-        //include_once( 'kernel/classes/ezorderstatus.php' );
         $statusList = eZOrderStatus::fetchMap( true, true );
         if ( isset( $statusList[$this->StatusID] ) )
         {

@@ -26,12 +26,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'kernel/classes/ezcontentclass.php' );
-//include_once( 'kernel/classes/ezcontentclassattribute.php' );
-//include_once( 'kernel/classes/ezcontentclassclassgroup.php' );
-//include_once( 'lib/ezutils/classes/ezhttptool.php' );
-//include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
-
 
 $Module = $Params['Module'];
 $ClassID = $Params['ClassID'];
@@ -89,7 +83,6 @@ if ( is_numeric( $ClassID ) )
     }
     else
     {
-        //include_once( 'lib/ezlocale/classes/ezdatetime.php' );
         $user = eZUser::currentUser();
         $contentIni = eZINI::instance( 'content.ini' );
         $timeOut = $contentIni->variable( 'ClassSettings', 'DraftTimeout' );
@@ -115,8 +108,6 @@ if ( is_numeric( $ClassID ) )
 }
 else
 {
-    //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-
     if ( !$EditLanguage )
     {
         $language = eZContentLanguage::topPriorityLanguage();
@@ -200,12 +191,10 @@ if ( $http->hasPostVariable( 'DiscardButton' ) )
 }
 if ( $http->hasPostVariable( 'AddGroupButton' ) && $http->hasPostVariable( 'ContentClass_group' ) )
 {
-    //include_once( "kernel/class/ezclassfunctions.php" );
     eZClassFunctions::addGroup( $ClassID, $ClassVersion, $http->postVariable( 'ContentClass_group' ) );
 }
 if ( $http->hasPostVariable( 'RemoveGroupButton' ) && $http->hasPostVariable( 'group_id_checked' ) )
 {
-    //include_once( "kernel/class/ezclassfunctions.php" );
     if ( !eZClassFunctions::removeGroup( $ClassID, $ClassVersion, $http->postVariable( 'group_id_checked' ) ) )
     {
         $validation['groups'][] = array( 'text' => ezi18n( 'kernel/class', 'You have to have at least one group that the class belongs to!' ) );
@@ -248,7 +237,6 @@ if ( $http->hasPostVariable( 'SelectLanguageButton' ) && $http->hasPostVariable(
 if ( !$EditLanguage )
 {
     // Check number of languages
-    //include_once( 'kernel/classes/ezcontentlanguage.php' );
     $languages = eZContentLanguage::fetchList();
     // If there is only one language we choose it for the user.
     if ( count( $languages ) == 1 )
@@ -284,7 +272,6 @@ if ( !$EditLanguage )
     }
 }
 
-//include_once( 'kernel/classes/ezdatatype.php' );
 eZDataType::loadAndRegisterAllTypes();
 $datatypes = eZDataType::registeredDataTypes();
 
@@ -320,7 +307,6 @@ foreach( $storeActions as $storeAction )
     }
 }
 
-//include_once( 'lib/ezutils/classes/ezinputvalidator.php' );
 $canStore = true;
 $requireFixup = false;
 if ( $contentClassHasInput )
@@ -459,7 +445,6 @@ if ( $contentClassHasInput )
 $class->setAttribute( 'version', eZContentClass::VERSION_STATUS_TEMPORARY );
 $class->NameList->setHasDirtyData();
 
-//include_once( 'lib/ezi18n/classes/ezchartransform.php' );
 $trans = eZCharTransform::instance();
 
 // Fixed identifiers to only contain a-z0-9_
@@ -499,7 +484,6 @@ if ( $customAction )
 // Set new modification date
 $date_time = time();
 $class->setAttribute( 'modified', $date_time );
-//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 $user = eZUser::currentUser();
 $user_id = $user->attribute( 'contentobject_id' );
 $class->setAttribute( 'modifier_id', $user_id );
@@ -652,8 +636,6 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
         eZSessionDestroy( $http->sessionVariable( 'CanStoreTicket' ) );
 
         // Class cleanup, update existing class objects according to new changes
-        //include_once( 'kernel/classes/ezcontentobject.php' );
-
         $db = eZDB::instance();
         $db->begin();
 

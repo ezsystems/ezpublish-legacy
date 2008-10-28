@@ -35,10 +35,6 @@
 
 */
 
-//include_once( "kernel/classes/ezdatatype.php" );
-//include_once( "lib/ezutils/classes/ezintegervalidator.php" );
-//include_once( "lib/ezi18n/classes/eztranslatormanager.php" );
-
 class eZObjectRelationType extends eZDataType
 {
     const DATA_TYPE_STRING = "ezobjectrelation";
@@ -105,7 +101,6 @@ class eZObjectRelationType extends eZDataType
         $fuzzyMatchVariableName = $base . "_data_object_relation_fuzzy_match_" . $contentObjectAttribute->attribute( "id" );
         if ( $http->hasPostVariable( $fuzzyMatchVariableName ) )
         {
-            //include_once( 'lib/ezi18n/classes/ezchartransform.php' );
             $trans = eZCharTransform::instance();
 
             $fuzzyMatchText = trim( $http->postVariable( $fuzzyMatchVariableName ) );
@@ -331,7 +326,6 @@ class eZObjectRelationType extends eZDataType
                 $redirectionURI = $parameters['current-redirection-uri'];
                 $ini = eZINI::instance( 'content.ini' );
 
-                //include_once( 'kernel/classes/ezcontentbrowse.php' );
                 $browseType = 'AddRelatedObjectToDataType';
                 $browseTypeINIVariable = $ini->variable( 'ObjectRelationDataTypeSettings', 'ClassAttributeStartNode' );
                 foreach( $browseTypeINIVariable as $value )
@@ -431,7 +425,6 @@ class eZObjectRelationType extends eZDataType
             case 'browse_for_selection_node':
             {
                 $module = $classAttribute->currentModule();
-                //include_once( 'kernel/classes/ezcontentbrowse.php' );
                 $customActionName = 'CustomActionButton[' . $classAttribute->attribute( 'id' ) . '_browsed_for_selection_node]';
                 eZContentBrowse::browse( array( 'action_name' => 'SelectObjectRelationNode',
                                                 'content' => array( 'contentclass_id' => $classAttribute->attribute( 'contentclass_id' ),
@@ -446,7 +439,6 @@ class eZObjectRelationType extends eZDataType
             } break;
             case 'browsed_for_selection_node':
             {
-                //include_once( 'kernel/classes/ezcontentbrowse.php' );
                 $nodeSelection = eZContentBrowse::result( 'SelectObjectRelationNode' );
                 if ( count( $nodeSelection ) > 0 )
                 {

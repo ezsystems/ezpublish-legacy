@@ -29,8 +29,6 @@
 
 set_time_limit( 0 );
 
-//include_once( 'lib/ezutils/classes/ezcli.php' );
-//include_once( 'kernel/classes/ezscript.php' );
 require 'autoload.php';
 
 $cli = eZCLI::instance();
@@ -156,32 +154,26 @@ if ( $dbHost or $dbName or $dbUser or $dbImpl )
 
 $db->setIsSQLOutputEnabled( $showSQL );
 
-//include_once( 'kernel/classes/ezpersistentobject.php' );
-
 if ( $flatten['contentobject'] )
 {
-    //include_once( 'kernel/classes/ezcontentobject.php' );
     $cli->output( "Removing non-published content object versions" );
     eZContentObjectVersion::removeVersions();
 }
 
 if ( $flatten['contentclass'] )
 {
-    //include_once( 'kernel/classes/ezcontentclass.php' );
     $cli->output( "Removing temporary content classes" );
     eZContentClass::removeTemporary();
 }
 
 if ( $flatten['workflow'] )
 {
-    //include_once( 'kernel/classes/ezworkflow.php' );
     $cli->output( "Removing temporary workflows" );
     eZWorkflow::removeTemporary();
 }
 
 if ( $flatten['role'] )
 {
-    //include_once( 'kernel/classes/ezrole.php' );
     $cli->output( "Removing temporary roles" );
     eZRole::removeTemporary();
 }

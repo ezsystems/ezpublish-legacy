@@ -38,8 +38,6 @@
   \brief eZXMLTextDiff contains differences in xml text.
 */
 
-//include_once( 'lib/ezdiff/classes/ezdiffcontent.php' );
-
 class eZXMLTextDiff extends eZDiffContent
 {
     /*!

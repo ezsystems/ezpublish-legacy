@@ -70,7 +70,6 @@ function extension_path( $extension, $withWWWDir = false, $withHost = false, $wi
             $path .= $withProtocol;
         else
         {
-            //include_once( 'lib/ezutils/classes/ezsys.php' );
             $path .= eZSys::serverProtocol();
         }
         $path .= ':';
@@ -103,7 +102,6 @@ function extension_path( $extension, $withWWWDir = false, $withHost = false, $wi
 */
 function nameFromPath( $path )
 {
-    //include_once( 'lib/ezfile/classes/ezdir.php' );
     $path = eZDir::cleanPath( $path );
     $base = eZExtension::baseDirectory() . '/';
     $base = preg_quote( $base, '/' );

@@ -38,13 +38,8 @@ function templateInit( $name = false )
     {
         return $GLOBALS["eZPublishTemplate_$name"];
     }
-    //include_once( 'lib/eztemplate/classes/eztemplate.php' );
-    //include_once( 'kernel/common/eztemplatedesignresource.php' );
-    //include_once( 'lib/ezutils/classes/ezextension.php' );
-
     $tpl = eZTemplate::instance();
 
-    //include_once( 'lib/ezutils/classes/ezini.php' );
     $ini = eZINI::instance();
     if ( $ini->variable( 'TemplateSettings', 'Debug' ) == 'enabled' )
         eZTemplate::setIsDebugEnabled( true );

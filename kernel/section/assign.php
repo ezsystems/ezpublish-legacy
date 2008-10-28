@@ -26,12 +26,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( "lib/ezutils/classes/ezhttptool.php" );
-//include_once( "lib/ezdb/classes/ezdb.php" );
-//include_once( "kernel/classes/ezsection.php" );
-//include_once( "kernel/classes/ezcontentobjecttreenode.php" );
-//include_once( "kernel/classes/ezcontentbrowse.php" );
-
 $http = eZHTTPTool::instance();
 $SectionID = $Params["SectionID"];
 $Module = $Params['Module'];
@@ -52,7 +46,6 @@ else
     }
     else
     {
-        //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
         $currentUser = eZUser::currentUser();
 
         if ( $currentUser->canAssignSection( $SectionID ) )
@@ -96,7 +89,6 @@ else
                         $db->commit();
 
                         // clear content caches
-                        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
                         eZContentCacheManager::clearAllContentCache();
                     }
                     if ( count( $deniedNodeIDList ) > 0 )

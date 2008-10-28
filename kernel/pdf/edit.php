@@ -29,10 +29,6 @@
 //
 
 require_once( 'kernel/common/template.php' );
-//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-//include_once( 'kernel/classes/ezpdfexport.php' );
-//include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
-
 $Module = $Params['Module'];
 $http = eZHTTPTool::instance();
 
@@ -54,8 +50,6 @@ if ( isset( $Params['PDFExportID'] ) )
 
     if ( $pdfExport )
     {
-        //include_once( 'lib/ezlocale/classes/ezdatetime.php' );
-
         $user = eZUser::currentUser();
         $contentIni = eZINI::instance( 'content.ini' );
         $timeOut = $contentIni->variable( 'PDFExportSettings', 'DraftTimeout' );
@@ -90,8 +84,6 @@ if ( isset( $Params['PDFExportID'] ) )
 }
 else
 {
-    //include_once( 'kernel/classes/ezpdfexport.php' );
-    //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
     $user = eZUser::currentUser();
 
     $pdfExport = eZPDFExport::create( $user->attribute( 'contentobject_id' ) );
@@ -145,7 +137,6 @@ $setWarning = false; // used to set missing options during export
 
 if ( $Module->isCurrentAction( 'BrowseSource' ) )
 {
-    //include_once( 'kernel/classes/ezcontentbrowse.php' );
     eZContentBrowse::browse( array( 'action_name' => 'ExportSourceBrowse',
                                     'description_template' => 'design:content/browse_export.tpl',
                                     'from_page' => '/pdf/edit/'. $pdfExport->attribute( 'id' ) ),

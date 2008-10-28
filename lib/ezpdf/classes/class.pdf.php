@@ -35,8 +35,6 @@
   \brief Cpdf provides
 */
 
-//include_once( 'lib/ezutils/classes/ezmath.php' );
-
 class Cpdf
 {
 

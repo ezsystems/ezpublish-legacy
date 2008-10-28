@@ -32,9 +32,6 @@ $http = eZHTTPTool::instance();
 $module = $Params['Module'];
 
 require_once( "kernel/common/template.php" );
-//include_once( 'lib/ezutils/classes/ezhttptool.php' );
-//include_once( 'lib/ezfile/classes/ezdir.php' );
-
 $tpl = templateInit();
 
 $extensionDir = eZExtension::baseDirectory();
@@ -65,7 +62,6 @@ if ( $module->isCurrentAction( 'ActivateExtensions' ) )
     $writeSiteINI = eZINI::instance( 'site.ini.append', 'settings/override', null, null, false, true );
     $writeSiteINI->setVariable( "ExtensionSettings", "ActiveExtensions", $selectedExtensionArray );
     $writeSiteINI->save( 'site.ini.append', '.php', false, false );
-    //include_once( 'kernel/classes/ezcache.php' );
     eZCache::clearByTag( 'ini' );
 
     $autoloadGenerator = new eZAutoloadGenerator( getcwd(),         // $basePath

@@ -26,12 +26,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-////include_once( 'lib/ezutils/classes/ezhttptool.php' );
-//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-//include_once( 'kernel/classes/ezcontentobject.php' );
-//include_once( 'kernel/classes/datatypes/ezuser/ezusersetting.php' );
-//include_once( 'kernel/classes/datatypes/ezuser/ezuseraccountkey.php' );
-
 $Module = $Params['Module'];
 $http = eZHTTPTool::instance();
 

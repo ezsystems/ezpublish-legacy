@@ -68,10 +68,6 @@ $upload->handleLocalFile( $result, 'a_yellow_flower.jpg', 'auto' );
 \endcode
 */
 
-//include_once( 'lib/ezutils/classes/ezhttptool.php' );
-//include_once( 'lib/ezutils/classes/ezini.php' );
-//include_once( 'kernel/classes/ezcontentobject.php' );
-
 class eZContentUpload
 {
 
@@ -247,7 +243,6 @@ class eZContentUpload
                                                 array( '%filename' => $filePath ) ) );
             return false;
         }
-        //include_once( 'lib/ezutils/classes/ezmimetype.php' );
         $mimeData = eZMimeType::findByFileContents( $filePath );
         $mime = $mimeData['name'];
 
@@ -722,7 +717,6 @@ class eZContentUpload
         $object->setName( $class->contentObjectName( $object ) );
         $object->store();
 
-        //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
         $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
                                                                                      'version' => $publishVersion ) );
 
@@ -821,7 +815,6 @@ class eZContentUpload
     */
     function fetchHTTPFile( $httpFileIdentifier, &$errors, &$file, &$mimeData )
     {
-        //include_once( 'lib/ezutils/classes/ezhttpfile.php' );
         if ( !eZHTTPFile::canFetch( $httpFileIdentifier ) )
         {
             $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
@@ -837,7 +830,6 @@ class eZContentUpload
             return false;
         }
 
-        //include_once( 'lib/ezutils/classes/ezmimetype.php' );
         $mimeData = eZMimeType::findByFileContents( $file->attribute( "original_filename" ) );
 
         return false;
@@ -1323,7 +1315,6 @@ class eZContentUpload
 
         if ( $handlerName !== false )
         {
-            //include_once( 'lib/ezutils/classes/ezextension.php' );
             $baseDirectory = eZExtension::baseDirectory();
             $extensionDirectories = eZExtension::activeExtensions();
 

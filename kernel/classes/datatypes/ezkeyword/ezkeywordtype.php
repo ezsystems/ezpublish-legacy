@@ -35,10 +35,7 @@
 
 */
 
-//include_once( 'kernel/classes/ezdatatype.php' );
 require_once( 'kernel/common/i18n.php' );
-
-//include_once( 'kernel/classes/datatypes/ezkeyword/ezkeyword.php' );
 
 class eZKeywordType extends eZDataType
 {

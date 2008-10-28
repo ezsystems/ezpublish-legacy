@@ -30,8 +30,6 @@
 
 /*! \file ezstep_final.php
 */
-//include_once( 'kernel/setup/steps/ezstep_installer.php');
-//include_once( "kernel/setup/ezsetuptests.php" );
 require_once( "kernel/common/i18n.php" );
 
 /*!

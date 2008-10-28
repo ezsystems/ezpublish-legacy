@@ -27,10 +27,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'lib/ezutils/classes/ezhttptool.php' );
-//include_once( 'kernel/classes/ezcontentobject.php' );
 require_once( 'kernel/common/template.php' );
-//include_once( 'lib/ezdiff/classes/ezdiff.php' );
 require_once( 'lib/ezutils/classes/ezdebug.php' );
 
 $Module = $Params['Module'];

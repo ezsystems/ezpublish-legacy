@@ -37,8 +37,6 @@
 
 */
 
-//include_once( 'kernel/classes/ezpersistentobject.php' );
-
 class eZCollaborationItemParticipantLink extends eZPersistentObject
 {
     const TYPE_USER = 1;
@@ -131,14 +129,12 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
     {
         if ( $userID === false )
         {
-            //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
             $userID = eZUser::currentUserID();
         }
         if ( $timestamp === false )
         {
             $timestamp = time();
         }
-        //include_once( 'lib/ezdb/classes/ezdb.php' );
         $db = eZDB::instance();
         $userID = (int) $userID;
         $timestamp = (int) $timestamp;
@@ -309,7 +305,6 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
 
     function collaborationItem()
     {
-        //include_once( 'kernel/classes/ezcollaborationitem.php' );
         return eZCollaborationItem::fetch( $this->CollaborationID );
     }
 
@@ -317,12 +312,10 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
     {
         if ( $this->ParticipantType == self::TYPE_USER )
         {
-            //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
             return eZUser::fetch( $this->ParticipantID );
         }
         else if ( $this->ParticipantType == self::TYPE_USERGROUP )
         {
-            //include_once( 'kernel/classes/ezcontentobject.php' );
             return eZContentObject::fetch( $this->ParticipantID );
         }
         return null;

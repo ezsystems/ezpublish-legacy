@@ -403,7 +403,6 @@ class eZImageInterface
         if ( $this->StoredFile == '' )
             return true;
         $fileArray = array( $this->StoredPath, $this->StoredFile );
-        //include_once( 'lib/ezfile/classes/ezdir.php' );
         $filePath = eZDir::path( $fileArray );
         $imageinfo = getimagesize( $filePath );
         if ( $imageinfo )
@@ -438,7 +437,6 @@ class eZImageInterface
         {
             case 'png':
             {
-                //include_once( 'lib/ezfile/classes/ezdir.php' );
                 if ( !file_exists( $filePath ) )
                 {
                     eZDir::mkdir( $filePath, false, true );
@@ -453,7 +451,6 @@ class eZImageInterface
 
             case 'jpg':
             {
-                //include_once( 'lib/ezfile/classes/ezdir.php' );
                 if ( !file_exists( $filePath ) )
                 {
                     eZDir::mkdir( $filePath, false, true );

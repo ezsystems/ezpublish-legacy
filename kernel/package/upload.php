@@ -27,9 +27,6 @@
 //
 
 require_once( "kernel/common/template.php" );
-//include_once( "kernel/classes/ezpackage.php" );
-//include_once( "lib/ezutils/classes/ezhttpfile.php" );
-
 $module = $Params['Module'];
 
 if ( !eZPackage::canUsePolicyFunction( 'import' ) )

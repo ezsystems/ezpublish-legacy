@@ -38,12 +38,7 @@
 
 */
 
-//include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
-//include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
-
 // if ( !class_exists( 'eZXMLSchema' ) )
-    //include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlschema.php' );
-
 class eZXMLOutputHandler
 {
     /*!

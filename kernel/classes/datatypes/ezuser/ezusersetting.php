@@ -33,8 +33,6 @@
 
 */
 
-//include_once( 'kernel/classes/ezpersistentobject.php' );
-
 class eZUserSetting extends eZPersistentObject
 {
     function eZUserSetting( $row )

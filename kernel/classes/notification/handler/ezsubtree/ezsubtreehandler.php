@@ -37,13 +37,6 @@
 
 */
 
-//include_once( 'kernel/classes/notification/eznotificationeventhandler.php' );
-//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-//include_once( 'kernel/classes/notification/eznotificationcollection.php' );
-//include_once( 'kernel/classes/notification/eznotificationschedule.php' );
-//include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreenotificationrule.php' );
-//include_once( 'kernel/classes/notification/handler/ezgeneraldigest/ezgeneraldigestusersettings.php' );
-
 class eZSubTreeHandler extends eZNotificationEventHandler
 {
     const NOTIFICATION_HANDLER_ID = 'ezsubtree';
@@ -302,7 +295,6 @@ class eZSubTreeHandler extends eZNotificationEventHandler
     {
         if ( $http->hasPostVariable( 'NewRule_' . self::NOTIFICATION_HANDLER_ID  ) )
         {
-            //include_once( "kernel/classes/ezcontentbrowse.php" );
             eZContentBrowse::browse( array( 'action_name' => 'AddSubtreeSubscribingNode',
                                             'from_page' => '/notification/settings/' ),
                                      $module );

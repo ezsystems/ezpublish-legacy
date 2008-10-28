@@ -26,12 +26,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( "kernel/classes/ezworkflow.php" );
-//include_once( "kernel/classes/eztrigger.php" );
-//include_once( "kernel/classes/ezworkflowgroup.php" );
-//include_once( "kernel/classes/ezworkflowgrouplink.php" );
-//include_once( "lib/ezutils/classes/ezhttppersistence.php" );
-
 function removeSelectedGroups( $http, &$groups, $base )
 {
     if ( $http->hasPostVariable( "DeleteGroupButton" ) )
@@ -107,7 +101,6 @@ $Module->setTitle( ezi18n( 'kernel/workflow', 'Workflow group list' ) );
 require_once( "kernel/common/template.php" );
 $tpl = templateInit();
 
-//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 $user = eZUser::currentUser();
 foreach( $TemplateData as $tpldata )
 {

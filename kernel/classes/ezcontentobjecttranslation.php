@@ -83,7 +83,6 @@ class eZContentObjectTranslation
     {
         if ( $this->Locale !== null )
             return $this->Locale;
-        //include_once( 'lib/ezlocale/classes/ezlocale.php' );
         $this->Locale = eZLocale::instance( $this->LanguageCode );
         return $this->Locale;
     }

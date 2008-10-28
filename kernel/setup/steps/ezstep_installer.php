@@ -128,7 +128,6 @@ class eZStepInstaller
 
     function findAppropriateCharset( $primaryLanguage, $allLanguages, $canUseUnicode )
     {
-        //include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
         $commonCharsets = array();
 
         if ( is_array( $allLanguages ) and count( $allLanguages ) > 0 )
@@ -181,7 +180,6 @@ class eZStepInstaller
 
     function findAppropriateCharsetsList( $primaryLanguage, $allLanguages, $canUseUnicode )
     {
-        //include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
         $commonCharsets = array();
 
         if ( is_array( $allLanguages ) and count( $allLanguages ) > 0 )
@@ -231,7 +229,6 @@ class eZStepInstaller
 
     function availableSitePackages()
     {
-        //include_once( 'kernel/classes/ezpackage.php' );
         $packageList = eZPackage::fetchPackages( array(), array( 'type' => 'site' ) );
 
         return $packageList;
@@ -275,8 +272,6 @@ class eZStepInstaller
 
     function selectSiteType( $sitePackageName )
     {
-        //include_once( 'kernel/classes/ezpackage.php' );
-
         $package = eZPackage::fetch( $sitePackageName );
         if ( !$package )
             return false;
@@ -305,7 +300,6 @@ class eZStepInstaller
 
     function storePersistenceData()
     {
-        //include_once( 'kernel/setup/ezsetupcommon.php' );
         foreach ( $this->PersistenceList as $key => $value )
         {
             eZSetupSetPersistencePostVariable( $key, $value );
@@ -418,7 +412,6 @@ class eZStepInstaller
             else
             {
                 // Figure out charset automatically if it is not set yet
-                //include_once( 'lib/ezlocale/classes/ezlocale.php' );
                 $primaryLanguage     = null;
                 $allLanguages        = array();
                 $allLanguageCodes    = array();

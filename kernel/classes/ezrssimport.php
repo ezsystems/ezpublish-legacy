@@ -38,8 +38,6 @@
   RSSImport is used to create RSS feeds from published content. See kernel/rss for more files.
 */
 
-//include_once( 'kernel/classes/ezpersistentobject.php' );
-
 class eZRSSImport extends eZPersistentObject
 {
     const STATUS_VALID = 1;
@@ -161,7 +159,6 @@ class eZRSSImport extends eZPersistentObject
     {
         if ( $userID === false )
         {
-            //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
             $user = eZUser::currentUser();
             $userID = $user->attribute( "contentobject_id" );
         }
@@ -193,7 +190,6 @@ class eZRSSImport extends eZPersistentObject
     */
     function store( $fieldFilters = null )
     {
-        //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
         $dateTime = time();
         $user = eZUser::currentUser();
 
@@ -253,7 +249,6 @@ class eZRSSImport extends eZPersistentObject
     {
         if ( isset( $this->ObjectOwnerID ) and $this->ObjectOwnerID )
         {
-            //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
             return eZUser::fetch( $this->ObjectOwnerID );
         }
         return null;
@@ -263,7 +258,6 @@ class eZRSSImport extends eZPersistentObject
     {
         if ( isset( $this->ModifierID ) and $this->ModifierID )
         {
-            //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
             return eZUser::fetch( $this->ModifierID );
         }
         return null;
@@ -273,7 +267,6 @@ class eZRSSImport extends eZPersistentObject
     {
         if ( isset( $this->ClassID ) and $this->ClassID )
         {
-            //include_once( 'kernel/classes/ezcontentclass.php' );
             $contentClass = eZContentClass::fetch( $this->ClassID );
             if ( $contentClass )
             {
@@ -288,7 +281,6 @@ class eZRSSImport extends eZPersistentObject
         $retValue = null;
         if ( isset( $this->DestinationNodeID ) and $this->DestinationNodeID )
         {
-            //include_once( "kernel/classes/ezcontentobjecttreenode.php" );
             $objectNode = eZContentObjectTreeNode::fetch( $this->DestinationNodeID );
             if ( isset( $objectNode ) )
             {
@@ -324,7 +316,6 @@ class eZRSSImport extends eZPersistentObject
     */
     static function getRSSVersion( $url )
     {
-        //include_once( "lib/ezutils/classes/ezhttptool.php" );
         $xmlData = eZHTTPTool::getDataByURL( $url );
 
         if ( $xmlData === false )

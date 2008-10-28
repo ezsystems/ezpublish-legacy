@@ -47,9 +47,6 @@
 */
 
 require_once( "lib/ezutils/classes/ezdebug.php" );
-//include_once( "lib/ezxml/classes/ezdomnode.php" );
-//include_once( "lib/ezxml/classes/ezdomdocument.php" );
-
 class eZXML
 {
     /*!
@@ -132,7 +129,6 @@ class eZXML
 
         if ( $charset !== false )
         {
-            //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
             $codec = eZTextCodec::instance( $charset, false, false );
             if ( $codec )
             {

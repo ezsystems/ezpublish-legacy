@@ -99,13 +99,7 @@ This is a <emphasize>block</emphasize> of text.
 
 */
 
-//include_once( "kernel/classes/ezdatatype.php" );
 require_once( "kernel/common/template.php" );
-//include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
-//include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
-//include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
-//include_once( "lib/ezutils/classes/ezini.php" );
-
 class eZXMLTextType extends eZDataType
 {
     const DATA_TYPE_STRING = "ezxmltext";
@@ -150,7 +144,6 @@ class eZXMLTextType extends eZDataType
         }
         else
         {
-            //include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlinputparser.php' );
             $parser = new eZXMLInputParser();
             $doc = $parser->createRootNode();
             $xmlText = eZXMLTextType::domString( $doc );
@@ -357,7 +350,6 @@ class eZXMLTextType extends eZDataType
         $timestamp = $contentObjectAttribute->attribute( 'data_int' );
         if ( $timestamp < self::VERSION_30_TIMESTAMP )
         {
-            //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
             $charset = 'UTF-8';
             $codec = eZTextCodec::instance( false, $charset );
             $text = $codec->convertString( $text );
@@ -382,7 +374,6 @@ class eZXMLTextType extends eZDataType
     */
     function objectAttributeContent( $contentObjectAttribute )
     {
-        //include_once( 'kernel/classes/datatypes/ezxmltext/ezxmltext.php' );
         $xmlText = new eZXMLText( eZXMLTextType::rawXMLText( $contentObjectAttribute ), $contentObjectAttribute );
         return $xmlText;
     }
@@ -574,9 +565,6 @@ class eZXMLTextType extends eZDataType
              * - remove "id" attribute.
              */
 
-            //include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
-            //include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
-
             $links = $doc->getElementsByTagName( 'link' );
             $embeds = $doc->getElementsByTagName( 'embed' );
             $objects = $doc->getElementsByTagName( 'object' );
@@ -657,9 +645,6 @@ class eZXMLTextType extends eZDataType
          * After that, remove "href" attribute, add new "id" attribute.
          * This new 'id' will always refer to the existing url object.
          */
-        //include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
-        //include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
-
         $linkNodes = $attributeNode->getElementsByTagName( 'link' );
 
         foreach ( $linkNodes as $linkNode )
@@ -801,7 +786,6 @@ class eZXMLTextType extends eZDataType
 
         /* First we remove the link between the keyword and the object
          * attribute to be removed */
-        //include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
         if ( $version == null )
         {
             eZPersistentObject::removeObject( eZURLObjectLink::definition(),
@@ -847,7 +831,6 @@ class eZXMLTextType extends eZDataType
     */
     function diff( $old, $new, $options = false )
     {
-        //include_once( 'lib/ezdiff/classes/ezdiff.php' );
         $diff = new eZDiff();
         $diff->setDiffEngineType( $diff->engineType( 'xml' ) );
         $diff->initDiffEngine();

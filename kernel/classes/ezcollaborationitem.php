@@ -37,9 +37,6 @@
 
 */
 
-//include_once( 'kernel/classes/ezpersistentobject.php' );
-//include_once( 'kernel/classes/ezcollaborationitemstatus.php' );
-
 class eZCollaborationItem extends eZPersistentObject
 {
     const STATUS_ACTIVE = 1;
@@ -160,7 +157,6 @@ class eZCollaborationItem extends eZPersistentObject
         $type = $info['type-identifier'];
         if ( $subType )
             $type .= '_' . $subType;
-        //include_once( 'kernel/classes/notification/eznotificationevent.php' );
         $event = eZNotificationEvent::create( 'ezcollaboration', array( 'collaboration_id' => $this->attribute( 'id' ),
                                                                          'collaboration_identifier' => $type ) );
         $event->store();
@@ -182,7 +178,6 @@ class eZCollaborationItem extends eZPersistentObject
     {
         if ( isset( $this->CreatorID ) and $this->CreatorID )
         {
-            //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
             return eZUser::fetch( $this->CreatorID );
         }
         return null;
@@ -192,7 +187,6 @@ class eZCollaborationItem extends eZPersistentObject
     {
         if ( isset( $this->CreatorID ) and $this->CreatorID )
         {
-            //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
             return ( eZUser::currentUserID() == $this->CreatorID );
         }
         return false;
@@ -200,21 +194,17 @@ class eZCollaborationItem extends eZPersistentObject
 
     function participantList()
     {
-        //include_once( 'kernel/classes/ezcollaborationitemparticipantlink.php' );
         return eZCollaborationItemParticipantLink::fetchParticipantList( array('item_id' => $this->ID ) );
     }
 
     function userStatus()
     {
-        //include_once( 'kernel/classes/ezcollaborationitemstatus.php' );
-        //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
         $userID = eZUser::currentUserID();
         return eZCollaborationItemStatus::fetch( $this->ID, $userID );
     }
 
     function handler()
     {
-        //include_once( 'kernel/classes/ezcollaborationitemhandler.php' );
         return eZCollaborationItemHandler::instantiate( $this->attribute( 'type_identifier' ) );
     }
 

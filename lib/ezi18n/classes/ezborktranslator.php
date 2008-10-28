@@ -65,8 +65,6 @@
 
 */
 
-//include_once( "lib/ezi18n/classes/eztranslatorhandler.php" );
-
 class eZBorkTranslator extends eZTranslatorHandler
 {
     /*!

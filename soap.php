@@ -39,11 +39,6 @@ ob_start();
 
 ini_set( "display_errors" , "0" );
 
-//require_once( "lib/ezutils/classes/ezdebug.php" );
-//include_once( "lib/ezutils/classes/ezini.php" );
-//include_once( 'lib/ezutils/classes/ezsys.php' );
-//require_once( 'lib/ezutils/classes/ezexecution.php' );
-
 // Set a default time zone if none is given. The time zone can be overriden
 // in config.php or php.ini.
 if ( !ini_get( "date.timezone" ) )
@@ -75,7 +70,6 @@ eZSys::init( 'soap.php', $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost
 require_once( "lib/ezutils/classes/ezsession.php" );
 
 // Check for extension
-//include_once( 'lib/ezutils/classes/ezextension.php' );
 require_once( 'kernel/common/ezincludefunctions.php' );
 eZExtension::activateExtensions( 'default' );
 // Extension check end
@@ -101,18 +95,15 @@ function eZUpdateTextCodecSettings()
     list( $i18nSettings['internal-charset'], $i18nSettings['http-charset'], $i18nSettings['mbstring-extension'] ) =
         $ini->variableMulti( 'CharacterSettings', array( 'Charset', 'HTTPCharset', 'MBStringExtension' ), array( false, false, 'enabled' ) );
 
-    //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
     eZTextCodec::updateSettings( $i18nSettings );
 }
 
 // Initialize text codec settings
 eZUpdateTextCodecSettings();
 
-//include_once( 'lib/ezdb/classes/ezdb.php' );
 $db = eZDB::instance();
 
 // Initialize module loading
-//include_once( "lib/ezutils/classes/ezmodule.php" );
 $moduleRepositories = eZModule::activeModuleRepositories();
 eZModule::setGlobalPathList( $moduleRepositories );
 
@@ -124,13 +115,9 @@ if ( $enableSOAP == 'true' )
 {
     eZSys::init( 'soap.php' );
 
-    //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-
     // Login if we have username and password.
     if ( eZHTTPTool::username() and eZHTTPTool::password() )
         eZUser::loginUser( eZHTTPTool::username(), eZHTTPTool::password() );
-
-    //include_once( 'lib/ezsoap/classes/ezsoapserver.php' );
 
     $server = new eZSOAPServer();
 

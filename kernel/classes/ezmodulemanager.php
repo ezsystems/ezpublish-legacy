@@ -47,7 +47,6 @@ class eZModuleManager
 
     static function availableModules()
     {
-        //include_once( 'lib/ezutils/classes/ezmodule.php' );
         $pathList = eZModule::globalPathList();
         $modules = array();
         foreach ( $pathList as $pathItem )

@@ -37,9 +37,6 @@
 
 */
 
-//include_once( 'kernel/classes/ezcontentclass.php' );
-//include_once( 'kernel/classes/ezpackagehandler.php' );
-
 class eZContentClassPackageHandler extends eZPackageHandler
 {
     const ERROR_EXISTS = 1;
@@ -172,7 +169,6 @@ class eZContentClassPackageHandler extends eZPackageHandler
 
             eZDebug::writeNotice( sprintf( "Removing class '%s' (%d)", $class->attribute( 'name' ), $class->attribute( 'id' ) ) );
 
-            //include_once( 'kernel/classes/ezcontentclassoperations.php' );
             eZContentClassOperations::remove( $class->attribute( 'id' ) );
         }
 
@@ -239,7 +235,6 @@ class eZContentClassPackageHandler extends eZPackageHandler
             {
             case eZPackage::NON_INTERACTIVE:
             case self::ACTION_REPLACE:
-                //include_once( 'kernel/classes/ezcontentclassoperations.php' );
                 if ( eZContentClassOperations::remove( $class->attribute( 'id' ) ) == false )
                 {
                     eZDebug::writeWarning( "Unable to remove class '$className'." );

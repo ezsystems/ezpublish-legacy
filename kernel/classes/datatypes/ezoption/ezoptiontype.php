@@ -35,11 +35,6 @@
 
 */
 
-//include_once( "kernel/classes/ezdatatype.php" );
-
-//include_once( "kernel/classes/datatypes/ezoption/ezoption.php" );
-//include_once( 'lib/ezutils/classes/ezstringutils.php' );
-
 class eZOptionType extends eZDataType
 {
     const DEFAULT_NAME_VARIABLE = "_ezoption_default_name_";

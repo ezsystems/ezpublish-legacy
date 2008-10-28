@@ -27,10 +27,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( "lib/ezutils/classes/ezextension.php" );
-//include_once( "lib/ezutils/classes/ezmodule.php" );
-//include_once( 'lib/ezutils/classes/ezcli.php' );
-//include_once( 'kernel/classes/ezscript.php' );
 require 'autoload.php';
 
 $cli = eZCLI::instance();
@@ -743,7 +739,6 @@ if ( $dbUser !== false or $dbHost !== false or $dbSocket !== false or
     if ( count( $rows ) > 0 )
     {
         $version = $rows[0]['value'];
-        //include_once( 'lib/version.php' );
         if ( version_compare( $version, eZPublishSDK::version() ) != 0 )
         {
             $cli->error( "Version '$version' in database '$dbName' is different from the running version " . eZPublishSDK::version() );
@@ -755,8 +750,6 @@ if ( $dbUser !== false or $dbHost !== false or $dbSocket !== false or
 $script->setUser( $userLogin, $userPassword );
 
 $script->initialize();
-
-//include_once( 'kernel/classes/ezpackage.php' );
 
 $alreadyCreated = false;
 
@@ -1027,7 +1020,6 @@ foreach ( $commandList as $commandItem )
                 }
                 else
                 {
-                    //include_once( 'lib/ezutils/classes/ezsys.php' );
                     $package->exportToArchive( $exportDirectory . eZSys::fileSeparator() . $package->exportName() );
                     if ( !$isQuiet )
                         $cli->notice( "Package " . $cli->stylize( 'symbol', $package->attribute( 'name' ) ) . " exported to directory " . $cli->stylize( 'dir', $exportDirectory ) );
@@ -1065,7 +1057,6 @@ foreach ( $commandList as $commandItem )
         $package->setAttribute( 'install_type', $commandItem['installtype'] );
         if ( $userObject )
             $package->appendMaintainer( $userObject->attribute( 'name' ), $user->attribute( 'email' ), 'lead' );
-        //include_once( 'kernel/classes/ezpackagecreationhandler.php' );
         eZPackageCreationHandler::appendLicence( $package );
         if ( $userObject )
             $package->appendChange( $userObject->attribute( 'name' ), $user->attribute( 'email' ), 'Creation of package' );

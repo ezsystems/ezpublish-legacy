@@ -475,7 +475,6 @@ class eZDBFileHandlerMysqlBackend
 
         if ( ! $uniqueName === true )
         {
-            //include_once( 'lib/ezfile/classes/ezfile.php' );
             eZFile::rename( $tmpFilePath, $filePath );
         }
         else
@@ -1219,7 +1218,6 @@ class eZDBFileHandlerMysqlBackend
     function _fail( $value, $text = false )
     {
         $value .= "\n" . mysql_errno( $this->db ) . ": " . mysql_error( $this->db );
-        //include_once( 'kernel/classes/clusterfilehandlers/dbbackends/mysqlbackenderror.php' );
         return new eZMySQLBackendError( $value, $text );
     }
 

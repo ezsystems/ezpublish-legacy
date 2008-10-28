@@ -39,8 +39,6 @@
 
 */
 
-//include_once( 'lib/ezutils/classes/ezmailtransport.php' );
-
 class eZSendmailTransport extends eZMailTransport
 {
     /*!

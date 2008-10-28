@@ -26,13 +26,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'kernel/classes/ezcontentobject.php' );
-//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-
-//include_once( 'kernel/classes/ezcontentbrowse.php' );
-
-//include_once( 'lib/ezutils/classes/ezhttptool.php' );
-
 require_once( 'kernel/common/template.php' );
 
 $tpl = templateInit();
@@ -161,7 +154,6 @@ $Result = array();
 $Result['navigation_part'] = 'ezcontentnavigationpart';
 if ( !isset( $nodeList ) )
 {
-    //include_once( 'kernel/classes/ezsection.php' );
     $section = eZSection::fetch( $object->attribute( 'section_id' ) );
     if ( $section )
     {

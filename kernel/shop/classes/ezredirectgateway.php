@@ -40,8 +40,6 @@
   throught callbacks(postbacks).
 */
 
-//include_once( 'kernel/shop/classes/ezpaymentgateway.php' );
-
 class eZRedirectGateway extends eZPaymentGateway
 {
     const OBJECT_NOT_CREATED = 1;

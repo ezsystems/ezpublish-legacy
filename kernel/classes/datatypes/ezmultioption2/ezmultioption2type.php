@@ -49,10 +49,6 @@
 
 */
 
-//include_once( "kernel/classes/ezdatatype.php" );
-//include_once( "kernel/classes/datatypes/ezmultioption2/ezmultioption2.php" );
-//include_once( 'lib/ezutils/classes/ezstringutils.php' );
-
 class eZMultiOption2Type extends eZDataType
 {
     const DEFAULT_NAME_VARIABLE = "_ezmultioption2_default_name_";
@@ -453,8 +449,6 @@ class eZMultiOption2Type extends eZDataType
 
             $redirectionURI = $parameters['current-redirection-uri'];
             $ini = eZINI::instance( 'content.ini' );
-
-            //include_once( 'kernel/classes/ezcontentbrowse.php' );
 
             $browseType = 'AddRelatedObjectToDataType';
             $browseTypeINIVariable = $ini->variable( 'ObjectRelationDataTypeSettings', 'ClassAttributeStartNode' );

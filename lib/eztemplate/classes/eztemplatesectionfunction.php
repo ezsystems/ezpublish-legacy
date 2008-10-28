@@ -74,8 +74,6 @@ asdfasdf
 */
 
 
-//include_once( 'lib/eztemplate/classes/eztemplatesectioniterator.php' );
-
 class eZTemplateSectionFunction
 {
     /*!

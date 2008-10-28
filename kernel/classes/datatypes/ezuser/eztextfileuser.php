@@ -46,10 +46,6 @@
 
 */
 
-//include_once( "kernel/classes/datatypes/ezuser/ezusersetting.php" );
-//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-//include_once( 'lib/ezutils/classes/ezini.php' );
-
 class eZTextFileUser extends eZUser
 {
     /*!
@@ -305,7 +301,6 @@ class eZTextFileUser extends eZUser
                             // Reset number of failed login attempts
                             eZUser::setFailedLoginAttempts( $userID, 0 );
 
-                            //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
                             $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID,
                                                                                                          'version' => 1 ) );
                             return $user;
@@ -340,7 +335,6 @@ class eZTextFileUser extends eZUser
                                 $newVersion->assignToNode( $defaultUserPlacement, 1 );
                                 $newVersion->removeAssignment( $parentNodeID );
                                 $newVersionNr = $newVersion->attribute( 'version' );
-                                //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
                                 $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $userID,
                                                                                                              'version' => $newVersionNr ) );
                             }

@@ -36,9 +36,6 @@
   \brief The class openFts does
 
 */
-//include_once( "lib/ezdb/classes/ezdb.php" );
-//include_once( "lib/ezutils/classes/ezini.php" );
-//include_once( 'lib/ezfile/classes/ezdir.php' );
 require_once( "lib/ezutils/classes/ezdebug.php" );
 
 class openFts

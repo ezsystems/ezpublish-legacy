@@ -26,18 +26,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'kernel/classes/ezcontentclass.php' );
-//include_once( 'kernel/classes/ezcontentclassattribute.php' );
-
-//include_once( 'kernel/classes/ezcontentobject.php' );
-//include_once( 'kernel/classes/ezcontentobjectversion.php' );
-//include_once( 'kernel/classes/ezcontentobjectattribute.php' );
-//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-//include_once( 'kernel/classes/ezcontentbrowse.php' );
-
-//include_once( "lib/ezdb/classes/ezdb.php" );
-//include_once( 'lib/ezutils/classes/ezhttptool.php' );
-
 require_once( 'kernel/common/template.php' );
 
 function checkRelationAssignments( $module, $class, $object, $version, $contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage, &$validation )
@@ -72,7 +60,6 @@ function checkRelationAssignments( $module, $class, $object, $version, $contentO
     }
     if ( $module->isCurrentAction( 'UploadedFileRelation' ) )
     {
-        //include_once( 'kernel/classes/ezcontentupload.php' );
         $relatedObjectID = eZContentUpload::result( 'RelatedObjectUpload' );
         if ( $relatedObjectID )
         {
@@ -126,20 +113,17 @@ function checkRelationActions( $module, $class, $object, $version, $contentObjec
     {
         $objectID = $object->attribute( 'id' );
 
-        //include_once( 'kernel/classes/ezsection.php' );
         $section = eZSection::fetch( $object->attribute( 'section_id' ) );
         $navigationPart = false;
         if ( $section )
             $navigationPart = $section->attribute( 'navigation_part_identifier' );
 
-        //include_once( 'kernel/classes/ezcontentupload.php' );
         $location = false;
         if ( $module->hasActionParameter( 'UploadRelationLocation' ) )
         {
             $location = $module->actionParameter( 'UploadRelationLocation' );
         }
 
-        //include_once( 'lib/ezutils/classes/ezhttpfile.php' );
         // We only do direct uploading if we have the uploaded HTTP file
         // if not we need to go to the content/upload page.
         if ( eZHTTPFile::canFetch( 'UploadRelationFile' ) )
@@ -202,7 +186,6 @@ function checkRelationActions( $module, $class, $object, $version, $contentObjec
     {
         if ( $http->hasPostVariable( 'ClassID' ) )
         {
-            //include_once( 'kernel/classes/ezcontentobjectassignmenthandler.php' );
             $user = eZUser::currentUser();
             $userID = $user->attribute( 'contentobject_id' );
             if ( $http->hasPostVariable( 'SectionID' ) )

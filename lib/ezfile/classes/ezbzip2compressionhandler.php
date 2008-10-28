@@ -39,8 +39,6 @@
 NOTE: This is not done yet.
 */
 
-//include_once( 'lib/ezfile/classes/ezcompressionhandler.php' );
-
 class eZBZIP2Handler extends eZCompressionHandler
 {
     /*!

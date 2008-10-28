@@ -36,9 +36,6 @@
   \brief The class eZNotificationEvent does
 
 */
-//include_once( 'kernel/classes/notification/eznotificationeventtype.php' );
-//include_once( 'kernel/classes/ezpersistentobject.php' );
-
 class eZNotificationEvent extends eZPersistentObject
 {
     const STATUS_CREATED = 0;

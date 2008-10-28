@@ -37,8 +37,6 @@
   \brief eZSimpleType implements XML schema simple type
 */
 
-//include_once( "lib/ezxml/classes/ezelementtype.php" );
-
 class eZSimpleType extends eZElementType
 {
     /*!

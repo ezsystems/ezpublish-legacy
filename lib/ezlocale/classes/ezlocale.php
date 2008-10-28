@@ -127,8 +127,6 @@ The following characters are recognized in the format string:
 \sa eZLanguage
 */
 
-//include_once( 'lib/ezutils/classes/ezini.php' );
-
 class eZLocale
 {
     const DEBUG_INTERNALS = false;

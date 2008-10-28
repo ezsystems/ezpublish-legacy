@@ -44,8 +44,6 @@
  includes
 */
 include_once( 'bin/php/ezwebincommon.php' );
-//include_once( 'kernel/classes/ezcontentlanguage.php' );
-
 require 'autoload.php';
 
 // script initializing
@@ -264,8 +262,6 @@ if( downloadPackages( $packageList, $packageURL, $packageDir, $packageRepository
             //
             // BC for eZWebin < 1.3
             //
-
-            //include_once( 'kernel/classes/ezsiteinstaller.php' );
 
             $siteInstaller = new eZSiteInstaller();
 

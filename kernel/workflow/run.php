@@ -37,8 +37,6 @@ if ( !isset( $Params["WorkflowProcessID"] ) )
 
 $WorkflowProcessID = $Params["WorkflowProcessID"];
 
-//include_once( "kernel/classes/ezworkflowprocess.php" );
-
 $process = eZWorkflowProcess::fetch( $WorkflowProcessID );
 if ( $process === null )
 {
@@ -46,7 +44,6 @@ if ( $process === null )
     return;
 }
 
-//include_once( "lib/ezutils/classes/ezhttptool.php" );
 $http = eZHTTPTool::instance();
 
 // //include_once( "lib/ezutils/classes/ezexecutionstack.php" );
@@ -58,7 +55,6 @@ $http = eZHTTPTool::instance();
 require_once( "kernel/common/template.php" );
 $tpl = templateInit();
 
-//include_once( "kernel/classes/ezworkflow.php" );
 $workflow = eZWorkflow::fetch( $process->attribute( "workflow_id" ) );
 
 $workflowEvent = null;

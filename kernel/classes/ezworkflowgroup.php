@@ -34,8 +34,6 @@
 
 */
 
-//include_once( "kernel/classes/ezpersistentobject.php" );
-
 class eZWorkflowGroup extends eZPersistentObject
 {
     function eZWorkflowGroup( $row )
@@ -127,7 +125,6 @@ class eZWorkflowGroup extends eZPersistentObject
     {
         if ( isset( $this->CreatorID ) and $this->CreatorID )
         {
-            //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
             return eZUser::fetch( $this->CreatorID );
         }
         return null;
@@ -137,7 +134,6 @@ class eZWorkflowGroup extends eZPersistentObject
     {
         if ( isset( $this->ModifierID ) and $this->ModifierID )
         {
-            //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
             return eZUser::fetch( $this->ModifierID );
         }
         return null;

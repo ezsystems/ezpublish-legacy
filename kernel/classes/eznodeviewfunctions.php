@@ -80,7 +80,6 @@ class eZNodeviewfunctions
                                           $viewParameters = array( 'offset' => 0, 'year' => false, 'month' => false, 'day' => false ),
                                           $collectionAttributes = false, $validation = false )
     {
-        //include_once( 'kernel/classes/ezsection.php' );
         eZSection::setGlobalID( $object->attribute( 'section_id' ) );
 
         $section = eZSection::fetch( $object->attribute( 'section_id' ) );
@@ -254,9 +253,6 @@ class eZNodeviewfunctions
 
     static function generateViewCacheFile( $user, $nodeID, $offset, $layout, $language, $viewMode, $viewParameters = false, $cachedViewPreferences = false, $cachedViewSetting = false )
     {
-        //include_once( 'kernel/classes/ezuserdiscountrule.php' );
-        //include_once( 'kernel/classes/ezpreferences.php' );
-
         $limitedAssignmentValueList = $user->limitValueList();
         $roleList = $user->roleIDList();
         $discountList = eZUserDiscountRule::fetchIDListByUserID( $user->attribute( 'contentobject_id' ) );
@@ -409,7 +405,6 @@ class eZNodeviewfunctions
                 $res->setKeys( $keyArray );
 
                 // set section id
-                //include_once( 'kernel/classes/ezsection.php' );
                 eZSection::setGlobalID( $Result['section_id'] );
 
                 return $Result;
@@ -423,7 +418,6 @@ class eZNodeviewfunctions
         // Cache is expired so return specialized cluster object
         if ( !isset( $expiryReason ) )
             $expiryReason = 'Content cache is expired';
-        //include_once( 'kernel/classes/ezclusterfilefailure.php' );
         return new eZClusterFileFailure( 1, $expiryReason );
     }
 

@@ -124,7 +124,6 @@ class eZContentOperationCollection
 
     function publishObjectExtensionHandler( $contentObjectID, $contentObjectVersion )
     {
-        //include_once( 'kernel/classes/ezcontentobjectedithandler.php' );
         eZContentObjectEditHandler::executePublish( $contentObjectID, $contentObjectVersion );
     }
 
@@ -216,12 +215,10 @@ class eZContentOperationCollection
 
         /* Check if current class is the user class, and if so, clean up the
          * user-policy cache */
-        //include_once( "lib/ezutils/classes/ezini.php" );
         $ini = eZINI::instance();
         $userClassID = $ini->variable( "UserSettings", "UserClassID" );
         if ( $object->attribute( 'contentclass_id' ) == $userClassID )
         {
-            //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
             eZUser::cleanupCache();
         }
     }
@@ -247,7 +244,6 @@ class eZContentOperationCollection
     */
     function generateObjectViewCache( $objectID )
     {
-        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::generateObjectViewCache( $objectID );
     }
 
@@ -262,7 +258,6 @@ class eZContentOperationCollection
     */
     function clearObjectViewCache( $objectID, $versionNum = true, $additionalNodeList = false )
     {
-        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearContentCacheIfNeeded( $objectID, $versionNum, $additionalNodeList );
     }
 
@@ -324,7 +319,6 @@ class eZContentOperationCollection
                 {
                     $parentNode = eZContentObjectTreeNode::fetch( $nodeID );
 
-                    //include_once( 'kernel/classes/ezcontentbrowserecent.php' );
                     $user = eZUser::currentUser();
                     eZContentBrowseRecent::createNew( $user->id(), $parentNode->attribute( 'node_id' ), $parentNode->attribute( 'name' ) );
                     $updateFields = true;
@@ -352,7 +346,6 @@ class eZContentOperationCollection
                     // clear cache for old placement.
                     $additionalNodeIDList = array( $fromNodeID );
 
-                    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
                     eZContentCacheManager::clearContentCacheIfNeeded( $objectID, $versionNum, $additionalNodeIDList );
 
                     $originalNode = eZContentObjectTreeNode::fetchNode( $originalObjectID, $fromNodeID );
@@ -390,7 +383,6 @@ class eZContentOperationCollection
             $existingNodeID = $existingNode->attribute( 'node_id' );
             if ( $existingNodeID != $mainNodeID )
             {
-                //include_once( 'kernel/classes/ezcontentbrowserecent.php' );
                 eZContentBrowseRecent::updateNodeID( $existingNodeID, $mainNodeID );
             }
             $existingNode->setAttribute( 'main_node_id', $mainNodeID );
@@ -567,21 +559,16 @@ class eZContentOperationCollection
     {
         eZDebug::createAccumulatorGroup( 'search_total', 'Search Total' );
 
-        //include_once( "lib/ezutils/classes/ezini.php" );
-
         $ini = eZINI::instance( 'site.ini' );
         $delayedIndexing = ( $ini->variable( 'SearchSettings', 'DelayedIndexing' ) == 'enabled' );
 
         if ( $delayedIndexing )
         {
-            //include_once( "lib/ezdb/classes/ezdb.php" );
-
             $db = eZDB::instance();
             $db->query( 'INSERT INTO ezpending_actions( action, param ) VALUES ( \'index_object\', '. (int)$objectID. ' )' );
         }
         else
         {
-            //include_once( "kernel/classes/ezsearch.php" );
             $object = eZContentObject::fetch( $objectID );
             // Register the object in the search engine.
             eZDebug::accumulatorStart( 'remove_object', 'search_total', 'remove object' );
@@ -599,7 +586,6 @@ class eZContentOperationCollection
      */
     function createNotificationEvent( $objectID, $versionNum )
     {
-        //include_once( 'kernel/classes/notification/eznotificationevent.php' );
         $event = eZNotificationEvent::create( 'ezpublish', array( 'object' => $objectID,
                                                                    'version' => $versionNum ) );
         $event->store();

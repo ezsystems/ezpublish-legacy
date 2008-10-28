@@ -29,11 +29,6 @@
 /*! \file editcurrency.php
 */
 
-//include_once( 'kernel/shop/classes/ezcurrencydata.php' );
-//include_once( 'lib/ezutils/classes/ezini.php' );
-//include_once( 'kernel/shop/classes/ezshopfunctions.php' );
-//include_once( 'kernel/classes/ezcontentcachemanager.php' );
-
 $module = $Params['Module'];
 
 $ini = eZINI::instance( 'site.ini' );
@@ -115,8 +110,6 @@ if ( strlen( $originalCurrencyCode ) > 0 )
     {
         // first time in 'edit' mode? => initialize template variables
         // with existing data.
-        //include_once( 'kernel/shop/classes/ezcurrencydata.php' );
-
         $currency = eZCurrencyData::fetch( $originalCurrencyCode );
         if ( is_object( $currency ) )
         {

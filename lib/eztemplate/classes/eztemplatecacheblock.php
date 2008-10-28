@@ -118,7 +118,6 @@ class eZTemplateCacheBlock
             return -1;
         $nodeID = (int)$nodeID;
         $sql = "SELECT modified_subnode FROM ezcontentobject_tree WHERE node_id=$nodeID";
-        //include_once( 'lib/ezdb/classes/ezdb.php' );
         $db = eZDB::instance();
         $rows = $db->arrayQuery( $sql );
         if ( count( $rows ) > 0 )
@@ -162,7 +161,6 @@ class eZTemplateCacheBlock
      */
     static function cachePath( $keyString, $nodeID = false )
     {
-        //include_once( 'lib/ezutils/classes/ezsys.php' );
         $filename = eZSys::ezcrc32( $keyString ) . ".cache";
 
         $phpDir = eZTemplateCacheBlock::templateBlockCacheDir();

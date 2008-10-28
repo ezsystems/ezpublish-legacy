@@ -31,10 +31,6 @@
 $Module = $Params['Module'];
 
 require_once( "kernel/common/template.php" );
-//include_once( 'kernel/classes/ezrssexport.php' );
-//include_once( 'kernel/classes/ezrssimport.php' );
-//include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
-
 $http = eZHTTPTool::instance();
 
 if ( $http->hasPostVariable( 'NewExportButton' ) )

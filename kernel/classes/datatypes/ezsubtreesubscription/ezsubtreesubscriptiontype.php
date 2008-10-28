@@ -37,8 +37,6 @@
   \brief The class eZSubtreeSubscriptionType does
 
 */
-//include_once( "kernel/classes/ezdatatype.php" );
-
 class eZSubtreeSubscriptionType extends eZDataType
 {
     const DATA_TYPE_STRING = "ezsubtreesubscription";
@@ -59,7 +57,6 @@ class eZSubtreeSubscriptionType extends eZDataType
     */
     function onPublish( $attribute, $contentObject, $publishedNodes )
     {
-        //include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreenotificationrule.php' );
         $user = eZUser::currentUser();
         $address = $user->attribute( 'email' );
         $userID = $user->attribute( 'contentobject_id' );

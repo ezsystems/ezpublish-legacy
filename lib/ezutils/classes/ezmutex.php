@@ -37,9 +37,6 @@
 
 */
 
-//include_once( 'lib/ezutils/classes/ezsys.php' );
-//include_once( 'lib/ezfile/classes/ezfile.php' );
-
 class eZMutex
 {
     const STEAL_STRING = '_eZMutex_Steal';
@@ -53,7 +50,6 @@ class eZMutex
     */
     function eZMutex( $name )
     {
-        //include_once( 'lib/ezutils/classes/ezdir.php' );
         $this->Name = md5( $name );
         $mutexPath = eZDir::path( array( eZSys::cacheDirectory(),
                                          'ezmutex' ) );

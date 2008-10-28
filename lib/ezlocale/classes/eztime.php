@@ -77,8 +77,6 @@ print( $time1->isEqualTo( $time3 ) ? 'true' : 'false' ); // Prints 'true'
   \sa eZDate, eZDateTime, eZLocale
 */
 
-//include_once( 'lib/ezlocale/classes/ezlocale.php' );
-
 class eZTime
 {
     /*!

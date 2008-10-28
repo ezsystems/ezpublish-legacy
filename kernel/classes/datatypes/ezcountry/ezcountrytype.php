@@ -37,8 +37,6 @@
   Country is stored as text string.
 */
 
-//include_once( 'kernel/classes/ezdatatype.php' );
-//include_once( 'lib/ezutils/classes/ezintegervalidator.php' );
 require_once( 'kernel/common/i18n.php' );
 
 class eZCountryType extends eZDataType
@@ -77,7 +75,6 @@ class eZCountryType extends eZDataType
     */
     static function fetchTranslatedNames( &$countries )
     {
-        //include_once( "lib/ezlocale/classes/ezlocale.php" );
         $locale = eZLocale::instance();
         $translatedCountryNames = $locale->translatedCountryNames();
         foreach ( array_keys( $countries ) as $countryKey )
@@ -463,7 +460,6 @@ class eZCountryType extends eZDataType
     */
     function sortKey( $contentObjectAttribute )
     {
-        //include_once( 'lib/ezi18n/classes/ezchartransform.php' );
         $trans = eZCharTransform::instance();
         $content = $contentObjectAttribute->content();
         if ( is_array( $content['value'] ) )

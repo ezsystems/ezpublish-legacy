@@ -39,8 +39,6 @@
    http://www.php.net/manual/en/ref.zlib.php
 */
 
-//include_once( 'lib/ezfile/classes/ezcompressionhandler.php' );
-
 class eZGZIPZLIBCompressionHandler extends eZCompressionHandler
 {
     /*!

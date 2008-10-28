@@ -37,9 +37,6 @@
 
 */
 
-//include_once( 'lib/ezutils/classes/ezsys.php' );
-//include_once( "lib/ezfile/classes/ezdir.php" );
-
 class eZContentCache
 {
     // The timestamp for the cache format, will expire
@@ -93,7 +90,6 @@ class eZContentCache
         if ( $cacheFile->exists() )
         {
             $timestamp = $cacheFile->mtime();
-            //include_once( 'kernel/classes/ezcontentobject.php' );
             if ( eZContentObject::isCacheExpired( $timestamp ) )
             {
                 eZDebugSetting::writeDebug( 'kernel-content-view-cache', 'cache expired #1' );
@@ -131,7 +127,6 @@ class eZContentCache
         if ( $cacheFile->exists() )
         {
             $timestamp = $cacheFile->mtime();
-            //include_once( 'kernel/classes/ezcontentobject.php' );
             if ( eZContentObject::isCacheExpired( $timestamp ) )
             {
                 eZDebugSetting::writeDebug( 'kernel-content-view-cache', 'cache expired #2' );
@@ -200,7 +195,6 @@ class eZContentCache
         }
 
         // set section id
-        //include_once( 'kernel/classes/ezsection.php' );
         eZSection::setGlobalID( $cachedArray['section_id'] );
         return $result;
     }
@@ -263,7 +257,6 @@ class eZContentCache
 
         if ( !file_exists( $cacheDir ) )
         {
-            //include_once( 'lib/ezfile/classes/ezdir.php' );
             eZDir::mkdir( $cacheDir, false, true );
         }
 

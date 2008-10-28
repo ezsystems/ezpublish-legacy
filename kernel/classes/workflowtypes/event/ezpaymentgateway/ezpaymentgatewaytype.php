@@ -39,10 +39,6 @@
   Allows user to choose necessary gateway type 'on the fly'.
 */
 
-//include_once( 'kernel/classes/ezworkflowtype.php' );
-
-//include_once( 'kernel/classes/workflowtypes/event/ezpaymentgateway/ezpaymentlogger.php' );
-
 class eZPaymentGatewayType extends eZWorkflowEventType
 {
     const WORKFLOW_TYPE_STRING = 'ezpaymentgateway';

@@ -36,8 +36,6 @@
   \brief The class eZShopOperationCollection does
 
 */
-//include_once( "lib/ezutils/classes/ezinputvalidator.php" );
-
 class eZShopOperationCollection
 {
     /*!
@@ -126,7 +124,6 @@ class eZShopOperationCollection
         $vatIsKnown = true;
         $db = eZDB::instance();
         $db->begin();
-        //include_once( 'kernel/shop/classes/ezshopfunctions.php' );
         foreach( $items as $item )
         {
             $productContentObject = $item->attribute( 'contentobject' );
@@ -323,8 +320,6 @@ class eZShopOperationCollection
     */
     function addToBasket( $objectID, $optionList, $quantity )
     {
-        //include_once( 'kernel/shop/classes/ezshopfunctions.php' );
-
         $object = eZContentObject::fetch( $objectID );
         $nodeID = $object->attribute( 'main_node_id' );
         $price = 0.0;
@@ -534,9 +529,6 @@ class eZShopOperationCollection
 
     function activateOrder( $orderID )
     {
-        //include_once( "kernel/classes/ezbasket.php" );
-        //include_once( 'kernel/classes/ezorder.php' );
-
         $order = eZOrder::fetch( $orderID );
 
         $db = eZDB::instance();
@@ -547,24 +539,19 @@ class eZShopOperationCollection
         $basket->remove();
         $db->commit();
 
-        //include_once( "lib/ezutils/classes/ezhttptool.php" );
         eZHTTPTool::instance()->setSessionVariable( "UserOrderID", $orderID );
         return array( 'status' => eZModuleOperationInfo::STATUS_CONTINUE );
     }
 
     function sendOrderEmails( $orderID )
     {
-        //include_once( 'kernel/classes/ezorder.php' );
         $order = eZOrder::fetch( $orderID );
 
         // Fetch the shop account handler
-        //include_once( 'kernel/classes/ezshopaccounthandler.php' );
-
         $accountHandler = eZShopAccountHandler::instance();
         $email = $accountHandler->email( $order );
 
         // Fetch the confirm order handler
-        //include_once( 'kernel/classes/ezconfirmorderhandler.php' );
         $confirmOrderHandler = eZConfirmOrderHandler::instance();
         $params = array( 'email' => $email,
                          'order' => $order );

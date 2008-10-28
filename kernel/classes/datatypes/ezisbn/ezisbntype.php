@@ -34,8 +34,6 @@
 
 */
 
-//include_once( "kernel/classes/ezdatatype.php" );
-
 class eZISBNType extends eZDataType
 {
     const DATA_TYPE_STRING = "ezisbn";
@@ -59,7 +57,6 @@ class eZISBNType extends eZDataType
         $classContent = $classAttribute->content();
         if ( isset( $classContent['ISBN13'] ) and $classContent['ISBN13'] )
         {
-            //include_once( 'kernel/classes/datatypes/ezisbn/ezisbn13.php' );
             $number13 = $http->hasPostVariable( $base . "_isbn_13_" . $contentObjectAttribute->attribute( "id" ) )
                         ? $http->postVariable( $base . "_isbn_13_" . $contentObjectAttribute->attribute( "id" ) )
                         : false;
@@ -381,8 +378,6 @@ class eZISBNType extends eZDataType
     */
     function classAttributeContent( $classAttribute )
     {
-        //include_once( 'kernel/classes/datatypes/ezisbn/ezisbn13.php' );
-
         $ISBN_13 = $classAttribute->attribute( self::CLASS_IS_ISBN13 );
         $isbn13Info = new eZISBN13();
         $content = array( 'ISBN13' => $ISBN_13,
@@ -456,9 +451,6 @@ class eZISBNType extends eZDataType
     */
     function cleanDBDataBeforeImport()
     {
-        //include_once( 'kernel/classes/datatypes/ezisbn/ezisbngroup.php' );
-        //include_once( 'kernel/classes/datatypes/ezisbn/ezisbngrouprange.php' );
-        //include_once( 'kernel/classes/datatypes/ezisbn/ezisbnregistrantrange.php' );
         eZISBNGroup::cleanAll();
         eZISBNGroupRange::cleanAll();
         eZISBNRegistrantRange::cleanAll();

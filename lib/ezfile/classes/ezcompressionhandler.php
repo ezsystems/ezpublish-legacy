@@ -53,8 +53,6 @@
 
 */
 
-//include_once( 'lib/ezfile/classes/ezfilehandler.php' );
-
 class eZCompressionHandler extends eZFileHandler
 {
     /*!

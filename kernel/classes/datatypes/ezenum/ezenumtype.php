@@ -38,10 +38,6 @@
 
 */
 
-//include_once( 'kernel/classes/ezdatatype.php' );
-//include_once( 'kernel/classes/datatypes/ezenum/ezenum.php' );
-//include_once( 'kernel/classes/ezcontentobjectattribute.php' );
-
 class eZEnumType extends eZDataType
 {
     const DATA_TYPE_STRING = 'ezenum';

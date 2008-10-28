@@ -36,8 +36,6 @@
   \brief
 */
 
-//include_once( 'kernel/classes/ezcontentclassnamelist.php' );
-
 class eZContentStructureTreeOperator
 {
     function eZContentStructureTreeOperator( $name = 'content_structure_tree' )

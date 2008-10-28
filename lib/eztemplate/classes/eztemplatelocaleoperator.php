@@ -46,9 +46,6 @@
 \endcode
 */
 
-//include_once( "lib/ezlocale/classes/ezlocale.php" );
-//include_once( 'lib/ezlocale/classes/ezdatetime.php' );
-
 class eZTemplateLocaleOperator
 {
     /*!

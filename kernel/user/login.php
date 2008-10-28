@@ -26,12 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'lib/ezutils/classes/ezhttptool.php' );
-//include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 require_once( 'kernel/common/template.php' );
-//include_once( 'lib/ezutils/classes/ezini.php' );
-//include_once( 'kernel/classes/datatypes/ezuser/ezuserloginhandler.php' );
-
 //$Module->setExitStatus( EZ_MODULE_STATUS_SHOW_LOGIN_PAGE );
 
 $Module = $Params['Module'];
@@ -132,8 +127,6 @@ if ( $Module->isCurrentAction( 'Login' ) and
                 if ( $siteAccessResult[ 'accessWord' ] == 'limited' )
                 {
                     $siteNameCRC = eZSys::ezcrc32( $access[ 'name' ] );
-                    //include_once( 'lib/ezutils/classes/ezsys.php' );
-
                     $policyChecked = false;
                     foreach ( $siteAccessResult['policies'] as $policy )
                     {
@@ -303,7 +296,6 @@ if ( $Module->isCurrentAction( 'Login' ) and
         $http->setSessionVariable( 'eZUserLoggedInID', $userID );
 
         // Remove all temporary drafts
-        //include_once( 'kernel/classes/ezcontentobject.php' );
         eZContentObject::cleanupAllInternalDrafts( $userID );
         return $Module->redirectTo( $redirectionURI );
     }

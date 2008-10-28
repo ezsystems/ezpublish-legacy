@@ -26,8 +26,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'kernel/classes/ezcontentlanguage.php' );
-
 class eZSerializedObjectNameList
 {
     const ALWAYS_AVAILABLE_STR = 'always-available';

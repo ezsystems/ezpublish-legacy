@@ -34,9 +34,6 @@
   \brief Handles file downloading by passing the file through PHP
 
 */
-//include_once( "kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php" );
-//include_once( "kernel/classes/ezbinaryfilehandler.php" );
-
 class eZFilePassthroughHandler extends eZBinaryFileHandler
 {
     const HANDLER_ID = 'ezfilepassthrough';

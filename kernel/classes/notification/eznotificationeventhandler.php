@@ -37,8 +37,6 @@
 
 */
 
-//include_once( 'kernel/classes/notification/eznotificationtransport.php' );
-
 class eZNotificationEventHandler
 {
     const EVENT_HANDLED = 0;

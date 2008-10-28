@@ -35,10 +35,6 @@
 
 */
 
-//include_once( "kernel/classes/ezpersistentobject.php" );
-//include_once( "kernel/classes/ezcontentobject.php" );
-//include_once( "kernel/classes/ezproductcollectionitemoption.php" );
-
 
 class eZProductCollectionItem extends eZPersistentObject
 {
@@ -219,8 +215,6 @@ class eZProductCollectionItem extends eZPersistentObject
     */
     function calculatePriceWithOptions( $currency = false )
     {
-        //include_once( 'kernel/shop/classes/ezshopfunctions.php' );
-
         $optionList = eZProductCollectionItemOption::fetchList( $this->attribute( 'id' ) );
         $contentObject = $this->contentObject();
         $contentObjectVersion = $contentObject->attribute( 'current_version' );
@@ -261,8 +255,6 @@ class eZProductCollectionItem extends eZPersistentObject
         $contentObject = $this->attribute( 'contentobject' );
         if ( $contentObject != null && $contentObject->attribute( 'main_node_id' ) > 0 )
         {
-            //include_once( 'kernel/shop/classes/ezshopfunctions.php' );
-
             $attributes = $contentObject->contentObjectAttributes();
             $optionsPrice = $this->calculatePriceWithOptions( $currency );
 
@@ -318,7 +310,6 @@ class eZProductCollectionItem extends eZPersistentObject
             {
                 $itemIDList[] = $row['id'];
             }
-            //include_once( 'kernel/classes/ezproductcollectionitemoption.php' );
             eZProductCollectionItemOption::cleanupList( $itemIDList );
         }
         $db->query( "DELETE FROM ezproductcollection_item WHERE productcollection_id IN ( $idText )" );

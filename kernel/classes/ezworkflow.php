@@ -34,11 +34,6 @@
 
 */
 
-//include_once( "lib/ezdb/classes/ezdb.php" );
-//include_once( "kernel/classes/ezpersistentobject.php" );
-//include_once( "kernel/classes/ezworkflowevent.php" );
-//include_once( 'kernel/classes/ezworkflowgrouplink.php' );
-
 class eZWorkflow extends eZPersistentObject
 {
     const STATUS_NONE = 0;
@@ -490,7 +485,6 @@ class eZWorkflow extends eZPersistentObject
     {
         if ( isset( $this->CreatorID ) and $this->CreatorID )
         {
-            //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
             return eZUser::fetch( $this->CreatorID );
         }
 
@@ -501,7 +495,6 @@ class eZWorkflow extends eZPersistentObject
     {
         if ( isset( $this->ModifierID ) and $this->ModifierID )
         {
-            //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
             return eZUser::fetch( $this->ModifierID );
         }
 
@@ -538,7 +531,6 @@ class eZWorkflow extends eZPersistentObject
 
     function workflowType()
     {
-        //include_once( "kernel/classes/ezworkflowtype.php" );
         return eZWorkflowType::createType( $this->WorkflowTypeString );
     }
 

@@ -29,10 +29,6 @@
 /*! \file urltranslator.php
 */
 require_once( 'kernel/common/template.php' );
-//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-//include_once( 'kernel/classes/ezurlaliasml.php' );
-//include_once( 'kernel/classes/ezpathelement.php' );
-
 $Module = $Params['Module'];
 $http = eZHTTPTool::instance();
 
@@ -53,7 +49,6 @@ $aliasOutputDestinationText = false;
 
 if ( $Module->isCurrentAction( 'RemoveAllAliases' ) )
 {
-    //include_once( 'kernel/classes/ezurlaliasquery.php' );
     $filter = new eZURLAliasQuery();
     $filter->actionTypesEx = array( 'eznode', 'nop' );
     $filter->offset = 0;
@@ -200,7 +195,6 @@ $limitList = array( array( 'id'    => 1,
                            'value' => 50 ),
                     array( 'id'    => 4,
                            'value' => 100 ) );
-//include_once( 'kernel/classes/ezpreferences.php' );
 $limitID = eZPreferences::value( 'admin_urlalias_list_limit' );
 foreach ( $limitList as $limitEntry )
 {
@@ -213,7 +207,6 @@ if ( !in_array( $limitID, $limitIDs ) )
 }
 
 // Fetch global custom aliases (excluding eznode)
-//include_once( 'kernel/classes/ezurlaliasquery.php' );
 $filter = new eZURLAliasQuery();
 $filter->actionTypesEx = array( 'eznode', 'nop' );
 $filter->offset = $Offset;

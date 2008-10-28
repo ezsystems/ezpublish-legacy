@@ -35,11 +35,6 @@
 
 */
 
-//include_once( 'kernel/classes/ezpersistentobject.php' );
-//include_once( 'lib/ezutils/classes/ezhttptool.php' );
-//include_once( 'lib/ezfile/classes/ezdir.php' );
-//include_once( 'lib/ezutils/classes/ezsys.php' );
-
 class eZUser extends eZPersistentObject
 {
     /// MD5 of password
@@ -541,12 +536,6 @@ WHERE user_id = '" . $userID . "' AND
     */
     static function removeUser( $userID )
     {
-        //include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreenotificationrule.php' );
-        //include_once( 'kernel/classes/datatypes/ezuser/ezusersetting.php' );
-        //include_once( 'kernel/classes/datatypes/ezuser/ezuseraccountkey.php' );
-        //include_once( 'kernel/classes/datatypes/ezuser/ezforgotpassword.php' );
-        //include_once( 'kernel/classes/ezwishlist.php' );
-
         $user = eZUser::fetch( $userID );
         if ( !$user )
         {
@@ -600,7 +589,6 @@ WHERE user_id = '" . $userID . "' AND
     */
     static function hashType()
     {
-        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
         $type = strtolower( $ini->variable( 'UserSettings', 'HashType' ) );
         if ( $type == 'md5_site' )
@@ -621,7 +609,6 @@ WHERE user_id = '" . $userID . "' AND
     */
     static function site()
     {
-        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
         return $ini->variable( 'UserSettings', 'SiteName' );
     }
@@ -636,7 +623,6 @@ WHERE user_id = '" . $userID . "' AND
             $id = self::anonymousId();
         if ( empty( $GLOBALS["eZUserBuilitinInstance-$id"] ) )
         {
-            //include_once( 'lib/ezutils/classes/ezini.php' );
             $GLOBALS["eZUserBuilitinInstance-$id"] = eZUser::fetch( self::anonymousId() );
         }
         return $GLOBALS["eZUserBuilitinInstance-$id"];
@@ -656,7 +642,6 @@ WHERE user_id = '" . $userID . "' AND
     */
     static function authenticationMatch()
     {
-        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
         $matchArray = $ini->variableArray( 'UserSettings', 'AuthenticateMatch' );
         $match = 0;
@@ -693,8 +678,6 @@ WHERE user_id = '" . $userID . "' AND
     */
     static function loginUser( $login, $password, $authenticationMatch = false )
     {
-        //include_once( 'kernel/classes/ezcontentobject.php' );
-
         $http = eZHTTPTool::instance();
         $db = eZDB::instance();
 
@@ -709,7 +692,6 @@ WHERE user_id = '" . $userID . "' AND
             $loginArray[] = "login='$loginEscaped'";
         if ( $authenticationMatch & self::AUTHENTICATE_EMAIL )
         {
-            //include_once( 'lib/ezutils/classes/ezmail.php' );
             if ( eZMail::validate( $login ) )
             {
                 $loginArray[] = "email='$loginEscaped'";
@@ -747,7 +729,6 @@ WHERE user_id = '" . $userID . "' AND
         $exists = false;
         if ( $users !== false and count( $users ) >= 1 )
         {
-            //include_once( 'lib/ezutils/classes/ezini.php' );
             $ini = eZINI::instance();
             foreach ( $users as $userRow )
             {
@@ -782,7 +763,6 @@ WHERE user_id = '" . $userID . "' AND
                     // We should store userID for warning message.
                     $GLOBALS['eZFailedLoginAttemptUserID'] = $userID;
 
-                    //include_once( "kernel/classes/datatypes/ezuser/ezusersetting.php" );
                     $userSetting = eZUserSetting::fetch( $userID );
                     $isEnabled = $userSetting->attribute( "is_enabled" );
                     if ( $hashType != eZUser::hashType() and
@@ -797,7 +777,6 @@ WHERE user_id = '" . $userID . "' AND
                 }
             }
         }
-        //include_once( "kernel/classes/ezaudit.php" );
         if ( $exists and $isEnabled and $canLogin )
         {
             $oldUserID = $contentObjectID = $http->sessionVariable( "eZUserLoggedInID" );
@@ -996,7 +975,6 @@ WHERE user_id = '" . $userID . "' AND
 
         // Note: This must be done more generic with an internal
         //       callback system.
-        //include_once( 'kernel/classes/ezpreferences.php' );
         eZPreferences::sessionCleanup();
     }
 
@@ -1024,7 +1002,6 @@ WHERE user_id = '" . $userID . "' AND
         // Clear current basket if necessary
         $db = eZDB::instance();
         $db->begin();
-        //include_once( 'kernel/classes/ezbasket.php' );
         eZBasket::cleanupCurrentBasket();
         $db->commit();
 
@@ -1131,7 +1108,6 @@ WHERE user_id = '" . $userID . "' AND
                     }
                     else // check in extensions
                     {
-                        //include_once( 'lib/ezutils/classes/ezextension.php' );
                         $ini = eZINI::instance();
                         $extensionDirectories = $ini->variable( 'UserSettings', 'ExtensionDirectory' );
                         $directoryList = eZExtension::expandedPathList( $extensionDirectories, 'sso_handler' );
@@ -1306,7 +1282,6 @@ WHERE user_id = '" . $userID . "' AND
         }
         $db->commit();
 
-        //include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearContentCacheIfNeeded( $userID );
         eZContentCacheManager::generateObjectViewCache( $userID );
     }
@@ -1353,7 +1328,6 @@ WHERE user_id = '" . $userID . "' AND
             return true;
         }
 
-        //include_once( "kernel/classes/datatypes/ezuser/ezusersetting.php" );
         $setting = eZUserSetting::fetch( $this->attribute( 'contentobject_id' ) );
         if ( $setting and !$setting->attribute( 'is_enabled' ) )
         {
@@ -1675,7 +1649,6 @@ WHERE user_id = '" . $userID . "' AND
     */
     function generateAccessArray()
     {
-        //include_once( 'kernel/classes/ezrole.php' );
         $idList = $this->groups();
         $idList[] = $this->attribute( 'contentobject_id' );
 
@@ -2088,7 +2061,6 @@ WHERE user_id = '" . $userID . "' AND
     */
     function roles()
     {
-        //include_once( 'kernel/classes/ezrole.php' );
         $groups = $this->attribute( 'groups' );
         $groups[] = $this->attribute( 'contentobject_id' );
         return eZRole::fetchByUser( $groups );
@@ -2122,7 +2094,6 @@ WHERE user_id = '" . $userID . "' AND
             }
         }
 
-        //include_once( 'kernel/classes/ezrole.php' );
         $groups = $this->attribute( 'groups' );
         $groups[] = $this->attribute( 'contentobject_id' );
         $roleList = eZRole::fetchIDListByUser( $groups );
@@ -2202,7 +2173,6 @@ WHERE user_id = '" . $userID . "' AND
     {
         if ( isset( $this->ContentObjectID ) and $this->ContentObjectID )
         {
-            //include_once( 'kernel/classes/ezcontentobject.php' );
             return eZContentObject::fetch( $this->ContentObjectID );
         }
         return null;
@@ -2235,8 +2205,6 @@ WHERE user_id = '" . $userID . "' AND
             $this->Groups = array();
             if ( !isset( $this->GroupsAsObjects ) )
             {
-                //include_once( 'kernel/classes/ezcontentobject.php' );
-
                 $contentobjectID = $this->attribute( 'contentobject_id' );
                 $userGroups = $db->arrayQuery( "SELECT d.*, c.path_string
                                                 FROM ezcontentobject_tree  b,
@@ -2375,7 +2343,6 @@ WHERE user_id = '" . $userID . "' AND
              $http->sessionVariable( "eZUserLoggedInID" ) != '' and
              $http->sessionVariable( "eZUserLoggedInID" ) != $ini->variable( 'UserSettings', 'AnonymousUserID' ) )
         {
-            //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
             $currentUser = eZUser::currentUser();
             if ( !$currentUser->isEnabled() )
             {

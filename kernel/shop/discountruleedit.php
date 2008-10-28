@@ -30,14 +30,6 @@
 //       not only products (i.e. objects with attribute of the ezprice datatype).
 
 require_once( 'kernel/common/template.php' );
-//include_once( 'kernel/classes/ezcontentobject.php' );
-//include_once( 'kernel/classes/ezdiscountrule.php' );
-//include_once( 'kernel/classes/ezdiscountsubrule.php' );
-//include_once( 'kernel/classes/ezdiscountsubrulevalue.php' );
-//include_once( 'kernel/classes/ezcontentbrowse.php' );
-//include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
-//include_once( 'kernel/shop/classes/ezshopfunctions.php' );
-
 $module = $Params['Module'];
 
 if ( !isset( $Params['DiscountGroupID'] ) )
@@ -85,7 +77,6 @@ if ( $http->hasPostVariable( 'BrowseProductButton' ) )
 if ( $http->hasPostVariable( 'discountrule_name' ) )
 {
     // if it has post variables, the values will be taken from POST variables instead of object itself
-    //include_once( 'lib/ezlocale/classes/ezlocale.php' );
     $locale = eZLocale::instance();
 
     $discountRuleName = $http->postVariable( 'discountrule_name' );
@@ -273,7 +264,6 @@ if ( $http->hasPostVariable( 'StoreButton' ) )
     $db->commit();
 
     // we changed prices => remove content cache
-    //include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearAllContentCache();
 
     return $module->redirectTo( $module->functionURI( 'discountgroupview' ) . '/' . $discountGroupID );

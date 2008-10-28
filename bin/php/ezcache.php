@@ -27,8 +27,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'lib/ezutils/classes/ezcli.php' );
-//include_once( 'kernel/classes/ezscript.php' );
 require 'autoload.php';
 
 $cli = eZCLI::instance();
@@ -84,8 +82,6 @@ if ( $options['purge'] )
     $purge = true;
 }
 $noAction = true;
-
-//include_once( 'kernel/classes/ezcache.php' );
 
 $cacheList = eZCache::fetchList();
 

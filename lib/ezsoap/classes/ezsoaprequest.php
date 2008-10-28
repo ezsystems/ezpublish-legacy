@@ -36,11 +36,6 @@
 */
 
 require_once( "lib/ezutils/classes/ezdebug.php" );
-//include_once( "lib/ezxml/classes/ezxml.php" );
-//include_once( "lib/ezsoap/classes/ezsoapparameter.php" );
-//include_once( 'lib/ezsoap/classes/ezsoapcodec.php' );
-//include_once( "lib/ezsoap/classes/ezsoapenvelope.php" );
-
 class eZSOAPRequest extends eZSOAPEnvelope
 {
     /*!

@@ -42,9 +42,6 @@
   possible to store and remove items of this class.
 */
 
-//include_once( "kernel/classes/ezpersistentobject.php" );
-//include_once( "kernel/classes/ezcontentlanguage.php" );
-
 class eZPathElement extends eZPersistentObject
 {
     /*!
@@ -161,7 +158,6 @@ class eZPathElement extends eZPersistentObject
      */
     static public function fetchNamedByParentID( $parentID, $name )
     {
-        //include_once( 'kernel/classes/ezurlaliasquery.php' );
         $filter = new eZURLAliasQuery();
         $filter->paren = $parentID;
         $filter->text  = $name;

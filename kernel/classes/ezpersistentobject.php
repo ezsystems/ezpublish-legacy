@@ -55,7 +55,6 @@ class MyClass extends eZPersistentObject
 
 */
 
-//include_once( "lib/ezdb/classes/ezdb.php" );
 require_once( "lib/ezutils/classes/ezdebug.php" );
 
 class eZPersistentObject

@@ -63,8 +63,6 @@
 
 */
 
-//include_once( "kernel/classes/ezpersistentobject.php" );
-
 class eZOrderStatus extends eZPersistentObject
 {
     // Define for statuses that doesn't really exist (DB error)

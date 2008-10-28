@@ -36,8 +36,6 @@
   \brief The class eZContentObjectTrashNode
 */
 
-//include_once( "kernel/classes/ezcontentobjecttreenode.php" );
-
 //class eZContentObjectTrashNode extends eZPersistentObject
 class eZContentObjectTrashNode extends eZContentObjectTreeNode
 {

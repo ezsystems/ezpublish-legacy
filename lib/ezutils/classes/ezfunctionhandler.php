@@ -37,8 +37,6 @@
 
 */
 
-//include_once( 'lib/ezutils/classes/ezmodulefunctioninfo.php' );
-
 class eZFunctionHandler
 {
     static function moduleFunctionInfo( $moduleName )

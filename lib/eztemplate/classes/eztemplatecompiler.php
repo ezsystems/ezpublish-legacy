@@ -80,7 +80,6 @@ class eZTemplateCompiler
     static function TemplatePrefix()
     {
         $templatePrefix = '';
-        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
         if ( $ini->variable( 'TemplateSettings', 'TemplateCompression' ) == 'enabled' )
         {
@@ -138,7 +137,6 @@ class eZTemplateCompiler
             return $GLOBALS['eZTemplateCompilerSettings']['compile'];
         }
 
-        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
         $compilationEnabled = $ini->variable( 'TemplateSettings', 'TemplateCompile' ) == 'enabled';
         return $compilationEnabled;
@@ -156,7 +154,6 @@ class eZTemplateCompiler
             return $GLOBALS['eZTemplateCompilerSettings']['comments'];
         }
 
-        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
         $commentsEnabled = $ini->variable( 'TemplateSettings', 'CompileComments' ) == 'enabled';
         return $commentsEnabled;
@@ -180,7 +177,6 @@ class eZTemplateCompiler
             return $GLOBALS['eZTemplateCompilerSettings']['development_mode'];
         }
 
-        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
         $developmentModeEnabled = $ini->variable( 'TemplateSettings', 'DevelopmentMode' ) == 'enabled';
         return $developmentModeEnabled;
@@ -198,7 +194,6 @@ class eZTemplateCompiler
             return $GLOBALS['eZTemplateCompilerSettings']['accumulators'];
         }
 
-        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
         $enabled = $ini->variable( 'TemplateSettings', 'CompileAccumulators' ) == 'enabled';
         return $enabled;
@@ -216,7 +211,6 @@ class eZTemplateCompiler
             return $GLOBALS['eZTemplateCompilerSettings']['timingpoints'];
         }
 
-        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
         $enabled = $ini->variable( 'TemplateSettings', 'CompileTimingPoints' ) == 'enabled';
         return $enabled;
@@ -234,7 +228,6 @@ class eZTemplateCompiler
             return $GLOBALS['eZTemplateCompilerSettings']['fallbackresource'];
         }
 
-        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
         $enabled = $ini->variable( 'TemplateSettings', 'CompileResourceFallback' ) == 'enabled';
         return $enabled;
@@ -252,7 +245,6 @@ class eZTemplateCompiler
             return $GLOBALS['eZTemplateCompilerSettings']['nodeplacement'];
         }
 
-        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
         $nodePlacementEnabled = $ini->variable( 'TemplateSettings', 'CompileNodePlacements' ) == 'enabled';
         return $nodePlacementEnabled;
@@ -270,7 +262,6 @@ class eZTemplateCompiler
             return $GLOBALS['eZTemplateCompilerSettings']['execution'];
         }
 
-        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
         $execution = $ini->variable( 'TemplateSettings', 'CompileExecution' ) == 'enabled';
         return $execution;
@@ -288,7 +279,6 @@ class eZTemplateCompiler
             return $GLOBALS['eZTemplateCompilerSettings']['generate'];
         }
 
-        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
         $alwaysGenerate = $ini->variable( 'TemplateSettings', 'CompileAlwaysGenerate' ) == 'enabled';
         return $alwaysGenerate;
@@ -300,7 +290,6 @@ class eZTemplateCompiler
     */
     static function isTreeEnabled( $treeName )
     {
-        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
         $treeList = $ini->variable( 'TemplateSettings', 'CompileIncludeNodeTree' );
         return in_array( $treeName, $treeList );
@@ -321,8 +310,6 @@ class eZTemplateCompiler
         $compilationDirectory =& $GLOBALS['eZTemplateCompilerDirectory'];
         if ( !isset( $compilationDirectory ) )
         {
-            //include_once( 'lib/ezfile/classes/ezdir.php' );
-            //include_once( 'lib/ezutils/classes/ezsys.php' );
             $ini = eZINI::instance();
             $shareTemplates = $ini->hasVariable( 'TemplateSettings', 'ShareCompiledTemplates' ) ?
                                 $ini->variable( 'TemplateSettings', 'ShareCompiledTemplates' ) == 'enabled' :
@@ -357,10 +344,8 @@ class eZTemplateCompiler
         $accessText = false;
         if ( isset( $GLOBALS['eZCurrentAccess']['name'] ) )
             $accessText = '-' . $GLOBALS['eZCurrentAccess']['name'];
-        //include_once( 'lib/ezlocale/classes/ezlocale.php' );
         $locale = eZLocale::instance();
         $language = $locale->translationCode();
-        //include_once( 'lib/ezutils/classes/ezhttptool.php' );
         $http = eZHTTPTool::instance();
         $useFullUrlText = $http->UseFullUrl ? 'full' : 'relative';
 
@@ -397,8 +382,6 @@ class eZTemplateCompiler
             return false;
 
         $cacheFileName = eZTemplateCompiler::compilationFilename( $key, $resourceData );
-
-        //include_once( 'lib/ezutils/classes/ezphpcreator.php' );
 
         $php = new eZPHPCreator( eZTemplateCompiler::compilationDirectory(), $cacheFileName, eZTemplateCompiler::TemplatePrefix() );
         $canRestore = $php->canRestore( $timestamp );
@@ -506,9 +489,6 @@ class eZTemplateCompiler
         $rootNode =& $resourceData['root-node'];
         if ( !$rootNode )
             return false;
-
-        //include_once( 'lib/eztemplate/classes/eztemplatenodetool.php' );
-        //include_once( 'lib/ezutils/classes/ezphpcreator.php' );
 
         $GLOBALS['eZTemplateCompilerResourceCache'][$resourceData['template-filename']] =& $resourceData;
 

@@ -30,11 +30,7 @@
 
 /*! \file ezstep_site_details.php
 */
-//include_once( 'kernel/setup/steps/ezstep_installer.php');
 require_once( "kernel/common/i18n.php" );
-//include_once( "lib/ezutils/classes/ezmail.php" );
-//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-
 /*!
   \class eZStepSiteAdmin ezstep_site_admin.php
   \brief The class eZStepSiteAdmin does

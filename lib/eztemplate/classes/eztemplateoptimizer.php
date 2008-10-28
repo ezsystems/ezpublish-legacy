@@ -38,8 +38,6 @@
 */
 
 require_once( 'lib/ezutils/classes/ezdebug.php' );
-//include_once( 'lib/eztemplate/classes/eztemplate.php' );
-
 class eZTemplateOptimizer
 {
     /*!

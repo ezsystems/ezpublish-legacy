@@ -31,8 +31,6 @@
 /*! \file basket_cleanup.php
 */
 
-//include_once( 'lib/ezutils/classes/ezini.php' );
-
 $ini = eZINI::instance();
 
 // Check if this should be run in a cronjob
@@ -44,9 +42,6 @@ if ( !$useCronjob )
 $freq = $ini->variable( 'Session', 'BasketCleanupAverageFrequency' );
 if ( mt_rand( 1, max( $freq, 1 ) ) != 1 )
     return;
-
-//include_once( 'kernel/classes/ezbasket.php' );
-//include_once( 'kernel/classes/ezdbgarbagecollector.php' );
 
 $maxTime = $ini->variable( 'Session', 'BasketCleanupTime' );
 $idleTime = $ini->variable( 'Session', 'BasketCleanupIdleTime' );

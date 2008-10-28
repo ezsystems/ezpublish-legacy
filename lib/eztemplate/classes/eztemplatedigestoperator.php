@@ -163,7 +163,6 @@ class eZTemplateDigestOperator
             // Calculate and return crc32 polynomial.
             case $this->Crc32Name:
             {
-                //include_once( 'lib/ezutils/classes/ezsys.php' );
                 $operatorValue = eZSys::ezcrc32( $digestData );
             }break;
 

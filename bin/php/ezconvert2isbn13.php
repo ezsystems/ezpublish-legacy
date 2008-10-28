@@ -57,18 +57,6 @@
 
 set_time_limit( 0 );
 
-//include_once( 'lib/ezutils/classes/ezcli.php' );
-//include_once( 'lib/ezdb/classes/ezdb.php' );
-
-//include_once( 'kernel/classes/ezscript.php' );
-//include_once( 'kernel/classes/ezcontentclass.php' );
-//include_once( 'kernel/classes/ezcontentclassattribute.php' );
-//include_once( 'kernel/classes/ezcontentobject.php' );
-//include_once( 'kernel/classes/ezcontentobjectattribute.php' );
-
-//include_once( 'kernel/classes/datatypes/ezisbn/ezisbntype.php' );
-//include_once( 'kernel/classes/datatypes/ezisbn/ezisbn13.php' );
-
 require 'autoload.php';
 
 $cli = eZCLI::instance();

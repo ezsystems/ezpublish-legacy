@@ -34,18 +34,7 @@
   \param $Module must be set by the code which includes this file
 */
 
-//include_once( 'kernel/classes/ezcontentclass.php' );
-//include_once( 'kernel/classes/ezcontentclassattribute.php' );
-
-//include_once( 'kernel/classes/ezcontentobject.php' );
-//include_once( 'kernel/classes/ezcontentobjectversion.php' );
-//include_once( 'kernel/classes/ezcontentobjectattribute.php' );
-
-//include_once( 'lib/ezutils/classes/ezhttptool.php' );
-
 require_once( 'kernel/common/template.php' );
-
-//include_once( 'kernel/classes/ezpreferences.php' );
 
 if ( isset( $Module ) )
     $Module = $Params['Module'];
@@ -201,7 +190,6 @@ if ( $http->hasPostVariable( "CustomActionButton" ) )
     }
 }
 
-//include_once( 'kernel/classes/ezcontentobjectedithandler.php' );
 eZContentObjectEditHandler::initialize();
 
 $storeActions = array( 'Preview',
@@ -258,7 +246,6 @@ if ( $storingAllowed && $hasObjectInput)
     }
 
     // Validate input
-    //include_once( 'lib/ezutils/classes/ezinputvalidator.php' );
     $validationResult = $object->validateInput( $contentObjectAttributes, $attributeDataBaseName, false, $validationParameters );
     $unvalidatedAttributes = $validationResult['unvalidated-attributes'];
     $validatedAttributes = $validationResult['validated-attributes'];
@@ -442,7 +429,6 @@ if ( !isset( $OmitSectionSetting ) )
     $OmitSectionSetting = false;
 if ( $OmitSectionSetting !== true )
 {
-    //include_once( 'kernel/classes/ezsection.php' );
     eZSection::setGlobalID( $object->attribute( 'section_id' ) );
 }
 
@@ -573,7 +559,6 @@ if ( !$hasPath )
 
 $Result['path'] = $path;
 
-//include_once( 'kernel/classes/ezsection.php' );
 $section = eZSection::fetch( $object->attribute( 'section_id' ) );
 if ( $section )
 {

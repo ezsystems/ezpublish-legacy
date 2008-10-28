@@ -54,10 +54,7 @@ eZContentBrowseRecent::fetchListForUser( $userID )
 
 */
 
-//include_once( "lib/ezdb/classes/ezdb.php" );
 require_once( "lib/ezutils/classes/ezdebug.php" );
-//include_once( "kernel/classes/ezpersistentobject.php" );
-
 class eZContentBrowseRecent extends eZPersistentObject
 {
     /*!
@@ -138,7 +135,6 @@ class eZContentBrowseRecent extends eZPersistentObject
     */
     static function maximumRecentItems( $userID )
     {
-        //include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance( 'browse.ini' );
         $maximum = $ini->variable( 'BrowseSettings', 'MaximumRecentItems' );
         return $maximum;

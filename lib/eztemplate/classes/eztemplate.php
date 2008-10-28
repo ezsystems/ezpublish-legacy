@@ -221,14 +221,6 @@ Denne koster {1.4|l10n(currency)}<br>
 
 require_once( "lib/ezutils/classes/ezdebug.php" );
 
-//include_once( "lib/eztemplate/classes/eztemplatefileresource.php" );
-
-//include_once( "lib/eztemplate/classes/eztemplateroot.php" );
-//include_once( "lib/eztemplate/classes/eztemplatetextelement.php" );
-//include_once( "lib/eztemplate/classes/eztemplatevariableelement.php" );
-//include_once( "lib/eztemplate/classes/eztemplateoperatorelement.php" );
-//include_once( "lib/eztemplate/classes/eztemplatefunctionelement.php" );
-
 class eZTemplate
 {
     const RESOURCE_FETCH = 1;
@@ -722,7 +714,6 @@ class eZTemplate
 
     function parse( $sourceText, &$rootElement, $rootNamespace, &$resourceData )
     {
-        //include_once( 'lib/eztemplate/classes/eztemplatemultipassparser.php' );
         $parser = eZTemplateMultiPassParser::instance();
         $parser->parse( $this, $sourceText, $rootElement, $rootNamespace, $resourceData );
     }
@@ -1718,7 +1709,6 @@ class eZTemplate
                         $templateURI =& $templateData['uri'];
                         $templateVariableName =& $templateData['template_variable_name'];
                         $templateText = '';
-                        //include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
                         $this->setVariableRef( $templateVariableName, $item, $name );
                         eZTemplateIncludeFunction::handleInclude( $textElements, $templateURI, $this, $nspace, $name );
                         $hasTemplateData = true;
@@ -1747,7 +1737,6 @@ class eZTemplate
         if ( eZTemplate::isXHTMLCodeIncluded() )
             $preText .= "<p class=\"small\">$path</p><br/>\n";
         $postText = "\n<!-- STOP: including template: $path ($uri) -->\n";
-        //include_once( 'lib/eztemplate/classes/eztemplatenodetool.php' );
         $root[1] = array_merge( array( eZTemplateNodeTool::createTextNode( $preText ) ), $root[1] );
         $root[1][] = eZTemplateNodeTool::createTextNode( $postText );
     }
@@ -2362,7 +2351,6 @@ class eZTemplate
     */
     function ini()
     {
-        //include_once( "lib/ezutils/classes/ezini.php" );
         return eZINI::instance( "template.ini" );
     }
 

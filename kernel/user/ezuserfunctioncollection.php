@@ -37,8 +37,6 @@
 
 */
 
-//include_once( 'kernel/error/errors.php' );
-
 class eZUserFunctionCollection
 {
     /*!
@@ -50,7 +48,6 @@ class eZUserFunctionCollection
 
     function fetchCurrentUser()
     {
-        //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
         $user = eZUser::currentUser();
         if ( $user === null )
         {
@@ -66,44 +63,36 @@ class eZUserFunctionCollection
 
     function fetchIsLoggedIn( $userID )
     {
-        //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
         $isLoggedIn = eZUser::isUserLoggedIn( $userID );
         return array( 'result' => $isLoggedIn );
     }
 
     function fetchLoggedInCount()
     {
-        //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
         $count = eZUser::fetchLoggedInCount();
         return array( 'result' => $count );
     }
 
     function fetchAnonymousCount()
     {
-        //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
         $count = eZUser::fetchAnonymousCount();
         return array( 'result' => $count );
     }
 
     function fetchLoggedInList( $sortBy, $offset, $limit )
     {
-        //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
         $list = eZUser::fetchLoggedInList( false, $offset, $limit, $sortBy );
         return array( 'result' => $list );
     }
 
     function fetchLoggedInUsers( $sortBy, $offset, $limit )
     {
-        //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
         $list = eZUser::fetchLoggedInList( true, $offset, $limit, $sortBy );
         return array( 'result' => $list );
     }
 
     function fetchUserRole( $userID )
     {
-        //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-        //include_once( 'kernel/classes/ezrole.php' );
-        //include_once( "kernel/classes/ezpolicylimitation.php" );
         $user = eZUser::fetch( $userID );
         $userGroupObjects = $user ? $user->groups( true ) : array();
         $userGroupArray = array();
@@ -180,13 +169,11 @@ class eZUserFunctionCollection
 
     function fetchMemberOf( $id )
     {
-        //include_once( 'kernel/classes/ezrole.php' );
         return array( 'result' => eZRole::fetchByUser( array( $id ), true ) );
     }
 
     function hasAccessTo( $module, $view, $userID )
     {
-        //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
         if ( $userID )
         {
             $user = eZUser::fetch( $userID );

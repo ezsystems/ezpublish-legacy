@@ -40,12 +40,6 @@
 
 require_once( "lib/ezutils/classes/ezdebug.php" );
 
-//include_once( "lib/ezxml/classes/ezxml.php" );
-//include_once( "lib/ezxml/classes/ezschemaelement.php" );
-
-//include_once( "lib/ezxml/classes/ezsimpletype.php" );
-//include_once( "lib/ezxml/classes/ezcomplextype.php" );
-
 class eZSchema
 {
     /*!

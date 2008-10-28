@@ -29,17 +29,13 @@
 /*! \file unpublish.php
 */
 
-//include_once( "kernel/classes/ezcontentobjecttreenode.php" );
-
 
 
 // Check for extension
-//include_once( 'lib/ezutils/classes/ezextension.php' );
 require_once( 'kernel/common/ezincludefunctions.php' );
 eZExtension::activateExtensions();
 // Extension check end
 
-//include_once( "lib/ezutils/classes/ezini.php" );
 $ini = eZINI::instance( 'content.ini' );
 $unpublishClasses = $ini->variable( 'UnpublishSettings','ClassList' );
 
@@ -69,7 +65,6 @@ foreach( $rootNodeIDList as $nodeID )
         if ( $articleRetractDate > 0 && $articleRetractDate < $currrentDate )
         {
             // Clean up content cache
-            //include_once( 'kernel/classes/ezcontentcachemanager.php' );
             eZContentCacheManager::clearContentCacheIfNeeded( $article->attribute( 'id' ) );
 
             $article->removeThis( $articleNode->attribute( 'node_id' ) );

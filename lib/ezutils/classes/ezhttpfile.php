@@ -40,8 +40,6 @@
 */
 
 require_once( "lib/ezutils/classes/ezdebug.php" );
-//include_once( "lib/ezutils/classes/ezini.php" );
-
 class eZHTTPFile
 {
     const UPLOADEDFILE_OK = 0;
@@ -85,7 +83,6 @@ class eZHTTPFile
     */
     function store( $sub_dir = false, $suffix = false, $mimeData = false )
     {
-        //include_once( 'lib/ezfile/classes/ezdir.php' );
         if ( !$this->IsTemporary )
         {
             eZDebug::writeError( "Cannot store non temporary file: " . $this->Filename,
@@ -150,7 +147,6 @@ class eZHTTPFile
             umask( $oldumask );
 
             // Write log message to storage.log
-            //include_once( 'lib/ezfile/classes/ezlog.php' );
             $storageDir = $dir . "/";
             eZLog::writeStorageLog( basename( $this->Filename ), $storageDir );
         }
@@ -279,8 +275,6 @@ class eZHTTPFile
             if ( isset( $_FILES[$http_name] ) and
                  $_FILES[$http_name]["name"] != "" )
             {
-                //include_once( 'lib/ezutils/classes/ezmimetype.php' );
-                //include_once( 'lib/ezfile/classes/ezfile.php' );
                 $mimeType = eZMimeType::findByURL( $_FILES[$http_name]['name'] );
                 $_FILES[$http_name]['type'] = $mimeType['name'];
                 $GLOBALS["eZHTTPFile-$http_name"] = new eZHTTPFile( $http_name, $_FILES[$http_name] );

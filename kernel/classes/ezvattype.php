@@ -35,8 +35,6 @@
 
 */
 
-//include_once( "kernel/classes/ezpersistentobject.php" );
-
 class eZVatType extends eZPersistentObject
 {
     /*!

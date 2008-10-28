@@ -680,7 +680,6 @@ class eZModule
             $view = eZModule::currentView();
         if ( isset( $this->ViewActions[$view] ) )
             return $this->ViewActions[$view];
-        //include_once( "lib/ezutils/classes/ezhttptool.php" );
         $http = eZHTTPTool::instance();
         if ( isset( $this->Functions[$view]['default_action'] ) )
         {
@@ -758,7 +757,6 @@ class eZModule
         if ( isset( $this->ViewActionParameters[$view][$parameterName] ) )
             return $this->ViewActionParameters[$view][$parameterName];
         $currentAction = $this->currentAction( $view );
-        //include_once( "lib/ezutils/classes/ezhttptool.php" );
         $http = eZHTTPTool::instance();
         if ( isset( $this->Functions[$view]['post_action_parameters'][$currentAction] ) )
         {
@@ -800,7 +798,6 @@ class eZModule
         if ( isset( $this->ViewActionParameters[$view][$parameterName] ) )
             return true;
         $currentAction = $this->currentAction( $view );
-        //include_once( "lib/ezutils/classes/ezhttptool.php" );
         $http = eZHTTPTool::instance();
         if ( isset( $this->Functions[$view]['post_action_parameters'][$currentAction] ) )
         {
@@ -1186,7 +1183,6 @@ class eZModule
         $params["FunctionName"] = $functionName;
         $params["Parameters"] = $parameters;
         $params_as_var = isset( $this->Module["variable_params"] ) ? $this->Module["variable_params"] : false;
-        //include_once( "lib/ezutils/classes/ezprocess.php" );
         $this->ExitStatus = eZModule::STATUS_OK;
 //        eZDebug::writeNotice( $params, 'module parameters1' );
 
@@ -1289,8 +1285,6 @@ class eZModule
     */
     static function activeModuleRepositories( $useExtensions = true )
     {
-        //include_once( 'lib/ezutils/classes/ezini.php' );
-        //include_once( 'lib/ezutils/classes/ezextension.php' );
         $moduleINI = eZINI::instance( 'module.ini' );
         $moduleRepositories = $moduleINI->variable( 'ModuleSettings', 'ModuleRepositories' );
 

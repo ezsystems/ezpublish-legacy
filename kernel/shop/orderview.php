@@ -30,8 +30,6 @@ $OrderID = $Params['OrderID'];
 $module = $Params['Module'];
 require_once( "kernel/common/template.php" );
 
-//include_once( "kernel/classes/ezorder.php" );
-
 $ini = eZINI::instance();
 $http = eZHTTPTool::instance();
 $user = eZUser::currentUser();

@@ -27,9 +27,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'lib/ezutils/classes/ezcli.php' );
-//include_once( 'kernel/classes/ezscript.php' );
-
 require 'autoload.php';
 
 $cli = eZCLI::instance();
@@ -238,15 +235,12 @@ if ( !$options['no-verify-branches'] )
 
     if ( file_exists( $exportPath ) )
     {
-        //include_once( 'lib/ezfile/classes/ezdir.php' );
         eZDir::recursiveDelete( $exportPath );
     }
-    //include_once( 'lib/ezfile/classes/ezdir.php' );
     eZDir::mkdir( $exportPath, false, true );
 }
 
 // Figure out the current branch, we do not want to export it
-//include_once( 'lib/version.php' );
 $currentBranch = eZPublishSDK::VERSION_MAJOR . '.' . eZPublishSDK::VERSION_MINOR;
 
 foreach ( $dbTypes as $dbType )
@@ -364,7 +358,6 @@ if ( !$options['no-verify-branches'] )
     // Cleanup any exports
     if ( file_exists( $exportPath ) )
     {
-        //include_once( 'lib/ezfile/classes/ezdir.php' );
         eZDir::recursiveDelete( $exportPath );
     }
 }

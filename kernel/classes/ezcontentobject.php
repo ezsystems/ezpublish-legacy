@@ -39,16 +39,6 @@
   \sa eZContentClass
 */
 
-//include_once( "lib/ezdb/classes/ezdb.php" );
-//include_once( 'lib/ezlocale/classes/ezlocale.php' );
-//include_once( "kernel/classes/ezpersistentobject.php" );
-//include_once( "kernel/classes/ezcontentobjectversion.php" );
-//include_once( "kernel/classes/ezcontentobjectattribute.php" );
-//include_once( "kernel/classes/ezcontentclass.php" );
-//include_once( "kernel/classes/ezcontentobjecttreenode.php" );
-//include_once( 'kernel/classes/ezcontentlanguage.php' );
-//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-
 class eZContentObject extends eZPersistentObject
 {
     const STATUS_DRAFT = 0;
@@ -243,7 +233,6 @@ class eZContentObject extends eZPersistentObject
     */
     function matchIngroupIDList()
     {
-        //include_once( 'lib/ezutils/classes/ezini.php' );
         $contentINI = eZINI::instance( 'content.ini' );
         $inList = false;
         if( $contentINI->variable( 'ContentOverrideSettings', 'EnableClassGroupOverride' ) == 'true' )
@@ -1621,7 +1610,6 @@ class eZContentObject extends eZPersistentObject
         // Remove references from XML.
         if ( count( $result ) > 0 )
         {
-            //include_once( "kernel/classes/ezcontentcachemanager.php" );
             foreach( $result as $row )
             {
                 $attr = new eZContentObjectAttribute( $row );
@@ -1649,7 +1637,6 @@ class eZContentObject extends eZPersistentObject
     {
         $delID = $this->ID;
         // Who deletes which content should be logged.
-        //include_once( "kernel/classes/ezaudit.php" );
         eZAudit::writeAudit( 'content-delete', array( 'Object ID' => $delID, 'Content Name' => $this->attribute( 'name' ),
                                                       'Comment' => 'Purged the current object: eZContentObject::purge()' ) );
 
@@ -1667,10 +1654,8 @@ class eZContentObject extends eZPersistentObject
             $dataType->deleteStoredObjectAttribute( $contentobjectAttribute );
         }
 
-        //include_once( 'kernel/classes/ezinformationcollection.php' );
         eZInformationCollection::removeContentObject( $delID );
 
-        //include_once( 'kernel/classes/ezcontentobjecttrashnode.php' );
         eZContentObjectTrashNode::purgeForObject( $delID );
 
         $db->query( "DELETE FROM ezcontentobject_tree
@@ -1701,7 +1686,6 @@ class eZContentObject extends eZPersistentObject
 
         eZContentObject::fixReverseRelations( $delID, 'remove' );
 
-        //include_once( "kernel/classes/ezsearch.php" );
         eZSearch::removeObject( $this );
 
         // Check if deleted object is in basket/wishlist
@@ -1722,8 +1706,6 @@ class eZContentObject extends eZPersistentObject
             }
             // Split $deletedArray into several arrays with $countElements values
             $splitted = array_chunk( $deletedArray, $countElements );
-            //include_once( "kernel/classes/ezproductcollectionitem.php" );
-            //include_once( "kernel/classes/ezwishlist.php" );
             // Remove eZProductCollectionItem and eZWishList
             foreach ( $splitted as $value )
             {
@@ -1750,7 +1732,6 @@ class eZContentObject extends eZPersistentObject
              SET owner_id = 0
              WHERE owner_id = '$delID'" );
 
-        //include_once( "kernel/classes/ezworkflowtype.php" );
         if ( isset( $GLOBALS["eZWorkflowTypeObjects"] ) and is_array( $GLOBALS["eZWorkflowTypeObjects"] ) )
         {
             $registeredTypes =& $GLOBALS["eZWorkflowTypeObjects"];
@@ -1779,13 +1760,11 @@ class eZContentObject extends eZPersistentObject
         $delID = $this->ID;
 
         // Who deletes which content should be logged.
-        //include_once( "kernel/classes/ezaudit.php" );
         eZAudit::writeAudit( 'content-delete', array( 'Object ID' => $delID, 'Content Name' => $this->attribute( 'name' ),
                                                       'Comment' => 'Setted archived status for the current object: eZContentObject::remove()' ) );
 
         $nodes = $this->attribute( 'assigned_nodes' );
 
-        //include_once( "kernel/classes/ezsearch.php" );
         if ( $nodeID === null or count( $nodes ) <= 1 )
         {
             $db = eZDB::instance();
@@ -3638,7 +3617,6 @@ class eZContentObject extends eZPersistentObject
         $userID = $user->attribute( 'contentobject_id' );
         $origFunctionName = $functionName;
 
-        //include_once( 'kernel/classes/ezcontentlanguage.php' );
         // Fetch the ID of the language if we get a string with a language code
         // e.g. 'eng-GB'
         $originalLanguage = $language;
@@ -3918,7 +3896,6 @@ class eZContentObject extends eZPersistentObject
                             if ( in_array( 2, $limitationArray[$key] ) &&
                                  $user->isAnonymous() )
                             {
-                                //include_once( 'kernel/classes/ezpreferences.php' );
                                 $createdObjectIDList = eZPreferences::value( 'ObjectCreationIDList' );
                                 if ( $createdObjectIDList &&
                                      in_array( $this->ID, unserialize( $createdObjectIDList ) ) )
@@ -4183,7 +4160,6 @@ class eZContentObject extends eZPersistentObject
             // if limitation value == 2, anonymous limited to current session.
             if ( in_array( 2, $policy['ParentOwner'] ) && $user->isAnonymous() )
             {
-                //include_once( 'kernel/classes/ezpreferences.php' );
                 $createdObjectIDList = eZPreferences::value( 'ObjectCreationIDList' );
                 if ( !$createdObjectIDList ||
                      !in_array( $this->ID, unserialize( $createdObjectIDList ) ) )
@@ -5031,7 +5007,6 @@ class eZContentObject extends eZPersistentObject
 
                 case eZContentObject::PACKAGE_REPLACE:
                 {
-                    //include_once( 'kernel/classes/ezcontentobjectoperations.php' );
                     eZContentObjectOperations::remove( $contentObject->attribute( 'id' ) );
 
                     unset( $contentObject );
@@ -5122,7 +5097,6 @@ class eZContentObject extends eZPersistentObject
             }
             eZNodeAssignment::setNewMainAssignment( $contentObject->attribute( 'id' ), $lastVersion );
 
-            //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
             eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObject->attribute( 'id' ),
                                                                       'version' => $lastVersion ) );
 
@@ -5244,8 +5218,6 @@ class eZContentObject extends eZPersistentObject
             }
         }
 
-        //include_once( 'lib/ezlocale/classes/ezdateutils.php' );
-
         $dom = new DomDocument();
         $objectNode = $dom->createElementNS( 'http://ez.no/ezobject', 'ezremote:object' );
 
@@ -5338,8 +5310,6 @@ class eZContentObject extends eZPersistentObject
         $contentCacheInfo =& $GLOBALS['eZContentCacheInfo'];
         if ( !isset( $contentCacheInfo ) )
         {
-            //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-            //include_once( 'kernel/classes/ezuserdiscountrule.php' );
             $user = eZUser::currentUser();
             $language = false;
             if ( isset( $Params['Language'] ) )
@@ -5591,7 +5561,6 @@ class eZContentObject extends eZPersistentObject
             ++$pos;
         }
 
-        //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
         $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $this->attribute( 'id' ),
                                                                                      'version' => $contentObjectVersion->attribute( 'version') ) );
         return ($operationResult != null ? true : false);

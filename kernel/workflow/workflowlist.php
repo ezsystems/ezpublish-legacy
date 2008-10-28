@@ -27,11 +27,6 @@
 //
 
 
-//include_once( 'kernel/classes/ezworkflow.php' );
-//include_once( 'kernel/classes/ezworkflowgroup.php' );
-//include_once( "kernel/classes/ezworkflowgrouplink.php" );
-//include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
-
 $Module = $Params['Module'];
 $WorkflowGroupID = null;
 if ( isset( $Params["GroupID"] ) )
@@ -74,7 +69,6 @@ if ( $http->hasPostVariable( 'DeleteButton' ) and
                 if ( count( $workflowInGroups ) == 1 )
                 {
                     //remove entry from eztrigger table also, if it exists there.
-                    //include_once( "kernel/classes/eztrigger.php" );
                     eZTrigger::removeTriggerForWorkflow( $workflowID );
 
                     // if there is only one group which the workflow belongs to, delete (=disable) it:
@@ -83,8 +77,6 @@ if ( $http->hasPostVariable( 'DeleteButton' ) and
                 else
                 {
                     // if there is more than 1 group, remove only from the group:
-                    //include_once( "kernel/workflow/ezworkflowfunctions.php" );
-
                     eZWorkflowFunctions::removeGroup( $workflowID, 0, array( $groupID ) );
                 }
 
@@ -122,7 +114,6 @@ foreach( array_keys( $workflows ) as $workflowID )
     $workflowList[$workflow->attribute( 'id' )] = $workflow;
 }
 */
-//include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 $user = eZUser::currentUser();
 
 $list_in_group = eZWorkflowGroupLink::fetchWorkflowList( 0, $WorkflowGroupID, $asObject = true);

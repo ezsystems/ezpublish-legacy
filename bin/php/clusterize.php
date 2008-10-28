@@ -100,8 +100,6 @@ function copyImagesToDB( $remove )
 
     $cli->output( "Importing images and imagealiases files to database:");
     $rows = $db->arrayQuery('select filepath from ezimagefile' );
-    //include_once( 'lib/ezutils/classes/ezmimetype.php' );
-
     foreach( $rows as $row )
     {
         $filePath = $row['filepath'];

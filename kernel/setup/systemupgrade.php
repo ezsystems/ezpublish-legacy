@@ -29,9 +29,6 @@
 $Module = $Params['Module'];
 
 require_once( "kernel/common/template.php" );
-//include_once( "kernel/common/eztemplatedesignresource.php" );
-//include_once( 'lib/ezutils/classes/ezhttptool.php' );
-
 define( 'MD5_SUM_LIST_FILE', 'share/filelist.md5' );
 
 $tpl = templateInit();
@@ -51,7 +48,6 @@ if ( $Module->isCurrentAction( 'MD5Check' ) )
     }
     else
     {
-        //include_once( 'lib/ezfile/classes/ezmd5.php' );
         $checkResult = eZMD5::checkMD5Sums( 'share/filelist.md5' );
 
         if ( count( $checkResult ) == 0 )
@@ -67,9 +63,6 @@ if ( $Module->isCurrentAction( 'MD5Check' ) )
 
 if ( $Module->isCurrentAction( 'DBCheck' ) )
 {
-    //include_once( 'lib/ezdbschema/classes/ezdbschemachecker.php');
-    //include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
-
     $db = eZDB::instance();
     $dbSchema = eZDbSchema::instance();
     $differences = eZDbSchemaChecker::diff( $dbSchema->schema(), eZDbSchema::read( 'share/db_schema.dba' ) );

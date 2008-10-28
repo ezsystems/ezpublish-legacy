@@ -35,13 +35,6 @@
 
 */
 
-//include_once( "kernel/classes/ezdatatype.php" );
-//include_once( "kernel/classes/datatypes/ezmedia/ezmedia.php" );
-//include_once( "lib/ezfile/classes/ezfile.php" );
-//include_once( "lib/ezutils/classes/ezmimetype.php" );
-//include_once( "lib/ezutils/classes/ezhttpfile.php" );
-//include_once( "lib/ezfile/classes/ezdir.php" );
-
 class eZMediaType extends eZDataType
 {
     const DATA_TYPE_STRING = "ezmedia";
@@ -764,7 +757,6 @@ class eZMediaType extends eZDataType
 
         $sourcePath = $package->simpleFilePath( $mediaNode->getAttribute( 'filekey' ) );
 
-        //include_once( 'lib/ezfile/classes/ezdir.php' );
         $ini = eZINI::instance();
         $mimeType = $mediaNode->getAttribute( 'mime-type' );
         list( $mimeTypeCategory, $mimeTypeName ) = explode( '/', $mimeType );
@@ -783,7 +775,6 @@ class eZMediaType extends eZDataType
             $basename = substr( md5( mt_rand() ), 0, 8 ) . '.' . eZFile::suffix( $mediaNode->getAttribute( 'filename' ) );
         }
 
-        //include_once( 'lib/ezfile/classes/ezfilehandler.php' );
         eZFileHandler::copy( $sourcePath, $destinationPath . $basename );
         eZDebug::writeNotice( 'Copied: ' . $sourcePath . ' to: ' . $destinationPath . $basename,
                               'eZMediaType::unserializeContentObjectAttribute()' );

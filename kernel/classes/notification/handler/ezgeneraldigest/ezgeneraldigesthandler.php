@@ -36,10 +36,6 @@
   \brief The class eZGeneralDigestHandler does
 
 */
-//include_once( 'kernel/classes/notification/eznotificationeventhandler.php' );
-//include_once( 'kernel/classes/notification/eznotificationcollection.php' );
-//include_once( 'kernel/classes/notification/handler/ezgeneraldigest/ezgeneraldigestusersettings.php' );
-
 class eZGeneralDigestHandler extends eZNotificationEventHandler
 {
     const NOTIFICATION_HANDLER_ID = 'ezgeneraldigest';

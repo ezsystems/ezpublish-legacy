@@ -35,9 +35,6 @@
 
 */
 
-//include_once( "kernel/classes/ezdatatype.php" );
-//include_once( "kernel/classes/datatypes/ezprice/ezprice.php" );
-
 class eZPriceType extends eZDataType
 {
     const DATA_TYPE_STRING = "ezprice";
@@ -76,7 +73,6 @@ class eZPriceType extends eZDataType
         {
             $data = $http->postVariable( $base . "_data_price_" . $contentObjectAttribute->attribute( "id" ) );
 
-            //include_once( 'lib/ezlocale/classes/ezlocale.php' );
             $locale = eZLocale::instance();
             $data = $locale->internalCurrency( $data );
             $classAttribute = $contentObjectAttribute->contentClassAttribute();
@@ -155,7 +151,6 @@ class eZPriceType extends eZDataType
         $vatType = $http->postVariable( $base . '_ezprice_vat_id_' . $contentObjectAttribute->attribute( 'id' ) );
         $vatExInc = $http->postVariable( $base . '_ezprice_inc_ex_vat_' . $contentObjectAttribute->attribute( 'id' ) );
 
-        //include_once( 'lib/ezlocale/classes/ezlocale.php' );
         $locale = eZLocale::instance();
         $data = $locale->internalCurrency( $data );
 

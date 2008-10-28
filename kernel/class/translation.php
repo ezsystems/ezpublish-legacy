@@ -65,7 +65,6 @@ if ( $module->isCurrentAction( 'UpdateInitialLanguage' ) )
     {
         $newInitialLanguageID = $module->actionParameter( 'InitialLanguageID' );
 
-        //include_once( 'kernel/classes/ezcontentlanguage.php' );
         $language = eZContentLanguage::fetch( $newInitialLanguageID );
         if ( $language )
         {
@@ -101,8 +100,6 @@ else if ( $module->isCurrentAction( 'RemoveTranslation' ) )
 
         return $module->redirectToView( 'view', array( $classID ), array( 'Language' => $languageCode ) );
     }
-
-    //include_once( 'kernel/classes/ezcontentlanguage.php' );
 
     $languages = array();
     foreach( $languageIDArray as $languageID )

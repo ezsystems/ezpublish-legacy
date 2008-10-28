@@ -67,10 +67,6 @@ class Collection
 
 */
 
-//include_once( "lib/ezsoap/classes/ezsoaprequest.php" );
-//include_once( "lib/ezsoap/classes/ezsoapfault.php" );
-//include_once( "lib/ezsoap/classes/ezsoapresponse.php" );
-
 class eZSOAPServer
 {
     /*!
