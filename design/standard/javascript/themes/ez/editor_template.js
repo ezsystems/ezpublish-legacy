@@ -38,6 +38,7 @@
             unlink : ['unlink_desc', 'unlink'],
             image : ['image_desc', 'mceImage'],
             object : ['object_desc', 'mceObject'],
+            file : ['file_desc', 'mceFile'],
             custom : ['custom_desc', 'mceCustom'],
             literal : ['literal_desc', 'mceLiteral'],
             pagebreak : ['pagebreak_desc', 'mcePageBreak'],
@@ -861,7 +862,7 @@
         },
 
         _nodeChanged : function(ed, cm, n, co) {
-            var t = this, p, de = 0, v, c, s = t.settings, mceNonEditable = false, div = false, header;
+            var t = this, p, de = 0, v, c, c2, s = t.settings, mceNonEditable = false, div = false, header, type = 'objects';
 
             if (s.readonly)
                 return;
@@ -872,7 +873,9 @@
 
             header = DOM.getParent(n, 'H1,H2,H3,H4,H5,H6');
             p = DOM.getParent(n, 'DIV,SPAN');
-            if (c = cm.get('object'))
+            c = cm.get('object');
+            c2 = cm.get('file')
+            if ( c || c2 )
             {
                 if ( ( p && (p.nodeName === 'DIV' || p.nodeName === 'SPAN') && p.className.indexOf('mceNonEditable') !== -1 )
                    || (p = t.__getParentByTag( n, 'div,span', 'mceNonEditable') ) )
@@ -881,9 +884,19 @@
                     mceNonEditable = true;
                     div = p.nodeName === 'DIV';
                     n = p;
+                    type = p.className.indexOf('mceItemContentTypeFiles') !== -1 ? 'files' : 'objects';
                 }
-                c.setActive( mceNonEditable );
-                c.setDisabled( header );
+                if ( c )
+                {
+                    c.setActive( mceNonEditable && (type === 'objects')  );
+                    c.setDisabled( header );
+                }
+                if ( c2 )
+                {
+                    c2.setActive( mceNonEditable && (type === 'files')  );
+                    c2.setDisabled( header );
+                }
+                
             }
 
             t.__setDisabled( mceNonEditable );
@@ -1132,7 +1145,7 @@
             var t = this, ed = t.editor;
 
             tinymce.each(ed.controlManager.controls, function(c){
-                if ( !c.settings.cmd || ',mceObject,mceFullScreen,mceLink,unlink'.indexOf( ',' + c.settings.cmd + ',' ) === -1 )
+                if ( !c.settings.cmd || ',mceObject,mceFile,mceFullScreen,mceLink,unlink'.indexOf( ',' + c.settings.cmd + ',' ) === -1 )
                     c.setDisabled( s );
                 //c.setActive( false );
             });
@@ -1212,12 +1225,20 @@
                     return {'cmd':'mceCustom', 'c': 'underline'};
                 case 'DIV':
                     if ( n.className.indexOf('mceNonEditable') !== -1 )
+                    {
+                        if ( n.className.indexOf('mceItemContentTypeFiles') !== -1 )
+                            return {'cmd':'mceFile', 'c': v};
                         return {'cmd':'mceObject', 'c': v};
+                    }
                     else if ( DOM.getAttrib(n, 'type') === 'custom' )
                         return {'cmd':'mceCustom', 'c': v};
                 case 'SPAN':
                     if ( n.className.indexOf('mceNonEditable') !== -1 )
+                    {
+                        if ( n.className.indexOf('mceItemContentTypeFiles') !== -1 )
+                            return {'cmd':'mceFile', 'c': v};
                         return {'cmd':'mceObject', 'c': v};
+                    }
                     else if ( DOM.getAttrib(n, 'type') === 'custom' )
                         return {'cmd':'mceCustom', 'c': v};
                 case 'TABLE':
@@ -1336,6 +1357,22 @@
         _mceObject : function(ui, val)
         {
             var ed = this.editor, e = ed.selection.getNode(), eurl = 'objects/', type = '/upload/', el;
+
+            if ( (ui.nodeName === 'DIV' || ui.nodeName === 'SPAN') && ui.className.indexOf('mceNonEditable') !== -1 )
+                e = ui;
+
+            if ( e = this.__getParentByTag( e, 'div,span', 'mceNonEditable', '', true ) )
+            {
+                type = '/relations/';
+                el = e;
+                eurl += e.getAttribute('id') + '/' + e.getAttribute('inline') + '/' + e.getAttribute('alt');
+            }
+            this._generalXmlTagPopup( type, eurl, 500, 480, el );
+        },
+
+        _mceFile : function(ui, val)
+        {
+            var ed = this.editor, e = ed.selection.getNode(), eurl = 'files/', type = '/upload/', el;
 
             if ( (ui.nodeName === 'DIV' || ui.nodeName === 'SPAN') && ui.className.indexOf('mceNonEditable') !== -1 )
                 e = ui;

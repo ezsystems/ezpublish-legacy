@@ -29,6 +29,7 @@
 include_once( 'kernel/common/template.php' );
 //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 include_once( 'extension/ezoe/classes/ezoeajaxcontent.php' );
+include_once( 'extension/ezoe/ezxmltext/handlers/input/ezoexmlinput.php' );
 
 $objectID        = isset( $Params['ObjectID'] ) ? (int) $Params['ObjectID'] : 0;
 $objectVersion   = isset( $Params['ObjectVersion'] ) ? (int) $Params['ObjectVersion'] : 0;
@@ -114,32 +115,8 @@ $sizeTypeArray   = array();
 
 if ( $contentType === 'auto' )
 {
-    // Depricated:
-    $imageClassIDs = $ini->hasVariable('MediaClassSettings', 'ImageClassID' ) ? $ini->variable('MediaClassSettings', 'ImageClassID' ) : array();
-
     // figgure out what content type group this class is in
-    if ( in_array( $embedClassID, $imageClassIDs ) )
-    {
-        $contentType = 'images';
-    }
-    else
-    {
-        foreach ( $contentIni->variable( 'RelationGroupSettings', 'Groups' ) as $group )
-        {
-            $settingName = ucfirst( $group ) . 'ClassList';
-            if ( $contentIni->hasVariable( 'RelationGroupSettings', $settingName ) and
-                 in_array( $embedClassIdentifier, $contentIni->variable( 'RelationGroupSettings', $settingName ) ))
-            {
-                $contentType = $group;
-                break;
-            }
-        }
-        // fallback to default if still auto
-        if ( $contentType === 'auto' )
-        {
-            $contentType = $contentIni->variable( 'RelationGroupSettings', 'DefaultGroup' );
-        }
-    }
+    $contentType = eZOEXMLInput::embedTagContentType( $embedClassIdentifier, $embedClassID );
 }
 
 
@@ -284,7 +261,7 @@ $tpl->setVariable( 'custom_attribute_style_map', eZOEAjaxContent::jsonEncode( $e
 $tpl->setVariable( 'persistent_variable', array() );
 
 $Result = array();
-$Result['content'] = $tpl->fetch( 'design:ezoe/tag_embed.tpl' );
+$Result['content'] = $tpl->fetch( 'design:ezoe/tag_embed_' . $contentType . '.tpl' );
 $Result['pagelayout'] = 'design:ezoe/popup_pagelayout.tpl';
 $Result['persistent_variable'] = $tpl->variable( 'persistent_variable' );
 

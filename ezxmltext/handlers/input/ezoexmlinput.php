@@ -1040,7 +1040,8 @@ class eZOEXMLInput extends eZXMLInputHandler
                     }
                 }
 
-                if ( self::embedTagIsImage( $classIdentifier, $classID ) )
+                $embedContentType = self::embedTagContentType( $classIdentifier, $classID );
+                if ( $embedContentType === 'images' )
                 {
                     $ini = eZINI::instance();
                     $URL = self::getServerURL();
@@ -1085,9 +1086,9 @@ class eZOEXMLInput extends eZXMLInputHandler
                 else
                 {
                     if ( $className )
-                        $objectAttr .= ' class="mceNonEditable ' . $className . '"';
+                        $objectAttr .= ' class="mceNonEditable ' . $className . ' mceItemContentType' . ucfirst( $embedContentType ) . '"';
                     else
-                        $objectAttr .= ' class="mceNonEditable"';
+                        $objectAttr .= ' class="mceNonEditable mceItemContentType' . ucfirst( $embedContentType ) . '"';
 
                     if ( $tagName === 'embed-inline' )
                         $htmlTagName = 'span';
@@ -1513,28 +1514,33 @@ class eZOEXMLInput extends eZXMLInputHandler
             $classIdentifier = $object->attribute( 'class_identifier' );
         }
 
-        return self::embedTagIsImage( $classIdentifier, $classID );
+        return self::embedTagContentType(  $classIdentifier, $classID ) === 'images';
     }
 
-    static public function embedTagIsImage( $classIdentifier, $classId = 0  )
+    static public function embedTagContentType( $classIdentifier, $classID = 0  )
     {
-        if ( self::$embedImagesClassList === null )
+        $contentIni = eZINI::instance('content.ini');         
+
+        foreach ( $contentIni->variable( 'RelationGroupSettings', 'Groups' ) as $group )
         {
-            $ini = eZINI::instance();
-            $contentIni = eZINI::instance('content.ini');
-
-            if ( $ini->hasVariable('MediaClassSettings', 'ImageClassID' ) )
-                self::$embedImageClassIds = $ini->variable('MediaClassSettings', 'ImageClassID' );
+            $settingName = ucfirst( $group ) . 'ClassList';
+            if ( $contentIni->hasVariable( 'RelationGroupSettings', $settingName ) )
+            {
+                if ( in_array( $classIdentifier, $contentIni->variable( 'RelationGroupSettings', $settingName ) ) )
+                	return $group;
+            }
             else
-                self::$embedImageClassIds = array();
-
-            if ( $contentIni->hasVariable('RelationGroupSettings', 'ImagesClassList' ) )
-                self::$embedImagesClassList = $contentIni->variable('RelationGroupSettings', 'ImagesClassList' );
-            else
-                self::$embedImagesClassList = array();
+                eZDebug::writeDebug( "Missing content.ini[RelationGroupSettings]$settingName setting.", "eZOEXMLInput::embedTagContentType()" );
         }
 
-        return in_array( $classId, self::$embedImageClassIds ) or in_array( $classIdentifier, self::$embedImagesClassList );
+        $ini = eZINI::instance();
+        if ( $ini->hasVariable('MediaClassSettings', 'ImageClassID' ) and
+           in_array( $classID, $ini->variable('MediaClassSettings', 'ImageClassID' ) ))
+        {
+        	eZDebug::writeNotice( "site.ini[MediaClassSettings]ImageClassID is depricated, use content.ini[RelationGroupSettings] instead.", "eZOEXMLInput::embedTagContentType()" );
+        	return 'images';
+        }
+        return $contentIni->variable( 'RelationGroupSettings', 'DefaultGroup' );
     }
 
     static public function embedTagIsCompatibilityMode()
@@ -1552,8 +1558,6 @@ class eZOEXMLInput extends eZXMLInputHandler
     static protected $designBases = null;
     static protected $userAccessHash = array();
     static protected $customInlineTagList = null;
-    static protected $embedImageClassIds = null;
-    static protected $embedImagesClassList = null;
     static protected $customAttributeStyleMap = null;
     static protected $embedIsCompatibilityMode = null;
     

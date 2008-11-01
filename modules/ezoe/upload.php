@@ -192,7 +192,7 @@ $relatedObjects        = $object->relatedContentObjectArray( $objectVersion );
 foreach ( $groups as $groupName )
 {
     $groupedRelatedObjects[$groupName] = array();
-    $setting                     = strtoupper( $groupName[0] ) . substr( $groupName, 1 ) . 'ClassList';
+    $setting                     = ucfirst( $groupName ) . 'ClassList';
     $groupClassLists[$groupName] = $contentIni->variable( 'RelationGroupSettings', $setting );
     foreach ( $groupClassLists[$groupName] as $classIdentifier )
     {
@@ -254,7 +254,7 @@ else
 $tpl->setVariable( 'persistent_variable', array() );
 
 $Result = array();
-$Result['content'] = $tpl->fetch( 'design:ezoe/upload.tpl' );
+$Result['content'] = $tpl->fetch( 'design:ezoe/upload_' . $contentType . '.tpl' );
 $Result['pagelayout'] = 'design:ezoe/popup_pagelayout.tpl';
 $Result['persistent_variable'] = $tpl->variable( 'persistent_variable' );
 

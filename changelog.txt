@@ -5,6 +5,8 @@ eZ Online Editor 5.0 extension Changelog
 * Switched from using site.ini [MediaClassSettings]ImageClassIdentifiers[] to
   the setting already used by eZ Publish: content.ini [RelationGroupSettings]ImagesClassList[]
   Note: You need to change your settings as a result from this
+* added file button, and use 1 tempalte pr content type in upload and realated dialog.
+  Note: New i18n strings in upload_* and tag_embed_* templates!
 
 
 5.0rc7

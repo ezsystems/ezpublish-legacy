@@ -20,7 +20,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     tagName: 'embed',
     form: 'EditForm',
     cancelButton: 'CancelButton',
-    cssClass: contentType !== 'images' && compatibilityMode !== 'enabled' ? 'mceNonEditable' : '',
+    cssClass: compatibilityMode !== 'enabled' ? 'mceNonEditable' : '',
     onInitDone: function( el, tag, ed )
     {        
         var selectors = ez.$('embed_alt_source', 'embed_align_source', 'embed_class_source', 'embed_view_source', 'embed_inline_source');
@@ -84,38 +84,17 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         //args['id'] = 'eZObject_' + eZOEPopupUtils.embedObject['contentobject_id'];
         args['inline'] = ez.$('embed_inline_source').el.checked ? 'true' : 'false';
         el = eZOEPopupUtils.switchTagTypeIfNeeded( el, (contentType === 'images' || compatibilityMode === 'enabled' ? 'img' : (args['inline'] === 'true' ? 'span' : 'div') ) );
-        if ( contentType === 'images' )
+        if ( compatibilityMode === 'enabled' )
         {
-            var imageAttributes = eZOEPopupUtils.embedObject['image_attributes'];
-            if ( !imageAttributes || !eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ] )
-            {
-                args['src']   = attachmentIcon;
-                args['title'] = eZOEPopupUtils.safeHtml( eZOEPopupUtils.embedObject['name'] );
-                args['width'] = args['height'] = 32;
-            }
-            else
-            {
-               var sizeObj    = eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'][ args['alt'] ];
-               args['src']    = ed.settings.ez_root_url + sizeObj['url'];
-               args['title']  = eZOEPopupUtils.safeHtml( sizeObj['alternative_text'] || eZOEPopupUtils.embedObject['name'] );
-               args['width']  = sizeObj['width'];
-               args['height'] = sizeObj['height'];
-            }
+            args['src'] = attachmentIcon;
+            args['width'] = args['height'] = 32;
         }
         else
         {
-            if ( compatibilityMode === 'enabled' )
-            {
-                args['src'] = attachmentIcon;
-                args['width'] = args['height'] = 32;
-            }
-            else
-            {
-                ed.dom.setHTML( el, ez.$('embed_preview').el.innerHTML );
-                //ed.dom.setStyle(el, 'float', args['align'] === 'middle' ? '' : args['align']);
-            }
-            args['title']   = eZOEPopupUtils.safeHtml( eZOEPopupUtils.embedObject['name'] );
+            ed.dom.setHTML( el, ez.$('embed_preview').el.innerHTML );
+            //ed.dom.setStyle(el, 'float', args['align'] === 'middle' ? '' : args['align']);
         }
+        args['title']   = eZOEPopupUtils.safeHtml( eZOEPopupUtils.embedObject['name'] );
         ed.dom.setAttribs( el, args );
     }
 }));

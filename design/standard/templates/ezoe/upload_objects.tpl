@@ -129,20 +129,6 @@ if ( contentType === 'images' )
             <iframe id="embed_upload" name="embed_upload" frameborder="0" scrolling="no" style="border: 0; width: 99%; height: 30px; margin: 0; overflow: auto; overflow-x: hidden;"></iframe>
 
             {if $related_contentobjects|count|gt( 0 )}
-                {* Related images *}
-                {if and( $content_type|eq('images'), $grouped_related_contentobjects.images|count|gt( 0 ))}
-                <div class="block contenttype_image">
-                <h2>{'Related images'|i18n('design/standard/ezoe')}</h2>
-                    {foreach $grouped_related_contentobjects.images as $img}
-
-                    <div class="image-thumbnail-item">
-                        <a title="{$img.object.name|wash}" href="JavaScript:eZOEPopupUtils.selectByEmbedId( {$img.object.id} )" class="contenttype_image">
-                        {attribute_view_gui attribute=$img.object.data_map.image image_class=small}
-                        </a>
-                    </div>
-                    {/foreach}
-                </div>
-                {/if}
             
                 {* Related files *}
                 {*if and( $content_type|eq('files'), $grouped_related_contentobjects.files|count|gt( 0 ))*}

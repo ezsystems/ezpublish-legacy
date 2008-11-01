@@ -22,7 +22,7 @@
 .o2k7Skin .mceIframeContainer {border-top:1px solid #ABC6DD; border-bottom:1px solid #ABC6DD}
 .o2k7Skin .mceStatusbar {display:block; font-family:'MS Sans Serif',sans-serif,Verdana,Arial; font-size:9pt; line-height:16px; overflow:visible; color:#000; height:20px;}
 .o2k7Skin .mceStatusbar div {float:left; padding:2px;}
-.o2k7Skin .mceStatusbar a.mceResize {display:block; float:right; background:url(../../../javascript/themes/ez/img/icons.gif) -800px 0; width:20px; height:20px; cursor:se-resize}
+.o2k7Skin .mceStatusbar a.mceResize {display:block; float:right; background:url(../../../javascript/themes/ez/img/icons.gif) -800px 0; width:18px; height:20px; cursor:se-resize}
 .o2k7Skin .mceStatusbar a {text-decoration: underline; padding: 0 1px 1px 1px; }
 .o2k7Skin .mceStatusbar a:hover { cursor: pointer; /*background: url(img/button_bg.png) 0 -81px;*/ }
 .o2k7Skin table.mceToolbar, .o2k7Skin div.mceToolbar { margin-left:1px; margin-top:1px }
@@ -171,6 +171,7 @@
 .o2k7Skin span.mce_forecolorpicker {background-position:-720px 0}
 .o2k7Skin span.mce_backcolorpicker {background-position:-760px 0}
 .o2k7Skin span.mce_object {background-position:-380px -40px}
+.o2k7Skin span.mce_file {background-position:-520px -40px}
 .o2k7Skin span.mce_custom {background-position:-400px -40px}
 .o2k7Skin span.mce_literal {background-position:-420px -40px}
 .o2k7Skin span.mce_disable {background-position:-460px -40px}

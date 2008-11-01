@@ -50,7 +50,7 @@ if ( isset( $Params['EmbedID'] )  && $Params['EmbedID'])
 
     if ( strcasecmp( $embedType  , 'eznode'  ) === 0 )
     {
-        $embedNode   = eZContentObjectTreeNode::fetch( $embedType );
+        $embedNode   = eZContentObjectTreeNode::fetch( $embedId );
         $embedObject = $node->object();
         $tplSuffix   = '_node'; 
         $idString    = 'eZNode_' . $embedId;
