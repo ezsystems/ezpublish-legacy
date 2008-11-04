@@ -423,3 +423,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13815: eZContentObject->fetchAttributesByIdentifier fails if $languageArray contains non string values
 - Fixed bug #13824: get_class on a non-object in eZNotificationEventType::create()
 - Fixed bug #13841: Template override mechanism does not work with information collectors
+- Fixed bug #13514: Enabling CompileComments in site.ini / TemplateSettings leads to fatal error
