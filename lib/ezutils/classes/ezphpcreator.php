@@ -1182,7 +1182,7 @@ print( $values['MyValue'] );
         $whitespaceHandling = $elementAttributes['whitespace-handling'];
         $eol = $elementAttributes['eol'];
         $newCommentArray = array();
-        $commentArray = explode( "\n", $element[1] );
+        $commentArray = preg_split( "/\r\n|\r|\n/", $element[1] );
         foreach ( $commentArray as $comment )
         {
             $textLine = '// ' . $comment;
