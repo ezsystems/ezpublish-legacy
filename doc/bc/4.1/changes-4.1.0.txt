@@ -13,6 +13,23 @@ Deprecated features
 Removed features
 ----------------
 
+- eZSelectionType loose functions
+
+  The file in which eZSelectionType is defined contained two loose functions, 
+  namely serializeContentObjectAttribute and unserializeContentObjectAttribute,
+  which at the time of introducing them were supposed to be inside the class 
+  definition. These two functions have been removed.
+  
+- eZFilePassthroughHandler
+
+  The deprecated class eZFilePassthroughHandler was removed. Use
+  ezFilePassthroughHandler instead.
+  
+- eZXMLInputType
+
+  The class eZXMLInputType, which was not any longer used by any part of the eZ
+  Publish kernel, has been removed.
+
 New constants in config.php
 ---------------------------
 
@@ -32,3 +49,29 @@ Changes to method signatures
 
 Change of behaviour
 -------------------
+
+- eZContentClass - __clone
+
+  A clone of an instance of eZContentClass will have a new remote ID, while 
+  before it had the same remote ID as its original.
+  
+- eZCharTransform does not any longer have a member variable $Mapper, because
+  it caused wrong transformation rules to be used when calling 
+  eZCharTransform::transformByGroup multiple times with another value for its 
+  $group parameter.
+
+Renamed constants
+-----------------
+
+===================================================== =======================================
+Old constant                                          New constant
+===================================================== =======================================
+eZURLWildcard::EZURLWILDCARD_REGEXP_ARRAY_CALLBACK    eZURLWildcard::REGEXP_ARRAY_CALLBACK
+eZURLWildcard::EZURLWILDCARD_TRANSLATE_CALLBACK       eZURLWildcard::TRANSLATE_CALLBACK
+eZURLWildcard::EZURLWILDCARD_CACHED_TRANSLATE         eZURLWildcard::CACHED_TRANSLATE
+eZURLWildcard::EZURLWILDCARD_WILDCARDS_PER_CACHE_FILE eZURLWildcard::WILDCARDS_PER_CACHE_FILE
+eZURLWildcard::EZ_URLWILDCARD_TYPE_NONE               eZURLWildcard::TYPE_NONE
+eZURLWildcard::EZ_URLWILDCARD_TYPE_FORWARD            eZURLWildcard::TYPE_FORWARD
+eZURLWildcard::EZ_URLWILDCARD_TYPE_DIRECT             eZURLWildcard::TYPE_DIRECT
+eZURLWildcard::EZ_URLWILDCARD_CACHE_SIGNATURE         eZURLWildcard::CACHE_SIGNATURE
+===================================================== =======================================
