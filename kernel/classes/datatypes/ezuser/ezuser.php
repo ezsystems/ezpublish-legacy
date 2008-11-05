@@ -671,12 +671,82 @@ WHERE user_id = '" . $userID . "' AND
         return $ini->variable( 'UserSettings', 'RequireUniqueEmail' ) == 'true';
     }
 
-    /*!
-    \static
-     Logs in the user if applied username and password is valid.
-     \return The user object (eZContentObject) of the logged in user or \c false if it failed.
-    */
-    static function loginUser( $login, $password, $authenticationMatch = false )
+    /**
+     * Logs in the user if applied username and password is valid.
+     *
+     * @param string $login 
+     * @param string $password 
+     * @param bool $authenticationMatch 
+     * @return mixed eZUser on success, bool false on failure
+     */
+    public static function loginUser( $login, $password, $authenticationMatch = false )
+    {
+        $user = self::_loginUser( $login, $password, $authenticationMatch );
+
+        if ( is_object( $user ) )
+        {
+            self::loginSucceeded( $user );
+            return $user;
+        }
+        else
+        {
+            self::loginFailed( $user, $login );
+            return false;
+        }
+    }
+
+    /**
+     * Does some house keeping work once a log in has succeeded. 
+     *
+     * @param eZUser $user 
+     */
+    protected static function loginSucceeded( $user )
+    {
+        $userID = $user->attribute( 'contentobject_id' );
+
+        // if audit is enabled logins should be logged
+        eZAudit::writeAudit( 'user-login', array( 'User id' => $userID, 'User login' => $user->attribute( 'login' ) ) );
+
+        eZUser::updateLastVisit( $userID );
+        eZUser::setCurrentlyLoggedInUser( $user, $userID );
+
+        // Reset number of failed login attempts
+        eZUser::setFailedLoginAttempts( $userID, 0 );
+    }
+
+    /**
+     * Does some house keeping work when a log in has failed. 
+     *
+     * @param mixed $userID
+     * @param string $login 
+     */
+     protected static function loginFailed( $userID = false, $login )
+    {
+        $loginEscaped = eZDB::instance()->escapeString( $login );
+
+        // Failed login attempts should be logged
+        eZAudit::writeAudit( 'user-failed-login', array( 'User login' => $loginEscaped,
+                                                         'Comment' => 'Failed login attempt: eZUser::loginUser()' ) );
+
+        // Increase number of failed login attempts.
+        if ( $userID )
+            eZUser::setFailedLoginAttempts( $userID );
+    }
+
+    /**
+     * Logs in an user if applied login and password is valid.
+     *
+     * This method does not do any house keeping work anymore (writing audits, etc). 
+     * When you call this method make sure to call loginSucceeded() or loginFailed()
+     * depending on the success of the login. 
+     *
+     * @param string $login 
+     * @param string $password 
+     * @param bool $authenticationMatch 
+     * @return mixed eZUser object on log in success, int userID if the username  
+     *         exists but log in failed, or false if the username doesn't exists.
+     */
+    protected static function _loginUser( $login, $password, $authenticationMatch = false )
     {
         $http = eZHTTPTool::instance();
         $db = eZDB::instance();
@@ -714,15 +784,18 @@ WHERE user_id = '" . $userID . "' AND
                         ezcontentobject.status='$contentObjectStatus' AND
                         ezcontentobject.id=contentobject_id AND
                         ( ( password_hash_type!=4 ) OR
-                          ( password_hash_type=4 AND ( $loginText ) AND password_hash=PASSWORD('$passwordEscaped') ) )";
+                          ( password_hash_type=4 AND 
+                              ( $loginText ) AND 
+                          password_hash=PASSWORD('$passwordEscaped') ) )";
         }
         else
         {
-            $query = "SELECT contentobject_id, password_hash, password_hash_type, email, login
-                      FROM ezuser, ezcontentobject
-                      WHERE ( $loginText ) AND
-                            ezcontentobject.status='$contentObjectStatus' AND
-                            ezcontentobject.id=contentobject_id";
+            $query = "SELECT contentobject_id, password_hash, 
+                             password_hash_type, email, login
+                      FROM   ezuser, ezcontentobject
+                      WHERE  ( $loginText ) 
+                      AND    ezcontentobject.status='$contentObjectStatus'
+                      AND    ezcontentobject.id=contentobject_id";
         }
 
         $users = $db->arrayQuery( $query );
@@ -777,38 +850,14 @@ WHERE user_id = '" . $userID . "' AND
                 }
             }
         }
+
         if ( $exists and $isEnabled and $canLogin )
         {
-            $oldUserID = $contentObjectID = $http->sessionVariable( "eZUserLoggedInID" );
-            eZDebugSetting::writeDebug( 'kernel-user', $userRow, 'user row' );
-            $user = new eZUser( $userRow );
-            eZDebugSetting::writeDebug( 'kernel-user', $user, 'user' );
-            $userID = $user->attribute( 'contentobject_id' );
-
-            // if audit is enabled logins should be logged
-            eZAudit::writeAudit( 'user-login', array( 'User id' => $userID, 'User login' => $user->attribute( 'login' ) ) );
-
-            eZUser::updateLastVisit( $userID );
-            eZUser::setCurrentlyLoggedInUser( $user, $userID );
-
-            // Reset number of failed login attempts
-            eZUser::setFailedLoginAttempts( $userID, 0 );
-
-            return $user;
+            return new eZUser( $userRow );
         }
         else
         {
-            // Failed login attempts should be logged
-            $userIDAudit = isset( $userID ) ? $userID : 'null';
-            eZAudit::writeAudit( 'user-failed-login', array( 'User id' => $userIDAudit, 'User login' => $loginEscaped,
-                                                             'Comment' => 'Failed login attempt: eZUser::loginUser()' ) );
-
-            // Increase number of failed login attempts.
-            if ( isset( $userID ) )
-                eZUser::setFailedLoginAttempts( $userID );
-
-            $user = false;
-            return $user;
+            return isset( $userID ) ? $userID : false;
         }
     }
 
