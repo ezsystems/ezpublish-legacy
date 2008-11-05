@@ -58,6 +58,7 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Implemented enhancement #13761: allow oracle "easy naming" connect strings to work
 - Implemented enhancement #13429: viewcache can't define specific rules when a object is publish.
 - Implemented enhancement #13274: Cache file locking in view cache with cache_ttl=0 causes performance issues
+- Implemented enhancement #13651: Remove includes that were put into comments
 
 *Design:
 
@@ -424,3 +425,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13824: get_class on a non-object in eZNotificationEventType::create()
 - Fixed bug #13841: Template override mechanism does not work with information collectors
 - Fixed bug #13514: Enabling CompileComments in site.ini / TemplateSettings leads to fatal error
+- Fixed bug #13822: standard "empty install" data files contain xml chunks in latin1 instead of utf8
