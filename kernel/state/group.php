@@ -47,17 +47,9 @@ else if ( $currentAction == 'UpdateOrder' && $Module->hasActionParameter( 'Order
 {
     $orderArray = $Module->actionParameter( 'Order' );
     asort( $orderArray );
+    $stateIDList = array_keys( $orderArray );
 
-    $i = 0;
-
-    $db = eZDB::instance();
-    $db->begin();
-    foreach ( array_keys( $orderArray ) as $updateID )
-    {
-        $db->query( "UPDATE ezcontentobject_state SET priority=$i WHERE id=$updateID" );
-        $i++;
-    }
-    $db->commit();
+    $stateGroup->reorderStates( $stateIDList );
 }
 
 if ( $LanguageCode )

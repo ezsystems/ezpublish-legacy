@@ -406,6 +406,44 @@ class eZContentObjectStateGroup extends eZPersistentObject
         $db->commit();
     }
 
+    public function reorderStates( $stateIDList )
+    {
+        $stateIDList = array_values( $stateIDList );
+
+        $states = $this->states();
+
+        $currentStateIDList = array();
+        foreach ( $states as $state )
+        {
+            $stateID = $state->attribute( 'id' );
+            if ( !in_array( $stateID, $stateIDList ) )
+            {
+                return false;
+            }
+
+            // need to convert to int here, otherwise comparing arrays with === won't work
+            $currentStateIDList[] = (int)$stateID;
+        }
+
+        if ( $stateIDList === $currentStateIDList )
+        {
+            // order didn't change at all
+            return true;
+        }
+
+        $db = eZDB::instance();
+        $db->begin();
+        foreach ( $stateIDList as $i => $updateID )
+        {
+            if ( $currentStateIDList[$i] != $updateID )
+            {
+                $db->query( "UPDATE ezcontentobject_state SET priority=$i WHERE id=$updateID" );
+            }
+        }
+        $db->commit();
+        return true;
+    }
+
     private $LanguageObject;
     private $Translations;
     private $AllTranslations;
