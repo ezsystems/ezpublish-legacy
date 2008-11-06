@@ -315,13 +315,13 @@ class eZContentObjectStateGroup extends eZPersistentObject
         return $isValid;
     }
 
-    public function states()
+    public function states( $refreshMemberVariable = false )
     {
         if ( !isset( $this->ID ) )
         {
             return array();
         }
-        else if ( !is_array( $this->States ) )
+        else if ( !is_array( $this->States ) || $refreshMemberVariable )
         {
             $this->States = eZContentObjectState::fetchByGroup( $this->ID );
         }
@@ -349,6 +349,60 @@ class eZContentObjectStateGroup extends eZPersistentObject
         }
         eZPersistentObject::removeObject( eZContentObjectStateGroupLanguage::definition(), array( 'contentobject_state_group_id' => $id ) );
         eZPersistentObject::removeObject( eZContentObjectStateGroup::definition(), array( 'id' => $id ) );
+        $db->commit();
+    }
+
+    public function removeStatesByID( $idList )
+    {
+        $newDefaultStateID = null;
+        $removeIDList = array();
+
+        $db = eZDB::instance();
+        $db->begin();
+
+        $states = $this->states();
+
+        foreach ( $states as $state )
+        {
+            $stateID = $state->attribute( 'id' );
+            if ( in_array( $stateID, $idList ) )
+            {
+                $removeIDList[] = $stateID;
+            }
+            else if ( $newDefaultStateID === null )
+            {
+                $newDefaultStateID = $stateID;
+            }
+        }
+
+        $removeIDListCount = count( $removeIDList );
+        if ( $removeIDListCount > 0 )
+        {
+            if ( $newDefaultStateID )
+            {
+                $contentObjectStateIDCondition = $removeIDListCount > 1 ? $db->generateSQLInStatement( $removeIDList, 'contentobject_state_id' ) :
+                                                                          "contentobject_state_id=$removeIDList[0]";
+                $db->query( "UPDATE ezcontentobject_state_link
+                             SET contentobject_state_id=$newDefaultStateID
+                             WHERE $contentObjectStateIDCondition" );
+                eZContentObjectState::cleanDefaultsCache();
+            }
+
+            foreach ( $removeIDList as $id )
+            {
+                eZContentObjectState::removeByID( $id );
+            }
+
+            // re-order remaining states in the same group
+            $states = $this->states( true );
+            $i = 0;
+            foreach ( $states as $state )
+            {
+                $state->setAttribute( 'priority', $i );
+                $state->sync( array( 'priority' ) );
+                $i++;
+            }
+        }
         $db->commit();
     }
 

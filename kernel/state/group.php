@@ -17,7 +17,7 @@ $currentAction = $Module->currentAction();
 if ( $currentAction == 'Remove' && $Module->hasActionParameter( 'RemoveIDList' ) )
 {
     $removeIDList = $Module->actionParameter( 'RemoveIDList' );
-    eZContentObjectState::removeByIDList( $removeIDList, $GroupID );
+    $stateGroup->removeStatesByID( $removeIDList );
 }
 else if ( $currentAction =='Edit' )
 {

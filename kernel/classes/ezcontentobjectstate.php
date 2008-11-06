@@ -37,7 +37,8 @@ class eZContentObjectState extends eZPersistentObject
                                                       "translations" => "translations",
                                                       "languages" => "languages",
                                                       "available_languages" => "availableLanguages",
-                                                      "default_language" => "defaultLanguage" ),
+                                                      "default_language" => "defaultLanguage",
+                                                      "object_count" => "objectCount" ),
                       "increment_key" => "id",
                       "class_name" => "eZContentObjectState",
                       "sort" => array( "group_id" => "asc", "priority" => "asc" ),
@@ -380,6 +381,11 @@ class eZContentObjectState extends eZPersistentObject
         return self::$Defaults;
     }
 
+    public static function cleanDefaultsCache()
+    {
+        self::$Defaults = null;
+    }
+
     public function fetchHTTPPersistentVariables()
     {
         $translations = $this->allTranslations();
@@ -399,25 +405,12 @@ class eZContentObjectState extends eZPersistentObject
         $db->commit();
     }
 
-    public static function removeByIDList( $idList, $groupID, $reOrder = true )
+    public function objectCount()
     {
         $db = eZDB::instance();
-        $db->begin();
-        foreach ( $idList as $id )
-        {
-            self::removeByID( $id );
-        }
-
-        // re-order remaining states in the same group
-        $states = eZContentObjectState::fetchByGroup( $groupID );
-        $i = 0;
-        foreach ( $states as $state )
-        {
-            $state->setAttribute( 'priority', $i );
-            $state->sync( array( 'priority' ) );
-            $i++;
-        }
-        $db->commit();
+        $id = $this->ID;
+        $result = $db->arrayQuery( "SELECT COUNT(contentobject_id) AS object_count FROM ezcontentobject_state_link WHERE contentobject_state_id=$id" );
+        return $result[0]['object_count'];
     }
 
     private $LanguageObject;

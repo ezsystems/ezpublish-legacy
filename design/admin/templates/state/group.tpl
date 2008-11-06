@@ -115,6 +115,7 @@
     <th class="tight">{'ID'|i18n('design/admin/state/group')|wash}</th>
     <th>{'Identifier'|i18n('design/admin/state/group')|wash}</th>
     <th>{'Name'|i18n('design/admin/state/group')|wash}</th>
+    <th>{'Object count'|i18n('design/admin/state/group')|wash}</th>
     <th class="tight">{'Order'|i18n('design/admin/state/group')|wash}</th>
     <th class="tight">&nbsp;</th>
 </tr>
@@ -124,6 +125,7 @@
     <td class="number">{$state.id}</td>
     <td><a href={concat("/state/view/",$state.id)|ezurl}>{$state.identifier|wash}</a></td>
     <td><a href={concat("state/view/", $state.id)|ezurl}>{$state.current_translation.name|wash}</a></td>
+    <td>{$state.object_count}</td>
     <td>
         <input type="text" name="Order[{$state.id}]" size="3" value="{$state.priority}" />
     </td>
