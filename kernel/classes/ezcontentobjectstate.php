@@ -235,13 +235,20 @@ class eZContentObjectState extends eZPersistentObject
                 }
             }
 
+            $assignToObjects = false;
             if ( !isset( $this->ID ) )
             {
-                $rows = $db->arrayQuery( "SELECT MAX(priority) max_priority FROM ezcontentobject_state WHERE group_id=" . $this->GroupID );
+                $rows = $db->arrayQuery( "SELECT MAX(priority) AS max_priority FROM ezcontentobject_state WHERE group_id=" . $this->GroupID );
 
                 if ( count( $rows ) > 0 && $rows[0]['max_priority'] !== null )
                 {
                     $this->setAttribute( 'priority', $rows[0]['max_priority'] + 1 );
+                }
+                else
+                {
+                    // this is the first state created in the state group
+                    // make all content objects use this state
+                    $assignToObjects = true;
                 }
             }
 
@@ -271,6 +278,12 @@ class eZContentObjectState extends eZPersistentObject
 
                     $translation->store();
                 }
+            }
+
+            if ( $assignToObjects )
+            {
+                $stateID = $this->ID;
+                $db->query( "INSERT INTO ezcontentobject_state_link (contentobject_id, contentobject_state_id) SELECT id, $stateID FROM ezcontentobject" );
             }
 
             $db->commit();
