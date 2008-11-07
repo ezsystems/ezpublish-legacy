@@ -349,7 +349,7 @@ class eZScript
     function shutdown( $exitCode = false, $exitText = false )
     {
         $cli = eZCLI::instance();
-        if ( class_exists( 'ezdb' )
+        if ( class_exists( 'eZDB' )
              and eZDB::hasInstance() )
         {
             $db = eZDB::instance( false, array( 'show_errors' => false ) );
