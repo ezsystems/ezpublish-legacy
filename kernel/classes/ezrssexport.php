@@ -425,10 +425,17 @@ class eZRSSExport extends eZPersistentObject
         $doc->formatOutput = true;
         $root = $doc->createElement( 'rss' );
         $root->setAttribute( 'version', '2.0' );
+        $root->setAttribute( 'xmlns:atom', 'http://www.w3.org/2005/Atom' );
         $doc->appendChild( $root );
 
         $channel = $doc->createElement( 'channel' );
         $root->appendChild( $channel );
+
+        $atomLink = $doc->createElement( 'atom:link' );
+        $atomLink->setAttribute( 'href', $baseItemURL . "rss/feed/" . $this->attribute( 'access_url' ) );
+        $atomLink->setAttribute( 'rel', 'self' );
+        $atomLink->setAttribute( 'type', 'application/rss+xml' );
+        $channel->appendChild( $atomLink );
 
         $channelTitle = $doc->createElement( 'title' );
         $channelTitle->appendChild( $doc->createTextNode( $this->attribute( 'title' ) ) );
@@ -511,7 +518,7 @@ class eZRSSExport extends eZPersistentObject
                 if( !$doesMatch )
                 {
                     // no match
-                    eZDebug::writeWarning( __CLASS__.'::'.__FUNCTION__.': Cannot find matching RSS source node for content object in '.__FILE__.', Line '.__LINE__ );
+                    eZDebug::writeWarning( __METHOD__ . ': Cannot find matching RSS source node for content object in '.__FILE__.', Line '.__LINE__ );
                     $retValue = null;
                     return $retValue;
                 }
@@ -723,7 +730,7 @@ class eZRSSExport extends eZPersistentObject
                 if( !$doesMatch )
                 {
                     // no match
-                    eZDebug::writeWarning( __CLASS__.'::'.__FUNCTION__.': Cannot find matching RSS source node for content object in '.__FILE__.', Line '.__LINE__ );
+                    eZDebug::writeWarning( __METHOD__ . ': Cannot find matching RSS source node for content object in '.__FILE__.', Line '.__LINE__ );
                     $retValue = null;
                     return $retValue;
                 }
