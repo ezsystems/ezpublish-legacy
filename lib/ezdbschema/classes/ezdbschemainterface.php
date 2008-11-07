@@ -435,6 +435,9 @@ class eZDBSchemaInterface
         if ( $includeData )
         {
             $data = $this->data( $schema, false, array( 'format' => 'local' ) );
+
+            $this->DBInstance->begin();
+
             foreach ( $schema as $tableName => $table )
             {
                 // Skip the information array, this is not a table
@@ -452,10 +455,13 @@ class eZDBSchemaInterface
                     if ( !$this->DBInstance->query( $sql ) )
                     {
                         eZDebug::writeError( "Failed inserting the SQL:\n$sql" );
+                        $this->DBInstance->rollback();
                         return false;
                     }
                 }
             }
+
+            $this->DBInstance->commit();
 
             // Update sequences for databases that require this
             if ( method_exists( $this->DBInstance, 'correctSequenceValues' ) )
