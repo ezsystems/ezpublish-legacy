@@ -90,44 +90,21 @@ class eZDir
     /*!
      \static
      Creates the directory \a $dir with permissions \a $perm.
-     If \a $parents is true it will create any missing parent directories,
+     If \a $recursive is true it will create any missing parent directories,
      just like 'mkdir -p'.
     */
-    static function mkdir( $dir, $perm = false, $parents = false )
+    static function mkdir( $dir, $perm = false, $recursive = false )
     {
         if ( $perm === false )
         {
             $perm = eZDir::directoryPermission();
         }
         $dir = eZDir::cleanPath( $dir, self::SEPARATOR_UNIX );
-        if ( !$parents )
-            return eZDir::doMkdir( $dir, $perm );
-        else
-        {
-            $dirElements = explode( '/', $dir );
-            if ( count( $dirElements ) == 0 )
-                return true;
-            $currentDir = $dirElements[0];
-            $result = true;
-            if ( $currentDir != '' && !file_exists( $currentDir )  )
-                $result = eZDir::doMkdir( $currentDir, $perm );
-            if ( !$result )
-                return false;
 
-            for ( $i = 1; $i < count( $dirElements ); ++$i )
-            {
-                $dirElement = $dirElements[$i];
-                if ( strlen( $dirElement ) == 0 )
-                    continue;
-                $currentDir .= '/' . $dirElement;
-                $result = true;
-                if ( !file_exists( $currentDir ) )
-                    $result = eZDir::doMkdir( $currentDir, $perm );
-                if ( !$result )
-                    return false;
-            }
-            return true;
-        }
+        $oldumask = umask( 0 );
+        $success = @mkdir( $dir, $perm, $recursive );
+        umask( $oldumask );
+        return $success;
     }
 
     /*!
@@ -192,18 +169,12 @@ class eZDir
      \private
      Creates the directory \a $dir with permission \a $perm.
     */
-    static function doMkdir( $dir, $perm )
+    static function doMkdir( $dir, $perm, $recursive = false )
     {
         $oldumask = umask( 0 );
-        if ( ! @mkdir( $dir, $perm ) )
-        {
-            umask( $oldumask );
-            // eZDebug::writeError( "Couldn't create the directory \"$dir\".", "eZDir::doMkdir()" );
-            return false;
-        }
+        $success = @mkdir( $dir, $perm, $recursive );
         umask( $oldumask );
-
-        return true;
+        return $success;
     }
 
     /*!

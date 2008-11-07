@@ -62,6 +62,7 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Implemented enhancement #13890: Refactor eZUser::loginUser()
 - Implemented enhancement #13880: Speed up clean data insertion by wrapping it in a database transaction
 - Implemented enhancement #13881: Make ezinsertsqlschema.php work with mysqli
+- Implemented enhancement #13833: eZDir::mkdir() should make use of $recursive parameter of PHP mkdir() function
 
 *Design:
 
