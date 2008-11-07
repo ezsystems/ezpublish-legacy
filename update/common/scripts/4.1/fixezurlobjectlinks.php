@@ -183,14 +183,14 @@ class ezpUrlObjectLinkUpdate
      */
     public function processData()
     {
-        while( $this->processedCount < $this->xmlTextContentObjectAttributeCount() )
+        while ( $this->processedCount < $this->xmlTextContentObjectAttributeCount() )
         {
             $limit = array( 'offset' => $this->offset,
                             'length' => $this->fetchLimit );
 
             $xmlAttributeChunk = eZContentObjectAttribute::fetchListByClassID( $this->xmlClassAttributeIds(), false, $limit, true, false );
 
-            foreach( $xmlAttributeChunk as $xmlAttr )
+            foreach ( $xmlAttributeChunk as $xmlAttr )
             {
                 $result = true;
                 // If the current entry has been logged, we don't increment the running number
@@ -252,7 +252,7 @@ class ezpUrlObjectLinkUpdate
 
                     $urlIdArray = array_unique( $urlIdArray );
 
-                    foreach( $urlIdArray as $url )
+                    foreach ( $urlIdArray as $url )
                     {
                         $linkObjectLink = eZURLObjectLink::fetch( $url, $currentId, $version );
                         if ( $linkObjectLink === null )
@@ -296,14 +296,14 @@ class ezpUrlObjectLinkUpdate
      */
     public function showSummary()
     {
-        foreach( $this->finalOutputMessageArray as $messageEntry )
+        foreach ( $this->finalOutputMessageArray as $messageEntry )
         {
             if ( $messageEntry['label'] !== null )
             {
                 $this->cli->output( $this->cli->stylize( 'bold', $messageEntry['label'] ) );
             }
         
-            foreach( $messageEntry['messages'] as $msg )
+            foreach ( $messageEntry['messages'] as $msg )
             {
                 $this->cli->output( $msg);
             }
