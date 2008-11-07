@@ -545,6 +545,9 @@ class eZRSSExport extends eZPersistentObject
                 $itemLink = $doc->createElement( 'link', $nodeURL );
                 $item->appendChild( $itemLink );
 
+                $itemGuid = $doc->createElement( 'guid', $nodeURL );
+                $item->appendChild( $itemGuid );
+
                 // description RSS element with respective class attribute content
                 $descriptionContent =  $description->attribute( 'content' );
                 if ( $descriptionContent instanceof eZXMLText )
