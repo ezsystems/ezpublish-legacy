@@ -184,7 +184,7 @@ tinyMCEPopup.onInit.add( function(){
 
                 <h3>{'About'|i18n('design/standard/ezoe')} TinyMCE</h3>
                 <p>{'Version'|i18n('design/standard/ezoe')}: <span id="version"></span> (<span id="date"></span>)</p>
-                <p>TinyMCE is a platform independent web based Javascript HTML WYSIWYG editor control released as Open Source under <a href="../../license.txt" target="_blank">LGPL</a>
+                <p>TinyMCE is a platform independent web based Javascript HTML WYSIWYG editor control released as Open Source under <a href="http://www.opensource.org/licenses/lgpl-2.1.php" target="_blank">LGPL</a>
 
                 by Moxiecode Systems AB. It has the ability to convert HTML TEXTAREA fields or other HTML elements to editor instances.</p>
                 <p>Copyright &copy; 2003-2008, <a href="http://www.moxiecode.com" target="_blank">Moxiecode Systems AB</a>, All rights reserved.</p>
