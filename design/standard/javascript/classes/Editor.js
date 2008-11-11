@@ -1,5 +1,5 @@
 /**
- * $Id: Editor.js 921 2008-09-09 14:54:41Z spocke $
+ * $Id: Editor.js 952 2008-11-03 17:56:04Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -304,10 +304,12 @@
 			});
 
 			// Setup popup CSS path(s)
-			if (s.popup_css)
-				s.popup_css = t.documentBaseURI.toAbsolute(s.popup_css);
-			else
-				s.popup_css = t.baseURI.toAbsolute("themes/" + s.theme + "/skins/" + s.skin + "/dialog.css");
+			if (s.popup_css !== false) {
+				if (s.popup_css)
+					s.popup_css = t.documentBaseURI.toAbsolute(s.popup_css);
+				else
+					s.popup_css = t.baseURI.toAbsolute("themes/" + s.theme + "/skins/" + s.skin + "/dialog.css");
+			}
 
 			if (s.popup_css_add)
 				s.popup_css += ',' + t.documentBaseURI.toAbsolute(s.popup_css_add);
@@ -399,7 +401,7 @@
 				height : h
 			});
 
-			h = (o.iframeHeight || h) + ((h + '').indexOf('%') == -1 ? (o.deltaHeight || 0) : '');
+			h = (o.iframeHeight || h) + (typeof(h) == 'number' ? (o.deltaHeight || 0) : '');
 			if (h < 100)
 				h = 100;
 
@@ -709,7 +711,7 @@
 			// Remove empty contents
 			if (s.padd_empty_editor) {
 				t.onPostProcess.add(function(ed, o) {
-					o.content = o.content.replace(/^(<p>(&nbsp;|&#160;|\s|\u00a0|)<\/p>[\r\n]*|<br \/>[\r\n]*)$/, '');
+					o.content = o.content.replace(/^(<p[^>]*>(&nbsp;|&#160;|\s|\u00a0|)<\/p>[\r\n]*|<br \/>[\r\n]*)$/, '');
 				});
 			}
 
@@ -1347,18 +1349,20 @@
 		load : function(o) {
 			var t = this, e = t.getElement(), h;
 
-			o = o || {};
-			o.load = true;
+			if (e) {
+				o = o || {};
+				o.load = true;
 
-			h = t.setContent(is(e.value) ? e.value : e.innerHTML, o);
-			o.element = e;
+				h = t.setContent(is(e.value) ? e.value : e.innerHTML, o);
+				o.element = e;
 
-			if (!o.no_events)
-				t.onLoadContent.dispatch(t, o);
+				if (!o.no_events)
+					t.onLoadContent.dispatch(t, o);
 
-			o.element = e = null;
+				o.element = e = null;
 
-			return h;
+				return h;
+			}
 		},
 
 		/**
@@ -1372,7 +1376,7 @@
 		save : function(o) {
 			var t = this, e = t.getElement(), h, f;
 
-			if (!t.initialized)
+			if (!e || !t.initialized)
 				return;
 
 			o = o || {};

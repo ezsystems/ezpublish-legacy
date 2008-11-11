@@ -1,5 +1,5 @@
 /**
- * $Id: URI.js 920 2008-09-09 14:05:33Z spocke $
+ * $Id: URI.js 928 2008-09-14 15:14:22Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -37,7 +37,7 @@
 				u = (s.base_uri ? s.base_uri.protocol || 'http' : 'http') + '://mce_host' + u;
 
 			// Relative path
-			if (u.indexOf('://') === -1 && u.indexOf('//') !== 0)
+			if (u.indexOf(':/') === -1 && u.indexOf('//') !== 0)
 				u = (s.base_uri.protocol || 'http') + '://mce_host' + t.toAbsPath(s.base_uri.path, u);
 
 			// Parse URL (Credits goes to Steave, http://blog.stevenlevithan.com/archives/parseuri)

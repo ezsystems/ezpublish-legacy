@@ -7,6 +7,7 @@ eZ Online Editor 5.0 extension Changelog
   Note: You need to change your settings as a result from this
 * added file button, and use 1 tempalte pr content type in upload and realated dialog.
   Note: New i18n strings in upload_* and tag_embed_* templates!
+* updated to TinyMCE 3.2.1
 
 
 5.0rc7

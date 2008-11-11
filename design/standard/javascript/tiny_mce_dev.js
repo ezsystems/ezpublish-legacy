@@ -1,5 +1,5 @@
 /**
- * $Id: tiny_mce_dev.js 901 2008-08-18 11:44:21Z spocke $
+ * $Id: tiny_mce_dev.js 950 2008-10-30 15:47:23Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -65,7 +65,7 @@
 	};
 
 	// Firebug
-	if (query.debug && (!window.console || !console.log)) {
+	if (query.debug && (!window.console || !console.debug)) {
 		document.documentElement.setAttribute("debug", "true");
 		include('firebug/pi.js');
 		include('firebug/firebug-lite.js');
@@ -87,6 +87,7 @@
 	include('util/JSON.js');
 	include('util/XHR.js');
 	include('util/JSONRequest.js');
+	include('dom/Sizzle.js');
 	include('dom/DOMUtils.js');
 	include('dom/Event.js');
 	include('dom/Element.js');

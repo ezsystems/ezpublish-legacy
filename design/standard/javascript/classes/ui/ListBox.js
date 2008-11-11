@@ -1,5 +1,5 @@
 /**
- * $Id: ListBox.js 925 2008-09-11 11:25:26Z spocke $
+ * $Id: ListBox.js 933 2008-09-27 08:41:46Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -47,7 +47,7 @@
 			var t = this, fv, f;
 
 			if (va == undefined)
-				return;
+				return t.selectByIndex(-1);
 
 			// Is string or number make function selector
 			if (va && va.call)

@@ -1,5 +1,5 @@
 /**
- * $Id: DOMUtils.js 920 2008-09-09 14:05:33Z spocke $
+ * $Id: DOMUtils.js 952 2008-11-03 17:56:04Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -33,7 +33,10 @@
 			maxlength : "maxLength",
 			readonly : "readOnly",
 			selected : "selected",
-			value : "value"
+			value : "value",
+			id : "id",
+			name : "name",
+			type : "type"
 		},
 
 		/**
@@ -235,6 +238,34 @@
 			return e;
 		},
 
+		// #if sizzle
+
+		/**
+		 * Selects specific elements by a CSS level 1 pattern. For example "div#a1 p.test".
+		 * This function is optimized for the most common patterns needed in TinyMCE but it also performes good enough
+		 * on more complex patterns.
+		 *
+		 * @param {String} p CSS level 1 pattern to select/find elements by.
+		 * @param {Object} s Optional root element/scope element to search in.
+		 * @return {Array} Array with all matched elements.
+		 */
+		sizzleSelect : function(pa, s) {
+			var t = this, siz;
+
+			// Look for Sizzle, this function will only use Sizzle later on
+			if (siz = window.Sizzle) {
+				// Setup new function
+				t.select = function(pa, s) {
+					siz.doc = t.doc;
+					return siz(pa, t.get(s) || t.doc, []);
+				};
+
+				return t.select(pa, s);
+			}
+		},
+
+		// #endif
+
 		// #if !jquery
 
 		/**
@@ -247,7 +278,7 @@
 		 * @return {Array} Array with all matched elements.
 		 */
 		select : function(pa, s) {
-			var t = this, cs, c, pl, o = [], x, i, l, n;
+			var t = this, cs, c, pl, o = [], x, i, l, n, xp;
 
 			s = t.get(s) || t.doc;
 
@@ -269,6 +300,44 @@
 				s.id = i;
 
 				return l;
+			}
+
+			if (!t.selectorRe)
+				t.selectorRe = /^([\w\\*]+)?(?:#([\w\\]+))?(?:\.([\w\\\.]+))?(?:\[\@([\w\\]+)([\^\$\*!]?=)([\w\\]+)\])?(?:\:([\w\\]+))?/i;;
+
+			// Air doesn't support eval due to security sandboxing and querySelectorAll isn't supported yet
+			if (tinymce.isAir) {
+				each(tinymce.explode(pa), function(v) {
+					if (!(xp = t.cache[v])) {
+						xp = '';
+
+						each(v.split(' '), function(v) {
+							v = t.selectorRe.exec(v);
+
+							xp += v[1] ? '//' + v[1] : '//*';
+
+							// Id
+							if (v[2])
+								xp += "[@id='" + v[2] + "']";
+
+							// Class
+							if (v[3]) {
+								each(v[3].split('.'), function(n) {
+									xp += "[@class = '" + n + "' or contains(concat(' ', @class, ' '), ' " + n + " ')]";
+								});
+							}
+						});
+
+						t.cache[v] = xp;
+					}
+
+					xp = t.doc.evaluate(xp, s, null, 4, null);
+
+					while (n = xp.iterateNext())
+						o.push(n);
+				});
+
+				return o;
 			}
 
 			if (t.settings.strict) {
@@ -357,7 +426,7 @@
 					pl = v.split(' ');
 
 					each(pl, function(v) {
-						var p = /^([\w\\*]+)?(?:#([\w\\]+))?(?:\.([\w\\\.]+))?(?:\[\@([\w\\]+)([\^\$\*!]?=)([\w\\]+)\])?(?:\:([\w\\]+))?/i.exec(v);
+						var p = t.selectorRe.exec(v);
 
 						// Find elements
 						p[1] = p[1] || '*';
@@ -787,6 +856,9 @@
 					case 'width':
 					case 'height':
 					case 'vspace':
+					case 'checked':
+					case 'disabled':
+					case 'readonly':
 						if (v === 0)
 							v = '';
 
@@ -802,13 +874,14 @@
 					case 'maxlength':
 					case 'tabindex':
 						// IE returns default value
-						if (v === 32768 || v === 2147483647)
+						if (v === 32768 || v === 2147483647 || v === '32768')
 							v = '';
 
 						break;
 
 					case 'compact':
 					case 'noshade':
+					case 'nowrap':
 						if (v === 65535)
 							return n;
 
@@ -1123,7 +1196,7 @@
 		isHidden : function(e) {
 			e = this.get(e);
 
-			return e.style.display == 'none' || this.getStyle(e, 'display') == 'none';
+			return !e || e.style.display == 'none' || this.getStyle(e, 'display') == 'none';
 		},
 
 		// #endif
@@ -1279,23 +1352,24 @@
 			if (tinymce.isGecko) {
 				h = h.replace(/<(\/?)strong>|<strong( [^>]+)>/gi, '<$1b$2>');
 				h = h.replace(/<(\/?)em>|<em( [^>]+)>/gi, '<$1i$2>');
-			} else if (isIE)
+			} else if (isIE) {
 				h = h.replace(/&apos;/g, '&#39;'); // IE can't handle apos
+				h = h.replace(/\s+(disabled|checked|readonly|selected)\s*=\s*[\"\']?(false|0)[\"\']?/gi, ''); // IE doesn't handle default values correct
+			}
 
 			// Fix some issues
 			h = h.replace(/<a( )([^>]+)\/>|<a\/>/gi, '<a$1$2></a>'); // Force open
 
 			// Store away src and href in mce_src and mce_href since browsers mess them up
 			if (s.keep_values) {
-				h = h.replace(/<!\[CDATA\[([\s\S]+)\]\]>/g, '<!--[CDATA[$1]]-->');
-
 				// Wrap scripts and styles in comments for serialization purposes
 				if (/<script|style/.test(h)) {
 					function trim(s) {
 						// Remove prefix and suffix code for element
+						s = s.replace(/(<!--\[CDATA\[|\]\]-->)/g, '\n');
 						s = s.replace(/^[\r\n]*|[\r\n]*$/g, '');
-						s = s.replace(/^\s*(\/\/\s*<!--|\/\/\s*<\[CDATA\[|<!--|<\[CDATA\[)[\r\n]*/g, '');
-						s = s.replace(/\s*(\/\/\s*\]\]>|\/\/\s*-->|\]\]>|-->)\s*$/g, '');
+						s = s.replace(/^\s*(\/\/\s*<!--|\/\/\s*<!\[CDATA\[|<!--|<!\[CDATA\[)[\r\n]*/g, '');
+						s = s.replace(/\s*(\/\/\s*\]\]>|\/\/\s*-->|\]\]>|-->|\]\]-->)\s*$/g, '');
 
 						return s;
 					};
@@ -1323,6 +1397,8 @@
 						return '<mce:style' + a + '><!--\n' + b + '\n--></mce:style><style' + a + ' mce_bogus="1">' + b + '</style>';
 					});
 				}
+
+				h = h.replace(/<!\[CDATA\[([\s\S]+)\]\]>/g, '<!--[CDATA[$1]]-->');
 
 				// Process all tags with src, href or style
 				h = h.replace(/<([\w:]+) [^>]*(src|href|style|shape|coords)[^>]*>/gi, function(a, n) {

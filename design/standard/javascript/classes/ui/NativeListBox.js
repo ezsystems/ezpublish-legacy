@@ -1,5 +1,5 @@
 /**
- * $Id: NativeListBox.js 925 2008-09-11 11:25:26Z spocke $
+ * $Id: NativeListBox.js 952 2008-11-03 17:56:04Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -60,7 +60,7 @@
 			var t = this, fv, f;
 
 			if (va == undefined)
-				return;
+				return t.selectByIndex(-1);
 
 			// Is string or number make function selector
 			if (va && va.call)
@@ -163,7 +163,7 @@
 			function onChange(e) {
 				var v = t.items[e.target.selectedIndex - 1];
 
-				if (v = v.value) {
+				if (v && (v = v.value)) {
 					t.onChange.dispatch(t, v);
 
 					if (t.settings.onselect)
