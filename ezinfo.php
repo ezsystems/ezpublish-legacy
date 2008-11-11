@@ -28,7 +28,7 @@ class ezoeInfo
 {
     static function info()
     {
-        return array( 'Name'      => 'eZ Online Editor MCE',
+        return array( 'Name'      => 'eZ Online Editor',
                       'Version'   => '5.0.0rc8',
                       'Copyright' => 'Copyright (C) 2008 eZ Systems AS',
                       'License'   => 'GNU General Public License v2.0',
