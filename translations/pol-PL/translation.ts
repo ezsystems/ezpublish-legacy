@@ -92,7 +92,7 @@
     <message>
         <location filename="" line="0"/>
         <source>Do you want to use the WYSIWYG mode for this textarea?</source>
-        <translation>Czy chcesz użyć edytora WYSIWYG dla pól texterea?</translation>
+        <translation>Czy chcesz użyć edytora WYSIWYG dla pól textarea?</translation>
     </message>
     <message>
         <location filename="" line="0"/>
@@ -132,7 +132,7 @@
     <message>
         <location filename="" line="0"/>
         <source>-- Not set --</source>
-        <translation>-- Brak--</translation>
+        <translation>-- Brak --</translation>
     </message>
     <message>
         <location filename="" line="0"/>
@@ -149,12 +149,12 @@ Czy chcesz uzyskać więcej informacji?</translation>
     <message>
         <location filename="" line="0"/>
         <source>Sorry, but we have noticed that your popup-blocker has disabled a window that provides application functionality. You will need to disable popup blocking on this site in order to fully utilize this tool.</source>
-        <translation>Przepraszamy, ale wykryliśmy, że twoja przeglądarka blokuje wyskaiwanie nowych okien. Wyłącz blokowanie nowych okien w celu wykorzstania pełnej funkcjonaloności tego narzędzia.</translation>
+        <translation>Przepraszamy, ale wykryliśmy, że twoja przeglądarka blokuje wyskaiwanie nowych okien. Wyłącz blokowanie nowych okien w celu wykorzystania pełnej funkcjonaloności tego narzędzia.</translation>
     </message>
     <message>
         <location filename="" line="0"/>
         <source>Error: Invalid values entered, these are marked in red.</source>
-        <translation>Błąd: Wprowadzone niepoprawne dane, które są zaznaczone czerwonym kolorem.</translation>
+        <translation>Błąd: Wprowadzono niepoprawne dane, które są zaznaczone czerwonym kolorem.</translation>
     </message>
     <message>
         <location filename="" line="0"/>
@@ -224,7 +224,7 @@ Czy chcesz uzyskać więcej informacji?</translation>
     <message>
         <location filename="" line="0"/>
         <source>Direction right to left</source>
-        <translation>Kierunek - do prawej do lewej</translation>
+        <translation>Kierunek - od prawej do lewej</translation>
     </message>
     <message>
         <location filename="" line="0"/>
@@ -269,7 +269,7 @@ Czy chcesz uzyskać więcej informacji?</translation>
     <message>
         <location filename="" line="0"/>
         <source>Use CTRL+V on your keyboard to paste the text into the window.</source>
-        <translation>Użyj CTRL+V w celu wklejenia teksu w okno.</translation>
+        <translation>Użyj CTRL+V w celu wklejenia teksu do okna.</translation>
     </message>
     <message>
         <location filename="" line="0"/>
@@ -424,7 +424,7 @@ Czy chcesz uzyskać więcej informacji?</translation>
     <message>
         <location filename="" line="0"/>
         <source>Insert page break.</source>
-        <translation>Wprowaðź koniec strony.</translation>
+        <translation>Wprowadź koniec strony.</translation>
     </message>
     <message>
         <location filename="" line="0"/>
@@ -619,12 +619,12 @@ Czy chcesz uzyskać więcej informacji?</translation>
     <message>
         <location filename="" line="0"/>
         <source>Subscript</source>
-        <translation>Subskrybuj</translation>
+        <translation>Indeks dolny</translation>
     </message>
     <message>
         <location filename="" line="0"/>
         <source>Superscript</source>
-        <translation>Syperscript</translation>
+        <translation>Indeks górny</translation>
     </message>
     <message>
         <location filename="" line="0"/>
@@ -649,7 +649,7 @@ Czy chcesz uzyskać więcej informacji?</translation>
     <message>
         <location filename="" line="0"/>
         <source>Insert/edit anchor</source>
-        <translation>Dodaj/ edytuj zakotwiczenie</translation>
+        <translation>Dodaj/edytuj zakotwiczenie</translation>
     </message>
     <message>
         <location filename="" line="0"/>
@@ -694,12 +694,12 @@ Czy chcesz uzyskać więcej informacji?</translation>
     <message>
         <location filename="" line="0"/>
         <source>Jump to tool buttons - Alt+Q, Jump to editor - Alt-Z, Jump to element path - Alt-X</source>
-        <translation>Przejdź do przycisków narzędzi - Alt+Q, przejðź do edytora - Alt+Z, przejdź do ścieżki elmentu - Alt+X</translation>
+        <translation>Przejdź do przycisków narzędzi - Alt+Q, przejdź do edytora - Alt+Z, przejdź do ścieżki elmentu - Alt+X</translation>
     </message>
     <message>
         <location filename="" line="0"/>
         <source>Next</source>
-        <translation>Naśtępny</translation>
+        <translation>Następny</translation>
     </message>
     <message>
         <location filename="" line="0"/>
@@ -754,7 +754,7 @@ Czy chcesz uzyskać więcej informacji?</translation>
     <message>
         <location filename="" line="0"/>
         <source>HTML Source Editor</source>
-        <translation>Edyto kodu HTML</translation>
+        <translation>Edytor kodu HTML</translation>
     </message>
     <message>
         <location filename="" line="0"/>
@@ -1087,7 +1087,7 @@ Czy chcesz uzyskać więcej informacji?</translation>
     <message>
         <location filename="" line="0"/>
         <source>Insert an image from the related images list, upload a new image, search for an existing images or browse for it. To upload a local image choose the local file, specify the name of the new object, choose placement from list, optionally write some caption text (You can use simple html formating here) and then click &quot;Upload&quot; button.</source>
-        <translation>Wstaw zdjęcie z listy, wgraj nowe zdjęcie, wyszukaj istniejące zdjęcie lub przeglądaj je. W celu wgrania zdjęcia z komputera, wybierz lokalny plik, nadaj nazwę dla nwego obiektu, wybierz umiejscowienie  z  listy, opcjonalnie podaj opis (możesz użyć prostego formatowania html) i następnie kliknij w przycisk &quot;Wgraj&quot;.
+        <translation>Wstaw zdjęcie z listy, wgraj nowe zdjęcie, wyszukaj istniejące zdjęcie lub przeglądaj je. W celu wgrania zdjęcia z komputera, wybierz lokalny plik, nadaj nazwę dla nowego obiektu, wybierz umiejscowienie  z  listy, opcjonalnie podaj opis (możesz użyć prostego formatowania html) i następnie kliknij w przycisk &quot;Wgraj&quot;.
 </translation>
     </message>
     <message>
@@ -1113,7 +1113,7 @@ Czy chcesz uzyskać więcej informacji?</translation>
     <message>
         <location filename="" line="0"/>
         <source>Insert a pagebreak. This button is only enabled if you have a custom tag named pagebreak, template code to handle pagebreaks is not included in Online Editor.</source>
-        <translation>Wstaw łamanie strony. Ten przycisk jest aktywny tlko w przypadku zdefiniowania znacznika o nazwie &quot;pagebreak&quot;, kod szablonu dla łamania strony, nie jest zawarty w Edytorze Online.</translation>
+        <translation>Wstaw łamanie strony. Ten przycisk jest aktywny tylko w przypadku zdefiniowania znacznika o nazwie &quot;pagebreak&quot;, kod szablonu dla łamania strony, nie jest zawarty w Edytorze Online.</translation>
     </message>
     <message>
         <location filename="" line="0"/>
@@ -1148,7 +1148,7 @@ Czy chcesz uzyskać więcej informacji?</translation>
     <message>
         <location filename="" line="0"/>
         <source>Split the current table cell into two cells.</source>
-        <translation>Podziel zaznaczoną komórkę na na dwie komórki.</translation>
+        <translation>Podziel zaznaczoną komórkę na dwie komórki.</translation>
     </message>
     <message>
         <location filename="" line="0"/>
@@ -1168,7 +1168,7 @@ Czy chcesz uzyskać więcej informacji?</translation>
     <message>
         <location filename="" line="0"/>
         <source>Open this help window.</source>
-        <translation>Otwórz okono pomocy.</translation>
+        <translation>Otwórz okno pomocy.</translation>
     </message>
     <message>
         <location filename="" line="0"/>
@@ -1198,7 +1198,7 @@ Czy chcesz uzyskać więcej informacji?</translation>
     <message>
         <location filename="" line="0"/>
         <source>You can create a new line by holding the Shift key down and pressing Enter key.</source>
-        <translation>Możez utowrzyć nową linię, przez przetrzymanie klawisza Shift i wciśnięcie klawisza Enter.</translation>
+        <translation>Możez utworzyć nową linię, przez przetrzymanie klawisza Shift i wciśnięcie klawisza Enter.</translation>
     </message>
     <message>
         <location filename="" line="0"/>
@@ -1223,7 +1223,7 @@ Czy chcesz uzyskać więcej informacji?</translation>
     <message>
         <location filename="" line="0"/>
         <source>You can find more documentation in the doc folder of this extension and online on %link.</source>
-        <translation>Możesz znaleźć więcej dokumentacjiw katalogu doc w tym rozszerzeniu oraz na stronie %link.</translation>
+        <translation>Możesz znaleźć więcej dokumentacji w katalogu doc w tym rozszerzeniu oraz na stronie %link.</translation>
     </message>
 </context>
 <context>
