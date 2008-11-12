@@ -297,7 +297,7 @@ class eZDBFileHandler
             // Note: The while loop is used to make it easier to break out of the "read" code
             while ( true )
             {
-                if ( $retrieveCallback === null ) // No retrieve method so go directly to generate+store
+                if ( $retrieveCallback === null || !$fname ) // No retrieve method so go directly to generate+store
                     break;
 
                 $mtime = @filemtime( $fname );
@@ -433,7 +433,7 @@ class eZDBFileHandler
             // We need to lock if we have a generate-callback or
             // the generation is deferred to the caller.
             // Note: false means no generation
-            if ( $generateCallback !== false )
+            if ( $generateCallback !== false && $fname )
             {
                 // Lock the entry for exclusive access, if the entry does not exist
                 // it will be inserted with mtime=-1
@@ -568,6 +568,9 @@ class eZDBFileHandler
             $result = $binaryData;
         else
             $result = $fileContent;
+
+        if ( !$fname )
+            return $result;
 
         // Check if we are allowed to store the data, if not just return the result
         if ( !$store )
