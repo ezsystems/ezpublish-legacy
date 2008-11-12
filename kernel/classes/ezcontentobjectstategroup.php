@@ -338,7 +338,7 @@ class eZContentObjectStateGroup extends eZPersistentObject
     /**
      * Checks if all data is valid and can be stored to the database.
      *
-     * @param array $messages
+     * @param array &$messages
      * @return boolean true when valid, false when not valid
      * @see eZContentObjectStateGroup::store()
      */
