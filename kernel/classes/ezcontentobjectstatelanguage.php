@@ -9,9 +9,13 @@
  */
 
 /**
+ * This class takes care of the localization of a content object state.
+ *
+ * Instances of this class contain the name and description of a content object state in a specific language.
  *
  * @version //autogentag//
  * @package kernel
+ * @see eZContentObjectState
  */
 class eZContentObjectStateLanguage extends eZPersistentObject
 {

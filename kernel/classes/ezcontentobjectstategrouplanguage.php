@@ -9,9 +9,13 @@
  */
 
 /**
+ * This class takes care of the localization of a content object state group.
+ *
+ * Instances of this class contain the name and description of a content object state group in a specific language.
  *
  * @version //autogentag//
  * @package kernel
+ * @see eZContentObjectStateGroup
  */
 class eZContentObjectStateGroupLanguage extends eZPersistentObject
 {
@@ -44,11 +48,23 @@ class eZContentObjectStateGroupLanguage extends eZPersistentObject
         return $def;
     }
 
+    /**
+     * Retrieve the available languages of a content object state group by its numerical ID
+     *
+     * @param integer $id
+     * @return array an array of eZContentObjectStateGroupLanguage objects
+     */
     public static function fetchByGroup( $id )
     {
         return eZPersistentObject::fetchObjectList( eZContentObjectStateGroupLanguage::definition(), null, array( 'contentobject_state_group_id' => $id ) );
     }
 
+    /**
+     * Check if the data inside the content object state group language are valid and can be stored in the database
+     *
+     * @param array $messages
+     * @return boolean
+     */
     public function isValid( &$messages = array() )
     {
         $isValid = true;
@@ -67,11 +83,21 @@ class eZContentObjectStateGroupLanguage extends eZPersistentObject
         return $isValid;
     }
 
+    /**
+     * return the eZ Publish content language associated with this content object state group language
+     *
+     * @return eZContentLanguage
+     */
     public function language()
     {
         return eZContentLanguage::fetch( $this->LanguageID & ~1 );
     }
 
+    /**
+     * Return if this content object state group language has any data to store (= not empty)
+     *
+     * @return boolean
+     */
     public function hasData()
     {
         return ( isset( $this->Name) && trim( $this->Name ) != '' ) || ( isset( $this->Description ) && trim( $this->Description ) != '' );
