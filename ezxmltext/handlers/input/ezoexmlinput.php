@@ -714,7 +714,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
     /*!
      \private
-     \return the user input format for the given table cell
+     \return the user input format for the given list item
     */
     function &inputListXML( &$listNode, $currentSectionLevel, $listSectionLevel = null, $noParagraphs = true )
     {
@@ -731,7 +731,7 @@ class eZOEXMLInput extends eZXMLInputHandler
             case 'section' :
             {
                 $listSectionLevel += 1;
-                $output .= $this->inputSectionXML( $tdNode, $currentSectionLevel, $listSectionLevel );
+                $output .= $this->inputSectionXML( $listNode, $currentSectionLevel, $listSectionLevel );
             }break;
 
             default :
@@ -744,7 +744,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
     /*!
      \private
-     \return the user input format for the given section
+     \return the user input format for the given table cell
     */
     function &inputTdXML( &$tdNode, $currentSectionLevel, $tdSectionLevel = null )
     {
