@@ -1,6 +1,19 @@
 <?php
-// Persistent object class auto-generated
+/**
+ * File containing the eZContentObjectState class.
+ *
+ * @copyright Copyright (C) 2005-2008 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/gnu_gpl GNU GPL v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
+/**
+ * Class representing a content object state
+ *
+ * @version //autogentag//
+ * @package kernel
+ */
 class eZContentObjectState extends eZPersistentObject
 {
     function __construct( $row = array() )
@@ -46,6 +59,11 @@ class eZContentObjectState extends eZPersistentObject
         return $def;
     }
 
+    /**
+     * Fetches a content object state by its numerical ID.
+     * @param integer $id the numerical ID of the content object state
+     * @return eZContentObjectState|boolean an instance of eZContentObjectState, or false if the requested state does not exist
+     */
     public static function fetchById( $id )
     {
         $states = self::fetchByConditions( array( "ezcontentobject_state.id=$id" ), 1, 0 );
@@ -53,6 +71,14 @@ class eZContentObjectState extends eZPersistentObject
         return $state;
     }
 
+    /**
+     * Fetches a content object state by its identifier
+     * and group ID
+     *
+     * @param string $identifier the identifier of the content object state, which is unique per content object state group
+     * @param integer $groupID the numerical ID of the content object state group
+     * @return eZContentObjectState|boolean an instance of eZContentObjectState, or false if the requested state does not exist
+     */
     public static function fetchByIdentifier( $identifier, $groupID )
     {
         $db = eZDB::instance();
@@ -62,6 +88,17 @@ class eZContentObjectState extends eZPersistentObject
         return $state;
     }
 
+    /**
+     * Fetches content object states by conditions.
+     *
+     * The content object states are fetched in the right language, depending on the list of prioritized languages
+     * of the site access.
+     *
+     * @param $conditions
+     * @param $limit
+     * @param $offset
+     * @return array
+     */
     private static function fetchByConditions( $conditions, $limit, $offset )
     {
         $db = eZDB::instance();
@@ -96,21 +133,44 @@ class eZContentObjectState extends eZPersistentObject
         return $states;
     }
 
+    /**
+     * Fetches all content object states of a content object state group
+     *
+     * @param integer $groupID
+     * @param integer $limit
+     * @param integer $ofset
+     *
+     * @return array
+     */
     public static function fetchByGroup( $groupID, $limit = false, $offset = false )
     {
         return self::fetchByConditions( array( "ezcontentobject_state_group.id=$groupID" ), $limit, $offset );
     }
 
+    /**
+     * @param eZContentObjectStateLanguage $stateLanguage
+     */
     private function setLanguageObject( eZContentObjectStateLanguage $stateLanguage )
     {
         $this->LanguageObject = $stateLanguage;
     }
 
+    /**
+     * Return the current translation of the content object state
+     *
+     * @return eZContentObjectStateLanguage
+     */
     public function currentTranslation()
     {
         return $this->LanguageObject;
     }
 
+    /**
+     * Sets the current language
+     *
+     * @param string $locale the locale code
+     * @return boolean true if the language was found and set, false if the language was not found
+     */
     public function setCurrentLanguage( $locale )
     {
         $lang = eZContentLanguage::fetchByLocale( $locale );
@@ -127,9 +187,11 @@ class eZContentObjectState extends eZPersistentObject
         return false;
     }
 
-    /*!
-     \return an array of eZContentObjectStateLanguage objects, representing all possible translations
-    */
+    /**
+     *
+     * @return array an array of eZContentObjectStateLanguage objects, representing all possible
+     *         translations of this content object state
+     */
     public function allTranslations()
     {
         if ( !is_array( $this->AllTranslations ) )
@@ -162,6 +224,11 @@ class eZContentObjectState extends eZPersistentObject
         return $this->AllTranslations;
     }
 
+    /**
+     *
+     * @return an array of eZContentObjectStateLanguage objects, representing all available
+     *         translations of this content object state
+     */
     public function translations()
     {
         if ( !isset( $this->ID ) )
@@ -175,21 +242,20 @@ class eZContentObjectState extends eZPersistentObject
         return $this->Translations;
     }
 
-    /*!
-     \return the languages the state exists in.
-
-     Returns an array of eZContentLanguage instances.
-    */
+    /**
+     * Retrieves the languages this content object state is translated into
+     *
+     * @return array an array of eZContentLanguage instances
+     */
     public function languages()
     {
         return isset( $this->LanguageMask ) ? eZContentLanguage::prioritizedLanguagesByMask( $this->LanguageMask ) : array();
     }
 
-    /*!
-     \return the languages the state exists in.
-
-     Returns an array of language code strings.
-    */
+    /**
+     *
+     * @return array the languages the state exists in, as an array with language code strings.
+     */
     public function availableLanguages()
     {
         $languages = array();
@@ -203,9 +269,10 @@ class eZContentObjectState extends eZPersistentObject
         return $languages;
     }
 
-    /*!
-     \brief stores the state and all its translations
-    */
+    /**
+     * Stores the content object state and all its translations
+     *
+     */
     public function store( $fieldFilters = null )
     {
         if ( is_null( $fieldFilters ) )
@@ -295,11 +362,20 @@ class eZContentObjectState extends eZPersistentObject
         }
     }
 
+    /**
+     *
+     * @return int the numerical ID of the default language
+     */
     public function defaultLanguage()
     {
         return eZContentLanguage::fetch( $this->DefaultLanguageID );
     }
 
+    /**
+     * Checks if all data is valid and can be stored to the database
+     *
+     * @return boolean true when valid, false when not valid
+     */
     public function isValid( &$messages = array() )
     {
         $isValid = true;
@@ -354,6 +430,11 @@ class eZContentObjectState extends eZPersistentObject
         return $isValid;
     }
 
+    /**
+     * Get the list of content object states that is used to create the object state limitation list in the policy/edit view
+     *
+     * @return array
+     */
     public static function limitationList()
     {
         $sql = "SELECT g.identifier group_identifier, s.identifier state_identifier, s.priority, s.id \r\n" .
@@ -371,6 +452,12 @@ class eZContentObjectState extends eZPersistentObject
         return $limitationList;
     }
 
+    /**
+     * The defaults are cached in a static class variable, so subsequent calls to this method do not require
+     * queries to the database each time. To clear this cache use {@link eZContentObjectState::cleanDefaultsCache()}.
+     *
+     * @return array an array of all default content object states
+     */
     public static function defaults()
     {
         if ( !is_array( self::$Defaults ) )
@@ -381,6 +468,9 @@ class eZContentObjectState extends eZPersistentObject
         return self::$Defaults;
     }
 
+    /**
+     * Cleans the cache used by {@link eZContentObjectState::defaults()}.
+     */
     public static function cleanDefaultsCache()
     {
         self::$Defaults = null;
@@ -395,6 +485,13 @@ class eZContentObjectState extends eZPersistentObject
         eZHTTPPersistence::fetch( 'ContentObjectState' , eZContentObjectStateLanguage::definition(), $translations, $http, true );
     }
 
+    /**
+     * Removes a content object state by its numerical ID
+     *
+     * This method should not be used directly, instead use {@link eZContentObjectStateGroup::removeStatesByID()}.
+     *
+     * @param integer $id the numerical ID of the content object state
+     */
     public static function removeByID( $id )
     {
         $db = eZDB::instance();
@@ -405,6 +502,9 @@ class eZContentObjectState extends eZPersistentObject
         $db->commit();
     }
 
+    /**
+     * @return integer The count of objects that have this content object state
+     */
     public function objectCount()
     {
         $db = eZDB::instance();

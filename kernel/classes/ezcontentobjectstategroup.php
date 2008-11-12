@@ -1,5 +1,18 @@
 <?php
+/**
+ * File containing the eZContentObjectStateGroup class.
+ *
+ * @copyright Copyright (C) 2005-2008 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/gnu_gpl GNU GPL v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
+/**
+ *
+ * @version //autogentag//
+ * @package kernel
+ */
 class eZContentObjectStateGroup extends eZPersistentObject
 {
     function __construct( $row = array() )
