@@ -435,3 +435,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13514: Enabling CompileComments in site.ini / TemplateSettings leads to fatal error
 - Fixed bug #13822: standard "empty install" data files contain xml chunks in latin1 instead of utf8
 - Fixed bug #13910: Misspelled class name in eZScript
+- Fixed bug #12925: Preview in cluster mode

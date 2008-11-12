@@ -291,8 +291,7 @@ $res->setKeys( $designKeys );
 unset( $contentObject );
 $contentObject = $node->attribute( 'object' ); // do not remove &
 
-$Result = eZNodeviewfunctions::generateNodeView( $tpl, $node, $contentObject, $LanguageCode, 'full', 0,
-                                                 false, false, false );
+$Result = eZNodeviewfunctions::generateNodeViewData( $tpl, $node, $contentObject, $LanguageCode, 'full', 0, $viewParameters );
 
 $Result['requested_uri_string'] = $requestedURIString;
 $Result['ui_context'] = 'view';
