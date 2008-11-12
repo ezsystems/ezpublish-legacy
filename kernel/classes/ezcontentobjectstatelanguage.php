@@ -48,11 +48,23 @@ class eZContentObjectStateLanguage extends eZPersistentObject
         return $def;
     }
 
+    /**
+     *
+     *
+     * @param integer $id
+     * @return array
+     */
     public static function fetchByState( $id )
     {
         return eZPersistentObject::fetchObjectList( eZContentObjectStateLanguage::definition(), null, array( 'contentobject_state_id' => $id ) );
     }
 
+    /**
+     *
+     *
+     * @param array $messages
+     * @return boolean
+     */
     public function isValid( &$messages = array() )
     {
         $isValid = true;
@@ -71,11 +83,21 @@ class eZContentObjectStateLanguage extends eZPersistentObject
         return $isValid;
     }
 
+    /**
+     *
+     *
+     * @return eZContentLanguage
+     */
     public function language()
     {
         return eZContentLanguage::fetch( $this->LanguageID & ~1 );
     }
 
+    /**
+     *
+     *
+     * @return boolean
+     */
     public function hasData()
     {
         return ( isset( $this->Name) && trim( $this->Name ) != '' ) || ( isset( $this->Description ) && trim( $this->Description ) != '' );
