@@ -270,8 +270,12 @@ class eZContentObjectState extends eZPersistentObject
     }
 
     /**
-     * Stores the content object state and all its translations
+     * Stores the content object state and its translations.
      *
+     * Before storing a content object state, you should use
+     * {@link eZContentObjectState::isValid()} to check its validness.
+     *
+     * @param array $fieldFilters
      */
     public function store( $fieldFilters = null )
     {
@@ -372,9 +376,11 @@ class eZContentObjectState extends eZPersistentObject
     }
 
     /**
-     * Checks if all data is valid and can be stored to the database
+     * Checks if all data is valid and can be stored to the database.
      *
+     * @param array $messages
      * @return boolean true when valid, false when not valid
+     * @see eZContentObjectState::store()
      */
     public function isValid( &$messages = array() )
     {

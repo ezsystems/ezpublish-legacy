@@ -9,6 +9,7 @@
  */
 
 /**
+ * Class respresenting a content object state group
  *
  * @version //autogentag//
  * @package kernel
@@ -51,6 +52,12 @@ class eZContentObjectStateGroup extends eZPersistentObject
         return $def;
     }
 
+    /**
+     * Fetches a content object state group by its numerical ID
+     *
+     * @param integer $id
+     * @return eZContentObjectStateGroup|boolean
+     */
     public static function fetchById( $id )
     {
         $stateGroups = self::fetchByConditions( array( "ezcontentobject_state_group.id=$id" ), 1, 0 );
@@ -58,6 +65,12 @@ class eZContentObjectStateGroup extends eZPersistentObject
         return $stateGroup;
     }
 
+    /**
+     * Fetches a content object state group by its identifier
+     *
+     * @param string $identifier
+     * @return eZContentObjectStateGroup|boolean
+     */
     public static function fetchByIdentifier( $identifier )
     {
         $db = eZDB::instance();
@@ -67,6 +80,14 @@ class eZContentObjectStateGroup extends eZPersistentObject
         return $stateGroup;
     }
 
+    /**
+     * Fetches content object state groups by certain conditions
+     *
+     * @param array $conditions
+     * @param integer $limit
+     * @param integer $offset
+     * @return array
+     */
     private static function fetchByConditions( $conditions, $limit, $offset )
     {
         $db = eZDB::instance();
@@ -99,21 +120,44 @@ class eZContentObjectStateGroup extends eZPersistentObject
         return $stateGroups;
     }
 
+    /**
+     *
+     *
+     * @param int $limit
+     * @param int $offset
+     * @return array
+     */
     public static function fetchByOffset( $limit, $offset )
     {
         return self::fetchByConditions( array(), $limit, $offset );
     }
 
+    /**
+     *
+     *
+     * @param eZContentObjectStateGroupLanguage $stateGroupLanguage
+     */
     private function setLanguageObject( eZContentObjectStateGroupLanguage $stateGroupLanguage )
     {
         $this->LanguageObject = $stateGroupLanguage;
     }
 
+    /**
+     *
+     *
+     * @return eZContentObjectStateGroupLanguage
+     */
     public function currentTranslation()
     {
         return $this->LanguageObject;
     }
 
+    /**
+     *
+     *
+     * @param string $locale
+     * @return boolean
+     */
     public function setCurrentLanguage( $locale )
     {
         $lang = eZContentLanguage::fetchByLocale( $locale );
@@ -130,9 +174,11 @@ class eZContentObjectStateGroup extends eZPersistentObject
         return false;
     }
 
-    /*!
-     \return an array of eZContentObjectStateGroupLanguage objects, representing all possible translations
-    */
+    /**
+     *
+     *
+     * @return array
+     */
     public function allTranslations()
     {
         if ( !is_array( $this->AllTranslations ) )
@@ -167,6 +213,11 @@ class eZContentObjectStateGroup extends eZPersistentObject
         return $this->AllTranslations;
     }
 
+    /**
+     *
+     *
+     * @return array
+     */
     public function translations()
     {
         if ( !isset( $this->ID ) )
@@ -180,21 +231,21 @@ class eZContentObjectStateGroup extends eZPersistentObject
         return $this->Translations;
     }
 
-    /*!
-     \return the languages the state group exists in.
-
-     Returns an array of eZContentLanguage instances.
-    */
+    /**
+     * Get the languages the state group exists in.
+     *
+     * @return array an array of eZContentLanguage instances
+     */
     public function languages()
     {
         return isset( $this->LanguageMask ) ? eZContentLanguage::prioritizedLanguagesByMask( $this->LanguageMask ) : array();
     }
 
-    /*!
-     \return the languages the state group exists in.
-
-     Returns an array of language code strings.
-    */
+    /**
+     * Get the languages the state group exists in.
+     *
+     * @return array an array of language code strings.
+     */
     public function availableLanguages()
     {
         $languages = array();
@@ -208,9 +259,14 @@ class eZContentObjectStateGroup extends eZPersistentObject
         return $languages;
     }
 
-    /*!
-     \brief stores the state group and all its translations
-    */
+    /**
+     * Stores the content object state group and its translations.
+     *
+     * Before storing a content object state group, you should use
+     * {@link eZContentObjectStateGroup::isValid()} to check its validness.
+     *
+     * @param array $fieldFilters
+     */
     public function store( $fieldFilters = null )
     {
         $db = eZDB::instance();
@@ -269,11 +325,23 @@ class eZContentObjectStateGroup extends eZPersistentObject
         $db->commit();
     }
 
+    /**
+     *
+     *
+     * @return eZContentLanguage
+     */
     public function defaultLanguage()
     {
         return eZContentLanguage::fetch( $this->DefaultLanguageID );
     }
 
+    /**
+     * Checks if all data is valid and can be stored to the database.
+     *
+     * @param array $messages
+     * @return boolean true when valid, false when not valid
+     * @see eZContentObjectStateGroup::store()
+     */
     public function isValid( &$messages = array() )
     {
         $isValid = true;
@@ -328,6 +396,12 @@ class eZContentObjectStateGroup extends eZPersistentObject
         return $isValid;
     }
 
+    /**
+     *
+     *
+     * @param boolean $refreshMemberVariable
+     * @return array
+     */
     public function states( $refreshMemberVariable = false )
     {
         if ( !isset( $this->ID ) )
@@ -351,6 +425,11 @@ class eZContentObjectStateGroup extends eZPersistentObject
         eZHTTPPersistence::fetch( 'ContentObjectStateGroup' , eZContentObjectStateGroupLanguage::definition(), $translations, $http, true );
     }
 
+    /**
+     *
+     *
+     * @param integer $id
+     */
     public static function removeByID( $id )
     {
         $db = eZDB::instance();
@@ -365,6 +444,11 @@ class eZContentObjectStateGroup extends eZPersistentObject
         $db->commit();
     }
 
+    /**
+     *
+     *
+     * @param array $idList
+     */
     public function removeStatesByID( $idList )
     {
         $newDefaultStateID = null;
@@ -419,6 +503,12 @@ class eZContentObjectStateGroup extends eZPersistentObject
         $db->commit();
     }
 
+    /**
+     *
+     *
+     * @param array $stateIDList
+     * @return boolean
+     */
     public function reorderStates( $stateIDList )
     {
         $stateIDList = array_values( $stateIDList );
