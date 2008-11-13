@@ -1670,7 +1670,7 @@ class eZContentObject extends eZPersistentObject
         $db->query( "DELETE FROM ezcontentobject_name
              WHERE contentobject_id='$delID'" );
 
-        $db->query( "DELETE FROM ezcontentobject_state_link WHERE contentobject_id=$delID" );
+        $db->query( "DELETE FROM ezcobj_state_link WHERE contentobject_id=$delID" );
 
         $db->query( "DELETE FROM ezcontentobject
              WHERE id='$delID'" );
@@ -5779,7 +5779,7 @@ class eZContentObject extends eZPersistentObject
         $db = eZDB::instance();
         if ( $access['accessWord'] == 'yes' )
         {
-            $allowedStateIDList = $db->arrayQuery( 'SELECT id from ezcontentobject_state', array( 'column' => 'id' ) );
+            $allowedStateIDList = $db->arrayQuery( 'SELECT id from ezcobj_state', array( 'column' => 'id' ) );
         }
         else if ( $access['accessWord'] == 'limited' )
         {
@@ -5808,7 +5808,7 @@ class eZContentObject extends eZPersistentObject
                 }
                 else
                 {
-                    $allowedStateIDList = $db->arrayQuery( 'SELECT id from ezcontentobject_state', array( 'column' => id ) );
+                    $allowedStateIDList = $db->arrayQuery( 'SELECT id from ezcobj_state', array( 'column' => id ) );
                     break;
                 }
             }
@@ -5859,7 +5859,7 @@ class eZContentObject extends eZPersistentObject
     function stateIDArray()
     {
         $return = array();
-        $sql = "SELECT contentobject_state_id FROM ezcontentobject_state_link WHERE contentobject_id=" . $this->ID;
+        $sql = "SELECT contentobject_state_id FROM ezcobj_state_link WHERE contentobject_id=" . $this->ID;
         $db = eZDB::instance();
         $rows = $db->arrayQuery( $sql );
         foreach ( $rows as $row )
@@ -5873,7 +5873,7 @@ class eZContentObject extends eZPersistentObject
     {
         $return = array();
         $sql = "SELECT l.contentobject_state_id, s.identifier AS state_identifier, g.identifier AS state_group_identifier
-                FROM ezcontentobject_state_link l, ezcontentobject_state s, ezcontentobject_state_group g
+                FROM ezcobj_state_link l, ezcobj_state s, ezcobj_state_group g
                 WHERE l.contentobject_id={$this->ID} AND
                       s.id=l.contentobject_state_id AND
                       g.id=s.group_id";
@@ -5894,13 +5894,13 @@ class eZContentObject extends eZPersistentObject
         $db = eZDB::instance();
         $db->begin();
         // remove existing state of this object that is in the same state group as the new state
-        $db->query( "DELETE FROM ezcontentobject_state_link
+        $db->query( "DELETE FROM ezcobj_state_link
                      WHERE contentobject_id=$contentObjectID
-                     AND contentobject_state_id IN( SELECT id FROM ezcontentobject_state WHERE group_id=$groupID )"  );
+                     AND contentobject_state_id IN( SELECT id FROM ezcobj_state WHERE group_id=$groupID )"  );
 
         // add new state
         $stateID = $state->attribute( 'id' );
-        $sql = "INSERT INTO ezcontentobject_state_link(contentobject_id, contentobject_state_id) VALUES($contentObjectID, $stateID)";
+        $sql = "INSERT INTO ezcobj_state_link(contentobject_id, contentobject_state_id) VALUES($contentObjectID, $stateID)";
         $db->query( $sql );
         $db->commit();
     }

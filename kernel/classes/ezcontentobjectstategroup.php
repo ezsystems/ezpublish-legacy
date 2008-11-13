@@ -50,7 +50,7 @@ class eZContentObjectStateGroup extends eZPersistentObject
                       "increment_key" => "id",
                       "class_name" => "eZContentObjectStateGroup",
                       "sort" => array( "identifier" => "asc" ),
-                      "name" => "ezcontentobject_state_group" );
+                      "name" => "ezcobj_state_group" );
         return $def;
     }
 
@@ -62,7 +62,7 @@ class eZContentObjectStateGroup extends eZPersistentObject
      */
     public static function fetchById( $id )
     {
-        $stateGroups = self::fetchByConditions( array( "ezcontentobject_state_group.id=$id" ), 1, 0 );
+        $stateGroups = self::fetchByConditions( array( "ezcobj_state_group.id=$id" ), 1, 0 );
         $stateGroup = count( $stateGroups ) > 0 ? $stateGroups[0] : false;
         return $stateGroup;
     }
@@ -77,7 +77,7 @@ class eZContentObjectStateGroup extends eZPersistentObject
     {
         $db = eZDB::instance();
         $identifier = $db->escapeString( $identifier );
-        $stateGroups = self::fetchByConditions( array( "ezcontentobject_state_group.identifier='$identifier'" ), 1, 0 );
+        $stateGroups = self::fetchByConditions( array( "ezcobj_state_group.identifier='$identifier'" ), 1, 0 );
         $stateGroup = count( $stateGroups ) > 0 ? $stateGroups[0] : false;
         return $stateGroup;
     }
@@ -95,9 +95,9 @@ class eZContentObjectStateGroup extends eZPersistentObject
         $db = eZDB::instance();
 
         $defaultConditions = array(
-            'ezcontentobject_state_group_language.contentobject_state_group_id=ezcontentobject_state_group.id',
-            eZContentLanguage::languagesSQLFilter( 'ezcontentobject_state_group' ),
-            eZContentLanguage::sqlFilter( 'ezcontentobject_state_group_language', 'ezcontentobject_state_group' )
+            'ezcobj_state_group_language.contentobject_state_group_id=ezcobj_state_group.id',
+            eZContentLanguage::languagesSQLFilter( 'ezcobj_state_group' ),
+            eZContentLanguage::sqlFilter( 'ezcobj_state_group_language', 'ezcobj_state_group' )
         );
 
         $conditions = array_merge( $conditions, $defaultConditions );
@@ -105,7 +105,7 @@ class eZContentObjectStateGroup extends eZPersistentObject
         $conditionsSQL = implode( ' AND ', $conditions );
 
         $sql = "SELECT * \r\n" .
-               "FROM ezcontentobject_state_group, ezcontentobject_state_group_language \r\n".
+               "FROM ezcobj_state_group, ezcobj_state_group_language \r\n".
                "WHERE $conditionsSQL";
 
         $rows = $db->arrayQuery( $sql, array( 'limit' => $limit, 'offset' => $offset ) );
@@ -494,7 +494,7 @@ class eZContentObjectStateGroup extends eZPersistentObject
             {
                 $contentObjectStateIDCondition = $removeIDListCount > 1 ? $db->generateSQLInStatement( $removeIDList, 'contentobject_state_id' ) :
                                                                           "contentobject_state_id=$removeIDList[0]";
-                $db->query( "UPDATE ezcontentobject_state_link
+                $db->query( "UPDATE ezcobj_state_link
                              SET contentobject_state_id=$newDefaultStateID
                              WHERE $contentObjectStateIDCondition" );
                 eZContentObjectState::cleanDefaultsCache();
@@ -555,7 +555,7 @@ class eZContentObjectStateGroup extends eZPersistentObject
         {
             if ( $currentStateIDList[$i] != $updateID )
             {
-                $db->query( "UPDATE ezcontentobject_state SET priority=$i WHERE id=$updateID" );
+                $db->query( "UPDATE ezcobj_state SET priority=$i WHERE id=$updateID" );
             }
         }
         $db->commit();

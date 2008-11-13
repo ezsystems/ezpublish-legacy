@@ -675,7 +675,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $stateLinkAlias = "sl$stateJoinCount";
                             $sortingFields .= "$stateAlias.priority";
                             $datatypeSortingTargetSQL .= ", $stateAlias.priority";
-                            $attributeFromSQL .= ", ezcontentobject_state $stateAlias, ezcontentobject_state_link $stateLinkAlias";
+                            $attributeFromSQL .= ", ezcobj_state $stateAlias, ezcobj_state_link $stateLinkAlias";
                             $attributeWhereSQL .= "$stateLinkAlias.contentobject_id=$treeTableName.contentobject_id AND
                                                    $stateLinkAlias.contentobject_state_id=$stateAlias.id AND
                                                    $stateAlias.group_id=$stateGroupID AND ";
@@ -967,7 +967,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                 if ( ( $filterCount - $sortingInfo['sortCount'] ) > 0 )
                                     $attibuteFilterJoinSQL .= " $filterJoinType ";
 
-                                $attibuteFilterJoinSQL .= "ezcontentobject.id $filterOperator (SELECT contentobject_id FROM ezcontentobject_state_link WHERE $subQueryCondition)";
+                                $attibuteFilterJoinSQL .= "ezcontentobject.id $filterOperator (SELECT contentobject_id FROM ezcobj_state_link WHERE $subQueryCondition)";
 
                                 $filterCount++;
                                 $justFilterCount++;
@@ -1557,7 +1557,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             }
                             else
                             {
-                                $statePermTempTable = $db->generateUniqueTempTableName( 'ezcontentobject_state_perm_tmp_%' );
+                                $statePermTempTable = $db->generateUniqueTempTableName( 'ezcobj_state_perm_tmp_%' );
                                 $statePermTempTables[$key] = $statePermTempTable;
                                 $sqlPermissionTempTables[] = $statePermTempTable;
 
@@ -1566,7 +1566,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                 $condition = $db->generateSQLINStatement( $limitationArray[$ident], 'contentobject_state_id' );
                                 $db->query( "INSERT INTO $statePermTempTable
                                                  SELECT DISTINCT contentobject_id
-                                                 FROM ezcontentobject_state_link
+                                                 FROM ezcobj_state_link
                                                  WHERE $condition",
                                             eZDBInterface::SERVER_SLAVE );
 

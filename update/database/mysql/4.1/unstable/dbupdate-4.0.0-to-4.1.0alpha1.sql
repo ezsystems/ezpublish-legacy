@@ -24,7 +24,7 @@ ALTER TABLE ezurlalias_ml ADD alias_redirects int(11) NOT NULL default 1;
 
 ALTER TABLE ezbinaryfile MODIFY COLUMN mime_type VARCHAR(255) NOT NULL;
 
-CREATE TABLE ezcontentobject_state (
+CREATE TABLE ezcobj_state (
   default_language_id int(10) NOT NULL default '0',
   group_id int(10) NOT NULL default '0',
   id int(11) NOT NULL auto_increment,
@@ -32,19 +32,19 @@ CREATE TABLE ezcontentobject_state (
   language_mask int(10) NOT NULL default '0',
   priority int(10) NOT NULL default '0',
   PRIMARY KEY  (id),
-  UNIQUE KEY ezcontentobject_state_identifier (group_id,identifier)
+  UNIQUE KEY ezcobj_state_identifier (group_id,identifier)
 );
 
-CREATE TABLE ezcontentobject_state_group (
+CREATE TABLE ezcobj_state_group (
   default_language_id int(10) NOT NULL default '0',
   id int(11) NOT NULL auto_increment,
   identifier varchar(45) NOT NULL default '',
   language_mask int(10) NOT NULL default '0',
   PRIMARY KEY  (id),
-  UNIQUE KEY ezcontentobject_state_group_identifier (identifier)
+  UNIQUE KEY ezcobj_state_group_identifier (identifier)
 );
 
-CREATE TABLE ezcontentobject_state_group_language (
+CREATE TABLE ezcobj_state_group_language (
   contentobject_state_group_id int(10) NOT NULL default '0',
   description longtext NOT NULL,
   language_id int(10) NOT NULL default '0',
@@ -52,7 +52,7 @@ CREATE TABLE ezcontentobject_state_group_language (
   PRIMARY KEY  (language_id,contentobject_state_group_id)
 );
 
-CREATE TABLE ezcontentobject_state_language (
+CREATE TABLE ezcobj_state_language (
   contentobject_state_id int(10) NOT NULL default '0',
   description longtext NOT NULL,
   language_id int(10) NOT NULL default '0',
@@ -60,7 +60,7 @@ CREATE TABLE ezcontentobject_state_language (
   PRIMARY KEY  (contentobject_state_id,language_id)
 );
 
-CREATE TABLE ezcontentobject_state_link (
+CREATE TABLE ezcobj_state_link (
   contentobject_id int(10) NOT NULL default '0',
   contentobject_state_id int(10) NOT NULL default '0',
   PRIMARY KEY  (contentobject_id,contentobject_state_id)

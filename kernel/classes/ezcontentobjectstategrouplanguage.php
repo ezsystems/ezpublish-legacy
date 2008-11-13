@@ -44,7 +44,7 @@ class eZContentObjectStateGroupLanguage extends eZPersistentObject
                       "increment_key" => false,
                       "class_name" => "eZContentObjectStateGroupLanguage",
                       "sort" => array(),
-                      "name" => "ezcontentobject_state_group_language" );
+                      "name" => "ezcobj_state_group_language" );
         return $def;
     }
 

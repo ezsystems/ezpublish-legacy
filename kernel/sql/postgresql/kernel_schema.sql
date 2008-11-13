@@ -217,7 +217,7 @@ CREATE SEQUENCE ezcontentobject_link_s
 
 
 
-CREATE SEQUENCE ezcontentobject_state_s
+CREATE SEQUENCE ezcobj_state_s
     START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
@@ -230,7 +230,7 @@ CREATE SEQUENCE ezcontentobject_state_s
 
 
 
-CREATE SEQUENCE ezcontentobject_state_group_s
+CREATE SEQUENCE ezcobj_state_group_s
     START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
@@ -1502,10 +1502,10 @@ CREATE TABLE ezcontentobject_name (
 
 
 
-CREATE TABLE ezcontentobject_state (
+CREATE TABLE ezcobj_state (
     default_language_id integer DEFAULT 0 NOT NULL,
     group_id integer DEFAULT 0 NOT NULL,
-    id integer DEFAULT nextval('ezcontentobject_state_s'::text) NOT NULL,
+    id integer DEFAULT nextval('ezcobj_state_s'::text) NOT NULL,
     identifier character varying(45) DEFAULT ''::character varying NOT NULL,
     language_mask integer DEFAULT 0 NOT NULL,
     priority integer DEFAULT 0 NOT NULL
@@ -1517,9 +1517,9 @@ CREATE TABLE ezcontentobject_state (
 
 
 
-CREATE TABLE ezcontentobject_state_group (
+CREATE TABLE ezcobj_state_group (
     default_language_id integer DEFAULT 0 NOT NULL,
-    id integer DEFAULT nextval('ezcontentobject_state_group_s'::text) NOT NULL,
+    id integer DEFAULT nextval('ezcobj_state_group_s'::text) NOT NULL,
     identifier character varying(45) DEFAULT ''::character varying NOT NULL,
     language_mask integer DEFAULT 0 NOT NULL
 );
@@ -1530,7 +1530,7 @@ CREATE TABLE ezcontentobject_state_group (
 
 
 
-CREATE TABLE ezcontentobject_state_group_language (
+CREATE TABLE ezcobj_state_group_language (
     contentobject_state_group_id integer DEFAULT 0 NOT NULL,
     description text NOT NULL,
     language_id integer DEFAULT 0 NOT NULL,
@@ -1543,7 +1543,7 @@ CREATE TABLE ezcontentobject_state_group_language (
 
 
 
-CREATE TABLE ezcontentobject_state_language (
+CREATE TABLE ezcobj_state_language (
     contentobject_state_id integer DEFAULT 0 NOT NULL,
     description text NOT NULL,
     language_id integer DEFAULT 0 NOT NULL,
@@ -1556,7 +1556,7 @@ CREATE TABLE ezcontentobject_state_language (
 
 
 
-CREATE TABLE ezcontentobject_state_link (
+CREATE TABLE ezcobj_state_link (
     contentobject_id integer DEFAULT 0 NOT NULL,
     contentobject_state_id integer DEFAULT 0 NOT NULL
 );
@@ -3036,7 +3036,7 @@ CREATE INDEX ezcontentobject_name_name ON ezcontentobject_name USING btree (name
 
 
 
-CREATE UNIQUE INDEX ezcontentobject_state_identifier ON ezcontentobject_state USING btree (group_id, identifier);
+CREATE UNIQUE INDEX ezcobj_state_identifier ON ezcobj_state USING btree (group_id, identifier);
 
 
 
@@ -3044,7 +3044,7 @@ CREATE UNIQUE INDEX ezcontentobject_state_identifier ON ezcontentobject_state US
 
 
 
-CREATE UNIQUE INDEX ezcontentobject_state_group_identifier ON ezcontentobject_state_group USING btree (identifier);
+CREATE UNIQUE INDEX ezcobj_state_group_identifier ON ezcobj_state_group USING btree (identifier);
 
 
 
@@ -4037,8 +4037,8 @@ ALTER TABLE ONLY ezcontentobject_name
 
 
 
-ALTER TABLE ONLY ezcontentobject_state
-    ADD CONSTRAINT ezcontentobject_state_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY ezcobj_state
+    ADD CONSTRAINT ezcobj_state_pkey PRIMARY KEY (id);
 
 
 
@@ -4046,8 +4046,8 @@ ALTER TABLE ONLY ezcontentobject_state
 
 
 
-ALTER TABLE ONLY ezcontentobject_state_group
-    ADD CONSTRAINT ezcontentobject_state_group_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY ezcobj_state_group
+    ADD CONSTRAINT ezcobj_state_group_pkey PRIMARY KEY (id);
 
 
 
@@ -4055,8 +4055,8 @@ ALTER TABLE ONLY ezcontentobject_state_group
 
 
 
-ALTER TABLE ONLY ezcontentobject_state_group_language
-    ADD CONSTRAINT ezcontentobject_state_group_language_pkey PRIMARY KEY (language_id, contentobject_state_group_id);
+ALTER TABLE ONLY ezcobj_state_group_language
+    ADD CONSTRAINT ezcobj_state_group_language_pkey PRIMARY KEY (language_id, contentobject_state_group_id);
 
 
 
@@ -4064,8 +4064,8 @@ ALTER TABLE ONLY ezcontentobject_state_group_language
 
 
 
-ALTER TABLE ONLY ezcontentobject_state_language
-    ADD CONSTRAINT ezcontentobject_state_language_pkey PRIMARY KEY (contentobject_state_id, language_id);
+ALTER TABLE ONLY ezcobj_state_language
+    ADD CONSTRAINT ezcobj_state_language_pkey PRIMARY KEY (contentobject_state_id, language_id);
 
 
 
@@ -4073,8 +4073,8 @@ ALTER TABLE ONLY ezcontentobject_state_language
 
 
 
-ALTER TABLE ONLY ezcontentobject_state_link
-    ADD CONSTRAINT ezcontentobject_state_link_pkey PRIMARY KEY (contentobject_id, contentobject_state_id);
+ALTER TABLE ONLY ezcobj_state_link
+    ADD CONSTRAINT ezcobj_state_link_pkey PRIMARY KEY (contentobject_id, contentobject_state_id);
 
 
 

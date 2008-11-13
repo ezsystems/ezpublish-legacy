@@ -44,7 +44,7 @@ class eZContentObjectStateLanguage extends eZPersistentObject
                       "increment_key" => false,
                       "class_name" => "eZContentObjectStateLanguage",
                       "sort" => array(),
-                      "name" => "ezcontentobject_state_language" );
+                      "name" => "ezcobj_state_language" );
         return $def;
     }
 

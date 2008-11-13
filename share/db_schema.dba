@@ -1968,9 +1968,9 @@ $schema = array (
       ),
     ),
   ),
-  'ezcontentobject_state' => 
+  'ezcobj_state' => 
   array (
-    'name' => 'ezcontentobject_state',
+    'name' => 'ezcobj_state',
     'fields' => 
     array (
       'default_language_id' => 
@@ -2024,7 +2024,7 @@ $schema = array (
           0 => 'id',
         ),
       ),
-      'ezcontentobject_state_identifier' => 
+      'ezcobj_state_identifier' => 
       array (
         'type' => 'unique',
         'fields' => 
@@ -2035,9 +2035,9 @@ $schema = array (
       ),
     ),
   ),
-  'ezcontentobject_state_group' => 
+  'ezcobj_state_group' => 
   array (
-    'name' => 'ezcontentobject_state_group',
+    'name' => 'ezcobj_state_group',
     'fields' => 
     array (
       'default_language_id' => 
@@ -2077,7 +2077,7 @@ $schema = array (
           0 => 'id',
         ),
       ),
-      'ezcontentobject_state_group_identifier' => 
+      'ezcobj_state_group_identifier' => 
       array (
         'type' => 'unique',
         'fields' => 
@@ -2087,9 +2087,9 @@ $schema = array (
       ),
     ),
   ),
-  'ezcontentobject_state_group_language' => 
+  'ezcobj_state_group_language' => 
   array (
-    'name' => 'ezcontentobject_state_group_language',
+    'name' => 'ezcobj_state_group_language',
     'fields' => 
     array (
       'contentobject_state_group_id' => 
@@ -2133,9 +2133,9 @@ $schema = array (
       ),
     ),
   ),
-  'ezcontentobject_state_language' => 
+  'ezcobj_state_language' => 
   array (
-    'name' => 'ezcontentobject_state_language',
+    'name' => 'ezcobj_state_language',
     'fields' => 
     array (
       'contentobject_state_id' => 
@@ -2179,9 +2179,9 @@ $schema = array (
       ),
     ),
   ),
-  'ezcontentobject_state_link' => 
+  'ezcobj_state_link' => 
   array (
-    'name' => 'ezcontentobject_state_link',
+    'name' => 'ezcobj_state_link',
     'fields' => 
     array (
       'contentobject_id' => 
