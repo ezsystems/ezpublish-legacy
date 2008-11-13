@@ -960,7 +960,7 @@ CREATE TABLE ezorder_item (
   order_id int(11) NOT NULL default '0',
   price float default NULL,
   type varchar(30) default NULL,
-  vat_value int(11) NOT NULL default '0',
+  vat_value float NOT NULL default '0',
   PRIMARY KEY  (id),
   KEY ezorder_item_order_id (order_id),
   KEY ezorder_item_type (type)

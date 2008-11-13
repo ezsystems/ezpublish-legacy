@@ -68,3 +68,5 @@ CREATE TABLE ezcontentobject_state_link (
 
 ALTER TABLE ezforgot_password ADD INDEX ezforgot_password_user(user_id);
 
+ALTER TABLE ezorder_item CHANGE vat_value vat_value FLOAT NOT NULL default 0;
+

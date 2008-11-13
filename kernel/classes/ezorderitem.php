@@ -70,7 +70,7 @@ class eZOrderItem extends eZPersistentObject
                                                            'default' => 0,
                                                            'required' => true ),
                                          'vat_value' => array( 'name' => 'VATValue',
-                                                               'datatype' => 'integer',
+                                                               'datatype' => 'float',
                                                                'default' => 0,
                                                                'required' => true ),
                                          'is_vat_inc' => array( 'name' => 'IsVATIncluded',

@@ -95,3 +95,7 @@ ALTER TABLE ONLY ezcontentobject_state_link
     
 CREATE INDEX ezforgot_password_user ON ezforgot_password USING btree (user_id);
 
+ALTER TABLE ezorder_item ALTER COLUMN vat_value TYPE double precision;
+ALTER TABLE ezorder_item ALTER COLUMN vat_value SET DEFAULT 0;
+ALTER TABLE ezorder_item ALTER COLUMN vat_value SET NOT NULL;
+
