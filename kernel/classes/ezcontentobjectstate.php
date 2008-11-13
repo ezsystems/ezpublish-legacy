@@ -482,6 +482,13 @@ class eZContentObjectState extends eZPersistentObject
         self::$Defaults = null;
     }
 
+    /**
+     * Fetches the HTTP persistent variables for this content object state and its localizations.
+     *
+     * "ContentObjectState" is used as base name for the persistent variables.
+     *
+     * @see eZHTTPPersistence
+     */
     public function fetchHTTPPersistentVariables()
     {
         $translations = $this->allTranslations();

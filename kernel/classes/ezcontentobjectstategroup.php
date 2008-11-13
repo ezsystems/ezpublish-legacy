@@ -416,6 +416,13 @@ class eZContentObjectStateGroup extends eZPersistentObject
         return $this->States;
     }
 
+    /**
+     * Fetches the HTTP persistent variables for this content object state group and its localizations.
+     *
+     * "ContentObjectStateGroup" is used as base name for the persistent variables.
+     *
+     * @see eZHTTPPersistence
+     */
     public function fetchHTTPPersistentVariables()
     {
         $translations = $this->allTranslations();
