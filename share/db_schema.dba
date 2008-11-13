@@ -4297,8 +4297,7 @@ $schema = array (
       ),
       'vat_value' => 
       array (
-        'length' => 11,
-        'type' => 'int',
+        'type' => 'float',
         'not_null' => '1',
         'default' => 0,
       ),

@@ -1981,7 +1981,7 @@ CREATE TABLE ezorder_item (
     order_id integer DEFAULT 0 NOT NULL,
     price double precision,
     "type" character varying(30),
-    vat_value integer DEFAULT 0 NOT NULL
+    vat_value double precision DEFAULT 0::double precision NOT NULL
 );
 
 
