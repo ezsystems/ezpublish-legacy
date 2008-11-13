@@ -604,7 +604,7 @@ Vil du vite mer om dette?</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Vis</translation>
+        <translation>Visning</translation>
     </message>
     <message>
         <source>Inline</source>
