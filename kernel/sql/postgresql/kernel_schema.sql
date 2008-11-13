@@ -3196,6 +3196,14 @@ CREATE INDEX ezenumvalue_co_cl_attr_id_co_class_att_ver ON ezenumvalue USING btr
 
 
 
+CREATE INDEX ezforgot_password_user ON ezforgot_password USING btree (user_id);
+
+
+
+
+
+
+
 CREATE UNIQUE INDEX ezgeneral_digest_user_settings_address ON ezgeneral_digest_user_settings USING btree (address);
 
 

@@ -643,7 +643,8 @@ CREATE TABLE ezforgot_password (
   id int(11) NOT NULL auto_increment,
   time int(11) NOT NULL default '0',
   user_id int(11) NOT NULL default '0',
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (id),
+  KEY ezforgot_password_user (user_id)
 ) TYPE=InnoDB;
 
 
