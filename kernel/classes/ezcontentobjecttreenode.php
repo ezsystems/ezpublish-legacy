@@ -2716,7 +2716,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    static function updateMainNodeID( $mainNodeID, $objectID, $version = false, $parentMainNodeID )
+    static function updateMainNodeID( $mainNodeID, $objectID, $version = false, $parentMainNodeID, $updateSection = true )
     {
         $mainNodeID = (int)$mainNodeID;
         $parentMainNodeID = (int)$parentMainNodeID;
@@ -2736,7 +2736,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $contentObject = eZContentObject::fetch( $objectID );
         $parentContentObject = eZContentObject::fetchByNodeID( $parentMainNodeID );
-        if ( $contentObject->attribute( 'section_id' ) != $parentContentObject->attribute( 'section_id' ) )
+        if ( $updateSection && $contentObject->attribute( 'section_id' ) != $parentContentObject->attribute( 'section_id' ) )
         {
             $newSectionID = $parentContentObject->attribute( 'section_id' );
             eZContentObjectTreeNode::assignSectionToSubTree( $mainNodeID, $newSectionID );

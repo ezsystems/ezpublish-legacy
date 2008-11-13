@@ -5051,6 +5051,8 @@ class eZContentObject extends eZPersistentObject
             // Make sure always available bit is set.
             $contentObject->setAttribute( 'language_mask', (int)$contentObject->attribute( 'language_mask' ) | 1 );
         }
+
+        $contentObject->setAttribute( 'section_id', $sectionID );
         $contentObject->store();
         $activeVersion = false;
         $lastVersion = false;
@@ -5114,10 +5116,12 @@ class eZContentObject extends eZPersistentObject
                 $existingMainNode = eZContentObjectTreeNode::fetchByRemoteID( $mainNodeInfo['parent_remote_id'], false );
                 if ( $existingMainNode )
                 {
+                    $updateSection = false;
                     eZContentObjectTreeNode::updateMainNodeID( $existingMainNode['node_id'],
                                                                $mainNodeInfo['contentobject_id'],
                                                                $mainNodeInfo['contentobject_version'],
-                                                               $mainNodeInfo['parent_node'] );
+                                                               $mainNodeInfo['parent_node'],
+                                                               $updateSection );
                 }
             }
             unset( $mainNodeInfo );
