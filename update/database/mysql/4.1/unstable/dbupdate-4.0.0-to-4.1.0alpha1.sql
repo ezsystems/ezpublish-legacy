@@ -65,3 +65,6 @@ CREATE TABLE ezcontentobject_state_link (
   contentobject_state_id int(10) NOT NULL default '0',
   PRIMARY KEY  (contentobject_id,contentobject_state_id)
 );
+
+ALTER TABLE ezforgot_password ADD INDEX ezforgot_password_user(user_id);
+

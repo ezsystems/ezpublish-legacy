@@ -3032,6 +3032,14 @@ $schema = array (
           0 => 'id',
         ),
       ),
+      'ezforgot_password_user' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'user_id',
+        ),
+      ),
     ),
   ),
   'ezgeneral_digest_user_settings' => 

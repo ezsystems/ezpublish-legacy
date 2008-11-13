@@ -92,3 +92,6 @@ ALTER TABLE ONLY ezcontentobject_state_language
 
 ALTER TABLE ONLY ezcontentobject_state_link
     ADD CONSTRAINT ezcontentobject_state_link_pkey PRIMARY KEY (contentobject_id, contentobject_state_id);
+    
+CREATE INDEX ezforgot_password_user ON ezforgot_password USING btree (user_id);
+

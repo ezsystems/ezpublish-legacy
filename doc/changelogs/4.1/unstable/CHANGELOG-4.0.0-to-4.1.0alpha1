@@ -66,6 +66,7 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Implemented enhancement #13832: Static caching system should not check existance of directories twice
 - Implemented enhancement #12753: eZRSSExport: Missing atom self link
 - Implemented enhancement #12226: Add guid element to RSS item
+- Implemented enhancement #12704: missing index table ezforgot_password
 
 
 *Design:
