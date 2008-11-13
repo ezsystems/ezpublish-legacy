@@ -25,7 +25,7 @@ else if ( $currentAction =='Edit' )
 }
 else if ( $currentAction == 'Create' )
 {
-    $state = new eZContentObjectState( array( 'group_id' => $GroupID ) );
+    $state = $stateGroup->newState();
 
     $state->fetchHTTPPersistentVariables();
 

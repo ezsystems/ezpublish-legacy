@@ -547,6 +547,16 @@ class eZContentObjectStateGroup extends eZPersistentObject
         return true;
     }
 
+    /**
+     * Creates a new content object state in this content object state group
+     *
+     * @return eZContentObjectState the new content object state
+     */
+    public function newState()
+    {
+        return new eZContentObjectState( array( 'group_id' => $this->ID ) );
+    }
+
     private $LanguageObject;
     private $Translations;
     private $AllTranslations;
