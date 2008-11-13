@@ -16,6 +16,8 @@
  */
 class eZContentObjectState extends eZPersistentObject
 {
+    const MAX_IDENTIFIER_LENGTH = 45;
+
     function __construct( $row = array() )
     {
         $this->eZPersistentObject( $row );
@@ -32,7 +34,7 @@ class eZContentObjectState extends eZPersistentObject
                                          "identifier" => array( "name" => "Identifier",
                                                                 "datatype" => "string",
                                                                 "required" => true,
-                                                                "max_length" => 45 ),
+                                                                "max_length" => self::MAX_IDENTIFIER_LENGTH ),
                                          "language_mask" => array( "name" => "LanguageMask",
                                                                    "datatype" => "integer",
                                                                    "default" => 0,
@@ -400,6 +402,12 @@ class eZContentObjectState extends eZPersistentObject
             {
                 // invalid identifier
                 $messages[] = ezi18n( 'kernel/state/edit', 'Identifier: invalid, it can only consist of characters in the range a-z, 0-9 and underscore.' );
+                $isValid = false;
+            }
+            else if ( strlen( $this->Identifier ) > self::MAX_IDENTIFIER_LENGTH )
+            {
+                $messages[] = ezi18n( 'kernel/state/edit', 'Identifier: invalid, maximum %max characters allowed.',
+                                      null, array( '%max' => self::MAX_IDENTIFIER_LENGTH ) );
                 $isValid = false;
             }
             else if ( isset( $this->GroupID ) )
