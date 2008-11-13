@@ -246,8 +246,8 @@ $tpl->setVariable( 'grouped_related_contentobjects', $groupedRelatedObjects );
 $tpl->setVariable( 'content_type', $contentType );
 
 $contentTypeCase = ucfirst( $contentType );
-if ( $siteIni->hasVariable( 'RelationGroupSettings', $contentTypeCase . 'ClassList' ) )
-    $tpl->setVariable( 'class_filter_array', $siteIni->variable( 'RelationGroupSettings', $contentTypeCase . 'ClassList' ) );
+if ( $contentIni->hasVariable( 'RelationGroupSettings', $contentTypeCase . 'ClassList' ) )
+    $tpl->setVariable( 'class_filter_array', $contentIni->variable( 'RelationGroupSettings', $contentTypeCase . 'ClassList' ) );
 else
     $tpl->setVariable( 'class_filter_array', array() );
 
