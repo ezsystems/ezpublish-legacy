@@ -151,6 +151,250 @@ $schema = array (
       ),
     ),
   ),
+  'ezcobj_state' => 
+  array (
+    'name' => 'ezcobj_state',
+    'fields' => 
+    array (
+      'default_language_id' => 
+      array (
+        'length' => 10,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'group_id' => 
+      array (
+        'length' => 10,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'id' => 
+      array (
+        'type' => 'auto_increment',
+        'default' => false,
+      ),
+      'identifier' => 
+      array (
+        'length' => 45,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'language_mask' => 
+      array (
+        'length' => 10,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'priority' => 
+      array (
+        'length' => 10,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'id',
+        ),
+      ),
+      'ezcobj_state_identifier' => 
+      array (
+        'type' => 'unique',
+        'fields' => 
+        array (
+          0 => 'group_id',
+          1 => 'identifier',
+        ),
+      ),
+    ),
+  ),
+  'ezcobj_state_group' => 
+  array (
+    'name' => 'ezcobj_state_group',
+    'fields' => 
+    array (
+      'default_language_id' => 
+      array (
+        'length' => 10,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'id' => 
+      array (
+        'type' => 'auto_increment',
+        'default' => false,
+      ),
+      'identifier' => 
+      array (
+        'length' => 45,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'language_mask' => 
+      array (
+        'length' => 10,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'id',
+        ),
+      ),
+      'ezcobj_state_group_identifier' => 
+      array (
+        'type' => 'unique',
+        'fields' => 
+        array (
+          0 => 'identifier',
+        ),
+      ),
+    ),
+  ),
+  'ezcobj_state_group_language' => 
+  array (
+    'name' => 'ezcobj_state_group_language',
+    'fields' => 
+    array (
+      'contentobject_state_group_id' => 
+      array (
+        'length' => 10,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'description' => 
+      array (
+        'type' => 'longtext',
+        'not_null' => '1',
+        'default' => false,
+      ),
+      'language_id' => 
+      array (
+        'length' => 10,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'name' => 
+      array (
+        'length' => 45,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'language_id',
+          1 => 'contentobject_state_group_id',
+        ),
+      ),
+    ),
+  ),
+  'ezcobj_state_language' => 
+  array (
+    'name' => 'ezcobj_state_language',
+    'fields' => 
+    array (
+      'contentobject_state_id' => 
+      array (
+        'length' => 10,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'description' => 
+      array (
+        'type' => 'longtext',
+        'not_null' => '1',
+        'default' => false,
+      ),
+      'language_id' => 
+      array (
+        'length' => 10,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'name' => 
+      array (
+        'length' => 45,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'contentobject_state_id',
+          1 => 'language_id',
+        ),
+      ),
+    ),
+  ),
+  'ezcobj_state_link' => 
+  array (
+    'name' => 'ezcobj_state_link',
+    'fields' => 
+    array (
+      'contentobject_id' => 
+      array (
+        'length' => 10,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'contentobject_state_id' => 
+      array (
+        'length' => 10,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'contentobject_id',
+          1 => 'contentobject_state_id',
+        ),
+      ),
+    ),
+  ),
   'ezcollab_group' => 
   array (
     'name' => 'ezcollab_group',
@@ -1964,250 +2208,6 @@ $schema = array (
         'fields' => 
         array (
           0 => 'name',
-        ),
-      ),
-    ),
-  ),
-  'ezcobj_state' => 
-  array (
-    'name' => 'ezcobj_state',
-    'fields' => 
-    array (
-      'default_language_id' => 
-      array (
-        'length' => 10,
-        'type' => 'int',
-        'not_null' => '1',
-        'default' => 0,
-      ),
-      'group_id' => 
-      array (
-        'length' => 10,
-        'type' => 'int',
-        'not_null' => '1',
-        'default' => 0,
-      ),
-      'id' => 
-      array (
-        'type' => 'auto_increment',
-        'default' => false,
-      ),
-      'identifier' => 
-      array (
-        'length' => 45,
-        'type' => 'varchar',
-        'not_null' => '1',
-        'default' => '',
-      ),
-      'language_mask' => 
-      array (
-        'length' => 10,
-        'type' => 'int',
-        'not_null' => '1',
-        'default' => 0,
-      ),
-      'priority' => 
-      array (
-        'length' => 10,
-        'type' => 'int',
-        'not_null' => '1',
-        'default' => 0,
-      ),
-    ),
-    'indexes' => 
-    array (
-      'PRIMARY' => 
-      array (
-        'type' => 'primary',
-        'fields' => 
-        array (
-          0 => 'id',
-        ),
-      ),
-      'ezcobj_state_identifier' => 
-      array (
-        'type' => 'unique',
-        'fields' => 
-        array (
-          0 => 'group_id',
-          1 => 'identifier',
-        ),
-      ),
-    ),
-  ),
-  'ezcobj_state_group' => 
-  array (
-    'name' => 'ezcobj_state_group',
-    'fields' => 
-    array (
-      'default_language_id' => 
-      array (
-        'length' => 10,
-        'type' => 'int',
-        'not_null' => '1',
-        'default' => 0,
-      ),
-      'id' => 
-      array (
-        'type' => 'auto_increment',
-        'default' => false,
-      ),
-      'identifier' => 
-      array (
-        'length' => 45,
-        'type' => 'varchar',
-        'not_null' => '1',
-        'default' => '',
-      ),
-      'language_mask' => 
-      array (
-        'length' => 10,
-        'type' => 'int',
-        'not_null' => '1',
-        'default' => 0,
-      ),
-    ),
-    'indexes' => 
-    array (
-      'PRIMARY' => 
-      array (
-        'type' => 'primary',
-        'fields' => 
-        array (
-          0 => 'id',
-        ),
-      ),
-      'ezcobj_state_group_identifier' => 
-      array (
-        'type' => 'unique',
-        'fields' => 
-        array (
-          0 => 'identifier',
-        ),
-      ),
-    ),
-  ),
-  'ezcobj_state_group_language' => 
-  array (
-    'name' => 'ezcobj_state_group_language',
-    'fields' => 
-    array (
-      'contentobject_state_group_id' => 
-      array (
-        'length' => 10,
-        'type' => 'int',
-        'not_null' => '1',
-        'default' => 0,
-      ),
-      'description' => 
-      array (
-        'type' => 'longtext',
-        'not_null' => '1',
-        'default' => false,
-      ),
-      'language_id' => 
-      array (
-        'length' => 10,
-        'type' => 'int',
-        'not_null' => '1',
-        'default' => 0,
-      ),
-      'name' => 
-      array (
-        'length' => 45,
-        'type' => 'varchar',
-        'not_null' => '1',
-        'default' => '',
-      ),
-    ),
-    'indexes' => 
-    array (
-      'PRIMARY' => 
-      array (
-        'type' => 'primary',
-        'fields' => 
-        array (
-          0 => 'language_id',
-          1 => 'contentobject_state_group_id',
-        ),
-      ),
-    ),
-  ),
-  'ezcobj_state_language' => 
-  array (
-    'name' => 'ezcobj_state_language',
-    'fields' => 
-    array (
-      'contentobject_state_id' => 
-      array (
-        'length' => 10,
-        'type' => 'int',
-        'not_null' => '1',
-        'default' => 0,
-      ),
-      'description' => 
-      array (
-        'type' => 'longtext',
-        'not_null' => '1',
-        'default' => false,
-      ),
-      'language_id' => 
-      array (
-        'length' => 10,
-        'type' => 'int',
-        'not_null' => '1',
-        'default' => 0,
-      ),
-      'name' => 
-      array (
-        'length' => 45,
-        'type' => 'varchar',
-        'not_null' => '1',
-        'default' => '',
-      ),
-    ),
-    'indexes' => 
-    array (
-      'PRIMARY' => 
-      array (
-        'type' => 'primary',
-        'fields' => 
-        array (
-          0 => 'contentobject_state_id',
-          1 => 'language_id',
-        ),
-      ),
-    ),
-  ),
-  'ezcobj_state_link' => 
-  array (
-    'name' => 'ezcobj_state_link',
-    'fields' => 
-    array (
-      'contentobject_id' => 
-      array (
-        'length' => 10,
-        'type' => 'int',
-        'not_null' => '1',
-        'default' => 0,
-      ),
-      'contentobject_state_id' => 
-      array (
-        'length' => 10,
-        'type' => 'int',
-        'not_null' => '1',
-        'default' => 0,
-      ),
-    ),
-    'indexes' => 
-    array (
-      'PRIMARY' => 
-      array (
-        'type' => 'primary',
-        'fields' => 
-        array (
-          0 => 'contentobject_id',
-          1 => 'contentobject_state_id',
         ),
       ),
     ),
