@@ -32,7 +32,9 @@ CREATE TABLE ezcobj_state (
   language_mask int(10) NOT NULL default '0',
   priority int(10) NOT NULL default '0',
   PRIMARY KEY  (id),
-  UNIQUE KEY ezcobj_state_identifier (group_id,identifier)
+  UNIQUE KEY ezcobj_state_identifier (group_id,identifier),
+  KEY ezcobj_state_lmask (language_mask),
+  KEY ezcobj_state_priority (priority)
 );
 
 CREATE TABLE ezcobj_state_group (
@@ -41,7 +43,8 @@ CREATE TABLE ezcobj_state_group (
   identifier varchar(45) NOT NULL default '',
   language_mask int(10) NOT NULL default '0',
   PRIMARY KEY  (id),
-  UNIQUE KEY ezcobj_state_group_identifier (identifier)
+  UNIQUE KEY ezcobj_state_group_identifier (identifier),
+  KEY ezcobj_state_group_lmask (language_mask)
 );
 
 CREATE TABLE ezcobj_state_group_language (
@@ -49,7 +52,7 @@ CREATE TABLE ezcobj_state_group_language (
   description longtext NOT NULL,
   language_id int(10) NOT NULL default '0',
   name varchar(45) NOT NULL default '',
-  PRIMARY KEY  (language_id,contentobject_state_group_id)
+  PRIMARY KEY  (contentobject_state_group_id,language_id)
 );
 
 CREATE TABLE ezcobj_state_language (

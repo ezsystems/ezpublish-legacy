@@ -216,6 +216,22 @@ $schema = array (
           1 => 'identifier',
         ),
       ),
+      'ezcobj_state_lmask' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'language_mask',
+        ),
+      ),
+      'ezcobj_state_priority' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'priority',
+        ),
+      ),
     ),
   ),
   'ezcobj_state_group' => 
@@ -268,6 +284,14 @@ $schema = array (
           0 => 'identifier',
         ),
       ),
+      'ezcobj_state_group_lmask' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'language_mask',
+        ),
+      ),
     ),
   ),
   'ezcobj_state_group_language' => 
@@ -310,8 +334,8 @@ $schema = array (
         'type' => 'primary',
         'fields' => 
         array (
-          0 => 'language_id',
-          1 => 'contentobject_state_group_id',
+          0 => 'contentobject_state_group_id',
+          1 => 'language_id',
         ),
       ),
     ),

@@ -76,7 +76,13 @@ CREATE TABLE ezcobj_state_link (
 
 CREATE UNIQUE INDEX ezcobj_state_identifier ON ezcobj_state USING btree (group_id, identifier);
 
+CREATE INDEX ezcobj_state_lmask ON ezcobj_state USING btree (language_mask);
+
+CREATE INDEX ezcobj_state_priority ON ezcobj_state USING btree (priority);
+
 CREATE UNIQUE INDEX ezcobj_state_group_identifier ON ezcobj_state_group USING btree (identifier);
+
+CREATE INDEX ezcobj_state_group_lmask ON ezcobj_state_group USING btree (language_mask);
 
 ALTER TABLE ONLY ezcobj_state
     ADD CONSTRAINT ezcobj_state_pkey PRIMARY KEY (id);
@@ -85,14 +91,14 @@ ALTER TABLE ONLY ezcobj_state_group
     ADD CONSTRAINT ezcobj_state_group_pkey PRIMARY KEY (id);
 
 ALTER TABLE ONLY ezcobj_state_group_language
-    ADD CONSTRAINT ezcobj_state_group_language_pkey PRIMARY KEY (language_id, contentobject_state_group_id);
+    ADD CONSTRAINT ezcobj_state_group_language_pkey PRIMARY KEY (contentobject_state_group_id, language_id);
 
 ALTER TABLE ONLY ezcobj_state_language
     ADD CONSTRAINT ezcobj_state_language_pkey PRIMARY KEY (contentobject_state_id, language_id);
 
 ALTER TABLE ONLY ezcobj_state_link
     ADD CONSTRAINT ezcobj_state_link_pkey PRIMARY KEY (contentobject_id, contentobject_state_id);
-    
+
 CREATE INDEX ezforgot_password_user ON ezforgot_password USING btree (user_id);
 
 ALTER TABLE ezorder_item ALTER COLUMN vat_value TYPE double precision;

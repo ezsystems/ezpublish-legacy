@@ -36,6 +36,71 @@ CREATE TABLE ezbinaryfile (
 
 
 
+CREATE TABLE ezcobj_state (
+  default_language_id int(10) NOT NULL default '0',
+  group_id int(10) NOT NULL default '0',
+  id int(11) NOT NULL auto_increment,
+  identifier varchar(45) NOT NULL default '',
+  language_mask int(10) NOT NULL default '0',
+  priority int(10) NOT NULL default '0',
+  PRIMARY KEY  (id),
+  UNIQUE KEY ezcobj_state_identifier (group_id,identifier),
+  KEY ezcobj_state_lmask (language_mask),
+  KEY ezcobj_state_priority (priority)
+) TYPE=InnoDB;
+
+
+
+
+
+CREATE TABLE ezcobj_state_group (
+  default_language_id int(10) NOT NULL default '0',
+  id int(11) NOT NULL auto_increment,
+  identifier varchar(45) NOT NULL default '',
+  language_mask int(10) NOT NULL default '0',
+  PRIMARY KEY  (id),
+  UNIQUE KEY ezcobj_state_group_identifier (identifier),
+  KEY ezcobj_state_group_lmask (language_mask)
+) TYPE=InnoDB;
+
+
+
+
+
+CREATE TABLE ezcobj_state_group_language (
+  contentobject_state_group_id int(10) NOT NULL default '0',
+  description longtext NOT NULL,
+  language_id int(10) NOT NULL default '0',
+  name varchar(45) NOT NULL default '',
+  PRIMARY KEY  (contentobject_state_group_id,language_id)
+) TYPE=InnoDB;
+
+
+
+
+
+CREATE TABLE ezcobj_state_language (
+  contentobject_state_id int(10) NOT NULL default '0',
+  description longtext NOT NULL,
+  language_id int(10) NOT NULL default '0',
+  name varchar(45) NOT NULL default '',
+  PRIMARY KEY  (contentobject_state_id,language_id)
+) TYPE=InnoDB;
+
+
+
+
+
+CREATE TABLE ezcobj_state_link (
+  contentobject_id int(10) NOT NULL default '0',
+  contentobject_state_id int(10) NOT NULL default '0',
+  PRIMARY KEY  (contentobject_id,contentobject_state_id)
+) TYPE=InnoDB;
+
+
+
+
+
 CREATE TABLE ezcollab_group (
   created int(11) NOT NULL default '0',
   depth int(11) NOT NULL default '0',
@@ -409,68 +474,6 @@ CREATE TABLE ezcontentobject_name (
   KEY ezcontentobject_name_cov_id (content_version),
   KEY ezcontentobject_name_lang_id (language_id),
   KEY ezcontentobject_name_name (name)
-) TYPE=InnoDB;
-
-
-
-
-
-CREATE TABLE ezcobj_state (
-  default_language_id int(10) NOT NULL default '0',
-  group_id int(10) NOT NULL default '0',
-  id int(11) NOT NULL auto_increment,
-  identifier varchar(45) NOT NULL default '',
-  language_mask int(10) NOT NULL default '0',
-  priority int(10) NOT NULL default '0',
-  PRIMARY KEY  (id),
-  UNIQUE KEY ezcobj_state_identifier (group_id,identifier)
-) TYPE=InnoDB;
-
-
-
-
-
-CREATE TABLE ezcobj_state_group (
-  default_language_id int(10) NOT NULL default '0',
-  id int(11) NOT NULL auto_increment,
-  identifier varchar(45) NOT NULL default '',
-  language_mask int(10) NOT NULL default '0',
-  PRIMARY KEY  (id),
-  UNIQUE KEY ezcobj_state_group_identifier (identifier)
-) TYPE=InnoDB;
-
-
-
-
-
-CREATE TABLE ezcobj_state_group_language (
-  contentobject_state_group_id int(10) NOT NULL default '0',
-  description longtext NOT NULL,
-  language_id int(10) NOT NULL default '0',
-  name varchar(45) NOT NULL default '',
-  PRIMARY KEY  (language_id,contentobject_state_group_id)
-) TYPE=InnoDB;
-
-
-
-
-
-CREATE TABLE ezcobj_state_language (
-  contentobject_state_id int(10) NOT NULL default '0',
-  description longtext NOT NULL,
-  language_id int(10) NOT NULL default '0',
-  name varchar(45) NOT NULL default '',
-  PRIMARY KEY  (contentobject_state_id,language_id)
-) TYPE=InnoDB;
-
-
-
-
-
-CREATE TABLE ezcobj_state_link (
-  contentobject_id int(10) NOT NULL default '0',
-  contentobject_state_id int(10) NOT NULL default '0',
-  PRIMARY KEY  (contentobject_id,contentobject_state_id)
 ) TYPE=InnoDB;
 
 
