@@ -1617,7 +1617,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                     $statePermTempTables[$key] = $statePermTempTable;
                                     $sqlPermissionTempTables[] = $statePermTempTable;
 
-                                    $db->createTempTable( "CREATE TEMPORARY TABLE $statePermTempTable ( contentobject_id int )" );
+                                    $db->createTempTable( "CREATE TEMPORARY TABLE $statePermTempTable ( contentobject_id int PRIMARY KEY )" );
 
                                     $condition = $db->generateSQLINStatement( $limitationArray[$ident], 'contentobject_state_id' );
                                     $db->query( "INSERT INTO $statePermTempTable
