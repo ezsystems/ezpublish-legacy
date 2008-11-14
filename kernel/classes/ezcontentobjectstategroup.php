@@ -572,6 +572,56 @@ class eZContentObjectStateGroup extends eZPersistentObject
         return new eZContentObjectState( array( 'group_id' => $this->ID ) );
     }
 
+    /**
+     * Returns an array of limitations useable by the policy system
+     *
+     * @return array
+     */
+    public static function limitations()
+    {
+        $limitations = array();
+
+        $groups = self::fetchByOffset( false, false );
+
+        foreach ( $groups as $group )
+        {
+            $name = 'StateGroup_' . $group->attribute( 'identifier' );
+            $limitations[$name] = array(
+                'name'   => $name,
+                'values' => array(),
+                'path'   => 'classes/',
+                'file'   => 'ezcontentobjectstategroup.php',
+                'class' => 'eZContentObjectStateGroup',
+                'function' => 'limitationValues',
+                'parameter' => array( $group->attribute( 'id' ) )
+            );
+        }
+
+        return $limitations;
+    }
+
+    /**
+     * Returns an array of limitation values useable by the policy system
+     *
+     * @param integer $groupID
+     * @return array
+     */
+    public static function limitationValues( $groupID )
+    {
+        $group = self::fetchById( $groupID );
+
+        $states = $group->attribute( 'states' );
+
+        $limitationValues = array();
+        foreach ( $states as $state )
+        {
+            $limitationValues[] = array( 'name' => $state->attribute( 'current_translation' )->attribute( 'name' ),
+                                         'id'   => $state->attribute( 'id' ) );
+        }
+
+        return $limitationValues;
+    }
+
     private $LanguageObject;
     private $Translations;
     private $AllTranslations;

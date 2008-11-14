@@ -1599,6 +1599,38 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                 $sqlPartUserSubtree[] = "$tableAliasName.path_string like '$limitationPathString%'";
                             }
                             $sqlPartPart[] = implode( ' OR ', $sqlPartUserSubtree );
+                        } break;
+
+                        default:
+                        {
+                            if ( substr_compare( $ident, 'StateGroup_', 0, 11 ) === 0 )
+                            {
+                                sort( $limitationArray[$ident] );
+                                $key = md5( implode( '_', $limitationArray[$ident] ) );
+                                if ( array_key_exists( $key, $statePermTempTables ) )
+                                {
+                                    $statePermTempTable = $statePermTempTables[$key];
+                                }
+                                else
+                                {
+                                    $statePermTempTable = $db->generateUniqueTempTableName( 'ezcobj_state_perm_tmp_%' );
+                                    $statePermTempTables[$key] = $statePermTempTable;
+                                    $sqlPermissionTempTables[] = $statePermTempTable;
+
+                                    $db->createTempTable( "CREATE TEMPORARY TABLE $statePermTempTable ( contentobject_id int )" );
+
+                                    $condition = $db->generateSQLINStatement( $limitationArray[$ident], 'contentobject_state_id' );
+                                    $db->query( "INSERT INTO $statePermTempTable
+                                                     SELECT DISTINCT contentobject_id
+                                                     FROM ezcobj_state_link
+                                                     WHERE $condition",
+                                                eZDBInterface::SERVER_SLAVE );
+
+                                    $sqlPermissionCheckingFrom .= ', ' . $statePermTempTable;
+                                }
+
+                                $sqlPartPart[] = "ezcontentobject.id = $statePermTempTable.contentobject_id";
+                            }
                         }
                     }
                 }
@@ -4559,6 +4591,23 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                          'Required' => $valueList );
                             }
                         } break;
+
+                        default:
+                        {
+                            if ( substr_compare( $key, 'StateGroup_', 0, 11 ) === 0 )
+                            {
+                                if ( count( array_intersect( $valueList, $contentObject->attribute( 'state_id_array' ) ) ) == 0 )
+                                {
+                                    $access = 'denied';
+                                    $limitationList = array ( 'Limitation' => $key,
+                                                              'Required' => $valueList );
+                                }
+                                else
+                                {
+                                    $access = 'allowed';
+                                }
+                            }
+                        }
                     }
 
                     if ( $access == 'denied' )

@@ -4090,6 +4090,24 @@ class eZContentObject extends eZPersistentObject
                                                          'Required' => $limitationArray[$key] );
                             }
                         } break;
+
+                        default:
+                        {
+                            if ( substr_compare( $key, 'StateGroup_', 0, 11 ) === 0 )
+                            {
+                                if ( count( array_intersect( $limitationArray[$key],
+                                                             $this->attribute( 'state_id_array' ) ) ) == 0 )
+                                {
+                                    $access = 'denied';
+                                    $limitationList = array ( 'Limitation' => $key,
+                                                              'Required' => $limitationArray[$key] );
+                                }
+                                else
+                                {
+                                    $access = 'allowed';
+                                }
+                            }
+                        }
                     }
                     if ( $access == 'denied' )
                     {

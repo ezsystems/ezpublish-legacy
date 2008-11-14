@@ -639,16 +639,7 @@ $Subtree = array(
     'values'=> array()
     );
 
-$State = array(
-    'name' => 'State',
-    'values' => array(),
-    'path' => 'classes/',
-    'file' => 'ezcontentobjectstate.php',
-    'class' => 'eZContentObjectState',
-    'function' => 'limitationList',
-    'parameter' => array()
-);
-
+$stateLimitations = eZContentObjectStateGroup::limitations();
 
 $FunctionList = array();
 $FunctionList['bookmark'] = array();
@@ -659,9 +650,9 @@ $FunctionList['read'] = array( 'Class' => $ClassID,
                                'Section' => $SectionID,
                                'Owner' => $Assigned,
                                'Group' => $AssignedGroup,
-                               'State' => $State,
                                'Node' => $Node,
                                'Subtree' => $Subtree);
+$FunctionList['read'] = array_merge( $FunctionList['read'], $stateLimitations );
 $FunctionList['diff'] = array( 'Class' => $ClassID,
                                'Section' => $SectionID,
                                'Owner' => $Assigned,
@@ -686,10 +677,10 @@ $FunctionList['edit'] = array( 'Class' => $ClassID,
                                'Section' => $SectionID,
                                'Owner' => $AssignedEdit,
                                'Group' => $AssignedGroup,
-                               'State' => $State,
                                'Node' => $Node,
                                'Subtree' => $Subtree,
                                'Language' => $Language);
+$FunctionList['edit'] = array_merge( $FunctionList['edit'], $stateLimitations );
 
 $FunctionList['manage_locations'] = array( 'Class' => $ClassID,
                                            'Section' => $SectionID,
