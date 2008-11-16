@@ -118,6 +118,11 @@
 				var p = ed.dom.getParent(n, 'td,th,caption'), header = ed.dom.getParent(n, 'H1,H2,H3,H4,H5,H6');
 
 				cm.setActive('table', n.nodeName === 'TABLE' || !!p);
+			    if (c = cm.get('tablemenu'))
+                {
+                    c.setDisabled( header );
+                    c.setActive(n.nodeName === 'TABLE' || !!p);
+                }
 				if (p && p.nodeName === 'CAPTION')
 					p = null;
 
@@ -144,6 +149,36 @@
 				});
 			}
 		},
+
+        createControl : function(n, cm) {
+            var t = this, c, ed = t.editor;
+
+            if (n == 'tablemenu')
+            {
+                c = cm.createSplitButton(n, {title : 'table.desc', 'class' : 'mceIcon mce_table', cmd : 'mceInsertTable', scope : t, ui: true });
+
+                c.onRenderMenu.add(function(c, m)
+                {
+                    //m.add({title : 'table.desc', 'class' : 'mceMenuItemTitle'}).setDisabled(1);
+                    m.add({id : 'col_before', title : 'table.col_before_desc', cmd : 'mceTableInsertColBefore', icon : 'col_before', ui: true });
+                    m.add({id : 'col_after', title : 'table.col_after_desc', cmd : 'mceTableInsertColAfter', icon : 'col_after', ui: true });
+                    m.add({id : 'row_before', title : 'table.row_before_desc', cmd : 'mceTableInsertRowBefore', icon : 'row_before', ui: true });
+                    m.add({id : 'row_after', title : 'table.row_after_desc', cmd : 'mceTableInsertRowAfter', icon : 'row_after', ui: true });
+                    m.addSeparator();
+                    m.add({id : 'row_props', title : 'table.row_desc', cmd : 'mceTableRowProps', icon : 'row_props', ui: true });
+                    m.add({id : 'cell_props', title : 'table.cell_desc', cmd : 'mceTableCellProps', icon : 'cell_props', ui: true });
+                    m.addSeparator();
+                    m.add({id : 'split_cells', title : 'table.split_cells_desc', cmd : 'mceTableSplitCells', icon : 'split_cells', ui: true });
+                    m.add({id : 'merge_cells', title : 'table.merge_cells_desc', cmd : 'mceTableMergeCells', icon : 'merge_cells', ui: true });
+                    m.addSeparator();
+                    m.add({id : 'delete_row', title : 'table.delete_row_desc', cmd : 'mceTableDeleteRow', icon : 'delete_row', ui: true });
+                    m.add({id : 'delete_col', title : 'table.delete_col_desc', cmd : 'mceTableDeleteCol', icon : 'delete_col', ui: true });
+                    m.add({id : 'delete_table', title : 'table.del', cmd : 'mceTableDelete', icon : 'delete_table', ui: true });
+                });
+
+                return c;
+            }
+        },
 
 		execCommand : function(cmd, ui, val) {
 			var ed = this.editor, b;

@@ -208,7 +208,7 @@
 .o2k7Skin span.mce_replace {background-position:-500px -20px}
 .o2k7Skin span.mce_search {background-position:-520px -20px}
 .o2k7Skin span.mce_styleprops {background-position:-560px -20px}
-.o2k7Skin span.mce_table {background-position:-580px -20px}
+.o2k7Skin span.mce_table, .o2k7Skin .mceSplitButton span.mceAction.mce_table {background-position:-580px -20px}
 .o2k7Skin span.mce_cell_props {background-position:-600px -20px}
 .o2k7Skin span.mce_delete_table {background-position:-620px -20px}
 .o2k7Skin span.mce_delete_col {background-position:-640px -20px}
