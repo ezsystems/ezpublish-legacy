@@ -19,6 +19,7 @@ class eZUtilsTestSuite extends ezpTestSuite
         $this->addTestSuite( 'eZURIRegression' );
         $this->addTestSuite( 'eZMutexRegression' );
         $this->addTestSuite( 'eZMailTest' );
+        $this->addTestSuite( 'eZDebugRegression' );
     }
 
     public static function suite()
