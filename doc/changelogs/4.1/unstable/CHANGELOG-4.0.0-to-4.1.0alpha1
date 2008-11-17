@@ -440,4 +440,5 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13092: Content object package import does not keep section
 - Fixed bug #13246: ezorderitem->VATValue needs to float rather then int.
 - Fixed bug #13942: Bug in ezdebug.php / accumulatorStart()
+- Fixed bug #13856: cleanupList missing static declaration
 
