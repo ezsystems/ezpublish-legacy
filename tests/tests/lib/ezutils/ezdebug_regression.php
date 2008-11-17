@@ -9,6 +9,11 @@
 
 class eZDebugRegression extends ezpTestCase
 {
+    protected function setUp()
+    {
+        $GLOBALS['eZDebugEnabled'] = true;
+    }
+
     /**
      * Test scenario for issue #13942: Bug in ezdebug.php / accumulatorStart()
      *
@@ -45,8 +50,6 @@ class eZDebugRegression extends ezpTestCase
      */
     function testAccumulatorStopRecursiveCounter()
     {
-        $GLOBALS['eZDebugEnabled'] = true;
-
         eZDebug::accumulatorStart( __METHOD__, false, false, true );
         eZDebug::accumulatorStart( __METHOD__, false, false, true );
 
@@ -64,8 +67,6 @@ class eZDebugRegression extends ezpTestCase
      */
     function testAccumulatorStartMultipleResursiveCounter()
     {
-        $GLOBALS['eZDebugEnabled'] = true;
-
         eZDebug::accumulatorStart( __METHOD__, false, false, true );
         eZDebug::accumulatorStart( __METHOD__, false, false, true );
 
