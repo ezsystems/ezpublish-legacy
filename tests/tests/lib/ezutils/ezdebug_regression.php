@@ -43,7 +43,7 @@ class eZDebugRegression extends ezpTestCase
      * @link http://issues.ez.no/13955
      * @group issue_13955
      */
-    function testAccumulatorStopRecurisveCounter()
+    function testAccumulatorStopRecursiveCounter()
     {
         $GLOBALS['eZDebugEnabled'] = true;
 
