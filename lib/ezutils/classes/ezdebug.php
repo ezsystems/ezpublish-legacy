@@ -1324,7 +1324,7 @@ showDebug();
 
         if ( $recursive )
         {
-            if ( isset( $this->TimeAccumulatorList[$key]['recursive_counter'] ) )
+            if ( isset( $debug->TimeAccumulatorList[$key]['recursive_counter'] ) )
             {
                 $debug->TimeAccumulatorList[$key]['recursive_counter']++;
                 return;
