@@ -143,7 +143,7 @@ class eZProductCollectionItemOption extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function cleanupList( $itemIDList )
+    static function cleanupList( $itemIDList )
     {
         $db = eZDB::instance();
         $idText = $db->implodeWithTypeCast( ', ', $itemIDList, 'int' );
