@@ -323,6 +323,7 @@ class eZStepSiteDetails extends eZStepInstaller
         $dbStatus = array();
         $dbDriver = $databaseInfo['info']['driver'];
         $dbServer = $databaseInfo['server'];
+        $dbPort = $databaseInfo['port'];
         $dbName = isset( $databaseInfo['dbname'] ) ? $databaseInfo['dbname'] : '';
         $dbUser = $databaseInfo['user'];
         $dbSocket = $databaseInfo['socket'];
@@ -331,6 +332,7 @@ class eZStepSiteDetails extends eZStepInstaller
         $dbPwd = $databaseInfo['password'];
         $dbCharset = 'iso-8859-1';
         $dbParameters = array( 'server' => $dbServer,
+                               'port' => $dbPort,
                                'user' => $dbUser,
                                'password' => $dbPwd,
                                'socket' => $dbSocket,
