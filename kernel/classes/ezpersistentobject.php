@@ -162,7 +162,7 @@ class eZPersistentObject
             $field = '*';
         }
         $customFields = array( array( 'operation' => 'COUNT( ' . $field . ' )', 'name' => 'row_count' ) );
-        $rows = eZPersistentObject::fetchObjectList( $def, array(), $conds, null, null, false, false, $customFields );
+        $rows = eZPersistentObject::fetchObjectList( $def, array(), $conds, array(), null, false, false, $customFields );
         return $rows[0]['row_count'];
     }
 
