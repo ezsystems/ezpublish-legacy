@@ -126,14 +126,8 @@ $def = eZContentObject::definition();
 $conds = array(
     'status' => eZContentObject::STATUS_PUBLISHED
 );
-$limit = null;
-$asObject = false;
-$fieldFilters = array();
-$customFields = array(
-    array( 'operation' => 'COUNT(id)', 'name' => 'object_count' )
-);
-$rows = eZPersistentObject::fetchObjectList( $def, $fieldFilters, $conds, null, $limit, $asObject, false, $customFields );
-$count = $rows[0]['object_count'];
+
+$count = eZPersistentObject::count( $def, $conds, 'id' );
 
 print( "Number of objects to index: $count $endl" );
 

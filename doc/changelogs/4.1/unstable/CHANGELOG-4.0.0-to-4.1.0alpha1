@@ -442,4 +442,5 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13942: Bug in ezdebug.php / accumulatorStart()
 - Fixed bug #13856: cleanupList missing static declaration
 - Fixed bug #13951: multiprice datatype - missing initializeObjectAttribute function.
+- Fixed bug #13962: The script updatesearchindex.php is not usable with PostgreSQL
 
