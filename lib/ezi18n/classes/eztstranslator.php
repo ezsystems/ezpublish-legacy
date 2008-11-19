@@ -286,9 +286,6 @@ class eZTSTranslator extends eZTranslatorHandler
                     {
                         $this->handleContextNode( $child );
                     }
-                    else
-                        eZDebug::writeError( "Unknown element name: " . $child->tagName,
-                                             "eZTSTranslator::loadTranslationFile" );
                 }
             }
             eZDebug::accumulatorStop( 'tstranslator_load' );
