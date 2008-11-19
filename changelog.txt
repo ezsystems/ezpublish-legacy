@@ -10,7 +10,7 @@ eZ Online Editor 5.0 extension Changelog
 * updated to TinyMCE 3.2.1
 * Misc i18n bugs fixed in pol-PL and nor-NO
 * Added tablemenu, a splitbutton that puts all table commands into a sub menu to save menu space.
-
+* Added support for TinyMCE spellchecker plugin
 
 5.0rc7
 * Changed javascript / stylesheet cache to use 'public/' path

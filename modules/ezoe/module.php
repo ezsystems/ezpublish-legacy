@@ -88,6 +88,12 @@ $ViewList['bookmarks'] = array(
     'params' => array('Offset', 'Limit')
     );
 
+$ViewList['spellcheck_rpc'] = array(
+    'functions' => array( 'editor' ),
+    'script' => 'spellcheck_rpc.php',
+    'params' => array( )
+    );
+
 
 /*
 $ClassID = array(

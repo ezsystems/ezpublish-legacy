@@ -20,9 +20,22 @@
          $content_css_list_temp = ezini('StylesheetSettings', 'EditorCSSFileList', 'design.ini',,true())
          $content_css_list = array()
          $editor_css_list  = array( concat('skins/', $skin, '/ui.css') )
-         $language         = '-'|concat( ezini( 'RegionalSettings', 'Locale', 'site.ini') )
+         $ez_locale        = ezini( 'RegionalSettings', 'Locale', 'site.ini')
+         $language         = '-'|concat( $ez_locale )
          $plugin_js_list   = array( 'ezoe::i18n::'|concat( $language ) )
+         $spell_languages = '+English=en'
     }
+    {if $attribute.language_code|eq( $ez_locale )}
+        {def $cur_locale = fetch( 'content', 'locale' )}
+        {set $spell_languages = concat( '+', $cur_locale.intl_language_name, '=', $cur_locale.http_locale_code|explode('-')[0])}
+        {undef $cur_locale}
+    {else}
+        {def $cur_locale = fetch( 'content', 'locale' )
+             $atr_locale = fetch( 'content', 'locale', hash( 'locale_code', $attribute.language_code ) )}
+        {set $spell_languages = concat( '+', $atr_locale.intl_language_name, '=', $atr_locale.http_locale_code|explode('-')[0])}
+        {set $spell_languages = concat( $spell_languages, ',', $cur_locale.intl_language_name, '=', $cur_locale.http_locale_code|explode('-')[0])}
+        {undef $cur_locale $atr_locale}
+    {/if}
 
     {if $skin_variant}
         {set $editor_css_list = $editor_css_list|append( concat('skins/', $skin, '/ui_', $skin_variant, '.css') )}
@@ -84,7 +97,9 @@
         ez_extension_url : {'/ezoe/'|ezurl},
         ez_js_url : {'/extension/ezoe/design/standard/javascript/'|ezroot},
         ez_contentobject_id : {$attribute.contentobject_id},
-        ez_contentobject_version : {$attribute.version}
+        ez_contentobject_version : {$attribute.version},
+        spellchecker_rpc_url : {'/ezoe/spellcheck_rpc'|ezurl},
+        spellchecker_languages : '{$spell_languages}'
     {rdelim};
     
     {literal}

@@ -187,7 +187,7 @@ class eZOEPackerFunctions
             'visualchars' => array(
                 'desc' => ezi18n( 'design/standard/ezoe', "Visual control characters on/off.")
             ),
-            /*'spellchecker' => array(
+            'spellchecker' => array(
                 'desc' => ezi18n( 'design/standard/ezoe', "Toggle spellchecker"),
                 'menu' => ezi18n( 'design/standard/ezoe', "Spellchecker settings"),
                 'ignore_word' => ezi18n( 'design/standard/ezoe', "Ignore word"),
@@ -197,7 +197,7 @@ class eZOEPackerFunctions
                 'sug' => ezi18n( 'design/standard/ezoe', "Suggestions"),
                 'no_sug' => ezi18n( 'design/standard/ezoe', "No suggestions"),
                 'no_mpell' => ezi18n( 'design/standard/ezoe', "No misspellings found.")
-            ),*/
+            ),
             'pagebreak' => array(
                 'desc' => ezi18n( 'design/standard/ezoe', "Insert page break.")
             ),
@@ -343,7 +343,7 @@ class eZOEPackerFunctions
     public static function getCacheTime( $functionName )
     {
         // this translation data only expires when this timestamp is increased
-        return 1219310954;
+        return 1227101147;
     }
 }
 
