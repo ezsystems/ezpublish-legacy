@@ -5874,21 +5874,39 @@ class eZContentObject extends eZPersistentObject
         return $allowedAssignList;
     }
 
-    function stateIDArray()
+    /**
+     * Gets the current states of the content object.
+     *
+     * Uses a member variable that caches the result.
+     *
+     * @return array an associative array with state group id => state id pairs
+     * @param boolean $refreshCache if the cache in the member variable needs to be refreshed
+     */
+    function stateIDArray( $refreshCache = false )
     {
-        $return = array();
-        $sql = "SELECT contentobject_state_id FROM ezcobj_state_link WHERE contentobject_id=" . $this->ID;
-        $db = eZDB::instance();
-        $rows = $db->arrayQuery( $sql );
-        foreach ( $rows as $row )
+        if ( $refreshCache || !is_array( $this->StateIDArray ) )
         {
-            $return[] = $row['contentobject_state_id'];
+            $this->StateIDArray = array();
+            $contentObjectID = $this->ID;
+            eZDebug::accumulatorStart( 'state_id_array', 'states' );
+            $sql = "SELECT contentobject_state_id, group_id FROM ezcobj_state_link, ezcobj_state
+                    WHERE ezcobj_state.id=ezcobj_state_link.contentobject_state_id AND
+                          contentobject_id=$contentObjectID";
+            $db = eZDB::instance();
+            $rows = $db->arrayQuery( $sql );
+            foreach ( $rows as $row )
+            {
+                $this->StateIDArray[$row['group_id']] = $row['contentobject_state_id'];
+            }
+            eZDebug::accumulatorStop( 'state_id_array' );
         }
-        return $return;
+
+        return $this->StateIDArray;
     }
 
     function stateIdentifierArray()
     {
+        eZDebug::accumulatorStart( 'state_identifier_array', 'states' );
         $return = array();
         $sql = "SELECT l.contentobject_state_id, s.identifier AS state_identifier, g.identifier AS state_group_identifier
                 FROM ezcobj_state_link l, ezcobj_state s, ezcobj_state_group g
@@ -5901,28 +5919,55 @@ class eZContentObject extends eZPersistentObject
         {
             $return[] = $row['state_group_identifier'] . '/' . $row['state_identifier'];
         }
+        eZDebug::accumulatorStop( 'state_identifier_array' );
         return $return;
     }
 
-    function assignState( $state )
+    /**
+     * Sets the state of a content object.
+     *
+     * Changes are stored immediately in the database, does not require a store() of the content object.
+     * Should only be called on instances of eZContentObject that have a ID (that were stored already before).
+     *
+     * @param eZContentObjectState $state
+     * @return boolean true when the state was set, false if the state equals the current state
+     */
+    function assignState( eZContentObjectState $state )
     {
         $groupID = $state->attribute( 'group_id' );
+        $stateID = $state->attribute( 'id' );
         $contentObjectID = $this->ID;
 
         $db = eZDB::instance();
         $db->begin();
-        // remove existing state of this object that is in the same state group as the new state
-        $db->query( "DELETE FROM ezcobj_state_link
-                     WHERE contentobject_id=$contentObjectID
-                     AND contentobject_state_id IN( SELECT id FROM ezcobj_state WHERE group_id=$groupID )"  );
 
-        // add new state
-        $stateID = $state->attribute( 'id' );
-        $sql = "INSERT INTO ezcobj_state_link(contentobject_id, contentobject_state_id) VALUES($contentObjectID, $stateID)";
+        $currentStateIDArray = $this->stateIDArray( true );
+        $currentStateID = $currentStateIDArray[$groupID];
+
+        if ( $currentStateID == $stateID )
+        {
+            return false;
+        }
+
+        $sql = "UPDATE ezcobj_state_link
+                SET contentobject_state_id=$stateID
+                WHERE contentobject_state_id=$currentStateID AND
+                      contentobject_id=$contentObjectID";
         $db->query( $sql );
+
         $db->commit();
+
+        $this->StateIDArray[$groupID] = $stateID;
+
+        return true;
     }
 
+    /**
+     * Sets the default states of a content object.
+     *
+     * This function is called upon instantiating a content object with {@link eZContentClass::instantiate()}, so
+     * should normally not be called by any other code.
+     */
     function assignDefaultStates()
     {
         $db = eZDB::instance();
@@ -5961,6 +6006,14 @@ class eZContentObject extends eZPersistentObject
 
     /// Contains the arrays of relatedobject id by fetching input for this object
     public $InputRelationList = array();
+
+    /**
+     * Cache for the state ID array
+     *
+     * @var array
+     * @see eZContentObject::stateIDArray()
+     */
+    private $StateIDArray = false;
 }
 
 ?>
