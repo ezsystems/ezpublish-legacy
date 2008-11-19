@@ -444,4 +444,5 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13951: multiprice datatype - missing initializeObjectAttribute function.
 - Fixed bug #13962: The script updatesearchindex.php is not usable with PostgreSQL
 - Fixed bug #13048: db port parameter can be specified in setup wizard but is not taken into account
+- Fixed bug #13029: ez4: Error: eZTSTranslator::loadTranslationFile, Unknown element name: defaultcodec
 
