@@ -365,7 +365,7 @@ class eZFSFileHandler
             $storeCache      = true;
             $mtime = @filemtime( $fname );
 //            $mtime = $this->metaData['mtime'];
-            if ( !eZFSFileHandler::isExpired( $fname, $mtime, $expiry, $curtime, $ttl ) )
+            if ( $retrieveCallback !== null && !eZFSFileHandler::isExpired( $fname, $mtime, $expiry, $curtime, $ttl ) )
             {
                 $args = array( $fname, $mtime );
                 if ( $extraData !== null )
