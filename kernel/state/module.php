@@ -103,20 +103,12 @@ $Subtree = array(
     'values'=> array()
     );
 
-$State = array(
-    'name' => 'State',
-    'values' => array(),
-    'path' => 'classes/',
-    'file' => 'ezcontentobjectstate.php',
-    'class' => 'eZContentObjectState',
-    'function' => 'limitationList',
-    'parameter' => array()
-);
+$stateLimitations = eZContentObjectStateGroup::limitations();
 
 $NewState = array(
     'name' => 'NewState',
     'values' => array(),
-    'path' => 'classes/',
+    'path' => 'private/classes/',
     'file' => 'ezcontentobjectstate.php',
     'class' => 'eZContentObjectState',
     'function' => 'limitationList',
@@ -131,9 +123,9 @@ $FunctionList['assign'] = array( 'Class' => $ClassID,
                                  'Section' => $SectionID,
                                  'Owner' => $Assigned,
                                  'Group' => $AssignedGroup,
-                                 'State' => $State,
                                  'Node' => $Node,
-                                 'Subtree' => $Subtree,
-                                 'NewState' => $NewState );
+                                 'Subtree' => $Subtree );
+
+$FunctionList['assign'] = array_merge( $FunctionList['assign'], $stateLimitations, array( 'NewState' => $NewState ) );
 
 ?>

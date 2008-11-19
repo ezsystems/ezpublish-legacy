@@ -1603,7 +1603,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                         default:
                         {
-                            if ( substr_compare( $ident, 'StateGroup_', 0, 11 ) === 0 )
+                            if ( @substr_compare( $ident, 'StateGroup_', 0, 11 ) === 0 )
                             {
                                 sort( $limitationArray[$ident] );
                                 $key = md5( implode( '_', $limitationArray[$ident] ) );
@@ -4594,7 +4594,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                         default:
                         {
-                            if ( substr_compare( $key, 'StateGroup_', 0, 11 ) === 0 )
+                            if ( @substr_compare( $key, 'StateGroup_', 0, 11 ) === 0 )
                             {
                                 if ( count( array_intersect( $valueList, $contentObject->attribute( 'state_id_array' ) ) ) == 0 )
                                 {

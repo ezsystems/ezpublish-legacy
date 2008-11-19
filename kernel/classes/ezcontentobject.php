@@ -4093,7 +4093,7 @@ class eZContentObject extends eZPersistentObject
 
                         default:
                         {
-                            if ( substr_compare( $key, 'StateGroup_', 0, 11 ) === 0 )
+                            if ( @substr_compare( $key, 'StateGroup_', 0, 11 ) === 0 )
                             {
                                 if ( count( array_intersect( $limitationArray[$key],
                                                              $this->attribute( 'state_id_array' ) ) ) == 0 )
@@ -5788,11 +5788,20 @@ class eZContentObject extends eZPersistentObject
         return $sectionList;
     }
 
-    function allowedAssignStateIDList()
+    /**
+     * Gets a list of states a user is allowed to put the content object in.
+     *
+     * @return array the IDs of all states we are allowed to set
+     * @param eZUser $user the user to check the policies of, when omitted the currently logged in user will be used
+     */
+    function allowedAssignStateIDList( eZUser $user = null )
     {
-        $currentUser = eZUser::currentUser();
+        if ( !$user instanceof eZUser )
+        {
+            $user = eZUser::currentUser();
+        }
 
-        $access = $currentUser->hasAccessTo( 'state', 'assign' );
+        $access = $user->hasAccessTo( 'state', 'assign' );
 
         $db = eZDB::instance();
         if ( $access['accessWord'] == 'yes' )
@@ -5801,7 +5810,7 @@ class eZContentObject extends eZPersistentObject
         }
         else if ( $access['accessWord'] == 'limited' )
         {
-            $userID = $currentUser->attribute( 'contentobject_id' );
+            $userID = $user->attribute( 'contentobject_id' );
             $classID = $this->attribute( 'contentclass_id' );
             $ownerID = $this->attribute( 'owner_id' );
             $sectionID = $this->attribute( 'section_id' );
@@ -5810,17 +5819,49 @@ class eZContentObject extends eZPersistentObject
             $allowedStateIDList = array();
             foreach ( $access['policies'] as $policy )
             {
-                if ( ( isset( $policy['Class'] ) and !in_array( $classID, $policy['Class'] ) ) or
-                     ( isset( $policy['Owner']  ) and in_array( 1, $policy['Owner'] ) and $userID != $ownerID ) or
-                     ( isset( $policy['Group'] ) and $this->checkGroupLimitationAccess( $policy['Group'], $userID ) != 'allowed' ) or
-                     ( isset( $policy['Section'] ) and !in_array( $sectionID, $policy['Section'] ) ) or
-                     ( isset( $policy['User_Section'] ) and !in_array( $sectionID, $policy['User_Section'] ) ) or
-                     ( isset( $policy['State'] ) and count( array_intersect( $policy['State'], $stateIDArray ) ) == 0 ) )
+                foreach ( $policy as $ident => $values )
                 {
-                    continue;
+                    $allowed = true;
+
+                    switch ( $ident )
+                    {
+                        case 'Class':
+                        {
+                            $allowed = in_array( $classID, $values );
+                        } break;
+
+                        case 'Owner':
+                        {
+                            $allowed = in_array( 1, $values ) and $userID != $ownerID;
+                        } break;
+
+                        case 'Group':
+                        {
+                            $allowed = $this->checkGroupLimitationAccess( $values, $userID ) === 'allowed';
+                        } break;
+
+                        case 'Section':
+                        case 'User_Section':
+                        {
+                            $allowed = in_array( $sectionID, $values );
+                        } break;
+
+                        default:
+                        {
+                            if ( @substr_compare( $ident, 'StateGroup_', 0, 11 ) === 0 )
+                            {
+                                $allowed = count( array_intersect( $values, $stateIDArray ) ) > 0;
+                            }
+                        }
+                    }
+
+                    if ( !$allowed )
+                    {
+                        continue 2;
+                    }
                 }
 
-                if ( isset( $policy['NewState'] ) and count( $policy['NewState'] > 0 ) )
+                if ( isset( $policy['NewState'] ) and count( $policy['NewState'] ) > 0 )
                 {
                     $allowedStateIDList = array_merge( $allowedStateIDList, $policy['NewState'] );
                 }
@@ -5833,15 +5874,20 @@ class eZContentObject extends eZPersistentObject
 
             $allowedStateIDList = array_merge( $allowedStateIDList, $stateIDArray );
         }
+        else
+        {
+            $stateIDArray = $this->attribute( 'state_id_array' );
+            $allowedStateIDList = $stateIDArray;
+        }
 
         $allowedStateIDList = array_unique( $allowedStateIDList );
 
         return $allowedStateIDList;
     }
 
-    function allowedAssignStateList()
+    function allowedAssignStateList( eZUser $user = null )
     {
-        $allowedStateIDList = $this->allowedAssignStateIDList();
+        $allowedStateIDList = $this->allowedAssignStateIDList( $user );
 
         // retrieve state groups, and for each state group the allowed states (including the current state)
         $groups = eZContentObjectStateGroup::fetchByOffset( false, false );
