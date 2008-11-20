@@ -12,7 +12,9 @@ eZ Online Editor 5.0 extension Changelog
 * Added tablemenu, a splitbutton that puts all table commands into a sub menu to save menu space.
 * Added support for TinyMCE spellchecker plugin (thx to Carlos Revillo)
 * Fixed #013954: Applying a custom tag to a text can change this text
-* Added custom tag: underline view template
+* Added custom tag view template for underline
+* Implemented new custom attribute types: htmlsize, csssize and csssize4
+* Implemented possibility to limit some embed settings pr content type
 
 5.0rc7
 * Changed javascript / stylesheet cache to use 'public/' path

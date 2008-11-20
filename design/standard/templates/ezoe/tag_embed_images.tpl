@@ -255,8 +255,8 @@ function loadImageSize( e, el )
             </tr>
         </table>
 
-        {include uri="design:ezoe/customattributes.tpl" tag_name="embed" hide=$tag_name|ne('embed')}
-        {include uri="design:ezoe/customattributes.tpl" tag_name="embed-inline" hide=$tag_name|ne('embed-inline')}
+        {include uri="design:ezoe/customattributes.tpl" tag_name="embed" hide=$tag_name|ne('embed') custom_attributes=$custom_attributes.embed}
+        {include uri="design:ezoe/customattributes.tpl" tag_name="embed-inline" hide=$tag_name|ne('embed-inline') custom_attributes=$custom_attributes.embed-inline}
 
         <div class="block"> 
             <div class="left">

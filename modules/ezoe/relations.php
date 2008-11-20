@@ -156,12 +156,16 @@ $sizeTypeArray['original'] = 'Original';
 // use specific class list this embed class type if it exists
 if ( $contentIni->hasVariable( 'embed_' . $embedClassIdentifier, 'AvailableClasses' ) )
     $classListData = $contentIni->variable( 'embed_' . $embedClassIdentifier, 'AvailableClasses' );
+else if ( $contentIni->hasVariable( 'embed-type_' . $contentType, 'AvailableClasses' ) )
+    $classListData = $contentIni->variable( 'embed-type_' . $contentType, 'AvailableClasses' );
 else if ( $contentIni->hasVariable( 'embed', 'AvailableClasses' ) )
     $classListData = $contentIni->variable( 'embed', 'AvailableClasses' );
 
 // same for embed-inline
 if ( $contentIni->hasVariable( 'embed-inline_' . $embedClassIdentifier, 'AvailableClasses' ) )
     $classListInlineData = $contentIni->variable( 'embed-inline_' . $embedClassIdentifier, 'AvailableClasses' );
+else if ( $contentIni->hasVariable( 'embed-inline-type_' . $contentType, 'AvailableClasses' ) )
+    $classListInlineData = $contentIni->variable( 'embed-inline-type_' . $contentType, 'AvailableClasses' );
 else if ( $contentIni->hasVariable( 'embed-inline', 'AvailableClasses' ) )
     $classListInlineData = $contentIni->variable( 'embed-inline', 'AvailableClasses' );
 
@@ -170,12 +174,13 @@ if ( $contentIni->hasVariable( 'embed', 'ClassDescription' ) )
     $classListDescription = $contentIni->variable( 'embed', 'ClassDescription' );
 else
     $classListDescription = array();
-    
+
 if ( $contentIni->hasVariable( 'embed-inline', 'ClassDescription' ) )
     $classListDescriptionInline = $contentIni->variable( 'embed-inline', 'ClassDescription' );
 else
     $classListDescriptionInline = array();
 
+// generate class hash
 $classList = array();
 if ( $classListData )
 {
@@ -202,8 +207,6 @@ if ( $classListInlineData )
     }
 }
 
-
-
 // attribute defaults
 if ( $contentIni->hasVariable( 'embed', 'Defaults' ) )
     $attributeDefaults = $contentIni->variable( 'embed', 'Defaults' );
@@ -226,7 +229,23 @@ if ( $contentIni->hasVariable( 'embed-inline', 'AvailableViewModes' ) )
     $viewListInline = array_unique( $contentIni->variable( 'embed-inline', 'AvailableViewModes' ) );
 else
     $viewListInline = array();
-    
+
+// custom attributes
+$customAttributes = array( 'embed' => array(), 'embed-inline' => array() );
+
+if ( $contentIni->hasVariable( 'embed_' . $embedClassIdentifier, 'CustomAttributes' ) )
+    $customAttributes['embed'] = $contentIni->variable( 'embed_' . $embedClassIdentifier, 'CustomAttributes' );
+else if ( $contentIni->hasVariable( 'embed-type_' . $contentType, 'CustomAttributes' ) )
+    $customAttributes['embed'] = $contentIni->variable( 'embed-type_' . $contentType, 'CustomAttributes' );
+else if ( $contentIni->hasVariable( 'embed', 'CustomAttributes' ) )
+    $customAttributes['embed'] = $contentIni->variable( 'embed', 'CustomAttributes' );
+
+if ( $contentIni->hasVariable( 'embed-inline_' . $embedClassIdentifier, 'CustomAttributes' ) )
+    $customAttributes['embed-inline'] = $contentIni->variable( 'embed-inline_' . $embedClassIdentifier, 'CustomAttributes' );
+else if ( $contentIni->hasVariable( 'embed-inline-type_' . $contentType, 'CustomAttributes' ) )
+    $customAttributes['embed-inline'] = $contentIni->variable( 'embed-inline-type_' . $contentType, 'CustomAttributes' );
+else if ( $contentIni->hasVariable( 'embed-inline', 'CustomAttributes' ) )
+    $customAttributes['embed-inline'] = $contentIni->variable( 'embed-inline', 'CustomAttributes' );
 
 $tpl = templateInit();
 $tpl->setVariable( 'object', $object );
@@ -246,6 +265,8 @@ $tpl->setVariable( 'view_list', eZOEAjaxContent::jsonEncode( array( 'embed' => $
 $tpl->setVariable( 'class_list', eZOEAjaxContent::jsonEncode( array( 'embed' => $classList, 'embed-inline' => $classListInline ) ) );
 $tpl->setVariable( 'attribute_defaults', eZOEAjaxContent::jsonEncode( array( 'embed' => $attributeDefaults, 'embed-inline' => $attributeDefaultsInline ) ) );
 
+
+$tpl->setVariable( 'custom_attributes', $customAttributes );
 $tpl->setVariable( 'size_list', $sizeTypeArray );
 
 $defaultSize = $contentIni->variable( 'ImageSettings', 'DefaultEmbedAlias' );

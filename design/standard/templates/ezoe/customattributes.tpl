@@ -17,9 +17,7 @@
                      'target',    'Target'|i18n('design/standard/ezoe')
          )}
 {if $:tag_name}
-    {def $custom_attributes           = array()
-         $custom_attributes_defaults  = array()
-         $custom_attribute_default    = ''
+    {def $custom_attribute_default    = ''
          $custom_attribute_settings   = ''
          $custom_attribute_id         = ''
          $custom_attribute_name       = ''
@@ -27,11 +25,11 @@
          $custom_attribute_disabled   = false()
          $custom_attribute_classes    = 0
          $shown_attributes            = array()}
-    {if ezini_hasvariable( $:tag_name, 'CustomAttributes', 'content.ini' )}
-        {set $custom_attributes = ezini( $:tag_name, 'CustomAttributes', 'content.ini' )}
+    {if and( is_unset( $custom_attributes ), ezini_hasvariable( $:tag_name, 'CustomAttributes', 'content.ini' ))}
+        {def $custom_attributes = ezini( $:tag_name, 'CustomAttributes', 'content.ini' )}
     {/if}
-    {if ezini_hasvariable( $:tag_name, 'CustomAttributesDefaults', 'content.ini' )}
-        {set $custom_attributes_defaults = ezini( $:tag_name, 'CustomAttributesDefaults', 'content.ini' )}
+    {if and( is_unset( $custom_attributes_defaults ), ezini_hasvariable( $:tag_name, 'CustomAttributesDefaults', 'content.ini' ))}
+        {def $custom_attributes_defaults = ezini( $:tag_name, 'CustomAttributesDefaults', 'content.ini' )}
     {/if}
 
     <table class="properties custom_attributes" id="{$:tag_name}_customattributes"{if $:hide} style="display: none;"{/if}>

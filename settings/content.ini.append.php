@@ -40,20 +40,28 @@ AvailableViewModes[]=line
 [embed-inline]
 AvailableViewModes[]=embed-inline
 
-# If you want to limit the amount of AvailableClasses selections
-# on relations per eZ Publish Content Class you can do the following:
+# Extra ezoe settings for embed and embed-inline.
+# If you want to limit the amount of AvailableClasses and/or CustomAttributes
+# on relations per class identifier or content type* you can do the following:
+# NB: These settings also needs to be defined in [embed] or [embed-inline] for eZ Publish.
+#
+# Pattern for content type:
+#[<tag>-type_<content-type>]
 #
 ## This examples demonstrates limiting AvailableClasses list in editor
-## when editing embed tags with a relation to a object of type image.
-## These classes also needs to be defined in [embed] for eZ Publish.
-#[embed_image]
+## when editing embed tags with a relation to a object of content type image.
+#[embed-type_image]
 #AvailableClasses[]
 #AvailableClasses[]=blue_border
 #AvailableClasses[]=dropp_down_shadow
+#
+# Pattern for class identifier:
+#[<tag>_<class_identifier>]
 #
 ## This example removes class list on embed-inline flash objects
 #[embed-inline_flash]
 #AvailableClasses[]
 #
+# *content type as defined by content.ini [RelationGroupSettings]
 
 */ ?>

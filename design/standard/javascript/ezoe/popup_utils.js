@@ -49,7 +49,11 @@ var eZOEPopupUtils = {
         // generates class name for tr elements in browse / search / bookmark list
         browseClassGenerator: function(){ return ''; },
         // generates browse link for a specific mode
-        browseLinkGenerator: false
+        browseLinkGenerator: false,
+        // custom init function pr custom attribute
+        customAttributeInitHandler: [],
+        // custom save function pr custom attribute
+        customAttributeSaveHandler: []
     },
     
     init: function( settings )
@@ -296,13 +300,19 @@ var eZOEPopupUtils = {
         var args = {
             'customattributes': '',
             'style': ''
-        }, s = eZOEPopupUtils.settings;
+        }, s = eZOEPopupUtils.settings, handler = s.customAttributeSaveHandler;
         if (node = ez.$( node ))
         {
             var customArr = [];
-            ez.$$('input,select', node).forEach(function( o ){
-                if ( o.hasClass('mceItemSkip') ) return;
+            ez.$$('input,select', node).forEach(function( o )
+            {
+                if ( o.hasClass('mceItemSkip') || !o.el.name ) return;
                 var name = o.el.name, value = o.postData( true ), style;
+
+                // see if there is a save hander that needs to do some work on the value
+                if ( handler[o.el.id] !== undefined && handler[o.el.id].call !== undefined )
+                    value = handler[o.el.id].call( o, o.el, value );
+
                 // add to styles if custom attibute is defined in customAttributeStyleMap
                 if ( s.customAttributeStyleMap && s.customAttributeStyleMap[name] !== undefined  )
                 {
@@ -342,19 +352,22 @@ var eZOEPopupUtils = {
         // global objects: ez     
         if ( valueString === null || !(node = ez.$( node )) )
             return;
-        var arr = valueString.split('attribute_separation'), values = {}, t;
+        var arr = valueString.split('attribute_separation'), values = {}, t, handler = eZOEPopupUtils.settings.customAttributeInitHandler;
         for(var i = 0, l = arr.length; i < l; i++)
         {
             t = arr[i].split('|');
             values[t[0]] = t[1];
         }
-        ez.$$('input,select', node).forEach(function( o ){
-            if ( o.hasClass('mceItemSkip') )
+        ez.$$('input,select', node).forEach(function( o )
+        {
+            if ( o.hasClass('mceItemSkip') || !o.el.name )
                 return;
             var name = o.el.name;
             if ( values[name] !== undefined )
             {
-                if ( o.el.type === 'checkbox' )
+                if ( handler[o.el.id] !== undefined && handler[o.el.id].call !== undefined )
+                    handler[o.el.id].call( o, o.el, values[name] );
+                else if ( o.el.type === 'checkbox' )
                    o.el.checked = values[name] == o.el.value;
                 else
                    o.el.value = values[name];
@@ -389,7 +402,8 @@ var eZOEPopupUtils = {
         // global objects: ez    
         if (parentNode = ez.$( parentNode ))
         {
-            ez.$$('input,select', parentNode).forEach(function(o){
+            ez.$$('input,select', parentNode).forEach(function(o)
+            {
                 if ( o.hasClass('mceItemSkip') ) return;
                 var name = o.el.name;
                 if ( name === 'class' )
