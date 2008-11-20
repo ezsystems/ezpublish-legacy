@@ -5,7 +5,7 @@
 # Some custom tags add special features to the editor if enabled:
 # underline: adds underline button in edtor (use this instead of custom tag to make the text appear underlined)
 # pagebreak: adds a button to add pagebreaks
-# NOTE: view template is not included for these tags, so you need to implement them yourself
+# NOTE: view template is not included for pagebreak tag, so you need to implement it to see it
 #
 #[CustomTagSettings]
 #AvailableCustomTags[]=pagebreak
