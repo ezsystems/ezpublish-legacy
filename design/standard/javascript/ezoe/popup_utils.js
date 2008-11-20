@@ -165,12 +165,12 @@ var eZOEPopupUtils = {
             // create new node if none is defined and if tag type is defined in ezXmlToXhtmlHash or tagGenerator is defined
             if ( s.tagGenerator )
             {
-                ed.execCommand('mceInsertRawHTML', false, s.tagGenerator.call( eZOEPopupUtils, s.tagName, s.selectedTag, s.editorSelectedText ), {skip_undo : 1} );
+                ed.execCommand('mceInsertRawHTML', false, s.tagGenerator.call( eZOEPopupUtils, s.tagName, s.selectedTag ), {skip_undo : 1} );
                 s.editorElement = ed.dom.get('__mce_tmp');
             }
             else if ( s.tagCreator )
             {
-                s.editorElement = s.tagCreator.call( eZOEPopupUtils, ed, s.tagName, s.selectedTag, s.editorSelectedText )
+                s.editorElement = s.tagCreator.call( eZOEPopupUtils, ed, s.tagName, s.selectedTag )
             }
             else if ( s.tagName === 'link' )
             {
@@ -192,12 +192,12 @@ var eZOEPopupUtils = {
             }
             else if ( eZOEPopupUtils.xmlToXhtmlHash[s.tagName] )
             {
-                ed.execCommand('mceInsertRawHTML', false, '<' + eZOEPopupUtils.xmlToXhtmlHash[s.tagName] + ' id="__mce_tmp">' + ( s.editorSelectedText ? s.editorSelectedText : '&nbsp;' ) + '</' + eZOEPopupUtils.xmlToXhtmlHash[s.tagName] + '>', {skip_undo : 1} );
+                ed.execCommand('mceInsertRawHTML', false, '<' + eZOEPopupUtils.xmlToXhtmlHash[s.tagName] + ' id="__mce_tmp">' + '&nbsp;' + '</' + eZOEPopupUtils.xmlToXhtmlHash[s.tagName] + '>', {skip_undo : 1} );
                 s.editorElement = ed.dom.get('__mce_tmp');
             }
             if ( s.onTagGenerated )
             {
-                n = s.onTagGenerated.call( eZOEPopupUtils, s.editorElement, ed, args );
+                n = s.onTagGenerated.call( eZOEPopupUtils, s.editorElement, ed, args, s.editorSelectedText );
                 if ( n && n.nodeName )
                     s.editorElement = n;
             }

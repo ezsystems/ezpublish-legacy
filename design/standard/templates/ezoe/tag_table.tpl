@@ -34,7 +34,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         tableSizeGrid['rows'].addEvent('keyup', ez.fn.bind(tableSizeGridInput, td, true ));
         tableSizeGridInput.call( td, true );
     },
-    tagGenerator: function( tag )
+    tagGenerator: function( tag, customTag )
     {
         var html = '<table id="__mce_tmp"><tbody>';
         for (var y = 0, yl = ez.num(tableSizeGrid['rows'].el.value, 1, 'int'); y < yl; y++)
