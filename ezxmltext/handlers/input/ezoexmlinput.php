@@ -321,13 +321,15 @@ class eZOEXMLInput extends eZXMLInputHandler
             if ( !eZOEXMLInput::currentUserHasAccess( 'relations' ) )
             {
                 $hideButtons[] = 'image';
-                $hideButtons[] = 'objects';
+                $hideButtons[] = 'object';
+                $hideButtons[] = 'file';
+                $hideButtons[] = 'media';
             }
              
             foreach( $editorLayoutSettings['buttons'] as $button )
             {
                 if ( !in_array( $button, $hideButtons ) )
-                    $showButtons[] = $button;
+                    $showButtons[] = trim( $button );
             }
 
             $editorLayoutSettings['buttons'] = $showButtons;
