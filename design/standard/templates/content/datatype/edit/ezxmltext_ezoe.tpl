@@ -46,7 +46,7 @@
     {/foreach}
 
     {foreach $plugin_list as $plugin}
-        {set $plugin_js_list = $plugin_js_list|append( concat( 'plugins/', $plugin, '/editor_plugin.js' ))}
+        {set $plugin_js_list = $plugin_js_list|append( concat( 'plugins/', $plugin|trim, '/editor_plugin.js' ))}
     {/foreach}
 
     <!-- Load TinyMCE code -->
