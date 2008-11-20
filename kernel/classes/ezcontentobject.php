@@ -6019,9 +6019,12 @@ class eZContentObject extends eZPersistentObject
         $db = eZDB::instance();
         $db->begin();
         $defaultStates = eZContentObjectState::defaults();
+        $contentObjectID = $this->ID;
         foreach ( $defaultStates as $state )
         {
-            $this->assignState( $state );
+            $stateID = $state->attribute( 'id' );
+            $db->query( "INSERT INTO ezcobj_state_link (contentobject_state_id, contentobject_id)
+                         VALUES($stateID, $contentObjectID)" );
         }
         $db->commit();
     }
