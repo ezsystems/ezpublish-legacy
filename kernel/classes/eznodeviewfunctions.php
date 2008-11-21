@@ -60,13 +60,16 @@ class eZNodeviewfunctions
     //       back to eZClusterFileHandler for processing.
     static function generateCallback( $file, $args )
     {
-        $res = call_user_func_array( array( 'eZNodeviewfunctions', 'generateNodeViewData' ),
-                                     $args );
+        extract( $args );
+
+        $res = eZNodeViewFunctions::generateNodeViewData( $tpl, $node, $object, $languageCode, $viewMode, $offset,
+                                                          $viewParameters, $collectionAttributes, $validation );
+
 
         // Check if cache time = 0 (viewcache disabled)
         $store = $res['cache_ttl'] != 0;
         // or if explicitly turned off
-        if ( !$args['viewCacheEnabled'] )
+        if ( !$viewCacheEnabled )
             $store = false;
         $retval = array( 'content' => $res,
                          'scope'   => 'viewcache',
