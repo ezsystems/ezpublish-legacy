@@ -936,7 +936,7 @@ class eZSearchEngine
                 }
             }
 
-            if ( $searchPartsArray === null && $this->TempTablesCount == 0 )
+            if ( count( $searchPartsArray ) === 0 && $this->TempTablesCount == 0 )
             {
                  $table = $db->generateUniqueTempTableName( 'ezsearch_tmp_%', 0 );
                  $this->saveCreatedTempTableName( 0, $table );
