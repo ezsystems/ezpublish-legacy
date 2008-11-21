@@ -983,7 +983,7 @@
                 {
                     p = DOM.getParent(n, DOM.isBlock);
     
-                    if ( !p || p.className === 'mceItemHidden' )
+                    if ( !p || p.className === 'mceItemHidden' || p.nodeName === 'LI' )
                         c.setDisabled( true );
                     else if ( p )
                         c.select(p.nodeName.toLowerCase());

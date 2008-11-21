@@ -15,6 +15,7 @@ eZ Online Editor 5.0 extension Changelog
 * Added custom tag view template for underline
 * Implemented new custom attribute types: htmlsize, csssize and csssize4
 * Implemented possibility to limit some embed settings pr content type
+* Fixed #013990: Text editor - Formatting bullets removes text
 
 5.0rc7
 * Changed javascript / stylesheet cache to use 'public/' path
