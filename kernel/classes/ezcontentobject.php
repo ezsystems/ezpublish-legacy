@@ -1440,6 +1440,12 @@ class eZContentObject extends eZPersistentObject
         $db->begin();
         $contentObject->store();
 
+        $originalObjectID = $this->attribute( 'id' );
+        $contentObjectID = $contentObject->attribute( 'id' );
+
+        $db->query( "INSERT INTO ezcobj_state_link (contentobject_state_id, contentobject_id)
+                     SELECT contentobject_state_id, $contentObjectID FROM ezcobj_state_link WHERE contentobject_id = $originalObjectID" );
+
         $contentObject->setName( $this->attribute('name') );
         eZDebugSetting::writeDebug( 'kernel-content-object-copy', $contentObject, 'contentObject' );
 
