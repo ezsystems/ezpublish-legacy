@@ -88,7 +88,7 @@ function copyObject( $Module, $object, $allVersions, $newParentNodeID )
     $db->begin();
     $newObject = $object->copy( $allVersions );
     // We should reset section that will be updated in updateSectionID().
-    // If sectionID is 0 than the object has been newly created
+    // If sectionID is 0 then the object has been newly created
     $newObject->setAttribute( 'section_id', 0 );
     $newObject->store();
 
