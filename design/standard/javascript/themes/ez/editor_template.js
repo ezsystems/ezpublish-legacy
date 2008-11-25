@@ -983,7 +983,7 @@
                 {
                     p = DOM.getParent(n, DOM.isBlock);
     
-                    if ( !p || p.className === 'mceItemHidden' || p.nodeName === 'LI' )
+                    if ( !p || p.className === 'mceItemHidden' || p.nodeName === 'LI' || p.nodeName === 'UL' || p.nodeName === 'OL' )
                         c.setDisabled( true );
                     else if ( p )
                         c.select(p.nodeName.toLowerCase());
@@ -1058,7 +1058,8 @@
                     if (v = DOM.getAttrib(n, 'id'))
                         ti = ti + 'id: ' + v + ' ';
 
-                    if (v = className || n.className) {
+                    if (v = className || n.className)
+                    {
                         v = v.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable)/g, '');
 
                         if ( v = ez.string.trim( v ) )
@@ -1075,8 +1076,9 @@
                     ti = na.title;
                     na = na.name;
 
-                    //u = "javascript:tinymce.EditorManager.get('" + ed.id + "').theme._sel('" + (de++) + "');";
-                    pi = DOM.create('a', {'href' : "javascript:;", title : ti, 'class' : 'mcePath_' + (de++), 'onclick' : 'return false;', 'onmousedown' : 'return false;'}, na);
+                    ////u = "javascript:tinymce.EditorManager.get('" + ed.id + "').theme._sel('" + (de++) + "');";
+                    //pi = DOM.create('a', {'href' : "javascript:;", onmousedown : "return false;", title : ti, 'class' : 'mcePath_' + (de++)}, na);
+                    pi = DOM.create('a', {'href' : "javascript:;", onmousedown : "return false;", title : ti, 'class' : 'mcePath_' + (de++), 'onclick' : 'return false;'}, na);
                     Event.add( pi, 'click', function(e){
                         var x = t.__getTagCommand( n, v );
                         if (x) ed.execCommand( x.cmd, n || false, x.c );
