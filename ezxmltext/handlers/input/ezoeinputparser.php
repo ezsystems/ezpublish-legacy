@@ -176,6 +176,7 @@ class eZOEInputParser extends eZXMLInputParser
 
         if ( $name === '' && isset( $attributes['id'] ) )
         {
+            // embed detection code in tagNameDiv
             $name = $this->tagNameDiv( $tagName, $attributes );
         }
 
@@ -185,10 +186,10 @@ class eZOEInputParser extends eZXMLInputParser
                 $name = 'strong';
             elseif ( strpos( $attributes['style'], 'font-style: italic' ) !== false )
                 $name = 'emphasize';
-            elseif ( strpos( $attributes['style'], 'text-decoration: underline' ) !== false )
+            elseif ( strpos( $attributes['style'], 'text-decoration: underline' ) !== false && self::customTagIsEnabled('underline') )
             {
                 $name = 'custom';
-                $attributes['name'] = $attributes['class'] = 'underline';
+                $attributes['name'] = 'underline';
                 $attributes['children_required'] = 'true';
             }
         }
@@ -243,14 +244,23 @@ class eZOEInputParser extends eZXMLInputParser
     
     function tagNameLink( $tagName, &$attributes )
     {
-        $name = 'link';
-        if ( isset( $attributes['href'] ) && isset( $attributes['name'] ) )
+        $name = '';
+        if ( isset( $attributes['href'] ) )
         {
-            if ( !isset( $attributes['anchor_name'] ) ) $attributes['anchor_name'] = $attributes['name'];
+            $name = 'link';
+            if ( isset( $attributes['name'] ) && !isset( $attributes['anchor_name'] ) ) $attributes['anchor_name'] = $attributes['name'];
+        }
+        else if ( isset( $attributes['name'] ) )
+        {
+            // anchor in regular sense
+            $name = 'anchor';
         }
         else if ( isset( $attributes['class'] ) && $attributes['class'] === 'mceItemAnchor' )
         {
+            // anchor in tinyMCE sense
             $name = 'anchor';
+            // ie bug with name attribute, workaround using id instead
+            if ( isset( $attributes['id'] ) ) $attributes['name'] = $attributes['id'];
         }
 
         return $name;
@@ -297,8 +307,7 @@ class eZOEInputParser extends eZXMLInputParser
         {
             $name = 'custom';
             $attributes['children_required'] = 'true';
-            $attributes['class'] = trim( str_replace('mceItemCustomTag', '', $attributes['class']) );
-            $attributes['name'] = $attributes['class'];
+            $attributes['name'] = trim( str_replace('mceItemCustomTag', '', $attributes['class']) );
         }
 
         return $name;
@@ -310,7 +319,7 @@ class eZOEInputParser extends eZXMLInputParser
         if ( $tagName === 'u' && self::customTagIsEnabled('underline') )
         {
             $name = 'custom';
-            $attributes['name'] = $attributes['class'] = 'underline';
+            $attributes['name'] = 'underline';
             $attributes['children_required'] = 'true';
         }
         return $name;

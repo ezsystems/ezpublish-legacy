@@ -44,15 +44,15 @@
         {else}
         <tr id="{$attribute_id}">
             <td class="column1"><label for="{$attribute_id}_source">
-            {if is_set( $i18n[ $attribute ] )}
-                {$i18n[ $attribute ]|wash}
+            {if is_set( $i18n[ $xml_attribute ] )}
+                {$i18n[ $xml_attribute ]|wash}
             {else}
-                {$attribute|upfirst|wash}
+                {$xml_attribute|upfirst|wash}
             {/if}
             </label></td>
             <td>
-            {if is_set( $attribute_content_prepend[$xml_attribute ] )}
-                {$attribute_content_prepend[$xml_attribute ]}
+            {if is_set( $attribute_content_prepend[ $xml_attribute ] )}
+                {$attribute_content_prepend[ $xml_attribute ]}
             {/if}
             {if $attribute_value|is_array()}
                 <select name="{$attribute}" id="{$attribute_id}_source" class="{first_set( $classes[$xml_attribute], '' )}" title="{first_set( $attribute_titles[$xml_attribute], '' )}">

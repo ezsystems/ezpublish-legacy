@@ -134,7 +134,12 @@ function filterOutCustomBlockTags( n )
         </div>
 
         {* custom tag name is defined as class internally in the editor even though the xml attribute name is 'name' *}
-        {include uri="design:ezoe/generalattributes.tpl" tag_name=$tag_name attributes=hash('class', $class_list ) i18n=hash('class', 'Tag'|i18n('design/standard/ezoe')) attribute_defaults=hash('class', $custom_tag_name)}
+        {include uri="design:ezoe/generalattributes.tpl"
+                 tag_name=$tag_name
+                 attributes=hash('class', $class_list )
+                 attribute_mapping=hash('class', 'name')
+                 i18n=hash('name', 'Tag'|i18n('design/standard/ezoe'))
+                 attribute_defaults=hash('name', $custom_tag_name)}
 
 {def $tag_is_inline = false()}
 {foreach $class_list as $custom_tag => $text}

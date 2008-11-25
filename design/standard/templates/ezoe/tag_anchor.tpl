@@ -19,7 +19,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {ldelim}
     onInit: function( el, tag, ed )
     {
         if ( el === false && this.settings.editorSelectedText !== false )
-            ez.$('anchor_name_source').el.value = this.settings.editorSelectedText;
+            ez.$('anchor_id_source').el.value = this.settings.editorSelectedText;
     },
     tagAttributeEditor: function( ed, el, args )
     {
@@ -48,8 +48,13 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {ldelim}
         <div class="attribute-title">
             <h2 style="padding: 0 0 4px 0;">{$tag_name|upfirst|wash}</h2>
         </div>
-        
-        {include uri="design:ezoe/generalattributes.tpl" tag_name=$tag_name attributes=hash('name', '') attribute_defaults=hash('name', 'Anchor')}
+
+        {* Anchor attribute name is mapped to id internally to workaround a ie issue.. *}
+        {include uri="design:ezoe/generalattributes.tpl"
+                 tag_name=$tag_name
+                 attributes=hash('id', '' )
+                 attribute_mapping=hash('id', 'name')
+                 attribute_defaults=hash('name', 'Anchor')}
 
         {include uri="design:ezoe/customattributes.tpl" tag_name=$tag_name}
 

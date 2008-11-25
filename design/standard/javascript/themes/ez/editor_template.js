@@ -905,26 +905,26 @@
             cm.setDisabled('redo', !ed.undoManager.hasRedo());
 
             p = DOM.getParent(n, 'A');
-            if (c = cm.get('link'))
+            if ( c = cm.get('link') )
             {
-                if (!p || !p.name)
+                if ( !p || DOM.getAttrib(p, 'href') )
                 {
-                    c.setDisabled( div || !p && co);
+                    c.setDisabled( div || !p && co );
                     c.setActive(!!p);
                 }
             }
 
-            if (c = cm.get('unlink'))
+            if ( c = cm.get('unlink') )
             {
                 c.setDisabled(!p || !DOM.getAttrib(p, 'href') );
-                c.setActive(!!p && !p.name);
+                c.setActive(!!p && DOM.getAttrib(p, 'href') );
             }
 
             if ( mceNonEditable === false )
             {
-                if (c = cm.get('anchor'))
+                if ( c = cm.get('anchor') )
                 {
-                    c.setActive(!!p && p.name);
+                    c.setActive( !!p && DOM.getAttrib(p, 'id') && !DOM.getAttrib(p, 'href') );
     
                     if (tinymce.isWebKit)
                     {
@@ -1032,14 +1032,10 @@
                             break;
                         case 'anchor':
                         case 'link':
-                            if (v = DOM.getAttrib(n, 'name')) {
-                                ti += 'name: ' + v + ' ';
-                                na += '#' + v;
-                            }
-
                             if (v = DOM.getAttrib(n, 'href'))
                                 ti += 'href: ' + v + ' ';
-
+                            else if (v = DOM.getAttrib(n, 'id'))
+                                na += '#' + v;
                             break;
                         case 'custom':
                             if (v = DOM.getAttrib(n, 'style'))

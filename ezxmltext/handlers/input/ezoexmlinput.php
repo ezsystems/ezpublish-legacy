@@ -37,8 +37,8 @@
 
 */
 require_once( 'kernel/common/template.php' );
-include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
-/*include_once( "kernel/classes/datatypes/ezimage/ezimagevariation.php");
+/*include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
+include_once( "kernel/classes/datatypes/ezimage/ezimagevariation.php");
 include_once( "kernel/classes/datatypes/ezimage/ezimage.php");
 include_once( "lib/ezimage/classes/ezimagelayer.php" );
 include_once( "lib/ezimage/classes/ezimagetextlayer.php" );
@@ -50,10 +50,6 @@ include_once( "lib/ezutils/classes/ezsys.php" );
 include_once( "kernel/classes/ezcontentobject.php");
 include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
 */
-
-include_once( 'extension/ezoe/ezinfo.php' );
-
-datatype_class( 'ezxmltext', 'eZXMLInputHandler' );
 
 class eZOEXMLInput extends eZXMLInputHandler
 {
@@ -186,6 +182,7 @@ class eZOEXMLInput extends eZXMLInputHandler
     */
     static function version()
     {
+        include_once( 'extension/ezoe/ezinfo.php' );
         $info = ezoeInfo::info();
         $version = $info['version'];
         return $version;
@@ -1329,7 +1326,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
                 $customAttributePart = $this->getCustomAttrPart( $tag, $styleString );
 
-                $output .= '<a name="' . $name . '" class="mceItemAnchor"' . $customAttributePart . $styleString . '></a>';
+                $output .= '<a id="' . $name . '" class="mceItemAnchor"' . $customAttributePart . $styleString . '></a>';
             }break;
 
             case 'link' :
