@@ -17,6 +17,7 @@ eZ Online Editor 5.0 extension Changelog
 * Implemented possibility to limit some embed settings pr content type
 * Fixed #13990: Text editor - Formatting bullets removes text
 * Fixed #13755: Anchor not displaying anchor name in IE7/8 (WinXP) - 5.0.0rc7
+* Implemented #13981: ini setting to disable popups from pathbar selections
 
 5.0rc7
 * Changed javascript / stylesheet cache to use 'public/' path

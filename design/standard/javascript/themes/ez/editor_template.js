@@ -1072,13 +1072,19 @@
                     ti = na.title;
                     na = na.name;
 
-                    ////u = "javascript:tinymce.EditorManager.get('" + ed.id + "').theme._sel('" + (de++) + "');";
-                    //pi = DOM.create('a', {'href' : "javascript:;", onmousedown : "return false;", title : ti, 'class' : 'mcePath_' + (de++)}, na);
-                    pi = DOM.create('a', {'href' : "javascript:;", onmousedown : "return false;", title : ti, 'class' : 'mcePath_' + (de++), 'onclick' : 'return false;'}, na);
-                    Event.add( pi, 'click', function(e){
-                        var x = t.__getTagCommand( n, v );
-                        if (x) ed.execCommand( x.cmd, n || false, x.c );
-                    });
+                    //u = "javascript:tinymce.EditorManager.get('" + ed.id + "').theme._sel('" + (de++) + "');";
+                    if ( s.theme_ez_statusbar_open_dialog )
+                    {
+                        pi = DOM.create('a', {'href' : "javascript:;", onmousedown : "return false;", title : ti, 'class' : 'mcePath_' + (de++), 'onclick' : 'return false;'}, na);
+                        Event.add( pi, 'click', function(e){
+                            var x = t.__getTagCommand( n, v );
+                            if (x) ed.execCommand( x.cmd, n || false, x.c );
+                        });
+                    }
+                    else
+                    {
+                        pi = DOM.create('a', {'href' : "javascript:;", onmousedown : "return false;", title : ti, 'class' : 'mcePath_' + (de++)}, na);
+                    }
 
                     if (p.hasChildNodes()) {
                         p.insertBefore(DOM.doc.createTextNode(' \u00bb '), p.firstChild);
