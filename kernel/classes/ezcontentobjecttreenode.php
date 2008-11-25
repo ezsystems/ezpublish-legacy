@@ -1491,7 +1491,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $sqlPermissionCheckingWhere = '';
         $sqlPermissionTempTables = array();
         $groupPermTempTable = false;
-        $statePermTempTables = array();
+        $createdStateAliases = array();
 
         if ( is_array( $limitationList ) && count( $limitationList ) > 0 )
         {
@@ -1547,35 +1547,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $sqlPartPart[] = "ezcontentobject.owner_id = $groupPermTempTable.user_id";
                         } break;
 
-                        case 'State':
-                        {
-                            sort( $limitationArray[$ident] );
-                            $key = md5( implode( '_', $limitationArray[$ident] ) );
-                            if ( array_key_exists( $key, $statePermTempTables ) )
-                            {
-                                $statePermTempTable = $statePermTempTables[$key];
-                            }
-                            else
-                            {
-                                $statePermTempTable = $db->generateUniqueTempTableName( 'ezcobj_state_perm_tmp_%' );
-                                $statePermTempTables[$key] = $statePermTempTable;
-                                $sqlPermissionTempTables[] = $statePermTempTable;
-
-                                $db->createTempTable( "CREATE TEMPORARY TABLE $statePermTempTable ( contentobject_id int )" );
-
-                                $condition = $db->generateSQLINStatement( $limitationArray[$ident], 'contentobject_state_id' );
-                                $db->query( "INSERT INTO $statePermTempTable
-                                                 SELECT DISTINCT contentobject_id
-                                                 FROM ezcobj_state_link
-                                                 WHERE $condition",
-                                            eZDBInterface::SERVER_SLAVE );
-
-                                $sqlPermissionCheckingFrom .= ', ' . $statePermTempTable;
-                            }
-
-                            $sqlPartPart[] = "ezcontentobject.id = $statePermTempTable.contentobject_id";
-                        } break;
-
                         case 'Node':
                         {
                             $sqlPlacementPart[] = $tableAliasName . '.node_id in (' . implode( ', ', $limitationArray[$ident] ) . ')';
@@ -1605,31 +1576,34 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         {
                             if ( @substr_compare( $ident, 'StateGroup_', 0, 11 ) === 0 )
                             {
-                                sort( $limitationArray[$ident] );
-                                $key = md5( implode( '_', $limitationArray[$ident] ) );
-                                if ( array_key_exists( $key, $statePermTempTables ) )
+                                $stateIdentifier = substr( $ident, 11 );
+                                $stateTable = "ezcobj_state_${stateIdentifier}_perm";
+
+                                if ( !in_array( $stateIdentifier, $createdStateAliases ) )
                                 {
-                                    $statePermTempTable = $statePermTempTables[$key];
+                                    $createdStateAliases[] = $stateIdentifier;
+                                    $stateLinkTable = "ezcobj_state_link_${stateIdentifier}_perm";
+                                    $stateGroupTable = "ezcobj_state_group_${stateIdentifier}_perm";
+                                    $stateAliasTables[$stateIdentifier] = $stateTable;
+
+                                    $sqlPermissionCheckingFrom .= ", ezcobj_state_link $stateLinkTable\r\n";
+                                    $sqlPermissionCheckingFrom .= ", ezcobj_state_group $stateGroupTable\r\n";
+                                    $sqlPermissionCheckingFrom .= ", ezcobj_state $stateTable\r\n";
+
+                                    $sqlPermissionCheckingWhere .= "AND $stateLinkTable.contentobject_id = ezcontentobject.id \r\n" .
+                                                                   "AND $stateTable.id = $stateLinkTable.contentobject_state_id \r\n" .
+                                                                   "AND $stateTable.group_id = $stateGroupTable.id \r\n" .
+                                                                   "AND $stateGroupTable.identifier='" . $db->escapeString( $stateIdentifier ) . "'\r\n\r\n";
+                                }
+
+                                if ( count( $limitationArray[$ident] ) > 1 )
+                                {
+                                    $sqlPartPart[] = $db->generateSQLInStatement( $limitationArray[$ident], "$stateTable.id" );
                                 }
                                 else
                                 {
-                                    $statePermTempTable = $db->generateUniqueTempTableName( 'ezcobj_state_perm_tmp_%' );
-                                    $statePermTempTables[$key] = $statePermTempTable;
-                                    $sqlPermissionTempTables[] = $statePermTempTable;
-
-                                    $db->createTempTable( "CREATE TEMPORARY TABLE $statePermTempTable ( contentobject_id int PRIMARY KEY )" );
-
-                                    $condition = $db->generateSQLINStatement( $limitationArray[$ident], 'contentobject_state_id' );
-                                    $db->query( "INSERT INTO $statePermTempTable
-                                                     SELECT DISTINCT contentobject_id
-                                                     FROM ezcobj_state_link
-                                                     WHERE $condition",
-                                                eZDBInterface::SERVER_SLAVE );
-
-                                    $sqlPermissionCheckingFrom .= ', ' . $statePermTempTable;
+                                    $sqlPartPart[] = "$stateTable.id = " . $limitationArray[$ident][0];
                                 }
-
-                                $sqlPartPart[] = "ezcontentobject.id = $statePermTempTable.contentobject_id";
                             }
                         }
                     }
@@ -1644,7 +1618,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 }
                 $sqlParts[] = implode( ' AND ', $sqlPartPart );
             }
-            $sqlPermissionCheckingWhere = ' AND ((' . implode( ') OR (', $sqlParts ) . ')) ';
+            $sqlPermissionCheckingWhere .= ' AND ((' . implode( ")\r\n OR (", $sqlParts ) . ')) ';
         }
 
         $sqlPermissionChecking = array( 'from' => $sqlPermissionCheckingFrom,
