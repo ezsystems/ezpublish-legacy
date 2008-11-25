@@ -179,7 +179,7 @@ class eZOEPacker
     static function buildStylesheetTag( $cssFiles, $asHtml, $media, $type, $rel, $packLevel )
     {
         $ret = '';
-        $packedFiles = eZOEPacker::packFiles( $cssFiles, 'stylesheets/', '_' . $media . '.css', $packLevel );
+        $packedFiles = eZOEPacker::packFiles( $cssFiles, 'stylesheets/', '_' . $media . '.css', $packLevel, true );
         if ( !$asHtml ) return $packedFiles;
         foreach ( $packedFiles as $packedFile )
         {
@@ -200,7 +200,7 @@ class eZOEPacker
      of the valid files in $file_array and the packlevel. 
      The whole argument is used instead of file path on js/ css generators in the cache hash.
      */
-    static function packFiles( $fileArray, $path = '', $fileExtension = '.js', $packLevel = 2 )
+    static function packFiles( $fileArray, $path = '', $fileExtension = '.js', $packLevel = 2, $useWWWinCacheHash = false )
     {
         if ( !$fileArray )
         {
@@ -215,6 +215,11 @@ class eZOEPacker
         $wwwDir = $sys->wwwDir() . '/';
         $ezoeIni = eZINI::instance( 'ezoe.ini' );
         $bases   = eZTemplateDesignResource::allDesignBases();
+
+        if ( $useWWWinCacheHash )
+        {
+        	$cacheName = $wwwDir;
+        }
 
         while( count( $fileArray ) > 0 )
         {
@@ -291,7 +296,7 @@ class eZOEPacker
                 $file = htmlspecialchars( $wwwDir . $match['path'] );
             }
 
-            // get file time and abort if it return false
+            // get file time and continue if it return false
             $file      = str_replace( '//' . $wwwDir, '', '//' . $file );
             $fileTime = @filemtime( $file );
 
