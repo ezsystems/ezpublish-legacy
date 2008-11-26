@@ -131,7 +131,7 @@
 
             // Init editor
             ed.onInit.add(function() {
-                ed.onNodeChange.addToTop(t._nodeChanged, t);
+                ed.onNodeChange.add(t._nodeChanged, t);
                 ed.addShortcut('ctrl+8', '', ['FormatBlock', false, '<pre>']);
                 ed.addShortcut('ctrl+9', '', ['FormatBlock', false, '<pre>']);
                 if ( s.theme_ez_content_css )
@@ -896,7 +896,6 @@
                     c2.setActive( mceNonEditable && (type === 'files')  );
                     c2.setDisabled( header );
                 }
-                
             }
 
             t.__setDisabled( mceNonEditable );
@@ -1150,8 +1149,10 @@
 
             tinymce.each(ed.controlManager.controls, function(c){
                 if ( !c.settings.cmd || ',mceObject,mceFile,mceFullScreen,mceLink,unlink'.indexOf( ',' + c.settings.cmd + ',' ) === -1 )
+                {
                     c.setDisabled( s );
-                //c.setActive( false );
+                    if ( s ) c.setActive( false );
+                }
             });
 
             if ( s !== t.__disabled )
@@ -1166,7 +1167,7 @@
                 t.__disabled = s;
             }
         },
-        
+
         __simpleTagsToXmlHash:
         {
             'P' : 'paragraph',

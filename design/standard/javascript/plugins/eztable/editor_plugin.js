@@ -114,19 +114,19 @@
 				}
 			}
 
-			ed.onNodeChange.add(function(ed, cm, n) {
+			ed.onNodeChange.addToTop(function(ed, cm, n)
+			{
+
 				var p = ed.dom.getParent(n, 'td,th,caption'), header = ed.dom.getParent(n, 'H1,H2,H3,H4,H5,H6');
 
-				cm.setActive('table', n.nodeName === 'TABLE' || !!p);
-			    if (c = cm.get('tablemenu'))
-                {
-                    c.setDisabled( header );
-                    c.setActive(n.nodeName === 'TABLE' || !!p);
-                }
+				//cm.setActive('table', n.nodeName === 'TABLE' || !!p);
+				//cm.setActive('tablemenu', n.nodeName === 'TABLE' || !!p);
+
 				if (p && p.nodeName === 'CAPTION')
 					p = null;
 
 				cm.setDisabled('table', header);
+				cm.setDisabled('tablemenu', header);
 				cm.setDisabled('delete_table', !p);
 				cm.setDisabled('delete_col', !p);
 				cm.setDisabled('delete_table', !p);
