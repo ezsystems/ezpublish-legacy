@@ -16,60 +16,80 @@
 {else}
     {def $css_size_types = hash('px', 'px', 'em', 'em', '%', '%')}
 {/if}
-<input type="text" size="2" name="{$custom_attribute}" id="{$custom_attribute_id}_source_0" value="{$custom_attribute_default[0]|wash}"{if $custom_attribute_disabled} disabled="disabled"{/if} class="{$custom_attribute_classes|implode(' ')}" />
-<select id="{$custom_attribute_id}_sizetype_0"{if $custom_attribute_disabled} disabled="disabled"{/if} class="mceItemSkip">
+
+<table class="csssize4_input_layout" border="0" cellpadding="0" cellspacing="1" summary="Size inputs for all 4 edges">
+<thead>
+<tr>
+	<td align="center"><label for="{$custom_attribute_id}_source">{'Top'|i18n('design/standard/ezoe')}</label></td>
+	<td align="center"><label for="{$custom_attribute_id}_source_1">{'Right'|i18n('design/standard/ezoe')}</label></td>
+	<td align="center"><label for="{$custom_attribute_id}_source_2">{'Bottom'|i18n('design/standard/ezoe')}</label></td>
+	<td align="center"><label for="{$custom_attribute_id}_source_3">{'Left'|i18n('design/standard/ezoe')}</label></td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<input type="text" size="2" name="{$custom_attribute}" id="{$custom_attribute_id}_source" value="{$custom_attribute_default[0]|wash}"{if $custom_attribute_disabled} disabled="disabled"{/if} class="{$custom_attribute_classes|implode(' ')}" />
+<select id="{$custom_attribute_id}_sizetype"{if $custom_attribute_disabled} disabled="disabled"{/if} class="mceItemSkip">
 {foreach $css_size_types as $key => $value}
     <option value="{$key}">{$value}</option>
 {/foreach}
 </select>
-
+</td>
 {set $custom_attribute_classes = $custom_attribute_classes|append( 'mceItemSkip' )}
-
+<td>
 <input type="text" size="2" id="{$custom_attribute_id}_source_1" value="{$custom_attribute_default[1]|wash}"{if $custom_attribute_disabled} disabled="disabled"{/if} class="{$custom_attribute_classes|implode(' ')}" />
 <select id="{$custom_attribute_id}_sizetype_1"{if $custom_attribute_disabled} disabled="disabled"{/if} class="mceItemSkip">
 {foreach $css_size_types as $key => $value}
     <option value="{$key}">{$value}</option>
 {/foreach}
 </select>
-
+</td>
+<td>
 <input type="text" size="2" id="{$custom_attribute_id}_source_2" value="{$custom_attribute_default[2]|wash}"{if $custom_attribute_disabled} disabled="disabled"{/if} class="{$custom_attribute_classes|implode(' ')}" />
 <select id="{$custom_attribute_id}_sizetype_2"{if $custom_attribute_disabled} disabled="disabled"{/if} class="mceItemSkip">
 {foreach $css_size_types as $key => $value}
     <option value="{$key}">{$value}</option>
 {/foreach}
 </select>
-
+</td>
+<td>
 <input type="text" size="2" id="{$custom_attribute_id}_source_3" value="{$custom_attribute_default[3]|wash}"{if $custom_attribute_disabled} disabled="disabled"{/if} class="{$custom_attribute_classes|implode(' ')}" />
 <select id="{$custom_attribute_id}_sizetype_3"{if $custom_attribute_disabled} disabled="disabled"{/if} class="mceItemSkip">
 {foreach $css_size_types as $key => $value}
     <option value="{$key}">{$value}</option>
 {/foreach}
 </select>
-
+</td>
+</tr>
+<tbody>
+</table>
 <script type="text/javascript">
 <!--
 
-eZOEPopupUtils.settings.customAttributeInitHandler['{$custom_attribute_id}_source_0'] = {literal} function( el, value )
+eZOEPopupUtils.settings.customAttributeInitHandler['{$custom_attribute_id}_source'] = {literal} function( el, value )
 {
     if ( ez.string.trim( value ) === '' ) return;
-    var valArr = (value + ' 0 0 0 0').split(/\s/g), base_id = el.id.replace('_source_0', ''), inp, sel;
+    var valArr = (value + ' 0 0 0 0').split(/\s/g), base_id = el.id.replace('_source', ''), inp, sel, tid;
     for(var i = 0; i < 4; i++)
     {
-        inp = ez.$( base_id + '_source_' + i ).el;
+        tid = (i === 0 ? '' : '_' + i);
+        inp = ez.$( base_id + '_source' + tid ).el;
         inp.value = ez.num( valArr[i], 0, 'int' );
-        ez.$( base_id + '_sizetype_' + i ).el.selectedIndex = ez.$$('#' + base_id + '_sizetype_' + i + ' option').map(function( o )
+        ez.$( base_id + '_sizetype' + tid ).el.selectedIndex = ez.$$('#' + base_id + '_sizetype' + tid + ' option').map(function( o )
         {
             return o.el.value;
         }).indexOf( valArr[i].replace( inp.value, '' ) );
     }
 };{/literal}
 
-eZOEPopupUtils.settings.customAttributeSaveHandler['{$custom_attribute_id}_source_0'] = {literal} function( el, value )
+eZOEPopupUtils.settings.customAttributeSaveHandler['{$custom_attribute_id}_source'] = {literal} function( el, value )
 {
-    var inp, sel, tempval = [], base_id = el.id.replace('_source_0', '');
+    var inp, sel, tempval = [], base_id = el.id.replace('_source', ''), tid;
     for(var i = 0; i < 4; i++)
     {
-        inp = ez.$( base_id + '_source_' + i ).el, sel = ez.$( base_id + '_sizetype_' + i ).el;
+        tid = (i === 0 ? '' : '_' + i);
+        inp = ez.$( base_id + '_source' + tid ).el, sel = ez.$( base_id + '_sizetype' + tid ).el;
         tempval.push( inp.value + ( sel.selectedIndex !== -1 ? sel.options[sel.selectedIndex].value : '' ) );
     }
     return tempval.join(' ');

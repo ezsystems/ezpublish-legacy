@@ -87,6 +87,14 @@ Vil du vite mer om dette?</translation>
         <translation>Høyre</translation>
     </message>
     <message>
+        <source>Top</source>
+        <translation>Topp</translation>
+    </message>
+    <message>
+        <source>Bottom</source>
+        <translation>Bunn</translation>
+    </message>
+    <message>
         <source>Full</source>
         <translation>Full</translation>
     </message>

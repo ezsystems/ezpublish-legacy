@@ -86,6 +86,14 @@ Do you want more information about this issue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Top</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bottom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Full</source>
         <translation type="unfinished"></translation>
     </message>

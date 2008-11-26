@@ -72,7 +72,7 @@
             {set $custom_attribute_name = $custom_attribute|upfirst}
         {/if}
 
-        <tr id="{$custom_attribute_id}">
+        <tr id="{$custom_attribute_id}" class="custom_attribute_type_{$custom_attribute_type}">
             <td class="column1"><label for="{$custom_attribute_id}_source">
                 {$custom_attribute_name|wash}
             </label></td>
