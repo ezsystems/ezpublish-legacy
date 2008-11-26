@@ -48,9 +48,9 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         if ( customTag === 'underline' )
             return '<u id="__mce_tmp" type="custom">' + customTag + '<\/u>';
         else if ( ez.$( customTag + '_inline_source' ).el.checked )
-	        return '<span id="__mce_tmp" type="custom">' + customTag + '<\/span>';
+            return '<span id="__mce_tmp" type="custom">' + customTag + '<\/span>';
         else
-	        return '<div id="__mce_tmp" type="custom"><p>' + customTag + '<\/p><\/div>';
+            return '<div id="__mce_tmp" type="custom"><p>' + customTag + '<\/p><\/div>';
     },
     onTagGenerated:  function( el, ed, args, text )
     {

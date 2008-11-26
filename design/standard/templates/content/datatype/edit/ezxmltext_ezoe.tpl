@@ -134,7 +134,7 @@
 
     function eZOeCleanUpEmbedTags( element_id, html, body )
     {
-    	// remove the content of the embed tags that are just there for oe preview
+        // remove the content of the embed tags that are just there for oe preview
         // purpose, this is to avoid that the ez xml parsers in some cases 
         // duplicates the embed tag
         ez.array.forEach( body.getElementsByTagName('div'), function( node ){

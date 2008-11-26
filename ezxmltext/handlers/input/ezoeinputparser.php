@@ -997,7 +997,7 @@ class eZOEInputParser extends eZXMLInputParser
                 $this->linkedObjectIDArray[] = $objectID;
 
             if ( isset( $anchorName ) && $anchorName )
-            	$element->setAttribute( 'anchor_name', $anchorName );
+                $element->setAttribute( 'anchor_name', $anchorName );
         }
         return $ret;
     }

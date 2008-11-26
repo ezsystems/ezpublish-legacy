@@ -1525,7 +1525,7 @@ class eZOEXMLInput extends eZXMLInputHandler
             if ( $contentIni->hasVariable( 'RelationGroupSettings', $settingName ) )
             {
                 if ( in_array( $classIdentifier, $contentIni->variable( 'RelationGroupSettings', $settingName ) ) )
-                	return $group;
+                    return $group;
             }
             else
                 eZDebug::writeDebug( "Missing content.ini[RelationGroupSettings]$settingName setting.", "eZOEXMLInput::embedTagContentType()" );
@@ -1535,8 +1535,8 @@ class eZOEXMLInput extends eZXMLInputHandler
         if ( $ini->hasVariable('MediaClassSettings', 'ImageClassID' ) and
            in_array( $classID, $ini->variable('MediaClassSettings', 'ImageClassID' ) ))
         {
-        	eZDebug::writeNotice( "site.ini[MediaClassSettings]ImageClassID is depricated, use content.ini[RelationGroupSettings] instead.", "eZOEXMLInput::embedTagContentType()" );
-        	return 'images';
+            eZDebug::writeNotice( "site.ini[MediaClassSettings]ImageClassID is depricated, use content.ini[RelationGroupSettings] instead.", "eZOEXMLInput::embedTagContentType()" );
+            return 'images';
         }
         return $contentIni->variable( 'RelationGroupSettings', 'DefaultGroup' );
     }

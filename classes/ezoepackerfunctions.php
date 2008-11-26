@@ -240,7 +240,7 @@ class eZOEPackerFunctions
                 'image_desc' => ezi18n( 'design/standard/ezoe', "Insert/edit image"),
 
                 'object_desc' => ezi18n( 'design/standard/ezoe', "Insert/edit object"),
-				'file_desc' => ezi18n( 'design/standard/ezoe', "Insert/edit file"),
+                'file_desc' => ezi18n( 'design/standard/ezoe', "Insert/edit file"),
                 'custom_desc' => ezi18n( 'design/standard/ezoe', "Insert custom tag"),
                 'literal_desc' => ezi18n( 'design/standard/ezoe', "Insert literal text"),
                 'pagebreak_desc' => ezi18n( 'design/standard/ezoe', "Insert pagebreak"),

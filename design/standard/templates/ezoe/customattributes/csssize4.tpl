@@ -57,10 +57,10 @@ eZOEPopupUtils.settings.customAttributeInitHandler['{$custom_attribute_id}_sourc
     {
         inp = ez.$( base_id + '_source_' + i ).el;
         inp.value = ez.num( valArr[i], 0, 'int' );
-	    ez.$( base_id + '_sizetype_' + i ).el.selectedIndex = ez.$$('#' + base_id + '_sizetype_' + i + ' option').map(function( o )
-	    {
-	        return o.el.value;
-	    }).indexOf( valArr[i].replace( inp.value, '' ) );
+        ez.$( base_id + '_sizetype_' + i ).el.selectedIndex = ez.$$('#' + base_id + '_sizetype_' + i + ' option').map(function( o )
+        {
+            return o.el.value;
+        }).indexOf( valArr[i].replace( inp.value, '' ) );
     }
 };{/literal}
 

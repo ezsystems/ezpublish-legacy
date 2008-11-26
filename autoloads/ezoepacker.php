@@ -218,7 +218,7 @@ class eZOEPacker
 
         if ( $useWWWinCacheHash )
         {
-        	$cacheName = $wwwDir;
+            $cacheName = $wwwDir;
         }
 
         while( count( $fileArray ) > 0 )
