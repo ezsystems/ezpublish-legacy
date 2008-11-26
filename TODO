@@ -11,7 +11,8 @@ KNOWN ENHANCEMENT REQUESTS:
 KNOWN ENHANCEMENT REQUESTS Postponed to 5.1:
 * Custimizable formats selector w/ classes (needs support for classes in the editors FormatBlock call)
 * Better feedback on custom attribute validation ( fork TinyMCE validation and enhance it? )
-* Improve support for flash and video (look into using the support for it in TinyMCE)
+* Improve support for flash and video (look into using the media pugin in TinyMCE)
 * Improve Browse view (also used in search and bookmarks), look at MCFileMangager & MCImageManager
  plugins demo for tinymce (on their website) for alternative view.
+* support custom attributes in embed tag preview (in dialog)
 * Better support for using editor outside of content/edit, where you don't know the object_id yet.
