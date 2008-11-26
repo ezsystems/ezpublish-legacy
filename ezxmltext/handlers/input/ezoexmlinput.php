@@ -964,7 +964,6 @@ class eZOEXMLInput extends eZXMLInputHandler
 
                 if ( !$size ) $size = 'medium';
                 if ( !$view ) $view = $tagName;
-                if ( !$alignment ) $alignment = 'right';
 
                 $objectAttr = '';                
                 $objectAttr .= ' alt="' . $size . '"';

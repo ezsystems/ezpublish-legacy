@@ -27,29 +27,17 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         var tag = selectors[4].el.checked ? 'embed-inline' : 'embed', def = attributeDefaults[ tag ]
         inlineSelectorChange.call( selectors[4], false, selectors[4].el  );
         selectors[4].addEvent('click', inlineSelectorChange );
-        var align = el ? el.getAttribute('align') || def['align']  || 'right' : def['align']  || 'right';
+        var align = el ? el.getAttribute('align') || '' : def['align']  || '';
         if ( align === 'center' ) align = 'middle';
 
-        if ( contentType === 'images' )
-        {
-            selectors[0].addEvent('change', loadImageSize );
-            loadImageSize( false, selectors[0].el );
-            selectors[1].el.value = align;
-            selectors[1].addEvent('change', setEmbedAlign );
-            setEmbedAlign( false, selectors[1].el );
-        }
-        else
-        {
-            
-            ez.$('embed_preview').addClass('object_preview float-break').setStyles( ez.ie56 ? {'margin': '0 5px 5px 5px'} : {});
-            selectors[1].el.value = align;
-            selectors.callEach('addEvent', 'change', loadEmbedPreview );
+        ez.$('embed_preview').addClass('object_preview float-break').setStyles( ez.ie56 ? {'margin': '0 5px 5px 5px'} : {});
+        selectors[1].el.value = align;
+        selectors.callEach('addEvent', 'change', loadEmbedPreview );
 
-            if ( el && el.nodeName !== 'IMG' )//&& el.id.split('_')[1] == eZOEPopupUtils.embedObject.id )
-                ez.$('embed_preview').el.innerHTML = el.innerHTML;
-            else
-                loadEmbedPreview();        
-        }
+        if ( el && el.nodeName !== 'IMG' )//&& el.id.split('_')[1] == eZOEPopupUtils.embedObject.id )
+            ez.$('embed_preview').el.innerHTML = el.innerHTML;
+        else
+            loadEmbedPreview();
 
         var slides = ez.$$('div.panel'), navigation = ez.$$('#tabs li.tab');
         slides.accordion( navigation, {duration: 100, transition: ez.fx.sinoidal, accordionAutoFocusTag: 'input[type=text]'}, {opacity: 0, display: 'none'} );
@@ -266,7 +254,7 @@ function loadEmbedPreview( )
                 <td class="column1"><label for="embed_align_source">{'Align'|i18n('design/standard/ezoe')}</label></td>
                 <td>
                     <select name="align" id="embed_align_source">
-                        <!-- option value="">{'None'|i18n('design/standard/ezoe')}</option -->
+                        <option value="">{'None'|i18n('design/standard/ezoe')}</option>
                         <option value="left">{'Left'|i18n('design/standard/ezoe')}</option>
                         <option value="middle">{'Center'|i18n('design/standard/ezoe')}</option>
                         <option value="right">{'Right'|i18n('design/standard/ezoe')}</option>
@@ -291,11 +279,7 @@ function loadEmbedPreview( )
             </div>
             <div class="right" style="text-align: right;">
                 <a id="embed_switch_link" href={concat( 'ezoe/upload/', $object_id,'/', $object_version,'/', $content_type )|ezurl}>
-                {if $content_type|eq('images')}
-                    {'Switch embed image'|i18n('design/standard/ezoe')}
-                {else}
-                    {'Switch embed object'|i18n('design/standard/ezoe')}
-                {/if}
+                    {'Switch embed file'|i18n('design/standard/ezoe')}
                 </a>
             </div>
         </div>
