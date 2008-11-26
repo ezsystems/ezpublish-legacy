@@ -1867,10 +1867,10 @@ td.timingpoint2
     /// An array of logfiles used by the debug class with each key being the debug level
     public $LogFiles;
 
-    /// How many places behing . should be displayed when showing times
+    /// How many places behind . should be displayed when showing times
     public $TimingAccuracy = 4;
 
-    /// How many places behing . should be displayed when showing percentages
+    /// How many places behind . should be displayed when showing percentages
     public $PercentAccuracy = 4;
 
     /// Whether to use external CSS or output own CSS. True if external is to be used.
