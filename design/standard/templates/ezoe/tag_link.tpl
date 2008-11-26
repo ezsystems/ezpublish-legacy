@@ -132,6 +132,8 @@ function ezoeLinkTypeSet( source, types )
         types.el.value = 'https://';
     else if ( source.el.value.indexOf('mailto:') === 0 )
         types.el.value = 'mailto:';
+    else if ( source.el.value.indexOf('#') === 0 )
+        types.el.value = '#';
     else
         types.el.value = '';
 }
@@ -167,6 +169,7 @@ function ezoeLinkTypeSet( source, types )
                 <option value="http://">Http</option>
                 <option value="https://">Https</option>
                 <option value="mailto:">Mail</option>
+                <option value="#">Anchor</option>
             </select>
             <a id="search_for_link" href="JavaScript:void(0);" title="{'Search'|i18n('design/admin/content/search')}"><img width="16" height="16" border="0" alt="{'Search'|i18n('design/admin/content/search')}" src={"tango/system-search.png"|ezimage} /></a>
             <a id="browse_for_link" href="JavaScript:void(0);" title="{'Browse'|i18n('design/standard/ezoe')}"><img width="16" height="16" border="0" alt="{'Browse'|i18n('design/standard/ezoe')}" src={"tango/folder.png"|ezimage} /></a>
@@ -185,7 +188,7 @@ function ezoeLinkTypeSet( source, types )
                  tag_name=$tag_name
                  attributes=hash('href', '',
                                   'view', $viewModes,
-                                  'target', hash('0', 'None', '_blank', 'New Window'),
+                                  'target', hash('0', 'None', '_blank', 'New window (_blank)', '_self', 'Same frame (_self)', '_parent', 'Parent frame (_parent)', '_top', 'Full window (_top)'),
                                   'class', $class_list,
                                   'title', '',
                                   'id', ''
