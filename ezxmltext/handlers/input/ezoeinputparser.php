@@ -284,22 +284,6 @@ class eZOEInputParser extends eZXMLInputParser
                 {
                     $attributes['class'] = trim( str_replace( 'mceNonEditable', '', $attributes['class'] ) );
                 }
-
-                // rewrite float style to align
-                /*if ( isset( $attributes['style'] ) && strpos( $attributes['style'], 'float' ) !== false )
-                {
-                    if ( strpos( $attributes['style'], 'left' ) !== false )    
-                        $attributes['align'] = 'left';
-                    else if ( strpos( $attributes['style'], 'right' ) !== false )    
-                        $attributes['align'] = 'right';
-                    else
-                        $attributes['align'] = 'center';
-                }
-                else*/ 
-                if ( !isset( $attributes['align'] )  )
-                {
-                    $attributes['align'] = 'center';
-                }
             }
         }
 
