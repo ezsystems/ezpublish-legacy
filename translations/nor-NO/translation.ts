@@ -768,6 +768,65 @@ Vil du vite mer om dette?</translation>
     </message>
 </context>
 <context>
+    <name>design/standard/ezoe/searchreplace</name>
+    <message>
+        <source>Find again</source>
+        <translation>Søk igjen</translation>
+    </message>
+    <message>
+        <source>The search has been completed. The search string could not be found.</source>
+        <translation>Søket er fullført. Søke strengen ble ikke funnet.</translation>
+    </message>
+    <message>
+        <source>Find</source>
+        <translation>Søk</translation>
+    </message>
+    <message>
+        <source>Find/Replace</source>
+        <translation>Søk/Erstatt</translation>
+    </message>
+    <message>
+        <source>All occurrences of the search string were replaced.</source>
+        <translation>Alle forekomster av søke strengen ble erstattet.</translation>
+    </message>
+    <message>
+        <source>Find what</source>
+        <translation>Søk etter</translation>
+    </message>
+    <message>
+        <source>Replace with</source>
+        <translation>Ersatt med</translation>
+    </message>
+    <message>
+        <source>Direction</source>
+        <translation>Retning</translation>
+    </message>
+    <message>
+        <source>Up</source>
+        <translation>Opp</translation>
+    </message>
+    <message>
+        <source>Down</source>
+        <translation>Ned</translation>
+    </message>
+    <message>
+        <source>Match case</source>
+        <translation>Skill mellom små og store bokstaver</translation>
+    </message>
+    <message>
+        <source>Find next</source>
+        <translation>Finn neste</translation>
+    </message>
+    <message>
+        <source>Replace</source>
+        <translation>Erstatt</translation>
+    </message>
+    <message>
+        <source>Replace all</source>
+        <translation>Erstatt alle</translation>
+    </message>
+</context>
+<context>
     <name>design/standard/ezoe/wai</name>
     <message>
         <source>Upload file from your local machine.</source>

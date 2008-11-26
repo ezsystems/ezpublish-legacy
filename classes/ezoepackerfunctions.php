@@ -334,6 +334,22 @@ class eZOEPackerFunctions
                 'empty_search_result' => ezi18n( 'design/standard/content/search', 'No results were found when searching for &quot;%1&quot;', null, array( '%1' => '<search_string>' )),
                 'empty_bookmarks_result' => ezi18n( 'design/standard/content/view', 'You have no bookmarks')
             ),
+            'searchreplace_dlg' => array(
+                'searchnext_desc' => ezi18n('design/standard/ezoe/searchreplace', "Find again"),
+                'notfound' => ezi18n('design/standard/ezoe/searchreplace', "The search has been completed. The search string could not be found."),
+                'search_title' => ezi18n('design/standard/ezoe/searchreplace', "Find"),
+                'replace_title' => ezi18n('design/standard/ezoe/searchreplace', "Find/Replace"),
+                'allreplaced' => ezi18n('design/standard/ezoe/searchreplace', "All occurrences of the search string were replaced."),
+                'findwhat' => ezi18n('design/standard/ezoe/searchreplace', "Find what"),
+                'replacewith' => ezi18n('design/standard/ezoe/searchreplace', "Replace with"),
+                'direction' => ezi18n('design/standard/ezoe/searchreplace', "Direction"),
+                'up' => ezi18n('design/standard/ezoe/searchreplace', "Up"),
+                'down' => ezi18n('design/standard/ezoe/searchreplace', "Down"),
+                'mcase' => ezi18n('design/standard/ezoe/searchreplace', "Match case"),
+                'findnext' => ezi18n('design/standard/ezoe/searchreplace', "Find next"),
+                'replace' => ezi18n('design/standard/ezoe/searchreplace', "Replace"),
+                'replaceall' => ezi18n('design/standard/ezoe/searchreplace', "Replace all")
+            ),
         ));
         $i18nString = eZOEAjaxContent::jsonEncode( $i18nArray );
 
@@ -343,7 +359,7 @@ class eZOEPackerFunctions
     public static function getCacheTime( $functionName )
     {
         // this translation data only expires when this timestamp is increased
-        return 1227101147;
+        return 1227728406;
     }
 }
 
