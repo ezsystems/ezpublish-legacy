@@ -20,7 +20,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     tagName: 'embed',
     form: 'EditForm',
     cancelButton: 'CancelButton',
-    cssClass: compatibilityMode !== 'enabled' ? 'mceNonEditable' : '',
+    cssClass: compatibilityMode !== 'enabled' ? 'mceNonEditable mceItemContentTypeObjects' : '',
     onInitDone: function( el, tag, ed )
     {        
         var selectors = ez.$('embed_alt_source', 'embed_align_source', 'embed_class_source', 'embed_view_source', 'embed_inline_source');

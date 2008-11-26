@@ -279,10 +279,10 @@ class eZOEInputParser extends eZXMLInputParser
                 else
                     $name = 'embed';
 
-                // remove mceNonEditable class that is used by editor on embed objects
+                // remove classes that is used internally by editor on embed objects
                 if ( isset( $attributes['class'] ) && strpos( $attributes['class'], 'mceNonEditable' ) !== false )
                 {
-                    $attributes['class'] = trim( str_replace( 'mceNonEditable', '', $attributes['class'] ) );
+                    $attributes['class'] = trim( preg_replace("/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable)/", '', $attributes['class'] ) );
                 }
             }
         }
