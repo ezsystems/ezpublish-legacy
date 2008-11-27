@@ -215,25 +215,6 @@ function loadEmbedPreview( )
                     </select>
                 </td>
             </tr>
-        {if $content_type|eq( 'images' )}
-            <tr id="embed_alt">
-                <td class="column1"><label for="embed_alt_source">{'Size'|i18n('design/standard/ezoe')}</label></td>
-                <td>
-                    <select name="alt" id="embed_alt_source">
-                    {foreach $size_list as $value => $name}
-                        <option value="{$value|wash}"{if $default_size|eq( $value )} selected="selected"{/if}>{$name|wash}</option>
-                    {/foreach}
-                    </select>
-                </td>
-            </tr>
-            <tr id="embed_view">
-                <td class="column1"><label for="embed_view_source">{'View'|i18n('design/standard/ezoe')}</label></td>
-                <td>
-                    <select name="view" id="embed_view_source">
-                    </select>
-                </td>
-            </tr>
-        {else}
             <tr id="embed_view">
                 <td class="column1"><label for="embed_view_source">{'View'|i18n('design/standard/ezoe')}</label></td>
                 <td>
@@ -242,7 +223,6 @@ function loadEmbedPreview( )
                     </select>
                 </td>
             </tr>
-        {/if}
             <tr id="embed_class">
                 <td class="column1"><label for="embed_class_source">{'Class'|i18n('design/standard/ezoe')}</label></td>
                 <td>
@@ -287,7 +267,6 @@ function loadEmbedPreview( )
         <div class="block">
             <h4 id="embed_preview_heading">{'Preview'|i18n('design/standard/node/view')}:</h4>
             <div id="embed_preview">
-                {if $content_type|eq( 'images' )}<img id="embed_preview_image" alt="{$embed_object.name|wash}" />{/if}
             </div>
         </div>
     </div>

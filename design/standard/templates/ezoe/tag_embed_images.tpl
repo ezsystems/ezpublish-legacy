@@ -201,7 +201,6 @@ function loadImageSize( e, el )
                     </select>
                 </td>
             </tr>
-        {if $content_type|eq( 'images' )}
             <tr id="embed_alt">
                 <td class="column1"><label for="embed_alt_source">{'Size'|i18n('design/standard/ezoe')}</label></td>
                 <td>
@@ -219,16 +218,6 @@ function loadImageSize( e, el )
                     </select>
                 </td>
             </tr>
-        {else}
-            <tr id="embed_view">
-                <td class="column1"><label for="embed_view_source">{'View'|i18n('design/standard/ezoe')}</label></td>
-                <td>
-                    <input type="hidden" name="alt" id="embed_alt_source" value="" />
-                    <select name="view" id="embed_view_source">
-                    </select>
-                </td>
-            </tr>
-        {/if}
             <tr id="embed_class">
                 <td class="column1"><label for="embed_class_source">{'Class'|i18n('design/standard/ezoe')}</label></td>
                 <td>
@@ -273,7 +262,7 @@ function loadImageSize( e, el )
         <div class="block">
             <h4 id="embed_preview_heading">{'Preview'|i18n('design/standard/node/view')}:</h4>
             <div id="embed_preview">
-                {if $content_type|eq( 'images' )}<img id="embed_preview_image" alt="{$embed_object.name|wash}" />{/if}
+                <img id="embed_preview_image" alt="{$embed_object.name|wash}" />
             </div>
         </div>
     </div>
