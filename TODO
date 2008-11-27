@@ -8,7 +8,9 @@ KNOWN ENHANCEMENT REQUESTS:
 
 
 
+
 KNOWN ENHANCEMENT REQUESTS Postponed to 5.1:
+* Preview table style classes as used on web page (webin) using css 3.0
 * Custimizable formats selector w/ classes (needs support for classes in the editors FormatBlock call)
 * Better feedback on custom attribute validation ( fork TinyMCE validation and enhance it? )
 * Improve support for flash and video (look into using the media pugin in TinyMCE)

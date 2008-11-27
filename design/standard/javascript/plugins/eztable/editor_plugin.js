@@ -494,7 +494,7 @@
 	            inst.windowManager.open({
 	                url : s.ez_extension_url + view  + s.ez_contentobject_id + '/' + s.ez_contentobject_version + '/' + eurl,
 	                width : width || 380,
-	                height : height || 280,
+	                height : height || 320,
 	                scrollbars : true,
 	                resizable : true,
 	                inline : true
