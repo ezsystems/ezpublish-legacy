@@ -519,7 +519,7 @@ class eZMail
         if ( preg_match( "/([^<]+)<" . eZMail::REGEXP . ">/", $text, $matches ) )
         {
             $email = $matches[2];
-            $name = $matches[1];
+            $name = trim( $matches[1], '" ' );
         }
         else
         {
