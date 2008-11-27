@@ -129,7 +129,7 @@ if ( contentType === 'images' )
             <iframe id="embed_upload" name="embed_upload" frameborder="0" scrolling="no" style="border: 0; width: 99%; height: 30px; margin: 0; overflow: auto; overflow-x: hidden;"></iframe>
 
             {* Related images *}
-            {if and( $related_contentobjects|count|gt( 0 ), $content_type|eq('images'), $grouped_related_contentobjects.images|count|gt( 0 ))}
+            {if and( $related_contentobjects|count|gt( 0 ), $grouped_related_contentobjects.images|count|gt( 0 ))}
                 <div class="block contenttype_image">
                 <h2>{'Related images'|i18n('design/standard/ezoe')}</h2>
                     {foreach $grouped_related_contentobjects.images as $img}

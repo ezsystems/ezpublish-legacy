@@ -129,7 +129,7 @@ if ( contentType === 'images' )
             <iframe id="embed_upload" name="embed_upload" frameborder="0" scrolling="no" style="border: 0; width: 99%; height: 30px; margin: 0; overflow: auto; overflow-x: hidden;"></iframe>
 
             {* Related files *}
-            {if and( $related_contentobjects|count|gt( 0 ), $content_type|eq('files'), $grouped_related_contentobjects.files|count|gt( 0 ))}
+            {if and( $related_contentobjects|count|gt( 0 ), $grouped_related_contentobjects.files|count|gt( 0 ))}
                 <div class="block contenttype_file">
                 <h2>{'Related files'|i18n('design/standard/ezoe')}</h2>
                         <table class="list" cellspacing="0">

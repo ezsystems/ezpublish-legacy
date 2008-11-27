@@ -35,17 +35,6 @@ tinyMCEPopup.onInit.add( function(){
     };
 });
 
-if ( contentType === 'images' )
-{
-    eZOEPopupUtils.settings.browseClassGenerator = function( n, hasImage ){
-        if ( hasImage && classFilter.indexOf( n.class_identifier ) !== -1 )
-            return '';
-        if ( n.children_count )
-            return 'node_not_image';
-        return 'node_not_image node_fadeout';
-    };
-}
-
 -->
 </script>
 {/literal}
