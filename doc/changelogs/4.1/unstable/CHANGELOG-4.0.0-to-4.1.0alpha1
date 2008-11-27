@@ -448,4 +448,5 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13181: call_user_func() warning on ezfsfilehandler.php
 - Fixed bug #13840: Parameter miss matching in eznodeviewfunctions.php
 - Fixed bug #13089: AllowEmptySearch doesn't work
+- Fixed bug #014020: eZMail does not validate addresses valid under RFC2822
 
