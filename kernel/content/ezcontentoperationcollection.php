@@ -579,7 +579,11 @@ class eZContentOperationCollection
             //include_once( "lib/ezdb/classes/ezdb.php" );
 
             $db = eZDB::instance();
-            $db->query( 'INSERT INTO ezpending_actions( action, param ) VALUES ( \'index_object\', '. (int)$objectID. ' )' );
+            $rows = $db->arrayQuery( 'SELECT param FROM ezpending_actions WHERE action = \'index_object\' AND param = '. (int)$objectID );
+            if ( count( $rows ) == 0 )
+            {
+                $db->query( 'INSERT INTO ezpending_actions( action, param ) VALUES ( \'index_object\', '. (int)$objectID. ' )' );
+            }
         }
         else
         {
