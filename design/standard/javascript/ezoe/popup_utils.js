@@ -640,7 +640,7 @@ var eZOEPopupUtils = {
             tr.appendChild( td );
             tfoot.el.appendChild( tr );
         }
-        if ( emptyList && emptyCallBack.call !== undefined )
+        if ( emptyList && emptyCallBack !== undefined && emptyCallBack.call !== undefined )
         {
             emptyCallBack.call( this, tbody, mode, ed );
         }
