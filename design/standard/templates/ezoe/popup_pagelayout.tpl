@@ -4,7 +4,7 @@
 <head>
     <title>{$module_result.persistent_variable.title}</title>
 <script type="text/javascript" src={"javascript/tiny_mce_popup.js"|ezdesign}></script>
-<script type="text/javascript" src={"javascript/utils/validate.js"|ezdesign}></script>
+<script type="text/javascript" src={"javascript/ezoe/popup_validate.js"|ezdesign}></script>
 
 {def $skin = ezini('EditorSettings', 'Skin', 'ezoe.ini',,true() )}
 

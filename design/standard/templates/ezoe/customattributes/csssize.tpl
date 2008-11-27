@@ -5,13 +5,8 @@
 {if ezini_hasvariable( $custom_attribute_settings, 'Maximum', 'ezoe_customattributes.ini' )}
     {set $custom_attribute_classes = $custom_attribute_classes|append( concat('max', ezini($custom_attribute_settings, 'Maximum', 'ezoe_customattributes.ini') ) )}
 {/if}
-{if ezini_hasvariable( $custom_attribute_settings, 'Required', 'ezoe_customattributes.ini' )}
-    {if ezini( $custom_attribute_settings, 'Required', 'ezoe_customattributes.ini' )|eq('true')}
-        {set $custom_attribute_classes = $custom_attribute_classes|append( 'required' )}
-    {/if}
-{/if}
 <input type="text" size="3" name="{$custom_attribute}" id="{$custom_attribute_id}_source" value="{$custom_attribute_default|wash}"{if $custom_attribute_disabled} disabled="disabled"{/if} class="{$custom_attribute_classes|implode(' ')}" />
-<select id="{$custom_attribute_id}_sizetype"{if $custom_attribute_disabled} disabled="disabled"{/if} class="mceItemSkip">
+<select id="{$custom_attribute_id}_sizetype"{if $custom_attribute_disabled} disabled="disabled"{/if} class="mceItemSkip sizetype_margin_fix">
 {if ezini_hasvariable( $custom_attribute_settings, 'CssSizeType', 'ezoe_customattributes.ini' )}
 {foreach ezini( $custom_attribute_settings, 'CssSizeType', 'ezoe_customattributes.ini' ) as $key => $value}
     <option value="{$key}">{$value}</option>

@@ -72,6 +72,18 @@
             {set $custom_attribute_name = $custom_attribute|upfirst}
         {/if}
 
+		{if ezini_hasvariable( $custom_attribute_settings, 'Required', 'ezoe_customattributes.ini' )}
+		    {if ezini( $custom_attribute_settings, 'Required', 'ezoe_customattributes.ini' )|eq('true')}
+		        {set $custom_attribute_classes = $custom_attribute_classes|append( 'required' )}
+		    {/if}
+		{/if}
+
+        {if ezini_hasvariable( $custom_attribute_settings, 'AllowEmpty', 'ezoe_customattributes.ini' )}
+            {if ezini( $custom_attribute_settings, 'AllowEmpty', 'ezoe_customattributes.ini' )|eq('true')}
+                {set $custom_attribute_classes = $custom_attribute_classes|append( 'allow_empty' )}
+            {/if}
+        {/if}
+
         <tr id="{$custom_attribute_id}" class="custom_attribute_type_{$custom_attribute_type}">
             <td class="column1"><label for="{$custom_attribute_id}_source">
                 {$custom_attribute_name|wash}

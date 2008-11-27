@@ -127,6 +127,7 @@ h3 {font-size:14px;}
 /* extra input styles */
 
 .link_href_input { width: 225px; padding: 1px; margin-top: 1px; }
+select.sizetype_margin_fix { margin-left: -5px; }
 
 
 /* node data lists (used in search, browse and bookmark) styles */

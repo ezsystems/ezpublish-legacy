@@ -6,11 +6,6 @@
 {if ezini_hasvariable( $custom_attribute_settings, 'Maximum', 'ezoe_customattributes.ini' )}
     {set $custom_attribute_classes = $custom_attribute_classes|append( concat('max', ezini($custom_attribute_settings, 'Maximum', 'ezoe_customattributes.ini') ) )}
 {/if}
-{if ezini_hasvariable( $custom_attribute_settings, 'Required', 'ezoe_customattributes.ini' )}
-    {if ezini( $custom_attribute_settings, 'Required', 'ezoe_customattributes.ini' )|eq('true')}
-        {set $custom_attribute_classes = $custom_attribute_classes|append( 'required' )}
-    {/if}
-{/if}
 {if ezini_hasvariable( $custom_attribute_settings, 'CssSizeType', 'ezoe_customattributes.ini' )}
     {def $css_size_types = ezini( $custom_attribute_settings, 'CssSizeType', 'ezoe_customattributes.ini' )}
 {else}
@@ -30,7 +25,7 @@
 <tr>
 <td>
 <input type="text" size="2" name="{$custom_attribute}" id="{$custom_attribute_id}_source" value="{$custom_attribute_default[0]|wash}"{if $custom_attribute_disabled} disabled="disabled"{/if} class="{$custom_attribute_classes|implode(' ')}" />
-<select id="{$custom_attribute_id}_sizetype"{if $custom_attribute_disabled} disabled="disabled"{/if} class="mceItemSkip">
+<select id="{$custom_attribute_id}_sizetype"{if $custom_attribute_disabled} disabled="disabled"{/if} class="mceItemSkip sizetype_margin_fix">
 {foreach $css_size_types as $key => $value}
     <option value="{$key}">{$value}</option>
 {/foreach}
@@ -39,7 +34,7 @@
 {set $custom_attribute_classes = $custom_attribute_classes|append( 'mceItemSkip' )}
 <td>
 <input type="text" size="2" id="{$custom_attribute_id}_source_1" value="{$custom_attribute_default[1]|wash}"{if $custom_attribute_disabled} disabled="disabled"{/if} class="{$custom_attribute_classes|implode(' ')}" />
-<select id="{$custom_attribute_id}_sizetype_1"{if $custom_attribute_disabled} disabled="disabled"{/if} class="mceItemSkip">
+<select id="{$custom_attribute_id}_sizetype_1"{if $custom_attribute_disabled} disabled="disabled"{/if} class="mceItemSkip sizetype_margin_fix">
 {foreach $css_size_types as $key => $value}
     <option value="{$key}">{$value}</option>
 {/foreach}
@@ -47,7 +42,7 @@
 </td>
 <td>
 <input type="text" size="2" id="{$custom_attribute_id}_source_2" value="{$custom_attribute_default[2]|wash}"{if $custom_attribute_disabled} disabled="disabled"{/if} class="{$custom_attribute_classes|implode(' ')}" />
-<select id="{$custom_attribute_id}_sizetype_2"{if $custom_attribute_disabled} disabled="disabled"{/if} class="mceItemSkip">
+<select id="{$custom_attribute_id}_sizetype_2"{if $custom_attribute_disabled} disabled="disabled"{/if} class="mceItemSkip sizetype_margin_fix">
 {foreach $css_size_types as $key => $value}
     <option value="{$key}">{$value}</option>
 {/foreach}
@@ -55,7 +50,7 @@
 </td>
 <td>
 <input type="text" size="2" id="{$custom_attribute_id}_source_3" value="{$custom_attribute_default[3]|wash}"{if $custom_attribute_disabled} disabled="disabled"{/if} class="{$custom_attribute_classes|implode(' ')}" />
-<select id="{$custom_attribute_id}_sizetype_3"{if $custom_attribute_disabled} disabled="disabled"{/if} class="mceItemSkip">
+<select id="{$custom_attribute_id}_sizetype_3"{if $custom_attribute_disabled} disabled="disabled"{/if} class="mceItemSkip sizetype_margin_fix">
 {foreach $css_size_types as $key => $value}
     <option value="{$key}">{$value}</option>
 {/foreach}
