@@ -5,7 +5,7 @@ eZ Online Editor 5.0 extension Changelog
 * Switched from using site.ini [MediaClassSettings]ImageClassIdentifiers[] to
   the setting already used by eZ Publish: content.ini [RelationGroupSettings]ImagesClassList[]
   Note: You need to change your settings as a result from this
-* added file button, and use 1 tempalte pr content type in upload and realated dialog.
+* Added file button, and use 1 tempalte pr content type in upload and realated dialog.
   Note: New i18n strings in upload_* and tag_embed_* templates!
 * updated to TinyMCE 3.2.1
 * Misc i18n bugs fixed in pol-PL and nor-NO
@@ -13,7 +13,7 @@ eZ Online Editor 5.0 extension Changelog
 * Added support for TinyMCE spellchecker plugin (thx to Carlos Revillo)
 * Fixed #13954: Applying a custom tag to a text can change this text
 * Added custom tag view template for underline
-* Implemented new custom attribute types: htmlsize, csssize and csssize4
+* Implemented new custom attribute types: htmlsize, csssize, cssborder and csssize4
 * Implemented possibility to limit some embed settings pr content type
 * Fixed #13990: Text editor - Formatting bullets removes text
 * Fixed #13755: Anchor not displaying anchor name in IE7/8 (WinXP) - 5.0.0rc7

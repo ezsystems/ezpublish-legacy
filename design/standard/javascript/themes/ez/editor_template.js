@@ -862,7 +862,7 @@
         },
 
         _nodeChanged : function(ed, cm, n, co) {
-            var t = this, p, de = 0, v, c, c2, s = t.settings, mceNonEditable = false, div = false, header, type = 'objects';
+            var t = this, p, de = 0, v, c, c2, s = t.settings, mceNonEditable = false, div = false, header, type = '';
 
             if (s.readonly)
                 return;
@@ -889,12 +889,12 @@
                 if ( c )
                 {
                     c.setActive( mceNonEditable && (type === 'objects')  );
-                    c.setDisabled( header );
+                    c.setDisabled( header || (mceNonEditable && type !== 'objects') );
                 }
                 if ( c2 )
                 {
                     c2.setActive( mceNonEditable && (type === 'files')  );
-                    c2.setDisabled( header );
+                    c2.setDisabled( header || (mceNonEditable && type !== 'files') );
                 }
             }
 

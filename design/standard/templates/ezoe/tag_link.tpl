@@ -160,7 +160,7 @@ function ezoeLinkTypeSet( source, types )
             <h2 style="padding: 0 0 4px 0;">{$tag_name|upfirst|wash}</h2>
         </div>
         {set-block variable=$link_href_types}
-            <select id="link_href_source_types" class="mceItemSkip">
+            <select id="link_href_source_types" class="mceItemSkip" title="{"List of possible link types. Link types that use the '://' format are technically called protocols."|i18n('design/standard/ezoe')}">
                 <option value="">Other</option>
                 <option value="eznode://">eznode</option>
                 <option value="ezobject://">ezobject</option>

@@ -18,11 +18,13 @@
                     'target', 'Target'|i18n('design/standard/ezoe'),
                     'title', 'Title'|i18n('design/standard/ezoe')
          )
-         attribute_titles = hash( 
+         attribute_titles = hash(
+                    'href', 'The url the link points to, starts with link type (like http://).'|i18n('design/standard/ezoe'),
                     'class', 'Class are often used to give different design or appearance, either by using a different template, style or both.'|i18n('design/standard/ezoe'),
                     'target', 'Lets you specify the target window for the link, if any.'|i18n('design/standard/ezoe'),
                     'title', 'The title on the (x)html tag, used by screen readers, and to give better explanation like this one.'|i18n('design/standard/ezoe'),
                     'width', 'To set the width of the tag, either as percentage by appending % or as pixel size by just using a number.'|i18n('design/standard/ezoe'),
+                    'id', 'The unique identifier used for the element in the (x)html output, used by style sheets and/or anchors.'|i18n('design/standard/ezoe')
                     )}
 {if and( $:tag_name, $:attributes )}
     {def $attribute_default = ''

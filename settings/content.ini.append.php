@@ -50,7 +50,7 @@ AvailableViewModes[]=embed-inline
 #
 ## This examples demonstrates limiting AvailableClasses list in editor
 ## when editing embed tags with a relation to a object of content type image.
-#[embed-type_image]
+#[embed-type_images]
 #AvailableClasses[]
 #AvailableClasses[]=blue_border
 #AvailableClasses[]=dropp_down_shadow
