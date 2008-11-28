@@ -674,9 +674,9 @@ WHERE user_id = '" . $userID . "' AND
     /**
      * Logs in the user if applied username and password is valid.
      *
-     * @param string $login 
-     * @param string $password 
-     * @param bool $authenticationMatch 
+     * @param string $login
+     * @param string $password
+     * @param bool $authenticationMatch
      * @return mixed eZUser on success, bool false on failure
      */
     public static function loginUser( $login, $password, $authenticationMatch = false )
@@ -696,9 +696,9 @@ WHERE user_id = '" . $userID . "' AND
     }
 
     /**
-     * Does some house keeping work once a log in has succeeded. 
+     * Does some house keeping work once a log in has succeeded.
      *
-     * @param eZUser $user 
+     * @param eZUser $user
      */
     protected static function loginSucceeded( $user )
     {
@@ -715,10 +715,10 @@ WHERE user_id = '" . $userID . "' AND
     }
 
     /**
-     * Does some house keeping work when a log in has failed. 
+     * Does some house keeping work when a log in has failed.
      *
      * @param mixed $userID
-     * @param string $login 
+     * @param string $login
      */
      protected static function loginFailed( $userID = false, $login )
     {
@@ -736,14 +736,14 @@ WHERE user_id = '" . $userID . "' AND
     /**
      * Logs in an user if applied login and password is valid.
      *
-     * This method does not do any house keeping work anymore (writing audits, etc). 
+     * This method does not do any house keeping work anymore (writing audits, etc).
      * When you call this method make sure to call loginSucceeded() or loginFailed()
-     * depending on the success of the login. 
+     * depending on the success of the login.
      *
-     * @param string $login 
-     * @param string $password 
-     * @param bool $authenticationMatch 
-     * @return mixed eZUser object on log in success, int userID if the username  
+     * @param string $login
+     * @param string $password
+     * @param bool $authenticationMatch
+     * @return mixed eZUser object on log in success, int userID if the username
      *         exists but log in failed, or false if the username doesn't exists.
      */
     protected static function _loginUser( $login, $password, $authenticationMatch = false )
@@ -784,16 +784,16 @@ WHERE user_id = '" . $userID . "' AND
                         ezcontentobject.status='$contentObjectStatus' AND
                         ezcontentobject.id=contentobject_id AND
                         ( ( password_hash_type!=4 ) OR
-                          ( password_hash_type=4 AND 
-                              ( $loginText ) AND 
+                          ( password_hash_type=4 AND
+                              ( $loginText ) AND
                           password_hash=PASSWORD('$passwordEscaped') ) )";
         }
         else
         {
-            $query = "SELECT contentobject_id, password_hash, 
+            $query = "SELECT contentobject_id, password_hash,
                              password_hash_type, email, login
                       FROM   ezuser, ezcontentobject
-                      WHERE  ( $loginText ) 
+                      WHERE  ( $loginText )
                       AND    ezcontentobject.status='$contentObjectStatus'
                       AND    ezcontentobject.id=contentobject_id";
         }
