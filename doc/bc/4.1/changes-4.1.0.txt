@@ -60,6 +60,12 @@ Change of behaviour
   eZCharTransform::transformByGroup multiple times with another value for its 
   $group parameter.
 
+- eZMail - validate
+
+  This method now returns the value of preg_match directly, instead of using
+  ereg. This means that return values of this method now is 1 for a valid
+  address, and 0 for an invalid address.
+
 Renamed constants
 -----------------
 
