@@ -1,5 +1,5 @@
 /**
- * $Id: EditorCommands.js 934 2008-09-27 09:37:56Z spocke $
+ * $Id: EditorCommands.js 958 2008-11-05 13:13:58Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -957,7 +957,7 @@
 			function replaceFonts() {
 				var bm;
 
-				each(dom.select(tinymce.isWebKit ? 'span' : 'font'), function(n) {
+				each(dom.select(tinymce.isWebKit && !tinymce.isAir ? 'span' : 'font'), function(n) {
 					if (n.style.fontFamily == 'mceinline' || n.face == 'mceinline') {
 						if (!bm)
 							bm = ed.selection.getBookmark();

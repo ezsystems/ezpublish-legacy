@@ -1,5 +1,5 @@
 /**
- * $Id: editor_template_src.js 925 2008-09-11 11:25:26Z spocke $
+ * $Id: editor_template_src.js 960 2008-11-12 18:30:32Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright � 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -353,6 +353,9 @@
             if (v = s.theme_advanced_text_colors)
                 o.colors = v;
 
+            if (s.theme_advanced_default_foreground_color)
+                o.default_color = s.theme_advanced_default_foreground_color;
+
             o.title = 'advanced.forecolor_desc';
             o.cmd = 'ForeColor';
             o.scope = this;
@@ -378,6 +381,9 @@
 
             if (v = s.theme_advanced_background_colors)
                 o.colors = v;
+
+            if (s.theme_advanced_default_background_color)
+                o.default_color = s.theme_advanced_default_background_color;
 
             o.title = 'advanced.backcolor_desc';
             o.cmd = 'HiliteColor';

@@ -1,5 +1,5 @@
 /**
- * $Id: ColorSplitButton.js 840 2008-05-06 17:18:25Z spocke $
+ * $Id: ColorSplitButton.js 960 2008-11-12 18:30:32Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -193,6 +193,7 @@
 
 			t.parent();
 			DOM.add(id + '_action', 'div', {id : id + '_preview', 'class' : 'mceColorPreview'});
+			DOM.setStyle(t.id + '_preview', 'backgroundColor', t.value);
 		},
 
 		/**

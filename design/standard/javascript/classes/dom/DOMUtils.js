@@ -1,5 +1,5 @@
 /**
- * $Id: DOMUtils.js 952 2008-11-03 17:56:04Z spocke $
+ * $Id: DOMUtils.js 967 2008-11-27 17:38:42Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -1284,7 +1284,7 @@
 					if (x) {
 						// So if we replace the p elements with divs and mark them and then replace them back to paragraphs
 						// after we use innerHTML we can fix the DOM tree
-						h = h.replace(/<p([^>]+)>|<p>/g, '<div$1 mce_tmp="1">');
+						h = h.replace(/<p ([^>]+)>|<p>/g, '<div $1 mce_tmp="1">');
 						h = h.replace(/<\/p>/g, '</div>');
 
 						// Set the new HTML with DIVs
@@ -1510,15 +1510,23 @@
 		 * @return {String} Entity decoded string.
 		 */
 		decode : function(s) {
-			var e;
+			var e, n, v;
 
 			// Look for entities to decode
 			if (/&[^;]+;/.test(s)) {
 				// Decode the entities using a div element not super efficient but less code
 				e = this.doc.createElement("div");
 				e.innerHTML = s;
+				n = e.firstChild;
+				v = '';
 
-				return !e.firstChild ? s : e.firstChild.nodeValue;
+				if (n) {
+					do {
+						v += n.nodeValue;
+					} while (n.nextSibling);
+				}
+
+				return v || s;
 			}
 
 			return s;

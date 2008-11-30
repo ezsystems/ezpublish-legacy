@@ -1,5 +1,5 @@
 /**
- * $Id: tinymce.js 954 2008-11-04 16:30:09Z spocke $
+ * $Id: tinymce.js 966 2008-11-27 17:26:57Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -12,8 +12,8 @@
  */
 var tinymce = {
 	majorVersion : '3',
-	minorVersion : '2.1',
-	releaseDate : '2008-11-04',
+	minorVersion : '2.1.1',
+	releaseDate : '2008-11-27',
 
 	/**#@+
 	 * @method

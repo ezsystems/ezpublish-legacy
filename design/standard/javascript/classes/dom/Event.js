@@ -1,5 +1,5 @@
 /**
- * $Id: Event.js 843 2008-05-08 10:28:16Z spocke $
+ * $Id: Event.js 965 2008-11-27 17:23:31Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
@@ -240,6 +240,10 @@
 
 		_pageInit : function() {
 			var e = Event;
+
+			// Safari on Mac fires this twice
+			if (e.domLoaded)
+				return;
 
 			e._remove(window, 'DOMContentLoaded', e._pageInit);
 			e.domLoaded = true;
