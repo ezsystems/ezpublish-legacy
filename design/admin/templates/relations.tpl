@@ -71,6 +71,7 @@
             {/if}
         {/foreach}
     {/foreach}
+    {undef $tr_class $attr}
 {else}
     <tr><td>{'The item being viewed does not make use of any other objects.'|i18n( 'design/admin/node/view/full' )}</td></tr>
 {/if}
@@ -124,6 +125,7 @@
             {/if}
         {/foreach}
     {/foreach}
+    {undef $tr_class $attr}
 {else}
     <tr><td>{'The item being viewed is not used by any other objects.'|i18n( 'design/admin/node/view/full' )}</td></tr>
 {/if}
