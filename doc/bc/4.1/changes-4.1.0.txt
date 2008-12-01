@@ -39,6 +39,10 @@ EZP_INI_FILEMTIME_CHECK
     will always used the cached values, lowering the amount of stat-calls to
     the file system, and thus increasing performance.
 
+EZP_AUTOLOAD_ALLOW_KERNEL_OVERRIDE
+    This setting controls if eZ Publish's autoload system should allow, and
+    load classes, which override kernel classes from extensions.
+
 Changes to method signatures
 ----------------------------
 

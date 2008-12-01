@@ -4,8 +4,6 @@
  *
  * @copyright Copyright (C) 2005-2008 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/gnu_gpl GNU GPL
- * @version //autogentag//
- * @filesource
  *
  */
 
@@ -17,10 +15,10 @@
 
 @include "config.php";
 
-$baseEnabled = @include( 'ezc/Base/base.php' );
+$baseEnabled = @include 'ezc/Base/base.php';
 if ( !$baseEnabled )
 {
-    $baseEnabled = @include( 'Base/src/base.php' );
+    $baseEnabled = @include 'Base/src/base.php';
 }
 define( 'EZCBASE_ENABLED', $baseEnabled );
 
@@ -30,8 +28,9 @@ function ezpAutoload( $className )
     if ( is_null( $ezpClasses ) )
     {
         $ezpKernelClasses = require 'autoload/ezp_kernel.php';
-        $ezpExtensionClasses = require 'autoload/ezp_extension.php';
-        $ezpTestClasses = @include 'autoload/ezp_tests.php';
+        $ezpExtensionClasses = require 'var/autoload/ezp_extension.php';
+
+        $ezpTestClasses = @include 'var/autoload/ezp_tests.php';
         if ( $ezpTestClasses )
         {
             $ezpClasses = array_merge( $ezpKernelClasses, $ezpExtensionClasses, $ezpTestClasses );
@@ -39,6 +38,12 @@ function ezpAutoload( $className )
         else
         {
             $ezpClasses = array_merge( $ezpKernelClasses, $ezpExtensionClasses );
+        }
+
+        if ( defined( 'EZP_AUTOLOAD_ALLOW_KERNEL_OVERRIDE' ) and EZP_AUTOLOAD_ALLOW_KERNEL_OVERRIDE )
+        {
+            $ezpKernelOverrideClasses = require 'var/autoload/ezp_override.php';
+            $ezpClasses = array_merge( $ezpClasses, $ezpKernelOverrideClasses );
         }
     }
 

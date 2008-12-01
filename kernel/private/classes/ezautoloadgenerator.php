@@ -9,193 +9,226 @@
  */
 
 /**
-* Utility class for generating autoload arrays for eZ Publish. The class can
-* handle classes from the kernel and extensions.
-*
-* @package kernel
-* @version //autogentag//
-*/
+ * Utility class for generating autoload arrays for eZ Publish.
+ * 
+ * The class can handle classes from the kernel and extensions.
+ *
+ * @package kernel
+ */
 class eZAutoloadGenerator
 {
     /**
-     * Contains the base path from which to root the search, and from which
-     * to create relative paths
+     * eZAutoloadGenerator options
      *
-     * @var string
+     * @var ezpAutoloadGeneratorOptions
      */
-    protected $basePath;
+    protected $options;
 
     /**
-     * Flag for searching kernel files.
+     * The bitmask containing all the operation modes.
      *
-     * @var bool
+     * @var int
      */
-    protected $searchKernelFiles;
+    protected $mask;
 
     /**
-     * Flag for searching in extension files.
-     *
-     * @var bool
-     */
-    protected $searchExtensionFiles;
-
-    /**
-     * Flag for verbose output
-     *
-     * @var bool
-     */
-    protected $verboseOutput;
-
-    /**
-     * Flag for writing autoload arrays
-     *
-     * @var bool
-     */
-    protected $writeFiles;
-
-    /**
-     * Holds the directory into which autoload arrays are written.
-     *
-     * @var string
-     */
-    protected $outputDir;
-
-    /**
-     * Holds the directories to exclude from search
+     * Contains the contents of already created autoload files.
+     * 
+     * If the files are not existing, the corresponding arrays will be empty.
      *
      * @var array
      */
-    protected $excludeDirs;
+    protected $existingAutoloadArrays;
+
+    /**
+     * Contains all the logged messages.
+     *
+     * @var array
+     */
+    protected $messages;
+
+    /**
+     * Contains all the logged warning messages.
+     *
+     * @var array
+     */
+    protected $warnings;
+
+    /**
+     * The callback to be used in when logging messages.
+     *
+     * @var callback
+     */
+    protected $outputCallback;
+
+    /**
+     * Nametable for each of the MODE_* modes defined in the class.
+     *
+     * @var array
+     */
+    protected $modeName = array(
+                                    self::MODE_KERNEL => "Kernel",
+                                    self::MODE_EXTENSION => "Extension",
+                                    self::MODE_TESTS => "Test",
+                                    self::MODE_SINGLE_EXTENSION =>"Single extension",
+                                    self::MODE_KERNEL_OVERRIDE => "Kernel overrides",
+                               );
+
+    /**
+     * Contains newly generated autoload data.
+     * 
+     * Used for sharing data between the printAutloadArrays() and
+     * writeAutoloadFiles() methods.
+     *
+     * @var array
+     */
+    protected $autoloadArrays;
 
     /**
      * Bitmask for searching in no files.
      */
-    const GENAUTOLOADS_NONE = 0;
+    const MODE_NONE = 0;
 
     /**
      * Bitmask for searhing in kernel files
      */
-    const GENAUTOLOADS_KERNEL = 1;
+    const MODE_KERNEL = 1;
 
     /**
      * Bitmask for search in extension files
      */
-    const GENAUTOLOADS_EXTENSION = 2;
+    const MODE_EXTENSION = 2;
 
     /**
      * Bitmask for searching in test files
      */
-    const GENAUTOLOADS_TESTS = 3;
+    const MODE_TESTS = 4;
 
     /**
-     * Bitmask for searching in kernel, extension and test files
+     * Bitmask for searching in a single extension only.
+     * 
+     * This mode is mutually exclusive from the other modes.
      */
-    const GENAUTOLOADS_ALL = 6;
+    const MODE_SINGLE_EXTENSION = 8;
 
+    /**
+     * Bitmask for searching for kernel overrides.
+     * 
+     * This mode is mutually excluse from the other modes.
+     */
+    const MODE_KERNEL_OVERRIDE = 16;
 
     /**
      * Constructs class to generate autoload arrays.
-     * File search is rooted in $basePath, and the parameters
-     * $searchKernelFiles and $searchExtensionFiles control which part of the
-     * installation is searched for classes.
-     *
-     * $verboseOutput controls whether autoload arrays will be printed on
-     * STDOUT.
-     *
-     * $writeFiles controls whether the the resulting autoload arrays are
-     * written to disc.
-     *
-     * $outputDir is the directory into which the autoload arrays should be
-     * written, defaults to 'autoload'
-     *
-     * $excludeDirs are the arrays which should not be included in the search
-     * for PHP classes.
-     *
-     * @param string $basePath
-     * @param bool $searchKernelFiles
-     * @param bool $searchExtensionFiles
-     * @param bool $verboseOutput
-     * @param bool $writeFiles
-     * @param string $outputDir
-     * @param array $excludeDirs
      */
-    function __construct( $basePath, $searchKernelFiles, $searchExtensionFiles, $searchTestFiles, $verboseOutput = false, $writeFiles = true, $outputDir = false, $excludeDirs = false )
+    function __construct( ezpAutoloadGeneratorOptions $options = null )
     {
-        $this->basePath = $basePath;
-        $this->searchKernelFiles = $searchKernelFiles;
-        $this->searchExtensionFiles = $searchExtensionFiles;
-        $this->searchTestFiles = $searchTestFiles;
-        $this->verboseOutput = $verboseOutput;
-        $this->writeFiles = $writeFiles;
-
-        if ( $outputDir === false )
+        if ( $options === null )
         {
-            $this->outputDir = 'autoload';
+            $this->options = new ezpAutoloadGeneratorOptions();
         }
         else
         {
-            $this->outputDir = $outputDir;
+            $this->options = $options;
         }
+        $this->mask = $this->runMode();
 
-        $this->excludeDirs = $excludeDirs;
+        // Set up arrays for existing autoloads, used to check for class name
+        // collisions.
+        $this->existingAutoloadArrays = array();
+        $this->existingAutoloadArrays[self::MODE_KERNEL] = @include 'autoload/ezp_kernel.php';
+        $this->existingAutoloadArrays[self::MODE_EXTENSION] = @include 'var/autoload/ezp_extension.php';
+        $this->existingAutoloadArrays[self::MODE_TESTS] = @include 'var/autoload/ezp_tests.php';
 
+        $this->messages = array();
+        $this->warnings = array();
     }
 
     /**
      * Searches specified directories for classes, and build autoload arrays.
      *
-     * @throws Exception if desired output directory is not a directory, or if the autoload arrays are not writeable by the script.
+     * @throws Exception if desired output directory is not a directory, or if
+     *         the autoload arrays are not writeable by the script.
      * @return void
      */
     public function buildAutoloadArrays()
     {
-        $runMode = $this->runMode( $this->searchKernelFiles, $this->searchExtensionFiles, $this->searchTestFiles );
-        $phpFiles = $this->fetchFiles( $this->basePath, $runMode, $this->excludeDirs );
+        $phpFiles = $this->fetchFiles();
 
         $phpClasses = array();
-        foreach ($phpFiles as $mode => $fileList) {
-            $phpClasses[$mode] = $this->getClassFileList( $fileList );
+        foreach ( $phpFiles as $mode => $fileList )
+        {
+            $phpClasses[$mode] = $this->getClassFileList( $fileList, $mode );
         }
 
         $maxClassNameLength = $this->checkMaxClassLength( $phpClasses );
-        $autoloadArrays = $this->dumpArray( $phpClasses, $maxClassNameLength );
+        $this->autoloadArrays = $this->dumpArray( $phpClasses, $maxClassNameLength );
 
-        //Write autoload array data into separate files
-        foreach( $autoloadArrays as $location => $data )
+        if ( $this->options->writeFiles )
         {
-            if ( $this->verboseOutput )
+            $this->writeAutoloadFiles();
+        }
+    }
+
+    /**
+     * Writes the autoload data in <var>$data</var> for the mode/location
+     * <var>$location</var> to actual files.
+     *
+     * This method also make sure that the target directory exists, and directs
+     * the different autoload arrays to different destinations, depending on
+     * the operation mode.
+     *
+     * @param int $location
+     * @param string $data
+     * @return void
+     */
+    protected function writeAutoloadFiles()
+    {
+        $directorySeparators = "/\\";
+
+        foreach( $this->autoloadArrays as $location => $data )
+        {
+            if ( $this->options->outputDir )
             {
-                var_dump( $this->dumpArrayStart( $location) . $data . $this->dumpArrayEnd() );
+                $targetBasedir = rtrim( $this->options->outputDir, $directorySeparators );
+            }
+            else
+            {
+                $targetBasedir = $this->targetTable( $location );
             }
 
-            if ( $this->writeFiles )
+            if( file_exists( $targetBasedir ) && !is_dir( $targetBasedir ) )
             {
-                // Check the targetDir
-                if( file_exists( $this->outputDir ) && !is_dir( $this->outputDir ) )
+                throw new Exception( "Specified target: {$targetBasedir} is not a directory." );
+            }
+            else if ( !file_exists( $targetBasedir ) )
+            {
+                if ( defined( 'EZP_INI_FILE_PERMISSION' ) )
                 {
-                    throw new Exception( "Specified target: {$this->outputDir} is not a directory." );
-                }
-                elseif ( !file_exists( $this->outputDir ) )
-                {
-                    mkdir( $this->outputDir );
-                }
-
-                $filename = $this->nameTable( $location );
-                $filePath = "{$this->outputDir}/$filename";
-                $file = fopen( $filePath, "w+" );
-                if ( $file )
-                {
-                    fwrite( $file, $this->dumpArrayStart( $location ) );
-                    fwrite( $file, $data );
-                    fwrite( $file, $this->dumpArrayEnd() );
-                    fclose( $file );
+                    mkdir( $this->options->outputDir, EZP_INI_FILE_PERMISSION );
                 }
                 else
                 {
-                    throw new Exception( __CLASS__ . ' - ' . __FUNCTION__ . ": The file {$filePath} is not writable by the system." );
+                    mkdir( $this->options->outputDir );
                 }
             }
-        }
+
+            $filename = $this->nameTable( $location );
+            $filePath = $targetBasedir . DIRECTORY_SEPARATOR . $filename;
+
+             $file = fopen( $filePath, "w+" );
+             if ( $file )
+             {
+                 fwrite( $file, $this->dumpArrayStart( $location ) );
+                 fwrite( $file, $data );
+                 fwrite( $file, $this->dumpArrayEnd() );
+                 fclose( $file );
+             }
+             else
+             {
+                 throw new Exception( __CLASS__ . ' - ' . __FUNCTION__ . ": The file {$filePath} is not writable by the system." );
+             }
+         }
     }
 
     /**
@@ -205,9 +238,13 @@ class eZAutoloadGenerator
      * @param string $mask A binary mask which instructs the function whether to fetch kernel-related or extension-related files.
      * @return array
      */
-    protected function fetchFiles( $path, $mask, $excludeDirs = false )
+    protected function fetchFiles()
     {
-        // make sure ezcFile::findRecursive and the exclusion filters we pass to it
+        $path = $this->options->basePath;
+        $excludeDirs = $this->options->excludeDirs;
+        // @TODO Need to trim any trailing /
+
+        // make sure ezcBaseFile::findRecursive and the exclusion filters we pass to it
         // work correctly on systems with another file seperator than the forward slash
         $sanitisedBasePath = DIRECTORY_SEPARATOR == '/' ? $path : strtr( $path, DIRECTORY_SEPARATOR, '/' );
 
@@ -222,35 +259,31 @@ class eZAutoloadGenerator
 
         $retFiles = array();
 
-        switch( $this->checkMode( $mask ) )
+        $activeModes = $this->checkMode();
+
+        foreach( $activeModes as $modusOperandi )
         {
-            case self::GENAUTOLOADS_KERNEL:
+            switch( $modusOperandi )
             {
-                $extraExcludeDirs[] = "@^{$sanitisedBasePath}/extension/@";
-                $extraExcludeDirs[] = "@^{$sanitisedBasePath}/tests/@";
-                $retFiles = array( "kernel" => $this->buildFileList( $sanitisedBasePath, $extraExcludeDirs ) );
-                break;
-            }
+                case self::MODE_KERNEL:
+                    $extraExcludeKernelDirs = $extraExcludeDirs;
+                    $extraExcludeKernelDirs[] = "@^{$sanitisedBasePath}/extension/@";
+                    $extraExcludeKernelDirs[] = "@^{$sanitisedBasePath}/tests/@";
+                    $retFiles[self::MODE_KERNEL] = $this->buildFileList( $sanitisedBasePath, $extraExcludeKernelDirs );
+                    break;
 
-            case self::GENAUTOLOADS_EXTENSION:
-            {
-                $retFiles = array( "extension" => $this->buildFileList( "$sanitisedBasePath/extension", $extraExcludeDirs ) );
-                break;
-            }
+                case self::MODE_EXTENSION:
+                case self::MODE_KERNEL_OVERRIDE:
+                    $retFiles[$modusOperandi] = $this->buildFileList( "$sanitisedBasePath/extension", $extraExcludeDirs );
+                    break;
 
-            case self::GENAUTOLOADS_TESTS:
-            {
-                $retFiles = array( "tests" => $this->buildFileList( "$sanitisedBasePath/tests", $extraExcludeDirs ) );
-                break;
-            }
+                case self::MODE_TESTS:
+                    $retFiles[self::MODE_TESTS] = $this->buildFileList( "$sanitisedBasePath/tests", $extraExcludeDirs );
+                    break;
 
-            case self::GENAUTOLOADS_ALL:
-            {
-                $extraExcludeKernelDirs = $extraExcludeDirs;
-                $extraExcludeKernelDirs[] = "@^{$sanitisedBasePath}/extension/@";
-                $retFiles = array( "extension"  => $this->buildFileList( "$sanitisedBasePath/extension", $extraExcludeDirs ),
-                                   "kernel"     => $this->buildFileList( $sanitisedBasePath, $extraExcludeKernelDirs ) );
-                break;
+                case self::MODE_SINGLE_EXTENSION:
+                    $retFiles = array( self::MODE_SINGLE_EXTENSION => $this->buildFileList( "$sanitisedBasePath", $extraExcludeDirs ) );
+                    break;
             }
         }
 
@@ -259,19 +292,18 @@ class eZAutoloadGenerator
         {
             foreach ( $fileBundle as $key => &$file )
             {
-                // ezcFile::calculateRelativePath only works correctly with paths where DIRECTORY_SEPARATOR is used
-                // so we need to correct the results of ezcFile::findRecursive again
+                // ezcBaseFile::calculateRelativePath only works correctly with paths where DIRECTORY_SEPARATOR is used
+                // so we need to correct the results of ezcBaseFile::findRecursive again
                 if ( DIRECTORY_SEPARATOR != '/' )
                 {
                     $file = strtr( $file, '/', DIRECTORY_SEPARATOR );
                 }
-                $fileBundle[$key] = ezcFile::calculateRelativePath( $file, $path );
+                $fileBundle[$key] = ezcBaseFile::calculateRelativePath( $file, $path );
             }
         }
         unset( $file, $fileBundle );
         return $retFiles;
     }
-
 
     /**
      * Builds a filelist of all PHP files in $path.
@@ -293,7 +325,7 @@ class eZAutoloadGenerator
 
         if (!empty( $path ) )
         {
-            return ezcFile::findRecursive( $path, array( '@\.php$@' ), $exclusionFilter );
+            return ezcBaseFile::findRecursive( $path, array( '@\.php$@' ), $exclusionFilter );
         }
         return false;
     }
@@ -302,11 +334,16 @@ class eZAutoloadGenerator
      * Extracts class information from PHP sourcecode.
      * @return array (className=>filename)
      */
-    protected function getClassFileList( $fileList )
+    protected function getClassFileList( $fileList, $mode )
     {
         $retArray = array();
         foreach( $fileList as $file )
         {
+            if ( $mode === self::MODE_SINGLE_EXTENSION )
+            {
+                $file = getcwd() . DIRECTORY_SEPARATOR . $this->options->basePath . DIRECTORY_SEPARATOR . $file;
+            }
+
             $tokens = @token_get_all( file_get_contents( $file ) );
             foreach( $tokens as $key => $token )
             {
@@ -316,7 +353,6 @@ class eZAutoloadGenerator
                     {
                         case T_CLASS:
                         case T_INTERFACE:
-                        {
                             // make sure we store cross-platform file system paths,
                             // using a forward slash as directory separator
                             if ( DIRECTORY_SEPARATOR != '/' )
@@ -324,8 +360,27 @@ class eZAutoloadGenerator
                                 $file = str_replace( DIRECTORY_SEPARATOR, '/', $file );
                             }
 
-                            $retArray[$tokens[$key+2][1]] = $file;
-                        } break;
+                            if ( $mode === self::MODE_SINGLE_EXTENSION )
+                            {
+                                $file = ezcBaseFile::calculateRelativePath( $file, getcwd() . DIRECTORY_SEPARATOR . $this->options->basePath );
+                            }
+
+                            // Here there are two code paths.
+                            // MODE_KERNEL_OVERRIDE will only add a class if
+                            // it exists in the MODE_KERNEL autoload array.
+                            // All other modes will only add a class if the
+                            // class name is unique.
+
+                            // CLASS_TOKEN - WHITESPACE_TOKEN - TEXT_TOKEN (containing class name)
+                            $className = $tokens[$key+2][1];
+                            $addClass = $this->classCanBeAdded( $className, $file, $mode, $retArray );
+
+                            if ( $addClass )
+                            {
+                                $retArray[$className] = $file;
+                            }
+
+                            break;
                     }
                 }
             }
@@ -390,53 +445,92 @@ class eZAutoloadGenerator
      * @param int $mask Bitmask to check for run mode.
      * @return int
      */
-    protected function checkMode( $mask )
+    protected function checkMode()
     {
-        $modes = array( self::GENAUTOLOADS_KERNEL, self::GENAUTOLOADS_EXTENSION,
-                        self::GENAUTOLOADS_TESTS, self::GENAUTOLOADS_ALL );
+        $modes = array( self::MODE_KERNEL, self::MODE_EXTENSION,
+                        self::MODE_TESTS, self::MODE_SINGLE_EXTENSION, self::MODE_KERNEL_OVERRIDE );
+
+        $activeModes = array();
+
         foreach( $modes as $mode )
         {
-            if ( ( $mask & $mode ) == $mask )
+            if ( ( $this->mask & $mode ) == $mode )
             {
-                return $mode;
+                $activeModes[] = $mode;
             }
         }
-        return false;
+        return $activeModes;
     }
 
     /**
      * Generates the active bitmask for this instance of the autoload generation script
      * depending on the parameters it sets the corresponding flags.
      *
-     * @param bool $useKernelFiles Whether kernel files should be checked
-     * @param bool $useExtensionFiles Whether extension files should be checked
      * @return int
      */
-    protected function runMode( $useKernelFiles, $useExtensionFiles, $useTestFiles )
+    protected function runMode()
     {
-        $mode = self::GENAUTOLOADS_NONE;
+        $mode = self::MODE_NONE;
+
+        // If an extension is given as an argument, that will override other
+        // mode options
+        if ( $this->options->basePath !== getcwd() )
+        {
+            $mode |= self::MODE_SINGLE_EXTENSION;
+            return $mode;
+        }
+
+        if ( $this->options->searchKernelOverride )
+        {
+            $mode |= self::MODE_KERNEL_OVERRIDE;
+            return $mode;
+        }
+
         // If no file selectors are chosen we will default to extension files.
-        if ( !$useKernelFiles and !$useExtensionFiles and !$useTestFiles )
+        if ( !$this->options->searchKernelFiles and !$this->options->searchExtensionFiles and !$this->options->searchTestFiles )
         {
-            $mode |= self::GENAUTOLOADS_EXTENSION;
+            $mode |= self::MODE_EXTENSION;
         }
 
-        if ( $useKernelFiles )
+        if ( $this->options->searchKernelFiles )
         {
-            $mode |= self::GENAUTOLOADS_KERNEL;
+            $mode |= self::MODE_KERNEL;
         }
 
-        if ( $useExtensionFiles )
+        if ( $this->options->searchExtensionFiles )
         {
-            $mode |= self::GENAUTOLOADS_EXTENSION;
+            $mode |= self::MODE_EXTENSION;
         }
 
-        if ( $useTestFiles )
+        if ( $this->options->searchTestFiles )
         {
-            $mode |= self::GENAUTOLOADS_TESTS;
+            $mode |= self::MODE_TESTS;
         }
 
         return $mode;
+    }
+
+    /**
+     * Convenience method to set the mode directly.
+     *
+     * This is a method which allow you to set the operation mode directly and
+     * bypass the options object. The bitmask <var>$modeValue</var> can be set
+     * using the MODE_* class constants.
+     *
+     * <code>
+     * $gen = new eZAutoloadGenerator();
+     * $gen->setMode( eZAutoloadGenerator::MODE_EXTENSION | eZAutoloadGenerator::MODE_TESTS );
+     * </code>
+     *
+     * @param int $modeValue
+     * @return void
+     */
+    public function setMode( $modeValue )
+    {
+        if ( is_numeric( $modeValue ) and $modeValue > 0 )
+        {
+            $this->mask = $modeValue;
+        }
     }
 
     /**
@@ -447,13 +541,39 @@ class eZAutoloadGenerator
      */
     protected function nameTable( $lookup )
     {
-        $names = array( "extension" => "ezp_extension.php",
-                        "kernel"    => "ezp_kernel.php",
-                        "tests"     => "ezp_tests.php" );
+        $names = array( self::MODE_EXTENSION => "ezp_extension.php",
+                        self::MODE_SINGLE_EXTENSION => basename( $this->options->basePath ) . '_autoload.php',
+                        self::MODE_KERNEL    => "ezp_kernel.php",
+                        self::MODE_TESTS     => "ezp_tests.php",
+                        self::MODE_KERNEL_OVERRIDE => "ezp_override.php",
+                      );
 
         if ( array_key_exists( $lookup, $names ) )
         {
             return $names[$lookup];
+        }
+        return false;
+    }
+
+    /**
+     * Provides a look-up for which base directory to use depending on mode.
+     *
+     * @param int $lookup 
+     * @return string
+     */
+    protected function targetTable( $lookup )
+    {
+        $targets = array(
+                            self::MODE_EXTENSION => "var/autoload",
+                            self::MODE_TESTS     => "var/autoload",
+                            self::MODE_KERNEL    => "autoload",
+                            self::MODE_SINGLE_EXTENSION => $this->options->basePath . DIRECTORY_SEPARATOR . 'autoload',
+                            self::MODE_KERNEL_OVERRIDE => "var/autoload",
+                        );
+
+        if ( array_key_exists( $lookup, $targets ) )
+        {
+            return $targets[$lookup];
         }
         return false;
     }
@@ -466,10 +586,24 @@ class eZAutoloadGenerator
      */
     protected function dumpArrayStart( $part )
     {
+        $description = "";
+        switch( $part )
+        {
+            case self::MODE_SINGLE_EXTENSION:
+                $description = basename( $this->options->basePath ) . ' extension';
+                break;
+
+            case self::MODE_EXTENSION:
+            case self::MODE_KERNEL:
+            case self::MODE_TESTS:
+            case self::MODE_KERNEL_OVERRIDE:
+                $description = $this->modeName[$part];
+                break;
+        }
         return <<<ENDL
 <?php
 /**
- * Autoloader definition for eZ Publish $part files.
+ * Autoloader definition for eZ Publish $description files.
  *
  * @copyright Copyright (C) 2005-2008 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/gnu_gpl GNU GPL v2
@@ -495,6 +629,260 @@ ENDL;
 
 ?>
 END;
+    }
+
+    /**
+     * Determines if a class can be added to the autoload array.
+     *
+     * 1. When regenerating array for MODE, do not check for existance of
+     *    class duplicates in the existing array for the same mode.
+     *
+     * 2. When adding a new class to the in-progress autoload array,
+     *    check for matching keys, before adding. If match is found then
+     *    add a warning message to the warnings stack, and mark the class
+     *    not to be added.
+     *
+     * 3. If kernel array is not present, issue warning that class name
+     *    collisions cannot be checked until kernel array is generated.
+     *
+     * 4. Class collisions with kernel classes is only allowed for
+     *    MODE_KERNEL_OVERRIDE
+     *
+     * @param string $class The name of the class being checked.
+     * @param string $file The filename where the class is found.
+     * @param int   $mode The mode representing the current run mode.
+     * @param array $inProgressAutoloadArray Array of the already detected 
+     *              classes for the current mode.
+     * @return boolean
+     */
+    protected function classCanBeAdded( $class, $file, $mode, $inProgressAutoloadArray )
+    {
+        $addClass = true;
+        $sameRepositoryConflict = false;
+        $kernelRepositoryConflict = false;
+
+        if ( empty( $this->existingAutoloadArrays[self::MODE_KERNEL] ) )
+        {
+            $this->logWarning( "No existing kernel override found. Please generate kernel autoloads first." );
+        }
+
+        switch( $mode )
+        {
+            case self::MODE_KERNEL:
+                $sameRepositoryConflict = $this->classExistsInArray( $class, $mode, $file, $inProgressAutoloadArray, $mode );
+
+                if ( $sameRepositoryConflict )
+                {
+                    $addClass = false;
+                }
+                break;
+
+            case self::MODE_EXTENSION:
+            case self::MODE_TESTS:
+            case self::MODE_SINGLE_EXTENSION:
+                $kernelRepositoryConflict = $this->classExistsInArray( $class, self::MODE_KERNEL, $file, null, $mode  );
+                $sameRepositoryConflict = $this->classExistsInArray( $class, $mode, $file, $inProgressAutoloadArray, $mode );
+
+                if ( $kernelRepositoryConflict or $sameRepositoryConflict )
+                {
+                    $addClass = false;
+                }
+                break;
+
+            case self::MODE_KERNEL_OVERRIDE:
+                // For kernel overrides we only want class name collisions in
+                // the kernel array to trigger a addClass hit. However we
+                // like to emit warnings about duplicateses found in the current
+                // generated array. Only one class may be overriding a kernel
+                // at a time.
+
+                $kernelRepositoryConflict = $this->classExistsInArray( $class, self::MODE_KERNEL, $file, $inProgressAutoloadArray, $mode  );
+                $sameRepositoryConflict = $this->classExistsInArray( $class, $mode, $file, $inProgressAutoloadArray, $mode );
+
+                if ( ( $sameRepositoryConflict and !$kernelRepositoryConflict ) or
+                     ( $sameRepositoryConflict and $kernelRepositoryConflict ) or
+                     ( !$kernelRepositoryConflict and !$sameRepositoryConflict )
+                   )
+                {
+                    $addClass = false;
+                }
+                break;
+        }
+        return $addClass;
+    }
+
+    /**
+     * Internal method used to check if an class exist autoload arrays.
+     *
+     * @param string $class The name of the class being checked.
+     * @param int $checkMode The mode whose autoload arrays will be checked.
+     * @param string $file Filename containing the class.
+     * @param array $inProgressAutoloadArray The autoload array generated so far.
+     * @param int $generatingMode The mode we are generating for autoloads for.
+     * @return boolean
+     */
+    protected function classExistsInArray( $class, $checkMode, $file, $inProgressAutoloadArray = null, $generatingMode = null )
+    {
+        if ( ( $checkMode === $generatingMode ) and $inProgressAutoloadArray !== null )
+        {
+            $classCollision = array_key_exists( $class, $inProgressAutoloadArray );
+        }
+        else
+        {
+            $classCollision = array_key_exists( $class, $this->existingAutoloadArrays[$checkMode] );
+        }
+
+        if ( $classCollision )
+        {
+            // If there is a class collisions we want to give feedback to the user.
+            $this->logIssue( $class, $checkMode, $file, $inProgressAutoloadArray, $generatingMode );
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Helper method for giving user feedback when check for class collisions.
+     * 
+     * The params are the same as for classExistsInArray().
+     * 
+     *@return void
+     */
+    protected function logIssue( $class, $checkMode, $file, $inProgressAutoloadArray, $generatingMode )
+    {
+        $conflictFile = ($checkMode === $generatingMode) ?
+                        $inProgressAutoloadArray[$class] :
+                        $this->existingAutoloadArrays[$checkMode][$class];
+
+        if ( $generatingMode === self::MODE_KERNEL_OVERRIDE and $checkMode === self::MODE_KERNEL )
+        {
+            if ( $inProgressAutoloadArray !== null and array_key_exists( $class, $inProgressAutoloadArray ) )
+            {
+                return;
+            }
+
+            $message = "Class {$class}";
+            $message .= " in file {$file}";
+            $message .= " will override:\n";
+            $message .= "{$conflictFile} ({$this->targetTable($checkMode)}/{$this->nameTable($checkMode)})";
+            $this->log( $message );
+        }
+        else
+        {
+            $message = "Class {$class}";
+            $message .= " in file {$file}";
+            $message .= " is already defined in:\n";
+            $message .= "{$conflictFile} ({$this->targetTable($checkMode)}/{$this->nameTable($checkMode)})";
+            $message .= "\nThis class was not added to the autoload array.";
+            $this->logWarning( $message );
+        }
+    }
+
+    /**
+     * Pushes <var>$message</var> to the messages stack.
+     * 
+     * The <var>$message</var> will also tried to be emitted.
+     *
+     * @param string $message 
+     * @return void
+     */
+    protected function log( $message )
+    {
+        $this->messages[] = $message;
+        $this->emit( $message, 'normal' );
+    }
+
+    /**
+     * Pushes <var>$message</var> to the warning stack.
+     * 
+     * The warning <var>$message</var> will also tried to be emitted.
+     *
+     * @param string $message 
+     * @return void
+     */
+    protected function logWarning( $message )
+    {
+        $this->warnings[] = $message;
+        $this->emit( $message, 'warning' );
+    }
+
+    /**
+     * Sets callback for outputting messages.
+     *
+     * @param callback $callback
+     * @return void
+     */
+    public function setOutputCallback( $callback )
+    {
+        $this->outputCallback = $callback;
+    }
+
+    /**
+     * Will call output callback if defined.
+     * 
+     * The purpose of this function is to directly emit messages, for instance
+     * when the class is being used from shell scripts. If a valid callback
+     * has been setup with @see setOutputCallback(), that method will be called
+     * with <var>$message</var> and <var>$messageType</var>
+     *
+     * @param string $message
+     * @param string $messageType 
+     * @return void
+     */
+    protected function emit( $message, $messageType )
+    {
+        if ( $this->outputCallback === null )
+        {
+            return;
+        }
+        call_user_func( $this->outputCallback , $message, $messageType );
+    }
+
+    /**
+     * Get the array of logged messaages
+     *
+     * @return array
+     */
+    public function getMessages()
+    {
+        return $this->messages;
+    }
+
+    /**
+     * Get the array of logged warnings
+     *
+     * @return array
+     */
+    public function getWarnings()
+    {
+        return $this->warnings;
+    }
+
+    /**
+     * Prints out the generated autoload arrays.
+     * 
+     * Meant to provide a user-viewable output of the defined autoload arrays.
+     * If <var>$printForMode</var> is provided, only the array for that mode
+     * will be printed.
+     *
+     * @param string $printForMode Run mode specified by the MODE_* constants.
+     * @return mixed
+     */
+    public function printAutoloadArray( $printForMode = null )
+    {
+        if ( $printForMode !== null )
+        {
+            if ( array_key_exists( $printForMode, $this->autoloadArrays ) )
+            {
+                $this->log( $this->dumpArrayStart( $printForMode ) . $this->autoloadArrays[$printForMode] . $this->dumpArrayEnd() );
+            }
+            return;
+        }
+
+        foreach( $this->autoloadArrays as $location => $data )
+        {
+            $this->log( $this->dumpArrayStart( $location ) . $data . $this->dumpArrayEnd() );
+        }
     }
 }
 ?>
