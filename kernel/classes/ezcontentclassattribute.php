@@ -684,10 +684,15 @@ class eZContentClassAttribute extends eZPersistentObject
         $this->NameList->removeName( $languageLocale );
     }
 
-   /*!
-     Resolves the literal class attribute identifier \a $identifier to its numeric value
-     literal format: classidentifier/classattributeidentifier
-    */
+    /**
+     * Resolves the string class attribute identifier $identifier to its numeric value
+     * Use {@link eZContentObjectTreeNode::classAttributeIDByIdentifier()} for < 4.1.
+     * If multiple classes have the same identifier, the first found is returned.
+     * 
+     * @static
+     * @since Version 4.1
+     * @return int|false Returns classattributeid or false
+     */
     public static function classAttributeIDByIdentifier( $identifier )
     {
         $identifierHash = self::classAttributeIdentifiersHash();
@@ -698,10 +703,13 @@ class eZContentClassAttribute extends eZPersistentObject
             return false;
     }
 
-    /*!
-     Resolves the numeric class attribute identifier \a $id to its literal value
-     literal format: classattributeidentifier
-    */
+    /**
+     * Resolves the numeric class attribute identifier $id to its string value
+     * 
+     * @static
+     * @since Version 4.1
+     * @return string|false Returns classattributeidentifier or false
+     */
     public static function classAttributeIdentifierByID( $id )
     {
         $identifierHash = array_flip( self::classAttributeIdentifiersHash() );
@@ -715,13 +723,16 @@ class eZContentClassAttribute extends eZPersistentObject
             return false;
     }
 
-    /*!
-     Returns the class attribute identifier hash for the current database.
-     If it is outdated or non-existent, the method updates/generates the file
-     \return array of classattributeidentifier => classattributeid
-     \private
-    */
-    private static function classAttributeIdentifiersHash()
+    /**
+     * Returns the class attribute identifier hash for the current database.
+     * If it is outdated or non-existent, the method updates/generates the file
+     * 
+     * @static
+     * @since Version 4.1
+     * @access protected
+     * @return array Returns hash of classattributeidentifier => classattributeid
+     */
+    protected static function classAttributeIdentifiersHash()
     {
         static $identifierHash = null;
 

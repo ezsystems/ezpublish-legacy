@@ -1722,9 +1722,15 @@ You will need to change the class of the node by using the swap functionality.' 
         return true;
     }
 
-   /*!
-     Resolves the literal class identifier \a $identifier to its numeric value
-    */
+    /**
+     * Resolves the string class identifier $identifier to its numeric value
+     * Use {@link eZContentObjectTreeNode::classIDByIdentifier()} for < 4.1.
+     * If multiple classes have the same identifier, the first found is returned.
+     * 
+     * @static
+     * @since Version 4.1
+     * @return int|false Returns classid or false
+     */
     public static function classIDByIdentifier( $identifier )
     {
         $identifierHash = self::classIdentifiersHash();
@@ -1735,9 +1741,13 @@ You will need to change the class of the node by using the swap functionality.' 
             return false;
     }
 
-    /*!
-     Resolves the numeric class identifier \a $id to its literal value
-    */
+    /**
+     * Resolves the numeric class identifier $id to its string value
+     * 
+     * @static
+     * @since Version 4.1
+     * @return string|false Returns classidentifier or false
+     */
     public static function classIdentifierByID( $id )
     {
         $identifierHash = array_flip( self::classIdentifiersHash() );
@@ -1748,13 +1758,16 @@ You will need to change the class of the node by using the swap functionality.' 
             return false;
     }
 
-    /*!
-     Returns the class identifier hash for the current database.
-     If it is outdated or non-existent, the method updates/generates the file
-     \return array of classidentifier => classid
-     \private
-    */
-    private static function classIdentifiersHash()
+    /**
+     * Returns the class identifier hash for the current database.
+     * If it is outdated or non-existent, the method updates/generates the file
+     * 
+     * @static
+     * @since Version 4.1
+     * @access protected
+     * @return array Returns hash of classidentifier => classid
+     */
+    protected static function classIdentifiersHash()
     {
         static $identifierHash = null;
 
