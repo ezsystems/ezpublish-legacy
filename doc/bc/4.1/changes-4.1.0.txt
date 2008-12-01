@@ -46,6 +46,14 @@ Changes to method signatures
 
   Parameter 3 is changed to be an array of locale codes, rather than a string
   with locale code.
+  
+- eZDBClusterFileHandler - getFileList
+
+  The parameters have been completely changed. Earlier, getFileList() accepted
+  2 booleans to define if files in the scopes 'binaryfile' and 'image' should 
+  be omitted. Now the method accepts an array of scopes of the files you want 
+  to be returned, and a boolean with which you can reverses the behavior so 
+  that all files in the scopes in the array are excluded.
 
 Change of behaviour
 -------------------
