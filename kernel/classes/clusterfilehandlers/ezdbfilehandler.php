@@ -1009,13 +1009,17 @@ class eZDBFileHandler
      * Get list of files stored in database.
      *
      * Used in bin/php/clusterize.php.
+     *
+     * @param array $scopes return only files that belong to any of these scopes
+     * @param boolean $excludeScopes if true, then reverse the meaning of $scopes, which is
+     *                               return only files that do not belong to any of the scopes listed in $scopes
      */
-    function getFileList( $skipBinaryFiles = false, $skipImages = false )
+    function getFileList( $scopes = false, $excludeScopes = false )
     {
         eZDebugSetting::writeDebug( 'kernel-clustering',
-                                    sprintf( "db::getFileList( %d, %d )",
-                                              (int) $skipBinaryFiles, (int) $skipImages ) );
-        return $this->backend->_getFileList( $skipBinaryFiles, $skipImages );
+                                    sprintf( "db::getFileList( array( %s ), %d )",
+                                             implode( ', ', $scopes ), (int) $excludeScopes ) );
+        return $this->backend->_getFileList( $scopes, $excludeScopes );
     }
 
     /*!

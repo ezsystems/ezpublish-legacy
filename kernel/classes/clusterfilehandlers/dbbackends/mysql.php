@@ -775,20 +775,19 @@ class eZDBFileHandlerMysqlBackend
         return true;
     }
 
-    function _getFileList( $skipBinaryFiles, $skipImages )
+    function _getFileList( $scopes = false, $excludeScopes = false )
     {
         $query = 'SELECT name FROM ' . TABLE_METADATA;
 
-        // omit some file types if needed
-        $filters = array();
-        if ( $skipBinaryFiles )
-            $filters[] = "'binaryfile'";
-        if ( $skipImages )
-            $filters[] = "'image'";
-        if ( $filters )
-            $query .= ' WHERE scope NOT IN (' . join( ', ', $filters ) . ')';
+        if ( is_array( $scopes ) && count( $scopes ) > 0 )
+        {
+            $query .= ' WHERE scope ';
+            if ( $excludeScopes )
+                $query .= 'NOT ';
+            $query .= "IN ('" . implode( "', '", $scopes ) . "')";
+        }
 
-        $rslt = $this->_query( $query, "_getFileList($skipBinaryFiles, $skipImages)" );
+        $rslt = $this->_query( $query, "_getFileList( array( " . implode( ', ', $scopes ) . " ), $excludeScopes )" );
         if ( !$rslt )
         {
             $this->_error( mysql_error( $this->db ) );

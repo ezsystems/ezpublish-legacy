@@ -110,12 +110,12 @@ function copyImagesToDB( $remove )
     }
 }
 
-function copyFilesFromDB( $copyFiles, $copyImages, $remove )
+function copyFilesFromDB( $excludeScopes, $remove )
 {
     global $cli, $dbFileHandler;
 
     $cli->output( "Exporting files from database:");
-    $filePathList = $dbFileHandler->getFileList( !$copyFiles, !$copyImages );
+    $filePathList = $dbFileHandler->getFileList( $excludeScopes, true );
 
     foreach ( $filePathList as $filePath )
     {
@@ -189,7 +189,15 @@ if ( $clusterize )
 }
 else
 {
-    copyFilesFromDB( $copyFiles, $copyImages, $remove );
+    $excludeScopes = array();
+    if ( !$copyFiles )
+        $excludeScopes[] = 'binaryfile';
+    if ( !$copyImages )
+        $excludeScopes[] = 'image';
+    if ( !$copyMedia )
+        $excludeScopes[] = 'mediafile';
+
+    copyFilesFromDB( $excludeScopes, $remove );
 }
 
 $script->shutdown();

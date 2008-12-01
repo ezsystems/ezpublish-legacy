@@ -69,6 +69,7 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Implemented enhancement #12704: missing index table ezforgot_password
 - Implemented enhancement #13971: eZSearch::registerSearchObject() inserts duplicates when DelayedIndexing is enabled
 - Implemented enhancement #14021: eZMail::extractEmail() returns name with trailing spaces and quotes.
+- Implemented enhancement #13559: DB cluster file handler getfilelist() method should use scopes
 
 *Design:
 
