@@ -1955,18 +1955,43 @@ WHERE user_id = '" . $userID . "' AND
     */
     function hasAccessToView( $module, $viewName, &$params )
     {
+        $validView = false;
         $accessAllowed = false;
-        $views = $module->attribute( 'views' );
-        if ( isset( $views[$viewName] ) )
+        if ( $module->singleFunction() )
         {
-            $view = $views[$viewName];
-            if ( isset( $view['functions'] ) && !empty( $view['functions'] ) )
+            $info = $module->attribute( 'info' );
+            if ( isset( $info['function'] ) )
             {
-                if ( is_array( $view['functions'] ) )
+                $validView = true;
+                if ( isset( $info['function']['functions'] ) && !empty( $info['function']['functions'] ) )
+                {
+                    $functions = $info['function']['functions'];
+                }
+            }
+        }
+        else
+        {
+            $views = $module->attribute( 'views' );
+            if ( isset( $views[$viewName] ) )
+            {
+                $validView = true;
+                if ( isset( $view['functions'] ) && !empty( $view['functions'] ) )
+                {
+                    $functions = $view['functions'];
+                }
+            }
+        }
+
+
+        if ( $validView )
+        {
+            if ( isset( $functions ) )
+            {
+                if ( is_array( $functions ) )
                 {
                     $funcExpression = false;
                     $accessAllowed = true;
-                    foreach ( $view['functions'] as $function )
+                    foreach ( $functions as $function )
                     {
                         if ( empty( $function ) )
                         {
@@ -1984,9 +2009,9 @@ WHERE user_id = '" . $userID . "' AND
                         }
                     }
                 }
-                else if ( is_string( $view['functions'] ) )
+                else if ( is_string( $functions ) )
                 {
-                    $funcExpression = $view['functions'];
+                    $funcExpression = $functions;
                 }
                 else
                 {
