@@ -1974,6 +1974,7 @@ WHERE user_id = '" . $userID . "' AND
             $views = $module->attribute( 'views' );
             if ( isset( $views[$viewName] ) )
             {
+                $view = $views[$viewName];
                 $validView = true;
                 if ( isset( $view['functions'] ) && !empty( $view['functions'] ) )
                 {
