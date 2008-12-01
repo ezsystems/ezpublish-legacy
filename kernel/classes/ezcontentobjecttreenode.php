@@ -5030,14 +5030,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $parentArr[0]['parent_node_id'];
     }
 
-    /*!
-     Get parent node id's by content object id's.
-     \param $objectIDs id / Array of object id's to fetch parent node id's for.
-     \param $groupByObjectId If true then the returned parent node id's will be grouped by object
-                             id of the passed object id's, aka the childs object id's.
-     \param $onlyMainNode Fetches only the parent node id's of the main node of the objects if true.
-     \return the parnet node id's for specified object id's.
-    */
+    /**
+     * Get parent node id's by content object id's.
+     * 
+     * @static
+     * @since Version 4.1
+     * @param int|array $objectIDs
+     * @param bool $groupByObjectId groups parent node ids by object id they belong to.
+     * @param bool $onlyMainNode limits result to parent node id of main node.
+     * @return array Returns array of parent node id's
+     */
     static function getParentNodeIdListByContentObjectID( $objectIDs, $groupByObjectId = false, $onlyMainNode = false )
     {
         if ( !$objectIDs )
