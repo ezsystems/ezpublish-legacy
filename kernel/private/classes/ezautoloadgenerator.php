@@ -10,7 +10,7 @@
 
 /**
  * Utility class for generating autoload arrays for eZ Publish.
- * 
+ *
  * The class can handle classes from the kernel and extensions.
  *
  * @package kernel
@@ -33,7 +33,7 @@ class eZAutoloadGenerator
 
     /**
      * Contains the contents of already created autoload files.
-     * 
+     *
      * If the files are not existing, the corresponding arrays will be empty.
      *
      * @var array
@@ -76,7 +76,7 @@ class eZAutoloadGenerator
 
     /**
      * Contains newly generated autoload data.
-     * 
+     *
      * Used for sharing data between the printAutloadArrays() and
      * writeAutoloadFiles() methods.
      *
@@ -106,14 +106,14 @@ class eZAutoloadGenerator
 
     /**
      * Bitmask for searching in a single extension only.
-     * 
+     *
      * This mode is mutually exclusive from the other modes.
      */
     const MODE_SINGLE_EXTENSION = 8;
 
     /**
      * Bitmask for searching for kernel overrides.
-     * 
+     *
      * This mode is mutually excluse from the other modes.
      */
     const MODE_KERNEL_OVERRIDE = 16;
@@ -205,11 +205,11 @@ class eZAutoloadGenerator
             {
                 if ( defined( 'EZP_INI_FILE_PERMISSION' ) )
                 {
-                    mkdir( $this->options->outputDir, EZP_INI_FILE_PERMISSION );
+                    mkdir( $targetBasedir, EZP_INI_FILE_PERMISSION, true );
                 }
                 else
                 {
-                    mkdir( $this->options->outputDir );
+                    mkdir( $targetBasedir, null, true );
                 }
             }
 
@@ -558,7 +558,7 @@ class eZAutoloadGenerator
     /**
      * Provides a look-up for which base directory to use depending on mode.
      *
-     * @param int $lookup 
+     * @param int $lookup
      * @return string
      */
     protected function targetTable( $lookup )
@@ -651,7 +651,7 @@ END;
      * @param string $class The name of the class being checked.
      * @param string $file The filename where the class is found.
      * @param int   $mode The mode representing the current run mode.
-     * @param array $inProgressAutoloadArray Array of the already detected 
+     * @param array $inProgressAutoloadArray Array of the already detected
      *              classes for the current mode.
      * @return boolean
      */
@@ -743,9 +743,9 @@ END;
 
     /**
      * Helper method for giving user feedback when check for class collisions.
-     * 
+     *
      * The params are the same as for classExistsInArray().
-     * 
+     *
      *@return void
      */
     protected function logIssue( $class, $checkMode, $file, $inProgressAutoloadArray, $generatingMode )
@@ -780,10 +780,10 @@ END;
 
     /**
      * Pushes <var>$message</var> to the messages stack.
-     * 
+     *
      * The <var>$message</var> will also tried to be emitted.
      *
-     * @param string $message 
+     * @param string $message
      * @return void
      */
     protected function log( $message )
@@ -794,10 +794,10 @@ END;
 
     /**
      * Pushes <var>$message</var> to the warning stack.
-     * 
+     *
      * The warning <var>$message</var> will also tried to be emitted.
      *
-     * @param string $message 
+     * @param string $message
      * @return void
      */
     protected function logWarning( $message )
@@ -819,14 +819,14 @@ END;
 
     /**
      * Will call output callback if defined.
-     * 
+     *
      * The purpose of this function is to directly emit messages, for instance
      * when the class is being used from shell scripts. If a valid callback
      * has been setup with @see setOutputCallback(), that method will be called
      * with <var>$message</var> and <var>$messageType</var>
      *
      * @param string $message
-     * @param string $messageType 
+     * @param string $messageType
      * @return void
      */
     protected function emit( $message, $messageType )
@@ -860,7 +860,7 @@ END;
 
     /**
      * Prints out the generated autoload arrays.
-     * 
+     *
      * Meant to provide a user-viewable output of the defined autoload arrays.
      * If <var>$printForMode</var> is provided, only the array for that mode
      * will be printed.
