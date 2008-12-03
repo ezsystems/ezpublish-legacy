@@ -242,18 +242,18 @@ class eZAutoloadGenerator
     {
         $path = $this->options->basePath;
         $excludeDirs = $this->options->excludeDirs;
-        // @TODO Need to trim any trailing /
 
         // make sure ezcBaseFile::findRecursive and the exclusion filters we pass to it
         // work correctly on systems with another file seperator than the forward slash
         $sanitisedBasePath = DIRECTORY_SEPARATOR == '/' ? $path : strtr( $path, DIRECTORY_SEPARATOR, '/' );
+        $dirSep = preg_quote( DIRECTORY_SEPARATOR );
 
         $extraExcludeDirs = array();
         if ( $excludeDirs !== false and is_array( $excludeDirs ) )
         {
             foreach ( $excludeDirs as $dir )
             {
-                $extraExcludeDirs[] = "@^{$sanitisedBasePath}/{$dir}/@";
+                $extraExcludeDirs[] = "@^{$sanitisedBasePath}{$dirSep}{$dir}{$dirSep}@";
             }
         }
 
@@ -267,8 +267,8 @@ class eZAutoloadGenerator
             {
                 case self::MODE_KERNEL:
                     $extraExcludeKernelDirs = $extraExcludeDirs;
-                    $extraExcludeKernelDirs[] = "@^{$sanitisedBasePath}/extension/@";
-                    $extraExcludeKernelDirs[] = "@^{$sanitisedBasePath}/tests/@";
+                    $extraExcludeKernelDirs[] = "@^{$sanitisedBasePath}{$dirSep}extension{$dirSep}@";
+                    $extraExcludeKernelDirs[] = "@^{$sanitisedBasePath}{$dirSep}tests{$dirSep}@";
                     $retFiles[self::MODE_KERNEL] = $this->buildFileList( $sanitisedBasePath, $extraExcludeKernelDirs );
                     break;
 
@@ -314,7 +314,8 @@ class eZAutoloadGenerator
      */
     protected function buildFileList( $path, $extraFilter = null )
     {
-        $exclusionFilter = array( "@^{$path}/(var|settings|benchmarks|autoload|port_info|templates|tmp|UnitTest)/@" );
+        $dirSep = preg_quote( DIRECTORY_SEPARATOR );
+        $exclusionFilter = array( "@^{$path}{$dirSep}(var|settings|benchmarks|autoload|port_info|templates|tmp|UnitTest){$dirSep}@" );
         if ( !empty( $extraFilter ) and is_array( $extraFilter ) )
         {
             foreach( $extraFilter as $filter )
@@ -353,31 +354,33 @@ class eZAutoloadGenerator
                     {
                         case T_CLASS:
                         case T_INTERFACE:
+                            // CLASS_TOKEN - WHITESPACE_TOKEN - TEXT_TOKEN (containing class name)
+                            $className = $tokens[$key+2][1];
+
+                            $filePath = $file;
+
+                            if ( $mode === self::MODE_SINGLE_EXTENSION )
+                            {
+                                $filePath = ezcBaseFile::calculateRelativePath( $filePath, getcwd() . DIRECTORY_SEPARATOR . $this->options->basePath );
+                            }
+
                             // make sure we store cross-platform file system paths,
                             // using a forward slash as directory separator
                             if ( DIRECTORY_SEPARATOR != '/' )
                             {
-                                $file = str_replace( DIRECTORY_SEPARATOR, '/', $file );
+                                $filePath = str_replace( DIRECTORY_SEPARATOR, '/', $filePath );
                             }
-
-                            if ( $mode === self::MODE_SINGLE_EXTENSION )
-                            {
-                                $file = ezcBaseFile::calculateRelativePath( $file, getcwd() . DIRECTORY_SEPARATOR . $this->options->basePath );
-                            }
-
                             // Here there are two code paths.
                             // MODE_KERNEL_OVERRIDE will only add a class if
                             // it exists in the MODE_KERNEL autoload array.
                             // All other modes will only add a class if the
                             // class name is unique.
 
-                            // CLASS_TOKEN - WHITESPACE_TOKEN - TEXT_TOKEN (containing class name)
-                            $className = $tokens[$key+2][1];
-                            $addClass = $this->classCanBeAdded( $className, $file, $mode, $retArray );
+                            $addClass = $this->classCanBeAdded( $className, $filePath, $mode, $retArray );
 
                             if ( $addClass )
                             {
-                                $retArray[$className] = $file;
+                                $retArray[$className] = $filePath;
                             }
 
                             break;
