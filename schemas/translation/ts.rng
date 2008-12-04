@@ -14,7 +14,7 @@
       </optional>
       <optional>
         <element name="defaultcodec">
-          <empty/>
+          <text/>
         </element>
       </optional>
       <oneOrMore>
@@ -33,7 +33,16 @@
                 </element>
               </optional>
               <element name="source">
-                <text/>
+                <oneOrMore>
+                  <choice>
+                    <text/>
+                    <element name="byte">
+                      <attribute name="value">
+                        <data type="NCName"/>
+                      </attribute>
+                    </element>
+                  </choice>
+                </oneOrMore>
               </element>
               <optional>
                 <element name="comment">
@@ -46,7 +55,16 @@
                     <data type="NCName"/>
                   </attribute>
                 </optional>
-                <text/>
+                <oneOrMore>
+                  <choice>
+                    <text/>
+                    <element name="byte">
+                      <attribute name="value">
+                        <data type="NCName"/>
+                      </attribute>
+                    </element>
+                  </choice>
+                </oneOrMore>
               </element>
             </element>
           </oneOrMore>

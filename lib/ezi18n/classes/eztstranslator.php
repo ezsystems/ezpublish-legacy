@@ -405,15 +405,38 @@ class eZTSTranslator extends eZTranslatorHandler
                 $childName = $message_child->tagName;
                 if ( $childName  == "source" )
                 {
-                    $source_el = $message_child->firstChild;
-                    $source = $source_el->nodeValue;
+                    if ( $message_child->childNodes->length > 0 )
+                    {
+                        $source = '';
+                        foreach ( $message_child->childNodes as $textEl )
+                        {
+                            if ( $textEl instanceof DOMText )
+                            {
+                                $source .= $textEl->nodeValue;
+                            }
+                            else if ( $textEl instanceof DOMElement && $textEl->tagName == 'byte' )
+                            {
+                                $source .= chr( intval( '0' . $textEl->getAttribute( 'value' ) ) );
+                            }
+                        }
+                    }
                 }
                 else if ( $childName == "translation" )
                 {
-                    $translation_el = $message_child->firstChild;
-                    if ( $translation_el )
+                    if ( $message_child->childNodes->length > 0 )
                     {
-                        $translation = $translation_el->nodeValue;
+                        $translation = '';
+                        foreach ( $message_child->childNodes as $textEl )
+                        {
+                            if ( $textEl instanceof DOMText )
+                            {
+                                $translation .= $textEl->nodeValue;
+                            }
+                            else if ( $textEl instanceof DOMElement && $textEl->tagName == 'byte' )
+                            {
+                                $translation .= chr( intval( '0' . $textEl->getAttribute( 'value' ) ) );
+                            }
+                        }
                     }
                 }
                 else if ( $childName == "comment" )
