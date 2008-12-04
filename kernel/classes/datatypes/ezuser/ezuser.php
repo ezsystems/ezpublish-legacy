@@ -1701,7 +1701,110 @@ WHERE user_id = '" . $userID . "' AND
         $idList = $this->groups();
         $idList[] = $this->attribute( 'contentobject_id' );
 
-        return eZRole::accessArrayByUserID( $idList );
+        $accessArray = eZRole::accessArrayByUserID( $idList );
+
+        $modules = eZModuleManager::availableModules();
+
+        // evaluate module and function wildcards in the access array
+
+        foreach ( $accessArray as $moduleName => $assignedFunctions )
+        {
+            if ( $moduleName != '*' && array_key_exists( '*', $assignedFunctions ) )
+            {
+                $limitations = $assignedFunctions['*'];
+
+                $mod = eZModule::exists( $moduleName );
+
+                if ( !$mod )
+                {
+                    continue;
+                }
+
+                $functions = $mod->attribute( 'available_functions' );
+
+                if ( count( $functions ) > 0 )
+                {
+                    // remove wildcard
+                    unset( $accessArray[$moduleName]['*'] );
+
+                    // and add evaluated wildcard instead
+                    $functionNames = array_keys( $functions );
+
+                    foreach ( $functionNames as $functionName )
+                    {
+                        $accessArray = array_merge_recursive( $accessArray, array( $moduleName => array( $functionName => $limitations ) ) );
+                    }
+                }
+            }
+        }
+
+        if ( array_key_exists( '*', $accessArray ) )
+        {
+            $limitations = $accessArray['*']['*'];
+
+            // remove wildcard
+            unset( $accessArray['*'] );
+
+            // add evaluated wildcard instead
+            foreach ( $modules as $moduleName )
+            {
+                $mod = eZModule::exists( $moduleName );
+
+                if ( !$mod )
+                {
+                    continue;
+                }
+
+                $functions = $mod->attribute( 'available_functions' );
+
+                if ( count( $functions ) == 0 )
+                {
+                    $functions = array( '*' => array() );
+                }
+
+                $functionNames = array_keys( $functions );
+
+                foreach ( $functionNames as $functionName )
+                {
+                    $accessArray = array_merge_recursive( $accessArray, array( $moduleName => array( $functionName => $limitations ) ) );
+                }
+            }
+        }
+
+        // add implicit system policy limitations
+        $lockGroup = eZContentObjectStateGroup::fetchByIdentifier( 'ez_lock' );
+
+        if ( $lockGroup )
+        {
+            $lockStates = $lockGroup->states();
+            if ( count( $lockStates ) > 0 )
+            {
+                $defaultLockState = $lockStates[0];
+
+                $implicitLimitations = array( 'StateGroup_ez_lock' => array( $defaultLockState->attribute( 'id' ) ) );
+                foreach ( array( 'content' => array( 'edit', 'remove' ) ) as $moduleName => $functions )
+                {
+                    if ( !isset( $accessArray[$moduleName] ) )
+                    {
+                        continue;
+                    }
+
+                    foreach ( $functions as $functionName )
+                    {
+                         if ( isset( $accessArray[$moduleName][$functionName] ) )
+                         {
+                            foreach( $accessArray[$moduleName][$functionName] as $key => $limitations )
+                            {
+                                $accessArray[$moduleName][$functionName][$key] = is_array( $limitations ) ?
+                                    array_merge( $limitations, $implicitLimitations ) : $implicitLimitations;
+                            }
+                         }
+                    }
+                }
+            }
+        }
+
+        return $accessArray;
     }
 
     /*!
