@@ -453,4 +453,5 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #14020: eZMail does not validate addresses valid under RFC2822
 - Fixed bug #12795: Modules cannot be a view anymore
 - Fixed bug #13992: Template warnings in design/admin/templates/relations.tpl
+- Fixed bug #14054: Relaxng validation of certain translation files fails - byte element
 
