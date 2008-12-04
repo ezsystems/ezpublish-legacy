@@ -196,7 +196,6 @@ class eZContentObjectStateGroup extends eZPersistentObject
             foreach ( $languages as $language )
             {
                 $languageID = $language->attribute( 'id' );
-                eZDebug::writeDebug( $languageID );
 
                 if ( !array_key_exists( $languageID, $allTranslations ) )
                 {
@@ -213,6 +212,25 @@ class eZContentObjectStateGroup extends eZPersistentObject
             $this->AllTranslations = array_values( $allTranslations );
         }
         return $this->AllTranslations;
+    }
+
+    public function translationByLocale( $locale )
+    {
+        $languageID = eZContentLanguage::idByLocale( $locale );
+
+        if ( $languageID )
+        {
+            $translations = $this->allTranslations();
+            foreach ( $translations as $translation )
+            {
+                if ( $translation->realLanguageID() == $languageID )
+                {
+                    return $translation;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -282,6 +300,10 @@ class eZContentObjectStateGroup extends eZPersistentObject
             if ( $translation->hasData() )
             {
                 $languageID = $translation->attribute( 'language_id' );
+                if ( empty( $this->DefaultLanguageID ) )
+                {
+                    $this->DefaultLanguageID = $languageID & ~1;
+                }
                 // if default language, set always available flag
                 if ( $languageID & $this->DefaultLanguageID )
                 {
@@ -399,6 +421,17 @@ class eZContentObjectStateGroup extends eZPersistentObject
                 $isValid = false;
                 $messages[] =  ezi18n( 'kernel/state/edit', '%language_name: this language is the default but neither name or description were provided for this language', null, array( '%language_name' => $translation->attribute( 'language' )->attribute( 'locale_object' )->attribute( 'intl_language_name' ) ) );
             }
+        }
+
+        if ( $translationsWithData == 0 )
+        {
+            $isValid = false;
+            $messages[] =  ezi18n( 'kernel/state/edit', 'Translations: you need to add at least one localization' );
+        }
+        else if ( empty( $this->DefaultLanguageID ) && $translationsWithData > 1 )
+        {
+            $isValid = false;
+            $messages[] =  ezi18n( 'kernel/state/edit', 'Translations: there are multiple localizations but you did not specify which is the default one' );
         }
 
         return $isValid;
@@ -565,11 +598,13 @@ class eZContentObjectStateGroup extends eZPersistentObject
     /**
      * Creates a new content object state in this content object state group
      *
+     * @param string $identifier identifier for the new state group
      * @return eZContentObjectState the new content object state
      */
-    public function newState()
+    public function newState( $identifier = null )
     {
-        return new eZContentObjectState( array( 'group_id' => $this->ID ) );
+        return new eZContentObjectState( array( 'group_id' => $this->ID,
+                                                'identifier' => $identifier ) );
     }
 
     /**

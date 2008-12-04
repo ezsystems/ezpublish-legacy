@@ -40,7 +40,10 @@ class eZContentObjectStateGroupLanguage extends eZPersistentObject
                                                                  "required" => false ) ),
                       "keys" => array( "contentobject_state_group_id",
                                        "language_id" ),
-                      "function_attributes" => array( "language" => "language", "is_valid" => "isValid" ),
+                      "function_attributes" => array( "language" => "language",
+                                                      "is_valid" => "isValid",
+                                                      "real_language_id" => "realLanguageID",
+                                                    ),
                       "increment_key" => false,
                       "class_name" => "eZContentObjectStateGroupLanguage",
                       "sort" => array(),
@@ -101,6 +104,16 @@ class eZContentObjectStateGroupLanguage extends eZPersistentObject
     public function hasData()
     {
         return ( isset( $this->Name) && trim( $this->Name ) != '' ) || ( isset( $this->Description ) && trim( $this->Description ) != '' );
+    }
+
+    /**
+     * returns the language id, without the always available bit
+     *
+     * @return int language id
+     */
+    public function realLanguageID()
+    {
+        return $this->LanguageID & ~1;
     }
 }
 ?>

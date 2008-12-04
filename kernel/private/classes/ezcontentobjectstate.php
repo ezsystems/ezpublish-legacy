@@ -226,6 +226,25 @@ class eZContentObjectState extends eZPersistentObject
         return $this->AllTranslations;
     }
 
+    public function translationByLocale( $locale )
+    {
+        $languageID = eZContentLanguage::idByLocale( $locale );
+
+        if ( $languageID )
+        {
+            $translations = $this->allTranslations();
+            foreach ( $translations as $translation )
+            {
+                if ( $translation->realLanguageID() == $languageID )
+                {
+                    return $translation;
+                }
+            }
+        }
+
+        return false;
+    }
+
     /**
      *
      * @return an array of eZContentObjectStateLanguage objects, representing all available
@@ -294,6 +313,10 @@ class eZContentObjectState extends eZPersistentObject
                 if ( $translation->hasData() )
                 {
                     $languageID = $translation->attribute( 'language_id' );
+                    if ( empty( $this->DefaultLanguageID ) )
+                    {
+                        $this->DefaultLanguageID = $languageID & ~1;
+                    }
                     // if default language, set always available flag
                     if ( $languageID & $this->DefaultLanguageID )
                     {
@@ -439,6 +462,17 @@ class eZContentObjectState extends eZPersistentObject
                 $isValid = false;
                 $messages[] = ezi18n( 'kernel/state/edit', '%language_name: this language is the default but neither name or description were provided for this language', null, array( '%language_name' => $translation->attribute( 'language' )->attribute( 'locale_object' )->attribute( 'intl_language_name' ) ) );
             }
+        }
+
+        if ( $translationsWithData == 0 )
+        {
+            $isValid = false;
+            $messages[] =  ezi18n( 'kernel/state/edit', 'Translations: you need to add at least one localization' );
+        }
+        else if ( empty( $this->DefaultLanguageID ) && $translationsWithData > 1 )
+        {
+            $isValid = false;
+            $messages[] =  ezi18n( 'kernel/state/edit', 'Translations: there are multiple localizations but you did not specify which is the default one' );
         }
 
         return $isValid;
