@@ -22,10 +22,10 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     tagSelector: 'custom_class_source',
     onInit: function( el, tag, ed )
     {        
-        if ( customTagName === 'underline' && el && el.nodeName === 'U' )
+        if ( el && ( el.nodeName !== 'SPAN' || el.nodeName !== 'DIV' ) )
         {
-            // if custom tag is underline, we disable selector to avoid problems (different tag used)
-            this.settings.tagSelector.el.disabled = true;
+            // if custom tag is underline | sub | sup, we disable selector to avoid problems (different tag used)
+            //this.settings.tagSelector.el.disabled = true;
         }
 
         // custom block tags are not allowed inside custom inline tags
@@ -36,10 +36,10 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         }
         else
         {
-            var currentNode = ed.selection.getNode(), parentSpan = eZOEPopupUtils.getParentByTag( el, 'span', 'mceItemCustomTag', 'custom' );
-            if ( currentNode && currentNode.nodeName === 'SPAN' && tinymce.DOM.getAttrib( currentNode, 'type' ) === 'custom' )
+            var currentNode = ed.selection.getNode();
+            if ( currentNode && currentNode.nodeName !== 'DIV' && tinymce.DOM.getAttrib( currentNode, 'type' ) === 'custom' )
                 filterOutCustomBlockTags( );
-            else if ( parentSpan )
+            else if ( eZOEPopupUtils.getParentByTag( currentNode, 'span', 'mceItemCustomTag', 'custom' ) )
                 filterOutCustomBlockTags( );
         }
     },
@@ -47,6 +47,8 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     {
         if ( customTag === 'underline' )
             return '<u id="__mce_tmp" type="custom">' + customTag + '<\/u>';
+        else if ( customTag === 'sub' || customTag === 'sup' )
+            return '<' + customTag + ' id="__mce_tmp" type="custom">' + customTag + '<\/' + customTag + '>';
         else if ( ez.$( customTag + '_inline_source' ).el.checked )
             return '<span id="__mce_tmp" type="custom">' + customTag + '<\/span>';
         else
@@ -79,7 +81,11 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     },
     tagEditor: function( el, ed, customTag, args )
     {
-        var target = customTag === 'underline' ? 'u' : ( ez.$( customTag + '_inline_source' ).el.checked ? 'span' : 'div'), origin = el.nodeName;
+        var target = (ez.$( customTag + '_inline_source' ).el.checked ? 'span' : 'div'), origin = el.nodeName;
+        if ( customTag === 'underline' )
+            target = 'u';
+        else if ( customTag === 'sub' || customTag === 'sup' )
+            target = customTag;
         el = eZOEPopupUtils.switchTagTypeIfNeeded( el, target );
         if ( el.nodeName !== 'DIV' && origin === 'DIV' )
         {
@@ -95,6 +101,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
             if ( childs.length === 0 || childs[0].el.nodeName !== 'P' )
                 el.innerHTML = '<p>' + el.innerHTML + '</p>';
         }
+        ed.dom.setAttrib( el, 'type', 'custom' );
         return el;
     }
 }));

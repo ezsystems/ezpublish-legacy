@@ -43,7 +43,11 @@
 
 class eZOEInputParser extends eZXMLInputParser
 {
-    var $InputTags = array(
+    /**
+     * Maps input tags (html) to a output tag or a hander to 
+     * decide what kind of ezxml tag to use. 
+     */
+    public $InputTags = array(
         'section' => array( 'name' => 'section' ),
         'b'       => array( 'name' => 'strong' ),
         'bold'    => array( 'name' => 'strong' ),
@@ -53,6 +57,8 @@ class eZOEInputParser extends eZXMLInputParser
         'pre'     => array( 'name' => 'literal' ),
         'div'     => array( 'nameHandler' => 'tagNameDiv' ),
         'u'       => array( 'nameHandler' => 'tagNameCustomHelper' ),
+        'sub'       => array( 'nameHandler' => 'tagNameCustomHelper' ),
+        'sup'       => array( 'nameHandler' => 'tagNameCustomHelper' ),
         'img'     => array( 'nameHandler' => 'tagNameImg',
                             'noChildren' => true ),
         'h1'      => array( 'nameHandler' => 'tagNameHeader' ),
@@ -77,9 +83,13 @@ class eZOEInputParser extends eZXMLInputParser
        // Stubs for not supported tags.
         'tbody'   => array( 'name' => '' ),
         'thead'   => array( 'name' => '' )
-        );
+    );
 
-    var $OutputTags = array(
+    /**
+     * Maps output tags (ezxml) to varius handlers at different stages 
+     * decide what kind of ezxml tag to use. 
+     */
+    public $OutputTags = array(
         'section'   => array(),
 
         'embed'     => array( 'structHandler' => 'appendLineParagraph',
@@ -142,13 +152,12 @@ class eZOEInputParser extends eZXMLInputParser
 
         'anchor'    => array( 'structHandler' => 'appendLineParagraph' ),
 
-        'custom'    => array( //'parsingHandler' => 'parsingHandlerCustom',
-                              'initHandler' => 'initHandlerCustom',
+        'custom'    => array( 'initHandler' => 'initHandlerCustom',
                               'structHandler' => 'structHandlerCustom',
                               'attributes' => array( 'title' => 'name' ) ),
 
         '#text'     => array( 'structHandler' => 'structHandlerText' )
-        );
+    );
 
     function eZOEInputParser( $validate = false, $errorLevel = eZXMLInputParser::ERROR_NONE,
                                  $parseLineBreaks = false, $removeDefaultAttrs = false )
@@ -229,15 +238,15 @@ class eZOEInputParser extends eZXMLInputParser
                 {
                     $name = 'embed';
                 }
-                $attributes['class'] = self::tagClassNamesCleanup( $attributes['class'] );
+                if ( isset( $attributes['class'] ) )
+                    $attributes['class'] = self::tagClassNamesCleanup( $attributes['class'] );
             }
         }
 
         if ( isset( $attributes['type'] ) && $attributes['type'] === 'custom' )
         {
             $name = 'custom';
-            $attributes['class'] = self::tagClassNamesCleanup( $attributes['class'] );
-            if ( !isset($attributes['name']) ) $attributes['name'] = $attributes['class'];
+            $attributes['name'] = self::tagClassNamesCleanup( $attributes['class'] );
         }
 
         return $name;
@@ -304,6 +313,12 @@ class eZOEInputParser extends eZXMLInputParser
         {
             $name = 'custom';
             $attributes['name'] = 'underline';
+            $attributes['children_required'] = 'true';
+        }
+        else if ( ( $tagName === 'sub' || $tagName === 'sup' ) && self::customTagIsEnabled( $tagName ) )
+        {
+            $name = 'custom';
+            $attributes['name'] = $tagName;
             $attributes['children_required'] = 'true';
         }
         return $name;
@@ -1115,6 +1130,9 @@ class eZOEInputParser extends eZXMLInputParser
         parent::processAttributesBySchema( $element );
     }
 
+    /*
+     * Misc internally (by this and main xml handler) used functions
+     */
     function getUrlIDArray()
     {
         return $this->urlIDArray;

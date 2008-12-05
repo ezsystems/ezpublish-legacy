@@ -82,11 +82,11 @@ var eZOEPopupUtils = {
         
         if ( s.onInit && s.onInit.call )
             s.onInit.call( eZOEPopupUtils, s.editorElement, s.tagName, ed );
-        
+
         if ( s.tagSelector && ( s.tagSelector = ez.$( s.tagSelector ) ) && s.tagSelector.el.value
         && ( s.tagSelector.el.checked === undefined || s.tagSelector.el.checked === true ) )
             s.selectedTag = s.tagSelector.el.value;
-        
+
         if ( s.editorElement )
         {
             eZOEPopupUtils.initGeneralmAttributes( s.tagName + '_attributes', s.editorElement );

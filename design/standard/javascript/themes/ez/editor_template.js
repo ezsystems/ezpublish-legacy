@@ -1045,9 +1045,12 @@
                         case 'custom':
                             if (v = DOM.getAttrib(n, 'style'))
                                 ti += 'style: ' + v + ' ';
-                            if ( n.nodeName === 'U' && n.className === '' )
+                            if ( n.nodeName === 'U' )
                                 className = 'underline';
-
+                            else if ( n.nodeName === 'SUB' )
+                                className = 'sub';
+                            else if ( n.nodeName === 'SUP' )
+                                className = 'sup';
                             break;
                         case 'header':
                             if (v = n.nodeName)
@@ -1082,8 +1085,8 @@
                     {
                         pi = DOM.create('a', {'href' : "javascript:;", 'onmousedown' : 'return false;', title : ti, 'class' : 'mcePath_' + (de++), 'onclick' : 'return false;'}, na);
                         Event.add( pi, 'click', function(e){
-                            var x = t.__getTagCommand( n, v );
-                            if (x) ed.execCommand( x.cmd, n || false, x.c );
+                            var x = t.__getTagCommand( n );
+                            if (x) ed.execCommand( x.cmd, n || false, x.val );
                         });
                     }
                     else
@@ -1182,6 +1185,8 @@
             'B' : 'strong',
             'PRE': 'literal',
             'U': 'custom',
+            'SUB': 'custom',
+            'SUP': 'custom',
             'H1': 'header',
             'H2': 'header',
             'H3': 'header',
@@ -1224,51 +1229,55 @@
             return false;
         },
         
-        __getTagCommand : function( n, v )
+        __getTagCommand : function( n )
         {
             switch( n.nodeName )
             {
                 case 'IMG':
-                    return {'cmd':'mceImage', 'c': v};
+                    return {'cmd':'mceImage', 'val': ''};
                 case 'PRE':
-                    return {'cmd':'mceLiteral', 'c': v};
+                    return {'cmd':'mceLiteral', 'val': ''};
                 case 'U':
-                    return {'cmd':'mceCustom', 'c': 'underline'};
+                    return {'cmd':'mceCustom', 'val': 'underline'};
+                case 'SUB':
+                    return {'cmd':'mceCustom', 'val': 'sub'};
+                case 'SUP':
+                    return {'cmd':'mceCustom', 'val': 'sup'};
                 case 'DIV':
                     if ( n.className.indexOf('mceNonEditable') !== -1 )
                     {
                         if ( n.className.indexOf('mceItemContentTypeFiles') !== -1 )
-                            return {'cmd':'mceFile', 'c': v};
-                        return {'cmd':'mceObject', 'c': v};
+                            return {'cmd':'mceFile', 'val': ''};
+                        return {'cmd':'mceObject', 'val': ''};
                     }
                     else if ( DOM.getAttrib(n, 'type') === 'custom' )
-                        return {'cmd':'mceCustom', 'c': v};
+                        return {'cmd':'mceCustom', 'val': n.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid)/g, '') };
                 case 'SPAN':
                     if ( n.className.indexOf('mceNonEditable') !== -1 )
                     {
                         if ( n.className.indexOf('mceItemContentTypeFiles') !== -1 )
-                            return {'cmd':'mceFile', 'c': v};
-                        return {'cmd':'mceObject', 'c': v};
+                            return {'cmd':'mceFile', 'val': ''};
+                        return {'cmd':'mceObject', 'val': ''};
                     }
                     else if ( DOM.getAttrib(n, 'type') === 'custom' )
-                        return {'cmd':'mceCustom', 'c': v};
+                        return {'cmd':'mceCustom', 'val': n.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid)/g, '') };
                 case 'TABLE':
-                    return {'cmd':'mceInsertTable', 'c': v};
+                    return {'cmd':'mceInsertTable', 'val': ''};
                 case 'TR':
-                    return {'cmd':'mceTableRowProps', 'c': v};
+                    return {'cmd':'mceTableRowProps', 'val': ''};
                 case 'TD':
                 case 'TH':
-                    return {'cmd':'mceTableCellProps', 'c': v};
+                    return {'cmd':'mceTableCellProps', 'val': ''};
                 case 'A':
-                    if ( DOM.getAttrib(n, 'href') ) return {'cmd':'mceLink', 'c': v};
-                    else return {'cmd':'mceInsertAnchor', 'c': v};
+                    if ( DOM.getAttrib(n, 'href') ) return {'cmd':'mceLink', 'val': ''};
+                    else return {'cmd':'mceInsertAnchor', 'val': ''};
                 case 'LI':
                 case 'OL':
                 case 'UL':
-                    return {'cmd':'generalXmlTagPopup', 'c': n.nodeName.toLowerCase() + '/' + n.nodeName};
+                    return {'cmd':'generalXmlTagPopup', 'val': n.nodeName.toLowerCase() + '/' + n.nodeName};
                 default:
                     var tagName = this.__tagsToXml( n );
-                    if ( tagName ) return {'cmd':'generalXmlTagPopup', 'c': tagName + '/' + n.nodeName};
+                    if ( tagName ) return {'cmd':'generalXmlTagPopup', 'val': tagName + '/' + n.nodeName};
             }
         },
         

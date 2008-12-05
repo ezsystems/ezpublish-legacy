@@ -21,6 +21,7 @@ eZ Online Editor 5.0 extension Changelog
 * Partly Implemented #13751: Optimize image for size
 * Implemented #13196 (The fourth alignment: without alignment)
 * Added strings for searchreplace plugin so it can be used out of the box
+* Implemented #14060: Addition of <sub> and <sup> buttons
 
 5.0rc7
 * Changed javascript / stylesheet cache to use 'public/' path

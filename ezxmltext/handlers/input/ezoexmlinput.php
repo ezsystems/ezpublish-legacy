@@ -91,7 +91,11 @@ class eZOEXMLInput extends eZXMLInputHandler
      \div is used by default.
      \eZOEInputParser::tagNameCustomHelper handles input
     */
-    public static $nativeCustomTags = array('underline' => 'u');
+    public static $nativeCustomTags = array(
+                  'underline' => 'u',
+                  'sup' => 'sup',
+                  'sub' => 'sub'
+                  );
 
     /*!
      \reimp
@@ -323,11 +327,16 @@ class eZOEXMLInput extends eZXMLInputHandler
             $hideButtons = array();
             $showButtons = array();
 
-            // filter out underline if custom underline tag is not enabled
+            // filter out custom tag icons if the custom tag is not enabled
             if ( !in_array('underline', $tags ) )
                 $hideButtons[] = 'underline';
 
-            // filter out pagebreak if custom pagebreak tag is not enabled
+            if ( !in_array('sub', $tags ) )
+                $hideButtons[] = 'sub';
+
+            if ( !in_array('sup', $tags ) )
+                $hideButtons[] = 'sup';
+
             if ( !in_array('pagebreak', $tags ) )
                 $hideButtons[] = 'pagebreak';
 
