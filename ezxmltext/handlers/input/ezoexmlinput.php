@@ -131,7 +131,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
     /*! 
      \static
-     Identify browser by layout engine (expect for ie).
+     Identify browser by layout engine.
      \return string if browser supports dhtml editing, false if not.
     */
     static function browserSupportsDHTMLType()
@@ -154,13 +154,20 @@ class eZOEXMLInput extends eZXMLInputHandler
                     self::$browserType = 'Presto';
                 // Experimental Wii support
                 else if ( $browserInfo[1] >= 9.3 )
-                    self::$browserType = 'Wii';
+                    self::$browserType = 'Presto';
+            }
+            else if ( strpos( $userAgent, 'Trident' ) !== false and
+                 preg_match('/Trident\/([0-9\.]+)/i', $userAgent, $browserInfo ) )
+            {
+                if ( $browserInfo[1] >= 4.0 )
+                    self::$browserType = 'Trident';
             }
             else if ( strpos( $userAgent, 'MSIE' ) !== false and
                       preg_match('/MSIE[ \/]([0-9\.]+)/i', $userAgent, $browserInfo ) )
             {
+                // IE didn't have Trident in it's user agent string untill IE 8.0
                 if ( $browserInfo[1] >= 6.0 )
-                    self::$browserType = 'IE';
+                    self::$browserType = 'Trident';
             }
             elseif ( strpos( $userAgent, 'Gecko' ) !== false and
                      preg_match('/rv:([0-9\.]+)/i', $userAgent, $browserInfo ) )
