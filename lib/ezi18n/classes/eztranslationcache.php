@@ -127,8 +127,13 @@ class eZTranslationCache
         //include_once( 'lib/ezutils/classes/ezsys.php' );
 
         $internalCharset = eZTextCodec::internalCharset();
-        $rootName = 'root-' . md5( $internalCharset );
-        $rootCacheDirectory = eZDir::path( array( eZSys::cacheDirectory(), 'translation', $rootName ) );
+
+        $ini = eZINI::instance();
+        $translationRepository = $ini->variable( 'RegionalSettings', 'TranslationRepository' );
+        $translationExtensions = $ini->variable( 'RegionalSettings', 'TranslationExtensions' );
+
+        $uniqueParts = array( $internalCharset, $translationRepository, implode( ';', $translationExtensions ) );
+        $rootCacheDirectory = eZDir::path( array( eZSys::cacheDirectory(), 'translation', md5( implode( '-', $uniqueParts ) ) ) );
 
         return $rootCacheDirectory;
     }
