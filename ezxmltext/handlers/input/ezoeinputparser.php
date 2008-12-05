@@ -170,8 +170,7 @@ class eZOEInputParser extends eZXMLInputParser
         if ( isset( $attributes['type'] ) && $attributes['type'] === 'custom' )
         {
             $name = 'custom';
-            $attributes['class'] = trim( str_replace('mceItemCustomTag', '', $attributes['class']) );
-            $attributes['name'] = $attributes['class'];
+            $attributes['name'] = self::tagClassNamesCleanup( $attributes['class'] );
         }
 
         if ( $name === '' && isset( $attributes['id'] ) )
@@ -210,7 +209,7 @@ class eZOEInputParser extends eZXMLInputParser
         {
             $attributes['ezborder'] = $attributes['border'];
         }
-        $attributes['class'] = trim( str_replace('mceItemTable', '', $attributes['class']) );
+        $attributes['class'] = self::tagClassNamesCleanup( $attributes['class'] );
         return $name;
     }
 
@@ -230,12 +229,14 @@ class eZOEInputParser extends eZXMLInputParser
                 {
                     $name = 'embed';
                 }
+                $attributes['class'] = self::tagClassNamesCleanup( $attributes['class'] );
             }
         }
+
         if ( isset( $attributes['type'] ) && $attributes['type'] === 'custom' )
         {
             $name = 'custom';
-            $attributes['class'] = trim( str_replace('mceItemCustomTag', '', $attributes['class']) );
+            $attributes['class'] = self::tagClassNamesCleanup( $attributes['class'] );
             if ( !isset($attributes['name']) ) $attributes['name'] = $attributes['class'];
         }
 
@@ -279,10 +280,9 @@ class eZOEInputParser extends eZXMLInputParser
                 else
                     $name = 'embed';
 
-                // remove classes that is used internally by editor on embed objects
-                if ( isset( $attributes['class'] ) && strpos( $attributes['class'], 'mceNonEditable' ) !== false )
+                if ( isset( $attributes['class'] ) )
                 {
-                    $attributes['class'] = trim( preg_replace("/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable)/", '', $attributes['class'] ) );
+                    $attributes['class'] = self::tagClassNamesCleanup( $attributes['class'] );
                 }
             }
         }
@@ -291,7 +291,7 @@ class eZOEInputParser extends eZXMLInputParser
         {
             $name = 'custom';
             $attributes['children_required'] = 'true';
-            $attributes['name'] = trim( str_replace('mceItemCustomTag', '', $attributes['class']) );
+            $attributes['name'] = self::tagClassNamesCleanup( $attributes['class'] );
         }
 
         return $name;
@@ -307,6 +307,12 @@ class eZOEInputParser extends eZXMLInputParser
             $attributes['children_required'] = 'true';
         }
         return $name;
+    }
+
+    static function tagClassNamesCleanup( $className )
+    {
+         // remove classes that is used internally by editor on embed objects
+        return trim( preg_replace("/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable)/i", '', $className ) );
     }
 
 
