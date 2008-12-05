@@ -131,39 +131,49 @@ class eZOEXMLInput extends eZXMLInputHandler
 
     /*! 
      \static
-     \return true if the browser supports DHTML editing.
+     Identify browser by layout engine (expect for ie).
+     \return string if browser supports dhtml editing, false if not.
     */
     static function browserSupportsDHTMLType()
     {
         if ( self::$browserType === null )
         {
-            $supportsDHTMLType = false;
+            self::$browserType = false;
             $userAgent = eZSys::serverVariable( 'HTTP_USER_AGENT' );
-            if ( strpos( $userAgent, 'Opera' ) !== false and
+            if ( strpos( $userAgent, 'Presto' ) !== false and
+                 preg_match('/Presto\/([0-9\.]+)/i', $userAgent, $browserInfo ) )
+            {
+                if ( $browserInfo[1] >= 2.1 )
+                    self::$browserType = 'Presto';
+            }
+            elseif ( strpos( $userAgent, 'Opera' ) !== false and
                  preg_match('/Opera\/([0-9\.]+)/i', $userAgent, $browserInfo ) )
             {
+                // Presto is not part of the user agent string on Opera > 9.6
                 if ( $browserInfo[1] >= 9.5 )
-                    $supportsDHTMLType = 'Opera';
+                    self::$browserType = 'Presto';
+                // Experimental Wii support
+                else if ( $browserInfo[1] >= 9.3 )
+                    self::$browserType = 'Wii';
             }
             else if ( strpos( $userAgent, 'MSIE' ) !== false and
                       preg_match('/MSIE[ \/]([0-9\.]+)/i', $userAgent, $browserInfo ) )
             {
                 if ( $browserInfo[1] >= 6.0 )
-                    $supportsDHTMLType = 'IE';
+                    self::$browserType = 'IE';
             }
             elseif ( strpos( $userAgent, 'Gecko' ) !== false and
                      preg_match('/rv:([0-9\.]+)/i', $userAgent, $browserInfo ) )
             {
                 if ( $browserInfo[1] >= 1.8 )
-                    $supportsDHTMLType = 'Gecko';
+                    self::$browserType = 'Gecko';
             }
             elseif ( strpos( $userAgent, 'WebKit' ) !== false and
                      preg_match('/WebKit\/([0-9\.]+)/i', $userAgent, $browserInfo ) )
             {
                 if ( $browserInfo[1] >= 522.0 )
-                    $supportsDHTMLType = 'WebKit';
+                    self::$browserType = 'WebKit';
             }
-            self::$browserType = $supportsDHTMLType;
         }
         return self::$browserType;
     }
