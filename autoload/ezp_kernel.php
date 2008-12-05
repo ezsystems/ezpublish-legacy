@@ -1,6 +1,6 @@
 <?php
 /**
- * Autoloader definition for eZ Publish kernel files.
+ * Autoloader definition for eZ Publish Kernel files.
  *
  * @copyright Copyright (C) 2005-2008 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/gnu_gpl GNU GPL v2
@@ -535,6 +535,8 @@ return array(
       'eZXMLTextDiff'                      => 'lib/ezdiff/classes/ezxmltextdiff.php',
       'eZXMLTextType'                      => 'kernel/classes/datatypes/ezxmltext/ezxmltexttype.php',
       'eZi18nOperator'                     => 'kernel/common/ezi18noperator.php',
+      'ezpAutoloadGeneratorOptions'        => 'kernel/private/options/ezpautoloadgeneratoroptions.php',
+      'ezpUrlObjectLinkUpdate'             => 'update/common/scripts/4.1/fixezurlobjectlinks.php',
       'openFts'                            => 'kernel/search/plugins/openfts/openfts.php',
       'smtp'                               => 'lib/ezutils/classes/ezsmtp.php',
     );
