@@ -455,4 +455,5 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13992: Template warnings in design/admin/templates/relations.tpl
 - Fixed bug #14054: Relaxng validation of certain translation files fails - byte element
 - Fixed bug #13701: RemotePackagesIndexURL points to old repository
+- Fixed bug #8005: extension translation cache doesn't respect site access settings
 
