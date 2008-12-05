@@ -44,7 +44,17 @@ class eZStepSiteTypes extends eZStepInstaller
     function eZStepSiteTypes( $tpl, $http, $ini, &$persistenceList )
     {
         $ini = eZINI::instance( 'package.ini' );
-        $this->IndexURL = $ini->variable( 'RepositorySettings', 'RemotePackagesIndexURL' );
+        $indexURL = trim( $ini->variable( 'RepositorySettings', 'RemotePackagesIndexURL' ) );
+        if ( $indexURL === '' )
+        {
+            $indexURL = trim( $ini->variable( 'RepositorySettings', 'RemotePackagesIndexURLBase' ) );
+            if ( substr( $indexURL, -1, 1 ) !== '/' )
+            {
+                $indexURL .= '/';
+            }
+            $indexURL .= eZPublishSDK::version( false, false, false ) . '/' . eZPublishSDK::version() . '/';
+        }
+        $this->IndexURL = $indexURL;
 
         if ( substr( $this->IndexURL, -1, 1 ) == '/' )
             $this->XMLIndexURL = $this->IndexURL . 'index.xml';
