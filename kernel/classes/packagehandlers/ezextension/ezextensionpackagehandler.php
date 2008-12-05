@@ -70,7 +70,7 @@ class eZExtensionPackageHandler extends eZPackageHandler
 
             $filepath = $package->path() . '/' . $filepath;
 
-            $dom =& $package->fetchDOMFromFile( $filepath );
+            $dom = $package->fetchDOMFromFile( $filepath );
             if ( $dom )
             {
                 $root = $dom->documentElement;
@@ -114,6 +114,9 @@ class eZExtensionPackageHandler extends eZPackageHandler
             $siteINI->setVariable( "ExtensionSettings", "ActiveExtensions", $selectedExtensions );
             $siteINI->save( 'site.ini.append', '.php', false, false );
         }
+
+        // Regenerate the autoloads to remove of no longer existing classes
+        $this->updateAutoload();
 
         return true;
     }
@@ -180,6 +183,9 @@ class eZExtensionPackageHandler extends eZPackageHandler
                 eZFileHandler::copy( $sourcePath, $destPath );
             }
         }
+
+        // Regenerate autoloads for extensions to pick up the newly created extension
+        $this->updateAutoload();
 
         // Activate extension
         $siteINI = eZINI::instance( 'site.ini', 'settings/override', null, null, false, true );
@@ -287,6 +293,25 @@ class eZExtensionPackageHandler extends eZPackageHandler
         }
 
         return $extensionsToAdd;
+    }
+
+    protected function updateAutoload()
+    {
+        $autoloadGenerator = new eZAutoloadGenerator();
+        try
+        {
+            $autoloadGenerator->buildAutoloadArrays();
+
+            $autoloadWarningMessages = $autoloadGenerator->getWarnings();
+            foreach ( $autoloadWarningMessages as $warning )
+            {
+                eZDebug::writeWarning( $warning, __CLASS__ . '::' . __FUNCTION__ );
+            }
+        }
+        catch ( Exception $e )
+        {
+            eZDebug::writeError( $e->getMessage(), __CLASS__ . '::' . __FUNCTION__ );
+        }
     }
 
     public $Package = null;
