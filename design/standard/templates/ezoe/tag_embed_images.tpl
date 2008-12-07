@@ -23,7 +23,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     cssClass: '',
     onInitDone: function( el, tag, ed )
     {        
-        var selectors = ez.$('embed_alt_source', 'embed_align_source', 'embed_class_source', 'embed_view_source', 'embed_inline_source');
+        var selectors = ez.$('embed_size_source', 'embed_align_source', 'embed_class_source', 'embed_view_source', 'embed_inline_source');
         var tag = selectors[4].el.checked ? 'embed-inline' : 'embed', def = attributeDefaults[ tag ]
         inlineSelectorChange.call( selectors[4], false, selectors[4].el  );
         selectors[4].addEvent('click', inlineSelectorChange );
@@ -62,7 +62,6 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     },
     tagAttributeEditor: function( ed, el, args )
     {
-        //args['id'] = 'eZObject_' + eZOEPopupUtils.embedObject['contentobject_id'];
         args['inline'] = ez.$('embed_inline_source').el.checked ? 'true' : 'false';
         el = eZOEPopupUtils.switchTagTypeIfNeeded( el, (contentType === 'images' || compatibilityMode === 'enabled' ? 'img' : (args['inline'] === 'true' ? 'span' : 'div') ) );
         var imageAttributes = eZOEPopupUtils.embedObject['image_attributes'];
@@ -154,7 +153,7 @@ function loadImageSize( e, el )
             ez.script( 'eZOEPopupUtils.ajaxLoadResponse=' + r.responseText );
             if ( eZOEPopupUtils.ajaxLoadResponse )
             {
-                var size = ez.$('embed_alt_source').el.value, imageAttributes = eZOEPopupUtils.embedObject['image_attributes'];
+                var size = ez.$('embed_size_source').el.value, imageAttributes = eZOEPopupUtils.embedObject['image_attributes'];
                 eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'][ size ] = eZOEPopupUtils.ajaxLoadResponse['data_map'][ imageAttributes[0] ]['content'][ size ];
                 previewImageNode.el.src = eds.ez_root_url + eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'][ size ]['url'];
             }
@@ -185,64 +184,37 @@ function loadImageSize( e, el )
         <div class="attribute-title">
             <h2 style="padding: 0 0 4px 0;">{$embed_object.name|wash}</h2>
         </div>
-        <table class="properties" id="embed_attributes">
-            <tr id="embed_id">
-                <td class="column1"><label for="embed_alt_source">{'Relation'|i18n('design/standard/ezoe')}</label></td>
-                <td>
-                    <select name="id" id="embed_id_source">
-                    <option value="eZObject_{$embed_object.id}"{if $embed_type|eq( 'eZObject' )} selected="selected"{/if}>
-                        {'Object'|i18n('design/standard/ezoe')}: {$embed_object.name|wash}
-                    </option>
-                    {foreach $embed_object.assigned_nodes as $assigned_node}
-                    <option value="eZNode_{$assigned_node.node_id}"{if and($embed_type|eq( 'eZNode' ), $assigned_node.node_id|eq( $embed_id ))} selected="selected"{/if}>
-                        {'Node'|i18n('design/standard/ezoe')}: {$assigned_node.path_identification_string}
-                    </option>
-                    {/foreach}
-                    </select>
-                </td>
-            </tr>
-            <tr id="embed_alt">
-                <td class="column1"><label for="embed_alt_source">{'Size'|i18n('design/standard/ezoe')}</label></td>
-                <td>
-                    <select name="alt" id="embed_alt_source">
-                    {foreach $size_list as $value => $name}
-                        <option value="{$value|wash}"{if $default_size|eq( $value )} selected="selected"{/if}>{$name|wash}</option>
-                    {/foreach}
-                    </select>
-                </td>
-            </tr>
-            <tr id="embed_view">
-                <td class="column1"><label for="embed_view_source">{'View'|i18n('design/standard/ezoe')}</label></td>
-                <td>
-                    <select name="view" id="embed_view_source">
-                    </select>
-                </td>
-            </tr>
-            <tr id="embed_class">
-                <td class="column1"><label for="embed_class_source">{'Class'|i18n('design/standard/ezoe')}</label></td>
-                <td>
-                    <select name="class" id="embed_class_source">
-                    </select>
-                </td>
-            </tr>
-            <tr id="embed_align">
-                <td class="column1"><label for="embed_align_source">{'Align'|i18n('design/standard/ezoe')}</label></td>
-                <td>
-                    <select name="align" id="embed_align_source">
-                        <option value="">{'None'|i18n('design/standard/ezoe')}</option>
-                        <option value="left">{'Left'|i18n('design/standard/ezoe')}</option>
-                        <option value="middle">{'Center'|i18n('design/standard/ezoe')}</option>
-                        <option value="right">{'Right'|i18n('design/standard/ezoe')}</option>
-                    </select>
-                </td>
-            </tr>
-            <tr id="embed_inline">
-                <td class="column1"><label for="embed_inline_source">{'Inline'|i18n('design/standard/ezoe')}</label></td>
-                <td>
-                    <input type="checkbox" class="input_noborder" id="embed_inline_source" name="inline" value="true"{*if $tag_name|eq('embed-inline')} checked="checked"{/if*} />
-                </td>
-            </tr>
-        </table>
+        {def $embed_relaton_options = hash(concat('eZObject_', $embed_object.id), concat('Object'|i18n('design/standard/ezoe'), ': ', $embed_object.name))}
+        {foreach $embed_object.assigned_nodes as $assigned_node}
+            {set $embed_relaton_options = $embed_relaton_options|merge( hash(concat('eZNode_', $assigned_node.node_id), concat('Node'|i18n('design/standard/ezoe'), ': ', $assigned_node.path_identification_string)) )}
+        {/foreach}
+        {include uri="design:ezoe/generalattributes.tpl"
+                 tag_name = 'embed'
+                 attributes = hash('id', $embed_relaton_options,
+                                 'view', 'select',
+                                 'alt', $size_list,
+                                 'class', 'select',
+                                 'align', hash(
+                                               '0', 'None'|i18n('design/standard/ezoe'),
+                                               'left', 'Left'|i18n('design/standard/ezoe'),
+                                               'middle', 'Center'|i18n('design/standard/ezoe'),
+                                               'right', 'Right'|i18n('design/standard/ezoe')
+                                               ),
+                                 'inline', 'checkbox'
+                                 )
+                 attribute_mapping = hash( 'alt', 'size' )
+                 i18n = hash('id', 'Relation'|i18n('design/standard/ezoe'),
+                             'view', 'View'|i18n('design/standard/ezoe'),
+                             'class', 'Class'|i18n('design/standard/ezoe'),
+                             'align', 'Align'|i18n('design/standard/ezoe'),
+                             'inline', 'Inline'|i18n('design/standard/ezoe'),
+                             'size', 'Size'|i18n('design/standard/ezoe')
+                             )
+                 attribute_defaults = hash('id', concat( $embed_type, '_', $embed_id ),
+                                           'inline', 'true',
+                                           'size', $default_size )
+                 classes = hash( 'inline', 'input_noborder' )
+        }
 
         {include uri="design:ezoe/customattributes.tpl" tag_name="embed" hide=$tag_name|ne('embed') custom_attributes=$custom_attributes.embed}
         {include uri="design:ezoe/customattributes.tpl" tag_name="embed-inline" hide=$tag_name|ne('embed-inline') custom_attributes=$custom_attributes.embed-inline}

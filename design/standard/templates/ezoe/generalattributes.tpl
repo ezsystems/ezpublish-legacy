@@ -107,10 +107,14 @@
         {/if}
 
         <tr id="{$attribute_id}" class="attribute_type_{$attribute_type}">
+            {if $attribute_type|ne('hidden')}
             <td class="column1"><label for="{$attribute_id}_source">
                 {$attribute_name|wash}
             </label></td>
             <td>
+            {else}
+            <td colspan="2">
+            {/if}
                 {if is_set( $attribute_content_prepend[ $xml_attribute ] )}
                     {$attribute_content_prepend[ $xml_attribute ]}
                 {/if}

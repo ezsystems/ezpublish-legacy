@@ -92,10 +92,14 @@
         {/if}
 
         <tr id="{$custom_attribute_id}" class="custom_attribute_type_{$custom_attribute_type}">
+            {if $custom_attribute_type|ne('hidden')}
             <td class="column1"><label for="{$custom_attribute_id}_source">
                 {$custom_attribute_name|wash}
             </label></td>
             <td>
+            {else}
+            <td colspan="2">
+            {/if}
                 {include uri=concat('design:ezoe/customattributes/', $custom_attribute_type, '.tpl')}
             </td>
         </tr>
