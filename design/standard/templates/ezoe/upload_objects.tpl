@@ -116,49 +116,24 @@ tinyMCEPopup.onInit.add( function(){
             </table>
 
             <iframe id="embed_upload" name="embed_upload" frameborder="0" scrolling="no" style="border: 0; width: 99%; height: 30px; margin: 0; overflow: auto; overflow-x: hidden;"></iframe>
-
-            {if $related_contentobjects|count|gt( 0 )}
-            
-                {* Related files *}
-                {*if and( $content_type|eq('files'), $grouped_related_contentobjects.files|count|gt( 0 ))*}
-                {if and( $content_type|eq('objects'), $grouped_related_contentobjects.files|count|gt( 0 ))}
-                <div class="block contenttype_file">
-                <h2>{'Related files'|i18n('design/standard/ezoe')}</h2>
-                        <table class="list" cellspacing="0">
-                        <tr>
-                            <th class="name">{'Name'|i18n( 'design/admin/content/edit' )}</th>
-                            <th class="class">{'File type'|i18n( 'design/admin/content/edit' )}</th>
-                            <th class="filesize">{'Size'|i18n( 'design/admin/content/edit' )}</th>
+          
+            {* Related objects *}
+            {if and( $related_contentobjects|count|gt( 0 ), $grouped_related_contentobjects.objects|count|gt( 0 ) )}
+            <div class="block contenttype_object">
+            <h2>{'Related content'|i18n('design/standard/ezoe')}</h2>
+                    <table class="list" cellspacing="0">
+                    <tr>
+                        <th class="name">{'Name'|i18n( 'design/admin/content/edit' )}</th>
+                        <th class="class">{'Type'|i18n( 'design/admin/content/edit' )}</th>
+                    </tr>
+                    {foreach $grouped_related_contentobjects.objects as $relation sequence array( bglight, bgdark ) as $sequence}
+                        <tr class="{$sequence}">
+                            <td class="name">{$relation.object.class_name|class_icon( small, $relation.object.class_name )}&nbsp;<a href="JavaScript:eZOEPopupUtils.selectByEmbedId( {$relation.object.id} )">{$relation.object.name|wash}</a></td>
+                            <td class="class">{$relation.object.class_name|wash}</td>
                         </tr>
-                        {foreach $grouped_related_contentobjects.files as $file sequence array( bglight, bgdark ) as $sequence}
-                            <tr class="{$sequence}">
-                                <td class="name">{$file.object.class_name|class_icon( small, $file.object.class_name )}&nbsp;<a href="JavaScript:eZOEPopupUtils.selectByEmbedId( {$file.object.id} )">{$file.object.name|wash}</a></td>
-                                <td class="filetype">{$file.object.data_map.file.content.mime_type|wash}</td>
-                                <td class="filesize">{$file.object.data_map.file.content.filesize|si( byte )}</td>
-                            </tr>
-                        {/foreach}
-                        </table>
-                </div>
-                {/if}
-            
-                {* Related objects *}
-                {if and( $content_type|eq('objects'), $grouped_related_contentobjects.objects|count|gt( 0 ))}
-                <div class="block contenttype_object">
-                <h2>{'Related content'|i18n('design/standard/ezoe')}</h2>
-                        <table class="list" cellspacing="0">
-                        <tr>
-                            <th class="name">{'Name'|i18n( 'design/admin/content/edit' )}</th>
-                            <th class="class">{'Type'|i18n( 'design/admin/content/edit' )}</th>
-                        </tr>
-                        {foreach $grouped_related_contentobjects.objects as $relation sequence array( bglight, bgdark ) as $sequence}
-                            <tr class="{$sequence}">
-                                <td class="name">{$relation.object.class_name|class_icon( small, $relation.object.class_name )}&nbsp;<a href="JavaScript:eZOEPopupUtils.selectByEmbedId( {$relation.object.id} )">{$relation.object.name|wash}</a></td>
-                                <td class="class">{$relation.object.class_name|wash}</td>
-                            </tr>
-                        {/foreach}
-                        </table>
-                </div>
-                {/if}
+                    {/foreach}
+                    </table>
+            </div>
             {else}
             <div class="block">
                 <p>{"There are no related objects."|i18n("design/standard/ezoe")}</p>
