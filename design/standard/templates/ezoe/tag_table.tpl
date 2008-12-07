@@ -47,12 +47,10 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         }
         return html + '</tbody></table>';
     },
-    attributeGenerator: {
-        'class': function( o, args )
-        {
-            args['class'] = ez.string.trim( o.postData(true) + ( args['border'] == 0 ? ' mceItemTable' : ''));
-            return args;
-        }
+    tagAttributeEditor: function( ed, el, args )
+    {
+        args['class'] = ez.string.trim( args['class'] + ( args['border'] == 0 ? ' mceItemTable' : ''))
+        ed.dom.setAttribs( el, args );
     }
 }));
 
@@ -173,8 +171,8 @@ function tableSizeGridShowChange( rows, cols, save )
         
         {include uri="design:ezoe/generalattributes.tpl"
                  tag_name   = $tag_name
-                 attributes = hash('width', '',
-                                   'border', '',
+                 attributes = hash('width', 'htmlsize',
+                                   'border', 'htmlsize',
                                    'class', $class_list
                                  )
         }

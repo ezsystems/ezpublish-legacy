@@ -29,7 +29,13 @@
 {if and( $:tag_name, $:attributes )}
     {def $attribute_default = ''
          $attribute_id      = ''
-         $xml_attribute     = ''}
+         $xml_attribute     = ''
+         $attribute_settings = ''
+         $attribute_name = ''
+         $attribute_type = ''
+         $attribute_title = ''
+         $attribute_classes = ''
+         $attribute_disabled = false()}
     {if ezini_hasvariable( $:tag_name, 'Defaults', 'content.ini' )}
         {set $attribute_defaults   = $attribute_defaults|merge( ezini( $:tag_name, 'Defaults', 'content.ini' ) )}
     {/if}
@@ -37,40 +43,95 @@
     <table class="properties general_attributes" id="{$:tag_name}_attributes">
     {foreach $attributes as $attribute => $attribute_value}
         {set $xml_attribute       = first_set( $attribute_mapping[$attribute], $attribute )}
-        {set $attribute_id        = concat( $:tag_name, '_', $attribute )|wash}
-        {set $attribute_default   = first_set( $attribute_defaults[$xml_attribute], '' )}
-        {if $attribute_value|eq('hidden')}
-        <tr id="{$attribute_id}">
-            <td colspan="2"><input type="hidden" name="{$attribute}" id="{$attribute_id}_source" value="{$attribute_default|wash}" class="{first_set( $classes[$xml_attribute], '' )}" /></td>
-        </tr>
+        {set $attribute_id        = concat( $:tag_name, '_', $xml_attribute )|wash}
+        {set $attribute_classes    = array()}
+
+        {if ezoe_ini_section( concat('Attribute_', $:tag_name, '_', $xml_attribute), 'ezoe_customattributes.ini' )}
+            {set $attribute_settings = concat('Attribute_', $:tag_name, '_', $xml_attribute)}
         {else}
-        <tr id="{$attribute_id}">
-            <td class="column1"><label for="{$attribute_id}_source">
-            {if is_set( $i18n[ $xml_attribute ] )}
-                {$i18n[ $xml_attribute ]|wash}
-            {else}
-                {$xml_attribute|upfirst|wash}
+            {set $attribute_settings = concat('Attribute_', $xml_attribute)}
+        {/if}
+
+        {if ezini_hasvariable( $attribute_settings, 'Disabled', 'ezoe_customattributes.ini' )}
+            {set $attribute_disabled = ezini( $attribute_settings, 'Disabled', 'ezoe_customattributes.ini' )|eq('true')}
+        {else}
+            {set $attribute_disabled = false()}
+        {/if}
+
+        {if is_set( $classes[$xml_attribute] )}
+            {set $attribute_classes = array( $classes[$xml_attribute] )}
+        {else}
+            {set $attribute_classes = array()}
+        {/if}
+
+        {if ezini_hasvariable( $attribute_settings, 'Type', 'ezoe_customattributes.ini' )}
+            {set $attribute_type = ezini( $attribute_settings, 'Type', 'ezoe_customattributes.ini' )}
+        {elseif $attribute_value|is_array()}
+            {set $attribute_type = 'select'}
+        {elseif $attribute_value}
+            {set $attribute_type = $attribute_value}
+        {else}
+            {set $attribute_type = 'text'}
+        {/if}
+        
+        {if ezini_hasvariable( $attribute_settings, 'Default', 'ezoe_customattributes.ini' )}
+            {set $attribute_default = ezini( $attribute_settings, 'Default', 'ezoe_customattributes.ini' )}
+        {else}
+            {set $attribute_default = first_set( $attribute_defaults[$xml_attribute], '' )}
+        {/if}
+
+        {if ezini_hasvariable( $attribute_settings, 'Name', 'ezoe_customattributes.ini' )}
+            {set $attribute_name = ezini( $attribute_settings, 'Name', 'ezoe_customattributes.ini' )}
+        {elseif is_set( $i18n[ $xml_attribute ] )}
+            {set $attribute_name = $i18n[ $xml_attribute ]}
+        {else}
+            {set $attribute_name = $xml_attribute|upfirst}
+        {/if}
+
+        {if ezini_hasvariable( $attribute_settings, 'Title', 'ezoe_customattributes.ini' )}
+            {set $attribute_title = ezini( $attribute_settings, 'Title', 'ezoe_customattributes.ini' )}
+        {else}
+            {set $attribute_title = first_set( $attribute_titles[$xml_attribute], '' )}
+        {/if}
+
+        {if ezini_hasvariable( $attribute_settings, 'Required', 'ezoe_customattributes.ini' )}
+            {if ezini( $attribute_settings, 'Required', 'ezoe_customattributes.ini' )|eq('true')}
+                {set $attribute_classes = $attribute_classes|append( 'required' )}
             {/if}
+        {/if}
+
+        {if ezini_hasvariable( $attribute_settings, 'AllowEmpty', 'ezoe_customattributes.ini' )}
+            {if ezini( $attribute_settings, 'AllowEmpty', 'ezoe_customattributes.ini' )|eq('true')}
+                {set $attribute_classes = $attribute_classes|append( 'allow_empty' )}
+            {/if}
+        {/if}
+
+        <tr id="{$attribute_id}" class="attribute_type_{$attribute_type}">
+            <td class="column1"><label for="{$attribute_id}_source">
+                {$attribute_name|wash}
             </label></td>
             <td>
-            {if is_set( $attribute_content_prepend[ $xml_attribute ] )}
-                {$attribute_content_prepend[ $xml_attribute ]}
-            {/if}
-            {if $attribute_value|is_array()}
-                <select name="{$attribute}" id="{$attribute_id}_source" class="{first_set( $classes[$xml_attribute], '' )}" title="{first_set( $attribute_titles[$xml_attribute], '' )}">
-                {foreach $attribute_value as $value => $name}
-                    <option value="{if and( $value, $value|ne('0') )}{$value|wash}{/if}"{if $value|eq( $attribute_default )} selected="selected"{/if}>{$name|wash}</option>
-                {/foreach}
-                </select>
-            {else}
-                <input type="text" name="{$attribute}" id="{$attribute_id}_source" value="{$attribute_default|wash}" class="{first_set( $classes[$xml_attribute], '' )}" title="{first_set( $attribute_titles[$xml_attribute], '' )}" />
-            {/if}
-            {if is_set( $attribute_content_append[$xml_attribute ] )}
-                {$attribute_content_append[$xml_attribute ]}
-            {/if}
+                {if is_set( $attribute_content_prepend[ $xml_attribute ] )}
+                    {$attribute_content_prepend[ $xml_attribute ]}
+                {/if}
+
+                {* Reuse custom attribute type templates *}
+                {include uri=concat('design:ezoe/customattributes/', $attribute_type, '.tpl')
+                         custom_attribute           = $attribute
+                         custom_attribute_id        = $attribute_id
+                         custom_attribute_default   = $attribute_default
+                         custom_attribute_disabled  = $attribute_disabled
+                         custom_attribute_classes   = $attribute_classes
+                         custom_attribute_type      = $attribute_type
+                         custom_attribute_settings  = $attribute_settings
+                         custom_attribute_titles    = $attribute_title
+                         custom_attribute_selection = $attribute_value}
+
+                {if is_set( $attribute_content_append[$xml_attribute ] )}
+                    {$attribute_content_append[$xml_attribute ]}
+                {/if}
             </td>
         </tr>
-        {/if}
     {/foreach}
     </table>
 {/if}

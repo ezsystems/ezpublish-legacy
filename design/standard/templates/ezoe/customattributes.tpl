@@ -24,7 +24,8 @@
          $custom_attribute_type       = ''
          $custom_attribute_disabled   = false()
          $custom_attribute_classes    = 0
-         $shown_attributes            = array()}
+         $shown_attributes            = array()
+         $custom_attribute_title      = ''}
     {if and( is_unset( $custom_attributes ), ezini_hasvariable( $:tag_name, 'CustomAttributes', 'content.ini' ))}
         {def $custom_attributes = ezini( $:tag_name, 'CustomAttributes', 'content.ini' )}
     {/if}
@@ -70,6 +71,12 @@
             {set $custom_attribute_name = $i18n[ $custom_attribute ]}
         {else}
             {set $custom_attribute_name = $custom_attribute|upfirst}
+        {/if}
+
+        {if ezini_hasvariable( $custom_attribute_settings, 'Title', 'ezoe_customattributes.ini' )}
+            {set $custom_attribute_title = ezini( $custom_attribute_settings, 'Title', 'ezoe_customattributes.ini' )}
+        {else}
+            {set $custom_attribute_title = first_set( $attribute_titles[$xml_attribute], '' )}
         {/if}
 
 		{if ezini_hasvariable( $custom_attribute_settings, 'Required', 'ezoe_customattributes.ini' )}

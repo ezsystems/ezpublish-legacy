@@ -83,12 +83,12 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         <div class="attribute-title">
             <h2 style="padding: 0 0 4px 0;">{$tag_name|upfirst|wash}</h2>
         </div>
-        {def $cell_tag_list = hash('td', 'Table cell', 'th', 'Table header')}
+        {def $cell_tag_list = hash('td', 'Table cell'|i18n('design/standard/ezoe'), 'th', 'Table header'|i18n('design/standard/ezoe'))}
 
         {include uri="design:ezoe/generalattributes.tpl"
                  tag_name   = $tag_name
                  attributes = hash('tag', $cell_tag_list,
-                                   'width', '',
+                                   'width', 'htmlsize',
                                    'class', $class_list
                                  )
                  attribute_defaults = hash('tag', $tag_name )

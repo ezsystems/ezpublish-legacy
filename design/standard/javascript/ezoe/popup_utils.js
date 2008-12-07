@@ -145,20 +145,11 @@ var eZOEPopupUtils = {
         if ( tinymce.isWebKit )
             ed.getWin().focus();
     
-        var args = eZOEPopupUtils.getCustomAttributeArgs( s.selectedTag + '_customattributes');
-
-        // set general attributes for tag
-        if (n = ez.$( s.tagName + '_attributes'))
-        {
-           ez.$$('input,select', n).forEach(function(o){
-               if ( o.hasClass('mceItemSkip') ) return;
-               var name = o.el.name;
-               if ( s.attributeGenerator && s.attributeGenerator[name] !== undefined )
-                   args = s.attributeGenerator[name].call( eZOEPopupUtils, o, args, name );
-               else
-                   args[name] = o.postData( true );
-           });
-       }
+        var args = ez.object.extend(
+            eZOEPopupUtils.getCustomAttributeArgs( s.selectedTag + '_customattributes'),
+            eZOEPopupUtils.getGeneralAttributeArgs( s.selectedTag + '_attributes'),
+            true
+            );
 
         if ( s.cssClass )
            args['class'] = s.cssClass + ( args['class'] ? ' ' + args['class'] : '');
@@ -328,6 +319,24 @@ var eZOEPopupUtils = {
          return args;
     },
 
+    getGeneralAttributeArgs: function( node )
+    {
+        var args = {}, handler = eZOEPopupUtils.settings.customAttributeSaveHandler;
+        // set general attributes for tag
+        if (node = ez.$( node ))
+        {
+           ez.$$('input,select', node).forEach(function(o){
+               if ( o.hasClass('mceItemSkip') || !o.el.name ) return;
+               var name = o.el.name;
+               args[name] = o.postData( true );
+                // see if there is a save hander that needs to do some work on the value
+                if ( handler[o.el.id] !== undefined && handler[o.el.id].call !== undefined )
+                    args[name] = handler[o.el.id].call( o, o.el, args[name] );
+           });
+       }
+       return args;
+    },
+
     getParentByTag: function( n, tag, className, type, checkElement )
     {
         if ( className ) className = ' ' + className + ' ';
@@ -344,6 +353,21 @@ var eZOEPopupUtils = {
             checkElement = true;
         }
         return false;
+    },
+
+    toggleCustomAttributes: function( node )
+    {
+        if ( this.eztype && this.eztype === 'element' )
+            node = this;
+        else
+            node = ez.$( node );
+
+        ez.$$('table.custom_attributes').forEach(function(o){
+            if ( o.el.id === node.el.value + '_customattributes' )
+                o.show();
+            else
+                o.hide();
+        });
     },
 
     initCustomAttributeValue: function( node, valueString )
@@ -381,27 +405,13 @@ var eZOEPopupUtils = {
         });
     },
 
-    toggleCustomAttributes: function( node )
-    {
-        if ( this.eztype && this.eztype === 'element' )
-            node = this;
-        else
-            node = ez.$( node );
-
-        ez.$$('table.custom_attributes').forEach(function(o){
-            if ( o.el.id === node.el.value + '_customattributes' )
-                o.show();
-            else
-                o.hide();
-        });
-    },
-
     initGeneralmAttributes: function( parentNode, editorElement )
     {
         // init general attributes form values from tinymce element values
         // global objects: ez    
         if (parentNode = ez.$( parentNode ))
         {
+            var handler = eZOEPopupUtils.settings.customAttributeInitHandler;
             ez.$$('input,select', parentNode).forEach(function(o)
             {
                 if ( o.hasClass('mceItemSkip') ) return;
@@ -412,7 +422,9 @@ var eZOEPopupUtils = {
                     var v = tinyMCEPopup.editor.dom.getAttrib( editorElement, name );//editorElement.getAttribute( name );
                 if ( v !== false && v !== null && v !== undefined )
                 {
-                    if ( o.el.type === 'checkbox' )
+                    if ( handler[o.el.id] !== undefined && handler[o.el.id].call !== undefined )
+                        handler[o.el.id].call( o, o.el, v );
+                    else if ( o.el.type === 'checkbox' )
                         o.el.checked = v == o.el.value;
                     else
                         o.el.value = v;
