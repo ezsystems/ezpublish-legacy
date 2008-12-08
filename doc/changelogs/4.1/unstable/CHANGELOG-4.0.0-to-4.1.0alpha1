@@ -457,4 +457,5 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13701: RemotePackagesIndexURL points to old repository
 - Fixed bug #8005: extension translation cache doesn't respect site access settings
 - Fixed bug #13638: Updated and fixed locale for cze-CZ
+- Fixed bug #14079: SSLZones cause file downloads to fail over SSL in Internet Explorer
 
