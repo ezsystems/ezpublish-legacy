@@ -165,7 +165,10 @@ class eZStepDatabaseInit extends eZStepInstaller
             $result = $this->checkDatabaseRequirements( false );
 
             $this->PersistenceList['database_info']['version'] = $result['db_version'];
-            $this->PersistenceList['database_info']['required_version'] = $result['db_required_version'];
+            if ( isset( $result['db_required_version'] ) )
+            {
+                $this->PersistenceList['database_info']['required_version'] = $result['db_required_version'];
+            }
             if ( !$result['status'] )
             {
                 $this->Error = $result['error_code'];
