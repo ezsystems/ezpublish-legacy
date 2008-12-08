@@ -309,7 +309,7 @@ var eZOEPopupUtils = {
                 {
                     // filtered because the browser (ie,ff&opera) convert the tag to font tag in certain circumstances
                     style = s.customAttributeStyleMap[name];
-                    if ( style.indexOf('padding') === 0 || style.indexOf('margin') === 0 || style.indexOf('border') === 0)
+                    if ( /[margin|border|padding|width|height]/.test( style ) )
                         args['style'] += style + ': ' + value + '; ';
                 }
                 customArr.push( name + '|' + value );

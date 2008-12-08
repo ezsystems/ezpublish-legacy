@@ -524,7 +524,6 @@ class eZOEXMLInput extends eZXMLInputHandler
         {
             return eZInputValidator::STATE_ACCEPTED;
         }
-        return eZInputValidator::STATE_INVALID;
     }
 
 

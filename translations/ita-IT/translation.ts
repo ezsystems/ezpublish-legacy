@@ -40,7 +40,7 @@
     </message>
     <message>
         <source>Browse</source>
-        <translation>Sfoglia</translation>
+        <translation>Naviga</translation>
     </message>
     <message>
         <source>Class</source>
@@ -765,90 +765,90 @@ Vuoi maggiori informazioni sull&apos;argomento?</translation>
     <name>design/standard/ezoe/wai</name>
     <message>
         <source>Upload file from your local machine.</source>
-        <translation type="unfinished"></translation>
+        <translation>Carica file dal tuo computer locale.</translation>
     </message>
     <message>
         <source>Search for content already in eZ Publish.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cerca contenuti già su eZ Publish.</translation>
     </message>
     <message>
         <source>Browse the content tree in eZ Publish.</source>
-        <translation type="unfinished"></translation>
+        <translation>Naviga l&apos;albero dei contenuti di eZ Publish.</translation>
     </message>
     <message>
         <source>Select or browse content among your personal eZ Publish bookmarks.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleziona o naviga in cerca di contenuti tra i tuoi personali preferiti eZ Publish.</translation>
     </message>
     <message>
         <source>Name for the uploaded object, filename is used if none is specified.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome dell&apos;oggetto caricato, viene usato &quot;filename&quot; se non viene specificato alcun nome.</translation>
     </message>
     <message>
         <source>Choose file to upload from your local machine.</source>
-        <translation type="unfinished"></translation>
+        <translation>Scegli il file da caricare dal tuo computer locale.</translation>
     </message>
     <message>
         <source>Lets you specify where in eZ Publish to store the uploaded object.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ti permette di specificare dove registrare l&apos;oggetto caricato in eZ Publish.</translation>
     </message>
     <message>
         <source>Alternative text for the image, lets internet clients know what kind of image this is without dowloading it or actually seeing it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Testo alternativo per l&apos;immagine, permette ai clients internet di sapere che tipo di immagine sia senza caricarla o vederla effettivamente.</translation>
     </message>
     <message>
         <source>Caption for a image is usually shown bellow it as a description to the image.</source>
-        <translation type="unfinished"></translation>
+        <translation>La didascalia di un&apos;immagine viene mostrata di solito sotto di essa come una descrizione dell&apos;immagine.</translation>
     </message>
     <message>
         <source>Description to the file your uploading, so internet clients can read more about it before they decide to download it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Descrizione del file che stai caricando, per aiutare i clients internet a leggere maggiori informazioni su di esso prima di decidere di scaricarlo.</translation>
     </message>
     <message>
         <source>Enter the word you want to search for here, for instance the name of the content you are looking for.</source>
-        <translation type="unfinished"></translation>
+        <translation>Inserisci qui la parola che vuoi cercare, per esempio il nome del contenuto che stai cercando.</translation>
     </message>
     <message>
         <source>Lets you limit the content type your searching for, by limiting the eZ Publish content classes that are returned in the search result.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ti permette di limitare il tipo di contenuto che stai cercando, limitando le classi contenuto di eZ Publish che vengono restituite dal risultato della ricerca.</translation>
     </message>
     <message>
         <source>Class are often used to give different design or appearance, either by using a different template, style or both.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le classi vengono spesso usate per dare un diverso design o layout, sia usando stili che template diversi, o entrambi.</translation>
     </message>
     <message>
         <source>Lets you specify the target window for the link, if any.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ti permette di specificare la finestra target del link, se c&apos;è.</translation>
     </message>
     <message>
         <source>The title on the (x)html tag, used by screen readers, and to give better explanation like this one.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il titolo sulla stringa (x)html, usata dai lettori dello schermo, and to give better explanation like this one.</translation>
     </message>
     <message>
         <source>To set the width of the tag, either as percentage by appending % or as pixel size by just using a number.</source>
-        <translation type="unfinished"></translation>
+        <translation>Per impostare l&apos;ampiezza della stringa, sia come percentuale anteponendo % o come grandezza in pixel sempicemente usando un numero.</translation>
     </message>
 </context>
 <context>
     <name>design/standard/ezoe/contenttype</name>
     <message>
         <source>Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Immagine</translation>
     </message>
     <message>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation>File</translation>
     </message>
     <message>
         <source>Object</source>
-        <translation type="unfinished"></translation>
+        <translation>Oggetto</translation>
     </message>
     <message>
         <source>Flash</source>
-        <translation type="unfinished"></translation>
+        <translation>Flash</translation>
     </message>
     <message>
         <source>Video</source>
-        <translation type="unfinished"></translation>
+        <translation>Video</translation>
     </message>
 </context>
 <context>
@@ -907,11 +907,11 @@ Vuoi maggiori informazioni sull&apos;argomento?</translation>
     </message>
     <message>
         <source>Insert an image from the related images list, upload a new image, search for an existing images or browse for it. To upload a local image choose the local file, specify the name of the new object, choose placement from list, optionally write some caption text (You can use simple html formating here) and then click &quot;Upload&quot; button.</source>
-        <translation>Inserisci un&apos;immagine da una lista di immagini correlate, carica una nuova immagine, cerca un&apos;immagine esistente o sfogliala. Per caricare un&apos;immagine locale scegli un file locale, specifica il nome del nuovo oggetto, scegli la posizione dalla lista, puoi scrivere un titolo (Puoi usare una semplice formattazione html da qui) e quindi clicca il pulsante &quot;Carica&quot;.</translation>
+        <translation>Inserisci un&apos;immagine da una lista di immagini correlate, carica una nuova immagine, cerca un&apos;immagine esistente o naviga per trovarla. Per caricare un&apos;immagine locale scegli un file locale, specifica il nome del nuovo oggetto, scegli la posizione dalla lista, puoi scrivere un titolo (Puoi usare una semplice formattazione html da qui) e quindi clicca il pulsante &quot;Carica&quot;.</translation>
     </message>
     <message>
         <source>Insert an object from the related objects list, upload a new object, search for an existing object or browse for it. To upload a local file, click &quot;Upload new&quot; button choose the local file, specify the name of the new object, choose placement from list and then click &quot;Upload&quot; button. Note that embedded object will begin on a new line when displayed in the resulting XHTML.</source>
-        <translation>Inserisci un&apos;immagine da una lista di immagini correlate, carica uno nuovo oggetto, cerca un oggetto esistente o sfoglialo. Per caricare un file locale scegli un file locale, specifica il nome del nuovo oggetto, scegli la posizione dalla lista e quindi clicca il pulsante &quot;Carica&quot;. Nota che gli oggetti inclusi verranno mostrati in una nuova linea se mostrati nel XHTML risultante.</translation>
+        <translation>Inserisci un&apos;immagine da una lista di immagini correlate, carica un nuovo oggetto, cerca un oggetto esistente o naviga in cerca di un oggetto. Per caricare un file locale scegli un file locale, specifica il nome del nuovo oggetto, scegli la posizione dalla lista e quindi clicca il pulsante &quot;Carica&quot;. Nota che gli oggetti inclusi verranno inseriti in una nuova riga se mostrati nel XHTML risultante.</translation>
     </message>
     <message>
         <source>Create a custom tag. Optionally select the text you want to transform to a custom tag and click the button to open the insert custom tag window. Select the name of the custom tag you want to insert from the list, edit the attributes and click OK to insert it.</source>
@@ -979,7 +979,7 @@ Vuoi maggiori informazioni sull&apos;argomento?</translation>
     </message>
     <message>
         <source>Browse for a node / object.</source>
-        <translation>Sfoglia un nodo / oggetto.</translation>
+        <translation>Naviga in cerca di un nodo o di un oggetto.</translation>
     </message>
     <message>
         <source>Search for a node / object.</source>
