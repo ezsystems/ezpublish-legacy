@@ -892,7 +892,8 @@ language_locale='eng-GB'";
                     $requiredPackages[] = $package;
                     if ( $package->attribute( 'install_type' ) == 'install' )
                     {
-                        $installParameters = array( 'site_access_map' => array( '*' => $userSiteaccessName ),
+                        $installParameters = array( 'use_dates_from_package' => true,
+                                                    'site_access_map' => array( '*' => $userSiteaccessName ),
                                                     'top_nodes_map' => array( '*' => 2 ),
                                                     'design_map' => array( '*' => $userDesignName ),
                                                     'language_map' => $languageMap,

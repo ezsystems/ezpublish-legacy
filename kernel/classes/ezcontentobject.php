@@ -5112,6 +5112,11 @@ class eZContentObject extends eZPersistentObject
         $contentObject->setAttribute( 'current_version', $activeVersion );
         */
         $contentObject->setAttribute( 'name', $name );
+        if ( isset( $options['use_dates_from_package'] ) && $options['use_dates_from_package'] )
+        {
+            $contentObject->setAttribute( 'published', eZDateUtils::textToDate( $domNode->getAttributeNS( 'http://ez.no/ezobject', 'published' ) ) );
+            $contentObject->setAttribute( 'modified', eZDateUtils::textToDate( $domNode->getAttributeNS( 'http://ez.no/ezobject', 'modified' ) ) );
+        }
         $contentObject->store();
 
         $versions   = $contentObject->versions();
