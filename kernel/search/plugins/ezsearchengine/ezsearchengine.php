@@ -1056,24 +1056,6 @@ class eZSearchEngine
                     $showInvisibleNodesCond
                     $sortWhereSQL
                     ORDER BY $orderByFieldsSQL";
-                if ( $tmpTableCount == 0 )
-                {
-                    $searchCountQuery = "SELECT count( DISTINCT ezcontentobject.id ) AS count
-                    FROM
-                       ezcontentobject,
-                       ezcontentclass,
-                       ezcontentobject_tree
-                       $versionNameTables
-                    WHERE
-                    $emptyWhere
-                    ezcontentobject.contentclass_id = ezcontentclass.id and
-                    ezcontentclass.version = '0' and
-                    ezcontentobject.id = ezcontentobject_tree.contentobject_id and
-                    ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
-                    $versionNameJoins
-                    $showInvisibleNodesCond
-                    $sortWhereSQL";
-                }
             }
             else
             {
@@ -1094,30 +1076,29 @@ class eZSearchEngine
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
                     $versionNameJoins
                      ";
-                if ( $tmpTableCount == 0 )
-                {
-                    $searchCountQuery = "SELECT count( DISTINCT ezcontentobject.id ) AS count
-                    FROM
-                       ezcontentobject,
-                       ezcontentclass,
-                       ezcontentobject_tree
-                       $versionNameTables
-                    WHERE
-                    ezcontentobject.contentclass_id = ezcontentclass.id and
-                    ezcontentclass.version = '0' and
-                    ezcontentobject.id = ezcontentobject_tree.contentobject_id and
-                    ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
-                    $versionNameJoins
-                     ";
-                }
             }
             // Count query
-            $where = "WHERE";
-            if ( $tmpTableCount == 1 )
-                $where = "";
-            if ( $tmpTableCount > 0 )
+            $languageCond = eZContentLanguage::languagesSQLFilter( 'ezcontentobject' );
+            if ( $tmpTableCount == 0 )
             {
-                $searchCountQuery = "SELECT count( * ) AS count FROM $tmpTablesFrom $where $tmpTablesWhere ";
+                $searchCountQuery = "SELECT count( DISTINCT ezcontentobject.id ) AS count
+                        FROM
+                           ezcontentobject,
+                           ezcontentobject_tree
+                        WHERE
+                        ezcontentobject.id = ezcontentobject_tree.contentobject_id and
+                        ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
+                        AND $languageCond
+                        $showInvisibleNodesCond";
+            }
+            else
+            {
+                $searchCountQuery = "SELECT count( DISTINCT ezcontentobject.id ) AS count
+                        FROM $tmpTablesFrom $tmpTablesSeparator
+                             ezcontentobject
+                        WHERE $tmpTablesWhere $and
+                            $tmpTablesWhereExtra
+                            $languageCond";
             }
 
             $objectRes = array();
