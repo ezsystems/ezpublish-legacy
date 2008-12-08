@@ -458,4 +458,5 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #8005: extension translation cache doesn't respect site access settings
 - Fixed bug #13638: Updated and fixed locale for cze-CZ
 - Fixed bug #14079: SSLZones cause file downloads to fail over SSL in Internet Explorer
+- Fixed bug #13147: Duplicated "published" dates in ezcontentobject table after ezwebin/ezflow installation
 
