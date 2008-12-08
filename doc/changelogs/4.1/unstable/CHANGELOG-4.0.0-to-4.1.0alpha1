@@ -460,4 +460,5 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #14079: SSLZones cause file downloads to fail over SSL in Internet Explorer
 - Fixed bug #13147: Duplicated "published" dates in ezcontentobject table after ezwebin/ezflow installation
 - Fixed bug #11754: PHP warning about undefined index db_required_version when database connection fails in setup wizard
+- Fixed bug #13983: search_count and search_result do not match in multilanguage sites
 
