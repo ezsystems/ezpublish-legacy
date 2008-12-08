@@ -19,15 +19,9 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     form: 'EditForm',
     cancelButton: 'CancelButton',
     cssClass: 'mceItemCustomTag',
-    tagSelector: 'custom_class_source',
+    tagSelector: 'custom_name_source',
     onInit: function( el, tag, ed )
-    {        
-        if ( el && ( el.nodeName !== 'SPAN' || el.nodeName !== 'DIV' ) )
-        {
-            // if custom tag is underline | sub | sup, we disable selector to avoid problems (different tag used)
-            //this.settings.tagSelector.el.disabled = true;
-        }
-
+    {
         // custom block tags are not allowed inside custom inline tags
         if ( el )
         {
@@ -113,7 +107,7 @@ function filterOutCustomBlockTags( n )
     ez.$$('input[id*=_inline_source]').forEach(function( o ){
         if ( o.el.checked ) inlineTags.push( o.el.id.split('_inline_')[0] );
     });
-    ez.$$('#custom_class_source option').forEach(function( o ){
+    ez.$$('#custom_name_source option').forEach(function( o ){
         if ( inlineTags.indexOf( o.el.value ) === -1 ) o.el.parentNode.removeChild( o.el );
     });
 }

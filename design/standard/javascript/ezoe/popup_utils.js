@@ -147,9 +147,9 @@ var eZOEPopupUtils = {
     
         var args = ez.object.extend(
             eZOEPopupUtils.getCustomAttributeArgs( s.selectedTag + '_customattributes'),
-            eZOEPopupUtils.getGeneralAttributeArgs( s.selectedTag + '_attributes'),
+            eZOEPopupUtils.getGeneralAttributeArgs( s.tagName + '_attributes'),
             true
-            );
+        );
 
         if ( s.cssClass )
            args['class'] = s.cssClass + ( args['class'] ? ' ' + args['class'] : '');
