@@ -218,8 +218,11 @@ class eZFile
             header( 'Content-Type: ' . $mimeinfo['name'] );
 
             // Fixes problems with IE when opening a file directly
-            header( 'Cache-Control: no-store, no-cache, must-revalidate' ); // HTTP/1.1
-            header( 'Cache-Control: pre-check=0, post-check=0, max-age=0' ); // HTTP/1.1
+            header( "Pragma: " );
+            header( "Cache-Control: " );
+            /* Set cache time out to 10 minutes, this should be good enough to work
+            around an IE bug */
+            header( "Expires: ". gmdate('D, d M Y H:i:s', time() + 600) . ' GMT' );
             if( $overrideFilename )
             {
                 $mimeinfo['filename'] = $overrideFilename;
