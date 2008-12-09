@@ -105,6 +105,7 @@ class eZUser extends eZPersistentObject
                                                       'is_enabled' => 'isEnabled',
                                                       'is_locked' => 'isLocked',
                                                       'last_visit' => 'lastVisit',
+                                                      'login_count' => 'loginCount',
                                                       'has_manage_locations' => 'hasManageLocations' ),
                       'relations' => array( 'contentobject_id' => array( 'class' => 'ezcontentobject',
                                                                          'field' => 'id' ) ),
@@ -707,7 +708,7 @@ WHERE user_id = '" . $userID . "' AND
         // if audit is enabled logins should be logged
         eZAudit::writeAudit( 'user-login', array( 'User id' => $userID, 'User login' => $user->attribute( 'login' ) ) );
 
-        eZUser::updateLastVisit( $userID );
+        eZUser::updateLastVisit( $userID, true );
         eZUser::setCurrentlyLoggedInUser( $user, $userID );
 
         // Reset number of failed login attempts
@@ -1235,8 +1236,9 @@ WHERE user_id = '" . $userID . "' AND
 
     /*!
        Updates the user's last visit timestamp
+       Optionally updates user login count by setting $updateLoginCount to true
     */
-    static function updateLastVisit( $userID )
+    static function updateLastVisit( $userID, $updateLoginCount = false )
     {
         if ( isset( $GLOBALS['eZUserUpdatedLastVisit'] ) )
             return;
@@ -1247,11 +1249,13 @@ WHERE user_id = '" . $userID . "' AND
 
         if ( count( $userVisitArray ) == 1 )
         {
-            $db->query( "UPDATE ezuservisit SET last_visit_timestamp=current_visit_timestamp, current_visit_timestamp=$time WHERE user_id=$userID" );
+            $loginCountSQL = $updateLoginCount ? ', login_count=login_count+1' : '';
+            $db->query( "UPDATE ezuservisit SET last_visit_timestamp=current_visit_timestamp, current_visit_timestamp=$time$loginCountSQL WHERE user_id=$userID" );
         }
         else
         {
-            $db->query( "INSERT INTO ezuservisit ( current_visit_timestamp, last_visit_timestamp, user_id ) VALUES ( $time, $time, $userID )" );
+            $intialLoginCount = $updateLoginCount ? 1 : 0;
+            $db->query( "INSERT INTO ezuservisit ( current_visit_timestamp, last_visit_timestamp, user_id, login_count ) VALUES ( $time, $time, $userID, $intialLoginCount )" );
         }
         $GLOBALS['eZUserUpdatedLastVisit'] = true;
     }
@@ -1271,6 +1275,26 @@ WHERE user_id = '" . $userID . "' AND
         else
         {
             return time();
+        }
+    }
+
+    /**
+     * Returns the login count for the current user.
+     * 
+     * @since Version 4.1
+     * @return int Login count for current user.
+     */
+    function loginCount()
+    {
+        $db = eZDB::instance();
+        $userVisitArray = $db->arrayQuery( "SELECT login_count FROM ezuservisit WHERE user_id=$this->ContentObjectID" );
+        if ( count( $userVisitArray ) == 1 )
+        {
+            return $userVisitArray[0]['login_count'];
+        }
+        else
+        {
+            return 0;
         }
     }
 
@@ -2749,6 +2773,40 @@ WHERE user_id = '" . $userID . "' AND
         return false;
     }
 
+    /**
+     * Validates user login name using site.ini[UserSettings]UserNameValidationRegex[]
+     * 
+     * @static
+     * @since Version 4.1
+     * @param string $loginName that we want to validate.
+     * @param string $errorText by reference for details if validation fails.
+     * @return bool Indicates if validation failed (false) or not (true).
+     */
+    static function validateLoginName( $loginName, &$errorText )
+    {
+        $ini = eZINI::instance();
+        $regexList = $ini->variable( 'UserSettings', 'UserNameValidationRegex' );
+        $errorTextList = $ini->variable( 'UserSettings', 'UserNameValidationErrorText' );
+        foreach ( $regexList as $key => $regex )
+        {
+            if( preg_match( $regex, $loginName) )
+            {
+                if ( isset( $errorTextList[$key] ) )
+                    $errorText = $errorTextList[$key];
+                else
+                    $errorText = $ini->variable( 'UserSettings', 'DefaultUserNameValidationErrorText' );
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Gets the id of the anonymous user.
+     * 
+     * @static
+     * @return int User id of anonymous user.
+     */
     public static function anonymousId()
     {
         if ( is_null( self::$anonymousId ) )

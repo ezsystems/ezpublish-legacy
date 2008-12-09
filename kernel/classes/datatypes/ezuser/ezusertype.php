@@ -99,6 +99,7 @@ class eZUserType extends eZDataType
                         return eZInputValidator::STATE_INVALID;
                     }
                 }
+                // validate user email
                 $isValidate = eZMail::validate( $email );
                 if ( !$isValidate )
                 {
@@ -106,7 +107,6 @@ class eZUserType extends eZDataType
                                                                          'The email address is not valid.' ) );
                     return eZInputValidator::STATE_INVALID;
                 }
-
                 $authenticationMatch = eZUser::authenticationMatch();
                 if ( $authenticationMatch & eZUser::AUTHENTICATE_EMAIL )
                 {
@@ -125,6 +125,14 @@ class eZUserType extends eZDataType
                         }
                     }
                 }
+                // validate user name
+                if ( !eZUser::validateLoginName( $loginName, $errorText ) )
+                {
+                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                         $errorText ) );
+                    return eZInputValidator::STATE_INVALID;
+                }
+                // validate user password
                 $ini = eZINI::instance();
                 $generatePasswordIfEmpty = $ini->variable( "UserSettings", "GeneratePasswordIfEmpty" ) == 'true';
                 if ( !$generatePasswordIfEmpty || ( $password != "" ) )
@@ -136,9 +144,7 @@ class eZUserType extends eZDataType
                                                                              'eZUserType' ) );
                         return eZInputValidator::STATE_INVALID;
                     }
-                    $minPasswordLength = $ini->hasVariable( 'UserSettings', 'MinPasswordLength' ) ? $ini->variable( 'UserSettings', 'MinPasswordLength' ) : 3;
-
-                    if ( strlen( $password ) < (int) $minPasswordLength )
+                    if ( !eZUser::validatePassword( $password ) )
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                              'The password must be at least %1 characters long.',null, array( $minPasswordLength ) ) );

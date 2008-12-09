@@ -109,7 +109,15 @@ if ( !function_exists( 'checkContentActions' ) )
     {
         if ( $module->isCurrentAction( 'Cancel' ) )
         {
-            eZRedirectManager::redirectTo( $module, '/' );
+            $http = eZHTTPTool::instance();
+            if ( $http->hasPostVariable( 'RedirectIfDiscarded' ) )
+            {
+                eZRedirectManager::redirectTo( $module, $http->postVariable( 'RedirectIfDiscarded' ) );
+            }
+            else
+            {
+               eZRedirectManager::redirectTo( $module, '/' ); 
+            }
 
             $version->removeThis();
 
@@ -150,8 +158,8 @@ if ( !function_exists( 'checkContentActions' ) )
             $tpl->setVariable( 'password', $password );
 
             // Check whether account activation is required.
-            $sendUserMail = true;
             $verifyUserType = $ini->variable( 'UserSettings', 'VerifyUserType' );
+            $sendUserMail = !!$verifyUserType;
             // For compatability with old setting
             if ( $verifyUserType === 'email'
               && $ini->hasVariable( 'UserSettings', 'VerifyUserEmail' )
@@ -176,6 +184,8 @@ if ( !function_exists( 'checkContentActions' ) )
                 $accountKey->store();
 
                 $tpl->setVariable( 'hash', $hash );
+
+                $sendUserMail = true;
             }
             else if ( $verifyUserType )// custom account activation
             {

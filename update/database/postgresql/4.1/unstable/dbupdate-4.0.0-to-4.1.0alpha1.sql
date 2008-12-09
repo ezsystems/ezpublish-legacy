@@ -99,9 +99,11 @@ ALTER TABLE ONLY ezcobj_state_language
 ALTER TABLE ONLY ezcobj_state_link
     ADD CONSTRAINT ezcobj_state_link_pkey PRIMARY KEY (contentobject_id, contentobject_state_id);
 
+ALTER TABLE ezuservisit ADD COLUMN login_count INT NOT NULL DEFAULT 0;
+CREATE INDEX ezuservisit_co_visit_count ON ezuservisit USING btree (current_visit_timestamp,login_count);
+
 CREATE INDEX ezforgot_password_user ON ezforgot_password USING btree (user_id);
 
 ALTER TABLE ezorder_item ALTER COLUMN vat_value TYPE double precision;
 ALTER TABLE ezorder_item ALTER COLUMN vat_value SET DEFAULT 0;
 ALTER TABLE ezorder_item ALTER COLUMN vat_value SET NOT NULL;
-

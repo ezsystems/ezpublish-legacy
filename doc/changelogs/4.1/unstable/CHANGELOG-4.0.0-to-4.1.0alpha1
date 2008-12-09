@@ -71,6 +71,8 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Implemented enhancement #14021: eZMail::extractEmail() returns name with trailing spaces and quotes.
 - Implemented enhancement #13559: DB cluster file handler getfilelist() method should use scopes
 - Implemented enhancement #14089: Support translation variations
+- Implemented enhancement #13014: Built-in special character control for user login (similar to passwords)
+- Implemented enhancement #13587: misc enhancements for ezuser (username validation, login_count)
 
 *Design:
 

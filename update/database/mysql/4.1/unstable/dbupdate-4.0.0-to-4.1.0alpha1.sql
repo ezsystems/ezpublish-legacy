@@ -69,6 +69,9 @@ CREATE TABLE ezcobj_state_link (
   PRIMARY KEY  (contentobject_id,contentobject_state_id)
 );
 
+ALTER TABLE ezuservisit ADD COLUMN login_count int(11) NOT NULL default 0;
+ALTER TABLE ezuservisit ADD INDEX ezuservisit_co_visit_count( current_visit_timestamp, login_count );
+
 ALTER TABLE ezforgot_password ADD INDEX ezforgot_password_user(user_id);
 
 ALTER TABLE ezorder_item CHANGE vat_value vat_value FLOAT NOT NULL default 0;
