@@ -57,7 +57,7 @@ static QString version = "3.8.0pre"; // eZ Publish version plus local version
 static QStringList dirs;          // Additional scan directories
 static bool extension = false;    // Extension mode
 static QDir extension_dir;        // Extension directory
-static QRegExp localeRE( "^[a-z]{3}-[A-Z]{2}$" );
+static QRegExp localeRE( "^[a-z]{3}-[A-Z]{2}(@.*)?$" );
 static bool untranslated = false;    // Untranslated translation is off by default
 
 static void printUsage()
@@ -180,7 +180,7 @@ int main( int argc, char **argv )
             QString language = argv[i];
             if ( localeRE.indexIn( language ) == -1 )
             {
-                qFatal( "ERROR - Locale should be on the form aaa-AA. Examples: eng-GB, nor-NO" );
+                qFatal( "ERROR - Locale should be of the form aaa-AA or aaa-AA@variation. Examples: eng-GB, nor-NO, srp-RS@latin" );
             }
             else
                 languages.append( language );

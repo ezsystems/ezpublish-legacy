@@ -31,8 +31,7 @@
 */
 function ezcurrentLanguage()
 {
-    $locale = eZLocale::instance();
-    return $locale->translationCode();
+    return eZLocale::instance()->localeFullCode();
 }
 
 /*!
@@ -68,53 +67,7 @@ function ezinsertarguments( $text, $arguments )
  will only return the source text.
 */
 $ini = eZINI::instance();
-$useTextTranslation = false;
-$hasFallback = false;
-if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
-{
-    $language = ezcurrentLanguage();
-    $iniI18N = eZINI::instance( "i18n.ini" );
-    $fallbacks = $iniI18N->variable( 'TranslationSettings', 'FallbackLanguages' );
-
-    $extensionBase = eZExtension::baseDirectory();
-    $translationExtensions = $ini->variable( 'RegionalSettings', 'TranslationExtensions' );
-
-    if ( array_key_exists( $language,  $fallbacks ) and $fallbacks[$language] )
-    {
-        if ( file_exists( 'share/translations/' . $fallbacks[$language] . '/translation.ts' ) )
-        {
-            $hasFallback = true;
-        }
-        else
-        {
-            foreach ( $translationExtensions as $translationExtension )
-            {
-                $extensionPath = $extensionBase . '/' . $translationExtension . '/translations/' . $fallbacks[$language] . '/translation.ts';
-                if ( file_exists( $extensionPath ) )
-                {
-                    $hasFallback = true;
-                    break;
-                }
-            }
-        }
-    }
-    if ( file_exists( 'share/translations/' . $language . '/translation.ts' ) || $hasFallback )
-    {
-        $useTextTranslation = true;
-    }
-    else
-    {
-        foreach ( $translationExtensions as $translationExtension )
-        {
-            $extensionPath = $extensionBase . '/' . $translationExtension . '/translations/' . $language . '/translation.ts';
-            if ( file_exists( $extensionPath ) )
-            {
-                $useTextTranslation = true;
-                break;
-            }
-        }
-    }
-}
+$useTextTranslation = $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled';
 
 if ( $useTextTranslation || eZTranslatorManager::dynamicTranslationsEnabled() )
 {
@@ -130,21 +83,16 @@ if ( $useTextTranslation || eZTranslatorManager::dynamicTranslationsEnabled() )
 
     function eZTranslateText( $context, $source, $comment = null, $arguments = null )
     {
-        $ini = eZINI::instance();
-        if ( $ini->variable( 'RegionalSettings', 'Locale' ) == 'eng-GB' )
+        $localeCode = eZLocale::instance()->localeFullCode();
+        if ( $localeCode == 'eng-GB' )
         {
             // we don't have ts-file for 'eng-GB'.
-            // NOTE: don't remove this 'if'. it's needed to support dynamic switch between translations.
             return ezinsertarguments( $source, $arguments );
         }
 
-        $language = ezcurrentLanguage();
-
-        $file = 'translation.ts';
-
-        // translation.ts translation
+        $ini = eZINI::instance();
         $useCache = $ini->variable( 'RegionalSettings', 'TranslationCache' ) != 'disabled';
-        eZTSTranslator::initialize( $context, $language, $file, $useCache );
+        eZTSTranslator::initialize( $context, $localeCode, 'translation.ts', $useCache );
 
         // Bork translation: Makes it easy to see what is not translated.
         // If no translation is found in the eZTSTranslator, a Bork translation will be returned.

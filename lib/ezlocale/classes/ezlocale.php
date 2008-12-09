@@ -681,6 +681,8 @@ class eZLocale
      but for some locales translation from other languages can be used
 
      e.g. por-MZ (Mozambique) uses por-PT for translation.
+
+     \deprecated since eZ Publish 4.1, use localeFullCode() instead
     */
     function translationCode()
     {

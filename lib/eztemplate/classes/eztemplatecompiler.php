@@ -345,7 +345,7 @@ class eZTemplateCompiler
         if ( isset( $GLOBALS['eZCurrentAccess']['name'] ) )
             $accessText = '-' . $GLOBALS['eZCurrentAccess']['name'];
         $locale = eZLocale::instance();
-        $language = $locale->translationCode();
+        $language = $locale->localeFullCode();
         $http = eZHTTPTool::instance();
         $useFullUrlText = $http->UseFullUrl ? 'full' : 'relative';
 
