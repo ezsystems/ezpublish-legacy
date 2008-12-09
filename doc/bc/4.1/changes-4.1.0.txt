@@ -6,6 +6,7 @@ Requirement changes
 
 - New eZ Components being used:
   - SystemInformation
+  - Archive
 
 Deprecated features
 -------------------

@@ -1061,7 +1061,8 @@ class eZPackage
     */
     function exportToArchive( $archivePath )
     {
-        $tempPath = eZPackage::temporaryExportPath() . '/' . $this->attribute( 'name' );
+        $temporaryExportPath = eZPackage::temporaryExportPath();
+        $tempPath = $temporaryExportPath . '/' . $this->attribute( 'name' );
         $this->removeFiles( $tempPath );
 
         // Create package temp dir and copy package's XML file there
@@ -1088,13 +1089,27 @@ class eZPackage
                 eZDir::copy( $dir, $destDir );
         }
 
-        $archive = eZArchiveHandler::instance( 'tar', 'gzip', $archivePath );
+        $tarArchivePath = $temporaryExportPath . '/archive.tmp';
+        $tarArchive = ezcArchive::open( $tarArchivePath, ezcArchive::TAR_USTAR );
+        $tarArchive->truncate();
 
-        $packageBaseDirectory = $tempPath;
+        $prefix = $tempPath . '/';
         $fileList = array();
-        $fileList[] = $packageBaseDirectory;
+        eZDir::recursiveList( $tempPath, $tempPath, $fileList );
 
-        $archive->createModify( $fileList, '', $packageBaseDirectory );
+        foreach ( $fileList as $fileInfo )
+        {
+            $path = $fileInfo['type'] === 'dir' ?
+                $fileInfo['path'] . '/' . $fileInfo['name'] . '/' :
+                $fileInfo['path'] . '/' . $fileInfo['name'];
+            $tarArchive->append( array( $path ), $prefix );
+        }
+
+        $tarArchive->close();
+
+        copy( $tarArchivePath, "compress.zlib://$archivePath" );
+
+        unlink( $tarArchivePath );
 
         $this->removeFiles( $tempPath );
         return $archivePath;
@@ -1120,14 +1135,24 @@ class eZPackage
             {
                 eZDir::mkdir( $archivePath, false, true );
             }
-            $archive = eZArchiveHandler::instance( 'tar', 'gzip', $archiveName );
+
+            $archiveOptions = new ezcArchiveOptions( array( 'readOnly' => true ) );
+            $archive = ezcArchive::open( "compress.zlib://$archiveName", null, $archiveOptions );
+
             $fileList = array();
             $fileList[] = eZPackage::definitionFilename();
-            if ( !$archive->extractList( $fileList, $archivePath, '' ) )
+
+            // Search for the files we want to extract
+            foreach( $archive as $entry )
             {
-                eZDebug::writeError( "Failed extracting package definition file from $archivePath" );
-                $retValue = false;
-                return $retValue;
+                if ( in_array( $entry->getPath(), $fileList ) )
+                {
+                    if ( !$archive->extractCurrent( $archivePath ) )
+                    {
+                        eZDebug::writeError( "Failed extracting package definition file from $archivePath" );
+                        return false;
+                    }
+                }
             }
 
             $package = eZPackage::fetch( $packageName, $tempDirPath, false, $dbAvailable );
@@ -1146,7 +1171,7 @@ class eZPackage
                     $retValue = eZPackage::STATUS_ALREADY_EXISTS;
                     return $retValue;
                 }
-                unset( $archive );
+
                 unset( $package );
 
                 $fullRepositoryPath = eZPackage::repositoryPath() . '/' . $repositoryID;
@@ -1155,8 +1180,7 @@ class eZPackage
                 {
                     eZDir::mkdir( $packagePath, false, true );
                 }
-                $archive = eZArchiveHandler::instance( 'tar', 'gzip', $archiveName );
-                $archive->extractModify( $packagePath, '' );
+                $archive->extract( $packagePath );
 
                 $package = eZPackage::fetch( $packageName, $fullRepositoryPath, false, $dbAvailable );
                 if ( !$package )
