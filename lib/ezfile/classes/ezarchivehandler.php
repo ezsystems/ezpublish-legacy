@@ -34,6 +34,7 @@
 /*!
   \class eZArchiveHandler ezarchivehandler.php
   \brief General handling of file archives
+  \deprecated This class will be removed in eZ Publish 4.2
 
   This class handles the abstraction of handling various
   kinds of archive formats. The actual handling of the
@@ -243,6 +244,8 @@ class eZArchiveHandler
     */
     static function instance( $identifier, $fileHandlerType = false, $arhiveFilename = false )
     {
+        eZDebug::writeWarning( __CLASS__ . "::" . __FUNCTION__ . " is deprecated, use ezcArchive instead" );
+
         $ini = eZINI::instance( 'file.ini' );
         $handlers = $ini->variable( 'ArchiveSettings', 'Handlers' );
         $instance = false;

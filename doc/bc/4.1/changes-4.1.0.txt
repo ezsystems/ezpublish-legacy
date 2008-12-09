@@ -11,6 +11,12 @@ Requirement changes
 Deprecated features
 -------------------
 
+- eZArchiveHandler
+  This class and related sub-classes, such as eZTARArchiveHandler has been
+  deprecated, they will be removed in eZ Publish 4.2. Archive from eZ Components
+  is the intended replacement of this functionality.
+
+
 Removed features
 ----------------
 
