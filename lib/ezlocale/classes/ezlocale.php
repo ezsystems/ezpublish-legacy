@@ -81,7 +81,7 @@ https://lister.ping.uio.no/pipermail/lister.ping.uio.no/i18n-nn/2002-April.txt
 http://www.sprakrad.no/oss.htm
 
 
-The date and time formats are quite similar to the builting PHP date function,
+The date and time formats are quite similar to the builtin PHP date function,
 the main differences are those which returns textual representations of months
 and days.
 More info on the date function here:
