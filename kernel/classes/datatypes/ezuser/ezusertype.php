@@ -131,6 +131,22 @@ class eZUserType extends eZDataType
                     }
                 }
                 $ini = eZINI::instance();
+                // validate user name
+                $regexList = $ini->variable( 'UserSettings', 'UserNameValidationRegex' );
+                $errorTextList = $ini->variable( 'UserSettings', 'UserNameValidationErrorText' );
+                foreach ( $regexList as $key => $regex )
+                {
+                    if( preg_match( $regex, $loginName) )
+                    {
+                        if ( isset( $errorTextList[$key] ) )
+                            $errorText = $errorTextList[$key];
+                        else
+                            $errorText = $ini->variable( 'UserSettings', 'DefaultUserNameValidationErrorText' );
+                        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                     $errorText ) );
+                        return eZInputValidator::STATE_INVALID;
+                    }
+                }
                 $generatePasswordIfEmpty = $ini->variable( "UserSettings", "GeneratePasswordIfEmpty" ) == 'true';
                 if ( !$generatePasswordIfEmpty || ( $password != "" ) )
                 {
