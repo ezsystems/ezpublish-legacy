@@ -164,14 +164,15 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         else
             $parentParams['section_level']++;
 
-        // init header counter for current level and resert it for the next level
+        // init header counter for current level and for the next level if needed
         $level = $parentParams['section_level'];
         if ( $level != 0 )
         {
             if ( !isset( $this->HeaderCount[$level] ) )
                 $this->HeaderCount[$level] = 0;
 
-            $this->HeaderCount[$level + 1] = 0;
+            if ( !isset( $this->HeaderCount[$level + 1] ) )
+                $this->HeaderCount[$level + 1] = 0;
         }
 
         return $ret;
