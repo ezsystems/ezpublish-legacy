@@ -2467,7 +2467,7 @@ $data = array (
         2 => '41',
         3 => '0',
         4 => '1045487555',
-        5 => '<?xml version="1.0" encoding="iso-8859-1"?>
+        5 => '<?xml version="1.0" encoding="utf-8"?>
 <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
          xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
          xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />',
@@ -2670,7 +2670,7 @@ $data = array (
         2 => '45',
         3 => '0',
         4 => '1045487555',
-        5 => '<?xml version="1.0" encoding="iso-8859-1"?>
+        5 => '<?xml version="1.0" encoding="utf-8"?>
 <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
          xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
          xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />',
@@ -2689,7 +2689,7 @@ $data = array (
         2 => '45',
         3 => '0',
         4 => '1045487555',
-        5 => '<?xml version="1.0" encoding="iso-8859-1"?>
+        5 => '<?xml version="1.0" encoding="utf-8"?>
 <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
          xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
          xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />',
@@ -2756,7 +2756,7 @@ $data = array (
         2 => '49',
         3 => '0',
         4 => '1045487555',
-        5 => '<?xml version="1.0" encoding="iso-8859-1"?>
+        5 => '<?xml version="1.0" encoding="utf-8"?>
 <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
          xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
          xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />',
@@ -2775,7 +2775,7 @@ $data = array (
         2 => '49',
         3 => '0',
         4 => '1045487555',
-        5 => '<?xml version="1.0" encoding="iso-8859-1"?>
+        5 => '<?xml version="1.0" encoding="utf-8"?>
 <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
          xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
          xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />',
@@ -2842,7 +2842,7 @@ $data = array (
         2 => '50',
         3 => '0',
         4 => '1045487555',
-        5 => '<?xml version="1.0" encoding="iso-8859-1"?>
+        5 => '<?xml version="1.0" encoding="utf-8"?>
 <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
          xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
          xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />',
@@ -2861,7 +2861,7 @@ $data = array (
         2 => '50',
         3 => '0',
         4 => '1045487555',
-        5 => '<?xml version="1.0" encoding="iso-8859-1"?>
+        5 => '<?xml version="1.0" encoding="utf-8"?>
 <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
          xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
          xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />',
@@ -2928,7 +2928,7 @@ $data = array (
         2 => '51',
         3 => '0',
         4 => '1045487555',
-        5 => '<?xml version="1.0" encoding="iso-8859-1"?>
+        5 => '<?xml version="1.0" encoding="utf-8"?>
 <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
          xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
          xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />',
@@ -2947,7 +2947,7 @@ $data = array (
         2 => '51',
         3 => '0',
         4 => '1045487555',
-        5 => '<?xml version="1.0" encoding="iso-8859-1"?>
+        5 => '<?xml version="1.0" encoding="utf-8"?>
 <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
          xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
          xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />',
@@ -3419,7 +3419,7 @@ keywords=cms, publish, e-commerce, content management, development framework',
         2 => '56',
         3 => '0',
         4 => '1045487555',
-        5 => '<?xml version="1.0" encoding="iso-8859-1"?>
+        5 => '<?xml version="1.0" encoding="utf-8"?>
 <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
          xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
          xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />',
@@ -3438,7 +3438,7 @@ keywords=cms, publish, e-commerce, content management, development framework',
         2 => '56',
         3 => '0',
         4 => '1045487555',
-        5 => '<?xml version="1.0" encoding="iso-8859-1"?>
+        5 => '<?xml version="1.0" encoding="utf-8"?>
 <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
          xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
          xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" />',
