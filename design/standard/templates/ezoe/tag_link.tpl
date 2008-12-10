@@ -9,7 +9,7 @@
 <script type="text/javascript">
 <!--
 
-var ezTagName = '{$tag_name|wash}', ezoeLinkTimeOut = null, slides = 0;
+var ezTagName = '{$tag_name|wash}', ezoeLinkTimeOut = null, slides = 0, eZSelectedLinkNode = {ldelim}'object_id': '', 'node_id': '', 'name': '' {rdelim};
 eZOEPopupUtils.settings.customAttributeStyleMap = {$custom_attribute_style_map};
 {literal}
 
@@ -23,8 +23,23 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     onInit: function( editorElement )
     {
         var link = ez.$('link_href_source_types', 'link_href_source')
-        link[0].addEvent('change', function( e, el ){
-            ez.$('link_href_source').el.value = el.value;
+        link[0].addEvent('change', function( e, el )
+        {
+            if ( el.value === 'ezobject://' )
+            {
+                ez.$('link_href_source').el.value = el.value + eZSelectedLinkNode['object_id'];
+                ezoeLinkNamePreview( eZSelectedLinkNode['name'] );
+            }
+            else if ( el.value === 'eznode://' )
+            {
+                ez.$('link_href_source').el.value = el.value + eZSelectedLinkNode['node_id'];
+                ezoeLinkNamePreview( eZSelectedLinkNode['name'] );
+            }
+            else
+            {
+                ez.$('link_href_source').el.value = el.value;
+                ezoeLinkNamePreview();
+            }
         });
         
         // add event to href input to lookup name on object or nodes
@@ -47,7 +62,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
             ezoeLinkTimeOut = setTimeout( ez.fn.bind( ezoeLinkAjaxCheck, this, url[0] + '_' + id  ), 320 );
             return true;
         });
-        ezoeLinkTypeSet( link[1], link[0] );
+        //ezoeLinkTypeSet( link[1], link[0] );
         
         if ( editorElement && editorElement.href.indexOf( '://' ) !== -1 )
         {
@@ -61,6 +76,11 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         slides.accordion( navigation, {duration: 100, transition: ez.fx.sinoidal, accordionAutoFocusTag: 'input[type=text]'}, {opacity: 0, display: 'none'} );
         navigation[4].addEvent('click', ez.fn.bind( slides.accordionGoto, slides, 0 ) ).addClass('accordion_navigation');
         navigation[5].addEvent('click', ez.fn.bind( slides.accordionGoto, slides, 0 ) ).addClass('accordion_navigation');
+    },
+    onInitDone : function( editorElement, tagName, ed )
+    {
+        var link = ez.$('link_href_source_types', 'link_href_source')
+        ezoeLinkTypeSet( link[1], link[0] );
     }
 }));
 
@@ -84,14 +104,15 @@ eZOEPopupUtils.settings.browseLinkGenerator = function( n, mode, ed )
 //override 
 eZOEPopupUtils.selectByEmbedId = function( object_id, node_id, name )
 {
-    var link = ez.$('link_href_source_types', 'link_href_source', 'link_href_source_info');
+    var link = ez.$('link_href_source_types', 'link_href_source');
     if ( link[0].el.value === 'ezobject://' )
         link[1].el.value = 'ezobject://' + object_id;
     else
         link[1].el.value = 'eznode://' + node_id;
-    link[2].el.innerHTML =  name;
-    link[2].el.style.border = '1px solid green';
+	ezoeLinkTypeSet( link[1], link[0] );
+	ezoeLinkNamePreview( name );
     slides.accordionGoto.call( slides, 0 );
+    eZSelectedLinkNode = {'object_id': object_id, 'node_id': node_id, 'name': name }
 };
 
 function ezoeLinkAjaxCheck( url )
@@ -105,36 +126,38 @@ function ezoeLinkPostBack( r )
     ez.script( 'eZOEPopupUtils.ajaxLinkLoadResponse=' + r.responseText );
     var info = ez.$('link_href_source_info'), input = ez.$('link_href_source');
     if ( eZOEPopupUtils.ajaxLinkLoadResponse )
-    {
-        info.el.innerHTML = eZOEPopupUtils.ajaxLinkLoadResponse.name;
-        info.el.style.border = '1px solid green';
-    }
+        ezoeLinkNamePreview( eZOEPopupUtils.ajaxLinkLoadResponse.name ) 
     else
-    {
-        info.el.innerHTML = 'Id not valid!';
-        info.el.style.border = '1px solid red';
-    }
+        ezoeLinkNamePreview( false);
 }
+
+function ezoeLinkNamePreview( name )
+{
+    var info = ez.$('link_href_source_info');
+    info.el.innerHTML = name === undefined ? '' : (name ? name : 'Id not valid!');
+    info.el.style.border = name === undefined ? '' : (name ? '1px solid green' : '1px solid red');
+}
+
 
 function ezoeLinkTypeSet( source, types )
 {
-     if ( source.el.value.indexOf('eznode://') === 0 )
+     if ( source.el.value.indexOf('eznode:') === 0 )
         types.el.value = 'eznode://';
-    else if ( source.el.value.indexOf('ezobject://') === 0 )
+    else if ( source.el.value.indexOf('ezobject:') === 0 )
         types.el.value = 'ezobject://';
-    else if ( source.el.value.indexOf('file://') === 0 )
+    else if ( source.el.value.indexOf('file:') === 0 )
         types.el.value = 'file://';
-    else if ( source.el.value.indexOf('ftp://') === 0 )
+    else if ( source.el.value.indexOf('ftp:') === 0 )
         types.el.value = 'ftp://';
-    else if ( source.el.value.indexOf('http://') === 0 )
+    else if ( source.el.value.indexOf('http:') === 0 )
         types.el.value = 'http://';
-    else if ( source.el.value.indexOf('https://') === 0 )
+    else if ( source.el.value.indexOf('https:') === 0 )
         types.el.value = 'https://';
     else if ( source.el.value.indexOf('mailto:') === 0 )
         types.el.value = 'mailto:';
     else if ( source.el.value.indexOf('#') === 0 )
         types.el.value = '#';
-    else
+    else if ( source.el.value !== '' )
         types.el.value = '';
 }
 
@@ -161,7 +184,6 @@ function ezoeLinkTypeSet( source, types )
         </div>
         {set-block variable=$link_href_types}
             <select id="link_href_source_types" class="mceItemSkip" title="{"List of possible link types. Link types that use the '://' format are technically called protocols."|i18n('design/standard/ezoe')}">
-                <option value="">Other</option>
                 <option value="eznode://">eznode</option>
                 <option value="ezobject://">ezobject</option>
                 <option value="ftp://">Ftp</option>
@@ -170,6 +192,7 @@ function ezoeLinkTypeSet( source, types )
                 <option value="https://">Https</option>
                 <option value="mailto:">Mail</option>
                 <option value="#">Anchor</option>
+                <option value="">Other</option>
             </select>
             <a id="search_for_link" href="JavaScript:void(0);" title="{'Search'|i18n('design/admin/content/search')}"><img width="16" height="16" border="0" alt="{'Search'|i18n('design/admin/content/search')}" src={"tango/system-search.png"|ezimage} /></a>
             <a id="browse_for_link" href="JavaScript:void(0);" title="{'Browse'|i18n('design/standard/ezoe')}"><img width="16" height="16" border="0" alt="{'Browse'|i18n('design/standard/ezoe')}" src={"tango/folder.png"|ezimage} /></a>
