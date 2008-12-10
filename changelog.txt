@@ -1,5 +1,8 @@
 eZ Online Editor 5.0 extension Changelog
 
+5.0rc10
+* Fixed #14097: Custom-tags cause errors in var/error.log
+
 5.0rc9
 * Implemented possibility to have same control over general attributes in gui as 
   you have over custom attributes.

@@ -26,8 +26,12 @@
          $custom_attribute_classes    = 0
          $shown_attributes            = array()
          $custom_attribute_title      = ''}
-    {if and( is_unset( $custom_attributes ), ezini_hasvariable( $:tag_name, 'CustomAttributes', 'content.ini' ))}
-        {def $custom_attributes = ezini( $:tag_name, 'CustomAttributes', 'content.ini' )}
+    {if is_unset( $custom_attributes )}
+        {if ezini_hasvariable( $:tag_name, 'CustomAttributes', 'content.ini' )}
+            {def $custom_attributes = ezini( $:tag_name, 'CustomAttributes', 'content.ini' )}
+        {else}
+            {def $custom_attributes = array()}
+        {/if}
     {/if}
     {if and( is_unset( $custom_attributes_defaults ), ezini_hasvariable( $:tag_name, 'CustomAttributesDefaults', 'content.ini' ))}
         {def $custom_attributes_defaults = ezini( $:tag_name, 'CustomAttributesDefaults', 'content.ini' )}
