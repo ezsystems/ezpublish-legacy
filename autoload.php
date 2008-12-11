@@ -13,7 +13,10 @@
 // function stack. Remember to check for class prefixes in such a method, if it
 // will not serve classes from eZ Publish and eZ Components
 
-@include "config.php";
+if ( file_exists( 'config.php' ) )
+{
+    require 'config.php';
+}
 
 $baseEnabled = @include 'ezc/Base/base.php';
 if ( !$baseEnabled )
@@ -28,16 +31,30 @@ function ezpAutoload( $className )
     if ( is_null( $ezpClasses ) )
     {
         $ezpKernelClasses = require 'autoload/ezp_kernel.php';
-        $ezpExtensionClasses = require 'var/autoload/ezp_extension.php';
+        $ezpExtensionClasses = false;
+        $ezpTestClasses = false;
 
-        $ezpTestClasses = @include 'var/autoload/ezp_tests.php';
-        if ( $ezpTestClasses )
+        if ( file_exists( 'var/autoload/ezp_extension.php' ) )
+        {
+            $ezpExtensionClasses = require 'var/autoload/ezp_extension.php';
+        }
+
+        if ( file_exists( 'var/autoload/ezp_tests.php' ) )
+        {
+            $ezpTestClasses = require 'var/autoload/ezp_tests.php';
+        }
+
+        if ( $ezpExtensionClasses and $ezpTestClasses )
         {
             $ezpClasses = array_merge( $ezpKernelClasses, $ezpExtensionClasses, $ezpTestClasses );
         }
-        else
+        else if ( $ezpExtensionClasses )
         {
             $ezpClasses = array_merge( $ezpKernelClasses, $ezpExtensionClasses );
+        }
+        else
+        {
+            $ezpClasses = $ezpKernelClasses;
         }
 
         if ( defined( 'EZP_AUTOLOAD_ALLOW_KERNEL_OVERRIDE' ) and EZP_AUTOLOAD_ALLOW_KERNEL_OVERRIDE )
