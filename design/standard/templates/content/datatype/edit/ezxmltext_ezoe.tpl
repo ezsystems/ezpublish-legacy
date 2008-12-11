@@ -2,7 +2,7 @@
          attribute_base='ContentObjectAttribute'
          editorRow=10}
 
-{if gt($attribute.contentclass_attribute.data_int1,10)}
+{if gt($attribute.contentclass_attribute.data_int1,1)}
     {set editorRow=$attribute.contentclass_attribute.data_int1}
 {/if}
 
