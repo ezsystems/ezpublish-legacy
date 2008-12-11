@@ -148,7 +148,7 @@ class eZDBFileHandlerMysqlBackend
                                    "datatype=VALUES(datatype), scope=VALUES(scope), size=VALUES(size), mtime=VALUES(mtime), expired=VALUES(expired)",
                                    $fname ) === false )
         {
-            return $this->_fail( $srcFilPath, "Failed to insert file metadata on copying." );
+            return $this->_fail( $srcFilePath, "Failed to insert file metadata on copying." );
         }
 
         // Copy file data.
@@ -167,7 +167,8 @@ class eZDBFileHandlerMysqlBackend
             $expectedOffset = $row[1];
             if ( $expectedOffset != $offset )
             {
-                $this->_error( "The fetched offset value '$expectedOffset' does not match the computed one for the file '$srcFilePath', aborting copy." );
+                eZDebug::writeError( "The fetched offset value '$expectedOffset' does not match the computed one for the file '$srcFilePath', aborting copy.",
+                                     __METHOD__ );
                 return false;
             }
 
@@ -178,14 +179,14 @@ class eZDBFileHandlerMysqlBackend
                                        "filedata=VALUES(filedata)",
                                        $fname ) === false )
             {
-                $this->_fail( "Failed to insert data row while copying file." );
-                return false;
+                return $this->_fail( "Failed to insert data row while copying file." );
             }
             $offset += strlen( $binarydata );
         }
         if ( $offset != $contentLength )
         {
-            $this->_error( "The size of the fetched data '$offset' does not match the expected size '$contentLength' for the file '$srcFilePath', aborting copy." );
+            eZDebug::writeError( "The size of the fetched data '$offset' does not match the expected size '$contentLength' for the file '$srcFilePath', aborting copy.",
+                                 __METHOD__ );
             return false;
         }
 
@@ -408,7 +409,7 @@ class eZDBFileHandlerMysqlBackend
         $metaData = $this->_fetchMetadata( $filePath );
         if ( !$metaData )
         {
-            eZDebug::writeError( "File '$filePath' does not exists while trying to fetch." );
+            eZDebug::writeError( "File '$filePath' does not exist while trying to fetch.", __METHOD__ );
             return false;
         }
         $contentLength = $metaData['size'];
@@ -416,13 +417,13 @@ class eZDBFileHandlerMysqlBackend
         $sql = "SELECT filedata, offset FROM " . TABLE_DATA . " WHERE name_hash=" . $this->_md5( $filePath ) . " ORDER BY offset";
         if ( !$res = $this->_query( $sql, "_fetch($filePath)" ) )
         {
-            eZDebug::writeError( $filePath, "Failed to fetch file data." );
+            eZDebug::writeError( "Failed to fetch file data for file '$filePath'.", __METHOD__ );
             return false;
         }
 
         if( !mysql_num_rows( $res ) )
         {
-            eZDebug::writeError( "No rows in file '$filePath' being fetched." );
+            eZDebug::writeError( "No rows in file '$filePath' being fetched.", __METHOD__ );
             mysql_free_result( $res );
             return false;
         }
@@ -437,7 +438,7 @@ class eZDBFileHandlerMysqlBackend
 
         if ( !( $fp = fopen( $tmpFilePath, 'wb' ) ) )
         {
-            eZDebug::writeError( "Cannot write to '$tmpFilePath' while fetching file." );
+            eZDebug::writeError( "Cannot write to '$tmpFilePath' while fetching file.", __METHOD__ );
             return false;
         }
 
@@ -447,7 +448,7 @@ class eZDBFileHandlerMysqlBackend
             $expectedOffset = $row[1];
             if ( $expectedOffset != $offset )
             {
-                $this->_error( "The fetched offset value '$expectedOffset' does not match the computed one for the file '$filePath', aborting fetch." );
+                eZDebug::writeError( "The fetched offset value '$expectedOffset' does not match the computed one for the file '$filePath', aborting fetch.", __METHOD__ );
                 fclose( $fp );
                 @unlink( $filePath );
                 return false;
@@ -457,7 +458,7 @@ class eZDBFileHandlerMysqlBackend
         }
         if ( $offset != $contentLength )
         {
-            $this->_error( "The size of the fetched data '$offset' does not match the expected size '$contentLength' for the file '$filePath', aborting fetch." );
+            eZDebug::writeError( "The size of the fetched data '$offset' does not match the expected size '$contentLength' for the file '$filePath', aborting fetch.", __METHOD__ );
             fclose( $fp );
             @unlink( $filePath );
             return false;
@@ -467,9 +468,10 @@ class eZDBFileHandlerMysqlBackend
 
         // Make sure all data is written correctly
         clearstatcache();
-        if ( filesize( $tmpFilePath ) != $metaData['size'] )
+        $tmpSize = filesize( $tmpFilePath );
+        if ( $tmpSize != $metaData['size'] )
         {
-            eZDebug::writeError( "Size (" . filesize( $tmpFilePath ) . ") of written data for file '$tmpFilePath' does not match expected size " . $metaData['size'] );
+            eZDebug::writeError( "Size ($tmpSize) of written data for file '$tmpFilePath' does not match expected size " . $metaData['size'], __METHOD__ );
             return false;
         }
 
@@ -495,7 +497,7 @@ class eZDBFileHandlerMysqlBackend
         $metaData = $this->_fetchMetadata( $filePath, $fname );
         if ( !$metaData )
         {
-            $this->_error( "File '$filePath' does not exists while trying to fetch its contents." );
+            eZDebug::writeError( "File '$filePath' does not exist while trying to fetch its contents.", __METHOD__ );
             return false;
         }
         $contentLength = $metaData['size'];
@@ -504,7 +506,7 @@ class eZDBFileHandlerMysqlBackend
         $sql = "SELECT filedata, offset FROM " . TABLE_DATA . " WHERE name_hash=" . $this->_md5( $filePath ) . " ORDER BY offset";
         if ( !$res = $this->_query( $sql, $fname ) )
         {
-            $this->_error( $filePath, "Failed to fetch file data." );
+            eZDebug::writeError( "Failed to fetch file data for the file '$filePath'.", __METHOD__ );
             return false;
         }
 
@@ -515,7 +517,7 @@ class eZDBFileHandlerMysqlBackend
             $expectedOffset = $row[1];
             if ( $expectedOffset != $offset )
             {
-                $this->_error( "The fetched offset value '$expectedOffset' does not match the computed one for the file '$filePath', aborting fetchContents." );
+                eZDebug::writeError( "The fetched offset value '$expectedOffset' does not match the computed one for the file '$filePath', aborting.", __METHOD__ );
                 return false;
             }
             $contents .= $row[0];
@@ -523,7 +525,7 @@ class eZDBFileHandlerMysqlBackend
         }
         if ( $offset != $contentLength )
         {
-            $this->_error( "The size of the fetched data '$offset' does not match the expected size '$contentLength' for the file '$filePath', aborting fetchContent." );
+            eZDebug::writeError( "The size of the fetched data '$offset' does not match the expected size '$contentLength' for the file '$filePath', aborting.", __METHOD__ );
             return false;
         }
 
@@ -574,7 +576,7 @@ class eZDBFileHandlerMysqlBackend
         $sql = "SELECT filedata FROM " . TABLE_DATA . " WHERE name_hash=" . $this->md5( $filePath ) . " ORDER BY offset";
         if ( !$res = $this->_query( $sql, $fname ) )
         {
-            $this->_error( $filePath, "Failed to fetch file data." );
+            eZDebug::writeError( "Failed to fetch file data for file '$filePath'.", __METHOD__ );
             return false;
         }
 
@@ -606,7 +608,7 @@ class eZDBFileHandlerMysqlBackend
         $sql = "SELECT * FROM " . TABLE_METADATA . " WHERE name_hash=MD5('$srcFilePathStr') FOR UPDATE";
         if ( !$this->_query( $sql, "_rename($srcFilePath, $dstFilePath)" ) )
         {
-            eZDebug::writeError( "Failed locking file '$srcFilePath'" );
+            eZDebug::writeError( "Failed locking file '$srcFilePath'", __METHOD__ );
             $this->_query( 'ROLLBACK');
             return false;
         }
@@ -618,7 +620,7 @@ class eZDBFileHandlerMysqlBackend
         $sql = "INSERT INTO " . TABLE_METADATA . " (name, name_hash, datatype, scope, size, mtime, expired) SELECT '$dstFilePathStr' AS name, MD5('$dstFilePathStr') AS name_hash, datatype, scope, size, mtime, expired FROM " . TABLE_METADATA . " WHERE name_hash=MD5('$srcFilePathStr')";
         if ( !$this->_query( $sql, "_rename($srcFilePath, $dstFilePath)" ) )
         {
-            eZDebug::writeError( "Failed making new file entry '$dstFilePath'" );
+            eZDebug::writeError( "Failed making new file entry '$dstFilePath'", __METHOD__ );
             $this->_query( 'ROLLBACK');
             return false;
         }
@@ -627,7 +629,7 @@ class eZDBFileHandlerMysqlBackend
         $sql = "UPDATE " . TABLE_DATA . " SET name_hash=MD5('$dstFilePathStr') WHERE name_hash=MD5('$srcFilePathStr')";
         if ( !$this->_query( $sql, "_rename($srcFilePath, $dstFilePath)" ) )
         {
-            eZDebug::writeError( "Failed renaming file '$srcFilePath' to '$dstFilePath'" );
+            eZDebug::writeError( "Failed renaming file '$srcFilePath' to '$dstFilePath'", __METHOD__ );
             $this->_query( 'ROLLBACK');
             return false;
         }
@@ -636,7 +638,7 @@ class eZDBFileHandlerMysqlBackend
         $sql = "DELETE FROM " . TABLE_METADATA . " WHERE name_hash=MD5('$srcFilePathStr')";
         if ( !$this->_query( $sql, "_rename($srcFilePath, $dstFilePath)" ) )
         {
-            eZDebug::writeError( "Failed removing old file '$srcFilePath'" );
+            eZDebug::writeError( "Failed removing old file '$srcFilePath'", __METHOD__ );
             $this->_query( 'ROLLBACK');
             return false;
         }
@@ -650,7 +652,7 @@ class eZDBFileHandlerMysqlBackend
     {
         if ( !is_readable( $filePath ) )
         {
-            eZDebug::writeError( "Unable to store file '$filePath' since it is not readable.", 'eZDBFileHandlerMysqlBackend' );
+            eZDebug::writeError( "Unable to store file '$filePath' since it is not readable.", __METHOD__ );
             return;
         }
         if ( $fname )
@@ -686,7 +688,7 @@ class eZDBFileHandlerMysqlBackend
         // Insert file contents.
         if ( !$fp = @fopen( $filePath, 'rb' ) )
         {
-            return $this->_fail( "Cannot read '$filePath'.", 'eZDBFileHandlerMysqlBackend' );
+            return $this->_fail( "Cannot read '$filePath'.", __METHOD__ );
         }
 
         $chunkSize = $this->dbparams['chunk_size'];
@@ -703,7 +705,7 @@ class eZDBFileHandlerMysqlBackend
                                        "filedata=VALUES(filedata)",
                                        $fname ) === false )
             {
-                return $this->_fail( "Failed to insert file data row while storing. Possible race condition" );
+                return $this->_fail( "Failed to insert file data row while storing. Possible race condition", __METHOD__ );
             }
             $offset += strlen( $binarydata );
         }
@@ -790,7 +792,7 @@ class eZDBFileHandlerMysqlBackend
         $rslt = $this->_query( $query, "_getFileList( array( " . implode( ', ', $scopes ) . " ), $excludeScopes )" );
         if ( !$rslt )
         {
-            $this->_error( mysql_error( $this->db ) );
+            eZDebug::writeDebug( 'Unable to get file list', __METHOD__ );
             return false;
         }
 
@@ -831,7 +833,6 @@ class eZDBFileHandlerMysqlBackend
         $res = $this->_query( $query, $fname );
         if ( !$res )
         {
-            $this->_error( $query, $fname, false );
             return false;
         }
         return mysql_insert_id( $this->db );
@@ -853,7 +854,6 @@ class eZDBFileHandlerMysqlBackend
         $res = $this->_query( $query, $fname, $reportError );
         if ( !$res )
         {
-            $this->_error( $query, $fname, false );
             return false;
         }
         return mysql_insert_id( $this->db );
@@ -932,7 +932,7 @@ class eZDBFileHandlerMysqlBackend
         $nRows = mysql_num_rows( $res );
         if ( $nRows > 1 )
         {
-            $this->_error( $query, $fname, "Duplicate entries found." );
+            eZDebug::writeError( 'Duplicate entries found', $fname );
             eZDebug::accumulatorStop( 'mysql_cluster_query' );
             // For PHP 5 throw an exception.
         }
@@ -1234,7 +1234,7 @@ class eZDBFileHandlerMysqlBackend
         $res = mysql_query( $query, $this->db );
         if ( !$res && $reportError )
         {
-            $this->_error( $query, $fname, mysql_errno( $this->db ) . ": " . mysql_error( $this->db ) );
+            $this->_error( $query, $fname );
         }
 
         $numRows = mysql_affected_rows( $this->db );
@@ -1276,20 +1276,19 @@ class eZDBFileHandlerMysqlBackend
      \param $fname The function name that started the query, should contain relevant arguments in the text.
      \param $error The error message, if this is an array the first element is the value to dump and the second the error header (for eZDebug::writeNotice). If this is \c false a generic message is shown.
      */
-    function _error( $query, $fname, $error )
+    function _error( $query, $fname, $error = "Failed to execute SQL for function:" )
     {
         if ( $error === false )
         {
-            eZDebug::writeError( "Failed to execute SQL for function:\n $query\n" . mysql_error( $this->db ), "$fname" );
+            $error = "Failed to execute SQL for function:";
         }
         else if ( is_array( $error ) )
         {
-            eZDebug::writeError( $error[0] . "\n" . mysql_error( $this->db ), $error[1] );
+            $fname = $error[1];
+            $error = $error[0];
         }
-        else
-        {
-            eZDebug::writeError( $error . "\n" . mysql_error( $this->db ), "$fname" );
-        }
+
+        eZDebug::writeError( "$error\n" . mysql_errno( $this->db ) . ': ' . mysql_error( $this->db ), $fname );
     }
 
     /*!
