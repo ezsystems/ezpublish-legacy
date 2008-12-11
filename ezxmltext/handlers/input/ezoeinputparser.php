@@ -218,7 +218,8 @@ class eZOEInputParser extends eZXMLInputParser
         {
             $attributes['ezborder'] = $attributes['border'];
         }
-        $attributes['class'] = self::tagClassNamesCleanup( $attributes['class'] );
+        if ( isset( $attributes['class'] ) )
+            $attributes['class'] = self::tagClassNamesCleanup( $attributes['class'] );
         return $name;
     }
 
