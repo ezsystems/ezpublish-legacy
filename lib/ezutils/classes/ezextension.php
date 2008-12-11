@@ -209,7 +209,7 @@ class eZExtension
      - type-directory - Whether the type has a directory for it's file or not. Default is true.
      - type - The type to look for, it will try to find a file named repository/subdir/type/type-suffix or
               if type-directory is false repository/subdir/type-suffix.
-              If type is not specified the type-group and typ-variable may be used for fetching the current type.
+              If type is not specified the type-group and type-variable may be used for fetching the current type.
      - type-group - The INI group which has the type setting.
      - type-variable - The INI variable which has the type setting.
      - alias-group - The INI group which defines type aliases, see below.
