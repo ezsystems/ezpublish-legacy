@@ -24,35 +24,63 @@
 <tbody>
 <tr>
 <td>
-<input type="text" size="2" name="{$custom_attribute}" id="{$custom_attribute_id}_source" value="{$custom_attribute_default[0]|wash}"{if $custom_attribute_disabled} disabled="disabled"{/if} class="{$custom_attribute_classes|implode(' ')}" title="{$custom_attribute_titles|wash}" />
+{if $custom_attribute_default[0]|ne('')}
+    {def $custom_attribute_default_int = $custom_attribute_default[0]|int
+         $custom_attribute_default_type = $custom_attribute_default[0]|explode( $custom_attribute_default_int ).1}
+{else}
+    {def $custom_attribute_default_int = ''
+         $custom_attribute_default_type = ''}
+{/if}
+<input type="text" size="2" name="{$custom_attribute}" id="{$custom_attribute_id}_source" value="{$custom_attribute_default_int|wash}"{if $custom_attribute_disabled} disabled="disabled"{/if} class="{$custom_attribute_classes|implode(' ')}" title="{$custom_attribute_titles|wash}" />
 <select id="{$custom_attribute_id}_sizetype"{if $custom_attribute_disabled} disabled="disabled"{/if} class="mceItemSkip sizetype_margin_fix">
 {foreach $css_size_types as $key => $value}
-    <option value="{$key}">{$value}</option>
+    <option value="{$key}"{if $custom_attribute_default_type|eq($key)} selected="selected"{/if}>{$value}</option>
 {/foreach}
 </select>
 </td>
 {set $custom_attribute_classes = $custom_attribute_classes|append( 'mceItemSkip' )}
+{if $custom_attribute_default[1]|ne('')}
+    {set $custom_attribute_default_int = $custom_attribute_default[1]|int}
+    {set $custom_attribute_default_type = $custom_attribute_default[1]|explode( $custom_attribute_default_int ).1}
+{else}
+    {set $custom_attribute_default_int = ''}
+    {set $custom_attribute_default_type = ''}
+{/if}
 <td>
-<input type="text" size="2" id="{$custom_attribute_id}_source_1" value="{$custom_attribute_default[1]|wash}"{if $custom_attribute_disabled} disabled="disabled"{/if} class="{$custom_attribute_classes|implode(' ')}" title="{$custom_attribute_titles|wash}" />
+<input type="text" size="2" id="{$custom_attribute_id}_source_1" value="{$custom_attribute_default_int|wash}"{if $custom_attribute_disabled} disabled="disabled"{/if} class="{$custom_attribute_classes|implode(' ')}" title="{$custom_attribute_titles|wash}" />
 <select id="{$custom_attribute_id}_sizetype_1"{if $custom_attribute_disabled} disabled="disabled"{/if} class="mceItemSkip sizetype_margin_fix">
 {foreach $css_size_types as $key => $value}
-    <option value="{$key}">{$value}</option>
+    <option value="{$key}"{if $custom_attribute_default_type|eq($key)} selected="selected"{/if}>{$value}</option>
 {/foreach}
 </select>
 </td>
+{if $custom_attribute_default[2]|ne('')}
+    {set $custom_attribute_default_int = $custom_attribute_default[2]|int}
+    {set $custom_attribute_default_type = $custom_attribute_default[2]|explode( $custom_attribute_default_int ).1}
+{else}
+    {set $custom_attribute_default_int = ''}
+    {set $custom_attribute_default_type = ''}
+{/if}
 <td>
-<input type="text" size="2" id="{$custom_attribute_id}_source_2" value="{$custom_attribute_default[2]|wash}"{if $custom_attribute_disabled} disabled="disabled"{/if} class="{$custom_attribute_classes|implode(' ')}" title="{$custom_attribute_titles|wash}" />
+<input type="text" size="2" id="{$custom_attribute_id}_source_2" value="{$custom_attribute_default_int|wash}"{if $custom_attribute_disabled} disabled="disabled"{/if} class="{$custom_attribute_classes|implode(' ')}" title="{$custom_attribute_titles|wash}" />
 <select id="{$custom_attribute_id}_sizetype_2"{if $custom_attribute_disabled} disabled="disabled"{/if} class="mceItemSkip sizetype_margin_fix">
 {foreach $css_size_types as $key => $value}
-    <option value="{$key}">{$value}</option>
+    <option value="{$key}"{if $custom_attribute_default_type|eq($key)} selected="selected"{/if}>{$value}</option>
 {/foreach}
 </select>
 </td>
+{if $custom_attribute_default[3]|ne('')}
+    {set $custom_attribute_default_int = $custom_attribute_default[3]|int}
+    {set $custom_attribute_default_type = $custom_attribute_default[3]|explode( $custom_attribute_default_int ).1}
+{else}
+    {set $custom_attribute_default_int = ''}
+    {set $custom_attribute_default_type = ''}
+{/if}
 <td>
-<input type="text" size="2" id="{$custom_attribute_id}_source_3" value="{$custom_attribute_default[3]|wash}"{if $custom_attribute_disabled} disabled="disabled"{/if} class="{$custom_attribute_classes|implode(' ')}" title="{$custom_attribute_titles|wash}" />
+<input type="text" size="2" id="{$custom_attribute_id}_source_3" value="{$custom_attribute_default_int|wash}"{if $custom_attribute_disabled} disabled="disabled"{/if} class="{$custom_attribute_classes|implode(' ')}" title="{$custom_attribute_titles|wash}" />
 <select id="{$custom_attribute_id}_sizetype_3"{if $custom_attribute_disabled} disabled="disabled"{/if} class="mceItemSkip sizetype_margin_fix">
 {foreach $css_size_types as $key => $value}
-    <option value="{$key}">{$value}</option>
+    <option value="{$key}"{if $custom_attribute_default_type|eq($key)} selected="selected"{/if}>{$value}</option>
 {/foreach}
 </select>
 </td>
@@ -65,8 +93,8 @@
 eZOEPopupUtils.settings.customAttributeInitHandler['{$custom_attribute_id}_source'] = {literal} function( el, value )
 {
     if ( ez.string.trim( value ) === '' ) return;
-    var valArr = (value + ' 0 0 0 0').split(/\s/g), base_id = el.id.replace('_source', ''), inp, sel, tid;
-    for(var i = 0; i < 4; i++)
+    var valArr = value +''.split(/\s/g), base_id = el.id.replace('_source', ''), inp, sel, tid;
+    for(var i = 0; i < valArr.length; i++)
     {
         tid = (i === 0 ? '' : '_' + i);
         inp = ez.$( base_id + '_source' + tid ).el;
@@ -80,14 +108,15 @@ eZOEPopupUtils.settings.customAttributeInitHandler['{$custom_attribute_id}_sourc
 
 eZOEPopupUtils.settings.customAttributeSaveHandler['{$custom_attribute_id}_source'] = {literal} function( el, value )
 {
-    var inp, sel, tempval = [], base_id = el.id.replace('_source', ''), tid;
+    var inp, sel, tempval = [], base_id = el.id.replace('_source', ''), tid, hasValue = false;
     for(var i = 0; i < 4; i++)
     {
         tid = (i === 0 ? '' : '_' + i);
         inp = ez.$( base_id + '_source' + tid ).el, sel = ez.$( base_id + '_sizetype' + tid ).el;
+        if ( inp.value !== '' ) hasValue = true;
         tempval.push( inp.value + ( sel.selectedIndex !== -1 ? sel.options[sel.selectedIndex].value : '' ) );
     }
-    return tempval.join(' ');
+    return hasValue ? tempval.join(' ') : '';
 };{/literal}
 
 //-->

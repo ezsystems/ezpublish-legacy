@@ -5,10 +5,17 @@
 {if ezini_hasvariable( $custom_attribute_settings, 'Maximum', 'ezoe_customattributes.ini' )}
     {set $custom_attribute_classes = $custom_attribute_classes|append( concat('max', ezini($custom_attribute_settings, 'Maximum', 'ezoe_customattributes.ini') ) )}
 {/if}
-<input type="text" size="3" name="{$custom_attribute}" id="{$custom_attribute_id}_source" value="{$custom_attribute_default|wash}"{if $custom_attribute_disabled} disabled="disabled"{/if} class="{$custom_attribute_classes|implode(' ')}" title="{$custom_attribute_titles|wash}" />
+{if $custom_attribute_default|ne('')}
+    {def $custom_attribute_default_int = $custom_attribute_default|int
+         $custom_attribute_default_type = $custom_attribute_default|explode( $custom_attribute_default_int ).1}
+{else}
+    {def $custom_attribute_default_int = ''
+         $custom_attribute_default_type = ''}
+{/if}
+<input type="text" size="3" name="{$custom_attribute}" id="{$custom_attribute_id}_source" value="{$custom_attribute_default_int|wash}"{if $custom_attribute_disabled} disabled="disabled"{/if} class="{$custom_attribute_classes|implode(' ')}" title="{$custom_attribute_titles|wash}" />
 <select id="{$custom_attribute_id}_sizetype"{if $custom_attribute_disabled} disabled="disabled"{/if} class="mceItemSkip sizetype_margin_fix">
     <option value="">px</option>
-    <option value="%">%</option>
+    <option value="%"{if $custom_attribute_default_type|eq('%')} selected="selected"{/if}>%</option>
 </select>
 <script type="text/javascript">
 <!--
@@ -26,7 +33,7 @@ eZOEPopupUtils.settings.customAttributeInitHandler['{$custom_attribute_id}_sourc
 eZOEPopupUtils.settings.customAttributeSaveHandler['{$custom_attribute_id}_source'] = {literal} function( el, value )
 {
     var sizetype = document.getElementById( el.id.replace('_source', '_sizetype') );
-    return value + sizetype.options[sizetype.selectedIndex].value;
+    return value !== '' ? (value + sizetype.options[sizetype.selectedIndex].value) : '';
 };{/literal}
 
 //-->
