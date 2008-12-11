@@ -2,7 +2,7 @@
  * $Id: editor_plugin_src.js 953 2008-11-04 10:16:50Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright ï¿½ 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
 /* 
@@ -493,7 +493,7 @@
 	
 	            inst.windowManager.open({
 	                url : s.ez_extension_url + view  + s.ez_contentobject_id + '/' + s.ez_contentobject_version + '/' + eurl,
-	                width : width || 380,
+	                width : width || 400,
 	                height : height || 320,
 	                scrollbars : true,
 	                resizable : true,
@@ -529,7 +529,7 @@
 						return true;
 
 					if (user_interface) {
-						generalXmlTagPopup( 'tr', false, 0, 0, user_interface );
+						generalXmlTagPopup( 'tr', false, 460, 0, user_interface );
 					}
 
 					return true;
@@ -539,14 +539,14 @@
 						return true;
 
 					if (user_interface) {
-                        generalXmlTagPopup( tdElm.nodeName.toLowerCase(), false, 0, 0, user_interface  );
+                        generalXmlTagPopup( tdElm.nodeName.toLowerCase(), false, 460, 0, user_interface  );
 					}
 
 					return true;
 
 				case "mceInsertTable":
 					if (user_interface) {
-                        generalXmlTagPopup( 'table', false, 0, 0, user_interface  );
+                        generalXmlTagPopup( 'table', false, 460, 360, user_interface  );
 					}
 
 					return true;
