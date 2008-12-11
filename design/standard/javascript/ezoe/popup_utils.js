@@ -305,7 +305,7 @@ var eZOEPopupUtils = {
                     value = handler[o.el.id].call( o, o.el, value );
 
                 // add to styles if custom attibute is defined in customAttributeStyleMap
-                if ( s.customAttributeStyleMap && s.customAttributeStyleMap[name] !== undefined  )
+                if ( value !== '' && s.customAttributeStyleMap && s.customAttributeStyleMap[name] !== undefined  )
                 {
                     // filtered because the browser (ie,ff&opera) convert the tag to font tag in certain circumstances
                     style = s.customAttributeStyleMap[name];
