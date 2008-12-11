@@ -2,7 +2,7 @@
 //
 // Definition of List class
 //
-// Created on: <29-ïËÔ-2002 16:14:57 sp>
+// Created on: <29-ï¿½ï¿½ï¿½-2002 16:14:57 sp>
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ Publish
@@ -52,9 +52,12 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
         $db->begin();
         foreach ( $deleteIDArray as $deleteID )
         {
-            eZDebug::writeNotice( $deleteID, "deleteID" );
             $version = eZContentObjectVersion::fetch( $deleteID );
-            $version->removeThis();
+            if ( $version instanceof eZContentObjectVersion )
+            {
+                eZDebug::writeNotice( $deleteID, "deleteID" );
+                $version->removeThis();
+            }
         }
         $db->commit();
     }
