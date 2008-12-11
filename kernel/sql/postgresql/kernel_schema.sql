@@ -2625,7 +2625,8 @@ CREATE TABLE ezuservisit (
     current_visit_timestamp integer DEFAULT 0 NOT NULL,
     failed_login_attempts integer DEFAULT 0 NOT NULL,
     last_visit_timestamp integer DEFAULT 0 NOT NULL,
-    user_id integer DEFAULT 0 NOT NULL
+    user_id integer DEFAULT 0 NOT NULL,
+    login_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -3821,6 +3822,14 @@ CREATE INDEX ezuser_role_contentobject_id ON ezuser_role USING btree (contentobj
 
 
 CREATE INDEX ezuser_role_role_id ON ezuser_role USING btree (role_id);
+
+
+
+
+
+
+
+CREATE INDEX ezuservisit_co_visit_count ON ezuservisit USING btree (current_visit_timestamp, login_count);
 
 
 

@@ -7026,6 +7026,13 @@ $schema = array (
         'not_null' => '1',
         'default' => 0,
       ),
+      'login_count' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
     ),
     'indexes' => 
     array (
@@ -7035,6 +7042,15 @@ $schema = array (
         'fields' => 
         array (
           0 => 'user_id',
+        ),
+      ),
+      'ezuservisit_co_visit_count' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'current_visit_timestamp',
+          1 => 'login_count',
         ),
       ),
     ),
