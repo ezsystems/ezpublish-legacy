@@ -1033,6 +1033,8 @@
                         case 'embed-inline':
                             //if (v = DOM.getAttrib(n, 'src'))
                                 //ti += 'src: ' + v + ' ';
+                            if (v = DOM.getAttrib(n, 'title'))
+                                ti += 'name: ' + v + ' ';
 
                             break;
                         case 'anchor':
