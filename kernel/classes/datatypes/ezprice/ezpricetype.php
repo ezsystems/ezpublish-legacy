@@ -329,6 +329,11 @@ class eZPriceType extends eZDataType
         }
         $classAttribute->setAttribute( self::VAT_ID_FIELD, $vatID );
     }
+
+    function supportsBatchInitializeObjectAttribute()
+    {
+        return true;
+    }
 }
 
 eZDataType::register( eZPriceType::DATA_TYPE_STRING, "eZPriceType" );

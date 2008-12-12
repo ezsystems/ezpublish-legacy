@@ -627,6 +627,41 @@ class eZDateTimeType extends eZDataType
             $objectAttribute->setAttribute( 'data_int', $timestamp );
         }
     }
+
+    function supportsBatchInitializeObjectAttribute()
+    {
+        return true;
+    }
+
+    function batchInitializeObjectAttributeData( $classAttribute )
+    {
+        $defaultType = $classAttribute->attribute( self::DEFAULT_FIELD );
+
+        switch( $defaultType )
+        {
+            case self::DEFAULT_CURRENT_DATE:
+            {
+                $default = time();
+            } break;
+
+            case self::DEFAULT_ADJUSTMENT:
+            {
+                $adjustments = self::classAttributeContent( $classAttribute );
+                $value = new eZDateTime();
+                $secondAdjustment = $classAttribute->attribute( self::USE_SECONDS_FIELD ) == 1 ? $adjustments['second'] : 0;
+                $value->adjustDateTime( $adjustments['hour'], $adjustments['minute'], $secondAdjustment, $adjustments['month'], $adjustments['day'], $adjustments['year'] );
+
+                $default = $value->timeStamp();
+            } break;
+
+            default:
+            {
+                $default = 0;
+            }
+        }
+
+        return array( 'data_int' => $default, 'sort_key_int' => $default );
+    }
 }
 
 eZDataType::register( eZDateTimeType::DATA_TYPE_STRING, "eZDateTimeType" );

@@ -1391,6 +1391,16 @@ class eZDataType
         return true;
     }
 
+    function batchInitializeObjectAttributeData( $classAttribute )
+    {
+        return array();
+    }
+
+    function supportsBatchInitializeObjectAttribute()
+    {
+        return false;
+    }
+
     /// \privatesection
     /// The datatype string ID, used for uniquely identifying a datatype
     public $DataTypeString;

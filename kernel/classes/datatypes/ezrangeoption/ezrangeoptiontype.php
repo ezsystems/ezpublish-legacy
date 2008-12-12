@@ -288,6 +288,17 @@ class eZRangeOptionType extends eZDataType
         $xmlString = $rootNode ? $rootNode->ownerDocument->saveXML( $rootNode ) : '';
         $objectAttribute->setAttribute( 'data_text', $xmlString );
     }
+
+    function supportsBatchInitializeObjectAttribute()
+    {
+        return true;
+    }
+
+    function batchInitializeObjectAttributeData( $classAttribute )
+    {
+        $option = new eZRangeOption( $classAttribute->attribute( 'data_text1' ) );
+        return array( 'data_text' => $option->xmlString() );
+    }
 }
 
 eZDataType::register( eZRangeOptionType::DATA_TYPE_STRING, "eZRangeOptionType" );

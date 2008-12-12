@@ -398,6 +398,26 @@ class eZDateType extends eZDataType
             $objectAttribute->setAttribute( 'data_int', $timestamp );
         }
     }
+
+    function supportsBatchInitializeObjectAttribute()
+    {
+        return true;
+    }
+
+    function batchInitializeObjectAttributeData( $classAttribute )
+    {
+        $defaultType = $classAttribute->attribute( self::DEFAULT_FIELD );
+        if ( $defaultType == 1 )
+        {
+            $default = time();
+            return array( 'data_int'     => $default,
+                          'sort_key_int' => $default );
+        }
+        else
+        {
+            return array();
+        }
+    }
 }
 
 eZDataType::register( eZDateType::DATA_TYPE_STRING, "eZDateType" );

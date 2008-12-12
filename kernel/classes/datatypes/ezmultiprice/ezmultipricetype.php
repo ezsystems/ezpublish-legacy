@@ -538,6 +538,11 @@ class eZMultiPriceType extends eZDataType
     {
         return null;
     }
+
+    function supportsBatchInitializeObjectAttribute()
+    {
+        return true;
+    }
 }
 
 eZDataType::register( eZMultiPriceType::DATA_TYPE_STRING, "eZMultiPriceType" );

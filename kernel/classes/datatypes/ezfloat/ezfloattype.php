@@ -412,6 +412,22 @@ class eZFloatType extends eZDataType
         $classAttribute->setAttribute( self::INPUT_STATE_FIELD, $minMaxState );
     }
 
+    function supportsBatchInitializeObjectAttribute()
+    {
+        return true;
+    }
+
+    function batchInitializeObjectAttributeData( $classAttribute )
+    {
+        $default = $classAttribute->attribute( 'data_float3' );
+        if ( $default !== 0 )
+        {
+            return array( 'data_float' => $default );
+        }
+
+        return array();
+    }
+
     /// \privatesection
     /// The float value validator
     public $FloatValidator;

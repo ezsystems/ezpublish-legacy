@@ -659,6 +659,11 @@ class eZObjectRelationType extends eZDataType
         return true;
     }
 
+    function supportsBatchInitializeObjectAttribute()
+    {
+        return true;
+    }
+
     /// \privatesection
 }
 

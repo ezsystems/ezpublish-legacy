@@ -459,6 +459,25 @@ class eZTimeType extends eZDataType
             $objectAttribute->setAttribute( 'data_int', $timeOfDay );
         }
     }
+
+    function supportsBatchInitializeObjectAttribute()
+    {
+        return true;
+    }
+
+    function batchInitializeObjectAttributeData( $classAttribute )
+    {
+        $defaultType = $classAttribute->attribute( self::DEFAULT_FIELD );
+
+        if ( $defaultType == 1 )
+        {
+            $time = new eZTime();
+            $default = $time->timeOfDay();
+            return array( 'data_int' => $default, 'sort_key_int' => $default );
+        }
+
+        return array();
+    }
 }
 
 eZDataType::register( eZTimeType::DATA_TYPE_STRING, "eZTimeType" );

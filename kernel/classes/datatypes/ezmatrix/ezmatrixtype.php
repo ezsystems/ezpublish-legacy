@@ -544,6 +544,18 @@ class eZMatrixType extends eZDataType
         $xmlString = $rootNode ? $rootNode->ownerDocument->saveXML( $rootNode ) : '';
         $objectAttribute->setAttribute( 'data_text', $xmlString );
     }
+
+    function supportsBatchInitializeObjectAttribute()
+    {
+        return true;
+    }
+
+    function batchInitializeObjectAttributeData( $classAttribute )
+    {
+        $numRows = $classAttribute->attribute( 'data_int1' );
+        $matrix = new eZMatrix( '', $numRows, $classAttribute->attribute( 'content' ) );
+        return array( 'data_text' => $matrix->xmlString() );
+    }
 }
 
 eZDataType::register( eZMatrixType::DATA_TYPE_STRING, 'ezmatrixtype' );

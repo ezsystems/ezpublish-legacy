@@ -1816,6 +1816,11 @@ class eZObjectRelationListType extends eZDataType
         return $return;
     }
 
+    function supportsBatchInitializeObjectAttribute()
+    {
+        return true;
+    }
+
     /// \privatesection
 }
 

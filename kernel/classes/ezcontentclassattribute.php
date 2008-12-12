@@ -783,6 +783,67 @@ class eZContentClassAttribute extends eZPersistentObject
         return $identifierHash;
     }
 
+    function initializeObjectAttributes( &$objects = null )
+    {
+        $classAttributeID = $this->ID;
+        $classID = $this->ContentClassID;
+        $dataType = $this->attribute( 'data_type' );
+        if ( $dataType->supportsBatchInitializeObjectAttribute() )
+        {
+            $db = eZDB::instance();
+
+            $data = array( 'contentobject_id'         => 'a.contentobject_id',
+                           'version'                  => 'a.version',
+                           'contentclassattribute_id' => $classAttributeID,
+                           'data_type_string'         => "'" . $db->escapeString( $this->DataTypeString ) . "'",
+                           'language_code'            => 'a.language_code',
+                           'language_id'              => 'MAX(a.language_id)' );
+
+            $datatypeData = $dataType->batchInitializeObjectAttributeData( $this );
+            $data = array_merge( $data, $datatypeData );
+
+            $cols = implode( ', ', array_keys( $data ) );
+            $values = implode( ', ', $data );
+
+            $sql = "INSERT INTO ezcontentobject_attribute( $cols )
+            SELECT $values
+            FROM ezcontentobject_attribute a, ezcontentobject o
+            WHERE o.id = a.contentobject_id AND
+                  o.contentclass_id=$classID
+            GROUP BY contentobject_id,
+                     version,
+                     language_code";
+
+            $db->query( $sql );
+        }
+        else
+        {
+            if ( !is_array( $objects ) )
+            {
+                $objects = eZContentObject::fetchSameClassList( $classID );
+            }
+
+            foreach ( $objects as $object )
+            {
+                $contentobjectID = $object->attribute( 'id' );
+                $objectVersions = $object->versions();
+                foreach ( $objectVersions as $objectVersion )
+                {
+                    $translations = $objectVersion->translations( false );
+                    $version = $objectVersion->attribute( 'version' );
+                    foreach ( $translations as $translation )
+                    {
+                        $objectAttribute = eZContentObjectAttribute::create( $classAttributeID, $contentobjectID, $version, $translation );
+                        $objectAttribute->setAttribute( 'language_code', $translation );
+                        $objectAttribute->initialize();
+                        $objectAttribute->store();
+                        $objectAttribute->postInitialize();
+                    }
+                }
+            }
+        }
+    }
+
     /// \privatesection
     /// Contains the content for this attribute
     public $Content;

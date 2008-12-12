@@ -328,6 +328,11 @@ class eZKeywordType extends eZDataType
         $keyword->initializeKeyword( $keyWordString );
         $objectAttribute->setContent( $keyword );
     }
+
+    function supportsBatchInitializeObjectAttribute()
+    {
+        return true;
+    }
 }
 
 eZDataType::register( eZKeywordType::DATA_TYPE_STRING, 'eZKeywordType' );

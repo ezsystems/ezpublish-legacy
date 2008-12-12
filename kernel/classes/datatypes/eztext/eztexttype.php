@@ -286,6 +286,10 @@ class eZTextType extends eZDataType
         return $diffObject;
     }
 
+    function supportsBatchInitializeObjectAttribute()
+    {
+        return true;
+    }
 }
 
 eZDataType::register( eZTextType::DATA_TYPE_STRING, "eZTextType" );

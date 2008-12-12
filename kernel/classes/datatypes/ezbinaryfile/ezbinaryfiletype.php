@@ -722,6 +722,10 @@ class eZBinaryFileType extends eZDataType
         $fileHandler->fileStore( $destinationPath . $basename, 'binaryfile', true );
     }
 
+    function supportsBatchInitializeObjectAttribute()
+    {
+        return true;
+    }
 }
 
 eZDataType::register( eZBinaryFileType::DATA_TYPE_STRING, "eZBinaryFileType" );

@@ -667,7 +667,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
             $class->storeDefined( $attributes );
 
             // Add object attributes which have been added.
-            foreach ( $newClassAttributes as $newClassAttribute )
+            foreach ( $attributes as $newClassAttribute )
             {
                 $attributeExist = false;
                 $newClassAttributeID = $newClassAttribute->attribute( 'id' );
@@ -675,32 +675,14 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
                 {
                     $oldClassAttributeID = $oldClassAttribute->attribute( 'id' );
                     if ( $oldClassAttributeID == $newClassAttributeID )
+                    {
                         $attributeExist = true;
+                        break;
+                    }
                 }
                 if ( !$attributeExist )
                 {
-                    if ( $objects == null )
-                    {
-                        $objects = eZContentObject::fetchSameClassList( $ClassID );
-                    }
-                    foreach ( $objects as $object )
-                    {
-                        $contentobjectID = $object->attribute( 'id' );
-                        $objectVersions = $object->versions();
-                        foreach ( $objectVersions as $objectVersion )
-                        {
-                            $translations = $objectVersion->translations( false );
-                            $version = $objectVersion->attribute( 'version' );
-                            foreach ( $translations as $translation )
-                            {
-                                $objectAttribute = eZContentObjectAttribute::create( $newClassAttributeID, $contentobjectID, $version, $translation );
-                                $objectAttribute->setAttribute( 'language_code', $translation );
-                                $objectAttribute->initialize();
-                                $objectAttribute->store();
-                                $objectAttribute->postInitialize();
-                            }
-                        }
-                    }
+                    $newClassAttribute->initializeObjectAttributes( $objects );
                 }
             }
         }

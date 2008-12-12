@@ -412,6 +412,24 @@ class eZStringType extends eZDataType
         return $diffObject;
     }
 
+    function supportsBatchInitializeObjectAttribute()
+    {
+        return true;
+    }
+
+    function batchInitializeObjectAttributeData( $classAttribute )
+    {
+        $default = $classAttribute->attribute( 'data_text1' );
+        if ( $default !== '' )
+        {
+            $trans = eZCharTransform::instance();
+            $lowerCasedDefault = $trans->transformByGroup( $default, 'lowercase' );
+            return array( 'data_text' => $default, 'sort_key_string' => $lowerCasedDefault );
+        }
+
+        return array();
+    }
+
     /// \privatesection
     /// The max len validator
     public $MaxLenValidator;

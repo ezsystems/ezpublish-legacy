@@ -337,6 +337,10 @@ class eZAuthorType extends eZDataType
         $objectAttribute->setAttribute( 'data_text', $xmlString );
     }
 
+    function supportsBatchInitializeObjectAttribute()
+    {
+        return true;
+    }
 }
 
 eZDataType::register( eZAuthorType::DATA_TYPE_STRING, "eZAuthorType" );

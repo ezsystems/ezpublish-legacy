@@ -244,6 +244,11 @@ class eZEmailType extends eZDataType
     {
         return 'string';
     }
+
+    function supportsBatchInitializeObjectAttribute()
+    {
+        return true;
+    }
 }
 
 eZDataType::register( eZEmailType::DATA_TYPE_STRING, "eZEmailType" );

@@ -838,6 +838,18 @@ class eZXMLTextType extends eZDataType
         return $diffObject;
     }
 
+    function supportsBatchInitializeObjectAttribute()
+    {
+        return true;
+    }
+
+    function batchInitializeObjectAttributeData( $classAttribute )
+    {
+        $parser = new eZXMLInputParser();
+        $doc = $parser->createRootNode();
+        $xmlText = eZXMLTextType::domString( $doc );
+        return array( 'data_text' => $xmlText );
+    }
 }
 
 eZDataType::register( eZXMLTextType::DATA_TYPE_STRING, "eZXMLTextType" );

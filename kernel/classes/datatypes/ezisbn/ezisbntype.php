@@ -456,6 +456,11 @@ class eZISBNType extends eZDataType
         eZISBNRegistrantRange::cleanAll();
         return true;
     }
+
+    function supportsBatchInitializeObjectAttribute()
+    {
+        return true;
+    }
 }
 
 eZDataType::register( eZISBNType::DATA_TYPE_STRING, "eZISBNType" );

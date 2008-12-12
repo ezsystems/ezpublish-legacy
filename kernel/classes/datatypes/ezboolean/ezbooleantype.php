@@ -272,6 +272,18 @@ class eZBooleanType extends eZDataType
         $defaultValue = strtolower( $attributeParametersNode->getElementsByTagName( 'default-value' )->item( 0 )->getAttribute( 'is-set' ) ) == 'true';
         $classAttribute->setAttribute( 'data_int3', $defaultValue );
     }
+
+    function supportsBatchInitializeObjectAttribute()
+    {
+        return true;
+    }
+
+    function batchInitializeObjectAttributeData( $classAttribute )
+    {
+        $default = $classAttribute->attribute( "data_int3" );
+        return array( 'data_int'     => $default,
+                      'sort_key_int' => $default );
+    }
 }
 
 eZDataType::register( eZBooleanType::DATA_TYPE_STRING, "eZBooleanType" );

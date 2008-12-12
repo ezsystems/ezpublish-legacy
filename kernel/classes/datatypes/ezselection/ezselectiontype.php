@@ -467,6 +467,11 @@ class eZSelectionType extends eZDataType
         else
             $classAttribute->setAttribute( 'data_int1', 1 );
     }
+
+    function supportsBatchInitializeObjectAttribute()
+    {
+        return true;
+    }
 }
 
 eZDataType::register( eZSelectionType::DATA_TYPE_STRING, "eZSelectionType" );

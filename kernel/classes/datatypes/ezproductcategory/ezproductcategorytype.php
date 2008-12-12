@@ -236,6 +236,17 @@ class eZProductCategoryType extends eZDataType
     {
         return null;
     }
+
+    function supportsBatchInitializeObjectAttribute()
+    {
+        return true;
+    }
+
+    function batchInitializeObjectAttributeData( $classAttribute )
+    {
+        $default = 0;
+        return array( 'data_int' => $default, 'sort_key_int' => $default );
+    }
 }
 
 eZDataType::register( eZProductCategoryType::DATA_TYPE_STRING, "eZProductCategoryType" );

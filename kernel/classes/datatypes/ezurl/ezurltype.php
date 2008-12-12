@@ -382,6 +382,11 @@ class eZURLType extends eZDataType
         if ( $textNode )
             $objectAttribute->setAttribute( 'data_text', $textNode->textContent );
     }
+
+    function supportsBatchInitializeObjectAttribute()
+    {
+        return true;
+    }
 }
 
 eZDataType::register( eZURLType::DATA_TYPE_STRING, 'eZURLType' );

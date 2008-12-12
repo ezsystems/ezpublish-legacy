@@ -528,6 +528,10 @@ class eZImageType extends eZDataType
         return true;
     }
 
+    function supportsBatchInitializeObjectAttribute()
+    {
+        return true;
+    }
 }
 
 eZDataType::register( eZImageType::DATA_TYPE_STRING, "eZImageType" );

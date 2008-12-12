@@ -800,6 +800,11 @@ class eZMediaType extends eZDataType
 
         $mediaFile->store();
     }
+
+    function supportsBatchInitializeObjectAttribute()
+    {
+        return true;
+    }
 }
 
 eZDataType::register( eZMediaType::DATA_TYPE_STRING, "eZMediaType" );

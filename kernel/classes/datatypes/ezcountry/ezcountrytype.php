@@ -494,6 +494,11 @@ class eZCountryType extends eZDataType
     {
         return null;
     }
+
+    function supportsBatchInitializeObjectAttribute()
+    {
+        return true;
+    }
 }
 
 eZDataType::register( eZCountryType::DATA_TYPE_STRING, 'ezcountrytype' );

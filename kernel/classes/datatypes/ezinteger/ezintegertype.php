@@ -515,6 +515,25 @@ class eZIntegerType extends eZDataType
         $classAttribute->setAttribute( self::INPUT_STATE_FIELD, $minMaxState );
     }
 
+    function batchInitializeObjectAttributeData( $classAttribute )
+    {
+        $default = $classAttribute->attribute( "data_int3" );
+        if ( $default === 0 )
+        {
+            return array();
+        }
+        else
+        {
+            return array( 'data_int'     => $default,
+                          'sort_key_int' => $default );
+        }
+    }
+
+    function supportsBatchInitializeObjectAttribute()
+    {
+        return true;
+    }
+
     /// \privatesection
     /// The integer value validator
     public $IntegerValidator;

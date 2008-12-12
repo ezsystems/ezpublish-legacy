@@ -698,6 +698,16 @@ class eZMultiOption2Type extends eZDataType
         return $this->DataTypeString;
     }
 
+    function supportsBatchInitializeObjectAttribute()
+    {
+        return true;
+    }
+
+    function batchInitializeObjectAttributeData( $classAttribute )
+    {
+        $optionGroup = new eZMultiOption2( $classAttribute->attribute( 'data_text1' ) );
+        return array( 'data_text' => $optionGroup->xmlString() );
+    }
 }
 
 eZDataType::register( eZMultiOption2Type::DATA_TYPE_STRING, "eZMultiOption2Type" );
