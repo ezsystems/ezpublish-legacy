@@ -77,18 +77,18 @@ class ezpUrlObjectLinkUpdate
 
     public $outputEntryNumber;
     public $finalOutputMessageArray;
-    
+
     public $cli;
     public $script;
-    
+
     public $doFix;
 
     /**
      * Create a new instance of the ezpUrlObjectLink object.
      *
-     * @param eZCLI $cli 
-     * @param eZScript $script 
-     * @param array $options 
+     * @param eZCLI $cli
+     * @param eZScript $script
+     * @param array $options
      */
     public function __construct( $cli, $script, $options )
     {
@@ -100,15 +100,15 @@ class ezpUrlObjectLinkUpdate
         $this->processedCount = 0;
 
         $this->verboseLevel = $this->script->verboseOutputLevel();
-        
+
         $this->script->resetIteration( $this->xmlTextContentObjectAttributeCount() );
-        
+
         $this->doFix = false;
         if ( $options['fix'] !== null and $options['fix'] )
         {
             $this->doFix = true;
         }
-        
+
         if ($options['fetch-limit'] !== null and $options['fetch-limit'] > 1 )
         {
             $this->fetchLimit = $options['fetch-limit'];
@@ -156,9 +156,9 @@ class ezpUrlObjectLinkUpdate
     /**
      * Add a message to the message buffer, to be displayed after processData has completed.
      *
-     * @param string $message 
-     * @param string $label 
-     * @param bool $groupedEntry 
+     * @param string $message
+     * @param string $label
+     * @param bool $groupedEntry
      * @return void
      */
     public function outputString( $message, $label = null, $groupedEntry = false )
@@ -270,7 +270,7 @@ class ezpUrlObjectLinkUpdate
                             $currentEntryLogged = true;
                         }
                     }
-                    
+
                     if ( $this->doFix and $linkObjectLink === null and $storedUrl !== false )
                     {
                         $this->outputString( "Reconstructing ezurl-object-link", $label, $currentEntryLogged );
@@ -288,7 +288,7 @@ class ezpUrlObjectLinkUpdate
             unset( $xmlAttributeChunk );
         }
     }
-    
+
     /**
      * Print a summary of all the messages created during processData.
      *
@@ -302,7 +302,7 @@ class ezpUrlObjectLinkUpdate
             {
                 $this->cli->output( $this->cli->stylize( 'bold', $messageEntry['label'] ) );
             }
-        
+
             foreach ( $messageEntry['messages'] as $msg )
             {
                 $this->cli->output( $msg);
