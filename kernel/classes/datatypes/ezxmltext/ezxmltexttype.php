@@ -202,7 +202,12 @@ class eZXMLTextType extends eZDataType
 
             foreach ( $linkNodes as $link )
             {
-                $urlIdArray[] = $link->getAttribute( 'url_id' );
+                // We are looking for external 'http://'-style links, not the internal
+                // object or node links.
+                if ( $link->hasAttribute( 'url_id' ) )
+                {
+                    $urlIdArray[] = $link->getAttribute( 'url_id' );
+                }
             }
 
             if ( count( $urlIdArray ) > 0 )
