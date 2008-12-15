@@ -315,7 +315,7 @@ class eZAutoloadGenerator
     protected function buildFileList( $path, $extraFilter = null )
     {
         $dirSep = preg_quote( DIRECTORY_SEPARATOR );
-        $exclusionFilter = array( "@^{$path}{$dirSep}(var|settings|benchmarks|autoload|port_info|templates|tmp|UnitTest){$dirSep}@" );
+        $exclusionFilter = array( "@^{$path}{$dirSep}(var|settings|benchmarks|autoload|port_info|update|templates|tmp|UnitTest){$dirSep}@" );
         if ( !empty( $extraFilter ) and is_array( $extraFilter ) )
         {
             foreach( $extraFilter as $filter )
