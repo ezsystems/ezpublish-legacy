@@ -1309,17 +1309,10 @@ fi
 if [ -z "$SKIP_CORE_FILES" ]; then
     echo -n "Creating MD5 checksums"
     (cd $DEST
-       MD5_FILES=`find * -name "*.php" -or -name "*.ini" -or -name "*.sh" -or -name "*.sql"`
+       MD5_FILES=`find * -wholename "./var" -prune -o -wholename "*/.svn" -prune -o -type f -print"`
 
        for MD5_FILE in $MD5_FILES; do
            md5sum $MD5_FILE >> share/filelist.md5
-       done
-
-       MD5_FILES=`find design/* -name "*.tpl"`
-
-       for MD5_FILE in $MD5_FILES; do
-           md5sum $MD5_FILE >> share/filelist.md5
-
        done
     )
     ez_result_output $? "Failed to create MD5 checksums"|| exit 1
