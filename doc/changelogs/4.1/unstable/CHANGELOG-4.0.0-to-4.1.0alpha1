@@ -470,3 +470,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13822: standard "empty install" data files contain xml chunks in latin1 instead of utf8
 - Fixed bug #12893: Fatal error: Call to a member function removeThis() on a non-object in kernel\content\draft.php on line 60
 - Fixed bug #13433: dbbackends/mysql.php doesn't log error correctly
+- Fixed bug #13952: Workflow cronjob gives fatal error if node is moved to different location before approval.
