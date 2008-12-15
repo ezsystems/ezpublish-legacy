@@ -36,15 +36,17 @@ define( 'TABLE_DATA',         'ezdbfile_data' );
 
 /*
 CREATE TABLE ezdbfile (
-  datatype  VARCHAR(60)   NOT NULL DEFAULT 'application/octet-stream',
-  name      TEXT          NOT NULL,
-  name_hash VARCHAR(34)   NOT NULL DEFAULT '',
-  scope     VARCHAR(20)   NOT NULL DEFAULT '',
-  size      BIGINT(20)    UNSIGNED NOT NULL,
-  mtime     INT(11)       NOT NULL DEFAULT '0',
-  expired   BOOL          NOT NULL DEFAULT '0',
+  datatype      VARCHAR(60)   NOT NULL DEFAULT 'application/octet-stream',
+  name          TEXT          NOT NULL,
+  name_trunk    TEXT          NOT NULL,
+  name_hash     VARCHAR(34)   NOT NULL DEFAULT '',
+  scope         VARCHAR(20)   NOT NULL DEFAULT '',
+  size          BIGINT(20)    UNSIGNED NOT NULL,
+  mtime         INT(11)       NOT NULL DEFAULT '0',
+  expired       BOOL          NOT NULL DEFAULT '0',
   PRIMARY KEY (name_hash),
   INDEX ezdbfile_name (name(250)),
+  INDEX ezdbfile_name_trunk (name(250)),
   INDEX ezdbfile_mtime (mtime),
   INDEX ezdbfile_expired_name (expired, name(250))
 ) ENGINE=InnoDB;
@@ -135,11 +137,13 @@ class eZDBFileHandlerMysqlBackend
         $scope           = $metaData['scope'];
         $contentLength   = $metaData['size'];
         $fileMTime       = $metaData['mtime'];
+        $nameTrunk       = self::nameTrunk( $dstFilePath, $scope );
 
         // Copy file metadata.
         if ( $this->_insertUpdate( TABLE_METADATA,
                                    array( 'datatype'=> $datatype,
                                           'name' => $dstFilePath,
+                                          'name_trunk' => $nameTrunk,
                                           'name_hash' => $filePathHash,
                                           'scope' => $scope,
                                           'size' => $contentLength,
@@ -350,10 +354,18 @@ class eZDBFileHandlerMysqlBackend
     {
         foreach ( $dirList as $dirItem )
         {
-            $sql = "UPDATE " . TABLE_METADATA . " SET mtime=-ABS(mtime), expired=1\nWHERE name LIKE '$commonPath/$dirItem/$commonSuffix%'";
+            if ( strstr( $commonPath, '/cache/content' ) !== false or strstr( $commonPath, '/cache/template-block' ) !== false )
+            {
+                $where = "WHERE name_trunk = '$commonPath/$dirItem/$commonSuffix'";
+            }
+            else
+            {
+                $where = "WHERE name LIKE '$commonPath/$dirItem/$commonSuffix%'";
+            }
+            $sql = "UPDATE " . TABLE_METADATA . " SET mtime=-ABS(mtime), expired=1\n$where";
             if ( !$res = $this->_query( $sql, $fname ) )
             {
-                return $this->_fail( "Failed to delete files in dir: '$commonPath/$dirItem/$commonSuffix%'" );
+                eZDebug::writeError( "Failed to delete files in dir: '$commonPath/$dirItem/$commonSuffix%'", __METHOD__ );
             }
         }
         return true;
@@ -468,7 +480,7 @@ class eZDBFileHandlerMysqlBackend
 
         // Make sure all data is written correctly
         clearstatcache();
-        $tmpSize = filesize( $tmpFilePath );
+        if ( filesize( $tmpFilePath ) != $metaData['size'] )
         if ( $tmpSize != $metaData['size'] )
         {
             eZDebug::writeError( "Size ($tmpSize) of written data for file '$tmpFilePath' does not match expected size " . $metaData['size'], __METHOD__ );
@@ -598,8 +610,9 @@ class eZDBFileHandlerMysqlBackend
 
         $this->_query( 'BEGIN');
 
-        $srcFilePathStr = mysql_real_escape_string( $srcFilePath );
-        $dstFilePathStr = mysql_real_escape_string( $dstFilePath );
+        $srcFilePathStr  = mysql_real_escape_string( $srcFilePath );
+        $dstFilePathStr  = mysql_real_escape_string( $dstFilePath );
+        $dstNameTrunkStr = mysql_real_escape_string( self::nameTrunk( $dstFilePath, $metaData['scope'] ) );
 
 //        $srcFilePathHash = mysql_real_escape_string( $metaData['name_hash'] );
 //        $dstFilePathHash = mysql_real_escape_string( md5( $dstFilePath ) );
@@ -617,7 +630,7 @@ class eZDBFileHandlerMysqlBackend
             $this->_delete( $dstFilePath, true );
 
         // Create a new meta-data entry for the new file to make foreign keys happy.
-        $sql = "INSERT INTO " . TABLE_METADATA . " (name, name_hash, datatype, scope, size, mtime, expired) SELECT '$dstFilePathStr' AS name, MD5('$dstFilePathStr') AS name_hash, datatype, scope, size, mtime, expired FROM " . TABLE_METADATA . " WHERE name_hash=MD5('$srcFilePathStr')";
+        $sql = "INSERT INTO " . TABLE_METADATA . " (name, name_hash, datatype, scope, size, mtime, expired) SELECT '$dstFilePathStr' AS name, '$dstNameTrunkStr' as name_trunk, MD5('$dstFilePathStr') AS name_hash, datatype, scope, size, mtime, expired FROM " . TABLE_METADATA . " WHERE name_hash=MD5('$srcFilePathStr')";
         if ( !$this->_query( $sql, "_rename($srcFilePath, $dstFilePath)" ) )
         {
             eZDebug::writeError( "Failed making new file entry '$dstFilePath'", __METHOD__ );
@@ -671,9 +684,12 @@ class eZDBFileHandlerMysqlBackend
         $fileMTime = filemtime( $filePath );
         $contentLength = filesize( $filePath );
         $filePathHash = md5( $filePath );
+        $nameTrunk = self::nameTrunk( $filePath, $scope );
+
         if ( $this->_insertUpdate( TABLE_METADATA,
                                    array( 'datatype' => $datatype,
                                           'name' => $filePath,
+                                          'name_trunk' => $nameTrunk,
                                           'name_hash' => $filePathHash,
                                           'scope' => $scope,
                                           'size' => $contentLength,
@@ -735,18 +751,20 @@ class eZDBFileHandlerMysqlBackend
         // Insert file metadata.
         $contentLength = strlen( $contents );
         $filePathHash = md5( $filePath );
+        $nameTrunk = self::nameTrunk( $filePath, $scope );
         if ( $curTime === false )
             $curTime = time();
 
         if ( $this->_insertUpdate( TABLE_METADATA,
                                     array( 'datatype' => $datatype,
                                            'name' => $filePath,
+                                           'name_trunk' => $nameTrunk,
                                            'name_hash' => $filePathHash,
                                            'scope' => $scope,
                                            'size' => $contentLength,
                                            'mtime' => $curTime,
                                            'expired' => ($curTime < 0) ? 1 : 0 ),
-                                    "datatype=VALUES(datatype), scope=VALUES(scope), size=VALUES(size), mtime=VALUES(mtime), expired=VALUES(expired)",
+                                    "datatype=VALUES(datatype), name_trunk='$nameTrunk', scope=VALUES(scope), size=VALUES(size), mtime=VALUES(mtime), expired=VALUES(expired)",
                                    $fname ) === false )
         {
             return $this->_fail( "Failed to insert file metadata while storing contents. Possible race condition" );
@@ -1313,9 +1331,50 @@ class eZDBFileHandlerMysqlBackend
         eZDebug::writeNotice( "$query", "cluster::mysql::{$fname}[{$rowText}" . number_format( $timeTaken, 3 ) . " ms] query number per page:" . $numQueries++, $backgroundClass );
     }
 
+    /**
+    * Returns the name_trunk for a file path
+    * @param string $filePath
+    * @param string $scope
+    * @return string
+    * @todo -ceZDBFileHandlerMysqlBackend Implement eZDBFileHandlerMysqlBackend.nameTrunk()
+    **/
+    static function nameTrunk( $filePath, $scope )
+    {
+        switch ( $scope )
+        {
+            case 'viewcache':
+            {
+                $nameTrunk = substr( $filePath, 0, strrpos( $filePath, '-' ) + 1 );
+            } break;
+
+            case 'template-block':
+            {
+                $templateBlockCacheDir = eZTemplateCacheBlock::templateBlockCacheDir();
+                $templateBlockPath = str_replace( $templateBlockCacheDir, '', $filePath );
+                if ( strstr( $templateBlockPath, 'subtree/' ) !== false )
+                {
+                    // 6 = strlen( 'cache/' );
+                    $len = strlen( $templateBlockCacheDir ) + strpos( $templateBlockPath, 'cache/' ) + 6;
+                    $nameTrunk = substr( $filePath, 0, $len  );
+                }
+                else
+                {
+                    $nameTrunk = $filePath;
+                }
+            } break;
+
+            default:
+            {
+                $nameTrunk = $filePath;
+            }
+        }
+        return $nameTrunk;
+    }
+
     public $db   = null;
     public $numQueries = 0;
     public $transactionCount = 0;
+    public $dbparams;
 }
 
 ?>
