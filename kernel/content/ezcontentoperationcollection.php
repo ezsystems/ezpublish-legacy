@@ -305,7 +305,7 @@ class eZContentOperationCollection
             $db->commit();
             if ( $mainNodeID == false )
             {
-                return $existingNode->attribute( 'node_id' );
+                return $object->attribute( 'main_node_id' );
             }
 
             return;
