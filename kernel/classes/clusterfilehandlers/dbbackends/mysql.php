@@ -480,7 +480,7 @@ class eZDBFileHandlerMysqlBackend
 
         // Make sure all data is written correctly
         clearstatcache();
-        if ( filesize( $tmpFilePath ) != $metaData['size'] )
+        $tmpSize = filesize( $tmpFilePath );
         if ( $tmpSize != $metaData['size'] )
         {
             eZDebug::writeError( "Size ($tmpSize) of written data for file '$tmpFilePath' does not match expected size " . $metaData['size'], __METHOD__ );
