@@ -18,11 +18,27 @@ if ( file_exists( 'config.php' ) )
     require 'config.php';
 }
 
-$baseEnabled = @include 'ezc/Base/base.php';
-if ( !$baseEnabled )
+$useBundledComponents = defined( 'EZP_USE_BUNDLED_COMPONENTS' ) ? EZP_USE_BUNDLED_COMPONENTS === true : file_exists( 'lib/ezc' );
+if ( $useBundledComponents )
 {
-    $baseEnabled = @include 'Base/src/base.php';
+    set_include_path( './lib/ezc' . PATH_SEPARATOR . get_include_path() );
+    require 'Base/src/base.php';
+    $baseEnabled = true;
 }
+else if ( defined( 'EZC_BASE_PATH' ) )
+{
+    require EZC_BASE_PATH;
+    $baseEnabled = true;
+}
+else
+{
+    $baseEnabled = @include 'ezc/Base/base.php';
+    if ( !$baseEnabled )
+    {
+        $baseEnabled = @include 'Base/src/base.php';
+    }
+}
+
 define( 'EZCBASE_ENABLED', $baseEnabled );
 
 function ezpAutoload( $className )

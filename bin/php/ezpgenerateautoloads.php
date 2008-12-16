@@ -32,9 +32,22 @@ if ( file_exists( "config.php" ) )
 
 // Setup, includes
 //{
-if ( !@include( 'ezc/Base/base.php' ) )
+$useBundledComponents = defined( 'EZP_USE_BUNDLED_COMPONENTS' ) ? EZP_USE_BUNDLED_COMPONENTS === true : file_exists( 'lib/ezc' );
+if ( $useBundledComponents )
 {
-    require "Base/src/base.php";
+    set_include_path( './lib/ezc' . PATH_SEPARATOR . get_include_path() );
+    require 'Base/src/base.php';
+}
+else if ( defined( 'EZC_BASE_PATH' ) )
+{
+    require EZC_BASE_PATH;
+}
+else
+{
+    if ( !@include 'ezc/Base/base.php' )
+    {
+        require 'Base/src/base.php';
+    }
 }
 
 require 'kernel/private/classes/ezautoloadgenerator.php';

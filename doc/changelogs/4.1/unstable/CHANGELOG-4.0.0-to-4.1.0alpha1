@@ -75,6 +75,7 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Implemented enhancement #13587: misc enhancements for ezuser (username validation, login_count)
 - Implemented enhancement #14133: Batch initialization of object attributes
 - Implemented enhancement #14130: Possibility to only set http headers for anonymous users
+- Implemented enhancement #14117: Make bundled eZ Components possible
 
 *Design:
 
