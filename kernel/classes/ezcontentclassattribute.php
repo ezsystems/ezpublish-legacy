@@ -688,7 +688,7 @@ class eZContentClassAttribute extends eZPersistentObject
      * Resolves the string class attribute identifier $identifier to its numeric value
      * Use {@link eZContentObjectTreeNode::classAttributeIDByIdentifier()} for < 4.1.
      * If multiple classes have the same identifier, the first found is returned.
-     * 
+     *
      * @static
      * @since Version 4.1
      * @return int|false Returns classattributeid or false
@@ -705,7 +705,7 @@ class eZContentClassAttribute extends eZPersistentObject
 
     /**
      * Resolves the numeric class attribute identifier $id to its string value
-     * 
+     *
      * @static
      * @since Version 4.1
      * @return string|false Returns classattributeidentifier or false
@@ -726,7 +726,7 @@ class eZContentClassAttribute extends eZPersistentObject
     /**
      * Returns the class attribute identifier hash for the current database.
      * If it is outdated or non-existent, the method updates/generates the file
-     * 
+     *
      * @static
      * @since Version 4.1
      * @access protected

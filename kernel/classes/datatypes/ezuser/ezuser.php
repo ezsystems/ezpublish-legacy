@@ -1280,7 +1280,7 @@ WHERE user_id = '" . $userID . "' AND
 
     /**
      * Returns the login count for the current user.
-     * 
+     *
      * @since Version 4.1
      * @return int Login count for current user.
      */
@@ -2775,7 +2775,7 @@ WHERE user_id = '" . $userID . "' AND
 
     /**
      * Validates user login name using site.ini[UserSettings]UserNameValidationRegex[]
-     * 
+     *
      * @static
      * @since Version 4.1
      * @param string $loginName that we want to validate.
@@ -2803,7 +2803,7 @@ WHERE user_id = '" . $userID . "' AND
 
     /**
      * Gets the id of the anonymous user.
-     * 
+     *
      * @static
      * @return int User id of anonymous user.
      */

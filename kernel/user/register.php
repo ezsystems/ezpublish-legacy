@@ -116,7 +116,7 @@ if ( !function_exists( 'checkContentActions' ) )
             }
             else
             {
-               eZRedirectManager::redirectTo( $module, '/' ); 
+               eZRedirectManager::redirectTo( $module, '/' );
             }
 
             $version->removeThis();

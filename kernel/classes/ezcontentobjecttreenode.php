@@ -5032,7 +5032,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     /**
      * Get parent node id's by content object id's.
-     * 
+     *
      * @static
      * @since Version 4.1
      * @param int|array $objectIDs

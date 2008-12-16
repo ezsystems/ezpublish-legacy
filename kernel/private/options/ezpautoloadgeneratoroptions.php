@@ -10,20 +10,20 @@
 
 /**
  * Class containing options for eZAutoloadGenerator
- * 
+ *
  * @property string $basePath
  *      Contains the base path from which to root the search, and from which
  *      to create relative paths
- * 
+ *
  * @property bool $searchKernelFiles
  *      Control whether to search the kernel classes
- * 
+ *
  * @property bool $searchKernelOverride
  *      Control whether to search for kernel overrides in extensions.
- * 
+ *
  * @property bool $searchExtensionFiles
  *      Control whether to search for classes in extensions
- * 
+ *
  * @property bool $searchTestFiles
  *      Control whether to search for classes in the test system
  *
