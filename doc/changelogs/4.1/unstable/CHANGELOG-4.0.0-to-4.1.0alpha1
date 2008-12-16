@@ -481,3 +481,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #14077: eZURLAliasML database table lock and unlock code causes implicit commit of database transaction
 - Fixed bug #14150: Incorrect test in eZDBFileHandlerMysqlBackend::_exists()
 - Fixed bug #14153: Problems with image cluster script if $_SERVER["SCRIPT_URL"] does not exist
+- Fixed bug #14155: Warning given when empty string given as input to formatDateType() and formatDateTimeType() in eZLocale
