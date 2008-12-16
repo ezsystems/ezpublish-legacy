@@ -13,6 +13,8 @@ Changes from 4.0.1 to 4.0.2
 - Implemented enhancement #13014: Built-in special character control for user login (similar to passwords)
 - Implemented enhancement #14130: Possibility to only set http headers for anonymous users
   (Merged from trunk (4.1.0alpha1) rev. 22684, 22685)
+- Implemented enhancement #14144: Handle deletes in a more clever way in eZ Cluster
+  (Merged from trunk rev. 22690)
 
 *Design:
 
@@ -171,7 +173,7 @@ Changes from 4.0.1 to 4.0.2
 - Fixed bug #13856: cleanupList missing static declaration
   (Merged from trunk (4.1.0alpha1) rev. 22583)
 - Fixed bug #13951: multiprice datatype - missing initializeObjectAttribute function.
-  (Merged from trunk (4.1.0alpha1) rev. 22586) 
+  (Merged from trunk (4.1.0alpha1) rev. 22586)
 - Fixed bug #13962: The script updatesearchindex.php is not usable with PostgreSQL
   (Merged from trunk (4.1.0alpha1) rev. 22588)
 - Fixed bug #13048: db port parameter can be specified in setup wizard but is not taken into account
