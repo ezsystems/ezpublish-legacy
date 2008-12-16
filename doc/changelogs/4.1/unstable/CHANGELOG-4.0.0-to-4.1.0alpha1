@@ -77,6 +77,7 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Implemented enhancement #14130: Possibility to only set http headers for anonymous users
 - Implemented enhancement #14117: Make bundled eZ Components possible
 - Implemented enhancement #14135: Remove unusable openfts code
+- Implemented enhancement #14134: Remove unused lib/ezdbschema/tests
 
 *Design:
 
