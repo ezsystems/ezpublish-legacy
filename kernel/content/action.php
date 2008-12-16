@@ -206,7 +206,10 @@ else if ( $http->hasPostVariable( 'SetSorting' ) &&
 
     // invalidate node view cache
     eZContentCacheManager::clearContentCache( $contentObjectID );
-
+    if ( $http->hasPostVariable( 'RedirectURIAfterSorting' ) )
+    {
+        return $module->redirectTo( $http->postVariable( 'RedirectURIAfterSorting' ) );
+    }
     return $module->redirectToView( 'view', array( 'full', $nodeID, $languageCode ) );
 }
 else if ( $module->isCurrentAction( 'MoveNode' ) )
@@ -1255,6 +1258,10 @@ else if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
         eZContentCacheManager::clearContentCache( $objectID );
     }
 
+    if ( $http->hasPostVariable( 'RedirectURIAfterPriority' ) )
+    {
+        return $module->redirectTo( $http->postVariable( 'RedirectURIAfterPriority' ) );
+    }
     $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $contentNodeID . '/' );
     return;
 }

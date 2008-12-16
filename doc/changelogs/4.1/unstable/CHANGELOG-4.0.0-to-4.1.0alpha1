@@ -79,6 +79,7 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Implemented enhancement #14135: Remove unusable openfts code
 - Implemented enhancement #14134: Remove unused lib/ezdbschema/tests
 - Implemented enhancement #14144: Handle deletes in a more clever way in eZ Cluster
+- Implemented enhancement #14151: Add possibility to redirect after soring and priority change [patch]
 
 *Design:
 
