@@ -1481,6 +1481,15 @@ CREATE TABLE ezurlalias_ml (
 
 
 
+CREATE TABLE ezurlalias_ml_incr (
+  id int(11) NOT NULL auto_increment,
+  PRIMARY KEY  (id)
+) TYPE=InnoDB;
+
+
+
+
+
 CREATE TABLE ezurlwildcard (
   destination_url longtext NOT NULL,
   id int(11) NOT NULL auto_increment,
@@ -1560,8 +1569,8 @@ CREATE TABLE ezuservisit (
   current_visit_timestamp int(11) NOT NULL default '0',
   failed_login_attempts int(11) NOT NULL default '0',
   last_visit_timestamp int(11) NOT NULL default '0',
-  user_id int(11) NOT NULL default '0',
   login_count int(11) NOT NULL default '0',
+  user_id int(11) NOT NULL default '0',
   PRIMARY KEY  (user_id),
   KEY ezuservisit_co_visit_count (current_visit_timestamp,login_count)
 ) TYPE=InnoDB;

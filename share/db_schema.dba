@@ -6712,6 +6712,29 @@ $schema = array (
       ),
     ),
   ),
+  'ezurlalias_ml_incr' => 
+  array (
+    'name' => 'ezurlalias_ml_incr',
+    'fields' => 
+    array (
+      'id' => 
+      array (
+        'type' => 'auto_increment',
+        'default' => false,
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'id',
+        ),
+      ),
+    ),
+  ),
   'ezurlwildcard' => 
   array (
     'name' => 'ezurlwildcard',
@@ -7019,14 +7042,14 @@ $schema = array (
         'not_null' => '1',
         'default' => 0,
       ),
-      'user_id' => 
+      'login_count' => 
       array (
         'length' => 11,
         'type' => 'int',
         'not_null' => '1',
         'default' => 0,
       ),
-      'login_count' => 
+      'user_id' => 
       array (
         'length' => 11,
         'type' => 'int',

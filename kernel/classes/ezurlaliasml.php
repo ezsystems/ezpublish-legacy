@@ -237,18 +237,9 @@ class eZURLAliasML extends eZPersistentObject
     */
     function store( $fieldFilters = null )
     {
-        $locked = false;
         if ( $this->ID === null )
         {
-            $locked = true;
-            $db = eZDB::instance();
-            $db->lock( "ezurlalias_ml" );
-            $query = "SELECT max( id ) + 1 AS id FROM ezurlalias_ml";
-            $rows = $db->arrayQuery( $query );
-            $id = (int)$rows[0]['id'];
-            if ( $id == 0 )
-                $id = 1;
-            $this->ID = $id;
+            $this->ID = self::getNewID();
         }
         if ( $this->Link === null )
         {
@@ -272,10 +263,6 @@ class eZURLAliasML extends eZPersistentObject
         }
 
         eZPersistentObject::store( $fieldFilters );
-        if ( $locked )
-        {
-            $db->unlock();
-        }
     }
 
     /*!
@@ -613,13 +600,7 @@ class eZURLAliasML extends eZPersistentObject
                 $idtmp = (int)$row['id'];
                 if ( $idtmp == $newElementID )
                 {
-                    $db->lock( "ezurlalias_ml" );
-                    $query = "SELECT max( id ) + 1 AS id FROM ezurlalias_ml";
-                    $rowstmp = $db->arrayQuery( $query );
-                    $idtmp = (int)$rowstmp[0]['id'];
-                    if ( $idtmp == 0 )
-                        $idtmp = 1;
-                    $db->unlock();
+                    $idtmp = self::getNewID();
                 }
                 $parentIDTmp = (int)$row['parent'];
                 $textMD5Tmp = eZURLALiasML::md5( $db, $row['text'] );
@@ -2205,6 +2186,20 @@ class eZURLAliasML extends eZPersistentObject
         return $db->md5( "'" . $text . "'" );
     }
 
+    static function getNewID()
+    {
+        $db = eZDB::instance();
+        if ( $db->supportsDefaultValuesInsertion() )
+        {
+            $db->query( 'INSERT INTO ezurlalias_ml_incr DEFAULT VALUES' );
+        }
+        else
+        {
+            $db->query( 'INSERT INTO ezurlalias_ml_incr(id) VALUES(DEFAULT)' );
+        }
+
+        return $db->lastSerialID( 'ezurlalias_ml_incr', 'id' );
+    }
 }
 
 ?>
