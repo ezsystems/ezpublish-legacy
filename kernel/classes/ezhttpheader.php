@@ -62,12 +62,12 @@ class eZHTTPHeader
                  && $ini->hasVariable( 'HTTPHeaderSettings', 'OnlyForAnonymous' )
                  && $ini->variable( 'HTTPHeaderSettings', 'OnlyForAnonymous' ) === 'enabled' )
             {
-            	$user = eZUser::currentUser();
+                $user = eZUser::currentUser();
                 $GLOBALS['eZHTTPHeaderCustom'] = !$user->isLoggedIn();
             }
             else
             {
-            	$GLOBALS['eZHTTPHeaderCustom'] = $ini->variable( 'HTTPHeaderSettings', 'CustomHeader' ) == 'enabled';
+                $GLOBALS['eZHTTPHeaderCustom'] = $ini->variable( 'HTTPHeaderSettings', 'CustomHeader' ) == 'enabled';
             }
         }
 
