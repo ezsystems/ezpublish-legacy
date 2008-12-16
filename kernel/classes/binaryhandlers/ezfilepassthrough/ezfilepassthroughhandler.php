@@ -116,7 +116,7 @@ class eZFilePassthroughHandler extends eZBinaryFileHandler
      *
      * This method returns "attachment" if no setting for the mime type is found.
      *
-     * @param string $mimetype 
+     * @param string $mimetype
      * @return string "attachment" or "inline"
      */
     protected static function dispositionType( $mimeType )

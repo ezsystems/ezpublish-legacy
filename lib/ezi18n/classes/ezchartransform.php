@@ -341,7 +341,7 @@ class eZCharTransform
         $php->addComment( "Type: $type" );
         $php->addComment( "Charset: $charsetName" );
         $php->addComment( "Cached transformation data" );
-       
+
         $php->addCodePiece( '$data = ' . eZCharTransform::varExport( $transformationData ) . ";\n" );
         $php->addCodePiece( "\$text = strtr( \$text, \$data['table'] );\n" );
 

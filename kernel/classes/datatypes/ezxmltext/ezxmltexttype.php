@@ -156,14 +156,14 @@ class eZXMLTextType extends eZDataType
 
     /**
      * Method triggered on publish for xml text datatype
-     * 
+     *
      * This method makes sure that links from all translations of an xml text
      * are registered in the ezurl_object_link table, and thus retained, if
-     * previous versions of an object are removed. 
+     * previous versions of an object are removed.
      *
-     * @param eZContentObjectAttribute $contentObjectAttribute 
-     * @param eZContentObject $object 
-     * @param array $publishedNodes     
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @param eZContentObject $object
+     * @param array $publishedNodes
      * @return boolean
      */
     function onPublish( $contentObjectAttribute, $object, $publishedNodes )

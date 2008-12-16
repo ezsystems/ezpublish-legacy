@@ -363,10 +363,10 @@ class eZPostgreSQLDB extends eZDBInterface
         if ( $this->isConnected() )
         {
             $sql = "SELECT COUNT( relname ) as count
-                    FROM pg_catalog.pg_class c 
-                    LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace 
+                    FROM pg_catalog.pg_class c
+                    LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
                     WHERE ( $relkindText )
-                          AND c.relname !~ '^pg_' 
+                          AND c.relname !~ '^pg_'
                           AND pg_catalog.pg_table_is_visible(c.oid)";
             $array = $this->arrayQuery( $sql, array( 'column' => 'count' ) );
             $count = $array[0];
@@ -390,10 +390,10 @@ class eZPostgreSQLDB extends eZDBInterface
         if ( $this->isConnected() )
         {
             $sql = "SELECT COUNT( relname ) as count
-                    FROM pg_catalog.pg_class c 
-                    LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace 
-                    WHERE c.relkind = '$relationKind' 
-                          AND c.relname !~ '^pg_' 
+                    FROM pg_catalog.pg_class c
+                    LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+                    WHERE c.relkind = '$relationKind'
+                          AND c.relname !~ '^pg_'
                           AND pg_catalog.pg_table_is_visible(c.oid)";
             $array = $this->arrayQuery( $sql, array( 'column' => 'count' ) );
             $count = $array[0];
@@ -418,10 +418,10 @@ class eZPostgreSQLDB extends eZDBInterface
         if ( $this->isConnected() )
         {
             $sql = "SELECT relname
-                    FROM pg_catalog.pg_class c 
-                    LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace 
-                    WHERE c.relkind = '$relationKind' 
-                          AND c.relname !~ '^pg_' 
+                    FROM pg_catalog.pg_class c
+                    LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+                    WHERE c.relkind = '$relationKind'
+                          AND c.relname !~ '^pg_'
                           AND pg_catalog.pg_table_is_visible( c.oid )";
             $array = $this->arrayQuery( $sql, array( 'column' => 'relname' ) );
         }
