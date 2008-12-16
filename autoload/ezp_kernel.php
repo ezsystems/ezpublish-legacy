@@ -536,7 +536,6 @@ return array(
       'eZXMLTextType'                      => 'kernel/classes/datatypes/ezxmltext/ezxmltexttype.php',
       'eZi18nOperator'                     => 'kernel/common/ezi18noperator.php',
       'ezpAutoloadGeneratorOptions'        => 'kernel/private/options/ezpautoloadgeneratoroptions.php',
-      'ezpUrlObjectLinkUpdate'             => 'update/common/scripts/4.1/fixezurlobjectlinks.php',
       'openFts'                            => 'kernel/search/plugins/openfts/openfts.php',
       'smtp'                               => 'lib/ezutils/classes/ezsmtp.php',
     );
