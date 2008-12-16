@@ -1040,7 +1040,13 @@ class eZLocale
     function formatDateType( $fmt, $date = false )
     {
         if ( $date === false )
+        {
             $date = time();
+        }
+        else if ( empty( $date ) )
+        {
+            $date = 0;
+        }
 
         $text = date( eZLocale::transformToPHPFormat( $fmt, $this->DatePHPArray ), $date );
         return str_replace( array( '%D', '%l', '%M', '%F' ),
@@ -1059,7 +1065,13 @@ class eZLocale
     function formatDateTimeType( $fmt, $datetime = false )
     {
         if ( $datetime === false )
+        {
             $datetime = time();
+        }
+        else if ( empty( $datetime ) )
+        {
+            $datetime = 0;
+        }
 
         $text = date( eZLocale::transformToPHPFormat( $fmt, $this->DateTimePHPArray ), $datetime );
         // Replace some special 'date' formats that needs to be handled
