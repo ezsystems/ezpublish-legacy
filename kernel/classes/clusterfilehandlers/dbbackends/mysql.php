@@ -160,7 +160,8 @@ class eZDBFileHandlerMysqlBackend
         $sql = "SELECT filedata, offset FROM " . TABLE_DATA . " WHERE name_hash=" . $this->_md5( $srcFilePath ) . " ORDER BY offset";
         if ( !$res = $this->_query( $sql, $fname ) )
         {
-            return $this->_fail( $srcFilePath, "Failed to fetch source file data on copying." );
+            eZDebug::writeError( "Failed to fetch source file '$srcFilePath' data on copying.", __METHOD__ );
+            return false;
         }
 
         $offset = 0;
@@ -382,7 +383,7 @@ class eZDBFileHandlerMysqlBackend
                                      $fname, "Failed to check file '$filePath' existance: ", true );
         if ( $row === false )
             return false;
-        $rc = $row[0][1] >= 0;
+        $rc = $row[1] >= 0;
         return $rc;
     }
 
@@ -445,7 +446,6 @@ class eZDBFileHandlerMysqlBackend
             $tmpFilePath = substr_replace( $filePath, getmypid().'tmp', strrpos( $filePath, '.' ), 0  );
         else
             $tmpFilePath = $filePath . '.' . getmypid().'tmp';
-//        $tmpFilePath = $filePath.getmypid().'tmp';
         $this->__mkdir_p( dirname( $tmpFilePath ) );
 
         if ( !( $fp = fopen( $tmpFilePath, 'wb' ) ) )
