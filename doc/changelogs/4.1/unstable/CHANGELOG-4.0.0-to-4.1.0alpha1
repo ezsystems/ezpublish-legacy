@@ -78,6 +78,7 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Implemented enhancement #14117: Make bundled eZ Components possible
 - Implemented enhancement #14135: Remove unusable openfts code
 - Implemented enhancement #14134: Remove unused lib/ezdbschema/tests
+- Implemented enhancement #14144: Handle deletes in a more clever way in eZ Cluster
 
 *Design:
 
@@ -477,3 +478,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #13952: Workflow cronjob gives fatal error if node is moved to different location before approval.
 - Fixed bug #12675: share/filelist.md5 : is missing all css and javascript files
 - Fixed bug #14077: eZURLAliasML database table lock and unlock code causes implicit commit of database transaction
+- Fixed bug #14150: Incorrect test in eZDBFileHandlerMysqlBackend::_exists()
