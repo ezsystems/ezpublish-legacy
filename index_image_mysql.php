@@ -30,7 +30,7 @@ if ( !$db )
 if ( !mysql_select_db( STORAGE_DB, $db ) )
     _die( "Unable to select database " . STORAGE_DB . ".\n" );
 
-$filename = ltrim( $_SERVER['SCRIPT_URL'], "/");
+$filename = ltrim( $_SERVER['REQUEST_URI'], "/");
 
 // Fetch file metadata.
 $filePathHash = mysql_real_escape_string( $filename );

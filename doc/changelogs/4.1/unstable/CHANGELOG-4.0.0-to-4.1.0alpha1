@@ -480,3 +480,4 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Fixed bug #12675: share/filelist.md5 : is missing all css and javascript files
 - Fixed bug #14077: eZURLAliasML database table lock and unlock code causes implicit commit of database transaction
 - Fixed bug #14150: Incorrect test in eZDBFileHandlerMysqlBackend::_exists()
+- Fixed bug #14153: Problems with image cluster script if $_SERVER["SCRIPT_URL"] does not exist
