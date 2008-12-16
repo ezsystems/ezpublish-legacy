@@ -6553,6 +6553,29 @@ $schema = array (
       ),
     ),
   ),
+  'ezurlalias_ml_incr' => 
+  array (
+    'name' => 'ezurlalias_ml_incr',
+    'fields' => 
+    array (
+      'id' => 
+      array (
+        'type' => 'auto_increment',
+        'default' => false,
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'id',
+        ),
+      ),
+    ),
+  ),
   'ezurlwildcard' => 
   array (
     'name' => 'ezurlwildcard',

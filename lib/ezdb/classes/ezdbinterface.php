@@ -1348,6 +1348,11 @@ class eZDBInterface
         return $result;
     }
 
+    function supportsDefaultValuesInsertion()
+    {
+        return true;
+    }
+
     /// \protectedsection
     /// Contains the current server
     public $Server;

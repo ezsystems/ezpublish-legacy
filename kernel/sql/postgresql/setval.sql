@@ -76,3 +76,4 @@ SELECT setval('ezworkflow_group_s',max(id)+1) FROM ezworkflow_group;
 SELECT setval('ezworkflow_process_s',max(id)+1) FROM ezworkflow_process;
 SELECT setval('ezworkflow_s',max(id)+1) FROM ezworkflow;
 SELECT setval('ezurlwildcard_s',max(id)+1) FROM ezurlwildcard;
+SELECT setval('ezurlalias_ml_incr_s',max(id)+1) FROM ezurlalias_ml_incr;
