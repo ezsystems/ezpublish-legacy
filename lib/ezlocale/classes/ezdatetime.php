@@ -185,15 +185,15 @@ class eZDateTime
     /*!
      Sets the locale to $locale which is used in text output.
     */
-    function setLocale( &$locale )
+    function setLocale( $locale )
     {
-        $this->Locale =& $locale;
+        $this->Locale = $locale;
     }
 
     /*!
-     Returns a reference to the current locale.
+     Returns the current locale.
     */
-    function &locale()
+    function locale()
     {
         return $this->Locale;
     }
@@ -473,7 +473,7 @@ class eZDateTime
      date values $month, $day and $year and returns a reference to it.
      Any value can be ommitted or set to -1 to use the current date or time value.
     */
-    function create( $hour = -1, $minute = -1, $second = -1, $month = -1, $day = -1, $year = -1 )
+    static function create( $hour = -1, $minute = -1, $second = -1, $month = -1, $day = -1, $year = -1 )
     {
         if ( $year != -1 )
             $datetime = mktime( $hour, $minute, $second, $month, $day, $year );

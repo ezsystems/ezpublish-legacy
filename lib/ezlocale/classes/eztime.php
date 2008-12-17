@@ -294,7 +294,7 @@ class eZTime
      Creates a new eZTime object with the time values $hour, $min and $sec and returns a reference to it.
      Any value can be ommitted or set to -1 to use the current time value.
     */
-    function create( $hour = -1, $minute = -1, $second = -1 )
+    static function create( $hour = -1, $minute = -1, $second = -1 )
     {
         $cur_date = getdate();
 
@@ -364,9 +364,10 @@ class eZTime
 
     /*!
      \static
+     \deprecated Use eZTime::SECONDS_A_DAY instead
      Get number of seconds per day
     */
-    function secondsPerDay()
+    static function secondsPerDay()
     {
         return self::SECONDS_A_DAY;
     }

@@ -148,7 +148,7 @@ class eZDate
     }
 
     /*!
-     Returns a reference to the current locale.
+     Returns the current locale.
     */
     function locale()
     {
@@ -295,7 +295,7 @@ class eZDate
      Creates a new eZDate object with the date values $month, $day and $year and returns a reference to it.
      Any value can be ommitted or set to 0 to use the current date value.
     */
-    function create( $month, $day = 0, $year = 0 )
+    static function create( $month, $day = 0, $year = 0 )
     {
         if ( $year != 0 )
             $date = mktime( 0, 0, 0, $month, $day, $year );
