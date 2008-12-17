@@ -1,0 +1,180 @@
+eZ Publish 4.1 autoload refinement design
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:Author: Ole Marius Smestad
+:Revision: $Revision$
+:Date: $Date$
+
+Overview
+========
+
+The following list describes initialisation of eZ Publish with regard to
+setting up the autoload arrays.
+
+#. autoload.php is loaded
+
+#. config.php is loaded if exists
+
+   - This file might alter the include_path
+
+   - a method might be pushed on the PHP autoload method stack
+   
+#. spl_autoload_register is called with the eZ Publish standard autoload
+   method
+
+The autoload method
+===================
+
+In eZ Publish 4.1 an autoload method is provided to load classes for the core
+system, ezpAutoload(). It will load the kernel classes as is done in
+the 4.0.x-branch.
+
+Simplification of concept
+=========================
+
+The way that kernel overrides are loaded will be changed. Whether or not
+kernel overrides should be allowed, is controlled by the constant
+'EZP_AUTOLOAD_ALLOW_KERNEL_OVERRIDE.' This can be set to true in config.php to
+allow kernel classes to be overridden.
+
+The other change is that classes are accessible, regardless of the state of
+the extension they lie in. It can be activated or not. This is a change which
+simplifies our implementation, but also makes it simpler for users to
+understand, and to interact with the system. Without getting different results
+depending whether the autoloads were generated on the command-line or in the
+GUI.
+
+This implies that the autoload generation performed in the extension view in
+the administration-interface will be updated to generate autoloads for all
+extensions regardless of being enabled or not.
+
+Change of autoload file location
+================================
+
+All autoload files which the user is supposed to write to, are now placed in
+the var/autoload directory, to be more in line with the overall
+file-permissions.
+
+The <root>/autoload/ still contains the system provided kernel autoload array,
+this is supposed to be a read-only file, and provide the system defaults,
+required to run eZ Publish.
+
+Changes to the autoload generator systems
+=========================================
+
+- The various operation modes, automatically set the proper target
+  directory. The target directory can always be overridden with options.
+
+- Class duplication check will be done as each new class is processed.
+  The provided kernel array, and already-scanned extension classes will be
+  inspected for possible name collisions. To filter for kernel overrides the
+  autoload array needs to be present on the system.
+
+  If a collision is detected, a warning will be issued, duplicate classes
+  which are found are not added to any autoload arrays. The only exception is
+  for kernel overrides, but then only one class can override a kernel class at
+  a time. If there are multiple kernel overrides, a warning will be issued.
+
+- [TODO] In order to simplify the autoload generation, where users might have
+  additional folders in their eZ Publish directory, detected while be used
+  rather than blacklisting.
+
+- Change of separator symbol for directory exclusion list, from SPACE to
+  COMMA, in order to support folder names with spaces in them.
+
+Changes to eZAutoloadGenerator class
+====================================
+
+eZAutoloadGenerator have received some new public methods, aimed at making the
+class more usable in different contexts, these are for the most part related
+to getting output and feedback from the autoload generation process.
+
+The constructor to the class is also greatly simplified, accepting only an
+options object, instead of a lengthy list of of parameters. By omitting this
+options object, an options object with default values will be created for you.
+
+In this case the generator will construct autoload arrays for the extensions
+of the site.
+
+By using the class to generate autoloads, no output will be made by default.
+Messages and warnings created, are stored away in two arrays, the contents of
+which, can be fetched via the getMessages() and getWarnings() methods. These
+methods can then be processed in any way desired.
+
+Description of new methods following:
+
+getMessages
+-----------
+::
+
+    /**
+     * Get the array of logged messaages
+     *
+     * @return array
+     */
+    public function getMessages()
+
+getWarnings
+-----------
+::
+
+    /**
+     * Get the array of logged warnings
+     *
+     * @return array
+     */
+    public function getWarnings()
+
+printAutoloadArray
+------------------
+::
+
+    /**
+     * Prints out the generated autoload arrays.
+     *
+     * Meant to provide a user-viewable output of the defined autoload arrays.
+     * If <var>$printForMode</var> is provided, only the array for that mode
+     * will be printed.
+     *
+     * @param string $printForMode Run mode specified by the MODE_* constants.
+     * @return mixed
+     */
+    public function printAutoloadArray( $printForMode = null )
+
+setOutputCallback
+-----------------
+::
+
+    /**
+     * Sets callback for outputting messages.
+     *
+     * @param callback $callback
+     * @return void
+     */
+    public function setOutputCallback( $callback )
+    
+This method can be used when the eZAutoloadGenerator is used in CLI-scripts
+and the like to get immediate output. Internally eZAutoloadGenerator will
+forward messages and warnings to the callback, if it is defined.
+
+setMode
+-------
+::
+
+    /**
+     * Convenience method to set the mode directly.
+     *
+     * This is a method which allow you to set the operation mode directly and
+     * bypass the options object. The bitmask <var>$modeValue</var> can be set
+     * using the MODE_* class constants.
+     *
+     * <code>
+     * $gen = new eZAutoloadGenerator();
+     * $gen->setMode( eZAutoloadGenerator::MODE_EXTENSION | eZAutoloadGenerator::MODE_TESTS );
+     * </code>
+     *
+     * @param int $modeValue
+     * @return void
+     */
+    public function setMode( $modeValue )
+
