@@ -1095,6 +1095,40 @@ class eZDBFileHandlerMysqlBackend
         return $this->_fail( "Failed to perform exclusive lock on file $filePath" );
     }
 
+    /**
+    * Uses a secondary database connection to check outside the transaction scope
+    * if a file has been generated during the current process execution
+    * @param string $filePath
+    * @param int $expiry
+    * @param int $curtime
+    * @param int $ttl
+    * @param string $fname
+    * @return bool false if the file exists and is not expired, true otherwise
+    **/
+    function _verifyExclusiveLock( $filePath, $expiry, $curtime, $ttl, $fname = false )
+    {
+        // we need to create a new backend connection in order to be outside the
+        // current transaction scope
+        if ( $this->backendVerify === null )
+        {
+            $backendclass = get_class( $this );
+            $this->backendVerify = new $backendclass( $filePath );
+            $this->backendVerify->_connect( true );
+        }
+
+        // we then check the file metadata in this scope to see if it was created
+        // in between
+        $metaData = $this->backendVerify->_fetchMetadata( $filePath );
+        if ( $metaData !== false )
+        {
+            $mtime = $metaData['mtime'];
+            $expiry = max( $curtime, $expiry );
+            if ( $mtime > 0 && !eZDBFileHandler::isExpired( $filePath, $mtime, $expiry, $curtime, $ttl ) )
+                return false;
+        }
+        return true;
+    }
+
     function _sharedLock( $filePath, $fname = false )
     {
         if ( $fname )
@@ -1378,6 +1412,7 @@ class eZDBFileHandlerMysqlBackend
     public $numQueries = 0;
     public $transactionCount = 0;
     public $dbparams;
+    private $backendVerify = null;
 }
 
 ?>
