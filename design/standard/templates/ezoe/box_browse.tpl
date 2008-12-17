@@ -1,6 +1,9 @@
 {default embed_mode         = true()
          class_filter_array = array()
-         root_nodes         = fetch('content', 'list', hash( 'parent_node_id', 1 ))
+         root_nodes         = array(
+            fetch('content', 'node', hash( 'node_id', ezini( 'NodeSettings', 'RootNode', 'content.ini' ) )),
+            fetch('content', 'node', hash( 'node_id', ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) )),
+            fetch('content', 'node', hash( 'node_id', ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) )) )
          has_access         = fetch( 'user', 'has_access_to', hash( 'module', 'ezoe',
                                                                     'function', 'browse' ) )}
     <div class="panel" style="display: none; position: relative;">
