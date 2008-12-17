@@ -84,6 +84,7 @@ Changes from 4.0.0 to 4.1.0alpha1
   Moved generation while locked test to a backend method, eZDBFileHandlerMySQLBackend::_verifyExclusiveLock()
   Cleaned up eZDBFileHandler::processCache (removed a few unused variables, optimized a few tests)
   Made eZDBFileHandler::isExpired() declaration static (it is statically used everywhere)
+- Implemented enhancement #13576: Remove VS-DBFILE and SP-DBFILE comment markers
 
 *Design:
 

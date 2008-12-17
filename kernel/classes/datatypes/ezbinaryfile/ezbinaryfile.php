@@ -87,7 +87,6 @@ class eZBinaryFile extends eZPersistentObject
     {
         $fileInfo = $this->storedFileInfo();
 
-        // VS-DBFILE
         $file = eZClusterFileHandler::instance( $fileInfo['filepath'] );
         if ( $file->exists() )
         {
@@ -218,7 +217,6 @@ class eZBinaryFile extends eZPersistentObject
                 $parserObject = new $class( );
                 $fileInfo = $this->storedFileInfo();
 
-                // VS-DBFILE
                 $file = eZClusterFileHandler::instance( $fileInfo['filepath'] );
                 if ( $file->exists() )
                 {

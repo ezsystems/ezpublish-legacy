@@ -488,7 +488,6 @@ class eZURLWildcard extends eZPersistentObject
             eZDir::mkdir( $wildcardCacheDir, false, true );
         }
 
-        // VS-DBFILE
         $phpCacheIndex = new eZPHPCreator( $wildcardCacheDir, $wildcardCacheFile . "_index.php", '', array( 'clustering' => 'wildcard-cache-index' ) );
 
         foreach ( $wildcardKeys as $wildcardKey => $wildcardKeyValue )
@@ -514,7 +513,6 @@ class eZURLWildcard extends eZPersistentObject
                 break;
             }
 
-            // VS-DBFILE
             $phpCache = new eZPHPCreator( $wildcardCacheDir, $wildcardCacheFile . "_$cacheFilesCount.php", '', array( 'clustering' => 'wildcard-cache-' . $cacheFilesCount ) );
 
             foreach ( $wildcardKeys as $wildcardKey => $wildcardKeyValue )
@@ -658,8 +656,6 @@ class eZURLWildcard extends eZPersistentObject
     {
         $info = eZURLWildcard::cacheInfo();
 
-        // VS-DBFILE
-
         $cacheFile = eZClusterFileHandler::instance( $info['path'] . "_index.php" );
 
         return $cacheFile;
@@ -673,14 +669,10 @@ class eZURLWildcard extends eZPersistentObject
     {
         $info = eZURLWildcard::cacheInfo();
 
-        // VS-DBFILE
-
         $cacheFile = eZClusterFileHandler::instance( $info['path'] . "_index.php" );
 
         if ( !$cacheFile->exists() )
             return false;
-
-        // VS-DBFILE
 
         $fetchedFilePath = $cacheFile->fetchUnique();
         include_once( $fetchedFilePath );
@@ -709,7 +701,6 @@ function eZURLWildcardTranslateWithCache( $wildcardNum, &$uri, &$wildcardInfo, $
     $info = eZURLWildcard::cacheInfo();
     $cacheFileName = $info['path'] . "_$cacheFileNum" . ".php";
 
-    // VS-DBFILE
     $cacheFile = eZClusterFileHandler::instance( $cacheFileName );
 
     if ( !$cacheFile->exists() )
@@ -717,8 +708,6 @@ function eZURLWildcardTranslateWithCache( $wildcardNum, &$uri, &$wildcardInfo, $
         eZDebugSetting::writeDebug( 'kernel-urltranslator', "eZURLWildcardTranslateWithCache:: no cache file '$cacheFileName'", 'eZURLWildcardTranslateWithCache' );
         return false;
     }
-
-    // VS-DBFILE
 
     $fetchedFilePath = $cacheFile->fetchUnique();
     include_once( $fetchedFilePath );

@@ -104,8 +104,6 @@ class eZMediaType extends eZDataType
                 if ( $fileName == '' )
                     continue;
 
-                // VS-DBFILE
-
                 $file = eZClusterFileHandler::instance( $orig_dir . "/" . $fileName );
                 if ( $file->exists() )
                     $file->delete();
@@ -130,8 +128,6 @@ class eZMediaType extends eZDataType
                 }
                 if ( $count == 1 && $currentFileName != '' )
                 {
-                    // VS-DBFILE
-
                     $file = eZClusterFileHandler::instance( $orig_dir . "/" . $currentFileName );
                     if ( $file->exists() )
                         $file->delete();
@@ -314,9 +310,6 @@ class eZMediaType extends eZDataType
             $media->setAttribute( "original_filename", $mediaFile->attribute( "original_filename" ) );
             $media->setAttribute( "mime_type", $mime );
 
-            // VS-DBFILE
-
-            //$filePath = $media->attribute( 'original_filename' );
             $filePath = $mediaFile->attribute( 'filename' );
             $fileHandler = eZClusterFileHandler::instance();
             $fileHandler->fileStore( $filePath, 'media', true, $mime );
@@ -419,8 +412,6 @@ class eZMediaType extends eZDataType
         $media->setAttribute( "has_controller", $hasController );
         $media->setAttribute( "is_loop", $isLoop );
 
-        // SP-DBFILE
-
         $filePath = $httpFile->attribute( 'filename' );
         $fileHandler = eZClusterFileHandler::instance();
         $fileHandler->fileStore( $filePath, 'mediafile', true, $mimeData['name'] );
@@ -476,7 +467,6 @@ class eZMediaType extends eZDataType
 
         copy( $filePath, $destination );
 
-        // SP-DBFILE
         $fileHandler = eZClusterFileHandler::instance();
         $fileHandler->fileStore( $destination, 'mediafile', true, $mimeData['name'] );
 
@@ -792,8 +782,6 @@ class eZMediaType extends eZDataType
         $mediaFile->setAttribute( 'pluginspage', $mediaNode->getAttribute( 'plugins-page' ) );
         $mediaFile->setAttribute( 'quality', $mediaNode->getAttribute( 'quality' ) );
         $mediaFile->setAttribute( 'is_loop', $mediaNode->getAttribute( 'is-loop' ) );
-
-        // VS-DBFILE
 
         $fileHandler = eZClusterFileHandler::instance();
         $fileHandler->fileStore( $destinationPath . $basename, 'mediafile', true );

@@ -462,8 +462,6 @@ class eZCache
     {
         $cachePath = eZSys::cacheDirectory();
 
-        // VS-DBFILE
-
         $fileHandler = eZClusterFileHandler::instance();
         $fileHandler->fileDelete( $cachePath, 'classidentifiers_' );
         $fileHandler->fileDelete( $cachePath, 'classattributeidentifiers_' );
@@ -477,8 +475,6 @@ class eZCache
     static function clearSortKey( $cacheItem )
     {
         $cachePath = eZSys::cacheDirectory();
-
-        // VS-DBFILE
 
         $fileHandler = eZClusterFileHandler::instance();
         $fileHandler->fileDelete( $cachePath, 'sortkey_' );

@@ -302,7 +302,6 @@ class eZBinaryFileType extends eZDataType
 
             $binary->store();
 
-            // VS-DBFILE
             $filePath = $binaryFile->attribute( 'filename' );
             $fileHandler = eZClusterFileHandler::instance();
             $fileHandler->fileStore( $filePath, 'binaryfile', true, $mime );
@@ -388,7 +387,6 @@ class eZBinaryFileType extends eZDataType
 
         $binary->store();
 
-        // SP-DBFILE
         $filePath = $httpFile->attribute( 'filename' );
         $fileHandler = eZClusterFileHandler::instance();
         $fileHandler->fileStore( $filePath, 'binaryfile', true, $mimeData['name'] );
@@ -445,7 +443,6 @@ class eZBinaryFileType extends eZDataType
 
         copy( $filePath, $destination );
 
-        // SP-DBFILE
         $fileHandler = eZClusterFileHandler::instance();
         $fileHandler->fileStore( $destination, 'binaryfile', true, $mimeData['name'] );
 
@@ -717,7 +714,6 @@ class eZBinaryFileType extends eZDataType
 
         $binaryFile->store();
 
-        // VS-DBFILE + SP DBFile fix
         $fileHandler = eZClusterFileHandler::instance();
         $fileHandler->fileStore( $destinationPath . $basename, 'binaryfile', true );
     }

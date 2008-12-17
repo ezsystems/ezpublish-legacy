@@ -298,8 +298,6 @@ class eZPDF
 
                 eZDir::mkdir( eZDir::dirpath( $filename ), false, true );
 
-                // VS-DBFILE
-
                 $file = eZClusterFileHandler::instance( $filename );
                 $file->storeContents( $this->PDF->ezOutput(), 'viewcache', 'pdf' );
 

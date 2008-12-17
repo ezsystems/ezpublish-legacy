@@ -63,8 +63,6 @@ else
         eZDir::mkdir( dirname( $cacheFilePath ), false, true );
     }
 
-    // VS-DBFILE
-
     $cacheFile = eZClusterFileHandler::instance( $cacheFilePath );
 
     if ( !$cacheFile->exists() or ( time() - $cacheFile->mtime() > $cacheTime ) )

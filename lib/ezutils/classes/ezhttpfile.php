@@ -101,8 +101,6 @@ class eZHTTPFile
         if ( $mimeData )
             $dir = $mimeData['dirpath'];
 
-        // VS-DBFILE : TODO
-
         if ( !$mimeData )
         {
             $dir .= $this->MimeCategory;
@@ -128,8 +126,6 @@ class eZHTTPFile
         {
             $dest_name = $dir . "/" . md5( basename( $this->Filename ) . microtime() . mt_rand() ) . $suffixString;
         }
-
-        // VS-DBFILE : TODO
 
         if ( !move_uploaded_file( $this->Filename, $dest_name ) )
         {
