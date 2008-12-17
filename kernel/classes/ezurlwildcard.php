@@ -493,7 +493,6 @@ class eZURLWildcard extends eZPersistentObject
             eZDir::mkdir( $wildcardCacheDir, false, true );
         }
 
-        // VS-DBFILE
 
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
         $phpCacheIndex = new eZPHPCreator( $wildcardCacheDir, $wildcardCacheFile . "_index.php", '', array( 'clustering' => 'wildcard-cache-index' ) );
@@ -521,7 +520,6 @@ class eZURLWildcard extends eZPersistentObject
                 break;
             }
 
-            // VS-DBFILE
             $phpCache = new eZPHPCreator( $wildcardCacheDir, $wildcardCacheFile . "_$cacheFilesCount.php", '', array( 'clustering' => 'wildcard-cache-' . $cacheFilesCount ) );
 
             foreach ( $wildcardKeys as $wildcardKey => $wildcardKeyValue )
@@ -665,8 +663,6 @@ class eZURLWildcard extends eZPersistentObject
     {
         $info = eZURLWildcard::cacheInfo();
 
-        // VS-DBFILE
-
         require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $cacheFile = eZClusterFileHandler::instance( $info['path'] . "_index.php" );
 
@@ -681,15 +677,11 @@ class eZURLWildcard extends eZPersistentObject
     {
         $info = eZURLWildcard::cacheInfo();
 
-        // VS-DBFILE
-
         require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $cacheFile = eZClusterFileHandler::instance( $info['path'] . "_index.php" );
 
         if ( !$cacheFile->exists() )
             return false;
-
-        // VS-DBFILE
 
         $fetchedFilePath = $cacheFile->fetchUnique();
         include_once( $fetchedFilePath );
@@ -718,7 +710,6 @@ function eZURLWildcardTranslateWithCache( $wildcardNum, &$uri, &$wildcardInfo, $
     $info = eZURLWildcard::cacheInfo();
     $cacheFileName = $info['path'] . "_$cacheFileNum" . ".php";
 
-    // VS-DBFILE
     require_once( 'kernel/classes/ezclusterfilehandler.php' );
     $cacheFile = eZClusterFileHandler::instance( $cacheFileName );
 
@@ -727,8 +718,6 @@ function eZURLWildcardTranslateWithCache( $wildcardNum, &$uri, &$wildcardInfo, $
         eZDebugSetting::writeDebug( 'kernel-urltranslator', "eZURLWildcardTranslateWithCache:: no cache file '$cacheFileName'", 'eZURLWildcardTranslateWithCache' );
         return false;
     }
-
-    // VS-DBFILE
 
     $fetchedFilePath = $cacheFile->fetchUnique();
     include_once( $fetchedFilePath );

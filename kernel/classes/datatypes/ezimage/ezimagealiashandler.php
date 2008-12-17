@@ -1,4 +1,4 @@
-<?php
+²<?php
 //
 // Definition of eZImageAliasHandler class
 //
@@ -439,8 +439,6 @@ class eZImageAliasHandler
                 if ( $imageManager->createImageAlias( $aliasName, $aliasList,
                                                       array( 'basename' => $basename ) ) )
                 {
-                    // VS-DBFILE : TODO checked..
-
                     $text = $this->displayText( $original['alternative_text'] );
                     $originalFilename = $original['original_filename'];
                     foreach ( $aliasList as $aliasKey => $alias )
@@ -456,7 +454,6 @@ class eZImageAliasHandler
                         }
                         if ( $alias['is_new'] )
                         {
-                            // VS-DBFILE : TODO checked
                             eZImageFile::appendFilepath( $this->ContentObjectAttributeData['id'], $alias['url'] );
                         }
                         $aliasList[$aliasKey] = $alias;
@@ -603,7 +600,6 @@ class eZImageAliasHandler
         $aliasEntry['is_new'] = false;
         $aliasEntry['filesize'] = false;
 
-        // VS-DBFILE
         if ( $aliasEntry['url'] )
         {
             require_once( 'kernel/classes/ezclusterfilehandler.php' );
@@ -655,8 +651,6 @@ class eZImageAliasHandler
 
                 if ( $aliasEntry['url'] )
                 {
-                    // VS-DBFILE
-
                     require_once( 'kernel/classes/ezclusterfilehandler.php' );
                     $aliasFile = eZClusterFileHandler::instance( $aliasEntry['url'] );
 
@@ -685,8 +679,6 @@ class eZImageAliasHandler
     */
     static function removeAllAliases( $contentObjectAttribute )
     {
-        // VS-DBFILE
-
         $handler = $contentObjectAttribute->attribute( 'content' );
         if ( !$handler->isImageOwner() )
         {
@@ -743,8 +735,6 @@ class eZImageAliasHandler
                 $alternativeText = $alias['alternative_text'];
             if ( $alias['is_valid'] )
             {
-                // VS-DBFILE
-
                 $filepath = $alias['url'];
 
                 // Fetch ezimage attributes that have $filepath.
@@ -842,8 +832,6 @@ class eZImageAliasHandler
                         continue;
                     }
 
-                    // VS-DBFILE
-
                     require_once( 'kernel/classes/ezclusterfilehandler.php' );
                     $fileHandler = eZClusterFileHandler::instance();
                     $fileHandler->fileMove( $oldURL, $alias['url'] );
@@ -853,8 +841,6 @@ class eZImageAliasHandler
                 }
                 else
                 {
-                    // VS-DBFILE
-
                     require_once( 'kernel/classes/ezclusterfilehandler.php' );
                     $fileHandler = eZClusterFileHandler::instance();
                     $fileHandler->fileLinkCopy( $oldURL, $alias['url'], false );
@@ -922,8 +908,6 @@ class eZImageAliasHandler
         $filename = $aliasList[$aliasName]['url'];
         if ( $filename )
         {
-            // VS-DBFILE
-
             require_once( 'kernel/classes/ezclusterfilehandler.php' );
             $imageFile = eZClusterFileHandler::instance( $filename );
 
@@ -1197,8 +1181,6 @@ class eZImageAliasHandler
         $aliasList['original']['alternative_text'] = $imageAltText;
         $aliasList['original']['original_filename'] = $originalFilename;
 
-        // VS-DBFILE
-
         require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $fileHandler = eZClusterFileHandler::instance();
         $filePath = $mimeData['url'];
@@ -1218,8 +1200,6 @@ class eZImageAliasHandler
             if( $aliasFile->exists() )
                 $aliasList['original']['filesize'] = $aliasFile->size();
         }
-
-        // VS-DBFILE
 
         // refetch the original image
         $fileHandler->fileFetch( $filePath );
@@ -1267,7 +1247,6 @@ class eZImageAliasHandler
 
         eZImageFile::appendFilepath( $this->ContentObjectAttributeData['id'], $mimeData['url'] );
 
-        // VS-DBFILE
         $fileHandler->fileDeleteLocal( $filePath );
 
         return true;

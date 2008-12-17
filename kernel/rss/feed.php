@@ -67,8 +67,6 @@ else
         eZDir::mkdir( dirname( $cacheFilePath ), false, true );
     }
 
-    // VS-DBFILE
-
     require_once( 'kernel/classes/ezclusterfilehandler.php' );
     $cacheFile = eZClusterFileHandler::instance( $cacheFilePath );
 

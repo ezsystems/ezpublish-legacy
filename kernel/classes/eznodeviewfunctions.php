@@ -213,36 +213,7 @@ class eZNodeviewfunctions
             $cacheTTL = -1;
         }
 
-/*
-// This checking is now handled outside of this function.
-        // Check if cache time = 0 (disabled)
-        if ( $cacheTTL == 0 )
-        {
-            $viewCacheEnabled = false;
-        }
-*/
-
         $Result['cache_ttl'] = $cacheTTL;
-
-/*
-// File storage is now handled outside of this function
-        // Store view cache
-        if ( $viewCacheEnabled )
-        {
-            $serializeString = serialize( $Result );
-
-            //include_once( "lib/ezfile/classes/ezatomicfile.php" );
-            $cacheFile = new eZAtomicFile( $cachePath );
-            $cacheFile->write( $serializeString );
-            $cacheFile->close();
-
-            // VS-DBFILE
-
-            require_once( 'kernel/classes/ezclusterfilehandler.php' );
-            $fileHandler = eZClusterFileHandler::instance();
-            $fileHandler->fileStore( $cachePath, 'viewcache', true );
-        }
-*/
 
         if ( $languageCode )
         {

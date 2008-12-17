@@ -92,7 +92,6 @@ class eZBinaryFile extends eZPersistentObject
     {
         $fileInfo = $this->storedFileInfo();
 
-        // VS-DBFILE
 
         require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $file = eZClusterFileHandler::instance( $fileInfo['filepath'] );
@@ -225,7 +224,6 @@ class eZBinaryFile extends eZPersistentObject
                 $parserObject = new $class( );
                 $fileInfo = $this->storedFileInfo();
 
-                // VS-DBFILE
 
                 require_once( 'kernel/classes/ezclusterfilehandler.php' );
                 $file = eZClusterFileHandler::instance( $fileInfo['filepath'] );

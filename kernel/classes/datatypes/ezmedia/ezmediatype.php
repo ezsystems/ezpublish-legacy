@@ -35,13 +35,6 @@
 
 */
 
-//include_once( "kernel/classes/ezdatatype.php" );
-//include_once( "kernel/classes/datatypes/ezmedia/ezmedia.php" );
-//include_once( "lib/ezfile/classes/ezfile.php" );
-//include_once( "lib/ezutils/classes/ezmimetype.php" );
-//include_once( "lib/ezutils/classes/ezhttpfile.php" );
-//include_once( "lib/ezfile/classes/ezdir.php" );
-
 class eZMediaType extends eZDataType
 {
     const DATA_TYPE_STRING = "ezmedia";
@@ -111,9 +104,6 @@ class eZMediaType extends eZDataType
                 if ( $fileName == '' )
                     continue;
 
-                // VS-DBFILE
-
-                require_once( 'kernel/classes/ezclusterfilehandler.php' );
                 $file = eZClusterFileHandler::instance( $orig_dir . "/" . $fileName );
                 if ( $file->exists() )
                     $file->delete();
@@ -138,9 +128,6 @@ class eZMediaType extends eZDataType
                 }
                 if ( $count == 1 && $currentFileName != '' )
                 {
-                    // VS-DBFILE
-
-                    require_once( 'kernel/classes/ezclusterfilehandler.php' );
                     $file = eZClusterFileHandler::instance( $orig_dir . "/" . $currentFileName );
                     if ( $file->exists() )
                         $file->delete();
@@ -320,10 +307,6 @@ class eZMediaType extends eZDataType
             $media->setAttribute( "original_filename", $mediaFile->attribute( "original_filename" ) );
             $media->setAttribute( "mime_type", $mime );
 
-            // VS-DBFILE
-
-            require_once( 'kernel/classes/ezclusterfilehandler.php' );
-            //$filePath = $media->attribute( 'original_filename' );
             $filePath = $mediaFile->attribute( 'filename' );
             $fileHandler = eZClusterFileHandler::instance();
             $fileHandler->fileStore( $filePath, 'media', true, $mime );
@@ -426,9 +409,6 @@ class eZMediaType extends eZDataType
         $media->setAttribute( "has_controller", $hasController );
         $media->setAttribute( "is_loop", $isLoop );
 
-        // SP-DBFILE
-
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $filePath = $httpFile->attribute( 'filename' );
         $fileHandler = eZClusterFileHandler::instance();
         $fileHandler->fileStore( $filePath, 'mediafile', true, $mimeData['name'] );
@@ -484,8 +464,6 @@ class eZMediaType extends eZDataType
 
         copy( $filePath, $destination );
 
-        // SP-DBFILE
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $fileHandler = eZClusterFileHandler::instance();
         $fileHandler->fileStore( $destination, 'mediafile', true, $mimeData['name'] );
 
@@ -766,7 +744,6 @@ class eZMediaType extends eZDataType
 
         $sourcePath = $package->simpleFilePath( $mediaNode->getAttribute( 'filekey' ) );
 
-        //include_once( 'lib/ezfile/classes/ezdir.php' );
         $ini = eZINI::instance();
         $mimeType = $mediaNode->getAttribute( 'mime-type' );
         list( $mimeTypeCategory, $mimeTypeName ) = explode( '/', $mimeType );
@@ -785,7 +762,6 @@ class eZMediaType extends eZDataType
             $basename = substr( md5( mt_rand() ), 0, 8 ) . '.' . eZFile::suffix( $mediaNode->getAttribute( 'filename' ) );
         }
 
-        //include_once( 'lib/ezfile/classes/ezfilehandler.php' );
         eZFileHandler::copy( $sourcePath, $destinationPath . $basename );
         eZDebug::writeNotice( 'Copied: ' . $sourcePath . ' to: ' . $destinationPath . $basename,
                               'eZMediaType::unserializeContentObjectAttribute()' );
@@ -804,9 +780,6 @@ class eZMediaType extends eZDataType
         $mediaFile->setAttribute( 'quality', $mediaNode->getAttribute( 'quality' ) );
         $mediaFile->setAttribute( 'is_loop', $mediaNode->getAttribute( 'is-loop' ) );
 
-        // VS-DBFILE
-
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $fileHandler = eZClusterFileHandler::instance();
         $fileHandler->fileStore( $destinationPath . $basename, 'mediafile', true );
 

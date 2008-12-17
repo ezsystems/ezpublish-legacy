@@ -848,11 +848,8 @@ class eZImageManager
         if ( !$referenceAlias )
             $referenceAlias = 'original';
         $hasReference = false;
-        //eZDebug::writeDebug( 'alias ' . $referenceAlias, 'eZImageManager::createImageAlias' );
         if ( array_key_exists( $referenceAlias, $existingAliasList ) )
         {
-            // VS-DBFILE
-
             require_once( 'kernel/classes/ezclusterfilehandler.php' );
             $fileHandler = eZClusterFileHandler::instance();
             if ( $fileHandler->fileExists( $existingAliasList[$referenceAlias]['url'] ) )
@@ -862,9 +859,6 @@ class eZImageManager
             else
             {
                 eZDebug::writeDebug( 'cluster file handler could not find ' . $existingAliasList[$referenceAlias]['url'], 'eZImageManager::createImageAlias' );
-                //$backtrace = debug_backtrace();
-                /*var_dump( count( $backtrace ) );
-                var_dump( $backtrace[3] );*/
                 eZDebug::writeError( "The reference alias $referenceAlias file " . $existingAliasList[$referenceAlias]['url'] . " does not exist",
                                      'eZImageManager::createImageAlias' );
             }
@@ -888,8 +882,6 @@ class eZImageManager
             $aliasInfo = $existingAliasList[$referenceAlias];
             $aliasFilePath = $aliasInfo['url'];
             $aliasKey = $currentAliasInfo['alias_key'];
-
-            // VS-DBFILE
 
             $aliasFile = eZClusterFileHandler::instance( $aliasFilePath );
 
@@ -930,7 +922,6 @@ class eZImageManager
                         $destinationDir = $destinationMimeData['dirpath'];
                         eZDebug::writeError( "Failed converting $sourceFile to alias '$aliasName' in directory '$destinationDir'",
                                              'eZImageManager::createImageAlias' );
-                        // VS-DBFILE
                         $aliasFile->deleteLocal();
                         return false;
                     }
@@ -960,8 +951,6 @@ class eZImageManager
                 $currentAliasData['full_path'] =& $currentAliasData['url'];
                 if ( function_exists( 'getimagesize' ) )
                 {
-                    // VS-DBFILE
-
                     $fileHandler = eZClusterFileHandler::instance();
                     $fileHandler->fileFetch( $destinationMimeData['url'] );
 
@@ -980,8 +969,6 @@ class eZImageManager
                             eZDebug::writeError("The size of the generated image " . $destinationMimeData['url'] . " could not be read by getimagesize()", 'eZImageManager::createImageAlias' );
                         }
 
-                        // VS-DBFILE
-
                         // The file is not written to the database if it was already written due to a lock situation
                         if ( !isset( $wasLocked ) )
                         {
@@ -997,7 +984,6 @@ class eZImageManager
                 else
                     eZDebug::writeError( "Unknown function 'getimagesize' cannot get image size", 'eZImageManager::createImageAlias' );
                 $existingAliasList[$aliasName] = $currentAliasData;
-                // VS-DBFILE
                 $aliasFile->deleteLocal();
 
                 $this->_freeExclusiveLock( $aliasFilePath, $aliasName );
@@ -1043,8 +1029,6 @@ class eZImageManager
     */
     function convert( $sourceMimeData, &$destinationMimeData, $aliasName = false, $parameters = array() )
     {
-        // VS-DBFILE
-
         require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $sourceFile = eZClusterFileHandler::instance( $sourceMimeData['url'] );
         $sourceFile->fetch();
@@ -1139,7 +1123,6 @@ class eZImageManager
                 }
                 if ( !$hasDestination )
                 {
-                    // VS-DBFILE
                     $sourceFile->deleteLocal();
                     return false;
                 }
@@ -1189,7 +1172,6 @@ class eZImageManager
                 {
                     eZDebug::writeError( "None of the handlers can convert MIME-Type " . $currentMimeData['name'],
                                          'eZImageManager::convert' );
-                    // VS-DBFILE
                     $sourceFile->deleteLocal();
                     return false;
                 }
@@ -1289,8 +1271,6 @@ class eZImageManager
             }
         }
         $destinationMimeData = $currentMimeData;
-
-        // VS-DBFILE
 
         if ( $aliasName && $aliasName != 'original' )
         {

@@ -86,8 +86,6 @@ class eZContentCache
     {
         $cachePathInfo = eZContentCache::cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList,
                                                         $layout, false, $parameters );
-        // VS-DBFILE
-
         require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $cacheFile = eZClusterFileHandler::instance( $cachePathInfo['path'] );
 
@@ -125,8 +123,6 @@ class eZContentCache
         $cachePath = $cachePathInfo['path'];
         $timestamp = false;
 
-        // VS-DBFILE
-
         require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $cacheFile = eZClusterFileHandler::instance( $cachePath );
 
@@ -156,8 +152,6 @@ class eZContentCache
         eZDebugSetting::writeDebug( 'kernel-content-view-cache', 'cache used #2' );
 
         $fileName = $cacheDir . "/" . $cacheFile;
-
-        // VS-DBFILE : FIXME: We may need to cache PDF files locally.
 
         $cacheFile = eZClusterFileHandler::instance( $fileName );
         $contents = $cacheFile->fetchContents();
@@ -271,10 +265,6 @@ class eZContentCache
 
         $path = $cacheDir . '/' . $cacheFile;
         $uniqid = md5( uniqid( 'ezpcache'. getmypid(), true ) );
-
-        // VS-DBFILE : FIXME: Use some kind of one-shot atomic storing here.
-        //             FIXME: use permissions provided in FileSettings:StorageFilePermissions.
-
 
         require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $file = eZClusterFileHandler::instance( "$cacheDir/$uniqid" );
