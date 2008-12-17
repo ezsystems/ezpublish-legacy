@@ -80,6 +80,10 @@ Changes from 4.0.0 to 4.1.0alpha1
 - Implemented enhancement #14134: Remove unused lib/ezdbschema/tests
 - Implemented enhancement #14144: Handle deletes in a more clever way in eZ Cluster
 - Implemented enhancement #14151: Add possibility to redirect after soring and priority change [patch]
+- Implemented enhancement #13792: eZ cluster code is not compatible with Oracle
+  Moved generation while locked test to a backend method, eZDBFileHandlerMySQLBackend::_verifyExclusiveLock()
+  Cleaned up eZDBFileHandler::processCache (removed a few unused variables, optimized a few tests)
+  Made eZDBFileHandler::isExpired() declaration static (it is statically used everywhere)
 
 *Design:
 
