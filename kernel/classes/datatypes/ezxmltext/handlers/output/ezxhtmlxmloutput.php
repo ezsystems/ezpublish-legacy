@@ -221,7 +221,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         elseif ( $element->getAttribute( 'node_id' ) != null )
         {
             $nodeID = $element->getAttribute( 'node_id' );
-            $node = $this->NodeArray[$nodeID];
+            $node = isset( $this->NodeArray[$nodeID] ) ? $this->NodeArray[$nodeID] : null;
 
             if ( $node != null )
             {
