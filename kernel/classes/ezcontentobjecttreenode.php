@@ -5012,7 +5012,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     }
 
     /*!
-     Get parnet node id by node id
+     Get parent node id by node id
      \param $nodeID the node id you want parent node id for.
      */
     static function getParentNodeId( $nodeID )
