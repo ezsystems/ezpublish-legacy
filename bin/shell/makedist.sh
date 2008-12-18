@@ -1309,7 +1309,7 @@ fi
 if [ -z "$SKIP_CORE_FILES" ]; then
     echo -n "Creating MD5 checksums"
     (cd $DEST
-       MD5_FILES=`find * -wholename "./var" -prune -o -wholename "*/.svn" -prune -o -type f -print"`
+       MD5_FILES=`find * -wholename "./var" -prune -o -wholename "*/.svn" -prune -o -type f -print`
 
        for MD5_FILE in $MD5_FILES; do
            md5sum $MD5_FILE >> share/filelist.md5
