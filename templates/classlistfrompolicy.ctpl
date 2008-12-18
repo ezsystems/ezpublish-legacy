@@ -2,9 +2,63 @@
     {
         $canCreateClassIDListPart = array();
         $hasClassIDLimitation = false;
+        $user = eZUser::currentUser();
+        $userID = $user->attribute( 'contentobject_id' );
+
 /*START:code-template::is-node*/
         $object = false;
 /*END:code-template::is-node*/
+        if ( isset( $policy['ParentOwner'] ) )
+        {
+/*START:code-template::is-node*/
+            if ( $object === false )
+                $object = $this->attribute( 'object' );
+
+/*END:code-template::is-node*/
+            // if limitation value == 2, anonymous limited to current session.
+            if ( in_array( 2, $policy['ParentOwner'] ) && $user->isAnonymous() )
+            {
+                $createdObjectIDList = eZPreferences::value( 'ObjectCreationIDList' );
+                if ( !$createdObjectIDList ||
+/*START:code-template::is-node*/
+                     !in_array( $object->ID, unserialize( $createdObjectIDList ) ) )
+/*END:code-template::is-node*/
+/*START:code-template::is-object*/
+                     !in_array( $this->ID, unserialize( $createdObjectIDList ) ) )
+/*END:code-template::is-object*/
+                {
+                    return array();
+                }
+            }
+            else if ( $object->attribute( 'owner_id' ) != $userID &&
+/*START:code-template::is-node*/
+                      $object->ID != $userID )
+/*END:code-template::is-node*/
+/*START:code-template::is-object*/
+                      $this->ID != $userID )
+/*END:code-template::is-object*/
+            {
+                return array();
+            }
+        }
+
+        if ( isset( $policy['ParentGroup'] ) )
+        {
+/*START:code-template::is-node*/
+            if ( $object === false )
+                $object = $this->attribute( 'object' );
+
+            $access = $object->checkGroupLimitationAccess( $policy['ParentGroup'], $userID );
+/*END:code-template::is-node*/
+/*START:code-template::is-object*/
+            $access = $this->checkGroupLimitationAccess( $policy['ParentGroup'], $userID );
+/*END:code-template::is-object*/
+            if ( $access !== 'allowed' )
+            {
+                return array();
+            }
+        }
+
         if ( isset( $policy['Class'] ) )
         {
             $canCreateClassIDListPart = $policy['Class'];
@@ -16,6 +70,7 @@
 /*START:code-template::is-node*/
             if ( $object === false )
                 $object = $this->attribute( 'object' );
+
             if ( !in_array( $object->attribute( 'section_id' ), $policy['User_Section']  ) )
 /*END:code-template::is-node*/
 /*START:code-template::is-object*/
@@ -32,6 +87,7 @@
 /*START:code-template::is-node*/
             if ( $object === false )
                 $object = $this->attribute( 'object' );
+
             $assignedNodes = $object->attribute( 'assigned_nodes' );
 /*END:code-template::is-node*/
 /*START:code-template::is-object*/
@@ -60,6 +116,7 @@
 /*START:code-template::is-node*/
             if ( $object === false )
                 $object = $this->attribute( 'object' );
+
             if ( !in_array( $object->attribute( 'section_id' ), $policy['Section']  ) )
 /*END:code-template::is-node*/
 /*START:code-template::is-object*/
@@ -75,6 +132,7 @@
 /*START:code-template::is-node*/
             if ( $object === false )
                 $object = $this->attribute( 'object' );
+
             if ( !in_array( $object->attribute( 'contentclass_id' ), $policy['ParentClass']  ) )
 /*END:code-template::is-node*/
 /*START:code-template::is-object*/
@@ -101,10 +159,11 @@
 /*START:code-template::is-node*/
             if ( $object === false )
                 $object = $this->attribute( 'object' );
-            if ( $object->attribute( 'owner_id' ) != $user->attribute( 'contentobject_id' )  )
+
+            if ( $object->attribute( 'owner_id' ) != $userID )
 /*END:code-template::is-node*/
 /*START:code-template::is-object*/
-            if ( $this->attribute( 'owner_id' ) != $user->attribute( 'contentobject_id' )  )
+            if ( $this->attribute( 'owner_id' ) != $userID )
 /*END:code-template::is-object*/
             {
                 return array();

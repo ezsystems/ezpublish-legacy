@@ -4620,10 +4620,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $hasClassIDLimitation = false;
         $user = eZUser::currentUser();
         $userID = $user->attribute( 'contentobject_id' );
-        $object = $this->attribute( 'object' );
 
+        $object = false;
         if ( isset( $policy['ParentOwner'] ) )
         {
+            if ( $object === false )
+                $object = $this->attribute( 'object' );
+
             // if limitation value == 2, anonymous limited to current session.
             if ( in_array( 2, $policy['ParentOwner'] ) && $user->isAnonymous() )
             {
@@ -4634,7 +4637,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     return array();
                 }
             }
-            else if ( $object->attribute( 'owner_id' ) != $userID && $object->ID != $userID )
+            else if ( $object->attribute( 'owner_id' ) != $userID &&
+                      $object->ID != $userID )
             {
                 return array();
             }
@@ -4642,6 +4646,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( isset( $policy['ParentGroup'] ) )
         {
+            if ( $object === false )
+                $object = $this->attribute( 'object' );
+
             $access = $object->checkGroupLimitationAccess( $policy['ParentGroup'], $userID );
             if ( $access !== 'allowed' )
             {
@@ -4657,6 +4664,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( isset( $policy['User_Section'] ) )
         {
+            if ( $object === false )
+                $object = $this->attribute( 'object' );
+
             if ( !in_array( $object->attribute( 'section_id' ), $policy['User_Section']  ) )
             {
                 return array();
@@ -4666,6 +4676,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( isset( $policy['User_Subtree'] ) )
         {
             $allowed = false;
+            if ( $object === false )
+                $object = $this->attribute( 'object' );
+
             $assignedNodes = $object->attribute( 'assigned_nodes' );
             foreach ( $assignedNodes as $assignedNode )
             {
@@ -4687,6 +4700,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( isset( $policy['Section'] ) )
         {
+            if ( $object === false )
+                $object = $this->attribute( 'object' );
+
             if ( !in_array( $object->attribute( 'section_id' ), $policy['Section']  ) )
             {
                 return array();
@@ -4695,6 +4711,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( isset( $policy['ParentClass'] ) )
         {
+            if ( $object === false )
+                $object = $this->attribute( 'object' );
+
             if ( !in_array( $object->attribute( 'contentclass_id' ), $policy['ParentClass']  ) )
             {
                 return array();
@@ -4712,7 +4731,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( isset( $policy['Assigned'] ) )
         {
-            if ( $object->attribute( 'owner_id' ) != $userID  )
+            if ( $object === false )
+                $object = $this->attribute( 'object' );
+
+            if ( $object->attribute( 'owner_id' ) != $userID )
             {
                 return array();
             }
@@ -4742,6 +4764,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( isset( $policy['Subtree'] ) )
         {
             $allowed = false;
+            if ( $object === false )
+                $object = $this->attribute( 'object' );
             $assignedNodes = $object->attribute( 'assigned_nodes' );
             foreach ( $assignedNodes as $assignedNode )
             {
@@ -4860,28 +4884,29 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
         }
 
+        $db = eZDB::instance();
+
         $filterTableSQL = '';
         $filterSQL = '';
         // Create extra SQL statements for the class group filters.
         if ( is_array( $groupList ) )
         {
+            if ( count( $groupList ) == 0 )
+            {
+                return $classList;
+            }
+
             $filterTableSQL = ', ezcontentclass_classgroup ccg';
             $filterSQL = ( " AND\n" .
                            "      cc.id = ccg.contentclass_id AND\n" .
-                           "      ccg.group_id " );
-            $groupText = implode( ', ', $groupList );
-            if ( $includeFilter )
-                $filterSQL .= "IN ( $groupText )";
-            else
-                $filterSQL .= "NOT IN ( $groupText )";
+                           "      " );
+            $filterSQL .= $db->generateSQLINStatement( $groupList, 'ccg.group_id', !$includeFilter, true, 'int' );
         }
 
         $classNameFilter = eZContentClassName::sqlFilter( 'cc' );
 
         if ( $fetchAll )
         {
-            $classList = array();
-            $db = eZDB::instance();
             // If $asObject is true we fetch all fields in class
             $fields = $asObject ? "cc.*, $classNameFilter[nameField]" : "cc.id, $classNameFilter[nameField]";
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
@@ -4895,18 +4920,15 @@ class eZContentObjectTreeNode extends eZPersistentObject
             // If the constrained class list is empty we are not allowed to create any class
             if ( count( $classIDArray ) == 0 )
             {
-                $classList = array();
                 return $classList;
             }
 
-            $classList = array();
-            $db = eZDB::instance();
-            $classString = implode( ',', $classIDArray );
+            $classIDCondition = $db->generateSQLInStatement( $classIDArray, 'cc.id' );
             // If $asObject is true we fetch all fields in class
             $fields = $asObject ? "cc.*, $classNameFilter[nameField]" : "cc.id, $classNameFilter[nameField]";
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
                                      "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from]\n" .
-                                     "WHERE cc.id IN ( $classString  ) AND\n" .
+                                     "WHERE $classIDCondition AND\n" .
                                      "      cc.version = " . eZContentClass::VERSION_STATUS_DEFINED . " $filterSQL AND $classNameFilter[where]\n" .
                                      "ORDER BY $classNameFilter[nameField] ASC" );
             $classList = eZPersistentObject::handleRows( $rows, 'eZContentClass', $asObject );
