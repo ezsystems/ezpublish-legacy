@@ -158,14 +158,14 @@ $schema = array (
     array (
       'default_language_id' => 
       array (
-        'length' => 10,
+        'length' => 11,
         'type' => 'int',
         'not_null' => '1',
         'default' => 0,
       ),
       'group_id' => 
       array (
-        'length' => 10,
+        'length' => 11,
         'type' => 'int',
         'not_null' => '1',
         'default' => 0,
@@ -184,14 +184,14 @@ $schema = array (
       ),
       'language_mask' => 
       array (
-        'length' => 10,
+        'length' => 11,
         'type' => 'int',
         'not_null' => '1',
         'default' => 0,
       ),
       'priority' => 
       array (
-        'length' => 10,
+        'length' => 11,
         'type' => 'int',
         'not_null' => '1',
         'default' => 0,
@@ -241,7 +241,7 @@ $schema = array (
     array (
       'default_language_id' => 
       array (
-        'length' => 10,
+        'length' => 11,
         'type' => 'int',
         'not_null' => '1',
         'default' => 0,
@@ -260,7 +260,7 @@ $schema = array (
       ),
       'language_mask' => 
       array (
-        'length' => 10,
+        'length' => 11,
         'type' => 'int',
         'not_null' => '1',
         'default' => 0,
@@ -301,7 +301,7 @@ $schema = array (
     array (
       'contentobject_state_group_id' => 
       array (
-        'length' => 10,
+        'length' => 11,
         'type' => 'int',
         'not_null' => '1',
         'default' => 0,
@@ -314,7 +314,7 @@ $schema = array (
       ),
       'language_id' => 
       array (
-        'length' => 10,
+        'length' => 11,
         'type' => 'int',
         'not_null' => '1',
         'default' => 0,
@@ -347,7 +347,7 @@ $schema = array (
     array (
       'contentobject_state_id' => 
       array (
-        'length' => 10,
+        'length' => 11,
         'type' => 'int',
         'not_null' => '1',
         'default' => 0,
@@ -360,7 +360,7 @@ $schema = array (
       ),
       'language_id' => 
       array (
-        'length' => 10,
+        'length' => 11,
         'type' => 'int',
         'not_null' => '1',
         'default' => 0,
@@ -393,14 +393,14 @@ $schema = array (
     array (
       'contentobject_id' => 
       array (
-        'length' => 10,
+        'length' => 11,
         'type' => 'int',
         'not_null' => '1',
         'default' => 0,
       ),
       'contentobject_state_id' => 
       array (
-        'length' => 10,
+        'length' => 11,
         'type' => 'int',
         'not_null' => '1',
         'default' => 0,
