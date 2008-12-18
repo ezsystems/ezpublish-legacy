@@ -480,5 +480,5 @@ fi
 IFS=$OLDIFS
 
 # update lincense file
-echo "Coping license file '$LICENSE_FILE'"
+echo "Copying license file '$LICENSE_FILE'"
 cp "$LICENSE_FILE" "$DEST_DIR/"
