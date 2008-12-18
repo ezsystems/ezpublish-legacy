@@ -1,4 +1,4 @@
-²<?php
+<?php
 //
 // Definition of eZImageAliasHandler class
 //
