@@ -57,12 +57,13 @@ if ( $module->isCurrentAction( 'ActivateExtensions' ) )
     $writeSiteINI->save( 'site.ini.append', '.php', false, false );
     eZCache::clearByTag( 'ini' );
 
+    eZSiteAccess::reInitialise();
+
     updateAutoload( $tpl );
 }
 
 // open site.ini for reading
 $siteINI = eZINI::instance();
-$siteINI->loadCache();
 $selectedExtensionArray       = $siteINI->variable( 'ExtensionSettings', "ActiveExtensions" );
 $selectedAccessExtensionArray = $siteINI->variable( 'ExtensionSettings', "ActiveAccessExtensions" );
 $selectedExtensions           = array_merge( $selectedExtensionArray, $selectedAccessExtensionArray );

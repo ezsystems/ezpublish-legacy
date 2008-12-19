@@ -1,6 +1,7 @@
 Changes from 4.1.0alpha1 to 4.1.0alpha2
 
 *Kernel:
+- Implemented enhancement #14173: Make setup/extensions clear all necessary settings immediately
 
 *Design:
 

@@ -95,6 +95,35 @@ class eZSiteAccess
         return 'settings/siteaccess/' . $siteAccess;
     }
 
+    /**
+     * Re-initialises the current site access
+     *
+     * - clears all in-memory caches used by the INI system
+     * - re-builds the list of paths where INI files are searched for
+     */
+    function reInitialise()
+    {
+        if ( isset( $GLOBALS['eZCurrentAccess'] ) )
+        {
+            eZINI::resetAllGlobals();
+
+            eZExtension::activateExtensions( 'default' );
+            $accessName = $GLOBALS['eZCurrentAccess']['name'];
+            if ( file_exists( "settings/siteaccess/$accessName" ) )
+            {
+                $ini = eZINI::instance();
+                $ini->prependOverrideDir( "siteaccess/$accessName", false, 'siteaccess' );
+            }
+            eZExtension::prependExtensionSiteAccesses( $accessName );
+            eZExtension::activateExtensions( 'access' );
+
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
 
 ?>
