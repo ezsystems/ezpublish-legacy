@@ -115,3 +115,5 @@ class eZRunCronjobs
         return false;
     }
 }
+
+?>
