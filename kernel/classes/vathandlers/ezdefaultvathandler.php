@@ -194,7 +194,10 @@ class eZDefaultVATHandler
 
         $bestPriority = 0;
         if ( $vatPriorities )
-            $bestPriority = array_shift( array_keys( $vatPriorities ) );
+        {
+            $tmpKeys = array_keys( $vatPriorities );
+            $bestPriority = array_shift( $tmpKeys );
+        }
 
         if ( $bestPriority == 0 )
         {
