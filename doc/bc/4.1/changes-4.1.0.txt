@@ -36,6 +36,12 @@ Removed features
 
   The class eZXMLInputType, which was not any longer used by any part of the eZ
   Publish kernel, has been removed.
+  
+- eZURLTranslator
+
+  The class eZURLTranslator, which was not any longer used by any part of the eZ
+  Publish kernel, has been removed.
+
 
 New constants in config.php
 ---------------------------
