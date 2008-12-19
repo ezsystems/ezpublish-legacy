@@ -69,7 +69,7 @@ class eZTARArchiveHandler extends eZArchiveHandler
     */
     function eZTARArchiveHandler( &$fileHandler, $p_tarname, $p_compress = false )
     {
-        eZDebug::writeWarning( __CLASS__ . "::" . __FUNCTION__ . " is deprecated, use ezcArchive instead" );
+        eZDebug::writeWarning( __METHOD__ . " is deprecated, use ezcArchive instead" );
 
         $this->eZArchiveHandler( $fileHandler );
 //         $this->PEAR();

@@ -244,7 +244,7 @@ class eZArchiveHandler
     */
     static function instance( $identifier, $fileHandlerType = false, $arhiveFilename = false )
     {
-        eZDebug::writeWarning( __CLASS__ . "::" . __FUNCTION__ . " is deprecated, use ezcArchive instead" );
+        eZDebug::writeWarning( __METHOD__ . " is deprecated, use ezcArchive instead" );
 
         $ini = eZINI::instance( 'file.ini' );
         $handlers = $ini->variable( 'ArchiveSettings', 'Handlers' );

@@ -1969,7 +1969,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     {
         if( !is_array( $nodesParams ) || !count( $nodesParams ) )
         {
-            eZDebug::writeWarning( __CLASS__.'::'.__FUNCTION__.': Nodes parameter must be an array with at least one key.' );
+            eZDebug::writeWarning( __METHOD__.': Nodes parameter must be an array with at least one key.' );
             return null;
         }
 
@@ -2000,7 +2000,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
             if ( !is_numeric( $nodeID ) && !is_array( $nodeID ) )
             {
-                eZDebug::writeWarning( __CLASS__.'::'.__FUNCTION__.': Nodes parameter must be numeric or an array with numeric values.' );
+                eZDebug::writeWarning( __METHOD__.': Nodes parameter must be numeric or an array with numeric values.' );
                 $retValue = null;
                 return $retValue;
             }
@@ -3285,7 +3285,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     return '';
                 }
 
-                eZDebug::writeError( __CLASS__ . "::" . __FUNCTION__ . "() failed to fetch path of node " . $this->attribute( 'node_id' ) . ", falling back to generated url entries. Run updateniceurls.php to fix the problem." );
+                eZDebug::writeError( __METHOD__ . "() failed to fetch path of node " . $this->attribute( 'node_id' ) . ", falling back to generated url entries. Run updateniceurls.php to fix the problem." );
 
                 // Return a perma-link when the path lookup failed, this link will always work
                 $path = 'content/view/full/' . $this->attribute( 'node_id' );
@@ -3378,7 +3378,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      */
     function updateURLAlias()
     {
-        eZDebug::writeWarning( __CLASS__ . "::" . __FUNCTION__ . " is deprecated, use updateSubTreePath() instead" );
+        eZDebug::writeWarning( __METHOD__ . " is deprecated, use updateSubTreePath() instead" );
         return $this->updateSubTreePath();
     }
 

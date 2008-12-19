@@ -305,12 +305,12 @@ class eZExtensionPackageHandler extends eZPackageHandler
             $autoloadWarningMessages = $autoloadGenerator->getWarnings();
             foreach ( $autoloadWarningMessages as $warning )
             {
-                eZDebug::writeWarning( $warning, __CLASS__ . '::' . __FUNCTION__ );
+                eZDebug::writeWarning( $warning, __METHOD__ );
             }
         }
         catch ( Exception $e )
         {
-            eZDebug::writeError( $e->getMessage(), __CLASS__ . '::' . __FUNCTION__ );
+            eZDebug::writeError( $e->getMessage(), __METHOD__ );
         }
     }
 

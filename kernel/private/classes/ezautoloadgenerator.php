@@ -226,7 +226,7 @@ class eZAutoloadGenerator
              }
              else
              {
-                 throw new Exception( __CLASS__ . ' - ' . __FUNCTION__ . ": The file {$filePath} is not writable by the system." );
+                 throw new Exception( __METHOD__ . ": The file {$filePath} is not writable by the system." );
              }
          }
     }
