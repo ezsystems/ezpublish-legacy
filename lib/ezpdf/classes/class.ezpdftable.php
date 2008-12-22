@@ -1174,8 +1174,6 @@ class eZPDFTable extends Cezpdf
 
         if ( isset( $params['dpi'] ) )
         {
-            require_once( 'kernel/common/image.php' );
-
             $newWidth = (int)( $params['width'] * ( (int)$params['dpi'] / 72 ) );
             $newHeight = (int)( $params['height'] * ( (int)$params['dpi'] / 72 ) );
             $newFilename = eZSys::cacheDirectory() . '/' . md5( mt_rand() ) . '.jpg';
@@ -1183,6 +1181,8 @@ class eZPDFTable extends Cezpdf
             {
                 $newFilename = eZSys::cacheDirectory() . '/' . md5( mt_rand() ) . '.jpg';
             }
+
+            require_once( 'kernel/common/image.php' );
             $img = imageInit();
             $newImg = $img->convert( $filename,
                                      $newFilename,
@@ -1274,6 +1274,7 @@ class eZPDFTable extends Cezpdf
                 }
                 $newMimetype = eZMimeType::findByURL( $newFilename );
 
+                require_once( 'kernel/common/image.php' );
                 $img = imageInit();
                 $newImg = $img->convert( $mimetype,
                                          $newMimetype,
