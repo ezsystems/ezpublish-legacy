@@ -588,7 +588,7 @@ class eZINI
         if ( eZINI::isDebugEnabled() )
             eZDebug::writeNotice( "Parsing file '$file'", 'eZINI' );
 
-        $contents = eZFile::getContents( $file );
+        $contents = file_get_contents( $file );
         if ( $contents === false )
         {
             eZDebug::writeError( "Failed opening file '$file' for reading", "eZINI" );
@@ -1459,6 +1459,19 @@ class eZINI
     {
         unset( $GLOBALS["eZINIGlobalInstance-$rootDir-$fileName-$useLocalOverrides"] );
         unset( $GLOBALS["eZINIGlobalIsLoaded-$rootDir-$fileName-$useLocalOverrides"] );
+    }
+
+    static function resetAllGlobals()
+    {
+        foreach ( array_keys( $GLOBALS ) as $key )
+        {
+            if ( ( strlen( $key ) > 19 && ( substr_compare( $key, 'eZINIGlobalInstance-', 0, 20 ) === 0 ||
+                                            substr_compare( $key, 'eZINIGlobalIsLoaded-', 0, 20 ) === 0 ) )
+                   || $key === 'eZINIOverrideDirList' )
+            {
+                unset( $GLOBALS[$key] );
+            }
+        }
     }
 
     /// \privatesection

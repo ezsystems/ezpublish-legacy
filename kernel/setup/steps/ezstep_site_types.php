@@ -654,15 +654,15 @@ class eZStepSiteTypes extends eZStepInstaller
         }
 
         // Parse it.
-        $xmlString = eZFile::getContents( $idxFileName );
-        @unlink( $idxFileName );
         $dom = new DOMDocument( '1.0', 'utf-8' );
         $dom->preserveWhiteSpace = false;
-        $success = $dom->loadXML( $xmlString );
+        $success = $dom->load( realpath( $idxFileName ) );
+
+        @unlink( $idxFileName );
 
         if ( !$success )
         {
-            eZDebug::writeError( "Malformed index file." );
+            eZDebug::writeError( "Unable to open index file." );
             return false;
         }
 

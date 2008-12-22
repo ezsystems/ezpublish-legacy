@@ -111,7 +111,7 @@ class eZDbSchema
             }
             else if ( preg_match( '#a:[0-9]+:{#', $buf ) )
             {
-                return unserialize( eZFile::getContents( $filename ) );
+                return unserialize( file_get_contents( $filename ) );
             }
             else
             {

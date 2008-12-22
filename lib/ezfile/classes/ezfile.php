@@ -116,6 +116,8 @@ class eZFile
      \param filename
 
      \return file contents, false if error
+
+     \deprecated since eZ Publish 4.1, use file_get_contents() instead
     */
     static function getContents( $filename )
     {

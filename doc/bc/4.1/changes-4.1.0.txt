@@ -15,6 +15,10 @@ Deprecated features
   This class and related sub-classes, such as eZTARArchiveHandler has been
   deprecated, they will be removed in eZ Publish 4.2. Archive from eZ Components
   is the intended replacement of this functionality.
+  
+- eZFile::getContents()
+  The method getContents() of eZFile is deprecated now, use file_get_contents()
+  instead.
 
 
 Removed features

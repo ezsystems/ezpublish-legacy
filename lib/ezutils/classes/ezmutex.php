@@ -128,7 +128,7 @@ class eZMutex
         $content = array();
         if ( file_exists( $this->MetaFileName ) )
         {
-            $content = unserialize( eZFile::getContents( $this->MetaFileName ) );
+            $content = unserialize( file_get_contents( $this->MetaFileName ) );
         }
         $content[$key] = $value;
         eZFile::create( $tmpFile, false, serialize( $content) );
@@ -147,7 +147,7 @@ class eZMutex
         $content = array();
         if ( file_exists( $this->MetaFileName ) )
         {
-            $content = unserialize( eZFile::getContents( $this->MetaFileName ) );
+            $content = unserialize( file_get_contents( $this->MetaFileName ) );
         }
         return isset( $content[$key] ) ? $content[$key] : null;
     }
