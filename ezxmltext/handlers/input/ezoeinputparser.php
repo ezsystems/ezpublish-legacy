@@ -82,7 +82,8 @@ class eZOEInputParser extends eZXMLInputParser
         'link'    => array( 'name' => 'link' ),
        // Stubs for not supported tags.
         'tbody'   => array( 'name' => '' ),
-        'thead'   => array( 'name' => '' )
+        'thead'   => array( 'name' => '' ),
+        'tfoot'   => array( 'name' => '' )
     );
 
     /**
