@@ -41,7 +41,6 @@ $tpl = eZTemplate::instance();
 //$tpl->registerFunction( "section", new eZTemplateSectionFunction( "section" ) );
 //$tpl->registerFunction( "include", new eZTemplateIncludeFunction() );
 
-require_once( "lib/ezutils/classes/ezdebug.php" );
 $ini = eZINI::instance();
 if ( $ini->variable( 'TemplateSettings', 'Debug' ) == 'enabled' )
     eZTemplate::setIsDebugEnabled( true );

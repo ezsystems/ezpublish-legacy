@@ -54,9 +54,6 @@ class MyClass extends eZPersistentObject
 \endcode
 
 */
-
-require_once( "lib/ezutils/classes/ezdebug.php" );
-
 class eZPersistentObject
 {
     /*!

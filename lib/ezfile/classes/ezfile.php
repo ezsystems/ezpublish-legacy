@@ -37,8 +37,6 @@
  \brief Tool class which has convencience functions for files and directories
 
 */
-
-require_once( "lib/ezutils/classes/ezdebug.php" );
 class eZFile
 {
     /*!

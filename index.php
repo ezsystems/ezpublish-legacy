@@ -89,8 +89,6 @@ $GLOBALS['eZRedirection'] = false;
 
 error_reporting ( E_ALL | E_STRICT );
 
-// include standard libs
-require_once( "lib/ezutils/classes/ezdebug.php" );
 $debugINI = eZINI::instance( 'debug.ini' );
 eZDebugSetting::setDebugINI( $debugINI );
 

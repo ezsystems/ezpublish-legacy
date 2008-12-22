@@ -35,8 +35,6 @@
 
 */
 
-require_once( "lib/ezutils/classes/ezdebug.php" );
-
 class eZModule
 {
     const STATUS_IDLE = 0;

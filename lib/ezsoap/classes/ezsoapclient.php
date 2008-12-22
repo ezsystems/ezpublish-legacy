@@ -72,8 +72,6 @@ else
 
 */
 
-require_once( "lib/ezutils/classes/ezdebug.php" );
-
 class eZSOAPClient
 {
     /*!

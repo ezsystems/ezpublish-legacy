@@ -39,8 +39,6 @@
 
   \sa eZDB
 */
-
-require_once( "lib/ezutils/classes/ezdebug.php" );
 class eZPostgreSQLDB extends eZDBInterface
 {
     /*!

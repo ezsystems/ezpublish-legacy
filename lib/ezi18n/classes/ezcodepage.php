@@ -33,7 +33,6 @@
 
 */
 
-require_once( "lib/ezutils/classes/ezdebug.php" );
 class eZCodePage
 {
     const CACHE_CODE_DATE = 1028204478;

@@ -39,7 +39,6 @@
 
 */
 
-require_once( "lib/ezutils/classes/ezdebug.php" );
 class eZHTTPFile
 {
     const UPLOADEDFILE_OK = 0;

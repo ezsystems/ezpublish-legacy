@@ -38,7 +38,6 @@
 
 */
 
-require_once( "lib/ezutils/classes/ezdebug.php" );
 class eZSOAPResponse extends eZSOAPEnvelope
 {
     /*!

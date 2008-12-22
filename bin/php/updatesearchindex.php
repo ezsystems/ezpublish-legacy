@@ -92,7 +92,6 @@ function changeSiteAccessSetting( $siteAccess )
 print( "Starting object re-indexing\n" );
 
 require_once( 'lib/ezutils/classes/ezexecution.php' );
-require_once( "lib/ezutils/classes/ezdebug.php" );
 $db = eZDB::instance();
 
 if ( $dbHost or $dbName or $dbUser or $dbImpl )

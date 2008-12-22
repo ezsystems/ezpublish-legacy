@@ -62,7 +62,6 @@ class eZSearchEngine
         if ( !$currentVersion )
         {
             $errCurrentVersion = $contentObject->attribute( 'current_version');
-            require_once( "lib/ezutils/classes/ezdebug.php" );
             eZDebug::writeError( "Failed to fetch \"current version\" ({$errCurrentVersion})" .
                                  " of content object (ID: {$contentObjectID})", 'eZSearchEngine' );
             return;

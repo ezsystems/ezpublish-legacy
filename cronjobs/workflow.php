@@ -35,10 +35,8 @@ $runInBrowser = true;
 if ( isset( $webOutput ) )
     $runInBrowser = $webOutput;
 
-require_once( "lib/ezutils/classes/ezdebug.php" );
 require_once( "lib/ezutils/classes/ezsession.php" );
 
-require_once( "lib/ezutils/classes/ezdebug.php" );
 $workflowProcessList = eZWorkflowProcess::fetchForStatus( eZWorkflow::STATUS_DEFERRED_TO_CRON );
 //var_dump( $workflowProcessList  );
 //$user = eZUser::instance( 14 );

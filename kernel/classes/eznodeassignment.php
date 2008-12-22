@@ -36,7 +36,6 @@
   \brief The class eZNodeAssignment does
 
 */
-require_once( "lib/ezutils/classes/ezdebug.php" );
 class eZNodeAssignment extends eZPersistentObject
 {
     // Bit 0 is used to mark if the action is to be performed or not

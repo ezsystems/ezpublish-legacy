@@ -34,9 +34,6 @@
   \brief Executes php scripts with parameters safely
 
 */
-
-require_once( "lib/ezutils/classes/ezdebug.php" );
-
 class eZProcess
 {
     static function run( $file, $Params = array(), $params_as_var = false )

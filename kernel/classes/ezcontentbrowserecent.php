@@ -53,8 +53,6 @@ eZContentBrowseRecent::fetchListForUser( $userID )
 \endcode
 
 */
-
-require_once( "lib/ezutils/classes/ezdebug.php" );
 class eZContentBrowseRecent extends eZPersistentObject
 {
     /*!

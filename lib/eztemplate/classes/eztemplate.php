@@ -219,8 +219,6 @@ Denne koster {1.4|l10n(currency)}<br>
 \endcode
 */
 
-require_once( "lib/ezutils/classes/ezdebug.php" );
-
 class eZTemplate
 {
     const RESOURCE_FETCH = 1;

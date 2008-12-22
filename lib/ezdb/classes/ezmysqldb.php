@@ -38,8 +38,6 @@
   eZMySQLDB is the MySQL implementation of eZDB.
   \sa eZDB
 */
-
-require_once( "lib/ezutils/classes/ezdebug.php" );
 class eZMySQLDB extends eZDBInterface
 {
     /*!

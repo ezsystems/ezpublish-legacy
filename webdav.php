@@ -47,7 +47,6 @@ error_reporting ( E_ALL );
 // Turn off session stuff, isn't needed for WebDAV operations.
 $GLOBALS['eZSiteBasics']['session-required'] = false;
 
-require_once( "lib/ezutils/classes/ezdebug.php" );
 /*! Reads settings from site.ini and passes them to eZDebug.
  */
 function eZUpdateDebugSettings()

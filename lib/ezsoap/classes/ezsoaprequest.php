@@ -35,7 +35,6 @@
 
 */
 
-require_once( "lib/ezutils/classes/ezdebug.php" );
 class eZSOAPRequest extends eZSOAPEnvelope
 {
     /*!

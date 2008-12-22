@@ -38,7 +38,6 @@
   \sa eZDB
 */
 
-require_once( "lib/ezutils/classes/ezdebug.php" );
 class eZDBInterface
 {
     const BINDING_NO = 0;

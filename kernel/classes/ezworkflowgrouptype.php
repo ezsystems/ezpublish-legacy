@@ -35,7 +35,6 @@
 */
 
 require_once( "kernel/common/i18n.php" );
-require_once( "lib/ezutils/classes/ezdebug.php" );
 
 class eZWorkflowGroupType extends eZWorkflowType
 {

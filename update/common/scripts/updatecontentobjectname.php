@@ -282,7 +282,6 @@ print( "Updating content object names\n" );
 
 // eZModule::setGlobalPathList( array( "kernel" ) );
 require_once( 'lib/ezutils/classes/ezexecution.php' );
-require_once( "lib/ezutils/classes/ezdebug.php" );
 
 $db = eZDB::instance();
 

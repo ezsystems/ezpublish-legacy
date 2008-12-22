@@ -47,7 +47,6 @@
   PHP error messages can also be shown using setHandleType().
 
   \code
-  require_once( "lib/ezutils/classes/ezdebug.php" );
 
   // write a temporary debug message
   eZDebug::writeDebug( "Test" );
