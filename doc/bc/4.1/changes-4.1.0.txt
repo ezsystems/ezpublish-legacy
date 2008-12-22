@@ -15,7 +15,7 @@ Deprecated features
   This class and related sub-classes, such as eZTARArchiveHandler has been
   deprecated, they will be removed in eZ Publish 4.2. Archive from eZ Components
   is the intended replacement of this functionality.
-  
+
 - eZFile::getContents()
   The method getContents() of eZFile is deprecated now, use file_get_contents()
   instead.
@@ -26,31 +26,31 @@ Removed features
 
 - eZSelectionType loose functions
 
-  The file in which eZSelectionType is defined contained two loose functions, 
+  The file in which eZSelectionType is defined contained two loose functions,
   namely serializeContentObjectAttribute and unserializeContentObjectAttribute,
-  which at the time of introducing them were supposed to be inside the class 
+  which at the time of introducing them were supposed to be inside the class
   definition. These two functions have been removed.
-  
+
 - eZFilePassthroughHandler
 
   The deprecated class eZFilePassthroughHandler was removed. Use
   ezFilePassthroughHandler instead.
-  
+
 - eZXMLInputType
 
   The class eZXMLInputType, which was not any longer used by any part of the eZ
   Publish kernel, has been removed.
-  
+
 - eZURLTranslator
 
   The class eZURLTranslator, which was not any longer used by any part of the eZ
   Publish kernel, has been removed.
-  
+
 - eZDebugErrorHandler()
   The eZDebugErrorHandler() function that was declared in lib/ezutils/classes/ezdebug.php,
   has been removed. The new function eZDebug::recursionProtectErrorHandler() is
   used now as custom error handler.
-  
+
 - OpenFTS search plugin
   There existed some code to use OpenFTS as a search engine. This code was never completed
   though, and in an unusable state. Therefore it has been removed.
@@ -69,6 +69,21 @@ EZP_AUTOLOAD_ALLOW_KERNEL_OVERRIDE
     This setting controls if eZ Publish's autoload system should allow, and
     load classes, which override kernel classes from extensions.
 
+EZP_USE_BUNDLED_COMPONENTS
+    If you are using a distribution of eZ Publish with which the necessary
+    eZ Components are bundled (in lib/ezc), then you can use this setting to
+    control if the bundled eZ Components should be used (true) or not (false).
+    By default, when this setting is not present, the bundled eZ Components are
+    used. If you're using the bundled eZ Components it's recommended to define
+    EZP_USE_BUNDLED_COMPONENTS as a boolean true anyway, for optimal speed.
+
+EZC_BASE_PATH
+   If you are not using the bundled eZ Components, then for optimal speed it is
+   recommended to set EZC_BASE_PATH to either ezc/Base/base.php or Base/src/base.php,
+   depending on how you installed the eZ Components. By default, if this setting
+   is not present, eZ Publish first tries to include ezc/Base/base.php. If that fails
+   Base/src/base.php is included.
+
 Changes to method signatures
 ----------------------------
 
@@ -76,13 +91,13 @@ Changes to method signatures
 
   Parameter 3 is changed to be an array of locale codes, rather than a string
   with locale code.
-  
+
 - eZDBClusterFileHandler - getFileList
 
   The parameters have been completely changed. Earlier, getFileList() accepted
-  2 booleans to define if files in the scopes 'binaryfile' and 'image' should 
-  be omitted. Now the method accepts an array of scopes of the files you want 
-  to be returned, and a boolean with which you can reverses the behavior so 
+  2 booleans to define if files in the scopes 'binaryfile' and 'image' should
+  be omitted. Now the method accepts an array of scopes of the files you want
+  to be returned, and a boolean with which you can reverses the behavior so
   that all files in the scopes in the array are excluded.
 
 Change of behaviour
@@ -90,12 +105,12 @@ Change of behaviour
 
 - eZContentClass - __clone
 
-  A clone of an instance of eZContentClass will have a new remote ID, while 
+  A clone of an instance of eZContentClass will have a new remote ID, while
   before it had the same remote ID as its original.
-  
+
 - eZCharTransform does not any longer have a member variable $Mapper, because
-  it caused wrong transformation rules to be used when calling 
-  eZCharTransform::transformByGroup multiple times with another value for its 
+  it caused wrong transformation rules to be used when calling
+  eZCharTransform::transformByGroup multiple times with another value for its
   $group parameter.
 
 - eZMail - validate
