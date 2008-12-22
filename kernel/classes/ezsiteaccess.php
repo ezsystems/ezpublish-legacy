@@ -101,7 +101,7 @@ class eZSiteAccess
      * - clears all in-memory caches used by the INI system
      * - re-builds the list of paths where INI files are searched for
      */
-    function reInitialise()
+    static function reInitialise()
     {
         if ( isset( $GLOBALS['eZCurrentAccess'] ) )
         {
