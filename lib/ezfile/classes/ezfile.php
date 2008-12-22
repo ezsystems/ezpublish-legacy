@@ -121,6 +121,8 @@ class eZFile
     */
     static function getContents( $filename )
     {
+        eZDebug::writeWarning( __METHOD__ . ' is deprecated, use file_get_contents() instead' );
+
         if ( function_exists( 'file_get_contents' ) )
         {
             return file_get_contents( $filename );
