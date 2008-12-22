@@ -441,7 +441,7 @@ class eZOEXMLInput extends eZXMLInputHandler
             $text = preg_replace( '#<!--.*?-->#s', '', $text ); // remove HTML comments
             $text = str_replace( "\r", '', $text);
 
-            if ( self::$browserType === 'IE' )
+            if ( self::$browserType === 'Trident' )
             {
                 $text = preg_replace( "/[\n\t]/", '', $text);
             }
@@ -610,7 +610,7 @@ class eZOEXMLInput extends eZXMLInputHandler
             $output .= $this->inputSectionXML( $rootSectionNode, 0 );
         }
 
-        if ( self::$browserType === 'IE' )
+        if ( self::$browserType === 'Trident' )
         {
             $output = str_replace( '<p></p>', '<p>&nbsp;</p>', $output );
         }
@@ -621,7 +621,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
         $output = str_replace( "\n", '', $output );
 
-        if ( self::$browserType === 'IE' )
+        if ( self::$browserType === 'Trident' )
         {
             $output .= '<p>&nbsp;</p>';
         }
@@ -1294,7 +1294,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
                     $tableRows .= '<tr' . $TRcustomAttributePart . $tableRowStyleString . '>' . $tableData . '</tr>';
                 }
-                //if ( self::$browserType === 'IE' )
+                //if ( self::$browserType === 'Trident' )
                 //{
                     $customAttributePart .= ' width="' . $width . '"';
                 /*}

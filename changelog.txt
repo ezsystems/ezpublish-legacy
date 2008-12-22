@@ -1,5 +1,8 @@
 eZ Online Editor 5.0 extension Changelog
 
+5.0rc11
+* Fixed regression #014110: IE7 double every paragraph break on every edit
+
 5.0rc10
 * Fixed #14097: Custom-tags cause errors in var/error.log
 * Fixed #14099: Default selections in add-hyperlink popup dialogue behave oddly
