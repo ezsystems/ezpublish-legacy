@@ -40,6 +40,9 @@ sort( $availableExtensionArray );
 
 if ( $module->isCurrentAction( 'ActivateExtensions' ) )
 {
+    $ini = eZINI::instance( 'module.ini' );
+    $oldModules = $ini->variable( 'ModuleSettings', 'ModuleList' );
+
     if ( $http->hasPostVariable( "ActiveExtensionList" ) )
     {
         $selectedExtensionArray = $http->postVariable( "ActiveExtensionList" );
@@ -58,6 +61,15 @@ if ( $module->isCurrentAction( 'ActivateExtensions' ) )
     eZCache::clearByTag( 'ini' );
 
     eZSiteAccess::reInitialise();
+
+    $ini = eZINI::instance( 'module.ini' );
+    $currentModules = $ini->variable( 'ModuleSettings', 'ModuleList' );
+    if ( $currentModules != $oldModules )
+    {
+        // ensure that evaluated policy wildcards in the user info cache
+        // will be up to date with the currently activated modules
+        eZCache::clearByID( 'user_info_cache' );
+    }
 
     updateAutoload( $tpl );
 }

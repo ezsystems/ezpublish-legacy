@@ -1399,6 +1399,10 @@ language_locale='eng-GB'";
             $this->PersistenceList['final_text'][] = $text;
         }
 
+        // ensure that evaluated policy wildcards in the user info cache
+        // will be up to date with the currently activated modules
+        eZCache::clearByID( 'user_info_cache' );
+
         return true;
     }
 
