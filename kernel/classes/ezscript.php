@@ -192,7 +192,7 @@ class eZScript
         $timezone = $ini->variable( "TimeZoneSettings", "TimeZone" );
         if ( $timezone )
         {
-            putenv( "TZ=$timezone" );
+            date_default_timezone_set( $timezone );
         }
     }
 

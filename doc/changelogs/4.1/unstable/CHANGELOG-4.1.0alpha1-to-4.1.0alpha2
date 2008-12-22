@@ -5,6 +5,7 @@ Changes from 4.1.0alpha1 to 4.1.0alpha2
 - Implemented enhancement #13739: Replace __CLASS__.'::'.__FUNCTION__ with __METHOD__
 - Implemented enhancement #14180: Remove deprecated eZURLTranslator class
 - Implemented enhancement #14183: Deprecate eZFile::getContents()
+- Implemented enhancement #14005: Remove putenv( "TZ=$timezone" ); from index.php
 
 *Design:
 
