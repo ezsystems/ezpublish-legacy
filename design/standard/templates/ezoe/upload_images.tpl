@@ -93,6 +93,7 @@ if ( contentType === 'images' )
                                                            'depth', ezini( 'LocationSettings', 'MaxDepth', 'upload.ini' ),
                                                            'depth_operator', 'lt',
                                                            'load_data_map', false(),
+                                                           'sort_by', $root_node.sort_array|append( array('name', true() ) ),
                                                            'limit', ezini( 'LocationSettings', 'MaxItems', 'upload.ini' ) ) )}
                         {foreach $selection_list as $item}
                         {if $item.can_create}
