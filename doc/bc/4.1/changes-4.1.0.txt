@@ -50,6 +50,10 @@ Removed features
   The eZDebugErrorHandler() function that was declared in lib/ezutils/classes/ezdebug.php,
   has been removed. The new function eZDebug::recursionProtectErrorHandler() is
   used now as custom error handler.
+  
+- OpenFTS search plugin
+  There existed some code to use OpenFTS as a search engine. This code was never completed
+  though, and in an unusable state. Therefore it has been removed.
 
 
 New constants in config.php
