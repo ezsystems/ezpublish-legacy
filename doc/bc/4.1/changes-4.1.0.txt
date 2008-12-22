@@ -45,6 +45,11 @@ Removed features
 
   The class eZURLTranslator, which was not any longer used by any part of the eZ
   Publish kernel, has been removed.
+  
+- eZDebugErrorHandler()
+  The eZDebugErrorHandler() function that was declared in lib/ezutils/classes/ezdebug.php,
+  has been removed. The new function eZDebug::recursionProtectErrorHandler() is
+  used now as custom error handler.
 
 
 New constants in config.php

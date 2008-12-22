@@ -62,7 +62,6 @@ bad-name-flag=disabled
 
 */
 
-require_once( 'lib/ezutils/classes/ezdebug.php' );
 class eZDebugSetting
 {
     /*!

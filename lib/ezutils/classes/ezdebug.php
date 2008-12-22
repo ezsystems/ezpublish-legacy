@@ -281,7 +281,7 @@ class eZDebug
         {
             case self::HANDLE_FROM_PHP:
             {
-                set_error_handler( "eZDebugErrorHandler" );
+                set_error_handler( array( $instance, 'recursionProtectErrorHandler' ) );
             } break;
 
             case self::HANDLE_TO_PHP:
@@ -316,6 +316,22 @@ class eZDebug
         $old_types = $instance->ShowTypes;
         $instance->ShowTypes = $types;
         return $old_types;
+    }
+
+    public function recursionProtectErrorHandler( $errno, $errstr, $errfile, $errline )
+    {
+        if ( $this->recursionFlag )
+        {
+            print( "Fatal debug error: A recursion in debug error handler was detected, aborting debug message.<br/>" );
+            $this->recursionFlag = false;
+            return;
+        }
+
+        $this->recursionFlag = true;
+
+        $result = $this->errorHandler( $errno, $errstr, $errfile, $errline );
+        $this->recursionFlag = false;
+        return $result;
     }
 
     /*!
@@ -1899,28 +1915,8 @@ td.timingpoint2
 
     /// A list of debug reports that appears at the top of debug output
     public $topReportsList;
+
+    private $recursionFlag = false;
 }
-
-/*!
-  Helper function for eZDebug, called whenever a PHP error occurs.
-  The error is then handled by the eZDebug class.
-*/
-
-function eZDebugErrorHandler( $errno, $errstr, $errfile, $errline )
-{
-    if ( $GLOBALS['eZDebugRecursionFlag'] )
-    {
-        print( "Fatal debug error: A recursion in debug error handler was detected, aborting debug message.<br/>" );
-        $GLOBALS['eZDebugRecursionFlag'] = false;
-        return;
-    }
-
-    $GLOBALS['eZDebugRecursionFlag'] = true;
-    $debug = eZDebug::instance();
-    $result = $debug->errorHandler( $errno, $errstr, $errfile, $errline );
-    $GLOBALS['eZDebugRecursionFlag'] = false;
-    return $result;
-}
-$GLOBALS['eZDebugRecursionFlag'] = false;
 
 ?>

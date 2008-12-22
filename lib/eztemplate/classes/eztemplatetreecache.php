@@ -37,8 +37,6 @@
 
 */
 
-require_once( 'lib/ezutils/classes/ezdebug.php' );
-
 class eZTemplateTreeCache
 {
     const CODE_DATE = 1044440833;

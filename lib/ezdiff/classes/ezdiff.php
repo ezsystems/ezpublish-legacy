@@ -32,8 +32,6 @@
   Diff functionality
 */
 
-require_once( 'lib/ezutils/classes/ezdebug.php' );
-
 /*!
   \class eZDiff ezdiff.php
   \ingroup eZDiff

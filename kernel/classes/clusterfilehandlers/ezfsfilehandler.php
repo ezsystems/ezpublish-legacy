@@ -31,8 +31,6 @@
 /*! \file ezfsfilehandler.php
 */
 
-require_once( 'lib/ezutils/classes/ezdebugsetting.php' );
-
 class eZFSFileHandler
 {
     /**

@@ -65,15 +65,12 @@
   the static setIsDebugEnabled() function. The class will then give information about
   which files are load, if cache files are used and when cache files are written.
 */
-
-include_once 'lib/ezutils/classes/ezdebug.php';
-/*!
- Has the date of the current cache code implementation as a timestamp,
- if this changes(increases) the cache files will need to be recreated.
-*/
-
 class eZINI
 {
+    /*!
+     Has the date of the current cache code implementation as a timestamp,
+     if this changes(increases) the cache files will need to be recreated.
+    */
     const CACHE_CODE_DATE = 1043407542;
     const DEBUG_INTERNALS = false;
 

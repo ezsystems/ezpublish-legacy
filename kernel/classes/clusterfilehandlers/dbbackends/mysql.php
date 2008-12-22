@@ -61,9 +61,6 @@ CREATE TABLE ezdbfile_data (
 ) ENGINE=InnoDB;
  */
 
-require_once( 'lib/ezutils/classes/ezdebugsetting.php' );
-require_once( 'lib/ezutils/classes/ezdebug.php' );
-
 class eZDBFileHandlerMysqlBackend
 {
     function _connect( $newLink = false )

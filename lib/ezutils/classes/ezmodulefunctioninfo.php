@@ -37,8 +37,6 @@
 
 */
 
-require_once( 'lib/ezutils/classes/ezdebug.php' );
-
 class eZModuleFunctionInfo
 {
     const ERROR_NO_CLASS = 5;

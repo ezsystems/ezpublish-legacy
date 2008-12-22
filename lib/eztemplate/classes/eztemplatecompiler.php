@@ -67,8 +67,6 @@
       for caching of variables in the script.
 */
 
-require_once( 'lib/ezutils/classes/ezdebug.php' );
-
 class eZTemplateCompiler
 {
     const CODE_DATE = 1074699607;

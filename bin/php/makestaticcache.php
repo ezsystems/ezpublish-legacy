@@ -47,7 +47,6 @@ $force = $options['force'];
 
 $script->initialize();
 
-require_once( 'lib/ezutils/classes/ezdebug.php' );
 $staticCache = new eZStaticCache();
 $staticCache->generateCache( $force, false, $cli, false );
 

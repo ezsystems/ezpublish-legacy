@@ -50,7 +50,6 @@ $cli->output( "This is a text string" );
 
 */
 
-require_once( 'lib/ezutils/classes/ezdebug.php' );
 class eZCLI
 {
     const TERMINAL_ENDOFLINE_STRING = "\n";

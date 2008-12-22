@@ -28,7 +28,6 @@
 //
 
 require_once( 'kernel/common/template.php' );
-require_once( 'lib/ezutils/classes/ezdebug.php' );
 
 $Module = $Params['Module'];
 $objectID = $Params['ObjectID'];

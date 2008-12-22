@@ -40,8 +40,6 @@
 
 */
 
-require_once( 'lib/ezutils/classes/ezdebug.php' );
-
 class eZTranslationCache
 {
     const CODE_DATE = 1058863428;

@@ -104,8 +104,6 @@
   \sa eZLocale eZINI
 */
 
-require_once( 'lib/ezutils/classes/ezdebug.php' );
-
 class eZDB
 {
     /*!
