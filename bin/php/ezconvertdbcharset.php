@@ -55,6 +55,16 @@ define( 'EZ_CREATE_CONTENTCLASS_ATTRIBUTE_TMP_TABLE_SQL_POSTGRESQL',
         name character varying(255) DEFAULT ''::character varying NOT NULL
     )" );
 
+define( 'EZ_CREATE_CONTENTCLASS_ATTRIBUTE_TMP_TABLE_SQL_ORACLE',
+    "
+    CREATE GLOBAL TEMPORARY TABLE " . EZ_CONTENTCLASS_ATTRIBUTE_TMP_TABLE_NAME . " (
+        id number(11) DEFAULT 0 NOT NULL,
+        version number(11) DEFAULT 0 NOT NULL,
+        is_always_available number(11) DEFAULT 0 NOT NULL,
+        language_locale varchar2(20) NOT NULL,
+        name varchar2(255) NOT NULL
+    ) ON COMMIT PRESERVE ROWS;" );
+
 define( 'EZ_DROP_CONTENTCLASS_ATTRIBUTE_TMP_TABLE_SQL',
     "DROP TABLE " . EZ_CONTENTCLASS_ATTRIBUTE_TMP_TABLE_NAME );
 
@@ -64,13 +74,13 @@ define( 'EZ_DROP_CONTENTCLASS_ATTRIBUTE_TMP_TABLE_SQL',
 ***************************************************************/
 function showError( $message, $addEOL = true, $bailOut = true )
 {
-    global $cli;
-    global $script;
+    global $cli, $script, $eZDir;
 
     $cli->output( $cli->stylize( 'error', "Error: " .  $message ), $addEOL );
 
     if( $bailOut )
     {
+        chdir( $eZDir ); // since it might have changed while running...
         $script->shutdown( 1 );
     }
 }
@@ -111,24 +121,20 @@ function showMessage3( $message, $addEOL = true )
 */
 function eZGetUserInput( $prompt )
 {
-    $stdin = fopen( "php://stdin", "r+" );
+    echo $prompt;
 
-    fwrite( $stdin, $prompt );
-
-    $userInput = fgets( $stdin );
-    $userInput = trim( $userInput, "\n" );
-
-    fclose( $stdin );
+    $userInput = fgets( STDIN );
+    $userInput = trim( $userInput, "\n\r" );
 
     return $userInput;
 }
 
-function eZExecuteShellCommand( $command, $errMessage = '', $retry = true )
+function eZExecuteShellCommand( $command, $errMessage = '', $retry = true, $ignore = false )
 {
     $err = 0;
     do
     {
-        system( $command, $err );
+        $out = system( $command, $err );
         if ( $err )
         {
             if ( $errMessage )
@@ -138,19 +144,25 @@ function eZExecuteShellCommand( $command, $errMessage = '', $retry = true )
 
             if ( $retry )
             {
-                $action = false;
-                while ( !$action )
+                do
                 {
-                    $action = eZGetUserInput( "Retry? [y/n]: ");
-                    if( strpos( $action, 'n' ) === 0 )
+                    $action = $ignore ? eZGetUserInput( "Retry? [y/n/Ignore]: " ) : eZGetUserInput( "Retry? [y/n]: " );
+                    if ( strpos( $action, 'y' ) === 0 )
                     {
+                        $continue = false;
+                    }
+                    elseif ( $ignore && strpos( $action, 'I' ) === 0 )
+                    {
+                        $continue = true;
+                        $retry = false;
+                    }
+                    else
+                    {
+                        // default action is not to retry but to abort
                         showError( "Aborting..." );
                     }
-                    else if ( strpos( $action, 'y' ) !== 0 )
-                    {
-                        $action = false;
-                    }
                 }
+                while ( !$continue );
             }
             else
             {
@@ -322,6 +334,7 @@ function checkDBDriver()
     {
         case 'mysql':
         case 'postgresql':
+        case 'oracle':
             break;
         default:
             {
@@ -354,6 +367,120 @@ function checkDBCharset()
     return true;
 }
 
+/*!
+ DB specific checks. A string is returned for error conditions (script halts after printing it)
+*/
+function checkDBExtraConditions()
+{
+    $db = eZDB::instance();
+
+    $function = "checkDBExtraConditions" . strtoupper( $db->databaseName() );
+    if ( function_exists( $function ) )
+    {
+        return $function();
+    }
+
+    return true;
+}
+
+/*!
+ @todo We should really check for exp_full, imp_full, (sysdba) privileges rather than DBA role...
+ @todo add check for RAC - do not try anything in such a case
+*/
+function checkDBExtraConditionsORACLE()
+{
+    global $oracleDbaAccount, $oracleHome;
+
+    //$db = eZDB::instance();
+    global $db;
+
+    showMessage3( '' );
+    showWarning( "The procedure of upgrading the character set of an Oracle database needs manual intervention.\n".
+                 "This upgrade script will only create a database export, and later reimport it, leaving to\n".
+                 "the end user (you) the responsibility of changing database character set.\n".
+                 "Please refer to Oracle documentation for instructions on altering a database character set\n".
+                 "(it usually involves creating a new database from scratch, and it always has effect on all\n".
+                 "schemas contained in the database)." );
+    showMessage3( '' );
+    $continue = eZGetUserInput( "Do you want to continue?  (y to accept) " );
+
+    if ( $continue != 'y' && $continue != 'Y' )
+    {
+        return "Aborting";
+    }
+
+    $oracleDbaAccount = false;
+    while( $oracleDbaAccount === false )
+    {
+        // NB: we need export_full privileges for full export.
+        // We could need SYSDBA for connecting AS SYSDBA and altering db - IF IT WORKED...
+        // In that case we should try to support OSOPER connections, too...
+        if ( $db->isConnected() )
+        {
+            $dba = $db->arrayQuery("select default_role from user_role_privs where granted_role in ('DBA')");
+            //$dba = $db->arrayQuery("select sysdba from V\$PWFILE_USERS where username='".strtoupper($db->User)."'");
+        }
+        else
+        {
+            showWarning( "Supplied username/password are incorrect" );
+            $dba = false;
+        }
+        if (count($dba) && $dba[0]['default_role'] == 'YES')
+        //if (count($dba) && $dba[0]['sysdba'] == 'TRUE')
+        {
+            $oracleDbaAccount = array( 'user' => $db->User, 'password' => $db->Password );
+            // reconnect using standard credentials, in case we have logged in as admin
+            $db->close();
+            $db = eZDB::instance( false, false, true );
+        }
+        else
+        {
+            //$account = eZGetUserInput( "Please enter username/password of a valid SYSDBA account (return to abort): ");
+            $account = eZGetUserInput( "Please enter username/password of a valid DBA account (return to abort): ");
+            if ( $account == "" )
+            {
+                //return "The charset conversion script needs to run with an oracle user account that has SYSDBA privileges. Aborting.";
+                return "The charset conversion script needs to run with an oracle user account that has DBA privileges. Aborting.";
+            }
+            else
+            {
+                $account = explode( '/', $account );
+                if ( count( $account ) > 1 )
+                {
+                    $db->close();
+                    $db = eZDB::instance( false, array( 'user' => $account[0], 'password' => $account[1] ), true );
+                }
+            }
+        }
+    } // while
+
+    $oracleHome = getenv( 'ORACLE_HOME' );
+    if ( $oracleHome != "" )
+    {
+        $ok = eZGetUserInput( "Found ORACLE_HOME $oracleHome, is this the correct directory? (y to accept) ");
+        if ( $ok != "y" && $ok != "Y" )
+        {
+            $oracleHome = '';
+        }
+    }
+    $exe = eZSys::osType() == 'win32' ? '.exe' : '';
+    //while( !is_dir( $oracleHome ) || !file_exists( $oracleHome . '/bin/sqlplus' . $exe ) || !file_exists( $oracleHome . '/bin/imp' . $exe ) || !file_exists( $oracleHome . '/bin/exp' . $exe ) )
+    while( !is_dir( $oracleHome ) || !file_exists( $oracleHome . '/bin/imp' . $exe ) || !file_exists( $oracleHome . '/bin/exp' . $exe ) )
+    {
+        if ( $oracleHome != "" )
+        {
+            showWarning( "imp or exp tools not found in ORACLE_HOME $oracleHome" );
+        }
+        $oracleHome = eZGetUserInput( "Please enter the path to ORACLE_HOME, where the imp and exp tools are (return to abort): ");
+        if ( $oracleHome == "" )
+        {
+            return "The charset conversion script needs to run with an oracle home where the imp and exp tools are available. Aborting.";
+        }
+    }
+
+    return true;
+}
+
 /**************************************************************
 * handle content class / content class attributes             *
 ***************************************************************/
@@ -372,7 +499,7 @@ function dropContentClassAttributeTempTable()
     $db->query( $sql );
 }
 
-function unserializeContentClassAttriubteNames()
+function unserializeContentClassAttributeNames()
 {
     $db = eZDB::instance();
 
@@ -380,9 +507,9 @@ function unserializeContentClassAttriubteNames()
 
     $limit = 100;
     $offset = 0;
-    $selectSQL = "SELECT id, version, serialized_name_list FROM ezcontentclass_attribute ORDER BY id, version LIMIT $limit";
+    $selectSQL = "SELECT id, version, serialized_name_list FROM ezcontentclass_attribute ORDER BY id, version";
 
-    while ( $result = $db->arrayQuery( $selectSQL . " OFFSET $offset" ) )
+    while ( $result = $db->arrayQuery( $selectSQL , array( 'limit' => $limit, 'offset' => $offset ) ) )
     {
         foreach ( $result as $row )
         {
@@ -439,9 +566,9 @@ function serializeNames( $selectSQL, $storeToTable )
     $limit = 100;
     $offset = 0;
 
-    $selectSQL .= "\nLIMIT $limit";
+    //$selectSQL .= "\nLIMIT $limit";
 
-    while ( $result = $db->arrayQuery( $selectSQL . " OFFSET $offset" ) )
+    while ( $result = $db->arrayQuery( $selectSQL , array( 'limit' => $limit, 'offset' => $offset ) ) )
     {
         // since name data is splitted between rows,
         // need to adjust selected data:
@@ -580,10 +707,10 @@ function convertSerializedData( $serializedDataInfo )
         $keysString = implode( ', ', $tableInfo['keys'] );
         $dataFieldName = $tableInfo['data_field'];
         $selectSQL = "SELECT " . $keysString . ', ' . $dataFieldName .
-                     " FROM " . $tableInfo['table'] .
-                     " LIMIT $limit";
+                     " FROM " . $tableInfo['table'];
+                     //" LIMIT $limit";
 
-        while ( $result = $db->arrayQuery( $selectSQL . " OFFSET $offset" ) )
+        while ( $result = $db->arrayQuery( $selectSQL, array( 'limit' => $limit, 'offset' => $offset ) ) )
         {
             foreach ( $result as $row )
             {
@@ -657,8 +784,8 @@ function convertArray( $array, $inCharset, $outCharset )
 {
     if ( !is_array( $array ) )
     {
-        var_dump( $array );
         showError( "convertArray: not an array was passed" );
+        var_dump( $array );
         return;
     }
 
@@ -695,6 +822,14 @@ function createBLOBColumnPOSTGRESQL( $tableInfo )
 
 }
 
+
+function createBLOBColumnORACLE( $tableInfo )
+{
+    $db = eZDB::instance();
+    $query = "ALTER TABLE " . $tableInfo['table'] . " ADD " . $tableInfo['blob_field'] . " BLOB";
+    $db->query( $query );
+}
+
 function dropBLOBColumn( $tableInfo )
 {
     $db = eZDB::instance();
@@ -709,7 +844,7 @@ function convertXMLDatatypes( $tableInfoList )
 {
     foreach ( $tableInfoList as $tableInfo )
     {
-        showMessage3( "converting '" . $tableInfo['datatype'] . "': " . $tableInfo['table'] . "." . $tableInfo['data_field'] );
+        showMessage3( "  converting '" . $tableInfo['datatype'] . "': " . $tableInfo['table'] . "." . $tableInfo['data_field'] );
 
         convertXMLData( $tableInfo, "xmlDatatypeSelectSQL", "xmlDatatypeUpdateSQL", "convertXMLDatatypeProgress" );
     }
@@ -719,7 +854,7 @@ function convertCustomXMLData( $tableInfoList )
 {
     foreach ( $tableInfoList as $tableInfo )
     {
-        showMessage3( "converting: '" . $tableInfo['table'] . "." . $tableInfo['data_field'] . "' table" );
+        showMessage3( "  converting: '" . $tableInfo['table'] . "." . $tableInfo['data_field'] . "' table" );
 
         convertXMLData( $tableInfo, "xmlCustomDataSelectSQL", "xmlCustomDataUpdateSQL", "convertXMLCustomDataProgress" );
     }
@@ -807,9 +942,9 @@ function convertXMLData( $tableInfo, $xmlDataSelectSQLFunction, $xmlDataUpdateSQ
     $offset = 0;
 
     $selectSQL = $xmlDataSelectSQLFunction( $tableInfo );
-    $selectSQL .= "\nLIMIT $limit";
+    //$selectSQL .= "\nLIMIT $limit";
 
-    while ( $result = $db->arrayQuery( $selectSQL . " OFFSET $offset" ) )
+    while ( $result = $db->arrayQuery( $selectSQL, array( 'limit' => $limit, 'offset' => $offset ) ) )
     {
         foreach ( $result as $row )
         {
@@ -869,9 +1004,6 @@ function changeDBCharset( $charset, $collation )
     if ( function_exists( $function ) )
     {
         $function( $charset, $collation );
-
-        // to avoid on-the-fly recoding.
-        $db->query( "SET NAMES $charset" );
     }
     else
     {
@@ -892,12 +1024,14 @@ function changeDBCharsetMYSQL( $charset, $collation )
        $tableName = reset( $table ); // get first element of $table
        if ( $tableName )
        {
-           showMessage3( 'Changing table: ' . $tableName );
+           showMessage3( '  changing table: ' . $tableName );
            $db->query( 'ALTER TABLE ' . $db->escapeString( $tableName ) . " CONVERT TO CHARACTER SET $charset COLLATE $collation" );
-           showMessage3( 'Optimizing table: ' . $tableName );
+           showMessage3( '  optimizing table: ' . $tableName );
            $db->query( 'OPTIMIZE TABLE ' . $db->escapeString( $tableName ) );
        }
     }
+
+    $db->query( "SET NAMES $charset" );
 }
 
 function changeDBCharsetPOSTGRESQL( $charset, $collation )
@@ -928,7 +1062,9 @@ function changeDBCharsetPOSTGRESQL( $charset, $collation )
     $dumpFile = $dbName . ".psql";
     $dumpPath = "$dumpDir/$dumpFile";
 
-    showMessage3( 'finalizing current changes' );
+    // note: is this necessary? since we close the connection asap, and we are not in a transaction,
+    // there is no need to commit or alter encoding, really...
+    showMessage3( '  finalizing current changes' );
     // set output encoding
     $db->query( "ALTER DATABASE " . $dbName . " SET client_encoding = $charset" );
     // finalizing changes
@@ -937,16 +1073,16 @@ function changeDBCharsetPOSTGRESQL( $charset, $collation )
     $db->close();
 
 
-    showMessage3( 'sleeping..' );
+    showMessage3( '  sleeping..' );
     sleep( 5 );
 
     // dump db
-    showMessage3( "taking the db dump, tmp storage is '$dumpPath'" );
+    showMessage3( "  taking the db dump, tmp storage is '$dumpPath'" );
     eZDir::mkdir( $dumpDir, false, true );
     $command = "$pgDump $dbName > '$dumpPath'";
     eZExecuteShellCommand( $command, "failed to dump db. tried command '$command'");
 
-    showMessage3( "re-creating db with charset '$charset'" );
+    showMessage3( "  re-creating db with charset '$charset'" );
     // drop db
     $command = "$dropdb $dbName";
     eZExecuteShellCommand( $command, "failed to drop db. tried command '$command'");
@@ -955,23 +1091,268 @@ function changeDBCharsetPOSTGRESQL( $charset, $collation )
     eZExecuteShellCommand( $command, "failed to create db. tried command '$command'");
 
     // restore dump into newly created db
-    showMessage3( "restoring db dump" );
+    showMessage3( "  restoring db dump" );
     $command = "$psql $dbName < '$dumpPath'";
     eZExecuteShellCommand( $command, "failed to restore db dump. tried command '$command'");
 
-    showMessage3( "clean up" );
+    showMessage3( "  clean up" );
     // clean up
     eZDir::recursiveDelete( $dumpPath );
 
     // re-initialize db interface
     $db = eZDB::instance( false, false, true );
-    $db->begin();
+    //$db->begin();
+
+    $db->query( "SET NAMES $charset" );
 }
 
+/**
+* NOTE: What if other data is also in the db? Either we do not convert it and
+*       have it most likely corrupted, or we convert it - and leave to the client
+*       for the other apps to set up NLS_LANG correctly to keep working.
+*
+*       We could use the csalter script iff we where sure that db version was > 9...
+*
+*       Oracle 9 exp exports data using the DB charset
+*
+* From http://www.experts-exchange.com/Database/Oracle/Q_22836430.html
+
+May be the best procedure is the following one:
+On PROD Database:
+1. export full=y rows=n file=export_db_structure.dmp
+2. export full=y file=export_db_date.dmp
+On TEST Database:
+1. create tablespaces with the same name on PROD
+2. import full=y file=export_db_structure.dmp ignore=y
+Now we have users of PROD, on TEST database. SYSTEM user is not imported, because already exists.
+3. import fromuser=user1,user2,user3 touser=user1,user2,user3  file=export_db_data.dmp ignore=y
+now we have user1..3 data on their tables...
+
+*       Unfortunately even if we do that, Oracle will nto let us convert a db from
+*       latin1 to utf8 charsets. The only way is to drop the db and creater it
+*       from scratch. Since we have no clue about db storage, we will let the admin
+*       take care of that part, and only do the export/import parts.
+*
+* @todo oracle servers might use UTF8 charset instead of AL32UTF8: check before executing!
+*
+* @todo using dbname as file name does not work with easy conection naming
+*
+* @todo log somewhere results of imp, exp commands for better understanding of errors
+*/
+function changeDBCharsetORACLE( $charset, $collation )
+{
+    global $db, $oracleDbaAccount, $oracleHome, $eZDir;
+
+    //$db = eZDB::instance( false, array( 'user' => $oracleDbaAccount['user'], 'password' => $oracleDbaAccount['password'] ), true );
+
+    // since we are here, we should be connected with a dba account (extra conditions check did it)
+    $oracleCharset = $db->arrayQuery("select value from nls_database_parameters where parameter = 'NLS_CHARACTERSET'");
+    $oracleCharset = $oracleCharset[0]['value'];
+    //$oracleLocale = $db->arrayQuery("select language||'_'||territory as locale from (select value as language from nls_database_parameters where parameter = 'NLS_LANGUAGE'), (select value as territory from nls_database_parameters where parameter = 'NLS_TERRITORY')");
+    //$oracleLocale = $oracleLocale[0]['locale'];
+    /*$users = $db->arrayQuery("select username from all_users where username not in ('SYS', 'SYSTEM')");
+    $oracleUsers = array();
+    foreach( $users as $row )
+    {
+        $oracleUsers[] = $row['username'];
+    }*/
+
+    if ( $oracleCharset == 'AL32UTF8' )
+    {
+        // lucky case: client was configued to use another charset, but db was internally utf8 already!
+        showMessage3( "  database charset is already UTF8: skipping." );
+    }
+    /*else if ( count( $oracleUsers  ) == 0 )
+    {
+        // this can only mean eZ Publish is installed using SYS or SYSTEM accounts. Brr...
+        /// @todo find out best way to die here...
+    }*/
+    else
+    {
+
+    // get database name
+    $dbName = $db->DB;
+    //$dbversion = $db->databaseServerVersion();
+
+    // get connection params
+    //$host = $db->Server;
+    //$port = $db->Port;
+    //$user = $db->User;
+    //$pass = $db->Password;
+
+    $connectionParams = $oracleDbaAccount['user'].'/'.$oracleDbaAccount['password']."@$dbName";
+
+    // get temporary dir to store dumps
+    $ini = eZINI::instance();
+    $dumpDir = $ini->variable( 'FileSettings', 'TemporaryDir' ) . basename( __FILE__, '.php' );
+    $dumpFile1 = $dbName . "_structure_export.dmp";
+    $dumpPath1 = "$dumpDir/$dumpFile1";
+    $dumpFile2 = $dbName . "_full_export.dmp";
+    $dumpPath2 = "$dumpDir/$dumpFile2";
+    $commandPath = "$dumpDir/$dbName" . "_cmd.sql";
+    $logPath = "$dumpDir/$dbName" . "_cmd.log";
+    $users = implode( ',', $oracleUsers );
+
+    //$ora_charset = "";
+
+    // prepare utility commands
+    $exe = eZSys::osType() == 'win32' ? '.exe' : '';
+    $exec = eZSys::osType() == 'win32' ? '' : './';
+
+    $expdb1 = "{$exec}exp{$exe} $connectionParams CONSISTENT=Y FULL=Y ROWS=N  FILE=$dumpPath1";
+    $expdb2 = "{$exec}exp{$exe} $connectionParams CONSISTENT=Y FULL=Y FILE=$dumpPath2";
+    $impdb1 = "{$exec}imp{$exe} $connectionParams FULL=Y IGNORE=Y BUFFER=30960 FILE=$dumpPath1";
+    $impdb2 = "{$exec}imp{$exe} $connectionParams FROMUSER=$users TOUSER=$users IGNORE=Y BUFFER=30960 FILE=$dumpPath2";
+
+    /*
+    $alterdb = "SET ECHO ON
+SPOOL $logPath;
+WHENEVER SQLERROR EXIT FAILURE;
+WHENEVER OSERROR EXIT FAILURE;";
+    if ( $dbversion['string'][0] == '8' )
+    {
+        /// @todo: check if using oracle < 8.1.5: we have touse svrmgrl then, as sqlplus was not good enough yet
+        $sqlplus = "{$exec}sqlplus{$exe} $connectionParams";
+        $alterdb .= "
+CONNECT $connectionParams AS SYSDBA";
+    }
+    else
+    {
+        $sqlplus = "{$exec}sqlplus{$exe} -L $connectionParams as sysdba";
+    }
+
+    //$dropdb = "dropdb $connectionParams";
+    //$createdb = "createdb $connectionParams";
+    foreach( $oracleUsers as $user )
+    {
+        $alterdb .= "
+DROP USER $user CASCADE;";
+    }
+    $alterdb .= "
+SHUTDOWN IMMEDIATE;
+STARTUP MOUNT;
+ALTER SYSTEM ENABLE RESTRICTED SESSION;
+ALTER SYSTEM SET JOB_QUEUE_PROCESSES=0;
+ALTER SYSTEM SET AQ_TM_PROCESSES=0;
+ALTER DATABASE OPEN;
+ALTER DATABASE CHARACTER SET AL32UTF8;
+SHUTDOWN IMMEDIATE; -- or SHUTDOWN NORMAL;
+STARTUP;
+EXIT;
+";
+    */
+
+    // finalizing changes. Note that since we asked for admin connection before,
+    // disconnecting and reconnecting, this is surely a NOOP
+    //showMessage3( 'finalizing current changes' );
+    //$db->commit();
+
+    /// @todo add a database logfile switch or checkpoint here? it would be nice...
+
+    // close current connection
+    $db->close();
+
+    showMessage3( '  sleeping..' );
+    sleep( 5 );
+
+    // dump db
+    showMessage3( "  taking the db dump, tmp storage is '$dumpPath1', '$dumpPath2'" );
+    eZDir::mkdir( $dumpDir, false, true );
+    chdir( $oracleHome . '/bin' );
+//    eZExecuteShellCommand( $expdb1, "failed to dump db schema. tried command '$expdb1'", true, true );
+//    eZExecuteShellCommand( $expdb2, "failed to dump db data. tried command '$expdb2'", true, true );
+    chdir( $eZDir );
+
+    // verify that dump files exist
+    if ( !file_exists( $dumpPath1 ) || !file_exists( $dumpPath2 ) )
+    {
+        showError( "DB Dump files cannot be found. Aborting..." );
+    }
+
+    /*
+    showMessage3( "altering db with charset '$charset'" );
+    $command = $sqlplus . " @$commandPath";
+    file_put_contents( $commandPath, $alterdb );
+    eZExecuteShellCommand( $command, "failed to alter db. tried command '$command'");
+    */
+    showMessage3( '' );
+    showMessage3( "Now you will have to alter the database character set." );
+    showMessage3( "The recommended way is to create a new database from scratch" );
+    showMessage3( "using AL32UTF8 as character set (THIS IS VERY IMPORTANT)," );
+    showMessage3( "and delete the existing one." );
+    showMessage3( "The new database should be empty (all schemas will be recreated by this script)" );
+    showMessage3( "and have the same DBA account as the old one." );
+    showMessage3( "It should also use the same connect identifier as the old one." );
+    showMessage3( '' );
+    showMessage3( "PLEASE do not terminate this php script while doing that," );
+    showMessage3( "use a different command line shell." );
+    showMessage3( '' );
+    $continue = eZGetUserInput( "Press Y when you are ready to continue... " );
+    if ( $continue != 'y' && $continue != 'Y' )
+    {
+        showError( "Aborting" );
+    }
+
+    // connect to new db with dba account, check that charset is OK
+    while( true )
+    {
+        $db = eZDB::instance( false, array( 'user' => $oracleDbaAccount['user'], 'password' => $oracleDbaAccount['password'] ), true );
+        if ( !$db->isConnected() )
+        {
+            showWarning( "Cannot connect to the new database.\n".
+                         "Please check that it is up and running before continuing" );
+        }
+        else
+        {
+            $oracleCharset = $db->arrayQuery("select value from nls_database_parameters where parameter = 'NLS_CHARACTERSET'");
+            $oracleCharset = $oracleCharset[0]['value'];
+            $db->close();
+            if ( $oracleCharset == 'AL32UTF8' )
+            {
+                break;
+            }
+            else
+            {
+                showWarning( "The new database uses the $oracleCharset character set instead of AL32UTF8.\n".
+                             "Please recreate the database using AL32UTF8 before continuing" );
+            }
+        }
+        $continue = eZGetUserInput( "Press Y when you are ready to continue. Any other letter to abort " );
+        if ( $continue != 'y' && $continue != 'Y' )
+        {
+            showError( "Aborting" );
+        }
+    }
+
+    // restore dump into newly created db
+    showMessage3( "  restoring db dump" );
+    chdir( $oracleHome . '/bin' );
+    eZExecuteShellCommand( $impdb1, "failed to restore db dump. tried command '$impdb1'");
+    eZExecuteShellCommand( $impdb2, "failed to restore db dump. tried command '$impdb2'");
+    chdir( $eZDir );
+
+    showMessage3( "  cleaning up" );
+    // clean up
+    eZDir::recursiveDelete( $dumpPath1 );
+    eZDir::recursiveDelete( $dumpPath2 );
+
+    }
+
+    // re-initialize db interface, *** this time in UTF8 - with the standard user ***
+    $db = eZDB::instance( false, array( 'charset' => 'utf8' ), true );
+    if ( !$db->isConnected() )
+    {
+        showError( "Cannot reconnect to DB. Aborting..." );
+    }
+    //$db->begin();
+}
 
 /**************************************************************
 * start script                                                *
 ***************************************************************/
+
+// work around a bug in eZSys that prevents it from telling us eZ Publish base dir
+$eZDir = getcwd();
 
 $cli = eZCLI::instance();
 
@@ -986,7 +1367,7 @@ $options = $script->getOptions( "[extra-xml-attributes:][extra-xml-data:][extra-
                                 "",
                                 array( 'extra-xml-attributes' => "specify custom attributes which store its data in xml.\n" .
                                                                  "usage: <datatype_string>[.<table>.<field>][,<datatype_string>.<table>.<field>...].\n" .
-                                                                 "default table is 'ezcontentobject_attribute', defualt data field is 'data_text'\n" .
+                                                                 "default table is 'ezcontentobject_attribute', default data field is 'data_text'\n" .
                                                                  "note: your custom table must have 'id', 'version' and 'data_type_string' fields.",
                                        'extra-xml-data' => "specify custom xml data.\n" .
                                                             "usage: <table>.<field>[,<table>.<field>...].\n" .
@@ -1004,6 +1385,11 @@ $options = $script->getOptions( "[extra-xml-attributes:][extra-xml-data:][extra-
 $script->initialize();
 
 $db = eZDB::instance();
+
+if ( !$db->isConnected() )
+{
+    showError( "Cannot connect to the database");
+}
 
 if ( !checkDBDriver() )
 {
@@ -1072,6 +1458,15 @@ $serializedCustomDataOption = $options['extra-serialized-data'] ? $options['extr
 $serializedDataInfo = parseCustomSerializedDataOption( $serializedCustomDataOption );
 
 
+//
+// extra prerequisite checking that can be Db specific
+//
+if ( $msg = checkDBExtraConditions() !== true )
+{
+    showError( $msg );
+}
+
+
 $db->begin();
 
 
@@ -1100,7 +1495,7 @@ if ( !$skipClassTranslations )
 {
     showMessage( "Unserializing content class attributes names..." );
     createContentClassAttributeTempTable();
-    unserializeContentClassAttriubteNames();
+    unserializeContentClassAttributeNames();
 }
 
 
@@ -1112,7 +1507,7 @@ convertXMLDatatypes( $xmlAttributesInfo );
 
 
 /**************************************************************
-* convert custom xml datat                                    *
+* convert custom xml data                                     *
 ***************************************************************/
 if ( is_array( $xmlCustomDataInfo ) )
 {
@@ -1180,6 +1575,7 @@ dropBLOBColumns( $serializedDataInfo );
 ***************************************************************/
 
 showMessage( "DB has been converted successfully." );
+showMessage( "PLEASE REMEMBER to alter the database connection definition in site.ini with charset=utf8" );
 $script->shutdown();
 
 ?>
