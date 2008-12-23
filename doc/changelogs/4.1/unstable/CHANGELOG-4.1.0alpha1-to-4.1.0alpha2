@@ -9,6 +9,7 @@ Changes from 4.1.0alpha1 to 4.1.0alpha2
 - Implemented enhancement #14166: Clear the user info cache to make sure the evaluated policies are right
 - Implemented enhancement #14189: Move debug error handler function into the eZDebug class
 - Implemented enhancement #14135: Remove unusable openfts code
+- Implemented enhancement #13994: eZContentObjectTreeNode::hideSubTree() and eZContentObjectTreeNode::unhideSubTree() should not take $node by reference
 
 *Design:
 

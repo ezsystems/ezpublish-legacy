@@ -5632,7 +5632,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    static function hideSubTree( &$node, $modifyRootNode = true )
+    static function hideSubTree( eZContentObjectTreeNode $node, $modifyRootNode = true )
     {
         $nodeID = $node->attribute( 'node_id' );
         $time = time();
@@ -5684,7 +5684,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    static function unhideSubTree( &$node, $modifyRootNode = true )
+    static function unhideSubTree( eZContentObjectTreeNode $node, $modifyRootNode = true )
     {
         $nodeID = $node->attribute( 'node_id' );
         $nodePath = $node->attribute( 'path_string' );
@@ -5771,16 +5771,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \a static
      \return true on success, false otherwise
     */
-    static function clearViewCacheForSubtree( &$node, $clearForRootNode = true )
+    static function clearViewCacheForSubtree( eZContentObjectTreeNode $node, $clearForRootNode = true )
     {
         // Max nodes to fetch at a time
         static $limit = 50;
-
-        if ( !$node )
-        {
-            eZDebug::writeWarning( "No such subtree to clear view cache for" );
-            return false;
-        }
 
         if ( $clearForRootNode )
         {
