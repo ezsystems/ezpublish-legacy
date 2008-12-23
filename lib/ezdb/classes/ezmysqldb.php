@@ -982,6 +982,12 @@ class eZMySQLDB extends eZDBInterface
         return false;
     }
 
+    function dropTempTable( $dropTableQuery = '', $server = self::SERVER_SLAVE )
+    {
+        $dropTableQuery = str_ireplace( 'DROP TABLE', 'DROP TEMPORARY TABLE', $dropTableQuery );
+        parent::dropTempTable( $dropTableQuery, $server );
+    }
+
     public $CharsetMapping;
     public $TempTableList;
 
