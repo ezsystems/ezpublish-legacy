@@ -11,6 +11,7 @@ Changes from 4.1.0alpha1 to 4.1.0alpha2
 - Implemented enhancement #14135: Remove unusable openfts code
 - Implemented enhancement #13994: eZContentObjectTreeNode::hideSubTree() and eZContentObjectTreeNode::unhideSubTree() should not take $node by reference
 - Implemented enhancement #13377: Improve temporary table handling for MySQL
+- Implemented enhancement #14088: Setting the version status to pending should be inside the db transaction used by the publish operation
 
 *Design:
 

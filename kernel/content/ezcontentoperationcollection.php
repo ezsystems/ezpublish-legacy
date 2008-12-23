@@ -597,6 +597,8 @@ class eZContentOperationCollection
 
     /*!
       Start global transaction.
+
+      \deprecated since version 4.1.0, this method will be removed in future major releases
      */
     function beginPublish()
     {
@@ -606,6 +608,8 @@ class eZContentOperationCollection
 
     /*!
      Stop (commit) global transaction.
+
+     \deprecated since version 4.1.0, this method will be removed in future major releases
      */
     function endPublish()
     {

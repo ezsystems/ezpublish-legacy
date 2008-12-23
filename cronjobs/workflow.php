@@ -37,9 +37,9 @@ if ( isset( $webOutput ) )
 
 require_once( "lib/ezutils/classes/ezsession.php" );
 
+$db = eZDB::instance();
+
 $workflowProcessList = eZWorkflowProcess::fetchForStatus( eZWorkflow::STATUS_DEFERRED_TO_CRON );
-//var_dump( $workflowProcessList  );
-//$user = eZUser::instance( 14 );
 
 if ( !$isQuiet )
     $cli->output( "Checking for workflow processes"  );
@@ -48,6 +48,8 @@ $processCount = 0;
 $statusMap = array();
 foreach( $workflowProcessList as $process )
 {
+    $db->begin();
+
     $workflow = eZWorkflow::fetch( $process->attribute( "workflow_id" ) );
 
     if ( $process->attribute( "event_id" ) != 0 )
@@ -95,12 +97,16 @@ foreach( $workflowProcessList as $process )
         if ( is_null( $bodyMemento ) )
         {
             eZDebug::writeError( $bodyMemento, "Empty body memento in workflow.php" );
+            $db->commit();
             continue;
         }
         $bodyMementoData = $bodyMemento->data();
         $mainMemento = $bodyMemento->attribute( 'main_memento' );
         if ( !$mainMemento )
+        {
+            $db->commit();
             continue;
+        }
 
         $mementoData = $bodyMemento->data();
         $mainMementoData = $mainMemento->data();
@@ -116,6 +122,7 @@ foreach( $workflowProcessList as $process )
         $process->removeThis();
     }
 
+    $db->commit();
 }
 if ( !$isQuiet )
 {
