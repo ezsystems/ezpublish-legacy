@@ -28,4 +28,5 @@ Changes from 4.1.0alpha1 to 4.1.0alpha2
 - Fixed bug #14085: ezdefaultvathandler raise some PHP5 strict issues
 - Fixed bug #14182: settings/mime.ini starts with <?php /* and ends with */ ?>
 - Fixed bug #14161: eZPDFTable::callImage missing inclusion of 'kernel/common/image.php'
+- Fixed bug #13358: ezsqldumpisbndata.php script issues
 

@@ -63,15 +63,64 @@ $script = eZScript::instance( array( 'description' => ( "eZ Publish SQL Isbn dat
 
 $script->startup();
 
-$options = $script->getOptions( "[stdout-sql][stdout-dba][filename-sql:][filename-dba:]", "",
+ $options = $script->getOptions( "[stdout-sql][stdout-dba][filename-sql:][filename-dba:][db-host:][db-user:][db-password:][db-database:][db-driver:]", "",
+
                                 array( 'stdout-sql' => "Result of sql output will be printed to standard output instead of to file.",
                                        'stdout-dba' => "Result of dba output will be printed to standard output instead of to file.",
                                        'filename-sql' => "Custom name for the sql file. Will be stored in the directory: \n" .
                                                          "kernel/classes/datatypes/ezisbn/sql/<database>/",
                                        'filename-dba' => "Custom name for the dba file. Will be stored in the directory: \n" .
-                                                         "kernel/classes/datatypes/ezisbn/share/" ) );
+                                                         "kernel/classes/datatypes/ezisbn/share/",
+                                       'db-host' => "Database host.",
+                                       'db-user' => "Database user.",
+                                       'db-password' => "Database password.",
+                                       'db-database' => "Database name.",
+                                       'db-driver' => "Database driver." ) );
 $script->initialize();
 $db = eZDB::instance();
+
+if( !$db->IsConnected )
+{
+ // default settings are not valid
+ // try user-defined settings
+
+ $dbUser = $options['db-user'] ? $options['db-user'] : false;
+ $dbPassword = $options['db-password'] ? $options['db-password'] : false;
+ $dbHost = $options['db-host'] ? $options['db-host'] : false;
+ $dbName = $options['db-database'] ? $options['db-database'] : false;
+ $dbImpl = $options['db-driver'] ? $options['db-driver'] : false;
+
+ if ( $dbHost or $dbName or $dbUser or $dbImpl )
+ {
+     $params = array();
+     if ( $dbHost !== false )
+         $params['server'] = $dbHost;
+     if ( $dbUser !== false )
+     {
+         $params['user'] = $dbUser;
+         $params['password'] = '';
+     }
+     if ( $dbPassword !== false )
+         $params['password'] = $dbPassword;
+     if ( $dbName !== false )
+         $params['database'] = $dbName;
+     $db =& eZDB::instance( $dbImpl, $params, true );
+     eZDB::setInstance( $db );
+ }
+
+ // still no success?
+ if( !$db->IsConnected )
+ {
+     $cli->error( "Error: couldn't connect to database '" . $db->DB . "'" );
+     $cli->error( '       for mysql try: ' );
+     $cli->error( '          mysql -e "create database ' . $db->DB . ';"' );
+     $cli->error( '          mysql tmp < kernel/sql/mysql/kernel_schema.sql' );
+     $cli->error( '       or use --help for more info' );
+
+     $script->shutdown( 1 );
+ }
+}
+
 $dbSchema = eZDbSchema::instance( $db );
 
 if ( isset( $options['filename-sql'] ) )
@@ -94,11 +143,7 @@ if ( isset( $options['stdout-dba'] ) !== null )
     $stdOutDBA = $options['stdout-dba'];
 }
 
-$tableType = 'MyISAM';
-if ( $db->databaseName() != "mysql" )
-{
-    $tableType = null;
-}
+$tableType = $db->databaseName() === 'mysql' ? 'InnoDB' : null;
 
 $includeSchema = false;
 $includeData = true;

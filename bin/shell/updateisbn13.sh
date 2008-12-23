@@ -68,14 +68,7 @@ for arg in $*; do
     esac;
 done
 
-# create options string
-if [ -n "$RANGES_FILE" ]; then
-    OPTIONS="$OPTIONS --file=$RANGES_FILE"
-fi
-
-if [ -n "$CUSTOM_RANGES_FILE" ]; then
-    OPTIONS="$OPTIONS --file=$CUSTOM_RANGES_FILE"
-fi
+# create option strings
 
 if [ -n "$DB_DATABASE" ]; then
     OPTIONS="$OPTIONS --db-database=$DB_DATABASE"
@@ -93,6 +86,17 @@ if [ -n "$DB_DRIVER" ]; then
     OPTIONS="$OPTIONS --db-driver=$DB_DRIVER"
 fi
 
+DUMP_OPTIONS="$OPTIONS"
+
+if [ -n "$RANGES_FILE" ]; then
+    OPTIONS="$OPTIONS --file=$RANGES_FILE"
+fi
+
+if [ -n "$CUSTOM_RANGES_FILE" ]; then
+    OPTIONS="$OPTIONS --file=$CUSTOM_RANGES_FILE"
+fi
+
+
 # do the job
 echo "Updating ISBN13 data"
 
@@ -108,7 +112,7 @@ php bin/php/updateisbn13.php $OPTIONS
 
 # redumping
 echo "Redumping..."
-php bin/php/ezsqldumpisbndata.php
+php bin/php/ezsqldumpisbndata.php $DUMP_OPTIONS
 
 # clean up
 if [ -n "$RANGES_FILE" ]; then
