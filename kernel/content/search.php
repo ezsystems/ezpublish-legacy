@@ -169,7 +169,7 @@ if ( $http->hasVariable( 'Mode' ) && $http->variable( 'Mode' ) == 'browse' )
                                                  "Offset" => $Offset ) );
 }
 
-// --- Compatability code start ---
+// --- Compatibility code start ---
 if ( $useSearchCode )
 {
     $tpl->setVariable( "offset", $Offset );
@@ -192,7 +192,7 @@ else
     $tpl->setVariable( "search_count", false );
     $tpl->setVariable( "stop_word_array", false );
 }
-// --- Compatability code end ---
+// --- Compatibility code end ---
 
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:content/search.tpl" );

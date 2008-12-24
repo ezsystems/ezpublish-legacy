@@ -102,7 +102,7 @@ if ( $http->hasPostVariable( 'EditButton' ) )
     if ( $http->hasPostVariable( 'SelectedVersion' ) )
     {
         $selectedVersion = $http->postVariable( 'SelectedVersion' );
-        // Kept for backwards compatability, EditLanguage may also be set in URL
+        // Kept for backwards compatibility, EditLanguage may also be set in URL
         if ( $http->hasPostVariable( 'ContentObjectLanguageCode' ) )
         {
             $EditLanguage = $http->postVariable( 'ContentObjectLanguageCode' );
@@ -138,7 +138,7 @@ if ( $http->hasPostVariable( 'NewDraftButton' ) )
 
     $contentINI = eZINI::instance( 'content.ini' );
     $versionlimit = $contentINI->variable( 'VersionManagement', 'DefaultVersionHistoryLimit' );
-    // Kept for backwards compatability
+    // Kept for backwards compatibility
     if ( $http->hasPostVariable( 'ContentObjectLanguageCode' ) )
     {
         $EditLanguage = $http->postVariable( 'ContentObjectLanguageCode' );

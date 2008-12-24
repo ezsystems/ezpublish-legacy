@@ -162,9 +162,9 @@ $tpl = templateInit();
 
 $tpl->setVariable( 'reverse_related'        , $info['reverse_related_count'] );
 $tpl->setVariable( 'module'                 , $Module );
-$tpl->setVariable( 'moveToTrashAllowed'     , $moveToTrashAllowed ); // Backwards compatability
-$tpl->setVariable( 'ChildObjectsCount'      , $totalChildCount ); // Backwards compatability
-$tpl->setVariable( 'DeleteResult'           , $deleteResult ); // Backwards compatability
+$tpl->setVariable( 'moveToTrashAllowed'     , $moveToTrashAllowed ); // Backwards compatibility
+$tpl->setVariable( 'ChildObjectsCount'      , $totalChildCount ); // Backwards compatibility
+$tpl->setVariable( 'DeleteResult'           , $deleteResult ); // Backwards compatibility
 $tpl->setVariable( 'move_to_trash_allowed'  , ( $moveToTrashAllowed and $showCheck ) );
 $tpl->setVariable( 'remove_list'            , $deleteResult );
 $tpl->setVariable( 'total_child_count'      , $totalChildCount );

@@ -3414,7 +3414,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $nodeName = eZURLAliasML::convertToAlias( $nodeName, 'node_' . $nodeID );
                 $nodeName = $this->adjustPathElement( $nodeName, $nodeMove );
 
-                // Compatability mode:
+                // Compatibility mode:
                 // Store name for the 'path_identification_string' column.
                 if ( $initialLanguageID == $language->attribute( 'id' ) )
                 {
@@ -3816,9 +3816,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
             if ( $objectNodeCount <= 1 )
                 ++$totalLoneNodeCount;
 
-            $item = array( "nodeName" => $nodeName, // Backwards compatability
-                           "childCount" => $childCount, // Backwards compatability
-                           "additionalWarning" => '', // Backwards compatability, this will always be empty
+            $item = array( "nodeName" => $nodeName, // Backwards compatibility
+                           "childCount" => $childCount, // Backwards compatibility
+                           "additionalWarning" => '', // Backwards compatibility, this will always be empty
                            'node' => $node,
                            'object' => $object,
                            'class' => $class,

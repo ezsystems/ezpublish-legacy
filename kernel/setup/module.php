@@ -145,7 +145,7 @@ $ViewList['systemupgrade'] = array(
     'params' => array( ) );
 
 
-/*! Provided for backwards compatability */
+/*! Provided for backwards compatibility */
 $ViewList["toolbarlist"] = array(
     'functions' => array( 'setup' ),
     "script" => "toolbarlist.php",

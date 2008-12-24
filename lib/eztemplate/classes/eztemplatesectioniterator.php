@@ -39,7 +39,7 @@
   The iterator provides transparent access to iterator items. It will
   redirect all attribute calls to the iterator item with the exception
   of a few internal values. The internal values are
-  - item - The actual item, provides backwards compatability
+  - item - The actual item, provides backwards compatibility
   - key - The current key
   - index - The current index value (starts at 0 and increases with 1 for each element)
   - number - The current index value + 1 (starts at 1 and increases with 1 for each element)

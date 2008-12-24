@@ -152,7 +152,7 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
             }break;
             case 'has_class_attributes' :
             {
-                // for the backward compatability:
+                // for the backward compatibility:
                 return 1;
             }break;
             default:

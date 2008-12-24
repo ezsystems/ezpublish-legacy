@@ -493,7 +493,7 @@ class eZImageType extends eZDataType
         $objectAttribute->setAttribute( 'data_text', '' );
 
         $alternativeText = $attributeNode->getAttribute( 'alternative-text' );
-        // Backwards compatability with older node name
+        // Backwards compatibility with older node name
         if ( $alternativeText === false )
             $alternativeText = $attributeNode->getAttribute( 'alternativ-text' );
         $content = $objectAttribute->attribute( 'content' );

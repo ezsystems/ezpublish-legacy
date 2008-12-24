@@ -203,7 +203,7 @@ $tpl->setVariable( 'phrase_search_text', $phraseSearchText );
 $tpl->setVariable( "view_parameters", $viewParameters );
 $tpl->setVariable( 'use_template_search', !$useSearchCode );
 
-// --- Compatability code start ---
+// --- Compatibility code start ---
 if ( $useSearchCode )
 {
     $tpl->setVariable( 'offset', $Offset );
@@ -228,7 +228,7 @@ else
     $tpl->setVariable( 'search_count', false );
     $tpl->setVariable( 'stop_word_array', false );
 }
-// --- Compatability code end ---
+// --- Compatibility code end ---
 
 $tpl->setVariable( 'content_class_array', $classArray );
 $tpl->setVariable( 'section_array', $sectionArray );

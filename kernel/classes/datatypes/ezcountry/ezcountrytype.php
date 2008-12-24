@@ -346,7 +346,7 @@ class eZCountryType extends eZDataType
             $resultList[$alpha2] = $eZCountry ? $eZCountry : '';
         }
         // Supporting of previous version format.
-        // For backwards compatability.
+        // For backwards compatibility.
         if ( count( $resultList ) == 1 and $resultList[$value] == '' )
             $resultList = $value;
 

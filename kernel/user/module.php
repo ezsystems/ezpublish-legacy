@@ -66,7 +66,7 @@ $ViewList['password'] = array(
     'default_navigation_part' => 'ezmynavigationpart',
     'params' => array( 'UserID' ) );
 
-/// \deprecated This view is kept for compatability
+/// \deprecated This view is kept for compatibility
 $ViewList['forgetpassword'] = array(
     'functions' => array( 'password' ),
     'script' => 'forgotpassword.php',

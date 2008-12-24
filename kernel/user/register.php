@@ -160,7 +160,7 @@ if ( !function_exists( 'checkContentActions' ) )
             // Check whether account activation is required.
             $verifyUserType = $ini->variable( 'UserSettings', 'VerifyUserType' );
             $sendUserMail = !!$verifyUserType;
-            // For compatability with old setting
+            // For compatibility with old setting
             if ( $verifyUserType === 'email'
               && $ini->hasVariable( 'UserSettings', 'VerifyUserEmail' )
               && $ini->variable( 'UserSettings', 'VerifyUserEmail' ) !== 'enabled' )
