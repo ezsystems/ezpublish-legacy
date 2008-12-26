@@ -119,6 +119,67 @@ Change of behaviour
   ereg. This means that return values of this method now is 1 for a valid
   address, and 0 for an invalid address.
 
+- eZDBFileHandler - $metaData
+
+  This property now defaults to null. When metadata are fetched and not found
+  (file does not exist), it is set to false. When requested again, and value is
+  false, no DB check will be performed until $force is set to true
+
+- eZDBFileHandler - $useStaleCache
+
+  This private property is used to switch execution to stale cache mode for the
+  current cache file. It defaults to false.
+
+- eZDBFileHandler - $realFilePath
+
+  This private property is used to backup the cache file real path when
+  switching to stale cache mode, since $filePath will be set to the generating
+  file path.
+
+- eZDBFileHandler - isFileExpired
+
+  This new static method replaces isExpired. It is either called manually with
+  a filepath, or by the two new methods, isLocalFileExpired and isDBFileExpired.
+
+- eZDBFileHandler - isLocalFileExpired
+
+  This new method checks the local file ($this->filePath) expiry status against
+  a given mtime / ttl
+
+- eZDBFileHandler - isDBFileExpired
+
+  This new method checks the DB file expiry status against a given mtime / ttl.
+
+- eZDBFileHandler - startCacheGeneration
+
+  New method used to start the cache generation process for the current file.
+
+- eZDBFileHandler - endCacheGeneration
+
+  New method used to start the end generation process for the current file.
+
+- eZDBFileHandler - abortCacheGeneration
+
+  New method used to abort the cache generation process for the current file.
+
+- eZDBFileHandlerMysqlBackend - _exists
+
+  Added a new optional parameter, $ignoreExpiredFiles, defaults to true. If set
+  to false, files that exist in the database but are expired by mtime or
+  expired fields will be considered as existing.
+
+- eZDBFileHandlerMysqlBackend - _startCacheGeneration
+
+  New method used by the equivalent eZDBFileHandler method.
+
+- eZDBFileHandlerMysqlBackend - _endCacheGeneration
+
+  New method used by the equivalent eZDBFileHandler method.
+
+- eZDBFileHandlerMysqlBackend - _abortCacheGeneration
+
+  New method used by the equivalent eZDBFileHandler method.
+
 Renamed constants
 -----------------
 

@@ -1,0 +1,49 @@
+Cluster/cache improvements
+==========================
+
+eZ publish 4.1 features major cluster & cache improvements.
+
+Faster cache expiry
+-------------------
+The DB schema of the ezdbfile cluster table has been altered to add a new field,
+name_trunk. This field is used to store the common part of cache files names.
+
+For instance, all ViewCache files for the node 2 have a name similar to this:
+var/plain_site/cache/content/plain_site_user/2-xxx.cache.
+
+name_trunk will here contain var/plain_site/cache/content/plain_site_user/2- for
+ALL ViewCache files for node 2.
+
+When the ViewCache for node2 needs to be expired, the condition used to look
+like this:
+DELETE FROM ezdbfile WHERE name LIKE 'var/plain_site/cache/content/plain_site_user/2-%'.
+
+With this change, we can execute a MUCH faster query:
+DELETE FROM ezdbfile WHERE name_trunk = 'var/plain_site/cache/content/plain_site_user/2-'.
+
+This also has an impact on global performances since no row scanning will be
+performed during this operation. This is valid for both ViewCache and cache blocks.
+
+Stale cache
+-----------
+Until eZ publish 4.1, clearing the content cache for a node could have a high
+impact on performances: the first process requesting the cache file was in charge
+of generating the dynamic data and store the cache file.
+
+During this time, any other process requesting the same cache was locked, waiting
+for this first process to complete its task. On high traffic websites, this could
+lead to dozens of processes being queued, with their own DB connection open,
+memory & CPU usage...
+
+The changes introduced to eZ publish 4.1 completely change the way this is handled.
+
+When a cache is expired, the first process will start generating the cache item
+under a different name. The original file will be kept intact (expired, but intact).
+Any other process requesting the same cache file is notified that it is being
+generated, and instead of waiting for the operation to complete, an old cache file
+is used.
+
+A generation timeout is handled, so that if a cache file is being generated during
+a long time, another process can take the operation over (this will usually come
+from a process that died). By default, this timeout value is 60 seconds, but it
+can be configured by changing ContentSettings.CacheGenerationTimeout in site.ini.
