@@ -90,10 +90,6 @@ class eZDBFileHandler
         $this->backend->_connect( false );
         $this->backendVerify = null;
         $this->filePath = $filePath;
-        $this->metaData = false;
-//        $this->metaData['name'] = $filePath;
-
-//        $this->loadMetaData();
     }
 
     /*!
@@ -106,6 +102,11 @@ class eZDBFileHandler
     {
         // Fetch metadata.
         if ( $this->filePath === false )
+            return;
+
+        // we don't fetch metaData if self::metaData === false, since this means
+        // we already tried and got no results, unless $force == true
+        if ( ( $this->metaData === false ) && ( $force !== true ) )
             return;
 
         if ( $force && isset( $GLOBALS['eZClusterInfo'][$this->filePath] ) )
@@ -270,7 +271,6 @@ class eZDBFileHandler
     function processCache( $retrieveCallback, $generateCallback = null, $ttl = null, $expiry = null, $extraData = null )
     {
         $forceDB = false;
-        $fname = $this->filePath;
         $timestamp = null;
         $curtime   = time();
         $tries     = 0;
@@ -288,7 +288,7 @@ class eZDBFileHandler
             while ( true )
             {
                 // No retrieve method so go directly to generate+store
-                if ( $retrieveCallback === null || !$fname )
+                if ( $retrieveCallback === null || !$this->filePath )
                     break;
 
                 if ( !self::LOCAL_CACHE )
@@ -297,22 +297,34 @@ class eZDBFileHandler
                 }
                 else
                 {
-                    $mtime = @filemtime( $fname );
-
-                    if ( eZDBFileHandler::isExpired( $fname, $mtime, $expiry, $curtime, $ttl ) )
+                    if ( $this->isLocalFileExpired( $expiry, $curtime, $ttl ) )
                     {
-                        // Local file is older than global timestamp, check with DB
-                        eZDebugSetting::writeDebug( 'kernel-clustering', "Local file (mtime=$mtime) is older than timestamp ($expiry) and ttl($ttl), check with DB" );
-                        $forceDB = true;
+                        // if we are in stale cache mode, we only forceDB if the
+                        // file does not exist at all
+                        if ( $this->useStaleCache )
+                        {
+                            if ( !file_exists( $this->filePath ) )
+                            {
+                                eZDebugSetting::writeDebug( 'kernel-clustering', "Local file '{$this->filePath}' does not exist and can not be used for stale cache. Checking with DB", __METHOD__ );
+                                $forceDB = true;
+                            }
+                        }
+                        else
+                        {
+                            // Local file is older than global timestamp, check with DB
+                            eZDebugSetting::writeDebug( 'kernel-clustering', "Local file (mtime=" . @filemtime( $this->filePath ) . ") is older than timestamp ($expiry) and ttl($ttl), check with DB" );
+                            $forceDB = true;
+                        }
                     }
                 }
 
+                if ( $this->metaData === null )
+                    $this->loadMetaData();
+
                 if ( !$forceDB )
                 {
-                    if ( $this->metaData === false )
-                        $this->loadMetaData();
-
-                    if ( $this->metaData === false || $this->metaData['mtime'] < 0 )
+                    // check if DB file is deleted
+                    if ( !$this->useStaleCache && ( $this->metaData === false || $this->metaData['mtime'] < 0 ) )
                     {
                         if ( $generateCallback !== false )
                             eZDebugSetting::writeDebug( 'kernel-clustering', "Database file is deleted, need to regenerate data" );
@@ -321,16 +333,28 @@ class eZDBFileHandler
                         break;
                     }
 
-                    if ( $this->metaData === false || eZDBFileHandler::isExpired( $fname, $mtime, $this->metaData['mtime'], $curtime, $ttl ) )
-//                      if ( $this->metaData === false || eZDBFileHandler::isExpired( $fname, $mtime, $expiry, $curtime, $ttl ) )
+                    // check if FS file is older than DB file
+                    if ( !$this->useStaleCache && $this->isLocalFileExpired( $this->metaData['mtime'], $curtime, $ttl ) )
                     {
-                        eZDebugSetting::writeDebug( 'kernel-clustering', "Local file (mtime=$mtime) is older than DB, checking with DB" );
+                        eZDebugSetting::writeDebug( 'kernel-clustering', "Local file (mtime=" . @filemtime( $this->filePath ) . ") is older than DB, checking with DB", __METHOD__ );
                         $forceDB = true;
                     }
                     else
                     {
-                        eZDebugSetting::writeDebug( 'kernel-clustering', "Processing local file $fname" );
-                        $args = array( $fname, $mtime );
+                        if ( $this->useStaleCache )
+                        {
+                            // to get the retrieve callback to accept the cache file,
+                            // we force its mtime to the current time
+                            $mtime = $curtime;
+                            eZDebugSetting::writeDebug( 'kernel-clustering', "Processing local stale cache file {$this->filePath}", __METHOD__ );
+                        }
+                        else
+                        {
+                            $mtime = filemtime( $this->filePath );
+                            eZDebugSetting::writeDebug( 'kernel-clustering', "Processing local cache file {$this->filePath}", __METHOD__ );
+                        }
+
+                        $args = array( $this->filePath, $mtime );
                         if ( $extraData !== null )
                             $args[] = $extraData;
                         $retval = call_user_func_array( $retrieveCallback, $args );
@@ -342,59 +366,68 @@ class eZDBFileHandler
                     }
                 }
 
-                if ( $this->metaData === false )
-                    $this->loadMetaData();
-
-                if ( $this->metaData === false || $this->metaData['mtime'] < 0 )
+                if ( $forceDB )
                 {
-                    if ( $generateCallback !== false )
-                        eZDebugSetting::writeDebug( 'kernel-clustering', "Database file is deleted, need to regenerate data" );
+                    // check if no cache is available at all
+                    if ( ( $this->useStaleCache && $this->metaData === false ) // no stalecache file available in the DB
+                         || ( !$this->useStaleCache && ( $this->metaData === false || $this->isDBFileExpired( $expiry, $curtime, $ttl ) ) ) // no stalecache, and no DB file, generation is required
+                    )
+                    {
+                        // no cache available, but a generate callback exists, skip to generation
+                        if ( $generateCallback !== false )
+                        {
+                            eZDebugSetting::writeDebug( 'kernel-clustering', "Database file is deleted, need to regenerate data" );
+                            break;
+                        }
+                        // if no generte callback exists, we can directly skip the main loop
+                        else
+                        {
+                            eZDebugSetting::writeDebug( 'kernel-clustering', "Database file is deleted, cannot get data" );
+                            break 2;
+                        }
+                    }
                     else
-                        eZDebugSetting::writeDebug( 'kernel-clustering', "Database file is deleted, cannot get data" );
+                    {
+                        eZDebugSetting::writeDebug( 'kernel-clustering', "Callback from DB file {$this->filePath}", __METHOD__ );
+                        if ( self::LOCAL_CACHE )
+                        {
+                            $this->fetch();
+
+                            // Figure out which mtime to use for new file, must be larger than
+                            // mtime in DB at least.
+                            $mtime = $this->metaData['mtime'] + 1;
+                            $localmtime = @filemtime( $this->filePath );
+                            $mtime = max( $mtime, $localmtime );
+                            touch( $this->filePath, $mtime, $mtime );
+                            clearstatcache(); // Needed because of touch() call
+
+                            $args = array( $this->filePath, $mtime );
+                            if ( $extraData !== null )
+                                $args[] = $extraData;
+                            $retval = call_user_func_array( $retrieveCallback, $args );
+                            if ( $retval instanceof eZClusterFileFailure )
+                            {
+                                break;
+                            }
+                            return $retval;
+                        }
+                        else
+                        {
+                            $uniquePath = $this->fetchUnique();
+
+                            $args = array( $uniquePath, $this->metaData['mtime'] );
+                            if ( $extraData !== null )
+                                $args[] = $extraData;
+                            $retval = call_user_func_array( $retrieveCallback, $args );
+                            $this->fileDeleteLocal( $uniquePath );
+                            if ( $retval instanceof eZClusterFileFailure )
+                                break;
+                            return $retval;
+                        }
+                    }
+                    eZDebugSetting::writeDebug( 'kernel-clustering', "Database file does not exist, need to regenerate data" );
                     break;
                 }
-
-                if ( $this->metaData !== false && !eZDBFileHandler::isExpired( $fname, $this->metaData['mtime'], $expiry, $curtime, $ttl ) )
-                {
-                    eZDebugSetting::writeDebug( 'kernel-clustering', "Callback from DB file $fname" );
-                    if ( self::LOCAL_CACHE )
-                    {
-                        $this->fetch();
-
-                        // Figure out which mtime to use for new file, must be larger than
-                        // mtime in DB at least.
-                        $mtime = $this->metaData['mtime'] + 1;
-                        $localmtime = @filemtime( $fname );
-                        $mtime = max( $mtime, $localmtime );
-                        touch( $fname, $mtime, $mtime );
-                        clearstatcache(); // Needed because of touch() call
-
-                        $args = array( $fname, $mtime );
-                        if ( $extraData !== null )
-                            $args[] = $extraData;
-                        $retval = call_user_func_array( $retrieveCallback, $args );
-                        if ( $retval instanceof eZClusterFileFailure )
-                        {
-                            break;
-                        }
-                        return $retval;
-                    }
-                    else
-                    {
-                        $uniquePath = $this->fetchUnique();
-
-                        $args = array( $fname, $this->metaData['mtime'] );
-                        if ( $extraData !== null )
-                            $args[] = $extraData;
-                        $retval = call_user_func_array( $retrieveCallback, $args );
-                        $this->fileDeleteLocal( $uniquePath );
-                        if ( $retval instanceof eZClusterFileFailure )
-                            break;
-                        return $retval;
-                    }
-                }
-                eZDebugSetting::writeDebug( 'kernel-clustering', "Database file does not exist, need to regenerate data" );
-                break;
             }
 
             if ( $tries >= 2 )
@@ -404,8 +437,7 @@ class eZDBFileHandler
             }
 
             // Generation part starts here
-            if ( isset( $retval ) &&
-                 $retval instanceof eZClusterFileFailure )
+            if ( isset( $retval ) && $retval instanceof eZClusterFileFailure )
             {
                 if ( $retval->errno() != 1 ) // check for non-expiry error codes
                 {
@@ -422,63 +454,60 @@ class eZDBFileHandler
 
             // We need to lock if we have a generate-callback or
             // the generation is deferred to the caller.
-            // Note: false means no generation
-            if ( $generateCallback !== false && $fname )
+            // Note: false means no generation, while null means that generation
+            // is deferred to the processing that follows (f.i. cache-blocks)
+            if ( $generateCallback !== false && $this->filePath )
             {
-                // Lock the entry for exclusive access, if the entry does not exist
-                // it will be inserted with mtime=-1
-                $res = $this->backend->_exclusiveLock( $fname, 'processCache' );
-                if ( !$res || $res instanceof eZMySQLBackendError )
+                if ( !$this->useStaleCache )
                 {
-                    // Cannot get exclusive lock, so return null.
-                    return null;
+                    $res = $this->startCacheGeneration();
+                    if ( $res instanceof eZMySQLBackendError )
+                    {
+                        // this is an error. Really.
+                        return null;
+                    }
+                    // false means that the file is being generated by another process
+                    // and we should use an old cache. We do this by setting $useStaleCache
+                    // to true, and restarting the loop from the beggining
+                    elseif ( $res === false )
+                    {
+                        eZDebugSetting::writeDebug( 'kernel-clustering', "{$this->filePath} is being generated, switching to staleCache mode", __METHOD__ );
+                        $this->useStaleCache = true;
+                        $forceDB = false;
+                        continue;
+                    }
                 }
 
-                // some db backends have advisory locking and we use a kind of
-                // two-phase locking mechanism:
-                // lock is first created, then we check if it was acquired or
-                // if some other process has written the file in the meantime
-                if ( !$this->backend->_verifyExclusiveLock( $fname, $expiry, $curtime, $ttl, 'processCache' ) )
+                // File in DB is outdated or non-existing, call write-callback to generate content
+                if ( $generateCallback )
                 {
-                    eZDebugSetting::writeDebug( 'kernel-clustering', "Database file was generated while we were locked, using that instead" );
-                    $this->backend->_rollback( 'processCache' ); // release lock
-                    $this->metaData = false;
-                    unset( $GLOBALS['eZClusterInfo'][$fname] );
-                    ++$tries;
-                    continue; // retry reading file
+                    $args = array( $this->filePath );
+                    if ( $extraData !== null )
+                        $args[] = $extraData;
+                    $fileData = call_user_func_array( $generateCallback, $args );
+                    return $this->storeCache( $fileData );
                 }
-            }
-
-            // File in DB is outdated or non-existing, call write-callback to generate content
-            if ( $generateCallback )
-            {
-                $args = array( $fname );
-                if ( $extraData !== null )
-                    $args[] = $extraData;
-                $fileData = call_user_func_array( $generateCallback, $args );
-                return $this->storeCache( $fileData );
             }
 
             break;
-        }
+        } // End main loop
 
         return new eZClusterFileFailure( 2, "Manual generation of file data is required, calling storeCache is required" );
     }
 
-    /*!
-     \static
-     \private
-     Calculates if the file data is expired or not.
-
-     \param $fname Name of file, available for easy debugging.
-     \param $mtime Modification time of file, can be set to false if file does not exist.
-     \param $expiry Time when file is to be expired, a value of -1 will disable this check.
-     \param $curtime The current time to check against.
-     \param $ttl Number of seconds the data can live, set to null to disable TTL.
+    /**
+     * Calculates if the file data is expired or not.
+     *
+     * @param string $fname Name of file, available for easy debugging.
+     * @param int    $mtime Modification time of file, can be set to false if file does not exist.
+     * @param int    $expiry Time when file is to be expired, a value of -1 will disable this check.
+     * @param int    $curtime The current time to check against.
+     * @param int    $ttl Number of seconds the data can live, set to null to disable TTL.
+     * @return bool
      */
-    static function isExpired( $fname, $mtime, $expiry, $curtime, $ttl )
+    public static function isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl )
     {
-        if ( $mtime == false )
+        if ( $mtime == false or $mtime < 0 )
         {
             return true;
         }
@@ -494,6 +523,30 @@ class eZDBFileHandler
         }
     }
 
+    /**
+     * Calculates if the local file is expired or not.
+     * @param int    $expiry Time when file is to be expired, a value of -1 will disable this check.
+     * @param int    $curtime The current time to check against.
+     * @param int    $ttl Number of seconds the data can live, set to null to disable TTL.
+     * @return bool
+     **/
+    public function isLocalFileExpired( $expiry, $curtime, $ttl )
+    {
+        return self::isFileExpired( $this->filePath, @filemtime( $this->filePath ), $expiry, $curtime, $ttl );
+    }
+
+    /**
+     * Calculates if the DB file is expired or not.
+     * @param int    $expiry Time when file is to be expired, a value of -1 will disable this check.
+     * @param int    $curtime The current time to check against.
+     * @param int    $ttl Number of seconds the data can live, set to null to disable TTL.
+     * @return bool
+     **/
+    public function isDBFileExpired( $expiry, $curtime, $ttl )
+    {
+        return self::isFileExpired( $this->filePath, $this->metaData['mtime'], $expiry, $curtime, $ttl );
+    }
+
     /*!
      \private
      Stores the data in $fileData to the remote and local file and commits the transaction.
@@ -504,8 +557,6 @@ class eZDBFileHandler
      */
     function storeCache( $fileData )
     {
-        $fname = $this->filePath;
-
         $scope       = false;
         $datatype    = false;
         $binaryData  = null;
@@ -533,7 +584,7 @@ class eZDBFileHandler
              $fileContent === null )
         {
             eZDebug::writeError( "Write callback need to set the 'content' or 'binarydata' entry" );
-            $this->backend->_rollback( 'storeCache' );
+            $this->abortCacheGeneration();
             return null;
         }
 
@@ -545,28 +596,44 @@ class eZDBFileHandler
         else
             $result = $fileContent;
 
-        if ( !$fname )
+        if ( !$this->filePath )
             return $result;
+
+        // stale cache handling: we just return the result, no lock has been set
+        if ( $this->useStaleCache )
+        {
+            // we write the generated cache to disk if it does not exist yet,
+            // to speed up the next uncached operation
+            // This file will be overwritten by the real file
+            if ( !file_exists( $this->filePath ) )
+            {
+                eZDebugSetting::writeDebug( 'kernel-clustering', "Writing stale file content to local file {$this->filePath}" );
+                eZFile::create( basename( $this->filePath ), dirname( $this->filePath ), $binaryData, true );
+            }
+            return $result;
+        }
 
         // Check if we are allowed to store the data, if not just return the result
         if ( !$store )
         {
-            $this->backend->_rollback( 'storeCache' );
+            $this->abortCacheGeneration();
             return $result;
         }
 
+        eZDebugSetting::writeDebug( 'kernel-clustering', "Writing new file content to database for {$this->filePath}" );
+        $this->storeContents( $binaryData, $scope, $datatype, $storeLocally = false );
+
+        // we end the cache generation process, so that the .generating file
+        // is renamed to its final name
+        $this->endCacheGeneration( strlen( $binaryData ), $scope, $datatype );
+
+        // the generated file is written to disk
         if ( self::LOCAL_CACHE )
         {
-            // Store content also locally
-            eZDebugSetting::writeDebug( 'kernel-clustering', "Writing new file content to local file $fname" );
-            eZFile::create( basename( $fname ), dirname( $fname ), $binaryData, true );
-            $mtime = @filemtime( $fname );
+           // Store content also locally
+           eZDebugSetting::writeDebug( 'kernel-clustering', "Writing new file content to local file {$this->filePath}" );
+           eZFile::create( basename( $this->filePath ), dirname( $this->filePath ), $binaryData, true );
         }
-
-        eZDebugSetting::writeDebug( 'kernel-clustering', "Writing new file content to database for $fname" );
-        $this->storeContents( $binaryData, $scope, $datatype, $mtime );
-
-        $this->backend->_freeExclusiveLock( 'storeCache' );
 
         return $result;
     }
@@ -614,12 +681,12 @@ class eZDBFileHandler
      *
      * \public
      */
-    function fetch( $cacheLocally = false )
+    function fetch( $noLocalCache = false )
     {
         $filePath = $this->filePath;
         $metaData = $this->backend->_fetchMetadata( $filePath );
         $mtime = @filemtime( $filePath );
-        if ( !$cacheLocally ||
+        if ( !$noLocalCache ||
              $metaData === false ||
              $mtime === false ||
              $mtime < $metaData['mtime'] ||
@@ -669,7 +736,7 @@ class eZDBFileHandler
     function stat()
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::stat()" );
-        if ( $this->metaData === false )
+        if ( $this->metaData === null )
             $this->loadMetaData();
         return $this->metaData;
     }
@@ -683,7 +750,7 @@ class eZDBFileHandler
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::size()" );
 
-        if ( $this->metaData === false )
+        if ( $this->metaData === null )
             $this->loadMetaData();
         return isset( $this->metaData['size'] ) ? $this->metaData['size'] : null;
     }
@@ -697,7 +764,7 @@ class eZDBFileHandler
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::mtime()" );
 
-        if ( $this->metaData === false )
+        if ( $this->metaData === null )
             $this->loadMetaData();
         return isset( $this->metaData['mtime'] ) ? $this->metaData['mtime'] : null;
     }
@@ -801,7 +868,7 @@ class eZDBFileHandler
         $this->backend->_delete( $path );
         $this->backend->_deleteByLike( $path . '/%' );
 
-        $this->metaData = false;
+        $this->metaData = null;
     }
 
     /**
@@ -902,7 +969,7 @@ class eZDBFileHandler
     {
         $path = $this->filePath;
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::passthrough( '$path' )" );
-        if ( $this->metaData === false )
+        if ( $this->metaData === null )
             $this->loadMetaData();
         $size = $this->metaData['size'];
         $mimeType = $this->metaData['datatype'];
@@ -964,7 +1031,7 @@ class eZDBFileHandler
 
         $this->backend->_rename( $srcPath, $dstPath );
 
-        $this->metaData = false;
+        $this->metaData = null;
     }
 
     /**
@@ -981,7 +1048,7 @@ class eZDBFileHandler
 
         $this->backend->_rename( $srcPath, $dstPath );
 
-        $this->metaData = false;
+        $this->metaData = null;
     }
 
     /**
@@ -1024,11 +1091,86 @@ class eZDBFileHandler
                              $path );
     }
 
+    /**
+    * Starts cache generation for the current file.
+    *
+    * This is done by creating a file named by the original file name, prefixed
+    * with '.generating'.
+    *
+    * @return bool false if the file is being generated, true if it is not
+    **/
+    private function startCacheGeneration()
+    {
+        $generatingFilePath = $this->filePath . '.generating';
+        if ( $this->backend->_startCacheGeneration( $this->filePath, $generatingFilePath ) )
+        {
+            sleep( 120 );
+            $this->realFilePath = $this->filePath;
+            $this->filePath = $generatingFilePath;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+    * Ends the cache generation started by startCacheGeneration().
+    **/
+    private function endCacheGeneration()
+    {
+        if ( $this->backend->_endCacheGeneration( $this->realFilePath, $this->filePath ) )
+        {
+            $this->filePath = $this->realFilePath;
+            $this->realFilePath = null;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+    * Aborts the current cache generation process.
+    *
+    * Does so by rolling back the current transaction, which should be the
+    * .generating file lock
+    **/
+    private function abortCacheGeneration()
+    {
+        $this->backend->_abortCacheGeneration( $this->filePath );
+        $this->filePath = $this->realFilePath;
+        $this->realFilePath = null;
+    }
+
     /// vars
     public $backend;
     public $backendVerify;
     public $filePath;
-    public $metaData;
+
+    /**
+    * holds the real file path. This is only used when we are generating a cache
+    * file, in which case $filePath holds the generating cache file name,
+    * and $realFilePath holds the real name
+    **/
+    public $realFilePath = null;
+
+    // holds the file's metaData loaded from database
+    // the variable's type indicates the exact status:
+    //  - null: means that metaData have not been loaded yet
+    //  - false: means that metaData were loaded but the file was not found in DB
+    //  - array: metaData have been loaded and file exists
+    // @todo refactor to a magic property:
+    //  - when the property is requested, we check if it's null.
+    //  - if it is, we load the metadata from the database and cache them
+    //  - if it is not, we return the metaData
+    //  - then we add a reinitMetaData() method that resets the property to null
+    //    by erasing the cache
+    public $metaData = null;
+
+    private $useStaleCache = false;
 }
 
 ?>
