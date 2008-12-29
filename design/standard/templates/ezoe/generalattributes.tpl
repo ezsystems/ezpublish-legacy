@@ -44,7 +44,6 @@
     {foreach $attributes as $attribute => $attribute_value}
         {set $xml_attribute       = first_set( $attribute_mapping[$attribute], $attribute )}
         {set $attribute_id        = concat( $:tag_name, '_', $xml_attribute )|wash}
-        {set $attribute_classes    = array()}
 
         {if ezoe_ini_section( concat('Attribute_', $:tag_name, '_', $xml_attribute), 'ezoe_customattributes.ini' )}
             {set $attribute_settings = concat('Attribute_', $:tag_name, '_', $xml_attribute)}
