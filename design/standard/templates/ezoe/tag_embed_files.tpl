@@ -222,7 +222,6 @@ function loadEmbedPreview( )
                  attribute_defaults = hash('id', concat( $embed_type, '_', $embed_id ),
                                            'inline', 'true',
                                            'size', $default_size )
-                 classes = hash( 'inline', 'input_noborder' )
         }
 
         {include uri="design:ezoe/customattributes.tpl" tag_name="embed" hide=$tag_name|ne('embed') custom_attributes=$custom_attributes.embed}
