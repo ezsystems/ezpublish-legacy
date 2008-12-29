@@ -54,6 +54,8 @@ class eZContentObject extends eZPersistentObject
     const PACKAGE_REPLACE = 1;
     const PACKAGE_SKIP = 2;
     const PACKAGE_NEW = 3;
+    const PACKAGE_UPDATE = 6;
+
     const PACKAGE_DELETE = 4;
     const PACKAGE_KEEP = 5;
 
@@ -4942,7 +4944,7 @@ class eZContentObject extends eZPersistentObject
 
         if ( !$contentClass )
         {
-            $options['error'] = array( 'error_code' => eZContentObject::PACKAGE_ERROR_NO_CLASS,
+            $options['error'] = array( 'error_code' => self::PACKAGE_ERROR_NO_CLASS,
                                        'element_id' => $remoteID,
                                        'description' => "Can't install object '$name': Unable to fetch class with remoteID: $classRemoteID." );
             $retValue = false;
@@ -4990,7 +4992,7 @@ class eZContentObject extends eZPersistentObject
         }
 
         // If object exists we return a error.
-        // Minimum instal element is an object now.
+        // Minimum install element is an object now.
 
         $contentObject = eZContentObject::fetchByRemoteID( $remoteID );
         // Figure out initial language
@@ -5018,17 +5020,18 @@ class eZContentObject extends eZPersistentObject
             $description = "Object '$name' already exists.";
 
             // include_once( 'kernel/classes/ezpackagehandler.php' );
-            $choosenAction = eZPackageHandler::errorChoosenAction( eZContentObject::PACKAGE_ERROR_EXISTS,
+            $choosenAction = eZPackageHandler::errorChoosenAction( self::PACKAGE_ERROR_EXISTS,
                                                                    $options, $description, $handlerType, false );
 
             switch( $choosenAction )
             {
                 case eZPackage::NON_INTERACTIVE:
+                case self::PACKAGE_UPDATE:
                 {
                     // Keep existing contentobject.
                 } break;
 
-                case eZContentObject::PACKAGE_REPLACE:
+                case self::PACKAGE_REPLACE:
                 {
                     eZContentObjectOperations::remove( $contentObject->attribute( 'id' ) );
 
@@ -5037,13 +5040,13 @@ class eZContentObject extends eZPersistentObject
                     $firstVersion = true;
                 } break;
 
-                case eZContentObject::PACKAGE_SKIP:
+                case self::PACKAGE_SKIP:
                 {
                     $retValue = true;
                     return $retValue;
                 } break;
 
-                case eZContentObject::PACKAGE_NEW:
+                case self::PACKAGE_NEW:
                 {
                     $contentObject->setAttribute( 'remote_id', md5( (string)mt_rand() . (string)time() ) );
                     $contentObject->store();
@@ -5054,12 +5057,13 @@ class eZContentObject extends eZPersistentObject
 
                 default:
                 {
-                    $options['error'] = array( 'error_code' => eZContentObject::PACKAGE_ERROR_EXISTS,
+                    $options['error'] = array( 'error_code' => self::PACKAGE_ERROR_EXISTS,
                                                'element_id' => $remoteID,
                                                'description' => $description,
-                                               'actions' => array( eZContentObject::PACKAGE_REPLACE => 'Replace existing object',
-                                                                   eZContentObject::PACKAGE_SKIP => 'Skip object',
-                                                                   eZContentObject::PACKAGE_NEW => 'Keep existing and create a new one' ) );
+                                               'actions' => array( self::PACKAGE_REPLACE => ezi18n( 'kernel/classes', 'Replace existing object' ),
+                                                                   self::PACKAGE_SKIP    => ezi18n( 'kernel/classes', 'Skip object' ),
+                                                                   self::PACKAGE_NEW     => ezi18n( 'kernel/classes', 'Keep existing and create a new one' ),
+                                                                   self::PACKAGE_UPDATE  => ezi18n( 'kernel/classes', 'Update existing object' ) ) );
                     $retValue = false;
                     return $retValue;
                 } break;

@@ -13,6 +13,7 @@ Changes from 4.1.0alpha1 to 4.1.0alpha2
 - Implemented enhancement #13377: Improve temporary table handling for MySQL
 - Implemented enhancement #14088: Setting the version status to pending should be inside the db transaction used by the publish operation
 - Implemented enhancement #14204: Implement stale cache handling for eZDBFileHandler + mysql
+- Implemented enhancement #12252: Add "Update existing object" option to contentobject package installer
 
 *Design:
 

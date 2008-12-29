@@ -5272,6 +5272,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                 // When running non-interactively with ezpm.php
                 case eZPackage::NON_INTERACTIVE:
+                case eZContentObject::PACKAGE_UPDATE:
                 {
                     // Update existing node settigns.
                     if ( !$parentNodeRemoteID )
