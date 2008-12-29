@@ -487,7 +487,6 @@ class eZNodeAssignment extends eZPersistentObject
     */
     static function setNewMainAssignment( $objectID, $version )
     {
-
         $assignments = eZNodeAssignment::fetchForObject( $objectID, $version );
 
         if ( count( $assignments ) == 0 )
