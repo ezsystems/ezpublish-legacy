@@ -1772,7 +1772,7 @@ class eZTemplate
                     $this->error( 'registerFunctions', "Cannot register function definition, missing function names function '$functionNamesFunction'" );
                     return;
                 }
-                $functionNames = $operatorNamesFunction();
+                $functionNames = $functionNamesFunction();
             }
             else
                 $functionNames = $functionDefinition['function_names'];
