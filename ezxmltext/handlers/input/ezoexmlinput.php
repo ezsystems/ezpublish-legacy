@@ -1027,11 +1027,6 @@ class eZOEXMLInput extends eZXMLInputHandler
                 else
                     $objectAttr .= ' inline="false"';
 
-                if ( $alignment === 'center' )
-                    $objectAttr .= ' align="middle"';
-                else if ( $alignment )
-                    $objectAttr .= ' align="' . $alignment . '"';
-
                 $customAttributePart = $this->getCustomAttrPart( $tag, $styleString );
                 $object              = false;
 
@@ -1111,6 +1106,10 @@ class eZOEXMLInput extends eZXMLInputHandler
                             }
                         }
                     }
+                    if ( $alignment === 'center' )
+                        $objectAttr .= ' align="middle"';
+                    else if ( $alignment )
+                        $objectAttr .= ' align="' . $alignment . '"';
 
                     if ( $className != '' )
                         $objectAttr .= ' class="' . $className . '"';
@@ -1120,6 +1119,11 @@ class eZOEXMLInput extends eZXMLInputHandler
                 else if ( self::embedTagIsCompatibilityMode() )
                 {
                     $srcString = self::getDesignFile('images/tango/mail-attachment32.png');
+                    if ( $alignment === 'center' )
+                        $objectAttr .= ' align="middle"';
+                    else if ( $alignment )
+                        $objectAttr .= ' align="' . $alignment . '"';
+
                     if ( $className != '' )
                         $objectAttr .= ' class="' . $className . '"';
 
@@ -1127,6 +1131,9 @@ class eZOEXMLInput extends eZXMLInputHandler
                 }
                 else
                 {
+                    if ( $alignment )
+                        $objectAttr .= ' align="' . $alignment . '"';
+
                     if ( $className )
                         $objectAttr .= ' class="mceNonEditable ' . $className . ' mceItemContentType' . ucfirst( $embedContentType ) . '"';
                     else

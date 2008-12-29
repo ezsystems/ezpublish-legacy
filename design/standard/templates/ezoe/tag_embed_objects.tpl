@@ -78,6 +78,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         }
         else
         {
+            if ( args['align'] === 'middle' ) args['align'] = 'center';
             ed.dom.setHTML( el, ez.$('embed_preview').el.innerHTML );
         }
         args['title']   = eZOEPopupUtils.safeHtml( eZOEPopupUtils.embedObject['name'] );
