@@ -363,12 +363,6 @@ class eZDateType extends eZDataType
         }
     }
 
-    /*!
-     \param package
-     \param content attribute
-
-     \return a DOM representation of the content object attribute
-    */
     function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
@@ -383,12 +377,6 @@ class eZDateType extends eZDataType
         return $node;
     }
 
-    /*!
-     \reimp
-     \param package
-     \param contentobject attribute object
-     \param domnode object
-    */
     function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         $dateNode = $attributeNode->getElementsByTagName( 'date' )->item( 0 );

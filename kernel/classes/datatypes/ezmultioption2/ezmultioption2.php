@@ -426,7 +426,7 @@ class eZMultiOption2
       Remove Options from the multioption.
       This function first remove selected options and then reset the key value if all options for that multioption.
       \param $arrayRemove is a list of all array elements which is selected to remove from the multioptions.
-      \param $optionid is the key value if multioption from which it is required to remove the options.
+      \param $optionId is the key value if multioption from which it is required to remove the options.
       \sa removeMultiOptions()
     */
     function removeOptions( $arrayRemove, $optionId )
@@ -609,7 +609,7 @@ class eZMultiOption2
     Will decode an xml string and initialize the eZ Multi option object.
     If $xmlString is on empty then it will call addMultiOption() and addOption() functions
     to create new multioption else it will decode the xml string.
-    \param $smlString contain the complete data structure for multioptions.
+    \param $xmlString contain the complete data structure for multioptions.
     \sa xmlString()
     */
     function decodeXML( $xmlString )

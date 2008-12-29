@@ -45,9 +45,9 @@ class eZWizardBase
     /*!
      Constructor
 
-     \param Template class
-     \param Module
-     \param Storage Name, optional.
+     \param $tpl Template class
+     \param $module Module
+     \param $storageName Storage Name, optional.
     */
     function eZWizardBase( $tpl, &$module, $storageName = false )
     {
@@ -313,7 +313,7 @@ class eZWizardBase
     /*!
      Check if wizard variable exists
 
-     \param variable key
+     \param $key key of the variable
 
      \return variable value
     */

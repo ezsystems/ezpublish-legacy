@@ -480,12 +480,6 @@ class eZImageType extends eZDataType
         return $node;
     }
 
-    /*!
-     \reimp
-     \param package
-     \param contentobject attribute object
-     \param domnode object
-    */
     function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         // Remove all existing image data for the case this is a translated attribute,

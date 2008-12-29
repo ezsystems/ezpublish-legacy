@@ -85,8 +85,8 @@ class eZMatrix
     /*!
         Check if column index differs, and so, set new index.
 
-        \param internal column index
-        \param new column index
+        \param columnIndex internal column index
+        \param newColumnIndex new column index
 
         \return true if index differs
     */
@@ -184,8 +184,8 @@ class eZMatrix
     /*!
         Check if new column name differs from existing column name, and sets new name.
 
-        \param internal column index
-        \param column name
+        \param columnIndex internal column index
+        \param newColumnName column name
 
         \return true if name differs
     */
@@ -351,9 +351,9 @@ class eZMatrix
     /*!
      Get column data and definition
 
-     \param column index
+     \param colIdx column index
 
-     \return columnt data and definition
+     \return column data and definition
     */
     function column( $colIdx )
     {
@@ -364,8 +364,8 @@ class eZMatrix
     /*!
      Set column definition.
 
-     \param column index
-     \param column definition
+     \param colIdx column index
+     \param columnDefinition column definition
     */
     protected function setColumnDefinition( $colIdx, $columnDefinition )
     {
@@ -375,7 +375,7 @@ class eZMatrix
     /*!
      Get column definition.
 
-     \param column index
+     \param colIdx column index
 
      \return column definition
     */
@@ -388,8 +388,8 @@ class eZMatrix
     /*!
      Set column cell data
 
-     \param column index
-     \param column definitio
+     \param colIdx column index
+     \param cellData column definition
     */
     protected function setColumnCellData( $colIdx, $cellData )
     {
@@ -408,7 +408,7 @@ class eZMatrix
     /*!
      Get column data
 
-     \param column index
+     \param colIdx column index
 
      \return column data
     */
@@ -510,7 +510,7 @@ class eZMatrix
     /*!
      Get internal column index by column indentifier
 
-     \param column identifier
+     \param columnIdent column identifier
 
      \return column index.
     */

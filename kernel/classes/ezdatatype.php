@@ -1066,7 +1066,7 @@ class eZDataType
 
     /*!
      \param package
-     \param content attribute
+     \param objectAttribute content attribute
 
      \return a DOM representation of the content object attribute
     */
@@ -1116,8 +1116,8 @@ class eZDataType
      Unserialize contentobject attribute
 
      \param package
-     \param contentobject attribute object
-     \param ezdomnode object
+     \param objectAttribute contentobject attribute object
+     \param attributeNode ezdomnode object
     */
     function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {

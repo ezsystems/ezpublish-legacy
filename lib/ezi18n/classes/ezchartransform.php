@@ -119,7 +119,7 @@ class eZCharTransform
     /*!
      Transforms the text according to the rules defined in \a $rule using character set \a $charset.
      \param $text The text string to be converted, currently Unicode arrays are not supported
-     \param $rule Which transformation rule to use, can either be a string identifier or an array with identifiers.
+     \param $group Which transformation group to use, of which the rules will be applied.
      \param $charset Which charset to use when transforming, if \c false it will use current charset (i18n.ini).
      \param $useCache If \c true then it will use cache files for the tables,
                       if not it will have to calculate them each time.
@@ -291,12 +291,10 @@ class eZCharTransform
     /*!
      \private
      \param $text The text that should be transformed
-     \param $key The unique key for the cache, this should be a CRC32 or MD5 of
-                 the current rules or commands which are used.
+     \param $filepath The filepath for the cache file
      \param $timestamp A timestamp value which is matched against the cache file,
                        pass for instance the timestamp of the INI file.
-     \param[out] $filepath The filepath for the cache file will be generated here,
-                           this can be used for the storeCacheFile() method.
+
      \return The restored transformation data or \c false if there is no cached data.
     */
     protected function executeCacheFile( $text, $filepath, $timestamp = false )
@@ -357,11 +355,6 @@ class eZCharTransform
      - numeric, displays the value as-is.
      - array, expands all value recursively using this function
      - object, creates a representation of an object creation if the object has \c serializeData implemented.
-
-     \param $column Determines the starting column in which the text will be placed.
-                    This is used for expanding arrays and objects which can span multiple lines.
-     \param $iteration The current iteration, starts at 0 and increases with 1 for each recursive call
-
     */
     static function varExport( $value )
     {
@@ -374,6 +367,10 @@ class eZCharTransform
      Creates a text representation of the value \a $value which can
      be placed in files and be read back by a PHP parser as it was.
      Meant as a replacement for PHP versions with broken var_export.
+
+     \param $column Determines the starting column in which the text will be placed.
+                    This is used for expanding arrays and objects which can span multiple lines.
+     \param $iteration The current iteration, starts at 0 and increases with 1 for each recursive call
     */
     static function varExportInternal( $value, $column = 0, $iteration = 0 )
     {

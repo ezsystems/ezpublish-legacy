@@ -259,9 +259,9 @@ class eZContentClass extends eZPersistentObject
     /*!
      Creates a new content object instance and stores it.
 
-     \param user ID (optional), current user if not set
-     \param section ID (optional), 0 if not set
-     \param version number, create initial version if not set
+     \param userID user ID (optional), current user if not set
+     \param sectionID section ID (optional), 0 if not set
+     \param versionNumber version number, create initial version if not set
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
@@ -403,8 +403,8 @@ class eZContentClass extends eZPersistentObject
                            \a $groupList, if not it will exclude those groups.
      \param $groupList An array with class group IDs that should be used in filtering, use
                        \c false if you do not wish to filter at all.
-     \param $id A unique name for the current fetch, this must be supplied when filtering is
-                used if you want caching to work.
+     \param $fetchID A unique name for the current fetch, this must be supplied when filtering is
+                     used if you want caching to work.
     */
     static function canInstantiateClassList( $asObject = false, $includeFilter = true, $groupList = false, $fetchID = false )
     {
@@ -857,8 +857,8 @@ You will need to change the class of the node by using the swap functionality.' 
     /*!
      \note Removes class attributes
 
-     \param Array of attributes to remove
-     \param Version to remove( optional )
+     \param removeAtttributes Array of attributes to remove
+     \param version Version to remove( optional )
     */
     function removeAttributes( $removeAttributes = false, $version = false )
     {

@@ -1076,11 +1076,10 @@ class eZDBFileHandler
      - Multiple consecutive slashes are turned into one slash.
      - Ending slashes are removed.
 
-     \example
-     my\windows\path => my/windows/path
-     extra//slashes/\are/fixed => extra/slashes/are/fixed
-     ending/slashes/ => ending/slashes
-     \endexample
+     Examples:
+     - my\windows\path => my/windows/path
+     - extra//slashes/\are/fixed => extra/slashes/are/fixed
+     - ending/slashes/ => ending/slashes
      */
     static function cleanPath( $path )
     {

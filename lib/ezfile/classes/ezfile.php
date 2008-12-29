@@ -178,8 +178,8 @@ class eZFile
     \static
     Renames a file atomically on Unix, and provides a workaround for Windows
 
-    \param from filename
-    \param to filename
+    \param $srcFile from filename
+    \param $destFile to filename
 
     \return rename status. ( true if successful, false if not )
     */
@@ -198,7 +198,7 @@ class eZFile
      Prepares a file for Download and terminates the execution.
 
      \param $file Filename
-     \param $isAttached Download Determines weather to download the file as an attachment ( download popup box ) or not.
+     \param $isAttachedDownload Determines weather to download the file as an attachment ( download popup box ) or not.
 
      \return false if error
     */

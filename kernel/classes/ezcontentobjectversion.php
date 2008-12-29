@@ -1203,11 +1203,11 @@ class eZContentObjectVersion extends eZPersistentObject
      \static
      Unserialize xml structure. Create object from xml input.
 
-     \param XML DOM Node
-     \param contentobject.
-     \param owner ID
-     \param section ID
-     \param new object, true if first version of new object
+     \param domNode XML DOM Node
+     \param contentObject contentobject
+     \param ownerID owner ID
+     \param sectionID section ID
+     \param activeVersion new object, true if first version of new object
      \param options
      \param package
 
@@ -1402,9 +1402,9 @@ class eZContentObjectVersion extends eZPersistentObject
      \return a DOM structure of the content object version, it's translations and attributes.
 
      \param package
-     \param package options ( optianal )
-     \param array of allowed nodes ( optional )
-     \param array of top nodes in current package export (optional )
+     \param options package options ( optional )
+     \param contentNodeIDArray array of allowed nodes ( optional )
+     \param topNodeIDArray array of top nodes in current package export (optional )
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */

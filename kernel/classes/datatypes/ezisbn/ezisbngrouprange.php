@@ -128,8 +128,7 @@ class eZISBNGroupRange extends eZPersistentObject
     }
 
     /*!
-     \param $count Will contain the count of objects returned and is sent
-                   back in the reference variable.
+     \param $asObject Whether if the result should be sent back as objects or an array.
      \return the group range list for ISBN groups.
     */
     static function fetchList( $asObject = true )
@@ -145,8 +144,6 @@ class eZISBNGroupRange extends eZPersistentObject
      Will extract the group number based on the different ranges
      which is based on the 5 first digits after the Prefix field.
      \param $isbnNr Should be a stripped down ISBN number with just the digits (ean number).
-     \param $groupLength is the length of the RegistrationGroup in the range that was found.
-                         Is sent back in the reference variable.
      \return the group range object if found and false if not found.
     */
     static function extractGroup( $isbnNr )

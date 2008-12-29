@@ -336,9 +336,9 @@ class eZWorkflow extends eZPersistentObject
       \static
       Fetch workflows based on module, function and connection type
 
-      \param module name
-      \param function name
-      \param connect type
+      \param $moduleName module name
+      \param $functionName function name
+      \param $connectType connection type
 
       \returns array of allowed workflows limited by trigger
     */
@@ -363,9 +363,9 @@ class eZWorkflow extends eZPersistentObject
     /*!
       Check if a trigger specified trigger is allowed to use with this workflow
 
-      \param module name
-      \param function name
-      \param connect type
+      \param $moduleName module name
+      \param $functionName function name
+      \param $connectType connection type
 
       \return true if allowed, false if not.
     */

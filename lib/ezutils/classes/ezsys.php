@@ -187,9 +187,6 @@ class eZSys
     /*!
      \static
      \return the PHP version as an array with the version elements.
-     \example
-     array( 4, 3, 4 )
-     \endexample
     */
     static function phpVersion()
     {

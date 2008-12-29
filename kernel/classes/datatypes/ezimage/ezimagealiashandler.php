@@ -467,7 +467,7 @@ class eZImageAliasHandler
     /*!
      Set alias list. Set alias list to current object
 
-     \param alias list
+     \param aliasList alias list
     */
     protected function setAliasList( $aliasList )
     {
@@ -488,9 +488,9 @@ class eZImageAliasHandler
     /*!
      Set alias value.
 
-     \param alias name
-     \param attribute name
-     \param attribute value
+     \param aliasName alias name
+     \param attributeName attribute name
+     \param value attribute value
     */
     protected function setAliasAttribute( $aliasName, $attributeName, $value )
     {
@@ -1542,7 +1542,7 @@ class eZImageAliasHandler
     /*!
      Set internal serial number
 
-     \param value
+     \param val value
     */
     function setImageSerialNumber( $val )
     {

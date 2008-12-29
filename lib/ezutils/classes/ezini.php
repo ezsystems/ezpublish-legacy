@@ -222,10 +222,10 @@ class eZINI
     /*!
      \static
      Check wether a specified parameter in a specified section is set in a specified file
-     \param filename (optional)
-     \param directory (optional)
-     \param section name
-     \param parameter name
+     \param fileName file name (optional)
+     \param rootDir directory (optional)
+     \param section section name
+     \param parameter parameter name
      \return true if the the parameter is set.
     */
     static function parameterSet( $fileName = 'site.ini', $rootDir = 'settings', &$section, &$parameter )

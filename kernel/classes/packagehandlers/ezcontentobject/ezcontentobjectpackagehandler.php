@@ -192,8 +192,8 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     /*!
      Add Node list to ezcontentobject package handler.
 
-     \param node id
-     \param subtree (optional, default true )
+     \param nodeID node id
+     \param isSubtree subtree (optional, default true )
     */
     function addNode( $nodeID, $isSubtree = true )
     {
@@ -402,7 +402,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
      \private
      Generate list of content objects to export, and store them to
 
-     \param node_assignments, 'selected' or 'main'
+     \param nodeAssignment which node assignments to include, either 'selected' or 'main'
     */
     function generateObjectArray( $nodeAssignment )
     {
@@ -553,7 +553,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
      Add file to repository and return DONNode description of file
 
      \param filename
-     \param siteaccess
+     \param siteAccess
      \param filetype (optional)
     */
     function createDOMNodeFromFile( $filename, $siteAccess, $filetype = false )
@@ -586,7 +586,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
      \private
      Get all template overrides used by exported objects
 
-     \param site access array
+     \param siteAccessArray site access array
     */
     function &generateOverrideSettingsArray( $siteAccessArray, $minimalTemplateSet )
     {
@@ -1020,8 +1020,9 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
      Serialize and install content objects
 
-     \param object-list DOMNode
-     \param install parameters
+     \param objectNodes object-list DOMNode
+     \param topNodeListNode
+     \param installParameters install parameters
     */
     function installContentObjects( $objectNodes, $topNodeListNode, &$installParameters )
     {

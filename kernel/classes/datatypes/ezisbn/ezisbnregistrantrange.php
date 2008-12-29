@@ -146,8 +146,6 @@ class eZISBNRegistrantRange extends eZPersistentObject
 
      \param $groupID  The id that point to the ISBN Group object
                       (Which contain info about the area and the unique group number).
-     \param $count    Will contain the count of objects returned and is sent
-                      back in the reference variable.
      \param $asObject If the result should be returned as object or an array.
      \return the registrant list for an ISBN registration group id.
     */

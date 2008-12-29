@@ -71,7 +71,7 @@ class eZMath
 
      Convert RGB to CMYK, Normalized values, between 0 and 1
 
-     \param RGB array
+     \param rgbArray RGB array
      \return CMYK array
     */
     static function rgbToCMYK( $rgbArray )
@@ -100,9 +100,9 @@ class eZMath
 
      Convert rgb to CMYK
 
-     \param R
-     \param B
-     \param G
+     \param r R
+     \param g G
+     \param b B
 
      \return CMYK return array
     */

@@ -85,8 +85,6 @@ class eZDBSchemaInterface
     /*!
      Constructor
 
-     \param eZDB instance
-
      \sa eZDB
      */
     function eZDBSchemaInterface( $params )
@@ -237,7 +235,7 @@ class eZDBSchemaInterface
      \pure
      Write upgrade sql to file
 
-     \param difference array
+     \param differences array
      \param filename
     */
     function writeUpgradeFile( $differences, $filename, $params = array() )
@@ -477,7 +475,7 @@ class eZDBSchemaInterface
 
     /*!
      \private
-     \param database schema
+     \param schema database schema
      \return schema for file output
     */
     function generateDataFile( $schema, $data, $params )
@@ -508,7 +506,7 @@ class eZDBSchemaInterface
 
     /*!
      \private
-     \param database schema
+     \param schema database schema
      \return schema for file output
     */
     function generateSchemaFile( $schema, $params = array() )

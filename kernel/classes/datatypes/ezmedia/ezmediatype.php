@@ -683,12 +683,6 @@ class eZMediaType extends eZDataType
         $classAttribute->setAttribute( self::TYPE_FIELD, $type );
     }
 
-    /*!
-     \param package
-     \param content attribute
-
-     \return a DOM representation of the content object attribute
-    */
     function serializeContentObjectAttribute( $package, $objectAttribute )
     {
 
@@ -728,12 +722,6 @@ class eZMediaType extends eZDataType
         return $node;
     }
 
-    /*!
-     \reimp
-     \param package
-     \param contentobject attribute object
-     \param domnode object
-    */
     function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         $mediaNode = $attributeNode->getElementsByTagName( 'media-file' )->item( 0 );

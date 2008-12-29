@@ -128,7 +128,7 @@ class eZExtension
 
      Prepend extension siteaccesses
 
-     \param siteaccess name ( default false )
+     \param accessName siteaccess name ( default false )
     */
     static function prependExtensionSiteAccesses( $accessName = false, $ini = false, $globalDir = true, $identifier = false, $order = true )
     {

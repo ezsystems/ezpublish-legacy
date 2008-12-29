@@ -225,18 +225,18 @@ class eZHTTPTool
 
      Sends a http request to the specified host. Using https:// requires PHP 4.3.0, and compiled in OpenSSL support.
 
-     \param http/https address, only path to send request to eZ Publish.
+     \param uri http/https address, only path to send request to eZ Publish.
             examples: http://ez.no, https://secure.ez.no, ssl://secure.ez.no, content/view/full/2
-     \param port, default 80
-     \param post parameters array (optional), if no post parameters are present, a get request will be send.
-     \param user agent, default will be eZ Publish
-     \param passtrough, will send result directly to client, default false
+     \param port which port to connect to, default 80
+     \param postParameters post parameters array (optional), if no post parameters are present, a get request will be send.
+     \param userAgent user agent, default will be eZ Publish
+     \param passthrough will send result directly to client, default false
 
      \return result if http request, or return false if an error occurs.
              If pipetrough, program will end here.
 
     */
-    static function sendHTTPRequest( $uri, $port = 80, $postParameters = false, $userAgent = 'eZ Publish', $passtrough = true )
+    static function sendHTTPRequest( $uri, $port = 80, $postParameters = false, $userAgent = 'eZ Publish', $passthrough = true )
     {
         preg_match( "/^((http[s]?:\/\/)([a-zA-Z0-9_.]+))?([\/]?[~]?(\.?[^.]+[~]?)*)/i", $uri, $matches );
         $protocol = $matches[2];

@@ -627,12 +627,6 @@ class eZBinaryFileType extends eZDataType
                                          $result );
     }
 
-    /*!
-     \param package
-     \param content attribute
-
-     \return a DOM representation of the content object attribute
-    */
     function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
@@ -656,15 +650,8 @@ class eZBinaryFileType extends eZDataType
         return $node;
     }
 
-    /*!
-     \reimp
-     \param package
-     \param contentobject attribute object
-     \param domnode object
-    */
     function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
-
         $fileNode = $attributeNode->getElementsByTagName( 'binary-file' )->item( 0 );
         if ( !is_object( $fileNode ) or !$fileNode->hasAttributes() )
         {

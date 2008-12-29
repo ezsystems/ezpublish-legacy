@@ -111,7 +111,7 @@ class eZInformationCollection extends eZPersistentObject
 
      Remove infomation collection from specified contentobject_id
 
-     \param contentobject id
+     \param delID contentobject id
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */

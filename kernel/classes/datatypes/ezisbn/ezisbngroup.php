@@ -105,7 +105,6 @@ class eZISBNGroup extends eZPersistentObject
 
     /*!
      \static
-     \param $count The count of the result.
      \param $asObject Whether if the result should be sent back as objects or an array.
      \return the group range list for ISBN groups.
     */

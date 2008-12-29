@@ -302,13 +302,6 @@ class eZAuthorType extends eZDataType
         return true;
     }
 
-    /*!
-     \reimp
-     \param package
-     \param content attribute
-
-     \return a DOM representation of the content object attribute
-    */
     function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
@@ -323,13 +316,6 @@ class eZAuthorType extends eZDataType
         return $node;
     }
 
-    /*!
-     \reimp
-
-     \param package
-     \param contentobject attribute object
-     \param domnode object
-    */
     function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         $rootNode = $attributeNode->getElementsByTagName( 'ezauthor' )->item( 0 );

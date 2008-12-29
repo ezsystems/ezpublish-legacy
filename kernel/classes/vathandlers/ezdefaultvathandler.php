@@ -136,17 +136,17 @@ class eZDefaultVATHandler
      * CountryMatch  = 0
      * CategoryMatch = 1
      *
-     * if ( <there is exact match on country> )
+     * if ( there is exact match on country )
      *     CountryMatch = 2
-     * elseif ( <there is weak match on country> )
+     * elseif ( there is weak match on country )
      *     CountryMatch = 1
      *
-     * if ( <there is exact match on product category> )
+     * if ( there is exact match on product category )
      *     CategoryMatch = 2
-     * elseif ( <there is weak match on product category> )
+     * elseif ( there is weak match on product category )
      *     CategoryMatch = 1
      *
-     * if ( <there is match on both country and category )
+     * if ( there is match on both country and category )
      *     VatTypePriority = CountryMatch * 2 + CategoryMatch - 2
      * else
      *     VatTypePriority = 0

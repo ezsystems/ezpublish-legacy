@@ -496,8 +496,6 @@ class eZMultiOption2Type extends eZDataType
     /*!
      \reimp
      Finds the option which has the correct ID , if found it returns an option structure.
-
-     \param $optionString must contain the multioption ID an underscore (_) and a the option ID.
     */
     function productOptionInformation( $objectAttribute, $optionID, $productItem )
     {

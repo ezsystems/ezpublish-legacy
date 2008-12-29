@@ -95,8 +95,8 @@ class eZModuleFunctionInfo
     /*!
       Check if a parameter for a function is an array
 
-      \param function name
-      \param parameter name
+      \param functionName function name
+      \param parameterName parameter name
 
       \return true if parameter is supposed to be array
      */
@@ -123,7 +123,7 @@ class eZModuleFunctionInfo
     /*!
      Pre execute, used by template compilation to check as much as possible before runtime.
 
-     \param function name
+     \param functionName function name
 
      \return function definition, false if fails.
     */

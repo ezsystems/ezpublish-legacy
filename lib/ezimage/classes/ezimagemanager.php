@@ -1376,9 +1376,7 @@ class eZImageManager
     }
 
     /*!
-     Frees the current exclusive lock in use.
-
-     \param $fname Name of the calling code (usually function name).
+     Frees the exclusive lock for the currently generated alias
      */
     private function _freeExclusiveLock( $fileName, $aliasName )
     {
