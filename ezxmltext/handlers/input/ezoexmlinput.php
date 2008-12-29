@@ -231,28 +231,11 @@ class eZOEXMLInput extends eZXMLInputHandler
         $http = eZHTTPTool::instance();
         $http->setSessionVariable( 'eZOEXMLInputExtension', $isEnabled );
     }
-
-    /*!
-     \static
-     \return true if the editor can be used. This is determinded by whether the browser supports DHTML
-            , user has access to editor and if the editor is enabled.
-    */
-    static function isEditorActive()
-    {
-        if ( !eZOEXMLInput::browserSupportsDHTMLType() )
-            return false;
-
-       if ( !eZOEXMLInput::isEditorEnabled() )
-            return false;
-
-        return eZOEXMLInput::currentUserHasAccess();
-    }
     
     /*!
-     \static
      \return if user has access to editor 
      */
-    static function currentUserHasAccess( $view = 'editor' )
+    function currentUserHasAccess( $view = 'editor' )
     {
         if ( !isset( self::$userAccessHash[ $view ] ) )
         {
@@ -261,8 +244,42 @@ class eZOEXMLInput extends eZXMLInputHandler
             if ( $user instanceOf eZUser )
             {
                 $result = $user->hasAccessTo( 'ezoe', $view );
-                if ( $result['accessWord'] !== 'no'  )
+                if ( $result['accessWord'] === 'yes'  )
+                {
                     self::$userAccessHash[ $view ] = true;
+                }
+                else if ( $result['accessWord'] === 'limited' )
+                {
+                     foreach ( $result['policies'] as $pkey => $limitationArray )
+                     {
+                        foreach ( $limitationArray as $key => $valueList  )
+                        {
+                            switch( $key )
+                            {
+                                case 'User_Section':
+                                {
+                                    if ( in_array( $this->ContentObjectAttribute->attribute('object')->attribute( 'section_id' ), $valueList ) )
+                                    {
+                                        self::$userAccessHash[ $view ] = true;
+                                        break 3;
+                                    }
+                                } break;
+                                case 'User_Subtree':
+                                {
+                                    $path = $this->ContentObjectAttribute->attribute('object')->attribute('main_node')->attribute( 'path_string' );
+                                    foreach ( $valueList as $subtreeString )
+                                    {
+                                        if ( strstr( $path, $subtreeString ) )
+                                        {
+                                            self::$userAccessHash[ $view ] = true;
+                                            break 4;
+                                        }
+                                    }
+                                } break;
+                            }
+                        }
+                     }
+                }
             }
         }
         return self::$userAccessHash[ $view ];
@@ -341,7 +358,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 $hideButtons[] = 'pagebreak';
 
             // filter out relations buttons if user dosn't have access to relations
-            if ( !eZOEXMLInput::currentUserHasAccess( 'relations' ) )
+            if ( !$this->currentUserHasAccess( 'relations' ) )
             {
                 $hideButtons[] = 'image';
                 $hideButtons[] = 'object';
@@ -369,7 +386,7 @@ class eZOEXMLInput extends eZXMLInputHandler
         if ( !eZOEXMLInput::browserSupportsDHTMLType() )
             return false;
 
-        return eZOEXMLInput::currentUserHasAccess();
+        return $this->currentUserHasAccess();
     }
 
     /*!

@@ -3,6 +3,7 @@ eZ Online Editor 5.0 extension Changelog
 5.0rc11
 * Fixed regression #014110: IE7 double every paragraph break on every edit
 * Use sort_array from root node in Location drop down + use name as 2. sort rule
+* Add support for role limitations on ezoe module and it's functions
 
 5.0rc10
 * Fixed #14097: Custom-tags cause errors in var/error.log
