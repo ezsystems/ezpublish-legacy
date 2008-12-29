@@ -1079,61 +1079,19 @@ class eZDebug
             $GLOBALS['eZDebugLogOnly'] = ( $settings['log-only'] == 'enabled' );
         }
 
-        $notDebugByIP = true;
-        $debugEnabled = $settings['debug-enabled'];
-        if ( $settings['debug-enabled'] and
-             $settings['debug-by-ip'] )
+        $GLOBALS['eZDebugAllowedByIP'] = $settings['debug-by-ip'] ? self::isAllowedByCurrentIP( $settings['debug-ip-list'] ) : true;
+
+        // updateSettings is meant to be called before the user session is started
+        // so we do not take debug-by-user into account yet, but store the debug-user-list in $GLOBALS
+        // so it can be used in the final check, done by checkDebugByUser()
+        if ( isset( $settings['debug-by-user'] ) && $settings['debug-by-user'] )
         {
-            $ipAddress = eZSys::serverVariable( 'REMOTE_ADDR', true );
-            if ( $ipAddress )
-            {
-                $debugEnabled = false;
-                foreach( $settings['debug-ip-list'] as $itemToMatch )
-                {
-                    if ( preg_match("/^(([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+))(\/([0-9]+)$|$)/", $itemToMatch, $matches ) )
-                    {
-                        if ( $matches[6] )
-                        {
-                            if ( eZDebug::isIPInNet( $ipAddress, $matches[1], $matches[7]))
-                            {
-                                $debugEnabled = true;
-                                $notDebugByIP = false;
-                                break;
-                            }
-                        }
-                        else
-                        {
-                            if ( $matches[1] == $ipAddress )
-                            {
-                                $debugEnabled = true;
-                                $notDebugByIP = false;
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            else
-            {
-                $debugEnabled = (
-                    in_array( 'commandline', $settings['debug-ip-list'] ) &&
-                    ( php_sapi_name() == 'cli' )
-                );
-            }
-        }
-        if ( $settings['debug-enabled'] and
-             isset( $settings['debug-by-user'] ) and
-             $settings['debug-by-user'] and
-             $notDebugByIP )
-        {
-            $debugUserIDList = $settings['debug-user-list'] ? $settings['debug-user-list'] : array();
-            $GLOBALS['eZDebugUserIDList'] = $debugUserIDList;
-            // We enable the debug temporarily.
-            // In checkDebugByUser() will be last(final) check for debug by user id.
-            $debugEnabled = true;
+            $GLOBALS['eZDebugUserIDList'] = $settings['debug-user-list'] ? $settings['debug-user-list'] : array();
         }
 
-        $GLOBALS['eZDebugEnabled'] = $debugEnabled;
+        $GLOBALS['eZDebugAllowed'] = $GLOBALS['eZDebugAllowedByIP'];
+        $GLOBALS['eZDebugEnabled'] = $settings['debug-enabled'] && $GLOBALS['eZDebugAllowedByIP'];
+
         eZDebug::setHandleType( $oldHandleType );
     }
 
@@ -1141,28 +1099,44 @@ class eZDebug
       \static
       Final checking for debug by user id.
       Checks if we should enable debug.
+
+      Returns false if debug-by-user is not active, was already checked before
+      or if there is no current user. Returns true otherwise.
     */
     static function checkDebugByUser()
     {
-        $debugUserIDList = isset( $GLOBALS['eZDebugUserIDList'] ) ? $GLOBALS['eZDebugUserIDList'] : false;
-
-        if ( $debugUserIDList === false )
-            return false;
-
-        if ( count( $debugUserIDList ) == 0 )
+        if ( !isset( $GLOBALS['eZDebugUserIDList'] ) ||
+             !is_array( $GLOBALS['eZDebugUserIDList'] ) )
         {
-            // We should set previous value.
-            return $GLOBALS['eZDebugEnabled'] = false;
+            return false;
         }
+        else
+        {
+            $currentUserID = eZUser::currentUserID();
 
-        // if ( //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" ) )
-        $currentUserID = eZUser::currentUserID();
+            if ( !$currentUserID )
+            {
+                return false;
+            }
+            else
+            {
+                $GLOBALS['eZDebugAllowedByUser'] = in_array( $currentUserID, $GLOBALS['eZDebugUserIDList'] );
 
-        $GLOBALS['eZDebugEnabled'] = $currentUserID ?
-            in_array( $currentUserID, $debugUserIDList ) :
-            $GLOBALS['eZDebugEnabled'];
+                if ( $GLOBALS['eZDebugAllowed'] )
+                {
+                    $GLOBALS['eZDebugAllowed'] = $GLOBALS['eZDebugAllowedByUser'];
+                }
 
-        unset( $GLOBALS['eZDebugUserIDList'] );
+                if ( $GLOBALS['eZDebugEnabled'] )
+                {
+                    $GLOBALS['eZDebugEnabled'] = $GLOBALS['eZDebugAllowedByUser'];
+                }
+
+                unset( $GLOBALS['eZDebugUserIDList'] );
+
+                return true;
+            }
+        }
     }
 
     /*!
@@ -1844,6 +1818,51 @@ td.timingpoint2
         foreach ( $reportNames as $reportName )
         {
             echo $debug->bottomReportsList[$reportName];
+        }
+    }
+
+    /*!
+     If debugging is allowed, given the limitations of the DebugByIP and DebugByUser settings.
+    */
+    function isDebugAllowed()
+    {
+
+    }
+
+    /*!
+     If debugging is allowed for the current IP address.
+    */
+    private static function isAllowedByCurrentIP( $allowedIpList )
+    {
+        $ipAddress = eZSys::serverVariable( 'REMOTE_ADDR', true );
+        if ( $ipAddress )
+        {
+            foreach( $allowedIpList as $itemToMatch )
+            {
+                if ( preg_match("/^(([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+))(\/([0-9]+)$|$)/", $itemToMatch, $matches ) )
+                {
+                    if ( $matches[6] )
+                    {
+                        if ( self::isIPInNet( $ipAddress, $matches[1], $matches[7] ) )
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        if ( $matches[1] == $ipAddress )
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
+        else
+        {
+            return eZSys::isShellExecution() && in_array( 'commandline', $allowedIpList );
         }
     }
 
