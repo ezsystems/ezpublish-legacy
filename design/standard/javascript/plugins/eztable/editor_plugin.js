@@ -138,7 +138,7 @@
 				cm.setDisabled('row_props', !p);
 				cm.setDisabled('cell_props', !p);
 				cm.setDisabled('split_cells', !p || (parseInt(ed.dom.getAttrib(p, 'colspan', '1')) < 2 && parseInt(ed.dom.getAttrib(p, 'rowspan', '1')) < 2));
-				cm.setDisabled('merge_cells', !p );
+				cm.setDisabled('merge_cells', !p);
 			});
 
 			// Padd empty table cells
