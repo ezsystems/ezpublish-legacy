@@ -34,3 +34,4 @@ Changes from 4.1.0alpha1 to 4.1.0alpha2
 - Fixed bug #14209: Bug in registerAutoloadFunctions
 - Fixed bug #13432: eZApproveType::cleanupAfterRemoving() is arrogant, it behaves as if it's the only event type
 - Fixed bug #13766: RedirectURIAfterPublish session variable is not removed after discarding a draft
+- Fixed bug #3136: DebugRedirection

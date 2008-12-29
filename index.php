@@ -776,71 +776,29 @@ if ( $module->exitStatus() == eZModule::STATUS_REDIRECT )
 {
     $GLOBALS['eZRedirection'] = true;
     $ini = eZINI::instance();
-    $uri = eZURI::instance( eZSys::requestURI() );
-
-    list( $redirUri, $debugByIP, $debugIPList ) =
-        $ini->variableMulti( "DebugSettings", array( 'DebugRedirection', 'DebugByIP', 'DebugIPList' ) );
     $automatic_redir = true;
 
-    if ( $redirUri == "enabled" )
+    if ( $GLOBALS['eZDebugAllowed'] && ( $redirUri = $ini->variable( 'DebugSettings', 'DebugRedirection' ) ) != 'disabled' )
     {
-        $automatic_redir = false;
-    }
-    else if ( $redirUri != "disabled" )
-    {
-        $redirUris = $ini->variableArray( "DebugSettings", "DebugRedirection" );
-        $uri->toBeginning();
-        foreach ( $redirUris as $redirUri )
+        if ( $redirUri == "enabled" )
         {
-            $redirUri = new eZURI( $redirUri );
-            if ( $redirUri->matchBase( $uri ) )
-            {
-                $automatic_redir = false;
-                break;
-            }
-        }
-    }
-
-    $debugEnabled = false;
-    if ( $debugByIP == 'enabled' )
-    {
-        $ipAddress = eZSys::serverVariable( 'REMOTE_ADDR', true );
-        if ( $ipAddress )
-        {
-            foreach( $debugIPList as $itemToMatch )
-            {
-                if ( preg_match("/^(([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+))(\/([0-9]+)$|$)/", $itemToMatch, $matches ) )
-                {
-                    if ( $matches[6] )
-                    {
-                        if ( eZDebug::isIPInNet( $ipAddress, $matches[1], $matches[7] ) )
-                        {
-                            $debugEnabled=true;
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        if ( $matches[1] == $ipAddress )
-                        {
-                            $debugEnabled=true;
-                            break;
-                        }
-                    }
-                }
-            }
+            $automatic_redir = false;
         }
         else
         {
-            $debugEnabled = (
-                in_array( 'commandline', $debugIPList ) &&
-                ( php_sapi_name() == 'cli' )
-            );
+            $redirUris = $ini->variableArray( "DebugSettings", "DebugRedirection" );
+            $uri = eZURI::instance( eZSys::requestURI() );
+            $uri->toBeginning();
+            foreach ( $redirUris as $redirUri )
+            {
+                $redirUri = new eZURI( $redirUri );
+                if ( $redirUri->matchBase( $uri ) )
+                {
+                    $automatic_redir = false;
+                    break;
+                }
+            }
         }
-    }
-    if ( !$debugEnabled && $redirUri == 'disabled' )
-    {
-        $automatic_redir = true;
     }
 
     $redirectURI = eZSys::indexDir();
