@@ -82,25 +82,30 @@ if ( $isConfirmed )
     {
         $Module->redirectTo( $http->sessionVariable( 'RedirectIfDiscarded' ) );
         $http->removeSessionVariable( 'RedirectIfDiscarded' );
-        $http->removeSessionVariable( 'ParentObject' );
-        $http->removeSessionVariable( 'NewObjectID' );
         $hasRedirected = true;
     }
     if ( $http->hasSessionVariable( 'ParentObject' ) && $http->sessionVariable( 'NewObjectID' ) == $objectID )
     {
         $parentArray = $http->sessionVariable( 'ParentObject' );
         $parentURL = $Module->redirectionURI( 'content', 'edit', $parentArray );
-        $http->removeSessionVariable( 'ParentObject' );
-        $http->removeSessionVariable( 'NewObjectID' );
         $Module->redirectTo( $parentURL );
         $hasRedirected = true;
     }
 
-    if ( $hasRedirected == false )
-    {
-        if ( isset( $nodeID ) && $nodeID )
-            return $Module->redirectTo( '/content/view/full/' . $nodeID .'/' );
+    $http->removeSessionVariable( 'RedirectURIAfterPublish' );
+    $http->removeSessionVariable( 'ParentObject' );
+    $http->removeSessionVariable( 'NewObjectID' );
 
+    if ( $hasRedirected )
+    {
+        return;
+    }
+    else if ( isset( $nodeID ) && $nodeID )
+    {
+        return $Module->redirectTo( '/content/view/full/' . $nodeID . '/' );
+    }
+    else
+    {
         return eZRedirectManager::redirectTo( $Module, '/', true, array( 'content/edit' ) );
     }
 }
