@@ -160,10 +160,10 @@ class eZOEInputParser extends eZXMLInputParser
         '#text'     => array( 'structHandler' => 'structHandlerText' )
     );
 
-    function eZOEInputParser( $validate = false, $errorLevel = eZXMLInputParser::ERROR_NONE,
+    function eZOEInputParser( $validateErrorLevel = eZXMLInputParser::ERROR_NONE, $detectErrorLevel = eZXMLInputParser::ERROR_NONE,
                                  $parseLineBreaks = false, $removeDefaultAttrs = false )
     {
-        $this->eZXMLInputParser( $validate, $errorLevel, $parseLineBreaks, $removeDefaultAttrs );
+        $this->eZXMLInputParser( $validateErrorLevel, $detectErrorLevel, $parseLineBreaks, $removeDefaultAttrs );
 
         $ini = eZINI::instance( 'content.ini' );
         if ( $ini->hasVariable( 'header', 'AnchorAsAttribute' ) )
