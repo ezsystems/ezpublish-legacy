@@ -100,6 +100,11 @@ Changes to method signatures
   to be returned, and a boolean with which you can reverses the behavior so
   that all files in the scopes in the array are excluded.
 
+- eZRSSExport::fetchRSS2_0() and fetchRSS1_0
+
+  These methods do not any longer accept the ID of the RSSExport as a parameter.
+  Use eZRSSExport::fetch() first to fetch the instance by its ID.
+
 Change of behaviour
 -------------------
 

@@ -385,18 +385,10 @@ class eZRSSExport extends eZPersistentObject
     /*!
      Get a RSS xml document based on the RSS 2.0 standard based on the RSS Export settings defined by this object
 
-     \param
-
      \return RSS 2.0 XML document
     */
-    function fetchRSS2_0( $id = null )
+    function fetchRSS2_0()
     {
-        if ( $id != null )
-        {
-            $rssExport = eZRSSExport::fetch( $id );
-            return $rssExport->fetchRSS2_0();
-        }
-
         $locale = eZLocale::instance();
 
         // Get URL Translation settings.
@@ -600,18 +592,10 @@ class eZRSSExport extends eZPersistentObject
     /*!
      Get a RSS xml document based on the RSS 1.0 standard based on the RSS Export settings defined by this object
 
-     \param object ID
-
      \return RSS 1.0 XML document
     */
-    function fetchRSS1_0( $id = null )
+    function fetchRSS1_0()
     {
-        if ( $id != null )
-        {
-            $rssExport = eZRSSExport::fetch( $id );
-            return $rssExport->fetchRSS1_0();
-        }
-
         $imageURL = $this->fetchImageURL();
 
         // Get URL Translation settings.
