@@ -680,7 +680,18 @@ class eZOEXMLInput extends eZXMLInputHandler
                 case 'header' :
                 {
                     $headerClassName = $sectionNode->getAttribute( 'class' );
-                    $headerClassString = $headerClassName != null ? " class='$headerClassName'" : '';
+                    $headerAlign = $sectionNode->getAttribute( 'align' );
+                    $customAttributePart = $this->getCustomAttrPart( $sectionNode, $styleString );
+
+                    if ( $headerClassName )
+                    {
+                        $customAttributePart .= ' class="' . $headerClassName . '"';
+                    }
+
+                    if ( $headerAlign )
+                    {
+                        $customAttributePart .= ' align="' . $headerAlign . '"';
+                    }
 
                     $tagContent = '';
                     // render children tags
@@ -710,11 +721,11 @@ class eZOEXMLInput extends eZXMLInputHandler
                     $archorName = $sectionNode->getAttribute( 'anchor_name' );
                     if ( $archorName != null )
                     {
-                        $output .= "<h$level$headerClassString><a name=\"$archorName\" class=\"mceItemAnchor\"></a>" . $sectionNode->textContent. "</h$level>";
+                        $output .= "<h$level$customAttributePart><a name=\"$archorName\" class=\"mceItemAnchor\"></a>" . $sectionNode->textContent. "</h$level>";
                     }
                     else
                     {
-                        $output .= "<h$level$headerClassString>" . $tagContent . "</h$level>";
+                        $output .= "<h$level$customAttributePart>" . $tagContent . "</h$level>";
                     }
 
                 }break;
@@ -830,17 +841,20 @@ class eZOEXMLInput extends eZXMLInputHandler
         }
 
         $paragraphClassName = $paragraph->getAttribute( 'class' );
-
+        $paragraphAlign = $paragraph->getAttribute( 'align' );
         $customAttributePart = $this->getCustomAttrPart( $paragraph, $styleString );
 
-        if ( $paragraphClassName != null )
+        if ( $paragraphAlign )
         {
-            $openPara = "<p class='$paragraphClassName'$customAttributePart$styleString>";
+            $customAttributePart .= ' align="' . $paragraphAlign . '"';
         }
-        else
+
+        if ( $paragraphClassName )
         {
-            $openPara = "<p$customAttributePart$styleString>";
+            $customAttributePart .= ' class="' . $paragraphClassName . '"';
         }
+
+        $openPara = "<p$customAttributePart$styleString>";
         $closePara = '</p>';
 
         if ( $children->length == 0 )
@@ -964,7 +978,6 @@ class eZOEXMLInput extends eZXMLInputHandler
         {
             case '#text' :
             {
-                //$tagContent = htmlspecialchars( $tag->textContent );
                 $tagContent = $tag->textContent;
                 if ( !strlen( $tagContent ) )
                 {
@@ -1165,7 +1178,12 @@ class eZOEXMLInput extends eZXMLInputHandler
             case 'custom' :
             {
                 $name = $tag->getAttribute( 'name' );
+                $align = $tag->getAttribute( 'align' );
                 $customAttributePart = $this->getCustomAttrPart( $tag, $styleString );
+                if ( $align )
+                {
+                    $customAttributePart .= ' align="' . $align . '"';
+                }
 
                 if ( isset( self::$nativeCustomTags[ $name ] ))
                 {
@@ -1257,6 +1275,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 $tableRows = '';
                 $border = $tag->getAttribute( 'border' );
                 $width = $tag->getAttribute( 'width' );
+                $align = $tag->getAttribute( 'align' );
                 $tableClassName = $tag->getAttribute( 'class' );
 
                 $customAttributePart = $this->getCustomAttrPart( $tag, $styleString );
@@ -1272,27 +1291,31 @@ class eZOEXMLInput extends eZXMLInputHandler
                     {
                         $TDcustomAttributePart = $this->getCustomAttrPart( $tableCell, $tableCellStyleString );
 
-                        $cellAttribute = '';
                         $className = $tableCell->getAttribute( 'class' );
+                        $cellAlign = $tableCell->getAttribute( 'align' );
 
                         $colspan = $tableCell->getAttributeNS( 'http://ez.no/namespaces/ezpublish3/xhtml/', 'colspan' );
                         $rowspan = $tableCell->getAttributeNS( 'http://ez.no/namespaces/ezpublish3/xhtml/', 'rowspan' );
                         $cellWidth = $tableCell->getAttributeNS( 'http://ez.no/namespaces/ezpublish3/xhtml/', 'width' );
                         if ( $className != '' )
                         {
-                            $cellAttribute .= ' class="' . $className . '"';
+                            $TDcustomAttributePart .= ' class="' . $className . '"';
                         }
                         if ( $cellWidth != '' )
                         {
-                            $cellAttribute .= ' width="' . $cellWidth . '"';
+                            $TDcustomAttributePart .= ' width="' . $cellWidth . '"';
                         }
                         if ( $colspan && $colspan !== '1' )
                         {
-                            $cellAttribute .= ' colspan="' . $colspan . '"';
+                            $TDcustomAttributePart .= ' colspan="' . $colspan . '"';
                         }
                         if ( $rowspan && $rowspan !== '1' )
                         {
-                            $cellAttribute .= ' rowspan="' . $rowspan . '"';
+                            $TDcustomAttributePart .= ' rowspan="' . $rowspan . '"';
+                        }
+                        if ( $cellAlign )
+                        {
+                        	$TDcustomAttributePart .= ' align="' . $cellAlign . '"';
                         }
                         $cellContent = '';
                         $tdSectionLevel = $currentSectionLevel;
@@ -1306,11 +1329,11 @@ class eZOEXMLInput extends eZXMLInputHandler
                         }
                         if ( $tableCell->nodeName === 'th' )
                         {
-                            $tableData .= '<th' . $cellAttribute . $TDcustomAttributePart . $tableCellStyleString . '>' . $cellContent . '</th>';
+                            $tableData .= '<th' . $TDcustomAttributePart . $tableCellStyleString . '>' . $cellContent . '</th>';
                         }
                         else
                         {
-                            $tableData .= '<td' . $cellAttribute . $TDcustomAttributePart . $tableCellStyleString . '>' . $cellContent . '</td>';
+                            $tableData .= '<td' . $TDcustomAttributePart . $tableCellStyleString . '>' . $cellContent . '</td>';
                         }
                     }
                     if ( $TRclassName )
@@ -1330,6 +1353,11 @@ class eZOEXMLInput extends eZXMLInputHandler
                 if ( is_string( $border ) )
                 {
                     $customAttributePart .= ' border="' . $border . '"';
+                }
+
+                if ( $align )
+                {
+                    $customAttributePart .= ' align="' . $align . '"';
                 }
 
                 if ( $tableClassName )

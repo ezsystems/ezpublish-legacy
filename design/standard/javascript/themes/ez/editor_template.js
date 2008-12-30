@@ -924,24 +924,29 @@
                 c.setDisabled(!p || !DOM.getAttrib(p, 'href') );
                 c.setActive(!!p && DOM.getAttrib(p, 'href') );
             }
+            p = this.__mceJustifyTags.test( n.nodeName );
             if ( c = cm.get('justifyleft') )
             {
-                c.setActive( n.align && n.align === 'left' );
+                c.setDisabled( !p );
+                c.setActive( p && n.align === 'left' );
             }
             if ( c = cm.get('justifyright') )
             {
-                c.setActive( n.align && n.align === 'right' );
+                c.setDisabled( !p );
+                c.setActive( p && n.align === 'right' );
             }
             if ( c = cm.get('justifyfull') )
             {
-                c.setActive( n.align && n.align === 'justify' );
+                c.setDisabled( !p );
+                c.setActive( p && n.align === 'justify' );
             }
             if ( c = cm.get('justifycenter') )
             {
+                c.setDisabled( !p );
                 if ( n.nodeName === 'IMG' )
-                    c.setActive( n.align && n.align === 'middle' );
+                    c.setActive( p && n.align === 'middle' );
                 else
-                    c.setActive( n.align && n.align === 'center' );
+                    c.setActive( p && n.align === 'center' );
             }
 
             if ( mceNonEditable === false )
@@ -1353,7 +1358,7 @@
             if ( c === 'center' && nn === 'IMG' )
                 c = 'middle';
 
-            if (/^(TABLE|P|IMG|DIV|SPAN)$/.test(nn))
+            if ( this.__mceJustifyTags.test(nn) )
             {
                 if ( n.align === c )
                     ed.dom.setAttrib( n, 'align', '' );
@@ -1362,6 +1367,8 @@
             }
             return false;
         },
+
+        __mceJustifyTags : /^(TABLE|P|IMG|DIV|SPAN|H1|H2|H3|H4|H5|H6)$/,
 
         _mceCharMap : function() {
             var ed = this.editor;
