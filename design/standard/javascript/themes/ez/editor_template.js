@@ -924,6 +924,25 @@
                 c.setDisabled(!p || !DOM.getAttrib(p, 'href') );
                 c.setActive(!!p && DOM.getAttrib(p, 'href') );
             }
+            if ( c = cm.get('justifyleft') )
+            {
+                c.setActive( n.align && n.align === 'left' );
+            }
+            if ( c = cm.get('justifyright') )
+            {
+                c.setActive( n.align && n.align === 'right' );
+            }
+            if ( c = cm.get('justifyfull') )
+            {
+                c.setActive( n.align && n.align === 'justify' );
+            }
+            if ( c = cm.get('justifycenter') )
+            {
+                if ( n.nodeName === 'IMG' )
+                    c.setActive( n.align && n.align === 'middle' );
+                else
+                    c.setActive( n.align && n.align === 'center' );
+            }
 
             if ( mceNonEditable === false )
             {
@@ -1159,7 +1178,7 @@
             var t = this, ed = t.editor;
 
             tinymce.each(ed.controlManager.controls, function(c){
-                if ( !c.settings.cmd || ',mceObject,mceFile,mceFullScreen,mceLink,unlink'.indexOf( ',' + c.settings.cmd + ',' ) === -1 )
+                if ( !c.settings.cmd || ',mceObject,mceFile,mceFullScreen,mceLink,unlink,JustifyLeft,JustifyCenter,JustifyRight,'.indexOf( ',' + c.settings.cmd + ',' ) === -1 )
                 {
                     c.setDisabled( s );
                     if ( s ) c.setActive( false );
@@ -1306,6 +1325,42 @@
 
         _sel : function(v) {
             this.editor.execCommand('mceSelectNodeDepth', false, v);
+        },
+        
+        _JustifyLeft : function( v ){
+            return this.__mceJustify( 'left', v );
+        },
+
+        _JustifyCenter : function( v ){
+            return this.__mceJustify( 'center', v );
+        },
+
+        _JustifyRight : function( v ){
+            return this.__mceJustify( 'right', v );
+        },
+
+        _JustifyFull : function( v ){
+            return this.__mceJustify( 'justify', v );
+        },
+
+        __mceJustify : function(c, v)
+        {
+            // override the tinymce justify code to use html alignment
+            var ed = this.editor, se = ed.selection, n = se.getNode(), nn = n.nodeName;
+
+            if ( c === 'justify' && ( nn === 'IMG' || nn === 'TABLE' ) )
+                    return;
+            if ( c === 'center' && nn === 'IMG' )
+                c = 'middle';
+
+            if (/^(TABLE|P|IMG|DIV|SPAN)$/.test(nn))
+            {
+                if ( n.align === c )
+                    ed.dom.setAttrib( n, 'align', '' );
+                else
+                    ed.dom.setAttrib( n, 'align', c );
+            }
+            return false;
         },
 
         _mceCharMap : function() {
