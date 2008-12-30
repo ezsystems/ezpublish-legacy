@@ -86,6 +86,7 @@
         fix_list_elements : true,
         fix_table_elements : true,
         convert_urls : false,
+        inline_styles : false,
         tab_focus : ':prev,:next',
         theme_ez_editor_css : '{ezoecss( $editor_css_list, false() )|implode(',')}',
         theme_ez_content_css : '{ezoecss( $content_css_list, false())|implode(',')}',
