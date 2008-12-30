@@ -40,7 +40,7 @@
   care of storing the necessary session variables and redirect
   to the browse page.
 
-  Using it is simply to call the \link browse \endlink function with some parameters.
+  Using it is simply to call the \link eZContentBrowse::browse() browse \endlink function with some parameters.
 
 \code
 eZContentBrowse::browse( array( 'action_name' => 'MyActionName' ), $module );

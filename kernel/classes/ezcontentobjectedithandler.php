@@ -48,8 +48,6 @@ class eZContentObjectEditHandler
     }
 
     /*!
-     \abstract
-
      Override this function in the extension to handle edit input parameters.
     */
     function fetchInput( $http, &$module, &$class, $object, &$version, $contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage )
@@ -57,8 +55,6 @@ class eZContentObjectEditHandler
     }
 
     /*!
-     \abstract
-
      Return list of HTTP postparameters which should trigger store action.
     */
     static function storeActionList()
@@ -66,8 +62,6 @@ class eZContentObjectEditHandler
     }
 
     /*!
-     \abstract
-
      Do content object publish operations.
     */
     function publish( $contentObjectID, $contentObjectVersion )
@@ -75,8 +69,6 @@ class eZContentObjectEditHandler
     }
 
     /*!
-     \abstract
-
      Override this function in the extension to handle input validation.
     */
     function validateInput( $http, &$module, &$class, $object, &$version, $contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage, $validationParameters )

@@ -47,7 +47,6 @@ class eZMailTransport
     }
 
     /*!
-     \virtual
      Tries to send the contents of the email object \a $mail and
      returns \c true if succesful.
     */

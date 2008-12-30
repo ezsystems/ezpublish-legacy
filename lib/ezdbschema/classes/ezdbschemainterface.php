@@ -109,7 +109,6 @@ class eZDBSchemaInterface
     }
 
     /*!
-     \virtual
      Fetches the data for all tables and returns an array containing the data.
 
      \param $schema A schema array which defines tables to fetch from.
@@ -165,7 +164,6 @@ class eZDBSchemaInterface
     }
 
     /*!
-     \virtual
      Validates the current schema and returns \c true if it is correct or
      \c false if something must be fixed.
      \note This should not be reimplemented by normal handlers, only schema
@@ -177,7 +175,6 @@ class eZDBSchemaInterface
     }
 
     /*!
-     \virtual
      \protected
      Fetches all rows for table defined in \a $tableInfo and returns this structure:
      - fields - Array with fields that were fetched from table, the order of the fields
@@ -669,7 +666,6 @@ class eZDBSchemaInterface
     }
 
     /*!
-     \virtual
      \protected
 
      \note Calls generateTableInsertSQLList and joins the SQLs to a string
@@ -680,7 +676,6 @@ class eZDBSchemaInterface
     }
 
     /*!
-     \virtual
      \protected
     */
     function generateTableInsertSQLList( $tableName, $tableDef, $dataEntries, $params, $withClosure = true )
@@ -804,7 +799,6 @@ class eZDBSchemaInterface
     }
 
     /*!
-     \virtual
      \protected
     */
     function generateDataValueTextSQL( $fieldDef, $value )
@@ -893,7 +887,6 @@ class eZDBSchemaInterface
     }
 
     /*!
-     \virtual
      \protected
      \return \c true if the schema system supports multi inserts.
              The default is to return \c false.
@@ -1058,7 +1051,6 @@ class eZDBSchemaInterface
 
     /*!
     \protected
-    \virtual
     \return true on success, false otherwise
 
     Transforms database schema to the given direction, applying the transformation rules.
@@ -1330,7 +1322,6 @@ class eZDBSchemaInterface
 
     /*!
     \protected
-    \virtual
     \return true on success, false otherwise
 
     Transforms database data to the given direction, applying the transformation rules.

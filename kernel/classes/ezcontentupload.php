@@ -38,7 +38,7 @@
   This class makes it easy to use the start a new file upload
   and let it be created as a content object.
 
-  Using it is simply to call the \link upload \endlink function with some parameters.
+  Using it is simply to call the \link eZContentUpload::upload() upload \endlink function with some parameters.
 
 \code
 eZContentUpload::upload( array( 'action_name' => 'MyActionName' ), $module );

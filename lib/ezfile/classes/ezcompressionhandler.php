@@ -41,7 +41,7 @@
   they are compress() and decompress() and are used for string based
   compression.
 
-  \h1 Creating specific handlers
+  <h1>Creating specific handlers</h1>
 
   The compressor handlers must inherit from this class and reimplement
   some virtual functions.

@@ -71,7 +71,6 @@ class eZImageLayer extends eZImageInterface
     }
 
     /*!
-     \virtual
      Tries to merge the current layer with the layer \a $lastLayerData
      onto the image object \a $image.
      Different kinds of layer classes will merge layers differently.

@@ -212,7 +212,7 @@ class eZPDFExport extends eZPersistentObject
     }
 
     /*!
-     \transaction unsafe.
+      transaction unsafe.
     */
     function remove( $conditions = null, $extraConditions = null )
     {

@@ -84,7 +84,6 @@ class eZImageHandler
     }
 
     /*!
-     \virtual
      \return whether this handler can be used or not.
 
      Implementors of image handlers should implement this to return true if
@@ -98,7 +97,6 @@ class eZImageHandler
     }
 
     /*!
-     \virtual
      \return the tag for the MIME type named \a $mimeName.
      This is a helper function for some shell based handlers, it will create a
      proper name from the MIME type \a $mimeData.
@@ -187,7 +185,6 @@ class eZImageHandler
     }
 
     /*!
-     \virtual
      Rewrites the URL in \a $originalMimeData to become a url for \a $destinationMimeData.
      The type of rewrite is determined by \a $rewriteType which can be one of:
      - self::KEEP_SUFFIX - Does nothing to the url
@@ -239,7 +236,6 @@ class eZImageHandler
     }
 
     /*!
-     \virtual
      \return an array with MIME type names that the handler supports as input.
              MIME type names can also be specified with wildcards, for instance
              image/* to say that all image types are supported.
@@ -251,7 +247,6 @@ class eZImageHandler
     }
 
     /*!
-     \virtual
      \return an array with MIME type names that the handler supports as output.
              MIME type names can also be specified with wildcards, for instance
              image/* to say that all image types are supported.
@@ -363,7 +358,6 @@ class eZImageHandler
     }
 
     /*!
-     \virtual
      Figures out the output MIME type for the \a $currentMimeData. It goes trough
      all conversion rules for this handler and returns a MIME structure for the
      possible output. The returned structure also contains the correct url for the output.

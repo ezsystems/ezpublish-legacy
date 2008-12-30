@@ -164,9 +164,6 @@ class eZPackageCreationHandler
         return $this->StepMap;
     }
 
-    /*!
-     \virtual
-    */
     function stepTemplate( $step )
     {
         $stepTemplateName = $step['template'];
@@ -180,7 +177,6 @@ class eZPackageCreationHandler
     }
 
     /*!
-     \virtual
      This is called the first time the step is entered (ie. not on validations)
      and can be used to fill in values in the \a $persistentData variable
      for use in the template or later retrieval.
@@ -199,7 +195,6 @@ class eZPackageCreationHandler
     }
 
     /*!
-     \virtual
      Called each time a step is loaded, and can be used to fetch and process input data in each step.
     */
     function loadStep( $package, $http, $currentStepID, &$persistentData, $tpl, &$module )
@@ -244,9 +239,6 @@ class eZPackageCreationHandler
         return $nextStep;
     }
 
-    /*!
-     \virtual
-    */
     function validateAndAdvanceStep( $package, $http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
         $methodMap = $this->validateStepMethodMap();
@@ -262,7 +254,6 @@ class eZPackageCreationHandler
     }
 
     /*!
-     \virtual
      This is called after a step has validated it's information. It can
      be used to put values in the \a $persistentData variable for later retrieval.
     */
@@ -280,7 +271,6 @@ class eZPackageCreationHandler
     }
 
     /*!
-     \virtual
      Finalizes the creation process with the gathered information.
      This is usually the function that creates the package and
      adds the proper elements.
@@ -464,7 +454,6 @@ class eZPackageCreationHandler
     }
 
     /*!
-     \virtual
      \return the type installation this package uses.
 
      This method is called from the createPackage() method and will return \c 'install' by default.
@@ -476,7 +465,6 @@ class eZPackageCreationHandler
     }
 
     /*!
-     \virtual
      \return the initial state of the package.
 
      The state of a package generally tells how stable a package is,
@@ -489,7 +477,6 @@ class eZPackageCreationHandler
     }
 
     /*!
-     \virtual
      \return The initial changelog entry for a package.
      It is possible to get different initial texts by reimplementing this function.
 
@@ -501,7 +488,6 @@ class eZPackageCreationHandler
     }
 
     /*!
-     \virtual
      \return The package type taken from \a $package if the package exists,
              otherwise \c false.
      If the creator should have a specific package type this function should be reimplemented.
@@ -631,7 +617,6 @@ class eZPackageCreationHandler
     }
 
     /*!
-     \virtual
      This is called on the package information step to initialize the name, summary and description fields.
      Reimplementing this function allows the creator to fill in some default values for the information fields.
      \note The default does nothing.

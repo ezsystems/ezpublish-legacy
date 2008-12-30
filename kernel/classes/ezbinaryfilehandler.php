@@ -29,7 +29,7 @@
 //
 
 /*!
- \group eZBinaryHandlers Binary file handlers
+ \defgroup eZBinaryHandlers Binary file handlers
 */
 
 /*!

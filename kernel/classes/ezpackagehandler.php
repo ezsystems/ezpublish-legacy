@@ -51,7 +51,6 @@ class eZPackageHandler
     }
 
     /*!
-     \virtual
      \return true if the content of the install item should be extracted
              from disk before the install() function is called.
     */
@@ -91,7 +90,6 @@ class eZPackageHandler
     }
 
     /*!
-     \virtual
      Resets all data in the handler so that it's ready to handle a new package.
     */
     function reset()
@@ -167,7 +165,6 @@ class eZPackageHandler
     }
 
     /*!
-     \virtual
      Creates a text specific for the dependency item \a $dependencyItem and returns it.
      \param $package The current package.
      \param $dependencyItem Associative array with dependency values.

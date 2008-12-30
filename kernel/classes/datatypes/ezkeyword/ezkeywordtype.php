@@ -174,7 +174,7 @@ class eZKeywordType extends eZDataType
     }
 
     /*!
-     \reuturn the collect information action if enabled
+     \return the collect information action if enabled
     */
     function contentActionList( $classAttribute )
     {

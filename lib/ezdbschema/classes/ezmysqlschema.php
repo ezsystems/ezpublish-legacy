@@ -654,7 +654,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
     /*!
      MySQL 3.22.5 and higher support multi-insert queries so if the current
      database has sufficient version we return \c true.
-     If no database is connected we return \true.
+     If no database is connected we return \c true.
     */
     function isMultiInsertSupported()
     {

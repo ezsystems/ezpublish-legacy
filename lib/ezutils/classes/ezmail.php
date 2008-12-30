@@ -424,7 +424,7 @@ class eZMail
     }
 
     /*!
-      Returns the message ID format : <number@serverID>
+      Returns the message ID format : <number\@serverID>
       Read in the RFC's if you want to know more about it..
      */
     function messageID()

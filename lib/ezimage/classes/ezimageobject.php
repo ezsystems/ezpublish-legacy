@@ -270,7 +270,6 @@ class eZImageObject extends eZImageInterface
     }
 
     /*!
-     \virtual
      Flattens the image so that it can be displayed.
     */
     function processImage()

@@ -148,7 +148,6 @@ class eZFileHandler
     }
 
     /*!
-     \virtual
      \return true if this handler can be used.
      \note The default implementation is to return \c true for all handlers.
     */
@@ -918,7 +917,6 @@ class eZFileHandler
     }
 
     /*!
-     \virtual
      Does the actual file rewind.
      \sa rewind
      \note Default implementation calls seek with offset set to 0 from the file start.
@@ -1007,7 +1005,6 @@ class eZFileHandler
     }
 
     /*!
-     \virtual
      Returns error data as an associative array, the array contains:
      - string - The error string
      - number - The error number
@@ -1038,7 +1035,6 @@ class eZFileHandler
     }
 
     /*!
-     \virtual
      Creates a copy of the current handler and returns a reference to the copy.
      \note The default does a simple copy of \c $this, this method must be reimplemented for specific handlers.
     */

@@ -158,9 +158,6 @@ class eZPackageInstallationHandler
         return $this->StepMap;
     }
 
-    /*!
-     \virtual
-    */
     function stepTemplate( $package, $installItem, $step )
     {
         $stepTemplatePath = 'design:package/';
@@ -175,7 +172,6 @@ class eZPackageInstallationHandler
     }
 
     /*!
-     \virtual
      This is called the first time the step is entered (ie. not on validations)
      and can be used to fill in values in the \a $persistentData variable
      for use in the template or later retrieval.
@@ -221,9 +217,6 @@ class eZPackageInstallationHandler
         return $nextStep;
     }
 
-    /*!
-     \virtual
-    */
     function validateAndAdvanceStep( $package, $http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
         $methodMap = $this->validateStepMethodMap();
@@ -239,7 +232,6 @@ class eZPackageInstallationHandler
     }
 
     /*!
-     \virtual
      This is called after a step has validated it's information. It can
      be used to put values in the \a $persistentData variable for later retrieval.
     */
@@ -257,7 +249,6 @@ class eZPackageInstallationHandler
     }
 
     /*!
-     \virtual
      Used to reset the instalation handler if needed
     */
     function reset( )
@@ -266,7 +257,6 @@ class eZPackageInstallationHandler
 
 
     /*!
-     \virtual
      Finalizes the creation process with the gathered information.
      This is usually the function that creates the package and
      adds the proper elements.
@@ -344,7 +334,6 @@ class eZPackageInstallationHandler
     }
 
     /*!
-     \virtual
      \return The package type taken from \a $package if the package exists,
              otherwise \c false.
      If the creator should have a specific package type this function should be reimplemented.

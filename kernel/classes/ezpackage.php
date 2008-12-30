@@ -32,7 +32,7 @@
 */
 
 /*!
-  \group package The package manager system
+  \defgroup package The package manager system
   \ingroup package
   \class eZPackage ezpackagehandler.php
   \brief Maintains eZ Publish packages
