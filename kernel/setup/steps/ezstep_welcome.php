@@ -43,7 +43,6 @@ class eZStepWelcome extends eZStepInstaller
 
     /*!
      Constructor
-     \reimp
     */
     function eZStepWelcome( $tpl, $http, $ini, &$persistenceList )
     {
@@ -51,9 +50,6 @@ class eZStepWelcome extends eZStepInstaller
                                 'welcome', 'Welcome' );
     }
 
-    /*!
-     \reimp
-     */
     function processPostData()
     {
         if ( $this->Http->hasPostVariable( 'eZSetup_finetune_button' ) )
@@ -72,9 +68,6 @@ class eZStepWelcome extends eZStepInstaller
         return true;
     }
 
-    /*!
-     \reimp
-     */
     function init()
     {
         $optionalTests = eZSetupOptionalTests();
@@ -99,9 +92,6 @@ class eZStepWelcome extends eZStepInstaller
         return false; // Always show welcome message
     }
 
-    /*!
-     \reimp
-    */
     function display()
     {
         $result = array();
@@ -126,9 +116,6 @@ class eZStepWelcome extends eZStepInstaller
         return $result;
     }
 
-    /*!
-     \reimp
-    */
     function showMessage()
     {
         return true;

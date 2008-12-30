@@ -60,7 +60,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
     }
 
     /*!
-     \reimp
      Validates the input and returns true if the input was valid for this datatype.
     */
     function validateInput( $http, $base, $contentObjectAttribute )
@@ -133,7 +132,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
     }
 
     /*!
-     \reimp
      Returns the input XML representation of the datatype.
     */
     function inputXML()

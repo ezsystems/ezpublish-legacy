@@ -48,7 +48,6 @@ class eZGIFImageAnalyzer
     }
 
     /*!
-     \reimp
      Checks the file for GIF data blocks and returns information on the GIF file.
     */
     function process( $mimeData, $parameters = array() )

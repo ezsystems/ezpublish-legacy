@@ -397,9 +397,6 @@ class eZStepSiteTypes extends eZStepInstaller
         return $downloadDependandPackagesResult == false ? false : !$downloaded;
     }
 
-    /*!
-     \reimp
-     */
     function init()
     {
         if ( $this->hasKickstartData() )
@@ -541,9 +538,6 @@ class eZStepSiteTypes extends eZStepInstaller
         return $sitePackages;
     }
 
-    /*!
-     \reimp
-    */
     function display()
     {
         $remoteSitePackages = $this->retrieveRemoteSitePackagesList();

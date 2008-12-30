@@ -28,8 +28,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*!
-*/
 
 class eZPlainXMLOutput extends eZXMLOutputHandler
 {
@@ -38,9 +36,6 @@ class eZPlainXMLOutput extends eZXMLOutputHandler
         $this->eZXMLOutputHandler( $xmlData, $aliasedType );
     }
 
-    /*!
-     \reimp
-    */
     function &outputText()
     {
         $retText = "<pre>" . htmlspecialchars( $this->xmlData() ) . "</pre>";

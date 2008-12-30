@@ -49,9 +49,6 @@ class eZStepSiteAccess extends eZStepInstaller
                                 'site_access', 'Site access' );
     }
 
-    /*!
-     \reimp
-    */
     function processPostData()
     {
         $accessType = null;
@@ -74,9 +71,6 @@ class eZStepSiteAccess extends eZStepInstaller
         return true;
     }
 
-    /*!
-     \reimp
-     */
     function init()
     {
         if ( $this->hasKickstartData() )
@@ -116,9 +110,6 @@ class eZStepSiteAccess extends eZStepInstaller
         return false; // Always show site access
     }
 
-    /*!
-     \reimp
-    */
     function display()
     {
         $siteType = $this->chosenSiteType();

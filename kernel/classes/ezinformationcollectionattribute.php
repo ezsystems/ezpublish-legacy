@@ -163,30 +163,22 @@ class eZInformationCollectionAttribute extends eZPersistentObject
         return null;
     }
 
-    /*!
-    */
     function contentObject()
     {
         return eZContentObject::fetch( $this->attribute( 'contentobject_id' ) );
     }
 
-    /*!
-    */
     function contentObjectAttribute()
     {
         $contentObject = $this->contentObject();
         return eZContentObjectAttribute::fetch( $this->attribute( 'contentobject_attribute_id' ), $contentObject->attribute( 'current_version' ) );
     }
 
-    /*!
-    */
     function contentClassAttribute()
     {
         return eZContentClassAttribute::fetch( $this->attribute( 'contentclass_attribute_id' ) );
     }
 
-    /*!
-    */
     function dataType()
     {
         $contentClassAttribute = $this->contentClassAttribute();
@@ -195,8 +187,6 @@ class eZInformationCollectionAttribute extends eZPersistentObject
         return null;
     }
 
-    /*!
-    */
     function contentClassAttributeName()
     {
         $db = eZDB::instance();

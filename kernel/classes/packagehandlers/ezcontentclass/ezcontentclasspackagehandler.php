@@ -57,7 +57,6 @@ class eZContentClassPackageHandler extends eZPackageHandler
     }
 
     /*!
-     \reimp
      Returns an explanation for the content class install item.
      Use $requestedInfo to request portion of info.
     */
@@ -122,7 +121,6 @@ class eZContentClassPackageHandler extends eZPackageHandler
     }
 
     /*!
-     \reimp
      Uninstalls all previously installed content classes.
     */
     function uninstall( $package, $installType, $parameters,
@@ -176,7 +174,6 @@ class eZContentClassPackageHandler extends eZPackageHandler
     }
 
     /*!
-     \reimp
      Creates a new contentclass as defined in the xml structure.
     */
     function install( $package, $installType, $parameters,
@@ -380,9 +377,6 @@ class eZContentClassPackageHandler extends eZPackageHandler
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function add( $packageType, $package, $cli, $parameters )
     {
         foreach ( $parameters['class-list'] as $classItem )
@@ -421,9 +415,6 @@ class eZContentClassPackageHandler extends eZPackageHandler
                                  array( 'content' => false ) );
     }
 
-    /*!
-     \reimp
-    */
     function handleAddParameters( $packageType, $package, $cli, $arguments )
     {
         return $this->handleParameters( $packageType, $package, $cli, 'add', $arguments );

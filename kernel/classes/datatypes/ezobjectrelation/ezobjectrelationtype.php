@@ -50,7 +50,6 @@ class eZObjectRelationType extends eZDataType
 
     /*!
      Initializes the class attribute with some data.
-     \reimp
      */
     function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
@@ -193,9 +192,6 @@ class eZObjectRelationType extends eZDataType
         }
     }
 
-    /*!
-     \reimp
-    */
     function validateClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $selectionTypeName = 'ContentClass_ezobjectrelation_selection_type_' . $classAttribute->attribute( 'id' );
@@ -212,16 +208,10 @@ class eZObjectRelationType extends eZDataType
         return $state;
     }
 
-    /*!
-     \reimp
-    */
     function fixupClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
     }
 
-    /*!
-     \reimp
-    */
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $selectionTypeName = 'ContentClass_ezobjectrelation_selection_type_' . $classAttribute->attribute( 'id' );
@@ -293,8 +283,6 @@ class eZObjectRelationType extends eZDataType
         }
     }
 
-    /*!
-    */
     function customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute, $parameters )
     {
         switch ( $action )
@@ -376,7 +364,6 @@ class eZObjectRelationType extends eZDataType
     }
 
     /*!
-     \reimp
      Sets \c grouped_input to \c true when browse mode is active or
      a dropdown with a fuzzy match is used.
     */
@@ -392,17 +379,11 @@ class eZObjectRelationType extends eZDataType
         return eZDataType::objectDisplayInformation( $objectAttribute, $info );
     }
 
-    /*!
-     \reimp
-    */
     function sortKey( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( 'data_int' );
     }
 
-    /*!
-     \reimp
-    */
     function sortKeyType()
     {
         return 'int';
@@ -543,9 +524,6 @@ class eZObjectRelationType extends eZDataType
         }
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $content = $classAttribute->content();
@@ -570,7 +548,6 @@ class eZObjectRelationType extends eZDataType
 
     /*!
      Export related object's remote_id.
-     \reimp
     */
     function serializeContentObjectAttribute( $package, $objectAttribute )
     {
@@ -596,9 +573,6 @@ class eZObjectRelationType extends eZDataType
         return $node;
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         $relatedObjectRemoteIDNode = $attributeNode->getElementsByTagName( 'related-object-remote-id' )->item( 0 );
@@ -622,9 +596,6 @@ class eZObjectRelationType extends eZDataType
         $objectAttribute->setAttribute( 'data_int', $relatedObjectID );
     }
 
-    /*!
-     \reimp
-    */
     function postUnserializeContentObjectAttribute( $package, $objectAttribute )
     {
         $attributeChanged = false;

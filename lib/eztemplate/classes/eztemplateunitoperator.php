@@ -85,9 +85,6 @@ class eZTemplateUnitOperator
                                               'element-transformation-func' => 'operatorTransform' ) );
     }
 
-    /*!
-      \reimp
-    */
     function operatorTransform( $operatorName, &$node, $tpl, &$resourceData,
                                 $element, $lastElement, $elementList, $elementTree, &$parameters )
     {

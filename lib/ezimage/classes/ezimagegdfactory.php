@@ -35,7 +35,6 @@ class eZImageGDFactory extends eZImageFactory
     }
 
     /*!
-     \reimp
      Creates eZImageGDHandler objects and returns them.
     */
     static function produceFromINI( $iniGroup, $iniFilename = false )

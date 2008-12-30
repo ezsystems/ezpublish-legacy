@@ -49,72 +49,42 @@ class eZBZIP2Handler extends eZCompressionHandler
         $this->eZCompressionHandler();
     }
 
-    /*!
-     \reimp
-    */
     function doOpen( $filename, $mode )
     {
     }
 
-    /*!
-     \reimp
-    */
     function doClose()
     {
     }
 
-    /*!
-     \reimp
-    */
     function doRead( $uncompressedLength = false )
     {
     }
 
-    /*!
-     \reimp
-    */
     function doWrite( $data, $uncompressedLength = false )
     {
     }
 
-    /*!
-     \reimp
-    */
     function doFlush()
     {
     }
 
-    /*!
-     \reimp
-    */
     function compress( $source )
     {
     }
 
-    /*!
-     \reimp
-    */
     function decompress( $source )
     {
     }
 
-    /*!
-     \reimp
-    */
     function error()
     {
     }
 
-    /*!
-     \reimp
-    */
     function errorString()
     {
     }
 
-    /*!
-     \reimp
-    */
     function errorNumber()
     {
     }

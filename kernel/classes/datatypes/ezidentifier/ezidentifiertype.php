@@ -163,9 +163,6 @@ class eZIdentifierType extends eZDataType
         return eZInputValidator::STATE_INVALID;
     }
 
-    /*!
-     \reimp
-    */
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $startValueName = $base . self::START_VALUE_VARIABLE . $classAttribute->attribute( "id" );
@@ -234,18 +231,12 @@ class eZIdentifierType extends eZDataType
         return  $contentObjectAttribute->attribute( "data_text" );
     }
 
-    /*!
-     \reimp
-    */
     function isIndexable()
     {
         return true;
     }
 
 
-    /*!
-     \reimp
-    */
     function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         $contentObjectAttributeID = $originalContentObjectAttribute->attribute( "id" );
@@ -349,18 +340,12 @@ class eZIdentifierType extends eZDataType
         return $retValue;
     }
 
-    /*!
-     \reimp
-    */
     function sortKey( $contentObjectAttribute )
     {
         $trans = eZCharTransform::instance();
         return $trans->transformByGroup( $contentObjectAttribute->attribute( 'data_text' ), 'lowercase' );
     }
 
-    /*!
-    \reimp
-    */
     function sortKeyType()
     {
         return 'string';
@@ -405,9 +390,6 @@ class eZIdentifierType extends eZDataType
     {
     }
 
-    /*!
-     \reimp
-    */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $digits     = $classAttribute->attribute( self::DIGITS_FIELD );
@@ -430,9 +412,6 @@ class eZIdentifierType extends eZDataType
         $attributeParametersNode->appendChild( $identifierNode );
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $digits     = $attributeParametersNode->getElementsByTagName( 'digits' )->item( 0 )->textContent;

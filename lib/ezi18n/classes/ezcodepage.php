@@ -494,8 +494,6 @@ class eZCodePage
     }
 
 
-   /*!
-    */
     function cacheFilepath()
     {
         $permissionArray = eZCodePage::permissionSetting();

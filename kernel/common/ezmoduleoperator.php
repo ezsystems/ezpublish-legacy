@@ -65,9 +65,6 @@ class eZModuleOperator
                                       'required' => false,
                                       'default' => false ) );
     }
-    /*!
-     \reimp
-    */
     function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
         $uri = new eZURI( $namedParameters[ 'uri' ] );

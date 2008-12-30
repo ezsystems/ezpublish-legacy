@@ -30,8 +30,6 @@
 
 class eZDateOperatorCollection
 {
-    /*!
-     */
     function eZDateOperatorCollection( $monthName = 'month_overview' )
     {
         $this->MonthOverviewName = $monthName;
@@ -70,9 +68,6 @@ class eZDateOperatorCollection
                                                                       'default' => false ) ) );
     }
 
-    /*!
-     \reimp
-    */
     function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
         $locale = eZLocale::instance();

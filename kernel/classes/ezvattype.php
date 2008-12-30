@@ -37,8 +37,6 @@
 
 class eZVatType extends eZPersistentObject
 {
-    /*!
-    */
     function eZVatType( $row )
     {
         $this->eZPersistentObject( $row );

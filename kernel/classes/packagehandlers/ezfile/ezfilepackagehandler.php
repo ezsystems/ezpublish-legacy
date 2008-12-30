@@ -108,9 +108,6 @@ class eZFilePackageHandler extends eZPackageHandler
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function add( $packageType, $package, $cli, $parameters )
     {
         $collections = array();
@@ -605,17 +602,11 @@ class eZFilePackageHandler extends eZPackageHandler
         return false;
     }
 
-    /*!
-     \reimp
-    */
     function createInstallNode( $package, $installNode, $installItem, $installType )
     {
         $installNode->setAttribute( 'collection', $installItem['collection'] );
     }
 
-    /*!
-     \reimp
-    */
     function parseInstallNode( $package, $installNode, &$installParameters, $isInstall )
     {
         $collection = $installNode->getAttribute( 'collection' );

@@ -363,9 +363,6 @@ class eZFloatType extends eZDataType
         return $contentObjectAttribute->setAttribute( 'data_float', $string );
     }
 
-    /*!
-     \reimp
-    */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $defaultValue = $classAttribute->attribute( self::DEFAULT_FIELD );
@@ -388,9 +385,6 @@ class eZFloatType extends eZDataType
         }
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $defaultValue = $attributeParametersNode->getElementsByTagName( 'default-value' )->item( 0 )->textContent;

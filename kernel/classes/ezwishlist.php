@@ -39,8 +39,6 @@
 
 class eZWishList extends eZPersistentObject
 {
-    /*!
-    */
     function eZWishList( $row = array() )
     {
         $this->eZPersistentObject( $row );

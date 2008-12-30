@@ -30,8 +30,6 @@
 
 class eZDefaultShopAccountHandler
 {
-    /*!
-    */
     function eZDefaultShopAccountHandler()
     {
 

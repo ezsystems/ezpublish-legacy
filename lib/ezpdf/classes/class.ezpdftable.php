@@ -2951,7 +2951,6 @@ class eZPDFTable extends Cezpdf
     }
 
     /*!
-     \reimp
 
      \param real page number
      \param pagecounter identifier

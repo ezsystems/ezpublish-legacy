@@ -276,9 +276,6 @@ class eZXMLTextType extends eZDataType
         $attribute->setAttribute( 'data_int', self::VERSION_TIMESTAMP );
     }
 
-    /*!
-     \reimp
-    */
     function viewTemplate( $contentobjectAttribute )
     {
         $template = $this->DataTypeString;
@@ -290,9 +287,6 @@ class eZXMLTextType extends eZDataType
         return $template;
     }
 
-    /*!
-     \reimp
-    */
     function editTemplate( $contentobjectAttribute )
     {
         $template = $this->DataTypeString;
@@ -302,9 +296,6 @@ class eZXMLTextType extends eZDataType
         return $template;
     }
 
-    /*!
-     \reimp
-    */
     function informationTemplate( $contentobjectAttribute )
     {
         $template = $this->DataTypeString;
@@ -314,9 +305,6 @@ class eZXMLTextType extends eZDataType
         return $template;
     }
 
-    /*!
-     \reimp
-    */
     function viewTemplateSuffix( &$contentobjectAttribute )
     {
         $content = $this->objectAttributeContent( $contentobjectAttribute );
@@ -324,9 +312,6 @@ class eZXMLTextType extends eZDataType
         return $outputHandler->viewTemplateSuffix( $contentobjectAttribute );
     }
 
-    /*!
-     \reimp
-    */
     function editTemplateSuffix( &$contentobjectAttribute )
     {
         $content = $this->objectAttributeContent( $contentobjectAttribute );
@@ -334,9 +319,6 @@ class eZXMLTextType extends eZDataType
         return $inputHandler->editTemplateSuffix( $contentobjectAttribute );
     }
 
-    /*!
-     \reimp
-    */
     function informationTemplateSuffix( &$contentobjectAttribute )
     {
         $content = $this->objectAttributeContent( $contentobjectAttribute );
@@ -496,24 +478,17 @@ class eZXMLTextType extends eZDataType
         return false;
     }
 
-    /*!
-     \reimp
-    */
     function isIndexable()
     {
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function isInformationCollector()
     {
         return false;
     }
 
     /*!
-     \reimp
      Makes sure content/datatype/.../ezxmltags/... are included.
     */
     function templateList()
@@ -522,9 +497,6 @@ class eZXMLTextType extends eZDataType
                              '#^content/datatype/[a-zA-Z]+/ezxmltags/#' ) );
     }
 
-    /*!
-     \reimp
-    */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $textColumns = $classAttribute->attribute( self::COLS_FIELD );
@@ -532,17 +504,12 @@ class eZXMLTextType extends eZDataType
         $attributeParametersNode->appendChild( $textColumnCountNode );
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $textColumns = $attributeParametersNode->getElementsByTagName( 'text-column-count' )->item( 0 )->textContent;
         $classAttribute->setAttribute( self::COLS_FIELD, $textColumns );
     }
 
-    /*!
-    */
     function customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute, $parameters )
     {
         $content = $this->objectAttributeContent( $contentObjectAttribute );
@@ -551,7 +518,6 @@ class eZXMLTextType extends eZDataType
     }
 
     /*!
-     \reimp
      \return a DOM representation of the content object attribute
     */
     function serializeContentObjectAttribute( $package, $objectAttribute )
@@ -637,7 +603,6 @@ class eZXMLTextType extends eZDataType
     }
 
     /*!
-     \reimp
      \param contentobject attribute object
      \param domnode object
     */
@@ -831,9 +796,6 @@ class eZXMLTextType extends eZDataType
         }
     }
 
-    /*!
-      \reimp
-    */
     function diff( $old, $new, $options = false )
     {
         $diff = new eZDiff();

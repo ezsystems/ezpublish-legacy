@@ -284,9 +284,6 @@ class eZISBNType extends eZDataType
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function customClassAttributeHTTPAction( $http, $action, $classAttribute )
     {
         switch ( $action )
@@ -298,9 +295,6 @@ class eZISBNType extends eZDataType
         }
     }
 
-    /*!
-     \reimp
-    */
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $classAttributeID = $classAttribute->attribute( 'id' );
@@ -323,9 +317,6 @@ class eZISBNType extends eZDataType
     {
     }
 
-    /*!
-     \reimp
-    */
     function preStoreClassAttribute( $classAttribute, $version )
     {
         return eZISBNType::storeClassAttributeContent( $classAttribute, $classAttribute->content() );
@@ -373,9 +364,6 @@ class eZISBNType extends eZDataType
         return $isbn;
     }
 
-    /*!
-     \reimp
-    */
     function classAttributeContent( $classAttribute )
     {
         $ISBN_13 = $classAttribute->attribute( self::CLASS_IS_ISBN13 );
@@ -387,7 +375,6 @@ class eZISBNType extends eZDataType
 
 
     /*!
-     \reimp
      ISBN numbers are indexable, returns \c true.
     */
     function isIndexable()
@@ -446,7 +433,6 @@ class eZISBNType extends eZDataType
     }
 
     /*!
-      \reimp
       See also eZDataType:cleanDBDataBeforeImport().
     */
     function cleanDBDataBeforeImport()

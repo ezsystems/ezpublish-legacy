@@ -60,9 +60,6 @@ class eZURLWildcard extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    /*!
-     \reimp
-    */
     static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',

@@ -84,8 +84,6 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
         return eZCollaborationItemHandler::fetchList();
     }
 
-    /*!
-    */
     function collaborationSelections()
     {
         $rules = eZCollaborationNotificationRule::fetchList();
@@ -179,9 +177,6 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
         }
     }
 
-    /*!
-     \reimp
-    */
     function cleanup()
     {
         eZCollaborationNotificationRule::cleanup();

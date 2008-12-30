@@ -49,8 +49,6 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         $this->KeyStack = array();
     }
 
-    /*!
-    */
     function templateNodeTransformation( $functionName, &$node,
                                          $tpl, &$resourceData, $parameters, $namespaceValue )
     {

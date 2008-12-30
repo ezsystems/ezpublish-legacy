@@ -101,9 +101,6 @@ class eZURLType extends eZDataType
         return eZInputValidator::STATE_ACCEPTED;
     }
 
-    /*!
-     \reimp
-    */
     function deleteStoredObjectAttribute( $contentObjectAttribute, $version = null )
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
@@ -207,9 +204,6 @@ class eZURLType extends eZDataType
     {
     }
 
-    /*!
-     \reimp
-    */
     function validateClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         return eZInputValidator::STATE_ACCEPTED;
@@ -348,7 +342,6 @@ class eZURLType extends eZDataType
     }
 
     /*!
-     \reimp
      \param package
      \param contentobject attribute object
      \param domnode object

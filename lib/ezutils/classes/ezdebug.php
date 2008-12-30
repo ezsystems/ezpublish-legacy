@@ -659,8 +659,6 @@ class eZDebug
         $this->MessageOutput = $output;
     }
 
-    /*!
-    */
     function setStoreLog( $store )
     {
         $this->StoreLog = $store;

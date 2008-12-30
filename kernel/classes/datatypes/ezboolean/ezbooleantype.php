@@ -97,8 +97,6 @@ class eZBooleanType extends eZDataType
         return eZInputValidator::STATE_ACCEPTED;
     }
 
-    /*!
-    */
     function validateCollectionAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $contentObjectAttribute->validateIsRequired() )
@@ -140,7 +138,6 @@ class eZBooleanType extends eZDataType
     }
 
    /*!
-    \reimp
     Fetches the http post variables for collected information
    */
     function fetchCollectionAttributeHTTPInput( $collection, $collectionAttribute, $http, $base, $contentObjectAttribute )
@@ -198,33 +195,21 @@ class eZBooleanType extends eZDataType
         return $contentObjectAttribute->setAttribute( 'data_int', $string );
     }
 
-    /*!
-     \reimp
-    */
     function isIndexable()
     {
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function isInformationCollector()
     {
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function sortKey( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( 'data_int' );
     }
 
-    /*!
-     \reimp
-    */
     function sortKeyType()
     {
         return 'int';
@@ -251,9 +236,6 @@ class eZBooleanType extends eZDataType
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $defaultValue = $classAttribute->attribute( 'data_int3' );
@@ -263,9 +245,6 @@ class eZBooleanType extends eZDataType
         $attributeParametersNode->appendChild( $defaultValueNode );
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
 

@@ -48,9 +48,6 @@ class eZSendmailTransport extends eZMailTransport
     {
     }
 
-    /*!
-     \reimp
-    */
     function sendMail( eZMail $mail )
     {
         $ini = eZINI::instance();

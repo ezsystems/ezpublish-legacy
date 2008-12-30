@@ -47,9 +47,6 @@ class eZStepSitePackages extends eZStepInstaller
                                 'site_packages', 'Site packages' );
     }
 
-    /*!
-     \reimp
-     */
     function processPostData()
     {
         if ( $this->Http->hasPostVariable( 'eZSetup_site_packages' ) )
@@ -75,9 +72,6 @@ class eZStepSitePackages extends eZStepInstaller
         return true;
     }
 
-    /*!
-     \reimp
-     */
     function init()
     {
         if ( $this->hasKickstartData() )
@@ -113,9 +107,6 @@ class eZStepSitePackages extends eZStepInstaller
         return false; // Always show site package selection
     }
 
-    /*!
-     \reimp
-    */
     function display()
     {
         $siteTypes = $this->chosenSiteTypes();

@@ -43,7 +43,6 @@ class eZStepEmailSettings extends eZStepInstaller
 {
     /*!
      Constructor
-     \reimp
     */
     function eZStepEmailSettings( $tpl, $http, $ini, &$persistenceList )
     {
@@ -51,9 +50,6 @@ class eZStepEmailSettings extends eZStepInstaller
                                 'email_settings', 'Email settings' );
     }
 
-    /*!
-     \reimp
-     */
     function processPostData()
     {
         if ( $this->Http->hasPostVariable( 'eZSetupEmailTransport' ) )
@@ -71,9 +67,6 @@ class eZStepEmailSettings extends eZStepInstaller
         return true;
     }
 
-    /*!
-     \reimp
-     */
     function init()
     {
         if ( $this->hasKickstartData() )
@@ -98,9 +91,6 @@ class eZStepEmailSettings extends eZStepInstaller
         return false; // Always display email settings
     }
 
-    /*!
-     \reimp
-     */
     function display()
     {
         $emailInfo = array( 'type' => 1,

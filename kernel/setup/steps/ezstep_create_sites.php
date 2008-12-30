@@ -78,17 +78,11 @@ class eZStepCreateSites extends eZStepInstaller
                                 'create_sites', 'Create sites' );
     }
 
-    /*!
-     \reimp
-    */
     function processPostData()
     {
         return true; // Always proceede
     }
 
-    /*!
-     \reimp
-     */
     function init()
     {
         $this->Error = array( 'errors' => array()  );
@@ -349,9 +343,6 @@ class eZStepCreateSites extends eZStepInstaller
         return true; // Never show, generate sites
     }
 
-    /*!
-     \reimp
-    */
     function display()
     {
         $errors = array();

@@ -136,24 +136,15 @@ class eZKeywordType extends eZDataType
     {
     }
 
-    /*!
-     \reimp
-    */
     function validateClassAttributeHTTPInput( $http, $base, $attribute )
     {
         return eZInputValidator::STATE_ACCEPTED;
     }
 
-    /*!
-     \reimp
-    */
     function fixupClassAttributeHTTPInput( $http, $base, $attribute )
     {
     }
 
-    /*!
-     \reimp
-    */
     function fetchClassAttributeHTTPInput( $http, $base, $attribute )
     {
         return true;
@@ -262,9 +253,6 @@ class eZKeywordType extends eZDataType
         return count( $array ) > 0;
     }
 
-    /*!
-     \reimp
-    */
     function isIndexable()
     {
         return true;

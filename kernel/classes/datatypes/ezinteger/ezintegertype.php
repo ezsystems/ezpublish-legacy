@@ -198,9 +198,6 @@ class eZIntegerType extends eZDataType
         return false;
     }
 
-    /*!
-     \reimp
-    */
     function validateCollectionAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) ) )
@@ -256,9 +253,6 @@ class eZIntegerType extends eZDataType
     {
     }
 
-    /*!
-     \reimp
-    */
     function validateClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $minValueName = $base . self::MIN_VALUE_VARIABLE . $classAttribute->attribute( "id" );
@@ -317,9 +311,6 @@ class eZIntegerType extends eZDataType
         return eZInputValidator::STATE_INVALID;
     }
 
-    /*!
-     \reimp
-    */
     function fixupClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $minValueName = $base . self::MIN_VALUE_VARIABLE . $classAttribute->attribute( "id" );
@@ -343,9 +334,6 @@ class eZIntegerType extends eZDataType
         }
     }
 
-    /*!
-     \reimp
-    */
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $minValueName = $base . self::MIN_VALUE_VARIABLE . $classAttribute->attribute( "id" );
@@ -434,9 +422,6 @@ class eZIntegerType extends eZDataType
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function isInformationCollector()
     {
         return true;
@@ -450,25 +435,16 @@ class eZIntegerType extends eZDataType
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function sortKey( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( 'data_int' );
     }
 
-    /*!
-     \reimp
-    */
     function sortKeyType()
     {
         return 'int';
     }
 
-    /*!
-     \reimp
-    */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $defaultValue = $classAttribute->attribute( self::DEFAULT_VALUE_FIELD );
@@ -491,9 +467,6 @@ class eZIntegerType extends eZDataType
         }
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $defaultValue = $attributeParametersNode->getElementsByTagName( 'default-value' )->item( 0 )->textContent;

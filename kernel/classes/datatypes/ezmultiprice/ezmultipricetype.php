@@ -372,9 +372,6 @@ class eZMultiPriceType extends eZDataType
 
     }
 
-    /*!
-     \reimp
-    */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $price = $classAttribute->content();
@@ -411,9 +408,6 @@ class eZMultiPriceType extends eZDataType
         }
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $vatNode = $attributeParametersNode->getElementsByTagName( 'vat-included' )->item( 0 );
@@ -454,9 +448,6 @@ class eZMultiPriceType extends eZDataType
     }
 
 
-    /*!
-     \reimp
-    */
     function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
@@ -470,9 +461,6 @@ class eZMultiPriceType extends eZDataType
         return $node;
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         $rootNode = $attributeNode->getElementsByTagName( 'ezmultiprice' )->item( 0 );
@@ -531,9 +519,6 @@ class eZMultiPriceType extends eZDataType
         return $sql;
     }
 
-    /*!
-      \reimp
-    */
     function diff( $old, $new, $options = false )
     {
         return null;

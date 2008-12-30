@@ -32,16 +32,12 @@
  Contains some useful kernel include functions which are nice to use in extensions.
 */
 
-/*!
-*/
 function kernel_include( $name )
 {
     $include = "kernel/$name";
     return include_once( $include );
 }
 
-/*!
-*/
 function kernel_common( $name )
 {
     $name = strtolower( $name );
@@ -49,8 +45,6 @@ function kernel_common( $name )
     return include_once( $include );
 }
 
-/*!
-*/
 function datatype_class( $datatype, $className )
 {
     $className = strtolower( $className );
@@ -161,16 +155,12 @@ function ext_class( $extension, $name )
     return include_once( $include );
 }
 
-/*!
-*/
 function lib_include( $libName, $name )
 {
     $include = "lib/$libName/classes/$name";
     return include_once( $include );
 }
 
-/*!
-*/
 function lib_class( $libName, $name )
 {
     $name = strtolower( $name );
@@ -178,8 +168,6 @@ function lib_class( $libName, $name )
     return include_once( $include );
 }
 
-/*!
-*/
 function kernel_class( $name )
 {
     $name = strtolower( $name );

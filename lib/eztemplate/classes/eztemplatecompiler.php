@@ -653,8 +653,6 @@ class eZTemplateCompiler
         }
     }
 
-    /*!
-    */
     static function calculateVariableStatistics( $tpl, &$node, &$resourceData, &$stats )
     {
         $nodeType = $node[0];

@@ -37,8 +37,6 @@
 
 class eZAlphabetOperator
 {
-    /*!
-    */
     function eZAlphabetOperator( $alphabet = 'alphabet' )
     {
         $this->Operators = array( $alphabet );
@@ -61,9 +59,6 @@ class eZAlphabetOperator
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$value, $namedParameters )
     {
         switch ( $operatorName )

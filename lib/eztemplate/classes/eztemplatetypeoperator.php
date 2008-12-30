@@ -210,9 +210,6 @@ class eZTemplateTypeOperator
                                                     'element-transformation-func' => 'isTransform' ) );
     }
 
-    /*!
-     \reimp
-    */
     function isTransform( $operatorName, &$node, $tpl, &$resourceData,
                           $element, $lastElement, $elementList, $elementTree, &$parameters )
     {

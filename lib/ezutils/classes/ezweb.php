@@ -37,14 +37,10 @@
 
 class eZWeb
 {
-    /*!
-    */
     function eZWeb()
     {
     }
 
-    /*!
-    */
     function init()
     {
         $userAgent = eZSys::serverVariable( 'HTTP_USER_AGENT' );

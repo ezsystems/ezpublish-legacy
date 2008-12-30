@@ -118,9 +118,6 @@ class eZEmailType extends eZDataType
         return false;
     }
 
-    /*!
-     \reimp
-    */
     function validateCollectionAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) ) )
@@ -221,25 +218,16 @@ class eZEmailType extends eZDataType
         return trim( $contentObjectAttribute->attribute( "data_text" ) ) != '';
     }
 
-    /*!
-     \reimp
-    */
     function isInformationCollector()
     {
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function sortKey( $contentObjectAttribute )
     {
         return strtolower( $contentObjectAttribute->attribute( 'data_text' ) );
     }
 
-    /*!
-     \reimp
-    */
     function sortKeyType()
     {
         return 'string';

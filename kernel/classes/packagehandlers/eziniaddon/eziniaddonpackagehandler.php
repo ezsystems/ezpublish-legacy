@@ -49,7 +49,6 @@ class eZINIAddonPackageHandler extends eZPackageHandler
     }
 
     /*!
-     \reimp
      Creates a new override setting for the specified override.
 
      \param installParameters - optional value

@@ -87,7 +87,6 @@ class eZPgsqlSchema extends eZDBSchemaInterface
         ORDER BY a.attnum';
 
     /*!
-     \reimp
      Constructor
 
      \param db instance
@@ -97,9 +96,6 @@ class eZPgsqlSchema extends eZDBSchemaInterface
         $this->eZDBSchemaInterface( $db );
     }
 
-    /*!
-     \reimp
-    */
     function schema( $params = array() )
     {
         $params = array_merge( array( 'meta_data' => false,
@@ -734,9 +730,6 @@ class eZPgsqlSchema extends eZDBSchemaInterface
         return $sql;
     }
 
-    /*!
-     \reimp
-    */
     function generateTableSchema( $table, $table_def, $params )
     {
         $arrays = $this->generateTableArrays( $table, $table_def, $params, true );
@@ -746,9 +739,6 @@ class eZPgsqlSchema extends eZDBSchemaInterface
                  join( "\n\n", $arrays['constraints'] ) . "\n" );
     }
 
-    /*!
-     \reimp
-    */
     function generateTableSQLList( $table, $table_def, $params, $separateTypes )
     {
         $arrays = $this->generateTableArrays( $table, $table_def, $params, false );
@@ -828,7 +818,6 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 
 
     /*!
-     \reimp
 
      This calls eZDBSchemaInterface::generateTableInsertSQLList() and adds a setval SQL if
      the table has auto increments.
@@ -850,9 +839,6 @@ class eZPgsqlSchema extends eZDBSchemaInterface
         return $sqlList;
     }
 
-    /*!
-      \reimp
-    */
     function generateSchemaFile( $schema, $params = array() )
     {
         $sql = '';
@@ -915,9 +901,6 @@ class eZPgsqlSchema extends eZDBSchemaInterface
         return "DROP TABLE $table;\n";
     }
 
-    /*!
-     \reimp
-    */
     function escapeSQLString( $value )
     {
         $value = str_replace( "'", "\'", $value );
@@ -925,17 +908,11 @@ class eZPgsqlSchema extends eZDBSchemaInterface
         return $value;
     }
 
-    /*!
-     \reimp
-    */
     function schemaType()
     {
         return 'postgresql';
     }
 
-    /*!
-     \reimp
-    */
     function schemaName()
     {
         return 'PostgreSQL';

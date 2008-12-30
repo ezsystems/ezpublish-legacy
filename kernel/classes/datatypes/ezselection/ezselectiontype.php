@@ -198,9 +198,6 @@ class eZSelectionType extends eZDataType
         return false;
     }
 
-    /*!
-     \reimp
-    */
     function validateCollectionAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_ezselect_selected_array_' . $contentObjectAttribute->attribute( 'id' ) ) )
@@ -224,7 +221,6 @@ class eZSelectionType extends eZDataType
     }
 
    /*!
-    \reimp
     Fetches the http post variables for collected information
    */
     function fetchCollectionAttributeHTTPInput( $collection, $collectionAttribute, $http, $base, $contentObjectAttribute )
@@ -394,17 +390,11 @@ class eZSelectionType extends eZDataType
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function sortKey( $contentObjectAttribute )
     {
         return strtolower( $contentObjectAttribute->attribute( 'data_text' ) );
     }
 
-    /*!
-     \reimp
-    */
     function sortKeyType()
     {
         return 'string';
@@ -418,17 +408,11 @@ class eZSelectionType extends eZDataType
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function isInformationCollector()
     {
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $isMultipleSelection = $classAttribute->attribute( 'data_int1'  );
@@ -445,9 +429,6 @@ class eZSelectionType extends eZDataType
         $attributeParametersNode->appendChild( $isMultiSelectNode );
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $options = $attributeParametersNode->getElementsByTagName( 'options' )->item( 0 );

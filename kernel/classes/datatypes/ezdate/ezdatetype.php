@@ -133,9 +133,6 @@ class eZDateType extends eZDataType
         return false;
     }
 
-    /*!
-     \reimp
-    */
     function validateCollectionAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_date_year_' . $contentObjectAttribute->attribute( 'id' ) ) and
@@ -252,17 +249,11 @@ class eZDateType extends eZDataType
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function isIndexable()
     {
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function isInformationCollector()
     {
         return true;
@@ -305,25 +296,16 @@ class eZDateType extends eZDataType
         return $contentObjectAttribute->attribute( "data_int" ) != 0;
     }
 
-    /*!
-     \reimp
-    */
     function sortKey( $contentObjectAttribute )
     {
         return (int)$contentObjectAttribute->attribute( 'data_int' );
     }
 
-    /*!
-     \reimp
-    */
     function sortKeyType()
     {
         return 'int';
     }
 
-    /*!
-     \reimp
-    */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $dom = $attributeParametersNode->ownerDocument;
@@ -343,9 +325,6 @@ class eZDateType extends eZDataType
         $attributeParametersNode->appendChild( $defaultValueNode );
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $defaultNode = $attributeParametersNode->getElementsByTagName( 'default-value' )->item( 0 );

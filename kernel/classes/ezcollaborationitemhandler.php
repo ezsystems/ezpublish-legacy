@@ -120,8 +120,6 @@ class eZCollaborationItemHandler
         return $this->NotificationCollectionHandling;
     }
 
-    /*!
-    */
     function notificationParticipantTemplate( $participantRole )
     {
         return 'participant.tpl';

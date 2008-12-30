@@ -225,9 +225,6 @@ class eZRangeOptionType extends eZDataType
         }
     }
 
-    /*!
-     \reimp
-    */
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $defaultValueName = $base . self::DEFAULT_NAME_VARIABLE . $classAttribute->attribute( 'id' );
@@ -244,9 +241,6 @@ class eZRangeOptionType extends eZDataType
         return false;
     }
 
-    /*!
-     \reimp
-    */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $defaultName = $classAttribute->attribute( 'data_text1' );
@@ -254,18 +248,12 @@ class eZRangeOptionType extends eZDataType
         $attributeParametersNode->appendChild( $defaultNameNode );
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $defaultName = $attributeParametersNode->getElementsByTagName( 'default-name' )->item( 0 )->textContent;
         $classAttribute->setAttribute( 'data_text1', $defaultName );
     }
 
-    /*!
-     \reimp
-    */
     function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
@@ -279,9 +267,6 @@ class eZRangeOptionType extends eZDataType
         return $node;
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         $rootNode = $attributeNode->getElementsByTagName( 'ezrangeoption' )->item( 0 );

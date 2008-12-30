@@ -230,8 +230,6 @@ class eZContentClassAttribute extends eZPersistentObject
         $attribute->postInitialize();
     }
 
-    /*!
-    */
     function instantiateTemporary( $contentobjectID = false )
     {
         return eZContentObjectAttribute::create( $this->attribute( 'id' ), $contentobjectID );

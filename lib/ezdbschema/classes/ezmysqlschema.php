@@ -37,7 +37,6 @@ class eZMysqlSchema extends eZDBSchemaInterface
 {
 
     /*!
-     \reimp
      Constructor
 
      \param db instance
@@ -47,9 +46,6 @@ class eZMysqlSchema extends eZDBSchemaInterface
         $this->eZDBSchemaInterface( $params );
     }
 
-    /*!
-     \reimp
-    */
     function schema( $params = array() )
     {
         $params = array_merge( array( 'meta_data' => false,
@@ -449,7 +445,6 @@ class eZMysqlSchema extends eZDBSchemaInterface
     }
 
     /*!
-     \reimp
      \note Calls generateTableSQL() with \a $asArray set to \c false
     */
     function generateTableSchema( $tableName, $table, $params )
@@ -458,7 +453,6 @@ class eZMysqlSchema extends eZDBSchemaInterface
     }
 
     /*!
-     \reimp
      \note Calls generateTableSQL() with \a $asArray set to \c true
     */
     function generateTableSQLList( $tableName, $table, $params, $separateTypes )
@@ -658,7 +652,6 @@ class eZMysqlSchema extends eZDBSchemaInterface
     }
 
     /*!
-     \reimp
      MySQL 3.22.5 and higher support multi-insert queries so if the current
      database has sufficient version we return \c true.
      If no database is connected we return \true.
@@ -676,9 +669,6 @@ class eZMysqlSchema extends eZDBSchemaInterface
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function escapeSQLString( $value )
     {
         if ( $this->DBInstance instanceof eZDBInterface )
@@ -689,17 +679,11 @@ class eZMysqlSchema extends eZDBSchemaInterface
         return $value;
     }
 
-    /*!
-     \reimp
-    */
     function schemaType()
     {
         return 'mysql';
     }
 
-    /*!
-     \reimp
-    */
     function schemaName()
     {
         return 'MySQL';

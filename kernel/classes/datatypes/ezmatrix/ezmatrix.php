@@ -285,8 +285,6 @@ class eZMatrix
         return $rules;
     }
 
-    /*!
-    */
     function reorderColumns()
     {
         $rules = $this->buildReorderRules();
@@ -431,23 +429,17 @@ class eZMatrix
         return $retArray;
     }
 
-    /*!
-    */
     function copyDataBetweenColumns( $firstColIdx, $secondColIdx )
     {
         $this->copyDefinitionBetweenColumns( $firstColIdx, $secondColIdx );
         $this->copyCellsDataBetweenColumns ( $firstColIdx, $secondColIdx );
     }
 
-    /*!
-    */
     protected function copyDefinitionBetweenColumns( $col1, $col2 )
     {
         $this->Matrix['columns']['sequential'][$col2] = $this->Matrix['columns']['sequential'][$col1];
     }
 
-    /*!
-    */
     protected function copyCellsDataBetweenColumns ( $firstColIdx, $secondColIdx )
     {
         $columnCount = $this->attribute( 'columnCount' );

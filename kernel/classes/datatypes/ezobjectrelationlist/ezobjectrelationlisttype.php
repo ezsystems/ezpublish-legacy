@@ -340,8 +340,6 @@ class eZObjectRelationListType extends eZDataType
         return $newObjectInstance->attribute( 'id' );
     }
 
-    /*!
-    */
     function storeObjectAttribute( $attribute )
     {
         $content = $attribute->content();
@@ -422,9 +420,6 @@ class eZObjectRelationListType extends eZDataType
         return eZObjectRelationListType::storeObjectAttributeContent( $attribute, $content );
     }
 
-    /*!
-     \reimp
-    */
     function onPublish( $contentObjectAttribute, $contentObject, $publishedNodes )
     {
         $content = $contentObjectAttribute->content();
@@ -578,24 +573,15 @@ class eZObjectRelationListType extends eZDataType
         }
     }
 
-    /*!
-     \reimp
-    */
     function validateClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         return eZInputValidator::STATE_ACCEPTED;
     }
 
-    /*!
-     \reimp
-    */
     function fixupClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
     }
 
-    /*!
-     \reimp
-    */
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $content = $classAttribute->content();
@@ -634,9 +620,6 @@ class eZObjectRelationListType extends eZDataType
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function initializeClassAttribute( $classAttribute )
     {
         $xmlText = $classAttribute->attribute( 'data_text5' );
@@ -647,9 +630,6 @@ class eZObjectRelationListType extends eZDataType
         }
     }
 
-    /*!
-     \reimp
-    */
     function preStoreClassAttribute( $classAttribute, $version )
     {
         $content = $classAttribute->content();
@@ -792,9 +772,6 @@ class eZObjectRelationListType extends eZDataType
                       'contentobject-remote-id' => 'contentobject_remote_id' );
     }
 
-    /*!
-     \reimp
-    */
     function deleteStoredObjectAttribute( $objectAttribute, $version = null )
     {
         $content = $objectAttribute->content();
@@ -811,9 +788,6 @@ class eZObjectRelationListType extends eZDataType
         }
     }
 
-    /*!
-     \reimp
-    */
     function customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute, $parameters )
     {
         $contentobjectID = false;
@@ -1065,9 +1039,6 @@ class eZObjectRelationListType extends eZDataType
         }
     }
 
-    /*!
-     \reimp
-    */
     function handleCustomObjectHTTPActions( $http, $attributeDataBaseName,
                                             $customActionAttributeArray, $customActionParameters )
     {
@@ -1335,9 +1306,6 @@ class eZObjectRelationListType extends eZDataType
         return $content;
     }
 
-    /*!
-     \reimp
-    */
     function classAttributeContent( $classAttribute )
     {
         $xmlText = $classAttribute->attribute( 'data_text5' );
@@ -1433,9 +1401,6 @@ class eZObjectRelationListType extends eZDataType
         return $content;
     }
 
-    /*!
-     \reimp
-    */
     function customClassAttributeHTTPAction( $http, $action, $classAttribute )
     {
         switch ( $action )
@@ -1559,9 +1524,6 @@ class eZObjectRelationListType extends eZDataType
         return count( $content['relation_list'] ) > 0;
     }
 
-    /*!
-     \reimp
-    */
     function isIndexable()
     {
         return true;
@@ -1587,9 +1549,6 @@ class eZObjectRelationListType extends eZDataType
         }
     }
 
-    /*!
-     \reimp
-    */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $dom = $attributeParametersNode->ownerDocument;
@@ -1633,9 +1592,6 @@ class eZObjectRelationListType extends eZDataType
         }
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $content = $classAttribute->content();
@@ -1683,7 +1639,6 @@ class eZObjectRelationListType extends eZDataType
         </relation-list>
      To do this we fetch content XML and strip all the relation attributes except of "priority" from there,
      and add "contentobject-remote-id" attribute.
-     \reimp
     */
     function serializeContentObjectAttribute( $package, $objectAttribute )
     {
@@ -1735,9 +1690,6 @@ class eZObjectRelationListType extends eZDataType
         return $node;
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         $rootNode = $attributeNode->getElementsByTagName( 'related-objects' )->item( 0 );

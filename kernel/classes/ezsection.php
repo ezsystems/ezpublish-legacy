@@ -36,8 +36,6 @@
 
 class eZSection extends eZPersistentObject
 {
-    /*!
-    */
     function eZSection( $row )
     {
         if ( !isset( $row['id'] ) )

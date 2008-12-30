@@ -91,9 +91,6 @@ class eZPolicyLimitation extends eZPersistentObject
         return eZPolicy::fetch( $this->attribute( 'policy_id' ) );
     }
 
-    /*!
-     \reimp
-    */
     function setAttribute( $attr, $val )
     {
         switch( $attr )

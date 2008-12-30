@@ -49,9 +49,6 @@ class eZImageType extends eZDataType
                            array( 'serialize_supported' => true ) );
     }
 
-    /*!
-     \reimp
-    */
     function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
@@ -61,9 +58,6 @@ class eZImageType extends eZDataType
         }
     }
 
-    /*!
-     \reimp
-    */
     function deleteStoredObjectAttribute( $contentObjectAttribute, $version = null )
     {
         if ( $version === null )
@@ -78,9 +72,6 @@ class eZImageType extends eZDataType
         }
     }
 
-    /*!
-     \reimp
-    */
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $classAttribute = $contentObjectAttribute->contentClassAttribute();
@@ -152,9 +143,6 @@ class eZImageType extends eZDataType
         return eZInputValidator::STATE_ACCEPTED;
     }
 
-    /*!
-     \reimp
-    */
     function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $result = false;
@@ -192,9 +180,6 @@ class eZImageType extends eZDataType
         return $result;
     }
 
-    /*!
-     \reimp
-    */
     function storeObjectAttribute( $contentObjectAttribute )
     {
         $imageHandler = $contentObjectAttribute->attribute( 'content' );
@@ -215,7 +200,6 @@ class eZImageType extends eZDataType
     }
 
     /*!
-     \reimp
      HTTP file insertion is supported.
     */
     function isHTTPFileInsertionSupported()
@@ -224,7 +208,6 @@ class eZImageType extends eZDataType
     }
 
     /*!
-     \reimp
      Regular file insertion is supported.
     */
     function isRegularFileInsertionSupported()
@@ -233,7 +216,6 @@ class eZImageType extends eZDataType
     }
 
     /*!
-     \reimp
      Inserts the file using the Image Handler eZImageAliasHandler.
     */
     function insertHTTPFile( $object, $objectVersion, $objectLanguage,
@@ -257,7 +239,6 @@ class eZImageType extends eZDataType
     }
 
     /*!
-     \reimp
      Inserts the file using the Image Handler eZImageAliasHandler.
     */
     function insertRegularFile( $object, $objectVersion, $objectLanguage,
@@ -281,7 +262,6 @@ class eZImageType extends eZDataType
     }
 
     /*!
-      \reimp
       We support file information
     */
     function hasStoredFileInformation( $object, $objectVersion, $objectLanguage,
@@ -291,7 +271,6 @@ class eZImageType extends eZDataType
     }
 
     /*!
-      \reimp
       Extracts file information for the image entry.
     */
     function storedFileInformation( $object, $objectVersion, $objectLanguage,
@@ -314,9 +293,6 @@ class eZImageType extends eZDataType
         return false;
     }
 
-    /*!
-     \reimp
-    */
     function onPublish( $contentObjectAttribute, $contentObject, $publishedNodes )
     {
         $hasContent = $contentObjectAttribute->hasContent();
@@ -351,9 +327,6 @@ class eZImageType extends eZDataType
         }
     }
 
-    /*!
-     \reimp
-    */
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $filesizeName = $base . self::FILESIZE_VARIABLE . $classAttribute->attribute( 'id' );
@@ -366,9 +339,6 @@ class eZImageType extends eZDataType
         return false;
     }
 
-    /*!
-     \reimp
-    */
     function customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute, $parameters )
     {
         if( $action == "delete_image" )
@@ -382,7 +352,6 @@ class eZImageType extends eZDataType
     }
 
     /*!
-     \reimp
      Will return one of the following items from the original alias.
      - alternative_text - If it's not empty
      - Default paramater in \a $name if it exists
@@ -412,9 +381,6 @@ class eZImageType extends eZDataType
         return $handler->attribute( 'is_valid' );
     }
 
-    /*!
-     \reimp
-    */
     function objectAttributeContent( $contentObjectAttribute )
     {
         $imageHandler = new eZImageAliasHandler( $contentObjectAttribute );
@@ -422,9 +388,6 @@ class eZImageType extends eZDataType
         return $imageHandler;
     }
 
-    /*!
-     \reimp
-    */
     function metaData( $contentObjectAttribute )
     {
         $content = $contentObjectAttribute->content();
@@ -433,9 +396,6 @@ class eZImageType extends eZDataType
         return $value;
     }
 
-    /*!
-     \reimp
-    */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $maxSize = $classAttribute->attribute( self::FILESIZE_FIELD );
@@ -444,9 +404,6 @@ class eZImageType extends eZDataType
         $attributeParametersNode->appendChild( $maxSizeNode );
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $sizeNode = $attributeParametersNode->getElementsByTagName( 'max-size' )->item( 0 );
@@ -457,7 +414,6 @@ class eZImageType extends eZDataType
 
 
     /*!
-     \reimp
      \return a DOM representation of the content object attribute
     */
     function serializeContentObjectAttribute( $package, $objectAttribute )

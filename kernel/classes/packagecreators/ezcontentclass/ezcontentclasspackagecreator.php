@@ -40,9 +40,6 @@
 
 class eZContentClassPackageCreator extends eZPackageCreationHandler
 {
-    /*!
-     \reimp
-    */
     function eZContentClassPackageCreator( $id )
     {
         $steps = array();
@@ -61,7 +58,6 @@ class eZContentClassPackageCreator extends eZPackageCreationHandler
     }
 
     /*!
-     \reimp
      Creates the package and adds the selected content classes.
     */
     function finalize( &$package, $http, &$persistentData )
@@ -79,7 +75,6 @@ class eZContentClassPackageCreator extends eZPackageCreationHandler
     }
 
     /*!
-     \reimp
      Returns \c 'stable', content class packages are always stable.
     */
     function packageInitialState( $package, &$persistentData )
@@ -125,7 +120,6 @@ class eZContentClassPackageCreator extends eZPackageCreationHandler
     }
 
     /*!
-     \reimp
      Fetches the selected content classes and generates a name, summary and description from the selection.
     */
     function generatePackageInformation( &$packageInformation, $package, $http, $step, &$persistentData )

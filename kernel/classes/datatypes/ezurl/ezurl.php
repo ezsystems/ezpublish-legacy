@@ -41,8 +41,6 @@
 
 class eZURL extends eZPersistentObject
 {
-    /*!
-    */
     function eZURL( $row )
     {
         $this->eZPersistentObject( $row );

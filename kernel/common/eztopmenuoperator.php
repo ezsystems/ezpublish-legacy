@@ -94,9 +94,6 @@ class eZTopMenuOperator
                                           'required' => true,
                                           'default' => 'content' ) );
     }
-    /*!
-     \reimp
-    */
     function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
 

@@ -48,7 +48,6 @@ class eZEXIFImageAnalyzer
     }
 
     /*!
-     \reimp
      Checks the file for EXIF data and returns the information.
     */
     function process( $mimeData, $parameters = array() )

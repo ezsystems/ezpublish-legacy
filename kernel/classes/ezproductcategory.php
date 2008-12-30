@@ -34,8 +34,6 @@
 
 class eZProductCategory extends eZPersistentObject
 {
-    /*!
-    */
     function eZProductCategory( $row )
     {
         $this->eZPersistentObject( $row );

@@ -708,8 +708,6 @@ class eZContentObjectVersion extends eZPersistentObject
         return $this->ContentObject;
     }
 
-    /*!
-    */
     function mainParentNodeID()
     {
         $temp = eZNodeAssignment::fetchForObject( $this->attribute( 'contentobject_id' ), $this->attribute( 'version' ), 1 );
@@ -856,8 +854,6 @@ class eZContentObjectVersion extends eZPersistentObject
         return new eZContentObjectVersion( $row );
     }
 
-    /*!
-    */
     function reverseRelatedObjectList()
     {
         return $this->attribute( 'contentobject' )->reverseRelatedObjectList( $this->Version );

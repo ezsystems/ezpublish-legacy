@@ -49,17 +49,11 @@ class eZStepSecurity extends eZStepInstaller
                                 'security', 'Security' );
     }
 
-    /*!
-     \reimp
-    */
     function processPostData()
     {
         return true; // Always continue
     }
 
-    /*!
-     \reimp
-     */
     function init()
     {
         if ( $this->hasKickstartData() )
@@ -76,9 +70,6 @@ class eZStepSecurity extends eZStepInstaller
         return eZSys::indexFileName() == '' ; // If in virtual host mode, continue (return true)
     }
 
-    /*!
-     \reimp
-    */
     function display()
     {
         $this->Tpl->setVariable( 'setup_previous_step', 'Security' );

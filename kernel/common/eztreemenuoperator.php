@@ -30,8 +30,6 @@
 
 class eZTreeMenuOperator
 {
-    /*!
-     */
     function eZTreeMenuOperator( $name = 'treemenu' )
     {
         $this->Operators = array( $name );
@@ -76,9 +74,6 @@ class eZTreeMenuOperator
                                            'default' => false ) );
     }
 
-    /*!
-     \reimp
-    */
     function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
         $level = 0;

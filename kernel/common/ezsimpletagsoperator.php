@@ -30,8 +30,6 @@
 
 class eZSimpleTagsOperator
 {
-    /*!
-     */
     function eZSimpleTagsOperator( $name = 'simpletags' )
     {
         $this->Operators = array( $name );
@@ -86,9 +84,6 @@ class eZSimpleTagsOperator
         }
     }
 
-    /*!
-     \reimp
-    */
     function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
         $elements = preg_split( "#(</?[a-zA-Z0-9_-]+>)#",

@@ -95,9 +95,6 @@ class eZDBPackageHandler extends eZPackageHandler
         return false;
     }
 
-    /*!
-     \reimp
-    */
     function add( $packageType, $package, $cli, $parameters )
     {
         if ( isset( $parameters['sql-file-list'] ) )
@@ -218,9 +215,6 @@ class eZDBPackageHandler extends eZPackageHandler
         return 'sql';
     }
 
-    /*!
-     \reimp
-    */
     function createInstallNode( $package, $installNode, $installItem, $installType )
     {
         $installNode->setAttribute( 'original-path', $installItem['path'] );
@@ -235,9 +229,6 @@ class eZDBPackageHandler extends eZPackageHandler
         eZFileHandler::copy( $originalPath, $installDirectory . '/' . $installItem['filename'] );
     }
 
-    /*!
-     \reimp
-    */
     function parseInstallNode( $package, $installNode, &$installParameters, $isInstall )
     {
         $installParameters['path'] = $installNode->getAttribute( 'original-path' );

@@ -42,8 +42,6 @@ class eZOrder extends eZPersistentObject
     const SHOW_ARCHIVED = 1;
     const SHOW_ALL = 2;
 
-    /*!
-    */
     function eZOrder( $row )
     {
         $this->eZPersistentObject( $row );

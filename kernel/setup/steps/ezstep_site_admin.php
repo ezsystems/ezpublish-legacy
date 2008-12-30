@@ -56,9 +56,6 @@ class eZStepSiteAdmin extends eZStepInstaller
                                 'site_admin', 'Site admin' );
     }
 
-    /*!
-     \reimp
-    */
     function processPostData()
     {
         $user = array();
@@ -105,9 +102,6 @@ class eZStepSiteAdmin extends eZStepInstaller
         return ( count( $this->Error ) == 0 );
     }
 
-    /*!
-     \reimp
-    */
     function init()
     {
         $siteType = $this->chosenSiteType();
@@ -152,9 +146,6 @@ class eZStepSiteAdmin extends eZStepInstaller
         return false;
     }
 
-    /*!
-     \reimp
-    */
     function display()
     {
         $this->Tpl->setVariable( 'first_name_missing', 0 );

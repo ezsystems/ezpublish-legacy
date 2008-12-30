@@ -135,9 +135,6 @@ class eZSubtreeSubscriptionType extends eZDataType
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
@@ -148,9 +145,6 @@ class eZSubtreeSubscriptionType extends eZDataType
         return $node;
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         $valueNode = $attributeNode->getElementsByTagName( 'value' )->item( 0 );
@@ -158,9 +152,6 @@ class eZSubtreeSubscriptionType extends eZDataType
         $objectAttribute->setAttribute( 'data_int', $value );
     }
 
-    /*!
-      \reimp
-    */
     function diff( $old, $new, $options = false )
     {
         return null;

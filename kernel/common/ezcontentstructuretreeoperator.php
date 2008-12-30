@@ -79,9 +79,6 @@ class eZContentStructureTreeOperator
                                                'default' => 0 ) );
     }
 
-    /*!
-     \reimp
-    */
     function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
         $sortArray = false;

@@ -30,8 +30,6 @@
 
 class eZAutoLinkOperator
 {
-    /*!
-     */
     function eZAutoLinkOperator( $name = 'autolink' )
     {
         $this->Operators = array( $name );
@@ -78,9 +76,6 @@ class eZAutoLinkOperator
     }
 
 
-    /*!
-     \reimp
-    */
     function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
         $ini = $tpl->ini();

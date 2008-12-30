@@ -272,16 +272,12 @@ class eZUserType extends eZDataType
         return $user;
     }
 
-    /*!
-     \reimp
-    */
     function isIndexable()
     {
         return true;
     }
 
     /*!
-     \reimp
      We can only remove the user attribute if:
      - The current user, anonymous user and administrator user is not using this class
      - There are more classes with the ezuser datatype
@@ -429,7 +425,6 @@ class eZUserType extends eZDataType
     }
 
     /*!
-     \reimp
      \param package
      \param contentobject attribute object
      \param ezdomnode object

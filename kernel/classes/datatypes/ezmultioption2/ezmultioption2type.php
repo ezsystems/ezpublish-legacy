@@ -92,9 +92,6 @@ class eZMultiOption2Type extends eZDataType
         return $optiongroup;
     }
 
-    /*!
-     \reimp
-    */
     function isIndexable()
     {
         return true;
@@ -494,7 +491,6 @@ class eZMultiOption2Type extends eZDataType
     }
 
     /*!
-     \reimp
      Finds the option which has the correct ID , if found it returns an option structure.
     */
     function productOptionInformation( $objectAttribute, $optionID, $productItem )
@@ -514,7 +510,6 @@ class eZMultiOption2Type extends eZDataType
 
 
     /*!
-      \reimp
       \return \c true if there are more than one multioption in the list.
     */
     function hasObjectAttributeContent( $contentObjectAttribute )
@@ -547,9 +542,6 @@ class eZMultiOption2Type extends eZDataType
         }
     }
 
-    /*!
-     \reimp
-    */
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         return false;
@@ -557,7 +549,6 @@ class eZMultiOption2Type extends eZDataType
 
 
     /*!
-     \reimp
      Validates the input for an object attribute during add to basket process
      and returns a validation state as defined in eZInputValidator.
     */
@@ -624,7 +615,6 @@ class eZMultiOption2Type extends eZDataType
     }
 
     /*!
-     \reimp
      \return true if the datatype requires validation during add to basket procedure
     */
     function isAddToBasketValidationRequired()
@@ -632,9 +622,6 @@ class eZMultiOption2Type extends eZDataType
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $defaultValue = $classAttribute->attribute( 'data_text1' );
@@ -642,18 +629,12 @@ class eZMultiOption2Type extends eZDataType
         $attributeParametersNode->appendChild( $defaultValueNode );
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $defaultValue = $attributeParametersNode->getElementsByTagName( 'default-value' )->item( 0 )->textContent;
         $classAttribute->setAttribute( 'data_text1', $defaultValue );
     }
 
-    /*!
-     \reimp
-    */
     function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
@@ -667,9 +648,6 @@ class eZMultiOption2Type extends eZDataType
         return $node;
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         $rootNode = $attributeNode->getElementsByTagName( 'ezmultioption2' )->item( 0 );

@@ -42,7 +42,6 @@ class eZStepDatabaseChoice extends eZStepInstaller
 {
     /*!
      Constructor
-    \reimp
     */
     function eZStepDatabaseChoice( $tpl, $http, $ini, &$persistenceList )
     {
@@ -50,9 +49,6 @@ class eZStepDatabaseChoice extends eZStepInstaller
                                 'database_choice', 'Database choice' );
     }
 
-    /*!
-     \reimp
-     */
     function processPostData()
     {
         $databaseMap = eZSetupDatabaseMap();
@@ -60,9 +56,6 @@ class eZStepDatabaseChoice extends eZStepInstaller
         return true;
     }
 
-    /*!
-     \reimp
-     */
     function init()
     {
         $databaseMap = eZSetupDatabaseMap();
@@ -114,9 +107,6 @@ class eZStepDatabaseChoice extends eZStepInstaller
         return true;
     }
 
-    /*!
-     \reimp
-     */
     function display()
     {
         $databaseMap = eZSetupDatabaseMap();

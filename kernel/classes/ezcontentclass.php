@@ -913,9 +913,6 @@ You will need to change the class of the node by using the swap functionality.' 
         }
     }
 
-    /*!
-     \reimp
-    */
     function store( $store_childs = false, $fieldFilters = null )
     {
 
@@ -962,9 +959,6 @@ You will need to change the class of the node by using the swap functionality.' 
         $db->commit();
     }
 
-    /*!
-     \reimp
-    */
     function sync( $fieldFilters = null )
     {
         if ( $this->hasDirtyData() )
@@ -1360,8 +1354,6 @@ You will need to change the class of the node by using the swap functionality.' 
                                                                   "version" => $version ), $asObject );
     }
 
-    /*!
-    */
     function versionStatus()
     {
 

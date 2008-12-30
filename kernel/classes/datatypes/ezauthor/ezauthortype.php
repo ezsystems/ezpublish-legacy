@@ -237,8 +237,6 @@ class eZAuthorType extends eZDataType
         return true;
     }
 
-    /*!
-    */
     function customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute, $parameters )
     {
         switch ( $action )
@@ -294,9 +292,6 @@ class eZAuthorType extends eZDataType
         return $name;
     }
 
-    /*!
-     \reimp
-    */
     function isIndexable()
     {
         return true;

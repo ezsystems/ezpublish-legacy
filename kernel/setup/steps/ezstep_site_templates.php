@@ -49,9 +49,6 @@ class eZStepSiteTemplates extends eZStepInstaller
                                 'site_templates', 'Site templates' );
     }
 
-    /*!
-     \reimp
-     */
     function processPostData()
     {
         // set template and template thumbnail
@@ -92,17 +89,11 @@ class eZStepSiteTemplates extends eZStepInstaller
         return true;
     }
 
-    /*!
-     \reimp
-     */
     function init()
     {
         return false; // Always show site template selection
     }
 
-    /*!
-     \reimp
-    */
     function display()
     {
         // Get site templates from setup.ini

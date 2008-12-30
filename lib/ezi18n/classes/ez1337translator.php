@@ -61,9 +61,6 @@ class eZ1337Translator extends eZTranslatorHandler
         $this->Messages = array();
     }
 
-    /*!
-     \reimp
-    */
     function findMessage( $context, $source, $comment = null )
     {
         $man = eZTranslatorManager::instance();
@@ -100,9 +97,6 @@ class eZ1337Translator extends eZTranslatorHandler
         return $text;
     }
 
-    /*!
-     \reimp
-    */
     function translate( $context, $source, $comment = null )
     {
         $msg = $this->findMessage( $context, $source, $comment );

@@ -637,8 +637,6 @@ CODEPIECE;
                                              'default' => 'relative' ) );
     }
 
-    /*!
-     */
     function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
         switch ( $operatorName )

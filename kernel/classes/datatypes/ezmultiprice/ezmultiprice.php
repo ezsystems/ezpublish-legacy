@@ -469,8 +469,6 @@ class eZMultiPrice extends eZSimplePrice
         return $this->priceByCurrency( $currencyCode, eZMultiPriceData::VALUE_TYPE_AUTO );
     }
 
-    /*!
-    */
     function priceByCurrency( $currencyCode, $type = false )
     {
         $price = false;

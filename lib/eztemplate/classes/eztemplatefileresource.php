@@ -67,8 +67,6 @@ class eZTemplateFileResource
         return $this->ServesStaticData;
     }
 
-    /*!
-    */
     function templateNodeTransformation( $functionName, &$node,
                                          $tpl, &$resourceData, $parameters, $namespaceValue )
     {

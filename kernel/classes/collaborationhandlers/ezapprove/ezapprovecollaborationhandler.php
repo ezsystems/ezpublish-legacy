@@ -75,17 +75,11 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
                                                   'notification-collection-handling' => eZCollaborationItemHandler::NOTIFICATION_COLLECTION_PER_PARTICIPATION_ROLE ) );
     }
 
-    /*!
-     \reimp
-    */
     function title( $collaborationItem )
     {
         return ezi18n( 'kernel/classes', 'Approval' );
     }
 
-    /*!
-     \reimp
-    */
     function content( $collaborationItem )
     {
         return array( "content_object_id" => $collaborationItem->attribute( "data_int1" ),
@@ -118,7 +112,6 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
     }
 
     /*!
-     \reimp
      Updates the last_read for the participant link.
     */
     function readItem( $collaborationItem, $viewMode = false )
@@ -127,7 +120,6 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
     }
 
     /*!
-     \reimp
      \return the number of messages for the approve item.
     */
     function messageCount( $collaborationItem )
@@ -136,7 +128,6 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
     }
 
     /*!
-     \reimp
      \return the number of unread messages for the approve item.
     */
     function unreadMessageCount( $collaborationItem )
@@ -227,7 +218,6 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
     }
 
     /*!
-     \reimp
      Adds a new comment, approves the item or denies the item.
     */
     function handleCustomAction( $module, $collaborationItem )

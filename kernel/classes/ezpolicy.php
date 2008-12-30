@@ -97,9 +97,6 @@ class eZPolicy extends eZPersistentObject
         return $this->UserRoleID;
     }
 
-    /*!
-     \reimp
-    */
     function setAttribute( $attr, $val )
     {
         switch( $attr )

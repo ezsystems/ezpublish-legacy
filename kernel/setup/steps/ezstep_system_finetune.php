@@ -49,8 +49,6 @@ class eZStepSystemFinetune extends eZStepInstaller
                                 'system_finetune', 'System finetune' );
     }
 
-    /*!
-     */
     function processPostData()
     {
         if ( $this->Http->hasPostVariable( 'eZSetup_finetune_button' ) )
@@ -62,8 +60,6 @@ class eZStepSystemFinetune extends eZStepInstaller
         return true;
     }
 
-    /*!
-     */
     function init()
     {
         if ( !isset( $this->PersistenceList['run_finetune'] ) )
@@ -98,8 +94,6 @@ class eZStepSystemFinetune extends eZStepInstaller
         return true;
     }
 
-    /*!
-    */
     function display()
     {
         $this->Tpl->setVariable( 'test', array( 'result' => $this->OptionalResult,
@@ -114,8 +108,6 @@ class eZStepSystemFinetune extends eZStepInstaller
         return $result;
     }
 
-    /*!
-    */
     function showMessage()
     {
         return false;

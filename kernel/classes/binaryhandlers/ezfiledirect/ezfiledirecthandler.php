@@ -49,7 +49,6 @@ class eZFileDirectHandler extends eZBinaryFileHandler
     }
 
     /*!
-     \reimp
      \return the direct download template suffix
     */
     function viewTemplate( $contentobjectAttribute )

@@ -162,9 +162,6 @@ class eZMultiOptionType extends eZDataType
         return $multioption;
     }
 
-    /*!
-     \reimp
-    */
     function isIndexable()
     {
         return true;
@@ -300,7 +297,6 @@ class eZMultiOptionType extends eZDataType
     }
 
     /*!
-     \reimp
      Finds the option which has the correct ID , if found it returns an option structure.
 
      \param $optionString must contain the multioption ID an underscore (_) and a the option ID.
@@ -324,9 +320,6 @@ class eZMultiOptionType extends eZDataType
         }
     }
 
-    /*!
-     \reimp
-    */
     function title( $contentObjectAttribute, $name = "name" )
     {
         $multioption = $contentObjectAttribute->content();
@@ -334,7 +327,6 @@ class eZMultiOptionType extends eZDataType
     }
 
     /*!
-      \reimp
       \return \c true if there are more than one multioption in the list.
     */
     function hasObjectAttributeContent( $contentObjectAttribute )
@@ -367,9 +359,6 @@ class eZMultiOptionType extends eZDataType
         }
     }
 
-    /*!
-     \reimp
-    */
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $defaultValueName = $base . self::DEFAULT_NAME_VARIABLE . $classAttribute->attribute( 'id' );
@@ -452,9 +441,6 @@ class eZMultiOptionType extends eZDataType
 
     }
 
-    /*!
-     \reimp
-    */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $defaultValue = $classAttribute->attribute( 'data_text1' );
@@ -463,18 +449,12 @@ class eZMultiOptionType extends eZDataType
         $attributeParametersNode->appendChild( $defaultValueNode );
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $defaultValue = $attributeParametersNode->getElementsByTagName( 'default-value' )->item( 0 )->textContent;
         $classAttribute->setAttribute( 'data_text1', $defaultValue );
     }
 
-    /*!
-     \reimp
-    */
     function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
@@ -488,9 +468,6 @@ class eZMultiOptionType extends eZDataType
         return $node;
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         $rootNode = $attributeNode->getElementsByTagName( 'ezmultioption' )->item( 0 );

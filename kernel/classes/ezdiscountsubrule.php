@@ -78,9 +78,6 @@ class eZDiscountSubRule extends eZPersistentObject
                       "name" => "ezdiscountsubrule" );
     }
 
-    /*!
-     \reimp
-    */
     function setAttribute( $attr, $val )
     {
         switch( $attr )

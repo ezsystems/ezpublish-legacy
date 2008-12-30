@@ -1671,16 +1671,12 @@ class eZTemplate
         return null;
     }
 
-    /*!
-    */
     function appendElement( &$text, $item, $nspace, $name )
     {
         $this->appendElementText( $textElements, $item, $nspace, $name );
         $text .= implode( '', $textElements );
     }
 
-    /*!
-    */
     function appendElementText( &$textElements, $item, $nspace, $name )
     {
         if ( !is_array( $textElements ) )
@@ -1754,8 +1750,6 @@ class eZTemplate
         $this->registerFunctionsInternal( $functionObject );
     }
 
-    /*!
-    */
     function registerAutoloadFunctions( $functionDefinition )
     {
         if ( ( ( isset( $functionDefinition['function'] ) or
@@ -1882,8 +1876,6 @@ class eZTemplate
         unset( $this->Literals[$func_name] );
     }
 
-    /*!
-    */
     function registerAutoloadOperators( $operatorDefinition )
     {
         if ( ( ( isset( $operatorDefinition['function'] ) or
@@ -1954,8 +1946,6 @@ class eZTemplate
         $this->registerOperatorsInternal( $operatorObject );
     }
 
-    /*!
-    */
     function registerOperatorsInternal( $operatorObject, $debug = false )
     {
         if ( !is_object( $operatorObject ) or

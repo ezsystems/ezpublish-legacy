@@ -1926,8 +1926,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $retNodeList;
     }
 
-    /*!
-    */
     function subTree( $params = false )
     {
         return eZContentObjectTreeNode::subTreeByNodeID( $params, $this->attribute( 'node_id' ) );
@@ -3036,15 +3034,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $returnValue;
     }
 
-    /*!
-    */
     function fetchParent()
     {
         return $this->fetch( $this->attribute( 'parent_node_id' ) );
     }
 
-    /*!
-    */
     function pathArray()
     {
         $pathString = $this->attribute( 'path_string' );

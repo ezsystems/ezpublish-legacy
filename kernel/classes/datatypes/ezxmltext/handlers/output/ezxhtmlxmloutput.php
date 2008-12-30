@@ -28,8 +28,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*!
-*/
 
 class eZXHTMLXMLOutput extends eZXMLOutputHandler
 {

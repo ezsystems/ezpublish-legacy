@@ -82,9 +82,6 @@ class eZTemplateControlOperator
                                                     'element-transformation-func' => 'condTransform' ) );
     }
 
-    /*!
-     \reimp
-    */
     function condTransform( $operatorName, &$node, $tpl, &$resourceData,
                             $element, $lastElement, $elementList, $elementTree, &$parameters )
     {

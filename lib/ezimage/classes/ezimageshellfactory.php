@@ -39,7 +39,6 @@ class eZImageShellFactory extends eZImageFactory
     }
 
     /*!
-     \reimp
      Creates eZImageShellHandler objects and returns them.
     */
     static function produceFromINI( $iniGroup, $iniFilename = false )

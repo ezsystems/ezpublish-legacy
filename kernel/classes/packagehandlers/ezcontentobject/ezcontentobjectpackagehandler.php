@@ -96,7 +96,6 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     }
 
     /*!
-     \reimp
      Returns an explanation for the content object install item.
 
      The explanaition is actually a list having the following structure:
@@ -832,7 +831,6 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     }
 
     /*!
-     \reimp
      Uninstalls all previously installed content objects.
     */
     function uninstall( $package, $installType, $parameters,
@@ -959,7 +957,6 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     }
 
     /*!
-     \reimp
      Creates a new contentobject as defined in the xml structure.
     */
     function install( $package, $installType, $parameters,
@@ -1451,9 +1448,6 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function add( $packageType, $package, $cli, $parameters )
     {
         $options = array();
@@ -1488,9 +1482,6 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         $this->generatePackage( $package, $options );
     }
 
-    /*!
-     \reimp
-    */
     function handleAddParameters( $packageType, $package, $cli, $arguments )
     {
         return $this->handleParameters( $packageType, $package, $cli, 'add', $arguments );

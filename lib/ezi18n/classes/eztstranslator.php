@@ -509,9 +509,6 @@ class eZTSTranslator extends eZTranslatorHandler
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function findKey( $key )
     {
         $msg = null;
@@ -522,9 +519,6 @@ class eZTSTranslator extends eZTranslatorHandler
         return $msg;
     }
 
-    /*!
-     \reimp
-    */
     function findMessage( $context, $source, $comment = null )
     {
         // First try with comment,
@@ -540,9 +534,6 @@ class eZTSTranslator extends eZTranslatorHandler
         return $this->findKey( $key );
     }
 
-    /*!
-     \reimp
-    */
     function keyTranslate( $key )
     {
         $msg = $this->findKey( $key );
@@ -554,9 +545,6 @@ class eZTSTranslator extends eZTranslatorHandler
         }
     }
 
-    /*!
-     \reimp
-    */
     function translate( $context, $source, $comment = null )
     {
         $msg = $this->findMessage( $context, $source, $comment );

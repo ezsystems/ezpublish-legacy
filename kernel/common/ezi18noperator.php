@@ -36,8 +36,6 @@
 
 class eZi18nOperator
 {
-    /*!
-    */
     function eZi18nOperator( $name = 'i18n', $extensionName = 'x18n' )
     {
         $this->Operators = array( $name, $extensionName );
@@ -164,9 +162,6 @@ class eZi18nOperator
         return array( eZTemplateNodeTool::createCodePieceElement( $code, $values, false, 3 ) );
     }
 
-    /*!
-     \reimp
-    */
     function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$value, $namedParameters )
     {
         require_once( 'kernel/common/i18n.php' );

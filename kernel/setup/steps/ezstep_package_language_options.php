@@ -41,7 +41,6 @@ class eZStepPackageLanguageOptions extends eZStepInstaller
 {
     /*!
      Constructor
-     \reimp
     */
     function eZStepPackageLanguageOptions( $tpl, $http, $ini, &$persistenceList )
     {
@@ -49,9 +48,6 @@ class eZStepPackageLanguageOptions extends eZStepInstaller
                                 'package_language_options', 'Package language options' );
     }
 
-    /*!
-     \reimp
-     */
     function processPostData()
     {
         $languageMap = array();
@@ -70,9 +66,6 @@ class eZStepPackageLanguageOptions extends eZStepInstaller
         return true;
     }
 
-    /*!
-      \reimp
-     */
     function init()
     {
         /*
@@ -160,9 +153,6 @@ class eZStepPackageLanguageOptions extends eZStepInstaller
         return true;
     }
 
-    /*!
-     \reimp
-     */
     function display()
     {
         $packageLanguageList = $this->MissedPackageLanguageList;

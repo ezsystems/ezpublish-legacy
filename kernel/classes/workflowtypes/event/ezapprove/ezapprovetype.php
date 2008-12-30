@@ -603,7 +603,6 @@ class eZApproveType extends eZWorkflowEventType
     }
 
     /*
-     \reimp
     */
     function customWorkflowEventHTTPAction( $http, $action, $workflowEvent )
     {
@@ -683,7 +682,6 @@ class eZApproveType extends eZWorkflowEventType
     }
 
     /*
-     \reimp
     */
     function cleanupAfterRemoving( $attr = array() )
     {

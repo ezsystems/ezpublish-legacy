@@ -49,25 +49,16 @@ class eZStepFinal extends eZStepInstaller
                                 'final', 'Final' );
     }
 
-    /*!
-     \reimp
-    */
     function processPostData()
     {
         return true; // Last step, but always proceede
     }
 
-    /*!
-     \reimp
-     */
     function init()
     {
         return false; // Always show
     }
 
-    /*!
-     \reimp
-    */
     function display()
     {
         $siteType = $this->chosenSiteType();

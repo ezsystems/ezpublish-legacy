@@ -299,9 +299,6 @@ class eZTemplateArrayOperator
                                                     'element-transformation-func' => 'arrayTrans' ) );
     }
 
-    /*!
-     \reimp
-    */
     function arrayTrans( $operatorName, &$node, $tpl, &$resourceData,
                          $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
@@ -1051,9 +1048,6 @@ class eZTemplateArrayOperator
         }
     }
 
-    /*!
-     \reimp
-    */
     function compareTrans( $operatorName, &$node, $tpl, &$resourceData,
                            $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
@@ -1245,9 +1239,6 @@ class eZTemplateArrayOperator
         }
     }
 
-    /*!
-     \reimp
-    */
     function extractTrans( $operatorName, &$node, $tpl, &$resourceData,
                            $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
@@ -1351,9 +1342,6 @@ class eZTemplateArrayOperator
         return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
     }
 
-    /*!
-     \reimp
-    */
     function mergeTrans( $operatorName, &$node, $tpl, &$resourceData,
                          $element, $lastElement, $elementList, $elementTree, &$parameters )
     {

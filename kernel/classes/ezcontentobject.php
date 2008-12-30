@@ -3558,8 +3558,6 @@ class eZContentObject extends eZPersistentObject
         return $languages;
     }
 
-    /*!
-    */
     function checkGroupLimitationAccess( $limitationValueList, $userID, $contentObjectID = false )
     {
         $access = 'denied';
@@ -4558,8 +4556,6 @@ class eZContentObject extends eZPersistentObject
         return ( $this->Permissions["can_diff"] == 1 );
     }
 
-    /*!
-    */
     function canCreate( )
     {
         if ( !isset( $this->Permissions["can_create"] ) )
@@ -4569,8 +4565,6 @@ class eZContentObject extends eZPersistentObject
         return ( $this->Permissions["can_create"] == 1 );
     }
 
-    /*!
-    */
     function canEdit( $originalClassID = false, $parentClassID = false, $returnAccessList = false, $language = false )
     {
         $isCalledClean = ( func_num_args() == 0 );
@@ -4602,8 +4596,6 @@ class eZContentObject extends eZPersistentObject
         return ( $canEdit == 1 );
     }
 
-    /*!
-    */
     function canTranslate( )
     {
         if ( !isset( $this->Permissions["can_translate"] ) )
@@ -4625,8 +4617,6 @@ class eZContentObject extends eZPersistentObject
         return ( $this->Permissions["can_translate"] == 1 );
     }
 
-    /*!
-    */
     function canRemove( )
     {
 

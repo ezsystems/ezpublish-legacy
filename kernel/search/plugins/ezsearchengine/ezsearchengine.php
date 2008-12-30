@@ -35,8 +35,6 @@
 
 class eZSearchEngine
 {
-    /*!
-     */
     function eZSearchEngine()
     {
         $generalFilter = array( 'subTreeTable' => '',

@@ -87,9 +87,6 @@ class eZEnumType extends eZDataType
         }
     }
 
-    /*!
-     \reimp
-    */
     function cloneClassAttribute( $oldClassAttribute, $newClassAttribute )
     {
         $oldContentClassAttributeID = $oldClassAttribute->attribute( 'id' );
@@ -321,8 +318,6 @@ class eZEnumType extends eZDataType
         return $enum;
     }
 
-    /*!
-    */
     function customClassAttributeHTTPAction( $http, $action, $contentClassAttribute )
     {
         $id = $contentClassAttribute->attribute( 'id' );
@@ -401,7 +396,6 @@ class eZEnumType extends eZDataType
     }
 
     /*!
-     \reimp
      Sets \c grouped_input to \c true when checkboxes or radiobuttons are used.
     */
     function objectDisplayInformation( $objectAttribute, $mergeInfo = false )
@@ -415,16 +409,12 @@ class eZEnumType extends eZDataType
         return eZDataType::objectDisplayInformation( $objectAttribute, $info );
     }
 
-    /*!
-     \reimp
-    */
     function isIndexable()
     {
         return true;
     }
 
     /*!
-     \reimp
      \return a DOM representation of the content object attribute
     */
 
@@ -452,7 +442,6 @@ class eZEnumType extends eZDataType
 
 
     /*!
-     \reimp
      Unserialize contentobject attribute
 
      \param package
@@ -487,17 +476,11 @@ class eZEnumType extends eZDataType
     }
 
 
-    /*!
-     \reimp
-    */
     function hasObjectAttributeContent( $contentObjectAttribute )
     {
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $isOption = $classAttribute->attribute( self::IS_OPTION_FIELD );
@@ -519,9 +502,6 @@ class eZEnumType extends eZDataType
         }
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $isOption = strtolower( $attributeParametersNode->getAttribute( 'is-option' ) ) == 'true';
@@ -549,9 +529,6 @@ class eZEnumType extends eZDataType
         }
     }
 
-    /*!
-      \reimp
-    */
     function diff( $old, $new, $options = false )
     {
         return null;

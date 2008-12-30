@@ -337,7 +337,6 @@ class eZMediaType extends eZDataType
     }
 
     /*!
-     \reimp
      HTTP file insertion is supported.
     */
     function isHTTPFileInsertionSupported()
@@ -346,7 +345,6 @@ class eZMediaType extends eZDataType
     }
 
     /*!
-     \reimp
      Regular file insertion is supported.
     */
     function isRegularFileInsertionSupported()
@@ -355,7 +353,6 @@ class eZMediaType extends eZDataType
     }
 
     /*!
-     \reimp
      Inserts the file using the eZMedia class.
     */
     function insertHTTPFile( $object, $objectVersion, $objectLanguage,
@@ -424,7 +421,6 @@ class eZMediaType extends eZDataType
     }
 
     /*!
-     \reimp
      Inserts the file using the eZMedia class.
     */
     function insertRegularFile( $object, $objectVersion, $objectLanguage,
@@ -510,7 +506,6 @@ class eZMediaType extends eZDataType
     }
 
     /*!
-      \reimp
       We support file information
     */
     function hasStoredFileInformation( $object, $objectVersion, $objectLanguage,
@@ -520,7 +515,6 @@ class eZMediaType extends eZDataType
     }
 
     /*!
-      \reimp
       Extracts file information for the media entry.
     */
     function storedFileInformation( $object, $objectVersion, $objectLanguage,
@@ -543,24 +537,15 @@ class eZMediaType extends eZDataType
     {
     }
 
-    /*!
-     \reimp
-    */
     function validateClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         return eZInputValidator::STATE_ACCEPTED;
     }
 
-    /*!
-     \reimp
-    */
     function fixupClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
     }
 
-    /*!
-     \reimp
-    */
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $filesizeName = $base . self::MAX_FILESIZE_VARIABLE . $classAttribute->attribute( 'id' );
@@ -652,9 +637,6 @@ class eZMediaType extends eZDataType
 
     }
 
-    /*!
-     \reimp
-    */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $maxSize = $classAttribute->attribute( self::MAX_FILESIZE_FIELD );
@@ -670,9 +652,6 @@ class eZMediaType extends eZDataType
         $attributeParametersNode->appendChild( $typeNode );
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $sizeNode = $attributeParametersNode->getElementsByTagName( 'max-size' )->item( 0 );

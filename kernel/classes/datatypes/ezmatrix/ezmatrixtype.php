@@ -169,8 +169,6 @@ class eZMatrixType extends eZDataType
         return true;
     }
 
-    /*!
-    */
     function customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute, $parameters )
     {
         switch ( $action )
@@ -268,9 +266,6 @@ class eZMatrixType extends eZDataType
 
     }
 
-    /*!
-     \reimp
-    */
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         // 'default name' is never used => just a stub
@@ -377,8 +372,6 @@ class eZMatrixType extends eZDataType
         return $matrixDefinition;
     }
 
-    /*!
-    */
     function customClassAttributeHTTPAction( $http, $action, $contentClassAttribute )
     {
         $id = $contentClassAttribute->attribute( 'id' );
@@ -410,9 +403,6 @@ class eZMatrixType extends eZDataType
         }
     }
 
-    /*!
-     \reimp
-    */
     function isIndexable()
     {
         return true;
@@ -466,9 +456,6 @@ class eZMatrixType extends eZDataType
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $content = $classAttribute->content();
@@ -497,9 +484,6 @@ class eZMatrixType extends eZDataType
         }
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $defaultName = $attributeParametersNode->getElementsByTagName( 'default-name' )->item( 0 )->textContent;
@@ -519,9 +503,6 @@ class eZMatrixType extends eZDataType
         $classAttribute->setAttribute( 'data_text5', $matrixDefinition->xmlString() );
     }
 
-    /*!
-     \reimp
-    */
     function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
@@ -535,9 +516,6 @@ class eZMatrixType extends eZDataType
         return $node;
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         $rootNode = $attributeNode->getElementsByTagName( 'ezmatrix' )->item( 0 );

@@ -58,9 +58,6 @@ class eZPathElement extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    /*!
-     \reimp
-    */
     static public function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',

@@ -49,8 +49,6 @@ class eZStepSystemCheck extends eZStepInstaller
                                 'system_check', 'System check' );
     }
 
-    /*!
-     */
     function processPostData()
     {
         $return = $this->init();
@@ -61,8 +59,6 @@ class eZStepSystemCheck extends eZStepInstaller
         return $return;
     }
 
-    /*!
-     */
     function init()
     {
         $criticalTests = eZSetupCriticalTests();
@@ -91,8 +87,6 @@ class eZStepSystemCheck extends eZStepInstaller
         return ( $this->Result == EZ_SETUP_TEST_SUCCESS );
     }
 
-    /*!
-    */
     function display()
     {
         $this->Tpl->setVariable( 'test', array( 'result' => $this->Result,
@@ -109,8 +103,6 @@ class eZStepSystemCheck extends eZStepInstaller
         return $result;
     }
 
-    /*!
-    */
     function showMessage()
     {
         return false;

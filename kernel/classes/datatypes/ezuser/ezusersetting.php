@@ -73,9 +73,6 @@ class eZUserSetting extends eZPersistentObject
     }
 
 
-    /*!
-     \reimp
-    */
     function setAttribute( $attr, $val )
     {
         switch( $attr )

@@ -40,9 +40,6 @@
 class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
 {
 
-    /*!
-     \reimp
-    */
     function eZContentObjectPackageInstaller( $package, $type, $installItem )
     {
         $steps = array();
@@ -69,7 +66,6 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
     }
 
     /*!
-     \reimp
      Returns \c 'stable', content class packages are always stable.
     */
     function packageInitialState( $package, &$persistentData )
@@ -85,9 +81,6 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
         return 'contentobject';
     }
 
-    /*!
-     \reimp
-    */
     function initializeSiteAccess( $package, $http, $step, &$persistentData, $tpl, $module )
     {
         $ini = eZINI::instance();
@@ -118,9 +111,6 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
         $tpl->setVariable( 'available_site_access_array', $availableSiteAccessArray );
     }
 
-    /*!
-     \reimp
-    */
     function validateSiteAccess( $package, $http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
         $validate = true;
@@ -136,9 +126,6 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
         return $validate;
     }
 
-    /*!
-     \reimp
-    */
     function initializeTopNodes( $package, $http, $step, &$persistentData, $tpl, $module )
     {
         if ( !isset( $persistentData['top_nodes_map'] ) )
@@ -188,9 +175,6 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
         $tpl->setVariable( 'top_nodes_map', $persistentData['top_nodes_map'] );
     }
 
-    /*!
-     \reimp
-    */
     function validateTopNodes( $package, $http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
         $validate = true;
@@ -224,9 +208,6 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function finalize( $package, $http, &$persistentData )
     {
         eZDebug::writeDebug( 'finalize is called', __METHOD__ );

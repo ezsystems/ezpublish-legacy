@@ -46,7 +46,6 @@ class eZInstallScriptPackageInstaller extends eZPackageInstallationHandler
     {
     }
     /*!
-     \reimp
      Returns \c 'stable', content class packages are always stable.
     */
     function packageInitialState( $package, &$persistentData )

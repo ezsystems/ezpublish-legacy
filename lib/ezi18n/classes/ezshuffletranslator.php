@@ -51,9 +51,6 @@ class eZShuffleTranslator extends eZTranslatorHandler
         $this->Messages = array();
     }
 
-    /*!
-     \reimp
-    */
     function findMessage( $context, $source, $comment = null )
     {
         $man = eZTranslatorManager::instance();
@@ -92,9 +89,6 @@ class eZShuffleTranslator extends eZTranslatorHandler
         return $text;
     }
 
-    /*!
-     \reimp
-    */
     function translate( $context, $source, $comment = null )
     {
         $msg = $this->findMessage( $context, $source, $comment );

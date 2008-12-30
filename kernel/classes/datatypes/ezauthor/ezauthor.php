@@ -49,8 +49,6 @@
 
 class eZAuthor
 {
-    /*!
-    */
     function eZAuthor( )
     {
         $Authors = array();

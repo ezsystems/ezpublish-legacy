@@ -67,9 +67,6 @@ class eZIniSettingType extends eZDataType
                                                                 'serialize_supported' => true ) );
     }
 
-    /*!
-      \reimp
-    */
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_ini_setting_' . $contentObjectAttribute->attribute( 'id' ) ) )
@@ -102,9 +99,6 @@ class eZIniSettingType extends eZDataType
         return eZInputValidator::STATE_ACCEPTED;
     }
 
-    /*!
-     \reimp
-    */
     function validateClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $fileParam = $base . self::CLASS_FILE . $classAttribute->attribute( 'id' );
@@ -145,17 +139,11 @@ class eZIniSettingType extends eZDataType
         return eZInputValidator::STATE_INVALID;
     }
 
-    /*!
-     \reimp
-    */
     function initializeClassAttribute( $classAttribute )
     {
         eZIniSettingType::setSiteAccessList( $classAttribute );
     }
 
-    /*!
-     \reimp
-    */
     function initializeObjectAttribute( $objectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
@@ -228,9 +216,6 @@ class eZIniSettingType extends eZDataType
         }
     }
 
-    /*!
-     \reimp
-    */
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $fileParam = $base . self::CLASS_FILE . $classAttribute->attribute( 'id' );
@@ -278,9 +263,6 @@ class eZIniSettingType extends eZDataType
         return false;
     }
 
-    /*!
-      \reimp
-    */
     function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_ini_setting_' . $contentObjectAttribute->attribute( "id" ) ) )
@@ -303,9 +285,6 @@ class eZIniSettingType extends eZDataType
         return false;
     }
 
-    /*!
-     \reimp
-    */
     function onPublish( $contentObjectAttribute, $contentObject, $publishedNodes )
     {
         $contentClassAttribute = $contentObjectAttribute->attribute( 'contentclass_attribute' );
@@ -401,9 +380,6 @@ class eZIniSettingType extends eZDataType
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function objectAttributeContent( $contentObjectAttribute )
     {
         $contentClassAttribute = $contentObjectAttribute->attribute( 'contentclass_attribute' );
@@ -455,9 +431,6 @@ class eZIniSettingType extends eZDataType
         return $data;
     }
 
-    /*!
-      \reimp
-    */
     function title( $contentObjectAttribute, $name = null )
     {
         return $contentObjectAttribute->attribute( 'data_text' );
@@ -468,9 +441,6 @@ class eZIniSettingType extends eZDataType
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $file = $classAttribute->attribute( self::CLASS_FILE_FIELD );
@@ -496,7 +466,6 @@ class eZIniSettingType extends eZDataType
     }
 
     /*!
-     \reimp
 
      Use Override to do ini alterations if the specified site access does not exist
     */
@@ -630,9 +599,6 @@ class eZIniSettingType extends eZDataType
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
@@ -649,9 +615,6 @@ class eZIniSettingType extends eZDataType
         return $node;
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         $makeEmptyArray = $attributeNode->getElementsByTagName( 'make_empty_array' )->item( 0 )->textContent;
@@ -667,9 +630,6 @@ class eZIniSettingType extends eZDataType
         $objectAttribute->setAttribute( 'data_text', $value );
     }
 
-    /*!
-      \reimp
-    */
     function diff( $old, $new, $options = false )
     {
         return null;

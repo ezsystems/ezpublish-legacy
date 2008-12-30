@@ -168,7 +168,6 @@ class eZStylePackageCreator extends eZPackageCreationHandler
     }
 
     /*!
-     \reimp
      \return \c 'import'
     */
     function packageInstallType( $package, &$persistentData )
@@ -177,7 +176,6 @@ class eZStylePackageCreator extends eZPackageCreationHandler
     }
 
     /*!
-     \reimp
      Returns \c 'stable', site style packages are always stable.
     */
     function packageInitialState( $package, &$persistentData )
@@ -276,7 +274,6 @@ class eZStylePackageCreator extends eZPackageCreationHandler
     }
 
     /*!
-     \reimp
      Fetches the selected content classes and generates a name, summary and description from the selection.
     */
     function generatePackageInformation( &$packageInformation, $package, $http, $step, &$persistentData )

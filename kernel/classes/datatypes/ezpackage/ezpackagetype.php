@@ -63,9 +63,6 @@ class eZPackageType extends eZDataType
     {
     }
 
-    /*!
-     \reimp
-    */
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         return eZInputValidator::STATE_ACCEPTED;
@@ -164,9 +161,6 @@ class eZPackageType extends eZDataType
         eZContentCacheManager::clearTemplateBlockCacheIfNeeded( false );
     }
 
-    /*!
-     \reimp
-    */
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $packageTypeName = $base . self::TYPE_VARIABLE . $classAttribute->attribute( 'id' );
@@ -215,33 +209,21 @@ class eZPackageType extends eZDataType
         return trim( $contentObjectAttribute->attribute( 'data_text' ) ) != '';
     }
 
-    /*!
-     \reimp
-    */
     function isIndexable()
     {
         return false;
     }
 
-    /*!
-     \reimp
-    */
     function sortKey( $contentObjectAttribute )
     {
         return strtolower( $contentObjectAttribute->attribute( 'data_text' ) );
     }
 
-    /*!
-     \reimp
-    */
     function sortKeyType()
     {
         return 'string';
     }
 
-    /*!
-     \reimp
-    */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $type = $classAttribute->attribute( self::TYPE_FIELD );
@@ -249,18 +231,12 @@ class eZPackageType extends eZDataType
         $attributeParametersNode->appendChild( $typeNode );
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $type = $attributeParametersNode->getElementsByTagName( 'type' )->item( 0 )->textContent;
         $classAttribute->setAttribute( self::TYPE_FIELD, $type );
     }
 
-    /*!
-      \reimp
-    */
     function diff( $old, $new, $options = false )
     {
         return null;

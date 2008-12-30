@@ -50,7 +50,6 @@ class eZRandomTranslator extends eZTranslatorGroup
     }
 
     /*!
-     \reimp
      Returns a random pick from the registered handlers.
     */
     function keyPick( $key )
@@ -61,7 +60,6 @@ class eZRandomTranslator extends eZTranslatorGroup
     }
 
     /*!
-     \reimp
      Returns a random pick from the registered handlers.
     */
     function pick( $context, $source, $comment )

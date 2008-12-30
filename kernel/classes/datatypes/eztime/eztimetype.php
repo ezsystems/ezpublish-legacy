@@ -63,9 +63,6 @@ class eZTimeType extends eZDataType
         return $state;
     }
 
-    /*!
-     \reimp
-    */
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $classAttribute = $contentObjectAttribute->contentClassAttribute();
@@ -103,9 +100,6 @@ class eZTimeType extends eZDataType
             return eZInputValidator::STATE_ACCEPTED;
     }
 
-    /*!
-     \reimp
-    */
     function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $classAttribute = $contentObjectAttribute->contentClassAttribute();
@@ -134,9 +128,6 @@ class eZTimeType extends eZDataType
         return false;
     }
 
-    /*!
-     \reimp
-    */
     function validateCollectionAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $classAttribute = $contentObjectAttribute->contentClassAttribute();
@@ -172,7 +163,6 @@ class eZTimeType extends eZDataType
     }
 
    /*!
-    \reimp
     Fetches the http post variables for collected information
    */
     function fetchCollectionAttributeHTTPInput( $collection, $collectionAttribute, $http, $base, $contentObjectAttribute )
@@ -223,9 +213,6 @@ class eZTimeType extends eZDataType
         return $time;
     }
 
-    /*!
-     \reimp
-    */
     function sortKey( $contentObjectAttribute )
     {
         $timestamp = $contentObjectAttribute->attribute( 'data_int' );
@@ -238,9 +225,6 @@ class eZTimeType extends eZDataType
             return 0;
     }
 
-    /*!
-     \reimp
-    */
     function sortKeyType()
     {
         return 'int';
@@ -280,9 +264,6 @@ class eZTimeType extends eZDataType
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function isInformationCollector()
     {
         return true;
@@ -366,9 +347,6 @@ class eZTimeType extends eZDataType
         return !is_null( $contentObjectAttribute->attribute( 'data_int' ) );
     }
 
-    /*!
-     \reimp
-    */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $dom = $attributeParametersNode->ownerDocument;
@@ -392,9 +370,6 @@ class eZTimeType extends eZDataType
         $attributeParametersNode->appendChild( $useSecondsNode );
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $defaultNode = $attributeParametersNode->getElementsByTagName( 'default-value' )->item( 0 );
@@ -439,7 +414,6 @@ class eZTimeType extends eZDataType
     }
 
     /*!
-     \reimp
      \param package
      \param contentobject attribute object
      \param ezdomnode object

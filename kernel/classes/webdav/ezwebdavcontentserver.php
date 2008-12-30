@@ -56,7 +56,6 @@ class eZWebDAVContentServer extends eZWebDAVServer
     }
 
     /*!
-     \reimp
      Makes sure $this->User is reinitialized with the current user,
      then calls the $super->processClientRequest().
     */
@@ -71,7 +70,6 @@ class eZWebDAVContentServer extends eZWebDAVServer
     */
 
     /*!
-      \reimp
       Fetch the file from eZCluster if needed before send.
     */
     function outputSendDataToClient( $output, $headers_only = false )
@@ -89,7 +87,6 @@ class eZWebDAVContentServer extends eZWebDAVServer
     }
 
     /*!
-      \reimp
       Restricts the allowed methods to only the subset that this server supports.
     */
     function options( $target )
@@ -103,7 +100,6 @@ class eZWebDAVContentServer extends eZWebDAVServer
     }
 
     /*!
-      \reimp
       Produces the collection content. Builds either the virtual start folder
       with the virtual content folder in it (and additional files). OR: if
       we're browsing within the content folder: it gets the content of the
@@ -196,7 +192,6 @@ class eZWebDAVContentServer extends eZWebDAVServer
     }
 
     /*!
-     \reimp
      Tries to figure out the filepath of the object being shown,
      if not we will pass the virtual url as the filepath.
     */
@@ -321,7 +316,6 @@ class eZWebDAVContentServer extends eZWebDAVServer
     }
 
     /*!
-     \reimp
      Tries to create/update an object at location \a $target with the file \a $tempFile.
     */
     function put( $target, $tempFile )
@@ -443,7 +437,6 @@ class eZWebDAVContentServer extends eZWebDAVServer
     }
 
     /*!
-      \reimp
       Tries to create a collection at \a $target. In our case this is a content-class
       of a given type (most likely a folder).
     */
@@ -540,7 +533,6 @@ class eZWebDAVContentServer extends eZWebDAVServer
     }
 
     /*!
-      \reimp
       Removes the object from the node tree and leaves it in the trash.
     */
     function delete( $target )
@@ -634,7 +626,6 @@ class eZWebDAVContentServer extends eZWebDAVServer
     }
 
     /*!
-      \reimp
       Moves the object \a $source to destination \a $destination.
     */
     function move( $source, $destination )
@@ -938,7 +929,6 @@ class eZWebDAVContentServer extends eZWebDAVServer
     }
 
     /*!
-      \reimp
       Removes the www-dir and indexfile from the URL.
     */
     function processURL( $url )
@@ -961,9 +951,6 @@ class eZWebDAVContentServer extends eZWebDAVServer
         return $url;
     }
 
-    /*!
-     \reimp
-    */
     function headers()
     {
         header( "WebDAV-Powered-By: eZ Publish" );

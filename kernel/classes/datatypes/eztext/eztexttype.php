@@ -101,8 +101,6 @@ class eZTextType extends eZDataType
         return eZInputValidator::STATE_ACCEPTED;
     }
 
-    /*!
-    */
     function validateCollectionAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) )
@@ -161,7 +159,6 @@ class eZTextType extends eZDataType
     }
 
     /*!
-     \reimp
      Simple string insertion is supported.
     */
     function isSimpleStringInsertionSupported()
@@ -170,7 +167,6 @@ class eZTextType extends eZDataType
     }
 
     /*!
-     \reimp
      Inserts the string \a $string in the \c 'data_text' database field.
     */
     function insertSimpleString( $object, $objectVersion, $objectLanguage,
@@ -239,25 +235,16 @@ class eZTextType extends eZDataType
         return $data_instance->attribute( "data_text" );
     }
 
-    /*!
-     \reimp
-    */
     function isIndexable()
     {
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function isInformationCollector()
     {
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $textColumns = $classAttribute->attribute( self::COLS_FIELD );
@@ -265,18 +252,12 @@ class eZTextType extends eZDataType
         $attributeParametersNode->appendChild( $textColumnCountNode );
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $textColumns = $attributeParametersNode->getElementsByTagName( 'text-column-count' )->item( 0 )->textContent;
         $classAttribute->setAttribute( self::COLS_FIELD, $textColumns );
     }
 
-    /*!
-      \reimp
-    */
     function diff( $old, $new, $options = false )
     {
         $diff = new eZDiff();

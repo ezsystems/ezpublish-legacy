@@ -47,8 +47,6 @@ class eZOptionType extends eZDataType
                            array( 'serialize_supported' => true ) );
     }
 
-    /*!
-    */
     function validateCollectionAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $classAttribute = $contentObjectAttribute->contentClassAttribute();
@@ -216,8 +214,6 @@ class eZOptionType extends eZDataType
         return false;
     }
 
-    /*!
-    */
     function customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute, $parameters )
     {
         switch ( $action )
@@ -331,9 +327,6 @@ class eZOptionType extends eZDataType
         }
     }
 
-    /*!
-     \reimp
-    */
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $defaultValueName = $base . self::DEFAULT_NAME_VARIABLE . $classAttribute->attribute( 'id' );
@@ -395,9 +388,6 @@ class eZOptionType extends eZDataType
         return $option;
 
     }
-    /*!
-     \reimp
-    */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $defaultValue = $classAttribute->attribute( 'data_text1' );
@@ -405,18 +395,12 @@ class eZOptionType extends eZDataType
         $attributeParametersNode->appendChild( $defaultValueNode );
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $defaultValue = $attributeParametersNode->getElementsByTagName( 'default-value' )->item( 0 )->textContent;
         $classAttribute->setAttribute( 'data_text1', $defaultValue );
     }
 
-    /*!
-     \reimp
-    */
     function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
@@ -430,9 +414,6 @@ class eZOptionType extends eZDataType
         return $node;
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         $xmlString = '';
@@ -461,9 +442,6 @@ class eZOptionType extends eZDataType
         $objectAttribute->setAttribute( 'data_text', $xmlString );
     }
 
-    /*!
-     \reimp
-    */
     function isInformationCollector()
     {
         return true;

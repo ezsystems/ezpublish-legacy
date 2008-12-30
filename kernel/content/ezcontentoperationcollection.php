@@ -262,8 +262,6 @@ class eZContentOperationCollection
     }
 
 
-    /*!
-    */
     function publishNode( $parentNodeID, $objectID, $versionNum, $mainNodeID )
     {
         $object         = eZContentObject::fetch( $objectID );

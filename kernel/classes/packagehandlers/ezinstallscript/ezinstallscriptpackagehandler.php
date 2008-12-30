@@ -50,7 +50,6 @@ class eZInstallScriptPackageHandler extends eZPackageHandler
     }
 
     /*!
-     \reimp
      Returns an explanation for the extension install item.
     */
     function explainInstallItem( $package, $installItem, $requestedInfo = array() )
@@ -73,7 +72,6 @@ class eZInstallScriptPackageHandler extends eZPackageHandler
     }
 
     /*!
-     \reimp
      Do nothing
     */
     function uninstall( $package, $installType, $parameters,
@@ -85,7 +83,6 @@ class eZInstallScriptPackageHandler extends eZPackageHandler
     }
 
     /*!
-     \reimp
      Do nothing
     */
     function install( $package, $installType, $parameters,
@@ -96,9 +93,6 @@ class eZInstallScriptPackageHandler extends eZPackageHandler
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function add( $packageType, $package, $cli, $parameters )
     {
         $siteINI = eZINI::instance();
@@ -121,9 +115,6 @@ class eZInstallScriptPackageHandler extends eZPackageHandler
         }
     }
 
-    /*!
-     \reimp
-    */
     function handleAddParameters( $packageType, $package, $cli, $arguments )
     {
         $scriptArgumentList = array_chunk( $arguments, 3 );

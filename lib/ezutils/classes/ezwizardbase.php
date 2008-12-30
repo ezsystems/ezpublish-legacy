@@ -81,9 +81,6 @@ class eZWizardBase
         }
     }
 
-    /*!
-     \reimp
-    */
     function attributes()
     {
         return array( 'error_count',
@@ -95,17 +92,11 @@ class eZWizardBase
                       'url' );
     }
 
-    /*!
-     \reimp
-    */
     function hasAttribute( $attr )
     {
         return in_array( $attr, $this->attributes() );
     }
 
-    /*!
-     \reimp
-    */
     function attribute( $attr )
     {
         switch( $attr )

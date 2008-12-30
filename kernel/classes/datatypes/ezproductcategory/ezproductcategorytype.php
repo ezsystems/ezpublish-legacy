@@ -105,7 +105,6 @@ class eZProductCategoryType extends eZDataType
     }
 
    /*!
-    \reimp
     Fetches the http post variable for collected information
    */
     function fetchCollectionAttributeHTTPInput( $collection, $collectionAttribute, $http, $base, $contentObjectAttribute )
@@ -130,33 +129,21 @@ class eZProductCategoryType extends eZDataType
         return $contentObjectAttribute->attribute( "data_int" );
     }
 
-    /*!
-     \reimp
-    */
     function isIndexable()
     {
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function isInformationCollector()
     {
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function sortKey( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( 'data_int' );
     }
 
-    /*!
-     \reimp
-    */
     function sortKeyType()
     {
         return 'int';
@@ -171,9 +158,6 @@ class eZProductCategoryType extends eZDataType
         return $category;
     }
 
-    /*!
-     \reimp
-     */
     function hasObjectAttributeContent( $contentObjectAttribute )
     {
         $productCategory = $this->objectAttributeContent( $contentObjectAttribute );
@@ -229,9 +213,6 @@ class eZProductCategoryType extends eZDataType
         return is_object( $category ) ? $category->attribute( 'name' ) : '';
     }
 
-    /*!
-      \reimp
-    */
     function diff( $old, $new, $options = null )
     {
         return null;

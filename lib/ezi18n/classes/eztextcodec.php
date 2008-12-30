@@ -39,8 +39,6 @@
 
 class eZTextCodec
 {
-    /*!
-    */
     function eZTextCodec( $inputCharsetCode, $outputCharsetCode,
                           $realInputCharsetCode, $realOutputCharsetCode,
                           $inputEncoding, $outputEncoding )

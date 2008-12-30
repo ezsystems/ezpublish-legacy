@@ -54,7 +54,6 @@ class eZExtensionPackageHandler extends eZPackageHandler
     }
 
     /*!
-     \reimp
      Returns an explanation for the extension install item.
     */
     function explainInstallItem( $package, $installItem, $requestedInfo = array() )
@@ -82,7 +81,6 @@ class eZExtensionPackageHandler extends eZPackageHandler
     }
 
     /*!
-     \reimp
      Uninstalls extensions.
     */
     function uninstall( $package, $installType, $parameters,
@@ -122,7 +120,6 @@ class eZExtensionPackageHandler extends eZPackageHandler
     }
 
     /*!
-     \reimp
      Copy extension from the package to extension repository.
     */
     function install( $package, $installType, $parameters,
@@ -208,9 +205,6 @@ class eZExtensionPackageHandler extends eZPackageHandler
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function add( $packageType, $package, $cli, $parameters )
     {
         foreach ( $parameters as $extensionName )
@@ -267,9 +261,6 @@ class eZExtensionPackageHandler extends eZPackageHandler
                                  array( 'content' => false ) );
     }
 
-    /*!
-     \reimp
-    */
     function handleAddParameters( $packageType, $package, $cli, $arguments )
     {
         $arguments = array_unique( $arguments );

@@ -54,9 +54,6 @@ class eZPDFExport extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    /*!
-     \reimp
-    */
     static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
@@ -215,7 +212,6 @@ class eZPDFExport extends eZPersistentObject
     }
 
     /*!
-     \reimp
      \transaction unsafe.
     */
     function remove( $conditions = null, $extraConditions = null )

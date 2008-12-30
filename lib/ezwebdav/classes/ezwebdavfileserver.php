@@ -243,7 +243,6 @@ class eZWebDAVFileServer extends eZWebDAVServer
     }
 
     /*!
-     \reimp
      Returns if the file \a $target exists or not
     */
     function head( $target )
@@ -265,7 +264,6 @@ class eZWebDAVFileServer extends eZWebDAVServer
     }
 
     /*!
-     \reimp
      Renames the temp file \a $tempFile to \a $target.
     */
     function put( $target, $tempFile )
@@ -293,7 +291,6 @@ class eZWebDAVFileServer extends eZWebDAVServer
     }
 
     /*!
-     \reimp
      \return An information structure with the filename.
     */
     function get( $target )
@@ -311,7 +308,6 @@ class eZWebDAVFileServer extends eZWebDAVServer
     }
 
     /*!
-     \reimp
      Creates the directory \a $target
     */
     function mkcol( $target )
@@ -347,7 +343,6 @@ class eZWebDAVFileServer extends eZWebDAVServer
     }
 
     /*!
-     \reimp
      Removes the directory or file \a $target
     */
     function delete( $target )
@@ -394,7 +389,6 @@ class eZWebDAVFileServer extends eZWebDAVServer
     }
 
     /*!
-     \reimp
      Moves the file or directory \a $source to \a $destination by trying to rename it.
     */
     function move( $source, $destination )
@@ -421,7 +415,6 @@ class eZWebDAVFileServer extends eZWebDAVServer
     }
 
     /*!
-     \reimp
      Copies the file or directory \a $source to \a $destination.
     */
     function copy( $source, $destination )
@@ -449,7 +442,6 @@ class eZWebDAVFileServer extends eZWebDAVServer
     }
 
     /*!
-     \reimp
      Finds all files and directories in the directory \a $dir and return an element list of it.
     */
     function getCollectionContent( $dir, $depth = false, $properties = false )

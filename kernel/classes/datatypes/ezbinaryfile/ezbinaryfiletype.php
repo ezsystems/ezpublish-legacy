@@ -58,7 +58,6 @@ class eZBinaryFileType extends eZDataType
     }
 
     /*!
-     \reimp
      \return the template name which the handler decides upon.
     */
     function viewTemplate( $contentobjectAttribute )
@@ -330,7 +329,6 @@ class eZBinaryFileType extends eZDataType
     }
 
     /*!
-     \reimp
      HTTP file insertion is supported.
     */
     function isHTTPFileInsertionSupported()
@@ -339,7 +337,6 @@ class eZBinaryFileType extends eZDataType
     }
 
     /*!
-     \reimp
      HTTP file insertion is supported.
     */
     function isRegularFileInsertionSupported()
@@ -348,7 +345,6 @@ class eZBinaryFileType extends eZDataType
     }
 
     /*!
-     \reimp
      Inserts the file using the eZBinaryFile class.
     */
     function insertHTTPFile( $object, $objectVersion, $objectLanguage,
@@ -400,7 +396,6 @@ class eZBinaryFileType extends eZDataType
     }
 
     /*!
-     \reimp
      Inserts the file using the eZBinaryFile class.
     */
     function insertRegularFile( $object, $objectVersion, $objectLanguage,
@@ -460,7 +455,6 @@ class eZBinaryFileType extends eZDataType
     }
 
     /*!
-      \reimp
       We support file information
     */
     function hasStoredFileInformation( $object, $objectVersion, $objectLanguage,
@@ -470,7 +464,6 @@ class eZBinaryFileType extends eZDataType
     }
 
     /*!
-      \reimp
       Extracts file information for the binaryfile entry.
     */
     function storedFileInformation( $object, $objectVersion, $objectLanguage,
@@ -485,7 +478,6 @@ class eZBinaryFileType extends eZDataType
         return false;
     }
     /*!
-      \reimp
       Updates download count for binary file.
     */
     function handleDownload( $object, $objectVersion, $objectLanguage,
@@ -552,9 +544,6 @@ class eZBinaryFileType extends eZDataType
         return $binaryFile;
     }
 
-    /*!
-     \reimp
-    */
     function isIndexable()
     {
         return true;
@@ -572,9 +561,6 @@ class eZBinaryFileType extends eZDataType
         return $metaData;
     }
 
-    /*!
-     \reimp
-    */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $dom = $attributeParametersNode->ownerDocument;
@@ -584,9 +570,6 @@ class eZBinaryFileType extends eZDataType
         $attributeParametersNode->appendChild( $maxSizeNode );
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $sizeNode = $attributeParametersNode->getElementsByTagName( 'max-size' )->item( 0 );

@@ -342,8 +342,6 @@ class eZSerializedObjectNameList
         }
     }
 
-    /*!
-    */
     function defaultLanguageLocale()
     {
         $languageLocale = false;
@@ -355,8 +353,6 @@ class eZSerializedObjectNameList
         return $languageLocale;
     }
 
-    /*!
-    */
     function defaultLanguage()
     {
         if ( !is_object( $this->DefaultLanguage ) )

@@ -41,7 +41,6 @@ class eZStepDatabaseInit extends eZStepInstaller
 {
     /*!
      Constructor
-     \reimp
     */
     function eZStepDatabaseInit( $tpl, $http, $ini, &$persistenceList )
     {
@@ -49,9 +48,6 @@ class eZStepDatabaseInit extends eZStepInstaller
                                 'database_init', 'Database init' );
     }
 
-    /*!
-     \reimp
-     */
     function processPostData()
     {
         $databaseMap = eZSetupDatabaseMap();
@@ -139,9 +135,6 @@ class eZStepDatabaseInit extends eZStepInstaller
         return false;
     }
 
-    /*!
-     \reimp
-     */
     function init()
     {
         if ( $this->hasKickstartData() )
@@ -212,9 +205,6 @@ class eZStepDatabaseInit extends eZStepInstaller
         return false; // Always show database initialization
     }
 
-    /*!
-     \reimp
-     */
     function display()
     {
         $databaseMap = eZSetupDatabaseMap();

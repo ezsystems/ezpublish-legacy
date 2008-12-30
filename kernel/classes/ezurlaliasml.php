@@ -106,9 +106,6 @@ class eZURLAliasML extends eZPersistentObject
         }
     }
 
-    /*!
-     \reimp
-    */
     static public function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',

@@ -55,9 +55,6 @@ class eZStepSiteDetails extends eZStepInstaller
                                 'site_details', 'Site details' );
     }
 
-    /*!
-     \reimp
-    */
     function processPostData()
     {
         $databaseMap = eZSetupDatabaseMap();
@@ -203,9 +200,6 @@ class eZStepSiteDetails extends eZStepInstaller
         return ( count( $this->Error ) == 0 );
     }
 
-    /*!
-     \reimp
-    */
     function init()
     {
         if ( $this->hasKickstartData() )
@@ -351,9 +345,6 @@ class eZStepSiteDetails extends eZStepInstaller
         return false; // Always show site details
     }
 
-    /*!
-     \reimp
-    */
     function display()
     {
         $config = eZINI::instance( 'setup.ini' );

@@ -360,9 +360,6 @@ class eZSimplePrice
         return $currencyCode;
     }
 
-    /*!
-     \reimp
-    */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $price = $classAttribute->content();
@@ -393,9 +390,6 @@ class eZSimplePrice
         }
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $vatNode = $attributeParametersNode->getElementsByTagName( 'vat-included' )->item( 0 );

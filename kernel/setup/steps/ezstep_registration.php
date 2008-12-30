@@ -143,9 +143,6 @@ class eZStepRegistration extends eZStepInstaller
         return $mailTpl->fetch( 'design:setup/registration_email.tpl' );
     }
 
-    /*!
-     \reimp
-    */
     function processPostData()
     {
         if ( !$this->Http->hasPostVariable( 'eZSetupSendRegistration' ) )// skip site registration
@@ -177,9 +174,6 @@ class eZStepRegistration extends eZStepInstaller
         return true; // Always continue
     }
 
-    /*!
-     \reimp
-     */
     function init()
     {
         if ( $this->hasKickstartData() )
@@ -223,9 +217,6 @@ class eZStepRegistration extends eZStepInstaller
         return false; // Always display registration information
     }
 
-    /*!
-     \reimp
-    */
     function display()
     {
         require_once( 'kernel/common/template.php' );

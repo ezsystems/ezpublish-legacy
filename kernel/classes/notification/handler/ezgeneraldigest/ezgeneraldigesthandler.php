@@ -259,9 +259,6 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
         }
     }
 
-    /*!
-     \reimp
-    */
     function cleanup()
     {
         eZGeneralDigestUserSettings::cleanup();

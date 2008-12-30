@@ -37,8 +37,6 @@
 
 class eZSearch
 {
-    /*!
-    */
     function eZSearch()
     {
 

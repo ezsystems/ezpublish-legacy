@@ -207,18 +207,12 @@ class eZPriceType extends eZDataType
         return $contentObjectAttribute->attribute( "data_float" );
     }
 
-    /*!
-     \reimp
-    */
     function sortKey( $contentObjectAttribute )
     {
         $intPrice = (int)($contentObjectAttribute->attribute( 'data_float' ) * 100.00);
         return $intPrice;
     }
 
-    /*!
-     \reimp
-    */
     function sortKeyType()
     {
         return 'int';
@@ -258,9 +252,6 @@ class eZPriceType extends eZDataType
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $price = $classAttribute->content();
@@ -292,9 +283,6 @@ class eZPriceType extends eZDataType
         }
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $vatNode = $attributeParametersNode->getElementsByTagName( 'vat-included' )->item( 0 );

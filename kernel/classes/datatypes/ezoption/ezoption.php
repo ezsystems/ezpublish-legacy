@@ -49,8 +49,6 @@
 
 class eZOption
 {
-    /*!
-    */
     function eZOption( $name )
     {
         $this->Name = $name;

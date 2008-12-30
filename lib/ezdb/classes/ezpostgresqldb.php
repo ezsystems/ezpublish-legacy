@@ -125,9 +125,6 @@ class eZPostgreSQLDB extends eZDBInterface
         }
     }
 
-    /*!
-     \reimp
-    */
     function availableDatabases()
     {
         $query = "SELECT datname FROM pg_database";
@@ -148,33 +145,21 @@ class eZPostgreSQLDB extends eZDBInterface
         return $databases;
     }
 
-    /*!
-     \reimp
-    */
     function databaseName()
     {
         return 'postgresql';
     }
 
-    /*!
-      \reimp
-    */
     function bindingType( )
     {
         return eZDBInterface::BINDING_NO;
     }
 
-    /*!
-      \reimp
-    */
     function bindVariable( $value, $fieldDef = false )
     {
         return $value;
     }
 
-    /*!
-     \reimp
-    */
     function query( $sql, $server = false )
     {
         if ( $this->isConnected() )
@@ -212,9 +197,6 @@ class eZPostgreSQLDB extends eZDBInterface
     }
 
 
-    /*!
-     \reimp
-    */
     function arrayQuery( $sql, $params = array(), $server = false )
     {
         $retArray = array();
@@ -310,9 +292,6 @@ class eZPostgreSQLDB extends eZDBInterface
         return " encode(digest( $str, 'md5' ), 'hex' ) ";
     }
 
-    /*!
-     \reimp
-    */
     function supportedRelationTypeMask()
     {
         return ( eZDBInterface::RELATION_TABLE_BIT |
@@ -322,9 +301,6 @@ class eZPostgreSQLDB extends eZDBInterface
                  eZDBInterface::RELATION_INDEX_BIT );
     }
 
-    /*!
-     \reimp
-    */
     function supportedRelationTypes()
     {
         return array( eZDBInterface::RELATION_TABLE,
@@ -349,9 +325,6 @@ class eZPostgreSQLDB extends eZDBInterface
         return $kind[$relationType];
     }
 
-    /*!
-     \reimp
-    */
     function relationCounts( $relationMask )
     {
         $relationTypes = $this->supportedRelationTypes();
@@ -392,9 +365,6 @@ class eZPostgreSQLDB extends eZDBInterface
         return $count;
     }
 
-    /*!
-      \reimp
-    */
     function relationCount( $relationType = eZDBInterface::RELATION_TABLE )
     {
         $count = false;
@@ -419,9 +389,6 @@ class eZPostgreSQLDB extends eZDBInterface
         return $count;
     }
 
-    /*!
-      \reimp
-    */
     function relationList( $relationType = eZDBInterface::RELATION_TABLE )
     {
         $count = false;
@@ -446,9 +413,6 @@ class eZPostgreSQLDB extends eZDBInterface
         return $array;
     }
 
-    /*!
-     \reimp
-    */
     function eZTableList( $server = eZDBInterface::SERVER_MASTER )
     {
         $array = array();
@@ -466,17 +430,11 @@ class eZPostgreSQLDB extends eZDBInterface
         return $array;
     }
 
-    /*!
-     \reimp
-    */
     function relationMatchRegexp( $relationType )
     {
         return "#^(ez|tmp_notification_rule_s)#";
     }
 
-    /*!
-      \reimp
-    */
     function removeRelation( $relationName, $relationType )
     {
         $relationTypeName = $this->relationName( $relationType );
@@ -494,9 +452,6 @@ class eZPostgreSQLDB extends eZDBInterface
         return false;
     }
 
-    /*!
-     \reimp
-    */
     function lock( $table )
     {
         $this->begin();
@@ -523,16 +478,12 @@ class eZPostgreSQLDB extends eZDBInterface
         }
     }
 
-    /*!
-     \reimp
-    */
     function unlock()
     {
         $this->commit();
     }
 
     /*!
-     \reimp
      The query to start the transaction.
     */
     function beginQuery()
@@ -541,7 +492,6 @@ class eZPostgreSQLDB extends eZDBInterface
     }
 
     /*!
-     \reimp
      The query to commit the transaction.
     */
     function commitQuery()
@@ -550,7 +500,6 @@ class eZPostgreSQLDB extends eZDBInterface
     }
 
     /*!
-     \reimp
      The query to cancel the transaction.
     */
     function rollbackQuery()
@@ -558,9 +507,6 @@ class eZPostgreSQLDB extends eZDBInterface
         return $this->query( "ROLLBACK WORK" );
     }
 
-    /*!
-     \reimp
-    */
     function lastSerialID( $table = false, $column = 'id' )
     {
         if ( $this->isConnected() )
@@ -581,9 +527,6 @@ class eZPostgreSQLDB extends eZDBInterface
         return $id;
     }
 
-    /*!
-     \reimp
-    */
     function setError( )
     {
         if ( $this->DBConnection )
@@ -602,9 +545,6 @@ class eZPostgreSQLDB extends eZDBInterface
         }
     }
 
-    /*!
-     \reimp
-    */
     function escapeString( $str )
     {
         $str = str_replace("\0", '', $str);
@@ -612,17 +552,11 @@ class eZPostgreSQLDB extends eZDBInterface
         return $str;
     }
 
-    /*!
-     \reimp
-    */
     function close()
     {
         pg_close( $this->DBConnection );
     }
 
-    /*!
-     \reimp
-    */
     function createDatabase( $dbName )
     {
         if ( $this->DBConnection != false )
@@ -632,9 +566,6 @@ class eZPostgreSQLDB extends eZDBInterface
         }
     }
 
-    /*!
-     \reimp
-    */
     function removeDatabase( $dbName )
     {
         if ( $this->DBConnection != false )
@@ -644,17 +575,11 @@ class eZPostgreSQLDB extends eZDBInterface
         }
     }
 
-    /*!
-     \reimp
-    */
     function isCharsetSupported( $charset )
     {
         return true;
     }
 
-     /*!
-     \reimp
-    */
     function databaseServerVersion()
     {
         if ( $this->isConnected() )

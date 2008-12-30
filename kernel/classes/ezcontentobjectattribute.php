@@ -38,8 +38,6 @@
 
 class eZContentObjectAttribute extends eZPersistentObject
 {
-    /*!
-    */
     function eZContentObjectAttribute( $row )
     {
         $this->Content = null;
@@ -270,7 +268,6 @@ class eZContentObjectAttribute extends eZPersistentObject
     }
 
     /*!
-     \reimp
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
@@ -412,8 +409,6 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                 $asObject );
     }
 
-    /*!
-    */
     function object()
     {
         if( isset( $this->ContentObjectID ) and $this->ContentObjectID )
@@ -1272,8 +1267,6 @@ class eZContentObjectAttribute extends eZPersistentObject
         $this->HasValidationError = $hasError;
     }
 
-    /*!
-    */
     function hasValidationError()
     {
         return $this->HasValidationError;
@@ -1308,22 +1301,16 @@ class eZContentObjectAttribute extends eZPersistentObject
         }
     }
 
-    /*!
-    */
     function validationError()
     {
         return $this->ValidationError;
     }
 
-    /*!
-    */
     function validationLog()
     {
         return $this->ValidationLog;
     }
 
-    /*!
-    */
     function serialize( $package )
     {
         $result = false;
@@ -1354,8 +1341,6 @@ class eZContentObjectAttribute extends eZPersistentObject
         }
     }
 
-    /*!
-    */
     function isA()
     {
         $dataType = $this->dataType();

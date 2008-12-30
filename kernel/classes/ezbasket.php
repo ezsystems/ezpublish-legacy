@@ -43,8 +43,6 @@ class eZBasket extends eZPersistentObject
     */
     const ITEM_LIMIT = 3000;
 
-    /*!
-    */
     function eZBasket( $row )
     {
         $this->eZPersistentObject( $row );

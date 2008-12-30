@@ -176,9 +176,6 @@ class eZDateTimeType extends eZDataType
         return false;
     }
 
-    /*!
-     \reimp
-    */
     function validateCollectionAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
@@ -231,7 +228,6 @@ class eZDateTimeType extends eZDataType
     }
 
    /*!
-    \reimp
     Fetches the http post variables for collected information
    */
     function fetchCollectionAttributeHTTPInput( $collection, $collectionAttribute, $http, $base, $contentObjectAttribute )
@@ -283,17 +279,11 @@ class eZDateTimeType extends eZDataType
         return $dateTime;
     }
 
-    /*!
-     \reimp
-    */
     function isIndexable()
     {
         return true;
     }
 
-    /*!
-     \reimp
-    */
     function isInformationCollector()
     {
         return true;
@@ -479,25 +469,16 @@ class eZDateTimeType extends eZDataType
         return $contentObjectAttribute->attribute( "data_int" ) != 0;
     }
 
-    /*!
-     \reimp
-    */
     function sortKey( $contentObjectAttribute )
     {
         return (int)$contentObjectAttribute->attribute( 'data_int' );
     }
 
-        /*!
-     \reimp
-    */
     function sortKeyType()
     {
         return 'int';
     }
 
-    /*!
-     \reimp
-    */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $defaultValue = $classAttribute->attribute( self::DEFAULT_FIELD );
@@ -546,9 +527,6 @@ class eZDateTimeType extends eZDataType
         $attributeParametersNode->appendChild( $useSecondsNode );
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $defaultValue = '';
@@ -598,7 +576,6 @@ class eZDateTimeType extends eZDataType
     }
 
     /*!
-     \reimp
      \return a DOM representation of the content object attribute
     */
     function serializeContentObjectAttribute( $package, $objectAttribute )
@@ -615,9 +592,6 @@ class eZDateTimeType extends eZDataType
         return $node;
     }
 
-    /*!
-     \reimp
-    */
     function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         $dateTimeNode = $attributeNode->getElementsByTagName( 'date_time' )->item( 0 );

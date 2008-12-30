@@ -68,9 +68,6 @@ class eZPackageOperator
                                        'default' => false ) );
     }
 
-    /*!
-     \reimp
-    */
     function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
         $package = $operatorValue;

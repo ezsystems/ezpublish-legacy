@@ -39,8 +39,6 @@
 
 class eZRegExpValidator extends eZInputValidator
 {
-    /*!
-    */
     function eZRegExpValidator( $rule = null )
     {
         $this->eZInputValidator();

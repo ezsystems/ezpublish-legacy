@@ -37,8 +37,6 @@
 
 class eZSOAPHeader
 {
-    /*!
-    */
     function eZSOAPHeader( )
     {
 
