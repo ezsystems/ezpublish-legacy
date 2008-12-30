@@ -44,7 +44,7 @@
   \code
   if ( eZImageFont::exists( 'arial', 'design/standard/fonts' ) )
     $font = new eZImageFont( 'arial', 30, 'design/standard/fonts' );
-  \enccode
+  \endcode
 
   All attributes can be modified later on with setFamily, setPath, setPointSize, setXAdjustment and setYAdjustment.
 */
