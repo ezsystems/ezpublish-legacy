@@ -28,7 +28,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file toolbarlist.php
+/*! \file
 */
 
 require_once( "kernel/common/template.php" );

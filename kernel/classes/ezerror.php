@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file ezerror.php
+/*! \file
   Contains all the basic kernel and kernel related error codes.
 */
 

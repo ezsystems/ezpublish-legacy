@@ -27,7 +27,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file ezimportdbafile.php
+/*! \file
 */
 
 require 'autoload.php';

@@ -28,7 +28,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file updateviewcount.php
+/*! \file
 */
 set_time_limit( 0 );
 

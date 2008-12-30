@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file staticcache_cleanup.php
+/*! \file
 */
 
 if ( !$isQuiet )

@@ -28,7 +28,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file ezrole.php
+/*! \file
 */
 
 /*! \defgroup eZRole Role based permission system */

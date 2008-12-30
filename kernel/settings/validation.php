@@ -24,7 +24,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file validation.php
+/*! \file
 */
 
 function validate( $fields, $type, $spacesAllowed = true )

@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file ezdbschemainterface.php
+/*! \file
  Database schema abstraction layer.
 */
 

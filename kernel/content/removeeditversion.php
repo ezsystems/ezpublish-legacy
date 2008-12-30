@@ -27,7 +27,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file removeobject.php
+/*! \file
 */
 $Module = $Params['Module'];
 $http = eZHTTPTool::instance();

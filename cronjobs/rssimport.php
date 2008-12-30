@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file rssimport.php
+/*! \file
 */
 
 //For ezUser, we would make this the ezUser class id but otherwise just pick and choose.

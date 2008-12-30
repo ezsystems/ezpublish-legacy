@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file checkout.php
+/*! \file
 */
 $http = eZHTTPTool::instance();
 $module = $Params['Module'];

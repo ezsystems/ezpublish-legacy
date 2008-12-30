@@ -27,13 +27,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file writeisbn13schema.php
-*/
-
-/*!
-  \class Writeisbn13schema writeisbn13schema.php
-  \brief The class Writeisbn13schema does
-
+/*! \file
 */
 
 require 'autoload.php';

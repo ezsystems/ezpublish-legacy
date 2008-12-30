@@ -28,7 +28,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file ezsetup_summary.php
+/*! \file
 */
 // include_once( "kernel/setup/ezsetuptests.php" );
 

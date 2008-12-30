@@ -30,7 +30,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file ezxml.php
+/*! \file
   XML DOM parser.
 */
 

@@ -28,7 +28,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file ezcharsetinfo.php
+/*! \file
   Provides information on charset.
 */
 

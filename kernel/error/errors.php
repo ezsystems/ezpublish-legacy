@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file errors.php
+/*! \file
   Contains all the basic kernel and kernel related error codes.
   /deprecated Use eZError class constants instead
 */

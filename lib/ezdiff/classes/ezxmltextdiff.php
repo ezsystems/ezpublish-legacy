@@ -28,7 +28,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file ezxmltextdiff.php
+/*! \file
   eZXMLTextDiff class
 */
 

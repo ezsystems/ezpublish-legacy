@@ -30,7 +30,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file ezdb.php
+/*! \file
  Database abstraction layer.
 */
 

@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file edit.php
+/*! \file
 */
 
 require_once( 'kernel/common/template.php' );

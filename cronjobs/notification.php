@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file notification.php
+/*! \file
 */
 
 $event = eZNotificationEvent::create( 'ezcurrenttime', array() );

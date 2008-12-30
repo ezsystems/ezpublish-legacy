@@ -27,7 +27,7 @@
 //
 
 /*!
-  \file move.php
+  \file
   This script is just a wrapper for action.php with action set to 'MoveNodeRequest'
   and has been created for moving operation to be simply invoked using URI like /content/move/NODE_ID.
 */

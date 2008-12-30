@@ -31,7 +31,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file eztranslationcache.php
+/*! \file
 */
 
 /*!

@@ -28,8 +28,7 @@
 //
 
 /*!
-  \file ezconvert2isbn13.php
-  \class eZISBN10To13Converter ezconvert2isbn13.php
+  \file
   \brief Converts ISBN-10 numbers to ISBN-13.
 
   The script should be runned by command line with example:

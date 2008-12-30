@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file setusercountry.php
+/*! \file
 */
 
 $module = $Params['Module'];

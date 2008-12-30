@@ -28,7 +28,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file ezstep_system_check.php
+/*! \file
 */
 require_once( "kernel/common/i18n.php" );
 

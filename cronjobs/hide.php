@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file hide.php
+/*! \file
 */
 
 $ini = eZINI::instance( 'content.ini' );

@@ -27,7 +27,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file ezdatetimevalidator.php
+/*! \file
 */
 
 /*!

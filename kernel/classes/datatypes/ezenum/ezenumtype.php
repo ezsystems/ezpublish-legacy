@@ -29,7 +29,7 @@
 //
 
 
-/*! \file ezenumtype.php
+/*! \file
 */
 
 /*!

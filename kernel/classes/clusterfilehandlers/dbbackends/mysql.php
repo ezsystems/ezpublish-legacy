@@ -28,7 +28,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file ezdbfilehandlermysqlbackend.php
+/*! \file
 */
 
 define( 'TABLE_METADATA',     'ezdbfile' );

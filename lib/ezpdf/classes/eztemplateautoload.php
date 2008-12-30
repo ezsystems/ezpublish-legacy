@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file ezpdfautoload.php
+/*! \file
 */
 
 // Operator autoloading

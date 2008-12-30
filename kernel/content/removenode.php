@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file removenode.php
+/*! \file
 */
 
 require_once( 'kernel/common/template.php' );

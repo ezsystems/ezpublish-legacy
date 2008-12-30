@@ -28,7 +28,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file basket_cleanup.php
+/*! \file
 */
 
 $ini = eZINI::instance();

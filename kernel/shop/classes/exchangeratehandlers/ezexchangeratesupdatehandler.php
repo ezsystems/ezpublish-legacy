@@ -28,7 +28,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file ezexchangeratesupdatehandler.php
+/*! \file
 */
 
 class eZExchangeRatesUpdateHandler

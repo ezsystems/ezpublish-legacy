@@ -28,7 +28,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file ezecbhandler.php
+/*! \file
 */
 
 class eZECBHandler extends eZExchangeRatesUpdateHandler

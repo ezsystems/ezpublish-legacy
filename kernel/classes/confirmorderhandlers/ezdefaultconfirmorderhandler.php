@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file ezdefaultconfirmorderhandler.php
+/*! \file
 */
 
 /*!

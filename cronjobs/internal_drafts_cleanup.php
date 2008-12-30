@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file internal_drafts_cleanup.php
+/*! \file
 */
 
 if ( !$isQuiet )

@@ -28,7 +28,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file ezimageanalyzer.php
+/*! \file
 */
 
 /*! \defgroup eZImageAnalyzer Image analysis

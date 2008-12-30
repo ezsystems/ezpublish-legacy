@@ -29,15 +29,8 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file ezcsvimport.php
+/*! \file
 */
-
-/*!
-  \class eZCsvimport ezcsvimport.php
-  \brief The class eZCsvimport does
-
-*/
-
 
 require 'autoload.php';
 

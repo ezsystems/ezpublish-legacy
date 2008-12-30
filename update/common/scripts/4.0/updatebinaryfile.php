@@ -26,7 +26,7 @@
 //
 
 /*!
- \file updatebinaryfile.php
+ \file
 */
 
 require 'autoload.php';

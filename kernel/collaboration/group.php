@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file group.php
+/*! \file
 */
 
 $Module = $Params['Module'];

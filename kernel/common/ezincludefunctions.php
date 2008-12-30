@@ -28,7 +28,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file ezincludefunctions.php
+/*! \file
  Contains some useful kernel include functions which are nice to use in extensions.
 */
 

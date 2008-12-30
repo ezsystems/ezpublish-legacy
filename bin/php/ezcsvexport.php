@@ -29,13 +29,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file ezcsvexport.php
-*/
-
-/*!
-  \class eZCsvexport ezcsvexport.php
-  \brief The class eZCsvexport does
-
+/*! \file
 */
 
 require 'autoload.php';

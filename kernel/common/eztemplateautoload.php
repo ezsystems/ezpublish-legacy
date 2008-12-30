@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file eztemplateautoload.php
+/*! \file
 */
 
 // Operator autoloading

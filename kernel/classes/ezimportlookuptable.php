@@ -28,7 +28,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file ezimportlookuptable.php
+/*! \file
 
   This class is for storing node and object id transformations which occur during import of objects.
 */

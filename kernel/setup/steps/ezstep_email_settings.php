@@ -28,7 +28,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file ezstep_email_settings.php
+/*! \file
 */
 
 require_once( 'kernel/common/i18n.php' );

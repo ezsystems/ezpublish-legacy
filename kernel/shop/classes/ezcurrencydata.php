@@ -28,7 +28,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file ezcurrencydata.php
+/*! \file
 */
 
 class eZCurrencyData extends eZPersistentObject

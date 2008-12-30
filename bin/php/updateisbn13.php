@@ -28,7 +28,7 @@
 //
 
 
-/*! \file updateisbn13.php
+/*! \file
   \brief Updates the different ranges used by the ISBN standard to
          calculate the length of Registration group, Registrant and Publication element.
  */

@@ -28,7 +28,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file ezimageinterface.php
+/*! \file
 */
 
 /*! \defgroup eZImageObject Image object and layer handling */

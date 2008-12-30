@@ -28,7 +28,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file module.php
+/*! \file
 */
 
 $Module = array( "name" => "eZNotification",
