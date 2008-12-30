@@ -1103,7 +1103,6 @@ class eZDBFileHandler
         $generatingFilePath = $this->filePath . '.generating';
         if ( $this->backend->_startCacheGeneration( $this->filePath, $generatingFilePath ) )
         {
-            sleep( 120 );
             $this->realFilePath = $this->filePath;
             $this->filePath = $generatingFilePath;
             return true;
@@ -1169,6 +1168,11 @@ class eZDBFileHandler
     //    by erasing the cache
     public $metaData = null;
 
+    /**
+     * Indicates that the current cache item is being generated and an old version
+     * should be used
+     * @var bool
+     **/
     private $useStaleCache = false;
 }
 
