@@ -42,9 +42,6 @@ class eZVatRule extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    /**
-     * \reimp
-     */
     static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
@@ -72,9 +69,6 @@ class eZVatRule extends eZPersistentObject
                       "name" => "ezvatrule" );
     }
 
-    /**
-     * \reimp
-     */
     function setAttribute( $attr, $val )
     {
         switch( $attr )
@@ -195,9 +189,6 @@ class eZVatRule extends eZPersistentObject
         $db->commit();
     }
 
-    /**
-     * \reimp
-     */
     function store( $fieldFilters = null )
     {
         $db = eZDB::instance();
