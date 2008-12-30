@@ -31,7 +31,7 @@
 /*!
   \class eZContentObjectVersion ezcontentobjectversion.php
   \brief The class eZContentObjectVersion handles different versions of an content object
-  \ingourp eZKernel
+  \ingroup eZKernel
 
 */
 
