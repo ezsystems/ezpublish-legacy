@@ -57,7 +57,7 @@ class eZXMLSchema
                               'inlineChildrenAllowed' => false,
                               'childrenRequired' => true,
                               'isInline' => false,
-                              'attributes' => array( 'class', 'width', 'border' ) ),
+                              'attributes' => array( 'class', 'width', 'border', 'align' ) ),
 
         'tr'        => array( 'blockChildrenAllowed' => array( 'td', 'th' ),
                               'inlineChildrenAllowed' => false,
@@ -69,13 +69,13 @@ class eZXMLSchema
                               'inlineChildrenAllowed' => false,
                               'childrenRequired' => false,
                               'isInline' => false,
-                              'attributes' => array( 'class', 'xhtml:width', 'xhtml:colspan', 'xhtml:rowspan' ) ),
+                              'attributes' => array( 'class', 'align', 'xhtml:width', 'xhtml:colspan', 'xhtml:rowspan' ) ),
 
         'th'        => array( 'blockChildrenAllowed' => array( 'header', 'paragraph', 'section', 'table' ),
                               'inlineChildrenAllowed' => false,
                               'childrenRequired' => false,
                               'isInline' => false,
-                              'attributes' => array( 'class', 'xhtml:width', 'xhtml:colspan', 'xhtml:rowspan' ) ),
+                              'attributes' => array( 'class', 'align', 'xhtml:width', 'xhtml:colspan', 'xhtml:rowspan' ) ),
 
         'ol'        => array( 'blockChildrenAllowed' => array( 'li' ),
                               'inlineChildrenAllowed' => false,
@@ -99,13 +99,13 @@ class eZXMLSchema
                               'inlineChildrenAllowed' => true,
                               'childrenRequired' => true,
                               'isInline' => false,
-                              'attributes' => array( 'class', 'anchor_name' ) ),
+                              'attributes' => array( 'class', 'anchor_name', 'align' ) ),
 
         'paragraph' => array( 'blockChildrenAllowed' => array( 'line', 'link', 'embed', 'table', 'ol', 'ul', 'custom', 'literal' ),
                               'inlineChildrenAllowed' => true,
                               'childrenRequired' => true,
                               'isInline' => false,
-                              'attributes' => array( 'class' ) ),
+                              'attributes' => array( 'class', 'align' ) ),
 
         'line'      => array( 'blockChildrenAllowed' => false,
                               'inlineChildrenAllowed' => true,
@@ -150,7 +150,7 @@ class eZXMLSchema
                               'inlineChildrenAllowed' => true,
                               'childrenRequired' => false,
                               'isInline' => null,
-                              'attributes' => array( 'name' ) ),
+                              'attributes' => array( 'name', 'align' ) ),
 
         '#text'     => array( 'blockChildrenAllowed' => false,
                               'inlineChildrenAllowed' => false,

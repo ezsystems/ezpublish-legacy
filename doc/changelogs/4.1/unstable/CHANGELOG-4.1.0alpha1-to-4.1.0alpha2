@@ -15,6 +15,7 @@ Changes from 4.1.0alpha1 to 4.1.0alpha2
 - Implemented enhancement #14204: Implement stale cache handling for eZDBFileHandler + mysql
 - Implemented enhancement #12252: Add "Update existing object" option to contentobject package installer
 - Implemented enhancement #14214: Remove ID parameter from eZRSSExport::fetchRSS1_0() and eZRSSExport::fetchRSS2_0()
+- Implemented enhancement #13860: Add align support for paragraphs in ezxml for OE5 (p|custom|header|table|td|th)
 
 *Design:
 
