@@ -276,7 +276,7 @@ class eZVatRule extends eZPersistentObject
     /**
      * Return names of product categories associated with the rule.
      *
-     * \prrivate
+     * \private
      */
     function productCategoriesNames()
     {
