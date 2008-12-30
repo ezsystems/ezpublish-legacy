@@ -680,7 +680,6 @@ class eZURLWildcard extends eZPersistentObject
 }
 
 /*!
- \global
  The callback loads appropriate cache file for wildcard \a $wildcardNum,
  extracts wildcard info and 'replace' url from cache.
  \note The wildcard number(not a wildcard id) is used here. Reason: to find correct cache-file.
