@@ -347,6 +347,7 @@ class eZContentObjectStateGroup extends eZPersistentObject
         }
 
         eZExpiryHandler::registerShutdownFunction();
+        $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'state-limitations', time() );
 
         $db->commit();
