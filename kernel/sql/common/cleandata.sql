@@ -1,3 +1,194 @@
+INSERT INTO ezcobj_state (
+  default_language_id,
+  group_id,
+  id,
+  identifier,
+  language_mask,
+  priority
+) VALUES (
+  2,
+  2,
+  1,
+  'not_locked',
+  3,
+  0
+);
+INSERT INTO ezcobj_state (
+  default_language_id,
+  group_id,
+  id,
+  identifier,
+  language_mask,
+  priority
+) VALUES (
+  2,
+  2,
+  2,
+  'locked',
+  3,
+  1
+);
+
+INSERT INTO ezcobj_state_group (
+  default_language_id,
+  id,
+  identifier,
+  language_mask
+) VALUES (
+  2,
+  2,
+  'ez_lock',
+  3
+);
+
+INSERT INTO ezcobj_state_group_language (
+  contentobject_state_group_id,
+  description,
+  language_id,
+  name
+) VALUES (
+  2,
+  '',
+  3,
+  'Lock'
+);
+
+INSERT INTO ezcobj_state_language (
+  contentobject_state_id,
+  description,
+  language_id,
+  name
+) VALUES (
+  1,
+  '',
+  3,
+  'Not locked'
+);
+INSERT INTO ezcobj_state_language (
+  contentobject_state_id,
+  description,
+  language_id,
+  name
+) VALUES (
+  2,
+  '',
+  3,
+  'Locked'
+);
+
+INSERT INTO ezcobj_state_link (
+  contentobject_id,
+  contentobject_state_id
+) VALUES (
+  1,
+  1
+);
+INSERT INTO ezcobj_state_link (
+  contentobject_id,
+  contentobject_state_id
+) VALUES (
+  4,
+  1
+);
+INSERT INTO ezcobj_state_link (
+  contentobject_id,
+  contentobject_state_id
+) VALUES (
+  10,
+  1
+);
+INSERT INTO ezcobj_state_link (
+  contentobject_id,
+  contentobject_state_id
+) VALUES (
+  11,
+  1
+);
+INSERT INTO ezcobj_state_link (
+  contentobject_id,
+  contentobject_state_id
+) VALUES (
+  12,
+  1
+);
+INSERT INTO ezcobj_state_link (
+  contentobject_id,
+  contentobject_state_id
+) VALUES (
+  13,
+  1
+);
+INSERT INTO ezcobj_state_link (
+  contentobject_id,
+  contentobject_state_id
+) VALUES (
+  14,
+  1
+);
+INSERT INTO ezcobj_state_link (
+  contentobject_id,
+  contentobject_state_id
+) VALUES (
+  41,
+  1
+);
+INSERT INTO ezcobj_state_link (
+  contentobject_id,
+  contentobject_state_id
+) VALUES (
+  42,
+  1
+);
+INSERT INTO ezcobj_state_link (
+  contentobject_id,
+  contentobject_state_id
+) VALUES (
+  45,
+  1
+);
+INSERT INTO ezcobj_state_link (
+  contentobject_id,
+  contentobject_state_id
+) VALUES (
+  49,
+  1
+);
+INSERT INTO ezcobj_state_link (
+  contentobject_id,
+  contentobject_state_id
+) VALUES (
+  50,
+  1
+);
+INSERT INTO ezcobj_state_link (
+  contentobject_id,
+  contentobject_state_id
+) VALUES (
+  51,
+  1
+);
+INSERT INTO ezcobj_state_link (
+  contentobject_id,
+  contentobject_state_id
+) VALUES (
+  52,
+  1
+);
+INSERT INTO ezcobj_state_link (
+  contentobject_id,
+  contentobject_state_id
+) VALUES (
+  54,
+  1
+);
+INSERT INTO ezcobj_state_link (
+  contentobject_id,
+  contentobject_state_id
+) VALUES (
+  56,
+  1
+);
+
 INSERT INTO ezcontent_language (
   disabled,
   id,

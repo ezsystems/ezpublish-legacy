@@ -766,6 +766,25 @@ WHERE
 id $inSql";
             $db->query( $updateSql );
 
+            // content object state groups & states
+            $mask = $primaryLanguageID | 1;
+
+            $db->query( "UPDATE ezcobj_state_group
+                         SET language_mask = $mask, default_language_id = $primaryLanguageID
+                         WHERE default_language_id = $engLanguageID" );
+
+            $db->query( "UPDATE ezcobj_state
+                         SET language_mask = $mask, default_language_id = $primaryLanguageID
+                         WHERE default_language_id = $engLanguageID" );
+
+            $db->query( "UPDATE ezcobj_state_group_language
+                         SET language_id = $primaryLanguageID
+                         WHERE language_id = $engLanguageID" );
+
+            $db->query( "UPDATE ezcobj_state_language
+                         SET language_id = $primaryLanguageID
+                         WHERE language_id = $engLanguageID" );
+
             // ezcontentclass_name
             $updateSql = "UPDATE ezcontentclass_name
 SET

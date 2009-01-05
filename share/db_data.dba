@@ -1,6 +1,197 @@
 <?php
 // This array contains the database data
 $data = array (
+  'ezcobj_state' => 
+  array (
+    'fields' => 
+    array (
+      0 => 'default_language_id',
+      1 => 'group_id',
+      2 => 'id',
+      3 => 'identifier',
+      4 => 'language_mask',
+      5 => 'priority',
+    ),
+    'rows' => 
+    array (
+      0 => 
+      array (
+        0 => '2',
+        1 => '2',
+        2 => '1',
+        3 => 'not_locked',
+        4 => '3',
+        5 => '0',
+      ),
+      1 => 
+      array (
+        0 => '2',
+        1 => '2',
+        2 => '2',
+        3 => 'locked',
+        4 => '3',
+        5 => '1',
+      ),
+    ),
+  ),
+  'ezcobj_state_group' => 
+  array (
+    'fields' => 
+    array (
+      0 => 'default_language_id',
+      1 => 'id',
+      2 => 'identifier',
+      3 => 'language_mask',
+    ),
+    'rows' => 
+    array (
+      0 => 
+      array (
+        0 => '2',
+        1 => '2',
+        2 => 'ez_lock',
+        3 => '3',
+      ),
+    ),
+  ),
+  'ezcobj_state_group_language' => 
+  array (
+    'fields' => 
+    array (
+      0 => 'contentobject_state_group_id',
+      1 => 'description',
+      2 => 'language_id',
+      3 => 'name',
+    ),
+    'rows' => 
+    array (
+      0 => 
+      array (
+        0 => '2',
+        1 => '',
+        2 => '3',
+        3 => 'Lock',
+      ),
+    ),
+  ),
+  'ezcobj_state_language' => 
+  array (
+    'fields' => 
+    array (
+      0 => 'contentobject_state_id',
+      1 => 'description',
+      2 => 'language_id',
+      3 => 'name',
+    ),
+    'rows' => 
+    array (
+      0 => 
+      array (
+        0 => '1',
+        1 => '',
+        2 => '3',
+        3 => 'Not locked',
+      ),
+      1 => 
+      array (
+        0 => '2',
+        1 => '',
+        2 => '3',
+        3 => 'Locked',
+      ),
+    ),
+  ),
+  'ezcobj_state_link' => 
+  array (
+    'fields' => 
+    array (
+      0 => 'contentobject_id',
+      1 => 'contentobject_state_id',
+    ),
+    'rows' => 
+    array (
+      0 => 
+      array (
+        0 => '1',
+        1 => '1',
+      ),
+      1 => 
+      array (
+        0 => '4',
+        1 => '1',
+      ),
+      2 => 
+      array (
+        0 => '10',
+        1 => '1',
+      ),
+      3 => 
+      array (
+        0 => '11',
+        1 => '1',
+      ),
+      4 => 
+      array (
+        0 => '12',
+        1 => '1',
+      ),
+      5 => 
+      array (
+        0 => '13',
+        1 => '1',
+      ),
+      6 => 
+      array (
+        0 => '14',
+        1 => '1',
+      ),
+      7 => 
+      array (
+        0 => '41',
+        1 => '1',
+      ),
+      8 => 
+      array (
+        0 => '42',
+        1 => '1',
+      ),
+      9 => 
+      array (
+        0 => '45',
+        1 => '1',
+      ),
+      10 => 
+      array (
+        0 => '49',
+        1 => '1',
+      ),
+      11 => 
+      array (
+        0 => '50',
+        1 => '1',
+      ),
+      12 => 
+      array (
+        0 => '51',
+        1 => '1',
+      ),
+      13 => 
+      array (
+        0 => '52',
+        1 => '1',
+      ),
+      14 => 
+      array (
+        0 => '54',
+        1 => '1',
+      ),
+      15 => 
+      array (
+        0 => '56',
+        1 => '1',
+      ),
+    ),
+  ),
   'ezcontent_language' => 
   array (
     'fields' => 
