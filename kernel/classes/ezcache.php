@@ -156,6 +156,13 @@ class eZCache
                                        'path' => false,
                                        'enabled' => true,
                                        'function' => 'eZCacheClearContentTreeMenu' ),
+                                array( 'name' => ezi18n( 'kernel/cache', 'State limitations cache' ),
+                                       'id' => 'state_limitations',
+                                       'tag' => array( 'content' ),
+                                       'expiry-key' => 'state-limitations',
+                                       'enabled' => true,
+                                       'path' => false,
+                                       'function' => array( 'eZCache', 'clearStateLimitations' ) ),
                                 );
         }
         return $cacheList;
@@ -530,6 +537,19 @@ class eZCache
     static function clearGlobalINICache()
     {
         eZDir::recursiveDelete( 'var/cache/ini' );
+    }
+
+    /*!
+     \private
+     \static
+     Clears all state limitation cache files.
+    */
+    static function clearStateLimitations( $cacheItem )
+    {
+        $cachePath = eZSys::cacheDirectory();
+
+        $fileHandler = eZClusterFileHandler::instance();
+        $fileHandler->fileDelete( $cachePath, 'statelimitations_' );
     }
 }
 

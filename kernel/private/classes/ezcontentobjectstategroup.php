@@ -346,6 +346,9 @@ class eZContentObjectStateGroup extends eZPersistentObject
             }
         }
 
+        eZExpiryHandler::registerShutdownFunction();
+        $handler->setTimestamp( 'state-limitations', time() );
+
         $db->commit();
     }
 
@@ -614,22 +617,57 @@ class eZContentObjectStateGroup extends eZPersistentObject
      */
     public static function limitations()
     {
-        $limitations = array();
+        static $limitations;
 
-        $groups = self::fetchByOffset( false, false );
-
-        foreach ( $groups as $group )
+        if ( $limitations === null )
         {
-            $name = 'StateGroup_' . $group->attribute( 'identifier' );
-            $limitations[$name] = array(
-                'name'   => $name,
-                'values' => array(),
-                'path'   => 'private/classes/',
-                'file'   => 'ezcontentobjectstategroup.php',
-                'class' => 'eZContentObjectStateGroup',
-                'function' => 'limitationValues',
-                'parameter' => array( $group->attribute( 'id' ) )
-            );
+            $db = eZDB::instance();
+            $dbName = md5( $db->DB );
+
+            $cacheDir = eZSys::cacheDirectory();
+            $phpCache = new eZPHPCreator( $cacheDir,
+                                          'statelimitations_' . $dbName . '.php',
+                                          '',
+                                          array( 'clustering' => 'statelimitations' ) );
+
+            $handler = eZExpiryHandler::instance();
+            $storedTimeStamp = $handler->hasTimestamp( 'state-limitations' ) ? $handler->timestamp( 'state-limitations' ) : false;
+            $expiryTime = $storedTimeStamp !== false ? $storedTimeStamp : 0;
+
+            if ( $phpCache->canRestore( $expiryTime ) )
+            {
+                $var = $phpCache->restore( array( 'state_limitations' => 'state_limitations' ) );
+                $limitations = $var['state_limitations'];
+            }
+            else
+            {
+                $limitations = array();
+
+                $groups = self::fetchByOffset( false, false );
+
+                foreach ( $groups as $group )
+                {
+                    $name = 'StateGroup_' . $group->attribute( 'identifier' );
+                    $limitations[$name] = array(
+                        'name'   => $name,
+                        'values' => array(),
+                        'path'   => 'private/classes/',
+                        'file'   => 'ezcontentobjectstategroup.php',
+                        'class' => __CLASS__,
+                        'function' => 'limitationValues',
+                        'parameter' => array( $group->attribute( 'id' ) )
+                    );
+                }
+
+                $phpCache->addVariable( 'state_limitations', $limitations );
+                $phpCache->store();
+            }
+
+            if ( $storedTimeStamp === false )
+            {
+                eZExpiryHandler::registerShutdownFunction();
+                $handler->setTimestamp( 'state-limitations', time() );
+            }
         }
 
         return $limitations;
