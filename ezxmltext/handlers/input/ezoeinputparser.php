@@ -717,11 +717,11 @@ class eZOEInputParser extends eZXMLInputParser
                 $current = $tmp->parentNode;
                 if ( $current->nodeName === 'section' )
                 {
-                    $sectionLevel++;
+                    ++$sectionLevel;
                 }
                 elseif ( $current->nodeName === 'td' )
                 {
-                    $sectionLevel++;
+                    ++$sectionLevel;
                     break;
                 }
             }
@@ -771,7 +771,7 @@ class eZOEInputParser extends eZXMLInputParser
                     $tmp = $current;
                     $current = $tmp->parentNode;
                     if ( $current->nodeName === 'section' )
-                        $newLevel--;
+                        --$newLevel;
                 }
                 $elementToMove = $element;
                 while( $elementToMove &&
@@ -858,7 +858,7 @@ class eZOEInputParser extends eZXMLInputParser
                 return $ret;
             }
         }
-        if ( $parentName === 'li' )
+        else if ( $parentName === 'li' )
         {
             $prev = $element->previousSibling;
             if ( $prev )

@@ -3,11 +3,11 @@
  * $Id: rpc.php 822 2008-04-28 13:45:03Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2007, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright ï¿½ 2004-2007, Moxiecode Systems AB, All rights reserved.
  */
 
-require_once( 'extension/ezoe/modules/ezoe/classes/utils/mcejson.php' );
-require_once( 'extension/ezoe/modules/ezoe/classes/SpellChecker.php' );
+include_once( 'extension/ezoe/modules/ezoe/classes/utils/mcejson.php' );
+include_once( 'extension/ezoe/modules/ezoe/classes/SpellChecker.php' );
 
 /**
  * Returns an request value by name without magic quoting.

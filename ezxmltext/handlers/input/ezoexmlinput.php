@@ -36,7 +36,7 @@
   \brief The class eZOEXMLInput does
 
 */
-require_once( 'kernel/common/template.php' );
+include_once( 'kernel/common/template.php' );
 /*include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
 include_once( "kernel/classes/datatypes/ezimage/ezimagevariation.php");
 include_once( "kernel/classes/datatypes/ezimage/ezimage.php");
