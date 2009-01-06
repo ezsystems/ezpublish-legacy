@@ -3,7 +3,7 @@ eZ Online Editor 5.0 extension Changelog
 5.0rc11
 * Fixed regression #014110: IE7 double every paragraph break on every edit
 * Use sort_array from root node in Location drop down + use name as 2. sort rule
-* Add support for role limitations on ezoe module and it's functions
+* Add support for role limitations (SubTree & Section) on ezoe module and it's functions
 * Alignment support for eZ Publish 4.1 (including all justify* buttons)
 * Fixed #14222: Custom tag removes inline tags
 
