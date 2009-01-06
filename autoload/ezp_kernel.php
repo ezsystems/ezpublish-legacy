@@ -487,7 +487,6 @@ return array(
       'eZURLFunctionCollection'            => 'kernel/url/ezurlfunctioncollection.php',
       'eZURLObjectLink'                    => 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php',
       'eZURLOperator'                      => 'kernel/common/ezurloperator.php',
-      'eZURLTranslator'                    => 'kernel/classes/ezurltranslator.php',
       'eZURLType'                          => 'kernel/classes/datatypes/ezurl/ezurltype.php',
       'eZURLWildcard'                      => 'kernel/classes/ezurlwildcard.php',
       'eZUTF8Codec'                        => 'lib/ezi18n/classes/ezutf8codec.php',
@@ -536,7 +535,6 @@ return array(
       'eZXMLTextType'                      => 'kernel/classes/datatypes/ezxmltext/ezxmltexttype.php',
       'eZi18nOperator'                     => 'kernel/common/ezi18noperator.php',
       'ezpAutoloadGeneratorOptions'        => 'kernel/private/options/ezpautoloadgeneratoroptions.php',
-      'openFts'                            => 'kernel/search/plugins/openfts/openfts.php',
       'smtp'                               => 'lib/ezutils/classes/ezsmtp.php',
     );
 
