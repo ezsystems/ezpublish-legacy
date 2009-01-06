@@ -1136,8 +1136,8 @@ You will need to change the class of the node by using the swap functionality.' 
                 return $contentClass;
             }
 
-        $row = $rows[0];
-        $row["version_count"] = count( $rows );
+            $row = $rows[0];
+            $row["version_count"] = count( $rows );
 
             if ( $asObject )
             {
