@@ -896,6 +896,72 @@ class eZURLAliasMlRegression extends ezpDatabaseTestCase
         self::assertEquals( $myNodeAliasOriginalParent, $myNodeAliasPostChangeParent,
                             "Parent have custom url alias have been changed inadvertently." );
     }
+
+    /**
+     * Test regression for issue #12720: Unable to edit a node
+     *
+     * Test Outline
+     * ------------
+     * 1. Create a folder, "Root folder"
+     * 2. Translate "Root folder" into Norwegian
+     * 3. Create a child node of "Root folder"
+     * 4. Rename "Root folder" in Norwegian.
+     * 5. Rename "Root folder" again in Norwegian.
+     * 6. Add another translation to the child
+     * 7. Rename "Root folder"
+     *
+     * @result: Fatal error: A database transaction in eZ Publish failed.
+     *          Query error: Duplicate entry '38-ec7cb3d81cfaafb249b33071c6c9e2be' 
+     *          for key 1. Query: UPDATE ezurlalias_ml SET parent = 38 WHERE parent = 39
+     * @expected: No fatal error 
+     * @link http://issues.ez.no/12720
+     */
+    public function testTransactionErrorWhenEditingNode()
+    {
+        $jpn = eZContentLanguage::addLanguage( "jpn-JP", "Japanese" );
+
+        // STEP 1: Create a folder, "Root folder"
+        $rootFolder = new ezpObject( "folder", 2 );
+        $rootFolder->name = "Root folder";
+        $rootFolder->publish();
+
+        // STEP 2: Translate "Root folder" into Norwegian
+        $trData = array( "name" => "Root folder Norwegian" );
+        $rootFolder->addTranslation( "nor-NO", $trData );
+
+        // STEP 3: Create a child node of "Root folder"
+        $child = new ezpObject( "folder", $rootFolder->mainNode->node_id );
+        $child->name = "Child";
+        $child->publish();
+
+        // STEP 4: Rename "Root folder" in Norwegian.
+        $rootFolder->refresh();
+        $newVersion = $rootFolder->createNewVersion( false, true, 'nor-NO' );
+        $norDataMap = $rootFolder->fetchDataMap( $newVersion->attribute( 'version' ), "nor-NO" );
+        $norDataMap['name']->setAttribute( 'data_text', "Root Folder Norwegian Renamed" );
+        $norDataMap['name']->store();
+        ezpObject::publishContentObject( $rootFolder->object, $newVersion );
+
+        // STEP 5: Rename "Root folder" again in Norwegian.
+        $rootFolder->refresh();
+        $newVersion = $rootFolder->createNewVersion( false, true, 'nor-NO' );
+        $norDataMap = $rootFolder->fetchDataMap( $newVersion->attribute( 'version' ), "nor-NO" );
+        $norDataMap['name']->setAttribute( 'data_text', "Root Folder Norwegian Renamed again" );
+        $norDataMap['name']->store();
+        ezpObject::publishContentObject( $rootFolder->object, $newVersion );
+
+        // STEP 6: Add another translation to the child
+        $trData = array( "name" => "Child Japanese" );
+        $child->addTranslation( "jpn-JP", $trData );
+
+        // STEP 7: Rename "Root folder"
+        $rootFolder->refresh();
+        $newVersion = $rootFolder->createNewVersion( false, true, 'eng-GB' );
+        $dataMap = $rootFolder->fetchDataMap( $newVersion->attribute( 'version' ), "eng-GB" );
+        $dataMap['name']->setAttribute( 'data_text', "Root folder English renamed" );
+        $dataMap['name']->store();
+        ezpObject::publishContentObject( $rootFolder->object, $newVersion );
+    }
 }
 
 ?>
