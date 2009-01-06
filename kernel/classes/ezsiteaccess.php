@@ -100,6 +100,7 @@ class eZSiteAccess
      *
      * - clears all in-memory caches used by the INI system
      * - re-builds the list of paths where INI files are searched for
+     * - re-searches module paths
      */
     static function reInitialise()
     {
@@ -116,6 +117,9 @@ class eZSiteAccess
             }
             eZExtension::prependExtensionSiteAccesses( $accessName );
             eZExtension::activateExtensions( 'access' );
+
+            $moduleRepositories = eZModule::activeModuleRepositories();
+            eZModule::setGlobalPathList( $moduleRepositories );
 
             return true;
         }
