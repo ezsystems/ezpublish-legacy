@@ -37,18 +37,20 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
                 filterOutCustomBlockTags( );
         }
     },
-    tagGenerator: function( tag, customTag )
+    tagGenerator: function( tag, customTag, selectedHtml )
     {
+        if ( !selectedHtml ) selectedHtml = customTag;
+
         if ( customTag === 'underline' )
-            return '<u id="__mce_tmp" type="custom">' + customTag + '<\/u>';
+            return '<u id="__mce_tmp" type="custom">' + selectedHtml + '<\/u>';
         else if ( customTag === 'sub' || customTag === 'sup' )
-            return '<' + customTag + ' id="__mce_tmp" type="custom">' + customTag + '<\/' + customTag + '>';
+            return '<' + customTag + ' id="__mce_tmp" type="custom">' + selectedHtml + '<\/' + customTag + '>';
         else if ( ez.$( customTag + '_inline_source' ).el.checked )
-            return '<span id="__mce_tmp" type="custom">' + customTag + '<\/span>';
+            return '<span id="__mce_tmp" type="custom">' + selectedHtml + '<\/span>';
         else
-            return '<div id="__mce_tmp" type="custom"><p>' + customTag + '<\/p><\/div>';
+            return '<div id="__mce_tmp" type="custom"><p>' + selectedHtml + '<\/p><\/div>';
     },
-    onTagGenerated:  function( el, ed, args, text )
+    onTagGenerated:  function( el, ed, args )
     {
         // append a paragraph if user just inserted a custom tag in editor and it's the last tag
         var edBody = el.parentNode, doc = ed.getDoc(), temp = el;
@@ -63,14 +65,6 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
             var p = doc.createElement('p');
             p.innerHTML = ed.isIE ? '&nbsp;' : '<br />';
             edBody.appendChild( p );
-        }
-        // set text content if set (selected text prior to generating new tag)
-        if ( text )
-        {
-            if ( el.textContent !== undefined )
-                el.textContent = text;
-            else
-                el.innerText = text;
         }
     },
     tagEditor: function( el, ed, customTag, args )

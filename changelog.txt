@@ -5,6 +5,7 @@ eZ Online Editor 5.0 extension Changelog
 * Use sort_array from root node in Location drop down + use name as 2. sort rule
 * Add support for role limitations on ezoe module and it's functions
 * Alignment support for eZ Publish 4.1 (including all justify* buttons)
+* Fixed #14222: Custom tag removes inline tags
 
 5.0rc10
 * Fixed #14097: Custom-tags cause errors in var/error.log

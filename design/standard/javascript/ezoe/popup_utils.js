@@ -46,6 +46,8 @@ var eZOEPopupUtils = {
         customAttributeStyleMap: false,
         // set on init if no editorElement is present and selected text is without newlines
         editorSelectedText: false,
+        // Same as above but with markup
+        editorSelectedHtml: false,
         // generates class name for tr elements in browse / search / bookmark list
         browseClassGenerator: function(){ return ''; },
         // generates browse link for a specific mode
@@ -75,9 +77,13 @@ var eZOEPopupUtils = {
             s.editorElement = el;
         else
         {
-            var selectedText = ed.selection.getContent( {format:'text'} );
-            if ( !/\n/.test( selectedText ) && ez.string.trim( selectedText ) !== '' )
-                s.editorSelectedText = selectedText;
+            var selectedHtml = ed.selection.getContent( {format:'text'} );
+            if ( !/\n/.test( selectedHtml ) && ez.string.trim( selectedHtml ) !== '' )
+                s.editorSelectedText = selectedHtml;
+
+            selectedHtml = ed.selection.getContent( {format:'html'} );
+            if ( ez.string.trim( selectedHtml ) !== '' )
+                s.editorSelectedHtml = selectedHtml;
         }
         
         if ( s.onInit && s.onInit.call )
@@ -160,12 +166,12 @@ var eZOEPopupUtils = {
             // create new node if none is defined and if tag type is defined in ezXmlToXhtmlHash or tagGenerator is defined
             if ( s.tagGenerator )
             {
-                ed.execCommand('mceInsertRawHTML', false, s.tagGenerator.call( eZOEPopupUtils, s.tagName, s.selectedTag ), {skip_undo : 1} );
+                ed.execCommand('mceInsertRawHTML', false, s.tagGenerator.call( eZOEPopupUtils, s.tagName, s.selectedTag, s.editorSelectedHtml ), {skip_undo : 1} );
                 s.editorElement = ed.dom.get('__mce_tmp');
             }
             else if ( s.tagCreator )
             {
-                s.editorElement = s.tagCreator.call( eZOEPopupUtils, ed, s.tagName, s.selectedTag )
+                s.editorElement = s.tagCreator.call( eZOEPopupUtils, ed, s.tagName, s.selectedTag, s.editorSelectedHtml )
             }
             else if ( s.tagName === 'link' )
             {
@@ -192,7 +198,7 @@ var eZOEPopupUtils = {
             }
             if ( s.onTagGenerated )
             {
-                n = s.onTagGenerated.call( eZOEPopupUtils, s.editorElement, ed, args, s.editorSelectedText );
+                n = s.onTagGenerated.call( eZOEPopupUtils, s.editorElement, ed, args );
                 if ( n && n.nodeName )
                     s.editorElement = n;
             }
