@@ -67,7 +67,7 @@ $ViewList['embed_view'] = array(
 $ViewList['load'] = array(
     'functions' => array( 'editor' ),
     'script' => 'load.php',
-    'params' => array( 'EmbedID','DataMap', 'ImagePreGenerateSizes' )
+    'params' => array( 'EmbedID', 'DataMap', 'ImagePreGenerateSizes' )
     );
 
 $ViewList['search'] = array(
@@ -79,13 +79,13 @@ $ViewList['search'] = array(
 $ViewList['expand'] = array(
     'functions' => array( 'editor' ),
     'script' => 'expand.php',
-    'params' => array('NodeID', 'Offset', 'Limit')
+    'params' => array( 'NodeID', 'Offset', 'Limit' )
     );
 
 $ViewList['bookmarks'] = array(
     'functions' => array( 'editor' ),
     'script' => 'bookmarks.php',
-    'params' => array('Offset', 'Limit')
+    'params' => array( 'Offset', 'Limit' )
     );
 
 $ViewList['spellcheck_rpc'] = array(
