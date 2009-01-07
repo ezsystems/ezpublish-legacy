@@ -721,11 +721,11 @@ class eZOEXMLInput extends eZXMLInputHandler
                     $archorName = $sectionNode->getAttribute( 'anchor_name' );
                     if ( $archorName != null )
                     {
-                        $output .= "<h$level$customAttributePart><a name=\"$archorName\" class=\"mceItemAnchor\"></a>" . $sectionNode->textContent. "</h$level>";
+                        $output .= "<h$level$customAttributePart$styleString><a name=\"$archorName\" class=\"mceItemAnchor\"></a>" . $sectionNode->textContent. "</h$level>";
                     }
                     else
                     {
-                        $output .= "<h$level$customAttributePart>" . $tagContent . "</h$level>";
+                        $output .= "<h$level$customAttributePart$styleString>" . $tagContent . "</h$level>";
                     }
 
                 }break;
@@ -1202,7 +1202,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                     {
                         $customTagContent .= $this->inputTdXML( $tagChild, $currentSectionLevel, 1 );
                     }*/
-                    $output .= '<div class="mceItemCustomTag ' . $name . '" type="custom"' . $customAttributePart . '>' . $customTagContent . '</div>';
+                    $output .= '<div class="mceItemCustomTag ' . $name . '" type="custom"' . $customAttributePart . $styleString . '>' . $customTagContent . '</div>';
                 }
             }break;
 

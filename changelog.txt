@@ -6,6 +6,7 @@ eZ Online Editor 5.0 extension Changelog
 * Add support for role limitations (SubTree & Section) on ezoe module and it's functions
 * Alignment support for eZ Publish 4.1 (including all justify* buttons)
 * Fixed #14222: Custom tag removes inline tags
+* Fixed #14241: Inconsistent block cutom tag size in editor
 
 5.0rc10
 * Fixed #14097: Custom-tags cause errors in var/error.log
