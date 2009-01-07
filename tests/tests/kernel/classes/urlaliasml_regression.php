@@ -962,6 +962,201 @@ class eZURLAliasMlRegression extends ezpDatabaseTestCase
         $dataMap['name']->store();
         ezpObject::publishContentObject( $rootFolder->object, $newVersion );
     }
+
+    /**
+     * Test for URL-alias issue which could occur when a parent entry was split
+     * across multiple IDs, and children with various language masks did not
+     * receive the correct parent id. Such a case with a split parent id, made
+     * it impossible to handle this situation correctly.
+     * 
+     * The fix constitutes of always creating the current entries for an action
+     * in the same id.
+     *
+     * @link http://issues.ez.no/12720
+    */
+    public static function testSplitParentSyndrome()
+    {
+        $db = eZDB::instance();
+        // Ordered array containing the current name for an entry at level,
+        // where level is the same as the index.
+        $nameStructure = array();
+        $nameStructure[] = array( __FUNCTION__ );
+
+        // STEP 1: Create Root folder
+        $rootFolder = new ezpObject( "folder", 2 );
+        $rootFolder->name = $nameStructure[0][0];
+        $rootFolder->publish();
+
+        $rootId = $rootFolder->mainNode->node_id;
+
+        // STEP 2: Create Child article
+        $nameStructure[] = array( "ChildNode" );
+        $child = new ezpObject( "article", $rootFolder->mainNode->node_id );
+        $child->title = $nameStructure[1][0];
+        $child->publish();
+
+        $childId = $child->mainNode->node_id;
+
+        $query = self::buildSql( array( 2, $rootId, $childId ) );
+        $rows = $db->arrayQuery( $query );
+        $result = self::verifyUrlEntryParentStructure( $nameStructure, $rows );
+        self::assertTrue( $result, "Fail after step 2" );
+
+        // STEP 4: Renaming root folder
+        // Updating the name structure on renames
+        $nameStructure[0] = array( "TestContainerA" );
+        $rootFolder->name = $nameStructure[0][0];
+        $rootFolder->publish();
+
+        // STEP 5: Renaming root folder
+        $nameStructure[0] = array( "TestContainerB" );
+        $rootFolder->name = $nameStructure[0][0];
+        $rootFolder->publish();
+
+        $rows = $db->arrayQuery( $query );
+        $result = self::verifyUrlEntryParentStructure( $nameStructure, $rows );
+        self::assertTrue( $result, "Fail after step 5"  );
+
+        // STEP 6: Rename root folder back to name in history.
+        $nameStructure[0] = array( "TestContainer" );
+        $rootFolder->name = $nameStructure[0][0];
+        $rootFolder->publish();
+
+        $rows = $db->arrayQuery( $query );
+        $result = self::verifyUrlEntryParentStructure( $nameStructure, $rows );
+        self::assertTrue( $result, "Fail after step 6"  );
+
+        // STEP 7: Translate root folder into norwegian.
+        $nameStructure[0][] = "TestBinge";
+        $trData = array( "name" => $nameStructure[0][1] );
+        $rootFolder->addTranslation( "nor-NO", $trData );
+
+        $rows = $db->arrayQuery( $query );
+        $result = self::verifyUrlEntryParentStructure( $nameStructure, $rows );
+        self::assertTrue( $result, "Fail after step 7"  );
+
+        // STEP 8: Translate childe article into norwegian
+        $nameStructure[1][] = "BarneNode";
+        $trData = array( "title" => $nameStructure[1][1] );
+        $child->addTranslation( "nor-NO", $trData );
+
+        $rows = $db->arrayQuery( $query );
+        $result = self::verifyUrlEntryParentStructure( $nameStructure, $rows );
+        self::assertTrue( $result, "Fail after step 8"  );
+
+        // STEP 9: We rename the Norwegian translation of the child element to the
+        //         same name as the English translation
+        unset( $nameStructure[1][1] );
+        $child->refresh();
+        $newVersion = $child->createNewVersion( false, true, 'nor-NO' );
+        $norDataMap = $child->fetchDataMap( $newVersion->attribute( 'version' ), "nor-NO" );
+        $norDataMap['title']->setAttribute( 'data_text', $nameStructure[1][0] );
+        $norDataMap['title']->store();
+        ezpObject::publishContentObject( $child->object, $newVersion );
+
+        $rows = $db->arrayQuery( $query );
+        $result = self::verifyUrlEntryParentStructure( $nameStructure, $rows );
+        self::assertTrue( $result, "Fail after step 9"  );
+
+        // STEP 10: We remove Norwegian translation.
+        $child->refresh();
+        $child->removeTranslation( "nor-NO" );
+
+        $rows = $db->arrayQuery( $query );
+        $result = self::verifyUrlEntryParentStructure( $nameStructure, $rows );
+        self::assertTrue( $result, "Fail after step 10"  );
+    }
+
+    /**
+     * Helper method to validate the parent stracture of url entries.
+     * 
+     * This method will look at the parent references and validate this to the
+     * actual id values of the parent entries.
+     * 
+     * @param array $nameTable 
+     * @param array $urlEntryData 
+     */
+    public static function verifyUrlEntryParentStructure( $nameTable, $urlEntryData )
+    {
+        $parentStructure = array();
+        $translationStructure = array();
+
+        foreach ( $nameTable as $level => $names )
+        {
+            foreach ( $names as $name )
+            {
+                $entry = self::urlEntryForName( $name, $urlEntryData );
+                if ( !$entry )
+                    return false;
+
+                $isOriginal = (int)$entry['is_original'] === 0 ? false : true;
+                if ( !$isOriginal )
+                    return false;
+
+                $id = (int)$entry['id'];
+                $langMask = (int)$entry['lang_mask'];
+                $d = eZContentLanguage::decodeLanguageMask( $langMask );
+
+                foreach ( $d['language_list'] as $realLang )
+                {
+                    if ( !isset( $parentStructure[$level] ) )
+                    {
+                        $parentStructure[$level] = array( "languages" => array( $realLang => $id ),
+                                                          "always_available" => $d['always_available'] );
+                    }
+                    else
+                    {
+                        $parentStructure[$level]["languages"][$realLang] = $id;
+                    }
+
+                    $parent = (int)$entry['parent'];
+                    if ( $parent === 0 )
+                        continue;
+
+                    $parentLevel = $level - 1;
+                    $langEntries = $parentStructure[$parentLevel]["languages"];
+                    $parentLang = -1;
+                    $langMatch = false;
+
+                    foreach ( $langEntries as $lang => $realParentId )
+                    {
+                        $langMatch = ( $lang & $realLang ) > 0;
+                        if ( !$langMatch )
+                            continue;
+
+                        $parentLang = $realParentId;
+                        break;
+                    }
+
+                    if ( ( $langMatch && $parent !== $parentLang ) || ( !$langMatch && !$parentStructure[$parentLevel]['always_available'] ) )
+                        return false;
+                }
+            }
+        }
+        return true;
+    }
+
+
+    /**
+     * Helper method to fetch an url entry for a given text from a db result set.
+     *
+     * @param string $name 
+     * @param array $urlEntryData 
+     */
+    public static function urlEntryForName( $name, $urlEntryData )
+    {
+        $ret = false;
+        foreach ( $urlEntryData as $entry )
+        {
+            $text = $entry['text'];
+            if ( $text === $name )
+            {
+                $ret = $entry;
+                break;
+            }
+        }
+        return $ret;
+    }
 }
 
 ?>
