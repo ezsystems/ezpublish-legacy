@@ -551,7 +551,7 @@ class eZURLAliasML extends eZPersistentObject
             if ( $newElementID === null )
             {
                 $query = "SELECT * FROM ezurlalias_ml\n" .
-                         "WHERE parent = $parentID AND action = '{$actionStr}'";
+                         "WHERE parent = $parentID AND action = '{$actionStr}' AND is_original = 1";
                 $rows = $db->arrayQuery( $query );
                 if ( count( $rows ) > 0 )
                 {
@@ -650,13 +650,13 @@ class eZURLAliasML extends eZPersistentObject
             // and only for real system-generated url aliases. Custom aliases are left alone.
             $bitAnd = $db->bitAnd( 'lang_mask', $languageID );
             $query = "SELECT id FROM ezurlalias_ml\n" .
-                     "WHERE action = '{$actionStr}' AND (${bitAnd} > 0) AND is_alias = 0 AND (parent != $parentID OR text_md5 != {$textMD5})";
+                     "WHERE action = '{$actionStr}' AND is_alias = 0 AND (parent != $parentID OR text_md5 != {$textMD5})";
             $rows = $db->arrayQuery( $query );
             foreach ( $rows as $row )
             {
                 $oldParentID = (int)$row['id'];
                 $query = "UPDATE ezurlalias_ml SET parent = {$newElementID}\n" .
-                         "WHERE parent = {$oldParentID}";
+                         "WHERE parent = {$oldParentID} AND (${bitAnd} > 0)";
                 $res = $db->query( $query );
                 if ( !$res ) return eZURLAliasML::dbError( $db );
             }
