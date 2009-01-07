@@ -69,7 +69,7 @@ tinyMCEPopup.onInit.add( function(){
                         <option value="auto">{'Automatic'|i18n('design/standard/ezoe')}</option>
 
                         {if $object.published}
-                            <option value="{$object.main_node_id}">{$object.name} (this)</option>
+                            <option value="{$object.main_node_id}">{$object.name} ({'this'|i18n('design/standard/ezoe')})</option>
                         {/if}
 
                         {def $root_node_value = ezini( 'LocationSettings', 'RootNode', 'upload.ini' )

@@ -7,6 +7,7 @@ eZ Online Editor 5.0 extension Changelog
 * Alignment support for eZ Publish 4.1 (including all justify* buttons)
 * Fixed #14222: Custom tag removes inline tags
 * Fixed #14241: Inconsistent block cutom tag size in editor
+* Added possiblity to browse from 'this' node, and use i18n() on word 'this'
 
 5.0rc10
 * Fixed #14097: Custom-tags cause errors in var/error.log

@@ -17,6 +17,10 @@
         <translation>Vil du bruke WYSIWYG-modus for dette tekstområdet?</translation>
     </message>
     <message>
+        <source>this</source>
+        <translation>denne</translation>
+    </message>
+    <message>
         <source>Apply</source>
         <translation>Aktiver</translation>
     </message>
