@@ -68,6 +68,11 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
         $ansi->shorthelp = "Use ANSI colors in output. Needs PHPUnit 3.3 or newer.";
         $consoleInput->registerOption( $ansi );
 
+        // Color option, 'ansi' renamed. Will keep ansi for PHPUnit 3.3.0 for now.
+        $colors = new ezcConsoleOption( '', 'colors', ezcConsoleInput::TYPE_NONE );
+        $colors->shorthelp = "Use ANSI colors in output. Needs PHPUnit 3.3.2 or newer.";
+        $consoleInput->registerOption( $colors );
+
         // Configuration XML File option
         $configuration = new ezcConsoleOption( '', 'configuration', ezcConsoleInput::TYPE_STRING );
         $configuration->shorthelp = "Read configuration from XML file.";
@@ -141,6 +146,11 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
         $xml->shorthelp = "Log test execution in XML format to file.";
         $consoleInput->registerOption( $xml );
 
+        // Stop on failure option
+        $stopOnFailure = new ezcConsoleOption( '', 'stop-on-failure', ezcConsoleInput::TYPE_NONE );
+        $stopOnFailure->shorthelp = "Stop execution upon first error or failure.";
+        $consoleInput->registerOption( $stopOnFailure );
+
         // Set up dependencies
         $dbPerTest->addDependency( new ezcConsoleOptionRule( $dsn ) );
     }
@@ -153,6 +163,7 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
     protected static function getSpecifiedConsoleOptions( $consoleInput )
     {
         $ansi = $consoleInput->getOption( 'ansi' )->value;
+        $colors = $consoleInput->getOption( 'colors' )->value;
         $config = $consoleInput->getOption( 'configuration' )->value;
         $coverage = $consoleInput->getOption( 'coverage-xml' )->value;
         $dsn = $consoleInput->getOption( 'dsn' )->value;
@@ -163,9 +174,11 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
         $pmd = $consoleInput->getOption( 'log-pmd' )->value;
         $reportDir = $consoleInput->getOption( 'report-dir' )->value;
         $verbose = $consoleInput->getOption( "verbose" )->value;
+        $stopOnFailure = $consoleInput->getOption( 'stop-on-failure' )->value;
 
         $options = array();
         $options['ansi'] = $ansi ? True : null;
+        $options['colors'] = $colors ? True : null;
         $options['configuration'] = $config ? $config : null;
         $options['dsn'] = $dsn ? $dsn : null;
         $options['groups'] = $groups ? explode(',', $groups ): null;
@@ -175,6 +188,7 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
         $options['reportDirectory'] = $reportDir ? $reportDir : null;
         $options['verbose'] = $verbose ? true : false;
         $options['xmlLogfile'] = $logfile ? $coverage : null;
+        $options['stopOnFailure'] = $stopOnFailure ? $stopOnFailure : null;
 
         return $options;
     }
