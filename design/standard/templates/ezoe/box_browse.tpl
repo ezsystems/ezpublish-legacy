@@ -13,7 +13,7 @@
         {/if}
     {if $has_access}
         {foreach $root_nodes as $n}
-            <a href="JavaScript:eZOEPopupUtils.browse( {$n.node_id} )" style="font-weight: bold">{$n.name}</a> &nbsp;
+            <a href="JavaScript:eZOEPopupUtils.browse( {$n.node_id} )" style="font-weight: bold">{$n.name|shorten( 35 )}</a> &nbsp;
         {/foreach}
         {if and( is_set( $#object ), $#object.published )}
             <a href="JavaScript:eZOEPopupUtils.browse( {$#object.main_node_id} )" style="font-weight: bold">{$#object.name|shorten( 35 )} ({'this'|i18n('design/standard/ezoe')})</a>

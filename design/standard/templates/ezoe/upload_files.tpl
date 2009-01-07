@@ -80,7 +80,7 @@ if ( contentType === 'images' )
                         <option value="auto">{'Automatic'|i18n('design/standard/ezoe')}</option>
 
                         {if $object.published}
-                            <option value="{$object.main_node_id}">{$object.name} ({'this'|i18n('design/standard/ezoe')})</option>
+                            <option value="{$object.main_node_id}">{$object.name|shorten( 35 )} ({'this'|i18n('design/standard/ezoe')})</option>
                         {/if}
 
                         {def $root_node_value = ezini( 'LocationSettings', 'RootNode', 'upload.ini' )
@@ -97,7 +97,7 @@ if ( contentType === 'images' )
                                                            'limit', ezini( 'LocationSettings', 'MaxItems', 'upload.ini' ) ) )}
                         {foreach $selection_list as $item}
                         {if $item.can_create}
-                            <option value="{$item.node_id}">{'&nbsp;'|repeat( sub( $item.depth, $root_node.depth, 1 ) )}{$item.name|wash}</option>
+                            <option value="{$item.node_id}">{'&nbsp;'|repeat( sub( $item.depth, $root_node.depth, 1 ) )}{$item.name|wash|shorten( 35 )}</option>
                         {/if}
                         {/foreach}
 
@@ -141,7 +141,7 @@ if ( contentType === 'images' )
                         </tr>
                         {foreach $grouped_related_contentobjects.files as $file sequence array( bglight, bgdark ) as $sequence}
                             <tr class="{$sequence}">
-                                <td class="name">{$file.object.class_name|class_icon( small, $file.object.class_name )}&nbsp;<a href="JavaScript:eZOEPopupUtils.selectByEmbedId( {$file.object.id} )">{$file.object.name|wash}</a></td>
+                                <td class="name">{$file.object.class_name|class_icon( small, $file.object.class_name )}&nbsp;<a href="JavaScript:eZOEPopupUtils.selectByEmbedId( {$file.object.id} )">{$file.object.name|wash|shorten( 35 )}</a></td>
                                 <td class="filetype">{$file.object.data_map.file.content.mime_type|wash}</td>
                                 <td class="filesize">{$file.object.data_map.file.content.filesize|si( byte )}</td>
                             </tr>

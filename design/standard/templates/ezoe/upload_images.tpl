@@ -80,7 +80,7 @@ if ( contentType === 'images' )
                         <option value="auto">{'Automatic'|i18n('design/standard/ezoe')}</option>
 
                         {if $object.published}
-                            <option value="{$object.main_node_id}">{$object.name} ({'this'|i18n('design/standard/ezoe')})</option>
+                            <option value="{$object.main_node_id}">{$object.name|shorten( 35 )} ({'this'|i18n('design/standard/ezoe')})</option>
                         {/if}
 
                         {def $root_node_value = ezini( 'LocationSettings', 'RootNode', 'upload.ini' )
@@ -97,7 +97,7 @@ if ( contentType === 'images' )
                                                            'limit', ezini( 'LocationSettings', 'MaxItems', 'upload.ini' ) ) )}
                         {foreach $selection_list as $item}
                         {if $item.can_create}
-                            <option value="{$item.node_id}">{'&nbsp;'|repeat( sub( $item.depth, $root_node.depth, 1 ) )}{$item.name|wash}</option>
+                            <option value="{$item.node_id}">{'&nbsp;'|repeat( sub( $item.depth, $root_node.depth, 1 ) )}{$item.name|wash|shorten( 35 )}</option>
                         {/if}
                         {/foreach}
 

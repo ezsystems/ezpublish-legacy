@@ -69,7 +69,7 @@ tinyMCEPopup.onInit.add( function(){
                         <option value="auto">{'Automatic'|i18n('design/standard/ezoe')}</option>
 
                         {if $object.published}
-                            <option value="{$object.main_node_id}">{$object.name} ({'this'|i18n('design/standard/ezoe')})</option>
+                            <option value="{$object.main_node_id}">{$object.name|shorten( 35 )} ({'this'|i18n('design/standard/ezoe')})</option>
                         {/if}
 
                         {def $root_node_value = ezini( 'LocationSettings', 'RootNode', 'upload.ini' )
@@ -86,7 +86,7 @@ tinyMCEPopup.onInit.add( function(){
                                                            'limit', ezini( 'LocationSettings', 'MaxItems', 'upload.ini' ) ) )}
                         {foreach $selection_list as $item}
                         {if $item.can_create}
-                            <option value="{$item.node_id}">{'&nbsp;'|repeat( sub( $item.depth, $root_node.depth, 1 ) )}{$item.name|wash}</option>
+                            <option value="{$item.node_id}">{'&nbsp;'|repeat( sub( $item.depth, $root_node.depth, 1 ) )}{$item.name|wash|shorten( 35 )}</option>
                         {/if}
                         {/foreach}
 
@@ -129,7 +129,7 @@ tinyMCEPopup.onInit.add( function(){
                     </tr>
                     {foreach $grouped_related_contentobjects.objects as $relation sequence array( bglight, bgdark ) as $sequence}
                         <tr class="{$sequence}">
-                            <td class="name">{$relation.object.class_name|class_icon( small, $relation.object.class_name )}&nbsp;<a href="JavaScript:eZOEPopupUtils.selectByEmbedId( {$relation.object.id} )">{$relation.object.name|wash}</a></td>
+                            <td class="name">{$relation.object.class_name|class_icon( small, $relation.object.class_name )}&nbsp;<a href="JavaScript:eZOEPopupUtils.selectByEmbedId( {$relation.object.id} )">{$relation.object.name|wash|shorten( 35 )}</a></td>
                             <td class="class">{$relation.object.class_name|wash}</td>
                         </tr>
                     {/foreach}
