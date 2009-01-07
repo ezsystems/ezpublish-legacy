@@ -184,9 +184,9 @@ function loadImageSize( e, el )
         <div class="attribute-title">
             <h2 style="padding: 0 0 4px 0;">{$embed_object.name|wash}</h2>
         </div>
-        {def $embed_relaton_options = hash(concat('eZObject_', $embed_object.id), concat('Object'|i18n('design/standard/ezoe'), ': ', $embed_object.name))}
+        {def $embed_relaton_options = hash(concat('eZObject_', $embed_object.id), concat('Object'|i18n('design/standard/ezoe'), ': ', $embed_object.name|shorten( 35 ) ))}
         {foreach $embed_object.assigned_nodes as $assigned_node}
-            {set $embed_relaton_options = $embed_relaton_options|merge( hash(concat('eZNode_', $assigned_node.node_id), concat('Node'|i18n('design/standard/ezoe'), ': ', $assigned_node.path_identification_string)) )}
+            {set $embed_relaton_options = $embed_relaton_options|merge( hash(concat('eZNode_', $assigned_node.node_id), concat('Node'|i18n('design/standard/ezoe'), ': ', $assigned_node.path_identification_string|shorten( 35, '...' , 'middle' ) )) )}
         {/foreach}
         {include uri="design:ezoe/generalattributes.tpl"
                  tag_name = 'embed'

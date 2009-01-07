@@ -16,7 +16,7 @@
             <a href="JavaScript:eZOEPopupUtils.browse( {$n.node_id} )" style="font-weight: bold">{$n.name}</a> &nbsp;
         {/foreach}
         {if and( is_set( $#object ), $#object.published )}
-            <a href="JavaScript:eZOEPopupUtils.browse( {$#object.main_node_id} )" style="font-weight: bold">{$#object.name} ({'this'|i18n('design/standard/ezoe')})</a>
+            <a href="JavaScript:eZOEPopupUtils.browse( {$#object.main_node_id} )" style="font-weight: bold">{$#object.name|shorten( 35 )} ({'this'|i18n('design/standard/ezoe')})</a>
         {/if}
         </div>
         <div id="browse_progress" class="progress-indicator" style="display: none;"></div>
