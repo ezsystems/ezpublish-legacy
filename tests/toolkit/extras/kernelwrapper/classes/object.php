@@ -145,6 +145,7 @@ class ezpObject
     static function publishContentObject( $object, $version = false )
     {
         $objectID = $object->attribute( 'id' );
+        $object->clearCache(); // Added to make sure caches in global vars gets cleared.
 
         if ( $version and is_numeric( $version ) )
         {
@@ -246,6 +247,7 @@ class ezpObject
 
     public function refresh()
     {
+        $this->object->clearCache();
         $this->object = eZContentObject::fetch( $this->id );
         $this->refreshAttributes();
     }
