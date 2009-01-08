@@ -8,6 +8,7 @@ eZ Online Editor 5.0 extension Changelog
 * Fixed #14222: Custom tag removes inline tags
 * Fixed #14241: Inconsistent block cutom tag size in editor
 * Added possiblity to browse from 'this' node, and use i18n() on word 'this'
+* Properly support eznode://path/to/node on link tags (bug from ezdhtml)
 
 5.0rc10
 * Fixed #14097: Custom-tags cause errors in var/error.log

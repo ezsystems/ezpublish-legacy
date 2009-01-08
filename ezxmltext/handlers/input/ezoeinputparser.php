@@ -918,7 +918,8 @@ class eZOEInputParser extends eZXMLInputParser
         if ( $href )
         {
             $objectID = false;
-            if ( preg_match( "@^ezobject://([0-9]+)/?(#[^/]*)?/?@i", $href, $matches ) )
+            if ( strpos( $href, 'ezobject' ) === 0
+              && preg_match( "@^ezobject://([0-9]+)/?(#.+)?@i", $href, $matches ) )
             {
                 $objectID = $matches[1];
                 if ( isset( $matches[2] ) )
@@ -929,9 +930,14 @@ class eZOEInputParser extends eZXMLInputParser
                     $this->Messages[] = ezi18n( 'design/standard/ezoe/handler', 'Object %1 does not exist.', false, array( $objectID ) );
                 }
             }
-            elseif ( preg_match( "@^eznode://([^/#]+)/?(#[^/]*)?/?@i", $href, $matches ) )
+            /*
+             * rfc2396: ^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?
+             * ezdhtml: "@^eznode://([^/#]+)/?(#[^/]*)?/?@i"
+             */
+            elseif ( strpos( $href, 'eznode' ) === 0 
+                  && preg_match( "@^eznode://([^#]+)(#.+)?@i", $href, $matches ) )
             {
-                $nodePath = $matches[1];
+                $nodePath = trim( $matches[1], '/' );
                 if ( isset( $matches[2] ) )
                     $anchorName = substr( $matches[2], 1 );
 
@@ -984,7 +990,7 @@ class eZOEInputParser extends eZXMLInputParser
                 if ( $url )
                 {
                     // Protection from XSS attack
-                    if ( preg_match( "/^(java|vb)script:.*/i" , $url ) )
+                    if ( strpos( $url, 'script' ) !== false && preg_match( "/^(java|vb)script:.*/i" , $url ) )
                     {
                         $this->isInputValid = false;
                         $this->Messages[] = "Using scripts in links is not allowed, link '$url' has been removed";
@@ -993,7 +999,7 @@ class eZOEInputParser extends eZXMLInputParser
                     }
 
                     // Check mail address validity
-                    if ( preg_match( "/^mailto:(.*)/i" , $url, $mailAddr ) )
+                    if ( strpos( $url, 'mailto' ) === 0 && preg_match( "/^mailto:(.*)/i" , $url, $mailAddr ) )
                     {
                         //include_once( 'lib/ezutils/classes/ezmail.php' );
                         if ( !eZMail::validate( $mailAddr[1] ) )
