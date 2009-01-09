@@ -18,6 +18,8 @@ o  eZ Publish version:
 
    Version 4.0.x will also work but will have some reduced functionality:
    * Editor layouts pr attribute requires 4.1 and higher
+   * Align=None translates into Align=right on embed tags in output
+   * justify* buttons are not supported and should not be used
 
 o  PHP version:
 
