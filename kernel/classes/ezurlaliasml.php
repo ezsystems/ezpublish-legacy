@@ -551,7 +551,7 @@ class eZURLAliasML extends eZPersistentObject
             if ( $newElementID === null )
             {
                 $query = "SELECT * FROM ezurlalias_ml\n" .
-                         "WHERE parent = $parentID AND action = '{$actionStr}' AND is_original = 1";
+                         "WHERE parent = $parentID AND action = '{$actionStr}' AND is_original = 1 AND is_alias = 0";
                 $rows = $db->arrayQuery( $query );
                 if ( count( $rows ) > 0 )
                 {
