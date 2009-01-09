@@ -1068,7 +1068,7 @@ class eZURLAliasMlRegression extends ezpDatabaseTestCase
     }
 
     /**
-     * Helper method to validate the parent stracture of url entries.
+     * Helper method to validate the parent structure of url entries.
      * 
      * This method will look at the parent references and validate this to the
      * actual id values of the parent entries.
