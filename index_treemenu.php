@@ -118,6 +118,7 @@ $GLOBALS['eZCurrentAccess'] = $access;
 $db = eZDB::instance();
 if ( $db->isConnected() )
 {
+    register_shutdown_function( 'session_write_close' );
     eZSessionStart();
 }
 else
