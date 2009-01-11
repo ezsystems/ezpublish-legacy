@@ -42,9 +42,9 @@ if ( isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) )
     exit();
 }
 
+require 'autoload.php';
 require_once( 'lib/ezutils/classes/ezsession.php' );
 require_once( 'kernel/common/ezincludefunctions.php' );
-require 'autoload.php';
 
 function ezupdatedebugsettings()
 {
@@ -92,7 +92,6 @@ $GLOBALS['eZRequestedURI'] = $uri;
 require_once 'pre_check.php';
 
 // Check for extension
-require_once( 'kernel/common/ezincludefunctions.php' );
 eZExtension::activateExtensions( 'default' );
 // Extension check end
 
@@ -108,6 +107,7 @@ $GLOBALS['eZCurrentAccess'] = $access;
 $db = eZDB::instance();
 if ( $db->isConnected() )
 {
+    register_shutdown_function( 'session_write_close' );
     eZSessionStart();
 }
 else
