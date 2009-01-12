@@ -249,12 +249,11 @@ class eZTemplateCacheFunction
         $placementString = eZTemplateCacheBlock::placementString( $functionPlacement );
 
         return eZTemplateCacheFunction::processCached( $tpl, $functionChildren, $rootNamespace, $currentNamespace,
-                                                       $placementString, $keys, $subtreeExpiry, $expiry, $ignoreContentExpiry, $subtreeExpiry
-                       );
+                                                       $placementString, $keys, $subtreeExpiry, $expiry, $ignoreContentExpiry );
     }
 
     function processCached( $tpl, $functionChildren, $rootNamespace, $currentNamespace,
-                            $placementString, $keys, $subtreeExpiry, $expiry, $ignoreContentExpiry, $subtreeExpiry )
+                            $placementString, $keys, $subtreeExpiry, $expiry, $ignoreContentExpiry )
     {
         // Fetch the current siteaccess
         $accessName = false;
