@@ -226,7 +226,6 @@ class eZScript
                                                  'dir_permission'  => octdec( $iniDirPermission ),
                                                  'var_directory'   => $iniVarDirectory ) );
 
-        require_once( 'lib/ezutils/classes/ezexecution.php' );
 
         eZExecution::addCleanupHandler( 'eZDBCleanup' );
         eZExecution::addFatalErrorHandler( 'eZFatalError' );
@@ -271,12 +270,10 @@ class eZScript
 
         if ( $this->UseSession )
         {
-            // include ezsession override implementation
-            require_once( "lib/ezutils/classes/ezsession.php" );
             $db = eZDB::instance();
             if ( $db->isConnected() )
             {
-                eZSessionStart();
+                eZSession::start();
             }
             else
             {
@@ -298,7 +295,6 @@ class eZScript
                     $cli = eZCLI::instance();
                     if ( $this->isLoud() )
                         $cli->warning( 'Failed to login with user ' . $userLogin );
-                    require_once( 'lib/ezutils/classes/ezexecution.php' );
                     eZExecution::cleanup();
                     eZExecution::setCleanExit();
                 }
@@ -350,7 +346,7 @@ class eZScript
                  $db->isConnected() )
             {
                 eZUser::logoutCurrent();
-                eZSessionRemove();
+                eZSession::remove();
             }
         }
 

@@ -281,7 +281,7 @@ print( "Updating content object names\n" );
 //eZDebug::setHandleType( eZDebug::HANDLE_FROM_PHP );
 
 // eZModule::setGlobalPathList( array( "kernel" ) );
-require_once( 'lib/ezutils/classes/ezexecution.php' );
+eZExecution::registerShutdownHandler( );
 
 $db = eZDB::instance();
 

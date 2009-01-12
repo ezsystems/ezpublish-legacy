@@ -357,6 +357,7 @@ return array(
       'eZSelectionType'                    => 'kernel/classes/datatypes/ezselection/ezselectiontype.php',
       'eZSendmailTransport'                => 'lib/ezutils/classes/ezsendmailtransport.php',
       'eZSerializedObjectNameList'         => 'kernel/classes/ezserializedobjectnamelist.php',
+      'eZSession'                          => 'lib/ezutils/classes/ezsession.php',
       'eZSetupFunctionCollection'          => 'kernel/setup/ezsetupfunctioncollection.php',
       'eZSetupSummary'                     => 'kernel/setup/ezsetup_summary.php',
       'eZShippingManager'                  => 'kernel/classes/ezshippingmanager.php',

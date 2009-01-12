@@ -182,18 +182,6 @@ function eZAppendWarningItem( $parameters = array() )
                             'identifier' => $identifier );
 }
 
-// Needed by the error handler, since the current directory is lost when
-// the callback function eZExecutionUncleanShutdownHandler is called.
-$GLOBALS['eZDocumentRoot'] = dirname( __FILE__ );
-require_once( 'lib/ezutils/classes/ezexecution.php' );
-/*
-    see:
-    - http://www.php.net/manual/en/function.session-set-save-handler.php
-    - http://bugs.php.net/bug.php?id=33635
-    - http://bugs.php.net/bug.php?id=33772
-*/
-register_shutdown_function( 'session_write_close' );
-
 function eZDBCleanup()
 {
     if ( class_exists( 'eZDB' )
@@ -349,10 +337,6 @@ print( "</pre>" );
 print( "HTTP_HOST=" . eZSys::serverVariable( 'HTTP_HOST' ) . "<br/" );
 */
 
-// include ezsession override implementation
-//Needs to be added no class definition
-require_once( "lib/ezutils/classes/ezsession.php" );
-
 
 // Check for extension
 require_once( 'kernel/common/ezincludefunctions.php' );
@@ -405,9 +389,9 @@ if ( !$useCronjob )
     }
 
     // Fill in hooks
-    $GLOBALS['eZSessionFunctions']['destroy_pre'][] = 'eZSessionBasketDestroy';
-    $GLOBALS['eZSessionFunctions']['gc_pre'][] = 'eZSessionBasketGarbageCollector';
-    $GLOBALS['eZSessionFunctions']['empty_pre'][] = 'eZSessionBasketEmpty';
+    eZSession::addCallback( 'destroy_pre', 'eZSessionBasketDestroy');
+    eZSession::addCallback( 'gc_pre', 'eZSessionBasketGarbageCollector');
+    eZSession::addCallback( 'cleanup_pre', 'eZSessionBasketCleanup');
 }
 
 // Initialize module loading
@@ -430,7 +414,7 @@ if ( $dbRequired )
     if ( $sessionRequired and
          $db->isConnected() )
     {
-        eZSessionStart();
+        eZSession::start();
     }
 
     if ( !$db->isConnected() )

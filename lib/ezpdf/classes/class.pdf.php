@@ -1701,7 +1701,7 @@ class Cpdf
     $this->checkAllHere();
 
     $xref=array();
-    $content="%PDF-1.3\n%âãÏÓ\n";
+    $content="%PDF-1.3\n%ï¿½ï¿½ï¿½ï¿½\n";
 //  $content="%PDF-1.3\n";
     $pos=strlen($content);
     foreach($this->objects as $k=>$v){
@@ -2603,7 +2603,6 @@ class Cpdf
 
         echo $tmp;
 
-        require_once( 'lib/ezutils/classes/ezexecution.php' );
         eZExecution::cleanExit();
     }
 

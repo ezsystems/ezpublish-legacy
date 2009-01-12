@@ -986,9 +986,9 @@ WHERE user_id = '" . $userID . "' AND
         // instance() when there is no ID passed to the function.
         $GLOBALS["eZUserGlobalInstance_"] = $user;
         $http->setSessionVariable( 'eZUserLoggedInID', $userID );
-        eZSessionRegenerate();
+        eZSession::regenerate();
         $user->cleanup();
-        eZSessionSetUserID( $userID );
+        eZSession::setUserID( $userID );
     }
 
     /*!
@@ -1048,7 +1048,7 @@ WHERE user_id = '" . $userID . "' AND
         $contentObjectID = $http->sessionVariable( "eZUserLoggedInID" );
         $newUserID = self::anonymousId();
         $http->setSessionVariable( 'eZUserLoggedInID', $newUserID );
-        eZSessionSetUserID( $newUserID );
+        eZSession::setUserID( $newUserID );
         // Clear current basket if necessary
         $db = eZDB::instance();
         $db->begin();
@@ -1085,7 +1085,7 @@ WHERE user_id = '" . $userID . "' AND
             {
                 $id = self::anonymousId();
                 $http->setSessionVariable( 'eZUserLoggedInID', $id );
-                eZSessionSetUserID( $id );
+                eZSession::setUserID( $id );
             }
         }
 
@@ -1189,7 +1189,7 @@ WHERE user_id = '" . $userID . "' AND
                     $http->setSessionVariable( 'eZUserInfoCache', $userInfo );
                     $http->setSessionVariable( 'eZUserInfoCache_Timestamp', time() );
                     $http->setSessionVariable( 'eZUserLoggedInID', $id );
-                    eZSessionSetUserID( $currentUser->attribute( 'contentobject_id' ) );
+                    eZSession::setUserID( $currentUser->attribute( 'contentobject_id' ) );
 
                     eZUser::updateLastVisit( $currentUser->attribute( 'contentobject_id' ) );
                     eZUser::setCurrentlyLoggedInUser( $currentUser, $currentUser->attribute( 'contentobject_id' ) );

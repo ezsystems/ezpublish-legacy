@@ -265,7 +265,6 @@ function contentPDFPassthrough( $cacheFile )
     @fpassthru( $fp );
     fclose( $fp );
 
-    require_once( 'lib/ezutils/classes/ezexecution.php' );
     eZExecution::cleanExit();
 }
 

@@ -285,10 +285,8 @@ if ( $Module->isCurrentAction( 'Login' ) and
                                  : false;
             if ( $rememberMeTimeout )
             {
-                $GLOBALS['RememberMeTimeout'] = $rememberMeTimeout;
-                eZSessionStop();
-                eZSessionStart();
-                unset( $GLOBALS['RememberMeTimeout'] );
+                eZSession::stop();
+                eZSession::start( $rememberMeTimeout );
             }
 
         }

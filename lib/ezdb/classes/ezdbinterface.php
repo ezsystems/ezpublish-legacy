@@ -982,7 +982,6 @@ class eZDBInterface
             $this->RecordError = $oldRecordError;
 
             // Stop execution immediately while allowing other systems (session etc.) to cleanup
-            require_once( 'lib/ezutils/classes/ezexecution.php' );
             eZExecution::cleanup();
             eZExecution::setCleanExit();
 

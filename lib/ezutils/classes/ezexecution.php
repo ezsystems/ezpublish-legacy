@@ -50,7 +50,7 @@ class eZExecution
     */
     static function setCleanExit()
     {
-        $GLOBALS['eZExecutionCleanExit'] = true;
+        self::$hasCleanExit = true;
     }
 
     /*!
@@ -61,7 +61,7 @@ class eZExecution
         $handlers = eZExecution::cleanupHandlers();
         foreach ( $handlers as $handler )
         {
-            if ( function_exists( $handler ) )
+            if ( is_callable( $handler ) )
                 $handler();
         }
     }
@@ -74,19 +74,16 @@ class eZExecution
     */
     static function addCleanupHandler( $handler )
     {
-        $handlers =& eZExecution::cleanupHandlers();
-        $handlers[] = $handler;
+        self::registerShutdownHandler();
+        self::$cleanupHandlers[] = $handler;
     }
 
     /*!
      \return An array with cleanup handlers.
     */
-    static function &cleanupHandlers()
+    static function cleanupHandlers()
     {
-        $handlers =& $GLOBALS['eZExecutionCleanupHandlers'];
-        if ( !isset( $handlers ) )
-            $handlers = array();
-        return $handlers;
+        return self::$cleanupHandlers;
     }
 
     /*!
@@ -97,19 +94,16 @@ class eZExecution
     */
     static function addFatalErrorHandler( $handler )
     {
-        $handlers =& eZExecution::fatalErrorHandlers();
-        $handlers[] = $handler;
+        self::registerShutdownHandler();
+        self::$fatalErrorHandlers[] = $handler;
     }
 
     /*!
      \return An array with fatal error handlers.
     */
-    static function &fatalErrorHandlers()
+    static function fatalErrorHandlers()
     {
-        $handlers =& $GLOBALS['eZExecutionFatalErrorHandlers'];
-        if ( !isset( $handlers ) )
-            $handlers = array();
-        return $handlers;
+        return self::$fatalErrorHandlers;
     }
 
     /*!
@@ -117,7 +111,7 @@ class eZExecution
     */
     static function isCleanExit()
     {
-        return $GLOBALS['eZExecutionCleanExit'];
+        return self::$hasCleanExit;
     }
 
     /*!
@@ -131,37 +125,73 @@ class eZExecution
         exit;
     }
 
-}
-
-
-/*!
- Exit handler which called after the script is done, if it detects
- that eZ Publish did not exit cleanly it will issue an error message
- and display the debug.
-*/
-function eZExecutionUncleanShutdownHandler()
-{
-    // Need to change the current directory, since this information is lost
-    // when the callbackfunction is called. eZDocumentRoot is set in index.php.
-    if ( isset( $GLOBALS['eZDocumentRoot'] ) )
+    /*!
+     Exit handler which called after the script is done, if it detects
+     that eZ Publish did not exit cleanly it will issue an error message
+     and display the debug.
+    */
+    static function uncleanShutdownHandler()
     {
-        $documentRoot = $GLOBALS['eZDocumentRoot'];
-        chdir( $documentRoot );
+        // Need to change the current directory, since this information is lost
+        // when the callbackfunction is called. eZDocumentRoot is set in ::registerShutdownHandler
+        if ( self::$eZDocumentRoot !== null )
+        {
+            chdir( self::$eZDocumentRoot );
+        }
+
+        if ( eZExecution::isCleanExit() )
+            return;
+        eZExecution::cleanup();
+        $handlers = eZExecution::fatalErrorHandlers();
+        foreach ( $handlers as $handler )
+        {
+            if ( is_callable( $handler ) )
+                $handler();
+        }
     }
 
-    if ( eZExecution::isCleanExit() )
-        return;
-    eZExecution::cleanup();
-    $handlers =& eZExecution::fatalErrorHandlers();
-    foreach ( $handlers as $handler )
+    /*!
+     Register ::uncleanShutdownHandler as shutdown function
+    */
+    static public function registerShutdownHandler( $documentRoot = false )
     {
-        if ( function_exists( $handler ) )
-            $handler();
+        if ( !self::$shutdownHandle )
+        {
+            register_shutdown_function( array('eZExecution', 'uncleanShutdownHandler') );
+            /*
+                see:
+                - http://www.php.net/manual/en/function.session-set-save-handler.php
+                - http://bugs.php.net/bug.php?id=33635
+                - http://bugs.php.net/bug.php?id=33772
+            */
+            register_shutdown_function( 'session_write_close' );
+            self::$shutdownHandle = true;
+        }
+
+        // Needed by the error handler, since the current directory is lost when
+        // the callback function eZExecution::uncleanShutdownHandler is called.
+        if ( $documentRoot )
+        {
+            self::$eZDocumentRoot = $documentRoot;
+        }
+        else if ( self::$eZDocumentRoot === null )
+        {
+            self::$eZDocumentRoot = str_replace( 
+                DIRECTORY_SEPARATOR . 'lib' . 
+                DIRECTORY_SEPARATOR . 'ezutils'. 
+                DIRECTORY_SEPARATOR . 'classes',
+                '',
+                dirname( __FILE__ )
+            );
+        }
     }
+
+    static private $eZDocumentRoot = null;
+    static private $hasCleanExit = false;
+    static private $shutdownHandle = false;
+    static private $fatalErrorHandlers = array();
+    static private $cleanupHandlers = array();
 }
 
-register_shutdown_function( 'eZExecutionUncleanShutdownHandler' );
-
-$GLOBALS['eZExecutionCleanExit'] = false;
 
 ?>

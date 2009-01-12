@@ -2,7 +2,7 @@
 //
 // Definition of Runcronworflows class
 //
-// Created on: <02-ïËÔ-2002 14:04:21 sp>
+// Created on: <02-ï¿½ï¿½ï¿½-2002 14:04:21 sp>
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ Publish
@@ -34,8 +34,6 @@
 $runInBrowser = true;
 if ( isset( $webOutput ) )
     $runInBrowser = $webOutput;
-
-require_once( "lib/ezutils/classes/ezsession.php" );
 
 $db = eZDB::instance();
 

@@ -40,7 +40,6 @@
 
 */
 
-require_once( "lib/ezutils/classes/ezsession.php" );
 class eZHTTPTool
 {
     /*!
@@ -214,7 +213,7 @@ class eZHTTPTool
         {
             $GLOBALS["eZHTTPToolInstance"] = new eZHTTPTool();
             $GLOBALS["eZHTTPToolInstance"]->createPostVarsFromImageButtons();
-            eZSessionStart();
+            eZSession::start();
         }
 
         return $GLOBALS["eZHTTPToolInstance"];
@@ -370,7 +369,6 @@ class eZHTTPTool
             header( 'Content-Location: ' . $uri );
 
             fpassthru( $fp );
-            require_once( 'lib/ezutils/classes/ezexecution.php' );
             eZExecution::cleanExit();
         }
         else

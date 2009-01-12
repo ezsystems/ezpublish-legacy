@@ -115,7 +115,6 @@ function eZFatalError()
 // Check and proceed only if WebDAV functionality is enabled:
 if ( $enable === 'true' )
 {
-    require_once( 'lib/ezutils/classes/ezexecution.php' );
     eZExecution::addCleanupHandler( 'eZDBCleanup' );
     eZExecution::addFatalErrorHandler( 'eZFatalError' );
     eZDebug::setHandleType( eZDebug::HANDLE_FROM_PHP );
@@ -127,8 +126,6 @@ if ( $enable === 'true' )
         // e.g. if run from the shell
         eZExecution::cleanExit();
     }
-    require_once( 'lib/ezutils/classes/ezexecution.php' );
-    require_once( "lib/ezutils/classes/ezsession.php" );
     require_once( "access.php" );
     require_once( "kernel/common/i18n.php" );
 

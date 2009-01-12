@@ -26,7 +26,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 require_once( 'kernel/common/template.php' );
-require_once( 'lib/ezutils/classes/ezsession.php' );
 
 $tpl = templateInit();
 $sessionsRemoved = false;
@@ -70,12 +69,12 @@ else if ( $module->isCurrentAction( 'ChangeFilter' ) )
 }
 else if ( $module->isCurrentAction( 'RemoveAllSessions' ) )
 {
-    eZSessionEmpty();
+    eZSession::cleanup();
     $sessionsRemoved = true;
 }
 else if ( $module->isCurrentAction( 'RemoveTimedOutSessions' ) )
 {
-    eZSessionGarbageCollector();
+    eZSession::garbageCollector();
     $sessionsRemoved = true;
 }
 else if ( $module->isCurrentAction( 'RemoveSelectedSessions' ) )
@@ -87,7 +86,7 @@ else if ( $module->isCurrentAction( 'RemoveSelectedSessions' ) )
             $sessionKeyArray = $http->postVariable( 'SessionKeyArray' );
             foreach ( $sessionKeyArray as $sessionKeyItem )
             {
-                eZSessionDestroy( $sessionKeyItem );
+                eZSession::destroy( $sessionKeyItem );
             }
         }
     }
@@ -103,7 +102,7 @@ else if ( $module->isCurrentAction( 'RemoveSelectedSessions' ) )
                 $rows = $db->arrayQuery( "SELECT session_key FROM ezsession WHERE user_id IN ( " . $userIDArrayString . " )" );
                 foreach ( $rows as $row )
                 {
-                    eZSessionDestroy( $row['session_key'] );
+                    eZSession::destroy( $row['session_key'] );
                 }
             }
         }
@@ -343,7 +342,7 @@ $param['expiration_filter'] = $expirationFilterType;
 $param['user_id'] = $userID;
 if ( isset( $viewParameters['sortby'] ) )
     $param['sortby'] = $viewParameters['sortby'];
-$sessionsActive = eZSessionCountActive( $param );
+$sessionsActive = eZSession::countActive( $param );
 $sessionsCount = eZFetchActiveSessionCount( $param );
 $sessionsList = eZFetchActiveSessions( $param );
 

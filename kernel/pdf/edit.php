@@ -37,7 +37,6 @@ if ( isset( $Params['PDFGenerate'] ) && $Params['PDFGenerate'] == 'generate' )
     $pdfExport = eZPDFExport::fetch( $Params['PDFExportID'] );
     if ( $pdfExport && $pdfExport->attribute( 'status' ) == eZPDFExport::CREATE_ONFLY ) // only generate OnTheFly if status set correctly
     {
-        require_once( 'lib/ezutils/classes/ezexecution.php' );
         generatePDF( $pdfExport );
         eZExecution::cleanExit();
     }

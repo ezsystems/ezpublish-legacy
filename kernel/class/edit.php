@@ -174,7 +174,7 @@ $unvalidatedAttributes = array();
 
 if ( $http->hasPostVariable( 'DiscardButton' ) )
 {
-    eZSessionDestroy( $http->sessionVariable( 'CanStoreTicket' ) );
+    eZSession::destroy( $http->sessionVariable( 'CanStoreTicket' ) );
     $http->removeSessionVariable( 'CanStoreTicket' );
     $class->setVersion( eZContentClass::VERSION_STATUS_TEMPORARY );
     $class->remove( true, eZContentClass::VERSION_STATUS_TEMPORARY );
@@ -628,12 +628,12 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
     }
     else
     {
-        $firstStoreAttempt = eZSessionRead( $http->sessionVariable( 'CanStoreTicket' ) );
+        $firstStoreAttempt = $http->hasSessionVariable( 'CanStoreTicket' ) ? eZSession::read( $http->sessionVariable( 'CanStoreTicket' ) ) : false;
         if ( !$firstStoreAttempt )
         {
             return $Module->redirectToView( 'view', array( $ClassID ), array( 'Language' => $EditLanguage ) );
         }
-        eZSessionDestroy( $http->sessionVariable( 'CanStoreTicket' ) );
+        eZSession::destroy( $http->sessionVariable( 'CanStoreTicket' ) );
 
         // Class cleanup, update existing class objects according to new changes
         $db = eZDB::instance();
@@ -733,7 +733,7 @@ $Module->setTitle( 'Edit class ' . $class->attribute( 'name' ) );
 if ( !$http->hasSessionVariable( 'CanStoreTicket' ) )
 {
     $http->setSessionVariable( 'CanStoreTicket', md5( (string)rand() ) );
-    eZSessionWrite( $http->sessionVariable( 'CanStoreTicket' ), 1 );
+    eZSession::write( $http->sessionVariable( 'CanStoreTicket' ), 1 );
 }
 
 // Fetch updated attributes

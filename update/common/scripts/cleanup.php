@@ -161,18 +161,17 @@ if ( $dbHost or $dbName or $dbUser or $dbImpl )
 
 $db->setIsSQLOutputEnabled( $showSQL );
 
-require_once( 'lib/ezutils/classes/ezsession.php' );
 if ( $clean['session'] )
 {
     $cli->output( "Removing all sessions" );
-    eZSessionEmpty();
+    eZSession::cleanup();
 }
 
 if ( $clean['expired_session'] )
 {
     $cli->output( "Removing expired sessions,", false );
-    eZSessionGarbageCollector();
-    $activeCount = eZSessionCountActive();
+    eZSession::garbageCollector();
+    $activeCount = eZSession::countActive();
     $cli->output( " " . $cli->stylize( 'emphasize', $activeCount ) . " left" );
 }
 

@@ -239,7 +239,6 @@ class eZFile
 
             @readfile( $file );
 
-            require_once( 'lib/ezutils/classes/ezexecution.php' );
             eZExecution::cleanExit();
         }
         else

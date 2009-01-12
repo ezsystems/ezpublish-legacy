@@ -65,10 +65,6 @@ $ini = eZINI::instance();
 // Initialize/set the index file.
 eZSys::init( 'soap.php', $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) == 'true' );
 
-
-// include ezsession override implementation
-require_once( "lib/ezutils/classes/ezsession.php" );
-
 // Check for extension
 require_once( 'kernel/common/ezincludefunctions.php' );
 eZExtension::activateExtensions( 'default' );
