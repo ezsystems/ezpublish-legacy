@@ -155,8 +155,7 @@ $Result['view_parameters'] = $viewParameters;
 $Result['navigation_part'] = 'ezcontentnavigationpart';
 if ( !isset( $nodeList ) )
 {
-    eZSection::setGlobalID( $object->attribute( 'section_id' ) );
-    unset( $globalSectionID );
+    $globalSectionID = $object->attribute( 'section_id' );
     $section = eZSection::fetch( $object->attribute( 'section_id' ) );
     if ( $section )
     {
