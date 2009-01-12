@@ -2829,7 +2829,6 @@ class eZContentObject extends eZPersistentObject
                               'attributeWhereSQL' => '' );
 
         $showInvisibleNodesCond = '';
-        $showInvisibleNodesTable = '';
         // process params (only SortBy and IgnoreVisibility currently supported):
         // Supported sort_by modes:
         //   class_identifier, class_name, modified, name, published, section
@@ -2840,15 +2839,9 @@ class eZContentObject extends eZPersistentObject
                 $sortingInfo = eZContentObjectTreeNode::createSortingSQLStrings( $params['SortBy'] );
                 $sortingString = ' ORDER BY ' . $sortingInfo['sortingFields'];
             }
-            if ( isset( $params['IgnoreVisibility'] ) )
+            if ( isset( $params['IgnoreVisibility'] ) && !$params['IgnoreVisibility'] )
             {
-                $ignoreVisibility = $params['IgnoreVisibility'];
-                if ( !$ignoreVisibility )
-                {
-                    $showInvisibleNodesCond = ' AND ezcontentobject_tree.contentobject_id = ezcontentobject.id
-                                               AND ezcontentobject_tree.is_invisible = 0 ';
-                    $showInvisibleNodesTable = ', ezcontentobject_tree';
-                }
+                $showInvisibleNodesCond = " AND ( SELECT MIN( ezct.is_invisible ) FROM ezcontentobject_tree ezct WHERE ezct.contentobject_id = ezcontentobject.id ) = 0 ";
             }
         }
 
@@ -2904,7 +2897,6 @@ class eZContentObject extends eZPersistentObject
                         ezcontentobject,
                         ezcontentobject_link
                         $versionNameTables
-                        $showInvisibleNodesTable
                         $sortingInfo[attributeFromSQL]
                      WHERE
                         ezcontentclass.id=ezcontentobject.contentclass_id AND
@@ -3163,20 +3155,15 @@ class eZContentObject extends eZPersistentObject
 
         $db = eZDB::instance();
         $showInvisibleNodesCond = '';
-        $showInvisibleNodesTable = '';
 
         // process params (only IgnoreVisibility currently supported):
         if ( is_array( $params ) )
         {
-            if ( isset( $params['IgnoreVisibility'] ) )
+            if ( isset( $params['IgnoreVisibility'] ) && !$params['IgnoreVisibility'] )
             {
-                $ignoreVisibility = $params['IgnoreVisibility'];
-                if ( !$ignoreVisibility )
-                {
-                    $showInvisibleNodesCond = 'AND ezcontentobject_tree.contentobject_id = ezcontentobject.id
-                                               AND ezcontentobject_tree.is_invisible = 0';
-                    $showInvisibleNodesTable = ', ezcontentobject_tree';
-                }
+                $showInvisibleNodesCond = " AND ( SELECT MIN( ezct.is_invisible )
+                                                FROM ezcontentobject_tree ezct
+                                                WHERE ezct.contentobject_id = ezcontentobject.id ) = 0 ";
             }
         }
 
@@ -3225,7 +3212,7 @@ class eZContentObject extends eZPersistentObject
         }
         $query = "SELECT $select
                   FROM
-                    ezcontentobject, ezcontentobject_link $showInvisibleNodesTable
+                    ezcontentobject, ezcontentobject_link
                   WHERE
                     ezcontentobject.id=ezcontentobject_link.from_contentobject_id AND
                     ezcontentobject.status=" . eZContentObject::STATUS_PUBLISHED . " AND
