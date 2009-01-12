@@ -19,7 +19,6 @@ Changes from 4.1.0alpha1 to 4.1.0alpha2
 - Implemented enhancement #14251: Do not encode '(' and ')' in URLs
 - Implemented enhancement #13443: Some scripts should be rewritten as class to take advantage of autoloading
 - Implemented enhancement #14262: Optimize use of can_instantiate_class_list in admin templates
-- Implemented enhancement #10045: modul_result.node_id not set in content/collectedinfo
 
 *Design:
 
@@ -49,3 +48,4 @@ Changes from 4.1.0alpha1 to 4.1.0alpha2
 - Fixed bug #12785: Multilingual url aliases
 - Fixed bug #12720: Unable to edit a node
 - Fixed bug #14225: [TreeMenu] AutoopenCurrentNode does not work in browse mode
+- Fixed bug #13529: Pagelayout override doesn't work in content/versionview if siteaccess is not forced in parameters

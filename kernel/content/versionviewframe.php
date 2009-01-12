@@ -139,17 +139,73 @@ $tpl->setVariable( 'siteaccess', $siteaccess );
 $tpl->setVariable( 'is_creator', $isCreator );
 $tpl->setVariable( 'from_language', $FromLanguage );
 
+$res = eZTemplateDesignResource::instance();
+
+$section = eZSection::fetch( $contentObject->attribute( 'section_id' ) );
+if ( $section )
+    $navigationPartIdentifier = $section->attribute( 'navigation_part_identifier' );
+else
+    $navigationPartIdentifier = null;
+
+$keyArray = array( array( 'object', $contentObject->attribute( 'id' ) ),
+                   array( 'node', $node->attribute( 'node_id' ) ),
+                   array( 'parent_node', $node->attribute( 'parent_node_id' ) ),
+                   array( 'class', $contentObject->attribute( 'contentclass_id' ) ),
+                   array( 'class_identifier', $node->attribute( 'class_identifier' ) ),
+                   array( 'viewmode', 'full' ),
+                   array( 'navigation_part_identifier', $navigationPartIdentifier ),
+                   array( 'depth', $node->attribute( 'depth' ) ),
+                   array( 'url_alias', $node->attribute( 'url_alias' ) ),
+                   array( 'class_group', $contentObject->attribute( 'match_ingroup_id_list' ) ),
+                   array( 'state', $contentObject->attribute( 'state_id_array' ) ),
+                   array( 'state_identifier', $contentObject->attribute( 'state_identifier_array' ) ) );
+
+$parentNode = $node->attribute( 'parent' );
+if ( is_object( $parentNode ) )
+{
+    $parentObject = $parentNode->attribute( 'object' );
+    if ( is_object( $parentObject ) )
+    {
+        $keyArray[] = array( 'parent_class', $parentObject->attribute( 'contentclass_id' ) );
+        $keyArray[] = array( 'parent_class_identifier', $parentObject->attribute( 'class_identifier' ) );
+    }
+}
+
+$parents = $node->attribute( 'path' );
+$path = array();
+$titlePath = array();
+foreach ( $parents as $parent )
+{
+    $path[] = array( 'text' => $parent->attribute( 'name' ),
+                     'url' => '/content/view/full/' . $parent->attribute( 'node_id' ),
+                     'url_alias' => $parent->attribute( 'url_alias' ),
+                     'node_id' => $parent->attribute( 'node_id' ) );
+}
+
+$titlePath = $path;
+$path[] = array( 'text' => $contentObject->attribute( 'name' ),
+                 'url' => false,
+                 'url_alias' => false,
+                 'node_id' => $node->attribute( 'node_id' ) );
+
+$titlePath[] = array( 'text' => $contentObject->attribute( 'name' ),
+                      'url' => false,
+                      'url_alias' => false );
+
+$tpl->setVariable( 'node_path', $path );
+
+
+$res->setKeys( $keyArray );
+
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:content/view/versionview.tpl' );
 $Result['node_id'] = $node->attribute( 'node_id' );
-$Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Version preview' ),
-                                'url' => false ) );
-$section = eZSection::fetch( $contentObject->attribute( 'section_id' ) );
-if ( $section )
-{
-    $Result['navigation_part'] = $section->attribute( 'navigation_part_identifier' );
-    $Result['section_id'] = $section->attribute( 'id' );
-}
+$Result['path'] = $path;
+$Result['title_path'] = $titlePath;
+
+$Result['navigation_part'] = $navigationPartIdentifier;
+$Result['section_id'] = $contentObject->attribute( 'section_id' );
+
 if ( $LanguageCode )
 {
     $node->setCurrentLanguage( $oldLanguageCode );
