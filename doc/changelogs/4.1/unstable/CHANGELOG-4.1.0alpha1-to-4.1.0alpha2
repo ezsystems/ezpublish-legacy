@@ -41,3 +41,4 @@ Changes from 4.1.0alpha1 to 4.1.0alpha2
 - Fixed bug #3136: DebugRedirection
 - Fixed bug #14218: Object state groups are loaded in all pages
 - Fixed bug #14137: index_treemenu is missing register_shutdown_function( 'session_write_close' ); line
+- Fixed bug #14246: Missing tooltip
