@@ -209,11 +209,12 @@ else
     foreach ( $parents as $parent )
     {
         $path[] = array( 'text' => $parent->attribute( 'name' ),
-                         'url' => '/content/browse/' . $parent->attribute( 'node_id' ) . '/'
-                         );
+                         'url' => '/content/browse/' . $parent->attribute( 'node_id' ) . '/',
+                         'node_id' => $parent->attribute( 'node_id' ) );
     }
     $path[] = array( 'text' => $object->attribute( 'name' ),
-                     'url' => false );
+                     'url' => false,
+                     'node_id' => $node->attribute( 'node_id' ) );
     $Result['path'] = $path;
 }
 
