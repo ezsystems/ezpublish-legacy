@@ -324,20 +324,6 @@ $uri = eZURI::instance( eZSys::requestURI() );
 $GLOBALS['eZRequestedURI'] = $uri;
 require_once "pre_check.php";
 
-// Shall we start the eZ setup module?
-//if ( $ini->variable( "SiteAccessSettings", "CheckValidity" ) == "true" )
-//    //include_once( "lib/ezsetup/classes/ezsetup.php" );
-
-//require_once 'kernel/error/errors.php';
-
-/*
-print( "<pre>" );
-var_dump( $_SERVER );
-print( "</pre>" );
-print( "HTTP_HOST=" . eZSys::serverVariable( 'HTTP_HOST' ) . "<br/" );
-*/
-
-
 // Check for extension
 require_once( 'kernel/common/ezincludefunctions.php' );
 eZExtension::activateExtensions( 'default' );
@@ -1008,8 +994,6 @@ if ( $show_page_layout )
 
         if ( $userObjectRequired )
         {
-            // include user class
-            // if( //include_once( "kernel/classes/datatypes/ezuser/ezuser.php" ) )
             $currentUser = eZUser::currentUser();
 
             $tpl->setVariable( "current_user", $currentUser );
@@ -1020,10 +1004,6 @@ if ( $show_page_layout )
             $tpl->setVariable( "current_user", false );
             $tpl->setVariable( "anonymous_user_id", false );
         }
-
-//         ////include_once( "lib/ezutils/classes/ezexecutionstack.php" );
-//         $execStack = eZExecutionStack::instance();
-//         $tpl->setVariable( "execution_entries", $execStack->entries() );
 
         $tpl->setVariable( "access_type", $access );
 
