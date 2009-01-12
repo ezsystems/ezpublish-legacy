@@ -30,6 +30,12 @@ require_once( 'kernel/common/template.php' );
 
 $Module = $Params['Module'];
 $http = eZHTTPTool::instance();
+$userParameters = array();
+
+if ( isset( $Params['UserParameters'] ) )
+{
+    $userParameters = $Params['UserParameters'];
+}
 
 if ( $Module->isCurrentAction( 'CollectInformation' ) )
 {
@@ -82,6 +88,8 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
         $tpl->setVariable( 'collection', $collection );
         $tpl->setVariable( 'node', $node );
         $tpl->setVariable( 'object', $object );
+        $tpl->setVariable( 'viewmode', $ViewMode );
+        $tpl->setVariable( 'view_parameters', $userParameters );
         $tpl->setVariable( 'attribute_hide_list', $attributeHideList );
         $tpl->setVariable( 'error', true );
         $tpl->setVariable( 'error_existing_data', ( $userDataHandling == 'unique' and $collection ) );
@@ -97,12 +105,21 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
                               array( 'parent_node', $node->attribute( 'parent_node_id' ) ),
                               array( 'class', $object->attribute( 'contentclass_id' ) ),
                               array( 'class_identifier', $object->attribute( 'class_identifier' ) ),
+                              array( 'viewmode', $ViewMode ),
                               array( 'navigation_part_identifier', $navigationPartIdentifier ),
                               array( 'depth', $node->attribute( 'depth' ) ),
-                              array( 'url_alias', $node->attribute( 'url_alias' ) )
+                              array( 'url_alias', $node->attribute( 'url_alias' ) ),
+                              array( 'class_group', $object->attribute( 'match_ingroup_id_list' ) ),
+                              array( 'state', $object->attribute( 'state_id_array' ) ),
+                              array( 'state_identifier', $object->attribute( 'state_identifier_array' ) )
                               ) );
 
+        $Result = array();
         $Result['content'] = $tpl->fetch( 'design:content/collectedinfo/' . $informationCollectionTemplate . '.tpl' );
+        $Result['section_id'] = $object->attribute( 'section_id' );
+        $Result['node_id'] = $node->attribute( 'node_id' );
+        $Result['view_parameters'] = $userParameters;
+        $Result['navigation_part'] = $navigationPartIdentifier;
 
         $title = $object->attribute( 'name' );
         if ( $tpl->hasVariable( 'title' ) )
@@ -112,33 +129,23 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
         $parents = $node->attribute( 'path' );
 
         $path = array();
-        $titlePath = array();
         foreach ( $parents as $parent )
         {
             $path[] = array( 'text' => $parent->attribute( 'name' ),
                              'url' => '/content/view/full/' . $parent->attribute( 'node_id' ),
                              'url_alias' => $parent->attribute( 'url_alias' ),
-                             'node_id' => $parent->attribute( 'node_id' )
-                             );
+                             'node_id' => $parent->attribute( 'node_id' ) );
         }
+
+        $titlePath = $path;
         $path[] = array( 'text' => $object->attribute( 'name' ),
-                         'url' => '/content/view/full/' . $node->attribute( 'node_id' ),
-                         'url_alias' => $node->attribute( 'url_alias' ),
+                         'url' => false,
+                         'url_alias' => false,
                          'node_id' => $node->attribute( 'node_id' ) );
 
-        array_shift( $parents );
-        foreach ( $parents as $parent )
-        {
-            $titlePath[] = array( 'text' => $parent->attribute( 'name' ),
-                                  'url' => '/content/view/full/' . $parent->attribute( 'node_id' ),
-                                  'url_alias' => $parent->attribute( 'url_alias' ),
-                                  'node_id' => $parent->attribute( 'node_id' )
-                                  );
-        }
         $titlePath[] = array( 'text' => $title,
-                              'url' => '/content/view/full/' . $node->attribute( 'node_id' ),
-                              'url_alias' => $node->attribute( 'url_alias' ),
-                              'node_id' => $node->attribute( 'node_id' ) );
+                              'url' => false,
+                              'url_alias' => false );
 
         $Result['path'] = $path;
         $Result['title_path'] = $titlePath;
@@ -250,15 +257,21 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
                                   array( 'parent_node', $node->attribute( 'parent_node_id' ) ),
                                   array( 'class', $object->attribute( 'contentclass_id' ) ),
                                   array( 'class_identifier', $object->attribute( 'class_identifier' ) ),
+                                  array( 'viewmode', $ViewMode ),
                                   array( 'navigation_part_identifier', $navigationPartIdentifier ),
                                   array( 'depth', $node->attribute( 'depth' ) ),
-                                  array( 'url_alias', $node->attribute( 'url_alias' ) )
+                                  array( 'url_alias', $node->attribute( 'url_alias' ) ),
+                                  array( 'class_group', $object->attribute( 'match_ingroup_id_list' ) ),
+                                  array( 'state', $object->attribute( 'state_id_array' ) ),
+                                  array( 'state_identifier', $object->attribute( 'state_identifier_array' ) )
                                   ) );
 
             $tpl->setVariable( 'node_id', $node->attribute( 'node_id' ) );
             $tpl->setVariable( 'collection_id', $collection->attribute( 'id' ) );
             $tpl->setVariable( 'collection', $collection );
             $tpl->setVariable( 'node', $node );
+            $tpl->setVariable( 'viewmode', $ViewMode );
+            $tpl->setVariable( 'view_parameters', $userParameters );
             $tpl->setVariable( 'object', $object );
             $tpl->setVariable( 'attribute_hide_list', $attributeHideList );
 
