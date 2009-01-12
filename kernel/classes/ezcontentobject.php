@@ -866,6 +866,23 @@ class eZContentObject extends eZPersistentObject
         return $fetchSQLString;
     }
 
+    /**
+     * Creates the SQL for filtering objects by visibility, used by IgnoreVisibility on some fetches.
+     * The object is visible if 1 or more assigned nodes are visible.
+     *
+     * @static
+     * @since Version 4.1
+     * @param bool $IgnoreVisibility ignores visibility if true
+     * @param string $ezcontentobjectTable name of ezcontentobject table used in sql
+     * @return string with sql condition for node filtering by visibility
+     */
+    static function createFilterByVisibilitySQLString( $IgnoreVisibility = false, $ezcontentobjectTable = 'ezcontentobject' )
+    {
+        if ( $IgnoreVisibility )
+            return '';
+        return " AND ( SELECT MIN( ezct.is_invisible ) FROM ezcontentobject_tree ezct WHERE ezct.contentobject_id = $ezcontentobjectTable.id ) = 0 ";
+    }
+
     /*!
      Fetches the contentobject which has a node with the ID \a $nodeID
      \param $asObject If \c true return the as a PHP object, if \c false return the raw database data.
@@ -2826,7 +2843,6 @@ class eZContentObject extends eZPersistentObject
                               'attributeWhereSQL' => '' );
 
         $showInvisibleNodesCond = '';
-        $showInvisibleNodesTable = '';
         // process params (only SortBy and IgnoreVisibility currently supported):
         // Supported sort_by modes:
         //   class_identifier, class_name, modified, name, published, section
@@ -2839,13 +2855,7 @@ class eZContentObject extends eZPersistentObject
             }
             if ( isset( $params['IgnoreVisibility'] ) )
             {
-                $ignoreVisibility = $params['IgnoreVisibility'];
-                if ( !$ignoreVisibility )
-                {
-                    $showInvisibleNodesCond = ' AND ezcontentobject_tree.contentobject_id = ezcontentobject.id
-                                               AND ezcontentobject_tree.is_invisible = 0 ';
-                    $showInvisibleNodesTable = ', ezcontentobject_tree';
-                }
+                $showInvisibleNodesCond = self::createFilterByVisibilitySQLString( $params['IgnoreVisibility'] );
             }
         }
 
@@ -2901,7 +2911,6 @@ class eZContentObject extends eZPersistentObject
                         ezcontentobject,
                         ezcontentobject_link
                         $versionNameTables
-                        $showInvisibleNodesTable
                         $sortingInfo[attributeFromSQL]
                      WHERE
                         ezcontentclass.id=ezcontentobject.contentclass_id AND
@@ -3180,20 +3189,13 @@ class eZContentObject extends eZPersistentObject
 
         $db = eZDB::instance();
         $showInvisibleNodesCond = '';
-        $showInvisibleNodesTable = '';
 
         // process params (only IgnoreVisibility currently supported):
         if ( is_array( $params ) )
         {
             if ( isset( $params['IgnoreVisibility'] ) )
             {
-                $ignoreVisibility = $params['IgnoreVisibility'];
-                if ( !$ignoreVisibility )
-                {
-                    $showInvisibleNodesCond = 'AND ezcontentobject_tree.contentobject_id = ezcontentobject.id
-                                               AND ezcontentobject_tree.is_invisible = 0';
-                    $showInvisibleNodesTable = ', ezcontentobject_tree';
-                }
+                $showInvisibleNodesCond = self::createFilterByVisibilitySQLString( $params['IgnoreVisibility'] );
             }
         }
 
@@ -3242,7 +3244,7 @@ class eZContentObject extends eZPersistentObject
         }
         $query = "SELECT $select
                   FROM
-                    ezcontentobject, ezcontentobject_link $showInvisibleNodesTable
+                    ezcontentobject, ezcontentobject_link
                   WHERE
                     ezcontentobject.id=ezcontentobject_link.from_contentobject_id AND
                     ezcontentobject.status=" . eZContentObject::STATUS_PUBLISHED . " AND
