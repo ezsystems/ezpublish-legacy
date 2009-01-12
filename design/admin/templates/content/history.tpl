@@ -331,7 +331,7 @@
         {/foreach}
 
         {if and( $can_edit, $can_edit_lang )}
-            <input type="image" src={'copy.gif'|ezimage} name="HistoryCopyVersionButton[{$published_item.version}]" value="" />
+            <input type="image" src={'copy.gif'|ezimage} name="HistoryCopyVersionButton[{$published_item.version}]" value="" title="{'Create a copy of version #%version_number.'|i18n( 'design/admin/content/history',, hash( '%version_number', $published_item.version ) )}" />
         {else}
             <input type="image" src={'copy-disabled.gif'|ezimage} name="" value="" disabled="disabled" title="{'You cannot make copies of versions because you do not have permission to edit the object.'|i18n( 'design/admin/content/history' )}" />
         {/if}
