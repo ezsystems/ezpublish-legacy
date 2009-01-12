@@ -79,7 +79,7 @@ class eZURI
         $out = explode( "/", $str ); // Don't encode the slashes
         foreach ( $out as $i => $o )
         {
-            if ( preg_match( "#^[\(]([\p{L}_]+)[\)]#u", $o, $m ) )
+            if ( preg_match( "#^[\(]([a-zA-Z0-9_]+)[\)]#", $o, $m ) )
             {
                 // Don't encode '(' and ')' in user parameters
                 $out[$i] = '(' . urlencode( $m[1] ) . ')';
