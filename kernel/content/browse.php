@@ -149,11 +149,14 @@ if (isset( $GLOBALS['eZDesignKeys']['section'] ))
 $res = eZTemplateDesignResource::instance();
 
 $Result = array();
+$Result['view_parameters'] = $viewParameters;
 
 // Fetch the navigation part from the section information
 $Result['navigation_part'] = 'ezcontentnavigationpart';
 if ( !isset( $nodeList ) )
 {
+    eZSection::setGlobalID( $object->attribute( 'section_id' ) );
+    unset( $globalSectionID );
     $section = eZSection::fetch( $object->attribute( 'section_id' ) );
     if ( $section )
     {
@@ -168,7 +171,10 @@ if ( !isset( $nodeList ) )
                           array( 'depth', $node->attribute( 'depth' ) ),
                           array( 'url_alias', $node->attribute( 'url_alias' ) ),
                           array( 'class_identifier', $node->attribute( 'class_identifier' ) ),
-                          array( 'section', $object->attribute('section_id') )
+                          array( 'section', $object->attribute('section_id') ),
+                          array( 'class_group', $object->attribute( 'match_ingroup_id_list' ) ),
+                          array( 'state', $object->attribute( 'state_id_array' ) ),
+                          array( 'state_identifier', $object->attribute( 'state_identifier_array' ) )
                           ) );
 
 }
@@ -201,11 +207,12 @@ else
     foreach ( $parents as $parent )
     {
         $path[] = array( 'text' => $parent->attribute( 'name' ),
-                         'url' => '/content/browse/' . $parent->attribute( 'node_id' ) . '/'
-                         );
+                         'url' => '/content/browse/' . $parent->attribute( 'node_id' ) . '/',
+                         'node_id' => $parent->attribute( 'node_id' ) );
     }
     $path[] = array( 'text' => $object->attribute( 'name' ),
-                     'url' => false );
+                     'url' => false,
+                     'node_id' => $node->attribute( 'node_id' ) );
     $Result['path'] = $path;
 }
 

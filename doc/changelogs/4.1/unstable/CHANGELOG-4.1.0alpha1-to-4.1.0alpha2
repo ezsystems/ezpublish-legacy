@@ -48,3 +48,4 @@ Changes from 4.1.0alpha1 to 4.1.0alpha2
 - Fixed bug #14240: eZTemplateCacheFunction::processCached has twice the parameter $subtreeExpiry
 - Fixed bug #12785: Multilingual url aliases
 - Fixed bug #12720: Unable to edit a node
+- Fixed bug #14225: [TreeMenu] AutoopenCurrentNode does not work in browse mode
