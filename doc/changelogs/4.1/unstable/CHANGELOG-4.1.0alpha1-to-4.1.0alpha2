@@ -18,6 +18,7 @@ Changes from 4.1.0alpha1 to 4.1.0alpha2
 - Implemented enhancement #13860: Add align support for paragraphs in ezxml for OE5 (p|custom|header|table|td|th)
 - Implemented enhancement #14251: Do not encode '(' and ')' in URLs
 - Implemented enhancement #13443: Some scripts should be rewritten as class to take advantage of autoloading
+- Implemented enhancement #14262: Optimize use of can_instantiate_class_list in admin templates
 
 *Design:
 

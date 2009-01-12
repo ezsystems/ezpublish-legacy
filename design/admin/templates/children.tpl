@@ -189,11 +189,11 @@
     <div class="left">
     <input type="hidden" name="NodeID" value="{$node.node_id}" />
 
-   {let can_create_classes=fetch( content, can_instantiate_class_list, hash( group_id, array( ezini( 'ClassGroupIDs', 'Users', 'content.ini' ), ezini( 'ClassGroupIDs', 'Setup', 'content.ini' ) ), parent_node, $node, filter_type, exclude ) )}
-
-   {section show=$node.path_array|contains(ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) )}
-          {set can_create_classes=fetch( content, can_instantiate_class_list, hash( group_id, ezini( 'ClassGroupIDs', 'Users', 'content.ini' ), parent_node, $node ) )}
-   {/section}
+   {if $node.path_array|contains( ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) )}
+       {def $can_create_classes = fetch( 'content', 'can_instantiate_class_list', hash( 'group_id', ezini( 'ClassGroupIDs', 'Users', 'content.ini' ), 'parent_node', $node ) )}
+   {else}
+       {def $can_create_classes = fetch( 'content', 'can_instantiate_class_list', hash( 'group_id', array( ezini( 'ClassGroupIDs', 'Users', 'content.ini' ), ezini( 'ClassGroupIDs', 'Setup', 'content.ini' ) ), 'parent_node', $node, 'filter_type', 'exclude' ) )}
+   {/if}
 
     {def $can_create_languages=fetch( content, prioritized_languages )}
 
@@ -279,7 +279,7 @@
     </script>
     {/if}
 
-    {if and(eq( $can_create_languages|count, 1 ), is_set( $can_create_languages[0] ) )}
+    {if and( is_set( $can_create_languages[0] ), eq( $can_create_languages|count, 1 ) )}
         <select id="ClassID" name="ClassID" title="{'Use this menu to select the type of item you want to create then click the "Create here" button. The item will be created in the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
     {else}
         <select id="ClassID" name="ClassID" onchange="updateLanguageSelector(this)" title="{'Use this menu to select the type of item you want to create then click the "Create here" button. The item will be created in the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
@@ -291,7 +291,7 @@
         {/section}
     </select>
 
-    {if and(eq( $can_create_languages|count, 1 ), is_set( $can_create_languages[0] ) )}
+    {if and( is_set( $can_create_languages[0] ), eq( $can_create_languages|count, 1 ) )}
         <input name="ContentLanguageCode" value="{$can_create_languages[0].locale}" type="hidden" />
     {else}
         <select name="ContentLanguageCode" onchange="checkLanguageSelector(this)" title="{'Use this menu to select the language you want to use for the creation then click the "Create here" button. The item will be created in the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
@@ -300,8 +300,8 @@
             {/foreach}
        </select>
     {/if}
-    {undef $can_create_languages}
-    {/let}
+    {undef $can_create_languages $can_create_classes}
+
 
     <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n( 'design/admin/node/view/full' )}" title="{'Create a new item in the current location. Use the menu on the left to select the type of  item.'|i18n( 'design/admin/node/view/full' )}" />
     <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
