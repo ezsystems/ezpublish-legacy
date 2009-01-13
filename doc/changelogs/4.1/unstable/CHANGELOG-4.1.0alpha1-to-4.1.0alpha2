@@ -49,4 +49,5 @@ Changes from 4.1.0alpha1 to 4.1.0alpha2
 - Fixed bug #12720: Unable to edit a node
 - Fixed bug #14225: [TreeMenu] AutoopenCurrentNode does not work in browse mode
 - Fixed bug #13529: Pagelayout override doesn't work in content/versionview if siteaccess is not forced in parameters
-- Fixed bug #12325: fetch reverse_related_objects return duplicated objects 
+- Fixed bug #12325: fetch reverse_related_objects return duplicated objects
+- Fixed bug #13579: Wrong new drafts count in content/history view [with patch]
