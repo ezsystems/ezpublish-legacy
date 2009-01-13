@@ -605,6 +605,7 @@ class eZDBFileHandler
             // we write the generated cache to disk if it does not exist yet,
             // to speed up the next uncached operation
             // This file will be overwritten by the real file
+            clearstatcache();
             if ( !file_exists( $this->filePath ) )
             {
                 eZDebugSetting::writeDebug( 'kernel-clustering', "Writing stale file content to local file {$this->filePath}" );

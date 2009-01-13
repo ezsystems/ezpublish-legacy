@@ -34,6 +34,12 @@
 class eZFSFileHandler
 {
     /**
+    * This should be defined in eZFS2FileHandler, but due to static members
+    * limitations in PHP < 5.3, it is declared here
+    **/
+    const EXPIRY_TIMESTAMP = 233366400;
+
+    /**
      * Constructor.
      *
      * $filePath File path. If specified, file metadata is fetched in the constructor.
@@ -41,7 +47,6 @@ class eZFSFileHandler
     function eZFSFileHandler( $filePath = false )
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::ctor( '$filePath' )" );
-//        $this->metaData['name'] = $filePath;
         $this->Mutex = null;
         $this->filePath = $filePath;
         $this->lifetime = 60; // Lifetime of lock
@@ -61,7 +66,6 @@ class eZFSFileHandler
      */
     function _exclusiveLock( $fname = false )
     {
-        //$pid = getmypid();
         $mutex =& $this->_mutex();
         while ( true )
         {
@@ -133,15 +137,12 @@ class eZFSFileHandler
     {
         if ( $this->filePath !== false )
         {
+            eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
             if ( $force )
                 clearstatcache();
 
-            // fill $this->metaData
-            $filePath = $this->filePath;
-            eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
-            $this->metaData = @stat( $filePath );
+            $this->metaData = @stat( $this->filePath );
             eZDebug::accumulatorStop( 'dbfile' );
-//            $this->metaData['name'] = $filePath;
         }
     }
 
@@ -234,12 +235,14 @@ class eZFSFileHandler
     }
 
     /**
-     * Store file contents.
+     * Store file contents to disk
      *
-     * \public
-     * \static
+     * @param string $contents Binary file data
+     * @param string $datatype Not used in the FS handler
+     * @param string $scope Not used in the FS handler
+     * @param bool $storeLocally Not used in the FS handler
      *
-     * \param $storeLocally This parameter is ignored since it makes no sense for the FS file handler.
+     * @return void
      */
     function storeContents( $contents, $scope = false, $datatype = false, $storeLocally = false )
     {
@@ -359,8 +362,7 @@ class eZFSFileHandler
             $forceGeneration = false;
             $storeCache      = true;
             $mtime = @filemtime( $fname );
-//            $mtime = $this->metaData['mtime'];
-            if ( $retrieveCallback !== null && !eZFSFileHandler::isExpired( $fname, $mtime, $expiry, $curtime, $ttl ) )
+            if ( $retrieveCallback !== null && !$this->isExpired( $expiry, $curtime, $ttl ) )
             {
                 $args = array( $fname, $mtime );
                 if ( $extraData !== null )
@@ -375,7 +377,7 @@ class eZFSFileHandler
 
             if ( $tries >= 2 )
             {
-                eZDebugSetting::writeDebug( 'kernel-clustering', "Reading was retried $tries times and reached the maximum, returning null" );
+                eZDebugSetting::writeDebug( 'kernel-clustering', "Reading was retried $tries times and reached the maximum, forcing generation", __METHOD__ );
                 $forceGeneration = true; // We will now generate the cache but not store it
                 $storeCache = false; // This disables the cache storage
             }
@@ -386,13 +388,13 @@ class eZFSFileHandler
             {
                 if ( $retval->errno() != 1 ) // check for non-expiry error codes
                 {
-                    eZDebug::writeError( "Failed to retrieve data from callback", 'eZFSFileHandler::processCache' );
+                    eZDebug::writeError( "Failed to retrieve data from callback", __METHOD__ );
                     return null;
                 }
                 $message = $retval->message();
                 if ( strlen( $message ) > 0 )
                 {
-                    eZDebugSetting::writeDebug( 'kernel-clustering', $retval->message(), "eZClusterFileFailure::processCache" );
+                    eZDebugSetting::writeDebug( 'kernel-clustering', $retval->message(), __METHOD__ );
                 }
                 // the retrieved data was expired so we need to generate it, let's continue
             }
@@ -400,8 +402,7 @@ class eZFSFileHandler
             // We need to lock if we have a generate-callback or
             // the generation is deferred to the caller.
             // Note: false means no generation
-            if ( $generateCallback !== false &&
-                 $forceGeneration === false )
+            if ( $generateCallback !== false && $forceGeneration === false )
             {
                 // Lock the entry for exclusive access, if the entry does not exist
                 // it will be inserted with mtime=-1
@@ -417,9 +418,9 @@ class eZFSFileHandler
                 @clearstatcache();
                 $mtime = @filemtime( $fname );
 //                $expiry = max( $curtime, $expiry );
-                if ( $mtime > 0 && !eZFSFileHandler::isExpired( $fname, $mtime, $expiry, $curtime, $ttl ) )
+                if ( $mtime > 0 && !$this->isExpired( $expiry, $curtime, $ttl ) )
                 {
-                    eZDebugSetting::writeDebug( 'kernel-clustering', "File was generated while we were locked, use that instead" );
+                    eZDebugSetting::writeDebug( 'kernel-clustering', "File was generated while we were locked, use that instead", __METHOD__ );
                     $this->metaData = false;
                     $this->_freeExclusiveLock( 'storeCache' );
                     ++$tries;
@@ -443,33 +444,49 @@ class eZFSFileHandler
         return new eZClusterFileFailure( 2, "Manual generation of file data is required, calling storeCache is required" );
     }
 
-    /*!
-     \static
-     \private
-     Calculates if the file data is expired or not.
-
-     \param $fname Name of file, available for easy debugging.
-     \param $mtime Modification time of file, can be set to false if file does not exist.
-     \param $expiry Time when file is to be expired, a value of -1 will disable this check.
-     \param $curtime The current time to check against.
-     \param $ttl Number of seconds the data can live, set to null to disable TTL.
+    /**
+     * Calculates if the file data is expired or not.
+     *
+     * @param string $fname Name of file, available for easy debugging.
+     * @param int    $mtime Modification time of file, can be set to false if file does not exist.
+     * @param int    $expiry Time when file is to be expired, a value of -1 will disable this check.
+     * @param int    $curtime The current time to check against.
+     * @param int    $ttl Number of seconds the data can live, set to null to disable TTL.
+     * @return bool
      */
-    function isExpired( $fname, $mtime, $expiry, $curtime, $ttl )
+    public static function isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl )
     {
         if ( $mtime == false )
         {
-            return true;
+            $ret = true;
         }
-        else if ( $ttl === null )
+        elseif ( $mtime == self::EXPIRY_TIMESTAMP )
+        {
+            $ret = true;
+        }
+        elseif ( $ttl === null )
         {
             $ret = $mtime < $expiry;
-            return $ret;
         }
         else
         {
             $ret = $mtime < max( $expiry, $curtime - $ttl );
-            return $ret;
         }
+        return $ret;
+    }
+
+
+    /**
+     * Calculates if the current file data is expired or not.
+     *
+     * @param int    $expiry Time when file is to be expired, a value of -1 will disable this check.
+     * @param int    $curtime The current time to check against.
+     * @param int    $ttl Number of seconds the data can live, set to null to disable TTL.
+     * @return bool
+     **/
+    public function isExpired( $expiry, $curtime, $ttl )
+    {
+        return self::isFileExpired( $this->filePath, @filemtime( $this->filePath ), $expiry, $curtime, $ttl );
     }
 
     /*!
@@ -951,6 +968,7 @@ class eZFSFileHandler
     }
 
     public $metaData = null;
+    public $filePath;
 }
 
 ?>

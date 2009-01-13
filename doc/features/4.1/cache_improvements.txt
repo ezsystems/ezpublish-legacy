@@ -47,3 +47,13 @@ A generation timeout is handled, so that if a cache file is being generated duri
 a long time, another process can take the operation over (this will usually come
 from a process that died). By default, this timeout value is 60 seconds, but it
 can be configured by changing ContentSettings.CacheGenerationTimeout in site.ini.
+
+This is implemented for both the FS and DB cluster handlers. Differences between
+both are detailled below.
+
+DB Handler
+''''''''''
+
+FS Handler
+''''''''''
+
