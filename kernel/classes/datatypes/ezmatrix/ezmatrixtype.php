@@ -522,7 +522,7 @@ class eZMatrixType extends eZDataType
             $columnIdentifier = $columnNode->getAttribute( 'identifier' );
             $matrixDefinition->addColumn( $columnName, $columnIdentifier );
         }
-        $classAttribute->setAttribute( 'data_text5', $matrixDefinition->xmlString() );
+        $classAttribute->setContent( $matrixDefinition );
     }
 
     /*!
