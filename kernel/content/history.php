@@ -390,7 +390,7 @@ $newerDraftVersionListCount = is_array( $newerDraftVersionList ) ? count( $newer
 $versions = $object->versions();
 
 $tpl->setVariable( 'newerDraftVersionList', $newerDraftVersionList );
-$tpl->setVariable( 'newerDraftVersionListCount', $newerDraftVersionListCount[0]['count'] );
+$tpl->setVariable( 'newerDraftVersionListCount', $newerDraftVersionListCount );
 $tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( 'object', $object );
 $tpl->setVariable( 'edit_version', $EditVersion );
