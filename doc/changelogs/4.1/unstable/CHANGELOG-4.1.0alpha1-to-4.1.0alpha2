@@ -55,3 +55,4 @@ Changes from 4.1.0alpha1 to 4.1.0alpha2
 - Fixed bug #13385: UserClassID used in kernel/classes/workflowtypes/event/ezapprove/ezapprovetype.php
 - Fixed bug #12424: user not logged out after deletion
 - Fixed bug #14236: Package fails to import Matrix columns
+- Fixed bug #14268: eZPackage doesn't store text content properly when it contains some special chars

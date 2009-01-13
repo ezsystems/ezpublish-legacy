@@ -1297,8 +1297,16 @@ class eZPackage
         {
             $dom = new DOMDocument( '1.0', 'utf-8' );
             $dom->preserveWhiteSpace = false;
-            $dom->load( $filename );
-            return $dom;
+            $success = $dom->load( $filename );
+
+            if ( !$success )
+            {
+                return false;
+            }
+            else
+            {
+                return $dom;
+            }
         }
         return false;
     }
@@ -2276,9 +2284,12 @@ class eZPackage
 
         if ( eZPackage::DEVELOPMENT )
         {
-             $warningNode = $dom->createElement( 'warning', "This format was made with a development version and will not work with any release versions.\n" .
-                                                             "The format of this file is also subject to change until the release version.\n" .
-                                                             "Upgrades to the development format will not be supported." );
+            $warningText = "This format was made with a development version and will not work with any release versions.\n" .
+                           "The format of this file is also subject to change until the release version.\n" .
+                           "Upgrades to the development format will not be supported.";
+
+            $warningNode = $dom->createElement( 'warning' );
+            $warningNode->appendChild( $dom->createTextNode( $warningText ) );
             $root->appendChild( $warningNode );
         }
 
@@ -2317,24 +2328,28 @@ class eZPackage
         $uninstall = $this->attribute( 'uninstall' );
         $changelog = $this->attribute( 'changelog' );
 
-        $rootNameTextNode = $dom->createElement( 'name', $name );
+        $rootNameTextNode = $dom->createElement( 'name' );
+        $rootNameTextNode->appendChild( $dom->createTextNode( $name ) );
         $root->appendChild( $rootNameTextNode );
 
         if ( $summary )
         {
-            $rootSummaryTextNode = $dom->createElement( 'summary', $summary );
+            $rootSummaryTextNode = $dom->createElement( 'summary' );
+            $rootSummaryTextNode->appendChild( $dom->createTextNode( $summary ) );
             $root->appendChild( $rootSummaryTextNode );
         }
 
         if ( $description )
         {
-            $rootDescriptionTextNode = $dom->createElement( 'description', $description );
+            $rootDescriptionTextNode = $dom->createElement( 'description' );
+            $rootDescriptionTextNode->appendChild( $dom->createTextNode( $description ) );
             $root->appendChild( $rootDescriptionTextNode );
         }
 
         if ( $vendorName )
         {
-            $rootVendorTextNode = $dom->createElement( 'vendor', $vendorName );
+            $rootVendorTextNode = $dom->createElement( 'vendor' );
+            $rootVendorTextNode->appendChild( $dom->createTextNode( $vendorName ) );
             $root->appendChild( $rootVendorTextNode );
         }
 
@@ -2361,7 +2376,8 @@ class eZPackage
 
         if ( $source )
         {
-            $rootSourceTextNode = $dom->createElement( 'source', $source );
+            $rootSourceTextNode = $dom->createElement( 'source' );
+            $rootSourceTextNode->appendChild( $dom->createTextNode( $source ) );
             $root->appendChild( $rootSourceTextNode );
         }
 
@@ -2369,10 +2385,12 @@ class eZPackage
 
         $ezpublishNode = $dom->createElement( 'ezpublish' );
 
-        $ezpublishVersionTextNode = $dom->createElement( 'version', $ezpublishVersion );
+        $ezpublishVersionTextNode = $dom->createElement( 'version' );
+        $ezpublishVersionTextNode->appendChild( $dom->createTextNode( $ezpublishVersion ) );
         $ezpublishNode->appendChild( $ezpublishVersionTextNode );
 
-        $ezpublishNamedVersionTextNode = $dom->createElement( 'named-version', $ezpublishNamedVersion );
+        $ezpublishNamedVersionTextNode = $dom->createElement( 'named-version' );
+        $ezpublishNamedVersionTextNode->appendChild( $dom->createTextNode( $ezpublishNamedVersion ) );
         $ezpublishNode->appendChild( $ezpublishNamedVersionTextNode );
 
         $root->appendChild( $ezpublishNode );
@@ -2386,16 +2404,19 @@ class eZPackage
                 $maintainerNode = $dom->createElement( 'maintainer' );
 
                 unset( $maintainerName );
-                $maintainerName = $dom->createElement( 'name', $maintainer['name'] );
+                $maintainerName = $dom->createElement( 'name' );
+                $maintainerName->appendChild( $dom->createTextNode( $maintainer['name'] ) );
                 $maintainerNode->appendChild( $maintainerName );
 
                 unset( $maintainerEmail );
-                $maintainerEmail = $dom->createElement( 'email', $maintainer['email'] );
+                $maintainerEmail = $dom->createElement( 'email' );
+                $maintainerEmail->appendChild( $dom->createTextNode( $maintainer['email'] ) );
                 $maintainerNode->appendChild( $maintainerEmail );
                 if ( $maintainer['role'] )
                 {
                     unset( $maintainerRole );
-                    $maintainerRole = $dom->createElement( 'role', $maintainer['role'] );
+                    $maintainerRole = $dom->createElement( 'role' );
+                    $maintainerRole->appendChild( $dom->createTextNode( $maintainer['role'] ) );
                     $maintainerNode->appendChild( $maintainerRole );
                 }
 
@@ -2406,15 +2427,18 @@ class eZPackage
 
         $packagingNode = $dom->createElement( 'packaging' );
 
-        $packagingTimestamp = $dom->createElement( 'timestamp', $packagingTimestamp );
-        $packagingNode->appendChild( $packagingTimestamp );
+        $packagingTimestampNode = $dom->createElement( 'timestamp' );
+        $packagingTimestampNode->appendChild( $dom->createTextNode( $packagingTimestamp ) );
+        $packagingNode->appendChild( $packagingTimestampNode );
 
-        $packagingHost = $dom->createElement( 'host', $packagingHost );
-        $packagingNode->appendChild( $packagingHost );
+        $packagingHostNode = $dom->createElement( 'host' );
+        $packagingHostNode->appendChild( $dom->createTextNode( $packagingHost ) );
+        $packagingNode->appendChild( $packagingHostNode );
         if ( $packagingPackager )
         {
-            $packagingPackager = $dom->createElement( 'packager', $packagingPackager );
-            $packagingNode->appendChild( $packagingPackager );
+            $packagingPackagerNode = $dom->createElement( 'packager' );
+            $packagingPackagerNode->appendChild( $dom->createTextNode( $packagingPackager ) );
+            $packagingNode->appendChild( $packagingPackagerNode );
         }
 
         $root->appendChild( $packagingNode );
@@ -2467,7 +2491,8 @@ class eZPackage
                 foreach ( $changeEntry['changes'] as $change )
                 {
                     unset( $changeEntryChange );
-                    $changeEntryChange = $dom->createElement( 'change', $change );
+                    $changeEntryChange = $dom->createElement( 'change' );
+                    $changeEntryChange->appendChild( $dom->createTextNode( $change ) );
                     $changeEntryNode->appendChild( $changeEntryChange );
                 }
                 $changelogNode->appendChild( $changeEntryNode );
@@ -2478,7 +2503,6 @@ class eZPackage
         // Avoid a PHP warning if 'simple-file-list' is not an array
         if ( is_array( $this->Parameters['simple-file-list'] ) )
         {
-
             $rootSimpleFiles = $dom->createElement( 'simple-files' );
             foreach( $this->Parameters['simple-file-list'] as $key => $value )
             {
@@ -2575,27 +2599,32 @@ class eZPackage
             $root->appendChild( $filesNode );
 
         $versionNode = $dom->createElement( 'version' );
-        $versionNumberTextNode = $dom->createElement( 'number', $versionNumber );
+        $versionNumberTextNode = $dom->createElement( 'number' );
+        $versionNumberTextNode->appendChild( $dom->createTextNode( $versionNumber ) );
         $versionNode->appendChild( $versionNumberTextNode );
-        $versionReleaseNumberTextNode = $dom->createElement( 'release', $releaseNumber );
+        $versionReleaseNumberTextNode = $dom->createElement( 'release' );
+        $versionReleaseNumberTextNode->appendChild( $dom->createTextNode( $releaseNumber ) );
         $versionNode->appendChild( $versionReleaseNumberTextNode );
         $root->appendChild( $versionNode );
 
         if ( $releaseTimestamp )
         {
-            $rootTimestampTextNode = $dom->createElement( 'timestamp', $releaseTimestamp );
+            $rootTimestampTextNode = $dom->createElement( 'timestamp' );
+            $rootTimestampTextNode->appendChild( $dom->createTextNode( $releaseTimestamp ) );
             $root->appendChild( $rootTimestampTextNode );
         }
 
         if ( $licence )
         {
-            $rootLicenceTextNode = $dom->createElement( 'licence', $licence );
+            $rootLicenceTextNode = $dom->createElement( 'licence' );
+            $rootLicenceTextNode->appendChild( $dom->createTextNode( $licence ) );
             $root->appendChild( $rootLicenceTextNode );
         }
 
         if ( $state )
         {
-            $rootStateTextNode = $dom->createElement( 'state', $state );
+            $rootStateTextNode = $dom->createElement( 'state' );
+            $rootStateTextNode->appendChild( $dom->createTextNode( $state ) );
             $root->appendChild( $rootStateTextNode );
         }
 
