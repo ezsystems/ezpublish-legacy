@@ -2634,6 +2634,25 @@ WHERE user_id = '" . $userID . "' AND
         return self::$anonymousId;
     }
 
+    /*!
+      Returns the IDs of content classes that contain user accounts
+    */
+    public static function contentClassIDs()
+    {
+        $userContentClassIDs = array();
+
+        $ini = eZINI::instance( 'content.ini' );
+        $userDatatypes = $ini->variable( "DataTypeSettings", "UserDataTypes" );
+
+        $userContentClassIDs = array();
+        foreach ( $userDatatypes as $datatypeIdentifier )
+        {
+            $userContentClassIDs = array_merge( $userContentClassIDs, eZContentClass::fetchIDListContainingDatatype( $datatypeIdentifier ) );
+        }
+
+        return $userContentClassIDs;
+    }
+
     /// \privatesection
     public $Login;
     public $Email;

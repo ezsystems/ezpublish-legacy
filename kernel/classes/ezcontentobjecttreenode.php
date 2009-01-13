@@ -4149,6 +4149,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $db = eZDB::instance();
         $db->begin();
+
+        $userClassIDArray = eZUser::contentClassIDs();
+        $usersWereRemoved = false;
+
         foreach ( $deleteIDArray as $deleteID )
         {
             $node = eZContentObjectTreeNode::fetch( $deleteID );
@@ -4173,20 +4177,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
             if ( $canRemove )
             {
-                $isUserClass = false;
-
-                $attributes = eZContentClassAttribute::fetchFilteredList(
-                    array( "contentclass_id" => $class->attribute( 'id' ),
-                           "version" => eZContentClass::VERSION_STATUS_DEFINED ), true );
-
-                foreach ( $attributes as $attribute )
-                {
-                    if ( $attribute->attribute( 'data_type_string' ) == 'ezuser' )
-                    {
-                        $isUserClass = true;
-                        break;
-                    }
-                }
+                $isUserClass = in_array( $class->attribute( 'id' ), $userClassIDArray );
 
                 if ( $moveToTrashAllowed and $isUserClass )
                 {
@@ -4249,19 +4240,31 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         // We should remove the latest subitems first,
                         // so we should fetch subitems sorted by 'path_string' DESC
                         $children = $node->subTree( array( 'Limitation' => array(),
-                                                            'SortBy' => array( 'path' , false ),
-                                                            'Limit' => 100 ) );
+                                                           'SortBy' => array( 'path' , false ),
+                                                           'Limit' => 100 ) );
                         if ( !$children )
                             break;
 
                         foreach ( $children as $child )
                         {
+                            $childObject = $child->attribute( 'object' );
                             $child->removeNodeFromTree( $moveToTrashTemp );
+                            if ( in_array( $childObject->attribute( 'contentclass_id' ), $userClassIDArray ) )
+                            {
+                                eZUser::removeSessionData( $childObject->attribute( 'id' ) );
+                                $usersWereRemoved = true;
+                            }
                             eZContentObject::clearCache();
                         }
                     }
 
                     $node->removeNodeFromTree( $moveToTrashTemp );
+
+                    if ( $isUserClass )
+                    {
+                        eZUser::removeSessionData( $object->attribute( 'id' ) );
+                        $usersWereRemoved = true;
+                    }
                 }
             }
             if ( !$canRemove )
@@ -4292,6 +4295,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
                            'new_main_node_id' => $newMainNodeID );
             $deleteResult[] = $item;
         }
+
+        if ( $usersWereRemoved )
+        {
+            // clean up the user-policy cache
+            eZUser::cleanupCache();
+        }
+
         $db->commit();
 
 

@@ -86,11 +86,8 @@ class eZContentObjectTreeNodeOperations
         $oldParentNode = $node->fetchParent();
         $oldParentObject = $oldParentNode->object();
 
-        // clear user policy cache if this was a user object
-        //include_once( "lib/ezutils/classes/ezini.php" );
-        $ini = eZINI::instance();
-        $userClassID = $ini->variable( "UserSettings", "UserClassID" );
-        if ( $object->attribute( 'contentclass_id' ) == $userClassID )
+        // clear user policy cache if this is a user object
+        if ( in_array( $object->attribute( 'contentclass_id' ), eZUser::contentClassIDs() ) )
         {
             //include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
             eZUser::cleanupCache();
