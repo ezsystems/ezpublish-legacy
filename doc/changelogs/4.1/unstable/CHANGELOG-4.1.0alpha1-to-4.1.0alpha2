@@ -56,3 +56,4 @@ Changes from 4.1.0alpha1 to 4.1.0alpha2
 - Fixed bug #12424: user not logged out after deletion
 - Fixed bug #14236: Package fails to import Matrix columns
 - Fixed bug #14268: eZPackage doesn't store text content properly when it contains some special chars
+- Fixed bug #14261: Default object availability and Default sorting of children lost when installing content classes as package

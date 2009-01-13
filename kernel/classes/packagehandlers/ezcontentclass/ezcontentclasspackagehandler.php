@@ -293,18 +293,50 @@ class eZContentClassPackageHandler extends eZPackageHandler
 
         $classIdentifier = $currentClassIdentifier;
 
+        $values = array( 'version' => 0,
+                         'serialized_name_list' => $classNameList->serializeNames(),
+                         'create_lang_if_not_exist' => true,
+                         'identifier' => $classIdentifier,
+                         'remote_id' => $classRemoteID,
+                         'contentobject_name' => $classObjectNamePattern,
+                         'url_alias_name' => $classURLAliasPattern,
+                         'is_container' => $classIsContainer,
+                         'created' => $classCreated,
+                         'modified' => $classModified );
+
+        if ( $content->hasAttribute( 'sort-field' ) )
+        {
+            $values['sort_field'] = eZContentObjectTreeNode::sortFieldID( $content->getAttribute( 'sort-field' ) );
+        }
+        else
+        {
+            eZDebug::writeNotice( 'The sort field was not specified in the content class package. ' .
+                                  'This property is exported and imported since eZ Publish 4.0.2', __METHOD__ );
+        }
+
+        if ( $content->hasAttribute( 'sort-order' ) )
+        {
+            $values['sort_order'] = $content->getAttribute( 'sort-order' );
+        }
+        else
+        {
+            eZDebug::writeNotice( 'The sort order was not specified in the content class package. ' .
+                                  'This property is exported and imported since eZ Publish 4.0.2', __METHOD__ );
+        }
+
+        if ( $content->hasAttribute( 'always-available' ) )
+        {
+            $values['always_available'] = ( $content->getAttribute( 'always-available' ) === 'true' ? 1 : 0 );
+        }
+        else
+        {
+            eZDebug::writeNotice( 'The default object availability was not specified in the content class package. ' .
+                                  'This property is exported and imported since eZ Publish 4.0.2', __METHOD__ );
+        }
+
         // create class
         $class = eZContentClass::create( $userID,
-                                         array( 'version' => 0,
-                                                'serialized_name_list' => $classNameList->serializeNames(),
-                                                'create_lang_if_not_exist' => true,
-                                                'identifier' => $classIdentifier,
-                                                'remote_id' => $classRemoteID,
-                                                'contentobject_name' => $classObjectNamePattern,
-                                                'url_alias_name' => $classURLAliasPattern,
-                                                'is_container' => $classIsContainer,
-                                                'created' => $classCreated,
-                                                'modified' => $classModified ) );
+                                         $values );
         $class->store();
 
         $classID = $class->attribute( 'id' );
@@ -514,7 +546,8 @@ class eZContentClassPackageHandler extends eZPackageHandler
         $dom = new DOMDocument( '1.0', 'utf-8' );
         $classNode = $dom->createElement( 'content-class' );
         $dom->appendChild( $classNode );
-        $serializedNameListNode = $dom->createElement( 'serialized-name-list', $class->attribute( 'serialized_name_list' ) );
+        $serializedNameListNode = $dom->createElement( 'serialized-name-list' );
+        $serializedNameListNode->appendChild( $dom->createTextNode( $class->attribute( 'serialized_name_list' ) ) );
         $classNode->appendChild( $serializedNameListNode );
         $identifierNode = $dom->createElement( 'identifier', $class->attribute( 'identifier' ) );
         $classNode->appendChild( $identifierNode );
@@ -526,6 +559,9 @@ class eZContentClassPackageHandler extends eZPackageHandler
         $classNode->appendChild( $urlAliasPatternNode );
         $isContainer = $class->attribute( 'is_container' ) ? 'true' : 'false';
         $classNode->setAttribute( 'is-container', $isContainer );
+        $classNode->setAttribute( 'always-available', $class->attribute( 'always_available' ) ? 'true' : 'false' );
+        $classNode->setAttribute( 'sort-field', eZContentObjectTreeNode::sortFieldName( $class->attribute( 'sort_field' ) ) );
+        $classNode->setAttribute( 'sort-order', $class->attribute( 'sort_order' ) );
 
         // Remote data start
         $remoteNode = $dom->createElement( 'remote' );
