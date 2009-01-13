@@ -1807,6 +1807,27 @@ You will need to change the class of the node by using the swap functionality.' 
         return $identifierHash;
     }
 
+    /*!
+     Returns an array of IDs of classes containing a specified datatype
+
+     \param $dataTypeString a datatype identification string
+    */
+    static function fetchIDListContainingDatatype( $dataTypeString )
+    {
+        $db = eZDB::instance();
+
+        $version = self::VERSION_STATUS_DEFINED;
+        $escapedDataTypeString = $db->escapeString( $dataTypeString );
+
+        $sql = "SELECT DISTINCT contentclass_id
+                FROM ezcontentclass_attribute
+                WHERE version=$version
+                AND data_type_string='$escapedDataTypeString'";
+
+        $classIDArray = $db->arrayQuery( $sql, array( 'column' => 'contentclass_id' ) );
+        return $classIDArray;
+    }
+
     /// \privatesection
     public $ID;
     // serialized array of translated class names

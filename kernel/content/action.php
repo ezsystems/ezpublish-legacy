@@ -31,8 +31,7 @@ $module = $Params['Module'];
 
 /* We retrieve the class ID for users as this is used in many places in this
  * code in order to be able to cleanup the user-policy cache. */
-$ini = eZINI::instance();
-$userClassID = $ini->variable( "UserSettings", "UserClassID" );
+$userClassIDArray = eZUser::contentClassIDs();
 
 if ( $module->hasActionParameter( 'LanguageCode' ) )
     $languageCode = $module->actionParameter( 'LanguageCode' );
@@ -472,7 +471,7 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
     $selectedNode->store();
 
     // clear user policy cache if this was a user object
-    if ( $object->attribute( 'contentclass_id' ) == $userClassID )
+    if ( in_array( $object->attribute( 'contentclass_id' ), $userClassIDArray ) )
     {
         eZUser::cleanupCache();
     }
@@ -751,7 +750,7 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
         }
         if ( $locationAdded )
         {
-            if ( $object->attribute( 'contentclass_id' ) == $userClassID )
+            if ( in_array( $object->attribute( 'contentclass_id' ), $userClassIDArray ) )
             {
                 eZUser::cleanupCache();
             }
@@ -961,7 +960,7 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
 
     eZContentCacheManager::clearObjectViewCacheIfNeeded( $objectID );
     // clear user policy cache if this was a user object
-    if ( $object->attribute( 'contentclass_id' ) == $userClassID )
+    if ( in_array( $object->attribute( 'contentclass_id' ), $userClassIDArray ) )
     {
         eZUser::cleanupCache();
     }

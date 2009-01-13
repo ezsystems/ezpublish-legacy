@@ -182,8 +182,9 @@ class eZContentOperationCollection
             $object->setAttribute( 'published', time() );
         }
         $object->setAttribute( 'modified', time() );
+        $classID = $object->attribute( 'contentclass_id' );
 
-        $class = eZContentClass::fetch( $object->attribute( 'contentclass_id' ) );
+        $class = eZContentClass::fetch( $classID );
         $objectName = $class->contentObjectName( $object );
         $object->setName( $objectName, $versionNum );
         $existingTranslations = $version->translations( false );
@@ -213,11 +214,8 @@ class eZContentOperationCollection
 
         $db->commit();
 
-        /* Check if current class is the user class, and if so, clean up the
-         * user-policy cache */
-        $ini = eZINI::instance();
-        $userClassID = $ini->variable( "UserSettings", "UserClassID" );
-        if ( $object->attribute( 'contentclass_id' ) == $userClassID )
+        /* Check if current class is the user class, and if so, clean up the user-policy cache */
+        if ( in_array( $classID, eZUser::contentClassIDs() ) )
         {
             eZUser::cleanupCache();
         }

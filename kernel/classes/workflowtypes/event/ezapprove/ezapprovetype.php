@@ -266,25 +266,26 @@ class eZApproveType extends eZWorkflowEventType
         {
 
             /* Get user IDs from approve user groups */
-            $ini = eZINI::instance();
-            $userClassIDArray = array( $ini->variable( 'UserSettings', 'UserClassID' ) );
+            $userClassIDArray = eZUser::contentClassIDs();
             $approveUserIDArray = array();
-            foreach( $approveGroups as $approveUserGroupID )
+            foreach ( $approveGroups as $approveUserGroupID )
             {
                 if (  $approveUserGroupID != false )
                 {
                     $approveUserGroup = eZContentObject::fetch( $approveUserGroupID );
                     if ( isset( $approveUserGroup ) )
-                        foreach( $approveUserGroup->attribute( 'assigned_nodes' ) as $assignedNode )
+                    {
+                        foreach ( $approveUserGroup->attribute( 'assigned_nodes' ) as $assignedNode )
                         {
                             $userNodeArray = $assignedNode->subTree( array( 'ClassFilterType' => 'include',
                                                                             'ClassFilterArray' => $userClassIDArray,
                                                                             'Limitation' => array() ) );
-                            foreach( $userNodeArray as $userNode )
+                            foreach ( $userNodeArray as $userNode )
                             {
                                 $approveUserIDArray[] = $userNode->attribute( 'contentobject_id' );
                             }
                         }
+                    }
                 }
             }
             $approveUserIDArray = array_merge( $approveUserIDArray, $editors );
