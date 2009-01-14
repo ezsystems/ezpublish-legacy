@@ -100,13 +100,6 @@ class eZSession
     static protected $hasStarted = false;
 
     /**
-     * Flag eZSession as registrated session handler in {@link eZSession::registerFunctions()}.
-     *
-     * @access protected
-     */
-    static protected $isRegistrated = false;
-
-    /**
      * List of callback actions, see {@link eZSession::addCallback()}.
      *
      * @access protected
@@ -295,7 +288,7 @@ class eZSession
     */
     static protected function registerFunctions()
     {
-        if ( self::$isRegistrated )
+        if ( self::$hasStarted )
             return false;
         session_module_name( 'user' );
         $ini = eZINI::instance();
@@ -318,7 +311,7 @@ class eZSession
             array('eZSession', 'destroy'),
             array('eZSession', 'garbageCollector')
             );
-        return self::$isRegistrated = true;
+        return true;
     }
 
     /**
