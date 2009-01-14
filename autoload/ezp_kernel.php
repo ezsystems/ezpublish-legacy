@@ -159,6 +159,7 @@ return array(
       'eZExtensionPackageCreator'          => 'kernel/classes/packagecreators/ezextension/ezextensionpackagecreator.php',
       'eZExtensionPackageHandler'          => 'kernel/classes/packagehandlers/ezextension/ezextensionpackagehandler.php',
       'eZFSFileHandler'                    => 'kernel/classes/clusterfilehandlers/ezfsfilehandler.php',
+      'eZFS2FileHandler'                   => 'kernel/private/classes/clusterfilehandlers/ezfs2filehandler.php',
       'eZFile'                             => 'lib/ezfile/classes/ezfile.php',
       'eZFileDirectHandler'                => 'kernel/classes/binaryhandlers/ezfiledirect/ezfiledirecthandler.php',
       'eZFileHandler'                      => 'lib/ezfile/classes/ezfilehandler.php',
