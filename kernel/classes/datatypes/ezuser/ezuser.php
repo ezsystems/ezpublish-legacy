@@ -1727,7 +1727,8 @@ WHERE user_id = '" . $userID . "' AND
 
         $accessArray = eZRole::accessArrayByUserID( $idList );
 
-        $modules = eZModuleManager::availableModules();
+        $ini = eZINI::instance( 'module.ini' );
+        $modules = $ini->variable( 'ModuleSettings', 'ModuleList' );
 
         // evaluate module and function wildcards in the access array
 

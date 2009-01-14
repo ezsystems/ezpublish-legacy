@@ -181,7 +181,8 @@ $moduleList = array();
 if ( $moduleName == '*' )
 {
     $showModuleList = true;
-    $moduleList = eZModuleManager::availableModules();
+    $ini = eZINI::instance( 'module.ini' );
+    $moduleList = $ini->variable( 'ModuleSettings', 'ModuleList' );
 }
 elseif( $functionName == '*' )
 {

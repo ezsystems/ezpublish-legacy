@@ -19,6 +19,10 @@ Deprecated features
 - eZFile::getContents()
   The method getContents() of eZFile is deprecated now, use file_get_contents()
   instead.
+  
+- eZModuleManager
+  The whole eZModuleManager class is deprecated now, in favor of the setting
+  [ModuleSettings] ModuleList in module.ini
 
 
 Removed features

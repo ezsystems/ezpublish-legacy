@@ -35,7 +35,8 @@ $tpl = templateInit();
 $Module = $Params['Module'];
 $roleID = $Params['RoleID'];
 
-$modules = eZModuleManager::availableModules();
+$ini = eZINI::instance( 'module.ini' );
+$modules = $ini->variable( 'ModuleSettings', 'ModuleList' );
 sort( $modules );
 
 $role = eZRole::fetch( 0, $roleID );

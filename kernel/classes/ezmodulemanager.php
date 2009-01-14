@@ -34,9 +34,8 @@
 /*!
   \class eZModuleManager ezmodulemanager.php
   \brief The class eZModuleManager does
-
+   \deprecated Use the INI setting [ModuleSettings] ModuleList[] in module.ini instead.
 */
-
 class eZModuleManager
 {
     static function aviableModules()
@@ -47,6 +46,8 @@ class eZModuleManager
 
     static function availableModules()
     {
+        eZDebug::writeWarning( __METHOD__ . ' is deprecated, use the setting [ModuleSettings] ModuleList in module.ini instead' );
+
         $pathList = eZModule::globalPathList();
         $modules = array();
         foreach ( $pathList as $pathItem )
