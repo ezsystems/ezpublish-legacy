@@ -253,6 +253,8 @@ if ( $contentIni->hasVariable( 'RelationGroupSettings', $contentTypeCase . 'Clas
 else
     $tpl->setVariable( 'class_filter_array', array() );
 
+$tpl->setVariable( 'content_type_name', rtrim( $contentTypeCase, 's' ) );
+
 $tpl->setVariable( 'persistent_variable', array() );
 
 $Result = array();

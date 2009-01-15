@@ -257,6 +257,7 @@ $tpl->setVariable( 'embed_type', $embedType );
 $tpl->setVariable( 'embed_object', $embedObject );
 $tpl->setVariable( 'embed_data', eZOEAjaxContent::encode( $embedObject, $params ) );
 $tpl->setVariable( 'content_type', $contentType );
+$tpl->setVariable( 'content_type_name', ucfirst( rtrim( $contentTypeCase, 's' ) ) );
 $tpl->setVariable( 'compatibility_mode', $ezoeIni->variable('EditorSettings', 'CompatibilityMode' ) );
 
 $tpl->setVariable( 'tag_name', $embedInline ? 'embed-inline' : 'embed' );
