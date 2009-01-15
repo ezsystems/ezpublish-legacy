@@ -102,3 +102,18 @@ Take a look at you apache rewrite rules to make sure they are not rewritten by a
 See INSTALL if your running a .htaccess setup for how to make sure your rewrite rules
 work.
 
+8. I select the align 'None' option, but image / embed object is still aligned right
+====================================================================================
+
+This option is not supported on eZ Publish 4.0 as align=right is considered default
+value if none is given. You'll need to upgrade to eZ Publish 4.1 or not use the option.
+You can hide the option by overriding the selections using ezoe_customattributes.ini:
+
+    # Override align options in embed pop up dialogs to hide None option
+    # for eZ Publish 4.0 compatibility   
+    [Attribute_embed_align]
+    Selection[]
+    Selection[left]=Left
+    Selection[right]=Right
+    Selection[center]=Center
+
