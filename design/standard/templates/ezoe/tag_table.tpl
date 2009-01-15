@@ -1,4 +1,4 @@
-{set scope=global persistent_variable=hash('title', 'Table Properties'|i18n('design/standard/ezoe'),
+{set scope=global persistent_variable=hash('title', 'New <%tag_name> tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', $tag_name ))|wash('xhtml'),
                                            'scripts', array('javascript/ezoe/ez_core.js',
                                                             'javascript/ezoe/ez_core_animation.js',
                                                             'javascript/ezoe/ez_core_accordion.js',
@@ -10,6 +10,7 @@
 <!--
 
 eZOEPopupUtils.settings.customAttributeStyleMap = {$custom_attribute_style_map};
+eZOEPopupUtils.settings.tagEditTitleText = "{'Edit <%tag_name> tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', $tag_name ))|wash('xhtml')}";
 var ezTagName = '{$tag_name|wash}',{literal} tableSizeGrid = {'rows': 0, 'cols': 0};
 
 
@@ -113,9 +114,9 @@ function tableSizeGridShowChange( rows, cols, save )
 <div class="panel_wrapper">
     <div class="panel current">
         <div class="attribute-title">
-            <h2 style="padding: 0 0 4px 0;">{$tag_name|upfirst|wash}</h2>
+            <h2 style="padding: 0 0 4px 0;" id="tag-edit-title">{'New <%tag_name> tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', $tag_name ))|wash('xhtml')}</h2>
         </div>
-        
+
         <table class="properties" id="table_cell_size" summary="Click to select table size" style="display: none">
         <tr>
             <td class="column1">{'Size'|i18n('design/standard/ezoe')}:</td>

@@ -769,6 +769,14 @@ Do you want more information about this issue?</source>
         <source>Invalid parameter: %parameter = %value</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>New <%tag_name> tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit <%tag_name> tag</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/ezoe/searchreplace</name>

@@ -1,4 +1,4 @@
-{set scope=global persistent_variable=hash('title', 'Custom tag properties'|i18n('design/standard/ezoe'),
+{set scope=global persistent_variable=hash('title', 'New <%tag_name> tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', concat($tag_name, '.', $custom_tag_name) ))|wash('xhtml'),
                                            'scripts', array('javascript/ezoe/ez_core.js',
                                                             'javascript/ezoe/ez_core_animation.js',
                                                             'javascript/ezoe/ez_core_accordion.js',
@@ -11,6 +11,7 @@
 
 var ezTagName = '{$tag_name|wash}', customTagName = '{$custom_tag_name}';
 eZOEPopupUtils.settings.customAttributeStyleMap = {$custom_attribute_style_map};
+eZOEPopupUtils.settings.tagEditTitleText = "{'Edit <%tag_name> tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', concat($tag_name, '.', $custom_tag_name) ))|wash('xhtml')}";
 {literal} 
 
 
@@ -125,7 +126,7 @@ function filterOutCustomBlockTags( n )
 <div class="panel_wrapper">
     <div class="panel current">
         <div class="attribute-title">
-            <h2 style="padding: 0 0 4px 0;">{$tag_name|upfirst|wash} {$custom_tag_name|upfirst|wash}</h2>
+            <h2 style="padding: 0 0 4px 0;" id="tag-edit-title">{'New <%tag_name> tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', concat($tag_name, '.', $custom_tag_name) ))|wash('xhtml')}</h2>
         </div>
 
         {* custom tag name is defined as class internally in the editor even though the xml attribute name is 'name' *}

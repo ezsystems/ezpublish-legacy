@@ -1,4 +1,4 @@
-{set scope=global persistent_variable=hash('title', 'Link properties'|i18n('design/standard/ezoe'),
+{set scope=global persistent_variable=hash('title', 'New <%tag_name> tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', $tag_name ))|wash('xhtml'),
                                            'scripts', array('javascript/ezoe/ez_core.js',
                                                             'javascript/ezoe/ez_core_animation.js',
                                                             'javascript/ezoe/ez_core_accordion.js',
@@ -11,6 +11,7 @@
 
 var ezTagName = '{$tag_name|wash}', ezoeLinkTimeOut = null, slides = 0, eZSelectedLinkNode = {ldelim}'object_id': '', 'node_id': '', 'name': '' {rdelim};
 eZOEPopupUtils.settings.customAttributeStyleMap = {$custom_attribute_style_map};
+eZOEPopupUtils.settings.tagEditTitleText = "{'Edit <%tag_name> tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', $tag_name ))|wash('xhtml')}";
 {literal}
 
 eZOEPopupUtils.ajaxLink = ez.ajax( { 'charset': 'UTF-8' } );
@@ -180,7 +181,7 @@ function ezoeLinkTypeSet( source, types )
 <div class="panel_wrapper" style="min-height: 300px;">
     <div class="panel">
         <div class="attribute-title">
-            <h2 style="padding: 0 0 4px 0;">{$tag_name|upfirst|wash}</h2>
+            <h2 style="padding: 0 0 4px 0;" id="tag-edit-title">{'New <%tag_name> tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', $tag_name ))|wash('xhtml')}</h2>
         </div>
         {set-block variable=$link_href_types}
             <select id="link_href_source_types" class="mceItemSkip" title="{"List of possible link types. Link types that use the '://' format are technically called protocols."|i18n('design/standard/ezoe')}">

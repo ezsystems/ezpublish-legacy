@@ -55,7 +55,9 @@ var eZOEPopupUtils = {
         // custom init function pr custom attribute
         customAttributeInitHandler: [],
         // custom save function pr custom attribute
-        customAttributeSaveHandler: []
+        customAttributeSaveHandler: [],
+        // Title text to set on tilte tag and h2#tag-edit-title tag in tag edit / create dialogs
+        tagEditTitleText: ''
     },
     
     init: function( settings )
@@ -74,7 +76,22 @@ var eZOEPopupUtils = {
             s.cancelButton.addEvent('click', eZOEPopupUtils.cancel );
 
         if ( el && el.nodeName )
+        {
             s.editorElement = el;
+            if ( s.tagEditTitleText )
+            {
+                ez.$$( 'head title', '#tag-edit-title').forEach( function(o){
+                    o.el.innerHTML = s.tagEditTitleText;
+                });
+                if ( window.parent && window.parent.ez )
+                {
+                    // set title on inline popup if inlinepopup tinyMCE plugin is used
+                    var tinyInlinePopupsTitle = window.parent.ez.$$('div.clearlooks2');
+                    if ( tinyInlinePopupsTitle ) 
+                        window.parent.document.getElementById( tinyInlinePopupsTitle[0].el.id + '_title').innerHTML = s.tagEditTitleText;
+                }
+            }
+        }
         else
         {
             var selectedHtml = ed.selection.getContent( {format:'text'} );
