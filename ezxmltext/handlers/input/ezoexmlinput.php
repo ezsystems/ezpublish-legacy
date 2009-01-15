@@ -37,19 +37,6 @@
 
 */
 include_once( 'kernel/common/template.php' );
-/*include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
-include_once( "kernel/classes/datatypes/ezimage/ezimagevariation.php");
-include_once( "kernel/classes/datatypes/ezimage/ezimage.php");
-include_once( "lib/ezimage/classes/ezimagelayer.php" );
-include_once( "lib/ezimage/classes/ezimagetextlayer.php" );
-include_once( "lib/ezimage/classes/ezimagefont.php" );
-include_once( "lib/ezimage/classes/ezimageobject.php" );
-include_once( "lib/eztemplate/classes/eztemplateimageoperator.php" );
-include_once( "lib/ezutils/classes/ezini.php" );
-include_once( "lib/ezutils/classes/ezsys.php" );
-include_once( "kernel/classes/ezcontentobject.php");
-include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
-*/
 
 class eZOEXMLInput extends eZXMLInputHandler
 {
@@ -72,11 +59,6 @@ class eZOEXMLInput extends eZXMLInputHandler
         $this->browserSupportsDHTMLType();
 
         $ezxmlIni = eZINI::instance( 'ezxml.ini' );
-        if ( $ezxmlIni->hasVariable( 'InputSettings', 'TrimSpaces' ) === true )
-        {
-            $trimSpaces = $ezxmlIni->variable( 'InputSettings', 'TrimSpaces' );
-            $this->trimSpaces = $trimSpaces === 'true' ? true : false;
-        }
 
         if ( $ezxmlIni->hasVariable( 'InputSettings', 'AllowMultipleSpaces' ) === true )
         {
@@ -443,9 +425,6 @@ class eZOEXMLInput extends eZXMLInputHandler
     */
     function validateInput( $http, $base, $contentObjectAttribute )
     {
-        $this->ContentObjectAttributeID = $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
-        $this->ContentObjectAttributeVersion = $contentObjectAttributeVersion = $contentObjectAttribute->attribute('version');
-
         if ( !$this->isEditorEnabled() )
         {
             $aliasedHandler = $this->attribute( 'aliased_handler' );
@@ -458,7 +437,7 @@ class eZOEXMLInput extends eZXMLInputHandler
             $text = preg_replace( '#<!--.*?-->#s', '', $text ); // remove HTML comments
             $text = str_replace( "\r", '', $text);
 
-            if ( self::$browserType === 'Trident' )
+            if ( self::$browserType === 'Trident' ) // IE
             {
                 $text = preg_replace( "/[\n\t]/", '', $text);
             }
@@ -1107,8 +1086,6 @@ class eZOEXMLInput extends eZXMLInputHandler
                         $dataTypeString = $classAttribute->attribute( 'data_type_string' );
                         if ( in_array ( $dataTypeString, $imageDatatypeArray ) )
                         {
-                            $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
-                            $contentObjectAttributeVersion = $contentObjectAttribute->attribute( 'version' );
                             $content = $contentObjectAttribute->content();
                             if ( $content != null && $content->hasAttribute( $size ) )
                             {
@@ -1647,15 +1624,11 @@ class eZOEXMLInput extends eZXMLInputHandler
     /// Contains the XML data
     public $XMLData;
 
-    public $ContentObjectAttributeID;
-    public $ContentObjectAttributeVersion;
-
     public $IsStrictHeader = false;
     public $SectionArray = array(  'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'section' );
 
     public $eZPublishVersion;
 
-    public $trimSpaces = false;
     public $allowMultipleSpaces = true;
 }
 

@@ -38,9 +38,6 @@
 
 */
 
-//include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlschema.php' );
-//include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlinputparser.php' );
-
 class eZOEInputParser extends eZXMLInputParser
 {
     /**
@@ -373,7 +370,6 @@ class eZOEInputParser extends eZXMLInputParser
     
     function parsingHandlerParagraph( $element, &$param )
     {
-        // Cleanup empty paragraphs in Gecko (<p><br></p>)
         $data = $param[0];
         $pos = $param[1];
 
@@ -385,12 +381,20 @@ class eZOEInputParser extends eZXMLInputParser
             return null;
 
         $text = substr( $data, $pos, $prePos - $pos );
-        
+        // Fix empty paragraphs in Gecko (<p><br></p>)
         if ( $text === '<br>' || $text === '<BR>' || $text === '<br />' )
         {
-            $text = $this->entitiesDecode( '&nbsp;' );     
-            $textNode = $this->Document->createTextNode( $text );
-            $element->appendChild( $textNode );
+            if ( !$this->XMLSchema->Schema['paragraph']['childrenRequired'] )
+            {
+                $textNode = $this->Document->createTextNode( $this->entitiesDecode( '&nbsp;' ) );
+                $element->appendChild( $textNode );
+            }
+        }
+        // Fix empty paragraphs in IE  (<P>&nbsp;</P>)
+        else if ( $text === '&nbsp;' && $this->XMLSchema->Schema['paragraph']['childrenRequired'] )
+        {
+            $parent = $element->parentNode;
+            $parent->removeChild( $element );
         }
         
         return true;

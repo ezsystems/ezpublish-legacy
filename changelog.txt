@@ -1,6 +1,7 @@
 eZ Online Editor 5.0 extension Changelog
 
 5.0rc12
+* Fixed bug #014260: content.ini.[paragraph].AllowEmpty=false is ignored
 
 5.0rc11
 * Fixed regression #014110: IE7 double every paragraph break on every edit
