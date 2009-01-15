@@ -770,11 +770,11 @@ Do you want more information about this issue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>New <%tag_name> tag</source>
+        <source>New &lt;%tag_name&gt; tag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Edit <%tag_name> tag</source>
+        <source>Edit &lt;%tag_name&gt; tag</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
