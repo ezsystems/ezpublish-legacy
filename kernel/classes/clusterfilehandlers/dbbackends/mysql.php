@@ -46,7 +46,7 @@ CREATE TABLE ezdbfile (
   expired       BOOL          NOT NULL DEFAULT '0',
   PRIMARY KEY (name_hash),
   INDEX ezdbfile_name (name(250)),
-  INDEX ezdbfile_name_trunk (name(250)),
+  INDEX ezdbfile_name_trunk (name_trunk(250)),
   INDEX ezdbfile_mtime (mtime),
   INDEX ezdbfile_expired_name (expired, name(250))
 ) ENGINE=InnoDB;
