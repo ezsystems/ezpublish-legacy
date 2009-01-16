@@ -1,4 +1,4 @@
-{set scope=global persistent_variable=hash('title', 'New %open_tag%tag_name%close_tag tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', $tag_name, '%open_tag', '&lt;', '%close_tag', '&gt;' )),
+{set scope=global persistent_variable=hash('title', 'New %tag_name tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', concat('&lt;', $tag_name, '&gt;') )),
                                            'scripts', array('javascript/ezoe/ez_core.js',
                                                             'javascript/ezoe/ez_core_animation.js',
                                                             'javascript/ezoe/ez_core_accordion.js',
@@ -11,7 +11,7 @@
 
 eZOEPopupUtils.embedObject = {$embed_data};
 eZOEPopupUtils.settings.customAttributeStyleMap = {$custom_attribute_style_map};
-eZOEPopupUtils.settings.tagEditTitleText = "{'Edit %open_tag%tag_name%close_tag tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', $tag_name, '%open_tag', '&lt;', '%close_tag', '&gt;' ))}";
+eZOEPopupUtils.settings.tagEditTitleText = "{'Edit %tag_name tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', concat('&lt;', $tag_name, '&gt;') ))}";
 var defaultEmbedSize = '{$default_size}', selectedSize = defaultEmbedSize, contentType = '{$content_type}', attachmentIcon = {"tango/mail-attachment32.png"|ezimage};
 var viewListData = {$view_list}, classListData = {$class_list}, attributeDefaults = {$attribute_defaults}, selectedTagName = '', compatibilityMode = '{$compatibility_mode}';
 
@@ -183,7 +183,7 @@ function loadImageSize( e, el )
 <div class="panel_wrapper" style="height: auto;">
     <div class="panel">
         <div class="attribute-title">
-            <h2 style="padding: 0 0 4px 0;" id="tag-edit-title">{'New %open_tag%tag_name%close_tag tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', $tag_name, '%open_tag', '&lt;', '%close_tag', '&gt;' ))}</h2>
+            <h2 style="padding: 0 0 4px 0;" id="tag-edit-title">{'New %tag_name tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', concat('&lt;', $tag_name, '&gt;') ))}</h2>
         </div>
         {def $embed_relaton_options = hash(concat('eZObject_', $embed_object.id), concat('Object'|i18n('design/standard/ezoe'), ': ', $embed_object.name|shorten( 35 ) ))}
         {foreach $embed_object.assigned_nodes as $assigned_node}
