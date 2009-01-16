@@ -771,12 +771,12 @@ Vil du vite mer om dette?</translation>
         <translation>Ugyldig parameter: %parameter = %value</translation>
     </message>
     <message>
-        <source>New &lt;%tag_name&gt; tag</source>
-        <translation>Ny &lt;%tag_name&gt; tagg</translation>
+        <source>New %open_tag%tag_name%close_tag tag</source>
+        <translation>Ny %open_tag%tag_name%close_tag tagg</translation>
     </message>
     <message>
-        <source>Edit &lt;%tag_name&gt; tag</source>
-        <translation>Rediger &lt;%tag_name&gt; tagg</translation>
+        <source>Edit %open_tag%tag_name%close_tag tag</source>
+        <translation>Rediger %open_tag%tag_name%close_tag tagg</translation>
     </message>
 </context>
 <context>

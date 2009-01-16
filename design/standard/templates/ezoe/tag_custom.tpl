@@ -1,4 +1,4 @@
-{set scope=global persistent_variable=hash('title', 'New &lt;%tag_name&gt; tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', concat($tag_name, '.', $custom_tag_name) )),
+{set scope=global persistent_variable=hash('title', 'New %open_tag%tag_name%close_tag tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', concat($tag_name, '.', $custom_tag_name), '%open_tag', '&lt;', '%close_tag', '&gt;' )),
                                            'scripts', array('javascript/ezoe/ez_core.js',
                                                             'javascript/ezoe/ez_core_animation.js',
                                                             'javascript/ezoe/ez_core_accordion.js',
@@ -11,7 +11,7 @@
 
 var ezTagName = '{$tag_name|wash}', customTagName = '{$custom_tag_name}';
 eZOEPopupUtils.settings.customAttributeStyleMap = {$custom_attribute_style_map};
-eZOEPopupUtils.settings.tagEditTitleText = "{'Edit &lt;%tag_name&gt; tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', concat($tag_name, '.', $custom_tag_name) ))}";
+eZOEPopupUtils.settings.tagEditTitleText = "{'Edit %open_tag%tag_name%close_tag tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', concat($tag_name, '.', $custom_tag_name), '%open_tag', '&lt;', '%close_tag', '&gt;' ))}";
 {literal} 
 
 
@@ -126,7 +126,7 @@ function filterOutCustomBlockTags( n )
 <div class="panel_wrapper">
     <div class="panel current">
         <div class="attribute-title">
-            <h2 style="padding: 0 0 4px 0;" id="tag-edit-title">{'New &lt;%tag_name&gt; tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', concat($tag_name, '.', $custom_tag_name) ))}</h2>
+            <h2 style="padding: 0 0 4px 0;" id="tag-edit-title">{'New %open_tag%tag_name%close_tag tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', concat($tag_name, '.', $custom_tag_name), '%open_tag', '&lt;', '%close_tag', '&gt;' ))}</h2>
         </div>
 
         {* custom tag name is defined as class internally in the editor even though the xml attribute name is 'name' *}

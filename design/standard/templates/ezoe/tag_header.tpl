@@ -1,4 +1,4 @@
-{set scope=global persistent_variable=hash('title', 'New &lt;%tag_name&gt; tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', $tag_name )),
+{set scope=global persistent_variable=hash('title', 'New %open_tag%tag_name%close_tag tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', $tag_name, '%open_tag', '&lt;', '%close_tag', '&gt;' )),
                                            'scripts', array('javascript/ezoe/ez_core.js',
                                                             'javascript/ezoe/ez_core_animation.js',
                                                             'javascript/ezoe/ez_core_accordion.js',
@@ -14,7 +14,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {ldelim}
     form: 'EditForm',
     customAttributeStyleMap: {$custom_attribute_style_map},
     cancelButton: 'CancelButton',
-    tagEditTitleText : "{'Edit &lt;%tag_name&gt; tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', $tag_name ))}"
+    tagEditTitleText : "{'Edit %open_tag%tag_name%close_tag tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', $tag_name, '%open_tag', '&lt;', '%close_tag', '&gt;' ))}"
 {rdelim} ) );
 
 // -->
@@ -33,7 +33,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {ldelim}
 <div class="panel_wrapper">
     <div class="panel current">
         <div class="attribute-title">
-            <h2 style="padding: 0 0 4px 0;" id="tag-edit-title">{'New &lt;%tag_name&gt; tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', $tag_name ))}</h2>
+            <h2 style="padding: 0 0 4px 0;" id="tag-edit-title">{'New %open_tag%tag_name%close_tag tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', $tag_name, '%open_tag', '&lt;', '%close_tag', '&gt;' ))}</h2>
         </div>
         
         {include uri="design:ezoe/generalattributes.tpl" tag_name=$tag_name attributes=hash('class', $class_list )}
