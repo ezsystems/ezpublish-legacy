@@ -28,15 +28,13 @@
 
 
 $currentUser = eZUser::currentUser();
-$currentUserID = $currentUser->attribute( "contentobject_id" );
 $http = eZHTTPTool::instance();
 $Module = $Params['Module'];
 
-if ( isset( $Params["UserID"] ) )
+if ( isset( $Params["UserID"] ) && is_numeric( $Params["UserID"] ) )
     $UserID = $Params["UserID"];
-
-if ( !$currentUser->isAnonymous() and !isset( $UserID ) )
-    $UserID = $currentUserID;
+else if ( !$currentUser->isAnonymous() )
+    $UserID = $currentUser->attribute( "contentobject_id" );
 
 if ( $Module->isCurrentAction( "ChangePassword" ) )
 {
