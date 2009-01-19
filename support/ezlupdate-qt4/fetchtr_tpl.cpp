@@ -34,6 +34,7 @@
 #include <qfile.h>
 #include <qfileinfo.h>
 #include <qtextstream.h>
+#include <cstdlib>
 #include <qregexp.h>
 
 #include <metatranslator.h>
