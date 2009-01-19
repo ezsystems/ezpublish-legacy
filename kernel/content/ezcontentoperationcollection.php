@@ -138,26 +138,8 @@ class eZContentOperationCollection
         $version = $object->version( $versionNum );
         if ( !$version )
             return;
-        switch ( $status )
-        {
-            case 1:
-            {
-                $statusName = 'pending';
-                $version->setAttribute( 'status', eZContentObjectVersion::STATUS_PENDING );
-            } break;
-            case 2:
-            {
-                $statusName = 'archived';
-                $version->setAttribute( 'status', eZContentObjectVersion::STATUS_ARCHIVED );
-            } break;
-            case 3:
-            {
-                $statusName = 'published';
-                $version->setAttribute( 'status', eZContentObjectVersion::STATUS_PUBLISHED );
-            } break;
-            default:
-                $statusName = 'none';
-        }
+
+        $version->setAttribute( 'status', $status );
         $version->store();
     }
 

@@ -21,6 +21,7 @@ Changes from 4.1.0alpha1 to 4.1.0alpha2
 - Implemented enhancement #13443: Some scripts should be rewritten as class to take advantage of autoloading
 - Implemented enhancement #14262: Optimize use of can_instantiate_class_list in admin templates
 - Implemented enhancement #14273: Deprecate eZModuleManager::availableModules() in favor of the ModuleList[] setting
+- Implemented enhancement #14101: Let eZContentOperationCollection::setVersionStatus() use eZContentObjectVersion status constants for the $status parameter
 
 *Design:
 

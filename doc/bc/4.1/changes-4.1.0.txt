@@ -188,6 +188,10 @@ Change of behaviour
 - eZDBFileHandlerMysqlBackend - _abortCacheGeneration
 
   New method used by the equivalent eZDBFileHandler method.
+  
+- eZContentOperationCollection::setVersionStatus()
+  This method now uses the $status parameter as is, that means $status needs
+  to be one of the eZContentObjectVersion::STATUS_ constants.
 
 Renamed constants
 -----------------
