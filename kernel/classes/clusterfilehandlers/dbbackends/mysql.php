@@ -1341,13 +1341,13 @@ class eZDBFileHandlerMysqlBackend
         eZDebug::writeError( "$error\n" . mysql_errno( $this->db ) . ': ' . mysql_error( $this->db ), $fname );
     }
 
-    /*!
-     Report SQL $query to debug system.
-
-     \param $fname The function name that started the query, should contain relevant arguments in the text.
-     \param $timeTaken Number of seconds the query + related operations took (as float).
-     \param $numRows Number of affected rows.
-     */
+    /**
+    * Report SQL $query to debug system.
+    *
+    * @param string $fname The function name that started the query, should contain relevant arguments in the text.
+    * @param int    $timeTaken Number of seconds the query + related operations took (as float).
+    * @param int $numRows Number of affected rows.
+    **/
     function _report( $query, $fname, $timeTaken, $numRows = false )
     {
         if ( !$this->dbparams['sql_output'] )
@@ -1369,17 +1369,26 @@ class eZDBFileHandlerMysqlBackend
     * insertion is not performed and false is returned (means that the file
     * is already being generated)
     * @param string $filePath
-    * @return bool true if cache generation was started succesfully, false otherwise
+    * @return array array with 2 indexes: 'result', containing either ok or ko,
+    *         and another index that depends on the result:
+    *         - if result == 'ok', the 'mtime' index contains the generating
+    *           file's mtime
+    *         - if result == 'ko', the 'remaining' index contains the remaining
+    *           generation time (time until timeout) in seconds
     **/
     function _startCacheGeneration( $filePath, $generatingFilePath )
     {
         $fname = "_startCacheGeneration( {$filePath} )";
+
+        $nameHash = $this->_md5( $generatingFilePath );
+        $mtime = time();
+
         $insertData = array( 'name' => "'" . mysql_real_escape_string( $generatingFilePath ) . "'",
                              'name_trunk' => "'" . mysql_real_escape_string( $generatingFilePath ) . "'",
-                             'name_hash' => $this->_md5( $generatingFilePath ),
+                             'name_hash' => $nameHash,
                              'scope' => "''",
                              'datatype' => "''",
-                             'mtime' => time(),
+                             'mtime' => $mtime,
                              'expired' => 0 );
         $query = 'INSERT INTO ' . TABLE_METADATA . ' ( '. implode(', ', array_keys( $insertData ) ) . ' ) ' .
                  "VALUES(" . implode( ', ', $insertData ) . ")";
@@ -1390,34 +1399,52 @@ class eZDBFileHandlerMysqlBackend
             if ( $errno != 1062 )
             {
                 eZDebug::writeError( "Unexpected error #$errno when trying to start cache generation on $filePath (".mysql_error().")", __METHOD__ );
+                eZDebug::writeDebug( $query, '$query' );
+
+                // @todo Make this an actual error, maybe an exception
+                return array( 'res' => 'ko' );
             }
             // error 1062 is expected, since it means duplicate key (file is being generated)
             else
             {
                 // generation timout check
-                $query = "SELECT mtime FROM " . TABLE_METADATA . " WHERE name_hash = " . $this->_md5( $generatingFilePath );
+                // @todo the file may have been renamed by the generating process in between
+                $query = "SELECT mtime FROM " . TABLE_METADATA . " WHERE name_hash = {$nameHash}";
                 $row = $this->_selectOneRow( $query, $fname, false, false );
-                if ( $row[0] + $this->dbparams['cache_generation_timeout'] < time() )
+
+                // @todo refactor to a method, as it is done in the FS handler
+                $remainingGenerationTime = ( $row[0] + $this->dbparams['cache_generation_timeout'] ) - time();
+                if ( $remainingGenerationTime < 0 )
                 {
+                    $previousMTime = $row[0];
+
                     eZDebugSetting::writeDebug( 'kernel-clustering', "$filePath generation has timedout (timeout={$this->dbparams['cache_generation_timeout']}), taking over", __METHOD__ );
-                    $updateQuery = "UPDATE " . TABLE_METADATA . " SET mtime = " . time();
-                    if ( $this->_query( $updateQuery, $fname, true ) )
-                        return true;
+                    $updateQuery = "UPDATE " . TABLE_METADATA . " SET mtime = {$mtime} WHERE name_hash = {$nameHash} AND mtime = {$previousMTime}";
+                    eZDebug::writeDebug( $updateQuery, '$updateQuery' );
+
+                    // we run the query manually since the default _query won't
+                    // report affected rows
+                    $res = mysql_query( $updateQuery, $this->db );
+                    if ( ( $res !== false ) and mysql_affected_rows( $this->db ) == 1 )
+                    {
+                        return array( 'result' => 'ok', 'mtime' => $mtime );
+                    }
                     else
                     {
-                        eZDebug::writeError( "An error occured taking over timedout generating cache file $generatingFilePath", __METHOD__ );
-                        return false;
+                        // @todo This would require an actual error handling
+                        eZDebug::writeError( "An error occured taking over timedout generating cache file $generatingFilePath (".mysql_error().")", __METHOD__ );
+                        return array( 'result' => 'error' );
                     }
                 }
                 else
                 {
-                    return false;
+                    return array( 'result' => 'ko', 'remaining' => $remainingGenerationTime );
                 }
             }
         }
         else
         {
-            return true;
+            return array( 'result' => 'ok', 'mtime' => $mtime );
         }
     }
 
@@ -1492,6 +1519,53 @@ class eZDBFileHandlerMysqlBackend
     }
 
     /**
+    * Checks if generation has timed out by looking for the .generating file
+    * and comparing its timestamp to the one assigned when the file was created
+    *
+    * @param string $generatingFilePath
+    * @param int    $generatingFileMtime
+    *
+    * @return bool true if the file didn't timeout, false otherwise
+    **/
+    function _checkCacheGenerationTimeout( $generatingFilePath, $generatingFileMtime )
+    {
+        $fname = "_checkCacheGenerationTimeout( $generatingFilePath, $generatingFileMtime )";
+        eZDebugSetting::writeDebug( 'kernel-clustering', "Checking for timeout of '$generatingFilePath' with mtime $generatingFileMtime", $fname );
+
+        // reporting
+        eZDebug::accumulatorStart( 'mysql_cluster_query', 'mysql_cluster_total', 'Mysql_cluster_queries' );
+        $time = microtime( true );
+
+        $nameHash = $this->_md5( $generatingFilePath );
+        $newMtime = time();
+
+        // The update query will only succeed if the mtime wasn't changed in between
+        $query = "UPDATE " . TABLE_METADATA . " SET mtime = $newMtime WHERE name_hash = {$nameHash} AND mtime = $generatingFileMtime";
+        $res = mysql_query( $query, $this->db );
+        if ( !$res )
+        {
+            $this->_error( $query, $fname );
+            return false;
+        }
+        $numRows = mysql_affected_rows( $this->db );
+
+        // reporting. Manual here since we don't use _query
+        $time = microtime( true ) - $time;
+        $this->_report( $query, $fname, $time, $numRows );
+
+        // no rows affected: mtime has changed, or row has been removed
+        if ( $numRows != 1 )
+        {
+            eZDebugSetting::writeDebug( 'kernel-clustering', "No rows affected by query '$query', record has been modified", __METHOD__ );
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    /**
     * Aborts the cache generation process by removing the .generating file
     * @param string $filePath Real cache file path
     * @param string $generatingFilePath .generating cache file path
@@ -1508,7 +1582,6 @@ class eZDBFileHandlerMysqlBackend
     * @param string $filePath
     * @param string $scope
     * @return string
-    * @todo -ceZDBFileHandlerMysqlBackend Implement eZDBFileHandlerMysqlBackend.nameTrunk()
     **/
     static function nameTrunk( $filePath, $scope )
     {

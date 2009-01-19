@@ -86,10 +86,18 @@ class eZDBFileHandler
         }
 
         $backendClassName = $GLOBALS['eZDBFileHandler_chosen_backend_class'];
-        $this->backend = new $backendClassName;
+        $this->backend = /* (eZDBFileHandlerMysqlBackend) */ new $backendClassName;
         $this->backend->_connect( false );
         $this->backendVerify = null;
         $this->filePath = $filePath;
+
+        if ( !isset( $GLOBALS['eZDBFileHandler_Settings'] ) )
+        {
+            $fileINI = eZINI::instance( 'file.ini' );
+            $GLOBALS['eZDBFileHandler_Settings']['NonExistantStaleCacheHandling'] = $fileINI->variable( "ClusteringSettings", "NonExistantStaleCacheHandling" );
+            unset( $fileINI );
+        }
+        $this->nonExistantStaleCacheHandling = $GLOBALS['eZDBFileHandler_Settings']['NonExistantStaleCacheHandling'];
     }
 
     /*!
@@ -307,6 +315,8 @@ class eZDBFileHandler
                             {
                                 eZDebugSetting::writeDebug( 'kernel-clustering', "Local file '{$this->filePath}' does not exist and can not be used for stale cache. Checking with DB", __METHOD__ );
                                 $forceDB = true;
+
+                                // forceDB + useStaleCache means that we should check for the DB file.
                             }
                         }
                         else
@@ -368,21 +378,86 @@ class eZDBFileHandler
 
                 if ( $forceDB )
                 {
-                    // check if no cache is available at all
-                    if ( ( $this->useStaleCache && $this->metaData === false ) // no stalecache file available in the DB
-                         || ( !$this->useStaleCache && ( $this->metaData === false || $this->isDBFileExpired( $expiry, $curtime, $ttl ) ) ) // no stalecache, and no DB file, generation is required
-                    )
+                    // stale cache, and no DB or FS file available
+                    if ( $this->useStaleCache && $this->metaData === false )
+                    {
+                        // configuration says we have to generate our own version
+                        if ( $this->nonExistantStaleCacheHandling[ $this->cacheType ] == 'generate' )
+                        {
+                            // no cache available, but a generate callback exists, skip to generation
+                            if ( $generateCallback !== false )
+                            {
+                                eZDebugSetting::writeDebug( 'kernel-clustering', "Database file is deleted, need to regenerate data" );
+                                break;
+                            }
+                            // if no generate callback exists, we can directly skip the main loop
+                            else
+                            {
+                                eZDebugSetting::writeDebug( 'kernel-clustering', "Database file is deleted, cannot get data" );
+                                break 2;
+                            }
+                        }
+                        // wait for the generating process to be finished (or timedout)
+                        else
+                        {
+                            while ( $this->remainingCacheGenerationTime-- >= 0 )
+                            {
+                                eZDebug::writeDebug( $this->remainingCacheGenerationTime, '$this->remainingCacheGenerationTime' );
+                                // we don't know if the file gets generated on the current
+                                // frontend or not. However, we can still try the FS cache
+                                // first, then the DB cache if FS is not found, since this
+                                // will be much more efficient
+                                if ( !file_exists( $this->filePath ) )
+                                {
+                                    $this->loadMetaData( true );
+                                    if ( $this->metaData === false )
+                                    {
+                                        sleep( 1 );
+                                        continue;
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+
+                            // if we reached this point, it means that we are over the estimated timeout value
+                            // we try to take the generation over by starting the cache generation. IF this
+                            // fails again, it is probably because another waiting process has taken the generation
+                            // over. Maybe add a counter here to prevent some kind of death loop ?
+                            eZDebugSetting::writeDebug( 'kernel-clustering', "Checking if {$this->filePath} was generating during the wait loop", __METHOD__ );
+                            $this->loadMetaData( true );
+                            $this->useStaleCache = false;
+                            $this->remainingCacheGenerationTime = false;
+                            $forceDB = false;
+
+                            // this continues to the main loop 'while (true)'
+                            continue 2;
+                        }
+                    }
+                    // no stale cache, and expired DB file
+                    elseif ( !$this->useStaleCache && ( $this->metaData === false || $this->isDBFileExpired( $expiry, $curtime, $ttl ) ) ) // no stalecache, and no DB file, generation is required
                     {
                         // no cache available, but a generate callback exists, skip to generation
                         if ( $generateCallback !== false )
                         {
                             eZDebugSetting::writeDebug( 'kernel-clustering', "Database file is deleted, need to regenerate data" );
+
+                            // we break out of one loop so that the generateCallback is called
                             break;
                         }
-                        // if no generte callback exists, we can directly skip the main loop
+                        // if no generate callback exists, we can directly skip the main loop
                         else
                         {
                             eZDebugSetting::writeDebug( 'kernel-clustering', "Database file is deleted, cannot get data" );
+
+                            // we break out of two loops so that we directly exit the method and have
+                            // the rest of execution generate the data
                             break 2;
                         }
                     }
@@ -461,18 +536,11 @@ class eZDBFileHandler
                 if ( !$this->useStaleCache )
                 {
                     $res = $this->startCacheGeneration();
-                    if ( $res instanceof eZMySQLBackendError )
-                    {
-                        // this is an error. Really.
-                        return null;
-                    }
-                    // false means that the file is being generated by another process
-                    // and we should use an old cache. We do this by setting $useStaleCache
-                    // to true, and restarting the loop from the beggining
-                    elseif ( $res === false )
+                    if ( $res !== true )
                     {
                         eZDebugSetting::writeDebug( 'kernel-clustering', "{$this->filePath} is being generated, switching to staleCache mode", __METHOD__ );
                         $this->useStaleCache = true;
+                        $this->remainingCacheGenerationTime = $res;
                         $forceDB = false;
                         continue;
                     }
@@ -544,7 +612,8 @@ class eZDBFileHandler
      **/
     public function isDBFileExpired( $expiry, $curtime, $ttl )
     {
-        return self::isFileExpired( $this->filePath, $this->metaData['mtime'], $expiry, $curtime, $ttl );
+        $mtime = isset( $this->metaData['mtime'] ) ? $this->metaData['mtime'] : 0;
+        return self::isFileExpired( $this->filePath, $mtime, $expiry, $curtime, $ttl );
     }
 
     /*!
@@ -557,6 +626,13 @@ class eZDBFileHandler
      */
     function storeCache( $fileData )
     {
+        // This checks if we entered timeout and got our generating file stolen
+        // If this happens, we don't store our cache
+        if ( !$this->checkCacheGenerationTimeout() )
+            $storeCache = false;
+        else
+            $storeCache = true;
+
         $scope       = false;
         $datatype    = false;
         $binaryData  = null;
@@ -598,6 +674,12 @@ class eZDBFileHandler
 
         if ( !$this->filePath )
             return $result;
+
+        // no store advice, we just return the result
+        if ( !$storeCache )
+        {
+            return $result;
+        }
 
         // stale cache handling: we just return the result, no lock has been set
         if ( $this->useStaleCache )
@@ -1102,14 +1184,25 @@ class eZDBFileHandler
     private function startCacheGeneration()
     {
         $generatingFilePath = $this->filePath . '.generating';
-        if ( $this->backend->_startCacheGeneration( $this->filePath, $generatingFilePath ) )
+        $ret = $this->backend->_startCacheGeneration( $this->filePath, $generatingFilePath );
+
+        // generation granted
+        if ( $ret['result'] == 'ok' )
         {
             $this->realFilePath = $this->filePath;
             $this->filePath = $generatingFilePath;
+            $this->generationStartTimestamp = $ret['mtime'];
             return true;
         }
+        // failure: the file is being generated
+        elseif ( $ret['result'] == 'ko' )
+        {
+            return $ret['remaining'];
+        }
+        // unhandled error case, should not happen
         else
         {
+            eZLog::write( "An error occured starting cache generation on '$generatingFilePath'", 'cluster.log' );
             return false;
         }
     }
@@ -1144,9 +1237,64 @@ class eZDBFileHandler
         $this->realFilePath = null;
     }
 
-    /// vars
+    /**
+     * Checks if the .generating file was changed, which would mean that generation
+     * timed out. If not timed out, refreshes the timestamp so that storage won't
+     * be stolen
+     **/
+    private function checkCacheGenerationTimeout()
+    {
+        return $this->backend->_checkCacheGenerationTimeout( $this->filePath, $this->generationStartTimestamp );
+    }
+
+    /**
+     * Determines the cache type based on the path
+     * @return string viewcache, cacheblock or misc
+     **/
+    private function _cacheType()
+    {
+        if ( strstr( $this->filePath, 'cache/content' ) !== false )
+            return 'viewcache';
+        elseif ( strstr( $this->filePath, 'cache/template-block' ) !== false )
+            return 'cacheblock';
+        else
+            return 'misc';
+    }
+
+    /**
+     * Magic getter
+     **/
+    function __get( $propertyName )
+    {
+        switch ( $propertyName )
+        {
+            case 'cacheType':
+            {
+                static $cacheType = null;
+                if ( $cacheType == null )
+                    $cacheType = $this->_cacheType();
+                return $cacheType;
+            } break;
+        }
+    }
+
+    /**
+    * Database backend class
+    * @var eZDBFileHandlerMysqlBackend
+    **/
     public $backend;
+
+    /**
+     * Secondary database backend class, used to check for modifications outside
+     * of the main transaction scope
+     * @var eZDBFileHandlerMysqlBackend
+     **/
     public $backendVerify;
+
+    /**
+    * Path to the current file
+    * @var string
+    **/
     public $filePath;
 
     /**
@@ -1156,17 +1304,19 @@ class eZDBFileHandler
     **/
     public $realFilePath = null;
 
-    // holds the file's metaData loaded from database
-    // the variable's type indicates the exact status:
-    //  - null: means that metaData have not been loaded yet
-    //  - false: means that metaData were loaded but the file was not found in DB
-    //  - array: metaData have been loaded and file exists
-    // @todo refactor to a magic property:
-    //  - when the property is requested, we check if it's null.
-    //  - if it is, we load the metadata from the database and cache them
-    //  - if it is not, we return the metaData
-    //  - then we add a reinitMetaData() method that resets the property to null
-    //    by erasing the cache
+    /**
+    * holds the file's metaData loaded from database
+    * The variable's type indicates the exact status:
+    *   - null: means that metaData have not been loaded yet
+    *   - false: means that metaData were loaded but the file was not found in DB
+    *   - array: metaData have been loaded and file exists
+    * @todo refactor to a magic property:
+    *   - when the property is requested, we check if it's null.
+    *   - if it is, we load the metadata from the database and cache them
+    *   - if it is not, we return the metaData
+    *   - then we add a reinitMetaData() method that resets the property to null
+    *     by erasing the cache
+    **/
     public $metaData = null;
 
     /**
@@ -1175,6 +1325,26 @@ class eZDBFileHandler
      * @var bool
      **/
     private $useStaleCache = false;
-}
 
+    /**
+ * Holds the preferences used when stale cache is activated and no expired
+ * file is available.
+ * This is loaded from file.ini, ClusteringSettings.NonExistantStaleCacheHandling
+ **/
+    private $nonExistantStaleCacheHandling;
+
+    /**
+ * Holds the number of seconds remaining before the generating cache times out
+ * @var int
+ **/
+    private $remainingCacheGenerationTime = false;
+
+    /**
+ * When the instance generates the cached version for a file, this property
+ * holds the timestamp at which generation was started. This is used to control
+ * a possible generation timeout
+ * @var int
+ **/
+    private $generationStartTimestamp = false;
+}
 ?>
