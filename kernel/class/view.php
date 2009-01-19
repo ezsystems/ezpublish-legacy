@@ -67,24 +67,6 @@ if ( $http->hasPostVariable( 'RemoveGroupButton' ) && $http->hasPostVariable( 'g
         $validation['processed'] = true;
     }
 }
-else if ( $http->hasPostVariable( 'SetSorting' ) &&
-          $http->hasPostVariable( 'ContentClass_default_sorting_exists' ) )
-{
-    $db = eZDB::instance();
-    $db->begin();
-    if ( $http->hasPostVariable( 'ContentClass_default_sorting_field' ) )
-    {
-        $sortingField = $http->postVariable( 'ContentClass_default_sorting_field' );
-        $class->setAttribute( 'sort_field', $sortingField );
-    }
-    if ( $http->hasPostVariable( 'ContentClass_default_sorting_order' ) )
-    {
-        $sortingOrder = $http->postVariable( 'ContentClass_default_sorting_order' );
-        $class->setAttribute( 'sort_order', $sortingOrder );
-    }
-    $class->store();
-    $db->commit();
-}
 
 $attributes = $class->fetchAttributes();
 //include_once( "kernel/classes/ezdatatype.php" );
