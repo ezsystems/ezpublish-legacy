@@ -43,7 +43,7 @@ class eZXMLSchema
                               'isInline' => true,
                               'attributes' => array( 'object_id', 'node_id', 'show_path', 'size',
                                                      'align', 'view', 'xhtml:id', 'class', 'target' ),
-                              'attributesDefaults' => array( 'align' => 'right', 'view' => 'embed', 'class' => '' ) ),
+                              'attributesDefaults' => array( 'align' => '', 'view' => 'embed', 'class' => '' ) ),
 
         'embed-inline' => array( 'blockChildrenAllowed' => false,
                               'inlineChildrenAllowed' => false,
@@ -51,7 +51,7 @@ class eZXMLSchema
                               'isInline' => true,
                               'attributes' => array( 'object_id', 'node_id', 'show_path', 'size',
                                                      'align', 'view', 'xhtml:id', 'class', 'target' ),
-                              'attributesDefaults' => array( 'align' => 'right', 'view' => 'embed-inline', 'class' => '' ) ),
+                              'attributesDefaults' => array( 'align' => '', 'view' => 'embed-inline', 'class' => '' ) ),
 
         'table'     => array( 'blockChildrenAllowed' => array( 'tr' ),
                               'inlineChildrenAllowed' => false,
