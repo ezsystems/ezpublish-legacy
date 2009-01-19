@@ -60,3 +60,4 @@ Changes from 4.1.0alpha1 to 4.1.0alpha2
 - Fixed bug #14261: Default object availability and Default sorting of children lost when installing content classes as package
 - Fixed bug #12831: /user/edit doesn't use $currentUserID
 - Fixed bug #14128: ezlupdate does not compile
+- Fixed bug #14198: class/view.php contains code to change sorting field & order
