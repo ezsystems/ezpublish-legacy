@@ -106,12 +106,7 @@ class eZDateTime
         {
             $datetime = time();
         }
-        else
-        {
-            $arr = getdate( $datetime );
-            $datetime = mktime( $arr['hours'], $arr['minutes'], $arr['seconds'],
-                                $arr['mon'], $arr['mday'], $arr['year'] );
-        }
+
         $this->DateTime = $datetime;
         $this->Locale = eZLocale::instance();
         $this->IsValid = $datetime > 0;
