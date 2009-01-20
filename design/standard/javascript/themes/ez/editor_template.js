@@ -924,29 +924,36 @@
                 c.setDisabled(!p || !DOM.getAttrib(p, 'href') );
                 c.setActive(!!p && DOM.getAttrib(p, 'href') );
             }
+
+            // Get status on alignment buttons, check parent tag if current tag is not supported
             p = this.__mceJustifyTags.test( n.nodeName );
+            if ( p )
+                var na = n;
+            else if ( p = this.__mceJustifyTags.test( n.parentNode.nodeName ) )
+                var na = n.parentNode;
             if ( c = cm.get('justifyleft') )
             {
                 c.setDisabled( !p );
-                c.setActive( p && n.align === 'left' );
+                c.setActive( p && na.align === 'left' );
             }
             if ( c = cm.get('justifyright') )
             {
                 c.setDisabled( !p );
-                c.setActive( p && n.align === 'right' );
+                c.setActive( p && na.align === 'right' );
             }
             if ( c = cm.get('justifyfull') )
             {
                 c.setDisabled( !p );
-                c.setActive( p && n.align === 'justify' );
+                c.setActive( p && na.align === 'justify' );
             }
             if ( c = cm.get('justifycenter') )
             {
                 c.setDisabled( !p );
+                // use n, since na might not be set, and IMG is supported anyway so na is not parentNode
                 if ( n.nodeName === 'IMG' )
-                    c.setActive( p && n.align === 'middle' );
+                    c.setActive( p && na.align === 'middle' );
                 else
-                    c.setActive( p && n.align === 'center' );
+                    c.setActive( p && na.align === 'center' );
             }
 
             if ( mceNonEditable === false )
@@ -1358,7 +1365,14 @@
             if ( c === 'center' && nn === 'IMG' )
                 c = 'middle';
 
-            if ( this.__mceJustifyTags.test(nn) )
+            var p = this.__mceJustifyTags.test( nn );
+            if ( !p )
+            {
+                if ( p = this.__mceJustifyTags.test( n.parentNode.nodeName ) )
+                    n = n.parentNode;
+            }
+
+            if ( p )
             {
                 if ( n.align === c )
                     ed.dom.setAttrib( n, 'align', '' );
@@ -1368,7 +1382,7 @@
             return false;
         },
 
-        __mceJustifyTags : /^(TABLE|P|IMG|DIV|SPAN|H1|H2|H3|H4|H5|H6)$/,
+        __mceJustifyTags : /^(TABLE|TD|TH|P|IMG|DIV|SPAN|H1|H2|H3|H4|H5|H6)$/i,
 
         _mceCharMap : function() {
             var ed = this.editor;
