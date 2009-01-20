@@ -4101,7 +4101,7 @@ class eZContentObject extends eZPersistentObject
 
                         default:
                         {
-                            if ( @substr_compare( $key, 'StateGroup_', 0, 11 ) === 0 )
+                            if ( strncmp( $key, 'StateGroup_', 11 ) === 0 )
                             {
                                 if ( count( array_intersect( $limitationArray[$key],
                                                              $this->attribute( 'state_id_array' ) ) ) == 0 )
@@ -5854,7 +5854,7 @@ class eZContentObject extends eZPersistentObject
 
                         default:
                         {
-                            if ( @substr_compare( $ident, 'StateGroup_', 0, 11 ) === 0 )
+                            if ( strncmp( $ident, 'StateGroup_', 11 ) === 0 )
                             {
                                 $allowed = count( array_intersect( $values, $stateIDArray ) ) > 0;
                             }
