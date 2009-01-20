@@ -211,14 +211,15 @@ class eZApproveType extends eZWorkflowEventType
 
         $userGroups = array_merge( $user->attribute( 'groups' ), array( $user->attribute( 'contentobject_id' ) ) );
         $workflowSections = explode( ',', $event->attribute( 'data_text1' ) );
-        $workflowGroups = explode( ',', $event->attribute( 'data_text2' ) );
-        $editors = explode( ',', $event->attribute( 'data_text3' ) ); //$event->attribute( 'data_int1' );
-        $approveGroups = explode( ',', $event->attribute( 'data_text4' ) );
+        $workflowGroups =   $event->attribute( 'data_text2' ) == '' ? array() : explode( ',', $event->attribute( 'data_text2' ) );
+        $editors =          $event->attribute( 'data_text3' ) == '' ? array() : explode( ',', $event->attribute( 'data_text3' ) );
+        $approveGroups =    $event->attribute( 'data_text4' ) == '' ? array() : explode( ',', $event->attribute( 'data_text4' ) );
         $languageMask = $event->attribute( 'data_int2' );
 
         eZDebugSetting::writeDebug( 'kernel-workflow-approve', $user, 'eZApproveType::execute::user' );
         eZDebugSetting::writeDebug( 'kernel-workflow-approve', $userGroups, 'eZApproveType::execute::userGroups' );
         eZDebugSetting::writeDebug( 'kernel-workflow-approve', $editors, 'eZApproveType::execute::editor' );
+        eZDebugSetting::writeDebug( 'kernel-workflow-approve', $approveGroups, 'eZApproveType::execute::approveGroups' );
         eZDebugSetting::writeDebug( 'kernel-workflow-approve', $workflowSections, 'eZApproveType::execute::workflowSections' );
         eZDebugSetting::writeDebug( 'kernel-workflow-approve', $workflowGroups, 'eZApproveType::execute::workflowGroups' );
         eZDebugSetting::writeDebug( 'kernel-workflow-approve', $languageMask, 'eZApproveType::execute::languageMask' );
