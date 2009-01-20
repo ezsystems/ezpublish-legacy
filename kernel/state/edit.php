@@ -10,6 +10,13 @@ if ( !is_object( $state ) )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 }
 
+$group = $state->group();
+
+if ( !$group->canEdit() )
+{
+    return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
+}
+
 $groupID = $state->attribute( 'group_id' );
 $redirectUrl = 'state/group/' . $groupID;
 

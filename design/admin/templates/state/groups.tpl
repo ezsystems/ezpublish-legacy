@@ -57,7 +57,12 @@
     <td class="number">{$group.id}</td>
     <td><a href={concat("/state/group/",$group.id)|ezurl}>{$group.identifier|wash}</a></td>
     <td>{$group.current_translation.name|wash}</td>
-    <td><a href={concat( 'state/group_edit/', $group.id )|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/node/view/full' )|wash}" /></a></td>
+    <td>{if $group.can_edit}
+        <a href={concat( 'state/group_edit/', $group.id )|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/node/view/full' )|wash}" /></a>
+        {else}
+        <img src={'edit-disabled.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/node/view/full' )|wash}" />
+        {/if}
+    </td>
 </tr>
 {/foreach}
 </table>

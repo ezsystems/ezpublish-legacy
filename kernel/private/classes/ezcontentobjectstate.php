@@ -53,7 +53,8 @@ class eZContentObjectState extends eZPersistentObject
                                                       "languages" => "languages",
                                                       "available_languages" => "availableLanguages",
                                                       "default_language" => "defaultLanguage",
-                                                      "object_count" => "objectCount" ),
+                                                      "object_count" => "objectCount",
+                                                      "group" => "group" ),
                       "increment_key" => "id",
                       "class_name" => "eZContentObjectState",
                       "sort" => array( "group_id" => "asc", "priority" => "asc" ),
@@ -476,6 +477,11 @@ class eZContentObjectState extends eZPersistentObject
         }
 
         return $isValid;
+    }
+
+    public function group()
+    {
+        return eZContentObjectStateGroup::fetchById( $this->GroupID );
     }
 
     /**

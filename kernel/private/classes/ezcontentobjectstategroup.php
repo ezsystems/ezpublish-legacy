@@ -17,6 +17,7 @@
 class eZContentObjectStateGroup extends eZPersistentObject
 {
     const MAX_IDENTIFIER_LENGTH = 45;
+    static $allowInternalStateGroupCreation = false;
 
     function __construct( $row = array() )
     {
@@ -46,7 +47,8 @@ class eZContentObjectStateGroup extends eZPersistentObject
                                                       "languages" => "languages",
                                                       "available_languages" => "availableLanguages",
                                                       "default_language" => "defaultLanguage",
-                                                      "states" => "states" ),
+                                                      "states" => "states",
+                                                      "can_edit" => "canEdit" ),
                       "increment_key" => "id",
                       "class_name" => "eZContentObjectStateGroup",
                       "sort" => array( "identifier" => "asc" ),
@@ -390,6 +392,11 @@ class eZContentObjectStateGroup extends eZPersistentObject
                 $messages[] = ezi18n( 'kernel/state/edit', 'Identifier: invalid, it can only consist of characters in the range a-z, 0-9 and underscore.' );
                 $isValid = false;
             }
+            else if ( !self::$allowInternalStateGroupCreation && strncmp( $this->Identifier, 'ez', 2 ) === 0 )
+            {
+                $messages[] = ezi18n( 'kernel/state/edit', 'Identifier: identifiers starting with "ez" are reserved.' );
+                $isValid = false;
+            }
             else if ( strlen( $this->Identifier ) > self::MAX_IDENTIFIER_LENGTH )
             {
                 $messages[] = ezi18n( 'kernel/state/edit', 'Identifier: invalid, maximum %max characters allowed.',
@@ -609,6 +616,18 @@ class eZContentObjectStateGroup extends eZPersistentObject
     {
         return new eZContentObjectState( array( 'group_id' => $this->ID,
                                                 'identifier' => $identifier ) );
+    }
+
+    public function canEdit()
+    {
+        if ( $this->ID && strncmp( $this->Identifier, 'ez', 2 ) === 0 )
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     /**

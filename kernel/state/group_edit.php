@@ -10,6 +10,11 @@ if ( !is_object( $stateGroup ) )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 }
 
+if ( !$stateGroup->canEdit() )
+{
+    return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
+}
+
 require_once( 'kernel/common/template.php' );
 
 $tpl = templateInit();
