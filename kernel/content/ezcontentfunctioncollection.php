@@ -46,9 +46,17 @@ class eZContentFunctionCollection
     {
     }
 
-    function fetchContentObject( $objectID )
+    function fetchContentObject( $objectID, $remoteID = false )
     {
-        $contentObject = eZContentObject::fetch( $objectID );
+        if ( $objectID ===false && $remoteID !== false )
+        {
+            $contentObject = eZContentObject::fetchByRemoteID( $remoteID );
+        }
+        else
+        {
+            $contentObject = eZContentObject::fetch( $objectID );
+        }
+        
         if ( $contentObject === null )
         {
             $result = array( 'error' => array( 'error_type' => 'kernel',
@@ -78,7 +86,7 @@ class eZContentFunctionCollection
         return $result;
     }
 
-    function fetchContentNode( $nodeID, $nodePath, $languageCode )
+    function fetchContentNode( $nodeID, $nodePath, $languageCode, $remoteID = false )
     {
         $contentNode = null;
         if ( $nodeID )
@@ -92,6 +100,10 @@ class eZContentFunctionCollection
         {
             $nodeID = eZURLAliasML::fetchNodeIDByPath( $nodePath );
             $contentNode = eZContentObjectTreeNode::fetch( $nodeID );
+        }
+        else if ( $remoteID )
+        {
+            $contentNode = eZContentObjectTreeNode::fetchByRemoteID( $remoteID );
         }
         if ( $contentNode === null )
         {

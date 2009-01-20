@@ -23,6 +23,7 @@ Changes from 4.1.0alpha1 to 4.1.0alpha2
 - Implemented enhancement #14273: Deprecate eZModuleManager::availableModules() in favor of the ModuleList[] setting
 - Implemented enhancement #14101: Let eZContentOperationCollection::setVersionStatus() use eZContentObjectVersion status constants for the $status parameter
 - Implemented enhancement #13998: Remove unnecessary code from eZDateTime constructor
+- Implemented enhancement #14145: Possibility to fetch object by remote_id in templates
 
 *Design:
 
