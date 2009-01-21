@@ -540,19 +540,34 @@ div.remove
     border: 2px solid #a00000;
 }
 
-div.object-left
+p.text-left, td.text-left, th.text-left, *.text-left
+{
+    text-align: left;
+}
+
+p.text-right, td.text-right, th.text-right, *.text-right
+{
+    text-align: right;
+}
+
+p.text-center, td.text-center, th.text-center, *.text-center
+{
+    text-align: center;
+}
+
+div.object-left, table.object-left
 {
     float: left;
     clear: left;
 }
 
-div.object-right
+div.object-right, table.object-right
 {
     float: right;
     clear: right;
 }
 
-div.object-center
+div.object-center, table.object-center
 {
     margin-left: auto;
     margin-right: auto;
