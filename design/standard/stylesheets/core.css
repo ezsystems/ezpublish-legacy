@@ -499,6 +499,11 @@ p.text-center, td.text-center, th.text-center, *.text-center
     text-align: center;
 }
 
+p.text-justify, td.text-justify, th.text-justify, *.text-justify
+{
+    text-align: justify;
+}
+
 div.object-left, table.object-left
 {
     float: left;
