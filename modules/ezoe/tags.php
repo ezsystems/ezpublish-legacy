@@ -166,6 +166,12 @@ $tpl->setVariable( 'custom_attribute_style_map', eZOEAjaxContent::jsonEncode( $e
 // to pagelayout as a hash.
 $tpl->setVariable( 'persistent_variable', array() );
 
+$xmlTagAliasList = $ezoeIni->variable( 'EditorSettings', 'XmlTagNameAlias' );
+if ( isset( $xmlTagAliasList[$tagName] ) )
+    $tpl->setVariable( 'tag_name_alias', $xmlTagAliasList[$tagName] );
+else
+    $tpl->setVariable( 'tag_name_alias', $tagName );
+
 
 if ( $tagName === 'td' || $tagName === 'th' )
 {

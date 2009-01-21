@@ -88,6 +88,7 @@
         convert_urls : false,
         inline_styles : false,
         tab_focus : ':prev,:next',
+        theme_ez_xml_alias_list : {$input_handler.json_xml_tag_alias},
         theme_ez_editor_css : '{ezoecss( $editor_css_list, false() )|implode(',')}',
         theme_ez_content_css : '{ezoecss( $content_css_list, false())|implode(',')}',
         theme_ez_statusbar_open_dialog : {cond( ezini('EditorSettings', 'TagPathOpenDialog', 'ezoe.ini',,true())|eq('enabled'), 'true', 'false' )},

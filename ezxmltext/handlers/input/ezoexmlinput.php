@@ -37,6 +37,7 @@
 
 */
 include_once( 'kernel/common/template.php' );
+include_once( 'extension/ezoe/classes/ezoeajaxcontent.php' );
 
 class eZOEXMLInput extends eZXMLInputHandler
 {
@@ -46,6 +47,7 @@ class eZOEXMLInput extends eZXMLInputHandler
     function eZOEXMLInput( &$xmlData, $aliasedType, $contentObjectAttribute )
     {
         $this->eZXMLInputHandler( $xmlData, $aliasedType, $contentObjectAttribute );
+
         $contentIni = eZINI::instance( 'content.ini' );
         if ( $contentIni->hasVariable( 'header', 'UseStrictHeaderRule' ) === true )
         {
@@ -53,13 +55,9 @@ class eZOEXMLInput extends eZXMLInputHandler
                 $this->IsStrictHeader = true;
         }
 
-        //include_once( 'lib/version.php' );
         $this->eZPublishVersion = eZPublishSDK::majorVersion() + eZPublishSDK::minorVersion() * 0.1;
 
-        $this->browserSupportsDHTMLType();
-
         $ezxmlIni = eZINI::instance( 'ezxml.ini' );
-
         if ( $ezxmlIni->hasVariable( 'InputSettings', 'AllowMultipleSpaces' ) === true )
         {
             $allowMultipleSpaces = $ezxmlIni->variable( 'InputSettings', 'AllowMultipleSpaces' );
@@ -90,6 +88,8 @@ class eZOEXMLInput extends eZXMLInputHandler
                  $name === 'is_compatible_version' or
                  $name === 'version' or
                  $name === 'ezpublish_version' or
+                 $name === 'xml_tag_alias' or
+                 $name === 'json_xml_tag_alias' or
                  eZXMLInputHandler::hasAttribute( $name ) );
     }
 
@@ -110,6 +110,10 @@ class eZOEXMLInput extends eZXMLInputHandler
             $attr = eZOEXMLInput::version();
         else if ( $name === 'ezpublish_version' )
             $attr = $this->eZPublishVersion;
+        else if ( $name === 'xml_tag_alias' )
+            $attr =  self::getXmlTagAliasList();
+        else if ( $name === 'json_xml_tag_alias' )
+            $attr =  eZOEAjaxContent::jsonEncode( self::getXmlTagAliasList() );
         else
             $attr = eZXMLInputHandler::attribute( $name );
         return $attr;
@@ -171,6 +175,18 @@ class eZOEXMLInput extends eZXMLInputHandler
         return self::$browserType;
     }
 
+    /*
+     * 
+     */
+    static public function getXmlTagAliasList()
+    {
+        if ( self::$xmlTagAliasList === null )
+        {
+            $ezoeIni = eZINI::instance( 'ezoe.ini' );
+            self::$xmlTagAliasList = $ezoeIni->variable( 'EditorSettings', 'XmlTagNameAlias' );
+        }
+        return self::$xmlTagAliasList;
+    }
     /*!
      \return boolean
     */
@@ -437,7 +453,7 @@ class eZOEXMLInput extends eZXMLInputHandler
             $text = preg_replace( '#<!--.*?-->#s', '', $text ); // remove HTML comments
             $text = str_replace( "\r", '', $text);
 
-            if ( self::$browserType === 'Trident' ) // IE
+            if ( self::browserSupportsDHTMLType() === 'Trident' ) // IE
             {
                 $text = preg_replace( "/[\n\t]/", '', $text);
             }
@@ -606,7 +622,7 @@ class eZOEXMLInput extends eZXMLInputHandler
             $output .= $this->inputSectionXML( $rootSectionNode, 0 );
         }
 
-        if ( self::$browserType === 'Trident' )
+        if ( self::browserSupportsDHTMLType() === 'Trident' )
         {
             $output = str_replace( '<p></p>', '<p>&nbsp;</p>', $output );
         }
@@ -617,7 +633,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
         $output = str_replace( "\n", '', $output );
 
-        if ( self::$browserType === 'Trident' )
+        if ( self::browserSupportsDHTMLType() === 'Trident' )
         {
             $output .= '<p>&nbsp;</p>';
         }
@@ -1318,7 +1334,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
                     $tableRows .= '<tr' . $TRcustomAttributePart . $tableRowStyleString . '>' . $tableData . '</tr>';
                 }
-                //if ( self::$browserType === 'Trident' )
+                //if ( self::browserSupportsDHTMLType() === 'Trident' )
                 //{
                     $customAttributePart .= ' width="' . $width . '"';
                 /*}
@@ -1614,6 +1630,7 @@ class eZOEXMLInput extends eZXMLInputHandler
     static protected $customInlineTagList = null;
     static protected $customAttributeStyleMap = null;
     static protected $embedIsCompatibilityMode = null;
+    static protected $xmlTagAliasList = null;
     
     protected $editorLayoutSettings = null;
     static protected $editorGlobalLayoutSettings = null;

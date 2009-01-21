@@ -4,6 +4,7 @@ eZ Online Editor 5.0 extension Changelog
 * Fixed bug #014260: content.ini.[paragraph].AllowEmpty=false is ignored
 * content type not translated in upload dialog caused by not stripping ending 's'
 * Partly fixed #014284: Neede translation improvments for oe5
+* Added customizable xml tag name alias list in ezoe.ini, used in status bars and dialogs
 
 5.0rc11
 * Fixed regression #014110: IE7 double every paragraph break on every edit

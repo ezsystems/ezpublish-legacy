@@ -37,6 +37,7 @@ $embedInline     = isset( $Params['EmbedInline'] ) ? $Params['EmbedInline'] === 
 $embedSize       = isset( $Params['EmbedSize'] ) ? $Params['EmbedSize'] : '';
 $embedObjectJSON = 'false';
 $embedId         = 0;
+$tagName         = $embedInline ? 'embed-inline' : 'embed';
 
 // Supported content types: image, file, object and auto
 // file is not used, auto will decide according to site.ini rules
@@ -260,7 +261,13 @@ $tpl->setVariable( 'content_type', $contentType );
 $tpl->setVariable( 'content_type_name', ucfirst( rtrim( $contentTypeCase, 's' ) ) );
 $tpl->setVariable( 'compatibility_mode', $ezoeIni->variable('EditorSettings', 'CompatibilityMode' ) );
 
-$tpl->setVariable( 'tag_name', $embedInline ? 'embed-inline' : 'embed' );
+$tpl->setVariable( 'tag_name', $tagName );
+
+$xmlTagAliasList = $ezoeIni->variable( 'EditorSettings', 'XmlTagNameAlias' );
+if ( isset( $xmlTagAliasList[$tagName] ) )
+    $tpl->setVariable( 'tag_name_alias', $xmlTagAliasList[$tagName] );
+else
+    $tpl->setVariable( 'tag_name_alias', $tagName );
 
 $tpl->setVariable( 'view_list', eZOEAjaxContent::jsonEncode( array( 'embed' => $viewList, 'embed-inline' => $viewListInline ) ) );
 $tpl->setVariable( 'class_list', eZOEAjaxContent::jsonEncode( array( 'embed' => $classList, 'embed-inline' => $classListInline ) ) );

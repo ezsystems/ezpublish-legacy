@@ -1040,8 +1040,14 @@
                    if ( DOM.getAttrib( n, 'class').indexOf('mceItemHidden') !== -1 )
                        return;
 
+                    // node name to ez xml tag translation
                     if ( v = t.__tagsToXml( n ) )
                         na = v;
+
+                    // ez xml tag name alias (frindly names)
+                    var naa = na;
+                    if ( s.theme_ez_xml_alias_list && s.theme_ez_xml_alias_list[na] !== undefined )
+                        naa = s.theme_ez_xml_alias_list[na];
 
                     // Fake name
                     if (v = DOM.getAttrib(n, 'mce_name'))
@@ -1073,7 +1079,7 @@
                             if (v = DOM.getAttrib(n, 'href'))
                                 ti += 'href: ' + v + ' ';
                             else if (v = DOM.getAttrib(n, 'id'))
-                                na += '#' + v;
+                                naa += '#' + v;
                             break;
                         case 'custom':
                             if (v = DOM.getAttrib(n, 'style'))
@@ -1087,7 +1093,7 @@
                             break;
                         case 'header':
                             if (v = n.nodeName)
-                                na += ' ' + v.charAt(1);
+                                naa += ' ' + v.charAt(1);
 
                             break;
                     }
@@ -1103,12 +1109,12 @@
                         {
                             ti = ti + 'class: ' + v + ' ';
                             //if (na === 'embed' || na === 'custom' || DOM.isBlock(n))
-                            na = na + '.' + v.replace(' ', '.');
+                            naa = naa + '.' + v.replace(' ', '.');
                         }
                     }
 
-                    na = na.replace(/(html:)/g, '');
-                    na = {name : na, node : n, title : ti};
+                    naa = naa.replace(/(html:)/g, '');
+                    na = {name : naa, node : n, title : ti};
                     t.onResolveName.dispatch(t, na);
                     ti = na.title;
                     na = na.name;
@@ -1216,6 +1222,7 @@
             'I' : 'emphasize',
             'EM': 'emphasize',
             'B' : 'strong',
+            'STRONG' : 'strong',
             'PRE': 'literal',
             'U': 'custom',
             'SUB': 'custom',
@@ -1227,13 +1234,12 @@
             'H5': 'header',
             'H6': 'header',
             'TABLE': 'table',
-            /* these are aliases, make sure they are not used in __pickTagCommand() */
-            'TH': 'table header',
-            'TD': 'table cell',
-            'TR': 'table row',
-            'UL': 'unordered list',
-            'OL': 'ordered list',
-            'LI': 'list item'
+            'TH': 'th',
+            'TD': 'td',
+            'TR': 'tr',
+            'UL': 'ul',
+            'OL': 'ol',
+            'LI': 'li'
         },
         
         __tagsToXml : function( n )
@@ -1304,10 +1310,6 @@
                 case 'A':
                     if ( DOM.getAttrib(n, 'href') ) return {'cmd':'mceLink', 'val': ''};
                     else return {'cmd':'mceInsertAnchor', 'val': ''};
-                case 'LI':
-                case 'OL':
-                case 'UL':
-                    return {'cmd':'generalXmlTagPopup', 'val': n.nodeName.toLowerCase() + '/' + n.nodeName};
                 default:
                     var tagName = this.__tagsToXml( n );
                     if ( tagName ) return {'cmd':'generalXmlTagPopup', 'val': tagName + '/' + n.nodeName};
