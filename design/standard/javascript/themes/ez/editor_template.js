@@ -950,12 +950,9 @@
                 else
                     c.setActive( p && jn.align === 'center' );
             }
-            if ( p )
-            {
-                //justifyfull is not supported on block tags, so recheck nodes
-                p = this.__mceJustifyFullTags.test( n.nodeName );
-                jn = n;
-            }
+          //justifyfull is not supported on block tags, so recheck node
+            if ( p && this.__mceJustifyBlockTags( n.nodeName ) )
+                p = false;
             if ( c = cm.get('justifyfull') )
             {
                 c.setDisabled( !p );
@@ -1366,17 +1363,21 @@
         __mceJustify : function(c, v)
         {
             // override the tinymce justify code to use html alignment
-            var ed = this.editor, se = ed.selection, n = se.getNode(), nn = n.nodeName, reg = c === 'justify' ? this.__mceJustifyFullTags : this.__mceJustifyTags;
+            var ed = this.editor, se = ed.selection, n = se.getNode(), nn = n.nodeName, p = false;
 
             if ( c === 'center' && nn === 'IMG' )
                 c = 'middle';
 
-            var p = reg.test( nn );
-
-            if ( !p )
+            // block tags do not support justify alignment
+            if ( c !== 'justify' || !this.__mceJustifyBlockTags.test( nn ) )
             {
-                if ( p = reg.test( n.parentNode.nodeName ) )
-                    n = n.parentNode;
+                p = this.__mceJustifyTags.test( nn );
+    
+                if ( !p )
+                {
+                    if ( p = this.__mceJustifyTags.test( n.parentNode.nodeName ) )
+                        n = n.parentNode;
+                }
             }
 
             if ( p )
@@ -1390,7 +1391,7 @@
         },
 
         __mceJustifyTags : /^(TABLE|TD|TH|P|IMG|DIV|SPAN|H1|H2|H3|H4|H5|H6)$/i,
-        __mceJustifyFullTags : /^(TD|TH|P|SPAN|H1|H2|H3|H4|H5|H6)$/i,
+        __mceJustifyBlockTags : /^(TABLE|IMG|DIV)$/i,
 
         _mceCharMap : function() {
             var ed = this.editor;
