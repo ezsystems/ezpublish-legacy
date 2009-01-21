@@ -868,7 +868,7 @@
         },
 
         _nodeChanged : function(ed, cm, n, co) {
-            var t = this, p, de = 0, v, c, c2, s = t.settings, mceNonEditable = false, div = false, header, type = '';
+            var t = this, p, de = 0, v, c, c2, s = t.settings, mceNonEditable = false, div = false, header, type = '', jn;
 
             if (s.readonly)
                 return;
@@ -928,32 +928,38 @@
             // Get status on alignment buttons, check parent tag if current tag is not supported
             p = this.__mceJustifyTags.test( n.nodeName );
             if ( p )
-                var na = n;
+                jn = n;
             else if ( p = this.__mceJustifyTags.test( n.parentNode.nodeName ) )
-                var na = n.parentNode;
+                jn = n.parentNode;
             if ( c = cm.get('justifyleft') )
             {
                 c.setDisabled( !p );
-                c.setActive( p && na.align === 'left' );
+                c.setActive( p && jn.align === 'left' );
             }
             if ( c = cm.get('justifyright') )
             {
                 c.setDisabled( !p );
-                c.setActive( p && na.align === 'right' );
-            }
-            if ( c = cm.get('justifyfull') )
-            {
-                c.setDisabled( !p );
-                c.setActive( p && na.align === 'justify' );
+                c.setActive( p && jn.align === 'right' );
             }
             if ( c = cm.get('justifycenter') )
             {
                 c.setDisabled( !p );
                 // use n, since na might not be set, and IMG is supported anyway so na is not parentNode
                 if ( n.nodeName === 'IMG' )
-                    c.setActive( p && na.align === 'middle' );
+                    c.setActive( p && jn.align === 'middle' );
                 else
-                    c.setActive( p && na.align === 'center' );
+                    c.setActive( p && jn.align === 'center' );
+            }
+            if ( p )
+            {
+                //justifyfull is not supported on block tags, so recheck nodes
+                p = this.__mceJustifyFullTags.test( n.nodeName );
+                jn = n;
+            }
+            if ( c = cm.get('justifyfull') )
+            {
+                c.setDisabled( !p );
+                c.setActive( p && jn.align === 'justify' );
             }
 
             if ( mceNonEditable === false )
@@ -1360,17 +1366,16 @@
         __mceJustify : function(c, v)
         {
             // override the tinymce justify code to use html alignment
-            var ed = this.editor, se = ed.selection, n = se.getNode(), nn = n.nodeName;
+            var ed = this.editor, se = ed.selection, n = se.getNode(), nn = n.nodeName, reg = c === 'justify' ? this.__mceJustifyFullTags : this.__mceJustifyTags;
 
-            if ( c === 'justify' && ( nn === 'IMG' || nn === 'TABLE' ) )
-                    return;
             if ( c === 'center' && nn === 'IMG' )
                 c = 'middle';
 
-            var p = this.__mceJustifyTags.test( nn );
+            var p = reg.test( nn );
+
             if ( !p )
             {
-                if ( p = this.__mceJustifyTags.test( n.parentNode.nodeName ) )
+                if ( p = reg.test( n.parentNode.nodeName ) )
                     n = n.parentNode;
             }
 
@@ -1385,6 +1390,7 @@
         },
 
         __mceJustifyTags : /^(TABLE|TD|TH|P|IMG|DIV|SPAN|H1|H2|H3|H4|H5|H6)$/i,
+        __mceJustifyFullTags : /^(TD|TH|P|SPAN|H1|H2|H3|H4|H5|H6)$/i,
 
         _mceCharMap : function() {
             var ed = this.editor;
