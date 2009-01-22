@@ -455,6 +455,7 @@ class eZMimeType
         array( 'sic', 'application/vnd.wap.sic' ),
         array( 'wmlc', 'application/vnd.wap.wmlc' ),
         array( 'wmlsc', 'application/vnd.wap.wmlscriptc' ),
+        array( 'dmg', 'application/x-apple-diskimage' ),
         array( 'bcpio', 'application/x-bcpio' ),
         array( 'bz2', 'application/x-bzip2' ),
         array( 'vcd', 'application/x-cdlink' ),
