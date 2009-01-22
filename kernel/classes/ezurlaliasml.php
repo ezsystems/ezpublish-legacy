@@ -2192,7 +2192,8 @@ class eZURLAliasML extends eZPersistentObject
         }
         else
         {
-            $db->query( 'INSERT INTO ezurlalias_ml_incr(id) VALUES(DEFAULT)' );
+            // can not use VALUES(DEFAULT), because of http://bugs.mysql.com/bug.php?id=42270
+            $db->query( 'INSERT INTO ezurlalias_ml_incr(id) VALUES(NULL)' );
         }
 
         return $db->lastSerialID( 'ezurlalias_ml_incr', 'id' );
