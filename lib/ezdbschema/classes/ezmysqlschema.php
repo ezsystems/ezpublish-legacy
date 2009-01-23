@@ -526,7 +526,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
             $typeName = $this->tableStorageTypeName( $params['table_type'] );
             if ( $typeName )
             {
-                $extraOptions[] = "TYPE=" . $typeName;
+                $extraOptions[] = "ENGINE=" . $typeName;
             }
         }
         if ( isset( $params['table_charset'] ) and $params['table_charset'] )

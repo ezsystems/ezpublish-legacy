@@ -1,7 +1,6 @@
+SET storage_engine=InnoDB;
 UPDATE ezsite_data SET value='4.0.2' WHERE name='ezpublish-version';
 UPDATE ezsite_data SET value='1' WHERE name='ezpublish-release';
-
-SET table_type=InnoDB;
 
 ALTER TABLE ezorder_item CHANGE vat_value vat_value FLOAT NOT NULL default 0;
 
