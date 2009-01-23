@@ -58,6 +58,9 @@ Removed features
 - OpenFTS search plugin
   There existed some code to use OpenFTS as a search engine. This code was never completed
   though, and in an unusable state. Therefore it has been removed.
+  
+- eZXML
+  The deprecated eZXML library, a non-standard-compliant DOM implementation, has been removed.
 
 
 New constants in config.php
