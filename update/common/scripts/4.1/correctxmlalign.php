@@ -52,7 +52,7 @@ $script = eZScript::instance( array( 'description' => "\nThis script performs ta
 
 $script->startup();
 
-$options = $script->getOptions( "[db-host:][db-user:][db-password:][db-database:][db-type:][skip-embed][skip-custom]",
+$options = $script->getOptions( "[db-host:][db-user:][db-password:][db-database:][db-type:][skip-embed-align][skip-custom-align][custom-align-attribute]",
                                 '',
                                 array( 'db-host' => "Database host",
                                        'db-user' => "Database user",
@@ -145,8 +145,10 @@ function convertCustomAlign( $doc, $xmlString, $customAlignAttribute, &$customAl
     $schema = eZXMLSchema::instance();
     foreach( $schema->Schema as $customAlignTag => $customAlignTagSchema )
     {
-        // cantinue if current tag does not contain align attribute
-        if ( !isset( $customAlignTagSchema['attributes'] ) or !in_array( 'align', $customAlignTagSchema['attributes'] ))
+        // continue if current tag does not contain align attribute
+        if ( !isset( $customAlignTagSchema['attributes'] )
+          or !is_array($customAlignTagSchema['attributes'])
+          or !in_array( 'align', $customAlignTagSchema['attributes'] ))
             continue;
 
         $customNodes = $doc->getElementsByTagName( $customAlignTag );
@@ -195,6 +197,9 @@ while( count( $xmlFieldsArray ) )
     foreach ( $xmlFieldsArray as $xmlField )
     {
         $xmlString = $xmlField['data_text'];
+        if ( trim( $xmlString ) === ''  )
+            continue;
+        
         $doc = new DOMDocument( '1.0', 'utf-8' );
         $success = $doc->loadXML( $xmlString );
 
@@ -211,6 +216,7 @@ while( count( $xmlFieldsArray ) )
             if ( $modificationList )
             {
                 $xmlText = eZXMLTextType::domString( $doc );
+                $xmlText = $db->escapeString( $xmlText );
                 $sql = "UPDATE ezcontentobject_attribute SET data_text='" . $xmlText .
                    "' WHERE id=" . $xmlField['id'] . " AND version=" . $xmlField['version'];
                 $db->query( $sql );
