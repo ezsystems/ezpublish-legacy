@@ -1,4 +1,4 @@
-{set scope=global persistent_variable=hash('title', 'New %tag_name tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', concat('&lt;', $tag_name_alias, '.', $custom_tag_name, '&gt;') )),
+{set scope=global persistent_variable=hash('title', 'New %tag_name tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', concat('&lt;', $tag_name_alias, '&gt;') )),
                                            'scripts', array('javascript/ezoe/ez_core.js',
                                                             'javascript/ezoe/ez_core_animation.js',
                                                             'javascript/ezoe/ez_core_accordion.js',
@@ -126,7 +126,7 @@ function filterOutCustomBlockTags( n )
 <div class="panel_wrapper">
     <div class="panel current">
         <div class="attribute-title">
-            <h2 style="padding: 0 0 4px 0;" id="tag-edit-title">{'New %tag_name tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', concat('&lt;', $tag_name_alias, '.', $custom_tag_name, '&gt;') ))}</h2>
+            <h2 style="padding: 0 0 4px 0;" id="tag-edit-title">{'New %tag_name tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', concat('&lt;', $tag_name_alias, '&gt;') ))}</h2>
         </div>
 
         {* custom tag name is defined as class internally in the editor even though the xml attribute name is 'name' *}
