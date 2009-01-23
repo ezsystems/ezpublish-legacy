@@ -189,7 +189,7 @@ function listTypes( $cli, $db )
 
 function alterType( $db, $tableName, $newType )
 {
-     $db->query( "ALTER TABLE $tableName TYPE=$newType" );
+     $db->query( "ALTER TABLE $tableName ENGINE=$newType" );
 }
 
 function renameTable( $db, $tableFrom, $tableTo )
@@ -206,8 +206,8 @@ function createTableStructure( $db, $tableFrom, $tableTo, $newType )
 {
     $res = $db->arrayQuery( "SHOW CREATE TABLE `$tableFrom`" );
 
-    $pattern = array( "/TYPE=(\w*)/", "/TABLE `$tableFrom`/" );
-    $replacement = array( "TYPE=$newType", "TABLE `$tableTo`" );
+    $pattern = array( "/(TYPE|ENGINE)=(\w*)/", "/TABLE `$tableFrom`/" );
+    $replacement = array( "ENGINE=$newType", "TABLE `$tableTo`" );
     $structure = preg_replace( $pattern, $replacement, $res[0]["Create Table"] );
 
     $db->query( $structure );
