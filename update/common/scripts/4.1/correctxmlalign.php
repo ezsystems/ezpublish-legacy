@@ -199,7 +199,7 @@ while( count( $xmlFieldsArray ) )
         $xmlString = $xmlField['data_text'];
         if ( trim( $xmlString ) === ''  )
             continue;
-        
+
         $doc = new DOMDocument( '1.0', 'utf-8' );
         $success = $doc->loadXML( $xmlString );
 
