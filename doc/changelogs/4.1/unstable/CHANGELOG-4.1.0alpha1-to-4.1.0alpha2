@@ -69,3 +69,4 @@ Changes from 4.1.0alpha1 to 4.1.0alpha2
 - Fixed bug #14319: Missing mime type for dmg files.
 - Fixed bug #14330: TYPE should be ENGINE
 - Fixed bug #14063: DB connection error when uploading packages in site selection step of setup wizard
+- Fixed bug #14337: Trailing Slash in DocumentRoot makes ezurl, ezdesign, ezroot fail
