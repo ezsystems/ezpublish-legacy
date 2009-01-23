@@ -324,7 +324,7 @@ class eZStepSiteTypes extends eZStepInstaller
                                      array( '_',
                                             '_',
                                             '' ), $packageName );
-        $package = eZPackage::import( $packageFilename, $packageName );
+        $package = eZPackage::import( $packageFilename, $packageName, false );
 
         if ( is_object( $package ) )
         {
