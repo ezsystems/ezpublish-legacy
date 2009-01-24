@@ -264,7 +264,14 @@ class eZOEXMLInput extends eZXMLInputHandler
                                 } break;
                                 case 'User_Subtree':
                                 {
-                                    $path = $this->ContentObjectAttribute->attribute('object')->attribute('main_node')->attribute( 'path_string' );
+                                    $node = $this->ContentObjectAttribute->attribute('object')->attribute('main_node');
+                                    if ( !$node instanceof eZContentObjectTreeNode )
+                                    {
+                                        // get temp parent node if object don't have node assignmet yet
+                                        $tempParentNodeId = $this->ContentObjectAttribute->attribute('object')->attribute( 'current' )->attribute('main_parent_node_id');
+                                        $node = eZContentObjectTreeNode::fetch( $tempParentNodeId );
+                                    }
+                                    $path = $node->attribute( 'path_string' );
                                     foreach ( $valueList as $subtreeString )
                                     {
                                         if ( strstr( $path, $subtreeString ) )

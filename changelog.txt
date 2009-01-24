@@ -6,20 +6,21 @@ eZ Online Editor 5.0 extension Changelog
 * Partly fixed #014284: Neede translation improvments for oe5
 * Added customizable xml tag name alias list in ezoe.ini, used in status bars and dialogs
 * Make htmlsize attribute type properly regonize px sizes from existing tag.
+* Fixed bug #14333: fatal error at edit page
 
 5.0rc11
 * Fixed regression #014110: IE7 double every paragraph break on every edit
 * Use sort_array from root node in Location drop down + use name as 2. sort rule
 * Add support for role limitations (SubTree & Section) on ezoe module and it's functions
 * Alignment support for eZ Publish 4.1 (including all justify* buttons)
-* Fixed #14222: Custom tag removes inline tags
-* Fixed #14241: Inconsistent block cutom tag size in editor
+* Fixed bug #14222: Custom tag removes inline tags
+* Fixed bug #14241: Inconsistent block cutom tag size in editor
 * Added possiblity to browse from 'this' node, and use i18n() on word 'this'
 * Properly support eznode://path/to/node on link tags (bug from ezdhtml) fix from Jan Kudlica
 
 5.0rc10
-* Fixed #14097: Custom-tags cause errors in var/error.log
-* Fixed #14099: Default selections in add-hyperlink popup dialogue behave oddly
+* Fixed bug #14097: Custom-tags cause errors in var/error.log
+* Fixed bug #14099: Default selections in add-hyperlink popup dialogue behave oddly
 * Improved how csssize(4), htmlsize, cssborder handles default values
 * Allow editor row height of 2 and 5
 * Use larger popup dialog windows by default
