@@ -52,11 +52,11 @@ class eZOEInputParser extends eZXMLInputParser
         'i'       => array( 'name' => 'emphasize' ),
         'em'      => array( 'name' => 'emphasize' ),
         'pre'     => array( 'name' => 'literal' ),
-        'div'     => array( 'nameHandler' => 'tagNameDiv' ),
+        'div'     => array( 'nameHandler' => 'tagNameDivnImg' ),
         'u'       => array( 'nameHandler' => 'tagNameCustomHelper' ),
         'sub'       => array( 'nameHandler' => 'tagNameCustomHelper' ),
         'sup'       => array( 'nameHandler' => 'tagNameCustomHelper' ),
-        'img'     => array( 'nameHandler' => 'tagNameImg',
+        'img'     => array( 'nameHandler' => 'tagNameDivnImg',
                             'noChildren' => true ),
         'h1'      => array( 'nameHandler' => 'tagNameHeader' ),
         'h2'      => array( 'nameHandler' => 'tagNameHeader' ),
@@ -76,7 +76,7 @@ class eZOEInputParser extends eZXMLInputParser
         'ul'      => array( 'name' => 'ul' ),
         'li'      => array( 'name' => 'li' ),
         'a'       => array( 'nameHandler' => 'tagNameLink' ),
-        'link'    => array( 'name' => 'link' ),
+        'link'    => array( 'nameHandler' => 'tagNameLink' ),
        // Stubs for not supported tags.
         'tbody'   => array( 'name' => '' ),
         'thead'   => array( 'name' => '' ),
@@ -172,19 +172,8 @@ class eZOEInputParser extends eZXMLInputParser
     */
     function tagNameSpan( $tagName, &$attributes )
     {
-        $name = '';
-        
-        if ( isset( $attributes['type'] ) && $attributes['type'] === 'custom' )
-        {
-            $name = 'custom';
-            $attributes['name'] = self::tagClassNamesCleanup( $attributes['class'] );
-        }
-
-        if ( $name === '' && isset( $attributes['id'] ) )
-        {
-            // embed detection code in tagNameDiv
-            $name = $this->tagNameDiv( $tagName, $attributes );
-        }
+        // embed / custom tag detection code in tagNameDivnImg
+        $name = $this->tagNameDivnImg( $tagName, $attributes );
 
         if ( $name === '' && isset( $attributes['style'] ) )
         {
@@ -199,7 +188,6 @@ class eZOEInputParser extends eZXMLInputParser
                 $attributes['children_required'] = 'true';
             }
         }
-
         return $name;
     }
 
@@ -221,61 +209,7 @@ class eZOEInputParser extends eZXMLInputParser
         return $name;
     }
 
-    function tagNameImg( $tagName, &$attributes )
-    {
-        $name = '';
-        if ( isset( $attributes['id'] ) )
-        {
-            if ( strpos( $attributes['id'], 'eZObject_' ) !== false || strpos( $attributes['id'], 'eZNode_' ) !== false )
-            {
-                if ( isset( $attributes['inline'] ) &&
-                     $attributes['inline'] === 'true' )
-                {
-                    $name = 'embed-inline';
-                }
-                else
-                {
-                    $name = 'embed';
-                }
-                if ( isset( $attributes['class'] ) )
-                    $attributes['class'] = self::tagClassNamesCleanup( $attributes['class'] );
-            }
-        }
-
-        if ( isset( $attributes['type'] ) && $attributes['type'] === 'custom' )
-        {
-            $name = 'custom';
-            $attributes['name'] = self::tagClassNamesCleanup( $attributes['class'] );
-        }
-
-        return $name;
-    }
-    
-    function tagNameLink( $tagName, &$attributes )
-    {
-        $name = '';
-        if ( isset( $attributes['href'] ) )
-        {
-            $name = 'link';
-            if ( isset( $attributes['name'] ) && !isset( $attributes['anchor_name'] ) ) $attributes['anchor_name'] = $attributes['name'];
-        }
-        else if ( isset( $attributes['name'] ) )
-        {
-            // anchor in regular sense
-            $name = 'anchor';
-        }
-        else if ( isset( $attributes['class'] ) && $attributes['class'] === 'mceItemAnchor' )
-        {
-            // anchor in tinyMCE sense
-            $name = 'anchor';
-            // ie bug with name attribute, workaround using id instead
-            if ( isset( $attributes['id'] ) ) $attributes['name'] = $attributes['id'];
-        }
-
-        return $name;
-    }
-     
-    function tagNameDiv( $tagName, &$attributes )
+    function tagNameDivnImg( $tagName, &$attributes )
     {
         $name = '';
         if ( isset( $attributes['id'] ) )
@@ -298,13 +232,49 @@ class eZOEInputParser extends eZXMLInputParser
         if ( $name === '' && isset( $attributes['type'] ) && $attributes['type'] === 'custom' )
         {
             $name = 'custom';
-            $attributes['children_required'] = 'true';
+            if ( $tagName === 'div' )
+                $attributes['children_required'] = 'true';
             $attributes['name'] = self::tagClassNamesCleanup( $attributes['class'] );
         }
 
         return $name;
     }
     
+    function tagNameLink( $tagName, &$attributes )
+    {
+        $name = '';
+        if ( $tagName === 'link'
+          && isset( $attributes['href'] )
+          && isset( $attributes['rel'] )
+          && ( $attributes['rel'] === 'File-List' || $attributes['rel'] === 'themeData' || $attributes['rel'] === 'colorSchemeMapping' )
+          && ( strpos( $attributes['href'], '.xml' ) !== false || strpos( $attributes['href'], '.thmx' ) !== false) )
+        {
+            // empty check to not store buggy links created
+            // by pasting content from ms word 2007
+        }        
+        else if ( isset( $attributes['href'] ) )
+        {
+            // normal link tag
+            $name = 'link';
+            if ( isset( $attributes['name'] ) && !isset( $attributes['anchor_name'] ) ) $attributes['anchor_name'] = $attributes['name'];
+        }
+        else if ( isset( $attributes['name'] ) )
+        {
+            // anchor in regular sense
+            $name = 'anchor';
+        }
+        else if ( isset( $attributes['class'] ) && $attributes['class'] === 'mceItemAnchor' )
+        {
+            // anchor in tinyMCE / ezoe sense (since links and anchors share the a tag)
+            $name = 'anchor';
+            // ie bug with name attribute, workaround using id instead
+            if ( isset( $attributes['id'] ) ) $attributes['name'] = $attributes['id'];
+        }
+
+        return $name;
+    }
+
+    // Maps certain html tags to custum tags if they are enabled
     function tagNameCustomHelper( $tagName, &$attributes )
     {
         $name = '';

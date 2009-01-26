@@ -7,6 +7,7 @@ eZ Online Editor 5.0 extension Changelog
 * Added customizable xml tag name alias list in ezoe.ini, used in status bars and dialogs
 * Make htmlsize attribute type properly regonize px sizes from existing tag.
 * Fixed bug #14333: fatal error at edit page
+* Made input parser ignore junk links from word 2007
 
 5.0rc11
 * Fixed regression #014110: IE7 double every paragraph break on every edit
