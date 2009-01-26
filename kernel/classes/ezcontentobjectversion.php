@@ -1463,14 +1463,12 @@ class eZContentObjectVersion extends eZPersistentObject
             $attributes = $this->contentObjectAttributes( $language );
             foreach ( $attributes as $attribute )
             {
-                unset( $serializedAttributeNode );
                 $serializedAttributeNode = $attribute->serialize( $package );
                 $importedSerializedAttributeNode = $dom->importNode( $serializedAttributeNode, true );
                 $translationNode->appendChild( $importedSerializedAttributeNode );
             }
 
             $versionNode->appendChild( $translationNode );
-            unset( $translationNode );
             $exportedLanguages[] = $language;
         }
 
@@ -1480,11 +1478,9 @@ class eZContentObjectVersion extends eZPersistentObject
         $contentNodeArray = eZContentObjectTreeNode::fetchByContentObjectID( $this->ContentObjectID, true, $this->Version );
         foreach( $contentNodeArray as $contentNode )
         {
-            unset( $contentNodeDOMNode );
             $contentNodeDOMNode = $contentNode->serialize( $options, $contentNodeIDArray, $topNodeIDArray );
             if ( $contentNodeDOMNode !== false )
             {
-                unset( $importedContentDOMNode );
                 $importedContentDOMNode = $dom->importNode( $contentNodeDOMNode, true );
                 $nodeAssignmentListNode->appendChild( $importedContentDOMNode );
             }
@@ -1508,8 +1504,8 @@ class eZContentObjectVersion extends eZPersistentObject
                 {
                     $relatedObjectRemoteID = $relatedObject->attribute( 'remote_id' );
 
-                    unset( $relationNode );
-                    $relationNode = $dom->createElement( 'related-object-remote-id', $relatedObjectRemoteID );
+                    $relationNode = $dom->createElement( 'related-object-remote-id' );
+                    $relationNode->appendChild( $dom->createTextNode( $relatedObjectRemoteID ) );
 
                     $relationListNode->appendChild( $relationNode );
                 }

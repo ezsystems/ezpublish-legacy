@@ -227,7 +227,9 @@ class eZPackageType extends eZDataType
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $type = $classAttribute->attribute( self::TYPE_FIELD );
-        $typeNode = $attributeParametersNode->ownerDocument->createElement( 'type', $type );
+        $dom = $attributeParametersNode->ownerDocument;
+        $typeNode = $dom->createElement( 'type' );
+        $typeNode->appendChild( $dom->createTextNode( $type ) );
         $attributeParametersNode->appendChild( $typeNode );
     }
 

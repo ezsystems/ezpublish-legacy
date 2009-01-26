@@ -323,7 +323,8 @@ class eZURLType extends eZDataType
         if ( is_object( $url ) and
              trim( $url->attribute( 'url' ) ) != '' )
         {
-            $urlNode = $dom->createElement( 'url', urlencode( $url->attribute( 'url' ) ) );
+            $urlNode = $dom->createElement( 'url' );
+            $urlNode->appendChild( $dom->createTextNode( urlencode( $url->attribute( 'url' ) ) ) );
             $urlNode->setAttribute( 'original-url-md5', $url->attribute( 'original_url_md5' ) );
             $urlNode->setAttribute( 'is-valid', $url->attribute( 'is_valid' ) );
             $urlNode->setAttribute( 'last-checked', $url->attribute( 'last_checked' ) );
@@ -334,7 +335,8 @@ class eZURLType extends eZDataType
 
         if ( $objectAttribute->attribute( 'data_text' ) )
         {
-            $textNode = $dom->createElement( 'text', $objectAttribute->attribute( 'data_text' ) );
+            $textNode = $dom->createElement( 'text' );
+            $textNode->appendChild( $dom->createTextNode( $objectAttribute->attribute( 'data_text' ) ) );
             $node->appendChild( $textNode );
         }
 

@@ -56,7 +56,8 @@ class eZSOAPCodec
         {
             case "string" :
             {
-                $node = $doc->createElement( $name, $value );
+                $node = $doc->createElement( $name );
+                $node->appendChild( $doc->createTextNode( $value ) );
                 $node->setAttribute( eZSOAPEnvelope::XSI_PREFIX . ':type',
                                      eZSOAPEnvelope::XSD_PREFIX . ':string' );
                 return $node;
@@ -64,7 +65,8 @@ class eZSOAPCodec
 
             case "boolean" :
             {
-                $node = $doc->createElement( $name, $value ? 'true' : 'false' );
+                $node = $doc->createElement( $name );
+                $node->appendChild( $doc->createTextNode( $value ? 'true' : 'false' ) );
                 $node->setAttribute( eZSOAPEnvelope::XSI_PREFIX . ':type',
                                      eZSOAPEnvelope::XSD_PREFIX . ':boolean' );
                 return $node;
@@ -72,7 +74,8 @@ class eZSOAPCodec
 
             case "integer" :
             {
-                $node = $doc->createElement( $name, $value );
+                $node = $doc->createElement( $name );
+                $node->appendChild( $doc->createTextNode( $value ) );
                 $node->setAttribute( eZSOAPEnvelope::XSI_PREFIX . ':type',
                                      eZSOAPEnvelope::XSD_PREFIX . ':int' );
                 return $node;
@@ -80,7 +83,8 @@ class eZSOAPCodec
 
             case "double" :
             {
-                $node = $doc->createElement( $name, $value );
+                $node = $doc->createElement( $name );
+                $node->appendChild( $doc->createTextNode( $value ) );
                 $node->setAttribute( eZSOAPEnvelope::XSI_PREFIX . ':type',
                                      eZSOAPEnvelope::XSD_PREFIX . ':float' );
                 return $node;

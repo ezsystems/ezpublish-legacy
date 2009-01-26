@@ -1559,16 +1559,12 @@ class eZObjectRelationListType extends eZDataType
             $defaultPlacementNode->setAttribute( 'node-id', $content['default_placement']['node_id'] );
             $attributeParametersNode->appendChild( $defaultPlacementNode );
         }
-        if ( is_numeric( $content['type'] ) )
-        {
-            $typeNode = $dom->createElement( 'type', $content['type'] );
-            $attributeParametersNode->appendChild( $typeNode );
-        }
-        else
-        {
-            $typeNode = $dom->createElement( 'type', '0' );
-            $attributeParametersNode->appendChild( $typeNode );
-        }
+
+        $type = is_numeric( $content['type'] ) ? $content['type'] : '0';
+        $typeNode = $dom->createElement( 'type' );
+        $typeNode->appendChild( $dom->createTextNode( $type ) );
+        $attributeParametersNode->appendChild( $typeNode );
+
         $classConstraintsNode = $dom->createElement( 'class-constraints' );
         $attributeParametersNode->appendChild( $classConstraintsNode );
         foreach ( $content['class_constraint_list'] as $classConstraint )
@@ -1581,13 +1577,15 @@ class eZObjectRelationListType extends eZDataType
 
         if ( isset( $content['selection_type'] ) && is_numeric( $content['selection_type'] ) )
         {
-            $selectionTypeNode = $dom->createElement( 'selection-type', $content['selection_type'] );
+            $selectionTypeNode = $dom->createElement( 'selection-type' );
+            $selectionTypeNode->appendChild( $dom->createTextNode( $content['selection_type'] ) );
             $attributeParametersNode->appendChild( $selectionTypeNode );
         }
 
         if ( isset( $content['object_class'] ) && is_numeric( $content['object_class'] ) )
         {
-            $objectClassNode = $dom->createElement( 'object-class', $content['object_class'] );
+            $objectClassNode = $dom->createElement( 'object-class' );
+            $objectClassNode->appendChild( $dom->createTextNode( $content['object_class'] ) );
             $attributeParametersNode->appendChild( $objectClassNode );
         }
     }

@@ -350,7 +350,9 @@ class eZDateType extends eZDataType
 
         if ( !is_null( $stamp ) )
         {
-            $dateNode = $node->ownerDocument->createElement( 'date', eZDateUtils::rfc1123Date( $stamp ) );
+            $dom = $node->ownerDocument;
+            $dateNode = $dom->createElement( 'date' );
+            $dateNode->appendChild( $dom->createTextNode( eZDateUtils::rfc1123Date( $stamp ) ) );
             $node->appendChild( $dateNode );
         }
         return $node;

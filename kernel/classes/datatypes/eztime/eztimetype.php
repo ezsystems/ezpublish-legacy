@@ -366,7 +366,8 @@ class eZTimeType extends eZDataType
         $attributeParametersNode->appendChild( $defaultValueNode );
 
         $useSeconds = $classAttribute->attribute( self::USE_SECONDS_FIELD );
-        $useSecondsNode = $attributeParametersNode->ownerDocument->createElement( 'use-seconds', $useSeconds );
+        $useSecondsNode = $dom->createElement( 'use-seconds' );
+        $useSecondsNode->appendChild( $dom->createTextNode( $useSeconds ) );
         $attributeParametersNode->appendChild( $useSecondsNode );
     }
 
@@ -407,7 +408,9 @@ class eZTimeType extends eZDataType
 
         if ( !is_null( $stamp ) )
         {
-            $dateNode = $node->ownerDocument->createElement( 'time', eZDateUtils::rfc1123Date( $stamp ) );
+            $dom = $node->ownerDocument;
+            $dateNode = $dom->createElement( 'time' );
+            $dateNode->appendChild( $dom->createTextNode( eZDateUtils::rfc1123Date( $stamp ) ) );
             $node->appendChild( $dateNode );
         }
         return $node;

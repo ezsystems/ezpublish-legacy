@@ -302,7 +302,8 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         foreach( $this->RootNodeObjectArray as $rootNode )
         {
             unset( $topNode );
-            $topNode = $dom->createElement( 'top-node', $rootNode->attribute( 'name' ) );
+            $topNode = $dom->createElement( 'top-node' );
+            $topNode->appendChild( $dom->createTextNode( $rootNode->attribute( 'name' ) ) );
             $topNode->setAttribute( 'node-id', $rootNode->attribute( 'node_id' ) );
             $topNode->setAttribute( 'remote-id', $rootNode->attribute( 'remote_id' ) );
             $topNodeListDOMNode->appendChild( $topNode );
@@ -326,7 +327,8 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         foreach( $options['site_access_array'] as $siteAccess )
         {
             unset( $siteAccessNode );
-            $siteAccessNode = $dom->createElement( 'site-access', $siteAccess );
+            $siteAccessNode = $dom->createElement( 'site-access' );
+            $siteAccessNode->appendChild( $dom->createTextNode( $siteAccess ) );
             $siteAccessListDOMNode->appendChild( $siteAccessNode );
         }
 
@@ -569,9 +571,11 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         }
 
         $dom->appendChild( $fileDOMNode );
-        $originalPathNode = $dom->createElement( 'original-path', $filename );
+        $originalPathNode = $dom->createElement( 'original-path' );
+        $originalPathNode->appendChild( $dom->createTextNode( $filename ) );
         $fileDOMNode->appendChild( $originalPathNode );
-        $pathNode = $dom->createElement( 'path', $path );
+        $pathNode = $dom->createElement( 'path' );
+        $pathNode->appendChild( $dom->createTextNode( $path ) );
         $fileDOMNode->appendChild( $pathNode );
 
         $destinationPath = $this->Package->path() . '/' .  eZContentObjectPackageHandler::contentObjectDirectory() . '/' . $path;

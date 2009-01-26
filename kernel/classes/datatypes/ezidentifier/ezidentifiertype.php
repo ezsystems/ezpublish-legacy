@@ -400,15 +400,20 @@ class eZIdentifierType extends eZDataType
 
         $dom = $attributeParametersNode->ownerDocument;
 
-        $digitsNode = $dom->createElement( 'digits', $digits );
+        $digitsNode = $dom->createElement( 'digits' );
+        $digitsNode->appendChild( $dom->createTextNode( $digits ) );
         $attributeParametersNode->appendChild( $digitsNode );
-        $preTextNode = $dom->createElement( 'pre-text', $preText );
+        $preTextNode = $dom->createElement( 'pre-text' );
+        $preTextNode->appendChild( $dom->createTextNode( $preText ) );
         $attributeParametersNode->appendChild( $preTextNode );
-        $postTextNode = $dom->createElement( 'post-text', $postText );
+        $postTextNode = $dom->createElement( 'post-text' );
+        $postTextNode->appendChild( $dom->createTextNode( $postText ) );
         $attributeParametersNode->appendChild( $postTextNode );
-        $startValueNode = $dom->createElement( 'start-value', $startValue );
+        $startValueNode = $dom->createElement( 'start-value' );
+        $startValueNode->appendChild( $dom->createTextNode( $startValue ) );
         $attributeParametersNode->appendChild( $startValueNode );
-        $identifierNode = $dom->createElement( 'identifier', $identifier );
+        $identifierNode = $dom->createElement( 'identifier' );
+        $identifierNode->appendChild( $dom->createTextNode( $identifier ) );
         $attributeParametersNode->appendChild( $identifierNode );
     }
 

@@ -138,8 +138,11 @@ class eZSubtreeSubscriptionType extends eZDataType
     function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
+        $dom = $node->ownerDocument;
+
         $value = $objectAttribute->attribute( 'data_int' );
-        $valueNode = $node->ownerDocument->createElement( 'value', $value );
+        $valueNode = $dom->createElement( 'value' );
+        $valueNode->appendChild( $dom->createTextNode( $value ) );
         $node->appendChild( $valueNode );
 
         return $node;

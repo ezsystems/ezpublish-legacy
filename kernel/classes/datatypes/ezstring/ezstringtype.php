@@ -344,15 +344,13 @@ class eZStringType extends eZDataType
         $maxLength = $classAttribute->attribute( self::MAX_LEN_FIELD );
         $defaultString = $classAttribute->attribute( self::DEFAULT_STRING_FIELD );
         $dom = $attributeParametersNode->ownerDocument;
-        $maxLengthNode = $dom->createElement( 'max-length', $maxLength );
+        $maxLengthNode = $dom->createElement( 'max-length' );
+        $maxLengthNode->appendChild( $dom->createTextNode( $maxLength ) );
         $attributeParametersNode->appendChild( $maxLengthNode );
+        $defaultStringNode = $dom->createElement( 'default-string' );
         if ( $defaultString )
         {
-            $defaultStringNode = $dom->createElement( 'default-string', $defaultString );
-        }
-        else
-        {
-            $defaultStringNode = $dom->createElement( 'default-string' );
+            $defaultStringNode->appendChild( $dom->createTextNode( $defaultString ) );
         }
         $attributeParametersNode->appendChild( $defaultStringNode );
     }

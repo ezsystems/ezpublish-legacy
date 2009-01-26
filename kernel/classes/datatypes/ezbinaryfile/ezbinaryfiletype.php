@@ -565,7 +565,8 @@ class eZBinaryFileType extends eZDataType
     {
         $dom = $attributeParametersNode->ownerDocument;
         $maxSize = $classAttribute->attribute( self::MAX_FILESIZE_FIELD );
-        $maxSizeNode = $dom->createElement( 'max-size', $maxSize );
+        $maxSizeNode = $dom->createElement( 'max-size' );
+        $maxSizeNode->appendChild( $dom->createTextNode( $maxSize ) );
         $maxSizeNode->setAttribute( 'unit-size', 'mega' );
         $attributeParametersNode->appendChild( $maxSizeNode );
     }

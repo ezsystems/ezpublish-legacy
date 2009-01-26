@@ -500,7 +500,9 @@ class eZXMLTextType extends eZDataType
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $textColumns = $classAttribute->attribute( self::COLS_FIELD );
-        $textColumnCountNode = $attributeParametersNode->ownerDocument->createElement( 'text-column-count', $textColumns );
+        $dom = $attributeParametersNode->ownerDocument;
+        $textColumnCountNode = $dom->createElement( 'text-column-count' );
+        $textColumnCountNode->appendChild( $dom->createTextNode( $textColumns ) );
         $attributeParametersNode->appendChild( $textColumnCountNode );
     }
 

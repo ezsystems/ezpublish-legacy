@@ -288,7 +288,8 @@ class eZKeywordType extends eZDataType
         $keyword->fetch( $objectAttribute );
         $keyWordString = $keyword->keywordString();
         $dom = $node->ownerDocument;
-        $keywordStringNode = $dom->createElement( 'keyword-string', $keyWordString );
+        $keywordStringNode = $dom->createElement( 'keyword-string' );
+        $keywordStringNode->appendChild( $dom->createTextNode( $keyWordString ) );
         $node->appendChild( $keywordStringNode );
 
         return $node;

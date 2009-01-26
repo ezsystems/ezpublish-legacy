@@ -1090,23 +1090,27 @@ class eZDataType
                 {
                     $value = $objectAttribute->attribute( $attributeName );
                     unset( $attributeNode );
-                    $attributeNode = $dom->createElement( $xmlName, (string)$value );
+                    $attributeNode = $dom->createElement( $xmlName );
+                    $attributeNode->appendChild( $dom->createTextNode( (string)$value ) );
                     $node->appendChild( $attributeNode );
                 }
                 else
                 {
-                    eZDebug::writeError( "The attribute '$attributeName' does not exists for contentobject attribute " . $objectAttribute->attribute( 'id' ),
+                    eZDebug::writeError( "The attribute '$attributeName' does not exist for contentobject attribute " . $objectAttribute->attribute( 'id' ),
                                          'eZDataType::serializeContentObjectAttribute' );
                 }
             }
         }
         else
         {
-            $dataIntNode = $dom->createElement( 'data-int', (string)$objectAttribute->attribute( 'data_int' ) );
+            $dataIntNode = $dom->createElement( 'data-int' );
+            $dataIntNode->appendChild( $dom->createTextNode( (string)$objectAttribute->attribute( 'data_int' ) ) );
             $node->appendChild( $dataIntNode );
-            $dataFloatNode = $dom->createElement( 'data-float', (string)$objectAttribute->attribute( 'data_float' ) );
+            $dataFloatNode = $dom->createElement( 'data-float' );
+            $dataFloatNode->appendChild( $dom->createTextNode( (string)$objectAttribute->attribute( 'data_float' ) ) );
             $node->appendChild( $dataFloatNode );
-            $dataTextNode = $dom->createElement( 'data-text', $objectAttribute->attribute( 'data_text' ) );
+            $dataTextNode = $dom->createElement( 'data-text' );
+            $dataTextNode->appendChild( $dom->createTextNode( $objectAttribute->attribute( 'data_text' ) ) );
             $node->appendChild( $dataTextNode );
         }
         return $node;

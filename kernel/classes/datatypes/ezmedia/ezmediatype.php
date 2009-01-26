@@ -644,11 +644,13 @@ class eZMediaType extends eZDataType
 
         $dom = $attributeParametersNode->ownerDocument;
 
-        $maxSizeNode = $dom->createElement( 'max-size', $maxSize );
+        $maxSizeNode = $dom->createElement( 'max-size' );
+        $maxSizeNode->appendChild( $dom->createTextNode( $maxSize ) );
         $maxSizeNode->setAttribute( 'unit-size', 'mega' );
         $attributeParametersNode->appendChild( $maxSizeNode );
 
-        $typeNode = $dom->createElement( 'type', $type );
+        $typeNode = $dom->createElement( 'type' );
+        $typeNode->appendChild( $dom->createTextNode( $type ) );
         $attributeParametersNode->appendChild( $typeNode );
     }
 
