@@ -218,9 +218,9 @@ class eZObjectRelationListType extends eZDataType
                 }
                 ++$priority;
                 $content['relation_list'][] = $this->appendObject( $objectID, $priority, $contentObjectAttribute );
-                $contentObjectAttribute->setContent( $content );
-                $contentObjectAttribute->store();
             }
+
+            $contentObjectAttribute->setContent( $content );
             return true;
         }
 
@@ -364,7 +364,6 @@ class eZObjectRelationListType extends eZDataType
             }
             unset( $content['new_object'] );
             $attribute->setContent( $content );
-            $attribute->store();
         }
 
         $contentClassAttributeID = $attribute->ContentClassAttributeID;
