@@ -80,9 +80,8 @@ var eZOEPopupUtils = {
             s.editorElement = el;
             if ( s.tagEditTitleText )
             {
-                ez.$$( 'head title', '#tag-edit-title').forEach( function(o){
-                    o.el.innerHTML = s.tagEditTitleText;
-                });
+                document.title = s.tagEditTitleText;
+                ez.$( 'tag-edit-title').el.innerHTML = s.tagEditTitleText;
                 if ( window.parent && window.parent.ez )
                 {
                     // set title on inline popup if inlinepopup tinyMCE plugin is used

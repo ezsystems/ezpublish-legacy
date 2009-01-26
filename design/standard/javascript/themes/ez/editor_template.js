@@ -951,7 +951,7 @@
                     c.setActive( p && jn.align === 'center' );
             }
           //justifyfull is not supported on block tags, so recheck node
-            if ( p && this.__mceJustifyBlockTags( n.nodeName ) )
+            if ( p && this.__mceJustifyBlockTags.test( n.nodeName ) )
                 p = false;
             if ( c = cm.get('justifyfull') )
             {
