@@ -26,6 +26,7 @@ Changes from 4.1.0alpha1 to 4.1.0alpha2
 - Implemented enhancement #14145: Possibility to fetch object by remote_id in templates
 - Implemented enhancement #14309: Remove ezxml library
 - Implemented enhancement #14165: eZTemplateDesignResource::handleResource() should not load the cache file again and again
+- Implemented enhancement #14346: Update usage of ereg() in eZSys to preg
 
 *Design:
 
