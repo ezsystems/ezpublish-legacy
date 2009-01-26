@@ -71,3 +71,4 @@ Changes from 4.1.0alpha1 to 4.1.0alpha2
 - Fixed bug #14063: DB connection error when uploading packages in site selection step of setup wizard
 - Fixed bug #14336: Ampersand in attribute content produces wrong XML
 - Fixed bug #13684: Adding a new new object from the edit view of an ezobjectrelationlisttype attribute can create multiple copies of the new object
+- Fixed bug #14337: Trailing Slash in DocumentRoot makes ezurl, ezdesign, ezroot fail
