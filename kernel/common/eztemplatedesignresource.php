@@ -280,11 +280,18 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
         eZDebug::accumulatorStart( 'override_cache', 'override', 'Cache load' );
 
-        $overrideCacheFile = $this->createOverrideCache();
-
-        if ( $overrideCacheFile )
+        if( !isset( $GLOBALS['eZOverrideTemplateCacheMap'] ) )
         {
-            include_once( $overrideCacheFile );
+            $overrideCacheFile = $this->createOverrideCache();
+
+            if ( $overrideCacheFile )
+            {
+                include_once( $overrideCacheFile );
+            }
+        }
+
+        if ( isset( $GLOBALS['eZOverrideTemplateCacheMap'] ) )
+        {
             if( isset( $GLOBALS['eZOverrideTemplateCacheMap'][md5( '/' . $path )] ) )
             {
                 $cacheMap = $GLOBALS['eZOverrideTemplateCacheMap'][md5( '/' . $path )];
