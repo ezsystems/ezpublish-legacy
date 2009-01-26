@@ -908,10 +908,10 @@ class eZSys
         }
         else
         {
-            if ( substr( $scriptName, strlen( $index ) * -1 ) == $index )
-                $wwwDir = substr( $scriptName, 0, strlen( $index ) * -1 );
-            if ( substr( $phpSelf, strlen( $index ) * -1 ) == $index )
-                $wwwDir = substr( $phpSelf, 0, strlen( $index ) * -1 );
+            if ( preg_match( "!(.*)$index$!", $scriptName, $regs ) )
+                $wwwDir = $regs[1];
+            if ( preg_match( "!(.*)$index$!", $phpSelf, $regs ) )
+                $wwwDir = $regs[1];
         }
 
         if ( ! $isCGI || $force_VirtualHost )
