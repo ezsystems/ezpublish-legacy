@@ -872,12 +872,12 @@ class eZSys
         $phpSelf = eZSys::serverVariable( 'PHP_SELF' );
 
         // Find out, where our files are.
-        if ( ereg( "(.*/)$index$", eZSys::serverVariable( 'SCRIPT_FILENAME' ), $regs ) )
+        if ( preg_match( "!(.*/)$index$!", eZSys::serverVariable( 'SCRIPT_FILENAME' ), $regs ) )
         {
             $siteDir = $regs[1];
             $index = "/$index";
         }
-        elseif ( ereg( "(.*/)$index/?", $phpSelf, $regs ) )
+        elseif ( preg_match( "!(.*/)$index/?!", $phpSelf, $regs ) )
         {
             // Some people using CGI have their $_SERVER['SCRIPT_FILENAME'] not right... so we are trying this.
             $siteDir = eZSys::serverVariable( 'DOCUMENT_ROOT' ) . $regs[1];
@@ -917,9 +917,9 @@ class eZSys
         }
         else
         {
-            if ( ereg( "(.*)$index$", $scriptName, $regs ) )
+            if ( preg_match( "!(.*)$index$!", $scriptName, $regs ) )
                 $wwwDir = $regs[1];
-            else if ( ereg( "(.*)$index$", $phpSelf, $regs ) )
+            if ( preg_match( "!(.*)$index$!", $phpSelf, $regs ) )
                 $wwwDir = $regs[1];
         }
 
@@ -946,7 +946,7 @@ class eZSys
         {
             $index_reg = str_replace( ".", "\\.", $index );
             // Trick: Rewrite setup doesn't have index.php in $_SERVER['PHP_SELF'], so we don't want an $index
-            if ( ! ereg( ".*$index_reg.*", $phpSelf ) || $force_VirtualHost )
+            if ( !preg_match( "!.*$index_reg.*!", $phpSelf ) || $force_VirtualHost )
             {
                 $index = "";
             }
@@ -957,17 +957,17 @@ class eZSys
                     eZDebug::writeNotice( "$wwwDir$index", '$wwwDir$index' );
                 }
                 // Get the right $_SERVER['REQUEST_URI'], when using nVH setup.
-                if ( ereg( "^$wwwDir$index(.*)", $phpSelf, $req ) )
+                if ( preg_match( "!^$wwwDir$index(.*)!", $phpSelf, $req ) )
                 {
-                    if (! $req[1] )
+                    if ( !$req[1] )
                     {
-                        if ( $phpSelf != "$wwwDir$index" and ereg( "^$wwwDir(.*)", $requestURI, $req ) )
+                        if ( $phpSelf != "$wwwDir$index" and preg_match( "!^$wwwDir(.*)!", $requestURI, $req ) )
                         {
                             $requestURI = $req[1];
                             $index = '';
                         }
-                        elseif ( $phpSelf == "$wwwDir$index" and ereg( "^$wwwDir$index(.*)", $requestURI, $req ) or
-                                 ereg( "^$wwwDir(.*)", $requestURI, $req ) )
+                        elseif ( $phpSelf == "$wwwDir$index" and
+                               ( preg_match( "!^$wwwDir$index(.*)!", $requestURI, $req ) or preg_match( "!^$wwwDir(.*)!", $requestURI, $req ) ) )
                         {
                             $requestURI = $req[1];
                         }
@@ -984,19 +984,19 @@ class eZSys
         // Remove url parameters
         if ( $isCGI and !$force_VirtualHost )
         {
-            $pattern = "(\/[^&]+)";
+            $pattern = "!(\/[^&]+)!";
         }
         else
         {
-            $pattern = "([^?]+)";
+            $pattern = "!([^?]+)!";
         }
-        if ( ereg( $pattern, $requestURI, $regs ) )
+        if ( preg_match( $pattern, $requestURI, $regs ) )
         {
             $requestURI = $regs[1];
         }
 
         // Remove internal links
-        if ( ereg( "([^#]+)", $requestURI, $regs ) )
+        if ( preg_match( "!([^#]+)!", $requestURI, $regs ) )
         {
             $requestURI = $regs[1];
         }
