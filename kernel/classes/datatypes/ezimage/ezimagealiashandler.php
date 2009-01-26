@@ -1274,7 +1274,7 @@ class eZImageAliasHandler
                         {
                             unset( $arrayItemNode );
                             $arrayItemNode = $dom->createElement( 'item' );
-                            $ârrayItemNode->appendChild( $dom->createTextNode( base64_encode( $infoArrayItem ) ) );
+                            $arrayItemNode->appendChild( $dom->createTextNode( base64_encode( $infoArrayItem ) ) );
                             $arrayItemNode->setAttribute( 'key', $infoArrayKey );
                             $arrayItemNode->setAttribute( 'base64', 1 );
 
