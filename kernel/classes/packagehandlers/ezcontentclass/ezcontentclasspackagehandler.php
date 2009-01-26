@@ -563,13 +563,17 @@ class eZContentClassPackageHandler extends eZPackageHandler
         $serializedNameListNode = $dom->createElement( 'serialized-name-list' );
         $serializedNameListNode->appendChild( $dom->createTextNode( $class->attribute( 'serialized_name_list' ) ) );
         $classNode->appendChild( $serializedNameListNode );
-        $identifierNode = $dom->createElement( 'identifier', $class->attribute( 'identifier' ) );
+        $identifierNode = $dom->createElement( 'identifier' );
+        $identifierNode->appendChild( $dom->createTextNode( $class->attribute( 'identifier' ) ) );
         $classNode->appendChild( $identifierNode );
-        $remoteIDNode = $dom->createElement( 'remote-id', $class->attribute( 'remote_id' ) );
+        $remoteIDNode = $dom->createElement( 'remote-id' );
+        $remoteIDNode->appendChild( $dom->createTextNode( $class->attribute( 'remote_id' ) ) );
         $classNode->appendChild( $remoteIDNode );
-        $objectNamePatternNode = $dom->createElement( 'object-name-pattern', $class->attribute( 'contentobject_name' ) );
+        $objectNamePatternNode = $dom->createElement( 'object-name-pattern' );
+        $objectNamePatternNode->appendChild( $dom->createTextNode( $class->attribute( 'contentobject_name' ) ) );
         $classNode->appendChild( $objectNamePatternNode );
-        $urlAliasPatternNode = $dom->createElement( 'url-alias-pattern', $class->attribute( 'url_alias_name' ) );
+        $urlAliasPatternNode = $dom->createElement( 'url-alias-pattern' );
+        $urlAliasPatternNode->appendChild( $dom->createTextNode( $class->attribute( 'url_alias_name' ) ) );
         $classNode->appendChild( $urlAliasPatternNode );
         $isContainer = $class->attribute( 'is_container' ) ? 'true' : 'false';
         $classNode->setAttribute( 'is-container', $isContainer );
@@ -587,8 +591,13 @@ class eZContentClassPackageHandler extends eZPackageHandler
         $classURL = 'http://' . $siteName . '/class/view/' . $class->attribute( 'id' );
         $siteURL = 'http://' . $siteName . '/';
 
-        $remoteNode->appendChild( $dom->createElement( 'site-url', $siteURL ) );
-        $remoteNode->appendChild( $dom->createElement( 'url', $classURL ) );
+        $siteUrlNode = $dom->createElement( 'site-url' );
+        $siteUrlNode->appendChild( $dom->createTextNode( $siteURL ) );
+        $remoteNode->appendChild( $siteUrlNode );
+
+        $urlNode = $dom->createElement( 'url' );
+        $urlNode->appendChild( $dom->createTextNode( $classURL ) );
+        $remoteNode->appendChild( $urlNode );
 
         $classGroupsNode = $dom->createElement( 'groups' );
 
@@ -608,32 +617,39 @@ class eZContentClassPackageHandler extends eZPackageHandler
         }
         $remoteNode->appendChild( $classGroupsNode );
 
-        $idNode = $dom->createElement( 'id', $class->attribute( 'id' ) );
+        $idNode = $dom->createElement( 'id' );
+        $idNode->appendChild( $dom->createTextNode( $class->attribute( 'id' ) ) );
         $remoteNode->appendChild( $idNode );
-        $createdNode = $dom->createElement( 'created', $class->attribute( 'created' ) );
+        $createdNode = $dom->createElement( 'created' );
+        $createdNode->appendChild( $dom->createTextNode( $class->attribute( 'created' ) ) );
         $remoteNode->appendChild( $createdNode );
-        $modifiedNode = $dom->createElement( 'modified', $class->attribute( 'modified' ) );
+        $modifiedNode = $dom->createElement( 'modified' );
+        $modifiedNode->appendChild( $dom->createTextNode( $class->attribute( 'modified' ) ) );
         $remoteNode->appendChild( $modifiedNode );
 
         $creatorNode = $dom->createElement( 'creator' );
         $remoteNode->appendChild( $creatorNode );
-        $creatorIDNode = $dom->createElement( 'user-id', $class->attribute( 'creator_id' ) );
+        $creatorIDNode = $dom->createElement( 'user-id' );
+        $creatorIDNode->appendChild( $dom->createTextNode( $class->attribute( 'creator_id' ) ) );
         $creatorNode->appendChild( $creatorIDNode );
         $creator = $class->attribute( 'creator' );
         if ( $creator )
         {
-            $creatorLoginNode = $dom->createElement( 'user-login', $creator->attribute( 'login' ) );
+            $creatorLoginNode = $dom->createElement( 'user-login' );
+            $creatorLoginNode->appendChild( $dom->createTextNode( $creator->attribute( 'login' ) ) );
             $creatorNode->appendChild( $creatorLoginNode );
         }
 
         $modifierNode = $dom->createElement( 'modifier' );
         $remoteNode->appendChild( $modifierNode );
-        $modifierIDNode = $dom->createElement( 'user-id', $class->attribute( 'modifier_id' ) );
+        $modifierIDNode = $dom->createElement( 'user-id' );
+        $modifierIDNode->appendChild( $dom->createTextNode( $class->attribute( 'modifier_id' ) ) );
         $modifierNode->appendChild( $modifierIDNode );
         $modifier = $class->attribute( 'modifier' );
         if ( $modifier )
         {
-            $modifierLoginNode = $dom->createElement( 'user-login', $modifier->attribute( 'login' ) );
+            $modifierLoginNode = $dom->createElement( 'user-login' );
+            $modifierLoginNode->appendChild( $dom->createTextNode( $modifier->attribute( 'login' ) ) );
             $modifierNode->appendChild( $modifierLoginNode );
         }
         // Remote data end
@@ -658,16 +674,20 @@ class eZContentClassPackageHandler extends eZPackageHandler
             $attributeRemoteNode = $dom->createElement( 'remote' );
             $attributeNode->appendChild( $attributeRemoteNode );
 
-            $attributeIDNode = $dom->createElement( 'id', $attribute->attribute( 'id' ) );
+            $attributeIDNode = $dom->createElement( 'id' );
+            $attributeIDNode->appendChild( $dom->createTextNode( $attribute->attribute( 'id' ) ) );
             $attributeRemoteNode->appendChild( $attributeIDNode );
 
-            $attributeSerializedNameListNode = $dom->createElement( 'serialized-name-list', $attribute->attribute( 'serialized_name_list' ) );
+            $attributeSerializedNameListNode = $dom->createElement( 'serialized-name-list' );
+            $attributeSerializedNameListNode->appendChild( $dom->createTextNode( $attribute->attribute( 'serialized_name_list' ) ) );
             $attributeNode->appendChild( $attributeSerializedNameListNode );
 
-            $attributeIdentifierNode = $dom->createElement( 'identifier', $attribute->attribute( 'identifier' ) );
+            $attributeIdentifierNode = $dom->createElement( 'identifier' );
+            $attributeIdentifierNode->appendChild( $dom->createTextNode( $attribute->attribute( 'identifier' ) ) );
             $attributeNode->appendChild( $attributeIdentifierNode );
 
-            $attributePlacementNode = $dom->createElement( 'placement', $attribute->attribute( 'placement' ) );
+            $attributePlacementNode = $dom->createElement( 'placement' );
+            $attributePlacementNode->appendChild( $dom->createTextNode( $attribute->attribute( 'placement' ) ) );
             $attributeNode->appendChild( $attributePlacementNode );
 
             $attributeParametersNode = $dom->createElement( 'datatype-parameters' );

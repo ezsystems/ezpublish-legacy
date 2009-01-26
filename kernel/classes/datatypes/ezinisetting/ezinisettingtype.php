@@ -483,17 +483,23 @@ class eZIniSettingType extends eZDataType
         $siteAccess = $classAttribute->attribute( self::SITE_ACCESS_LIST_FIELD );
 
         $dom = $attributeParametersNode->ownerDocument;
-        $fileNode = $dom->createElement( 'file', $file );
+        $fileNode = $dom->createElement( 'file' );
+        $fileNode->appendChild( $dom->createTextNode( $file ) );
         $attributeParametersNode->appendChild( $fileNode );
-        $sectionNode = $dom->createElement( 'section', $section );
+        $sectionNode = $dom->createElement( 'section' );
+        $sectionNode->appendChild( $dom->createTextNode( $section ) );
         $attributeParametersNode->appendChild( $sectionNode );
-        $parameterNode = $dom->createElement( 'parameter', $parameter );
+        $parameterNode = $dom->createElement( 'parameter' );
+        $parameterNode->appendChild( $dom->createTextNode( $parameter ) );
         $attributeParametersNode->appendChild( $parameterNode );
-        $typeNode = $dom->createElement( 'type', $type );
+        $typeNode = $dom->createElement( 'type' );
+        $typeNode->appendChild( $dom->createTextNode( $type ) );
         $attributeParametersNode->appendChild( $typeNode );
-        $iniInstanceNode = $dom->createElement( 'ini_instance', $iniInstance );
+        $iniInstanceNode = $dom->createElement( 'ini_instance' );
+        $iniInstanceNode->appendChild( $dom->createTextNode( $iniInstance ) );
         $attributeParametersNode->appendChild( $iniInstanceNode );
-        $siteAccessListNode = $dom->createElement( 'site_access_list', $siteAccess );
+        $siteAccessListNode = $dom->createElement( 'site_access_list' );
+        $siteAccessListNode->appendChild( $dom->createTextNode( $siteAccess ) );
         $attributeParametersNode->appendChild( $siteAccessListNode );
     }
 
@@ -643,9 +649,11 @@ class eZIniSettingType extends eZDataType
 
         $dom = $node->ownerDocument;
 
-        $makeEmptyArrayNode = $dom->createElement( 'make_empty_array', $makeEmptyArray );
+        $makeEmptyArrayNode = $dom->createElement( 'make_empty_array' );
+        $makeEmptyArrayNode->appendChild( $dom->createTextNode( $makeEmptyArray ) );
         $node->appendChild( $makeEmptyArrayNode );
-        $valueNode = $dom->createElement( 'value', $value );
+        $valueNode = $dom->createElement( 'value' );
+        $valueNode->appendChild( $dom->createTextNode( $value ) );
         $node->appendChild( $valueNode );
 
         return $node;

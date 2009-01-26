@@ -363,7 +363,8 @@ class eZMultiOption
         $root->setAttribute( 'option_counter', $this->OptionCounter );
         $doc->appendChild( $root );
 
-        $nameNode = $doc->createElement( 'name', $this->Name );
+        $nameNode = $doc->createElement( 'name' );
+        $nameNode->appendChild( $doc->createTextNode( $this->Name ) );
         $root->appendChild( $nameNode );
 
         $multiOptionsNode = $doc->createElement( "multioptions" );

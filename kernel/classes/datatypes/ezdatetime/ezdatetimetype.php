@@ -467,8 +467,9 @@ class eZDateTimeType extends eZDataType
     */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
+        $dom = $attributeParametersNode->ownerDocument;
         $defaultValue = $classAttribute->attribute( self::DEFAULT_FIELD );
-        $defaultValueNode = $attributeParametersNode->ownerDocument->createElement( 'default-value' );
+        $defaultValueNode = $dom->createElement( 'default-value' );
 
         switch ( $defaultValue )
         {
@@ -490,7 +491,7 @@ class eZDateTimeType extends eZDataType
 
                     if ( $adjustmentNode )
                     {
-                        $importedAdjustmentNode = $defaultValueNode->ownerDocument->importNode( $adjustmentNode, true );
+                        $importedAdjustmentNode = $dom->importNode( $adjustmentNode, true );
                         $defaultValueNode->appendChild( $importedAdjustmentNode );
                     }
                 }
@@ -566,8 +567,9 @@ class eZDateTimeType extends eZDataType
 
         if ( $stamp )
         {
-            //include_once( 'lib/ezlocale/classes/ezdateutils.php' );
-            $dateTimeNode = $node->ownerDocument->createElement( 'date_time', eZDateUtils::rfc1123Date( $stamp ) );
+            $dom = $node->ownerDocument;
+            $dateTimeNode = $dom->createElement( 'date_time' );
+            $dateTimeNode->appendChild( $dom->createTextNode( eZDateUtils::rfc1123Date( $stamp ) ) );
             $node->appendChild( $dateTimeNode );
         }
 

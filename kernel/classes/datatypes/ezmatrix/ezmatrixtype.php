@@ -485,9 +485,11 @@ class eZMatrixType extends eZDataType
             $columns = $content->attribute( 'columns' );
 
             $dom = $attributeParametersNode->ownerDocument;
-            $defaultNameNode = $dom->createElement( 'default-name', $defaultName );
+            $defaultNameNode = $dom->createElement( 'default-name' );
+            $defaultNameNode->appendChild( $dom->createTextNode( $defaultName ) );
             $attributeParametersNode->appendChild( $defaultNameNode );
-            $defaultRowCountNode = $dom->createElement( 'default-row-count', $defaultRowCount );
+            $defaultRowCountNode = $dom->createElement( 'default-row-count' );
+            $defaultRowCountNode->appendChild( $dom->createTextNode( $defaultRowCount ) );
             $attributeParametersNode->appendChild( $defaultRowCountNode );
             $columnsNode = $dom->createElement( 'columns' );
             $attributeParametersNode->appendChild( $columnsNode );

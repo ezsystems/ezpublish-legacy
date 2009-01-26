@@ -445,14 +445,16 @@ class eZRSSExport extends eZPersistentObject
         $channelTitle->appendChild( $doc->createTextNode( $this->attribute( 'title' ) ) );
         $channel->appendChild( $channelTitle );
 
-        $channelLink = $doc->createElement( 'link', $this->attribute( 'url' ) );
+        $channelLink = $doc->createElement( 'link' );
+        $channelLink->appendChild( $doc->createTextNode( $this->attribute( 'url' ) ) );
         $channel->appendChild( $channelLink );
 
         $channelDescription = $doc->createElement( 'description' );
         $channelDescription->appendChild( $doc->createTextNode( $this->attribute( 'description' ) ) );
         $channel->appendChild( $channelDescription );
 
-        $channelLanguage = $doc->createElement( 'language', $locale->httpLocaleCode() );
+        $channelLanguage = $doc->createElement( 'language' );
+        $channelLanguage->appendChild( $doc->createTextNode( $locale->httpLocaleCode() ) );
         $channel->appendChild( $channelLanguage );
 
         $imageURL = $this->fetchImageURL();
@@ -460,14 +462,16 @@ class eZRSSExport extends eZPersistentObject
         {
             $image = $doc->createElement( 'image' );
 
-            $imageUrlNode = $doc->createElement( 'url', $imageURL );
+            $imageUrlNode = $doc->createElement( 'url' );
+            $imageUrlNode->appendChild( $doc->createTextNode( $imageURL ) );
             $image->appendChild( $imageUrlNode );
 
             $imageTitle = $doc->createElement( 'title' );
             $imageTitle->appendChild( $doc->createTextNode( $this->attribute( 'title' ) ) );
             $image->appendChild( $imageTitle );
 
-            $imageLink = $doc->createElement( 'link', $this->attribute( 'url' ) );
+            $imageLink = $doc->createElement( 'link' );
+            $imageLink->appendChild( $doc->createTextNode( $this->attribute( 'url' ) ) );
             $image->appendChild( $imageLink );
 
             $channel->appendChild( $image );
@@ -542,10 +546,12 @@ class eZRSSExport extends eZPersistentObject
                 $itemTitle->appendChild( $doc->createTextNode( $itemTitleText ) );
                 $item->appendChild( $itemTitle );
 
-                $itemLink = $doc->createElement( 'link', $nodeURL );
+                $itemLink = $doc->createElement( 'link' );
+                $itemLink->appendChild( $doc->createTextNode( $nodeURL ) );
                 $item->appendChild( $itemLink );
 
-                $itemGuid = $doc->createElement( 'guid', $nodeURL );
+                $itemGuid = $doc->createElement( 'guid' );
+                $itemGuid->appendChild( $doc->createTextNode( $nodeURL ) );
                 $item->appendChild( $itemGuid );
 
                 // description RSS element with respective class attribute content
@@ -564,7 +570,8 @@ class eZRSSExport extends eZPersistentObject
                 $itemDescription->appendChild( $doc->createTextNode( $itemDescriptionText ) );
                 $item->appendChild( $itemDescription );
 
-                $itemPubDate = $doc->createElement( 'pubDate', gmdate( 'D, d M Y H:i:s', $object->attribute( 'published' ) ) .' GMT' );
+                $itemPubDate = $doc->createElement( 'pubDate' );
+                $itemPubDate->appendChild( $doc->createTextNode( gmdate( 'D, d M Y H:i:s', $object->attribute( 'published' ) ) .' GMT' ) );
 
                 $item->appendChild( $itemPubDate );
 
@@ -627,7 +634,8 @@ class eZRSSExport extends eZPersistentObject
         $channelTitle->appendChild( $doc->createTextNode( $this->attribute( 'title' ) ) );
         $channel->appendChild( $channelTitle );
 
-        $channelUrl = $doc->createElement( 'link', $this->attribute( 'url' ) );
+        $channelUrl = $doc->createElement( 'link' );
+        $channelUrl->appendChild( $doc->createTextNode( $this->attribute( 'url' ) ) );
         $channel->appendChild( $channelUrl );
 
         $channelDescription = $doc->createElement( 'description' );
@@ -647,10 +655,12 @@ class eZRSSExport extends eZPersistentObject
             $imageTitle->appendChild( $doc->createTextNode( $this->attribute( 'title' ) ) );
             $image->appendChild( $imageTitle );
 
-            $imageLink = $doc->createElement( 'link', $this->attribute( 'url' ) );
+            $imageLink = $doc->createElement( 'link' );
+            $imageLink->appendChild( $doc->createTextNode( $this->attribute( 'url' ) ) );
             $image->appendChild( $imageLink );
 
-            $imageUrlNode = $doc->createElement( 'url', $imageURL );
+            $imageUrlNode = $doc->createElement( 'url' );
+            $imageUrlNode->appendChild( $doc->createTextNode( $imageURL ) );
             $image->appendChild( $imageUrlNode );
 
             $root->appendChild( $image );
@@ -747,7 +757,8 @@ class eZRSSExport extends eZPersistentObject
                 $itemDescription = $doc->createElement( 'description' );
                 $itemDescription->appendChild( $doc->createTextNode( $itemDescriptionText ) );
 
-                $itemLink = $doc->createElement( 'link', $nodeURL );
+                $itemLink = $doc->createElement( 'link' );
+                $itemLink->appendChild( $doc->createTextNode( $nodeURL ) );
 
                 $item = $doc->createElementNS( 'http://purl.org/rss/1.0/', 'item' );
                 $item->setAttributeNS( 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'rdf:about', $nodeURL );

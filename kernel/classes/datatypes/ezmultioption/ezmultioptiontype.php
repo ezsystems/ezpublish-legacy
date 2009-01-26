@@ -463,7 +463,8 @@ class eZMultiOptionType extends eZDataType
     {
         $defaultValue = $classAttribute->attribute( 'data_text1' );
         $dom = $attributeParametersNode->ownerDocument;
-        $defaultValueNode = $dom->createElement( 'default-value', $defaultValue );
+        $defaultValueNode = $dom->createElement( 'default-value' );
+        $defaultValueNode->appendChild( $dom->createTextNode( $defaultValue ) );
         $attributeParametersNode->appendChild( $defaultValueNode );
     }
 

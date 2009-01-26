@@ -597,7 +597,8 @@ class eZObjectRelationType extends eZDataType
             {
                 $relatedObjectRemoteID = $relatedObject->attribute( 'remote_id' );
                 $dom = $node->ownerDocument;
-                $relatedObjectRemoteIDNode = $dom->createElement( 'related-object-remote-id', $relatedObjectRemoteID );
+                $relatedObjectRemoteIDNode = $dom->createElement( 'related-object-remote-id' );
+                $relatedObjectRemoteIDNode->appendChild( $dom->createTextNode( $relatedObjectRemoteID ) );
                 $node->appendChild( $relatedObjectRemoteIDNode );
             }
         }

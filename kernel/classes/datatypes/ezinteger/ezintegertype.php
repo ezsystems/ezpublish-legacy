@@ -480,16 +480,19 @@ class eZIntegerType extends eZDataType
         $minMaxState = $classAttribute->attribute( self::INPUT_STATE_FIELD );
 
         $dom = $attributeParametersNode->ownerDocument;
-        $defaultValueNode = $dom->createElement( 'default-value', $defaultValue );
+        $defaultValueNode = $dom->createElement( 'default-value' );
+        $defaultValueNode->appendChild( $dom->createTextNode( $defaultValue ) );
         $attributeParametersNode->appendChild( $defaultValueNode );
         if ( $minMaxState == self::HAS_MIN_VALUE or $minMaxState == self::HAS_MIN_MAX_VALUE )
         {
-            $minValueNode = $dom->createElement( 'min-value', $minValue );
+            $minValueNode = $dom->createElement( 'min-value' );
+            $minValueNode->appendChild( $dom->createTextNode( $minValue ) );
             $attributeParametersNode->appendChild( $minValueNode );
         }
         if ( $minMaxState == self::HAS_MAX_VALUE or $minMaxState == self::HAS_MIN_MAX_VALUE )
         {
-            $maxValueNode = $dom->createElement( 'max-value', $maxValue );
+            $maxValueNode = $dom->createElement( 'max-value' );
+            $maxValueNode->appendChild( $dom->createTextNode( $maxValue ) );
             $attributeParametersNode->appendChild( $maxValueNode );
         }
     }

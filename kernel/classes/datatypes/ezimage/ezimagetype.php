@@ -485,7 +485,10 @@ class eZImageType extends eZDataType
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $maxSize = $classAttribute->attribute( self::FILESIZE_FIELD );
-        $maxSizeNode = $attributeParametersNode->ownerDocument->createElement( 'max-size', $maxSize );
+        $dom = $attributeParametersNode->ownerDocument;
+
+        $maxSizeNode = $dom->createElement( 'max-size' );
+        $maxSizeNode->appendChild( $dom->createTextNode( $maxSize ) );
         $maxSizeNode->setAttribute( 'unit-size', 'mega' );
         $attributeParametersNode->appendChild( $maxSizeNode );
     }

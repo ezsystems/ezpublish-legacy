@@ -437,14 +437,17 @@ class eZSelectionType extends eZDataType
         $isMultipleSelection = $classAttribute->attribute( 'data_int1'  );
         $xmlString = $classAttribute->attribute( 'data_text5' );
 
-        $dom = new DOMDocument( '1.0', 'utf-8' );
-        $success = $dom->loadXML( $xmlString );
-        $domRoot = $dom->documentElement;
+        $selectionDom = new DOMDocument( '1.0', 'utf-8' );
+        $success = $selectionDom->loadXML( $xmlString );
+        $domRoot = $selectionDom->documentElement;
         $options = $domRoot->getElementsByTagName( 'options' )->item( 0 );
 
-        $importedOptionsNode = $attributeParametersNode->ownerDocument->importNode( $options, true );
+        $dom = $attributeParametersNode->ownerDocument;
+
+        $importedOptionsNode = $dom->importNode( $options, true );
         $attributeParametersNode->appendChild( $importedOptionsNode );
-        $isMultiSelectNode = $attributeParametersNode->ownerDocument->createElement( 'is-multiselect', $isMultipleSelection );
+        $isMultiSelectNode = $dom->createElement( 'is-multiselect' );
+        $isMultiSelectNode->appendChild( $dom->createTextNode( $isMultipleSelection ) );
         $attributeParametersNode->appendChild( $isMultiSelectNode );
     }
 

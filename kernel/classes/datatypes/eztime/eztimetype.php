@@ -395,8 +395,9 @@ class eZTimeType extends eZDataType
 
         if ( !is_null( $stamp ) )
         {
-            //include_once( 'lib/ezlocale/classes/ezdateutils.php' );
-            $dateNode = $node->ownerDocument->createElement( 'time', eZDateUtils::rfc1123Date( $stamp ) );
+            $dom = $node->ownerDocument;
+            $dateNode = $dom->createElement( 'time' );
+            $dateNode->appendChild( $dom->createTextNode( eZDateUtils::rfc1123Date( $stamp ) ) );
             $node->appendChild( $dateNode );
         }
         return $node;
