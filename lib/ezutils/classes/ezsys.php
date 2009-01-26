@@ -844,7 +844,7 @@ class eZSys
      stated in the parameter list.
      \static
     */
-    static function init( $index = "index.php", $force_VirtualHost = false )
+    static function init( $def_index = "index.php", $force_VirtualHost = false )
     {
         $isCGI = ( substr( php_sapi_name(), 0, 3 ) == 'cgi' );
 
@@ -863,19 +863,22 @@ class eZSys
         $phpSelf = eZSys::serverVariable( 'PHP_SELF' );
 
         // Find out, where our files are.
-        if ( ereg( "(.*/)$index\.php$", eZSys::serverVariable( 'SCRIPT_FILENAME' ), $regs ) )
+        if ( ereg( "(.*/)([^\/]+\.php)$", eZSys::serverVariable( 'SCRIPT_FILENAME' ), $regs ) )
         {
             $siteDir = $regs[1];
+            $index = "/" . $regs[2];
         }
-        elseif ( ereg( "(.*/)$index\.php/?", $phpSelf, $regs ) )
+        elseif ( ereg( "(.*/)([^\/]+\.php)/?", $phpSelf, $regs ) )
         {
             // Some people using CGI have their $_SERVER['SCRIPT_FILENAME'] not right... so we are trying this.
             $siteDir = eZSys::serverVariable( 'DOCUMENT_ROOT' ) . $regs[1];
+            $index = "/" . $regs[2];
         }
         else
         {
             // Fallback... doesn't work with virtual-hosts, but better than nothing
             $siteDir = "./";
+            $index = "/$def_index";
         }
         if ( $isCGI and !$force_VirtualHost )
         {
@@ -896,6 +899,7 @@ class eZSys
 
         $scriptName = eZSys::serverVariable( 'SCRIPT_NAME' );
         // Get the webdir.
+
         $wwwDir = "";
 
         if ( $force_VirtualHost )
@@ -904,9 +908,9 @@ class eZSys
         }
         else
         {
-            if ( ereg( "(.*)/$index\.php$", $scriptName, $regs ) )
+            if ( ereg( "(.*)/([^\/]+\.php)$", $scriptName, $regs ) )
                 $wwwDir = $regs[1];
-            else if ( ereg( "(.*)/$index\.php$", $phpSelf, $regs ) )
+            else if ( ereg( "(.*)/([^\/]+\.php)$", $phpSelf, $regs ) )
                 $wwwDir = $regs[1];
         }
 
@@ -931,9 +935,9 @@ class eZSys
 
         if ( ! $isCGI )
         {
-            $index_reg = str_replace( ".", "\\.", $index );
+            $def_index_reg = str_replace( ".", "\\.", $def_index );
             // Trick: Rewrite setup doesn't have index.php in $_SERVER['PHP_SELF'], so we don't want an $index
-            if ( ! ereg( ".*$index_reg.*", $phpSelf ) || $force_VirtualHost )
+            if ( ! ereg( ".*$def_index_reg.*", $phpSelf ) || $force_VirtualHost )
             {
                 $index = "";
             }
