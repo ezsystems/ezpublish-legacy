@@ -4826,8 +4826,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                            \a $groupList, if not it will exclude those groups.
      \param $groupList An array with class group IDs that should be used in filtering, use
                        \c false if you do not wish to filter at all.
-     \param $id A unique name for the current fetch, this must be supplied when filtering is
-                used if you want caching to work.
+     \param $fetchID A unique name for the current fetch, this must be supplied when filtering is
+                     used if you want caching to work.
     */
     function canCreateClassList( $asObject = false, $includeFilter = true, $groupList = false, $fetchID = false )
     {
