@@ -31,7 +31,7 @@
     {def $custom_attribute_default_int = ''
          $custom_attribute_default_type = ''}
 {/if}
-<input type="text" size="2" name="{$custom_attribute}" id="{$custom_attribute_id}_source" value="{$custom_attribute_default_int|wash}"{if $custom_attribute_disabled} disabled="disabled"{/if} class="{$custom_attribute_classes|implode(' ')}" title="{$custom_attribute_titles|wash}" />
+<input type="text" size="2" name="{$custom_attribute}" id="{$custom_attribute_id}_source" value="{$custom_attribute_default_int|wash}"{if $custom_attribute_disabled} disabled="disabled"{/if} class="{$custom_attribute_classes|implode(' ')}" title="{$custom_attribute_title|wash}" />
 <select id="{$custom_attribute_id}_sizetype"{if $custom_attribute_disabled} disabled="disabled"{/if} class="mceItemSkip sizetype_margin_fix">
 {foreach $css_size_types as $key => $value}
     <option value="{$key}"{if $custom_attribute_default_type|eq($key)} selected="selected"{/if}>{$value}</option>
@@ -39,7 +39,7 @@
 </select>
 </td>
 {set $custom_attribute_classes = $custom_attribute_classes|append( 'mceItemSkip' )}
-{if $custom_attribute_default[1]|ne('')}
+{if and( is_set($custom_attribute_default[1]), $custom_attribute_default[1]|ne('') )}
     {set $custom_attribute_default_int = $custom_attribute_default[1]|int}
     {set $custom_attribute_default_type = $custom_attribute_default[1]|explode( $custom_attribute_default_int ).1}
 {else}
@@ -47,14 +47,14 @@
     {set $custom_attribute_default_type = ''}
 {/if}
 <td>
-<input type="text" size="2" id="{$custom_attribute_id}_source_1" value="{$custom_attribute_default_int|wash}"{if $custom_attribute_disabled} disabled="disabled"{/if} class="{$custom_attribute_classes|implode(' ')}" title="{$custom_attribute_titles|wash}" />
+<input type="text" size="2" id="{$custom_attribute_id}_source_1" value="{$custom_attribute_default_int|wash}"{if $custom_attribute_disabled} disabled="disabled"{/if} class="{$custom_attribute_classes|implode(' ')}" title="{$custom_attribute_title|wash}" />
 <select id="{$custom_attribute_id}_sizetype_1"{if $custom_attribute_disabled} disabled="disabled"{/if} class="mceItemSkip sizetype_margin_fix">
 {foreach $css_size_types as $key => $value}
     <option value="{$key}"{if $custom_attribute_default_type|eq($key)} selected="selected"{/if}>{$value}</option>
 {/foreach}
 </select>
 </td>
-{if $custom_attribute_default[2]|ne('')}
+{if and( is_set($custom_attribute_default[2]), $custom_attribute_default[2]|ne('') )}
     {set $custom_attribute_default_int = $custom_attribute_default[2]|int}
     {set $custom_attribute_default_type = $custom_attribute_default[2]|explode( $custom_attribute_default_int ).1}
 {else}
@@ -62,14 +62,14 @@
     {set $custom_attribute_default_type = ''}
 {/if}
 <td>
-<input type="text" size="2" id="{$custom_attribute_id}_source_2" value="{$custom_attribute_default_int|wash}"{if $custom_attribute_disabled} disabled="disabled"{/if} class="{$custom_attribute_classes|implode(' ')}" title="{$custom_attribute_titles|wash}" />
+<input type="text" size="2" id="{$custom_attribute_id}_source_2" value="{$custom_attribute_default_int|wash}"{if $custom_attribute_disabled} disabled="disabled"{/if} class="{$custom_attribute_classes|implode(' ')}" title="{$custom_attribute_title|wash}" />
 <select id="{$custom_attribute_id}_sizetype_2"{if $custom_attribute_disabled} disabled="disabled"{/if} class="mceItemSkip sizetype_margin_fix">
 {foreach $css_size_types as $key => $value}
     <option value="{$key}"{if $custom_attribute_default_type|eq($key)} selected="selected"{/if}>{$value}</option>
 {/foreach}
 </select>
 </td>
-{if $custom_attribute_default[3]|ne('')}
+{if and( is_set($custom_attribute_default[3]), $custom_attribute_default[3]|ne('') )}
     {set $custom_attribute_default_int = $custom_attribute_default[3]|int}
     {set $custom_attribute_default_type = $custom_attribute_default[3]|explode( $custom_attribute_default_int ).1}
 {else}
@@ -77,7 +77,7 @@
     {set $custom_attribute_default_type = ''}
 {/if}
 <td>
-<input type="text" size="2" id="{$custom_attribute_id}_source_3" value="{$custom_attribute_default_int|wash}"{if $custom_attribute_disabled} disabled="disabled"{/if} class="{$custom_attribute_classes|implode(' ')}" title="{$custom_attribute_titles|wash}" />
+<input type="text" size="2" id="{$custom_attribute_id}_source_3" value="{$custom_attribute_default_int|wash}"{if $custom_attribute_disabled} disabled="disabled"{/if} class="{$custom_attribute_classes|implode(' ')}" title="{$custom_attribute_title|wash}" />
 <select id="{$custom_attribute_id}_sizetype_3"{if $custom_attribute_disabled} disabled="disabled"{/if} class="mceItemSkip sizetype_margin_fix">
 {foreach $css_size_types as $key => $value}
     <option value="{$key}"{if $custom_attribute_default_type|eq($key)} selected="selected"{/if}>{$value}</option>

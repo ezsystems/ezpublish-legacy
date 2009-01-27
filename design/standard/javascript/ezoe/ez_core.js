@@ -204,7 +204,7 @@ var ez = {
         },
         remove: function( name )
         {
-            // Blanks the cookie value and make sure it expired a longe time ago
+            // Blanks the cookie value and make sure it expired a long time ago
             ez.cookie.set( name, '', -5000 );
         }
     },
@@ -422,9 +422,9 @@ var ez = {
                 else if ( str === 'even' )
                     var a = 2, b = 0;
                 else if ( !str && !RegExp.$3 )
-                    var a = 0, b = (inta || inta === 0) ? inta : 1
+                    var a = 0, b = ez.int( inta, 1 );
                 else
-                    var a = (inta || inta === 0) ? inta : 1, b = parseInt(RegExp.$3) || 0;
+                    var a = ez.int( inta, 1 ), b = ez.int( RegExp.$3, 0 );
 
                 if (a !== 0)
                 {
@@ -504,7 +504,18 @@ var ez = {
     {
         // Checks if value is a number, if not fallBack or 0 is returned
         // type (string) [float|int] specifies if value should be parsed as int or float
-        value = type === 'int' ? parseInt( value ) : parseFloat( value );
+        return type === 'int' ? ez.int(value, fallBack) : ez.float(value, fallBack);
+    },
+    int: function(value, fallBack)
+    {
+        // Checks if value is a int, if not fallBack or 0 is returned
+        value = parseInt( value );
+        return isNaN( value ) ? ( ez.set( fallBack ) ? fallBack : 0 ) : value;
+    },
+    float: function(value, fallBack)
+    {
+        // Checks if value is float, if not fallBack or 0 is returned
+        value = parseFloat( value );
         return isNaN( value ) ? ( ez.set( fallBack ) ? fallBack : 0 ) : value;
     },
     pick: function()
@@ -541,7 +552,6 @@ var ez = {
            r += ' ' + member + (hideValue === true ? '' : ':' + obj[member]);
         return r;
     },
-    xpath: !!document.evaluate,
     ie56: false
 };//ez
 
@@ -712,7 +722,10 @@ ez.element.eZextensions.prototype = {
         if ( ty === undefined || !el.name ) return '';
         if ( delimiter === undefined ) delimiter = '&';
         if (ty === 'radio' || ty === 'checkbox')
-            val.push( el.checked ? el.value : '' );
+        {
+            if ( !el.checked ) return '';
+            val.push( el.value );
+        }
         else if (ty === 'select-one')
             val.push( ( el.selectedIndex != -1 ) ? el.options[el.selectedIndex].value : '' );
         else if (ty === 'select-multiple')

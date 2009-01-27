@@ -127,7 +127,7 @@
                          custom_attribute_classes   = $attribute_classes
                          custom_attribute_type      = $attribute_type
                          custom_attribute_settings  = $attribute_settings
-                         custom_attribute_titles    = $attribute_title
+                         custom_attribute_title    = $attribute_title
                          custom_attribute_selection = $attribute_value}
 
                 {if is_set( $attribute_content_append[$xml_attribute ] )}
