@@ -62,10 +62,10 @@ $dbTypes[] = 'mysql';
 $dbTypes[] = 'postgresql';
 
 $branches = array();
-$branches[] = '4.0';
+$branches[] = '4.1';
 
 // Controls the lowest version which will be exported and verified against current data
-$lowestExportVersion = '4.0';
+$lowestExportVersion = '4.1';
 
 /********************************************************
 *** NOTE: The following arrays do not follow the
@@ -75,16 +75,13 @@ $lowestExportVersion = '4.0';
 *********************************************************/
 
 $versions = array();
-$versions40 = array( 'unstable' => array( array( '3.9.0', '4.0.0alpha1' )
-                                          , array( '4.0.0alpha1', '4.0.0alpha2' )
-                                          , array( '4.0.0alpha2', '4.0.0beta1' )
-                                          , array( '4.0.0beta1', '4.0.0rc1' )
-                                          , array( '4.0.0rc1', '4.0.0' )
-                                         ),
+$versions41 = array( 'unstable' => array(  array( '4.0.0',       '4.1.0alpha1' ),
+                                           array( '4.1.0alpha1', '4.1.0alpha2' ),
+                                        ),
                      'unstable_subdir' => 'unstable',
-                     'stable' => array( array( '3.9.0', '4.0.0' ) ) );
+                     'stable' => array() );
 
-$versions['4.0'] = $versions40;
+$versions['4.1'] = $versions41;
 
 $fileList = array();
 $missingFileList = array();
