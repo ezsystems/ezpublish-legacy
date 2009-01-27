@@ -1,7 +1,11 @@
 UPDATE ezsite_data SET value='4.0.2' WHERE name='ezpublish-version';
 UPDATE ezsite_data SET value='1' WHERE name='ezpublish-release';
 
-ALTER TABLE ezorder_item ALTER COLUMN vat_value TYPE double precision;
+ALTER TABLE ezorder_item ADD COLUMN vat_value_improved double precision;
+UPDATE ezorder_item SET vat_value_improved = CAST(vat_value AS double precision);
+ALTER TABLE ezorder_item DROP COLUMN vat_value;
+ALTER TABLE ezorder_item RENAME COLUMN vat_value_improved TO vat_value;
+
 ALTER TABLE ezorder_item ALTER COLUMN vat_value SET DEFAULT 0;
 ALTER TABLE ezorder_item ALTER COLUMN vat_value SET NOT NULL;
 
