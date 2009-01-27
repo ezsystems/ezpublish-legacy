@@ -49,10 +49,22 @@ class eZSearchEngine
         $this->GeneralFilter = $generalFilter;
     }
 
+
+    static function needCommit()
+    {
+        //commits are NA
+        return false;
+    }
+
+    static function needRemoveWithUpdate()
+    {
+        return true;
+    }
+
     /*!
      Adds an object to the search database.
     */
-    function addObject( $contentObject, $uri )
+    function addObject( $contentObject, $commit )
     {
         $contentObjectID = $contentObject->attribute( 'id' );
         $currentVersion = $contentObject->currentVersion();
@@ -376,7 +388,7 @@ class eZSearchEngine
     /*!
      \static
     */
-    function removeObject( $contentObject )
+    function removeObject( $contentObject, $commit )
     {
         $db = eZDB::instance();
         $objectID = $contentObject->attribute( "id" );

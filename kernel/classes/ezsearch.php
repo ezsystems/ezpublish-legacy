@@ -42,31 +42,71 @@ class eZSearch
 
     }
 
+   /*!
+     \static
+     determine how to pass the commit argument, for deletes and updates
+     maybe this needs to be further splitted
+    */
+
+    static function needCommit()
+    {
+        $searchEngine = eZSearch::getEngine();
+
+        if ( is_object( $searchEngine ) && method_exists( $searchEngine, 'needCommit'))
+        {
+            return $searchEngine->needCommit();
+        }
+        else
+        {
+            return true;
+        }
+    }
     /*!
      \static
-     Will remove the index from the given object from the search engine
+     See if a remove is needed in an update of content objects
     */
-    static function removeObject( $contentObject )
+
+    static function needRemoveWithUpdate()
+    {
+        $searchEngine = eZSearch::getEngine();
+
+        if ( is_object( $searchEngine ) && method_exists( $searchEngine, 'needRemoveWithUpdate'))
+        {
+            return $searchEngine->needRemoveWithUpdate();
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+     /*!
+     \static
+     Will remove the index from the given object from the search engine
+     A commit parameter is added since 4.1 to accomodate requirements of several search plugins
+    */
+    static function removeObject( $contentObject, $commit = true )
     {
         $searchEngine = eZSearch::getEngine();
 
         if ( is_object( $searchEngine ) )
         {
-            $searchEngine->removeObject( $contentObject );
+            $searchEngine->removeObject( $contentObject, $commit );
         }
     }
 
     /*!
      \static
      Will index the content object to the search engine.
+     A commit parameter is added since 4.1 to accomodate requirements of several search plugins
     */
-    static function addObject( $contentObject )
+    static function addObject( $contentObject, $commit = true )
     {
         $searchEngine = eZSearch::getEngine();
 
         if ( is_object( $searchEngine ) )
         {
-            $searchEngine->addObject( $contentObject, '/content/view/' );
+            $searchEngine->addObject( $contentObject, $commit );
         }
     }
 

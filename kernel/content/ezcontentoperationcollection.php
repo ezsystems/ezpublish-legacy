@@ -553,11 +553,17 @@ class eZContentOperationCollection
         {
             $object = eZContentObject::fetch( $objectID );
             // Register the object in the search engine.
-            eZDebug::accumulatorStart( 'remove_object', 'search_total', 'remove object' );
-            eZSearch::removeObject( $object );
-            eZDebug::accumulatorStop( 'remove_object' );
+            $needCommit = eZSearch::needCommit();
+            $doDeleteFirst = eZSearch::needRemoveWithUpdate();
+            if ($doDeleteFirst)
+            {
+                eZDebug::accumulatorStart( 'remove_object', 'search_total', 'remove object' );
+                eZSearch::removeObject( $object, $needCommit );
+                eZDebug::accumulatorStop( 'remove_object' );
+            }
+            
             eZDebug::accumulatorStart( 'add_object', 'search_total', 'add object' );
-            eZSearch::addObject( $object );
+            eZSearch::addObject( $object, $needCommit );
             eZDebug::accumulatorStop( 'add_object' );
         }
     }
