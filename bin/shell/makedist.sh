@@ -629,7 +629,8 @@ if [ -z $SKIPDBUPDATE ]; then
             exit 1
         fi
     fi
-    ./bin/shell/checkdbupdate.sh --check-previous --mysql $PARAM_EZ_MYSQL_ALL "$TMP_DB_NAME" &>/dev/null
+    #./bin/shell/checkdbupdate.sh --check-previous --mysql $PARAM_EZ_MYSQL_ALL "$TMP_DB_NAME" &>/dev/null
+    ./bin/shell/checkdbupdate.sh --check-previous --mysql $PARAM_EZ_MYSQL_ALL "$TMP_DB_NAME"
     if [ $? -ne 0 ]; then
         echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
         echo "The database update check for MySQL failed"
@@ -1319,32 +1320,62 @@ if [ -z "$SKIP_CORE_FILES" ]; then
 fi
 
 #
+# *****   Bundle ezc *****
+#
+
+echo -n "Bundling eZ Components 2008.2"
+
+# download
+if [ ! -e "$DEST_ROOT/ezcomponents-2008.2.tar.bz2" ]; then
+    wget --directory-prefix=$DEST_ROOT http://ezcomponents.org/files/downloads/ezcomponents-2008.2.tar.bz2
+fi
+
+if [ ! -e "$DEST_ROOT/ezcomponents-2008.2" ]; then
+    # extract
+    tar -vxjf $DEST_ROOT/ezcomponents-2008.2.tar.bz2 -C $DEST_ROOT
+    
+    # remove design, docs and tests directories
+    find $DEST_ROOT/ezcomponents-2008.2 -mindepth 2 -maxdepth 2 -type d \( -name  "design" -o -name "docs" -o -name "tests" \) -print -a -exec rm -R --force {} \;
+
+fi
+
+# copy to build location
+cp -R $DEST_ROOT/ezcomponents-2008.2 $DEST_ROOT/$BASE/lib/ezc
+
+ez_result_output $? "Failed to bundle eZ Components"|| exit 1
+
+#
 # *****   Create archives   *****
 #
 
 TGZFILE="$BASE-$LICENSE_TYPE.tar.gz"
+COMPTGZFILE="$BASE-with_ezc-$LICENSE_TYPE.tar.gz";
 TBZFILE="$BASE-$LICENSE_TYPE.tar.bz2"
+COMPTBZFILE="$BASE-with_ezc-$LICENSE_TYPE.tar.bz2"
 ZIPFILE="$BASE-$LICENSE_TYPE.zip"
+COMPZIPFILE="$BASE-with_ezc-$LICENSE_TYPE.zip"
 
-echo -n "Creating `$SETCOLOR_FILE`tar.gz`$SETCOLOR_NORMAL` file"
+echo -n "Creating `$SETCOLOR_FILE`tar.gz`$SETCOLOR_NORMAL` files"
 (cd $DEST_ROOT
-    tar cfz $TGZFILE $BASE
-    echo ",  `$SETCOLOR_EMPHASIZE`$DEST_ROOT/$TGZFILE`$SETCOLOR_NORMAL`")
+    tar --exclude=lib/ezc -czf $TGZFILE $BASE
+    echo ",  `$SETCOLOR_EMPHASIZE`$DEST_ROOT/$TGZFILE`$SETCOLOR_NORMAL`"
+    tar cfz $COMPTGZFILE $BASE
+    echo ",  `$SETCOLOR_EMPHASIZE`$DEST_ROOT/$COMPTGZFILE`$SETCOLOR_NORMAL`")
 
-echo -n "Creating `$SETCOLOR_FILE`tar.bz2`$SETCOLOR_NORMAL` file"
+echo -n "Creating `$SETCOLOR_FILE`tar.bz2`$SETCOLOR_NORMAL` files"
 (cd $DEST_ROOT
-    tar cf $BASE-$LICENSE_TYPE.tar $BASE
-    if [ -f $TBZFILE ]; then
-	rm -f $TBZFILE
-    fi
-    bzip2 $BASE-$LICENSE_TYPE.tar
-    echo ", `$SETCOLOR_EMPHASIZE`$DEST_ROOT/$TBZFILE`$SETCOLOR_NORMAL`")
+    tar --exclude=lib/ezc -cjf $TBZFILE $BASE
+    echo ", `$SETCOLOR_EMPHASIZE`$DEST_ROOT/$TBZFILE`$SETCOLOR_NORMAL`"
+    tar cfj $COMPTBZFILE $BASE
+    echo ", `$SETCOLOR_EMPHASIZE`$DEST_ROOT/$COMPTBZFILE`$SETCOLOR_NORMAL`")
 
 if [ "which zip &>/dev/null" ]; then
-    echo -n "Creating `$SETCOLOR_FILE`zip`$SETCOLOR_NORMAL` file"
+    echo -n "Creating `$SETCOLOR_FILE`zip`$SETCOLOR_NORMAL` files"
     (cd $DEST_ROOT
-        zip -9 -r -q $ZIPFILE $BASE
-        echo ",     `$SETCOLOR_EMPHASIZE`$DEST_ROOT/$ZIPFILE`$SETCOLOR_NORMAL`")
+        zip -9 -r -q $ZIPFILE $BASE -x lib/ezc/\*
+        echo ",     `$SETCOLOR_EMPHASIZE`$DEST_ROOT/$ZIPFILE`$SETCOLOR_NORMAL`"
+	zip -9 -r -q $COMPZIPFILE $BASE
+	echo ",     `$SETCOLOR_EMPHASIZE`$DEST_ROOT/$COMPZIPFILE`$SETCOLOR_NORMAL`")
 else
     echo "`SETCOLOR_WARNING`Could not create `$SETCOLOR_FILE`zip`$SETCOLOR_WARNING` file, `$SETCOLOR_EXE`zip`$SETCOLOR_NORMAL` program not found.`SETCOLOR_NORMAL`"
 fi
@@ -1367,6 +1398,8 @@ if [ "$BUILD_SNAPSHOT" == "1" ]; then
 
     echo "Copying `$SETCOLOR_FILE`$TGZFILE`$SETCOLOR_NORMAL` to `$SETCOLOR_DIR`$VERSIONROOT`$SETCOLOR_NORMAL`"
     cp "$DEST_ROOT/$TGZFILE" "$VERSIONROOT/"
+    echo "Copying `$SETCOLOR_FILE`$COMPTGZFILE`$SETCOLOR_NORMAL` to `$SETCOLOR_DIR`$VERSIONROOT`$SETCOLOR_NORMAL`"
+    cp "$DEST_ROOT/$COMPTGZFILE" "$VERSIONROOT/"
     if [ ! -f "$VERSIONROOT/filelist.md5" ]; then
 	touch "$VERSIONROOT/filelist.md5"
     fi
@@ -1409,12 +1442,27 @@ if [ -n "$FINAL" ]; then
 	touch "$VERSIONROOT/filelist.md5"
     fi
     echo "Archiving files to directory `$SETCOLOR_DIR`$VERSIONROOT`$SETCOLOR_NORMAL`"
+
+    cp "$DEST_ROOT/$COMPTGZFILE" "$VERSIONROOT/"
+    (cd "$VERSIONROOT/"; md5sum -b "$COMPTGZFILE" >> filelist.md5)
+    echo "Copied `$SETCOLOR_FILE`$COMPTGZFILE`$SETCOLOR_NORMAL`"
+    
     cp "$DEST_ROOT/$TGZFILE" "$VERSIONROOT/"
     (cd "$VERSIONROOT/"; md5sum -b "$TGZFILE" >> filelist.md5)
     echo "Copied `$SETCOLOR_FILE`$TGZFILE`$SETCOLOR_NORMAL`"
+    
+    cp "$DEST_ROOT/$COMPTBZFILE" "$VERSIONROOT/"
+    (cd "$VERSIONROOT/"; md5sum -b "$COMPTBZFILE" >> filelist.md5)
+    echo "Copied `$SETCOLOR_FILE`$COMPTBZFILE`$SETCOLOR_NORMAL`"
+
     cp "$DEST_ROOT/$TBZFILE" "$VERSIONROOT/"
     (cd "$VERSIONROOT/"; md5sum -b "$TBZFILE" >> filelist.md5)
     echo "Copied `$SETCOLOR_FILE`$TBZFILE`$SETCOLOR_NORMAL`"
+
+    cp "$DEST_ROOT/$COMPZIPFILE" "$VERSIONROOT/"
+    (cd "$VERSIONROOT/"; md5sum -b "$COMPZIPFILE" >> filelist.md5)
+    echo "Copied `$SETCOLOR_FILE`$COMPZIPFILE`$SETCOLOR_NORMAL`"
+    
     cp "$DEST_ROOT/$ZIPFILE" "$VERSIONROOT/"
     (cd "$VERSIONROOT/"; md5sum -b "$ZIPFILE" >> filelist.md5)
     echo "Copied `$SETCOLOR_FILE`$ZIPFILE`$SETCOLOR_NORMAL`"
