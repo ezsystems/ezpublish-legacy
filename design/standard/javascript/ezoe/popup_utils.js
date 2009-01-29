@@ -86,7 +86,7 @@ var eZOEPopupUtils = {
                 {
                     // set title on inline popup if inlinepopup tinyMCE plugin is used
                     var tinyInlinePopupsTitle = window.parent.ez.$$('div.clearlooks2');
-                    if ( tinyInlinePopupsTitle ) 
+                    if ( tinyInlinePopupsTitle && tinyInlinePopupsTitle[0] !== undefined ) 
                         window.parent.document.getElementById( tinyInlinePopupsTitle[0].el.id + '_title').innerHTML = s.tagEditTitleText;
                 }
             }
