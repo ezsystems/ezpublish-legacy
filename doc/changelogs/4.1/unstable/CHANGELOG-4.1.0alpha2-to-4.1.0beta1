@@ -19,3 +19,4 @@ Changes from 4.1.0alpha2 to 4.1.0beta2
 
 *Bugfixes:
 - Fixed bug #14382: PHP Warning on / after clearing all caches
+- Fixed bug #13719: ezurlwildcard.php contains a loose function
