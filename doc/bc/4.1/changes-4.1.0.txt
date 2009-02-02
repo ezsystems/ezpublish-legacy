@@ -23,6 +23,10 @@ Deprecated features
 - eZModuleManager
   The whole eZModuleManager class is deprecated now, in favor of the setting
   [ModuleSettings] ModuleList in module.ini
+  
+- eZImportLookupTable
+  This class is deprecated and will be removed from future versions of eZ Publish.
+  Long ago it was used by the eZ Publish package system.
 
 
 Removed features

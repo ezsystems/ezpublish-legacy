@@ -40,6 +40,7 @@ class eZImportLookupTable
     */
     function eZImportLookupTable()
     {
+        eZDebug::writeWarning( "The class " . __CLASS__ . " is deprecated and will be removed from future versions of eZ Publish." );
     }
 
     /*!
