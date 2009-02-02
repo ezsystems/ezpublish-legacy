@@ -776,7 +776,8 @@ if ( $module->exitStatus() == eZModule::STATUS_REDIRECT )
     $moduleRedirectUri = $module->redirectURI();
     $redirectStatus = $module->redirectStatus();
     $translatedModuleRedirectUri = $moduleRedirectUri;
-    if ( $ini->variable( 'URLTranslator', 'Translation' ) == 'enabled' )
+    if ( $ini->variable( 'URLTranslator', 'Translation' ) == 'enabled' &&
+         eZURLAliasML::urlTranslationEnabledByUri( new eZURI( $moduleRedirectUri ) ) )
     {
         if ( eZURLAliasML::translate( $translatedModuleRedirectUri, true ) )
         {
