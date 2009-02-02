@@ -36,6 +36,7 @@ define( 'EZ_SETUP_TEST_FAILURE', 2 );
 function eZSetupTestTable()
 {
     return array( 'phpversion' => array( 'eZSetupTestPhpVersion' ),
+                  'variables_order' => array( 'eZSetupTestVariablesOrder' ),
                   'php_session' => array( 'eZSetupTestExtension' ),
                   'directory_permissions' => array( 'eZSetupTestDirectoryPermissions' ),
                   'settings_permission' => array( 'eZSetupTestFilePermissions' ),
@@ -322,6 +323,19 @@ function eZSetupTestPhpVersion( $type )
                   'needed_version' => $neededVersion,
                   'current_version' => $currentVersion,
                   'warning_version' => $warningVersion );
+}
+
+function eZSetupTestVariablesOrder( $type )
+{
+    $variablesOrder = ini_get( 'variables_order' );
+    $result = strpos( $variablesOrder, 'E' ) !== false;
+    return array(
+        'result' => $result,
+        'persistent_data' => array(
+            'result' => array( 'value' => $result ),
+            'found' => array( 'value' => $variablesOrder )
+         )
+    );
 }
 
 /*!
