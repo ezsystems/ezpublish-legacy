@@ -98,12 +98,10 @@ function helpExport()
 function helpInstall()
 {
     $cli = eZCLI::instance();
-    $cli->output( "import: Install an eZ Publish package.\n" .
+    $cli->output( "install: Install an eZ Publish package.\n" .
                   "usage: install PACKAGE\n" .
                   "\n" .
-                  "PACKAGE can be specified with just the name of the of package or\n" .
-                  "the filename of the package. If just the name is used the package\n" .
-                  "will be looked for by appending .ezpkg\n"
+                  "PACKAGE is the name of the of package\n"
                   );
 }
 
@@ -111,11 +109,9 @@ function helpImport()
 {
     $cli = eZCLI::instance();
     $cli->output( "import: Import an eZ Publish package.\n" .
-                  "usage: import PACKAGE [ARCHIVENAME]\n" .
+                  "usage: import PACKAGE_FILE\n" .
                   "\n" .
-                  "PACKAGE can be specified with just the name of the of package or\n" .
-                  "the filename of the package. If just the name is used the package\n" .
-                  "will be looked for by appending .ezpkg\n"
+                  "PACKAGE_FILE is the path to the .ezpkg package file\n"
                   );
 }
 
@@ -295,7 +291,7 @@ for ( $i = 1; $i < count( $argv ); ++$i )
     $arg = $argv[$i];
     if ( $arg == '--' )
     {
-        $commandList[]= $commandItem;
+        $commandList[]=& $commandItem;
         $commandItem = resetCommandItem();
     }
     else if ( $readOptions and
@@ -581,10 +577,8 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             }
             else if ( $commandItem['command'] == 'import' )
             {
-                if ( $commandItem['name'] === false )
+               if ( $commandItem['name'] === false )
                     $commandItem['name'] = $arg;
-                else if ( !isset( $commandItem['archive'] ) )
-                    $commandItem['archive'] = $arg;
             }
             else if ( $commandItem['command'] == 'install' )
             {
@@ -943,44 +937,37 @@ foreach ( $commandList as $commandItem )
     }
     else if ( $command == 'import' )
     {
-        $archiveNames = array();
-        if ( isset( $commandItem['archive'] ) )
-            $archiveNames[] = $commandItem['archive'];
-        $archiveNames[] = $commandItem['name'];
-        $archiveNames[] = $commandItem['name'] . '.' . eZPackage::suffix();
+        $packageFile = $commandItem['name'];
 
-        $archiveName = '';
-        foreach( $archiveNames as $name )
+        if ( $packageFile && file_exists( $packageFile ) )
         {
-            if ( file_exists( $name ) )
-            {
-                $archiveName = $name;
-                break;
-            }
-        }
+            $packageFile = realpath( $packageFile );
 
-        if ( $archiveName )
-        {
-            $package = eZPackage::import( $archiveName, $commandItem['name'], true, $repositoryID );
+            $package = eZPackage::import( $packageFile, $packageName, true, $repositoryID );
 
-            if ( is_object( $package ) )
+            if ( $package instanceof eZPackage )
             {
-                $cli->notice( "Package " . $cli->stylize( 'emphasize', $package->attribute( 'name' ) ) . " sucessfully imported" );
+                $cli->notice( "Package " . $cli->stylize( 'emphasize', $packageName ) . " sucessfully imported" );
             }
             else if ( $package == eZPackage::STATUS_ALREADY_EXISTS )
             {
-                $cli->notice( "Package " . $cli->stylize( 'emphasize', $archiveName ) . " is already imported " );
-                $package = false;
+                $cli->error( "Could not import package " . $cli->stylize( 'emphasize', $packageName ) . ", it already exists" );
+            }
+            else if ( $package == eZPackage::STATUS_INVALID_NAME )
+            {
+                $cli->error( "Could not import package " . $cli->stylize( 'emphasize', $packageName ) . ", its name is invalid" );
             }
             else
             {
-                $cli->error( "Failed importing package " . $cli->stylize( 'emphasize', $archiveName ) );
+                $cli->error( "Could not import package " . $packageFile . ", invalid package file" );
             }
         }
         else
-            $cli->error( "Could not import package " . $commandItem['name'] . ", none of these files were found: " . implode( ', ', $archiveNames ) );
+        {
+            $cli->error( "Could not import package " . $packageFile . ", file was not found" );
+        }
     }
-    else if ($command == 'install' )
+    else if ( $command == 'install' )
     {
         $package = eZPackage::fetch( $commandItem['name'] );
         if ( $package )

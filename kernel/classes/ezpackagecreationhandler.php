@@ -651,7 +651,7 @@ class eZPackageCreationHandler
 
         // Make sure the package name contains only valid characters
         $trans = eZCharTransform::instance();
-        $persistentData['name'] = $trans->transformByGroup( $persistentData['name'], 'urlalias' );
+        $persistentData['name'] = $trans->transformByGroup( $persistentData['name'], 'identifier' );
     }
 
     /*!
@@ -713,7 +713,7 @@ class eZPackageCreationHandler
             {
                 // Make sure the package name contains only valid characters
                 $trans = eZCharTransform::instance();
-                $validPackageName = $trans->transformByGroup( $packageName, 'urlalias' );
+                $validPackageName = $trans->transformByGroup( $packageName, 'identifier' );
                 if ( strcmp( $validPackageName, $packageName ) != 0 )
                 {
                     $errorList[] = array( 'field' => ezi18n( 'kernel/package', 'Package name' ),

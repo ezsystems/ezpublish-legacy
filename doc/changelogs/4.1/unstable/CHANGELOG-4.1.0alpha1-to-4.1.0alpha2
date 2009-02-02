@@ -76,3 +76,5 @@ Changes from 4.1.0alpha1 to 4.1.0alpha2
 - Fixed bug #14337: Trailing Slash in DocumentRoot makes ezurl, ezdesign, ezroot fail
 - Fixed bug #13897: A user can change priorities of nodes while he's not allowed to
 - Fixed bug #14187: Inconsistent API for addObject()
+- Fixed bug #13268: You can delete bookmarks of other users
+- Fixed bug #14120: eZ Publish OS Commanding executing exploit

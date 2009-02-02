@@ -44,17 +44,9 @@ if ( $module->isCurrentAction( 'UploadPackage' ) )
         if ( $file )
         {
             $packageFilename = $file->attribute( 'filename' );
-            $packageName = $file->attribute( 'original_filename' );
-            if ( preg_match( "#^(.+)-[0-9](\.[0-9]+)-[0-9].ezpkg$#", $packageName, $matches ) )
-                $packageName = $matches[1];
-            $packageName = preg_replace( array( "#[^a-zA-Z0-9]+#",
-                                                "#_+#",
-                                                "#(^_)|(_$)#" ),
-                                         array( '_',
-                                                '_',
-                                                '' ), $packageName );
-            $package =& eZPackage::import( $packageFilename, $packageName );
-            if ( is_object( $package ) )
+
+            $package = eZPackage::import( $packageFilename, $packageName );
+            if ( $package instanceof eZPackage )
             {
                 if ( $package->attribute( 'install_type' ) != 'install' or
                      !$package->attribute( 'can_install' ) )
@@ -69,6 +61,10 @@ if ( $module->isCurrentAction( 'UploadPackage' ) )
             else if ( $package == eZPackage::STATUS_ALREADY_EXISTS )
             {
                 $errorList[] = array( 'description' => ezi18n( 'kernel/package', 'Package %packagename already exists, cannot import the package', false, array( '%packagename' => $packageName ) ) );
+            }
+            else if ( $package == eZPackage::STATUS_INVALID_NAME )
+            {
+                $errorList[] = array( 'description' => ezi18n( 'kernel/package', 'The package name %packagename is invalid, cannot import the package', false, array( '%packagename' => $packageName ) ) );
             }
             else
             {

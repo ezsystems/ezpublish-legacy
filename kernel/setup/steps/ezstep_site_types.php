@@ -201,9 +201,17 @@ class eZStepSiteTypes extends eZStepInstaller
         // Remove downloaded ezpkg file
         eZFileHandler::unlink( $archiveName );
 
-        if ( !is_object( $package ) )
+        if ( !$package instanceof eZPackage )
         {
-            eZDebug::writeNotice( "Invalid package" );
+            if ( $package == eZPackage::STATUS_INVALID_NAME )
+            {
+                eZDebug::writeNotice( "The package name $packageName is invalid" );
+            }
+            else
+            {
+                eZDebug::writeNotice( "Invalid package" );
+            }
+
             $this->ErrorMsg = ezi18n( 'design/standard/setup/init', 'Invalid package' );
             return false;
         }
