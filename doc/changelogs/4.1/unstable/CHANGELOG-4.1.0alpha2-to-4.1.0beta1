@@ -4,6 +4,7 @@ Changes from 4.1.0alpha2 to 4.1.0beta2
 - Implemented enhancement #13410: Don't do a url alias lookup for redirects to modules
 - Implemented enhancement #14202: Deprecate eZImportLookupTable
 - Implemented enhancement #11025: "Warning: eZTemplate:def" enhancement
+- Implemented enhancement #14301: Move logic to check if a user is allowed to log in on a specific site access into eZUser
 
 *Design:
 

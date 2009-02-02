@@ -120,41 +120,12 @@ if ( $Module->isCurrentAction( 'Login' ) and
             $user = $userClass->loginUser( $userLogin, $userPassword );
             if ( $user instanceof eZUser )
             {
-                $access = $GLOBALS['eZCurrentAccess'];
-                $siteAccessResult = $user->hasAccessTo( 'user', 'login' );
-                $hasAccessToSite = false;
-                // A check that the user has rights to access current siteaccess.
-                if ( $siteAccessResult[ 'accessWord' ] == 'limited' )
-                {
-                    $siteNameCRC = eZSys::ezcrc32( $access[ 'name' ] );
-                    $policyChecked = false;
-                    foreach ( $siteAccessResult['policies'] as $policy )
-                    {
-                        if ( isset( $policy['SiteAccess'] ) )
-                        {
-                            $policyChecked = true;
-                            if ( in_array( $siteNameCRC, $policy['SiteAccess'] ) )
-                            {
-                                $hasAccessToSite = true;
-                                break;
-                            }
-                        }
-                        if ( $hasAccessToSite )
-                            break;
-                    }
-                    if ( !$policyChecked )
-                        $hasAccessToSite = true;
-                }
-                else if ( $siteAccessResult[ 'accessWord' ] == 'yes' )
-                {
-                    $hasAccessToSite = true;
-                }
-                // If the user doesn't have the rights.
+                $hasAccessToSite = $user->canLoginToSiteAccess( $GLOBALS['eZCurrentAccess'] );
                 if ( !$hasAccessToSite )
                 {
                     $user->logoutCurrent();
                     $user = null;
-                    $siteAccessName = $access['name'];
+                    $siteAccessName = $GLOBALS['eZCurrentAccess']['name'];
                     $siteAccessAllowed = false;
                 }
                 break;

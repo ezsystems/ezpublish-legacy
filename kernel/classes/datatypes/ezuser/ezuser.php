@@ -2838,6 +2838,41 @@ WHERE user_id = '" . $userID . "' AND
         return $userContentClassIDs;
     }
 
+    public function canLoginToSiteAccess( $access )
+    {
+        $siteAccessResult = $this->hasAccessTo( 'user', 'login' );
+        $hasAccessToSite = false;
+
+        if ( $siteAccessResult[ 'accessWord' ] == 'limited' )
+        {
+            $siteNameCRC = eZSys::ezcrc32( $access[ 'name' ] );
+            $policyChecked = false;
+            foreach ( $siteAccessResult['policies'] as $policy )
+            {
+                if ( isset( $policy['SiteAccess'] ) )
+                {
+                    $policyChecked = true;
+                    if ( in_array( $siteNameCRC, $policy['SiteAccess'] ) )
+                    {
+                        $hasAccessToSite = true;
+                        break;
+                    }
+                }
+            }
+
+            if ( !$policyChecked )
+            {
+                $hasAccessToSite = true;
+            }
+        }
+        else if ( $siteAccessResult[ 'accessWord' ] == 'yes' )
+        {
+            $hasAccessToSite = true;
+        }
+
+        return $hasAccessToSite;
+    }
+
     /// \privatesection
     public $Login;
     public $Email;
