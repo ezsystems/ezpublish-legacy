@@ -960,3 +960,15 @@ Datatype branch:
 - Version url=http://svn.ez.no/svn/ezpublish/versions/3.9.5
 - Date 20-Aug-2008
 - Revision=22271
+
+4.1.0alpha2:
+- From revision=22912
+- Version url=http://svn.ez.no/svn/ezpublish/versions/4.1.0alpha2
+- Date 28-Jan-2009
+- Revision=22913
+
+4.0.2:
+- From revision=22912
+- Version url=http://svn.ez.no/svn/ezpublish/versions/4.0.2
+- Date 02-Feb-2009
+- Revision=22914
