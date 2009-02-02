@@ -785,18 +785,34 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $extendedAttributeFilterParams  = $extendedAttributeFilter['params'];
             $filterINI                      = eZINI::instance( 'extendedattributefilter.ini' );
 
+            if ( !$filterINI->hasGroup( $extendedAttributeFilterID ) )
+            {
+                eZDebug::writeError( "Unable to find configuration for the extended attribute filter '$extendedAttributeFilterID', the filter will be ignored", __METHOD__ );
+                return $filter;
+            }
+
             $filterClassName    = $filterINI->variable( $extendedAttributeFilterID, 'ClassName' );
             $filterMethodName   = $filterINI->variable( $extendedAttributeFilterID, 'MethodName' );
-            $filterFile         = $filterINI->variable( $extendedAttributeFilterID, 'FileName' );
 
-            if ( $filterINI->hasVariable( $extendedAttributeFilterID, 'ExtensionName' ) )
+            if ( $filterINI->hasVariable( $extendedAttributeFilterID, 'FileName' ) )
             {
-                $extensionName = $filterINI->variable( $extendedAttributeFilterID, 'ExtensionName' );
-                ext_activate( $extensionName, $filterFile );
+                $filterFile = $filterINI->variable( $extendedAttributeFilterID, 'FileName' );
+
+                if ( $filterINI->hasVariable( $extendedAttributeFilterID, 'ExtensionName' ) )
+                {
+                    $extensionName = $filterINI->variable( $extendedAttributeFilterID, 'ExtensionName' );
+                    include_once( eZExtension::baseDirectory() . "/$extensionName/$filterFile" );
+                }
+                else
+                {
+                    include_once( $filterFile );
+                }
             }
-            else
+
+            if ( !class_exists( $filterClassName, true ) )
             {
-                include_once( $filterFile );
+                eZDebug::writeError( "Unable to find the PHP class '$filterClassName' associated with the extended attribute filter '$extendedAttributeFilterID', the filter will be ignored", __METHOD__ );
+                return $filter;
             }
 
             $classObject        = new $filterClassName();
@@ -807,7 +823,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $filter['tables']   = $sqlResult['tables'];
             $filter['joins']    = $sqlResult['joins'];
             $filter['columns']  = $sqlResult['columns'];
-
         }
 
         return $filter;
