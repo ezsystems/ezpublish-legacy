@@ -132,7 +132,17 @@ class eZExtensionPackageHandler extends eZPackageHandler
     {
         //$this->Package =& $package;
 
-        $extensionName = $content->getAttribute( 'name' );
+        $trans = eZCharTransform::instance();
+        $name = $content->getAttribute( 'name' );
+        $extensionName = $trans->transformByGroup( $name, 'urlalias' );
+        if ( strcmp( $name, $extensionName ) !== 0 )
+        {
+            $description = ezi18n( 'kernel/package', 'Package contains an invalid extension name: %extensionname', false, array( '%extensionname' => $name ) );
+            $installParameters['error'] = array( 'error_code' => false,
+                                                 'element_id' => $name,
+                                                 'description' => $description );
+            return false;
+        }
 
         $siteINI = eZINI::instance();
         $extensionDir = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' ) . '/' . $extensionName;
@@ -166,25 +176,8 @@ class eZExtensionPackageHandler extends eZPackageHandler
         }
 
         eZDir::mkdir( $extensionDir, false, true );
-
-        //include_once( 'lib/ezfile/classes/ezfilehandler.php' );
-
-        $files = $content->getElementsByTagName( 'file' );
-        foreach ( $files as $file )
-        {
-            $path = $file->getAttribute( 'path' );
-            $destPath = $extensionDir . $path . '/' . $file->getAttribute( 'name' );
-
-            if ( $file->getAttribute( 'type' ) == 'dir' )
-            {
-                eZDir::mkdir( $destPath, false );
-            }
-            else
-            {
-                $sourcePath = $packageExtensionDir . $path . '/' . $file->getAttribute( 'name' );
-                eZFileHandler::copy( $sourcePath, $destPath );
-            }
-        }
+        $extensionsDir = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' );
+        eZDir::copy( $packageExtensionDir, $extensionsDir );
 
         // Activate extension
         $siteINI = eZINI::instance( 'site.ini', 'settings/override', null, null, false, true );

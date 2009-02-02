@@ -51,6 +51,7 @@ class eZPackage
     const CACHE_CODE_DATE = 1069339607;
 
     const STATUS_ALREADY_EXISTS = 1;
+    const STATUS_INVALID_NAME = 2;
 
     const NON_INTERACTIVE = -1;
 
@@ -1114,9 +1115,8 @@ class eZPackage
     /*!
      Imports a package from a gzip compressed tarball file \a $archiveName
     */
-    static function &import( $archiveName, $packageName, $dbAvailable = true, $repositoryID = false )
+    static function import( $archiveName, &$packageName, $dbAvailable = true, $repositoryID = false )
     {
-        $tempDirPath = eZPackage::temporaryImportPath();
         if ( is_dir( $archiveName ) )
         {
             eZDebug::writeError( "Importing from directory is not supported." );
@@ -1125,7 +1125,15 @@ class eZPackage
         }
         else
         {
-            $archivePath = $tempDirPath . '/' . $packageName;
+	    $tempDirPath = eZPackage::temporaryImportPath();
+	    // make a temporary directory to extract the package file to
+	    do
+	    {
+	        $archivePath = eZDir::path( array( $tempDirPath, mt_rand() ) );
+	    } while ( file_exists( $archivePath ) );
+
+	    eZDir::mkdir( $archivePath, false, true );
+
             eZPackage::removeFiles( $archivePath );
             if ( !file_exists( $archivePath ) )
             {
@@ -1143,21 +1151,30 @@ class eZPackage
                 return $retValue;
             }
 
-            $package = eZPackage::fetch( $packageName, $tempDirPath, false, $dbAvailable );
+            $definitionFileName = eZDir::path( array( $archivePath, self::definitionFilename() ) );
+
+            $package = eZPackage::fetchFromFile( $definitionFileName );
+
             eZPackage::removeFiles( $archivePath );
 
             if ( $package )
             {
                 $packageName = $package->attribute( 'name' );
 
+                if ( !self::isValidName( $packageName ) )
+                {
+                    return eZPackage::STATUS_INVALID_NAME;
+                }
+
                 if ( !$repositoryID )
+                {
                     $repositoryID = $package->attribute( 'vendor-dir' );
+                }
 
                 $existingPackage = eZPackage::fetch( $packageName, false, false, $dbAvailable );
                 if ( $existingPackage )
                 {
-                    $retValue = eZPackage::STATUS_ALREADY_EXISTS;
-                    return $retValue;
+                    return eZPackage::STATUS_ALREADY_EXISTS;
                 }
                 unset( $archive );
                 unset( $package );
@@ -3047,6 +3064,23 @@ class eZPackage
 
         return $languageMap;
     }
+
+    /**
+     * Checks if a package name is valid
+     *
+     * @param string $packageName the package name
+     * @param string $transformedPackageName the package name, transformed to be valid
+     * @return boolean true if the package name is valid, false if not
+     */
+
+    static function isValidName( $packageName, &$transformedPackageName = null )
+    {
+        $trans = eZCharTransform::instance();
+        $transformedPackageName = $trans->transformByGroup( $packageName, 'identifier' );
+
+        return $transformedPackageName === $packageName;
+    }
+
 
     public $isInstalled = false;
     /// \privatesection
