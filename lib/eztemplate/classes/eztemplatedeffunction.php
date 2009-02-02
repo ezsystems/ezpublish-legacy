@@ -164,7 +164,7 @@ class eZTemplateDefFunction
             if ( $undef ) // {undef}
             {
                 if ( !$tpl->hasLocalVariable( $varName, $rootNamespace ) )
-                    $tpl->warning( eZTemplateDefFunction::UNDEF_FUNCTION_NAME, "Variable '$varName' is not defined with {def}." );
+                    $tpl->warning( eZTemplateDefFunction::UNDEF_FUNCTION_NAME, "Variable '$varName' is not defined with {def}.", $functionPlacement );
                 else
                     $tpl->unsetLocalVariable( $varName, $rootNamespace );
 
@@ -174,11 +174,7 @@ class eZTemplateDefFunction
                 if ( $tpl->hasVariable( $varName, $rootNamespace ) ) // if the variable already exists
                 {
                     // we don't create new variable but just assign value to the existing one.
-                    $tpl->warning( eZTemplateDefFunction::DEF_FUNCTION_NAME
-                                   . ' in ' . $functionPlacement[2]
-                                   . '[' . $functionPlacement[1][0] . ']'
-                                   . ':' . $functionPlacement[1][1],
-                                   "Variable '$varName' is already defined." );
+                    $tpl->warning( eZTemplateDefFunction::DEF_FUNCTION_NAME, "Variable '$varName' is already defined.", $functionPlacement );
                     $tpl->setVariable( $varName, $varValue, $rootNamespace );
                 }
                 else
