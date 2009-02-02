@@ -214,19 +214,7 @@ class eZFSFileHandler
 
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
 
-        if ( !( $fh = fopen( $filePath, 'w' ) ) )
-        {
-            eZDebug::writeError( "Cannot open file '$filePath'", 'eZFSFileHandler::fileStoreContents()' );
-            return false;
-        }
-
-        if ( fwrite( $fh, $contents ) === false )
-        {
-            eZDebug::writeError( "Cannot write to '$filePath'", 'eZFSFileHandler::fileStoreContents()' );
-            return false;
-        }
-
-        fclose( $fh );
+        eZFile::create( basename( $filePath ), dirname( $filePath ), $contents, true );
 
         $perm = eZINI::instance()->variable( 'FileSettings', 'StorageFilePermissions' );
         chmod( $filePath, octdec( $perm ) );
