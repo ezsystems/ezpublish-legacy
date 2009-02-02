@@ -87,7 +87,7 @@ class eZWorkflowType
         {
             $result = eZWorkflowType::loadAndRegisterType( $typeString );
             if ( $result === false )
-                return $def;
+                return null;
         }
 
         if ( isset( $types[$typeString] ) )
