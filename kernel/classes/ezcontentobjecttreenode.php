@@ -5565,8 +5565,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( $this->ClassIdentifier === null )
         {
             $object = $this->object();
-            $class = $object->contentClass();
-            $this->ClassIdentifier = $class->attribute( 'identifier' );
+            $this->ClassIdentifier = $object->contentClassIdentifier();
         }
 
         return $this->ClassIdentifier;
