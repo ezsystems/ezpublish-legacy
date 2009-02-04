@@ -25,3 +25,4 @@ Changes from 4.1.0alpha2 to 4.1.0beta2
 - Fixed bug #13719: ezurlwildcard.php contains a loose function
 - Fixed bug #11987: Incompatible with PHP setting variables_order = "GPCS"
 - Fixed bug #12450: Undefined variable: def in kernel/classes/ezworkflowtype.php on line 90
+- Fixed bug #14358: runcronjobs does not remove its mutex files
