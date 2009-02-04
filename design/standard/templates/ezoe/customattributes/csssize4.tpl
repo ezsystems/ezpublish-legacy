@@ -93,7 +93,7 @@
 eZOEPopupUtils.settings.customAttributeInitHandler['{$custom_attribute_id}_source'] = {literal} function( el, value )
 {
     if ( ez.string.trim( value ) === '' ) return;
-    var valArr = value +''.split(/\s/g), base_id = el.id.replace('_source', ''), inp, sel, tid;
+    var valArr = (value +'').split(/\s/g), base_id = el.id.replace('_source', ''), inp, sel, tid;
     for(var i = 0, l = ez.min( valArr.length, 4 ); i < l; i++)
     {
         tid = (i === 0 ? '' : '_' + i);
