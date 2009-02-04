@@ -462,8 +462,8 @@ class eZObjectRelationListType extends eZDataType
                         $nodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $object->attribute( 'id' ),
                                                                            'contentobject_version' => $object->attribute( 'current_version' ),
                                                                            'parent_node' => $relationItem['parent_node_id'],
-                                                                           'sort_field' => 2,
-                                                                           'sort_order' => 0,
+                                                                           'sort_field' => eZContentObjectTreeNode::SORT_FIELD_PUBLISHED,
+                                                                           'sort_order' => eZContentObjectTreeNode::SORT_ORDER_DESC,
                                                                            'is_main' => 1 ) );
                         $nodeAssignment->store();
                     }
@@ -479,8 +479,8 @@ class eZObjectRelationListType extends eZDataType
                         $nodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $object->attribute( 'id' ),
                                                                            'contentobject_version' => $object->attribute( 'current_version' ),
                                                                            'parent_node' => $contentObject->attribute( 'main_node_id' ),
-                                                                           'sort_field' => 2,
-                                                                           'sort_order' => 0,
+                                                                           'sort_field' => eZContentObjectTreeNode::SORT_FIELD_PUBLISHED,
+                                                                           'sort_order' => eZContentObjectTreeNode::SORT_ORDER_DESC,
                                                                            'is_main' => 1 ) );
                         $nodeAssignment->store();
                     }

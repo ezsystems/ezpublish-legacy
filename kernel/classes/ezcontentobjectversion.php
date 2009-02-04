@@ -737,8 +737,7 @@ class eZContentObjectVersion extends eZPersistentObject
         return eZNodeAssignment::fetchForObject( $this->attribute( 'contentobject_id' ), $this->attribute( 'version' ) );
     }
 
-    function assignToNode( $nodeID, $main = 0, $fromNodeID = 0, $sortField = null, $sortOrder = null,
-                            $remoteID = 0 )
+    function assignToNode( $nodeID, $main = 0, $fromNodeID = 0, $sortField = null, $sortOrder = null, $remoteID = 0 )
     {
         if ( $fromNodeID == 0 && ( $this->attribute( 'status' ) == eZContentObjectVersion::STATUS_DRAFT ||
                                    $this->attribute( 'status' ) == eZContentObjectVersion::STATUS_INTERNAL_DRAFT ) )
@@ -752,7 +751,7 @@ class eZContentObjectVersion extends eZPersistentObject
         if ( $sortField !== null )
             $nodeRow['sort_field'] = $sortField;
         if ( $sortOrder !== null )
-            $nodeRow['sort_order'] = ( $sortOrder ? 1 : 0 );
+            $nodeRow['sort_order'] = ( $sortOrder ? eZContentObjectTreeNode::SORT_ORDER_ASC : eZContentObjectTreeNode::SORT_ORDER_DESC );
 
         $nodeAssignment = eZNodeAssignment::create( $nodeRow );
         $nodeAssignment->store();

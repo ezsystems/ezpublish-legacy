@@ -63,6 +63,20 @@ Enter node_id,new_parent_id
 
 class eZContentObjectTreeNode extends eZPersistentObject
 {
+    const SORT_FIELD_PATH = 1;
+    const SORT_FIELD_PUBLISHED = 2;
+    const SORT_FIELD_MODIFIED = 3;
+    const SORT_FIELD_SECTION = 4;
+    const SORT_FIELD_DEPTH = 5;
+    const SORT_FIELD_CLASS_IDENTIFIER = 6;
+    const SORT_FIELD_CLASS_NAME = 7;
+    const SORT_FIELD_PRIORITY = 8;
+    const SORT_FIELD_NAME = 9;
+    const SORT_FIELD_MODIFIED_SUBNODE = 10;
+
+    const SORT_ORDER_DESC = 0;
+    const SORT_ORDER_ASC = 1;
+
     /*!
      Constructor
     */
@@ -112,11 +126,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                            'required' => true ),
                                          'sort_field' => array( 'name' => 'SortField',
                                                                 'datatype' => 'integer',
-                                                                'default' => 1,
+                                                                'default' => self::SORT_FIELD_PATH,
                                                                 'required' => true ),
                                          'sort_order' => array( 'name' => 'SortOrder',
                                                                 'datatype' => 'integer',
-                                                                'default' => 1,
+                                                                'default' => self::SORT_ORDER_ASC,
                                                                 'required' => true ),
                                          'priority' => array( 'name' => 'Priority',
                                                               'datatype' => 'integer',
@@ -2553,68 +2567,68 @@ class eZContentObjectTreeNode extends eZPersistentObject
     }
 
     /*!
-     \return the field name for the sort order number \a $sortOrder.
-             Gives a warning if the number is unknown and return \c 'path'.
+     \return the sort field name for the numeric sort field ID \a $sortFieldID.
+             Gives a warning if the ID is unknown and returns \c 'path'.
     */
-    static function sortFieldName( $sortOrder )
+    static function sortFieldName( $sortFieldID )
     {
-        switch ( $sortOrder )
+        switch ( $sortFieldID )
         {
             default:
-                eZDebug::writeWarning( 'Unknown sort order: ' . $sortOrder, 'eZContentObjectTreeNode::sortFieldName' );
-            case 1:
+                eZDebug::writeWarning( 'Unknown sort field ID: ' . $sortFieldID, __METHOD__ );
+            case self::SORT_FIELD_PATH:
                 return 'path';
-            case 2:
+            case self::SORT_FIELD_PUBLISHED:
                 return 'published';
-            case 3:
+            case self::SORT_FIELD_MODIFIED:
                 return 'modified';
-            case 4:
+            case self::SORT_FIELD_SECTION:
                 return 'section';
-            case 5:
+            case self::SORT_FIELD_DEPTH:
                 return 'depth';
-            case 6:
+            case self::SORT_FIELD_CLASS_IDENTIFIER:
                 return 'class_identifier';
-            case 7:
+            case self::SORT_FIELD_CLASS_NAME:
                 return 'class_name';
-            case 8:
+            case self::SORT_FIELD_PRIORITY:
                 return 'priority';
-            case 9:
+            case self::SORT_FIELD_NAME:
                 return 'name';
-            case 10:
+            case self::SORT_FIELD_MODIFIED_SUBNODE:
                 return 'modified_subnode';
         }
     }
 
     /*!
-     \return the field name for the sort order number \a $sortOrder.
-             Gives a warning if the number is unknown and return \c 'path'.
+     \return the numeric sort field ID for the sort field name \a $sortFieldName.
+             Gives a warning if the name is unknown and returns self::SORT_FIELD_PATH.
     */
     static function sortFieldID( $sortFieldName )
     {
         switch ( $sortFieldName )
         {
             default:
-                eZDebug::writeWarning( 'Unknown sort order: ' . $sortFieldName, 'eZContentObjectTreeNode::sortFieldID()' );
+                eZDebug::writeWarning( 'Unknown sort field name: ' . $sortFieldName, __METHOD__ );
             case 'path':
-                return 1;
+                return self::SORT_FIELD_PATH;
             case 'published':
-                return 2;
+                return self::SORT_FIELD_PUBLISHED;
             case 'modified':
-                return 3;
+                return self::SORT_FIELD_MODIFIED;
             case 'section':
-                return 4;
+                return self::SORT_FIELD_SECTION;
             case 'depth':
-                return 5;
+                return self::SORT_FIELD_DEPTH;
             case 'class_identifier':
-                return 6;
+                return self::SORT_FIELD_CLASS_IDENTIFIER;
             case 'class_name':
-                return 7;
+                return self::SORT_FIELD_CLASS_NAME;
             case 'priority':
-                return 8;
+                return self::SORT_FIELD_PRIORITY;
             case 'name':
-                return 9;
+                return self::SORT_FIELD_NAME;
             case 'modified_subnode':
-                return 10;
+                return self::SORT_FIELD_MODIFIED_SUBNODE;
         }
     }
 

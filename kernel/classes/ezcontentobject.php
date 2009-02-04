@@ -3405,11 +3405,13 @@ class eZContentObject extends eZPersistentObject
      \param $parentNodeID The node ID of the parent node
      \param $isMain \c true if the created node is the main node of the object
      \param $remoteID A string denoting the unique remote ID of the assignment or \c false for no remote id.
-     \note The return assignment will already be stored in the database
+     \param $sortField
+     \param $sortOrder
+     \note The returned assignment will already be stored in the database
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function createNodeAssignment( $parentNodeID, $isMain, $remoteID = false, $sortField = 2 /* published */, $sortOrder = 0 /* desc */ )
+    function createNodeAssignment( $parentNodeID, $isMain, $remoteID = false, $sortField = eZContentObjectTreeNode::SORT_FIELD_PUBLISHED, $sortOrder = eZContentObjectTreeNode::SORT_ORDER_DESC )
     {
         $nodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $this->attribute( 'id' ),
                                                            'contentobject_version' => $this->attribute( 'current_version' ),
