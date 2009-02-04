@@ -74,6 +74,7 @@ class eZRunCronjobs
             global $isQuiet;
             global $cronPart;
             include( $scriptFile );
+            $scriptMutex->unlock();
         }
     }
 
