@@ -39,9 +39,9 @@ Removed features
   which at the time of introducing them were supposed to be inside the class
   definition. These two functions have been removed.
 
-- eZFilePassthroughHandler
+- eZFilePasstroughHandler
 
-  The deprecated class eZFilePassthroughHandler was removed. Use
+  The deprecated class eZFilePasstroughHandler was removed. Use
   ezFilePassthroughHandler instead.
 
 - eZXMLInputType
