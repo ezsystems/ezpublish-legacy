@@ -56,7 +56,8 @@ if ( $Module->isCurrentAction( 'Remove' )  )
             $bookmark = eZContentBrowseBookmark::fetch( $deleteID );
             if ( $bookmark === null )
                 continue;
-            $bookmark->remove();
+            if ( $bookmark->attribute( 'user_id' ) == $userID )
+                $bookmark->remove();
         }
     }
     if ( $http->hasPostVariable( 'NeedRedirectBack' ) and $http->hasSessionVariable( "LastAccessesURI" ) )
