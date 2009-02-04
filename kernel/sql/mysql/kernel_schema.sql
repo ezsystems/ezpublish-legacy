@@ -1442,6 +1442,15 @@ CREATE TABLE ezurlalias_ml (
 
 
 
+CREATE TABLE ezurlalias_ml_incr (
+  id int(11) NOT NULL auto_increment,
+  PRIMARY KEY  (id)
+) TYPE=InnoDB;
+
+
+
+
+
 CREATE TABLE ezurlwildcard (
   destination_url longtext NOT NULL,
   id int(11) NOT NULL auto_increment,

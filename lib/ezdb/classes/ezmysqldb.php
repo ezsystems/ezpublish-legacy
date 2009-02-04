@@ -961,6 +961,11 @@ class eZMySQLDB extends eZDBInterface
         }
     }
 
+    function supportsDefaultValuesInsertion()
+    {
+        return false;
+    }
+
     var $CharsetMapping;
     var $TempTableList;
 
