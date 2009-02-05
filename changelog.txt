@@ -10,6 +10,7 @@ eZ Online Editor 5.0 extension Changelog
 * Made input parser ignore junk links from word 2007
 * Fixed #14359: Edit <link> tag popup is empty with JS error in pupup_utils.js
 * Fixed #14397: Switched XmlTagNameAlias of th (table header) and td (table cell)
+* Fixed #14317: wordmatch.ini used in kernel but only bundled with OE
 
 5.0rc11
 * Fixed regression #014110: IE7 double every paragraph break on every edit
