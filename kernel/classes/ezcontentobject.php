@@ -5875,7 +5875,7 @@ class eZContentObject extends eZPersistentObject
                 }
                 else
                 {
-                    $allowedStateIDList = $db->arrayQuery( 'SELECT id from ezcobj_state', array( 'column' => id ) );
+                    $allowedStateIDList = $db->arrayQuery( 'SELECT id from ezcobj_state', array( 'column' => 'id' ) );
                     break;
                 }
             }
