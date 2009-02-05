@@ -714,9 +714,9 @@ WHERE user_id = '" . $userID . "' AND
         $contentObjectStatus = eZContentObject::STATUS_PUBLISHED;
 
         $ini = eZINI::instance();
-        $databaseImplementation = $ini->variable( 'DatabaseSettings', 'DatabaseImplementation' );
+        $databaseName = $db->databaseName();
         // if mysql
-        if ( $databaseImplementation == "ezmysql" )
+        if ( $databaseName === 'mysql' )
         {
             $query = "SELECT contentobject_id, password_hash, password_hash_type, email, login
                       FROM ezuser, ezcontentobject
@@ -751,7 +751,7 @@ WHERE user_id = '" . $userID . "' AND
                                                     $hash );
 
                 // If hash type is MySql
-                if ( $hashType == self::PASSWORD_HASH_MYSQL and $databaseImplementation == "ezmysql" )
+                if ( $hashType == self::PASSWORD_HASH_MYSQL and $databaseName === 'mysql' )
                 {
                     $queryMysqlUser = "SELECT contentobject_id, password_hash, password_hash_type, email, login
                               FROM ezuser, ezcontentobject

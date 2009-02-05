@@ -88,9 +88,9 @@ class eZTextFileUser extends eZUser
 
         $ini = eZINI::instance();
         $textFileIni = eZINI::instance( 'textfile.ini' );
-        $databaseImplementation = $ini->variable( 'DatabaseSettings', 'DatabaseImplementation' );
+        $databaseName = $db->databaseName();
         // if mysql
-        if ( $databaseImplementation == "ezmysql" )
+        if ( $databaseName === 'mysql' )
         {
             $query = "SELECT contentobject_id, password_hash, password_hash_type, email, login
                       FROM ezuser, ezcontentobject
@@ -121,7 +121,7 @@ class eZTextFileUser extends eZUser
                                                     $hash );
 
                 // If hash type is MySql
-                if ( $hashType == eZUser::PASSWORD_HASH_MYSQL and $databaseImplementation == "ezmysql" )
+                if ( $hashType == eZUser::PASSWORD_HASH_MYSQL and $databaseName === 'mysql' )
                 {
                     $queryMysqlUser = "SELECT contentobject_id, password_hash, password_hash_type, email, login
                                        FROM ezuser, ezcontentobject
