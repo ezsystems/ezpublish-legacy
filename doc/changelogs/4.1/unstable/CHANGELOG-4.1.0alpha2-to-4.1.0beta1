@@ -7,6 +7,7 @@ Changes from 4.1.0alpha2 to 4.1.0beta2
 - Implemented enhancement #14301: Move logic to check if a user is allowed to log in on a specific site access into eZUser
 - Implemented enhancement #11952: Remove FileName dependency from extended attribute filter extensions
 - Implemented enhancement #14002: Add constants for sort field values to eZContentObjectTreeNode
+- Implemented enhancement #14388: In ezldapuser.php, Mysql Improved database implementation not effective
 
 *Design:
 
