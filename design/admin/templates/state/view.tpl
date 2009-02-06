@@ -50,7 +50,7 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-  {if $state.group.can_edit}
+  {if $state.group.is_internal|not}
   <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design')}" />
   {else}
   <input class="button-disabled" type="submit" name="EditButton" value="{'Edit'|i18n('design')}" disabled="disabled" />

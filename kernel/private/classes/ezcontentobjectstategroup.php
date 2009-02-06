@@ -17,7 +17,13 @@
 class eZContentObjectStateGroup extends eZPersistentObject
 {
     const MAX_IDENTIFIER_LENGTH = 45;
-    static $allowInternalStateGroupCreation = false;
+
+    /**
+     * flag which specifies if it is allowed to create, update or delete internal state groups and their states
+     *
+     * @var boolean
+     */
+    static $allowInternalCUD = false;
 
     function __construct( $row = array() )
     {
@@ -48,7 +54,7 @@ class eZContentObjectStateGroup extends eZPersistentObject
                                                       "available_languages" => "availableLanguages",
                                                       "default_language" => "defaultLanguage",
                                                       "states" => "states",
-                                                      "can_edit" => "canEdit" ),
+                                                      "is_internal" => "isInternal" ),
                       "increment_key" => "id",
                       "class_name" => "eZContentObjectStateGroup",
                       "sort" => array( "identifier" => "asc" ),
@@ -392,7 +398,7 @@ class eZContentObjectStateGroup extends eZPersistentObject
                 $messages[] = ezi18n( 'kernel/state/edit', 'Identifier: invalid, it can only consist of characters in the range a-z, 0-9 and underscore.' );
                 $isValid = false;
             }
-            else if ( !self::$allowInternalStateGroupCreation && strncmp( $this->Identifier, 'ez', 2 ) === 0 )
+            else if ( !self::$allowInternalCUD && strncmp( $this->Identifier, 'ez', 2 ) === 0 )
             {
                 $messages[] = ezi18n( 'kernel/state/edit', 'Identifier: identifiers starting with "ez" are reserved.' );
                 $isValid = false;
@@ -618,16 +624,9 @@ class eZContentObjectStateGroup extends eZPersistentObject
                                                 'identifier' => $identifier ) );
     }
 
-    public function canEdit()
+    public function isInternal()
     {
-        if ( $this->ID && strncmp( $this->Identifier, 'ez', 2 ) === 0 )
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return ( $this->ID && strncmp( $this->Identifier, 'ez', 2 ) === 0 );
     }
 
     /**
@@ -671,9 +670,7 @@ class eZContentObjectStateGroup extends eZPersistentObject
                     $limitations[$name] = array(
                         'name'   => $name,
                         'values' => array(),
-                        'path'   => 'private/classes/',
-                        'file'   => 'ezcontentobjectstategroup.php',
-                        'class' => __CLASS__,
+                        'path'   => 'private/classes/',                        'file'   => 'ezcontentobjectstategroup.php',                        'class' => __CLASS__,
                         'function' => 'limitationValues',
                         'parameter' => array( $group->attribute( 'id' ) )
                     );

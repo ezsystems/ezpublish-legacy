@@ -23,7 +23,7 @@ $useStandardOptions = true;
 $options = $script->getOptions( $config, $argumentConfig, $optionHelp, $arguments, $useStandardOptions );
 $script->initialize();
 
-eZContentObjectStateGroup::$allowInternalStateGroupCreation = true;
+eZContentObjectStateGroup::$allowInternalCUD = true;
 
 $lockGroup = eZContentObjectStateGroup::fetchByIdentifier( 'ez_lock' );
 if ( $lockGroup )

@@ -50,7 +50,7 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-  {if $state_group.can_edit}
+  {if $state_group.is_internal|not}
   <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design')}" />
   {else}
   <input class="button-disabled" type="submit" name="EditButton" value="{'Edit'|i18n('design')}" disabled="disabled" />
@@ -125,16 +125,16 @@
 </tr>
 {foreach $state_group.states as $state sequence array( 'bglight', 'bgdark' ) as $sequence}
 <tr class="{$sequence}">
-    <td><input type="checkbox" name="RemoveIDList[]" value="{$state.id}" title="{'Select content object state group for removal.'|i18n( 'design/admin/state/group' )|wash}" {if $state_group.can_edit|not}disabled="disabled"{/if} /></td>
+    <td><input type="checkbox" name="RemoveIDList[]" value="{$state.id}" title="{'Select content object state group for removal.'|i18n( 'design/admin/state/group' )|wash}" {if $state_group.is_internal}disabled="disabled"{/if} /></td>
     <td class="number">{$state.id}</td>
     <td><a href={concat("/state/view/",$state.id)|ezurl}>{$state.identifier|wash}</a></td>
     <td><a href={concat("state/view/", $state.id)|ezurl}>{$state.current_translation.name|wash}</a></td>
     <td>{$state.object_count}</td>
     <td>
-        <input type="text" name="Order[{$state.id}]" size="3" value="{$state.priority}" {if $state_group.can_edit|not}disabled="disabled"{/if} />
+        <input type="text" name="Order[{$state.id}]" size="3" value="{$state.priority}" {if $state_group.is_internal}disabled="disabled"{/if} />
     </td>
     <td>
-    {if $state_group.can_edit}
+    {if $state_group.is_internal|not}
     <a href={concat( 'state/edit/', $state.id )|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/node/view/full' )|wash}" /></a></td>
     {else}
     <img src={'edit-disabled.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/node/view/full' )|wash}" />
@@ -151,7 +151,7 @@
 
 <div class="block">
 <div class="button-left">
-  {if $state_group.can_edit}
+  {if $state_group.is_internal|not}
   <input class="button" type="submit" id="remove_state_button" name="RemoveButton" value="{'Remove selected'|i18n('design/admin/state/group')|wash}" title="{'Remove selected states.'|i18n( 'design/admin/state/group' )|wash}" />
   {else}
   <input class="button-disabled" type="submit" id="remove_state_button" name="RemoveButton" value="{'Remove selected'|i18n('design/admin/state/group')|wash}" title="{'Remove selected states.'|i18n( 'design/admin/state/group' )|wash}" disabled="disabled" />
@@ -159,7 +159,7 @@
 </div>
 
 <div class="button-right">
-    {if $state_group.can_edit}  
+    {if $state_group.is_internal|not}  
     <input class="button" type="submit" name="UpdateOrderButton" value="{'Update ordering'|i18n('design/admin/state/group')|wash}" title="{'Update the order of the content object states in this group.'|i18n( 'design/admin/state/group' )|wash}" />
     {else}
     <input class="button-disabled" type="submit" name="UpdateOrderButton" value="{'Update ordering'|i18n('design/admin/state/group')|wash}" title="{'Update the order of the content object states in this group.'|i18n( 'design/admin/state/group' )|wash}" disabled="disabled" />

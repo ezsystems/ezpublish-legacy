@@ -53,11 +53,11 @@
 </tr>
 {foreach $groups as $group sequence array( 'bglight', 'bgdark' ) as $sequence}
 <tr class="{$sequence}">
-    <td><input type="checkbox" name="RemoveIDList[]" value="{$group.id}" title="{'Select content object state group for removal.'|i18n( 'design/admin/state/groups' )|wash}" /></td>
+    <td><input type="checkbox" name="RemoveIDList[]" value="{$group.id}" title="{'Select content object state group for removal.'|i18n( 'design/admin/state/groups' )|wash}" {if $group.is_internal}disabled="disabled"{/if}/></td>
     <td class="number">{$group.id}</td>
     <td><a href={concat("/state/group/",$group.id)|ezurl}>{$group.identifier|wash}</a></td>
     <td>{$group.current_translation.name|wash}</td>
-    <td>{if $group.can_edit}
+    <td>{if $group.is_internal|not}
         <a href={concat( 'state/group_edit/', $group.id )|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/node/view/full' )|wash}" /></a>
         {else}
         <img src={'edit-disabled.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/node/view/full' )|wash}" />
