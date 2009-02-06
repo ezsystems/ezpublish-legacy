@@ -909,21 +909,49 @@
             cm.setDisabled('undo', !ed.undoManager.hasUndo() && !ed.typing);
             cm.setDisabled('redo', !ed.undoManager.hasRedo());
 
-            p = DOM.getParent(n, 'A');
-            if ( c = cm.get('link') )
+            // ordered / unordered list button code
+            if (header && (c = cm.get('bullist')))
+                c.setDisabled( header );
+            if (header && (c = cm.get('numlist')))
+                c.setDisabled( header );
+
+            // indent and outdent button code
+            p = DOM.getParent(n, 'UL,OL');
+            if (c = cm.get('outdent'))
             {
-                if ( !p || DOM.getAttrib(p, 'href') )
+                c.setDisabled( !p && !ed.queryCommandState('Outdent') );
+            }
+            if (c = cm.get('indent'))
+            {
+                if ( p )
                 {
-                    c.setDisabled( div || !p && co );
-                    c.setActive(!!p);
+                    for (var i = 0, l = p.childNodes.length, count = 0; i < l; i++)
+                    {
+                        if (p.childNodes[i].nodeType === 1 && p.childNodes[i].nodeName === 'LI') count++;
+                        if ( count === 2 ) break;                        
+                    }
                 }
+                c.setDisabled( !p || count < 2 );
             }
 
-            if ( c = cm.get('unlink') )
-            {
-                c.setDisabled(!p || !DOM.getAttrib(p, 'href') );
-                c.setActive(!!p && DOM.getAttrib(p, 'href') );
-            }
+            // table button code
+            p = DOM.getParent(n, 'td,th,caption');
+            if (p && p.nodeName === 'CAPTION') p = null;
+            cm.setDisabled('table', header );
+            cm.setDisabled('tablemenu', header );
+            cm.setDisabled('delete_table', !p);
+            cm.setDisabled('delete_col', !p);
+            cm.setDisabled('delete_table', !p);
+            cm.setDisabled('delete_row', !p);
+            cm.setDisabled('col_after', !p);
+            cm.setDisabled('col_before', !p);
+            cm.setDisabled('row_after', !p);
+            cm.setDisabled('row_before', !p);
+            cm.setDisabled('row_props', !p);
+            cm.setDisabled('cell_props', !p);
+            cm.setDisabled('split_cells', !p || (parseInt(DOM.getAttrib(p, 'colspan', '1')) < 2 && parseInt(DOM.getAttrib(p, 'rowspan', '1')) < 2));
+            cm.setDisabled('merge_cells', !p);
+
 
             // Get status on alignment buttons, check parent tag if current tag is not supported
             p = this.__mceJustifyTags.test( n.nodeName );
@@ -950,7 +978,7 @@
                 else
                     c.setActive( p && jn.align === 'center' );
             }
-          //justifyfull is not supported on block tags, so recheck node
+            //justifyfull is not supported on block tags, so recheck node
             if ( p && this.__mceJustifyBlockTags.test( n.nodeName ) )
                 p = false;
             if ( c = cm.get('justifyfull') )
@@ -959,6 +987,23 @@
                 c.setActive( p && jn.align === 'justify' );
             }
 
+            // link and anchor(inside next block) code
+            p = DOM.getParent(n, 'A');
+            if ( c = cm.get('link') )
+            {
+                if ( !p || DOM.getAttrib(p, 'href') )
+                {
+                    c.setDisabled( div || !p && co );
+                    c.setActive(!!p);
+                }
+            }
+            if ( c = cm.get('unlink') )
+            {
+                c.setDisabled(!p || !DOM.getAttrib(p, 'href') );
+                c.setActive(!!p && DOM.getAttrib(p, 'href') );
+            }
+
+            // buttons that are disabled when embed object tag is selectd
             if ( mceNonEditable === false )
             {
                 if ( c = cm.get('anchor') )
@@ -978,31 +1023,6 @@
 
                 if (header && (c = cm.get('custom')))
                     c.setDisabled( header );
-
-                if (header && (c = cm.get('bullist')))
-                    c.setDisabled( header );
-
-                if (header && (c = cm.get('numlist')))
-                    c.setDisabled( header );
-
-                p = DOM.getParent(n, 'UL,OL');
-                if (c = cm.get('outdent'))
-                {
-                    c.setDisabled( !p && !ed.queryCommandState('Outdent') );
-                }
-                
-                if (c = cm.get('indent'))
-                {
-                    if ( p )
-                    {
-                        for (var i = 0, l = p.childNodes.length, count = 0; i < l; i++)
-                        {
-                            if (p.childNodes[i].nodeType === 1 && p.childNodes[i].nodeName === 'LI') count++;
-                            if ( count === 2 ) break;                        
-                        }
-                    }
-                    c.setDisabled( !p || count < 2 );
-                }
 
                 p = DOM.getParent(n, 'IMG');
                 if (c = cm.get('image'))
