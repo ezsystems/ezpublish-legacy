@@ -499,7 +499,7 @@ class eZRSSExport extends eZPersistentObject
                 }
                 else
                 {
-                    $nodeURL = $baseItemURL . 'content/view/full/'.$object->attribute( 'id' );
+                    $nodeURL = $baseItemURL . 'content/view/full/' . $node->attribute( 'node_id' );
                 }
 
                 // keep track if there's any match
@@ -686,15 +686,15 @@ class eZRSSExport extends eZPersistentObject
 
             foreach ( $nodeArray as $node )
             {
-                $object =  $node->attribute( 'object' );
-                $dataMap =  $object->dataMap();
+                $object = $node->attribute( 'object' );
+                $dataMap = $object->dataMap();
                 if ( $useURLAlias === true )
                 {
                     $nodeURL = $this->urlEncodePath( $baseItemURL . $node->urlAlias() );
                 }
                 else
                 {
-                    $nodeURL = $baseItemURL.'content/view/full/' . $object->attribute( 'id' );
+                    $nodeURL = $baseItemURL . 'content/view/full/' . $node->attribute( 'node_id' );
                 }
 
                 $rdfSeqLi = $doc->createElementNS( 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'rdf:li' );
