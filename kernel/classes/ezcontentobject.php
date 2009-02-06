@@ -6000,6 +6000,7 @@ class eZContentObject extends eZPersistentObject
 
         if ( $currentStateID == $stateID )
         {
+            $db->rollback();
             return false;
         }
 
