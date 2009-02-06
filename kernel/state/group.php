@@ -14,42 +14,45 @@ $tpl = templateInit();
 
 $currentAction = $Module->currentAction();
 
-if ( $currentAction == 'Remove' && $Module->hasActionParameter( 'RemoveIDList' ) )
+if ( !$stateGroup->isInternal() )
 {
-    $removeIDList = $Module->actionParameter( 'RemoveIDList' );
-    $stateGroup->removeStatesByID( $removeIDList );
-}
-else if ( $currentAction =='Edit' )
-{
-    return $Module->redirectTo( 'state/group_edit/' . $GroupID );
-}
-else if ( $currentAction == 'Create' && !$stateGroup->isInternal() )
-{
-    $state = $stateGroup->newState();
-
-    $state->fetchHTTPPersistentVariables();
-
-    $messages = array();
-    $isValid = $state->isValid( $messages );
-
-    if ( $isValid )
+    if ( $currentAction == 'Remove' && $Module->hasActionParameter( 'RemoveIDList' ) )
     {
-        $state->store();
-        // new object instance for creating new state
-        $state = new eZContentObjectState();
+        $removeIDList = $Module->actionParameter( 'RemoveIDList' );
+        $stateGroup->removeStatesByID( $removeIDList );
     }
+    else if ( $currentAction =='Edit' )
+    {
+        return $Module->redirectTo( 'state/group_edit/' . $GroupID );
+    }
+    else if ( $currentAction == 'Create' )
+    {
+        $state = $stateGroup->newState();
 
-    $tpl->setVariable( 'new_state', $state );
-    $tpl->setVariable( 'is_valid', $isValid );
-    $tpl->setVariable( 'validation_messages', $messages );
-}
-else if ( $currentAction == 'UpdateOrder' && $Module->hasActionParameter( 'Order' ) && !$stateGroup->isInternal() )
-{
-    $orderArray = $Module->actionParameter( 'Order' );
-    asort( $orderArray );
-    $stateIDList = array_keys( $orderArray );
+        $state->fetchHTTPPersistentVariables();
 
-    $stateGroup->reorderStates( $stateIDList );
+        $messages = array();
+        $isValid = $state->isValid( $messages );
+
+        if ( $isValid )
+        {
+            $state->store();
+            // new object instance for creating new state
+            $state = new eZContentObjectState();
+        }
+
+        $tpl->setVariable( 'new_state', $state );
+        $tpl->setVariable( 'is_valid', $isValid );
+        $tpl->setVariable( 'validation_messages', $messages );
+    }
+    else if ( $currentAction == 'UpdateOrder' && $Module->hasActionParameter( 'Order' ) )
+    {
+        $orderArray = $Module->actionParameter( 'Order' );
+        asort( $orderArray );
+        $stateIDList = array_keys( $orderArray );
+
+        $stateGroup->reorderStates( $stateIDList );
+    }
 }
 
 if ( $LanguageCode )

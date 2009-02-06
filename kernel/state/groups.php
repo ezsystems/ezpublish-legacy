@@ -26,7 +26,11 @@ if ( $Module->isCurrentAction( 'Remove' ) && $Module->hasActionParameter( 'Remov
 
     foreach ( $removeIDList as $removeID )
     {
-        eZContentObjectStateGroup::removeByID( $removeID );
+        $group = eZContentObjectStateGroup::fetchById( $removeID );
+        if ( $group && !$group->isInternal() )
+        {
+            eZContentObjectStateGroup::removeByID( $removeID );
+        }
     }
 }
 else if ( $Module->isCurrentAction( 'Create' ) )
