@@ -1497,9 +1497,9 @@
         {
             var ed = this.editor, n = ed.selection.getNode();
             if ( n.nodeName === 'P' && n.parentNode.nodeName === 'BODY' )
-                ed.execCommand('mceInsertRawHTML', false, '</p><div type="custom" class="mceItemCustomTag pagebreak"><p>&nbsp;</p></div><p>');
+                ed.execCommand('mceInsertRawHTML', false, '<\/p><div type="custom" class="mceItemCustomTag pagebreak"><p>&nbsp;<\/p><\/div><p>');
             else if ( n.nodeName === 'BODY' )
-                ed.execCommand ('mceInsertRawHTML', false, '<div type="custom" class="mceItemCustomTag pagebreak"><p>&nbsp;</p></div>');
+                ed.execCommand ('mceInsertRawHTML', false, '<div type="custom" class="mceItemCustomTag pagebreak"><p>&nbsp;<\/p><\/div>');
             else
                 alert( 'Not a suported location for a pagebreak, place it in the root of your document!' );
         },
