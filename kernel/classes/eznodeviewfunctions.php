@@ -320,16 +320,7 @@ class eZNodeviewfunctions
         {
 //        $contents = $cacheFile->fetchContents();
             $contents = file_get_contents( $file );
-            $Result = @unserialize( $contents );
-
-            // This should only happen when :
-            // - the node does not exists
-            // - the object does not exists
-            // - the node / object are not readable / invisible
-            if( !$Result )
-            {
-                $cacheExpired = true;
-            }
+            $Result = unserialize( $contents );
 
             // Check if cache has expired when cache_ttl is set
             $cacheTTL = isset( $Result['cache_ttl'] ) ? $Result['cache_ttl'] : -1;
