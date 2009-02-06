@@ -10,7 +10,7 @@ if ( !is_object( $stateGroup ) )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 }
 
-if ( !$stateGroup->canEdit() )
+if ( $stateGroup->isInternal() )
 {
     return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 }

@@ -12,14 +12,13 @@ if ( !is_object( $state ) )
 
 $group = $state->group();
 
-if ( !$group->canEdit() )
+if ( $group->isInternal() )
 {
     return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 }
 
 $groupID = $state->attribute( 'group_id' );
 $redirectUrl = 'state/group/' . $groupID;
-
 require_once( 'kernel/common/template.php' );
 
 $tpl = templateInit();

@@ -23,7 +23,7 @@ else if ( $currentAction =='Edit' )
 {
     return $Module->redirectTo( 'state/group_edit/' . $GroupID );
 }
-else if ( $currentAction == 'Create' && $stateGroup->canEdit() )
+else if ( $currentAction == 'Create' && !$stateGroup->isInternal() )
 {
     $state = $stateGroup->newState();
 
@@ -43,7 +43,7 @@ else if ( $currentAction == 'Create' && $stateGroup->canEdit() )
     $tpl->setVariable( 'is_valid', $isValid );
     $tpl->setVariable( 'validation_messages', $messages );
 }
-else if ( $currentAction == 'UpdateOrder' && $Module->hasActionParameter( 'Order' ) && $stateGroup->canEdit() )
+else if ( $currentAction == 'UpdateOrder' && $Module->hasActionParameter( 'Order' ) && !$stateGroup->isInternal() )
 {
     $orderArray = $Module->actionParameter( 'Order' );
     asort( $orderArray );
