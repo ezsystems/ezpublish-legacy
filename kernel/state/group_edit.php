@@ -3,7 +3,7 @@
 $GroupID = $Params['GroupID'];
 $Module = $Params['Module'];
 
-$stateGroup = eZContentObjectStateGroup::fetchById( $GroupID );
+$stateGroup = $GroupID === 'new' ? new eZContentObjectStateGroup() : eZContentObjectStateGroup::fetchById( $GroupID );
 
 if ( !is_object( $stateGroup ) )
 {

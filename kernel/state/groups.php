@@ -35,22 +35,7 @@ if ( $Module->isCurrentAction( 'Remove' ) && $Module->hasActionParameter( 'Remov
 }
 else if ( $Module->isCurrentAction( 'Create' ) )
 {
-    $stateGroup = new eZContentObjectStateGroup();
-
-    $stateGroup->fetchHTTPPersistentVariables();
-
-    $messages = array();
-    $isValid = $stateGroup->isValid( $messages );
-
-    if ( $isValid )
-    {
-        $stateGroup->store();
-        return $Module->redirectToView( 'group', array( $stateGroup->attribute( 'id' ) ) );
-    }
-
-    $tpl->setVariable( 'new_group', $stateGroup );
-    $tpl->setVariable( 'is_valid', $isValid );
-    $tpl->setVariable( 'validation_messages', $messages );
+    return $Module->redirectTo( 'state/group_edit/new' );
 }
 
 $groups = eZContentObjectStateGroup::fetchByOffset( $limit, $offset );
