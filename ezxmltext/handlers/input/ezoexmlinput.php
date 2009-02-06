@@ -1210,10 +1210,10 @@ class eZOEXMLInput extends eZXMLInputHandler
                 }
                 else
                 {
-                    $customTagContent = $this->inputSectionXML( $tag, $currentSectionLevel, 1 );
+                    $customTagContent = $this->inputSectionXML( $tag, $currentSectionLevel, $tdSectionLevel );
                     /*foreach ( $tag->childNodes as $tagChild )
                     {
-                        $customTagContent .= $this->inputTdXML( $tagChild, $currentSectionLevel, 1 );
+                        $customTagContent .= $this->inputTdXML( $tagChild, $currentSectionLevel, $tdSectionLevel );
                     }*/
                     $output .= '<div class="mceItemCustomTag ' . $name . '" type="custom"' . $customAttributePart . $styleString . '>' . $customTagContent . '</div>';
                 }

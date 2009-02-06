@@ -1,7 +1,10 @@
 eZ Online Editor 5.0 extension Changelog
 
+5.0rc13
+* Fixed regression #13650: [header] ezoe adds a level each time it is called
+
 5.0rc12
-* Fixed bug #014260: content.ini.[paragraph].AllowEmpty=false is ignored
+* Fixed bug #14260: content.ini.[paragraph].AllowEmpty=false is ignored
 * content type not translated in upload dialog caused by not stripping ending 's'
 * Partly fixed #014284: Neede translation improvments for oe5
 * Added customizable xml tag name alias list in ezoe.ini, used in status bars and dialogs
