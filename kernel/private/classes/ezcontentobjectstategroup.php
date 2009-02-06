@@ -662,7 +662,7 @@ class eZContentObjectStateGroup extends eZPersistentObject
             {
                 $limitations = array();
 
-                $groups = self::fetchByOffset( false, false );
+                $groups = self::fetchByConditions( array( "identifier NOT LIKE 'ez%'" ), false, false );
 
                 foreach ( $groups as $group )
                 {
@@ -670,7 +670,9 @@ class eZContentObjectStateGroup extends eZPersistentObject
                     $limitations[$name] = array(
                         'name'   => $name,
                         'values' => array(),
-                        'path'   => 'private/classes/',                        'file'   => 'ezcontentobjectstategroup.php',                        'class' => __CLASS__,
+                        'path'   => 'private/classes/',
+                        'file'   => 'ezcontentobjectstategroup.php',
+                        'class' => __CLASS__,
                         'function' => 'limitationValues',
                         'parameter' => array( $group->attribute( 'id' ) )
                     );
