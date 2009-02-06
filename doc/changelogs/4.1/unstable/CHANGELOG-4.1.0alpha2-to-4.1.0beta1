@@ -28,3 +28,4 @@ Changes from 4.1.0alpha2 to 4.1.0beta2
 - Fixed bug #12450: Undefined variable: def in kernel/classes/ezworkflowtype.php on line 90
 - Fixed bug #14358: runcronjobs does not remove its mutex files
 - Fixed bug #14317: wordmatch.ini used in kernel but only bundled with OE
+- Fixed bug #14409: Wrong URL in RSS feed when URLTranslator is disabled
