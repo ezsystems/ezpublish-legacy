@@ -79,6 +79,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
     /*!
      \reimp
+     Glue code to 'register' functions for template system
     */
     function hasAttribute( $name )
     {
@@ -95,6 +96,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
     /*!
      \reimp
+     Glue code to call functions from template system.
     */
     function attribute( $name )
     {
@@ -176,7 +178,7 @@ class eZOEXMLInput extends eZXMLInputHandler
     }
 
     /*
-     * 
+     * Get tag alias list for xml tags from ezoe.ini 
      */
     static public function getXmlTagAliasList()
     {
@@ -385,6 +387,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
     /*!
      \reimp
+     Function called by the xml handler code to se if this handler is valid.
     */
     function isValid()
     {
@@ -396,6 +399,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
     /*!
      \reimp
+     Custom http actions exposed by the editor.
     */
     function customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute )
     {
@@ -445,6 +449,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
     /*!
      \reimp
+     Validates and parses input data and saves it if it is valid.
     */
     function validateInput( $http, $base, $contentObjectAttribute )
     {
@@ -547,12 +552,11 @@ class eZOEXMLInput extends eZXMLInputHandler
 
 
     /*
-
       Editor inner output implementation
-
+      As in code that does all the xml to xhtml transformation (for use inside the editor)
     */
 
-    // Get section level and reset cuttent node according to input header.
+    // Get section level and reset curent xml node according to input header.
     function &sectionLevel( &$sectionLevel, $headerLevel, &$TagStack, &$currentNode, &$domDocument )
     {
         if ( $sectionLevel < $headerLevel )
@@ -622,6 +626,7 @@ class eZOEXMLInput extends eZXMLInputHandler
         eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->XMLData, 'eZOEXMLInput::inputXML xml string stored in database' );
 
         $output = '';
+        $browserEngineName = self::browserSupportsDHTMLType();
 
         if ( $success )
         {
@@ -629,21 +634,25 @@ class eZOEXMLInput extends eZXMLInputHandler
             $output .= $this->inputSectionXML( $rootSectionNode, 0 );
         }
 
-        if ( self::browserSupportsDHTMLType() === 'Trident' )
+        if ( $browserEngineName === 'Trident' )
         {
             $output = str_replace( '<p></p>', '<p>&nbsp;</p>', $output );
         }
-        else
+        else /* if ( $browserEngineName !== 'Presto' ) */
         {
             $output = str_replace( '<p></p>', '<p><br /></p>', $output );
         }
 
         $output = str_replace( "\n", '', $output );
 
-        if ( self::browserSupportsDHTMLType() === 'Trident' )
+        if ( $browserEngineName === 'Trident' )
         {
             $output .= '<p>&nbsp;</p>';
         }
+        /* else if ( $browserEngineName === 'Presto' )
+        {
+            //$output .= '<p></p>';
+        }*/
         else
         {
             $output .= '<p><br /></p>';
@@ -903,6 +912,9 @@ class eZOEXMLInput extends eZXMLInputHandler
         return $output;
     }
 
+    /*
+     * Generates custom attribute value, and also sets tag styles to styleString variable (by ref)
+     */
     function getCustomAttrPart( $tag, &$styleString )
     {
         $customAttributePart = '';
@@ -910,7 +922,7 @@ class eZOEXMLInput extends eZXMLInputHandler
         
         if ( self::$customAttributeStyleMap === null )
         {
-            // filtered because the browser (ie,ff&opera) convert span tag to font tag in certain circumstances
+            // Filtered styles because the browser (ie,ff&opera) convert span tag to font tag in certain circumstances
             $oeini = eZINI::instance( 'ezoe.ini' );
             $styles = $oeini->variable('EditorSettings', 'CustomAttributeStyleMap' );
             $customAttributeStyleMap = array();
@@ -927,6 +939,7 @@ class eZOEXMLInput extends eZXMLInputHandler
             }
         }
 
+        // generate custom attribute value
         foreach ( $tag->attributes as $attribute )
         {
             if ( $attribute->namespaceURI == 'http://ez.no/namespaces/ezpublish3/custom/' )
@@ -1498,7 +1511,10 @@ class eZOEXMLInput extends eZXMLInputHandler
         }
         return $output;
     }
-    
+
+    /*
+     * Get server url in relative or absolute format depending on ezoe settings.
+     */
     static public function getServerURL()
     {
         if ( self::$serverURL === null  )
@@ -1532,6 +1548,9 @@ class eZOEXMLInput extends eZXMLInputHandler
         return self::$serverURL;
     }
 
+    /*
+     * Get design file (template) for use in embed tags
+     */
     static public function getDesignFile( $file, $triedFiles = array() )
     {
         if ( self::$designBases === null )
@@ -1549,6 +1568,9 @@ class eZOEXMLInput extends eZXMLInputHandler
         return htmlspecialchars( self::getServerURL() . '/' . $match['path'] );
     }
 
+    /*
+     * Figgure out if a custom tag is inline or not based on content.ini settings
+     */
     static public function customTagIsInline( $name )
     {
         if ( self::$customInlineTagList === null )
@@ -1567,6 +1589,9 @@ class eZOEXMLInput extends eZXMLInputHandler
         return false;
     }
 
+    /*
+     * Find out if embed object is image type or not.
+     */
     static public function embedTagIsImageByNode( $node )
     {
         $objectID  = $node->getAttribute( 'object_id' );
@@ -1594,6 +1619,9 @@ class eZOEXMLInput extends eZXMLInputHandler
         return self::embedTagContentType(  $classIdentifier, $classID ) === 'images';
     }
 
+    /*
+     * Get content type by class identifier and class id (class id used for old ImageClassID setting)
+     */
     static public function embedTagContentType( $classIdentifier, $classID = 0  )
     {
         $contentIni = eZINI::instance('content.ini');         
@@ -1620,6 +1648,9 @@ class eZOEXMLInput extends eZXMLInputHandler
         return $contentIni->variable( 'RelationGroupSettings', 'DefaultGroup' );
     }
 
+    /*
+     * Return if embed tags should be displayed in compatibility mode, as in like the old editor using attachment icons.
+     */
     static public function embedTagIsCompatibilityMode()
     {
         if ( self::$embedIsCompatibilityMode === null )
