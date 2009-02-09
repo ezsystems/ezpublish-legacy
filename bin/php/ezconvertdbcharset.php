@@ -69,6 +69,38 @@ define( 'EZ_DROP_CONTENTCLASS_ATTRIBUTE_TMP_TABLE_SQL',
     "DROP TABLE " . EZ_CONTENTCLASS_ATTRIBUTE_TMP_TABLE_NAME );
 
 
+
+/**
+ * Class used to store some of the command line arguments
+ **/
+class CommandLineArguments
+{
+    protected static $iconvCharacterSet = false;
+    protected static $logFilename = false;
+
+    function iconvCharacterSet()
+    {
+        return CommandLineArguments::$iconvCharacterSet;
+    }
+
+    function setIconvCharacterSet( $iconvCharacterSet )
+    {
+        CommandLineArguments::$iconvCharacterSet = $iconvCharacterSet;
+    }
+
+    function logFilename()
+    {
+        return CommandLineArguments::$logFilename;
+    }
+
+    function setLogFilename( $logFilename )
+    {
+        CommandLineArguments::$logFilename = $logFilename;
+    }
+
+}
+
+
 /**************************************************************
 * 'cli->output' wrappers                                      *
 ***************************************************************/
@@ -348,10 +380,18 @@ function checkDBDriver()
 /*!
  Check db charset
 */
-function checkDBCharset()
+function checkDBCharset( $iconvCharacterSet )
 {
     $db = eZDB::instance();
-    $dbCharset = $db->charset();
+    
+    if ( $iconvCharacterSet !== false )
+    {
+        $dbCharset = $iconvCharacterSet;
+        showMessage3( 'Overriding iconv character set. Configured to be "' . $db->charset() . "\" in settings but will be using \"$dbCharset\" for iconv() conversion instead." );
+    } else
+    {
+        $dbCharset = $db->charset();
+    }
 
     switch( strtolower( $dbCharset ) )
     {
@@ -695,7 +735,7 @@ function convertSerializedData( $serializedDataInfo )
     }
 
     // convert data
-    $dbEncoding = strtolower( $db->charset() );
+    $dbEncoding = strtolower( CommandLineArguments::iconvCharacterSet() );
 
     foreach ( $serializedDataInfo as $tableInfo )
     {
@@ -795,7 +835,17 @@ function convertArray( $array, $inCharset, $outCharset )
 
         if ( is_string( $value ) )
         {
-            $array[$key] = iconv( $inCharset, $outCharset, $value );
+            // First check if $inCharset is correct
+            $valueTest = iconv( $inCharset, $inCharset, $value );
+            if( strlen( $valueTest ) <> strlen( $value ) )
+            {
+                if( CommandLineArguments::logFilename() !== false )
+                {
+                    $logString = "ERROR: Unable to predict correct character set while converting array. Value is $value, inCharset : $inCharset, outCharSet : $outCharSet\n";
+                    file_put_contents( CommandLineArguments::logFilename(), $logString, FILE_APPEND );
+                }
+            }
+            $array[$key] = iconv( $inCharset, $outCharset . '//TRANSLIT', $value );
         }
         else if ( is_array( $value ) )
         {
@@ -927,6 +977,17 @@ function convertXMLCustomDataProgress( $row )
     showMessage3( "id: '" . $row['id'] );
 }
 
+/**
+ * For some reason, some utf8 encoded text stored in the db might contain
+ * illegal utf8 characters.
+ * This function will strip/replace such known characters
+ **/
+function removeIllegalUTF8Characters( $text )
+{
+    // 0xE2 0x80 0x3F seems to be some kind of quote, replacing it with '
+    // 0x3F is acutally a "?" and needs to be escaped
+    return ereg_replace( "\xE2\x80\\\x3F", "'", $text );
+}
 
 /*!
  Convert xml text to db's charset. However for optimization the xml processing instruction 'encoding' will be set
@@ -936,7 +997,7 @@ function convertXMLData( $tableInfo, $xmlDataSelectSQLFunction, $xmlDataUpdateSQ
 {
     $db = eZDB::instance();
 
-    $dbEncoding = strtolower( $db->charset() );
+    $dbEncoding = strtolower( CommandLineArguments::iconvCharacterSet() );
 
     $limit = 500;
     $offset = 0;
@@ -958,23 +1019,117 @@ function convertXMLData( $tableInfo, $xmlDataSelectSQLFunction, $xmlDataUpdateSQ
                 $xmlEncoding = strtolower( $match[1] );
             }
 
+            // The big problem with iconv() is that it rearly returns false on errors
+            // This is the reason why the dection methods are as they are below.....
             if ( !$xmlEncoding )
             {
-                showWarning( "encoding for xml not found. assuming db's($dbEncoding) encoding" );
+                // Encoding for xml was not found. Let's now check if it is in utf8
+                // We do this by converting the document from utf8 to utf8
+                // If the size is *not* the same, then it is not in utf8
+                
+                $xmlStringTest = removeIllegalUTF8Characters( $xmlStringTest );
+                $encodedXMLTest = iconv( 'utf8', 'utf8', $xmlStringTest );
+                if ( strlen( $encodedXMLTest ) <> strlen( $xmlStringTest ) )
+                {
+                    // Now, lets do a final attempt and see if text is in $dbEncoding
+                    $encodedXMLTest = iconv( $dbEncoding, $dbEncoding, $xmlString );
+                    if ( strlen( $encodedXMLTest ) === strlen( $xmlString ) )
+                    {
+                        // data seems to be in $dbEncoding
+                        if( CommandLineArguments::logFilename() !== false )
+                        {
+                            $logString = "WARNING: Encoding for xml was not defined but was autodetected to be in $dbEncoding. AttributeID : " . $row['id'] . ', version : ' . $row['version'] .  "\n";
+                            file_put_contents( CommandLineArguments::logFilename(), $logString, FILE_APPEND );
+                         }
+                    }
+                    else
+                    {
+                        // data is not in $dbEncoding either
+                        if( CommandLineArguments::logFilename() !== false )
+                        {
+                            $logString = 'ERROR: Encoding for xml was not defined and not autodetected either. Tried both utf8 and ' . $dbEncoding . '. AttributeID : ' . $row['id'] . ', version : ' . $row['version'] .  "\n";
+                            file_put_contents( CommandLineArguments::logFilename(), $logString, FILE_APPEND );
+                         }
+                    }
+                } else
+                {
+                    $xmlString = $xmlStringTest;
+                    // data is in utf8
+                    if( CommandLineArguments::logFilename() !== false )
+                    {
+                        $logString = 'WARNING: Encoding in xml was not defined in xml header. However, character set was autodetected to be utf8. AttributeID : ' . $row['id'] . ', version : ' . $row['version'] .  "\n";
+                        file_put_contents( CommandLineArguments::logFilename(), $logString, FILE_APPEND );
+                    }
+                    // Let's convert it back to $dbEncoding
+                    $xmlString = iconv( 'utf8', $dbEncoding . '//IGNORE', $xmlString );
+                }
                 $row['xml_data'] = ereg_replace( '(^<\?xml[^>]+)( \?>)', "\\1 encoding=\"utf-8\" ?>", $xmlString );
             }
             else if ( $xmlEncoding != $dbEncoding )
             {
-                //showMessage3( "converting $xmlEncoding -> $dbEncoding" );
-                $convertedXMLString = iconv( $xmlEncoding, $dbEncoding, $xmlString );
-                if ( $convertedXMLString !== false )
+                //Verify that character set defined in xml header is correct
+
+                //first, remove illegal characters before doing utf8 test
+                if( strtolower( str_replace( '-', '', $xmlEncoding ) )  === 'utf8' )
                 {
-                    $row['xml_data'] = ereg_replace( '^(<\?xml[^>]+encoding)="([^"]+)"', "\\1=\"utf-8\"", $convertedXMLString );
+                    $xmlStringTest = removeIllegalUTF8Characters( $xmlString );
                 }
                 else
                 {
+                    $xmlStringTest = $xmlString;
+                }
+                $encodedXMLTest = iconv( $xmlEncoding, $xmlEncoding, $xmlStringTest );
+                if ( strlen( $encodedXMLTest ) <> strlen( $xmlStringTest ) )
+                {
+                    //Ups, characterset is not in $xmlEncoding after all.
+                    //Let's check if it is in $dbEncoding
+                    $encodedXMLTest = iconv( $dbEncoding, $dbEncoding, $xmlString );
+                    if ( strlen( $encodedXMLTest ) === strlen( $xmlString ) )
+                    {
+                        //It is in db's charset. Perform no char set conversion.
+                        $convertedXMLString = $xmlString;
+                        if( CommandLineArguments::logFilename() !== false )
+                        {
+                            $logString = "WARNING: Encoding for document doesn't match definition in xml header. Characterset was autodetected to be in database's encoding instead... AttributeID : " . $row['id'] . ', version : ' . $row['version'] . ", xmlEncoding : $xmlEncoding, dbEncoding, $dbEncoding \n";
+                            file_put_contents( CommandLineArguments::logFilename(), $logString, FILE_APPEND );
+                        }
+                    }
+                    else
+                    {
+                        //not in $xmlEncoding or in $dbEncoding. error.
+                        // We don't know the charset but let's try to convert it anyway, and ignore unknown characters.
+                        $convertedXMLString = iconv( $xmlEncoding, $dbEncoding . '//IGNORE', $xmlString );
+                        if( CommandLineArguments::logFilename() !== false )
+                        {
+                            $logString = "ERROR: Encoding for document not found.... AttributeID : " . $row['id'] . ', version : ' . $row['version'] . ", xmlEncoding : $xmlEncoding, dbEncoding, $dbEncoding \n";
+                            file_put_contents( CommandLineArguments::logFilename(), $logString, FILE_APPEND );
+                        }
+                    }
+                }
+                else
+                {
+                    $xmlString = $xmlStringTest;
+                    if( CommandLineArguments::logFilename() !== false )
+                    {
+                        $logString = 'NOTICE: xml Document converted by iconv. AttributeID : ' . $row['id'] . ', version : ' . $row['version'] . ", xmlEncoding : $xmlEncoding, dbEncoding, $dbEncoding \n";
+                        file_put_contents( CommandLineArguments::logFilename(), $logString, FILE_APPEND );
+                    }
+                    $convertedXMLString = iconv( $xmlEncoding, $dbEncoding, $xmlString );
+                }
+
+                if ( $convertedXMLString === false )
+                {
                     showWarning( "iconv failed to convert xml from '$xmlEncoding' to '$dbEncoding'" );
+                    if( CommandLineArguments::logFilename() !== false )
+                    {
+                        $logString = 'ERROR: iconv returned false. AttributeID : ' . $row['id'] . ', version : ' . $row['version'] . ", xmlEncoding : $xmlEncoding, dbEncoding, $dbEncoding \n";
+                        file_put_contents( CommandLineArguments::logFilename(), $logString, FILE_APPEND );
+                    }
                     continue;
+                }
+                else
+                {
+                    $row['xml_data'] = ereg_replace( '^(<\?xml[^>]+encoding)="([^"]+)"', "\\1=\"utf-8\"", $convertedXMLString );
                 }
             }
             else
@@ -1363,7 +1518,7 @@ $script = eZScript::instance( array( 'description' => ( "Changes your eZ Publish
 
 $script->startup();
 
-$options = $script->getOptions( "[extra-xml-attributes:][extra-xml-data:][extra-serialized-data:][collation:][skip-class-translations]",
+$options = $script->getOptions( "[extra-xml-attributes:][extra-xml-data:][extra-serialized-data:][collation:][skip-class-translations][iconv-character-set:][log-filename:]",
                                 "",
                                 array( 'extra-xml-attributes' => "specify custom attributes which store its data in xml.\n" .
                                                                  "usage: <datatype_string>[.<table>.<field>][,<datatype_string>.<table>.<field>...].\n" .
@@ -1377,12 +1532,17 @@ $options = $script->getOptions( "[extra-xml-attributes:][extra-xml-data:][extra-
                                                                   "ex: mytable.data_text;id.version,mytable2.data;id",
 
                                        'collation' => "specify collation for converted db. default is 'utf8_general_ci'",
-                                       'skip-class-translations' => "Content class translations were added in eZ Publish 3.9. Use this options if upgrading from early version." ),
+                                       'skip-class-translations' => "Content class translations were added in eZ Publish 3.9. Use this options if upgrading from early version.",
+                                       'iconv-character-set' => 'This setting is used when characters are converted by iconv(). This settings is typically needed when a character set is not called the same by the database and iconv. An example is "windows-1252" (iconv) and "iso-8859-1" (mysql 5)',
+                                       'log-filename' => 'Specify a file where iconv conversions will be logged to' ),
                                 false,
                                 array( 'user' => true ) );
 
 
 $script->initialize();
+// workaround for bug #013661
+$db->OutputTextCodec = null;
+$db->InputTextCodec = null;
 
 $db = eZDB::instance();
 $db->OutputTextCodec = null;
@@ -1398,10 +1558,27 @@ if ( !checkDBDriver() )
     showError( "Unsupported db type '$dbType'");
 }
 
-if ( !checkDBCharset() )
+$logFilename = $options['log-filename'] ? $options['log-filename'] : false;
+CommandLineArguments::setLogFilename( $logFilename );
+if( CommandLineArguments::logFilename() !== false )
+{
+    //Let's create an empty logfile
+    file_put_contents( CommandLineArguments::logFilename(), '' );
+}
+
+
+$iconvCharacterSet = $options["iconv-character-set"] ? $options["iconv-character-set"] : false;
+CommandLineArguments::setIconvCharacterSet( $iconvCharacterSet );
+
+if ( !checkDBCharset( $iconvCharacterSet ) )
 {
     showMessage( "The database is already in utf8." );
     $script->shutdown( 2 );
+}
+
+if ( $iconvCharacterSet === false )
+{
+    CommandLineArguments::setIconvCharacterSet( $db->charset() );
 }
 
 // Display big fat warning that this script it might leave your database in an
@@ -1412,7 +1589,7 @@ showMessage3( "If this script, for some reasons fails, your database may be left
 showMessage3( "This script will continue in 25 seconds. Press ctrl+c to abort." );
 sleep( 10 );
 echo "Continuing in: ";
-for ( $i = 15; $i > 0; $i-- )
+for ( $i = 0; $i > 0; $i-- )
 {
     echo "$i ";
     sleep(1);
@@ -1436,7 +1613,15 @@ $xmlAttributesOption = $xmlAttributesOption ? $xmlAttributesOption . ',' : $xmlA
 $xmlAttributesOption .= 'ezxmltext';
 $xmlAttributesOption .= ', ezimage';
 $xmlAttributesOption .= ', ezmatrix';
+$xmlAttributesOption .= ', ezauthor';
+$xmlAttributesOption .= ', ezmultioption';
+$xmlAttributesOption .= ', ezmultioption2';
+$xmlAttributesOption .= ', ezoption';
+$xmlAttributesOption .= ', ezrangeoption';
+$xmlAttributesOption .= ', ezobjectrelationlist';
 $xmlAttributesOption .= ', ezselection.ezcontentclass_attribute.data_text5';
+$xmlAttributesOption .= ', ezmatrix.ezcontentclass_attribute.data_text5';
+$xmlAttributesOption .= ', ezobjectrelationlist.ezcontentclass_attribute.data_text5';
 
 
 $xmlAttributesInfo = parseXMLAttributesOption( $xmlAttributesOption );
@@ -1501,6 +1686,7 @@ if ( !$skipClassTranslations )
 }
 
 
+
 /**************************************************************
 * convert xml datatypes to db's charset                       *
 ***************************************************************/
@@ -1516,7 +1702,6 @@ if ( is_array( $xmlCustomDataInfo ) )
     showMessage( "Converting custom xml data..." );
     convertCustomXMLData( $xmlCustomDataInfo );
 }
-
 
 showMessage( "Commiting..." );
 $db->commit();
