@@ -1088,6 +1088,7 @@
                     {
                         case 'tbody':
                         case 'thead':
+                        case 'tfoot':
                             return false;
                         case 'embed':
                         case 'embed-inline':
