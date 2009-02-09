@@ -262,6 +262,12 @@ class eZFS2FileHandler extends eZFSFileHandler
                 if ( $extraData !== null )
                     $args[] = $extraData;
                 $fileData = call_user_func_array( $generateCallback, $args );
+
+                if( !isset( $fileData['store'] ) )
+                    $storeCache = false;
+                else
+                    $storeCache = $fileData['store'];
+
                 return $this->storeCache( $fileData, $storeCache );
             }
 
