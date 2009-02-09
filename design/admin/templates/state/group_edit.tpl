@@ -1,4 +1,4 @@
-<form action={concat("/state/group_edit/", $group.id)|ezurl} method="post">
+<form action={concat("/state/group_edit", cond($group.id,concat('/',$group.identifier),true(),''))|ezurl} method="post">
 
 {if is_set($is_valid)}
 {if $is_valid}
@@ -22,7 +22,13 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{'Edit content object state group "%group_name"'|i18n('design/admin/state/group_edit', '', hash( '%group_name', $group.current_translation.name ))|wash}</h1>
+<h1 class="context-title">
+{if $group.id}
+{'Edit content object state group "%group_name"'|i18n('design/admin/state/group_edit', '', hash( '%group_name', $group.current_translation.name ))|wash}
+{else}
+{'New content object state group'|i18n('design/admin/state/group_edit')|wash}
+{/if}
+</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -71,8 +77,14 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
+  {if $group.id}
   <input class="button" type="submit" name="StoreButton" value="{'Save changes'|i18n('design/admin/state/group_edit')|wash}" title="{'Save changes to this state group.'|i18n( 'design/admin/state/group_edit' )|wash}" />
   <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n('design/admin/state/group_edit')|wash}" title="{'Cancel saving any changes.'|i18n( 'design/admin/state/group_edit' )|wash}" />
+  {else}
+  <input class="button" type="submit" name="StoreButton" value="{'Create'|i18n('design/admin/state/group_edit')|wash}" title="{'Create this state group.'|i18n( 'design/admin/state/group_edit' )|wash}" />
+  <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n('design/admin/state/group_edit')|wash}" title="{'Cancel creating this state group.'|i18n( 'design/admin/state/group_edit' )|wash}" />
+  {/if}
+
 </div>
 
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>

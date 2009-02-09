@@ -629,6 +629,11 @@ class eZContentObjectStateGroup extends eZPersistentObject
         return ( $this->ID && strncmp( $this->Identifier, 'ez', 2 ) === 0 );
     }
 
+    public function stateByIdentifier( $stateIdentifier )
+    {
+        return eZContentObjectState::fetchByIdentifier( $stateIdentifier, $this->attribute( 'id' ) );
+    }
+
     /**
      * Returns an array of limitations useable by the policy system
      *

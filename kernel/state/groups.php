@@ -35,7 +35,7 @@ if ( $Module->isCurrentAction( 'Remove' ) && $Module->hasActionParameter( 'Remov
 }
 else if ( $Module->isCurrentAction( 'Create' ) )
 {
-    return $Module->redirectTo( 'state/group_edit/new' );
+    return $Module->redirectTo( 'state/group_edit' );
 }
 
 $groups = eZContentObjectStateGroup::fetchByOffset( $limit, $offset );

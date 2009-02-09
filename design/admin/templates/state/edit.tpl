@@ -1,4 +1,4 @@
-<form action={concat("/state/edit/", $state.id)|ezurl} method="post">
+<form action={concat("/state/edit/",$group.identifier,cond($state.id,concat("/",$state.identifier), true(), ''))|ezurl} method="post">
 
 {if is_set($is_valid)}
 {if $is_valid}
@@ -22,7 +22,13 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{'Edit content object state "%state_name"'|i18n('design/admin/state/edit', '', hash( '%state_name', $state.current_translation.name ))|wash}</h1>
+<h1 class="context-title">
+{if $state.id}
+{'Edit content object state "%state_name"'|i18n('design/admin/state/edit', '', hash( '%state_name', $state.current_translation.name ))|wash}
+{else}
+{'New content object state'|i18n('design/admin/state/edit')|wash}
+{/if}
+</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 

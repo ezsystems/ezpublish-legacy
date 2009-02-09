@@ -19,7 +19,7 @@ $ViewList['groups'] = array(
 $ViewList['group'] = array(
     'default_navigation_part' => 'ezsetupnavigationpart',
     'script' => 'group.php',
-    'params' => array( 'GroupID', 'Language' ),
+    'params' => array( 'GroupIdentifier', 'Language' ),
     'functions' => array( 'administrate' ),
     'single_post_actions' => array( 'CreateButton' => 'Create',
                                     'UpdateOrderButton' => 'UpdateOrder',
@@ -33,7 +33,7 @@ $ViewList['group_edit'] = array(
     'default_navigation_part' => 'ezsetupnavigationpart',
     'script' => 'group_edit.php',
     'ui_context' => 'edit',
-    'params' => array( 'GroupID' ),
+    'params' => array( 'GroupIdentifier' ),
     'functions' => array( 'administrate' ),
     'single_post_actions' => array( 'StoreButton' => 'Store',
                                     'CancelButton' => 'Cancel' )
@@ -42,7 +42,7 @@ $ViewList['group_edit'] = array(
 $ViewList['view'] = array(
     'default_navigation_part' => 'ezsetupnavigationpart',
     'script' => 'view.php',
-    'params' => array( 'StateID', 'Language' ),
+    'params' => array( 'GroupIdentifier', 'StateIdentifier', 'Language' ),
     'functions' => array( 'administrate' ),
     'single_post_actions' => array( 'EditButton' => 'Edit' )
 );
@@ -51,7 +51,7 @@ $ViewList['edit'] = array(
     'default_navigation_part' => 'ezsetupnavigationpart',
     'script' => 'edit.php',
     'ui_context' => 'edit',
-    'params' => array( 'StateID' ),
+    'params' => array( 'GroupIdentifier', 'StateIdentifier' ),
     'functions' => array( 'administrate' ),
     'single_post_actions' => array( 'StoreButton' => 'Store',
                                     'CancelButton' => 'Cancel' )

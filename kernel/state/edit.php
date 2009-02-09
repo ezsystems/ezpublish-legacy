@@ -1,33 +1,40 @@
 <?php
 
 $Module = $Params['Module'];
-$StateID = $Params['StateID'];
+$GroupIdentifier = $Params['GroupIdentifier'];
+$StateIdentifier = $Params['StateIdentifier'];
 
-$state = eZContentObjectState::fetchById( $StateID );
+$group = eZContentObjectStateGroup::fetchByIdentifier( $GroupIdentifier );
 
-if ( !is_object( $state ) )
+if ( !is_object( $group ) )
 {
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 }
-
-$group = $state->group();
 
 if ( $group->isInternal() )
 {
     return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 }
 
-$groupID = $state->attribute( 'group_id' );
-$redirectUrl = 'state/group/' . $groupID;
+$state = $StateIdentifier ? $group->stateByIdentifier( $StateIdentifier ) : $group->newState();
+
+if ( !is_object( $state ) )
+{
+    return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
+}
+
+$redirectUrl = "state/group/$GroupIdentifier";
 require_once( 'kernel/common/template.php' );
 
 $tpl = templateInit();
 
-if ( $Module->isCurrentAction( 'Cancel' ) )
+$currentAction = $Module->currentAction();
+
+if ( $currentAction == 'Cancel' )
 {
     return $Module->redirectTo( $redirectUrl );
 }
-else if ( $Module->isCurrentAction( 'Store' ) )
+else if ( $currentAction == 'Store' )
 {
     $state->fetchHTTPPersistentVariables();
 
@@ -45,12 +52,29 @@ else if ( $Module->isCurrentAction( 'Store' ) )
 }
 
 $tpl->setVariable( 'state', $state );
+$tpl->setVariable( 'group', $group );
+
+if ( is_null( $StateIdentifier ) )
+{
+    $path = array(
+        array( 'url' => false, 'text' => ezi18n( 'kernel/state', 'State' ) ),
+        array( 'url' => false, 'text' => ezi18n( 'kernel/state', 'New' ) ),
+        array( 'url' => false, 'text' => $GroupIdentifier )
+    );
+}
+else
+{
+    $path = array(
+        array( 'url' => false, 'text' => ezi18n( 'kernel/state', 'State' ) ),
+        array( 'url' => false, 'text' => ezi18n( 'kernel/state', 'Edit' ) ),
+        array( 'url' => false, 'text' => $GroupIdentifier ),
+        array( 'url' => false, 'text' => $StateIdentifier ),
+    );
+}
 
 $Result = array(
-    'path' => array(
-        array( 'url' => false, 'text' => ezi18n( 'kernel/state', 'State' ) ),
-        array( 'url' => false, 'text' => ezi18n( 'kernel/state', 'Edit' ) )
-    ),
+    'path' => $path,
     'content' => $tpl->fetch( 'design:state/edit.tpl' )
-)
+);
+
 ?>
