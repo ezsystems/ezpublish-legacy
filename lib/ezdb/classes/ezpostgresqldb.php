@@ -121,7 +121,8 @@ class eZPostgreSQLDB extends eZDBInterface
         {
             $this->IsConnected = false;
             eZDebug::writeError( "PostgreSQL support not compiled into PHP, contact your system administrator", "eZPostgreSQLDB" );
-
+            throw new eZDBNoConnectionException( 'Could not connect to the database, aborting' );
+            eZExecution::cleanExit();
         }
     }
 
