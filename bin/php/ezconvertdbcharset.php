@@ -1385,6 +1385,8 @@ $options = $script->getOptions( "[extra-xml-attributes:][extra-xml-data:][extra-
 $script->initialize();
 
 $db = eZDB::instance();
+$db->OutputTextCodec = null;
+$db->InputTextCodec = null;
 
 if ( !$db->isConnected() )
 {
