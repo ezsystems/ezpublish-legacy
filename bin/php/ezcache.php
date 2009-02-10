@@ -79,6 +79,7 @@ if ( $options['expiry'] )
 $purge = false;
 if ( $options['purge'] )
 {
+    $purgeExpiry = time();
     $purge = true;
 }
 $noAction = true;
