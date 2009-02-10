@@ -645,8 +645,12 @@ function serializeNames( $selectSQL, $storeToTable )
         $serializedName = false;
         $prevId = false;
         $prevVersion = false;
+
         for ( $idx = 0; $idx <= $lastIdx; $idx++ )
         {
+            if( !isset( $result[$idx] ) )
+                continue;
+
             $row = $result[$idx];
 
             // check whether serialized name is completely assembled
