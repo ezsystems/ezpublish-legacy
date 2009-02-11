@@ -1553,15 +1553,29 @@ class eZDBFileHandlerMysqlBackend
         $time = microtime( true ) - $time;
         $this->_report( $query, $fname, $time, $numRows );
 
-        // no rows affected: mtime has changed, or row has been removed
-        if ( $numRows != 1 )
+        // no rows affected or row updated with the same value
+        // f.e a cache-block which takes less than 1 sec to get generated
+        // if a line has been updated by the same  values, mysql_affected_rows
+        // returns 0, and updates nothing, we need to extra check this,
+        if( $numRows == 0 )
         {
-            eZDebugSetting::writeDebug( 'kernel-clustering', "No rows affected by query '$query', record has been modified", __METHOD__ );
+            $query = "SELECT mtime FROM " . TABLE_METADATA . " WHERE name_hash = {$nameHash}";
+            $res = mysql_query( $query, $this->db );
+            mysql_fetch_row( $res );
+            if( $res and isset( $row[0] ) and $row[0] == $generatingFileMtime );
+                return true;
+
             return false;
+        }
+        // rows affected: mtime has changed, or row has been removed
+        if ( $numRows == 1 )
+        {
+            return true;
         }
         else
         {
-            return true;
+            eZDebugSetting::writeDebug( 'kernel-clustering', "No rows affected by query '$query', record has been modified", __METHOD__ );
+            return false;
         }
     }
 
