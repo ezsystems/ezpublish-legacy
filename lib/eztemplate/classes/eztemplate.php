@@ -1525,7 +1525,7 @@ class eZTemplate
     }
 
     /*!
-     Removes the template variable $var. If the variable does not exists an error is output.
+     Removes the template variable $var. If the variable does not exist an error is output.
     */
     function unsetVariable( $var, $namespace = "" )
     {

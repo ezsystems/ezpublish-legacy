@@ -622,7 +622,7 @@ class eZWebDAVServer
             // Else: file/dir doesn't exist!
             else
             {
-                $this->appendLogEntry( "outputData: file DOES NOT exists on server...", 'outputSendDataToClient' );
+                $this->appendLogEntry( "outputData: file DOES NOT exist on server...", 'outputSendDataToClient' );
                 return eZWebDAVServer::FAILED_NOT_FOUND;
             }
         }

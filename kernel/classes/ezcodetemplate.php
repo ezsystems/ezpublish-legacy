@@ -74,7 +74,7 @@ class eZCodeTemplate
     {
         if ( !file_exists( $filePath ) )
         {
-            eZDebug::writeError( "File $filePath does not exists",
+            eZDebug::writeError( "File $filePath does not exist",
                                  'eZCodeTemplate::apply' );
             return self::STATUS_FAILED;
         }

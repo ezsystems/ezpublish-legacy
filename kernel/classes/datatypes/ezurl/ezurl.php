@@ -420,7 +420,7 @@ class eZURL extends eZPersistentObject
 
     /*!
      \static
-     Returns the URL with the given URL. Returns false if the URL does not exists.
+     Returns the URL with the given URL. Returns false if the URL does not exist.
     */
     static function urlByURL( $urlText )
     {

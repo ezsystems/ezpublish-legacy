@@ -2605,7 +2605,7 @@ class eZContentObject extends eZPersistentObject
                          contentclassattribute_id=$attributeID AND
                          op_code='0'";
         $count = $db->arrayQuery( $query );
-        // if current relation does not exists
+        // if current relation does not exist
         if ( !isset( $count[0]['count'] ) ||  $count[0]['count'] == '0'  )
         {
             $db->begin();

@@ -860,7 +860,7 @@ class eZImageManager
         {
             if ( $referenceAlias == 'original' )
             {
-                eZDebug::writeError( "Original alias does not exists, cannot create other aliases without it" );
+                eZDebug::writeError( "Original alias does not exist, cannot create other aliases without it" );
                 return false;
             }
             if ( !$this->createImageAlias( $referenceAlias, $existingAliasList, $parameters ) )
