@@ -1408,12 +1408,14 @@ class eZDBFileHandlerMysqlBackend
             else
             {
                 // generation timout check
-                // @todo the file may have been renamed by the generating process in between
                 $query = "SELECT mtime FROM " . TABLE_METADATA . " WHERE name_hash = {$nameHash}";
                 $row = $this->_selectOneRow( $query, $fname, false, false );
 
-                // @todo refactor to a method, as it is done in the FS handler
-                $remainingGenerationTime = ( $row[0] + $this->dbparams['cache_generation_timeout'] ) - time();
+                // file has been renamed, i.e it is no longer a .generating file
+                if( $row and !isset( $row[0] ) )
+                    return array( 'result' => 'ok', 'mtime' => $mtime );
+
+                $remainingGenerationTime = $this->remainingCacheGenerationTime( $row );
                 if ( $remainingGenerationTime < 0 )
                 {
                     $previousMTime = $row[0];
@@ -1628,6 +1630,22 @@ class eZDBFileHandlerMysqlBackend
             }
         }
         return $nameTrunk;
+    }
+
+    /**
+    * Returns the remaining time, in seconds, before the generating file times
+    * out
+    *
+    * @param resource $fileRow
+    *
+    * @return int Remaining generation seconds. A negative value indicates a timeout.
+    **/
+    private function remainingCacheGenerationTime( $row )
+    {
+        if( !isset( $row[0] ) )
+            return -1;
+
+        return ( $row[0] + $this->dbparams['cache_generation_timeout'] ) - time();
     }
 
     public $db   = null;
