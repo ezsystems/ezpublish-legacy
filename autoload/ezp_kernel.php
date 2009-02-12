@@ -108,6 +108,7 @@ return array(
       'eZDBFileHandlerMysqlBackend'        => 'kernel/classes/clusterfilehandlers/dbbackends/mysql.php',
       'eZDBGarbageCollector'               => 'kernel/classes/ezdbgarbagecollector.php',
       'eZDBInterface'                      => 'lib/ezdb/classes/ezdbinterface.php',
+      'eZDBNoConnectionException'          => 'kernel/private/exceptions/database/noconnection.php',
       'eZDBPackageHandler'                 => 'kernel/classes/packagehandlers/ezdb/ezdbpackagehandler.php',
       'eZDBSchemaInterface'                => 'lib/ezdbschema/classes/ezdbschemainterface.php',
       'eZDBTool'                           => 'lib/ezdb/classes/ezdbtool.php',
