@@ -47,7 +47,7 @@ class eZTemplateTreeCache
      \static
      \return the cache table which has cache keys and cache data.
     */
-    static function cacheTable()
+    static function &cacheTable()
     {
         $templateCache =& $GLOBALS['eZTemplateTreeCacheTable'];
         if ( !is_array( $templateCache ) )
@@ -79,7 +79,7 @@ class eZTemplateTreeCache
     */
     static function cachedTree( $key, $uri, $res, $templatePath, &$extraParameters )
     {
-        $templateCache = eZTemplateTreeCache::cacheTable();
+        $templateCache =& eZTemplateTreeCache::cacheTable();
         $key = eZTemplateTreeCache::internalKey( $key );
         $root = null;
         if ( isset( $templateCache[$key] ) )
@@ -101,7 +101,7 @@ class eZTemplateTreeCache
     {
         if ( $root === null )
             return;
-        $templateCache = eZTemplateTreeCache::cacheTable();
+        $templateCache =& eZTemplateTreeCache::cacheTable();
         $key = eZTemplateTreeCache::internalKey( $originalKey );
         if ( isset( $templateCache[$key] ) )
         {
@@ -191,7 +191,7 @@ class eZTemplateTreeCache
         if ( !eZTemplateTreeCache::isCacheEnabled() )
             return false;
 
-        $templateCache = eZTemplateTreeCache::cacheTable();
+        $templateCache =& eZTemplateTreeCache::cacheTable();
         $key = eZTemplateTreeCache::internalKey( $key );
         if ( isset( $templateCache[$key] ) )
         {
@@ -215,7 +215,7 @@ class eZTemplateTreeCache
         if ( !eZTemplateTreeCache::isCacheEnabled() )
             return false;
 
-        $templateCache = eZTemplateTreeCache::cacheTable();
+        $templateCache =& eZTemplateTreeCache::cacheTable();
         $key = eZTemplateTreeCache::internalKey( $key );
         if ( isset( $templateCache[$key] ) )
         {
@@ -247,7 +247,7 @@ class eZTemplateTreeCache
     {
         if ( !eZTemplateTreeCache::isCacheEnabled() )
             return false;
-        $templateCache = eZTemplateTreeCache::cacheTable();
+        $templateCache =& eZTemplateTreeCache::cacheTable();
         $key = eZTemplateTreeCache::internalKey( $key );
         if ( !isset( $templateCache[$key] ) )
         {
