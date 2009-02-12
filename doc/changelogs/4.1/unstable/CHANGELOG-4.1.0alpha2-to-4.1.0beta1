@@ -33,3 +33,4 @@ Changes from 4.1.0alpha2 to 4.1.0beta2
 - Fixed bug #13661: ezconvertdbcharset.php implicitly requires UseBuiltinEncoding=false
 - Fixed bug #13674: ezconvertdbcharset.php doesn't convert all datatypes correctly + some other problems
 - Fixed bug #13560: --purge option of ezcache.php does not delete all cache files?
+- Fixed bug #13346: Warnings with NodeTreeCaching=enabled
