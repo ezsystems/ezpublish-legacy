@@ -339,7 +339,9 @@ if ( $EditLanguage == false )
         $tpl = templateInit();
 
         $res = eZTemplateDesignResource::instance();
-        $res->setKeys( array( array( 'object', $obj->attribute( 'id' ) ) ) );
+        $res->setKeys( array( array( 'object', $obj->attribute( 'id' ) ),
+                              array( 'remote_id', $obj->attribute( 'remote_id' ) )
+         ) );
 
         $tpl->setVariable( 'object', $obj );
         $tpl->setVariable( 'show_existing_languages', ( $EditVersion == 'a' )? false: true );
@@ -405,6 +407,7 @@ if ( !is_numeric( $EditVersion ) )
 
             $res = eZTemplateDesignResource::instance();
             $res->setKeys( array( array( 'object', $obj->attribute( 'id' ) ),
+                                array( 'remote_id', $obj->attribute( 'remote_id' ) ),
                                 array( 'class', $class->attribute( 'id' ) ),
                                 array( 'class_identifier', $class->attribute( 'identifier' ) ),
                                 array( 'class_group', $class->attribute( 'match_ingroup_id_list' ) ) ) );
@@ -448,6 +451,7 @@ if ( !is_numeric( $EditVersion ) )
 
                 $res = eZTemplateDesignResource::instance();
             $res->setKeys( array( array( 'object', $obj->attribute( 'id' ) ),
+                                array( 'remote_id', $obj->attribute( 'remote_id' ) ),
                                 array( 'class', $class->attribute( 'id' ) ),
                                 array( 'class_identifier', $class->attribute( 'identifier' ) ),
                                 array( 'class_group', $class->attribute( 'match_ingroup_id_list' ) ) ) );
@@ -681,6 +685,7 @@ if ( !function_exists( 'checkContentActions' ) )
 
                     $res = eZTemplateDesignResource::instance();
                     $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ),
+                                        array( 'remote_id', $object->attribute( 'remote_id' ) ),
                                         array( 'class', $class->attribute( 'id' ) ),
                                         array( 'class_identifier', $class->attribute( 'identifier' ) ),
                                         array( 'class_group', $class->attribute( 'match_ingroup_id_list' ) ) ) );

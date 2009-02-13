@@ -351,6 +351,7 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
 
 $res = eZTemplateDesignResource::instance();
 $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object ID
+                      array( 'remote_id', $object->attribute( 'remote_id' ) ),
                       array( 'class', $object->attribute( 'contentclass_id' ) ), // Class ID
                       array( 'class_identifier', $object->attribute( 'class_identifier' ) ), // Class identifier
                       array( 'section_id', $object->attribute( 'section_id' ) ) // Section ID

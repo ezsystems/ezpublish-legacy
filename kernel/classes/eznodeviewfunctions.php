@@ -98,6 +98,8 @@ class eZNodeviewfunctions
                            array( 'class_identifier', $node->attribute( 'class_identifier' ) ),
                            array( 'view_offset', $offset ),
                            array( 'viewmode', $viewMode ),
+                           array( 'remote_id', $object->attribute( 'remote_id' ) ),
+                           array( 'node_remote_id', $node->attribute( 'remote_id' ) ),
                            array( 'navigation_part_identifier', $navigationPartIdentifier ),
                            array( 'depth', $node->attribute( 'depth' ) ),
                            array( 'url_alias', $node->attribute( 'url_alias' ) ),
@@ -181,6 +183,8 @@ class eZNodeviewfunctions
         $contentInfoArray['parent_node_id'] =  $node->attribute( 'parent_node_id' );
         $contentInfoArray['class_id'] = $object->attribute( 'contentclass_id' );
         $contentInfoArray['class_identifier'] = $node->attribute( 'class_identifier' );
+        $contentInfoArray['remote_id'] = $object->attribute( 'remote_id' );
+        $contentInfoArray['node_remote_id'] = $node->attribute( 'remote_id' );
         $contentInfoArray['offset'] = $offset;
         $contentInfoArray['viewmode'] = $viewMode;
         $contentInfoArray['navigation_part_identifier'] = $navigationPartIdentifier;
@@ -404,6 +408,8 @@ class eZNodeviewfunctions
                                    array( 'navigation_part_identifier', $Result['content_info']['navigation_part_identifier'] ),
                                    array( 'viewmode', $Result['content_info']['viewmode'] ),
                                    array( 'depth', $Result['content_info']['node_depth'] ),
+                                   array( 'remote_id', $Result['content_info']['remote_id'] ),
+                                   array( 'node_remote_id', $Result['content_info']['node_remote_id'] ),
                                    array( 'url_alias', $Result['content_info']['url_alias'] ),
                                    array( 'persistent_variable', $Result['content_info']['persistent_variable'] ),
                                    array( 'class_group', $Result['content_info']['class_group'] ),

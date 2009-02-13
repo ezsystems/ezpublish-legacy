@@ -234,6 +234,7 @@ $tpl = templateInit();
 $res = eZTemplateDesignResource::instance();
 
 $designKeys = array( array( 'object', $object->attribute( 'id' ) ), // Object ID
+                     array( 'remote_id', $object->attribute( 'remote_id' ) ),
                      array( 'class', $class->attribute( 'id' ) ), // Class ID
                      array( 'class_identifier', $class->attribute( 'identifier' ) ) ); // Class identifier
 

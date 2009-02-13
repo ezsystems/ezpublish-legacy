@@ -274,6 +274,7 @@ $res->setOverrideAccess( $siteAccess );
 
 $designKeys = array( array( 'object', $contentObject->attribute( 'id' ) ), // Object ID
                      array( 'node', $virtualNodeID ), // Node id
+                     array( 'remote_id', $contentObject->attribute( 'remote_id' ) ),
                      array( 'class', $class->attribute( 'id' ) ), // Class ID
                      array( 'class_identifier', $class->attribute( 'identifier' ) ), // Class identifier
                      array( 'viewmode', 'full' ) );  // View mode

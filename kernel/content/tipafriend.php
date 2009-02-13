@@ -131,6 +131,8 @@ if ( $http->hasPostVariable( 'SendButton' ) )
         // fetch
         $res = eZTemplateDesignResource::instance();
         $res->setKeys( array( array( 'object',           $object->attribute( 'id' ) ),
+                              array( 'remote_id',        $object->attribute( 'remote_id' ) ),
+                              array( 'node_remote_id',   $node->attribute( 'remote_id' ) ),
                               array( 'class',            $object->attribute( 'contentclass_id' ) ),
                               array( 'class_identifier', $object->attribute( 'class_identifier' ) ),
                               array( 'class_group',      $object->attribute( 'match_ingroup_id_list' ) ),
@@ -191,6 +193,8 @@ if ( !$overrideKeysAreSet )
 {
     $res = eZTemplateDesignResource::instance();
     $res->setKeys( array( array( 'object',           $object->attribute( 'id' ) ),
+                          array( 'remote_id',        $object->attribute( 'remote_id' ) ),
+                          array( 'node_remote_id',   $node->attribute( 'remote_id' ) ),
                           array( 'class',            $object->attribute( 'contentclass_id' ) ),
                           array( 'class_identifier', $object->attribute( 'class_identifier' ) ),
                           array( 'class_group',      $object->attribute( 'match_ingroup_id_list' ) ),

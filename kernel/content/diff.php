@@ -55,6 +55,7 @@ $tpl = templateInit();
 
 $res = eZTemplateDesignResource::instance();
 $res->setKeys( array( array( 'object', $contentObject->attribute( 'id' ) ),
+                    array( 'remote_id', $contentObject->attribute( 'remote_id' ) ),
                     array( 'class', $class->attribute( 'id' ) ),
                     array( 'class_identifier', $class->attribute( 'identifier' ) ) ) );
 

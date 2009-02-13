@@ -61,6 +61,7 @@ if ( $Module->isCurrentAction( 'Publish' ) and
 
         $res = eZTemplateDesignResource::instance();
         $res->setKeys( array( array( 'object', $contentObject->attribute( 'id' ) ),
+                            array( 'remote_id', $contentObject->attribute( 'remote_id' ) ),
                             array( 'class', $class->attribute( 'id' ) ),
                             array( 'class_identifier', $class->attribute( 'identifier' ) ),
                             array( 'class_group', $class->attribute( 'match_ingroup_id_list' ) ) ) );
@@ -153,6 +154,8 @@ $keyArray = array( array( 'object', $contentObject->attribute( 'id' ) ),
                    array( 'class', $contentObject->attribute( 'contentclass_id' ) ),
                    array( 'class_identifier', $node->attribute( 'class_identifier' ) ),
                    array( 'viewmode', 'full' ),
+                   array( 'remote_id', $contentObject->attribute( 'remote_id' ) ),
+                   array( 'node_remote_id', $node->attribute( 'remote_id' ) ),
                    array( 'navigation_part_identifier', $navigationPartIdentifier ),
                    array( 'depth', $node->attribute( 'depth' ) ),
                    array( 'url_alias', $node->attribute( 'url_alias' ) ),

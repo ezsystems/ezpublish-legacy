@@ -168,6 +168,8 @@ if ( !isset( $nodeList ) )
                           array( 'parent_node', $node->attribute( 'parent_node_id' ) ), // Parent Node ID
                           array( 'class', $object->attribute( 'contentclass_id' ) ), // Class ID
                           array( 'depth', $node->attribute( 'depth' ) ),
+                          array( 'remote_id', $object->attribute( 'remote_id' ) ),
+                          array( 'node_remote_id', $node->attribute( 'remote_id' ) ),
                           array( 'url_alias', $node->attribute( 'url_alias' ) ),
                           array( 'class_identifier', $node->attribute( 'class_identifier' ) ),
                           array( 'section', $object->attribute('section_id') ),
