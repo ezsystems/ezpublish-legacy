@@ -93,6 +93,10 @@ if ( $http->hasPostVariable( 'RedirectURIAfterPublish' ) )
 {
     $http->setSessionVariable( 'RedirectURIAfterPublish', $http->postVariable( 'RedirectURIAfterPublish' ) );
 }
+if ( $http->hasPostVariable( 'RedirectIfDiscarded' ) )
+{
+    $http->setSessionVariable( 'RedirectIfDiscarded', $http->postVariable( 'RedirectIfDiscarded' ) );
+}
 
 // Action for edit_draft.tpl page,
 // EditButton is the button for editing the selected version.
@@ -576,8 +580,6 @@ if ( !function_exists( 'checkContentActions' ) )
             $discardConfirm = true;
             if ( $http->hasPostVariable( 'DiscardConfirm' ) )
                 $discardConfirm = $http->postVariable( 'DiscardConfirm' );
-            if ( $http->hasPostVariable( 'RedirectIfDiscarded' ) )
-                $http->setSessionVariable( 'RedirectIfDiscarded', $http->postVariable( 'RedirectIfDiscarded' ) );
             $http->setSessionVariable( 'DiscardObjectID', $objectID );
             $http->setSessionVariable( 'DiscardObjectVersion', $EditVersion );
             $http->setSessionVariable( 'DiscardObjectLanguage', $EditLanguage );
@@ -593,6 +595,11 @@ if ( !function_exists( 'checkContentActions' ) )
             $http = eZHTTPTool::instance();
 
             $node = $object->mainNode();
+
+            if ( $http->hasSessionVariable( 'RedirectIfDiscarded' ) )
+            {
+                $http->removeSessionVariable( 'RedirectIfDiscarded' );
+            }
 
             $hasRedirected = false;
             if ( $http->hasSessionVariable( 'ParentObject' ) && $http->sessionVariable( 'NewObjectID' ) == $object->attribute( 'id' ) )
@@ -622,7 +629,7 @@ if ( !function_exists( 'checkContentActions' ) )
                 $module->redirectTo( $uri );
                 $hasRedirected = true;
             }
-            if ( $http->hasPostVariable( "BackToEdit") && $http->postVariable( "BackToEdit") )
+            if ( $http->hasPostVariable( "BackToEdit" ) && $http->postVariable( "BackToEdit" ) )
             {
                 $uri = $module->redirectionURI( 'content', 'edit', array( $object->attribute( 'id'), 'f', $EditLanguage ) );
                 $module->redirectTo( $uri );

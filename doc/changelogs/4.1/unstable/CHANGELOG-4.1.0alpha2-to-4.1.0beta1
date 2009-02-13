@@ -9,6 +9,7 @@ Changes from 4.1.0alpha2 to 4.1.0beta2
 - Implemented enhancement #14002: Add constants for sort field values to eZContentObjectTreeNode
 - Implemented enhancement #14388: In ezldapuser.php, Mysql Improved database implementation not effective
 - Implemented enhancement #14423: eZExecution::uncleanShutdownHandler() should also handle static class methods
+- Implemented enhancement #11386: Add RedirectIfDiscarded in kernel/content/action.php
 
 *Design:
 

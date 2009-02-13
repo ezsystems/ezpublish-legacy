@@ -119,8 +119,9 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
 
             $tpl->setVariable( 'node_id', $http->postVariable( 'NodeID' ) );
             $tpl->setVariable( 'class_id', $contentClassID );
-            $tpl->setVariable( 'assignment_remote_id', ( $http->hasPostVariable( 'AssignmentRemoteID' ) )? $http->postVariable( 'AssignmentRemoteID' ): false );
-            $tpl->setVariable( 'redirect_uri_after_publish', ( $http->hasPostVariable( 'RedirectURIAfterPublish' ) )? $http->postVariable( 'RedirectURIAfterPublish' ): false );
+            $tpl->setVariable( 'assignment_remote_id', $http->postVariable( 'AssignmentRemoteID', false ) );
+            $tpl->setVariable( 'redirect_uri_after_publish', $http->postVariable( 'RedirectURIAfterPublish', false ) );
+            $tpl->setVariable( 'redirect_uri_after_discard', $http->postVariable( 'RedirectIfDiscarded', false ) );
 
             $Result = array();
             $Result['content'] = $tpl->fetch( 'design:content/create_languages.tpl' );
@@ -147,13 +148,16 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
             $contentObject = eZContentObject::createWithNodeAssignment( $node,
                                                                         $contentClassID,
                                                                         $languageCode,
-                                                                        ( $http->hasPostVariable( 'AssignmentRemoteID' ) ?
-                                                                              $http->postVariable( 'AssignmentRemoteID' ) : false ) );
+                                                                        $http->postVariable( 'AssignmentRemoteID', false ) );
             if ( $contentObject )
             {
                 if ( $http->hasPostVariable( 'RedirectURIAfterPublish' ) )
                 {
                     $http->setSessionVariable( 'RedirectURIAfterPublish', $http->postVariable( 'RedirectURIAfterPublish' ) );
+                }
+                if ( $http->hasPostVariable( 'RedirectIfDiscarded' ) )
+                {
+                    $http->setSessionVariable( 'RedirectIfDiscarded', $http->postVariable( 'RedirectIfDiscarded' ) );
                 }
                 $module->redirectTo( $module->functionURI( 'edit' ) . '/' . $contentObject->attribute( 'id' ) . '/' . $contentObject->attribute( 'current_version' ) );
                 return;
@@ -1004,6 +1008,10 @@ else if ( $http->hasPostVariable( 'EditButton' )  )
         {
             $http->setSessionVariable( 'RedirectURIAfterPublish', $http->postVariable( 'RedirectURIAfterPublish' ) );
         }
+        if ( $http->hasPostVariable( 'RedirectIfDiscarded' ) )
+        {
+            $http->setSessionVariable( 'RedirectIfDiscarded', $http->postVariable( 'RedirectIfDiscarded' ) );
+        }
 
         $module->redirectToView( 'edit', $parameters );
         return;
@@ -1028,17 +1036,10 @@ else if ( $http->hasPostVariable( 'PreviewPublishButton' )  )
 }
 else if ( $http->hasPostVariable( 'RemoveButton' ) )
 {
-    if ( $http->hasPostVariable( 'ViewMode' ) )
-        $viewMode = $http->postVariable( 'ViewMode' );
-    else
-        $viewMode = 'full';
+    $viewMode = $http->postVariable( 'ViewMode', 'full' );
 
-    $contentNodeID = 2;
-    if ( $http->hasPostVariable( 'ContentNodeID' ) )
-        $contentNodeID = $http->postVariable( 'ContentNodeID' );
-    $contentObjectID = 1;
-    if ( $http->hasPostVariable( 'ContentObjectID' ) )
-        $contentObjectID = $http->postVariable( 'ContentObjectID' );
+    $contentNodeID = $http->postVariable( 'ContentNodeID', 2 );
+    $contentObjectID = $http->postVariable( 'ContentObjectID', 1 );
 
     $hideRemoveConfirm = false;
     if ( $http->hasPostVariable( 'HideRemoveConfirmation' ) )
@@ -1091,17 +1092,10 @@ else if ( $http->hasPostVariable( 'RemoveButton' ) )
 else if ( $http->hasPostVariable( 'MoveButton' ) )
 {
     /* action for multi select move, uses same interface as RemoveButton */
-    if ( $http->hasPostVariable( 'ViewMode' ) )
-        $viewMode = $http->postVariable( 'ViewMode' );
-    else
-        $viewMode = 'full';
+    $viewMode = $http->postVariable( 'ViewMode', 'full' );
 
-    $parentNodeID = 2;
-    if ( $http->hasPostVariable( 'ContentNodeID' ) )
-        $parentNodeID = $http->postVariable( 'ContentNodeID' );
-    $parentObjectID = 1;
-    if ( $http->hasPostVariable( 'ContentObjectID' ) )
-        $parentObjectID = $http->postVariable( 'ContentObjectID' );
+    $parentNodeID = $http->postVariable( 'ContentNodeID', 2 );
+    $parentObjectID = $http->postVariable( 'ContentObjectID', 1 );
 
     if ( $http->hasPostVariable( 'DeleteIDArray' ) or $http->hasPostVariable( 'SelectedIDArray' ) )
     {
@@ -1208,14 +1202,7 @@ else if ( $http->hasPostVariable( 'MoveButton' ) )
 }
 else if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
 {
-    if ( $http->hasPostVariable( 'ViewMode' ) )
-    {
-        $viewMode = $http->postVariable( 'ViewMode' );
-    }
-    else
-    {
-        $viewMode = 'full';
-    }
+    $viewMode = $http->postVariable( 'ViewMode', 'full' );
 
     if ( $http->hasPostVariable( 'ContentNodeID' ) )
     {
@@ -1279,14 +1266,9 @@ else if ( $http->hasPostVariable( "ActionAddToBookmarks" ) )
         $contentINI = eZINI::instance( 'content.ini' );
         $nodeID = $contentINI->variable( 'NodeSettings', 'RootNode' );
     }
-    if ( $http->hasPostVariable( 'ViewMode' ) )
-    {
-        $viewMode = $http->postVariable( 'ViewMode' );
-    }
-    else
-    {
-        $viewMode = 'full';
-    }
+
+    $viewMode = $http->postVariable( 'ViewMode', 'full' );
+
     $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $nodeID . '/' );
     return;
 }
@@ -1339,14 +1321,8 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
     }
     else if ( $http->hasPostVariable( "ActionRemove" ) )
     {
-        if ( $http->hasPostVariable( 'ViewMode' ) )
-        {
-            $viewMode = $http->postVariable( 'ViewMode' );
-        }
-        else
-        {
-            $viewMode = 'full';
-        }
+        $viewMode = $http->postVariable( 'ViewMode', 'full' );
+
         $parentNodeID = 2;
         $contentNodeID = null;
         if ( $http->hasPostVariable( 'ContentNodeID' ) and is_numeric( $http->postVariable( 'ContentNodeID' ) ) )
@@ -1355,9 +1331,8 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
             $node = eZContentObjectTreeNode::fetch( $contentNodeID );
             $parentNodeID = $node->attribute( 'parent_node_id' );
         }
-        $contentObjectID = 1;
-        if ( $http->hasPostVariable( 'ContentObjectID' ) )
-            $contentObjectID = $http->postVariable( 'ContentObjectID' );
+
+        $contentObjectID = $http->postVariable( 'ContentObjectID', 1 );
 
         $hideRemoveConfirm = false;
         if ( $http->hasPostVariable( 'HideRemoveConfirmation' ) )

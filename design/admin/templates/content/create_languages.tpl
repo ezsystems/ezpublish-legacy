@@ -57,6 +57,9 @@
 {if $redirect_uri_after_publish}
     <input type="hidden" name="RedirectURIAfterPublish" value="{$redirect_uri_after_publish|wash}" />
 {/if}
+{if $redirect_uri_after_discard}
+    <input type="hidden" name="RedirectIfDiscarded" value="{$redirect_uri_after_discard|wash}" />
+{/if}
 
 <input type="hidden" name="CancelURI" value="content/view/full/{$node_id|wash}" />
 
