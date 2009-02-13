@@ -62,7 +62,9 @@ class eZExecution
         foreach ( $handlers as $handler )
         {
             if ( is_callable( $handler ) )
-                $handler();
+                call_user_func( $handler );
+            else
+                eZDebug::writeError('Could not call cleanup handler, is it a static public function?', 'eZExecution::cleanup');
         }
     }
 
@@ -146,7 +148,10 @@ class eZExecution
         foreach ( $handlers as $handler )
         {
             if ( is_callable( $handler ) )
-                $handler();
+                call_user_func( $handler );
+            else
+
+                eZDebug::writeError('Could not call fatal error handler, is it a static public function?', 'eZExecution::uncleanShutdownHandler');
         }
     }
 
