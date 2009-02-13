@@ -174,8 +174,7 @@ $unvalidatedAttributes = array();
 
 if ( $http->hasPostVariable( 'DiscardButton' ) )
 {
-    eZSession::destroy( $http->sessionVariable( 'CanStoreTicket' ) );
-    $http->removeSessionVariable( 'CanStoreTicket' );
+    $http->removeSessionVariable( 'ClassCanStoreTicket' );
     $class->setVersion( eZContentClass::VERSION_STATUS_TEMPORARY );
     $class->remove( true, eZContentClass::VERSION_STATUS_TEMPORARY );
     eZContentClassClassGroup::removeClassMembers( $ClassID, eZContentClass::VERSION_STATUS_TEMPORARY );
@@ -628,12 +627,10 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
     }
     else
     {
-        $firstStoreAttempt = $http->hasSessionVariable( 'CanStoreTicket' ) ? eZSession::read( $http->sessionVariable( 'CanStoreTicket' ) ) : false;
-        if ( !$firstStoreAttempt )
+        if ( !$http->hasSessionVariable( 'ClassCanStoreTicket' ) )
         {
             return $Module->redirectToView( 'view', array( $ClassID ), array( 'Language' => $EditLanguage ) );
         }
-        eZSession::destroy( $http->sessionVariable( 'CanStoreTicket' ) );
 
         // Class cleanup, update existing class objects according to new changes
         $db = eZDB::instance();
@@ -693,7 +690,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
 
         $db->commit();
 
-        $http->removeSessionVariable( 'CanStoreTicket' );
+        $http->removeSessionVariable( 'ClassCanStoreTicket' );
         return $Module->redirectToView( 'view', array( $ClassID ), array( 'Language' => $EditLanguage ) );
     }
 }
@@ -730,10 +727,11 @@ else if ( $http->hasPostVariable( 'MoveDown' ) )
 }
 
 $Module->setTitle( 'Edit class ' . $class->attribute( 'name' ) );
-if ( !$http->hasSessionVariable( 'CanStoreTicket' ) )
+
+// set session to allow current user to store class (to avoid direct post edit actions to this view)
+if ( !$http->hasSessionVariable( 'ClassCanStoreTicket' ) )
 {
-    $http->setSessionVariable( 'CanStoreTicket', md5( (string)rand() ) );
-    eZSession::write( $http->sessionVariable( 'CanStoreTicket' ), 1 );
+    $http->setSessionVariable( 'ClassCanStoreTicket', 1 );
 }
 
 // Fetch updated attributes

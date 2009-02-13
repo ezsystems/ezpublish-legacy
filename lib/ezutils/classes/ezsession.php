@@ -82,7 +82,7 @@
 
 class eZSession
 {
-    // name of session handler, change if you override class with autoload
+    // Name of session handler, change if you override class with autoload
     const HANDLER_NAME = 'ezdb';
 
     /**
@@ -98,6 +98,20 @@ class eZSession
      * @access protected
      */
     static protected $hasStarted = false;
+
+    /**
+     * Flag request contains session cookie, set in {@link eZSession::registerFunctions()}.
+     *
+     * @access protected
+     */
+    static protected $hasSessionCookie = false;
+
+    /**
+     * User session hash (ip + ua string), set in {@link eZSession::registerFunctions()}.
+     *
+     * @access protected
+     */
+    static protected $userSessionHash = null;
 
     /**
      * List of callback actions, see {@link eZSession::addCallback()}.
@@ -117,40 +131,69 @@ class eZSession
 
     /**
      * Does nothing, eZDB will open connection when needed.
+     * 
+     * @return true
      */
     static public function open()
     {
+        return true;
     }
 
     /**
      * Does nothing, eZDB will handle closing db connection.
+     * 
+     * @return true
      */
     static public function close()
     {
+        return true;
     }
 
     /**
-     * Reads the session data from the database, this function is 
-     * register in {@link eZSession::registerFunctions()}
+     * Reads the session data from the database for a specific session id
      *
      * @param string $sessionId
      * @return string|false Returns false if session doesn't exits
      */
     static public function read( $sessionId )
     {
+        return self::__read( $sessionId, false );
+    }
+
+    /**
+     * Internal function that reads the session data from the database, this function
+     * is registered as session_read handler in {@link eZSession::registerFunctions()}
+     *
+     * @access private
+     * @param string $sessionId
+     * @param bool $isCurrentUserSession
+     * @return string|false Returns false if session doesn't exits
+     */
+    static public function __read( $sessionId, $isCurrentUserSession = true )
+    {
         $db = eZDB::instance();
         $escKey = $db->escapeString( $sessionId );
 
-        $sessionRes = $db->arrayQuery( "SELECT data, user_id, expiration_time FROM ezsession WHERE session_key='$escKey'" );
+        $sessionRes = $isCurrentUserSession && !self::$hasSessionCookie ? false : $db->arrayQuery( "SELECT data, user_id, user_hash, expiration_time FROM ezsession WHERE session_key='$escKey'" );
 
         if ( $sessionRes !== false and count( $sessionRes ) == 1 )
         {
+            if ( $isCurrentUserSession )
+            {
+                if ( $sessionRes[0]['user_hash'] && $sessionRes[0]['user_hash'] != self::getUserSessionHash() )
+                {
+                    // Kick user out by generating new session id
+                    self::regenerate( false );
+                    self::$userID = 0;
+                    return false;
+                }
+                self::$userID = $sessionRes[0]['user_id'];
+            }
             $ini = eZINI::instance();
 
             $sessionUpdatesTime = $sessionRes[0]['expiration_time'] - $ini->variable( 'Session', 'SessionTimeout' );
             $sessionIdle = time() - $sessionUpdatesTime;
 
-            self::$userID = $sessionRes[0]['user_id'];
             $GLOBALS['eZSessionIdleTime'] = $sessionIdle;
 
             return $sessionRes[0]['data'];
@@ -162,16 +205,30 @@ class eZSession
     }
 
     /**
-     * Inserts|Updates the session data in the database, this function is 
-     * register in {@link eZSession::registerFunctions()}
+     * Inserts|Updates the session data in the database for a specific session id
      *
      * @param string $sessionId
+     * @param string $value session data
      */
     static public function write( $sessionId, $value )
     {
-        if ( isset( $GLOBALS["eZRequestError"] ) && $GLOBALS["eZRequestError"] )
+        return self::__write( $sessionId, $value, false );
+    }
+
+    /**
+     * Internal function that inserts|updates the session data in the database, this function
+     * is registered as session_write handler in {@link eZSession::registerFunctions()}
+     *
+     * @access private
+     * @param string $sessionId
+     * @param string $value session data
+     * @param bool $isCurrentUserSession
+     */
+    static public function __write( $sessionId, $value, $isCurrentUserSession = true )
+    {
+        if ( isset( $GLOBALS['eZRequestError'] ) && $GLOBALS['eZRequestError'] )
         {
-            return;
+            return false;
         }
 
         $db = eZDB::instance();
@@ -187,20 +244,26 @@ class eZSession
             $value = '\'' . $db->escapeString( $value ) . '\'';
         }
         $escKey = $db->escapeString( $sessionId );
+        $userID = 0;
+        $userHash = '';
 
-        $userID = $db->escapeString( self::$userID );
+        if ( $isCurrentUserSession )
+        {
+            $userID = $db->escapeString( self::$userID );
+            $userHash = $db->escapeString( self::getUserSessionHash() );
+        }
 
         // check if session already exists
-        $sessionRes = $db->arrayQuery( "SELECT session_key FROM ezsession WHERE session_key='$escKey'" );
+        $sessionRes = $isCurrentUserSession && !self::$hasSessionCookie ? false : $db->arrayQuery( "SELECT session_key FROM ezsession WHERE session_key='$escKey'" );
 
         if ( $sessionRes !== false and count( $sessionRes ) == 1 )
         {
             self::triggerCallback( 'update_pre', array( $db, $sessionId, $escKey, $expirationTime, $userID, $value ) );
 
-            $updateQuery = "UPDATE ezsession
-                        SET expiration_time='$expirationTime', data=$value, user_id='$userID'
-                        WHERE session_key='$escKey'";
-            $ret = $db->query( $updateQuery );
+            if ( $isCurrentUserSession )
+                $ret = $db->query( "UPDATE ezsession SET expiration_time='$expirationTime', data=$value, user_id='$userID', user_hash='$userHash' WHERE session_key='$escKey'" );
+            else
+                $ret = $db->query( "UPDATE ezsession SET expiration_time='$expirationTime', data=$value WHERE session_key='$escKey'" );
 
             self::triggerCallback( 'update_post', array( $db, $sessionId, $escKey, $expirationTime, $userID, $value ) );
         }
@@ -208,13 +271,13 @@ class eZSession
         {
             self::triggerCallback( 'insert_pre', array( $db, $sessionId, $escKey, $expirationTime, $userID, $value ) );
 
-            $insertQuery = "INSERT INTO ezsession
-                        ( session_key, expiration_time, data, user_id )
-                        VALUES ( '$escKey', '$expirationTime', $value, '$userID' )";
+            $insertQuery = "INSERT INTO ezsession ( session_key, expiration_time, data, user_id, user_hash )
+                        VALUES ( '$escKey', '$expirationTime', $value, '$userID', '$userHash' )";
             $ret = $db->query( $insertQuery );
 
             self::triggerCallback( 'insert_post', array( $db, $sessionId, $escKey, $expirationTime, $userID, $value ) );
         }
+        return true;
     }
 
     /**
@@ -261,7 +324,7 @@ class eZSession
 
         self::triggerCallback( 'cleanup_pre', array( $db ) );
 
-        $db->query( "TRUNCATE TABLE ezsession" );
+        $db->query( 'TRUNCATE TABLE ezsession' );
 
         self::triggerCallback( 'cleanup_post', array( $db ) );
     }
@@ -275,7 +338,7 @@ class eZSession
     {
         $db = eZDB::instance();
 
-        $rows = $db->arrayQuery( "SELECT count( * ) AS count FROM ezsession" );
+        $rows = $db->arrayQuery( 'SELECT count( * ) AS count FROM ezsession' );
         return $rows[0]['count'];
     }
 
@@ -302,12 +365,19 @@ class eZSession
             }
             session_name( $sessionName );
         }
+        else
+        {
+            $sessionName = session_name();
+        }
+
+        // See if user has session cookie, used to avoid reading from db if no session
+        self::$hasSessionCookie = isset( $_COOKIE[ $sessionName ] );
 
         session_set_save_handler(
             array('eZSession', 'open'),
             array('eZSession', 'close'),
-            array('eZSession', 'read'),
-            array('eZSession', 'write'),
+            array('eZSession', '__read'),
+            array('eZSession', '__write'),
             array('eZSession', 'destroy'),
             array('eZSession', 'garbageCollector')
             );
@@ -318,6 +388,7 @@ class eZSession
      * Starts the session and sets the timeout of the session cookie.
      * Multiple calls will be ignored unless you call {@link eZSession::stop()} first.
      * 
+     * @param bool|int $cookieTimeout use this to set custom cookie timeout.
      * @return bool Returns true|false depending on if session was started.
      */
     static public function start( $cookieTimeout = false )
@@ -354,6 +425,43 @@ class eZSession
     }
 
     /**
+     * Gets/generates the user hash for use in validating the session.
+     * 
+     * @return string Returns md5 hash based on parts of the user ip and agent string.
+     */
+    static public function getUserSessionHash()
+    {
+        // Generate user_hash based on site.ini settings
+        if ( self::$userSessionHash === null )
+        {
+            function ezsessionIp( $ip, $parts = 2 )
+            {
+                $parts = $parts > 4 ? 4 : $parts;
+                $ip = strpos( $ip, ':' ) === false ? explode( '.', $ip ) : explode( ':', $ip );
+                return implode('-', array_slice( $ip, 0, $parts ) );
+            }
+            $ini = eZINI::instance();
+            $sessionValidationString = '';
+            $sessionValidationIpParts = (int) $ini->variable( 'Session', 'SessionValidationIpParts' );
+            if ( $sessionValidationIpParts )
+            {
+                $sessionValidationString .= ezsessionIp( $_SERVER['REMOTE_ADDR'], $sessionValidationIpParts );
+            }
+            $sessionValidationForwardedIpParts = (int) $ini->variable( 'Session', 'SessionValidationForwardedIpParts' );
+            if ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) && $sessionValidationForwardedIpParts )
+            {
+                $sessionValidationString .= '-' . ezsessionIp( $_SERVER['HTTP_X_FORWARDED_FOR'], $sessionValidationForwardedIpParts );
+            }
+            if ( $ini->variable( 'Session', 'SessionValidationUseUA' ) === 'enabled' )
+            {
+                $sessionValidationString .= '-' . $_SERVER['HTTP_USER_AGENT'];
+            }
+            self::$userSessionHash = $sessionValidationString ? md5( $sessionValidationString ) : '';
+        }
+        return self::$userSessionHash;
+    }
+        
+    /**
      * Writes session data and stops the session, if not already stopped.
      * 
      * @return bool Returns true|false depending on if session was stopped.
@@ -377,10 +485,12 @@ class eZSession
     /**
      * Will make sure the user gets a new session ID while keepin the session data.
      * This is useful to call on logins, to avoid sessions theft from users.
+     * NOTE: make sure you set new user id first using {@link eZSession::setUserID()} 
      * 
+     * @param bool $updateUserSession set to false to not update session in db with new session id and user id.
      * @return bool Returns true|false depending on if session was regenerated.
      */
-    static public function regenerate()
+    static public function regenerate( $updateUserDBSession = true )
     {
         if ( !self::$hasStarted )
         {
@@ -390,8 +500,29 @@ class eZSession
         {
             return false;
         }
-        // This doesn't seem to work as expected
-    //     session_regenerate_id();
+
+        $oldSessionId = session_id();
+        session_regenerate_id();
+
+        // If user has session and $updateUserSession is true, then update user session data
+        if ( $updateUserDBSession && self::$hasSessionCookie )
+        {
+            $db = eZDB::instance();
+            if ( !$db->isConnected() )
+            {
+                return false;
+            }
+            $escOldKey = $db->escapeString( $oldSessionId );
+            $sessionId = session_id();
+            $escKey = $db->escapeString( $sessionId );
+            $userID = $db->escapeString( self::$userID );
+
+            self::triggerCallback( 'regenerate_pre', array( $db, $escKey, $escOldKey, $userID ) );
+
+            $db->query( "UPDATE ezsession SET session_key='$escKey', user_id='$userID' WHERE session_key='$escOldKey'" );
+
+            self::triggerCallback( 'regenerate_post', array( $db, $escKey, $escOldKey, $userID ) );
+        }
         return true;
     }
 

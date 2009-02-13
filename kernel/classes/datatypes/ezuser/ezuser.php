@@ -986,9 +986,9 @@ WHERE user_id = '" . $userID . "' AND
         // instance() when there is no ID passed to the function.
         $GLOBALS["eZUserGlobalInstance_"] = $user;
         $http->setSessionVariable( 'eZUserLoggedInID', $userID );
+        eZSession::setUserID( $userID );
         eZSession::regenerate();
         $user->cleanup();
-        eZSession::setUserID( $userID );
     }
 
     /*!
@@ -1045,10 +1045,13 @@ WHERE user_id = '" . $userID . "' AND
         $http = eZHTTPTool::instance();
         $id = false;
         $GLOBALS["eZUserGlobalInstance_$id"] = false;
-        $contentObjectID = $http->sessionVariable( "eZUserLoggedInID" );
+        $contentObjectID = $http->sessionVariable( 'eZUserLoggedInID' );
+
+        // reset session data
         $newUserID = self::anonymousId();
-        $http->setSessionVariable( 'eZUserLoggedInID', $newUserID );
         eZSession::setUserID( $newUserID );
+        $http->setSessionVariable( 'eZUserLoggedInID', $newUserID );
+        
         // Clear current basket if necessary
         $db = eZDB::instance();
         $db->begin();
@@ -1057,6 +1060,9 @@ WHERE user_id = '" . $userID . "' AND
 
         if ( $contentObjectID )
             eZUser::cleanup();
+
+        // give user new session id
+        eZSession::regenerate();
     }
 
     /*!

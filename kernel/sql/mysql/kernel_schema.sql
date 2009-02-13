@@ -1331,6 +1331,7 @@ CREATE TABLE ezsession (
   expiration_time int(11) NOT NULL default '0',
   session_key varchar(32) NOT NULL default '',
   user_id int(11) NOT NULL default '0',
+  user_hash varchar(32) NOT NULL default '',
   PRIMARY KEY  (session_key),
   KEY expiration_time (expiration_time),
   KEY ezsession_user_id (user_id)
