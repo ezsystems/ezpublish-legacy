@@ -11,6 +11,7 @@ Changes from 4.1.0alpha2 to 4.1.0beta2
 - Implemented enhancement #14423: eZExecution::uncleanShutdownHandler() should also handle static class methods
 - Implemented enhancement #11386: Add RedirectIfDiscarded in kernel/content/action.php
 - Implemented enhancement #14352: Script to fix missing an duplicated remote id's on ezcontentobject_tree w/ patch
+- Implemented enhancement #14344: Improve site.ini ViewCacheSettings[] to allow several view cache hints for better cache efficiency
 
 *Design:
 

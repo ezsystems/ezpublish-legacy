@@ -225,46 +225,79 @@ class eZNodeviewfunctions
         return $Result;
     }
 
-    static function generateViewCacheFile( $user, $nodeID, $offset, $layout, $language, $viewMode, $viewParameters = false, $cachedViewPreferences = false, $cachedViewSetting = false )
+    static function generateViewCacheFile( $user, $nodeID, $offset, $layout, $language, $viewMode, $viewParameters = false, $cachedViewPreferences = false, $viewCacheTweak = '' )
     {
-        $limitedAssignmentValueList = $user->limitValueList();
-        $roleList = $user->roleIDList();
-        $discountList = eZUserDiscountRule::fetchIDListByUserID( $user->attribute( 'contentobject_id' ) );
+        $cacheNameExtra = '';
+        $ini = eZINI::instance();
 
         if ( !$language )
         {
             $language = false;
         }
-        $cacheNameExtra = '';
-        $ini = eZINI::instance();
-        $currentSiteAccess = $GLOBALS['eZCurrentAccess']['name'];
+
+        if ( !$viewCacheTweak && $ini->hasVariable( 'ContentSettings', 'ViewCacheTweaks' ) )
+        {
+            $viewCacheTweaks = $ini->variable( 'ContentSettings', 'ViewCacheTweaks' );
+            if ( isset( $viewCacheTweaks[$nodeID] ) )
+            {
+                $viewCacheTweak = $viewCacheTweaks[$nodeID];
+            }
+            else if ( isset( $viewCacheTweaks['global'] ) )
+            {
+                $viewCacheTweak = $viewCacheTweaks['global'];
+            }
+        }
+
+        // should we use current siteaccess or let several siteaccesse share cache?
+        if ( strpos( $viewCacheTweak, 'ignore_siteaccess_name' ) === false )
+        {
+            $currentSiteAccess = $GLOBALS['eZCurrentAccess']['name'];
+        }
+        else
+        {
+            $currentSiteAccess = $ini->variable( 'SiteSettings', 'DefaultAccess' );
+        }
 
         $cacheHashArray = array( $nodeID,
                                  $viewMode,
                                  $language,
                                  $offset,
-                                 $layout,
-                                 implode( '.', $roleList ),
-                                 implode( '.', $limitedAssignmentValueList),
-                                 implode( '.', $discountList ),
-                                 eZSys::indexFile() );
+                                 $layout );
+
+        // several user related cache tweaks
+        if ( strpos( $viewCacheTweak, 'ignore_userroles' ) === false )
+        {
+            $cacheHashArray[] = implode( '.', $user->roleIDList() );
+        }
+
+        if ( strpos( $viewCacheTweak, 'ignore_userlimitedlist' ) === false )
+        {
+            $cacheHashArray[] = implode( '.', $user->limitValueList() );
+        }
+
+        if ( strpos( $viewCacheTweak, 'ignore_discountlist' ) === false )
+        {
+            $cacheHashArray[] = implode( '.', eZUserDiscountRule::fetchIDListByUserID( $user->attribute( 'contentobject_id' ) ) );
+        }
+
+        $cacheHashArray[] = eZSys::indexFile();
 
         // add access type to cache hash if current access is uri type (so uri and host doesn't share cache)
-        if ( $GLOBALS['eZCurrentAccess']['type'] === EZ_ACCESS_TYPE_URI )
+        if ( strpos( $viewCacheTweak, 'ignore_siteaccess_type' ) === false && $GLOBALS['eZCurrentAccess']['type'] === EZ_ACCESS_TYPE_URI )
         {
             $cacheHashArray[] = EZ_ACCESS_TYPE_URI;
         }
 
         // Make the cache unique for every logged in user
-        if ( $cachedViewSetting === 'pr_user' and !$user->isAnonymous() )
+        if ( strpos( $viewCacheTweak, 'pr_user' ) !== false and !$user->isAnonymous() )
         {
             $cacheNameExtra = $user->attribute( 'contentobject_id' ) . '-';
         }
 
         // Make the cache unique for every case of view parameters
-        if ( $viewParameters )
+        if ( strpos( $viewCacheTweak, 'ignore_viewparameters' ) === false && $viewParameters )
         {
-            $vpString = "";
+            $vpString = '';
             ksort( $viewParameters );
             foreach ( $viewParameters as $key => $value )
             {
@@ -284,10 +317,11 @@ class eZNodeviewfunctions
         {
             $depPreferences = $cachedViewPreferences;
         }
-        if ( isset ( $depPreferences[$viewMode] ) )
+
+        if ( strpos( $viewCacheTweak, 'ignore_userpreferences' ) === false && isset ( $depPreferences[$viewMode] ) )
         {
             $depPreferences = explode( ';', $depPreferences[$viewMode] );
-            $pString = "";
+            $pString = '';
             // Fetch preferences for the specified user
             $preferences = eZPreferences::values( $user );
             foreach( $depPreferences as $pref )

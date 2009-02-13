@@ -69,7 +69,6 @@ if ( !is_numeric( $Offset ) )
     $Offset = 0;
 
 $ini = eZINI::instance();
-$viewCacheSetting = false;
 $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
 
 if ( isset( $Params['ViewCache'] ) )
@@ -81,16 +80,12 @@ elseif ( $viewCacheEnabled && !in_array( $ViewMode, $ini->variableArray( 'Conten
     $viewCacheEnabled = false;
 }
 
-if ( $ini->hasVariable( 'ContentSettings', 'ViewCacheSettings' ) )
+if ( $viewCacheEnabled && $ini->hasVariable( 'ContentSettings', 'ViewCacheTweaks' ) )
 {
-    $viewCacheSettings = $ini->variable( 'ContentSettings', 'ViewCacheSettings' );
-    if ( isset( $viewCacheSettings[$NodeID] ) )
+    $viewCacheTweaks = $ini->variable( 'ContentSettings', 'ViewCacheTweaks' );
+    if ( isset( $viewCacheTweaks[$NodeID] ) && strpos( $viewCacheTweaks[$NodeID], 'disabled' ) !== false )
     {
-        $viewCacheSetting = $viewCacheSettings[$NodeID];
-        if ( $viewCacheSetting === 'disabled' )
-        {
-            $viewCacheEnabled = false;
-        }
+        $viewCacheEnabled = false;
     }
 }
 
@@ -195,7 +190,7 @@ else
     {
         $user = eZUser::currentUser();
 
-        $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $user, $NodeID, $Offset, $layout, $LanguageCode, $ViewMode, $viewParameters, false, $viewCacheSetting );
+        $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $user, $NodeID, $Offset, $layout, $LanguageCode, $ViewMode, $viewParameters, false );
 
         $cacheFilePath = $cacheFileArray['cache_path'];
 
