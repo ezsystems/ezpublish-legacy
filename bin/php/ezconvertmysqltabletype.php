@@ -116,6 +116,28 @@ function checkParameters( $cli, $script, $options, $host, $user, $password, $dat
     }
 }
 
+// Creates a displayable string for the end-user explaining
+// which database, host, user and password which were tried
+function eZTriedDatabaseString( $database, $host, $user, $password )
+{
+    $msg = "'$database'";
+    if ( strlen( $host ) > 0 )
+    {
+        $msg .= " at host '$host'";
+    }
+    else
+    {
+        $msg .= " locally";
+    }
+    if ( strlen( $user ) > 0 )
+    {
+        $msg .= " with user '$user'";
+    }
+    if ( strlen( $password ) > 0 )
+        $msg .= " and with a password";
+    return $msg;
+}
+
 /**
  * Connect to the database
 **/
