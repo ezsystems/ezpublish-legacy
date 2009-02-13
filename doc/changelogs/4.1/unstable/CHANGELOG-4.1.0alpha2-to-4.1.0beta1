@@ -29,7 +29,6 @@ Changes from 4.1.0alpha2 to 4.1.0beta2
 - Fixed bug #14358: runcronjobs does not remove its mutex files
 - Fixed bug #14317: wordmatch.ini used in kernel but only bundled with OE
 - Fixed bug #14409: Wrong URL in RSS feed when URLTranslator is disabled
-- Fixed bug #14029: Enhance the DB-layer to detect if the database connection is lost
 - Fixed bug #13661: ezconvertdbcharset.php implicitly requires UseBuiltinEncoding=false
 - Fixed bug #13674: ezconvertdbcharset.php doesn't convert all datatypes correctly + some other problems
 - Fixed bug #13560: --purge option of ezcache.php does not delete all cache files?

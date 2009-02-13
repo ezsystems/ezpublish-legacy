@@ -78,15 +78,7 @@ class eZMySQLiDB extends eZDBInterface
         /// Connect to master server
         if ( !is_object( $this->DBWriteConnection ) )
         {
-            try
-            {
-                $connection = $this->connect( $this->Server, $this->DB, $this->User, $this->Password, $this->SocketPath, $this->Charset );
-            }
-            catch( eZDBNoConnectionException $e)
-            {
-                eZExecution::cleanExit();
-            }
-
+            $connection = $this->connect( $this->Server, $this->DB, $this->User, $this->Password, $this->SocketPath, $this->Charset );
             if ( $this->IsConnected )
             {
                 $this->DBWriteConnection = $connection;
@@ -98,14 +90,7 @@ class eZMySQLiDB extends eZDBInterface
         {
             if ( $this->UseSlaveServer === true )
             {
-                try
-                {
-                    $connection = $this->connect( $this->SlaveServer, $this->SlaveDB, $this->SlaveUser, $this->SlavePassword, $this->SocketPath, $this->Charset );
-                }
-                catch( eZDBNoConnectionException $e)
-                {
-                    eZExecution::cleanExit();
-                }
+                $connection = $this->connect( $this->SlaveServer, $this->SlaveDB, $this->SlaveUser, $this->SlavePassword, $this->SocketPath, $this->Charset );
             }
             else
             {
@@ -167,7 +152,6 @@ class eZMySQLiDB extends eZDBInterface
 
         if ( !is_object( $connection ) )
         {
-            throw new eZDBNoConnectionException( 'Could not connect to the database, aborting' );
             eZDebug::writeError( "Connection error: Couldn't connect to database. Please try again later or inform the system administrator.\n$dbErrorText", "eZMySQLiDB" );
             $this->IsConnected = false;
         }
