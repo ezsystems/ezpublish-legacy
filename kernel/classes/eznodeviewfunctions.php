@@ -249,6 +249,12 @@ class eZNodeviewfunctions
                                  implode( '.', $discountList ),
                                  eZSys::indexFile() );
 
+        // add access type to cache hash if current access is uri type (so uri and host doesn't share cache)
+        if ( $GLOBALS['eZCurrentAccess']['type'] === EZ_ACCESS_TYPE_URI )
+        {
+            $cacheHashArray[] = EZ_ACCESS_TYPE_URI;
+        }
+
         // Make the cache unique for every logged in user
         if ( $cachedViewSetting === 'pr_user' and !$user->isAnonymous() )
         {
