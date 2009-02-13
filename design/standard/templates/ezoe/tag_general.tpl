@@ -14,7 +14,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {ldelim}
     form: 'EditForm',
     customAttributeStyleMap: {$custom_attribute_style_map},
     cancelButton: 'CancelButton',
-    tagEditTitleText : "{'Edit %tag_name tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', concat('&lt;', $tag_name_alias, '&gt;') ))}"
+    tagEditTitleText: "{'Edit %tag_name tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', concat('&lt;', $tag_name_alias, '&gt;') ))|wash('javascript')}"
 {rdelim} ) );
 
 // -->

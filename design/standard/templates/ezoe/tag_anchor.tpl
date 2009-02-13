@@ -15,7 +15,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {ldelim}
     cancelButton: 'CancelButton',
     customAttributeStyleMap: {$custom_attribute_style_map},
     cssClass: 'mceItemAnchor',
-    tagEditTitleText: "{'Edit %tag_name tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', concat('&lt;', $tag_name_alias, '&gt;') ))}",
+    tagEditTitleText: "{'Edit %tag_name tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', concat('&lt;', $tag_name_alias, '&gt;') ))|wash('javascript')}",
 {literal}
     onInit: function( el, tag, ed )
     {
