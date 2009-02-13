@@ -11,7 +11,7 @@
 
 var ezTagName = '{$tag_name|wash}', ezoeLinkTimeOut = null, slides = 0, eZSelectedLinkNode = {ldelim}'object_id': '', 'node_id': '', 'name': '' {rdelim};
 eZOEPopupUtils.settings.customAttributeStyleMap = {$custom_attribute_style_map};
-eZOEPopupUtils.settings.tagEditTitleText = "{'Edit %tag_name tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', concat('&lt;', $tag_name_alias, '&gt;') ))}";
+eZOEPopupUtils.settings.tagEditTitleText = "{'Edit %tag_name tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', concat('&lt;', $tag_name_alias, '&gt;') ))|wash('javascript')}";
 {literal}
 
 eZOEPopupUtils.ajaxLink = ez.ajax( { 'charset': 'UTF-8' } );
