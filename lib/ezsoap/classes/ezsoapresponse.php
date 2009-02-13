@@ -87,6 +87,14 @@ class eZSOAPResponse extends eZSOAPEnvelope
             // get the response
             $response = $dom->getElementsByTagNameNS( $request->namespace(), $request->name() . "Response" );
 
+            /* Some protocols do not use namespaces, and do not work with an empty namespace.
+            So, if we get no response, try again without namespace.
+            */
+            if ( $response->length == 0 )
+            {
+                $response = $dom->getElementsByTagName( $request->name() . "Response" );
+            }
+
             $response = $response->item(0);
 
             if ( !empty( $response ) )
@@ -217,7 +225,7 @@ TODO: add encoding checks with schema validation.
             {
                 foreach ( $node->childNodes as $childNode )
                 {
-                    if ( $child instanceof DOMElement )
+                    if ( $childNode instanceof DOMElement )
                     {
                         // check data type for child
                         $attr = $childNode->getAttributeNodeNS( eZSOAPEnvelope::SCHEMA_INSTANCE, 'type' )->value;
@@ -226,8 +234,7 @@ TODO: add encoding checks with schema validation.
                         $attrParts = explode( ":", $attr );
                         $dataType = $attrParts[1];
 
-
-                        $returnValue[$childNode->name()] = eZSOAPResponse::decodeDataTypes( $childNode );
+                        $returnValue[$childNode->tagName] = eZSOAPResponse::decodeDataTypes( $childNode );
                     }
                 }
 
