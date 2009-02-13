@@ -181,6 +181,38 @@ foreach ( $nonUniqueRemoteIDDataList as $nonUniqueRemoteIDData )
     $cli->output( '' );
 }
 
+$nonUniqueRemoteIDDataList = $db->arrayQuery( 'SELECT id FROM ezcontentobject WHERE remote_id = ""' );
+
+$nonUniqueRemoteIDDataListCount = count( $nonUniqueRemoteIDDataList );
+
+$cli->output( '' );
+$cli->output( "Found $nonUniqueRemoteIDDataListCount content objects with empty remote IDs." );
+$cli->output( '' );
+
+if ( $nonUniqueRemoteIDDataListCount )
+{
+    $cli->output( 'Fixing', false );
+
+    foreach ( $nonUniqueRemoteIDDataList as $nonUniqueRemoteIDData )
+    {
+        // fetch objects with eZPersistentObject to avoid object cache
+        $contentObjects = eZPersistentObject::fetchObjectList( eZContentObject::definition(),
+                                                               null,
+                                                               array( 'id' => $nonUniqueRemoteIDData['id'] ),
+                                                               array( 'status' => 'desc', 'published' => 'asc' ) );
+        foreach ( $contentObjects as $i => $contentObject )
+        {
+            $newRemoteID = md5( (string)mt_rand() . (string)time() );
+            $contentObject->setAttribute( 'remote_id', $newRemoteID );
+            $contentObject->store();
+        }
+    
+        ++$totalCount;
+        $cli->output( '.', false );
+    }
+}
+
+$cli->output( '' );
 $cli->output( "Number of content objects that received a new remote ID : $totalCount" );
 
 $script->shutdown( 0 );
