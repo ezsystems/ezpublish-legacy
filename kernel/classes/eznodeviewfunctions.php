@@ -248,6 +248,12 @@ class eZNodeviewfunctions
                                  implode( '.', $discountList ),
                                  eZSys::indexFile() );
 
+        // add access type to cache hash if current access is uri (so uri and host doesn't share cache)
+        if ( $GLOBALS['eZCurrentAccess']['type'] === EZ_ACCESS_TYPE_URI )
+        {
+            $cacheHashArray[] = EZ_ACCESS_TYPE_URI;
+        }
+
         // Make the cache unique for every case of view parameters
         if ( $viewParameters )
         {
