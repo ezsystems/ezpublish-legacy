@@ -651,8 +651,10 @@ ez.element.eZextensions.prototype = {
           {
             case 'opacity':
                 // IE uses filter for opacity, if it is not set it means that there is no opacity on the element
-                if ( el.filters !== undefined ) r = el.filters['alpha'] ? el.filters['alpha'].opacity / 100 : 1;
-                else r = 0;
+                r = 0;
+                try { // Using try since some ie installations produces js errors on "el.filters"
+                    if ( el.filters !== undefined ) r = el.filters['alpha'] ? el.filters['alpha'].opacity / 100 : 1;
+                } catch(e) {}
                 break;
             case 'display':
                 r = 'none';
