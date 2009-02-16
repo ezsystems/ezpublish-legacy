@@ -149,6 +149,8 @@
         });
 
         // fix anchor only urls on IE (it adds the current url before the anchor)
+        // and since the current url is content/edit/something, it is highly
+        // unlikly that any ones links to it..
         ez.array.forEach( body.getElementsByTagName('a'), function( node ){
             if ( node && node.href.indexOf('#') > 0 )
             {
