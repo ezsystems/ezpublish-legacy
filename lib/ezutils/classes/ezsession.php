@@ -153,23 +153,25 @@ class eZSession
      * Reads the session data from the database for a specific session id
      *
      * @param string $sessionId
-     * @return string|false Returns false if session doesn't exits
+     * @return string|false Returns false if session doesn't exits, string in php session format if it does.
      */
     static public function read( $sessionId )
     {
-        return self::__read( $sessionId, false );
+        return self::internalRead( $sessionId, false );
     }
 
     /**
      * Internal function that reads the session data from the database, this function
      * is registered as session_read handler in {@link eZSession::registerFunctions()}
+     * Note: user will be "kicked out" as in get a new session id if {@link self::getUserSessionHash()} does
+     * not equals to the existing user_hash unless the user_hash is empty.
      *
      * @access private
      * @param string $sessionId
      * @param bool $isCurrentUserSession
      * @return string|false Returns false if session doesn't exits
      */
-    static public function __read( $sessionId, $isCurrentUserSession = true )
+    static public function internalRead( $sessionId, $isCurrentUserSession = true )
     {
         $db = eZDB::instance();
         $escKey = $db->escapeString( $sessionId );
@@ -182,7 +184,6 @@ class eZSession
             {
                 if ( $sessionRes[0]['user_hash'] && $sessionRes[0]['user_hash'] != self::getUserSessionHash() )
                 {
-                    // Kick user out by generating new session id
                     self::regenerate( false );
                     self::$userID = 0;
                     return false;
@@ -208,11 +209,11 @@ class eZSession
      * Inserts|Updates the session data in the database for a specific session id
      *
      * @param string $sessionId
-     * @param string $value session data
+     * @param string $value session data (in php session data format)
      */
     static public function write( $sessionId, $value )
     {
-        return self::__write( $sessionId, $value, false );
+        return self::internalWrite( $sessionId, $value, false );
     }
 
     /**
@@ -224,7 +225,7 @@ class eZSession
      * @param string $value session data
      * @param bool $isCurrentUserSession
      */
-    static public function __write( $sessionId, $value, $isCurrentUserSession = true )
+    static public function internalWrite( $sessionId, $value, $isCurrentUserSession = true )
     {
         if ( isset( $GLOBALS['eZRequestError'] ) && $GLOBALS['eZRequestError'] )
         {
@@ -376,8 +377,8 @@ class eZSession
         session_set_save_handler(
             array('eZSession', 'open'),
             array('eZSession', 'close'),
-            array('eZSession', '__read'),
-            array('eZSession', '__write'),
+            array('eZSession', 'internalRead'),
+            array('eZSession', 'internalWrite'),
             array('eZSession', 'destroy'),
             array('eZSession', 'garbageCollector')
             );
@@ -425,32 +426,26 @@ class eZSession
     }
 
     /**
-     * Gets/generates the user hash for use in validating the session.
+     * Gets/generates the user hash for use in validating the session based on [Session]
+     * SessionValidation* site.ini settings.
      * 
      * @return string Returns md5 hash based on parts of the user ip and agent string.
      */
     static public function getUserSessionHash()
     {
-        // Generate user_hash based on site.ini settings
         if ( self::$userSessionHash === null )
         {
-            function ezsessionIp( $ip, $parts = 2 )
-            {
-                $parts = $parts > 4 ? 4 : $parts;
-                $ip = strpos( $ip, ':' ) === false ? explode( '.', $ip ) : explode( ':', $ip );
-                return implode('-', array_slice( $ip, 0, $parts ) );
-            }
             $ini = eZINI::instance();
             $sessionValidationString = '';
             $sessionValidationIpParts = (int) $ini->variable( 'Session', 'SessionValidationIpParts' );
             if ( $sessionValidationIpParts )
             {
-                $sessionValidationString .= ezsessionIp( $_SERVER['REMOTE_ADDR'], $sessionValidationIpParts );
+                $sessionValidationString .= self::getIpPart( $_SERVER['REMOTE_ADDR'], $sessionValidationIpParts );
             }
             $sessionValidationForwardedIpParts = (int) $ini->variable( 'Session', 'SessionValidationForwardedIpParts' );
             if ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) && $sessionValidationForwardedIpParts )
             {
-                $sessionValidationString .= '-' . ezsessionIp( $_SERVER['HTTP_X_FORWARDED_FOR'], $sessionValidationForwardedIpParts );
+                $sessionValidationString .= '-' . self::getIpPart( $_SERVER['HTTP_X_FORWARDED_FOR'], $sessionValidationForwardedIpParts );
             }
             if ( $ini->variable( 'Session', 'SessionValidationUseUA' ) === 'enabled' )
             {
@@ -460,7 +455,22 @@ class eZSession
         }
         return self::$userSessionHash;
     }
-        
+
+    /**
+     * Gets part of a ipv4/ipv6 address, used internally by {@link eZSession::getUserSessionHash()} 
+     * 
+     * @access protected
+     * @param string $ip IPv4 or IPv6 format
+     * @param int $parts number from 0-4
+     * @return string returns part of a ip imploded with '-' for use as a hash.
+     */
+    static protected function getIpPart( $ip, $parts = 2 )
+    {
+        $parts = $parts > 4 ? 4 : $parts;
+        $ip = strpos( $ip, ':' ) === false ? explode( '.', $ip ) : explode( ':', $ip );
+        return implode('-', array_slice( $ip, 0, $parts ) );
+    }
+
     /**
      * Writes session data and stops the session, if not already stopped.
      * 
