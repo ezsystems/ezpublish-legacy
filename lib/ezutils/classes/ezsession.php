@@ -184,6 +184,7 @@ class eZSession
             {
                 if ( $sessionRes[0]['user_hash'] && $sessionRes[0]['user_hash'] != self::getUserSessionHash() )
                 {
+                    eZDebug::writeNotice( 'User ('. $sessionRes[0]['user_id'] .') hash did not match, regenerating session id for the user to avoid potentially hijack session attempt.', 'eZSession::internalRead' );
                     self::regenerate( false );
                     self::$userID = 0;
                     return false;
@@ -508,6 +509,12 @@ class eZSession
         }
         if ( !function_exists( 'session_regenerate_id' ) )
         {
+            return false;
+        }
+        if ( headers_sent() )
+        {
+            if ( PHP_SAPI !== 'cli' )
+                eZDebug::writeWarning( 'Could not regenerate session id, HTTP headers already sent.', 'eZSession::regenerate' );
             return false;
         }
 
