@@ -400,8 +400,6 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
         return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel', array() );
     $objectID = $object->attribute( 'id' );
     $objectVersion = $object->attribute( 'current_version' );
-    $class = $object->contentClass();
-    $classID = $class->attribute( 'id' );
 
     if ( $module->hasActionParameter( 'NewNode' ) )
     {
@@ -463,15 +461,29 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
         return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel', array() );
     }
 
+    $db = eZDB::instance();
+    $db->begin();
+
     // exchange contentobject ids and versions.
     $node->setAttribute( 'contentobject_id', $selectedObjectID );
     $node->setAttribute( 'contentobject_version', $selectedObjectVersion );
 
-    $db = eZDB::instance();
-    $db->begin();
-    $node->store();
     $selectedNode->setAttribute( 'contentobject_id', $objectID );
     $selectedNode->setAttribute( 'contentobject_version', $objectVersion );
+
+    // fix main node id
+    if ( $node->isMain() && !$selectedNode->isMain() )
+    {
+        $node->setAttribute( 'main_node_id', $selectedNode->attribute( 'main_node_id' ) );
+        $selectedNode->setAttribute( 'main_node_id', $selectedNode->attribute( 'node_id' ) );
+    }
+    else if ( $selectedNode->isMain() && !$node->isMain() )
+    {
+        $selectedNode->setAttribute( 'main_node_id', $node->attribute( 'main_node_id' ) );
+        $node->setAttribute( 'main_node_id', $node->attribute( 'node_id' ) );
+    }
+
+    $node->store();
     $selectedNode->store();
 
     // clear user policy cache if this was a user object
@@ -487,7 +499,7 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
     $changedTargetNode->updateSubTreePath();
 
     // modify section
-    if ( $changedOriginalNode->attribute( 'main_node_id' ) == $changedOriginalNode->attribute( 'node_id' ) )
+    if ( $changedOriginalNode->isMain() )
     {
         $changedOriginalObject = $changedOriginalNode->object();
         $parentObject = $nodeParent->object();
@@ -499,7 +511,7 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
                                                              $changedOriginalObject->attribute( 'section_id' ) );
         }
     }
-    if ( $changedTargetNode->attribute( 'main_node_id' ) == $changedTargetNode->attribute( 'node_id' ) )
+    if ( $changedTargetNode->isMain() )
     {
         $changedTargetObject = $changedTargetNode->object();
         $selectedParentObject = $selectedNodeParent->object();

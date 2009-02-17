@@ -41,3 +41,4 @@ Changes from 4.1.0alpha2 to 4.1.0beta2
 - Fixed bug #13346: Warnings with NodeTreeCaching=enabled
 - Fixed bug #11756: fatal error in bin\php\ezconvertmysqltabletype.php
 - Fixed bug #14458: Viewcache cachehash does not include siteaccess type (uri/host..)
+- Fixed bug #14465: Swap node does not fix main node assignement
