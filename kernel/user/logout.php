@@ -38,7 +38,14 @@ $user->logoutCurrent();
 $http->setSessionVariable( 'force_logout', 1 );
 
 $ini = eZINI::instance();
-$redirectURL = $ini->variable( 'UserSettings', 'LogoutRedirect' );
+if ( $ini->variable( 'UserSettings', 'RedirectOnLogoutWithLastAccessURI' ) == 'enabled' && $http->hasSessionVariable( 'LastAccessesURI'))
+{
+    $redirectURL = $http->sessionVariable( "LastAccessesURI" );
+}
+else
+{
+    $redirectURL = $ini->variable( 'UserSettings', 'LogoutRedirect' );
+}
 
 return $Module->redirectTo( $redirectURL );
 
