@@ -7,7 +7,7 @@
  * @package tests
  */
 
-class eZContentObjectStateTest extends PHPUnit_Framework_TestCase
+class eZContentObjectStateTest extends ezpDatabaseTestCase
 {
     public function providerCreateWithInvalidIdentifier()
     {
