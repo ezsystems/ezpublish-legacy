@@ -15,6 +15,7 @@ Changes from 4.1.0alpha2 to 4.1.0beta2
 - Implemented enhancement #13027: Allow template overrides based on remote_id
 - Implemented enhancement #14264: Improve security by regenerating session id on login
 - Implemented enhancement #9275: Logout should redirect like login  
+- Implemented enhancement #12878: Missing log-message if SMTP-Connection failed
 
 *Design:
 
