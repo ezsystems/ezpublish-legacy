@@ -108,7 +108,10 @@ class eZSMTPTransport extends eZMailTransport
             $smtp->quit();
         }
         else
+        {
+            eZDebug::writeError( 'Unable to connect to SMTP server ' . $parameters['host'], 'error.log', __METHOD__ );
             $mailSent = false;
+        }
         return $mailSent;
     }
 }
