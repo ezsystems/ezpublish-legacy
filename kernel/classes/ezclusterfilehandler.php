@@ -44,21 +44,22 @@ class eZClusterFileHandler
         if ( !isset( $GLOBALS['eZClusterFileHandler_chosen_handler_class'] ) )
         {
             $fileINI = eZINI::instance( 'file.ini' );
-            $handlerName = 'ezfs';
+            $handlerName = 'eZFS';
             if ( $fileINI->hasVariable( 'ClusteringSettings', 'FileHandler' ) )
                 $handlerName = $fileINI->variable( 'ClusteringSettings', 'FileHandler' );
+
+            $handlerName = self::updateHandlerNameCase( $handlerName );
 
             // Create list of directories used to search cluster file handlers for.
             $searchPathArray = eZClusterFileHandler::searchPathArray();
 
             // Find chosen handler.
-            $handlerClass = $handlerName . 'filehandler';
+            $handlerClass = $handlerName . 'FileHandler';
             foreach ( $searchPathArray as $searchPath )
             {
                 $includeFileName = $searchPath . '/' . $handlerClass . '.php';
                 if ( is_readable( $includeFileName ) )
                 {
-                    include_once( $includeFileName );
                     $GLOBALS['eZClusterFileHandler_chosen_handler_class'] = $handlerClass;
                     break;
                 }
@@ -104,7 +105,8 @@ class eZClusterFileHandler
         if ( !isset( $GLOBALS['eZClusterFileHandler_search_path_array'] ) )
         {
             $fileINI = eZINI::instance( 'file.ini' );
-            $searchPathArray = array( 'kernel/classes/clusterfilehandlers' );
+            $searchPathArray = array( 'kernel/classes/clusterfilehandlers',
+                                      'kernel/private/classes/clusterfilehandlers' );
             if ( $fileINI->hasVariable( 'ClusteringSettings', 'ExtensionDirectories' ) )
             {
                 $extensionDirectories = $fileINI->variable( 'ClusteringSettings', 'ExtensionDirectories' );
@@ -121,6 +123,30 @@ class eZClusterFileHandler
         }
 
         return $GLOBALS['eZClusterFileHandler_search_path_array'];
+    }
+
+    /**
+     *  Change the handler name's case to work
+     *  with the new Autoload system
+     *
+     *  Three options here :
+     *   - ezfs
+     *   - ezfs2
+     *   - ezdb
+     *
+     *  Since class names or case sensitive
+     *  we have to modify the handler name to
+     *  be like this :
+     *   - eZFS
+     *   - eZFS2
+     *   - eZDB
+     *
+     * @param string $handlerName
+     * @return string
+     */
+    private static function updateHandlerNameCase( $handlerName )
+    {
+        return  'e' . strtoupper( substr( $handlerName, 1 ) );
     }
 }
 
