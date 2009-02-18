@@ -24,6 +24,8 @@ class eZContentObjectStateGroupTest extends PHPUnit_Framework_TestCase
     {
         $row = array( 'identifier' => $identifier );
         $stateGroup = new eZContentObjectStateGroup( $row );
+        $trans = $stateGroup->translationByLocale( 'eng-GB' );
+        $trans->setAttribute( 'name', $identifier );
         $messages = array();
         $this->assertFalse( $stateGroup->isValid( $messages ), "Invalid state group identifier '$identifier' was accepted" );
     }
@@ -43,6 +45,8 @@ class eZContentObjectStateGroupTest extends PHPUnit_Framework_TestCase
     {
         $row = array( 'identifier' => $identifier );
         $stateGroup = new eZContentObjectStateGroup( $row );
+        $trans = $stateGroup->translationByLocale( 'eng-GB' );
+        $trans->setAttribute( 'name', $identifier );
         $messages = array();
         $this->assertTrue( $stateGroup->isValid( $messages ), "Valid state group identifier '$identifier' was refused" );
     }

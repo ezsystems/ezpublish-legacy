@@ -23,9 +23,11 @@ class eZContentObjectStateTest extends PHPUnit_Framework_TestCase
     public function testCreateWithInvalidIdentifier( $identifier )
     {
         $row = array( 'identifier' => $identifier );
-        $State = new eZContentObjectState( $row );
+        $state = new eZContentObjectState( $row );
+        $trans = $state->translationByLocale( 'eng-GB' );
+        $trans->setAttribute( 'name', $identifier );
         $messages = array();
-        $this->assertFalse( $State->isValid( $messages ), "Invalid state identifier '$identifier' was accepted" );
+        $this->assertFalse( $state->isValid( $messages ), "Invalid state identifier '$identifier' was accepted" );
     }
 
     public function providerCreateWithvalidIdentifier()
@@ -42,9 +44,11 @@ class eZContentObjectStateTest extends PHPUnit_Framework_TestCase
     public function testCreateWithvalidIdentifier( $identifier )
     {
         $row = array( 'identifier' => $identifier );
-        $State = new eZContentObjectState( $row );
+        $state = new eZContentObjectState( $row );
+        $trans = $state->translationByLocale( 'eng-GB' );
+        $trans->setAttribute( 'name', $identifier );
         $messages = array();
-        $this->assertTrue( $State->isValid( $messages ), "Valid state identifier '$identifier' was refused" );
+        $this->assertTrue( $state->isValid( $messages ), "Valid state identifier '$identifier' was refused" );
     }
 
     public static function suite()
