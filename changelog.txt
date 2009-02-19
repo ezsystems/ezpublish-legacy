@@ -2,6 +2,7 @@ eZ Online Editor 5.0 extension Changelog
 
 5.0rc13
 * Fixed regression #13650: [header] ezoe adds a level each time it is called
+* Added note on unsupported TinyMCE buttons/ extensions in FAQ + ezoe.ini
 
 5.0rc12
 * Fixed bug #14260: content.ini.[paragraph].AllowEmpty=false is ignored
