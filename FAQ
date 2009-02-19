@@ -125,7 +125,7 @@ Only buttons / extensions mentioned in ezoe.ini are tested and therefor supporte
 Online Editor. Why?
 The is because OE uses ezxml as storage, so not everything in xhtml is supported directly,
 this is on purpose to have a strict separation between content and presentation, and will
-save you / us a lot of grief later when you want to import / export content to other
+save you / others a lot of grief later when you want to import / export content to other
 solutions since the content in clean xml.
 So use classes, custom attributes or custom tags to extend your ezxml content, this is what
 they are meant for. And most fancy (color|font|...) functionality in TinyMCE would have to
