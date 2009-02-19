@@ -1186,7 +1186,7 @@ class eZContentFunctionCollection
     }
 
     // Fetches reverse related objects
-    function fetchRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy, $limit = false, $offset = false, $asObject = true, $loadDataMap = false )
+    function fetchRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy, $limit = false, $offset = false, $asObject = true, $loadDataMap = false, $ignoreVisibility = null )
     {
         if ( !$objectID )
         {
@@ -1210,6 +1210,12 @@ class eZContentFunctionCollection
                 eZDebug::writeError( "Function parameter 'SortBy' should be an array.", 'content/fetchRelatedObjects' );
             }
         }
+
+        if ( isset( $ignoreVisibility ) )
+        {
+            $params['IgnoreVisibility'] = $ignoreVisibility;
+        }
+
         if ( !$attributeID )
         {
             $attributeID = 0;

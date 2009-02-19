@@ -16,6 +16,7 @@ Changes from 4.1.0alpha2 to 4.1.0beta1
 - Implemented enhancement #14264: Improve security by regenerating session id on login
 - Implemented enhancement #9275: Logout should redirect like login  
 - Implemented enhancement #12878: Missing log-message if SMTP-Connection failed
+- Implemented enhancement #12880: fetch related object - don't use ignore visiblity
 
 *Design:
 
