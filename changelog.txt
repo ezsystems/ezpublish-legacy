@@ -24,7 +24,7 @@ eZ Online Editor 5.0 extension Changelog
 * Alignment support for eZ Publish 4.1 (including all justify* buttons)
 * Fixed bug #14222: Custom tag removes inline tags
 * Fixed bug #14241: Inconsistent block cutom tag size in editor
-* Added possiblity to browse from 'this' node, and use i18n() on word 'this'
+* Added possibility to browse from 'this' node, and use i18n() on word 'this'
 * Properly support eznode://path/to/node on link tags (bug from ezdhtml) fix from Jan Kudlica
 
 5.0rc10
@@ -44,7 +44,7 @@ eZ Online Editor 5.0 extension Changelog
 * Switched from using site.ini [MediaClassSettings]ImageClassIdentifiers[] to
   the setting already used by eZ Publish: content.ini [RelationGroupSettings]ImagesClassList[]
   Note: You need to change your settings as a result from this
-* Added file button, and use 1 tempalte pr content type in upload and realated dialog.
+* Added file button, and use 1 template pr content type in upload and related dialog.
   Note: New i18n strings in upload_* and tag_embed_* templates!
 * updated to TinyMCE 3.2.1
 * Misc i18n bugs fixed in pol-PL and nor-NO
@@ -72,10 +72,10 @@ eZ Online Editor 5.0 extension Changelog
 * Do not convert u tag to custom:underline tag if underline custom tag isn't enabled
   To make sure only tag is removed and not content of the tag as well.
 * Fixed #13694: Change td to th for "row" doesn't work with Firefox
-* Fixed #13692: Checkboxes and radio buttons have a border with IE7
+* Fixed #13692: Check boxes and radio buttons have a border with IE7
 * Additional fixes for #013505: Anchor in links are lost
 * Moved custom attribute settings to ezoe_customattributes.ini from content.ini
-* Misc WAI and usability improvments to the dialogs reported by customers
+* Misc WAI and usability improvements to the dialogs reported by customers
   NOTE: This introduced several new strings, see .ts files for type="unfinished"
 
 
