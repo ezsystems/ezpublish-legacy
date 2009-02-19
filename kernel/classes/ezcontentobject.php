@@ -443,7 +443,6 @@ class eZContentObject extends eZPersistentObject
     */
     function setName( $objectName, $versionNum = false, $languageCode = false )
     {
-        $backtrace = debug_backtrace();
         $initialLanguageCode = false;
         if ( $initialLanguage = $this->initialLanguage() )
         {
