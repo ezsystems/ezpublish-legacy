@@ -1,4 +1,4 @@
-Changes from 4.1.0alpha2 to 4.1.0beta2
+Changes from 4.1.0alpha2 to 4.1.0beta1
 
 *Kernel:
 - Implemented enhancement #13410: Don't do a url alias lookup for redirects to modules
