@@ -17,6 +17,7 @@ Changes from 4.1.0alpha2 to 4.1.0beta1
 - Implemented enhancement #9275: Logout should redirect like login  
 - Implemented enhancement #12878: Missing log-message if SMTP-Connection failed
 - Implemented enhancement #12880: fetch related object - don't use ignore visiblity
+- Implemented enhancement #11675: ezcontentobject - mysql query optimization
 
 *Design:
 
