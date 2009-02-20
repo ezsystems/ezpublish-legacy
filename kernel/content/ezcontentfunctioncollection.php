@@ -1186,7 +1186,7 @@ class eZContentFunctionCollection
     }
 
     // Fetches reverse related objects
-    function fetchRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy, $limit = false, $offset = false, $asObject = true, $loadDataMap = false, $ignoreVisibility = null )
+    function fetchRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy, $limit = false, $offset = false, $asObject = true, $loadDataMap = false, $ignoreVisibility )
     {
         if ( !$objectID )
         {
