@@ -1743,8 +1743,12 @@ class eZContentObject extends eZPersistentObject
                      SET contentobject_id = 0
                      WHERE  contentobject_id = ' . $delID );
 
+        // Cleanup relations in two steps to avoid locking table for to long
         $db->query( "DELETE FROM ezcontentobject_link
-             WHERE from_contentobject_id = '$delID' OR to_contentobject_id = '$delID'" );
+                     WHERE from_contentobject_id = '$delID'" );
+
+        $db->query( "DELETE FROM ezcontentobject_link  
+                     WHERE to_contentobject_id = '$delID'" );
 
         // Cleanup properties: LastVisit, Creator, Owner
         $db->query( "DELETE FROM ezuservisit
