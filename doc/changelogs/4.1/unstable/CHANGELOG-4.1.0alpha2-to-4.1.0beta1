@@ -46,3 +46,4 @@ Changes from 4.1.0alpha2 to 4.1.0beta1
 - Fixed bug #14458: Viewcache cachehash does not include siteaccess type (uri/host..)
 - Fixed bug #14465: Swap node does not fix main node assignement
 - Fixed bug #14499: Remove leftover debug-code in eZContentObject->setName()
+- Fixed bug #12801: shop/basket.php: Variable $item is used multiple times.

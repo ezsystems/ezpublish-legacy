@@ -71,7 +71,7 @@ if ( $http->hasPostVariable( "RemoveProductItemButton" ) )
     if ( is_array( $itemCountList ) && is_array( $itemIDList ) && count( $itemCountList ) == count( $itemIDList ) && is_object( $basket ) )
     {
         $productCollectionID = $basket->attribute( 'productcollection_id' );
-        $item = $http->postVariable( "RemoveProductItemButton" );
+        $removeItem = $http->postVariable( "RemoveProductItemButton" );
         if ( $http->hasPostVariable( "RemoveProductItemDeleteList" ) )
             $itemList = $http->postVariable( "RemoveProductItemDeleteList" );
         else
@@ -94,15 +94,15 @@ if ( $http->hasPostVariable( "RemoveProductItemButton" ) )
                 }
                 else
                 {
-                    if ( ( is_numeric( $item ) and $id != $item ) or ( is_array( $itemList ) and !in_array( $id, $itemList ) ) )
+                    if ( ( is_numeric( $removeItem ) and $id != $removeItem ) or ( is_array( $itemList ) and !in_array( $id, $itemList ) ) )
                         $itemCountError = true;
                 }
             }
             $i++;
         }
-        if ( is_numeric( $item )  )
+        if ( is_numeric( $removeItem )  )
         {
-            $basket->removeItem( $item );
+            $basket->removeItem( $removeItem );
         }
         else
         {
