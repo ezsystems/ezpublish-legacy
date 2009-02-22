@@ -6010,6 +6010,13 @@ $schema = array (
         'not_null' => '1',
         'default' => 0,
       ),
+      'user_hash' => 
+      array (
+        'length' => 32,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
     ),
     'indexes' => 
     array (
