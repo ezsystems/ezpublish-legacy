@@ -55,7 +55,20 @@ function sectionEditActionCheck( $module, $class, $object, $version, $contentObj
                     {
                         foreach ( $assignedNodes as $node )
                         {
-                            eZContentObjectTreeNode::assignSectionToSubTree( $node->attribute( 'node_id' ), $selectedSectionID );
+                            if ( eZContentOperationCollection::operationIsAvailable( 'content_updatesection' ) )
+                            {
+                                $operationResult = eZOperationHandler::execute( 'content',
+                                                                                'updatesection',
+                                                                                array( 'node_id'             => $node->attribute( 'node_id' ),
+                                                                                       'selected_section_id' => $selectedSectionID ),
+                                                                                null,
+                                                                                true );
+
+                            }
+                            else
+                            {
+                                eZContentOperationCollection::updateSection( $node->attribute( 'node_id' ), $selectedSectionID );
+                            }
                         }
                     }
                     else

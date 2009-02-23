@@ -94,7 +94,19 @@ if ( $http->hasSessionVariable( 'HideRemoveConfirmation' ) )
 if ( $http->hasPostVariable( "ConfirmButton" ) or
      $hideRemoveConfirm )
 {
-    eZContentObjectTreeNode::removeSubtrees( $deleteIDArray, $moveToTrash );
+    if ( eZContentOperationCollection::operationIsAvailable( 'content_delete' ) )
+    {
+        $operationResult = eZOperationHandler::execute( 'content',
+                                                        'delete',
+                                                         array( 'node_id_list' => $deleteIDArray,
+                                                                'move_to_trash' => $moveToTrash ),
+                                                          null, true );
+    }
+    else
+    {
+        eZContentOperationCollection::deleteObject( $deleteIDArray, $moveToTrash );
+    }
+
     return $Module->redirectToView( 'view', array( $viewMode, $contentNodeID, $contentLanguage ) );
 }
 
@@ -106,6 +118,7 @@ $deleteResult       = $info['delete_list'];
 $moveToTrashAllowed = $info['move_to_trash'];
 $totalChildCount    = $info['total_child_count'];
 $exceededLimit      = false;
+$deleteNodeArray    = array();
 
 // Check if number of nodes being removed not more then MaxNodesRemoveSubtree setting.
 $maxNodesRemoveSubtree = $contentINI->hasVariable( 'RemoveSettings', 'MaxNodesRemoveSubtree' ) ?
@@ -116,6 +129,7 @@ $deleteItemsExist = true; // If false, we should disable 'OK' button if count of
 foreach ( array_keys( $deleteResult ) as $removeItemKey )
 {
     $removeItem =& $deleteResult[$removeItemKey];
+    $deleteNodeArray[] = $removeItem['node'];
     if ( $removeItem['child_count'] > $maxNodesRemoveSubtree )
     {
         $removeItem['exceeded_limit_of_subitems'] = true;
@@ -153,7 +167,20 @@ if ( $totalChildCount == 0 )
     }
     if ( $canRemove )
     {
-        eZContentObjectTreeNode::removeSubtrees( $deleteIDArray, $moveToTrash );
+        if ( eZContentOperationCollection::operationIsAvailable( 'content_removelocation' ) )
+        {
+            $operationResult = eZOperationHandler::execute( 'content',
+                                                            'removelocation',
+                                                             array( 'node_id' => $contentNodeID,
+                                                                    'object_id' => $contentObjectID,
+                                                                    'node_list' => $deleteNodeArray,
+                                                                    'move_to_trash' => $moveToTrash ),
+                                                              null, true );
+        }
+        else
+        {
+            eZContentOperationCollection::removeAssignment( $contentNodeID, $contentObjectID, $deleteNodeArray, $moveToTrash );
+        }
         return $Module->redirectToView( 'view', array( $viewMode, $contentNodeID, $contentLanguage ) );
     }
 }

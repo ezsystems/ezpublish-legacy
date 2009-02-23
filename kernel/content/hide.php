@@ -36,10 +36,17 @@ if ( !$curNode )
 if ( !$curNode->attribute( 'can_hide' ) )
     return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
-if ( $curNode->attribute( 'is_hidden' ) )
-    eZContentObjectTreeNode::unhideSubTree( $curNode );
+if ( eZContentOperationCollection::operationIsAvailable( 'content_hide' ) )
+{
+    $operationResult = eZOperationHandler::execute( 'content',
+                                                    'hide',
+                                                     array( 'node_id' => $NodeID ),
+                                                     null, true );
+}
 else
-    eZContentObjectTreeNode::hideSubTree( $curNode );
+{
+    eZContentOperationCollection::changeHideStatus( $NodeID );
+}
 
 
 $hasRedirect = eZRedirectManager::redirectTo( $Module, false );

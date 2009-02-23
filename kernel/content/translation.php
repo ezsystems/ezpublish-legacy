@@ -84,26 +84,18 @@ if ( $module->isCurrentAction( 'UpdateInitialLanguage' ) )
             return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel', array() );
         }
 
-        $language = eZContentLanguage::fetch( $newInitialLanguageID );
-        if ( $language && !$language->attribute( 'disabled' ) )
+        if ( eZContentOperationCollection::operationIsAvailable( 'content_updateinitiallanguage' ) )
         {
-            $object->setAttribute( 'initial_language_id', $newInitialLanguageID );
-            $objectName = $object->name( false, $language->attribute( 'locale' ) );
-            $object->setAttribute( 'name', $objectName );
-            $object->store();
-
-            if ( $object->isAlwaysAvailable() )
-            {
-                $object->setAlwaysAvailableLanguageID( $newInitialLanguageID );
-            }
-
-            $nodes = $object->assignedNodes();
-            foreach ( $nodes as $node )
-            {
-                $node->updateSubTreePath();
-            }
-
-            eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
+            $operationResult = eZOperationHandler::execute( 'content', 'updateinitiallanguage',
+                                                            array( 'object_id'               => $objectID,
+                                                                   'new_initial_language_id' => $newInitialLanguageID,
+                                                                   // note : the $nodeID parameter is ignored here but is
+                                                                   // provided for events that need it
+                                                                   'node_id'                 => $nodeID ) );
+        }
+        else
+        {
+            eZContentOperationCollection::updateInitialLanguage( $objectID, $newInitialLanguageID );
         }
     }
 
@@ -118,15 +110,18 @@ else if ( $module->isCurrentAction( 'UpdateAlwaysAvailable' ) )
 
     $newAlwaysAvailable = $module->hasActionParameter( 'AlwaysAvailable' );
 
-    if ( $object->isAlwaysAvailable() & $newAlwaysAvailable == false )
+    if ( eZContentOperationCollection::operationIsAvailable( 'content_updatealwaysavailable' ) )
     {
-        $object->setAlwaysAvailableLanguageID( false );
-        eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
+        $operationResult = eZOperationHandler::execute( 'content', 'updatealwaysavailable',
+                                                        array( 'object_id'            => $objectID,
+                                                               'new_always_available' => $newAlwaysAvailable,
+                                                               // note : the $nodeID parameter is ignored here but is
+                                                               // provided for events that need it
+                                                               'node_id'              => $nodeID ) );
     }
-    else if ( !$object->isAlwaysAvailable() & $newAlwaysAvailable == true )
+    else
     {
-        $object->setAlwaysAvailableLanguageID( $object->attribute( 'initial_language_id' ) );
-        eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
+        eZContentOperationCollection::updateAlwaysAvailable( $objectID, $newAlwaysAvailable );
     }
 
     return $module->redirectToView( 'view', array( $viewMode, $nodeID, $languageCode ) );
@@ -142,18 +137,20 @@ else if ( $module->isCurrentAction( 'RemoveTranslation' ) )
 
     if ( $module->hasActionParameter( 'ConfirmRemoval' ) && $module->actionParameter( 'ConfirmRemoval' ) )
     {
-        foreach( $languageIDArray as $languageID )
+        if ( eZContentOperationCollection::operationIsAvailable( 'content_removetranslation' ) )
         {
-            if ( !$object->removeTranslation( $languageID ) )
-            {
-                eZDebug::writeError( "Object with id $objectID: cannot remove the translation with language id $languageID!",
-                                     'content/translation' );
-            }
+            $operationResult = eZOperationHandler::execute( 'content', 'removetranslation',
+                                                            array( 'object_id'        => $objectID,
+                                                                   'language_id_list' => $languageIDArray,
+                                                                   // note : the $nodeID parameter is ignored here but is
+                                                                   // provided for events that need it
+                                                                   'node_id'          => $nodeID ) );
+
         }
-
-        eZContentOperationCollection::registerSearchObject( $object->attribute( 'id' ), $object->attribute( 'current_version' ) );
-
-        eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
+        else
+        {
+            eZContentOperationCollection::removeTranslation( $objectID, $languageIDArray );
+        }
 
         return $module->redirectToView( 'view', array( $viewMode, $nodeID, $languageCode ) );
     }

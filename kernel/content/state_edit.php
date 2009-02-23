@@ -41,19 +41,17 @@ function stateEditActionCheck( $module, $class, $object, $version, $contentObjec
         if ( $http->hasPostVariable( 'SelectedStateIDList' ) )
         {
             $selectedStateIDList = $http->postVariable( 'SelectedStateIDList' );
+            $objectID = $object->attribute( 'id' );
 
-            // we don't need to re-assign states the object currently already has assigned
-            $currentStateIDArray = $object->attribute( 'state_id_array' );
-            $selectedStateIDList = array_diff( $selectedStateIDList, $currentStateIDArray );
-
-            // filter out any states the current user is not allowed to assign
-            $canAssignStateIDList = $object->attribute( 'allowed_assign_state_id_list' );
-            $selectedStateIDList = array_intersect( $selectedStateIDList, $canAssignStateIDList );
-
-            foreach ( $selectedStateIDList as $selectedStateID )
+            if ( eZContentOperationCollection::operationIsAvailable( 'content_updateobjectstate' ) )
             {
-                $state = eZContentObjectState::fetchById( $selectedStateID );
-                $object->assignState( $state );
+                $operationResult = eZOperationHandler::execute( 'content', 'updateobjectstate',
+                                                                array( 'object_id'     => $objectID,
+                                                                       'state_id_list' => $selectedStateIDList ) );
+            }
+            else
+            {
+                eZContentOperationCollection::updateObjectState( $objectID, $selectedStateIDList );
             }
         }
     }

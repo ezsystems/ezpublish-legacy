@@ -98,19 +98,6 @@ $validation = array( 'processed' => false,
 if ( isset( $Params['AttributeValidation'] ) )
     $validation = $Params['AttributeValidation'];
 
-// Check if read operations should be used
-$workflowINI = eZINI::instance( 'workflow.ini' );
-$operationList = $workflowINI->variableArray( 'OperationSettings', 'AvailableOperations' );
-$operationList = array_unique( array_merge( $operationList, $workflowINI->variable( 'OperationSettings', 'AvailableOperationList' ) ) );
-if ( in_array( 'content_read', $operationList ) )
-{
-    $useTriggers = true;
-}
-else
-{
-    $useTriggers = false;
-}
-
 $res = eZTemplateDesignResource::instance();
 $keys = $res->keys();
 if ( isset( $keys['layout'] ) )
@@ -132,11 +119,11 @@ eZDebugSetting::addTimingPoint( 'kernel-content-view', 'Operation start' );
 
 $operationResult = array();
 
-if ( $useTriggers == true )
+if ( eZContentOperationCollection::operationIsAvailable( 'content_read' ) )
 {
     $operationResult = eZOperationHandler::execute( 'content', 'read', array( 'node_id' => $NodeID,
                                                                               'user_id' => $user->id(),
-                                                                              'language_code' => $LanguageCode ), null, $useTriggers );
+                                                                              'language_code' => $LanguageCode ), null, true );
 }
 
 if ( ( array_key_exists(  'status', $operationResult ) && $operationResult['status'] != eZModuleOperationInfo::STATUS_CONTINUE ) )
