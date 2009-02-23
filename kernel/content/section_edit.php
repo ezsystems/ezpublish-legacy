@@ -55,7 +55,7 @@ function sectionEditActionCheck( $module, $class, $object, $version, $contentObj
                     {
                         foreach ( $assignedNodes as $node )
                         {
-                            if ( eZContentOperationCollection::operationIsAvailable( 'content_updatesection' ) )
+                            if ( eZOperationHandler::operationIsAvailable( 'content_updatesection' ) )
                             {
                                 $operationResult = eZOperationHandler::execute( 'content',
                                                                                 'updatesection',

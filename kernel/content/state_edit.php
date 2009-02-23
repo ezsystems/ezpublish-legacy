@@ -43,7 +43,7 @@ function stateEditActionCheck( $module, $class, $object, $version, $contentObjec
             $selectedStateIDList = $http->postVariable( 'SelectedStateIDList' );
             $objectID = $object->attribute( 'id' );
 
-            if ( eZContentOperationCollection::operationIsAvailable( 'content_updateobjectstate' ) )
+            if ( eZOperationHandler::operationIsAvailable( 'content_updateobjectstate' ) )
             {
                 $operationResult = eZOperationHandler::execute( 'content', 'updateobjectstate',
                                                                 array( 'object_id'     => $objectID,

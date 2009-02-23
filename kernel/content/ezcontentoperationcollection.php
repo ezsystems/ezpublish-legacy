@@ -1234,32 +1234,5 @@ class eZContentOperationCollection
 
         return array( 'status' => true );
     }
-
-    /**
-     * Checks if a trigger is defined in worklow.ini/[OperationSettings]/AvailableOperations
-     *
-     * @param string $name
-     * @return boolean true if the operation is available, false otherwise
-     */
-    static public function operationIsAvailable( $name = false )
-    {
-        if ( $name === false )
-        {
-           return false;
-        }
-
-        // Check if read operations should be used
-        $workflowINI = eZINI::instance( 'workflow.ini' );
-        $operationList = $workflowINI->variableArray( 'OperationSettings', 'AvailableOperations' );
-        $operationList = array_unique( array_merge( $operationList, $workflowINI->variable( 'OperationSettings', 'AvailableOperationList' ) ) );
-        if ( in_array( $name, $operationList ) )
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
 }
 ?>

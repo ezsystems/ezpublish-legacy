@@ -119,7 +119,7 @@ eZDebugSetting::addTimingPoint( 'kernel-content-view', 'Operation start' );
 
 $operationResult = array();
 
-if ( eZContentOperationCollection::operationIsAvailable( 'content_read' ) )
+if ( eZOperationHandler::operationIsAvailable( 'content_read' ) )
 {
     $operationResult = eZOperationHandler::execute( 'content', 'read', array( 'node_id' => $NodeID,
                                                                               'user_id' => $user->id(),

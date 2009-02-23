@@ -84,7 +84,7 @@ if ( $module->isCurrentAction( 'UpdateInitialLanguage' ) )
             return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel', array() );
         }
 
-        if ( eZContentOperationCollection::operationIsAvailable( 'content_updateinitiallanguage' ) )
+        if ( eZOperationHandler::operationIsAvailable( 'content_updateinitiallanguage' ) )
         {
             $operationResult = eZOperationHandler::execute( 'content', 'updateinitiallanguage',
                                                             array( 'object_id'               => $objectID,
@@ -110,7 +110,7 @@ else if ( $module->isCurrentAction( 'UpdateAlwaysAvailable' ) )
 
     $newAlwaysAvailable = $module->hasActionParameter( 'AlwaysAvailable' );
 
-    if ( eZContentOperationCollection::operationIsAvailable( 'content_updatealwaysavailable' ) )
+    if ( eZOperationHandler::operationIsAvailable( 'content_updatealwaysavailable' ) )
     {
         $operationResult = eZOperationHandler::execute( 'content', 'updatealwaysavailable',
                                                         array( 'object_id'            => $objectID,
@@ -137,7 +137,7 @@ else if ( $module->isCurrentAction( 'RemoveTranslation' ) )
 
     if ( $module->hasActionParameter( 'ConfirmRemoval' ) && $module->actionParameter( 'ConfirmRemoval' ) )
     {
-        if ( eZContentOperationCollection::operationIsAvailable( 'content_removetranslation' ) )
+        if ( eZOperationHandler::operationIsAvailable( 'content_removetranslation' ) )
         {
             $operationResult = eZOperationHandler::execute( 'content', 'removetranslation',
                                                             array( 'object_id'        => $objectID,

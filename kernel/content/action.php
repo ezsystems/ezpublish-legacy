@@ -200,7 +200,7 @@ else if ( $http->hasPostVariable( 'SetSorting' ) &&
     $node = eZContentObjectTreeNode::fetch( $nodeID );
     $contentObject = eZContentObject::fetch( $contentObjectID );
 
-    if ( eZContentOperationCollection::operationIsAvailable( 'content_sort' ) )
+    if ( eZOperationHandler::operationIsAvailable( 'content_sort' ) )
     {
         $operationResult = eZOperationHandler::execute( 'content', 'sort',
                                                          array( 'node_id' => $nodeID,
@@ -299,7 +299,7 @@ else if ( $module->isCurrentAction( 'MoveNode' ) )
     // move selected nodes, this should probably be inside a transaction
     foreach( $nodeToMoveList as $nodeToMove )
     {
-        if ( eZContentOperationCollection::operationIsAvailable( 'content_move' ) )
+        if ( eZOperationHandler::operationIsAvailable( 'content_move' ) )
         {
             $operationResult = eZOperationHandler::execute( 'content',
                                                             'move', array( 'node_id'            => $nodeToMove['node_id'],
@@ -474,7 +474,7 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
     }
 
     // exchange contentobject ids and versions.
-    if ( eZContentOperationCollection::operationIsAvailable( 'content_swap' ) )
+    if ( eZOperationHandler::operationIsAvailable( 'content_swap' ) )
     {
         $operationResult = eZOperationHandler::execute( 'content',
                                                         'swap',
@@ -603,7 +603,7 @@ else if ( $module->isCurrentAction( 'UpdateMainAssignment' ) )
             }
 
             $mainAssignmentParentID = $newMainNode->attribute( 'parent_node_id' );
-            if ( eZContentOperationCollection::operationIsAvailable( 'content_updatemainassignment' ) )
+            if ( eZOperationHandler::operationIsAvailable( 'content_updatemainassignment' ) )
             {
                 $operationResult = eZOperationHandler::execute( 'content',
                                                                 'updatemainassignment', array( 'main_assignment_id' => $mainAssignmentID,
@@ -669,7 +669,7 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
         if ( !is_array( $selectedNodeIDArray ) )
             $selectedNodeIDArray = array();
 
-        if ( eZContentOperationCollection::operationIsAvailable( 'content_addlocation' ) )
+        if ( eZOperationHandler::operationIsAvailable( 'content_addlocation' ) )
         {
             $operationResult = eZOperationHandler::execute( 'content',
                                                             'addlocation', array( 'node_id'              => $nodeID,
@@ -831,7 +831,7 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
     }
     else
     {
-        if ( eZContentOperationCollection::operationIsAvailable( 'content_removelocation' ) )
+        if ( eZOperationHandler::operationIsAvailable( 'content_removelocation' ) )
         {
             $operationResult = eZOperationHandler::execute( 'content',
                                                             'removelocation', array( 'node_id'       => $nodeID,
@@ -1102,7 +1102,7 @@ else if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
         $priorityArray = $http->postVariable( 'Priority' );
         $priorityIDArray = $http->postVariable( 'PriorityID' );
 
-        if ( eZContentOperationCollection::operationIsAvailable( 'content_updatepriority' ) )
+        if ( eZOperationHandler::operationIsAvailable( 'content_updatepriority' ) )
         {
             $operationResult = eZOperationHandler::execute( 'content', 'updatepriority',
                                                              array( 'node_id' => $contentNodeID,

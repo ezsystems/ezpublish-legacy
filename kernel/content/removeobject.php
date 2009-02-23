@@ -94,7 +94,7 @@ if ( $http->hasSessionVariable( 'HideRemoveConfirmation' ) )
 if ( $http->hasPostVariable( "ConfirmButton" ) or
      $hideRemoveConfirm )
 {
-    if ( eZContentOperationCollection::operationIsAvailable( 'content_delete' ) )
+    if ( eZOperationHandler::operationIsAvailable( 'content_delete' ) )
     {
         $operationResult = eZOperationHandler::execute( 'content',
                                                         'delete',
@@ -167,7 +167,7 @@ if ( $totalChildCount == 0 )
     }
     if ( $canRemove )
     {
-        if ( eZContentOperationCollection::operationIsAvailable( 'content_removelocation' ) )
+        if ( eZOperationHandler::operationIsAvailable( 'content_removelocation' ) )
         {
             $operationResult = eZOperationHandler::execute( 'content',
                                                             'removelocation',

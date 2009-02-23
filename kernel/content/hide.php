@@ -36,7 +36,7 @@ if ( !$curNode )
 if ( !$curNode->attribute( 'can_hide' ) )
     return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
-if ( eZContentOperationCollection::operationIsAvailable( 'content_hide' ) )
+if ( eZOperationHandler::operationIsAvailable( 'content_hide' ) )
 {
     $operationResult = eZOperationHandler::execute( 'content',
                                                     'hide',
