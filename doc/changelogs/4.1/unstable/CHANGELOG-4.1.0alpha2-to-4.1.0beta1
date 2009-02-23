@@ -14,7 +14,7 @@ Changes from 4.1.0alpha2 to 4.1.0beta1
 - Implemented enhancement #14344: Improve site.ini ViewCacheSettings[] to allow several view cache hints for better cache efficiency
 - Implemented enhancement #13027: Allow template overrides based on remote_id
 - Implemented enhancement #14264: Improve security by regenerating session id on login
-- Implemented enhancement #9275: Logout should redirect like login  
+- Implemented enhancement #9275: Logout should redirect like login
 - Implemented enhancement #12878: Missing log-message if SMTP-Connection failed
 - Implemented enhancement #12880: fetch related object - don't use ignore visiblity
 - Implemented enhancement #11675: ezcontentobject - mysql query optimization
@@ -49,3 +49,4 @@ Changes from 4.1.0alpha2 to 4.1.0beta1
 - Fixed bug #14465: Swap node does not fix main node assignement
 - Fixed bug #14499: Remove leftover debug-code in eZContentObject->setName()
 - Fixed bug #12801: shop/basket.php: Variable $item is used multiple times.
+- Fixed bug #14376: 2 PHP Warnings "Invalid argument supplied for foreach()" in /content/browse/1

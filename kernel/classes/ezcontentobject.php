@@ -5941,6 +5941,9 @@ class eZContentObject extends eZPersistentObject
      */
     function stateIDArray( $refreshCache = false )
     {
+        if ( !$this->ID )
+            return array();
+
         if ( $refreshCache || !is_array( $this->StateIDArray ) )
         {
             $this->StateIDArray = array();
@@ -5963,6 +5966,9 @@ class eZContentObject extends eZPersistentObject
 
     function stateIdentifierArray()
     {
+        if ( !$this->ID )
+            return array();
+
         eZDebug::accumulatorStart( 'state_identifier_array', 'states' );
         $return = array();
         $sql = "SELECT l.contentobject_state_id, s.identifier AS state_identifier, g.identifier AS state_group_identifier
