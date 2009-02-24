@@ -332,7 +332,7 @@ class eZContentFunctionCollection
 
     function fetchObjectTree( $parentNodeID, $sortBy, $onlyTranslated, $language, $offset, $limit, $depth, $depthOperator,
                               $classID, $attribute_filter, $extended_attribute_filter, $class_filter_type, $class_filter_array,
-                              $groupBy, $mainNodeOnly, $ignoreVisibility, $limitation, $asObject, $objectNameFilter, $loadDataMap = true )
+                              $groupBy, $mainNodeOnly, $ignoreVisibility, $limitation, $asObject, $objectNameFilter, $loadDataMap = null )
     {
         $treeParameters = array( 'Offset' => $offset,
                                  'OnlyTranslated' => $onlyTranslated,
@@ -360,7 +360,7 @@ class eZContentFunctionCollection
             $treeParameters['AsObject'] = $asObject;
         if ( $loadDataMap )
             $treeParameters['LoadDataMap'] = true;
-        if ( $loadDataMap === null )
+        else if ( $loadDataMap === null )
             $treeParameters['LoadDataMap'] = 15;
         if ( $depth !== false )
         {
