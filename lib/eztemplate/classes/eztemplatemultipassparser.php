@@ -83,11 +83,12 @@ class eZTemplateMultiPassParser extends eZTemplateParser
     function gotoEndPosition( $text, $line, $column, &$endLine, &$endColumn )
     {
         $lines = preg_split( "#\r\n|\r|\n#", $text );
-        if ( count( $lines ) > 0 )
+        $c = count( $lines );
+        if ( $c > 0 )
         {
-            $endLine = $line + count( $lines ) - 1;
-            $lastLine = $lines[count( $lines ) - 1];
-            if ( count( $lines ) > 1 )
+            $endLine = $line + $c - 1;
+            $lastLine = $lines[$c - 1];
+            if ( $c > 1 )
                 $endColumn = strlen( $lastLine );
             else
                 $endColumn = $column + strlen( $lastLine );
