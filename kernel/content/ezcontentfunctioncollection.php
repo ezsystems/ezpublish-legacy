@@ -1239,7 +1239,7 @@ class eZContentFunctionCollection
             }
         }
 
-        if ( isset( $ignoreVisibility ) )
+        if ( $ignoreVisibility !== null )
         {
             $params['IgnoreVisibility'] = $ignoreVisibility;
         }
