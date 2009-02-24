@@ -54,3 +54,4 @@ Changes from 4.1.0alpha2 to 4.1.0beta1
 - Fixed bug #14499: Remove leftover debug-code in eZContentObject->setName()
 - Fixed bug #12801: shop/basket.php: Variable $item is used multiple times.
 - Fixed bug #14376: 2 PHP Warnings "Invalid argument supplied for foreach()" in /content/browse/1
+- Fixed bug #13681: Database update query 4.0.0 > 4.0.1
