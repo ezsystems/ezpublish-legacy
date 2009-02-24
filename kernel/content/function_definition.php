@@ -301,7 +301,7 @@ $FunctionList['list'] = array( 'name' => 'list',
                                                       array( 'name' => 'load_data_map',
                                                              'type' => 'bool',
                                                              'required' => false,
-                                                             'default' => true ) ) );
+                                                             'default' => null ) ) );
 $FunctionList['list_count'] = array( 'name' => 'list_count',
                                      'operation_types' => array( 'read' ),
                                      'call_method' => array( 'class' => 'eZContentFunctionCollection',
@@ -442,7 +442,7 @@ $FunctionList['tree'] = array( 'name' => 'tree',
                                                       array( 'name' => 'load_data_map',
                                                              'type' => 'bool',
                                                              'required' => false,
-                                                             'default' => true ) ) );
+                                                             'default' => null ) ) );
 
 $FunctionList['tree_count'] = array( 'name' => 'tree_count',
                                      'operation_types' => array( 'read' ),

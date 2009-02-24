@@ -360,6 +360,8 @@ class eZContentFunctionCollection
             $treeParameters['AsObject'] = $asObject;
         if ( $loadDataMap )
             $treeParameters['LoadDataMap'] = true;
+        if ( $loadDataMap === null )
+            $treeParameters['LoadDataMap'] = 15;
         if ( $depth !== false )
         {
             $treeParameters['Depth'] = $depth;

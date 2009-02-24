@@ -1941,7 +1941,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( $asObject )
         {
             $retNodeList = eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
-            if ( $loadDataMap )
+            if ( $loadDataMap === true )
+                eZContentObject::fillNodeListAttributes( $retNodeList );
+            else if ( $loadDataMap && is_numeric( $loadDataMap ) && $loadDataMap >= count( $retNodeList ) )
                 eZContentObject::fillNodeListAttributes( $retNodeList );
         }
         else
