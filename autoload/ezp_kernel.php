@@ -11,6 +11,7 @@
 
 return array(
       'Cezpdf'                             => 'lib/ezpdf/classes/class.ezpdf.php',
+      'CommandLineArguments'               => 'bin/php/ezconvertdbcharset.php',
       'Cpdf'                               => 'lib/ezpdf/classes/class.pdf.php',
       'eZ1337Translator'                   => 'lib/ezi18n/classes/ez1337translator.php',
       'eZAlphabetOperator'                 => 'kernel/common/ezalphabetoperator.php',
@@ -154,8 +155,8 @@ return array(
       'eZExtension'                        => 'lib/ezutils/classes/ezextension.php',
       'eZExtensionPackageCreator'          => 'kernel/classes/packagecreators/ezextension/ezextensionpackagecreator.php',
       'eZExtensionPackageHandler'          => 'kernel/classes/packagehandlers/ezextension/ezextensionpackagehandler.php',
-      'eZFSFileHandler'                    => 'kernel/classes/clusterfilehandlers/ezfsfilehandler.php',
       'eZFS2FileHandler'                   => 'kernel/private/classes/clusterfilehandlers/ezfs2filehandler.php',
+      'eZFSFileHandler'                    => 'kernel/classes/clusterfilehandlers/ezfsfilehandler.php',
       'eZFile'                             => 'lib/ezfile/classes/ezfile.php',
       'eZFileDirectHandler'                => 'kernel/classes/binaryhandlers/ezfiledirect/ezfiledirecthandler.php',
       'eZFileHandler'                      => 'lib/ezfile/classes/ezfilehandler.php',
