@@ -1186,7 +1186,7 @@ class eZContentFunctionCollection
     }
 
     // Fetches reverse related objects
-    function fetchRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy, $limit = false, $offset = false, $asObject = true, $loadDataMap = false, $ignoreVisibility )
+    function fetchRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy, $limit = false, $offset = false, $asObject = true, $loadDataMap = false, $ignoreVisibility = null )
     {
         if ( !$objectID )
         {
@@ -1211,7 +1211,7 @@ class eZContentFunctionCollection
             }
         }
 
-        if ( isset( $ignoreVisibility ) )
+        if ( $ignoreVisibility !== null )
         {
             $params['IgnoreVisibility'] = $ignoreVisibility;
         }
