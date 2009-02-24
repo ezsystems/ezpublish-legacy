@@ -88,6 +88,11 @@ class eZDBFileHandler
         $backendClassName = $GLOBALS['eZDBFileHandler_chosen_backend_class'];
         $this->backend = /* (eZDBFileHandlerMysqlBackend) */ new $backendClassName;
         $this->backend->_connect( false );
+
+        // connection failed
+        if( $this->backend->db === false )
+            throw new eZDBNoConnectionException( $this->backend->dbparams['host'] );
+
         $this->backendVerify = null;
         $this->filePath = $filePath;
 

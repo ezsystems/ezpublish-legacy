@@ -154,6 +154,7 @@ class eZMySQLiDB extends eZDBInterface
         {
             eZDebug::writeError( "Connection error: Couldn't connect to database. Please try again later or inform the system administrator.\n$dbErrorText", "eZMySQLiDB" );
             $this->IsConnected = false;
+            throw new eZDBNoConnectionException( $server );
         }
 
         if ( $this->IsConnected && $db != null )

@@ -116,6 +116,8 @@ class eZPostgreSQLDB extends eZDBInterface
             }
             if ( $this->DBConnection )
                 $this->IsConnected = true;
+            else
+                throw new eZDBNoConnectionException( $server );
         }
         else
         {
