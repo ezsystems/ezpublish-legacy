@@ -280,7 +280,8 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                                      'class_group' => array( 'object','match_ingroup_id_list' ),
                                                                      'parent_node' => array( 'parent_node_id' ),
                                                                      'depth' => array( 'depth' ),
-                                                                     'url_alias' => array( 'url_alias' ) ),
+                                                                     'url_alias' => array( 'url_alias' ),
+                                                                     'parent_class_identifier' => array( 'parent', 'class_identifier' ) ),
                                           'attribute_access' => array(),
                                           'use_views' => 'view' ),
 
