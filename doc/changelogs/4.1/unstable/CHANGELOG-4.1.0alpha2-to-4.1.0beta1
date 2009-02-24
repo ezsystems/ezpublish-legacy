@@ -21,6 +21,7 @@ Changes from 4.1.0alpha2 to 4.1.0beta1
 - Implemented enhancement #12114: TopUserGroupNodeID hardcoded in LDAP login handler
 - Implemented enhancement #14481: Add new triggers
 - Implemented enhancement #14471: Disable load_data_map by default in 4.1 when fetching many nodes
+- Implemented enhancement #13767: Provide a default exception handler
 
 *Design:
 

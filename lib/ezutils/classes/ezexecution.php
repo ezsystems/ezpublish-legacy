@@ -170,6 +170,7 @@ class eZExecution
                 - http://bugs.php.net/bug.php?id=33772
             */
             register_shutdown_function( 'session_write_close' );
+            set_exception_handler( array( 'eZExecution', 'defaultExceptionHandler' ) );
             self::$shutdownHandle = true;
         }
 
@@ -189,6 +190,34 @@ class eZExecution
                 dirname( __FILE__ )
             );
         }
+    }
+
+    /**
+     * Installs the default Exception handler
+     *
+     * @params Exception the exception
+     * @return void
+     */
+    static public function defaultExceptionHandler( Exception $e )
+    {
+        if( PHP_SAPI != 'cli' )
+        {
+            header( 'HTTP/1.x 500 Internal Server Error' );
+            header( 'Content-Type: text/html' );
+
+            echo "An unexpected error has occurred. Please contact the webmaster.<br/>";
+        }
+        else
+        {
+            $cli = eZCLI::instance();
+            $cli->error( "An unexpected error has occurred. Please contact the webmaster.");
+        }
+
+        eZLog::write( 'Unexpected error, the message was : ' . $e->getMessage(), 'error.log' );
+
+        eZExecution::cleanup();
+        eZExecution::setCleanExit();
+        exit( 1 );
     }
 
     static private $eZDocumentRoot = null;
