@@ -162,7 +162,7 @@ class eZSOAPClient
 
             $HTTPRequest = "POST " . $this->Path . " HTTP/1.0\r\n" .
                 "User-Agent: eZ soap client\r\n" .
-                "Host: " . $this->Server . "\r\n" .
+                "Host: " . $this->Server . ":" . $this->Port . "\r\n" .
                 $authentification .
                 "Content-Type: text/xml\r\n" .
                 "SOAPAction: \"" . $request->namespace() . '/' . $request->name() . "\"\r\n" .
@@ -202,7 +202,7 @@ class eZSOAPClient
                 {
                     $HTTPCall = "POST " . $this->Path . " HTTP/1.0\r\n" .
                         "User-Agent: eZ soap client\r\n" .
-                        "Host: " . $this->Server . "\r\n" .
+                        "Host: " . $this->Server . ":" . $this->Port . "\r\n" .
                         "Content-Type: text/xml\r\n" .
                         "SOAPAction: \"" . $request->namespace() . '/' . $request->name() . "\"\r\n" .
                         "Content-Length: " . strlen( $payload ) . "\r\n";
