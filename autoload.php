@@ -68,6 +68,10 @@ function ezpAutoload( $className )
         {
             $ezpClasses = array_merge( $ezpKernelClasses, $ezpExtensionClasses );
         }
+        else if ( $ezpTestClasses )
+        {
+            $ezpClasses = array_merge( $ezpKernelClasses, $ezpTestClasses );
+        }
         else
         {
             $ezpClasses = $ezpKernelClasses;
