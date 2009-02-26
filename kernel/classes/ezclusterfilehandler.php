@@ -40,52 +40,25 @@ class eZClusterFileHandler
      */
     static function instance( $filename = false )
     {
-        // Determine handler to use and cache its name in a global variable.
-        if ( !isset( $GLOBALS['eZClusterFileHandler_chosen_handler_class'] ) )
+        if( $filename !== false )
         {
-            $fileINI = eZINI::instance( 'file.ini' );
-            $handlerName = 'eZFS';
-            if ( $fileINI->hasVariable( 'ClusteringSettings', 'FileHandler' ) )
-                $handlerName = $fileINI->variable( 'ClusteringSettings', 'FileHandler' );
-
-            $handlerName = self::updateHandlerNameCase( $handlerName );
-
-            // Create list of directories used to search cluster file handlers for.
-            $searchPathArray = eZClusterFileHandler::searchPathArray();
-
-            // Find chosen handler.
-            $handlerClass = $handlerName . 'FileHandler';
-            foreach ( $searchPathArray as $searchPath )
-            {
-                $includeFileName = $searchPath . '/' . $handlerClass . '.php';
-                if ( is_readable( $includeFileName ) )
-                {
-                    $GLOBALS['eZClusterFileHandler_chosen_handler_class'] = $handlerClass;
-                    break;
-                }
-            }
-
-            if ( !isset( $GLOBALS['eZClusterFileHandler_chosen_handler_class'] ) )
-            {
-                eZDebug::writeError( "Cannot find cluster file handler '$handlerName'." );
-                return null;
-            }
-        }
-
-        // Instantiate the handler.
-        if ( $filename !== false )
-        {
-            // return new FileHandler based on INI setting.
-            $handlerClass = $GLOBALS['eZClusterFileHandler_chosen_handler_class'];
-            return new $handlerClass( $filename );
+            $handler = eZExtension::getHandlerClass( 'file.ini',
+                                                     'ClusteringSettings',
+                                                     'FileHandler',
+                                                     null,
+                                                     null,
+                                                     array( $filename ) );
+            return $handler;
         }
         else
         {
             // return Filehandler from GLOBALS based on ini setting.
             if ( !isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) )
             {
-                $handlerClass = $GLOBALS['eZClusterFileHandler_chosen_handler_class'];
-                $handler = new $handlerClass;
+                $handler = eZExtension::getHandlerClass( 'file.ini',
+                                                         'ClusteringSettings',
+                                                         'FileHandler' );
+
                 $GLOBALS['eZClusterFileHandler_chosen_handler'] = $handler;
             }
             else
