@@ -380,6 +380,77 @@ class eZExtension
             return false;
     }
 
+    /**
+     * Returns the correct handler defined in $iniFile configuration file
+     * It is now possible to load handler only by defining the classname
+     * in a configuration file (which may depend of the feature).
+     *
+     * The goal of this method is to avoid auto detection of classes at runtime
+     * which overloads the FileSystem and does not take advantages of the new
+     * Autoload system.
+     *
+     * @param string $iniFile
+     * @param string $iniSection
+     * @param string $iniVariable
+     * @param string $handlerIndex
+     * @param boolen $isValidFunction
+     * @param mixed $handlerParams an array of parameters to pass to the handler
+     * @static
+     * @return false|object Returns a valid handler or false
+     */
+    public static function getHandlerClass( $iniFile, $iniSection = 'HandlerSettings', $iniVariable = 'HandlerClassName', $handlerIndex = null, $callMethod = null, $handlerParams = null )
+    {
+        $ini = eZINI::instance( $iniFile );
+
+        if ( !$ini->hasVariable( $iniSection, $iniVariable ) )
+        {
+            eZDebug::writeError( 'Unable to find variable ' . $iniVariable . ' in section ' . $iniSection . ' in file ' . $iniFile, __METHOD__ );
+            return null;
+        }
+
+        $handlers = $ini->variable( $iniSection, $iniVariable );
+
+        if ( $handlerIndex !== null )
+        {
+            if ( isset( $handlers[ $handlerIndex  ] ) )
+                $handlers = $handlers[ $handlerIndex  ];
+            else
+                return null;
+        }
+
+        if ( !is_array( $handlers ) )
+            $handlers = array( $handlers );
+
+        foreach( $handlers as $handler )
+        {
+            if ( class_exists( $handler ) )
+            {
+                $reflection = new ReflectionClass( $handler );
+
+                if( $handlerParams !== null )
+                    $object = $reflection->newInstanceArgs( $handlerParams );
+                else
+                    $object = $reflection->newInstance();
+
+                if ( $callMethod !== null )
+                {
+                    if ( !is_callable( $object, false, $callMethod  ) )
+                    {
+                        eZDebug::writeNotice( 'Method ' . $callMethod . ' is not callable', __METHOD__ );
+                        continue;
+                    }
+
+                    if ( !call_user_func(array( $object, $callMethod ) ) )
+                        continue;
+                }
+                return $object;
+            }
+            else
+                eZDebug::writeError( 'Class ' . $handler . ' does not exists', __METHOD__ );
+        }
+
+        return false;
+    }
 }
 
 ?>
