@@ -2419,8 +2419,8 @@ CREATE TABLE ezsession (
     data text NOT NULL,
     expiration_time integer DEFAULT 0 NOT NULL,
     session_key character varying(32) DEFAULT ''::character varying NOT NULL,
-    user_id integer DEFAULT 0 NOT NULL
-    user_hash character varying(32) DEFAULT ''::character varying NOT NULL,
+    user_id integer DEFAULT 0 NOT NULL,
+    user_hash character varying(32) DEFAULT ''::character varying NOT NULL
 );
 
 
