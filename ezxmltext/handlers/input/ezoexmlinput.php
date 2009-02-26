@@ -270,7 +270,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                                     if ( !$node instanceof eZContentObjectTreeNode )
                                     {
                                         // get temp parent node if object don't have node assignmet yet
-                                        $tempParentNodeId = $this->ContentObjectAttribute->attribute('object')->attribute( 'current' )->attribute('main_parent_node_id');
+                                        $tempParentNodeId = $this->ContentObjectAttribute->attribute('object_version')->attribute('main_parent_node_id');
                                         $node = eZContentObjectTreeNode::fetch( $tempParentNodeId );
                                     }
                                     $path = $node->attribute( 'path_string' );
