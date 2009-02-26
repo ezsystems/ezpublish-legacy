@@ -1,0 +1,224 @@
+WebDAV implementation using ezcWebdav in eZ Publish
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Introduction
+============
+
+The WebDAV implementation of eZ Publish has some problems:
+
+- no lock support - cannot work with WebDAV clients which require lock support
+  like Finder on OSX.
+- only Basic authentication (no Digest authentication) preventing it to work
+  on clients like Internet Explorer 6 without special intervention in the
+  Registry.
+- the copy and proppatch functions are not implemented.
+
+The aim of the implementation based on the Webdav component from eZ Components
+is to fix some of these problems and make the WebDAV support better across as
+many clients as possible.
+
+The implementation is based on eZ Publish 4.1 (the new object states feature
+will be used to implement locking) and eZ Components 2008.2 Webdav (implements
+authentication, authorization and locking support).
+
+
+Current issues in the eZ Components WebDAV implementation
+=========================================================
+
+Significant
+-----------
+
+- no locking support (ezcWebdav supports locking, but it is not implemented
+  yet in eZ Publish).
+- only Basic authentication supported (no Digest). The hash is stored in a
+  different way than needed for Digest in the users table.
+
+Less significant
+----------------
+
+- when uploading files with uppercase extension (.JPG), the extension is
+  converted to lowercase (.jpg), creating issues with clients like BitKinex
+  (infinite uploading). See
+  http://lists.ez.no/mailman/private/sdk/2008-December/009446.html for more
+  information. Solution: disable checking of uploads in BitKinex.
+- when uploading files with spaces or special characters, the object which
+  are created have the spaces and the special characters encoded in the name
+  (%20 for spaces etc). Solution: disable checking of uploads in BitKinex.
+- problems with 2 siteaccesses who share the database - the content is
+  uploaded in the wrong siteaccess (issue experienced by Dirk in IE6 SP2).
+- moving/copying content between 2 siteaccesses is not possible yet (409
+  Conflict is returned) - but some clients like BitKinex behave strangely by
+  trying moving/copying again, with the source file disappearing, and the
+  destination file not appearing. Solution: this must be written somewhere
+  visible so that users don't do this - it can result in loss of data.
+- Renaming a file in a directory works only sometimes: appending a value to a
+  filename works, but modifying something in a file name does not work (and
+  the file disappears). This is happening in BitKinex. It might have to do
+  with URL aliases.
+
+
+Implementation
+==============
+
+The entry point in the WebDAV system is kept, namely all WebDAV requests are
+processed by webdav.php.
+
+In webdav.php the class eZWebDAVContentBackend is instantiated, instead of the
+old implementation which resides in the eZWebDAVContentServer class. The
+class eZWebDAVContentBackendAuth handles authentication and authorization
+for WebDAV.
+
+
+eZWebDAVContentBackend
+----------------------
+
+The eZWebDAVContentBackend extends ezcWebdavSimpleBackend, which is a base
+class for backends (other backends implemented and delivered with the Webdav
+component are a file backend and a memory backend).
+
+The ezcWebdavSimpleBackend contains all the functions needed to handle WebDAV
+commands. Some functions are declared as abstract and need to be implemented
+by the backends themselves (in this case eZWebDAVContentBackend).
+
+Most of the code from the old implementation of WebDAV was kept, and made to
+work with the new structure introduced by ezcWebdavSimpleBackend.
+
+These functions were introduced by ezcWebdavSimpleBackend. For each one an
+explanation follows about how it interacts with eZ Publish WebDAV code.
+
+createCollection( $path )
+  Uses eZContentObject::createWithNodeAssignment() to create a folder,
+  and publishes it with eZOperationHandler::execute( 'content', 'publish', ... )
+
+createResource( $path, $content = null )
+  ezcWebdavSimpleBackend uses 2 functions to create a resource: one to create
+  it and one to set its contents. This function does not do anything as the
+  whole creation of a resource is done in getResourceContents() in WebDAV.
+
+setResourceContents( $path, $content )
+  Uses a directory in ezpublish/var/webdav/tmp to store the uploaded file, then
+  it uses handleLocalFile() from eZContentUpload to create and publish an
+  object based on the uploaded file.
+
+getResourceContents( $path )
+  Uses eZContentObjectTreeNode::fetch() to get the node specified by $path. The
+  nodeID of $path is retrieved using eZURLAliasML::fetchNodeIDByPath(). The
+  function objectFileInfo() from eZContentUpload is used to check if the node
+  is a file (retrieving the stored file name) or a directory.
+
+setProperty( $path, ezcWebdavProperty $property )
+removeProperty( $path, ezcWebdavProperty $property )
+resetProperties( $path, ezcWebdavPropertyStorage $properties )
+  These functions are not used yet. They will be used for setting locked/unlocked
+  status when locking will be implemented.
+
+getProperty( $path, $propertyName, $namespace = 'DAV:' )
+  Uses getAllProperties(), then for the requested property $propertyName it
+  returns it in XML format.
+
+getAllProperties( $path )
+  Uses the same functions as getResourceContents() to get the node corresponding
+  to $path, in order to get its properties such as creation time, last access
+  time, display name, size in bytes, mimetype.
+
+performCopy( $fromPath, $toPath, $depth = ezcWebdavRequest::DEPTH_INFINITY )
+  Clones the content object stored at $fromPath and stores it at $toPath. It
+  uses eZNodeAssignment::create() and eZOperationHandler::execute( 'content',
+  'publish', ... ) to publish the new node. It recursively does the same for
+  all subnodes of $fromPath
+
+performDelete( $path )
+  Recursively checks if subnodes of $path can be deleted and deletes them
+  accordingly with removeNodeFromTree() from eZContentObjectTreeNode. The
+  delete action is taken from the DefaultRemoveAction setting in content.ini
+  (trash or delete).
+
+nodeExists( $path )
+  Uses eZContentObjectTreeNode::fetch() to get the node specified by $path. The
+  nodeID of $path is retrieved using eZURLAliasML::fetchNodeIDByPath(). It
+  returns if the node specified by $path exists or not.
+
+isCollection( $path )
+  Uses eZContentObjectTreeNode::fetch() to get the node specified by $path. The
+  nodeID of $path is retrieved using eZURLAliasML::fetchNodeIDByPath(). It
+  returns if the node specified by $path is a collection or not.
+
+getCollectionMembers( $path )
+  Returns a tree of ezcWebdavCollection and ezcWebdavResource objects which
+  are subnodes of $path.
+
+
+eZWebDAVContentBackendAuth
+--------------------------
+
+Handles Basic authentication and authorization for WebDAV.
+
+It uses loginUser() from eZUserLoginHandler to check if the provided credentials
+are correct.
+
+
+Server Configuration
+====================
+
+The eZ Publish installation must be configured to process all WebDAV requests
+through webdav.php.
+
+In addition, WebDAV support must be enabled in webdav.ini::
+
+  [GeneralSettings]
+  EnableWebDAV=true
+
+For each siteaccess there should be a webdav.ini.append.php which specifies
+the start node of that siteaccess::
+
+ [GeneralSettings]
+ StartNode=2
+
+WebDAV Logging is enabled by (in webdav.ini or in overwrites)::
+
+ [GeneralSettings]
+ Logging=enable
+
+The locations of the WebDAV log files are var/log/webdav.log (from webdav.php)
+and var/log/<siteaccess>/log/webdav.log (from ezwebdavcontentbackend.php).
+
+For multiple siteaccesses, the setting PathPrefix should be used in site.ini
+and overrides of site.ini::
+
+  [SiteAccessSettings]
+
+  # Hides this part from the start of the url alias
+  PathPrefix=
+
+  # Which URLs to exclude from being affected by PathPrefix setting.
+  # URLs containing the specified texts after siteaccess name will not be affected by PathPrefix
+  PathPrefixExclude[]
+  #PathPrefixExclude[]=media
+
+By default, the WebDAV files are sent to Trash when deleted. The administrator
+of the site is responsible to empty the Trash. If you want to remove the files
+directly (without using the Trash), this setting must be changed in content.ini
+::
+
+  [RemoveSettings]
+  # delete or trash
+  DefaultRemoveAction=delete
+
+To change the way file names are created when uploading files, use the
+TransformationGroup setting in site.ini and its overrides::
+
+  [URLTranslator]
+  TransformationGroup=urlalias
+  # Uncomment this to get the new-style url aliases with Unicode support
+  #TransformationGroup=urlalias_iri
+  # Uncomment this to get the old-style url aliases
+  #TransformationGroup=urlalias_compat
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79
