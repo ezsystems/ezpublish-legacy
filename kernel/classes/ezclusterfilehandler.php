@@ -97,30 +97,6 @@ class eZClusterFileHandler
 
         return $GLOBALS['eZClusterFileHandler_search_path_array'];
     }
-
-    /**
-     *  Change the handler name's case to work
-     *  with the new Autoload system
-     *
-     *  Three options here :
-     *   - ezfs
-     *   - ezfs2
-     *   - ezdb
-     *
-     *  Since class names or case sensitive
-     *  we have to modify the handler name to
-     *  be like this :
-     *   - eZFS
-     *   - eZFS2
-     *   - eZDB
-     *
-     * @param string $handlerName
-     * @return string
-     */
-    private static function updateHandlerNameCase( $handlerName )
-    {
-        return  'e' . strtoupper( substr( $handlerName, 1 ) );
-    }
 }
 
 ?>
