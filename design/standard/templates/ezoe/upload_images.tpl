@@ -67,11 +67,11 @@ if ( contentType === 'images' )
             <table class="properties">
                 <tr> 
                     <td class="column1"><label id="titlelabel" for="objectName">{'Name'|i18n('design/standard/ezoe')}</label></td> 
-                    <td colspan="2"><input id="objectName" name="objectName" type="text" value="" title="{'Name for the uploaded object, filename is used if none is specified.'|i18n('design/standard/ezoe/wai')}" /></td> 
+                    <td colspan="2"><input id="objectName" name="objectName" size="40" type="text" value="" title="{'Name for the uploaded object, filename is used if none is specified.'|i18n('design/standard/ezoe/wai')}" /></td> 
                 </tr>
                 <tr>
                     <td class="column1"><label id="srclabel" for="fileName">{'File'|i18n('design/standard/ezoe')}</label></td>
-                    <td colspan="2"><input name="fileName" type="file" id="fileName" value="" title="{'Choose file to upload from your local machine.'|i18n('design/standard/ezoe/wai')}" /></td>
+                    <td colspan="2"><input name="fileName" type="file" id="fileName" size="50" value="" title="{'Choose file to upload from your local machine.'|i18n('design/standard/ezoe/wai')}" /></td>
                 </tr>
                 <tr id="embedlistsrcrow">
                     <td class="column1"><label for="location">{'Location'|i18n('design/standard/ezoe')}</label></td>
@@ -107,16 +107,16 @@ if ( contentType === 'images' )
                 {if $content_type|eq('images')}
                 <tr>
                     <td class="column1"><label id="alttextlabel" for="objectAltText">{'Alternative text'|i18n('design/standard/ezoe')}</label></td> 
-                    <td colspan="2"><input id="objectAltText" name="ContentObjectAttribute_image" type="text" value="" size="32" title="{'Alternative text for the image, lets internet clients know what kind of image this is without dowloading it or actually seeing it.'|i18n('design/standard/ezoe/wai')}" /></td>
+                    <td colspan="2"><input id="objectAltText" name="ContentObjectAttribute_image" size="53" type="text" value="" title="{'Alternative text for the image, lets internet clients know what kind of image this is without dowloading it or actually seeing it.'|i18n('design/standard/ezoe/wai')}" /></td>
                 </tr>
                 <tr>
                     <td class="column1"><label id="captionlabel" for="objectCaption">{'Caption'|i18n('design/standard/ezoe')}</label></td> 
-                    <td colspan="2"><input id="objectCaption" name="ContentObjectAttribute_caption" type="text" value="" size="32" title="{'Caption for a image is usually shown bellow it as a description to the image.'|i18n('design/standard/ezoe/wai')}" /></td>
+                    <td colspan="2"><input id="objectCaption" name="ContentObjectAttribute_caption" size="53" type="text" value=""title="{'Caption for a image is usually shown bellow it as a description to the image.'|i18n('design/standard/ezoe/wai')}" /></td>
                 </tr>
                 {else}
                 <tr>
                     <td class="column1"><label id="descriptionlabel" for="objectDescription">{'Description'|i18n('design/standard/ezoe')}</label></td> 
-                    <td colspan="2"><input id="objectDescription" name="ContentObjectAttribute_description" type="text" value="" size="32" title="{'Description to the file your uploading, so internet clients can read more about it before they decide to download it.'|i18n('design/standard/ezoe/wai')}" /></td> 
+                    <td colspan="2"><input id="objectDescription" name="ContentObjectAttribute_description" size="53" type="text" value="" title="{'Description to the file your uploading, so internet clients can read more about it before they decide to download it.'|i18n('design/standard/ezoe/wai')}" /></td> 
                 </tr>
                 {/if}
                 <tr> 
@@ -127,7 +127,7 @@ if ( contentType === 'images' )
                 </tr>
             </table>
 
-            <iframe id="embed_upload" name="embed_upload" frameborder="0" scrolling="no" style="border: 0; width: 99%; height: 30px; margin: 0; overflow: auto; overflow-x: hidden;"></iframe>
+            <iframe id="embed_upload" name="embed_upload" frameborder="0" scrolling="no" style="border: 0; width: 99%; height: 36px; margin: 0; overflow: auto; overflow-x: hidden;"></iframe>
 
             {* Related images *}
             {if and( $related_contentobjects|count|gt( 0 ), $grouped_related_contentobjects.images|count|gt( 0 ))}
