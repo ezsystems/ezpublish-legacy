@@ -79,6 +79,12 @@ class eZObjectRelationType extends eZDataType
                 return eZInputValidator::STATE_INVALID;
             }
         }
+        else if ( $contentObjectAttribute->validateIsRequired() )
+        {
+            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes', 'Missing objectrelation input.' ) );
+            return eZInputValidator::STATE_INVALID;
+        }
+
         return eZInputValidator::STATE_ACCEPTED;
     }
 

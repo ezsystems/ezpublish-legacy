@@ -57,3 +57,4 @@ Changes from 4.1.0alpha2 to 4.1.0beta1
 - Fixed bug #14376: 2 PHP Warnings "Invalid argument supplied for foreach()" in /content/browse/1
 - Fixed bug #13681: Database update query 4.0.0 > 4.0.1
 - Fixed bug #11499: Template override conditions :: node/view/*.tpl :: parent_class_identifier condition is not always verified
+- Fixed bug #10655: ezuser table / empty entries

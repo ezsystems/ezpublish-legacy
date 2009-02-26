@@ -69,6 +69,8 @@ class eZDateType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
+        $classAttribute = $contentObjectAttribute->contentClassAttribute();
+
         if ( $http->hasPostVariable( $base . '_date_year_' . $contentObjectAttribute->attribute( 'id' ) ) and
              $http->hasPostVariable( $base . '_date_month_' . $contentObjectAttribute->attribute( 'id' ) ) and
              $http->hasPostVariable( $base . '_date_day_' . $contentObjectAttribute->attribute( 'id' ) ) )
@@ -76,7 +78,6 @@ class eZDateType extends eZDataType
             $year  = $http->postVariable( $base . '_date_year_' . $contentObjectAttribute->attribute( 'id' ) );
             $month = $http->postVariable( $base . '_date_month_' . $contentObjectAttribute->attribute( 'id' ) );
             $day   = $http->postVariable( $base . '_date_day_' . $contentObjectAttribute->attribute( 'id' ) );
-            $classAttribute = $contentObjectAttribute->contentClassAttribute();
 
             if ( $year == '' or $month == '' or $day == '' )
             {
@@ -96,8 +97,13 @@ class eZDateType extends eZDataType
                 return $this->validateDateTimeHTTPInput( $day, $month, $year, $contentObjectAttribute );
             }
         }
-        else
-            return eZInputValidator::STATE_ACCEPTED;
+        else if ( !$classAttribute->attribute( 'is_information_collector' ) and $contentObjectAttribute->validateIsRequired() )
+        {
+            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes', 'Missing date input.' ) );
+            return eZInputValidator::STATE_INVALID;
+        }
+
+        return eZInputValidator::STATE_ACCEPTED;
     }
 
     /*!

@@ -96,6 +96,11 @@ class eZTimeType extends eZDataType
                 return $this->validateTimeHTTPInput( $hours, $minute, $second, $contentObjectAttribute );
             }
         }
+        else if ( !$classAttribute->attribute( 'is_information_collector' ) and $contentObjectAttribute->validateIsRequired() )
+        {
+            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes', 'Time input required.' ) );
+            return eZInputValidator::STATE_INVALID;
+        }
         else
             return eZInputValidator::STATE_ACCEPTED;
     }

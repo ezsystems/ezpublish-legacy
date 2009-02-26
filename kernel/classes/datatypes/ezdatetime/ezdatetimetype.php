@@ -131,6 +131,11 @@ class eZDateTimeType extends eZDataType
                 return $this->validateDateTimeHTTPInput( $day, $month, $year, $hour, $minute, $second, $contentObjectAttribute );
             }
         }
+        else if ( !$classAttribute->attribute( 'is_information_collector' ) and $contentObjectAttribute->validateIsRequired() )
+        {
+            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes', 'Missing datetime input.' ) );
+            return eZInputValidator::STATE_INVALID;
+        }
         else
             return eZInputValidator::STATE_ACCEPTED;
     }

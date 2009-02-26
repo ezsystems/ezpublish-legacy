@@ -82,9 +82,9 @@ class eZEmailType extends eZDataType
             $email = $http->postVariable( $base . '_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
             $classAttribute = $contentObjectAttribute->contentClassAttribute();
 
-            $trimedEmail = trim( $email );
+            $trimmedEmail = trim( $email );
 
-            if ( $trimedEmail == "" )
+            if ( $trimmedEmail == "" )
             {
                 // we require user to enter an address only if the attribute is not an informationcollector
                 if ( !$classAttribute->attribute( 'is_information_collector' ) and
@@ -98,9 +98,15 @@ class eZEmailType extends eZDataType
             else
             {
                 // if the entered address is not empty then we should validate it in any case
-                return $this->validateEMailHTTPInput( $trimedEmail, $contentObjectAttribute );
+                return $this->validateEMailHTTPInput( $trimmedEmail, $contentObjectAttribute );
             }
         }
+        else if ( !$classAttribute->attribute( 'is_information_collector' ) and $contentObjectAttribute->validateIsRequired() )
+        {
+            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes', 'Missing email input.' ) );
+            return eZInputValidator::STATE_INVALID;
+        }
+
         return eZInputValidator::STATE_ACCEPTED;
     }
 
@@ -125,9 +131,9 @@ class eZEmailType extends eZDataType
             $email = $http->postVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) );
             $classAttribute = $contentObjectAttribute->contentClassAttribute();
 
-            $trimedEmail = trim( $email );
+            $trimmedEmail = trim( $email );
 
-            if ( $trimedEmail == "" )
+            if ( $trimmedEmail == "" )
             {
                 // if entered email is empty and required then return state invalid
                 if ( $contentObjectAttribute->validateIsRequired() )
@@ -142,7 +148,7 @@ class eZEmailType extends eZDataType
             else
             {
                 // if entered email is not empty then we should validate it in any case
-                return $this->validateEMailHTTPInput( $trimedEmail, $contentObjectAttribute );
+                return $this->validateEMailHTTPInput( $trimmedEmail, $contentObjectAttribute );
             }
         }
         else

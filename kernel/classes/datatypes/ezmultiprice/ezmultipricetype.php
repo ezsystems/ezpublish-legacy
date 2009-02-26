@@ -90,6 +90,11 @@ class eZMultiPriceType extends eZDataType
                 }
             }
         }
+        else if ( $contentObjectAttribute->validateIsRequired() )
+        {
+            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes', 'Input required' ) );
+            return eZInputValidator::STATE_INVALID;
+        }
 
         return eZInputValidator::STATE_ACCEPTED;
     }

@@ -98,6 +98,11 @@ class eZURLType extends eZDataType
             // Remove all url-object links to this attribute.
             eZURLObjectLink::removeURLlinkList( $contentObjectAttribute->attribute( "id" ), $contentObjectAttribute->attribute('version') );
         }
+        else if ( $contentObjectAttribute->validateIsRequired() )
+        {
+            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes', 'Input required.' ) );
+            return eZInputValidator::STATE_INVALID;
+        }
         return eZInputValidator::STATE_ACCEPTED;
     }
 
