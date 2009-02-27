@@ -28,6 +28,12 @@ Deprecated features
   This class is deprecated and will be removed from future versions of eZ Publish.
   Long ago it was used by the eZ Publish package system.
 
+- eZExtension::findExtensionType
+  This method is now deprecated and even though it is still in the code, we 
+  highly recommend to use the new eZExtension::getHandlerClass which takes
+  advantage of the autoload features. Porting the current kernel to use
+  this new method is planned and will be done step by step.
+
 
 Removed features
 ----------------
