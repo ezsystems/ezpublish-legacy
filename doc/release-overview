@@ -978,3 +978,10 @@ Datatype branch:
 - Version url=http://svn.ez.no/svn/ezpublish/versions/4.0.3
 - Date 16-Feb-2009
 - Revision=22994
+
+4.1.0beta1:
+- From revision=23063
+- Version url=http://svn.ez.no/svn/ezpublish/versions/4.1.0beta1
+- Date 27-Feb-2009
+- Revision=23064
+
