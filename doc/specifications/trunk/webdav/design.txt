@@ -51,10 +51,6 @@ Less significant
   trying moving/copying again, with the source file disappearing, and the
   destination file not appearing. Solution: this must be written somewhere
   visible so that users don't do this - it can result in loss of data.
-- Renaming a file in a directory works only sometimes: appending a value to a
-  filename works, but modifying something in a file name does not work (and
-  the file disappears). This is happening in BitKinex. It might have to do
-  with URL aliases.
 
 
 Implementation
