@@ -293,6 +293,8 @@ class eZExtensionPackageHandler extends eZPackageHandler
             {
                 eZDebug::writeWarning( $warning, __METHOD__ );
             }
+            
+            ezpAutoloader::reset();
         }
         catch ( Exception $e )
         {
