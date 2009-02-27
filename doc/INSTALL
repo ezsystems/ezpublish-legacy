@@ -29,7 +29,7 @@ o  Database server:
 
    MySQL 4.1 or later (UTF-8 is required)
    or
-   PostgreSQL 7.3 or later
+   PostgreSQL 8.0 or later
 
 o  eZ Components:
    The latest stable release of eZ Components is required.
