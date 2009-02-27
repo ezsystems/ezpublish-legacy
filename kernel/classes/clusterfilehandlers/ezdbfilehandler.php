@@ -57,36 +57,9 @@ class eZDBFileHandler
         $filePath = eZDBFileHandler::cleanPath( $filePath );
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::ctor( '$filePath' )" );
 
-        // Init backend.
-        if ( !isset( $GLOBALS['eZDBFileHandler_chosen_backend_class'] ) )
-        {
-            $fileINI = eZINI::instance( 'file.ini' );
-            $backendName = 'mysql';
-            if ( $fileINI->hasVariable( 'ClusteringSettings', 'DBBackend' ) )
-                $backendName = $fileINI->variable( 'ClusteringSettings', 'DBBackend' );
-
-            $searchPathArray = eZClusterFileHandler::searchPathArray();
-
-            foreach ( $searchPathArray as $searchPath )
-            {
-                $includeFileName = "$searchPath/dbbackends/$backendName.php";
-                if ( is_readable( $includeFileName ) )
-                {
-                    include_once( $includeFileName );
-                    $backendClassName = "eZDBFileHandler${backendName}Backend";
-                    $GLOBALS['eZDBFileHandler_chosen_backend_class'] = $backendClassName;
-                }
-            }
-
-            if ( !isset( $GLOBALS['eZDBFileHandler_chosen_backend_class'] ) )
-            {
-                eZDebug::writeError( "Cannot find ezdb cluster file backend: '$backendName'" );
-                return;
-            }
-        }
-
-        $backendClassName = $GLOBALS['eZDBFileHandler_chosen_backend_class'];
-        $this->backend = /* (eZDBFileHandlerMysqlBackend) */ new $backendClassName;
+        $this->backend = eZExtension::getHandlerClass( 'file.ini',
+                                                       'ClusteringSettings',
+                                                       'DBBackend' );
         $this->backend->_connect( false );
 
         // connection failed
