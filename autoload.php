@@ -41,56 +41,78 @@ else
 
 define( 'EZCBASE_ENABLED', $baseEnabled );
 
-function ezpAutoload( $className )
+/**
+ * Provides the native autoload functionality for eZ Publish
+ *
+ * @package kernel
+ */
+class ezpAutoloader
 {
-    static $ezpClasses = null;
-    if ( is_null( $ezpClasses ) )
+    protected static $ezpClasses = null;
+
+    public static function autoload( $className )
     {
-        $ezpKernelClasses = require 'autoload/ezp_kernel.php';
-        $ezpExtensionClasses = false;
-        $ezpTestClasses = false;
+        if ( is_null( self::$ezpClasses ) )
+        {
+            $ezpKernelClasses = require 'autoload/ezp_kernel.php';
+            $ezpExtensionClasses = false;
+            $ezpTestClasses = false;
 
-        if ( file_exists( 'var/autoload/ezp_extension.php' ) )
-        {
-            $ezpExtensionClasses = require 'var/autoload/ezp_extension.php';
+            if ( file_exists( 'var/autoload/ezp_extension.php' ) )
+            {
+                $ezpExtensionClasses = require 'var/autoload/ezp_extension.php';
+            }
+
+            if ( file_exists( 'var/autoload/ezp_tests.php' ) )
+            {
+                $ezpTestClasses = require 'var/autoload/ezp_tests.php';
+            }
+
+            if ( $ezpExtensionClasses and $ezpTestClasses )
+            {
+                self::$ezpClasses = array_merge( $ezpKernelClasses, $ezpExtensionClasses, $ezpTestClasses );
+            }
+            else if ( $ezpExtensionClasses )
+            {
+                self::$ezpClasses = array_merge( $ezpKernelClasses, $ezpExtensionClasses );
+            }
+            else if ( $ezpTestClasses )
+            {
+                self::$ezpClasses = array_merge( $ezpKernelClasses, $ezpTestClasses );
+            }
+            else
+            {
+                self::$ezpClasses = $ezpKernelClasses;
+            }
+
+            if ( defined( 'EZP_AUTOLOAD_ALLOW_KERNEL_OVERRIDE' ) and EZP_AUTOLOAD_ALLOW_KERNEL_OVERRIDE )
+            {
+                $ezpKernelOverrideClasses = require 'var/autoload/ezp_override.php';
+                self::$ezpClasses = array_merge( $ezpClasses, $ezpKernelOverrideClasses );
+            }
         }
 
-        if ( file_exists( 'var/autoload/ezp_tests.php' ) )
+        if ( array_key_exists( $className, self::$ezpClasses ) )
         {
-            $ezpTestClasses = require 'var/autoload/ezp_tests.php';
-        }
-
-        if ( $ezpExtensionClasses and $ezpTestClasses )
-        {
-            $ezpClasses = array_merge( $ezpKernelClasses, $ezpExtensionClasses, $ezpTestClasses );
-        }
-        else if ( $ezpExtensionClasses )
-        {
-            $ezpClasses = array_merge( $ezpKernelClasses, $ezpExtensionClasses );
-        }
-        else if ( $ezpTestClasses )
-        {
-            $ezpClasses = array_merge( $ezpKernelClasses, $ezpTestClasses );
-        }
-        else
-        {
-            $ezpClasses = $ezpKernelClasses;
-        }
-
-        if ( defined( 'EZP_AUTOLOAD_ALLOW_KERNEL_OVERRIDE' ) and EZP_AUTOLOAD_ALLOW_KERNEL_OVERRIDE )
-        {
-            $ezpKernelOverrideClasses = require 'var/autoload/ezp_override.php';
-            $ezpClasses = array_merge( $ezpClasses, $ezpKernelOverrideClasses );
+            require( self::$ezpClasses[$className] );
         }
     }
 
-    if ( array_key_exists( $className, $ezpClasses ) )
+    /**
+     * Resets the local, in-memory autoload cache.
+     * 
+     * If the autoload arrays are extended during a requsts lifetime, this
+     * method must be called, to make them available.
+     *
+     * @return void
+     */
+    public static function reset()
     {
-        require( $ezpClasses[$className] );
+        self::$ezpClasses = null;
     }
 }
 
-spl_autoload_register( 'ezpAutoload' );
+spl_autoload_register( array( 'ezpAutoloader', 'autoload' ) );
 
 if ( EZCBASE_ENABLED )
 {
