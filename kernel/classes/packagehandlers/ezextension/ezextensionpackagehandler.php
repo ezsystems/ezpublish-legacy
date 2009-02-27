@@ -145,7 +145,8 @@ class eZExtensionPackageHandler extends eZPackageHandler
         }
 
         $siteINI = eZINI::instance();
-        $extensionDir = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' ) . '/' . $extensionName;
+        $extensionRootDir = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' );
+        $extensionDir = $extensionRootDir . '/' . $extensionName;
         $packageExtensionDir = $package->path() . '/' . $parameters['sub-directory'] . '/' . $extensionName;
 
         // Error: extension already exists.
@@ -176,8 +177,7 @@ class eZExtensionPackageHandler extends eZPackageHandler
         }
 
         eZDir::mkdir( $extensionDir, false, true );
-        $extensionsDir = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' );
-        eZDir::copy( $packageExtensionDir, $extensionsDir );
+        eZDir::copy( $packageExtensionDir, $extensionRootDir );
 
         // Activate extension
         $siteINI = eZINI::instance( 'site.ini', 'settings/override', null, null, false, true );
