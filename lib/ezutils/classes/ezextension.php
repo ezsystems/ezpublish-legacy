@@ -382,21 +382,17 @@ class eZExtension
 
     /**
      * Returns the correct handler defined in $iniFile configuration file
-     * It is now possible to load handler only by defining the classname
-     * in a configuration file (which may depend of the feature).
+     * A correct class name for the handler needs to be specified in the 
+     * ini settings, and the class needs to be present for the autoload system.
      *
-     * The goal of this method is to avoid auto detection of classes at runtime
-     * which overloads the FileSystem and does not take advantages of the new
-     * Autoload system.
-     *
-     * @param string $iniFile
-     * @param string $iniSection
-     * @param string $iniVariable
-     * @param string $handlerIndex
-     * @param boolen $isValidFunction
-     * @param mixed $handlerParams an array of parameters to pass to the handler
      * @static
-     * @return false|object Returns a valid handler or false
+     * @param string $iniFile the ini file to read the handler settings from
+     * @param string $iniSection the ini [section] where the handler settings are defined
+     * @param string $iniVariable the variable name of the ini setting to read handler name from (it can be array or string)
+     * @param string $handlerIndex set this if you need to pick a certain index in the ini setting (given that it is an array)
+     * @param string $callMethod name of function to call on the object to see if handler is valid
+     * @param array $handlerParams an array of parameters to pass to the handler
+     * @return null|false|object Returns a valid handler object, null if setting did not exists and false if no handler was found
      */
     public static function getHandlerClass( $iniFile, $iniSection = 'HandlerSettings', $iniVariable = 'HandlerClassName', $handlerIndex = null, $callMethod = null, $handlerParams = null )
     {
@@ -423,20 +419,25 @@ class eZExtension
 
         foreach( $handlers as $handler )
         {
+            // we rely on the autoload system here
             if ( class_exists( $handler ) )
             {
-                $reflection = new ReflectionClass( $handler );
-
-                if( $handlerParams !== null )
+                // only use reflection if we have params to avoid exception on objects withouth constructor
+                if ( $handlerParams !== null && is_array( $handlerParams ) && count( $handlerParams ) > 0 )
+                {
+                    $reflection = new ReflectionClass( $handler );
                     $object = $reflection->newInstanceArgs( $handlerParams );
+                }
                 else
-                    $object = $reflection->newInstance();
-
+                {
+                    $object = new $handler();
+                }
+                // if callMethod is set, then call it so handler can decide if it is a valid handler
                 if ( $callMethod !== null )
                 {
                     if ( !is_callable( $object, false, $callMethod  ) )
                     {
-                        eZDebug::writeNotice( 'Method ' . $callMethod . ' is not callable', __METHOD__ );
+                        eZDebug::writeNotice( 'Method ' . $callMethod . ' is not callable on class ' . $handler, __METHOD__ );
                         continue;
                     }
 
@@ -446,7 +447,9 @@ class eZExtension
                 return $object;
             }
             else
+            {
                 eZDebug::writeError( 'Class ' . $handler . ' does not exists', __METHOD__ );
+            }
         }
 
         return false;
