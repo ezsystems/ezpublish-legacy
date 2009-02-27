@@ -121,6 +121,25 @@ Changes to method signatures
 
   These methods do not any longer accept the ID of the RSSExport as a parameter.
   Use eZRSSExport::fetch() first to fetch the instance by its ID.
+  
+- eZURLAliasML - fetchByAction
+
+  For this method the already existing parameter *$maskLanguages* have been
+  reused. For boolean values the old logic will be triggered, for string
+  values entries will be filtered with the locale's language mask.
+
+  *$onlyprioritized* will not have any effect, when a locale is specified in
+  *$maskLanguages*.
+
+- eZURLAliasML - getPath
+
+  New *$locale* parameter introduced. When *$locale* is used, it will override the
+  default filtering in the *choosePriortizedRow()* method.
+
+- eZURLAliasML - fetchPathByActionList
+
+  *$locale* parameter added, with fallback to normal behaviour.
+
 
 Change of behaviour
 -------------------

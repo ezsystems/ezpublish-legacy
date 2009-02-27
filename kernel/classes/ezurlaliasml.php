@@ -342,7 +342,7 @@ class eZURLAliasML extends eZPersistentObject
      \note If you know the action values of the path use fetchPathByActionList() instead, it is more optimized.
      \note The calculated path is cached in $Path.
      */
-    function getPath()
+    function getPath( $locale = null )
     {
         if ( $this->Path !== null )
             return $this->Path;
@@ -354,6 +354,13 @@ class eZURLAliasML extends eZPersistentObject
         while ( $id != 0 )
         {
             $query = "SELECT parent, lang_mask, text FROM ezurlalias_ml WHERE id={$id}";
+            if ( $locale !== null && is_string( $locale ) )
+            {
+                $mask = eZContentLanguage::maskByLocale( $locale );
+                $langFilter = $db->bitAnd( 'lang_mask', $mask );
+
+                $query .= " AND ({$langFilter} > 0)";
+            }
             $rows = $db->arrayQuery( $query );
             if ( count( $rows ) == 0 )
             {
@@ -852,15 +859,23 @@ class eZURLAliasML extends eZPersistentObject
         $db = eZDB::instance();
         $actionStr = $db->escapeString( $action );
         $langMask = '';
-        if ( $maskLanguages )
+        if ( is_bool( $maskLanguages ) && $maskLanguages )
         {
             $langMask = "(" . trim( eZContentLanguage::languagesSQLFilter( 'ezurlalias_ml', 'lang_mask' ) ) . ") AND ";
+        }
+        else if ( is_string( $maskLanguages ) )
+        {
+            // maskByLocale can support array input, here we only want one item.
+            $mask = eZContentLanguage::maskByLocale( $maskLanguages );
+            $langFilter = $db->bitAnd( 'lang_mask', $mask );
+            $langMask = "({$langFilter} > 0) AND";
         }
         $query = "SELECT * FROM ezurlalias_ml WHERE $langMask action = '$actionStr'";
         if ( !$includeRedirections )
         {
             $query .= " AND is_original = 1 AND is_alias = 0";
         }
+
         $rows = $db->arrayQuery( $query );
         if ( count( $rows ) == 0 )
             return array();
@@ -974,7 +989,7 @@ class eZURLAliasML extends eZPersistentObject
      \note This function is faster than getPath() since it can fetch all elements in one SQL.
      \note If the fetched elements does not point to each other (parent/id) then null is returned.
      */
-    static public function fetchPathByActionList( $actionName, $actionValues )
+    static public function fetchPathByActionList( $actionName, $actionValues, $locale = null )
     {
         if ( count( $actionValues ) == 0 )
         {
@@ -1000,7 +1015,16 @@ class eZURLAliasML extends eZPersistentObject
             $actionMap[$action][] = $row;
         }
 
-        $prioritizedLanguages = eZContentLanguage::prioritizedLanguages();
+        if ( $locale !== null && is_string( $locale ) && !empty( $locale ) )
+        {
+            $selectedLanguage = eZContentLanguage::fetchByLocale( $locale );
+            $prioritizedLanguages = $selectedLanguage !== false ? array( $selectedLanguage ): eZContentLanguage::prioritizedLanguages();
+        }
+        else
+        {
+            $prioritizedLanguages = eZContentLanguage::prioritizedLanguages();
+        }
+
         $path = array();
         $lastID = false;
         foreach ( $actionValues as $actionValue )

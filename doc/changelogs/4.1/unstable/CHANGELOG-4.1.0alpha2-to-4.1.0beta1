@@ -25,6 +25,7 @@ Changes from 4.1.0alpha2 to 4.1.0beta1
 - Implemented enhancement #14029: Enhance the DB-layer to detect if the database connection is lost
 - Implemented enhancement #13401: eZ 4.0 - Template functions improvements
 - Implemented task #14396: PostgreSQL requirements change
+- Implemented enhancement #14313: Add a tool to allow for easy switching between translation SAs.
 
 *Design:
 

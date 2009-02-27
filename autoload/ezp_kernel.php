@@ -534,6 +534,7 @@ return array(
       'eZXMLTextType'                      => 'kernel/classes/datatypes/ezxmltext/ezxmltexttype.php',
       'eZi18nOperator'                     => 'kernel/common/ezi18noperator.php',
       'ezpAutoloadGeneratorOptions'        => 'kernel/private/options/ezpautoloadgeneratoroptions.php',
+      'ezpLanguageSwitcher'                => 'kernel/private/classes/ezplanguageswitcher.php',
       'smtp'                               => 'lib/ezutils/classes/ezsmtp.php',
     );
 
