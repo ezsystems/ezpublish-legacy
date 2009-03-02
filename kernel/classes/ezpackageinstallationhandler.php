@@ -286,37 +286,24 @@ class eZPackageInstallationHandler
         if ( !isset( $handlers ) )
             $handlers = array();
         $handler = false;
-        if ( eZExtension::findExtensionType( array( 'ini-name' => 'package.ini',
-                                                    'repository-group' => 'PackageSettings',
-                                                    'repository-variable' => 'RepositoryDirectories',
-                                                    'extension-group' => 'PackageSettings',
-                                                    'extension-variable' => 'ExtensionDirectories',
-                                                    'subdir' => 'packageinstallers',
-                                                    'extension-subdir' => 'packageinstallers',
-                                                    'suffix-name' => 'packageinstaller.php',
-                                                    'type-directory' => true,
-                                                    'type' => $handlerName,
-                                                    'alias-group' => 'InstallerSettings',
-                                                    'alias-variable' => 'HandlerAlias' ),
-                                             $result ) )
+
+        if( isset( $handlers[$handlerName] ) )
         {
-            $handlerFile = $result['found-file-path'];
-            if ( file_exists( $handlerFile ) )
+            $handler =& $handlers[$handlerName];
+            $handler->reset();
+        }
+        else
+        {
+            $handler = eZExtension::getHandlerClass( 'package.ini',
+                                                     'InstallerSettings',
+                                                     'HandlerAlias',
+                                                     $handlerName,
+                                                     null,
+                                                     array( $package, $handlerName, $installItem ) );
+
+            if( $handler !== null and $handler !== false )
             {
-                include_once( $handlerFile );
-                $handlerClassName = $result['type'] . 'PackageInstaller';
-
-                if ( isset( $handlers[$result['type']] ) )
-                {
-                    $handler =& $handlers[$result['type']];
-                    $handler->reset();
-                }
-                else
-                {
-                    $handler = new $handlerClassName( $package, $handlerName, $installItem );
-                    $handlers[$result['type']] =& $handler;
-                }
-
+                $handlers[$handlerName] =& $handler;
                 // if custom install handler is available in the package, we use it
                 $customInstallHandler = $handler->customInstallHandlerInfo( $package, $installItem );
                 if ( $customInstallHandler )
@@ -325,11 +312,12 @@ class eZPackageInstallationHandler
                     $handlerClassName = $customInstallHandler['classname'];
                     $handlerFile = $customInstallHandler['file-path'];
 
-                    include_once( $handlerFile );
+                    // include_once( $handlerFile );
                     $handler = new $handlerClassName( $package, $handlerName, $installItem );
                 }
             }
         }
+
         return $handler;
     }
 
