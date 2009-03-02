@@ -358,36 +358,21 @@ class eZPackageCreationHandler
         if ( !isset( $handlers ) )
             $handlers = array();
         $handler = false;
-        if ( eZExtension::findExtensionType( array( 'ini-name' => 'package.ini',
-                                                    'repository-group' => 'PackageSettings',
-                                                    'repository-variable' => 'RepositoryDirectories',
-                                                    'extension-group' => 'PackageSettings',
-                                                    'extension-variable' => 'ExtensionDirectories',
-                                                    'subdir' => 'packagecreators',
-                                                    'extension-subdir' => 'packagecreators',
-                                                    'suffix-name' => 'packagecreator.php',
-                                                    'type-directory' => true,
-                                                    'type' => $handlerName,
-                                                    'alias-group' => 'CreationSettings',
-                                                    'alias-variable' => 'HandlerAlias' ),
-                                             $result ) )
+
+        if( isset( $handlers[$handlerName] ) )
         {
-            $handlerFile = $result['found-file-path'];
-            if ( file_exists( $handlerFile ) )
-            {
-                include_once( $handlerFile );
-                $handlerClassName = $result['type'] . 'PackageCreator';
-                if ( isset( $handlers[$result['type']] ) )
-                {
-                    $handler =& $handlers[$result['type']];
-                    $handler->reset();
-                }
-                else
-                {
-                    $handler = new $handlerClassName( $handlerName );
-                    $handlers[$result['type']] =& $handler;
-                }
-            }
+            $handler = $handlers[$handlerName];
+            $handler->reset();
+        }
+        else
+        {
+            $handler = eZExtension::getHandlerClass( 'package.ini',
+                                                     'CreationSettings',
+                                                     'HandlerAlias',
+                                                     $handlerName,
+                                                     null,
+                                                     array( $handlerName ) );
+            $handlers[$handlerName] = $handler;
         }
         return $handler;
     }
