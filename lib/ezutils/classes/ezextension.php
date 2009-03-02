@@ -382,7 +382,7 @@ class eZExtension
 
     /**
      * Returns the correct handler defined in $iniFile configuration file
-     * A correct class name for the handler needs to be specified in the
+     * A correct class name for the handler needs to be specified in the 
      * ini settings, and the class needs to be present for the autoload system.
      *
      * @static
@@ -394,14 +394,7 @@ class eZExtension
      * @param array $handlerParams an array of parameters to pass to the handler
      * @return null|false|object Returns a valid handler object, null if setting did not exists and false if no handler was found
      */
-    public static function getHandlerClass( $iniFile,
-                                            $iniSection = 'HandlerSettings',
-                                            $iniVariable = 'HandlerClassName',
-                                            $handlerIndex = null,
-                                            $callMethod = null,
-                                            $handlerParams = null,
-                                            $aliasSection = null,
-                                            $aliasVariable = null )
+    public static function getHandlerClass( $iniFile, $iniSection = 'HandlerSettings', $iniVariable = 'HandlerClassName', $handlerIndex = null, $callMethod = null, $handlerParams = null )
     {
         $ini = eZINI::instance( $iniFile );
 
@@ -415,33 +408,14 @@ class eZExtension
 
         if ( $handlerIndex !== null )
         {
-            if ( is_array( $handlers ) && isset( $handlers[ $handlerIndex  ] ) )
+            if ( isset( $handlers[ $handlerIndex  ] ) )
                 $handlers = $handlers[ $handlerIndex  ];
             else
                 return null;
         }
 
-        // prepend alias settings if defined
-        if ( $aliasVariable !== null && is_string( $handlers ) )
-        {
-            if ( $aliasSection === null )
-            {
-                $aliasSection = $iniSection;
-            }
-            $aliasHandlers = $ini->variable( $aliasSection, $aliasVariable );
-            if ( is_array( $aliasHandlers ) && isset( $aliasHandlers[ $handlers ] ) )
-            {
-                $handlers = array( $aliasHandlers[ $handlers ], $handlers );
-            }
-            else
-            {
-                $handlers = array( $handlers );
-            }
-        }
-        else if ( !is_array( $handlers ) )
-        {
+        if ( !is_array( $handlers ) )
             $handlers = array( $handlers );
-        }
 
         foreach( $handlers as $handler )
         {
@@ -461,7 +435,7 @@ class eZExtension
                 // if callMethod is set, then call it so handler can decide if it is a valid handler
                 if ( $callMethod !== null )
                 {
-                    if ( !is_callable( array( $object, $callMethod ) ) )
+                    if ( !is_callable( $object, false, $callMethod  ) )
                     {
                         eZDebug::writeNotice( 'Method ' . $callMethod . ' is not callable on class ' . $handler, __METHOD__ );
                         continue;
@@ -474,7 +448,7 @@ class eZExtension
             }
             else
             {
-                eZDebug::writeError( "Class '$handler' does not exists, defined in setting $iniFile [$iniSection] $iniVariable ", __METHOD__ );
+                eZDebug::writeError( 'Class ' . $handler . ' does not exists', __METHOD__ );
             }
         }
 

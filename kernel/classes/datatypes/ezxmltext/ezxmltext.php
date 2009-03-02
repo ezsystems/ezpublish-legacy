@@ -131,45 +131,127 @@ class eZXMLText
     /// \static
     static function inputHandler( &$xmlData, $type = false, $useAlias = true, $contentObjectAttribute = false )
     {
-        $inputHandler = eZExtension::getHandlerClass( 'ezxml.ini',
-                                                      'InputSettings',
-                                                      'HandlerClass',
-                                                      null,
-                                                      'isValid',
-                                                      array( $xmlData,
-                                                             false,
-                                                             $contentObjectAttribute ),
-                                                      null,
-                                                      ( $useAlias ? 'AliasClasses' : null ) );
-
-        if ( $inputHandler === null || $inputHandler === false )
+        $inputDefinition = array( 'ini-name' => 'ezxml.ini',
+                                  'repository-group' => 'HandlerSettings',
+                                  'repository-variable' => 'Repositories',
+                                  'extension-group' => 'HandlerSettings',
+                                  'extension-variable' => 'ExtensionRepositories',
+                                  'type-group' => 'InputSettings',
+                                  'type-variable' => 'Handler',
+                                  'subdir' => 'input',
+                                  'type-directory' => false,
+                                  'extension-subdir' => 'ezxmltext/handlers/input',
+                                  'suffix-name' => 'xmlinput.php' );
+        if ( $type !== false )
+            $inputDefinition['type'] = $type;
+        if ( $useAlias )
+        {
+            $inputDefinition['alias-group'] = 'InputSettings';
+            $inputDefinition['alias-variable'] = 'Alias';
+        }
+        $inputHandler = eZXMLText::fetchHandler( $inputDefinition,
+                                                  'XMLInput',
+                                                  $xmlData,
+                                                  $contentObjectAttribute );
+        if ( $inputHandler === null )
         {
             $inputHandler = new eZSimplifiedXMLInput( $xmlData, false, $contentObjectAttribute );
         }
-
         return $inputHandler;
     }
 
     /// \static
     static function outputHandler( &$xmlData, $type = false, $useAlias = true, $contentObjectAttribute = false )
     {
-        $outputHandler = eZExtension::getHandlerClass( 'ezxml.ini',
-                                                       'OutputSettings',
-                                                       'HandlerClass',
-                                                       null,
-                                                       'isValid',
-                                                       array( $xmlData,
-                                                              false,
-                                                              $contentObjectAttribute ),
-                                                       null,
-                                                       ( $useAlias ? 'AliasClasses' : null ) );
-
-        if ( $outputHandler === null || $outputHandler === false )
+        $outputDefinition = array( 'ini-name' => 'ezxml.ini',
+                                   'repository-group' => 'HandlerSettings',
+                                   'repository-variable' => 'Repositories',
+                                   'extension-group' => 'HandlerSettings',
+                                   'extension-variable' => 'ExtensionRepositories',
+                                   'type-group' => 'OutputSettings',
+                                   'type-variable' => 'Handler',
+                                   'subdir' => 'output',
+                                   'type-directory' => false,
+                                   'extension-subdir' => 'ezxmltext/handlers/output',
+                                   'suffix-name' => 'xmloutput.php' );
+        if ( $type !== false )
+            $outputDefinition['type'] = $type;
+        if ( $useAlias )
+        {
+            $outputDefinition['alias-group'] = 'OutputSettings';
+            $outputDefinition['alias-variable'] = 'Alias';
+        }
+        $outputHandler = eZXMLText::fetchHandler( $outputDefinition,
+                                                  'XMLOutput',
+                                                  $xmlData,
+                                                  $contentObjectAttribute );
+        if ( $outputHandler === null )
         {
             $outputHandler = new eZXHTMLXMLOutput( $xmlData, false, $contentObjectAttribute );
         }
-
         return $outputHandler;
+    }
+
+    /// \static
+    static function fetchHandler( $definition, $classSuffix, &$xmlData, $contentObjectAttribute )
+    {
+        $handler = null;
+        if ( eZExtension::findExtensionType( $definition,
+                                             $out ) )
+        {
+            $filePath = $out['found-file-path'];
+            include_once( $filePath );
+            $class = $out['type'] . $classSuffix;
+            $handlerValid = false;
+            $aliasedType = false;
+            if ( $out['original-type'] != $out['type'] )
+                $aliasedType = $out['original-type'];
+            if( class_exists( $class ) )
+            {
+                $handler = new $class( $xmlData, $aliasedType, $contentObjectAttribute );
+                if ( $handler->isValid() )
+                    $handlerValid = true;
+            }
+            else
+            {
+                eZDebug::writeError( "Could not instantiate class '$class', it is not defined",
+                                     'eZXMLText::fetchHandler' );
+            }
+
+            if ( !$handlerValid and
+                 $out['type'] != $out['original-type'] and
+                 isset( $definition['alias-group'] ) and
+                 isset( $definition['alias-variable'] ) )
+            {
+                unset( $definition['alias-group'] );
+                unset( $definition['alias-variable'] );
+                if ( eZExtension::findExtensionType( $definition,
+                                                     $out ) )
+                {
+                    $filePath = $out['found-file-path'];
+                    include_once( $filePath );
+                    $class = $out['type'] . $classSuffix;
+                    $handlerValid = false;
+                    if( class_exists( $class ) )
+                    {
+                        $handler = new $class( $xmlData, false, $contentObjectAttribute );
+                        if ( $handler->isValid() )
+                            $handlerValid = true;
+                    }
+                    else
+                    {
+                        eZDebug::writeError( "Could not instantiate class '$class', it is not defined",
+                                             'eZXMLText::fetchHandler' );
+                    }
+
+                    if ( !$handlerValid )
+                    {
+                        $handler = null;
+                    }
+                }
+            }
+        }
+        return $handler;
     }
 
     /// Contains the XML data
