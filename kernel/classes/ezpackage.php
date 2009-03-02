@@ -2795,37 +2795,21 @@ class eZPackage
             $handlers = $GLOBALS['eZPackageHandlers'];
         }
         $handler = false;
-        if ( eZExtension::findExtensionType( array( 'ini-name' => 'package.ini',
-                                                    'repository-group' => 'PackageSettings',
-                                                    'repository-variable' => 'RepositoryDirectories',
-                                                    'extension-group' => 'PackageSettings',
-                                                    'extension-variable' => 'ExtensionDirectories',
-                                                    'subdir' => 'packagehandlers',
-                                                    'extension-subdir' => 'packagehandlers',
-                                                    'suffix-name' => 'packagehandler.php',
-                                                    'type-directory' => true,
-                                                    'type' => $handlerName,
-                                                    'alias-group' => 'PackageSettings',
-                                                    'alias-variable' => 'HandlerAlias' ),
-                                             $result ) )
+
+        if( isset( $handlers[$handlerName] ) )
         {
-            $handlerFile = $result['found-file-path'];
-            if ( file_exists( $handlerFile ) )
-            {
-                include_once( $handlerFile );
-                $handlerClassName = $result['type'] . 'PackageHandler';
-                if ( isset( $handlers[$result['type']] ) )
-                {
-                    $handler = $handlers[$result['type']];
-                    $handler->reset();
-                }
-                else
-                {
-                    $handler = new $handlerClassName;
-                    $handlers[$result['type']] = $handler;
-                }
-            }
+            $handler = $handlers[$handlerName];
+            $handler->reset();
         }
+        else
+        {
+            $handler = eZExtension::getHandlerClass( 'package.ini',
+                                                     'PackageSettings',
+                                                     'HandlerAlias',
+                                                     $handlerName );
+            $handlers[$handlerName] = $handler;
+        }
+
         $GLOBALS['eZPackageHandlers'] = $handlers;
         return $handler;
     }
