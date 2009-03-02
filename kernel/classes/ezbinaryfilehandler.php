@@ -264,25 +264,11 @@ class eZBinaryFileHandler
         $instance =& $GLOBALS['eZBinaryFileHandlerInstance-' . $identifier];
         if ( !isset( $instance ) )
         {
-            $handlerDirectory = $identifier;
-            $handlerFilename = $identifier . "handler.php";
-            if ( eZExtension::findExtensionType( array( 'ini-name' => 'file.ini',
-                                                    'repository-group' => 'BinaryFileSettings',
-                                                    'repository-variable' => 'Repositories',
-                                                    'extension-group' => 'BinaryFileSettings',
-                                                    'extension-variable' => 'ExtensionRepositories',
-                                                    'type-directory' => true,
-                                                    'type' => $identifier,
-                                                    'subdir' => 'binaryhandlers',
-                                                    'extension-subdir' => 'binaryhandlers',
-                                                    'suffix-name' => 'handler.php' ),
-                                             $out ) )
-            {
-                include_once( $out['found-file-path'] );
-                $classname = $identifier . "handler";
-                $instance = new $classname();
-            }
-            else
+            $instance = eZExtension::getHandlerClass( 'file.ini',
+                                                      'BinaryFileSettings',
+                                                      'Handler' );
+
+            if( $instance === false )
             {
                 eZDebug::writeError( "Could not find binary file handler '$identifier'", 'eZBinaryFileHandler::instance' );
             }
