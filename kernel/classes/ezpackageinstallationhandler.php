@@ -294,12 +294,15 @@ class eZPackageInstallationHandler
         }
         else
         {
-            $handler = eZExtension::getHandlerClass( 'package.ini',
-                                                     'InstallerSettings',
-                                                     'HandlerAlias',
-                                                     $handlerName,
-                                                     null,
-                                                     array( $package, $handlerName, $installItem ) );
+            $optionArray = array( 'iniFile'       => 'package.ini',
+                                  'iniSection'    => 'InstallerSettings',
+                                  'iniVariable'   => 'HandlerAlias',
+                                  'handlerIndex'  => $handlerName,
+                                  'handlerParams' => array( $package, $handlerName, $installItem ) );
+
+            $options = new eZExtensionOptions( $optionArray );
+
+            $handler = eZExtension::getHandlerClass( $options );
 
             if( $handler !== null and $handler !== false )
             {

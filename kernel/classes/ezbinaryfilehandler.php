@@ -264,9 +264,13 @@ class eZBinaryFileHandler
         $instance =& $GLOBALS['eZBinaryFileHandlerInstance-' . $identifier];
         if ( !isset( $instance ) )
         {
-            $instance = eZExtension::getHandlerClass( 'file.ini',
-                                                      'BinaryFileSettings',
-                                                      'Handler' );
+            $optionArray = array( 'iniFile'     => 'file.ini',
+                                  'iniSection'  => 'BinaryFileSettings',
+                                  'iniVariable' => 'Handler'  );
+
+            $options = new eZExtensionOptions( $optionArray );
+
+            $instance = eZExtension::getHandlerClass( $options );
 
             if( $instance === false )
             {

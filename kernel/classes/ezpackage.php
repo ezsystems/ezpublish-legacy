@@ -2803,10 +2803,14 @@ class eZPackage
         }
         else
         {
-            $handler = eZExtension::getHandlerClass( 'package.ini',
-                                                     'PackageSettings',
-                                                     'HandlerAlias',
-                                                     $handlerName );
+            $optionArray = array( 'iniFile'      => 'package.ini',
+                                  'iniSection'   => 'PackageSettings',
+                                  'iniVariable'  => 'HandlerAlias',
+                                  'handlerIndex' => $handlerName );
+
+            $options = new eZExtensionOptions( $optionArray );
+
+            $handler = eZExtension::getHandlerClass( $options );
             $handlers[$handlerName] = $handler;
         }
 

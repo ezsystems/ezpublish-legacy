@@ -42,12 +42,15 @@ class eZClusterFileHandler
     {
         if( $filename !== false )
         {
-            $handler = eZExtension::getHandlerClass( 'file.ini',
-                                                     'ClusteringSettings',
-                                                     'FileHandler',
-                                                     null,
-                                                     null,
-                                                     array( $filename ) );
+            $optionArray = array( 'iniFile'      => 'file.ini',
+                                  'iniSection'   => 'ClusteringSettings',
+                                  'iniVariable'  => 'FileHandler',
+                                  'handlerParams'=> array( $filename ) );
+
+            $options = new eZExtensionOptions( $optionArray );
+
+            $handler = eZExtension::getHandlerClass( $options );
+
             return $handler;
         }
         else
@@ -55,9 +58,13 @@ class eZClusterFileHandler
             // return Filehandler from GLOBALS based on ini setting.
             if ( !isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) )
             {
-                $handler = eZExtension::getHandlerClass( 'file.ini',
-                                                         'ClusteringSettings',
-                                                         'FileHandler' );
+                $optionArray = array( 'iniFile'      => 'file.ini',
+                                      'iniSection'   => 'ClusteringSettings',
+                                      'iniVariable'  => 'FileHandler' );
+
+                $options = new eZExtensionOptions( $optionArray );
+
+                $handler = eZExtension::getHandlerClass( $options );
 
                 $GLOBALS['eZClusterFileHandler_chosen_handler'] = $handler;
             }

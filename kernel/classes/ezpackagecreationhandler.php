@@ -366,12 +366,15 @@ class eZPackageCreationHandler
         }
         else
         {
-            $handler = eZExtension::getHandlerClass( 'package.ini',
-                                                     'CreationSettings',
-                                                     'HandlerAlias',
-                                                     $handlerName,
-                                                     null,
-                                                     array( $handlerName ) );
+            $optionArray = array( 'iniFile'       => 'package.ini',
+                                  'iniSection'    => 'CreationSettings',
+                                  'iniVariable'   => 'HandlerAlias',
+                                  'handlerIndex'  => $handlerName,
+                                  'handlerParams' => array( $handlerName ) );
+
+            $options = new eZExtensionOptions( $optionArray );
+
+            $handler = eZExtension::getHandlerClass( $options );
             $handlers[$handlerName] = $handler;
         }
         return $handler;

@@ -386,14 +386,10 @@ class eZExtension
      * ini settings, and the class needs to be present for the autoload system.
      *
      * @static
-     * @param string $iniFile the ini file to read the handler settings from
-     * @param string $iniSection the ini [section] where the handler settings are defined
-     * @param string $iniVariable the variable name of the ini setting to read handler name from (it can be array or string)
-     * @param string $handlerIndex set this if you need to pick a certain index in the ini setting (given that it is an array)
-     * @param string $callMethod name of function to call on the object to see if handler is valid
-     * @param array $handlerParams an array of parameters to pass to the handler
+     * @param object $options, and eZExtensionOptions object
      * @return null|false|object Returns a valid handler object, null if setting did not exists and false if no handler was found
      */
+    /*
     public static function getHandlerClass( $iniFile,
                                             $iniSection = 'HandlerSettings',
                                             $iniVariable = 'HandlerClassName',
@@ -402,7 +398,18 @@ class eZExtension
                                             $handlerParams = null,
                                             $aliasSection = null,
                                             $aliasVariable = null )
+    */
+    public static function getHandlerClass( eZExtensionOptions $eZExtensionOptions )
     {
+        $iniFile       = $eZExtensionOptions->iniFile;
+        $iniSection    = $eZExtensionOptions->iniSection;
+        $iniVariable   = $eZExtensionOptions->iniVariable;
+        $handlerIndex  = $eZExtensionOptions->handlerIndex;
+        $callMethod    = $eZExtensionOptions->callMethod;
+        $handlerParams = $eZExtensionOptions->handlerParams;
+        $aliasSection  = $eZExtensionOptions->aliasSection;
+        $aliasVariable = $eZExtensionOptions->aliasVariable;
+
         $ini = eZINI::instance( $iniFile );
 
         if ( !$ini->hasVariable( $iniSection, $iniVariable ) )

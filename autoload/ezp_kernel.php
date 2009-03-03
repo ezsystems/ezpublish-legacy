@@ -155,6 +155,7 @@ return array(
       'eZExecution'                        => 'lib/ezutils/classes/ezexecution.php',
       'eZExpiryHandler'                    => 'lib/ezutils/classes/ezexpiryhandler.php',
       'eZExtension'                        => 'lib/ezutils/classes/ezextension.php',
+      'eZExtensionOptions'                 => 'kernel/private/options/ezextensionoptions.php',
       'eZExtensionPackageCreator'          => 'kernel/classes/packagecreators/ezextension/ezextensionpackagecreator.php',
       'eZExtensionPackageHandler'          => 'kernel/classes/packagehandlers/ezextension/ezextensionpackagehandler.php',
       'eZFS2FileHandler'                   => 'kernel/private/classes/clusterfilehandlers/ezfs2filehandler.php',
@@ -534,6 +535,7 @@ return array(
       'eZXMLTextType'                      => 'kernel/classes/datatypes/ezxmltext/ezxmltexttype.php',
       'eZi18nOperator'                     => 'kernel/common/ezi18noperator.php',
       'ezpAutoloadGeneratorOptions'        => 'kernel/private/options/ezpautoloadgeneratoroptions.php',
+      'ezpAutoloader'                      => 'autoload.php',
       'ezpLanguageSwitcher'                => 'kernel/private/classes/ezplanguageswitcher.php',
       'smtp'                               => 'lib/ezutils/classes/ezsmtp.php',
     );

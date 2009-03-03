@@ -57,9 +57,13 @@ class eZDBFileHandler
         $filePath = eZDBFileHandler::cleanPath( $filePath );
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::ctor( '$filePath' )" );
 
-        $this->backend = eZExtension::getHandlerClass( 'file.ini',
-                                                       'ClusteringSettings',
-                                                       'DBBackend' );
+        $optionArray = array( 'iniFile'     => 'file.ini',
+                              'iniSection'  => 'ClusteringSettings',
+                              'iniVariable' => 'DBBackend' );
+
+        $options = new eZExtensionOptions( $optionArray );
+
+        $this->backend = eZExtension::getHandlerClass( $options );
         $this->backend->_connect( false );
 
         // connection failed

@@ -131,14 +131,19 @@ class eZXMLText
     /// \static
     static function inputHandler( &$xmlData, $type = false, $useAlias = true, $contentObjectAttribute = false )
     {
-        $inputHandler = eZExtension::getHandlerClass( 'ezxml.ini',
-                                                      'InputSettings',
-                                                      'HandlerClass',
-                                                      null,
-                                                      'isValid',
-                                                      array( $xmlData, false, $contentObjectAttribute ),
-                                                      null,
-                                                      ( $useAlias ? 'AliasClasses' : null ) );
+        $optionArray = array( 'iniFile'       => 'ezxml.ini',
+                              'iniSection'    => 'InputSettings',
+                              'iniVariable'   => 'HandlerClass',
+                              'callMethod'    => 'isValid',
+                              'handlerParams' => array( $xmlData,
+                                                        false,
+                                                        $contentObjectAttribute ),
+                              'aliasVariable' => ( $useAlias ? 'AliasClasses' : null ) );
+
+        $options = new eZExtensionOptions( $optionArray );
+
+        $inputHandler = eZExtension::getHandlerClass( $options );
+
         if ( $inputHandler === null || $inputHandler === false )
         {
             $inputHandler = new eZSimplifiedXMLInput( $xmlData, false, $contentObjectAttribute );
@@ -149,14 +154,19 @@ class eZXMLText
     /// \static
     static function outputHandler( &$xmlData, $type = false, $useAlias = true, $contentObjectAttribute = false )
     {
-        $outputHandler = eZExtension::getHandlerClass( 'ezxml.ini',
-                                                      'OutputSettings',
-                                                      'HandlerClass',
-                                                      null,
-                                                      'isValid',
-                                                      array( $xmlData, false, $contentObjectAttribute ),
-                                                      null,
-                                                      ( $useAlias ? 'AliasClasses' : null ) );
+        $optionArray = array( 'iniFile'       => 'ezxml.ini',
+                              'iniSection'    => 'OutputSettings',
+                              'iniVariable'   => 'HandlerClass',
+                              'callMethod'    => 'isValid',
+                              'handlerParams' => array( $xmlData,
+                                                        false,
+                                                        $contentObjectAttribute ),
+                              'aliasVariable' => ( $useAlias ? 'AliasClasses' : null )  );
+
+        $options = new eZExtensionOptions( $optionArray );
+
+        $outputHandler = eZExtension::getHandlerClass( $options );
+
         if ( $outputHandler === null || $outputHandler === false )
         {
             $outputHandler = new eZXHTMLXMLOutput( $xmlData, false, $contentObjectAttribute );
