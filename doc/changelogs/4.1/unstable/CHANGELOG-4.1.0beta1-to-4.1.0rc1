@@ -15,3 +15,4 @@ Changes from 4.1.0beta1 to 4.1.0rc1
 *Translations:
 
 *Bugfixes:
+- Fixed bug #13700: eZImageAliasHandler bug when Exif contains ComponentsConfiguration
