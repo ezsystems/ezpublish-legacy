@@ -114,17 +114,14 @@ class eZSubtreeCache
     */
     static function cleanupCacheDir( $cacheDir )
     {
-        if ( file_exists( $cacheDir ) )
+        $ini = eZINI::instance();
+        if ( $ini->variable( 'TemplateSettings', 'DelayedCacheBlockCleanup' ) === 'enabled' )
         {
-            $ini = eZINI::instance();
-            if ( $ini->variable( 'TemplateSettings', 'DelayedCacheBlockCleanup' ) === 'enabled' )
-            {
-                eZSubtreeCache::renameDir( $cacheDir );
-            }
-            else
-            {
-                eZSubtreeCache::removeExpiryCacheFromDisk( $cacheDir );
-            }
+            eZSubtreeCache::renameDir( $cacheDir );
+        }
+        else
+        {
+            eZSubtreeCache::removeExpiryCacheFromDisk( $cacheDir );
         }
     }
 
