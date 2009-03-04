@@ -11,7 +11,6 @@
 
 return array(
       'Cezpdf'                             => 'lib/ezpdf/classes/class.ezpdf.php',
-      'CommandLineArguments'               => 'bin/php/ezconvertdbcharset.php',
       'Cpdf'                               => 'lib/ezpdf/classes/class.pdf.php',
       'eZ1337Translator'                   => 'lib/ezi18n/classes/ez1337translator.php',
       'eZAlphabetOperator'                 => 'kernel/common/ezalphabetoperator.php',
