@@ -681,32 +681,31 @@ class eZImageManager
         $ini = eZINI::instance( $iniFile );
         if ( !$ini )
             return false;
-        $handlerList = $ini->variable( 'ImageConverterSettings', 'ImageConverters' );
-        foreach ( $handlerList as $handlerName )
+
+        if( $ini->hasVariable( 'ImageConverterSettings', 'ConverterName' ) )
         {
-            if ( $ini->hasGroup( $handlerName ) )
+            $converterName = $ini->variable( 'ImageConverterSettings', 'ConverterName' );
+
+            if ( $ini->hasVariable( $converterName, 'Handler' ) )
             {
-                if ( $ini->hasVariable( $handlerName, 'Handler' ) )
+                $factoryName = $ini->variable( $converterName, 'Handler' );
+                $factory = $this->factoryFor( $factoryName, $iniFile, $converterName );
+                if ( $factory )
                 {
-                    $factoryName = $ini->variable( $handlerName, 'Handler' );
-                    $factory = $this->factoryFor( $factoryName, $iniFile );
-                    if ( $factory )
-                    {
-                        $convertHandler = $factory->produceFromINI( $handlerName, $iniFile );
-                        $this->appendImageHandler( $convertHandler );
-                    }
-                }
-                else
-                {
-                    eZDebug::writeWarning( "INI group $handlerName does not have a Handler setting, cannot instantiate handler without it",
-                                           'eZImageManager::readImageHandlersFromINI' );
+                    $convertHandler = $factory->produceFromINI( $converterName, $iniFile );
+                    $this->appendImageHandler( $convertHandler );
                 }
             }
             else
             {
-                eZDebug::writeWarning( "No INI group $handlerName for Image Handler $handlerName, cannot instantiate",
-                                       'eZImageManager::readImageHandlersFromINI' );
+                eZDebug::writeWarning( "INI group $handlerName does not have a Handler setting, cannot instantiate handler without it",
+                                        'eZImageManager::readImageHandlersFromINI' );
             }
+        }
+        else
+        {
+            eZDebug::writeWarning( "No Image Converter chosen cannot instantiate",
+                                    'eZImageManager::readImageHandlersFromINI' );
         }
     }
 
@@ -714,7 +713,7 @@ class eZImageManager
      Finds the image handler factory with the name \a $factoryName and returns it.
      \param $iniFile The INI file to read from or if \c false use 'image.ini'
     */
-    function factoryFor( $factoryName, $iniFile = false )
+    function factoryFor( $factoryName, $iniFile = false, $converterName = false )
     {
         if ( !$iniFile )
             $iniFile = 'image.ini';
@@ -724,39 +723,17 @@ class eZImageManager
         }
         else
         {
-            if ( eZExtension::findExtensionType( array( 'ini-name' => $iniFile,
-                                                        'repository-group' => 'ImageConverterSettings',
-                                                        'repository-variable' => 'RepositoryList',
-                                                        'extension-group' => 'ImageConverterSettings',
-                                                        'extension-variable' => 'ExtensionList',
-                                                        'extension-subdir' => 'imagehandler',
-                                                        'alias-group' => 'ImageConverterSettings',
-                                                        'alias-variable' => 'ImageHandlerAlias',
-                                                        'suffix-name' => 'handler.php',
-                                                        'type-directory' => false,
-                                                        'type' => $factoryName ),
-                                                 $result ) )
-            {
-                $filepath = $result['found-file-path'];
-                include_once( $filepath );
-                $className = $result['type'] . 'factory';
-                include_once( $result['found-file-dir'] . '/' . $className . '.php' );
-                if ( class_exists( $className ) )
-                {
-                    return $this->Factories[$factoryName] = new $className();
-                }
-                else
-                {
-                    eZDebug::writeWarning( "The Image Factory class $className was not found, cannot create factory",
-                                           'eZImageManager::factoryFor' );
-                }
-            }
-            else
-            {
-                eZDebug::writeWarning( "Could not locate Image Factory for $factoryName",
-                                       'eZImageManager::factoryFor' );
-            }
+            $optionArray = array( 'iniFile'       => $iniFile,
+                                  'iniSection'    => $converterName,
+                                  'iniVariable'   => 'Handler' );
+
+            $options = new eZExtensionOptions( $optionArray );
+
+            $factory = eZExtension::getHandlerClass( $options );
+
+            return $this->Factories[$factoryName] = $factory;
         }
+
         return false;
     }
 
