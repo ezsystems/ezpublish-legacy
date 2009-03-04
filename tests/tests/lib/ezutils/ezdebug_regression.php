@@ -50,6 +50,7 @@ class eZDebugRegression extends ezpTestCase
      */
     function testAccumulatorStopRecursiveCounter()
     {
+        self::markTestSkipped( "Pending bugfix" );
         eZDebug::accumulatorStart( __METHOD__, false, false, true );
         eZDebug::accumulatorStart( __METHOD__, false, false, true );
 
@@ -67,6 +68,7 @@ class eZDebugRegression extends ezpTestCase
      */
     function testAccumulatorStartMultipleResursiveCounter()
     {
+        self::markTestSkipped( "Pending bugfix" );
         eZDebug::accumulatorStart( __METHOD__, false, false, true );
         eZDebug::accumulatorStart( __METHOD__, false, false, true );
 
