@@ -389,26 +389,16 @@ class eZExtension
      * @param object $options, and eZExtensionOptions object
      * @return null|false|object Returns a valid handler object, null if setting did not exists and false if no handler was found
      */
-    /*
-    public static function getHandlerClass( $iniFile,
-                                            $iniSection = 'HandlerSettings',
-                                            $iniVariable = 'HandlerClassName',
-                                            $handlerIndex = null,
-                                            $callMethod = null,
-                                            $handlerParams = null,
-                                            $aliasSection = null,
-                                            $aliasVariable = null )
-    */
-    public static function getHandlerClass( eZExtensionOptions $eZExtensionOptions )
+    public static function getHandlerClass( eZExtensionOptions $options )
     {
-        $iniFile       = $eZExtensionOptions->iniFile;
-        $iniSection    = $eZExtensionOptions->iniSection;
-        $iniVariable   = $eZExtensionOptions->iniVariable;
-        $handlerIndex  = $eZExtensionOptions->handlerIndex;
-        $callMethod    = $eZExtensionOptions->callMethod;
-        $handlerParams = $eZExtensionOptions->handlerParams;
-        $aliasSection  = $eZExtensionOptions->aliasSection;
-        $aliasVariable = $eZExtensionOptions->aliasVariable;
+        $iniFile       = $options->iniFile;
+        $iniSection    = $options->iniSection;
+        $iniVariable   = $options->iniVariable;
+        $handlerIndex  = $options->handlerIndex;
+        $callMethod    = $options->callMethod;
+        $handlerParams = $options->handlerParams;
+        $aliasSection  = $options->aliasSection;
+        $aliasVariable = $options->aliasVariable;
 
         $ini = eZINI::instance( $iniFile );
 
