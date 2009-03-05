@@ -300,7 +300,7 @@ class eZPackageInstallationHandler
                                   'handlerIndex'  => $handlerName,
                                   'handlerParams' => array( $package, $handlerName, $installItem ) );
 
-            $options = new eZExtensionOptions( $optionArray );
+            $options = new ezpExtensionOptions( $optionArray );
 
             $handler = eZExtension::getHandlerClass( $options );
 

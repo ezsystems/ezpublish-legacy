@@ -140,7 +140,7 @@ class eZXMLText
                                                         $contentObjectAttribute ),
                               'aliasVariable' => ( $useAlias ? 'AliasClasses' : null ) );
 
-        $options = new eZExtensionOptions( $optionArray );
+        $options = new ezpExtensionOptions( $optionArray );
 
         $inputHandler = eZExtension::getHandlerClass( $options );
 
@@ -163,7 +163,7 @@ class eZXMLText
                                                         $contentObjectAttribute ),
                               'aliasVariable' => ( $useAlias ? 'AliasClasses' : null )  );
 
-        $options = new eZExtensionOptions( $optionArray );
+        $options = new ezpExtensionOptions( $optionArray );
 
         $outputHandler = eZExtension::getHandlerClass( $options );
 

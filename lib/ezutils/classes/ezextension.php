@@ -386,10 +386,10 @@ class eZExtension
      * ini settings, and the class needs to be present for the autoload system.
      *
      * @static
-     * @param object $options, and eZExtensionOptions object
+     * @param object $options, and ezpExtensionOptions object
      * @return null|false|object Returns a valid handler object, null if setting did not exists and false if no handler was found
      */
-    public static function getHandlerClass( eZExtensionOptions $options )
+    public static function getHandlerClass( ezpExtensionOptions $options )
     {
         $iniFile       = $options->iniFile;
         $iniSection    = $options->iniSection;

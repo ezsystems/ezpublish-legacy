@@ -47,7 +47,7 @@ class eZClusterFileHandler
                                   'iniVariable'  => 'FileHandler',
                                   'handlerParams'=> array( $filename ) );
 
-            $options = new eZExtensionOptions( $optionArray );
+            $options = new ezpExtensionOptions( $optionArray );
 
             $handler = eZExtension::getHandlerClass( $options );
 
@@ -62,7 +62,7 @@ class eZClusterFileHandler
                                       'iniSection'   => 'ClusteringSettings',
                                       'iniVariable'  => 'FileHandler' );
 
-                $options = new eZExtensionOptions( $optionArray );
+                $options = new ezpExtensionOptions( $optionArray );
 
                 $handler = eZExtension::getHandlerClass( $options );
 

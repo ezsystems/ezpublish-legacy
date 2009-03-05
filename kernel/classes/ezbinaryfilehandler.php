@@ -268,7 +268,7 @@ class eZBinaryFileHandler
                                   'iniSection'  => 'BinaryFileSettings',
                                   'iniVariable' => 'Handler'  );
 
-            $options = new eZExtensionOptions( $optionArray );
+            $options = new ezpExtensionOptions( $optionArray );
 
             $instance = eZExtension::getHandlerClass( $options );
 

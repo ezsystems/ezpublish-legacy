@@ -372,7 +372,7 @@ class eZPackageCreationHandler
                                   'handlerIndex'  => $handlerName,
                                   'handlerParams' => array( $handlerName ) );
 
-            $options = new eZExtensionOptions( $optionArray );
+            $options = new ezpExtensionOptions( $optionArray );
 
             $handler = eZExtension::getHandlerClass( $options );
             $handlers[$handlerName] = $handler;

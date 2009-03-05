@@ -61,7 +61,7 @@ class eZDBFileHandler
                               'iniSection'  => 'ClusteringSettings',
                               'iniVariable' => 'DBBackend' );
 
-        $options = new eZExtensionOptions( $optionArray );
+        $options = new ezpExtensionOptions( $optionArray );
 
         $this->backend = eZExtension::getHandlerClass( $options );
         $this->backend->_connect( false );

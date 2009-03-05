@@ -727,7 +727,7 @@ class eZImageManager
                                   'iniSection'    => $converterName,
                                   'iniVariable'   => 'Handler' );
 
-            $options = new eZExtensionOptions( $optionArray );
+            $options = new ezpExtensionOptions( $optionArray );
 
             $factory = eZExtension::getHandlerClass( $options );
 

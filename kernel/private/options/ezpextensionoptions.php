@@ -51,7 +51,7 @@
  * @package kernel
  */
 
-class eZExtensionOptions extends ezcBaseOptions
+class ezpExtensionOptions extends ezcBaseOptions
 {
     public function __construct( array $options = array() )
     {
