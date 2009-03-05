@@ -7,12 +7,17 @@
  *
  */
 
-$languageSwitcherClassName = eZINI::instance()->variable( 'LanguageSwitcher', 'LanguageSwitcherClass' );
+$handlerOptions = new ezpExtensionOptions();
+$handlerOptions->iniFile = 'site.ini';
+$handlerOptions->iniSection = 'LanguageSwitcher';
+$handlerOptions->iniVariable = 'LanguageSwitcherClass';
+$handlerOptions->handlerParams = array( $Params );
+
+$langSwitch = eZExtension::getHandlerClass( $handlerOptions );
 
 $Module = $Params['Module'];
 $destinationSiteAccess = $Params['SiteAccess'];
 
-$langSwitch = new $languageSwitcherClassName( $Params );
 $langSwitch->setDestinationSiteAccess( $destinationSiteAccess );
 $langSwitch->process();
 
