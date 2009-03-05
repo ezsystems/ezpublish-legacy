@@ -217,6 +217,9 @@ class eZDB
             }
             $builtinEncoding = ( $ini->variable( 'DatabaseSettings', 'UseBuiltinEncoding' ) == 'true' );
 
+            $extraPluginPathArray = $ini->variableArray( 'DatabaseSettings', 'DatabasePluginPath' );
+            $pluginPathArray = array_merge( array( 'lib/ezdb/classes/' ),
+                                            $extraPluginPathArray );
             $impl = null;
 
             $useSlaveServer = false;
@@ -281,16 +284,38 @@ class eZDB
             if ( isset( $b['show_errors'] ) )
                 $databaseParameters['show_errors'] = $b['show_errors'];
 
-            $optionArray = array( 'iniFile'       => 'site.ini',
-                                  'iniSection'    => 'DatabaseSettings',
-                                  'iniVariable'   => 'DatabaseImplementation',
-                                  'handlerParams' => array( $databaseParameters ) );
+            // Search for the db interface implementations in active extensions directories.
+            $baseDirectory         = eZExtension::baseDirectory();
+            $extensionDirectories  = eZExtension::activeExtensions();
+            $extensionDirectories  = array_unique( $extensionDirectories );
+            $repositoryDirectories = array();
+            foreach ( $extensionDirectories as $extDir )
+            {
+                $newRepositoryDir = "$baseDirectory/$extDir/ezdb/dbms-drivers/";
+                if ( file_exists( $newRepositoryDir ) )
+                    $repositoryDirectories[] = $newRepositoryDir;
+            }
+            $repositoryDirectories = array_merge( $repositoryDirectories, $pluginPathArray );
 
-            $options = new eZExtensionOptions( $optionArray );
+            foreach( $repositoryDirectories as $repositoryDir )
+            {
+                // If we have an alias get the real name
+                $aliasList = $ini->variable( 'DatabaseSettings', 'ImplementationAlias' );
+                if ( isset( $aliasList[$databaseImplementation] ) )
+                {
+                    $databaseImplementation = $aliasList[$databaseImplementation];
+                }
 
-            $impl = eZExtension::getHandlerClass( $options );
-
-            if ( !$impl )
+                $dbFile = $repositoryDir . $databaseImplementation . 'db.php';
+                if ( file_exists( $dbFile ) )
+                {
+                    include_once( $dbFile );
+                    $className = $databaseImplementation . 'db';
+                    $impl = new $className( $databaseParameters );
+                    break;
+                }
+            }
+            if ( $impl === null )
             {
                 $impl = new eZNullDB( $databaseParameters );
                 $impl->ErrorMessage = "No database handler was found for '$databaseImplementation'";
