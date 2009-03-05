@@ -17,3 +17,4 @@ Changes from 4.1.0beta1 to 4.1.0rc1
 
 *Bugfixes:
 - Fixed bug #13700: eZImageAliasHandler bug when Exif contains ComponentsConfiguration
+- Fixed bug #14518: datatype ezimage - modifying original image failed in 4.1, 4.3 but works in 4.0 !!!

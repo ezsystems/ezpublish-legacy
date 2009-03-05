@@ -877,6 +877,10 @@ class eZImageManager
                 $fileHandler = eZClusterFileHandler::instance( $wantImagePath );
                 $fileHandler->loadMetaData( true );
 
+                // forcing regeneration of the original alias
+                if( $aliasName == 'original' and isset( $fileHandler->metaData['mtime'] ) )
+                    $fileHandler->metaData['mtime'] = 0;
+
                 if ( $fileHandler->exists() and $this->isImageTimestampValid( $fileHandler->mtime() ) )
                 {
                     $destinationMimeData = $wantImage;
