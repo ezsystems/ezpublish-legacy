@@ -460,12 +460,16 @@ function setObjectAttributeValue( $objectAttribute, $value )
             $objectAttribute->setContent( $keyword );
         } break;
 
-        case 'ezdatetime':
         case 'ezdate':
         {
             $timestamp = strtotime( $value );
             if ( $timestamp )
                 $objectAttribute->setAttribute( 'data_int', $timestamp );
+        } break;
+
+        case 'ezdatetime':
+        {
+            $objectAttribute->setAttribute( 'data_int', strtotime($value) );
         } break;
 
         default:
