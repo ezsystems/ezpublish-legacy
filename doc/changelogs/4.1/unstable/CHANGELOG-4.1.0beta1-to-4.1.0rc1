@@ -1,6 +1,7 @@
 Changes from 4.1.0beta1 to 4.1.0rc1
 
 *Kernel:
+- Implemented enhancement #11930: Importing <dc:xxxx> xml fields with RSS
 
 *Design:
 
@@ -16,4 +17,3 @@ Changes from 4.1.0beta1 to 4.1.0rc1
 
 *Bugfixes:
 - Fixed bug #13700: eZImageAliasHandler bug when Exif contains ComponentsConfiguration
-- Fixed bug #11930: Importing <dc:xxxx> xml fields with RSS
