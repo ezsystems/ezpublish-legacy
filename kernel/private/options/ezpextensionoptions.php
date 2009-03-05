@@ -57,6 +57,7 @@ class ezpExtensionOptions extends ezcBaseOptions
     {
         $this->iniSection     = 'HandlerSettings';
         $this->iniVariable    = 'HandlerClassName';
+        $this->iniFile        = null;
         $this->handlerIndex   = null;
         $this->callMethod     = null;
         $this->handlerParams  = null;
