@@ -55,9 +55,9 @@ class ezpExtensionOptions extends ezcBaseOptions
 {
     public function __construct( array $options = array() )
     {
+        $this->iniFile        = '';
         $this->iniSection     = 'HandlerSettings';
         $this->iniVariable    = 'HandlerClassName';
-        $this->iniFile        = null;
         $this->handlerIndex   = null;
         $this->callMethod     = null;
         $this->handlerParams  = null;
@@ -74,7 +74,7 @@ class ezpExtensionOptions extends ezcBaseOptions
             case 'iniFile':
             case 'iniSection':
             case 'iniVariable':
-                if( !is_string( $value ) or strlen( $value ) <= 0 )
+                if( !is_string( $value ) )
                 {
                     throw new ezcBaseValueException( $name, $value );
                 }
