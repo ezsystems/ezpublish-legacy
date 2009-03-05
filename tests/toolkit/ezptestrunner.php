@@ -90,10 +90,15 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
         $dsn->longhelp .= "mysql://root@mypass@localhost/unittests";
         $consoleInput->registerOption( $dsn );
 
-        // Coverage XML option
-        $coverage = new ezcConsoleOption( '', 'coverage-xml', ezcConsoleInput::TYPE_STRING );
-        $coverage->shorthelp = "Write code coverage information in XML format.";
-        $consoleInput->registerOption( $coverage );
+        // Coverage Clover XML option
+        $coverageXml = new ezcConsoleOption( '', 'coverage-xml', ezcConsoleInput::TYPE_STRING );
+        $coverageXml->shorthelp = "Write code coverage information in Clover XML format.";
+        $consoleInput->registerOption( $coverageXml );
+
+        // Code Coverage generation in html format
+        $coverageHtml = new ezcConsoleOption( '', 'coverage-html', ezcConsoleInput::TYPE_STRING );
+        $coverageHtml->shorthelp = "Generate code coverage report in HTML format [dir].";
+        $consoleInput->registerOption( $coverageHtml );
 
         // Filter option
         $filter = new ezcConsoleOption( 'f', 'filter', ezcConsoleInput::TYPE_STRING );
@@ -131,11 +136,6 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
         $pmd->shorthelp = "Write violations report in PMD XML format.";
         $consoleInput->registerOption( $pmd );
 
-        // Code Coverage Report directory option
-        $report = new ezcConsoleOption( 'c', 'report-dir', ezcConsoleInput::TYPE_STRING );
-        $report->shorthelp = "Directory to store test reports and code coverage reports in.";
-        $consoleInput->registerOption( $report );
-
         // Verbose option
         $verbose = new ezcConsoleOption( 'v', 'verbose', ezcConsoleInput::TYPE_NONE );
         $verbose->shorthelp = "Output more verbose information.";
@@ -151,6 +151,11 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
         $stopOnFailure->shorthelp = "Stop execution upon first error or failure.";
         $consoleInput->registerOption( $stopOnFailure );
 
+        // PHPUnit debug output option
+        $debug = new ezcConsoleOption( '', 'debug', ezcConsoleInput::TYPE_NONE );
+        $debug->shorthelp = "Turns on debugout output from PHPUnit.";
+        $consoleInput->registerOption( $debug );
+
         // Set up dependencies
         $dbPerTest->addDependency( new ezcConsoleOptionRule( $dsn ) );
     }
@@ -165,16 +170,17 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
         $ansi = $consoleInput->getOption( 'ansi' )->value;
         $colors = $consoleInput->getOption( 'colors' )->value;
         $config = $consoleInput->getOption( 'configuration' )->value;
-        $coverage = $consoleInput->getOption( 'coverage-xml' )->value;
+        $coverageXml = $consoleInput->getOption( 'coverage-xml' )->value;
+        $coverageHtml = $consoleInput->getOption( 'coverage-html' )->value;
         $dsn = $consoleInput->getOption( 'dsn' )->value;
         $filter = $consoleInput->getOption( 'filter' )->value;
         $groups = $consoleInput->getOption( 'group' )->value;
         $logfile = $consoleInput->getOption( 'log-xml' )->value;
         $metrics = $consoleInput->getOption( 'log-metrics' )->value;
         $pmd = $consoleInput->getOption( 'log-pmd' )->value;
-        $reportDir = $consoleInput->getOption( 'report-dir' )->value;
         $verbose = $consoleInput->getOption( "verbose" )->value;
         $stopOnFailure = $consoleInput->getOption( 'stop-on-failure' )->value;
+        $debug = $consoleInput->getOption( 'debug' )->value;
 
         $options = array();
         $options['ansi'] = $ansi ? True : null;
@@ -185,10 +191,12 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
         $options['filter'] = $filter ? $filter : null;
         $options['metricsXML'] = $metrics ? $metrics : null;
         $options['pmdXML'] = $pmd ? $pmd : null;
-        $options['reportDirectory'] = $reportDir ? $reportDir : null;
+        $options['coverageClover'] = $coverageXml ? $coverageXml : null;
+        $options['reportDirectory'] = $coverageHtml ? $coverageHtml : null;
         $options['verbose'] = $verbose ? true : false;
-        $options['xmlLogfile'] = $logfile ? $coverage : null;
+        $options['xmlLogfile'] = $logfile ? $logfile : null;
         $options['stopOnFailure'] = $stopOnFailure ? $stopOnFailure : null;
+        $options['debug'] = $debug ? true : null;
 
         return $options;
     }
