@@ -34,7 +34,7 @@
  * @property array $handlerParams
  *      The list of parameters to pass to the handler
  *      Default : null
-
+ * 
  * @property string $aliasSection
  *      Default : null
  *
@@ -48,7 +48,7 @@
  *
  * @param array $options
  *
- * @package Kernel
+ * @package kernel
  */
 
 class eZExtensionOptions extends ezcBaseOptions

@@ -45,7 +45,7 @@
  *
  * @param array $options
  *
- * @package Kernel
+ * @package kernel
  */
 
 class ezpAutoloadGeneratorOptions extends ezcBaseOptions
