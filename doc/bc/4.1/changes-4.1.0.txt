@@ -222,10 +222,12 @@ Change of behaviour
   New method used by the equivalent eZDBFileHandler method.
 
 - eZContentOperationCollection::setVersionStatus()
+
   This method now uses the $status parameter as is, that means $status needs
-  to be one of the eZContentObjectVersion::STATUS_ constants.
+  to be one of the eZContentObjectVersion::STATUS constants.
 
 - eZContentOperationCollection::operationIsAvailable()
+
   This method returns true or false wether an operation is available
   in workflow.ini/[OperationSettings]/AvailableOperationList
   The new triggers are actually new operations on which we added pre and post triggers,
