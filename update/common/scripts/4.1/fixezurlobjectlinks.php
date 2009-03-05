@@ -4,7 +4,7 @@
  * File containing the upgrade script to fix older occurrences of link items
  * not being present in the ezurl_object_table for all versions/translations.
  *
- * @copyright Copyright (C) 1999-2008 eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) 1999-2009 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
  *
  */

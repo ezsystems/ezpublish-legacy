@@ -65,7 +65,7 @@ for dir in $DIRS; do
             echo "Checking $dir"
         fi
     fi
-    files=`find $dir -name \*.php -type f -printf '%p;'`
+    files=`gfind $dir -name \*.php -type f -printf '%p;'`
     error=0
     IFS=";"
     for file in $files; do
