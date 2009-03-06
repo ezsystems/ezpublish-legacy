@@ -98,7 +98,7 @@ class eZWebDAVBackendContentRegressionTest extends ezpTestRegressionTest
 
         require_once 'kernel/common/i18n.php';
 
-        return new ezcTestRegressionSuite( __CLASS__ );
+        return new ezpTestRegressionSuite( __CLASS__ );
     }
 
     /**
