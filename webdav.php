@@ -136,8 +136,14 @@ if ( $enable === 'true' )
     // Initialize/set the index file.
     eZSys::init( 'webdav.php' );
 
-    // @as 2009-01-05 - added cleaning up of the REQUEST_URI - not used
-    // $_SERVER['REQUEST_URI'] = urldecode( $_SERVER['REQUEST_URI'] );
+    // @as 2009-03-04 - added cleaning up of the REQUEST_URI and HTTP_DESTINATION
+    $_SERVER['REQUEST_URI'] = urldecode( $_SERVER['REQUEST_URI'] );
+
+    if ( isset( $_SERVER['HTTP_DESTINATION'] ) )
+    {
+        $_SERVER['HTTP_DESTINATION'] = urldecode( $_SERVER['HTTP_DESTINATION'] );
+    }
+    eZWebDAVContentBackend::appendLogEntry( "Used (cleaned) URI is: " . $_SERVER['REQUEST_URI'], 'webdav.php' );
 
     // The top/root folder is publicly available (without auth):
     if ( $_SERVER['REQUEST_URI'] == ''  or

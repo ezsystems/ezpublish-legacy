@@ -224,16 +224,16 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
         // No special handling for plain resources
         if ( !$nodeInfo['isCollection'] )
         {
-            return array( new ezcWebdavResource( $source, $this->getAllProperties( $source, $nodeInfo ) ) );
+            return array( new ezcWebdavResource( $source, $this->getAllProperties( $source ) ) );
         }
 
         // For zero depth just return the collection
         if ( $depth === ezcWebdavRequest::DEPTH_ZERO )
         {
-            return array( new ezcWebdavCollection( $source, $this->getAllProperties( $source, $nodeInfo ) ) );
+            return array( new ezcWebdavCollection( $source, $this->getAllProperties( $source ) ) );
         }
 
-        $nodes = array( new ezcWebdavCollection( $source, $this->getAllProperties( $source, $nodeInfo ) ) );
+        $nodes = array( new ezcWebdavCollection( $source, $this->getAllProperties( $source ) ) );
         $recurseCollections = array( $source );
 
         // Collect children for all collections listed in $recurseCollections.
@@ -322,23 +322,27 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
 
         $contents = array();
 
-        foreach ( $entries as $file )
+        foreach ( $entries as $entry )
         {
             // prevent infinite recursion
-            if ( $path === $file['href'] )
+            if ( $path === $entry['href'] )
             {
                 continue;
             }
 
-            if ( $file['mimetype'] === 'httpd/unix-directory' )
+            if ( $entry['mimetype'] === 'httpd/unix-directory' )
             {
                 // Add collection without any children
-                $contents[] = new ezcWebdavCollection( $file['href'], $this->getAllProperties( $file['href'] ) );
+                $contents[] = new ezcWebdavCollection( $entry['href'], $this->getAllProperties( $path ) );
             }
             else
             {
+                // If this is not a collection, don't leave a trailing '/'
+                // on the href. If you do, Goliath gets confused.
+                $entry['href'] = rtrim( $entry['href'], '/' );
+
                 // Add files without content
-                $contents[] = new ezcWebdavResource( $file['href'], $this->getAllProperties( $file['href'] ) );
+                $contents[] = new ezcWebdavResource( $entry['href'], $this->getAllProperties( $path ) );
             }
         }
 
@@ -652,13 +656,48 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
      * {@link ezcWebdavSimpleBackend} to perform the operation and releases the
      * lock afterwards.
      *
+     * This method is an overwrite of the propFind method from
+     * ezcWebdavSimpleBackend, a hack necessary to permit correct
+     * output of eZ Publish nodes. The array of ezcWebdavPropFindResponse
+     * objects returned by ezcWebdavSimpleBackend::propFind is iterated and
+     * the paths of the nodes in the ezcWebdavPropFindResponse objects
+     * are encoded properly, in order to be displayed correctly in WebDAV
+     * clients. The encoding is from the ini setting Charset in
+     * [CharacterSettings] in i18n.ini.
+     *
+     * The code for coding is taken from eZWebDAVServer::outputCollectionContent().
+     *
      * @param ezcWebdavPropFindRequest $request
      * @return ezcWebdavResponse
      */
     public function propFind( ezcWebdavPropFindRequest $request )
     {
+        $ini = eZINI::instance( 'i18n.ini' );
+        $dataCharset = $ini->variable( 'CharacterSettings', 'Charset' );
+        $xmlCharset = 'utf-8';
+
         $this->acquireLock( true );
         $return = parent::propFind( $request );
+        if ( isset( $return->responses ) && is_array( $return->responses ) )
+        {
+            foreach ( $return->responses as $response )
+            {
+                $href = $response->node->path;
+                $pathArray = explode( '/', self::recode( $href, $dataCharset, $xmlCharset ) );
+                $encodedPath = '/';
+
+                foreach ( $pathArray as $pathElement )
+                {
+                    if ( $pathElement != '' )
+                    {
+                        $encodedPath .= rawurlencode( $pathElement );
+                        $encodedPath .= '/';
+                    }
+                }
+                $encodedPath = rtrim( $encodedPath, '/' );
+                $response->node->path = $encodedPath;
+            }
+        }
         $this->freeLock();
 
         return $return;
@@ -1234,26 +1273,6 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
     }
 
     /**
-     * Serves MOVE requests.
-     *
-     * It is the same move() method from the ezcWebdavSimpleBackend class,
-     * with the difference that the moving of files is done with a real
-     * move, instead of copy + delete.
-     *
-     * The method receives a {@link ezcWebdavMoveRequest} objects containing
-     * all relevant information obout the clients request and will return an
-     * instance of {@link ezcWebdavErrorResponse} on error or {@link
-     * ezcWebdavMoveResponse} on success. If only some operations failed, this
-     * method may return an instance of {@link ezcWebdavMultistatusResponse}.
-     *
-     * @param ezcWebdavMoveRequest $request
-     * @return ezcWebdavResponse
-     */
-    protected function moveLocked( ezcWebdavMoveRequest $request )
-    {
-    }
-
-    /**
      * Serves MKCOL (make collection) requests.
      *
      * The method receives a {@link ezcWebdavMakeCollectionRequest} objects
@@ -1406,6 +1425,7 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
      */
     protected function fetchNodeInfo( $target, &$node )
     {
+//var_dump( 'fetchNodeInfo ' . $target );
         // When finished, we'll return an array of attributes/properties.
         $entry = array();
 
@@ -2394,6 +2414,7 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
 
         if ( $removeAction !== 'trash' && $removeAction !== 'delete' )
         {
+            // default remove action is to trash
             $removeAction = 'trash';
         }
 
@@ -2435,14 +2456,14 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
         {
             $result = $this->putContentData( $currentSite, $virtualFolder, $target, $tempFile );
 
-            // @as 2009-02-26 - to set a clean article name
-            $node = $this->fetchNodeByTranslation( $target );
-            if ( $node !== false )
-            {
-                $object = $node->attribute( 'object' );
-                $name = $node->attribute( 'name' );
-                $object->rename( urldecode( $name ) );
-            }
+            // @as 2009-02-26 - to set a clean article name - not used
+//            $node = $this->fetchNodeByTranslation( $target );
+//            if ( $node !== false )
+//            {
+//                $object = $node->attribute( 'object' );
+//                $name = $node->attribute( 'name' );
+//                $object->rename( urldecode( $name ) );
+//            }
             return $result;
         }
 
@@ -2901,7 +2922,8 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
         $dstParentPath = $this->splitLastPathElement( $destinationNodePath, $dstNodeName );
         if ( $srcParentPath == $dstParentPath )
         {
-            $dstNodeName = urldecode( $this->fileBasename( $dstNodeName ) );
+            // @as 2009-03-02 - removed urldecode of name before renaming
+            $dstNodeName = $this->fileBasename( $dstNodeName );
             if( !$object->rename( $dstNodeName ) )
             {
                 $this->appendLogEntry( "Unable to rename the node '$sourceSite':'$nodePath' to '$destinationSite':'$destinationNodePath'", 'CS:moveContent' );
@@ -3162,6 +3184,43 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
                 fclose( $logFile );
             }
         }
+    }
+
+    /**
+     * Recodes $string from charset $fromCharset to charset $toCharset.
+     *
+     * Method from eZWebDAVServer.
+     *
+     * @param string $string
+     * @param string $fromCharset
+     * @param string $toCharset
+     * @param bool $stop
+     * @return string
+     */
+    protected static function recode( $string, $fromCharset, $toCharset, $stop = false )
+    {
+        $codec = eZTextCodec::instance( $fromCharset, $toCharset, false );
+        if ( $codec )
+        {
+            $string = $codec->convertString( $string );
+        }
+
+        return $string;
+    }
+
+    /**
+     * Encodes the path stored in $response in order to be displayed properly
+     * in WebDAV clients.
+     *
+     * Code from eZWebDAVServer::outputCollectionContent.
+     *
+     * @param ezcWebdavResponse $response
+     * @return ezcWebdavResponse
+     */
+    protected function encodeResponse( ezcWebdavResponse $response )
+    {
+
+        return $response;
     }
 
     /**
