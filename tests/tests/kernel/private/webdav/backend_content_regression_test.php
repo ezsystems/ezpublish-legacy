@@ -1,19 +1,14 @@
 <?php
 /**
- * @copyright Copyright (C) 2005-2008 eZ systems as. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
- * @version //autogentag//
- * @filesource
- * @package Feed
- * @subpackage Tests
+ * File containing the eZWebDAVBackendContentRegressionTest class.
+ *
+ * @copyright Copyright (C) 1999-2009 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
+ * @package tests
  */
 
 require_once( 'wrappers.php' );
 
-/**
- * @package Feed
- * @subpackage Tests
- */
 class eZWebDAVBackendContentRegressionTest extends ezcTestRegressionTest
 {
     /**
