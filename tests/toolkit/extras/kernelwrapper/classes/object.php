@@ -86,6 +86,14 @@ class ezpObject
                             $attribute->setContent( $value[1] );
                             break;
 
+                        case 'ezbinaryfile':
+                            $attribute->fromString( $value );
+                            break;
+
+                        case 'ezimage':
+                            $attribute->fromString( $value );
+                            break;
+
                         default:
                             $attribute->setAttribute( 'data_text', $value );
                             break;
