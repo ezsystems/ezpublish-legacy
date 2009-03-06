@@ -204,6 +204,7 @@ class eZContentObject extends eZPersistentObject
                                                       'class_group_id_list' => 'contentClassGroupIDList',
                                                       'name' => 'name',
                                                       'match_ingroup_id_list' => 'matchIngroupIDList',
+                                                      'remote_id' => 'remoteID',
                                                       'current_language' => 'currentLanguage',
                                                       'current_language_object' => 'currentLanguageObject',
                                                       'initial_language' => 'initialLanguage',
@@ -718,7 +719,6 @@ class eZContentObject extends eZPersistentObject
 
     /*!
      Get remote id of content object
-     Deprecated: use remote_id attribute instead
     */
     function remoteID()
     {

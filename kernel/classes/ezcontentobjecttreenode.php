@@ -163,6 +163,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       "keys" => array( "node_id" ),
                       "function_attributes" => array( "name" => "getName",
                                                       'data_map' => 'dataMap',
+                                                      'remote_id' => 'remoteID', // Note: This overrides remote_id field
                                                       "object" => "object",
                                                       "subtree" => "subTree",
                                                       "children" => "children",
@@ -245,7 +246,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
      Get remote id of content node, the remote ID is often used to synchronise imports and exports.
      If there is no remote ID a new unique one will be generated.
-     Deprecated: use remote_id attribute instead
     */
     function remoteID()
     {
