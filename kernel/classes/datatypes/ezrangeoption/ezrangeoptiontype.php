@@ -290,7 +290,7 @@ class eZRangeOptionType extends eZDataType
     function batchInitializeObjectAttributeData( $classAttribute )
     {
         $option = new eZRangeOption( $classAttribute->attribute( 'data_text1' ) );
-        return array( 'data_text' => $option->xmlString() );
+        return array( 'data_text' => "'" . $option->xmlString() . "'");
     }
 }
 

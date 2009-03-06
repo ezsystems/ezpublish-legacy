@@ -684,7 +684,8 @@ class eZMultiOption2Type extends eZDataType
     function batchInitializeObjectAttributeData( $classAttribute )
     {
         $optionGroup = new eZMultiOption2( $classAttribute->attribute( 'data_text1' ) );
-        return array( 'data_text' => $optionGroup->xmlString() );
+        $db = eZDB::instance();
+        return array( 'data_text' => "'" . $db->escapeString( $optionGroup->xmlString() ) . "'" );
     }
 }
 

@@ -457,7 +457,8 @@ class eZOptionType extends eZDataType
     function batchInitializeObjectAttributeData( $classAttribute )
     {
         $option = new eZOption( $classAttribute->attribute( 'data_text1' ) );
-        return array( 'data_text' => $option->xmlString() );
+        $db = eZDB::instance();
+        return array( 'data_text' =>  "'" . $db->escapeString( $option->xmlString() ) . "'" );
     }
 }
 

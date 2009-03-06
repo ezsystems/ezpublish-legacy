@@ -388,6 +388,8 @@ class eZStringType extends eZDataType
         $default = $classAttribute->attribute( 'data_text1' );
         if ( $default !== '' )
         {
+            $db = eZDB::instance();
+            $default = "'" . $db->escapeString( $default ) . "'";
             $trans = eZCharTransform::instance();
             $lowerCasedDefault = $trans->transformByGroup( $default, 'lowercase' );
             return array( 'data_text' => $default, 'sort_key_string' => $lowerCasedDefault );

@@ -534,7 +534,8 @@ class eZMatrixType extends eZDataType
     {
         $numRows = $classAttribute->attribute( 'data_int1' );
         $matrix = new eZMatrix( '', $numRows, $classAttribute->attribute( 'content' ) );
-        return array( 'data_text' => $matrix->xmlString() );
+        $db = eZDB::instance();
+        return array( 'data_text' => "'" . $db->escapeString( $matrix->xmlString() ) . "'" );
     }
 }
 

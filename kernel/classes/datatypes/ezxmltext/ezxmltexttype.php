@@ -817,6 +817,8 @@ class eZXMLTextType extends eZDataType
         $parser = new eZXMLInputParser();
         $doc = $parser->createRootNode();
         $xmlText = eZXMLTextType::domString( $doc );
+        $db = eZDB::instance();
+        $xmlText = "'" . $db->escapeString( $xmlText ) . "'";
         return array( 'data_text' => $xmlText );
     }
 }
