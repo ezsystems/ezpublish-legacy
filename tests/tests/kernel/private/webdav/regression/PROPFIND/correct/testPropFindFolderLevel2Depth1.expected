@@ -29,7 +29,7 @@ HTTP/1.1 207 Multi-Status
     </D:propstat>
   </D:response>
   <D:response xmlns:default="http://apache.org/dav/props/">
-    <D:href>http://@ezc_webdav_host@/@ezc_siteaccess@/Content/testPropFindFolderLevel2Depth1</D:href>
+    <D:href>http://@ezc_webdav_host@/@ezc_siteaccess@/Content/@ezc_webdav_testfolder@</D:href>
     <D:propstat>
       <D:prop>
         <D:getcontentlength>4096</D:getcontentlength>
