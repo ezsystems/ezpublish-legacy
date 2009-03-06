@@ -9,7 +9,7 @@
 
 require_once( 'wrappers.php' );
 
-class eZWebDAVBackendContentRegressionTest extends ezcTestRegressionTest
+class eZWebDAVBackendContentRegressionTest extends ezpTestRegressionTest
 {
     /**
      * Setting needed to keep the global variables working between the tests.
@@ -36,6 +36,9 @@ class eZWebDAVBackendContentRegressionTest extends ezcTestRegressionTest
      */
     public function setUp()
     {
+        // Call the setUp() in ezpDatabaseTestCase
+        parent::setUp();
+
         // Set various variables used in the tests to default values
         $GLOBALS['ezc_siteaccess'] = 'plain_site_user';
         $GLOBALS['ezc_webdav_username'] = 'admin';
