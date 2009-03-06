@@ -1,0 +1,223 @@
+<?php
+
+// Test if PUT returns '403 Forbidden' when uploading a file to the root
+
+$_SERVER['REQUEST_URI'] = '/uploaded_file.txt';
+$_SERVER['REQUEST_METHOD'] = 'PUT';
+$_SERVER['CONTENT_TYPE'] = 'text/plain';
+$_SERVER['CONTENT_LENGTH'] = '14000';
+
+// This is the content to upload
+$GLOBALS['ezc_post_body'] = <<<EOL
+PHP Requirements
+================
+
+As PHP version the eZ Components require version **5.2.1**, although a later
+version is always recommended. The latest version of PHP can be downloaded
+here__.
+
+eZ Components versions before the 2008.1 release require PHP version
+**5.1.6**. Please be aware that no updates for those releases are being made
+anymore.
+
+__ http://php.net/downloads.php
+
+Some of the components require that certain PHP extensions are enabled in the
+build. While most of them are enabled by default, some of them have to 
+added explicitly. The table below lists all the components, and which
+extensions are required or optional.
+
+Required and Preferred Extensions
+---------------------------------
+
++-----------------------------+--------------------+-------------+--------------------------------------+
+|        Component            | Extension          | Extension   | Extension                            |
+|                             | (default)          | Required    | Optional                             |
++=============================+====================+=============+======================================+
+| All                         | pcre_, spl_,       |             |                                      |
+|                             | reflection_        |             |                                      |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| Authentication              |                    |             | openssl_ and bcmath_ or gmp_ for     |
+|                             |                    |             | TypeKey and OpenID support, ldap_    |
+|                             |                    |             | for LDAP support                     |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| AuthenticationDatabaseTiein |                    |             | Same as Database_                    |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| Archive                     | zlib_, posix_      | bz2_        | posix_ for permission support        |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| Base                        | posix_             |             | posix_ to test if features are       |
+|                             |                    |             | enabled                              |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| Cache                       |                    |             | memcache_ and zlib_ for Memcache     |
+|                             |                    |             | storage, apc_ for APC storage        |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| Configuration               | posix_             |             |                                      |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| ConsoleTools                |                    |             |                                      |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| _`Database`                 | pdo_, pdo_sqlite_  |             | pdo_mysql_, pdo_oci8_, pdo_pgsql_,   |
+|                             |                    |             | pdo_mssql_/pdo_dblib_, depending on  |
+|                             |                    |             | the database that you want to use    |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| DatabaseSchema              | simplexml_         |             | Same as Database_                    |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| Debug                       |                    |             |                                      |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| EventLog                    |                    |             | Same as Database_, if you want to    |
+|                             |                    |             | log to a database                    |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| Execution                   |                    |             |                                      |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| Feed                        | dom_               |             |                                      |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| File                        |                    |             |                                      |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| Graph                       | dom_, xml_         |             | gd_ to generate bitmaps (with        |
+|                             |                    |             | TrueType font support or Type1 font  |
+|                             |                    |             | support),                            |
+|                             |                    |             | ming_ for generating Graphs as flash |
+|                             |                    |             | files                                |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| GraphDatabaseTiein          | pdo_               |             | Same as Database_                    |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| ImageAnalysis               | ctype_             |             | exif_                                |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| ImageConversion             |                    |             | gd_                                  |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| Mail                        | iconv_             |             | fileinfo_ for better detection of    |
+|                             |                    |             | mime-types when sending e-mails,     |
+|                             |                    |             | mcrypt_ for NTLM SMTP authentication,|
+|                             |                    |             | openssl_ for SSL support             |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| PersistentObject            |                    |             |                                      |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| PhpGenerator                |                    |             |                                      |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| SignalSlot                  |                    |             |                                      |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| SystemInformation           |                    |             | win32ps (on Windows)                 |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| Template                    |                    |             |                                      |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| Translation                 | ctype_, simplexml_ |             |                                      |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| TranslationCacheTiein       |                    |             |                                      |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| Tree                        | dom_               |             |                                      |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| TreeDatabaseTiein           | pdo_               |             | Same as Database_                    |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| Url                         |                    |             |                                      |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| UserInput                   | filter_            |             |                                      |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| Webdav                      |                    |             | fileinfo_ or mimetype_ for detection |
+|                             |                    |             | of mime-types of files               |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| Workflow                    | simplexml_, dom_   |             |                                      |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| WorkflowDatabaseTiein       |                    |             | Same as Database_                    |
++-----------------------------+--------------------+-------------+--------------------------------------+
+| WorkflowEventLogTiein       |                    |             | Same as Database_, if you want to    |
+|                             |                    |             | log to a database                    |
++-----------------------------+--------------------+-------------+--------------------------------------+
+
+Quick Reference on Enabling Extensions
+--------------------------------------
+
+Extensions that are enabled by default in PHP
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+============= ============================ 
+Extension     Configure switch(es)
+============= ============================ 
+_`ctype`      --enable-ctype
+_`dom`        --enable-dom --enable-libxml
+_`iconv`      --with-iconv
+_`pcre`       --with-pcre-regex
+_`pdo`        --enable-pdo
+_`pdo_sqlite` --with-pdo-sqlite
+_`posix`      --enable-posix
+_`reflection` --enable-reflection
+_`simplexml`  --enable-simplexml
+_`spl`        --enable-spl
+_`xml`        --enable-xml
+_`zlib`       --with-zlib
+============= ============================ 
+
+Extensions that are bundled with PHP
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+============= ================================== ==========================================
+Extension     Configure switch(es)               Remarks
+============= ================================== ==========================================
+_`bcmath`     --enable-bcmath
+_`bz2`        --with-bz2
+_`gd`         --with-gd --with-freetype-dir=/usr
+              --with-jpeg-dir=/usr --with-ttf
+              --with-xpm-dir --with-png-dir
+              --with-jpeg-dir --with-t1lib
+                                                 The eZ Components want at least
+                                                 PNG and JPG support, other
+                                                 parts are optional.  We
+                                                 suggest to compile GD also
+                                                 with FreeType2 support as
+                                                 well to enable all features
+                                                 of the Components.
+_`gmp`        --with-gmp
+_`ldap`       --with-ldap
+_`mcrypt`     --with-mcrypt
+_`mimetype`   --with-mime-magic                  Deprecated in favour of fileinfo_.
+_`ming`       --with-ming
+_`exif`       --enable-exif
+_`filter`     --enable-filter                    In PHP 5.2.0 and higher you can simply
+                                                 use --enable-filter, in PHP 5.1.x you
+                                                 need to install the `filter extension`_
+                                                 through PECL.
+_`pdo_mysql`  --with-pdo-mysql
+_`pdo_oci8`   --with-pdo-oci
+_`pdo_pgsql`  --with-pdo-pgsql
+_`pdo_mssql`  --with-pdo-mssql                   On Windows (on Linux use pdo_dblib_)
+_`pdo_dblib`  --with-pdo-dblib                   Mssql driver for Linux (on Windows use
+                                                 pdo_mssql_). The FreeTDS software must be
+                                                 installed also.
+_`openssl`    --with-openssl
+============= ================================== ==========================================
+
+
+Extensions that are not bundled with PHP
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+============= =============================================================================
+Extension     Configure switch(es)
+============= =============================================================================
+_`apc`        You need to install the `APC extension`_ through PECL.
+_`fileinfo`   You need to install the `fileinfo extension`_ through PECL.
+
+              On Windows additional configuration steps are required:
+               - download ``magic`` and ``magic.mime`` files from `gnuwin32`_ (from the
+                 Binaries Zip in the File for Windows package) and copy them to a folder,
+                 for example the folder where PHP is installed (e.g. ``c:\php``)
+               - in System settings, setup the enviroment variable **MAGIC** to point
+                 to the folder where you copied the magic files, plus the ``magic``
+                 part (e.g. ``c:\php\magic``). Restart Windows if needed.
+               - alternatively you can use this command-line before running your PHP
+                 scripts::
+
+                    set MAGIC=c:\php\magic
+
+_`memcache`   You need to install the `Memcache extension`_ through PECL.
+============= =============================================================================
+
+
+.. _`filter extension`: http://pecl.php.net/package/filter
+.. _`fileinfo extension`: http://pecl.php.net/package/fileinfo
+.. _`APC extension`: http://pecl.php.net/package/apc
+.. _`Memcache extension`: http://pecl.php.net/package/memcache
+.. _`gnuwin32`: http://gnuwin32.sourceforge.net/packages/file.htm
+
+
+..
+	vim: syntax=rst
+EOL;
+?>

@@ -1,0 +1,8 @@
+<?php
+
+// Test if OPTIONS returns correct information
+
+$_SERVER['REQUEST_URI'] = '*';
+$_SERVER['REQUEST_METHOD'] = 'OPTIONS';
+
+?>

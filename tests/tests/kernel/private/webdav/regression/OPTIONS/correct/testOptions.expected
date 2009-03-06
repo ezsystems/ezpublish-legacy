@@ -1,0 +1,5 @@
+DAV: 1
+Allow: GET, HEAD, PROPFIND, PROPPATCH, OPTIONS, DELETE, COPY, MOVE, MKCOL, PUT, LOCK, UNLOCK
+Server: eZComponents/dev/ezcWebdavTransportWrapper
+Content-Length: 0
+HTTP/1.1 200 OK

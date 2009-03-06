@@ -1,0 +1,14 @@
+<?php
+
+// Test if GET returns correct information on the file $GLOBALS['ezc_webdav_testfolder']/file.jpg
+
+// First upload the file as 'file.jpg' in the folder $GLOBALS['ezc_webdav_testfolder']
+$article = new ezpObject( 'image', (int)$GLOBALS['ezc_webdav_testfolderid'] );
+$article->name = 'file';
+$article->image = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . $GLOBALS['ezc_webdav_testfolder'] . '.jpg';
+$article->publish();
+
+$_SERVER['REQUEST_URI'] = '/' . $GLOBALS['ezc_siteaccess'] . '/Content/' . $GLOBALS['ezc_webdav_testfolder'] . '/file.jpg';
+$_SERVER['REQUEST_METHOD'] = 'GET';
+
+?>

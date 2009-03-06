@@ -1,0 +1,30 @@
+<?php
+
+// Test if PROPPATCH returns correct information when setting displayname on a file under $GLOBALS['ezc_webdav_testfolder']
+// containing a file with UTF-8 characters in the name
+
+// First upload the file in the folder $GLOBALS['ezc_webdav_testfolder']
+$article = new ezpObject( 'file', (int)$GLOBALS['ezc_webdav_testfolderid'] );
+$article->name = "româneşte";
+$article->file = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . $GLOBALS['ezc_webdav_testfolder'] . '.txt';
+$article->publish();
+
+$_SERVER['REQUEST_URI'] = '/' . $GLOBALS['ezc_siteaccess'] . '/Content/' . $GLOBALS['ezc_webdav_testfolder'] . '/';
+$_SERVER['REQUEST_METHOD'] = 'PROPPATCH';
+
+$_SERVER['CONTENT_TYPE'] = 'application/xml';
+$_SERVER['HTTP_CONTENT_LENGTH'] = '288';
+
+// The PROPPATCH request needs an XML body
+$GLOBALS['ezc_post_body'] = <<<END
+<?xml version="1.0" encoding="utf-8"?>
+<propertyupdate xmlns="DAV:">
+  <set>
+  <prop>
+    <displayname xmlns="DAV:">dir2</displayname>
+  </prop>
+  </set>
+</propertyupdate>
+END;
+
+?>

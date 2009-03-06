@@ -1,0 +1,8 @@
+<?php
+
+// Test if DELETE returns '403 Forbidden' when deleting a siteaccess
+
+$_SERVER['REQUEST_URI'] = '/' . $GLOBALS['ezc_siteaccess'];
+$_SERVER['REQUEST_METHOD'] = 'DELETE';
+
+?>

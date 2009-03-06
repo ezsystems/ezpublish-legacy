@@ -1,0 +1,279 @@
+WebDAV in eZ Publish
+~~~~~~~~~~~~~~~~~~~~
+
+This document describes the unit tests for WebDAV, and how to configure those
+tests.
+
+
+Server Configuration
+====================
+
+The eZ Publish installation must be configured to process all WebDAV requests
+through webdav.php.
+
+See http://ez.no/doc/ez_publish/technical_manual/4_0/features/webdav for
+more information about how to activate WebDAV support on an eZ Publish
+installation.
+
+In addition, WebDAV support must be enabled in webdav.ini::
+
+  [GeneralSettings]
+  EnableWebDAV=true
+
+For each siteaccess there should be a webdav.ini.append.php which specifies
+the start node of that siteaccess::
+
+ [GeneralSettings]
+ StartNode=2
+
+WebDAV Logging is enabled by (in webdav.ini or in overwrites)::
+
+ [GeneralSettings]
+ Logging=enable
+
+The locations of the WebDAV log files are var/log/webdav.log (from webdav.php)
+and var/log/<siteaccess>/log/webdav.log (from ezwebdavcontentbackend.php).
+
+For multiple siteaccesses, the setting PathPrefix and PathPrefixExclude should
+be used in site.ini and overrides of site.ini::
+
+  [SiteAccessSettings]
+
+  # Hides this part from the start of the url alias
+  PathPrefix=
+
+  # Which URLs to exclude from being affected by PathPrefix setting.
+  # URLs containing the specified texts after siteaccess name will not be affected by PathPrefix
+  PathPrefixExclude[]
+  #PathPrefixExclude[]=media
+
+By default, the WebDAV files are sent to Trash when deleted. The administrator
+of the site is responsible to empty the Trash. If you want to remove the files
+directly (without using the Trash), this setting must be changed in content.ini
+::
+
+  [RemoveSettings]
+  # delete or trash
+  DefaultRemoveAction=delete
+
+To change the way file names are created when uploading files, use the
+TransformationGroup setting in site.ini and its overrides::
+
+  [URLTranslator]
+  TransformationGroup=urlalias
+  # Uncomment this to get the new-style url aliases with Unicode support
+  #TransformationGroup=urlalias_iri
+  # Uncomment this to get the old-style url aliases
+  #TransformationGroup=urlalias_compat
+
+
+Regression test system
+======================
+
+The unit tests reside in tests/tests/kernel/private/webdav.
+
+The file backend_content_regression_test.php contains the test class
+eZWebDAVContentBackendRegressionTest which extends ezcTestRegressionTest. This
+class is in the trunk of eZ Components, and it is not present in PEAR
+installations or in the released packages.
+
+The normal webdav.php of the eZ Publish installation is NOT used. Instead
+the code is duplicated in backend_content_regression_test.php.
+
+By inheriting from ezcTestRegressionTest, eZWebDAVContentBackendRegressionTest
+can create tests dynamically by iterating recursively through the directory
+tree regression, where for each .request file found it creates a test.
+
+Each .request file has other files with the same name and different extensions
+attached.
+
+Do not name the test files with characters which cannot appear in function
+names in PHP. For each .request file a test function is created dynamically
+with the same name as the file minus the extension.
+
+
+.request
+--------
+
+Required file. It is included in the test system via include. For each .request
+file a test function is created, and an eZ Publish folder is created under
+/$GLOBALS['ezc_siteaccess']/Content. The folder is removed after each test.
+
+Because WebDAV normally outputs information via the header() function, some
+hacks were made in wrappers.php in the tests/tests/kernel/private/webdav
+folder. The content output from WebDAV is being redirected to the global
+variable $GLOBALS['ezc_response_body'] which will be compared with the
+text content of the .expected file.
+
+
+.expected
+---------
+
+Required file. The contents of these files are compared against the output
+which results from running the test with input from the .request file.
+
+WebDAV commands which return XML (PROPFIND) can make use of special strings
+which will be replaced before comparing the result (to allow portability
+between different test machines). These special strings are:
+
+  @ezc_siteaccess@
+    The siteaccess defined in site.ini and which is used as the base of the
+	WebDAV tests. Change this in the setUp() function in the file
+    backend_content_regression_test.php, value $GLOBALS['ezc_siteaccess'].
+
+  @ezc_webdav_host@
+    The host of the WebDAV machine the tests are running on. Usually it is
+    webdav.ezp. Change this in the setUp() function in the file
+    backend_content_regression_test.php, value $GLOBALS['ezc_webdav_host'].
+
+  @ezc_webdav_testfolder@
+    The name of the current .request file, minus the extension.  This is
+    assigned automatically from the test system. An eZ Publish folder
+    with this name is created automatically before the .request file is
+    included, under the folder /$GLOBALS['ezc_siteaccess']/Content/.
+
+
+.txt or .jpg or other extensions
+--------------------------------
+
+Optional file. If the .request file needs to create a file or image object
+in eZ Publish, it can do so by specifying this file (with the name
+$GLOBALS['ezc_webdav_testfolder'] followed by the needed extension).
+
+
+.body
+-----
+
+Optional file.
+
+Used for WebDAV commands which return a binary content in addition to normal
+HTTP headers. The binary content (eg. image) is put in the .body file, and
+the test will automatically append it to the normal output from the .expected
+file.
+
+
+Unit tests
+==========
+
+Each WebDAV command (COPY, GET, PROPFIND etc) has its own directory in which
+its regression tests are kept. For each command there are 2 directories:
+
+  correct
+    Tests which return "normal" output. This means for example a GET command
+    on an existing file which returns '200 OK' and the contents of the file.
+
+  incorrect
+    Tests which return "abnormal" output. This means for example a GET
+    command on a missing file which returns '404 Not Found'.
+
+Each .request file can make use of some global variables in the test:
+
+  $GLOBALS['ezc_siteaccess']
+    The siteaccess defined in site.ini and which is used as the base of the
+	WebDAV tests. Change this in the setUp() function in the file
+    backend_content_regression_test.php, value $GLOBALS['ezc_siteaccess'].
+
+  $GLOBALS['ezc_webdav_host']
+    The host of the WebDAV machine the tests are running on. Usually it is
+    webdav.ezp. Change this in the setUp() function in the file
+    backend_content_regression_test.php, value $GLOBALS['ezc_webdav_host'].
+
+  $GLOBALS['ezc_webdav_testfolder']
+    The name of the current .request file, minus the extension. This is
+    assigned automatically from the test system. An eZ Publish folder is
+    with this name is created automatically before the .request file is
+    included, under the folder $GLOBALS['ezc_siteaccess']/Content/.
+
+  $GLOBALS['ezc_webdav_testfolderid']
+    The node_id corresponding to $GLOBALS['ezc_webdav_testfolder']. This
+    is used for example to create a file, folder, image etc under the
+    current folder ($GLOBALS['ezc_webdav_testfolder']).
+
+  $GLOBALS['ezc_webdav_username'] and $GLOBALS['ezc_webdav_password']
+    These are assigned automatically to the default values 'admin' and
+    'publish' (change this in backend_content_regression_test.php in
+    setUp(). To tests abnormal output caused by providing a wrong
+    username and password, change these values in the .request file.
+
+  $GLOBALS['ezc_post_body']
+    This is used for WebDAV commands which are required to have a body
+    (eg. PROPFIND needs an XML body in which it specifies which properties
+    it requests). Needs the $_SERVER variables HTTP_CONTENT_LENGTH and
+    CONTENT_TYPE.
+
+
+The server variables will be set directly in the .request files:
+
+  $_SERVER['REQUEST_METHOD']
+    Required. Specifies which WebDAV method the .request file is testing.
+    Possible values: COPY, DELETE, GET, HEAD, MKCOL, MOVE, OPTIONS, PROPFIND,
+    PROPPATCH, PUT.
+
+  $_SERVER['REQUEST_URI']
+    Required. Use the global variables listed above to create portable tests.
+
+  $_SERVER['HTTP_DESTINATION']
+    Required for WebDAV commands COPY and MOVE. Use the globals variables
+    listed above to create portable tests. The full URL needs to be here,
+    so use also 'http://' . $GLOBALS['ezc_webdav_host'] in front of siteaccess.
+
+  $_SERVER['HTTP_DEPTH']
+    Needed for some WebDAV commands. Possible values: '0', '1' or 'infinity'.
+
+  $_SERVER['HTTP_OVERWRITE']
+    Needed for some WebDAV commands (COPY, MOVE). Possible values: 'F' (do
+    not overwrite) or 'T' (overwrite).
+
+  $_SERVER['HTTP_CONTENT_LENGTH']
+    Required for WebDAV commands which need a body (PROPFIND, PROPPATCH). It
+    can have any value (it is not enforced).
+
+  $_SERVER['CONTENT_TYPE']
+    Required for WebDAV commands which need a body (PROPFIND, PROPPATCH). For
+    XML body use 'application/xml'.
+
+  $_SERVER['HTTP_USER_AGENT']
+    Not used for now (value is set to 'cadaver/0.22.5 neon/0.26.3') but tests
+    can be written in the future for each relevant WebDAV client.
+
+Change these values in backend_content_regression_test.php in the setUp()
+function to make the tests work on another machine::
+
+  $GLOBALS['ezc_siteaccess'] = 'plain_site_user';
+  $GLOBALS['ezc_webdav_username'] = 'admin';
+  $GLOBALS['ezc_webdav_password'] = 'publish';
+  $GLOBALS['ezc_webdav_host'] = 'webdav.ezp';
+
+
+Failing tests
+=============
+
+Some tests will fail on different machine for some causes:
+
+  PROPFIND
+    The test testPropFindFolderLevel0Depth1 will fail because it expects the
+    siteaccess second_site to be present. A fix will come for this.
+
+Tests can be skipped by uncommenting their respective line in the function
+skip() in backend_content_regression_test.php.
+
+
+Current issues
+==============
+
+Moving/Copying content between 2 siteaccesses
+---------------------------------------------
+
+This is not possible yet (409 Conflict is returned), but some clients like
+BitKinex behave strangely by trying moving/copying again, with the source
+file disappearing, and the destination file not appearing.
+
+
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79

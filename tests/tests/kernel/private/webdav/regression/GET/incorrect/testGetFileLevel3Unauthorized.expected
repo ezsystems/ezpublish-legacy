@@ -1,0 +1,7 @@
+WWW-Authenticate: Basic realm="eZ Components WebDAV"
+Server: eZComponents/dev/ezcWebdavTransportWrapper
+Content-Type: text/plain; charset="utf-8"
+Content-Length: 22
+HTTP/1.1 401 Unauthorized
+
+Authentication failed.

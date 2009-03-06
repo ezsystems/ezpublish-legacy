@@ -1,0 +1,21 @@
+<?php
+
+// Test if MOVE returns correct information for moving a folder
+// from $GLOBALS['ezc_webdav_testfolder'] to $GLOBALS['ezc_webdav_testfolder']
+// with UTF-8 characters in the folder name
+// with HTTP_DEPTH = 0
+// with overwrite (HTTP_OVERWRITE = 'T')
+
+// First create the source folder
+$source = new ezpObject( 'folder', (int)$GLOBALS['ezc_webdav_testfolderid'] );
+$source->name = "româneşte";
+$source->publish();
+
+$_SERVER['REQUEST_URI'] = '/' . $GLOBALS['ezc_siteaccess'] . '/Content/' . $GLOBALS['ezc_webdav_testfolder'] . '/' . urlencode( "româneşte" ) . '/';
+$_SERVER['REQUEST_METHOD'] = 'MOVE';
+
+$_SERVER['HTTP_DESTINATION'] = 'http://' . $GLOBALS['ezc_webdav_host'] . '/' . $GLOBALS['ezc_siteaccess'] . '/Content/' . $GLOBALS['ezc_webdav_testfolder'] . '/' . urlencode( "русский" ) . '/';
+$_SERVER['HTTP_DEPTH'] = '0';
+$_SERVER['HTTP_OVERWRITE'] = 'T';
+
+?>

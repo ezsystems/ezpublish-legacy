@@ -1,0 +1,8 @@
+<?php
+
+// Test if HEAD returns '404 Not Found' on a missing file in $GLOBALS['ezc_webdav_testfolder']
+
+$_SERVER['REQUEST_URI'] = '/' . $GLOBALS['ezc_siteaccess'] . '/Content/' . $GLOBALS['ezc_webdav_testfolder'] . '/this_file_cannot_possibly_exist.txt';
+$_SERVER['REQUEST_METHOD'] = 'HEAD';
+
+?>

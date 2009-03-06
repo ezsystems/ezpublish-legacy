@@ -1,0 +1,8 @@
+<?php
+
+// Test if GET returns '404 Not Found' on a missing file in the root
+
+$_SERVER['REQUEST_URI'] = '/this_file_cannot_possibly_exist.txt';
+$_SERVER['REQUEST_METHOD'] = 'GET';
+
+?>

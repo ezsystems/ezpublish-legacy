@@ -1,0 +1,30 @@
+<?php
+
+// Test if PROPFIND returns correct information for the root
+// with HTTP_DEPTH = 1
+
+$_SERVER['REQUEST_URI'] = '/';
+$_SERVER['REQUEST_METHOD'] = 'PROPFIND';
+
+$_SERVER['HTTP_DEPTH'] = '1';
+$_SERVER['CONTENT_TYPE'] = 'application/xml';
+$_SERVER['HTTP_CONTENT_LENGTH'] = '288';
+
+// The PROPFIND request needs an XML body
+$GLOBALS['ezc_post_body'] = <<<END
+<?xml version="1.0" encoding="utf-8"?>
+<propfind xmlns="DAV:"><prop>
+<creationdate xmlns="DAV:"/>
+<getcontentlength xmlns="DAV:"/>
+<getcontenttype xmlns="DAV:"/>
+<getlastmodified xmlns="DAV:"/>
+<displayname xmlns="DAV:"/>
+<executable xmlns="http://apache.org/dav/props/"/>
+<resourcetype xmlns="DAV:"/>
+<supportedlock xmlns="DAV:"/>
+<checked-in xmlns="DAV:"/>
+<checked-out xmlns="DAV:"/>
+</prop></propfind>
+END;
+
+?>

@@ -1,0 +1,8 @@
+<?php
+
+// Test if DELETE returns '403 Forbidden' when deleting the root
+
+$_SERVER['REQUEST_URI'] = '/';
+$_SERVER['REQUEST_METHOD'] = 'DELETE';
+
+?>

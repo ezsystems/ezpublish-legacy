@@ -1,0 +1,13 @@
+<?php
+
+// Test if MKCOL returns '401 Unauthorized' when creating a folder under $GLOBALS['ezc_webdav_testfolder']
+// with wrong username and password
+
+$_SERVER['REQUEST_URI'] = '/' . $GLOBALS['ezc_siteaccess'] . '/Content/' . $GLOBALS['ezc_webdav_testfolder'] . '/new folder';
+$_SERVER['REQUEST_METHOD'] = 'MKCOL';
+
+// Set a wrong username and password which will be used in the main test
+$GLOBALS['ezc_webdav_username'] = 'wrong_username';
+$GLOBALS['ezc_webdav_password'] = 'wrong_password';
+
+?>

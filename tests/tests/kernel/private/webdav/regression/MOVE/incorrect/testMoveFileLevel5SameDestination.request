@@ -1,0 +1,38 @@
+<?php
+
+// Test if MOVE returns '403 Forbidden' for moving a file
+// from $GLOBALS['ezc_webdav_testfolder']/source to $GLOBALS['ezc_webdav_testfolder']/source
+// with UTF-8 characters in the file name
+// with HTTP_DEPTH = 0
+// without overwrite (HTTP_OVERWRITE = 'F')
+// with existing file at destination
+
+// First create the source and destination folders
+$source = new ezpObject( 'folder', (int)$GLOBALS['ezc_webdav_testfolderid'] );
+$source->name = "source";
+$source->publish();
+
+$destination = new ezpObject( 'folder', (int)$GLOBALS['ezc_webdav_testfolderid'] );
+$destination->name = "destination";
+$destination->publish();
+
+// Upload the file in the folder $GLOBALS['ezc_webdav_testfolder']/source
+$article = new ezpObject( 'file', (int)$source->mainNode->node_id );
+$article->name = "româneşte";
+$article->file = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . $GLOBALS['ezc_webdav_testfolder'] . '.txt';
+$article->publish();
+
+// Upload the same file in the folder $GLOBALS['ezc_webdav_testfolder']/source with the same name
+$article = new ezpObject( 'file', (int)$source->mainNode->node_id );
+$article->name = "româneşte";
+$article->file = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . $GLOBALS['ezc_webdav_testfolder'] . '.txt';
+$article->publish();
+
+$_SERVER['REQUEST_URI'] = '/' . $GLOBALS['ezc_siteaccess'] . '/Content/' . $GLOBALS['ezc_webdav_testfolder'] . '/source/' . urlencode( "româneşte" );
+$_SERVER['REQUEST_METHOD'] = 'MOVE';
+
+$_SERVER['HTTP_DESTINATION'] = 'http://' . $GLOBALS['ezc_webdav_host'] . '/' . $GLOBALS['ezc_siteaccess'] . '/Content/' . $GLOBALS['ezc_webdav_testfolder'] . '/source/' . urlencode( "româneşte" );
+$_SERVER['HTTP_DEPTH'] = '0';
+$_SERVER['HTTP_OVERWRITE'] = 'F';
+
+?>

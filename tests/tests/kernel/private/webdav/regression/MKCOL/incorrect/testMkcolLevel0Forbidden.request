@@ -1,0 +1,8 @@
+<?php
+
+// Test if MKCOL returns '403 Forbidden' when creating a folder under the root
+
+$_SERVER['REQUEST_URI'] = '/new folder';
+$_SERVER['REQUEST_METHOD'] = 'MKCOL';
+
+?>

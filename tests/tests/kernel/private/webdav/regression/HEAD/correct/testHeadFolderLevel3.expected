@@ -1,0 +1,5 @@
+ETag: 86f44a48066261957ea3d13560409bd7
+Server: eZComponents/dev/ezcWebdavTransportWrapper
+Content-Type: httpd/unix-directory
+Content-Length: 4096
+HTTP/1.1 200 OK

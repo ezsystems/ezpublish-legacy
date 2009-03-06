@@ -1,0 +1,20 @@
+<?php
+
+// Test if COPY returns '404 Not Found' for copying a missing file
+// from $GLOBALS['ezc_webdav_testfolder']/source to $GLOBALS['ezc_webdav_testfolder']/destination
+
+// First create the source and destination folders
+$source = new ezpObject( 'folder', (int)$GLOBALS['ezc_webdav_testfolderid'] );
+$source->name = "source";
+$source->publish();
+
+$destination = new ezpObject( 'folder', (int)$GLOBALS['ezc_webdav_testfolderid'] );
+$destination->name = "destination";
+$destination->publish();
+
+$_SERVER['REQUEST_URI'] = '/' . $GLOBALS['ezc_siteaccess'] . '/Content/' . $GLOBALS['ezc_webdav_testfolder'] . '/source/this_file_cannot_possibly_exist.txt';
+$_SERVER['REQUEST_METHOD'] = 'COPY';
+
+$_SERVER['HTTP_DESTINATION'] = 'http://' . $GLOBALS['ezc_webdav_host'] . '/' . $GLOBALS['ezc_siteaccess'] . '/Content/' . $GLOBALS['ezc_webdav_testfolder'] . '/destination/this_file_cannot_possibly_exist.txt';
+
+?>

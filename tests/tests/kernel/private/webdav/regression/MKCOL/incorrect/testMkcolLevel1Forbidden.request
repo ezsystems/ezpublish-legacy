@@ -1,0 +1,8 @@
+<?php
+
+// Test if MKCOL returns '403 Forbidden' when creating a folder under the siteaccess
+
+$_SERVER['REQUEST_URI'] = '/' . $GLOBALS['ezc_siteaccess'] . '/new folder';
+$_SERVER['REQUEST_METHOD'] = 'MKCOL';
+
+?>

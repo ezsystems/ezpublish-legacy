@@ -1,0 +1,8 @@
+<?php
+
+// Test if MKCOL returns correct information when creating a folder under $GLOBALS['ezc_webdav_testfolder']
+
+$_SERVER['REQUEST_URI'] = '/' . $GLOBALS['ezc_siteaccess'] . '/Content/' . $GLOBALS['ezc_webdav_testfolder'] . '/new folder';
+$_SERVER['REQUEST_METHOD'] = 'MKCOL';
+
+?>

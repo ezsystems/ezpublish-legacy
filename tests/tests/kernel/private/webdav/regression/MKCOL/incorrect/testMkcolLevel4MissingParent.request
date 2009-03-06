@@ -1,0 +1,8 @@
+<?php
+
+// Test if MKCOL returns '409 Conflict' when creating a folder under a missing folder
+
+$_SERVER['REQUEST_URI'] = '/' . $GLOBALS['ezc_siteaccess'] . '/Content/this_folder_cannot_possibly_exist/new folder';
+$_SERVER['REQUEST_METHOD'] = 'MKCOL';
+
+?>

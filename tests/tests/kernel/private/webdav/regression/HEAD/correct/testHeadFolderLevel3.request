@@ -1,0 +1,8 @@
+<?php
+
+// Test if HEAD returns correct information on the folder $GLOBALS['ezc_webdav_testfolder']
+
+$_SERVER['REQUEST_URI'] = '/' . $GLOBALS['ezc_siteaccess'] . '/Content/' . $GLOBALS['ezc_webdav_testfolder'] . '/';
+$_SERVER['REQUEST_METHOD'] = 'HEAD';
+
+?>
