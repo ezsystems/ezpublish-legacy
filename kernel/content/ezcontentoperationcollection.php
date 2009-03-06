@@ -538,34 +538,45 @@ class eZContentOperationCollection
         eZDebug::createAccumulatorGroup( 'search_total', 'Search Total' );
 
         $ini = eZINI::instance( 'site.ini' );
-        $delayedIndexing = ( $ini->variable( 'SearchSettings', 'DelayedIndexing' ) == 'enabled' );
+        $delayedIndexing = $ini->variable( 'SearchSettings', 'DelayedIndexing' );
 
-        if ( $delayedIndexing )
+        if ( $delayedIndexing == 'enabled' )
         {
             $db = eZDB::instance();
             $rows = $db->arrayQuery( 'SELECT param FROM ezpending_actions WHERE action = \'index_object\' AND param = '. (int)$objectID );
             if ( count( $rows ) == 0 )
             {
                 $db->query( 'INSERT INTO ezpending_actions( action, param ) VALUES ( \'index_object\', '. (int)$objectID. ' )' );
+            return;
             }
         }
-        else
+        elseif ( $delayedIndexing == 'classbased' )
         {
+            $classList = $ini->variable( 'SearchSettings', 'DelayedIndexingClassList' );
             $object = eZContentObject::fetch( $objectID );
-            // Register the object in the search engine.
-            $needCommit = eZSearch::needCommit();
-            $doDeleteFirst = eZSearch::needRemoveWithUpdate();
-            if ($doDeleteFirst)
+            $classIdentifier = $object->attribute( 'class_identifier' );
+            if ( is_array( $classList ) && in_array( $classIdentifier, $classList ) )
             {
-                eZDebug::accumulatorStart( 'remove_object', 'search_total', 'remove object' );
-                eZSearch::removeObject( $object, $needCommit );
-                eZDebug::accumulatorStop( 'remove_object' );
+                $db = eZDB::instance();
+                $db->query( 'INSERT INTO ezpending_actions( action, param ) VALUES ( \'index_object\', '. (int)$objectID. ' )' );
+                return;
             }
-            
-            eZDebug::accumulatorStart( 'add_object', 'search_total', 'add object' );
-            eZSearch::addObject( $object, $needCommit );
-            eZDebug::accumulatorStop( 'add_object' );
         }
+
+        $object = eZContentObject::fetch( $objectID );
+        // Register the object in the search engine.
+        $needCommit = eZSearch::needCommit();
+        $doDeleteFirst = eZSearch::needRemoveWithUpdate();
+        if ($doDeleteFirst)
+        {
+            eZDebug::accumulatorStart( 'remove_object', 'search_total', 'remove object' );
+            eZSearch::removeObject( $object, $needCommit );
+            eZDebug::accumulatorStop( 'remove_object' );
+        }
+
+        eZDebug::accumulatorStart( 'add_object', 'search_total', 'add object' );
+        eZSearch::addObject( $object, $needCommit );
+        eZDebug::accumulatorStop( 'add_object' );
     }
 
     /*!
