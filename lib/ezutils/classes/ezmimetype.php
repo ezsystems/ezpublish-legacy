@@ -629,7 +629,13 @@ class eZMimeType
         array( 'otp', 'application/vnd.oasis.opendocument.presentation-template' ),
         array( 'otg', 'application/vnd.oasis.opendocument.graphics-template' ),
         array( 'asf', 'video/x-ms-asf' ),
-        array( 'wmv', 'video/x-ms-wmv' )
+        array( 'wmv', 'video/x-ms-wmv' ),
+        array( 'docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ),
+        array( 'xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ),
+        array( 'pptx', 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ),
+        array( 'mp4', 'video/mp4' ),
+        array( '3gp', 'video/3gpp'),
+        array( '3gp', 'audio/3gpp')
         );
 }
 ?>
