@@ -1,11 +1,11 @@
 /**
- * $Id: MenuItem.js 520 2008-01-07 16:30:32Z spocke $
+ * $Id: MenuItem.js 1045 2009-03-04 20:03:18Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
-(function() {
+(function(tinymce) {
 	var is = tinymce.is, DOM = tinymce.DOM, each = tinymce.each, walk = tinymce.walk;
 
 	/**#@+
@@ -66,4 +66,4 @@
 
 		/**#@-*/
 	});
-})();
+})(tinymce);

@@ -1,11 +1,11 @@
 /**
- * $Id: ControlManager.js 920 2008-09-09 14:05:33Z spocke $
+ * $Id: ControlManager.js 1045 2009-03-04 20:03:18Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
-(function() {
+(function(tinymce) {
 	// Shorten names
 	var DOM = tinymce.DOM, Event = tinymce.dom.Event, each = tinymce.each, extend = tinymce.extend;
 
@@ -181,8 +181,10 @@
 				});
 
 				c.onHideMenu.add(function() {
-					if (bm)
+					if (bm) {
 						ed.selection.moveToBookmark(bm);
+						bm = 0;
+					}
 				});
 			}
 
@@ -377,6 +379,9 @@
 
 			if (!s.onclick) {
 				s.onclick = function(v) {
+					if (tinymce.isIE)
+						bm = ed.selection.getBookmark(1);
+	
 					ed.execCommand(s.cmd, s.ui || false, v || s.value);
 				};
 			}
@@ -407,10 +412,6 @@
 
 			// Fix for bug #1897785, #1898007
 			if (tinymce.isIE) {
-				c.onShowMenu.add(function() {
-					bm = ed.selection.getBookmark(1);
-				});
-
 				c.onHideMenu.add(function() {
 					if (bm) {
 						ed.selection.moveToBookmark(bm);
@@ -476,4 +477,4 @@
 
 		/**#@-*/
 	});
-})();
+})(tinymce);

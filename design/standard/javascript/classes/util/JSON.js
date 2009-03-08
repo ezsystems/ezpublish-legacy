@@ -1,5 +1,5 @@
 /**
- * $Id: JSON.js 920 2008-09-09 14:05:33Z spocke $
+ * $Id: JSON.js 1041 2009-03-04 15:16:25Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
@@ -45,7 +45,7 @@ tinymce.create('static tinymce.util.JSON', {
 		}
 
 		if (t == 'object') {
-			if (o instanceof Array) {
+			if (o.hasOwnProperty && o instanceof Array) {
 					for (i=0, v = '['; i<o.length; i++)
 						v += (i > 0 ? ',' : '') + s(o[i]);
 

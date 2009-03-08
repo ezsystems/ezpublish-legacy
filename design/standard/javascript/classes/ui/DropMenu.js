@@ -1,11 +1,11 @@
 /**
- * $Id: DropMenu.js 939 2008-10-13 15:47:19Z spocke $
+ * $Id: DropMenu.js 1045 2009-03-04 20:03:18Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
-(function() {
+(function(tinymce) {
 	var is = tinymce.is, DOM = tinymce.DOM, each = tinymce.each, Event = tinymce.dom.Event, Element = tinymce.dom.Element;
 
 	/**#@+
@@ -394,4 +394,4 @@
 
 		/**#@-*/
 	});
-})();
+})(tinymce);

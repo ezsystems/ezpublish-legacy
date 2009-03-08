@@ -1,11 +1,11 @@
 /**
- * $Id: Control.js 755 2008-03-29 19:14:42Z spocke $
+ * $Id: Control.js 1045 2009-03-04 20:03:18Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
-(function() {
+(function(tinymce) {
 	// Shorten class names
 	var DOM = tinymce.DOM, is = tinymce.is;
 
@@ -179,4 +179,4 @@
 
 		/**#@-*/
 	});
-})();
+})(tinymce);

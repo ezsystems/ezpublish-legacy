@@ -1,11 +1,11 @@
 /**
- * $Id: Editor.js 965 2008-11-27 17:23:31Z spocke $
+ * $Id: Editor.js 1045 2009-03-04 20:03:18Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
-(function() {
+(function(tinymce) {
 	var DOM = tinymce.DOM, Event = tinymce.dom.Event, extend = tinymce.extend, Dispatcher = tinymce.util.Dispatcher;
 	var each = tinymce.each, isGecko = tinymce.isGecko, isIE = tinymce.isIE, isWebKit = tinymce.isWebKit;
 	var is = tinymce.is, ThemeManager = tinymce.ThemeManager, PluginManager = tinymce.PluginManager, EditorManager = tinymce.EditorManager;
@@ -116,7 +116,9 @@
 				init_theme : 1,
 				force_p_newlines : 1,
 				indentation : '30px',
-				keep_styles : 1
+				keep_styles : 1,
+				fix_table_elements : 1,
+				removeformat_selector : 'span,b,strong,em,i,font,u,strike'
 			}, s);
 
 			// Setup URIs
@@ -166,7 +168,8 @@
 			if (!/TEXTAREA|INPUT/i.test(t.getElement().nodeName) && s.hidden_input && DOM.getParent(id, 'form'))
 				DOM.insertAfter(DOM.create('input', {type : 'hidden', name : id}), id);
 
-			t.windowManager = new tinymce.WindowManager(t);
+			if (tinymce.WindowManager)
+				t.windowManager = new tinymce.WindowManager(t);
 
 			if (s.encoding == 'xml') {
 				t.onGetContent.add(function(ed, o) {
@@ -184,7 +187,7 @@
 				});
 			}
 
-			if (s.add_unload_trigger && !s.ask) {
+			if (s.add_unload_trigger) {
 				t._beforeUnload = tinyMCE.onBeforeUnload.add(function() {
 					if (t.initialized && !t.destroyed && !t.isHidden())
 						t.save({format : 'raw', no_events : true});
@@ -226,7 +229,7 @@
 				if (s.language)
 					sl.add(tinymce.baseURL + '/langs/' + s.language + '.js');
 
-				if (s.theme.charAt(0) != '-' && !ThemeManager.urls[s.theme])
+				if (s.theme && s.theme.charAt(0) != '-' && !ThemeManager.urls[s.theme])
 					ThemeManager.load(s.theme, 'themes/' + s.theme + '/editor_template' + tinymce.suffix + '.js');
 
 				each(explode(s.plugins), function(p) {
@@ -241,23 +244,6 @@
 
 				// Init when que is loaded
 				sl.loadQueue(function() {
-					if (s.ask) {
-						function ask() {
-							// Yield for awhile to avoid focus bug on FF 3 when cancel is pressed
-							window.setTimeout(function() {
-								Event.remove(t.id, 'focus', ask);
-
-								t.windowManager.confirm(t.getLang('edit_confirm'), function(s) {
-									if (s)
-										t.init();
-								});
-							}, 0);
-						};
-
-						Event.add(t.id, 'focus', ask);
-						return;
-					}
-
 					if (!t.removed)
 						t.init();
 				});
@@ -282,12 +268,14 @@
 			EditorManager.add(t);
 
 			// Create theme
-			s.theme = s.theme.replace(/-/, '');
-			o = ThemeManager.get(s.theme);
-			t.theme = new o();
+			if (s.theme) {
+				s.theme = s.theme.replace(/-/, '');
+				o = ThemeManager.get(s.theme);
+				t.theme = new o();
 
-			if (t.theme.init && s.init_theme)
-				t.theme.init(t, ThemeManager.urls[s.theme] || tinymce.documentBaseURL.replace(/\/$/, ''));
+				if (t.theme.init && s.init_theme)
+					t.theme.init(t, ThemeManager.urls[s.theme] || tinymce.documentBaseURL.replace(/\/$/, ''));
+			}
 
 			// Create all plugins
 			each(explode(s.plugins.replace(/\-/g, '')), function(p) {
@@ -385,7 +373,7 @@
 				t.editorContainer = o.editorContainer;
 			}
 
-			// #if contentEditable
+			// #ifdef contentEditable
 
 			// Content editable mode ends here
 			if (s.content_editable) {
@@ -449,16 +437,10 @@
 			DOM.get(o.editorContainer).style.display = t.orgDisplay;
 			DOM.get(t.id).style.display = 'none';
 
-			// Safari 2.x requires us to wait for the load event and load a real HTML doc
-			if (tinymce.isOldWebKit) {
-				Event.add(n, 'load', t.setupIframe, t);
-				n.src = tinymce.baseURL + '/plugins/safari/blank.htm';
-			} else {
-				if (!isIE || !tinymce.relaxedDomain)
-					t.setupIframe();
+			if (!isIE || !tinymce.relaxedDomain)
+				t.setupIframe();
 
-				e = n = o = null; // Cleanup
-			}
+			e = n = o = null; // Cleanup
 		},
 
 		/**
@@ -700,12 +682,9 @@
 				});
 			}
 
+			// Add visual aids when new contents is added
 			t.onSetContent.add(function() {
-				// Safari needs some time, it will crash the browser when a link is created otherwise
-				// I think this crash issue is resolved in the latest 3.0.4
-				//window.setTimeout(function() {
-					t.addVisual(t.getBody());
-				//}, 1);
+				t.addVisual(t.getBody());
 			});
 
 			// Remove empty contents
@@ -713,6 +692,26 @@
 				t.onPostProcess.add(function(ed, o) {
 					o.content = o.content.replace(/^(<p[^>]*>(&nbsp;|&#160;|\s|\u00a0|)<\/p>[\r\n]*|<br \/>[\r\n]*)$/, '');
 				});
+			}
+
+			// Fix gecko link bug, when a link is placed at the end of block elements there is
+			// no way to move the caret behind the link. This fix adds a bogus br element after the link
+			if (isGecko) {
+				function fixLinks(ed, o) {
+					each(ed.dom.select('a'), function(n) {
+						var pn = n.parentNode;
+
+						if (ed.dom.isBlock(pn) && pn.lastChild === n)
+							ed.dom.add(pn, 'br', {'mce_bogus' : 1});
+					});
+				};
+
+				t.onExecCommand.add(function(ed, cmd) {
+					if (cmd === 'CreateLink')
+						fixLinks(ed);
+				});
+
+				t.onSetContent.add(t.selection.onSetContent.add(fixLinks));
 			}
 
 			if (isGecko && !s.readonly) {
@@ -765,7 +764,7 @@
 			e = null;
 		},
 
-		// #if contentEditable
+		// #ifdef contentEditable
 
 		/**
 		 * Sets up the contentEditable mode.
@@ -865,6 +864,11 @@
 			}
 
 			if (isIE) {
+				// Store away selection
+				Event.add(t.getElement(), 'beforedeactivate', function() {
+					t.lastSelectionBookmark = t.selection.getBookmark(1);
+				});
+
 				t.onBeforeExecCommand.add(function(ed, cmd, ui, val, o) {
 					if (!DOM.getParent(ed.selection.getStart(), function(n) {return n == ed.getBody();}))
 						o.terminate = 1;
@@ -895,11 +899,15 @@
 				if (!ce && (!isIE || t.selection.getNode().ownerDocument != t.getDoc()))
 					t.getWin().focus();
 
-				// #if contentEditable
+				// #ifdef contentEditable
 
 				// Content editable mode ends here
-				if (tinymce.isIE && ce)
-					t.getElement().focus();
+				if (ce) {
+					if (tinymce.isWebKit)
+						t.getWin().focus();
+					else
+						t.getElement().focus();
+				}
 
 				// #endif
 			}
@@ -1192,7 +1200,13 @@
 				return true;
 
 			// Theme commands
-			if (t.theme.execCommand && t.theme.execCommand(cmd, ui, val)) {
+			if (t.theme && t.theme.execCommand && t.theme.execCommand(cmd, ui, val)) {
+				t.onExecCommand.dispatch(t, cmd, ui, val, a);
+				return true;
+			}
+
+			// Execute global commands
+			if (tinymce.GlobalCommands.execCommand(t, cmd, ui, val)) {
 				t.onExecCommand.dispatch(t, cmd, ui, val, a);
 				return true;
 			}
@@ -1353,6 +1367,7 @@
 				o = o || {};
 				o.load = true;
 
+				// Double encode existing entities in the value
 				h = t.setContent(is(e.value) ? e.value : e.innerHTML, o);
 				o.element = e;
 
@@ -1692,7 +1707,7 @@
 				tinyMCE.onBeforeUnload.remove(t._beforeUnload);
 
 				// Manual destroy
-				if (t.theme.destroy)
+				if (t.theme && t.theme.destroy)
 					t.theme.destroy();
 
 				// Destroy controls, selection and dom
@@ -1812,7 +1827,7 @@
 				t.focus(true);
 			});
 
-			// #if contentEditable
+			// #ifdef contentEditable
 
 			if (s.content_editable && tinymce.isOpera) {
 				// Opera doesn't support focus event for contentEditable elements so we need to fake it
@@ -1899,84 +1914,6 @@
 			t.onReset.add(function() {
 				t.setContent(t.startContent, {format : 'raw'});
 			});
-
-			if (t.getParam('tab_focus')) {
-				function tabCancel(ed, e) {
-					if (e.keyCode === 9)
-						return Event.cancel(e);
-				};
-
-				function tabHandler(ed, e) {
-					var x, i, f, el, v;
-
-					function find(d) {
-						f = DOM.getParent(ed.id, 'form');
-						el = f.elements;
-
-						if (f) {
-							each(el, function(e, i) {
-								if (e.id == ed.id) {
-									x = i;
-									return false;
-								}
-							});
-
-							if (d > 0) {
-								for (i = x + 1; i < el.length; i++) {
-									if (el[i].type != 'hidden')
-										return el[i];
-								}
-							} else {
-								for (i = x - 1; i >= 0; i--) {
-									if (el[i].type != 'hidden')
-										return el[i];
-								}
-							}
-						}
-
-						return null;
-					};
-
-					if (e.keyCode === 9) {
-						v = explode(ed.getParam('tab_focus'));
-
-						if (v.length == 1) {
-							v[1] = v[0];
-							v[0] = ':prev';
-						}
-
-						// Find element to focus
-						if (e.shiftKey) {
-							if (v[0] == ':prev')
-								el = find(-1);
-							else
-								el = DOM.get(v[0]);
-						} else {
-							if (v[1] == ':next')
-								el = find(1);
-							else
-								el = DOM.get(v[1]);
-						}
-
-						if (el) {
-							if (ed = EditorManager.get(el.id || el.name))
-								ed.focus();
-							else
-								window.setTimeout(function() {window.focus();el.focus();}, 10);
-
-							return Event.cancel(e);
-						}
-					}
-				};
-
-				t.onKeyUp.add(tabCancel);
-
-				if (isGecko) {
-					t.onKeyPress.add(tabHandler);
-					t.onKeyDown.add(tabCancel);
-				} else
-					t.onKeyDown.add(tabHandler);
-			}
 
 			// Add shortcuts
 			if (s.custom_shortcuts) {
@@ -2361,4 +2298,4 @@
 
 		/**#@-*/
 	});
-})();
+})(tinymce);

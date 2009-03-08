@@ -1,11 +1,11 @@
 /**
- * $Id: Event.js 965 2008-11-27 17:23:31Z spocke $
+ * $Id: Event.js 1045 2009-03-04 20:03:18Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
  */
 
-(function() {
+(function(tinymce) {
 	// Shorten names
 	var each = tinymce.each, DOM = tinymce.DOM, isIE = tinymce.isIE, isWebKit = tinymce.isWebKit, Event;
 
@@ -23,7 +23,7 @@
 		 * @method
 		 */
 
-		// #if !jquery
+		// #ifndef jquery
 
 		/**
 		 * Adds an event handler to the specified object.
@@ -38,7 +38,7 @@
 			var cb, t = this, el = t.events, r;
 
 			// Handle array
-			if (o && o instanceof Array) {
+			if (o && o.hasOwnProperty && o instanceof Array) {
 				r = [];
 
 				each(o, function(o) {
@@ -108,7 +108,7 @@
 			var t = this, a = t.events, s = false, r;
 
 			// Handle array
-			if (o && o instanceof Array) {
+			if (o && o.hasOwnProperty && o instanceof Array) {
 				r = [];
 
 				each(o, function(o) {
@@ -296,4 +296,4 @@
 	// Dispatch DOM content loaded event for IE and Safari
 	Event._wait();
 	tinymce.addUnload(Event._unload);
-})();
+})(tinymce);

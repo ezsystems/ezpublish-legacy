@@ -1,11 +1,11 @@
 /**
- * $Id: StringWriter.js 602 2008-02-15 14:52:29Z spocke $
+ * $Id: StringWriter.js 1045 2009-03-04 20:03:18Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
-(function() {
+(function(tinymce) {
 	/**#@+
 	 * @class This class writes nodes into a string.
 	 * @member tinymce.dom.StringWriter
@@ -197,4 +197,4 @@
 
 		/**#@-*/
 	});
-})();
+})(tinymce);

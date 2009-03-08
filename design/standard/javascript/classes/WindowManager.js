@@ -1,11 +1,11 @@
 /**
- * $Id: WindowManager.js 890 2008-07-09 10:40:52Z spocke $
+ * $Id: WindowManager.js 1045 2009-03-04 20:03:18Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
-(function() {
+(function(tinymce) {
 	var Dispatcher = tinymce.util.Dispatcher, each = tinymce.each, isIE = tinymce.isIE, isOpera = tinymce.isOpera;
 
 	/**#@+
@@ -86,9 +86,6 @@
 			t.onOpen.dispatch(t, s, p);
 
 			u = s.url || s.file;
-			if (tinymce.relaxedDomain)
-				u += (u.indexOf('?') == -1 ? '?' : '&') + 'mce_rdomain=' + tinymce.relaxedDomain;
-
 			u = tinymce._addVer(u);
 
 			try {
@@ -169,4 +166,4 @@
 
 		/**#@-*/
 	});
-}());
+}(tinymce));

@@ -1,11 +1,11 @@
 /**
- * $Id: SplitButton.js 760 2008-04-01 14:13:07Z spocke $
+ * $Id: SplitButton.js 1045 2009-03-04 20:03:18Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
-(function() {
+(function(tinymce) {
 	var DOM = tinymce.DOM, Event = tinymce.dom.Event, each = tinymce.each;
 
 	/**#@+
@@ -96,4 +96,4 @@
 
 		/**#@-*/
 	});
-})();
+})(tinymce);

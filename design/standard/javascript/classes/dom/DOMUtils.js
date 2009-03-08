@@ -1,11 +1,11 @@
 /**
- * $Id: DOMUtils.js 967 2008-11-27 17:38:42Z spocke $
+ * $Id: DOMUtils.js 1045 2009-03-04 20:03:18Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
-(function() {
+(function(tinymce) {
 	// Shorten names
 	var each = tinymce.each, is = tinymce.is;
 	var isWebKit = tinymce.isWebKit, isIE = tinymce.isIE;
@@ -18,12 +18,7 @@
 		doc : null,
 		root : null,
 		files : null,
-		listeners : {},
 		pixelStyles : /^(top|left|bottom|right|width|height|borderWidth)$/,
-		cache : {},
-		idPattern : /^#[\w]+$/,
-		elmPattern : /^[\w_*]+$/,
-		elmClassPattern : /^([\w_]*)\.([\w_]+)$/,
 		props : {
 			"for" : "htmlFor",
 			"class" : "className",
@@ -162,59 +157,76 @@
 		},
 
 		/**
+		 * Returns true/false if the specified element matches the specified css pattern.
+		 *
+		 * @param {Node/NodeList} n DOM node to match or an array of nodes to match.
+		 * @param {String} patt CSS pattern to match the element agains.
+		 */
+		is : function(n, patt) {
+			return tinymce.dom.Sizzle.matches(patt, n.nodeType ? [n] : n).length > 0;
+		},
+
+		/**
 		 * Returns a node by the specified selector function. This function will
 		 * loop through all parent nodes and call the specified function for each node.
 		 * If the function then returns true indicating that it has found what it was looking for, the loop execution will then end
 		 * and the node it found will be returned.
 		 *
 		 * @param {Node/String} n DOM node to search parents on or ID string.
-		 * @param {function} f Selection function to execute on each node.
+		 * @param {function} f Selection function to execute on each node or CSS pattern.
 		 * @param {Node} r Optional root element, never go below this point.
 		 * @return {Node} DOM Node or null if it wasn't found.
 		 */
 		getParent : function(n, f, r) {
-			var na, se = this.settings;
+			return this.getParents(n, f, r, false);
+		},
 
-			n = this.get(n);
+		/**
+		 * Returns a node list of all parents matching the specified selector function or pattern.
+		 * If the function then returns true indicating that it has found what it was looking for and that node will be collected.
+		 *
+		 * @param {Node/String} n DOM node to search parents on or ID string.
+		 * @param {function} f Selection function to execute on each node or CSS pattern.
+		 * @param {Node} r Optional root element, never go below this point.
+		 * @return {Array} Array of nodes or null if it wasn't found.
+		 */
+		getParents : function(n, f, r, c) {
+			var t = this, na, se = t.settings, o = [];
+
+			n = t.get(n);
+			c = c === undefined;
 
 			if (se.strict_root)
-				r = r || this.getRoot();
+				r = r || t.getRoot();
 
 			// Wrap node name as func
 			if (is(f, 'string')) {
-				na = f.toUpperCase();
+				na = f;
 
-				f = function(n) {
-					var s = false;
-
-					// Any element
-					if (n.nodeType == 1 && na === '*') {
-						s = true;
-						return false;
-					}
-
-					each(na.split(','), function(v) {
-						if (n.nodeType == 1 && ((se.strict && n.nodeName.toUpperCase() == v) || n.nodeName.toUpperCase() == v)) {
-							s = true;
-							return false; // Break loop
-						}
-					});
-
-					return s;
-				};
+				if (f === '*') {
+					f = function(n) {return n.nodeType == 1;};
+				} else {
+					f = function(n) {
+						return t.is(n, na);
+					};
+				}
 			}
 
 			while (n) {
 				if (n == r)
-					return null;
+					break;
 
-				if (f(n))
-					return n;
+				if (!f || f(n)) {
+					if (c)
+						o.push(n);
+					else
+						return n;
+				}
 
 				n = n.parentNode;
 			}
 
-			return null;
+			return c ? o : null;
 		},
 
 		/**
@@ -238,38 +250,10 @@
 			return e;
 		},
 
-		// #if sizzle
+		// #ifndef jquery
 
 		/**
-		 * Selects specific elements by a CSS level 1 pattern. For example "div#a1 p.test".
-		 * This function is optimized for the most common patterns needed in TinyMCE but it also performes good enough
-		 * on more complex patterns.
-		 *
-		 * @param {String} p CSS level 1 pattern to select/find elements by.
-		 * @param {Object} s Optional root element/scope element to search in.
-		 * @return {Array} Array with all matched elements.
-		 */
-		sizzleSelect : function(pa, s) {
-			var t = this, siz;
-
-			// Look for Sizzle, this function will only use Sizzle later on
-			if (siz = window.Sizzle) {
-				// Setup new function
-				t.select = function(pa, s) {
-					siz.doc = t.doc;
-					return siz(pa, t.get(s) || t.doc, []);
-				};
-
-				return t.select(pa, s);
-			}
-		},
-
-		// #endif
-
-		// #if !jquery
-
-		/**
-		 * Selects specific elements by a CSS level 1 pattern. For example "div#a1 p.test".
+		 * Selects specific elements by a CSS level 3 pattern. For example "div#a1 p.test".
 		 * This function is optimized for the most common patterns needed in TinyMCE but it also performes good enough
 		 * on more complex patterns.
 		 *
@@ -278,201 +262,9 @@
 		 * @return {Array} Array with all matched elements.
 		 */
 		select : function(pa, s) {
-			var t = this, cs, c, pl, o = [], x, i, l, n, xp;
+			var t = this;
 
-			s = t.get(s) || t.doc;
-
-			// Look for native support and use that if it's found
-			if (s.querySelectorAll) {
-				// Element scope then use temp id
-				// We need to do this to be compatible with other implementations
-				// See bug report: http://bugs.webkit.org/show_bug.cgi?id=17461
-				if (s != t.doc) {
-					i = s.id;
-					s.id = '_mc_tmp';
-					pa = '#_mc_tmp ' + pa;
-				}
-
-				// Select elements
-				l = tinymce.grep(s.querySelectorAll(pa));
-
-				// Restore old id
-				s.id = i;
-
-				return l;
-			}
-
-			if (!t.selectorRe)
-				t.selectorRe = /^([\w\\*]+)?(?:#([\w\\]+))?(?:\.([\w\\\.]+))?(?:\[\@([\w\\]+)([\^\$\*!]?=)([\w\\]+)\])?(?:\:([\w\\]+))?/i;;
-
-			// Air doesn't support eval due to security sandboxing and querySelectorAll isn't supported yet
-			if (tinymce.isAir) {
-				each(tinymce.explode(pa), function(v) {
-					if (!(xp = t.cache[v])) {
-						xp = '';
-
-						each(v.split(' '), function(v) {
-							v = t.selectorRe.exec(v);
-
-							xp += v[1] ? '//' + v[1] : '//*';
-
-							// Id
-							if (v[2])
-								xp += "[@id='" + v[2] + "']";
-
-							// Class
-							if (v[3]) {
-								each(v[3].split('.'), function(n) {
-									xp += "[@class = '" + n + "' or contains(concat(' ', @class, ' '), ' " + n + " ')]";
-								});
-							}
-						});
-
-						t.cache[v] = xp;
-					}
-
-					xp = t.doc.evaluate(xp, s, null, 4, null);
-
-					while (n = xp.iterateNext())
-						o.push(n);
-				});
-
-				return o;
-			}
-
-			if (t.settings.strict) {
-				function get(s, n) {
-					return s.getElementsByTagName(n.toLowerCase());
-				};
-			} else {
-				function get(s, n) {
-					return s.getElementsByTagName(n);
-				};
-			}
-
-			// Simple element pattern. For example: "p" or "*"
-			if (t.elmPattern.test(pa)) {
-				x = get(s, pa);
-
-				for (i = 0, l = x.length; i<l; i++)
-					o.push(x[i]);
-
-				return o;
-			}
-
-			// Simple class pattern. For example: "p.class" or ".class"
-			if (t.elmClassPattern.test(pa)) {
-				pl = t.elmClassPattern.exec(pa);
-				x = get(s, pl[1] || '*');
-				c = ' ' + pl[2] + ' ';
-
-				for (i = 0, l = x.length; i<l; i++) {
-					n = x[i];
-
-					if (n.className && (' ' + n.className + ' ').indexOf(c) !== -1)
-						o.push(n);
-				}
-
-				return o;
-			}
-
-			function collect(n) {
-				if (!n.mce_save) {
-					n.mce_save = 1;
-					o.push(n);
-				}
-			};
-
-			function collectIE(n) {
-				if (!n.getAttribute('mce_save')) {
-					n.setAttribute('mce_save', '1');
-					o.push(n);
-				}
-			};
-
-			function find(n, f, r) {
-				var i, l, nl = get(r, n);
-
-				for (i = 0, l = nl.length; i < l; i++)
-					f(nl[i]);
-			};
-
-			each(pa.split(','), function(v, i) {
-				v = tinymce.trim(v);
-
-				// Simple element pattern, most common in TinyMCE
-				if (t.elmPattern.test(v)) {
-					each(get(s, v), function(n) {
-						collect(n);
-					});
-
-					return;
-				}
-
-				// Simple element pattern with class, fairly common in TinyMCE
-				if (t.elmClassPattern.test(v)) {
-					x = t.elmClassPattern.exec(v);
-
-					each(get(s, x[1]), function(n) {
-						if (t.hasClass(n, x[2]))
-							collect(n);
-					});
-
-					return;
-				}
-
-				if (!(cs = t.cache[pa])) {
-					cs = 'x=(function(cf, s) {';
-					pl = v.split(' ');
-
-					each(pl, function(v) {
-						var p = t.selectorRe.exec(v);
-
-						// Find elements
-						p[1] = p[1] || '*';
-						cs += 'find("' + p[1] + '", function(n) {';
-
-						// Check id
-						if (p[2])
-							cs += 'if (n.id !== "' + p[2] + '") return;';
-
-						// Check classes
-						if (p[3]) {
-							cs += 'var c = " " + n.className + " ";';
-							cs += 'if (';
-							c = '';
-							each(p[3].split('.'), function(v) {
-								if (v)
-									c += (c ? '||' : '') + 'c.indexOf(" ' + v + ' ") === -1';
-							});
-							cs += c + ') return;';
-						}
-					});
-
-					cs += 'cf(n);';
-
-					for (i = pl.length - 1; i >= 0; i--)
-						cs += '}, ' + (i ? 'n' : 's') + ');';
-
-					cs += '})';
-
-					// Compile CSS pattern function
-					t.cache[pa] = cs = eval(cs);
-				}
-
-				// Run selector function
-				cs(isIE ? collectIE : collect, s);
-			});
-
-			// Cleanup
-			each(o, function(n) {
-				if (isIE)
-					n.removeAttribute('mce_save');
-				else
-					delete n.mce_save;
-			});
-
-			return o;
+			return tinymce.dom.Sizzle(pa, t.get(s) || t.get(t.settings.root_element) || t.doc, []);
 		},
 
 		// #endif
@@ -551,8 +343,10 @@
 		 * @return {Element/Array} HTML DOM element that got removed or array of elements depending on input.
 		 */
 		remove : function(n, k) {
+			var t = this;
+
 			return this.run(n, function(n) {
-				var p, g;
+				var p, g, i;
 
 				p = n.parentNode;
 
@@ -560,24 +354,30 @@
 					return null;
 
 				if (k) {
-					each (n.childNodes, function(c) {
-						p.insertBefore(c.cloneNode(true), n);
-					});
+					for (i = n.childNodes.length - 1; i >= 0; i--)
+						t.insertAfter(n.childNodes[i], n);
+
+					//each(n.childNodes, function(c) {
+					//	p.insertBefore(c.cloneNode(true), n);
+					//});
 				}
 
 				// Fix IE psuedo leak
-		/*		if (isIE) {
+				if (t.fixPsuedoLeaks) {
 					p = n.cloneNode(true);
-					n.outerHTML = '';
+					k = 'IELeakGarbageBin';
+					g = t.get(k) || t.add(t.doc.body, 'div', {id : k, style : 'display:none'});
+					g.appendChild(n);
+					g.innerHTML = '';
 
 					return p;
-				}*/
+				}
 
 				return p.removeChild(n);
 			});
 		},
 
-		// #if !jquery
+		// #ifndef jquery
 
 		/**
 		 * Sets the CSS style value on a HTML element. The name can be a camelcase string
@@ -848,7 +648,7 @@
 
 					case 'size':
 						// IE returns +0 as default value for size
-						if (v === '+0' || v === 20)
+						if (v === '+0' || v === 20 || v === 0)
 							v = '';
 
 						break;
@@ -879,6 +679,7 @@
 
 						break;
 
+					case 'multiple':
 					case 'compact':
 					case 'noshade':
 					case 'nowrap':
@@ -913,7 +714,7 @@
 			n = t.get(n);
 
 			// Use getBoundingClientRect on IE, Opera has it but it's not perfect
-			if (n && isIE) {
+			if (n && isIE && !t.stdMode) {
 				n = n.getBoundingClientRect();
 				e = t.boxModel ? d.documentElement : d.body;
 				x = t.getStyle(t.select('html')[0], 'borderWidth'); // Remove border
@@ -1102,7 +903,7 @@
 			});
 		},
 
-		// #if !jquery
+		// #ifndef jquery
 
 		/**
 		 * Adds a class to the specified element or elements.
@@ -1461,7 +1262,7 @@
 			if (!e)
 				return null;
 
-			if (isIE)
+			if (e.outerHTML !== undefined)
 				return e.outerHTML;
 
 			d = (e.ownerDocument || this.doc).createElement("body");
@@ -1558,7 +1359,7 @@
 			}) : s;
 		},
 
-		// #if !jquery
+		// #ifndef jquery
 
 		/**
 		 * Inserts a element after the reference element.
@@ -1601,10 +1402,10 @@
 
 			n = n.nodeName || n;
 
-			return /^(H[1-6]|HR|P|DIV|ADDRESS|PRE|FORM|TABLE|LI|OL|UL|TD|CAPTION|BLOCKQUOTE|CENTER|DL|DT|DD|DIR|FIELDSET|NOSCRIPT|NOFRAMES|MENU|ISINDEX|SAMP)$/.test(n);
+			return /^(H[1-6]|HR|P|DIV|ADDRESS|PRE|FORM|TABLE|LI|OL|UL|TR|TD|CAPTION|BLOCKQUOTE|CENTER|DL|DT|DD|DIR|FIELDSET|NOSCRIPT|NOFRAMES|MENU|ISINDEX|SAMP)$/.test(n);
 		},
 
-		// #if !jquery
+		// #ifndef jquery
 
 		/**
 		 * Replaces the specified element or elements with the specified element, the new element will
@@ -1615,10 +1416,12 @@
 		 * @param {bool} k Optional keep children state, if set to true child nodes from the old object will be added to new ones.
 		 */
 		replace : function(n, o, k) {
+			var t = this;
+
 			if (is(o, 'array'))
 				n = n.cloneNode(true);
 
-			return this.run(o, function(o) {
+			return t.run(o, function(o) {
 				if (k) {
 					each(o.childNodes, function(c) {
 						n.appendChild(c.cloneNode(true));
@@ -1627,17 +1430,45 @@
 
 				// Fix IE psuedo leak for elements since replacing elements if fairly common
 				// Will break parentNode for some unknown reason
-	/*			if (isIE && o.nodeType === 1) {
+				if (t.fixPsuedoLeaks && o.nodeType === 1) {
 					o.parentNode.insertBefore(n, o);
-					o.outerHTML = '';
+					t.remove(o);
 					return n;
-				}*/
+				}
 
 				return o.parentNode.replaceChild(n, o);
 			});
 		},
 
 		// #endif
+
+		/**
+		 * Find the common ancestor of two elements. This is a shorter method than using the DOM Range logic.
+		 *
+		 * @param {Element} a Element to find common ancestor of.
+		 * @param {Element} b Element to find common ancestor of.
+		 * @return {Element} Common ancestor element of the two input elements.
+		 */
+		findCommonAncestor : function(a, b) {
+			var ps = a, pe;
+
+			while (ps) {
+				pe = b;
+
+				while (pe && ps != pe)
+					pe = pe.parentNode;
+
+				if (ps == pe)
+					break;
+
+				ps = ps.parentNode;
+			}
+
+			if (!ps && a.ownerDocument)
+				return a.ownerDocument.documentElement;
+
+			return ps;
+		},
 
 		/**
 		 * Parses the specified RGB color value and returns a hex version of that color.
@@ -1798,6 +1629,9 @@
 			return n.attributes;
 		},
 
+		/**
+		 * Destroys all internal references to the DOM to solve IE leak issues.
+		 */
 		destroy : function(s) {
 			var t = this;
 
@@ -1806,6 +1640,92 @@
 			// Manual destroy then remove unload handler
 			if (!s)
 				tinymce.removeUnload(t.destroy);
+		},
+
+		/**
+		 * Created a new DOM Range object. This will use the native DOM Range API if it's
+		 * available if it's not it will fallback to the custom TinyMCE implementation.
+		 *
+		 * @return {DOMRange} DOM Range object.
+		 */
+		createRng : function() {
+			var d = this.doc;
+
+			return d.createRange ? d.createRange() : new tinymce.dom.Range(this);
+		},
+
+		/**
+		 * Splits an element into two new elements and places the specified split
+		 * element or element between the new ones. For example splitting the paragraph at the bold element in
+		 * this example <p>abc<b>abc</b>123</p> would produce <p>abc</p><b>abc</b><p>123</p>. 
+		 *
+		 * @param {Element} pe Parent element to split.
+		 * @param {Element} e Element to split at.
+		 * @param {Element} re Optional replacement element to replace the split element by.
+		 * @return {Element} Returns the split element or the replacement element if that is specified.
+		 */
+		split : function(pe, e, re) {
+			var t = this, r = t.createRng(), bef, aft, pa;
+
+			// W3C valid browsers tend to leave empty nodes to the left/right side of the contents, this makes sence
+			// but we don't want that in our code since it serves no purpose
+			// For example if this is chopped:
+			//   <p>text 1<span><b>CHOP</b></span>text 2</p>
+			// would produce:
+			//   <p>text 1<span></span></p><b>CHOP</b><p><span></span>text 2</p>
+			// this function will then trim of empty edges and produce:
+			//   <p>text 1</p><b>CHOP</b><p>text 2</p>
+			function trimEdge(n, na) {
+				n = n[na];
+
+				if (n && n[na] && n[na].nodeType == 1 && isEmpty(n[na]))
+					t.remove(n[na]);
+			};
+
+			function isEmpty(n) {
+				n = t.getOuterHTML(n);
+				n = n.replace(/<(img|hr|table)/gi, '-'); // Keep these convert them to - chars
+				n = n.replace(/<[^>]+>/g, ''); // Remove all tags
+
+				return n.replace(/[ \t\r\n]+|&nbsp;|&#160;/g, '') == '';
+			};
+
+			if (pe && e) {
+				// Get before chunk
+				r.setStartBefore(pe);
+				r.setEndBefore(e);
+				bef = r.extractContents();
+
+				// Get after chunk
+				r = t.createRng();
+				r.setStartAfter(e);
+				r.setEndAfter(pe);
+				aft = r.extractContents();
+
+				// Insert chunks and remove parent
+				pa = pe.parentNode;
+
+				// Remove right side edge of the before contents
+				trimEdge(bef, 'lastChild');
+
+				if (!isEmpty(bef))
+					pa.insertBefore(bef, pe);
+
+				if (re)
+					pa.replaceChild(re, e);
+				else
+					pa.insertBefore(e, pe);
+
+				// Remove left site edge of the after contents
+				trimEdge(aft, 'firstChild');
+
+				if (!isEmpty(aft))
+					pa.insertBefore(aft, pe);
+
+				t.remove(pe);
+
+				return re || e;
+			}
 		},
 
 		_isRes : function(c) {
@@ -1848,4 +1768,4 @@
 
 	// Setup page DOM
 	tinymce.DOM = new tinymce.dom.DOMUtils(document, {process_html : 0});
-})();
+})(tinymce);

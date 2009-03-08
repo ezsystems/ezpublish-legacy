@@ -1,11 +1,11 @@
 /**
- * $Id: Button.js 793 2008-04-10 17:32:40Z spocke $
+ * $Id: Button.js 1045 2009-03-04 20:03:18Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
-(function() {
+(function(tinymce) {
 	var DOM = tinymce.DOM;
 
 	/**#@+
@@ -65,4 +65,4 @@
 
 		/**#@-*/
 	});
-})();
+})(tinymce);

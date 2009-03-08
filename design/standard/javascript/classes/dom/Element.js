@@ -1,11 +1,11 @@
 /**
- * $Id: Element.js 520 2008-01-07 16:30:32Z spocke $
+ * $Id: Element.js 1045 2009-03-04 20:03:18Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
-(function() {
+(function(tinymce) {
 	var each = tinymce.each;
 
 	/**#@+
@@ -58,22 +58,15 @@
 				'get'
 			], function(k) {
 				t[k] = function() {
-					var a = arguments, o;
+					var a = [id], i;
 
-					// Opera fails
-					if (tinymce.isOpera) {
-						a = [id];
+					for (i = 0; i < arguments.length; i++)
+						a.push(arguments[i]);
 
-						each(arguments, function(v) {
-							a.push(v);
-						});
-					} else
-						Array.prototype.unshift.call(a, el || id);
-
-					o = dom[k].apply(dom, a);
+					a = dom[k].apply(dom, a);
 					t.update(k);
 
-					return o;
+					return a;
 				};
 			});
 		},
@@ -203,4 +196,4 @@
 
 		/**#@-*/
 	});
-})();
+})(tinymce);

@@ -1,11 +1,11 @@
 /**
- * $Id: ListBox.js 933 2008-09-27 08:41:46Z spocke $
+ * $Id: ListBox.js 1045 2009-03-04 20:03:18Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
-(function() {
+(function(tinymce) {
 	var DOM = tinymce.DOM, Event = tinymce.dom.Event, each = tinymce.each, Dispatcher = tinymce.util.Dispatcher;
 
 	/**#@+
@@ -99,8 +99,7 @@
 				}
 
 				e = 0;
-			} else
-				t.selectedValue = t.selectedIndex = null;
+			}
 		},
 
 		/**
@@ -203,7 +202,7 @@
 			if (e && e.type == "mousedown" && (e.target.id == t.id + '_text' || e.target.id == t.id + '_open'))
 				return;
 
-			if (!e || !DOM.getParent(e.target, function(n) {return DOM.hasClass(n, 'mceMenu');})) {
+			if (!e || !DOM.getParent(e.target, '.mceMenu')) {
 				DOM.removeClass(t.id, t.classPrefix + 'Selected');
 				Event.remove(DOM.doc, 'mousedown', t.hideMenu, t);
 
@@ -317,4 +316,4 @@
 
 		/**#@-*/
 	});
-})();
+})(tinymce);

@@ -1,5 +1,5 @@
 /**
- * $Id: Popup.js 920 2008-09-09 14:05:33Z spocke $
+ * $Id: Popup.js 1036 2009-02-27 16:44:36Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -25,17 +25,7 @@ tinyMCEPopup = {
 	 * Initializes the popup this will be called automatically.
 	 */
 	init : function() {
-		var t = this, w, ti, li, q, i, it;
-
-		li = ('' + document.location.search).replace(/^\?/, '').split('&');
-		q = {};
-		for (i=0; i<li.length; i++) {
-			it = li[i].split('=');
-			q[unescape(it[0])] = unescape(it[1]);
-		}
-
-		if (q.mce_rdomain)
-			document.domain = q.mce_rdomain;
+		var t = this, w, ti;
 
 		// Find window & API
 		w = t.getWin();
@@ -177,10 +167,10 @@ tinyMCEPopup = {
 	 * when you open the window it will load the <plugin url>/langs/<code>_dlg.js lang pack file.
 	 */
 	requireLangPack : function() {
-		var u = this.getWindowArg('plugin_url') || this.getWindowArg('theme_url');
+		var t = this, u = t.getWindowArg('plugin_url') || t.getWindowArg('theme_url');
 
-		if (u && this.editor.settings.language) {
-			u += '/langs/' + this.editor.settings.language + '_dlg.js';
+		if (u && t.editor.settings.language && t.features.translate_i18n !== false) {
+			u += '/langs/' + t.editor.settings.language + '_dlg.js';
 
 			if (!tinymce.ScriptLoader.isDone(u)) {
 				document.write('<script type="text/javascript" src="' + tinymce._addVer(u) + '"></script>');
@@ -306,8 +296,12 @@ tinyMCEPopup = {
 		document.body.style.display = '';
 
 		// Restore selection in IE when focus is placed on a non textarea or input element of the type text
-		if (tinymce.isIE)
+		if (tinymce.isIE) {
 			document.attachEvent('onmouseup', tinyMCEPopup._restoreSelection);
+
+			// Add base target element for it since it would fail with modal dialogs
+			t.dom.add(t.dom.select('head')[0], 'base', {target : '_self'});
+		}
 
 		t.restoreSelection();
 		t.resizeToInnerSize();

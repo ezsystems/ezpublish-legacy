@@ -1,11 +1,11 @@
 /**
- * $Id: ScriptLoader.js 956 2008-11-04 17:39:21Z spocke $
+ * $Id: ScriptLoader.js 1045 2009-03-04 20:03:18Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
-(function() {
+(function(tinymce) {
 	var each = tinymce.each, Event = tinymce.dom.Event;
 
 	/**#@+
@@ -348,4 +348,4 @@
 
 	// Global script loader
 	tinymce.ScriptLoader = new tinymce.dom.ScriptLoader();
-})();
+})(tinymce);

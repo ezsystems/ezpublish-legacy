@@ -1,11 +1,11 @@
 /**
- * $Id: XMLWriter.js 906 2008-08-24 16:47:29Z spocke $
+ * $Id: XMLWriter.js 1045 2009-03-04 20:03:18Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
-(function() {
+(function(tinymce) {
 	/**#@+
 	 * @class This class writes nodes into a XML document structure. This structure can then be
 	 * serialized down to a HTML string later on.
@@ -152,4 +152,4 @@
 
 		/**#@-*/
 	});
-})();
+})(tinymce);

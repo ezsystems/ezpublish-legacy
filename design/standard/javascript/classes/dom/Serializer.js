@@ -1,28 +1,13 @@
 /**
- * $Id: Serializer.js 952 2008-11-03 17:56:04Z spocke $
+ * $Id: Serializer.js 1045 2009-03-04 20:03:18Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
-(function() {
+(function(tinymce) {
 	// Shorten names
 	var extend = tinymce.extend, each = tinymce.each, Dispatcher = tinymce.util.Dispatcher, isIE = tinymce.isIE, isGecko = tinymce.isGecko;
-
-	// Returns only attribites that have values not all attributes in IE
-	function getIEAtts(n) {
-		var o = [];
-
-		// Object will throw exception in IE
-		if (n.nodeName == 'OBJECT')
-			return n.attributes;
-
-		n.cloneNode(false).outerHTML.replace(/([a-z0-9\:\-_]+)=/gi, function(a, b) {
-			o.push({specified : 1, nodeName : b});
-		});
-
-		return o;
-	};
 
 	function wildcardToRE(s) {
 		return s.replace(/([?+*])/g, '.$1');
@@ -47,16 +32,11 @@
 			t.onPreProcess = new Dispatcher(t);
 			t.onPostProcess = new Dispatcher(t);
 
-			if (tinymce.relaxedDomain && tinymce.isGecko) {
-				// Gecko has a bug where we can't create a new XML document if domain relaxing is used
+			try {
+				t.writer = new tinymce.dom.XMLWriter();
+			} catch (ex) {
+				// IE might throw exception if ActiveX is disabled so we then switch to the slightly slower StringWriter
 				t.writer = new tinymce.dom.StringWriter();
-			} else {
-				try {
-					t.writer = new tinymce.dom.XMLWriter();
-				} catch (ex) {
-					// IE might throw exception if ActiveX is disabled so we then switch to the slightly slower StringWriter
-					t.writer = new tinymce.dom.StringWriter();
-				}
 			}
 
 			// Default settings
@@ -74,7 +54,7 @@
 				extended_valid_elements : 0,
 				valid_child_elements : 0,
 				invalid_elements : 0,
-				fix_table_elements : 0,
+				fix_table_elements : 1,
 				fix_list_elements : true,
 				fix_content_duplication : true,
 				convert_fonts_to_spans : false,
@@ -147,41 +127,8 @@
 
 			if (s.fix_table_elements) {
 				t.onPreProcess.add(function(se, o) {
-					each(t.dom.select('table', o.node), function(e) {
-						var pa = t.dom.getParent(e, 'H1,H2,H3,H4,H5,H6,P'), pa2, n, tm, pl = [], i, ns;
-
-						if (pa) {
-							pa2 = pa.cloneNode(false);
-
-							pl.push(e);
-							for (n = e; n = n.parentNode;) {
-								pl.push(n);
-
-								if (n == pa)
-									break;
-							}
-
-							tm = pa2;
-							for (i = pl.length - 1; i >= 0; i--) {
-								if (i == pl.length - 1) {
-									while (ns = pl[i - 1].nextSibling)
-										tm.appendChild(ns.parentNode.removeChild(ns));
-								} else {
-									n = pl[i].cloneNode(false);
-
-									if (i != 0) {
-										while (ns = pl[i - 1].nextSibling)
-											n.appendChild(ns.parentNode.removeChild(ns));
-									}
-
-									tm = tm.appendChild(n);
-								}
-							}
-
-							e = t.dom.insertAfter(e.parentNode.removeChild(e), pa);
-							t.dom.insertAfter(e, pa);
-							t.dom.insertAfter(pa2, e);
-						}
+					each(t.dom.select('p table', o.node), function(n) {
+						t.dom.split(t.dom.getParent(n, 'p'), n);
 					});
 				});
 			}
@@ -756,7 +703,7 @@
 
 						// Add wild attributes
 						if (ru.validAttribsRE) {
-							at = isIE ? getIEAtts(n) : n.attributes;
+							at = t.dom.getAttribs(n);
 							for (i=at.length-1; i>-1; i--) {
 								no = at[i];
 
@@ -993,4 +940,4 @@
 
 		/**#@-*/
 	});
-})();
+})(tinymce);

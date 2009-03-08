@@ -1,5 +1,5 @@
 /**
- * $Id: tinymce.js 966 2008-11-27 17:26:57Z spocke $
+ * $Id: tinymce.js 1041 2009-03-04 15:16:25Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -11,9 +11,9 @@
  * @member tinymce
  */
 var tinymce = {
-	majorVersion : '3',
-	minorVersion : '2.1.1',
-	releaseDate : '2008-11-27',
+	majorVersion : '@@tinymce_major_version@@',
+	minorVersion : '@@tinymce_minor_version@@',
+	releaseDate : '@@tinymce_release_date@@',
 
 	/**#@+
 	 * @method
@@ -28,7 +28,6 @@ var tinymce = {
 		// Browser checks
 		t.isOpera = w.opera && opera.buildNumber;
 		t.isWebKit = /WebKit/.test(ua);
-		t.isOldWebKit = t.isWebKit && !w.getSelection().getRangeAt;
 		t.isIE = !t.isWebKit && !t.isOpera && (/MSIE/gi).test(ua) && (/Explorer/gi).test(na.appName);
 		t.isIE6 = t.isIE && /MSIE [56]/.test(ua);
 		t.isGecko = !t.isWebKit && /Gecko/.test(ua);
@@ -111,13 +110,13 @@ var tinymce = {
 		if (!t)
 			return n != 'undefined';
 
-		if (t == 'array' && (o instanceof Array))
+		if (t == 'array' && (o.hasOwnProperty && o instanceof Array))
 			return true;
 
 		return n == t;
 	},
 
-	// #if !jquery
+	// #ifndef jquery
 
 	/**
 	 * Performs an iteration of all items in a collection such as an object or array. This method will execure the

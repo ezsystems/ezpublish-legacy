@@ -1,5 +1,5 @@
 /**
- * $Id: tiny_mce_dev.js 950 2008-10-30 15:47:23Z spocke $
+ * $Id: tiny_mce_dev.js 1047 2009-03-04 20:45:44Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -65,9 +65,9 @@
 	};
 
 	// Firebug
-	if (query.debug && (!window.console || !console.debug)) {
+	if (query.debug && (!window.console || !console.debug || /WebKit/.test(navigator.userAgent))) {
+		window.console = null; // Force firebug on WebKit
 		document.documentElement.setAttribute("debug", "true");
-		include('firebug/pi.js');
 		include('firebug/firebug-lite.js');
 	}
 
@@ -75,20 +75,21 @@
 	include('tinymce.js');
 
 	// Load framework adapter
-	if (query.api) {
-		include('adapter/' + query.api + '/' + query.api + '.js');
+	if (query.api)
 		include('adapter/' + query.api + '/adapter.js');
-	}
 
 	// Core API
 	include('util/Dispatcher.js');
 	include('util/URI.js');
 	include('util/Cookie.js');
 	include('util/JSON.js');
+	include('util/JSONP.js');
 	include('util/XHR.js');
 	include('util/JSONRequest.js');
-	include('dom/Sizzle.js');
 	include('dom/DOMUtils.js');
+	include('dom/Range.js');
+	include('dom/TridentSelection.js');
+	include('dom/Sizzle.js');
 	include('dom/Event.js');
 	include('dom/Element.js');
 	include('dom/Selection.js');
@@ -117,6 +118,12 @@
 	include('ForceBlocks.js');
 	include('ControlManager.js');
 	include('WindowManager.js');
+	include('CommandManager.js');
+	include('commands/RemoveFormat.js');
+	include('commands/BlockQuote.js');
+	include('commands/CutCopyPaste.js');
+	include('commands/InsertHorizontalRule.js');
+	include('commands/UndoRedo.js');
 
 	// Developer API
 	include('xml/Parser.js');
