@@ -3,6 +3,7 @@ Changes from 4.1.0beta1 to 4.1.0rc1
 *Kernel:
 - Implemented enhancement #11930: Importing <dc:xxxx> xml fields with RSS
 - Implemented enhancement #12456: Class based delayed indexing
+- Implemented enhancement #14324: Missing mimetype for 3gp files (and a few more, OOXML, mp4)
 
 *Design:
 
@@ -21,5 +22,5 @@ Changes from 4.1.0beta1 to 4.1.0rc1
 - Fixed bug #14518: datatype ezimage - modifying original image failed in 4.1, 4.3 but works in 4.0 !!!
 - Fixed bug #14352: Script to fix missing an duplicated remote id's on ezcontentobject_tree w/ patch
 - Fixed bug #14570: Query error when sending object to trash.
-- Fixed bug #014552: Query error when adding xml-block to a class (and also other datatypes) by adding proper escaping and quotes
-- Fixed bug #014252: Remove reference module (part of Task #012552:	Remove some deprecated features)
+- Fixed bug #14552: Query error when adding xml-block to a class (and also other datatypes) by adding proper escaping and quotes
+- Fixed bug #14252: Remove reference module (part of Task #012552:	Remove some deprecated features)
