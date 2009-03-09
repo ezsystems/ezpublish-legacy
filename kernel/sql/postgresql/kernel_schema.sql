@@ -2143,7 +2143,6 @@ CREATE TABLE ezpdf_export (
 
 CREATE TABLE ezpending_actions (
     "action" character varying(64) DEFAULT ''::character varying NOT NULL,
-    created integer,
     param text
 );
 
@@ -3479,14 +3478,6 @@ CREATE INDEX ezorder_status_history_sid ON ezorder_status_history USING btree (s
 
 
 CREATE INDEX ezpending_actions_action ON ezpending_actions USING btree ("action");
-
-
-
-
-
-
-
-CREATE INDEX ezpending_actions_created ON ezpending_actions USING btree (created);
 
 
 
