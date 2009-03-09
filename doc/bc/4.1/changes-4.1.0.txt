@@ -72,6 +72,9 @@ Removed features
 - eZXML
   The deprecated eZXML library, a non-standard-compliant DOM implementation, has been removed.
 
+- eZReference
+  The refence module from the kernel has been removed.
+
 
 New constants in config.php
 ---------------------------
