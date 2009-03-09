@@ -66,6 +66,21 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
     const WEBDAV_INI_FILE = "webdav.ini";
 
     /**
+     * Mimetype for directories.
+     */
+    const DIRECTORY_MIMETYPE = 'httpd/unix-directory';
+
+    /**
+     * Mimetype for eZ Publish objects which don't have a mimetype.
+     */
+    const DEFAULT_MIMETYPE = "application/octet-stream";
+
+    /**
+     * Default size in bytes for eZ Publish objects which don't have a size.
+     */
+    const DEFAULT_SIZE = 0;
+
+    /**
      * Names of live properties from the DAV: namespace which will be handled
      * live, and should not be stored like dead properties.
      *
@@ -330,7 +345,7 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
                 continue;
             }
 
-            if ( $entry['mimetype'] === 'httpd/unix-directory' )
+            if ( $entry['mimetype'] === self::DIRECTORY_MIMETYPE )
             {
                 // Add collection without any children
                 $contents[] = new ezcWebdavCollection( $entry['href'], $this->getAllProperties( $path ) );
@@ -401,7 +416,7 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
                 {
                     $data = $data[0];
                     $data['nodeExists'] = true;
-                    $data['isCollection'] = ( $data['mimetype'] === 'httpd/unix-directory' );
+                    $data['isCollection'] = ( $data['mimetype'] === self::DIRECTORY_MIMETYPE );
                     $data['href'] = $fullPath; // @as @todo move this hack to correct function
                 }
                 else
@@ -450,44 +465,50 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
         {
             case 'getcontentlength':
                 $property = new ezcWebdavGetContentLengthProperty();
-                $property->length = ( $item['mimetype'] === 'httpd/unix-directory' ) ?
+                $mimetype = isset( $item['mimetype'] ) ? $item['mimetype'] : self::DEFAULT_MIMETYPE;
+                $size = isset( $item['size'] ) ? $item['size'] : self::DEFAULT_SIZE;
+                $property->length = ( $mimetype === self::DIRECTORY_MIMETYPE ) ?
                     ezcWebdavGetContentLengthProperty::COLLECTION :
-                    (string) $item['size'];
+                    (string) $size;
                 break;
 
             case 'getlastmodified':
                 $property = new ezcWebdavGetLastModifiedProperty();
-                $property->date = new ezcWebdavDateTime( '@' . $item['mtime'] );
+                $timestamp = isset( $item['mtime'] ) ? $item['mtime'] : time();
+                $property->date = new ezcWebdavDateTime( '@' . $timestamp );
                 break;
 
             case 'creationdate':
                 $property = new ezcWebdavCreationDateProperty();
-                $property->date = new ezcWebdavDateTime( '@' . $item['ctime'] );
+                $timestamp = isset( $item['ctime'] ) ? $item['ctime'] : time();
+                $property->date = new ezcWebdavDateTime( '@' . $timestamp );
                 break;
 
             case 'displayname':
                 $property = new ezcWebdavDisplayNameProperty();
-                $property->displayName = $item['name'];
+                $property->displayName = isset( $item['name'] ) ? $item['name'] : 'Unknown displayname';
                 break;
 
             case 'getcontenttype':
                 $property = new ezcWebdavGetContentTypeProperty();
-                $property->mime = $item['mimetype'];
+                $property->mime = isset( $item['mimetype'] ) ? $item['mimetype'] : self::DEFAULT_MIMETYPE;
                 break;
 
             case 'getetag':
                 $property = new ezcWebdavGetEtagProperty();
-
-                $size = ( $item['mimetype'] === 'httpd/unix-directory' ) ?
+                $mimetype = isset( $item['mimetype'] ) ? $item['mimetype'] : self::DEFAULT_MIMETYPE;
+                $size = isset( $item['size'] ) ? $item['size'] : self::DEFAULT_SIZE;
+                $size = ( $mimetype === self::DIRECTORY_MIMETYPE ) ?
                     ezcWebdavGetContentLengthProperty::COLLECTION :
-                    (string) $item['size'];
-
-                $property->etag = md5( $path . $size . date( 'c', $item['mtime'] ) );
+                    (string) $size;
+                $timestamp = isset( $item['mtime'] ) ? $item['mtime'] : time();
+                $property->etag = md5( $path . $size . date( 'c', $timestamp ) );
                 break;
 
             case 'resourcetype':
                 $property = new ezcWebdavResourceTypeProperty();
-                $property->type = ( $item['mimetype'] === 'httpd/unix-directory' ) ?
+                $mimetype = isset( $item['mimetype'] ) ? $item['mimetype'] : self::DEFAULT_MIMETYPE;
+                $property->type = ( $mimetype === self::DIRECTORY_MIMETYPE ) ?
                     ezcWebdavResourceTypeProperty::TYPE_COLLECTION : 
                     ezcWebdavResourceTypeProperty::TYPE_RESOURCE;
                 break;
@@ -1435,9 +1456,13 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
 
         // By default, everything is displayed as a folder:
         // Trim the name of the node, it is in some cases whitespace in eZ Publish
-        $entry["name"] = trim( $node->attribute( 'name' ) );
+        $name = trim( $node->attribute( 'name' ) );
+
+        // @as 2009-03-09: return node_id as displayname in case name is missing
+        // displayname is not actually used by WebDAV clients
+        $entry["name"] = ( $name !== "" ) ? $name : $node->attribute( 'node_id' );
         $entry["size"] = 0;
-        $entry["mimetype"] = 'httpd/unix-directory';
+        $entry["mimetype"] = self::DIRECTORY_MIMETYPE;
         eZWebDAVContentBackend::appendLogEntry( 'FetchNodeInfo:' . $node->attribute( 'name' ) . '/' . $node->urlAlias() );
 
         // @todo handle articles as files
@@ -1743,7 +1768,7 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
         $contentEntry             = array();
         $contentEntry["name"]     = $nodeName;
         $contentEntry["size"]     = 0;
-        $contentEntry["mimetype"] = 'httpd/unix-directory';
+        $contentEntry["mimetype"] = self::DIRECTORY_MIMETYPE;
         $contentEntry["ctime"]    = filectime( 'settings/siteaccess/' . $site );
         $contentEntry["mtime"]    = filemtime( 'settings/siteaccess/' . $site );
         $contentEntry["href"]     = $fullPath;
@@ -1789,7 +1814,7 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
         }
         $contentEntry["name"]     = $scriptURL;
         $contentEntry["size"]     = 0;
-        $contentEntry["mimetype"] = 'httpd/unix-directory';
+        $contentEntry["mimetype"] = self::DIRECTORY_MIMETYPE;
         $contentEntry["ctime"]    = filectime( 'settings/siteaccess/' . $site );
         $contentEntry["mtime"]    = filemtime( 'settings/siteaccess/' . $site );
         $contentEntry["href"]     = $requestUri;
@@ -1812,7 +1837,7 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
                 $entry             = array();
                 $entry["name"]     = $name;
                 $entry["size"]     = 0;
-                $entry["mimetype"] = 'httpd/unix-directory';
+                $entry["mimetype"] = self::DIRECTORY_MIMETYPE;
                 $entry["ctime"]    = $defctime;
                 $entry["mtime"]    = $defmtime;
                 $entry["href"]     = $scriptURL . $name;
@@ -2040,7 +2065,7 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
         $contentEntry["name"]     = '/';
         $contentEntry["href"]     = $scriptURL;
         $contentEntry["size"]     = 0;
-        $contentEntry["mimetype"] = 'httpd/unix-directory';
+        $contentEntry["mimetype"] = self::DIRECTORY_MIMETYPE;
         $contentEntry["ctime"]    = filectime( 'var' );
         $contentEntry["mtime"]    = filemtime( 'var' );
 
@@ -2054,7 +2079,7 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
                 // Set up attributes for the virtual site-list folder:
                 $contentEntry["name"]     = $scriptURL . $site . '/'; // @as added '/'
                 $contentEntry["size"]     = 0;
-                $contentEntry["mimetype"] = 'httpd/unix-directory';
+                $contentEntry["mimetype"] = self::DIRECTORY_MIMETYPE;
                 $contentEntry["ctime"]    = filectime( 'settings/siteaccess/' . $site );
                 $contentEntry["mtime"]    = filemtime( 'settings/siteaccess/' . $site );
 
