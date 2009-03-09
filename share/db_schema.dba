@@ -4845,6 +4845,12 @@ $schema = array (
         'type' => 'longtext',
         'default' => false,
       ),
+      'created' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'default' => NULL,
+      ),
     ),
     'indexes' => 
     array (
@@ -4854,6 +4860,14 @@ $schema = array (
         'fields' => 
         array (
           0 => 'action',
+        ),
+      ),
+      'ezpending_actions_created' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'created',
         ),
       ),
     ),

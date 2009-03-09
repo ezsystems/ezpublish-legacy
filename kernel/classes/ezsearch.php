@@ -497,6 +497,125 @@ class eZSearch
         return false;
     }
 
+    public static function updateNodeSection( $nodeID, $sectionID )
+    {
+        $searchEngine = eZSearch::getEngine();
+
+        if ( is_object( $searchEngine ) && method_exists( $searchEngine, 'updateNodeSection'))
+        {
+            return $searchEngine->updateNodeSection( $nodeID, $sectionID );
+        }
+
+        return false;
+    }
+
+    public static function updateNodeVisibility( $nodeID, $action )
+    {
+        $searchEngine = eZSearch::getEngine();
+
+        if ( is_object( $searchEngine ) && method_exists( $searchEngine, 'updateNodeVisibility'))
+        {
+            return $searchEngine->updateNodeVisibility( $nodeID, $action );
+        }
+
+        return false;
+    }
+
+    public static function addNodeAssignment( $mainNodeID, $objectID, $nodeAssigmentIDList )
+    {
+        $searchEngine = eZSearch::getEngine();
+
+        if ( is_object( $searchEngine ) && method_exists( $searchEngine, 'addNodeAssignment'))
+        {
+            return $searchEngine->addNodeAssignment( $mainNodeID, $objectID, $nodeAssigmentIDList );
+        }
+
+        return false;
+    }
+
+    public static function removeNodeAssignment( $mainNodeID, $newMainNodeID, $objectID, $nodeAssigmentIDList )
+    {
+        $searchEngine = eZSearch::getEngine();
+
+        if ( is_object( $searchEngine ) && method_exists( $searchEngine, 'removeNodeAssignment'))
+        {
+            return $searchEngine->updateNodeSection( $mainNodeID, $newMainNodeID, $objectID, $nodeAssigmentIDList );
+        }
+
+        return false;
+    }
+
+    /**
+     * Defines if the search engine should defer its operations to
+     * a cronjob when a node is assigned to another section
+     *
+     * @return true if this method is overriden in a search engine, false otherwise
+     */
+    public static function deferNodeSectionUpdateToCron()
+    {
+        $searchEngine = eZSearch::getEngine();
+
+        if ( is_object( $searchEngine ) && method_exists( $searchEngine, 'deferNodeSectionUpdateToCron'))
+        {
+            return $searchEngine->deferNodeSectionUpdateToCron();
+        }
+
+        return false;
+    }
+
+    /**
+     * Defines if the search engine should defer its operations to
+     * a cronjob when a node's visibility is changed
+     *
+     * @return true if this method is overriden in a search engine, false otherwise
+     */
+    public static function deferNodeVisibilityUpdateToCron()
+    {
+        $searchEngine = eZSearch::getEngine();
+
+        if ( is_object( $searchEngine ) && method_exists( $searchEngine, 'deferNodeVisibilityUpdateToCron'))
+        {
+            return $searchEngine->deferNodeVisibilityUpdateToCron();
+        }
+
+        return false;
+    }
+
+    /**
+     * Defines if the search engine should defer its operations to
+     * a cronjob when node assignments are removed
+     *
+     * @return true if this method is overriden in a search engine, false otherwise
+     */
+    public static function deferRemoveNodeAssignmentToCron()
+    {
+        $searchEngine = eZSearch::getEngine();
+
+        if ( is_object( $searchEngine ) && method_exists( $searchEngine, 'deferRemoveNodeAssignmentToCron'))
+        {
+            return $searchEngine->deferRemoveNodeAssignmentToCron();
+        }
+
+        return false;
+    }
+
+    /**
+     * Defines if the search engine should defer its operations to
+     * a cronjob when node assignments are added
+     *
+     * @return true if this method is overriden in a search engine, false otherwise
+     */
+    public static function deferAddAssignmentToCron()
+    {
+        $searchEngine = eZSearch::getEngine();
+
+        if ( is_object( $searchEngine ) && method_exists( $searchEngine, 'deferAddAssignmentToCron'))
+        {
+            return $searchEngine->deferAddAssignmentToCron();
+        }
+
+        return false;
+    }
 }
 
 ?>

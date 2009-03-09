@@ -787,6 +787,28 @@ class eZContentOperationCollection
         }
         if ( $locationAdded )
         {
+            if( eZSearch::deferAddAssignmentToCron() )
+            {
+                $params = array( 'main_node_id' => $nodeID,
+                                 'object_id'    => $objectID,
+                                 'node_id_list' => $selectedNodeIDArray );
+
+                $params = serialize( $params );
+
+                $db = eZDB::instance();
+
+                $sql = 'INSERT INTO ezpending_actions( action, param )
+                        VALUES ( \'ezsearch_add_node_assignment\',
+                                 \''. $params . '\' )';
+
+                if( !$db->query( $sql ) )
+                {
+                    eZDebug::writeError( 'Unable to insert pending action', __METHOD__ );
+                }
+            }
+            else
+                eZSearch::addNodeAssignment( $nodeID, $objectID, $selectedNodeIDArray );
+
             // clear user policy cache if this was a user object
             if ( in_array( $object->attribute( 'contentclass_id' ), $userClassIDArray ) )
             {
@@ -822,6 +844,8 @@ class eZContentOperationCollection
     static public function removeAssignment( $nodeID, $objectID, $removeList, $moveToTrash )
     {
         $mainNodeChanged      = false;
+        $nodeIDList           = array();
+        $mainNodeID           = $nodeID;
         $userClassIDArray     = eZUser::contentClassIDs();
         $object               = eZContentObject::fetch( $objectID );
         $nodeAssignmentList   = eZNodeAssignment::fetchForObject( $objectID,
@@ -847,6 +871,8 @@ class eZContentOperationCollection
             if ( $node->attribute( 'node_id' ) == $node->attribute( 'main_node_id' ) )
                 $mainNodeChanged = true;
             $node->removeThis();
+
+            $nodeIDList[] = $node->attribute( 'node_id' );
         }
 
         // Give other search engines that the default one a chance to reindex
@@ -862,13 +888,37 @@ class eZContentOperationCollection
 
         if ( $mainNodeChanged )
         {
-            $allNodes = $object->assignedNodes();
-            $mainNode = $allNodes[0];
-            eZContentObjectTreeNode::updateMainNodeID( $mainNode->attribute( 'node_id' ), $objectID, false, $mainNode->attribute( 'parent_node_id' ) );
+            $allNodes   = $object->assignedNodes();
+            $mainNode   = $allNodes[0];
+            $mainNodeID = $mainNode->attribute( 'node_id' );
+            eZContentObjectTreeNode::updateMainNodeID( $mainNodeID, $objectID, false, $mainNode->attribute( 'parent_node_id' ) );
         }
 
         $db->commit();
-        
+
+        if( eZSearch::deferRemoveNodeAssignmentToCron() )
+        {
+            $params = array( 'main_node_id'             => $nodeID,
+                             'new_main_node_id'         => $mainNodeID,
+                             'object_id'                => $objectID,
+                             'node_assignement_id_list' => $nodeIDList );
+
+            $params = serialize( $params );
+
+            $db = eZDB::instance();
+
+            $sql = 'INSERT INTO ezpending_actions( action, param )
+                    VALUES ( \'ezsearch_remove_node_assignment\',
+                             \''. $params . '\' )';
+
+            if( !$db->query( $sql ) )
+            {
+                eZDebug::writeError( 'Unable to insert pending action', __METHOD__ );
+            }
+        }
+        else
+            eZSearch::removeNodeAssignment( $nodeID, $mainNodeID, $objectID, $nodeIDList );
+
         eZContentCacheManager::clearObjectViewCacheIfNeeded( $objectID );
     
         // clear user policy cache if this was a user object
@@ -905,14 +955,41 @@ class eZContentOperationCollection
      */
     static public function changeHideStatus( $nodeID )
     {
+        $action = 'hide';
+
         $curNode = eZContentObjectTreeNode::fetch( $nodeID );
         if ( is_object( $curNode ) )
         {
             if ( $curNode->attribute( 'is_hidden' ) )
+            {
                 eZContentObjectTreeNode::unhideSubTree( $curNode );
+                $action = 'reveal';
+            }
             else
                 eZContentObjectTreeNode::hideSubTree( $curNode );
         }
+
+        if( eZSearch::deferNodeVisibilityUpdateToCron() )
+        {
+            $params = array( 'node_id' => $nodeID,
+                             'action'  => $action );
+
+            $params = serialize( $params );
+
+            $db = eZDB::instance();
+
+            $sql = 'INSERT INTO ezpending_actions( action, param )
+                    VALUES ( \'ezsearch_update_node_visibility\',
+                             \''. $params . '\' )';
+
+            if( !$db->query( $sql ) )
+            {
+                eZDebug::writeError( 'Unable to insert pending action', __METHOD__ );
+            }
+        }
+        else
+            eZSearch::updateNodeVisibility( $nodeID, $action );
+
         return array( 'status' => true );
     }
 
@@ -1029,6 +1106,27 @@ class eZContentOperationCollection
     static public function updateSection( $nodeID, $selectedSectionID )
     {
         eZContentObjectTreeNode::assignSectionToSubTree( $nodeID, $selectedSectionID );
+
+        if( eZSearch::deferNodeSectionUpdateToCron() )
+        {
+            $params = array( 'node_id'        => $nodeID,
+                             'new_section_id' => $selectedSectionID );
+
+            $params = serialize( $params );
+
+            $db = eZDB::instance();
+
+            $sql = 'INSERT INTO ezpending_actions( action, param )
+                    VALUES ( \'ezsearch_update_node_section\',
+                             \''. $params . '\' )';
+
+            if( !$db->query( $sql ) )
+            {
+                eZDebug::writeError( 'Unable to insert pending action', __METHOD__ );
+            }
+        }
+        else
+            eZSearch::updateNodeSection( $nodeID, $selectedSectionID );
     }
 
     /**
