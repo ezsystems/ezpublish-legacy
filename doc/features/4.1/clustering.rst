@@ -8,15 +8,15 @@ eZ Cluster migration guide
 :Date: 2009/03/05
 :Version: 1.0
 
-This document describes the upgrade documentation for
+This document describes the upgrade process for
 end-users who wants to update their eZ Publish cluster
 from 3.10 version to 4.* versions.
 
 .. Note:: If you plan to update an eZ Publish cluster prior to 3.10
           read this documentation first http://pubsvn.ez.no/nextgen/trunk/doc/features/3.10/cluster_enhancement.txt
 
-.. Note:: **This guide assume the code base is already update to the 4.1 version, do not upgrade
-          the cluster before upgrading the code this could lead to a data loss.**
+.. Note:: **This guide assumes the code base is already update to the 4.1 version, do not upgrade
+          the cluster before upgrading the code base, this could lead to a data loss.**
 
 .. contents:: Table of contents
 
@@ -33,8 +33,7 @@ The unclusterization process copies all the data in the ezdbfile and ezdbfile_da
 Updating the configuration file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The configuration file has changed slightly, before 4.1 settings/file.ini looked
-like this : 
+The configuration file has changed slightly, before 4.1 ``settings/file.ini`` looked like this : 
 
 ::
     [ClusteringSettings]
@@ -42,8 +41,7 @@ like this :
     DBBackend=mysql
     [...]
 
-Since there is a new handler system in eZ Publish 4.1, you have to
-update your configuration file ``file.ini.append.php``.
+Since there is a new handler system in eZ Publish 4.1, you have to update your configuration file ``file.ini.append.php``.
 
 All you have to do is this apply the following configuration
 
@@ -80,8 +78,7 @@ The *unclusterize* option must be enabled to copy the files from database and to
 
 .. Note:: Make sure you have enough diskspace on the filesystem before starting this operation.
 
-If you have a lot of data (> 40, 50Gb) the unclusterize process will be
-running for 3 or 4 hours, this is a normal behaviour.
+If you have a lot of data (> 40, 50Gb) the unclusterize process will be running for 3 or 4 hours, this is a normal behaviour.
 
 Upgrading the tables
 ~~~~~~~~~~~~~~~~~~~~~
@@ -173,7 +170,7 @@ Clusterizing
 ~~~~~~~~~~~~~
 
 This is similar to the first step, this time however we will reverse the process
-and copy the files from the local filesystem and to the database cluster.
+and copy the files from the local filesystem to the database cluster.
 
 Again it is performed using the ``bin/php/clusterize.php`` script.
 
@@ -191,7 +188,7 @@ to the database but will **never** transfer any cache file.
 Using the new filesystem backend
 --------------------------------
 
-Since eZ Publish 4.1 a new FileSystem backend has been written : eZFS2.
+Since eZ Publish 4.1, a new FileSystem backend is available : eZFS2.
 
 This new backend is more effecient with network shared partitions (like NFS)
 and handles gracefully cache purges and updates for content caches and
@@ -220,15 +217,14 @@ Change the configuration to this one :
 ::
 
     [ClusteringSettings]
-    FileHandler=eZFSFileHandler
+    FileHandler=eZFS2FileHandler
     [...]
 
 Extra configuration for eZFS2
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-eZFS2FileHandler comes with a few configuration directives, it is safe to
-use the default values. But in case you want something more specific to your
-project you can update the following configuration directives
+eZFS2FileHandler comes with a few configuration directives, it is safe to use the default values.
+In case you want something more specific to your project you can update the following configuration directives
 
 file.ini : NonExistantStaleCacheHandling[]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
