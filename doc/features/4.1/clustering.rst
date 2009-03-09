@@ -12,8 +12,8 @@ This document describes the upgrade process for
 end-users who wants to update their eZ Publish cluster
 from 3.10 version to 4.* versions.
 
-.. Note:: If you plan to update an eZ Publish cluster prior to 3.10
-          read this documentation first http://pubsvn.ez.no/nextgen/trunk/doc/features/3.10/cluster_enhancement.txt
+.. Note:: **If you plan to update an eZ Publish cluster prior to 3.10
+          read this documentation first** http://pubsvn.ez.no/nextgen/trunk/doc/features/3.10/cluster_enhancement.txt
 
 .. Note:: **This guide assumes the code base is already update to the 4.1 version, do not upgrade
           the cluster before upgrading the code base, this could lead to a data loss.**
