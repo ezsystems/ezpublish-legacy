@@ -5,7 +5,7 @@ HTTP/1.1 207 Multi-Status
 <?xml version="1.0" encoding="UTF-8"?>
 <D:multistatus xmlns:D="DAV:">
   <D:response>
-    <D:href>http://webdav.ezp/plain_site_user/Content/testPropPatchFileLevel5SetInvalidProperty/</D:href>
+    <D:href>http://@ezc_webdav_host@/@ezc_siteaccess@/Content/@ezc_webdav_testfolder@/</D:href>
     <D:propstat>
       <D:prop>
         <D:invalid_property>dir2</D:invalid_property>

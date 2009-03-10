@@ -35,7 +35,7 @@ HTTP/1.1 207 Multi-Status
         <D:getcontentlength>4096</D:getcontentlength>
         <D:getlastmodified>Mon, 07 Jul 2008 14:46:08 +0000</D:getlastmodified>
         <D:creationdate>2008-07-07T14:46:08+0000</D:creationdate>
-        <D:displayname>testPropFindFolderLevel2Depth1</D:displayname>
+        <D:displayname>@ezc_webdav_testfolder@</D:displayname>
         <D:getcontenttype>httpd/unix-directory</D:getcontenttype>
         <D:resourcetype>
           <D:collection/>
