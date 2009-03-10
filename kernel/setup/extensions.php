@@ -114,12 +114,12 @@ function updateAutoload( $tpl = null )
 
             // For web output we want to mark some of the important parts of
             // the message
-            $pattern = '@^Class\s+(\w+)\s+.* file\s(.+\.php).*\n([\w/]+)@';
+            $pattern = '@^Class\s+(\w+)\s+.* file\s(.+\.php).*\n(.+\.php)\s@';
             preg_match( $pattern, $warning, $m );
 
             $warning = str_replace( $m[1], '<strong>'.$m[1].'</strong>', $warning );
-            $warning = str_replace( $m[2], '<strong>'.$m[2].'</strong>', $warning );
-            $warning = str_replace( $m[3], '<strong>'.$m[3].'</strong>', $warning );
+            $warning = str_replace( $m[2], '<em>'.$m[2].'</em>', $warning );
+            $warning = str_replace( $m[3], '<em>'.$m[3].'</em>', $warning );
         }
 
         if ( $tpl !== null )

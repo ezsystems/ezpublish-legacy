@@ -27,6 +27,7 @@ Changes from 4.1.0beta1 to 4.1.0rc1
 - Fixed bug #14252: Remove reference module (part of Task #012552:	Remove some deprecated features)
 - Fixed bug #13633: no upgrade docs for clustering
 - Fixed bug #8830: Segmentation fault when site.ini newer than current system time
+- Fixed bug #14186: Weird markup in setup/extensions after generating the autoload arrays
 
 *Enhancements*
 - Implemented enhancement #14578: Add possibility to filter nodes based on the is_invisible
