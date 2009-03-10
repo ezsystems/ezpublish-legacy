@@ -26,3 +26,6 @@ Changes from 4.1.0beta1 to 4.1.0rc1
 - Fixed bug #14552: Query error when adding xml-block to a class (and also other datatypes) by adding proper escaping and quotes
 - Fixed bug #14252: Remove reference module (part of Task #012552:	Remove some deprecated features)
 - Fixed bug #13633: no upgrade docs for clustering
+
+*Enhancements*
+- Implemented enhancement #14578: Add possibility to filter nodes based on the is_invisible

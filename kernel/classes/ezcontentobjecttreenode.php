@@ -1031,6 +1031,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         {
                             $filterField = 'ezcontentobject.owner_id';
                         } break;
+                        case 'visibility':
+                        {
+                            $filterValue = ( $filterValue == '1' ) ? 0 : 1;
+                            $filterField = 'ezcontentobject_tree.is_invisible';
+                        } break;
                         default:
                         {
                             $useAttributeFilter = true;
