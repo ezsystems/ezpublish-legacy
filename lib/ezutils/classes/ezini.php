@@ -399,7 +399,7 @@ class eZINI
         eZDebug::accumulatorStart( 'ini', 'ini_load', 'Load cache' );
         if ( $reset )
             $this->reset();
-        $cachedDir = "var/cache/ini/";
+        $cachedDir = 'var/cache/ini/';
         $inputFileTime = 0;
 
         if ( self::$checkFileMtime === true or self::$checkFileMtime === $this->FileName )
@@ -413,10 +413,13 @@ class eZINI
                 return false;
             }
 
+            $currentTime = time();
             foreach ( $inputFiles as $inputFile )
             {
                 $fileTime = filemtime( $inputFile );
-                if ( $inputFileTime === 0 or
+                if ( $currentTime < $fileTime )
+                    eZDebug::writeError( 'Input file "' . $inputFile . '" has a timestamp higher then current time, ignoring timestamp to avoid infinite recursion!', 'eZINI::loadCache' );
+                else if ( $inputFileTime === 0 or
                      $fileTime > $inputFileTime )
                     $inputFileTime = $fileTime;
             }
