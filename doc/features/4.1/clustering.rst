@@ -21,7 +21,7 @@ from 3.10 version to 4.* versions.
 .. contents:: Table of contents
 
 
-Migrating from 3.10 cluster to 4.0
+Migrating from 3.10 cluster to 4.1
 ==================================
 
 Using the database backend
@@ -52,6 +52,10 @@ All you have to do is this apply the following configuration
 
 Other configuration directives remain unchanged.
 
+.. Note:: If you plan to upgrade from eZ Publish 4.0.2 or later you do not have
+          to purge the cache and upgrade the cluster's table, the only thing you
+          have to do is to update the configuration file as explained above.
+
 Purging all caches
 ~~~~~~~~~~~~~~~~~~
 
@@ -66,6 +70,8 @@ Upgrading the tables
 ~~~~~~~~~~~~~~~~~~~~~
 
 Once all caches are cleared you can update the tables with the following SQL queries.
+
+For MySQL :
 
 ::
 
