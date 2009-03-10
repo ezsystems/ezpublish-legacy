@@ -404,11 +404,14 @@ class eZINI
         }
 
         $inputTime = false;
+        $currentTime = time();
         // check for modifications
         foreach ( $inputFiles as $inputFile )
         {
             $fileTime = filemtime( $inputFile );
-            if ( $inputTime === false or
+            if ( $currentTime < $fileTime )
+                eZDebug::writeError( 'Input file "' . $inputFile . '" has a timestamp higher then current time, ignoring timestamp to avoid infinite recursion!', 'eZINI::loadCache' );
+            else if ( $inputTime === false or
                  $fileTime > $inputTime )
                 $inputTime = $fileTime;
         }
