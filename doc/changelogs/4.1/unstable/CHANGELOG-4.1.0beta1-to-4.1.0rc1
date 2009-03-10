@@ -5,6 +5,7 @@ Changes from 4.1.0beta1 to 4.1.0rc1
 - Implemented enhancement #12456: Class based delayed indexing
 - Implemented enhancement #14324: Missing mimetype for 3gp files (and a few more, OOXML, mp4)
 - Implemented enhancement #13965: Add a timestamp field to ezpending_actions table
+- Implemented enhancement #14578: Add possibility to filter nodes based on the is_invisible
 
 *Design:
 
@@ -28,6 +29,3 @@ Changes from 4.1.0beta1 to 4.1.0rc1
 - Fixed bug #13633: no upgrade docs for clustering
 - Fixed bug #8830: Segmentation fault when site.ini newer than current system time
 - Fixed bug #14186: Weird markup in setup/extensions after generating the autoload arrays
-
-*Enhancements*
-- Implemented enhancement #14578: Add possibility to filter nodes based on the is_invisible
