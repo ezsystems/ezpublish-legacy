@@ -41,6 +41,11 @@ if ( $db instanceof eZMySQLDB || $db instanceof eZMySQLiDB )
 {
     $db->query( "ALTER TABLE ezurlalias_ml_incr AUTO_INCREMENT=$autoInc" );
 }
+else if ( $db instanceof eZOracleDB )
+{
+    $db->query( "DROP SEQUENCE s_urlalias_ml_incr" );
+    $db->query( "CREATE SEQUENCE s_urlalias_ml_incr MINVALUE $autoInc" );
+}
 else
 {
     $db->query( "DROP SEQUENCE ezurlalias_ml_incr_s" );
