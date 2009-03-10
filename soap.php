@@ -64,22 +64,38 @@ $ini = eZINI::instance();
 
 // Initialize/set the index file.
 eZSys::init( 'soap.php', $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) == 'true' );
+$uri = eZURI::instance( eZSys::requestURI() );
+$GLOBALS['eZRequestedURI'] = $uri;
 
 // Check for extension
 require_once( 'kernel/common/ezincludefunctions.php' );
 eZExtension::activateExtensions( 'default' );
 // Extension check end
 
-
 // Activate correct siteaccess
-require_once( "access.php" );
-$access = array( 'name' => $ini->variable( 'SiteSettings', 'DefaultAccess' ),
-                 'type' => EZ_ACCESS_TYPE_DEFAULT );
+require_once( 'access.php' );
+$soapINI = eZINI::instance( 'soap.ini' );
+if ( $soapINI->variable( 'GeneralSettings', 'UseDefaultAccess' ) === 'enabled' )
+{
+    $access = array( 'name' => $ini->variable( 'SiteSettings', 'DefaultAccess' ),
+                     'type' => EZ_ACCESS_TYPE_DEFAULT );
+}
+else
+{
+    $access = accessType( $uri,
+                          eZSys::hostname(),
+                          eZSys::serverPort(),
+                          eZSys::indexFile() );
+}
 $access = changeAccess( $access );
 // Siteaccess activation end
 
 // Check for activating Debug by user ID (Final checking. The first was in eZDebug::updateSettings())
 eZDebug::checkDebugByUser();
+
+// Check for siteaccess extension
+eZExtension::activateExtensions( 'access' );
+// Siteaccess extension check end
 
 /*!
  Reads settings from i18n.ini and passes them to eZTextCodec.
@@ -104,7 +120,6 @@ $moduleRepositories = eZModule::activeModuleRepositories();
 eZModule::setGlobalPathList( $moduleRepositories );
 
 // Load soap extensions
-$soapINI = eZINI::instance( 'soap.ini' );
 $enableSOAP = $soapINI->variable( 'GeneralSettings', 'EnableSOAP' );
 
 if ( $enableSOAP == 'true' )
